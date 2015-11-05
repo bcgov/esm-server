@@ -5,7 +5,7 @@ var Project = mongoose.model ('Project');
 
 
 
-module.exports = function (Projects, app) {
+module.exports = function (app) {
 	// -------------------------------------------------------------------------
 	//
 	// get a brand new empty project
