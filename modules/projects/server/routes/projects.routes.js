@@ -8,6 +8,7 @@ var getProjectById = function (id, cb) {
 };
 
 module.exports = function (app) {
+	app.use (require ('cors'));
 	// -------------------------------------------------------------------------
 	//
 	// get a brand new empty project
