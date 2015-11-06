@@ -8,22 +8,16 @@ var getProjectById = function (id, cb) {
 };
 
 module.exports = function (app) {
-app.use (require ('express-cors')({
-	allowedOrigins : ['*']
-}));
+
 	// -------------------------------------------------------------------------
 	//
 	// get a brand new empty project
 	//
 	// -------------------------------------------------------------------------
 	app.get ('/esm/project/new', function (req, res) {
+		console.log ('++++++ project route is running');
 		var project = new Project ();
 		project = project.toJSON ();
-res.set ({
-'Access-Control-Allow-Origin': '*',
-'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type'
-	});
 		res.status(200).send (project);
 	});
 
