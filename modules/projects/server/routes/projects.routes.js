@@ -14,8 +14,15 @@ module.exports = function (app) {
 	// get a brand new empty project
 	//
 	// -------------------------------------------------------------------------
+	app.get ('/esm/project', function (req, res) {
+		Project.find ({}, function (err, projects) {
+			if (projects) {
+				res.json(projects);
+			}
+		});
+	});
+
 	app.get ('/esm/project/new', function (req, res) {
-		console.log ('++++++ project route is running');
 		var project = new Project ();
 		project = project.toJSON ();
 		res.status(200).send (project);
