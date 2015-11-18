@@ -16,13 +16,13 @@ ProjectType.count (function (err, count) {
 	if (count === 0) {
 		ProjectType.collection.insert ([
 			{name:'LNG'                     , code:'lng'},
-			{name:'Coal & Aggregates'       , code:'coa'},
-			{name:'Food Processing'         , code:'foo'},
-			{name:'Waste & Water Management', code:'was'},
-			{name:'Destination Resorts'     , code:'des'},
-			{name:'Transportation Projects' , code:'tra'},
-			{name:'Power and Industrial'    , code:'pow'},
-			{name:'Metal Mining'            , code:'met'},
+			{name:'Coal & Aggregates'       , code:'coal'},
+			{name:'Food Processing'         , code:'food'},
+			{name:'Waste & Water Management', code:'waste'},
+			{name:'Destination Resorts'     , code:'resort'},
+			{name:'Transportation Projects' , code:'transport'},
+			{name:'Power and Industrial'    , code:'power'},
+			{name:'Metal Mining'            , code:'metal'},
 			{name:'Oil and Gas'             , code:'oil'}
 		], function (err) {
 			console.log ('insertion of base project type data OK');
