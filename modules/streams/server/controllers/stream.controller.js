@@ -8,6 +8,7 @@ var path     = require('path');
 var mongoose = require ('mongoose');
 var CRUD     = require (path.resolve('./modules/core/server/controllers/core.crud.controller'));
 var Model    = mongoose.model ('Stream');
+var _        = require ('lodash');
 
 var crud = new CRUD (Model);
 // -------------------------------------------------------------------------
@@ -72,5 +73,33 @@ exports.new    = function (req, res) {
 	res.json (stream);
 };
 
-exports.create = crud.create ();
+// -------------------------------------------------------------------------
+//
+// This is a lot more complicated as it saves a new complex config object
+//
+// -------------------------------------------------------------------------
+exports.create = function (req, res) {
+	var data         = req.body;
+	var phases       = data.phases;
+	var activities   = data.activities;
+	var tasks        = data.tasks;
+	var milestones   = data.milestones;
+	var buckets      = data.buckets;
+	var requirements = data.requirements;
+
+	var stream = new Model ();
+	stream.set (data);
+
+	_.each (phases, function (phase) {
+		phase.stream = stream._id;
+	});
+	_.each (requirements, function (requirement) {
+		requirement.stream = stream._id;
+	});
+	_.each (buckets, function (bucket) {
+		bucket.stream = stream._id;
+	});
+
+	stream.save (crud.respond (res));
+};
 
