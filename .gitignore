@@ -72,3 +72,4 @@ mongod
 *.ntvs*
 *.njsproj
 *.sln
+notes.txt
