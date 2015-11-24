@@ -9,14 +9,14 @@ NAME=$1
 PLURAL=$2
 MODEL=$3
 echo "Creating module $NAME $PLURAL $MODEL";
-mkdir $PLURAL
-mkdir $PLURAL/server
-mkdir $PLURAL/server/controllers
-mkdir $PLURAL/server/policies
-mkdir $PLURAL/server/models
-mkdir $PLURAL/server/routes
+mkdir modules/$PLURAL
+mkdir modules/$PLURAL/server
+mkdir modules/$PLURAL/server/controllers
+mkdir modules/$PLURAL/server/policies
+mkdir modules/$PLURAL/server/models
+mkdir modules/$PLURAL/server/routes
 
-cat > $PLURAL/server/controllers/$NAME.controller.js <<EOFC
+cat > modules/$PLURAL/server/controllers/$NAME.controller.js <<EOFC
 'use strict';
 // =========================================================================
 //
@@ -66,7 +66,7 @@ module.exports = $MODEL;
 
 EOFM
 
-cat > $PLURAL/server/routes/$NAME.routes.js <<EOFR
+cat > modules/$PLURAL/server/routes/$NAME.routes.js <<EOFR
 'use strict';
 // =========================================================================
 //
@@ -86,7 +86,7 @@ module.exports = function (app) {
 	//
 	// model routes
 	//
-	app.route ('/api/$NAME/:${NAME}Id').all (policy.isAllowed)
+	app.route ('/api/$NAME/:${NAME}').all (policy.isAllowed)
 		.get    (controller.read)
 		.put    (controller.update)
 		.delete (controller.delete);
@@ -95,12 +95,13 @@ module.exports = function (app) {
 	//
 	// middleware to auto-fetch parameter
 	//
-	app.param ('${NAME}Id', controller.byId);
+	app.param ('${NAME}', controller.getObject);
+	app.param ('${NAME}Id', controller.getId);
 };
 
 EOFR
 
-cat > $PLURAL/server/policies/$NAME.policy.js <<EOFP
+cat > modules/$PLURAL/server/policies/$NAME.policy.js <<EOFP
 'use strict';
 // =========================================================================
 //
@@ -113,13 +114,13 @@ acl      = new acl (new acl.memoryBackend ());
 exports.invokeRolesPolicies = function () {
 	acl.allow ('admin', [
 		'/api/${NAME}',
-		'/api/${NAME}/:${NAME}Id',
+		'/api/${NAME}/:${NAME}',
 		'/api/new/${NAME}'
 		], '*'
 	);
 	acl.allow ('guest', [
 		'/api/${NAME}',
-		'/api/${NAME}/:${NAME}Id',
+		'/api/${NAME}/:${NAME}',
 		'/api/new/${NAME}'
 		], 'get'
 	);
@@ -147,3 +148,4 @@ exports.isAllowed = function (req, res, next) {
 
 EOFP
 
+./link.sh
