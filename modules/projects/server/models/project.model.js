@@ -4,6 +4,8 @@ var mongoose = require ('mongoose');
 var Schema = mongoose.Schema;
 
 var ProjectSchema = new Schema ({
+	code       : { type:String, default:'New Project', index:true },
+	stream     : { type:'ObjectId', ref:'Stream'     , index:true },
 	name                           : { type:String, default:'New Project' },
 	//proponent                      : { type:'ObjectId', ref:'Entity'},
 	proponent                      : {

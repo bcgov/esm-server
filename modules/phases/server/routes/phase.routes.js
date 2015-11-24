@@ -17,15 +17,19 @@ module.exports = function (app) {
 	//
 	// model routes
 	//
-	app.route ('/api/phase/:phaseId').all (policy.isAllowed)
+	app.route ('/api/phase/:phase').all (policy.isAllowed)
 		.get    (controller.read)
 		.put    (controller.update)
 		.delete (controller.delete);
 	app.route ('/api/new/phase').all (policy.isAllowed)
 		.get (controller.new);
 	//
+	// actions
+	//
+	//
 	// middleware to auto-fetch parameter
 	//
-	app.param ('phaseId', controller.byId);
+	app.param ('phase', controller.getObject);
+	// app.param ('phaseId', controller.getId);
 };
 

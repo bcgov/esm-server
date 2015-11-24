@@ -13,13 +13,13 @@ var RequirementSchema  = new Schema ({
 	description : { type:String , default:'New requirement' },
 	type        : { type:String , default:'document' },
 	value       : { type:Boolean, default:false },
-	project     : { type:'ObjectId', ref:'Project'  , index:true },
-	stream      : { type:'ObjectId', ref:'Stream'   , index:true },
-	phase       : { type:'ObjectId', ref:'Phase'    , index:true },
-	activity    : { type:'ObjectId', ref:'Activity' , index:true },
-	task        : { type:'ObjectId', ref:'Task'     , index:true },
-	milestone   : { type:'ObjectId', ref:'Milestone', index:true },
-	bucket      : { type:'ObjectId', ref:'Bucket'   , index:true }
+	requirement : { type:'ObjectId', ref:'Requirement' , index:true , default:null},
+	task        : { type:'ObjectId', ref:'Task'        , index:true , default:null},
+	activity    : { type:'ObjectId', ref:'Activity'    , index:true , default:null},
+	phase       : { type:'ObjectId', ref:'Phase'       , index:true , default:null},
+	project     : { type:'ObjectId', ref:'Project'     , index:true , default:null},
+	stream      : { type:'ObjectId', ref:'Stream'      , index:true , default:null},
+	milestone   : { type:'ObjectId', ref:'Milestone'   , index:true , default:null},
 });
 
 var Requirement = mongoose.model ('Requirement', RequirementSchema);

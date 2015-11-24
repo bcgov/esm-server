@@ -1,7 +1,7 @@
 'use strict';
 // =========================================================================
 //
-// Policies for milestones
+// Policies for system type calls
 //
 // =========================================================================
 var acl  = require ('acl');
@@ -9,15 +9,10 @@ acl      = new acl (new acl.memoryBackend ());
 
 exports.invokeRolesPolicies = function () {
 	acl.allow ('admin', [
-		'/api/milestone',
-		'/api/milestone/:milestone',
-		'/api/new/milestone'
+		'/api/sys/configs'
 		], '*'
 	);
 	acl.allow ('guest', [
-		'/api/milestone',
-		'/api/milestone/:milestone',
-		'/api/new/milestone'
 		], 'get'
 	);
 };

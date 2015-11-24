@@ -1,27 +1,24 @@
 'use strict';
-
-// var mongoose = require ('mongoose');
-// var ProjectType = mongoose.model ('ProjectType');
-
-// function respond( res, keeparray ) {
-//     return function ( err, data ) {
-//         if (err) {
-//             console.error(err);
-//             res.status(400).send('Server error.');
-//         } else {
-//             if(process.env.DEBUG && process.env.NOISY) console.log('success',data);
-//             // if(_.isArray(data) && data.length === 1) {
-//             //     if (!keeparray) data = data.shift();
-//             // }
-//             res.status(200).send(data);
-//         }
-//     }
-// }
+// =========================================================================
+//
+// Routes for streams
+//
+// =========================================================================
+var policy     = require ('../policies/sys.policy');
+var controller = require ('../controllers/sys.controller');
 
 
 module.exports = function (app) {
+	//
+	// short form to get all config objects, all phases down to requirements
+	//
+	app.route ('/api/sys/configs').all (policy.isAllowed).get  (controller.configs);
 
-
+	// -------------------------------------------------------------------------
+	//
+	// TBD: bunch of testing junk here, please delete when all done
+	//
+	// -------------------------------------------------------------------------
 	app.get ('/api/testp1/:param1', function (req, res) {
 		console.log ('req._param1 = ',req._param1);
 	});

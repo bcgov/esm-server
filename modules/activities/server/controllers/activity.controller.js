@@ -16,9 +16,9 @@ var crud = new CRUD (Model);
 //
 // -------------------------------------------------------------------------
 exports.new    = crud.new    ();
-exports.create = crud.create ();
+exports.create = crud.create (function (m) {m.activity = m._id;});
 exports.read   = crud.read   ();
 exports.update = crud.update ();
 exports.delete = crud.delete ();
 exports.list   = crud.list   ();
-exports.byId   = crud.byId   ();
+exports.getObject   = crud.getObject   ();

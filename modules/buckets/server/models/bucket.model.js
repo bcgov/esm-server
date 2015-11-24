@@ -8,12 +8,13 @@ var mongoose     = require ('mongoose');
 var Schema       = mongoose.Schema;
 
 var BucketSchema  = new Schema ({
-	code              : { type:String    , default:'code' },
+	bucket            : { type:'ObjectId', ref:'Bucket'   , index:true , default:null},
+	project           : { type:'ObjectId', ref:'Project'  , index:true , default:null},
+	stream            : { type:'ObjectId', ref:'Stream'   , index:true , default:null},
+	visibleAtPhase    : { type:'ObjectId', ref:'Phase'    , index:true , default:null},
+	code              : { type:String    , default:'code' , index:true },
 	name              : { type:String    , default:'New bucket' },
 	description       : { type:String    , default:'New bucket' },
-	project           : { type:'ObjectId', ref:'Project'  , index:true },
-	stream            : { type:'ObjectId', ref:'Stream'   , index:true },
-	visibleAtPhase    : { type:'ObjectId', ref:'Phase'    , index:true },
 	isValueComponment : { type:Boolean   , default:false },
 	progress          : { type:Number    , default:0 },
 	status            : { type:String    , default:'Open', enum:['Not Required', 'Not Started', 'In Progress', 'Complete'] },

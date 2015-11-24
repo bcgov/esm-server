@@ -17,7 +17,7 @@ module.exports = function (app) {
 	//
 	// model routes
 	//
-	app.route ('/api/milestone/:milestoneId').all (policy.isAllowed)
+	app.route ('/api/milestone/:milestone').all (policy.isAllowed)
 		.get    (controller.read)
 		.put    (controller.update)
 		.delete (controller.delete);
@@ -26,6 +26,7 @@ module.exports = function (app) {
 	//
 	// middleware to auto-fetch parameter
 	//
-	app.param ('milestoneId', controller.byId);
+	app.param ('milestone', controller.getObject);
+	// app.param ('milestoneId', controller.getId);
 };
 

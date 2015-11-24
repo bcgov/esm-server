@@ -1,59 +1,79 @@
 'use strict';
-
-var mongoose = require ('mongoose');
-var Project = mongoose.model ('Project');
-
-var getProjectById = function (id, cb) {
-	Project.findById(id).exec(cb);
-};
+// =========================================================================
+//
+// Routes for Projects
+//
+// =========================================================================
+var policy     = require ('../policies/project.policy');
+var controller = require ('../controllers/project.controller');
 
 module.exports = function (app) {
-
-	// -------------------------------------------------------------------------
 	//
-	// get a brand new empty project
+	// collection routes
 	//
-	// -------------------------------------------------------------------------
-	app.get ('/api/project', function (req, res) {
-		Project.find ({}, function (err, projects) {
-			if (projects) {
-				res.json(projects);
-			}
-		});
-	});
+	app.route ('/api/project').all (policy.isAllowed)
+		.get  (controller.list)
+		.post (controller.create);
+	//
+	// model routes
+	//
+	app.route ('/api/project/:project').all (policy.isAllowed)
+		.get    (controller.read)
+		.put    (controller.update)
+		.delete (controller.delete);
+	app.route ('/api/new/project').all (policy.isAllowed)
+		.get (controller.new);
+	//
+	// actions actions actions
+	//
+	//project set up new stream
+	app.route ('/api/project/:project/set/stream/:stream')
+		.all (policy.isAllowed)
+		.put (controller.setStream);
 
-	app.get ('/api/new/project', function (req, res) {
-		var project = new Project ();
-		project = project.toJSON ();
-		res.status(200).send (project);
-	});
+	// project -> bucket
+	app.route ('/api/project/:project/add/bucket/:bucket')
+		.all (policy.isAllowed)
+		.put (controller.addBucketToProject);
 
-	app.get ('/api/project/:projectid', function (req, res) {
-		getProjectById (req.params.projectid, function (err, project) {
-	        if (err) res.status(500).send(err);
-	        else res.status(200).send(project);
-		});
-	});
+	// project -> phase
+	app.route ('/api/project/:project/add/phase/:phase')
+		.all (policy.isAllowed)
+		.put (controller.addPhaseToProject);
 
-	app.post ('/api/project', function (req, res) {
-		console.log ('body = ',req.body);
-		var project = new Project (req.body);
-		project.save (function (err, doc) {
-            if (err) res.status(500).send(err);
-            else res.status(200).send(doc);
-        });
-	});
+	// project phase -> milestone
+	app.route ('/api/project/phase/:phase/add/milestone/:milestone')
+		.all (policy.isAllowed)
+		.put (controller.addMilestoneToPhase);
 
-	app.put ('/api/project/:projectid', function (req, res) {
-		getProjectById (req.body._id, function (err, project) {
-			if (project) {
-				project.set(req.body);
-			}
-			project.save (function (err, doc) {
-	            if (err) res.status(500).send(err);
-	            else res.status(200).send(doc);
-	        });
-		});
-	});
+	// project phase -> activity
+	app.route ('/api/project/phase/:phase/add/activity/:activity')
+		.all (policy.isAllowed)
+		.put (controller.addActivityToPhase);
+
+	// project activity -> task
+	app.route ('/api/project/activity/:activity/add/task/:task')
+		.all (policy.isAllowed)
+		.put (controller.addTaskToActivity);
+
+	// project task -> requirement
+	app.route ('/api/project/task/:task/add/requirement/:requirement')
+		.all (policy.isAllowed)
+		.put (controller.addRequirementToTask);
+
+	// project milestone -> project requirement
+	app.route ('/api/project/milestone/:milestone/add/project/requirement/:requirement')
+		.all (policy.isAllowed)
+		.put (controller.addRequirementToMilestone);
+
+	// project bucket -> project requirement
+	app.route ('/api/project/bucket/:bucket/add/project/requirement/:requirement')
+		.all (policy.isAllowed)
+		.put (controller.addRequirementToBucket);
+	//
+	// middleware to auto-fetch parameter
+	//
+	app.param ('project', controller.getObject);
+	// app.param ('projectId', controller.getId);
 };
 

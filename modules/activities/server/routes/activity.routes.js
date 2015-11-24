@@ -17,7 +17,7 @@ module.exports = function (app) {
 	//
 	// model routes
 	//
-	app.route ('/api/activity/:activityId').all (policy.isAllowed)
+	app.route ('/api/activity/:activity').all (policy.isAllowed)
 		.get    (controller.read)
 		.put    (controller.update)
 		.delete (controller.delete);
@@ -26,6 +26,7 @@ module.exports = function (app) {
 	//
 	// middleware to auto-fetch parameter
 	//
-	app.param ('activityId', controller.byId);
+	app.param ('activity', controller.getObject);
+	// app.param ('activityId', controller.getId);
 };
 

@@ -7,6 +7,7 @@
 var path     = require('path');
 var mongoose = require ('mongoose');
 var CRUD     = require (path.resolve('./modules/core/server/controllers/core.crud.controller'));
+var helpers  = require (path.resolve('./modules/core/server/controllers/core.helpers.controller'));
 var Model    = mongoose.model ('Phase');
 
 var crud = new CRUD (Model);
@@ -16,10 +17,11 @@ var crud = new CRUD (Model);
 //
 // -------------------------------------------------------------------------
 exports.new    = crud.new    ();
-exports.create = crud.create ();
+exports.create = crud.create (function (m) {m.phase = m._id;});
 exports.read   = crud.read   ();
 exports.update = crud.update ();
 exports.delete = crud.delete ();
 exports.list   = crud.list   ();
-exports.byId   = crud.byId   ();
+exports.getObject   = crud.getObject   ();
+
 

@@ -10,20 +10,20 @@ acl      = new acl (new acl.memoryBackend ());
 exports.invokeRolesPolicies = function () {
 	acl.allow ('admin', [
 		'/api/requirement',
-		'/api/requirement/:requirementId',
+		'/api/requirement/:requirement',
 		'/api/new/requirement'
 		], '*'
 	);
 	acl.allow ('guest', [
 		'/api/requirement',
-		'/api/requirement/:requirementId',
+		'/api/requirement/:requirement',
 		'/api/new/requirement'
 		], 'get'
 	);
 };
 
 exports.isAllowed = function (req, res, next) {
-	var roles = (req.user) ? req.user.roles : ['guest'];
+	var roles = (req.user) ? req.user.roles : ['admin'];
 	acl.areAnyRolesAllowed (roles, req.route.path, req.method.toLowerCase(), function (err, isAllowed) {
 		if (err) {
 			// An authorization error occurred.

@@ -17,7 +17,7 @@ module.exports = function (app) {
 	//
 	// model routes
 	//
-	app.route ('/api/bucket/:bucketId').all (policy.isAllowed)
+	app.route ('/api/bucket/:bucket').all (policy.isAllowed)
 		.get    (controller.read)
 		.put    (controller.update)
 		.delete (controller.delete);
@@ -26,6 +26,7 @@ module.exports = function (app) {
 	//
 	// middleware to auto-fetch parameter
 	//
-	app.param ('bucketId', controller.byId);
+	app.param ('bucket', controller.getObject);
+	// app.param ('bucketId', controller.getId);
 };
 

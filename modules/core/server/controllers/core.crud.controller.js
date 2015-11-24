@@ -4,7 +4,7 @@
 // Base controller for all simple CRUD stuff, just to save some typing
 //
 // =========================================================================
-var errorHandler = require('./errors.server.controller');
+var helpers = require('./core.helpers.controller');
 var mongoose     = require ('mongoose');
 
 // -------------------------------------------------------------------------
@@ -27,26 +27,18 @@ module.exports = function (Model, options) {
 	// Used by a bunch of functions
 	//
 	// -------------------------------------------------------------------------
-	this.respond = function (res) {
-		return function (err, model) {
-			if (err) {
-				return res.status(400).send ({
-					message: errorHandler.getErrorMessage (err)
-				});
-			} else {
-				res.json (model);
-			}
-		};
-	};
+	this.respond = helpers.queryResponse;
 	// -------------------------------------------------------------------------
 	//
 	// GET new
 	//
 	// -------------------------------------------------------------------------
-	this.new = function () {
+	this.new = function (pre) {
 		var self = this;
 		return function (req, res) {
-			res.json (new self.Model ());
+			var Model = new self.Model ();
+			if (pre) pre (Model, helpers.queryResponse (res));
+			else res.json (Model);
 		};
 	};
 	// -------------------------------------------------------------------------
@@ -54,11 +46,12 @@ module.exports = function (Model, options) {
 	// POST
 	//
 	// -------------------------------------------------------------------------
-	this.create = function () {
+	this.create = function (pre) {
 		var self = this;
 		return function (req, res) {
 			var Model = new self.Model (req.body);
-			Model.save (self.respond (res));
+			if (pre) pre (Model);
+			Model.save (helpers.queryResponse (res));
 		};
 	};
 	// -------------------------------------------------------------------------
@@ -66,10 +59,12 @@ module.exports = function (Model, options) {
 	// GET
 	//
 	// -------------------------------------------------------------------------
-	this.read = function () {
+	this.read = function (pre) {
 		var self = this;
 		return function (req, res) {
-			res.json (req[ self.Model.modelName ]);
+			var Model = req[ self.Model.modelName ];
+			if (pre) pre (Model, helpers.queryResponse (res));
+			else res.json (Model);
 		};
 	};
 	// -------------------------------------------------------------------------
@@ -77,12 +72,13 @@ module.exports = function (Model, options) {
 	// PUT
 	//
 	// -------------------------------------------------------------------------
-	this.update = function () {
+	this.update = function (pre) {
 		var self = this;
 		return function (req, res) {
 			var datamodel = req[ self.Model.modelName ];
 			datamodel.set (req.body);
-			datamodel.save (self.respond (res));
+			if (pre) pre (datamodel);
+			datamodel.save (helpers.queryResponse (res));
 		};
 	};
 	// -------------------------------------------------------------------------
@@ -94,7 +90,7 @@ module.exports = function (Model, options) {
 		var self = this;
 		return function (req, res) {
 			var datamodel = req[ self.Model.modelName ];
-			datamodel.remove (self.respond (res));
+			datamodel.remove (helpers.queryResponse (res));
 		};
 	};
 	// -------------------------------------------------------------------------
@@ -102,12 +98,13 @@ module.exports = function (Model, options) {
 	// GET *
 	//
 	// -------------------------------------------------------------------------
-	this.list = function () {
+	this.list = function (q) {
+		q = q || {};
 		var self = this;
 		return function (req, res) {
 			var s = '';
 			var p = '';
-			self.Model.find().sort(self.options.sort).populate(self.options.populate).exec(self.respond (res));
+			self.Model.find(q).sort(self.options.sort).populate(self.options.populate).exec(helpers.queryResponse (res));
 		};
 	};
 	// -------------------------------------------------------------------------
@@ -115,25 +112,33 @@ module.exports = function (Model, options) {
 	// Automatic variable replacement from URL parameters
 	//
 	// -------------------------------------------------------------------------
-	this.byId = function () {
+	this.getObject = function () {
 		var self = this;
 		return function (req, res, next, id) {
 			if (!mongoose.Types.ObjectId.isValid(id)) {
-				return res.status(400).send ({
-					message: 'Invalid object id supplied on url'
-				});
+				return helpers.sendErrorMessage (res, 'Invalid object id supplied');
 			}
 			self.Model.findById(id).populate(self.options.populate).exec(function (err, model) {
 				if (err) {
 					return next (err);
 				} else if (!model) {
-					return res.status(404).send ({
-						message: 'No model with that identifier has been found'
-					});
+					return helpers.sendNotFound (res, self.Model.modelName+' not found');
 				}
 				req[ self.Model.modelName ] = model;
 				next ();
 			});
+		};
+	};
+	// -------------------------------------------------------------------------
+	//
+	// Automatic add parameter to the base
+	//
+	// -------------------------------------------------------------------------
+	this.getId = function () {
+		var self = this;
+		return function (req, res, next, id) {
+			req[ self.Model.modelName.toLowerCase() + 'Id' ] = id;
+			next ();
 		};
 	};
 };
