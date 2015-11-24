@@ -20,6 +20,7 @@ exports.invokeRolesPolicies = function () {
 		'/api/project/task/:task/add/requirement/:requirement',
 		'/api/project/milestone/:milestone/add/project/requirement/:requirement',
 		'/api/project/bucket/:bucket/add/project/requirement/:requirement',
+		'/api/project/:project/set/stream/:stream'
 		], '*'
 	);
 	acl.allow ('guest', [
@@ -34,7 +35,7 @@ exports.invokeRolesPolicies = function () {
 		'/api/project/task/:task/add/requirement/:requirement',
 		'/api/project/milestone/:milestone/add/project/requirement/:requirement',
 		'/api/project/bucket/:bucket/add/project/requirement/:requirement',
-		], 'post'
+		], 'get'
 	);
 };
 

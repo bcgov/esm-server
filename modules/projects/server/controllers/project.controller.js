@@ -16,6 +16,7 @@ var Task        = mongoose.model ('Task')        ;
 var Milestone   = mongoose.model ('Milestone')   ;
 var Bucket      = mongoose.model ('Bucket')      ;
 var Requirement = mongoose.model ('Requirement') ;
+var BucketRequirement = mongoose.model ('BucketRequirement');
 var _ = require ('lodash');
 
 
@@ -122,7 +123,7 @@ exports.addBucketToProject = function (req, res) {
 // cb is function (err, model)
 //
 // -------------------------------------------------------------------------
-var setProjectMilestone = function (phase, milestone, cb) {
+var setProjectMilestone = function (phase, milestone) {
 	milestone = milestone.toObject ();
 	delete milestone._id ;
 	milestone         = new Milestone (milestone);
@@ -140,7 +141,7 @@ exports.addMilestoneToPhase = function (req, res) {
 // add an activity to a phase
 //
 // -------------------------------------------------------------------------
-var setProjectActivity = function (phase, activity, cb) {
+var setProjectActivity = function (phase, activity) {
 	activity = activity.toObject ();
 	delete activity._id ;
 	activity         = new Activity (activity);
@@ -158,7 +159,7 @@ exports.addActivityToPhase = function (req, res) {
 // add a task to an activity
 //
 // -------------------------------------------------------------------------
-var setProjectTask = function (activity, task, cb) {
+var setProjectTask = function (activity, task) {
 	task = task.toObject ();
 	delete task._id ;
 	task          = new Task (task);
@@ -177,7 +178,7 @@ exports.addTaskToActivity = function (req, res) {
 // add a requirement to a task
 //
 // -------------------------------------------------------------------------
-var setProjectRequirement = function (task, requirement, cb) {
+var setProjectRequirement = function (task, requirement) {
 	requirement = requirement.toObject ();
 	delete requirement._id ;
 	requirement          = new Requirement (requirement);
@@ -225,7 +226,7 @@ var setBucketRequirement = function (bucket, requirement, cb) {
 		}, null);
 		return;
 	}
-	var BucketRequirement = mongoose.model ('BucketRequirement');
+
 	var br                = new BucketRequirement ();
 	br.bucket             = bucket._id;
 	br.project            = bucket.project;
@@ -248,54 +249,99 @@ exports.setStream = function (req, res) {
 	//
 	// go get the entire set of stuff that makes up the stream
 	//
+	req.Project.stream = req.Stream._id;
 	streamcontroller.fillStream (req.Stream, function (err, stream) {
 		if (err) {
 			helpers.sendError (res, err);
 			return;
 		}
 		//
-		// remove all ids to make copies, add the project id to each one so it will
-		// now reside under this project, essentially copy the entire tree over to
-		// this project (we leave the stream id for future reference though)
+		// first we need to adjust everything to new ids, must be done
+		// in the right order mapping everytihng back to the original
+		// in the end, all the stream arrays will hold new models ready
+		// to be saved
 		//
-		_.each (stream.phases      , function (m) { m=m.toObject (); delete m._id; m.project = req.Project._id; });
-		_.each (stream.activities  , function (m) { m=m.toObject (); delete m._id; m.project = req.Project._id; });
-		_.each (stream.tasks       , function (m) { m=m.toObject (); delete m._id; m.project = req.Project._id; });
-		_.each (stream.milestones  , function (m) { m=m.toObject (); delete m._id; m.project = req.Project._id; });
-		_.each (stream.buckets     , function (m) { m=m.toObject (); delete m._id; m.project = req.Project._id; });
-		_.each (stream.requirements, function (m) { m=m.toObject (); delete m._id; m.project = req.Project._id; });
+		var phasemap = {};
+		var bucketmap = {};
+		var milestonemap = {};
+		var activitymap = {};
+		var taskmap = {};
+		var requirementmap = {};
+		stream.phases = stream.phases.map (function (phase) {
+			var oldPhaseId        = phase._id;
+			phasemap [oldPhaseId] = setProjectPhase (req.Project, phase);
+			return phasemap [oldPhaseId];
+		});
+		stream.buckets = stream.buckets.map (function (bucket) {
+			var oldBucketId         = bucket._id;
+			bucketmap [oldBucketId] = setProjectBucket (req.Project, bucket);
+			return bucketmap [oldBucketId];
+		});
+		stream.milestones = stream.milestones.map (function (milestone) {
+			var oldMilestoneId            = milestone._id;
+			var newPhase                  = phasemap [milestone.phase];
+			milestonemap [oldMilestoneId] = setProjectMilestone (newPhase, milestone);
+			return milestonemap [oldMilestoneId];
+		});
+		stream.activities = stream.activities.map (function (activity) {
+			var oldActivityId           = activity._id;
+			var newPhase                = phasemap [activity.phase];
+			activitymap [oldActivityId] = setProjectActivity (newPhase, activity);
+			return activitymap [oldActivityId];
+		});
+		stream.tasks = stream.tasks.map (function (task) {
+			var oldTaskId       = task._id;
+			var newActivity     = activitymap [task.activity];
+			taskmap [oldTaskId] = setProjectTask (newActivity, task);
+			return taskmap [oldTaskId];
+		});
+		stream.requirements = stream.requirements.map (function (requirement) {
+			var oldRequirementId              = requirement._id;
+			var newTask                       = taskmap [requirement.task];
+			var newMilestone                  = milestonemap [requirement.milestone];
+			requirement.milestone             = newMilestone._id;
+			requirementmap [oldRequirementId] = setProjectRequirement (newTask, requirement);
+			return requirementmap [oldRequirementId];
+		});
+		stream.bucketrequirements = stream.bucketrequirements.map (function (bucketrequirement) {
+			return new BucketRequirement ({
+				project     : req.Project._id,
+				stream      : req.Stream._id,
+				requirement : requirementmap [bucketrequirement.requirement]._id,
+				bucket      : bucketmap [bucketrequirement.bucket]._id
+			});
+		});
+		// console.log ('got here with stream ', stream);
+		// fillProject (req.Project, helpers.queryResponse (res));
 		//
-		// now insert all the 'new' objects
+		// now the saving bit
 		//
-		Activity.collection.insert (stream.activities).exec ()
-		.then (function () {
-			return Bucket.collection.insert (stream.buckets).exec ();
-		})
-		.then (function () {
-			return Milestone.collection.insert (stream.milestones).exec ();
-		})
-		.then (function () {
-			return Phase.collection.insert (stream.phases).exec ();
-		})
-		.then (function () {
-			return Requirement.collection.insert (stream.requirements).exec ();
-		})
-		.then (function () {
-			return Task.collection.insert (stream.tasks).exec ();
-		})
+		// this is going to be weird. we must do all of this in a big
+		// chain of promises, but that isnt easy so we do a map reduce
+		// becuase its all open ended. dont forget to save the project too!
 		//
-		// when finished, go and gather the new project up and return it
-		//
+		var mf = function (model) { return model.save (); };
+		var rf = function (p, c) { return p.then (function () {return c;}); };
+
+		stream.phases.concat (
+			stream.buckets,
+			stream.milestones,
+			stream.activities,
+			stream.tasks,
+			stream.requirements,
+			stream.bucketrequirements
+		)
+		.map (mf).reduce (rf)
+		.then (function (result) {
+			return req.Project.save();
+		})
 		.then (function () {
 			fillProject (req.Project, helpers.queryResponse (res));
-			return;
 		})
-		.then (undefined, function (err) {
+		.then (null, function (err) {
+			console.log ('errors abound!');
 			helpers.sendError (res, err);
-			return;
 		});
-
-
 	});
 };
 
