@@ -318,7 +318,7 @@ exports.setStream = function (req, res) {
 			var oldRequirementId              = requirement._id;
 			var newTask                       = taskmap [requirement.task];
 			var newMilestone                  = milestonemap [requirement.milestone];
-			requirement.milestone             = newMilestone._id;
+			if (newMilestone) requirement.milestone = newMilestone._id;
 			requirementmap [oldRequirementId] = setProjectRequirement (newTask, requirement);
 			return requirementmap [oldRequirementId];
 		});
