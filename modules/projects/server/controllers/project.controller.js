@@ -27,7 +27,7 @@ var _ = require ('lodash');
 //
 // -------------------------------------------------------------------------
 var fillProject = function (project, callback) {
-	// project = project.toObject ();
+	project = project.toObject ();
 	// project.roles = [];
 	// ProjectRole.find ({project:project._id})
 	// .exec ()
