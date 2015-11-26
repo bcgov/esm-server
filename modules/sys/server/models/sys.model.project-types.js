@@ -9,7 +9,7 @@ var mongoose = require ('mongoose');
 
 var ProjectType = mongoose.model ('ProjectType', new mongoose.Schema ({
 	name : { type:String, default:'New ProjectType' },
-	code : { type:String, default:''}
+	code : { type:String, default:'', index:true}
 }));
 
 ProjectType.count (function (err, count) {

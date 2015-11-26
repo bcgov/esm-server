@@ -17,6 +17,8 @@ var PhaseSchema  = new Schema ({
 	progress              : { type:Number , default:0 },
 	mandatoryDurationDays : { type:Number , default:90 },
 	status                : { type:String , default:'Not Started', enum:['Not Required', 'Not Started', 'In Progress', 'Complete'] },
+	dateStarted           : { type: Date, default: null }, // date in progress
+	dateCompleted         : { type: Date, default: null }, // date complete
 	access                : {
 		read  : { type:String, default:'' },
 		write : { type:String, default:'' },

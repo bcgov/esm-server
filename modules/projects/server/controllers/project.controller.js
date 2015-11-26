@@ -17,6 +17,7 @@ var Milestone   = mongoose.model ('Milestone')   ;
 var Bucket      = mongoose.model ('Bucket')      ;
 var Requirement = mongoose.model ('Requirement') ;
 var BucketRequirement = mongoose.model ('BucketRequirement');
+var ProjectRole = mongoose.model ('ProjectRole');
 var _ = require ('lodash');
 
 
@@ -26,12 +27,30 @@ var _ = require ('lodash');
 //
 // -------------------------------------------------------------------------
 var fillProject = function (project, callback) {
-	helpers.fillConfigObject (project.toObject (), { project: project._id}, callback);
+	project = project.toObject ();
+	project.roles = [];
+	ProjectRole.find ({project:project._id})
+	.exec ()
+	.then (function (roles) {
+		project.roles = roles;
+		helpers.fillConfigObject (project, { project: project._id}, callback);
+	})
+	.then (null, function (err) {
+		callback (err, null);
+	});
 };
 
 
 
-var crud = new CRUD (Project);
+var crud = new CRUD (Project, {
+	populate: [
+		{path:'stream',       select:'code name description'},
+		{path:'proponent',    select:'name type'},
+		{path:'currentPhase', select:'code name description'},
+		{path:'nextPhase',    select:'code name description'}
+	]
+});
+
 // -------------------------------------------------------------------------
 //
 // Basic CRUD

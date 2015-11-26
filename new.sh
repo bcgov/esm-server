@@ -40,11 +40,11 @@ exports.read   = crud.read   ();
 exports.update = crud.update ();
 exports.delete = crud.delete ();
 exports.list   = crud.list   ();
-exports.byId   = crud.byId   ();
+exports.getObject   = crud.getObject   ();
 
 EOFC
 
-cat > $PLURAL/server/models/$NAME.model.js <<EOFM
+cat > modules/$PLURAL/server/models/$NAME.model.js <<EOFM
 'use strict';
 // =========================================================================
 //
@@ -96,7 +96,7 @@ module.exports = function (app) {
 	// middleware to auto-fetch parameter
 	//
 	app.param ('${NAME}', controller.getObject);
-	app.param ('${NAME}Id', controller.getId);
+	//app.param ('${NAME}Id', controller.getId);
 };
 
 EOFR
