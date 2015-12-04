@@ -30,11 +30,8 @@ var ProjectSchema = new Schema ({
 	overallProgress              : { type: Number, default:0 },
 	lat                          : { type: Number, default:0 },
 	lon                          : { type: Number, default:0 },
-	commentsOpen                 : { type: Boolean, default:false},
-	commentPeriods : [{
-		dateOpen : { type: Date, default: null },
-		dateClosed : { type: Date, default: null },
-	}],
+	dateCommentsOpen : { type: Date, default: null },
+	dateCommentsClosed : { type: Date, default: null },
 	dateAdded   : { type: Date},
 	addedBy     : {type:'ObjectId', ref:'User'},
 	dateUpdated : { type: Date},
