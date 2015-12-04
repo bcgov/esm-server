@@ -11,12 +11,14 @@ exports.invokeRolesPolicies = function () {
 	acl.allow ('admin', [
 		'/api/bucket',
 		'/api/bucket/:bucket',
+		'/api/base/bucket',
 		'/api/new/bucket'
 		], '*'
 	);
 	acl.allow ('guest', [
 		'/api/bucket',
 		'/api/bucket/:bucket',
+		'/api/base/bucket',
 		'/api/new/bucket'
 		], 'get'
 	);
