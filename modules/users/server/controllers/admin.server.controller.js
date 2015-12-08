@@ -6,7 +6,8 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
-  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
+  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+  access = require(path.resolve('./modules/core/server/controllers/core.access.controller'));
 
 /**
  * Show the current user
@@ -26,6 +27,11 @@ exports.update = function (req, res) {
   user.lastName = req.body.lastName;
   user.displayName = user.firstName + ' ' + user.lastName;
   user.roles = req.body.roles;
+  //
+  // set the user roles in the ACL
+  //
+  access.setUserRoles (user._id, req.body.roles);
+
 
   user.save(function (err) {
     if (err) {
@@ -43,6 +49,10 @@ exports.update = function (req, res) {
  */
 exports.delete = function (req, res) {
   var user = req.model;
+  //
+  // set the user roles in the ACL
+  //
+  access.removeUserRoles (user._id, user.roles);
 
   user.remove(function (err) {
     if (err) {

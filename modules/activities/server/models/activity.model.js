@@ -8,14 +8,14 @@ var mongoose     = require ('mongoose');
 var Schema       = mongoose.Schema;
 
 var ActivitySchema  = new Schema ({
-	activity       : { type:'ObjectId', ref:'Activity' , index:true , default:null},
-	phase          : { type:'ObjectId', ref:'Phase'    , index:true , default:null},
-	project        : { type:'ObjectId', ref:'Project'  , index:true , default:null},
-	stream         : { type:'ObjectId', ref:'Stream'   , index:true , default:null},
-	visibleAtPhase : { type:'ObjectId', ref:'Phase'    , index:true , default:null},
-	code           : { type:String, default:'code'     , index:true},
-	name           : { type:String, default:'New activity' },
-	description    : { type:String, default:'New activity' },
+	activity       : { type:'ObjectId', default:null, ref:'Activity', index:true, required:'Error setting activity self reference' },
+	phase          : { type:'ObjectId', default:null, ref:'Phase'   , index:true },
+	project        : { type:'ObjectId', default:null, ref:'Project' , index:true },
+	stream         : { type:'ObjectId', default:null, ref:'Stream'  , index:true },
+	visibleAtPhase : { type:'ObjectId', default:null, ref:'Phase'   , index:true },
+	code           : { type:String    , default:'code'     , index:true, required:'Code is required', lowercase:true, trim:true},
+	name           : { type:String    , default:'name', required:'Please enter an activity name' },
+	description    : { type:String    , default:'description' },
 	access         : {
 		read  : { type:String, default:'' },
 		write : { type:String, default:'' },

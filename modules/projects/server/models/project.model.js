@@ -8,10 +8,14 @@ var ProjectSchema = new Schema ({
 	name        : { type:String, default:'New Project' },
 	description : { type:String, default:'' },
 	type        : { type:String, default:'', index:true },
-	region      : { type:String, default:'' },     // object id
+	nature      : { type:String, default:'', index:true },
 	location    : { type:String, default:'' },
+	region      : { type:String, default:'' },     // object id
+	lat         : { type: Number, default:0 },
+	lon         : { type: Number, default:0 },
 	stream      : { type:'ObjectId', ref:'Stream'     , index:true },
 	proponent   : { type:'ObjectId', ref:'Entity'     , index:true },
+	hasAgreed   : { type:Boolean, default:false },
 	//
 	// location is a free form string entry
 	//
@@ -28,8 +32,6 @@ var ProjectSchema = new Schema ({
 	nextPhaseCode                : { type: String, default:'' },
 	dateNextPhaseEstimatedStart  : { type: Date, default: Date.now },
 	overallProgress              : { type: Number, default:0 },
-	lat                          : { type: Number, default:0 },
-	lon                          : { type: Number, default:0 },
 	commentsOpen                 : { type: Boolean, default:false},
 	commentPeriods : [{
 		dateOpen : { type: Date, default: null },

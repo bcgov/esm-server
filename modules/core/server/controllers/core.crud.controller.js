@@ -4,8 +4,9 @@
 // Base controller for all simple CRUD stuff, just to save some typing
 //
 // =========================================================================
-var helpers = require('./core.helpers.controller');
-var mongoose     = require ('mongoose');
+var helpers  = require('./core.helpers.controller');
+var mongoose = require ('mongoose');
+var access   = require('./core.access.controller');
 
 // -------------------------------------------------------------------------
 //
@@ -123,9 +124,16 @@ module.exports = function (Model, options) {
 					return next (err);
 				} else if (!model) {
 					return helpers.sendNotFound (res, self.Model.modelName+' not found');
+				} else {
+					var userid = (req.user) ? req.user._id : 'guest';
+					access.userHasPermission (userid, id, 'read', function (err, ok) {
+						if (err) return next (err);
+						if (!ok) return helpers.sendNotFound (res, self.Model.modelName+' not authorized');
+						req[ self.Model.modelName ] = model;
+						next ();
+
+					});
 				}
-				req[ self.Model.modelName ] = model;
-				next ();
 			});
 		};
 	};

@@ -286,39 +286,69 @@ exports.setStream = function (req, res) {
 		var activitymap = {};
 		var taskmap = {};
 		var requirementmap = {};
+		//
+		// for each things, make a map of its old id to its new id so that the
+		// children that reference the old id can be pointed to the new one
+		//
+		// each maping will return an array of new models ready to be saved
+		//
 		stream.phases = stream.phases.map (function (phase) {
 			var oldPhaseId        = phase._id;
+			//link phase to project
 			phasemap [oldPhaseId] = setProjectPhase (req.Project, phase);
 			return phasemap [oldPhaseId];
 		});
 		stream.buckets = stream.buckets.map (function (bucket) {
 			var oldBucketId         = bucket._id;
+			// link bucket to project
 			bucketmap [oldBucketId] = setProjectBucket (req.Project, bucket);
 			return bucketmap [oldBucketId];
 		});
 		stream.milestones = stream.milestones.map (function (milestone) {
 			var oldMilestoneId            = milestone._id;
+			// get the new phase from the old id and link to it
+			if (milestone.phase === null) {
+				console.error ("Milestone without phase:", milestone);
+				return;
+			}
 			var newPhase                  = phasemap [milestone.phase];
 			milestonemap [oldMilestoneId] = setProjectMilestone (newPhase, milestone);
 			return milestonemap [oldMilestoneId];
 		});
 		stream.activities = stream.activities.map (function (activity) {
 			var oldActivityId           = activity._id;
+			// get the new phase from the old id and link to it
+			if (activity.phase === null) {
+				console.error ("Activity without phase:", activity);
+				return;
+			}
 			var newPhase                = phasemap [activity.phase];
 			activitymap [oldActivityId] = setProjectActivity (newPhase, activity);
 			return activitymap [oldActivityId];
 		});
 		stream.tasks = stream.tasks.map (function (task) {
 			var oldTaskId       = task._id;
+			// get the new activity from the old id and link to it
+			if (task.activity === null) {
+				console.error ("task without activity:", task);
+				return;
+			}
 			var newActivity     = activitymap [task.activity];
 			taskmap [oldTaskId] = setProjectTask (newActivity, task);
 			return taskmap [oldTaskId];
 		});
 		stream.requirements = stream.requirements.map (function (requirement) {
 			var oldRequirementId              = requirement._id;
-			var newTask                       = taskmap [requirement.task];
-			var newMilestone                  = milestonemap [requirement.milestone];
-			if (newMilestone) requirement.milestone = newMilestone._id;
+			// get the new task from the old id and link to it
+			if (requirement.task === null) {
+				console.error ("requirement without task:", requirement);
+				return;
+			}
+			var newTask = taskmap [requirement.task];
+			if (requirement.milestone !== null) {
+				var newMilestone  = milestonemap [requirement.milestone];
+				if (newMilestone) requirement.milestone = newMilestone._id;
+			}
 			requirementmap [oldRequirementId] = setProjectRequirement (newTask, requirement);
 			return requirementmap [oldRequirementId];
 		});
