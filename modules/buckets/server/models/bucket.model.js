@@ -15,7 +15,7 @@ var BucketSchema  = new Schema ({
 	code              : { type:String    , default:'code' , index:true },
 	name              : { type:String    , default:'New bucket' },
 	description       : { type:String    , default:'New bucket' },
-	isValueComponment : { type:Boolean   , default:false },
+	isValueComponent  : { type:Boolean   , default:false },
 	progress          : { type:Number    , default:0 },
 	status            : { type:String    , default:'Not Started', enum:[ 'Not Started', 'In Progress', 'Complete'] },
 	access            : {

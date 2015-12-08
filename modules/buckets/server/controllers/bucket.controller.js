@@ -21,5 +21,6 @@ exports.read   = crud.read   ();
 exports.update = crud.update ();
 exports.delete = crud.delete ();
 exports.list   = crud.list   ();
+exports.base   = crud.list	 ({'project' : {'$exists' : true, '$eq' : null}});
 exports.getObject   = crud.getObject   ();
 
