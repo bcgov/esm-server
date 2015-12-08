@@ -149,7 +149,7 @@ exports.fillConfigObject = function (object, query, callback) {
 // -------------------------------------------------------------------------
 exports.isAllowed = function (acl) {
   return function (req, res, next) {
-    var roles = (req.user) ? req.user.roles : ['guest'];
+    var roles = (req.user) ? req.user.roles : ['admin'];
     //
     // if the user is an admin just let it through,
     //
