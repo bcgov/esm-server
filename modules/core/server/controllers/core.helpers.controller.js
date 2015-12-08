@@ -210,7 +210,7 @@ exports.setPathPermissions = function (acl, list) {
   var userlist  = list.map (function (v) { if (v[1]) return v[2]; });
   var guestlist = list.map (function (v) { if (v[0]) return v[2]; });
   if (userlist.length) acl.allow ('user', userlist, '*');
-  if (guestlist.length) acl.allow ('guest', guestlist, '*');
+  if (guestlist.length) acl.allow ('guest', guestlist, 'get');
 };
 
 
