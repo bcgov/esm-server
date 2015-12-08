@@ -1,19 +1,19 @@
 'use strict';
 // =========================================================================
 //
-// Model for comments
+// Model for publicComments
 //
 // =========================================================================
 var mongoose     = require ('mongoose');
 var Schema       = mongoose.Schema;
 
-var CommentSchema  = new Schema ({
+var PublicCommentSchema  = new Schema ({
 	code        : { type:String, default:'code' },
-	name        : { type:String, default:'New comment' },
-	description : { type:String, default:'New comment' }
+	name        : { type:String, default:'New publicComment' },
+	description : { type:String, default:'New publicComment' }
 });
 
-var Comment = mongoose.model ('Comment', CommentSchema);
+var PublicComment = mongoose.model ('PublicComment', PublicCommentSchema);
 
-module.exports = Comment;
+module.exports = PublicComment;
 

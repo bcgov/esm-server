@@ -1,7 +1,7 @@
 'use strict';
 // =========================================================================
 //
-// Policies for comments
+// Policies for publicComments
 //
 // =========================================================================
 var acl  = require ('acl');
@@ -9,7 +9,7 @@ acl      = new acl (new acl.memoryBackend ());
 var helpers  = require (require('path').resolve('./modules/core/server/controllers/core.helpers.controller'));
 
 exports.invokeRolesPolicies = function () {
-	helpers.setCRUDPermissions (acl, 'comment');
+	helpers.setCRUDPermissions (acl, 'publicComment'');
 };
 
 exports.isAllowed = helpers.isAllowed (acl);

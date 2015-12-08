@@ -1,13 +1,13 @@
 'use strict';
 // =========================================================================
 //
-// Controller for comments
+// Controller for publicComments
 //
 // =========================================================================
 var path     = require('path');
 var mongoose = require ('mongoose');
 var CRUD     = require (path.resolve('./modules/core/server/controllers/core.crud.controller'));
-var Model    = mongoose.model ('Comment');
+var Model    = mongoose.model ('PublicComment');
 
 var crud = new CRUD (Model);
 // -------------------------------------------------------------------------
