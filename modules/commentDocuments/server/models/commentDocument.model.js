@@ -8,9 +8,14 @@ var mongoose     = require ('mongoose');
 var Schema       = mongoose.Schema;
 
 var CommentDocumentSchema  = new Schema ({
-	code        : { type:String, default:'code' },
-	name        : { type:String, default:'New commentDocument' },
-	description : { type:String, default:'New commentDocument' }
+	url             : { type:String, default:'' },
+	name            : { type:String, default:'' },
+	summary         : { type:String, default:'' }
+	original        : { type:'ObjectId', ref:'PublicComment', default:null },
+	eaoStatus       : { type:String, default:'code', enum:['Unvetted', 'Rejected', 'Deferred', 'Vetted', 'Published'] },
+	eaoNotes        : { type:String, default: '' },
+	proponentStatus : { type:String, default:'code', enum:['Unclassified', 'Deferred', 'Classified'] },
+	proponentNotes  : { type:String, default: '' }
 });
 
 var CommentDocument = mongoose.model ('CommentDocument', CommentDocumentSchema);
