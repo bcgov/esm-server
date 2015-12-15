@@ -22,6 +22,7 @@ exports.read   = crud.read   ();
 exports.update = crud.update ();
 exports.delete = crud.delete ();
 exports.list   = crud.list   ();
+exports.base   = crud.list	 ({ stream: null, project: null});
 exports.getObject   = crud.getObject   ();
 
 
