@@ -15,6 +15,11 @@ module.exports = function (app) {
 		.get  (controller.list)
 		.post (controller.create);
 	//
+	// base items only (no project association)
+	//
+	app.route ('/api/base/phase').all (policy.isAllowed)
+		.get  (controller.base);		
+	//
 	// model routes
 	//
 	app.route ('/api/phase/:phase').all (policy.isAllowed)
