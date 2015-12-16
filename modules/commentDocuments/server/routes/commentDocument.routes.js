@@ -11,22 +11,33 @@ module.exports = function (app) {
 	//
 	// collection routes
 	//
-	app.route ('/api/commentDocument').all (policy.isAllowed)
-		.get  (controller.list)
-		.post (controller.create);
+	// app.route ('/api/commentdocument').all (policy.isAllowed)
+		// .get  (controller.list)
+		// .post (controller.create);
 	//
 	// model routes
 	//
-	app.route ('/api/commentDocument/:commentDocument').all (policy.isAllowed)
+	app.route ('/api/commentdocument/:commentdocument').all (policy.isAllowed)
 		.get    (controller.read)
-		.put    (controller.update)
+		// .put    (controller.update)
 		.delete (controller.delete);
-	app.route ('/api/new/commentDocument').all (policy.isAllowed)
-		.get (controller.new);
+	// app.route ('/api/new/commentdocument').all (policy.isAllowed)
+		// .get (controller.new);
+	//
+	// action routes
+	//
+	app.route ('/api/commentdocument/:commentdocument/eaodefer').all (policy.isAllowed)
+		.put (controller.eaodefer);
+	app.route ('/api/commentdocument/:commentdocument/eaoaccept').all (policy.isAllowed)
+		.put (controller.eaoaccept);
+	app.route ('/api/commentdocument/:commentdocument/eaoreject').all (policy.isAllowed)
+		.put (controller.eaoreject);
+	app.route ('/api/commentdocument/:commentdocument/eaopublish').all (policy.isAllowed)
+		.put (controller.eaopublish);
 	//
 	// middleware to auto-fetch parameter
 	//
-	app.param ('commentDocument', controller.getObject);
+	app.param ('commentdocument', controller.getObject);
 	//app.param ('commentDocumentId', controller.getId);
 };
 

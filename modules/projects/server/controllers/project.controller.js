@@ -260,8 +260,8 @@ exports.addRequirementToBucket = function (req, res) {
 
 // -------------------------------------------------------------------------
 //
-// this copies the entire stream into the project. It can be destructive so
-// it should only be called once
+// this copies the entire stream into the project. It is additive, so if it is
+// called more than once it will continue adding objects to the project
 //
 // -------------------------------------------------------------------------
 exports.setStream = function (req, res) {

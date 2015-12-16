@@ -50,7 +50,9 @@ module.exports = function (Model, options) {
 	this.create = function (pre) {
 		var self = this;
 		return function (req, res) {
+			console.log (req.body);
 			var Model = new self.Model (req.body);
+			// Model._id = req.body._id;
 			if (pre) pre (Model);
 			Model.save (helpers.queryResponse (res));
 		};
@@ -125,14 +127,14 @@ module.exports = function (Model, options) {
 				} else if (!model) {
 					return helpers.sendNotFound (res, self.Model.modelName+' not found');
 				} else {
-					var userid = (req.user) ? req.user._id : 'guest';
-					access.userHasPermission (userid, id, 'read', function (err, ok) {
-						if (err) return next (err);
-						if (!ok) return helpers.sendNotFound (res, self.Model.modelName+' not authorized');
+					// var userid = (req.user) ? req.user._id : 'guest';
+					// access.userHasPermission (userid, id, 'read', function (err, ok) {
+					// 	if (err) return next (err);
+					// 	if (!ok) return helpers.sendNotFound (res, self.Model.modelName+' not authorized');
 						req[ self.Model.modelName ] = model;
 						next ();
 
-					});
+					// });
 				}
 			});
 		};

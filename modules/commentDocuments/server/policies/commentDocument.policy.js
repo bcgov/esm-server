@@ -9,7 +9,7 @@ acl      = new acl (new acl.memoryBackend ());
 var helpers  = require (require('path').resolve('./modules/core/server/controllers/core.helpers.controller'));
 
 exports.invokeRolesPolicies = function () {
-	helpers.setCRUDPermissions (acl, 'commentDocument');
+	helpers.setCRUDPermissions (acl, 'commentdocument');
 };
 
 exports.isAllowed = helpers.isAllowed (acl);

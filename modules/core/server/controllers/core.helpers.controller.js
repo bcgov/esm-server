@@ -75,13 +75,53 @@ var queryResponse = function (res) {
 	};
 };
 
+var getMimeTypeFromFileName = function (filename) {
+	switch ((/(\.\w*)$/.exec(filename))[1]) {
+		case '.avi':
+		break;
+		default:
+			return 'application/pdf';
+	}
+};
 
+var streamFile = function (res, file) {
+	var path = require ('path');
+	var fs   = require('fs');
+	path.exists (file, function (yes) {
+		if (!yes) sendNotFound (res);
+		else {
+			res.setHeader ("content-type", "some/type");
+			fs.createReadStream (file).pipe (res);
+		}
+	});
+};
+
+// var uri = url.parse(request.url).pathname;
+//  var filename = libpath.join(path, uri);
+
+//  libpath.exists(filename, function (exists) {
+//  if (!exists) {
+//    console.log('404 File Not Found: ' + filename);
+//    response.writeHead(404, {
+//      "Content-Type": "text/plain"
+//    });
+//    response.write("404 Not Found\n");
+//    response.end();
+//    return;
+//  } else{
+//    console.log('Starting download: ' + filename);
+//    var stream = fs.createReadStream(filename, { bufferSize: 64 * 1024 });
+//    stream.pipe(response);
+//   }
+//  });
 exports.sendError        = sendError;
 exports.sendErrorMessage = sendErrorMessage;
 exports.sendNotFound     = sendNotFound;
 exports.sendData         = sendData;
 exports.queryResponse    = queryResponse;
 exports.getErrorMessage  = getErrorMessage;
+exports.streamFile       = streamFile;
+exports.getMimeTypeFromFileName = getMimeTypeFromFileName;
 
 exports.fillConfigObject = function (object, query, callback) {
   var mongoose    = require ('mongoose');
