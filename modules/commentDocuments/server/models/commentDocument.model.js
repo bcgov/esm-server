@@ -18,7 +18,9 @@ var CommentDocumentSchema  = new Schema ({
 	eaoStatus       : { type:String, default:'code', enum:['Unvetted', 'Rejected', 'Deferred', 'Accepted', 'Published'] },
 	eaoNotes        : { type:String, default: '' },
 	proponentStatus : { type:String, default:'code', enum:['Unclassified', 'Deferred', 'Classified'] },
-	proponentNotes  : { type:String, default: '' }
+	proponentNotes  : { type:String, default: '' },
+	updatedBy       : { type:'ObjectId', ref:'User', default:null },
+	dateUpdated     : { type: Date, default: Date.now }
 });
 
 var CommentDocument = mongoose.model ('CommentDocument', CommentDocumentSchema);

@@ -8,6 +8,7 @@ var path     = require('path');
 var mongoose = require ('mongoose');
 var CRUD     = require (path.resolve('./modules/core/server/controllers/core.crud.controller'));
 var Model    = mongoose.model ('CommentDocument');
+var helpers         = require (path.resolve('./modules/core/server/controllers/core.helpers.controller'));
 var PublicComment = mongoose.model ('PublicComment');
 
 var crud = new CRUD (Model);
@@ -24,6 +25,32 @@ exports.delete = crud.delete ();
 exports.list   = crud.list   ();
 exports.getObject   = crud.getObject   ();
 
+// -------------------------------------------------------------------------
+//
+// save a document observation, set any special audit fields here
+//
+// -------------------------------------------------------------------------
+var saveDocument = function (doc, req) {
+	return new Promise (function (resolve, reject) {
+		doc.dateUpdated  = Date.now;
+		doc.updatedBy    = (req.user) ? req.user._id : null;
+		doc.save ().then (resolve, reject);
+	});
+};
+// -------------------------------------------------------------------------
+//
+// save a document, return it via service
+//
+// -------------------------------------------------------------------------
+var saveAndReturn = function (doc, req, res) {
+	saveDocument (doc, req)
+	.then (function (model) {
+		helpers.sendData (res, model);
+	})
+	.catch (function (err) {
+		helpers.sendError (res, err);
+	});
+};
 
 // -------------------------------------------------------------------------
 //
@@ -31,7 +58,8 @@ exports.getObject   = crud.getObject   ();
 //
 // -------------------------------------------------------------------------
 var eaodefer = function (req, res) {
-
+	req.CommentDocument.eaoStatus = 'Deferred';
+	saveAndReturn (req.CommentDocument, req, res);
 };
 exports.eaodefer = eaodefer;
 // -------------------------------------------------------------------------
@@ -40,7 +68,8 @@ exports.eaodefer = eaodefer;
 //
 // -------------------------------------------------------------------------
 var eaoaccept = function (req, res) {
-
+	req.CommentDocument.eaoStatus = 'Accepted';
+	saveAndReturn (req.CommentDocument, req, res);
 };
 exports.eaoaccept = eaoaccept;
 // -------------------------------------------------------------------------
@@ -49,7 +78,8 @@ exports.eaoaccept = eaoaccept;
 //
 // -------------------------------------------------------------------------
 var eaoreject = function (req, res) {
-
+	req.CommentDocument.eaoStatus = 'Rejected';
+	saveAndReturn (req.CommentDocument, req, res);
 };
 exports.eaoreject = eaoreject;
 // -------------------------------------------------------------------------
@@ -58,6 +88,30 @@ exports.eaoreject = eaoreject;
 //
 // -------------------------------------------------------------------------
 var eaopublish = function (req, res) {
-
+	req.CommentDocument.eaoStatus = 'Published';
+	saveAndReturn (req.CommentDocument, req, res);
 };
 exports.eaopublish = eaopublish;
+// -------------------------------------------------------------------------
+//
+// notate document
+//
+// -------------------------------------------------------------------------
+var notate = function (req, res) {
+	req.CommentDocument.eaoNotes = req.body.eaoNotes;
+	req.CommentDocument.proponentNotes = req.body.proponentNotes;
+	saveAndReturn (req.CommentDocument, req, res);
+};
+exports.notate = notate;
+// -------------------------------------------------------------------------
+//
+// upload document
+//
+// -------------------------------------------------------------------------
+var upload = function (req, res) {
+	// req.CommentDocument.eaoNotes = req.body.eaoNotes;
+	// req.CommentDocument.proponentNotes = req.body.proponentNotes;
+	// saveAndReturn (req.CommentDocument, req, res);
+};
+exports.upload = upload;
+
