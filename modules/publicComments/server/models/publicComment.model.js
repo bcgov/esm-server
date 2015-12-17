@@ -13,12 +13,13 @@ var PublicCommentSchema  = new Schema ({
 	author          : { type:String, default:'' },
 	comment         : { type:String, default:'' },
 	original        : { type:'ObjectId', ref:'PublicComment', default:null },
-	eaoStatus       : { type:String, default:'Unvetted', enum:['Unvetted', 'In Progress', 'Rejected', 'Deferred', 'Accepted', 'Published'] },
+	eaoStatus       : { type:String, default:'Unvetted', enum:['Unvetted', 'Rejected', 'Deferred', 'Accepted', 'Published'] },
 	overallStatus   : { type:String, default:'Unvetted', enum:['Unvetted', 'In Progress', 'Rejected', 'Deferred', 'Accepted', 'Published'] },
 	eaoNotes        : { type:String, default: '' },
 	proponentStatus : { type:String, default:'Unclassified', enum:['Unclassified', 'In Progress', 'Deferred', 'Classified'] },
 	proponentNotes  : { type:String, default: '' },
-	updatedBy       : { type:'ObjectId', ref:'User', default:null }
+	updatedBy       : { type:'ObjectId', ref:'User', default:null },
+	dateUpdated     : { type: Date, default: Date.now }
 });
 
 var PublicComment = mongoose.model ('PublicComment', PublicCommentSchema);

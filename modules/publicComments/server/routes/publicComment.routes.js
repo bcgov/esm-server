@@ -59,6 +59,20 @@ module.exports = function (app) {
 	app.route ('/api/publiccomment/:publiccomment/eao/edit').all (policy.isAllowed)
 		.put (controller.eaoedit);
 	//
+	// get set for vetting
+	//
+	app.route ('/api/publiccomment/project/:projectid/vett/start').all (policy.isAllowed)
+		.get (controller.vettingStart);
+	app.route ('/api/publiccomment/project/:projectid/vett/claim').all (policy.isAllowed)
+		.get (controller.vettingClaim);
+	//
+	// get set for classifying
+	//
+	app.route ('/api/publiccomment/project/:projectid/classify/start').all (policy.isAllowed)
+		.get (controller.classifyStart);
+	app.route ('/api/publiccomment/project/:projectid/classify/claim').all (policy.isAllowed)
+		.get (controller.classifyClaim);
+	//
 	// proponent action routes
 	//
 	app.route ('/api/publiccomment/:publiccomment/proponent/defer').all (policy.isAllowed)

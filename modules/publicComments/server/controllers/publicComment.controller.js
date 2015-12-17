@@ -37,8 +37,10 @@ var overallStatus = function (currentStatus, documents) {
 };
 exports.overallStatus = overallStatus;
 
-var saveComment = function (comment) {
+var saveComment = function (comment, req) {
 	return new Promise (function (resolve, reject) {
+		comment.dateUpdated  = Date.now;
+		comment.updatedBy    = (req.user) ? req.user._id : null;
 		comment.save ().then (resolve, reject);
 	});
 };
@@ -124,8 +126,8 @@ var getFullComment = function (commentId) {
 // save a comment, decorate it, return it via service
 //
 // -------------------------------------------------------------------------
-var saveDecorateReturn = function (comment, res) {
-	saveComment (comment)
+var saveDecorateReturn = function (comment, req, res) {
+	saveComment (comment, req)
 	.then (function (model) {
 		return decorateComment (model);
 	})
@@ -244,8 +246,7 @@ var fillPublicComment = function () {};
 var eaodefer = function (req, res) {
 	req.PublicComment.eaoStatus     = 'Deferred';
 	req.PublicComment.overallStatus = 'Deferred';
-	req.PublicComment.updatedBy     = (req.user) ? req.user._id : null;
-	saveDecorateReturn (req.PublicComment, res);
+	saveDecorateReturn (req.PublicComment, req, res);
 };
 exports.eaodefer = eaodefer;
 // -------------------------------------------------------------------------
@@ -257,8 +258,7 @@ exports.eaodefer = eaodefer;
 var eaoaccept = function (req, res) {
 	req.PublicComment.eaoStatus     = 'Accepted';
 	req.PublicComment.overallStatus = 'Accepted';
-	req.PublicComment.updatedBy     = (req.user) ? req.user._id : null;
-	saveDecorateReturn (req.PublicComment, res);
+	saveDecorateReturn (req.PublicComment, req, res);
 };
 exports.eaoaccept = eaoaccept;
 // -------------------------------------------------------------------------
@@ -269,8 +269,7 @@ exports.eaoaccept = eaoaccept;
 var eaoreject = function (req, res) {
 	req.PublicComment.eaoStatus     = 'Rejected';
 	req.PublicComment.overallStatus = 'Rejected';
-	req.PublicComment.updatedBy     = (req.user) ? req.user._id : null;
-	saveDecorateReturn (req.PublicComment, res);
+	saveDecorateReturn (req.PublicComment, req, res);
 };
 exports.eaoreject = eaoreject;
 // -------------------------------------------------------------------------
@@ -281,11 +280,10 @@ exports.eaoreject = eaoreject;
 var eaopublish = function (req, res) {
 	req.PublicComment.eaoStatus     = 'Published';
 	req.PublicComment.overallStatus = 'Published';
-	req.PublicComment.updatedBy     = (req.user) ? req.user._id : null;
 	numberOfDeferredDocuments (req.PublicComment)
 	.then (function (n) {
 		if (n > 0) req.PublicComment.overallStatus = 'Deferred';
-		return saveComment (req.PublicComment);
+		return saveComment (req.PublicComment, req);
 	})
 	.then (function (model) {
 		return decorateComment (model);
@@ -312,9 +310,9 @@ var eaoedit = function (req, res) {
 	var original               = new Model (copy);
 	req.PublicComment.original = original._id;
 	req.PublicComment.comment  = req.body.comment;
-	saveComment (original)
+	saveComment (original, req)
 	.then (function () {
-		return saveComment (req.PublicComment);
+		return saveComment (req.PublicComment, req);
 	})
 	.then (function (model) {
 		return decorateComment (model);
@@ -329,13 +327,35 @@ var eaoedit = function (req, res) {
 exports.eaoedit = eaoedit;
 // -------------------------------------------------------------------------
 //
+// when starting vetting get the list of all in progress comments for this
+// user, also add one new unvetted one
+//
+// -------------------------------------------------------------------------
+var vettingStart = function (req, res) {
+};
+exports.vettingStart = vettingStart;
+var vettingClaim = function (req, res) {
+};
+exports.vettingClaim = vettingClaim;
+// -------------------------------------------------------------------------
+//
+// claim a document
+//
+// -------------------------------------------------------------------------
+var classifyStart = function (req, res) {
+};
+exports.classifyStart = classifyStart;
+var classifyClaim = function (req, res) {
+};
+exports.classifyClaim = classifyClaim;
+// -------------------------------------------------------------------------
+//
 // edit the document
 //
 // -------------------------------------------------------------------------
 var proponentdefer = function (req, res) {
 	req.PublicComment.proponentStatus = 'Deferred';
-	req.PublicComment.updatedBy       = (req.user) ? req.user._id : null;
-	saveDecorateReturn (req.PublicComment, res);
+	saveDecorateReturn (req.PublicComment, req, res);
 };
 exports.proponentdefer = proponentdefer;
 // -------------------------------------------------------------------------
@@ -345,8 +365,7 @@ exports.proponentdefer = proponentdefer;
 // -------------------------------------------------------------------------
 var proponentclassify = function (req, res) {
 	req.PublicComment.proponentStatus = 'Classified';
-	req.PublicComment.updatedBy       = (req.user) ? req.user._id : null;
-	saveDecorateReturn (req.PublicComment, res);
+	saveDecorateReturn (req.PublicComment, req, res);
 };
 exports.proponentclassify = proponentclassify;
 
