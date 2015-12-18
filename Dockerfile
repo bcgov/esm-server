@@ -25,10 +25,14 @@ RUN git config --global url."https://".insteadOf git:// && bower install --confi
 # Make everything available for start
 ADD . /home/mean
 
-# Set development environment as default
-ENV NODE_ENV development
+# Set environment  to production
+ENV NODE_ENV production
 
-# Port 3000 for server
-# Port 35729 for livereload
-EXPOSE 3030 35729
-CMD ["grunt"]
+# Set location where uploads files should be stored
+ENV UPLOAD_PATH /uploads
+
+# Provide a mount point for uploaded files so it can be mapped to a host filesystem location at runtime.
+VOLUME /uploads
+
+EXPOSE 3000
+CMD ["grunt prod"]
