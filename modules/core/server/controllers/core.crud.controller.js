@@ -50,9 +50,7 @@ module.exports = function (Model, options) {
 	this.create = function (pre) {
 		var self = this;
 		return function (req, res) {
-			console.log (req.body);
 			var Model = new self.Model (req.body);
-			// Model._id = req.body._id;
 			if (pre) pre (Model);
 			Model.save (helpers.queryResponse (res));
 		};

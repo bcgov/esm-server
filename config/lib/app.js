@@ -13,6 +13,7 @@ mongoose.loadModels();
 
 //SeedDB
 if (config.seedDB) {
+  console.log ('seeding');
   require('./seed');
 }
 

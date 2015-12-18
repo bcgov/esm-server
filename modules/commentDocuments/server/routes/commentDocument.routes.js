@@ -26,14 +26,25 @@ module.exports = function (app) {
 	//
 	// action routes
 	//
-	app.route ('/api/commentdocument/:commentdocument/eaodefer').all (policy.isAllowed)
+	app.route ('/api/commentdocument/:commentdocument/eao/defer').all (policy.isAllowed)
 		.put (controller.eaodefer);
-	app.route ('/api/commentdocument/:commentdocument/eaoaccept').all (policy.isAllowed)
+	app.route ('/api/commentdocument/:commentdocument/eao/accept').all (policy.isAllowed)
 		.put (controller.eaoaccept);
-	app.route ('/api/commentdocument/:commentdocument/eaoreject').all (policy.isAllowed)
+	app.route ('/api/commentdocument/:commentdocument/eao/reject').all (policy.isAllowed)
 		.put (controller.eaoreject);
-	app.route ('/api/commentdocument/:commentdocument/eaopublish').all (policy.isAllowed)
+	app.route ('/api/commentdocument/:commentdocument/eao/publish').all (policy.isAllowed)
 		.put (controller.eaopublish);
+	//
+	// expect a json object with eaoNotes and/or proponentNotes, thsi is all that gets
+	// copied
+	//
+	app.route ('/api/commentdocument/:commentdocument/notate').all (policy.isAllowed)
+		.put (controller.notate);
+	//
+	// upload a document to this comment
+	//
+	app.route ('/api/commentdocument/publiccomment/:publiccomment/upload').all (policy.isAllowed)
+		.post (controller.upload);
 	//
 	// middleware to auto-fetch parameter
 	//

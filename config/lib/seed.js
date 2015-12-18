@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'production') {
       var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
       var user = new User({
         username: 'admin',
-        password: password,
+        password: 'admin',
         provider: 'local',
         email: 'admin@localhost.com',
         firstName: 'Admin',
@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'production') {
       // Then save the user
       user.save(function (err) {
         if (err) {
-          console.log('Failed to add local admin');
+          console.log('Failed to add local admin', err);
         } else {
           console.log(chalk.bold.red('Local admin added with password set to ' + password));
         }
@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === 'production') {
     var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
     var user = new User({
       username: 'user',
-      password: password,
+      password: 'user',
       provider: 'local',
       email: 'user@localhost.com',
       firstName: 'User',
@@ -52,7 +52,7 @@ if (process.env.NODE_ENV === 'production') {
     // Then save the user
     user.save(function (err) {
       if (err) {
-        console.log('Failed to add local user');
+        console.log('Failed to add local user', err);
       } else {
         console.log(chalk.bold.red('Local user added with password set to ' + password));
       }
@@ -65,7 +65,7 @@ if (process.env.NODE_ENV === 'production') {
     var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
     var user = new User({
       username: 'admin',
-      password: password,
+      password: 'admin',
       provider: 'local',
       email: 'admin@localhost.com',
       firstName: 'Admin',
@@ -76,7 +76,7 @@ if (process.env.NODE_ENV === 'production') {
     // Then save the user
     user.save(function (err) {
       if (err) {
-        console.log('Failed to add local admin');
+        console.log('Failed to add local admin', err);
       } else {
         console.log(chalk.bold.red('Local admin added with password set to ' + password));
       }
