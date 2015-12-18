@@ -44,7 +44,7 @@ module.exports = function (app) {
 	// upload a document to this comment
 	//
 	app.route ('/api/commentdocument/publiccomment/:publiccomment/upload').all (policy.isAllowed)
-		.put (controller.upload);
+		.post (controller.upload);
 	//
 	// middleware to auto-fetch parameter
 	//

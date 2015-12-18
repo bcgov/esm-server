@@ -32,7 +32,7 @@ exports.getObject   = crud.getObject   ();
 // -------------------------------------------------------------------------
 var saveDocument = function (doc, req) {
 	return new Promise (function (resolve, reject) {
-		doc.dateUpdated  = Date.now;
+		doc.dateUpdated  = Date.now ();
 		doc.updatedBy    = (req.user) ? req.user._id : null;
 		doc.save ().then (resolve, reject);
 	});
@@ -45,9 +45,11 @@ var saveDocument = function (doc, req) {
 var saveAndReturn = function (doc, req, res) {
 	saveDocument (doc, req)
 	.then (function (model) {
+		console.log (model);
 		helpers.sendData (res, model);
 	})
 	.catch (function (err) {
+		console.log (err);
 		helpers.sendError (res, err);
 	});
 };
@@ -98,7 +100,7 @@ exports.eaopublish = eaopublish;
 //
 // -------------------------------------------------------------------------
 var notate = function (req, res) {
-	req.CommentDocument.eaoNotes = req.body.eaoNotes;
+	req.CommentDocument.eaoNotes       = req.body.eaoNotes;
 	req.CommentDocument.proponentNotes = req.body.proponentNotes;
 	saveAndReturn (req.CommentDocument, req, res);
 };
@@ -109,9 +111,23 @@ exports.notate = notate;
 //
 // -------------------------------------------------------------------------
 var upload = function (req, res) {
-	// req.CommentDocument.eaoNotes = req.body.eaoNotes;
-	// req.CommentDocument.proponentNotes = req.body.proponentNotes;
-	// saveAndReturn (req.CommentDocument, req, res);
+	var file = req.files.file;
+	if (file) {
+		console.log (file);
+		saveAndReturn (new Model ({
+			project       : req.PublicComment.project || null,
+			publicComment : req.PublicComment._id,
+			url           : file.path,
+			name          : file.originalname,
+			internalName  : file.name,
+			mime          : file.mimetype,
+			ext           : file.extention,
+			size          : file.size,
+			encoding      : file.encoding
+		}), req, res);
+	} else {
+		helpers.sendErrorMessage (res, "No file found to upload");
+	}
 };
 exports.upload = upload;
 

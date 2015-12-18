@@ -50,19 +50,19 @@ var getErrorMessage = function (err) {
 };
 
 
-var sendError = function (res, err) {
-	return res.status(400).send ({
-		message: getErrorMessage (err)
-	});
-};
-var sendNotFound = function (res, message) {
-	return res.status(404).send ({
-		message: message || 'Not Found'
-	});
-};
 var sendErrorMessage = function (res, message) {
+	console.log (message);
 	return res.status(400).send ({
 		message: message
+	});
+};
+var sendError = function (res, err) {
+	sendErrorMessage (res, getErrorMessage (err));
+};
+var sendNotFound = function (res, message) {
+	console.log ('not found:' + message);
+	return res.status(404).send ({
+		message: message || 'Not Found'
 	});
 };
 var sendData = function (res, model) {

@@ -56,31 +56,34 @@ exports.changeProfilePicture = function (req, res) {
   var message = null;
 
   if (user) {
-    fs.writeFile('./modules/users/client/img/profile/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
-      if (uploadError) {
-        return res.status(400).send({
-          message: 'Error occurred while uploading profile picture'
-        });
-      } else {
-        user.profileImageURL = 'modules/users/client/img/profile/uploads/' + req.files.file.name;
+    console.log (req.files);
+    res.json(user);
+    // fs.createReadStream('test.log').pipe(fs.createWriteStream('newLog.log'));
+    // fs.writeFile('./modules/users/client/img/profile/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    //   if (uploadError) {
+    //     return res.status(400).send({
+    //       message: 'Error occurred while uploading profile picture'
+    //     });
+    //   } else {
+    //     user.profileImageURL = 'modules/users/client/img/profile/uploads/' + req.files.file.name;
 
-        user.save(function (saveError) {
-          if (saveError) {
-            return res.status(400).send({
-              message: errorHandler.getErrorMessage(saveError)
-            });
-          } else {
-            req.login(user, function (err) {
-              if (err) {
-                res.status(400).send(err);
-              } else {
-                res.json(user);
-              }
-            });
-          }
-        });
-      }
-    });
+    //     user.save(function (saveError) {
+    //       if (saveError) {
+    //         return res.status(400).send({
+    //           message: errorHandler.getErrorMessage(saveError)
+    //         });
+    //       } else {
+    //         req.login(user, function (err) {
+    //           if (err) {
+    //             res.status(400).send(err);
+    //           } else {
+    //             res.json(user);
+    //           }
+    //         });
+    //       }
+    //     });
+    //   }
+    // });
   } else {
     res.status(400).send({
       message: 'User is not signed in'

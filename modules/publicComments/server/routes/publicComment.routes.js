@@ -53,6 +53,8 @@ module.exports = function (app) {
 		.put (controller.eaoreject);
 	app.route ('/api/publiccomment/:publiccomment/eao/publish').all (policy.isAllowed)
 		.put (controller.eaopublish);
+	app.route ('/api/publiccomment/:publiccomment/eao/spam').all (policy.isAllowed)
+		.put (controller.eaospam);
 	//
 	// save a copy
 	//

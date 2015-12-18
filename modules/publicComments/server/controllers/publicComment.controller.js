@@ -39,7 +39,7 @@ exports.overallStatus = overallStatus;
 
 var saveComment = function (comment, req) {
 	return new Promise (function (resolve, reject) {
-		comment.dateUpdated  = Date.now;
+		comment.dateUpdated  = Date.now();
 		comment.updatedBy    = (req.user) ? req.user._id : null;
 		comment.save ().then (resolve, reject);
 	});
@@ -101,9 +101,7 @@ var decorateComment = function (comment) {
 			comment.issues = a;
 			resolve (comment);
 		})
-		.catch (function (err) {
-			reject (err);
-		});
+		.catch (reject);
 	});
 };
 
@@ -155,29 +153,64 @@ var numberOfDeferredDocuments = function (comment) {
 
 // -------------------------------------------------------------------------
 //
+// a record in reverse chron order
+//
+// -------------------------------------------------------------------------
+var queryModel = function (query) {
+	return new Promise (function (resolve, reject) {
+		Model.findOne (query).sort ({dateAdded:-1}).exec().then(resolve,reject);
+	});
+};
+// -------------------------------------------------------------------------
+//
+// all queries in reverse chron order
+//
+// -------------------------------------------------------------------------
+var queryModels = function (query, limit) {
+	limit = limit || 0;
+	return new Promise (function (resolve, reject) {
+		Model.find (query).sort ({dateAdded:-1}).limit (limit).exec().then(resolve,reject);
+	});
+};
+// -------------------------------------------------------------------------
+//
+// all queries in reverse chron order
+//
+// -------------------------------------------------------------------------
+var queryModelsDecorate = function (query, limit) {
+	return new Promise (function (resolve, reject) {
+		queryModels (query, limit)
+		.then (function (models) {
+			var parray = models.map (function (model) {
+				return decorateComment (model);
+			});
+			Promise.all (parray).then (resolve, reject);
+		})
+		.catch (reject);
+	});
+};
+
+// -------------------------------------------------------------------------
+//
 // get all comments for a project by status in descending date order
 //
 // -------------------------------------------------------------------------
 var getByProjectByStatus = function (projectId, status, limit) {
-	return new Promise (function (resolve, reject) {
-		limit = limit || 0;
-		Model.find ({
-			project       : projectId,
-			overallStatus : status
-		})
-		.sort ({dateAdded:-1})
-		.limit (limit)
-		.exec (function (err, models) {
-			if (models) {
-				var parray = models.map (function (model) {
-					return decorateComment (model);
-				});
-				Promise.all (parray).then (resolve, reject);
-			} else {
-				resolve ([]);
-			}
-		});
-	});
+	var query = {
+		project       : projectId,
+		overallStatus : status
+	};
+	return queryModelsDecorate (query, limit);
+	// return new Promise (function (resolve, reject) {
+	// 	queryModels (query, limit)
+	// 	.then (function (models) {
+	// 		var parray = models.map (function (model) {
+	// 			return decorateComment (model);
+	// 		});
+	// 		Promise.all (parray).then (resolve, reject);
+	// 	})
+	// 	.catch (reject);
+	// });
 };
 
 
@@ -327,30 +360,108 @@ var eaoedit = function (req, res) {
 exports.eaoedit = eaoedit;
 // -------------------------------------------------------------------------
 //
+// helpers for claiming
+//
+// -------------------------------------------------------------------------
+var getInProgressForUser = function (userid, query) {
+	query = query || {};
+	query = _.extend ({
+		updatedBy : userid,
+		overallStatus:'In Progress'
+	}, query);
+	return queryModelsDecorate (query);
+};
+// -------------------------------------------------------------------------
+//
 // when starting vetting get the list of all in progress comments for this
 // user, also add one new unvetted one
 //
 // -------------------------------------------------------------------------
 var vettingStart = function (req, res) {
+	var userid = (req.user) ? req.user._id : '55244877afb265301daff7f2';
+	getInProgressForUser (userid, {
+		project : req.params.projectid
+	})
+	.then (function (models) {
+		helpers.sendData (res, models);
+	})
+	.catch (function (err) {
+		helpers.sendError (res, err);
+	});
 };
 exports.vettingStart = vettingStart;
+// -------------------------------------------------------------------------
+//
+// get one new record to process, change its status to in progress
+//
+// -------------------------------------------------------------------------
 var vettingClaim = function (req, res) {
+	queryModel ({
+		overallStatus:'Unvetted',
+		eaoStatus : 'Unvetted',
+		project : req.params.projectid
+	})
+	.then (function (model) {
+		model.overallStatus = 'In Progress';
+		return saveComment (model, req);
+	})
+	.then (decorateComment)
+	.then (function (model) {
+		helpers.sendData (res, model);
+	})
+	.catch (function (err) {
+		helpers.sendError (res, err);
+	});
 };
 exports.vettingClaim = vettingClaim;
 // -------------------------------------------------------------------------
 //
-// claim a document
+// same as above but for classifying
 //
 // -------------------------------------------------------------------------
 var classifyStart = function (req, res) {
+	var userid = (req.user) ? req.user._id : '55244877afb265301daff7f2';
+	getInProgressForUser (userid, {
+		overallStatus   : 'Published',
+		proponentStatus : 'Deferred',
+		project : req.params.projectid
+	})
+	.then (function (models) {
+		helpers.sendData (res, models);
+	})
+	.catch (function (err) {
+		helpers.sendError (res, err);
+	});
 };
 exports.classifyStart = classifyStart;
+// -------------------------------------------------------------------------
+//
+// same as vetting claim, but for the proponent. select where published
+// and unclassified
+//
+// -------------------------------------------------------------------------
 var classifyClaim = function (req, res) {
+	queryModel ({
+		overallStatus:'Published',
+		proponentStatus : 'Unclassified',
+		project : req.params.projectid
+	})
+	.then (function (model) {
+		model.overallStatus = 'In Progress';
+		return saveComment (model, req);
+	})
+	.then (decorateComment)
+	.then (function (model) {
+		helpers.sendData (res, model);
+	})
+	.catch (function (err) {
+		helpers.sendError (res, err);
+	});
 };
 exports.classifyClaim = classifyClaim;
 // -------------------------------------------------------------------------
 //
-// edit the document
+// propoenent deferes the comment
 //
 // -------------------------------------------------------------------------
 var proponentdefer = function (req, res) {
@@ -360,7 +471,7 @@ var proponentdefer = function (req, res) {
 exports.proponentdefer = proponentdefer;
 // -------------------------------------------------------------------------
 //
-// edit the document
+// propoenent classifies the comment
 //
 // -------------------------------------------------------------------------
 var proponentclassify = function (req, res) {
