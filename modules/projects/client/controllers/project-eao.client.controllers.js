@@ -108,9 +108,9 @@ function controllerModalProjectEdit($modalInstance, rProject, Utils, Project) {
 // CONTROLLER: Modal: View Project Schedule
 //
 // -----------------------------------------------------------------------------------
-controllerModalProjectEditPlanMilestones.$inject = ['$modalInstance', 'rProject', 'Utils'];
+controllerModalProjectEditPlanMilestones.$inject = ['$modalInstance', 'rProject', 'Utils', '_'];
 //
-function controllerModalProjectEditPlanMilestones($modalInstance, rProject, Utils) { 
+function controllerModalProjectEditPlanMilestones($modalInstance, rProject, Utils, _) { 
 	var pestag = this;
 	
 	// remove a milestone from the temporary list.
@@ -153,9 +153,9 @@ function controllerModalProjectEditPlanMilestones($modalInstance, rProject, Util
 // CONTROLLER: Modal: Edit Project Schedule
 //
 // -----------------------------------------------------------------------------------
-controllerModalProjectEditPlanSchedule.$inject = ['$modalInstance', 'rProject', 'Project'];
+controllerModalProjectEditPlanSchedule.$inject = ['$modalInstance', 'rProject', 'Project', '_'];
 //
-function controllerModalProjectEditPlanSchedule($modalInstance, rProject, Project) { 
+function controllerModalProjectEditPlanSchedule($modalInstance, rProject, Project, _) { 
 	var pesched = this;
 	
 	var original = angular.copy(rProject.milestones);

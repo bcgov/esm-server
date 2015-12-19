@@ -11,8 +11,6 @@ angular.module('tasks')
 controllerTaskManageIssues.$inject = ['$scope', '$rootScope', 'Task'];
 	//
 function controllerTaskManageIssues($scope, $rootScope, Task) {
-	
-
 	var taskManageIssues = this;
 
 	taskManageIssues.mailOut = [];
@@ -46,7 +44,7 @@ function controllerTaskManageIssues($scope, $rootScope, Task) {
 		// structure the data to save.
 		//Notifications.saveTask();
 		console.log('save notifications.controllers.js');
-	}
+	};
 
 	// taskNotification.completeTask = function() {
 	// 	// validate

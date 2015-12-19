@@ -34,6 +34,6 @@ function controllerTaskConfirmNoComment($scope, $rootScope, Tasks) {
 		// validate
 		// when ok, broadcast
 		$rootScope.$broadcast('resolveTask', taskCnc.task);
-	}
+	};
 	
 }    

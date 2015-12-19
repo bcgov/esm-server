@@ -27,40 +27,40 @@ function filterProjectPhaseContributor(Global, $filter, _) {
 			}
 		} 
 		return false;
-	}
+	};
 }
 // -----------------------------------------------------------------------------------
 //
 // FILTER: Projects Phases - mark up the project to show what group owns it.
 //
 // -----------------------------------------------------------------------------------
-filterKebab.$inject = [];
+filterKebab.$inject = ['_'];
 /* @ngInject */
-function filterKebab() {
+function filterKebab(_) {
 	return function(input) {
 		return _.kebabCase(input);
-	}
+	};
 }
 // -----------------------------------------------------------------------------------
 //
 // FILTER: Contains - Retuns true or false if string is in.
 //
 // -----------------------------------------------------------------------------------
-filterContains.$inject = [];
+filterContains.$inject = ['_'];
 /* @ngInject */
-function filterContains() {
+function filterContains(_) {
 	return function(input, term) {
 		return (_.indexOf(input, term) > -1);
-	}
+	};
 }
 // -----------------------------------------------------------------------------------
 //
 // FILTER: Project Buckets - not complete
 //
 // -----------------------------------------------------------------------------------
-filterProjectBucketNotComplete.$inject = [];
+filterProjectBucketNotComplete.$inject = ['_'];
 /* @ngInject */
-function filterProjectBucketNotComplete() {
+function filterProjectBucketNotComplete(_) {
 	return function(input) {
 		var output = [];
 		_.each(input, function(item) {
@@ -69,64 +69,64 @@ function filterProjectBucketNotComplete() {
 			}
 		});
 		return output;
-	}
+	};
 }
 // -----------------------------------------------------------------------------------
 //
 // FILTER: Projects Page, filter  TODO: actually filter something
 //
 // -----------------------------------------------------------------------------------
-filterProjects.$inject = [];
+filterProjects.$inject = ['_'];
 /* @ngInject */
-function filterProjects() {
+function filterProjects(_) {
 	return function(input) {
 		var output = [];
 		_.each(input, function(item) {
 			output.push(item);
 		});
 		return output;
-	}
+	};
 }    
 // -----------------------------------------------------------------------------------
 //
 // FILTER: Is in the future
 //
 // -----------------------------------------------------------------------------------
-filterIsInTheFuture.$inject = [];
+filterIsInTheFuture.$inject = ['_', 'moment'];
 /* @ngInject */
 // Just take it easy and you'll be fine... and be careful in the future.
-function filterIsInTheFuture() {
+function filterIsInTheFuture(_, moment) {
 	return function(input) {
 		return moment(input) > moment();
-	}
+	};
 }   
 // -----------------------------------------------------------------------------------
 //
 // FILTER: Is in the future
 //
 // -----------------------------------------------------------------------------------
-filterIsInThePast.$inject = [];
+filterIsInThePast.$inject = ['_', 'moment'];
 /* @ngInject */
 // So tell me Future Boy, who's President of the United States in 1985?
-function filterIsInThePast() {
+function filterIsInThePast(_, moment) {
 	return function(input) {
 		return moment(input) < moment();
-	}
+	};
 }   
 
-filterMax15Words.$inject = [];
+filterMax15Words.$inject = ['_'];
 
-function filterMax15Words() {
+function filterMax15Words(_) {
 	return function(input) {
     	return _.take(_.words(input), 15).join(' ');
-    }
+    };
 }
 
-
+// Filter to prevent html trust warnings.
 filterSafeHtml.$inject = ['$sce'];
 
 function filterSafeHtml($sce) {
 	return function(input) {
     	return $sce.trustAsHtml(input);
-    }
+    };
 }

@@ -8,10 +8,9 @@ angular.module('tasks')
 // CONTROLLER: Task for Simple Complete
 //
 // -----------------------------------------------------------------------------------
-controllerTaskNotifications.$inject = ['$scope', '$rootScope', 'Task', 'Notification', '$q', 'ProcessCodes'];
+controllerTaskNotifications.$inject = ['$scope', '$rootScope', 'Task', 'Notification', '$q', 'ProcessCodes', '_'];
 	//
-function controllerTaskNotifications($scope, $rootScope, Task, Notification, $q, ProcessCodes) {
-	
+function controllerTaskNotifications($scope, $rootScope, Task, Notification, $q, ProcessCodes, _) {
 
 	var taskNotifications = this;
 
@@ -29,10 +28,10 @@ function controllerTaskNotifications($scope, $rootScope, Task, Notification, $q,
 				_.each(member.systemRole, function(role, idx2){
 					if (!taskNotifications.recipients[role.role]) taskNotifications.recipients[role.role] = {viaEmail: [], viaMail: []};
 					if (member.viaEmail) {
-						taskNotifications.recipients[role.role]['viaEmail'].push(member);
+						taskNotifications.recipients[role.role].viaEmail.push(member);
 					}
 					if (member.viaMail) {
-						taskNotifications.recipients[role.role]['viaMail'].push(member);
+						taskNotifications.recipients[role.role].viaMail.push(member);
 						taskNotifications.mailOut.push(member);
 					}
 				});
@@ -85,13 +84,13 @@ function controllerTaskNotifications($scope, $rootScope, Task, Notification, $q,
 
 	taskNotifications.setContent = function() {
 		taskNotifications.taskData.mailContent = taskNotifications.selectedTemplate.content;
-	}
+	};
 
 	taskNotifications.saveTask = function() {
 		// structure the data to save.
 		//Notifications.saveTask();
 		console.log('save notifications.controllers.js');
-	}
+	};
 
 	// taskNotification.completeTask = function() {
 	// 	// validate

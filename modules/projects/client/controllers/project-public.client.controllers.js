@@ -9,9 +9,9 @@ angular.module('project')
 // CONTROLLER: Public Project Detail
 //
 // -----------------------------------------------------------------------------------
-controllerPublicProject.$inject = ['logger', '$modal', 'Project', '$stateParams'];
+controllerPublicProject.$inject = ['logger', '$modal', 'Project', '$stateParams', '_', 'moment'];
 //
-function controllerPublicProject(logger, $modal, Project, $stateParams) {
+function controllerPublicProject(logger, $modal, Project, $stateParams, _, moment) {
 	var vm = this;
 
 	vm.commentsByDate = {};

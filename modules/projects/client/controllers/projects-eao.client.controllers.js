@@ -8,9 +8,9 @@ angular.module('projects')
 // CONTROLLER: EAO Projects Main
 //
 // -----------------------------------------------------------------------------------
-controllerEAOProjects.$inject = ['$scope', '$state', 'Projects', 'Global'];
+controllerEAOProjects.$inject = ['$scope', '$state', 'Projects', 'Global', '_'];
 /* @ngInject */
-function controllerEAOProjects($scope, $state, Projects, Global) {
+function controllerEAOProjects($scope, $state, Projects, Global, _) {
 	var vm = this;
 
 	vm.intakes = [];
@@ -22,7 +22,7 @@ function controllerEAOProjects($scope, $state, Projects, Global) {
 		_.each( res.data, function( project, idx ) {
 			if (!project.stream || project.stream === '') {
 				// the project becomes an intake and the stream needs to be defined.
-				vm.intakes.push(project)
+				vm.intakes.push(project);
 			} else {
 				// the project is already in a stream, show in the ongoing list.
 				vm.projects.push(project);

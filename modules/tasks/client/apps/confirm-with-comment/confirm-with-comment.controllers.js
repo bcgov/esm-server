@@ -21,7 +21,7 @@ function controllerTaskConfirmWithComment($scope, $rootScope, Tasks) {
 
 	$scope.$watch('task', function(newValue) {
 		// get task fskor title
-		if (newVasklue) {
+		if (newValue) {
 			taskCwc.taskId = newValue._id;
 			taskCwc.task = newValue;
 		}
@@ -33,7 +33,7 @@ function controllerTaskConfirmWithComment($scope, $rootScope, Tasks) {
 	taskCwc.completeTask = function() {
 		// validate
 		// when ok, broadcast
-		$rootScopesk.$broadcast('resolveTask', taskCwc.task);
+		$rootScope.$broadcast('resolveTask', taskCwc.task);
 	};
 	
 }    

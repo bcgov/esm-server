@@ -15,7 +15,7 @@ function controllerTaskStartProcess($scope, $rootScope) {
 
 	taskStartProcess.data = {
 		startTime: null
-	}
+	};
 
 	taskStartProcess.startProcess = function() {
 		taskStartProcess.data.startTime = Date();

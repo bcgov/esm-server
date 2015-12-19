@@ -17,6 +17,8 @@
     "io": true,
     "ApplicationConfiguration": true
   },
+  "validthis": true,
+  "loopfunc": true,
   "predef": [ // Extra globals.
     "inject",
     "by",

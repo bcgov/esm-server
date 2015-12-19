@@ -16,7 +16,7 @@ function controllerTaskDecision($scope, $rootScope, moment) {
 	taskDecision.data = {
 		dateDecided: null,
 		result: null
-	}
+	};
 
 	taskDecision.completeTask = function() {
 		taskDecision.data.dateDecided = moment();

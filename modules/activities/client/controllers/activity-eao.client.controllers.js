@@ -31,9 +31,9 @@ function controllerEAOActivity($scope, $state, $modal, Activity, Project, $state
 // CONTROLLER: EAO Activity Detail
 //
 // -----------------------------------------------------------------------------------
-controllerEAOActivityDetail.$inject = ['$scope', 'moment', '$rootScope', 'Task'];
+controllerEAOActivityDetail.$inject = ['$scope', 'moment', '$rootScope', 'Task', '_'];
 //
-function controllerEAOActivityDetail($scope, moment, $rootScope, Task) {
+function controllerEAOActivityDetail($scope, moment, $rootScope, Task, _) {
 	var actDetail = this;
 	actDetail.tasks = [];
 	actDetail.currentTask = '';
@@ -46,7 +46,7 @@ function controllerEAOActivityDetail($scope, moment, $rootScope, Task) {
 				}
 			});
 		}
-	}
+	};
 
 	$scope.$watch('activity', function(newValue) {
 		actDetail.activity = newValue;

@@ -8,9 +8,9 @@ angular.module('project')
 // FILTER: Phase Name from ID
 //
 // -----------------------------------------------------------------------------------
-filterPhaseName.$inject = [];
+filterPhaseName.$inject = ['_'];
 /* @ngInject */
-function filterPhaseName() {
+function filterPhaseName(_) {
 	return function(input, phases) {
 		return _(phases).filter(function(phase) { return input === phase._id; }).pluck('name').value()[0];
 	};

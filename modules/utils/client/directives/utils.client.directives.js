@@ -104,7 +104,7 @@ function directiveCenterVertical($window) {
 					'bh': box[0].offsetHeight
 				};
 			}, function (newValue, oldValue) {
-				var bh = box[0].offsetHeight
+				var bh = box[0].offsetHeight;
 				box.css({'margin-top': (parseInt((newValue.h - bh)/2)-100) + 'px'});
 			}, true);
 
@@ -112,7 +112,7 @@ function directiveCenterVertical($window) {
 				scope.$apply();
 			});
 		}
-	}
+	};
 	return directive;
 }
 // -----------------------------------------------------------------------------------
@@ -160,7 +160,7 @@ function directiveCountdownClock(moment, $interval) {
 		}
 	};
 	return directive;
-};
+}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Panel Sort
@@ -214,7 +214,7 @@ function directivePhaseColour($filter) {
 		}
 	};
 	return directive;
-};
+}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Is Current User  - Similar to Coloured Phase
@@ -244,7 +244,7 @@ function directiveIsCurrentUser(Global) {
 		}
 	};
 	return directive;
-};
+}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: expand panel
@@ -263,7 +263,7 @@ function directiveExpandPanel($compile) {
 		}
 	};
 	return directive;
-};
+}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Research Detail
@@ -311,7 +311,7 @@ function directiveRolesSelect() {
 		controller: 'controllerRolesSelect',
 		controllerAs: 'utilRolesSelect',
 		link: function(scope, element, attrs) {
-			element.addClass('btn-list')
+			element.addClass('btn-list');
 		}
     };
     return directive;
@@ -341,9 +341,9 @@ function directiveUsersSelect() {
 // DIRECTIVE: Research Detail
 //
 // -----------------------------------------------------------------------------------
-directiveGoToElement.$inject = [];
+directiveGoToElement.$inject = ['$state'];
 /* @ngInject */
-function directiveGoToElement() {
+function directiveGoToElement($state) {
     var directive = {
         restrict:'A',
         scope : {
@@ -574,7 +574,7 @@ function directiveSelectOnClick($window) {
             element.on('click', function () {
                 if (!$window.getSelection().toString()) {
                     // Required for mobile Safari
-                    this.setSelectionRange(0, this.value.length)
+                    this.setSelectionRange(0, this.value.length);
                 }
             });
         }

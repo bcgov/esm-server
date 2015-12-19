@@ -84,7 +84,7 @@ function controllerPanelSort($scope, $filter) {
 		}
 		$scope.data = orderBy($scope.data, panelSort.field, false);
 	};
-};	
+}	
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Research Detail
@@ -112,9 +112,9 @@ function controllerModalResearchDetail($scope, Utils, $modalInstance) {
 // CONTROLLER: Roles Select
 //
 // -----------------------------------------------------------------------------------    
-controllerRolesSelect.$inject = ['$scope', 'Utils'];
+controllerRolesSelect.$inject = ['$scope', 'Utils', '_'];
 //
-function controllerRolesSelect($scope, Utils) {
+function controllerRolesSelect($scope, Utils, _) {
 	var utilRolesSelect = this;
 
 	$scope.$watch('selectedRoles', function(newValue) {
@@ -190,9 +190,9 @@ function controllerUsersSelect($scope, $modal) {
 // CONTROLLER: Roles Select
 //
 // -----------------------------------------------------------------------------------    
-controllerModalUsersSelect.$inject = ['$scope', 'rUsers', 'rProject', 'rConfig', '$modalInstance', 'Project', 'Utils'];
+controllerModalUsersSelect.$inject = ['$scope', 'rUsers', 'rProject', 'rConfig', '$modalInstance', 'Project', 'Utils', '_'];
 //
-function controllerModalUsersSelect($scope, rUsers, rProject, rConfig, $modalInstance, Project, Utils) {
+function controllerModalUsersSelect($scope, rUsers, rProject, rConfig, $modalInstance, Project, Utils, _) {
 	var utilUsers = this;
 
 	$scope._ = _;
@@ -268,9 +268,9 @@ function controllerModalUsersSelect($scope, rUsers, rProject, rConfig, $modalIns
 // provide Project and list of requirements, response is reqCheckList.reqs with a list of requirements completed
 //
 // -----------------------------------------------------------------------------------
-controllerRequirementCalculation.$inject = ['$scope'];
+controllerRequirementCalculation.$inject = ['$scope', '_'];
 //
-function controllerRequirementCalculation($scope) { 
+function controllerRequirementCalculation($scope, _) { 
 	var reqChecklist = this;
 	reqChecklist.reqs = [];
 
@@ -299,16 +299,16 @@ function controllerRequirementCalculation($scope) {
 
 	// search through the project requirements and see if the requirements passed in by the task have been met.
 
-};
+}
 
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Modal: Show a list of user records and allow them to be copied
 //
 // -----------------------------------------------------------------------------------
-controllerModalUserList.$inject = ['$modalInstance', 'rUsers'];
+controllerModalUserList.$inject = ['$modalInstance', 'rUsers', '_'];
 //
-function controllerModalUserList($modalInstance, rUsers) { 
+function controllerModalUserList($modalInstance, rUsers, _) { 
 	var utilUserList = this;
 
 	// put all the users into a string and display in a textarea
@@ -320,7 +320,7 @@ function controllerModalUserList($modalInstance, rUsers) {
 
 	utilUserList.ok = function () { $modalInstance.close(); };
 	utilUserList.cancel = function () { $modalInstance.dismiss('cancel'); };
-};
+}
 
 // -----------------------------------------------------------------------------------
 //
@@ -335,15 +335,15 @@ function controllerModalUserContactInfo($modalInstance, rUser) {
 	utilUserContactInfo.user = rUser;
 
 	utilUserContactInfo.cancel = function () { $modalInstance.dismiss('cancel'); };
-};
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Modal: View Select Items
 //
 // -----------------------------------------------------------------------------------
-controllerModalSelectItems.$inject = ['$modalInstance', 'rAllItems', 'rSelectedItems', 'rItemName', 'rSingle', 'rUnique'];
+controllerModalSelectItems.$inject = ['$modalInstance', 'rAllItems', 'rSelectedItems', 'rItemName', 'rSingle', 'rUnique', '_'];
 //
-function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, rItemName, rSingle, rUnique) { 
+function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, rItemName, rSingle, rUnique, _) { 
 	var selectItems = this;
 
 	// constrain selection to just one.  Directive needs to have x-single=true
@@ -398,7 +398,7 @@ function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, r
 		// saving so write the new data.
 		$modalInstance.close(selectItems.selectedItems);
 	};
-};	
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Modal: Add Anon Comment
@@ -422,4 +422,4 @@ function controllerModalDatePicker($modalInstance, rChosenDate) {
 
 	modalDatePick.ok = function () { $modalInstance.close(modalDatePick.chosenDate); };
 	modalDatePick.cancel = function () { $modalInstance.dismiss('cancel'); };
-};
+}

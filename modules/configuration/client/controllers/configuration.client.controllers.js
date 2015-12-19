@@ -45,9 +45,9 @@ function controllerConfiguration($rootScope, $scope, Configuration) {
 // Configure a stream
 //
 // -----------------------------------------------------------------------------------
-controllerConfigStream.$inject = ['$rootScope', '$scope', 'Configuration'];
+controllerConfigStream.$inject = ['$rootScope', '$scope', 'Configuration', '_'];
 /* @ngInject */
-function controllerConfigStream($rootScope, $scope, Configuration) {
+function controllerConfigStream($rootScope, $scope, Configuration, _) {
     var configStream = this;
     // load all configurations
     configStream.config = undefined;
@@ -127,7 +127,7 @@ function controllerConfigStream($rootScope, $scope, Configuration) {
             configStream.activeRecord.configureStream = true;
             reloadStreamPostSetup();
         });
-    };
+    }
 
 
     $scope.$watch('stream', function(newValue) {
@@ -151,7 +151,7 @@ function controllerConfigStream($rootScope, $scope, Configuration) {
                 });
             }
         });
-    }
+    };
 
     // add the new phases to the stream.
     configStream.addPhases = function(newItems) {
@@ -166,7 +166,7 @@ function controllerConfigStream($rootScope, $scope, Configuration) {
                 });
             }
         });
-    }
+    };
 
     // add the new milestones to the stream phases.
     configStream.milestonesToPhase = function(newItems) {
@@ -183,7 +183,6 @@ function controllerConfigStream($rootScope, $scope, Configuration) {
                 }
             });
         });
-
     };
 
     // add the new activities to the stream phase.
@@ -272,10 +271,10 @@ function controllerConfigStream($rootScope, $scope, Configuration) {
 // Config any element for user in the lookups
 //
 // -----------------------------------------------------------------------------------
-controllerConfigManageElement.$inject = ['$scope', 'Configuration', 'ProcessCodes', '$filter'];
+controllerConfigManageElement.$inject = ['$scope', 'Configuration', 'ProcessCodes', '$filter', '_'];
 
 /* @ngInject */
-function controllerConfigManageElement($scope, Configuration, ProcessCodes, $filter) {
+function controllerConfigManageElement($scope, Configuration, ProcessCodes, $filter, _) {
     var configDataElement = this;
 
     // for the task process code dropdown
@@ -361,7 +360,7 @@ function controllerConfigManageElement($scope, Configuration, ProcessCodes, $fil
     configDataElement.configureStream = function() {
         Configuration.getStream(configDataElement.activeRecord).then( function(res) {
             configDataElement.activeRecord = _.assign(res.data, configDataElement.activeRecord);
-            configDataElement.activeRecord.configureStream = true
+            configDataElement.activeRecord.configureStream = true;
             console.log('full stream to configure', configDataElement.activeRecord);
         });
     };

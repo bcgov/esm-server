@@ -26,7 +26,7 @@ function directiveProgressBar($compile) {
 				}
 			});
 		}
-	}
+	};
 	return directive;
 }
 // -----------------------------------------------------------------------------------
@@ -34,9 +34,9 @@ function directiveProgressBar($compile) {
 // DIRECTIVE: Progress Circle
 //
 // -----------------------------------------------------------------------------------
-directiveProgressCircle.$inject = ['d3Service', '$window'];
+directiveProgressCircle.$inject = ['d3Service', '$window', '_'];
 /* @ngInject */
-function directiveProgressCircle(d3Service, $window) {
+function directiveProgressCircle(d3Service, $window, _) {
     var directive = {
         restrict: 'E',
         replace: true,
@@ -157,7 +157,7 @@ function directiveProgressCircle(d3Service, $window) {
 							.attr("dy", "1.55em")
 							.text(scope.subtext);
 						}
-					}
+					};
 				// -----------------------------------------------------------------------------------
 				//
 				// D3: END PIE Code
@@ -190,6 +190,6 @@ function directiveProgressCircle(d3Service, $window) {
 			});
 
 		}
-	}
+	};
 	return directive;
 }

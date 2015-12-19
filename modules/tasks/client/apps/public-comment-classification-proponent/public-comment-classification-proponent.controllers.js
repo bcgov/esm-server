@@ -10,9 +10,9 @@ angular.module('tasks')
 // CONTROLLER: Task for Simple Complete
 //
 // -----------------------------------------------------------------------------------
-controllerTaskPublicCommentClassificationProponent.$inject = ['$scope', '$rootScope'];
+controllerTaskPublicCommentClassificationProponent.$inject = ['$scope', '$rootScope', '_'];
 	//
-function controllerTaskPublicCommentClassificationProponent($scope, $rootScope) {
+function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, _) {
 	var taskPubComClassProp = this;
 
 	// these hold the default list from the project.
@@ -149,9 +149,6 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope) 
 				taskPubComClassProp.data.comments = newValue.data.comments;
 				console.log('newvalue project', taskPubComClassProp.data.comments);
 			}
-			
-
-			
 		}
 	});
 
@@ -177,7 +174,7 @@ function filterClassifyComments($filter) {
     	} else {
     		return items;
     	}
-	}
+	};
 }
 // -----------------------------------------------------------------------------------
 //
@@ -193,7 +190,7 @@ function filterClassifyValueComponents($filter) {
     	} else {
     		return items;
     	}
-	}
+	};
 }
 // -----------------------------------------------------------------------------------
 //
@@ -209,5 +206,5 @@ function filterClassifyIssues($filter) {
     	} else {
     		return items;
     	}
-	}
+	};
 }

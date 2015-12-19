@@ -48,9 +48,9 @@ function controllerModalAlertViewer($modalInstance, rAlerts) {
 // CONTROLLER: Modal: View Alert Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalAlertNew.$inject = ['$scope', '$modalInstance', 'Alerts', '$location', 'rProject'];
+controllerModalAlertNew.$inject = ['$scope', '$modalInstance', 'Alerts', '$location', 'rProject', '_'];
 //
-function controllerModalAlertNew($scope, $modalInstance, Alerts, $location, rProject) { 
+function controllerModalAlertNew($scope, $modalInstance, Alerts, $location, rProject, _) { 
 	var alertNew = this;
 
 	alertNew.form = {newReminder:null};
@@ -64,37 +64,38 @@ function controllerModalAlertNew($scope, $modalInstance, Alerts, $location, rPro
 	$scope.pageLocation = $location.url();
 
 	alertNew.addReminder = function(newValue) {
+		var newReminderPrim = {};
 		if ( newValue ) {
 			// TODO: move these spec to the server.
 			// add a blank reminder record to the alert.
 			if (newValue === 'onTask') {
-				var newReminderPrim = {
+				newReminderPrim = {
 					"type": "onTask",
 					"task":{},
 					"status":"",
 					"accessRoles":[],
 					"accessUsers":[]
-				}
+				};
 				alertNew.alert.reminders.push(newReminderPrim);
 			} else if (newValue === 'onDate') { 
-				var newReminderPrim = {
+				newReminderPrim = {
 					"type": "onDate",
 					"duration":1,
 					"unit":"days",
 					"event":{},
 					"accessRoles":[],
 					"accessUsers":[]
-				}
+				};
 				alertNew.alert.reminders.push(newReminderPrim);
 			} else if (newValue === 'before') { 
-				var newReminderPrim = {
+				newReminderPrim = {
 					"type": "before",
 					"duration":1,
 					"unit":"days",
 					"event":{},
 					"accessRoles":[],
 					"accessUsers":[]
-				}
+				};
 				alertNew.alert.reminders.push(newReminderPrim);
 			}
 		}

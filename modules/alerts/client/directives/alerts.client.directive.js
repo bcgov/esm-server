@@ -70,7 +70,7 @@ function directiveModalAlertViewer($modal, Alerts) {
 						controllerAs: 'alertView',
 						size: 'md',
 						resolve: {
-							rAlert: function() {return res.data}
+							rAlert: function() {return res.data; }
 						}
 					});
 					modalAlertView.result.then(function () {}, function () {});
@@ -102,7 +102,7 @@ function directiveModalAlertNew($modal) {
 					controllerAs: 'alertNew',
 					size: 'md',
 					resolve: {
-						rProject: function() { return scope.project }
+						rProject: function() { return scope.project; }
 					}
 				});
 				modalAlertNew.result.then(function () {}, function () {});

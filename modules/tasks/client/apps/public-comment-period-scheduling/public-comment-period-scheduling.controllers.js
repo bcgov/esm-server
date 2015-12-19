@@ -8,9 +8,9 @@ angular.module('tasks')
 // CONTROLLER: Task for Simple Complete
 //
 // -----------------------------------------------------------------------------------
-controllerTaskPublicCommentPeriodScheduling.$inject = ['$scope', '$rootScope', 'moment', 'Project'];
+controllerTaskPublicCommentPeriodScheduling.$inject = ['$scope', '$rootScope', 'moment', 'Project', '_'];
 	//
-function controllerTaskPublicCommentPeriodScheduling($scope, $rootScope, moment, Project) {
+function controllerTaskPublicCommentPeriodScheduling($scope, $rootScope, moment, Project, _) {
 	var taskPubComSched = this;
 
 	taskPubComSched.data = {
@@ -53,41 +53,43 @@ function controllerTaskPublicCommentPeriodScheduling($scope, $rootScope, moment,
 		taskPubComSched.data.scopeTopics.push({ text:taskPubComSched.data.newScopeTopic, edit:false });
 		taskPubComSched.data.newScopeTopic = "";
 		taskPubComSched.data.showScopeTopicAddButton = true;
-	}
+	};
 
 	taskPubComSched.editScopeTopicsRow = function(index) {
 		taskPubComSched.data.scopeTopics[index].newText = taskPubComSched.data.scopeTopics[index].text;
 		taskPubComSched.data.scopeTopics[index].edit=true;
-	}
+	};
 
 	taskPubComSched.editScopeTopicsRowOkay = function(index) {
 		taskPubComSched.data.scopeTopics[index].text = taskPubComSched.data.scopeTopics[index].newText;
 		taskPubComSched.data.scopeTopics[index].newText = '';
 		taskPubComSched.data.scopeTopics[index].edit=false;
-	}
+	};
 
 	taskPubComSched.editScopeTopicsRowCancel = function(index) {
 		taskPubComSched.data.scopeTopics[index].newText = '';
 		taskPubComSched.data.scopeTopics[index].edit=false;
-	}
+	};
 
 	taskPubComSched.deleteScopeTopicsRow = function(item) {
 		_.remove(taskPubComSched.data.scopeTopics, function(obj) {
 			return obj._id === item._id;
 		});
-	}
+	};
 
 	taskPubComSched.deleteScopeTopicsRowConfirm = function(index) {
 		taskPubComSched.data.scopeTopics.splice(index,1);
-	}
+	};
+
 	taskPubComSched.deleteScopeTopicsRowCancel = function(index) {
 		taskPubComSched.data.scopeTopics[index].delete = false;
-	}
+	};
+	
 	taskPubComSched.deleteOpenHouse = function(oh) {
 		_.remove(taskPubComSched.data.openHouses, function(item) {
 			return item.dateScheduled === oh.dateScheduled;
 		});
-	}
+	};
 
 	// get the task identifier.  (ID + Task Type)
 	$scope.$watch('anchor', function(newValue) {

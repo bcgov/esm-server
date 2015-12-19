@@ -8,9 +8,9 @@ angular.module('tasks')
 // CONTROLLER: Task for Simple Complete
 //
 // -----------------------------------------------------------------------------------
-controllerTaskPublicCommentVetting.$inject = ['$scope', '$rootScope', '$sce'];
+controllerTaskPublicCommentVetting.$inject = ['$scope', '$rootScope', '$sce', '_'];
 	//
-function controllerTaskPublicCommentVetting($scope, $rootScope, $sce) {
+function controllerTaskPublicCommentVetting($scope, $rootScope, $sce, _) {
 	var taskPubComVet = this;
 
 	taskPubComVet.data = {comments:[]};
@@ -115,6 +115,6 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, $sce) {
 		console.log('complete', taskPubComVet.item);
 		taskPubComVet.item.value = 'Complete';
 		$rootScope.$broadcast('resolveItem', {itemId: taskPubComVet.itemId});
-	}
+	};
 
 }

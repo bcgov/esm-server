@@ -112,12 +112,11 @@ function directiveModalDocumentBuckets($modal) {
                     controllerAs: 'docBuckets',
                     size: 'md',
                     resolve: {
-                        rDoc: function() { return scope.doc },
-                        rProject: function() { return scope.project }
+                        rDoc: function() { return scope.doc; },
+                        rProject: function() { return scope.project; }
                     }
                 });
                 modalDocBuckets.result.then(function (data) {
-                    console.log('data', data)
                     scope.doc = data;
                 }, function () {});
             });

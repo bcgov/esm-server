@@ -41,8 +41,9 @@ a:hover .header-profile-image {
 
 
 
-/* Move down content because we have a fixed navbar that is 50px tall */ body {
-    padding-top: 0px;
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+    padding-top: 0;
 }
 body {
 	background-color: transparent;
@@ -119,7 +120,7 @@ th > .progress {
 }
 
 button:focus, a:focus {
-	outline:0 !important;
+	outline: 0 !important;
 }
 
 .project-info-panel .location-map {
@@ -290,8 +291,6 @@ th .progress-bar {
 .panel-project-summary h3 {
 	margin-top: 2px;
 }
-.panel-project-summary .form-control-static {
-}
 
 .countdown-wrapper ul {
 	margin: 0;
@@ -384,7 +383,6 @@ nav {
 .comment-box:first-child {
 	border-top: none;
 }
-
 
 .navbar-custom {
     background-color: #ffffff;
@@ -491,7 +489,7 @@ nav {
 }
 .task-list li button.btn-layer {
 	white-space: normal;
-	}
+}
 
 
 .no-lower-padding {
@@ -601,7 +599,7 @@ nav {
 
 .document-vetting li {
     border-top: 1px solid #ddd;
-    padding: 2px 0px;
+    padding: 2px 0;
 }
 
 .vc-task-arrows {

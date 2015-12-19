@@ -17,7 +17,7 @@ function controllerMap($scope) {
 	
 	$scope.$watch('layers', function (newValue) {
 		if (newValue) {
-			mpl.layers[newValue.name] = newValue.layers
+			mpl.layers[newValue.name] = newValue.layers;
 		}
 	});
 }

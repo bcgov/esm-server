@@ -11,9 +11,9 @@ angular.module('documents')
 // CONTROLLER: Document Upload General
 //
 // -----------------------------------------------------------------------------------
-controllerDocumentUploadGlobal.$inject = ['$scope', 'Upload', '$timeout', 'API', 'Document'];
+controllerDocumentUploadGlobal.$inject = ['$scope', 'Upload', '$timeout', 'Document', '_'];
 /* @ngInject */
-function controllerDocumentUploadGlobal($scope, Upload, $timeout, API, Document) {
+function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 	var docUpload = this;
 
 	docUpload.fileList = [];
@@ -50,10 +50,10 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, API, Document)
 	docUpload.upload = function () {
 		if (docUpload.fileList && docUpload.fileList.length) {
 			for (var i = 0; i < docUpload.fileList.length; i++) {
-				var file = files[i];
+				var file = $scope.files[i];
 				if (!file.$error) {
 					Upload.upload({
-						url: API,
+						url: '', // todo: UPLOAD
 						fields: {
 							//	'username': $scope.username
 						},
