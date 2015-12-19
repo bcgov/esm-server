@@ -7,74 +7,74 @@ angular.module('configuration')
 // Service: Configuration Services
 //
 // -----------------------------------------------------------------------------------
-serviceConfiguration.$inject = ['$http', 'SERVERAPI'];
+serviceConfiguration.$inject = ['$http'];
 /* @ngInject */
-function serviceConfiguration($http, SERVERAPI) {
+function serviceConfiguration($http) {
 
     // Generalized config items.
     // the context defines the url.
     var getConfig = function() {
-        return $http({method:'GET',url: SERVERAPI + '/sys/configs'});
+        return $http({method:'GET',url: '/api/sys/configs'});
     };
 
     var getStreams = function() {
-        return $http({method:'GET',url: SERVERAPI + '/stream'});
+        return $http({method:'GET',url: '/api/stream'});
     };
 
     var getStream = function(req) {
-        return $http({method:'GET',url: SERVERAPI + '/stream/' + req._id});
+        return $http({method:'GET',url: '/api/stream/' + req._id});
     };
 
 
     var getBaseConfigItem = function(context) {
-        return $http({method:'GET',url: SERVERAPI + '/base/' + context});
+        return $http({method:'GET',url: '/api/base/' + context});
     };
 
 
     var getConfigItem = function(context) {
-        return $http({method:'GET',url: SERVERAPI + '/' + context});
+        return $http({method:'GET',url: '/api/' + context});
     };
     var newConfigItem = function(context) {
-        return $http({method:'GET',url: SERVERAPI + '/new/' + context});
+        return $http({method:'GET',url: '/api/new/' + context});
     };
     var addConfigItem = function(req, context) {
-        return $http({method:'POST',url: SERVERAPI + '/' + context, data: req});
+        return $http({method:'POST',url: '/api/' + context, data: req});
     };
     var saveConfigItem = function(req, context) {
-        return $http({method:'PUT',url: SERVERAPI + '/' + context + '/' + req._id, data: req});
+        return $http({method:'PUT',url: '/api/' + context + '/' + req._id, data: req});
     };
 
 
     var addBucketToStream = function(streamId, bucketId) {
-        return $http({method:'PUT',url: SERVERAPI + '/stream/' + streamId + '/add/bucket/' + bucketId});
+        return $http({method:'PUT',url: '/api/stream/' + streamId + '/add/bucket/' + bucketId});
     };
 
     var addPhaseToStream = function(streamId, phaseId) {
-        return $http({method:'PUT',url: SERVERAPI + '/stream/' + streamId + '/add/phase/' + phaseId});
+        return $http({method:'PUT',url: '/api/stream/' + streamId + '/add/phase/' + phaseId});
     };
 
     var addMilestoneToPhase = function(phaseId, milestoneId) {
-        return $http({method:'PUT',url: SERVERAPI + '/stream/phase/' + phaseId + '/add/milestone/' + milestoneId});
+        return $http({method:'PUT',url: '/api/stream/phase/' + phaseId + '/add/milestone/' + milestoneId});
     };
 
     var addActivityToPhase = function(phaseId, activityId) {
-        return $http({method:'PUT',url: SERVERAPI + '/stream/phase/' + phaseId + '/add/activity/' + activityId});
+        return $http({method:'PUT',url: '/api/stream/phase/' + phaseId + '/add/activity/' + activityId});
     };
 
     var addTaskToActivity = function(activityId, taskId) {
-        return $http({method:'PUT',url: SERVERAPI + '/stream/activity/' + activityId + '/add/task/' + taskId});
+        return $http({method:'PUT',url: '/api/stream/activity/' + activityId + '/add/task/' + taskId});
     };
 
     var addRequirementToTask = function(taskId, requirementId) {
-        return $http({method:'PUT',url: SERVERAPI + '/stream/task/' + taskId + '/add/requirement/' + requirementId});
+        return $http({method:'PUT',url: '/api/stream/task/' + taskId + '/add/requirement/' + requirementId});
     };
 
     var addRequirementToMilestone = function(milestoneId, requirementId) {
-        return $http({method:'PUT',url: SERVERAPI + '/stream/milestone/' + milestoneId + '/add/stream/requirement/' + requirementId});
+        return $http({method:'PUT',url: '/api/stream/milestone/' + milestoneId + '/add/stream/requirement/' + requirementId});
     };
 
     var addRequirementToBucket= function(bucketId, requirementId) {
-        return $http({method:'PUT',url: SERVERAPI + '/stream/bucket/' + bucketId + '/add/stream/requirement/' + requirementId});
+        return $http({method:'PUT',url: '/api/stream/bucket/' + bucketId + '/add/stream/requirement/' + requirementId});
     };
 
 

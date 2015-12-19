@@ -1,65 +1,75 @@
 'use strict';
 
-angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication',
-  function ($scope, $state, $http, $location, $window, Authentication) {
-    $scope.authentication = Authentication;
+angular.module('users')
+  .controller('controllerAuthentication', controllerAuthentication);
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Authentication
+//
+// -----------------------------------------------------------------------------------
+controllerAuthentication.$inject = ['$scope', '$state', '$http', '$location', '$window', 'Authentication'];
+//
+function controllerAuthentication($scope, $state, $http, $location, $window, Authentication) {
+  var loginPanel = this;
 
-    // Get an eventual error defined in the URL query string:
-    $scope.error = $location.search().err;
+  loginPanel.authentication = Authentication;
 
-    // If user is signed in then redirect back home
-    if ($scope.authentication.user) {
-      $location.path('/');
+  // Get an eventual error defined in the URL query string:
+  loginPanel.error = $location.search().err;
+
+  // If user is signed in then redirect back home
+  if (loginPanel.authentication.user) {
+    $location.path('/');
+  }
+
+  loginPanel.signup = function (isValid) {
+    loginPanel.error = null;
+
+    if (!isValid) {
+      $scope.$broadcast('show-errors-check-validity', 'userForm');
+
+      return false;
     }
 
-    $scope.signup = function (isValid) {
-      $scope.error = null;
+    $http.post('/api/auth/signup', loginPanel.credentials).success(function (response) {
+      // If successful we assign the response to the global user model
+      loginPanel.authentication.user = response;
 
-      if (!isValid) {
-        $scope.$broadcast('show-errors-check-validity', 'userForm');
+      // And redirect to the previous or home page
+      $state.go($state.previous.state.name || 'home', $state.previous.params);
+    }).error(function (response) {
+      loginPanel.error = response.message;
+    });
+  };
 
-        return false;
-      }
+  loginPanel.signin = function (isValid) {
+    loginPanel.error = null;
 
-      $http.post('/api/auth/signup', $scope.credentials).success(function (response) {
-        // If successful we assign the response to the global user model
-        $scope.authentication.user = response;
+    if (!isValid) {
+      $scope.$broadcast('show-errors-check-validity', 'userForm');
 
-        // And redirect to the previous or home page
-        $state.go($state.previous.state.name || 'home', $state.previous.params);
-      }).error(function (response) {
-        $scope.error = response.message;
-      });
-    };
+      return false;
+    }
 
-    $scope.signin = function (isValid) {
-      $scope.error = null;
+    $http.post('/api/auth/signin', loginPanel.credentials).success(function (response) {
+      // If successful we assign the response to the global user model
+      loginPanel.authentication.user = response;
 
-      if (!isValid) {
-        $scope.$broadcast('show-errors-check-validity', 'userForm');
+      // And redirect to the previous or home page
+      $state.go($state.previous.state.name || 'home', $state.previous.params);
+    }).error(function (response) {
+      loginPanel.error = response.message;
+    });
+  };
 
-        return false;
-      }
+  // OAuth provider request
+  // loginPanel.callOauthProvider = function (url) {
+  //   if ($state.previous && $state.previous.href) {
+  //     url += '?redirect_to=' + encodeURIComponent($state.previous.href);
+  //   }
 
-      $http.post('/api/auth/signin', $scope.credentials).success(function (response) {
-        // If successful we assign the response to the global user model
-        $scope.authentication.user = response;
+  //   // Effectively call OAuth authentication route:
+  //   $window.location.href = url;
+  // };
+}
 
-        // And redirect to the previous or home page
-        $state.go($state.previous.state.name || 'home', $state.previous.params);
-      }).error(function (response) {
-        $scope.error = response.message;
-      });
-    };
-
-    // OAuth provider request
-    $scope.callOauthProvider = function (url) {
-      if ($state.previous && $state.previous.href) {
-        url += '?redirect_to=' + encodeURIComponent($state.previous.href);
-      }
-
-      // Effectively call OAuth authentication route:
-      $window.location.href = url;
-    };
-  }
-]);

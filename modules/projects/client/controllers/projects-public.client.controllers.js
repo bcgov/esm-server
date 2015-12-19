@@ -8,9 +8,9 @@ angular.module('projects')
 // CONTROLLER: Public Projects Main
 //
 // -----------------------------------------------------------------------------------
-controllerPublicProjects.$inject = ['logger', '$state', 'Projects'];
+controllerPublicProjects.$inject = ['$state', 'Projects'];
 /* @ngInject */
-function controllerPublicProjects(logger, $state, Projects) {
+function controllerPublicProjects($state, Projects) {
 	var vm = this;
 
 	vm.types = Projects.getProjectTypes();

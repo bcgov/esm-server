@@ -7,15 +7,15 @@ angular.module('tasks')
 // DIRECTIVE: Public Projects Main
 //
 // -----------------------------------------------------------------------------------
-serviceTasks.$inject = ['$http', 'SERVERAPI'];
+serviceTasks.$inject = ['$http'];
 /* @ngInject */
-function serviceTasks($http, SERVERAPI) {
+function serviceTasks($http) {
 	// var getTaskData = function(req) {
-	// 	return $http({method:'GET',url: SERVERAPI + '/v1/task/' + req.code + '/' + req.id});
+	// 	return $http({method:'GET',url + '/v1/task/' + req.code + '/' + req.id});
 	// };
 
 	var updateTask = function(req) {
-		return $http({method:'PUT',url: SERVERAPI + '/task/' + req._id, data: req});
+		return $http({method:'PUT',url: 'api/task/' + req._id, data: req});
 	};
 
 	return {

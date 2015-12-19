@@ -11,9 +11,9 @@ angular.module('activity')
 // CONTROLLER: Activity List
 //
 // -----------------------------------------------------------------------------------
-controllerActivityList.$inject = ['$scope', 'logger', '$modal', 'Activity', '$stateParams'];
+controllerActivityList.$inject = ['$scope', '$modal', 'Activity', '$stateParams'];
 //
-function controllerActivityList($scope, logger, $modal, Activity, $stateParams) {
+function controllerActivityList($scope, $modal, Activity, $stateParams) {
 	var actList = this;
 
 	actList.panelSort = [
@@ -94,9 +94,9 @@ function controllerActivityItem($scope, $state, Global) {
 // CONTROLLER: Activity Proponent
 //
 // -----------------------------------------------------------------------------------
-//    controllerActivityProponent.$inject = ['$scope', 'logger', '$modal', 'Activity', 'Project', '$stateParams'];
+//    controllerActivityProponent.$inject = ['$scope', '$modal', 'Activity', 'Project', '$stateParams'];
 // //
-// function controllerActivityProponent($scope, logger, $modal, Activity, Project, $stateParams) {
+// function controllerActivityProponent($scope, $modal, Activity, Project, $stateParams) {
 // 	var ap = this;
 // 	//
 // 	// Get Activity

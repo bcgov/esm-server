@@ -1,34 +1,49 @@
-<div ng-controller="AuthenticationController">
-  <h3 class="col-md-12 text-center">Or with your account</h3>
-  <div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
-    <form name="userForm" ng-submit="signin(userForm.$valid)" class="signin" novalidate autocomplete="off">
-      <fieldset>
-        <div class="form-group" show-errors>
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" class="form-control" ng-model="credentials.username" placeholder="Username" lowercase required>
-          <div ng-messages="userForm.username.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Username is required.</p>
-          </div>
+<div class="col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4">
+  <div class="panel panel-default" x-center-vertical>
+
+
+    <div class="panel-heading">
+      <h3 class="panel-title">Login</h3>
+    </div>
+
+
+    <div class="panel-body">
+      <div class="alert alert-danger animated fadeIn text-center" ng-show="loginPanel.error">{{loginPanel.error}}</div>
+
+      <form class="signin" ng-submit="loginPanel.signin(userForm.$valid)" class="signin" novalidate autocomplete="off">
+
+
+        <div class="form-group">
+            <label for="username" class="control-label">Username</label>
+            <input required id="username" type="text" name="username" placeholder="Username" class="form-control" ng-model="loginPanel.credentials.username"/>
+            <div ng-messages="userForm.username.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Username is required.</p>
+           </div>
         </div>
-        <div class="form-group" show-errors>
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" class="form-control" ng-model="credentials.password" placeholder="Password" required>
+
+        <div class="form-group">
+          <label for="password" class="control-label">Password</label>
+          <input required id="password" type="password" name="password" placeholder="Password" class="form-control" ng-model="loginPanel.credentials.password"/>
           <div ng-messages="userForm.password.$error" role="alert">
             <p class="help-block error-text" ng-message="required">Password is required.</p>
           </div>
         </div>
-        <div class="text-center form-group">
-          <button type="submit" class="btn btn-primary">Sign in</button>
-          &nbsp; or&nbsp;
-          <a ui-sref="authentication.signup">Sign up</a>
+        
+        <div class="form-group text-center">
+          <button type="submit" class="btn btn-default">Sign in</button>
         </div>
-        <div class="text-center forgot-password">
-          <a ui-sref="password.forgot">Forgot your password?</a>
+    
+        <div class="form-group text-center">
+          <a ui-sref="password.forgot" class="btn btn-default btn-xs">Forgot your password?</a>
         </div>
-        <alert type="danger" ng-show="error" class="text-center text-danger">
-          <span ng-bind="error"></span>
-        </alert>
-      </fieldset>
-    </form>
-  </div>
+
+
+      </form>
+
+    </div> <!-- /panel-body -->
+  </div> <!-- /panel -->
 </div>
+
+
+
+

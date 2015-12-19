@@ -7,12 +7,12 @@ angular.module('activity')
 // DIRECTIVE: Public Projects Main
 //
 // -----------------------------------------------------------------------------------
-serviceActivity.$inject = ['$http', 'SERVERAPI'];
+serviceActivity.$inject = ['$http'];
 /* @ngInject */
-function serviceActivity($http, SERVERAPI) {
+function serviceActivity($http) {
 
 	var getProjectActivity = function(req) {
-		return $http({method:'GET',url: SERVERAPI + '/activity/' + req.id});
+		return $http({method:'GET',url: '/api/activity/' + req.id});
 	};
 
 	return {

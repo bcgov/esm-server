@@ -1,5 +1,29 @@
+/* -----------------------------------------------------------------------------
+ * variables
+ * -------------------------------------------------------------------------- */
+
+/* ----- Colors ----- */
+$header-blue:					#141a41;
+$navbar-blue:					#154681;
+$color-sample2:                 #AAAAAA;
+$brand-primary:					#337ab7;
+$brand-success:					#5cb85c;
+$brand-info:					#5bc0de;
+$brand-warning:					#f0ad4e;
+$brand-danger:					#d9534f;
+
+// -------------------------
+// Bootstrap Overrides
+// -------------------------
+
+/* ----- Typography ----- */
+$font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+
+
+
+
 .content {
-  margin-top: 50px;
+  margin-top: 80px;
 }
 .undecorated-link:hover {
   text-decoration: none;

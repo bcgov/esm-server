@@ -11,6 +11,7 @@ var _ = require('lodash'),
 
 module.exports = function (grunt) {
   // Project Configuration
+  
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     env: {
@@ -142,7 +143,7 @@ module.exports = function (grunt) {
           rename: function (base, src) {
             return src.replace('/scss/', '/css/');
           }
-				}]
+ 		}]
       }
     },
     less: {
@@ -231,6 +232,7 @@ module.exports = function (grunt) {
 
   // Load NPM tasks
   require('load-grunt-tasks')(grunt);
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
   // Make sure upload directory exists
   grunt.task.registerTask('mkdir:upload', 'Task that makes sure upload directory exists.', function () {

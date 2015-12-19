@@ -7,17 +7,17 @@ angular.module('projects')
 // DIRECTIVE: Public Projects Main
 //
 // -----------------------------------------------------------------------------------
-serviceProjects.$inject = ['$http', 'API', 'SERVERAPI'];
+serviceProjects.$inject = ['$http'];
 /* @ngInject */
-function serviceProjects($http, API, SERVERAPI) {
+function serviceProjects($http) {
 	var getProjects = function(req) {
-		return $http({method:'GET',url: SERVERAPI + '/project'});
+		return $http({method:'GET',url: '/api/project'});
 	};
 	var getProjectTypes = function(req) {
-		return $http({method:'GET',url: API + '/v1/projectTypes'});
+		return $http({method:'GET',url: '/api/projectTypes'});
 	};
 	var getProjectMilestones = function(req) {
-		return $http({method:'GET',url: API + '/v1/projectMilestones'});
+		return $http({method:'GET',url: '/api/projectMilestones'});
 	};
 	return {
 		getProjects: getProjects,

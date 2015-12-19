@@ -5,9 +5,9 @@ angular
 		.service('User', serviceUser);
 
 // ----- directiveFunction -----
-serviceUser.$inject = ['$http', 'SERVERAPI'];
+serviceUser.$inject = ['$http'];
 /* @ngInject */
-function serviceUser($http, SERVERAPI) {
+function serviceUser($http) {
 	// var getUser = function(req) {
 	// 	return $http({method:'GET',url: API + '/v1/user/' + req.id});
 	// };

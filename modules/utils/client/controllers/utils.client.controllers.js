@@ -19,9 +19,9 @@ angular.module('utils')
 // CONTROLLER: Quick Links
 //
 // -----------------------------------------------------------------------------------
-controllerQuickLinks.$inject = ['logger', 'Utils'];
+controllerQuickLinks.$inject = ['Utils'];
 /* @ngInject */
-function controllerQuickLinks(logger, Utils) {
+function controllerQuickLinks(Utils) {
 	var qlPanel = this;
 	//
 	Utils.getQuickLinks().then( function(res) {
@@ -33,9 +33,9 @@ function controllerQuickLinks(logger, Utils) {
 // CONTROLLER: Projects Recent News
 //
 // -----------------------------------------------------------------------------------
-controllerRecentActivity.$inject = ['logger', 'Utils'];
+controllerRecentActivity.$inject = ['Utils'];
 /* @ngInject */
-function controllerRecentActivity(logger, Utils) {
+function controllerRecentActivity(Utils) {
 	var raPanel = this;
 	//
 	Utils.getRecentActivity().then( function(res) {

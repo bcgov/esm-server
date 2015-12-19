@@ -7,29 +7,29 @@ angular.module('project')
 // DIRECTIVE: Public Projects Main
 //
 // -----------------------------------------------------------------------------------
-serviceProject.$inject = ['$http', 'SERVERAPI'];
+serviceProject.$inject = ['$http'];
 /* @ngInject */
-function serviceProject($http, SERVERAPI) {
-
+function serviceProject($http) {
+	
 	var getNewProject = function(req) {
-		return $http({method:'GET',url: SERVERAPI + '/new/project/'});
+		return $http({method:'GET',url: '/api/new/project/'});
 	};
 
 	var getProject = function(req) {
-		return $http({method:'GET',url: SERVERAPI + '/project/' + req.id});
+		return $http({method:'GET',url: '/api/project/' + req.id});
 	};
 
 	var addProject = function(req) {
-		return $http({method:'POST',url: SERVERAPI + '/project', data: req});
+		return $http({method:'POST',url: '/api/project', data: req});
 	};
 
 	var saveProject = function(req) {
-		return $http({method:'PUT',url: SERVERAPI + '/project/' + req._id, data: req});
+		return $http({method:'PUT',url: '/api/project/' + req._id, data: req});
 	};
 
 
 	var setProjectStream = function(projectId, streamId) {
-		return $http({method:'PUT',url: SERVERAPI + '/project/' + projectId + '/set/stream/' + streamId});
+		return $http({method:'PUT',url: '/api/project/' + projectId + '/set/stream/' + streamId});
 	};
 
 	var getProjectTypes = function() {
@@ -106,93 +106,93 @@ function serviceProject($http, SERVERAPI) {
 	};
 
 	var updateMilestone = function(req) {
-		return $http({method:'PUT',url: SERVERAPI + '/milestone/' + req._id, data: req});
+		return $http({method:'PUT',url: '/api/milestone/' + req._id, data: req});
 	};
 
 
 	// Add elements to projects
 
 	var addBucketToProject = function(projectId, bucketId) {
-		return $http({method:'PUT',url: SERVERAPI + '/project/' + projectId + '/add/bucket/' + bucketId});
+		return $http({method:'PUT',url: '/api/project/' + projectId + '/add/bucket/' + bucketId});
 	};
 
 	var addPhaseToProject = function(projectId, phaseId) {
-		return $http({method:'PUT',url: SERVERAPI + '/project/' + projectId + '/add/phase/' + phaseId});
+		return $http({method:'PUT',url: '/api/project/' + projectId + '/add/phase/' + phaseId});
 	};
 
 	var addMilestoneToPhase = function(phaseId, milestoneId) {
-		return $http({method:'PUT',url: SERVERAPI + '/project/phase/' + phaseId + '/add/milestone/' + milestoneId});
+		return $http({method:'PUT',url: '/api/project/phase/' + phaseId + '/add/milestone/' + milestoneId});
 	};
 
 	var addActivityToPhase = function(phaseId, activityId) {
-		return $http({method:'PUT',url: SERVERAPI + '/project/phase/' + phaseId + '/add/activity/' + activityId});
+		return $http({method:'PUT',url: '/api/project/phase/' + phaseId + '/add/activity/' + activityId});
 	};
 
 	var addTaskToActivity = function(activityId, taskId) {
-		return $http({method:'PUT',url: SERVERAPI + '/project/activity/' + activityId + '/add/task/' + taskId});
+		return $http({method:'PUT',url: '/api/project/activity/' + activityId + '/add/task/' + taskId});
 	};
 
 	var addRequirementToTask = function(taskId, requirementId) {
-		return $http({method:'PUT',url: SERVERAPI + '/project/task/' + taskId + '/add/requirement/' + requirementId});
+		return $http({method:'PUT',url: '/api/project/task/' + taskId + '/add/requirement/' + requirementId});
 	};
 
 	var addRequirementToMilestone = function(milestoneId, requirementId) {
-		return $http({method:'PUT',url: SERVERAPI + '/project/milestone/' + milestoneId + '/add/project/requirement/' + requirementId});
+		return $http({method:'PUT',url: '/api/project/milestone/' + milestoneId + '/add/project/requirement/' + requirementId});
 	};
 
 	var addRequirementToBucket = function(bucketId, requirementId) {
-		return $http({method:'PUT',url: SERVERAPI + '/project/bucket/' + bucketId + '/add/project/requirement/' + requirementId});
+		return $http({method:'PUT',url: '/api/project/bucket/' + bucketId + '/add/project/requirement/' + requirementId});
 	};
 
 
 	// get comment blank with defaults
 	var getNewPublicComment = function() {
-		return $http({method:'GET',url: SERVERAPI + '/new/publiccomment'});
+		return $http({method:'GET',url: '/api/new/publiccomment'});
 	};
 
 	// post new comment
 	var addPublicComment = function(req) {
-		return $http({method:'POST',url: SERVERAPI + '/publiccomment', data: req});
+		return $http({method:'POST',url: '/api/publiccomment', data: req});
 	};
 
 	
 	var getPublicCommentsPublished = function(projectId) {
-		return $http({method:'GET',url: SERVERAPI + '/publiccomment/project/' + projectId + '/published'});
+		return $http({method:'GET',url: '/api/publiccomment/project/' + projectId + '/published'});
 	};
 
 	var getPublicCommentsUnpublished = function(projectId) {
-		return $http({method:'GET',url: SERVERAPI + '/publiccomment/project/' + projectId + '/unpublished'});
+		return $http({method:'GET',url: '/api/publiccomment/project/' + projectId + '/unpublished'});
 	};
 
 	var getPublicCommentsUnpublishedLimit = function(projectId, limit, offset) {
-		return $http({method:'GET',url: SERVERAPI + '/publiccomment/project/' + projectId + '/unpublished/limit/' + limit + '/offset/' + offset});
+		return $http({method:'GET',url: '/api/publiccomment/project/' + projectId + '/unpublished/limit/' + limit + '/offset/' + offset});
 	};
 
 
 	var updatePublicCommentEAOPublish = function(req) {
-		return $http({method:'PUT',url: SERVERAPI + '/publiccomment/' + req._id + '/eao/publish'});
+		return $http({method:'PUT',url: '/api/publiccomment/' + req._id + '/eao/publish'});
 	};
 
 	var updatePublicCommentEAODefer = function(req) {
-		return $http({method:'PUT',url: SERVERAPI + '/publiccomment/' + req._id + '/eao/defer'});
+		return $http({method:'PUT',url: '/api/publiccomment/' + req._id + '/eao/defer'});
 	};
 
 	var updatePublicCommentEAOReject = function(req) {
-		return $http({method:'PUT',url: SERVERAPI + '/publiccomment/' + req._id + '/eao/reject'});
+		return $http({method:'PUT',url: '/api/publiccomment/' + req._id + '/eao/reject'});
 	};
 
 
 
 	var updatePublicCommentDocumentEAOPublish = function(req) {
-		return $http({method:'PUT',url: SERVERAPI + '/publiccommentdocument/' + req._id + '/eao/publish'});
+		return $http({method:'PUT',url: '/api/publiccommentdocument/' + req._id + '/eao/publish'});
 	};
 
 	var updatePublicCommentDocumentEAODefer = function(req) {
-		return $http({method:'PUT',url: SERVERAPI + '/publiccommentdocument/' + req._id + '/eao/defer'});
+		return $http({method:'PUT',url: '/api/publiccommentdocument/' + req._id + '/eao/defer'});
 	};
 
 	var updatePublicCommentDocumentEAOReject = function(req) {
-		return $http({method:'PUT',url: SERVERAPI + '/publiccommentdocument/' + req._id + '/eao/reject'});
+		return $http({method:'PUT',url: '/api/publiccommentdocument/' + req._id + '/eao/reject'});
 	};
 
 
@@ -201,19 +201,19 @@ function serviceProject($http, SERVERAPI) {
 
 
 	var getPublicCommentVettingStart = function(req) {
-		return $http({method:'GET',url: SERVERAPI + '/publiccomment/project/' + req._id + '/vett/start'});
+		return $http({method:'GET',url: '/api/publiccomment/project/' + req._id + '/vett/start'});
 	};
 
 	var getPublicCommentVettingClaim = function(req) {
-		return $http({method:'GET',url: SERVERAPI + '/publiccomment/project/' + req._id + '/vett/claim'});
+		return $http({method:'GET',url: '/api/publiccomment/project/' + req._id + '/vett/claim'});
 	};
 
 	var getPublicCommentClassifyStart = function(req) {
-		return $http({method:'GET',url: SERVERAPI + '/publiccomment/project/' + req._id + '/classify/start'});
+		return $http({method:'GET',url: '/api/publiccomment/project/' + req._id + '/classify/start'});
 	};
 	
 	var getPublicCommentClassifyClaim = function(req) {
-		return $http({method:'GET',url: SERVERAPI + '/publiccomment/project/' + req._id + '/classify/claim'});
+		return $http({method:'GET',url: '/api/publiccomment/project/' + req._id + '/classify/claim'});
 	};
 
 

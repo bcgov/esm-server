@@ -7,23 +7,23 @@ angular.module('alerts')
 // DIRECTIVE: Public Projects Main
 //
 // -----------------------------------------------------------------------------------
-serviceAlerts.$inject = ['$http', 'SERVERAPI'];
+serviceAlerts.$inject = ['$http'];
 /* @ngInject */
-function serviceAlerts($http, SERVERAPI) {
+function serviceAlerts($http) { 
 
 	// get all ids by user
 	var getAlerts = function(req) {
-		return $http({method:'GET',url: SERVERAPI + '/user/alert'});
+		return $http({method:'GET',url: '/api/user/alert'});
 	};
 
 	// get single alert by id
 	var getAlert = function(req) {
-		return $http({method:'GET',url: SERVERAPI + '/alert/' + req._id});
+		return $http({method:'GET',url: '/api/alert/' + req._id});
 	};
 
 	// get blank object
 	var getNew = function(req) {
-		return $http({method:'GET',url: SERVERAPI + '/new/alert'});		
+		return $http({method:'GET',url: '/api/new/alert'});		
 	};
 
 	return {

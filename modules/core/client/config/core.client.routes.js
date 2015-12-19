@@ -24,7 +24,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 
 	.state('default', {
 		url: '/',
-		template: '<tmpl-default></tmpl-default>'
+		template: '<tmpl-public-projects></tmpl-public-projects>'
 	})
 	.state('login', {
 		url: '/login',

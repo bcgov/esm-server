@@ -40,7 +40,7 @@ angular.module('users').config(['$stateProvider',
       })
       .state('authentication.signin', {
         url: '/signin?err',
-        templateUrl: 'modules/users/client/views/authentication/signin.client.view.html'
+        template: '<tmpl-login></tmpl-login>'
       })
       .state('password', {
         abstract: true,
