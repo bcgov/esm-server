@@ -1,0 +1,33 @@
+{
+	"selectedContent":"text for the selected item",
+	"relatedContent": {
+		"Resulting":{
+			"Conditions":[
+				{"_id":1234, "projectId":1234, "description":"Condition Text 1"},
+				{"_id":1234, "projectId":1234, "description":"Condition Text 2"}
+			],
+			"Comments":[
+				{"_id":1234, "projectId":1234, "description":"Comment Text 1"},
+				{"_id":1234, "projectId":1234, "description":"Comment Text 2"}			
+			],
+			"Activities":[
+				{"_id":1234, "projectId":1234, "description":"Activity 1"},
+				{"_id":1234, "projectId":1234, "description":"Activity 2"}
+			]
+		},
+		"Belongs To":{
+			"Value Components":[
+				{"_id":1234, "projectId":1234, "description":"Value Component 1"},
+				{"_id":1234, "projectId":1234, "description":"Value Component 2"}
+			],
+			"Projects":[
+				{"_id":1234, "projectId":1234, "description":"Project 1"}
+			]
+		},
+		"Referenced In":{
+			"Documents":[
+				{"_id":1234, "projectId":1234, "description":"Document 1"}
+			]
+		}
+	}
+}

@@ -1,0 +1,49 @@
+[
+	{
+		"_id":"act1234",
+		"projectId":"kgwfp1234",		
+		"name":"Public Comment Period on A.I.R.",
+		"initiatedBy":"system",
+		"createDate":"2015-02-01T23:58:15.181Z",
+		"dueDate":"2015-03-01T23:58:15.181Z",
+		"updatedDate":"2015-02-10T23:58:15.181Z",		
+		"description":"Comment period open online.",
+		"status":"Open",
+		"requirement":"Confirmation",
+		"requirements":[
+			{"group":"EAO", "requirement":"Review"},
+			{"group":"Public", "requirement":"Visible"},
+			{"group":"Proponent", "requirement":"Response"}			
+		],
+		"valueComponents":null,
+		"response":"This is the current response",
+		"relatedDocuments": [
+			{"title": "Document 1", "date":"2015-01-01T23:58:15.181Z", "v":1.0, "responses": ["resp1234", "resp1235"]},
+			{"title": "Document 2", "date":"2015-01-01T23:58:15.181Z", "v":1.0, "responses": ["resp1234"]}
+		]
+		
+	},
+	{
+		"_id":"act5678",
+		"projectId":"kgwfp1234",
+		"name":"Draft A.I.R Working Group: Bats",
+		"initiatedBy":"EAO",
+		"createDate":"2015-01-01T23:58:15.181Z",
+		"dueDate":"2015-02-01T23:58:15.181Z",
+		"updatedDate":"2015-02-10T23:58:15.181Z",
+		"description":"Address open discussion points regarding Bats.",
+		"status":"Open",
+		"requirement":"Response",
+		"requirements":[
+			{"group":"EAO", "requirement":"Review"},
+			{"group":"Proponent", "requirement":"Endorsement"}
+		],
+		"valueComponents":["Salmon"],
+		"response":"See Document 1, Section 23 for Bat Response",
+		"relatedDocuments": [
+			{"title": "Document 1", "date":"2015-01-01T23:58:15.181Z", "v":1.0, "responses": ["resp1234", "resp1235"]},
+			{"title": "Document 2", "date":"2015-01-01T23:58:15.181Z", "v":1.0, "responses": ["resp1234"]}
+		]
+
+	}
+]

@@ -1,0 +1,11 @@
+[
+	{
+		"code":"newbucket",
+		"name": "New Bucket",
+		"isValueComponment": false,
+		"progress": 0,
+	    "status": "open",	
+		"access":{},
+		"requirements":["requirementName"]
+	}
+]

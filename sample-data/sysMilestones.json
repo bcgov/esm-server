@@ -1,0 +1,13 @@
+{
+	"code":"newmilestone",
+	"name":"New Milestone",
+	"phases":[],
+	"preMetRequirements":["comma delimeted list of requirement codes, each needs to be met to transition to this milestone"],
+	"requirements":[],
+	"buckets": [],
+	"access":{}, 
+	"dateEstimatedStart":"2001-06-01T23:58:15.181Z",
+	"dateEstimatedEnd":"2002-06-02T23:58:15.181Z",
+	"dateActualStart":"2004-04-10T23:58:15.181Z",
+	"dateActualEnd":"2004-04-10T23:58:15.181Z",
+}

@@ -1,0 +1,10 @@
+[
+	{
+		"code": "section101c",
+		"name": "Section 10-1c",
+		"content": "Default Content",
+		"requirements":[
+			"section10.1c"
+		]
+	}
+]

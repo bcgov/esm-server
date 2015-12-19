@@ -1,0 +1,57 @@
+[
+	{
+		"code":"meetsrprcriteria",
+		"content":"This project meets the criteria set out in the Reviewable Projects Regulation.",
+		"type":"dropdown",
+		"options":["Yes", "No"]
+	},
+	{
+		"code":"section7optin",
+		"content":"This project does not require an environmental assessment but is seeking designation under Section 7 of the Environmental Assessment Act.",
+		"type":"dropdown",
+		"options":["Yes", "No"]
+	},
+	{
+		"code":"meetsCEAACriteria",
+		"content":"This project is reviewable under the Canadian Environmental Assessment Act.",
+		"type":"dropdown",
+		"options":["Yes", "No", "Unsure"]
+	},
+	{
+		"code":"contactedCEAA",
+		"content":"The Canadian Environmental Assessment Agency has been contacted about this project.",
+		"type":"dropdown",
+		"options":["Yes", "No"]
+	},
+	{
+		"code":"affectedFirstNations",
+		"content":"List the First Nations whose aboriginal or treaty rights could be affected by the project.",
+		"type":"text"
+	},
+	{
+		"code":"contactedFirstNations",
+		"content":"List the First Nations who have been contacted or consulted on the project.",
+		"type":"text"
+	},
+	{
+		"code":"lifespan",
+		"content":"Expected life of the project (years)",
+		"type":"smalltext"
+	},
+	{
+		"code":"investment",
+		"content":"Investment Amount (Canadian dollars)",
+		"type":"smalltext"
+	},
+	{
+		"code":"constructionjobs",
+		"content":"Construction Jobs (Person years)",
+		"type":"smalltext"
+	},
+	{
+		"code":"operatingjobs",
+		"content":"Operating Jobs (Person years)",
+		"type":"smalltext"
+	}	
+
+]

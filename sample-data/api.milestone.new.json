@@ -1,0 +1,15 @@
+{
+	"_id"                : "55",
+	"code"               : "newmilestone",
+	"name"               : "New Milestone",
+	"phase"              : "",
+	"dateEstimatedStart" : "2001-06-01T23:58:15.181Z",
+	"dateEstimatedEnd"   : "2002-06-02T23:58:15.181Z",
+	"dateActualStart"    : "2004-04-10T23:58:15.181Z",
+	"dateActualEnd"      : "2004-04-10T23:58:15.181Z",
+	"access" : {
+		"read"  : "eso,proponent",
+		"write" : "eso,proponent",
+		"watch" : "eso,proponent"
+	}
+}

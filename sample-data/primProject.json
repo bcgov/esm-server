@@ -1,0 +1,2299 @@
+{
+    "_id": "2",
+    "activities": [
+        {
+            "_id": "1",
+            "access": {
+                "visibility": [
+                    [
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "EAO"
+                        },
+                        {
+                            "email": "CaryXSechrist@jourrapide.com",
+                            "name": "Cary Sechrist",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Lili Norrell",
+                            "name": "LiliLNorrell@fleckens.hu",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "William Butler",
+                            "name": "WilliamSButler@einrot.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Cecilia Brown",
+                            "name": "CeciliaFBrown@gustr.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Rachel Winston",
+                            "name": "RachelJWinston@superrito.com",
+                            "type": "email",
+                            "value": null
+                        }
+                    ]
+                ]
+            },
+            "dateEnd": "2014-06-23T00:00:00.000Z",
+            "dateStart": "2014-06-23T00:00:00.000Z",
+            "dateUpdated": "2014-06-23T00:00:00.000Z",
+            "description": "Initiate Project",
+            "name": "Initiate Project",
+            "preMetRequirements": [],
+            "status": "complete",
+            "tasks": [
+                {
+                    "_id": "1",
+                    "code": "reprol",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "Review project description (high Level)",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": {
+                "user": "4"
+            }
+        },
+        {
+            "_id": "2",
+            "access": {
+                "visibility": [
+                    [
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "EAO"
+                        },
+                        {
+                            "email": "CaryXSechrist@jourrapide.com",
+                            "name": "Cary Sechrist",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Lili Norrell",
+                            "name": "LiliLNorrell@fleckens.hu",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "William Butler",
+                            "name": "WilliamSButler@einrot.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Cecilia Brown",
+                            "name": "CeciliaFBrown@gustr.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Rachel Winston",
+                            "name": "RachelJWinston@superrito.com",
+                            "type": "email",
+                            "value": null
+                        }
+                    ]
+                ]
+            },
+            "dateEnd": "2014-06-23T00:00:00.000Z",
+            "dateStart": "2014-06-23T00:00:00.000Z",
+            "dateUpdated": "2014-06-23T00:00:00.000Z",
+            "description": "Set up Project Space",
+            "name": "Set up Project Space",
+            "preMetRequirements": [],
+            "status": "complete",
+            "tasks": [
+                {
+                    "_id": "2",
+                    "code": "deapp10",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "Determine appropriate Project Process - Section 10",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": {
+                "user": "4"
+            }
+        },
+        {
+            "_id": "3",
+            "access": {
+                "visibility": [
+                    [
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "EAO"
+                        },
+                        {
+                            "email": "CaryXSechrist@jourrapide.com",
+                            "name": "Cary Sechrist",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Lili Norrell",
+                            "name": "LiliLNorrell@fleckens.hu",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "William Butler",
+                            "name": "WilliamSButler@einrot.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Cecilia Brown",
+                            "name": "CeciliaFBrown@gustr.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Rachel Winston",
+                            "name": "RachelJWinston@superrito.com",
+                            "type": "email",
+                            "value": null
+                        }
+                    ]
+                ]
+            },
+            "dateEnd": "2014-07-16T00:00:00.000Z",
+            "dateStart": "2014-06-23T00:00:00.000Z",
+            "dateUpdated": "2014-07-16T00:00:00.000Z",
+            "description": "Begin Strength of Claim Process",
+            "name": "Begin Strength of Claim Process",
+            "preMetRequirements": [],
+            "status": "complete",
+            "tasks": [
+                {
+                    "_id": "3",
+                    "code": "gedefon",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "Generate Default Project Template based on above selection",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": {
+                "user": "4"
+            }
+        },
+        {
+            "_id": "4",
+            "access": {
+                "visibility": [
+                    [
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "EAO"
+                        },
+                        {
+                            "email": "CaryXSechrist@jourrapide.com",
+                            "name": "Cary Sechrist",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Lili Norrell",
+                            "name": "LiliLNorrell@fleckens.hu",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "William Butler",
+                            "name": "WilliamSButler@einrot.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Cecilia Brown",
+                            "name": "CeciliaFBrown@gustr.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Rachel Winston",
+                            "name": "RachelJWinston@superrito.com",
+                            "type": "email",
+                            "value": null
+                        }
+                    ]
+                ]
+            },
+            "dateEnd": "2014-07-08T00:00:00.000Z",
+            "dateStart": "2014-06-23T00:00:00.000Z",
+            "dateUpdated": "2014-07-08T00:00:00.000Z",
+            "description": "Populate Content",
+            "name": "Populate Content",
+            "preMetRequirements": [],
+            "status": "complete",
+            "tasks": [
+                {
+                    "_id": "4",
+                    "code": "kpplaER",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "KPI PLACEHOLDER",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": {
+                "user": "4"
+            }
+        },
+        {
+            "_id": "5",
+            "access": {
+                "visibility": [
+                    [
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "Proponent"
+                        },
+                        {
+                            "email": "Cary Sechrist",
+                            "name": "CaryXSechrist@jourrapide.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Randy Conrad",
+                            "name": "RandyIConrad@dayrep.com",
+                            "type": "email",
+                            "value": null
+                        }
+                    ]
+                ]
+            },
+            "dateEnd": "2014-08-07T00:00:00.000Z",
+            "dateStart": "2014-06-23T00:00:00.000Z",
+            "dateUpdated": "2014-08-07T00:00:00.000Z",
+            "description": "Create Project Description",
+            "name": "Create Project Description",
+            "preMetRequirements": [],
+            "status": "complete",
+            "tasks": [
+                {
+                    "_id": "5",
+                    "code": "reandan",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "Review and Modify Tasks in Plan",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": {
+                "user": "2"
+            }
+        },
+        {
+            "_id": "6",
+            "access": {
+                "visibility": [
+                    [
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "EAO"
+                        },
+                        {
+                            "email": "CaryXSechrist@jourrapide.com",
+                            "name": "Cary Sechrist",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Lili Norrell",
+                            "name": "LiliLNorrell@fleckens.hu",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "William Butler",
+                            "name": "WilliamSButler@einrot.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Cecilia Brown",
+                            "name": "CeciliaFBrown@gustr.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Rachel Winston",
+                            "name": "RachelJWinston@superrito.com",
+                            "type": "email",
+                            "value": null
+                        }
+                    ]
+                ]
+            },
+            "dateEnd": "2014-08-30T00:00:00.000Z",
+            "dateStart": "2014-08-07T00:00:00.000Z",
+            "dateUpdated": "2014-08-30T00:00:00.000Z",
+            "description": "Create Section 10(1)c",
+            "name": "Create Section 10(1)c",
+            "preMetRequirements": [],
+            "status": "complete",
+            "tasks": [
+                {
+                    "_id": "6",
+                    "code": "admilan",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "Add Milestone Dates to the Plan",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": {
+                "user": "4"
+            }
+        },
+        {
+            "_id": "7",
+            "access": {
+                "visibility": [
+                    [
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "EAO"
+                        },
+                        {
+                            "email": "CaryXSechrist@jourrapide.com",
+                            "name": "Cary Sechrist",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Lili Norrell",
+                            "name": "LiliLNorrell@fleckens.hu",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "William Butler",
+                            "name": "WilliamSButler@einrot.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Cecilia Brown",
+                            "name": "CeciliaFBrown@gustr.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Rachel Winston",
+                            "name": "RachelJWinston@superrito.com",
+                            "type": "email",
+                            "value": null
+                        }
+                    ]
+                ]
+            },
+            "dateEnd": "2014-11-05T00:00:00.000Z",
+            "dateStart": "2014-08-30T00:00:00.000Z",
+            "dateUpdated": "2014-11-05T00:00:00.000Z",
+            "description": "Create and Finalize Section 11 Document",
+            "name": "Create and Finalize Section 11 Document",
+            "preMetRequirements": [],
+            "status": "complete",
+            "tasks": [
+                {
+                    "_id": "7",
+                    "code": "crproem",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "Create Project Team and Assign roles in System",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": {
+                "user": "4"
+            }
+        },
+        {
+            "_id": "8",
+            "access": {
+                "visibility": [
+                    [
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "EAO"
+                        },
+                        {
+                            "email": "CaryXSechrist@jourrapide.com",
+                            "name": "Cary Sechrist",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Lili Norrell",
+                            "name": "LiliLNorrell@fleckens.hu",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "William Butler",
+                            "name": "WilliamSButler@einrot.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Cecilia Brown",
+                            "name": "CeciliaFBrown@gustr.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Rachel Winston",
+                            "name": "RachelJWinston@superrito.com",
+                            "type": "email",
+                            "value": null
+                        }
+                    ]
+                ]
+            },
+            "dateEnd": "2014-09-24T00:00:00.000Z",
+            "dateStart": "2014-08-30T00:00:00.000Z",
+            "dateUpdated": "2014-09-24T00:00:00.000Z",
+            "description": "Enter Value Component Mandatory Minimum",
+            "name": "Enter Value Component Mandatory Minimum",
+            "preMetRequirements": [],
+            "status": "complete",
+            "tasks": [
+                {
+                    "_id": "8",
+                    "code": "reandem",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "Review and populate Stakeholder Members in System",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": {
+                "user": "4"
+            }
+        },
+        {
+            "_id": "9",
+            "access": {
+                "visibility": [
+                    [
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "EAO"
+                        },
+                        {
+                            "email": "CaryXSechrist@jourrapide.com",
+                            "name": "Cary Sechrist",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Lili Norrell",
+                            "name": "LiliLNorrell@fleckens.hu",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "William Butler",
+                            "name": "WilliamSButler@einrot.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Cecilia Brown",
+                            "name": "CeciliaFBrown@gustr.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Rachel Winston",
+                            "name": "RachelJWinston@superrito.com",
+                            "type": "email",
+                            "value": null
+                        }
+                    ]
+                ]
+            },
+            "dateEnd": "2014-09-14T00:00:00.000Z",
+            "dateStart": "2014-08-30T00:00:00.000Z",
+            "dateUpdated": "2014-09-14T00:00:00.000Z",
+            "description": "Confirm Working Group Participation",
+            "name": "Confirm Working Group Participation",
+            "preMetRequirements": [],
+            "status": "complete",
+            "tasks": [
+                {
+                    "_id": "9",
+                    "code": "eaocoandem",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "EAO Confirm and Modify Value Components created in system",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": {
+                "user": "4"
+            }
+        },
+        {
+            "_id": "10",
+            "access": {
+                "visibility": [
+                    [
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "Proponent"
+                        },
+                        {
+                            "email": "Cary Sechrist",
+                            "name": "CaryXSechrist@jourrapide.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Randy Conrad",
+                            "name": "RandyIConrad@dayrep.com",
+                            "type": "email",
+                            "value": null
+                        }
+                    ]
+                ]
+            },
+            "dateEnd": "2014-10-03T00:00:00.000Z",
+            "dateStart": "2014-08-30T00:00:00.000Z",
+            "dateUpdated": "2014-10-03T00:00:00.000Z",
+            "description": "Create Draft AIR",
+            "name": "Create Draft AIR",
+            "preMetRequirements": [],
+            "status": "complete",
+            "tasks": [
+                {
+                    "_id": "10",
+                    "code": "propcoandem",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "Proponent Confirm and Modify Value Components created in system",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": {
+                "user": "4"
+            }
+        },
+        {
+            "_id": "11",
+            "access": {
+                "visibility": [
+                    [
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "Proponent"
+                        },
+                        {
+                            "email": "Cary Sechrist",
+                            "name": "CaryXSechrist@jourrapide.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Randy Conrad",
+                            "name": "RandyIConrad@dayrep.com",
+                            "type": "email",
+                            "value": null
+                        }
+                    ]
+                ]
+            },
+            "dateEnd": "2014-12-09T00:00:00.000Z",
+            "dateStart": "2014-10-03T00:00:00.000Z",
+            "dateUpdated": "2014-12-09T00:00:00.000Z",
+            "description": "Create AIR",
+            "name": "Create AIR",
+            "preMetRequirements": [],
+            "status": "complete",
+            "tasks": [
+                {
+                    "_id": "11",
+                    "code": "poisses",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "Populate Issue Tracking Table with known issues",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": {
+                "user": "2"
+            }
+        },
+        {
+            "_id": "12",
+            "access": {
+                "visibility": [
+                    [
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "Proponent"
+                        },
+                        {
+                            "email": "Cary Sechrist",
+                            "name": "CaryXSechrist@jourrapide.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Randy Conrad",
+                            "name": "RandyIConrad@dayrep.com",
+                            "type": "email",
+                            "value": null
+                        }
+                    ]
+                ]
+            },
+            "dateEnd": "2016-02-05T00:00:00.000Z",
+            "dateStart": "2014-12-09T00:00:00.000Z",
+            "dateUpdated": "2016-02-05T00:00:00.000Z",
+            "description": "Create Application ",
+            "name": "Create Application ",
+            "preMetRequirements": [],
+            "status": "complete",
+            "tasks": [
+                {
+                    "_id": "12",
+                    "code": "pofnits",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "Populate FNI Tracking Table with known Interests",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": {
+                "user": "2"
+            }
+        },
+        {
+            "_id": "13",
+            "access": {
+                "visibility": [
+                    [
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "EAO"
+                        },
+                        {
+                            "email": "CaryXSechrist@jourrapide.com",
+                            "name": "Cary Sechrist",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Lili Norrell",
+                            "name": "LiliLNorrell@fleckens.hu",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "William Butler",
+                            "name": "WilliamSButler@einrot.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Cecilia Brown",
+                            "name": "CeciliaFBrown@gustr.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Rachel Winston",
+                            "name": "RachelJWinston@superrito.com",
+                            "type": "email",
+                            "value": null
+                        }
+                    ]
+                ]
+            },
+            "dateEnd": "2016-03-04T00:00:00.000Z",
+            "dateStart": "2016-02-05T00:00:00.000Z",
+            "dateUpdated": "2016-03-04T00:00:00.000Z",
+            "description": "Create Table of Concordance",
+            "name": "Create Table of Concordance",
+            "preMetRequirements": [],
+            "status": "complete",
+            "tasks": [
+                {
+                    "_id": "13",
+                    "code": "reandix",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "Review and Modify Notification Matrix",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": {
+                "user": "4"
+            }
+        },
+        {
+            "_id": "14",
+            "access": {
+                "visibility": [
+                    [
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "EAO"
+                        },
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "Proponent"
+                        },
+                        {
+                            "email": "Cary Sechrist",
+                            "name": "CaryXSechrist@jourrapide.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Randy Conrad",
+                            "name": "RandyIConrad@dayrep.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Lili Norrell",
+                            "name": "LiliLNorrell@fleckens.hu",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "William Butler",
+                            "name": "WilliamSButler@einrot.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Cecilia Brown",
+                            "name": "CeciliaFBrown@gustr.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Rachel Winston",
+                            "name": "RachelJWinston@superrito.com",
+                            "type": "email",
+                            "value": null
+                        }
+                    ]
+                ]
+            },
+            "dateEnd": "2016-03-09T00:00:00.000Z",
+            "dateStart": "2016-03-04T00:00:00.000Z",
+            "dateUpdated": "2016-03-09T00:00:00.000Z",
+            "description": "Pre-Application Wrap-Up",
+            "name": "Pre-Application Wrap-Up",
+            "preMetRequirements": [],
+            "status": "complete",
+            "tasks": [
+                {
+                    "_id": "14",
+                    "code": "approew",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "Approve ProjectSpace for Proponent View",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": {
+                "user": "4"
+            }
+        },
+        {
+            "_id": "15",
+            "access": {
+                "visibility": [
+                    [
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "Proponent"
+                        },
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "EAO"
+                        },
+                        {
+                            "email": null,
+                            "name": null,
+                            "type": "group",
+                            "value": "WG"
+                        },
+                        {
+                            "email": "Suzanne Boyd",
+                            "name": "SuzanneFBoyd@jourrapide.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Lidia Otis",
+                            "name": "LidiaSOtis@einrot.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Cary Sechrist",
+                            "name": "CaryXSechrist@jourrapide.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Randy Conrad",
+                            "name": "RandyIConrad@dayrep.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Lili Norrell",
+                            "name": "LiliLNorrell@fleckens.hu",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "William Butler",
+                            "name": "WilliamSButler@einrot.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Cecilia Brown",
+                            "name": "CeciliaFBrown@gustr.com",
+                            "type": "email",
+                            "value": null
+                        },
+                        {
+                            "email": "Rachel Winston",
+                            "name": "RachelJWinston@superrito.com",
+                            "type": "email",
+                            "value": null
+                        }
+                    ]
+                ]
+            },
+            "dateEnd": null,
+            "dateStart": "2016-03-09T00:00:00.000Z",
+            "dateUpdated": "2016-03-14T00:00:00.000Z",
+            "description": "Initate Evaluation Period",
+            "name": "Initate Evaluation Period",
+            "preMetRequirements": [],
+            "status": "open",
+            "tasks": [
+                {
+                    "_id": "15",
+                    "code": "noprontps",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "Notify Proponent about Project Space",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": {
+                "user": "4"
+            }
+        },
+        {
+            "_id": "16",
+            "access": "rg[]",
+            "dateEnd": null,
+            "dateStart": null,
+            "dateUpdated": null,
+            "description": "Evaluation Wrap-up",
+            "name": "Evaluation Wrap-up",
+            "preMetRequirements": [],
+            "status": null,
+            "tasks": [
+                {
+                    "_id": "16",
+                    "code": "idfirn ",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "Identify First Nations for Consultation ",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": null
+        },
+        {
+            "_id": "17",
+            "access": "rg[]",
+            "dateEnd": null,
+            "dateStart": null,
+            "dateUpdated": null,
+            "description": "Initate Review Period",
+            "name": "Initate Review Period",
+            "preMetRequirements": [],
+            "status": null,
+            "tasks": [
+                {
+                    "_id": "17",
+                    "code": "refirim",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "Research First Nations Strength of Claim",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": null
+        },
+        {
+            "_id": "18",
+            "access": "rg[]",
+            "dateEnd": null,
+            "dateStart": null,
+            "dateUpdated": null,
+            "description": "Public Comment Period",
+            "name": "Public Comment Period",
+            "preMetRequirements": [],
+            "status": null,
+            "tasks": [
+                {
+                    "_id": "18",
+                    "code": "seconel",
+                    "currentStatusTitle": "Complete",
+                    "data": {},
+                    "name": "Set Consultation level",
+                    "processCode": "public-comment-period-scheduling",
+                    "statusValues": [
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Started",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "In Progress",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": [],
+                            "Title": "Complete",
+                            "alerts": [],
+                            "postMetRequirements": [],
+                            "preMetRequirements": []
+                        },
+                        {
+                            "CanComplete": null,
+                            "Title": "Not Applicable",
+                            "alerts": [],
+                            "postMetRequirements": null,
+                            "preMetRequirements": null
+                        }
+                    ]
+                }
+            ],
+            "updatedBy": null
+        }
+    ],
+    "buckets": [
+        {
+            "code": "bats",
+            "data": [],
+            "isValueComponment": true,
+            "name": "Bats",
+            "progress": "65",
+            "requirements": [],
+            "status": "open"
+        },
+        {
+            "code": "yellow-billedscissortail",
+            "data": [],
+            "isValueComponment": true,
+            "name": "Yellow-billed Scissortail",
+            "progress": "100",
+            "requirements": [],
+            "status": "complete"
+        },
+        {
+            "code": "section10.1c",
+            "data": [],
+            "isValueComponment": false,
+            "name": "Section 10.1C",
+            "progress": "100",
+            "requirements": [],
+            "status": "open"
+        },
+        {
+            "code": "section11",
+            "data": [],
+            "isValueComponment": false,
+            "name": "Section 11",
+            "progress": "100",
+            "requirements": [],
+            "status": "open"
+        },
+        {
+            "code": "draftair",
+            "data": [],
+            "isValueComponment": false,
+            "name": "Draft AIR",
+            "progress": "100",
+            "requirements": [],
+            "status": "open"
+        },
+        {
+            "code": "air",
+            "data": [],
+            "isValueComponment": false,
+            "name": "AIR",
+            "progress": "85",
+            "requirements": [],
+            "status": "open"
+        },
+        {
+            "code": "application",
+            "data": [],
+            "isValueComponment": false,
+            "name": "Application",
+            "progress": "25",
+            "requirements": [],
+            "status": "open"
+        },
+        {
+            "code": "squamishfninterests",
+            "data": [],
+            "isValueComponment": false,
+            "name": "Squamish FN Interests",
+            "progress": "25",
+            "requirements": [],
+            "status": "open"
+        },
+        {
+            "code": "bridgeoversi-phaletsriver",
+            "data": [],
+            "isValueComponment": false,
+            "name": "Bridge over Si-Phalets River",
+            "progress": "75",
+            "requirements": [],
+            "status": "open"
+        }
+    ],
+    "currentCommentPeriod": {
+        "code": "knobcomment",
+        "dateClosed": "2015-10-28T12:00:00.181Z",
+        "dateOpen": "2015-09-28T12:00:00.181Z"
+    },
+    "currentPhase": "eval",
+    "data": [
+        {
+            "approvals": [
+                {
+                    "_id": "0002",
+                    "approvedBy": {
+                        "_id": "6"
+                    },
+                    "comment": "Approved.",
+                    "dateApproved": "2014-07-18T00:00:00.000Z"
+                },
+                {
+                    "_id": "0003",
+                    "approvedBy": {
+                        "_id": "3"
+                    },
+                    "comment": "Approved.",
+                    "dateApproved": "2014-08-08T00:00:00.000Z"
+                }
+            ],
+            "audit": [
+                {
+                    "dateValue": "2014-07-18T00:00:00.000Z",
+                    "taskId": "26",
+                    "user": {
+                        "_id": "5"
+                    },
+                    "value": "Document Approved"
+                }
+            ],
+            "conditions": [
+                {
+                    "_id": "0002",
+                    "condition": "Annual Salmon studies must be conducted each year to verify sustainability across each 5 year period",
+                    "createdBy": {
+                        "_id": "6"
+                    },
+                    "dateCondition": "2015-03-28T00:00:00.000Z",
+                    "inspections": {
+                        "_id": "2015Salmon"
+                    },
+                    "status": "approved"
+                }
+            ],
+            "issues": [
+                {
+                    "_id": "0002",
+                    "buckets": [],
+                    "dateCreated": "2014-09-06T00:00:00.000Z",
+                    "description": "Bridge over Swansea River",
+                    "identifiedBy": [
+                        {
+                            "_id": "4"
+                        }
+                    ],
+                    "publicComments": "knobcomments",
+                    "response": [],
+                    "responses": [
+                        {
+                            "_id": "0002",
+                            "assigned": {
+                                "_id": "3"
+                            },
+                            "comment": "Comment from a Working Group member",
+                            "dateAssigned": "2014-09-17T00:00:00.000Z",
+                            "dateReplied": "2014-09-29T00:00:00.000Z",
+                            "deliverables": [
+                                {
+                                    "_id": "projectdescription"
+                                }
+                            ]
+                        },
+                        {
+                            "_id": "0003",
+                            "assigned": {
+                                "_id": "5"
+                            },
+                            "comment": "The Squamish FN would like input on this issue",
+                            "dateAssigned": "2014-10-21T00:00:00.000Z",
+                            "dateReplied": "2014-11-18T00:00:00.000Z",
+                            "deliverables": [
+                                {
+                                    "_id": "projectdescription"
+                                }
+                            ]
+                        }
+                    ],
+                    "revision": "1",
+                    "status": "open"
+                }
+            ],
+            "public-comment-period-scheduling": [
+                {
+                    "dateQueued": "2014-07-18T00:00:00.000Z",
+                    "dateSent": "2014-07-20T00:00:00.000Z",
+                    "documents": [
+                        "projectdescription"
+                    ],
+                    "mailContent": "The Knob Hill Wind Farm Project Description has been Officially Approved",
+                    "milestone": "projectdescriptioncomplete",
+                    "recipientsDigital": {
+                        "email": "SuzanneFBoyd@jourrapide.com",
+                        "name": "Suzanne Boyd"
+                    },
+                    "recipientsPhysical": null,
+                    "status": "sent"
+                },
+                {
+                    "dateQueued": "2014-07-18T00:00:00.000Z",
+                    "dateSent": "2014-07-20T00:00:00.000Z",
+                    "documents": [
+                        "projectdescription"
+                    ],
+                    "mailContent": "The Knob Hill Wind Farm Project Description has been Officially Approved",
+                    "milestone": "projectdescriptioncomplete",
+                    "recipientsDigital": null,
+                    "recipientsPhysical": {
+                        "address": "1019 Hardy Street",
+                        "city": "Kelowna",
+                        "dataSent": "2014-07-18T00:00:00.000Z",
+                        "name": "Christopher Lemon",
+                        "postal": "V1Y 8H2",
+                        "prov": "BC",
+                        "tracking": true
+                    },
+                    "status": "sent"
+                }
+            ],
+            "publicComments": [
+                {
+                    "_id": "0002",
+                    "author": "Linda Peterson",
+                    "buckets": [],
+                    "comment": "This project will drastically impact the Bat Population in this region.",
+                    "dataVetted": "2014-10-19T00:00:00.000Z",
+                    "dateCreated": "2014-08-28T00:00:00.000Z",
+                    "instance": "knobcomment",
+                    "isSpam": false,
+                    "issues": [],
+                    "vettedBy": {
+                        "_id": "3"
+                    }
+                }
+            ]
+        }
+    ],
+    "dateCurrentPhaseEstimatedEnd": "2015-12-29T00:00:00.000Z",
+    "dateCurrentPhaseEstimatedStart": "2014-08-04T00:00:00.000Z",
+    "dateNextPhaseEstimatedStart": "2015-12-29T00:00:00.000Z",
+    "deliverables": [
+        {
+            "_id": "projectdescription",
+            "buckets": [],
+            "name": "Project Description",
+            "synopsys": "The official Project Description for the Knob Hill Wind Project",
+            "type": "document"
+        },
+        {
+            "_id": "locationoutline",
+            "buckets": [],
+            "name": "Location Outline",
+            "synopsys": "Location Outline",
+            "type": "shapefile"
+        },
+        {
+            "_id": "section10.1c",
+            "buckets": [],
+            "name": "Section 10.1c",
+            "synopsys": "Section 10.1c",
+            "type": "document"
+        },
+        {
+            "_id": "section11",
+            "buckets": [],
+            "name": "Section 11",
+            "synopsys": "Section 11",
+            "type": "document"
+        },
+        {
+            "_id": "drafta.i.r.",
+            "buckets": [],
+            "name": "Draft A.I.R.",
+            "synopsys": "Draft A.I.R.",
+            "type": "document"
+        },
+        {
+            "_id": "a.i.r.",
+            "buckets": [],
+            "name": "A.I.R.",
+            "synopsys": "A.I.R.",
+            "type": "document"
+        },
+        {
+            "_id": "application",
+            "buckets": [],
+            "name": "Application",
+            "synopsys": "Application",
+            "type": "document"
+        }
+    ],
+    "description": "Construction of a new wind farm, with a nominal capacity of 70.5 MW with a preliminary layout of 47 turbines.",
+    "intake": [
+        {
+            "a": "West Coast Winds",
+            "q": "Name"
+        },
+        {
+            "a": "West Coast Renawables",
+            "q": "Proponent"
+        },
+        {
+            "a": "Power and Industrial",
+            "q": "Type"
+        },
+        {
+            "a": "Construction of a new wind farm, with a nominal capacity of 70.5 MW with a preliminary layout of 47 turbines.",
+            "q": "Description"
+        },
+        {
+            "a": "Vancouver Island/Coast",
+            "q": "Region"
+        },
+        {
+            "a": "Vancouver Island West Coast",
+            "q": "Location"
+        }
+    ],
+    "lat": "50.752097",
+    "location": "Vancouver Island West Coast",
+    "lon": "-128.322029",
+    "milestones": [
+        {
+            "access": [],
+            "buckets": [],
+            "code": "projectdescriptioncomplete",
+            "dateActualEnd": "2014-07-16T00:00:00.000Z",
+            "dateActualStart": "2014-06-23T00:00:00.000Z",
+            "dateEstimatedEnd": "2014-07-14T00:00:00.000Z",
+            "dateEstimatedStart": "2014-06-23T00:00:00.000Z",
+            "name": "Project Description Complete",
+            "phases": [],
+            "preMetRequirements": [],
+            "requirements": []
+        },
+        {
+            "access": [],
+            "buckets": [],
+            "code": "section10complete",
+            "dateActualEnd": "2014-08-23T00:00:00.000Z",
+            "dateActualStart": "2014-07-22T00:00:00.000Z",
+            "dateEstimatedEnd": "2014-08-25T00:00:00.000Z",
+            "dateEstimatedStart": "2014-07-14T00:00:00.000Z",
+            "name": "Section 10 Complete",
+            "phases": [],
+            "preMetRequirements": [],
+            "requirements": []
+        },
+        {
+            "access": [],
+            "buckets": [],
+            "code": "section11complete",
+            "dateActualEnd": "2014-10-28T00:00:00.000Z",
+            "dateActualStart": "2014-09-10T00:00:00.000Z",
+            "dateEstimatedEnd": "2014-10-04T00:00:00.000Z",
+            "dateEstimatedStart": "2014-08-25T00:00:00.000Z",
+            "name": "Section 11 Complete",
+            "phases": [],
+            "preMetRequirements": [],
+            "requirements": []
+        },
+        {
+            "access": [],
+            "buckets": [],
+            "code": "draftaircomplete",
+            "dateActualEnd": "2014-12-18T00:00:00.000Z",
+            "dateActualStart": "2014-11-13T00:00:00.000Z",
+            "dateEstimatedEnd": "2014-11-03T00:00:00.000Z",
+            "dateEstimatedStart": "2014-10-04T00:00:00.000Z",
+            "name": "Draft AIR Complete",
+            "phases": [],
+            "preMetRequirements": [],
+            "requirements": []
+        },
+        {
+            "access": [],
+            "buckets": [],
+            "code": "aircomplete",
+            "dateActualEnd": "2015-03-06T00:00:00.000Z",
+            "dateActualStart": "2014-12-28T00:00:00.000Z",
+            "dateEstimatedEnd": "2014-12-23T00:00:00.000Z",
+            "dateEstimatedStart": "2014-11-03T00:00:00.000Z",
+            "name": "AIR Complete",
+            "phases": [],
+            "preMetRequirements": [],
+            "requirements": []
+        },
+        {
+            "access": [],
+            "buckets": [],
+            "code": "applicationsubmitted",
+            "dateActualEnd": null,
+            "dateActualStart": "2017-04-25T00:00:00.000Z",
+            "dateEstimatedEnd": "2016-12-22T00:00:00.000Z",
+            "dateEstimatedStart": "2016-11-22T00:00:00.000Z",
+            "name": "Application Submitted",
+            "phases": [],
+            "preMetRequirements": [],
+            "requirements": []
+        },
+        {
+            "access": [],
+            "buckets": [],
+            "code": "evaluationcomplete",
+            "dateActualEnd": null,
+            "dateActualStart": null,
+            "dateEstimatedEnd": null,
+            "dateEstimatedStart": null,
+            "name": "Evaluation Complete",
+            "phases": [],
+            "preMetRequirements": [],
+            "requirements": []
+        },
+        {
+            "access": [],
+            "buckets": [],
+            "code": "reviewcomplete",
+            "dateActualEnd": null,
+            "dateActualStart": null,
+            "dateEstimatedEnd": null,
+            "dateEstimatedStart": null,
+            "name": "Review Complete",
+            "phases": [],
+            "preMetRequirements": [],
+            "requirements": []
+        },
+        {
+            "access": [],
+            "buckets": [],
+            "code": "applicationprocesscomplete",
+            "dateActualEnd": null,
+            "dateActualStart": null,
+            "dateEstimatedEnd": null,
+            "dateEstimatedStart": null,
+            "name": "Application Process Complete",
+            "phases": [],
+            "preMetRequirements": [],
+            "requirements": []
+        }
+    ],
+    "name": "West Coast Winds",
+    "nextPhase": "",
+    "overallProgress": "85",
+    "phases": [
+        {
+            "EstStartDate": "2014-06-23T00:00:00.000Z",
+            "code": "preea",
+            "completed": "100",
+            "dateActualEnd": "2014-09-12T00:00:00.000Z",
+            "dateActualStart": "2014-06-23T00:00:00.000Z",
+            "dateEstimatedEnd": "2014-09-24T00:00:00.000Z",
+            "dateEstimatedStart": "2014-06-23T00:00:00.000Z",
+            "name": "Pre-EA"
+        },
+        {
+            "EstStartDate": "2014-06-23T00:00:00.000Z",
+            "code": "preapp",
+            "completed": "100",
+            "dateActualEnd": "2015-06-20T00:00:00.000Z",
+            "dateActualStart": "2014-09-12T00:00:00.000Z",
+            "dateEstimatedEnd": "2015-07-21T00:00:00.000Z",
+            "dateEstimatedStart": "2014-09-24T00:00:00.000Z",
+            "name": "Pre Application"
+        },
+        {
+            "EstStartDate": "2015-07-21T00:00:00.000Z",
+            "code": "eval",
+            "completed": "25",
+            "dateActualEnd": null,
+            "dateActualStart": "2015-06-20T00:00:00.000Z",
+            "dateEstimatedEnd": "2016-09-26T00:00:00.000Z",
+            "dateEstimatedStart": "2014-09-12T00:00:00.000Z",
+            "name": "Evaluation"
+        },
+        {
+            "EstStartDate": "2014-09-12T00:00:00.000Z",
+            "code": "rev",
+            "completed": "0",
+            "dateActualEnd": null,
+            "dateActualStart": null,
+            "dateEstimatedEnd": "2017-06-08T00:00:00.000Z",
+            "dateEstimatedStart": "2016-09-26T00:00:00.000Z",
+            "name": "Review"
+        }
+    ],
+    "proponent": "",
+    "region": "Vancouver Island/Coast",
+    "requirements": [
+        {
+            "bucket": [],
+            "code": "projectdescription",
+            "completedBy": {
+                "_id": "5"
+            },
+            "completingTask": {
+                "_id": "apprdesc"
+            },
+            "dateComplete": "2014-07-18T00:00:00.000Z",
+            "deliverable": {
+                "_id": "projectdescription"
+            },
+            "name": "Project Description",
+            "type": "document approval"
+        },
+        {
+            "bucket": [],
+            "code": "section10.1c",
+            "completedBy": {
+                "_id": "5"
+            },
+            "completingTask": {
+                "_id": "apprdesc"
+            },
+            "dateComplete": "2014-07-26T00:00:00.000Z",
+            "deliverable": {
+                "_id": "projectdescription"
+            },
+            "name": "Section 10.1c",
+            "type": "document approval"
+        }
+    ],
+    "spatial": [],
+    "team": [
+        {
+            "_id": "2",
+            "address": "2262 Burdett Avenue",
+            "city": "Victoria",
+            "country": "Canada",
+            "email": "CaryXSechrist@jourrapide.com",
+            "name": "Cary Sechrist",
+            "postal": "V8Z 2J8",
+            "projectRole": [
+                {
+                    "role": "proponent"
+                }
+            ],
+            "province": "BC",
+            "systemRole": [
+                {
+                    "role": "proponent"
+                }
+            ],
+            "viaEmailtrue": true,
+            "viaMailtrue": false
+        },
+        {
+            "_id": "3",
+            "address": "223 Brew Creek Rd",
+            "city": "Whistler",
+            "country": "Canada",
+            "email": "RandyIConrad@dayrep.com",
+            "name": "Randy Conrad",
+            "postal": "V0N 1B0",
+            "projectRole": [
+                {
+                    "role": "proponent"
+                }
+            ],
+            "province": "BC",
+            "systemRole": [
+                {
+                    "role": "proponent"
+                }
+            ],
+            "viaEmailtrue": true,
+            "viaMailtrue": false
+        },
+        {
+            "_id": "4",
+            "address": "2310 Mesa Vista Drive",
+            "city": "Boston Bar",
+            "country": "Canada",
+            "email": "LiliLNorrell@fleckens.hu",
+            "name": "Lili Norrell",
+            "postal": "V0K 1C0",
+            "projectRole": [
+                {
+                    "role": "eao"
+                }
+            ],
+            "province": "BC",
+            "systemRole": [
+                {
+                    "role": "eao"
+                }
+            ],
+            "viaEmailtrue": true,
+            "viaMailtrue": false
+        },
+        {
+            "_id": "5",
+            "address": "3795 Burdett Avenue",
+            "city": "Victoria",
+            "country": "Canada",
+            "email": "WilliamSButler@einrot.com",
+            "name": "William Butler",
+            "postal": "V8Y 1Y7",
+            "projectRole": [
+                {
+                    "role": "eao"
+                }
+            ],
+            "province": "BC",
+            "systemRole": [
+                {
+                    "role": "eao"
+                }
+            ],
+            "viaEmailtrue": true,
+            "viaMailtrue": false
+        },
+        {
+            "_id": "6",
+            "address": "3746 Noble Rd",
+            "city": "Cortes Island",
+            "country": "Canada",
+            "email": "CeciliaFBrown@gustr.com",
+            "name": "Cecilia Brown",
+            "postal": "V0P 1T0",
+            "projectRole": [
+                {
+                    "role": "eao"
+                }
+            ],
+            "province": "BC",
+            "systemRole": [
+                {
+                    "role": "eao"
+                }
+            ],
+            "viaEmailtrue": false,
+            "viaMailtrue": true
+        },
+        {
+            "_id": "7",
+            "address": "3617 Essendene Avenue",
+            "city": "Abbotsford",
+            "country": "Canada",
+            "email": "RachelJWinston@superrito.com",
+            "name": "Rachel Winston",
+            "postal": "V2S 2H7",
+            "projectRole": [
+                {
+                    "role": "eao"
+                }
+            ],
+            "province": "BC",
+            "systemRole": [
+                {
+                    "role": "eao"
+                }
+            ],
+            "viaEmailtrue": true,
+            "viaMailtrue": false
+        },
+        {
+            "_id": "8",
+            "address": "2426 Cordova Street",
+            "city": "Vancouver",
+            "country": "Canada",
+            "email": "SuzanneFBoyd@jourrapide.com",
+            "name": "Suzanne Boyd",
+            "postal": "V6B 1E1",
+            "projectRole": [
+                {
+                    "role": "wg"
+                }
+            ],
+            "province": "BC",
+            "systemRole": [
+                {
+                    "role": "wg"
+                }
+            ],
+            "viaEmailtrue": true,
+            "viaMailtrue": false
+        },
+        {
+            "_id": "9",
+            "address": "1019 Hardy Street",
+            "city": "Kelowna",
+            "country": "Canada",
+            "email": "ChristopherCLemon@gustr.com",
+            "name": "Christopher Lemon",
+            "postal": "V1Y 8H2",
+            "projectRole": [
+                {
+                    "role": "proponent"
+                }
+            ],
+            "province": "BC",
+            "systemRole": [
+                {
+                    "role": "wg"
+                }
+            ],
+            "viaEmailtrue": false,
+            "viaMailtrue": true
+        },
+        {
+            "_id": "10",
+            "address": "1004 Robson St",
+            "city": "Vancouver",
+            "country": "Canada",
+            "email": "LidiaSOtis@einrot.com",
+            "name": "Lidia Otis",
+            "postal": "V6B 3K9",
+            "projectRole": [
+                {
+                    "role": "wg"
+                }
+            ],
+            "province": "BC",
+            "systemRole": [
+                {
+                    "role": "public"
+                }
+            ],
+            "viaEmailtrue": true,
+            "viaMailtrue": false
+        },
+        {
+            "_id": "11",
+            "address": "3561 Wellington Ave",
+            "city": "Chilliwack",
+            "country": "Canada",
+            "email": "LindaRPeterson@dayrep.com",
+            "name": "Linda Peterson",
+            "postal": "V2P 2M1",
+            "projectRole": [
+                {
+                    "role": "public"
+                }
+            ],
+            "province": "BC",
+            "systemRole": [
+                {
+                    "role": "public"
+                }
+            ],
+            "viaEmailtrue": true,
+            "viaMailtrue": false
+        }
+    ],
+    "type": ""
+}

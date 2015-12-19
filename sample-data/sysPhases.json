@@ -1,0 +1,12 @@
+[
+	{
+		"code":"newphase",
+		"name": "New Phase",
+		"isValueComponment": false,
+		"progress": 0,
+	    "status": "open",
+		"access":{},
+		"requirements":["requirementName"],
+		"mandatoryDurationDays":90
+	}
+]

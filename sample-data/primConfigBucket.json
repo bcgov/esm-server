@@ -1,0 +1,13 @@
+{
+	"projectId": null,
+	"urgency":null,
+	"recipientRole":[],
+	"recipientProjectRole":[],
+	"recipients": [],
+	"initiatedBy":null,
+	"dateInitiated":null,
+	"link":null,
+	"subject":"",
+	"description":"",
+	"reminders": []
+}

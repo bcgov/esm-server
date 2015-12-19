@@ -1,0 +1,58 @@
+[
+	{
+		"shortName":"intake",
+		"name":"Intake", 
+		"roles":["Proponent"],
+		"buckets":["Intake"],
+		"activities":[],
+		"prerequisitPhases":[]
+	},
+	{
+		"shortName":"preea",
+		"name":"Pre-EA", 
+		"roles":["Proponent","EAO"],
+		"buckets":["Pre-EA"],
+		"activities":[],
+		"prerequisitPhases":[]
+	},
+	{
+		"shortName":"preapp",
+		"name":"Pre-App", 
+		"roles":["Proponent", "EAO"],
+		"buckets":["Pre-App"],
+		"activities":[],
+		"prerequisitPhases":[]
+	},
+	{
+		"shortName":"evaluation",
+		"name":"Evaluation", 
+		"roles":["Proponent", "EAO"],
+		"buckets":["Evaluation"],
+		"activities":[],
+		"prerequisitPhases":[]
+	},
+	{
+		"shortName":"review",
+		"name":"Review", 
+		"roles":["Proponent", "EAO"],
+		"buckets":["Review"],
+		"activities":[],
+		"prerequisitPhases":[]
+	},
+	{
+		"shortName":"decision",
+		"name":"Decision", 
+		"roles":["Proponent", "EAO"],
+		"buckets":["Decision"],
+		"activities":[],
+		"prerequisitPhases":[]
+	},
+	{
+		"shortName":"postCertification",
+		"name":"Post Certification", 
+		"roles":["Proponent"],
+		"buckets":["Post Certification"],
+		"activities":[],
+		"prerequisitPhases":[]
+	}
+]

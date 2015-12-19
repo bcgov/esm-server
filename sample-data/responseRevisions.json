@@ -1,0 +1,23 @@
+[
+	{
+		"_id":"resp1234",
+		"activityId":"act1234",		
+		"response":"Prior Response",
+		"initiatedBy":"system",
+		"createDate":"2015-02-01T23:58:15.181Z",
+		"relatedDocuments": [
+			{"title": "Document 1", "v":1.0, "date":"2015-01-01T23:58:15.181Z", "responses": ["resp1234", "resp1235"]},
+			{"title": "Document 2", "v":1.0, "date":"2015-01-01T23:58:15.181Z", "responses": ["resp1234"]}	
+		]
+	},
+	{
+		"_id":"resp1235",
+		"activityId":"act1234",		
+		"response":"Prior Response 2",
+		"initiatedBy":"system",
+		"createDate":"2015-01-01T23:58:15.181Z",
+		"relatedDocuments": [
+			{"title": "Document 1", "v":1.0, "date":"2015-01-01T23:58:15.181Z", "responses": ["resp1234", "resp1235"]}
+		]
+	}
+]
