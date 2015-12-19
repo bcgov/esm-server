@@ -1,0 +1,20 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		Start Process: {{ taskDecision.task.name }} <em class="small pull-right">{{ taskDecision.task.status }}</em>
+	</div>
+	<div class="panel-body">
+		<div class="pull-right">
+			<select class="form-control" ng-model="taskDecision.data.result" ng-disabled="taskDecision.data.dateDecided">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>			
+			</select>
+		</div>
+		<p>{{ taskDecision.task.description }}</p>
+	</div>
+	<div class="panel-footer text-right">
+		<div class="form-control-static" ng-show="taskDecision.data.dateDecided">
+			Decision Made: {{ taskDecision.data.dateDecided  | amDateFormat:'MMM Do, YYYY hh:mm a' }}
+		</div>
+		<a class="btn btn-success" href ng-click="taskDecision.completeTask()" ng-show="!taskDecision.data.dateDecided && taskDecision.data.result">Complete</a>
+	</div>	
+</div>

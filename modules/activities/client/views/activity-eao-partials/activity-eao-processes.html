@@ -1,0 +1,7 @@
+<div ng-repeat="task in actProcs.tasks">
+	<tmpl-load-task x-task="task" x-project="actProcs.project" x-current="actProcs.form.currentTask"></tmpl-load-task>
+</div>
+
+<div class="well well-sm" ng-if="actProcs.form.currentTask === ''">
+	No tasks underway.  Select a task to begin.
+</div>

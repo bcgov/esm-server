@@ -1,0 +1,27 @@
+<section class="panel panel-default">
+	<div class='container-fluid'>
+		<div class='row'>
+			<div class='col-md-9 col-no-padding'>
+				<map center="54.726668, -127.647621" zoom="5" style='height: 500px' map-type-id="ROADMAP" min-zoom=5 disable-default-u-i="true"></map>
+			</div>
+			<div class='col-md-3 col-top-padding'>
+				<label class="control-label">Project Layers</label>
+				<div class="well well-sm">
+					<ul class="list-unstyled task-list">
+						<li ng-repeat="layer in mpl.projectLayers">
+							<button class="btn btn-block btn-sm btn-layer" ng-class="{'btn-success': mpl.formProjectLayers[layer._id]}" ng-click="mpl.formProjectLayers[layer._id] = !mpl.formProjectLayers[layer._id]">{{ layer.name }}</button>
+						</li>
+					</ul>
+				</div>
+				<label class="control-label">Shared Layers</label>
+				<div class="well well-sm">
+					<ul class="list-unstyled task-list">
+						<li ng-repeat="layer in mpl.sharedLayers">
+							<button class="btn btn-block btn-sm btn-layer" ng-class="{'btn-success': mpl.formSharedLayers[layer._id]}" ng-click="mpl.formSharedLayers[layer._id] = !mpl.formSharedLayers[layer._id]">{{ layer.name }}</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

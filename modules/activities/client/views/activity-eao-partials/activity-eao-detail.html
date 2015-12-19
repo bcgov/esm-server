@@ -1,0 +1,28 @@
+<div class="panel" ng-class="{'panel-success': actDetail.activity.valueComponents, 'panel-info': !actDetail.activity.valueComponents}" x-expand-panel='actDetail.activityToggle[actDetail.activity._id]'>
+	<div class="panel-heading">
+		<div class="close close-adjust-top">{{ actDetail.activity.status | uppercase }}</div>
+		<h3 class="panel-title">{{ actDetail.activity.name }}</h3>
+	</div>
+	<div class="panel-body" ng-show="actDetail.activityToggle[actDetail.activity._id]">
+		<div class="row">
+			<div class="col-sm-8">
+				{{ actDetail.activity.description }} {{ actDetail.currentTask }}
+			</div>
+			<div class="col-sm-4">
+				<div><label class="control-label">Last Updated</label><p>{{ actDetail.activity.dateUpdated | amDateFormat:'MMM Do, YYYY h:mm a' }}</p></div>
+			</div>
+		</div>
+	</div>
+</div>
+		
+<div class="row">
+
+	<div class="col-md-3 col-lg-3">
+		<tmpl-eao-activity-tasks x-project="actDetail.project" x-activity="actDetail.activity" x-tasks="actDetail.tasks"></tmpl-eao-activity-tasks>
+	</div> <!-- /col3 -->
+	
+	<div class="col-md-9 col-lg-9">
+		<tmpl-eao-activity-processes x-project="actDetail.project" x-activity="actDetail.activity" x-tasks="actDetail.tasks"></tmpl-eao-activity-processes>
+	</div> <!-- /col9 -->
+
+</div>

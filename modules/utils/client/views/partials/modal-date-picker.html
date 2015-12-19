@@ -1,0 +1,13 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{ modalDatePick.title || 'Choose a Date / Time' }}</h3>
+</div>
+<div class="modal-body">
+	<div ng-click="modalDatePick.enableSelector()">
+		<input type="text" class="form-control text-center" ng-model="modalDatePick.chosenDate" ng-disabled="1"/>
+	</div>
+	<datetimepicker ng-model="modalDatePick.chosenDate" data-datetimepicker-config="{}" data-on-set-time="modalDatePick.onTimeSet(newDate, oldDate)" ng-show="modalDatePick.showSelector"></datetimepicker>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" type="button" ng-click="modalDatePick.ok()">OK</button>
+	<button class="btn btn-warning" type="button" ng-click="modalDatePick.cancel()">Cancel</button>
+</div>

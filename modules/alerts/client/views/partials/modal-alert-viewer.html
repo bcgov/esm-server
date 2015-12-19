@@ -1,0 +1,31 @@
+<div class="modal-header">
+	<div class="pull-right">
+		<div class="form-group">
+			<input ng-model="alertView.filterKeyword" type="text" class="form-control" placeholder="Filter">
+		</div>
+	</div>
+	<h3 class="modal-title">User Alerts</h3>
+</div>
+<div class="modal-body">
+	<panel-sort x-fields="alertView.panelSort" x-data="alertView.alerts"></panel-sort>
+
+
+	<table class='table table-condensed'>
+		<tbody>
+			<tr ng-repeat="alert in filteredAlerts = (alertView.alerts | filter: alertView.filterKeyword)" ng-class="{'bg-danger': alert.urgency === 'Critical'}">
+				<td>
+					<strong>{{ alert.subject }}</strong>
+					<p>{{ alert.description }}</p>
+
+
+				</td>
+			</tr>
+			<tr ng-if="filteredAlerts.length === 0">
+				<td>No matching alerts found.</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-warning" type="button" ng-click="alertView.cancel()">Close</button>
+</div>

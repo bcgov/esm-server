@@ -1,0 +1,1 @@
+<button class="btn btn-xs btn-primary" ng-repeat="role in utilRolesSelect.roles" ng-class="{'btn-success': _.indexOf(utilRolesSelect.access, role) > -1}" ng-click="utilRolesSelect.toggleAccess(role)">{{ role }}</button>

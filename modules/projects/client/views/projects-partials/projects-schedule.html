@@ -1,0 +1,33 @@
+
+<section class='panel panel-default'>
+	<table class="table table-condensed table-striped">
+		<thead>
+			<tr>
+				<th width="19%"><small>Project</small></th>
+				<th width="16%"><small>-1 month</small></th>
+				<th width="16%"><small>this month</small></th>
+				<th width="16%"><small>next month</small></th>
+				<th width="16%"><small>+2 months</small></th>
+				<th width="16%"><small>+3 months</small></th>				
+				<th width="1%"></th>
+			</tr>
+		</thead>	
+		<tbody>
+			<tr ng-repeat="project in projectList.projects" class='clickable'>
+				<td ng-click="projectList.goToProject( project._id );">{{ project.name }}</td>
+				<td ng-click="projectList.goToProject( project._id );" colspan="5" class="bg-warning">
+
+				</td>
+				<td>
+					<span class="text-nowrap">
+						<a href x-modal-project-edit x-project="project"><span class='glyphicon glyphicon-pencil'></span></a>
+						<a href x-modal-bookmark-project x-user="" x-project="project"><span class='glyphicon glyphicon-bookmark'></span></a>
+					</span>
+				</td>
+			</tr>
+			<tr ng-if="projectList.projects.length === 0">
+				<td colspan="4">No projects match your filter criteria.</td>
+			</tr>
+		</tbody>
+	</table>
+</section>

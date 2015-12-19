@@ -1,0 +1,102 @@
+<h1 class="page-title">
+	<a href ui-sref='eao.projects' class='pull-right return-link'>Return to Project List</a>
+	Project Template Provisioning
+
+</h1>
+
+<section id="project-view" class="container-fluid">
+
+	<div class='row'>
+		<div class='col-sm-12'>
+			
+			<div class="panel panel-default">
+				<div class='panel-body'>
+
+					<div class="well well-sm form-inline">
+						<div class="form-group">
+							<label class="sr-only" for="exampleInputEmail3">Steams</label>
+							<select ng-if="configData.streams" class="form-control" ng-options="stream for stream in configData.streams"></select>
+						</div>
+						<button class="btn btn-default" ng-click="configData.createStream()">New Stream</button>
+
+						<div class="form-group pull-right">
+							<div ng-if="configData.currentStream && configData.isNew">
+								<button class="btn btn-success" ng-click="configData.addStream()">Save</button>
+							</div>
+							<div ng-if="configData.currentStream && !configData.isNew">
+								<button class="btn btn-success" ng-click="configData.saveStream()">Save</button>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="well well-sm" ng-if="configData.currentStream">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="control-label">Code</label>
+									<input class="form-control" type="text" ng-model="configData.currentStream.code">
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="control-label">Name</label>
+									<input class="form-control" type="text" ng-model="configData.currentStream.name">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label class="control-label">Description</label>
+									<textarea class="form-control" ng-model="configData.currentStream.description"></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div ng-show="configData.currentStream">
+						<ul class="nav nav-pills nav-justified" >
+							<li ng-class="{'active':configData.curTab === 'phases'}">			<a href ng-click="configData.curTab = 'phases'">Phases</a></li>
+							<li ng-class="{'active':configData.curTab === 'activities'}">		<a href ng-click="configData.curTab = 'activities'">Activities</a></li>
+							<li ng-class="{'active':configData.curTab === 'tasks'}">			<a href ng-click="configData.curTab = 'tasks'">Tasks</a></li>
+							<li ng-class="{'active':configData.curTab === 'milestones'}">		<a href ng-click="configData.curTab = 'milestones'">Milestones</a></li>
+							<li ng-class="{'active':configData.curTab === 'buckets'}">			<a href ng-click="configData.curTab = 'buckets'">Buckets</a></li>
+							<li ng-class="{'active':configData.curTab === 'requirements'}">		<a href ng-click="configData.curTab = 'requirements'">Requirements</a></li>
+						</ul>
+
+						<div ng-if="configData.curTab === 'milestones'">
+							<tmpl-config-milestones x-config="configData.currentStream" x-context="milestones"></tmpl-config-milestones>
+						</div>
+
+						<div ng-if="configData.curTab === 'phases'">
+							<tmpl-config-phases x-config="configData.currentStream" x-context="phases"></tmpl-config-phases>
+						</div>
+
+						<div ng-if="configData.curTab === 'activities'">
+							<tmpl-config-activities x-config="configData.currentStream" x-context="activities"></tmpl-config-activities>
+						</div>
+
+						<div ng-if="configData.curTab === 'tasks'">
+							<tmpl-config-tasks x-config="configData.currentStream" x-context="tasks"></tmpl-config-tasks>
+						</div>
+
+						<div ng-if="configData.curTab === 'buckets'">
+							<tmpl-config-buckets x-config="configData.currentStream" x-context="buckets"></tmpl-config-buckets>
+						</div>
+
+						<div ng-if="configData.curTab === 'requirements'">
+							<tmpl-config-requirements x-config="configData.currentStream" x-context="requirements"></tmpl-config-requirements>
+						</div>
+					</div>
+
+
+				</div> <!-- /panelbody -->
+
+			</div> <!-- /panel -->			
+
+		</div> <!-- /col12 -->
+	</div>		
+
+</section>

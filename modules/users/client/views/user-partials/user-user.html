@@ -1,0 +1,74 @@
+<p class="lead">Primary Contact</p>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label for="contact" class="control-label">Contact Name</label>
+            <input id="contact" type="text" class="form-control input-sm" ng-model="uu.name">
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label for="contactTitle" class="control-label">Title</label>
+            <input id="contactTitle" type="text" class="form-control input-sm" ng-model="uu.title">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label for="email" class="control-label">Email</label>
+            <input id="email" type="email" class="form-control input-sm" ng-model="uu.email">
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label for="phone" class="control-label">Phone</label>
+            <input id="phone" type="tel" class="form-control input-sm" ng-model="uu.phone">
+        </div>
+    </div>
+</div>
+
+<div class="well well-sm">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="contactaddress1" class="control-label">Address (Line 1)</label>
+                <input id="contactaddress1" type="text" class="form-control input-sm" ng-model="uu.address1">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="contactaddress2" class="control-label">Address (Line 2)</label>
+                <input id="contactaddress2" type="text" class="form-control input-sm" ng-model="uu.address2">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label for="contactcity" class="control-label">City</label>
+                <input id="contactcity" type="text" class="form-control input-sm" ng-model="uu.city">
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label for="contactprovince" class="control-label">Province</label>
+                <select id="contactprovince" class="form-control input-sm" ng-model="uu.province" ng-options="key as value for (key, value) in uu.project.provs"></select>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label for="contactpostal" class="control-label">Postal</label>
+                <input id="contactpostal" type="text" class="form-control input-sm" ng-model="uu.postal">
+            </div>
+        </div>
+    </div>
+</div>
+

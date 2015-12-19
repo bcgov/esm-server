@@ -1,0 +1,22 @@
+<h1 class="page-title">
+	<a href ui-sref='eao.project({id: actBase.project._id })' class='pull-right return-link'>Return to Activities</a>
+	{{ actBase.project.name }}
+</h1>
+
+<section id="project-view" class="container-fluid">
+
+	<tmpl-project-tombstone-horizontal x-project="actBase.project"></tmpl-project-tombstone-horizontal>
+
+	<tmpl-project-timeline x-project="actBase.project"></tmpl-project-timeline>
+
+	<div class='row'>
+		<div class='col-sm-9 col-lg-10'>
+			<tmpl-eao-activity-detail x-project="actBase.project" x-activity="actBase.activity"></tmpl-eao-activity-detail>
+		</div> <!-- /col12 -->
+		<div class='col-sm-3 col-lg-2'>
+			<tmpl-alert-list x-project="actBase.project"></tmpl-alert-list>
+			<tmpl-upcoming-events x-project="actBase.project"></tmpl-upcoming-events>
+		</div> <!-- /col12 -->
+	</div> <!-- /row -->
+
+</section>

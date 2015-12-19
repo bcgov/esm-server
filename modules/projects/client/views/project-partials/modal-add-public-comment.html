@@ -1,0 +1,23 @@
+<div class="modal-header">
+	<h3 class="modal-title">Contribute a Comment</h3>
+</div>
+<div class="modal-body">
+	<div class="form-group">
+		<label for="publiccomment" class="control-label">Your Comment</label>
+		<textarea id="publiccomment" class="form-control" rows="6" ng-model="publicComment.data.comment"></textarea>
+	</div>
+	<div class="form-group">
+		<label for="name" class="control-label">Your Name <em class="small">Optional</em></label>
+		<input type="input" id="name" class="form-control" ng-model="publicComment.data.author"/>
+	</div>
+
+	<a href ng-click="publicComment.form.showDocuments = true" ng-show="!publicComment.form.showDocuments">Click here to upload documents and images.</a>
+	<div ng-show="publicComment.form.showDocuments">
+		<tmpl-documents-upload-general x-project="publicComment.project"></tmpl-documents-upload-general>
+	</div>
+
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default" type="button" ng-click="publicComment.cancel()">Cancel</button>
+	<button class="btn btn-primary" type="button" ng-click="publicComment.ok()">Send</button>
+</div>

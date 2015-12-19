@@ -1,0 +1,36 @@
+<section class='panel panel-default'>
+	<table class="table table-condensed table-striped">
+		<thead>
+			<tr>
+				<th><small>Project</small></th>
+				<th><small>Region</small></th>
+				<th><small>Phase</small></th>
+				<th><small>Est. Progress</small></th>
+				<th width="1%"></th>
+			</tr>
+		</thead>	
+		<tbody>
+			<tr ng-repeat="project in filteredProjects = (projectList.projects | filter:vm.filterKeyword | filter:vm.filterObject)" ng-if='filteredProjects.length > 0' class='clickable'>
+				<td ng-click="projectList.goToProject( project._id );">{{ project.name }}</td>
+				<td ng-click="projectList.goToProject( project._id );">{{ project.region }}</td>
+				<td ng-click="projectList.goToProject( project._id );">{{ project.currentPhaseCode || 'Intake' }}</td>
+				<td ng-click="projectList.goToProject( project._id );">
+					<div class="progress">
+						<div class="progress-bar progress-bar-success" role="progressbar" style="width: {{ project.overallProgress }}%;">
+							{{ project.overallProgress }}%
+						</div>
+					</div>
+				</td>
+				<td>
+					<p class="text-nowrap">
+						<a href x-modal-project-edit x-project="project"><span class='glyphicon glyphicon-pencil'></span></a>
+						<a href x-modal-bookmark-project x-user="" x-project="project"><span class='glyphicon glyphicon-bookmark'></span></a>
+					</p>
+				</td>
+			</tr>
+			<tr ng-if="filteredProjects.length === 0">
+				<td colspan="5">No projects match your filter criteria.</td>
+			</tr>
+		</tbody>
+	</table>
+</section>

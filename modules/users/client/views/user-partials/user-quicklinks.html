@@ -1,0 +1,12 @@
+<section class="user-quicklinks">
+
+	<div class="row">
+		<div class="col-sm-6 col-md-4 col-lg-3 user-quick-links" ng-repeat="link in uql.quicklinks">
+			<a class="text-center" ui-sref='eao.project({id: link._id})'>
+				<h1><i class="glyphicon glyphicon-certificate"></i></h1>
+				<p class="small">{{ link.name }}<p>
+			</a>
+		</div>
+	</div>
+
+</section>

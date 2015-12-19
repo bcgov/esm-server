@@ -1,0 +1,139 @@
+
+<section>
+
+	<nav class="navbar navbar-default navbar-sm">
+		<div class="container-fluid">
+
+			<ul class="nav navbar-nav navbar-left">
+				<li>
+					<div class="navbar-form">
+						<div class="form-group">
+							<label class="control-label">Focus</label>
+							<select ng-model='pr.search.focus' class="form-control">
+								<option ng-repeat='focus in pr.researchFocus' value='{{ focus }}'>{{ focus }}</option>
+							</select>
+						</div>
+					</div>	
+				</li>
+				<li>
+					<div class="navbar-form btn-group btn-group-sm">
+						<button class="btn btn-default" ng-click="pr.search.project = 'all'"		ng-class="{'btn-primary': pr.search.project === 'all'}">All Projects</button>			
+						<button class="btn btn-default" ng-click="pr.search.project = 'this'"		ng-class="{'btn-primary': pr.search.project === 'this'}">This Project</button>
+					</div>
+				</li>
+			</ul>
+
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<div class="navbar-form">
+						<div class="form-group">
+							<label class="control-label">Search</label>
+							<input ng-model="pr.search.term" type="text" class="form-control" placeholder="Search">
+							<button class="btn btn-sm" ng-click="pr.performSearch()">Search</button>
+						</div>
+					</div>
+				</li>
+			</ul>
+
+		</div><!-- /.container-fluid -->
+
+		<div class="container-fluid">
+
+			<ul class="nav navbar-nav navbar-left">
+				<li>
+					<div class="navbar-form">
+						<div class="form-group">
+							<label class="control-label">Tags</label>
+							<button ng-repeat="tag in pr.projectTags" class="btn btn-sm btn-layer btn-spaced" ng-class="{'btn-success': pr.formProjectTags[tag]}" ng-click="pr.formProjectTags[tag] = !pr.formProjectTags[tag]">{{ tag }}</button>
+						</div>
+					</div>	
+				</li>
+			</ul>
+
+		</div><!-- /.container-fluid -->
+
+	</nav>
+			
+</section>
+
+
+
+<section class='panel panel-default' ng-if="pr.searchResults.records.length > 0">
+	<table class="table table-condensed table-striped">
+		<thead>
+			<tr>
+				<th width="30%"><small>Project</small></th>
+				<th ng-if="pr.searchResults.terms !== 'Project'"><small>{{ pr.searchResults.terms }}</small></th>
+				<th width="5%" class="text-right"></th>
+			</tr>
+		</thead>	
+		<tbody>
+			<tr ng-repeat="result in pr.searchResults.records" class='clickable'>
+				<td x-modal-research-detail x-seed="result._id" x-term="pr.searchResults.terms">{{ result.project.name }}</td>
+				<td x-modal-research-detail x-seed="result._id" x-term="pr.searchResults.terms" ng-if="pr.searchResults.terms !== 'Project'">{{ result.response }}</td>
+				<td width="5%" class="text-right"><a href title="Add Project to Map"><i class="glyphicon glyphicon-globe"></i></a></td>
+			</tr>
+		</tbody>
+	</table>
+</section>
+
+
+
+
+<!-- 
+<section class="panel panel-default">
+	<div class="controller-fluid panel-body">
+		<div class="row">
+
+			<div class="col-sm-6">
+
+				<label class="control-label">Project Conditions <span>({{ pr.projectResearch.length || 0 }})</span></label>
+				<div ng-if="pr.projectResearch" class="small">
+
+					<div class="research-content clearfix container-fluid" ng-repeat="condition in pr.projectResearch">
+						<div class="row">
+							<div class="col-md-12">
+								<a href >{{ condition.condition }}</a>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				
+				<div ng-if="!pr.projectResearch" class="small">
+					No conditions.
+				</div>
+
+			</div>
+			<div class="col-sm-6">
+
+				<label class="control-label">Similar Conditions <span>({{ pr.projectRelatedResearch.length || 0 }})</span></label>
+				<div ng-if="pr.projectRelatedResearch" class="small">
+
+					<div class="research-content clearfix container-fluid" ng-repeat="condition in pr.projectRelatedResearch" ng-class="{'bg-success': condition.similarity >=80, 'bg-warning': condition.similarity < 80  }">
+						<div class="row">
+							<div class="col-md-6">
+								<a href >{{ condition.condition }}</a><br/>
+								<div><strong>Project:</strong> {{ condition.project }}</div>
+								<div><strong>Similarity:</strong> {{ condition.similarity }}</div>
+							</div>
+							<div class="col-md-6">
+								<div><strong>C&E Rating:</strong> {{ condition.rating }}</div>
+								<div ng-if="condition.comment"><strong>C&E Comment:</strong> {{ condition.comment }}</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div ng-if="!pr.projectRelatedResearch" class="small">
+					No comments.
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</section>
+ -->
+ 
+<tmpl-map x-layers="pr.layers"></tmpl-map>

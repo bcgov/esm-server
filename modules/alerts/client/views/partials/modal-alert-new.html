@@ -1,0 +1,113 @@
+<div class="modal-header">
+	<h3 class="modal-title">New Alert</h3>
+</div>
+<div class="modal-body">
+
+	<div class="form-group row">
+		<div class='col-sm-9'>
+			<label class="control-label">Subject</label>
+			<input type="text" class="form-control" ng-model="alertNew.alert.subject"/>
+		</div>
+
+		<div class='col-sm-3'>
+			<label class="control-label">Urgency</label>
+			<select type="text" class="form-control" ng-model="alertNew.alert.urgency">
+				<option value="normal">Normal</option>
+				<option value="important">Important</option>
+				<option value="critical">Critical</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<div class='col-sm-12'>
+			<textarea class="form-control" rows=5 ng-model="alertNew.alert.description"></textarea>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<div class='col-sm-12'>
+			<label class="control-label">Link</label>
+			<div class="input-group">
+      			<input type="text" class="form-control" ng-model="alertNew.alert.link">
+ 				<span class="input-group-btn">
+					<button class="btn btn-default" ng-click="alertNew.alert.link = pageLocation" type="button">This Page</button>
+					<button class="btn btn-default" ng-click="alertNew.alert.link = ''" type="button">None</button>
+				</span>
+			</div><!-- /input-group -->
+
+		</div>
+	</div>
+
+	<hr>
+
+	<div class="form-group row">
+		<div class='col-sm-12'>
+			<p class="clearfix">
+				<div class="pull-right">
+					<div class="btn-group btn-group-xs" role="group" aria-label="...">
+						<button type="button" class="btn btn-default" ng-click="alertNew.addReminder('before')">Before Milestone</button>
+						<button type="button" class="btn btn-default" ng-click="alertNew.addReminder('onTask')">On Task</button>
+						<button type="button" class="btn btn-default" ng-click="alertNew.addReminder('onDate')">On Date</button>
+					</div>
+				</div>
+				New Reminder
+			</p>
+
+			<div ng-repeat='rem in alertNew.alert.reminders' class="well well-sm">
+				<div ng-if="rem.type === 'before'" class="form-inline form-group">
+					<input type="text" class="form-control" size='3' max-length='3' ng-model="rem.duration"/>
+					&nbsp;
+					<select type="text" class="form-control" ng-model="rem.unit">
+						<option value="days">Days</option>
+						<option value="weeks">Weeks</option>
+						<option value="months">Months</option>
+					</select>
+					&nbsp;
+					<p class="form-control-static">before</p>
+					&nbsp;
+					<select type="text" class="form-control" ng-model="rem.phase">
+					</select>
+				</div>
+
+				<div ng-if="rem.type === 'onTask'" class="form-inline form-group">
+					<p class="form-control-static">On</p>
+					&nbsp;
+					<select type="text" class="form-control" ng-model="rem.task">
+					</select>
+					&nbsp;
+					<select type="text" class="form-control" ng-model="rem.status">
+					</select>
+				</div>
+
+				<div ng-if="rem.type === 'onDate'" class="form-inline form-group">
+					<p class="form-control-static">On</p>
+					&nbsp;
+					<input type="date" class="form-control" ng-model="rem.date"/>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label">Recipients - By Role</label>
+					<roles-select x-selected-roles="rem.accessRoles"></roles-select>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label">Recipients - Individuals</label>
+					<users-select x-selected-users="rem.accessUsers" x-project='alertNew.project'></users-select>
+				</div>
+
+				<div class="text-right">
+					<a href title="Remove this reminder" ng-click="alertNew.removeReminder(rem)" class="small">Remove this Reminder</a>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+<div class="modal-footer">
+	<button class="btn btn-warning" type="button" ng-click="alertNew.cancel()">Cancel</button>
+	<button class="btn btn-primary" type="button" ng-click="alertNew.ok()">Save</button>	
+</div>

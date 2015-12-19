@@ -1,3 +1,4 @@
+<!--
 <div class="container" ng-controller="HeaderController">
   <div class="navbar-header">
     <button class="navbar-toggle" type="button" ng-click="toggleCollapsibleMenu()">
@@ -57,3 +58,40 @@
     </ul>
   </nav>
 </div>
+ -->
+
+
+
+
+<nav class="navbar navbar-fixed-top navbar-custom">
+    <div class="container-fluid">
+
+		<div class="col-sm-9">
+			<div class="navbar-header">
+				<a class="navbar-brand" ui-sref="default"><img src="images/eao-logo.png" height="40" width="248"/></a>
+			</div>
+
+			<ul class="nav navbar-nav" ng-if="false">
+				<li ui-sref-active="active">
+					<a ui-sref="default">Dashboard</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="col-sm-3">
+			<ul class="nav navbar-nav navbar-right" ng-if="tNav.user.type === 'eao'">
+				<li class="text-right navbar-user">
+					<a ui-sref="user.profile">{{ tNav.user.name }}</a><br/>
+					<div class="small">
+						<a x-modal-alerts-viewer class="text-danger" x-divider=true></a><a ui-sref="user.profile">Profile</a>&nbsp;|&nbsp;<a ui-sref="default">Logout</a>
+					</div>
+				</li>
+				<li class="text-right navbar-user navbar-user-icon">
+					<a ui-sref="user.profile"><i class="glyphicon glyphicon-user"></i></a><br/>
+				</li>
+
+			</ul>
+		</div>
+
+    </div>
+</nav>

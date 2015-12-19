@@ -1,0 +1,47 @@
+		<div class="row">
+			<div class="col-md-8">
+				<label class="pull-right control-label clickable slight">
+					<span ng-show="!ad.fullView" ng-click="ad.fullView = !ad.fullView">Full View</span>
+					<span ng-show="ad.fullView" ng-click="ad.fullView = !ad.fullView">Compact View</span>
+				</label>
+				<label for="response" class="control-label">A.I.R. Concerns</label>
+				<section class="outlined-box container-fluid" ng-class="{'scrollable':!ad.fullView}">
+					
+					<div ng-repeat="concern in ad.activity.concerns" class="comment-box row" ng-class="{'bg-warning':ad.selected === concern._id}" ng-click="ad.selected = concern._id">
+						<div class="col-sm-6">
+							<p><span class="label label-primary">{{ concern.author }}</span> <span class="label label-default clickable" ng-class="{'label-success': ad.filteredDocumentsFor === $index}" ng-click="ad.toggleDocumentFilter($index)">{{ (ad.filteredDocumentsFor === $index) ? 'Hide': 'Show' }} Related Documents</span></p>
+							<p>{{ concern.concern }}</p>
+						</div>
+						<div class="col-sm-6">
+							<p><span class="label label-success">Proponent</span></p>
+							<p>No Response Recorded</p>
+						</div>
+					</div> <!-- /comment -->
+				</section>				
+			</div>
+			
+			<div class="col-md-4">
+				<tmpl-documents-list x-documents="ad.activity.relatedDocuments" x-filter-by="ad.filterDocumentsBy"></tmpl-documents-list>				
+			</div>
+		</div>
+		<hr/>
+		<div class="row">
+			<div class="col-md-8">
+				<div class="form-group">
+					<label for="response" class="control-label">Response</label>
+					<textarea class="form-control" rows="7" id="response" ng-model='ad.response'></textarea>
+				</div>
+				<div class="form-group pull-right">
+					<button class="btn btn-success">Save and Submit</button>
+					<button class="btn btn-primary">Save</button>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-default" x-modal-response-revisions x-activity-id="ad.activity._id">Revisions <span>({{ ad.revisionCount || 0 }})</span></button>
+				</div>
+			</div>
+			
+			<div class="col-md-4">
+				<tmpl-documents-upload-general></tmpl-documents-upload-general>				
+			</div>
+		</div>
+		

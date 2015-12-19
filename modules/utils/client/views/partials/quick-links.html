@@ -1,0 +1,31 @@
+<section class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">Project Quicklinks</h3>
+	</div>
+	<div class='panel-body'>
+
+
+			<table class="table table-condensed">
+				<thead>
+					<tr>
+						<th>Project</th>
+						<th class="text-right">Last Update</th>								
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr ng-repeat="project in qlPanel.quickLinks">
+						<td>
+							<a html ui-sref="eao.project({id: project._id})">{{ project.name }}</a>
+						</td>
+						<td class="text-right">
+							{{ project.date }}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+
+		</div>
+	</div>
+</section>

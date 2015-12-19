@@ -1,0 +1,55 @@
+<label class="control-label">Upload Documents</label>
+<div class="well well-sm clearfix">
+	<div class="row">
+		<div class="col-md-12">
+		    <div ngf-drop ngf-select ng-model="files" class="drop-box"
+		        ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+		        accept="image/*,application/pdf" 
+		        ngf-pattern="'image/*,application/pdf'">Drop files here or click to select
+		    </div>
+		</div>
+	</div>
+
+	<table class="table table-condensed">
+		<thead>
+			<tr class="small">
+				<th>File</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ngf-no-file-drop>
+				<td class="text-center">
+					<p class="form-control-static">File Drag/Drop is not supported for this browser (pdf or image files only)</p>
+				</td>
+			</tr>
+			<tr ng-if="!files">
+				<td class="text-center" class="text-center">
+					<p class="form-control-static">Drag a file to the dashed region above to upload.</p>
+				</td>
+			</tr>
+			<tr ng-repeat="f in docUpload.fileList" ng-class="{'danger': f.$error}">
+
+				<td ng-if="f.$error">
+					<p class="form-control-static text-danger">FILE ERROR: {{f.name}} {{f.$error}} {{f.$errorParam}}</p>
+				</td>
+
+				<td ng-if="!f.$error">
+					<p class="form-control-static">{{f.name}}</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="row">
+		<div class="col-sm-12 text-right">
+			<button ng-click="docList.upload()" ng-if="docUpload.fileList.length > 0" class="btn btn-success">
+				Upload Queued Documents
+			</button>
+		</div>
+	</div>
+	<div ng-if="log">
+		Upload Log:
+		<pre>{{log}}</pre>
+	</div>
+</div>
+

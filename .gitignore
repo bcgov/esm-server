@@ -27,6 +27,9 @@ config/env/local.js
 # Ignoring MEAN.JS's gh-pages branch for documenation
 _site/
 
+# Shortcut Links
+_all*/
+
 # General
 # =======
 *.log

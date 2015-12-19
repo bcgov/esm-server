@@ -1,0 +1,46 @@
+<section>
+	<div class="panel panel-default project-info-panel">
+
+		<div class='panel-heading'>
+			<div><label class="control-label">Type</label><p>{{ projTomb.project.type }}</p></div>
+			<div><label class="control-label">Location</label><p>{{ projTomb.project.region }}</p></div>
+			<div><label class="control-label">Description</label><p>{{ projTomb.project.description }}</p></div>
+			<div><small><a href><span class='glyphicon glyphicon-file'></span> Comprehensive Project Description</a></small></p></div>
+			<div><small><a href x-modal-proponent-access x-project="projTomb.project"><span class='glyphicon glyphicon-user'></span> Configure Project Access</a></small></p></div>
+		</div>
+	
+		<div class='panel-body'>
+			<div><label class="control-label">Current Phase</label><p x-phase-colour x-phase="projTomb.project.phase">{{ projTomb.project.phase }}</p></div>
+			<div><label class="control-label">Estimated Phase Completion</label><p>{{ projTomb.project.estimatedPhaseCompleteDate | amDateFormat:'MMM Do YYYY' }}</p></div>
+			<div><label class="control-label">Next Phase</label><p x-phase-colour x-phase="projTomb.project.nextPhase">{{ projTomb.project.nextPhase }}</p></div>
+			<div><small><a href x-modal-project-schedule x-project="projTomb.project"><span class='glyphicon glyphicon-calendar'></span> Estimated Project Schedule</a></small></div>
+		</div>
+
+		<div class='panel-footer'>
+			<table class='table table-condensed small'>
+				<thead>
+					<tr>
+						<th>Documents</th>
+						<th class="text-right"><a href x-modal-document-viewer>View all</a></th>
+					</tr>
+				</thead>					
+				<tbody class="clickable">
+					<tr>
+						<td class="document-cell">
+							<a href ng-click="vm.documentViewer()"><span class='glyphicon glyphicon-folder-close'></span> A.I.R. Documents
+						</td>
+						<td class='text-right'>Feb. 4, 2003</td>
+					</tr>
+					<tr>
+						<td class="document-cell">
+							<a href ng-click="vm.documentViewer()"><span class='glyphicon glyphicon-folder-close'></span> Working Group Documents
+						</td>
+						<td class='text-right'>Mar. 4, 2004</td>
+					</tr>
+				</tbody>
+
+			</table>
+		</div>
+
+	</div> <!-- /panel -->
+</section>

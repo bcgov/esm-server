@@ -1,0 +1,63 @@
+<label class="control-label">Upload Documents</label>
+<div class="well well-sm clearfix">
+	<div class="row">
+		<div class="col-md-12">
+		    <div ngf-drop ngf-select ng-model="files" class="drop-box"
+		        ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+		        accept="image/*,application/pdf" 
+		        ngf-pattern="'image/*,application/pdf'">Drop files here or click to upload
+		    </div>
+		</div>
+	</div>
+
+	<table class="table table-condensed">
+		<thead>
+			<tr class="small">
+				<th width="35%">File</th>
+				<th width="30%">Type</th>
+				<th width="35%">Locations</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ngf-no-file-drop>
+				<td class="text-center" colspan=3>
+					<p class="form-control-static">File Drag/Drop is not supported for this browser</p>
+				</td>
+			</tr>
+			<tr ng-if="!files">
+				<td class="text-center" colspan=3 class="text-center">
+					<p class="form-control-static">Drag a file to the dashed region above to upload.</p>
+				</td>
+			</tr>
+			<tr ng-repeat="f in docUpload.fileList" ng-class="{'danger': f.$error}">
+
+				<td ng-if="f.$error" colspan=3>
+					<p class="form-control-static text-danger">FILE ERROR: {{f.name}} {{f.$error}} {{f.$errorParam}}</p>
+				</td>
+
+				<td ng-if="!f.$error">
+					<p class="form-control-static">{{f.name}} {{f.$error}} {{f.$errorParam}}</p>
+				</td>
+				<td ng-if="!f.$error">
+					<select class="form-control" ng-options="type as type.name group by (type.group | uppercase) for type in docUpload.docTypes track by type.code" ng-model="f.docType"></select>
+				</td>
+				<td ng-if="!f.$error">
+					<tmpl-bucket-list></tmpl-bucket-list>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="row">
+		<div class="col-sm-12 text-right">
+			<button ng-click="docList.upload()" ng-if="docUpload.fileList.length > 0" class="btn btn-success">
+				Upload Queued Documents
+			</button>
+		</div>
+	</div>
+	<div ng-if="log">
+		Upload Log:
+		<pre>{{log}}</pre>
+	</div>
+</div>
+

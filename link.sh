@@ -1,13 +1,21 @@
 #!/bin/bash
+mkdir -p _allclientdirectives
 mkdir -p _allcontrollers
 mkdir -p _allmodels
 mkdir -p _allpolicies
 mkdir -p _allroutes
+rm _allclientdirectives/*
 rm _allcontrollers/*
 rm _allmodels/*
 rm _allpolicies/*
 rm _allroutes/*
 
+for DIRECTORY in $(find modules -name "directives"); do
+	if [[ $DIRECTORY == */client/directives ]]; then
+		echo $DIRECTORY
+		ln -s $PWD/${DIRECTORY}/*.js _allclientdirectives/
+	fi
+done;
 for DIRECTORY in $(find modules -name "controllers"); do
 	if [[ $DIRECTORY == */server/controllers ]]; then
 		echo $DIRECTORY

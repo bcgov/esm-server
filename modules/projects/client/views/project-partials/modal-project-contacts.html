@@ -1,0 +1,23 @@
+<div class="modal-header">
+	<h3 class="modal-title">Project Contacts</h3>
+</div>
+<div class="modal-body">
+
+<div class="(role, contacts) in projectContacts.contactsByRole">
+	<label class="control-label">{{ role }}</label>
+	<div class="well well-sm">
+		<ul class="list-unstyled task-list">
+			<li ng-repeat="contact in contacts track by $index">
+				{{ contact.name }}
+			</li>
+			<li ng-if="contacts.length === 0">
+				No contacts defined for this role.
+			</li>
+		</ul>
+	</div>
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-warning" type="button" ng-click="projectContacts.cancel()">Cancel</button>
+	<button class="btn btn-primary" type="button" ng-click="projectContacts.ok()">Close</button>
+</div>

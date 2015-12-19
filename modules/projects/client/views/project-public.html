@@ -1,0 +1,211 @@
+<h1 class="page-title">
+	<a href ui-sref='public.projects' class='pull-right return-link'>Return to Project List</a>
+	{{ vm.project.name }}
+</h1>
+<section id="project-view" class="container-fluid">
+	<div class='row'>
+
+		<div class='col-sm-3'>
+			<div class="panel panel-default project-info-panel">
+				<div class='panel-heading'>
+					<div><label class="control-label">Developer</label><p>{{ vm.project.proponent.name }}</p></div>
+					<div><label class="control-label">Type</label><p>{{ vm.project.type }}</p></div>
+					<div><label class="control-label">Location</label><p>{{ vm.project.region }}</p></div>
+					<div><label class="control-label">Description</label><p>{{ vm.project.description }}</p></div>
+					<p><small><a href><span class='glyphicon glyphicon-file'></span> Comprehensive Project Description</a></small></p>
+				</div>
+
+				<div class="location-map">
+
+					<map center="{{ vm.project.lat }},{{ vm.project.lon }}" zoom="5" map-type-id="SATELLITE" street-view-control='false' min-zoom=5 disable-default-u-i="true">
+						<marker id="marker_{{ vm.project._id }}" position="{{ vm.project.lat }},{{ vm.project.lon }}"></marker>
+					</map>
+
+				</div>
+				
+				<div class='panel-body'>
+					<label class="control-label">Comment Volume by Date</label>
+					<tmpl-public-project-comments-by-date x-refresh="vm.refreshVisualization" x-data="vm.commentsByDateVis"></tmpl-public-project-comments-by-date>
+				</div>
+
+			</div>
+		</div>
+
+
+		<div class='col-sm-9'>
+
+			<div class="alert alert-info clickable text-center" x-modal-add-public-comment x-project="vm.project" ng-if="(vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)">
+				<p>Public Comments Open from <strong>{{ vm.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}}</strong> to <strong>{{ vm.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY' }}</strong></p>
+				<h3>Click here to contribute a comment</h3>
+				<hr>
+				<p class="lead"><small>Public Comment Period Ends In</small><countdown-clock x-end="vm.project.dateCommentsClosed"></countdown-clock></p>
+			</div>
+
+
+<!-- 			<div class="panel panel-default panel-project-summary clickable" x-modal-project-schedule x-project="vm.project">
+				<div class="panel-body">
+					<div class='row'>
+						<div class="col-sm-12">
+							<div>
+								<div class="progress-info-button pull-right clickable"
+										popover="At any Phase in our process, new information could be introduced that requires investigation.  This takes time and the project dates are adjusted to reflect this."
+										popover-title="Why just an estimate?"
+										popover-placement='left'
+										popover-trigger='mouseenter'
+								><span class='glyphicon glyphicon-question-sign'></span></div>
+								<div class="progress progress-no-margin">
+									<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ vm.project.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ vm.project.progress }}%;">
+										Estimated Progress: {{ vm.project.progress }}% 
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> --> <!-- /row -->
+					
+<!-- 					<div class='row' >
+						<div class="col-sm-4">
+							<div class="text-center">
+								<label class="control-label">Current Phase</label>
+								<p>{{ vm.project.phase }}</p>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="text-center">
+								<label class="control-label">Est. Phase Completion</label>
+								<p>{{ vm.project.estimatedPhaseCompleteDate | amDateFormat:'MMM Do YYYY' }}</p>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="text-center">
+								<label class="control-label ">Next Phase</label>
+								<p>{{ vm.project.nextPhase }}</p>
+							</div>
+						</div>
+					</div> --> <!-- /row -->
+<!-- 				</div>
+			</div>
+ -->
+
+			<nav class="navbar navbar-default navbar-sm">
+				<div class="container-fluid">
+
+					<ul class="nav navbar-nav navbar-form navbar-left">
+						<li>
+							<div class="btn-group btn-group-sm">
+								<button class="btn btn-default" ng-click="vm.form.view = 'bydate'"	ng-class="{'btn-primary': vm.form.view === 'bydate'}">By Date</button>
+								<button class="btn btn-default" ng-click="vm.form.view = 'byvc'"	ng-class="{'btn-primary': vm.form.view === 'byvc'}">By Value Components</button>
+							</div>
+						</li>
+					</ul>
+
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<p class="navbar-text">Filter</p>
+						</li>
+						<li>
+							<form class="navbar-form" role="filter1">
+								<div class="form-group">
+									<input ng-model="vm.filterKeyword" type="text" class="form-control" placeholder="Filter">
+								</div>
+							</form>
+						</li>
+					</ul>
+
+				</div><!-- /.container-fluid -->
+			</nav>
+
+			<div ng-repeat="bucket in filteredBuckets = (vm.project.buckets | filter:vm.filterKeyword)" class="concern-list" ng-show="vm.form.view === 'byvc'">
+				<h3 ng-click='form[point.group] = !form[point.group]' class="clickable concern-heading">
+					{{ bucket.name }}
+				</h3>
+				<hr ng-if='!form[point.group] && !$last'>
+
+				<div class="panel panel-default panel-concern" ng-if='form[point.group]' ng-repeat='item in bucket.concerns'>
+					<div class="panel-body">
+						<div class="clearfix">
+						<h4 class='pull-right no-margins'><span class='label' ng-class="{'label-success':item.status === 'Closed', 'label-primary':item.status === 'Open'}">{{ item.status }}</span></h4>
+						<p>{{ item.description }}</p>
+						</div>
+
+						<div class="table-responsive">
+
+							<table class="table table-condensed table-striped table-bordered">
+								<thead>
+									<tr>
+										<th colspan="3">
+											<abbr title="Application Information Requirements">A.I.R.</abbr> Comments
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="comment in filteredComments[item._id] = (item.comments | filter:{'name': vm.filter[point.group + 'concern' + item._id]})" ng-show="filteredComments[item._id].length > 0">
+										<td width="20%">
+											<strong>{{ comment.name }}</strong><br/>{{ comment.dateEntered }}
+										</td>
+										<td>
+											{{ comment.comment }}
+										</td>
+										<td width="20%" class="small document-cell">
+											<a href><span class='glyphicon glyphicon-file'></span> Proponent's Response</a>
+										</td>										
+									</tr>
+									<tr ng-show="filteredComments[item._id].length === 0">
+										<td colspan='3'>No response from {{ vm.filter[point.group + 'concern' + item._id] }}</td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div ng-show="filteredBuckets.length === 0 && vm.form.view === 'byvc'">
+				<h3 class="text-info">No value components have been defined for this project yet.</h3>
+			</div>
+
+
+			<div ng-repeat="(title, items) in vm.commentsByDate" class="concern-list" ng-show="vm.form.view === 'bydate'">
+				<h3 class="clickable concern-heading">
+					{{ title }}
+				</h3>
+
+				<div class="panel panel-default panel-concern" ng-repeat='item in items'>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-sm-8">
+								{{ item.comment }}
+							</div>
+							<div class="col-sm-4">
+								{{ item.author }}<br/>
+								{{ item.dateAdded}}
+								
+							</div>
+						</div>
+					</div>
+						
+				</div>
+			</div>
+
+
+			<!-- <div ng-repeat="(title, items) in filteredComments = (vm.commentsByDate | filter:vm.filterKeyword)" class="concern-list" ng-show="vm.form.view === 'bydate'">
+				<h3 ng-click='form[title] = !form[title]' class="clickable concern-heading">
+					{{ title }}
+				</h3>
+				<hr ng-if='!form[title] && !$last'>
+
+				<div class="panel panel-default panel-concern" ng-if='form[title]' ng-repeat='item in items'>
+					<div class="panel-body">
+					</div>
+						
+				</div>
+			</div> -->
+
+			<div ng-show="filteredComments.length === 0 && vm.form.view === 'bydate'">
+				<h3 class="text-info">No comments are available for this project yet.</h3>
+			</div>
+
+		</div>
+	</div>
+
+</section>

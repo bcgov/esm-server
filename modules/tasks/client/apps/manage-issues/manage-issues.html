@@ -1,0 +1,113 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		Manage Issues: {{ taskManageIssues.task.name }} <em class="small">{{ taskManageIssues.task.currentStatusTitle }}</em>
+	</div>
+
+	<div class="panel-body">
+
+		<ul class="nav nav-pills nav-justified" ng-init="form.curTab = 'Content'">
+			<li role="presentation" ng-class="{'active':form.curTab === 'Content'}"><a href ng-click="form.curTab = 'Content'">Content</a></li>
+			<li role="presentation" ng-class="{'active':form.curTab === 'Schedule'}"><a href ng-click="form.curTab = 'Schedule'">Schedule</a></li>
+			<li role="presentation" ng-class="{'active':form.curTab === 'Recipients'}"><a href ng-click="form.curTab = 'Recipients'">Recipients <span title="Receiving Digital">({{ form.recipEmail || 0 }})</span> <span title="Receiving Traditional Mail">({{ form.recipMail || 0}})</span></a></li>
+		</ul>
+
+		<div ng-show="form.curTab === 'Content'">
+			<hr/>
+			<div class="row">
+				<div class="col-sm-8">
+					<div class="form-inline form-group">
+						<label class="control-label" for="template">Template</label>
+						<select type="text" id="template" class="form-control" ng-options="tmp as tmp.name for tmp in taskManageIssues.templates track by tmp.code" ng-change="taskManageIssues.setContent()" ng-model="taskManageIssues.selectedTemplate"></select>
+					</div>
+					<textarea rows="10" ng-model="taskManageIssues.taskData.mailContent" class="form-control"></textarea>
+				</div>
+				<div class="col-sm-4">
+					<label class="control-label">Attachments</label>
+					<div class="well well-sm">
+						<tmpl-requirement-checklist x-project="taskManageIssues.project" x-required="taskManageIssues.selectedTemplate.requirements"></tmpl-requirements-checklist>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div ng-show="form.curTab === 'Schedule'">
+		<hr/>
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+					<div class="form-group">
+						<label class="control-label" for="scheduledDate">Send On</label>
+						<input type="datetime" id="scheduledDate" class="form-control text-center" ng-model="taskManageIssues.taskData.dateQueued" ng-disabled="taskManageIssues.taskData.status !== 'pending'"/>
+					</div>
+					<div class="well well-sm text-center" ng-if="taskManageIssues.taskData.status === 'pending'">
+						<datetimepicker ng-model="taskManageIssues.taskData.dateQueued" data-datetimepicker-config="{}"/>
+					</div>
+					<div class="form-group text-center" ng-if="taskManageIssues.taskData.status === 'pending' && taskManageIssues.taskData.dateQueued" >
+						<a class="btn btn-success" href ng-click="taskManageIssues.taskData.status = 'queued'">Add to Queue</a>
+					</div>
+
+					<div class="form-group text-center" ng-if="taskManageIssues.taskData.status === 'queued'" >
+						<a class="btn btn-warning" href ng-click="taskManageIssues.taskData.status = 'pending'">Remove from Queue</a>
+					</div>
+
+					<div class="form-group text-center" ng-if="taskManageIssues.taskData.status === 'sent'" >
+						<p ng-if="taskManageIssues.taskData.status === 'sent'">Sent on {{ taskManageIssues.taskData.dateSent  | amDateFormat:'MMM Do, YYYY hh:mm a' }}</p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+
+		<div ng-show="form.curTab === 'Recipients'">
+		<hr/>
+			<!-- Recipients -->
+			<div class="row">
+				<div class="col-sm-12 text-right small">
+					<a href x-modal-select-users x-users="taskManageIssues.customRecipients" x-project="taskManageIssues.project">Add Recipients</a> | <a href x-modal-user-list x-users="taskManageIssues.mailOut">Get Addresses</a>
+				</div>
+			</div>
+			<div class="row" ng-repeat="(role, list) in taskManageIssues.recipients">
+				<div class="col-sm-6">
+					<div ng-if="list.viaEmail.length > 0">
+						<label class="control-label">{{ role }} By Email</label>
+						<div class="well well-sm">
+							<ul class="list-unstyled no-lower-margin">
+								<li ng-repeat="user in list.viaEmail" ng-init="form.recipEmail = (form.recipEmail + 1)">
+									<a href x-modal-user-contact-info x-user="user">{{ user.name }} <em class="small">{{ user.role }}</em></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div ng-if="list.viaMail.length > 0">
+						<label class="control-label">{{ role }} By Traditional Mail</label>
+						<div class="well well-sm">
+							<ul class="list-unstyled no-lower-margin">
+								<li ng-repeat="user in list.viaMail" ng-init="form.recipMail = (form.recipMail + 1)">
+									<a href x-modal-user-contact-info x-user="user">{{ user.name }} <em class="small">{{ user.role }}</em></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>	
+			</div>
+		</div>
+
+
+
+	</div>
+	<div class="panel-footer text-right">
+		<div class="pull-left form-control-static" ng-show="taskManageIssues.taskData.status === 'queued' && taskManageIssues.taskData.dateQueued && !taskManageIssues.taskData.dateSent">
+			Date Queued: {{ taskManageIssues.taskData.dateQueued  | amDateFormat:'MMM Do, YYYY hh:mm a' }}
+		</div>
+		<div class="pull-left form-control-static" ng-show="taskManageIssues.taskData.dateSent">
+			Date Sent: {{ taskManageIssues.taskData.dateSent  | amDateFormat:'MMM Do, YYYY hh:mm a' }}
+		</div>
+		<a class="btn btn-default" href ng-click="taskManageIssues.saveTask()">Save</a>
+		<a class="btn btn-primary" href ng-show="form.curTab === 'Content'" ng-click="form.curTab = 'Schedule'">Next</a>
+		<a class="btn btn-primary" href ng-show="form.curTab === 'Schedule'" ng-click="form.curTab = 'Recipients'">Next</a>	
+		<a class="btn btn-success" href ng-show="form.curTab === 'Recipients' && taskManageIssues.taskData.status === 'pending' && taskManageIssues.taskData.dateQueued">Add to Queue</a>		
+	</div>
+</div>

@@ -1,0 +1,30 @@
+<div class="modal-header">
+	<h3 class="modal-title">Contribute a Comment</h3>
+</div>
+<div class="modal-body">
+	<div class="form-group">
+		<label for="aspect">Value Component</label>
+		<select id="aspect" class="form-control">
+			<option>Salmon</option>
+			<option>Wetlands</option>
+			<option>Jobs</option>
+			<option>Air Quality</option>
+			<option>Water Quality</option>
+			<option>Other</option>
+		</select>
+		<p class="help-block">Please select the category you feel your comment best relates to.</p>
+	</div>
+	<div class="form-group">
+		<label for="exampleInputPassword1">Your Comment</label>
+		<textarea class="form-control" rows="6"></textarea>
+	</div>
+	<div class='alert alert-info'>
+		<p>Your comment will be responded to as part of the Developer's Application and Certificate Issuance processes.</p>
+		<p>Please check back here and find your comment and the response by searching for the number below.</p>
+		<p class='text-center'><strong>1234567890</strong><p>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" type="button" ng-click="md.ok()">Send</button>
+	<button class="btn btn-warning" type="button" ng-click="md.cancel()">Cancel</button>
+</div>

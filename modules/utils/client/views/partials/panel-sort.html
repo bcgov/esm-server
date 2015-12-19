@@ -1,0 +1,10 @@
+<div class="text-right">
+	<ul class="panel-sort">
+		<li ng-repeat="sortField in panelSort.fields" ng-class="{
+			'desc':(panelSort.direction === '-' && panelSort.column === sortField.field),
+			'asc': (panelSort.direction === '+' && panelSort.column === sortField.field)
+			}">
+			<a href ng-click="panelSort.sort( sortField.field )">{{ sortField.name }}<span></span></a> 
+		</li>
+	</ul>
+</div> <!-- /panel -->

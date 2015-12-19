@@ -1,0 +1,45 @@
+<div class="modal-header">
+	<h3 class="modal-title">Response Revisions</h3>
+</div>
+<div class="modal-body">
+
+
+	<nav class="navbar navbar-default navbar-sm">
+		<div class="container-fluid">
+
+
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<p class="navbar-text">Search</p>
+				</li>
+				<li>
+					<form class="navbar-form" role="filter1">
+						<div class="form-group">
+							<input ng-model="vm.filterKeyword" type="text" class="form-control" placeholder="Search">
+						</div>
+					</form>
+				</li>
+			</ul>
+
+		</div><!-- /.container-fluid -->
+	</nav>
+
+
+	<div class="row">
+		<div class="col-md-12">
+			<section class="scrollable">
+				<div ng-repeat="response in resRev.responses"  ng-class="{'bg-warning': $index === 0}" >
+					<p><span class="label label-default">Revision</span></p>
+					<p>
+						Bootstrap requires a containing element to wrap site contents and house our grid system. You may choose one of two containers to use in your projects. Note that, due to padding and more, neither container is nestable.
+					</p>
+				</div> <!-- /comment -->
+			</section>				
+		</div>
+	</div>
+
+
+</div>
+<div class="modal-footer">
+	<button class="btn btn-warning" type="button" ng-click="resRev.cancel()">Close</button>
+</div>

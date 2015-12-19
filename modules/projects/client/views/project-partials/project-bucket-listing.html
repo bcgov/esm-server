@@ -1,0 +1,42 @@
+<panel-sort x-fields="projBuckets.panelSort" x-data="projBuckets.bucketsFiltered"></panel-sort>
+
+<section ng-repeat="bucket in projBuckets.bucketsFiltered" class="">
+
+	<div class="panel" ng-class="{'panel-info': bucket.isValueComponment, 'panel-default': !isValueComponment}" x-expand-panel='projBuckets.bucketToggle[$index]'>
+		<div class="panel-heading">
+			<div class="pull-right col-lg-2 col-md-3 col-xs-4">
+				<tmpl-progress-bar x-percentage="bucket.progress"></tmpl-progress-bar>
+			</div>
+			<h3 class="panel-title"><span ng-if="bucket.isValueComponment">Value Component:&nbsp;</span>{{ bucket.name }}</h3>
+		</div>
+		<div class="panel-body" ng-show="projBuckets.bucketToggle[$index]">
+			<div class="row">
+				<div class="col-md-4 col-sm-12">
+					<label class="control-label">Issues <span>({{ bucket.issues.length || 0 }})</span></label>
+					<div ng-if="!bucket.issues" class="small">
+						No open issues.
+					</div>
+				</div>
+				<div class="col-md-4 col-sm-6">
+					<label class="control-label">Comments <span>({{ bucket.comments.length || 0 }})</span></label>
+					<div ng-if="!bucket.comments" class="small">
+						No comments.
+					</div>
+				</div>
+				<div class="col-md-4 col-sm-6">
+					<label class="control-label">Requirements <span>({{ bucket.requirements.length || 0 }})</span></label>
+					<div ng-if="bucket.assets">
+						<tmpl-requirement-checklist x-project="projBuckets.project" x-required="bucket.requirements"></tmpl-requirements-checklist>
+					</div>
+					<div ng-if="!bucket.assets">
+						No requirements.
+					</div>
+					
+				</div>
+
+			</div>
+		</div>
+	
+	</div> <!-- /panel -->
+
+</section>

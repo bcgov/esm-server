@@ -1,0 +1,4 @@
+<div ng-click="utilUsersSelect.userChooser()" class="small clickable">
+<span ng-repeat="user in utilUsersSelect.users"><span ng-if="!$first">,&nbsp;</span>{{ user.name }}</span>
+<a href ng-if="utilUsersSelect.users.length === 0">Click here to identify users</a>
+</div>

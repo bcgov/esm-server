@@ -1,0 +1,73 @@
+<section>
+	<hr>
+	<div class="row">
+		<div class="col-sm-7">
+			<table class="table table-condensed table-striped table-hover">
+				<thead class="small">
+					<th width="30%">Code</th>
+					<th width="30%">Name</th>
+					<th width="40%">Description</th>
+				</thead>
+				<tbody>
+				<tr ng-repeat="stream in configDataElement.data.streams" ng-click='configDataElement.editRecord(stream)' class="clickable">
+					<td>{{ stream.code }}</td>
+					<td>{{ stream.name }}</td>
+					<td>{{ stream.description }}</td>
+				</tr>
+				<tr ng-if="configDataElement.data.streams.length === 0">
+					<td colspan="3">No streams defined.</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="col-sm-5">
+			<div class="well">
+				<h4 ng-if="configDataElement.msg">{{configDataElement.msg}}</h4>
+
+				<div ng-show="!configDataElement.activeRecord">Select an item in the table or <a href ng-click="configDataElement.newRecord()">click here</a> to create a new one.</div>
+
+				<div ng-show="configDataElement.activeRecord">
+
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label class="control-label">Name</label>
+								<input class="form-control" type="text" ng-model="configDataElement.activeRecord.name" x-kebab-this x-source="configDataElement.activeRecord.name" x-destination="configDataElement.activeRecord.code">
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label class="control-label">Code</label>
+								<input class="form-control" type="text" ng-model="configDataElement.activeRecord.code">
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label class="control-label">Description</label>
+								<textarea class="form-control" ng-model="configDataElement.activeRecord.description"></textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group" ng-if="configDataElement.activeRecordNew">
+						<button class="btn btn-primary" ng-click="configDataElement.addRecord()">Add</button>
+						<button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>
+					</div>
+
+					<div ng-if="!configDataElement.activeRecordNew">
+						<button class="btn btn-primary" ng-click="configDataElement.saveRecord()">Save</button>
+						<button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>
+						<button class="btn btn-success" ng-click="configDataElement.configureStream()">Configure</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<tmpl-config-stream x-config="configDataElement.data" x-stream="configDataElement.activeRecord" ng-if="configDataElement.activeRecord.configureStream"></tmpl-config-stream>
+

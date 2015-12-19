@@ -1,0 +1,127 @@
+<h1 class="page-title">
+	<a href ui-sref='eao.projects' class='pull-right return-link'>Return to Project List</a>
+	Intake and Assignment
+</h1>
+<section id="project-view" class="container-fluid">
+
+	<div class='row'>
+
+		<div class='col-sm-8 col-md-7'>
+
+			
+				<div class="panel panel-default">
+			 
+				<div class='panel-heading'>
+					<h3 class='panel-title'>{{ projectIntake.project.name }} <small class="pull-right form-control-static"><em>Short Form</em></small></h3>
+				</div>			
+
+				
+				<div class='panel-body'>
+					<fieldset disabled=true>
+						<ul class="nav nav-pills nav-justified" ng-init="form.curTab = 'Project Information'">
+							<li ng-class="{'active':form.curTab === 'Project Information'}"><a href ng-click="form.curTab = 'Project Information'">Project Information</a></li>
+							<li ng-class="{'active':form.curTab === 'Proponent'}"><a href ng-click="form.curTab = 'Proponent'">Proponent</a></li>
+							<li ng-class="{'active':form.curTab === 'Intake Profile'}"><a href ng-click="form.curTab = 'Intake Profile'">Intake Profile</a></li>
+							<li ng-class="{'active':form.curTab === 'Document Upload'}"><a href ng-click="form.curTab = 'Document Upload'">Document Upload</a></li>
+						</ul>
+						<hr/>
+						<div ng-if="form.curTab === 'Project Information'">
+							<tmpl-project-entry-tombstone x-project="projectIntake.project"></tmpl-project-entry-tombstone>
+							<hr/>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="projectIntake.project.isTermsAgreed">
+											I agree to the terms and conditions.
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+						<div ng-if="form.curTab === 'Proponent'">
+							<tmpl-company-entry-form x-project="projectIntake.project"></tmpl-company-entry-form>
+							<tmpl-user-entry-form x-project="projectIntake.project"></tmpl-user-entry-form>											
+						</div>
+
+
+
+						<div ng-if="form.curTab === 'Intake Profile'">
+							<div ng-repeat="question in projectIntake.questions">
+
+								<div class="form-group row" ng-if="question.type === 'smalltext'">
+									<div class="col-xs-8">
+										<p>{{ question.content }}</p>
+									</div>
+									<div class="col-xs-4">
+										<input class="form-control input-sm" ng-model="projectIntake.project.intake[question.code]"/>						
+									</div>							
+								</div>
+
+								<div class="form-group" ng-if="question.type === 'text'">
+									<p>{{ question.content }}</p>
+									<textarea ng-if="question.type === 'text'" class="form-control input-sm" ng-model="projectIntake.project.intake[question.code]" rows=4></textarea>
+								</div>
+
+								<div class="form-group row" ng-if="question.type === 'dropdown'">
+									<div class="col-xs-8">
+										<p>{{ question.content }}</p>
+									</div>
+									<div class="col-xs-4">
+										<select ng-if="question.type === 'dropdown'" class="form-control input-sm" ng-model="projectIntake.project.intake[question.code]" ng-options="opt for opt in question.options"></select>		
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<div ng-if="form.curTab === 'Document Upload'">
+							<tmpl-documents-upload-classify x-project="projectIntake.project"></tmpl-documents-upload-classify>					
+						</div>
+					</fieldset>
+				</div> <!-- /panelbody -->
+
+				<div class="panel-footer text-right">
+					<a class="btn btn-primary" href ng-show="form.curTab === 'Project Information'" ng-click="form.curTab = 'Proponent'">Next</a>
+					<a class="btn btn-primary" href ng-show="form.curTab === 'Proponent'" ng-click="form.curTab = 'Intake Profile'">Next</a>
+					<a class="btn btn-primary" href ng-show="form.curTab === 'Intake Profile'" ng-click="form.curTab = 'Document Upload'">Next</a>
+				</div>
+
+			</div> <!-- /panel -->
+		</div> <!-- /col9 -->
+		
+		<div class='col-sm-4 col-md-5'>
+			<div class="panel panel-default">
+		
+				<div class='panel-heading'>
+					<h3 class='panel-title'>Intake and Assignment</h3>
+				</div>			
+				<div class='panel-body'>
+
+					<div class="form-group">
+						<label for="type" class="control-label">Project Stream</label>
+						<select ng-model='projectIntake.newStream' class="form-control input-sm" ng-options="stream._id as stream.name for stream in projectIntake.streams">
+							<option value=""></option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="type" class="control-label">Project Team</label>
+						<a href>Click here to assign team</a>
+					</div>
+
+
+				</div>
+				<div class="panel-footer text-right">
+					<a class="btn btn-success" href ng-click="projectIntake.setProjectStream()">Set Stream</a>
+				</div>
+			</div> <!-- /panel -->
+		</div> <!-- /col3 -->
+
+		
+	</div> <!-- /row -->
+
+</section>

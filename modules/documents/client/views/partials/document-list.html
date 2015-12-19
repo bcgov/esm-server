@@ -1,0 +1,17 @@
+<label class="control-label pull-right slight clickable" ng-if="docList.filterId" ng-click="docList.filterId = ''">All</label>
+<label class="control-label">Related Documents</label>
+<div class="well well-sm clearfix">
+	<table class='table table-condensed small table-no-head'>
+		<tbody class="clickable">
+			<tr ng-repeat='file in docList.filterDocuments | filter:{"responses": docList.filterId }'>
+				<td class="document-cell">
+					<a href><span class='glyphicon glyphicon-file'></span> {{ file.title }} </a>
+				</td>
+				<td>
+					<small ng-if="file.v">v.{{ file.v }}</small>
+				</td>
+				<td class='text-right no-wrap'>{{ file.date | amDateFormat:'MMM Do'}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

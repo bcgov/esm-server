@@ -1,0 +1,20 @@
+<section class='panel panel-default'>
+
+	<map center="54.726668, -127.647621" zoom="5" style='height: 500px' map-type-id="ROADMAP" min-zoom=5 disable-default-u-i="true">
+		<marker id="marker_{{ project._id }}" position="{{ project.lat }},{{ project.lon }}" ng-repeat-start="project in projectList.projects" on-click="showInfoWindow(event, 'info_{{ project._id }}')">
+		</marker>
+		<info-window id="info_{{ project._id }}" visible-on-marker="marker_{{ project._id }}" max-width="300" ng-repeat-end>
+			<div>
+				<div id="siteNotice"></div>
+				<h3 id="firstHeading" class="firstHeading">{{ project.name }}</h3>
+				<div id="bodyContent">
+					<p><strong>Status</strong>: {{ project.status }}</p>
+					<p><strong>Type</strong>: {{ project.type }}</p>
+					<p>{{ project.description }}</p>
+					<p><a href ng-click="projectList.goToProject( project._id );">Detail View</a></p>						
+				</div>
+			</div>
+		</info-window>
+	</map>
+
+</section>
