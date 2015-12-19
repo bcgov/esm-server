@@ -4,7 +4,7 @@
 
 angular
 	.module('core')
-	.constant('_', _)
+	.constant('_', $window._)
 	.constant('PROVINCES', 
 		{
 			'ab': 'Alberta',
