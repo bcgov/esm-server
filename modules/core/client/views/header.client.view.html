@@ -68,18 +68,19 @@
 
       <div class="col-sm-9">
       	<div class="navbar-header">
+
       		<a class="navbar-brand" ui-sref="default"><img src="modules/core/client/img/brand/eao-logo.png" height="40" width="248"/></a>
-      	</div>
+      		</div>
 
       </div>
 
       <div class="col-sm-3">
 
-      	<ul class="nav navbar-nav navbar-right" ng-show="authentication.user">
+      	<ul class="nav navbar-nav navbar-right" ng-show="header.authentication.user">
       		<li class="text-right navbar-user">
-      			<a ui-sref="user.profile">{{ tNav.user.name }}</a><br/>
+      			<a ui-sref="user.profile">{{ header.authentication.user.name }}</a><br/>
       			<div class="small">
-      				<a x-modal-alerts-viewer class="text-danger" x-divider=true></a><a ui-sref="user.profile">Profile</a>&nbsp;|&nbsp;<a href="/api/auth/signout">Logout</a>
+      				<a x-modal-alerts-viewer class="text-danger" x-divider=true></a><a ui-sref="header.authentication.user.profile">Profile</a>&nbsp;|&nbsp;<a href="/api/auth/signout">Logout</a>
       			</div>
       		</li>
       		<li class="text-right navbar-user navbar-user-icon">
@@ -87,8 +88,7 @@
       		</li>
       	</ul>
 
-
-        <ul class="nav navbar-nav navbar-right" ng-show="!authentication.user">
+        <ul class="nav navbar-nav navbar-right" ng-show="!header.authentication.user">
           <li class="text-right navbar-user">
             <a ui-sref="authentication.signin">Log In</a>
           </li>
