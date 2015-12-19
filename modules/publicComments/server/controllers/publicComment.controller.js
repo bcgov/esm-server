@@ -331,6 +331,17 @@ var eaopublish = function (req, res) {
 exports.eaopublish = eaopublish;
 // -------------------------------------------------------------------------
 //
+// reject the comment, defer all unvetted docs, set overall status to rejected
+//
+// -------------------------------------------------------------------------
+var eaospam = function (req, res) {
+	req.PublicComment.eaoStatus     = 'Spam';
+	req.PublicComment.overallStatus = 'Spam';
+	saveDecorateReturn (req.PublicComment, req, res);
+};
+exports.eaospam = eaospam;
+// -------------------------------------------------------------------------
+//
 // edit the document
 //
 // -------------------------------------------------------------------------
