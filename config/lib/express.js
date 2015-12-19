@@ -90,9 +90,11 @@ module.exports.initMiddleware = function (app) {
   app.use(flash());
 
   // Add multipart handling middleware
+  var uploaddir = process.env.UPLOAD_PATH || './uploads/';
+  if (uploaddir.substr(-1, 1) !== '/') uploaddir += '/';
   app.use(multer({
-    dest: './uploads/',
-    inMemory: true
+    dest: uploaddir,
+    inMemory: false
   }));
 
   // cc: added middleware for adding cors response headers

@@ -7,7 +7,8 @@ angular.module('users').controller('ChangeProfilePictureController', ['$scope', 
 
     // Create file uploader instance
     $scope.uploader = new FileUploader({
-      url: 'api/users/picture'
+      // url: 'api/users/picture'
+      url: 'api/commentdocument/publiccomment/5671c7f183e3ab8e7a4494f3/upload'
     });
 
     // Set file uploader image filter
