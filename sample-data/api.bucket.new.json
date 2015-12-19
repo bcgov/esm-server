@@ -1,0 +1,16 @@
+{
+	"_id"               : "66",
+	"code"              : "newbucket",
+	"name"              : "New Bucket",
+	"project"           : "",
+	"stream"            : "11",
+	"visibleAtPhase"    : "",
+	"isValueComponment" : false,
+	"progress"          : 0,
+	"status"            : "open",
+	"access"            : {
+		"read"  : "eso,proponent",
+		"write" : "eso,proponent",
+		"watch" : "eso,proponent"
+	}
+}

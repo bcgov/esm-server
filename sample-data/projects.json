@@ -1,0 +1,16 @@
+[{
+	"_id":"kgwfp1234",
+	"name":"Knob Hill Wind Farm Project",
+	"region":"Vancouver Island/Coast",
+	"type":"Power and Industrial",
+	"currentPhaseCode":"Draft A.I.R. Accepted",
+	"nextPhase":"Evaluate Application",
+	"location":"Knob Hill",
+	"description":"Construction of a new wind farm, with a nominal capacity of 70.5 MW with a preliminary layout of 47 turbines.",
+	"estimatedPhaseCompleteDate": "2015-11-01T23:58:15.181Z",
+	"nextExpectedPhase":"Project Description Approval",
+	"preapplicationStartDate": "2015-03-01T23:58:15.181Z",
+	"overallProgress":85,
+	"lat":50.752097,
+	"long":-128.322029
+}]

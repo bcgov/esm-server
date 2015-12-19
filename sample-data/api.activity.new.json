@@ -1,0 +1,13 @@
+{
+	"_id"            : "33",
+	"code"           : "newactivity",
+	"name"           : "New Activity",
+	"description"    : "A description of this activity",
+	"phase"          : "",
+	"visibleAtPhase" : "",
+	"access"         : {
+		"read"  : "eso,proponent",
+		"write" : "eso,proponent",
+		"watch" : "eso,proponent"
+	}
+}

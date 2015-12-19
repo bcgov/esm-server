@@ -1,0 +1,6 @@
+[
+	{"_id":"1234", "name": "Intake", "type":"stage", "progress":100, "assets":[{"title":"Preliminary Description", "type":"document"}, {"title":"Boundary Shapefile", "type":"document"}]},
+	{"_id":"5678", "name": "Section 10-1c", "type":"stage", "progress":100, "assets":[{"title":"Section 10-1c", "type":"document"}]},
+	{"_id":"9012", "name": "Section 11", "type":"stage", "progress":100, "assets":[{"title":"Section 11", "type":"document"}]},
+	{"_id":"3456", "name": "Bats", "type":"component", "progress":50, "assets":[{"title":"Preliminary Study", "type":"document"}], "activities":[{"title":"Activity 1", "type":"process", "tasks":["Identify Working Group", "Schedule Public Comment"],"progress":85}, {"title":"Activity 2", "type":"process", "progress":90}]}
+]

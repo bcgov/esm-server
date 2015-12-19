@@ -1,0 +1,339 @@
+{
+	"_id":"kgwfp1234",
+	"name":"Knob Hill Wind Farm Project",
+	"developer":"Sea Breeze Energy Inc.",
+	"type":"Power and Industrial",
+	"description":"Construction of a new wind farm, with a nominal capacity of 70.5 MW with a preliminary layout of 47 turbines.",
+	"region":"Vancouver Island/Coast",
+	"location":"Knob Hill",
+	"phase":"Draft A.I.R. Accepted",
+	"nextPhase":"Evaluate Application",
+	"estimatedPhaseCompleteDate": "2015-11-01T23:58:15.181Z",
+	"nextExpectedPhase":"Project Description Approval",
+	"preapplicationStartDate": "2015-03-01T23:58:15.181Z",
+	"commentOpen": "2015-09-28T12:00:00.181Z",
+	"commentClose": "2015-10-28T12:00:00.181Z",
+	"progress":85,
+	"lat":50.752097,
+	"long":-128.322029,
+	"phases": [
+		{
+			"name":"Intake",
+			"responsibility":["EAO"],
+			"dateEstimatedStart":"2015-10-15T07:00:00.000Z",
+			"dateEstimatedEnd":"2015-10-15T07:00:00.000Z",
+			"dateActualStart":"2004-04-10T23:58:15.181Z",
+			"dateActualEnd":"2004-04-10T23:58:15.181Z",			
+			"activities":[
+				{
+					"_id":"1",
+					"dateStart":"2004-04-10T23:58:15.181Z",
+					"dateEnd":"2004-04-10T23:58:15.181Z",					
+					"name":"Intake",
+					"description":"",
+					"components":[],
+					"tasks": [
+						{
+							"_id": 1234,
+							"group": "Initial",
+							"visible": true,
+							"items": {
+								"t1234":{
+									"_id": "t1234",
+									"title":"Confirmation - No Comment",
+									"process": "confirmNoComment",
+									"value":"Not Started",
+									"values": [	{"title":"Not Started"},
+												{"title":"In Progress"},
+												{"title":"Complete"},
+												{"title":"Not Applicable"}
+											]
+									},
+								"t56789":{
+									"_id": "t56789",				
+									"title":"Confirmation - With Comment",
+									"process": "confirmWithComment",
+									"value":"Not Started",
+									"values": [	{"title":"Not Started"},
+												{"title":"In Progress"},
+												{"title":"Complete", "groups": [5678]},
+												{"title":"Not Applicable"}
+											]
+								}
+							}
+						},
+						{
+							"_id": 5678,
+							"group": "Second",
+							"visible": false,
+							"items": {
+								"t5678":{
+									"_id":"t5678",
+									"title":"Item 2",
+									"process": "uploadDocument",
+									"value":"Not Started",
+									"values": [	{"title":"Not Started"},
+												{"title":"In Progress"},
+												{"title":"Complete"},
+												{"title":"Not Applicable"}
+											]
+									}
+								}
+							}					
+					],
+					"requirements":[],
+					"access":["EAO", "Working Group", "Public"]
+				}
+			]
+		},
+		{"name":"Prepare Initial Submission", "groups":["Proponent"]},
+		{"name":"Submit Initial Submission", "groups":["Proponent"]},
+		{"name":"Receive Initial Submission", "groups":["EAO"]}
+	],
+	"components": [
+		{
+			"name": "Project Description",
+			"type": "Milestone",
+			"requirements": [],
+			"contents":[],
+			"control": "active"
+		}
+		
+	],
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	"schedule":[
+		{
+			"milestone": "Pre Application",
+			"dateEstimatedStart":"2001-06-01T23:58:15.181Z",
+			"dateEstimatedEnd":"2002-06-02T23:58:15.181Z",
+			"dateActualStart":"2004-04-10T23:58:15.181Z",
+			"dateActualEnd":"2004-04-10T23:58:15.181Z",			
+			"note":"Proponent completed 3 year study on wildlife migration"
+		},
+		{
+			"milestone": "Public Comments",
+			"start":"2004-08-10T23:58:15.181Z",
+			"target":"2004-08-20T23:58:15.181Z",
+			"completed":"2004-08-20T23:58:15.181Z",
+			"note":"",
+			"public":true	
+		},
+		{
+			"milestone": "Application",
+			"start":"2004-08-27T23:58:15.181Z",
+			"target":"2004-08-30T23:58:15.181Z",
+			"completed":"2004-08-30T23:58:15.181Z",
+			"note":"",
+			"public":true
+		},
+		{
+			"milestone": "Under Review",
+			"start":"2004-09-01T23:58:15.181Z",
+			"target":"2004-10-01T23:58:15.181Z",
+			"completed":"2004-09-28T23:58:15.181Z",
+			"note":"",
+			"public":true			
+		},
+		{
+			"milestone": "Public Comments",
+			"start":"2004-10-01T23:58:15.181Z",
+			"target":"2004-10-20T23:58:15.181Z",
+			"completed":null,
+			"note":"",
+			"public":true
+		},
+		{
+			"milestone": "Certificate Issued",
+			"start":"2004-11-01T23:58:15.181Z",
+			"target":"2004-12-10T23:58:15.181Z",
+			"completed":null,
+			"note":"",
+			"public":true			
+		}
+	],
+	"discussionPoints" : [
+		{
+			"group": "Bats",
+			"author": "Author",					
+			"concerns":[
+				{
+					"_id":1,
+					"description": "Known bat habitat overlapping the proposed project site.",
+					"status":"Open",
+					"referredTo":[
+						{
+							"name":"Group1",
+							"dateReplied":"2015/5/6"
+						},
+						{
+							"name":"Group2",
+							"dateReplied":"2015/5/6"
+						},
+						{
+							"name":"Person1",
+							"dateReplied":null
+						}
+					],
+					"comments" : [{
+						"_id":"555",
+						"name":"Citizen",
+						"comment":"This is really important because bats are the signature nocturnal flying mammal of Northern Vancouver Island.",
+						"dateEntered":"2015/5/6"
+					},
+					{
+						"_id":"566",
+						"name":"Citizen",
+						"comment":"The bats here are lazy and unwilling to go around.",
+						"dateEntered":"2015/5/6"
+					}]
+				},
+				{
+					"_id":2,
+					"description": "Breeding grounds near the south river ben will be adversely effected by the service roadway.",
+					"status":"Closed",
+					"referredTo":[
+						{
+							"name":"Group1",
+							"dateReplied":"2015/5/6"
+						},
+						{
+							"name":"Group2",
+							"dateReplied":"2015/5/6"
+						},
+						{
+							"name":"Person1",
+							"dateReplied":null
+						}
+					],
+					"comments" : [{
+						"_id":"555",
+						"name":"Resolved",
+						"comment":"Road is to be moved 20m to the NW.",
+						"dateEntered":"2015/5/6"
+					}]
+				}
+			]
+		},
+
+		{
+			"group": "Wetlands",
+			"author": "Author",
+					"referredTo":[
+						{
+							"name":"Group1",
+							"dateReplied":null
+						},
+						{
+							"name":"Group2",
+							"dateReplied":null
+						},
+						{
+							"name":"Person1",
+							"dateReplied":null
+						}
+					],
+			"concerns":[
+				{
+					"_id":3,
+					"description": "Concern #1",
+					"status":"Open",
+					"comments" : [{
+						"_id":"555",
+						"name":"Group1",
+						"comment":"comment 123",
+						"dateEntered":"2015/5/6"
+					},
+					{
+						"_id":"566",
+						"name":"Group2",
+						"comment":"comment 123",
+						"dateEntered":"2015/5/6"
+					}]
+				}
+			]
+		},
+		{
+			"group": "Jobs",
+			"author": "Author",	
+			"status":"Open",
+			"concerns":[
+				{
+					"_id":4,
+					"description": "Concern #1",
+					"status":"Open",
+					"comments" : [{
+						"_id":"555",
+						"name":"Group1",
+						"comment":"comment 123",
+						"dateEntered":"2015/5/6"
+					},
+					{
+						"_id":"566",
+						"name":"Group2",
+						"comment":"comment 123",
+						"dateEntered":"2015/5/6"
+					}]
+				}
+			]
+		},
+
+		{
+			"group": "Air Quality",
+			"author": "Author",
+			"status":"Open",
+			"concerns":[
+				{
+					"_id":5,
+					"description": "Concern #1",
+					"status":"Open",
+					"comments" : [{
+						"_id":"555",
+						"name":"Group1",
+						"comment":"comment 123",
+						"dateEntered":"2015/5/6"
+					},
+					{
+						"_id":"566",
+						"name":"Group2",
+						"comment":"comment 123",
+						"dateEntered":"2015/5/6"
+					}]
+				}
+			]
+		},
+
+		{
+			"group": "Water Quality",
+			"author": "Author",	
+			"status":"Open",
+			"concerns":[
+				{
+					"_id":6,
+					"description": "Concern #1",
+					"status":"Open",
+					"comments" : [{
+						"_id":"555",
+						"name":"Group1",
+						"comment":"comment 123",
+						"dateEntered":"2015/5/6"
+					},
+					{
+						"_id":"566",
+						"name":"Group2",
+						"comment":"comment 123",
+						"dateEntered":"2015/5/6"
+					}]
+				}
+			]
+		}
+	]
+	}

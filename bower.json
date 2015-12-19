@@ -21,7 +21,8 @@
     "ng-file-upload": "~7.3.8",
     "ngmap": "~1.13.4",
     "angular-bootstrap-datetimepicker": "latest",
-    "angular-bootstrap-confirm": "~0.7.0"   
+    "angular-bootstrap-confirm": "~0.7.0",
+    "angular-toastr": "~1.6.0"
   },
   "resolutions": {
     "angular": "~1.3"

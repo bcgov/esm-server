@@ -1,0 +1,18 @@
+[
+	{
+		"code":"taskName",
+		"name":"Long Name",
+		"currentStatusCode":"notstarted",
+		"processCode":"processcode",
+		"statusValues": [
+			{
+				"code":"notstarted",
+				"name":"Not Started",
+				"access":{},
+				"preMetRequirements":["requirementName needs to be met to transition to this"],
+				"postMetRequirements":["requirementName met when this value is transitioned to"],
+				"alerts":[]
+			}
+		]
+	}
+]

@@ -1,0 +1,10 @@
+{
+	"taskOriginator": "",
+	"status":"pending",
+	"dateSent":null,
+	"dateQueued":null,
+	"mailContent":"",
+	"attachments":[],
+	"recipientsDigital":[],
+	"recipientsPhysical":[]
+}

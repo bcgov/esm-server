@@ -1,0 +1,17 @@
+{
+	"_id"                   : "22",
+	"code"                  : "newphase",
+	"name"                  : "New Phase",
+	"description"           : "A description of this phase",
+	"project"               : "",
+	"stream"                : "",
+	"isValueComponment"     : false,
+	"progress"              : 0,
+	"status"                : "notstarted",
+	"mandatoryDurationDays" : 90,
+	"access"                : {
+		"read"  : "eso,proponent",
+		"write" : "eso,proponent",
+		"watch" : "eso,proponent"
+	}
+}

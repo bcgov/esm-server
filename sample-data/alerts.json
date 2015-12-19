@@ -1,0 +1,26 @@
+[
+	{
+		"_id":"act1234",
+		"projectId":"kgwfp1234",
+		"urgency":"Critical",
+		"recipientRole":["Roles"],
+		"recipientProjectRole":["projectRoles"],
+		"initiatedBy":"system",
+		"dateInitiated":"2015-02-01T23:58:15.181Z",
+		"link":"/eao/activity/act1234",
+		"subject":"subject",
+		"description":"description"
+	},
+	{
+		"_id":"act1234",
+		"projectId":"kgwfp1234",
+		"urgency":"Information",
+		"recipientRole":["Roles"],
+		"recipientProjectRole":["projectRoles"],
+		"initiatedBy":"system",
+		"dateInitiated":"2015-02-01T23:58:15.181Z",
+		"link":"/eao/activity/act1234",
+		"subject":"subject",
+		"description":"description"
+	}
+]

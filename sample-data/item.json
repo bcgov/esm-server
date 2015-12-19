@@ -1,0 +1,9 @@
+{
+	"_id": "t1234",
+	"title":"Confirmation - No Comment",
+	"value":"Not Started",
+	"values": [	{"title":"Not Started"},
+				{"title":"In Progress", "processes": ["confirmNoComment"]},
+				{"title":"Complete"}
+			]
+}

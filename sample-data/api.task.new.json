@@ -1,0 +1,20 @@
+{
+	"_id"           : "44",
+	"code"          : "newtask",
+	"name"          : "New Task",
+	"description"   : "A description of this task",
+	"activity"      : "",
+	"status"        : "notstarted",
+	"processCode"   : "processcode",
+	"prerequisites" : [],
+	"requirement"   : "",
+	"statuses"      : [{
+		"code" : "notstarted",
+		"name" : "Not Started"
+	}],
+	"access"        : {
+		"read"  : "eso,proponent",
+		"write" : "eso,proponent",
+		"watch" : "eso,proponent"
+	}
+}

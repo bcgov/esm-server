@@ -1,0 +1,6 @@
+[
+	{"_id":"1234", "condition": "Condition 1.", "similarity": 80, "project":"Project 1", "rating":5, "comment":""},
+	{"_id":"5678", "condition": "Condition 2.", "similarity": 60, "project":"Project 2", "rating":5, "comment":""},
+	{"_id":"9012", "condition": "Condition 3.", "similarity": 55, "project":"Project 3", "rating":1, "comment":"Condition cannot be enforced."},
+	{"_id":"3456", "condition": "Condition 4.", "similarity": 50, "project":"Project 4", "rating":3, "comment":""}
+]

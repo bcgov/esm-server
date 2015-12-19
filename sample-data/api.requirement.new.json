@@ -1,0 +1,15 @@
+{
+	"_id"         : "77",
+	"code"        : "newrequirement",
+	"name"        : "New Requirement",
+	"description" : "A description of this requirement",
+	"type"        : "document",
+	"value"       : false,
+	"project"     : "",
+	"stream"      : "",
+	"phase"       : "",
+	"activity"    : "",
+	"task"        : "",
+	"milestone"   : "",
+	"bucket"      : ""
+}

@@ -1,0 +1,6 @@
+[
+	{"_id":"1234", "condition": "Condition 1."},
+	{"_id":"5678", "condition": "Condition 2."},
+	{"_id":"9012", "condition": "Condition 3."},
+	{"_id":"3456", "condition": "Condition 4."}
+]
