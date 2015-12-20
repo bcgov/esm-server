@@ -10,8 +10,7 @@
     <div class="panel-body">
       <div class="alert alert-danger animated fadeIn text-center" ng-show="loginPanel.error">{{loginPanel.error}}</div>
 
-      <form class="signin" ng-submit="loginPanel.signin(userForm.$valid)" class="signin" novalidate autocomplete="off">
-
+      <form name="userForm" ng-submit="loginPanel.signin(userForm.$valid)" class="signin" novalidate autocomplete="off">
 
         <div class="form-group">
             <label for="username" class="control-label">Username</label>

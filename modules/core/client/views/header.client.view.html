@@ -76,21 +76,18 @@
 
       <div class="col-sm-3">
 
-      	<ul class="nav navbar-nav navbar-right" ng-show="header.authentication.user">
-      		<li class="text-right navbar-user">
+      	<ul class="nav navbar-nav navbar-right">
+      		<li class="text-right navbar-user" ng-show="header.authentication.user">
       			<a ui-sref="user.profile">{{ header.authentication.user.name }}</a><br/>
       			<div class="small">
       				<a x-modal-alerts-viewer class="text-danger" x-divider=true></a><a ui-sref="header.authentication.user.profile">Profile</a>&nbsp;|&nbsp;<a href="/api/auth/signout">Logout</a>
       			</div>
       		</li>
-      		<li class="text-right navbar-user navbar-user-icon">
-      			<a ui-sref="user.profile"><i class="glyphicon glyphicon-user"></i></a><br/>
-      		</li>
-      	</ul>
-
-        <ul class="nav navbar-nav navbar-right" ng-show="!header.authentication.user">
-          <li class="text-right navbar-user">
-            <a ui-sref="authentication.signin">Log In</a>
+          <li class="text-right navbar-user" ng-show="!header.authentication.user">
+            <br/>
+            <div class="small">
+              <a ui-sref="authentication.signin">Log In</a>
+            </div>
           </li>
         </ul>
 
