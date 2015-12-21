@@ -14,6 +14,7 @@ exports.invokeRolesPolicies = function () {
 	// guest can post comment or doc
 	//
 	acl.allow ('guest', '/api/publiccomment/:publiccomment', 'post');
+	acl.allow ('guest', '/api/new/publiccomment', 'get');
 	helpers.setPathPermissions (acl, [
 		[ 'guest', 'user', '/api/publiccomment/project/:projectid/published'         ],
 		[ 'guest', 'user', '/api/publiccomment/project/:projectid/published/limit/:limit/offset/:offset'           ],
@@ -30,7 +31,8 @@ exports.invokeRolesPolicies = function () {
 		[ '', 'user', '/api/publiccomment/:publiccomment/classify/start'           ],
 		[ '', 'user', '/api/publiccomment/:publiccomment/classify/claim'           ],
 		[ '', 'user', '/api/publiccomment/:publiccomment/proponent/defer'         ],
-		[ '', 'user', '/api/publiccomment/:publiccomment/proponent/classify'         ]
+		[ '', 'user', '/api/publiccomment/:publiccomment/proponent/classify'         ],
+		[ '', 'user', '/api/publiccomment/project/:projectid/unvetted'         ]
 	]);
 };
 

@@ -494,6 +494,20 @@ var proponentclassify = function (req, res) {
 	saveDecorateReturn (req.PublicComment, req, res);
 };
 exports.proponentclassify = proponentclassify;
+// -------------------------------------------------------------------------
+//
+// count the number of unvetted, unclaimed comments
+//
+// -------------------------------------------------------------------------
+exports.unvetted = function (req, res) {
+	Model.count ({
+		overallStatus : 'Unvetted',
+		eaoStatus     : 'Unvetted',
+	}, function (err, n) {
+		if (err) return helpers.sendError (res, err);
+		return helpers.sendData (res, {count: n});
+	});
+};
 
 
 
