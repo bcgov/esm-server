@@ -86,6 +86,7 @@ var getBucketsForComment = function (commentId) {
 // -------------------------------------------------------------------------
 var decorateComment = function (comment) {
 	return new Promise (function (resolve, reject) {
+		if (!comment) return resolve ({});
 		comment = comment.toObject ();
 		getDocumentsForComment (comment._id)
 		.then (function (a) {
