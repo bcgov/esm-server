@@ -8,9 +8,9 @@ angular.module('projects')
 // CONTROLLER: EAO Projects Main
 //
 // -----------------------------------------------------------------------------------
-controllerEAOProjects.$inject = ['$scope', '$state', 'Projects', 'Global', '_'];
+controllerEAOProjects.$inject = ['$scope', '$state', 'Projects', '_'];
 /* @ngInject */
-function controllerEAOProjects($scope, $state, Projects, Global, _) {
+function controllerEAOProjects($scope, $state, Projects, _) {
 	var vm = this;
 
 	vm.intakes = [];

@@ -7,9 +7,9 @@ angular.module('tasks')
 // SERVICE: Manage Issues templates
 //
 // -----------------------------------------------------------------------------------
-serviceTaskManageIssues.$inject = ['$http', 'API'];
+serviceTaskManageIssues.$inject = ['$http'];
 /* @ngInject */
-function serviceTaskManageIssues($http, API) {
+function serviceTaskManageIssues($http) {
 	// var getNew = function(req) {
 	// 	return $http({method:'GET',url: API + '/v1/notificationNew'});
 	// };

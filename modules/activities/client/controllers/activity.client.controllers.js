@@ -40,9 +40,9 @@ function controllerActivityList($scope, $modal, Activity, $stateParams) {
 // CONTROLLER: Activity Item
 //
 // -----------------------------------------------------------------------------------
-controllerActivityItem.$inject = ['$scope', '$state', 'Global'];
+controllerActivityItem.$inject = ['$scope', '$state'];
 //
-function controllerActivityItem($scope, $state, Global) {
+function controllerActivityItem($scope, $state) {
 	var actItem = this;
 	
 	actItem.goToActivity = function(activityId) {

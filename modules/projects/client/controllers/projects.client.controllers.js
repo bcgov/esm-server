@@ -11,9 +11,9 @@ angular.module('projects')
 // CONTROLLER: Filter Bar
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsFilterBar.$inject = ['$scope', '$state', 'Projects', 'Global', '$filter'];
+controllerProjectsFilterBar.$inject = ['$scope', '$state', 'Projects', '$filter'];
 /* @ngInject */
-function controllerProjectsFilterBar($scope, $state, Projects, Global, $filter) {
+function controllerProjectsFilterBar($scope, $state, Projects, $filter) {
 	var fbc = this;
 
 	fbc.types = Projects.getProjectTypes();
@@ -44,9 +44,9 @@ function controllerProjectsFilterBar($scope, $state, Projects, Global, $filter) 
 // CONTROLLER: Projects
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsList.$inject = ['$scope', '$state', 'Global'];
+controllerProjectsList.$inject = ['$scope', '$state'];
 /* @ngInject */
-function controllerProjectsList($scope, $state, Global) {
+function controllerProjectsList($scope, $state) {
 	var projectList = this;
 	
 	$scope.$watch('projects', function(newValue) {
@@ -54,11 +54,7 @@ function controllerProjectsList($scope, $state, Global) {
 	});
 
 	projectList.goToProject = function(projectId) {
-		if (Global.user.type === 'eao') {
-			$state.go('eao.project', {id:projectId});
-		} else {
-			$state.go('public.project', ({id:projectId}));
-		}
+		$state.go('eao.project', {id:projectId});
 	};
 	
 }
@@ -67,22 +63,17 @@ function controllerProjectsList($scope, $state, Global) {
 // CONTROLLER: Projects Intake
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsIntake.$inject = ['$scope', '$state', 'Global'];
+controllerProjectsIntake.$inject = ['$scope', '$state'];
 /* @ngInject */
-function controllerProjectsIntake($scope, $state, Global) {
+function controllerProjectsIntake($scope, $state) {
 	var projectIntakeList = this;
 
 	$scope.$watch('projects', function(newValue) {
-		console.log(newValue);
 		projectIntakeList.projects = newValue;
 	});
 
 	projectIntakeList.goToProject = function(projectId) {
-		if (Global.user.type === 'eao') {
-			$state.go('eao.project', {id:projectId});
-		} else {
-			$state.go('public.project', ({id:projectId}));
-		}
+		$state.go('eao.project', {id:projectId});
 	};
 	
 }
