@@ -47,7 +47,7 @@
 							<div class="btn-group btn-group-xs pull-right">
 								<a href class="btn btn-default" ng-class="{'btn-success': com.eaoStatus === 'Published'}"		ng-click="com.eaoStatus = 'Published'">Accept</a>
 								<a href class="btn btn-default" ng-class="{'btn-danger': com.eaoStatus === 'Rejected'}"		ng-click="com.eaoStatus = 'Rejected'">Reject</a>
-								<a href class="btn btn-default" ng-class="{'btn-info': com.eaoStatus === 'Deferred'}"		ng-click="taskPubComVet.setCommentDefer(com);">Defer</a>
+								<a href class="btn btn-default" ng-class="{'btn-info': com.eaoStatus === 'Deferred'}"		ng-click="com.eaoStatus = 'Deferred'">Defer</a>
 							</div>
 						</li>
 						<li class="clearfix" ng-repeat="doc in com.documents">

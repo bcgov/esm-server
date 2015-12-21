@@ -28,13 +28,25 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 			});
 			if (!pendingDocument) {
 				// proceed with status change
-				com.overallStatus = com.eaoStatus;
-				if (com.eaoStatus === 'Published') {
-					taskPubComVet.project.data.comments.push(com);
+				switch (com.eaoStatus) {
+					case 'Published':
+						PublicCommentVetting.setCommentPublish(com._id).then( function(res) {
+							com = angular.copy(res.data);
+						});
+						break;
+					case 'Defer':
+						PublicCommentVetting.setCommentDefer(com._id).then( function(res) {
+							com = angular.copy(res.data);
+						});
+						break;
+					case 'Reject':
+						PublicCommentVetting.setCommentReject(com._id).then( function(res) {
+							com = angular.copy(res.data);
+						});
+						break;
 				}
 				taskPubComVet.fetchNewComment();
 				// todo: make sure the handoff is correct to classification
-
 			} else {
 				window.alert("Please review all documents before viewing the next comment.");
 			}
@@ -42,20 +54,18 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 			window.alert("Please review the overall comment and all documents before viewing the next comment.");
 		}
 	};
-
-	taskPubComVet.setCommentDefer = function(comment) {
-		PublicCommentVetting.setCommentDefer(comment._id).then( function(res) {
-			comment = res.data;
-		});
-	};
-
-
+	// -----------------------------------------------------------------------------------
+	//
+	// Get next comment
+	//
+	// -----------------------------------------------------------------------------------
 	taskPubComVet.fetchNewComment = function() {
 		taskPubComVet.filter = 'Unvetted';
 
-		var newComment = {};
-		taskPubComVet.data.comments.push(newComment);
-		//taskPubComVet.activeCommentId = i;
+		PublicCommentVetting.getNextComment(taskPubComVet.project._id).then( function(res) {
+			taskPubComVet.data.comments.push(res.data);
+			taskPubComVet.activeCommentId = res.data._id;
+		});
 	};
 
 
@@ -65,13 +75,18 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 			taskPubComVet.project = newValue;
 
 			// start the public commenting
-			console.log('get comments');
 			PublicCommentVetting.getStart(newValue._id).then( function(res) {
 				taskPubComVet.data.comments = res.data;
-				PublicCommentVetting.getNextComment(newValue._id).then( function(res) {
-					taskPubComVet.data.comments.push(res.data);
+
+				var foundUnvetted = false;
+				// if there is an unvetted record, don't pull any more unvetted ones
+				_.each( res.data, function(comment) {
+					if (comment.eaoStatus === 'Unvetted') foundUnvetted = true;
 				});
 
+				if (!foundUnvetted) {
+					taskPubComVet.fetchNewComment();
+				}
 			});
 
 		}
