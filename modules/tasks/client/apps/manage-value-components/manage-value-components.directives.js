@@ -23,7 +23,7 @@ directiveTaskValueComponents.$inject = [];
 function directiveTaskValueComponents() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'components/tasks/manage-value-components/manage-value-components.html',
+        templateUrl: 'modules/tasks/client/apps/manage-value-components/manage-value-components.html',
         controller: 'controllerTaskValueComponents',
         controllerAs: 'taskValueComponents',
         scope: {

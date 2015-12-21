@@ -21,6 +21,8 @@ RUN git config --global url."https://".insteadOf git:// && npm install
 # Make everything available for start
 ADD . /home/mean
 
+RUN grunt buildprod
+
 # Set environment  to production
 ENV NODE_ENV production
 

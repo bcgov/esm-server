@@ -23,7 +23,7 @@ directiveTaskPublicCommentPeriodScheduling.$inject = [];
 function directiveTaskPublicCommentPeriodScheduling() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'components/tasks/public-comment-period-scheduling/public-comment-period-scheduling.html',
+        templateUrl: 'modules/tasks/client/apps/public-comment-period-scheduling/public-comment-period-scheduling.html',
         controller: 'controllerTaskPublicCommentPeriodScheduling',
         controllerAs: 'taskPubComSched',
         scope: {

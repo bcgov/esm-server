@@ -169,7 +169,7 @@ function controllerUsersSelect($scope, $modal) {
 	utilUsersSelect.userChooser = function() {
 		var modalUsersView = $modal.open({
 			animation: true,
-			templateUrl: 'components/utils/partials/modal-users-select.html',
+			templateUrl: 'modules/utils/client/views/partials/modal-users-select.html',
 			controller: 'controllerModalUsersSelect',
 			controllerAs: 'utilUsers',
 			size: 'lg',

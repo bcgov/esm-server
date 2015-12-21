@@ -12,7 +12,6 @@ var CommentDocument = mongoose.model ('CommentDocument');
 var helpers         = require (path.resolve('./modules/core/server/controllers/core.helpers.controller'));
 var _               = require ('lodash');
 
-
 var crud = new CRUD (Model);
 
 // -------------------------------------------------------------------------
@@ -413,8 +412,12 @@ var vettingClaim = function (req, res) {
 		project : req.params.projectid
 	})
 	.then (function (model) {
-		model.overallStatus = 'In Progress';
-		return saveComment (model, req);
+		if (model) {
+			model.overallStatus = 'In Progress';
+			return saveComment (model, req);
+		} else {
+			return helpers.sendData (res, {});
+		}
 	})
 	.then (decorateComment)
 	.then (function (model) {
