@@ -15,10 +15,22 @@ exports.invokeRolesPolicies = function () {
 	//
 	acl.allow ('guest', '/api/publiccomment/:publiccomment', 'post');
 	helpers.setPathPermissions (acl, [
-		[ '', 'user', '/api/publiccomment/:publiccomment/eaodefer'         ],
-		[ '', 'user', '/api/publiccomment/:publiccomment/eaoaccept'           ],
-		[ '', 'user', '/api/publiccomment/:publiccomment/eaoreject'           ],
-		[ '', 'user', '/api/publiccomment/:publiccomment/eaopublish'           ]
+		[ '', 'user', '/api/publiccomment/project/:projectid/published'         ],
+		[ '', 'user', '/api/publiccomment/project/:projectid/published/limit/:limit/offset/:offset'           ],
+		[ '', 'user', '/api/publiccomment/project/:projectid/unpublished'           ],
+		[ '', 'user', '/api/publiccomment/project/:projectid/unpublished/limit/:limit/offset/:offset'           ],
+		[ '', 'user', '/api/publiccomment/:publiccomment/eao/defer'         ],
+		[ '', 'user', '/api/publiccomment/:publiccomment/eao/accept'           ],
+		[ '', 'user', '/api/publiccomment/:publiccomment/eao/reject'           ],
+		[ '', 'user', '/api/publiccomment/:publiccomment/eao/publish'           ],
+		[ '', 'user', '/api/publiccomment/:publiccomment/eao/spam'           ],
+		[ '', 'user', '/api/publiccomment/:publiccomment/eao/edit'           ],
+		[ '', 'user', '/api/publiccomment/:publiccomment/vett/start'           ],
+		[ '', 'user', '/api/publiccomment/:publiccomment/vett/claim'           ],
+		[ '', 'user', '/api/publiccomment/:publiccomment/classify/start'           ],
+		[ '', 'user', '/api/publiccomment/:publiccomment/classify/claim'           ],
+		[ '', 'user', '/api/publiccomment/:publiccomment/proponent/defer'         ],
+		[ '', 'user', '/api/publiccomment/:publiccomment/proponent/classify'         ]
 	]);
 };
 
