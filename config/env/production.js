@@ -4,7 +4,7 @@ module.exports = {
   secure: {
     ssl: false
   },
-  port: process.env.PORT || 3000,
+  port: process.env.PORT || 8888,
   db: {
     uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/esm',
     acluri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/esm-acl',
