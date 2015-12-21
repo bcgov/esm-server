@@ -12,7 +12,6 @@ var CommentDocument = mongoose.model ('CommentDocument');
 var helpers         = require (path.resolve('./modules/core/server/controllers/core.helpers.controller'));
 var _               = require ('lodash');
 
-
 var crud = new CRUD (Model);
 
 // -------------------------------------------------------------------------
@@ -87,6 +86,7 @@ var getBucketsForComment = function (commentId) {
 // -------------------------------------------------------------------------
 var decorateComment = function (comment) {
 	return new Promise (function (resolve, reject) {
+		if (!comment) return resolve ({});
 		comment = comment.toObject ();
 		getDocumentsForComment (comment._id)
 		.then (function (a) {
@@ -389,7 +389,7 @@ var getInProgressForUser = function (userid, query) {
 //
 // -------------------------------------------------------------------------
 var vettingStart = function (req, res) {
-	var userid = (req.user) ? req.user._id : '55244877afb265301daff7f2';
+	var userid = (req.user) ? req.user._id : null;
 	getInProgressForUser (userid, {
 		project : req.params.projectid
 	})
@@ -413,8 +413,12 @@ var vettingClaim = function (req, res) {
 		project : req.params.projectid
 	})
 	.then (function (model) {
-		model.overallStatus = 'In Progress';
-		return saveComment (model, req);
+		if (model) {
+			model.overallStatus = 'In Progress';
+			return saveComment (model, req);
+		} else {
+			return helpers.sendData (res, {});
+		}
 	})
 	.then (decorateComment)
 	.then (function (model) {
@@ -431,7 +435,7 @@ exports.vettingClaim = vettingClaim;
 //
 // -------------------------------------------------------------------------
 var classifyStart = function (req, res) {
-	var userid = (req.user) ? req.user._id : '55244877afb265301daff7f2';
+	var userid = (req.user) ? req.user._id : null;
 	getInProgressForUser (userid, {
 		overallStatus   : 'Published',
 		proponentStatus : 'Deferred',

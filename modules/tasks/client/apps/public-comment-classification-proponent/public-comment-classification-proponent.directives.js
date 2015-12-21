@@ -23,7 +23,7 @@ directiveTaskPublicCommentClassificationProponent.$inject = [];
 function directiveTaskPublicCommentClassificationProponent() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'components/tasks/public-comment-classification-proponent/public-comment-classification-proponent.html',
+        templateUrl: 'modules/tasks/client/apps/public-comment-classification-proponent/public-comment-classification-proponent.html',
         controller: 'controllerTaskPublicCommentClassificationProponent',
         controllerAs: 'taskPubComClassProp',
         scope: {

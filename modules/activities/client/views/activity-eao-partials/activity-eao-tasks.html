@@ -2,6 +2,7 @@
 	<ul class="list-unstyled task-list">
 		<li ng-repeat="item in actTasks.tasks">
 			<button
+				id="'task-' + ( item._id | kebab )"
 				class="btn btn-sm btn-block clearfix btn-task-indicator btn-task-{{ item.status | kebab }}" 
 				ng-click="actTasks.taskChange(item, actTasks.project, $event)"
 				ng-class="{'task-selected': actTasks.currentTask === 'task-' + ( item._id | kebab )}">

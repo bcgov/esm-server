@@ -23,7 +23,7 @@ directiveTaskStartProcess.$inject = [];
 function directiveTaskStartProcess() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'components/tasks/start-process/start-process.html',
+        templateUrl: 'modules/tasks/client/apps/start-process/start-process.html',
         controller: 'controllerTaskStartProcess',
         controllerAs: 'taskStartProcess',
         scope: {
