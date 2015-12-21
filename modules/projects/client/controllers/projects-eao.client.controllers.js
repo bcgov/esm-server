@@ -30,8 +30,9 @@ function controllerEAOProjects($scope, $state, Projects, Global, _) {
 		});
 	});
 
-	vm.proponent = Global.user;
 
+
+	// panel sort maps fields to names, when clicked the associated table sorts accordingly
 	vm.panelSort = [
 		{'field': 'name', 'name':'Title'},
 		{'field': 'region', 'name':'Region'},	

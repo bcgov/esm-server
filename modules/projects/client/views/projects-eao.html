@@ -37,7 +37,7 @@
 		</div>
 
 
-		<div class='row'>
+		<div class='row' ng-if="(vm | userHasRole)">
 			<div class='col-sm-12'>
 				<div class="form-group">
 					<button ui-sref="configuration" class="form-control btn btn-block btn-default">System Configuration</button>

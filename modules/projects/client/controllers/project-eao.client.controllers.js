@@ -28,7 +28,6 @@ function controllerEAOProject($scope, Project, $stateParams) {
 		vm.project = res.data;
 	});
 
-
 }
 // -----------------------------------------------------------------------------------
 //
