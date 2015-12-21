@@ -11,6 +11,8 @@ module.exports = function (app) {
   app.route('/api/users/password').post(users.changePassword);
   app.route('/api/users/picture').post(users.changeProfilePicture);
 
+  app.route('/api/user/alert').get(function(req,res){res.json([]);});
+
   // Finish by binding the user middleware
   app.param('userId', users.userByID);
 };
