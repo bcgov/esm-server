@@ -44,10 +44,9 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 							com = angular.copy(res.data);
 						});
 						break;
-				};
+				}
 				taskPubComVet.fetchNewComment();
 				// todo: make sure the handoff is correct to classification
-
 			} else {
 				window.alert("Please review all documents before viewing the next comment.");
 			}
