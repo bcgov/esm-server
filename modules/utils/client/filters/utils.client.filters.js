@@ -16,16 +16,16 @@ angular.module('utils')
 // FILTER: Projects Phases - mark up the project to show what group owns it.
 //
 // -----------------------------------------------------------------------------------
-filterProjectPhaseContributor.$inject = ['Global', '$filter', '_'];
+filterProjectPhaseContributor.$inject = ['$filter', '_'];
 /* @ngInject */
-function filterProjectPhaseContributor(Global, $filter, _) {
+function filterProjectPhaseContributor($filter, _) {
 	return function(input) {
-		var cur = _.findWhere(Global.projectPhases, {name: input});
-		if (cur) {
-			if (cur.groups.indexOf( Global.user.type ) !== -1) {
-				return true;
-			}
-		} 
+		// var cur = _.findWhere(Global.projectPhases, {name: input});
+		// if (cur) {
+		// 	if (cur.groups.indexOf( Global.user.type ) !== -1) {
+		// 		return true;
+		// 	}
+		// } 
 		return false;
 	};
 }

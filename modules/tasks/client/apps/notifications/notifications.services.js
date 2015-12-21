@@ -7,14 +7,14 @@ angular.module('tasks')
 // SERVICE: Notification templates
 //
 // -----------------------------------------------------------------------------------
-serviceNotifications.$inject = ['$http', 'API'];
+serviceNotifications.$inject = ['$http'];
 /* @ngInject */
-function serviceNotifications($http, API) {
+function serviceNotifications($http) {
 	var getNew = function(req) {
-		return $http({method:'GET',url: API + '/v1/notificationNew'});
+		return $http({method:'GET',url: '/api/new/notification'});
 	};
 	var getTemplates = function(req) {
-		return $http({method:'GET',url: API + '/v1/notificationTemplates'});
+		return $http({method:'GET',url: '/api/notificationTemplates'});
 	};
 	return {
 		getNew: getNew,

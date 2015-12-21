@@ -7,9 +7,9 @@ angular.module('documents')
 // DIRECTIVE: Public Projects Main
 //
 // -----------------------------------------------------------------------------------
-serviceDocument.$inject = ['$http', 'API'];
+serviceDocument.$inject = ['$http'];
 /* @ngInject */
-function serviceDocument($http, API) {
+function serviceDocument($http) {
 
 	var getDocumentTypes = function() {
 		return [

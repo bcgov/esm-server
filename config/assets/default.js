@@ -18,9 +18,9 @@ module.exports = {
         'public/lib/angular-messages/angular-messages.js',
         'public/lib/angular-ui-router/release/angular-ui-router.js',
         'public/lib/angular-ui-utils/ui-utils.js',
+        'public/lib/angular-bootstrap/ui-bootstrap.js',
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
         'public/lib/angular-file-upload/angular-file-upload.js',
-        'public/lib/angular-bootstrap/ui-bootstrap.js',
         'public/lib/angular-sanitize/angular-sanitize.js',
         'public/lib/angular-toastr/dist/angular-toastr.js',
         'public/lib/angular-toastr/dist/angular-toastr.tpls.js',
@@ -34,6 +34,8 @@ module.exports = {
         'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
         // these were in the applicaiton js area before
         'public/lib/ngmap/build/scripts/ng-map.js',
+		'public/lib/moment-timezone-data.js',
+		'public/lib/readable-range.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },
@@ -47,8 +49,6 @@ module.exports = {
       'modules/*/client/scss/*.scss'
     ],
     js: [
-      '/scripts/moment-timezone-data.js',
-      '/scripts/readable-range.js',
       'modules/core/client/app/config.js',
       'modules/core/client/app/init.js',
       'modules/*/client/*.js',
