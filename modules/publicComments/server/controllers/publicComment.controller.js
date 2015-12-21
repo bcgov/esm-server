@@ -144,9 +144,9 @@ var saveDecorateReturn = function (comment, req, res) {
 // -------------------------------------------------------------------------
 var numberOfDeferredDocuments = function (comment) {
 	return new Promise (function (resolve, reject) {
-		CommentDocument.find ({publicComment:comment._id, eaoStatus:'Deferred'}, function (err, models) {
+		CommentDocument.count ({publicComment:comment._id, eaoStatus:'Deferred'}, function (err, n) {
 			if (err) return reject (err);
-			resolve (models.length);
+			resolve (n);
 		});
 	});
 };

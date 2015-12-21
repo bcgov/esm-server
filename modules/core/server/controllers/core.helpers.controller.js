@@ -249,8 +249,8 @@ exports.setCRUDPermissions = function (acl, base) {
 exports.setPathPermissions = function (acl, list) {
   var userlist  = list.map (function (v) { if (v[1]) return v[2]; });
   var guestlist = list.map (function (v) { if (v[0]) return v[2]; });
-  console.log ('userlist:',userlist);
-  console.log ('guestlist:',guestlist);
+  // console.log ('userlist:',userlist);
+  // console.log ('guestlist:',guestlist);
   if (userlist.length) acl.allow ('user', userlist, '*');
   if (guestlist.length) acl.allow ('guest', guestlist, 'get');
 };
