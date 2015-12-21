@@ -15,12 +15,9 @@ RUN npm install -g bower
 
 # Install Mean.JS packages
 ADD package.json /home/mean/package.json
-RUN npm install
-
-# Manually trigger bower. Why doesnt this work via npm install?
 ADD .bowerrc /home/mean/.bowerrc
 ADD bower.json /home/mean/bower.json
-RUN git config --global url."https://".insteadOf git:// && bower install --config.interactive=false --allow-root
+RUN git config --global url."https://".insteadOf git:// && npm install
 
 # Make everything available for start
 ADD . /home/mean
@@ -35,4 +32,4 @@ ENV UPLOAD_PATH /uploads
 VOLUME /uploads
 
 EXPOSE 3000
-CMD ["grunt prod"]
+ENTRYPOINT ["./run.sh"]
