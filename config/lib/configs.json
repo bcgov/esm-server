@@ -1,0 +1,1923 @@
+{
+  "activities": [
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "New activity",
+      "name": "New activity",
+      "code": "code",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Happy activity",
+      "name": "Happy activity",
+      "code": "code",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Initiate Project",
+      "name": "Initiate Project",
+      "code": "initiate-project",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Set up Project Space",
+      "name": "Set up Project Space",
+      "code": "set-up-project-space",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Populate Initial Project Content",
+      "name": "Populate Initial Project Content",
+      "code": "populate-initial-project-content",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Approve Project Description",
+      "name": "Approve Project Description",
+      "code": "approve-project-description",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Issue Section 10(1)c",
+      "name": "Issue Section 10(1)c",
+      "code": "issue-section-101c",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Document Strength of Claim",
+      "name": "Document Strength of Claim",
+      "code": "document-strength-of-claim",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Input Project Content - for Section 11",
+      "name": "Input Project Content - for Section 11",
+      "code": "input-project-content-for-section-11",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Input Project Content - for AIR",
+      "name": "Input Project Content - for AIR",
+      "code": "input-project-content-for-air",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Confirm Working Group Participation",
+      "name": "Confirm Working Group Participation",
+      "code": "confirm-working-group-participation",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Input Project Content - DRAFT AIR",
+      "name": "Input Project Content - DRAFT AIR",
+      "code": "input-project-content-draft-air",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Create Draft AIR",
+      "name": "Create Draft AIR",
+      "code": "create-draft-air",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Draft AIR Public Comment Period",
+      "name": "Draft AIR Public Comment Period",
+      "code": "draft-air-public-comment-period",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Create AIR",
+      "name": "Create AIR",
+      "code": "create-air",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Create Table of Concordance",
+      "name": "Create Table of Concordance",
+      "code": "create-table-of-concordance",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Submit Application",
+      "name": "Submit Application",
+      "code": "submit-application",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Initate Evaluation Period",
+      "name": "Initate Evaluation Period",
+      "code": "initate-evaluation-period",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "30 Day Evaluation Period",
+      "name": "30 Day Evaluation Period",
+      "code": "30-day-evaluation-period",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Evaluation Wrap-up",
+      "name": "Evaluation Wrap-up",
+      "code": "evaluation-wrap-up",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Initate Review Period",
+      "name": "Initate Review Period",
+      "code": "initate-review-period",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Application Review",
+      "name": "Application Review",
+      "code": "application-review",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Public Comment Period",
+      "name": "Public Comment Period",
+      "code": "public-comment-period",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Approve Application",
+      "name": "Approve Application",
+      "code": "approve-application",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Review Wrap-Up",
+      "name": "Review Wrap-Up",
+      "code": "review-wrap-up",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Initiate Decision Period",
+      "name": "Initiate Decision Period",
+      "code": "initiate-decision-period",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Minister Review - Approve Application",
+      "name": "Minister Review - Approve Application",
+      "code": "minister-review-approve-application",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Initiate Decision Period",
+      "name": "Initiate Decision Period",
+      "code": "initiate-decision-period",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Minister Review - Approve Application",
+      "name": "Minister Review - Approve Application",
+      "code": "minister-review-approve-application",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Not Approved",
+      "name": "Not Approved",
+      "code": "not-approved",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "More information needed",
+      "name": "More information needed",
+      "code": "more-information-needed",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Approved",
+      "name": "Approved",
+      "code": "approved",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Create Certificate",
+      "name": "Create Certificate",
+      "code": "create-certificate",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Complete Decision Phase",
+      "name": "Complete Decision Phase",
+      "code": "complete-decision-phase",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Initiate Certificate Extension",
+      "name": "Initiate Certificate Extension",
+      "code": "initiate-certificate-extension",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "description": "Initiate Substantially Started Process",
+      "name": "Initiate Substantially Started Process",
+      "code": "initiate-substantially-started-process",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null,
+      "phase": null
+    }
+  ],
+  "buckets": [
+    {
+      "isValueComponment": false,
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": false,
+      "description": "Happy bucket",
+      "name": "Happy bucket",
+      "code": "code",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Greenhouse Gas Management",
+      "name": "Greenhouse Gas Management",
+      "code": "greenhouse-gas-management",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Geology, Landforms and Soils",
+      "name": "Geology, Landforms and Soils",
+      "code": "geology-landforms-and-soils",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Surface Water Quality",
+      "name": "Surface Water Quality",
+      "code": "surface-water-quality",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Surface Water Quantity",
+      "name": "Surface Water Quantity",
+      "code": "surface-water-quantity",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Groundwater Quality",
+      "name": "Groundwater Quality",
+      "code": "groundwater-quality",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Fish populations and fish habitat",
+      "name": "Fish populations and fish habitat",
+      "code": "fish-populations-and-fish-habitat",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Rare Plants",
+      "name": "Rare Plants",
+      "code": "rare-plants",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Rare and Sensitive Ecological Communities",
+      "name": "Rare and Sensitive Ecological Communities",
+      "code": "rare-and-sensitive-ecological-communities",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Grasslands",
+      "name": "Grasslands",
+      "code": "grasslands",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Terrestrial Invertebrates",
+      "name": "Terrestrial Invertebrates",
+      "code": "terrestrial-invertebrates",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Amphibians",
+      "name": "Amphibians",
+      "code": "amphibians",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Reptiles",
+      "name": "Reptiles",
+      "code": "reptiles",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Migratory Birds",
+      "name": "Migratory Birds",
+      "code": "migratory-birds",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Raptors",
+      "name": "Raptors",
+      "code": "raptors",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Non-migratory Gamebirds",
+      "name": "Non-migratory Gamebirds",
+      "code": "non-migratory-gamebirds",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Mammals",
+      "name": "Mammals",
+      "code": "mammals",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Economic Growth",
+      "name": "Economic Growth",
+      "code": "economic-growth",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Labour Force, Employment and Training",
+      "name": "Labour Force, Employment and Training",
+      "code": "labour-force-employment-and-training",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Income",
+      "name": "Income",
+      "code": "income",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Business",
+      "name": "Business",
+      "code": "business",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Property Values",
+      "name": "Property Values",
+      "code": "property-values",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Economic Diversification",
+      "name": "Economic Diversification",
+      "code": "economic-diversification",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Infrastructure, Public Facilities and Services",
+      "name": "Infrastructure, Public Facilities and Services",
+      "code": "infrastructure-public-facilities-and-services",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Dark Sky",
+      "name": "Dark Sky",
+      "code": "dark-sky",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Visual Impact/Aesthetic Features (including Shading)",
+      "name": "Visual Impact/Aesthetic Features (including Shading)",
+      "code": "visual-impact-aesthetic-features-including-shading",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Land and Resource Use",
+      "name": "Land and Resource Use",
+      "code": "land-and-resource-use",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Current Use of Land and Resources for Traditional Purposes",
+      "name": "Current Use of Land and Resources for Traditional Purposes",
+      "code": "current-use-of-land-and-resources-for-traditional-purposes",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Outdoor Recreation",
+      "name": "Outdoor Recreation",
+      "code": "outdoor-recreation",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Archaeological Sites",
+      "name": "Archaeological Sites",
+      "code": "archaeological-sites",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Aboriginal and Non-Aboriginal Heritage Sites",
+      "name": "Aboriginal and Non-Aboriginal Heritage Sites",
+      "code": "aboriginal-and-non-aboriginal-heritage-sites",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Air Quality",
+      "name": "Air Quality",
+      "code": "air-quality",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Domestic Water Quality",
+      "name": "Domestic Water Quality",
+      "code": "domestic-water-quality",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Country Foods",
+      "name": "Country Foods",
+      "code": "country-foods",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Human Health",
+      "name": "Human Health",
+      "code": "human-health",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": false,
+      "description": "Noise and Vibration",
+      "name": "Noise and Vibration",
+      "code": "noise-and-vibration",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Healthy Living and Health Education",
+      "name": "Healthy Living and Health Education",
+      "code": "healthy-living-and-health-education",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "progress": 0,
+      "isValueComponent": true,
+      "description": "Community Health and Well-being",
+      "name": "Community Health and Well-being",
+      "code": "community-health-and-well-being",
+      "visibleAtPhase": null,
+      "stream": null,
+      "project": null
+    }
+  ],
+  "milestones": [
+    {
+      "dateActualEnd": "2015-11-24T14:20:08.288Z",
+      "dateActualStart": "2015-11-24T14:20:08.288Z",
+      "dateEstimatedEnd": "2015-11-24T14:20:08.288Z",
+      "dateEstimatedStart": "2015-11-24T14:20:08.288Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Started",
+      "description": "Happy milestone",
+      "name": "Happy milestone",
+      "code": "code",
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "dateActualEnd": "2015-11-24T20:38:36.449Z",
+      "dateActualStart": "2015-11-24T20:38:36.449Z",
+      "dateEstimatedEnd": "2015-11-24T20:38:36.449Z",
+      "dateEstimatedStart": "2015-11-24T20:38:36.449Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Required",
+      "description": "New milestone",
+      "name": "Accept Draft Project Description",
+      "code": "accept-draft-project-desc",
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "dateActualEnd": "2015-11-24T20:39:08.739Z",
+      "dateActualStart": "2015-11-24T20:39:08.739Z",
+      "dateEstimatedEnd": "2015-11-24T20:39:08.739Z",
+      "dateEstimatedStart": "2015-11-24T20:39:08.739Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Required",
+      "description": "New milestone",
+      "name": "Project Space Initiated",
+      "code": "project-space-initiated",
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "dateActualEnd": "2015-11-24T20:39:40.263Z",
+      "dateActualStart": "2015-11-24T20:39:40.263Z",
+      "dateEstimatedEnd": "2015-11-24T20:39:40.263Z",
+      "dateEstimatedStart": "2015-11-24T20:39:40.262Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Required",
+      "description": "New milestone",
+      "name": "Project Description",
+      "code": "project-desc",
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "dateActualEnd": "2015-11-24T20:39:54.244Z",
+      "dateActualStart": "2015-11-24T20:39:54.244Z",
+      "dateEstimatedEnd": "2015-11-24T20:39:54.244Z",
+      "dateEstimatedStart": "2015-11-24T20:39:54.244Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Required",
+      "description": "New milestone",
+      "name": "Section 10.1.c",
+      "code": "section101c",
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "dateActualEnd": "2015-11-24T20:40:09.024Z",
+      "dateActualStart": "2015-11-24T20:40:09.024Z",
+      "dateEstimatedEnd": "2015-11-24T20:40:09.024Z",
+      "dateEstimatedStart": "2015-11-24T20:40:09.024Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Required",
+      "description": "New milestone",
+      "name": "Strength of Claim",
+      "code": "strength-of-claim",
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "dateActualEnd": "2015-11-24T20:40:30.659Z",
+      "dateActualStart": "2015-11-24T20:40:30.658Z",
+      "dateEstimatedEnd": "2015-11-24T20:40:30.658Z",
+      "dateEstimatedStart": "2015-11-24T20:40:30.658Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Required",
+      "description": "New milestone",
+      "name": "Section 11",
+      "code": "section11",
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "dateActualEnd": "2015-11-24T20:40:48.622Z",
+      "dateActualStart": "2015-11-24T20:40:48.622Z",
+      "dateEstimatedEnd": "2015-11-24T20:40:48.622Z",
+      "dateEstimatedStart": "2015-11-24T20:40:48.622Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Required",
+      "description": "New milestone",
+      "name": "Value Component Document",
+      "code": "value-component-doc",
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "dateActualEnd": "2015-11-24T20:41:13.355Z",
+      "dateActualStart": "2015-11-24T20:41:13.355Z",
+      "dateEstimatedEnd": "2015-11-24T20:41:13.355Z",
+      "dateEstimatedStart": "2015-11-24T20:41:13.355Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Required",
+      "description": "New milestone",
+      "name": "Draft AIR",
+      "code": "draft-air",
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "dateActualEnd": "2015-11-24T20:41:36.931Z",
+      "dateActualStart": "2015-11-24T20:41:36.931Z",
+      "dateEstimatedEnd": "2015-11-24T20:41:36.931Z",
+      "dateEstimatedStart": "2015-11-24T20:41:36.931Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Required",
+      "description": "New milestone",
+      "name": "AIR",
+      "code": "air",
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "dateActualEnd": "2015-11-24T20:41:49.893Z",
+      "dateActualStart": "2015-11-24T20:41:49.893Z",
+      "dateEstimatedEnd": "2015-11-24T20:41:49.893Z",
+      "dateEstimatedStart": "2015-11-24T20:41:49.893Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Required",
+      "description": "New milestone",
+      "name": "Draft Application",
+      "code": "draft-application",
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "dateActualEnd": "2015-11-24T20:42:12.693Z",
+      "dateActualStart": "2015-11-24T20:42:12.693Z",
+      "dateEstimatedEnd": "2015-11-24T20:42:12.693Z",
+      "dateEstimatedStart": "2015-11-24T20:42:12.693Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Required",
+      "description": "New milestone",
+      "name": "Evaluation Decision",
+      "code": "evaluation-decision",
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "dateActualEnd": "2015-11-24T20:42:26.219Z",
+      "dateActualStart": "2015-11-24T20:42:26.219Z",
+      "dateEstimatedEnd": "2015-11-24T20:42:26.219Z",
+      "dateEstimatedStart": "2015-11-24T20:42:26.219Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Required",
+      "description": "New milestone",
+      "name": "Application",
+      "code": "application",
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "dateActualEnd": "2015-11-24T20:42:38.181Z",
+      "dateActualStart": "2015-11-24T20:42:38.181Z",
+      "dateEstimatedEnd": "2015-11-24T20:42:38.181Z",
+      "dateEstimatedStart": "2015-11-24T20:42:38.181Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Required",
+      "description": "New milestone",
+      "name": "Referral Package Sign-off",
+      "code": "referral-package-sign-off",
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "dateActualEnd": "2015-11-24T20:46:35.834Z",
+      "dateActualStart": "2015-11-24T20:46:35.834Z",
+      "dateEstimatedEnd": "2015-11-24T20:46:35.834Z",
+      "dateEstimatedStart": "2015-11-24T20:46:35.833Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Required",
+      "description": "New milestone",
+      "name": "Ministers' Decision",
+      "code": "ministers-decision",
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "dateActualEnd": "2015-11-24T20:47:18.790Z",
+      "dateActualStart": "2015-11-24T20:47:18.790Z",
+      "dateEstimatedEnd": "2015-11-24T20:47:18.790Z",
+      "dateEstimatedStart": "2015-11-24T20:47:18.790Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Required",
+      "description": "New milestone",
+      "name": "Certificate",
+      "code": "certificate",
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "dateActualEnd": "2015-11-24T20:47:52.550Z",
+      "dateActualStart": "2015-11-24T20:47:52.550Z",
+      "dateEstimatedEnd": "2015-11-24T20:47:52.550Z",
+      "dateEstimatedStart": "2015-11-24T20:47:52.550Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Required",
+      "description": "New milestone",
+      "name": "Certificate Extension",
+      "code": "certificate-extension",
+      "stream": null,
+      "project": null,
+      "phase": null
+    },
+    {
+      "dateActualEnd": "2015-11-24T20:48:22.917Z",
+      "dateActualStart": "2015-11-24T20:48:22.917Z",
+      "dateEstimatedEnd": "2015-11-24T20:48:22.917Z",
+      "dateEstimatedStart": "2015-11-24T20:48:22.917Z",
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "status": "Not Required",
+      "description": "New milestone",
+      "name": "Substantially Started",
+      "code": "substantially-started",
+      "stream": null,
+      "project": null,
+      "phase": null
+    }
+  ],
+  "phases": [
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "mandatoryDurationDays": 90,
+      "progress": 0,
+      "description": "happy phase",
+      "name": "happy phase",
+      "code": "happyphase",
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "mandatoryDurationDays": 90,
+      "progress": 0,
+      "description": "Phase TWO",
+      "name": "Phase TWO",
+      "code": "PhaseTWO",
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "mandatoryDurationDays": null,
+      "progress": 0,
+      "description": "Pre-Application preparation",
+      "name": "Pre-EA",
+      "code": "preea",
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "mandatoryDurationDays": null,
+      "progress": 0,
+      "description": "Pre-Application",
+      "name": "Pre-Application",
+      "code": "preap",
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "mandatoryDurationDays": null,
+      "progress": 0,
+      "description": "EAO Evaluation",
+      "name": "Evaluation",
+      "code": "eval",
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "mandatoryDurationDays": null,
+      "progress": 0,
+      "description": "EAO Review",
+      "name": "Review",
+      "code": "rev",
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "mandatoryDurationDays": null,
+      "progress": 0,
+      "description": "Decision",
+      "name": "Decision",
+      "code": "dec",
+      "stream": null,
+      "project": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "mandatoryDurationDays": null,
+      "progress": 0,
+      "description": "Post Certification Processes",
+      "name": "Post-Certification",
+      "code": "post",
+      "stream": null,
+      "project": null
+    }
+  ],
+  "requirements": [
+    {
+      "milestone": null,
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null,
+      "task": null,
+      "value": false,
+      "type": "document",
+      "description": "Happy requirement",
+      "name": "Happy requirement",
+      "code": "code"
+    },
+    {
+      "milestone": null,
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null,
+      "task": null,
+      "value": false,
+      "type": "document",
+      "description": "Preliminary Project Description",
+      "name": "Preliminary Project Description",
+      "code": "preliminary-project-description"
+    }
+  ],
+  "tasks": [
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "prerequisites": [],
+      "processCode": "",
+      "subStatuses": "",
+      "subStatus": "",
+      "notRequiredReason": "",
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "description": "Happy task",
+      "name": "Happy task",
+      "code": "code",
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "prerequisites": [],
+      "processCode": "notifications",
+      "subStatuses": "",
+      "subStatus": "",
+      "notRequiredReason": "",
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "description": "Test Notifications",
+      "name": "Notifications",
+      "code": "notifications",
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "prerequisites": [],
+      "processCode": "public-comment-period-scheduling",
+      "subStatuses": "",
+      "subStatus": "",
+      "notRequiredReason": "",
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "description": "Public Comment Period Schedule",
+      "name": "Public Comment Period Schedule",
+      "code": "public-comment-period-schedule",
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "prerequisites": [],
+      "processCode": "public-comment-vetting",
+      "subStatuses": "",
+      "subStatus": "",
+      "notRequiredReason": "",
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "description": "Public Comment Vetting",
+      "name": "Public Comment Vetting",
+      "code": "public-comment-vetting",
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "prerequisites": [],
+      "processCode": "public-comment-classification-proponent",
+      "subStatuses": "",
+      "subStatus": "",
+      "notRequiredReason": "",
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "description": "Public Comment Classification",
+      "name": "Public Comment Classification",
+      "code": "public-comment-classification",
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "prerequisites": [],
+      "processCode": "manage-issues",
+      "subStatuses": "",
+      "subStatus": "",
+      "notRequiredReason": "",
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "description": "Manage Issues",
+      "name": "Manage Issues",
+      "code": "manage-issues",
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "prerequisites": [],
+      "processCode": "manage-value-components",
+      "subStatuses": "",
+      "subStatus": "",
+      "notRequiredReason": "",
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "description": "Manage Value Component",
+      "name": "Manage Value Components",
+      "code": "manage-value-components",
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "prerequisites": [],
+      "processCode": "manage-value-components",
+      "subStatuses": "",
+      "subStatus": "",
+      "notRequiredReason": "",
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "description": "Testing",
+      "name": "Custom Task",
+      "code": "Testing",
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "prerequisites": [],
+      "processCode": "manage-issues",
+      "subStatuses": "",
+      "subStatus": "",
+      "notRequiredReason": "",
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "description": "New task",
+      "name": "New task Test",
+      "code": "code",
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "prerequisites": [],
+      "processCode": "manage-issues",
+      "subStatuses": "",
+      "subStatus": "",
+      "notRequiredReason": "",
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "description": "New task",
+      "name": "New task",
+      "code": "code",
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "prerequisites": [],
+      "processCode": "manage-value-components",
+      "subStatuses": "",
+      "subStatus": "",
+      "notRequiredReason": "",
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "description": "New task",
+      "name": "Manage Value Components",
+      "code": "code",
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "prerequisites": [],
+      "processCode": "notifications",
+      "subStatuses": "",
+      "subStatus": "",
+      "notRequiredReason": "",
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "description": "New task",
+      "name": "New task",
+      "code": "code",
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "prerequisites": [],
+      "processCode": "public-comment-classification-proponent",
+      "subStatuses": "",
+      "subStatus": "",
+      "notRequiredReason": "",
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "description": "New task",
+      "name": "New task",
+      "code": "code",
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "",
+        "read": ""
+      },
+      "prerequisites": [],
+      "processCode": "",
+      "subStatuses": "",
+      "subStatus": "",
+      "notRequiredReason": "",
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "description": "New task",
+      "name": "New task Is the one",
+      "code": "",
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null
+    }
+  ],
+  "bucketrequirements": []
+}

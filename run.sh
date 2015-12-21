@@ -1,5 +1,5 @@
 #!/bin/bash
 
-forever start server.js
+forever server.js
 
 

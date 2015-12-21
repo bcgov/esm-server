@@ -10,8 +10,7 @@ RUN gem install sass
 WORKDIR /home/mean
 
 # Install Mean.JS Prerequisites
-RUN npm install -g grunt-cli
-RUN npm install -g bower
+RUN npm install -g grunt-cli bower forever
 
 # Install Mean.JS packages
 ADD package.json /home/mean/package.json
@@ -21,6 +20,8 @@ RUN git config --global url."https://".insteadOf git:// && npm install
 
 # Make everything available for start
 ADD . /home/mean
+
+RUN grunt buildprod
 
 # Set environment  to production
 ENV NODE_ENV production
