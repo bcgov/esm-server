@@ -11,7 +11,7 @@ var _ = require('lodash'),
 
 module.exports = function (grunt) {
   // Project Configuration
-  
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     env: {
@@ -274,6 +274,8 @@ module.exports = function (grunt) {
 
   // Lint project files and minify them into two production files.
   grunt.registerTask('build', ['env:dev', 'lint', 'ngAnnotate', 'uglify', 'cssmin']);
+  grunt.registerTask('buildprod', ['env:prod', 'lint', 'ngAnnotate', 'uglify', 'cssmin']);
+  grunt.registerTask('buildtest', ['env:test', 'lint', 'ngAnnotate', 'uglify', 'cssmin']);
 
   // Run the project tests
   grunt.registerTask('test', ['env:test', 'lint', 'mkdir:upload', 'copy:localConfig', 'server', 'mochaTest', 'karma:unit']);
@@ -289,5 +291,5 @@ module.exports = function (grunt) {
   grunt.registerTask('debug', ['env:dev', 'lint', 'mkdir:upload', 'copy:localConfig', 'concurrent:debug']);
 
   // Run the project in production mode
-  grunt.registerTask('prod', ['build', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default']);
+  grunt.registerTask('prod', ['buildprod', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default']);
 };

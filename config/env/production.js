@@ -12,7 +12,7 @@ module.exports = {
       user: '',
       pass: ''
     },
-    // Enable mongoose debug mode
+    // Enable mongoose debug module
     debug: process.env.MONGODB_DEBUG || false
   },
   log: {
