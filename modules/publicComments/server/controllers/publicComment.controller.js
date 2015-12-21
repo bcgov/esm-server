@@ -389,7 +389,7 @@ var getInProgressForUser = function (userid, query) {
 //
 // -------------------------------------------------------------------------
 var vettingStart = function (req, res) {
-	var userid = (req.user) ? req.user._id : '55244877afb265301daff7f2';
+	var userid = (req.user) ? req.user._id : null;
 	getInProgressForUser (userid, {
 		project : req.params.projectid
 	})
@@ -431,7 +431,7 @@ exports.vettingClaim = vettingClaim;
 //
 // -------------------------------------------------------------------------
 var classifyStart = function (req, res) {
-	var userid = (req.user) ? req.user._id : '55244877afb265301daff7f2';
+	var userid = (req.user) ? req.user._id : null;
 	getInProgressForUser (userid, {
 		overallStatus   : 'Published',
 		proponentStatus : 'Deferred',
