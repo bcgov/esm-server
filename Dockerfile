@@ -32,4 +32,4 @@ ENV UPLOAD_PATH /uploads
 VOLUME /uploads
 
 EXPOSE 3000
-ENTRYPOINT ["run.sh"]
+ENTRYPOINT ["./run.sh"]
