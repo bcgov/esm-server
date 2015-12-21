@@ -1,5 +1,7 @@
 #!/bin/bash
 
+git pull origin develop
+
 grunt buildprod
 
 export NODE_ENV=production
