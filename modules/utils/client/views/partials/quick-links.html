@@ -15,7 +15,10 @@
 
 				<tbody>
 					<tr ng-repeat="project in qlPanel.quickLinks">
-						<td>
+						<td ng-if="qlPanel.auth.user === ''">
+							<a html ui-sref="public.project({id: project._id})">{{ project.name }}</a>
+						</td>
+						<td ng-if="qlPanel.auth.user !== ''">
 							<a html ui-sref="eao.project({id: project._id})">{{ project.name }}</a>
 						</td>
 						<td class="text-right">

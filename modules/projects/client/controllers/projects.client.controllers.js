@@ -37,7 +37,7 @@ function controllerProjectsFilterBar($scope, $state, Projects, $filter) {
 		}
 	};
 
-	fbc.userType = Global.user.type;
+	// fbc.userType = Global.user.type;
 }
 // -----------------------------------------------------------------------------------
 //

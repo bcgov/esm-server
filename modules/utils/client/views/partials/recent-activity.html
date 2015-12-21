@@ -8,11 +8,13 @@
 			<table class="table table-condensed table-no-head">
 				<tbody>
 					<tr ng-repeat="activity in raPanel.recentActivity">
-						<td>
-							<a html ui-sref="public.project({id: activity.projectId})">{{ activity.name }}</a> <small><em>{{activity.activity}}</em></small>
+						<td ng-if="raPanel.auth.user === ''">
+							<a html ui-sref="public.project({id: activity._id})">{{ activity.name }}</a>
+						</td>
+						<td ng-if="raPanel.auth.user !== ''">
+							<a html ui-sref="eao.project({id: activity._id})">{{ activity.name }}</a>
 						</td>
 						<td class="text-right no-wrap">
-							{{ project.date }}
 						</td>
 					</tr>
 				</tbody>

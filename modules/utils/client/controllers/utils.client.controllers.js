@@ -19,11 +19,13 @@ angular.module('utils')
 // CONTROLLER: Quick Links
 //
 // -----------------------------------------------------------------------------------
-controllerQuickLinks.$inject = ['Utils'];
+controllerQuickLinks.$inject = ['Utils', 'Authentication'];
 /* @ngInject */
-function controllerQuickLinks(Utils) {
+function controllerQuickLinks(Utils, Authentication) {
 	var qlPanel = this;
-	//
+
+	qlPanel.auth = Authentication;
+
 	Utils.getQuickLinks().then( function(res) {
 		qlPanel.quickLinks = res.data;
 	});
@@ -33,11 +35,13 @@ function controllerQuickLinks(Utils) {
 // CONTROLLER: Projects Recent News
 //
 // -----------------------------------------------------------------------------------
-controllerRecentActivity.$inject = ['Utils'];
+controllerRecentActivity.$inject = ['Utils', 'Authentication'];
 /* @ngInject */
-function controllerRecentActivity(Utils) {
+function controllerRecentActivity(Utils, Authentication) {
 	var raPanel = this;
 	//
+	raPanel.auth = Authentication;
+	//	
 	Utils.getRecentActivity().then( function(res) {
 		raPanel.recentActivity = res.data;
 	});
