@@ -30,10 +30,10 @@
 
   <!-- Fav Icon -->
   <link href="{{url}}{{favicon}}" rel="shortcut icon" type="image/x-icon">
-  
+
   <script src="//maps.google.com/maps/api/js"></script>
 
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400' rel='stylesheet' type='text/css'>
 
 
   <!-- Application CSS Files -->
@@ -53,12 +53,12 @@
   <script type="text/javascript">
     var user = {{ user | json | safe }};
   </script>
-  
+
   <!--Load The Socket.io File-->
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 
   <!--Application JavaScript Files-->
-  {% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %} 
+  {% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %}
 
   {% if livereload %}
   <!--Livereload script rendered -->
