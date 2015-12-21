@@ -14,8 +14,8 @@
 		</thead>	
 		<tbody>
 			<tr ng-repeat="project in projectList.projects" class='clickable'>
-				<td ng-click="projectList.goToProject( project._id );">{{ project.name }}</td>
-				<td ng-click="projectList.goToProject( project._id );" colspan="5" class="bg-warning">
+				<td ui-sref="eao.project({id: project._id})">{{ project.name }}</td>
+				<td ui-sref="eao.project({id: project._id})" colspan="5" class="bg-warning">
 
 				</td>
 				<td>
