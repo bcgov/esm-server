@@ -16,7 +16,7 @@
   "scripts": {
     "start": "grunt",
     "test": "grunt test",
-    "postinstall": "bower install --config.interactive=false"
+    "postinstall": "bower install --config.interactive=false --allow-root"
   },
   "dependencies": {
     "acl": "~0.4.4",

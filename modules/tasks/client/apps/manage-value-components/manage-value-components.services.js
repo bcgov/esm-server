@@ -7,9 +7,9 @@ angular.module('tasks')
 // SERVICE: ValueComponents templates
 //
 // -----------------------------------------------------------------------------------
-serviceTaskValueComponents.$inject = ['$http', 'API'];
+serviceTaskValueComponents.$inject = ['$http'];
 /* @ngInject */
-function serviceTaskValueComponents($http, API) {
+function serviceTaskValueComponents($http) {
 	// var getNew = function(req) {
 	// 	return $http({method:'GET',url: API + '/v1/ValueComponentsNew'});
 	// };

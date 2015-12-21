@@ -222,9 +222,9 @@ function directivePhaseColour($filter) {
 // if the Phase is not assigned to you, the Phase name is blue.
 //
 // -----------------------------------------------------------------------------------
-directiveIsCurrentUser.$inject = ['Global'];
+directiveIsCurrentUser.$inject = [];
 /* @ngInject */
-function directiveIsCurrentUser(Global) {
+function directiveIsCurrentUser() {
 	var directive = {
 		restrict: 'A',
 		scope: {
@@ -234,11 +234,11 @@ function directiveIsCurrentUser(Global) {
 		
 			scope.$watch('user', function(newValue) {
 				if (newValue) {
-					if (newValue === Global.user.type) {
+					// if (newValue === Global.user.type) {
 						angular.element(element).addClass('label-success');
-					} else {
-						angular.element(element).addClass('label-info');				
-					}
+					// } else {
+					// 	angular.element(element).addClass('label-info');				
+					// }
 				}
 			});
 		}

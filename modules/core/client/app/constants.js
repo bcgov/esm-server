@@ -5,6 +5,8 @@
 angular
 	.module('core')
 	.constant('_', window._)
+	.constant('d3', window.d3)
+	.constant('moment', window.moment)
 	.constant('PROVINCES', 
 		{
 			'ab': 'Alberta',
@@ -51,9 +53,5 @@ angular
 			'Heritage',
 			'Health'
 		]
-	)        
-	.value('Global', {
-		user:{name:{}, _id:undefined},
-		public: true
-	})
+	)
 	.value('ProcessCodes', []);
