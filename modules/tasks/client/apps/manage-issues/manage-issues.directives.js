@@ -23,7 +23,7 @@ directiveTaskManageIssues.$inject = [];
 function directiveTaskManageIssues() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'components/tasks/manage-issues/manage-issues.html',
+        templateUrl: 'modules/tasks/client/apps/manage-issues/manage-issues.html',
         controller: 'controllerTaskManageIssues',
         controllerAs: 'taskManageIssues',
         scope: {

@@ -23,7 +23,7 @@ directiveTaskPublicCommentVetting.$inject = [];
 function directiveTaskPublicCommentVetting() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'components/tasks/public-comment-vetting/public-comment-vetting.html',
+        templateUrl: 'modules/tasks/client/apps/public-comment-vetting/public-comment-vetting.html',
         controller: 'controllerTaskPublicCommentVetting',
         controllerAs: 'taskPubComVet',
         scope: {

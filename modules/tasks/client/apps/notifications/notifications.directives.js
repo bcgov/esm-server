@@ -23,7 +23,7 @@ directiveTaskNotifications.$inject = [];
 function directiveTaskNotifications() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'components/tasks/notifications/notifications.html',
+        templateUrl: 'modules/tasks/client/apps/notifications/notifications.html',
         controller: 'controllerTaskNotifications',
         controllerAs: 'taskNotifications',
         scope: {
