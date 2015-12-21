@@ -1,9 +1,18 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  chalk = require('chalk'),
-  crypto = require('crypto'),
-  User = mongoose.model('User');
+  chalk        = require('chalk'),
+  crypto       = require('crypto'),
+  _            = require('lodash'),
+  configs      = require('./configs.json'),
+  User         = mongoose.model('User'),
+  Activity     = mongoose.model('Activity'),
+  Phase        = mongoose.model('Phase'),
+  Bucket       = mongoose.model('Bucket'),
+  Task         = mongoose.model('Task'),
+  Milestone    = mongoose.model('Milestone'),
+  Requirement  = mongoose.model('Requirement'),
+  Integration  = mongoose.model('Integration');
 
 console.log(chalk.bold.red('Warning:  Database seeding is turned on'));
 
@@ -15,7 +24,7 @@ if (process.env.NODE_ENV === 'production') {
       var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
       var user = new User({
         username: 'admin',
-        password: 'admin',
+        password: 'eaoadmin2016!',
         provider: 'local',
         email: 'admin@localhost.com',
         firstName: 'Admin',
@@ -83,3 +92,30 @@ if (process.env.NODE_ENV === 'production') {
     });
   });
 }
+
+Integration.findOne ({module:'configs'}).exec()
+.then (function (row) {
+  if (!row) {
+    var i = new Integration ({module:'configs'});
+    i.save ();
+    console.log ('++ Adding default configuration objects');
+    //activity phase bucket task milestone requirement
+    var a = [
+      {m:Activity, s:'activity',p:'activities'},
+      {m:Phase, s:'phase',p:'phases'},
+      {m:Bucket, s:'bucket',p:'buckets'},
+      {m:Task, s:'task',p:'tasks'},
+      {m:Milestone, s:'milestone',p:'milestones'},
+      {m:Requirement, s:'requirement',p:'requirements'}
+    ];
+    _.each (a, function (o) {
+      o.m.find ({project:null, stream:null}).remove (function () {
+        _.each (configs[o.p], function (obj) {
+          var m = new o.m ();
+          m[o.s] = m._id;
+          m.save ();
+        });
+      });
+    });
+  }
+});

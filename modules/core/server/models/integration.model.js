@@ -10,8 +10,7 @@ var mongoose     = require ('mongoose');
 var Schema       = mongoose.Schema;
 
 var IntegrationSchema  = new Schema ({
-	module        : { type:String , default:''    },
-	status        : { type:Boolean, default:false }
+	module        : { type:String , required:true, unique:true }
 });
 
 var Integration = mongoose.model ('Integration', IntegrationSchema);
