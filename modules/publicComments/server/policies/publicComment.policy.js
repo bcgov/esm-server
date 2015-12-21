@@ -15,8 +15,8 @@ exports.invokeRolesPolicies = function () {
 	//
 	acl.allow ('guest', '/api/publiccomment/:publiccomment', 'post');
 	helpers.setPathPermissions (acl, [
-		[ '', 'user', '/api/publiccomment/project/:projectid/published'         ],
-		[ '', 'user', '/api/publiccomment/project/:projectid/published/limit/:limit/offset/:offset'           ],
+		[ 'guest', 'user', '/api/publiccomment/project/:projectid/published'         ],
+		[ 'guest', 'user', '/api/publiccomment/project/:projectid/published/limit/:limit/offset/:offset'           ],
 		[ '', 'user', '/api/publiccomment/project/:projectid/unpublished'           ],
 		[ '', 'user', '/api/publiccomment/project/:projectid/unpublished/limit/:limit/offset/:offset'           ],
 		[ '', 'user', '/api/publiccomment/:publiccomment/eao/defer'         ],
