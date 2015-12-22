@@ -18,7 +18,8 @@ function directiveDocumentsUploadGeneral() {
         restrict: 'E',
         templateUrl: 'modules/documents/client/views/partials/document-upload-general.html',
         scope: {
-            project: '='
+            project: '=',
+            type: '@'
         },
         controller: 'controllerDocumentUploadGlobal',
         controllerAs: 'docUpload'
@@ -36,7 +37,8 @@ function directiveDocumentsUploadClassify() {
         restrict: 'E',
         templateUrl: 'modules/documents/client/views/partials/document-upload-classify.html',
         scope: {
-            project: '='
+            project: '=',
+            type: '@'  //project or comment
         },
         controller: 'controllerDocumentUploadGlobal',
         controllerAs: 'docUpload'
