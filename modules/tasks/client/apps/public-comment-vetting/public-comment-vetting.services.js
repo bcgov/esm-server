@@ -31,6 +31,10 @@ function servicePublicCommentVetting($http) {
 		return $http({method:'PUT',url: '/api/publiccomment/' + commentId + '/eao/reject'});
 	};
 
+	var setCommentSpam = function(commentId) {
+		return $http({method:'PUT',url: '/api/publiccomment/' + commentId + '/eao/spam'});
+	};
+
 	var getUnvettedCount = function(projectId) {
 		return $http({method:'GET',url: '/api/publiccomment/project/' + projectId + '/unvetted'});
 	};
@@ -42,6 +46,7 @@ function servicePublicCommentVetting($http) {
 		setCommentDefer: setCommentDefer,
 		setCommentPublish: setCommentPublish,
 		setCommentReject: setCommentReject,
+		setCommentSpam: setCommentSpam,
 		getUnvettedCount: getUnvettedCount
 	};
 }

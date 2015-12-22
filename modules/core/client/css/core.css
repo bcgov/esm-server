@@ -40,6 +40,13 @@ a:hover .header-profile-image {
 .has-error .help-inline.error-text {
   display: inline; }
 
+.btn-primary,
+.btn-success,
+.btn-info,
+.btn-warning,
+.btn-danger {
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2) !important; }
+
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
   padding-top: 0;
@@ -68,7 +75,7 @@ html {
   /* IE10+ */
   background: linear-gradient(to bottom, #606c88 0%, #3f4c6b 100%);
   /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=0 );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=0 );
   /* IE6-9 */
   min-height: 100%; }
 
@@ -544,3 +551,5 @@ nav {
 
 .panel > .table.table-stacked {
   margin-bottom: 30px; }
+
+/*# sourceMappingURL=core.css.map */

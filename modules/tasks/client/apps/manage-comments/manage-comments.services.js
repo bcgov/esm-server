@@ -10,14 +10,16 @@ angular.module('tasks')
 serviceTaskManageComments.$inject = ['$http'];
 /* @ngInject */
 function serviceTaskManageComments($http) {
-	var getAllPublicComments = function(req) {
-		return $http({method:'GET',url: '/api/publiccomment'});
+	var getAllPublishedComments = function(projectId) {
+		return $http({method:'GET',url: '/api/publiccomment/project/' + projectId + '/published'});
 	};
-	// var getTemplates = function(req) {
-	// 	return $http({method:'GET',url: API + '/v1/ValueComponentsTemplates'});
-	// };
+
+	var getAllUnpublishedComments = function(projectId) {
+		return $http({method:'GET',url: '/api/publiccomment/project/' + projectId + '/unpublished'});
+	};
+
 	return {
-		getAllPublicComments: getAllPublicComments,
-		// getTemplates: getTemplates
+		getAllPublishedComments: getAllPublishedComments,
+		getAllUnpublishedComments: getAllUnpublishedComments
 	};
 }
