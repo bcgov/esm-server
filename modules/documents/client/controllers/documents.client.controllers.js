@@ -30,10 +30,10 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 			// determine URL for upload, default to project if none set.
 			switch (newValue) {
 				case 'comment':
-					docUpload.targetUrl = '/api/commentdocument/publiccomment/56733270672dadc5372f7bea/upload', // todo: UPLOAD
+					docUpload.targetUrl = '/api/commentdocument/publiccomment/56733270672dadc5372f7bea/upload'; // todo: UPLOAD
 					break;
 				default:
-					docUpload.targetUrl = '/api/commentdocument/publiccomment/56733270672dadc5372f7bea/upload', // todo: UPLOAD
+					docUpload.targetUrl = '/api/commentdocument/publiccomment/56733270672dadc5372f7bea/upload'; // todo: UPLOAD
 			}
 			docUpload.project = newValue;
 		}

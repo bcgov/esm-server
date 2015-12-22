@@ -16,26 +16,6 @@ function controllerTaskPublicCommentPeriodScheduling($scope, $rootScope, moment,
 	taskPubComSched.data = {
 		startDate: null,
 		endDate: null,
-		scopeTopics: [
-			{
-				_id: 123,
-				text:"value 1",
-				edit:false,
-				delete: false
-			},
-			{
-				_id: 456,
-				text:"value 2",
-				edit:false,
-				delete: false
-			},
-			{
-				_id: 789,
-				text:"value 3",
-				edit:false,
-				delete: false
-			},
-		],
 		openHouses: [
 			{
 				location: "1234 Main Street \nSmallville, BC",
@@ -49,42 +29,6 @@ function controllerTaskPublicCommentPeriodScheduling($scope, $rootScope, moment,
 		showScopeTopicAddButton: true
 	};
 
-	taskPubComSched.addRowToScopeTopics = function() {
-		taskPubComSched.data.scopeTopics.push({ text:taskPubComSched.data.newScopeTopic, edit:false });
-		taskPubComSched.data.newScopeTopic = "";
-		taskPubComSched.data.showScopeTopicAddButton = true;
-	};
-
-	taskPubComSched.editScopeTopicsRow = function(index) {
-		taskPubComSched.data.scopeTopics[index].newText = taskPubComSched.data.scopeTopics[index].text;
-		taskPubComSched.data.scopeTopics[index].edit=true;
-	};
-
-	taskPubComSched.editScopeTopicsRowOkay = function(index) {
-		taskPubComSched.data.scopeTopics[index].text = taskPubComSched.data.scopeTopics[index].newText;
-		taskPubComSched.data.scopeTopics[index].newText = '';
-		taskPubComSched.data.scopeTopics[index].edit=false;
-	};
-
-	taskPubComSched.editScopeTopicsRowCancel = function(index) {
-		taskPubComSched.data.scopeTopics[index].newText = '';
-		taskPubComSched.data.scopeTopics[index].edit=false;
-	};
-
-	taskPubComSched.deleteScopeTopicsRow = function(item) {
-		_.remove(taskPubComSched.data.scopeTopics, function(obj) {
-			return obj._id === item._id;
-		});
-	};
-
-	taskPubComSched.deleteScopeTopicsRowConfirm = function(index) {
-		taskPubComSched.data.scopeTopics.splice(index,1);
-	};
-
-	taskPubComSched.deleteScopeTopicsRowCancel = function(index) {
-		taskPubComSched.data.scopeTopics[index].delete = false;
-	};
-	
 	taskPubComSched.deleteOpenHouse = function(oh) {
 		_.remove(taskPubComSched.data.openHouses, function(item) {
 			return item.dateScheduled === oh.dateScheduled;

@@ -15,11 +15,13 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 
 	taskPubComVet.data = {comments:[]};
 	
+	taskPubComVet.workingStatus = null;
+
 	taskPubComVet.finalizeCommentStatus = function(com) {
 		// all documents and comment must have a status of not pending.
 		var pendingDocument = false;
 		// status change in progress
-		if (com.eaoStatus !== 'Unvetted') {
+		if (taskPubComVet.workingStatus) {
 			// determine if any documents have yet to be vetted
 			_.each(com.documents, function(doc) {
 				if (doc.status === 'Unvetted' || !doc.status) {
@@ -28,25 +30,30 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 			});
 			if (!pendingDocument) {
 				// proceed with status change
-				console.log('status', com);
-				switch (com.eaoStatus) {
+				switch (taskPubComVet.workingStatus) {
 					case 'Published':
 						PublicCommentVetting.setCommentPublish(com._id).then( function(res) {
-							com = angular.copy(res.data);
+							com = _.assign(com, res.data);
 						});
 						break;
 					case 'Deferred':
 						PublicCommentVetting.setCommentDefer(com._id).then( function(res) {
-							com = angular.copy(res.data);
+							com = _.assign(com, res.data);
 						});
 						break;
 					case 'Rejected':
 						PublicCommentVetting.setCommentReject(com._id).then( function(res) {
-							com = angular.copy(res.data);
+							com = _.assign(com, res.data);
+						});
+						break;
+					case 'Spam':
+						PublicCommentVetting.setCommentSpam(com._id).then( function(res) {
+							com = _.assign(com, res.data);
 						});
 						break;
 				}
 				taskPubComVet.fetchNewComment();
+				$scope.$apply();
 				// todo: make sure the handoff is correct to classification
 			} else {
 				window.alert("Please review all documents before viewing the next comment.");
@@ -61,12 +68,12 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 	//
 	// -----------------------------------------------------------------------------------
 	taskPubComVet.fetchNewComment = function() {
-		taskPubComVet.filter = 'In Progress';
+		taskPubComVet.filter = 'Unvetted';
+		taskPubComVet.workingStatus = null;
 
 		PublicCommentVetting.getNextComment(taskPubComVet.project._id).then( function(res) {
 			taskPubComVet.data.comments.push(res.data);
 			taskPubComVet.activeCommentId = res.data._id;
-
 
 			PublicCommentVetting.getUnvettedCount(taskPubComVet.project._id).then( function(res) {
 				taskPubComVet.unvettedCount = res.data.count;
@@ -83,10 +90,6 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 			// start the public commenting
 			PublicCommentVetting.getStart(newValue._id).then( function(res) {
 				taskPubComVet.data.comments = res.data;
-				console.log(res.data.length);
-				if (res.data.length > 0) {
-					taskPubComVet.activeCommentId = res.data[0]._id;
-				}
 
 				var foundUnvetted = false;
 				// if there is an unvetted record, don't pull any more unvetted ones
@@ -95,7 +98,7 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 						foundUnvetted = true;
 						// there is an unvetted record pending, make sure it's displayed
 						taskPubComVet.activeCommentId = comment._id;
-						taskPubComVet.filter = 'In Progress';
+						taskPubComVet.filter = 'Unvetted';
 					}
 				});
 

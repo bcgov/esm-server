@@ -1,26 +1,56 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
-		Comments: {{ taskManageComments.task.name }} <em class="small pull-right">{{ taskManageComments.task.status }}</em>
+		Comments: {{ taskManComm.task.name }} <em class="small pull-right">{{ taskManComm.task.status }}</em>
 	</div>
+
 
 	<table class="table table-condensed table-hover">
 		<thead>
+			<tr ng-show="taskManComm.showFilter" class="panel-sub-heading">
+				<td class="text-right form-inline" colspan="4">
+
+					<div class="form-group">
+						<label class="control-label">Filter</label>
+						<div class="input-group input-group-sm">
+							<input ng-model="taskManComm.filterKeyword" type="text" class="form-control" placeholder="Filter">
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button" ng-click="taskManComm.filterKeyword = undefined"><span class="glyphicon glyphicon-remove"></span></button>
+							</span>
+						</div>						
+					</div>
+
+				</td>
+			</tr>
+		<thead>
 			<tr class="small">
-				<th width="60%">Comment</th>
+				<th width="59%">Comment</th>
 				<th width="20%" class="text-center">Date</th>
 				<th width="20%" class="text-center">Status</th>
+				<th class="text-right"><a href ng-click="taskManComm.showFilter = !taskManComm.showFilter"><span class="glyphicon glyphicon-search"></span></a></th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="com in taskManageComments.comments track by $index" ng-class="{'bg-danger': com.overallStatus === 'Rejected', 'bg-success': com.overallStatus === 'Published'}">
-				<td>{{ com.comment }}</td>
-				<td class='text-center'>{{ dateAdded }}</td>
-				<td class='text-center'>
-					{{ com.overallStatus }}
+			<tr ng-repeat="com in taskManComm.comments | filter:taskManComm.filterKeyword track by $index" ng-class="{'bg-danger': com.overallStatus === 'Rejected', 'bg-info': com.overallStatus === 'In Progress'}" ng-click="taskManComm.activeComments[com._id] = !taskManComm.activeComments[com._id]">
+				<td>
+					<div ng-show="taskManComm.activeComments[com._id]">
+						{{ com.comment | safeHtml }}
+					</div>
+					<div ng-show="!taskManComm.activeComments[com._id]">
+						{{ com.comment | safeHtml | max15Words }}
+					</div>
 				</td>
+				<td class='text-center no-wrap'>
+					{{ com.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}
+				</td>
+				<td class='text-center small' title="Overall, EAO, Proponent">
+					{{ com.overallStatus }}<br/>
+					{{ com.eaoStatus }}<br/>
+					{{ com.proponentStatus }}
+				</td>
+				<td></td>
 			</tr>
-			<tr ng-show="taskManageComments.project.buckets.length === 0">
-				<td colspan="3">There are no value components defined for this project.</td>
+			<tr ng-show="taskManComm.comments.length === 0">
+				<td colspan="4">There are no comments to view.</td>
 			</tr>
 		</tbody>
 
