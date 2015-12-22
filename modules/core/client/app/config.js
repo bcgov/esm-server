@@ -16,7 +16,8 @@ var ApplicationConfiguration = (function () {
 	'ad3',
 	'angularMoment',
 	'ui.bootstrap.datetimepicker',
-	'mwl.confirm'
+	'mwl.confirm',
+  'ngFileUpload'
   	];
 
 

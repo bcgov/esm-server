@@ -31,7 +31,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 	$scope.$watch('files', function (newValue) {
 		if (newValue) {
 			_.each( newValue, function(file, idx) {
-				docUpload.fileList.push(file);				
+				docUpload.fileList.push(file);
 			});
 		}
 		// add the file to our central list.
@@ -48,12 +48,13 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 	docUpload.log = '';
 
 	docUpload.upload = function () {
+		console.log ('uploading?');
 		if (docUpload.fileList && docUpload.fileList.length) {
 			for (var i = 0; i < docUpload.fileList.length; i++) {
 				var file = $scope.files[i];
 				if (!file.$error) {
 					Upload.upload({
-						url: '', // todo: UPLOAD
+						url: '/api/commentdocument/publiccomment/56733270672dadc5372f7bea/upload', // todo: UPLOAD
 						fields: {
 							//	'username': $scope.username
 						},
@@ -80,13 +81,13 @@ function controllerDocumentList($scope) {
 	var docList = this;
 	console.log($scope.documents);
 
-	$scope.$watch('documents', function(newValue) {	
+	$scope.$watch('documents', function(newValue) {
 		docList.filterDocuments = newValue;
 	});
-	
-	$scope.$watch('filterBy', function(newValue) {	
+
+	$scope.$watch('filterBy', function(newValue) {
 		docList.filterId = newValue;
-	});		
+	});
 }
 // -----------------------------------------------------------------------------------
 //
@@ -95,7 +96,7 @@ function controllerDocumentList($scope) {
 // -----------------------------------------------------------------------------------
 controllerModalDocumentViewer.$inject = ['$modalInstance'];
 //
-function controllerModalDocumentViewer($modalInstance) { 
+function controllerModalDocumentViewer($modalInstance) {
 	var md = this;
 	md.ok = function () { $modalInstance.close(); };
 	md.cancel = function () { $modalInstance.dismiss('cancel'); };
@@ -107,7 +108,7 @@ function controllerModalDocumentViewer($modalInstance) {
 // -----------------------------------------------------------------------------------
 controllerModalDocumentBuckets.$inject = ['$modalInstance'];
 //
-function controllerModalDocumentBuckets($modalInstance) { 
+function controllerModalDocumentBuckets($modalInstance) {
 	var docBuckets = this;
 	docBuckets.ok = function () { $modalInstance.close(); };
 	docBuckets.cancel = function () { $modalInstance.dismiss('cancel'); };
