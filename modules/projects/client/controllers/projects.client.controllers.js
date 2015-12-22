@@ -11,12 +11,12 @@ angular.module('projects')
 // CONTROLLER: Filter Bar
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsFilterBar.$inject = ['$scope', '$state', 'Projects', '$filter'];
+controllerProjectsFilterBar.$inject = ['$scope', '$state', 'Projects', '$filter', 'PROJECT_TYPES'];
 /* @ngInject */
-function controllerProjectsFilterBar($scope, $state, Projects, $filter) {
+function controllerProjectsFilterBar($scope, $state, Projects, $filter, PROJECT_TYPES) {
 	var fbc = this;
 
-	fbc.types = Projects.getProjectTypes();
+	fbc.types = PROJECT_TYPES;
 
 	Projects.getProjectMilestones().then( function(res) {
 		fbc.milestones = res.data;

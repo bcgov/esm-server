@@ -1,34 +1,34 @@
 'use strict';
 
 angular.module('tasks')
-    .run( configTaskManageIssues )
-	.directive('tmplManageIssues',  directiveTaskManageIssues);
+    .run( configTaskManageComments )
+    .directive('tmplManageComments',  directiveTaskManageComments);
 // -----------------------------------------------------------------------------------
 //
 // Config: register this task with the UI
 //
 // -----------------------------------------------------------------------------------
-configTaskManageIssues.$inject = ['ProcessCodes'];
+configTaskManageComments.$inject = ['ProcessCodes'];
 /* @ngInject */
-function configTaskManageIssues(ProcessCodes) {
-    ProcessCodes.push('Manage Issues');
+function configTaskManageComments(ProcessCodes) {
+    ProcessCodes.push('Manage Comments');
 }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Task, simple complete
 //
 // -----------------------------------------------------------------------------------
-directiveTaskManageIssues.$inject = [];
+directiveTaskManageComments.$inject = [];
 /* @ngInject */
-function directiveTaskManageIssues() {
+function directiveTaskManageComments() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/tasks/client/apps/manage-issues/manage-issues.html',
-        controller: 'controllerTaskManageIssues',
-        controllerAs: 'taskManageIssues',
+        templateUrl: 'modules/tasks/client/apps/manage-comments/manage-comments.html',
+        controller: 'controllerTaskManageComments',
+        controllerAs: 'taskManageComments',
         scope: {
-        	anchor: '@',
-        	task: '=',
+            anchor: '@',
+            task: '=',
             project: '='
         }
     };

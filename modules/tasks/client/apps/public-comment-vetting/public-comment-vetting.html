@@ -3,11 +3,11 @@
 		Public Comments Vetting: {{ taskPubComVet.task.name }} <em class="small pull-right">{{ taskPubComVet.task.status }}</em>
 	</div>
 	<div class="panel-sub-heading">
-		<div class="btn-group btn-group-justified" ng-init="taskPubComVet.filter = 'Unvetted'">
-			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskPubComVet.filter === 'Unvetted'}"		ng-click="taskPubComVet.filter = 'Unvetted'">Unvetted ({{ (taskPubComVet.data.comments | filter:{eaoStatus: 'Unvetted'}:true | filter:taskPubComVet.filterKeyword).length || 0 }})</a>
-			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskPubComVet.filter === 'Published'}"		ng-click="taskPubComVet.filter = 'Published'">Published ({{ (taskPubComVet.data.comments | filter:{eaoStatus: 'Published'}:true | filter:taskPubComVet.filterKeyword).length || 0 }})</a>
-			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskPubComVet.filter === 'Rejected'}"		ng-click="taskPubComVet.filter = 'Rejected'">Rejected ({{ (taskPubComVet.data.comments | filter:{eaoStatus: 'Rejected'}:true | filter:taskPubComVet.filterKeyword).length || 0 }})</a>
-			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskPubComVet.filter === 'Deferred'}"		ng-click="taskPubComVet.filter = 'Deferred'">Deferred ({{ (taskPubComVet.data.comments | filter:{eaoStatus: 'Deferred'} :true | filter:taskPubComVet.filterKeyword).length || 0 }})</a>
+		<div class="btn-group btn-group-justified" ng-init="taskPubComVet.filter = 'In Progress'">
+			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskPubComVet.filter === 'In Progress'}"	ng-click="taskPubComVet.filter = 'In Progress'">Unvetted ({{ (taskPubComVet.data.comments | filter:{overallStatus: 'In Progress'}:true | filter:taskPubComVet.filterKeyword).length || 0 }})</a>
+			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskPubComVet.filter === 'Published'}"		ng-click="taskPubComVet.filter = 'Published'">Published ({{ (taskPubComVet.data.comments | filter:{overallStatus: 'Published'}:true | filter:taskPubComVet.filterKeyword).length || 0 }})</a>
+			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskPubComVet.filter === 'Rejected'}"		ng-click="taskPubComVet.filter = 'Rejected'">Rejected ({{ (taskPubComVet.data.comments | filter:{overallStatus: 'Rejected'}:true | filter:taskPubComVet.filterKeyword).length || 0 }})</a>
+			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskPubComVet.filter === 'Deferred'}"		ng-click="taskPubComVet.filter = 'Deferred'">Deferred ({{ (taskPubComVet.data.comments | filter:{overallStatus: 'Deferred'} :true | filter:taskPubComVet.filterKeyword).length || 0 }})</a>
 		</div>
 	</div>
 
@@ -34,7 +34,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="com in filteredComments = (taskPubComVet.data.comments | filter:{eaoStatus: taskPubComVet.filter}:true | filter:taskPubComVet.filterKeyword) track by $index" ng-class="{'bg-warning':$first}">
+			<tr ng-repeat="com in filteredComments = (taskPubComVet.data.comments | filter:{overallStatus: taskPubComVet.filter}:true | filter:taskPubComVet.filterKeyword) track by $index" ng-class="{'bg-warning':$first}">
 
 				<td width="60%" ng-if="$first"><small>{{ com.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}</small><br/><small>{{ com.author }}</small>
 				<div ng-bind-html="com.comment | safeHtml"></div>

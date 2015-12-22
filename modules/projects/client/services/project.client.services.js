@@ -32,20 +32,6 @@ function serviceProject($http) {
 		return $http({method:'PUT',url: '/api/project/' + projectId + '/set/stream/' + streamId});
 	};
 
-	var getProjectTypes = function() {
-		return [
-			"Mining",
-			"Energy",
-			"Transportation", 
-			"Water Management",
-			"Industrial",
-			"Waste Management",
-			"Waste Disposal",
-			"Food Processing",
-			"Tourist Destination"
-		];
-	};
-
 	var getProjectIntakeQuestions = function() {
 		return [
 			{
@@ -225,7 +211,6 @@ function serviceProject($http) {
 		addProject: addProject,
 		saveProject: saveProject,
 		setProjectStream: setProjectStream,
-		getProjectTypes: getProjectTypes,
 		getProjectIntakeQuestions: getProjectIntakeQuestions,
 		updateMilestone: updateMilestone,
 		addBucketToProject: addBucketToProject,

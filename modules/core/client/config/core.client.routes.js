@@ -19,7 +19,10 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	$stateProvider
 	.state('configuration', {
 		url: '/configuration',
-		template: '<tmpl-configuration></tmpl-configuration>'
+		template: '<tmpl-configuration></tmpl-configuration>',
+		data: {
+			roles: ['admin']
+		}		
 	})
 
 	.state('default', {
@@ -61,31 +64,34 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	// ROUTES: Proponent
 	//
 	// -----------------------------------------------------------------------------------
-	.state('proponent', {
-		url: '/proponent',
-		abstract: true,
-		template: '<div ui-view></div>'
-	})
-	.state('proponent.projects', {
-		url: '/projects',
-		template: '<tmpl-eao-projects></tmpl-eao-projects>'
-	})
-	.state('proponent.project', {
-		url: '/project/:id',
-		template: '<tmpl-eao-project></tmpl-eao-project>'
-	})
-	.state('proponent.newproject', {
-		url: '/newproject/',
-		template: '<tmpl-eao-project-new></tmpl-eao-project-new>'
-	})
-	.state('proponent.register', {
-		url: '/register/',
-		template: '<tmpl-proponent-register></tmpl-proponent-register>'
-	})         
-	.state('proponent.activity', {
-		url: '/activity/:id',
-		template: '<tmpl-proponent-activity></tmpl-proponent-activity>'
-	})         
+	// .state('proponent', {
+	// 	url: '/proponent',
+	// 	abstract: true,
+	// 	template: '<div ui-view></div>',
+	// 	data: {
+	// 		roles: ['admin']
+	// 	}		
+	// })
+	// .state('proponent.projects', {
+	// 	url: '/projects',
+	// 	template: '<tmpl-eao-projects></tmpl-eao-projects>'
+	// })
+	// .state('proponent.project', {
+	// 	url: '/project/:id',
+	// 	template: '<tmpl-eao-project></tmpl-eao-project>'
+	// })
+	// .state('proponent.newproject', {
+	// 	url: '/newproject/',
+	// 	template: '<tmpl-eao-project-new></tmpl-eao-project-new>'
+	// })
+	// .state('proponent.register', {
+	// 	url: '/register/',
+	// 	template: '<tmpl-proponent-register></tmpl-proponent-register>'
+	// })         
+	// .state('proponent.activity', {
+	// 	url: '/activity/:id',
+	// 	template: '<tmpl-proponent-activity></tmpl-proponent-activity>'
+	// })         
 	// -----------------------------------------------------------------------------------
 	//
 	// ROUTES: Proponent
@@ -94,27 +100,45 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	.state('eao', {
 		url: '/eao',
 		abstract: true,
-		template: '<div ui-view></div>'
+		template: '<div ui-view></div>',
+		data: {
+			roles: ['admin', 'user']
+		}
 	})
 	.state('eao.projects', {
 		url: '/projects',
-		template: '<tmpl-eao-projects></tmpl-eao-projects>'
+		template: '<tmpl-eao-projects></tmpl-eao-projects>',
+		data: {
+			roles: ['admin', 'user']
+		}
 	})
 	.state('eao.project', {
 		url: '/project/:id',
-		template: '<tmpl-eao-project></tmpl-eao-project>'
+		template: '<tmpl-eao-project></tmpl-eao-project>',
+		data: {
+			roles: ['admin', 'user']
+		}
 	})
 	.state('eao.newproject', {
 		url: '/newproject/',
-		template: '<tmpl-eao-project-new></tmpl-eao-project-new>'
+		template: '<tmpl-eao-project-new></tmpl-eao-project-new>',
+		data: {
+			roles: ['admin', 'user']
+		}
 	})
 	.state('eao.intakeproject', {
 		url: '/intakeproject/:id',
-		template: '<tmpl-eao-project-intake></tmpl-eao-project-intake>'
+		template: '<tmpl-eao-project-intake></tmpl-eao-project-intake>',
+		data: {
+			roles: ['admin', 'user']
+		}
 	})            
 	.state('eao.activity', {
 		url: '/activity/:id',
-		template: '<tmpl-eao-activity></tmpl-eao-activity>'
+		template: '<tmpl-eao-activity></tmpl-eao-activity>',
+		data: {
+			roles: ['admin', 'user']
+		}
 	});             
 
 
