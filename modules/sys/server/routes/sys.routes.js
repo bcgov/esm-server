@@ -13,12 +13,17 @@ module.exports = function (app) {
 	// short form to get all config objects, all phases down to requirements
 	//
 	app.route ('/api/sys/configs').all (policy.isAllowed).get  (controller.configs);
+	//
+	// some static things
+	//
+	app.route ('/api/sys/projecttypes').all (policy.isAllowed).get  (controller.projecttypes);
 
 	// -------------------------------------------------------------------------
 	//
 	// TBD: bunch of testing junk here, please delete when all done
 	//
 	// -------------------------------------------------------------------------
+	/*
 	app.get ('/api/testp1/:param1', function (req, res) {
 		console.log ('req._param1 = ',req._param1);
 	});
@@ -60,5 +65,6 @@ module.exports = function (app) {
 		}
 		next ();
 	});
+*/
 };
 
