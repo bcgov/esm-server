@@ -10,7 +10,7 @@
 				<div class='panel-heading'>
 					<div><label class="control-label">Developer</label><p>{{ vm.project.proponent.name }}</p></div>
 					<div><label class="control-label">Type</label><p>{{ vm.project.type }}</p></div>
-					<div><label class="control-label">Location</label><p>{{ vm.project.region }}</p></div>
+					<div><label class="control-label">Location</label><p>{{ vm.project.region | titleCase }}</p></div>
 					<div><label class="control-label">Description</label><p>{{ vm.project.description }}</p></div>
 					<p><small><a href><span class='glyphicon glyphicon-file'></span> Comprehensive Project Description</a></small></p>
 				</div>
@@ -34,11 +34,28 @@
 
 		<div class='col-sm-9'>
 
-			<div class="alert alert-info clickable text-center" x-modal-add-public-comment x-project="vm.project" ng-if="(vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)">
-				<p>Public Comments Open from <strong>{{ vm.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}}</strong> to <strong>{{ vm.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY' }}</strong></p>
-				<h3>Click here to contribute a comment</h3>
+			<div class="alert alert-info clickable" x-modal-add-public-comment x-project="vm.project" ng-if="(vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)">
+				<div class="text-center">
+					<p>Public Comments Open from <strong>{{ vm.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}}</strong> to <strong>{{ vm.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY' }}</strong></p>
+					<h3>Click here to contribute a comment</h3>
+					<hr>
+					<p class="lead"><small>Public Comment Period Ends In</small><countdown-clock x-end="vm.project.dateCommentsClosed"></countdown-clock></p>
+				</div>
+
 				<hr>
-				<p class="lead"><small>Public Comment Period Ends In</small><countdown-clock x-end="vm.project.dateCommentsClosed"></countdown-clock></p>
+
+				<p>Related Topics for this project include:</p>
+				<div class="row">
+					<div class="col-md-6">
+						<ul>
+							<li ng-repeat="vc in vm.project.buckets | filter:{isValueComponent: true}">{{ vc.name }}</li>
+						</ul>
+					</div>
+					<div class="col-md-6">
+						<ul>
+						</ul>
+					</div>
+				</div>
 			</div>
 
 
@@ -86,14 +103,14 @@
 			</div>
  -->
 
-			<nav class="navbar navbar-default navbar-sm">
+			<nav class="navbar navbar-default navbar-sm" ng-init="vm.form.view = 'bydate'">
 				<div class="container-fluid">
 
 					<ul class="nav navbar-nav navbar-form navbar-left">
 						<li>
 							<div class="btn-group btn-group-sm">
 								<button class="btn btn-default" ng-click="vm.form.view = 'bydate'"	ng-class="{'btn-primary': vm.form.view === 'bydate'}">By Date</button>
-								<button class="btn btn-default" ng-click="vm.form.view = 'byvc'"	ng-class="{'btn-primary': vm.form.view === 'byvc'}">By Value Components</button>
+								<button class="btn btn-default" ng-click="vm.form.view = 'byvc'"	ng-class="{'btn-primary': vm.form.view === 'byvc'}">By Topic</button>
 							</div>
 						</li>
 					</ul>
@@ -116,7 +133,7 @@
 
 			<div ng-repeat="bucket in filteredBuckets = (vm.project.buckets | filter:vm.filterKeyword)" class="concern-list" ng-show="vm.form.view === 'byvc'">
 				<h3 ng-click='form[point.group] = !form[point.group]' class="clickable concern-heading">
-					{{ bucket.name }}
+					{{ bucket.name }} <div class="pull-right">({{ filteredBuckets.length || 0 }})</div>
 				</h3>
 				<hr ng-if='!form[point.group] && !$last'>
 
@@ -165,12 +182,14 @@
 			</div>
 
 
-			<div ng-repeat="(title, items) in vm.commentsByDate" class="concern-list" ng-show="vm.form.view === 'bydate'">
-				<h3 class="clickable concern-heading">
-					{{ title }}
-				</h3>
 
-				<div class="panel panel-default panel-concern" ng-repeat='item in items'>
+
+			<div ng-repeat="(title, items) in vm.commentsByDate" class="concern-list" ng-show="vm.form.view === 'bydate'">
+				<h3 ng-click='form[title] = !form[title]' class="clickable concern-heading">
+					{{ title }} <div class="pull-right">{{ (items| filter:vm.filterKeyword).length || 0 }}</div>
+				</h3>
+				<hr ng-if='!form[title] && !$last'>
+				<div class="panel panel-default panel-concern" ng-show='form[title]' ng-repeat='item in items | filter:vm.filterKeyword'>
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-sm-8">
@@ -179,12 +198,24 @@
 							<div class="col-sm-4">
 								{{ item.author }}<br/>
 								{{ item.dateAdded}}
-								
+								<ul ng-if="item.documents">
+									<li ng-repeat="file in item.documents">{{ file.title }}</li>
+								</ul>
 							</div>
 						</div>
 					</div>
-						
 				</div>
+
+
+				<div class="panel panel-default panel-concern" ng-show='(items| filter:vm.filterKeyword).length === 0 && form[title]'>
+					<div class="panel-body">
+						<p>No comments match this filter.</p>
+					</div>
+				</div>
+
+
+
+
 			</div>
 
 

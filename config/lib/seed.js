@@ -115,7 +115,7 @@ Integration.findOne ({module:'configs'}).exec()
     _.each (a, function (o) {
       o.m.find ({project:null, stream:null}).remove (function () {
         _.each (configs[o.p], function (obj) {
-          var m = new o.m ();
+          var m = new o.m (obj);
           m[o.s] = m._id;
           m.save ();
         });

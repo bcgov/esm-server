@@ -13,7 +13,8 @@
 	<table class="table table-condensed">
 		<thead>
 			<tr class="small">
-				<th>File</th>
+				<th width="90%">File</th>
+				<th width="10%"></th>				
 			</tr>
 		</thead>
 		<tbody>
@@ -29,6 +30,7 @@
 			</tr>
 			<tr ng-repeat="f in docUpload.fileList" ng-class="{'danger': f.$error}">
 
+
 				<td ng-if="f.$error">
 					<p class="form-control-static text-danger">FILE ERROR: {{f.name}} {{f.$error}} {{f.$errorParam}}</p>
 				</td>
@@ -36,20 +38,28 @@
 				<td ng-if="!f.$error">
 					<p class="form-control-static">{{f.name}}</p>
 				</td>
+
+
+				<td ng-if="!f.$error && !f.progress">
+					
+				</td>
+
+
+				<td ng-if="!f.$error && f.progress">
+					<div class="progress" ng-show="f.progress >= 0" style="margin-top: 7px;"><div class="progress-bar progress-bar-success" role="progressbar" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">{{ f.progress }}</div></div>
+				</td>
+
+
 			</tr>
 		</tbody>
 	</table>
 
-	<div class="row">
+	<div class="row" ng-if="!docUpload.inProgress">
 		<div class="col-sm-12 text-right">
 			<button ng-click="docUpload.upload()" ng-if="docUpload.fileList.length > 0" class="btn btn-success">
 				Upload Queued Documents
 			</button>
 		</div>
-	</div>
-	<div ng-if="log">
-		Upload Log:
-		<pre>{{log}}</pre>
 	</div>
 </div>
 

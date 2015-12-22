@@ -9,7 +9,8 @@ angular.module('utils')
 	.filter('isInTheFuture', filterIsInTheFuture)
 	.filter('isInThePast', filterIsInThePast)
 	.filter('max15Words', filterMax15Words)
-	.filter('safeHtml', filterSafeHtml);
+	.filter('safeHtml', filterSafeHtml)
+	.filter('titleCase', filterTitleCase);
 
 // -----------------------------------------------------------------------------------
 //
@@ -129,4 +130,14 @@ function filterSafeHtml($sce) {
 	return function(input) {
     	return $sce.trustAsHtml(input);
     };
+}
+
+// Filter to prevent html trust warnings.
+filterTitleCase.$inject = [];
+
+function filterTitleCase() {
+	return function(input) {
+		input = input || '';
+     	return input.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+	};
 }
