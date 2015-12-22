@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'production') {
       var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
       var user = new User({
         username: 'admin',
-        password: 'eaoadmin2016!',
+        password: password,
         provider: 'local',
         email: 'admin@localhost.com',
         firstName: 'Admin',
@@ -51,7 +51,7 @@ if (process.env.NODE_ENV === 'production') {
       var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
       var user = new User({
         username: 'user',
-        password: 'user',
+        password: password,
         provider: 'local',
         email: 'user@localhost.com',
         firstName: 'User',
@@ -77,7 +77,7 @@ if (process.env.NODE_ENV === 'production') {
       var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
       var user = new User({
         username: 'admin',
-        password: 'admin',
+        password: password,
         provider: 'local',
         email: 'admin@localhost.com',
         firstName: 'Admin',
