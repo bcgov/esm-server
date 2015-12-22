@@ -17,6 +17,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 	var docUpload = this;
 
 	docUpload.fileList = [];
+	docUpload.inProgress = false;
 
 	$scope.$watch('project', function(newValue) {
 		if (newValue) {
@@ -24,15 +25,18 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 		}
 	});
 
+	// determine the correct target for the file upload based on x-type attribute.
 	docUpload.targetUrl = null;
 	$scope.$watch('type', function(newValue) {
 		if (newValue) {
 			// determine URL for upload, default to project if none set.
 			switch (newValue) {
 				case 'comment':
+					// comment type
 					docUpload.targetUrl = '/api/commentdocument/publiccomment/56733270672dadc5372f7bea/upload'; // todo: UPLOAD
 					break;
 				default:
+					// project type
 					docUpload.targetUrl = '/api/commentdocument/publiccomment/56733270672dadc5372f7bea/upload'; // todo: UPLOAD
 			}
 			docUpload.project = newValue;
@@ -45,6 +49,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 
 	$scope.$watch('files', function (newValue) {
 		if (newValue) {
+			docUpload.inProgress = false;
 			_.each( newValue, function(file, idx) {
 				docUpload.fileList.push(file);
 			});
@@ -55,32 +60,38 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 		//docUpload.upload($scope.files);
 	});
 
-	$scope.$watch('file', function () {
-		if (docUpload.file) {
-			docUpload.upload([docUpload.file]);
-		}
-	});
-	docUpload.log = '';
+	// $scope.$watch('file', function () {
+	// 	if (docUpload.file) {
+	// 		docUpload.upload([docUpload.file]);
+	// 	}
+	// });
+	// docUpload.log = '';
 
 	docUpload.upload = function () {
+		docUpload.inProgress = true;
 		if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
-			for (var i = 0; i < docUpload.fileList.length; i++) {
-				var file = $scope.files[i];
-				if (!file.$error) {
-					Upload.upload({
-						url: docUpload.targetUrl,
-						fields: {
-							//	'username': $scope.username
-						},
-            			file: file
-    				}).progress(function (evt) {
-            			var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            			docUpload.log = 'progress: ' + progressPercentage + '% ' + evt.config.file.name + '\n' + docUpload.log;
-					}).success(function (data, status, headers, config) {
-						docUpload.log = 'file: ' + config.file.name + ', Response: ' + JSON.stringify(data) + '\n' + docUpload.log;
+
+			angular.forEach($scope.files, function(file) {
+				file.upload = Upload.upload({
+					url: docUpload.targetUrl,
+					file: file
+				});
+
+				file.upload.then(function (response) {
+					$timeout(function () {
+						file.result = response.data;
 					});
-				}
-			}
+				}, function (response) {
+					if (response.status > 0) {
+						docUpload.errorMsg = response.status + ': ' + response.data;
+					} else {
+						_.remove($scope.files, file);
+					}
+				}, function (evt) {
+					file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+				});
+			});
+
 		}
     };
 }

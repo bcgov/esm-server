@@ -1,7 +1,7 @@
 <div class="modal-header">
 	<h3 class="modal-title">Contribute a Comment</h3>
 </div>
-<div class="modal-body">
+<div class="modal-body" ng-if="!publicComment.sent">
 	<div class="form-group">
 		<label for="publiccomment" class="control-label">Your Comment</label>
 		<textarea id="publiccomment" class="form-control" rows="6" ng-model="publicComment.data.comment"></textarea>
@@ -15,9 +15,21 @@
 	<div ng-show="publicComment.form.showDocuments">
 		<tmpl-documents-upload-general x-project="publicComment.project" x-type='comment'></tmpl-documents-upload-general>
 	</div>
-
 </div>
-<div class="modal-footer">
+
+<div class="modal-body" ng-if="publicComment.sent">
+	<h3>Thank you for your comment</h3>
+	<label class="control-label">What happens next?</label>
+	<p>Within 7 days comment will be published to the public project record and then responded to by the proponent a short time later.</p>
+	<p>All published comments can be found in the lower section of this page.</p>
+</div>
+
+
+<div class="modal-footer" ng-if="!publicComment.sent">
 	<button class="btn btn-default" type="button" ng-click="publicComment.cancel()">Cancel</button>
-	<button class="btn btn-primary" type="button" ng-click="publicComment.ok()">Send</button>
+	<button class="btn btn-primary" type="button" ng-click="publicComment.send()">Send</button>
+</div>
+
+<div class="modal-footer" ng-if="publicComment.sent">
+	<button class="btn btn-primary" type="button" ng-click="publicComment.ok()">Close</button>
 </div>

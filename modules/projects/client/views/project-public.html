@@ -10,7 +10,7 @@
 				<div class='panel-heading'>
 					<div><label class="control-label">Developer</label><p>{{ vm.project.proponent.name }}</p></div>
 					<div><label class="control-label">Type</label><p>{{ vm.project.type }}</p></div>
-					<div><label class="control-label">Location</label><p>{{ vm.project.region }}</p></div>
+					<div><label class="control-label titlecase">Location</label><p>{{ vm.project.region }}</p></div>
 					<div><label class="control-label">Description</label><p>{{ vm.project.description }}</p></div>
 					<p><small><a href><span class='glyphicon glyphicon-file'></span> Comprehensive Project Description</a></small></p>
 				</div>
@@ -34,11 +34,28 @@
 
 		<div class='col-sm-9'>
 
-			<div class="alert alert-info clickable text-center" x-modal-add-public-comment x-project="vm.project" ng-if="(vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)">
-				<p>Public Comments Open from <strong>{{ vm.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}}</strong> to <strong>{{ vm.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY' }}</strong></p>
-				<h3>Click here to contribute a comment</h3>
+			<div class="alert alert-info clickable" x-modal-add-public-comment x-project="vm.project" ng-if="(vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)">
+				<div class="text-center">
+					<p>Public Comments Open from <strong>{{ vm.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}}</strong> to <strong>{{ vm.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY' }}</strong></p>
+					<h3>Click here to contribute a comment</h3>
+					<hr>
+					<p class="lead"><small>Public Comment Period Ends In</small><countdown-clock x-end="vm.project.dateCommentsClosed"></countdown-clock></p>
+				</div>
+
 				<hr>
-				<p class="lead"><small>Public Comment Period Ends In</small><countdown-clock x-end="vm.project.dateCommentsClosed"></countdown-clock></p>
+
+				<p>Related Topics for this project include:</p>
+				<div class="row">
+					<div class="col-md-6">
+						<ul>
+							<li ng-repeat="vc in vm.project.buckets | filter:{isValueComponent: true}">{{ vc.name }}</li>
+						</ul>
+					</div>
+					<div class="col-md-6">
+						<ul>
+						</ul>
+					</div>
+				</div>
 			</div>
 
 

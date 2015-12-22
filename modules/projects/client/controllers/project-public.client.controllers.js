@@ -30,7 +30,8 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment) {
 			// separate the comments for bubble visualization
 			_.each(res.data, function(item) {
 				dateTitle = moment(item.dateAdded).format("MMM Do");
-				dateCount[dateTitle] = (dateCount[dateTitle]++ || 1);
+				if (!dateCount[dateTitle]) dateCount[dateTitle] = 0;
+				dateCount[dateTitle]++;
 				if (!vm.commentsByDate[dateTitle]) vm.commentsByDate[dateTitle] = [];
 				vm.commentsByDate[dateTitle].push(item);
 			});
@@ -55,16 +56,23 @@ controllerModalAddComment.$inject = ['$modalInstance', 'Project', 'rProject'];
 function controllerModalAddComment($modalInstance, Project, rProject) { 
 	var publicComment = this;
 
+	publicComment.sent = false;
+
 	Project.getNewPublicComment().then( function(res) {
 		publicComment.data = res.data;
 		publicComment.data.project = rProject._id;
 	});
 
-	publicComment.ok = function () {
+	publicComment.send = function () {
 		Project.addPublicComment(publicComment.data).then( function(res) {
-			$modalInstance.close();				
+			publicComment.sent = true;			
 		});
 	};
 	
+	publicComment.ok = function () {
+		$modalInstance.close();				
+	};
+
+
 	publicComment.cancel = function () { $modalInstance.dismiss('cancel'); };
 }

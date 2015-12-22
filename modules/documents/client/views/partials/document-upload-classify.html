@@ -13,42 +13,63 @@
 	<table class="table table-condensed">
 		<thead>
 			<tr class="small">
-				<th width="35%">File</th>
+				<th width="30%">File</th>
 				<th width="30%">Type</th>
-				<th width="35%">Locations</th>
+				<th width="30%">Tags</th>
+				<th width="10%"></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ngf-no-file-drop>
-				<td class="text-center" colspan=3>
+				<td class="text-center" colspan=4>
 					<p class="form-control-static">File Drag/Drop is not supported for this browser</p>
 				</td>
 			</tr>
 			<tr ng-if="!files">
-				<td class="text-center" colspan=3 class="text-center">
+				<td class="text-center" colspan=4 class="text-center">
 					<p class="form-control-static">Drag a file to the dashed region above to upload.</p>
 				</td>
 			</tr>
 			<tr ng-repeat="f in docUpload.fileList" ng-class="{'danger': f.$error}">
 
-				<td ng-if="f.$error" colspan=3>
+
+				<td ng-if="f.$error" colspan=4>
 					<p class="form-control-static text-danger">FILE ERROR: {{f.name}} {{f.$error}} {{f.$errorParam}}</p>
 				</td>
+
+
 
 				<td ng-if="!f.$error">
 					<p class="form-control-static">{{f.name}} {{f.$error}} {{f.$errorParam}}</p>
 				</td>
-				<td ng-if="!f.$error">
+				<td ng-if="!f.$error && !f.progress">
 					<select class="form-control" ng-options="type as type.name group by (type.group | uppercase) for type in docUpload.docTypes track by type.code" ng-model="f.docType"></select>
 				</td>
-				<td ng-if="!f.$error">
-					<tmpl-bucket-list></tmpl-bucket-list>
+				<td ng-if="!f.$error && !f.progress">
+					
 				</td>
+
+
+				<td ng-if="!f.$error && f.progress">
+					<p class="form-control-static">{{ f.docType.name }}</p>
+				</td>
+
+				<td ng-if="!f.$error && f.progress">
+					
+				</td>
+
+
+				<td ng-if="!f.$error">
+					<div class="progress" ng-show="f.progress >= 0" style="margin-top: 7px;"><div class="progress-bar progress-bar-success" role="progressbar" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">{{ f.progress }}</div></div>
+				</td>
+
+
+
 			</tr>
 		</tbody>
 	</table>
 
-	<div class="row">
+	<div class="row" ng-if="!docUpload.inProgress">
 		<div class="col-sm-12 text-right">
 			<button ng-click="docUpload.upload()" ng-if="docUpload.fileList.length > 0" class="btn btn-success">
 				Upload Queued Documents
