@@ -14,7 +14,7 @@ RUN npm install -g grunt-cli bower forever
 
 # Install Mean.JS packages
 ADD package.json /home/mean/package.json
-RUN RUN git config --global url."https://".insteadOf git:// && npm install
+RUN git config --global url."https://".insteadOf git:// && npm install
 
 # Manually trigger bower. Why doesnt this work via npm install?
 ADD .bowerrc /home/mean/.bowerrc
