@@ -8,9 +8,9 @@ angular.module('tasks')
 // CONTROLLER: Task for Simple Complete
 //
 // -----------------------------------------------------------------------------------
-controllerTaskManageComments.$inject = ['$scope', '$rootScope', 'Task', '_', 'sTaskManageComments'];
+controllerTaskManageComments.$inject = ['$scope', '$rootScope', 'Task', '_', 'sTaskManageComments', 'Project'];
 	//
-function controllerTaskManageComments($scope, $rootScope, Task, _, sTaskManageComments) {
+function controllerTaskManageComments($scope, $rootScope, Task, _, sTaskManageComments, Project) {
 
 	var taskManageComments = this;
 
