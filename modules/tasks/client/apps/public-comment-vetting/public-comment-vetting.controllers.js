@@ -28,18 +28,19 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 			});
 			if (!pendingDocument) {
 				// proceed with status change
+				console.log('status', com);
 				switch (com.eaoStatus) {
 					case 'Published':
 						PublicCommentVetting.setCommentPublish(com._id).then( function(res) {
 							com = angular.copy(res.data);
 						});
 						break;
-					case 'Defer':
+					case 'Deferred':
 						PublicCommentVetting.setCommentDefer(com._id).then( function(res) {
 							com = angular.copy(res.data);
 						});
 						break;
-					case 'Reject':
+					case 'Rejected':
 						PublicCommentVetting.setCommentReject(com._id).then( function(res) {
 							com = angular.copy(res.data);
 						});
@@ -60,7 +61,7 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 	//
 	// -----------------------------------------------------------------------------------
 	taskPubComVet.fetchNewComment = function() {
-		taskPubComVet.filter = 'Unvetted';
+		taskPubComVet.filter = 'In Progress';
 
 		PublicCommentVetting.getNextComment(taskPubComVet.project._id).then( function(res) {
 			taskPubComVet.data.comments.push(res.data);
@@ -82,11 +83,20 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 			// start the public commenting
 			PublicCommentVetting.getStart(newValue._id).then( function(res) {
 				taskPubComVet.data.comments = res.data;
+				console.log(res.data.length);
+				if (res.data.length > 0) {
+					taskPubComVet.activeCommentId = res.data[0]._id;
+				}
 
 				var foundUnvetted = false;
 				// if there is an unvetted record, don't pull any more unvetted ones
 				_.each( res.data, function(comment) {
-					if (comment.eaoStatus === 'Unvetted') foundUnvetted = true;
+					if (comment.eaoStatus === 'Unvetted') {
+						foundUnvetted = true;
+						// there is an unvetted record pending, make sure it's displayed
+						taskPubComVet.activeCommentId = comment._id;
+						taskPubComVet.filter = 'In Progress';
+					}
 				});
 
 				if (!foundUnvetted) {

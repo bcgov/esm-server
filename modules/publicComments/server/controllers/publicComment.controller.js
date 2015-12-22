@@ -278,7 +278,7 @@ var fillPublicComment = function () {};
 // -------------------------------------------------------------------------
 var eaodefer = function (req, res) {
 	req.PublicComment.eaoStatus     = 'Deferred';
-	req.PublicComment.overallStatus = 'Deferred';
+	// req.PublicComment.overallStatus = 'Deferred';
 	saveDecorateReturn (req.PublicComment, req, res);
 };
 exports.eaodefer = eaodefer;
@@ -286,6 +286,7 @@ exports.eaodefer = eaodefer;
 //
 // accept the comment, defer all unvetted documents
 // set overall status
+// NOTE: this is not used.  Publish instead.
 //
 // -------------------------------------------------------------------------
 var eaoaccept = function (req, res) {
@@ -301,7 +302,7 @@ exports.eaoaccept = eaoaccept;
 // -------------------------------------------------------------------------
 var eaoreject = function (req, res) {
 	req.PublicComment.eaoStatus     = 'Rejected';
-	req.PublicComment.overallStatus = 'Rejected';
+	// req.PublicComment.overallStatus = 'Rejected';
 	saveDecorateReturn (req.PublicComment, req, res);
 };
 exports.eaoreject = eaoreject;
@@ -376,9 +377,10 @@ exports.eaoedit = eaoedit;
 // -------------------------------------------------------------------------
 var getInProgressForUser = function (userid, query) {
 	query = query || {};
+	console.log('claim', userid);
 	query = _.extend ({
 		updatedBy : userid,
-		overallStatus:'In Progress'
+		overallStatus: 'In Progress'
 	}, query);
 	return queryModelsDecorate (query);
 };
@@ -390,6 +392,7 @@ var getInProgressForUser = function (userid, query) {
 // -------------------------------------------------------------------------
 var vettingStart = function (req, res) {
 	var userid = (req.user) ? req.user._id : null;
+	console.log(req);
 	getInProgressForUser (userid, {
 		project : req.params.projectid
 	})
