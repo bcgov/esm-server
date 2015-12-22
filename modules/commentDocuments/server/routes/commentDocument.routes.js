@@ -43,7 +43,7 @@ module.exports = function (app) {
 	//
 	// upload a document to this comment
 	//
-	app.route ('/api/commentdocument/publiccomment/:publiccomment/upload').all (policy.isAllowed)
+	app.route ('/api/commentdocument/publiccomment/:publiccommentid/upload').all (policy.isAllowed)
 		.post (controller.upload);
 	//
 	// upload a document to this comment

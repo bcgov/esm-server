@@ -118,8 +118,8 @@ var upload = function (req, res) {
 	if (file) {
 		// console.log (file);
 		saveAndReturn (new Model ({
-			project       : req.PublicComment.project || null,
-			publicComment : req.PublicComment._id,
+			// project       : req.PublicComment.project || null,
+			publicComment : req.params.publiccommentid,
 			url           : file.path,
 			name          : file.originalname,
 			internalName  : file.name,
