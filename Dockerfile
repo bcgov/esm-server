@@ -38,12 +38,12 @@ VOLUME /uploads
 EXPOSE 3000
 
 # some metadata we can use for traceability
-ARG gitURL=http://github.com/bcgov/esm-server
-ARG gitCommit=unknown
-ARG gitBranch=unknown
-ARG gitCommitter=unknown
-ARG builtBy=Jenkins
-
-LABEL gitURL=$gitURL gitCommit=$gitCommit gitBranch=$gitBranch gitCommitter=$gitCommitter builtBy=$builtBy
+#ARG gitURL=http://github.com/bcgov/esm-server
+#ARG gitCommit=unknown
+#ARG gitBranch=unknown
+#ARG gitCommitter=unknown
+#ARG builtBy=Jenkins
+#
+#LABEL gitURL=$gitURL gitCommit=$gitCommit gitBranch=$gitBranch gitCommitter=$gitCommitter builtBy=$builtBy
 
 ENTRYPOINT ["./run.sh"]
