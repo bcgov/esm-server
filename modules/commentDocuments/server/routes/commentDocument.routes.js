@@ -19,7 +19,7 @@ module.exports = function (app) {
 	//
 	app.route ('/api/commentdocument/:commentdocument').all (policy.isAllowed)
 		.get    (controller.read)
-		// .put    (controller.update)
+		.put    (controller.update)
 		.delete (controller.delete);
 	// app.route ('/api/new/commentdocument').all (policy.isAllowed)
 		// .get (controller.new);
@@ -45,6 +45,11 @@ module.exports = function (app) {
 	//
 	app.route ('/api/commentdocument/publiccomment/:publiccomment/upload').all (policy.isAllowed)
 		.post (controller.upload);
+	//
+	// upload a document to this comment
+	//
+	app.route ('/api/commentdocument/:commentdocument/fetch').all (policy.isAllowed)
+		.get (controller.upload);
 	//
 	// middleware to auto-fetch parameter
 	//
