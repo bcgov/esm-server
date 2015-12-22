@@ -10,7 +10,7 @@ var helpers  = require (require('path').resolve('./modules/core/server/controlle
 
 exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'commentdocument');
-	acl.allow ('guest', '/api/commentdocument/publiccomment/:publiccomment/upload', 'post');
+	acl.allow ('guest', '/api/commentdocument/publiccomment/:publiccommentid/upload', 'post');
 	helpers.setPathPermissions (acl, [
 		[ '', 'user', '/api/commentdocument/:commentdocument/eao/defer'  ],
 		[ '', 'user', '/api/commentdocument/:commentdocument/eao/accept'  ],
