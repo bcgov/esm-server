@@ -45,11 +45,11 @@ var saveDocument = function (doc, req) {
 var saveAndReturn = function (doc, req, res) {
 	saveDocument (doc, req)
 	.then (function (model) {
-		console.log (model);
+		// console.log (model);
 		helpers.sendData (res, model);
 	})
 	.catch (function (err) {
-		console.log (err);
+		// console.log (err);
 		helpers.sendError (res, err);
 	});
 };
@@ -111,12 +111,15 @@ exports.notate = notate;
 //
 // -------------------------------------------------------------------------
 var upload = function (req, res) {
+	// console.log ('++uploading file:');
+	// console.log (req.files);
+	// console.log ('end of file');
 	var file = req.files.file;
 	if (file) {
-		console.log (file);
+		// console.log (file);
 		saveAndReturn (new Model ({
-			project       : req.PublicComment.project || null,
-			publicComment : req.PublicComment._id,
+			// project       : req.PublicComment.project || null,
+			publicComment : req.params.publiccommentid,
 			url           : file.path,
 			name          : file.originalname,
 			internalName  : file.name,
