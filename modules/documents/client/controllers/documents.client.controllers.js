@@ -24,6 +24,21 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 		}
 	});
 
+	docUpload.targetUrl = null;
+	$scope.$watch('type', function(newValue) {
+		if (newValue) {
+			// determine URL for upload, default to project if none set.
+			switch (newValue) {
+				case 'comment':
+					docUpload.targetUrl = '/api/commentdocument/publiccomment/56733270672dadc5372f7bea/upload', // todo: UPLOAD
+					break;
+				default:
+					docUpload.targetUrl = '/api/commentdocument/publiccomment/56733270672dadc5372f7bea/upload', // todo: UPLOAD
+			}
+			docUpload.project = newValue;
+		}
+	});
+
 	// get types for dropdown.
 	docUpload.docTypes = Document.getDocumentTypes();
 
@@ -48,13 +63,12 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 	docUpload.log = '';
 
 	docUpload.upload = function () {
-		console.log ('uploading?');
-		if (docUpload.fileList && docUpload.fileList.length) {
+		if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
 			for (var i = 0; i < docUpload.fileList.length; i++) {
 				var file = $scope.files[i];
 				if (!file.$error) {
 					Upload.upload({
-						url: '/api/commentdocument/publiccomment/56733270672dadc5372f7bea/upload', // todo: UPLOAD
+						url: docUpload.targetUrl,
 						fields: {
 							//	'username': $scope.username
 						},
