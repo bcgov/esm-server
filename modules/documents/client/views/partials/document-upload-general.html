@@ -30,6 +30,7 @@
 			</tr>
 			<tr ng-repeat="f in docUpload.fileList" ng-class="{'danger': f.$error}">
 
+
 				<td ng-if="f.$error">
 					<p class="form-control-static text-danger">FILE ERROR: {{f.name}} {{f.$error}} {{f.$errorParam}}</p>
 				</td>
@@ -47,8 +48,6 @@
 				<td ng-if="!f.$error && f.progress">
 					<div class="progress" ng-show="f.progress >= 0" style="margin-top: 7px;"><div class="progress-bar progress-bar-success" role="progressbar" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">{{ f.progress }}</div></div>
 				</td>
-
-
 
 
 			</tr>

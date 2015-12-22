@@ -3,6 +3,11 @@
  * -------------------------------------------------------------------------- */
 /* ----- Colors ----- */
 /* ----- Typography ----- */
+
+.titlecase {
+  text-transform: capitalize;
+}
+
 .content {
   margin-top: 80px; }
 
