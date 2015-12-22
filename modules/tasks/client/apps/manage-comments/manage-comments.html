@@ -1,0 +1,29 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		Comments: {{ taskManageComments.task.name }} <em class="small pull-right">{{ taskManageComments.task.status }}</em>
+	</div>
+
+	<table class="table table-condensed table-hover">
+		<thead>
+			<tr class="small">
+				<th width="60%">Comment</th>
+				<th width="20%" class="text-center">Date</th>
+				<th width="20%" class="text-center">Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="com in taskManageComments.comments track by $index" ng-class="{'bg-danger': com.overallStatus === 'Rejected', 'bg-success': com.overallStatus === 'Published'}">
+				<td>{{ com.comment }}</td>
+				<td class='text-center'>{{ dateAdded }}</td>
+				<td class='text-center'>
+					{{ com.overallStatus }}
+				</td>
+			</tr>
+			<tr ng-show="taskManageComments.project.buckets.length === 0">
+				<td colspan="3">There are no value components defined for this project.</td>
+			</tr>
+		</tbody>
+
+	</table>
+
+</div>

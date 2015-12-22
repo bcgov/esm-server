@@ -54,4 +54,17 @@ angular
 			'Health'
 		]
 	)
+	.constant('PROJECT_TYPES',
+		[
+			'Mining',
+			'Energy',
+			'Transportation', 
+			'Water Management',
+			'Industrial',
+			'Waste Management',
+			'Waste Disposal',
+			'Food Processing',
+			'Tourist Destination'
+		]
+	)
 	.value('ProcessCodes', []);
