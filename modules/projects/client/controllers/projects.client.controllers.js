@@ -44,19 +44,16 @@ function controllerProjectsFilterBar($scope, $state, Projects, $filter) {
 // CONTROLLER: Projects
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsList.$inject = ['$scope', '$state'];
+controllerProjectsList.$inject = ['$scope', '$state', 'Authentication'];
 /* @ngInject */
-function controllerProjectsList($scope, $state) {
+function controllerProjectsList($scope, $state, Authentication) {
 	var projectList = this;
 	
 	$scope.$watch('projects', function(newValue) {
 		projectList.projects = newValue;
 	});
 
-	projectList.goToProject = function(projectId) {
-		$state.go('eao.project', {id:projectId});
-	};
-	
+	projectList.auth = Authentication;	
 }
 // -----------------------------------------------------------------------------------
 //

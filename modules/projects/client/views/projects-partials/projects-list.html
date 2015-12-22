@@ -11,10 +11,10 @@
 		</thead>	
 		<tbody>
 			<tr ng-repeat="project in filteredProjects = (projectList.projects | filter:vm.filterKeyword | filter:vm.filterObject)" ng-if='filteredProjects.length > 0' class='clickable'>
-				<td ng-click="projectList.goToProject( project._id );">{{ project.name }}</td>
-				<td ng-click="projectList.goToProject( project._id );">{{ project.region }}</td>
-				<td ng-click="projectList.goToProject( project._id );">{{ project.currentPhaseCode || 'Intake' }}</td>
-				<td ng-click="projectList.goToProject( project._id );">
+				<td ui-sref="eao.project({id: project._id})">{{ project.name }}</td>
+				<td ui-sref="eao.project({id: project._id})">{{ project.region }}</td>
+				<td ui-sref="eao.project({id: project._id})">{{ project.currentPhaseCode || 'Intake' }}</td>
+				<td ui-sref="eao.project({id: project._id})">
 					<div class="progress">
 						<div class="progress-bar progress-bar-success" role="progressbar" style="width: {{ project.overallProgress }}%;">
 							{{ project.overallProgress }}%

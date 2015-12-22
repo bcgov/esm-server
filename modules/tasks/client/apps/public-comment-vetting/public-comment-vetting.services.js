@@ -20,20 +20,28 @@ function servicePublicCommentVetting($http) {
 	};
 
 	var setCommentDefer = function(commentId) {
-		return $http({method:'GET',url: '/api/publiccomment/' + commentId + '/eao/defer'});
+		return $http({method:'PUT',url: '/api/publiccomment/' + commentId + '/eao/defer'});
 	};
 
 	var setCommentPublish = function(commentId) {
-		return $http({method:'GET',url: '/api/publiccomment/' + commentId + '/eao/publish'});
+		return $http({method:'PUT',url: '/api/publiccomment/' + commentId + '/eao/publish'});
 	};
 
 	var setCommentReject = function(commentId) {
-		return $http({method:'GET',url: '/api/publiccomment/' + commentId + '/eao/reject'});
+		return $http({method:'PUT',url: '/api/publiccomment/' + commentId + '/eao/reject'});
+	};
+
+	var getUnvettedCount = function(projectId) {
+		return $http({method:'GET',url: '/api/publiccomment/project/' + projectId + '/unvetted'});
 	};
 
 
 	return {
 		getStart: getStart,
-		getNextComment: getNextComment
+		getNextComment: getNextComment,
+		setCommentDefer: setCommentDefer,
+		setCommentPublish: setCommentPublish,
+		setCommentReject: setCommentReject,
+		getUnvettedCount: getUnvettedCount
 	};
 }

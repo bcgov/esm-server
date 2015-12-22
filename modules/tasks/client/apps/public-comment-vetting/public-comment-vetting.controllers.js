@@ -65,6 +65,11 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 		PublicCommentVetting.getNextComment(taskPubComVet.project._id).then( function(res) {
 			taskPubComVet.data.comments.push(res.data);
 			taskPubComVet.activeCommentId = res.data._id;
+
+
+			PublicCommentVetting.getUnvettedCount(taskPubComVet.project._id).then( function(res) {
+				taskPubComVet.unvettedCount = res.data.count;
+			});
 		});
 	};
 
