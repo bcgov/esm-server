@@ -57,9 +57,9 @@ function controllerProjectTimeline($scope) {
 // CONTROLLER: Project Entry Tombstone
 //
 // -----------------------------------------------------------------------------------    
-controllerProjectEntryTombstone.$inject = ['$scope', 'Projects', 'REGIONS'];
+controllerProjectEntryTombstone.$inject = ['$scope', 'Projects', 'REGIONS', 'PROJECT_TYPES'];
 //
-function controllerProjectEntryTombstone($scope, Projects, REGIONS) {
+function controllerProjectEntryTombstone($scope, Projects, REGIONS, PROJECT_TYPES) {
 	var projectEntryTS = this;
 	
 	projectEntryTS.regions = REGIONS;
@@ -68,7 +68,7 @@ function controllerProjectEntryTombstone($scope, Projects, REGIONS) {
 		projectEntryTS.project = newValue; 	
 	});
 	
-	projectEntryTS.types = Projects.getProjectTypes();
+	projectEntryTS.types = PROJECT_TYPES;
 }
 // -----------------------------------------------------------------------------------
 //

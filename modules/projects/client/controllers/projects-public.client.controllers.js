@@ -8,21 +8,16 @@ angular.module('projects')
 // CONTROLLER: Public Projects Main
 //
 // -----------------------------------------------------------------------------------
-controllerPublicProjects.$inject = ['$state', 'Projects'];
+controllerPublicProjects.$inject = ['$state', 'Projects', 'PROJECT_TYPES'];
 /* @ngInject */
-function controllerPublicProjects($state, Projects) {
+function controllerPublicProjects($state, Projects, PROJECT_TYPES) {
 	var vm = this;
 
-	vm.types = Projects.getProjectTypes();
+	vm.types = PROJECT_TYPES;
 
 	Projects.getProjects().then( function(res) {
 		vm.projects = res.data;
 	});
-
-	//
-	vm.goToProject = function(id) {
-		$state.go('public.project', {id:id});
-	};	
 	
 	vm.filterKeyword = '';
 	vm.filterObject = {};

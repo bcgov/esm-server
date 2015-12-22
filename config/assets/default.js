@@ -21,6 +21,7 @@ module.exports = {
         'public/lib/angular-bootstrap/ui-bootstrap.js',
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
         'public/lib/angular-file-upload/angular-file-upload.js',
+        'public/lib/ng-file-upload/ng-file-upload.js',
         'public/lib/angular-sanitize/angular-sanitize.js',
         'public/lib/angular-toastr/dist/angular-toastr.js',
         'public/lib/angular-toastr/dist/angular-toastr.tpls.js',

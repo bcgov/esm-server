@@ -46,50 +46,54 @@ if (process.env.NODE_ENV === 'production') {
   });
 } else {
   //Add Local User
-  User.find({username: 'user'}).remove(function () {
-    var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
-    var user = new User({
-      username: 'user',
-      password: 'user',
-      provider: 'local',
-      email: 'user@localhost.com',
-      firstName: 'User',
-      lastName: 'Local',
-      displayName: 'User Local',
-      roles: ['user']
-    });
-    // Then save the user
-    user.save(function (err) {
-      if (err) {
-        console.log('Failed to add local user', err);
-      } else {
-        console.log(chalk.bold.red('Local user added with password set to ' + password));
-      }
-    });
+  User.find({username: 'user'}, function (err, users) {
+    if (users.length === 0) {
+      var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
+      var user = new User({
+        username: 'user',
+        password: 'user',
+        provider: 'local',
+        email: 'user@localhost.com',
+        firstName: 'User',
+        lastName: 'Local',
+        displayName: 'User Local',
+        roles: ['user']
+      });
+      // Then save the user
+      user.save(function (err) {
+        if (err) {
+          console.log('Failed to add local user', err);
+        } else {
+          console.log(chalk.bold.red('Local user added with password set to ' + password));
+        }
+      });
+    }
   });
 
 
   //Add Local Admin
-  User.find({username: 'admin'}).remove(function () {
-    var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
-    var user = new User({
-      username: 'admin',
-      password: 'admin',
-      provider: 'local',
-      email: 'admin@localhost.com',
-      firstName: 'Admin',
-      lastName: 'Local',
-      displayName: 'Admin Local',
-      roles: ['user', 'admin']
-    });
-    // Then save the user
-    user.save(function (err) {
-      if (err) {
-        console.log('Failed to add local admin', err);
-      } else {
-        console.log(chalk.bold.red('Local admin added with password set to ' + password));
-      }
-    });
+  User.find({username: 'admin'}, function (err, users) {
+    if (users.length === 0) {
+      var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
+      var user = new User({
+        username: 'admin',
+        password: 'admin',
+        provider: 'local',
+        email: 'admin@localhost.com',
+        firstName: 'Admin',
+        lastName: 'Local',
+        displayName: 'Admin Local',
+        roles: ['user', 'admin']
+      });
+      // Then save the user
+      user.save(function (err) {
+        if (err) {
+          console.log('Failed to add local admin', err);
+        } else {
+          console.log(chalk.bold.red('Local admin added with password set to ' + password));
+        }
+      });
+    }
   });
 }
 

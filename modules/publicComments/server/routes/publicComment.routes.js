@@ -19,7 +19,7 @@ module.exports = function (app) {
 	// collection routes
 	//
 	app.route ('/api/publiccomment').all (policy.isAllowed)
-		// .get  (controller.list)
+		.get  (controller.list)
 		.post (controller.create);
 	//
 	// model routes
