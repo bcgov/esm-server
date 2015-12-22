@@ -13,7 +13,7 @@ exports.invokeRolesPolicies = function () {
 	//
 	// guest can post comment or doc
 	//
-	acl.allow ('guest', '/api/publiccomment/:publiccomment', 'post');
+	acl.allow ('guest', '/api/publiccomment', 'post');
 	acl.allow ('guest', '/api/new/publiccomment', 'get');
 	helpers.setPathPermissions (acl, [
 		[ 'guest', 'user', '/api/publiccomment/project/:projectid/published'         ],

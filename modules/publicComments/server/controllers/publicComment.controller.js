@@ -391,6 +391,7 @@ var getInProgressForUser = function (userid, query) {
 //
 // -------------------------------------------------------------------------
 var vettingStart = function (req, res) {
+	console.log ('req.user = ', req.user);
 	var userid = (req.user) ? req.user._id : null;
 	console.log(req);
 	getInProgressForUser (userid, {
