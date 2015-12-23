@@ -46,4 +46,4 @@ EXPOSE 3000
 #
 #LABEL gitURL=$gitURL gitCommit=$gitCommit gitBranch=$gitBranch gitCommitter=$gitCommitter builtBy=$builtBy
 
-ENTRYPOINT ["./run.sh"]
+CMD ["./run.sh"]

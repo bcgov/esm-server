@@ -1,3 +1,4 @@
 *.md
 *.sh
 !docker_deploy.sh
+!run.sh
