@@ -1,0 +1,3 @@
+*.md
+*.sh
+!docker_deploy.sh
