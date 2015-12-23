@@ -24,12 +24,15 @@ fi
 docker pull $1
 
 # find the id of the prior container, if it exists
-priorContainer=`docker ps --filter name=esm-server-ajax -f status=running | awk '{if(NR>1)print $1;}'`
+priorContainer=`docker ps -a --filter name=esm-server-ajax | awk '{if(NR>1)print $1;}'`
 
 # stop the previously deployed instance of the app
 if [ -n "$priorContainer" ] ; then
-    echo "Stopping previously deployed container..."
-    docker stop $priorContainer
+    priorContainerRunning=`docker ps -a --filter name=esm-server-ajax -f status=running | awk '{if(NR>1)print $1;}'`
+	if [ -n "$priorContainerRunning" ]; then
+    		echo "Stopping previously deployed container..."
+    		docker stop $priorContainer
+	fi
     ts=`date +"%m-%d-%y_%s"`
     docker rename $priorContainer "$priorContainer-backup-$ts"
 fi;
