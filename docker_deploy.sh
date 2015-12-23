@@ -1,20 +1,20 @@
 #!/bin/bash
 
 if [ "$#" -lt 1 ]; then
-    echo "Please an image to deploy as the first command-line argument."
+    echo "Please specify an image to deploy as the first command-line argument."
     exit -1
 fi
 
-proxy=false
+proxy="false"
 proxyParams=""
 
-if [ "$#" -eq 2]; then
+if [ "$#" -eq 2 ]; then
     if [ $2 = "PROXY" ]; then
         if [ "$#" -lt 3]; then
             echo "PROXY must be followed by a virtual host."
             exit -1
         else
-            proxy=true
+            proxy="true"
             proxyParams="-e VIRTUAL_PORT=3000 -e VIRTUAL_HOST=$3"
         fi
     fi
@@ -32,7 +32,7 @@ if [ -n "$priorContainer" ] ; then
     docker stop $priorContainer
 fi;
 
-if  [ (proxy) ]; then
+if  [ "$proxy" = "true" ]; then
     echo "Running with proxy."
     docker run -p 3000:3000 -v /data/esm-uploads:/uploads -d --link mongo:db_1 --name esm-server-ajax  $proxyParams -l appname=esm-server-ajax $1
 else
