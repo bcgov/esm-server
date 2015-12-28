@@ -590,14 +590,14 @@ directiveModalSelectItems.$inject = ['$modal'];
 /* @ngInject */
 function directiveModalSelectItems($modal) {
     var directive = {
-        restrict:'A',
-        scope : {
-        	allItems: '=',
-        	selectedItems: '=',
-        	itemName: '@',
-        	single: '=',
-        	unique: '=',
-        	callback: '='
+       	restrict:'A',
+       	scope : {
+        		allItems: '=',
+        		selectedItems: '=',
+        		itemName: '@',
+        		single: '=',
+        		unique: '=',
+        		callback: '='
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
@@ -610,25 +610,29 @@ function directiveModalSelectItems($modal) {
 						rAllItems: function () { // all possible options
 							return scope.allItems;
 						},
-						rSelectedItems: function () { //
+						rSelectedItems: function () { // the destination structure
 							return scope.selectedItems;
 						},
-						rItemName: function () { //
+						rItemName: function () { // title of the modal
 							return scope.itemName;
 						},
-						rSingle: function () { //
+						rSingle: function () { // only allow one choice
 							return (scope.single || false);
 						},
-						rUnique: function () { //
+						rUnique: function () { // only allow unique selections (move items between columns when selected)
 							return (scope.unique || false);
 						}								
 					},
 					size: 'lg'
 				});
 				modalSelectItems.result.then(function (newItems) {
+					// fire callback to assign the new selections
+					// or just assign
+					console.log(scope.callback);
 					if (scope.callback) {
-						// callback with the new elements and the original context the modal was triggered to.
 						scope.callback(newItems, scope.selectedItems);
+					} else {
+						scope.selectedItems = angular.copy(newItems);						
 					}
 				}, function () {});
 			});

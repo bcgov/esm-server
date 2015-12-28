@@ -14,6 +14,7 @@ function controllerTaskSetPhase($scope, $rootScope, Project) {
 	var taskSetPhase = this;
 
 	taskSetPhase.saveTask = function() {
+		taskSetPhase.project.currentPhase = taskSetPhase.newPhase._id;
 		Project.saveProject( taskSetPhase.project ).then( function(res) {});
 	};
 
@@ -23,6 +24,7 @@ function controllerTaskSetPhase($scope, $rootScope, Project) {
 	$scope.$watch('project', function(newValue) {
 		if (newValue) {
 			taskSetPhase.project = newValue;
+			taskSetPhase.newPhase = angular.copy(newValue.currentPhase);
 		}
 	});
 

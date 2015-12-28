@@ -11,9 +11,9 @@ angular.module('projects')
 // CONTROLLER: Filter Bar
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsFilterBar.$inject = ['$scope', '$state', 'Projects', '$filter', 'PROJECT_TYPES'];
+controllerProjectsFilterBar.$inject = ['$scope', '$state', 'Projects', '$filter', 'PROJECT_TYPES', 'Authentication'];
 /* @ngInject */
-function controllerProjectsFilterBar($scope, $state, Projects, $filter, PROJECT_TYPES) {
+function controllerProjectsFilterBar($scope, $state, Projects, $filter, PROJECT_TYPES, Authentication) {
 	var fbc = this;
 
 	fbc.types = PROJECT_TYPES;
@@ -37,7 +37,6 @@ function controllerProjectsFilterBar($scope, $state, Projects, $filter, PROJECT_
 		}
 	};
 
-	// fbc.userType = Global.user.type;
 }
 // -----------------------------------------------------------------------------------
 //

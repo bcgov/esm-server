@@ -395,12 +395,13 @@ function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, r
 
 
 	selectItems.cancel = function () {
-		selectItems.selectedItems = angular.copy(rSelectedItems);
+		// since we took a copy of the rSelectedItems, no need to overwrite originals, just cancel it.
+		//selectItems.selectedItems = angular.copy(rSelectedItems);
 		$modalInstance.dismiss('cancel');
 	};
 	selectItems.ok = function () { 
-		// saving so write the new data.
-		$modalInstance.close(selectItems.selectedItems);
+		// saving so pass back new data and a reference to the destination
+		$modalInstance.close(selectItems.selectedItems, rSelectedItems);
 	};
 }
 // -----------------------------------------------------------------------------------

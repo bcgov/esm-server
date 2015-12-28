@@ -87,6 +87,11 @@ module.exports = function (app) {
 	app.route ('/api/publiccomment/project/:projectid/unvetted').all (policy.isAllowed)
 		.get (controller.unvetted);
 	//
+	// count the number of unclaimed unvetted comments for a project
+	//
+	app.route ('/api/publiccomment/project/:projectid/unclassified').all (policy.isAllowed)
+		.get (controller.unclassified);
+	//
 	// middleware to auto-fetch parameter
 	//
 	app.param ('publiccomment', controller.getObject);

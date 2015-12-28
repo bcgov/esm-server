@@ -18,11 +18,13 @@
 		<tr ng-repeat="milestone in pesched.project.milestones track by $index">
 			<td><p class="form-control-static">{{ milestone.name }}</p></td>
 			<td class='text-center'>
-				<input type='date' x-date-field ng-model="milestone.dateEstimatedStart" class="form-control text-center" ng-disabled="milestone.dateActualStart" ng-change="milestone.changed = true"/>
+				<p class="form-control-static">{{ milestone.dateEstimatedStart | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="milestone.dateEstimatedStart" x-user-is="admin" ng-if="!milestone.dateActualStart">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
 			</td>
+
 			<td class='text-center'>
-				<input type='date' x-date-field ng-model="milestone.dateEstimatedEnd" class="form-control text-center" ng-disabled="milestone.dateActualEnd" ng-change="milestone.changed = true"/>
-			</td>
+				<p class="form-control-static">{{ milestone.dateEstimatedEnd | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="milestone.dateEstimatedEnd" x-user-is="admin" ng-if="!milestone.dateActualEnd">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
+			</div>
+
 			<td class='text-center'><p class="form-control-static">{{ milestone.dateActualStart | amDateFormat:'MMM Do YYYY' }}</p></td>
 			<td class='text-center'><p class="form-control-static">{{ milestone.dateActualEnd | amDateFormat:'MMM Do YYYY' }}</p></td>
 			<td></td>

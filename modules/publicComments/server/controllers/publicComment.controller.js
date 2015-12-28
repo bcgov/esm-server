@@ -390,6 +390,7 @@ var getInProgressForUser = function (userid, query) {
 		updatedBy : userid,
 		overallStatus: 'In Progress'
 	}, query);
+	console.log('QUERY', query);
 	return queryModelsDecorate (query);
 };
 // -------------------------------------------------------------------------
@@ -448,7 +449,6 @@ exports.vettingClaim = vettingClaim;
 var classifyStart = function (req, res) {
 	var userid = (req.user) ? req.user._id : null;
 	getInProgressForUser (userid, {
-		overallStatus   : 'Published',
 		proponentStatus : 'Deferred',
 		project : req.params.projectid
 	})
@@ -473,8 +473,12 @@ var classifyClaim = function (req, res) {
 		project : req.params.projectid
 	})
 	.then (function (model) {
-		model.overallStatus = 'In Progress';
-		return saveComment (model, req);
+		if (model) {
+			model.overallStatus = 'In Progress';
+			return saveComment (model, req);
+		} else {
+			return helpers.sendData (res, {});
+		}
 	})
 	.then (decorateComment)
 	.then (function (model) {
@@ -532,12 +536,25 @@ exports.proponentclassify = proponentclassify;
 exports.unvetted = function (req, res) {
 	Model.count ({
 		overallStatus : 'Unvetted',
-		eaoStatus     : 'Unvetted',
+		eaoStatus     : 'Unvetted'
 	}, function (err, n) {
 		if (err) return helpers.sendError (res, err);
 		return helpers.sendData (res, {count: n});
 	});
 };
-
+// -------------------------------------------------------------------------
+//
+// count the number of unclassified, unclaimed comments
+//
+// -------------------------------------------------------------------------
+exports.unclassified = function (req, res) {
+	Model.count ({
+		overallStatus : 'Published',
+		proponentStatus : 'Unclassified'
+	}, function (err, n) {
+		if (err) return helpers.sendError (res, err);
+		return helpers.sendData (res, {count: n});
+	});
+};
 
 
