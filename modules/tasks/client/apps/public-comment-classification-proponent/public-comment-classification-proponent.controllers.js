@@ -4,7 +4,7 @@ angular.module('tasks')
 	.controller('controllerTaskPublicCommentClassificationProponent', controllerTaskPublicCommentClassificationProponent)
 	.filter ('filterClassifyComments', filterClassifyComments)
 	.filter ('filterClassifyValueComponents', filterClassifyValueComponents)
-	.filter ('filterClassifytopics', filterClassifytopics);
+	.filter ('filterClassifyTopics', filterClassifyTopics);
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Task for Simple Complete
@@ -15,129 +15,118 @@ controllerTaskPublicCommentClassificationProponent.$inject = ['$scope', '$rootSc
 function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, _, TaskPublicCommentClassificationProponent) {
 	var taskPubComClassProp = this;
 
-	// these hold the default list from the project.
-	// they should not be modified after initial load.
-	taskPubComClassProp.buckets = [];
-	taskPubComClassProp.topics = [];
-
-	// in each cateogry allow an active index.  Only one of these can be seen at a time.
-	// compare the active index and the proponent status to see which record is active or not.
-	// unclassified will always be 0.
+	// Keep track of the active comment for display of the edit controls.
+	// Only one of these can be seen at a time.
+	// All comparisons take place at the template level.
 	taskPubComClassProp.activeComment = {};
 
 	taskPubComClassProp.filterScopeComment = false;
 	taskPubComClassProp.filterScopeValueComponents = true;
-	taskPubComClassProp.filterScopeTopics = true;		
-
-	// when a new comment is loaded, set the id to active.
-	// if an old comment is clicked, set the active id to the selected item so the edit will show.
-
+	taskPubComClassProp.filterScopeTopics = true;
+	
 	taskPubComClassProp.data = {comments: []};
-
-
-
-	taskPubComClassProp.deferCommentStatus = function(com) {
-		// todo: validation
-		com.overallStatus = com.proponentStatus = 'Deferred';
-		taskPubComClassProp.fetchNewComment();
-	};
+	// -----------------------------------------------------------------------------------
 	//
+	// Get the current project
 	//
-	// Classify and move on.
-	//
-	taskPubComClassProp.finalizeCommentStatus = function(com) {
-		// status change in progress
+	// -----------------------------------------------------------------------------------
+	$scope.$watch('project', function(newValue) {
+		if (newValue) {
+			taskPubComClassProp.project = newValue;
 
-		if ((com.buckets && com.buckets.length > 0) || (com.topics && com.topics.length > 0)) {
-			// proceed with status change
-			TaskPublicCommentClassificationProponent.setCommentClassify(com._id).then( function(res) {
-				com = _.assign(com, res.data);
+			// GetStart will return all Deferred or Unclassified items for the current user.
+			// fetch New Comment will make sure we don't fetch another comment if there already is one unclassified pending.
+			TaskPublicCommentClassificationProponent.getStart(newValue._id).then( function(res) {
+				taskPubComClassProp.data.comments = res.data;
+		
+				taskPubComClassProp.fetchNewComment();
 			});
-			taskPubComClassProp.fetchNewComment();
-		} else {
-			window.alert("Please select value components or topics before moving to the next comment.");
 		}
-	};
+	});
+	// -----------------------------------------------------------------------------------
 	//
+	// Set Comment to Deferred and get another.
 	//
-	// Defer the comment
-	//
-	taskPubComClassProp.deferCommentStatus = function(com) {
-		TaskPublicCommentClassificationProponent.setCommentDefer(com._id).then( function(res) {
-			console.log('here', res.data);
-			com = _.assign(com, res.data);
+	// -----------------------------------------------------------------------------------
+	taskPubComClassProp.deferCommentStatus = function(comment) {
+		TaskPublicCommentClassificationProponent.setCommentDefer(comment).then( function(res) {
+			console.log('Deferred Comment Returned', res.data);
+			comment = _.assign(comment, res.data);
+			
+			// One has been deferred, get another comment.
+			taskPubComClassProp.fetchNewComment();
 		});
 	};
+	// -----------------------------------------------------------------------------------
+	//
+	// Set Comment to Classified and get another.
+	//
+	// -----------------------------------------------------------------------------------
+	taskPubComClassProp.finalizeCommentStatus = function(com) {
+		// status change in progress
+		if ((com.buckets && com.buckets.length > 0) || (com.topics && com.topics.length > 0) || (com.proponentNotes)) {
+			// proceed with status change
+			// must have buckets or topics or a reason why not.
+			TaskPublicCommentClassificationProponent.setCommentClassify(com).then( function(res) {
+				com = _.assign(com, res.data);
 
+				// One has been classified, get another comment.
+				taskPubComClassProp.fetchNewComment();
+			});
 
-	// taskPubComClassProp.finalizeCommentStatus = function(com) {
-	// 	// all documents and comment must have a status of not pending.
-	// 	if (com.buckets.length > 0 || com.topics.length > 0) {
-	// 		com.overallStatus = com.proponentStatus = 'Classified';
-	// 		taskPubComClassProp.fetchNewComment();
-	// 	} else {
-	// 		window.alert("Please indicate which value components and / or topics this comment is related to before continuing.");
-	// 	}
-	// };
-
-
+		} else {
+			window.alert("Please select value components, topics before moving to the next comment or enter a reason for no validation.");
+		}
+	};
 	// -----------------------------------------------------------------------------------
 	//
 	// Get next comment
 	//
 	// -----------------------------------------------------------------------------------
 	taskPubComClassProp.fetchNewComment = function() {
+		// set the filter to show the unclassified one.
 		taskPubComClassProp.filter = 'Unclassified';
 
-		TaskPublicCommentClassificationProponent.getNextComment(taskPubComClassProp.project._id).then( function(res) {
-			taskPubComClassProp.data.comments.push(res.data);
-			taskPubComClassProp.activeComment = res.data;
-
-			taskPubComClassProp.refreshPendingCount();
+		// detect if there is an unclassified comment in the array, if so, select it.
+		taskPubComClassProp.activeComment = null;
+		_.each(taskPubComClassProp.data.comments, function(comment) {
+			if( comment.proponentStatus === 'Unclassified') {
+				taskPubComClassProp.activeComment = comment;
+			}
 		});
+
+		console.log('CLASS: active', taskPubComClassProp.activeComment);
+		
+		// there's no found, unclassified so get a new record.
+		if (!taskPubComClassProp.activeComment) {
+			console.log('CLASS: no active found');			
+			TaskPublicCommentClassificationProponent.getNextComment(taskPubComClassProp.project._id).then( function(res) {
+				console.log('CLASS: get new response', res);
+				taskPubComClassProp.data.comments.push(res.data);
+				taskPubComClassProp.activeComment = res.data;
+				console.log('CLASS: final', taskPubComClassProp.data.comments);
+			});
+		}
+		// get the count of other pending comments.
+		taskPubComClassProp.refreshPendingCount();
 	};
-
-	// refresh the bucket list by getting the project buckets.
-	// taskPubComClassProp.refreshBucketSource = function(com) {
-	// 	taskPubComClassProp.buckets = [];
-	// 	_.each( taskPubComClassProp.project.buckets, function(obj) {
-	// 		console.log('add bucket', obj.name, !_.some(com.buckets, _.matchesProperty('code', obj.code)));
-	// 		if (!_.some(com.buckets, _.matchesProperty('code', obj.code))) {
-	// 			taskPubComClassProp.buckets.push(obj);
-	// 		}	
-	// 	});
-	// };
-	
-
-
-	// add a bucket to a comment by pushing it to the local list.
-	// taskPubComClassProp.addBucketToSelection = function(com, bucket) {
-	// 	if(!com.buckets) com.buckets = [];
-	// 	com.buckets.push(bucket);
-
-	// 	taskPubComClassProp.refreshBucketSource(com);
-	// };
-
-
-	// taskPubComClassProp.activateComment = function(com) {
-	// 	taskPubComClassProp.activeCommentId = com._id;
-	// 	taskPubComClassProp.refreshBucketSource(com);
-	// };
-
-	// // remove a bucket from the comment by removing it from the comment
-	// taskPubComClassProp.removeBucketFromSelection = function(com, bucket) {
-	// 	_.remove(com.buckets, bucket);
-	// 	taskPubComClassProp.refreshBucketSource(com);
-	// };
-
+	// -----------------------------------------------------------------------------------
+	//
+	// Get the Task data anchor string.  This is used to record instance data in the project.
+	//
 	// get the task identifier.  (ID + Task Type)
+	//
+	// -----------------------------------------------------------------------------------
 	$scope.$watch('anchor', function(newValue) {
 		if (newValue) {
 			taskPubComClassProp.anchor = newValue;
 		}
 	});
-
-	// get the spec item
+	// -----------------------------------------------------------------------------------
+	//
+	// Get the Task Specification
+	//
+	// -----------------------------------------------------------------------------------
 	$scope.$watch('task', function(newValue) {
 		// get item for title
 		if (newValue) {
@@ -147,51 +136,6 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 	});
 
 
-	// // get the project
-	// $scope.$watch('project', function(newValue) {
-	// 	if (newValue) {
-	// 		taskPubComClassProp.project = newValue;
-	// 		taskPubComClassProp.buckets = angular.copy(newValue.buckets);
-
-	// 		if(newValue.data) {
-	// 			taskPubComClassProp.data.comments = newValue.data.comments;
-	// 			console.log('newvalue project', taskPubComClassProp.data.comments);
-	// 		}
-	// 	}
-	// });
-
-
-	// get the task identifier.  (ID + Task Type)
-	$scope.$watch('project', function(newValue) {
-		if (newValue) {
-			taskPubComClassProp.project = newValue;
-			taskPubComClassProp.buckets = angular.copy(newValue.buckets);
-
-			// start the public commenting
-			TaskPublicCommentClassificationProponent.getStart(newValue._id).then( function(res) {
-				taskPubComClassProp.data.comments = res.data;
-
-				var foundUnclassified = false;
-				// if there is an unvetted record, don't pull any more unvetted ones
-				_.each( res.data, function(comment) {
-					console.log(comment.proponentStatus, comment);
-					if (comment.proponentStatus === 'Unclassified') {
-						foundUnclassified = true;
-						// there is an unvetted record pending, make sure it's displayed
-						taskPubComClassProp.activeComment = comment;
-						taskPubComClassProp.filter = 'Unclassified';
-					}
-				});
-				console.log(foundUnclassified);
-				if (!foundUnclassified) {
-					taskPubComClassProp.fetchNewComment();
-				} else {
-					taskPubComClassProp.refreshPendingCount();
-				}
-			});
-		}
-	});
-
 
 	// -----------------------------------------------------------------------------------
 	//
@@ -199,15 +143,15 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 	//
 	// -----------------------------------------------------------------------------------
 	taskPubComClassProp.refreshPendingCount = function() {
-		console.log('refreshcount');
 		TaskPublicCommentClassificationProponent.getUnclassifiedCount(taskPubComClassProp.project._id).then( function(res) {
-			console.log('count', res.data);
 			taskPubComClassProp.unclassifiedCount = res.data.count;
 		});
 	};
-	
-
-
+	// -----------------------------------------------------------------------------------
+	//
+	// Set task as complete.  Currently no UI to support.
+	//
+	// -----------------------------------------------------------------------------------
 	taskPubComClassProp.completeTask = function() {
 		// validate
 		// when ok, broadcast
@@ -218,18 +162,18 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 }
 // -----------------------------------------------------------------------------------
 //
-// FILTER: Filter comments
+// FILTER: Filter comments.  THESE FILTERS NEED TO BE FIGURED OUT BETTER.
 //
 // -----------------------------------------------------------------------------------
 filterClassifyComments.$inject = ['$filter'];
 //
 function filterClassifyComments($filter) {
 	return function(items, enable, keywords) {
-    	if (enable) {
-    		return $filter('filter')(items, keywords);
-    	} else {
-    		return items;
-    	}
+		if (enable) {
+			return $filter('filter')(items, keywords);
+		} else {
+			return items;
+		}
 	};
 }
 // -----------------------------------------------------------------------------------
@@ -241,11 +185,11 @@ filterClassifyValueComponents.$inject = ['$filter'];
 //
 function filterClassifyValueComponents($filter) {
 	return function(items, enable, keywords) {
-    	if (enable) {
-    		return $filter('filter')(items, keywords);
-    	} else {
-    		return items;
-    	}
+		if (enable) {
+			return $filter('filter')(items, keywords);
+		} else {
+			return items;
+		}
 	};
 }
 // -----------------------------------------------------------------------------------
@@ -253,14 +197,14 @@ function filterClassifyValueComponents($filter) {
 // FILTER: Filter Value Components
 //
 // -----------------------------------------------------------------------------------
-filterClassifytopics.$inject = ['$filter'];
+filterClassifyTopics.$inject = ['$filter'];
 //
-function filterClassifytopics($filter) {
+function filterClassifyTopics($filter) {
 	return function(items, enable, keywords) {
-    	if (enable) {
-    		return $filter('filter')(items, keywords);
-    	} else {
-    		return items;
-    	}
+		if (enable) {
+			return $filter('filter')(items, keywords);
+		} else {
+			return items;
+		}
 	};
 }

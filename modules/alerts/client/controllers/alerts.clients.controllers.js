@@ -128,7 +128,6 @@ function controllerAlertList($scope, Alerts) {
 	});
 
 	$scope.$watch('project', function(newValue) {
-		console.log('alert projecgt', newValue);
 		alertList.project = newValue;
 	});
 

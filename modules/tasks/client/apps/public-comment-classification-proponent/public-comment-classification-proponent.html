@@ -87,19 +87,19 @@
 			ng-class="{'bg-warning':taskPubComClassProp.activeComment._id === com._id}">
 
 				<td width="58%" ng-if="taskPubComClassProp.activeComment._id === com._id"><small>{{ com.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}</small><br/><small>{{ com.author }}</small>
-					<div ng-bind-html="com.comment | safeHtml "></div>{{ com | json }}
+					<div ng-bind-html="com.comment | safeHtml "></div>
 					<hr>
 					<ul class="list-unstyled document-vetting">
 						<li ng-repeat="doc in com.documents">
 							<a href="{{ doc.url }}" target="_new" class="small"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
 						</li>
 						<li ng-if="com.documents.length === 0">
-							There are no documents uploaded with this comment.
+							There are no documents associated with this comment.
 						</li>
 					</ul>
 
 				</td>
-				<td width="2%"></td>
+				<td width="2%" ng-if="taskPubComClassProp.activeComment._id === com._id"></td>
 				<td width="40%" ng-if="taskPubComClassProp.activeComment._id === com._id">
 
 					<label class="control-label">
@@ -119,7 +119,7 @@
 							</li>
 
 							<!-- there are no buckets defined on the project -->
-							<li ng-if="com.buckets.length === 0 && !taskPubComClassProp.filterBuckets" class="small">
+							<li ng-if="(!com.buckets || com.buckets.length === 0) && !taskPubComClassProp.filterBuckets" class="small">
 								<span>There are no value components identified for this project.</span>
 							</li>
 
@@ -143,18 +143,25 @@
 							</li>
 
 							<!-- there are no buckets defined on the project -->
-							<li ng-if="com.topics.length === 0 && !taskPubComClassProp.filterTopics" class="small">
+							<li ng-if="(!com.topics || com.topics.length === 0) && !taskPubComClassProp.filterTopics" class="small">
 								There are no topics identified for this project.
 							</li>
 
 						</ul>
 					</div>
 
-
+					<div ng-show="taskPubComClassProp.noClassificationPossible">
+						<label class="control-label">
+							Reason for No Classification
+						</label>
+						<textarea class="form-control input-sm" ng-model="com.proponentNotes" rows=4></textarea>
+						<span class="help-block">When finished, click Next Comment.</span>
+					</div>
 
 					<div class="text-right">
+						<a href class="btn-link btn" ng-click='taskPubComClassProp.noClassificationPossible = true' ng-if="com.proponentStatus !== 'Classified'" title="Comment classification is not possible or appropriate">None</a>
 						<a href class="btn-link btn" ng-click='taskPubComClassProp.deferCommentStatus(com)' ng-if="com.proponentStatus !== 'Deferred'">Defer</a>
-						<a href class="btn-link btn" ng-click='taskPubComClassProp.finalizeCommentStatus(com)' ng-if="com.proponentStatus !== 'Classified'">Next Comment <span class="glyphicon glyphicon-chevron-right"></span></a>
+						<a href class="btn-link btn" ng-click='taskPubComClassProp.finalizeCommentStatus(com)'>Next Comment <span class="glyphicon glyphicon-chevron-right"></span></a>
 					</div>
 
 				</td>
@@ -174,8 +181,7 @@
 	</table>
 
 	<div class="panel-footer text-right">
-		{{ taskPubComClassProp.unclassifiedCount || 0 }} Comments Remaining
-		{{ taskPubComClassProp.activeComment }}
+		{{ taskPubComClassProp.unclassifiedCount || 0 }} Comment{{ (taskPubComClassProp.unclassifiedCount === 1) ? '' : 's' }} Remaining
 	</div>
 
 </div>

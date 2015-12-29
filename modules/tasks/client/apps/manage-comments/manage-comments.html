@@ -33,7 +33,8 @@
 			<tr ng-repeat="com in taskManComm.comments | filter:taskManComm.filterKeyword track by $index" ng-class="{'bg-danger': com.overallStatus === 'Rejected', 'bg-info': com.overallStatus === 'In Progress'}" ng-click="taskManComm.activeComments[com._id] = !taskManComm.activeComments[com._id]">
 				<td>
 					<div ng-show="taskManComm.activeComments[com._id]">
-						{{ com.comment | safeHtml }}
+						{{ com.comment | safeHtml }}<br>
+						{{ com.buckets | json }}
 					</div>
 					<div ng-show="!taskManComm.activeComments[com._id]">
 						{{ com.comment | safeHtml | max15Words }}
