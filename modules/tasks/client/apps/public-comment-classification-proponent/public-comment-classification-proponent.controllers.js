@@ -18,13 +18,13 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 	// Keep track of the active comment for display of the edit controls.
 	// Only one of these can be seen at a time.
 	// All comparisons take place at the template level.
-	taskPubComClassProp.activeComment = {};
-
 	taskPubComClassProp.filterScopeComment = false;
 	taskPubComClassProp.filterScopeValueComponents = true;
 	taskPubComClassProp.filterScopeTopics = true;
 	
 	taskPubComClassProp.data = {comments: []};
+
+	taskPubComClassProp.noClassificationPossible = false;
 	// -----------------------------------------------------------------------------------
 	//
 	// Get the current project
@@ -38,7 +38,6 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 			// fetch New Comment will make sure we don't fetch another comment if there already is one unclassified pending.
 			TaskPublicCommentClassificationProponent.getStart(newValue._id).then( function(res) {
 				taskPubComClassProp.data.comments = res.data;
-		
 				taskPubComClassProp.fetchNewComment();
 			});
 		}
@@ -62,13 +61,13 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 	// Set Comment to Classified and get another.
 	//
 	// -----------------------------------------------------------------------------------
-	taskPubComClassProp.finalizeCommentStatus = function(com) {
+	taskPubComClassProp.finalizeCommentStatus = function(comment) {
 		// status change in progress
-		if ((com.buckets && com.buckets.length > 0) || (com.topics && com.topics.length > 0) || (com.proponentNotes)) {
+		if ((comment.buckets && comment.buckets.length > 0) || (comment.topics && comment.topics.length > 0) || (comment.proponentNotes)) {
 			// proceed with status change
 			// must have buckets or topics or a reason why not.
-			TaskPublicCommentClassificationProponent.setCommentClassify(com).then( function(res) {
-				com = _.assign(com, res.data);
+			TaskPublicCommentClassificationProponent.setCommentClassify(comment).then( function(res) {
+				comment = _.assign(comment, res.data);
 
 				// One has been classified, get another comment.
 				taskPubComClassProp.fetchNewComment();
@@ -84,13 +83,11 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 	//
 	// -----------------------------------------------------------------------------------
 	taskPubComClassProp.fetchNewComment = function() {
-		// set the filter to show the unclassified one.
-		taskPubComClassProp.filter = 'Unclassified';
+		taskPubComClassProp.activeComment = null;
 
 		// detect if there is an unclassified comment in the array, if so, select it.
-		taskPubComClassProp.activeComment = null;
 		_.each(taskPubComClassProp.data.comments, function(comment) {
-			if( comment.proponentStatus === 'Unclassified') {
+			if ((comment.proponentStatus === taskPubComClassProp.filter) && !taskPubComClassProp.activeComment) {
 				taskPubComClassProp.activeComment = comment;
 			}
 		});
@@ -102,13 +99,20 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 			console.log('CLASS: no active found');			
 			TaskPublicCommentClassificationProponent.getNextComment(taskPubComClassProp.project._id).then( function(res) {
 				console.log('CLASS: get new response', res);
+
 				taskPubComClassProp.data.comments.push(res.data);
+				taskPubComClassProp.filter = 'Unclassified';
 				taskPubComClassProp.activeComment = res.data;
+				taskPubComClassProp.noClassificationPossible = false;
+
 				console.log('CLASS: final', taskPubComClassProp.data.comments);
 			});
 		}
+
 		// get the count of other pending comments.
-		taskPubComClassProp.refreshPendingCount();
+		TaskPublicCommentClassificationProponent.getUnclassifiedCount(taskPubComClassProp.project._id).then( function(res) {
+			taskPubComClassProp.unclassifiedCount = res.data.count;
+		});
 	};
 	// -----------------------------------------------------------------------------------
 	//
@@ -134,19 +138,6 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 			taskPubComClassProp.task = newValue;
 		}
 	});
-
-
-
-	// -----------------------------------------------------------------------------------
-	//
-	// Refresh Footer Count
-	//
-	// -----------------------------------------------------------------------------------
-	taskPubComClassProp.refreshPendingCount = function() {
-		TaskPublicCommentClassificationProponent.getUnclassifiedCount(taskPubComClassProp.project._id).then( function(res) {
-			taskPubComClassProp.unclassifiedCount = res.data.count;
-		});
-	};
 	// -----------------------------------------------------------------------------------
 	//
 	// Set task as complete.  Currently no UI to support.

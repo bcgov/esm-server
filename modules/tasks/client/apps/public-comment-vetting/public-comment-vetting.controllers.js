@@ -23,9 +23,22 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 		// status change in progress
 		if (taskPubComVet.workingStatus) {
 			// determine if any documents have yet to be vetted
+			// if they have, update that status
 			_.each(com.documents, function(doc) {
-				if (doc.status === 'Unvetted' || !doc.status) {
+				if (doc.eaoStatus === 'Unvetted' || !doc.eaoStatus) {
 					pendingDocument = true;
+				} else if (doc.eaoStatus === 'Published') {
+					PublicCommentVetting.setDocumentPublish(doc._id).then( function(res) {
+						doc = _.assign(doc, res.data);
+					});
+				} else if (doc.eaoStatus === 'Deferred') {					
+					PublicCommentVetting.setDocumentDefer(doc._id).then( function(res) {
+						doc = _.assign(doc, res.data);
+					});
+				} else if (doc.eaoStatus === 'Rejected') {
+					PublicCommentVetting.setDocumentReject(doc._id).then( function(res) {
+						doc = _.assign(doc, res.data);
+					});
 				}
 			});
 			if (!pendingDocument) {

@@ -40,6 +40,19 @@ function servicePublicCommentVetting($http) {
 	};
 
 
+	var setDocumentDefer = function(documentId) {
+		return $http({method:'PUT',url: '/api/commentdocument/' + documentId + '/eao/defer'});
+	};
+
+	var setDocumentPublish = function(documentId) {
+		return $http({method:'PUT',url: '/api/commentdocument/' + documentId + '/eao/publish'});
+	};
+
+	var setDocumentReject = function(documentId) {
+		return $http({method:'PUT',url: '/api/commentdocument/' + documentId + '/eao/reject'});
+	};
+
+
 	return {
 		getStart: getStart,
 		getNextComment: getNextComment,
@@ -47,6 +60,9 @@ function servicePublicCommentVetting($http) {
 		setCommentPublish: setCommentPublish,
 		setCommentReject: setCommentReject,
 		setCommentSpam: setCommentSpam,
-		getUnvettedCount: getUnvettedCount
+		getUnvettedCount: getUnvettedCount,
+		setDocumentDefer: setDocumentDefer,
+		setDocumentPublish: setDocumentPublish,
+		setDocumentReject: setDocumentReject
 	};
 }

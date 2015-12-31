@@ -110,7 +110,7 @@
 						<li>
 							<div class="btn-group btn-group-sm">
 								<button class="btn btn-default" ng-click="vm.form.view = 'bydate'"	ng-class="{'btn-primary': vm.form.view === 'bydate'}">By Date</button>
-								<button class="btn btn-default" ng-click="vm.form.view = 'byvc'"	ng-class="{'btn-primary': vm.form.view === 'byvc'}">By Topic</button>
+<!-- 								<button class="btn btn-default" ng-click="vm.form.view = 'byvc'"	ng-class="{'btn-primary': vm.form.view === 'byvc'}">By Topic</button> -->
 							</div>
 						</li>
 					</ul>
@@ -192,15 +192,23 @@
 				<div class="panel panel-default panel-concern" ng-show='form[title]' ng-repeat='item in items | filter:vm.filterKeyword'>
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-sm-8">
+							<div class="col-sm-9">
 								{{ item.comment }}
 							</div>
-							<div class="col-sm-4">
-								{{ item.author }}<br/>
-								{{ item.dateAdded}}
-								<ul ng-if="item.documents">
-									<li ng-repeat="file in item.documents">{{ file.title }}</li>
+							<div class="col-sm-3">
+								<p ng-if="item.author">Name: {{ item.author }}</p>
+								<p>{{ item.dateAdded | amDateFormat:'MMM Do, YYYY h:mm a'}}</p>
+								<hr/>
+								<ul class="list-unstyled document-vetting small">
+									<li ng-repeat="doc in item.documents">
+										<a href="{{ doc.url }}" target="_new" class="small" ng-if="doc.eaoStatus !== 'Rejected'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
+										<span class="small text-warning" ng-if="doc.eaoStatus === 'Rejected'"><i class="glyphicon glyphicon-file"></i> {{ doc.name }} has not been shared as it does not meet the privacy policy rules.</span>
+									</li>
+									<li ng-if="item.documents.length === 0">
+										There are no documents associated with this comment.
+									</li>
 								</ul>
+
 							</div>
 						</div>
 					</div>
