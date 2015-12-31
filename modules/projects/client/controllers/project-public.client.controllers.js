@@ -51,12 +51,15 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment) {
 // CONTROLLER: Modal: Add Anon Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalAddComment.$inject = ['$modalInstance', 'Project', 'rProject'];
+controllerModalAddComment.$inject = ['$modalInstance', '$scope', 'Project', 'rProject'];
 //
-function controllerModalAddComment($modalInstance, Project, rProject) { 
+function controllerModalAddComment($modalInstance, $scope, Project, rProject) { 
 	var publicComment = this;
+	var commentSubmitted = false;
 
+	publicComment.project = rProject;
 	publicComment.sent = false;
+
 
 	Project.getNewPublicComment().then( function(res) {
 		publicComment.data = res.data;
@@ -64,15 +67,24 @@ function controllerModalAddComment($modalInstance, Project, rProject) {
 	});
 
 	publicComment.send = function () {
-		Project.addPublicComment(publicComment.data).then( function(res) {
-			publicComment.sent = true;			
-		});
+		// indicate submission so the docmentUploadComplete event will take care of the close.
+		commentSubmitted = true;
+		$scope.$broadcast('documentUploadStart');
 	};
 	
 	publicComment.ok = function () {
 		$modalInstance.close();				
 	};
 
+	// Any posible document has been uploaded so now save the record.
+	// If no documents, this is still triggered.
+	$scope.$on('documentUploadComplete', function() {
+		if( commentSubmitted ) {
+			Project.addPublicComment(publicComment.data).then( function(res) {
+				publicComment.sent = true;
+			});
+		}
+	})
 
 	publicComment.cancel = function () { $modalInstance.dismiss('cancel'); };
 }

@@ -13,7 +13,7 @@
 
 	<a href ng-click="publicComment.form.showDocuments = true" ng-show="!publicComment.form.showDocuments">Click here to upload documents and images.</a>
 	<div ng-show="publicComment.form.showDocuments">
-		<tmpl-documents-upload-general x-project="publicComment.project" x-type='comment'></tmpl-documents-upload-general>
+		<tmpl-documents-upload-general x-project="publicComment.project" x-type="comment" x-hide-upload-button="true" x-parent-id="publicComment.data._id"></tmpl-documents-upload-general>
 	</div>
 </div>
 

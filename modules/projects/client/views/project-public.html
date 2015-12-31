@@ -133,7 +133,7 @@
 
 			<div ng-repeat="bucket in filteredBuckets = (vm.project.buckets | filter:vm.filterKeyword)" class="concern-list" ng-show="vm.form.view === 'byvc'">
 				<h3 ng-click='form[point.group] = !form[point.group]' class="clickable concern-heading">
-					{{ bucket.name }} <div class="pull-right">({{ filteredBuckets.length || 0 }})</div>
+					{{ bucket.name }} <div class="pull-right small"><span ng-if="!form[point.group]">Click to expand.</span> Number of comments: {{ filteredBuckets.length || 0 }}</div>
 				</h3>
 				<hr ng-if='!form[point.group] && !$last'>
 
@@ -186,9 +186,9 @@
 
 			<div ng-repeat="(title, items) in vm.commentsByDate" class="concern-list" ng-show="vm.form.view === 'bydate'">
 				<h3 ng-click='form[title] = !form[title]' class="clickable concern-heading">
-					{{ title }} <div class="pull-right">{{ (items| filter:vm.filterKeyword).length || 0 }}</div>
+					{{ title }} <div class="pull-right small"><span ng-if="!form[title]">Click to expand.</span> Number of comments: {{ (items| filter:vm.filterKeyword).length || 0 }}</div>
 				</h3>
-				<hr ng-if='!form[title] && !$last'>
+				<hr ng-if='!form[title]'>
 				<div class="panel panel-default panel-concern" ng-show='form[title]' ng-repeat='item in items | filter:vm.filterKeyword'>
 					<div class="panel-body">
 						<div class="row">

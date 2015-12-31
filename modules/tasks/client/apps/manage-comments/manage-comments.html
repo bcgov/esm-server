@@ -34,7 +34,7 @@
 				<td>
 					<div ng-show="taskManComm.activeComments[com._id]">
 						{{ com.comment | safeHtml }}<br>
-						{{ com.buckets | json }}
+						{{ com.documents | json }}
 					</div>
 					<div ng-show="!taskManComm.activeComments[com._id]">
 						{{ com.comment | safeHtml | max15Words }}

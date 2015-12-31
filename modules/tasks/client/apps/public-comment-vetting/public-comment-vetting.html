@@ -34,13 +34,13 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="com in filteredComments = (taskPubComVet.data.comments | filter:{eaoStatus: taskPubComVet.filter}:true | filter:taskPubComVet.filterKeyword) track by $index" ng-class="{'bg-warning':taskPubComVet.activeCommentId === com._id}">
+			<tr ng-repeat="com in filteredComments = (taskPubComVet.data.comments | filter:{eaoStatus: taskPubComVet.filter}:true | filter:taskPubComVet.filterKeyword) track by $index" ng-class="{'bg-warning':taskPubComVet.activeComment._id === com._id}">
 
-				<td width="60%" ng-if="taskPubComVet.activeCommentId === com._id"><small>{{ com.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}</small><br/><small>{{ com.author }}</small>
+				<td width="60%" ng-if="taskPubComVet.activeComment._id === com._id"><small>{{ com.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}</small><br/><small>{{ com.author }}</small>
 					<div ng-bind-html="com.comment | safeHtml"></div>
 				</td>
 
-				<td width="40%" ng-if="taskPubComVet.activeCommentId === com._id">
+				<td width="40%" ng-if="taskPubComVet.activeComment._id === com._id">
 
 					<ul class="list-unstyled document-vetting no-lower-margin">
 						<li class="clearfix"><small>Overall Comment</small>
@@ -67,7 +67,7 @@
 				</td>
 
 
-				<td width="100%" colspan="2" ng-if="taskPubComVet.activeCommentId !== com._id" class="text-muted clickable" ng-click="taskPubComVet.activeCommentId = com._id">
+				<td width="100%" colspan="2" ng-if="taskPubComVet.activeComment._id !== com._id" class="text-muted clickable" ng-click="taskPubComVet.setActiveComment(com)">
 					<div ng-bind-html="com.comment | safeHtml | max15Words"></div>
 				</td>
 
