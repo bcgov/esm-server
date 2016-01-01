@@ -8,9 +8,9 @@
 		<div class='col-sm-3'>
 			<div class="panel panel-default project-info-panel">
 				<div class='panel-heading'>
-					<div><label class="control-label">Developer</label><p>{{ vm.project.proponent.name }}</p></div>
 					<div><label class="control-label">Type</label><p>{{ vm.project.type }}</p></div>
-					<div><label class="control-label">Location</label><p>{{ vm.project.region | titleCase }}</p></div>
+					<div><label class="control-label">Location</label><p>{{ vm.project.location }}</p></div>
+					<div><label class="control-label">Region</label><p>{{ vm.project.region | titleCase }}</p></div>
 					<div><label class="control-label">Description</label><p>{{ vm.project.description }}</p></div>
 					<p><small><a href><span class='glyphicon glyphicon-file'></span> Comprehensive Project Description</a></small></p>
 				</div>
@@ -23,7 +23,7 @@
 
 				</div>
 				
-				<div class='panel-body'>
+				<div class='panel-body' ng-show="vm.commentsByDateVis">
 					<label class="control-label">Comment Volume by Date</label>
 					<tmpl-public-project-comments-by-date x-refresh="vm.refreshVisualization" x-data="vm.commentsByDateVis"></tmpl-public-project-comments-by-date>
 				</div>
@@ -240,7 +240,7 @@
 				</div>
 			</div> -->
 
-			<div ng-show="filteredComments.length === 0 && vm.form.view === 'bydate'">
+			<div ng-show="vm.commentsByDates.length === 0 && vm.form.view === 'bydate'">
 				<h3 class="text-info">No comments are available for this project yet.</h3>
 			</div>
 
