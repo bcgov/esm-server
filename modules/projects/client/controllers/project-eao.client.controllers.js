@@ -66,9 +66,9 @@ function controllerEAOProjectNew(Project, $state) {
 // CONTROLLER: EAO Project New
 //
 // -----------------------------------------------------------------------------------    
-controllerEAOProjectEdit.$inject = ['$state', 'Project', 'Configuration'];
+controllerEAOProjectEdit.$inject = ['$state', 'Project', 'Configuration', '_'];
 //
-function controllerEAOProjectEdit($state, Project, Configuration) {
+function controllerEAOProjectEdit($state, Project, Configuration, _) {
 	var projectEntry = this;
 
 	projectEntry.questions = Project.getProjectIntakeQuestions();
