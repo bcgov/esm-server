@@ -58,6 +58,7 @@ function controllerModalAddComment($modalInstance, $scope, Project, rProject) {
 	var commentSubmitted = false;
 
 	publicComment.project = rProject;
+	// sent variable changes the template UI to say thanks.
 	publicComment.sent = false;
 
 
@@ -79,12 +80,13 @@ function controllerModalAddComment($modalInstance, $scope, Project, rProject) {
 	// Any posible document has been uploaded so now save the record.
 	// If no documents, this is still triggered.
 	$scope.$on('documentUploadComplete', function() {
+				console.log('add comment doc upload');
 		if( commentSubmitted ) {
 			Project.addPublicComment(publicComment.data).then( function(res) {
 				publicComment.sent = true;
 			});
 		}
-	})
+	});
 
 	publicComment.cancel = function () { $modalInstance.dismiss('cancel'); };
 }

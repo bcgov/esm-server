@@ -19,8 +19,16 @@
 <section ng-show="configStream.activeRecord.phases.length > 0">
 <hr>
 <h3>Add Milestones to Phases</h3>
-    <div ng-repeat="phase in configStream.activeRecord.phases track by $index"">
-        <em class="small text-success">phase:</em> <a href x-modal-select-items x-all-items="configStream.data.milestones" x-single='false' x-selected-items="configStream.tree.milestonesByPhase[phase._id]" x-item-name="Milestones for {{ phase.name }}" x-callback="configStream.milestonesToPhase">{{ phase.name }}</a>
+    <div ng-repeat="phase in configStream.activeRecord.phases track by $index">
+        <em class="small text-success">phase:</em>
+        <a href
+            x-modal-select-items
+            x-all-items="configStream.data.milestones"
+            x-single="false"
+            x-parent-object="phase"
+            x-selected-items="configStream.tree.milestonesByPhase[phase._id]"
+            x-item-name="Milestones for {{ phase.name }}"
+            x-callback="configStream.milestonesToPhase">{{ phase.name }}</a>
         <ul>
             <li ng-show="configStream.tree.milestonesByPhase[phase._id].length === 0">No milestones selected</a></li>
             <li ng-repeat="milestone in configStream.tree.milestonesByPhase[phase._id] track by $index"><em class="small text-success">milestone:</em>&nbsp;{{ milestone.name }}</li>
@@ -32,20 +40,42 @@
 <section ng-show="configStream.activeRecord.phases.length > 0">
 <hr>
 <h3>Add Activities to Phases / Add Tasks to Activities / Add Requirements to Tasks</h3>
-    <div ng-repeat="phase in configStream.activeRecord.phases track by $index"">
-        <em class="small text-success">phase:</em> <a href x-modal-select-items x-all-items="configStream.data.activities" x-single='false' x-selected-items="configStream.tree.activitiesByPhase[phase._id]" x-item-name="Activities for {{ phase.name }}" x-callback="configStream.activitiesToPhase">{{ phase.name }}</a>
+    <div ng-repeat="phase in configStream.activeRecord.phases track by $index">
+        <em class="small text-success">phase:</em>
+        <a href
+            x-modal-select-items
+            x-all-items="configStream.data.activities"
+            x-single="false"
+            x-parent-object="phase"
+            x-selected-items="configStream.tree.activitiesByPhase[phase._id]"
+            x-item-name="Activities for {{ phase.name }}"
+            x-callback="configStream.activitiesToPhase">{{ phase.name }}</a>
         <ul>
             <li ng-show="configStream.tree.activitiesByPhase[phase._id].length === 0">No activities selected</a></li>
             <li ng-repeat="activity in configStream.tree.activitiesByPhase[phase._id] track by $index"> <em class="small text-success">activity:</em>
 
 
-                <a href x-modal-select-items x-all-items="configStream.data.tasks" x-single='false' x-selected-items="configStream.tree.tasksByActivity[activity._id]" x-item-name="Tasks for {{ activity.name }}" x-callback="configStream.tasksToActivity">{{ activity.name }}</a>
+                <a href
+                    x-modal-select-items
+                    x-all-items="configStream.data.tasks"
+                    x-single="false"
+                    x-parent-object="activity"
+                    x-selected-items="configStream.tree.tasksByActivity[activity._id]"
+                    x-item-name="Tasks for {{ activity.name }}"
+                    x-callback="configStream.tasksToActivity">{{ activity.name }}</a>
                 <ul>
                     <li ng-show="configStream.tree.tasksByActivity[activity._id].length === 0">No tasks selected</a></li>
                     <li ng-repeat="task in configStream.tree.tasksByActivity[activity._id] track by $index"><em class="small text-success">task:</em>
 
 
-                        <a href x-modal-select-items x-all-items="configStream.data.requirements" x-single='false' x-selected-items="configStream.tree.requirementsByTask[task._id]" x-item-name="Requirements for {{ task.name }}" x-callback="configStream.requirementsToTask">{{ task.name }}</a>
+                        <a href
+                            x-modal-select-items
+                            x-all-items="configStream.data.requirements"
+                            x-single="false"
+                            x-parent-object="task"
+                            x-selected-items="configStream.tree.requirementsByTask[task._id]"
+                            x-item-name="Requirements for {{ task.name }}"
+                            x-callback="configStream.requirementsToTask">{{ task.name }}</a>
                         <ul>
                             <li ng-show="configStream.tree.requirementsByTask[task._id].length === 0">No requirements selected</a></li>
                             <li ng-repeat="requirement in configStream.tree.requirementsByTask[task._id] track by $index"><em class="small text-success">requirement:</em>&nbsp;{{ requirement.name }}</li>
@@ -62,13 +92,20 @@
 <section ng-show="configStream.activeRecord.buckets.length > 0">
 <hr>
 <h3>Add Requirements to Buckets</h3>
-    <div ng-repeat="bucket in configStream.activeRecord.buckets track by $index"">
+    <div ng-repeat="bucket in configStream.activeRecord.buckets track by $index">
         <em class="small text-success">bucket:</em>
 
-        <a href x-modal-select-items x-all-items="configStream.data.requirements" x-single='false' x-selected-items="configStream.tree.requirementsByBucket[bucket._id]" x-item-name="Requirements for {{ bucket.name }}" x-callback="configStream.requirementsToBucket">{{ bucket.name }}</a>
+        <a href
+            x-modal-select-items
+            x-all-items="configStream.data.requirements" 
+            x-single="false"
+            x-parent-object="bucket"
+            x-selected-items="configStream.tree.requirementsByBucket[bucket._id]"
+            x-item-name="Requirements for {{ bucket.name }}"
+            x-callback="configStream.requirementsToBucket">{{ bucket.name }}</a>
         <ul>
             <li ng-show="configStream.tree.requirementsByBucket[bucket._id].length === 0">No requirements selected</a></li>
-            <li ng-repeat="requirement in configStream.tree.requirementsByBucket[bucket._id] track by $index"><em class="small text-success">requirement:</em>&nbsp;{{ requirement.name }}</li>
+            <li ng-repeat="bucketRequirement in configStream.tree.requirementsByBucket[bucket._id] track by $index"><em class="small text-success">requirement:</em>&nbsp;{{ bucketRequirement.name }}</li>
         </ul>
 
     </div>
@@ -78,13 +115,20 @@
 <section ng-show="configStream.activeRecord.milestones.length > 0">
 <hr>
 <h3>Add Requirements to Milestones</h3>
-    <div ng-repeat="milestone in configStream.activeRecord.milestones track by $index"">
+    <div ng-repeat="milestone in configStream.activeRecord.milestones track by $index">
         <em class="small text-success">milestone:</em>
 
-        <a href x-modal-select-items x-all-items="configStream.data.requirements" x-single='false' x-selected-items="configStream.tree.requirementsByMilestone[milestone._id]" x-item-name="Requirements for {{ milestone.name }}" x-callback="configStream.requirementsToMilestone">{{ milestone.name }}</a>
+        <a href
+            x-modal-select-items
+            x-all-items="configStream.data.requirements"
+            x-single="false"
+            x-parent-object="milestone"
+            x-selected-items="configStream.tree.requirementsByMilestone[milestone._id]"
+            x-item-name="Requirements for {{ milestone.name }}"
+            x-callback="configStream.requirementsToMilestone">{{ milestone.name }}</a>
         <ul>
             <li ng-show="configStream.tree.requirementsByMilestone[milestone._id].length === 0">No requirements selected</a></li>
-            <li ng-repeat="requirement in configStream.tree.requirementsByMilestone[milestone._id] track by $index"><em class="small text-success">requirement:</em>&nbsp;{{ requirement.name }}</li>
+            <li ng-repeat="milestoneRequirement in configStream.tree.requirementsByMilestone[milestone._id] track by $index"><em class="small text-success">requirement:</em>&nbsp;{{ milestoneRequirement.name }}</li>
         </ul>
 
     </div>

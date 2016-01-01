@@ -262,8 +262,7 @@ th .progress-bar {
   padding-top: 1px;
   padding-left: 7px; }
 
-.concern-heading,
-.concern-heading .small {
+.concern-heading {
   color: #f4f4f4; }
 
 .panel-project-summary h3 {

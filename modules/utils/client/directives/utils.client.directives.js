@@ -595,6 +595,7 @@ function directiveModalSelectItems($modal) {
         		allItems: '=',
         		selectedItems: '=',
         		itemName: '@',
+        		parentObject: '=',
         		single: '=',
         		unique: '=',
         		callback: '='
@@ -621,16 +622,16 @@ function directiveModalSelectItems($modal) {
 						},
 						rUnique: function () { // only allow unique selections (move items between columns when selected)
 							return (scope.unique || false);
-						}								
+						}
 					},
 					size: 'lg'
 				});
 				modalSelectItems.result.then(function (newItems) {
 					// fire callback to assign the new selections
 					// or just assign
-					console.log(scope.callback);
+					console.log('callback', scope.callback);
 					if (scope.callback) {
-						scope.callback(newItems, scope.selectedItems);
+						scope.callback(newItems, scope.selectedItems, scope.parentObject);
 					} else {
 						scope.selectedItems = angular.copy(newItems);						
 					}

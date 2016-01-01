@@ -84,7 +84,7 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 	taskPubComVet.setActiveComment = function(comment) {
 		taskPubComVet.activeComment = comment;
 		taskPubComVet.workingStatus = comment.eaoStatus;
-	}
+	};
 
 	// -----------------------------------------------------------------------------------
 	//

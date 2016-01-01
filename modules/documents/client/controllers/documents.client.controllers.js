@@ -67,7 +67,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 				// project type
 				docUpload.targetUrl = '/api/commentdocument/publiccomment/' + parentId + '/upload'; // todo: UPLOAD
 		}
-	}
+	};
 
 	// get types for dropdown.
 	docUpload.docTypes = Document.getDocumentTypes();

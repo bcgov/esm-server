@@ -126,9 +126,9 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 			roles: ['admin', 'user']
 		}
 	})
-	.state('eao.intakeproject', {
-		url: '/intakeproject/:id',
-		template: '<tmpl-eao-project-intake></tmpl-eao-project-intake>',
+	.state('eao.editproject', {
+		url: '/editproject/:id/:tab',
+		template: '<tmpl-eao-project-edit></tmpl-eao-project-edit>',
 		data: {
 			roles: ['admin', 'user']
 		}

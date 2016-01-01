@@ -4,7 +4,7 @@ angular.module('project')
 	// EAO
 	.controller('controllerEAOProject', controllerEAOProject)
 	.controller('controllerEAOProjectNew', controllerEAOProjectNew)
-	.controller('controllerEAOProjectIntake', controllerEAOProjectIntake)
+	.controller('controllerEAOProjectEdit', controllerEAOProjectEdit)
 	.controller('controllerModalProjectEdit', controllerModalProjectEdit)
 	.controller('controllerModalProjectEditPlanSchedule', controllerModalProjectEditPlanSchedule);
 
@@ -31,52 +31,79 @@ function controllerEAOProject($scope, Project, $stateParams) {
 }
 // -----------------------------------------------------------------------------------
 //
-// CONTROLLER: ERAO Project New
+// CONTROLLER: EAO Project New
 //
 // -----------------------------------------------------------------------------------    
-controllerEAOProjectNew.$inject = ['Project'];
+controllerEAOProjectNew.$inject = ['Project', '$state'];
 //
-function controllerEAOProjectNew(Project) {
-	var projectNew = this;
+function controllerEAOProjectNew(Project, $state) {
+	var projectEntry = this;
 
-	projectNew.questions = Project.getProjectIntakeQuestions();
+	projectEntry.questions = Project.getProjectIntakeQuestions();
+	projectEntry.form = {curTab:''};
 
 	// Get blank project
 	Project.getNewProject().then( function(res) {
-		projectNew.project = res.data;
+		projectEntry.project = res.data;
 	});
 
-	projectNew.saveProject = function() {
-		Project.addProject(projectNew.project).then( function(res) {
-			console.log(res);
+	projectEntry.submitProject = function() {
+		projectEntry.project.status = 'Submitted';
+		projectEntry.saveProject();
+	};
+
+	projectEntry.saveProject = function() {
+		Project.addProject(projectEntry.project).then( function(res) {
+			// go to the edit page for the same project.
+			// this time provide a tab for continuty
+			$state.go('eao.editproject', { id: res.data._id, tab: projectEntry.form.curTab });
 		});
 	};
 
 }
 // -----------------------------------------------------------------------------------
 //
-// CONTROLLER: ERAO Project New
+// CONTROLLER: EAO Project New
 //
 // -----------------------------------------------------------------------------------    
-controllerEAOProjectIntake.$inject = ['$state', 'Project', 'Configuration'];
+controllerEAOProjectEdit.$inject = ['$state', 'Project', 'Configuration'];
 //
-function controllerEAOProjectIntake($state, Project, Configuration) {
-	var projectIntake = this;
+function controllerEAOProjectEdit($state, Project, Configuration) {
+	var projectEntry = this;
 
-	projectIntake.questions = Project.getProjectIntakeQuestions();
+	projectEntry.questions = Project.getProjectIntakeQuestions();
+	projectEntry.form = {curTab: $state.params.tab};
 
 	Project.getProject({id: $state.params.id}).then( function(res) {
-		projectIntake.project = res.data;
+		projectEntry.project = res.data;
 	});
 
 	Configuration.getStreams().then(function(res){
-		projectIntake.streams = res.data;
+		projectEntry.streams = res.data;
 	});
 
-	projectIntake.setProjectStream = function() {
-		if ((!projectIntake.project.stream || projectIntake.project.stream === '') && projectIntake.newStream) {
-			Project.setProjectStream(projectIntake.project._id, projectIntake.newStream);
-			$state.go('eao.project', {'id':projectIntake.project._id});
+	projectEntry.submitProject = function() {
+		projectEntry.project.status = 'Submitted';
+		projectEntry.saveProject();
+	};
+
+
+	projectEntry.saveProject = function() {
+		Project.saveProject(projectEntry.project).then( function(res) {
+			projectEntry.project = _.assign(res.data);
+		});
+	};
+
+	// admin users can set the project stream
+	projectEntry.setProjectStream = function() {
+		if ((!projectEntry.project.stream || projectEntry.project.stream === '') && projectEntry.newStream) {
+			projectEntry.project.status = 'In Progress';
+			Project.saveProject(projectEntry.project).then( function(res) {
+				// set the stream then move to the project overview page.
+				Project.setProjectStream(projectEntry.project._id, projectEntry.newStream).then( function() {
+					$state.go('eao.project', {'id':projectEntry.project._id});				
+				});
+			});
 		}
 	};
 }  
