@@ -69,12 +69,14 @@ function controllerConfigStream($rootScope, $scope, Configuration, _) {
         configStream.tree.tasksByActivity = {};
         configStream.tree.requirementsByTask = {};
         configStream.tree.requirementsByMilestone = {};
+        configStream.tree.requirementsByBucket = {};
 
         configStream.tree.buckets = [];
         configStream.tree.phases = [];
 
         _.each(configStream.activeRecord.buckets, function(bucket) {
-            configStream.tree.buckets.push(bucket);           
+            configStream.tree.buckets.push(bucket);
+            configStream.tree.requirementsByBucket[bucket._id] = [];         
         });
 
         _.each(configStream.activeRecord.phases, function(phase) {
@@ -112,10 +114,24 @@ function controllerConfigStream($rootScope, $scope, Configuration, _) {
 
         // process requirement by task id
         _.each(configStream.activeRecord.requirements, function(requirement) {
-            if (!configStream.tree.requirementsByTask[requirement.task]) {
-                configStream.tree.requirementsByTask[requirement.task] = []; 
+            if (requirement.task){
+                if (!configStream.tree.requirementsByTask[requirement.task]) {
+                    configStream.tree.requirementsByTask[requirement.task] = []; 
+                }
+                configStream.tree.requirementsByTask[requirement.task].push(requirement);
             }
-            configStream.tree.requirementsByTask[requirement.task].push(requirement);
+            if (requirement.milestone) {
+                if (!configStream.tree.requirementsByMilestone[requirement.milestone]) {
+                    configStream.tree.requirementsByMilestone[requirement.milestone] = []; 
+                }
+                configStream.tree.requirementsByMilestone[requirement.milestone].push(requirement);
+            }
+            if (requirement.bucket) {
+                if (!configStream.tree.requirementsByBucket[requirement.bucket]) {
+                    configStream.tree.requirementsByBucket[requirement.bucket] = []; 
+                }
+                configStream.tree.requirementsByBucket[requirement.bucket].push(requirement);
+            }
         });
 
         console.log('loaded', configStream.tree);
@@ -209,17 +225,6 @@ function controllerConfigStream($rootScope, $scope, Configuration, _) {
                 });
             }
         });
-        // _.each(configStream.tree.tasksByActivity, function(tasks, activityId) {
-        //     i += tasks.length;
-        //     _.each(tasks, function(task) {
-        //         i--;
-        //         if( !_.some( configStream.activeRecord.tasks, {'_id': task._id}) ) {
-        //             Configuration.addTaskToActivity(activityId, task._id).then( function() {
-        //                 if (i === 0) reloadStream();
-        //             });
-        //         }
-        //     });
-        // });
     };
 
     // add the new requirements to the stream tasks.
@@ -233,22 +238,6 @@ function controllerConfigStream($rootScope, $scope, Configuration, _) {
                 });
             }
         });
-
-
-
-
-
-        // _.each(configStream.tree.requirementsByTask, function(requirements, taskId) {
-        //     i += requirements.length;
-        //     _.each(requirements, function(requirement) {
-        //         i--;
-        //         if( !_.some( configStream.activeRecord.requirements, {'_id': requirement._id}) ) {
-        //             Configuration.addRequirementToTask(taskId, requirement._id).then( function() {
-        //                 if (i === 0) reloadStream();
-        //             });
-        //         }
-        //     });
-        // });
     };
 
     // add the new requirements to the stream buckets.
@@ -263,25 +252,13 @@ function controllerConfigStream($rootScope, $scope, Configuration, _) {
                 });
             }
         });
-
-
-        // _.each(configStream.tree.requirementsByBucket, function(requirements, bucketId) {
-        //     i += requirements.length;
-        //     _.each(requirements, function(requirement) {
-        //         i--;
-        //         if( !_.some( configStream.activeRecord.buckets, {'_id': requirement._id}) ) {
-        //             Configuration.addRequirementToBucket(bucketId, requirement._id).then( function() {
-        //                 if (i === 0) reloadStream();
-        //             });
-        //         }
-        //     });
-        // });
     };
 
     // add the new requirements to the stream milestones.
     configStream.requirementsToMilestone = function(newItems, originalItems, milestone) {
         var i = newItems.length;
         _.each( newItems, function(newItem) {
+            console.log('mile', milestone);
             i--;
             if ( !_.some(configStream.tree.requirementsByMilestone[milestone._id], {'_id': newItem._id})) {
                 Configuration.addRequirementToMilestone(milestone._id, newItem._id).then( function() {
@@ -289,19 +266,6 @@ function controllerConfigStream($rootScope, $scope, Configuration, _) {
                 });
             }
         });
-
-
-        // _.each(configStream.tree.requirementsByMilestone, function(requirements, milestoneId) {
-        //     i += requirements.length;
-        //     _.each(requirements, function(requirement) {
-        //         i--;
-        //         if( !_.some( configStream.activeRecord.milestones, {'_id': requirement._id}) ) {
-        //             Configuration.addRequirementToMilestone(milestoneId, requirement._id).then( function() {
-        //                 if (i === 0) reloadStream();
-        //             });
-        //         }
-        //     });
-        // });
     };
 
 }
