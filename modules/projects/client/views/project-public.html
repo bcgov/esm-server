@@ -12,7 +12,7 @@
 					<div><label class="control-label">Location</label><p>{{ vm.project.location }}</p></div>
 					<div><label class="control-label">Region</label><p>{{ vm.project.region | titleCase }}</p></div>
 					<div><label class="control-label">Description</label><p>{{ vm.project.description }}</p></div>
-					<p><small><a href><span class='glyphicon glyphicon-file'></span> Comprehensive Project Description</a></small></p>
+					<p ng-if="0"><small><a href><span class='glyphicon glyphicon-file'></span> Comprehensive Project Description</a></small></p>
 				</div>
 
 				<div class="location-map">
@@ -23,7 +23,7 @@
 
 				</div>
 				
-				<div class='panel-body' ng-show="vm.comments">
+				<div class='panel-body' ng-show="vm.comments.length !== 0">
 					<label class="control-label">Comment Volume by Date</label>
 					<tmpl-public-project-comments-by-date x-refresh="vm.refreshVisualization" x-data="vm.commentsByDateVis"></tmpl-public-project-comments-by-date>
 				</div>
@@ -103,7 +103,7 @@
 			</div>
  -->
 
-			<nav class="navbar navbar-default navbar-sm" ng-init="vm.form.view = 'bydate'" ng-if="vm.comments">
+			<nav class="navbar navbar-default navbar-sm" ng-init="vm.form.view = 'bydate'" ng-if="vm.comments.length !== 0">
 				<div class="container-fluid">
 
 					<ul class="nav navbar-nav navbar-form navbar-left">
@@ -240,8 +240,8 @@
 				</div>
 			</div> -->
 
-			<div ng-show="vm.comments && vm.form.view === 'bydate'">
-				<h3 class="text-info">No comments are available for this project yet.</h3>
+			<div ng-show="vm.comments.length === 0 && vm.form.view === 'bydate'" class="concern-heading">
+				<h3>No comments are available for this project yet.</h3>
 				<p>Please check back for information regarding upcoming Public Comment Periods</p>
 			</div>
 
