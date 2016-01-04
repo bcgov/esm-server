@@ -15,7 +15,7 @@
 
 					<div class="input-group" ng-show="taskPubComSched.task.status === 'In Progress'">
 						<input type="text" class="form-control text-center" ng-model="taskPubComSched.data.startDate" ng-disabled="1"/>
-						<div x-modal-date-picker x-selected-date="taskPubComSched.data.startDate" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
+						<div x-modal-date-picker x-selected-date="taskPubComSched.data.startDate" class="input-group-addon btn-default"><i class="glyphicon glyphicon-calendar"></i></div>
 					</div>
 					
 					<div class="input-group" ng-show="taskPubComSched.task.status !== 'In Progress'">
@@ -29,7 +29,7 @@
 
 					<div class="input-group" ng-show="taskPubComSched.task.status === 'In Progress'">
 						<input type="text" class="form-control text-center" ng-model="taskPubComSched.data.endDate" ng-disabled="1"/>
-						<div x-modal-date-picker x-selected-date="taskPubComSched.data.endDate" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
+						<div x-modal-date-picker x-selected-date="taskPubComSched.data.endDate" class="input-group-addon btn-default"><i class="glyphicon glyphicon-calendar"></i></div>
 					</div>
 
 					<div class="input-group" ng-show="taskPubComSched.task.status !== 'In Progress'">
@@ -39,7 +39,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="alert alert-warning">
+		<div class="alert alert-warning" ng-show="taskPubComSched.data.startDate">
 			<div class="text-center" ng-if="taskPubComSched.data.startDate | isInTheFuture">
 				<small>Comment Period Starts In</small>
 				<countdown-clock x-end="taskPubComSched.data.startDate"></countdown-clock>
@@ -96,7 +96,7 @@
 				<td width="49%">
 					<div class="input-group">
 						<input type="text" class="form-control text-center" ng-model="oh.dateScheduled" ng-disabled="1"/>
-						<div x-modal-date-picker x-selected-date="oh.dateScheduled" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
+						<div x-modal-date-picker x-selected-date="oh.dateScheduled" class="input-group-addon btn-default"><i class="glyphicon glyphicon-calendar"></i></div>
 					</div>
 				</td>
 				

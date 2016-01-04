@@ -34,6 +34,11 @@
 
 		<div class='col-sm-9'>
 
+			<div class="alert alert-info text-center" ng-if="vm.project.dateCommentsOpen | isInTheFuture">
+				Public Comment Period begins on <strong>{{ vm.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}}</strong>
+				<countdown-clock x-end="vm.project.dateCommentsOpen"></countdown-clock>
+			</div>
+
 			<div class="alert alert-info clickable" x-modal-add-public-comment x-project="vm.project" ng-if="(vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)">
 				<div class="text-center">
 					<p>Public Comments Open from <strong>{{ vm.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}}</strong> to <strong>{{ vm.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY' }}</strong></p>

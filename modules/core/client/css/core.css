@@ -191,10 +191,11 @@ h3 .small .label {
 
 .panel-sort li {
   font-size: 80%;
-  color: #fff; }
+  color: #fff;
+  white-space: nowrap; }
 
 .panel-sort li a {
-  padding: 0 5px;
+  padding: 0 5px 0 2px;
   color: #fff; }
 
 .panel-sort li:before {
@@ -202,6 +203,9 @@ h3 .small .label {
 
 .panel-sort li:first-child:before {
   content: ''; }
+
+.panel-sort li a span:after {
+  content: '\0020'; }
 
 .panel-sort li.asc a span:after {
   content: '\0020\25B2'; }

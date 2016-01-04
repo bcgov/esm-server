@@ -17,14 +17,14 @@ function controllerTaskPublicCommentPeriodScheduling($scope, $rootScope, moment,
 		startDate: null,
 		endDate: null,
 		openHouses: [
-			{
-				location: "1234 Main Street \nSmallville, BC",
-				dateScheduled: "Wed Dec 16 2015 10:30:00 GMT-0800 (PST)"
-			},
-			{
-				location: "1234 Main Avenue \nBigtown, BC",
-				dateScheduled: "Wed Dec 16 2015 10:30:00 GMT-0800 (PST)"
-			},
+		// 	{
+		// 		location: "1234 Main Street \nSmallville, BC",
+		// 		dateScheduled: "Wed Dec 16 2015 10:30:00 GMT-0800 (PST)"
+		// 	},
+		// 	{
+		// 		location: "1234 Main Avenue \nBigtown, BC",
+		// 		dateScheduled: "Wed Dec 16 2015 10:30:00 GMT-0800 (PST)"
+		// 	},
 		],
 		showScopeTopicAddButton: true
 	};
