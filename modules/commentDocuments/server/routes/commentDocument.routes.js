@@ -49,7 +49,7 @@ module.exports = function (app) {
 	// upload a document to this comment
 	//
 	app.route ('/api/commentdocument/:commentdocument/fetch').all (policy.isAllowed)
-		.get (controller.upload);
+		.get (controller.fetchd);
 	//
 	// middleware to auto-fetch parameter
 	//

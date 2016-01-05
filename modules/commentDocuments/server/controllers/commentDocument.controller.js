@@ -133,4 +133,20 @@ var upload = function (req, res) {
 	}
 };
 exports.upload = upload;
+// -------------------------------------------------------------------------
+//
+// fetch a document from the server wherever it may live
+//
+// -------------------------------------------------------------------------
+var fetchd = function (req, res) {
+	//
+	// if the url starts with http or ftp then we redirect
+	//
+	if (req.CommentDocument.url.match (/^(http|ftp)/)) {
+		res.redirect (req.CommentDocument.url);
+	} else {
+		helpers.streamFile (res, req.CommentDocument.url, req.CommentDocument.name, req.CommentDocument.mime);
+	}
+};
+exports.fetchd = fetchd;
 
