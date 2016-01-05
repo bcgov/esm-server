@@ -3,28 +3,27 @@
 	<table class="table table-condensed table-striped">
 		<thead>
 			<tr>
-				<th width="19%"><small>Project</small></th>
+				<th width="20%"><small>Project</small></th>
 				<th width="16%"><small>-1 month</small></th>
 				<th width="16%"><small>this month</small></th>
 				<th width="16%"><small>next month</small></th>
 				<th width="16%"><small>+2 months</small></th>
 				<th width="16%"><small>+3 months</small></th>				
-				<th width="1%"></th>
 			</tr>
 		</thead>	
 		<tbody>
-			<tr ng-repeat="project in projectList.projects" class='clickable'>
-				<td ui-sref="eao.project({id: project._id})">{{ project.name }}</td>
-				<td ui-sref="eao.project({id: project._id})" colspan="5" class="bg-warning">
 
-				</td>
-				<td>
-					<span class="text-nowrap">
-						<a href x-modal-project-edit x-project="project"><span class='glyphicon glyphicon-pencil'></span></a>
-						<a href x-modal-bookmark-project x-user="" x-project="project"><span class='glyphicon glyphicon-bookmark'></span></a>
-					</span>
-				</td>
+			<tr ng-repeat="project in projectList.projects" class='clickable'>
+				<td ng-if="project.status === 'In Progress'" ui-sref="eao.project({id: project._id})">{{ project.name }}</td>
+				<td ng-if="project.status === 'In Progress'" ui-sref="eao.project({id: project._id})" colspan="5" class="bg-warning"><!-- show schedule widget --></td>
+
+				<td ng-if="project.status === 'Certified' || project.status === 'Decomissioned'" ui-sref="eao.project({id: project._id})">{{ project.name }}</td>
+				<td ng-if="project.status === 'Certified' || project.status === 'Decomissioned'" ui-sref="eao.project({id: project._id})" colspan="5">Project received certificate.</td>
+
+				<td ng-if="project.status === 'Initiated' || project.status === 'Submitted'" ui-sref="eao.editproject({id: project._id})">{{ project.name }}</td>
+				<td ng-if="project.status === 'Initiated' || project.status === 'Submitted'" ui-sref="eao.editproject({id: project._id})" colspan="5">{{ project.status }}</td>
 			</tr>
+
 			<tr ng-if="projectList.projects.length === 0">
 				<td colspan="4">No projects match your filter criteria.</td>
 			</tr>

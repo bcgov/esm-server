@@ -4,29 +4,16 @@
 		<h3 class="panel-title">{{ actItem.activity.name }}</h3>
 	</div>
 	<div class="panel-body" ng-show="actItem.activityToggle[actItem.activity._id]">
-		<div class="row">
-			<div class="col-sm-5">
-				{{ actItem.activity.description }}
-			</div>
-			<div class="col-sm-2">				
-				<div><label class="control-label">Last Updated</label><p>{{ actItem.activity.dateUpdated | amDateFormat:'MMM Do, YYYY h:mm a' }}</p></div>
-			</div>
-			<div class="col-sm-2">
-				<div><label class="control-label">Contributor<span ng-if="(actItem.activity.access.visibility.length !== 1)">s</span></label>
-					<ul class="label-list">
-						<li ng-repeat="vis in actItem.activity.access.visibility"><span class="label label-primary">{{ vis.value }}</span></li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div>
-					<label class="control-label">Tasks In Progress</label>
-					<div ng-repeat="task in tasksFiltered = (actItem.project.tasks | filter:{'activity': actItem.activity._id, 'status':'In Progress'})">{{ task.name }} <em class="small">({{ task.status }})</em></div>
-					<p ng-if="tasksFiltered.length === 0">No tasks in progress</p>
-				</div>
-			</div>
 
+		<p>{{ actItem.activity.description }}</p>
+		<div class="form-group">
+			<label class="control-label">Tasks In Progress</label>
+			<ul class="list-unstyled small">
+			<li ng-repeat="task in tasksFiltered = (actItem.project.tasks | filter:{'activity': actItem.activity._id, 'status':'In Progress'})">{{ task.name }}</li>
+			<li ng-if="tasksFiltered.length === 0">No tasks in progress</li>
+			</ul>
 		</div>
+
 	</div>
 	<div class="panel-footer text-right" ng-show="actItem.activityToggle[actItem.activity._id]">
 		<a class="btn btn-primary" href ng-click="actItem.goToActivity(actItem.activity._id)">Manage</a>

@@ -69,12 +69,14 @@ function controllerConfigStream($rootScope, $scope, Configuration, _) {
         configStream.tree.tasksByActivity = {};
         configStream.tree.requirementsByTask = {};
         configStream.tree.requirementsByMilestone = {};
+        configStream.tree.requirementsByBucket = {};
 
         configStream.tree.buckets = [];
         configStream.tree.phases = [];
 
         _.each(configStream.activeRecord.buckets, function(bucket) {
-            configStream.tree.buckets.push(bucket);           
+            configStream.tree.buckets.push(bucket);
+            configStream.tree.requirementsByBucket[bucket._id] = [];         
         });
 
         _.each(configStream.activeRecord.phases, function(phase) {
@@ -112,11 +114,27 @@ function controllerConfigStream($rootScope, $scope, Configuration, _) {
 
         // process requirement by task id
         _.each(configStream.activeRecord.requirements, function(requirement) {
-            if (!configStream.tree.requirementsByTask[requirement.task]) {
-                configStream.tree.requirementsByTask[requirement.task] = []; 
+            if (requirement.task){
+                if (!configStream.tree.requirementsByTask[requirement.task]) {
+                    configStream.tree.requirementsByTask[requirement.task] = []; 
+                }
+                configStream.tree.requirementsByTask[requirement.task].push(requirement);
             }
-            configStream.tree.requirementsByTask[requirement.task].push(requirement);
+            if (requirement.milestone) {
+                if (!configStream.tree.requirementsByMilestone[requirement.milestone]) {
+                    configStream.tree.requirementsByMilestone[requirement.milestone] = []; 
+                }
+                configStream.tree.requirementsByMilestone[requirement.milestone].push(requirement);
+            }
+            if (requirement.bucket) {
+                if (!configStream.tree.requirementsByBucket[requirement.bucket]) {
+                    configStream.tree.requirementsByBucket[requirement.bucket] = []; 
+                }
+                configStream.tree.requirementsByBucket[requirement.bucket].push(requirement);
+            }
         });
+
+        console.log('loaded', configStream.tree);
     }
 
 
@@ -169,99 +187,84 @@ function controllerConfigStream($rootScope, $scope, Configuration, _) {
     };
 
     // add the new milestones to the stream phases.
-    configStream.milestonesToPhase = function(newItems) {
-        var i = 0;
-        console.log('mp', newItems, configStream.tree.phases);
-        _.each(configStream.tree.phases, function(phase) {
-            i += configStream.tree.milestonesByPhase[phase._id].length;
-            _.each(configStream.tree.milestonesByPhase[phase._id], function(milestone) {
-                i--;
-                if( !_.some( configStream.activeRecord.milestones, {'_id': milestone._id}) ) {
-                    Configuration.addMilestoneToPhase(phase._id, milestone._id).then( function() {
-                        if (i === 0) reloadStream();
-                    });
-                }
-            });
+    configStream.milestonesToPhase = function(newItems, originalItems, phase) {
+        var i = newItems.length;
+        // for each new milestone, see if it's already related to the phase.
+        _.each( newItems, function(newItem) {
+            i--;
+            if ( !_.some(configStream.tree.milestonesByPhase[phase._id], {'_id': newItem._id})) {
+                Configuration.addMilestoneToPhase(phase._id, newItem._id).then( function() {
+                    if (i === 0) reloadStream();
+                });
+            }
         });
     };
 
     // add the new activities to the stream phase.
-    configStream.activitiesToPhase = function(newItems) {
-        var i = 0;
-        _.each(configStream.activeRecord.phases, function(phase) {
-            i += configStream.tree.activitiesByPhase[phase._id].length;
-            _.each(configStream.tree.activitiesByPhase[phase._id], function(activity) {
-                i--;
-                if( !_.some( configStream.activeRecord.activities, {'_id': activity._id}) ) {
-                    Configuration.addActivityToPhase(phase._id, activity._id).then( function() {
-                        if (i === 0) reloadStream();
-                    });
-                }
-            });
+    configStream.activitiesToPhase = function(newItems, originalItems, phase) {
+        var i = newItems.length;
+        // for each new milestone, see if it's already related to the phase.
+        _.each( newItems, function(newItem) {
+            i--;
+            if ( !_.some(configStream.tree.activitiesByPhase[phase._id], {'_id': newItem._id})) {
+                Configuration.addActivityToPhase(phase._id, newItem._id).then( function() {
+                    if (i === 0) reloadStream();
+                });
+            }
         });
     };
 
     // add the new tasks to the stream activities.
-    configStream.tasksToActivity = function() {
-        var i = 0;
-        _.each(configStream.tree.tasksByActivity, function(tasks, activityId) {
-            i += tasks.length;
-            _.each(tasks, function(task) {
-                i--;
-                if( !_.some( configStream.activeRecord.tasks, {'_id': task._id}) ) {
-                    Configuration.addTaskToActivity(activityId, task._id).then( function() {
-                        if (i === 0) reloadStream();
-                    });
-                }
-            });
+    configStream.tasksToActivity = function(newItems, originalItems, activity) {
+        var i = newItems.length;
+        _.each( newItems, function(newItem) {
+            i--;
+            if ( !_.some(configStream.tree.tasksByActivity[activity._id], {'_id': newItem._id})) {
+                Configuration.addTaskToActivity(activity._id, newItem._id).then( function() {
+                    if (i === 0) reloadStream();
+                });
+            }
         });
     };
 
     // add the new requirements to the stream tasks.
-    configStream.requirementsToTask = function() {
-        var i = 0;
-        _.each(configStream.tree.requirementsByTask, function(requirements, taskId) {
-            i += requirements.length;
-            _.each(requirements, function(requirement) {
-                i--;
-                if( !_.some( configStream.activeRecord.requirements, {'_id': requirement._id}) ) {
-                    Configuration.addRequirementToTask(taskId, requirement._id).then( function() {
-                        if (i === 0) reloadStream();
-                    });
-                }
-            });
+    configStream.requirementsToTask = function(newItems, originalItems, task) {
+        var i = newItems.length;
+        _.each( newItems, function(newItem) {
+            i--;
+            if ( !_.some(configStream.tree.requirementsByTask[task._id], {'_id': newItem._id})) {
+                Configuration.addRequirementToTask(task._id, newItem._id).then( function() {
+                    if (i === 0) reloadStream();
+                });
+            }
         });
     };
 
     // add the new requirements to the stream buckets.
-    configStream.requirementsToBucket = function() {
-        var i = 0;
-        _.each(configStream.tree.requirementsByBucket, function(requirements, bucketId) {
-            i += requirements.length;
-            _.each(requirements, function(requirement) {
-                i--;
-                if( !_.some( configStream.activeRecord.buckets, {'_id': requirement._id}) ) {
-                    Configuration.addRequirementToBucket(bucketId, requirement._id).then( function() {
-                        if (i === 0) reloadStream();
-                    });
-                }
-            });
+    configStream.requirementsToBucket = function(newItems, originalItems, bucket) {
+        var i = newItems.length;
+        console.log('rtb', newItems, originalItems, bucket);
+        _.each( newItems, function(newItem) {
+            i--;
+            if ( !_.some(configStream.tree.requirementsByBucket[bucket._id], {'_id': newItem._id})) {
+                Configuration.addRequirementToBucket(bucket._id, newItem._id).then( function() {
+                    if (i === 0) reloadStream();
+                });
+            }
         });
     };
 
     // add the new requirements to the stream milestones.
-    configStream.requirementsToMilestone = function() {
-        var i = 0;
-        _.each(configStream.tree.requirementsByMilestone, function(requirements, milestoneId) {
-            i += requirements.length;
-            _.each(requirements, function(requirement) {
-                i--;
-                if( !_.some( configStream.activeRecord.milestones, {'_id': requirement._id}) ) {
-                    Configuration.addRequirementToMilestone(milestoneId, requirement._id).then( function() {
-                        if (i === 0) reloadStream();
-                    });
-                }
-            });
+    configStream.requirementsToMilestone = function(newItems, originalItems, milestone) {
+        var i = newItems.length;
+        _.each( newItems, function(newItem) {
+            console.log('mile', milestone);
+            i--;
+            if ( !_.some(configStream.tree.requirementsByMilestone[milestone._id], {'_id': newItem._id})) {
+                Configuration.addRequirementToMilestone(milestone._id, newItem._id).then( function() {
+                    if (i === 0) reloadStream();
+                });
+            }
         });
     };
 

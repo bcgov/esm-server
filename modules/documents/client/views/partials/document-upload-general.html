@@ -39,13 +39,7 @@
 					<p class="form-control-static">{{f.name}}</p>
 				</td>
 
-
-				<td ng-if="!f.$error && !f.progress">
-					
-				</td>
-
-
-				<td ng-if="!f.$error && f.progress">
+				<td ng-if="!f.$error">
 					<div class="progress" ng-show="f.progress >= 0" style="margin-top: 7px;"><div class="progress-bar progress-bar-success" role="progressbar" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">{{ f.progress }}</div></div>
 				</td>
 
@@ -54,7 +48,7 @@
 		</tbody>
 	</table>
 
-	<div class="row" ng-if="!docUpload.inProgress">
+	<div class="row" ng-if="!docUpload.inProgress && !docUpload.hideUploadButton">
 		<div class="col-sm-12 text-right">
 			<button ng-click="docUpload.upload()" ng-if="docUpload.fileList.length > 0" class="btn btn-success">
 				Upload Queued Documents

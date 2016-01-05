@@ -19,26 +19,26 @@ function controllerEAOProjects($scope, $state, Projects, _) {
 	
 	// get projects
 	Projects.getProjects().then( function(res) {
-		_.each( res.data, function( project, idx ) {
-			if (!project.stream || project.stream === '') {
-				// the project becomes an intake and the stream needs to be defined.
-				vm.intakes.push(project);
-			} else {
-				// the project is already in a stream, show in the ongoing list.
-				vm.projects.push(project);
-			}
-		});
+		vm.projects = res.data;
+		// _.each( res.data, function( project, idx ) {
+			// if (!project.stream || project.stream === '') {
+			// 	// the project becomes an intake and the stream needs to be defined.
+			// 	vm.intakes.push(project);
+			// } else {
+			// 	// the project is already in a stream, show in the ongoing list.
+			// 	vm.projects.push(project);
+			// }
+		// });
 	});
 
 
 
 	// panel sort maps fields to names, when clicked the associated table sorts accordingly
 	vm.panelSort = [
-		{'field': 'name', 'name':'Title'},
-		{'field': 'region', 'name':'Region'},	
-		{'field': 'currentPhaseCode', 'name':'Phase'},
+		{'field': 'name', 'name':'Name'},
+		{'field': 'status', 'name':'Status'},	
 		{'field': 'dateUpdated', 'name':'Date Updated'},
-		{'field': 'dateCreate', 'name':'Date Created'},			
+		{'field': 'dateCreate', 'name':'Date Created'}
 	];
 
 }        

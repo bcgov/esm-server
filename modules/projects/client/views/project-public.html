@@ -8,11 +8,11 @@
 		<div class='col-sm-3'>
 			<div class="panel panel-default project-info-panel">
 				<div class='panel-heading'>
-					<div><label class="control-label">Developer</label><p>{{ vm.project.proponent.name }}</p></div>
 					<div><label class="control-label">Type</label><p>{{ vm.project.type }}</p></div>
-					<div><label class="control-label">Location</label><p>{{ vm.project.region | titleCase }}</p></div>
+					<div><label class="control-label">Location</label><p>{{ vm.project.location }}</p></div>
+					<div><label class="control-label">Region</label><p>{{ vm.project.region | titleCase }}</p></div>
 					<div><label class="control-label">Description</label><p>{{ vm.project.description }}</p></div>
-					<p><small><a href><span class='glyphicon glyphicon-file'></span> Comprehensive Project Description</a></small></p>
+					<p ng-if="0"><small><a href><span class='glyphicon glyphicon-file'></span> Comprehensive Project Description</a></small></p>
 				</div>
 
 				<div class="location-map">
@@ -23,7 +23,7 @@
 
 				</div>
 				
-				<div class='panel-body'>
+				<div class='panel-body' ng-show="vm.comments.length !== 0">
 					<label class="control-label">Comment Volume by Date</label>
 					<tmpl-public-project-comments-by-date x-refresh="vm.refreshVisualization" x-data="vm.commentsByDateVis"></tmpl-public-project-comments-by-date>
 				</div>
@@ -33,6 +33,11 @@
 
 
 		<div class='col-sm-9'>
+
+			<div class="alert alert-info text-center" ng-if="vm.project.dateCommentsOpen | isInTheFuture">
+				Public Comment Period begins on <strong>{{ vm.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}}</strong>
+				<countdown-clock x-end="vm.project.dateCommentsOpen"></countdown-clock>
+			</div>
 
 			<div class="alert alert-info clickable" x-modal-add-public-comment x-project="vm.project" ng-if="(vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)">
 				<div class="text-center">
@@ -103,14 +108,14 @@
 			</div>
  -->
 
-			<nav class="navbar navbar-default navbar-sm" ng-init="vm.form.view = 'bydate'">
+			<nav class="navbar navbar-default navbar-sm" ng-init="vm.form.view = 'bydate'" ng-if="vm.comments.length !== 0">
 				<div class="container-fluid">
 
 					<ul class="nav navbar-nav navbar-form navbar-left">
 						<li>
 							<div class="btn-group btn-group-sm">
 								<button class="btn btn-default" ng-click="vm.form.view = 'bydate'"	ng-class="{'btn-primary': vm.form.view === 'bydate'}">By Date</button>
-								<button class="btn btn-default" ng-click="vm.form.view = 'byvc'"	ng-class="{'btn-primary': vm.form.view === 'byvc'}">By Topic</button>
+<!-- 								<button class="btn btn-default" ng-click="vm.form.view = 'byvc'"	ng-class="{'btn-primary': vm.form.view === 'byvc'}">By Topic</button> -->
 							</div>
 						</li>
 					</ul>
@@ -133,7 +138,7 @@
 
 			<div ng-repeat="bucket in filteredBuckets = (vm.project.buckets | filter:vm.filterKeyword)" class="concern-list" ng-show="vm.form.view === 'byvc'">
 				<h3 ng-click='form[point.group] = !form[point.group]' class="clickable concern-heading">
-					{{ bucket.name }} <div class="pull-right">({{ filteredBuckets.length || 0 }})</div>
+					{{ bucket.name }} <div class="pull-right small"><span ng-if="!form[point.group]">Click to expand.</span> Number of comments: {{ filteredBuckets.length || 0 }}</div>
 				</h3>
 				<hr ng-if='!form[point.group] && !$last'>
 
@@ -186,21 +191,29 @@
 
 			<div ng-repeat="(title, items) in vm.commentsByDate" class="concern-list" ng-show="vm.form.view === 'bydate'">
 				<h3 ng-click='form[title] = !form[title]' class="clickable concern-heading">
-					{{ title }} <div class="pull-right">{{ (items| filter:vm.filterKeyword).length || 0 }}</div>
+					{{ title }} <div class="pull-right small"><span ng-if="!form[title]">Click to expand.</span> Number of comments: {{ (items| filter:vm.filterKeyword).length || 0 }}</div>
 				</h3>
-				<hr ng-if='!form[title] && !$last'>
+				<hr ng-if='!form[title]'>
 				<div class="panel panel-default panel-concern" ng-show='form[title]' ng-repeat='item in items | filter:vm.filterKeyword'>
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-sm-8">
+							<div class="col-sm-9">
 								{{ item.comment }}
 							</div>
-							<div class="col-sm-4">
-								{{ item.author }}<br/>
-								{{ item.dateAdded}}
-								<ul ng-if="item.documents">
-									<li ng-repeat="file in item.documents">{{ file.title }}</li>
+							<div class="col-sm-3">
+								<p ng-if="item.author">Name: {{ item.author }}</p>
+								<p>{{ item.dateAdded | amDateFormat:'MMM Do, YYYY h:mm a'}}</p>
+								<hr/>
+								<ul class="list-unstyled document-vetting small">
+									<li ng-repeat="doc in item.documents">
+										<a href="{{ doc.url }}" target="_new" class="small" ng-if="doc.eaoStatus !== 'Rejected'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
+										<span class="small text-warning" ng-if="doc.eaoStatus === 'Rejected'"><i class="glyphicon glyphicon-file"></i> {{ doc.name }} has not been shared as it does not meet the privacy policy rules.</span>
+									</li>
+									<li ng-if="item.documents.length === 0">
+										There are no documents associated with this comment.
+									</li>
 								</ul>
+
 							</div>
 						</div>
 					</div>
@@ -232,8 +245,9 @@
 				</div>
 			</div> -->
 
-			<div ng-show="filteredComments.length === 0 && vm.form.view === 'bydate'">
-				<h3 class="text-info">No comments are available for this project yet.</h3>
+			<div ng-show="vm.comments.length === 0 && vm.form.view === 'bydate'" class="concern-heading">
+				<h3>No comments are available for this project yet.</h3>
+				<p>Please check back for information regarding upcoming Public Comment Periods</p>
 			</div>
 
 		</div>

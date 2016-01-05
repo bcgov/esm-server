@@ -11,7 +11,7 @@ angular
 // General User Role Detection
 //
 // -----------------------------------------------------------------------------------
-var userHasRole = function(roles, _, Authentication) {
+var directiveUserHasRole = function(roles, _, Authentication) {
 	if (Authentication.user === '') return false;
 
 	var arr = roles.split(',');
@@ -22,9 +22,7 @@ var userHasRole = function(roles, _, Authentication) {
 			found = true;
 		}
 	});
-	if (found) {
-		return true;
-	}
+	return found;
 
 };
 // -----------------------------------------------------------------------------------
@@ -59,8 +57,8 @@ function directiveUserIs(_, Authentication) {
 
 			scope.$watch(function() {return attrs.userIs;}, function(newValue){
 				if(newValue) {
-					// remove the elemnt if false is returned
-					if ( !userHasRole(attrs.userIs, _, Authentication) ) {
+					// remove the element if false is returned
+					if ( !directiveUserHasRole(attrs.userIs, _, Authentication) ) {
 						element.remove();
 					}
 				}
@@ -86,7 +84,7 @@ function directiveUserIsNot(_, Authentication) {
 			scope.$watch(function() {return attrs.userIs;}, function(newValue){
 				if(newValue) {
 					// remove the elemnt if false is returned
-					if ( userHasRole(attrs.userIs, _, Authentication) ) {
+					if ( directiveUserHasRole(attrs.userIs, _, Authentication) ) {
 						element.remove();
 					}
 				}

@@ -19,12 +19,12 @@ function serviceTaskPublicCommentClassificationProponent($http) {
 		return $http({method:'GET',url: '/api/publiccomment/project/' + projectId + '/classify/claim'});
 	};
 
-	var setCommentDefer = function(commentId) {
-		return $http({method:'PUT',url: '/api/publiccomment/' + commentId + '/proponent/defer'});
+	var setCommentDefer = function(comment) {
+		return $http({method:'PUT',url: '/api/publiccomment/' + comment._id + '/proponent/defer', data: comment});
 	};
 
-	var setCommentClassify = function(commentId) {
-		return $http({method:'PUT',url: '/api/publiccomment/' + commentId + '/proponent/classify'});
+	var setCommentClassify = function(comment) {
+		return $http({method:'PUT',url: '/api/publiccomment/' + comment._id + '/proponent/classify', data: comment});
 	};
 
 	var getUnclassifiedCount = function(projectId) {

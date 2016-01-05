@@ -18,7 +18,7 @@ var ProjectSchema = new Schema ({
 	//
 	// phase data is stored below, so these are merely keys into that data
 	//
-	status                       : { type: String, default:'Not Started', enum:['Not Started', 'In Progress', 'Complete'] },
+	status                       : { type: String, default:'Initiated', enum:['Initiated', 'Submitted', 'In Progress', 'Certified', 'Decomissioned'] },
 	dateStarted                  : { type: Date, default: null }, // date in progress
 	dateCompleted                : { type: Date, default: null }, // date complete
 	currentPhase                 : { type:'ObjectId', ref:'Phase', index:true },

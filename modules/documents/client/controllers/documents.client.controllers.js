@@ -15,9 +15,18 @@ controllerDocumentUploadGlobal.$inject = ['$scope', 'Upload', '$timeout', 'Docum
 /* @ngInject */
 function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 	var docUpload = this;
+	var parentId = null;
 
-	docUpload.fileList = [];
 	docUpload.inProgress = false;
+	docUpload.fileList = [];
+	docUpload.type = null;
+
+	$scope.$watch('hideUploadButton', function(newValue) {
+		if (newValue) {
+			docUpload.hideUploadButton = newValue;
+		}
+	});
+
 
 	$scope.$watch('project', function(newValue) {
 		if (newValue) {
@@ -25,26 +34,50 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 		}
 	});
 
-	// determine the correct target for the file upload based on x-type attribute.
-	docUpload.targetUrl = null;
-	$scope.$watch('type', function(newValue) {
+
+	$scope.$watch('parentId', function(newValue) {
 		if (newValue) {
-			// determine URL for upload, default to project if none set.
-			switch (newValue) {
-				case 'comment':
-					// comment type
-					docUpload.targetUrl = '/api/commentdocument/publiccomment/56733270672dadc5372f7bea/upload'; // todo: UPLOAD
-					break;
-				default:
-					// project type
-					docUpload.targetUrl = '/api/commentdocument/publiccomment/56733270672dadc5372f7bea/upload'; // todo: UPLOAD
+			parentId = newValue;
+			if (docUpload.type) {
+				docUpload.setTargetUrl();
 			}
-			docUpload.project = newValue;
 		}
 	});
 
+
+	// determine the correct target for the file upload based on x-type attribute.
+	docUpload.targetUrl = null;
+	
+	$scope.$watch('type', function(newValue) {
+		docUpload.type = newValue;
+		if (parentId) {
+			docUpload.setTargetUrl();
+		}
+	});
+
+
+	docUpload.setTargetUrl = function() {
+		// determine URL for upload, default to project if none set.
+		switch (docUpload.type) {
+			case 'comment':
+				// comment type
+				docUpload.targetUrl = '/api/commentdocument/publiccomment/' + parentId + '/upload';
+				break;
+			default:
+				// project type
+				docUpload.targetUrl = '/api/commentdocument/publiccomment/' + parentId + '/upload'; // todo: UPLOAD
+		}
+	};
+
 	// get types for dropdown.
 	docUpload.docTypes = Document.getDocumentTypes();
+
+
+	// allow the upload to be triggered from an external button.
+	// this should be called and then documentUploadComplete should be listened for. 
+	$scope.$on('documentUploadStart', function() {
+		docUpload.upload();
+	});
 
 
 	$scope.$watch('files', function (newValue) {
@@ -69,9 +102,11 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 
 	docUpload.upload = function () {
 		docUpload.inProgress = true;
+		var docCount = docUpload.fileList.length;
+
 		if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
 
-			angular.forEach($scope.files, function(file) {
+			angular.forEach( docUpload.fileList, function(file) {
 				file.upload = Upload.upload({
 					url: docUpload.targetUrl,
 					file: file
@@ -80,6 +115,11 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 				file.upload.then(function (response) {
 					$timeout(function () {
 						file.result = response.data;
+						// when the last file is finished, send complete event.
+						if (--docCount === 0) {
+							// emit to parent.
+							$scope.$emit('documentUploadComplete');
+						}
 					});
 				}, function (response) {
 					if (response.status > 0) {
@@ -92,6 +132,9 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 				});
 			});
 
+		} else {
+			// there are no documents so say it's all done
+			$scope.$emit('documentUploadComplete');			
 		}
     };
 }

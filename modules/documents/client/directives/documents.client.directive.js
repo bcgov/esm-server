@@ -19,7 +19,9 @@ function directiveDocumentsUploadGeneral() {
         templateUrl: 'modules/documents/client/views/partials/document-upload-general.html',
         scope: {
             project: '=',
-            type: '@'
+            type: '@',
+            hideUploadButton: '=',
+            parentId: '='
         },
         controller: 'controllerDocumentUploadGlobal',
         controllerAs: 'docUpload'
@@ -38,7 +40,9 @@ function directiveDocumentsUploadClassify() {
         templateUrl: 'modules/documents/client/views/partials/document-upload-classify.html',
         scope: {
             project: '=',
-            type: '@'  //project or comment
+            type: '@',  //project or comment
+            hideUploadButton: '=',
+            parentId: '='
         },
         controller: 'controllerDocumentUploadGlobal',
         controllerAs: 'docUpload'

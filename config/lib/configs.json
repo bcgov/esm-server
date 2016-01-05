@@ -6,34 +6,6 @@
         "write": "",
         "read": ""
       },
-      "description": "New activity",
-      "name": "New activity",
-      "code": "code",
-      "visibleAtPhase": null,
-      "stream": null,
-      "project": null,
-      "phase": null
-    },
-    {
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "description": "Happy activity",
-      "name": "Happy activity",
-      "code": "code",
-      "visibleAtPhase": null,
-      "stream": null,
-      "project": null,
-      "phase": null
-    },
-    {
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
       "description": "Initiate Project",
       "name": "Initiate Project",
       "code": "initiate-project",
@@ -507,23 +479,6 @@
     }
   ],
   "buckets": [
-    {
-      "isValueComponment": false,
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "status": "Not Started",
-      "progress": 0,
-      "isValueComponent": false,
-      "description": "Happy bucket",
-      "name": "Happy bucket",
-      "code": "code",
-      "visibleAtPhase": null,
-      "stream": null,
-      "project": null
-    },
     {
       "access": {
         "watch": "",
@@ -1076,7 +1031,7 @@
       },
       "status": "Not Started",
       "progress": 0,
-      "isValueComponent": false,
+      "isValueComponent": true,
       "description": "Noise and Vibration",
       "name": "Noise and Vibration",
       "code": "noise-and-vibration",
@@ -1119,35 +1074,17 @@
   ],
   "milestones": [
     {
-      "dateActualEnd": "2015-11-24T14:20:08.288Z",
-      "dateActualStart": "2015-11-24T14:20:08.288Z",
-      "dateEstimatedEnd": "2015-11-24T14:20:08.288Z",
-      "dateEstimatedStart": "2015-11-24T14:20:08.288Z",
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "status": "Not Started",
-      "description": "Happy milestone",
-      "name": "Happy milestone",
-      "code": "code",
-      "stream": null,
-      "project": null,
-      "phase": null
-    },
-    {
-      "dateActualEnd": "2015-11-24T20:38:36.449Z",
-      "dateActualStart": "2015-11-24T20:38:36.449Z",
-      "dateEstimatedEnd": "2015-11-24T20:38:36.449Z",
-      "dateEstimatedStart": "2015-11-24T20:38:36.449Z",
+      "dateActualEnd": null,
+      "dateActualStart": null,
+      "dateEstimatedEnd": null,
+      "dateEstimatedStart": null,
       "access": {
         "watch": "",
         "write": "",
         "read": ""
       },
       "status": "Not Required",
-      "description": "New milestone",
+      "description": "Accept Draft Project Description",
       "name": "Accept Draft Project Description",
       "code": "accept-draft-project-desc",
       "stream": null,
@@ -1155,17 +1092,17 @@
       "phase": null
     },
     {
-      "dateActualEnd": "2015-11-24T20:39:08.739Z",
-      "dateActualStart": "2015-11-24T20:39:08.739Z",
-      "dateEstimatedEnd": "2015-11-24T20:39:08.739Z",
-      "dateEstimatedStart": "2015-11-24T20:39:08.739Z",
+      "dateActualEnd": null,
+      "dateActualStart": null,
+      "dateEstimatedEnd": null,
+      "dateEstimatedStart": null,
       "access": {
         "watch": "",
         "write": "",
         "read": ""
       },
       "status": "Not Required",
-      "description": "New milestone",
+      "description": "Project Space Initiated",
       "name": "Project Space Initiated",
       "code": "project-space-initiated",
       "stream": null,
@@ -1173,17 +1110,17 @@
       "phase": null
     },
     {
-      "dateActualEnd": "2015-11-24T20:39:40.263Z",
-      "dateActualStart": "2015-11-24T20:39:40.263Z",
-      "dateEstimatedEnd": "2015-11-24T20:39:40.263Z",
-      "dateEstimatedStart": "2015-11-24T20:39:40.262Z",
+      "dateActualEnd": null,
+      "dateActualStart": null,
+      "dateEstimatedEnd": null,
+      "dateEstimatedStart": null,
       "access": {
         "watch": "",
         "write": "",
         "read": ""
       },
       "status": "Not Required",
-      "description": "New milestone",
+      "description": "Project Description",
       "name": "Project Description",
       "code": "project-desc",
       "stream": null,
@@ -1191,17 +1128,17 @@
       "phase": null
     },
     {
-      "dateActualEnd": "2015-11-24T20:39:54.244Z",
-      "dateActualStart": "2015-11-24T20:39:54.244Z",
-      "dateEstimatedEnd": "2015-11-24T20:39:54.244Z",
-      "dateEstimatedStart": "2015-11-24T20:39:54.244Z",
+      "dateActualEnd": null,
+      "dateActualStart": null,
+      "dateEstimatedEnd": null,
+      "dateEstimatedStart": null,
       "access": {
         "watch": "",
         "write": "",
         "read": ""
       },
       "status": "Not Required",
-      "description": "New milestone",
+      "description": "Section 10.1.c",
       "name": "Section 10.1.c",
       "code": "section101c",
       "stream": null,
@@ -1209,17 +1146,17 @@
       "phase": null
     },
     {
-      "dateActualEnd": "2015-11-24T20:40:09.024Z",
-      "dateActualStart": "2015-11-24T20:40:09.024Z",
-      "dateEstimatedEnd": "2015-11-24T20:40:09.024Z",
-      "dateEstimatedStart": "2015-11-24T20:40:09.024Z",
+      "dateActualEnd": null,
+      "dateActualStart": null,
+      "dateEstimatedEnd": null,
+      "dateEstimatedStart": null,
       "access": {
         "watch": "",
         "write": "",
         "read": ""
       },
       "status": "Not Required",
-      "description": "New milestone",
+      "description": "Strength of Claim",
       "name": "Strength of Claim",
       "code": "strength-of-claim",
       "stream": null,
@@ -1227,17 +1164,17 @@
       "phase": null
     },
     {
-      "dateActualEnd": "2015-11-24T20:40:30.659Z",
-      "dateActualStart": "2015-11-24T20:40:30.658Z",
-      "dateEstimatedEnd": "2015-11-24T20:40:30.658Z",
-      "dateEstimatedStart": "2015-11-24T20:40:30.658Z",
+      "dateActualEnd": null,
+      "dateActualStart": null,
+      "dateEstimatedEnd": null,
+      "dateEstimatedStart": null,
       "access": {
         "watch": "",
         "write": "",
         "read": ""
       },
       "status": "Not Required",
-      "description": "New milestone",
+      "description": "Section 11",
       "name": "Section 11",
       "code": "section11",
       "stream": null,
@@ -1245,17 +1182,17 @@
       "phase": null
     },
     {
-      "dateActualEnd": "2015-11-24T20:40:48.622Z",
-      "dateActualStart": "2015-11-24T20:40:48.622Z",
-      "dateEstimatedEnd": "2015-11-24T20:40:48.622Z",
-      "dateEstimatedStart": "2015-11-24T20:40:48.622Z",
+      "dateActualEnd": null,
+      "dateActualStart": null,
+      "dateEstimatedEnd": null,
+      "dateEstimatedStart": null,
       "access": {
         "watch": "",
         "write": "",
         "read": ""
       },
       "status": "Not Required",
-      "description": "New milestone",
+      "description": "Value Component Document",
       "name": "Value Component Document",
       "code": "value-component-doc",
       "stream": null,
@@ -1263,17 +1200,17 @@
       "phase": null
     },
     {
-      "dateActualEnd": "2015-11-24T20:41:13.355Z",
-      "dateActualStart": "2015-11-24T20:41:13.355Z",
-      "dateEstimatedEnd": "2015-11-24T20:41:13.355Z",
-      "dateEstimatedStart": "2015-11-24T20:41:13.355Z",
+      "dateActualEnd": null,
+      "dateActualStart": null,
+      "dateEstimatedEnd": null,
+      "dateEstimatedStart": null,
       "access": {
         "watch": "",
         "write": "",
         "read": ""
       },
       "status": "Not Required",
-      "description": "New milestone",
+      "description": "Draft AIR",
       "name": "Draft AIR",
       "code": "draft-air",
       "stream": null,
@@ -1281,17 +1218,17 @@
       "phase": null
     },
     {
-      "dateActualEnd": "2015-11-24T20:41:36.931Z",
-      "dateActualStart": "2015-11-24T20:41:36.931Z",
-      "dateEstimatedEnd": "2015-11-24T20:41:36.931Z",
-      "dateEstimatedStart": "2015-11-24T20:41:36.931Z",
+      "dateActualEnd": null,
+      "dateActualStart": null,
+      "dateEstimatedEnd": null,
+      "dateEstimatedStart": null,
       "access": {
         "watch": "",
         "write": "",
         "read": ""
       },
       "status": "Not Required",
-      "description": "New milestone",
+      "description": "AIR",
       "name": "AIR",
       "code": "air",
       "stream": null,
@@ -1299,17 +1236,17 @@
       "phase": null
     },
     {
-      "dateActualEnd": "2015-11-24T20:41:49.893Z",
-      "dateActualStart": "2015-11-24T20:41:49.893Z",
-      "dateEstimatedEnd": "2015-11-24T20:41:49.893Z",
-      "dateEstimatedStart": "2015-11-24T20:41:49.893Z",
+      "dateActualEnd": null,
+      "dateActualStart": null,
+      "dateEstimatedEnd": null,
+      "dateEstimatedStart": null,
       "access": {
         "watch": "",
         "write": "",
         "read": ""
       },
       "status": "Not Required",
-      "description": "New milestone",
+      "description": "Draft Application",
       "name": "Draft Application",
       "code": "draft-application",
       "stream": null,
@@ -1317,17 +1254,17 @@
       "phase": null
     },
     {
-      "dateActualEnd": "2015-11-24T20:42:12.693Z",
-      "dateActualStart": "2015-11-24T20:42:12.693Z",
-      "dateEstimatedEnd": "2015-11-24T20:42:12.693Z",
-      "dateEstimatedStart": "2015-11-24T20:42:12.693Z",
+      "dateActualEnd": null,
+      "dateActualStart": null,
+      "dateEstimatedEnd": null,
+      "dateEstimatedStart": null,
       "access": {
         "watch": "",
         "write": "",
         "read": ""
       },
       "status": "Not Required",
-      "description": "New milestone",
+      "description": "Evaluation Decision",
       "name": "Evaluation Decision",
       "code": "evaluation-decision",
       "stream": null,
@@ -1335,17 +1272,17 @@
       "phase": null
     },
     {
-      "dateActualEnd": "2015-11-24T20:42:26.219Z",
-      "dateActualStart": "2015-11-24T20:42:26.219Z",
-      "dateEstimatedEnd": "2015-11-24T20:42:26.219Z",
-      "dateEstimatedStart": "2015-11-24T20:42:26.219Z",
+      "dateActualEnd": null,
+      "dateActualStart": null,
+      "dateEstimatedEnd": null,
+      "dateEstimatedStart": null,
       "access": {
         "watch": "",
         "write": "",
         "read": ""
       },
       "status": "Not Required",
-      "description": "New milestone",
+      "description": "Application",
       "name": "Application",
       "code": "application",
       "stream": null,
@@ -1353,17 +1290,17 @@
       "phase": null
     },
     {
-      "dateActualEnd": "2015-11-24T20:42:38.181Z",
-      "dateActualStart": "2015-11-24T20:42:38.181Z",
-      "dateEstimatedEnd": "2015-11-24T20:42:38.181Z",
-      "dateEstimatedStart": "2015-11-24T20:42:38.181Z",
+      "dateActualEnd": null,
+      "dateActualStart": null,
+      "dateEstimatedEnd": null,
+      "dateEstimatedStart": null,
       "access": {
         "watch": "",
         "write": "",
         "read": ""
       },
       "status": "Not Required",
-      "description": "New milestone",
+      "description": "Referral Package Sign-off",
       "name": "Referral Package Sign-off",
       "code": "referral-package-sign-off",
       "stream": null,
@@ -1371,17 +1308,17 @@
       "phase": null
     },
     {
-      "dateActualEnd": "2015-11-24T20:46:35.834Z",
-      "dateActualStart": "2015-11-24T20:46:35.834Z",
-      "dateEstimatedEnd": "2015-11-24T20:46:35.834Z",
-      "dateEstimatedStart": "2015-11-24T20:46:35.833Z",
+      "dateActualEnd": null,
+      "dateActualStart": null,
+      "dateEstimatedEnd": null,
+      "dateEstimatedStart": null,
       "access": {
         "watch": "",
         "write": "",
         "read": ""
       },
       "status": "Not Required",
-      "description": "New milestone",
+      "description": "Ministers' Decision",
       "name": "Ministers' Decision",
       "code": "ministers-decision",
       "stream": null,
@@ -1389,53 +1326,17 @@
       "phase": null
     },
     {
-      "dateActualEnd": "2015-11-24T20:47:18.790Z",
-      "dateActualStart": "2015-11-24T20:47:18.790Z",
-      "dateEstimatedEnd": "2015-11-24T20:47:18.790Z",
-      "dateEstimatedStart": "2015-11-24T20:47:18.790Z",
+      "dateActualEnd": null,
+      "dateActualStart": null,
+      "dateEstimatedEnd": null,
+      "dateEstimatedStart": null,
       "access": {
         "watch": "",
         "write": "",
         "read": ""
       },
       "status": "Not Required",
-      "description": "New milestone",
-      "name": "Certificate",
-      "code": "certificate",
-      "stream": null,
-      "project": null,
-      "phase": null
-    },
-    {
-      "dateActualEnd": "2015-11-24T20:47:52.550Z",
-      "dateActualStart": "2015-11-24T20:47:52.550Z",
-      "dateEstimatedEnd": "2015-11-24T20:47:52.550Z",
-      "dateEstimatedStart": "2015-11-24T20:47:52.550Z",
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "status": "Not Required",
-      "description": "New milestone",
-      "name": "Certificate Extension",
-      "code": "certificate-extension",
-      "stream": null,
-      "project": null,
-      "phase": null
-    },
-    {
-      "dateActualEnd": "2015-11-24T20:48:22.917Z",
-      "dateActualStart": "2015-11-24T20:48:22.917Z",
-      "dateEstimatedEnd": "2015-11-24T20:48:22.917Z",
-      "dateEstimatedStart": "2015-11-24T20:48:22.917Z",
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "status": "Not Required",
-      "description": "New milestone",
+      "description": "Substantially Started",
       "name": "Substantially Started",
       "code": "substantially-started",
       "stream": null,
@@ -1444,40 +1345,6 @@
     }
   ],
   "phases": [
-    {
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "dateCompleted": null,
-      "dateStarted": null,
-      "status": "Not Started",
-      "mandatoryDurationDays": 90,
-      "progress": 0,
-      "description": "happy phase",
-      "name": "happy phase",
-      "code": "happyphase",
-      "stream": null,
-      "project": null
-    },
-    {
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "dateCompleted": null,
-      "dateStarted": null,
-      "status": "Not Started",
-      "mandatoryDurationDays": 90,
-      "progress": 0,
-      "description": "Phase TWO",
-      "name": "Phase TWO",
-      "code": "PhaseTWO",
-      "stream": null,
-      "project": null
-    },
     {
       "access": {
         "watch": "",
@@ -1591,69 +1458,12 @@
       "task": null,
       "value": false,
       "type": "document",
-      "description": "Happy requirement",
-      "name": "Happy requirement",
-      "code": "code"
-    },
-    {
-      "milestone": null,
-      "stream": null,
-      "project": null,
-      "phase": null,
-      "activity": null,
-      "task": null,
-      "value": false,
-      "type": "document",
       "description": "Preliminary Project Description",
       "name": "Preliminary Project Description",
       "code": "preliminary-project-description"
     }
   ],
   "tasks": [
-    {
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "prerequisites": [],
-      "processCode": "",
-      "subStatuses": "",
-      "subStatus": "",
-      "notRequiredReason": "",
-      "dateCompleted": null,
-      "dateStarted": null,
-      "status": "Not Started",
-      "description": "Happy task",
-      "name": "Happy task",
-      "code": "code",
-      "stream": null,
-      "project": null,
-      "phase": null,
-      "activity": null
-    },
-    {
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "prerequisites": [],
-      "processCode": "notifications",
-      "subStatuses": "",
-      "subStatus": "",
-      "notRequiredReason": "",
-      "dateCompleted": null,
-      "dateStarted": null,
-      "status": "Not Started",
-      "description": "Test Notifications",
-      "name": "Notifications",
-      "code": "notifications",
-      "stream": null,
-      "project": null,
-      "phase": null,
-      "activity": null
-    },
     {
       "access": {
         "watch": "",
@@ -1715,204 +1525,6 @@
       "description": "Public Comment Classification",
       "name": "Public Comment Classification",
       "code": "public-comment-classification",
-      "stream": null,
-      "project": null,
-      "phase": null,
-      "activity": null
-    },
-    {
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "prerequisites": [],
-      "processCode": "manage-issues",
-      "subStatuses": "",
-      "subStatus": "",
-      "notRequiredReason": "",
-      "dateCompleted": null,
-      "dateStarted": null,
-      "status": "Not Started",
-      "description": "Manage Issues",
-      "name": "Manage Issues",
-      "code": "manage-issues",
-      "stream": null,
-      "project": null,
-      "phase": null,
-      "activity": null
-    },
-    {
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "prerequisites": [],
-      "processCode": "manage-value-components",
-      "subStatuses": "",
-      "subStatus": "",
-      "notRequiredReason": "",
-      "dateCompleted": null,
-      "dateStarted": null,
-      "status": "Not Started",
-      "description": "Manage Value Component",
-      "name": "Manage Value Components",
-      "code": "manage-value-components",
-      "stream": null,
-      "project": null,
-      "phase": null,
-      "activity": null
-    },
-    {
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "prerequisites": [],
-      "processCode": "manage-value-components",
-      "subStatuses": "",
-      "subStatus": "",
-      "notRequiredReason": "",
-      "dateCompleted": null,
-      "dateStarted": null,
-      "status": "Not Started",
-      "description": "Testing",
-      "name": "Custom Task",
-      "code": "Testing",
-      "stream": null,
-      "project": null,
-      "phase": null,
-      "activity": null
-    },
-    {
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "prerequisites": [],
-      "processCode": "manage-issues",
-      "subStatuses": "",
-      "subStatus": "",
-      "notRequiredReason": "",
-      "dateCompleted": null,
-      "dateStarted": null,
-      "status": "Not Started",
-      "description": "New task",
-      "name": "New task Test",
-      "code": "code",
-      "stream": null,
-      "project": null,
-      "phase": null,
-      "activity": null
-    },
-    {
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "prerequisites": [],
-      "processCode": "manage-issues",
-      "subStatuses": "",
-      "subStatus": "",
-      "notRequiredReason": "",
-      "dateCompleted": null,
-      "dateStarted": null,
-      "status": "Not Started",
-      "description": "New task",
-      "name": "New task",
-      "code": "code",
-      "stream": null,
-      "project": null,
-      "phase": null,
-      "activity": null
-    },
-    {
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "prerequisites": [],
-      "processCode": "manage-value-components",
-      "subStatuses": "",
-      "subStatus": "",
-      "notRequiredReason": "",
-      "dateCompleted": null,
-      "dateStarted": null,
-      "status": "Not Started",
-      "description": "New task",
-      "name": "Manage Value Components",
-      "code": "code",
-      "stream": null,
-      "project": null,
-      "phase": null,
-      "activity": null
-    },
-    {
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "prerequisites": [],
-      "processCode": "notifications",
-      "subStatuses": "",
-      "subStatus": "",
-      "notRequiredReason": "",
-      "dateCompleted": null,
-      "dateStarted": null,
-      "status": "Not Started",
-      "description": "New task",
-      "name": "New task",
-      "code": "code",
-      "stream": null,
-      "project": null,
-      "phase": null,
-      "activity": null
-    },
-    {
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "prerequisites": [],
-      "processCode": "public-comment-classification-proponent",
-      "subStatuses": "",
-      "subStatus": "",
-      "notRequiredReason": "",
-      "dateCompleted": null,
-      "dateStarted": null,
-      "status": "Not Started",
-      "description": "New task",
-      "name": "New task",
-      "code": "code",
-      "stream": null,
-      "project": null,
-      "phase": null,
-      "activity": null
-    },
-    {
-      "access": {
-        "watch": "",
-        "write": "",
-        "read": ""
-      },
-      "prerequisites": [],
-      "processCode": "",
-      "subStatuses": "",
-      "subStatus": "",
-      "notRequiredReason": "",
-      "dateCompleted": null,
-      "dateStarted": null,
-      "status": "Not Started",
-      "description": "New task",
-      "name": "New task Is the one",
-      "code": "",
       "stream": null,
       "project": null,
       "phase": null,

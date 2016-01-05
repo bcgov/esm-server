@@ -3,7 +3,7 @@
 angular.module('project')
 	.directive('tmplEaoProject', directiveEAOProject)
 	.directive('tmplEaoProjectNew', directiveEAOProjectNew)
-	.directive('tmplEaoProjectIntake', directiveEAOProjectIntake)
+	.directive('tmplEaoProjectEdit', directiveEAOProjectEdit)
 	.directive('modalProjectEdit', directiveModalProjectEdit)
 	.directive('modalProjectEditPlanSchedule', directiveModalProjectEditPlanSchedule)
 	.directive('modalProjectContacts', directiveModalProjectContacts);
@@ -26,7 +26,7 @@ function directiveEAOProject() {
 }
 // -----------------------------------------------------------------------------------
 //
-// DIRECTIVE: EAO Project Main
+// DIRECTIVE: EAO Project New
 //
 // -----------------------------------------------------------------------------------
 directiveEAOProjectNew.$inject = [];
@@ -34,28 +34,28 @@ directiveEAOProjectNew.$inject = [];
 function directiveEAOProjectNew() {
 	var directive = {
 		restrict: 'E',
-		templateUrl: 'modules/projects/client/views/project-eao-new.html',
+		templateUrl: 'modules/projects/client/views/project-eao-entry.html',
 		controller: 'controllerEAOProjectNew',
-		controllerAs: 'projectNew'
+		controllerAs: 'projectEntry'
 	};
 	return directive;
 }
 // -----------------------------------------------------------------------------------
 //
-// DIRECTIVE: EAO Project Main
+// DIRECTIVE: EAO Project New
 //
 // -----------------------------------------------------------------------------------
-directiveEAOProjectNew.$inject = [];
+directiveEAOProjectEdit.$inject = [];
 /* @ngInject */
-function directiveEAOProjectIntake() {
+function directiveEAOProjectEdit() {
 	var directive = {
 		restrict: 'E',
-		templateUrl: 'modules/projects/client/views/project-eao-intake.html',
-		controller: 'controllerEAOProjectIntake',
-		controllerAs: 'projectIntake'
+		templateUrl: 'modules/projects/client/views/project-eao-entry.html',
+		controller: 'controllerEAOProjectEdit',
+		controllerAs: 'projectEntry'
 	};
 	return directive;
-}    
+}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Modal Edit Project

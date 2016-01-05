@@ -67,10 +67,10 @@ var getDocumentsForComment = function (commentId) {
 
 // -------------------------------------------------------------------------
 //
-// get all issues for a comment
+// get all topics for a comment
 //
 // -------------------------------------------------------------------------
-var getIssuesForComment = function (commentId) {
+var getTopicsForComment = function (commentId) {
 	return new Promise (function (resolve, reject) {
 		resolve ([]);
 	});
@@ -103,10 +103,10 @@ var decorateComment = function (comment) {
 		})
 		.then (function (a) {
 			comment.buckets = a;
-			return getIssuesForComment (comment._id);
+			return getTopicsForComment (comment._id);
 		})
 		.then (function (a) {
-			comment.issues = a;
+			comment.topics = a;
 			resolve (comment);
 		})
 		.catch (reject);
@@ -115,7 +115,7 @@ var decorateComment = function (comment) {
 
 // -------------------------------------------------------------------------
 //
-// get a fully filled out comment with docs, issues, buckets
+// get a fully filled out comment with docs, topics, buckets
 //
 // -------------------------------------------------------------------------
 var getFullComment = function (commentId) {
@@ -385,12 +385,10 @@ exports.eaoedit = eaoedit;
 // -------------------------------------------------------------------------
 var getInProgressForUser = function (userid, query) {
 	query = query || {};
-	console.log('claim', userid);
 	query = _.extend ({
 		updatedBy : userid,
 		overallStatus: 'In Progress'
 	}, query);
-	console.log('QUERY', query);
 	return queryModelsDecorate (query);
 };
 // -------------------------------------------------------------------------
@@ -444,12 +442,13 @@ exports.vettingClaim = vettingClaim;
 // -------------------------------------------------------------------------
 //
 // same as above but for classifying
+// distinction: get the deferred and unclassified in case this is called on a refresh
 //
 // -------------------------------------------------------------------------
 var classifyStart = function (req, res) {
 	var userid = (req.user) ? req.user._id : null;
 	getInProgressForUser (userid, {
-		proponentStatus : 'Deferred',
+		proponentStatus: {$in: ['Deferred', 'Unclassified']},
 		project : req.params.projectid
 	})
 	.then (function (models) {
@@ -468,7 +467,7 @@ exports.classifyStart = classifyStart;
 // -------------------------------------------------------------------------
 var classifyClaim = function (req, res) {
 	queryModel ({
-		overallStatus:'Published',
+		overallStatus: 'Published',
 		proponentStatus : 'Unclassified',
 		project : req.params.projectid
 	})
@@ -495,6 +494,10 @@ exports.classifyClaim = classifyClaim;
 //
 // -------------------------------------------------------------------------
 var proponentdefer = function (req, res) {
+	_.extend(
+		req.PublicComment,
+		req.body
+	);
 	req.PublicComment.proponentStatus = 'Deferred';
 	saveDecorateReturn (req.PublicComment, req, res);
 };
@@ -505,6 +508,11 @@ exports.proponentdefer = proponentdefer;
 //
 // -------------------------------------------------------------------------
 var proponentclassify = function (req, res) {
+	_.extend(
+		req.PublicComment,
+		req.body
+	);
+	req.PublicComment.overallStatus = 'Published';
 	req.PublicComment.proponentStatus = 'Classified';
 	BucketComment.find ({publicComment: req.PublicComment._id}).remove (function (err) {
 		if (err) return helpers.sendError (res, err);

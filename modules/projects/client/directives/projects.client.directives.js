@@ -4,8 +4,7 @@ angular.module('projects')
 	.directive('tmplProjectsList', directiveProjectsList)
 	.directive('tmplProjectsSchedule', directiveProjectsSchedule)
 	.directive('tmplProjectsPanels', directiveProjectsPanels)        
-	.directive('tmplProjectsMap', directiveProjectsMap)
-	.directive('tmplProjectsIntake', directiveProjectsIntake)        
+	.directive('tmplProjectsMap', directiveProjectsMap)    
 	.directive('tmplProjectsFilterBar', directiveProjectsFilterBar);
 // -----------------------------------------------------------------------------------
 //
@@ -77,25 +76,6 @@ function directiveProjectsMap() {
 		templateUrl: 'modules/projects/client/views/projects-partials/projects-map.html',
 		controller: 'controllerProjectsList',
 		controllerAs: 'projectList',
-		scope: {
-			projects: '='
-		}
-	};
-	return directive;
-}
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Projects Intake
-//
-// -----------------------------------------------------------------------------------
-directiveProjectsIntake.$inject = [];
-/* @ngInject */
-function directiveProjectsIntake() {
-	var directive = {
-		restrict: 'E',
-		templateUrl: 'modules/projects/client/views/projects-partials/projects-intake.html',
-		controller: 'controllerProjectsIntake',
-		controllerAs: 'projectIntakeList',
 		scope: {
 			projects: '='
 		}
