@@ -191,11 +191,10 @@ h3 .small .label {
 
 .panel-sort li {
   font-size: 80%;
-  color: #fff;
-  white-space: nowrap; }
+  color: #fff; }
 
 .panel-sort li a {
-  padding: 0 5px 0 2px;
+  padding: 0 5px;
   color: #fff; }
 
 .panel-sort li:before {
@@ -203,9 +202,6 @@ h3 .small .label {
 
 .panel-sort li:first-child:before {
   content: ''; }
-
-.panel-sort li a span:after {
-  content: '\0020'; }
 
 .panel-sort li.asc a span:after {
   content: '\0020\25B2'; }
@@ -266,9 +262,8 @@ th .progress-bar {
   padding-top: 1px;
   padding-left: 7px; }
 
-.concern-heading,
-.concern-heading * {
-  color: #f4f4f4 !important; }
+.concern-heading {
+  color: #f4f4f4; }
 
 .panel-project-summary h3 {
   margin-top: 2px; }

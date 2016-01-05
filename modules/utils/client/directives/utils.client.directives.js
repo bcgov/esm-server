@@ -629,11 +629,10 @@ function directiveModalSelectItems($modal) {
 				modalSelectItems.result.then(function (newItems) {
 					// fire callback to assign the new selections
 					// or just assign
-					console.log('callback', scope.callback);
 					if (scope.callback) {
 						scope.callback(newItems, scope.selectedItems, scope.parentObject);
 					} else {
-						scope.selectedItems = angular.copy(newItems);						
+						scope.selectedItems = angular.copy(newItems);
 					}
 				}, function () {});
 			});
