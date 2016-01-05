@@ -8,9 +8,9 @@ fi
 proxy="false"
 proxyParams=""
 
-if [ "$#" -eq 2 ]; then
+if [ "$#" -ge 2 ]; then
     if [ $2 = "PROXY" ]; then
-        if [ "$#" -lt 3]; then
+        if [ "$#" -lt 3 ]; then
             echo "PROXY must be followed by a virtual host."
             exit -1
         else
@@ -29,10 +29,10 @@ priorContainer=`docker ps -a --filter name=esm-server-ajax | awk '{if(NR>1)print
 # stop the previously deployed instance of the app
 if [ -n "$priorContainer" ] ; then
     priorContainerRunning=`docker ps -a --filter name=esm-server-ajax -f status=running | awk '{if(NR>1)print $1;}'`
-	if [ -n "$priorContainerRunning" ]; then
-    		echo "Stopping previously deployed container..."
-    		docker stop $priorContainer
-	fi
+        if [ -n "$priorContainerRunning" ]; then
+                echo "Stopping previously deployed container..."
+                docker stop $priorContainer
+        fi
     ts=`date +"%m-%d-%y_%s"`
     docker rename $priorContainer "$priorContainer-backup-$ts"
 fi;
