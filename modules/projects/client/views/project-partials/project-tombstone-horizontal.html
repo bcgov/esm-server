@@ -86,8 +86,8 @@
 
 				<div class='panel-body' ng-if="!projTomb.tombstone">
 					<p><a href x-modal-project-edit-plan-schedule 	x-project="projTomb.project"><span class='glyphicon glyphicon-calendar'></span> Manage Schedule</a></p>
-					<p><a href x-modal-eao-access					x-user-is="admin"		x-project="projTomb.project"><span class='glyphicon glyphicon-user'></span> Manage Access</a></p>
-					<p><a href x-modal-proponent-access			x-user-is-not="admin"	x-project="projTomb.project"><span class='glyphicon glyphicon-user'></span> Manage Access</a></p>
+					<a href x-modal-eao-access					x-user-is="admin"		x-project="projTomb.project"><span class='glyphicon glyphicon-user'></span> Manage Access</a>
+					<a href x-modal-proponent-access			x-user-is-not="admin"	x-project="projTomb.project"><span class='glyphicon glyphicon-user'></span> Manage Access</a>
 				</div>
 
 				<div class='panel-body' ng-if="projTomb.tombstone">
@@ -99,15 +99,6 @@
 					<hr>
 
 					<p><a href x-modal-project-edit		x-project="projTomb.project"><span class='glyphicon glyphicon-pencil'></span> Edit Project</a></p>
-
-					<hr>
-					<p><a href x-modal-manage-documents		x-project="projTomb.project"><span class='glyphicon glyphicon-file'></span> Documents</a></p>
-
-					<p><a href x-modal-manage-reports		x-project="projTomb.project"><span class='glyphicon glyphicon-signal'></span> Reports</a></p>
-
-					<hr>
-
-					<a href x-modal-view-spatially		x-project="projTomb.project"><span class='glyphicon glyphicon-globe'></span> View Spatially</a>
 
 					<hr>
 
