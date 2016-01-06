@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('tasks')
-    .service('Notification', serviceNotifications);
+    .service('sTaskNotifications', serviceTaskNotifications);
 // -----------------------------------------------------------------------------------
 //
 // SERVICE: Notification templates
 //
 // -----------------------------------------------------------------------------------
-serviceNotifications.$inject = ['$http'];
+serviceTaskNotifications.$inject = ['$http'];
 /* @ngInject */
-function serviceNotifications($http) {
+function serviceTaskNotifications($http) {
 	var getNew = function(req) {
 		return $http({method:'GET',url: '/api/new/notification'});
 	};

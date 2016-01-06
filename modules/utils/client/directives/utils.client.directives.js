@@ -444,10 +444,10 @@ function directiveModalSelectUsers($modal) {
 						}
 					}
 				});
-				modalUsersView.result.then(function (data) {
+				modalUsersView.result.then(function (newItems) {
 					if (!scope.users) scope.users = [];
 
-					scope.users = data;
+					scope.users = newItems;
 				}, function () {});
 			});
 		}

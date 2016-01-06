@@ -325,7 +325,6 @@ function controllerModalUserList($modalInstance, rUsers, _) {
 	utilUserList.ok = function () { $modalInstance.close(); };
 	utilUserList.cancel = function () { $modalInstance.dismiss('cancel'); };
 }
-
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Modal: Show a list of user records and allow them to be copied
@@ -353,6 +352,9 @@ function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, r
 	// constrain selection to just one.  Directive needs to have x-single=true
 	selectItems.modeSingle = rSingle;
 
+	//
+	//
+	//
 	selectItems.refreshSource = function() {
 		if (rUnique) {
 			selectItems.itemList = [];
@@ -364,12 +366,16 @@ function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, r
 		}
 	};
 
+	//
+	//
 	// remove an item from the temporary list.
 	selectItems.removeItemFromSelection = function(idx) {
 		selectItems.selectedItems.splice(idx, 1);
 		selectItems.refreshSource();
 	};
 
+	//
+	//
 	// add the item to the project
 	selectItems.addItemToSelection = function(item) {
 		if (selectItems.modeSingle) {
@@ -379,26 +385,35 @@ function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, r
 		}
 		selectItems.refreshSource();
 	};
-
+	//
+	//
 	// set local var to passed project
 	selectItems.itemName = rItemName;
-
+	//
+	//
 	// copy the original values so we can cancel the changes and revert back.
 	if (!rSelectedItems) {
 		selectItems.selectedItems = [];
 	} else {
 		selectItems.selectedItems = angular.copy(rSelectedItems);
 	}
-
+	//
+	//
+	//
 	selectItems.itemList = rAllItems || [];
 	selectItems.refreshSource();
 
-
+	//
+	//
+	//
 	selectItems.cancel = function () {
 		// since we took a copy of the rSelectedItems, no need to overwrite originals, just cancel it.
 		//selectItems.selectedItems = angular.copy(rSelectedItems);
 		$modalInstance.dismiss('cancel');
 	};
+	//
+	//
+	//
 	selectItems.ok = function () { 
 		// saving so pass back new data and a reference to the destination
 		$modalInstance.close(selectItems.selectedItems, rSelectedItems);

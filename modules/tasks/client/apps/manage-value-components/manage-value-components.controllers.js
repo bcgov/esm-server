@@ -8,9 +8,9 @@ angular.module('tasks')
 // CONTROLLER: Task for Simple Complete
 //
 // -----------------------------------------------------------------------------------
-controllerTaskValueComponents.$inject = ['$scope', '$rootScope', 'Task', 'Notification', '$q', 'ProcessCodes', 'Configuration', 'Project', '_'];
+controllerTaskValueComponents.$inject = ['$scope', '$rootScope', 'Task', '$q', 'ProcessCodes', 'Configuration', 'Project', '_'];
 	//
-function controllerTaskValueComponents($scope, $rootScope, Task, Notification, $q, ProcessCodes, Configuration, Project, _) {
+function controllerTaskValueComponents($scope, $rootScope, Task, $q, ProcessCodes, Configuration, Project, _) {
 
 	var taskValueComponents = this;
 

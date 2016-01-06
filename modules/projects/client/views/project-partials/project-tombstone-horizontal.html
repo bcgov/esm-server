@@ -50,7 +50,7 @@
 		<div class="col-sm-3">
 			<div class='panel panel-default panel-project-summary'>
 
-				<div class='panel-body' ng-if="!projTomb.tombstone">
+				<div class='panel-body'>
 					<div class='row project-small-tombstone'>
 					
 						<div class='col-sm-6'>
@@ -64,17 +64,19 @@
 						</div>					
 					
 					</div>
+
 				</div>
 
-				<div class='panel-body' ng-if="projTomb.tombstone">
-					Activities In Progress:<br/>
-					Activities Complete:<br/>
-					Activities Not Started:<br/>
-					Documents:<br/>
-					Valid Comments:<br/>
-					Time to Next Phase:<br/>
-					Schedule Estimate Accuracy:<br/>
-				</div>
+				<table class="table table-condensed" ng-if="projTomb.tombstone">
+					<tbody>
+						<tr><td>Activities In Progress</td><td class="text-right">0</td></tr>
+						<tr><td>Activities Complete</td><td class="text-right">0</td></tr>
+						<tr><td>Activities Not Started</td><td class="text-right">0</td></tr>
+						<tr><td>Documents</td><td class="text-right">0</td></tr>
+						<tr><td>Valid Comments</td><td class="text-right">0</td></tr>
+						<tr><td>Schedule Estimate Accuracy</td><td class="text-right">100%</td></tr>			
+					</tbody>
+				</table>
 
 			</div> <!-- /col3 performance indicators -->
 		</div>
@@ -83,8 +85,9 @@
 			<div class='panel panel-default panel-project-summary panel-tombstone-menu'>
 
 				<div class='panel-body' ng-if="!projTomb.tombstone">
-					<p><a href x-modal-project-edit-plan-schedule 		x-project="projTomb.project"><span class='glyphicon glyphicon-calendar'></span> Manage Schedule</a></p>
-					<a href x-modal-eao-access							x-project="projTomb.project"><span class='glyphicon glyphicon-user'></span> Manage Access</a>
+					<p><a href x-modal-project-edit-plan-schedule 	x-project="projTomb.project"><span class='glyphicon glyphicon-calendar'></span> Manage Schedule</a></p>
+					<p><a href x-modal-eao-access					x-user-is="admin"		x-project="projTomb.project"><span class='glyphicon glyphicon-user'></span> Manage Access</a></p>
+					<p><a href x-modal-proponent-access			x-user-is-not="admin"	x-project="projTomb.project"><span class='glyphicon glyphicon-user'></span> Manage Access</a></p>
 				</div>
 
 				<div class='panel-body' ng-if="projTomb.tombstone">
@@ -95,7 +98,7 @@
 
 					<hr>
 
-					<p><a href x-modal-eao-project-edit		x-project="projTomb.project"><span class='glyphicon glyphicon-pencil'></span> Edit Project</a></p>
+					<p><a href x-modal-project-edit		x-project="projTomb.project"><span class='glyphicon glyphicon-pencil'></span> Edit Project</a></p>
 
 					<hr>
 					<p><a href x-modal-manage-documents		x-project="projTomb.project"><span class='glyphicon glyphicon-file'></span> Documents</a></p>

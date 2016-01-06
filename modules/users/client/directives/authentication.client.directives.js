@@ -14,10 +14,11 @@ angular
 var directiveUserHasRole = function(roles, _, Authentication) {
 	if (Authentication.user === '') return false;
 
-	var arr = roles.split(',');
+	var arr = String(roles).split(',');
 	var found = false;
 	// if user has any of the roles
 	_.each(arr, function(role) {
+		
 		if( _.indexOf(Authentication.user.roles, role) > -1) {
 			found = true;
 		}
@@ -81,10 +82,10 @@ function directiveUserIsNot(_, Authentication) {
 		restrict: 'A',
 		link: function(scope, element, attrs) {
 
-			scope.$watch(function() {return attrs.userIs;}, function(newValue){
+			scope.$watch(function() {return attrs.userIsNot;}, function(newValue){
 				if(newValue) {
 					// remove the elemnt if false is returned
-					if ( directiveUserHasRole(attrs.userIs, _, Authentication) ) {
+					if ( directiveUserHasRole(attrs.userIsNot, _, Authentication) ) {
 						element.remove();
 					}
 				}

@@ -54,5 +54,5 @@ filterAccessHasRole.$inject = ['_'];
 function filterAccessHasRole(_) {
 	return function(perms, role, key) {
 		return _.indexOf(perms[key], role) > -1;
-	}
+	};
 }

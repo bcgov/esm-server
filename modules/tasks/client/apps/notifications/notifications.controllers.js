@@ -8,9 +8,9 @@ angular.module('tasks')
 // CONTROLLER: Task for Simple Complete
 //
 // -----------------------------------------------------------------------------------
-controllerTaskNotifications.$inject = ['$scope', '$rootScope', 'Task', 'Notification', '$q', 'ProcessCodes', '_'];
+controllerTaskNotifications.$inject = ['$scope', '$rootScope', 'Task', 'sTaskNotifications', '$q', 'ProcessCodes', '_'];
 	//
-function controllerTaskNotifications($scope, $rootScope, Task, Notification, $q, ProcessCodes, _) {
+function controllerTaskNotifications($scope, $rootScope, Task, sTaskNotifications, $q, ProcessCodes, _) {
 
 	var taskNotifications = this;
 
@@ -37,6 +37,8 @@ function controllerTaskNotifications($scope, $rootScope, Task, Notification, $q,
 				});
 			});
 
+			taskNotifications.taskData = {'status': 'pending'};
+
 		}
 	});
 
@@ -59,7 +61,6 @@ function controllerTaskNotifications($scope, $rootScope, Task, Notification, $q,
 		});
 	});
 
-
 	$scope.$watch('anchor', function(newValue) {
 		if (newValue) {
 			taskNotifications.taskAnchor = newValue;
@@ -78,7 +79,7 @@ function controllerTaskNotifications($scope, $rootScope, Task, Notification, $q,
 		}
 	});
 
-	Notification.getTemplates().then( function(res) {
+	sTaskNotifications.getTemplates().then( function(res) {
 		taskNotifications.templates = res.data;
 	});
 
@@ -88,7 +89,7 @@ function controllerTaskNotifications($scope, $rootScope, Task, Notification, $q,
 
 	taskNotifications.saveTask = function() {
 		// structure the data to save.
-		//Notifications.saveTask();
+		//sTaskNotification.saveTask();
 		console.log('save notifications.controllers.js');
 	};
 

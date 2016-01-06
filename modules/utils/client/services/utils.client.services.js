@@ -31,18 +31,19 @@ function serviceUtils($http) {
 	// var getProjectResearchDetail = function(req) {
 	// 	return $http({method:'GET',url: API + '/v1/researchDetail/' + req.seed + '/' + req.term });
 	// }
-	// var getRoles = function(req) {
-	// 	return $http({method:'GET',url: API + '/v1/roles' });
-	// }
+	var getRoles = function(req) {
+		return $http({method:'GET',url: 'api/roles' });
+	};
+	
 	return {
 		// getCurrentUser: getCurrentUser,
 		getRecentActivity: getRecentActivity,
 		getQuickLinks: getQuickLinks,
 		// getProjectMilestones: getProjectMilestones,
 		getCommonLayers: getCommonLayers,
-		getResearchFocus: getResearchFocus
+		getResearchFocus: getResearchFocus,
 		// getResearchResults: getResearchResults,
 		// getProjectResearchDetail: getProjectResearchDetail,
-		// getRoles: getRoles
+		getRoles: getRoles
 	};
 }

@@ -1,6 +1,6 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
-		Notifications: {{ taskNotifications.task.name }} <em class="small">{{ taskNotifications.task.currentStatusTitle }}</em>
+		Notifications: {{ taskNotifications.task.name }} <em class="small pull-right">{{ taskNotifications.task.status }}</em>
 	</div>
 
 	<div class="panel-body">
@@ -35,13 +35,15 @@
 		<hr/>
 			<div class="row">
 				<div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+
 					<div class="form-group">
 						<label class="control-label" for="scheduledDate">Send On</label>
-						<input type="datetime" id="scheduledDate" class="form-control text-center" ng-model="taskNotifications.taskData.dateQueued" ng-disabled="taskNotifications.taskData.status !== 'pending'"/>
+						<div class="input-group">
+							<input type="text" class="form-control text-center" ng-model="taskNotifications.taskData.dateQueued" ng-disabled="1"/>
+							<div x-modal-date-picker x-selected-date="taskNotifications.taskData.dateQueued" class="input-group-addon btn-default"><i class="glyphicon glyphicon-calendar"></i></div>
+						</div>
 					</div>
-					<div class="well well-sm text-center" ng-if="taskNotifications.taskData.status === 'pending'">
-						<datetimepicker ng-model="taskNotifications.taskData.dateQueued" data-datetimepicker-config="{}"/>
-					</div>
+
 					<div class="form-group text-center" ng-if="taskNotifications.taskData.status === 'pending' && taskNotifications.taskData.dateQueued" >
 						<a class="btn btn-success" href ng-click="taskNotifications.taskData.status = 'queued'">Add to Queue</a>
 					</div>
