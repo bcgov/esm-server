@@ -75,7 +75,7 @@ html {
   /* IE10 preview */
   background: linear-gradient(to bottom, #606c88 0%, #003366 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#003366',GradientType=0 );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#606c88', endColorstr='#003366',GradientType=0 );
   /* IE6-9 */
   min-height: 100%; }
 
@@ -552,5 +552,3 @@ nav {
 
 .panel > .table.table-stacked {
   margin-bottom: 30px; }
-
-/*# sourceMappingURL=core.css.map */

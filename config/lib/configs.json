@@ -4,7 +4,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Initiate Project",
       "name": "Initiate Project",
@@ -19,7 +19,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Set up Project Space",
       "name": "Set up Project Space",
@@ -33,7 +33,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Populate Initial Project Content",
       "name": "Populate Initial Project Content",
@@ -47,7 +47,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Approve Project Description",
       "name": "Approve Project Description",
@@ -61,7 +61,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Issue Section 10(1)c",
       "name": "Issue Section 10(1)c",
@@ -75,7 +75,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Document Strength of Claim",
       "name": "Document Strength of Claim",
@@ -89,7 +89,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Input Project Content - for Section 11",
       "name": "Input Project Content - for Section 11",
@@ -103,7 +103,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Input Project Content - for AIR",
       "name": "Input Project Content - for AIR",
@@ -117,7 +117,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Confirm Working Group Participation",
       "name": "Confirm Working Group Participation",
@@ -131,7 +131,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Input Project Content - DRAFT AIR",
       "name": "Input Project Content - DRAFT AIR",
@@ -145,7 +145,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Create Draft AIR",
       "name": "Create Draft AIR",
@@ -159,7 +159,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Draft AIR Public Comment Period",
       "name": "Draft AIR Public Comment Period",
@@ -173,7 +173,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Create AIR",
       "name": "Create AIR",
@@ -187,7 +187,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Create Table of Concordance",
       "name": "Create Table of Concordance",
@@ -201,7 +201,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Submit Application",
       "name": "Submit Application",
@@ -215,7 +215,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Initate Evaluation Period",
       "name": "Initate Evaluation Period",
@@ -229,7 +229,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "30 Day Evaluation Period",
       "name": "30 Day Evaluation Period",
@@ -243,7 +243,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Evaluation Wrap-up",
       "name": "Evaluation Wrap-up",
@@ -257,7 +257,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Initate Review Period",
       "name": "Initate Review Period",
@@ -271,7 +271,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Application Review",
       "name": "Application Review",
@@ -285,7 +285,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Public Comment Period",
       "name": "Public Comment Period",
@@ -299,7 +299,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Approve Application",
       "name": "Approve Application",
@@ -313,7 +313,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Review Wrap-Up",
       "name": "Review Wrap-Up",
@@ -327,7 +327,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Initiate Decision Period",
       "name": "Initiate Decision Period",
@@ -341,7 +341,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Minister Review - Approve Application",
       "name": "Minister Review - Approve Application",
@@ -355,7 +355,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Initiate Decision Period",
       "name": "Initiate Decision Period",
@@ -369,7 +369,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Minister Review - Approve Application",
       "name": "Minister Review - Approve Application",
@@ -383,7 +383,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Not Approved",
       "name": "Not Approved",
@@ -397,7 +397,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "More information needed",
       "name": "More information needed",
@@ -411,7 +411,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Approved",
       "name": "Approved",
@@ -425,7 +425,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Create Certificate",
       "name": "Create Certificate",
@@ -439,7 +439,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Complete Decision Phase",
       "name": "Complete Decision Phase",
@@ -453,7 +453,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Initiate Certificate Extension",
       "name": "Initiate Certificate Extension",
@@ -467,7 +467,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "description": "Initiate Substantially Started Process",
       "name": "Initiate Substantially Started Process",
@@ -483,7 +483,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -499,7 +499,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -515,7 +515,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -531,7 +531,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -547,7 +547,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -563,7 +563,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -579,7 +579,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -595,7 +595,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -611,7 +611,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -627,7 +627,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -643,7 +643,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -659,7 +659,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -675,7 +675,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -691,7 +691,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -707,7 +707,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -723,7 +723,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -739,7 +739,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -755,7 +755,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -771,7 +771,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -787,7 +787,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -803,7 +803,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -819,7 +819,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -835,7 +835,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -851,7 +851,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -867,7 +867,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -883,7 +883,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -899,7 +899,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -915,7 +915,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -931,7 +931,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -947,7 +947,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -963,7 +963,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -979,7 +979,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -995,7 +995,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -1011,7 +1011,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -1027,7 +1027,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -1043,7 +1043,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -1059,7 +1059,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Started",
       "progress": 0,
@@ -1081,7 +1081,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Required",
       "description": "Accept Draft Project Description",
@@ -1099,7 +1099,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Required",
       "description": "Project Space Initiated",
@@ -1117,7 +1117,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Required",
       "description": "Project Description",
@@ -1135,7 +1135,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Required",
       "description": "Section 10.1.c",
@@ -1153,7 +1153,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Required",
       "description": "Strength of Claim",
@@ -1171,7 +1171,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Required",
       "description": "Section 11",
@@ -1189,7 +1189,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Required",
       "description": "Value Component Document",
@@ -1207,7 +1207,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Required",
       "description": "Draft AIR",
@@ -1225,7 +1225,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Required",
       "description": "AIR",
@@ -1243,7 +1243,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Required",
       "description": "Draft Application",
@@ -1261,7 +1261,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Required",
       "description": "Evaluation Decision",
@@ -1279,7 +1279,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Required",
       "description": "Application",
@@ -1297,7 +1297,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Required",
       "description": "Referral Package Sign-off",
@@ -1315,7 +1315,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Required",
       "description": "Ministers' Decision",
@@ -1333,7 +1333,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "status": "Not Required",
       "description": "Substantially Started",
@@ -1349,7 +1349,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "dateCompleted": null,
       "dateStarted": null,
@@ -1366,7 +1366,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "dateCompleted": null,
       "dateStarted": null,
@@ -1383,7 +1383,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "dateCompleted": null,
       "dateStarted": null,
@@ -1400,7 +1400,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "dateCompleted": null,
       "dateStarted": null,
@@ -1417,7 +1417,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "dateCompleted": null,
       "dateStarted": null,
@@ -1434,7 +1434,7 @@
       "access": {
         "watch": "",
         "write": "",
-        "read": ""
+        "read": "user"
       },
       "dateCompleted": null,
       "dateStarted": null,
@@ -1467,8 +1467,8 @@
     {
       "access": {
         "watch": "",
-        "write": "",
-        "read": ""
+        "write": "proponent",
+        "read": "user"
       },
       "prerequisites": [],
       "processCode": "public-comment-period-scheduling",
@@ -1489,8 +1489,8 @@
     {
       "access": {
         "watch": "",
-        "write": "",
-        "read": ""
+        "write": "vetting",
+        "read": "user"
       },
       "prerequisites": [],
       "processCode": "public-comment-vetting",
@@ -1511,8 +1511,8 @@
     {
       "access": {
         "watch": "",
-        "write": "",
-        "read": ""
+        "write": "proponent, classify",
+        "read": "user"
       },
       "prerequisites": [],
       "processCode": "public-comment-classification-proponent",

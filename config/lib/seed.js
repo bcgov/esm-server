@@ -95,6 +95,57 @@ if (process.env.NODE_ENV === 'production') {
       });
     }
   });
+
+  // Add Vetting User
+  User.find({username: 'vetting'}, function (err, users) {
+    if (users.length === 0) {
+      var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
+      var user = new User({
+        username: 'vetting',
+        password: 'vetting',
+        provider: 'local',
+        email: 'vetting@localhost.com',
+        firstName: 'vetting',
+        lastName: 'Local',
+        displayName: 'vetting Local',
+        roles: ['user', 'vetting']
+      });
+      // Then save the user
+      user.save(function (err) {
+        if (err) {
+          console.log('Failed to add local admin', err);
+        } else {
+          console.log(chalk.bold.red('Local admin added with password set to ' + password));
+        }
+      });
+    }
+  });
+
+  // Add Classification User
+  User.find({username: 'classify'}, function (err, users) {
+    if (users.length === 0) {
+      var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
+      var user = new User({
+        username: 'classify',
+        password: 'classify',
+        provider: 'local',
+        email: 'classify@localhost.com',
+        firstName: 'classify',
+        lastName: 'Local',
+        displayName: 'classify Local',
+        roles: ['user', 'classify']
+      });
+      // Then save the user
+      user.save(function (err) {
+        if (err) {
+          console.log('Failed to add local admin', err);
+        } else {
+          console.log(chalk.bold.red('Local admin added with password set to ' + password));
+        }
+      });
+    }
+  });
+
 }
 
 Integration.findOne ({module:'configs'}).exec()
@@ -123,3 +174,5 @@ Integration.findOne ({module:'configs'}).exec()
     });
   }
 });
+
+
