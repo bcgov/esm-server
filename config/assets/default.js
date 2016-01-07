@@ -35,8 +35,8 @@ module.exports = {
         'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
         // these were in the applicaiton js area before
         'public/lib/ngmap/build/scripts/ng-map.js',
-		'public/lib/moment-timezone-data.js',
-		'public/lib/readable-range.js'
+		'public/moment-timezone-data.js',
+		'public/readable-range.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },
