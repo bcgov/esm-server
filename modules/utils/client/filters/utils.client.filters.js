@@ -145,7 +145,7 @@ function filterTitleCase() {
 
 
 
-// Filter to prevent html trust warnings.
+// Filter to split arrays into chunks.
 filterChunk.$inject = ['_'];
 
 function filterChunk(_) {
