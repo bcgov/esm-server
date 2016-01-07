@@ -87,12 +87,12 @@
 			ng-class="{'bg-warning':taskPubComClassProp.activeComment._id === com._id}">
 
 				<td width="58%" ng-if="taskPubComClassProp.activeComment._id === com._id"><small>{{ com.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}</small><br/><small>{{ com.author }}</small>
-					<div ng-bind-html="com.comment | safeHtml "></div>
+					<pre>{{ com.comment }}</pre>
 					<hr>
 
 					<ul class="list-unstyled document-vetting">
 						<li ng-repeat="doc in com.documents">
-							<a href="{{ doc.url }}" target="_new" class="small" ng-if="doc.eaoStatus !== 'Rejected'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
+							<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus !== 'Rejected'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
 							<span class="small text-warning" ng-if="doc.eaoStatus === 'Rejected'"><i class="glyphicon glyphicon-file"></i> {{ doc.name }} has not been shared as it does not meet the privacy policy rules.</span>
 						</li>
 						<li ng-if="com.documents.length === 0">

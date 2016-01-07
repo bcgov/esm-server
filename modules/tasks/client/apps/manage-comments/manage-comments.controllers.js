@@ -34,11 +34,7 @@ function controllerTaskManageComments($scope, $rootScope, Task, _, sTaskManageCo
 					});
 				}
 
-				console.log('all comments', taskManComm.comments);
-
 			});
-
-
 		}
 	});
 

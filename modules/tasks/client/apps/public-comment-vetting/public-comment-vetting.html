@@ -38,7 +38,7 @@
 			<tr ng-repeat="com in filteredComments = (taskPubComVet.data.comments | filter:{eaoStatus: taskPubComVet.filter}:true | filter:taskPubComVet.filterKeyword) track by $index" ng-class="{'bg-warning':taskPubComVet.activeComment._id === com._id}">
 
 				<td width="60%" ng-if="taskPubComVet.activeComment._id === com._id"><small>{{ com.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}</small><br/><small>{{ com.author }}</small>
-					<div ng-bind-html="com.comment | safeHtml"></div>
+					<pre>{{ com.comment }}</pre>
 				</td>
 
 				<td width="40%" ng-if="taskPubComVet.activeComment._id === com._id">
@@ -53,7 +53,7 @@
 							</div>
 						</li>
 						<li class="clearfix" ng-repeat="doc in com.documents">
-							<a href="{{ doc.url }}" target="_new" class="small">{{ doc.name }}</a>
+							<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small">{{ doc.name }}</a>
 							<div class="btn-group btn-group-xs pull-right">
 								<a href class="btn btn-default" ng-class="{'btn-success': doc.eaoStatus === 'Published'}"	ng-click="doc.eaoStatus = 'Published'">Accept</a>
 								<a href class="btn btn-default" ng-class="{'btn-danger': doc.eaoStatus === 'Rejected'}"	ng-click="doc.eaoStatus = 'Rejected'">Reject</a>

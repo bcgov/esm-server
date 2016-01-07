@@ -25,7 +25,7 @@
 			<tr class="small">
 				<th width="59%">Comment</th>
 				<th width="20%" class="text-center">Date</th>
-				<th width="20%" class="text-center">Status</th>
+				<th width="20%" class="text-center">Overall Status<br/>EAO Status<br/>Proponent Status</th>
 				<th class="text-right"><a href ng-click="taskManComm.showFilter = !taskManComm.showFilter"><span class="glyphicon glyphicon-search"></span></a></th>
 			</tr>
 		</thead>
@@ -33,20 +33,28 @@
 			<tr ng-repeat="com in taskManComm.comments | filter:taskManComm.filterKeyword track by $index" ng-class="{'bg-danger': com.overallStatus === 'Rejected', 'bg-info': com.overallStatus === 'In Progress'}" ng-click="taskManComm.activeComments[com._id] = !taskManComm.activeComments[com._id]">
 				<td>
 					<div ng-show="taskManComm.activeComments[com._id]">
-						{{ com.comment | safeHtml }}<br>
-						{{ com.documents | json }}
+						<pre class="form-group">{{ com.comment }}</pre>
+						<ul class="list-unstyled document-vetting">
+							<li ng-repeat="doc in com.documents">
+								<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus !== 'Rejected'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
+								<span class="small text-warning" ng-if="doc.eaoStatus === 'Rejected'"><i class="glyphicon glyphicon-file"></i> {{ doc.name }} has not been shared as it does not meet the privacy policy rules.</span>
+							</li>
+							<li ng-if="com.documents.length === 0" class="small">
+								There are no documents associated with this comment.
+							</li>
+						</ul>
 					</div>
 					<div ng-show="!taskManComm.activeComments[com._id]">
-						{{ com.comment | safeHtml | max15Words }}
+						<pre>{{ com.comment | max15Words }}</pre>
 					</div>
 				</td>
 				<td class='text-center no-wrap'>
 					{{ com.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}
 				</td>
 				<td class='text-center small' title="Overall, EAO, Proponent">
-					{{ com.overallStatus }}<br/>
-					{{ com.eaoStatus }}<br/>
-					{{ com.proponentStatus }}
+					<span title="Overall">{{ com.overallStatus }}</span><br/>
+					<span title="EAO">{{ com.eaoStatus }}</span><br/>
+					<span title="Proponent">{{ com.proponentStatus }}</span>
 				</td>
 				<td></td>
 			</tr>
