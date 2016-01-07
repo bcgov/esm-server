@@ -18,7 +18,7 @@ angular.module('utils')
     .directive('rolesSelect', directiveRolesSelect)
     .directive('usersSelect', directiveUsersSelect)
     .directive('modalSelectUsers', directiveModalSelectUsers)
-    .directive('modalUserList', directiveModalUserList)
+    .directive('modalUserList', directiveModalRecipientList)
     .directive('tmplRequirementChecklist', directiveRequirementChecklist)
     .directive('tmplRequirementTally', directiveRequirementTally)        
     .directive('modalUserContactInfo', directiveModalUserContactInfo)
@@ -459,9 +459,9 @@ function directiveModalSelectUsers($modal) {
 // DIRECTIVE: Modal User List
 //
 // -----------------------------------------------------------------------------------
-directiveModalUserList.$inject = ['$modal'];
+directiveModalRecipientList.$inject = ['$modal'];
 /* @ngInject */
-function directiveModalUserList($modal) {
+function directiveModalRecipientList($modal) {
     var directive = {
         restrict:'A',
         scope : {
@@ -471,9 +471,9 @@ function directiveModalUserList($modal) {
 			element.on('click', function() {
 				var modalUserList = $modal.open({
 					animation: true,
-					templateUrl: 'modules/utils/client/views/partials/modal-user-list.html',
-					controller: 'controllerModalUserList',
-					controllerAs: 'utilUserList',
+					templateUrl: 'modules/utils/client/views/partials/modal-recipient-list.html',
+					controller: 'controllerModalRecipientList',
+					controllerAs: 'utilRecipientList',
 					size: 'lg',
 					resolve: {
 						rUsers: function() {

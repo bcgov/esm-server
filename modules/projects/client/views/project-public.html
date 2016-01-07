@@ -61,13 +61,9 @@
 				<div class="concern-heading">
 					<p>Related Topics for this project include:</p>
 					<div class="row">
-						<div class="col-md-6">
-							<ul>
-								<li ng-repeat="vc in vm.project.buckets | filter:{isValueComponent: true}">{{ vc.name }}</li>
-							</ul>
-						</div>
-						<div class="col-md-6">
-							<ul>
+						<div class="col-md-6" ng-repeat="col in vm.project.buckets | orderBy:'name' | filter:{isValueComponent: true} | chunk:(vm.project.buckets.length/2)">
+							<ul style="margin-bottom: 0;">
+								<li ng-repeat="vc in col">{{ vc.name }}</li>
 							</ul>
 						</div>
 					</div>
@@ -206,7 +202,7 @@
 
 			<div ng-repeat="(title, items) in vm.commentsByDate" class="concern-list" ng-show="vm.form.view === 'bydate'">
 				<h3 ng-click='form[title] = !form[title]' class="clickable concern-heading">
-					{{ title }} <div class="pull-right small"><span ng-if="!form[title]">Click to expand.</span> Number of comments: {{ (items| filter:vm.filterKeyword).length || 0 }}</div>
+					{{ title }} <div class="pull-right small"><span ng-if="!form[title]">Click to view.</span> Number of comments: {{ (items| filter:vm.filterKeyword).length || 0 }}</div>
 				</h3>
 				<hr ng-if='!form[title]'>
 				<div class="panel panel-default panel-concern" ng-show='form[title]' ng-repeat='item in items | filter:vm.filterKeyword'>

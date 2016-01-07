@@ -10,7 +10,8 @@ angular.module('utils')
 	.filter('isInThePast', filterIsInThePast)
 	.filter('max15Words', filterMax15Words)
 	.filter('safeHtml', filterSafeHtml)
-	.filter('titleCase', filterTitleCase);
+	.filter('titleCase', filterTitleCase)
+	.filter('chunk', filterChunk);
 
 // -----------------------------------------------------------------------------------
 //
@@ -141,3 +142,13 @@ function filterTitleCase() {
      	return input.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 	};
 }
+
+
+
+// Filter to prevent html trust warnings.
+filterChunk.$inject = ['_'];
+
+function filterChunk(_) {
+	return _.memoize(_.chunk);
+}
+

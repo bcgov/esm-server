@@ -3,9 +3,9 @@
  * -------------------------------------------------------------------------- */
 /* ----- Colors ----- */
 /* ----- Typography ----- */
-.content {
-  margin-top: 80px; }
-
+/* .content {
+  margin-top: 80px;
+}*/
 .undecorated-link:hover {
   text-decoration: none; }
 
@@ -60,22 +60,22 @@ a:visited {
   text-decoration: none; }
 
 html {
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#606c88+0,3f4c6b+100;Grey+3D+%232 */
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#606c88+0,003366+100;Grey+3D+%232 */
   background: #606c88;
   /* Old browsers */
-  background: -moz-linear-gradient(top, #606c88 0%, #3f4c6b 100%);
-  /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #606c88), color-stop(100%, #3f4c6b));
-  /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #606c88 0%, #3f4c6b 100%);
-  /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #606c88 0%, #3f4c6b 100%);
-  /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, #606c88 0%, #3f4c6b 100%);
-  /* IE10+ */
-  background: linear-gradient(to bottom, #606c88 0%, #3f4c6b 100%);
-  /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=0 );
+  background: -moz-linear-gradient(top, #606c88 0%, #003366 100%);
+  /* FF3.6-15 */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #606c88), color-stop(100%, #003366));
+  /* Chrome4-9,Safari4-5 */
+  background: -webkit-linear-gradient(top, #606c88 0%, #003366 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: -o-linear-gradient(top, #606c88 0%, #003366 100%);
+  /* Opera 11.10-11.50 */
+  background: -ms-linear-gradient(top, #606c88 0%, #003366 100%);
+  /* IE10 preview */
+  background: linear-gradient(to bottom, #606c88 0%, #003366 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#003366',GradientType=0 );
   /* IE6-9 */
   min-height: 100%; }
 
@@ -85,9 +85,9 @@ a:hover {
 .has-navigation {
   padding-top: 80px; }
 
-.navbar.navbar-custom {
-  height: 60px !important; }
-
+/* .navbar.navbar-custom {
+	height: 60px !important;
+} */
 /* Remove border to delete the 1px line */
 .navbar-fixed-top {
   border: 0; }

@@ -9,7 +9,7 @@ angular.module('utils')
     .controller('controllerUsersSelect', controllerUsersSelect)
     .controller('controllerModalUsersSelect', controllerModalUsersSelect)
     .controller('controllerRequirementCalculation', controllerRequirementCalculation)
-    .controller('controllerModalUserList', controllerModalUserList)
+    .controller('controllerModalRecipientList', controllerModalUserList)
     .controller('controllerModalUserContactInfo', controllerModalUserContactInfo)
     .controller('controllerModalSelectItems', controllerModalSelectItems)
     .controller('controllerModalDatePicker', controllerModalDatePicker);
@@ -310,20 +310,20 @@ function controllerRequirementCalculation($scope, _) {
 // CONTROLLER: Modal: Show a list of user records and allow them to be copied
 //
 // -----------------------------------------------------------------------------------
-controllerModalUserList.$inject = ['$modalInstance', 'rUsers', '_'];
+controllerModalRecipientList.$inject = ['$modalInstance', 'rUsers', '_'];
 //
-function controllerModalUserList($modalInstance, rUsers, _) { 
-	var utilUserList = this;
+function controllerModalRecipientList($modalInstance, rUsers, _) { 
+	var utilRecipientList = this;
 
 	// put all the users into a string and display in a textarea
-	utilUserList.users='';
+	utilRecipientList.users='';
 
 	_.each(rUsers, function(user, idx) {
-		utilUserList.users += '"' + user.name + '","' + user.address + '","' + user.city + '","' + user.province + '","' + user.postal + '"\n';
+		utilRecipientList.users += '"' + user.name + '","' + user.address + '","' + user.city + '","' + user.province + '","' + user.postal + '"\n';
 	});
 
-	utilUserList.ok = function () { $modalInstance.close(); };
-	utilUserList.cancel = function () { $modalInstance.dismiss('cancel'); };
+	utilRecipientList.ok = function () { $modalInstance.close(); };
+	utilRecipientList.cancel = function () { $modalInstance.dismiss('cancel'); };
 }
 // -----------------------------------------------------------------------------------
 //

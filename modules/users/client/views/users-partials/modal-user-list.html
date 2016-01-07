@@ -3,20 +3,31 @@
 </div>
 <div class="modal-body">
 
-<div class="(role, contacts) in projectContacts.contactsByRole">
-	<label class="control-label">{{ role }}</label>
-	<div class="well well-sm">
-		<ul class="list-unstyled task-list">
-			<li ng-repeat="contact in contacts track by $index">
-				{{ contact.name }}
-			</li>
-			<li ng-if="contacts.length === 0">
-				No contacts defined for this role.
-			</li>
-		</ul>
-	</div>
-</div>
 
+<table>
+	<thead>
+		<tr>
+			<th>User</th>
+			<th>Email</th>
+			<th>Phone</th>
+			<th>Roles</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+
+
+
+</div>
 <div class="modal-footer">
 	<button class="btn btn-warning" type="button" ng-click="userList.cancel()">Cancel</button>
 	<button class="btn btn-primary" type="button" ng-click="userList.ok()">Close</button>

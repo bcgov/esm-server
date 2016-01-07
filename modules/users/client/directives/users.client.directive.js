@@ -39,9 +39,9 @@ function directiveModalUserList($modal) {
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
-				var modalSelectItems = $modal.open({
+				var modalUserList = $modal.open({
 					animation: true,
-					templateUrl: 'modules/users/client/views/partials/nodal-user-list.html',
+					templateUrl: 'modules/users/client/views/users-partials/modal-user-list.html',
 					controller: 'controllerModalUserList',
 					controllerAs: 'userList',
 					resolve: {
@@ -51,7 +51,7 @@ function directiveModalUserList($modal) {
 					},
 					size: 'lg'
 				});
-				modalSelectItems.result.then(function (newItems) {
+				modalUserList.result.then(function (newItems) {
 					// fire callback to assign the new selections
 					// or just assign
 					if (scope.callback) {
