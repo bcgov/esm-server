@@ -26,13 +26,16 @@ exports.invokeRolesPolicies = function () {
 		[ '', 'user', '/api/publiccomment/:publiccomment/eao/publish'           ],
 		[ '', 'user', '/api/publiccomment/:publiccomment/eao/spam'           ],
 		[ '', 'user', '/api/publiccomment/:publiccomment/eao/edit'           ],
-		[ '', 'user', '/api/publiccomment/:publiccomment/vett/start'           ],
-		[ '', 'user', '/api/publiccomment/:publiccomment/vett/claim'           ],
-		[ '', 'user', '/api/publiccomment/:publiccomment/classify/start'           ],
-		[ '', 'user', '/api/publiccomment/:publiccomment/classify/claim'           ],
+
+		[ '', 'user', '/api/publiccomment/project/:projectid/vett/start'           ],
+		[ '', 'user', '/api/publiccomment/project/:projectid/vett/claim'           ],
+		[ '', 'user', '/api/publiccomment/project/:projectid/classify/start'           ],
+		[ '', 'user', '/api/publiccomment/project/:projectid/classify/claim'           ],
+
 		[ '', 'user', '/api/publiccomment/:publiccomment/proponent/defer'         ],
 		[ '', 'user', '/api/publiccomment/:publiccomment/proponent/classify'         ],
-		[ '', 'user', '/api/publiccomment/project/:projectid/unvetted'         ]
+		[ '', 'user', '/api/publiccomment/project/:projectid/unvetted'         ],
+		[ '', 'user', '/api/publiccomment/project/:projectid/unclassified'         ]
 	]);
 };
 
