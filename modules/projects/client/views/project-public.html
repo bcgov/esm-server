@@ -1,14 +1,25 @@
-<h1 class="page-title">
-	<a href ui-sref='public.projects' class='pull-right return-link'>Return to Project List</a>
+<!-- <h1 class="page-title">
+	<a href ui-sref='public.projects' class='pull-right return-link' ng-if=0>Return to Project List</a>
 	{{ vm.project.name }}
 </h1>
+ -->
 <section id="project-view" class="container-fluid">
 	<div class='row'>
 
 		<div class='col-sm-3'>
 			<div class="panel panel-default project-info-panel">
+				<div class='panel-body text-center'>
+					<img src="http://ajaxmine.ca/wp-content/themes/wp-kghm/images/kghm-ajax-logo.png" style="padding: 20px 0;">
+				</div>
+
+				<div class="location-map" style="position: relative; width: 100%;">
+					<video autoplay="" poster="http://ajaxmine.org/wp-content/themes/wp-kghm/images/homepage-banner.png" id="bgvid" loop="" width="100%">	  
+						<source src="http://ajaxmine.org/wp-content/themes/wp-kghm/video/KGHM.webm" type="video/webm">
+						<source src="http://ajaxmine.org/wp-content/themes/wp-kghm/video/KGHM.mp4" type="video/mp4">
+					</video>
+				</div>
+
 				<div class='panel-heading'>
-					<div><label class="control-label">Type</label><p>{{ vm.project.type }}</p></div>
 					<div><label class="control-label">Location</label><p>{{ vm.project.location }}</p></div>
 					<div><label class="control-label">Region</label><p>{{ vm.project.region | titleCase }}</p></div>
 					<div><label class="control-label">Description</label><p>{{ vm.project.description }}</p></div>
@@ -16,11 +27,9 @@
 				</div>
 
 				<div class="location-map">
-
 					<map center="{{ vm.project.lat }},{{ vm.project.lon }}" zoom="5" map-type-id="SATELLITE" street-view-control='false' min-zoom=5 disable-default-u-i="true">
 						<marker id="marker_{{ vm.project._id }}" position="{{ vm.project.lat }},{{ vm.project.lon }}"></marker>
 					</map>
-
 				</div>
 				
 				<div class='panel-body' ng-show="vm.comments.length !== 0">
@@ -39,30 +48,32 @@
 				<countdown-clock x-end="vm.project.dateCommentsOpen"></countdown-clock>
 			</div>
 
-			<div class="alert alert-info clickable" x-modal-add-public-comment x-project="vm.project" ng-if="(vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)">
-				<div class="text-center">
+			<div ng-if="(vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)">
+
+				<div class="alert alert-info text-center">
 					<p>Public Comments Open from <strong>{{ vm.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}}</strong> to <strong>{{ vm.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY' }}</strong></p>
-					<h3>Click here to contribute a comment</h3>
 					<hr>
 					<p class="lead"><small>Public Comment Period Ends In</small><countdown-clock x-end="vm.project.dateCommentsClosed"></countdown-clock></p>
+					<hr>
+					<a class="btn btn-default btn-block btn-lg" href x-modal-add-public-comment x-project="vm.project">Click here to Contribute a Comment</a>
 				</div>
 
-				<hr>
-
-				<p>Related Topics for this project include:</p>
-				<div class="row">
-					<div class="col-md-6">
-						<ul>
-							<li ng-repeat="vc in vm.project.buckets | filter:{isValueComponent: true}">{{ vc.name }}</li>
-						</ul>
-					</div>
-					<div class="col-md-6">
-						<ul>
-						</ul>
+				<div class="concern-heading">
+					<p>Related Topics for this project include:</p>
+					<div class="row">
+						<div class="col-md-6">
+							<ul>
+								<li ng-repeat="vc in vm.project.buckets | filter:{isValueComponent: true}">{{ vc.name }}</li>
+							</ul>
+						</div>
+						<div class="col-md-6">
+							<ul>
+							</ul>
+						</div>
 					</div>
 				</div>
+
 			</div>
-
 
 <!-- 			<div class="panel panel-default panel-project-summary clickable" x-modal-project-schedule x-project="vm.project">
 				<div class="panel-body">
@@ -107,11 +118,15 @@
 <!-- 				</div>
 			</div>
  -->
+			<div class="concern-heading">
+	 			<hr>
+	 			<h3>Comments to Date</h3>
+	 		</div>
 
 			<nav class="navbar navbar-default navbar-sm" ng-init="vm.form.view = 'bydate'" ng-if="vm.comments.length !== 0">
 				<div class="container-fluid">
 
-					<ul class="nav navbar-nav navbar-form navbar-left">
+					<ul class="nav navbar-nav navbar-form navbar-left" ng-if="0">
 						<li>
 							<div class="btn-group btn-group-sm">
 								<button class="btn btn-default" ng-click="vm.form.view = 'bydate'"	ng-class="{'btn-primary': vm.form.view === 'bydate'}">By Date</button>
