@@ -53,7 +53,7 @@
 							</div>
 						</li>
 						<li class="clearfix" ng-repeat="doc in com.documents">
-							<a href="{{ doc.url }}" target="_new" class="small">{{ doc.name }}</a>
+							<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small">{{ doc.name }}</a>
 							<div class="btn-group btn-group-xs pull-right">
 								<a href class="btn btn-default" ng-class="{'btn-success': doc.eaoStatus === 'Published'}"	ng-click="doc.eaoStatus = 'Published'">Accept</a>
 								<a href class="btn btn-default" ng-class="{'btn-danger': doc.eaoStatus === 'Rejected'}"	ng-click="doc.eaoStatus = 'Rejected'">Reject</a>

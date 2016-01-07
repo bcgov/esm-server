@@ -92,7 +92,7 @@
 
 					<ul class="list-unstyled document-vetting">
 						<li ng-repeat="doc in com.documents">
-							<a href="{{ doc.url }}" target="_new" class="small" ng-if="doc.eaoStatus !== 'Rejected'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
+							<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus !== 'Rejected'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
 							<span class="small text-warning" ng-if="doc.eaoStatus === 'Rejected'"><i class="glyphicon glyphicon-file"></i> {{ doc.name }} has not been shared as it does not meet the privacy policy rules.</span>
 						</li>
 						<li ng-if="com.documents.length === 0">

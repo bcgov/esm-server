@@ -639,3 +639,12 @@ nav {
 .panel > .table.table-stacked {
 	margin-bottom: 30px;
 }
+
+pre {
+	padding: 0;
+	margin: 0;
+	font-size: inherit;
+	line-height: inherit;
+	background-color: transparent;
+	border: 0;
+}
