@@ -9,7 +9,7 @@ angular.module('utils')
     .controller('controllerUsersSelect', controllerUsersSelect)
     .controller('controllerModalUsersSelect', controllerModalUsersSelect)
     .controller('controllerRequirementCalculation', controllerRequirementCalculation)
-    .controller('controllerModalRecipientList', controllerModalUserList)
+    .controller('controllerModalRecipientList', controllerModalRecipientList)
     .controller('controllerModalUserContactInfo', controllerModalUserContactInfo)
     .controller('controllerModalSelectItems', controllerModalSelectItems)
     .controller('controllerModalDatePicker', controllerModalDatePicker);
