@@ -38,7 +38,7 @@
 			<tr ng-repeat="com in filteredComments = (taskPubComVet.data.comments | filter:{eaoStatus: taskPubComVet.filter}:true | filter:taskPubComVet.filterKeyword) track by $index" ng-class="{'bg-warning':taskPubComVet.activeComment._id === com._id}">
 
 				<td width="60%" ng-if="taskPubComVet.activeComment._id === com._id"><small>{{ com.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}</small><br/><small>{{ com.author }}</small>
-					<div ng-bind-html="com.comment | safeHtml"></div>
+					<pre>{{ com.comment }}</pre>
 				</td>
 
 				<td width="40%" ng-if="taskPubComVet.activeComment._id === com._id">

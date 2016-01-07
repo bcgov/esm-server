@@ -87,7 +87,7 @@
 			ng-class="{'bg-warning':taskPubComClassProp.activeComment._id === com._id}">
 
 				<td width="58%" ng-if="taskPubComClassProp.activeComment._id === com._id"><small>{{ com.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}</small><br/><small>{{ com.author }}</small>
-					<div ng-bind-html="com.comment | safeHtml "></div>
+					<pre>{{ com.comment }}</pre>
 					<hr>
 
 					<ul class="list-unstyled document-vetting">

@@ -58,7 +58,7 @@
 					<a class="btn btn-default btn-block btn-lg" href x-modal-add-public-comment x-project="vm.project">Click here to Contribute a Comment</a>
 				</div>
 
-				<div class="concern-heading">
+				<div class="concern-heading" ng-if="0">
 					<p>Related Topics for this project include:</p>
 					<div class="row">
 						<div class="col-md-6" ng-repeat="col in vm.project.buckets | orderBy:'name' | filter:{isValueComponent: true} | chunk:(vm.project.buckets.length/2)">
@@ -209,7 +209,7 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-sm-9">
-								{{ item.comment }}
+								<pre>{{ item.comment }}</pre>
 							</div>
 							<div class="col-sm-3">
 								<p ng-if="item.author">Name: {{ item.author }}</p>
@@ -218,7 +218,7 @@
 								<ul class="list-unstyled document-vetting small">
 									<li ng-repeat="doc in item.documents">
 										<a href="{{ doc.url }}" target="_new" class="small" ng-if="doc.eaoStatus !== 'Rejected'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
-										<span class="small text-warning" ng-if="doc.eaoStatus === 'Rejected'"><i class="glyphicon glyphicon-file"></i> {{ doc.name }} has not been shared as it does not meet the privacy policy rules.</span>
+										<span class="small text-warning" ng-if="doc.eaoStatus === 'Rejected'"><i class="glyphicon glyphicon-file"></i> This document has not been shared as it does not meet the privacy policy rules.</span>
 									</li>
 									<li ng-if="item.documents.length === 0">
 										There are no documents associated with this comment.
