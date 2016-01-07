@@ -14,7 +14,7 @@ angular.module('project')
 //
 // -----------------------------------------------------------------------------------
 controllerEAOProject.$inject = ['$scope', 'Project', '$stateParams'];
-//
+/* @ngInject */
 function controllerEAOProject($scope, Project, $stateParams) {
 	var vm = this;
 	
@@ -35,7 +35,7 @@ function controllerEAOProject($scope, Project, $stateParams) {
 //
 // -----------------------------------------------------------------------------------    
 controllerEAOProjectNew.$inject = ['Project', '$state'];
-//
+/* @ngInject */
 function controllerEAOProjectNew(Project, $state) {
 	var projectEntry = this;
 
@@ -67,7 +67,7 @@ function controllerEAOProjectNew(Project, $state) {
 //
 // -----------------------------------------------------------------------------------    
 controllerEAOProjectEdit.$inject = ['$state', 'Project', 'Configuration', '_'];
-//
+/* @ngInject */
 function controllerEAOProjectEdit($state, Project, Configuration, _) {
 	var projectEntry = this;
 
@@ -113,7 +113,7 @@ function controllerEAOProjectEdit($state, Project, Configuration, _) {
 //
 // -----------------------------------------------------------------------------------
 controllerModalProjectEdit.$inject = ['$modalInstance', 'rProject', 'Utils', 'Project'];
-//
+/* @ngInject */
 function controllerModalProjectEdit($modalInstance, rProject, Utils, Project) { 
 	var projectEdit = this;
 	
@@ -135,7 +135,7 @@ function controllerModalProjectEdit($modalInstance, rProject, Utils, Project) {
 //
 // -----------------------------------------------------------------------------------
 controllerModalProjectEditPlanMilestones.$inject = ['$modalInstance', 'rProject', 'Utils', '_'];
-//
+/* @ngInject */
 function controllerModalProjectEditPlanMilestones($modalInstance, rProject, Utils, _) { 
 	var pestag = this;
 	
@@ -180,7 +180,7 @@ function controllerModalProjectEditPlanMilestones($modalInstance, rProject, Util
 //
 // -----------------------------------------------------------------------------------
 controllerModalProjectEditPlanSchedule.$inject = ['$modalInstance', 'rProject', 'Project', '_'];
-//
+/* @ngInject */
 function controllerModalProjectEditPlanSchedule($modalInstance, rProject, Project, _) { 
 	var pesched = this;
 	

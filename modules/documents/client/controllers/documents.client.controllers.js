@@ -163,7 +163,7 @@ function controllerDocumentList($scope) {
 //
 // -----------------------------------------------------------------------------------
 controllerModalDocumentViewer.$inject = ['$modalInstance'];
-//
+/* @ngInject */
 function controllerModalDocumentViewer($modalInstance) {
 	var md = this;
 	md.ok = function () { $modalInstance.close(); };
@@ -175,7 +175,7 @@ function controllerModalDocumentViewer($modalInstance) {
 //
 // -----------------------------------------------------------------------------------
 controllerModalDocumentBuckets.$inject = ['$modalInstance'];
-//
+/* @ngInject */
 function controllerModalDocumentBuckets($modalInstance) {
 	var docBuckets = this;
 	docBuckets.ok = function () { $modalInstance.close(); };

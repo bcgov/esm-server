@@ -11,7 +11,7 @@ angular.module('tasks')
 //
 // -----------------------------------------------------------------------------------
 controllerTaskPublicCommentClassificationProponent.$inject = ['$scope', '$rootScope', '_', 'TaskPublicCommentClassificationProponent'];
-	//
+/* @ngInject */
 function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, _, TaskPublicCommentClassificationProponent) {
 	var taskPubComClassProp = this;
 
@@ -157,7 +157,7 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 //
 // -----------------------------------------------------------------------------------
 filterClassifyComments.$inject = ['$filter'];
-//
+/* @ngInject */
 function filterClassifyComments($filter) {
 	return function(items, enable, keywords) {
 		if (enable) {
@@ -173,7 +173,7 @@ function filterClassifyComments($filter) {
 //
 // -----------------------------------------------------------------------------------
 filterClassifyValueComponents.$inject = ['$filter'];
-//
+/* @ngInject */
 function filterClassifyValueComponents($filter) {
 	return function(items, enable, keywords) {
 		if (enable) {
@@ -189,7 +189,7 @@ function filterClassifyValueComponents($filter) {
 //
 // -----------------------------------------------------------------------------------
 filterClassifyTopics.$inject = ['$filter'];
-//
+/* @ngInject */
 function filterClassifyTopics($filter) {
 	return function(items, enable, keywords) {
 		if (enable) {

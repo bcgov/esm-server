@@ -12,7 +12,7 @@ angular.module('activity')
 //
 // -----------------------------------------------------------------------------------
 controllerActivityList.$inject = ['$scope', '$modal', 'Activity', '$stateParams'];
-//
+/* @ngInject */
 function controllerActivityList($scope, $modal, Activity, $stateParams) {
 	var actList = this;
 
@@ -41,7 +41,7 @@ function controllerActivityList($scope, $modal, Activity, $stateParams) {
 //
 // -----------------------------------------------------------------------------------
 controllerActivityItem.$inject = ['$scope', '$state'];
-//
+/* @ngInject */
 function controllerActivityItem($scope, $state) {
 	var actItem = this;
 	
@@ -115,7 +115,7 @@ function controllerActivityItem($scope, $state) {
 //
 // -----------------------------------------------------------------------------------
 controllerModalResponseRevisions.$inject = ['Activity', 'rActivityId', '$modalInstance'];
-//
+/* @ngInject */
 function controllerModalResponseRevisions(Activity, rActivityId, $modalInstance) {
 	var resRev = this;
 	

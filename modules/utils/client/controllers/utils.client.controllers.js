@@ -52,7 +52,7 @@ function controllerRecentActivity(Utils, Authentication) {
 //
 // -----------------------------------------------------------------------------------
 controllerPanelSort.$inject = ['$scope', '$filter'];
-//
+/* @ngInject */
 function controllerPanelSort($scope, $filter) { 
 	var panelSort = this;
 	var orderBy = $filter('orderBy');
@@ -95,7 +95,7 @@ function controllerPanelSort($scope, $filter) {
 //
 // -----------------------------------------------------------------------------------    
 controllerModalResearchDetail.$inject = ['$scope', 'Utils', '$modalInstance'];
-//
+/* @ngInject */
 function controllerModalResearchDetail($scope, Utils, $modalInstance) {
 	var rd = this;
 	
@@ -117,7 +117,7 @@ function controllerModalResearchDetail($scope, Utils, $modalInstance) {
 //
 // -----------------------------------------------------------------------------------    
 controllerRolesSelect.$inject = ['$scope', 'Utils', '_'];
-//
+/* @ngInject */
 function controllerRolesSelect($scope, Utils, _) {
 	var utilRolesSelect = this;
 
@@ -152,7 +152,7 @@ function controllerRolesSelect($scope, Utils, _) {
 //
 // -----------------------------------------------------------------------------------    
 controllerUsersSelect.$inject = ['$scope', '$modal'];
-//
+/* @ngInject */
 function controllerUsersSelect($scope, $modal) {
 	var utilUsersSelect = this;
 
@@ -195,7 +195,7 @@ function controllerUsersSelect($scope, $modal) {
 //
 // -----------------------------------------------------------------------------------    
 controllerModalUsersSelect.$inject = ['$scope', 'rUsers', 'rProject', 'rConfig', '$modalInstance', 'Project', 'Utils', '_'];
-//
+/* @ngInject */
 function controllerModalUsersSelect($scope, rUsers, rProject, rConfig, $modalInstance, Project, Utils, _) {
 	var utilUsers = this;
 
@@ -273,7 +273,7 @@ function controllerModalUsersSelect($scope, rUsers, rProject, rConfig, $modalIns
 //
 // -----------------------------------------------------------------------------------
 controllerRequirementCalculation.$inject = ['$scope', '_'];
-//
+/* @ngInject */
 function controllerRequirementCalculation($scope, _) { 
 	var reqChecklist = this;
 	reqChecklist.reqs = [];
@@ -311,7 +311,7 @@ function controllerRequirementCalculation($scope, _) {
 //
 // -----------------------------------------------------------------------------------
 controllerModalRecipientList.$inject = ['$modalInstance', 'rUsers', '_'];
-//
+/* @ngInject */
 function controllerModalRecipientList($modalInstance, rUsers, _) { 
 	var utilRecipientList = this;
 
@@ -331,7 +331,7 @@ function controllerModalRecipientList($modalInstance, rUsers, _) {
 //
 // -----------------------------------------------------------------------------------
 controllerModalUserContactInfo.$inject = ['$modalInstance', 'rUser'];
-//
+/* @ngInject */
 function controllerModalUserContactInfo($modalInstance, rUser) { 
 	var utilUserContactInfo = this;
 
@@ -345,7 +345,7 @@ function controllerModalUserContactInfo($modalInstance, rUser) {
 //
 // -----------------------------------------------------------------------------------
 controllerModalSelectItems.$inject = ['$modalInstance', 'rAllItems', 'rSelectedItems', 'rItemName', 'rSingle', 'rUnique', '_'];
-//
+/* @ngInject */
 function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, rItemName, rSingle, rUnique, _) { 
 	var selectItems = this;
 
@@ -425,7 +425,7 @@ function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, r
 //
 // -----------------------------------------------------------------------------------
 controllerModalDatePicker.$inject = ['$modalInstance', 'rChosenDate'];
-//
+/* @ngInject */
 function controllerModalDatePicker($modalInstance, rChosenDate) { 
 	var modalDatePick = this;
 	

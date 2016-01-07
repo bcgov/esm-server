@@ -8,7 +8,7 @@ angular.module('users')
 //
 // -----------------------------------------------------------------------------------
 controllerAuthentication.$inject = ['$scope', '$state', '$http', '$location', '$window', 'Authentication'];
-//
+/* @ngInject */
 function controllerAuthentication($scope, $state, $http, $location, $window, Authentication) {
   var loginPanel = this;
 

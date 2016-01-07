@@ -12,7 +12,7 @@ angular.module('activity')
 //
 // -----------------------------------------------------------------------------------
 controllerEAOActivity.$inject = ['$scope', '$state', '$modal', 'Activity', 'Project', '$stateParams'];
-//
+/* @ngInject */
 function controllerEAOActivity($scope, $state, $modal, Activity, Project, $stateParams) {
 	var actBase = this;
 	//
@@ -32,7 +32,7 @@ function controllerEAOActivity($scope, $state, $modal, Activity, Project, $state
 //
 // -----------------------------------------------------------------------------------
 controllerEAOActivityDetail.$inject = ['$scope', 'moment', '$rootScope', 'Task', '_'];
-//
+/* @ngInject */
 function controllerEAOActivityDetail($scope, moment, $rootScope, Task, _) {
 	var actDetail = this;
 	actDetail.tasks = [];
@@ -76,7 +76,7 @@ function controllerEAOActivityDetail($scope, moment, $rootScope, Task, _) {
 //
 // -----------------------------------------------------------------------------------
 controllerEAOActivityTasks.$inject = ['$scope', '$rootScope', '$filter', 'moment', 'Task', '$modal'];
-//
+/* @ngInject */
 function controllerEAOActivityTasks($scope, $rootScope, $filter, moment, Task, $modal) {
 	var actTasks = this;
 	actTasks.form = {};
@@ -140,7 +140,7 @@ function controllerEAOActivityTasks($scope, $rootScope, $filter, moment, Task, $
 //
 // -----------------------------------------------------------------------------------
 controllerEAOActivityProcesses.$inject = ['$scope', '$rootScope'];
-//
+/* @ngInject */
 function controllerEAOActivityProcesses($scope, $rootScope) {
 	var actProcs = this;
 
@@ -174,7 +174,7 @@ function controllerEAOActivityProcesses($scope, $rootScope) {
 //
 // -----------------------------------------------------------------------------------
 controllerModalAddCustomTask.$inject = ['$modalInstance', 'ProcessCodes', 'Configuration', 'Project', 'rActivity', 'rTasks'];
-//
+/* @ngInject */
 function controllerModalAddCustomTask($modalInstance, ProcessCodes, Configuration, Project, rActivity, rTasks) {
 	var customTask = this;
 	

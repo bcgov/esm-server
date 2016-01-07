@@ -92,11 +92,11 @@ function filterProjects(_) {
 // -----------------------------------------------------------------------------------
 //
 // FILTER: Is in the future
+// Just take it easy and you'll be fine... and be careful in the future.
 //
 // -----------------------------------------------------------------------------------
 filterIsInTheFuture.$inject = ['_', 'moment'];
 /* @ngInject */
-// Just take it easy and you'll be fine... and be careful in the future.
 function filterIsInTheFuture(_, moment) {
 	return function(input) {
 		return moment(input) > moment();
@@ -105,49 +105,60 @@ function filterIsInTheFuture(_, moment) {
 // -----------------------------------------------------------------------------------
 //
 // FILTER: Is in the future
+// So tell me Future Boy, who's President of the United States in 1985?
 //
 // -----------------------------------------------------------------------------------
 filterIsInThePast.$inject = ['_', 'moment'];
 /* @ngInject */
-// So tell me Future Boy, who's President of the United States in 1985?
 function filterIsInThePast(_, moment) {
 	return function(input) {
 		return moment(input) < moment();
 	};
 }   
-
+// -----------------------------------------------------------------------------------
+//
+// FILTER: First 15 words
+//
+// -----------------------------------------------------------------------------------
 filterMax15Words.$inject = ['_'];
-
+/* @ngInject */
 function filterMax15Words(_) {
 	return function(input) {
     	return _.take(_.words(input), 15).join(' ');
     };
 }
-
-// Filter to prevent html trust warnings.
+// -----------------------------------------------------------------------------------
+//
+// FILTER: Filter to prevent html trust warnings.
+//
+// -----------------------------------------------------------------------------------
 filterSafeHtml.$inject = ['$sce'];
-
+/* @ngInject */
 function filterSafeHtml($sce) {
 	return function(input) {
     	return $sce.trustAsHtml(input);
     };
 }
-
-// Filter to prevent html trust warnings.
+// -----------------------------------------------------------------------------------
+//
+// FILTER:Make the string title case
+//
+// -----------------------------------------------------------------------------------
 filterTitleCase.$inject = [];
-
+/* @ngInject */
 function filterTitleCase() {
 	return function(input) {
 		input = input || '';
      	return input.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 	};
 }
-
-
-
-// Filter to split arrays into chunks.
+// -----------------------------------------------------------------------------------
+//
+// FILTER: Split array into chunks
+//
+// -----------------------------------------------------------------------------------
 filterChunk.$inject = ['_'];
-
+/* @ngInject */
 function filterChunk(_) {
 	return _.memoize(_.chunk);
 }

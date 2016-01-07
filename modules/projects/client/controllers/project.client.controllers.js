@@ -16,7 +16,7 @@ angular.module('project')
 //
 // -----------------------------------------------------------------------------------
 controllerModalProjectSchedule.$inject = ['$modalInstance', 'rProject'];
-//
+/* @ngInject */
 function controllerModalProjectSchedule($modalInstance, rProject) { 
 	var ps = this;
 	
@@ -30,7 +30,7 @@ function controllerModalProjectSchedule($modalInstance, rProject) {
 //
 // -----------------------------------------------------------------------------------    
 controllerProjectTombstone.$inject = ['$scope'];
-//
+/* @ngInject */
 function controllerProjectTombstone($scope) {
 	var projTomb = this;
 	
@@ -44,7 +44,7 @@ function controllerProjectTombstone($scope) {
 //
 // -----------------------------------------------------------------------------------    
 controllerProjectTimeline.$inject = ['$scope'];
-//
+/* @ngInject */
 function controllerProjectTimeline($scope) {
 	var ptime = this;
 	
@@ -58,7 +58,7 @@ function controllerProjectTimeline($scope) {
 //
 // -----------------------------------------------------------------------------------    
 controllerProjectEntryTombstone.$inject = ['$scope', 'Projects', 'REGIONS', 'PROJECT_TYPES'];
-//
+/* @ngInject */
 function controllerProjectEntryTombstone($scope, Projects, REGIONS, PROJECT_TYPES) {
 	var projectEntryTS = this;
 	
@@ -76,7 +76,7 @@ function controllerProjectEntryTombstone($scope, Projects, REGIONS, PROJECT_TYPE
 //
 // -----------------------------------------------------------------------------------    
 controllerProjectProponent.$inject = ['$scope', 'PROVINCES'];
-//
+/* @ngInject */
 function controllerProjectProponent($scope, PROVINCES) {
 	var projectProponent = this;
 	
@@ -92,7 +92,7 @@ function controllerProjectProponent($scope, PROVINCES) {
 //
 // -----------------------------------------------------------------------------------    
 controllerProjectBucketListing.$inject = ['$scope', 'Project', '$filter'];
-//
+/* @ngInject */
 function controllerProjectBucketListing($scope, Project, $filter) {
 	var projBuckets = this;
 
@@ -128,7 +128,7 @@ function controllerProjectBucketListing($scope, Project, $filter) {
 //
 // -----------------------------------------------------------------------------------    
 controllerProjectResearch.$inject = ['$scope', 'Project', 'Utils'];
-//
+/* @ngInject */
 function controllerProjectResearch($scope, Project, Utils) {
 	var pr = this;
 	pr.searchResults = {};

@@ -113,11 +113,11 @@ module.exports = function (grunt) {
       }
     },
     ngAnnotate: {
-      production: {
-        files: {
-          'public/dist/application.js': defaultAssets.client.js
-        }
-      }
+//       production: {
+//         files: {
+//           'public/dist/application.js': defaultAssets.client.js
+//         }
+//       }
     },
     uglify: {
       production: {
@@ -275,9 +275,12 @@ module.exports = function (grunt) {
   grunt.registerTask('lint', ['sass', 'less', 'jshint', 'csslint']);
 
   // Lint project files and minify them into two production files.
-  grunt.registerTask('build', ['env:dev', 'lint', 'ngAnnotate', 'uglify', 'cssmin']);
-  grunt.registerTask('buildprod', ['env:prod', 'lint', 'ngAnnotate', 'uglify', 'cssmin']);
-  grunt.registerTask('buildtest', ['env:test', 'lint', 'ngAnnotate', 'uglify', 'cssmin']);
+//   grunt.registerTask('build', ['env:dev', 'lint', 'ngAnnotate', 'uglify', 'cssmin']);
+//   grunt.registerTask('buildprod', ['env:prod', 'lint', 'ngAnnotate', 'uglify', 'cssmin']);
+//   grunt.registerTask('buildtest', ['env:test', 'lint', 'ngAnnotate', 'uglify', 'cssmin']);
+  grunt.registerTask('build', ['env:dev', 'lint', 'uglify', 'cssmin']);
+  grunt.registerTask('buildprod', ['env:prod', 'lint', 'uglify', 'cssmin']);
+  grunt.registerTask('buildtest', ['env:test', 'lint', 'uglify', 'cssmin']);
 
   // Run the project tests
   grunt.registerTask('test', ['env:test', 'lint', 'mkdir:upload', 'copy:localConfig', 'server', 'mochaTest', 'karma:unit']);

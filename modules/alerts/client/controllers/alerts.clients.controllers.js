@@ -12,7 +12,7 @@ angular.module('alerts')
 //
 // -----------------------------------------------------------------------------------
 controllerModalAlertsViewer.$inject = ['$modalInstance', 'rAlerts', 'rProject'];
-//
+/* @ngInject */
 function controllerModalAlertsViewer($modalInstance, rAlerts, rProject) { 
 	var alertsView = this;
 
@@ -34,7 +34,7 @@ function controllerModalAlertsViewer($modalInstance, rAlerts, rProject) {
 //
 // -----------------------------------------------------------------------------------
 controllerModalAlertViewer.$inject = ['$modalInstance', 'rAlerts'];
-//
+/* @ngInject */
 function controllerModalAlertViewer($modalInstance, rAlerts) { 
 	var alertView = this;
 
@@ -49,7 +49,7 @@ function controllerModalAlertViewer($modalInstance, rAlerts) {
 //
 // -----------------------------------------------------------------------------------
 controllerModalAlertNew.$inject = ['$scope', '$modalInstance', 'Alerts', '$location', 'rProject', '_'];
-//
+/* @ngInject */
 function controllerModalAlertNew($scope, $modalInstance, Alerts, $location, rProject, _) { 
 	var alertNew = this;
 
@@ -119,7 +119,7 @@ function controllerModalAlertNew($scope, $modalInstance, Alerts, $location, rPro
 //
 // -----------------------------------------------------------------------------------
 controllerAlertList.$inject = ['$scope', 'Alerts'];
-//
+/* @ngInject */
 function controllerAlertList($scope, Alerts) { 
 	var alertList = this;
 

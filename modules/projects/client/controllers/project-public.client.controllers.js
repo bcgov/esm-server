@@ -10,7 +10,7 @@ angular.module('project')
 //
 // -----------------------------------------------------------------------------------
 controllerPublicProject.$inject = ['$modal', 'Project', '$stateParams', '_', 'moment'];
-//
+/* @ngInject */
 function controllerPublicProject($modal, Project, $stateParams, _, moment) {
 	var vm = this;
 
@@ -52,7 +52,7 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment) {
 //
 // -----------------------------------------------------------------------------------
 controllerModalAddComment.$inject = ['$modalInstance', '$scope', 'Project', 'rProject'];
-//
+/* @ngInject */
 function controllerModalAddComment($modalInstance, $scope, Project, rProject) { 
 	var publicComment = this;
 	var commentSubmitted = false;
