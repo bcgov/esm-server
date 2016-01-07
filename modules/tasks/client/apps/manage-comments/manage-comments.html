@@ -2,7 +2,7 @@
 	<div class="panel-heading">
 		Comments: {{ taskManComm.task.name }} <em class="small pull-right">{{ taskManComm.task.status }}</em>
 	</div>
-
+	<panel-sort x-fields="taskManComm.panelSort" x-data="taskManComm.comments" class="text-dark" style="margin-top: 10px;"></panel-sort>
 
 	<table class="table table-condensed table-hover">
 		<thead>

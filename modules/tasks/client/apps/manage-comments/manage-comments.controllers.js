@@ -54,6 +54,12 @@ function controllerTaskManageComments($scope, $rootScope, Task, _, sTaskManageCo
 	});
 
 
+	taskManComm.panelSort = [
+		{'field': 'dateAdded', 'name':'Date'},
+		{'field': 'overallStatus', 'name':'Overall Status'},
+		{'field': 'eaoStatus', 'name':'EAO Status'},
+		{'field': 'proponentStatus', 'name':'Proponent Status'}
+	];
 
 
 

@@ -183,7 +183,8 @@ h3 .small .label {
 
 .label-list li,
 .panel-sort li {
-  display: inline-block; }
+  display: inline-block;
+  white-space: nowrap; }
 
 .label-list li {
   margin-bottom: 3px;
@@ -194,7 +195,7 @@ h3 .small .label {
   color: #fff; }
 
 .panel-sort li a {
-  padding: 0 5px;
+  padding: 0 5px 0 3px;
   color: #fff; }
 
 .panel-sort li:before {
@@ -203,15 +204,20 @@ h3 .small .label {
 .panel-sort li:first-child:before {
   content: ''; }
 
+.panel-sort li a span:after {
+  content: '\0020'; }
+
 .panel-sort li.asc a span:after {
   content: '\0020\25B2'; }
 
 .panel-sort li.desc a span:after {
   content: "\0020\25BC"; }
 
+.text-dark .panel-sort li,
 .modal .panel-sort li {
   color: #777; }
 
+.text-dark .panel-sort li a,
 .modal .panel-sort li a {
   color: #777; }
 
