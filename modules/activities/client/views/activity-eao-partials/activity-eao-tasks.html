@@ -1,6 +1,6 @@
 <div>
 	<ul class="list-unstyled task-list">
-		<li ng-repeat="item in actTasks.tasks" x-user-is="{{ item.access.write }}">
+		<li ng-repeat="item in actTasks.tasks" x-user-is="{{ item.access.write }}" style="position: relative;">
 			<button
 				id="'task-' + ( item._id | kebab )"
 				class="btn btn-sm btn-block clearfix btn-task-indicator btn-task-{{ item.status | kebab }}" 
@@ -10,6 +10,7 @@
 				<div>{{ item.name }}</div>
 				<div class="task-current-status">{{ item.status }}</div>
 			</button>
+			<a href x-modal-permission-matrix x-target-object="item" x-target-object-type="task" x-user-is='admin' class="task-permission-control"><span class="glyphicon glyphicon-cog"></span></a>
 		</li>
 	</ul>
 	

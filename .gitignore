@@ -22,6 +22,7 @@ public/dist/
 uploads
 modules/users/client/img/profile/uploads
 modules/core/client/css/core.css
+modules/core/client/css/core.css.map
 config/env/local.js
 *.pem
 
