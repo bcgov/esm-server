@@ -4,7 +4,7 @@ angular.module('tasks')
 	.controller('controllerTaskPublicCommentClassificationProponent', controllerTaskPublicCommentClassificationProponent)
 	.filter ('filterClassifyComments', filterClassifyComments)
 	.filter ('filterClassifyValueComponents', filterClassifyValueComponents)
-	.filter ('filterClassifyTopics', filterClassifyTopics);	
+	.filter ('filterClassifyTopics', filterClassifyTopics);
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Task for Simple Complete
@@ -21,7 +21,7 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 	taskPubComClassProp.filterScopeComment = false;
 	taskPubComClassProp.filterScopeValueComponents = true;
 	taskPubComClassProp.filterScopeTopics = true;
-	
+
 	taskPubComClassProp.data = {comments: []};
 
 	taskPubComClassProp.noClassificationPossible = false;
@@ -55,7 +55,7 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 		TaskPublicCommentClassificationProponent.setCommentDefer(comment).then( function(res) {
 			console.log('Deferred Comment Returned', res.data);
 			comment = _.assign(comment, res.data);
-			
+
 			// One has been deferred, get another comment.
 			taskPubComClassProp.fetchNewComment();
 		});
@@ -98,10 +98,10 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 		});
 
 		console.log('CLASS: active', taskPubComClassProp.activeComment);
-		
+
 		// there's no found, unclassified so get a new record.
 		if (!taskPubComClassProp.activeComment) {
-			console.log('CLASS: no active found');			
+			console.log('CLASS: no active found');
 			TaskPublicCommentClassificationProponent.getNextComment(taskPubComClassProp.project._id).then( function(res) {
 				console.log('CLASS: get new response', res);
 
@@ -132,11 +132,11 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 		}
 
 		// filter bucket list for new classifications
-		taskPubComClassProp.bucketsFiltered = $filter('filter')(taskPubComClassProp.project.buckets, function(item) { 
-			return (comment.classification.indexOf(item.group) !== -1 )
+		taskPubComClassProp.bucketsFiltered = $filter('filter')(taskPubComClassProp.project.buckets, function(item) {
+			return (comment.classification.indexOf(item.group) !== -1 );
 		});
 
-	}
+	};
 	// -----------------------------------------------------------------------------------
 	//
 	// Get the Task data anchor string.  This is used to record instance data in the project.
