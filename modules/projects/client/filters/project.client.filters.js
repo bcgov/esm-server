@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('project')
-	.filter('phaseName', filterPhaseName);
+	.filter('phaseName', filterPhaseName)
+	.filter('publicDisplayDateName', filterPublicDisplayDateName);
    
 // -----------------------------------------------------------------------------------
 //
@@ -15,3 +16,16 @@ function filterPhaseName(_) {
 		return _(phases).filter(function(phase) { return input === phase._id; }).pluck('name').value()[0];
 	};
 }
+// -----------------------------------------------------------------------------------
+//
+// FILTER: Display Date Category
+//
+// -----------------------------------------------------------------------------------
+filterPublicDisplayDateName.$inject = ['_'];
+/* @ngInject */
+function filterPublicDisplayDateName(_) {
+	return function(input) {
+		return (input.split('-'))[1];
+	};
+}
+

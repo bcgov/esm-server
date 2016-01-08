@@ -213,9 +213,9 @@
 
 
 
-			<div ng-repeat="(title, items) in vm.commentsByDate" class="concern-list" ng-show="vm.form.view === 'bydate'">
+			<div ng-repeat="(title, items) in vm.commentsByDate | orderBy:title:true" class="concern-list" ng-show="vm.form.view === 'bydate'">
 				<h3 ng-click='form[title] = !form[title]' class="clickable concern-heading">
-					{{ title }} <div class="pull-right small"><span ng-if="!form[title]">Click to view.</span> Number of comments: {{ (items| filter:vm.filterKeyword).length || 0 }}</div>
+					{{ title | publicDisplayDateName }} <div class="pull-right small"><span ng-if="!form[title]">Click to view.</span> Number of comments: {{ (items| filter:vm.filterKeyword).length || 0 }}</div>
 				</h3>
 				<hr ng-if='!form[title]'>
 				<div class="panel panel-default panel-concern" ng-show='form[title]' ng-repeat='item in items | advancedFilter:vm.filterKeyword'>

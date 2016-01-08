@@ -24,18 +24,21 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 		vm.project = res.data;
 		// get public comments and sort into date groups.
 		Project.getPublicCommentsPublished(res.data._id).then(function(res) {
-			vm.comments = $filter('orderBy')(res.data, 'dateAdded', true);
+			vm.comments = res.data;
 
 			var dateCount = {};
 			var dateTitle = '';
+			var dateTitleNoSort = '';
+
 			// separate the comments for bubble visualization
 			_.each(vm.comments, function(item) {
 				// get the comment date in a month and day to sort into headings
-				dateTitle = moment(item.dateAdded).format("MMM Do");
-
+				dateTitle = moment(item.dateAdded).format("YYYYMMDD-MMM Do");
+				dateTitleNoSort = moment(item.dateAdded).format("MMM Do");
+				
 				// if this heading doens't exist, create it.
-				if (!dateCount[dateTitle]) dateCount[dateTitle] = 0;
-				dateCount[dateTitle]++;
+				if (!dateCount[dateTitleNoSort]) dateCount[dateTitleNoSort] = 0;
+				dateCount[dateTitleNoSort]++;
 
 				// add the comment to a date list for display.
 				if (!vm.commentsByDate[dateTitle]) vm.commentsByDate[dateTitle] = [];
