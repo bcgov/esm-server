@@ -15,6 +15,7 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 	var vm = this;
 
 	vm.commentsByDate = {};
+	vm.commentsByDateKeys = [];
 	vm.commentsByTopic = {};
 	vm.commentsByDateVis = {name: 'byDate', children:[]};
 	vm.refreshVisualization = 0;
@@ -35,13 +36,14 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 				// get the comment date in a month and day to sort into headings
 				dateTitle = moment(item.dateAdded).format("YYYYMMDD-MMM Do");
 				dateTitleNoSort = moment(item.dateAdded).format("MMM Do");
-				
+
 				// if this heading doens't exist, create it.
 				if (!dateCount[dateTitleNoSort]) dateCount[dateTitleNoSort] = 0;
 				dateCount[dateTitleNoSort]++;
 
 				// add the comment to a date list for display.
 				if (!vm.commentsByDate[dateTitle]) vm.commentsByDate[dateTitle] = [];
+				vm.commentsByDateKeys.push(dateTitle);
 				vm.commentsByDate[dateTitle].push(item);
 
 				// add the comment to a bucket list for display.

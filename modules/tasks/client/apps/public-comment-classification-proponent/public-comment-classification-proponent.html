@@ -107,12 +107,32 @@
 				<td width="40%" ng-if="taskPubComClassProp.activeComment._id === com._id">
 
 					<label class="control-label">
+						Pillars
+					</label>
+					<div class="well well-sm clickable">
+						<ul class="list-unstyled task-list">
+
+							<li ng-repeat="group in taskPubComClassProp.bucketGroups track by $index">
+								<button class="btn btn-block btn-sm btn-layer" ng-click="taskPubComClassProp.toggleBucketGroup(com, group)" ng-class="{'btn-success': com.classification.indexOf(group) !== -1}">{{ group }}</button>
+							</li>
+
+							<!-- there are no buckets defined on the project -->
+							<li ng-if="(!taskPubComClassProp.bucketGroups || taskPubComClassProp.bucketGroups.length === 0)" class="small">
+								<span>There are no pillars identified for this project.</span>
+							</li>
+
+						</ul>
+					</div>
+
+
+
+					<label class="control-label">
 						Value Components
 					</label>
 					<div class="well well-sm clickable">
 						<ul class="list-unstyled task-list"
 							x-modal-select-items
-							x-all-items="taskPubComClassProp.project.buckets"
+							x-all-items="taskPubComClassProp.bucketsFiltered"
 							x-selected-items="com.buckets"
 							x-single="false"
 							x-unique="true"

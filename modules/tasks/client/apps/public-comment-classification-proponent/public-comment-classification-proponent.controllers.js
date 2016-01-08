@@ -4,15 +4,15 @@ angular.module('tasks')
 	.controller('controllerTaskPublicCommentClassificationProponent', controllerTaskPublicCommentClassificationProponent)
 	.filter ('filterClassifyComments', filterClassifyComments)
 	.filter ('filterClassifyValueComponents', filterClassifyValueComponents)
-	.filter ('filterClassifyTopics', filterClassifyTopics);
+	.filter ('filterClassifyTopics', filterClassifyTopics);	
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Task for Simple Complete
 //
 // -----------------------------------------------------------------------------------
-controllerTaskPublicCommentClassificationProponent.$inject = ['$scope', '$rootScope', '_', 'TaskPublicCommentClassificationProponent'];
+controllerTaskPublicCommentClassificationProponent.$inject = ['$scope', '$rootScope', '_', 'TaskPublicCommentClassificationProponent', '$filter'];
 /* @ngInject */
-function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, _, TaskPublicCommentClassificationProponent) {
+function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, _, TaskPublicCommentClassificationProponent, $filter) {
 	var taskPubComClassProp = this;
 
 	// Keep track of the active comment for display of the edit controls.
@@ -33,6 +33,10 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 	$scope.$watch('project', function(newValue) {
 		if (newValue) {
 			taskPubComClassProp.project = newValue;
+
+			// get the bucket groups for general classification
+			taskPubComClassProp.bucketGroups = _.unique(_.pluck(taskPubComClassProp.project.buckets, 'group'));
+			taskPubComClassProp.bucketsFiltered = taskPubComClassProp.project.buckets;
 
 			// GetStart will return all Deferred or Unclassified items for the current user.
 			// fetch New Comment will make sure we don't fetch another comment if there already is one unclassified pending.
@@ -67,7 +71,6 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 			// proceed with status change
 			// must have buckets or topics or a reason why not.
 
-			console.log("comment", comment);
 			TaskPublicCommentClassificationProponent.setCommentClassify(comment).then( function(res) {
 			 	comment = _.assign(comment, res.data);
 
@@ -116,6 +119,24 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 			taskPubComClassProp.unclassifiedCount = res.data.count;
 		});
 	};
+	// -----------------------------------------------------------------------------------
+	//
+	// Toggle the classifications (bucket groups)
+	//
+	// -----------------------------------------------------------------------------------
+	taskPubComClassProp.toggleBucketGroup = function(comment, group) {
+		if (comment.classification.indexOf(group) > -1) {
+			_.remove(comment.classification, function(item) { return item === group; });
+		} else {
+			comment.classification.push(group);
+		}
+
+		// filter bucket list for new classifications
+		taskPubComClassProp.bucketsFiltered = $filter('filter')(taskPubComClassProp.project.buckets, function(item) { 
+			return (comment.classification.indexOf(item.group) !== -1 )
+		});
+
+	}
 	// -----------------------------------------------------------------------------------
 	//
 	// Get the Task data anchor string.  This is used to record instance data in the project.

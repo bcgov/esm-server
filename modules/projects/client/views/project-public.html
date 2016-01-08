@@ -211,14 +211,12 @@
 				</div>
 			</div>
 
-
-
-			<div ng-repeat="(title, items) in vm.commentsByDate | orderBy:title:true" class="concern-list" ng-show="vm.form.view === 'bydate'">
+			<div ng-repeat="dateKey in vm.commentsByDateKeys | orderBy:'-'" class="concern-list" ng-show="vm.form.view === 'bydate'">
 				<h3 ng-click='form[title] = !form[title]' class="clickable concern-heading">
-					{{ title | publicDisplayDateName }} <div class="pull-right small"><span ng-if="!form[title]">Click to view.</span> Number of comments: {{ (items| filter:vm.filterKeyword).length || 0 }}</div>
+					{{ dateKey | publicDisplayDateName }} <div class="pull-right small"><span ng-if="!form[title]">Click to view.</span> Number of comments: {{ ( vm.commentsByDate[dateKey]  | filter:vm.filterKeyword).length || 0 }}</div>
 				</h3>
 				<hr ng-if='!form[title]'>
-				<div class="panel panel-default panel-concern" ng-show='form[title]' ng-repeat='item in items | advancedFilter:vm.filterKeyword'>
+				<div class="panel panel-default panel-concern" ng-show='form[title]' ng-repeat='item in vm.commentsByDate[dateKey] | advancedFilter:vm.filterKeyword'>
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-sm-6">
@@ -250,7 +248,7 @@
 				</div>
 
 
-				<div class="panel panel-default panel-concern" ng-show='(items| advancedFilter:vm.filterKeyword).length === 0 && form[title]'>
+				<div class="panel panel-default panel-concern" ng-show='( vm.commentsByDate[dateKey] | advancedFilter:vm.filterKeyword).length === 0 && form[title]'>
 					<div class="panel-body">
 						<p>No comments match this keyword search.</p>
 					</div>
