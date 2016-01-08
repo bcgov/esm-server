@@ -9,12 +9,13 @@ angular.module('project')
 // CONTROLLER: Public Project Detail
 //
 // -----------------------------------------------------------------------------------
-controllerPublicProject.$inject = ['$modal', 'Project', '$stateParams', '_', 'moment'];
+controllerPublicProject.$inject = ['$modal', 'Project', '$stateParams', '_', 'moment', '$filter'];
 /* @ngInject */
-function controllerPublicProject($modal, Project, $stateParams, _, moment) {
+function controllerPublicProject($modal, Project, $stateParams, _, moment, $filter) {
 	var vm = this;
 
 	vm.commentsByDate = {};
+	vm.commentsByTopic = {};
 	vm.commentsByDateVis = {name: 'byDate', children:[]};
 	vm.refreshVisualization = 0;
 	//
@@ -23,18 +24,30 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment) {
 		vm.project = res.data;
 		// get public comments and sort into date groups.
 		Project.getPublicCommentsPublished(res.data._id).then(function(res) {
-			vm.comments = res.data;
+			vm.comments = $filter('orderBy')(res.data);
 
 			var dateCount = {};
 			var dateTitle = '';
 			// separate the comments for bubble visualization
-			_.each(res.data, function(item) {
+			_.each(vm.comments, function(item) {
+				// get the comment date in a month and day to sort into headings
 				dateTitle = moment(item.dateAdded).format("MMM Do");
+
+				// if this heading doens't exist, create it.
 				if (!dateCount[dateTitle]) dateCount[dateTitle] = 0;
 				dateCount[dateTitle]++;
+
+				// add the comment to a date list for display.
 				if (!vm.commentsByDate[dateTitle]) vm.commentsByDate[dateTitle] = [];
 				vm.commentsByDate[dateTitle].push(item);
+
+				// add the comment to a bucket list for display.
+				_.each(item.buckets, function(bucket) {
+					if (!vm.commentsByTopic[bucket.name]) vm.commentsByTopic[bucket.name] = [];
+					vm.commentsByDate[bucket.name].push(item);
+				});
 			});
+
 			
 			_.each(dateCount, function(num, key) {
 				vm.commentsByDateVis.children.push({'name': key, 'size': num});
@@ -42,6 +55,11 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment) {
 
 			// trigger the d3 to draw.
 			vm.refreshVisualization = 1;
+
+
+
+
+
 		});
 
 	});
@@ -61,6 +79,9 @@ function controllerModalAddComment($modalInstance, $scope, Project, rProject) {
 	// sent variable changes the template UI to say thanks.
 	publicComment.sent = false;
 
+	if (!publicComment.step) {
+		publicComment.step = 1;
+	}
 
 	Project.getNewPublicComment().then( function(res) {
 		publicComment.data = res.data;
@@ -80,13 +101,15 @@ function controllerModalAddComment($modalInstance, $scope, Project, rProject) {
 	// Any posible document has been uploaded so now save the record.
 	// If no documents, this is still triggered.
 	$scope.$on('documentUploadComplete', function() {
-				console.log('add comment doc upload');
 		if( commentSubmitted ) {
 			Project.addPublicComment(publicComment.data).then( function(res) {
+				publicComment.step = 3;
 				publicComment.sent = true;
 			});
 		}
 	});
 
-	publicComment.cancel = function () { $modalInstance.dismiss('cancel'); };
+	publicComment.cancel = function () {
+		$modalInstance.dismiss('cancel');
+	};
 }

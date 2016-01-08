@@ -12,6 +12,7 @@ var mongoose = require('mongoose'),
   Task         = mongoose.model('Task'),
   Milestone    = mongoose.model('Milestone'),
   Requirement  = mongoose.model('Requirement'),
+  Project      = mongoose.model('Project'),
   Integration  = mongoose.model('Integration');
   
 
@@ -147,7 +148,51 @@ if (process.env.NODE_ENV === 'production') {
     }
   });
 
+
+
 }
+
+
+// check to see if the seed import executes
+// insert ajax mine project
+Integration.findOne ({module:'configs'}).exec()
+.then (function (row) {
+	if (!row) {
+
+
+		Project.find({name: 'Ajax Mine Project'}, function (err, projects) {
+			if (projects.length === 0) {
+			  var project = new Project({
+				lat: 50.608817,
+				lon: -120.405757,
+				name: 'Ajax Mine Project',
+				description: 'KGHM Ajax Mining Inc. proposes to develop the Ajax Project, a new open-pit copper/ gold mine located south of and adjacent to the City of Kamloops. The mine would have a production capacity of up to 24 million tonnes of ore per year, over an anticipated 23-year mine life.',
+				type: 'Mining',
+				location: 'Kamloops, BC',
+				region: 'okanagan'
+			  });
+			  // Then save the user
+			  project.save(function (err) {
+				if (err) {
+				  console.log('Failed to add ajax', err);
+				} else {
+				  console.log(chalk.bold.red('Ajax project added'));
+				}
+			  });
+			}
+		  });
+
+
+
+
+  }
+});
+
+
+
+
+
+
 
 Integration.findOne ({module:'configs'}).exec()
 .then (function (row) {
@@ -175,5 +220,13 @@ Integration.findOne ({module:'configs'}).exec()
     });
   }
 });
+
+
+
+
+
+
+
+
 
 

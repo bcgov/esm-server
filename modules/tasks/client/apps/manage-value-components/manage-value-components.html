@@ -6,13 +6,15 @@
 	<table class="table table-condensed table-hover">
 		<thead>
 			<tr class="small">
-				<th width="60%">Name</th>
+				<th width="20%">Group</th>
+				<th width="40%">Name</th>
 				<th width="20%" class="text-center">Contents</th>
 				<th width="20%" class="text-center">Requirements</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="vc in taskValueComponents.project.buckets track by $index">
+				<td>{{ vc.group }}</td>
 				<td>{{ vc.name }}</td>
 				<td class='text-center'>0</td>
 				<td class='text-center'>
@@ -20,7 +22,7 @@
 				</td>
 			</tr>
 			<tr ng-show="taskValueComponents.project.buckets.length === 0">
-				<td colspan="3">There are no value components defined for this project.</td>
+				<td colspan="4">There are no value components defined for this project.</td>
 			</tr>
 		</tbody>
 

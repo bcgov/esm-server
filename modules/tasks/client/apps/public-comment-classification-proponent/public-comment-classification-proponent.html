@@ -86,7 +86,9 @@
 			<tr ng-repeat="com in filteredComments = (taskPubComClassProp.data.comments | filter:{proponentStatus: taskPubComClassProp.filter}:true | filterClassifyComments:taskPubComClassProp.filterScopeComments:taskPubComClassProp.filterKeyword) track by $index"
 			ng-class="{'bg-warning':taskPubComClassProp.activeComment._id === com._id}">
 
-				<td width="58%" ng-if="taskPubComClassProp.activeComment._id === com._id"><small>{{ com.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}</small><br/><small>{{ com.author }}</small>
+				<td width="58%" ng-if="taskPubComClassProp.activeComment._id === com._id"><small>{{ com.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}</small><br/>
+					<p ng-if="com.displayName && com.author" class="small">{{ com.author }}</p>
+					<p ng-if="com.displayName && com.location" class="small">{{ com.location }}</p>
 					<pre>{{ com.comment }}</pre>
 					<hr>
 
@@ -137,7 +139,7 @@
 							x-unique="true"
 							x-all-items="taskPubComClassProp.project.topics"
 							x-single='false'
-							x-selected-items="taskPubComClassProp.topics"
+							x-selected-items="com.topics"
 							x-item-name="Topics">
 
 							<li ng-repeat="topic in filteredCommentTopics = (com.topics | filterClassifyTopics:taskPubComClassProp.filterScopeTopics:taskPubComClassProp.filterKeyword) track by $index">

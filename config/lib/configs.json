@@ -491,6 +491,7 @@
       "description": "Greenhouse Gas Management",
       "name": "Greenhouse Gas Management",
       "code": "greenhouse-gas-management",
+      "group": "Environment",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -507,6 +508,7 @@
       "description": "Geology, Landforms and Soils",
       "name": "Geology, Landforms and Soils",
       "code": "geology-landforms-and-soils",
+      "group": "Environment",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -523,6 +525,7 @@
       "description": "Surface Water Quality",
       "name": "Surface Water Quality",
       "code": "surface-water-quality",
+      "group": "Environment",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -539,6 +542,7 @@
       "description": "Surface Water Quantity",
       "name": "Surface Water Quantity",
       "code": "surface-water-quantity",
+      "group": "Environment",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -555,6 +559,7 @@
       "description": "Groundwater Quality",
       "name": "Groundwater Quality",
       "code": "groundwater-quality",
+      "group": "Environment",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -571,6 +576,7 @@
       "description": "Fish populations and fish habitat",
       "name": "Fish populations and fish habitat",
       "code": "fish-populations-and-fish-habitat",
+      "group": "Environment",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -587,6 +593,7 @@
       "description": "Rare Plants",
       "name": "Rare Plants",
       "code": "rare-plants",
+      "group": "Environment",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -603,6 +610,7 @@
       "description": "Rare and Sensitive Ecological Communities",
       "name": "Rare and Sensitive Ecological Communities",
       "code": "rare-and-sensitive-ecological-communities",
+      "group": "Environment",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -619,6 +627,7 @@
       "description": "Grasslands",
       "name": "Grasslands",
       "code": "grasslands",
+      "group": "Environment",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -635,6 +644,7 @@
       "description": "Terrestrial Invertebrates",
       "name": "Terrestrial Invertebrates",
       "code": "terrestrial-invertebrates",
+      "group": "Environment",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -651,6 +661,7 @@
       "description": "Amphibians",
       "name": "Amphibians",
       "code": "amphibians",
+      "group": "Environment",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -667,6 +678,7 @@
       "description": "Reptiles",
       "name": "Reptiles",
       "code": "reptiles",
+      "group": "Environment",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -683,6 +695,7 @@
       "description": "Migratory Birds",
       "name": "Migratory Birds",
       "code": "migratory-birds",
+      "group": "Environment",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -699,6 +712,7 @@
       "description": "Raptors",
       "name": "Raptors",
       "code": "raptors",
+      "group": "Environment",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -715,6 +729,7 @@
       "description": "Non-migratory Gamebirds",
       "name": "Non-migratory Gamebirds",
       "code": "non-migratory-gamebirds",
+      "group": "Environment",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -731,6 +746,7 @@
       "description": "Mammals",
       "name": "Mammals",
       "code": "mammals",
+      "group": "Environment",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -747,6 +763,7 @@
       "description": "Economic Growth",
       "name": "Economic Growth",
       "code": "economic-growth",
+      "group": "Economic",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -763,6 +780,7 @@
       "description": "Labour Force, Employment and Training",
       "name": "Labour Force, Employment and Training",
       "code": "labour-force-employment-and-training",
+      "group": "Economic",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -779,6 +797,7 @@
       "description": "Income",
       "name": "Income",
       "code": "income",
+      "group": "Economic",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -795,6 +814,7 @@
       "description": "Business",
       "name": "Business",
       "code": "business",
+      "group": "Economic",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -811,6 +831,7 @@
       "description": "Property Values",
       "name": "Property Values",
       "code": "property-values",
+      "group": "Economic",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -827,6 +848,7 @@
       "description": "Economic Diversification",
       "name": "Economic Diversification",
       "code": "economic-diversification",
+      "group": "Economic",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -843,6 +865,7 @@
       "description": "Infrastructure, Public Facilities and Services",
       "name": "Infrastructure, Public Facilities and Services",
       "code": "infrastructure-public-facilities-and-services",
+      "group": "Social",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -859,6 +882,7 @@
       "description": "Dark Sky",
       "name": "Dark Sky",
       "code": "dark-sky",
+      "group": "Social",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -875,6 +899,7 @@
       "description": "Visual Impact/Aesthetic Features (including Shading)",
       "name": "Visual Impact/Aesthetic Features (including Shading)",
       "code": "visual-impact-aesthetic-features-including-shading",
+      "group": "Social",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -891,6 +916,7 @@
       "description": "Land and Resource Use",
       "name": "Land and Resource Use",
       "code": "land-and-resource-use",
+      "group": "Social",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -907,6 +933,7 @@
       "description": "Current Use of Land and Resources for Traditional Purposes",
       "name": "Current Use of Land and Resources for Traditional Purposes",
       "code": "current-use-of-land-and-resources-for-traditional-purposes",
+      "group": "Social",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -923,6 +950,7 @@
       "description": "Outdoor Recreation",
       "name": "Outdoor Recreation",
       "code": "outdoor-recreation",
+      "group": "Social",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -939,6 +967,7 @@
       "description": "Archaeological Sites",
       "name": "Archaeological Sites",
       "code": "archaeological-sites",
+      "group": "Heritage",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -955,6 +984,7 @@
       "description": "Aboriginal and Non-Aboriginal Heritage Sites",
       "name": "Aboriginal and Non-Aboriginal Heritage Sites",
       "code": "aboriginal-and-non-aboriginal-heritage-sites",
+      "group": "Heritage",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -971,6 +1001,7 @@
       "description": "Air Quality",
       "name": "Air Quality",
       "code": "air-quality",
+      "group": "Health",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -987,6 +1018,7 @@
       "description": "Domestic Water Quality",
       "name": "Domestic Water Quality",
       "code": "domestic-water-quality",
+      "group": "Health",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -1003,6 +1035,7 @@
       "description": "Country Foods",
       "name": "Country Foods",
       "code": "country-foods",
+      "group": "Health",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -1019,6 +1052,7 @@
       "description": "Human Health",
       "name": "Human Health",
       "code": "human-health",
+      "group": "Health",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -1035,6 +1069,7 @@
       "description": "Noise and Vibration",
       "name": "Noise and Vibration",
       "code": "noise-and-vibration",
+      "group": "Health",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -1051,6 +1086,7 @@
       "description": "Healthy Living and Health Education",
       "name": "Healthy Living and Health Education",
       "code": "healthy-living-and-health-education",
+      "group": "Health",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -1067,6 +1103,7 @@
       "description": "Community Health and Well-being",
       "name": "Community Health and Well-being",
       "code": "community-health-and-well-being",
+      "group": "Health",
       "visibleAtPhase": null,
       "stream": null,
       "project": null
@@ -1529,7 +1566,51 @@
       "project": null,
       "phase": null,
       "activity": null
-    }
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "vetting, proponent, classify",
+        "read": "user"
+      },
+      "prerequisites": [],
+      "processCode": "manage-comments",
+      "subStatuses": "",
+      "subStatus": "",
+      "notRequiredReason": "",
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "description": "Manage Comments",
+      "name": "Manage Comments",
+      "code": "manage-comments",
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null
+    },
+    {
+      "access": {
+        "watch": "",
+        "write": "proponent, classify, vetting",
+        "read": "user"
+      },
+      "prerequisites": [],
+      "processCode": "manage-value-components",
+      "subStatuses": "",
+      "subStatus": "",
+      "notRequiredReason": "",
+      "dateCompleted": null,
+      "dateStarted": null,
+      "status": "Not Started",
+      "description": "Manage Value Components",
+      "name": "Manage Value Components",
+      "code": "manage-value-components",
+      "stream": null,
+      "project": null,
+      "phase": null,
+      "activity": null
+    }        
   ],
   "bucketrequirements": []
 }

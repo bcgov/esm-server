@@ -66,8 +66,10 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 		if ((comment.buckets && comment.buckets.length > 0) || (comment.topics && comment.topics.length > 0) || (comment.proponentNotes)) {
 			// proceed with status change
 			// must have buckets or topics or a reason why not.
+
+			console.log("comment", comment);
 			TaskPublicCommentClassificationProponent.setCommentClassify(comment).then( function(res) {
-				comment = _.assign(comment, res.data);
+			 	comment = _.assign(comment, res.data);
 
 				// One has been classified, get another comment.
 				taskPubComClassProp.fetchNewComment();

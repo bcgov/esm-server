@@ -17,12 +17,15 @@ var directiveUserHasRole = function(roles, _, Authentication) {
 	var arr = String(roles).split(',');
 	var found = false;
 	// if user has any of the roles
-	_.each(arr, function(role) {
-		
-		if( _.indexOf(Authentication.user.roles, role) > -1) {
-			found = true;
-		}
-	});
+	if( _.indexOf(Authentication.user.roles, 'admin') > -1) {
+		found = true;
+	} else {
+		_.each(arr, function(role) {
+			if( _.indexOf(Authentication.user.roles, role.trim()) > -1) {
+				found = true;
+			}
+		});
+	}
 	return found;
 
 };

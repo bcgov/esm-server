@@ -1,27 +1,33 @@
 <div class="modal-header">
 	<h3 class="modal-title">Contribute a Comment</h3>
 </div>
-<!-- 
-<div class="modal-body" ng-if="publicComment.sent">
-	<h3>Thank you for your comment</h3>
-	<label class="control-label">What happens next?</label>
-	<p>Within 7 days comment will be published to the public project record and then responded to by the proponent a short time later.</p>
-	<p>All published comments can be found in the lower section of this page.</p>
-</div> -->
 
-<div class="modal-body" ng-if="!publicComment.sent">
+<div class="modal-body" ng-if="publicComment.step === 1">
+	<h3>Disclaimer</h3>
+	<p>By submitting a comment you agree to...</p>
+</div>
+
+<div class="modal-body" ng-if="publicComment.step === 2">
 	<div class="form-group">
 		<label for="publiccomment" class="control-label">Your Comment</label>
-		<textarea id="publiccomment" class="form-control" rows="6" ng-model="publicComment.data.comment"></textarea>
+		<textarea id="publiccomment" class="form-control" rows="6" ng-model="publicComment.data.comment" required></textarea>
 	</div>
-	<div class="form-group">
-		<label for="name" class="control-label">Your Name <em class="small">Optional</em></label>
-		<input type="input" id="name" class="form-control" ng-model="publicComment.data.author"/>
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<label for="name" class="control-label">Your Name</label>
+			<input type="input" id="name" class="form-control" ng-model="publicComment.data.author" required/>
+		</div>
+		<div class="form-group col-sm-6">
+			<label for="location" class="control-label">Your Location</label>
+			<input type="input" id="location" class="form-control" ng-model="publicComment.data.location" required/>
+		</div>
 	</div>
-	<div class="form-group">
-		<label for="location" class="control-label">Your Location <em class="small">Optional</em></label>
-		<input type="input" id="name" class="form-control" ng-model="publicComment.data.author"/>
-	</div>
+
+	<div class="checkbox well well-sm">
+     	<label>
+     		<input type="checkbox" ng-model="publicComment.data.displayName"> Show my name and location on the public site.
+     	</label>
+     </div>
 
 
 	<a href ng-click="publicComment.form.showDocuments = true" ng-show="!publicComment.form.showDocuments">Click here to upload documents and images.</a>
@@ -30,7 +36,7 @@
 	</div>
 </div>
 
-<div class="modal-body" ng-if="publicComment.sent">
+<div class="modal-body" ng-if="publicComment.step === 3">
 	<h3>Thank you for your comment</h3>
 	<label class="control-label">What happens next?</label>
 	<p>Within 7 days comment will be published to the public project record and then responded to by the proponent a short time later.</p>
@@ -38,11 +44,16 @@
 </div>
 
 
-<div class="modal-footer" ng-if="!publicComment.sent">
+<div class="modal-footer" ng-if="publicComment.step === 1">
+	<button class="btn btn-default" type="button" ng-click="publicComment.cancel()">Cancel</button>
+	<button class="btn btn-primary" type="button" ng-click="publicComment.step = 2">Continue</button>
+</div>
+
+<div class="modal-footer" ng-if="publicComment.step === 2">
 	<button class="btn btn-default" type="button" ng-click="publicComment.cancel()">Cancel</button>
 	<button class="btn btn-primary" type="button" ng-click="publicComment.send()">Send</button>
 </div>
 
-<div class="modal-footer" ng-if="publicComment.sent">
+<div class="modal-footer" ng-if="publicComment.step === 3">
 	<button class="btn btn-primary" type="button" ng-click="publicComment.ok()">Close</button>
 </div>

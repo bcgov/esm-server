@@ -14,7 +14,7 @@
 			<label class="control-label">{{ selectItems.itemName }}</label>
 			<div class="well well-sm">
 				<ul class="list-unstyled task-list">
-					<li ng-repeat="aItem in filteredItems = (selectItems.itemList | filter:selectItems.filter) track by $index">
+					<li ng-repeat="aItem in filteredItems = (selectItems.itemList | filter:selectItems.filter) | orderBy:'name' track by $index">
 						<button class="btn btn-block btn-sm btn-layer" ng-click="selectItems.addItemToSelection(aItem)">{{ aItem.name }}</button>
 					</li>
 					<li ng-if="selectItems.itemList.length === 0 && !selectItems.filter" class="small">
@@ -32,7 +32,7 @@
 			<label class="control-label">Selected {{ selectItems.itemName }}</label>
 			<div class="well well-sm">
 				<ul class="list-unstyled task-list">
-					<li ng-repeat="item in filteredSelected = (selectItems.selectedItems | filter:selectItems.filter) track by $index">
+					<li ng-repeat="item in filteredSelected = (selectItems.selectedItems | filter:selectItems.filter) | orderBy:'name' track by $index">
 						<button class="btn btn-block btn-sm btn-layer" ng-click="selectItems.removeItemFromSelection($index)">{{ item.name }}</button>
 					</li>
 					<li ng-if="selectItems.selectedItems.length === 0 && !selectItems.filter" class="small">

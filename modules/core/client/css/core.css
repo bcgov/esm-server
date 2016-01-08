@@ -163,6 +163,7 @@ a.return-link {
 a.return-link:hover {
   text-decoration: none; }
 
+.modal .modal-body > h3,
 .panel-concern .panel-body > h3 {
   margin-top: 0; }
 

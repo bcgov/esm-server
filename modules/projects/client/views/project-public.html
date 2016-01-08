@@ -24,8 +24,10 @@
 					<div><label class="control-label">Location</label><p>{{ vm.project.location }}</p></div>
 					<div><label class="control-label">Region</label><p>{{ vm.project.region | titleCase }}</p></div>
 					<div><label class="control-label">Description</label><p>{{ vm.project.description }}</p></div>
-					<p><small><a href><span class='glyphicon glyphicon-file'></span> Comprehensive Project Description</a></small></p>
-					<p><small><a href><span class='glyphicon glyphicon-file'></span> Application</a></small></p>
+					<div><label class="control-label">Documents</label><p class="small">
+						<a href><span class='glyphicon glyphicon-file'></span> Comprehensive Project Description</a><br>
+						<a href><span class='glyphicon glyphicon-file'></span> Application</a>
+					</p></div>
 				</div>
 
 				<div class="location-map">
@@ -57,6 +59,27 @@
 <!-- 					<hr>
 					<p class="lead"><small>Public Comment Period Ends In</small><countdown-clock x-end="vm.project.dateCommentsClosed"></countdown-clock></p>
  -->					<hr>
+
+ 					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3 text-center">
+		 					<p>Before commenting, we invite you to review these documents:</p>
+		 					<table class="table">
+		 						<tr>
+		 							<td width="50%">
+										<a href>
+											<span style="font-size: 5em;" class='glyphicon glyphicon-file'></span><br/>Project Description
+										</a></br>
+									</td>
+									<td width="50%">
+										<a href>
+											<span style="font-size: 5em;" class='glyphicon glyphicon-file'></span><br/>Application
+										</a>
+									</td>
+								</tr>
+							</table>
+						</div>
+ 					</div>
+
 					<a class="btn btn-default btn-block btn-lg" href x-modal-add-public-comment x-project="vm.project">Click here to Comment on the Application</a>
 				</div>
 
@@ -116,7 +139,7 @@
 <!-- 				</div>
 			</div>
  -->
-			<div class="concern-heading">
+			<div class="concern-heading" ng-if="vm.comments.length !== 0">
 	 			<h3>Comments to Date</h3>
 	 		</div>
 
@@ -127,7 +150,7 @@
 						<li>
 							<div class="btn-group btn-group-sm">
 								<button class="btn btn-default" ng-click="vm.form.view = 'bydate'"	ng-class="{'btn-primary': vm.form.view === 'bydate'}">By Date</button>
-								<button class="btn btn-default" ng-click="vm.form.view = 'byvc'"	ng-class="{'btn-primary': vm.form.view === 'byvc'}">By Topic</button>
+								<button class="btn btn-default" ng-click="vm.form.view = 'bytopic'"	ng-class="{'btn-primary': vm.form.view === 'bytopic'}">By Topic</button>
 							</div>
 						</li>
 					</ul>
@@ -148,56 +171,45 @@
 				</div><!-- /.container-fluid -->
 			</nav>
 
-			<div ng-repeat="bucket in filteredBuckets = (vm.project.buckets | filter:vm.filterKeyword)" class="concern-list" ng-show="vm.form.view === 'byvc'">
-				<h3 ng-click='form[point.group] = !form[point.group]' class="clickable concern-heading">
-					{{ bucket.name }} <div class="pull-right small"><span ng-if="!form[point.group]">Click to expand.</span> Number of comments: {{ filteredBuckets.length || 0 }}</div>
+			<div ng-repeat="(heading, buckets) in vm.commentsByTopic" class="concern-list" ng-show="vm.form.view === 'bytopic'">
+				<h3 ng-click='form[heading] = !form[heading]' class="clickable concern-heading">
+					{{ heading }} <div class="pull-right small"><span ng-if="!form[heading]">Click to view.</span> Number of comments: {{ (buckets | filter:vm.filterKeyword).length || 0 }}</div>
 				</h3>
-				<hr ng-if='!form[point.group] && !$last'>
-
-				<div class="panel panel-default panel-concern" ng-if='form[point.group]' ng-repeat='item in bucket.concerns'>
+				<hr ng-if='!form[heading]'>
+				<div class="panel panel-default panel-concern" ng-show='form[heading]' ng-repeat='item in buckets | advancedFilter:vm.filterKeyword'>
 					<div class="panel-body">
-						<div class="clearfix">
-						<h4 class='pull-right no-margins'><span class='label' ng-class="{'label-success':item.status === 'Closed', 'label-primary':item.status === 'Open'}">{{ item.status }}</span></h4>
-						<p>{{ item.description }}</p>
-						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<pre>{{ item.comment }}</pre>
+							</div>
 
-						<div class="table-responsive">
+							<div class="col-sm-3">
+								<p ng-if="item.author && item.displayName">Name: {{ item.author }}</p>
+								<p ng-if="item.location && item.displayName">Location: {{ item.location }}</p>								
+								<p>{{ item.dateAdded | amDateFormat:'MMM Do, YYYY h:mm a'}}</p>
+								<hr/>
+								<ul class="list-unstyled document-vetting small">
+									<li ng-repeat="doc in item.documents">
+										<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus !== 'Rejected'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
+										<span class="small text-warning" ng-if="doc.eaoStatus === 'Rejected'"><i class="glyphicon glyphicon-file"></i> This document has not been shared as it does not meet the privacy policy rules.</span>
+									</li>
+									<li ng-if="item.documents.length === 0">
+										There are no documents associated with this comment.
+									</li>
+								</ul>
 
-							<table class="table table-condensed table-striped table-bordered">
-								<thead>
-									<tr>
-										<th colspan="3">
-											<abbr title="Application Information Requirements">A.I.R.</abbr> Comments
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="comment in filteredComments[item._id] = (item.comments | filter:{'name': vm.filter[point.group + 'concern' + item._id]})" ng-show="filteredComments[item._id].length > 0">
-										<td width="20%">
-											<strong>{{ comment.name }}</strong><br/>{{ comment.dateEntered }}
-										</td>
-										<td>
-											{{ comment.comment }}
-										</td>
-										<td width="20%" class="small document-cell">
-											<a href><span class='glyphicon glyphicon-file'></span> Proponent's Response</a>
-										</td>										
-									</tr>
-									<tr ng-show="filteredComments[item._id].length === 0">
-										<td colspan='3'>No response from {{ vm.filter[point.group + 'concern' + item._id] }}</td>
-									</tr>
-								</tbody>
-							</table>
-
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+				{{ (buckets | advancedFilter:vm.filterKeyword).length }}
 
-			<div ng-show="filteredBuckets.length === 0 && vm.form.view === 'byvc'">
-				<h3 class="text-info">No value components have been defined for this project yet.</h3>
+				<div class="panel panel-default panel-concern" ng-show='( buckets | advancedFilter:vm.filterKeyword).length === 0 && form[heading]'>
+					<div class="panel-body">
+						<p>No comments match this keyword search.</p>
+					</div>
+				</div>
 			</div>
-
 
 
 
@@ -206,14 +218,20 @@
 					{{ title }} <div class="pull-right small"><span ng-if="!form[title]">Click to view.</span> Number of comments: {{ (items| filter:vm.filterKeyword).length || 0 }}</div>
 				</h3>
 				<hr ng-if='!form[title]'>
-				<div class="panel panel-default panel-concern" ng-show='form[title]' ng-repeat='item in items | filter:vm.filterKeyword'>
+				<div class="panel panel-default panel-concern" ng-show='form[title]' ng-repeat='item in items | advancedFilter:vm.filterKeyword'>
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-sm-9">
+							<div class="col-sm-6">
 								<pre>{{ item.comment }}</pre>
 							</div>
+
 							<div class="col-sm-3">
-								<p ng-if="item.author">Name: {{ item.author }}</p>
+								
+							</div>
+
+							<div class="col-sm-3">
+								<p ng-if="item.author && item.displayName">Name: {{ item.author }}</p>
+								<p ng-if="item.location && item.displayName">Location: {{ item.location }}</p>								
 								<p>{{ item.dateAdded | amDateFormat:'MMM Do, YYYY h:mm a'}}</p>
 								<hr/>
 								<ul class="list-unstyled document-vetting small">
@@ -232,9 +250,9 @@
 				</div>
 
 
-				<div class="panel panel-default panel-concern" ng-show='(items| filter:vm.filterKeyword).length === 0 && form[title]'>
+				<div class="panel panel-default panel-concern" ng-show='(items| advancedFilter:vm.filterKeyword).length === 0 && form[title]'>
 					<div class="panel-body">
-						<p>No comments match this filter.</p>
+						<p>No comments match this keyword search.</p>
 					</div>
 				</div>
 

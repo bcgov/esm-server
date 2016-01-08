@@ -1,6 +1,6 @@
 <div>
 	<ul class="list-unstyled task-list">
-		<li ng-repeat="item in actTasks.tasks">
+		<li ng-repeat="item in actTasks.tasks" x-user-is="{{ item.access.write }}">
 			<button
 				id="'task-' + ( item._id | kebab )"
 				class="btn btn-sm btn-block clearfix btn-task-indicator btn-task-{{ item.status | kebab }}" 
