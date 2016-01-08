@@ -14,9 +14,7 @@ controllerPublicProject.$inject = ['$modal', 'Project', '$stateParams', '_', 'mo
 function controllerPublicProject($modal, Project, $stateParams, _, moment, $filter) {
 	var vm = this;
 
-	vm.commentsByDate = {};
 	vm.commentsByDateKeys = [];
-	vm.commentsByTopic = {};
 	vm.commentsByDateVis = {name: 'byDate', children:[]};
 	vm.refreshVisualization = 0;
 	//
@@ -33,6 +31,9 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 
 			// separate the comments for bubble visualization
 			_.each(vm.comments, function(item) {
+
+				if(!vm.commentsByDate) vm.commentsByDate = {};
+
 				// get the comment date in a month and day to sort into headings
 				dateTitle = moment(item.dateAdded).format("YYYYMMDD-MMM Do");
 				dateTitleNoSort = moment(item.dateAdded).format("MMM Do");
@@ -48,22 +49,20 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 
 				// add the comment to a bucket list for display.
 				_.each(item.buckets, function(bucket) {
+					if (!vm.commentsByTopic) vm.commentsByTopic = {};
 					if (!vm.commentsByTopic[bucket.name]) vm.commentsByTopic[bucket.name] = [];
 					vm.commentsByDate[bucket.name].push(item);
 				});
 			});
 
-			
+			vm.commentsByDateKeys = _.unique(vm.commentsByDateKeys);
+
 			_.each(dateCount, function(num, key) {
 				vm.commentsByDateVis.children.push({'name': key, 'size': num});
 			});
 
 			// trigger the d3 to draw.
 			vm.refreshVisualization = 1;
-
-
-
-
 
 		});
 

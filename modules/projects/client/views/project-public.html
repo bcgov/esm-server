@@ -8,17 +8,7 @@
 
 		<div class='col-sm-3'>
 			<div class="panel panel-default project-info-panel">
-<!-- 				<div class='panel-body text-center'>
-					<img src="http://ajaxmine.ca/wp-content/themes/wp-kghm/images/kghm-ajax-logo.png" style="padding: 20px 15px;" class="img-responsive">
-				</div>
 
-				<div class="location-map" style="position: relative; width: 100%;">
-					<video autoplay="" poster="http://ajaxmine.org/wp-content/themes/wp-kghm/images/homepage-banner.png" id="bgvid" loop="" width="100%">	  
-						<source src="http://ajaxmine.org/wp-content/themes/wp-kghm/video/KGHM.webm" type="video/webm">
-						<source src="http://ajaxmine.org/wp-content/themes/wp-kghm/video/KGHM.mp4" type="video/mp4">
-					</video>
-				</div>
- -->
 				<div class='panel-heading'>
 					<div><label class="control-label">Name</label><p>{{ vm.project.name }}</p></div>
 					<div><label class="control-label">Location</label><p>{{ vm.project.location }}</p></div>
@@ -173,7 +163,7 @@
 
 			<div ng-repeat="(heading, buckets) in vm.commentsByTopic" class="concern-list" ng-show="vm.form.view === 'bytopic'">
 				<h3 ng-click='form[heading] = !form[heading]' class="clickable concern-heading">
-					{{ heading }} <div class="pull-right small"><span ng-if="!form[heading]">Click to view.</span> Number of comments: {{ (buckets | filter:vm.filterKeyword).length || 0 }}</div>
+					{{ heading }}<div class="pull-right small"><span ng-if="!form[heading]">Click to view.</span> Number of comments: {{ (buckets | filter:vm.filterKeyword).length || 0 }}</div>
 				</h3>
 				<hr ng-if='!form[heading]'>
 				<div class="panel panel-default panel-concern" ng-show='form[heading]' ng-repeat='item in buckets | advancedFilter:vm.filterKeyword'>
@@ -202,21 +192,27 @@
 						</div>
 					</div>
 				</div>
-				{{ (buckets | advancedFilter:vm.filterKeyword).length }}
+
 
 				<div class="panel panel-default panel-concern" ng-show='( buckets | advancedFilter:vm.filterKeyword).length === 0 && form[heading]'>
 					<div class="panel-body">
-						<p>No comments match this keyword search.</p>
+						No comments match these keywords.
 					</div>
 				</div>
 			</div>
 
-			<div ng-repeat="dateKey in vm.commentsByDateKeys | orderBy:'-'" class="concern-list" ng-show="vm.form.view === 'bydate'">
-				<h3 ng-click='form[title] = !form[title]' class="clickable concern-heading">
-					{{ dateKey | publicDisplayDateName }} <div class="pull-right small"><span ng-if="!form[title]">Click to view.</span> Number of comments: {{ ( vm.commentsByDate[dateKey]  | filter:vm.filterKeyword).length || 0 }}</div>
+			<div class="panel panel-default panel-concern" ng-show="!vm.commentsByTopic && vm.form.view === 'bytopic'">
+				<div class="panel-body">
+					No comments have been classified by topic yet.  Please check back later.
+				</div>
+			</div>
+
+			<div ng-repeat="dateKey in vm.commentsByDateKeys | orderBy:'-'" class="concern-list" ng-show="vm.form.view === 'bydate'" ng-init="form[dateKey] = ($first ? true : form[dateKey])">
+				<h3 ng-click='form[dateKey] = !form[dateKey]' class="clickable concern-heading">
+					{{ dateKey | publicDisplayDateName }}<div class="pull-right small"><span ng-if="!form[dateKey]">Click to view.</span> Number of comments: {{ ( vm.commentsByDate[dateKey]  | filter:vm.filterKeyword).length || 0 }}</div>
 				</h3>
-				<hr ng-if='!form[title]'>
-				<div class="panel panel-default panel-concern" ng-show='form[title]' ng-repeat='item in vm.commentsByDate[dateKey] | advancedFilter:vm.filterKeyword'>
+				<hr ng-if='!form[dateKey]'>
+				<div class="panel panel-default panel-concern" ng-show='form[dateKey]' ng-repeat='item in vm.commentsByDate[dateKey] | advancedFilter:vm.filterKeyword'>
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-sm-6">
@@ -248,9 +244,9 @@
 				</div>
 
 
-				<div class="panel panel-default panel-concern" ng-show='( vm.commentsByDate[dateKey] | advancedFilter:vm.filterKeyword).length === 0 && form[title]'>
+				<div class="panel panel-default panel-concern" ng-show='( vm.commentsByDate[dateKey] | advancedFilter:vm.filterKeyword).length === 0 && form[dateKey]'>
 					<div class="panel-body">
-						<p>No comments match this keyword search.</p>
+						No comments match those keywords.
 					</div>
 				</div>
 
