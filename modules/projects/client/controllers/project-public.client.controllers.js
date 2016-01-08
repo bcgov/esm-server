@@ -24,7 +24,7 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 		vm.project = res.data;
 		// get public comments and sort into date groups.
 		Project.getPublicCommentsPublished(res.data._id).then(function(res) {
-			vm.comments = $filter('orderBy')(res.data);
+			vm.comments = $filter('orderBy')(res.data, 'dateAdded', true);
 
 			var dateCount = {};
 			var dateTitle = '';
