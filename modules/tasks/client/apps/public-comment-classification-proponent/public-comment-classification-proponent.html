@@ -95,7 +95,7 @@
 					<ul class="list-unstyled document-vetting">
 						<li ng-repeat="doc in com.documents">
 							<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus !== 'Rejected'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
-							<span class="small text-warning" ng-if="doc.eaoStatus === 'Rejected'"><i class="glyphicon glyphicon-file"></i> {{ doc.name }} has not been shared as it does not meet the privacy policy rules.</span>
+							<span class="small text-warning" ng-if="doc.eaoStatus === 'Rejected'"><i class="glyphicon glyphicon-file"></i> This document has not been shared as it does not meet the privacy policy rules.</span>
 						</li>
 						<li ng-if="com.documents.length === 0">
 							There are no documents associated with this comment.
@@ -125,7 +125,6 @@
 					</div>
 
 
-
 					<label class="control-label">
 						Value Components
 					</label>
@@ -150,6 +149,7 @@
 						</ul>
 					</div>
 
+
 					<label class="control-label" ng-if='0'>
 						Topics
 					</label>
@@ -173,6 +173,7 @@
 
 						</ul>
 					</div>
+
 
 					<div ng-show="taskPubComClassProp.noClassificationPossible || com.proponentNotes">
 						<label class="control-label">

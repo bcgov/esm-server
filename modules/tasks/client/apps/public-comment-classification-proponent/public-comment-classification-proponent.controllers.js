@@ -104,6 +104,8 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 				taskPubComClassProp.filter = 'Unclassified';
 				taskPubComClassProp.activeComment = res.data;
 				taskPubComClassProp.noClassificationPossible = false;
+
+				taskPubComClassProp.filterBucketsByPillars(taskPubComClassProp.activeComment);
 			});
 		}
 
@@ -124,12 +126,22 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 			comment.classification.push(group);
 		}
 
-		// filter bucket list for new classifications
-		taskPubComClassProp.bucketsFiltered = $filter('filter')(taskPubComClassProp.project.buckets, function(item) {
-			return (comment.classification.indexOf(item.group) !== -1 );
-		});
+		taskPubComClassProp.filterBucketsByPillars(comment);
 
 	};
+
+
+	taskPubComClassProp.filterBucketsByPillars = function(comment) {
+		// filter bucket list for new classifications
+		taskPubComClassProp.bucketsFiltered = $filter('filter')(taskPubComClassProp.project.buckets, function(item) {
+			if (comment.classification) {
+				return (comment.classification.indexOf(item.group) !== -1 );
+			} else {
+				return false;
+			}
+		});
+	};
+
 	// -----------------------------------------------------------------------------------
 	//
 	// Get the Task data anchor string.  This is used to record instance data in the project.

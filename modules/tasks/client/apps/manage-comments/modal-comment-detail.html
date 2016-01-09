@@ -1,0 +1,122 @@
+<div class="modal-header">
+	<h3 class="modal-title">Comment Detail</h3>
+</div>
+
+<div class="modal-body">
+	<div class='row'>
+		<div class='col-sm-8'>
+			<div class="well well-sm small">
+				<div>{{ taskComDetail.comment.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}</div>
+				<div ng-if="taskComDetail.comment.displayName && taskComDetail.comment.author">Author: {{ taskComDetail.comment.author }}</div>
+				<div ng-if="taskComDetail.comment.displayName && taskComDetail.comment.location">Location: {{ taskComDetail.comment.location }}</div>
+			</div>
+
+			<pre>{{ taskComDetail.comment.comment }}</pre>
+			
+			<hr>
+			<label class="control-label">
+				Documents
+			</label>
+			<ul class="list-unstyled document-vetting">
+				<li ng-repeat="doc in taskComDetail.comment.documents">
+					<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus !== 'Rejected'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
+					<span class="small text-warning" ng-if="doc.eaoStatus === 'Rejected'"><i class="glyphicon glyphicon-file"></i> This document has not been shared as it does not meet the privacy policy rules.</span>
+				</li>
+				<li ng-if="taskComDetail.comment.documents.length === 0">
+					There are no documents associated with this comment.
+				</li>
+			</ul>
+
+		</div>
+		<div class='col-sm-4'>
+
+			<label class="control-label">
+				Pillars
+			</label>
+			<div class="well well-sm clickable">
+				<ul class="list-unstyled task-list">
+
+					<li ng-repeat="group in taskComDetail.bucketGroups track by $index">
+						<button class="btn btn-block btn-sm btn-layer" ng-click="taskComDetail.toggleBucketGroup(com, group)" ng-class="{'btn-success': taskComDetail.comment.classification.indexOf(group) !== -1}">{{ group }}</button>
+					</li>
+
+					<!-- there are no buckets defined on the project -->
+					<li ng-if="(!taskComDetail.bucketGroups || taskComDetail.bucketGroups.length === 0)" class="small">
+						<span>There are no pillars identified for this project.</span>
+					</li>
+
+				</ul>
+			</div>
+
+
+
+			<label class="control-label">
+				Value Components
+			</label>
+			<div class="well well-sm clickable">
+				<ul class="list-unstyled task-list"
+					x-modal-select-items
+					x-all-items="taskComDetail.bucketsFiltered"
+					x-selected-items="taskComDetail.comment.buckets"
+					x-single="false"
+					x-unique="true"
+					x-item-name="Value Components">
+
+					<li ng-repeat="bucket in taskComDetail.comment.buckets track by $index">
+						<button class="btn btn-block btn-sm btn-layer">{{ bucket.name }}</button>
+					</li>
+
+					<!-- there are no buckets defined on the project -->
+					<li ng-if="(!taskComDetail.comment.buckets || taskComDetail.comment.buckets.length === 0)" class="small">
+						<span>There are no value components identified for this project.</span>
+					</li>
+
+				</ul>
+			</div>
+
+			<label class="control-label" ng-if='0'>
+				Topics
+			</label>
+			<div class="well well-sm clickable" ng-if='0'>
+				<ul class="list-unstyled task-list"
+					x-modal-select-items
+					x-unique="true"
+					x-all-items="taskComDetail.project.topics"
+					x-single='false'
+					x-selected-items="taskComDetail.comment.topics"
+					x-item-name="Topics">
+
+					<li ng-repeat="topic in filteredCommentTopics = (taskComDetail.comment.topics | filterClassifyTopics:taskComDetail.filterScopeTopics:taskComDetail.filterKeyword) track by $index">
+						<button class="btn btn-block btn-sm btn-layer">{{ topic.name }}</button>
+					</li>
+
+					<!-- there are no buckets defined on the project -->
+					<li ng-if="(!taskComDetail.comment.topics || taskComDetail.comment.topics.length === 0) && !taskComDetail.filterTopics" class="small">
+						There are no topics identified for this project.
+					</li>
+
+				</ul>
+			</div>
+
+			<div ng-show="taskComDetail.noClassificationPossible || taskComDetail.comment.proponentNotes">
+				<label class="control-label">
+					Reason for No Classification
+				</label>
+				<textarea class="form-control input-sm" ng-model="taskComDetail.comment.proponentNotes" rows=4></textarea>
+				<span class="help-block">When finished, click Next Comment.</span>
+			</div>
+
+			<div class="text-right">
+				<a href class="btn-link btn" ng-click='taskComDetail.noClassificationPossible = true' ng-if="taskComDetail.comment.proponentStatus !== 'Classified'" title="Comment classification is not possible or appropriate">No Classification Possible</a>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-default" type="button" ng-click="publicComment.cancel()">Cancel</button>
+	<button class="btn btn-primary" type="button" ng-click="publicComment.step = 2">Continue</button>
+</div>
+
+

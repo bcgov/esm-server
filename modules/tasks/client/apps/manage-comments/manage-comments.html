@@ -2,53 +2,116 @@
 	<div class="panel-heading">
 		Comments: {{ taskManComm.task.name }} <em class="small pull-right">{{ taskManComm.task.status }}</em>
 	</div>
+<!-- 
+	Overall -->
+	<div class="panel-sub-heading">
+		<label class="control-label">Overall Status</label>
+		<div class="btn-group btn-group-justified">
+			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskManComm.overallStatusFilter === 'Unvetted'}"		ng-click="taskManComm.setOverallStatusFilter('Unvetted')">Unvetted</a>
+			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskManComm.overallStatusFilter === 'In Progress'}"	ng-click="taskManComm.setOverallStatusFilter('In Progress')">In Progress</a>
+			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskManComm.overallStatusFilter === 'Published'}"		ng-click="taskManComm.setOverallStatusFilter('Published')">Published</a>
+			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskManComm.overallStatusFilter === 'Rejected'}"		ng-click="taskManComm.setOverallStatusFilter('Rejected')">Rejected</a>
+			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskManComm.overallStatusFilter === 'Spam'}"			ng-click="taskManComm.setOverallStatusFilter('Spam')">Spam</a>
+			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskManComm.overallStatusFilter === 'Deferred'}"		ng-click="taskManComm.setOverallStatusFilter('Deferred')">Deferred</a>
+		</div>
+	</div>
+
+<!-- 	Proponent -->
+	<div class="panel-sub-heading" x-user-is="admin, proponent, classify">
+		<label class="control-label">Classification Status</label>
+		<div class="btn-group btn-group-justified">
+			<a href class="btn btn-default btn-sm"
+				ng-class="{'btn-success': taskManComm.proponentStatusFilter === 'Unclassified'}"
+				ng-click="taskManComm.setProponentStatusFilter('Unclassified')">
+				Unclassified
+			</a>
+
+			<a href class="btn btn-default btn-sm"
+				ng-class="{'btn-success': taskManComm.proponentStatusFilter === 'In Progress'}"
+				ng-click="taskManComm.setProponentStatusFilter('In Progress')">
+				In Progress
+			</a>
+
+			<a href class="btn btn-default btn-sm"
+				ng-class="{'btn-success': taskManComm.proponentStatusFilter === 'Classified'}"
+				ng-click="taskManComm.setProponentStatusFilter('Classified')">
+				Classified
+			</a>
+			
+			<a href class="btn btn-default btn-sm"
+				ng-class="{'btn-success': taskManComm.proponentStatusFilter === 'Deferred'}"
+				ng-click="taskManComm.setProponentStatusFilter('Deferred')">
+				Deferred
+			</a>
+
+		</div>
+	</div>
+
+
+
+<!-- Staff -->
+	<div class="panel-sub-heading" x-user-is="admin, vetting">
+		<label class="control-label">Vetting Status</label>
+		<div class="btn-group btn-group-justified">
+			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskManComm.eaoStatusFilter === 'Unvetted'}"		ng-click="taskManComm.setEaoStatusFilter('Unvetted')">Unvetted</a>
+			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskManComm.eaoStatusFilter === 'Published'}"	ng-click="taskManComm.setEaoStatusFilter('Published')">Published</a>
+			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskManComm.eaoStatusFilter === 'Rejected'}"		ng-click="taskManComm.setEaoStatusFilter('Rejected')">Rejected</a>
+			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskManComm.eaoStatusFilter === 'Spam'}"		ng-click="taskManComm.setEaoStatusFilter('Spam')">Spam</a>
+			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskManComm.eaoStatusFilter === 'Deferred'}"		ng-click="taskManComm.setEaoStatusFilter('Deferred')">Deferred</a>
+		</div>
+	</div>
+
+
+	<div class="panel-sub-heading">
+		<div class="form-inline">
+
+			<div class="form-group pull-right">
+				<label class="control-label">Keyword Search</label>
+				<div class="input-group input-group-sm">
+					<input ng-model="taskManComm.filterKeyword" type="text" class="form-control" placeholder="">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button" ng-click="taskManComm.filterKeyword = undefined"><span class="glyphicon glyphicon-remove"></span></button>
+					</span>
+				</div>						
+			</div>
+
+			<div class="form-group">
+				<label class="control-label">Pillars</label>
+				<select ng-model="taskManComm.bucketFilter" ng-options="group for group in taskManComm.bucketGroups" class="form-control input-sm">
+					<option value=''>Any</option>
+				</select>
+
+			</div>
+
+		</div>
+	</div>
+
+
+
 	<panel-sort x-fields="taskManComm.panelSort" x-data="taskManComm.comments" class="text-dark" style="margin-top: 10px;"></panel-sort>
 
 	<table class="table table-condensed table-hover">
 		<thead>
-			<tr ng-show="taskManComm.showFilter" class="panel-sub-heading">
-				<td class="text-right form-inline" colspan="4">
-
-					<div class="form-group">
-						<label class="control-label">Filter</label>
-						<div class="input-group input-group-sm">
-							<input ng-model="taskManComm.filterKeyword" type="text" class="form-control" placeholder="Filter">
-							<span class="input-group-btn">
-								<button class="btn btn-default" type="button" ng-click="taskManComm.filterKeyword = undefined"><span class="glyphicon glyphicon-remove"></span></button>
-							</span>
-						</div>						
-					</div>
-
-				</td>
-			</tr>
-		<thead>
 			<tr class="small">
-				<th width="59%">Comment</th>
-				<th width="20%" class="text-center">Date</th>
-				<th width="20%" class="text-center">Overall Status<br/>EAO Status<br/>Proponent Status</th>
-				<th class="text-right"><a href ng-click="taskManComm.showFilter = !taskManComm.showFilter"><span class="glyphicon glyphicon-search"></span></a></th>
+				<th width="65%">Comment</th>
+				<th width="15%" class="text-center">Date</th>
+				<th width="15%" class="text-center">Overall Status<br/>EAO Status<br/>Proponent Status</th>
+				<th width="15%" class="text-left">Pillars</th>
+				<th width="5%" class="text-center">VC's</th>
 			</tr>
+
 		</thead>
 		<tbody>
-			<tr ng-repeat="com in taskManComm.comments | filter:taskManComm.filterKeyword track by $index" ng-class="{'bg-danger': com.overallStatus === 'Rejected', 'bg-info': com.overallStatus === 'In Progress'}" ng-click="taskManComm.activeComments[com._id] = !taskManComm.activeComments[com._id]">
+			<tr
+				ng-repeat="com in commentsFiltered = (taskManComm.comments | advancedFilter:taskManComm.filterKeyword | filter:taskManComm.bucketFilter | filter:{'overallStatus': taskManComm.overallStatusFilter}  | filter:{'eaoStatus': taskManComm.eaoStatusFilter} | filter:{'proponentStatus': taskManComm.proponentStatusFilter}) track by $index"
+				ng-class="{'bg-danger': com.overallStatus === 'Rejected', 'bg-info': com.overallStatus === 'In Progress'}"
+				x-modal-comment-detail x-comment='com' x-project='taskManComm.project'>
 				<td>
-					<div ng-show="taskManComm.activeComments[com._id]">
-						<pre class="form-group">{{ com.comment }}</pre>
-						<ul class="list-unstyled document-vetting">
-							<li ng-repeat="doc in com.documents">
-								<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus !== 'Rejected'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
-								<span class="small text-warning" ng-if="doc.eaoStatus === 'Rejected'"><i class="glyphicon glyphicon-file"></i> {{ doc.name }} has not been shared as it does not meet the privacy policy rules.</span>
-							</li>
-							<li ng-if="com.documents.length === 0" class="small">
-								There are no documents associated with this comment.
-							</li>
-						</ul>
-					</div>
 					<div ng-show="!taskManComm.activeComments[com._id]">
 						<pre>{{ com.comment | max15Words }}</pre>
 					</div>
 				</td>
-				<td class='text-center no-wrap'>
+				<td class='text-center no-wrap small'>
 					{{ com.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}
 				</td>
 				<td class='text-center small' title="Overall, EAO, Proponent">
@@ -56,10 +119,15 @@
 					<span title="EAO">{{ com.eaoStatus }}</span><br/>
 					<span title="Proponent">{{ com.proponentStatus }}</span>
 				</td>
-				<td></td>
+				<td class='text-left small'>
+					<div ng-repeat="cls in com.classification">{{ cls }}</div>
+				</td>
+				<td class='text-center'>
+					{{ com.buckets.length || 0 }}
+				</td>
 			</tr>
-			<tr ng-show="taskManComm.comments.length === 0">
-				<td colspan="4">There are no comments to view.</td>
+			<tr ng-show="commentsFiltered.length === 0">
+				<td colspan="5">There are no comments to view.</td>
 			</tr>
 		</tbody>
 
