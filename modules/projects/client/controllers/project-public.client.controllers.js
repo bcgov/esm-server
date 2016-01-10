@@ -92,10 +92,15 @@ function controllerModalAddComment($modalInstance, $scope, Project, rProject) {
 		publicComment.data.project = rProject._id;
 	});
 
-	publicComment.send = function () {
+	publicComment.send = function (isValid) {
 		// indicate submission so the docmentUploadComplete event will take care of the close.
-		commentSubmitted = true;
-		$scope.$broadcast('documentUploadStart');
+		if(isValid) {
+			commentSubmitted = true;
+			$scope.$broadcast('documentUploadStart');
+		} else {
+			$scope.$broadcast('show-errors-check-validity', 'publicCommentForm');
+			return false;
+		}
 	};
 	
 	publicComment.ok = function () {
