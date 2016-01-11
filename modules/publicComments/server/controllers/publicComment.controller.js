@@ -60,7 +60,7 @@ var getDocumentsForComment = function (commentId) {
 	return new Promise (function (resolve, reject) {
 		CommentDocument.find ({publicComment:commentId}, function (err, model) {
 			if (err) return reject (err);
-			resolve (model);
+			else resolve (model);
 		});
 	});
 };
@@ -83,7 +83,10 @@ var getTopicsForComment = function (commentId) {
 // -------------------------------------------------------------------------
 var getBucketsForComment = function (commentId) {
 	return new Promise (function (resolve, reject) {
-		resolve ([]);
+		BucketComment.find ({publicComment: commentId}, function (err, models) {
+			if (err) return reject (err);
+			else resolve (models);
+		});
 	});
 };
 
