@@ -49,9 +49,11 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 
 				// add the comment to a bucket list for display.
 				_.each(item.buckets, function(bucket) {
-					if (!vm.commentsByTopic) vm.commentsByTopic = {};
-					if (!vm.commentsByTopic[bucket.name]) vm.commentsByTopic[bucket.name] = [];
-					vm.commentsByDate[bucket.name].push(item);
+					if( bucket.name ) {
+						if (!vm.commentsByTopic) vm.commentsByTopic = {};
+						if (!vm.commentsByTopic[bucket.name]) vm.commentsByTopic[bucket.name] = [];
+						vm.commentsByTopic[bucket.name].push(item);
+					}
 				});
 			});
 
