@@ -58,9 +58,16 @@ var saveDocument = function (doc, req) {
 // -------------------------------------------------------------------------
 var getDocumentsForComment = function (commentId) {
 	return new Promise (function (resolve, reject) {
-		CommentDocument.find ({publicComment:commentId}, function (err, model) {
+		CommentDocument.find ({publicComment:commentId}).populate('bucket').exec(function (err, model) {
 			if (err) return reject (err);
-			else resolve (model);
+			else {
+				console.log (model);
+				var ret = [];
+				_.each (model, function (m) {
+					ret.push (m.bucket);
+				});
+				resolve (ret);
+			}
 		});
 	});
 };
@@ -83,9 +90,16 @@ var getTopicsForComment = function (commentId) {
 // -------------------------------------------------------------------------
 var getBucketsForComment = function (commentId) {
 	return new Promise (function (resolve, reject) {
-		BucketComment.find ({publicComment: commentId}, function (err, models) {
+		BucketComment.find ({publicComment: commentId}).populate('bucket').exec(function (err, models) {
 			if (err) return reject (err);
-			else resolve (models);
+			else {
+				console.log (models);
+				var ret = [];
+				_.each (models, function (m) {
+					ret.push (m.bucket);
+				});
+				resolve (ret);
+			}
 		});
 	});
 };
@@ -99,6 +113,7 @@ var decorateComment = function (comment) {
 	return new Promise (function (resolve, reject) {
 		if (!comment) return resolve ({});
 		comment = comment.toObject ();
+		console.log (comment);
 		getDocumentsForComment (comment._id)
 		.then (function (a) {
 			comment.documents = a;

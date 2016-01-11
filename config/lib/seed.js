@@ -13,6 +13,7 @@ var mongoose = require('mongoose'),
   Milestone    = mongoose.model('Milestone'),
   Requirement  = mongoose.model('Requirement'),
   Project      = mongoose.model('Project'),
+  Stream      = mongoose.model('Stream'),
   Integration  = mongoose.model('Integration');
 
 
@@ -151,7 +152,8 @@ if (process.env.NODE_ENV === 'production') {
 
 
 var doConfigs = function () {
-
+    Project.find ({}).remove ();
+    Stream.find ({}).remove ();
     var i = new Integration ({module:'configs'});
     i.save ();
     console.log ('++ Adding default configuration objects');
@@ -165,7 +167,7 @@ var doConfigs = function () {
       {m:Requirement, s:'requirement',p:'requirements'}
     ];
     _.each (a, function (o) {
-      o.m.find ({project:null, stream:null}).remove (function () {
+      o.m.find ({}).remove (function () {
         _.each (configs[o.p], function (obj) {
           var m = new o.m (obj);
           m[o.s] = m._id;
@@ -183,10 +185,11 @@ Integration.findOne ({module:'ajax'}).exec()
 .then (function (row) {
   if (!row) {
 
-    // doConfigs ();
+    doConfigs ();
 
 		Project.find({name: 'Ajax Mine Project'}).remove (function () {
-
+        var i = new Integration ({module:'ajax'});
+        i.save ();
 			  var project = new Project({
 				lat: 50.608817,
 				lon: -120.405757,
