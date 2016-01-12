@@ -15,12 +15,17 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 	var vm = this;
 
 	vm.commentsByDateKeys = [];
+	vm.commentsByTopicKeys = {};
 	vm.commentsByDateVis = {name: 'byDate', children:[]};
+	vm.commentsByTopicVis = {name: 'byTopic', children:[]};
 	vm.refreshVisualization = 0;
 	//
 	// Get Project
 	Project.getProject({id: $stateParams.id}).then(function(res) {
 		vm.project = res.data;
+	
+		vm.bucketGroups = _.unique(_.pluck(vm.project.buckets, 'group'));
+
 		// get public comments and sort into date groups.
 		Project.getPublicCommentsPublished(res.data._id).then(function(res) {
 			vm.comments = res.data;
@@ -53,6 +58,21 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 						if (!vm.commentsByTopic) vm.commentsByTopic = {};
 						if (!vm.commentsByTopic[bucket.name]) vm.commentsByTopic[bucket.name] = [];
 						vm.commentsByTopic[bucket.name].push(item);
+
+						// make a structure of keys to filter on key meta.
+						if (!vm.commentsByTopicKeys[bucket.name]) vm.commentsByTopicKeys[bucket.name] = {name:bucket.name, group:bucket.group};
+
+						// is the bucket already in the visualization?						
+						var findBucket = _.find(vm.commentsByTopicVis.children, function(o) {
+							return o.name === bucket.name;
+						});
+
+						if (!findBucket) {
+							vm.commentsByTopicVis.children.push({name: bucket.name, size: 1});
+						} else {
+							findBucket.size++;
+						}
+
 					}
 				});
 			});
@@ -106,7 +126,8 @@ function controllerModalAddComment($modalInstance, $scope, Project, rProject) {
 	};
 	
 	publicComment.ok = function () {
-		$modalInstance.close();				
+		$modalInstance.close();
+		publicComment.step = 2;
 	};
 
 	// Any posible document has been uploaded so now save the record.
@@ -122,5 +143,6 @@ function controllerModalAddComment($modalInstance, $scope, Project, rProject) {
 
 	publicComment.cancel = function () {
 		$modalInstance.dismiss('cancel');
+		publicComment.step = 2;
 	};
 }

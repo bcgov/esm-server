@@ -30,9 +30,9 @@
 		</div>
 	</div>
 	<table class="table table-condensed">
-		<thead>
-			<tr ng-show="taskPubComClassProp.showFilter" class="panel-sub-heading">
-				<td class="text-right form-inline" colspan="3">
+		<thead >
+			<tr ng-show="taskPubComClassProp.showFilter" class="panel-sub-heading" ng-if="0">
+				<td class="text-right form-inline">
 
 					<div class="form-group pull-left">
 						<div class="btn-group btn-group-sm">
@@ -76,130 +76,30 @@
 				</td>
 			</tr>
 			<tr class="small">
-				<th colspan="2">Comment</th>
-				<th class="text-right">
-					<a href ng-click="taskPubComClassProp.showFilter = !taskPubComClassProp.showFilter"><span class="glyphicon glyphicon-search"></span></a>
-				</th>				
+				<th>
+					<a href class="pull-right" ng-if="0" ng-click="taskPubComClassProp.showFilter = !taskPubComClassProp.showFilter"><span class="glyphicon glyphicon-search"></span></a>
+					Comment
+				</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="com in filteredComments = (taskPubComClassProp.data.comments | filter:{proponentStatus: taskPubComClassProp.filter}:true | filterClassifyComments:taskPubComClassProp.filterScopeComments:taskPubComClassProp.filterKeyword) track by $index"
 			ng-class="{'bg-warning':taskPubComClassProp.activeComment._id === com._id}">
 
-				<td width="58%" ng-if="taskPubComClassProp.activeComment._id === com._id"><small>{{ com.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}</small><br/>
-					<p ng-if="com.displayName && com.author" class="small">{{ com.author }}</p>
-					<p ng-if="com.displayName && com.location" class="small">{{ com.location }}</p>
-					<pre>{{ com.comment }}</pre>
-					<hr>
+				<td ng-if="taskPubComClassProp.activeComment._id === com._id" style="padding: 5px 0">
 
-					<ul class="list-unstyled document-vetting">
-						<li ng-repeat="doc in com.documents">
-							<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus !== 'Rejected'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
-							<span class="small text-warning" ng-if="doc.eaoStatus === 'Rejected'"><i class="glyphicon glyphicon-file"></i> This document has not been shared as it does not meet the privacy policy rules.</span>
-						</li>
-						<li ng-if="com.documents.length === 0">
-							There are no documents associated with this comment.
-						</li>
-					</ul>
-
-				</td>
-				<td width="2%" ng-if="taskPubComClassProp.activeComment._id === com._id"></td>
-				<td width="40%" ng-if="taskPubComClassProp.activeComment._id === com._id">
-
-					<label class="control-label">
-						Pillars
-					</label>
-					<div class="well well-sm clickable">
-						<ul class="list-unstyled task-list">
-
-							<li ng-repeat="group in taskPubComClassProp.bucketGroups track by $index">
-								<button class="btn btn-block btn-sm btn-layer" ng-click="taskPubComClassProp.toggleBucketGroup(com, group)" ng-class="{'btn-success': com.classification.indexOf(group) !== -1}">{{ group }}</button>
-							</li>
-
-							<!-- there are no buckets defined on the project -->
-							<li ng-if="(!taskPubComClassProp.bucketGroups || taskPubComClassProp.bucketGroups.length === 0)" class="small">
-								<span>There are no pillars identified for this project.</span>
-							</li>
-
-						</ul>
-					</div>
-
-
-					<label class="control-label">
-						Value Components
-					</label>
-					<div class="well well-sm clickable">
-						<ul class="list-unstyled task-list"
-							x-modal-select-items
-							x-all-items="taskPubComClassProp.bucketsFiltered"
-							x-selected-items="com.buckets"
-							x-single="false"
-							x-unique="true"
-							x-item-name="Value Components">
-
-							<li ng-repeat="bucket in filteredCommentBuckets = (com.buckets | filterClassifyValueComponents:taskPubComClassProp.filterScopeValueComponents:taskPubComClassProp.filterKeyword) track by $index">
-								<button class="btn btn-block btn-sm btn-layer">{{ bucket.name }}</button>
-							</li>
-
-							<!-- there are no buckets defined on the project -->
-							<li ng-if="(!com.buckets || com.buckets.length === 0) && !taskPubComClassProp.filterBuckets" class="small">
-								<span>There are no value components identified for this project.</span>
-							</li>
-
-						</ul>
-					</div>
-
-
-					<label class="control-label" ng-if='0'>
-						Topics
-					</label>
-					<div class="well well-sm clickable" ng-if='0'>
-						<ul class="list-unstyled task-list"
-							x-modal-select-items
-							x-unique="true"
-							x-all-items="taskPubComClassProp.project.topics"
-							x-single='false'
-							x-selected-items="com.topics"
-							x-item-name="Topics">
-
-							<li ng-repeat="topic in filteredCommentTopics = (com.topics | filterClassifyTopics:taskPubComClassProp.filterScopeTopics:taskPubComClassProp.filterKeyword) track by $index">
-								<button class="btn btn-block btn-sm btn-layer">{{ topic.name }}</button>
-							</li>
-
-							<!-- there are no buckets defined on the project -->
-							<li ng-if="(!com.topics || com.topics.length === 0) && !taskPubComClassProp.filterTopics" class="small">
-								There are no topics identified for this project.
-							</li>
-
-						</ul>
-					</div>
-
-
-					<div ng-show="taskPubComClassProp.noClassificationPossible || com.proponentNotes">
-						<label class="control-label">
-							Reason for No Classification
-						</label>
-						<textarea class="form-control input-sm" ng-model="com.proponentNotes" rows=4></textarea>
-						<span class="help-block">When finished, click Next Comment.</span>
-					</div>
-
-					<div class="text-right">
-						<a href class="btn-link btn" ng-click='taskPubComClassProp.noClassificationPossible = true' ng-if="com.proponentStatus !== 'Classified'" title="Comment classification is not possible or appropriate">None</a>
-						<a href class="btn-link btn" ng-click='taskPubComClassProp.deferCommentStatus(com)' ng-if="com.proponentStatus !== 'Deferred'">Defer</a>
-						<a href class="btn-link btn" ng-click='taskPubComClassProp.finalizeCommentStatus(com)'>Next Comment <span class="glyphicon glyphicon-chevron-right"></span></a>
-					</div>
+					<tmpl-classify-public-comment x-comment="com" x-project="taskPubComClassProp.project"></tmpl-classify-public-comment>
 
 				</td>
 
-
-				<td colspan="3" ng-if="taskPubComClassProp.activeComment._id !== com._id" class="text-muted clickable" ng-click="taskPubComClassProp.activeComment = com">
+				<td ng-if="taskPubComClassProp.activeComment._id !== com._id" class="text-muted clickable" ng-click="taskPubComClassProp.activeComment = com">
 					<div ng-bind-html="com.comment | safeHtml | max15Words"></div>
 				</td>
 
 			</tr>
 
 			<tr ng-show="filteredComments.length === 0">
-				<td colspan="3">There are no {{ taskPubComClassProp.filter }} comments.</td>
+				<td >There are no {{ taskPubComClassProp.filter }} comments.</td>
 			</tr>
 		</tbody>
 

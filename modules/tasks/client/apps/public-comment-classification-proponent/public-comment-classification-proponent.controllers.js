@@ -34,9 +34,9 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 		if (newValue) {
 			taskPubComClassProp.project = newValue;
 
-			// get the bucket groups for general classification
-			taskPubComClassProp.bucketGroups = _.unique(_.pluck(taskPubComClassProp.project.buckets, 'group'));
-			taskPubComClassProp.bucketsFiltered = taskPubComClassProp.project.buckets;
+			// // get the bucket groups for general classification
+			// taskPubComClassProp.bucketGroups = _.unique(_.pluck(taskPubComClassProp.project.buckets, 'group'));
+			// taskPubComClassProp.bucketsFiltered = [];
 
 			// GetStart will return all Deferred or Unclassified items for the current user.
 			// fetch New Comment will make sure we don't fetch another comment if there already is one unclassified pending.
@@ -48,39 +48,12 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 	});
 	// -----------------------------------------------------------------------------------
 	//
-	// Set Comment to Deferred and get another.
+	// Action to get the next comment.
 	//
 	// -----------------------------------------------------------------------------------
-	taskPubComClassProp.deferCommentStatus = function(comment) {
-		TaskPublicCommentClassificationProponent.setCommentDefer(comment).then( function(res) {
-			comment = _.assign(comment, res.data);
-
-			// One has been deferred, get another comment.
-			taskPubComClassProp.fetchNewComment();
-		});
-	};
-	// -----------------------------------------------------------------------------------
-	//
-	// Set Comment to Classified and get another.
-	//
-	// -----------------------------------------------------------------------------------
-	taskPubComClassProp.finalizeCommentStatus = function(comment) {
-		// status change in progress
-		if ((comment.classification.length > 0) || (comment.buckets && comment.buckets.length > 0) || (comment.topics && comment.topics.length > 0) || (comment.proponentNotes)) {
-			// proceed with status change
-			// must have buckets or topics or a reason why not.
-
-			TaskPublicCommentClassificationProponent.setCommentClassify(comment).then( function(res) {
-			 	comment = _.assign(comment, res.data);
-
-				// One has been classified, get another comment.
-				taskPubComClassProp.fetchNewComment();
-			});
-
-		} else {
-			window.alert("Please select value components, topics before moving to the next comment or enter a reason for no validation.");
-		}
-	};
+	$scope.$on('classifyFetchNewComment', function() {
+		taskPubComClassProp.fetchNewComment();
+	});
 	// -----------------------------------------------------------------------------------
 	//
 	// Get next comment
@@ -103,42 +76,15 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 				taskPubComClassProp.data.comments.push(res.data);
 				taskPubComClassProp.filter = 'Unclassified';
 				taskPubComClassProp.activeComment = res.data;
-				taskPubComClassProp.noClassificationPossible = false;
+				//taskPubComClassProp.noClassificationPossible = false;
 
-				taskPubComClassProp.filterBucketsByPillars(taskPubComClassProp.activeComment);
+				//taskPubComClassProp.filterBucketsByPillars(taskPubComClassProp.activeComment);
 			});
 		}
 
 		// get the count of other pending comments.
 		TaskPublicCommentClassificationProponent.getUnclassifiedCount(taskPubComClassProp.project._id).then( function(res) {
 			taskPubComClassProp.unclassifiedCount = res.data.count;
-		});
-	};
-	// -----------------------------------------------------------------------------------
-	//
-	// Toggle the classifications (bucket groups)
-	//
-	// -----------------------------------------------------------------------------------
-	taskPubComClassProp.toggleBucketGroup = function(comment, group) {
-		if (comment.classification.indexOf(group) > -1) {
-			_.remove(comment.classification, function(item) { return item === group; });
-		} else {
-			comment.classification.push(group);
-		}
-
-		taskPubComClassProp.filterBucketsByPillars(comment);
-
-	};
-
-
-	taskPubComClassProp.filterBucketsByPillars = function(comment) {
-		// filter bucket list for new classifications
-		taskPubComClassProp.bucketsFiltered = $filter('filter')(taskPubComClassProp.project.buckets, function(item) {
-			if (comment.classification) {
-				return (comment.classification.indexOf(item.group) !== -1 );
-			} else {
-				return false;
-			}
 		});
 	};
 

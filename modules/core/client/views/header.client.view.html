@@ -67,8 +67,11 @@
       <div class="col-sm-9">
       	<div class="navbar-header">
 
-      		<div class="navbar-brand"><img src="modules/core/client/img/brand/eao-logo.png" height="40" width="248"/></div>
-      		</div>
+         <div class="navbar-brand" x-user-is="user"><a ui-sref="eao.projects"><img src="modules/core/client/img/brand/eao-logo.png" height="40" width="248"/></a></div>
+         <div class="navbar-brand" x-user-is-not="user"><a ui-sref="public.projects"><img src="modules/core/client/img/brand/eao-logo.png" height="40" width="248"/></a></div>         
+
+
+        </div>
 
       </div>
 
