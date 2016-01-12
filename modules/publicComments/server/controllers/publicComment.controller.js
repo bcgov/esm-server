@@ -242,7 +242,15 @@ var getByProjectByStatus = function (projectId, status, limit) {
 // -------------------------------------------------------------------------
 exports.new    = crud.new    ();
 exports.create = crud.create ();
-exports.read   = crud.read   ();
+exports.read   = crud.read   (function (model, callback) {
+	decorateComment (model)
+	.then (function (m) {
+		callback (null, m);
+	})
+	.catch (function (err) {
+		callback (err, null);
+	});
+});
 exports.update = crud.update ();
 exports.delete = crud.delete ();
 exports.list   = crud.list   ();
