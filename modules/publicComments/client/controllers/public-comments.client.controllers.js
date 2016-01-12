@@ -81,7 +81,7 @@ function controllerClassifyPublicComment($scope, $rootScope, _, sPublicComments,
 			_.each(pubComClass.com.buckets, function(bucket) {
 				// check if the bucket group is in classification
 				_.remove(pubComClass.com.buckets, function(bucket) {
-					return (pubComClass.com.classification.indexOf(bucket.group) === -1)
+					return (pubComClass.com.classification.indexOf(bucket.group) === -1);
 				});
 			});
 

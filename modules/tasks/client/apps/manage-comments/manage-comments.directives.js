@@ -42,9 +42,9 @@ function directiveTaskManageComments() {
 // DIRECTIVE: Research Detail
 //
 // -----------------------------------------------------------------------------------
-directiveModalCommentDetail.$inject = ['$modal', 'sPublicComments'];
+directiveModalCommentDetail.$inject = ['$modal', 'sPublicComments', '_'];
 /* @ngInject */
-function directiveModalCommentDetail($modal, sPublicComments) {
+function directiveModalCommentDetail($modal, sPublicComments, _) {
     var directive = {
         restrict:'A',
         scope : {
