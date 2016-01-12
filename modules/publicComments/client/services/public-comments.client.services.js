@@ -11,6 +11,10 @@ servicePublicComments.$inject = ['$http'];
 /* @ngInject */
 function servicePublicComments($http) {
 
+	var getComment = function(commentId) {
+		return $http({method:'GET',url: '/api/publiccomment/' + commentId });
+	};
+
 	var setCommentDefer = function(comment) {
 		return $http({method:'PUT',url: '/api/publiccomment/' + comment._id + '/proponent/defer', data: comment});
 	};
@@ -20,6 +24,7 @@ function servicePublicComments($http) {
 	};
 
 	return {
+		getComment: getComment,
 		setCommentDefer: setCommentDefer,
 		setCommentClassify: setCommentClassify,
 	};

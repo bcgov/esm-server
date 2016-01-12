@@ -15,6 +15,7 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 	var vm = this;
 
 	vm.commentsByDateKeys = [];
+	vm.commentsByTopicKeys = {};
 	vm.commentsByDateVis = {name: 'byDate', children:[]};
 	vm.commentsByTopicVis = {name: 'byTopic', children:[]};
 	vm.refreshVisualization = 0;
@@ -22,6 +23,9 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 	// Get Project
 	Project.getProject({id: $stateParams.id}).then(function(res) {
 		vm.project = res.data;
+	
+		vm.bucketGroups = _.unique(_.pluck(vm.project.buckets, 'group'));
+
 		// get public comments and sort into date groups.
 		Project.getPublicCommentsPublished(res.data._id).then(function(res) {
 			vm.comments = res.data;
@@ -55,6 +59,10 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 						if (!vm.commentsByTopic[bucket.name]) vm.commentsByTopic[bucket.name] = [];
 						vm.commentsByTopic[bucket.name].push(item);
 
+						// make a structure of keys to filter on key meta.
+						if (!vm.commentsByTopicKeys[bucket.name]) vm.commentsByTopicKeys[bucket.name] = {name:bucket.name, group:bucket.group};
+
+						// is the bucket already in the visualization?						
 						var findBucket = _.find(vm.commentsByTopicVis.children, function(o) {
 							return o.name === bucket.name;
 						});
@@ -62,15 +70,12 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 						if (!findBucket) {
 							vm.commentsByTopicVis.children.push({name: bucket.name, size: 1});
 						} else {
-							console.log('add', findBucket.size);
 							findBucket.size++;
 						}
 
 					}
 				});
 			});
-
-			console.log(vm.commentsByTopicVis);
 
 			vm.commentsByDateKeys = _.unique(vm.commentsByDateKeys);
 

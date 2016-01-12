@@ -110,18 +110,28 @@
 								<div class="btn-group btn-group-sm">
 									<button class="btn btn-default" ng-click="vm.form.view = 'bydate'"	ng-class="{'btn-primary': vm.form.view === 'bydate'}">By Date</button>
 									<button class="btn btn-default" ng-click="vm.form.view = 'bytopic'"	ng-class="{'btn-primary': vm.form.view === 'bytopic'}">By Topic</button>
-									<button class="btn btn-default" ng-click="vm.form.view = 'bychart'"	ng-class="{'btn-primary': vm.form.view === 'bychart'}">By Topic Graph</button>
+									<button class="btn btn-default" ng-click="vm.form.view = 'bychart'"	ng-class="{'btn-primary': vm.form.view === 'bychart'}">By Topic Chart</button>
 								</div>
 							</li>
 						</ul>
 
 						<ul class="nav navbar-nav navbar-right">
-							<li>
-								<p class="navbar-text">Keyword Search</p>
+
+							<li ng-if="0">
+
+								<div class="navbar-form">
+									<div class="form-group">
+										<label class="control-label">Pillars</label>
+										<select ng-model="vm.filterBucketGroup" ng-options="group for group in vm.bucketGroups" class="form-control input-sm">
+											<option value=''>Any</option>
+										</select>
+									</div>
+								</div>
 							</li>
-							<li>
+							<li ng-if="vm.form.view !== 'bychart'">
 								<form class="navbar-form" role="filter1">
 									<div class="form-group">
+										<label class="control-label">Keyword Search</label>
 										<input ng-model="vm.filterKeyword" type="text" class="form-control" placeholder="">
 									</div>
 								</form>
@@ -131,14 +141,15 @@
 					</div><!-- /.container-fluid -->
 				</nav>
 
-				<div ng-repeat="(heading, buckets) in vm.commentsByTopic" class="concern-list" ng-show="vm.form.view === 'bytopic'">
+
+				<div ng-repeat="(heading, topic) in vm.commentsByTopicKeys | orderBy:'name' | filter:vm.filterBucketGroup" class="concern-list" ng-show="vm.form.view === 'bytopic'">
 					<h3 ng-click='form[heading] = !form[heading]' class="clickable concern-heading">
-						{{ heading }}<div class="pull-right small"><span ng-if="!form[heading]">Click to view.</span> Number of comments: {{ (buckets | filter:vm.filterKeyword).length || 0 }}</div>
+						{{ heading }}<div class="pull-right small"><span ng-if="!form[heading]">Click to view.</span> Number of comments: {{ (vm.commentsByTopic[heading] | filter:vm.filterKeyword).length || 0 }}</div>
 					</h3>
 					<hr ng-if='!form[heading]'>
 					<div class="panel panel-default panel-concern" ng-show='form[heading]'>
 						<div class="panel-body">
-							<div class="row comment-list" ng-repeat-start="item in buckets | advancedFilter:vm.filterKeyword | orderBy:'dateAdded':true">
+							<div class="row comment-list" ng-repeat-start="item in vm.commentsByTopic[heading] | advancedFilter:vm.filterKeyword | orderBy:'dateAdded':true">
 								<div class="col-sm-6">
 									<pre>{{ item.comment }}</pre>
 								</div>
@@ -186,11 +197,11 @@
 
 				<div class="panel panel-default panel-concern" ng-show="vm.form.view === 'bydate'">
 					<div class="panel-body">
-						<div class="row comment-list" ng-repeat-start='item in vm.comments | advancedFilter:vm.filterKeyword'>
+						<div class="row comment-list" ng-repeat-start="item in commentsFiltered = (vm.comments | advancedFilter:vm.filterKeyword) | orderBy:'dateAdded':true">
+
 							<div class="col-sm-6">
 								<pre>{{ item.comment }}</pre>
 							</div>
-
 
 							<div class="col-sm-3">
 								<p ng-if="item.author && item.displayName">Name: {{ item.author }}</p>
@@ -214,15 +225,15 @@
 
 						</div>
 						<hr ng-if="!$last" ng-repeat-end>
+
+						<div ng-if="commentsFiltered.length === 0 && vm.form.view === 'bydate'">
+							No comments match those keywords.
+						</div>
+
 					</div>
 				</div>
 
-
-				<div class="panel panel-default panel-concern" ng-show='( vm.commentsByDate[dateKey] | advancedFilter:vm.filterKeyword).length === 0 && form[dateKey]'>
-					<div class="panel-body">
-						No comments match those keywords.
-					</div>
-				</div>
+				
 
 				<div class="panel panel-default panel-concern" ng-show="vm.form.view === 'bychart'">
 					<div class="panel-body">

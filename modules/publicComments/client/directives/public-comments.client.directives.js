@@ -17,7 +17,8 @@ function directiveClassifyPublicComment() {
         controllerAs: 'pubComClass',
         scope: {
         	comment: '=',
-            project: '='                
+            project: '=',
+            single: '='
         }
     };
     return directive;

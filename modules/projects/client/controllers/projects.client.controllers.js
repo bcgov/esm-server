@@ -29,9 +29,6 @@ function controllerProjectsFilterBar($scope, $state, Projects, $filter, PROJECT_
 	});		
 
 	fbc.updateFilter = function() {
-		if( fbc.data.intakes ) {
-			fbc.data.intakes = $filter('projects')(fbc.filter);
-		}
 		if ( fbc.data.projects) {
 			fbc.data.projects = $filter('projects')(fbc.filter);
 		}

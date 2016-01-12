@@ -42,9 +42,9 @@ function directiveTaskManageComments() {
 // DIRECTIVE: Research Detail
 //
 // -----------------------------------------------------------------------------------
-directiveModalCommentDetail.$inject = ['$modal'];
+directiveModalCommentDetail.$inject = ['$modal', 'sPublicComments'];
 /* @ngInject */
-function directiveModalCommentDetail($modal) {
+function directiveModalCommentDetail($modal, sPublicComments) {
     var directive = {
         restrict:'A',
         scope : {
@@ -62,14 +62,21 @@ function directiveModalCommentDetail($modal) {
                     size: 'lg',
                     resolve: {
                         rComment: function() {
-                            return scope.comment;
+                            return angular.copy(scope.comment);
                         },
                         rProject: function() {
                             return scope.project;
                         }
                     }
                 });
-                modalCommentDetail.result.then(function () {}, function () {});
+                modalCommentDetail.result.then(function () {}, function () {
+
+                    sPublicComments.getComment(scope.comment._id).then( function(res) {
+                        // reassign the new, saved comment
+                        scope.comment = _.assign(scope.comment, res.data);
+                    });
+
+                });
             });
         }
     };

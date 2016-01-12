@@ -13,7 +13,6 @@ controllerEAOProjects.$inject = ['$scope', '$state', 'Projects', '_'];
 function controllerEAOProjects($scope, $state, Projects, _) {
 	var vm = this;
 
-	vm.intakes = [];
 	vm.projects = [];
 	vm.filter = {};
 	
