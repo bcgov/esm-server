@@ -113,13 +113,18 @@ function controllerTaskManageComments($scope, $rootScope, Task, _, sTaskManageCo
 // CONTROLLER: Task Comment Detail Modal
 //
 // -----------------------------------------------------------------------------------
-controllerTaskModalCommentDetail.$inject = ['$scope', 'rComment', 'rProject', '_', 'sTaskManageComments'];
+controllerTaskModalCommentDetail.$inject = ['$scope', '$modalInstance', 'rComment', 'rProject', '_'];
 	//
-function controllerTaskModalCommentDetail($scope, rComment, rProject, _, sTaskManageComments) {
+function controllerTaskModalCommentDetail($scope, $modalInstance, rComment, rProject, _) {
 	var taskComDetail = this;
 
 	taskComDetail.bucketGroups = _.unique(_.pluck(rProject.buckets, 'group'));
 
 	taskComDetail.comment = rComment;
+	taskComDetail.project = rProject;
+
+	taskComDetail.cancel = function() {
+		$modalInstance.dismiss();
+	};
 
 }

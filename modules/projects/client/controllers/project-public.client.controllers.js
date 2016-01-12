@@ -16,6 +16,7 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 
 	vm.commentsByDateKeys = [];
 	vm.commentsByDateVis = {name: 'byDate', children:[]};
+	vm.commentsByTopicVis = {name: 'byTopic', children:[]};
 	vm.refreshVisualization = 0;
 	//
 	// Get Project
@@ -53,9 +54,23 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 						if (!vm.commentsByTopic) vm.commentsByTopic = {};
 						if (!vm.commentsByTopic[bucket.name]) vm.commentsByTopic[bucket.name] = [];
 						vm.commentsByTopic[bucket.name].push(item);
+
+						var findBucket = _.find(vm.commentsByTopicVis.children, function(o) {
+							return o.name === bucket.name;
+						});
+
+						if (!findBucket) {
+							vm.commentsByTopicVis.children.push({name: bucket.name, size: 1});
+						} else {
+							console.log('add', findBucket.size);
+							findBucket.size++;
+						}
+
 					}
 				});
 			});
+
+			console.log(vm.commentsByTopicVis);
 
 			vm.commentsByDateKeys = _.unique(vm.commentsByDateKeys);
 
@@ -106,7 +121,8 @@ function controllerModalAddComment($modalInstance, $scope, Project, rProject) {
 	};
 	
 	publicComment.ok = function () {
-		$modalInstance.close();				
+		$modalInstance.close();
+		publicComment.step = 2;
 	};
 
 	// Any posible document has been uploaded so now save the record.
@@ -122,5 +138,6 @@ function controllerModalAddComment($modalInstance, $scope, Project, rProject) {
 
 	publicComment.cancel = function () {
 		$modalInstance.dismiss('cancel');
+		publicComment.step = 2;
 	};
 }

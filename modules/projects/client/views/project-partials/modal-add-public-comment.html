@@ -27,7 +27,7 @@
 		<div class="row">
 			<div class="form-group col-sm-6" show-errors>
 				<label for="name" class="control-label">Your Name</label>
-				<input type="input" id="name" name="name" class="form-control" ng-model="publicComment.data.author" required/>
+				<input type="input" id="name" name="name" class="form-control" ng-model="publicComment.data.author"/>
 
 				<div ng-messages="publicCommentForm.name.$error" role="alert">
 					<p class="help-block error-text small" ng-message="required"><em>Your Name is required.</em></p>
@@ -36,7 +36,7 @@
 			</div>
 			<div class="form-group col-sm-6" show-errors>
 				<label for="location" class="control-label">Your Location</label>
-				<input type="input" id="location" name="location" class="form-control" ng-model="publicComment.data.location" required/>
+				<input type="input" id="location" name="location" class="form-control" ng-model="publicComment.data.location"/>
 
 				<div ng-messages="publicCommentForm.location.$error" role="alert">
 					<p class="help-block error-text small" ng-message="required"><em>Your Location is required.</em></p>

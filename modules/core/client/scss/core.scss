@@ -3,14 +3,18 @@
  * -------------------------------------------------------------------------- */
 
 /* ----- Colors ----- */
-$header-blue:					#141a41;
-$navbar-blue:					#154681;
-$color-sample2:                 #AAAAAA;
-$brand-primary:					#337ab7;
-$brand-success:					#5cb85c;
-$brand-info:					#5bc0de;
-$brand-warning:					#f0ad4e;
-$brand-danger:					#d9534f;
+$header-blue:				#141a41;
+$navbar-blue:				#154681;
+$color-sample2:               #AAAAAA;
+$brand-primary:			#337ab7;
+$brand-success:			#5cb85c;
+$brand-info:				#5bc0de;
+$brand-warning:			#f0ad4e;
+$brand-danger:				#d9534f;
+$link-light:				#337ab7;
+$link-dark:				#23527c;
+$border-grey:				#dddddd;
+
 
 // -------------------------
 // Bootstrap Overrides
@@ -200,6 +204,11 @@ a.return-link:hover {
 	margin-top: 0;
 }
 
+h3.activity-title {
+	color: #fff;
+	margin-top: 0;
+}
+
 .concern-list > h3:first-child {
 	margin-top: 0;
 }
@@ -350,15 +359,30 @@ th .progress-bar {
 	opacity: 0.8;
 }
 
-label.control-label {
+label.control-label,
+a.control-label,
+.control-label a {
 	font-size: 85%;
 	font-weight: 500;
 	font-style: italic;
 	display: block;
 	padding: 0 0 2px;
-    margin: 0 0 2px;
+	margin: 0 0 2px;
 	color: #ababab;	
 }
+
+a.control-label,
+.control-label a {
+	display: inline-block;
+	color: $link-light;
+	cursor: pointer;	
+}
+
+a.control-label:hover,
+.control-label a:hover {
+	color: $link-dark;
+}
+
 
 .drop-box {
     background: #F8F8F8;
@@ -669,4 +693,10 @@ pre {
 	line-height: inherit;
 	background-color: transparent;
 	border: 0;
+}
+
+.scrolling-fixed-box {
+	overflow: scroll-y;
+	max-height: 400px;
+	display: block;
 }

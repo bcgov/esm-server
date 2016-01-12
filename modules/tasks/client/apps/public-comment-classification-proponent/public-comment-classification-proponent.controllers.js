@@ -36,7 +36,7 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 
 			// get the bucket groups for general classification
 			taskPubComClassProp.bucketGroups = _.unique(_.pluck(taskPubComClassProp.project.buckets, 'group'));
-			taskPubComClassProp.bucketsFiltered = taskPubComClassProp.project.buckets;
+			taskPubComClassProp.bucketsFiltered = [];
 
 			// GetStart will return all Deferred or Unclassified items for the current user.
 			// fetch New Comment will make sure we don't fetch another comment if there already is one unclassified pending.
@@ -131,6 +131,20 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 	};
 
 
+	// -----------------------------------------------------------------------------------
+	//
+	// Toggle the buckets (buckets)
+	//
+	// -----------------------------------------------------------------------------------
+	taskPubComClassProp.toggleBucket = function(comment, bucket) {
+		if (comment.buckets.indexOf(bucket) > -1) {
+			_.remove(comment.buckets, function(item) { return item === bucket; });
+		} else {
+			comment.buckets.push(bucket);
+		}
+	};
+
+
 	taskPubComClassProp.filterBucketsByPillars = function(comment) {
 		// filter bucket list for new classifications
 		taskPubComClassProp.bucketsFiltered = $filter('filter')(taskPubComClassProp.project.buckets, function(item) {
@@ -141,6 +155,30 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 			}
 		});
 	};
+
+
+	// select all groups
+	taskPubComClassProp.selectAllGroups = function(comment, selectAll) {
+		if (selectAll) {
+			comment.classification = angular.copy(taskPubComClassProp.bucketGroups);
+		} else {
+			comment.classification = [];
+		}
+		taskPubComClassProp.filterBucketsByPillars(comment);
+	};
+
+
+	// select all topics
+	taskPubComClassProp.selectAllTopics = function(comment, selectAll) {
+		if (selectAll) {
+			_.each(taskPubComClassProp.bucketsFiltered, function(item) {
+				comment.buckets.push(item);
+			});
+		} else {
+			comment.buckets = [];
+		}
+	};
+
 
 	// -----------------------------------------------------------------------------------
 	//

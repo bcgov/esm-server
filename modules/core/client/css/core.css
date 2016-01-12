@@ -167,6 +167,10 @@ a.return-link:hover {
 .panel-concern .panel-body > h3 {
   margin-top: 0; }
 
+h3.activity-title {
+  color: #fff;
+  margin-top: 0; }
+
 .concern-list > h3:first-child {
   margin-top: 0; }
 
@@ -293,7 +297,9 @@ th .progress-bar {
   font-style: italic;
   opacity: 0.8; }
 
-label.control-label {
+label.control-label,
+a.control-label,
+.control-label a {
   font-size: 85%;
   font-weight: 500;
   font-style: italic;
@@ -301,6 +307,16 @@ label.control-label {
   padding: 0 0 2px;
   margin: 0 0 2px;
   color: #ababab; }
+
+a.control-label,
+.control-label a {
+  display: inline-block;
+  color: #337ab7;
+  cursor: pointer; }
+
+a.control-label:hover,
+.control-label a:hover {
+  color: #23527c; }
 
 .drop-box {
   background: #F8F8F8;
@@ -577,5 +593,10 @@ pre {
   line-height: inherit;
   background-color: transparent;
   border: 0; }
+
+.scrolling-fixed-box {
+  overflow: scroll-y;
+  max-height: 400px;
+  display: block; }
 
 /*# sourceMappingURL=core.css.map */

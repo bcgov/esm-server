@@ -20,18 +20,8 @@ function controllerEAOProjects($scope, $state, Projects, _) {
 	// get projects
 	Projects.getProjects().then( function(res) {
 		vm.projects = res.data;
-		// _.each( res.data, function( project, idx ) {
-			// if (!project.stream || project.stream === '') {
-			// 	// the project becomes an intake and the stream needs to be defined.
-			// 	vm.intakes.push(project);
-			// } else {
-			// 	// the project is already in a stream, show in the ongoing list.
-			// 	vm.projects.push(project);
-			// }
-		// });
+		console.log(res.data);
 	});
-
-
 
 	// panel sort maps fields to names, when clicked the associated table sorts accordingly
 	vm.panelSort = [
