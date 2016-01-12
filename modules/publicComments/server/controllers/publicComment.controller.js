@@ -58,15 +58,10 @@ var saveDocument = function (doc, req) {
 // -------------------------------------------------------------------------
 var getDocumentsForComment = function (commentId) {
 	return new Promise (function (resolve, reject) {
-		CommentDocument.find ({publicComment:commentId}).populate('bucket').exec(function (err, model) {
+		CommentDocument.find ({publicComment:commentId}, function (err, model) {
 			if (err) return reject (err);
 			else {
-				console.log (model);
-				var ret = [];
-				_.each (model, function (m) {
-					ret.push (m.bucket);
-				});
-				resolve (ret);
+				resolve (model);
 			}
 		});
 	});
