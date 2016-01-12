@@ -520,7 +520,26 @@ var proponentdefer = function (req, res) {
 		req.body
 	);
 	req.PublicComment.proponentStatus = 'Deferred';
-	saveDecorateReturn (req.PublicComment, req, res);
+	BucketComment.find ({publicComment: req.PublicComment._id}).remove (function (err) {
+		if (err) return helpers.sendError (res, err);
+		var buckets = req.body.buckets.map (function (b) {
+			var bc = new BucketComment ({
+				bucket : b._id,
+				project: req.PublicComment.project,
+				publicComment : req.PublicComment._id
+			});
+			return new Promise (function (resolve, reject) {
+				bc.save (resolve, reject);
+			});
+		});
+		Promise.all (buckets)
+		.then (function () {
+			saveDecorateReturn (req.PublicComment, req, res);
+		})
+		.catch (function (err) {
+			helpers.sendError (res, err);
+		});
+	});
 };
 exports.proponentdefer = proponentdefer;
 // -------------------------------------------------------------------------
