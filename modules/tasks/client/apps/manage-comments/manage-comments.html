@@ -63,34 +63,43 @@
 
 
 	<div class="panel-sub-heading">
-		<div class="form-inline">
+		<div class="row">
+			<div class="col-sm-12 form-inline">
 
-			<div class="form-group pull-right">
-				<label class="control-label">Keyword Search</label>
-				<div class="input-group input-group-sm">
-					<input ng-model="taskManComm.filterKeyword" type="text" class="form-control" placeholder="">
-					<span class="input-group-btn">
-						<button class="btn btn-default" type="button" ng-click="taskManComm.filterKeyword = undefined"><span class="glyphicon glyphicon-remove"></span></button>
-					</span>
-				</div>						
+				<div class="form-group pull-right">
+					<label class="control-label">Keyword Search</label>
+					<div class="input-group input-group-sm">
+						<input ng-model="taskManComm.filterKeyword" type="text" class="form-control" placeholder="">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" ng-click="taskManComm.filterKeyword = undefined"><span class="glyphicon glyphicon-remove"></span></button>
+						</span>
+					</div>						
+				</div>
+
+				<div class="form-group">
+					<label class="control-label">Pillars</label>
+					<select ng-model="taskManComm.bucketFilter" ng-options="group for group in taskManComm.bucketGroups | orderBy" class="form-control input-sm">
+						<option value=''>Any</option>
+					</select>
+				</div>
 			</div>
-
-			<div class="form-group">
-				<label class="control-label">Pillars</label>
-				<select ng-model="taskManComm.bucketFilter" ng-options="group for group in taskManComm.bucketGroups" class="form-control input-sm">
-					<option value=''>Any</option>
-				</select>
-			</div>
-
-			<div class="form-group">
-				<label class="control-label">&nbsp;&nbsp;Topics</label>
-				<select ng-model="taskManComm.topicFilter" ng-options="topic.name as topic.name for topic in (taskManComm.project.buckets | filter:{'group':(taskManComm.bucketFilter || undefined)})" class="form-control input-sm">
-					<option value=''>Any</option>
-				</select>
-			</div>
-
 		</div>
+
+		<div class="row" style='margin-top: 5px;'>
+			<div class="col-sm-12 form-inline">
+
+				<div class="form-group">
+					<label class="control-label">Topics</label>
+					<select ng-model="taskManComm.topicFilter" ng-options="topic.name as topic.name group by topic.group for topic in (taskManComm.project.buckets | filter:{'group':(taskManComm.bucketFilter || undefined)} | orderBy:'name')" class="form-control input-sm">
+						<option value=''>Any</option>
+					</select>
+				</div>
+
+			</div>
+		</div>
+	
 	</div>
+
 
 
 

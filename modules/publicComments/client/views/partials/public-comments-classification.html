@@ -32,7 +32,7 @@
 			</label>
 			<ul class="list-unstyled task-list">
 
-				<li ng-repeat="group in pubComClass.bucketGroups track by $index">
+				<li ng-repeat="group in (pubComClass.bucketGroups | orderBy) track by $index">
 					<button class="btn btn-block btn-sm btn-layer" ng-click="pubComClass.toggleBucketGroup(group)" ng-class="{'btn-success': pubComClass.com.classification.indexOf(group) !== -1}">{{ group }}</button>
 				</li>
 
@@ -53,7 +53,7 @@
 			</label>
 			<ul class="list-unstyled task-list">
 
-				<li ng-repeat="bucket in pubComClass.bucketsFiltered track by $index">
+				<li ng-repeat="bucket in (pubComClass.bucketsFiltered | orderBy:'name') track by $index">
 					<button class="btn btn-block btn-sm btn-layer" ng-click="pubComClass.toggleBucket(bucket)" ng-class="{'btn-success': pubComClass.selectedBucket(bucket) }">{{ bucket.name }}</button>
 				</li>
 

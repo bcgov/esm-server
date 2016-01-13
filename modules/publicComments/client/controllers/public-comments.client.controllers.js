@@ -62,7 +62,7 @@ function controllerClassifyPublicComment($scope, $rootScope, _, sPublicComments,
 		sPublicComments.setCommentDefer(pubComClass.com).then( function(res) {
 			pubComClass.com = _.assign(pubComClass.com, res.data);
 			// One has been deferred, get another comment.
-			$scope.$broadcast('classifyFetchNewComment');
+			$scope.$emit('classifyFetchNewComment');
 		});
 	};
 	// -----------------------------------------------------------------------------------
@@ -89,7 +89,7 @@ function controllerClassifyPublicComment($scope, $rootScope, _, sPublicComments,
 			 	pubComClass.com = _.assign(pubComClass.com, res.data);
 
 				// One has been classified, get another comment.
-				$scope.$broadcast('classifyFetchNewComment');
+				$scope.$emit('classifyFetchNewComment');
 			});
 
 		} else {

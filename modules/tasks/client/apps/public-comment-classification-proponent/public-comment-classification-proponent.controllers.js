@@ -76,9 +76,6 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 				taskPubComClassProp.data.comments.push(res.data);
 				taskPubComClassProp.filter = 'Unclassified';
 				taskPubComClassProp.activeComment = res.data;
-				//taskPubComClassProp.noClassificationPossible = false;
-
-				//taskPubComClassProp.filterBucketsByPillars(taskPubComClassProp.activeComment);
 			});
 		}
 

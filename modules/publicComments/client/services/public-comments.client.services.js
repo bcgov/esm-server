@@ -26,6 +26,6 @@ function servicePublicComments($http) {
 	return {
 		getComment: getComment,
 		setCommentDefer: setCommentDefer,
-		setCommentClassify: setCommentClassify,
+		setCommentClassify: setCommentClassify
 	};
 }
