@@ -54,6 +54,8 @@ function controllerTaskManageComments($scope, $rootScope, Task, _, sTaskManageCo
 			//
 			// get the bucket groups for general classification
 			taskManComm.bucketGroups = _.unique(_.pluck(taskManComm.project.buckets, 'group'));
+			taskManComm.topicsList = _.unique(_.pluck(taskManComm.project.buckets, 'name'));
+			console.log('tl',taskManComm.topicsList);
 			taskManComm.bucketsFiltered = taskManComm.project.buckets;
 			//
 			//

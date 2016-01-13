@@ -1,31 +1,31 @@
 'use strict';
 
 angular.module('tasks')
-    .run( configTaskValueComponents )
-    .directive('tmplManageValueComponents',  directiveTaskValueComponents);
+    .run( configTaskTopics )
+    .directive('tmplManageTopics',  directiveTaskTopics);
 // -----------------------------------------------------------------------------------
 //
 // Config: register this task with the UI
 //
 // -----------------------------------------------------------------------------------
-configTaskValueComponents.$inject = ['ProcessCodes'];
+configTaskTopics.$inject = ['ProcessCodes'];
 /* @ngInject */
-function configTaskValueComponents(ProcessCodes) {
-    ProcessCodes.push('Manage Value Components');
+function configTaskTopics(ProcessCodes) {
+    ProcessCodes.push('Manage Topics');
 }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Task, simple complete
 //
 // -----------------------------------------------------------------------------------
-directiveTaskValueComponents.$inject = [];
+directiveTaskTopics.$inject = [];
 /* @ngInject */
-function directiveTaskValueComponents() {
+function directiveTaskTopics() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/tasks/client/apps/manage-value-components/manage-value-components.html',
-        controller: 'controllerTaskValueComponents',
-        controllerAs: 'taskValueComponents',
+        templateUrl: 'modules/tasks/client/apps/manage-topics/manage-topics.html',
+        controller: 'controllerTaskTopics',
+        controllerAs: 'taskTopics',
         scope: {
             anchor: '@',
             task: '=',
