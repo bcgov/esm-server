@@ -80,7 +80,13 @@
 				<select ng-model="taskManComm.bucketFilter" ng-options="group for group in taskManComm.bucketGroups" class="form-control input-sm">
 					<option value=''>Any</option>
 				</select>
+			</div>
 
+			<div class="form-group">
+				<label class="control-label">&nbsp;&nbsp;Topics</label>
+				<select ng-model="taskManComm.topicFilter" ng-options="topic.name as topic.name for topic in (taskManComm.project.buckets | filter:{'group':(taskManComm.bucketFilter || undefined)})" class="form-control input-sm">
+					<option value=''>Any</option>
+				</select>
 			</div>
 
 		</div>
@@ -103,9 +109,11 @@
 		</thead>
 		<tbody>
 			<tr
-				ng-repeat="com in commentsFiltered = (taskManComm.comments | advancedFilter:taskManComm.filterKeyword | filter:taskManComm.bucketFilter | filter:{'overallStatus': taskManComm.overallStatusFilter}  | filter:{'eaoStatus': taskManComm.eaoStatusFilter} | filter:{'proponentStatus': taskManComm.proponentStatusFilter}) track by $index"
+				ng-repeat="com in commentsFiltered = (taskManComm.comments | advancedFilter:taskManComm.filterKeyword | filter:taskManComm.bucketFilter | filter:taskManComm.topicFilter | filter:{'overallStatus': taskManComm.overallStatusFilter}  | filter:{'eaoStatus': taskManComm.eaoStatusFilter} | filter:{'proponentStatus': taskManComm.proponentStatusFilter}) track by $index"
 				ng-class="{'bg-danger': com.overallStatus === 'Rejected', 'bg-info': com.overallStatus === 'In Progress'}"
-				x-modal-comment-detail x-comment='com' x-project='taskManComm.project'>
+				x-modal-comment-detail
+				x-comment='com'
+				x-project='taskManComm.project'>
 				<td>
 					<div ng-show="!taskManComm.activeComments[com._id]">
 						<pre>{{ com.comment | max15Words }}</pre>

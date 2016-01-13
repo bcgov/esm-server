@@ -9,7 +9,7 @@
 
 			<tmpl-project-tombstone-horizontal x-project="vm.project"></tmpl-project-tombstone-horizontal>
 
-			<nav class="navbar navbar-default navbar-sm">
+			<nav class="navbar navbar-default navbar-sm" ng-if="0">
 				<div class="container-fluid">
 	
 					<ul class="nav navbar-nav navbar-left" role="view-selection">
@@ -49,6 +49,8 @@
 
 				</div><!-- /.container-fluid -->
 			</nav>
+
+			<h3 class="activity-title">Project Activities</h3>
 
 			<tmpl-activity-listing x-project="vm.project" x-filter="vm.activityView" ng-if="vm.mainView === 'activity'"></tmpl-activity-listing>
 

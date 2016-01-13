@@ -1,6 +1,6 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
-		Value Components: {{ taskValueComponents.task.name }} <em class="small pull-right">{{ taskValueComponents.task.status }}</em>
+		Topics: {{ taskTopics.task.name }} <em class="small pull-right">{{ taskTopics.task.status }}</em>
 	</div>
 
 	<table class="table table-condensed table-hover">
@@ -13,15 +13,15 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="vc in taskValueComponents.project.buckets track by $index">
+			<tr ng-repeat="vc in taskTopics.project.buckets track by $index">
 				<td>{{ vc.group }}</td>
 				<td>{{ vc.name }}</td>
 				<td class='text-center'>0</td>
 				<td class='text-center'>
-					<tmpl-requirement-tally x-required="vc.requirements" x-project="taskValueComponents.project"></tmpl-requirement-tally>
+					<tmpl-requirement-tally x-required="vc.requirements" x-project="taskTopics.project"></tmpl-requirement-tally>
 				</td>
 			</tr>
-			<tr ng-show="taskValueComponents.project.buckets.length === 0">
+			<tr ng-show="taskTopics.project.buckets.length === 0">
 				<td colspan="4">There are no value components defined for this project.</td>
 			</tr>
 		</tbody>
@@ -31,12 +31,12 @@
 	<div class="panel-footer text-right">
 
 		<a href x-modal-select-items
-				x-all-items="taskValueComponents.allBuckets"
+				x-all-items="taskTopics.allBuckets"
 				x-single='false'
 				x-unique='true'
-				x-selected-items="taskValueComponents.selectedBuckets"
+				x-selected-items="taskTopics.selectedBuckets"
 				x-item-name="Buckets"
-				x-callback="taskValueComponents.saveNewBuckets"
-				class="btn btn-default">Manage Project Components</a>
+				x-callback="taskTopics.saveNewBuckets"
+				class="btn btn-default">Manage Project Topics</a>
 	</div>
 </div>

@@ -14,11 +14,11 @@
 		<tbody>
 
 			<tr ng-repeat="project in projectList.projects" class='clickable'>
-				<td ng-if="project.status === 'In Progress'" ui-sref="eao.project({id: project._id})">{{ project.name }}</td>
-				<td ng-if="project.status === 'In Progress'" ui-sref="eao.project({id: project._id})" colspan="5" class="bg-warning"><!-- show schedule widget --></td>
+				<td ng-if="project.status === 'In Progress'" ng-click="projectList.optimizedSelectProject(project._id)">{{ project.name }}</td>
+				<td ng-if="project.status === 'In Progress'" ng-click="projectList.optimizedSelectProject(project._id)" colspan="5" class="bg-warning"><!-- show schedule widget --></td>
 
-				<td ng-if="project.status === 'Certified' || project.status === 'Decomissioned'" ui-sref="eao.project({id: project._id})">{{ project.name }}</td>
-				<td ng-if="project.status === 'Certified' || project.status === 'Decomissioned'" ui-sref="eao.project({id: project._id})" colspan="5">Project received certificate.</td>
+				<td ng-if="project.status === 'Certified' || project.status === 'Decomissioned'" ng-click="projectList.optimizedSelectProject(project._id)">{{ project.name }}</td>
+				<td ng-if="project.status === 'Certified' || project.status === 'Decomissioned'" ng-click="projectList.optimizedSelectProject(project._id)" colspan="5">Project received certificate.</td>
 
 				<td ng-if="project.status === 'Initiated' || project.status === 'Submitted'" ui-sref="eao.editproject({id: project._id})">{{ project.name }}</td>
 				<td ng-if="project.status === 'Initiated' || project.status === 'Submitted'" ui-sref="eao.editproject({id: project._id})" colspan="5">{{ project.status }}</td>

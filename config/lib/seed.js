@@ -181,14 +181,14 @@ var doConfigs = function () {
 
 // check to see if the seed import executes
 // insert ajax mine project
-Integration.findOne ({module:'ajax2'}).exec()
+Integration.findOne ({module:'ajax3'}).exec()
 .then (function (row) {
   if (!row) {
 
     doConfigs ();
 
 		Project.find({name: 'Ajax Mine Project'}).remove (function () {
-        var i = new Integration ({module:'ajax2'});
+        var i = new Integration ({module:'ajax3'});
         i.save ();
 			  var project = new Project({
 				lat: 50.608817,
