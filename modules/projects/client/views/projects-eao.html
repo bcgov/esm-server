@@ -1,8 +1,27 @@
-<section id="projects-view">
+<section id="projects-view" class="row">
 
 	<div class='col-sm-9' ng-init="vm.view = 'schedule'">
 
-		<tmpl-projects-filter-bar	x-data="vm"></tmpl-projects-filter-bar>
+<!-- 		
+		<nav class="navbar navbar-default navbar-sm">
+			<div class="container-fluid">
+
+				<div class="nav navbar-nav navbar-right navbar-form">
+					<div class="form-group">
+						<label class="control-label">Filter</label>
+						<input ng-model="vm.filter.$" type="text" class="form-control" placeholder="Filter">
+					</div>
+					<div class="form-group" x-user-is="admin">
+						<label class="control-label">&nbsp;&nbsp;Type</label>
+						<select ng-model='vm.filter.type' class="form-control">
+							<option value="">All</option>
+							<option ng-repeat='type in vm.types' value='{{ type }}'>{{ type }}</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</nav> -->
+
 
 		<panel-sort	x-fields="vm.panelSort" x-data="vm.projects" ng-show="vm.view !== 'intakes'"></panel-sort>
 
@@ -28,7 +47,7 @@
 			</div>
 		</div>
 
-		<div class='row'>
+		<div class='row' x-user-is="admin">
 			<div class='col-sm-12'>
 				<div class="form-group">
 					<button x-manage-contacts class="form-control btn btn-block btn-default">Manage Contacts</button>

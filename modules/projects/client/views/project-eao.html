@@ -2,63 +2,62 @@
 	<a href ui-sref='eao.projects' class='pull-right return-link'>Return to Project List</a>
 	{{ vm.project.name }}
 </h1>
-<section id="project-view" class="container-fluid">
+<section id="project-view" class="row">
 
-	<div class='row'>
-		<div class='col-sm-12'>
+	<div class='col-sm-12'>
 
-			<tmpl-project-tombstone-horizontal x-project="vm.project"></tmpl-project-tombstone-horizontal>
+		<tmpl-project-tombstone-horizontal x-project="vm.project"></tmpl-project-tombstone-horizontal>
 
-			<nav class="navbar navbar-default navbar-sm" ng-if="0">
-				<div class="container-fluid">
+		<nav class="navbar navbar-default navbar-sm" ng-if="0">
+			<div class="container-fluid">
+
+				<ul class="nav navbar-nav navbar-left" role="view-selection">
+					<li>
+						<div class="navbar-form btn-group btn-group-sm">
+							<button class="btn btn-default" ng-click="vm.mainView = 'activity'"		ng-class="{'btn-primary': vm.mainView === 'activity'}">Activities</button>								
+							<button class="btn btn-default" ng-click="vm.mainView = 'artifact'"		ng-class="{'btn-primary': vm.mainView === 'artifact'}">Artifacts</button>
+							<button class="btn btn-default" ng-click="vm.mainView = 'research'"		ng-class="{'btn-primary': vm.mainView === 'research'}">Research / Spatial</button>								
+						</div>
+					</li>
+					<li ng-if="vm.mainView === 'activity'">
+						<div class="navbar-form btn-group btn-group-sm">
+							<button class="btn btn-default" ng-click="vm.activityView = undefined"			ng-class="{'btn-primary': vm.activityView === 'all'}">All</button>
+							<button class="btn btn-default" ng-click="vm.activityView = 'open'"				ng-class="{'btn-primary': vm.activityView === 'open'}">Open</button>
+							<button class="btn btn-default" ng-click="vm.activityView = 'complete'"			ng-class="{'btn-primary': vm.activityView === 'complete'}">Complete</button>								
+						</div>
+					</li>
+					<li ng-if="vm.mainView === 'artifact'">
+						<div class="navbar-form btn-group btn-group-sm">
+							<button class="btn btn-default" ng-click="vm.artifactView = 'all'"			ng-class="{'btn-primary': vm.artifactView === 'all'}">All</button>
+							<button class="btn btn-default" ng-click="vm.artifactView = 'inprogress'"	ng-class="{'btn-primary': vm.artifactView === 'inprogress'}">In Progress</button>
+						</div>
+					</li>
+
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right" ng-if="vm.mainView !== 'research'">
+					<li>
+						<div class="navbar-form">
+							<div class="form-group">
+								<label class="control-label">Search</label>
+								<input ng-model="filter.filterKeyword" type="text" class="form-control" placeholder="Search">
+							</div>
+						</div>
+					</li>
+				</ul>
+
+			</div><!-- /.container-fluid -->
+		</nav>
+
+		<h3 class="activity-title">Project Activities</h3>
+
+		<tmpl-activity-listing x-project="vm.project" x-filter="vm.activityView" ng-show="vm.mainView === 'activity'"></tmpl-activity-listing>
+
+		<tmpl-project-bucket-listing x-project="vm.project" x-filter="vm.artifactView" ng-show="vm.mainView === 'artifact'"></tmpl-project-bucket-listing>
+
+		<tmpl-project-research x-project="vm.project" ng-show="vm.mainView === 'research'"></tmpl-project-research>
+
+	</div> <!-- /col12 -->
 	
-					<ul class="nav navbar-nav navbar-left" role="view-selection">
-						<li>
-							<div class="navbar-form btn-group btn-group-sm">
-								<button class="btn btn-default" ng-click="vm.mainView = 'activity'"		ng-class="{'btn-primary': vm.mainView === 'activity'}">Activities</button>								
-								<button class="btn btn-default" ng-click="vm.mainView = 'artifact'"		ng-class="{'btn-primary': vm.mainView === 'artifact'}">Artifacts</button>
-								<button class="btn btn-default" ng-click="vm.mainView = 'research'"		ng-class="{'btn-primary': vm.mainView === 'research'}">Research / Spatial</button>								
-							</div>
-						</li>
-						<li ng-if="vm.mainView === 'activity'">
-							<div class="navbar-form btn-group btn-group-sm">
-								<button class="btn btn-default" ng-click="vm.activityView = undefined"			ng-class="{'btn-primary': vm.activityView === 'all'}">All</button>
-								<button class="btn btn-default" ng-click="vm.activityView = 'open'"				ng-class="{'btn-primary': vm.activityView === 'open'}">Open</button>
-								<button class="btn btn-default" ng-click="vm.activityView = 'complete'"			ng-class="{'btn-primary': vm.activityView === 'complete'}">Complete</button>								
-							</div>
-						</li>
-						<li ng-if="vm.mainView === 'artifact'">
-							<div class="navbar-form btn-group btn-group-sm">
-								<button class="btn btn-default" ng-click="vm.artifactView = 'all'"			ng-class="{'btn-primary': vm.artifactView === 'all'}">All</button>
-								<button class="btn btn-default" ng-click="vm.artifactView = 'inprogress'"	ng-class="{'btn-primary': vm.artifactView === 'inprogress'}">In Progress</button>
-							</div>
-						</li>
-
-					</ul>
-
-					<ul class="nav navbar-nav navbar-right" ng-if="vm.mainView !== 'research'">
-						<li>
-							<div class="navbar-form">
-								<div class="form-group">
-									<label class="control-label">Search</label>
-									<input ng-model="filter.filterKeyword" type="text" class="form-control" placeholder="Search">
-								</div>
-							</div>
-						</li>
-					</ul>
-
-				</div><!-- /.container-fluid -->
-			</nav>
-
-			<h3 class="activity-title">Project Activities</h3>
-
-			<tmpl-activity-listing x-project="vm.project" x-filter="vm.activityView" ng-if="vm.mainView === 'activity'"></tmpl-activity-listing>
-
-			<tmpl-project-bucket-listing x-project="vm.project" x-filter="vm.artifactView" ng-if="vm.mainView === 'artifact'"></tmpl-project-bucket-listing>
-
-			<tmpl-project-research x-project="vm.project" ng-if="vm.mainView === 'research'"></tmpl-project-research>
-
-		</div> <!-- /col12 -->
-	</div>		
 
 </section>

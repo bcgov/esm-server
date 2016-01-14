@@ -18,20 +18,25 @@ function controllerProjectsFilterBar($scope, $state, Projects, $filter, PROJECT_
 
 	fbc.types = PROJECT_TYPES;
 
-	Projects.getProjectMilestones().then( function(res) {
-		fbc.milestones = res.data;
-	});
-
-	fbc.filter = {filterKeyword: '', filterObject: {}};
+	fbc.filter = null;
 
 	$scope.$watch('data', function(newValue) {
-		fbc.data = newValue;
-	});		
+		if(newValue) {
+			fbc.data = newValue;
+		}
+	});
 
 	fbc.updateFilter = function() {
-		if ( fbc.data.projects) {
-			fbc.data.projects = $filter('projects')(fbc.filter);
+		console.log('filter', fbc.filter, fbc.data );
+		if(fbc.filter.$ === '') {
+			delete fbc.filter.$;
 		}
+		if(Object.keys(fbc.filter).length === 0) {
+			fbc.filter = null;
+		}
+
+		console.log('filter', fbc.filter);
+		fbc.data.projects = $filter('filter')(fbc.data.projects, fbc.filter);
 	};
 
 }
@@ -50,7 +55,6 @@ function controllerProjectsList($scope, $state, Authentication, Project) {
 	});
 
 
-
 	// when clicking on the schedule view, if there only one activity, just go there.
 	projectList.optimizedSelectProject = function(projectId) {
 
@@ -63,7 +67,6 @@ function controllerProjectsList($scope, $state, Authentication, Project) {
 		});	
 
 	};
-
 
 	projectList.auth = Authentication;	
 }

@@ -610,4 +610,7 @@ pre {
   max-height: 400px;
   display: block; }
 
+.footer .panel {
+  margin-bottom: 0; }
+
 /*# sourceMappingURL=core.css.map */

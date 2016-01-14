@@ -6,6 +6,7 @@ angular.module('utils')
     .directive('kebabThis', directiveKebabThis)
     .directive('modalDatePicker', directiveModalDatePicker)
     .directive('centerVertical', directiveCenterVertical)
+    .directive('contentHeight', directiveContentHeight)    
     .directive('countdownClock',directiveCountdownClock)
     .directive('panelSort',directivePanelSort)
     .directive('phaseColour',directivePhaseColour)
@@ -106,6 +107,36 @@ function directiveCenterVertical($window) {
 			}, function (newValue, oldValue) {
 				var bh = box[0].offsetHeight;
 				box.css({'margin-top': (parseInt((newValue.h - bh)/2)-100) + 'px'});
+			}, true);
+
+			w.bind('resize', function () {
+				scope.$apply();
+			});
+		}
+	};
+	return directive;
+}
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Make the content long enough to put the footer at the bottom
+//
+// -----------------------------------------------------------------------------------
+directiveContentHeight.$inject = ['$window'];
+/* @ngInject */
+function directiveContentHeight($window) {
+	var directive = {
+        restrict:'A',
+		link :  function (scope, element, attr) {
+
+			var w = angular.element($window);
+			var box = angular.element(element);
+			
+			scope.$watch(function () {
+				return {
+					'h': window.innerHeight
+				};
+			}, function (newValue, oldValue) {
+				box.css({'min-height': (parseInt(newValue.h)-133) + 'px'});
 			}, true);
 
 			w.bind('resize', function () {

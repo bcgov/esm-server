@@ -114,7 +114,10 @@ function directivePublicProjectCommentsCircleChart(d3, $window) {
 
 			resize();
 
-			d3.select(window).on('resize', resize);
+			d3.select(window).on(('resize.' + attrs.id), resize);
+
+
+
 
 
 		} // close link

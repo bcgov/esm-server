@@ -14,6 +14,7 @@ $brand-danger:				#d9534f;
 $link-light:				#337ab7;
 $link-dark:				#23527c;
 $border-grey:				#dddddd;
+$off-white:				#f4f4f4;
 
 
 // -------------------------
@@ -705,4 +706,8 @@ pre {
 	overflow-x: hidden;
 	max-height: 400px;
 	display: block;
+}
+
+.footer .panel {
+	margin-bottom: 0;
 }

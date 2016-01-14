@@ -3,7 +3,10 @@
 	<div class="row">
 		<div class="col-md-12">
 		    <div ngf-drop ngf-select ng-model="files" class="drop-box"
-		        ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+		        ngf-drag-over-class="dragover"
+		        ngf-multiple="true"
+		        ngf-allow-dir="true"
+		        ngf-max-total-size="100MB"
 		        accept="image/*,application/pdf" 
 		        ngf-pattern="'image/*,application/pdf'">Drop files here or click to upload
 		    </div>
@@ -45,8 +48,8 @@
 				<td ng-if="!f.$error && !f.progress">
 					<select class="form-control" ng-options="type as type.name group by (type.group | uppercase) for type in docUpload.docTypes track by type.code" ng-model="f.docType"></select>
 				</td>
-				<td ng-if="!f.$error && !f.progress">
-					
+				<td ng-if="!f.$error && !f.progress" class="text-right">
+					<p class="form-control-static"><a href ng-click="docUpload.removeFile(f)"><span class="glyphicon glyphicon-remove"></span></a></p>
 				</td>
 
 

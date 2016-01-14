@@ -39,10 +39,14 @@
 					<p class="form-control-static">{{f.name}}</p>
 				</td>
 
-				<td ng-if="!f.$error">
-					<div class="progress" ng-show="f.progress >= 0" style="margin-top: 7px;"><div class="progress-bar progress-bar-success" role="progressbar" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">{{ f.progress }}</div></div>
+
+				<td ng-if="!f.$error && !f.progress" class="text-right">
+					<p class="form-control-static"><a href ng-click="docUpload.removeFile(f)"><span class="glyphicon glyphicon-remove"></span></a></p>
 				</td>
 
+				<td ng-if="!f.$error && f.progress">
+					<div class="progress" ng-show="f.progress >= 0" style="margin-top: 7px;"><div class="progress-bar progress-bar-success" role="progressbar" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">{{ f.progress }}</div></div>
+				</td>
 
 			</tr>
 		</tbody>

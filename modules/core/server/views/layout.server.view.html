@@ -44,10 +44,13 @@
 <body class="ng-cloak">
   <tmpl-header></tmpl-header>
   <section class="content">
-    <section class="container-fluid">
+    <section class="container-fluid"  x-content-height>
     {% block content %}{% endblock %}
     </section>
+    <tmpl-footer></tmpl-footer>
   </section>
+
+
 
   <!--Embedding The User Object-->
   <script type="text/javascript">
