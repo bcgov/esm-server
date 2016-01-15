@@ -84,7 +84,9 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 			});
 
 			// trigger the d3 to draw.
-			vm.refreshVisualization = 1;
+			if (vm.comments.length > 0) {
+				vm.refreshVisualization = 1;
+			}
 
 		});
 

@@ -1706,6 +1706,29 @@
   ],
   "tasks": [
     {
+        "access" : {
+            "watch" : "",
+            "write" : "",
+            "read" : ""
+        },
+        "prerequisites" : [],
+        "processCode" : "set-phase",
+        "subStatuses" : "",
+        "subStatus" : "",
+        "notRequiredReason" : "",
+        "dateCompleted" : null,
+        "dateStarted" : null,
+        "status" : "In Progress",
+        "description" : "Set Phase",
+        "name" : "Set Phase",
+        "code" : "set-phase",
+        "stream" : null,
+        "project" : null,
+        "phase" : null,
+        "activity" : null,
+        "task" : null
+    },
+    {
       "access": {
         "watch": "",
         "write": "proponent",
@@ -1718,7 +1741,7 @@
       "notRequiredReason": "",
       "dateCompleted": null,
       "dateStarted": null,
-      "status": "Not Started",
+      "status": "In Progress",
       "description": "Public Comment Period Schedule",
       "name": "Public Comment Period Schedule",
       "code": "public-comment-period-schedule",
