@@ -121,7 +121,6 @@ function controllerModalAddComment($modalInstance, $scope, Project, rProject) {
 			$scope.$broadcast('documentUploadStart');
 		} else {
 			$scope.$broadcast('show-errors-check-validity', 'publicCommentForm');
-			return false;
 		}
 	};
 	

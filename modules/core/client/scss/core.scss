@@ -4,6 +4,7 @@
 
 /* ----- Colors ----- */
 $header-blue:				#141a41;
+$header-grey:				#666666;
 $navbar-blue:				#154681;
 $color-sample2:               #AAAAAA;
 $brand-primary:			#337ab7;
@@ -99,6 +100,17 @@ html {
 	background: linear-gradient(to bottom,  #606c88 0%,#003366 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#003366',GradientType=0 ); /* IE6-9 */
 	min-height: 100%;
+
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#606c88+0,fcfcfc+0,f2f2f2+100 */
+	background: #606c88; /* Old browsers */
+	background: -moz-linear-gradient(top,  #606c88 0%, #fcfcfc 0%, #f2f2f2 100%); /* FF3.6-15 */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#606c88), color-stop(0%,#fcfcfc), color-stop(100%,#f2f2f2)); /* Chrome4-9,Safari4-5 */
+	background: -webkit-linear-gradient(top,  #606c88 0%,#fcfcfc 0%,#f2f2f2 100%); /* Chrome10-25,Safari5.1-6 */
+	background: -o-linear-gradient(top,  #606c88 0%,#fcfcfc 0%,#f2f2f2 100%); /* Opera 11.10-11.50 */
+	background: -ms-linear-gradient(top,  #606c88 0%,#fcfcfc 0%,#f2f2f2 100%); /* IE10 preview */
+	background: linear-gradient(to bottom,  #606c88 0%,#fcfcfc 0%,#f2f2f2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#f2f2f2',GradientType=0 ); /* IE6-9 */
+
 }
 
 a:hover {
@@ -119,8 +131,8 @@ a:hover {
 .nav, .pagination, .carousel, .panel-title a, .clickable { cursor: pointer; }
 
 h1.page-title {
-	padding: 0 15px;
-	color: #ffffff;
+	padding: 0;
+	color: $header-grey;
 	margin-top: 0;
 	margin-bottom: 20px;
 }
@@ -175,6 +187,12 @@ button:focus, a:focus {
 	padding-bottom: 0;
 }
 
+.panel-header h1.panel-title {
+	font-size: 2em;
+	padding: 15px;
+	border-bottom: 1px solid #ddd;
+}
+
 .panel-sub-heading {
 	background-color: #f5f5f5;
 	padding: 10px;
@@ -193,7 +211,7 @@ button:focus, a:focus {
 a.return-link {
 	text-decoration: none;
 	font-size: 14px;
-	color: #fff;
+	color: #333333;
 }
 
 a.return-link:hover {
@@ -206,7 +224,7 @@ a.return-link:hover {
 }
 
 h3.activity-title {
-	color: #fff;
+	color: #33333;
 	margin-top: 0;
 }
 
@@ -242,11 +260,11 @@ h3 .small .label {
 
 .panel-sort li {
 	font-size: 80%;
-	color: #fff;
+	color: $header-grey;
 }
 .panel-sort li a {
 	padding: 0 5px 0 3px;
-	color: #fff;
+	color: $header-grey;
 }
 .panel-sort li:before {
 	content: '|';	
@@ -335,7 +353,7 @@ th .progress-bar {
 }
 .concern-heading,
 .concern-heading * {
-	color: #f4f4f4 !important;
+	color: #333333 !important;
 }
 
 .panel-project-summary h3 {
@@ -487,7 +505,7 @@ nav {
 	position: absolute;
 	top: -10px;
 	left: -8px;
-	color: #ffffff;
+	color: $header-grey;
 	-webkit-transition: all 0.2s ease;
 	-moz-transition: all 0.2s ease;
 	-o-transition: all 0.2s ease;
@@ -495,7 +513,7 @@ nav {
 }
 .panel-toggle:hover {
 	font-size: 24px;
-	color: #ffffff;
+	color: $header-grey;
 	top: -20px;
 	left: -14px;
 	-webkit-transition: all 0.2s ease;
@@ -710,4 +728,8 @@ pre {
 
 .footer .panel {
 	margin-bottom: 0;
+}
+
+.footer {
+	margin-bottom: 10px;
 }
