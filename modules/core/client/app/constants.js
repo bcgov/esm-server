@@ -30,7 +30,7 @@ angular
 			'cariboo': 'Cariboo',
 			'kootenay': 'Kootenay',
 			'lowermainland': 'Lower Mainland',
-			'okanagan': 'Okanagan',
+			'thompsonokanagan': 'Thompson Okanagan',
 			'omnieca': 'Omineca',
 			'peace': 'Peace',
 			'skeena': 'Skeena',

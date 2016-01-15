@@ -1709,7 +1709,7 @@
         "access" : {
             "watch" : "",
             "write" : "",
-            "read" : ""
+            "read" : "user"
         },
         "prerequisites" : [],
         "processCode" : "set-phase",
@@ -1725,8 +1725,7 @@
         "stream" : null,
         "project" : null,
         "phase" : null,
-        "activity" : null,
-        "task" : null
+        "activity" : null
     },
     {
       "access": {
