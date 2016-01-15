@@ -16,7 +16,7 @@ $link-light:				#337ab7;
 $link-dark:				#23527c;
 $border-grey:				#dddddd;
 $off-white:				#f4f4f4;
-
+$danger-text:				#a94442;
 
 // -------------------------
 // Bootstrap Overrides
@@ -415,8 +415,7 @@ a.control-label:hover,
 }
 
 
-.well > h3,
-h3:first-child {
+.well > h3, .panel h3:first-child {
 	margin-top: 0;
 	margin-bottom: 20px;
 }
@@ -425,7 +424,9 @@ h3:first-child {
 	margin-bottom: 15px;
 }
 
-
+h3.panel-title {
+	margin-bottom: 0;
+}
 nav {
 	cursor: default;
 }
@@ -474,6 +475,11 @@ nav {
     border-radius:0;
     box-shadow: 3px 3px 20px rgba(0,0,0,0.5);
 }
+
+.text-danger {
+	color: $danger-text !important;
+}
+
 
 .navbar-custom .navbar-nav > li > a {
     color: $navbar-blue;

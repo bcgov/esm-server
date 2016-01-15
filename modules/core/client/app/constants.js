@@ -68,4 +68,12 @@ angular
 			'Tourist Destination'
 		]
 	)
+	.constant('COMMENT_REJECT', 
+		[
+			'Unsuitable Language',
+			'Quoting Third Parties',
+			'Petitions',
+			'Personally Identifying Information'
+		]
+	)
 	.value('ProcessCodes', []);

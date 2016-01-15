@@ -331,6 +331,10 @@ exports.eaoaccept = eaoaccept;
 //
 // -------------------------------------------------------------------------
 var eaoreject = function (req, res) {
+	_.extend(
+		req.PublicComment,
+		req.body
+	);
 	req.PublicComment.eaoStatus     = 'Rejected';
 	saveDecorateReturn (req.PublicComment, req, res);
 };
@@ -583,6 +587,7 @@ exports.proponentclassify = proponentclassify;
 // -------------------------------------------------------------------------
 exports.unvetted = function (req, res) {
 	Model.count ({
+		project: req.params.projectid,
 		overallStatus : 'Unvetted',
 		eaoStatus     : 'Unvetted'
 	}, function (err, n) {
@@ -597,6 +602,7 @@ exports.unvetted = function (req, res) {
 // -------------------------------------------------------------------------
 exports.unclassified = function (req, res) {
 	Model.count ({
+		project: req.params.projectid,
 		overallStatus : 'Published',
 		proponentStatus : 'Unclassified'
 	}, function (err, n) {

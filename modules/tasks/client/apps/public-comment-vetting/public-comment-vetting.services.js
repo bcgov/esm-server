@@ -27,8 +27,8 @@ function servicePublicCommentVetting($http) {
 		return $http({method:'PUT',url: '/api/publiccomment/' + commentId + '/eao/publish'});
 	};
 
-	var setCommentReject = function(commentId) {
-		return $http({method:'PUT',url: '/api/publiccomment/' + commentId + '/eao/reject'});
+	var setCommentReject = function(comment) {
+		return $http({method:'PUT',url: '/api/publiccomment/' + comment._id + '/eao/reject', data: comment});
 	};
 
 	var setCommentSpam = function(commentId) {
