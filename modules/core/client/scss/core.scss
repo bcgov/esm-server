@@ -23,6 +23,7 @@ $danger-text:				#a94442;
 // -------------------------
 
 /* ----- Typography ----- */
+$font-family-heading: 'Nunito', sans-serif;
 $font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 
 
@@ -129,6 +130,12 @@ a:hover {
 
 /* Workaround for unwanted route changes due to empty href attributes - see http://angular-ui.github.io/bootstrap/ */
 .nav, .pagination, .carousel, .panel-title a, .clickable { cursor: pointer; }
+
+h1,h2,h3,h4,h5,h6 {
+	font-weight: 400;
+	font-family: $font-family-heading;
+	letter-spacing: -0.01em;
+}
 
 h1.page-title {
 	padding: 0;
@@ -415,7 +422,7 @@ a.control-label:hover,
 }
 
 
-.well > h3, .panel h3:first-child {
+.well > h3, .panel-body h3:first-child {
 	margin-top: 0;
 	margin-bottom: 20px;
 }
@@ -742,4 +749,8 @@ pre {
 
 .footer {
 	margin-bottom: 10px;
+}
+
+h3.firstHeading {
+	margin-top: 5px;
 }

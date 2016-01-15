@@ -10,6 +10,8 @@ angular.module('utils')
 	.filter('isInTheFuture', filterIsInTheFuture)
 	.filter('isInThePast', filterIsInThePast)
 	.filter('max15Words', filterMax15Words)
+	.filter('max80Words', filterMax80Words)
+	.filter('wordCount', filterWordCount)
 	.filter('safeHtml', filterSafeHtml)
 	.filter('titleCase', filterTitleCase)
 	.filter('chunk', filterChunk);
@@ -147,6 +149,34 @@ function filterMax15Words(_) {
 	return function(input) {
     	return _.take(_.words(input), 15).join(' ');
     };
+}
+// -----------------------------------------------------------------------------------
+//
+// FILTER: First 80 words
+//
+// -----------------------------------------------------------------------------------
+filterMax80Words.$inject = ['_'];
+/* @ngInject */
+function filterMax80Words(_) {
+	return function(input, showAll) {
+		if (_.words(input).length > 80 && !showAll) {
+	    		return _.take(_.words(input), 80).join(' ');
+		} else {
+			return input;
+		}
+	};
+}
+// -----------------------------------------------------------------------------------
+//
+// FILTER: Word Count
+//
+// -----------------------------------------------------------------------------------
+filterWordCount.$inject = ['_'];
+/* @ngInject */
+function filterWordCount(_) {
+	return function(input) {
+		return _.words(input).length;
+	};
 }
 // -----------------------------------------------------------------------------------
 //

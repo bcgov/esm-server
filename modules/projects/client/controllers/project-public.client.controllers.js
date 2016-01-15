@@ -83,6 +83,14 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 				vm.commentsByDateVis.children.push({'name': key, 'size': num});
 			});
 
+			if (Object.keys(vm.commentsByDateVis.children).length < 14) {
+				vm.commentsByDateVis = null;
+			}
+
+			if (Object.keys(vm.commentsByTopicVis.children).length < 30) {
+				vm.commentsByTopicVis = null;
+			}
+
 			// trigger the d3 to draw.
 			if (vm.comments.length > 0) {
 				vm.refreshVisualization = 1;
