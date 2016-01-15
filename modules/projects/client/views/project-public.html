@@ -26,7 +26,7 @@
 				</div>
 
 				<div class="form-group" ng-if="(vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)">
-					<a class="btn btn-block btn-success btn-md" href x-modal-add-public-comment x-project="vm.project">Click here to Comment on the Application</a>
+					<a class="btn btn-block btn-success wrap btn-md" href x-modal-add-public-comment x-project="vm.project">Click here to Comment on the Application</a>
 				</div>
 
 				<div>
@@ -47,7 +47,7 @@
 			
 			<div class='panel-body' ng-show="vm.comments.length !== 0">
 				<label class="control-label">Comment Volume by Date</label>
-				<tmpl-public-project-comments-circle-chart x-refresh="vm.refreshVisualization" x-data="vm.commentsByDateVis" id="publicCommentsByDate"></tmpl-public-project-comments-circle-chart>
+				<tmpl-public-project-comments-circle-chart ng-if="vm.commentsByDateVis" x-refresh="vm.refreshVisualization" x-data="vm.commentsByDateVis" id="publicCommentsByDate"></tmpl-public-project-comments-circle-chart>
 			</div>
 
 		</div>
@@ -63,25 +63,6 @@
 			</div>
 		</div>
 
-
-
-
-		<div class="concern-heading" ng-if="vm.project.dateCommentsOpen | isInTheFuture">
-			<p>Related Topics for this project include:</p>
-			<div class="row">
-				<div class="col-md-6" ng-repeat="col in vm.project.buckets | orderBy:'name' | filter:{isValueComponent: true} | chunk:(vm.project.buckets.length/2)">
-					<ul style="margin-bottom: 0;">
-						<li ng-repeat="vc in col">{{ vc.name }}</li>
-					</ul>
-				</div>
-			</div>
-
-			<div ng-show="vm.comments.length === 0">
-				<h3>No comments are available for this project yet.</h3>
-				<p>Please check back for information regarding upcoming Public Comment Periods</p>
-			</div>
-
-		</div>
 
 		<div class="panel panel-default">
 
@@ -117,7 +98,7 @@
 				</div>
 
 
-				<div ng-repeat="(heading, topic) in vm.commentsByTopicKeys | orderBy:'name' | filter:vm.filterBucketGroup" class="concern-list" ng-show="vm.form.view === 'bytopic'">
+				<div ng-repeat="(heading, topic) in vm.commentsByTopicKeys | orderBy:'name' | filter:vm.filterBucketGroup" class="concern-list" ng-show="vm.form.view === 'bytopic' && vm.comments.length > 0">
 					<h3 ng-click='form[heading] = !form[heading]' class="clickable concern-heading">
 						{{ heading }}<div class="pull-right small"><span ng-if="!form[heading]">Click to view.</span> Number of comments: {{ (vm.commentsByTopic[heading] | filter:vm.filterKeyword).length || 0 }}</div>
 					</h3>
@@ -168,7 +149,7 @@
 				</div>
 
 
-				<div ng-show="vm.form.view === 'bydate'">
+				<div ng-show="vm.form.view === 'bydate' && vm.comments.length > 0">
 					<div class="panel-body">
 						<div class="row comment-list" ng-repeat-start="item in commentsFiltered = (vm.comments | advancedFilter:vm.filterKeyword) | orderBy:'dateAdded':true">
 
@@ -178,7 +159,7 @@
 
 							<div class="col-sm-3">
 								<p ng-if="item.author && item.displayName">Name: {{ item.author }}</p>
-								<p ng-if="item.location && item.displayName">Location: {{ item.location }}</p>								
+								<p ng-if="item.location && item.displayName">Location: {{ item.location }}</p>
 								<p>{{ item.dateAdded | amDateFormat:'MMM Do, YYYY h:mm a'}}</p>
 								<ul class="list-unstyled document-vetting small">
 									<li ng-repeat="doc in item.documents">
@@ -199,7 +180,7 @@
 						</div>
 						<hr ng-if="!$last" ng-repeat-end>
 
-						<div ng-if="commentsFiltered.length === 0 && vm.form.view === 'bydate'">
+						<div ng-if="commentsFiltered.length === 0 && vm.form.view === 'bydate' && vm.filterKeyword">
 							No comments match those keywords.
 						</div>
 
@@ -208,10 +189,10 @@
 
 			
 
-				<div class="" ng-show="vm.form.view === 'bychart'">
+				<div class="" ng-show="vm.form.view === 'bychart' && vm.comments.length > 0">
 					<div class="panel-body">
 						<label class="control-label">Comment Volume by Topic</label>
-						<tmpl-public-project-comments-circle-chart x-refresh="vm.refreshVisualization" x-data="vm.commentsByTopicVis" id="publicCommentsByTopic"></tmpl-public-project-comments-circle-chart>
+						<tmpl-public-project-comments-circle-chart ng-if="vm.commentsByTopicVis" x-refresh="vm.refreshVisualization" x-data="vm.commentsByTopicVis" id="publicCommentsByTopic"></tmpl-public-project-comments-circle-chart>
 					</div>
 				</div>
 

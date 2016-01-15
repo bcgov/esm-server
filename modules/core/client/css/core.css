@@ -594,6 +594,9 @@ nav {
 .no-wrap {
   white-space: nowrap; }
 
+.wrap {
+  white-space: normal !important; }
+
 .document-vetting li:first-child,
 .no-top-border {
   border-top: none !important; }
