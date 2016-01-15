@@ -199,8 +199,8 @@ Integration.findOne ({module:'happy'}).exec()
 				type: 'Mining',
 				location: 'Kamloops, BC',
 				region: 'thompsonokanagan',
-				dateCommentsClosed : ISODate("2016-04-11T23:59:59.000Z"),
-    			dateCommentsOpen : ISODate("2016-01-26T00:00:00:00.000Z")
+				dateCommentsClosed : '2016-04-12T06:55:00.000Z',
+    			dateCommentsOpen : '2016-01-26T08:00:00.000Z'
 			  });
 			  // Then save the user
 			  project.save(function (err) {

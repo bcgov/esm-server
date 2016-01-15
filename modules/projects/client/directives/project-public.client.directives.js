@@ -39,6 +39,8 @@ function directiveModalAddPublicComment($modal) {
 					templateUrl: 'modules/projects/client/views/project-partials/modal-add-public-comment.html',
 					controller: 'controllerModalAddComment',
 					controllerAs: 'publicComment',
+					backdrop: 'static',
+					keyboard: false,
 					resolve: {
 						rProject: function() { return scope.project; }
 					},

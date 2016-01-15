@@ -13,7 +13,7 @@
     "angular-ui-router": "~0.2",
     "angular-file-upload": "1.1.5",
     "angular-messages": "1.3.17",
-    "angular-moment": "~0.10.3",
+    "angular-moment": "~1.0.0-beta.3",
     "angularD3": "~0.0.29",
     "bootstrap-sass": "~3.3.4",
     "lodash": "~3.9.3",
