@@ -1838,5 +1838,12 @@
       "activity": null
     }        
   ],
-  "bucketrequirements": []
+  "bucketrequirements": [],
+  "streams":[
+    {
+      "description" : "Ajax Comments",
+      "name" : "Ajax Comments",
+      "code" : "ajax-comments"
+    }
+  ]
 }

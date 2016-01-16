@@ -13,7 +13,7 @@
 			<div class='panel-body'>
 
 				<div><label class="control-label">Location</label><p>{{ vm.project.location }}</p></div>
-				<div><label class="control-label">Region</label><p>{{ vm.project.region | titleCase }}</p></div>
+				<div><label class="control-label">Region</label><p>{{ vm.project.region | regionName }}</p></div>
 				<div><label class="control-label">Description</label><p>{{ vm.project.description }}</p></div>
 
 				<div ng-if="(vm.project.dateCommentsOpen && vm.project.dateCommentsClosed)">

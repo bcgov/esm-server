@@ -3,6 +3,7 @@
 angular.module('utils')
 	.filter('advancedFilter', filterAdvancedFilter)
 	.filter('projectPhaseContributor', filterProjectPhaseContributor)
+	.filter('regionName', filterRegionName)
 	.filter('kebab', filterKebab)
 	.filter('contains', filterContains)
 	.filter('projectBucketNotComplete', filterProjectBucketNotComplete)
@@ -52,6 +53,18 @@ function filterProjectPhaseContributor($filter, _) {
 		// 	}
 		// } 
 		return false;
+	};
+}
+// -----------------------------------------------------------------------------------
+//
+// FILTER: Region Name for code
+//
+// -----------------------------------------------------------------------------------
+filterRegionName.$inject = ['REGIONS'];
+/* @ngInject */
+function filterRegionName(REGIONS) {
+	return function(input) {
+		return REGIONS[input];
 	};
 }
 // -----------------------------------------------------------------------------------
