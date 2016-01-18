@@ -14,7 +14,16 @@
 
 				<div><label class="control-label">Location</label><p>{{ vm.project.location }}</p></div>
 				<div><label class="control-label">Region</label><p>{{ vm.project.region | regionName }}</p></div>
-				<div><label class="control-label">Description</label><p>{{ vm.project.description }}</p></div>
+				<div ng-init="toggleProject.desc = false"><label class="control-label">Description</label>
+					<p>{{ vm.project.description | maxWords:5:toggleProject.desc }}<br/>
+					<span class="small" ng-if="(vm.project.description | wordCount) > 5">
+						<a href ng-click="toggleProject.desc = !toggleProject.desc">
+							<span ng-show="!toggleProject.desc">More ({{ vm.project.description | wordCount }} words)</span>
+							<span ng-show="toggleProject.desc">Less</span>										
+						</a>
+					</span>
+					</p>
+				</div>
 
 				<div ng-if="(vm.project.dateCommentsOpen && vm.project.dateCommentsClosed)">
 					<label class="control-label">Public Comment Period</label>
@@ -22,7 +31,6 @@
 						{{ vm.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}} to {{ vm.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY' }}
 						<span ng-if="(vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)"><br/><strong><em>Open Now</em></strong></span>
 					</p>
-
 				</div>
 
 				<div class="form-group" ng-if="(vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)">
@@ -31,17 +39,47 @@
 
 				<div>
 					<label class="control-label">Documents</label>
-					<p class="small">
-						<a href><span class='glyphicon glyphicon-file'></span> Application</a>
-					</p>
+
+<ul class="small list-unstyled">
+
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452901462920_pyf2WZ7HqNdR5VjQLJKzbdL9gvPqjKnwp0tMNjlyq4Y32Qsq7C82!1143392206!1452899079229.pdf"><span class='glyphicon glyphicon-file'></span> Cover and Citation</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452901506174_pyf2WZ7HqNdR5VjQLJKzbdL9gvPqjKnwp0tMNjlyq4Y32Qsq7C82!1143392206!1452899079229.pdf"><span class='glyphicon glyphicon-file'></span> Document Map and List of Appendices</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452901544261_pyf2WZ7HqNdR5VjQLJKzbdL9gvPqjKnwp0tMNjlyq4Y32Qsq7C82!1143392206!1452899079229.pdf"><span class='glyphicon glyphicon-file'></span> Preface to the Application - EIS</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452901642768_pyf2WZ7HqNdR5VjQLJKzbdL9gvPqjKnwp0tMNjlyq4Y32Qsq7C82!1143392206!1452899079229.pdf"><span class='glyphicon glyphicon-file'></span> Executive Summary</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452901734280_pyf2WZ7HqNdR5VjQLJKzbdL9gvPqjKnwp0tMNjlyq4Y32Qsq7C82!1143392206!1452899079229.pdf"><span class='glyphicon glyphicon-file'></span> Résumé (en français)</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452901770808_pyf2WZ7HqNdR5VjQLJKzbdL9gvPqjKnwp0tMNjlyq4Y32Qsq7C82!1143392206!1452899079229.pdf"><span class='glyphicon glyphicon-file'></span> Acknowledgements</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452901573224_pyf2WZ7HqNdR5VjQLJKzbdL9gvPqjKnwp0tMNjlyq4Y32Qsq7C82!1143392206!1452899079229.pdf"><span class='glyphicon glyphicon-file'></span> Table of Concordance</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452901805421_pyf2WZ7HqNdR5VjQLJKzbdL9gvPqjKnwp0tMNjlyq4Y32Qsq7C82!1143392206!1452899079229.pdf"><span class='glyphicon glyphicon-file'></span> Table of Contents</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452901836027_pyf2WZ7HqNdR5VjQLJKzbdL9gvPqjKnwp0tMNjlyq4Y32Qsq7C82!1143392206!1452899079229.pdf"><span class='glyphicon glyphicon-file'></span> Acronyms and Abbreviations</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452901862246_pyf2WZ7HqNdR5VjQLJKzbdL9gvPqjKnwp0tMNjlyq4Y32Qsq7C82!1143392206!1452899079229.pdf"><span class='glyphicon glyphicon-file'></span> Glossary</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452901909920_pyf2WZ7HqNdR5VjQLJKzbdL9gvPqjKnwp0tMNjlyq4Y32Qsq7C82!1143392206!1452899079229.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 1. Purpose of the Application - EIS</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452901964093_pyf2WZ7HqNdR5VjQLJKzbdL9gvPqjKnwp0tMNjlyq4Y32Qsq7C82!1143392206!1452899079229.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 2. Project Overview</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452902027575_pyf2WZ7HqNdR5VjQLJKzbdL9gvPqjKnwp0tMNjlyq4Y32Qsq7C82!1143392206!1452899079229.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 3. Detailed Project Description</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452902064299_pyf2WZ7HqNdR5VjQLJKzbdL9gvPqjKnwp0tMNjlyq4Y32Qsq7C82!1143392206!1452899079229.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 4. Assessment Process</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452902094631_pyf2WZ7HqNdR5VjQLJKzbdL9gvPqjKnwp0tMNjlyq4Y32Qsq7C82!1143392206!1452899079229.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 5. Effects Assessment Methodology</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452902232860_pyf2WZ7HqNdR5VjQLJKzbdL9gvPqjKnwp0tMNjlyq4Y32Qsq7C82!1143392206!1452899079229.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 6. Assessment of Potential Environmental Effects</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452902399181_pyf2WZ7HqNdR5VjQLJKzbdL9gvPqjKnwp0tMNjlyq4Y32Qsq7C82!1143392206!1452899079229.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 7. Assessment of Potential Economic Effects</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452902656414_MRwpWZLpKYJQRphXygvpZGvJ0qvGnp5pdzRVMB7wDqZHwGhGf6T5!1143392206!1452902558475.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 8. Assessment of Potential Social Effects</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452902707824_MRwpWZLpKYJQRphXygvpZGvJ0qvGnp5pdzRVMB7wDqZHwGhGf6T5!1143392206!1452902558475.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 9. Assessment of Potential Heritage Effects</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452902771768_MRwpWZLpKYJQRphXygvpZGvJ0qvGnp5pdzRVMB7wDqZHwGhGf6T5!1143392206!1452902558475.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 10. Assessment of Potential Health Effects</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452902843979_MRwpWZLpKYJQRphXygvpZGvJ0qvGnp5pdzRVMB7wDqZHwGhGf6T5!1143392206!1452902558475.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 11. Summary of Proposed Environmental and Operational Management Plans</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452902887850_MRwpWZLpKYJQRphXygvpZGvJ0qvGnp5pdzRVMB7wDqZHwGhGf6T5!1143392206!1452902558475.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 12. Background and Aboriginal Groups Settings</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452902954361_MRwpWZLpKYJQRphXygvpZGvJ0qvGnp5pdzRVMB7wDqZHwGhGf6T5!1143392206!1452902558475.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 13. Aboriginal Interests</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452902998421_MRwpWZLpKYJQRphXygvpZGvJ0qvGnp5pdzRVMB7wDqZHwGhGf6T5!1143392206!1452902558475.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 14. Other Potential Effects on Aboriginal Interests</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452903076128_MRwpWZLpKYJQRphXygvpZGvJ0qvGnp5pdzRVMB7wDqZHwGhGf6T5!1143392206!1452902558475.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 15. Procedural Aspects of Aboriginal Consultation</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452903107278_MRwpWZLpKYJQRphXygvpZGvJ0qvGnp5pdzRVMB7wDqZHwGhGf6T5!1143392206!1452902558475.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 16. Summary</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452903155553_MRwpWZLpKYJQRphXygvpZGvJ0qvGnp5pdzRVMB7wDqZHwGhGf6T5!1143392206!1452902558475.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 17. Federal Environmental Assessment Requirements</a></li>
+<li><a target="_new" href="https://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1452903207802_MRwpWZLpKYJQRphXygvpZGvJ0qvGnp5pdzRVMB7wDqZHwGhGf6T5!1143392206!1452902558475.pdf"><span class='glyphicon glyphicon-file'></span> Chapter 18. Summary and Conclusions</a></li>
+
+</ul>
 				</div>
 
 
 			</div>
 
 			<div class="location-map">
-				<map center="{{ vm.project.lat }},{{ vm.project.lon }}" zoom="5" map-type-id="SATELLITE" street-view-control='false' min-zoom=5 disable-default-u-i="true">
-					<marker id="marker_{{ vm.project._id }}" position="{{ vm.project.lat }},{{ vm.project.lon }}"></marker>
+				<map center="{{ vm.project.lat }},{{ vm.project.lon }}" zoom="10" map-type-id="ROADMAP" street-view-control='false' min-zoom=10 disable-default-u-i="true">
+					<kml-layer url="//dev.ajax.esm.bcgovpathfinder.ca:3000/map_layers/Ajax_2016Jan7data_AllPolys_oneFile.kml"></kml-layer>
 				</map>
 			</div>
 			
@@ -124,11 +162,11 @@
 					<div class="" ng-show='form[heading]'>
 							<div class="row comment-list" ng-repeat-start="item in vm.commentsByTopic[heading] | advancedFilter:vm.filterKeyword | orderBy:'dateAdded':true">
 								<div class="col-sm-9">
-									<pre class="form-group">{{ item.comment | max80Words:toggleTopicComment[item._id] }}</pre>
+									<pre class="form-group">{{ item.comment | maxWords:80:toggleTopicComment[item._id] }}</pre>
 									<p ng-if="(item.comment | wordCount) > 80">
 										<a href ng-click="toggleTopicComment[item._id] = !toggleTopicComment[item._id]">
 											<span ng-show="!toggleTopicComment[item._id]">More ({{ item.comment | wordCount }} words)</span>
-											<span ng-show="toggleTopicComment[item._id]">Less</span>										
+											<span ng-show="toggleTopicComment[item._id]">Less</span>
 										</a>
 									</p>
 								</div>
@@ -179,11 +217,11 @@
 						<div class="row comment-list" ng-repeat-start="item in commentsFiltered = (vm.comments | advancedFilter:vm.filterKeyword) | orderBy:'dateAdded':true" ng-init="toggleDateComment[item._id] = false">
 
 							<div class="col-sm-9">
-								<pre class="form-group">{{ item.comment | max80Words:toggleDateComment[item._id] }}</pre>
+								<pre class="form-group">{{ item.comment | maxWords:80:toggleDateComment[item._id] }}</pre>
 								<p ng-if="(item.comment | wordCount) > 80">
 									<a href  ng-click="toggleDateComment[item._id] = !toggleDateComment[item._id]">
 										<span ng-show="!toggleDateComment[item._id]">More ({{ item.comment | wordCount }} words)</span>
-										<span ng-show="toggleDateComment[item._id]">Less</span>										
+										<span ng-show="toggleDateComment[item._id]">Less</span>
 									</a>
 								</p>
 							</div>

@@ -11,7 +11,7 @@ angular.module('utils')
 	.filter('isInTheFuture', filterIsInTheFuture)
 	.filter('isInThePast', filterIsInThePast)
 	.filter('max15Words', filterMax15Words)
-	.filter('max80Words', filterMax80Words)
+	.filter('maxWords', filterMaxWords)
 	.filter('wordCount', filterWordCount)
 	.filter('safeHtml', filterSafeHtml)
 	.filter('titleCase', filterTitleCase)
@@ -168,12 +168,13 @@ function filterMax15Words(_) {
 // FILTER: First 80 words
 //
 // -----------------------------------------------------------------------------------
-filterMax80Words.$inject = ['_'];
+filterMaxWords.$inject = ['_'];
 /* @ngInject */
-function filterMax80Words(_) {
-	return function(input, showAll) {
-		if (_.words(input).length > 80 && !showAll) {
-	    		return _.take(_.words(input), 80).join(' ');
+function filterMaxWords(_) {
+	return function(input, num, showAll) {
+		console.log(input, num, showAll);
+		if (_.words(input).length > num && !showAll) {
+	    		return _.take(_.words(input), num).join(' ') + '...';
 		} else {
 			return input;
 		}
