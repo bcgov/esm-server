@@ -9,10 +9,12 @@ angular.module('project')
 // CONTROLLER: Public Project Detail
 //
 // -----------------------------------------------------------------------------------
-controllerPublicProject.$inject = ['$modal', 'Project', '$stateParams', '_', 'moment', '$filter'];
+controllerPublicProject.$inject = ['$modal', 'Project', '$stateParams', '_', 'moment', '$filter', '$location'];
 /* @ngInject */
-function controllerPublicProject($modal, Project, $stateParams, _, moment, $filter) {
+function controllerPublicProject($modal, Project, $stateParams, _, moment, $filter, $location) {
 	var vm = this;
+
+	vm.host = $location.host;
 
 	vm.commentsByDateKeys = [];
 	vm.commentsByTopicKeys = {};
