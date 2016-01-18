@@ -8,6 +8,15 @@ var policy     = require ('../policies/project.policy');
 var controller = require ('../controllers/project.controller');
 
 module.exports = function (app) {
+	app.route ('/api/projects')
+		// .all (policy.isAllowed)
+		.get (controller.getUserProjects);
+	app.route ('/api/projects/write')
+		// .all (policy.isAllowed)
+		.get (controller.getUserProjectsWrite);
+	app.route ('/api/project/:project/set/permissions')
+		// .all (policy.isAllowed)
+		.put (controller.saveProjectPermissions);
 	//
 	// collection routes
 	//

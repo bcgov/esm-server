@@ -20,6 +20,68 @@ var BucketRequirement = mongoose.model ('BucketRequirement');
 var ProjectRole = mongoose.model ('ProjectRole');
 var _ = require ('lodash');
 
+var userProjectPermission = function (project, userRoles) {
+	return {
+		read : ( (_.intersection (userRoles, project.read)).length > 0),
+		write : ( (_.intersection (userRoles, project.write)).length > 0),
+		submit : ( (_.intersection (userRoles, project.submit)).length > 0),
+		watch : ( (_.intersection (userRoles, project.watch)).length > 0)
+	};
+};
+exports.userProjectPermission = userProjectPermission;
+
+var saveProject = function (project) {
+	return new Promise (function (resolve, reject) {
+		project.save ().then (resolve, reject);
+	});
+};
+var userProjects = function (userRoles) {
+	return new Promise (function (resolve, reject) {
+		Project.find ({
+			$or : [
+				{ read : { $in : userRoles } },
+				{ write : { $in : userRoles } },
+				{ submit : { $in : userRoles } }
+			]
+		}).exec ().then (resolve, reject);
+	});
+};
+var userProjectsWrite = function (userRoles) {
+	return new Promise (function (resolve, reject) {
+		Project.find ({
+			$or : [
+				{ write : { $in : userRoles } },
+				{ submit : { $in : userRoles } }
+			]
+		}).exec ().then (resolve, reject);
+	});
+};
+var setProjectPermissions = function (project, rolesObject) {
+	project.read = rolesObject.read;
+	project.write = rolesObject.write;
+	project.submit = rolesObject.submit;
+	project.watch = rolesObject.watch;
+	return saveProject (project);
+};
+
+exports.saveProjectPermissions = function (req, res) {
+	setProjectPermissions (req.Project, req.body)
+	.then (helpers.successFunction (res))
+	.catch (helpers.errorFunction (res));
+};
+
+exports.getUserProjects = function (req, res) {
+	var roles = ['public'];
+	userProjects (roles)
+	.then (helpers.successFunction (res))
+	.catch (helpers.errorFunction (res));
+};
+exports.getUserProjectsWrite = function (req, res) {
+	var roles = ['proponent'];
+	userProjectsWrite (roles)
+	.then (helpers.successFunction (res))
+	.catch (helpers.errorFunction (res));
+};
 
 // -------------------------------------------------------------------------
 //

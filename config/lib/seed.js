@@ -197,7 +197,13 @@ Integration.findOne ({module:'ajax3'}).exec()
 				description: 'KGHM Ajax Mining Inc. proposes to develop the Ajax Project, a new open-pit copper/ gold mine located south of and adjacent to the City of Kamloops. The mine would have a production capacity of up to 24 million tonnes of ore per year, over an anticipated 23-year mine life.',
 				type: 'Mining',
 				location: 'Kamloops, BC',
-				region: 'okanagan'
+				region: 'okanagan',
+        access: {
+          read: ['public'],
+          write: ['admin'],
+          submit: ['proponent'],
+          watch: []
+        }
 			  });
 			  // Then save the user
 			  project.save(function (err) {
@@ -224,6 +230,21 @@ Integration.findOne ({module:'configs'}).exec()
   }
 });
 
+// for (var k=0; k<5; k++) {
+//   new Project({
+//     lat: 50.608817 + k,
+//     lon: -120.405757 + k,
+//     name: 'Project Number '+k,
+//     description: 'test',
+//     type: 'Mining',
+//     location: 'Kamloops, BC',
+//     region: 'okanagan',
+//       read: ['public'],
+//       write: ['admin'],
+//       submit: ['proponent'],
+//       watch: []
+//   }).save ();
+// }
 
 
 

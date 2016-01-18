@@ -35,7 +35,11 @@ var ProjectSchema = new Schema ({
 	dateAdded   : { type: Date},
 	addedBy     : {type:'ObjectId', ref:'User'},
 	dateUpdated : { type: Date},
-	updatedBy   : {type:'ObjectId', ref:'User'}
+	updatedBy   : {type:'ObjectId', ref:'User'},
+	read  : [ {type:String} ],
+	write : [ {type:String} ],
+	submit: [ {type:String} ],
+	watch : [ {type:String} ]
 });
 
 ProjectSchema.pre ('save', function (next) {
