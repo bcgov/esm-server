@@ -22,21 +22,12 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		template: '<tmpl-configuration></tmpl-configuration>',
 		data: {
 			roles: ['admin']
-		}
+		}		
 	})
 
 	.state('default', {
-		// url: '/project/:id',
-		// template: '<tmpl-public-project></tmpl-public-project>',
-		// params: {
-		// 	id : '569d3edbbfa11d0c009f92ee'
-		// }
 		url: '/',
-		template: '<tmpl-public-projects></tmpl-public-projects>',
-		onEnter: function () {
-			window.open ("http://localhost:3000/public/project/569d3edbbfa11d0c009f92ee","_self",false);
-		}
-		// template: '<script type="text/javascript"> window.open ("http://localhost:3000/public/project/569d5da8edba54ab106a0f6c","_self",false) </script><tmpl-public-projects></tmpl-public-projects>'
+		template: '<tmpl-public-projects></tmpl-public-projects>'
 	})
 	.state('login', {
 		url: '/login',
