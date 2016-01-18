@@ -22,12 +22,21 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		template: '<tmpl-configuration></tmpl-configuration>',
 		data: {
 			roles: ['admin']
-		}		
+		}
 	})
 
 	.state('default', {
+		// url: '/project/:id',
+		// template: '<tmpl-public-project></tmpl-public-project>',
+		// params: {
+		// 	id : '569d3edbbfa11d0c009f92ee'
+		// }
 		url: '/',
-		template: '<tmpl-public-projects></tmpl-public-projects>'
+		template: '<tmpl-public-projects></tmpl-public-projects>',
+		onEnter: function () {
+			window.open ("http://localhost:3000/public/project/569d3edbbfa11d0c009f92ee","_self",false);
+		}
+		// template: '<script type="text/javascript"> window.open ("http://localhost:3000/public/project/569d5da8edba54ab106a0f6c","_self",false) </script><tmpl-public-projects></tmpl-public-projects>'
 	})
 	.state('login', {
 		url: '/login',
@@ -40,7 +49,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	.state('recover', {
 		url: '/recover',
 		template: '<tmpl-recover></tmpl-recover>'
-	})     
+	})
 	// -----------------------------------------------------------------------------------
 	//
 	// ROUTES: Public
@@ -70,7 +79,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	// 	template: '<div ui-view></div>',
 	// 	data: {
 	// 		roles: ['admin']
-	// 	}		
+	// 	}
 	// })
 	// .state('proponent.projects', {
 	// 	url: '/projects',
@@ -87,11 +96,11 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	// .state('proponent.register', {
 	// 	url: '/register/',
 	// 	template: '<tmpl-proponent-register></tmpl-proponent-register>'
-	// })         
+	// })
 	// .state('proponent.activity', {
 	// 	url: '/activity/:id',
 	// 	template: '<tmpl-proponent-activity></tmpl-proponent-activity>'
-	// })         
+	// })
 	// -----------------------------------------------------------------------------------
 	//
 	// ROUTES: Proponent
@@ -132,14 +141,14 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		data: {
 			roles: ['admin', 'user']
 		}
-	})            
+	})
 	.state('eao.activity', {
 		url: '/activity/:id',
 		template: '<tmpl-eao-activity></tmpl-eao-activity>',
 		data: {
 			roles: ['admin', 'user']
 		}
-	});             
+	});
 
 
 
@@ -170,7 +179,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 			ignoreState: true
 		}
 	});
-  
+
 }
 
 
