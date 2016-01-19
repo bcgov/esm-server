@@ -14,7 +14,7 @@ controllerPublicProject.$inject = ['$modal', 'Project', '$stateParams', '_', 'mo
 function controllerPublicProject($modal, Project, $stateParams, _, moment, $filter, $location) {
 	var vm = this;
 
-	vm.host = $location.host;
+	vm.host = $location.protocol() + '://' + $location.host() + ($location.port() ? ':' + $location.port() : '');
 
 	vm.commentsByDateKeys = [];
 	vm.commentsByTopicKeys = {};
