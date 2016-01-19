@@ -172,7 +172,7 @@
 			</div>
 
 			<div class="location-map">
-				<map center="{{ vm.project.lat }},{{ vm.project.lon }}" zoom="10" map-type-id="ROADMAP" street-view-control='false' min-zoom=10 disable-default-u-i="true">
+				<map center="{{ vm.project.lat }},{{ vm.project.lon }}" zoom="10" map-type-id="ROADMAP" street-view-control='false' min-zoom=10 max-zoom=10 disable-default-u-i="true">
 					<kml-layer url="{{ vm.host }}/map_layers/Ajax_2016Jan7data_Footprint_25Buffer_filled.kml"></kml-layer>
 				</map>
 			</div>

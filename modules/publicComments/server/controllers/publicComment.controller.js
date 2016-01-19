@@ -218,8 +218,8 @@ var queryModelsDecorate = function (query, limit) {
 // -------------------------------------------------------------------------
 var getByProjectByStatus = function (projectId, status, limit) {
 	var query = {
-		project       : projectId,
-		overallStatus : status
+		project 		: projectId,
+		eaoStatus		: status
 	};
 	return queryModelsDecorate (query, limit);
 	// return new Promise (function (resolve, reject) {
