@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('user')
+angular.module('users')
 	// General
 	.controller('controllerUsersQuicklinks', controllerUsersQuicklinks)
 	.controller('controllerCompanyEntryForm', controllerCompanyEntryForm)

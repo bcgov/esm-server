@@ -1,7 +1,9 @@
 <div class="modal-header">
-	<div class="pull-right">
+	<div class="pull-right form-inline">
 		<div class="form-group">
-			<input ng-model="selectItems.filter" type="text" class="form-control" placeholder="Filter">
+			<input ng-model="selectItems.filter" type="text" class="input-sm form-control" placeholder="Filter">
+			<button class="btn btn-warning btn-sm" type="button" ng-click="selectItems.cancel()">Cancel</button>
+			<button class="btn btn-primary btn-sm" type="button" ng-click="selectItems.ok()">Save</button>			
 		</div>
 	</div>
 	<h3 class="modal-title">Select {{ selectItems.itemName }}</h3>
@@ -10,11 +12,11 @@
 	<div class="row">
 
 		<div class="col-sm-6">
-		
+			<a class="control-label pull-right" ng-click="selectItems.selectAll()">Select All</a>
 			<label class="control-label">{{ selectItems.itemName }}</label>
 			<div class="well well-sm">
 				<ul class="list-unstyled task-list">
-					<li ng-repeat="aItem in filteredItems = (selectItems.itemList | filter:selectItems.filter) track by $index">
+					<li ng-repeat="aItem in filteredItems = (selectItems.itemList | filter:selectItems.filter) | orderBy:'name' track by $index">
 						<button class="btn btn-block btn-sm btn-layer" ng-click="selectItems.addItemToSelection(aItem)">{{ aItem.name }}</button>
 					</li>
 					<li ng-if="selectItems.itemList.length === 0 && !selectItems.filter" class="small">
@@ -28,11 +30,11 @@
 
 		</div>
 		<div class="col-sm-6">
-		
+			<a class="control-label pull-right"  ng-click="selectItems.deselectAll()">Deselect All</a>
 			<label class="control-label">Selected {{ selectItems.itemName }}</label>
 			<div class="well well-sm">
 				<ul class="list-unstyled task-list">
-					<li ng-repeat="item in filteredSelected = (selectItems.selectedItems | filter:selectItems.filter) track by $index">
+					<li ng-repeat="item in filteredSelected = (selectItems.selectedItems | filter:selectItems.filter) | orderBy:'name' track by $index">
 						<button class="btn btn-block btn-sm btn-layer" ng-click="selectItems.removeItemFromSelection($index)">{{ item.name }}</button>
 					</li>
 					<li ng-if="selectItems.selectedItems.length === 0 && !selectItems.filter" class="small">

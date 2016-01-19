@@ -163,7 +163,12 @@ a.return-link {
 a.return-link:hover {
   text-decoration: none; }
 
+.modal .modal-body > h3,
 .panel-concern .panel-body > h3 {
+  margin-top: 0; }
+
+h3.activity-title {
+  color: #fff;
   margin-top: 0; }
 
 .concern-list > h3:first-child {
@@ -183,7 +188,8 @@ h3 .small .label {
 
 .label-list li,
 .panel-sort li {
-  display: inline-block; }
+  display: inline-block;
+  white-space: nowrap; }
 
 .label-list li {
   margin-bottom: 3px;
@@ -194,7 +200,7 @@ h3 .small .label {
   color: #fff; }
 
 .panel-sort li a {
-  padding: 0 5px;
+  padding: 0 5px 0 3px;
   color: #fff; }
 
 .panel-sort li:before {
@@ -203,15 +209,20 @@ h3 .small .label {
 .panel-sort li:first-child:before {
   content: ''; }
 
+.panel-sort li a span:after {
+  content: '\0020'; }
+
 .panel-sort li.asc a span:after {
   content: '\0020\25B2'; }
 
 .panel-sort li.desc a span:after {
   content: "\0020\25BC"; }
 
+.text-dark .panel-sort li,
 .modal .panel-sort li {
   color: #777; }
 
+.text-dark .panel-sort li a,
 .modal .panel-sort li a {
   color: #777; }
 
@@ -286,7 +297,9 @@ th .progress-bar {
   font-style: italic;
   opacity: 0.8; }
 
-label.control-label {
+label.control-label,
+a.control-label,
+.control-label a {
   font-size: 85%;
   font-weight: 500;
   font-style: italic;
@@ -294,6 +307,16 @@ label.control-label {
   padding: 0 0 2px;
   margin: 0 0 2px;
   color: #ababab; }
+
+a.control-label,
+.control-label a {
+  display: inline-block;
+  color: #337ab7;
+  cursor: pointer; }
+
+a.control-label:hover,
+.control-label a:hover {
+  color: #23527c; }
 
 .drop-box {
   background: #F8F8F8;
@@ -441,7 +464,8 @@ nav {
   margin-bottom: 0; }
 
 .task-list li {
-  padding-bottom: 5px; }
+  padding-bottom: 5px;
+  position: relative; }
 
 .task-list li .task-current-status {
   font-weight: 700; }
@@ -453,6 +477,15 @@ nav {
 
 .task-list li button.btn-layer {
   white-space: normal; }
+
+.task-permission-control {
+  display: none;
+  position: absolute;
+  right: 3px;
+  bottom: 5px; }
+
+.task-list li:hover .task-permission-control {
+  display: block; }
 
 .no-lower-padding {
   padding-bottom: 0 !important; }
@@ -552,5 +585,29 @@ nav {
 
 .panel > .table.table-stacked {
   margin-bottom: 30px; }
+
+pre {
+  padding: 0;
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+  background-color: transparent;
+  border: 0;
+  white-space: pre-wrap;
+  /* CSS 3 */
+  white-space: -moz-pre-wrap;
+  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;
+  /* Opera 4-6 */
+  white-space: -o-pre-wrap;
+  /* Opera 7 */
+  word-wrap: break-word;
+  /* Internet Explorer 5.5+ */ }
+
+.scrolling-fixed-box {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 400px;
+  display: block; }
 
 /*# sourceMappingURL=core.css.map */

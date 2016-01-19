@@ -13,10 +13,11 @@ controllerHeader.$inject = ['$scope', '$state', 'Authentication', 'Menus'];
 function controllerHeader($scope, $state, Authentication, Menus) {
 	var header = this;
 
-    // Expose view variables
+	// Expose view variables
 	header.$state = $state;
-    header.authentication = Authentication;
+   	header.authentication = Authentication;
 
-    // Get the topbar menu
-    header.menu = Menus.getMenu('topbar');
+	// Get the topbar menu
+	header.menu = Menus.getMenu('topbar');
+
 }

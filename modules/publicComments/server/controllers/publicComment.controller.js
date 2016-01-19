@@ -60,7 +60,9 @@ var getDocumentsForComment = function (commentId) {
 	return new Promise (function (resolve, reject) {
 		CommentDocument.find ({publicComment:commentId}, function (err, model) {
 			if (err) return reject (err);
-			resolve (model);
+			else {
+				resolve (model);
+			}
 		});
 	});
 };
@@ -83,7 +85,17 @@ var getTopicsForComment = function (commentId) {
 // -------------------------------------------------------------------------
 var getBucketsForComment = function (commentId) {
 	return new Promise (function (resolve, reject) {
-		resolve ([]);
+		BucketComment.find ({publicComment: commentId}).populate('bucket').exec(function (err, models) {
+			if (err) return reject (err);
+			else {
+				console.log (models);
+				var ret = [];
+				_.each (models, function (m) {
+					ret.push (m.bucket);
+				});
+				resolve (ret);
+			}
+		});
 	});
 };
 
@@ -96,6 +108,7 @@ var decorateComment = function (comment) {
 	return new Promise (function (resolve, reject) {
 		if (!comment) return resolve ({});
 		comment = comment.toObject ();
+		console.log (comment);
 		getDocumentsForComment (comment._id)
 		.then (function (a) {
 			comment.documents = a;
@@ -229,7 +242,15 @@ var getByProjectByStatus = function (projectId, status, limit) {
 // -------------------------------------------------------------------------
 exports.new    = crud.new    ();
 exports.create = crud.create ();
-exports.read   = crud.read   ();
+exports.read   = crud.read   (function (model, callback) {
+	decorateComment (model)
+	.then (function (m) {
+		callback (null, m);
+	})
+	.catch (function (err) {
+		callback (err, null);
+	});
+});
 exports.update = crud.update ();
 exports.delete = crud.delete ();
 exports.list   = crud.list   ();
@@ -499,7 +520,26 @@ var proponentdefer = function (req, res) {
 		req.body
 	);
 	req.PublicComment.proponentStatus = 'Deferred';
-	saveDecorateReturn (req.PublicComment, req, res);
+	BucketComment.find ({publicComment: req.PublicComment._id}).remove (function (err) {
+		if (err) return helpers.sendError (res, err);
+		var buckets = req.body.buckets.map (function (b) {
+			var bc = new BucketComment ({
+				bucket : b._id,
+				project: req.PublicComment.project,
+				publicComment : req.PublicComment._id
+			});
+			return new Promise (function (resolve, reject) {
+				bc.save (resolve, reject);
+			});
+		});
+		Promise.all (buckets)
+		.then (function () {
+			saveDecorateReturn (req.PublicComment, req, res);
+		})
+		.catch (function (err) {
+			helpers.sendError (res, err);
+		});
+	});
 };
 exports.proponentdefer = proponentdefer;
 // -------------------------------------------------------------------------

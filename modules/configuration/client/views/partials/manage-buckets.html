@@ -4,14 +4,16 @@
         <div class="col-sm-7">
             <table class="table table-condensed table-striped table-hover">
                 <thead class="small">
-                    <th width="30%">Code</th>
-                    <th width="40%">Name</th>
-                    <th width="30%" class="text-center">Value Component</th>
+                    <th width="25%">Code</th>
+                    <th width="35%">Name</th>
+                    <th width="25%">Group</th>
+                    <th width="15%" class="text-center">Value Component</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="bucket in configDataElement.data.buckets" ng-click='configDataElement.editRecord(bucket)' class="clickable">
+                    <tr ng-repeat="bucket in configDataElement.data.buckets | orderBy:['group', 'code']" ng-click='configDataElement.editRecord(bucket)' class="clickable">
                         <td>{{ bucket.code }}</td>
                         <td>{{ bucket.name }}</td>
+                        <td>{{ bucket.group }}</td>
                         <td class="text-center">
                             <span ng-if="bucket.isValueComponent">Yes</span>
                             <span ng-if="!bucket.isValueComponent">No</span>
@@ -46,6 +48,12 @@
                     <div class="form-group">
                         <label class="control-label">Description</label>
                         <textarea class="form-control" ng-model="configDataElement.activeRecord.description"></textarea>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label">Group</label>
+                        <input class="form-control" type="text" ng-model="configDataElement.activeRecord.group">
                     </div>
 
 

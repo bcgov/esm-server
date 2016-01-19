@@ -19,14 +19,6 @@ function serviceTaskPublicCommentClassificationProponent($http) {
 		return $http({method:'GET',url: '/api/publiccomment/project/' + projectId + '/classify/claim'});
 	};
 
-	var setCommentDefer = function(comment) {
-		return $http({method:'PUT',url: '/api/publiccomment/' + comment._id + '/proponent/defer', data: comment});
-	};
-
-	var setCommentClassify = function(comment) {
-		return $http({method:'PUT',url: '/api/publiccomment/' + comment._id + '/proponent/classify', data: comment});
-	};
-
 	var getUnclassifiedCount = function(projectId) {
 		return $http({method:'GET',url: '/api/publiccomment/project/' + projectId + '/unclassified'});
 	};
@@ -34,8 +26,6 @@ function serviceTaskPublicCommentClassificationProponent($http) {
 	return {
 		getStart: getStart,
 		getNextComment: getNextComment,
-		setCommentDefer: setCommentDefer,
-		setCommentClassify: setCommentClassify,
 		getUnclassifiedCount: getUnclassifiedCount
 	};
 }

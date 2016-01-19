@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('tasks')
-	.controller('controllerTaskManageComments', controllerTaskManageComments);
+	.controller('controllerTaskManageComments', controllerTaskManageComments)
+	.controller('controllerTaskModalCommentDetail', controllerTaskModalCommentDetail);
 
 // -----------------------------------------------------------------------------------
 //
@@ -16,10 +17,48 @@ function controllerTaskManageComments($scope, $rootScope, Task, _, sTaskManageCo
 
 	taskManComm.comments = [];
 
+
+	taskManComm.setEaoStatusFilter = function(newValue) {
+		if (newValue === taskManComm.eaoStatusFilter) {
+			taskManComm.eaoStatusFilter = undefined;
+		} else {
+			taskManComm.eaoStatusFilter = newValue;
+		}
+	};
+
+
+
+	taskManComm.setProponentStatusFilter = function(newValue) {
+		if (newValue === taskManComm.proponentStatusFilter) {
+			taskManComm.proponentStatusFilter = undefined;
+		} else {
+			taskManComm.proponentStatusFilter = newValue;
+		}
+	};
+
+
+	taskManComm.setOverallStatusFilter = function(newValue) {
+		if (newValue === taskManComm.overallStatusFilter) {
+			taskManComm.overallStatusFilter = undefined;
+		} else {
+			taskManComm.overallStatusFilter = newValue;
+		}
+	};
+
+
+
 	// watch project
 	$scope.$watch('project', function(newValue) {
 		if (newValue) {
 			taskManComm.project = newValue;
+			//
+			// get the bucket groups for general classification
+			taskManComm.bucketGroups = _.unique(_.pluck(taskManComm.project.buckets, 'group'));
+			taskManComm.topicsList = _.unique(_.pluck(taskManComm.project.buckets, 'name'));
+			console.log('tl',taskManComm.topicsList);
+			taskManComm.bucketsFiltered = taskManComm.project.buckets;
+			//
+			//
 			// make a copy so changes aren't bound to the underlying screens.
 			sTaskManageComments.getAllPublishedComments(newValue._id).then( function(res) {
 				_.each(res.data, function(item) {
@@ -33,12 +72,7 @@ function controllerTaskManageComments($scope, $rootScope, Task, _, sTaskManageCo
 						});
 					});
 				}
-
-				console.log('all comments', taskManComm.comments);
-
 			});
-
-
 		}
 	});
 
@@ -58,6 +92,12 @@ function controllerTaskManageComments($scope, $rootScope, Task, _, sTaskManageCo
 	});
 
 
+	taskManComm.panelSort = [
+		{'field': 'dateAdded', 'name':'Date'},
+		{'field': 'overallStatus', 'name':'Overall Status'},
+		{'field': 'eaoStatus', 'name':'EAO Status'},
+		{'field': 'proponentStatus', 'name':'Proponent Status'}
+	];
 
 
 
@@ -69,4 +109,24 @@ function controllerTaskManageComments($scope, $rootScope, Task, _, sTaskManageCo
 	// 	$rootScope.$broadcast('resolveItem', {item: taskManageComments.itemId});
 	// }
 	
-}    
+}   
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Task Comment Detail Modal
+//
+// -----------------------------------------------------------------------------------
+controllerTaskModalCommentDetail.$inject = ['$scope', '$modalInstance', 'rComment', 'rProject', '_'];
+	//
+function controllerTaskModalCommentDetail($scope, $modalInstance, rComment, rProject, _) {
+	var taskComDetail = this;
+
+	taskComDetail.bucketGroups = _.unique(_.pluck(rProject.buckets, 'group'));
+
+	taskComDetail.comment = rComment;
+	taskComDetail.project = rProject;
+
+	taskComDetail.cancel = function() {
+		$modalInstance.dismiss();
+	};
+
+}

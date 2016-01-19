@@ -12,7 +12,10 @@ var mongoose = require('mongoose'),
   Task         = mongoose.model('Task'),
   Milestone    = mongoose.model('Milestone'),
   Requirement  = mongoose.model('Requirement'),
+  Project      = mongoose.model('Project'),
+  Stream      = mongoose.model('Stream'),
   Integration  = mongoose.model('Integration');
+
 
 console.log(chalk.bold.red('Warning:  Database seeding is turned on'));
 
@@ -95,11 +98,62 @@ if (process.env.NODE_ENV === 'production') {
       });
     }
   });
+
+  // Add Vetting User
+  User.find({username: 'vetting'}, function (err, users) {
+    if (users.length === 0) {
+      var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
+      var user = new User({
+        username: 'vetting',
+        password: 'vetting',
+        provider: 'local',
+        email: 'vetting@localhost.com',
+        firstName: 'vetting',
+        lastName: 'Local',
+        displayName: 'vetting Local',
+        roles: ['user', 'vetting']
+      });
+      // Then save the user
+      user.save(function (err) {
+        if (err) {
+          console.log('Failed to add local admin', err);
+        } else {
+          console.log(chalk.bold.red('Local admin added with password set to ' + password));
+        }
+      });
+    }
+  });
+
+  // Add Classification User
+  User.find({username: 'classify'}, function (err, users) {
+    if (users.length === 0) {
+      var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
+      var user = new User({
+        username: 'classify',
+        password: 'classify',
+        provider: 'local',
+        email: 'classify@localhost.com',
+        firstName: 'classify',
+        lastName: 'Local',
+        displayName: 'classify Local',
+        roles: ['user', 'classify']
+      });
+      // Then save the user
+      user.save(function (err) {
+        if (err) {
+          console.log('Failed to add local admin', err);
+        } else {
+          console.log(chalk.bold.red('Local admin added with password set to ' + password));
+        }
+      });
+    }
+  });
 }
 
-Integration.findOne ({module:'configs'}).exec()
-.then (function (row) {
-  if (!row) {
+
+var doConfigs = function () {
+    Project.find ({}).remove ();
+    Stream.find ({}).remove ();
     var i = new Integration ({module:'configs'});
     i.save ();
     console.log ('++ Adding default configuration objects');
@@ -113,7 +167,7 @@ Integration.findOne ({module:'configs'}).exec()
       {m:Requirement, s:'requirement',p:'requirements'}
     ];
     _.each (a, function (o) {
-      o.m.find ({project:null, stream:null}).remove (function () {
+      o.m.find ({}).remove (function () {
         _.each (configs[o.p], function (obj) {
           var m = new o.m (obj);
           m[o.s] = m._id;
@@ -121,5 +175,82 @@ Integration.findOne ({module:'configs'}).exec()
         });
       });
     });
+
+};
+
+
+// check to see if the seed import executes
+// insert ajax mine project
+Integration.findOne ({module:'ajax3'}).exec()
+.then (function (row) {
+  if (!row) {
+
+    doConfigs ();
+
+		Project.find({name: 'Ajax Mine Project'}).remove (function () {
+        var i = new Integration ({module:'ajax3'});
+        i.save ();
+			  var project = new Project({
+				lat: 50.608817,
+				lon: -120.405757,
+				name: 'Ajax Mine Project',
+				description: 'KGHM Ajax Mining Inc. proposes to develop the Ajax Project, a new open-pit copper/ gold mine located south of and adjacent to the City of Kamloops. The mine would have a production capacity of up to 24 million tonnes of ore per year, over an anticipated 23-year mine life.',
+				type: 'Mining',
+				location: 'Kamloops, BC',
+				region: 'okanagan',
+        access: {
+          read: ['public'],
+          write: ['admin'],
+          submit: ['proponent'],
+          watch: []
+        }
+			  });
+			  // Then save the user
+			  project.save(function (err) {
+				if (err) {
+				  console.log('Failed to add ajax', err);
+				} else {
+				  console.log(chalk.bold.red('Ajax project added'));
+				}
+			  });
+
+		  });
+
+
+
+
   }
 });
+
+
+Integration.findOne ({module:'configs'}).exec()
+.then (function (row) {
+  if (!row) {
+    doConfigs ();
+  }
+});
+
+// for (var k=0; k<5; k++) {
+//   new Project({
+//     lat: 50.608817 + k,
+//     lon: -120.405757 + k,
+//     name: 'Project Number '+k,
+//     description: 'test',
+//     type: 'Mining',
+//     location: 'Kamloops, BC',
+//     region: 'okanagan',
+//       read: ['public'],
+//       write: ['admin'],
+//       submit: ['proponent'],
+//       watch: []
+//   }).save ();
+// }
+
+
+
+
+
+
+
+
+

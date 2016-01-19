@@ -44,25 +44,36 @@
 				<td width="40%" ng-if="taskPubComVet.activeComment._id === com._id">
 
 					<ul class="list-unstyled document-vetting no-lower-margin">
-						<li class="clearfix"><small>Overall Comment</small>
-							<div class="btn-group btn-group-xs pull-right">
-								<a href class="btn btn-default" ng-class="{'btn-success': taskPubComVet.workingStatus === 'Published'}"		ng-click="taskPubComVet.workingStatus = 'Published'">Accept</a>
-								<a href class="btn btn-default" ng-class="{'btn-danger': taskPubComVet.workingStatus === 'Rejected'}"		ng-click="taskPubComVet.workingStatus = 'Rejected'">Reject</a>
-								<a href class="btn btn-default" ng-class="{'btn-info': taskPubComVet.workingStatus === 'Deferred'}"			ng-click="taskPubComVet.workingStatus = 'Deferred'">Defer</a>
-								<a href class="btn btn-default" ng-class="{'btn-warning': taskPubComVet.workingStatus === 'Spam'}"			ng-click="taskPubComVet.workingStatus = 'Spam'">Spam</a>
-							</div>
-						</li>
 						<li class="clearfix" ng-repeat="doc in com.documents">
-							<a href="{{ doc.url }}" target="_new" class="small">{{ doc.name }}</a>
+							<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small">{{ doc.name }}</a>
 							<div class="btn-group btn-group-xs pull-right">
 								<a href class="btn btn-default" ng-class="{'btn-success': doc.eaoStatus === 'Published'}"	ng-click="doc.eaoStatus = 'Published'">Accept</a>
 								<a href class="btn btn-default" ng-class="{'btn-danger': doc.eaoStatus === 'Rejected'}"	ng-click="doc.eaoStatus = 'Rejected'">Reject</a>
 								<a href class="btn btn-default" ng-class="{'btn-info': doc.eaoStatus === 'Deferred'}"	ng-click="doc.eaoStatus = 'Deferred'">Defer</a>
 							</div>
 						</li>
-						<li class="text-right">
-							<a href class="btn-link btn" ng-click='taskPubComVet.finalizeCommentStatus(com)' ng-disabled="!taskPubComVet.workingStatus">Next Comment <span class="glyphicon glyphicon-chevron-right"></span></a>
+						<li class="clearfix"><small>Overall Comment</small>
+							<div class="btn-group btn-group-xs pull-right">
+								<a href class="btn btn-default" ng-class="{'btn-success': taskPubComVet.workingStatus === 'Published'}"		ng-click="taskPubComVet.workingStatus = 'Published'">Accept</a>
+								<a href class="btn btn-default" ng-class="{'btn-danger': taskPubComVet.workingStatus === 'Rejected'}"		ng-click="taskPubComVet.rejectWarning = true">Reject</a>
+								<a href class="btn btn-default" ng-class="{'btn-info': taskPubComVet.workingStatus === 'Deferred'}"			ng-click="taskPubComVet.workingStatus = 'Deferred'">Defer</a>
+								<a href class="btn btn-default" ng-class="{'btn-warning': taskPubComVet.workingStatus === 'Spam'}"			ng-click="taskPubComVet.workingStatus = 'Spam'">Spam</a>
+							</div>
 						</li>
+						<li ng-show="taskPubComVet.rejectWarning">
+							<div class="alert alert-danger small" style="margin-bottom: 0;">
+								<div class="pull-right" style="margin-top: -4px;">
+									<a href class="btn btn-default btn-xs" ng-click="taskPubComVet.rejectWarning = false">No</a>
+									<a href class="btn btn-default btn-xs" ng-click="taskPubComVet.workingStatus = 'Rejected'">Yes, Reject</a>
+								</div>
+								Confirm Reject?
+							</div>
+						</li>
+						<li class="text-right">
+							<a href class="btn-link btn" ng-click='taskPubComVet.finalizeCommentStatus(com)' ng-show="taskPubComVet.workingStatus !== 'Unvetted'">Next Comment <span class="glyphicon glyphicon-chevron-right"></span></a>
+						</li>
+
+
 					</ul>
 
 				</td>

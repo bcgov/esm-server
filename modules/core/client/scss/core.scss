@@ -3,14 +3,18 @@
  * -------------------------------------------------------------------------- */
 
 /* ----- Colors ----- */
-$header-blue:					#141a41;
-$navbar-blue:					#154681;
-$color-sample2:                 #AAAAAA;
-$brand-primary:					#337ab7;
-$brand-success:					#5cb85c;
-$brand-info:					#5bc0de;
-$brand-warning:					#f0ad4e;
-$brand-danger:					#d9534f;
+$header-blue:				#141a41;
+$navbar-blue:				#154681;
+$color-sample2:               #AAAAAA;
+$brand-primary:			#337ab7;
+$brand-success:			#5cb85c;
+$brand-info:				#5bc0de;
+$brand-warning:			#f0ad4e;
+$brand-danger:				#d9534f;
+$link-light:				#337ab7;
+$link-dark:				#23527c;
+$border-grey:				#dddddd;
+
 
 // -------------------------
 // Bootstrap Overrides
@@ -195,7 +199,13 @@ a.return-link:hover {
 	text-decoration: none;
 }
 
+.modal .modal-body > h3,
 .panel-concern .panel-body > h3 {
+	margin-top: 0;
+}
+
+h3.activity-title {
+	color: #fff;
 	margin-top: 0;
 }
 
@@ -222,17 +232,19 @@ h3 .small .label {
 .label-list li,
 .panel-sort li {
 	display: inline-block;
+	white-space: nowrap;
 }
 .label-list li {
 	margin-bottom: 3px;
 	margin-right: 3px;
 }
+
 .panel-sort li {
 	font-size: 80%;
 	color: #fff;
 }
 .panel-sort li a {
-	padding: 0 5px;
+	padding: 0 5px 0 3px;
 	color: #fff;
 }
 .panel-sort li:before {
@@ -240,6 +252,10 @@ h3 .small .label {
 }
 .panel-sort li:first-child:before {
 	content: '';	
+}
+
+.panel-sort li a span:after {
+	content: '\0020';
 }
 
 .panel-sort li.asc a span:after {
@@ -250,9 +266,12 @@ h3 .small .label {
 	content: "\0020\25BC";
 }
 
+.text-dark .panel-sort li,
 .modal .panel-sort li {
 	color: #777;
 }
+
+.text-dark .panel-sort li a,
 .modal .panel-sort li a {
 	color: #777;
 }
@@ -340,15 +359,30 @@ th .progress-bar {
 	opacity: 0.8;
 }
 
-label.control-label {
+label.control-label,
+a.control-label,
+.control-label a {
 	font-size: 85%;
 	font-weight: 500;
 	font-style: italic;
 	display: block;
 	padding: 0 0 2px;
-    margin: 0 0 2px;
+	margin: 0 0 2px;
 	color: #ababab;	
 }
+
+a.control-label,
+.control-label a {
+	display: inline-block;
+	color: $link-light;
+	cursor: pointer;	
+}
+
+a.control-label:hover,
+.control-label a:hover {
+	color: $link-dark;
+}
+
 
 .drop-box {
     background: #F8F8F8;
@@ -508,6 +542,7 @@ nav {
 
 .task-list li {
 	padding-bottom: 5px;
+	position: relative;
 }
 .task-list li .task-current-status {
 	font-weight: 700;
@@ -520,6 +555,18 @@ nav {
 .task-list li button.btn-layer {
 	white-space: normal;
 }
+
+.task-permission-control {
+	display: none;
+	position: absolute;
+	right: 3px;
+	bottom: 5px;
+}
+
+.task-list li:hover .task-permission-control {
+	display: block;
+}
+
 
 
 .no-lower-padding {
@@ -615,7 +662,6 @@ nav {
 .project-info-panel .dl-vertical dt {
 	margin-top: 20px;
 	border-bottom: 1px solid #cccccc;
-
 }
 
 .no-wrap {
@@ -638,4 +684,25 @@ nav {
 
 .panel > .table.table-stacked {
 	margin-bottom: 30px;
+}
+
+pre {
+	padding: 0;
+	margin: 0;
+	font-size: inherit;
+	line-height: inherit;
+	background-color: transparent;
+	border: 0;
+	white-space: pre-wrap;       /* CSS 3 */
+	white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+	white-space: -pre-wrap;      /* Opera 4-6 */
+	white-space: -o-pre-wrap;    /* Opera 7 */
+	word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+.scrolling-fixed-box {
+	overflow-y: auto;
+	overflow-x: hidden;
+	max-height: 400px;
+	display: block;
 }

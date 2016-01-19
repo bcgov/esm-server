@@ -29,9 +29,6 @@ function controllerProjectsFilterBar($scope, $state, Projects, $filter, PROJECT_
 	});		
 
 	fbc.updateFilter = function() {
-		if( fbc.data.intakes ) {
-			fbc.data.intakes = $filter('projects')(fbc.filter);
-		}
 		if ( fbc.data.projects) {
 			fbc.data.projects = $filter('projects')(fbc.filter);
 		}
@@ -43,14 +40,30 @@ function controllerProjectsFilterBar($scope, $state, Projects, $filter, PROJECT_
 // CONTROLLER: Projects
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsList.$inject = ['$scope', '$state', 'Authentication'];
+controllerProjectsList.$inject = ['$scope', '$state', 'Authentication', 'Project'];
 /* @ngInject */
-function controllerProjectsList($scope, $state, Authentication) {
+function controllerProjectsList($scope, $state, Authentication, Project) {
 	var projectList = this;
 	
 	$scope.$watch('projects', function(newValue) {
 		projectList.projects = newValue;
 	});
+
+
+
+	// when clicking on the schedule view, if there only one activity, just go there.
+	projectList.optimizedSelectProject = function(projectId) {
+
+		Project.getProject({id: projectId}).then(function(res) {
+			if (res.data.activities.length !== 1) {
+				$state.go('eao.project', {id:projectId});
+			} else {
+				$state.go('eao.activity', {id:res.data.activities[0]._id});
+			}
+		});	
+
+	};
+
 
 	projectList.auth = Authentication;	
 }

@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('project')
-	.directive('tmplPublicProjectCommentsByDate', directivePublicProjectCommentsByDate);
+	.directive('tmplPublicProjectCommentsCircleChart', directivePublicProjectCommentsCircleChart);
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Public Project Main
 //
 // -----------------------------------------------------------------------------------
-directivePublicProjectCommentsByDate.$inject = ['d3', '$window'];
+directivePublicProjectCommentsCircleChart.$inject = ['d3', '$window'];
 /* @ngInject */
-function directivePublicProjectCommentsByDate(d3, $window) {
+function directivePublicProjectCommentsCircleChart(d3, $window) {
 	var directive = {
 		restrict: 'E', // the directive can be invoked only by using <my-directive> tag in the template
 		replace: true,
@@ -17,7 +17,7 @@ function directivePublicProjectCommentsByDate(d3, $window) {
 			data: '=',
 			refresh: '='
 		},
-		template: '<div id="publicCommentsByDate"></div>',
+		template: '<div></div>',
 		link: function (scope, element, attrs) {
 			/* =======================================================================================
 			 *
@@ -45,8 +45,10 @@ function directivePublicProjectCommentsByDate(d3, $window) {
 				.size([diameter, diameter])
 				.padding(1.5);
 
-			var svg = d3.select("#publicCommentsByDate").append("svg")
-				.attr('id', 'svgCommentByDate')
+				console.log('elem', element);
+
+			var svg = d3.select('#' + attrs.id).append("svg")
+				.attr('id', 'svg' + attrs.id)
 				.attr("viewBox","0 0 500 500")
 				.attr("perserveAspectRatio","xMinYMid")
 				.attr("width", diameter)
@@ -64,7 +66,7 @@ function directivePublicProjectCommentsByDate(d3, $window) {
 					.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
 				node.append("title")
-					.text(function(d) { return format(d.value); });
+					.text(function(d) { return d.name + ':' + format(d.value); });
 
 				node.append("circle")
 					.attr("r", function(d) { return d.r; })
@@ -76,7 +78,14 @@ function directivePublicProjectCommentsByDate(d3, $window) {
 					.style("text-anchor", "middle")
 					.style('fill', '#ffffff')
 					.each(getSize)
-					.style("font-size", function(d) { return (d.scale/2) + "em"; });
+					.style("font-size", function(d) {
+						var len = d.name.length;
+						var size = (d.r-10)/3;
+						size *= 10 / len;
+						size += 1;
+						return Math.round(size)+'px';
+					});
+					// .style("font-size", function(d) { return (d.scale/2) + "em"; });
 			  }
 			});
 

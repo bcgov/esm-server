@@ -14,11 +14,11 @@ controllerPermissionMatrix.$inject = ['sRoles', 'rTargetObject', 'rTargetObjectT
 function controllerPermissionMatrix(sRoles, rTargetObject, rTargetObjectType, _, $modalInstance) {
 	var permMatrix = this;
 
-	permMatrix.permissions = {}; //rTargetObject.access;
+	permMatrix.permissions = {};
 	permMatrix.keys = ['read', 'write', 'watch'];
 
 	_.each(permMatrix.keys, function(key) {
-		permMatrix.permissions[key] = [];
+		permMatrix.permissions[key] = rTargetObject.access[key].split(',').map( function(item) { return item.trim(); } );
 	});
 
 	// get system roles

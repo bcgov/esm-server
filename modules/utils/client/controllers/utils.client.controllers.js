@@ -406,6 +406,23 @@ function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, r
 	//
 	//
 	//
+	selectItems.selectAll = function () {
+		selectItems.selectedItems = rAllItems;
+		selectItems.refreshSource();
+	};
+
+	//
+	//
+	//
+	selectItems.deselectAll = function () {
+		selectItems.selectedItems = [];
+		selectItems.refreshSource();
+	};
+
+
+	//
+	//
+	//
 	selectItems.cancel = function () {
 		// since we took a copy of the rSelectedItems, no need to overwrite originals, just cancel it.
 		//selectItems.selectedItems = angular.copy(rSelectedItems);

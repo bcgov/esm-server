@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('utils')
-    .filter('projectPhaseContributor', filterProjectPhaseContributor)
-    .filter('kebab', filterKebab)
+	.filter('advancedFilter', filterAdvancedFilter)
+	.filter('projectPhaseContributor', filterProjectPhaseContributor)
+	.filter('kebab', filterKebab)
 	.filter('contains', filterContains)
 	.filter('projectBucketNotComplete', filterProjectBucketNotComplete)
 	.filter('projects', filterProjects)
@@ -13,6 +14,26 @@ angular.module('utils')
 	.filter('titleCase', filterTitleCase)
 	.filter('chunk', filterChunk);
 
+// -----------------------------------------------------------------------------------
+//
+// FILTER: Advanced Filter, search for each keyword
+//
+// -----------------------------------------------------------------------------------
+filterAdvancedFilter.$inject = ['$filter'];
+/* @ngInject */
+function filterAdvancedFilter($filter) {
+	return function(data, text){
+    		if (text) {
+			var textArr = text.split(' ');
+			angular.forEach(textArr, function(test){
+				if(test){
+					data = $filter('filter')(data, test);
+				}
+			});
+		}
+		return data;
+	};
+}
 // -----------------------------------------------------------------------------------
 //
 // FILTER: Projects Phases - mark up the project to show what group owns it.

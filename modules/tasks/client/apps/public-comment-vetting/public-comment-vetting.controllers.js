@@ -94,6 +94,7 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 	taskPubComVet.fetchNewComment = function() {
 		taskPubComVet.workingStatus = null;
 		taskPubComVet.activeComment = null;
+		taskPubComVet.rejectWarning = null;
 
 		// see if there's any more comments in this category, if so stay, otherwise go to unvetted and get a new one.
 		_.each(taskPubComVet.data.comments, function(comment) {
@@ -117,8 +118,6 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 		PublicCommentVetting.getUnvettedCount(taskPubComVet.project._id).then( function(res) {
 			taskPubComVet.unvettedCount = res.data.count;
 		});
-
-
 	};
 
 	// get the task identifier.  (ID + Task Type)

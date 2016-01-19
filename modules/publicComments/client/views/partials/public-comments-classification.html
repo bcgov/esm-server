@@ -1,0 +1,95 @@
+<div class="container-fluid">
+	<div class="row scrolling-fixed-box" style="padding: 10px;">
+
+		<div class="col-sm-8">
+			<pre>{{ pubComClass.com.comment }}</pre>
+		</div>
+
+		<div class="col-sm-4">
+			<small>{{ pubComClass.com.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}</small><br/>
+			<p ng-if="pubComClass.com.displayName && pubComClass.com.author" class="small">{{ pubComClass.com.author }}</p>
+			<p ng-if="pubComClass.com.displayName && pubComClass.com.location" class="small">{{ pubComClass.com.location }}</p>
+
+			<ul class="list-unstyled document-vetting">
+				<li ng-repeat="doc in pubComClass.com.documents">
+					<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus !== 'Rejected'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
+					<span class="small text-warning" ng-if="doc.eaoStatus === 'Rejected'"><i class="glyphicon glyphicon-file"></i> This document has not been shared as it does not meet the privacy policy rules.</span>
+				</li>
+			</ul>
+		</div>
+
+	</div>
+	<hr>
+	<div class="row">
+
+		<div class="col-sm-3">
+			<div class="pull-right no-wrap control-label">
+				<a ng-click="pubComClass.selectAllGroups(true)">All</a>&nbsp;/&nbsp;<a ng-click="pubComClass.selectAllGroups(false)">None</a>
+			</div>
+
+			<label class="control-label">
+				Pillars
+			</label>
+			<ul class="list-unstyled task-list">
+
+				<li ng-repeat="group in (pubComClass.bucketGroups | orderBy) track by $index">
+					<button class="btn btn-block btn-sm btn-layer" ng-click="pubComClass.toggleBucketGroup(group)" ng-class="{'btn-success': pubComClass.com.classification.indexOf(group) !== -1}">{{ group }}</button>
+				</li>
+
+				<!-- there are no buckets defined on the project -->
+				<li ng-if="(!pubComClass.bucketGroups || pubComClass.bucketGroups.length === 0)" class="small">
+					<span>There are no pillars identified for this project.</span>
+				</li>
+
+			</ul>
+		</div>
+
+		<div class="col-sm-5">
+			<div class="pull-right no-wrap control-label">
+				<a ng-click="pubComClass.selectAllTopics(true)">All</a>&nbsp;/&nbsp;<a ng-click="pubComClass.selectAllTopics(false)">None</a>
+			</div>
+			<label class="control-label">
+				Topics
+			</label>
+			<ul class="list-unstyled task-list">
+
+				<li ng-repeat="bucket in (pubComClass.bucketsFiltered | orderBy:'name') track by $index">
+					<button class="btn btn-block btn-sm btn-layer" ng-click="pubComClass.toggleBucket(bucket)" ng-class="{'btn-success': pubComClass.selectedBucket(bucket) }">{{ bucket.name }}</button>
+				</li>
+
+				<!-- there are no buckets defined on the project -->
+				<li ng-if="pubComClass.bucketsFiltered.length === 0" class="small">
+					<span>Select a pillar to the left to see the related topics.</span>
+				</li>
+
+			</ul>
+		</div>
+
+		<div class="col-sm-4">
+			<label class="control-label">
+				Classification
+			</label>
+			<div class="form-group" ng-if="pubComClass.com.proponentStatus !== 'Classified'">
+				<a href class="btn-default btn-block btn" ng-click='pubComClass.noClassificationPossible = true' title="Comment classification is not possible or appropriate">No Classification Possible</a>
+			</div>
+			<div class="form-group" ng-show="pubComClass.noClassificationPossible || pubComClass.com.proponentNotes">
+				<label class="control-label">
+					Reason for No Classification
+				</label>
+				<textarea class="form-control input-sm" ng-model="pubComClass.com.proponentNotes" rows=4></textarea>
+				<span class="help-block">When finished, click Next Comment.</span>
+			</div>
+
+			<div class="form-group" ng-if="pubComClass.com.proponentStatus !== 'Deferred'">
+				<a href class="btn-default btn-block btn" ng-click='pubComClass.deferCommentStatus(com)' >Defer</a>
+			</div>
+			<div class="form-group">
+				<a href ng-if="!pubComClass.singleMode" class="btn-warning btn-block btn" ng-click='pubComClass.finalizeCommentStatus(com)'>Next Comment <span class="glyphicon glyphicon-chevron-right"></span></a>
+				<a href ng-if="pubComClass.singleMode" class="btn-warning btn-block btn" ng-click='pubComClass.finalizeCommentStatus(com)'>Save</a>
+			</div>
+
+		</div>
+
+
+	</div>
+</div>

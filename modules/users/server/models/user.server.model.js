@@ -82,14 +82,11 @@ var UserSchema = new Schema({
   },
   providerData: {},
   additionalProvidersData: {},
-  roles: {
-    type: [{
-      type: String,
-      enum: ['user', 'staff', 'minister', 'admin']
-    }],
-    default: ['user'],
-    required: 'Please provide at least one role'
-  },
+  roles: [
+    {
+      type: String
+    }
+  ],
   updated: {
     type: Date
   },
@@ -133,6 +130,7 @@ UserSchema.methods.hashPassword = function (password) {
  * Create instance method for authenticating user
  */
 UserSchema.methods.authenticate = function (password) {
+  console.log ("password = ", password);
   return this.password === this.hashPassword(password);
 };
 

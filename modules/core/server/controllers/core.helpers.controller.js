@@ -75,6 +75,17 @@ var queryResponse = function (res) {
 	};
 };
 
+exports.successFunction = function (res) {
+  return function (result) {
+    res.json (result);
+  };
+};
+exports.errorFunction = function (res) {
+  return function (err) {
+    sendErrorMessage (res, getErrorMessage (err));
+  };
+};
+
 var getMimeTypeFromFileName = function (filename) {
 	switch ((/(\.\w*)$/.exec(filename))[1]) {
 		case '.avi':
@@ -177,6 +188,28 @@ exports.fillConfigObject = function (object, query, callback) {
     callback (err);
     return;
   });
+};
+
+var userRoles = function (user) {
+  var roles = (user) ? user.roles : [];
+  roles.push ('public');
+  return roles;
+};
+exports.userRoles = userRoles;
+var userPermissions = function (thing, userRoles) {
+  return {
+    read   : ( (_.intersection (userRoles, thing.read)).length > 0),
+    write  : ( (_.intersection (userRoles, thing.write)).length > 0),
+    submit : ( (_.intersection (userRoles, thing.submit)).length > 0),
+    watch  : ( (_.intersection (userRoles, thing.watch)).length > 0)
+  };
+};
+exports.userPermissions = userPermissions;
+exports.userCan = function (user, permission, thing) {
+  var roles = userRoles (user);
+  if (_.indexOf (roles, 'admin') >= 0) return true;
+  var permissions = userPermissions (thing, roles);
+  return (permissions[permission]) ? true : false;
 };
 
 
