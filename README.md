@@ -1,9 +1,15 @@
 # esm-server
-A Project of the Environmental Assessment Office
+ESM is a project of the Environmental Assessment Office  in partnership with the OCIO DevOps Pathfinder.
 
-This readme serves as an example readme for a government open source project. A brief description of your project would go here.
+This application is a tool to support the work of EAO staff, project proponents, and other stakeholders as environmental assessments are conducted.
 
 ## Features
+
+The features provided by the web-based ESM application include:
+
+* a public-facing view of documents related to proposed development projects
+* the ability to comment on projects
+* as tools to support EAO staff, proponents, and stakeholders in performing tasks related to the environmental review process.
 
 ## Usage
 
@@ -20,8 +26,6 @@ This readme serves as an example readme for a government open source project. A 
 ## How to Contribute
 
 ## License
-
-Here is the boiler-plate you should put into the comments header of every source code file as well as the bottom of your README.md:
 
     Copyright 2015 Province of British Columbia
 
