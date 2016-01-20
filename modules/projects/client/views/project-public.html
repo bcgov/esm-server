@@ -13,7 +13,6 @@
 			<div class='panel-body'>
 
 				<div><label class="control-label">Location</label><p>{{ vm.project.location }}</p></div>
-				<div><label class="control-label">Region</label><p>{{ vm.project.region | regionName }}</p></div>
 				<div ng-init="toggleProject.desc = (false)"><label class="control-label">Description</label>
 					<p>{{ vm.project.description | maxWords:5:toggleProject.desc }}<br/>
 					<span class="small" ng-if="(vm.project.description | wordCount) > 5">
@@ -36,44 +35,51 @@
 				<div class="form-group" ng-if="(vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)">
 					<a class="btn btn-block btn-success wrap btn-md" href x-modal-add-public-comment x-project="vm.project">Click here to Comment on the Application</a>
 				</div>
+			</div>
 
-				<div ng-init="toggleProject.docs = false">
-					<label class="control-label">Application Main Report</label>
+			<div ng-init="toggleProject.docs = false">
+				<h3 class="panel-sub-title clickable panel-body" ng-click="toggleProject.docs = !toggleProject.docs">Application Main Report</h3>
+			</div>
 
-					<ul class="small list-unstyled list-documents">
-						<li ng-show="!toggleProject.docs"><a href ng-click="toggleProject.docs = !toggleProject.docs"><em>Show</em></a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453141986150_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Cover and Citation</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142022345_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Table of Contents</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142052772_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Preface</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142119132_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Executive Summary</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453149356765_zf12WdTTG282vq7w8GSPhm1NQZ6PQlpmjMdh3TyZl1pZPVh8S88c!1143392206!1453134739726.pdf">Resume (En Francais)</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142293042_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Acknowledgements</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142385497_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Table of Concordance</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142456114_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Table of Contents</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142494856_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Acronyms Abbreviations</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142535144_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Glossary</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142701405_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch01_Purpose of Application Environmental Impact Statement</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453143417569_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch02_Project Overview</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453143544288_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch03_Detailed Project Description</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453143580190_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch04_Assessment Process</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453143649333_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch05_Effects Assessment Methodology</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453143765260_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch06_Assessment of Potential Environmental Effects</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453143765260_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch07_Assessment of Potential Economic Effects</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453144410413_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch08_Assessment of Potential Social Effects</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453144922246_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch09_Assessment of Potential Heritage Effects</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453145022237_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch10_Assessment of Potential Health Effects</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453145225441_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch11_Summary of Proposed Environmental and Operational Management Plans</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453145809918_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch12_Background and Aboriginal Groups Settings</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453158457270_zf12WdTTG282vq7w8GSPhm1NQZ6PQlpmjMdh3TyZl1pZPVh8S88c!1143392206!1453134739726.pdf">Ch13_Aboriginal Interests Rights and Title</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453145943264_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch14_Other Potential Effects on Aboriginal Interests</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453146020839_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch15_Procedural Aspects of Aboriginal Consultation</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453146075277_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch16_Summary Aboriginal Interests</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453146159939_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch17_Federal Environmental Assessment Requirements</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453146217337_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch18_Summary and Conclusions</a></li>
-						<li ng-show="toggleProject.docs"><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/html/deploy/epic_project_doc_list_362_r_app.html">Application Appendices</a></li>
-						<li ng-show="toggleProject.docs"><a href ng-click="toggleProject.docs = !toggleProject.docs"><em>Hide</em></a></li>
-					</ul>
-				</div>
+			<div class='panel-body'>
+				<ul class="small list-unstyled list-documents" ng-show="toggleProject.docs">
+
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453141986150_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Cover and Citation</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142022345_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Table of Contents</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142052772_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Preface</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142119132_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Executive Summary</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453149356765_zf12WdTTG282vq7w8GSPhm1NQZ6PQlpmjMdh3TyZl1pZPVh8S88c!1143392206!1453134739726.pdf">Resume (En Francais)</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142293042_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Acknowledgements</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142385497_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Table of Concordance</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142456114_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Table of Contents</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142494856_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Acronyms Abbreviations</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142535144_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Glossary</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453142701405_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch01_Purpose of Application Environmental Impact Statement</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453143417569_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch02_Project Overview</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453143544288_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch03_Detailed Project Description</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453143580190_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch04_Assessment Process</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453143649333_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch05_Effects Assessment Methodology</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453143765260_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch06_Assessment of Potential Environmental Effects</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453143765260_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch07_Assessment of Potential Economic Effects</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453144410413_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch08_Assessment of Potential Social Effects</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453144922246_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch09_Assessment of Potential Heritage Effects</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453145022237_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch10_Assessment of Potential Health Effects</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453145225441_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch11_Summary of Proposed Environmental and Operational Management Plans</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453145809918_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch12_Background and Aboriginal Groups Settings</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453158457270_zf12WdTTG282vq7w8GSPhm1NQZ6PQlpmjMdh3TyZl1pZPVh8S88c!1143392206!1453134739726.pdf">Ch13_Aboriginal Interests Rights and Title</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453145943264_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch14_Other Potential Effects on Aboriginal Interests</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453146020839_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch15_Procedural Aspects of Aboriginal Consultation</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453146075277_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch16_Summary Aboriginal Interests</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453146159939_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch17_Federal Environmental Assessment Requirements</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/documents/p362/d39700/1453146217337_QzJ9WdsMpRJvp1GtL2JJmYjYw0jptTxFgrx6SyVKDJxRgQFvZ9Jq!1143392206!1453141196524.pdf">Ch18_Summary and Conclusions</a></li>
+					<li><a target="_new" href="http://a100.gov.bc.ca/appsdata/epic/html/deploy/epic_project_doc_list_362_r_app.html">Application Appendices</a></li>
+				</ul>
+				<ul class="small list-unstyled list-documents" ng-show="toggleProject.docs">
+					<li><a href ng-click="toggleProject.docs = !toggleProject.docs"><em>Hide Application Files</em></a></li>
+				</ul>
+				<ul class="small list-unstyled list-documents" ng-show="!toggleProject.docs">
+					<li><a href ng-click="toggleProject.docs = !toggleProject.docs"><em>View Application Files</em></a></li>
+				</ul>
 
 <!-- 				<div>
 					<ul class="small list-unstyled list-documents">
@@ -251,7 +257,7 @@
 
 				<div ng-repeat="(heading, topic) in vm.commentsByTopicKeys | orderBy:'name' | filter:vm.filterBucketGroup" class="concern-list" ng-show="vm.form.view === 'bytopic' && vm.comments.length > 0" ng-init="toggleTopicComment[item._id] = false">
 					<h3 ng-click='form[heading] = !form[heading]' class="clickable concern-heading">
-						{{ heading }}<div class="pull-right small"><span ng-if="!form[heading]">Click to view.</span> Number of comments: {{ (vm.commentsByTopic[heading] | filter:vm.filterKeyword).length || 0 }}</div>
+						{{ heading }}<div class="pull-right small"><span ng-if="!form[heading]">Click to view.</span> Number of comments tagged: {{ (vm.commentsByTopic[heading] | filter:vm.filterKeyword).length || 0 }} of {{ vm.comments.length || 0 }} </div>
 					</h3>
 					<hr ng-if='!form[heading]'>
 					<div class="" ng-show='form[heading]'>
