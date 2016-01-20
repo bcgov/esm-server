@@ -3,7 +3,6 @@
 angular
 	.module('users')
 	.directive('tmplLogin', directiveLogin)
-	.directive('tmplSettingsEditProfile', directiveSettingsEditProfile)
 	.directive('userIs', directiveUserIs)
 	.directive('userIsNot', directiveUserIsNot);	
 
@@ -47,24 +46,6 @@ function directiveLogin() {
 	};
 	return directive;
 }
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Settings Profile
-//
-// -----------------------------------------------------------------------------------
-directiveSettingsEditProfile.$inject = [];
-/* @ngInject */
-function directiveSettingsEditProfile() {
-
-	var directive = {
-		restrict: 'E',
-		templateUrl: 'modules/users/client/views/settings/edit-profile.client.view.html',
-		controller: 'controllerSettingsEditProfile',
-		controllerAs: 'setEditProfile'
-	};
-	return directive;
-}
-
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: User Has Role (string or list) or hide element

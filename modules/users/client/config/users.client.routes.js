@@ -15,8 +15,7 @@ angular.module('users').config(['$stateProvider',
       })
       .state('settings.profile', {
         url: '/profile',
-        template: '<tmpl-settings-profile></tmpl-settings-profile>'
-        //templateUrl: 'modules/users/client/views/settings/edit-profile.client.view.html'
+        templateUrl: 'modules/users/client/views/settings/edit-profile.client.view.html'
       })
       .state('settings.password', {
         url: '/password',
@@ -37,7 +36,10 @@ angular.module('users').config(['$stateProvider',
       })
       .state('authentication.signup', {
         url: '/signup',
-        templateUrl: 'modules/users/client/views/authentication/signup.client.view.html'
+        templateUrl: 'modules/users/client/views/authentication/signup.client.view.html',
+        data: {
+          roles: ['user', 'admin']
+        }
       })
       .state('authentication.signin', {
         url: '/signin?err',
