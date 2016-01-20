@@ -6,6 +6,7 @@ angular
 	.module('core')
 	.constant('_', window._)
 	.constant('d3', window.d3)
+	.constant('google', window.google)
 	.constant('moment', window.moment)
 	.constant('PROVINCES', 
 		{
@@ -29,7 +30,7 @@ angular
 			'cariboo': 'Cariboo',
 			'kootenay': 'Kootenay',
 			'lowermainland': 'Lower Mainland',
-			'okanagan': 'Okanagan',
+			'thompsonokanagan': 'Thompson Okanagan',
 			'omnieca': 'Omineca',
 			'peace': 'Peace',
 			'skeena': 'Skeena',
@@ -65,6 +66,14 @@ angular
 			'Waste Disposal',
 			'Food Processing',
 			'Tourist Destination'
+		]
+	)
+	.constant('COMMENT_REJECT', 
+		[
+			'Unsuitable Language',
+			'Quoting Third Parties',
+			'Petitions',
+			'Personally Identifying Information'
 		]
 	)
 	.value('ProcessCodes', []);

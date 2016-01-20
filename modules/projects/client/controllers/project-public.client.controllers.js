@@ -9,10 +9,12 @@ angular.module('project')
 // CONTROLLER: Public Project Detail
 //
 // -----------------------------------------------------------------------------------
-controllerPublicProject.$inject = ['$modal', 'Project', '$stateParams', '_', 'moment', '$filter'];
+controllerPublicProject.$inject = ['$modal', 'Project', '$stateParams', '_', 'moment', '$filter', '$location'];
 /* @ngInject */
-function controllerPublicProject($modal, Project, $stateParams, _, moment, $filter) {
+function controllerPublicProject($modal, Project, $stateParams, _, moment, $filter, $location) {
 	var vm = this;
+
+	vm.host = $location.protocol() + '://' + $location.host() + ($location.port() ? ':' + $location.port() : '');
 
 	vm.commentsByDateKeys = [];
 	vm.commentsByTopicKeys = {};
@@ -83,8 +85,18 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 				vm.commentsByDateVis.children.push({'name': key, 'size': num});
 			});
 
+			if (Object.keys(vm.commentsByDateVis.children).length < 14) {
+				vm.commentsByDateVis = null;
+			}
+
+			if (Object.keys(vm.commentsByTopicVis.children).length < 30) {
+				vm.commentsByTopicVis = null;
+			}
+
 			// trigger the d3 to draw.
-			vm.refreshVisualization = 1;
+			if (vm.comments.length > 0) {
+				vm.refreshVisualization = 1;
+			}
 
 		});
 
@@ -121,7 +133,6 @@ function controllerModalAddComment($modalInstance, $scope, Project, rProject) {
 			$scope.$broadcast('documentUploadStart');
 		} else {
 			$scope.$broadcast('show-errors-check-validity', 'publicCommentForm');
-			return false;
 		}
 	};
 	

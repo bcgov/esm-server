@@ -18,15 +18,13 @@ function controllerProjectsFilterBar($scope, $state, Projects, $filter, PROJECT_
 
 	fbc.types = PROJECT_TYPES;
 
-	Projects.getProjectMilestones().then( function(res) {
-		fbc.milestones = res.data;
-	});
-
-	fbc.filter = {filterKeyword: '', filterObject: {}};
+	fbc.filter = null;
 
 	$scope.$watch('data', function(newValue) {
-		fbc.data = newValue;
-	});		
+		if(newValue) {
+			fbc.data = newValue;
+		}
+	});
 
 	fbc.updateFilter = function() {
 		if ( fbc.data.projects) {

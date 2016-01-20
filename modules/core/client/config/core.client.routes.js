@@ -40,7 +40,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	.state('recover', {
 		url: '/recover',
 		template: '<tmpl-recover></tmpl-recover>'
-	})     
+	})
 	// -----------------------------------------------------------------------------------
 	//
 	// ROUTES: Public
@@ -70,7 +70,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	// 	template: '<div ui-view></div>',
 	// 	data: {
 	// 		roles: ['admin']
-	// 	}		
+	// 	}
 	// })
 	// .state('proponent.projects', {
 	// 	url: '/projects',
@@ -87,11 +87,11 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	// .state('proponent.register', {
 	// 	url: '/register/',
 	// 	template: '<tmpl-proponent-register></tmpl-proponent-register>'
-	// })         
+	// })
 	// .state('proponent.activity', {
 	// 	url: '/activity/:id',
 	// 	template: '<tmpl-proponent-activity></tmpl-proponent-activity>'
-	// })         
+	// })
 	// -----------------------------------------------------------------------------------
 	//
 	// ROUTES: Proponent
@@ -132,14 +132,14 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		data: {
 			roles: ['admin', 'user']
 		}
-	})            
+	})
 	.state('eao.activity', {
 		url: '/activity/:id',
 		template: '<tmpl-eao-activity></tmpl-eao-activity>',
 		data: {
 			roles: ['admin', 'user']
 		}
-	});             
+	});
 
 
 
@@ -170,7 +170,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 			ignoreState: true
 		}
 	});
-  
+
 }
 
 

@@ -33,6 +33,8 @@
 
   <script src="//maps.google.com/maps/api/js"></script>
 
+  <link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Nunito' rel='stylesheet' type='text/css'>
   <link href='//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400' rel='stylesheet' type='text/css'>
 
 
@@ -44,10 +46,13 @@
 <body class="ng-cloak">
   <tmpl-header></tmpl-header>
   <section class="content">
-    <section class="container-fluid">
+    <section class="container-fluid"  x-content-height>
     {% block content %}{% endblock %}
     </section>
+    <tmpl-footer></tmpl-footer>
   </section>
+
+
 
   <!--Embedding The User Object-->
   <script type="text/javascript">

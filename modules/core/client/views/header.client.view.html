@@ -61,7 +61,7 @@
  -->
 
 
-<nav class="navbar navbar-custom">
+<nav class="navbar navbar-custom" style="height: 57px">
     <div class="container-fluid">
 
       <div class="col-sm-9">
@@ -84,12 +84,6 @@
       				<a x-modal-alerts-viewer class="text-danger" x-divider=true></a><a ui-sref="settings.profile">Profile</a>&nbsp;|&nbsp;<a href="/api/auth/signout" target="_self">Logout</a>
       			</div>
       		</li>
-          <li class="text-right navbar-user" ng-show="!header.authentication.user">
-            <br/>
-            <div class="small">
-              <a ui-sref="authentication.signin">Log In</a>
-            </div>
-          </li>
         </ul>
 
 

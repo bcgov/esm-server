@@ -4,8 +4,9 @@ angular.module('projects')
 	.directive('tmplProjectsList', directiveProjectsList)
 	.directive('tmplProjectsSchedule', directiveProjectsSchedule)
 	.directive('tmplProjectsPanels', directiveProjectsPanels)        
-	.directive('tmplProjectsMap', directiveProjectsMap)    
+	.directive('tmplProjectsMap', directiveProjectsMap)
 	.directive('tmplProjectsFilterBar', directiveProjectsFilterBar);
+
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Projects List
@@ -68,9 +69,9 @@ function directiveProjectsPanels() {
 // DIRECTIVE: Projects Map
 //
 // -----------------------------------------------------------------------------------
-directiveProjectsMap.$inject = [];
+directiveProjectsMap.$inject = ['google'];
 /* @ngInject */
-function directiveProjectsMap() {
+function directiveProjectsMap(google) {
 	var directive = {
 		restrict: 'E',
 		templateUrl: 'modules/projects/client/views/projects-partials/projects-map.html',

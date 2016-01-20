@@ -12,13 +12,13 @@ var ApplicationConfiguration = (function () {
   	'ui.bootstrap',
   	'ui.utils',
   	'angularFileUpload',
-	'ngMap',
-	'ad3',
-	'angularMoment',
-	'ui.bootstrap.datetimepicker',
-	'mwl.confirm',
-  'ngFileUpload'
-  	];
+    'ngMap',
+    'ad3',
+    'angularMoment',
+    'ui.bootstrap.datetimepicker',
+    'mwl.confirm',
+    'ngFileUpload'
+  ];
 
 
 

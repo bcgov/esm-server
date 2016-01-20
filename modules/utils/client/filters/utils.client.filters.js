@@ -3,6 +3,7 @@
 angular.module('utils')
 	.filter('advancedFilter', filterAdvancedFilter)
 	.filter('projectPhaseContributor', filterProjectPhaseContributor)
+	.filter('regionName', filterRegionName)
 	.filter('kebab', filterKebab)
 	.filter('contains', filterContains)
 	.filter('projectBucketNotComplete', filterProjectBucketNotComplete)
@@ -10,6 +11,8 @@ angular.module('utils')
 	.filter('isInTheFuture', filterIsInTheFuture)
 	.filter('isInThePast', filterIsInThePast)
 	.filter('max15Words', filterMax15Words)
+	.filter('maxWords', filterMaxWords)
+	.filter('wordCount', filterWordCount)
 	.filter('safeHtml', filterSafeHtml)
 	.filter('titleCase', filterTitleCase)
 	.filter('chunk', filterChunk);
@@ -50,6 +53,18 @@ function filterProjectPhaseContributor($filter, _) {
 		// 	}
 		// } 
 		return false;
+	};
+}
+// -----------------------------------------------------------------------------------
+//
+// FILTER: Region Name for code
+//
+// -----------------------------------------------------------------------------------
+filterRegionName.$inject = ['REGIONS'];
+/* @ngInject */
+function filterRegionName(REGIONS) {
+	return function(input) {
+		return REGIONS[input];
 	};
 }
 // -----------------------------------------------------------------------------------
@@ -147,6 +162,35 @@ function filterMax15Words(_) {
 	return function(input) {
     	return _.take(_.words(input), 15).join(' ');
     };
+}
+// -----------------------------------------------------------------------------------
+//
+// FILTER: First 80 words
+//
+// -----------------------------------------------------------------------------------
+filterMaxWords.$inject = ['_'];
+/* @ngInject */
+function filterMaxWords(_) {
+	return function(input, num, showAll) {
+		console.log(input, num, showAll);
+		if (_.words(input).length > num && !showAll) {
+	    		return _.take(_.words(input), num).join(' ') + '...';
+		} else {
+			return input;
+		}
+	};
+}
+// -----------------------------------------------------------------------------------
+//
+// FILTER: Word Count
+//
+// -----------------------------------------------------------------------------------
+filterWordCount.$inject = ['_'];
+/* @ngInject */
+function filterWordCount(_) {
+	return function(input) {
+		return _.words(input).length;
+	};
 }
 // -----------------------------------------------------------------------------------
 //

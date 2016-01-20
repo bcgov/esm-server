@@ -2,201 +2,196 @@
 	<a href ui-sref='eao.projects' class='pull-right return-link'>Return to Project List</a>
 	Project Entry
 </h1>
-<section id="project-view" class="container-fluid">
-	<div class='row'>
+<section id="project-view" class="row">
 
+	<div class='col-sm-8 col-md-7'>
 
-		<div class='col-sm-8 col-md-7'>
+		<div class="panel panel-default">
 
-			<div class="panel panel-default">
-			 
-				<div class='panel-heading'>
-					<h3 class='panel-title'>New Project <small class="pull-right form-control-static"><em>Short Form</em></small></h3>
-				</div>			
-			
-				<div class='panel-body'>
+			<div class='panel-heading'>
+				<h3 class='panel-title'>New Project <small class="pull-right form-control-static"><em>Short Form</em></small></h3>
+			</div>
 
-					<ul class="nav nav-pills nav-justified" ng-init="projectEntry.form.curTab = 'Project Information'">
-						<li ng-class="{'active':projectEntry.form.curTab === 'Project Information'}"><a href ng-click="projectEntry.form.curTab = 'Project Information'">Project Information</a></li>
-						<li ng-class="{'active':projectEntry.form.curTab === 'Proponent'}"><a href ng-click="projectEntry.form.curTab = 'Proponent'">Proponent</a></li>
-						<li ng-class="{'active':projectEntry.form.curTab === 'Intake Profile'}"><a href ng-click="projectEntry.form.curTab = 'Intake Profile'">Intake Profile</a></li>
-						<li ng-class="{'active':projectEntry.form.curTab === 'Document Upload'}"><a href ng-click="projectEntry.form.curTab = 'Document Upload'">Document Upload</a></li>
-					</ul>
+			<div class='panel-body'>
+
+				<ul class="nav nav-pills nav-justified" ng-init="projectEntry.form.curTab = 'Project Information'">
+					<li ng-class="{'active':projectEntry.form.curTab === 'Project Information'}"><a href ng-click="projectEntry.form.curTab = 'Project Information'">Project Information</a></li>
+					<li ng-class="{'active':projectEntry.form.curTab === 'Proponent'}"><a href ng-click="projectEntry.form.curTab = 'Proponent'">Proponent</a></li>
+					<li ng-class="{'active':projectEntry.form.curTab === 'Intake Profile'}"><a href ng-click="projectEntry.form.curTab = 'Intake Profile'">Intake Profile</a></li>
+					<li ng-class="{'active':projectEntry.form.curTab === 'Document Upload'}"><a href ng-click="projectEntry.form.curTab = 'Document Upload'">Document Upload</a></li>
+				</ul>
+				<hr/>
+				<div ng-if="projectEntry.form.curTab === 'Project Information'">
+					<tmpl-project-entry-tombstone x-project="projectEntry.project"></tmpl-project-entry-tombstone>
 					<hr/>
-					<div ng-if="projectEntry.form.curTab === 'Project Information'">
-						<tmpl-project-entry-tombstone x-project="projectEntry.project"></tmpl-project-entry-tombstone>
-						<hr/>
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="checkbox">
-									<label>
-										<input type="checkbox" ng-model="projectEntry.project.isTermsAgreed">
-										I agree to the terms and conditions.
-									</label>
-								</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" ng-model="projectEntry.project.isTermsAgreed">
+									I agree to the terms and conditions.
+								</label>
 							</div>
 						</div>
 					</div>
+				</div>
 
-					<div ng-if="projectEntry.form.curTab === 'Proponent'">
-						<tmpl-company-entry-form x-project="projectEntry.project"></tmpl-company-entry-form>
-						<tmpl-user-entry-form x-project="projectEntry.project"></tmpl-user-entry-form>											
-					</div>
-
-
-
-					<div ng-if="projectEntry.form.curTab === 'Intake Profile'">
-						<div ng-repeat="question in projectEntry.questions">
-
-							<div class="form-group row" ng-if="question.type === 'smalltext'">
-								<div class="col-xs-8">
-									<p>{{ question.content }}</p>
-								</div>
-								<div class="col-xs-4">
-									<input class="form-control input-sm" ng-model="projectEntry.project.intake[question.code]"/>						
-								</div>							
-							</div>
+				<div ng-if="projectEntry.form.curTab === 'Proponent'">
+					<tmpl-company-entry-form x-project="projectEntry.project"></tmpl-company-entry-form>
+					<tmpl-user-entry-form x-project="projectEntry.project"></tmpl-user-entry-form>
+				</div>
 
 
-							<div class="form-group" ng-if="question.type === 'text'">
+
+				<div ng-if="projectEntry.form.curTab === 'Intake Profile'">
+					<div ng-repeat="question in projectEntry.questions">
+
+						<div class="form-group row" ng-if="question.type === 'smalltext'">
+							<div class="col-xs-8">
 								<p>{{ question.content }}</p>
-								<textarea ng-if="question.type === 'text'" class="form-control input-sm" ng-model="projectEntry.project.intake[question.code]" rows=4></textarea>
 							</div>
-
-
-							<div class="form-group row" ng-if="question.type === 'dropdown'">
-								<div class="col-xs-8">
-									<p>{{ question.content }}</p>
-								</div>
-								<div class="col-xs-4">
-									<select ng-if="question.type === 'dropdown'" class="form-control input-sm" ng-model="projectEntry.project.intake[question.code]" ng-options="opt for opt in question.options"></select>							
-								</div>
+							<div class="col-xs-4">
+								<input class="form-control input-sm" ng-model="projectEntry.project.intake[question.code]"/>
 							</div>
-
-
 						</div>
-					</div>
 
-					<div ng-if="projectEntry.form.curTab === 'Document Upload'">
-						<tmpl-documents-upload-classify x-project="projectEntry.project" x-type="project"></tmpl-documents-upload-classify>					
-					</div>
 
-					<div ng-if="projectEntry.form.curTab === 'Accepted'">
-						<h3>Project Submission Accepted</h3>
-						<p>Thank you.</p>
-						<p>Your project submission has been sent to EAO and is waiting to be received.</p>
-						<p>You will be contacted shortly regarding the next steps.</p>
-					</div>
+						<div class="form-group" ng-if="question.type === 'text'">
+							<p>{{ question.content }}</p>
+							<textarea ng-if="question.type === 'text'" class="form-control input-sm" ng-model="projectEntry.project.intake[question.code]" rows=4></textarea>
+						</div>
 
-				</div> <!-- /panelbody -->
 
-				<div class="panel-footer text-right form-inline">
-					<div class="form-group pull-left" ng-if="projectEntry.project.dateUpdated">{{ projectEntry.project.dateUpdated}}
-						<div class="form-control-static">{{ projectEntry.project.dateUpdated | amDateFormat:'MMM Do, YYYY hh:mm a' }}</div>
-					</div>
-					<div class="form-group">
-						<a class="btn btn-default" href ng-click="projectEntry.saveProject()">Save</a>
-						<a class="btn btn-success" href ng-click="projectEntry.submitProject()" ng-if="projectEntry.project.status === 'Initiated'">Submit Project</a>
-						<a class="btn btn-primary" href ng-show="projectEntry.form.curTab === 'Project Information'" ng-click="projectEntry.form.curTab = 'Proponent'">Next</a>
-						<a class="btn btn-primary" href ng-show="projectEntry.form.curTab === 'Proponent'" ng-click="projectEntry.form.curTab = 'Intake Profile'">Next</a>					
-						<a class="btn btn-primary" href ng-show="projectEntry.form.curTab === 'Intake Profile'" ng-click="projectEntry.form.curTab = 'Document Upload'">Next</a>	
+						<div class="form-group row" ng-if="question.type === 'dropdown'">
+							<div class="col-xs-8">
+								<p>{{ question.content }}</p>
+							</div>
+							<div class="col-xs-4">
+								<select ng-if="question.type === 'dropdown'" class="form-control input-sm" ng-model="projectEntry.project.intake[question.code]" ng-options="opt for opt in question.options"></select>
+							</div>
+						</div>
+
+
 					</div>
 				</div>
 
-
-			</div> <!-- /panel -->
-		</div> <!-- /col9 -->
-		
-		
-		<div class='col-sm-4 col-md-5'>
-			<div class="panel panel-default project-info-panel" ng-if="!(projectEntry.project.status === 'Submitted' && ('admin' | userIs))">
-		
-				<div class='panel-body'>
-
-					<p>Welcome.  Here are some definitions and help project intake.</p>
-
-					<dl class="dl-vertical" ng-if="projectEntry.form.curTab === 'Project Information'">
-
-					    <dt class="control-label" ng-class="{'text-ghost': !!projectEntry.project.name}">Project Name</dt>
-					    <dd ng-class="{'text-ghost': !!projectEntry.project.name}">Enter a simple, descriptive title.</dd>
-
-					    <dt ng-class="{'text-ghost': projectEntry.project.type}">Project Type</dt>
-					    <dd ng-class="{'text-ghost': projectEntry.project.type}">Select the project type from the list provided that best matches your project.</dd>
-
-					    <dt ng-class="{'text-ghost': projectEntry.project.description}">Short Description</dt>
-					    <dd ng-class="{'text-ghost': projectEntry.project.description}">Provide a brief description of the project with key elements such as: the purpose; what the project invovles; size of the area affected (hectares or linear distance where applicable); production capacity, etc. Please limit to one paragraph. </dd>
-
-					    <dt ng-class="{'text-ghost': projectEntry.project.location}">Location Description</dt>
-					    <dd ng-class="{'text-ghost': projectEntry.project.location}">A brief description of the location. (e.g.: 15kms west of town X)</dd>
-
-					    <dt ng-class="{'text-ghost': projectEntry.project.region}">Region</dt>
-					    <dd ng-class="{'text-ghost': projectEntry.project.region}">Enter a simple, descriptive title.</dd>
-
-					    <dt ng-class="{'text-ghost': projectEntry.project.lat}">Latitude</dt>
-					    <dd ng-class="{'text-ghost': projectEntry.project.lat}">Latidude of the approximate center of operations for the project.</dd>
-
-					    <dt ng-class="{'text-ghost': projectEntry.project.lon}">Longitude</dt>
-					    <dd ng-class="{'text-ghost': projectEntry.project.lon}">Longitude of the approximate center of operations for the project.</dd>
-
-					</dl>
-
-
-
-					<dl class="dl-vertical" ng-if="projectEntry.form.curTab === 'Proponent'">
-
-
-					</dl>
-
-
-
-					<dl class="dl-vertical" ng-if="projectEntry.form.curTab === 'Intake Profile'">
-
-					</dl>
-
-
-
-					<dl class="dl-vertical" ng-if="projectEntry.form.curTab === 'Document Upload'">
-
-
-					</dl>
-
-
+				<div ng-if="projectEntry.form.curTab === 'Document Upload'">
+					<tmpl-documents-upload-classify x-project="projectEntry.project" x-type="project"></tmpl-documents-upload-classify>
 				</div>
-			</div> <!-- /panel -->
 
-
-
-			<div class="panel panel-default" ng-if="projectEntry.project.status === 'Submitted' && ('admin' | userIs)">
-		
-				<div class='panel-heading'>
-					<h3 class='panel-title'>Intake and Assignment</h3>
-				</div>			
-				<div class='panel-body'>
-
-					<div class="form-group">
-						<label for="type" class="control-label">Project Stream</label>
-						<select ng-model='projectEntry.newStream' class="form-control input-sm" ng-options="stream._id as stream.name for stream in projectEntry.streams">
-							<option value=""></option>
-						</select>
-					</div>
-
-					<div class="form-group">
-						<label for="type" class="control-label">Project Team</label>
-						<a href>Click here to assign team</a>
-					</div>
-
-
+				<div ng-if="projectEntry.form.curTab === 'Accepted'">
+					<h3>Project Submission Accepted</h3>
+					<p>Thank you.</p>
+					<p>Your project submission has been sent to EAO and is waiting to be received.</p>
+					<p>You will be contacted shortly regarding the next steps.</p>
 				</div>
-				<div class="panel-footer text-right">
-					<a class="btn btn-success" href ng-click="projectEntry.setProjectStream()">Set Stream</a>
+
+			</div> <!-- /panelbody -->
+
+			<div class="panel-footer text-right form-inline">
+				<div class="form-group pull-left" ng-if="projectEntry.project.dateUpdated">{{ projectEntry.project.dateUpdated}}
+					<div class="form-control-static">{{ projectEntry.project.dateUpdated | amDateFormat:'MMM Do, YYYY hh:mm a' }}</div>
 				</div>
-			</div> <!-- /panel -->
+				<div class="form-group">
+					<a class="btn btn-default" href ng-click="projectEntry.saveProject()">Save</a>
+					<a class="btn btn-success" href ng-click="projectEntry.submitProject()" ng-if="projectEntry.project.status === 'Initiated'">Submit Project</a>
+					<a class="btn btn-primary" href ng-show="projectEntry.form.curTab === 'Project Information'" ng-click="projectEntry.form.curTab = 'Proponent'">Next</a>
+					<a class="btn btn-primary" href ng-show="projectEntry.form.curTab === 'Proponent'" ng-click="projectEntry.form.curTab = 'Intake Profile'">Next</a>
+					<a class="btn btn-primary" href ng-show="projectEntry.form.curTab === 'Intake Profile'" ng-click="projectEntry.form.curTab = 'Document Upload'">Next</a>
+				</div>
+			</div>
+
+
+		</div> <!-- /panel -->
+	</div> <!-- /col9 -->
+
+
+	<div class='col-sm-4 col-md-5'>
+		<div class="panel panel-default project-info-panel" ng-if="!(projectEntry.project.status === 'Submitted' && ('admin' | userIs))">
+
+			<div class='panel-body'>
+
+				<p>Welcome.  Here are some definitions and help project intake.</p>
+
+				<dl class="dl-vertical" ng-if="projectEntry.form.curTab === 'Project Information'">
+
+				    <dt class="control-label" ng-class="{'text-ghost': !!projectEntry.project.name}">Project Name</dt>
+				    <dd ng-class="{'text-ghost': !!projectEntry.project.name}">Enter a simple, descriptive title.</dd>
+
+				    <dt ng-class="{'text-ghost': projectEntry.project.type}">Project Type</dt>
+				    <dd ng-class="{'text-ghost': projectEntry.project.type}">Select the project type from the list provided that best matches your project.</dd>
+
+				    <dt ng-class="{'text-ghost': projectEntry.project.description}">Short Description</dt>
+				    <dd ng-class="{'text-ghost': projectEntry.project.description}">Provide a brief description of the project with key elements such as: the purpose; what the project invovles; size of the area affected (hectares or linear distance where applicable); production capacity, etc. Please limit to one paragraph. </dd>
+
+				    <dt ng-class="{'text-ghost': projectEntry.project.location}">Location Description</dt>
+				    <dd ng-class="{'text-ghost': projectEntry.project.location}">A brief description of the location. (e.g.: 15kms west of town X)</dd>
+
+				    <dt ng-class="{'text-ghost': projectEntry.project.region}">Region</dt>
+				    <dd ng-class="{'text-ghost': projectEntry.project.region}">Enter a simple, descriptive title.</dd>
+
+				    <dt ng-class="{'text-ghost': projectEntry.project.lat}">Latitude</dt>
+				    <dd ng-class="{'text-ghost': projectEntry.project.lat}">Latidude of the approximate center of operations for the project.</dd>
+
+				    <dt ng-class="{'text-ghost': projectEntry.project.lon}">Longitude</dt>
+				    <dd ng-class="{'text-ghost': projectEntry.project.lon}">Longitude of the approximate center of operations for the project.</dd>
+
+				</dl>
 
 
 
-		</div> <!-- /col3 -->
+				<dl class="dl-vertical" ng-if="projectEntry.form.curTab === 'Proponent'">
 
-		
-	</div> <!-- /row -->
+
+				</dl>
+
+
+
+				<dl class="dl-vertical" ng-if="projectEntry.form.curTab === 'Intake Profile'">
+
+				</dl>
+
+
+
+				<dl class="dl-vertical" ng-if="projectEntry.form.curTab === 'Document Upload'">
+
+
+				</dl>
+
+
+			</div>
+		</div> <!-- /panel -->
+
+
+
+		<div class="panel panel-default" ng-if="projectEntry.project.status === 'Submitted' && ('admin' | userIs)">
+
+			<div class='panel-heading'>
+				<h3 class='panel-title'>Intake and Assignment</h3>
+			</div>
+			<div class='panel-body'>
+
+				<div class="form-group">
+					<label for="type" class="control-label">Project Stream</label>
+					<select ng-model='projectEntry.newStream' class="form-control input-sm" ng-options="stream._id as stream.name for stream in projectEntry.streams">
+						<option value=""></option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="type" class="control-label">Project Team</label>
+					<a href>Click here to assign team</a>
+				</div>
+
+
+			</div>
+			<div class="panel-footer text-right">
+				<a class="btn btn-success" href ng-click="projectEntry.setProjectStream()">Set Stream</a>
+			</div>
+		</div> <!-- /panel -->
+
+
+
+	</div> <!-- /col3 -->
 
 </section>

@@ -44,6 +44,10 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 		}
 	});
 
+	docUpload.removeFile = function(f) {
+		_.remove(docUpload.fileList, f);
+	};
+
 
 	// determine the correct target for the file upload based on x-type attribute.
 	docUpload.targetUrl = null;

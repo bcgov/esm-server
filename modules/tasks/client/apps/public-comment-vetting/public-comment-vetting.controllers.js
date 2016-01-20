@@ -8,13 +8,15 @@ angular.module('tasks')
 // CONTROLLER: Task for Simple Complete
 //
 // -----------------------------------------------------------------------------------
-controllerTaskPublicCommentVetting.$inject = ['$scope', '$rootScope', '_', 'PublicCommentVetting'];
+controllerTaskPublicCommentVetting.$inject = ['$scope', '$rootScope', '_', 'PublicCommentVetting', 'COMMENT_REJECT'];
 	//
-function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicCommentVetting) {
+function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicCommentVetting, COMMENT_REJECT) {
 	var taskPubComVet = this;
 
 	taskPubComVet.data = {comments:[]};
 	
+	taskPubComVet.rejectReasons = COMMENT_REJECT;
+
 	taskPubComVet.workingStatus = null;
 
 	taskPubComVet.finalizeCommentStatus = function(com) {
@@ -57,7 +59,7 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 						});
 						break;
 					case 'Rejected':
-						PublicCommentVetting.setCommentReject(com._id).then( function(res) {
+						PublicCommentVetting.setCommentReject(com).then( function(res) {
 							com = _.assign(com, res.data);
 							taskPubComVet.fetchNewComment();
 						});
@@ -110,6 +112,7 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 			PublicCommentVetting.getNextComment(taskPubComVet.project._id).then( function(res) {
 				taskPubComVet.data.comments.push(res.data);
 		 		taskPubComVet.filter = 'Unvetted';
+		 		taskPubComVet.workingStatus = 'Unvetted';
 				taskPubComVet.activeComment = res.data;
 			});
 		}
@@ -149,7 +152,6 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 	// get the spec item
 	$scope.$watch('task', function(newValue) {
 		// get item for title
-		console.log('task', newValue);
 		if (newValue) {
 			taskPubComVet.taskId = newValue._id;
 			taskPubComVet.task = newValue;
