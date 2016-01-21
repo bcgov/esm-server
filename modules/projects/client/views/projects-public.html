@@ -1,6 +1,6 @@
 <section id="projects-view" class="row">
 
-	<div class='col-sm-5'>
+	<div class='col-sm-9'>
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -8,10 +8,11 @@
 			</div>
 			<div class='panel-body'>
 				<p>The Environmental Assessment Office (EAO) is a neutral agency that manages the review of proposed major projects in British Columbia, as required by the Environmental Assessment Act.</p>
-				<p>Please see our main site for more information.</p>
-				<p>This service provides information on projects currently under review.  Click a project to view.</p>
+				<p>This service provides information on current and historical projects.  Click a project below to view.</p>
 			</div>
 		</div>
+
+		<tmpl-projects-map x-projects='vm.projects'></tmpl-projects-map>
 
 		<div class='row'>
 			<div class='col-sm-12'>
@@ -31,10 +32,18 @@
 
 
 	</div>
-	<div class='col-sm-7'>
+	<div class='col-sm-3'>
 
-		<tmpl-projects-map x-projects='vm.projects'></tmpl-projects-map>
+		<div ui-scrollfix="+100">
+			<ul class="list-unstyled">
+				<li><a href="#map">Map</a></li>
+				<li><a href="#list">Schedule</a></li>
+				<li><a href="#recent">Recent Activity</a></li>
+				<li><a href="#search">Search</a></li>
+			</ul>
 
+			<tmpl-quick-links></tmpl-quick-links>
+		</div>
 	</div>
 
 </section>
