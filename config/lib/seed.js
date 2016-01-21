@@ -180,7 +180,7 @@ var doConfigs = function () {
 
 // check to see if the seed import executes
 // insert ajax mine project
-Integration.findOne ({module:'ajax3'}).exec()
+Integration.findOne ({module:'happy'}).exec()
 .then (function (row) {
   if (!row) {
 
