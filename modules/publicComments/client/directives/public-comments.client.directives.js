@@ -43,7 +43,7 @@ function directiveModalAddPublicComment($modal) {
             element.on('click', function() {
                 var modalAddComment = $modal.open({
                     animation: true,
-                    templateUrl: 'modules/publicComments/client/views/project-partials/modal-add-public-comment.html',
+                    templateUrl: 'modules/publicComments/client/views/partials/modal-add-public-comment.html',
                     controller: 'controllerModalAddComment',
                     controllerAs: 'publicComment',
                     backdrop: 'static',
