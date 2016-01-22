@@ -17,6 +17,12 @@ function controllerMap($scope, Authentication) {
 	
 	mpl.auth = Authentication;
 
+	$scope.$watch('project', function (newValue) {
+		if (newValue && newValue.lat && newValue.lon) {
+			mpl.point = (newValue.lat + ',' + newValue.lon);
+		}
+	});
+
 	$scope.$watch('layers', function (newValue) {
 		if (newValue) {
 			mpl.layers[newValue.name] = newValue.layers;

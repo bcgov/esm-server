@@ -14,6 +14,7 @@ function directiveMap() {
         restrict: 'E',
         templateUrl: 'modules/maps/client/views/partials/map-layers.html',
         scope: {
+            project: '=',
         	layers: '='
         },
         controller: 'controllerMap',

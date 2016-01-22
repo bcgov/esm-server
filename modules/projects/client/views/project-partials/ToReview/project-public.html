@@ -1,0 +1,84 @@
+
+<section id="project-view" class="row">
+
+	<div class='col-sm-4'>
+		<div class="panel panel-default project-info-panel">
+
+			<div class="panel-header">
+				<h1 class="panel-title">
+					{{ vm.project.name }}<br/>Public Comment Period
+				</h1>
+			</div>
+
+			<div class='panel-body'>
+
+				<div><label class="control-label">Location</label><p>{{ vm.project.location }}</p></div>
+				<div ng-init="toggleProject.desc = (false)"><label class="control-label">Description</label>
+					<p>{{ vm.project.description | maxWords:5:toggleProject.desc }}<br/>
+					<span class="small" ng-if="(vm.project.description | wordCount) > 5">
+						<a href ng-click="toggleProject.desc = !toggleProject.desc">
+							<span ng-show="!toggleProject.desc"><em>More ({{ vm.project.description | wordCount }} words)</em></span>
+							<span ng-show="toggleProject.desc"><em>Less</em></span>
+						</a>
+					</span>
+					</p>
+				</div>
+
+
+			</div>
+
+			<div ng-init="toggleProject.docs = false">
+				<h3 class="panel-sub-title clickable panel-body" ng-click="toggleProject.docs = !toggleProject.docs">Application Main Report</h3>
+			</div>
+
+			<div class='panel-body'>
+				<ul class="small list-unstyled list-documents" ng-show="toggleProject.docs">
+
+					<li><a target="_new" href><span class="glyphicon glyphicon-file"></span> Document Name</a></li>
+
+				</ul>
+
+				<ul class="small list-unstyled list-documents" ng-show="toggleProject.docs">
+					<li><a href ng-click="toggleProject.docs = !toggleProject.docs"><em>Hide Application Files</em></a></li>
+				</ul>
+				<ul class="small list-unstyled list-documents" ng-show="!toggleProject.docs">
+					<li><a href ng-click="toggleProject.docs = !toggleProject.docs"><em>View Application Files</em></a></li>
+				</ul>
+			</div>
+
+			<div>
+				<h3 class="panel-sub-title panel-body">Application Appendices</h3>
+			</div>
+
+			<div class='panel-body'>
+				<ul class="small list-unstyled list-documents">
+				</ul>
+
+
+
+			</div>
+
+			<div class="location-map">
+				<map center="{{ vm.project.lat }},{{ vm.project.lon }}" zoom="10" map-type-id="ROADMAP" street-view-control='false' min-zoom=10 max-zoom=10 disable-default-u-i="true">
+					<kml-layer url="{{ vm.host }}/map_layers/Ajax_2016Jan7data_Footprint_25Buffer_filled.kml"></kml-layer>
+				</map>
+			</div>
+
+			<div class='panel-body' ng-show="vm.commentsByDateVis">
+				<label class="control-label">Comment Volume by Date</label>
+				<tmpl-public-project-comments-circle-chart ng-if="vm.commentsByDateVis" x-refresh="vm.refreshVisualization" x-data="vm.commentsByDateVis" id="publicCommentsByDate"></tmpl-public-project-comments-circle-chart>
+			</div>
+
+		</div>
+	</div>
+
+	<div class='col-sm-8'>
+
+		
+
+
+
+
+	</div>
+
+</section>

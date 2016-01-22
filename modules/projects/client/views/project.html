@@ -1,28 +1,37 @@
 <section id="project-view" class="row">
 
-	<div class='col-sm-9'>
+	<div class='col-sm-10'>
 		<h1 class="page-title">
 			{{ proj.project.name }}
 		</h1>
 
-		<tmpl-project-tombstone-horizontal id="tombstone" x-project="proj.project"></tmpl-project-tombstone-horizontal>
+		<tmpl-project-tombstone id="tombstone" x-project="proj.project" ng-if="('project' | shouldDisplayPanel:'tombstone':proj.project.status)">
+		</tmpl-project-tombstone>
 
-		<tmpl-project-stream-select id="stream-select" x-project="proj.project"></tmpl-project-stream-select>
+		<tmpl-project-stream-select id="stream" x-project="proj.project" ng-if="('project'| shouldDisplayPanel:'stream':proj.project.status)">
+		</tmpl-project-stream-select>
 
-		<tmpl-project-new id="edit" x-project="proj.project"></tmpl-project-new>
+		<tmpl-public-comment-display x-project="proj.project" ng-if="('project'| shouldDisplayPanel:'public-comments':proj.project.status)">
+		</tmpl-public-comment-display>
 
-		<tmpl-project-edit id="edit" x-project="proj.project"></tmpl-project-edit>
+		<tmpl-map id="map" x-project="proj.project" ng-if="('project'| shouldDisplayPanel:'map':proj.project.status)">
+		</tmpl-map>
 
-		<tmpl-project-map id="map" x-project="proj.project"></tmpl-project-map>
+		<tmpl-project-entry id="edit" x-project="proj.project" ng-if="('project'| shouldDisplayPanel:'edit':proj.project.status)">
+		</tmpl-project-entry>
 
-		<tmpl-activity-listing id="activities" x-project="proj.project" x-filter="proj.activityView"></tmpl-activity-listing>
+		<tmpl-project-activities id="activities" x-project="proj.project" ng-if="('project'| shouldDisplayPanel:'activities':proj.project.status)">
+		</tmpl-project-activities>
 
-		<tmpl-project-bucket-listing x-project="proj.project" x-filter="proj.artifactView"></tmpl-project-bucket-listing>
+		<tmpl-project-bucket-listing x-project="proj.project" x-filter="proj.artifactView">
+		</tmpl-project-bucket-listing>
 
-		<tmpl-project-research x-project="proj.project"></tmpl-project-research>
+
+		<tmpl-project-research x-project="proj.project" ng-if="('project'| shouldDisplayPanel:'public-comments':proj.project.status)">
+		</tmpl-project-research>
 
 	</div> <!-- /col9 -->
-	<div class='col-sm-3'>
+	<div class='col-sm-2'>
 		<tmpl-system-menu x-menu-context="project"></tmpl-system-menu>
 	</div>
 

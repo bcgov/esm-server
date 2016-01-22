@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('publicComments')
-	.controller('controllerClassifyPublicComment', controllerClassifyPublicComment)
+	.controller('controllerPublicCommentsClassify', controllerPublicCommentsClassify)
 	.controller('controllerModalAddComment', controllerModalAddComment)
 	.controller('controllerPublicCommentDisplay', controllerPublicCommentDisplay);
 
@@ -10,9 +10,9 @@ angular.module('publicComments')
 // CONTROLLER: Task for Simple Complete
 //
 // -----------------------------------------------------------------------------------
-controllerClassifyPublicComment.$inject = ['$scope', '$rootScope', '_', 'sPublicComments', '$filter'];
+controllerPublicCommentsClassify.$inject = ['$scope', '$rootScope', '_', 'sPublicComments', '$filter'];
 /* @ngInject */
-function controllerClassifyPublicComment($scope, $rootScope, _, sPublicComments, $filter) {
+function controllerPublicCommentsClassify($scope, $rootScope, _, sPublicComments, $filter) {
 	var pubComClass = this;
 
 	// Keep track of the active comment for display of the edit controls.
@@ -245,34 +245,34 @@ function controllerModalAddComment($modalInstance, $scope, Project, rProject) {
 controllerPublicCommentDisplay.$inject = ['$modal', 'Project', '$stateParams', '_', 'moment', '$filter', '$location'];
 /* @ngInject */
 function controllerPublicCommentDisplay($modal, Project, $stateParams, _, moment, $filter, $location) { 
-	var proj = this;
+	var pubComDisp = this;
 
-	proj.host = $location.protocol() + '://' + $location.host() + ($location.port() ? ':' + $location.port() : '');
+	pubComDisp.host = $location.protocol() + '://' + $location.host() + ($location.port() ? ':' + $location.port() : '');
 
-	proj.commentsByDateKeys = [];
-	proj.commentsByTopicKeys = {};
-	proj.commentsByDateVis = {name: 'byDate', children:[]};
-	proj.commentsByTopicVis = {name: 'byTopic', children:[]};
-	proj.refreshVisualization = 0;
+	pubComDisp.commentsByDateKeys = [];
+	pubComDisp.commentsByTopicKeys = {};
+	pubComDisp.commentsByDateVis = {name: 'byDate', children:[]};
+	pubComDisp.commentsByTopicVis = {name: 'byTopic', children:[]};
+	pubComDisp.refreshVisualization = 0;
 	//
 	// Get Project
 	Project.getProject({id: $stateParams.id}).then(function(res) {
-		proj.project = res.data;
+		pubComDisp.project = res.data;
 	
-		proj.bucketGroups = _.unique(_.pluck(proj.project.buckets, 'group'));
+		pubComDisp.bucketGroups = _.unique(_.pluck(pubComDisp.project.buckets, 'group'));
 
 		// get public comments and sort into date groups.
 		Project.getPublicCommentsPublished(res.data._id).then(function(res) {
-			proj.comments = res.data;
+			pubComDisp.comments = res.data;
 
 			var dateCount = {};
 			var dateTitle = '';
 			var dateTitleNoSort = '';
 
 			// separate the comments for bubble visualization
-			_.each(proj.comments, function(item) {
+			_.each(pubComDisp.comments, function(item) {
 
-				if(!proj.commentsByDate) proj.commentsByDate = {};
+				if(!pubComDisp.commentsByDate) pubComDisp.commentsByDate = {};
 
 				// get the comment date in a month and day to sort into headings
 				dateTitle = moment(item.dateAdded).format("YYYYMMDD-MMM Do");
@@ -283,27 +283,27 @@ function controllerPublicCommentDisplay($modal, Project, $stateParams, _, moment
 				dateCount[dateTitleNoSort]++;
 
 				// add the comment to a date list for display.
-				if (!proj.commentsByDate[dateTitle]) proj.commentsByDate[dateTitle] = [];
-				proj.commentsByDateKeys.push(dateTitle);
-				proj.commentsByDate[dateTitle].push(item);
+				if (!pubComDisp.commentsByDate[dateTitle]) pubComDisp.commentsByDate[dateTitle] = [];
+				pubComDisp.commentsByDateKeys.push(dateTitle);
+				pubComDisp.commentsByDate[dateTitle].push(item);
 
 				// add the comment to a bucket list for display.
 				_.each(item.buckets, function(bucket) {
 					if( bucket.name ) {
-						if (!proj.commentsByTopic) proj.commentsByTopic = {};
-						if (!proj.commentsByTopic[bucket.name]) proj.commentsByTopic[bucket.name] = [];
-						proj.commentsByTopic[bucket.name].push(item);
+						if (!pubComDisp.commentsByTopic) pubComDisp.commentsByTopic = {};
+						if (!pubComDisp.commentsByTopic[bucket.name]) pubComDisp.commentsByTopic[bucket.name] = [];
+						pubComDisp.commentsByTopic[bucket.name].push(item);
 
 						// make a structure of keys to filter on key meta.
-						if (!proj.commentsByTopicKeys[bucket.name]) proj.commentsByTopicKeys[bucket.name] = {name:bucket.name, group:bucket.group};
+						if (!pubComDisp.commentsByTopicKeys[bucket.name]) pubComDisp.commentsByTopicKeys[bucket.name] = {name:bucket.name, group:bucket.group};
 
 						// is the bucket already in the visualization?						
-						var findBucket = _.find(proj.commentsByTopicVis.children, function(o) {
+						var findBucket = _.find(pubComDisp.commentsByTopicVis.children, function(o) {
 							return o.name === bucket.name;
 						});
 
 						if (!findBucket) {
-							proj.commentsByTopicVis.children.push({name: bucket.name, size: 1});
+							pubComDisp.commentsByTopicVis.children.push({name: bucket.name, size: 1});
 						} else {
 							findBucket.size++;
 						}
@@ -312,23 +312,23 @@ function controllerPublicCommentDisplay($modal, Project, $stateParams, _, moment
 				});
 			});
 
-			proj.commentsByDateKeys = _.unique(proj.commentsByDateKeys);
+			pubComDisp.commentsByDateKeys = _.unique(pubComDisp.commentsByDateKeys);
 
 			_.each(dateCount, function(num, key) {
-				proj.commentsByDateVis.children.push({'name': key, 'size': num});
+				pubComDisp.commentsByDateVis.children.push({'name': key, 'size': num});
 			});
 
-			if (Object.keys(proj.commentsByDateVis.children).length < 14) {
-				proj.commentsByDateVis = null;
+			if (Object.keys(pubComDisp.commentsByDateVis.children).length < 14) {
+				pubComDisp.commentsByDateVis = null;
 			}
 
-			if (Object.keys(proj.commentsByTopicVis.children).length < 30) {
-				proj.commentsByTopicVis = null;
+			if (Object.keys(pubComDisp.commentsByTopicVis.children).length < 30) {
+				pubComDisp.commentsByTopicVis = null;
 			}
 
 			// trigger the d3 to draw.
-			if (proj.comments.length > 0) {
-				proj.refreshVisualization = 1;
+			if (pubComDisp.comments.length > 0) {
+				pubComDisp.refreshVisualization = 1;
 			}
 
 		});

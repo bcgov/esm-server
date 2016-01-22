@@ -17,6 +17,11 @@ function controllerSystemMenu($scope, $state, Authentication, Menus) {
 	menu.$state = $state;
    	menu.authentication = Authentication;
 
+   	menu.goToPrevious = function() {
+		$state.go($state.previous.state.name, $state.previous.params);
+   	};
+
+
    	$scope.$watch('menuContext', function(newValue) {
 		if(newValue) {
 		   	menu.context = newValue;		

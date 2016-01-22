@@ -129,7 +129,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 			roles: ['admin', 'user']
 		}
 	})
-	.state('eao.activity', {
+	.state('activity', {
 		url: '/activity/:id',
 		template: '<tmpl-eao-activity></tmpl-eao-activity>',
 		data: {

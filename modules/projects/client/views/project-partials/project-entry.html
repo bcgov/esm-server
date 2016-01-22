@@ -1,7 +1,7 @@
 <div class="panel panel-default">
 
 	<div class='panel-heading'>
-		<h3 class='panel-title'>New Project</h3>
+		<h3 class='panel-title'>{{ projectEntry.title }}</h3>
 	</div>
 
 	<div class='panel-body'>
@@ -105,7 +105,7 @@
 
 			<hr/>
 			<div class="row">
-				<div class="col-sm-12">
+				<div class="col-sm-6">
 					<div class="checkbox">
 						<label>
 							<input type="checkbox" ng-model="projectEntry.project.isTermsAgreed">
@@ -113,6 +113,15 @@
 						</label>
 					</div>
 				</div>
+				<div class="col-sm-6" x-user-is='admin'>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" ng-model="projectEntry.project.isInQuicklinks">
+							Appear in Quick Links
+						</label>
+					</div>
+				</div>
+
 			</div>
 		</div>
 

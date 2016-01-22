@@ -16,9 +16,10 @@ angular.module('project')
 	.directive('tmplProjectNew', directiveProjectNew)
 
 	.directive('tmplProjectEdit', directiveProjectEdit)
-	.directive('tmplProjectStreamSelect', directiveProjectStreamSelect);
+	.directive('tmplProjectStreamSelect', directiveProjectStreamSelect)
+	.directive('tmplProjectActivities', directiveProjectActivities);
 
-
+controllerProjectActivities
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Public Project Main
@@ -272,6 +273,25 @@ function directiveProjectStreamSelect() {
 		templateUrl: 'modules/projects/client/views/project-partials/project-stream-select.html',
 		controller: 'controllerProjectStreamSelect',
 		controllerAs: 'projectStreamSelect',
+		scope: {
+			project: '='
+		}
+	};
+	return directive;
+}
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Project Stream Select
+//
+// -----------------------------------------------------------------------------------
+directiveProjectActivites.$inject = [];
+/* @ngInject */
+function directiveProjectActivities() {
+	var directive = {
+		restrict: 'E',
+		templateUrl: 'modules/projects/client/views/project-partials/project-activities.html',
+		controller: 'controllerProjectActivities',
+		controllerAs: 'projectActs',
 		scope: {
 			project: '='
 		}

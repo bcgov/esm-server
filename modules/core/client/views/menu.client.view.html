@@ -65,6 +65,7 @@
 	<ul class="list-unstyled">
 <!-- 		<li><a x-modal-alerts-viewer class="text-danger">Alerts</a></li> -->
 		<li><a ui-sref="projects" href>Projects</a></li>
+		<li><a ng-click="menu.goToPrevious()" href>Back</a></li>
 	</ul>
 	<div ng-show="menu.authentication.user">
 		<hr>
@@ -92,9 +93,10 @@
 		<label class="control-label">Project</label>
 		<ul class="list-unstyled">
 			<li><a du-smooth-scroll href="#top">Tombstone</a></li>
+			<li><a du-smooth-scroll href="#edit">Edit</a></li>
 			<li><a du-smooth-scroll href="#map">Map</a></li>
-			<li><a du-smooth-scroll href="#documents">Documents</a></li>
 			<li><a du-smooth-scroll href="#publiccomments">Public Comments</a></li>
+			<li><a du-smooth-scroll href="#documents">Documents</a></li>
 		</ul>
 		<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user);">
 			<li ng-repeat="item in menu.projectMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">

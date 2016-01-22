@@ -13,7 +13,8 @@ angular.module('project')
 
 	.controller('controllerProjectNew', controllerProjectNew)	
 	.controller('controllerProjectEdit', controllerProjectEdit)
-	.controller('controllerProjectStreamSelect', controllerProjectStreamSelect);
+	.controller('controllerProjectStreamSelect', controllerProjectStreamSelect)
+	.controller('controllerProjectActivities', controllerProjectActivities);
 
 // -----------------------------------------------------------------------------------
 //
@@ -25,16 +26,9 @@ controllerProject.$inject = ['Project', '$stateParams', '_'];
 function controllerProject(Project, $stateParams, _) {
 	var proj = this;
 
-	proj.visibility = {
-		"Initiated":{"user":["entry"],"admin":["entry"]},
-		"Submitted":{"user":["entry"],"admin":["entry", "stream"]},
-		"In Progress":{"user":["tombstone", "map"],"admin":["tombstone", "map"]},
-	};
-
 	Project.getProject({id: $stateParams.id}).then(function(res) {
 		proj.project = res.data;
 	});
-
 }
 // -----------------------------------------------------------------------------------
 //
@@ -83,11 +77,20 @@ function controllerProjectTombstone($scope) {
 // CONTROLLER: Project Entry Tombstone
 //
 // -----------------------------------------------------------------------------------    
-controllerProjectEntry.$inject = ['$scope', '$state', 'Project', 'REGIONS', 'PROJECT_TYPES'];
+controllerProjectEntry.$inject = ['$scope', '$state', 'Project', 'REGIONS', 'PROJECT_TYPES', '_'];
 /* @ngInject */
-function controllerProjectEntry($scope, $state, Project, REGIONS, PROJECT_TYPES) {
+function controllerProjectEntry($scope, $state, Project, REGIONS, PROJECT_TYPES, _) {
 	var projectEntry = this;
 	projectEntry.regions = REGIONS;
+
+	projectEntry.questions = Project.getProjectIntakeQuestions();
+	projectEntry.form = {curTab: $state.params.tab};
+
+	if ($state.current.name === 'projectnew') {
+		projectEntry.title = 'New Project';
+	} else {
+		projectEntry.title = 'Edit Project';
+	}
 
 	$scope.$watch('project', function(newValue){
 		if (newValue) {
@@ -99,8 +102,6 @@ function controllerProjectEntry($scope, $state, Project, REGIONS, PROJECT_TYPES)
 		projectEntry.project.status = 'Submitted';
 		projectEntry.saveProject();
 	};
-
-	console.log($state);
 
 	projectEntry.saveProject = function() {
 		if ($state.current.name === 'projectnew') {
@@ -278,7 +279,7 @@ function controllerProjectEdit($state, Project, _) {
 }  
 // -----------------------------------------------------------------------------------
 //
-// CONTROLLER: EAO Project New
+// CONTROLLER: Stream Selection
 //
 // -----------------------------------------------------------------------------------    
 controllerProjectStreamSelect.$inject = ['$state', 'Project', 'Configuration', '_'];
@@ -300,15 +301,29 @@ function controllerProjectStreamSelect($state, Project, Configuration, _) {
 			projectStreamSelect.project.status = 'In Progress';
 			Project.saveProject(projectStreamSelect.project).then( function(res) {
 				// set the stream then move to the project overview page.
-				Project.setProjectStream(projectStreamSelect.project._id, projectStreamSelect.newStream).then( function() {
-					$state.go('eao.project', {'id':projectStreamSelect.project._id});				
+				Project.setProjectStream(projectStreamSelect.project._id, projectStreamSelect.newStream).then( function(resStream) {
+					projectStreamSelect.project = _.assign(resStream.data);
+					$state.go('project', {'id':projectStreamSelect.project._id}, {reload: true});
 				});
 			});
 		}
 	};
 }  
 
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Project Activities
+//
+// -----------------------------------------------------------------------------------    
+controllerProjectActivities.$inject = ['$state', 'Project', '_'];
+/* @ngInject */
+function controllerProjectActivities($state, Project, _) {
+	var projectActs = this;
 
+	Project.getProject({id: $state.params.id}).then( function(res) {
+		projectActs.project = res.data;
+	});
+}  
 
 
 
