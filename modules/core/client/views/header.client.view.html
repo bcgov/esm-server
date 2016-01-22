@@ -1,93 +1,12 @@
-<!--
-<div class="container" ng-controller="HeaderController">
-  <div class="navbar-header">
-    <button class="navbar-toggle" type="button" ng-click="toggleCollapsibleMenu()">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <a ui-sref="home" class="navbar-brand">MEAN.JS</a>
-  </div>
-  <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
-    <ul class="nav navbar-nav" ng-if="menu.shouldRender(authentication.user);">
-      <li ng-repeat="item in menu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-switch="item.type" ng-class="{ active: $state.includes(item.state), dropdown: item.type === 'dropdown' }" class="{{item.class}}" dropdown="item.type === 'dropdown'">
-        <a ng-switch-when="dropdown" class="dropdown-toggle" dropdown-toggle role="button">{{::item.title}}&nbsp;<span class="caret"></span></a>
-        <ul ng-switch-when="dropdown" class="dropdown-menu">
-          <li ng-repeat="subitem in item.items | orderBy: 'position'" ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="active">
-            <a ui-sref="{{subitem.state}}" ng-bind="subitem.title"></a>
-          </li>
-        </ul>
-        <a ng-switch-default ui-sref="{{item.state}}" ng-bind="item.title"></a>
-      </li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right" ng-hide="authentication.user">
-      <li ui-sref-active="active">
-        <a ui-sref="authentication.signup">Sign Up</a>
-      </li>
-      <li class="divider-vertical"></li>
-      <li ui-sref-active="active">
-        <a ui-sref="authentication.signin">Sign In</a>
-      </li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right" ng-show="authentication.user">
-      <li class="dropdown" dropdown>
-        <a class="dropdown-toggle user-header-dropdown-toggle" dropdown-toggle role="button">
-          <img ng-src="{{authentication.user.profileImageURL}}" alt="{{authentication.user.displayName}}" class="header-profile-image" />
-          <span ng-bind="authentication.user.displayName"></span> <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu" role="menu">
-          <li ui-sref-active="active">
-            <a ui-sref="settings.profile">Edit Profile</a>
-          </li>
-          <li ui-sref-active="active">
-            <a ui-sref="settings.picture">Change Profile Picture</a>
-          </li>
-          <li ui-sref-active="active" ng-show="authentication.user.provider === 'local'">
-            <a ui-sref="settings.password">Change Password</a>
-          </li>
-          <li ui-sref-active="active">
-            <a ui-sref="settings.accounts">Manage Social Accounts</a>
-          </li>
-          <li class="divider"></li>
-          <li>
-            <a href="/api/auth/signout" target="_self">Signout</a>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </nav>
-</div>
- -->
-
 
 <nav class="navbar navbar-custom" style="height: 57px">
-    <div class="container-fluid">
+	<div class="container-fluid">
 
-      <div class="col-sm-9">
-      	<div class="navbar-header">
+		<div class="col-sm-9">
+			<div class="navbar-header">
+				<div class="navbar-brand"><a ui-sref="projects" href><img src="modules/core/client/img/brand/eao-logo.png" height="40" width="248"/></a></div>
+			</div>
+		</div>
 
-         <div class="navbar-brand" x-user-is="user"><a ui-sref="eao.projects"><img src="modules/core/client/img/brand/eao-logo.png" height="40" width="248"/></a></div>
-         <div class="navbar-brand" x-user-is-not="user"><a ui-sref="public.projects"><img src="modules/core/client/img/brand/eao-logo.png" height="40" width="248"/></a></div>         
-
-
-        </div>
-
-      </div>
-
-      <div class="col-sm-3">
-
-      	<ul class="nav navbar-nav navbar-right">
-      		<li class="text-right navbar-user" ng-show="header.authentication.user">
-      			<a ui-sref="settings.profile">{{ header.authentication.user.name }}</a><br/>
-      			<div class="small">
-      				<a x-modal-alerts-viewer class="text-danger" x-divider=true></a><a ui-sref="settings.profile">Profile</a>&nbsp;|&nbsp;<a href="/api/auth/signout" target="_self">Logout</a>
-      			</div>
-      		</li>
-        </ul>
-
-
-      </div>
-
-    </div>
+	</div>
 </nav>

@@ -1,0 +1,28 @@
+<section id="projects-view" class="row">
+
+	<div class='col-sm-9'>
+
+		<div class="panel panel-default" ng-show="!projects.authentication.user">
+			<div class="panel-heading">
+				<h3 class="panel-title">Public Project Listing</h3>
+			</div>
+			<div class='panel-body'>
+				<p>The Environmental Assessment Office (EAO) is a neutral agency that manages the review of proposed major projects in British Columbia, as required by the Environmental Assessment Act.</p>
+				<p>This service provides information on current and historical projects.  Click a project below to view.</p>
+			</div>
+		</div>
+
+		<tmpl-projects-map id="map" x-projects='projects.projects'></tmpl-projects-map>
+
+		<tmpl-projects-schedule id="schedule" x-projects='projects.projects'></tmpl-projects-schedule>
+
+		<div x-window-height>
+			<tmpl-recent-activity id="recent"></tmpl-recent-activity>			
+		</div>
+
+	</div>
+	<div class='col-sm-3'>
+		<tmpl-system-menu x-menu-context="projects"></tmpl-system-menu>
+	</div>
+
+</section>

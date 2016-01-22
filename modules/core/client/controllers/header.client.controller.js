@@ -8,16 +8,8 @@ angular.module('core')
 // Controller Header
 //
 // -----------------------------------------------------------------------------------
-controllerHeader.$inject = ['$scope', '$state', 'Authentication', 'Menus'];
+controllerHeader.$inject = [];
 /* @ngInject */
-function controllerHeader($scope, $state, Authentication, Menus) {
+function controllerHeader() {
 	var header = this;
-
-	// Expose view variables
-	header.$state = $state;
-   	header.authentication = Authentication;
-
-	// Get the topbar menu
-	header.menu = Menus.getMenu('topbar');
-
 }

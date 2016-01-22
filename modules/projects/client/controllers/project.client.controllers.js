@@ -2,14 +2,40 @@
 
 angular.module('project')
 	// General
+	.controller('controllerProject', controllerProject)
 	.controller('modalProjectSchedule', controllerModalProjectSchedule)
 	.controller('controllerProjectTombstone', controllerProjectTombstone)
-	.controller('controllerProjectTimeline', controllerProjectTimeline)        
-	.controller('controllerProjectEntryTombstone', controllerProjectEntryTombstone)
-	.controller('controllerProjectProponent', controllerProjectProponent)        
-	.controller('controllerProjectBucketListing', controllerProjectBucketListing)
-	.controller('controllerProjectResearch', controllerProjectResearch);
-	
+	// .controller('controllerProjectTimeline', controllerProjectTimeline)        
+	.controller('controllerProjectEntry', controllerProjectEntry)
+	// .controller('controllerProjectProponent', controllerProjectProponent)        
+	// .controller('controllerProjectBucketListing', controllerProjectBucketListing)
+	// .controller('controllerProjectResearch', controllerProjectResearch)
+
+	.controller('controllerProjectNew', controllerProjectNew)	
+	.controller('controllerProjectEdit', controllerProjectEdit)
+	.controller('controllerProjectStreamSelect', controllerProjectStreamSelect);
+
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Public Project Detail
+//
+// -----------------------------------------------------------------------------------
+controllerProject.$inject = ['Project', '$stateParams', '_'];
+/* @ngInject */
+function controllerProject(Project, $stateParams, _) {
+	var proj = this;
+
+	proj.visibility = {
+		"Initiated":{"user":["entry"],"admin":["entry"]},
+		"Submitted":{"user":["entry"],"admin":["entry", "stream"]},
+		"In Progress":{"user":["tombstone", "map"],"admin":["tombstone", "map"]},
+	};
+
+	Project.getProject({id: $stateParams.id}).then(function(res) {
+		proj.project = res.data;
+	});
+
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Modal: View Project Schedule
@@ -43,147 +69,248 @@ function controllerProjectTombstone($scope) {
 // CONTROLLER: Project Timeline
 //
 // -----------------------------------------------------------------------------------    
-controllerProjectTimeline.$inject = ['$scope'];
-/* @ngInject */
-function controllerProjectTimeline($scope) {
-	var ptime = this;
+// controllerProjectTimeline.$inject = ['$scope'];
+// /* @ngInject */
+// function controllerProjectTimeline($scope) {
+// 	var ptime = this;
 	
-	$scope.$watch('project', function(newValue) {
-		ptime.project = newValue;
-	});
-}    
+// 	$scope.$watch('project', function(newValue) {
+// 		ptime.project = newValue;
+// 	});
+// }    
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Entry Tombstone
 //
 // -----------------------------------------------------------------------------------    
-controllerProjectEntryTombstone.$inject = ['$scope', 'Projects', 'REGIONS', 'PROJECT_TYPES'];
+controllerProjectEntry.$inject = ['$scope', '$state', 'Project', 'REGIONS', 'PROJECT_TYPES'];
 /* @ngInject */
-function controllerProjectEntryTombstone($scope, Projects, REGIONS, PROJECT_TYPES) {
-	var projectEntryTS = this;
-	
-	projectEntryTS.regions = REGIONS;
+function controllerProjectEntry($scope, $state, Project, REGIONS, PROJECT_TYPES) {
+	var projectEntry = this;
+	projectEntry.regions = REGIONS;
 
 	$scope.$watch('project', function(newValue){
-		projectEntryTS.project = newValue; 	
+		if (newValue) {
+			projectEntry.project = newValue; 	
+		}
 	});
 	
-	projectEntryTS.types = PROJECT_TYPES;
+	projectEntry.submitProject = function() {
+		projectEntry.project.status = 'Submitted';
+		projectEntry.saveProject();
+	};
+
+	console.log($state);
+
+	projectEntry.saveProject = function() {
+		if ($state.current.name === 'projectnew') {
+			Project.addProject(projectEntry.project).then( function(res) {
+				$state.go('project', {id: res.data._id});
+			});
+		} else {
+			Project.saveProject(projectEntry.project).then( function(res) {
+				projectEntry.project = _.assign(res.data);
+			});
+		}
+	};
+
+	projectEntry.types = PROJECT_TYPES;
 }
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Timeline
 //
 // -----------------------------------------------------------------------------------    
-controllerProjectProponent.$inject = ['$scope', 'PROVINCES'];
-/* @ngInject */
-function controllerProjectProponent($scope, PROVINCES) {
-	var projectProponent = this;
+// controllerProjectProponent.$inject = ['$scope', 'PROVINCES'];
+// /* @ngInject */
+// function controllerProjectProponent($scope, PROVINCES) {
+// 	var projectProponent = this;
 	
-	projectProponent.provs = PROVINCES;
+// 	projectProponent.provs = PROVINCES;
 
-	$scope.$watch('project', function(newValue) {
-		projectProponent.project = newValue;		
-	});
-}        
+// 	$scope.$watch('project', function(newValue) {
+// 		projectProponent.project = newValue;		
+// 	});
+// }        
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Bucket Listing
 //
 // -----------------------------------------------------------------------------------    
-controllerProjectBucketListing.$inject = ['$scope', 'Project', '$filter'];
-/* @ngInject */
-function controllerProjectBucketListing($scope, Project, $filter) {
-	var projBuckets = this;
+// controllerProjectBucketListing.$inject = ['$scope', 'Project', '$filter'];
+// /* @ngInject */
+// function controllerProjectBucketListing($scope, Project, $filter) {
+// 	var projBuckets = this;
 
-	projBuckets.panelSort = [
-		{'field': 'name', 'name':'Name'},
-		{'field': 'type', 'name':'Type'},
-		{'field': 'progress', 'name':'Complete'}
-	];
+// 	projBuckets.panelSort = [
+// 		{'field': 'name', 'name':'Name'},
+// 		{'field': 'type', 'name':'Type'},
+// 		{'field': 'progress', 'name':'Complete'}
+// 	];
 
-	$scope.$watch('filter', function(newValue) {
-		// wait for project and get related buckets
-		if (newValue === 'inprogress') {
-			projBuckets.bucketsFiltered = $filter('projectBucketNotComplete')(projBuckets.buckets);
-		} else {
-			projBuckets.bucketsFiltered = projBuckets.buckets;
-		}
-	});
-
-
-
-	$scope.$watch('project', function(newValue) {
-		// wait for project and get related buckets
-		projBuckets.buckets = newValue.buckets;
-		console.log(newValue);
-		projBuckets.bucketsFiltered = $filter('projectBucketNotComplete')(newValue.buckets);
-	});
+// 	$scope.$watch('filter', function(newValue) {
+// 		// wait for project and get related buckets
+// 		if (newValue === 'inprogress') {
+// 			projBuckets.bucketsFiltered = $filter('projectBucketNotComplete')(projBuckets.buckets);
+// 		} else {
+// 			projBuckets.bucketsFiltered = projBuckets.buckets;
+// 		}
+// 	});
 
 
-}              	
+
+// 	$scope.$watch('project', function(newValue) {
+// 		// wait for project and get related buckets
+// 		projBuckets.buckets = newValue.buckets;
+// 		console.log(newValue);
+// 		projBuckets.bucketsFiltered = $filter('projectBucketNotComplete')(newValue.buckets);
+// 	});
+
+
+// }              	
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Research
 //
 // -----------------------------------------------------------------------------------    
-controllerProjectResearch.$inject = ['$scope', 'Project', 'Utils'];
-/* @ngInject */
-function controllerProjectResearch($scope, Project, Utils) {
-	var pr = this;
-	pr.searchResults = {};
+// controllerProjectResearch.$inject = ['$scope', 'Project', 'Utils'];
+// /* @ngInject */
+// function controllerProjectResearch($scope, Project, Utils) {
+// 	var pr = this;
+// 	pr.searchResults = {};
 	
-	pr.workSpaceLayers = [];
+// 	pr.workSpaceLayers = [];
 	
-	pr.panelSort = [
-		{'field': 'name', 'name':'Name'},
-		{'field': 'type', 'name':'Type'},
-		{'field': 'progress', 'name':'Complete'}
-	];
+// 	pr.panelSort = [
+// 		{'field': 'name', 'name':'Name'},
+// 		{'field': 'type', 'name':'Type'},
+// 		{'field': 'progress', 'name':'Complete'}
+// 	];
 
-	pr.sharedLayers = Utils.getCommonLayers();
-	// Utils.getCommonLayers().then( function(res) {
-	// 	pr.sharedLayers = res.data;
-	// });
+// 	pr.sharedLayers = Utils.getCommonLayers();
+// 	// Utils.getCommonLayers().then( function(res) {
+// 	// 	pr.sharedLayers = res.data;
+// 	// });
 
-	pr.researchFocus = Utils.getResearchFocus();
+// 	pr.researchFocus = Utils.getResearchFocus();
 	
 
-	pr.performSearch = function() {
-		Utils.getResearchResults({'term': pr.search.focus}).then( function(res) {
-			pr.searchResults.records = res.data;
-			pr.searchResults.terms = pr.search.focus;
-		});
-	};
+// 	pr.performSearch = function() {
+// 		Utils.getResearchResults({'term': pr.search.focus}).then( function(res) {
+// 			pr.searchResults.records = res.data;
+// 			pr.searchResults.terms = pr.search.focus;
+// 		});
+// 	};
 
-	$scope.$watch('project', function(newValue) {
-		// wait for project and get related buckets
-		if (newValue) {
-			pr.buckets = newValue.buckets;
-		}
+// 	$scope.$watch('project', function(newValue) {
+// 		// wait for project and get related buckets
+// 		if (newValue) {
+// 			pr.buckets = newValue.buckets;
+// 		}
 					
-		// Project.getProjectBuckets(newValue).then( function(res) {
-		// 	pr.buckets = res.data;
-		// });
+// 		// Project.getProjectBuckets(newValue).then( function(res) {
+// 		// 	pr.buckets = res.data;
+// 		// });
 
-		// Project.getProjectLayers(newValue).then( function(res) {
-		// 	pr.projectLayers = res.data;
-		// 	pr.workSpaceLayers.push({"name":"Project", "layers": res.data});
-		// });
+// 		// Project.getProjectLayers(newValue).then( function(res) {
+// 		// 	pr.projectLayers = res.data;
+// 		// 	pr.workSpaceLayers.push({"name":"Project", "layers": res.data});
+// 		// });
 		
-		// Project.getProjectTags(newValue).then( function(res) {
-		// 	pr.projectTags = res.data;
-		// });			
+// 		// Project.getProjectTags(newValue).then( function(res) {
+// 		// 	pr.projectTags = res.data;
+// 		// });			
 
-		// Project.getProjectResearch(newValue).then( function(res) {
-		// 	pr.projectResearch = res.data;
-		// });		
+// 		// Project.getProjectResearch(newValue).then( function(res) {
+// 		// 	pr.projectResearch = res.data;
+// 		// });		
 
-		// Project.getProjectRelatedResearch(newValue).then( function(res) {
-		// 	pr.projectRelatedResearch = res.data;
-		// });		
+// 		// Project.getProjectRelatedResearch(newValue).then( function(res) {
+// 		// 	pr.projectRelatedResearch = res.data;
+// 		// });		
 
+// 	});
+
+
+// }            
+
+
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: EAO Project New
+//
+// -----------------------------------------------------------------------------------    
+controllerProjectNew.$inject = ['Project', '$state'];
+/* @ngInject */
+function controllerProjectNew(Project, $state) {
+	var proj = this;
+
+	proj.questions = Project.getProjectIntakeQuestions();
+	proj.form = {curTab:''};
+
+	// Get blank project
+	Project.getNewProject().then( function(res) {
+		proj.project = res.data;
+	});
+
+}
+
+
+
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: EAO Project New
+//
+// -----------------------------------------------------------------------------------    
+controllerProjectEdit.$inject = ['$state', 'Project', '_'];
+/* @ngInject */
+function controllerProjectEdit($state, Project, _) {
+	var projectEntry = this;
+
+	projectEntry.questions = Project.getProjectIntakeQuestions();
+	projectEntry.form = {curTab: $state.params.tab};
+
+	Project.getProject({id: $state.params.id}).then( function(res) {
+		projectEntry.project = res.data;
 	});
 
 
-}              	
+}  
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: EAO Project New
+//
+// -----------------------------------------------------------------------------------    
+controllerProjectStreamSelect.$inject = ['$state', 'Project', 'Configuration', '_'];
+/* @ngInject */
+function controllerProjectStreamSelect($state, Project, Configuration, _) {
+	var projectStreamSelect = this;
+
+	Project.getProject({id: $state.params.id}).then( function(res) {
+		projectStreamSelect.project = res.data;
+	});
+
+	Configuration.getStreams().then(function(res){
+		projectStreamSelect.streams = res.data;
+	});
+
+	// admin users can set the project stream
+	projectStreamSelect.setProjectStream = function() {
+		if ((!projectStreamSelect.project.stream || projectStreamSelect.project.stream === '') && projectStreamSelect.newStream) {
+			projectStreamSelect.project.status = 'In Progress';
+			Project.saveProject(projectStreamSelect.project).then( function(res) {
+				// set the stream then move to the project overview page.
+				Project.setProjectStream(projectStreamSelect.project._id, projectStreamSelect.newStream).then( function() {
+					$state.go('eao.project', {'id':projectStreamSelect.project._id});				
+				});
+			});
+		}
+	};
+}  
+
+
+
+
+
+
+

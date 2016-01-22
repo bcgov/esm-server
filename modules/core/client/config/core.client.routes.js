@@ -24,10 +24,9 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 			roles: ['admin']
 		}		
 	})
-
-	.state('default', {
+	.state('projects', {
 		url: '/',
-		template: '<tmpl-public-projects></tmpl-public-projects>'
+		template: '<tmpl-projects></tmpl-projects>'
 	})
 	.state('login', {
 		url: '/login',
@@ -46,19 +45,19 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	// ROUTES: Public
 	//
 	// -----------------------------------------------------------------------------------
-	.state('public', {
-		url: '/public',
-		abstract: true,
-		template: '<div ui-view></div>'
-	})
-	.state('public.projects', {
-		url: '/projects',
-		template: '<tmpl-public-projects></tmpl-public-projects>'
-	})
-	.state('public.project', {
-		url: '/project/:id',
-		template: '<tmpl-public-project></tmpl-public-project>'
-	})
+	// .state('public', {
+	// 	url: '/public',
+	// 	abstract: true,
+	// 	template: '<div ui-view></div>'
+	// })
+	// .state('public.projects', {
+	// 	url: '/projects',
+	// 	template: '<tmpl-public-projects></tmpl-public-projects>'
+	// })
+	// .state('public.project', {
+	// 	url: '/project/:id',
+	// 	template: '<tmpl-public-project></tmpl-public-project>'
+	// })
 	// -----------------------------------------------------------------------------------
 	//
 	// ROUTES: Proponent
@@ -97,38 +96,35 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	// ROUTES: Proponent
 	//
 	// -----------------------------------------------------------------------------------
-	.state('eao', {
-		url: '/eao',
-		abstract: true,
-		template: '<div ui-view></div>',
-		data: {
-			roles: ['admin', 'user']
-		}
-	})
-	.state('eao.projects', {
-		url: '/projects',
-		template: '<tmpl-eao-projects></tmpl-eao-projects>',
-		data: {
-			roles: ['admin', 'user']
-		}
-	})
-	.state('eao.project', {
+	// .state('eao', {
+	// 	url: '/eao',
+	// 	abstract: true,
+	// 	template: '<div ui-view></div>',
+	// 	data: {
+	// 		roles: ['admin', 'user']
+	// 	}
+	// })
+	// .state('eao.projects', {
+	// 	url: '/projects',
+	// 	template: '<tmpl-eao-projects></tmpl-eao-projects>',
+	// 	data: {
+	// 		roles: ['admin', 'user']
+	// 	}
+	// })
+	.state('project', {
 		url: '/project/:id',
-		template: '<tmpl-eao-project></tmpl-eao-project>',
-		data: {
-			roles: ['admin', 'user']
-		}
+		template: '<tmpl-project></tmpl-project>'
 	})
-	.state('eao.newproject', {
+	.state('projectnew', {
 		url: '/newproject/',
-		template: '<tmpl-eao-project-new></tmpl-eao-project-new>',
+		template: '<tmpl-project-new></tmpl-project-new>',
 		data: {
 			roles: ['admin', 'user']
 		}
 	})
-	.state('eao.editproject', {
+	.state('projectedit', {
 		url: '/editproject/:id/:tab',
-		template: '<tmpl-eao-project-edit></tmpl-eao-project-edit>',
+		template: '<tmpl-project-edit></tmpl-project-edit>',
 		data: {
 			roles: ['admin', 'user']
 		}
@@ -145,10 +141,6 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 
 	// Home state routing
 	$stateProvider
-	.state('home', {
-		url: '/',
-		templateUrl: 'modules/core/client/views/home.client.view.html'
-	})
 	.state('not-found', {
 		url: '/not-found',
 		templateUrl: 'modules/core/client/views/404.client.view.html',

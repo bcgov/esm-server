@@ -17,7 +17,8 @@ var ApplicationConfiguration = (function () {
     'angularMoment',
     'ui.bootstrap.datetimepicker',
     'mwl.confirm',
-    'ngFileUpload'
+    'ngFileUpload',
+    'duScroll'
   ];
 
 

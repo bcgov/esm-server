@@ -34,7 +34,6 @@ angular
 			'omnieca': 'Omineca',
 			'peace': 'Peace',
 			'skeena': 'Skeena',
-			'thompson': 'Thompson',
 			'vancouverisland': 'Vancouver Island'
 		}
 	) 

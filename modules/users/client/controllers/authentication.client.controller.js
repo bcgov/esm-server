@@ -55,7 +55,7 @@ function controllerAuthentication($scope, $state, $http, $location, $window, Aut
       // And redirect to the previous or home page
       //$state.go($state.previous.state.name || 'eao.projects', $state.previous.params);
 
-      $state.go('eao.projects');
+      $state.go('projects');
     }).error(function (response) {
       loginPanel.error = response.message;
     });

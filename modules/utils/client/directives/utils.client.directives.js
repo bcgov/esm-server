@@ -6,7 +6,8 @@ angular.module('utils')
     .directive('kebabThis', directiveKebabThis)
     .directive('modalDatePicker', directiveModalDatePicker)
     .directive('centerVertical', directiveCenterVertical)
-    .directive('contentHeight', directiveContentHeight)    
+    .directive('contentHeight', directiveContentHeight) 
+    .directive('windowHeight', directiveWindowHeight) 
     .directive('countdownClock',directiveCountdownClock)
     .directive('panelSort',directivePanelSort)
     .directive('phaseColour',directivePhaseColour)
@@ -24,7 +25,9 @@ angular.module('utils')
     .directive('tmplRequirementTally', directiveRequirementTally)        
     .directive('modalUserContactInfo', directiveModalUserContactInfo)
     .directive('selectOnClick', directiveSelectOnClick)
-    .directive('modalSelectItems', directiveModalSelectItems);
+    .directive('modalSelectItems', directiveModalSelectItems)
+    .directive('scrollAnchor', directiveScrollAnchor)
+    .directive('scrollTrigger', directiveScrollTrigger);
     
 // -----------------------------------------------------------------------------------
 //
@@ -137,6 +140,36 @@ function directiveContentHeight($window) {
 				};
 			}, function (newValue, oldValue) {
 				box.css({'min-height': (parseInt(newValue.h)-133) + 'px'});
+			}, true);
+
+			w.bind('resize', function () {
+				scope.$apply();
+			});
+		}
+	};
+	return directive;
+}
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Make the content long enough to put the footer at the bottom
+//
+// -----------------------------------------------------------------------------------
+directiveWindowHeight.$inject = ['$window'];
+/* @ngInject */
+function directiveWindowHeight($window) {
+	var directive = {
+        restrict:'A',
+		link :  function (scope, element, attr) {
+
+			var w = angular.element($window);
+			var box = angular.element(element);
+			
+			scope.$watch(function () {
+				return {
+					'h': window.innerHeight
+				};
+			}, function (newValue, oldValue) {
+				box.css({'min-height': (parseInt(newValue.h)-76) + 'px'});
 			}, true);
 
 			w.bind('resize', function () {
@@ -694,12 +727,12 @@ function directiveModalDatePicker($modal) {
 					controllerAs: 'modalDatePick',
 					size: 'md',
 					resolve: {
-		            	rChosenDate: function() {
-		            		return scope.selectedDate;
-        				},
-        				rTitle: function() {
-        					return scope.title;
-        				}
+			            	rChosenDate: function() {
+			            		return scope.selectedDate;
+	        				},
+	        				rTitle: function() {
+	        					return scope.title;
+	        				}
 					}
 				});
 				modalAddComment.result.then(function (chosenDate) {
@@ -710,3 +743,45 @@ function directiveModalDatePicker($modal) {
     };
     return directive;
 }
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Scroll Anchor
+//
+// -----------------------------------------------------------------------------------
+directiveScrollAnchor.$inject = ['$modal'];
+/* @ngInject */
+function directiveScrollAnchor($modal) {
+    var directive = {
+       	restrict:'A',
+		link : function(scope, element, attrs) {
+			element.attr('id', ('anchor-' + attrs.scrollAnchor));
+		}
+    };
+    return directive;
+}
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Scroll Trigger
+//
+// -----------------------------------------------------------------------------------
+directiveScrollTrigger.$inject = ['$anchorScroll', '$location'];
+/* @ngInject */
+function directiveScrollTrigger($anchorScroll, $location) {
+    var directive = {
+       	restrict:'A',
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var newHash = 'anchor-' + attrs.scrollTrigger;
+				console.log(newHash);
+				if ($location.hash() !== newHash) {
+					// set the $location.hash to `newHash` and
+					// $anchorScroll will automatically scroll to it
+					$location.hash(newHash);
+				}
+				$anchorScroll();
+			});
+		}
+    };
+    return directive;
+}
+

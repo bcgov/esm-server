@@ -8,9 +8,9 @@ angular.module('core')
 // Controller Footer
 //
 // -----------------------------------------------------------------------------------
-controllerFooter.$inject = [];
+controllerFooter.$inject = ['Authentication'];
 /* @ngInject */
-function controllerFooter() {
+function controllerFooter(Authentication) {
 	var footer = this;
-
+	footer.authentication = Authentication;
 }

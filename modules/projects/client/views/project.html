@@ -1,0 +1,29 @@
+<section id="project-view" class="row">
+
+	<div class='col-sm-9'>
+		<h1 class="page-title">
+			{{ proj.project.name }}
+		</h1>
+
+		<tmpl-project-tombstone-horizontal id="tombstone" x-project="proj.project"></tmpl-project-tombstone-horizontal>
+
+		<tmpl-project-stream-select id="stream-select" x-project="proj.project"></tmpl-project-stream-select>
+
+		<tmpl-project-new id="edit" x-project="proj.project"></tmpl-project-new>
+
+		<tmpl-project-edit id="edit" x-project="proj.project"></tmpl-project-edit>
+
+		<tmpl-project-map id="map" x-project="proj.project"></tmpl-project-map>
+
+		<tmpl-activity-listing id="activities" x-project="proj.project" x-filter="proj.activityView"></tmpl-activity-listing>
+
+		<tmpl-project-bucket-listing x-project="proj.project" x-filter="proj.artifactView"></tmpl-project-bucket-listing>
+
+		<tmpl-project-research x-project="proj.project"></tmpl-project-research>
+
+	</div> <!-- /col9 -->
+	<div class='col-sm-3'>
+		<tmpl-system-menu x-menu-context="project"></tmpl-system-menu>
+	</div>
+
+</section>

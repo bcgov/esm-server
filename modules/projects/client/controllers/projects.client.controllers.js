@@ -2,37 +2,64 @@
 
 angular.module('projects')
 	// General
-	.controller('controllerProjectsFilterBar', controllerProjectsFilterBar)
+	.controller('controllerProjects', controllerProjects)
+	// .controller('controllerProjectsFilterBar', controllerProjectsFilterBar)
 	.controller('controllerProjectsList', controllerProjectsList)
 	.controller('controllerProjectsIntake', controllerProjectsIntake);
 
 // -----------------------------------------------------------------------------------
 //
+// CONTROLLER: Public Projects Main
+//
+// -----------------------------------------------------------------------------------
+controllerProjects.$inject = ['$state', 'Projects', 'PROJECT_TYPES', 'Authentication'];
+/* @ngInject */
+function controllerProjects($state, Projects, PROJECT_TYPES, Authentication) {
+	var projects = this;
+
+	projects.types = PROJECT_TYPES;
+
+	projects.authentication = Authentication;
+
+	Projects.getProjects().then( function(res) {
+		projects.projects = res.data;
+	});
+	
+	// sorting
+	projects.panelSort = [
+		{'field': 'name', 'name':'Name'},
+		{'field': 'status', 'name':'Status'},	
+		{'field': 'dateUpdated', 'name':'Date Updated'},
+		{'field': 'dateCreate', 'name':'Date Created'}
+	];
+}
+// -----------------------------------------------------------------------------------
+//
 // CONTROLLER: Filter Bar
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsFilterBar.$inject = ['$scope', '$state', 'Projects', '$filter', 'PROJECT_TYPES', 'Authentication'];
-/* @ngInject */
-function controllerProjectsFilterBar($scope, $state, Projects, $filter, PROJECT_TYPES, Authentication) {
-	var fbc = this;
+// controllerProjectsFilterBar.$inject = ['$scope', '$state', 'Projects', '$filter', 'PROJECT_TYPES', 'Authentication'];
+// /* @ngInject */
+// function controllerProjectsFilterBar($scope, $state, Projects, $filter, PROJECT_TYPES, Authentication) {
+// 	var fbc = this;
 
-	fbc.types = PROJECT_TYPES;
+// 	fbc.types = PROJECT_TYPES;
 
-	fbc.filter = null;
+// 	fbc.filter = null;
 
-	$scope.$watch('data', function(newValue) {
-		if(newValue) {
-			fbc.data = newValue;
-		}
-	});
+// 	$scope.$watch('data', function(newValue) {
+// 		if(newValue) {
+// 			fbc.data = newValue;
+// 		}
+// 	});
 
-	fbc.updateFilter = function() {
-		if ( fbc.data.projects) {
-			fbc.data.projects = $filter('projects')(fbc.filter);
-		}
-	};
+// 	fbc.updateFilter = function() {
+// 		if ( fbc.data.projects) {
+// 			fbc.data.projects = $filter('projects')(fbc.filter);
+// 		}
+// 	};
 
-}
+// }
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Projects
@@ -54,9 +81,9 @@ function controllerProjectsList($scope, $state, Authentication, Project) {
 
 		Project.getProject({id: projectId}).then(function(res) {
 			if (res.data.activities.length !== 1) {
-				$state.go('eao.project', {id:projectId});
+				$state.go('project', {id:projectId});
 			} else {
-				$state.go('eao.activity', {id:res.data.activities[0]._id});
+				$state.go('activity', {id:res.data.activities[0]._id});
 			}
 		});	
 
