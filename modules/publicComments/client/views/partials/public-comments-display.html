@@ -21,19 +21,24 @@
 			<p ng-show="legalMore"><a href ng-click="legalMore = false"><em>Less</em></a></p>
 
 		</div>
+	</div>
+	
 
-		<div ng-if="(pubComDisp.project.dateCommentsOpen && pubComDisp.project.dateCommentsClosed)">
-			<label class="control-label">Public Comment Period</label>
-			<p>
-				{{ pubComDisp.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}} to {{ pubComDisp.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY' }}
-				<span ng-if="(pubComDisp.project.dateCommentsOpen | isInThePast) && (pubComDisp.project.dateCommentsClosed | isInTheFuture)"><br/><strong><em>Open Now</em></strong></span>
-			</p>
+	<div ng-if="(pubComDisp.project.dateCommentsOpen && pubComDisp.project.dateCommentsClosed)">
+
+	<h3 class="panel-sub-title clickable panel-body" ng-click="toggleProject.docs = !toggleProject.docs">Public Comment Period</h3>
+	<div class="panel-body">
+		<p>
+			{{ pubComDisp.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}} to {{ pubComDisp.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY' }}
+			<span ng-if="(pubComDisp.project.dateCommentsOpen | isInThePast) && (pubComDisp.project.dateCommentsClosed | isInTheFuture)"><br/><strong><em>Open Now</em></strong></span>
+		</p>
+
+		<div ng-if="(pubComDisp.project.dateCommentsOpen | isInThePast) && (pubComDisp.project.dateCommentsClosed | isInTheFuture)">
+			<a class="btn btn-success wrap btn-md" href x-modal-add-public-comment x-project="pubComDisp.project">Click here to Comment on the Application</a>
 		</div>
 
-		<div class="form-group" ng-if="(pubComDisp.project.dateCommentsOpen | isInThePast) && (pubComDisp.project.dateCommentsClosed | isInTheFuture)">
-			<a class="btn btn-block btn-success wrap btn-md" href x-modal-add-public-comment x-project="pubComDisp.project">Click here to Comment on the Application</a>
-		</div>
-
+	</div>
+	<div class="panel-body panel-top-border">	
 		<div ng-if="pubComDisp.comments.length !== 0 && (pubComDisp.project.dateCommentsOpen | isInThePast) && (pubComDisp.project.dateCommentsClosed | isInTheFuture)">
 			<nav class="navbar navbar-default navbar-sm" ng-init="pubComDisp.form.view = 'bydate'" ng-if="pubComDisp.comments.length !== 0">
 				<div class="container-fluid">

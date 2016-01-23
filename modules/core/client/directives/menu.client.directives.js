@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('core')
-	.directive('tmplSystemMenu', directiveSystemMenu);
+	.directive('tmplSystemMenu', directiveSystemMenu)
+	.directive('scroll', directiveScroll);
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Activity Listing
@@ -19,6 +20,26 @@ function directiveSystemMenu() {
 		scope: {
 			menuContext: '@'
 		}
+	};
+	return directive;
+}
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Show logo on scroll
+//
+// -----------------------------------------------------------------------------------
+directiveScroll.$inject = ['$window', '$rootScope'];
+/* @ngInject */
+function directiveScroll($window, $rootScope) {
+	var directive = function(scope, element, attrs) {
+		angular.element($window).bind("scroll", function() {
+			if (this.pageYOffset >= 100) {
+				$rootScope.showLogo = true;
+			} else {
+				$rootScope.showLogo = false;
+			}
+			scope.$apply();
+		});
 	};
 	return directive;
 }

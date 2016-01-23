@@ -8,9 +8,9 @@ angular.module('core')
 // Controller menu
 //
 // -----------------------------------------------------------------------------------
-controllerSystemMenu.$inject = ['$scope', '$state', 'Authentication', 'Menus'];
+controllerSystemMenu.$inject = ['$scope', '$state', 'Authentication', 'Menus', '$rootScope'];
 /* @ngInject */
-function controllerSystemMenu($scope, $state, Authentication, Menus) {
+function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope) {
 	var menu = this;
 
 	// Expose view variables
@@ -20,7 +20,6 @@ function controllerSystemMenu($scope, $state, Authentication, Menus) {
    	menu.goToPrevious = function() {
 		$state.go($state.previous.state.name, $state.previous.params);
    	};
-
 
    	$scope.$watch('menuContext', function(newValue) {
 		if(newValue) {
