@@ -23,6 +23,13 @@ module.exports = function (app) {
 		.delete (controller.delete);
 	app.route ('/api/new/role').all (policy.isAllowed)
 		.get (controller.new);
+
+	//
+	// add a user to a role/group
+	//
+	app.route ('/api/role/:role/add/user/:userId').all (policy.isAllowed)
+		.put (controller.addUserToRole);
+
 	//
 	// middleware to auto-fetch parameter
 	//
