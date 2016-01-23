@@ -19,7 +19,6 @@ angular.module('project')
 	.directive('tmplProjectStreamSelect', directiveProjectStreamSelect)
 	.directive('tmplProjectActivities', directiveProjectActivities);
 
-controllerProjectActivities
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Public Project Main
@@ -284,7 +283,7 @@ function directiveProjectStreamSelect() {
 // DIRECTIVE: Project Stream Select
 //
 // -----------------------------------------------------------------------------------
-directiveProjectActivites.$inject = [];
+directiveProjectActivities.$inject = [];
 /* @ngInject */
 function directiveProjectActivities() {
 	var directive = {
