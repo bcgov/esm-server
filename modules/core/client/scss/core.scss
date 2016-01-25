@@ -206,7 +206,9 @@ button:focus, a:focus {
 	font-size: 1.4em;
 	padding-bottom: 0;	
 }
-
+.panel-top-border {
+	border-top: 1px solid #ddd;
+}
 .panel-sub-heading {
 	background-color: #f5f5f5;
 	padding: 10px;
