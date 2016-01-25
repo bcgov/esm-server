@@ -4,17 +4,11 @@
 	</div>
 	<div class='panel-body'>
 
-
 			<table class="table table-condensed table-no-head">
 				<tbody>
 					<tr ng-repeat="activity in raPanel.recentActivity">
 						<td ng-if="raPanel.auth.user === ''">
-							<a html ui-sref="public.project({id: activity._id})">{{ activity.name }}</a>
-						</td>
-						<td ng-if="raPanel.auth.user !== ''">
-							<a html ui-sref="eao.project({id: activity._id})">{{ activity.name }}</a>
-						</td>
-						<td class="text-right no-wrap">
+							<a html ui-sref="project({id: activity._id})">{{ activity.name }}</a>
 						</td>
 					</tr>
 				</tbody>

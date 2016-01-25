@@ -7,15 +7,17 @@ angular.module('project')
 	// .directive('tmplProjectTombstoneVertical', directiveProjectTombstoneVertical)
 	// .directive('tmplProjectTimeline', directiveProjectTimeline)
 
-	.directive('tmplProjectEntry', directiveProjectEntry)
+	// .directive('tmplProjectEntry', directiveProjectEntry)
 
 	// .directive('tmplProjectProponent', directiveProjectProponent)        
 	// .directive('tmplProjectBucketListing', directiveProjectBucketListing)
 	// .directive('tmplProjectResearch', directiveProjectResearch)
 
-	.directive('tmplProjectNew', directiveProjectNew)
+	.directive('modalProjectEntry', directiveModalProjectEntry)
 
-	.directive('tmplProjectEdit', directiveProjectEdit)
+	// .directive('tmplProjectNew', directiveProjectNew)
+	// .directive('tmplProjectEdit', directiveProjectEdit)
+
 	.directive('tmplProjectStreamSelect', directiveProjectStreamSelect)
 	.directive('tmplProjectActivities', directiveProjectActivities);
 
@@ -58,6 +60,40 @@ function directiveModalProjectSchedule($modal) {
 					controllerAs: 'ps',
 					resolve: {
 						rProject: function () {
+							return scope.project;
+						}
+					},
+					size: 'lg'
+				});
+				modalDocView.result.then(function () {}, function () {});
+			});
+		}
+	};
+	return directive;
+}
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Modal Project Entry
+//
+// -----------------------------------------------------------------------------------
+directiveModalProjectEntry.$inject = ['$modal'];
+/* @ngInject */
+function directiveModalProjectEntry($modal) {
+	var directive = {
+		restrict:'A',
+		scope : {
+			project: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/projects/client/views/project-partials/modal-project-entry.html',
+					controller: 'controllerModalProjectEntry',
+					controllerAs: 'projectEntry',
+					resolve: {
+						rProject: function () {
+							console.log(scope.project);
 							return scope.project;
 						}
 					},
@@ -131,20 +167,20 @@ function directiveProjectTombstone() {
 // DIRECTIVE: Project Entry Tombstone - just insert the template
 //
 // -----------------------------------------------------------------------------------
-directiveProjectEntryTombstone.$inject = [];
-/* @ngInject */
-function directiveProjectEntryTombstone() {
-	var directive = {
-		restrict: 'E',
-		templateUrl: 'modules/projects/client/views/project-partials/project-entry-tombstone.html',
-		controller: 'controllerProjectEntryTombstone',
-		controllerAs: 'projectEntryTS',
-		scope: {
-			project: '='
-		}            
-	};
-	return directive;
-}
+// directiveProjectEntryTombstone.$inject = [];
+// /* @ngInject */
+// function directiveProjectEntryTombstone() {
+// 	var directive = {
+// 		restrict: 'E',
+// 		templateUrl: 'modules/projects/client/views/project-partials/project-entry-tombstone.html',
+// 		controller: 'controllerProjectEntryTombstone',
+// 		controllerAs: 'projectEntryTS',
+// 		scope: {
+// 			project: '='
+// 		}            
+// 	};
+// 	return directive;
+// }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Project proponent
@@ -209,56 +245,56 @@ function directiveProjectEntryTombstone() {
 // DIRECTIVE: Project New
 //
 // -----------------------------------------------------------------------------------
-directiveProjectNew.$inject = [];
-/* @ngInject */
-function directiveProjectNew() {
-	var directive = {
-		restrict: 'E',
-		templateUrl: 'modules/projects/client/views/project-new.html',
-		controller: 'controllerProjectNew',
-		controllerAs: 'proj'
-	};
-	return directive;
-}
+// directiveProjectNew.$inject = [];
+// /* @ngInject */
+// function directiveProjectNew() {
+// 	var directive = {
+// 		restrict: 'E',
+// 		templateUrl: 'modules/projects/client/views/project-new.html',
+// 		controller: 'controllerProjectNew',
+// 		controllerAs: 'proj'
+// 	};
+// 	return directive;
+// }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Project Entry
 //
 // -----------------------------------------------------------------------------------
-directiveProjectEntry.$inject = [];
-/* @ngInject */
-function directiveProjectEntry() {
-	var directive = {
-		restrict: 'E',
-		templateUrl: 'modules/projects/client/views/project-partials/project-entry.html',
-		controller: 'controllerProjectEntry',
-		controllerAs: 'projectEntry',
-		scope: {
-			project: '='
-		}		
-	};
-	return directive;
-}
+// directiveProjectEntry.$inject = [];
+// /* @ngInject */
+// function directiveProjectEntry() {
+// 	var directive = {
+// 		restrict: 'E',
+// 		templateUrl: 'modules/projects/client/views/project-partials/project-entry.html',
+// 		controller: 'controllerProjectEntry',
+// 		controllerAs: 'projectEntry',
+// 		scope: {
+// 			project: '='
+// 		}		
+// 	};
+// 	return directive;
+// }
 
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Project Edit
 //
 // -----------------------------------------------------------------------------------
-directiveProjectEdit.$inject = [];
-/* @ngInject */
-function directiveProjectEdit() {
-	var directive = {
-		restrict: 'E',
-		templateUrl: 'modules/projects/client/views/project-partials/project-entry.html',
-		controller: 'controllerProjectEdit',
-		controllerAs: 'projectEntry',
-		scope: {
-			project: '='
-		}
-	};
-	return directive;
-}
+// directiveProjectEdit.$inject = [];
+// /* @ngInject */
+// function directiveProjectEdit() {
+// 	var directive = {
+// 		restrict: 'E',
+// 		templateUrl: 'modules/projects/client/views/project-partials/project-entry.html',
+// 		controller: 'controllerProjectEdit',
+// 		controllerAs: 'projectEntry',
+// 		scope: {
+// 			project: '='
+// 		}
+// 	};
+// 	return directive;
+// }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Project Stream Select

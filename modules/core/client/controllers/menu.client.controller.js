@@ -27,6 +27,12 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope)
 		}
    	});
 
+   	$scope.$watch('project', function(newValue) {
+		if(newValue) {
+		   	menu.project = newValue;		
+		}
+   	});
+
 	// Get the topbar menu
 	menu.systemMenu = Menus.getMenu('systemMenu');
 	menu.projectsMenu = Menus.getMenu('projectsMenu');

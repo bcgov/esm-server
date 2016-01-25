@@ -6,13 +6,13 @@ angular.module('project')
 	.controller('modalProjectSchedule', controllerModalProjectSchedule)
 	.controller('controllerProjectTombstone', controllerProjectTombstone)
 	// .controller('controllerProjectTimeline', controllerProjectTimeline)        
-	.controller('controllerProjectEntry', controllerProjectEntry)
+	.controller('controllerModalProjectEntry', controllerModalProjectEntry)
 	// .controller('controllerProjectProponent', controllerProjectProponent)        
 	// .controller('controllerProjectBucketListing', controllerProjectBucketListing)
 	// .controller('controllerProjectResearch', controllerProjectResearch)
 
-	.controller('controllerProjectNew', controllerProjectNew)	
-	.controller('controllerProjectEdit', controllerProjectEdit)
+	// .controller('controllerProjectNew', controllerProjectNew)	
+	// .controller('controllerProjectEdit', controllerProjectEdit)
 	.controller('controllerProjectStreamSelect', controllerProjectStreamSelect)
 	.controller('controllerProjectActivities', controllerProjectActivities);
 
@@ -77,27 +77,33 @@ function controllerProjectTombstone($scope) {
 // CONTROLLER: Project Entry Tombstone
 //
 // -----------------------------------------------------------------------------------    
-controllerProjectEntry.$inject = ['$scope', '$state', 'Project', 'REGIONS', 'PROJECT_TYPES', '_'];
+controllerModalProjectEntry.$inject = ['$modalInstance', '$scope', '$state', 'Project', 'rProject', 'REGIONS', 'PROJECT_TYPES', '_'];
 /* @ngInject */
-function controllerProjectEntry($scope, $state, Project, REGIONS, PROJECT_TYPES, _) {
+function controllerModalProjectEntry($modalInstance, $scope, $state, Project, rProject, REGIONS, PROJECT_TYPES, _) {
 	var projectEntry = this;
+
 	projectEntry.regions = REGIONS;
+	projectEntry.types = PROJECT_TYPES;
 
 	projectEntry.questions = Project.getProjectIntakeQuestions();
 	projectEntry.form = {curTab: $state.params.tab};
 
-	if ($state.current.name === 'projectnew') {
-		projectEntry.title = 'New Project';
-	} else {
+	if (rProject) {
 		projectEntry.title = 'Edit Project';
+		projectEntry.project = rProject;
+		// project has been passed in, no need to get it again.
+	} else {
+		projectEntry.title = 'Add Project';
+		// no project exists, get a new blank one.
+		Project.getNewProject().then( function(res) {
+			projectEntry.project = res.data;
+		});
 	}
-
-	$scope.$watch('project', function(newValue){
-		if (newValue) {
-			projectEntry.project = newValue; 	
-		}
-	});
 	
+	projectEntry.cancel = function () {
+		$modalInstance.dismiss();
+	};
+
 	projectEntry.submitProject = function() {
 		projectEntry.project.status = 'Submitted';
 		projectEntry.saveProject();
@@ -106,16 +112,15 @@ function controllerProjectEntry($scope, $state, Project, REGIONS, PROJECT_TYPES,
 	projectEntry.saveProject = function() {
 		if ($state.current.name === 'projectnew') {
 			Project.addProject(projectEntry.project).then( function(res) {
-				$state.go('project', {id: res.data._id});
+				$modalInstance.close(res.data);
 			});
 		} else {
 			Project.saveProject(projectEntry.project).then( function(res) {
-				projectEntry.project = _.assign(res.data);
+				$modalInstance.close(res.data);
 			});
 		}
 	};
 
-	projectEntry.types = PROJECT_TYPES;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -236,26 +241,6 @@ function controllerProjectEntry($scope, $state, Project, REGIONS, PROJECT_TYPES,
 // }            
 
 
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: EAO Project New
-//
-// -----------------------------------------------------------------------------------    
-controllerProjectNew.$inject = ['Project', '$state'];
-/* @ngInject */
-function controllerProjectNew(Project, $state) {
-	var proj = this;
-
-	proj.questions = Project.getProjectIntakeQuestions();
-	proj.form = {curTab:''};
-
-	// Get blank project
-	Project.getNewProject().then( function(res) {
-		proj.project = res.data;
-	});
-
-}
-
 
 
 // -----------------------------------------------------------------------------------
@@ -263,20 +248,19 @@ function controllerProjectNew(Project, $state) {
 // CONTROLLER: EAO Project New
 //
 // -----------------------------------------------------------------------------------    
-controllerProjectEdit.$inject = ['$state', 'Project', '_'];
-/* @ngInject */
-function controllerProjectEdit($state, Project, _) {
-	var projectEntry = this;
+// controllerProjectEdit.$inject = ['$state', 'Project', '_'];
+// /* @ngInject */
+// function controllerProjectEdit($state, Project, _) {
+// 	var projectEntry = this;
 
-	projectEntry.questions = Project.getProjectIntakeQuestions();
-	projectEntry.form = {curTab: $state.params.tab};
-
-	Project.getProject({id: $state.params.id}).then( function(res) {
-		projectEntry.project = res.data;
-	});
+	
+// 	Project.getProject({id: $state.params.id}).then( function(res) {
+// 		projectEntry.project = res.data;
+// 	});
 
 
-}  
+
+// }  
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Stream Selection
