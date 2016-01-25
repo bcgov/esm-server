@@ -2,11 +2,13 @@
 
 var path     = require('path');
 var control  = require (path.resolve('./modules/core/server/controllers/core.models.controller'));
+var _ = require ('lodash');
 var mongoose = require ('mongoose');
 var Schema   = mongoose.Schema;
-var _ = require ('lodash');
 
 var ProjectSchema = {
+	__audit     : true,
+	__access    : true,
 	code        : { type:String, default:'New Project', index:true },
 	name        : { type:String, default:'New Project' },
 	description : { type:String, default:'' },
