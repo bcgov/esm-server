@@ -27,6 +27,20 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope)
 		}
    	});
 
+   	$scope.$watch('project', function(newValue) {
+		if(newValue) {
+		   	menu.project = newValue;		
+		}
+   	});
+
+   	menu.showMenu = function(id) {
+   		if (id) {
+	   		return (angular.element(document.querySelector('#' + id)).length > 0)
+	   	} else {
+	   		return false;
+	   	}
+   	}
+
 	// Get the topbar menu
 	menu.systemMenu = Menus.getMenu('systemMenu');
 	menu.projectsMenu = Menus.getMenu('projectsMenu');

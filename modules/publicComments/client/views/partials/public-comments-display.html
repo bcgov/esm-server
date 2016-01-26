@@ -1,12 +1,13 @@
-<div class="alert alert-info text-center" ng-if="pubComDisp.project.dateCommentsOpen | isInTheFuture">
-	<div>
-		<p>Public Comment Period Scheduled for <strong>{{ pubComDisp.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}}</strong> to <strong>{{ pubComDisp.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY'}}</strong></p>
-		<countdown-clock x-end="pubComDisp.project.dateCommentsOpen"></countdown-clock>
+<section class="block-content">
+
+	<div class="alert alert-info text-center" ng-if="pubComDisp.project.dateCommentsOpen | isInTheFuture">
+		<div>
+			<p>Public Comment Period Scheduled for <strong>{{ pubComDisp.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}}</strong> to <strong>{{ pubComDisp.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY'}}</strong></p>
+			<countdown-clock x-end="pubComDisp.project.dateCommentsOpen"></countdown-clock>
+		</div>
 	</div>
-</div>
 
 
-<div class="panel panel-default panel-concern">
 
 	<div class="panel-body">
 		<div class="small form-group">

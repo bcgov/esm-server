@@ -3,7 +3,8 @@
 angular.module('documents')
     .directive('tmplDocumentsUploadGeneral', directiveDocumentsUploadGeneral)
     .directive('tmplDocumentsUploadClassify', directiveDocumentsUploadClassify)        
-    .directive('tmplDocumentsList', directiveDocumentsList)        
+    .directive('tmplDocumentsList', directiveDocumentsList)   
+    .directive('tmplDocumentsBrowser', directiveDocumentsBrowser)            
     .directive('modalDocumentViewer', directiveModalDocumentViewer)
     .directive('modalDocumentBuckets', directiveModalDocumentBuckets);
 
@@ -63,13 +64,34 @@ function directiveDocumentsList() {
         controller: 'controllerDocumentList',
         controllerAs: 'docList',
         scope: {
-			documents: '=',
-			filterBy: '='
+            documents: '=',
+            filterBy: '='
         }
     };
 
     return directive;
 }    
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Document Browser
+//
+// -----------------------------------------------------------------------------------
+directiveDocumentsBrowser.$inject = ['$modal'];
+/* @ngInject */
+function directiveDocumentsBrowser() {
+
+    var directive = {
+        restrict: 'E',
+        templateUrl: 'modules/documents/client/views/partials/document-browser.html',
+        controller: 'controllerDocumentBrowser',
+        controllerAs: 'docBrowser',
+        scope: {
+            project: '=',
+        }
+    };
+
+    return directive;
+}   
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Modal document viewer
@@ -80,18 +102,18 @@ directiveModalDocumentViewer.$inject = ['$modal'];
 function directiveModalDocumentViewer($modal) {
     var directive = {
         restrict:'A',
-		link : function(scope, element, attrs) {
-			element.on('click', function() {
-				var modalDocView = $modal.open({
-					animation: true,
-					templateUrl: 'modules/documents/client/views/partials/modal_document_viewer.html',
-					controller: 'controllerModalDocumentViewer',
-					controllerAs: 'md',
-					size: 'lg'
-				});
-				modalDocView.result.then(function () {}, function () {});
-			});
-		}
+        link : function(scope, element, attrs) {
+            element.on('click', function() {
+                var modalDocView = $modal.open({
+                    animation: true,
+                    templateUrl: 'modules/documents/client/views/partials/modal_document_viewer.html',
+                    controller: 'controllerModalDocumentViewer',
+                    controllerAs: 'md',
+                    size: 'lg'
+                });
+                modalDocView.result.then(function () {}, function () {});
+            });
+        }
     };
     return directive;
 }

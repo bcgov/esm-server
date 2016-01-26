@@ -115,20 +115,6 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		url: '/project/:id',
 		template: '<tmpl-project></tmpl-project>'
 	})
-	.state('projectnew', {
-		url: '/newproject/',
-		template: '<tmpl-project-new></tmpl-project-new>',
-		data: {
-			roles: ['admin', 'user']
-		}
-	})
-	.state('projectedit', {
-		url: '/editproject/:id/:tab',
-		template: '<tmpl-project-edit></tmpl-project-edit>',
-		data: {
-			roles: ['admin', 'user']
-		}
-	})
 	.state('activity', {
 		url: '/activity/:id',
 		template: '<tmpl-eao-activity></tmpl-eao-activity>',

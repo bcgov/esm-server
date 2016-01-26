@@ -1,4 +1,4 @@
-<div style="position: fixed;">
+<section id="menu-side" style="position: fixed;">
 <!--
 <div class="container" ng-controller="HeaderController">
   <div class="navbar-header">
@@ -76,31 +76,38 @@
 	 	<hr>
 		<label class="control-label">Projects</label>
 		<ul class="list-unstyled">
-			<li><a du-smooth-scroll href="#map">Map</a></li>
-			<li><a du-smooth-scroll href="#schedule">Schedule</a></li>
-			<li><a du-smooth-scroll href="#recent">Recent Activity</a></li>
-			<li><a du-smooth-scroll href="#search">Search</a></li>
+			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-map')" href="#anchor-map">Map</a></li>
+			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-schedule')" href="#anchor-schedule">Schedule</a></li>
+			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-recent')" href="#anchor-recent">Recent Activity</a></li>
+			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-search')" href="#anchor-search">Search</a></li>
 		</ul>
 		<ul class="list-unstyled" ng-show="menu.projectsMenu.shouldRender(menu.authentication.user);">
 			<li ng-repeat="item in menu.projectsMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
 		</ul>
+		<ul class="list-unstyled">
+			<li><a x-modal-project-entry href>Add Project</a></li>
+		</ul>
 	</div>
 	<div ng-if="menu.context === 'project'">
 	 	<hr>
 		<label class="control-label">Project</label>
 		<ul class="list-unstyled">
-			<li><a du-smooth-scroll href="#top">Tombstone</a></li>
-			<li><a du-smooth-scroll href="#edit">Edit</a></li>
-			<li><a du-smooth-scroll href="#map">Map</a></li>
-			<li><a du-smooth-scroll href="#publiccomments">Public Comments</a></li>
-			<li><a du-smooth-scroll href="#documents">Documents</a></li>
+			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-tombstone')"		href="#top">Tombstone</a></li>
+			<li><a x-modal-project-entry href x-project="menu.project">Edit</a></li>
+			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-documents')"		href="#anchor-documents">Documents</a></li>
+			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-publiccomments')"	href="#anchor-publiccomments">Public Comments</a></li>
+			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-activities')"		href="#anchor-activities">Activities</a></li>
+			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-map')"				href="#anchor-map">Map</a></li>
 		</ul>
 		<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user);">
 			<li ng-repeat="item in menu.projectMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
+		</ul>
+		<ul class="list-unstyled">
+			<li><a x-modal-project-entry href>Add Project</a></li>
 		</ul>		
 	</div>	
 	<div ng-show="menu.systemMenu.shouldRender(menu.authentication.user);">

@@ -1,6 +1,6 @@
 <label class="control-label">Quick Links</label>
 <ul class="list-unstyled">
 	<li ng-repeat="project in qlPanel.quickLinks">
-		<a html ui-sref="eao.project({id: project._id})">{{ project.name }}</a>
+		<a html ui-sref="project({id: project._id})">{{ project.name }}</a>
 	</li>
 </ul>

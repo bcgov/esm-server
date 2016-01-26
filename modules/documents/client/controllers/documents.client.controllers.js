@@ -3,6 +3,7 @@
 angular.module('documents')
     .controller('controllerDocumentUploadGlobal', controllerDocumentUploadGlobal)
     .controller('controllerDocumentList', controllerDocumentList)
+    .controller('controllerDocumentBrowser', controllerDocumentBrowser)    
 	.controller('controllerModalDocumentViewer', controllerModalDocumentViewer)
 	.controller('controllerModalDocumentBuckets', controllerModalDocumentBuckets);
 
@@ -161,6 +162,22 @@ function controllerDocumentList($scope) {
 		docList.filterId = newValue;
 	});
 }
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Document List
+//
+// -----------------------------------------------------------------------------------
+controllerDocumentBrowser.$inject = ['$scope'];
+/* @ngInject */
+function controllerDocumentBrowser($scope) {
+	var docBrowser = this;
+
+	$scope.$watch('project', function(newValue) {
+		docBrowser.project = newValue;
+	});
+
+}
+
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Modal: View Documents Comment

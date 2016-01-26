@@ -5,34 +5,57 @@
 			{{ proj.project.name }}
 		</h1>
 
-		<tmpl-project-tombstone id="tombstone" x-project="proj.project" ng-if="('project' | shouldDisplayPanel:'tombstone':proj.project.status)">
-		</tmpl-project-tombstone>
+		<section class="panel panel-default">
 
-		<tmpl-project-stream-select id="stream" x-project="proj.project" ng-if="('project'| shouldDisplayPanel:'stream':proj.project.status)">
-		</tmpl-project-stream-select>
+			<tmpl-project-tombstone
+				id="anchor-tombstone"
+				x-project="proj.project"
+				ng-if="('project' | shouldDisplayPanel:'tombstone':proj.project.status)">
+			</tmpl-project-tombstone>
 
-		<tmpl-public-comment-display x-project="proj.project" ng-if="('project'| shouldDisplayPanel:'public-comments':proj.project.status)">
-		</tmpl-public-comment-display>
+			<tmpl-project-stream-select
+				id="anchor-stream"
+				x-project="proj.project"
+				ng-if="('project'| shouldDisplayPanel:'stream':proj.project.status)">
+			</tmpl-project-stream-select>
 
-		<tmpl-map id="map" x-project="proj.project" ng-if="('project'| shouldDisplayPanel:'map':proj.project.status)">
-		</tmpl-map>
+			<tmpl-documents-browser
+				id="anchor-documents"
+				x-project="proj.project"
+				ng-if="('project'| shouldDisplayPanel:'documents':proj.project.status)">
+			</tmpl-documents-browser>
 
-		<tmpl-project-entry id="edit" x-project="proj.project" ng-if="('project'| shouldDisplayPanel:'edit':proj.project.status)">
-		</tmpl-project-entry>
+			<tmpl-public-comment-display
+				id="anchor-publiccomments"
+				x-project="proj.project"
+				ng-if="('project'| shouldDisplayPanel:'public-comments':proj.project.status)">
+			</tmpl-public-comment-display>
 
-		<tmpl-project-activities id="activities" x-project="proj.project" ng-if="('project'| shouldDisplayPanel:'activities':proj.project.status)">
-		</tmpl-project-activities>
+			<tmpl-project-activities
+				id="anchor-activities"
+				x-project="proj.project"
+				ng-if="('project'| shouldDisplayPanel:'activities':proj.project.status)">
+			</tmpl-project-activities>
+			
+			<tmpl-map
+				id="anchor-map"
+				x-project="proj.project"
+				ng-if="('project'| shouldDisplayPanel:'map':proj.project.status)">
+			</tmpl-map>
 
-		<tmpl-project-bucket-listing x-project="proj.project" x-filter="proj.artifactView">
-		</tmpl-project-bucket-listing>
+
+			<tmpl-project-bucket-listing x-project="proj.project" x-filter="proj.artifactView">
+			</tmpl-project-bucket-listing>
 
 
-		<tmpl-project-research x-project="proj.project" ng-if="('project'| shouldDisplayPanel:'public-comments':proj.project.status)">
-		</tmpl-project-research>
+			<tmpl-project-research x-project="proj.project" ng-if="('project'| shouldDisplayPanel:'public-comments':proj.project.status)">
+			</tmpl-project-research>
 
+		</section>
+		
 	</div> <!-- /col9 -->
 	<div class='col-sm-2'>
-		<tmpl-system-menu x-menu-context="project"></tmpl-system-menu>
+		<tmpl-system-menu x-menu-context="project" x-project="proj.project"></tmpl-system-menu>
 	</div>
 
 </section>
