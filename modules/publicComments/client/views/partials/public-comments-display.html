@@ -1,0 +1,190 @@
+<section class="block-content">
+
+	<div class="alert alert-info text-center" ng-if="pubComDisp.project.dateCommentsOpen | isInTheFuture">
+		<div>
+			<p>Public Comment Period Scheduled for <strong>{{ pubComDisp.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}}</strong> to <strong>{{ pubComDisp.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY'}}</strong></p>
+			<countdown-clock x-end="pubComDisp.project.dateCommentsOpen"></countdown-clock>
+		</div>
+	</div>
+
+
+
+	<div class="panel-body">
+		<div class="small form-group">
+
+			<h3>Submitting Your Comments: How It Works</h3>
+			<p>Comments submitted to the Environmental Assessment Office (EAO) will be published online.</p>
+			<p>EAO publishes all accepted comments within seven days of receipt. Comments are not accepted if - in EAO’s view - they are profane, abusive or do not relate to the matter being consulted upon as stated in our <a href="http://www.eao.gov.bc.ca/pdf/EAO_Policy_Public_Comment.pdf" target="_new">Public Comment Policy [PDF]</a>.</p>
+			<p ng-show="!legalMore"><a href ng-click="legalMore = true"><em>More...</em></a></p>
+			<p ng-show="legalMore">EAO forwards all posted comments to project proponents so that they can be duly considered during the project's Environmental Assessment (EA) process.</p>
+			<p ng-show="legalMore">You may provide your name and city/town when making a comment, but in order to have your name displayed with your comment you must select the 'Show my name and location on the public site' option.</p>
+			<p ng-show="legalMore">All hyperlinks in comments will be converted to plain text. All attachments will be limited to 5MB.</p>
+			<p ng-show="legalMore"><a href ng-click="legalMore = false"><em>Less</em></a></p>
+			<hr>
+			<p><em>Public comments received by EAO are published according to the date received.  Where relevant, comments may be categorized by one or more topic areas from the Application, either during or following the public comment period.  Categorized comments will appear by topic area below.</em></p>			
+		</div>
+	</div>
+	
+
+	<div ng-if="(pubComDisp.project.dateCommentsOpen && pubComDisp.project.dateCommentsClosed)">
+
+	<h3 class="panel-sub-title clickable panel-body" ng-click="toggleProject.docs = !toggleProject.docs">Public Comment Period</h3>
+	<div class="panel-body">
+		<p>
+			{{ pubComDisp.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}} to {{ pubComDisp.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY' }}
+			<span ng-if="(pubComDisp.project.dateCommentsOpen | isInThePast) && (pubComDisp.project.dateCommentsClosed | isInTheFuture)"><br/><strong><em>Open Now</em></strong></span>
+		</p>
+
+		<div ng-if="(pubComDisp.project.dateCommentsOpen | isInThePast) && (pubComDisp.project.dateCommentsClosed | isInTheFuture)">
+			<a class="btn btn-success wrap btn-md" href x-modal-add-public-comment x-project="pubComDisp.project">Click here to Comment on the Application</a>
+		</div>
+
+	</div>
+	<div class="panel-body panel-top-border">	
+		<div ng-if="pubComDisp.comments.length !== 0 && (pubComDisp.project.dateCommentsOpen | isInThePast) && (pubComDisp.project.dateCommentsClosed | isInTheFuture)">
+			<nav class="navbar navbar-default navbar-sm" ng-init="pubComDisp.form.view = 'bydate'" ng-if="pubComDisp.comments.length !== 0">
+				<div class="container-fluid">
+
+					<ul class="nav navbar-nav navbar-form navbar-left">
+						<li>
+							<div class="btn-group btn-group-sm">
+								<button class="btn btn-default" ng-click="pubComDisp.form.view = 'bydate'"		ng-class="{'btn-primary': pubComDisp.form.view === 'bydate'}">By Date</button>
+								<button class="btn btn-default" ng-click="pubComDisp.form.view = 'bytopic'"	ng-class="{'btn-primary': pubComDisp.form.view === 'bytopic'}">By Topic</button>
+								<button class="btn btn-default" ng-click="pubComDisp.form.view = 'bychart'"	ng-if="pubComDisp.commentsByTopicVis" ng-class="{'btn-primary': pubComDisp.form.view === 'bychart'}">By Topic Chart</button>
+							</div>
+
+						</li>
+					</ul>
+
+					<ul class="nav navbar-nav navbar-right">
+
+						<li ng-if="pubComDisp.form.view !== 'bychart'">
+							<form class="navbar-form" role="filter1">
+								<div class="form-group">
+									<label class="control-label">Keyword Search</label>
+									<input ng-model="pubComDisp.filterKeyword" type="text" class="form-control" placeholder="">
+								</div>
+							</form>
+						</li>
+					</ul>
+
+				</div><!-- /.container-fluid -->
+			</nav>
+		</div>
+
+
+		<div ng-repeat="(heading, topic) in pubComDisp.commentsByTopicKeys | orderBy:'name' | filter:pubComDisp.filterBucketGroup" class="concern-list" ng-show="pubComDisp.form.view === 'bytopic' && pubComDisp.comments.length > 0" ng-init="toggleTopicComment[item._id] = false">
+			<h3 ng-click='form[heading] = !form[heading]' class="clickable concern-heading">
+				{{ heading }}<div class="pull-right small"><span ng-if="!form[heading]">Click to view.</span> Number of comments tagged: {{ (pubComDisp.commentsByTopic[heading] | filter:pubComDisp.filterKeyword).length || 0 }} of {{ pubComDisp.comments.length || 0 }} </div>
+			</h3>
+			<hr ng-if='!form[heading]'>
+			<div class="" ng-show='form[heading]'>
+					<div class="row comment-list" ng-repeat-start="item in pubComDisp.commentsByTopic[heading] | advancedFilter:pubComDisp.filterKeyword | orderBy:'dateAdded':true">
+						<div class="col-sm-9">
+							<pre class="form-group">{{ item.comment | maxWords:80:toggleTopicComment[item._id] }}</pre>
+							<p ng-if="(item.comment | wordCount) > 80">
+								<a href ng-click="toggleTopicComment[item._id] = !toggleTopicComment[item._id]">
+									<span ng-show="!toggleTopicComment[item._id]"><em>More ({{ item.comment | wordCount }} words)</em></span>
+									<span ng-show="toggleTopicComment[item._id]"><em>Less</em></span>
+								</a>
+							</p>
+						</div>
+
+
+						<div class="col-sm-3">
+							<p ng-if="item.author && item.displayName">Name: {{ item.author }}</p>
+							<p ng-if="item.location && item.displayName">Location: {{ item.location }}</p>
+							<p>{{ item.dateAdded | amDateFormat:'MMM Do, YYYY h:mm a'}}</p>
+							<ul class="list-unstyled document-vetting small">
+								<li ng-repeat="doc in item.documents">
+									<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus == 'Published'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
+								</li>
+							</ul>
+
+							<div class="form-group" ng-show="item.buckets.length > 0">
+								<label class="control-label">Related Topics</label>
+								<ul class="small">
+									<li ng-repeat="bucket in item.buckets">{{ bucket.name }}</li>
+								</ul>
+							</div>
+
+						</div>
+
+
+
+					</div>
+					<hr ng-repeat-end>
+			</div>
+
+			<div ng-show='( buckets | advancedFilter:pubComDisp.filterKeyword).length === 0 && form[heading]'>
+				<div class="panel-body">
+					No comments match these keywords.
+				</div>
+			</div>
+		</div>
+
+		<div ng-show="!pubComDisp.commentsByTopic && pubComDisp.form.view === 'bytopic'">
+			<div class="panel-body">
+				No comments have been classified by topic yet.  Please check back later.
+			</div>
+		</div>
+
+		<div ng-show="pubComDisp.form.view === 'bydate' && pubComDisp.comments.length > 0">
+			<div class="panel-body">
+				<div class="row comment-list" ng-repeat-start="item in commentsFiltered = (pubComDisp.comments | advancedFilter:pubComDisp.filterKeyword) | orderBy:'dateAdded':true" ng-init="toggleDateComment[item._id] = false">
+
+					<div class="col-sm-9">
+						<pre class="form-group">{{ item.comment | maxWords:80:toggleDateComment[item._id] }}</pre>
+						<p ng-if="(item.comment | wordCount) > 80">
+							<a href  ng-click="toggleDateComment[item._id] = !toggleDateComment[item._id]">
+								<span ng-show="!toggleDateComment[item._id]"><em>More ({{ item.comment | wordCount }} words)</em></span>
+								<span ng-show="toggleDateComment[item._id]"><em>Less</em></span>
+							</a>
+						</p>
+					</div>
+
+					<div class="col-sm-3">
+						<p ng-if="item.author && item.displayName">Name: {{ item.author }}</p>
+						<p ng-if="item.location && item.displayName">Location: {{ item.location }}</p>
+						<p>{{ item.dateAdded | amDateFormat:'MMM Do, YYYY h:mm a'}}</p>
+						<ul class="list-unstyled document-vetting small">
+							<li ng-repeat="doc in item.documents">
+								<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus === 'Published'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
+							</li>
+						</ul>
+
+						<div class="form-group" ng-show="item.buckets.length > 0">
+							<label class="control-label">Related Topics</label>
+							<ul class="small">
+								<li ng-repeat="bucket in item.buckets">{{ bucket.name }}</li>
+							</ul>
+						</div>
+
+					</div>
+
+
+				</div>
+				<hr ng-if="!$last" ng-repeat-end>
+
+				<div ng-if="commentsFiltered.length === 0 && pubComDisp.form.view === 'bydate' && pubComDisp.filterKeyword">
+					No comments match those keywords.
+				</div>
+
+			</div>
+		</div>
+
+
+
+		<div class="" ng-show="pubComDisp.form.view === 'bychart' && pubComDisp.comments.length > 0">
+			<div class="panel-body">
+				<label class="control-label">Comment Volume by Topic</label>
+				<tmpl-public-project-comments-circle-chart ng-if="pubComDisp.commentsByTopicVis" x-refresh="pubComDisp.refreshVisualization" x-data="pubComDisp.commentsByTopicVis" id="publicCommentsByTopic"></tmpl-public-project-comments-circle-chart>
+			</div>
+		</div>
+
+		<div ng-show="pubComDisp.comments.length === 0">
+			There are no comments on this project.
+		</div>
+
+	</div>
+</div>

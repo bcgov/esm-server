@@ -1,0 +1,32 @@
+<div class="modal-header">
+	<h3 class="modal-title">Project Schedule</h3>
+</div>
+<div class="modal-body">
+
+	<table class='table table-condensed small'>	
+		<thead>
+			<tr>
+				<th width="17%">Milestone</th>
+				<th width="17%" class='text-center'>Started</th>
+				<th width="17%" class='text-center'>Estimated Completion</th>
+				<th width="17%" class='text-center'>Completed</th>
+				<th width="5%" class='text-center'></th>
+				<th width="28%" class='text-center'></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="ms in ps.project.milestones" ng-class="{'success': !!ms.completed}">
+				<td>{{ ms.name }}</td>
+				<td class='text-center'>{{ ms.start | amDateFormat:'MMM Do, YYYY' }}</td>
+				<td class='text-center'>{{ ms.target | amDateFormat:'MMM Do, YYYY' }}</td>
+				<td class='text-center'>{{ ms.completed | amDateFormat:'MMM Do, YYYY' }}</td>
+				<td class='text-center'><span class='glyphicon' ng-class="{'glyphicon-ok': !!ms.completed, 'glyphicon-minus': !ms.completed}"></span></td>
+				<td>{{ ms.note }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>
+<div class="modal-footer">
+	<button class="btn btn-warning" type="button" ng-click="ps.cancel()">Close</button>
+</div>

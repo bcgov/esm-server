@@ -21,7 +21,8 @@ var PublicCommentSchema  = new Schema ({
 	eaoNotes        : { type:String, default: '' },
 	proponentStatus : { type:String, default:'Unclassified', enum:['Unclassified', 'In Progress', 'Deferred', 'Classified'] },
 	proponentNotes  : { type:String, default: '' },
-	returnedNotes	 : { type:String, default: '' },
+	rejectedNotes	 : { type:String, default: '' },
+	rejectedReason	 : { type:String, default: '' },
 	updatedBy       : { type:'ObjectId', ref:'User', default:null },
 	dateUpdated     : { type: Date, default: Date.now }
 });

@@ -1,11 +1,29 @@
 'use strict';
 
 angular.module('projects')
+	.directive('tmplProjects', directiveProjects)
 	.directive('tmplProjectsList', directiveProjectsList)
 	.directive('tmplProjectsSchedule', directiveProjectsSchedule)
-	.directive('tmplProjectsPanels', directiveProjectsPanels)        
-	.directive('tmplProjectsMap', directiveProjectsMap)    
-	.directive('tmplProjectsFilterBar', directiveProjectsFilterBar);
+	// .directive('tmplProjectsPanels', directiveProjectsPanels)        
+	.directive('tmplProjectsMap', directiveProjectsMap);
+	// .directive('tmplProjectsFilterBar', directiveProjectsFilterBar);
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Public Projects Main
+//
+// -----------------------------------------------------------------------------------
+directiveProjects.$inject = [];
+/* @ngInject */
+function directiveProjects() {
+	var directive = {
+		restrict: 'E',
+		replace: true,
+		templateUrl: 'modules/projects/client/views/projects.html',
+		controller: 'controllerProjects',
+		controllerAs: 'projects'
+	};
+	return directive;
+}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Projects List
@@ -16,6 +34,7 @@ directiveProjectsList.$inject = [];
 function directiveProjectsList() {
 	var directive = {
 		restrict: 'E',
+		replace: true,
 		templateUrl: 'modules/projects/client/views/projects-partials/projects-list.html',
 		controller: 'controllerProjectsList',
 		controllerAs: 'projectList',
@@ -49,30 +68,31 @@ function directiveProjectsSchedule() {
 // DIRECTIVE: Projects Panels
 //
 // -----------------------------------------------------------------------------------
-directiveProjectsPanels.$inject = [];
-/* @ngInject */
-function directiveProjectsPanels() {
-	var directive = {
-		restrict: 'E',
-		templateUrl: 'modules/projects/client/views/projects-partials/projects-panels.html',
-		controller: 'controllerProjectsList',
-		controllerAs: 'projectList',
-		scope: {
-			projects: '='
-		}
-	};
-	return directive;
-}
+// directiveProjectsPanels.$inject = [];
+// /* @ngInject */
+// function directiveProjectsPanels() {
+// 	var directive = {
+// 		restrict: 'E',
+// 		templateUrl: 'modules/projects/client/views/projects-partials/projects-panels.html',
+// 		controller: 'controllerProjectsList',
+// 		controllerAs: 'projectList',
+// 		scope: {
+// 			projects: '='
+// 		}
+// 	};
+// 	return directive;
+// }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Projects Map
 //
 // -----------------------------------------------------------------------------------
-directiveProjectsMap.$inject = [];
+directiveProjectsMap.$inject = ['google'];
 /* @ngInject */
-function directiveProjectsMap() {
+function directiveProjectsMap(google) {
 	var directive = {
 		restrict: 'E',
+		replace: true,
 		templateUrl: 'modules/projects/client/views/projects-partials/projects-map.html',
 		controller: 'controllerProjectsList',
 		controllerAs: 'projectList',
@@ -87,18 +107,18 @@ function directiveProjectsMap() {
 // DIRECTIVE: Projects Filter Bar
 //
 // -----------------------------------------------------------------------------------
-directiveProjectsFilterBar.$inject = [];
-/* @ngInject */
-function directiveProjectsFilterBar() {
-	var directive = {
-		restrict: 'E',
-		replace: true,
-		scope: {
-			data: '='
-		},
-		templateUrl: 'modules/projects/client/views/projects-partials/projects-filter-bar.html',
-		controller: 'controllerProjectsFilterBar',
-		controllerAs: 'fbc'
-	};
-	return directive;
-}
+// directiveProjectsFilterBar.$inject = [];
+// /* @ngInject */
+// function directiveProjectsFilterBar() {
+// 	var directive = {
+// 		restrict: 'E',
+// 		replace: true,
+// 		scope: {
+// 			data: '='
+// 		},
+// 		templateUrl: 'modules/projects/client/views/projects-partials/projects-filter-bar.html',
+// 		controller: 'controllerProjectsFilterBar',
+// 		controllerAs: 'fbc'
+// 	};
+// 	return directive;
+// }

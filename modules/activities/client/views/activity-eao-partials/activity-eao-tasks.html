@@ -3,22 +3,20 @@
 		<li ng-repeat="item in actTasks.tasks" x-user-is="{{ item.access.write }}" style="position: relative;">
 			<button
 				id="'task-' + ( item._id | kebab )"
-				class="btn btn-sm btn-block clearfix btn-task-indicator btn-task-{{ item.status | kebab }}" 
+				class="btn btn-sm btn-block clearfix btn-task-indicator btn-task-not-started"
 				ng-click="actTasks.taskChange(item, actTasks.project, $event)"
 				ng-class="{'task-selected': actTasks.currentTask === 'task-' + ( item._id | kebab )}">
 
 				<div>{{ item.name }}</div>
-				<div class="task-current-status">{{ item.status }}</div>
 			</button>
 			<a href x-modal-permission-matrix x-target-object="item" x-target-object-type="task" x-user-is='admin' class="task-permission-control"><span class="glyphicon glyphicon-cog"></span></a>
 		</li>
 	</ul>
-	
+
 </div>
 <div>
 	<ul class="list-unstyled">
 		<li><label class="control-label">
-			Click to Select<br/>Shift+Click to change status<br/>Alt+Click for Not Applicable<br/>
 			<a href x-modal-add-custom-task x-activity="actTasks.activity" x-tasks="actTasks.tasks" x-user-is="admin">Add Custom Task</a>
 		</label></li>
 	</ul>

@@ -4,7 +4,7 @@ angular.module('project')
 	// EAO
 	.controller('controllerEAOProject', controllerEAOProject)
 	.controller('controllerEAOProjectNew', controllerEAOProjectNew)
-	.controller('controllerEAOProjectEdit', controllerEAOProjectEdit)
+
 	.controller('controllerModalProjectEdit', controllerModalProjectEdit)
 	.controller('controllerModalProjectEditPlanSchedule', controllerModalProjectEditPlanSchedule);
 
@@ -61,52 +61,6 @@ function controllerEAOProjectNew(Project, $state) {
 	};
 
 }
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: EAO Project New
-//
-// -----------------------------------------------------------------------------------    
-controllerEAOProjectEdit.$inject = ['$state', 'Project', 'Configuration', '_'];
-/* @ngInject */
-function controllerEAOProjectEdit($state, Project, Configuration, _) {
-	var projectEntry = this;
-
-	projectEntry.questions = Project.getProjectIntakeQuestions();
-	projectEntry.form = {curTab: $state.params.tab};
-
-	Project.getProject({id: $state.params.id}).then( function(res) {
-		projectEntry.project = res.data;
-	});
-
-	Configuration.getStreams().then(function(res){
-		projectEntry.streams = res.data;
-	});
-
-	projectEntry.submitProject = function() {
-		projectEntry.project.status = 'Submitted';
-		projectEntry.saveProject();
-	};
-
-
-	projectEntry.saveProject = function() {
-		Project.saveProject(projectEntry.project).then( function(res) {
-			projectEntry.project = _.assign(res.data);
-		});
-	};
-
-	// admin users can set the project stream
-	projectEntry.setProjectStream = function() {
-		if ((!projectEntry.project.stream || projectEntry.project.stream === '') && projectEntry.newStream) {
-			projectEntry.project.status = 'In Progress';
-			Project.saveProject(projectEntry.project).then( function(res) {
-				// set the stream then move to the project overview page.
-				Project.setProjectStream(projectEntry.project._id, projectEntry.newStream).then( function() {
-					$state.go('eao.project', {'id':projectEntry.project._id});				
-				});
-			});
-		}
-	};
-}  
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Modal: View Project Schedule

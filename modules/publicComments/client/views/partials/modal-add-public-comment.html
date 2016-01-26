@@ -3,12 +3,17 @@
 </div>
 
 <div class="modal-body" ng-if="publicComment.step === 1">
-	<h3>Disclosure and Use of Personal Information for Submissions</h3>
-	<p>Comments submitted to the Environmental Assessment Office (EAO), either online, by mail or by fax, will be published on the <a href="http://a100.gov.bc.ca/appsdata/epic/html/deploy/epic_home.html" target="_new">EAO Electronic Project Information Centre</a> (ePIC).</p>
-	<p>EAO publishes all comments received within seven days of receipt, except comments that EAO deems to be inappropriate for publication. Comments may be considered inappropriate for publication if - in EAO’s view - they are profane, abusive or do not relate to the matter being consulted upon as stated in our <a href="http://www.eao.gov.bc.ca/pdf/EAO_Policy_Public_Comment.pdf" target="_new">Public Comment Policy</a> [PDF].</p>
-	<p>EAO forwards all posted comments to project proponents so that they can be duly considered during the projects’ Environmental Assessment (EA) process.</p>
-	<p>Although EAO requires that you provide your name and city/town when making a comment, having your name displayed with your comment is optional. To have your name displayed with your comment, please select the Yes option on the form above.</p>
-	<p>All links/URLs in a comment will be removed as we cannot guarantee that the link will not break during the time the comment is publicly available in the EAO Project Information Centre. To include content from another web site, please attach it as a PDF to your comment.</p>
+
+	<h3>Submitting Your Comments: How It Works</h3>
+	<div class="small form-group">
+		<p>Comments submitted to the Environmental Assessment Office (EAO) will be published online.</p>
+		<p>EAO publishes all accepted comments within seven days of receipt. Comments are not accepted if - in EAO’s view - they are profane, abusive or do not relate to the matter being consulted upon as stated in our <a href="http://www.eao.gov.bc.ca/pdf/EAO_Policy_Public_Comment.pdf" target="_new">Public Comment Policy [PDF]</a>.</p>
+		<p>EAO forwards all posted comments to project proponents so that they can be duly considered during the project's Environmental Assessment (EA) process.</p>
+		<p>You may provide your name and city/town when making a comment, but in order to have your name displayed with your comment you must select the 'Show my name and location on the public site' option.</p>
+		<p>All hyperlinks in comments will be converted to plain text. All attachments will be limited to 5MB.</p>
+
+	</div>
+
 </div>
 
 
@@ -18,11 +23,11 @@
 		<div class="form-group" show-errors>
 			<label for="publiccomment" class="control-label">Your Comment</label>
 			<textarea id="publiccomment" name="publiccomment" class="form-control" rows="6" ng-model="publicComment.data.comment" required></textarea>
-			
+
 			<div ng-messages="publicCommentForm.publiccomment.$error" role="alert">
 				<p class="help-block error-text small" ng-message="required"><em>A comment is required.</em></p>
 			</div>
-		
+
 		</div>
 		<div class="row">
 			<div class="form-group col-sm-6" show-errors>
@@ -61,8 +66,10 @@
 	<div class="modal-body" ng-if="publicComment.step === 3">
 		<h3>Thank you for your comment</h3>
 		<label class="control-label">What happens next?</label>
-		<p>Within 7 days comment will be published to the public project record and then responded to by the proponent a short time later.</p>
-		<p>All published comments can be found in the lower section of this page.</p>
+		<div class="form-group small">
+			<p>Comments submitted to the Environmental Assessment Office (EAO) will be published online</p>
+			<p>EAO publishes all accepted comments within seven days of receipt. Comments are not accepted if - in EAO’s view - they are profane, abusive or do not relate to the matter being consulted upon as stated in our <a href="http://www.eao.gov.bc.ca/pdf/EAO_Policy_Public_Comment.pdf" target="_new">Public Comment Policy [PDF]</a>.</p>
+		</div>
 	</div>
 
 
@@ -73,7 +80,7 @@
 
 	<div class="modal-footer" ng-if="publicComment.step === 2">
 		<button class="btn btn-default" type="button" ng-click="publicComment.cancel()">Cancel</button>
-		<button class="btn btn-primary" type="submit">Send</button>
+		<button class="btn btn-primary" type="submit">Submit</button>
 	</div>
 
 	<div class="modal-footer" ng-if="publicComment.step === 3">

@@ -35,7 +35,7 @@ function controllerAuthentication($scope, $state, $http, $location, $window, Aut
       // If successful we assign the response to the global user model
       loginPanel.authentication.user = response;
       // And redirect to the previous or home page
-      $state.go($state.previous.state.name || 'home', $state.previous.params);
+      $state.go($state.previous.state.name || 'projects', $state.previous.params);
     }).error(function (response) {
       loginPanel.error = response.message;
     });
@@ -53,9 +53,7 @@ function controllerAuthentication($scope, $state, $http, $location, $window, Aut
       loginPanel.authentication.user = response;
       console.log($state.previous.state.name, response);
       // And redirect to the previous or home page
-      //$state.go($state.previous.state.name || 'eao.projects', $state.previous.params);
-
-      $state.go('eao.projects');
+      $state.go('projects');
     }).error(function (response) {
       loginPanel.error = response.message;
     });

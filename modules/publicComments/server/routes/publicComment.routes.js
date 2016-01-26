@@ -32,6 +32,8 @@ module.exports = function (app) {
 		.get (controller.new);
 
 
+	app.route ('/api/delete/publiccomment/:publiccomment').all (policy.isAllowed).get (controller.delete);
+
 
 
 	app.route ('/api/publiccomment/project/:projectid/published').all (policy.isAllowed)

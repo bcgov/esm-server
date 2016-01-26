@@ -18,6 +18,8 @@ module.exports = {
         'public/lib/angular-messages/angular-messages.js',
         'public/lib/angular-ui-router/release/angular-ui-router.js',
         'public/lib/angular-ui-utils/ui-utils.js',
+        'public/lib/jquery/dist/jquery.min.js',
+        'public/lib/bootstrap/dist/js/bootstrap.min.js',
         'public/lib/angular-bootstrap/ui-bootstrap.js',
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
         'public/lib/angular-file-upload/angular-file-upload.js',
@@ -33,7 +35,8 @@ module.exports = {
         'public/lib/moment-timezone/moment-timezone.js',
         'public/lib/angular-moment/angular-moment.js',
         'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
-        // these were in the applicaiton js area before
+		'public/lib/angular-scroll/angular-scroll.min.js',
+        // these were in the application js area before
         'public/lib/ngmap/build/scripts/ng-map.js',
 		'public/moment-timezone-data.js',
 		'public/readable-range.js'

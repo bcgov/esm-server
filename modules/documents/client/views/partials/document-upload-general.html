@@ -4,7 +4,7 @@
 		<div class="col-md-12">
 		    <div ngf-drop ngf-select ng-model="files" class="drop-box"
 		        ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
-		        accept="image/*,application/pdf" 
+		        accept="image/*,application/pdf"
 		        ngf-pattern="'image/*,application/pdf'">Drop files here or click to select
 		    </div>
 		</div>
@@ -14,7 +14,7 @@
 		<thead>
 			<tr class="small">
 				<th width="90%">File</th>
-				<th width="10%"></th>				
+				<th width="10%"></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -39,10 +39,14 @@
 					<p class="form-control-static">{{f.name}}</p>
 				</td>
 
-				<td ng-if="!f.$error">
-					<div class="progress" ng-show="f.progress >= 0" style="margin-top: 7px;"><div class="progress-bar progress-bar-success" role="progressbar" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">{{ f.progress }}</div></div>
+
+				<td ng-if="!f.$error && !f.progress" class="text-right">
+					<p class="form-control-static"><a href ng-click="docUpload.removeFile(f)"><span class="glyphicon glyphicon-remove"></span></a></p>
 				</td>
 
+				<td ng-if="!f.$error && f.progress">
+					<div class="progress" ng-show="f.progress >= 0" style="margin-top: 7px;"><div class="progress-bar progress-bar-success" role="progressbar" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">{{ f.progress }}</div></div>
+				</td>
 
 			</tr>
 		</tbody>

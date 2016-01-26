@@ -24,10 +24,9 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 			roles: ['admin']
 		}		
 	})
-
-	.state('default', {
+	.state('projects', {
 		url: '/',
-		template: '<tmpl-public-projects></tmpl-public-projects>'
+		template: '<tmpl-projects></tmpl-projects>'
 	})
 	.state('login', {
 		url: '/login',
@@ -40,25 +39,25 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	.state('recover', {
 		url: '/recover',
 		template: '<tmpl-recover></tmpl-recover>'
-	})     
+	})
 	// -----------------------------------------------------------------------------------
 	//
 	// ROUTES: Public
 	//
 	// -----------------------------------------------------------------------------------
-	.state('public', {
-		url: '/public',
-		abstract: true,
-		template: '<div ui-view></div>'
-	})
-	.state('public.projects', {
-		url: '/projects',
-		template: '<tmpl-public-projects></tmpl-public-projects>'
-	})
-	.state('public.project', {
-		url: '/project/:id',
-		template: '<tmpl-public-project></tmpl-public-project>'
-	})
+	// .state('public', {
+	// 	url: '/public',
+	// 	abstract: true,
+	// 	template: '<div ui-view></div>'
+	// })
+	// .state('public.projects', {
+	// 	url: '/projects',
+	// 	template: '<tmpl-public-projects></tmpl-public-projects>'
+	// })
+	// .state('public.project', {
+	// 	url: '/project/:id',
+	// 	template: '<tmpl-public-project></tmpl-public-project>'
+	// })
 	// -----------------------------------------------------------------------------------
 	//
 	// ROUTES: Proponent
@@ -70,7 +69,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	// 	template: '<div ui-view></div>',
 	// 	data: {
 	// 		roles: ['admin']
-	// 	}		
+	// 	}
 	// })
 	// .state('proponent.projects', {
 	// 	url: '/projects',
@@ -87,68 +86,47 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	// .state('proponent.register', {
 	// 	url: '/register/',
 	// 	template: '<tmpl-proponent-register></tmpl-proponent-register>'
-	// })         
+	// })
 	// .state('proponent.activity', {
 	// 	url: '/activity/:id',
 	// 	template: '<tmpl-proponent-activity></tmpl-proponent-activity>'
-	// })         
+	// })
 	// -----------------------------------------------------------------------------------
 	//
 	// ROUTES: Proponent
 	//
 	// -----------------------------------------------------------------------------------
-	.state('eao', {
-		url: '/eao',
-		abstract: true,
-		template: '<div ui-view></div>',
-		data: {
-			roles: ['admin', 'user']
-		}
-	})
-	.state('eao.projects', {
-		url: '/projects',
-		template: '<tmpl-eao-projects></tmpl-eao-projects>',
-		data: {
-			roles: ['admin', 'user']
-		}
-	})
-	.state('eao.project', {
+	// .state('eao', {
+	// 	url: '/eao',
+	// 	abstract: true,
+	// 	template: '<div ui-view></div>',
+	// 	data: {
+	// 		roles: ['admin', 'user']
+	// 	}
+	// })
+	// .state('eao.projects', {
+	// 	url: '/projects',
+	// 	template: '<tmpl-eao-projects></tmpl-eao-projects>',
+	// 	data: {
+	// 		roles: ['admin', 'user']
+	// 	}
+	// })
+	.state('project', {
 		url: '/project/:id',
-		template: '<tmpl-eao-project></tmpl-eao-project>',
-		data: {
-			roles: ['admin', 'user']
-		}
+		template: '<tmpl-project></tmpl-project>'
 	})
-	.state('eao.newproject', {
-		url: '/newproject/',
-		template: '<tmpl-eao-project-new></tmpl-eao-project-new>',
-		data: {
-			roles: ['admin', 'user']
-		}
-	})
-	.state('eao.editproject', {
-		url: '/editproject/:id/:tab',
-		template: '<tmpl-eao-project-edit></tmpl-eao-project-edit>',
-		data: {
-			roles: ['admin', 'user']
-		}
-	})            
-	.state('eao.activity', {
+	.state('activity', {
 		url: '/activity/:id',
 		template: '<tmpl-eao-activity></tmpl-eao-activity>',
 		data: {
 			roles: ['admin', 'user']
 		}
-	});             
+	});
 
 
 
 	// Home state routing
 	$stateProvider
-	.state('home', {
-		url: '/',
-		templateUrl: 'modules/core/client/views/home.client.view.html'
-	})
 	.state('not-found', {
 		url: '/not-found',
 		templateUrl: 'modules/core/client/views/404.client.view.html',
@@ -170,7 +148,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 			ignoreState: true
 		}
 	});
-  
+
 }
 
 

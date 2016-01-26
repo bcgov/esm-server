@@ -1,12 +1,17 @@
-<h1 class="page-title">
-	<a href ui-sref='eao.project({id: actBase.project._id })' class='pull-right return-link'>Return to Activities</a>
-	{{ actBase.project.name }}
-</h1>
+<section id="activity-view" class="row">
 
-<section id="project-view" class="container-fluid">
+	<div class='col-sm-10'>
+		<h1 class="page-title">
+			{{ actBase.project.name }}
+		</h1>
 
-	<tmpl-project-tombstone-horizontal x-project="actBase.project"></tmpl-project-tombstone-horizontal>
+		<section class="panel panel-default">
 
-	<tmpl-eao-activity-detail x-project="actBase.project" x-activity="actBase.activity"></tmpl-eao-activity-detail>
+		</section>
+		
+	</div> <!-- /col9 -->
+	<div class='col-sm-2'>
+		<tmpl-system-menu x-menu-context="activity" x-project="proj.project"></tmpl-system-menu>
+	</div>
 
 </section>

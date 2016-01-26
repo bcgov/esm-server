@@ -1,9 +1,14 @@
 'use strict';
 
+var path     = require('path');
+var control  = require (path.resolve('./modules/core/server/controllers/core.models.controller'));
+var _ = require ('lodash');
 var mongoose = require ('mongoose');
-var Schema = mongoose.Schema;
+var Schema   = mongoose.Schema;
 
-var ProjectSchema = new Schema ({
+var ProjectSchema = {
+	// __audit     : true,
+	// __access    : true,
 	code        : { type:String, default:'New Project', index:true },
 	name        : { type:String, default:'New Project' },
 	description : { type:String, default:'' },
@@ -30,23 +35,36 @@ var ProjectSchema = new Schema ({
 	overallProgress              : { type: Number, default:0 },
 	lat                          : { type: Number, default:0 },
 	lon                          : { type: Number, default:0 },
-	dateCommentsOpen : { type: Date, default: null },
-	dateCommentsClosed : { type: Date, default: null },
-	dateAdded   : { type: Date},
-	addedBy     : {type:'ObjectId', ref:'User'},
-	dateUpdated : { type: Date},
-	updatedBy   : {type:'ObjectId', ref:'User'},
-	read  : [ {type:String} ],
-	write : [ {type:String} ],
-	submit: [ {type:String} ],
-	watch : [ {type:String} ]
-});
+	dateCommentsOpen   : { type: Date, default: null },
+	dateCommentsClosed : { type: Date, default: null }
+	// dateAdded   : { type: Date},
+	// addedBy     : {type:'ObjectId', ref:'User'},
+	// dateUpdated : { type: Date},
+	// updatedBy   : {type:'ObjectId', ref:'User'},
+	// read  : [ {type:String} ],
+	// write : [ {type:String} ],
+	// submit: [ {type:String} ],
+	// watch : [ {type:String} ]
+};
 
-ProjectSchema.pre ('save', function (next) {
-	this.dateUpdated = Date.now;
-	if ( !this.dateAdded ) this.dateAdded = this.dateUpdated;
-	next();
-});
+//
+// add the audit fields and access fields
+//
+_.extend (ProjectSchema, control.auditFields);
+_.extend (ProjectSchema, control.accessFields);
+//
+// make the schema
+//
+ProjectSchema = new Schema (ProjectSchema);
+//
+// hook the pre save audit stuff
+//
+ProjectSchema.pre ('save', control.auditSaveFunction);
+//
+// add the permission checking methods
+//
+ProjectSchema.methods.hasPermission = control.hasPermission;
+ProjectSchema.methods.permissions   = control.permissions;
 
 var Project = mongoose.model ('Project', ProjectSchema);
 

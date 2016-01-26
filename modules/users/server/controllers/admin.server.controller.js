@@ -6,8 +6,17 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
+  _ = require ('lodash'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   access = require(path.resolve('./modules/core/server/controllers/core.access.controller'));
+
+
+var saveUser = function (user) {
+  return new Promise (function (resolve, reject) {
+    user.save ().then (resolve, reject);
+  });
+};
+exports.saveUser = saveUser;
 
 /**
  * Show the current user
@@ -99,5 +108,16 @@ exports.userByID = function (req, res, next, id) {
 
     req.model = user;
     next();
+  });
+};
+
+exports.addUserRole = function (user, role) {
+  return new Promise (function (resolve, reject) {
+    if (_.indexOf(user.roles, role.code) === -1) {
+      user.roles.push (role.code);
+      saveUser(user).then (resolve, reject);
+    } else {
+      resolve (user);
+    }
   });
 };

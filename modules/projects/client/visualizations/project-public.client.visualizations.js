@@ -19,6 +19,7 @@ function directivePublicProjectCommentsCircleChart(d3, $window) {
 		},
 		template: '<div></div>',
 		link: function (scope, element, attrs) {
+
 			/* =======================================================================================
 			 *
 			 *  Activities
@@ -56,8 +57,7 @@ function directivePublicProjectCommentsCircleChart(d3, $window) {
 				.attr("class", "bubble");
 
 			scope.$watch('refresh', function(root) {
-
-			  if (root) {
+			  if (root && scope.data.children.length > 0) {
 				var node = svg.selectAll(".node")
 					.data(bubble.nodes(classes(scope.data))
 					.filter(function(d) { return !d.children; }))
@@ -114,7 +114,10 @@ function directivePublicProjectCommentsCircleChart(d3, $window) {
 
 			resize();
 
-			d3.select(window).on('resize', resize);
+			d3.select(window).on(('resize.' + attrs.id), resize);
+
+
+
 
 
 		} // close link

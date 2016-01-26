@@ -32,6 +32,8 @@ exports.invokeRolesPolicies = function () {
 		[ '', 'user', '/api/publiccomment/project/:projectid/classify/start'           ],
 		[ '', 'user', '/api/publiccomment/project/:projectid/classify/claim'           ],
 
+		//[ '', 'user', '/api/delete/publiccomment/:publiccomment'         ],
+
 		[ '', 'user', '/api/publiccomment/:publiccomment/proponent/defer'         ],
 		[ '', 'user', '/api/publiccomment/:publiccomment/proponent/classify'         ],
 		[ '', 'user', '/api/publiccomment/project/:projectid/unvetted'         ],

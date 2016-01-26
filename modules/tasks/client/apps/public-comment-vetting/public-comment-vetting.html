@@ -4,7 +4,7 @@
 	</div>
 	<div class="panel-sub-heading">
 		<div class="btn-group btn-group-justified" ng-init="taskPubComVet.filter = 'Unvetted'">
-			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskPubComVet.filter === 'Unvetted'}"	ng-click="taskPubComVet.filter = 'Unvetted'">Unvetted ({{ (taskPubComVet.data.comments | filter:{eaoStatus: 'Unvetted'}:true | filter:taskPubComVet.filterKeyword).length || 0 }})</a>
+			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskPubComVet.filter === 'Unvetted'}"	ng-click="taskPubComVet.filter = 'Unvetted'">Unvetted</a>
 			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskPubComVet.filter === 'Published'}"	ng-click="taskPubComVet.filter = 'Published'">Published ({{ (taskPubComVet.data.comments | filter:{eaoStatus: 'Published'}:true | filter:taskPubComVet.filterKeyword).length || 0 }})</a>
 			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskPubComVet.filter === 'Rejected'}"	ng-click="taskPubComVet.filter = 'Rejected'">Rejected ({{ (taskPubComVet.data.comments | filter:{eaoStatus: 'Rejected'}:true | filter:taskPubComVet.filterKeyword).length || 0 }})</a>
 			<a href class="btn btn-default btn-sm" ng-class="{'btn-success': taskPubComVet.filter === 'Spam'}"		ng-click="taskPubComVet.filter = 'Spam'">Spam ({{ (taskPubComVet.data.comments | filter:{eaoStatus: 'Spam'} :true | filter:taskPubComVet.filterKeyword).length || 0 }})</a>
@@ -24,14 +24,14 @@
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="button" ng-click="taskPubComVet.filterKeyword = undefined"><span class="glyphicon glyphicon-remove"></span></button>
 							</span>
-						</div>						
+						</div>
 					</div>
 
 				</td>
 			</tr>
 			<tr class="small">
 				<th>Comment</th>
-				<th class="text-right"><a href ng-click="taskPubComVet.showFilter = !taskPubComVet.showFilter"><span class="glyphicon glyphicon-search"></span></a></th>				
+				<th class="text-right"><a href ng-click="taskPubComVet.showFilter = !taskPubComVet.showFilter"><span class="glyphicon glyphicon-search"></span></a></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -62,11 +62,29 @@
 						</li>
 						<li ng-show="taskPubComVet.rejectWarning">
 							<div class="alert alert-danger small" style="margin-bottom: 0;">
-								<div class="pull-right" style="margin-top: -4px;">
-									<a href class="btn btn-default btn-xs" ng-click="taskPubComVet.rejectWarning = false">No</a>
-									<a href class="btn btn-default btn-xs" ng-click="taskPubComVet.workingStatus = 'Rejected'">Yes, Reject</a>
+
+								<div class="form-group">
+									<label class="control-label text-danger">Rejection Reason</label>
+									<select ng-model="com.rejectedReason" ng-options="reason for reason in taskPubComVet.rejectReasons" class="form-control input-sm">
+									</select>
 								</div>
-								Confirm Reject?
+
+								<div class="form-group">
+									<label class="control-label text-danger">
+										Rejection Notes
+									</label>
+									<textarea class="form-control input-sm" ng-model="com.rejectedNotes" rows=4></textarea>
+								</div>
+
+								<div class='form-group'>
+									<div class="pull-right" style="margin-top: -4px;">
+										<a href class="btn btn-default btn-xs" ng-click="taskPubComVet.rejectWarning = false">No</a>
+										<a href class="btn btn-default btn-xs" ng-click="taskPubComVet.workingStatus = 'Rejected'">Yes, Reject</a>
+									</div>
+									Confirm Reject?
+								</div>
+
+								<span class="help-block text-danger">When finished, click Next Comment.</span>
 							</div>
 						</li>
 						<li class="text-right">

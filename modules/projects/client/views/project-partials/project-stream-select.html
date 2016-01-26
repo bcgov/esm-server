@@ -1,0 +1,26 @@
+<div class="panel panel-default">
+
+	<div class='panel-heading'>
+		<h3 class='panel-title'>Intake and Assignment</h3>
+	</div>
+
+	<div class='panel-body'>
+		<div class="row">
+			<div class="form-group col-sm-6">
+				<label for="type" class="control-label">Project Stream</label>
+				<select ng-model='projectStreamSelect.newStream' class="form-control input-sm" ng-options="stream._id as stream.name for stream in projectStreamSelect.streams" ng-disabled="projectStreamSelect.project.status !== 'Submitted'">
+					<option value=""></option>
+				</select>
+			</div>
+
+			<div class="form-group col-sm-6">
+				<label for="type" class="control-label">Project Team</label>
+				<a href>Click here to assign team</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-footer text-right" ng-if="projectStreamSelect.project.status === 'Submitted'">
+		<a class="btn btn-success" href ng-click="projectStreamSelect.setProjectStream()">Set Stream</a>
+	</div>
+</div> <!-- /panel -->

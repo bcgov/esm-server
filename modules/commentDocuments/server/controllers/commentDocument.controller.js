@@ -124,7 +124,7 @@ var upload = function (req, res) {
 			name          : file.originalname,
 			internalName  : file.name,
 			mime          : file.mimetype,
-			ext           : file.extention,
+			ext           : file.extension,
 			size          : file.size,
 			encoding      : file.encoding
 		}), req, res);

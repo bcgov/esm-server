@@ -1,13 +1,23 @@
-<section class="panel panel-default">
+<section class="block-content">
+
+	<h3>Map</h3>
+
 	<div class='container-fluid'>
 		<div class='row'>
-			<div class='col-md-9 col-no-padding'>
-				<map center="54.726668, -127.647621" zoom="5" style='height: 500px' map-type-id="ROADMAP" min-zoom=5 disable-default-u-i="true"></map>
+			<div class='col-md-9 col-no-padding' ng-init="mpl.showPoint = true">
+				<map center="54.726668, -127.647621" zoom="5" style='height: 500px' map-type-id="ROADMAP" min-zoom="5" max-zoom="10" disable-default-u-i="true">
+					
+					<marker id="marker_point" position="{{ mpl.point }}" ng-if="mpl.showPoint"></marker>
+					<kml-layer url="https://ajax.projects.eao.gov.bc.ca:443/map_layers/Ajax_2016Jan7data_Footprint_25Buffer_filled.kml" ng-if="mpl.showKML"></kml-layer>
+				</map>
+
 			</div>
 			<div class='col-md-3 col-top-padding'>
 				<label class="control-label">Project Layers</label>
 				<div class="well well-sm">
 					<ul class="list-unstyled task-list">
+						<li><button class="btn btn-block btn-sm btn-layer" ng-class="{'btn-success': mpl.showPoint}" ng-click="mpl.showPoint = !mpl.showPoint">Primary Point</button></li>
+						<li><button class="btn btn-block btn-sm btn-layer" ng-class="{'btn-success': mpl.showKML}" ng-click="mpl.showKML = !mpl.showKML">Boundary</button></li>
 						<li ng-repeat="layer in mpl.projectLayers">
 							<button class="btn btn-block btn-sm btn-layer" ng-class="{'btn-success': mpl.formProjectLayers[layer._id]}" ng-click="mpl.formProjectLayers[layer._id] = !mpl.formProjectLayers[layer._id]">{{ layer.name }}</button>
 						</li>

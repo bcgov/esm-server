@@ -1,64 +1,63 @@
 <h1 class="page-title">
-	<a href ui-sref='eao.projects' class='pull-right return-link'>Return to Project List</a>
+	<a href ui-sref='projects' class='pull-right return-link'>Return to Project List</a>
 	Project Template Provisioning
 
 </h1>
 
-<section id="project-view" class="container-fluid">
+<section id="project-view" class="row">
 
-	<div class='row'>
-		<div class='col-sm-12'>
-			
-			<div class="panel panel-default">
-				<div class='panel-body'>
+	<div class='col-sm-12'>
 
-					<div>
-						<ul class="nav nav-pills nav-justified" >
-							<li ng-class="{'active':configData.curTab === 'buckets'}">			<a href ng-click="configData.curTab = 'buckets'">Buckets</a></li>
-							<li ng-class="{'active':configData.curTab === 'phases'}">			<a href ng-click="configData.curTab = 'phases'">Phases</a></li>
-							<li ng-class="{'active':configData.curTab === 'milestones'}">		<a href ng-click="configData.curTab = 'milestones'">Milestones</a></li>
-							<li ng-class="{'active':configData.curTab === 'activities'}">		<a href ng-click="configData.curTab = 'activities'">Activities</a></li>
-							<li ng-class="{'active':configData.curTab === 'tasks'}">			<a href ng-click="configData.curTab = 'tasks'">Tasks</a></li>
-							<li ng-class="{'active':configData.curTab === 'requirements'}">		<a href ng-click="configData.curTab = 'requirements'">Requirements</a></li>
-							<li ng-class="{'active':configData.curTab === 'streams'}">			<a href ng-click="configData.curTab = 'streams'">Streams</a></li>
+		<div class="panel panel-default">
+			<div class='panel-body'>
 
-						</ul>
+				<div>
+					<ul class="nav nav-pills nav-justified" >
+						<li ng-class="{'active':configData.curTab === 'buckets'}">			<a href ng-click="configData.curTab = 'buckets'">Buckets</a></li>
+						<li ng-class="{'active':configData.curTab === 'phases'}">			<a href ng-click="configData.curTab = 'phases'">Phases</a></li>
+						<li ng-class="{'active':configData.curTab === 'milestones'}">		<a href ng-click="configData.curTab = 'milestones'">Milestones</a></li>
+						<li ng-class="{'active':configData.curTab === 'activities'}">		<a href ng-click="configData.curTab = 'activities'">Activities</a></li>
+						<li ng-class="{'active':configData.curTab === 'tasks'}">			<a href ng-click="configData.curTab = 'tasks'">Tasks</a></li>
+						<li ng-class="{'active':configData.curTab === 'requirements'}">		<a href ng-click="configData.curTab = 'requirements'">Requirements</a></li>
+						<li ng-class="{'active':configData.curTab === 'streams'}">			<a href ng-click="configData.curTab = 'streams'">Streams</a></li>
 
-						<div ng-if="configData.curTab === 'streams'">
-							<tmpl-config-streams x-config="configData.config" x-context="stream"></tmpl-config-streams>
-						</div>
+					</ul>
 
-						<div ng-if="configData.curTab === 'milestones'">
-							<tmpl-config-milestones x-config="configData.config" x-context="milestone"></tmpl-config-milestones>
-						</div>
-
-						<div ng-if="configData.curTab === 'phases'">
-							<tmpl-config-phases x-config="configData.config" x-context="phase"></tmpl-config-phases>
-						</div>
-
-						<div ng-if="configData.curTab === 'activities'">
-							<tmpl-config-activities x-config="configData.config" x-context="activity"></tmpl-config-activities>
-						</div>
-
-						<div ng-if="configData.curTab === 'tasks'">
-							<tmpl-config-tasks x-config="configData.config" x-context="task"></tmpl-config-tasks>
-						</div>
-
-						<div ng-if="configData.curTab === 'buckets'">
-							<tmpl-config-buckets x-config="configData.config" x-context="bucket"></tmpl-config-buckets>
-						</div>
-
-						<div ng-if="configData.curTab === 'requirements'">
-							<tmpl-config-requirements x-config="configData.config" x-context="requirement"></tmpl-config-requirements>
-						</div>
+					<div ng-if="configData.curTab === 'streams'">
+						<tmpl-config-streams x-config="configData.config" x-context="stream"></tmpl-config-streams>
 					</div>
 
+					<div ng-if="configData.curTab === 'milestones'">
+						<tmpl-config-milestones x-config="configData.config" x-context="milestone"></tmpl-config-milestones>
+					</div>
 
-				</div> <!-- /panelbody -->
+					<div ng-if="configData.curTab === 'phases'">
+						<tmpl-config-phases x-config="configData.config" x-context="phase"></tmpl-config-phases>
+					</div>
 
-			</div> <!-- /panel -->			
+					<div ng-if="configData.curTab === 'activities'">
+						<tmpl-config-activities x-config="configData.config" x-context="activity"></tmpl-config-activities>
+					</div>
 
-		</div> <!-- /col12 -->
-	</div>		
+					<div ng-if="configData.curTab === 'tasks'">
+						<tmpl-config-tasks x-config="configData.config" x-context="task"></tmpl-config-tasks>
+					</div>
+
+					<div ng-if="configData.curTab === 'buckets'">
+						<tmpl-config-buckets x-config="configData.config" x-context="bucket"></tmpl-config-buckets>
+					</div>
+
+					<div ng-if="configData.curTab === 'requirements'">
+						<tmpl-config-requirements x-config="configData.config" x-context="requirement"></tmpl-config-requirements>
+					</div>
+				</div>
+
+
+			</div> <!-- /panelbody -->
+
+		</div> <!-- /panel -->
+
+	</div> <!-- /col12 -->
+
 
 </section>
