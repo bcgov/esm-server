@@ -86,20 +86,21 @@ function directiveModalProjectEntry($modal) {
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
-				var modalDocView = $modal.open({
+				var modalProjectEntry = $modal.open({
 					animation: true,
 					templateUrl: 'modules/projects/client/views/project-partials/modal-project-entry.html',
 					controller: 'controllerModalProjectEntry',
 					controllerAs: 'projectEntry',
 					resolve: {
 						rProject: function () {
-							console.log(scope.project);
 							return scope.project;
 						}
 					},
 					size: 'lg'
 				});
-				modalDocView.result.then(function () {}, function () {});
+				modalProjectEntry.result.then(function (res) {
+					scope.project = res;
+				}, function () {});
 			});
 		}
 	};

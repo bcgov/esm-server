@@ -6,7 +6,6 @@
 $header-blue:				#141a41;
 $header-grey:				#666666;
 $navbar-blue:				#154681;
-$color-sample2:               #AAAAAA;
 $brand-primary:			#337ab7;
 $brand-success:			#5cb85c;
 $brand-info:				#5bc0de;
@@ -152,12 +151,15 @@ p.small {
 }
 
 .modal-header {
-	background-color: $header-blue;
-	color: #fff;
-	text-shadow: 3px 3px 10px #000000;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
+	padding: 5px 15px;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
 }
+
+.modal-footer {
+    padding: 10px 15px;
+}
+
 th > .progress {
 	margin-bottom: 0;
 }
