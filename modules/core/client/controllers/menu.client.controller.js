@@ -2,7 +2,7 @@
 
 angular.module('core')
 	.controller('controllerSystemMenu', controllerSystemMenu);
-	
+
 // -----------------------------------------------------------------------------------
 //
 // Controller menu
@@ -23,23 +23,23 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope)
 
    	$scope.$watch('menuContext', function(newValue) {
 		if(newValue) {
-		   	menu.context = newValue;		
+		   	menu.context = newValue;
 		}
    	});
 
    	$scope.$watch('project', function(newValue) {
 		if(newValue) {
-		   	menu.project = newValue;		
+		   	menu.project = newValue;
 		}
    	});
 
    	menu.showMenu = function(id) {
    		if (id) {
-	   		return (angular.element(document.querySelector('#' + id)).length > 0)
+	   		return (angular.element(document.querySelector('#' + id)).length > 0);
 	   	} else {
 	   		return false;
 	   	}
-   	}
+   	};
 
 	// Get the topbar menu
 	menu.systemMenu = Menus.getMenu('systemMenu');

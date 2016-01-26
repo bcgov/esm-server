@@ -9,6 +9,7 @@
 var helpers  = require('./core.helpers.controller');
 var mongoose = require ('mongoose');
 var access   = require('./core.access.controller');
+var _ = require ('lodash');
 
 // -------------------------------------------------------------------------
 //
@@ -173,7 +174,7 @@ module.exports = function (Model, options) {
 		return function (req, res) {
 			self.findMany (options.query, options.sort, options.populate)
 			.then (function (models) {
-				return Promise.all (models.map (decorate));
+				return Promise.all (models.map (options.decorate));
 			})
 			.then (helpers.successFunction (res))
 			.catch (helpers.errorFunction (res));
