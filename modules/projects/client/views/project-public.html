@@ -144,11 +144,12 @@
 					<p ng-show="legalMore">All hyperlinks in comments will be converted to plain text. All attachments will be limited to 5MB.</p>
 					<p ng-show="legalMore"><a href ng-click="legalMore = false"><em>Less</em></a></p>
 
+					<hr>
+					<p><em>Public comments received by EAO are published according to the date received.  Where relevant, comments may be categorized by one or more topic areas from the Application, either during or following the public comment period.  Categorized comments will appear by topic area below.</em></p>
+
 				</div>
 
 				<div ng-if="vm.comments.length !== 0 && (vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)">
-<hr>
-<p><em class="small">Public comments received by EAO are published according to the date received.  Where relevant, comments may be categorized by one or more topic areas from the Application, either during or following the public comment period.  Categorized comments will appear by topic area below.</em></p><br/>
 
 					<nav class="navbar navbar-default navbar-sm" ng-init="vm.form.view = 'bydate'" ng-if="vm.comments.length !== 0">
 						<div class="container-fluid">
