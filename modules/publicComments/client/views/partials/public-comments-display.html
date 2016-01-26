@@ -20,7 +20,8 @@
 			<p ng-show="legalMore">You may provide your name and city/town when making a comment, but in order to have your name displayed with your comment you must select the 'Show my name and location on the public site' option.</p>
 			<p ng-show="legalMore">All hyperlinks in comments will be converted to plain text. All attachments will be limited to 5MB.</p>
 			<p ng-show="legalMore"><a href ng-click="legalMore = false"><em>Less</em></a></p>
-
+			<hr>
+			<p><em>Public comments received by EAO are published according to the date received.  Where relevant, comments may be categorized by one or more topic areas from the Application, either during or following the public comment period.  Categorized comments will appear by topic area below.</em></p>			
 		</div>
 	</div>
 	
@@ -115,7 +116,6 @@
 					<hr ng-repeat-end>
 			</div>
 
-
 			<div ng-show='( buckets | advancedFilter:pubComDisp.filterKeyword).length === 0 && form[heading]'>
 				<div class="panel-body">
 					No comments match these keywords.
@@ -128,7 +128,6 @@
 				No comments have been classified by topic yet.  Please check back later.
 			</div>
 		</div>
-
 
 		<div ng-show="pubComDisp.form.view === 'bydate' && pubComDisp.comments.length > 0">
 			<div class="panel-body">
@@ -184,7 +183,6 @@
 		</div>
 
 		<div ng-show="pubComDisp.comments.length === 0">
-			<hr>
 			There are no comments on this project.
 		</div>
 

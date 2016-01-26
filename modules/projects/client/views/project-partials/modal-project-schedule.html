@@ -1,32 +1,74 @@
 <div class="modal-header">
 	<h3 class="modal-title">Project Schedule</h3>
 </div>
-<div class="modal-body">
 
-	<table class='table table-condensed small'>	
-		<thead>
-			<tr>
-				<th width="17%">Milestone</th>
-				<th width="17%" class='text-center'>Started</th>
-				<th width="17%" class='text-center'>Estimated Completion</th>
-				<th width="17%" class='text-center'>Completed</th>
-				<th width="5%" class='text-center'></th>
-				<th width="28%" class='text-center'></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="ms in ps.project.milestones" ng-class="{'success': !!ms.completed}">
-				<td>{{ ms.name }}</td>
-				<td class='text-center'>{{ ms.start | amDateFormat:'MMM Do, YYYY' }}</td>
-				<td class='text-center'>{{ ms.target | amDateFormat:'MMM Do, YYYY' }}</td>
-				<td class='text-center'>{{ ms.completed | amDateFormat:'MMM Do, YYYY' }}</td>
-				<td class='text-center'><span class='glyphicon' ng-class="{'glyphicon-ok': !!ms.completed, 'glyphicon-minus': !ms.completed}"></span></td>
-				<td>{{ ms.note }}</td>
-			</tr>
-		</tbody>
-	</table>
 
-</div>
+<table class='table table-condensed'>	
+	<thead>
+		<tr class="small">
+			<th width="28%">Phases</th>
+			<th width="18%" class='text-center'>Estimated Start</th>
+			<th width="18%" class='text-center'>Estimated End</th>
+			<th width="18%" class='text-center'>Actual Start</th>
+			<th width="18%" class='text-center'>Actual End</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="phase in projSched.project.phases track by $index">
+			<td><p class="form-control-static">{{ phase.name }}</p></td>
+			<td class='text-center'>
+				<p class="form-control-static">{{ phase.dateStartEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="phase.dateStartEst" ng-if="!phase.dateStart">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
+			</td>
+			<td class='text-center'>
+				<p class="form-control-static">{{ phase.dateEndEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="phase.dateEndEst" ng-if="!phase.dateEnd">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
+			</div>
+			<td class='text-center'><p class="form-control-static">{{ phase.dateStart | amDateFormat:'MMM Do YYYY' }}</p></td>
+			<td class='text-center'><p class="form-control-static">{{ phase.dateEnd | amDateFormat:'MMM Do YYYY' }}</p></td>
+		</tr>
+
+		<tr ng-if="!projSched.project.phases">
+			<td colspan="6" class="text-center">This project has no phases.  Please contact the system administrator to structure the project.</td>
+		</tr>
+	
+	</tbody>
+</table>
+
+
+
+<table class='table table-condensed'>	
+	<thead>
+		<tr class="small">
+			<th width="28%">Milestone</th>
+			<th width="18%" class='text-center'>Estimated Start</th>
+			<th width="18%" class='text-center'>Estimated End</th>
+			<th width="18%" class='text-center'>Actual Start</th>
+			<th width="18%" class='text-center'>Actual End</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="milestone in projSched.project.milestones track by $index">
+			<td><p class="form-control-static">{{ milestone.name }}</p></td>
+			<td class='text-center'>
+				<p class="form-control-static">{{ milestone.dateStartEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="milestone.dateStartEst" ng-if="!milestone.dateStart">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
+			</td>
+			<td class='text-center'>
+				<p class="form-control-static">{{ milestone.dateEndEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="milestone.dateEndEst" ng-if="!milestone.dateEnd">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
+			</div>
+			<td class='text-center'><p class="form-control-static">{{ milestone.dateStart | amDateFormat:'MMM Do YYYY' }}</p></td>
+			<td class='text-center'><p class="form-control-static">{{ milestone.dateEnd | amDateFormat:'MMM Do YYYY' }}</p></td>
+		</tr>
+
+		<tr ng-if="!projSched.project.milestones">
+			<td colspan="6" class="text-center">This project has no milestones.  Please contact the system administrator to structure the project.</td>
+		</tr>
+	
+	</tbody>
+</table>
+
+
 <div class="modal-footer">
-	<button class="btn btn-warning" type="button" ng-click="ps.cancel()">Close</button>
+	<button class="btn btn-default" type="button" ng-click="projSched.cancel()">Cancel</button>
+	<button class="btn btn-primary" type="button" ng-click="projSched.ok()">Save</button>
 </div>

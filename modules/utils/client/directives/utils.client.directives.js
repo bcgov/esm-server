@@ -151,7 +151,7 @@ function directiveContentHeight($window) {
 }
 // -----------------------------------------------------------------------------------
 //
-// DIRECTIVE: Make the content long enough to put the footer at the bottom
+// DIRECTIVE: Make the content long enough to put the footer at the bottom, get all child elements with an anchor id.
 //
 // -----------------------------------------------------------------------------------
 directiveWindowHeight.$inject = ['$window'];

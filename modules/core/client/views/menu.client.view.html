@@ -63,7 +63,8 @@
 
 	<ul class="list-unstyled">
 <!-- 		<li><a x-modal-alerts-viewer class="text-danger">Alerts</a></li> -->
-		<li><a ui-sref="projects" href>Projects</a></li>
+		<li><a ui-sref="projects" href>All Projects</a></li>
+		<li><a ui-sref="project, {id: menu.project._id}" href>{{ menu.project.name }}</a></li>
 		<li><a ng-click="menu.goToPrevious()" href>Back</a></li>
 	</ul>
 	<div ng-show="menu.authentication.user">
@@ -86,18 +87,17 @@
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
 		</ul>
-		<ul class="list-unstyled">
+		<ul class="list-unstyled" ng-show="menu.authentication.user">
 			<li><a x-modal-project-entry href>Add Project</a></li>
 		</ul>
 	</div>
 	<div ng-if="menu.context === 'project'">
 	 	<hr>
-		<label class="control-label">Project</label>
+		<label class="control-label">{{ menu.project.name }}</label>
 		<ul class="list-unstyled">
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-tombstone')"		href="#top">Tombstone</a></li>
-			<li><a x-modal-project-entry href x-project="menu.project">Edit</a></li>
-			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-documents')"		href="#anchor-documents">Documents</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-publiccomments')"	href="#anchor-publiccomments">Public Comments</a></li>
+			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-documents')"		href="#anchor-documents">Documents</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-activities')"		href="#anchor-activities">Activities</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-map')"				href="#anchor-map">Map</a></li>
 		</ul>
@@ -108,6 +108,8 @@
 		</ul>
 		<ul class="list-unstyled">
 			<li><a x-modal-project-entry href>Add Project</a></li>
+			<li><a x-modal-project-entry href x-project="menu.project">Edit {{ menu.project.name }}</a></li>
+			<li><a x-modal-project-schedule href x-project="menu.project">Edit Schedule</a></li>
 		</ul>		
 	</div>	
 	<div ng-show="menu.systemMenu.shouldRender(menu.authentication.user);">

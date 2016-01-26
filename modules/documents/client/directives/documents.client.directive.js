@@ -82,6 +82,7 @@ function directiveDocumentsBrowser() {
 
     var directive = {
         restrict: 'E',
+        replace: true,
         templateUrl: 'modules/documents/client/views/partials/document-browser.html',
         controller: 'controllerDocumentBrowser',
         controllerAs: 'docBrowser',

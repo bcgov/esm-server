@@ -35,11 +35,11 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope)
 
    	menu.showMenu = function(id) {
    		if (id) {
-	   		return (angular.element(document.querySelector('#' + id)).length > 0)
+	   		return (angular.element(document.querySelector('#' + id)).length > 0);
 	   	} else {
 	   		return false;
 	   	}
-   	}
+   	};
 
 	// Get the topbar menu
 	menu.systemMenu = Menus.getMenu('systemMenu');

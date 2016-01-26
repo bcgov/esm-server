@@ -3,7 +3,7 @@
 angular.module('project')
 	// General
 	.controller('controllerProject', controllerProject)
-	.controller('modalProjectSchedule', controllerModalProjectSchedule)
+	.controller('controllerModalProjectSchedule', controllerModalProjectSchedule)
 	.controller('controllerProjectTombstone', controllerProjectTombstone)
 	// .controller('controllerProjectTimeline', controllerProjectTimeline)        
 	.controller('controllerModalProjectEntry', controllerModalProjectEntry)
@@ -35,14 +35,19 @@ function controllerProject(Project, $stateParams, _) {
 // CONTROLLER: Modal: View Project Schedule
 //
 // -----------------------------------------------------------------------------------
-controllerModalProjectSchedule.$inject = ['$modalInstance', 'rProject'];
+controllerModalProjectSchedule.$inject = ['$modalInstance', 'rProject', 'Project'];
 /* @ngInject */
-function controllerModalProjectSchedule($modalInstance, rProject) { 
-	var ps = this;
+function controllerModalProjectSchedule($modalInstance, rProject, Project) { 
+	var projSched = this;
 	
-	ps.project = rProject;
+	projSched.project = angular.copy(rProject);
 
-	ps.cancel = function () { $modalInstance.dismiss('cancel'); };
+	projSched.cancel = function () { $modalInstance.dismiss('cancel'); };
+	projSched.ok = function () { 
+		Project.saveProject(projSched.project).then( function(res) {
+			$modalInstance.close(res.data);
+		});
+	};
 }
 // -----------------------------------------------------------------------------------
 //
