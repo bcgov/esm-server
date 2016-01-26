@@ -7,8 +7,8 @@ var mongoose = require ('mongoose');
 var Schema   = mongoose.Schema;
 
 var ProjectSchema = {
-	__audit     : true,
-	__access    : true,
+	// __audit     : true,
+	// __access    : true,
 	code        : { type:String, default:'New Project', index:true },
 	name        : { type:String, default:'New Project' },
 	description : { type:String, default:'' },
@@ -35,7 +35,7 @@ var ProjectSchema = {
 	overallProgress              : { type: Number, default:0 },
 	lat                          : { type: Number, default:0 },
 	lon                          : { type: Number, default:0 },
-	dateCommentsOpen : { type: Date, default: null },
+	dateCommentsOpen   : { type: Date, default: null },
 	dateCommentsClosed : { type: Date, default: null }
 	// dateAdded   : { type: Date},
 	// addedBy     : {type:'ObjectId', ref:'User'},

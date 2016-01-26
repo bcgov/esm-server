@@ -4,8 +4,8 @@
 // Model for tasks
 //
 // =========================================================================
-module.exports = require (require('path').resolve('./modules/core/server/controllers/core.models.controller'))
-.generateModel ({
+module.exports = require ('../../../core/server/controllers/core.models.controller')
+.generateModel ('Task', {
 	value         : { type:Boolean, default:false },
 	name          : { type:String, default:'New task' },
 	description   : { type:String, default:'New task' },
