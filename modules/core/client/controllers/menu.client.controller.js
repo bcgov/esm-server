@@ -2,7 +2,7 @@
 
 angular.module('core')
 	.controller('controllerSystemMenu', controllerSystemMenu);
-	
+
 // -----------------------------------------------------------------------------------
 //
 // Controller menu
@@ -23,13 +23,13 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope)
 
    	$scope.$watch('menuContext', function(newValue) {
 		if(newValue) {
-		   	menu.context = newValue;		
+		   	menu.context = newValue;
 		}
    	});
 
    	$scope.$watch('project', function(newValue) {
 		if(newValue) {
-		   	menu.project = newValue;		
+		   	menu.project = newValue;
 		}
    	});
 
