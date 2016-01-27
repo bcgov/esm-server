@@ -55,7 +55,6 @@ function controllerTaskManageComments($scope, $rootScope, Task, _, sTaskManageCo
 			// get the bucket groups for general classification
 			taskManComm.bucketGroups = _.unique(_.pluck(taskManComm.project.buckets, 'group'));
 			taskManComm.topicsList = _.unique(_.pluck(taskManComm.project.buckets, 'name'));
-			console.log('tl',taskManComm.topicsList);
 			taskManComm.bucketsFiltered = taskManComm.project.buckets;
 			//
 			//
@@ -82,6 +81,13 @@ function controllerTaskManageComments($scope, $rootScope, Task, _, sTaskManageCo
 		}
 	});
 
+
+	taskManComm.releaseComment = function(comment) {
+		// if unclassified, reset overall to published otherwise unvetted
+		sTaskManageComments.setReleasedComment(comment).then( function(res) {
+			comment = _.assign(comment, res.data);
+		});
+	};
 
 	$scope.$watch('task', function(newValue) {
 		// get item for title

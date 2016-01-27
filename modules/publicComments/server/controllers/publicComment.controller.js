@@ -291,6 +291,24 @@ exports.allUnPublished = allUnPublished;
 var fillPublicComment = function () {};
 // -------------------------------------------------------------------------
 //
+// release the comment,
+//
+// -------------------------------------------------------------------------
+var releaseInProgress = function (req, res) {
+	_.extend(
+		req.PublicComment,
+		req.body
+	);
+	if (req.PublicComment.eaoStatus === 'Published') {
+		req.PublicComment.overallStatus = 'Published';
+	} else {
+		req.PublicComment.overallStatus = 'Unvetted';
+	}
+	saveDecorateReturn (req.PublicComment, req, res);
+};
+exports.releaseInProgress = releaseInProgress;
+// -------------------------------------------------------------------------
+//
 // defer the comment,
 //
 // -------------------------------------------------------------------------
@@ -424,7 +442,6 @@ var getInProgressForUser = function (userid, query) {
 // -------------------------------------------------------------------------
 var vettingStart = function (req, res) {
 	var userid = (req.user) ? req.user._id : null;
-	console.log(req);
 	getInProgressForUser (userid, {
 		project : req.params.projectid
 	})
@@ -473,6 +490,7 @@ exports.vettingClaim = vettingClaim;
 var classifyStart = function (req, res) {
 	var userid = (req.user) ? req.user._id : null;
 	getInProgressForUser (userid, {
+		eaoStatus: {$in: ['Published', 'Rejected']},
 		proponentStatus: {$in: ['Deferred', 'Unclassified']},
 		project : req.params.projectid
 	})

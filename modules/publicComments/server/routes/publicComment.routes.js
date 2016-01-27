@@ -34,8 +34,6 @@ module.exports = function (app) {
 
 	app.route ('/api/delete/publiccomment/:publiccomment').all (policy.isAllowed).get (controller.delete);
 
-
-
 	app.route ('/api/publiccomment/project/:projectid/published').all (policy.isAllowed)
 		.get (controller.allPublished);
 	app.route ('/api/publiccomment/project/:projectid/published/limit/:limit/offset/:offset').all (policy.isAllowed)
@@ -57,6 +55,10 @@ module.exports = function (app) {
 		.put (controller.eaopublish);
 	app.route ('/api/publiccomment/:publiccomment/eao/spam').all (policy.isAllowed)
 		.put (controller.eaospam);
+
+	// release in progress
+	app.route ('/api/publiccomment/:publiccomment/release').all (policy.isAllowed)
+		.put (controller.releaseInProgress);		
 	//
 	// save a copy
 	//

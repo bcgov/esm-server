@@ -20,6 +20,7 @@ exports.invokeRolesPolicies = function () {
 		[ 'guest', 'user', '/api/publiccomment/project/:projectid/published/limit/:limit/offset/:offset'           ],
 		[ '', 'user', '/api/publiccomment/project/:projectid/unpublished'           ],
 		[ '', 'user', '/api/publiccomment/project/:projectid/unpublished/limit/:limit/offset/:offset'           ],
+		[ '', 'user', '/api/publiccomment/:publiccomment/release'         ],
 		[ '', 'user', '/api/publiccomment/:publiccomment/eao/defer'         ],
 		[ '', 'user', '/api/publiccomment/:publiccomment/eao/accept'           ],
 		[ '', 'user', '/api/publiccomment/:publiccomment/eao/reject'           ],

@@ -108,43 +108,66 @@
 	<table class="table table-condensed table-hover">
 		<thead>
 			<tr class="small">
-				<th width="65%">Comment</th>
+				<th width="64%">Comment</th>
 				<th width="15%" class="text-center">Date</th>
 				<th width="15%" class="text-center">Overall Status<br/>EAO Status<br/>Proponent Status</th>
 				<th width="15%" class="text-left">Pillars</th>
 				<th width="5%" class="text-center">VC's</th>
+				<th width="1%"></th>
 			</tr>
 
 		</thead>
 		<tbody>
 			<tr
 				ng-repeat="com in commentsFiltered = (taskManComm.comments | advancedFilter:taskManComm.filterKeyword | filter:taskManComm.bucketFilter | filter:taskManComm.topicFilter | filter:{'overallStatus': taskManComm.overallStatusFilter}  | filter:{'eaoStatus': taskManComm.eaoStatusFilter} | filter:{'proponentStatus': taskManComm.proponentStatusFilter}) track by $index"
-				ng-class="{'bg-danger': com.overallStatus === 'Rejected', 'bg-info': com.overallStatus === 'In Progress'}"
-				x-modal-comment-detail
-				x-comment='com'
-				x-project='taskManComm.project'>
-				<td>
+				ng-class="{'bg-danger': com.overallStatus === 'Rejected', 'bg-info': com.overallStatus === 'In Progress'}">
+				<td
+					x-modal-comment-detail
+					x-comment='com'
+					x-project='taskManComm.project'>
+					
 					<div ng-show="!taskManComm.activeComments[com._id]">
 						<pre>{{ com.comment | max15Words }}</pre>
 					</div>
 				</td>
-				<td class='text-center no-wrap small'>
+				<td 
+					x-modal-comment-detail
+					x-comment='com'
+					x-project='taskManComm.project'
+					class='text-center no-wrap small'>
+					
 					{{ com.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}
 				</td>
-				<td class='text-center small' title="Overall, EAO, Proponent">
+				<td 
+					x-modal-comment-detail
+					x-comment='com'
+					x-project='taskManComm.project'
+					class='text-center small' title="Overall, EAO, Proponent">
+
 					<span title="Overall">{{ com.overallStatus }}</span><br/>
 					<span title="EAO">{{ com.eaoStatus }}</span><br/>
 					<span title="Proponent">{{ com.proponentStatus }}</span>
 				</td>
-				<td class='text-left small'>
+				<td
+					x-modal-comment-detail
+					x-comment='com'
+					x-project='taskManComm.project'
+					class='text-left small'>
 					<div ng-repeat="cls in com.classification">{{ cls }}</div>
 				</td>
-				<td class='text-center'>
+				<td
+					x-modal-comment-detail
+					x-comment='com'
+					x-project='taskManComm.project'
+					class='text-center'>
 					{{ com.buckets.length || 0 }}
+				</td>
+				<td class='text-center small'>
+					<a href ng-click="taskManComm.releaseComment(com);" x-user-is="admin" ng-if="com.overallStatus === 'In Progress'">Release</a>
 				</td>
 			</tr>
 			<tr ng-show="commentsFiltered.length === 0">
-				<td colspan="5">There are no comments to view.</td>
+				<td colspan="6">There are no comments to view.</td>
 			</tr>
 		</tbody>
 

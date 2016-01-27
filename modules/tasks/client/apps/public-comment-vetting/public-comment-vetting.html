@@ -54,7 +54,7 @@
 						</li>
 						<li class="clearfix"><small>Overall Comment</small>
 							<div class="btn-group btn-group-xs pull-right">
-								<a href class="btn btn-default" ng-class="{'btn-success': taskPubComVet.workingStatus === 'Published'}"		ng-click="taskPubComVet.workingStatus = 'Published'">Accept</a>
+								<a href class="btn btn-default" ng-class="{'btn-success': taskPubComVet.workingStatus === 'Published'}"		ng-click="taskPubComVet.rejectWarning = false; taskPubComVet.workingStatus = 'Published'">Accept</a>
 								<a href class="btn btn-default" ng-class="{'btn-danger': taskPubComVet.workingStatus === 'Rejected'}"		ng-click="taskPubComVet.rejectWarning = true">Reject</a>
 								<a href class="btn btn-default" ng-class="{'btn-info': taskPubComVet.workingStatus === 'Deferred'}"			ng-click="taskPubComVet.workingStatus = 'Deferred'">Defer</a>
 								<a href class="btn btn-default" ng-class="{'btn-warning': taskPubComVet.workingStatus === 'Spam'}"			ng-click="taskPubComVet.workingStatus = 'Spam'">Spam</a>
@@ -84,13 +84,13 @@
 									Confirm Reject?
 								</div>
 
-								<span class="help-block text-danger">When finished, click Next Comment.</span>
+								<span class="help-block text-danger">When finished, click Save.</span>
 							</div>
 						</li>
 						<li class="text-right">
-							<a href class="btn-link btn" ng-click='taskPubComVet.finalizeCommentStatus(com)' ng-show="taskPubComVet.workingStatus !== 'Unvetted'">Next Comment <span class="glyphicon glyphicon-chevron-right"></span></a>
+							<a href class="btn-link btn" ng-click='taskPubComVet.finalizeCommentStatus(com)' ng-show="taskPubComVet.workingStatus !== 'Unvetted'">Save</a>
+							<a href class="btn-link btn" ng-click='taskPubComVet.fetchNewComment()' ng-show="!taskPubComVet.activeComment && taskPubComVet.unvettedCount > 0">Get New Comment</a>
 						</li>
-
 
 					</ul>
 
@@ -103,7 +103,17 @@
 
 			</tr>
 			<tr ng-show="filteredComments.length === 0">
-				<td colspan="2">There are no {{ taskPubComVet.filter }} comments.</td>
+
+				<td colspan="2" class="text-center" ng-show="taskPubComVet.filter === 'Unvetted'">
+					<p ng-show="taskPubComVet.unvettedCount === 1">There is 1 unvetted comment.</p>
+					<p ng-show="taskPubComVet.unvettedCount !== 1">There are {{ taskPubComVet.unvettedCount }} unvetted comments.</p>					
+					<a href class="btn-default btn" ng-click='taskPubComVet.fetchNewComment()' ng-show="!taskPubComVet.activeComment && taskPubComVet.unvettedCount > 0">Get New Comment</a>
+				</td>
+				
+				<td colspan="2" class="text-center" ng-show="taskPubComVet.filter !== 'Unvetted'">
+					<p>There are no {{ taskPubComVet.filter }} comments.</p>
+				</td>
+
 			</tr>
 		</tbody>
 	</table>

@@ -172,7 +172,6 @@ filterMaxWords.$inject = ['_'];
 /* @ngInject */
 function filterMaxWords(_) {
 	return function(input, num, showAll) {
-		console.log(input, num, showAll);
 		if (_.words(input).length > num && !showAll) {
 	    		return _.take(_.words(input), num).join(' ') + '...';
 		} else {

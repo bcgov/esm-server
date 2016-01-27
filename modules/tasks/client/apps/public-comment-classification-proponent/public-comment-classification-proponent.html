@@ -99,7 +99,18 @@
 			</tr>
 
 			<tr ng-show="filteredComments.length === 0">
-				<td >There are no {{ taskPubComClassProp.filter }} comments.</td>
+
+				<td colspan="2" class="text-center" ng-show="taskPubComClassProp.filter === 'Unclassified'">
+					<p ng-show="taskPubComClassProp.unclassifiedCount === 1">There is 1 unclassified comment.</p>
+					<p ng-show="taskPubComClassProp.unclassifiedCount !== 1">There are {{ taskPubComClassProp.unclassifiedCount }} unclassified comments.</p>					
+					<a href class="btn-default btn" ng-click='taskPubComClassProp.fetchNewComment()' ng-show="taskPubComClassProp.unclassifiedCount > 0">Get New Comment</a>
+				</td>
+				
+				<td colspan="2" class="text-center" ng-show="taskPubComClassProp.filter !== 'Unclassified'">
+					<p>There are no {{ taskPubComClassProp.filter }} comments.</p>
+				</td>
+
+
 			</tr>
 		</tbody>
 

@@ -49,25 +49,41 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 					case 'Published':
 						PublicCommentVetting.setCommentPublish(com._id).then( function(res) {
 							com = _.assign(com, res.data);
-							taskPubComVet.fetchNewComment();
+							taskPubComVet.workingStatus = null;
+							taskPubComVet.activeComment = null;
+							taskPubComVet.rejectWarning = null;
+							// Get the comment counts.
+							taskPubComVet.updateCommentCounts();
 						});
 						break;
 					case 'Deferred':
 						PublicCommentVetting.setCommentDefer(com._id).then( function(res) {
 							com = _.assign(com, res.data);
-							taskPubComVet.fetchNewComment();
+							taskPubComVet.workingStatus = null;
+							taskPubComVet.activeComment = null;
+							taskPubComVet.rejectWarning = null;
+							// Get the comment counts.
+							taskPubComVet.updateCommentCounts();
 						});
 						break;
 					case 'Rejected':
 						PublicCommentVetting.setCommentReject(com).then( function(res) {
 							com = _.assign(com, res.data);
-							taskPubComVet.fetchNewComment();
+							taskPubComVet.workingStatus = null;
+							taskPubComVet.activeComment = null;
+							taskPubComVet.rejectWarning = null;
+							// Get the comment counts.
+							taskPubComVet.updateCommentCounts();
 						});
 						break;
 					case 'Spam':
 						PublicCommentVetting.setCommentSpam(com._id).then( function(res) {
 							com = _.assign(com, res.data);
-							taskPubComVet.fetchNewComment();
+							taskPubComVet.workingStatus = null;
+							taskPubComVet.activeComment = null;
+							taskPubComVet.rejectWarning = null;
+							// Get the comment counts.
+							taskPubComVet.updateCommentCounts();
 						});
 						break;
 				}
@@ -88,6 +104,13 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 		taskPubComVet.workingStatus = comment.eaoStatus;
 	};
 
+
+	taskPubComVet.updateCommentCounts = function() {
+		// Get the comment counts.
+		PublicCommentVetting.getUnvettedCount(taskPubComVet.project._id).then( function(res) {
+			taskPubComVet.unvettedCount = res.data.count;
+		});
+	};
 	// -----------------------------------------------------------------------------------
 	//
 	// Get next comment
@@ -132,12 +155,12 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 			PublicCommentVetting.getStart(newValue._id).then( function(res) {
 				// get all the comments
 				taskPubComVet.data.comments = res.data;
-
 				// set the filter to the desired tab
 				taskPubComVet.filter = 'Unvetted';
-
-				taskPubComVet.fetchNewComment();
 			});
+
+			// Get the comment counts.
+			taskPubComVet.updateCommentCounts();
 
 		}
 	});

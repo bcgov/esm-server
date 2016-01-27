@@ -77,15 +77,14 @@
 					Reason for No Classification
 				</label>
 				<textarea class="form-control input-sm" ng-model="pubComClass.com.proponentNotes" rows=4></textarea>
-				<span class="help-block">When finished, click Next Comment.</span>
+				<span class="help-block">When finished, click Finished.</span>
 			</div>
 
 			<div class="form-group" ng-if="pubComClass.com.proponentStatus !== 'Deferred'">
 				<a href class="btn-default btn-block btn" ng-click='pubComClass.deferCommentStatus(com)' >Defer</a>
 			</div>
 			<div class="form-group">
-				<a href ng-if="!pubComClass.singleMode" class="btn-warning btn-block btn" ng-click='pubComClass.finalizeCommentStatus(com)'>Next Comment <span class="glyphicon glyphicon-chevron-right"></span></a>
-				<a href ng-if="pubComClass.singleMode" class="btn-warning btn-block btn" ng-click='pubComClass.finalizeCommentStatus(com)'>Save</a>
+				<a href class="btn-warning btn-block btn" ng-click='pubComClass.finalizeCommentStatus(com)'>Finished</a>
 			</div>
 
 		</div>

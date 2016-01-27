@@ -18,8 +18,13 @@ function serviceTaskManageComments($http) {
 		return $http({method:'GET',url: '/api/publiccomment/project/' + projectId + '/unpublished'});
 	};
 
+	var setReleasedComment = function(comment) {
+		return $http({method:'PUT',url: '/api/publiccomment/' + comment._id + '/release', data: comment});
+	};
+
 	return {
 		getAllPublishedComments: getAllPublishedComments,
-		getAllUnpublishedComments: getAllUnpublishedComments
+		getAllUnpublishedComments: getAllUnpublishedComments,
+		setReleasedComment: setReleasedComment
 	};
 }

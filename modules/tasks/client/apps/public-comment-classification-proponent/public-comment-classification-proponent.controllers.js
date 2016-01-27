@@ -42,8 +42,11 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 			// fetch New Comment will make sure we don't fetch another comment if there already is one unclassified pending.
 			TaskPublicCommentClassificationProponent.getStart(newValue._id).then( function(res) {
 				taskPubComClassProp.data.comments = res.data;
-				taskPubComClassProp.fetchNewComment();
 			});
+
+			// get the count of other pending comments.
+			taskPubComClassProp.updateCommentCount();
+
 		}
 	});
 	// -----------------------------------------------------------------------------------
@@ -52,8 +55,18 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 	//
 	// -----------------------------------------------------------------------------------
 	$scope.$on('classifyFetchNewComment', function() {
-		taskPubComClassProp.fetchNewComment();
+		//taskPubComClassProp.fetchNewComment();
+		// get the count of other pending comments.
+		taskPubComClassProp.updateCommentCount();
+
 	});
+
+	taskPubComClassProp.updateCommentCount = function() {
+		// get the count of other pending comments.
+		TaskPublicCommentClassificationProponent.getUnclassifiedCount(taskPubComClassProp.project._id).then( function(res) {
+			taskPubComClassProp.unclassifiedCount = res.data.count;
+		});
+	};
 	// -----------------------------------------------------------------------------------
 	//
 	// Get next comment
@@ -80,9 +93,8 @@ function controllerTaskPublicCommentClassificationProponent($scope, $rootScope, 
 		}
 
 		// get the count of other pending comments.
-		TaskPublicCommentClassificationProponent.getUnclassifiedCount(taskPubComClassProp.project._id).then( function(res) {
-			taskPubComClassProp.unclassifiedCount = res.data.count;
-		});
+		taskPubComClassProp.updateCommentCount();
+
 	};
 
 	// -----------------------------------------------------------------------------------
