@@ -56,8 +56,8 @@ function directiveModalProjectSchedule($modal) {
 				var modalDocView = $modal.open({
 					animation: true,
 					templateUrl: 'modules/projects/client/views/project-partials/modal-project-schedule.html',
-					controller: 'modalProjectSchedule',
-					controllerAs: 'ps',
+					controller: 'controllerModalProjectSchedule',
+					controllerAs: 'projSched',
 					resolve: {
 						rProject: function () {
 							return scope.project;
@@ -65,7 +65,9 @@ function directiveModalProjectSchedule($modal) {
 					},
 					size: 'lg'
 				});
-				modalDocView.result.then(function () {}, function () {});
+				modalDocView.result.then(function (items) {
+					scope.project = items;
+				}, function () {});
 			});
 		}
 	};

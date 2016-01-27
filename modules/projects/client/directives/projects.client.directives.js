@@ -17,6 +17,7 @@ directiveProjects.$inject = [];
 function directiveProjects() {
 	var directive = {
 		restrict: 'E',
+		replace: true,
 		templateUrl: 'modules/projects/client/views/projects.html',
 		controller: 'controllerProjects',
 		controllerAs: 'projects'
@@ -33,6 +34,7 @@ directiveProjectsList.$inject = [];
 function directiveProjectsList() {
 	var directive = {
 		restrict: 'E',
+		replace: true,
 		templateUrl: 'modules/projects/client/views/projects-partials/projects-list.html',
 		controller: 'controllerProjectsList',
 		controllerAs: 'projectList',
@@ -90,6 +92,7 @@ directiveProjectsMap.$inject = ['google'];
 function directiveProjectsMap(google) {
 	var directive = {
 		restrict: 'E',
+		replace: true,
 		templateUrl: 'modules/projects/client/views/projects-partials/projects-map.html',
 		controller: 'controllerProjectsList',
 		controllerAs: 'projectList',

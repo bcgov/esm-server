@@ -7,48 +7,60 @@
 
 		<section class="panel panel-default">
 
+		<div id="map"></div>
+
 			<tmpl-project-tombstone
+				class="anchor-section"
 				id="anchor-tombstone"
 				x-project="proj.project"
 				ng-if="('project' | shouldDisplayPanel:'tombstone':proj.project.status)">
 			</tmpl-project-tombstone>
 
 			<tmpl-project-stream-select
+				class="anchor-section"
 				id="anchor-stream"
 				x-project="proj.project"
 				ng-if="('project'| shouldDisplayPanel:'stream':proj.project.status)">
 			</tmpl-project-stream-select>
 
-			<tmpl-documents-browser
-				id="anchor-documents"
-				x-project="proj.project"
-				ng-if="('project'| shouldDisplayPanel:'documents':proj.project.status)">
-			</tmpl-documents-browser>
-
 			<tmpl-public-comment-display
+				class="anchor-section"
 				id="anchor-publiccomments"
 				x-project="proj.project"
 				ng-if="('project'| shouldDisplayPanel:'public-comments':proj.project.status)">
 			</tmpl-public-comment-display>
 
+			<tmpl-documents-browser
+				class="anchor-section"
+				id="anchor-documents"
+				x-project="proj.project"
+				ng-if="('project'| shouldDisplayPanel:'documents':proj.project.status)">
+			</tmpl-documents-browser>
+
 			<tmpl-project-activities
+				class="anchor-section"
 				id="anchor-activities"
 				x-project="proj.project"
 				ng-if="('project'| shouldDisplayPanel:'activities':proj.project.status)">
 			</tmpl-project-activities>
 			
 			<tmpl-map
+				class="anchor-section"
 				id="anchor-map"
 				x-project="proj.project"
 				ng-if="('project'| shouldDisplayPanel:'map':proj.project.status)">
 			</tmpl-map>
 
-
-			<tmpl-project-bucket-listing x-project="proj.project" x-filter="proj.artifactView">
+			<tmpl-project-bucket-listing
+				class="anchor-section"
+				x-project="proj.project"
+				x-filter="proj.artifactView">
 			</tmpl-project-bucket-listing>
 
-
-			<tmpl-project-research x-project="proj.project" ng-if="('project'| shouldDisplayPanel:'public-comments':proj.project.status)">
+			<tmpl-project-research
+				class="anchor-section"
+				x-project="proj.project"
+				ng-if="('project'| shouldDisplayPanel:'public-comments':proj.project.status)">
 			</tmpl-project-research>
 
 		</section>

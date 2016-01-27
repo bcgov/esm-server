@@ -1,12 +1,16 @@
 web:
-  build: .
+  image: ${ESM_IMAGE_NAME}
   links:
    - db
   ports:
-   - "3000:3000"
-  environment: 
-   NODE_ENV: development
+   - "${ESM_HOST_PORT}:3000"
+  volumes:
+  - /data/${ESM_ENVIRONMENT_NAME}/esm-uploads:/uploads
+  environment:
+  - VIRTUAL_PORT=${ESM_HOST_PORT}
+  - VIRTUAL_HOST=${ESM_VIRTUAL_HOST}
+
 db:
   image: mongo
-  ports: 
-   - "27017:27017"
+  volumes:
+  - /data/${ESM_ENVIRONMENT_NAME}/db:/data/db
