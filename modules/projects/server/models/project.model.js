@@ -7,8 +7,8 @@ var mongoose = require ('mongoose');
 var Schema   = mongoose.Schema;
 
 var ProjectSchema = {
-	// __audit     : true,
-	// __access    : true,
+	__audit     : true,
+	__access    : true,
 	code        : { type:String, default:'New Project', index:true },
 	name        : { type:String, default:'New Project' },
 	description : { type:String, default:'' },
@@ -47,25 +47,26 @@ var ProjectSchema = {
 	// watch : [ {type:String} ]
 };
 
-//
-// add the audit fields and access fields
-//
-_.extend (ProjectSchema, control.auditFields);
-_.extend (ProjectSchema, control.accessFields);
-//
-// make the schema
-//
-ProjectSchema = new Schema (ProjectSchema);
-//
-// hook the pre save audit stuff
-//
-ProjectSchema.pre ('save', control.auditSaveFunction);
-//
-// add the permission checking methods
-//
-ProjectSchema.methods.hasPermission = control.hasPermission;
-ProjectSchema.methods.permissions   = control.permissions;
+module.exports = control.generateModel ('Project', ProjectSchema);
+// //
+// // add the audit fields and access fields
+// //
+// _.extend (ProjectSchema, control.auditFields);
+// _.extend (ProjectSchema, control.accessFields);
+// //
+// // make the schema
+// //
+// ProjectSchema = new Schema (ProjectSchema);
+// //
+// // hook the pre save audit stuff
+// //
+// // ProjectSchema.pre ('save', control.auditSaveFunction);
+// // //
+// // // add the permission checking methods
+// // //
+// // ProjectSchema.methods.hasPermission = control.hasPermission;
+// // ProjectSchema.methods.permissions   = control.permissions;
 
-var Project = mongoose.model ('Project', ProjectSchema);
+// var Project = mongoose.model ('Project', ProjectSchema);
 
-module.exports = Project;
+// module.exports = Project;
