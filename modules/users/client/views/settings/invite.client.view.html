@@ -1,0 +1,65 @@
+<section ng-controller="AuthenticationController">
+
+    <form name="userForm" ng-submit="signup(userForm.$valid)" class="signin" novalidate autocomplete="off">
+      <fieldset>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group" show-errors>
+            <label for="firstName" class="control-label">First Name</label>
+            <input type="text" id="firstName" name="firstName" class="form-control" ng-model="credentials.firstName" placeholder="First Name" required>
+            <div ng-messages="userForm.firstName.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">First name is required.</p>
+            </div>
+          </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group" show-errors>
+              <label for="lastName" class="control-label">Last Name</label>
+              <input type="text" id="lastName" name="lastName" class="form-control" ng-model="credentials.lastName" placeholder="Last Name" required>
+              <div ng-messages="userForm.lastName.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Last name is required.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group" show-errors>
+              <label for="email" class="control-label">Email</label>
+              <input type="email" id="email" name="email" class="form-control" ng-model="credentials.email" placeholder="Email" lowercase required>
+              <div ng-messages="userForm.email.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Email address is required.</p>
+                <p class="help-block error-text" ng-message="email">Email address is invalid.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group" show-errors>
+              <label for="username" class="control-label">Username</label>
+              <input type="text" id="username" name="username" class="form-control" ng-model="credentials.username" placeholder="Username" lowercase required>
+              <div ng-messages="userForm.username.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Username is required.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group" show-errors>
+              <label for="password" class="control-label">Password</label>
+              <input type="password" id="password" name="password" class="form-control" ng-model="credentials.password" placeholder="Password" required ng-minlength="6">
+              <div ng-messages="userForm.password.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Password is required.</p>
+                <p class="help-block error-text" ng-message="minlength">Password is too short.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-right form-group">
+          <button type="submit" class="btn  btn-default">Invite</button>
+        </div>
+        <div ng-show="error" class="text-center text-danger">
+          <strong ng-bind="error"></strong>
+        </div>
+      </fieldset>
+    </form>
+</section>

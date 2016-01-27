@@ -1,21 +1,45 @@
-<section>
-  <div class="page-header">
-    <div class="row">
-      <div class="col-md-4">
-        <h1>Users</h1>
+<section class="row">
+  <div class='col-sm-10'>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Users</h3>
       </div>
-      <div class="col-md-4" style="margin-top: 2em">
-        <input class="form-control col-md-4" type="text" ng-model="search" placeholder="Search" ng-change="figureOutItemsToDisplay()" />
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="searchUsers" class="control-label">Search Users</label>
+              <input id="searchUsers" class="form-control col-md-4" type="text" ng-model="search" placeholder="Search" ng-change="figureOutItemsToDisplay()" />
+            </div>
+            <hr class="visible-xs">
+          </div>
+          <div class="col-sm-9">
+
+            <table class="table table-condensed">
+              <thead>
+              <tr>
+                <th>Username</th>
+                <th>Roles</th>
+                <th colspan="2">Email</th>
+              </tr>
+              </thead>
+              <tr ng-repeat="user in pagedItems">
+                <td ng-bind="user.username"><strong>{{user.username}}</strong></td>
+                <td ng-bind="user.roles"></td>
+                <td ng-bind="user.email"></td>
+                <td class="text-right"><a class="btn btn-default btn-sm"  ui-sref="admin.user({userId: user._id})">View Details</a></td>
+              </tr>
+            </table>
+            <div class="text-right">
+
+              <pagination boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="list-group">
-    <a ng-repeat="user in pagedItems" ui-sref="admin.user({userId: user._id})" class="list-group-item">
-      <h4 class="list-group-item-heading" ng-bind="user.username"></h4>
-      <p class="list-group-item-text pull-right small" ng-bind="user.roles"></p>
-      <p class="list-group-item-text" ng-bind="user.email"></p>
-    </a>
+  <div class='col-sm-2'>
+    <tmpl-system-menu x-menu-context="settings"></tmpl-system-menu>
   </div>
-
-  <pagination boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage" ng-change="pageChanged()"></pagination>
 </section>
