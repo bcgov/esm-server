@@ -21,6 +21,11 @@ module.exports = function (app) {
 		.get    (controller.read)
 		.put    (controller.update)
 		.delete (controller.delete);
+
+	// Find a document (scrapeAndSearch)
+//	app.route ('/api/:project/scrapeAndSearch')//.all (policy.isAllowed)
+//		.get (controller.scrapeAndSearch);
+
 	//
 	// upload a document
 	//
