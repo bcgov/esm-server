@@ -103,9 +103,18 @@ module.exports = function (Model, options) {
 		q = q || {};
 		var self = this;
 		return function (req, res) {
+			console.log ("running crud list");
 			var s = '';
 			var p = '';
+			// console.log ("q = ", q);
+			// console.log ("sort = ", self.options.sort);
+			// console.log ("pop = ", self.options.populate);
+			// console.log ("model = ", self.Model);
 			self.Model.find(q).sort(self.options.sort).populate(self.options.populate).exec(helpers.queryResponse (res));
+			// self.Model.find(q).sort(self.options.sort).populate(self.options.populate).exec(function (err, models) {
+			// 	console.log (err, models);
+			// 	res.json (models);
+			// });
 		};
 	};
 	// -------------------------------------------------------------------------

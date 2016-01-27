@@ -223,7 +223,7 @@ exports.userCan = function (user, permission, thing) {
 // -------------------------------------------------------------------------
 exports.isAllowed = function (acl) {
   return function (req, res, next) {
-    var roles = (req.user) ? req.user.roles : ['guest'];
+    var roles = (req.user) ? req.user.roles : ['user'];
     //
     // if the user is an admin just let it through,
     //

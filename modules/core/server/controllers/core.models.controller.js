@@ -81,8 +81,9 @@ var generateSchema = function (definition) {
 	var access = definition.__access || false;
 	delete definition.__audit;
 	delete definition.__access;
-	if (audit) _.extend (definition, auditFields);
-	if (access) _.extend (definition, accessFields);
+	if (audit) definition = _.extend (definition, auditFields);
+	if (access) definition = _.extend (definition, accessFields);
+	// console.log (definition);
 	var schema = new mongoose.Schema (definition);
 	if (audit) {
 		// schema.pre ('save', auditSaveFunction);
