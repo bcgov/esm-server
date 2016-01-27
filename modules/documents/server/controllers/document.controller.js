@@ -183,25 +183,25 @@ var upload = function (req, res) {
 		importDocumentAndReturn (new Model ({
 			// Metadata related to this specific document that has been uploaded.
 			// See the document.model.js for descriptions of the parameters to supply.
-			project 												: req.Project._id,
-			projectFolderType								: req.headers.projectfoldertype,
-			projectFolderSubType					  : req.headers.projectfoldersubtype,
-			projectFolderName 							: req.headers.projectfoldername,
-			projectFolderURL 								: req.headers.projectfolderurl,
-			projectFolderDatePosted 				: req.headers.projectfolderdateposted,
+			project 					: req.Project._id,
+			projectFolderType			: req.headers.projectfoldertype,
+			projectfoldersubtype		: req.headers.projectfoldersubtype,
+			projectFolderName			: req.headers.projectfoldername,
+			projectFolderURL			: req.headers.projectfolderurl,
+			projectFolderDatePosted		: req.headers.projectfolderdateposted,
 			// These are the data as it was shown on the EPIC website.
-			documentFileName 								: req.headers.documentfilename,
-			documentFileURL 								: req.headers.documentfileurl,
-			documentFileSize 								: req.headers.documentfilesize,
-			documentFileFormat 							: req.headers.documentfileformat,
+			documentFileName	: req.headers.documentfilename,
+			documentFileURL		: req.headers.documentfileurl,
+			documentFileSize	: req.headers.documentfilesize,
+			documentFileFormat	: req.headers.documentfileformat,
 			// These are automatic as it actually is when it comes into our system
-			internalURL						: file.path,
-			internalOriginalName  : file.originalname,
-			internalName  				: file.name,
-			internalMime      		: file.mimetype,
-			internalExt       		: file.extension,
-			internalSize      		: file.size,
-			internalEncoding  		: file.encoding
+			internalURL				: file.path,
+			internalOriginalName	: file.originalname,
+			internalName			: file.name,
+			internalMime			: file.mimetype,
+			internalExt				: file.extension,
+			internalSize			: file.size,
+			internalEncoding		: file.encoding
 		}), req, res);
 	} else {
 		helpers.sendErrorMessage (res, "document.controller.upload: No file found to upload");
