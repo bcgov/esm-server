@@ -1,27 +1,11 @@
 'use strict';
 
 angular.module('activity')
-	.directive('tmplEaoActivity', directiveEAOActivity)
 	.directive('tmplEaoActivityDetail', directiveEAOActivityDetail)
 	.directive('tmplEaoActivityTasks', directiveEAOActivityTasks)       
 	.directive('tmplEaoActivityProcesses', directiveEAOActivityProcesses)
 	.directive('modalAddCustomTask', directiveModalAddCustomTask);
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Activity EAO
-//
-// -----------------------------------------------------------------------------------
-directiveEAOActivity.$inject = [];
-/* @ngInject */
-function directiveEAOActivity() {
-	var directive = {
-		restrict: 'E',
-		templateUrl: 'modules/activities/client/views/activity-eao.html',
-		controller: 'controllerEAOActivity',
-		controllerAs: 'actBase'
-	};
-	return directive;
-}
+
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: EAO Activity Detail

@@ -93,6 +93,7 @@ var DocumentSchema  = new Schema ({
     documentFileFormat             : { type:String, default:'' },
     documentVersion                : { type:Number, default:0 }, // Used for keeping track of this documents version.
     documentIsLatestVersion        : { type:Boolean, default:true }, // We assume we are the latest.
+    documentIsInReview             : { type:Boolean, default:false }, // Used to flag if this entry is a reviewable entry.
     internalURL                    : { type:String, default:'' },
     internalOriginalName           : { type:String, default:'' },
     internalName                   : { type:String, default:'' },
