@@ -6,58 +6,61 @@
         <h3 class="panel-title">Edit User: {{user.username}}</h3>
       </div>
       <div class="panel-body">
-        <div class="row">
-          <div class="col-sm-3">
-            <a class="btn btn-default" ui-sref="admin.user({userId: user._id})"><i class="glyphicon glyphicon-chevron-left
+        <form name="userForm" ng-submit="update(userForm.$valid)" novalidate>
+          <div class="row">
+            <div class="col-sm-3">
+              <a class="btn btn-default" ui-sref="admin.user({userId: user._id})"><i class="glyphicon glyphicon-chevron-left
 "></i> View {{user.username}}</a>
-            <hr class="visible-xs">
-          </div>
-          <div class="col-sm-9">
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="form-group show-errors">
-                  <label for="firstName" class="control-label">First Name</label>
-                  <input type="text" id="firstName" name="firstName" class="form-control" ng-model="user.firstName" placeholder="First Name" required />
-                  <div ng-messages="userForm.firstName.$error" role="alert">
-                    <p class="help-block error-text" ng-message="required">First name is required.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="form-group" show-errors>
-                  <label for="lastName" class="control-label">Last Name</label>
-                  <input type="text" id="lastName" name="lastName" class="form-control" ng-model="user.lastName" placeholder="Last Name" required />
-                  <div ng-messages="userForm.lastName.$error" role="alert">
-                    <p class="help-block error-text" ng-message="required">Last name is required.</p>
-                  </div>
-                </div>
-              </div>
+              <hr class="visible-xs">
             </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="form-group" show-errors>
-                  <label for="roles" class="control-label">Roles</label>
-                  <div class="controls">
-                    <input class="form-control" type="text" name="roles" ng-model="user.roles" id="roles" ng-list required />
-                    <div ng-messages="userForm.roles.$error" role="alert">
-                      <p class="help-block error-text" ng-message="required">At least one role is required.</p>
+            <div class="col-sm-9">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group show-errors">
+                    <label for="firstName" class="control-label">First Name</label>
+                    <input type="text" id="firstName" name="firstName" class="form-control" ng-model="user.firstName" placeholder="First Name" required />
+                    <div ng-messages="userForm.firstName.$error" role="alert">
+                      <p class="help-block error-text" ng-message="required">First name is required.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group" show-errors>
+                    <label for="lastName" class="control-label">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" class="form-control" ng-model="user.lastName" placeholder="Last Name" required />
+                    <div ng-messages="userForm.lastName.$error" role="alert">
+                      <p class="help-block error-text" ng-message="required">Last name is required.</p>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div class="text-right">
-              <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-default">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group" show-errors>
+                    <label class="control-label" for="roles">Roles</label>
+                    <div class="controls">
+                      <input class="form-control" type="text" name="roles" ng-model="user.roles" id="roles" ng-list required />
+                      <div ng-messages="userForm.roles.$error" role="alert">
+                        <p class="help-block error-text" ng-message="required">At least one role is required.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div ng-show="error" class="text-danger">
-                <strong ng-bind="error"></strong>
-              </div>
-            </div>
 
+              <div class="text-right">
+                <div class="form-group">
+                  <input type="submit" value="Update" class="btn btn-default">
+                </div>
+                <div ng-show="error" class="text-danger">
+                  <strong ng-bind="error"></strong>
+                </div>
+              </div>
+
+            </div>
           </div>
-        </div>
+        </form>
+
       </div>
     </div>
   </div>
@@ -68,8 +71,8 @@
 </section>
 
 
-<!--
 
+<!--
 <section>
   <div class="page-header">
     <h1>User <span ng-bind="user.username"></span></h1>
