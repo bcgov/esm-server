@@ -2,10 +2,11 @@
 
 	<div class='col-sm-10'>
 
+		<h1 class="page-title">
+			Settings
+		</h1>
+
 		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">Settings</h3>
-			</div>
 			<div class="panel-body">
 				<div class="row">
 
@@ -20,9 +21,6 @@
 								<li ui-sref-active="active" ng-show="user.provider === 'local'">
 									<a ui-sref="settings.invite">Send Invitation</a>
 								</li>
-								<li ui-sref-active="active" ng-show="user.provider === 'local'">
-									<a ui-sref="admin.users">List Users</a>
-								</li>
 							</ul>
 							<hr class="visible-xs">
 						</nav>
@@ -34,7 +32,7 @@
 		</div>
 
 
-	</div> <!-- /col9 -->
+	</div> <!-- /col10 -->
 	<div class='col-sm-2'>
 		<tmpl-system-menu x-menu-context="settings"></tmpl-system-menu>
 	</div>

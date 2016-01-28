@@ -7,5 +7,10 @@ angular.module('core.admin').run(['Menus',
 			state: 'configuration',
 			roles: ['admin']
 		});
+		Menus.addMenuItem('systemMenu', {
+			title: 'Users',
+			state: 'admin.users',
+			roles: ['admin']
+		});
 	}
 ]);
