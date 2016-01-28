@@ -426,6 +426,18 @@ exports.eaoedit = eaoedit;
 // helpers for claiming
 //
 // -------------------------------------------------------------------------
+var getInProgressForAll = function (query) {
+	query = query || {};
+	query = _.extend ({
+		overallStatus: 'In Progress'
+	}, query);
+	return queryModelsDecorate (query);
+};
+// -------------------------------------------------------------------------
+//
+// helpers for claiming
+//
+// -------------------------------------------------------------------------
 var getInProgressForUser = function (userid, query) {
 	query = query || {};
 	query = _.extend ({
@@ -442,7 +454,7 @@ var getInProgressForUser = function (userid, query) {
 // -------------------------------------------------------------------------
 var vettingStart = function (req, res) {
 	var userid = (req.user) ? req.user._id : null;
-	getInProgressForUser (userid, {
+	getInProgressForAll ({
 		project : req.params.projectid
 	})
 	.then (function (models) {
@@ -489,7 +501,7 @@ exports.vettingClaim = vettingClaim;
 // -------------------------------------------------------------------------
 var classifyStart = function (req, res) {
 	var userid = (req.user) ? req.user._id : null;
-	getInProgressForUser (userid, {
+	getInProgressForAll ({
 		eaoStatus: {$in: ['Published', 'Rejected']},
 		proponentStatus: {$in: ['Deferred', 'Unclassified']},
 		project : req.params.projectid
