@@ -30,19 +30,19 @@
 				ng-if="('project'| shouldDisplayPanel:'public-comments':proj.project.status)">
 			</tmpl-public-comment-display>
 
-			<tmpl-documents-browser
-				class="anchor-section"
-				id="anchor-documents"
-				x-project="proj.project"
-				ng-if="('project'| shouldDisplayPanel:'documents':proj.project.status)">
-			</tmpl-documents-browser>
-
 			<tmpl-project-activities
 				class="anchor-section"
 				id="anchor-activities"
 				x-project="proj.project"
 				ng-if="('project'| shouldDisplayPanel:'activities':proj.project.status)">
 			</tmpl-project-activities>
+
+			<tmpl-documents-browser
+				class="anchor-section"
+				id="anchor-documents"
+				x-project="proj.project"
+				ng-if="('project'| shouldDisplayPanel:'documents':proj.project.status)">
+			</tmpl-documents-browser>
 			
 			<tmpl-map
 				class="anchor-section"

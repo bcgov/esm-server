@@ -64,7 +64,7 @@
 	<ul class="list-unstyled">
 <!-- 		<li><a x-modal-alerts-viewer class="text-danger">Alerts</a></li> -->
 		<li><a ui-sref="projects" href>All Projects</a></li>
-		<li><a ui-sref="project, {id: menu.project._id}" href>{{ menu.project.name }}</a></li>
+		<li><a ui-sref="project({id: menu.project._id})" href>{{ menu.project.name }}</a></li>
 		<li><a ng-click="menu.goToPrevious()" href>Back</a></li>
 	</ul>
 	<div ng-show="menu.authentication.user">
@@ -91,7 +91,7 @@
 			<li><a x-modal-project-entry href>Add Project</a></li>
 		</ul>
 	</div>
-	<div ng-if="menu.context === 'project'">
+	<div ng-if="menu.context === 'project' || menu.context === 'activity'">
 	 	<hr>
 		<label class="control-label">{{ menu.project.name }}</label>
 		<ul class="list-unstyled">

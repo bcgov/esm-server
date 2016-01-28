@@ -1,31 +1,11 @@
 'use strict';
 
 angular.module('activity')
-	.controller('controllerEAOActivity', controllerEAOActivity)
 	.controller('controllerEAOActivityDetail', controllerEAOActivityDetail)
 	.controller('controllerEAOActivityTasks', controllerEAOActivityTasks)
 	.controller('controllerEAOActivityProcesses', controllerEAOActivityProcesses)
 	.controller('controllerModalAddCustomTask', controllerModalAddCustomTask);
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: Activity EAO
-//
-// -----------------------------------------------------------------------------------
-controllerEAOActivity.$inject = ['$scope', '$state', '$modal', 'Activity', 'Project', '$stateParams'];
-/* @ngInject */
-function controllerEAOActivity($scope, $state, $modal, Activity, Project, $stateParams) {
-	var actBase = this;
-	//
-	// Get Activity
-	Activity.getProjectActivity({id: $state.params.id}).then(function(res) {
-		actBase.activity = res.data;
-		//
-		// Get Project
-		Project.getProject({id: res.data.project}).then(function(res) {
-			actBase.project = res.data;
-		});
-	});
-}
+
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: EAO Activity Detail
