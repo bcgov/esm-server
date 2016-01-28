@@ -10,8 +10,8 @@ var CRUD     = require (path.resolve('./modules/core/server/controllers/core.cru
 var Model    = mongoose.model ('Document');
 var helpers  = require (path.resolve('./modules/core/server/controllers/core.helpers.controller'));
 var Project = mongoose.model ('Project');
-//var Spooky 	= require('spooky');
-//var Cheerio = require('cheerio');
+var Spooky 	= require('spooky');
+var Cheerio = require('cheerio');
 
 var crud = new CRUD (Model);
 // -------------------------------------------------------------------------
@@ -82,7 +82,28 @@ var importDocumentAndReturn = function (doc, req, res) {
 		helpers.sendError (res, err);
 	});
 };
-/*
+// -------------------------------------------------------------------------
+//
+// saveReviewableDocumentObject - insert this document we found, flag for review.
+//
+// -------------------------------------------------------------------------
+var saveReviewableDocumentObject = function (docobj) {
+	return new Promise (function (resolve, reject) {
+		docobj.save ().then (resolve, reject);
+	});
+};
+var insertReviewableDocument = function (jobid, type, subtype, name, url, author, date) {
+	saveReviewableDocumentObject( new Model ({	projectFolderType   	: type,
+												projectFolderSubType	: subtype,
+												projectFolderName  		: name,
+												projectFolderURL 		: url,
+												projectFolderAuthor		: author,
+												projectFolderDatePosted : date,
+												documentIsInReview		: true
+												}));
+};
+
+
 //
 // scrapeAndSearch Documents for links, and pull them into the system.
 //
@@ -94,7 +115,7 @@ var scrapeAndSearch = function (req, res) {
 	// file that would be consumed by part two. This could then be edited to
 	// remove anything that we don't want pulled down.
 	return new Promise (function (resolve, reject) {
-		console.log("scrapeAndSearch.run for ProjectID: " + req.Project._id);
+		//console.log("scrapeAndSearch.run for ProjectID: " + req.Project._id);
 		var url = req.headers.url;
 		console.log("URL: " + url);
 
@@ -128,27 +149,54 @@ var scrapeAndSearch = function (req, res) {
 		});
 
 		spooky.on('pageContent', function (content) {
-			//console.log('Parsing page content:' + content);
-			//var jsdom = require('jsdom');
+			// TODO: Generate a unique ID to track this request as done
+			var jobID = 1;
 			var cheerio = require('cheerio');
-			console.log("");
 			var $ = cheerio.load(content);
-			$('table.docs tbody tr td a').each(function(i, element) {
-				var a = $(this);
-				//console.log(a.text());
-				//var projectFolderType = a.text(); // TODO: go up to nearest TD head1 = Folder Type
-				//var projectFolderSubType = a.text(); // TODO: go up to nearest TD head2 = Folder SubType
-				var projectFolderName = a.text();
-				var projectFolderURL = a.attr('href');
-				//console.log("+++")
-				//console.log("projectFolderType: " + projectFolderType);
-				//console.log("projectFolderSubType: " + projectFolderSubType);
-				console.log("projectFolderName: " + projectFolderName);
-				console.log("projectFolderURL: " + projectFolderURL);
-				//console.log("---")
+			var top = $('table.docs');
+			// Get a collection of the <tr> elements
+			var elem = top.children().first().children();
+			var projectFolderType = "";
+			var projectFolderSubType = "";
+
+			// Loop through each child
+			top.children().first().children().each(function (i, elem) {
+				var className = $(this).first().children().first().attr('class');
+				if ('head1' === className) {
+					//console.log("detected:" + className);
+					projectFolderType = $(this).first().children().first().text();
+				} else if ('head2' === className) {
+					//console.log("detected:" + className);
+					projectFolderSubType = $(this).first().children().first().text();
+				} else if ('head3' === className) {
+					// Ignore
+				} else {
+					// We found a good <td> element
+					var projectFolderName = $(this).children().first().text();
+					var projectFolderURL  = $(this).children().first().children().first().attr('href');
+					var author            = $(this).children().first().next().text().trim();
+					var postedDate        = $(this).children().first().next().next().text();
+					// If projectFolderURL undefined then we're probably on the last element.  Bail.
+					if (undefined !== projectFolderURL) {
+					// We found a document, add it to the system for review.
+						// console.log("projectFolderType: "    + projectFolderType);
+						// console.log("projectFolderSubType: " + projectFolderSubType);
+						// console.log("projectFolderName: "    + projectFolderName);
+						// console.log("projectFolderURL: "     + projectFolderURL);
+						// console.log("author: "               + author);
+						// console.log("postedDate: "           + postedDate);
+						// console.log("----------");
+						insertReviewableDocument(	jobID,
+													projectFolderType,
+													projectFolderSubType,
+													projectFolderName,
+													projectFolderURL,
+													author,
+													postedDate);
+					}
+				}
 			});
-			console.log("----");
-			res.json("ok");
+			res.json("request submitted, jobID=" + jobID);
 		   });
 
 		// We should be fed url's like the following:
@@ -165,7 +213,6 @@ var scrapeAndSearch = function (req, res) {
 	});
 };
 exports.scrapeAndSearch = scrapeAndSearch;
-*/
 //
 // upload document - include all relevant information about the document.
 //
