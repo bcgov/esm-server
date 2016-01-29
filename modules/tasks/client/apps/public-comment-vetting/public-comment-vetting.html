@@ -55,9 +55,9 @@
 						<li class="clearfix"><small>Overall Comment</small>
 							<div class="btn-group btn-group-xs pull-right">
 								<a href class="btn btn-default" ng-class="{'btn-success': taskPubComVet.workingStatus === 'Published'}"		ng-click="taskPubComVet.rejectWarning = false; taskPubComVet.workingStatus = 'Published'">Accept</a>
-								<a href class="btn btn-default" ng-class="{'btn-danger': taskPubComVet.workingStatus === 'Rejected'}"		ng-click="taskPubComVet.rejectWarning = true">Reject</a>
-								<a href class="btn btn-default" ng-class="{'btn-info': taskPubComVet.workingStatus === 'Deferred'}"			ng-click="taskPubComVet.workingStatus = 'Deferred'">Defer</a>
-								<a href class="btn btn-default" ng-class="{'btn-warning': taskPubComVet.workingStatus === 'Spam'}"			ng-click="taskPubComVet.workingStatus = 'Spam'">Spam</a>
+								<a href class="btn btn-default" ng-class="{'btn-danger': taskPubComVet.rejectWarning}"					ng-click="taskPubComVet.rejectWarning = true; taskPubComVet.workingStatus = null;">Reject</a>
+								<a href class="btn btn-default" ng-class="{'btn-info': taskPubComVet.workingStatus === 'Deferred'}"			ng-click="taskPubComVet.rejectWarning = false; taskPubComVet.workingStatus = 'Deferred'">Defer</a>
+								<a href class="btn btn-default" ng-class="{'btn-warning': taskPubComVet.workingStatus === 'Spam'}"			ng-click="taskPubComVet.rejectWarning = false; taskPubComVet.workingStatus = 'Spam'">Spam</a>
 							</div>
 						</li>
 						<li ng-show="taskPubComVet.rejectWarning">

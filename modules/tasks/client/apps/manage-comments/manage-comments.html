@@ -113,7 +113,6 @@
 				<th width="15%" class="text-center">Overall Status<br/>EAO Status<br/>Proponent Status</th>
 				<th width="15%" class="text-left">Pillars</th>
 				<th width="5%" class="text-center">VC's</th>
-				<th width="1%"></th>
 			</tr>
 
 		</thead>
@@ -162,12 +161,9 @@
 					class='text-center'>
 					{{ com.buckets.length || 0 }}
 				</td>
-				<td class='text-center small'>
-					<a href ng-click="taskManComm.releaseComment(com);" x-user-is="admin" ng-if="com.overallStatus === 'In Progress'">Release</a>
-				</td>
 			</tr>
 			<tr ng-show="commentsFiltered.length === 0">
-				<td colspan="6">There are no comments to view.</td>
+				<td colspan="5">There are no comments to view.</td>
 			</tr>
 		</tbody>
 
