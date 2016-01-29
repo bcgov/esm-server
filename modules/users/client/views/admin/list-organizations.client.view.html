@@ -1,41 +1,40 @@
 <section class="row">
   <div class='col-sm-10'>
-
     <h1 class="page-title">
       Admin
     </h1>
-
     <div class="panel panel-default">
+
       <div class="panel-heading">
-        <h3 class="panel-title">Users</h3>
+        <h3 class="panel-title">Organizations</h3>
       </div>
 
       <div class="panel-body">
 
         <div class="form-group">
-          <label for="searchUsers" class="control-label">Search Users</label>
+          <label for="searchUsers" class="control-label">Search Organizations</label>
           <input id="searchUsers" class="form-control" type="text" ng-model="search" placeholder="Search" ng-change="figureOutItemsToDisplay()" />
         </div>
-
+        
           <table class="table table-condensed table-hover">
             <thead>
             <tr>
-              <th>Username</th>
-              <th>Roles</th>
-              <th>Email</th>
+              <th>Name</th>
+              <th>Main Location</th>
+              <th>Members</th>
             </tr>
             </thead>
-            <tr ng-repeat="user in pagedItems" ui-sref="admin.user({userId: user._id})">
-              <td ng-bind="user.username"></td>
-              <td ng-bind="user.roles"></td>
-              <td ng-bind="user.email"></td>
+            <tr ng-repeat="org in organizations">
+              <td ng-bind="org.name"></td>
+              <td ng-bind="org.location"></td>
+              <td ng-bind="org.memberCount"></td>
             </tr>
           </table>
 
         <div class="text-right">
-          <pagination class="pagination-sm" boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage" ng-change="pageChanged()"></pagination>        </div>
-
+          <pagination class="pagination-sm" boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage" ng-change="pageChanged()"></pagination>
         </div>
+
       </div>
     </div>
   </div>
