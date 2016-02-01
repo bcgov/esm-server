@@ -75,16 +75,20 @@ var queryResponse = function (res) {
 	};
 };
 
-exports.successFunction = function (res) {
+var success = function (res) {
   return function (result) {
     res.json (result);
   };
 };
-exports.errorFunction = function (res) {
+exports.successFunction = success;
+exports.success = success;
+var failure = function (res) {
   return function (err) {
     sendErrorMessage (res, getErrorMessage (err));
   };
 };
+exports.errorFunction = failure;
+exports.failure = failure;
 
 var getMimeTypeFromFileName = function (filename) {
 	switch ((/(\.\w*)$/.exec(filename))[1]) {
@@ -246,6 +250,64 @@ exports.isAllowed = function (acl) {
   };
 };
 
+exports.setCRUDRoutes = function (app, basename, DBClass, policy) {
+  //
+  // middleware to auto-fetch parameter
+  //
+  app.param (basename, function (req, res, next, id) {
+    var o = new DBClass (req.user);
+    o.findById(id)
+    .then (function (model) {
+      if (!model) return sendNotFound (res, DBClass.prototype.name+' not found');
+      req[DBClass.prototype.name] = model;
+      next ();
+    })
+    .catch (function (err) {
+      return next (err);
+    });
+  });
+  //
+  // collection routes
+  //
+  app.route ('/api/'+basename).all (policy.isAllowed)
+    .get  (function (req, res) {
+      var o = new DBClass (req.user);
+      o.list ()
+      .then (success(res), failure(res));
+    })
+    .post (function (req, res) {
+      var o = new DBClass (req.user);
+      o.create (req.body)
+      .then (success(res), failure(res));
+    });
+  //
+  // model routes
+  //
+  app.route ('/api/'+basename+'/:'+basename).all (policy.isAllowed)
+    .get    (function (req, res) {
+      var o = new DBClass (req.user);
+      o.read(req[DBClass.prototype.name])
+      .then (success(res), failure(res));
+    })
+    .put    (function (req, res) {
+      var o = new DBClass (req.user);
+      o.update(req[DBClass.prototype.name], req.body)
+      .then (success(res), failure(res));
+    })
+    .delete (function (req, res) {
+      var o = new DBClass (req.user);
+      o.delete(req[DBClass.prototype.name])
+      .then (success(res), failure(res));
+    });
+  app.route ('/api/new/'+basename).all (policy.isAllowed)
+    .get (function (req, res) {
+      var o = new DBClass (req.user);
+      o.new()
+      .then (success(res), failure(res));
+    });
+
+};
+
 // -------------------------------------------------------------------------
 //
 // shorthand to set the default crud permisions. admin, all, user, all, guest
@@ -289,6 +351,40 @@ exports.setPathPermissions = function (acl, list) {
   if (guestlist.length) acl.allow ('guest', guestlist, 'get');
 };
 
+exports.extend = function(protoProps, staticProps) {
+  var parent = this;
+  var child;
+
+  // The constructor function for the new subclass is either defined by you
+  // (the "constructor" property in your `extend` definition), or defaulted
+  // by us to simply call the parent's constructor.
+  if (protoProps && _.has(protoProps, 'constructor')) {
+    child = protoProps.constructor;
+  } else {
+    child = function(){ return parent.apply(this, arguments); };
+  }
+
+  // Add static properties to the constructor function, if supplied.
+  _.extend(child, parent, staticProps);
+
+  // Set the prototype chain to inherit from `parent`, without calling
+  // `parent`'s constructor function.
+  var Surrogate = function(){ this.constructor = child; };
+  Surrogate.prototype = parent.prototype;
+  child.prototype = new Surrogate ();
+
+  // Add prototype properties (instance properties) to the subclass,
+  // if supplied.
+  if (protoProps) _.extend(child.prototype, protoProps);
+
+  // Set a convenience property in case the parent's prototype is needed
+  // later.
+  child.__super__ = parent.prototype;
+
+  return child;
+};
+
+exports.emptyPromise = function (t) {return new Promise (function (r, e) { r (t); }); };
 
 
 

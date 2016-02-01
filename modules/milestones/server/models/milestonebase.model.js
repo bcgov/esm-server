@@ -1,14 +1,13 @@
 'use strict';
 // =========================================================================
 //
-// Model for streams
+// Model for activity set Base
 //
 // =========================================================================
 module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('Stream', {
-	__access : true,
+.generateModel ('MilestoneBase', {
+	__access     : true,
 	__codename  : true,
-	phases       : [ {type: 'ObjectId', ref:'PhaseBase'} ],
+	activities  : [ {type: 'ObjectId', ref:'ActivityBase'} ],
 });
-
 

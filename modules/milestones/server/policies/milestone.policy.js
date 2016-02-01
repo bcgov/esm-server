@@ -10,6 +10,10 @@ var helpers  = require (require('path').resolve('./modules/core/server/controlle
 
 exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'milestone');
+	helpers.setCRUDPermissions (acl, 'milestonebase');
+	helpers.setPathPermissions (acl, [
+		[ '', 'user', '/api/milestonebase/:milestonebase/add/activity/:activitybase']
+	]);
 };
 
 exports.isAllowed = helpers.isAllowed (acl);

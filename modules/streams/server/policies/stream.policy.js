@@ -11,14 +11,7 @@ var helpers  = require (require('path').resolve('./modules/core/server/controlle
 exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'stream');
 	helpers.setPathPermissions (acl, [
-		[ '', 'user', '/api/stream/:stream/add/bucket/:bucket'                               ],
-		[ '', 'user', '/api/stream/:stream/add/phase/:phase'                                 ],
-		[ '', 'user', '/api/stream/phase/:phase/add/milestone/:milestone'                    ],
-		[ '', 'user', '/api/stream/phase/:phase/add/activity/:activity'                      ],
-		[ '', 'user', '/api/stream/activity/:activity/add/task/:task'                        ],
-		[ '', 'user', '/api/stream/task/:task/add/requirement/:requirement'                  ],
-		[ '', 'user', '/api/stream/milestone/:milestone/add/stream/requirement/:requirement' ],
-		[ '', 'user', '/api/stream/bucket/:bucket/add/stream/requirement/:requirement'       ]
+		[ '', 'user', '/api/stream/:stream/add/phase/:phasebase'                             ]
 	]);
 };
 

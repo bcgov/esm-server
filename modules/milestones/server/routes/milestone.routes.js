@@ -4,29 +4,23 @@
 // Routes for milestones
 //
 // =========================================================================
-var policy     = require ('../policies/milestone.policy');
-var controller = require ('../controllers/milestone.controller');
+var policy        = require ('../policies/milestone.policy');
+var MilestoneBase = require ('../controllers/milestonebase.controller');
+var Milestone     = require ('../controllers/milestone.controller');
+var helpers       = require ('../../../core/server/controllers/core.helpers.controller');
 
 module.exports = function (app) {
+	helpers.setCRUDRoutes (app, 'milestonebase', MilestoneBase, policy);
+	helpers.setCRUDRoutes (app, 'milestone', Milestone, policy);
 	//
-	// collection routes
+	// milestone base
 	//
-	app.route ('/api/milestone').all (policy.isAllowed)
-		.get  (controller.list)
-		.post (controller.create);
-	//
-	// model routes
-	//
-	app.route ('/api/milestone/:milestone').all (policy.isAllowed)
-		.get    (controller.read)
-		.put    (controller.update)
-		.delete (controller.delete);
-	app.route ('/api/new/milestone').all (policy.isAllowed)
-		.get (controller.new);
-	//
-	// middleware to auto-fetch parameter
-	//
-	app.param ('milestone', controller.getObject);
-	// app.param ('milestoneId', controller.getId);
+	app.route ('/api/milestonebase/:milestonebase/add/activity/:activitybase')
+		.all (policy.isAllowed)
+		.put (function (req,res) {
+			var p = new MilestoneBase (req.user);
+			p.addActivityToMilestone (req.MilestoneBase, req.ActivityBase)
+			.then (helpers.success(res), helpers.failure(res));
+		});
 };
 

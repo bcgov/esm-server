@@ -1,23 +1,24 @@
 'use strict';
 // =========================================================================
 //
-// Model for activities
+// Model for Activity
 //
 // =========================================================================
 module.exports = require ('../../../core/server/controllers/core.models.controller')
 .generateModel ('Activity', {
-	__audit      : true,
-	__access     : true,
-	activity    : { type:'ObjectId', default:null, ref:'Activity', index:true, required:'Error setting activity self reference' },
-	project     : { type:'ObjectId', default:null, ref:'Project' , index:true },
-	stream      : { type:'ObjectId', default:null, ref:'Stream'  , index:true },
-	code        : { type:String    , default:'code', index:true, required:'Code is required', lowercase:true, trim:true },
-	name        : { type:String    , default:'name', required:'Please enter an activity name' },
-	description : { type:String    , default:'description' },
-	processCode : { type:String    , default:'' },
-	tasks       : [ {type: 'ObjectId', ref:'Task'} ],
-	status      : { type: String, default:'Not Started', enum:['Pending', 'In Progress', 'Complete'] },
-	overriddenBy : { type:'ObjectId', ref:'User' },
-	overrideReason : {type:String, default:'' },
-	completed : { type:String, default:'self.tasksComplete'}
+	__audit        : true,
+	__access       : true,
+	__tracking     : true,
+	__status       : ['Not Started', 'Not Required', 'In Progress', 'Complete'],
+	__codename     : true,
+	processCode    : { type:String, default:'' },
+	tasks          : [ {type: 'ObjectId', ref:'Task'} ],
+	activityBase   : { type:'ObjectId', default:null, ref:'ActivityBase', index:true},
+	milestone      : { type:'ObjectId', default:null, ref:'Milestone'   , index:true },
+	phase          : { type:'ObjectId', default:null, ref:'Phase'       , index:true },
+	project        : { type:'ObjectId', default:null, ref:'Project'     , index:true },
+	stream         : { type:'ObjectId', default:null, ref:'Stream'      , index:true },
+	overriddenBy   : { type:'ObjectId', ref:'User' },
+	overrideReason : { type:String, default:'' },
+	completed      : { type:Boolean, default:false }
 });

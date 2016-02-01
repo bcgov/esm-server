@@ -4,25 +4,75 @@
 // Controller for phases
 //
 // =========================================================================
-var path     = require('path');
-var mongoose = require ('mongoose');
-var CRUD     = require (path.resolve('./modules/core/server/controllers/core.crud.controller'));
-var helpers  = require (path.resolve('./modules/core/server/controllers/core.helpers.controller'));
-var Model    = mongoose.model ('Phase');
+var path           = require('path');
+var DBModel        = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var MilestoneClass = require (path.resolve('./modules/milestones/server/controllers/milestone.controller'));
+var MilestoneBaseClass = require (path.resolve('./modules/milestones/server/controllers/milestonebase.controller'));
+var _              = require ('lodash');
 
-var crud = new CRUD (Model);
-// -------------------------------------------------------------------------
-//
-// Basic CRUD
-//
-// -------------------------------------------------------------------------
-exports.new    = crud.new    ();
-exports.create = crud.create (function (m) {m.phase = m._id;});
-exports.read   = crud.read   ();
-exports.update = crud.update ();
-exports.delete = crud.delete ();
-exports.list   = crud.list   ();
-exports.base   = crud.list	 ({ stream: null, project: null});
-exports.getObject   = crud.getObject   ();
+module.exports = DBModel.extend ({
+	name : 'Phase',
+	// -------------------------------------------------------------------------
+	//
+	// when making a phase from a base it will aslways be in order to attach
+	// to a project, so the project and stream are passed in here along with the
+	// base
+	// make our new phase so we have an id
+	// first get all the milestones and make propoer objects from those,
+	// reverse link the new milestones to the new phase by passing in the
+	// ancestry
+	// save the phase
+	//
+	// -------------------------------------------------------------------------
+	makePhaseFromBase : function (base, streamid, projectid, projectcode) {
+		var self = this;
+		var Milestone = new MilestoneClass (this.user);
+		var MilestoneBase = new MilestoneBaseClass (this.user);
+		return new Promise (function (resolve, reject) {
+			var baseid = base._id;
+			var newobjectid;
+			var newobject;
+			var children;
+			var basename = 'phaseBase';
+			var newchildfunction = Milestone.makeMilestoneFromBase;
+			var findchildbyid = MilestoneBase.findById;
+			var childname = 'milestones';
+			// get all the children
+			Promise.all (base[childname].map (findchildbyid))
+			.then (function (models) {
+				// assign it for later use
+				children = models;
+				// make the new newobject from the base
+				return self.copy (base);
+			})
+			.then (function (model) {
+				newobjectid = model._id;
+				newobject   = model;
+				// fix the roles
+				model.fixRoles (projectcode);
+				// assign whatever ancenstry is needed
+				model[basename] = baseid;
+				model.project = projectid;
+				model.stream  = streamid;
+				// return the promise of new children
+				return Promise.all (children.map (function (m) {
+					return Milestone.makeMilestoneFromBase (m, streamid, projectid, projectcode, newobjectid);
+				}));
+			})
+			.then (function (models) {
+				// assign each new child to the newobject
+				_.each (models, function (m) {
+					newobject[childname].push (m._id);
+				});
+				return newobject;
+			})
+			.then (function (m) {
+				return self.saveDocument (m);
+			})
+			.then (resolve, reject);
+		});
+	}
+});
+
 
 

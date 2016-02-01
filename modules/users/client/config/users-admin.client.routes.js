@@ -44,6 +44,6 @@ angular.module('users.admin.routes').config(['$stateProvider',
               });
             }]
           }
-        });;
+        });
   }
 ]);
