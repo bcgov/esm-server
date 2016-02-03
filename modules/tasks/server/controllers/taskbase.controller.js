@@ -1,7 +1,7 @@
 'use strict';
 // =========================================================================
 //
-// Controller for streams
+// Controller for task bases
 //
 // =========================================================================
 var path     = require('path');
@@ -9,15 +9,7 @@ var DBModel  = require (path.resolve('./modules/core/server/controllers/core.dbm
 
 
 module.exports = DBModel.extend ({
-	name : 'Stream',
-	addPhaseToStream : function (stream, phasebase) {
-		var self = this;
-		return new Promise (function (resolve, reject) {
-			stream.phases.push (phasebase._id);
-			self.saveAndReturn(stream)
-			.then (resolve, reject);
-		});
-	}
+	name : 'TaskBase'
 });
 
 

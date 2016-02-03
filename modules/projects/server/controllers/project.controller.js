@@ -5,455 +5,56 @@
 //
 // =========================================================================
 var path        = require('path');
-var mongoose    = require ('mongoose');
-var CRUD        = require (path.resolve('./modules/core/server/controllers/core.crud.controller'));
-var helpers     = require (path.resolve('./modules/core/server/controllers/core.helpers.controller'));
-var streamcontroller  = require (path.resolve('./modules/streams/server/controllers/stream.controller'));
-var Project     = mongoose.model ('Project');
-var Phase       = mongoose.model ('Phase')       ;
-var Activity    = mongoose.model ('Activity')    ;
-var Task        = mongoose.model ('Task')        ;
-var Milestone   = mongoose.model ('Milestone')   ;
-var Bucket      = mongoose.model ('Bucket')      ;
-var Requirement = mongoose.model ('Requirement') ;
-var BucketRequirement = mongoose.model ('BucketRequirement');
-var ProjectRole = mongoose.model ('ProjectRole');
-var _ = require ('lodash');
+var DBModel     = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var PhaseClass  = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
+var PhaseBaseClass  = require (path.resolve('./modules/phases/server/controllers/phasebase.controller'));
+var _           = require ('lodash');
 
-var userProjectPermission = function (project, userRoles) {
-	return {
-		read : ( (_.intersection (userRoles, project.read)).length > 0),
-		write : ( (_.intersection (userRoles, project.write)).length > 0),
-		submit : ( (_.intersection (userRoles, project.submit)).length > 0),
-		watch : ( (_.intersection (userRoles, project.watch)).length > 0)
-	};
-};
-exports.userProjectPermission = userProjectPermission;
-
-var saveProject = function (project) {
-	return new Promise (function (resolve, reject) {
-		project.save ().then (resolve, reject);
-	});
-};
-var userProjects = function (userRoles) {
-	return new Promise (function (resolve, reject) {
-		Project.find ({
-			$or : [
-				{ read : { $in : userRoles } },
-				{ write : { $in : userRoles } },
-				{ submit : { $in : userRoles } }
-			]
-		}).exec ().then (resolve, reject);
-	});
-};
-var userProjectsWrite = function (userRoles) {
-	return new Promise (function (resolve, reject) {
-		Project.find ({
-			$or : [
-				{ write : { $in : userRoles } },
-				{ submit : { $in : userRoles } }
-			]
-		}).exec ().then (resolve, reject);
-	});
-};
-var setProjectPermissions = function (project, rolesObject) {
-	project.read = rolesObject.read;
-	project.write = rolesObject.write;
-	project.submit = rolesObject.submit;
-	project.watch = rolesObject.watch;
-	return saveProject (project);
-};
-
-exports.saveProjectPermissions = function (req, res) {
-	setProjectPermissions (req.Project, req.body)
-	.then (helpers.successFunction (res))
-	.catch (helpers.errorFunction (res));
-};
-
-exports.getUserProjects = function (req, res) {
-	var roles = ['public'];
-	userProjects (roles)
-	.then (helpers.successFunction (res))
-	.catch (helpers.errorFunction (res));
-};
-exports.getUserProjectsWrite = function (req, res) {
-	var roles = ['proponent'];
-	userProjectsWrite (roles)
-	.then (helpers.successFunction (res))
-	.catch (helpers.errorFunction (res));
-};
-
-// -------------------------------------------------------------------------
-//
-// this is used to flesh out a project to include all its config children
-//
-// -------------------------------------------------------------------------
-var fillProject = function (project, callback) {
-	project = project.toObject ();
-	// project.roles = [];
-	// ProjectRole.find ({project:project._id})
-	// .exec ()
-	// .then (function (roles) {
-	// 	project.roles = roles;
-		helpers.fillConfigObject (project, { project: project._id}, callback);
-	// })
-	// .then (null, function (err) {
-	// 	callback (err, null);
-	// });
-};
-
-
-
-var crud = new CRUD (Project);//, {
-// 	populate: [
-// 		{path:'stream',       select:'code name description'},
-// 		{path:'proponent',    select:'name type'},
-// 		{path:'currentPhase', select:'code name description'},
-// 		{path:'nextPhase',    select:'code name description'}
-// 	]
-// });
-
-// -------------------------------------------------------------------------
-//
-// Basic CRUD
-//
-// -------------------------------------------------------------------------
-exports.new       = crud.new       ( fillProject );
-exports.read      = crud.read      ( fillProject );
-exports.getObject = crud.getObject ( );
-exports.create    = crud.create ();
-exports.update    = crud.update ();
-exports.delete    = crud.delete ();
-exports.list      = crud.list   ();
-
-// -------------------------------------------------------------------------
-//
-// add a phase to a stream
-// cb is function (err, model)
-//
-// -------------------------------------------------------------------------
-var addStreamPhase = function (stream, phase, cb) {
-	phase = phase.toObject ();
-	delete phase._id;
-	phase        = new Phase (phase);
-	phase.stream = stream._id;
-	phase.save (cb);
-};
-exports.addStreamPhase = addStreamPhase;
-exports.addPhaseToStream = function (req, res) {
-	addStreamPhase (req.Stream, req.Phase, helpers.queryResponse (res));
-};
-
-// -------------------------------------------------------------------------
-//
-// add a bucket to a stream
-// cb is function (err, model)
-//
-// -------------------------------------------------------------------------
-var addStreamBucket = function (stream, bucket, cb) {
-	bucket        = bucket.toObject ();
-	delete bucket._id ;
-	bucket        = new Bucket (bucket);
-	bucket.stream = stream._id;
-	bucket.save (cb);
-};
-exports.addStreamBucket = addStreamBucket;
-exports.addBucketToStream = function (req, res) {
-	addStreamBucket (req.Stream, req.Bucket, helpers.queryResponse (res));
-};
-
-// -------------------------------------------------------------------------
-//
-// add a phase to a project
-// cb is function (err, model)
-//
-// -------------------------------------------------------------------------
-var setProjectPhase = function (project, phase) {
-	phase = phase.toObject ();
-	delete phase._id ;
-	phase         = new Phase (phase);
-	phase.project = project._id;
-	phase.stream  = project.stream;
-	return phase;
-};
-exports.addPhaseToProject = function (req, res) {
-	setProjectPhase (req.Project, req.Phase).save (helpers.queryResponse (res));
-};
-
-// -------------------------------------------------------------------------
-//
-// add a bucket to a project
-// cb is function (err, model)
-//
-// -------------------------------------------------------------------------
-var setProjectBucket = function (project, bucket) {
-	bucket = bucket.toObject ();
-	delete bucket._id ;
-	bucket         = new Bucket (bucket);
-	bucket.project = project._id;
-	bucket.stream  = project.stream;
-	return bucket;
-};
-exports.addBucketToProject = function (req, res) {
-	setProjectBucket (req.Project, req.Bucket).save (helpers.queryResponse (res));
-};
-
-// -------------------------------------------------------------------------
-//
-// add a milestone to a phase
-// cb is function (err, model)
-//
-// -------------------------------------------------------------------------
-var setProjectMilestone = function (phase, milestone) {
-	milestone = milestone.toObject ();
-	delete milestone._id ;
-	milestone         = new Milestone (milestone);
-	milestone.phase   = phase._id;
-	milestone.project = phase.project;
-	milestone.stream  = phase.stream;
-	return milestone;
-};
-exports.addMilestoneToPhase = function (req, res) {
-	setProjectMilestone (req.Phase, req.Milestone).save (helpers.queryResponse (res));
-};
-
-// -------------------------------------------------------------------------
-//
-// add an activity to a phase
-//
-// -------------------------------------------------------------------------
-var setProjectActivity = function (phase, activity) {
-	activity = activity.toObject ();
-	delete activity._id ;
-	activity         = new Activity (activity);
-	activity.phase   = phase._id;
-	activity.project = phase.project;
-	activity.stream  = phase.stream;
-	return activity;
-};
-exports.addActivityToPhase = function (req, res) {
-	setProjectActivity (req.Phase, req.Activity).save (helpers.queryResponse (res));
-};
-
-// -------------------------------------------------------------------------
-//
-// add a task to an activity
-//
-// -------------------------------------------------------------------------
-var setProjectTask = function (activity, task) {
-	task = task.toObject ();
-	delete task._id ;
-	task          = new Task (task);
-	task.activity = activity._id;
-	task.phase    = activity.phase;
-	task.project  = activity.project;
-	task.stream   = activity.stream;
-	return task;
-};
-exports.addTaskToActivity = function (req, res) {
-	setProjectTask (req.Activity, req.Task).save (helpers.queryResponse (res));
-};
-
-// -------------------------------------------------------------------------
-//
-// add a requirement to a task
-//
-// -------------------------------------------------------------------------
-var setProjectRequirement = function (task, requirement) {
-	requirement = requirement.toObject ();
-	delete requirement._id ;
-	requirement          = new Requirement (requirement);
-	requirement.task     = task._id;
-	requirement.activity = task.activity;
-	requirement.phase    = task.phase;
-	requirement.project  = task.project;
-	requirement.stream   = task.stream;
-	return requirement;
-};
-exports.addRequirementToTask = function (req, res) {
-	setProjectRequirement (req.Task, req.Requirement).save (helpers.queryResponse (res));
-};
-
-// -------------------------------------------------------------------------
-//
-// add an existing project requirement to a project milestone
-//
-// -------------------------------------------------------------------------
-var setMilestoneRequirement = function (milestone, requirement, cb) {
-	if ((milestone.project !== requirement.project) && (milestone.stream !== requirement.stream)) {
-		cb ({
-			message: 'Requirement must already exist in same project or stream as milestone'
-		}, null);
-		return;
-	}
-	requirement.milestone = milestone._id;
-	requirement.project   = milestone.project;
-	requirement.stream    = milestone.stream;
-	return requirement;
-};
-exports.addRequirementToMilestone = function (req, res) {
-	setMilestoneRequirement (req.Milestone, req.Requirement).save (helpers.queryResponse (res));
-};
-
-// -------------------------------------------------------------------------
-//
-// add an existing project requirement to a project bucket
-//
-// -------------------------------------------------------------------------
-var setBucketRequirement = function (bucket, requirement, cb) {
-	if ((bucket.project !== requirement.project) && (bucket.stream !== requirement.stream)) {
-		cb ({
-			message: 'Requirement must already exist in same project or stream as bucket'
-		}, null);
-		return;
-	}
-
-	var br                = new BucketRequirement ();
-	br.bucket             = bucket._id;
-	br.project            = bucket.project;
-	br.stream             = bucket.stream;
-	br.requirement        = requirement._id;
-	return br;
-};
-exports.addRequirementToBucket = function (req, res) {
-	setBucketRequirement (req.Bucket, req.Requirement).save (helpers.queryResponse (res));
-};
-
-
-// -------------------------------------------------------------------------
-//
-// this copies the entire stream into the project. It is additive, so if it is
-// called more than once it will continue adding objects to the project
-//
-// -------------------------------------------------------------------------
-exports.setStream = function (req, res) {
+module.exports = DBModel.extend ({
+	name : 'Project',
+	// -------------------------------------------------------------------------
 	//
-	// go get the entire set of stuff that makes up the stream
+	// setting a stream requires the following:
+	// get all the phase base objects and create proper phases from them
+	// add those to the project and link backwards as well
 	//
-	req.Project.stream = req.Stream._id;
-	streamcontroller.fillStream (req.Stream, function (err, stream) {
-		if (err) {
-			helpers.sendError (res, err);
-			return;
-		}
-		//
-		// first we need to adjust everything to new ids, must be done
-		// in the right order mapping everytihng back to the original
-		// in the end, all the stream arrays will hold new models ready
-		// to be saved
-		//
-		var phasemap = {};
-		var bucketmap = {};
-		var milestonemap = {};
-		var activitymap = {};
-		var taskmap = {};
-		var requirementmap = {};
-		//
-		// for each things, make a map of its old id to its new id so that the
-		// children that reference the old id can be pointed to the new one
-		//
-		// each maping will return an array of new models ready to be saved
-		//
-		stream.phases = stream.phases.map (function (phase) {
-			var oldPhaseId        = phase._id;
-			//link phase to project
-			phasemap [oldPhaseId] = setProjectPhase (req.Project, phase);
-			return phasemap [oldPhaseId];
+	// -------------------------------------------------------------------------
+	setStream : function (project, stream) {
+		var self = this;
+		var phase = new PhaseClass (self.user);
+		var phasebase = new PhaseBaseClass (self.user);
+		return new Promise (function (resolve, reject) {
+			Promise.all (stream.phases.map (phasebase.findById))
+			.then (function (models) {
+				return Promise.all (models.map (function (m) {
+					return phase.makePhaseFromBase (m, stream._id, project._id, project.code);
+				}));
+			})
+			.then (function (models) {
+				_.each (models, function (m) {
+					project.phases.push (m._id);
+				});
+				return project;
+			})
+			.then (function (m) {
+				return self.saveAndReturn (m);
+			})
+			.then (resolve, reject);
 		});
-		stream.buckets = stream.buckets.map (function (bucket) {
-			var oldBucketId         = bucket._id;
-			// link bucket to project
-			bucketmap [oldBucketId] = setProjectBucket (req.Project, bucket);
-			return bucketmap [oldBucketId];
+	},
+	addPhase : function (project, phasebase) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			var phase = new PhaseClass (self.user);
+			phase.makePhaseFromBase (phasebase, project.stream, project._id)
+			.then (function (model) {
+				project.phases.push (model._id);
+				return  project;
+			})
+			.then (function (m) {
+				return self.saveAndReturn (m);
+			})
+			.then (resolve, reject);
 		});
-		stream.milestones = stream.milestones.map (function (milestone) {
-			var oldMilestoneId            = milestone._id;
-			// get the new phase from the old id and link to it
-			if (milestone.phase === null) {
-				console.error ("Milestone without phase:", milestone);
-				return;
-			}
-			var newPhase                  = phasemap [milestone.phase];
-			milestonemap [oldMilestoneId] = setProjectMilestone (newPhase, milestone);
-			return milestonemap [oldMilestoneId];
-		});
-		stream.activities = stream.activities.map (function (activity) {
-			var oldActivityId           = activity._id;
-			// get the new phase from the old id and link to it
-			if (activity.phase === null) {
-				console.error ("Activity without phase:", activity);
-				return;
-			}
-			var newPhase                = phasemap [activity.phase];
-			activitymap [oldActivityId] = setProjectActivity (newPhase, activity);
-			return activitymap [oldActivityId];
-		});
-		stream.tasks = stream.tasks.map (function (task) {
-			var oldTaskId       = task._id;
-			// get the new activity from the old id and link to it
-			if (task.activity === null) {
-				console.error ("task without activity:", task);
-				return;
-			}
-			var newActivity     = activitymap [task.activity];
-			taskmap [oldTaskId] = setProjectTask (newActivity, task);
-			return taskmap [oldTaskId];
-		});
-		stream.requirements = stream.requirements.map (function (requirement) {
-			var oldRequirementId              = requirement._id;
-			// get the new task from the old id and link to it
-			if (requirement.task === null) {
-				console.error ("requirement without task:", requirement);
-				return;
-			}
-			var newTask = taskmap [requirement.task];
-			if (requirement.milestone !== null) {
-				var newMilestone  = milestonemap [requirement.milestone];
-				if (newMilestone) requirement.milestone = newMilestone._id;
-			}
-			requirementmap [oldRequirementId] = setProjectRequirement (newTask, requirement);
-			return requirementmap [oldRequirementId];
-		});
-		stream.bucketrequirements = stream.bucketrequirements.map (function (bucketrequirement) {
-			return new BucketRequirement ({
-				project     : req.Project._id,
-				stream      : req.Stream._id,
-				requirement : requirementmap [bucketrequirement.requirement]._id,
-				bucket      : bucketmap [bucketrequirement.bucket]._id
-			});
-		});
-		// console.log ('got here with stream ', stream);
-		// fillProject (req.Project, helpers.queryResponse (res));
-		//
-		// now the saving bit
-		//
-		// this is going to be weird. we must do all of this in a big
-		// chain of promises, but that isnt easy so we do a map reduce
-		// becuase its all open ended. dont forget to save the project too!
-		//
-		var mf = function (model) { return model.save (); };
-		var rf = function (p, c) { return p.then (function () {return c;}); };
-
-		stream.phases.concat (
-			stream.buckets,
-			stream.milestones,
-			stream.activities,
-			stream.tasks,
-			stream.requirements,
-			stream.bucketrequirements
-		)
-		.map (mf).reduce (rf)
-		.then (function (result) {
-			return req.Project.save();
-		})
-		.then (function () {
-			fillProject (req.Project, helpers.queryResponse (res));
-		})
-		.then (null, function (err) {
-			console.log ('errors abound!');
-			helpers.sendError (res, err);
-		});
-	});
-};
-
-
+	}
+});

@@ -1,37 +1,26 @@
 'use strict';
 // =========================================================================
 //
-// Routes for activities
+// Routes for milestones
 //
 // =========================================================================
-var policy     = require ('../policies/activity.policy');
-var controller = require ('../controllers/activity.controller');
+var policy       = require ('../policies/activity.policy');
+var Activitybase = require ('../controllers/activitybase.controller');
+var Activity     = require ('../controllers/activity.controller');
+var helpers      = require ('../../../core/server/controllers/core.helpers.controller');
 
 module.exports = function (app) {
+	helpers.setCRUDRoutes (app, 'activitybase', Activitybase, policy);
+	helpers.setCRUDRoutes (app, 'activity', Activity, policy);
 	//
-	// collection routes
+	// activity base
 	//
-	app.route ('/api/activity').all (policy.isAllowed)
-		.get  (controller.list)
-		.post (controller.create);
-	//
-	// base items only (no project association)
-	//
-	app.route ('/api/base/activity').all (policy.isAllowed)
-		.get  (controller.base);		
-	//
-	// model routes
-	//
-	app.route ('/api/activity/:activity').all (policy.isAllowed)
-		.get    (controller.read)
-		.put    (controller.update)
-		.delete (controller.delete);
-	app.route ('/api/new/activity').all (policy.isAllowed)
-		.get (controller.new);
-	//
-	// middleware to auto-fetch parameter
-	//
-	app.param ('activity', controller.getObject);
-	// app.param ('activityId', controller.getId);
+	app.route ('/api/activitybase/:activitybase/add/task/:taskbase')
+		.all (policy.isAllowed)
+		.put (function (req,res) {
+			var p = new Activitybase (req.user);
+			p.addMilestoneToPhase (req.ActivityBase, req.TaskBase)
+			.then (helpers.success(res), helpers.failure(res));
+		});
 };
 

@@ -1,0 +1,339 @@
+'use strict';
+// =========================================================================
+//
+// Base controller for all simple CRUD stuff, just to save some typing
+// THis version uses and returns promises where appropriate. this makes
+// decorating much easier as well (pre and post processing)
+//
+// =========================================================================
+var helpers  = require('./core.helpers.controller');
+var mongoose = require ('mongoose');
+var _ = require ('lodash');
+
+
+var DBModel = function (options) {
+	this.init (options);
+};
+DBModel.extend = helpers.extend;
+
+_.extend (DBModel.prototype, {
+	emptyPromise     : helpers.emptyPromise,
+	decorate         : helpers.emptyPromise,
+	preprocessAdd    : helpers.emptyPromise,
+	preprocessUpdate : helpers.emptyPromise,
+	name             : 'Project',
+	populate         : '',
+	sort             : '',
+	roles            : [],
+	// -------------------------------------------------------------------------
+	//
+	// initialize
+	//
+	// -------------------------------------------------------------------------
+	init : function (user) {
+		// this.opts = _.extend ({}, {
+		// 	populate   : '',
+		// 	sort       : '',
+		// 	decorate   : emptyPromise,
+		// 	preprocessAdd : emptyPromise,
+		// 	preprocessUpdate : emptyPromise,
+		// 	roles      : ['public']
+		// }, options);
+		// // console.log ("opts = ", this.opts);
+		// if (name) this.name = name;
+		this.model      = mongoose.model (this.name);
+		this.err        = (!this.model) ? new Error ('Model not provided when instantiating ESM Model') : false;
+		this.useAudit   = _.has (this.model.schema.methods, 'setAuditFields');
+		this.useRoles   = _.has (this.model.schema.methods, 'hasPermission');
+		// console.log (this.model.schema.methods);
+		// console.log ('use audit = ',this.useAudit);
+		// console.log ('useRoles  = ',this.useRoles);
+		// this.preprocess = this.opts.preprocess;
+		// this.decorate   = this.opts.decorate;
+		// this.populate   = this.opts.populate;
+		// this.roles      = this.opts.roles;
+		this.permissions = (this.useRoles) ? this.decoratePermission : this.emptyPromise;
+		_.bindAll (this, [
+			'findById',
+			'findMany',
+			'saveDocument',
+			'setDocument',
+			'newDocument',
+			'deleteDocument',
+			'decorateAll',
+			'addPermissions',
+			'decoratePermission',
+			'permissions'
+		]);
+		if (this.bind) _.bindAll (this, this.bind);
+		this.user = user;
+		this.setUser (user);
+	},
+	// -------------------------------------------------------------------------
+	//
+	// this sets the roles from a user object
+	//
+	// -------------------------------------------------------------------------
+	setBaseQ : function () {
+		if (_.indexOf (this.roles, 'admin') >= 0) this.baseQ = {};
+		else this.baseQ = (!this.useRoles) ? {} : {
+			$or : [
+				{ read   : { $in : this.roles } },
+				{ write  : { $in : this.roles } },
+				{ submit : { $in : this.roles } }
+			]
+		};
+	},
+	setRoles : function (user) {
+		this.roles = (user) ? user.roles : ['public', 'admin'];
+		this.setBaseQ ();
+	},
+	setUser : function (user) {
+		this.user = user;
+		this.setRoles (user);
+	},
+	// -------------------------------------------------------------------------
+	//
+	// this function returns a promise using the find by Id method. It has an
+	// optional populate as well. this is assumed blank unless otherwise passed in
+	// it aslo deals woith permissions on the actual object, adding this to the
+	// query if required
+	//
+	// -------------------------------------------------------------------------
+	findById : function (id) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			if (self.err) return reject (self.err);
+			var q = _.extend ({}, self.baseQ, {_id : id});
+			// console.log ('q = ',q);
+			self.model.findOne (q)
+			.populate (self.populate)
+			.exec ()
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// returns a promise, takes optional query, sort and populate
+	//
+	// -------------------------------------------------------------------------
+	findMany : function (query) {
+		var self = this;
+		query = query || {};
+		return new Promise (function (resolve, reject) {
+			if (self.err) return reject (self.err);
+			self.model.find (_.extend ({}, self.baseQ, query))
+			.sort (self.sort)
+			.populate (self.populate)
+			.exec ()
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// save a document, but only if the user has write permission
+	//
+	// -------------------------------------------------------------------------
+	saveDocument : function (doc) {
+		var self = this;
+		// console.log ('in saveDocument with ',self);
+		return new Promise (function (resolve, reject) {
+			if (self.useRoles && !doc.hasPermission (self.roles, 'write')) {
+				return reject (new Error ('Write operation not permitted for this '+self.name+' object'));
+			}
+			if (self.useAudit) doc.setAuditFields (self.user);
+			doc.save ().then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// set a document with new values
+	//
+	// -------------------------------------------------------------------------
+	setDocument : function (doc, values) {
+		return new Promise (function (resolve, reject) {
+			resolve (doc.set (values));
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// make a new blank document (optionally use the passed in object to make it)
+	//
+	// -------------------------------------------------------------------------
+	newDocument : function (o) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			var m = new self.model (o);
+			if (!m) return reject (new Error ('Cannot create new '+self.name));
+			return resolve (m);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// delete with a promise
+	//
+	// -------------------------------------------------------------------------
+	deleteDocument : function (doc) {
+		return new Promise (function (resolve, reject) {
+			doc.remove ().then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// Decorate an entire array, returns a promise which resolves the array
+	//
+	// -------------------------------------------------------------------------
+	decorateAll : function (models) {
+		var self = this;
+		return Promise.all (models.map (self.decorate));
+	},
+	// -------------------------------------------------------------------------
+	//
+	// fill out the userPermissions field in the model. this will be different
+	// for different users
+	//
+	// -------------------------------------------------------------------------
+	addPermissions : function (model) {
+		var self = this;
+		model.userPermissions = model.permissions (self.roles);
+		return model;
+	},
+	// -------------------------------------------------------------------------
+	//
+	// decorate the results with the user's permission
+	//
+	// -------------------------------------------------------------------------
+	decoratePermission : function (models) {
+		var self = this;
+		if (_.isArray (models)) {
+			// console.log ('decorating multiple with permissions');
+			return Promise.all (models.map (self.addPermissions));
+		} else {
+			return new Promise (function (resolve, reject) {
+				// console.log ('decorating single with permissions');
+				resolve (self.addPermissions (models));
+			});
+		}
+	},
+	// -------------------------------------------------------------------------
+	//
+	// make a new copy from a passed in object
+	//
+	// -------------------------------------------------------------------------
+	copy : function (obj) {
+		var copy = (obj.toObject) ? obj.toObject () : obj;
+		delete copy._id;
+		return this.newDocument (copy);
+	},
+	// =========================================================================
+	//
+	// the next ones all deal with request actions, they all return a function
+	// with requst and response as parameters
+	//
+	// =========================================================================
+	saveAndReturn : function (doc) {
+		var self = this;
+		// console.log ('in save and return with ',doc, self);
+		return new Promise (function (resolve, reject) {
+			self.saveDocument (doc)
+			.then (self.permissions)
+			.then (self.decorate)
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// POST
+	// has optional preprocess and decorate (postprocess)
+	// these assume that the object being saved already has an Id (it was made
+	// first with new)
+	//
+	// -------------------------------------------------------------------------
+	create : function (obj) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.newDocument (obj)
+			.then (self.preprocessAdd)
+			.then (self.saveDocument)
+			.then (self.permissions)
+			.then (self.decorate)
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// PUT
+	// same as POST except that we should have the original in the request as
+	// it would appear in the URL. we then 'set' the differences
+	//
+	// -------------------------------------------------------------------------
+	update : function (oldDoc, newDoc) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.setDocument (oldDoc, newDoc)
+			.then (self.preprocessUpdate)
+			.then (self.saveDocument)
+			.then (self.permissions)
+			.then (self.decorate)
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// DELETE
+	//
+	// -------------------------------------------------------------------------
+	delete : function (doc) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.deleteDocument (doc)
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// GET NEW (decorate must return a promise)
+	//
+	// -------------------------------------------------------------------------
+	new : function () {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.newDocument ()
+			.then (self.permissions)
+			.then (self.decorate)
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// GET
+	// in the case that this was already on the URL (which it is) the object
+	// will already exist in the request under its name
+	//
+	// -------------------------------------------------------------------------
+	read : function (model) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.permissions (model)
+			.then (self.decorate)
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// GET *
+	//
+	// -------------------------------------------------------------------------
+	list : function (q) {
+		q = q || {};
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findMany (q)
+			.then (self.permissions)
+			.then (self.decorateAll)
+			.then (resolve, reject);
+		});
+	}
+});
+
+module.exports = DBModel;

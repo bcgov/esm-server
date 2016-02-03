@@ -214,6 +214,107 @@ var scrapeAndSearch = function (req, res) {
 };
 exports.scrapeAndSearch = scrapeAndSearch;
 //
+// populateReviewDocuments - Go through each reviewable document list, grabbing each Document
+// File and inserting a full record for it.
+//
+// -------------------------------------------------------------------------
+var populateReviewDocuments = function (req, res) {
+	return new Promise (function (resolve, reject) {
+		//console.log("populateReviewDocuments.run for ProjectID: " + req.Project._id);
+		var url = req.headers.url;
+		console.log("URL: " + url);
+
+		var spooky = new Spooky({
+			child: {
+				transport: 'http'
+			},
+			casper: {
+				logLevel: 'debug',
+				verbose: true
+			}
+		}, function (err) {
+			if (err) {
+				var e = new Error('Failed to initialize SpookyJS');
+				e.details = err;
+				throw e;
+			}
+			console.log("Spooky getting: " + url);
+			spooky.start(url);
+			spooky.then(function () {
+				this.emit('pageContent', this.getHTML('html', true));
+			});
+			spooky.run();
+		});
+
+		spooky.on('error', function (e, stack) {
+			console.error(e);
+			if (stack) {
+				console.log(stack);
+			}
+		});
+
+		spooky.on('pageContent', function (content) {
+			// TODO: Generate a unique ID to track this request as done
+			var cheerio = require('cheerio');
+			var $ = cheerio.load(content);
+
+			// Get Type+SubType
+			var TST = $('div.epic_prjDetail h1');
+			var TSTArray = TST.text().trim().split(">>");
+
+			var top = $('table.docs');
+			var projectFolderType = TSTArray[0].trim();
+			var projectFolderSubType = TSTArray[1].trim();
+			console.log(projectFolderType);
+			console.log(projectFolderSubType);
+			var projectFolderName = "";
+			var projectFolderDatePosted = "";
+			// Get a collection of the <tr> elements
+			top.each(function (i, elem) {
+				if (0 === i) {
+					// This is where we get the projectFolderName/DatePosted
+					$(this).children().first().children().first().children().each(function (z, el) {
+						//console.log("THIS: " + $(this).text());
+						if (z === 0) return true; // Skip the first.
+						if (z === 1) projectFolderName = $(this).text();
+						if (z === 3) projectFolderDatePosted = $(this).text();
+					});
+				} else if (1 === i) {
+					// Skip the first .docs class, the second one is the one we
+					// really want.
+					//console.log("got the 2nd .docs");
+					$(this).children().first().children().each(function (z, el) {
+						// Get each TR
+						if (0 === z) return true; // skip the first
+						if ("" === $(this).text()) return true; // skip the last
+						//console.log("Currently at: " + $(this).text());
+
+						var tr = $(this).children();
+						var documentFileURL		= $(tr).first().children().first().attr('href');
+						var documentFileName	= $(tr).first().children().first().text();
+						var documentSize		= $(tr).first().next().text().trim();
+						var documentType		= $(tr).first().next().next().text();
+
+						console.log("..........");
+						console.log("projectFolderType:"		+ projectFolderType);
+						console.log("projectFolderSubType:"		+ projectFolderSubType);
+						console.log("projectFolderName:"		+ projectFolderName);
+						console.log("projectFolderDatePosted:"	+ projectFolderDatePosted);
+						console.log("documentFile:"				+ documentFileURL);
+						console.log("documentFileName:"			+ documentFileName);
+						console.log("documentSize:"				+ documentSize);
+						console.log("documentType:"				+ documentType);
+						// TODO:We are now ready to insert but still flag for review
+					});
+				}
+			});
+			res.json("OK");
+		   });
+	});
+};
+exports.populateReviewDocuments = populateReviewDocuments;
+
+//
 // upload document - include all relevant information about the document.
 //
 // -------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 'use strict';
 // =========================================================================
 //
-// Controller for streams
+// Controller for milestone bases
 //
 // =========================================================================
 var path     = require('path');
@@ -9,12 +9,12 @@ var DBModel  = require (path.resolve('./modules/core/server/controllers/core.dbm
 
 
 module.exports = DBModel.extend ({
-	name : 'Stream',
-	addPhaseToStream : function (stream, phasebase) {
+	name : 'MilestoneBase',
+	addActivityToMilestone : function (parent, child) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			stream.phases.push (phasebase._id);
-			self.saveAndReturn(stream)
+			parent.activities.push (child._id);
+			self.saveAndReturn(parent)
 			.then (resolve, reject);
 		});
 	}

@@ -1,14 +1,12 @@
 'use strict';
 // =========================================================================
 //
-// Model for streams
+// Model for tasks
 //
 // =========================================================================
 module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('Stream', {
-	__access : true,
-	__codename  : true,
-	phases       : [ {type: 'ObjectId', ref:'PhaseBase'} ],
+.generateModel ('TaskBase', {
+	name          : { type:String, default:'New task' },
+	description   : { type:String, default:'New task' },
+	isRequired    : { type:Boolean, default:true }
 });
-
-
