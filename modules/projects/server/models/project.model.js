@@ -10,7 +10,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__access    : true,
 	__tracking    : true,
 	__status  : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Decomissioned'],
-	__codename  : true,
+	__codename  : 'unique',
 	phases       : [ {type: 'ObjectId', ref:'Phase'} ],
 	type        : { type:String, default:'', index:true },
 	region      : { type:String, default:'' },     // object id
@@ -33,5 +33,6 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	lat                          : { type: Number, default:0 },
 	lon                          : { type: Number, default:0 },
 	dateCommentsOpen             : { type: Date, default: null },
-	dateCommentsClosed           : { type: Date, default: null }
+	dateCommentsClosed           : { type: Date, default: null },
+	roles : [ { type:String} ]
 });

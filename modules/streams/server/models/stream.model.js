@@ -7,8 +7,9 @@
 module.exports = require ('../../../core/server/controllers/core.models.controller')
 .generateModel ('Stream', {
 	__access : true,
-	__codename  : true,
+	__codename  : 'unique',
 	phases       : [ {type: 'ObjectId', ref:'PhaseBase'} ],
+	roles : [ { type:String} ]
 });
 
 

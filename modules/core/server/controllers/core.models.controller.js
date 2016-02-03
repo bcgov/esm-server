@@ -130,11 +130,15 @@ var generateSchema = function (definition) {
 		default : status[0],
 		enum    : status
 	};
-	if (codename) definition = _.extend (definition, {
-		code        : { type:String, default:'code', required:'Code is required', index:true, lowercase:true, trim:true },
-		name        : { type:String, default:'name', required:'name is required' },
-		description : { type:String, default:'description' }
-	});
+	if (codename) {
+		var index = (codename === 'unique') ? {unique:true} : true;
+		console.log (index);
+		definition = _.extend (definition, {
+			code        : { type:String, default:'code', required:'Code is required', index:index, lowercase:true, trim:true},
+			name        : { type:String, default:'name', required:'name is required' },
+			description : { type:String, default:'description' }
+		});
+	}
 	// console.log (definition);
 	var schema = new mongoose.Schema (definition);
 	if (audit) {

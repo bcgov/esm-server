@@ -12,6 +12,12 @@ var _           = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Project',
+	preprocessAdd : function (model) {
+		var adminrole = model.code + ':admin';
+		var hasadmin = (_.indexOf (model.submit, adminrole) >= 0);
+		if (!hasadmin) model.submit.push (adminrole);
+		return model;
+	},
 	// -------------------------------------------------------------------------
 	//
 	// setting a stream requires the following:
