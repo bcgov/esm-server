@@ -12,8 +12,8 @@
       <div class="panel-body">
 
         <div class="form-group">
-          <label for="searchUsers" class="control-label">Search Organizations</label>
-          <input id="searchUsers" class="form-control" type="text" ng-model="search" placeholder="Search" ng-change="figureOutItemsToDisplay()" />
+          <label for="searchOrganizations" class="control-label">Search Organizations</label>
+          <input id="searchOrganizations" class="form-control" type="text" ng-model="search" placeholder="Search" ng-change="figureOutItemsToDisplay()" />
         </div>
         
           <table class="table table-condensed table-hover">
@@ -24,7 +24,7 @@
               <th>Members</th>
             </tr>
             </thead>
-            <tr ng-repeat="org in organizations">
+            <tr ng-repeat="org in pagedItems">
               <td ng-bind="org.name"></td>
               <td ng-bind="org.location"></td>
               <td ng-bind="org.memberCount"></td>

@@ -1,0 +1,28 @@
+<section id="organizations-view" class="row">
+
+	<div class='col-sm-10'>
+
+		<div class="panel panel-default" ng-show="!organizations.authentication.user">
+			<div class="panel-heading">
+				<h3 class="panel-title">Public Organization Listing</h3>
+			</div>
+			<div class='panel-body'>
+				<p>The Environmental Assessment Office (EAO) is a neutral agency that manages the review of proposed major organizations in British Columbia, as required by the Environmental Assessment Act.</p>
+				<p>This service provides information on current and historical organizations.  Click a organization below to view.</p>
+			</div>
+		</div>
+
+		<tmpl-organizations-map id="anchor-map" x-organizations='organizations.organizations'></tmpl-organizations-map>
+
+		<tmpl-organizations-schedule id="anchor-schedule" x-organizations='organizations.organizations'></tmpl-organizations-schedule>
+
+		<div x-window-height>
+			<tmpl-recent-activity id="anchor-recent"></tmpl-recent-activity>			
+		</div>
+
+	</div>
+	<div class='col-sm-2'>
+		<tmpl-system-menu x-menu-context="organizations"></tmpl-system-menu>
+	</div>
+
+</section>

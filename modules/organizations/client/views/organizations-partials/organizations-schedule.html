@@ -1,0 +1,33 @@
+<section class='panel panel-default'>
+
+	<table class="table table-condensed table-striped">
+		<thead>
+			<tr>
+				<th width="20%"><small>Organization</small></th>
+				<th width="16%"><small>-1 month</small></th>
+				<th width="16%"><small>this month</small></th>
+				<th width="16%"><small>next month</small></th>
+				<th width="16%"><small>+2 months</small></th>
+				<th width="16%"><small>+3 months</small></th>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr ng-repeat="organization in organizationList.organizations" class='clickable' ui-sref="organization({id: organization._id})">
+				<td ng-if="organization.status === 'In Progress'">{{ organization.name }}</td>
+				<td ng-if="organization.status === 'In Progress'" colspan="5" class="bg-warning"><!-- show schedule widget --></td>
+
+				<td ng-if="organization.status === 'Certified' || organization.status === 'Decomissioned'">{{ organization.name }}</td>
+				<td ng-if="organization.status === 'Certified' || organization.status === 'Decomissioned'" colspan="5">Organization received certificate.</td>
+
+				<td ng-if="organization.status === 'Initiated' || organization.status === 'Submitted'" >{{ organization.name }}</td>
+				<td ng-if="organization.status === 'Initiated' || organization.status === 'Submitted'" colspan="5">{{ organization.status }}</td>
+			</tr>
+
+			<tr ng-if="organizationList.organizations.length === 0">
+				<td colspan="4">No organizations match your filter criteria.</td>
+			</tr>
+		</tbody>
+	</table>
+
+</section>

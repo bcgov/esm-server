@@ -32,18 +32,11 @@ angular.module('users.admin.routes').config(['$stateProvider',
               });
             }]
           }
-        })
-        .state('admin.organizations', {
+        });
+        /*.state('admin.organizations', {
           url: '/organizations',
           templateUrl: 'modules/users/client/views/admin/list-organizations.client.view.html',
           controller: 'OrganizationsListController',
-          resolve: {
-            userResolve: ['$stateParams', 'Admin', function ($stateParams, Admin) {
-              return Admin.get({
-                userId: $stateParams.userId
-              });
-            }]
-          }
-        });;
+        });*/
   }
 ]);
