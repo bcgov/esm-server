@@ -219,6 +219,12 @@ module.exports = function (grunt) {
         filter: function () {
           return !fs.existsSync('config/env/local.js');
         }
+      },
+      tinyjson: {
+        expand: true,
+        cwd: 'node_modules/tiny-jsonrpc',
+        src: '*',
+        dest: 'node_modules/spooky/node_modules/tiny-jsonrpc',
       }
     }
   });
@@ -280,18 +286,18 @@ module.exports = function (grunt) {
   grunt.registerTask('buildtest', ['env:test', 'lint', 'ngAnnotate', 'uglify', 'cssmin']);
 
   // Run the project tests
-  grunt.registerTask('test', ['env:test', 'lint', 'mkdir:upload', 'copy:localConfig', 'server', 'mochaTest', 'karma:unit']);
+  grunt.registerTask('test', ['env:test', 'lint', 'mkdir:upload', 'copy:localConfig', 'copy:tinyjson', 'server', 'mochaTest', 'karma:unit']);
   grunt.registerTask('test:server', ['env:test', 'lint', 'server', 'mochaTest']);
   grunt.registerTask('test:client', ['env:test', 'lint', 'server', 'karma:unit']);
   // Run project coverage
   grunt.registerTask('coverage', ['env:test', 'lint', 'mocha_istanbul:coverage']);
 
   // Run the project in development mode
-  grunt.registerTask('default', ['env:dev', 'lint', 'mkdir:upload', 'copy:localConfig', 'concurrent:default']);
+  grunt.registerTask('default', ['env:dev', 'lint', 'mkdir:upload', 'copy:localConfig', 'copy:tinyjson', 'concurrent:default']);
 
   // Run the project in debug mode
-  grunt.registerTask('debug', ['env:dev', 'lint', 'mkdir:upload', 'copy:localConfig', 'concurrent:debug']);
+  grunt.registerTask('debug', ['env:dev', 'lint', 'mkdir:upload', 'copy:localConfig', 'copy:tinyjson', 'concurrent:debug']);
 
   // Run the project in production mode
-  grunt.registerTask('prod', ['buildprod', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default']);
+  grunt.registerTask('prod', ['buildprod', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'copy:tinyjson', 'concurrent:default']);
 };
