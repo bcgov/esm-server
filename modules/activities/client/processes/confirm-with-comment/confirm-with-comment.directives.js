@@ -12,7 +12,7 @@ directiveTaskConfirmWithComment.$inject = [];
 function directiveTaskConfirmWithComment() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/tasks/client/apps/confirm-with-comment/confirm-with-comment.html',
+        templateUrl: 'modules/activities/processes/confirm-with-comment/confirm-with-comment.html',
         controller: 'controllerTaskConfirmWithComment',
         controllerAs: 'taskCwc',
         scope: {

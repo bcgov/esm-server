@@ -847,6 +847,13 @@ h1.page-title {
 	margin-top: 0;
 	margin-bottom: 20px;
 }
+h2.page-title {
+  padding: 0;
+  color: $header-grey;
+  font-size: 1em;
+  margin: 0 2px 0;
+}
+
 
 .navbar-nav > li > a {padding-top:10px !important; padding-bottom:10px !important;}
 .navbar {min-height:40px !important}

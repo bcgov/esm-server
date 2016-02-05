@@ -4,18 +4,20 @@
         <div class="col-sm-7">
             <table class="table table-condensed table-striped table-hover">
                 <thead class="small">
-                <th width="30%">Code</th>
-                <th width="30%">Name</th>
+                <th width="15%">Code</th>
+                <th width="20%">Name</th>
                 <th width="40%">Description</th>
+                <th width="25%">Process Code</th>                
                 </thead>
                 <tbody>
                 <tr ng-repeat="activity in configDataElement.data.activities" ng-click='configDataElement.editRecord(activity)' class="clickable">
                     <td>{{ activity.code }}</td>
                     <td>{{ activity.name }}</td>
                     <td>{{ activity.description }}</td>
+                    <td>{{ activity.processCode }}</td>
                 </tr>
                 <tr ng-if="configDataElement.data.activities.length === 0">
-                    <td colspan="3">No activities defined.</td>
+                    <td colspan="4">No activities defined.</td>
                 </tr>
                 </tbody>
             </table>
@@ -45,6 +47,12 @@
                         <textarea class="form-control" ng-model="configDataElement.activeRecord.description">{{ configDataElement.activeRecord.description }}</textarea>
                     </div>
 
+
+                    <div class="form-group">
+                        <label class="control-label">Process Code</label>
+                        <select class="form-control" ng-model="configDataElement.activeRecord.processCode" ng-options="(item | kebab) as item for item in configDataElement.processCodes">
+                        </select>
+                    </div>
 
                     <div ng-if="configDataElement.activeRecordNew">
                         <button class="btn btn-primary" ng-click="configDataElement.addRecord()">Add</button>

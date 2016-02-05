@@ -1,31 +1,31 @@
 'use strict';
 
 angular.module('tasks')
-    .run( configTaskPublicCommentVetting )
-	.directive('tmplPublicCommentVetting',  directiveTaskPublicCommentVetting);
+    .run( configTaskPublicCommentPeriodScheduling )
+	.directive('tmplPublicCommentPeriodScheduling',  directiveTaskPublicCommentPeriodScheduling);
 // -----------------------------------------------------------------------------------
 //
 // Config: register this task with the UI
 //
 // -----------------------------------------------------------------------------------
-configTaskPublicCommentVetting.$inject = ['ProcessCodes'];
+configTaskPublicCommentPeriodScheduling.$inject = ['ProcessCodes'];
 /* @ngInject */
-function configTaskPublicCommentVetting(ProcessCodes) {
-    ProcessCodes.push('Public Comment Vetting');
+function configTaskPublicCommentPeriodScheduling(ProcessCodes) {
+    ProcessCodes.push('Public Comment Period Scheduling');
 }        
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Task, simple complete
 //
 // -----------------------------------------------------------------------------------
-directiveTaskPublicCommentVetting.$inject = [];
+directiveTaskPublicCommentPeriodScheduling.$inject = [];
 /* @ngInject */
-function directiveTaskPublicCommentVetting() {
+function directiveTaskPublicCommentPeriodScheduling() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/tasks/client/apps/public-comment-vetting/public-comment-vetting.html',
-        controller: 'controllerTaskPublicCommentVetting',
-        controllerAs: 'taskPubComVet',
+        templateUrl: 'modules/activities/processes/public-comment-period-scheduling/public-comment-period-scheduling.html',
+        controller: 'controllerTaskPublicCommentPeriodScheduling',
+        controllerAs: 'taskPubComSched',
         scope: {
         	anchor: '@',
         	task: '=',

@@ -12,7 +12,7 @@ directiveTaskConfirmNoComment.$inject = [];
 function directiveTaskConfirmNoComment() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/tasks/client/apps/confirm-no-comment/confirm-no-comment.html',
+        templateUrl: 'modules/activities/processes/confirm-no-comment/confirm-no-comment.html',
         controller: 'controllerTaskConfirmNoComment',
         controllerAs: 'taskCnc',
         scope: {

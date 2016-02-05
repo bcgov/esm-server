@@ -1,34 +1,34 @@
 'use strict';
 
 angular.module('tasks')
-    .run( configTaskTopics )
-    .directive('tmplManageTopics',  directiveTaskTopics);
+    .run( configTaskPublicCommentVetting )
+	.directive('tmplPublicCommentVetting',  directiveTaskPublicCommentVetting);
 // -----------------------------------------------------------------------------------
 //
 // Config: register this task with the UI
 //
 // -----------------------------------------------------------------------------------
-configTaskTopics.$inject = ['ProcessCodes'];
+configTaskPublicCommentVetting.$inject = ['ProcessCodes'];
 /* @ngInject */
-function configTaskTopics(ProcessCodes) {
-    ProcessCodes.push('Manage Topics');
-}
+function configTaskPublicCommentVetting(ProcessCodes) {
+    ProcessCodes.push('Public Comment Vetting');
+}        
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Task, simple complete
 //
 // -----------------------------------------------------------------------------------
-directiveTaskTopics.$inject = [];
+directiveTaskPublicCommentVetting.$inject = [];
 /* @ngInject */
-function directiveTaskTopics() {
+function directiveTaskPublicCommentVetting() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/tasks/client/apps/manage-topics/manage-topics.html',
-        controller: 'controllerTaskTopics',
-        controllerAs: 'taskTopics',
+        templateUrl: 'modules/activities/processes/public-comment-vetting/public-comment-vetting.html',
+        controller: 'controllerTaskPublicCommentVetting',
+        controllerAs: 'taskPubComVet',
         scope: {
-            anchor: '@',
-            task: '=',
+        	anchor: '@',
+        	task: '=',
             project: '='
         }
     };

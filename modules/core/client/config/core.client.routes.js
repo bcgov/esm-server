@@ -116,7 +116,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		template: '<tmpl-project></tmpl-project>'
 	})
 	.state('activity', {
-		url: '/activity/:id',
+		url: '/project/:project/activity/:activity',
 		template: '<tmpl-activity></tmpl-activity>',
 		data: {
 			roles: ['admin', 'user']

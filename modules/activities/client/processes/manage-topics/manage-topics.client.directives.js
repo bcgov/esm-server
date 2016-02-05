@@ -1,34 +1,35 @@
 'use strict';
 
 angular.module('tasks')
-    .run( configTaskNotifications )
-	.directive('tmplNotifications',  directiveTaskNotifications);
+    .run( configTaskTopics )
+    .directive('tmplManageTopics',  directiveTaskTopics);
 // -----------------------------------------------------------------------------------
 //
 // Config: register this task with the UI
 //
 // -----------------------------------------------------------------------------------
-configTaskNotifications.$inject = ['ProcessCodes'];
+configTaskTopics.$inject = ['ProcessCodes'];
 /* @ngInject */
-function configTaskNotifications(ProcessCodes) {
-    ProcessCodes.push('Notifications');
+function configTaskTopics(ProcessCodes) {
+    ProcessCodes.push('Manage Topics');
+    console.log('codes', ProcessCodes);
 }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Task, simple complete
 //
 // -----------------------------------------------------------------------------------
-directiveTaskNotifications.$inject = [];
+directiveTaskTopics.$inject = [];
 /* @ngInject */
-function directiveTaskNotifications() {
+function directiveTaskTopics() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/tasks/client/apps/notifications/notifications.html',
-        controller: 'controllerTaskNotifications',
-        controllerAs: 'taskNotifications',
+        templateUrl: 'modules/activities/processes/manage-topics/manage-topics.html',
+        controller: 'controllerTaskTopics',
+        controllerAs: 'taskTopics',
         scope: {
-        	anchor: '@',
-        	task: '=',
+            anchor: '@',
+            task: '=',
             project: '='
         }
     };

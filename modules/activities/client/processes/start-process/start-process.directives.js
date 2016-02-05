@@ -1,31 +1,31 @@
 'use strict';
 
 angular.module('tasks')
-    .run( configTaskDecision )
-    .directive('tmplDecision',  directiveTaskDecision);
+    .run( configTaskStartProcess )
+    .directive('tmplStartProcess',  directiveTaskStartProcess);
 // -----------------------------------------------------------------------------------
 //
 // Config: register this task with the UI
 //
 // -----------------------------------------------------------------------------------
-configTaskDecision.$inject = ['ProcessCodes'];
+configTaskStartProcess.$inject = ['ProcessCodes'];
 /* @ngInject */
-function configTaskDecision(ProcessCodes) {
-    ProcessCodes.push('Decision');
+function configTaskStartProcess(ProcessCodes) {
+    ProcessCodes.push('Start Process');
 }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Task, simple complete
 //
 // -----------------------------------------------------------------------------------
-directiveTaskDecision.$inject = [];
+directiveTaskStartProcess.$inject = [];
 /* @ngInject */
-function directiveTaskDecision() {
+function directiveTaskStartProcess() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/tasks/client/apps/decision/decision.html',
-        controller: 'controllerTaskDecision',
-        controllerAs: 'taskDecision',
+        templateUrl: 'modules/activities/processes/start-process/start-process.html',
+        controller: 'controllerTaskStartProcess',
+        controllerAs: 'taskStartProcess',
         scope: {
             anchor: '@',
             task: '=',

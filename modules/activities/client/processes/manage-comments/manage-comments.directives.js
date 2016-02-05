@@ -24,7 +24,7 @@ directiveTaskManageComments.$inject = [];
 function directiveTaskManageComments() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/tasks/client/apps/manage-comments/manage-comments.html',
+        templateUrl: 'modules/activities/processes/manage-comments/manage-comments.html',
         controller: 'controllerTaskManageComments',
         controllerAs: 'taskManComm',
         scope: {
@@ -55,7 +55,7 @@ function directiveModalCommentDetail($modal, sPublicComments, _) {
             element.on('click', function() {
                 var modalCommentDetail = $modal.open({
                     animation: true,
-                    templateUrl: 'modules/tasks/client/apps/manage-comments/modal-comment-detail.html',
+                    templateUrl: 'modules/activities/processes/manage-comments/modal-comment-detail.html',
                     controller: 'controllerTaskModalCommentDetail',
                     controllerAs: 'taskComDetail',
                     scope: scope,

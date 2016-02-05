@@ -1,34 +1,34 @@
 'use strict';
 
 angular.module('tasks')
-    .run( configTaskStartProcess )
-    .directive('tmplStartProcess',  directiveTaskStartProcess);
+    .run( configTaskNotifications )
+	.directive('tmplNotifications',  directiveTaskNotifications);
 // -----------------------------------------------------------------------------------
 //
 // Config: register this task with the UI
 //
 // -----------------------------------------------------------------------------------
-configTaskStartProcess.$inject = ['ProcessCodes'];
+configTaskNotifications.$inject = ['ProcessCodes'];
 /* @ngInject */
-function configTaskStartProcess(ProcessCodes) {
-    ProcessCodes.push('Start Process');
+function configTaskNotifications(ProcessCodes) {
+    ProcessCodes.push('Notifications');
 }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Task, simple complete
 //
 // -----------------------------------------------------------------------------------
-directiveTaskStartProcess.$inject = [];
+directiveTaskNotifications.$inject = [];
 /* @ngInject */
-function directiveTaskStartProcess() {
+function directiveTaskNotifications() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/tasks/client/apps/start-process/start-process.html',
-        controller: 'controllerTaskStartProcess',
-        controllerAs: 'taskStartProcess',
+        templateUrl: 'modules/activities/processes/notifications/notifications.html',
+        controller: 'controllerTaskNotifications',
+        controllerAs: 'taskNotifications',
         scope: {
-            anchor: '@',
-            task: '=',
+        	anchor: '@',
+        	task: '=',
             project: '='
         }
     };

@@ -311,14 +311,21 @@ function controllerProjectStreamSelect($state, Project, Configuration, _) {
 // CONTROLLER: Project Activities
 //
 // -----------------------------------------------------------------------------------
-controllerProjectActivities.$inject = ['$state', 'Project', '_'];
+controllerProjectActivities.$inject = ['$scope', 'sActivity', '_'];
 /* @ngInject */
-function controllerProjectActivities($state, Project, _) {
+function controllerProjectActivities($scope, sActivity, _) {
 	var projectActs = this;
 
-	Project.getProject({id: $state.params.id}).then( function(res) {
-		projectActs.project = res.data;
+	$scope.$watch( 'project', function(newValue) {
+		if (newValue) {
+			projectActs.project = newValue;
+
+			sActivity.getProjectActivities().then( function(res) {
+				projectActs.activities = res.data;
+			});
+		}
 	});
+
 }
 
 

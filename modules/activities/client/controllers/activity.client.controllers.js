@@ -8,18 +8,19 @@ angular.module('activity')
 // CONTROLLER: Activity EAO
 //
 // -----------------------------------------------------------------------------------
-controllerActivity.$inject = ['$scope', '$state', '$modal', 'Activity', 'Project', '$stateParams'];
+controllerActivity.$inject = ['$scope', '$state', '$modal', 'sActivity', 'Project', '$stateParams'];
 /* @ngInject */
-function controllerActivity($scope, $state, $modal, Activity, Project, $stateParams) {
+function controllerActivity($scope, $state, $modal, sActivity, Project, $stateParams) {
 	var actBase = this;
 	//
 	// Get Activity
-	Activity.getProjectActivity({id: $state.params.id}).then(function(res) {
+
+	Project.getProject({id: $state.params.project}).then( function(res) {
+		actBase.project = res.data;
+	});
+
+	sActivity.getActivity({id: $state.params.activity}).then(function(res) {
+		console.log(res.data);
 		actBase.activity = res.data;
-		//
-		// Get Project
-		Project.getProject({id: res.data.project}).then(function(res) {
-			actBase.project = res.data;
-		});
 	});
 }		

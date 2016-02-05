@@ -1,31 +1,31 @@
 'use strict';
 
 angular.module('tasks')
-    .run( configTaskSetPhase )
-    .directive('tmplSetPhase',  directiveTaskSetPhase);
+    .run( configTaskDecision )
+    .directive('tmplDecision',  directiveTaskDecision);
 // -----------------------------------------------------------------------------------
 //
 // Config: register this task with the UI
 //
 // -----------------------------------------------------------------------------------
-configTaskSetPhase.$inject = ['ProcessCodes'];
+configTaskDecision.$inject = ['ProcessCodes'];
 /* @ngInject */
-function configTaskSetPhase(ProcessCodes) {
-    ProcessCodes.push('Set Phase');
+function configTaskDecision(ProcessCodes) {
+    ProcessCodes.push('Decision');
 }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Task, simple complete
 //
 // -----------------------------------------------------------------------------------
-directiveTaskSetPhase.$inject = [];
+directiveTaskDecision.$inject = [];
 /* @ngInject */
-function directiveTaskSetPhase() {
+function directiveTaskDecision() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/tasks/client/apps/set-phase/set-phase.html',
-        controller: 'controllerTaskSetPhase',
-        controllerAs: 'taskSetPhase',
+        templateUrl: 'modules/activities/processes/decision/decision.html',
+        controller: 'controllerTaskDecision',
+        controllerAs: 'taskDecision',
         scope: {
             anchor: '@',
             task: '=',

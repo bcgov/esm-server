@@ -26,8 +26,8 @@
 			<div class="col-sm-9">
 				<label class="control-label">Activities</label>
 				<ul class="list-unstyled task-list">
-					<li ng-repeat="activity in projectActs.project.activities">
-						<button class="btn btn-block btn-sm" ui-sref="activity({id: activity._id})">{{ activity.name }}</button>
+					<li ng-repeat="activity in projectActs.activities">
+						<button class="btn btn-block btn-sm" ui-sref="activity({project: projectActs.project._id, activity: activity._id})">{{ activity.name }}</button>
 					</li>
 				</ul>
 			</div>
