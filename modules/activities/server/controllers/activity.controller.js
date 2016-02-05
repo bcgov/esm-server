@@ -13,6 +13,7 @@ var _         = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Activity',
+	populate : 'tasks',
 	// -------------------------------------------------------------------------
 	//
 	// when making a activity from a base it will always be in order to attach
@@ -54,6 +55,7 @@ module.exports = DBModel.extend ({
 				// assign whatever ancenstry is needed
 				model[basename] = baseid;
 				model.project   = projectid;
+				model.projectCode = projectcode;
 				model.stream    = streamid;
 				model.phase     = phaseid;
 				model.milestone = milestoneid;

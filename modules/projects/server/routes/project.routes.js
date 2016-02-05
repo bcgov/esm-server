@@ -30,5 +30,26 @@ module.exports = function (app) {
 			p.addPhase (req.Project, req.PhaseBase)
 			.then (helpers.success(res), helpers.failure(res));
 		});
+	//
+	// get all projects in certain statuses
+	//
+	app.route ('/api/projects/with/status/:statustoken')
+		.all (policy.isAllowed)
+		.get (function (req,res) {
+			var p = new Project (req.user);
+			var opts = {
+				initiated      : 'Initiated',
+				submitted      : 'Submitted',
+				inprogress     : 'In Progress',
+				certified      : 'Certified',
+				decommissioned : 'Decommissioned'
+			};
+			var stat = opts[req.params.statustoken] || 'none';
+			p.list ({
+				status : stat
+			})
+			.then (helpers.success(res), helpers.failure(res));
+		});
+
 };
 

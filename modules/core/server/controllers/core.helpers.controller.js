@@ -250,7 +250,19 @@ exports.isAllowed = function (acl) {
   };
 };
 
-exports.setCRUDRoutes = function (app, basename, DBClass, policy) {
+// -------------------------------------------------------------------------
+//
+// a standard way of setting crud routes.
+// basename is the uri token: /api/basename/:basename
+// DBClass is the database model as extended from DBModel
+// policy is the policy of course
+// which denotes which routes to open, if not specified it defaults to all
+//
+// -------------------------------------------------------------------------
+exports.setCRUDRoutes = function (app, basename, DBClass, policy, which) {
+  var r = {};
+  which = which || ['getall', 'get', 'post', 'put', 'delete', 'new'];
+  which.map (function (p) { r[p]=true; });
   //
   // middleware to auto-fetch parameter
   //
@@ -269,12 +281,14 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy) {
   //
   // collection routes
   //
-  app.route ('/api/'+basename).all (policy.isAllowed)
+
+  if (r.getall) app.route ('/api/'+basename).all (policy.isAllowed)
     .get  (function (req, res) {
       var o = new DBClass (req.user);
       o.list ()
       .then (success(res), failure(res));
-    })
+    });
+  if (r.post) app.route ('/api/'+basename).all (policy.isAllowed)
     .post (function (req, res) {
       var o = new DBClass (req.user);
       o.create (req.body)
@@ -283,23 +297,25 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy) {
   //
   // model routes
   //
-  app.route ('/api/'+basename+'/:'+basename).all (policy.isAllowed)
+  if (r.get) app.route ('/api/'+basename+'/:'+basename).all (policy.isAllowed)
     .get    (function (req, res) {
       var o = new DBClass (req.user);
       o.read(req[DBClass.prototype.name])
       .then (success(res), failure(res));
-    })
+    });
+  if (r.put) app.route ('/api/'+basename+'/:'+basename).all (policy.isAllowed)
     .put    (function (req, res) {
       var o = new DBClass (req.user);
       o.update(req[DBClass.prototype.name], req.body)
       .then (success(res), failure(res));
-    })
+    });
+  if (r.delete) app.route ('/api/'+basename+'/:'+basename).all (policy.isAllowed)
     .delete (function (req, res) {
       var o = new DBClass (req.user);
       o.delete(req[DBClass.prototype.name])
       .then (success(res), failure(res));
     });
-  app.route ('/api/new/'+basename).all (policy.isAllowed)
+  if (r.new) app.route ('/api/new/'+basename).all (policy.isAllowed)
     .get (function (req, res) {
       var o = new DBClass (req.user);
       o.new()

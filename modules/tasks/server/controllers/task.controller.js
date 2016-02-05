@@ -32,6 +32,7 @@ module.exports = DBModel.extend ({
 				// assign whatever ancenstry is needed
 				model.taskBase  = baseid;
 				model.project   = projectid;
+				model.projectCode = projectcode;
 				model.stream    = streamid;
 				model.phase     = phaseid;
 				model.milestone = milestoneid;

@@ -9,7 +9,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__audit     : true,
 	__access    : true,
 	__tracking    : true,
-	__status  : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Decomissioned'],
+	__status  : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Decommissioned'],
 	__codename  : 'unique',
 	phases       : [ {type: 'ObjectId', ref:'Phase'} ],
 	type        : { type:String, default:'', index:true },

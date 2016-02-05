@@ -17,6 +17,7 @@ var DBModel = function (options) {
 DBModel.extend = helpers.extend;
 
 _.extend (DBModel.prototype, {
+	baseQuery        : {},
 	emptyPromise     : helpers.emptyPromise,
 	decorate         : helpers.emptyPromise,
 	preprocessAdd    : helpers.emptyPromise,
@@ -53,10 +54,12 @@ _.extend (DBModel.prototype, {
 		// this.populate   = this.opts.populate;
 		// this.roles      = this.opts.roles;
 		this.permissions = (this.useRoles) ? this.decoratePermission : this.emptyPromise;
+
 		_.bindAll (this, [
 			'findById',
 			'findMany',
 			'saveDocument',
+			'saveAndReturn',
 			'setDocument',
 			'newDocument',
 			'deleteDocument',
@@ -68,6 +71,7 @@ _.extend (DBModel.prototype, {
 		if (this.bind) _.bindAll (this, this.bind);
 		this.user = user;
 		this.setUser (user);
+
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -75,16 +79,23 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	setBaseQ : function () {
-		if (_.indexOf (this.roles, 'admin') >= 0) this.baseQ = {};
-		else this.baseQ = (!this.useRoles) ? {} : {
-			$or : [
-				{ read   : { $in : this.roles } },
-				{ write  : { $in : this.roles } },
-				{ submit : { $in : this.roles } }
-			]
-		};
+		if (_.indexOf (this.roles, 'admin') >= 0) {
+			this.baseQ = {};
+		}
+		else {
+      		var base = this.baseQuery;
+      		if (_.isFunction (base)) base = base.call (this);
+			this.baseQ = (!this.useRoles) ? base : _.extend ({}, base, {
+				$or : [
+					{ read   : { $in : this.roles } },
+					{ write  : { $in : this.roles } },
+					{ submit : { $in : this.roles } }
+				]
+			});
+		}
 	},
 	setRoles : function (user) {
+		// CC: change this in production to only public
 		this.roles = (user) ? user.roles : ['public', 'admin'];
 		this.setBaseQ ();
 	},
@@ -326,6 +337,8 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	list : function (q) {
 		q = q || {};
+		q = _.extend ({}, this.baseQ, q);
+		console.log (q);
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			self.findMany (q)
