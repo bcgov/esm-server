@@ -1,7 +1,0 @@
-<panel-sort x-fields="actList.panelSort" x-data="actList.project.activities" ng-if="0"></panel-sort>
-
-<section class="row">
-	<div ng-repeat="act in actList.project.activities | filter:{'status':actList.activityFilterStatus}" class="col-sm-6 col-md-4 col-lg-3">
-		<tmpl-activity-item x-activity="act" x-project="actList.project"></tmpl-activity-item>
-	</div>
-</section>

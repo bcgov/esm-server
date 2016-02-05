@@ -88,7 +88,7 @@
 			</li>
 		</ul>
 		<ul class="list-unstyled" ng-show="menu.authentication.user">
-			<li><a x-modal-project-entry href>Add Project</a></li>
+			<li><a x-modal-project-entry href x-project="menu.newproject">Add Project</a></li>
 		</ul>
 	</div>
 	<div ng-if="menu.context === 'project' || menu.context === 'activity'">
@@ -107,7 +107,6 @@
 			</li>
 		</ul>
 		<ul class="list-unstyled">
-			<li><a x-modal-project-entry href>Add Project</a></li>
 			<li><a x-modal-project-entry href x-project="menu.project">Edit {{ menu.project.name }}</a></li>
 			<li><a x-modal-project-schedule href x-project="menu.project">Edit Schedule</a></li>
 		</ul>		
