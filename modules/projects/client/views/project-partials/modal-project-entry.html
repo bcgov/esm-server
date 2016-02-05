@@ -12,15 +12,21 @@
 	</ul>
 	<hr/>
 	<div ng-if="projectEntry.form.curTab === 'Project Information'">
-		
+
 
 
 
 		<div class="row">
-			<div class="col-sm-12">
+			<div class="col-sm-9">
 				<div class="form-group">
 					<label for="title" class="control-label">Project Name</label>
 					<input id="title" type="text" class="form-control input-sm" ng-model="projectEntry.project.name">
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="code" class="control-label">Project Code</label>
+					<input id="code" type="text" class="form-control input-sm" ng-model="projectEntry.project.code">
 				</div>
 			</div>
 		</div>
@@ -179,7 +185,7 @@
 		<div class="form-control-static">{{ projectEntry.project.dateUpdated | amDateFormat:'MMM Do, YYYY hh:mm a' }}</div>
 	</div>
 	<div>
-		<a class="btn btn-default" href ng-click="projectEntry.cancel()">Cancel</a>	
+		<a class="btn btn-default" href ng-click="projectEntry.cancel()">Cancel</a>
 		<a class="btn btn-default" href ng-click="projectEntry.saveProject()">Save</a>
 		<a class="btn btn-success" href ng-click="projectEntry.submitProject()" ng-if="projectEntry.project.status === 'Initiated'">Submit Project</a>
 		<a class="btn btn-primary" href ng-show="projectEntry.form.curTab === 'Project Information'" ng-click="projectEntry.form.curTab = 'Proponent'">Next</a>

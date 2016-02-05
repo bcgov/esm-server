@@ -22,5 +22,15 @@ module.exports = function (app) {
 			p.addMilestoneToPhase (req.PhaseBase, req.MilestoneBase)
 			.then (helpers.success(res), helpers.failure(res));
 		});
+	//
+	// add a milestone to a phase from a base
+	//
+	app.route ('/api/phase/:phase/add/milestone/:milestonebase')
+		.all (policy.isAllowed)
+		.put (function (req,res) {
+			var p = new Phase (req.user);
+			p.addMilestoneFromBase (req.Phase, req.MilestoneBase)
+			.then (helpers.success(res), helpers.failure(res));
+		});
 };
 

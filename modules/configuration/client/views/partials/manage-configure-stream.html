@@ -16,6 +16,7 @@
 </a>
 </section>
 
+<!-- This whole thing can be copied to make child tables -->
 <section ng-show="configStream.activeRecord.phases.length > 0">
 <hr>
 <h3>Add Milestones to Phases</h3>
@@ -97,7 +98,7 @@
 
         <a href
             x-modal-select-items
-            x-all-items="configStream.data.requirements" 
+            x-all-items="configStream.data.requirements"
             x-single="false"
             x-parent-object="bucket"
             x-selected-items="configStream.tree.requirementsByBucket[bucket._id]"

@@ -87,10 +87,8 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 		measures           : { type:String, default:'' }
 	},
 	cumulativeEffects: [{
-		project             : { type:String, default:'' },
+		projectActivity     : { type:String, default:'' },
 		assessment          : { type:String, default:'' },
-		activityName        : { type:String, default:'' },
-		activityDescription : { type:String, default:'' }
 	}],
 	followUpStrategy : {
 		description : { type:String, default:'' },
