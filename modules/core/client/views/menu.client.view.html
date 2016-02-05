@@ -72,7 +72,7 @@
 		<ul class="list-unstyled">
 			<li><a href ui-sref="settings.profile">My Tasks</a></li>
 	  	</ul>
-	</div>	
+	</div>
 	<div ng-if="menu.context === 'projects'">
 	 	<hr>
 		<label class="control-label">Projects</label>
@@ -109,8 +109,8 @@
 		<ul class="list-unstyled">
 			<li><a x-modal-project-entry href x-project="menu.project">Edit {{ menu.project.name }}</a></li>
 			<li><a x-modal-project-schedule href x-project="menu.project">Edit Schedule</a></li>
-		</ul>		
-	</div>	
+		</ul>
+	</div>
 	<div ng-show="menu.systemMenu.shouldRender(menu.authentication.user);">
 		<hr>
 		<label class="control-label">System</label>
@@ -127,7 +127,7 @@
 			<li><a href ui-sref="settings.profile">My Profile</a></li>
 			<li><a href="/api/auth/signout" target="_self">Logout</a></li>
 	  	</ul>
-	</div>	
+	</div>
 	<hr>
 	<tmpl-quick-links></tmpl-quick-links>
 </div>

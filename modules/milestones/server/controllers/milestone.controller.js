@@ -56,6 +56,7 @@ module.exports = DBModel.extend ({
 				// assign whatever ancenstry is needed
 				model[basename] = baseid;
 				model.project = projectid;
+				model.projectCode = projectcode;
 				model.stream  = streamid;
 				model.phase   = phaseid;
 				// return the promise of new children

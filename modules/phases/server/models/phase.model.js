@@ -17,6 +17,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	mandatoryDurationDays : { type:Number , default:90 },
 	phaseBase             : { type:'ObjectId', ref:'PhaseBase'  , index:true , default:null},
 	project               : { type:'ObjectId', ref:'Project', index:true , default:null},
+	projectCode           : { type:String, default:'', index:true },
 	stream                : { type:'ObjectId', ref:'Stream' , index:true , default:null},
 	completed : { type:Boolean, default:false}
 });

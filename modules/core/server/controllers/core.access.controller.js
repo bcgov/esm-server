@@ -24,7 +24,7 @@ var _allow = function (roles, resources, permissions, cb) {
 // -------------------------------------------------------------------------
 //
 // pass in an object id and the permissions object {read:'', write:'', watch:''}
-// this removes all permissions for this resource nad replaces them with
+// this removes all permissions for this resource and replaces them with
 // this set of new ones
 //
 // cb: function (err)

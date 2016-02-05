@@ -5,13 +5,13 @@ angular.module('project')
 	.controller('controllerProject', controllerProject)
 	.controller('controllerModalProjectSchedule', controllerModalProjectSchedule)
 	.controller('controllerProjectTombstone', controllerProjectTombstone)
-	// .controller('controllerProjectTimeline', controllerProjectTimeline)        
+	// .controller('controllerProjectTimeline', controllerProjectTimeline)
 	.controller('controllerModalProjectEntry', controllerModalProjectEntry)
-	// .controller('controllerProjectProponent', controllerProjectProponent)        
+	// .controller('controllerProjectProponent', controllerProjectProponent)
 	// .controller('controllerProjectBucketListing', controllerProjectBucketListing)
 	// .controller('controllerProjectResearch', controllerProjectResearch)
 
-	// .controller('controllerProjectNew', controllerProjectNew)	
+	// .controller('controllerProjectNew', controllerProjectNew)
 	// .controller('controllerProjectEdit', controllerProjectEdit)
 	.controller('controllerProjectStreamSelect', controllerProjectStreamSelect)
 	.controller('controllerProjectActivities', controllerProjectActivities);
@@ -37,13 +37,13 @@ function controllerProject(Project, $stateParams, _) {
 // -----------------------------------------------------------------------------------
 controllerModalProjectSchedule.$inject = ['$modalInstance', 'rProject', 'Project'];
 /* @ngInject */
-function controllerModalProjectSchedule($modalInstance, rProject, Project) { 
+function controllerModalProjectSchedule($modalInstance, rProject, Project) {
 	var projSched = this;
-	
+
 	projSched.project = angular.copy(rProject);
 
 	projSched.cancel = function () { $modalInstance.dismiss('cancel'); };
-	projSched.ok = function () { 
+	projSched.ok = function () {
 		Project.saveProject(projSched.project).then( function(res) {
 			$modalInstance.close(res.data);
 		});
@@ -53,35 +53,35 @@ function controllerModalProjectSchedule($modalInstance, rProject, Project) {
 //
 // CONTROLLER: Project Tombstone
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 controllerProjectTombstone.$inject = ['$scope'];
 /* @ngInject */
 function controllerProjectTombstone($scope) {
 	var projTomb = this;
-	
+
 	$scope.$watch('project', function(newValue) {
-		projTomb.project = newValue;		
+		projTomb.project = newValue;
 	});
-}    
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Timeline
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 // controllerProjectTimeline.$inject = ['$scope'];
 // /* @ngInject */
 // function controllerProjectTimeline($scope) {
 // 	var ptime = this;
-	
+
 // 	$scope.$watch('project', function(newValue) {
 // 		ptime.project = newValue;
 // 	});
-// }    
+// }
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Entry Tombstone
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 controllerModalProjectEntry.$inject = ['$modalInstance', '$scope', '$state', 'Project', 'rProject', 'REGIONS', 'PROJECT_TYPES', '_'];
 /* @ngInject */
 function controllerModalProjectEntry($modalInstance, $scope, $state, Project, rProject, REGIONS, PROJECT_TYPES, _) {
@@ -104,7 +104,7 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, Project, rP
 			projectEntry.project = res.data;
 		});
 	}
-	
+
 	projectEntry.cancel = function () {
 		$modalInstance.dismiss();
 	};
@@ -115,13 +115,20 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, Project, rP
 	};
 
 	projectEntry.saveProject = function() {
-		if ($state.current.name === 'projectnew') {
+		if (!rProject) {
 			Project.addProject(projectEntry.project).then( function(res) {
+				console.log (res.data);
 				$modalInstance.close(res.data);
+			})
+			.catch (function (err) {
+				console.log ('error = ', err, 'message = ', err.data.message);
 			});
 		} else {
 			Project.saveProject(projectEntry.project).then( function(res) {
 				$modalInstance.close(res.data);
+			})
+			.catch (function (err) {
+				console.log ('error = ', err, 'message = ', err.data.message);
 			});
 		}
 	};
@@ -131,23 +138,23 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, Project, rP
 //
 // CONTROLLER: Project Timeline
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 // controllerProjectProponent.$inject = ['$scope', 'PROVINCES'];
 // /* @ngInject */
 // function controllerProjectProponent($scope, PROVINCES) {
 // 	var projectProponent = this;
-	
+
 // 	projectProponent.provs = PROVINCES;
 
 // 	$scope.$watch('project', function(newValue) {
-// 		projectProponent.project = newValue;		
+// 		projectProponent.project = newValue;
 // 	});
-// }        
+// }
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Bucket Listing
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 // controllerProjectBucketListing.$inject = ['$scope', 'Project', '$filter'];
 // /* @ngInject */
 // function controllerProjectBucketListing($scope, Project, $filter) {
@@ -178,20 +185,20 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, Project, rP
 // 	});
 
 
-// }              	
+// }
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Research
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 // controllerProjectResearch.$inject = ['$scope', 'Project', 'Utils'];
 // /* @ngInject */
 // function controllerProjectResearch($scope, Project, Utils) {
 // 	var pr = this;
 // 	pr.searchResults = {};
-	
+
 // 	pr.workSpaceLayers = [];
-	
+
 // 	pr.panelSort = [
 // 		{'field': 'name', 'name':'Name'},
 // 		{'field': 'type', 'name':'Type'},
@@ -204,7 +211,7 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, Project, rP
 // 	// });
 
 // 	pr.researchFocus = Utils.getResearchFocus();
-	
+
 
 // 	pr.performSearch = function() {
 // 		Utils.getResearchResults({'term': pr.search.focus}).then( function(res) {
@@ -218,7 +225,7 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, Project, rP
 // 		if (newValue) {
 // 			pr.buckets = newValue.buckets;
 // 		}
-					
+
 // 		// Project.getProjectBuckets(newValue).then( function(res) {
 // 		// 	pr.buckets = res.data;
 // 		// });
@@ -227,23 +234,23 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, Project, rP
 // 		// 	pr.projectLayers = res.data;
 // 		// 	pr.workSpaceLayers.push({"name":"Project", "layers": res.data});
 // 		// });
-		
+
 // 		// Project.getProjectTags(newValue).then( function(res) {
 // 		// 	pr.projectTags = res.data;
-// 		// });			
+// 		// });
 
 // 		// Project.getProjectResearch(newValue).then( function(res) {
 // 		// 	pr.projectResearch = res.data;
-// 		// });		
+// 		// });
 
 // 		// Project.getProjectRelatedResearch(newValue).then( function(res) {
 // 		// 	pr.projectRelatedResearch = res.data;
-// 		// });		
+// 		// });
 
 // 	});
 
 
-// }            
+// }
 
 
 
@@ -252,25 +259,25 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, Project, rP
 //
 // CONTROLLER: EAO Project New
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 // controllerProjectEdit.$inject = ['$state', 'Project', '_'];
 // /* @ngInject */
 // function controllerProjectEdit($state, Project, _) {
 // 	var projectEntry = this;
 
-	
+
 // 	Project.getProject({id: $state.params.id}).then( function(res) {
 // 		projectEntry.project = res.data;
 // 	});
 
 
 
-// }  
+// }
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Stream Selection
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 controllerProjectStreamSelect.$inject = ['$state', 'Project', 'Configuration', '_'];
 /* @ngInject */
 function controllerProjectStreamSelect($state, Project, Configuration, _) {
@@ -297,13 +304,13 @@ function controllerProjectStreamSelect($state, Project, Configuration, _) {
 			});
 		}
 	};
-}  
+}
 
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Activities
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 controllerProjectActivities.$inject = ['$state', 'Project', '_'];
 /* @ngInject */
 function controllerProjectActivities($state, Project, _) {
@@ -312,7 +319,7 @@ function controllerProjectActivities($state, Project, _) {
 	Project.getProject({id: $state.params.id}).then( function(res) {
 		projectActs.project = res.data;
 	});
-}  
+}
 
 
 

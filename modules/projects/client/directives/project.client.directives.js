@@ -9,7 +9,7 @@ angular.module('project')
 
 	// .directive('tmplProjectEntry', directiveProjectEntry)
 
-	// .directive('tmplProjectProponent', directiveProjectProponent)        
+	// .directive('tmplProjectProponent', directiveProjectProponent)
 	// .directive('tmplProjectBucketListing', directiveProjectBucketListing)
 	// .directive('tmplProjectResearch', directiveProjectResearch)
 
@@ -37,7 +37,7 @@ function directiveProject() {
 	};
 	return directive;
 }
-   
+
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Modal Project Schedule
@@ -101,6 +101,7 @@ function directiveModalProjectEntry($modal) {
 					size: 'lg'
 				});
 				modalProjectEntry.result.then(function (res) {
+					console.log (res);
 					scope.project = res;
 				}, function () {});
 			});
@@ -180,7 +181,7 @@ function directiveProjectTombstone() {
 // 		controllerAs: 'projectEntryTS',
 // 		scope: {
 // 			project: '='
-// 		}            
+// 		}
 // 	};
 // 	return directive;
 // }
@@ -199,7 +200,7 @@ function directiveProjectTombstone() {
 // 		controllerAs: 'projectProponent',
 // 		scope: {
 // 			project: '='
-// 		}            
+// 		}
 // 	};
 // 	return directive;
 // }
@@ -274,7 +275,7 @@ function directiveProjectTombstone() {
 // 		controllerAs: 'projectEntry',
 // 		scope: {
 // 			project: '='
-// 		}		
+// 		}
 // 	};
 // 	return directive;
 // }

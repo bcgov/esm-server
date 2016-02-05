@@ -53,6 +53,7 @@ module.exports = DBModel.extend ({
 				// assign whatever ancenstry is needed
 				model[basename] = baseid;
 				model.project = projectid;
+				model.projectCode = projectcode;
 				model.stream  = streamid;
 				// return the promise of new children
 				return Promise.all (children.map (function (m) {
@@ -66,9 +67,32 @@ module.exports = DBModel.extend ({
 				});
 				return newobject;
 			})
-			.then (function (m) {
-				return self.saveDocument (m);
+			.then (self.saveDocument)
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// add a milestone to a phase from a base milestone (creates a proper
+	// milestone with all its children and pushes it onto the array)
+	//
+	// -------------------------------------------------------------------------
+	addMilestoneFromBase : function (phase, milestonebase) {
+		var self = this;
+		var Milestone = new MilestoneClass (this.user);
+		return new Promise (function (resolve, reject) {
+			Milestone.makeMilestoneFromBase (
+				milestonebase,
+				phase.stream,
+				phase.projectid,
+				phase.projectCode,
+				phase._id
+			)
+			.then (function (newmilestone) {
+				phase.milestones.push (newmilestone._id);
+				return phase;
 			})
+			.then (self.saveDocument)
 			.then (resolve, reject);
 		});
 	}

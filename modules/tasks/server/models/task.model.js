@@ -15,6 +15,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	milestone      : { type:'ObjectId', default:null, ref:'Milestone'   , index:true },
 	phase          : { type:'ObjectId', default:null, ref:'Phase'       , index:true },
 	project        : { type:'ObjectId', default:null, ref:'Project'     , index:true },
+	projectCode    : { type:String, default:'', index:true },
 	stream         : { type:'ObjectId', default:null, ref:'Stream'      , index:true },
 	dateCompleted : { type:Date, default: null }, // date complete
 	completedBy   : { type:'ObjectId', ref:'User' },
