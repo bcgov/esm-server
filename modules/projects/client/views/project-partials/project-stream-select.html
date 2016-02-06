@@ -1,8 +1,6 @@
-<div class="panel panel-default">
+<section class="block-content">
 
-	<div class='panel-heading'>
-		<h3 class='panel-title'>Intake and Assignment</h3>
-	</div>
+	<h3>Intake and Assignment</h3>
 
 	<div class='panel-body'>
 		<div class="row">
@@ -18,9 +16,8 @@
 				<a href>Click here to assign team</a>
 			</div>
 		</div>
-	</div>
-
-	<div class="panel-footer text-right" ng-if="projectStreamSelect.project.status === 'Submitted'">
-		<a class="btn btn-success" href ng-click="projectStreamSelect.setProjectStream()">Set Stream</a>
-	</div>
-</div> <!-- /panel -->
+		<div ng-if="projectStreamSelect.project.status === 'Submitted'">
+			<a class="btn btn-success" href ng-click="projectStreamSelect.setProjectStream()">Set Stream</a>
+		</div>
+	</div> <!-- /panel -->
+</section>

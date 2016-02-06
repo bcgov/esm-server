@@ -36,6 +36,27 @@
                         <input class="form-control" type="text" ng-model="configDataElement.activeRecord.code">
                     </div>
 
+                    <div class="form-group">
+                        <a href
+                            class="control-label pull-right"
+                            x-modal-select-items
+                            x-all-items="configDataElement.data.activities"
+                            x-single="false"
+                            x-parent-object="configDataElement.activeRecord"
+                            x-selected-items="configDataElement.activeRecord.activities"
+                            x-item-name="Activities for {{ configDataElement.activeRecord.name }}"
+                            x-callback="">Edit</a>
+                        <label class="control-label">Activities for this Milestone</label>
+
+
+                        <ul class="list-unstyled well well-sm">
+                            <li ng-show="configDataElement.activeRecord.activities.length === 0">No Activities selected</li>
+                            <li ng-repeat="activity in configDataElement.activeRecord.activities track by $index"><em class="small text-success">activity:</em>&nbsp;{{ activity.name }}</li>
+                        </ul>
+
+                    </div>
+
+
                     <div class="form-group" ng-if="configDataElement.activeRecordNew">
                         <button class="btn btn-primary" ng-click="configDataElement.addRecord()">Add</button>
                         <button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>                        

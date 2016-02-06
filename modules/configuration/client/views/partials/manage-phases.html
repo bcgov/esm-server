@@ -59,6 +59,26 @@
                         <input class="form-control" type="number" ng-model="configDataElement.activeRecord.mandatoryDurationDays">
                     </div>
 
+                    <div class="form-group">
+                        <a href
+                            class="control-label pull-right"
+                            x-modal-select-items
+                            x-all-items="configDataElement.data.milestones"
+                            x-single="false"
+                            x-parent-object="configDataElement.activeRecord"
+                            x-selected-items="configDataElement.activeRecord.milestones"
+                            x-item-name="Milestones for {{ configDataElement.activeRecord.name }}"
+                            x-callback="">Edit</a>
+                        <label class="control-label">Milestones for this Phase</label>
+
+
+                        <ul class="list-unstyled well well-sm">
+                            <li ng-show="configDataElement.activeRecord.milestones.length === 0">No Milestones selected</li>
+                            <li ng-repeat="milestone in configDataElement.activeRecord.milestones track by $index"><em class="small text-success">milestone:</em>&nbsp;{{ milestone.name }}</li>
+                        </ul>
+
+                    </div>
+
                     <div class="form-group" ng-if="configDataElement.activeRecordNew">
                         <button class="btn btn-primary" ng-click="configDataElement.addRecord()">Add</button>
                         <button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>

@@ -6,7 +6,7 @@ angular.module('configuration')
     .directive('tmplConfigStream', directiveConfigStream)
     .directive('tmplConfigRequirements', directiveConfigRequirements)
     .directive('tmplConfigPhases', directiveConfigPhases)
-    .directive('tmplConfigBuckets', directiveConfigBuckets)
+    .directive('tmplConfigTopics', directiveConfigTopics)
     .directive('tmplConfigMilestones', directiveConfigMilestones)
     .directive('tmplConfigActivities', directiveConfigActivities)
     .directive('tmplConfigTasks', directiveConfigTasks);
@@ -42,7 +42,8 @@ function directiveConfigStreams() {
         controllerAs: 'configDataElement',
         scope: {
             config: '=',
-            context: '@'
+            context: '@',
+            childGroup: '@'
         }
     };
 
@@ -84,7 +85,8 @@ function directiveConfigRequirements() {
         controllerAs: 'configDataElement',
         scope: {
             config: '=',
-            context: '@'
+            context: '@',
+            childGroup: '@'
         }
     };
 
@@ -104,7 +106,8 @@ function directiveConfigPhases() {
         controllerAs: 'configDataElement',
         scope: {
             config: '=',
-            context: '@'
+            context: '@',
+            childGroup: '@'
         }
     };
 
@@ -112,19 +115,20 @@ function directiveConfigPhases() {
 }
 
 // ----- directiveFunction -----
-directiveConfigBuckets.$inject = [];
+directiveConfigTopics.$inject = [];
 
 /* @ngInject */
-function directiveConfigBuckets() {
+function directiveConfigTopics() {
 
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/configuration/client/views/partials/manage-buckets.html',
+        templateUrl: 'modules/configuration/client/views/partials/manage-topics.html',
         controller: 'controllerConfigManageElement',
         controllerAs: 'configDataElement',
         scope: {
             config: '=',
-            context: '@'
+            context: '@',
+            childGroup: '@'
         }           
     };
 
@@ -144,7 +148,8 @@ function directiveConfigMilestones() {
         controllerAs: 'configDataElement',
         scope: {
             config: '=',
-            context: '@'
+            context: '@',
+            childGroup: '@'
         }
     };
 
@@ -164,7 +169,8 @@ function directiveConfigActivities() {
         controllerAs: 'configDataElement',
         scope: {
             config: '=',
-            context: '@'
+            context: '@',
+            childGroup: '@'
         }
     };
 
@@ -184,7 +190,8 @@ function directiveConfigTasks() {
         controllerAs: 'configDataElement',
         scope: {
             config: '=',
-            context: '@'
+            context: '@',
+            childGroup: '@'
         }
     };
 

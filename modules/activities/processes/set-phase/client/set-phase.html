@@ -1,0 +1,25 @@
+<div class="panel panel-default">
+	<section class="block-content">
+
+		<h3>Set Project Phase</h3>
+
+		<div class='panel-body'>
+			<div class="row">
+				<div class="col-sm-9">
+					<p>{{ processesetPhase.act.description }}</p>
+				</div>
+				<div class="col-sm-3 text-right form-group">
+					<select class="form-control" ng-model="processesetPhase.newPhase" ng-options="phase as phase.name for phase in processesetPhase.project.phases"></select>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-12 text-right">
+					<a class="btn btn-default" href ng-click="processesetPhase.saveProcess()">Save</a>
+				</div>
+			</div>
+		</div>
+
+
+	</section>
+</div>

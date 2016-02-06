@@ -40,7 +40,7 @@ function directiveLoadActivityProcess($compile) {
 
 			scope.$watch('activity', function(newActivity) {
 				if (newActivity) {
-					var tmpl = '<tmpl-' + newActivity.processCode + ' x-anchor="' + (newActivity.code + '-' + newActivity._id) + '" x-activity="activity" x-project="project" ng-show="current === \'' + (newActivity.code + '-' + newActivity._id) + '\'"></tmpl-' + newActivity.processCode + '>';
+					var tmpl = '<tmpl-' + newActivity.processCode + ' x-anchor="' + (newActivity.code + '-' + newActivity._id) + '" x-activity="activity" x-project="project">';
 					var ctmpl = $compile(tmpl)(scope);
 					element.replaceWith(ctmpl);
 				}

@@ -420,10 +420,12 @@ th .progress-bar {
 }
 
 .block-content {
-  border-bottom: 1px solid $border-grey;
-  margin-bottom: 15px;
+   margin-bottom: 15px;
+   border-bottom: 1px solid $border-grey;
 }
-
+.panel > .block-content:first-child > h3 {
+  margin-top: 0px;
+}
 .panel > .table.table-stacked {
   margin-bottom: 30px;
 }
