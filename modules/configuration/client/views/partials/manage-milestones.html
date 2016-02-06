@@ -8,7 +8,7 @@
                     <th width="50%">Name</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="milestone in configDataElement.data.milestones" ng-click='configDataElement.editRecord(milestone)' class="clickable">
+                    <tr ng-repeat="milestone in configDataElement.data.milestones | orderBy:'name'" ng-click='configDataElement.editRecord(milestone)' class="clickable">
                         <td>{{ milestone.code }}</td>
                         <td>{{ milestone.name }}</td>
                     </tr>

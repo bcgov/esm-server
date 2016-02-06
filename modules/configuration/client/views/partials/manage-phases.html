@@ -11,7 +11,7 @@
                     <th width="20%">Mandatory Duration (days)</th>
                 </thead>
                 <tbody>
-                <tr ng-repeat="phase in configDataElement.data.phases" ng-click='configDataElement.editRecord(phase)' class="clickable">
+                <tr ng-repeat="phase in configDataElement.data.phases | orderBy:'name'" ng-click='configDataElement.editRecord(phase)' class="clickable">
                     <td>{{ phase.code }}</td>
                     <td>{{ phase.name }}</td>
                     <td>{{ phase.description }}</td>

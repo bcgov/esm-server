@@ -10,7 +10,7 @@
                 <th width="25%">Process Code</th>                
                 </thead>
                 <tbody>
-                <tr ng-repeat="activity in configDataElement.data.activities | orderBy:'code'" ng-click='configDataElement.editRecord(activity)' class="clickable">
+                <tr ng-repeat="activity in configDataElement.data.activities | orderBy:'name'" ng-click='configDataElement.editRecord(activity)' class="clickable">
                     <td>{{ activity.code }}</td>
                     <td>{{ activity.name }}</td>
                     <td>{{ activity.description }}</td>

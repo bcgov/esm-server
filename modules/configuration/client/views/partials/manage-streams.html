@@ -9,7 +9,7 @@
 					<th width="40%">Description</th>
 				</thead>
 				<tbody>
-				<tr ng-repeat="stream in configDataElement.data.streams" ng-click='configDataElement.editRecord(stream)' class="clickable">
+				<tr ng-repeat="stream in configDataElement.data.streams | orderBy:'name'" ng-click='configDataElement.editRecord(stream)' class="clickable">
 					<td>{{ stream.code }}</td>
 					<td>{{ stream.name }}</td>
 					<td>{{ stream.description }}</td>
