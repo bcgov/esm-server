@@ -33,24 +33,25 @@ exports.getObject   = crud.getObject();
 // getDocumentsForProject
 //
 // -------------------------------------------------------------------------
-var getDocumentsForProject = function (doc, req) {
+var getDocumentsForProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
-		console.log("getDocumentsForProject: Project ID:",req.ProjectID);
+		console.log("getDocumentsForProject: Project: ",req.params.projectid);
+		resolve (Model.find({projectID: req.params.projectid}).exec ());
 	});
 }
 // -------------------------------------------------------------------------
 //
-// import a document, return it via service
+// getDocuments relating to a specific project
 //
 // -------------------------------------------------------------------------
-var getDocumentsForProjectAndReturn = function (doc, req, res) {
-	getDocumentsForProject (doc, req)
+var getDocumentsForProjectAndReturn = function (req, res) {
+	getDocumentsForProject (req, res)
 	.then (function (model) {
 		//console.log (model);
 		helpers.sendData (res, model);
 	})
 	.catch (function (err) {
-		// console.log (err);
+		//console.log (err);
 		helpers.sendError (res, err);
 	});
 };
@@ -63,7 +64,7 @@ exports.getDocumentsForProjectAndReturn = getDocumentsForProjectAndReturn;
 // getDocumentTypesForProject
 //
 // -------------------------------------------------------------------------
-var getDocumentTypesForProject = function (doc, req) {
+var getDocumentTypesForProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
 		console.log("getDocumentTypesForProject: Project ID:");
 	});
@@ -73,7 +74,7 @@ var getDocumentTypesForProject = function (doc, req) {
 // import a document, return it via service
 //
 // -------------------------------------------------------------------------
-var getDocumentTypesForProjectAndReturn = function (doc, req, res) {
+var getDocumentTypesForProjectAndReturn = function (req, res) {
 	getDocumentTypesForProject (doc, req)
 	.then (function (model) {
 		//console.log (model);

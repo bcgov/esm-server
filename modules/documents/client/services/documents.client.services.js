@@ -35,8 +35,8 @@ function serviceDocument($http) {
         return $http({method:'GET',url: '/api/documents'});
     };
 
-    var getProjectDocuments = function(Project) {
-        return $http({method:'GET',url: '/api/documents/project/' + Project._id});
+    var getProjectDocuments = function(projectId) {
+        return $http({method:'GET',url: '/api/documents/' + projectId});
     };
 
     var getProjectDocumentTypes = function(projectId) {

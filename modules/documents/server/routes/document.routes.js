@@ -18,7 +18,7 @@ module.exports = function (app) {
 		.get  (controller.list);
 		//.post (controller.create);
 
-	app.route ('/api/documents/project/:projectid')//.all (policy.isAllowed)
+	app.route ('/api/documents/:projectid')//.all (policy.isAllowed)
 		.get  (controller.getDocumentsForProjectAndReturn);
 
 	app.route ('/api/documents/types/:project')//.all (policy.isAllowed)

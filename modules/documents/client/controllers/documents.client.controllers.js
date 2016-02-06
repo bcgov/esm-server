@@ -176,14 +176,11 @@ function controllerDocumentBrowser($scope, Document, Project) {
 	docBrowser.documentFiles	= undefined;
 	docBrowser.docTypes			= undefined;
 
-	console.log($scope.project._id);
-	console.log(Document);
 	// TODO: Need to filter out properly
-	//Document.getProjectDocuments($scope.project).then( function(res) {
-	Document.getAllDocuments().then( function (res) {
-		console.log('getProjectDocuments: ', docBrowser.project._id);
-
+	Document.getProjectDocuments($scope.project._id).then( function(res) {
+		//console.log('getProjectDocuments: ', $scope.project._id);
 		docBrowser.documentFiles	= res.data;
+		console.log(res.data);
 	});
 
 	$scope.$watch('project', function(newValue) {
