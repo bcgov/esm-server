@@ -27,6 +27,65 @@ exports.delete = crud.delete ();
 exports.list   = crud.list   ();
 exports.getObject   = crud.getObject();
 
+// 
+// -------------------------------------------------------------------------
+//
+// getDocumentsForProject
+//
+// -------------------------------------------------------------------------
+var getDocumentsForProject = function (doc, req) {
+	return new Promise (function (resolve, reject) {
+		console.log("getDocumentsForProject: Project ID:",req.ProjectID);
+	});
+}
+// -------------------------------------------------------------------------
+//
+// import a document, return it via service
+//
+// -------------------------------------------------------------------------
+var getDocumentsForProjectAndReturn = function (doc, req, res) {
+	getDocumentsForProject (doc, req)
+	.then (function (model) {
+		//console.log (model);
+		helpers.sendData (res, model);
+	})
+	.catch (function (err) {
+		// console.log (err);
+		helpers.sendError (res, err);
+	});
+};
+exports.getDocumentsForProjectAndReturn = getDocumentsForProjectAndReturn;
+
+
+// 
+// -------------------------------------------------------------------------
+//
+// getDocumentTypesForProject
+//
+// -------------------------------------------------------------------------
+var getDocumentTypesForProject = function (doc, req) {
+	return new Promise (function (resolve, reject) {
+		console.log("getDocumentTypesForProject: Project ID:");
+	});
+}
+// -------------------------------------------------------------------------
+//
+// import a document, return it via service
+//
+// -------------------------------------------------------------------------
+var getDocumentTypesForProjectAndReturn = function (doc, req, res) {
+	getDocumentTypesForProject (doc, req)
+	.then (function (model) {
+		//console.log (model);
+		helpers.sendData (res, model);
+	})
+	.catch (function (err) {
+		// console.log (err);
+		helpers.sendError (res, err);
+	});
+};
+exports.getDocumentTypesForProjectAndReturn = getDocumentTypesForProjectAndReturn;
+
 // -------------------------------------------------------------------------
 //
 // import a document observation, set any special audit fields here
