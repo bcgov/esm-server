@@ -257,10 +257,9 @@ ul.list-indent-left {
 
 .list-documents li {
   border-top: 1px solid $border-grey;
-  padding: 2px 0;
+  padding: 3px 5px;
   position: relative;
 }
-
 .list-documents li.active,
 .list-documents li.active a {
   color: #ffffff;
@@ -273,9 +272,17 @@ ul.list-indent-left {
 .list-documents li.active .glyphicon-play {
   position:absolute;
   right: 8px;
-  top: 3px;
+  top: 4px;
 }
-
+.list-icon-left li {
+  position: relative;
+  padding-left: 21px;
+}
+.list-icon-left li a span {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+}
 h3.firstHeading {
   margin-top: 5px;
 }
@@ -413,10 +420,12 @@ th .progress-bar {
 }
 
 .block-content {
-  border-bottom: 1px solid $border-grey;
-  margin-bottom: 15px;
+   margin-bottom: 15px;
+   border-bottom: 1px solid $border-grey;
 }
-
+.panel > .block-content:first-child > h3 {
+  margin-top: 0px;
+}
 .panel > .table.table-stacked {
   margin-bottom: 30px;
 }
@@ -840,6 +849,13 @@ h1.page-title {
 	margin-top: 0;
 	margin-bottom: 20px;
 }
+h2.page-title {
+  padding: 0;
+  color: $header-grey;
+  font-size: 1em;
+  margin: 0 2px 0;
+}
+
 
 .navbar-nav > li > a {padding-top:10px !important; padding-bottom:10px !important;}
 .navbar {min-height:40px !important}

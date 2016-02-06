@@ -6,14 +6,23 @@
 // =========================================================================
 var policy     = require ('../policies/document.policy');
 var controller = require ('../controllers/document.controller');
+var Project    = require ('../../../projects/server/controllers/project.controller');
+var helpers    = require ('../../../core/server/controllers/core.helpers.controller');
 
 module.exports = function (app) {
+	helpers.setCRUDRoutes (app, 'project', Project, policy);
 	//
 	// collection routes
 	//
 	app.route ('/api/documents')//.all (policy.isAllowed)
 		.get  (controller.list);
 		//.post (controller.create);
+
+	app.route ('/api/documents/project/:projectid')//.all (policy.isAllowed)
+		.get  (controller.getDocumentsForProjectAndReturn);
+
+	app.route ('/api/documents/types/:project')//.all (policy.isAllowed)
+		.get  (controller.getDocumentTypesForProjectAndReturn);
 	//
 	// model routes
 	//

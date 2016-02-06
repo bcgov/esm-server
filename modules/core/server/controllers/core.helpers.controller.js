@@ -150,24 +150,29 @@ exports.fillConfigObject = function (object, query, callback) {
   var Bucket      = mongoose.model ('Bucket')      ;
   var Requirement = mongoose.model ('Requirement') ;
   var BucketRequirement = mongoose.model ('BucketRequirement') ;
+  object.streams      = [];
   object.activities   = [];
   object.buckets      = [];
   object.milestones   = [];
   object.phases       = [];
   object.requirements = [];
   object.tasks        = [];
-  Activity.find (query).exec ()
+  Activity.find (query).populate('tasks').exec ()
   .then (function (result) {
     if (result) object.activities   = result || [];
     return Bucket.find (query).exec ();
   })
   .then (function (result) {
     if (result) object.buckets      = result || [];
-    return Milestone.find (query).exec ();
+    return Stream.find (query).populate('phases').exec ();
+  })
+  .then (function (result) {
+    if (result) object.streams      = result || [];
+    return Milestone.find (query).populate('activities').exec ();
   })
   .then (function (result) {
     if (result) object.milestones   = result || [];
-    return Phase.find (query).exec ();
+    return Phase.find (query).populate('milestones').exec ();
   })
   .then (function (result) {
     if (result) object.phases       = result || [];

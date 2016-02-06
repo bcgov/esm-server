@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('activity')
-	.service('Activity', serviceActivity);
+	.service('sActivity', serviceActivity);
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Public Projects Main
@@ -11,11 +11,16 @@ serviceActivity.$inject = ['$http'];
 /* @ngInject */
 function serviceActivity($http) {
 
-	var getProjectActivity = function(req) {
+	var getActivity = function(req) {
 		return $http({method:'GET',url: '/api/activity/' + req.id});
 	};
 
+	var getProjectActivities = function(req) {
+		return $http({method:'GET',url: '/api/activity/'});
+	};
+
 	return {
-		getProjectActivity: getProjectActivity
+		getProjectActivities: getProjectActivities,
+		getActivity: getActivity
 	};
 }

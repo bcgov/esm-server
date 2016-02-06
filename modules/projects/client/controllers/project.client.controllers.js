@@ -288,16 +288,16 @@ function controllerModalProjectEntry(ProjectModel, $modalInstance, $scope, $stat
 // CONTROLLER: Stream Selection
 //
 // -----------------------------------------------------------------------------------
-controllerProjectStreamSelect.$inject = ['$state', 'Project', 'Configuration', '_'];
+controllerProjectStreamSelect.$inject = ['$state', 'Project', 'sConfiguration', '_'];
 /* @ngInject */
-function controllerProjectStreamSelect($state, Project, Configuration, _) {
+function controllerProjectStreamSelect($state, Project, sConfiguration, _) {
 	var projectStreamSelect = this;
 
 	Project.getProject({id: $state.params.id}).then( function(res) {
 		projectStreamSelect.project = res.data;
 	});
 
-	Configuration.getStreams().then(function(res){
+	sConfiguration.getStreams().then(function(res){
 		projectStreamSelect.streams = res.data;
 	});
 
@@ -321,14 +321,21 @@ function controllerProjectStreamSelect($state, Project, Configuration, _) {
 // CONTROLLER: Project Activities
 //
 // -----------------------------------------------------------------------------------
-controllerProjectActivities.$inject = ['$state', 'Project', '_'];
+controllerProjectActivities.$inject = ['$scope', 'sActivity', '_'];
 /* @ngInject */
-function controllerProjectActivities($state, Project, _) {
+function controllerProjectActivities($scope, sActivity, _) {
 	var projectActs = this;
 
-	Project.getProject({id: $state.params.id}).then( function(res) {
-		projectActs.project = res.data;
+	$scope.$watch( 'project', function(newValue) {
+		if (newValue) {
+			projectActs.project = newValue;
+
+			sActivity.getProjectActivities().then( function(res) {
+				projectActs.activities = res.data;
+			});
+		}
 	});
+
 }
 
 

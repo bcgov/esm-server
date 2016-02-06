@@ -56,16 +56,21 @@ module.exports = {
       'modules/core/client/app/config.js',
       'modules/core/client/app/init.js',
       'modules/*/client/*.js',
-      'modules/*/client/**/*.js'
+      'modules/*/client/**/*.js',
+      'modules/*/processes/*/client/*.js',
+      'modules/*/processes/*/client/**/*.js'
     ],
-    views: ['modules/*/client/views/**/*.html'],
+    views: [
+    	'modules/*/client/views/**/*.html',
+    	'modules/*/processes/*/client/views/**/*.html'
+    ],
     templates: ['build/templates.js']
   },
   server: {
     gruntConfig: 'gruntfile.js',
     gulpConfig: 'gulpfile.js',
     allJS: ['server.js', 'config/**/*.js', 'modules/*/server/**/*.js'],
-    models: 'modules/*/server/models/**/*.js',
+    models: ['modules/*/server/models/**/*.js','modules/*/processes/*/server/models/**/*.js'],
     routes: ['modules/!(core)/server/routes/**/*.js', 'modules/core/server/routes/**/*.js'],
     sockets: 'modules/*/server/sockets/**/*.js',
     config: 'modules/*/server/config/*.js',

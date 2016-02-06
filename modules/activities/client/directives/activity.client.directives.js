@@ -2,9 +2,7 @@
 
 angular.module('activity')
 	.directive('tmplActivity', directiveActivity)
-	.directive('tmplActivityListing', directiveActivityListing)
-	.directive('tmplActivityItem', directiveActivityItem)
-	.directive('modalResponseRevisions', directiveModalResponseRevisions);
+	.directive('tmplLoadActivityProcess', directiveLoadActivityProcess);	
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Activity
@@ -23,73 +21,31 @@ function directiveActivity() {
 }
 // -----------------------------------------------------------------------------------
 //
-// DIRECTIVE: Activity Listing
+// DIRECTIVE: Load process code
 //
 // -----------------------------------------------------------------------------------
-directiveActivityListing.$inject = [];
+directiveLoadActivityProcess.$inject = ['$compile'];
 /* @ngInject */
-function directiveActivityListing() {
+function directiveLoadActivityProcess($compile) {
 	var directive = {
 		restrict: 'E',
-		templateUrl: 'modules/activities/client/views/activity-partials/activity-list.html',
-		controller: 'controllerActivityList',
-		controllerAs: 'actList',
-		scope : {
-			project: '=',
-			filter: '='
-		}
-	};
-	return directive;
-}
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Activity Listing
-//
-// -----------------------------------------------------------------------------------
-directiveActivityItem.$inject = [];
-/* @ngInject */
-function directiveActivityItem() {
-	var directive = {
-		restrict: 'E',
-		templateUrl: 'modules/activities/client/views/activity-partials/activity-item.html',
-		controller: 'controllerActivityItem',
-		controllerAs: 'actItem',
-		scope : {
+		scope: {
 			activity: '=',
 			project: '='
-		}
-	};
-	return directive;
-}
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Modal Response Revisions
-//
-// -----------------------------------------------------------------------------------
-directiveModalResponseRevisions.$inject = ['$modal'];
-/* @ngInject */
-function directiveModalResponseRevisions($modal) {
-	var directive = {
-		restrict:'A',
-		scope : {
-			activityId: '='
 		},
-		link : function(scope, element, attrs) {
-			element.on('click', function() {
-				var modalDocView = $modal.open({
-					animation: true,
-					templateUrl: 'modules/activities/client/views/activity-partials/modal-response-revisions.html',
-					controller: 'controllerModalResponseRevisions',
-					controllerAs: 'resRev',
-					resolve: {
-						rActivityId: function () {
-							return scope.activityId;
-						}
-					},
-					size: 'lg'
-				});
-				modalDocView.result.then(function () {}, function () {});
+		link: function link(scope, element, attrs) {
+			// each directive receives: 
+			// anchor: the key used to identify the item / panel type to cross reference the process data.
+			// itemId: the id used to get more info about the item via a service.
+
+			scope.$watch('activity', function(newActivity) {
+				if (newActivity) {
+					var tmpl = '<tmpl-' + newActivity.processCode + ' x-anchor="' + (newActivity.code + '-' + newActivity._id) + '" x-activity="activity" x-project="project">';
+					var ctmpl = $compile(tmpl)(scope);
+					element.replaceWith(ctmpl);
+				}
 			});
+
 		}
 	};
 	return directive;
