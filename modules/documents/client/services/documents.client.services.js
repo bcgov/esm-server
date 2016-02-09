@@ -31,7 +31,22 @@ function serviceDocument($http) {
         ];
 	};
 
+    var getAllDocuments = function() {
+        return $http({method:'GET',url: '/api/documents'});
+    };
+
+    var getProjectDocuments = function(projectId) {
+        return $http({method:'GET',url: '/api/documents/' + projectId});
+    };
+
+    var getProjectDocumentTypes = function(projectId) {
+        return $http({method:'GET',url: '/api/documents/types/' + projectId});
+    };
+
 	return {
-		getDocumentTypes: getDocumentTypes
+		getDocumentTypes: getDocumentTypes,
+        getAllDocuments: getAllDocuments,
+        getProjectDocuments: getProjectDocuments,
+        getProjectDocumentTypes: getProjectDocumentTypes
 	};
 }

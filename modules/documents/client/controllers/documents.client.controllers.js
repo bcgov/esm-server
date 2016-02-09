@@ -148,6 +148,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 // CONTROLLER: Document List
 //
 // -----------------------------------------------------------------------------------
+// MBL: TODO inject Project, get documents related to this thing.
 controllerDocumentList.$inject = ['$scope'];
 /* @ngInject */
 function controllerDocumentList($scope) {
@@ -167,10 +168,26 @@ function controllerDocumentList($scope) {
 // CONTROLLER: Document List
 //
 // -----------------------------------------------------------------------------------
-controllerDocumentBrowser.$inject = ['$scope'];
+controllerDocumentBrowser.$inject = ['$scope', 'Document', 'Project'];
 /* @ngInject */
-function controllerDocumentBrowser($scope) {
+function controllerDocumentBrowser($scope, Document, Project) {
 	var docBrowser = this;
+
+	docBrowser.documentFiles	= undefined;
+	docBrowser.docTypes			= undefined;
+
+	// TODO: Need to filter out properly
+	Document.getProjectDocuments($scope.project._id).then( function(res) {
+		//console.log('getProjectDocuments: ', $scope.project._id);
+		docBrowser.documentFiles	= res.data;
+		console.log(res.data);
+	});
+
+	Document.getProjectDocumentTypes($scope.project._id).then( function(res) {
+		//console.log('getProjectDocumentTypes: ', $scope.project._id);
+		docBrowser.docTypes	= res.data;
+		console.log(res.data);
+	});
 
 	$scope.$watch('project', function(newValue) {
 		docBrowser.project = newValue;
