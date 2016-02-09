@@ -21,7 +21,7 @@ module.exports = function (app) {
 	app.route ('/api/documents/:projectid')//.all (policy.isAllowed)
 		.get  (controller.getDocumentsForProjectAndReturn);
 
-	app.route ('/api/documents/types/:project')//.all (policy.isAllowed)
+	app.route ('/api/documents/types/:projectid')//.all (policy.isAllowed)
 		.get  (controller.getDocumentTypesForProjectAndReturn);
 	//
 	// model routes

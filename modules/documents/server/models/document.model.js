@@ -103,7 +103,19 @@ var DocumentSchema  = new Schema ({
     internalEncoding               : { type:String, default:'' }
    
 });
-
 var mDocument = mongoose.model ('Document', DocumentSchema);
-
 module.exports = mDocument;
+
+var TypesSchema  = new Schema ({
+    projectFolderType : { type:String, default:'' },
+    projectFolderSubTypeObjects : []
+});
+var mTypesSchema = mongoose.model ('TypesSchema', TypesSchema);
+module.exports = mTypesSchema;
+
+var SubTypesSchema  = new Schema ({
+    projectFolderSubType : { type:String, default:'' },
+    projectFolderNames: []
+});
+var mSubTypesSchema = mongoose.model ('SubTypesSchema', SubTypesSchema);
+module.exports = mSubTypesSchema;
