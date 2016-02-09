@@ -122,7 +122,25 @@ var getDocumentTypesForProject = function (req, res) {
 						}
  					});
 					// console.log(ts);
-					resolve (ts);
+					// Flatten.
+					var flattendList = [];
+					ts.forEach(function(tsKey) {
+						var depth1 = tsKey.projectFolderType;
+						// console.log(depth1);
+						flattendList.push({'label': depth1, 'depth': 1});
+						tsKey.projectFolderSubTypeObjects.forEach(function(subObjects) {
+							var depth2 = subObjects.projectFolderSubType;
+							// console.log(depth2);
+							flattendList.push({'label': depth2, 'depth': 2});
+							subObjects.projectFolderNames.forEach(function(labels) {
+								var depth3 = labels;
+								// console.log(depth3);
+								flattendList.push({'label': depth3, 'depth': 3});
+							});
+						});
+					});
+					// console.log(flattendList);
+					resolve (flattendList);
 				}
 			}
 		});
