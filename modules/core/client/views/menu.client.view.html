@@ -73,6 +73,15 @@
 			<li><a href ui-sref="settings.profile">My Tasks</a></li>
 	  	</ul>
 	</div>
+
+
+
+
+
+
+
+
+
 	<div ng-if="menu.context === 'projects'">
 	 	<hr>
 		<label class="control-label">Projects</label>
@@ -91,14 +100,24 @@
 			<li><a x-modal-project-entry href x-project="menu.newproject">Add Project</a></li>
 		</ul>
 	</div>
+
+
+
+
+
+
+
+
+
+
 	<div ng-if="menu.context === 'project' || menu.context === 'activity'">
 	 	<hr>
 		<label class="control-label">{{ menu.project.name }}</label>
 		<ul class="list-unstyled">
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-tombstone')"		href="#top">Tombstone</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-publiccomments')"	href="#anchor-publiccomments">Public Comments</a></li>
-			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-documents')"		href="#anchor-documents">Documents</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-activities')"		href="#anchor-activities">Activities</a></li>
+			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-documents')"		href="#anchor-documents">Documents</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-map')"				href="#anchor-map">Map</a></li>
 		</ul>
 		<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user);">
@@ -106,7 +125,7 @@
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
 		</ul>
-		<ul class="list-unstyled">
+		<ul class="list-unstyled" ng-show="menu.authentication.user">
 			<li><a x-modal-project-entry href x-project="menu.project">Edit {{ menu.project.name }}</a></li>
 			<li><a x-modal-project-schedule href x-project="menu.project">Edit Schedule</a></li>
 		</ul>

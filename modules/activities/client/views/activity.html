@@ -11,11 +11,19 @@
 		<section class="row">
 			<section class="col-sm-2">
 
-				<ul class="list-unstyled no-lower-margin">
-					<li ng-repeat="task in actBase.activity.tasks">
-						<div class="pull-right" ng-if="task.complete"><span class="glyphicon glyphicon-ok-circle text-success"></span></div>
-						<div class="pull-right" ng-if="!task.complete"><span class="glyphicon glyphicon-remove-circle text-danger"></span></div>
-						{{ task.name }}
+				<ul class="list-unstyled no-lower-margin list-icon-right list-tasks">
+					<li class="clickable" ng-repeat="task in actBase.activity.tasks" ng-click="formTasks[task._id] = !formTasks[task._id]" ng-class="{'bg-success': task.complete}">
+						<span ng-if="task.complete" class="glyphicon glyphicon-ok-circle text-success"></span>
+						<span ng-if="!task.complete" class="glyphicon glyphicon-remove-circle text-danger"></span>
+						<div>{{ task.name }}</div>{{ task.complete}}
+						<div class="task-metam small form-group" ng-if="formTasks[task._id] && task.complete">
+							<span>Date Complete: {{ task.dateComplete }}</span><br/>
+							<span>Completed By: {{ }}</span>
+						</div>
+						<div class="task-metam small form-group" ng-if="formTasks[task._id] && !task.complete">
+							<span>Status: {{ task.status }}</span>
+						</div>
+
 					</li>
 					<li ng-if="actBase.activity.tasks.length === 0">No tasks identified.</li>
 				</ul>

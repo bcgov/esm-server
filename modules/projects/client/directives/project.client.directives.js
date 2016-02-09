@@ -309,6 +309,7 @@ directiveProjectStreamSelect.$inject = [];
 function directiveProjectStreamSelect() {
 	var directive = {
 		restrict: 'E',
+		replace: true,
 		templateUrl: 'modules/projects/client/views/project-partials/project-stream-select.html',
 		controller: 'controllerProjectStreamSelect',
 		controllerAs: 'projectStreamSelect',
