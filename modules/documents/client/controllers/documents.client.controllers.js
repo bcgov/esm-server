@@ -179,14 +179,14 @@ function controllerDocumentBrowser($scope, Document, Project) {
 	// TODO: Need to filter out properly
 	Document.getProjectDocuments($scope.project._id).then( function(res) {
 		//console.log('getProjectDocuments: ', $scope.project._id);
+		// console.log(res.data);
 		docBrowser.documentFiles	= res.data;
-		console.log(res.data);
 	});
 
 	Document.getProjectDocumentTypes($scope.project._id).then( function(res) {
 		//console.log('getProjectDocumentTypes: ', $scope.project._id);
+		// console.log(res.data);
 		docBrowser.docTypes	= res.data;
-		console.log(res.data);
 	});
 
 	$scope.$watch('project', function(newValue) {
