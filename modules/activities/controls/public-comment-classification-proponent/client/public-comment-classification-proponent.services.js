@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('process')
+angular.module('control')
     .service('ProcessPublicCommentClassificationProponent', serviceProcessPublicCommentClassificationProponent);
 // -----------------------------------------------------------------------------------
 //

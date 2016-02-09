@@ -1,18 +1,7 @@
 'use strict';
 
-angular.module('process')
-    .run( configprocessestartProcess )
+angular.module('control')
     .directive('tmplStartProcess',  directiveprocessestartProcess);
-// -----------------------------------------------------------------------------------
-//
-// Config: register this task with the UI
-//
-// -----------------------------------------------------------------------------------
-configprocessestartProcess.$inject = ['ProcessCodes'];
-/* @ngInject */
-function configprocessestartProcess(ProcessCodes) {
-    ProcessCodes.push('Start Process');
-}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Process, simple complete

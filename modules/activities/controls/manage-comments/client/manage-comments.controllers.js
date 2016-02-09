@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('process')
+angular.module('control')
 	.controller('controllerProcessManageComments', controllerProcessManageComments)
 	.controller('controllerProcessModalCommentDetail', controllerProcessModalCommentDetail);
 

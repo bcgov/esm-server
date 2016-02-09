@@ -1,18 +1,7 @@
 'use strict';
 
-angular.module('process')
-    .run( configProcessPublicCommentVetting )
+angular.module('control')
 	.directive('tmplPublicCommentVetting',  directiveProcessPublicCommentVetting);
-// -----------------------------------------------------------------------------------
-//
-// Config: register this task with the UI
-//
-// -----------------------------------------------------------------------------------
-configProcessPublicCommentVetting.$inject = ['ProcessCodes'];
-/* @ngInject */
-function configProcessPublicCommentVetting(ProcessCodes) {
-    ProcessCodes.push('Public Comment Vetting');
-}        
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Process, simple complete

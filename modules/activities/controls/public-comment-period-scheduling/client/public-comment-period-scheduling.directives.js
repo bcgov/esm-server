@@ -1,18 +1,7 @@
 'use strict';
 
-angular.module('process')
-    .run( configProcessPublicCommentPeriodScheduling )
-	.directive('tmplPublicCommentPeriodScheduling',  directiveProcessPublicCommentPeriodScheduling);
-// -----------------------------------------------------------------------------------
-//
-// Config: register this task with the UI
-//
-// -----------------------------------------------------------------------------------
-configProcessPublicCommentPeriodScheduling.$inject = ['ProcessCodes'];
-/* @ngInject */
-function configProcessPublicCommentPeriodScheduling(ProcessCodes) {
-    ProcessCodes.push('Public Comment Period Scheduling');
-}        
+angular.module('control')
+	.directive('tmplPublicCommentPeriodScheduling',  directiveProcessPublicCommentPeriodScheduling);      
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Process, simple complete

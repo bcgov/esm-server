@@ -1,18 +1,7 @@
 'use strict';
 
-angular.module('process')
-    .run( configProcessPublicCommentClassificationProponent )
+angular.module('control')
 	.directive('tmplPublicCommentClassificationProponent',  directiveProcessPublicCommentClassificationProponent);
-// -----------------------------------------------------------------------------------
-//
-// Config: register this task with the UI
-//
-// -----------------------------------------------------------------------------------
-configProcessPublicCommentClassificationProponent.$inject = ['ProcessCodes'];
-/* @ngInject */
-function configProcessPublicCommentClassificationProponent(ProcessCodes) {
-    ProcessCodes.push('Public Comment Classification Proponent');
-}        
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Process, simple complete

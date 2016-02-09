@@ -1,18 +1,7 @@
 'use strict';
 
-angular.module('process')
-    .run( configProcessTopics )
+angular.module('control')
     .directive('tmplManageTopics',  directiveProcessTopics);
-// -----------------------------------------------------------------------------------
-//
-// Config: register this task with the UI
-//
-// -----------------------------------------------------------------------------------
-configProcessTopics.$inject = ['ProcessCodes'];
-/* @ngInject */
-function configProcessTopics(ProcessCodes) {
-    ProcessCodes.push('Manage Topics');
-}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Process, simple complete

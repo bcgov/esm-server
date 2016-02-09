@@ -1,18 +1,7 @@
 'use strict';
 
-angular.module('process')
-    .run( configprocessesetPhase )
+angular.module('control')
     .directive('tmplSetPhase',  directiveprocessesetPhase);
-// -----------------------------------------------------------------------------------
-//
-// Config: register this task with the UI
-//
-// -----------------------------------------------------------------------------------
-configprocessesetPhase.$inject = ['ProcessCodes'];
-/* @ngInject */
-function configprocessesetPhase(ProcessCodes) {
-    ProcessCodes.push('Set Phase');
-}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Process, simple complete

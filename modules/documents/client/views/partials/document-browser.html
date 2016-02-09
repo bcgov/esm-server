@@ -1,19 +1,18 @@
 <section class="block-content">
-
 	<h3>Documents</h3>
 
 	<div class='container-fluid'>
 		<div class='row'>
 			<div class='col-sm-4 col-no-padding vertical-scroll col-border-right'>
 				
-				<ul ng-repeat="type in docBrowser.docTypes" class="small list-unstyled list-documents">
-					<li class='active bg-primary clickable'><span class="glyphicon glyphicon-play"></span>{{ type.projectFolderType }}</li>
-					<ul ng-repeat="stypeObj in type.projectFolderSubTypeObjects" class="small list-unstyled list-documents">
-						<li><a href target="_new">==={{ stypeObj.projectFolderSubType }}===</a></li>
-						<ul class="small list-unstyled list-documents">
-						  <li ng-repeat="folderNameObj in stypeObj.projectFolderNames"><a href ng-click="filterDocuments = folderNameObj">{{ folderNameObj }}</a></li>
-						</ul>
-					</ul>
+				<ul class="small list-unstyled list-documents">
+					<li
+						class="row-folder row-folder-depth-{{ row.depth }}"
+						ng-repeat="row in docBrowser.docTypes"
+						ng-class="{'active btn-primary': filterDocs[row.reference] === row.label}">
+						<span class="glyphicon glyphicon-play"></span>
+						<a href ng-click="docBrowser.filterList(row.reference, row.label)">{{ type.label }}</a>
+					<li>
 				</ul>
 
 			</div>
@@ -21,7 +20,7 @@
 			
 				<ul class="small list-unstyled list-documents list-indent-left">
 
-					<li ng-repeat="doc in docBrowser.documentFiles | filter: {'folderNameObj':filterDocuments}" ><a href><span class="glyphicon glyphicon-file"></span>{{ doc.projectFolderName }} </a></li>
+					<li ng-repeat="doc in docBrowser.documentFiles | filter : filterDocs : true" ><a href><span class="glyphicon glyphicon-file"></span>{{ doc.projectFolderName }} </a></li>
 				</ul>
 
 			</div>

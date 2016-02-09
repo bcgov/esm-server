@@ -271,6 +271,20 @@ ul.list-indent-left {
   border-top: none
 }
 
+
+.row-folder span {
+  display: none;
+}
+
+.row-folder.active span {
+  display: inline-block;
+}
+.row-folder-depth-2 {
+  padding-left: 15px
+}
+.row-folder-depth-3 {
+  padding-left: 30px
+}
 .list-documents li.active .glyphicon-play {
   position:absolute;
   right: 8px;

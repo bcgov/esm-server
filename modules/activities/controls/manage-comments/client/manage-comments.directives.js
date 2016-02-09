@@ -1,19 +1,8 @@
 'use strict';
 
-angular.module('process')
-    .run( configProcessManageComments )
+angular.module('control')
     .directive('tmplManageComments',  directiveProcessManageComments)
     .directive('modalCommentDetail', directiveModalCommentDetail);
-// -----------------------------------------------------------------------------------
-//
-// Config: register this task with the UI
-//
-// -----------------------------------------------------------------------------------
-configProcessManageComments.$inject = ['ProcessCodes'];
-/* @ngInject */
-function configProcessManageComments(ProcessCodes) {
-    ProcessCodes.push('Manage Comments');
-}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Process, simple complete

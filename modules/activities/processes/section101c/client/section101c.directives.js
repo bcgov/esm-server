@@ -8,27 +8,25 @@ angular.module('process')
 // Config: register this task with the UI
 //
 // -----------------------------------------------------------------------------------
-processSection101c.$inject = ['ProcessCodes'];
+initProcessSection101c.$inject = ['ProcessCodes'];
 /* @ngInject */
-function configprocessestartProcess(ProcessCodes) {
+function initProcessSection101c(ProcessCodes) {
     ProcessCodes.push('Section 101c');
 }
 // -----------------------------------------------------------------------------------
 //
-// DIRECTIVE: Process, simple complete
+// DIRECTIVE
 //
 // -----------------------------------------------------------------------------------
-directiveprocessestartProcess.$inject = [];
+directiveProcessSection101c.$inject = [];
 /* @ngInject */
-function directiveprocessestartProcess() {
+function directiveProcessSection101c() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/activities/client/processes/start-process/client/start-process.html',
-        controller: 'controllerprocessestartProcess',
-        controllerAs: 'processestartProcess',
+        templateUrl: 'modules/activities/client/processes/section101c/client/section101c.html',
+        controller: 'controllerProcessSection101c',
+        controllerAs: 'ProcessSection101c',
         scope: {
-            anchor: '@',
-            task: '=',
             project: '='
         }
     };

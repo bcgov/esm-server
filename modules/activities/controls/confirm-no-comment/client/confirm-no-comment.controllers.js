@@ -1,8 +1,6 @@
 'use strict';
 
-console.log('found');
-
-angular.module('process')
+angular.module('control')
 	.controller('controllerProcessConfirmNoComment', controllerProcessConfirmNoComment);
 
 // -----------------------------------------------------------------------------------

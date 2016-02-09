@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('process')
+angular.module('control')
 	.controller('controllerProcessPublicCommentClassificationProponent', controllerProcessPublicCommentClassificationProponent)
 	.filter ('filterClassifyComments', filterClassifyComments)
 	.filter ('filterClassifyValueComponents', filterClassifyValueComponents)

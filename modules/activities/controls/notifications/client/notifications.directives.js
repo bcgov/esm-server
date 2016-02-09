@@ -1,18 +1,7 @@
 'use strict';
 
-angular.module('process')
-    .run( configProcessNotifications )
+angular.module('control')
 	.directive('tmplNotifications',  directiveProcessNotifications);
-// -----------------------------------------------------------------------------------
-//
-// Config: register this task with the UI
-//
-// -----------------------------------------------------------------------------------
-configProcessNotifications.$inject = ['ProcessCodes'];
-/* @ngInject */
-function configProcessNotifications(ProcessCodes) {
-    ProcessCodes.push('Notifications');
-}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Process, simple complete
