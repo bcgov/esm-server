@@ -10,8 +10,8 @@
 					<li class='active bg-primary clickable'><span class="glyphicon glyphicon-play"></span>{{ type.projectFolderType }}</li>
 					<ul ng-repeat="stypeObj in type.projectFolderSubTypeObjects" class="small list-unstyled list-documents">
 						<li><a href target="_new">==={{ stypeObj.projectFolderSubType }}===</a></li>
-						<ul ng-repeat="folderNameObj in stypeObj.projectFolderNames" class="small list-unstyled list-documents">
-							<li><a href target="_new">{{ folderNameObj }}</a></li>
+						<ul class="small list-unstyled list-documents">
+						  <li ng-repeat="folderNameObj in stypeObj.projectFolderNames"><a href ng-click="filterDocuments = folderNameObj">{{ folderNameObj }}</a></li>
 						</ul>
 					</ul>
 				</ul>
@@ -19,9 +19,9 @@
 			</div>
 			<div class='col-sm-4 col-no-padding vertical-scroll col-border-right'>
 			
-				<ul ng-repeat="doc in docBrowser.documentFiles" class="small list-unstyled list-documents list-indent-left">
+				<ul class="small list-unstyled list-documents list-indent-left">
 
-					<li><a href><span class="glyphicon glyphicon-file"></span>{{ doc.projectFolderName }} </a></li>
+					<li ng-repeat="doc in docBrowser.documentFiles | filter: {'folderNameObj':filterDocuments}" ><a href><span class="glyphicon glyphicon-file"></span>{{ doc.projectFolderName }} </a></li>
 				</ul>
 
 			</div>
@@ -48,7 +48,6 @@
 					</li>
 
 				</ul>
-
 			</div>
 		</div>
 	</div>
