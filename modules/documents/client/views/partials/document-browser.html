@@ -11,7 +11,7 @@
 						ng-repeat="row in docBrowser.docTypes"
 						ng-class="{'active btn-primary': filterDocs[row.reference] === row.label}">
 						<span class="glyphicon glyphicon-play"></span>
-						<a href ng-click="docBrowser.filterList(row.reference, row.label)">{{ type.label }}</a>
+						<a href ng-click="docBrowser.filterList(row.reference, row.label)">{{ row.label }}</a>
 					<li>
 				</ul>
 

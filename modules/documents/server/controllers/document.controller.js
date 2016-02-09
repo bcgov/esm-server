@@ -40,7 +40,7 @@ var getDocumentsForProject = function (req, res) {
 		console.log("getDocumentsForProject: Project: ",req.params.projectid);
 		resolve (Model.find({projectID: req.params.projectid}).exec ());
 	});
-}
+};
 // -------------------------------------------------------------------------
 //
 // getDocuments relating to a specific project
@@ -84,7 +84,7 @@ var getDocumentTypesForProject = function (req, res) {
 						// console.log("type:",record.projectFolderType);
 						// console.log("subtype:",record.projectFolderSubType);
 						// console.log("folder name:",record.projectFolderName);
-						var tsObj = undefined;
+						var tsObj;
 						for (var i=0;i<ts.length;i++) {
 							if (ts[i].projectFolderType === record.projectFolderType) {
 								// Found, start second level finding of objects.
@@ -93,18 +93,18 @@ var getDocumentTypesForProject = function (req, res) {
 								break;
 							}
 						}
+						var st = new SubTypes();
 						if (tsObj === undefined) {
 							// Didn't find it.  Create the subtype object and insert the folder name.
 							var t = new Types();
 							t.projectFolderType = record.projectFolderType;
-							var st = new SubTypes();
 							st.projectFolderSubType = record.projectFolderSubType;
 							st.projectFolderNames.push(record.projectFolderName);
 							t.projectFolderSubTypeObjects = st;
 							ts.push(t);
 						} else {
 							// Found it.  Grab the subtype if it's there and insert the folder name
-							var stsObj = undefined;
+							var stsObj;
 							for (var z=0;z<tsObj.length;z++) {
 								if (tsObj[z].projectFolderSubType === record.projectFolderSubType) {
 									// Found, start second level finding of objects.
@@ -114,7 +114,6 @@ var getDocumentTypesForProject = function (req, res) {
 							}
 							if (stsObj === undefined) {
 								// Didin't find the subtype.  Create a new subtype and insert the folder name.
-								var st = new SubTypes();
 								st.projectFolderSubType = record.projectFolderSubType;
 								st.projectFolderNames.push(record.projectFolderName);
 								tsObj.push(st);
@@ -122,12 +121,30 @@ var getDocumentTypesForProject = function (req, res) {
 						}
  					});
 					// console.log(ts);
-					resolve (ts);
+					// Flatten.
+					var flattendList = [];
+					ts.forEach(function(tsKey) {
+						var depth1 = tsKey.projectFolderType;
+						// console.log(depth1);
+						flattendList.push({'label': depth1, 'depth': 1, 'reference': 'projectFolderType'});
+						tsKey.projectFolderSubTypeObjects.forEach(function(subObjects) {
+							var depth2 = subObjects.projectFolderSubType;
+							// console.log(depth2);
+							flattendList.push({'label': depth2, 'depth': 2, 'reference': 'projectFolderSubType'});
+							subObjects.projectFolderNames.forEach(function(labels) {
+								var depth3 = labels;
+								// console.log(depth3);
+								flattendList.push({'label': depth3, 'depth': 3, 'reference': 'projectFolderName'});
+							});
+						});
+					});
+					// console.log(flattendList);
+					resolve (flattendList);
 				}
 			}
 		});
 	});
-}
+};
 // -------------------------------------------------------------------------
 //
 // import a document, return it via service

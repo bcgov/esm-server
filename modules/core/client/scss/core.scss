@@ -280,14 +280,14 @@ ul.list-indent-left {
   display: inline-block;
 }
 .row-folder-depth-2 {
-  padding-left: 15px
+  padding-left: 15px !important;
 }
 .row-folder-depth-3 {
-  padding-left: 30px
+  padding-left: 30px !important;
 }
 .list-documents li.active .glyphicon-play {
   position:absolute;
-  right: 8px;
+  right: 4px;
   top: 4px;
 }
 .list-icon-right li {
