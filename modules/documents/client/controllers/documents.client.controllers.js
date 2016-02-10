@@ -181,12 +181,12 @@ function controllerDocumentBrowser($scope, Document, Project) {
 
 		Document.getProjectDocuments(newValue._id).then( function(res) {
 			docBrowser.documentFiles	= res.data;
-			console.log(res.data);
+			// console.log(res.data);
 		});
 
 		Document.getProjectDocumentTypes(newValue._id).then( function(res) {
 			docBrowser.docTypes	= res.data;
-			console.log(res.data);
+			// console.log(res.data);
 		});
 
 	});
