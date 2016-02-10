@@ -15,11 +15,6 @@ exports.invokeRolesPolicies = function () {
 //	helpers.setPathPermissions (acl, [
 //	]);
 
-	acl.whatResources (['user'], function (err, what) {
-		console.log ('document permissions for user instide document invoke policies');
-		console.log (what);
-	});
-
 };
 
 exports.isAllowed = helpers.isAllowed (acl);

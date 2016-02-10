@@ -15,11 +15,6 @@ exports.invokeRolesPolicies = function () {
 	// 	[ '', 'user', '/api/project/:project/add/phase/:phasebase'  ],
 	// 	[ '', 'user', '/api/project/:project/set/stream/:stream'    ]
 	// ]);
-	acl.whatResources (['user'], function (err, what) {
-		console.log ("++++++++++++++++++++++++++++++++ Projects");
-		console.log ('project permissions for user instide project invoke policies');
-		console.log (what);
-	});
 };
 
 exports.isAllowed = helpers.isAllowed (acl, 'project');
