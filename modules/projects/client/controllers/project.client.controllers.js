@@ -85,8 +85,8 @@ function controllerProjectTombstone($scope) {
 controllerModalProjectEntry.$inject = ['ProjectModel', '$modalInstance', '$scope', '$state', 'Project', 'rProject', 'REGIONS', 'PROJECT_TYPES', '_'];
 /* @ngInject */
 function controllerModalProjectEntry(ProjectModel, $modalInstance, $scope, $state, Project, rProject, REGIONS, PROJECT_TYPES, _) {
-	console.log ('+++++ running', ProjectModel);
-	ProjectModel.all ()
+	ProjectModel.getModel ('56afbc7dc12ae49036223870')
+	// ProjectModel.getCollection ()
 	.then (function (models) {
 		console.log ('got some models', models);
 	})

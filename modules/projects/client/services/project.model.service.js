@@ -6,7 +6,6 @@
 //
 // =========================================================================
 angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
-	console.log ('in projectmodel with modelbase looking like this',ModelBase);
 	//
 	// build the project model by extending the base model. the base model will
 	// have all the basic crud stuff built in

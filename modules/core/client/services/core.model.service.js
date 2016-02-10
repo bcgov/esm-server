@@ -37,10 +37,12 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		getCollection: function () {
 			var self = this;
 			return new Promise (function (resolve, reject) {
-				self.all ().then (function (models) {
-					self.collection = models;
-					resolve (models);
-				}).catch (reject);
+				self.all ().then (function (res) {
+					self.collection = res.data;
+					resolve (res.data);
+				}).catch (function (res) {
+					reject (res.data);
+				});
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -51,10 +53,12 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		getModel: function (id) {
 			var self = this;
 			return new Promise (function (resolve, reject) {
-				self.all ().then (function (models) {
-					self.collection = models;
-					resolve (models);
-				}).catch (reject);
+				self.get (id).then (function (res) {
+					self.model = res.data;
+					resolve (res.data);
+				}).catch (function (res) {
+					reject (res.data);
+				});
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -70,6 +74,26 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 					resolve (models);
 				}).catch (reject);
 			});
+		},
+		// -------------------------------------------------------------------------
+		//
+		// pivot the collection on some field. return an object with keys that are
+		// the unique values of the field and values that are arrays of the models
+		// that have that field value
+		//
+		// -------------------------------------------------------------------------
+		pivot: function (field) {
+			this.pivot = {};
+			this.pivotField = field || null;
+			if (!this.pivotField) return null;
+			var value;
+			_.each (this.collection, function (model) {
+				value = model[field];
+				if (_.isNil (value)) value = '_empty_';
+				if (!this.pivot[value]) this.pivot[value] = [];
+				this.pivot[value].push (model);
+			});
+			return this.pivot;
 		},
 		// -------------------------------------------------------------------------
 		//
@@ -107,14 +131,14 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		save : function (obj) {
 			var self = this;
 			return new Promise (function (resolve, reject) {
-				$http ({method:'PUT', url:self.urlbase+id, data:obj })
+				$http ({method:'PUT', url:self.urlbase+obj._id, data:obj })
 				.then (resolve, log.reject (reject));
 			});
 		},
 		add : function (obj) {
 			var self = this;
 			return new Promise (function (resolve, reject) {
-				$http ({method:'POST', url:self.urlbase+id, data:obj })
+				$http ({method:'POST', url:self.urlbase+obj._id, data:obj })
 				.then (resolve, log.reject (reject));
 			});
 		},

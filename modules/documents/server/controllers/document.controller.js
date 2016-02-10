@@ -27,7 +27,7 @@ exports.delete = crud.delete ();
 exports.list   = crud.list   ();
 exports.getObject   = crud.getObject();
 
-// 
+//
 // -------------------------------------------------------------------------
 //
 // getDocumentsForProject
@@ -37,7 +37,7 @@ var getDocumentsForProject = function (doc, req) {
 	return new Promise (function (resolve, reject) {
 		console.log("getDocumentsForProject: Project ID:",req.ProjectID);
 	});
-}
+};
 // -------------------------------------------------------------------------
 //
 // import a document, return it via service
@@ -57,7 +57,7 @@ var getDocumentsForProjectAndReturn = function (doc, req, res) {
 exports.getDocumentsForProjectAndReturn = getDocumentsForProjectAndReturn;
 
 
-// 
+//
 // -------------------------------------------------------------------------
 //
 // getDocumentTypesForProject
@@ -67,7 +67,7 @@ var getDocumentTypesForProject = function (doc, req) {
 	return new Promise (function (resolve, reject) {
 		console.log("getDocumentTypesForProject: Project ID:");
 	});
-}
+};
 // -------------------------------------------------------------------------
 //
 // import a document, return it via service
