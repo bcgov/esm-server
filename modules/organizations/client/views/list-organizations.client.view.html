@@ -19,15 +19,15 @@
           <table class="table table-condensed table-hover">
             <thead>
             <tr>
-              <th>Name</th>
-              <th>Main Location</th>
-              <th>Members</th>
+              <th>Company Name (DBA)</th>
+              <th>Company Legal Name</th>
+              <th>Registered In</th>
             </tr>
             </thead>
-            <tr ng-repeat="org in pagedItems">
-              <td ng-bind="org.name"></td>
-              <td ng-bind="org.location"></td>
-              <td ng-bind="org.memberCount"></td>
+            <tr ng-repeat="org in pagedItems" ui-sref="view({organizationId: org._id})">
+              <td ng-bind="org.company"></td>
+              <td ng-bind="org.companyLegal"></td>
+              <td ng-bind="org.registeredIn"></td>
             </tr>
           </table>
 

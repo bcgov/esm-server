@@ -29,35 +29,14 @@ function controllerEAOProjectNew(Project, $state) {
 
 'use strict';
 
-angular.module('organizations').controller('editOrganizationController', ['$scope', '$filter', 'Admin', 'Organizations', '$state',
-    function ($scope, $filter, Admin, Organizations, $state ) {
-        var editOrganization = this;
-
-        console.log($state.params.organizationId);
-
-
+angular.module('organizations').controller('viewOrganizationController', ['$scope', '$filter', 'Organizations', '$state',
+    function ($scope, $filter, Organizations, $state ) {
+        var viewOrganization = this;
 
        Organizations.getOrganization({id: $state.params.organizationId}).then(function(res) {
-           console.log(res);
-           editOrganization.organization = res.data;
-           /* if (res.data.activities.length !== 1) {
-                $state.go('organization', {id:organizationId});
-            } else {
-                $state.go('activity', {id:res.data.activities[0]._id});
-            }*/
+
+           viewOrganization.organization = res.data;
         });
 
-        editOrganization.provs = ["AB", "BC", "MB", "NB", "NL", "NS", "ON", "PE", "QC", "SK", "NT", "NU", "YT"];
-
-
-        editOrganization.updateOrganization = function() {
-            console.log("updateOrganization called");
-            Organizations.updateOrganization(editOrganization.organization).then( function(res) {
-                console.log(res);
-                // go to the edit page for the same project.
-                // this time provide a tab for continuty
-                // $state.go('eao.editproject', { id: res.data._id, tab: projectEntry.form.curTab });
-            });
-        };
     }
 ]);

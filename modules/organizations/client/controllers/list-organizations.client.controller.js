@@ -4,7 +4,7 @@ angular.module('organizations').controller('OrganizationsListController', ['$sco
   function ($scope, $filter, Admin, Organizations) {
     Organizations.getOrganizations().then(function (data) {
       console.log(data);
-      $scope.organizations = data;
+      $scope.organizations = data.data;
       $scope.buildPager();
     });
 
