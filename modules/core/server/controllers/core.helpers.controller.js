@@ -248,6 +248,14 @@ exports.isAllowed = function (acl, dbg) {
     if (_.indexOf (roles, 'admin') >= 0) return next ();
     acl.areAnyRolesAllowed (roles, req.route.path, req.method.toLowerCase(), function (err, isAllowed) {
       console.log ("result:", isAllowed, err);
+      // if (!isAllowed) {
+        console.log ('checking ACL inside isallowed');
+        console.log ('roles/path: ', roles, req.route.path, req.method.toLowerCase());
+        acl.whatResources (['user'], function (err, what) {
+          console.log (check+':  resources:');
+          console.log (what);
+        });
+      // }
       if (err) {
         // An authorization error occurred.
         return res.status(500).send('Unexpected authorization error');

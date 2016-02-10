@@ -10,9 +10,11 @@ var helpers  = require (require('path').resolve('./modules/core/server/controlle
 
 exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'document');
+
 //	acl.allow ('guest', '/api/document/:project/upload', 'post');
 //	helpers.setPathPermissions (acl, [
 //	]);
+
 	acl.whatResources (['user'], function (err, what) {
 		console.log ('document permissions for user instide document invoke policies');
 		console.log (what);
