@@ -9,22 +9,49 @@ angular.module('configuration')
 // Controller Configuration
 //
 // -----------------------------------------------------------------------------------
-controllerConfiguration.$inject = ['$rootScope', '$scope', 'sConfiguration'];
+controllerConfiguration.$inject = ['$rootScope', '$scope', 'TaskBaseModel', 'ActivityBaseModel', 'MilestoneBaseModel', 'PhaseBaseModel', 'StreamModel'];
 /* @ngInject */
-function controllerConfiguration($rootScope, $scope, sConfiguration) {
+function controllerConfiguration($rootScope, $scope, sTaskBaseModel, sActivityBaseModel, sMilestoneBaseModel, sPhaseBaseModel, sStreamModel) {
 	var configData = this;
     // load all configurations
     configData.curTab = undefined;
-    configData.config = undefined;
+    configData.config = {};
 
-    sConfiguration.getConfig().then( function(res) {
-        configData.config = res.data;
-    });
-    
-    $rootScope.$on('refreshConfig', function() { 
-        sConfiguration.getConfig().then( function(res) {
-            configData.config = res.data;
+    configData.refresh = function() {
+        sTaskBaseModel.getCollection().then( function(data) {
+            configData.config.tasks = data;
+        }).catch( function(err) {
+            $scope.error = err;
         });
+
+        sActivityBaseModel.getCollection().then( function(data) {
+            configData.config.activities = data;
+        }).catch( function(err) {
+            $scope.error = err;
+        });
+
+        sMilestoneBaseModel.getCollection().then( function(data) {
+            configData.config.milestones = data;
+            $scope.error = err;
+        });
+
+        sPhaseBaseModel.getCollection().then( function(data) {
+            configData.config = data;
+        }).catch( function(err) {
+            $scope.error = err;
+        });
+
+        sStreamModel.getCollection().then( function(data) {
+            configData.config = data;
+        }).catch( function(err) {
+            $scope.error = err;
+        });
+    };
+    
+    configData.refresh();
+
+    $rootScope.$on('refreshConfig', function() { 
+        configData.refresh();
     });
 }
 

@@ -1,31 +1,31 @@
 'use strict';
 
 angular.module('process')
-    .run( initProcessSection101c )
-    .directive('tmplProcessSection101C',  directiveProcessSection101c);
+    .run( initProcessAnnounce )
+    .directive('tmplProcessAnnounce',  directiveProcessAnnounce);
 // -----------------------------------------------------------------------------------
 //
 // Config: register this task with the UI
 //
 // -----------------------------------------------------------------------------------
-initProcessSection101c.$inject = ['ProcessCodes'];
+initProcessAnnounce.$inject = ['ProcessCodes'];
 /* @ngInject */
-function initProcessSection101c(ProcessCodes) {
-    ProcessCodes.push('Section 101c');
+function initProcessAnnounce(ProcessCodes) {
+    ProcessCodes.push('Announce');
 }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE
 //
 // -----------------------------------------------------------------------------------
-directiveProcessSection101c.$inject = [];
+directiveProcessAnnounce.$inject = [];
 /* @ngInject */
-function directiveProcessSection101c() {
+function directiveProcessAnnounce() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/activities/processes/section101c/client/section101c.html',
-        controller: 'controllerProcessSection101c',
-        controllerAs: 'processSection101c',
+        templateUrl: 'modules/activities/processes/announce/client/announce.html',
+        controller: 'controllerProcessAnnounce',
+        controllerAs: 'processAnnounce',
         scope: {
             project: '='
         }

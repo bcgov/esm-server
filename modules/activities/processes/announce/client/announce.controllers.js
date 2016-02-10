@@ -1,22 +1,22 @@
 'use strict';
 
 angular.module('process')
-	.controller('controllerProcessSection101c', controllerProcessSection101c);
+	.controller('controllerProcessAnnounce', controllerProcessAnnounce);
 
 // -----------------------------------------------------------------------------------
 //
-// CONTROLLER: Process for Section 101c
+// CONTROLLER: Process for Announcing a Project
 //
 // -----------------------------------------------------------------------------------
-controllerProcessSection101c.$inject = ['$scope'];
+controllerProcessAnnounce.$inject = ['$scope'];
 //
-function controllerProcessSection101c($scope) {
-	var processSection101c = this;
-
+function controllerProcessAnnounce($scope) {
+	var processAnnounce = this;
+	
 	$scope.$watch('project', function(newValue) {
 		if (newValue) {
-			processSection101c.project = newValue;
+			processAnnounce.project = newValue;
 		}
 	});
-	
 }
+	

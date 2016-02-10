@@ -1,31 +1,31 @@
 'use strict';
 
 angular.module('process')
-    .run( initProcessSection101c )
-    .directive('tmplProcessSection101C',  directiveProcessSection101c);
+    .run( initProcessFederalSub )
+    .directive('tmplProcessFederalSubstitution',  directiveProcessFederalSub);
 // -----------------------------------------------------------------------------------
 //
 // Config: register this task with the UI
 //
 // -----------------------------------------------------------------------------------
-initProcessSection101c.$inject = ['ProcessCodes'];
+initProcessFederalSub.$inject = ['ProcessCodes'];
 /* @ngInject */
-function initProcessSection101c(ProcessCodes) {
-    ProcessCodes.push('Section 101c');
+function initProcessFederalSub(ProcessCodes) {
+    ProcessCodes.push('Federal Substitution');
 }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE
 //
 // -----------------------------------------------------------------------------------
-directiveProcessSection101c.$inject = [];
+directiveProcessFederalSub.$inject = [];
 /* @ngInject */
-function directiveProcessSection101c() {
+function directiveProcessFederalSub() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/activities/processes/section101c/client/section101c.html',
-        controller: 'controllerProcessSection101c',
-        controllerAs: 'processSection101c',
+        templateUrl: 'modules/activities/processes/federal-substitution/client/federal-substitution.html',
+        controller: 'controllerProcessFederalSub',
+        controllerAs: 'processFederalSub',
         scope: {
             project: '='
         }
