@@ -12,7 +12,7 @@ directiveProcessNotifications.$inject = [];
 function directiveProcessNotifications() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/activities/processes/notifications/client/notifications.html',
+        templateUrl: 'modules/activities/controls/notifications/client/notifications.html',
         controller: 'controllerProcessNotifications',
         controllerAs: 'taskNotifications',
         scope: {

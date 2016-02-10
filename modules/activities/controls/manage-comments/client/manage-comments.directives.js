@@ -13,7 +13,7 @@ directiveProcessManageComments.$inject = [];
 function directiveProcessManageComments() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/activities/processes/manage-comments/client/manage-comments.html',
+        templateUrl: 'modules/activities/controls/manage-comments/client/manage-comments.html',
         controller: 'controllerProcessManageComments',
         controllerAs: 'taskManComm',
         scope: {
@@ -44,7 +44,7 @@ function directiveModalCommentDetail($modal, sPublicComments, _) {
             element.on('click', function() {
                 var modalCommentDetail = $modal.open({
                     animation: true,
-                    templateUrl: 'modules/activities/processes/manage-comments/client/modal-comment-detail.html',
+                    templateUrl: 'modules/activities/controls/manage-comments/client/modal-comment-detail.html',
                     controller: 'controllerProcessModalCommentDetail',
                     controllerAs: 'taskComDetail',
                     scope: scope,

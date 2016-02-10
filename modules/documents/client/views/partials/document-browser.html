@@ -20,7 +20,7 @@
 			
 				<ul class="small list-unstyled list-documents list-indent-left">
 
-					<li ng-repeat="doc in docBrowser.documentFiles | filter : filterDocs : true" ><a href><span class="glyphicon glyphicon-file"></span>{{ doc.projectFolderName }} </a></li>
+					<li ng-repeat="doc in docBrowser.documentFiles | filter : filterDocs : true" ><a href="{{ doc.documentFileURL }}"><span class="glyphicon glyphicon-file"></span>{{ doc.documentFileName }} </a></li>
 				</ul>
 
 			</div>

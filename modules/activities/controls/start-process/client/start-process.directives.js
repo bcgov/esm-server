@@ -12,7 +12,7 @@ directiveprocessestartProcess.$inject = [];
 function directiveprocessestartProcess() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/activities/client/processes/start-process/client/start-process.html',
+        templateUrl: 'modules/activities/controls/start-process/client/start-process.html',
         controller: 'controllerprocessestartProcess',
         controllerAs: 'processestartProcess',
         scope: {
