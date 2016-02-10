@@ -197,7 +197,6 @@ function controllerDocumentBrowser($scope, Document, Project) {
 	};
 	docBrowser.filterSummary = function(doc) {
 		$scope.filterSummary = doc;
-		console.log("FOOOO:",$scope.filterSummary);
 	};
 }
 
