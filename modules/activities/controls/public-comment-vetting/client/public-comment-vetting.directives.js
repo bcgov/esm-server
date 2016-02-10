@@ -12,7 +12,7 @@ directiveProcessPublicCommentVetting.$inject = [];
 function directiveProcessPublicCommentVetting() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/activities/processes/public-comment-vetting/client/public-comment-vetting.html',
+        templateUrl: 'modules/activities/controls/public-comment-vetting/client/public-comment-vetting.html',
         controller: 'controllerProcessPublicCommentVetting',
         controllerAs: 'taskPubComVet',
         scope: {

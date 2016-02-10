@@ -12,7 +12,7 @@ directiveProcessTopics.$inject = [];
 function directiveProcessTopics() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/activities/processes/manage-topics/client/manage-topics.html',
+        templateUrl: 'modules/activities/controls/manage-topics/client/manage-topics.html',
         controller: 'controllerProcessTopics',
         controllerAs: 'taskTopics',
         scope: {

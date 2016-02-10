@@ -12,7 +12,7 @@ directiveprocessesetPhase.$inject = [];
 function directiveprocessesetPhase() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/activities/processes/set-phase/client/set-phase.html',
+        templateUrl: 'modules/activities/controls/set-phase/client/set-phase.html',
         controller: 'controllerprocessesetPhase',
         controllerAs: 'processesetPhase',
         scope: {

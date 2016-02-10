@@ -8,9 +8,9 @@ angular.module('control')
 // CONTROLLER: Process for Simple Complete
 //
 // -----------------------------------------------------------------------------------
-controllerProcessNotifications.$inject = ['$scope', '$rootScope', 'Process', 'sProcessNotifications', '$q', 'ProcessCodes', '_'];
+controllerProcessNotifications.$inject = ['$scope', '$rootScope', 'sProcessNotifications', '$q', 'ProcessCodes', '_'];
 	//
-function controllerProcessNotifications($scope, $rootScope, Process, sProcessNotifications, $q, ProcessCodes, _) {
+function controllerProcessNotifications($scope, $rootScope, sProcessNotifications, $q, ProcessCodes, _) {
 
 	var taskNotifications = this;
 

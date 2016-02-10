@@ -2,7 +2,7 @@
 
 angular.module('process')
     .run( initProcessSection101c )
-    .directive('tmplProcessSection101c',  directiveProcessSection101c);
+    .directive('tmplProcessSection101C',  directiveProcessSection101c);
 // -----------------------------------------------------------------------------------
 //
 // Config: register this task with the UI
@@ -23,7 +23,7 @@ directiveProcessSection101c.$inject = [];
 function directiveProcessSection101c() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/activities/client/processes/section101c/client/section101c.html',
+        templateUrl: 'modules/activities/processes/section101c/client/section101c.html',
         controller: 'controllerProcessSection101c',
         controllerAs: 'ProcessSection101c',
         scope: {

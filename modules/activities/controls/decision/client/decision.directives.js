@@ -23,7 +23,7 @@ directiveProcessDecision.$inject = [];
 function directiveProcessDecision() {
     var directive = {
         restrict: 'E',
-        templateUrl: 'modules/activities/processes/decision/client/decision.html',
+        templateUrl: 'modules/activities/controls/decision/client/decision.html',
         controller: 'controllerProcessDecision',
         controllerAs: 'taskDecision',
         scope: {

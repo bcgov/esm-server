@@ -27,7 +27,6 @@ function controllerProcessConfirmNoComment($scope, $rootScope, processes) {
 			taskCnc.taskId = newValue.task._id;
 			taskCnc.task = newValue.task;
 		}
-
 	});
 
 	taskCnc.completeProcess = function() {

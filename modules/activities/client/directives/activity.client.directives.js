@@ -24,9 +24,9 @@ function directiveActivity() {
 // DIRECTIVE: Load process code
 //
 // -----------------------------------------------------------------------------------
-directiveLoadActivityProcess.$inject = ['$compile'];
+directiveLoadActivityProcess.$inject = ['$compile', '$filter'];
 /* @ngInject */
-function directiveLoadActivityProcess($compile) {
+function directiveLoadActivityProcess($compile, $filter) {
 	var directive = {
 		restrict: 'E',
 		scope: {
@@ -40,7 +40,7 @@ function directiveLoadActivityProcess($compile) {
 
 			scope.$watch('activity', function(newActivity) {
 				if (newActivity) {
-					var tmpl = '<tmpl-' + newActivity.processCode + ' x-anchor="' + (newActivity.code + '-' + newActivity._id) + '" x-activity="activity" x-project="project">';
+					var tmpl = '<tmpl-process-' + $filter('kebab')(newActivity.processCode) + ' x-anchor="' + (newActivity.code + '-' + newActivity._id) + '" x-activity="activity" x-project="project"></tmpl-process-' + $filter('kebab')(newActivity.processCode) + '>';
 					var ctmpl = $compile(tmpl)(scope);
 					element.replaceWith(ctmpl);
 				}
