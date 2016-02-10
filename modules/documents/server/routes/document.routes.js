@@ -10,7 +10,6 @@ var Project    = require ('../../../projects/server/controllers/project.controll
 var helpers    = require ('../../../core/server/controllers/core.helpers.controller');
 
 module.exports = function (app) {
-	helpers.setCRUDRoutes (app, 'project', Project, policy);
 	//
 	// collection routes
 	//

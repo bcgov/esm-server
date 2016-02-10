@@ -10,11 +10,11 @@ var helpers  = require (require('path').resolve('./modules/core/server/controlle
 
 exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'project');
-	helpers.setPathPermissions (acl, [
-		[ '', 'user', '/api/projects/with/status/:statustoken'      ],
-		[ '', 'user', '/api/project/:project/add/phase/:phasebase'  ],
-		[ '', 'user', '/api/project/:project/set/stream/:stream'    ]
-	]);
+	// helpers.setPathPermissions (acl, [
+	// 	[ '', 'user', '/api/projects/with/status/:statustoken'      ],
+	// 	[ '', 'user', '/api/project/:project/add/phase/:phasebase'  ],
+	// 	[ '', 'user', '/api/project/:project/set/stream/:stream'    ]
+	// ]);
 };
 
-exports.isAllowed = helpers.isAllowed (acl);
+exports.isAllowed = helpers.isAllowed (acl, 'project');

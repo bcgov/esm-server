@@ -29,7 +29,7 @@ exports.delete = crud.delete ();
 exports.list   = crud.list   ();
 exports.getObject   = crud.getObject();
 
-// 
+//
 // -------------------------------------------------------------------------
 //
 // getDocumentsForProject
@@ -60,7 +60,7 @@ var getDocumentsForProjectAndReturn = function (req, res) {
 exports.getDocumentsForProjectAndReturn = getDocumentsForProjectAndReturn;
 
 
-// 
+//
 // -------------------------------------------------------------------------
 //
 // getDocumentTypesForProject

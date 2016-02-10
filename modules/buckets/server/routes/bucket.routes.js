@@ -6,6 +6,7 @@
 // =========================================================================
 var policy     = require ('../policies/bucket.policy');
 var controller = require ('../controllers/bucket.controller');
+var data = require ('../controllers/data.js');
 
 module.exports = function (app) {
 	//
@@ -33,5 +34,11 @@ module.exports = function (app) {
 	//
 	app.param ('bucket', controller.getObject);
 	// app.param ('bucketId', controller.getId);
+	app.route ('/api/data/timeline').get (function (req, res) {
+		res.json(data.timeline);
+	});
+	app.route ('/api/data/distribution').get (function (req, res) {
+		res.json(data.distribution);
+	});
 };
 
