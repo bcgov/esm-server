@@ -37,5 +37,8 @@ module.exports = function (app) {
 	app.route ('/api/data/timeline').get (function (req, res) {
 		res.json(data.timeline);
 	});
+	app.route ('/api/data/distribution').get (function (req, res) {
+		res.json(data.distribution);
+	});
 };
 
