@@ -10,9 +10,11 @@ var helpers  = require (require('path').resolve('./modules/core/server/controlle
 
 exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'document');
+
 //	acl.allow ('guest', '/api/document/:project/upload', 'post');
 //	helpers.setPathPermissions (acl, [
 //	]);
+
 };
 
 exports.isAllowed = helpers.isAllowed (acl);

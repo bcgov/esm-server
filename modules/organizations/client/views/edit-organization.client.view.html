@@ -6,18 +6,18 @@
         <div class="panel panel-default">
 
             <div class="panel-heading">
-                <h3 class="panel-title">Add Organization</h3>
+                <h3 class="panel-title">Edit Organization</h3>
             </div>
 
             <div class="panel-body">
 
-                <form name="organizationForm" ng-submit="addOrganization.submitOrganization(organizationForm.$valid)" novalidate>
+                <form name="organizationForm" ng-submit="editOrganization.updateOrganization(organizationForm.$valid)" novalidate>
 
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group show-errors">
                                         <label for="company" class="control-label">Company (Doing Business As)</label>
-                                        <input type="text" id="company" name="company" class="form-control" ng-model="addOrganization.organization.company" placeholder="Company (Doing Business As)" required />
+                                        <input type="text" id="company" name="company" class="form-control" ng-model="editOrganization.organization.company" placeholder="Company (Doing Business As)" required />
                                         <div ng-messages="organizationForm.company.$error" role="alert">
                                             <p class="help-block error-text" ng-message="required">Company is required.</p>
                                         </div>
@@ -25,35 +25,35 @@
 
                                     <div class="form-group show-errors">
                                         <label for="website" class="control-label">Website</label>
-                                        <input type="text" id="website" name="website" class="form-control" ng-model="addOrganization.organization.website" placeholder="Website" required />
+                                        <input type="text" id="website" name="website" class="form-control" ng-model="editOrganization.organization.website" placeholder="Website" required />
                                         <div ng-messages="organizationForm.website.$error" role="alert">
                                         </div>
                                     </div>
 
                                     <div class="form-group show-errors">
                                         <label for="companyLegal" class="control-label">Company Legal Name</label>
-                                        <input type="text" id="companyLegal" name="companyLegal" class="form-control" ng-model="addOrganization.organization.companyLegal" placeholder="Company Legal Name" required />
+                                        <input type="text" id="companyLegal" name="companyLegal" class="form-control" ng-model="editOrganization.organization.companyLegal" placeholder="Company Legal Name" required />
                                         <div ng-messages="organizationForm.companyLegal.$error" role="alert">
                                         </div>
                                     </div>
 
                                     <div class="form-group show-errors">
                                         <label for="registeredIn" class="control-label">Registered In</label>
-                                        <select class="form-control input-sm" ng-model="addOrganization.organization.registeredIn" ng-options="key as value for (key, value) in addOrganization.provs"></select>
+                                        <select class="form-control input-sm" ng-model="editOrganization.organization.registeredIn" ng-options="key as value for (key, value) in editOrganization.provs"></select>
                                         <div ng-messages="organizationForm.registeredIn.$error" role="alert">
                                         </div>
                                     </div>
 
                                     <div class="form-group show-errors">
                                         <label for="parentCompany" class="control-label">Parent Company (if applicable)</label>
-                                        <input type="text" id="parentCompany" name="parentCompany" class="form-control" ng-model="addOrganization.organization.parentCompany" placeholder="Parent Company (if applicable)" required />
+                                        <input type="text" id="parentCompany" name="parentCompany" class="form-control" ng-model="editOrganization.organization.parentCompany" placeholder="Parent Company (if applicable)" required />
                                         <div ng-messages="organizationForm.parentCompany.$error" role="alert">
                                         </div>
                                     </div>
 
                                     <div class="form-group show-errors">
                                         <label for="companyType" class="control-label">Company Type</label>
-                                        <select id="companytype" ng-model='uco.type' class="form-control input-sm">
+                                        <select id="companytype" ng-model='editOrganization.organization.companyType' class="form-control input-sm">
                                             <option value="public">Publically Traded</option>
                                             <option value="private">Privately Owned</option>
                                         </select>
@@ -63,35 +63,35 @@
 
                                     <div class="form-group show-errors">
                                         <label for="address1" class="control-label">Address (Line 1)</label>
-                                        <input type="text" id="address1" name="address1" class="form-control" ng-model="addOrganization.organization.address1" placeholder="Address (Line 1)" required />
+                                        <input type="text" id="address1" name="address1" class="form-control" ng-model="editOrganization.organization.address1" placeholder="Address (Line 1)" required />
                                         <div ng-messages="organizationForm.address1.$error" role="alert">
                                         </div>
                                     </div>
 
                                     <div class="form-group show-errors">
                                         <label for="address2" class="control-label">Address (Line 2)</label>
-                                        <input type="text" id="address2" name="address2" class="form-control" ng-model="addOrganization.organization.address2" placeholder="Address (Line 2)" required />
+                                        <input type="text" id="address2" name="address2" class="form-control" ng-model="editOrganization.organization.address2" placeholder="Address (Line 2)" required />
                                         <div ng-messages="organizationForm.address2.$error" role="alert">
                                         </div>
                                     </div>
 
                                     <div class="form-group show-errors">
                                         <label for="city" class="control-label">City</label>
-                                        <input type="text" id="city" name="city" class="form-control" ng-model="addOrganization.organization.city" placeholder="City" required />
+                                        <input type="text" id="city" name="city" class="form-control" ng-model="editOrganization.organization.city" placeholder="City" required />
                                         <div ng-messages="organizationForm.city.$error" role="alert">
                                         </div>
                                     </div>
 
                                     <div class="form-group show-errors">
                                         <label for="province" class="control-label">Province</label>
-                                        <select class="form-control input-sm" ng-model="addOrganization.organization.province" ng-options="key as value for (key, value) in addOrganization.provs"></select>
+                                        <select class="form-control input-sm" ng-model="editOrganization.organization.province" ng-options="key as value for (key, value) in editOrganization.provs"></select>
                                         <div ng-messages="organizationForm.province.$error" role="alert">
                                         </div>
                                     </div>
 
                                     <div class="form-group show-errors">
                                         <label for="postal" class="control-label">Postal</label>
-                                        <input type="text" id="postal" name="postal" class="form-control" ng-model="addOrganization.organization.postal" placeholder="Postal" required />
+                                        <input type="text" id="postal" name="postal" class="form-control" ng-model="editOrganization.organization.postal" placeholder="Postal" required />
                                         <div ng-messages="organizationForm.postal.$error" role="alert">
                                         </div>
                                     </div>
@@ -104,7 +104,7 @@
 
                             <div class="text-right">
                                 <div class="form-group">
-                                    <input type="submit" value="Add Organization" class="btn btn-default" >
+                                    <input type="submit" value="Update Organization" class="btn btn-default" >
                                 </div>
 
                                 <div ng-show="error" class="text-danger">

@@ -4,7 +4,6 @@
 // Routes for Access Control Management
 //
 // =========================================================================
-// var policy     = require ('../policies/project.policy');
 var controller = require ('../controllers/core.access.controller');
 var helpers    = require ('../controllers/core.helpers.controller');
 

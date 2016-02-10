@@ -230,7 +230,7 @@ exports.userCan = function (user, permission, thing) {
 // permissions
 //
 // -------------------------------------------------------------------------
-exports.isAllowed = function (acl) {
+exports.isAllowed = function (acl, dbg) {
   return function (req, res, next) {
     var roles = (req.user) ? req.user.roles : ['user'];
     //

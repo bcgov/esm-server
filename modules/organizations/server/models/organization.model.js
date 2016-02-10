@@ -9,6 +9,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__audit       : true,
 	__access      : true,
 	__codename    : 'unique',
+	company       : { type: String, default:'' },
 	website       : { type: String, default:'' },
 	companyLegal  : { type: String, default:'' },
 	registeredIn  : { type: String, default:'' },

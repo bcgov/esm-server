@@ -82,9 +82,19 @@ function controllerProjectTombstone($scope) {
 // CONTROLLER: Project Entry Tombstone
 //
 // -----------------------------------------------------------------------------------
-controllerModalProjectEntry.$inject = ['$modalInstance', '$scope', '$state', 'Project', 'rProject', 'REGIONS', 'PROJECT_TYPES', '_'];
+controllerModalProjectEntry.$inject = ['ProjectModel', '$modalInstance', '$scope', '$state', 'Project', 'rProject', 'REGIONS', 'PROJECT_TYPES', '_'];
 /* @ngInject */
-function controllerModalProjectEntry($modalInstance, $scope, $state, Project, rProject, REGIONS, PROJECT_TYPES, _) {
+function controllerModalProjectEntry(ProjectModel, $modalInstance, $scope, $state, Project, rProject, REGIONS, PROJECT_TYPES, _) {
+	ProjectModel.getModel ('56afbc7dc12ae49036223870')
+	// ProjectModel.getCollection ()
+	.then (function (models) {
+		console.log ('got some models', models);
+	})
+	.catch (function (err) {
+		console.log ('error! ',err);
+	});
+
+
 	var projectEntry = this;
 
 	projectEntry.regions = REGIONS;

@@ -181,12 +181,12 @@ function controllerDocumentBrowser($scope, Document, Project) {
 
 		Document.getProjectDocuments(newValue._id).then( function(res) {
 			docBrowser.documentFiles	= res.data;
-			console.log(res.data);
+			// console.log(res.data);
 		});
 
 		Document.getProjectDocumentTypes(newValue._id).then( function(res) {
 			docBrowser.docTypes	= res.data;
-			console.log(res.data);
+			// console.log(res.data);
 		});
 
 	});
@@ -195,7 +195,9 @@ function controllerDocumentBrowser($scope, Document, Project) {
 		$scope.filterDocs = {};
 		$scope.filterDocs[searchField] = newValue;
 	};
-
+	docBrowser.filterSummary = function(doc) {
+		$scope.filterSummary = doc;
+	};
 }
 
 // -----------------------------------------------------------------------------------
