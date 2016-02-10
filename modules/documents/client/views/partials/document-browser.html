@@ -20,7 +20,10 @@
 			
 				<ul class="small list-unstyled list-documents list-indent-left">
 
-					<li ng-repeat="doc in docBrowser.documentFiles | filter : filterDocs : true" ><a href="{{ doc.documentFileURL }}"><span class="glyphicon glyphicon-file"></span>{{ doc.documentFileName }} </a></li>
+					<li ng-repeat="doc in docBrowser.documentFiles | filter : filterDocs : true" >
+						<a ng-mouseover="docBrowser.filterSummary(doc)" href="{{ doc.documentFileURL }}"><span class="glyphicon glyphicon-file"></span>{{ doc.documentFileName }} </a>
+						<span >{{author}}</span>
+					</li>
 				</ul>
 
 			</div>
@@ -29,9 +32,13 @@
 				<ul class="small list-unstyled list-documents list-indent-left">
 					<li>
 						<h3>Executive Summary</h3>
-						<p>Date Created</p>
-						<p>Author</p>
-						<p>Current Revision: <a href>2016-01-15: 1.34 <span class="glyphicon glyphicon-download"></span></a></p>
+						<p>Date Posted: {{ filterSummary.projectFolderDatePosted }}</p>
+						<p>File Format: {{ filterSummary.documentFileFormat }}</p>
+						<p>File Size: {{ filterSummary.documentFileSize }}</p>
+						<p>In Review?: {{ filterSummary.documentIsInReview }}</p>
+						<!-- <p>Author: {{ filterSummary.author }}</p> -->
+						<p>Current Revision: <a href="{{ filterSummary.documentFileURL }}">{{ filterSummary.documentVersion }}<span class="glyphicon glyphicon-download"></span></a></p>
+						<p>Is Latest Revision: {{ filterSummary.documentIsLatestVersion }} </p>
 					</li>
 					<li>
 						Tags

@@ -195,7 +195,10 @@ function controllerDocumentBrowser($scope, Document, Project) {
 		$scope.filterDocs = {};
 		$scope.filterDocs[searchField] = newValue;
 	};
-
+	docBrowser.filterSummary = function(doc) {
+		$scope.filterSummary = doc;
+		console.log("FOOOO:",$scope.filterSummary);
+	};
 }
 
 // -----------------------------------------------------------------------------------
