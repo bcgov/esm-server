@@ -174,22 +174,31 @@ function controllerDocumentBrowser($scope, Document, Project) {
 	var docBrowser = this;
 
 	docBrowser.documentFiles	= undefined;
-	docBrowser.docTypes			= undefined;
-
-	console.log($scope.project._id);
-	console.log(Document);
-	// TODO: Need to filter out properly
-	//Document.getProjectDocuments($scope.project).then( function(res) {
-	Document.getAllDocuments().then( function (res) {
-		console.log('getProjectDocuments: ', docBrowser.project._id);
-
-		docBrowser.documentFiles	= res.data;
-	});
+	docBrowser.docTypes		= undefined;
 
 	$scope.$watch('project', function(newValue) {
 		docBrowser.project = newValue;
+
+		Document.getProjectDocuments(newValue._id).then( function(res) {
+			docBrowser.documentFiles	= res.data;
+			console.log(res.data);
+		});
+
+		Document.getProjectDocumentTypes(newValue._id).then( function(res) {
+			docBrowser.docTypes	= res.data;
+			console.log(res.data);
+		});
+
 	});
 
+	docBrowser.filterList = function(searchField, newValue) {
+		$scope.filterDocs = {};
+		$scope.filterDocs[searchField] = newValue;
+	};
+	docBrowser.filterSummary = function(doc) {
+		$scope.filterSummary = doc;
+		console.log("FOOOO:",$scope.filterSummary);
+	};
 }
 
 // -----------------------------------------------------------------------------------

@@ -58,11 +58,14 @@ module.exports = {
       'modules/*/client/*.js',
       'modules/*/client/**/*.js',
       'modules/*/processes/*/client/*.js',
-      'modules/*/processes/*/client/**/*.js'
+      'modules/*/processes/*/client/**/*.js',
+      'modules/*/controls/*/client/*.js',
+      'modules/*/controls/*/client/**/*.js'      
     ],
     views: [
     	'modules/*/client/views/**/*.html',
-    	'modules/*/processes/*/client/views/**/*.html'
+    	'modules/*/processes/*/client/views/**/*.html',
+    	'modules/*/controls/*/client/views/**/*.html'    	
     ],
     templates: ['build/templates.js']
   },

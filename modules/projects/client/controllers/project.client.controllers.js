@@ -290,10 +290,10 @@ function controllerModalProjectEntry(ProjectModel, $modalInstance, $scope, $stat
 // -----------------------------------------------------------------------------------
 controllerProjectStreamSelect.$inject = ['$state', 'Project', 'sConfiguration', '_'];
 /* @ngInject */
-function controllerProjectStreamSelect($state, Project, sConfiguration, _) {
+function controllerProjectStreamSelect($state, sProject, sConfiguration, _) {
 	var projectStreamSelect = this;
 
-	Project.getProject({id: $state.params.id}).then( function(res) {
+	sProject.getProject({id: $state.params.id}).then( function(res) {
 		projectStreamSelect.project = res.data;
 	});
 
@@ -305,9 +305,9 @@ function controllerProjectStreamSelect($state, Project, sConfiguration, _) {
 	projectStreamSelect.setProjectStream = function() {
 		if ((!projectStreamSelect.project.stream || projectStreamSelect.project.stream === '') && projectStreamSelect.newStream) {
 			projectStreamSelect.project.status = 'In Progress';
-			Project.saveProject(projectStreamSelect.project).then( function(res) {
+			sProject.saveProject(projectStreamSelect.project).then( function(res) {
 				// set the stream then move to the project overview page.
-				Project.setProjectStream(projectStreamSelect.project._id, projectStreamSelect.newStream).then( function(resStream) {
+				sProject.setProjectStream(projectStreamSelect.project._id, projectStreamSelect.newStream).then( function(resStream) {
 					projectStreamSelect.project = _.assign(resStream.data);
 					$state.go('project', {'id':projectStreamSelect.project._id}, {reload: true});
 				});
