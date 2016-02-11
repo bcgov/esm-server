@@ -54,7 +54,7 @@ var getDocumentVersions = function (req, res) {
 							// console.log("No existing documents found.  Inserting normally.");
 						} else {
 							// Got stuff.
-							console.log(records);
+							// console.log(records);
 							resolve(records);
 						}
 					}
@@ -116,7 +116,10 @@ var getDocumentTypesForProject = function (req, res) {
 		console.log("getDocumentTypesForProject: Project ID:",req.params.projectid);
 		// When a document has an assigned projectID, grab it.
 		// NB: This will be true after a document has been reviewed by someone perhaps.
-		Model.find({projectID: req.params.projectid, documentIsInReview: true}).populate('projectID').exec( function (err, records) {
+		Model.find({project: req.params.projectid,
+					documentIsInReview: false,
+					documentIsLatestVersion: true})
+			 .populate('projectID').exec( function (err, records) {
 			if (err) {
 				// console.log("getDocumentTypesForProject failed to find anything",err);
 			} else {
