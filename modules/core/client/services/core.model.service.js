@@ -9,6 +9,7 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 	var ModelBase = function (o) {
 		this.model      = null; // the current loaded model
 		this.collection = null; // the current loaded collection
+		this.modelIsNew = true;
 		this._init (o);
 	};
 	_.extend (ModelBase.prototype, {
@@ -55,6 +56,7 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 			return new Promise (function (resolve, reject) {
 				self.get (id).then (function (res) {
 					self.model = res.data;
+					self.modelIsNew = false;
 					resolve (res.data);
 				}).catch (function (res) {
 					reject (res.data);
@@ -69,10 +71,47 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		getQuery: function (q) {
 			var self = this;
 			return new Promise (function (resolve, reject) {
-				self.query (q).then (function (models) {
-					self.collection = models;
-					resolve (models);
-				}).catch (reject);
+				self.query (q).then (function (res) {
+					self.collection = res.data;
+					resolve (res.data);
+				}).catch (function (res) {
+					reject (res.data);
+				});
+			});
+		},
+		// -------------------------------------------------------------------------
+		//
+		// get a new empty model
+		//
+		// -------------------------------------------------------------------------
+		getNew: function () {
+			var self = this;
+			return new Promise (function (resolve, reject) {
+				self.new ().then (function (res) {
+					self.model = res.data;
+					self.modelIsNew = true;
+					resolve (res.data);
+				}).catch (function (res) {
+					reject (res.data);
+				});
+			});
+		},
+		// -------------------------------------------------------------------------
+		//
+		// Save the current model
+		//
+		// -------------------------------------------------------------------------
+		saveModel: function () {
+			var self = this;
+			return new Promise (function (resolve, reject) {
+				var p = (self.modelIsNew) ? self.add (self.model) : self.save (self.model);
+				p.then (function (res) {
+					self.model = res.data;
+					self.modelIsNew = false;
+					resolve (res.data);
+				}).catch (function (res) {
+					reject (res.data);
+				});
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -138,7 +177,7 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		add : function (obj) {
 			var self = this;
 			return new Promise (function (resolve, reject) {
-				$http ({method:'POST', url:self.urlbase+obj._id, data:obj })
+				$http ({method:'POST', url:self.urlall, data:obj })
 				.then (resolve, log.reject (reject));
 			});
 		},
