@@ -12,7 +12,7 @@ angular.module('organizations').controller('editOrganizationController', ['$scop
         editOrganization.options = {
             organizationId: $state.params.organizationId,
             mode: 'edit'
-        }
+        };
 
     }
 ]);

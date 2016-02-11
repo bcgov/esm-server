@@ -35,6 +35,6 @@ angular.module('organizations').controller('viewOrganizationController', ['$scop
         viewOrganization.options = {
             organizationId: $state.params.organizationId,
             mode: 'display'
-        }
+        };
     }
 ]);
