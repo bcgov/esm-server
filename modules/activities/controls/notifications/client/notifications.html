@@ -14,7 +14,7 @@
 					<label class="control-label" for="template">Template</label>
 					<select type="text" id="template" class="form-control" ng-options="tmp as tmp.name for tmp in taskNotifications.templates track by tmp.code" ng-change="taskNotifications.setContent()" ng-model="taskNotifications.selectedTemplate"></select>
 				</div>
-				<textarea rows="10" ng-model="taskNotifications.taskData.mailContent" class="form-control"></textarea>
+				<textarea ui-tinymce rows="10" ng-model="taskNotifications.taskData.mailContent" class="form-control"></textarea>
 			</div>
 			<div class="col-sm-4">
 				<label class="control-label">Attachments</label>

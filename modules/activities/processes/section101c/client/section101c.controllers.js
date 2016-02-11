@@ -12,4 +12,11 @@ controllerProcessSection101c.$inject = ['$scope'];
 //
 function controllerProcessSection101c($scope) {
 	var processSection101c = this;
+
+	$scope.$watch('project', function(newValue) {
+		if (newValue) {
+			processSection101c.project = newValue;
+		}
+	});
+	
 }

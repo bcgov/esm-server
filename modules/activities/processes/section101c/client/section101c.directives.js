@@ -25,7 +25,7 @@ function directiveProcessSection101c() {
         restrict: 'E',
         templateUrl: 'modules/activities/processes/section101c/client/section101c.html',
         controller: 'controllerProcessSection101c',
-        controllerAs: 'ProcessSection101c',
+        controllerAs: 'processSection101c',
         scope: {
             project: '='
         }

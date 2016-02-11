@@ -11,6 +11,7 @@ var ApplicationConfiguration = (function () {
   	'ui.router',
   	'ui.bootstrap',
   	'ui.utils',
+  	'ui.tinymce',
   	'angularFileUpload',
     'ngMap',
     'ad3',

@@ -19,7 +19,17 @@ module.exports = function (app) {
 		.all (policy.isAllowed)
 		.put (function (req,res) {
 			var p = new Activitybase (req.user);
-			p.addMilestoneToPhase (req.ActivityBase, req.TaskBase)
+			p.addTaskToActivity (req.ActivityBase, req.TaskBase)
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	//
+	// add a task form a base to a real activity
+	//
+	app.route ('/api/activity/:activity/add/task/:taskbase')
+		.all (policy.isAllowed)
+		.put (function (req,res) {
+			var p = new Activity (req.user);
+			p.addTaskFromBase (req.Activity, req.TaskBase)
 			.then (helpers.success(res), helpers.failure(res));
 		});
 };

@@ -1,37 +1,37 @@
 'use strict';
 
 angular.module('control')
-	.controller('controllerprocessesetPhase', controllerprocessesetPhase);
+	.controller('controllerProcessSetPhase', controllerProcessSetPhase);
 
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Process for Simple Complete
 //
 // -----------------------------------------------------------------------------------
-controllerprocessesetPhase.$inject = ['$scope', '$rootScope', 'Project'];
+controllerProcessSetPhase.$inject = ['$scope', '$rootScope', 'Project'];
 	//
-function controllerprocessesetPhase($scope, $rootScope, Project) {
-	var processesetPhase = this;
+function controllerProcessSetPhase($scope, $rootScope, Project) {
+	var processSetPhase = this;
 
-	processesetPhase.saveProcess = function() {
-		processesetPhase.project.currentPhase = processesetPhase.newPhase._id;
-		Project.saveProject( processesetPhase.project ).then( function(res) {});
+	processSetPhase.saveProcess = function() {
+		processSetPhase.project.currentPhase = processSetPhase.newPhase._id;
+		Project.saveProject( processSetPhase.project ).then( function(res) {});
 	};
 
-	//$rootScope.$broadcast('resolveProcess', processesetPhase.task);
+	//$rootScope.$broadcast('resolveProcess', processSetPhase.task);
 
 	// get the project
 	$scope.$watch('project', function(newValue) {
 		if (newValue) {
-			processesetPhase.project = newValue;
-			processesetPhase.newPhase = angular.copy(newValue.currentPhase);
+			processSetPhase.project = newValue;
+			processSetPhase.newPhase = angular.copy(newValue.currentPhase);
 		}
 	});
 
 	// get the task identifier.  (ID + Process Type)
 	$scope.$watch('anchor', function(newValue) {
 		if (newValue) {
-			processesetPhase.anchor = newValue;
+			processSetPhase.anchor = newValue;
 		}
 	});
 
@@ -39,8 +39,8 @@ function controllerprocessesetPhase($scope, $rootScope, Project) {
 	$scope.$watch('task', function(newValue) {
 		// get item for title
 		if (newValue) {
-			processesetPhase.taskId = newValue._id;
-			processesetPhase.task = newValue;
+			processSetPhase.taskId = newValue._id;
+			processSetPhase.task = newValue;
 		}
 	});
 }    

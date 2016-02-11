@@ -10,6 +10,7 @@ var DBModel  = require (path.resolve('./modules/core/server/controllers/core.dbm
 
 module.exports = DBModel.extend ({
 	name : 'PhaseBase',
+	populate: 'milestones',
 	addMilestoneToPhase : function (parent, child) {
 		var self = this;
 		return new Promise (function (resolve, reject) {

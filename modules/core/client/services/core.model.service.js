@@ -98,11 +98,37 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		},
 		// -------------------------------------------------------------------------
 		//
+		// get a copy of the current model
+		//
+		// -------------------------------------------------------------------------
+		getCopy: function () {
+			return _.cloneDeep (this.model);
+		},
+		// -------------------------------------------------------------------------
+		//
+		// set the current model
+		//
+		// -------------------------------------------------------------------------
+		setModel: function (obj) {
+			this.model = obj;
+		},
+		// -------------------------------------------------------------------------
+		//
+		// short hand for saving a copy
+		//
+		// -------------------------------------------------------------------------
+		saveCopy: function (obj) {
+			this.model = obj;
+			return this.saveModel ();
+		},
+		// -------------------------------------------------------------------------
+		//
 		// Save the current model
 		//
 		// -------------------------------------------------------------------------
 		saveModel: function () {
 			var self = this;
+			console.log('save or add', this);
 			return new Promise (function (resolve, reject) {
 				var p = (self.modelIsNew) ? self.add (self.model) : self.save (self.model);
 				p.then (function (res) {

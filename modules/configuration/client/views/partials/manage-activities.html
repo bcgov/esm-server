@@ -75,15 +75,11 @@
                     </div>
 
 
-                    <div ng-if="configDataElement.activeRecordNew">
-                        <button class="btn btn-primary" ng-click="configDataElement.addRecord()">Add</button>
-                        <button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>                        
+                    <div class="form-group">
+                        <button class="btn btn-primary" ng-click="configDataElement.saveRecord()">Save</button>
+                        <button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>
                     </div>
 
-                    <div ng-if="!configDataElement.activeRecordNew">
-                        <button class="btn btn-primary" ng-click="configDataElement.saveRecord()">Save</button>
-                        <button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>                        
-                    </div>
                 </div>
             </div>
         </div>
