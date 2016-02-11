@@ -10,83 +10,9 @@
             </div>
 
             <div class="panel-body">
-
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group show-errors">
-                                <label for="company" class="control-label">Company (Doing Business As)</label>
-                                <p id="company" ng-bind="viewOrganization.organization.company" />
-                            </div>
-
-                            <div class="form-group show-errors">
-                                <label for="website" class="control-label">Website</label>
-                                <p id="website" ng-bind="viewOrganization.organization.website"></p>
-                            </div>
-
-                            <div class="form-group show-errors">
-                                <label for="companyLegal" class="control-label">Company Legal Name</label>
-                                <p id="companyLegal" ng-bind="viewOrganization.organization.companyLegal"></p>
-
-                            </div>
-
-                            <div class="form-group show-errors">
-                                <label for="registeredIn" class="control-label">Registered In</label>
-                                <p id="registeredIn" ng-bind="viewOrganization.organization.registeredIn"></p>
-
-                            </div>
-
-                            <div class="form-group show-errors">
-                                <label for="parentCompany" class="control-label">Parent Company (if applicable)</label>
-                                <p id="parentCompany" ng-bind="viewOrganization.organization.parentCompany"></p>
-
-                            </div>
-
-                            <div class="form-group show-errors">
-                                <label for="companyType" class="control-label">Company Type</label>
-                                <p id="companyType" ng-bind='viewOrganization.organization.companyType'></p>
-
-                            </div>
-
-                            <div class="form-group show-errors">
-                                <label for="address1" class="control-label">Address (Line 1)</label>
-                                <p id="address1" ng-bind="viewOrganization.organization.address1"></p>
-
-                            </div>
-
-                            <div class="form-group show-errors">
-                                <label for="address2" class="control-label">Address (Line 2)</label>
-                                <p id="address2" ng-bind="viewOrganization.organization.address2"></p>
-
-                            </div>
-
-                            <div class="form-group show-errors">
-                                <label for="city" class="control-label">City</label>
-                                <p id="city" ng-bind="viewOrganization.organization.city"></p>
-
-                            </div>
-
-                            <div class="form-group show-errors">
-                                <label for="province" class="control-label">Province</label>
-                                <p id="province" ng-bind="viewOrganization.organization.province"></p>
-
-                            </div>
-
-                            <div class="form-group show-errors">
-                                <label for="postal" class="control-label">Postal</label>
-                                <p id="postal" ng-bind="viewOrganization.organization.postal"></p>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="text-right">
-                        <div class="form-group">
-                            <input type="submit" value="Edit Organization" class="btn btn-default" ui-sref="edit({organizationId: viewOrganization.organization._id})">
-                        </div>
-                    </div>
-
+                <tmpl-organizations-display-edit options="{{viewOrganization.options}}"></tmpl-organizations-display-edit>
             </div>
+
         </div>
     </div>
     <div class='col-sm-2'>

@@ -29,14 +29,12 @@ function controllerEAOProjectNew(Project, $state) {
 
 'use strict';
 
-angular.module('organizations').controller('viewOrganizationController', ['$scope', '$filter', 'Organizations', '$state',
-    function ($scope, $filter, Organizations, $state ) {
+angular.module('organizations').controller('viewOrganizationController', ['$scope', '$state',
+    function ($scope, $state ) {
         var viewOrganization = this;
-
-       Organizations.getOrganization({id: $state.params.organizationId}).then(function(res) {
-
-           viewOrganization.organization = res.data;
-        });
-
+        viewOrganization.options = {
+            organizationId: $state.params.organizationId,
+            mode: 'display'
+        }
     }
 ]);

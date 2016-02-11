@@ -1,6 +1,30 @@
 'use strict';
 
-angular.module('organizations')
+angular.module('core')
+	.directive('tmplOrganizationsDisplayEdit', directiveOrganizationsDisplayEdit);
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Activity Listing
+//
+// -----------------------------------------------------------------------------------
+directiveOrganizationsDisplayEdit.$inject = [];
+/* @ngInject */
+function directiveOrganizationsDisplayEdit() {
+	var directive = {
+		restrict: 'E',
+		replace: true,
+		templateUrl: 'modules/organizations/client/views/organizations-partials/organization-display-edit-form.html',
+		controller: 'controllerOrganizationsDisplayEdit',
+		controllerAs: 'displayEdit',
+		scope: {
+			options: '@'
+		}
+	};
+	return directive;
+}
+
+
+	/*
 	.directive('tmplOrganizations', directiveOrganizations)
 	.directive('tmplOrganizationsList', directiveOrganizationsList)
 	.directive('tmplOrganizationsSchedule', directiveOrganizationsSchedule)
@@ -13,7 +37,7 @@ angular.module('organizations')
 //
 // -----------------------------------------------------------------------------------
 directiveOrganizations.$inject = [];
-/* @ngInject */
+// @ngInject
 function directiveOrganizations() {
 	var directive = {
 		restrict: 'E',
@@ -29,8 +53,7 @@ function directiveOrganizations() {
 // DIRECTIVE: Organizations List
 //
 // -----------------------------------------------------------------------------------
-directiveOrganizationsList.$inject = [];
-/* @ngInject */
+// @ngInject
 function directiveOrganizationsList() {
 	var directive = {
 		restrict: 'E',
@@ -50,7 +73,7 @@ function directiveOrganizationsList() {
 //
 // -----------------------------------------------------------------------------------
 directiveOrganizationsSchedule.$inject = [];
-/* @ngInject */
+// @ngInject
 function directiveOrganizationsSchedule() {
 	var directive = {
 		restrict: 'E',
@@ -62,14 +85,14 @@ function directiveOrganizationsSchedule() {
 		}
 	};
 	return directive;
-}    
+}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Organizations Panels
 //
 // -----------------------------------------------------------------------------------
 // directiveOrganizationsPanels.$inject = [];
-// /* @ngInject */
+// // @ngInject
 // function directiveOrganizationsPanels() {
 // 	var directive = {
 // 		restrict: 'E',
@@ -88,7 +111,7 @@ function directiveOrganizationsSchedule() {
 //
 // -----------------------------------------------------------------------------------
 directiveOrganizationsMap.$inject = ['google'];
-/* @ngInject */
+// @ngInject
 function directiveOrganizationsMap(google) {
 	var directive = {
 		restrict: 'E',
@@ -108,7 +131,7 @@ function directiveOrganizationsMap(google) {
 //
 // -----------------------------------------------------------------------------------
 // directiveOrganizationsFilterBar.$inject = [];
-// /* @ngInject */
+// // @ngInject
 // function directiveOrganizationsFilterBar() {
 // 	var directive = {
 // 		restrict: 'E',
@@ -122,3 +145,4 @@ function directiveOrganizationsMap(google) {
 // 	};
 // 	return directive;
 // }
+		*/
