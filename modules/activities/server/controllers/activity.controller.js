@@ -76,5 +76,31 @@ module.exports = DBModel.extend ({
 			})
 			.then (resolve, reject);
 		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// add a task to this activity (from a base)
+	//
+	// -------------------------------------------------------------------------
+	addTaskFromBase : function (activity, taskbase) {
+		var self = this;
+		var Task = new TaskClass (self.user);
+		return new Promise (function (resolve, reject) {
+			Task.makeTaskFromBase (
+				taskbase,
+				activity.stream,
+				activity.project,
+				activity.projectCode,
+				activity.phase,
+				activity.milestone,
+				activity._id
+			)
+			.then (function (newtask) {
+				activity.tasks.push (newtask._id);
+				return activity;
+			})
+			.then (self.saveDocument)
+			.then (resolve, reject);
+		});
 	}
 });

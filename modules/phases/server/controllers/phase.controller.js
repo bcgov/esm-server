@@ -12,6 +12,7 @@ var _              = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Phase',
+	populate: 'milestones',
 	// -------------------------------------------------------------------------
 	//
 	// when making a phase from a base it will aslways be in order to attach
@@ -84,7 +85,7 @@ module.exports = DBModel.extend ({
 			Milestone.makeMilestoneFromBase (
 				milestonebase,
 				phase.stream,
-				phase.projectid,
+				phase.project,
 				phase.projectCode,
 				phase._id
 			)

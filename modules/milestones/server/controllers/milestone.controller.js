@@ -13,6 +13,7 @@ var _ = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Milestone',
+	populate: 'activities',
 	// -------------------------------------------------------------------------
 	//
 	// when making a milestone from a base it will always be in order to attach
@@ -75,6 +76,31 @@ module.exports = DBModel.extend ({
 			// .then (function (m) {
 			// 	return self.saveDocument (m);
 			// })
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// add an activity to this milestone (from a base)
+	//
+	// -------------------------------------------------------------------------
+	addActivityFromBase : function (milestone, activitybase) {
+		var self = this;
+		var Activity = new ActivityClass (self.user);
+		return new Promise (function (resolve, reject) {
+			Activity.makeActivityFromBase (
+				activitybase,
+				milestone.stream,
+				milestone.project,
+				milestone.projectCode,
+				milestone.phase,
+				milestone._id
+			)
+			.then (function (newactivity) {
+				milestone.activities.push (newactivity._id);
+				return milestone;
+			})
+			.then (self.saveDocument)
 			.then (resolve, reject);
 		});
 	}

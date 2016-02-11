@@ -9,7 +9,6 @@ var DBModel  = require (path.resolve('./modules/core/server/controllers/core.dbm
 
 
 module.exports = DBModel.extend ({
-	bind : ['addTaskToActivity'],
 	name : 'ActivityBase',
 	populate: 'tasks',
 	addTaskToActivity : function (parent, child) {
