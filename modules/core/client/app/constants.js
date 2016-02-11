@@ -36,7 +36,13 @@ angular
 			'skeena': 'Skeena',
 			'vancouverisland': 'Vancouver Island'
 		}
-	) 
+	)
+	.constant('COMPANY_TYPES',
+		{
+			'private': 'Privately Owned',
+			'public': 'Publically Traded',
+		}
+	)
 	.constant('TASK_STATUS',
 		[
 			'Not Required',
