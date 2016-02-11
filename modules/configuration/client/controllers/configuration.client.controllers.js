@@ -324,35 +324,39 @@ function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBa
 
     // ----- New record template -----
     configDataElement.newRecord = function() {
-        configDataElement.activeRecordNew = true;
-
         switch(configDataElement.context) {
             case 'stream':
                 sStreamModel.getNew().then( function(data) {
                     configDataElement.activeRecord = data;
+                    $scope.$apply();
                 });
                 break;
             case 'phase':
                 sPhaseBaseModel.getNew().then( function(data) {
                     configDataElement.activeRecord = data;
+                    $scope.$apply();
                 });
                 break;
             case 'milestone':
                 sMilestoneBaseModel.getNew().then( function(data) {
                     configDataElement.activeRecord = data;
+                    $scope.$apply();
                 });
                 break;
             case 'activity':
                 sActivityBaseModel.getNew().then( function(data) {
                     configDataElement.activeRecord = data;
+                    $scope.$apply();
                 });
                 break;
             case 'task':
                 sTaskBaseModel.getNew().then( function(data) {
                     configDataElement.activeRecord = data;
+                    $scope.$apply();
                 });
                 break;
         }
+        configDataElement.activeRecordNew = true;
     };
 
     // ----- Edit a new record -----
