@@ -87,6 +87,7 @@ var DocumentSchema  = new Schema ({
     projectFolderName              : { type:String, default:'' }, // Title of the folder that's within the Folder Type+SubType
     projectFolderURL               : { type:String, default:'' }, // The specific DirectoryID instance of a collection of documents
     projectFolderDatePosted        : { type: Date, default: Date.now }, // We'll want to convert any incoming date to this fmt.
+    projectFolderAuthor            : { type:String, default:'' },
     documentFileName               : { type:String, default:'' }, // A.K.A. Document File Name in EPIC
     documentFileURL                : { type:String, default:'' },
     documentFileSize               : { type:String, default:'' }, // Looks like everything is in KB
@@ -94,6 +95,7 @@ var DocumentSchema  = new Schema ({
     documentVersion                : { type:Number, default:0 }, // Used for keeping track of this documents version.
     documentIsLatestVersion        : { type:Boolean, default:true }, // We assume we are the latest.
     documentIsInReview             : { type:Boolean, default:false }, // Used to flag if this entry is a reviewable entry.
+    documentAuthor                 : { type:String, default:'' },  // NB: We should add a document author in addition to the folderAuthor.
     internalURL                    : { type:String, default:'' },
     internalOriginalName           : { type:String, default:'' },
     internalName                   : { type:String, default:'' },

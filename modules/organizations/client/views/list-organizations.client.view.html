@@ -27,7 +27,7 @@
             <tr ng-repeat="org in pagedItems" ui-sref="view({organizationId: org._id})">
               <td ng-bind="org.company"></td>
               <td ng-bind="org.companyLegal"></td>
-              <td ng-bind="org.registeredIn"></td>
+              <td ng-bind="listOrganizations.provs[org.registeredIn]"></td>
             </tr>
           </table>
 

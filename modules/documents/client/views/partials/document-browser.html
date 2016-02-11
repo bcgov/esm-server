@@ -36,7 +36,8 @@
 						<p>File Format: {{ filterSummary.documentFileFormat }}</p>
 						<p>File Size: {{ filterSummary.documentFileSize }}</p>
 						<p>In Review?: {{ filterSummary.documentIsInReview }}</p>
-						<!-- <p>Author: {{ filterSummary.author }}</p> -->
+						<!-- NB: Project folders are authors in EPIC:  We override this behavior here -->
+						<p>Author: {{ filterSummary.documentAuthor }}</p>
 						<p>Current Revision: <a href="{{ filterSummary.documentFileURL }}">{{ filterSummary.documentVersion }} <span class="glyphicon glyphicon-download"></span></a></p>
 						<p>Is Latest Revision: {{ filterSummary.documentIsLatestVersion }} </p>
 					</li>
