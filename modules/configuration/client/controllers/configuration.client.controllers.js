@@ -58,6 +58,178 @@ function controllerConfiguration($rootScope, $scope, sTaskBaseModel, sActivityBa
     });
 }
 
+
+// -----------------------------------------------------------------------------------
+//
+// Config any element for user in the lookups
+//
+// -----------------------------------------------------------------------------------
+controllerConfigManageElement.$inject = ['$scope', 'ProcessCodes', '$filter', '_', 'TaskBaseModel', 'ActivityBaseModel', 'MilestoneBaseModel', 'PhaseBaseModel', 'StreamModel'];
+
+/* @ngInject */
+function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBaseModel, sActivityBaseModel, sMilestoneBaseModel, sPhaseBaseModel, sStreamModel) {
+    var configDataElement = this;
+
+    // for the task process code dropdown
+    configDataElement.processCodes = ProcessCodes;
+
+    configDataElement.activeRecord = undefined;
+    configDataElement.activeRecordNew = false;
+
+    $scope.$watch('config', function(newValue) {
+        console.log(newValue, 'newval');
+        if (newValue) {
+            configDataElement.data = newValue;
+        }
+    });
+
+    $scope.$watch('context', function(newValue) {
+        if (newValue) {
+            configDataElement.context = newValue;
+        }
+    });
+
+    $scope.$watch('childGroup', function(newValue) {
+        if (newValue) {
+            configDataElement.child = newValue;
+        }
+    });
+
+
+    // ----- New record template -----
+    configDataElement.newRecord = function() {
+        switch(configDataElement.context) {
+            case 'stream':
+                sStreamModel.getNew().then( function(data) {
+                    configDataElement.activeRecord = data;
+                    $scope.$apply();
+                });
+                break;
+            case 'phase':
+                sPhaseBaseModel.getNew().then( function(data) {
+                    configDataElement.activeRecord = data;
+                    $scope.$apply();
+                });
+                break;
+            case 'milestone':
+                sMilestoneBaseModel.getNew().then( function(data) {
+                    configDataElement.activeRecord = data;
+                    $scope.$apply();
+                });
+                break;
+            case 'activity':
+                sActivityBaseModel.getNew().then( function(data) {
+                    configDataElement.activeRecord = data;
+                    $scope.$apply();
+                });
+                break;
+            case 'task':
+                sTaskBaseModel.getNew().then( function(data) {
+                    configDataElement.activeRecord = data;
+                    $scope.$apply();
+                });
+                break;
+        }
+        console.log('new record', configDataElement.activeRecord);
+        configDataElement.activeRecordNew = true;
+    };
+
+    // ----- Edit a new record -----
+    configDataElement.editRecord = function(selectedRecord) {
+
+        configDataElement.activeRecordNew = false;
+        configDataElement.activeRecord = selectedRecord;
+        
+        switch(configDataElement.context) {
+            case 'stream':
+                sStreamModel.setModel(selectedRecord);
+                break;
+            case 'phase':
+                sPhaseBaseModel.setModel(selectedRecord);
+                break;
+            case 'milestone':
+                sMilestoneBaseModel.setModel(selectedRecord);
+                break;
+            case 'activity':
+                sActivityBaseModel.setModel(selectedRecord);
+                break;
+            case 'task':
+                sTaskBaseModel.setModel(selectedRecord);
+                break;
+        }
+
+        // configDataElement.msg = '';
+        // configDataElement.activeRecordOriginal = angular.copy(selectedRecord);
+        // // copy so the original does not get changed.
+        // 
+        // configDataElement.activeRecordNew = false;
+    };
+
+
+    // ----- Save existing record -----
+    configDataElement.saveRecord = function() {
+
+        if(configDataElement.child) {
+            var objIds = [];
+            _.each(configDataElement.activeRecord[ configDataElement.child ], function(item) {
+                objIds.push( item._id );
+            });
+            configDataElement.activeRecord[configDataElement.child] = objIds;
+        }
+
+        switch(configDataElement.context) {
+            case 'stream':
+                sStreamModel.saveModel().then( function(data) {
+                    $scope.$emit('refreshConfig');
+                }).catch( function(err) {
+                    $scope.error = err;
+                });
+                break;
+            case 'phase':
+                sPhaseBaseModel.saveModel().then( function(data) {
+                    $scope.$emit('refreshConfig');
+                }).catch( function(err) {
+                    $scope.error = err;
+                });
+                break;
+            case 'milestone':
+                sMilestoneBaseModel.saveModel().then( function(data) {
+                    $scope.$emit('refreshConfig');
+                }).catch( function(err) {
+                    $scope.error = err;
+                });
+                break;
+            case 'activity':
+                sActivityBaseModel.saveModel().then( function(data) {
+                    $scope.$emit('refreshConfig');
+                }).catch( function(err) {
+                    $scope.error = err;
+                });
+                break;
+            case 'task':
+                sTaskBaseModel.saveModel().then( function(data) {
+                    $scope.$emit('refreshConfig');
+                }).catch( function(err) {
+                    $scope.error = err;
+                });
+                break;
+        }
+        configDataElement.msg = 'Record Saved';
+        configDataElement.activeRecord = undefined;
+    };
+
+    // ----- Cancel a record -----
+    configDataElement.cancelRecord = function() {
+        configDataElement.msg = '';
+        configDataElement.activeRecordOriginal = undefined;
+        configDataElement.activeRecord = undefined;
+        configDataElement.activeRecordNew = false;
+    };
+
+}
+
+
+
 // -----------------------------------------------------------------------------------
 //
 // Configure a stream
@@ -187,6 +359,7 @@ function controllerConfiguration($rootScope, $scope, sTaskBaseModel, sActivityBa
 //         });
 //     };
 
+
 //     // add the new phases to the stream.
 //     configStream.addPhases = function(newItems) {
 //         // add a holder for each milestone and activity
@@ -285,179 +458,3 @@ function controllerConfiguration($rootScope, $scope, sTaskBaseModel, sActivityBa
 //     };
 
 // }
-// -----------------------------------------------------------------------------------
-//
-// Config any element for user in the lookups
-//
-// -----------------------------------------------------------------------------------
-controllerConfigManageElement.$inject = ['$scope', 'ProcessCodes', '$filter', '_', 'TaskBaseModel', 'ActivityBaseModel', 'MilestoneBaseModel', 'PhaseBaseModel', 'StreamModel'];
-
-/* @ngInject */
-function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBaseModel, sActivityBaseModel, sMilestoneBaseModel, sPhaseBaseModel, sStreamModel) {
-    var configDataElement = this;
-
-    // for the task process code dropdown
-    configDataElement.processCodes = ProcessCodes;
-
-    configDataElement.activeRecord = undefined;
-    configDataElement.activeRecordNew = false;
-
-    $scope.$watch('config', function(newValue) {
-        console.log(newValue, 'newval');
-        if (newValue) {
-            configDataElement.data = newValue;
-        }
-    });
-
-    $scope.$watch('context', function(newValue) {
-        if (newValue) {
-            configDataElement.context = newValue;
-        }
-    });
-
-    $scope.$watch('childGroup', function(newValue) {
-        if (newValue) {
-            configDataElement.child = newValue;
-        }
-    });
-
-
-    // ----- New record template -----
-    configDataElement.newRecord = function() {
-        switch(configDataElement.context) {
-            case 'stream':
-                sStreamModel.getNew().then( function(data) {
-                    configDataElement.activeRecord = data;
-                    $scope.$apply();
-                });
-                break;
-            case 'phase':
-                sPhaseBaseModel.getNew().then( function(data) {
-                    configDataElement.activeRecord = data;
-                    $scope.$apply();
-                });
-                break;
-            case 'milestone':
-                sMilestoneBaseModel.getNew().then( function(data) {
-                    configDataElement.activeRecord = data;
-                    $scope.$apply();
-                });
-                break;
-            case 'activity':
-                sActivityBaseModel.getNew().then( function(data) {
-                    configDataElement.activeRecord = data;
-                    $scope.$apply();
-                });
-                break;
-            case 'task':
-                sTaskBaseModel.getNew().then( function(data) {
-                    configDataElement.activeRecord = data;
-                    $scope.$apply();
-                });
-                break;
-        }
-        configDataElement.activeRecordNew = true;
-    };
-
-    // ----- Edit a new record -----
-    configDataElement.editRecord = function(selectedRecord) {
-
-        configDataElement.activeRecordNew = false;
-        configDataElement.activeRecord = selectedRecord;
-        
-        switch(configDataElement.context) {
-            case 'stream':
-                sStreamModel.setModel(selectedRecord);
-                break;
-            case 'phase':
-                sPhaseBaseModel.setModel(selectedRecord);
-                break;
-            case 'milestone':
-                sMilestoneBaseModel.setModel(selectedRecord);
-                break;
-            case 'activity':
-                sActivityBaseModel.setModel(selectedRecord);
-                break;
-            case 'task':
-                sTaskBaseModel.setModel(selectedRecord);
-                break;
-        }
-
-        // configDataElement.msg = '';
-        // configDataElement.activeRecordOriginal = angular.copy(selectedRecord);
-        // // copy so the original does not get changed.
-        // 
-        // configDataElement.activeRecordNew = false;
-    };
-
-
-    configDataElement.objsToIds = function(obj, childObjs) {
-        if(configDataElement.child) {
-            var objIds = [];
-            _.each(obj[childObjs], function(item) {
-                objIds.push( item._id );
-            });
-            obj[childObjs] = objIds;
-        }
-    };
-
-
-    // ----- Save existing record -----
-    configDataElement.saveRecord = function() {
-
-        if(configDataElement.child) {
-            var objIds = [];
-            _.each(configDataElement.activeRecord[ configDataElement.child ], function(item) {
-                objIds.push( item._id );
-            });
-            configDataElement.activeRecord[configDataElement.child] = objIds;
-        }
-
-        switch(configDataElement.context) {
-            case 'stream':
-                sStreamModel.saveModel(configDataElement.activeRecord).then( function(data) {
-                    configDataElement.msg = 'Record Saved';
-                    configDataElement.activeRecord = undefined;
-                    $scope.$emit('refreshConfig');
-                });
-                break;
-            case 'phase':
-                sPhaseBaseModel.saveModel(configDataElement.activeRecord).then( function(data) {
-                    configDataElement.msg = 'Record Saved';
-                    configDataElement.activeRecord = undefined;
-                    $scope.$emit('refreshConfig');
-                });
-                break;
-            case 'milestone':
-                sMilestoneBaseModel.saveModel(configDataElement.activeRecord).then( function(data) {
-                    configDataElement.msg = 'Record Saved';
-                    configDataElement.activeRecord = undefined;
-                    $scope.$emit('refreshConfig');
-                });
-                break;
-            case 'activity':
-                sActivityBaseModel.saveModel(configDataElement.activeRecord).then( function(data) {
-                    configDataElement.msg = 'Record Saved';
-                    configDataElement.activeRecord = undefined;
-                    $scope.$emit('refreshConfig');
-                });
-                break;
-            case 'task':
-                sTaskBaseModel.saveModel(configDataElement.activeRecord).then( function(data) {
-                    configDataElement.msg = 'Record Saved';
-                    configDataElement.activeRecord = undefined;
-                    $scope.$emit('refreshConfig');
-                });
-                break;
-        }
-    };
-
-    // ----- Cancel a record -----
-    configDataElement.cancelRecord = function() {
-        configDataElement.msg = '';
-        configDataElement.activeRecordOriginal = undefined;
-        configDataElement.activeRecord = undefined;
-        configDataElement.activeRecordNew = false;
-    };
-
-}
