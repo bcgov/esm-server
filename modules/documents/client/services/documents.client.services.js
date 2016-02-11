@@ -43,10 +43,24 @@ function serviceDocument($http) {
         return $http({method:'GET',url: '/api/documents/types/' + projectId});
     };
 
+    var getProjectDocumentVersions = function(projectId, type, subtype, folderName, fileName) {
+        return $http({  method:'GET',
+                        url: '/api/documents/versions/' + projectId,
+                        headers: {
+                            'projectFolderType': type,
+                            'projectFolderSubType': subtype,
+                            'projectFolderName': folderName,
+                            'documentFileName': fileName,
+                            'projectID': projectId,
+                        },
+                    });
+    };
+
 	return {
 		getDocumentTypes: getDocumentTypes,
         getAllDocuments: getAllDocuments,
         getProjectDocuments: getProjectDocuments,
-        getProjectDocumentTypes: getProjectDocumentTypes
+        getProjectDocumentTypes: getProjectDocumentTypes,
+        getProjectDocumentVersions: getProjectDocumentVersions
 	};
 }

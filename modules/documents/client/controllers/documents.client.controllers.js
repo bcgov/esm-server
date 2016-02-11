@@ -197,6 +197,14 @@ function controllerDocumentBrowser($scope, Document, Project) {
 	};
 	docBrowser.filterSummary = function(doc) {
 		$scope.filterSummary = doc;
+		Document.getProjectDocumentVersions(doc.project,
+											doc.projectFolderType,
+											doc.projectFolderSubType,
+											doc.projectFolderName,
+											doc.documentFileName).then( function(res) {
+			docBrowser.docVersions	= res.data;
+			console.log(res.data);
+		});
 	};
 }
 
