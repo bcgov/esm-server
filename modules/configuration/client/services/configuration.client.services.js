@@ -26,39 +26,39 @@ function serviceConfiguration($http, _) {
     };
 
 
-    var getBaseConfigItem = function(context) {
-        return $http({method:'GET',url: '/api/base/' + context});
-    };
+    // var getBaseConfigItem = function(context) {
+    //     return $http({method:'GET',url: '/api/base/' + context});
+    // };
 
 
-    var getConfigItem = function(context) {
-        return $http({method:'GET',url: '/api/' + context});
-    };
-    var newConfigItem = function(context) {
-        return $http({method:'GET',url: '/api/new/' + context});
-    };
-    var addConfigItem = function(req, context, childGroup) {
-        // convert child group to id's only
-        if(childGroup) {
-            var objIds = [];
-            _.each(req[childGroup], function(item) {
-                objIds.push( item._id );
-            });
-            req[childGroup] = objIds;
-        }
-        return $http({method:'POST',url: '/api/' + context, data: req});
-    };
-    var saveConfigItem = function(req, context, childGroup) {
-        // convert child group to id's only
-        if(childGroup) {
-            var objIds = [];
-            _.each(req[childGroup], function(item) {
-                objIds.push( item._id );
-            });
-            req[childGroup] = objIds;
-        }
-        return $http({method:'PUT',url: '/api/' + context + '/' + req._id, data: req});
-    };
+    // var getConfigItem = function(context) {
+    //     return $http({method:'GET',url: '/api/' + context});
+    // };
+    // var newConfigItem = function(context) {
+    //     return $http({method:'GET',url: '/api/new/' + context});
+    // };
+    // var addConfigItem = function(req, context, childGroup) {
+    //     // convert child group to id's only
+    //     if(childGroup) {
+    //         var objIds = [];
+    //         _.each(req[childGroup], function(item) {
+    //             objIds.push( item._id );
+    //         });
+    //         req[childGroup] = objIds;
+    //     }
+    //     return $http({method:'POST',url: '/api/' + context, data: req});
+    // };
+    // var saveConfigItem = function(req, context, childGroup) {
+    //     // convert child group to id's only
+    //     if(childGroup) {
+    //         var objIds = [];
+    //         _.each(req[childGroup], function(item) {
+    //             objIds.push( item._id );
+    //         });
+    //         req[childGroup] = objIds;
+    //     }
+    //     return $http({method:'PUT',url: '/api/' + context + '/' + req._id, data: req});
+    // };
 
 
     // var addBucketToStream = function(streamId, bucketId) {
@@ -99,12 +99,12 @@ function serviceConfiguration($http, _) {
         getStreams: getStreams,
         getStream: getStream,
 
-        getBaseConfigItem: getBaseConfigItem,
+        // getBaseConfigItem: getBaseConfigItem,
         
-        getConfigItem: getConfigItem,
-        newConfigItem: newConfigItem,
-        addConfigItem: addConfigItem,
-        saveConfigItem: saveConfigItem,
+        // getConfigItem: getConfigItem,
+        // newConfigItem: newConfigItem,
+        // addConfigItem: addConfigItem,
+        // saveConfigItem: saveConfigItem,
 
         // addBucketToStream: addBucketToStream,
         // addPhaseToStream: addPhaseToStream,
