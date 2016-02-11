@@ -473,6 +473,8 @@ var upload = function (req, res) {
 			projectFolderName			: req.headers.projectfoldername,
 			projectFolderURL			: req.headers.projectfolderurl,
 			projectFolderDatePosted		: req.headers.projectfolderdateposted,
+			// NB: In EPIC, projectFolders have authors, not the actual documents.
+			projectFolderAuthor			: req.headers.projectfolderauthor,
 			// These are the data as it was shown on the EPIC website.
 			documentFileName	: req.headers.documentfilename,
 			documentFileURL		: req.headers.documentfileurl,
