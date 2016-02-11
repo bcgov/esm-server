@@ -357,11 +357,33 @@ function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBa
 
     // ----- Edit a new record -----
     configDataElement.editRecord = function(selectedRecord) {
-        configDataElement.msg = '';
-        configDataElement.activeRecordOriginal = angular.copy(selectedRecord);
-        // copy so the original does not get changed.
-        configDataElement.activeRecord = selectedRecord;
+
         configDataElement.activeRecordNew = false;
+        configDataElement.activeRecord = selectedRecord;
+        
+        switch(configDataElement.context) {
+            case 'stream':
+                sStreamModel.setModel(selectedRecord);
+                break;
+            case 'phase':
+                sPhaseBaseModel.setModel(selectedRecord);
+                break;
+            case 'milestone':
+                sMilestoneBaseModel.setModel(selectedRecord);
+                break;
+            case 'activity':
+                sActivityBaseModel.setModel(selectedRecord);
+                break;
+            case 'task':
+                sTaskBaseModel.setModel(selectedRecord);
+                break;
+        }
+
+        // configDataElement.msg = '';
+        // configDataElement.activeRecordOriginal = angular.copy(selectedRecord);
+        // // copy so the original does not get changed.
+        // 
+        // configDataElement.activeRecordNew = false;
     };
 
 
