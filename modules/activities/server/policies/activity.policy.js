@@ -13,7 +13,8 @@ exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'activity');
 	helpers.setCRUDPermissions (acl, 'activitybase');
 	helpers.setPathPermissions (acl, [
-		[ '', 'user', '/api/activitybase/:activitybase/add/task/:taskbase']
+		[ '', 'user', '/api/activitybase/:activitybase/add/task/:taskbase'],
+		[ '', 'user', '/api/activity/:activity/add/task/:taskbase']
 	]);
 };
 

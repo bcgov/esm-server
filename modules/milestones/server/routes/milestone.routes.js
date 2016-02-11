@@ -22,5 +22,15 @@ module.exports = function (app) {
 			p.addActivityToMilestone (req.MilestoneBase, req.ActivityBase)
 			.then (helpers.success(res), helpers.failure(res));
 		});
+	//
+	// add activity base to real milestone
+	//
+	app.route ('/api/milestone/:milestone/add/activity/:activitybase')
+		.all (policy.isAllowed)
+		.put (function (req,res) {
+			var p = new Milestone (req.user);
+			p.addActivityFromBase (req.Milestone, req.ActivityBase)
+			.then (helpers.success(res), helpers.failure(res));
+		});
 };
 
