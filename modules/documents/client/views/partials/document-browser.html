@@ -22,7 +22,6 @@
 
 					<li ng-repeat="doc in docBrowser.documentFiles | filter : filterDocs : true" >
 						<a ng-mouseover="docBrowser.filterSummary(doc)" href="{{ doc.documentFileURL }}"><span class="glyphicon glyphicon-file"></span>{{ doc.documentFileName }} </a>
-						<span >{{author}}</span>
 					</li>
 				</ul>
 
@@ -32,14 +31,14 @@
 				<ul class="small list-unstyled list-documents list-indent-left">
 					<li>
 						<h3>Executive Summary</h3>
-						<p>Date Posted: {{ filterSummary.projectFolderDatePosted }}</p>
+						<p>Date Posted: {{ filterSummary.projectFolderDatePosted | date : format : timezone }}</p>
 						<p>File Format: {{ filterSummary.documentFileFormat }}</p>
 						<p>File Size: {{ filterSummary.documentFileSize }}</p>
-						<p>In Review?: {{ filterSummary.documentIsInReview }}</p>
+						<p>In Review?: {{ filterSummary.documentIsInReview?'Yes':'No' }}</p>
 						<!-- NB: Project folders are authors in EPIC:  We override this behavior here -->
 						<p>Author: {{ filterSummary.documentAuthor }}</p>
 						<p>Current Revision: <a href="{{ filterSummary.documentFileURL }}">{{ filterSummary.documentVersion }} <span class="glyphicon glyphicon-download"></span></a></p>
-						<p>Is Latest Revision: {{ filterSummary.documentIsLatestVersion }} </p>
+						<p>Latest Revision: {{ filterSummary.documentIsLatestVersion?'Yes':'No' }} </p>
 					</li>
 					<li>
 						Tags
