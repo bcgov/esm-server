@@ -9,7 +9,7 @@ angular.module('organizations').controller('controllerOrganizationsDisplayEdit',
         displayEdit.companyTypes = COMPANY_TYPES;
 
         // Is this a new entry? If so, let's create it...
-        if (displayEdit.options.mode == "add") {
+        if (displayEdit.options.mode === "add") {
 
         } else
         // If this isn't a new entry, If the ID is wrong let's go back to the list.
@@ -25,7 +25,7 @@ angular.module('organizations').controller('controllerOrganizationsDisplayEdit',
         }
 
         displayEdit.submit = function() {
-            if (displayEdit.options.mode == "add") {
+            if (displayEdit.options.mode === "add") {
                 Organizations.addOrganization(displayEdit.organization).then( function(res) {
                     console.log(res);
                     $state.go('view', { organizationId: res.data._id});
@@ -44,12 +44,12 @@ angular.module('organizations').controller('controllerOrganizationsDisplayEdit',
         };
 
         displayEdit.cancel = function() {
-            if (displayEdit.options.mode == "add") {
+            if (displayEdit.options.mode === "add") {
                 $state.go('list');
             } else {
                 $state.go('view', {organizationId: displayEdit.organization._id});
             }
-        }
+        };
 
         displayEdit.remove = function() {
             if (confirm('Are you sure you want to delete this organization?')) {
@@ -59,6 +59,6 @@ angular.module('organizations').controller('controllerOrganizationsDisplayEdit',
                     }
                 );
             }
-        }
+        };
     }
 ]);

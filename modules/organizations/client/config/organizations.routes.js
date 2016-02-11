@@ -8,6 +8,7 @@ angular.module('organizations').config(['$stateProvider',
                 url: '/organizations/list',
                 templateUrl: 'modules/organizations/client/views/list-organizations.client.view.html',
                 controller: 'OrganizationsListController',
+                controllerAs: 'listOrganizations'
             })
             .state('new', {
                 url: '/organization/new',

@@ -1,21 +1,19 @@
 <section class="single-organization">
 
-    <form name="displayEdit.organizationForm" ng-submit="displayEdit.submit(organizationForm.$valid)" novalidate>
+    <form name="displayEdit.organizationForm" ng-submit="displayEdit.submit(organizationForm.$valid)" validate>
         <div class="row">
 
             <div class="col-sm-4">
                 <div class="form-group show-errors">
                     <label for="company" class="control-label">Company (Doing Business As)</label>
-
                     <input ng-if="displayEdit.options.mode != 'display'" type="text" id="company" name="company" class="form-control" ng-model="displayEdit.organization.company" placeholder="Company (Doing Business As)" required />
                     <div ng-messages="displayEdit.organizationForm.company.$error" role="alert">
-                        <p class="help-block error-text" ng-message="required">Company is required.</p>
                     </div>
                     <p ng-if="displayEdit.options.mode == 'display'" ng-bind="displayEdit.organization.company"/>
                 </div>
                 <div class="form-group show-errors">
                     <label for="website" class="control-label">Website</label>
-                    <input ng-if="displayEdit.options.mode != 'display'" type="text" id="website" name="website" class="form-control" ng-model="displayEdit.organization.website" placeholder="Website" required />
+                    <input ng-if="displayEdit.options.mode != 'display'" type="text" id="website" name="website" class="form-control" ng-model="displayEdit.organization.website" placeholder="Website"/>
                     <div ng-messages="displayEdit.organizationForm.website.$error" role="alert">
                     </div>
                     <p ng-if="displayEdit.options.mode == 'display'" ng-bind="displayEdit.organization.website"/>
@@ -32,24 +30,21 @@
             <div class="col-sm-4">
                 <div class="form-group show-errors">
                     <label for="parentCompany" class="control-label">Parent Company (if applicable)</label>
-                    <input ng-if="displayEdit.options.mode != 'display'" type="text" id="parentCompany" name="parentCompany" class="form-control" ng-model="displayEdit.organization.parentCompany" placeholder="Parent Company (if applicable)" required />
+                    <input ng-if="displayEdit.options.mode != 'display'" type="text" id="parentCompany" name="parentCompany" class="form-control" ng-model="displayEdit.organization.parentCompany" placeholder="Parent Company (if applicable)" />
                     <div ng-messages="displayEdit.organizationForm.parentCompany.$error" role="alert">
                     </div>
                     <p ng-if="displayEdit.options.mode == 'display'" ng-bind="displayEdit.organization.parentCompany"/>
                 </div>
-
                 <div class="form-group show-errors">
                     <label for="companyType" class="control-label">Company Type</label>
-                    <select ng-if="displayEdit.options.mode != 'display'" class="form-control input-sm" ng-model="displayEdit.organization.companyType" ng-options="key as value for (key, value) in displayEdit.companyTypes"></select>
+                    <select id="companyType" name="companyType" ng-if="displayEdit.options.mode != 'display'" class="form-control input-sm" ng-model="displayEdit.organization.companyType" ng-options="key as value for (key, value) in displayEdit.companyTypes" required></select>
                     <div ng-messages="displayEdit.organizationForm.companyType.$error" role="alert">
                     </div>
                     <p ng-if="displayEdit.options.mode == 'display'" ng-bind="displayEdit.companyTypes[displayEdit.organization.companyType]"/>
                 </div>
-
-
                 <div class="form-group show-errors">
                     <label for="registeredIn" class="control-label">Registered In</label>
-                    <select ng-if="displayEdit.options.mode != 'display'" class="form-control input-sm" ng-model="displayEdit.organization.registeredIn" ng-options="key as value for (key, value) in displayEdit.provs"></select>
+                    <select id="registeredIn" ng-if="displayEdit.options.mode != 'display'" class="form-control input-sm" ng-model="displayEdit.organization.registeredIn" ng-options="key as value for (key, value) in displayEdit.provs" required></select>
                     <div ng-messages="displayEdit.organizationForm.registeredIn.$error" role="alert">
                     </div>
                     <p ng-if="displayEdit.options.mode == 'display'" ng-bind="displayEdit.provs[displayEdit.organization.registeredIn]"/>
@@ -66,7 +61,7 @@
                 </div>
                 <div class="form-group show-errors">
                     <label for="address2" class="control-label">Address (Line 2)</label>
-                    <input ng-if="displayEdit.options.mode != 'display'" type="text" id="address2" name="address2" class="form-control" ng-model="displayEdit.organization.address2" placeholder="Address (Line 2)" required />
+                    <input ng-if="displayEdit.options.mode != 'display'" type="text" id="address2" name="address2" class="form-control" ng-model="displayEdit.organization.address2" placeholder="Address (Line 2)"  />
                     <div ng-messages="displayEdit.organizationForm.address2.$error" role="alert">
                     </div>
                     <p ng-if="displayEdit.options.mode == 'display'" ng-bind="displayEdit.organization.address2"/>
@@ -80,7 +75,7 @@
                 </div>
                 <div class="form-group show-errors">
                     <label for="province" class="control-label">Province</label>
-                    <select ng-if="displayEdit.options.mode != 'display'" class="form-control input-sm" ng-model="displayEdit.organization.province" ng-options="key as value for (key, value) in displayEdit.provs"></select>
+                    <select id="province" name="province" ng-if="displayEdit.options.mode != 'display'" class="form-control input-sm" ng-model="displayEdit.organization.province" ng-options="key as value for (key, value) in displayEdit.provs" required></select>
                     <div ng-messages="displayEdit.organizationForm.province.$error" role="alert">
                     </div>
                     <p ng-if="displayEdit.options.mode == 'display'" ng-bind="displayEdit.provs[displayEdit.organization.province]"/>
@@ -96,7 +91,6 @@
 
         </div>
 
-
         <div class="text-right">
             <div class="form-group">
                 <button ng-if="displayEdit.options.mode != 'display'" type="submit" class="btn btn-default button-sm " ><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
@@ -109,5 +103,6 @@
                 <strong ng-bind="error"></strong>
             </div>
         </div>
+
     </form>
 </section>

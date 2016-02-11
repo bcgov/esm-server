@@ -1,9 +1,13 @@
 'use strict';
 
-angular.module('organizations').controller('OrganizationsListController', ['$scope', '$filter', 'Admin', 'Organizations',
-  function ($scope, $filter, Admin, Organizations) {
+angular.module('organizations').controller('OrganizationsListController', ['$scope', '$filter', 'Organizations', 'PROVINCES',
+  function ($scope, $filter, Organizations, PROVINCES) {
+
+    var listOrganizations = this;
+
+    listOrganizations.provs = PROVINCES;
+
     Organizations.getOrganizations().then(function (data) {
-      console.log(data);
       $scope.organizations = data.data;
       $scope.buildPager();
     });
@@ -28,5 +32,6 @@ angular.module('organizations').controller('OrganizationsListController', ['$sco
     $scope.pageChanged = function () {
       $scope.figureOutItemsToDisplay();
     };
+
   }
 ]);
