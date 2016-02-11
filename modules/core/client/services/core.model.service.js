@@ -103,6 +103,7 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		// -------------------------------------------------------------------------
 		saveModel: function () {
 			var self = this;
+			console.log('save or add', this);
 			return new Promise (function (resolve, reject) {
 				var p = (self.modelIsNew) ? self.add (self.model) : self.save (self.model);
 				p.then (function (res) {

@@ -32,20 +32,23 @@ function controllerConfiguration($rootScope, $scope, sTaskBaseModel, sActivityBa
 
         sMilestoneBaseModel.getCollection().then( function(data) {
             configData.config.milestones = data;
+            console.log(data, configData.config);
+        }).catch( function(err) {
             $scope.error = err;
         });
 
         sPhaseBaseModel.getCollection().then( function(data) {
-            configData.config = data;
+            configData.config.phases = data;
         }).catch( function(err) {
             $scope.error = err;
         });
 
         sStreamModel.getCollection().then( function(data) {
-            configData.config = data;
+            configData.config.stream = data;
         }).catch( function(err) {
             $scope.error = err;
         });
+
     };
     
     configData.refresh();
@@ -287,10 +290,10 @@ function controllerConfiguration($rootScope, $scope, sTaskBaseModel, sActivityBa
 // Config any element for user in the lookups
 //
 // -----------------------------------------------------------------------------------
-controllerConfigManageElement.$inject = ['$scope', 'sConfiguration', 'ProcessCodes', '$filter', '_'];
+controllerConfigManageElement.$inject = ['$scope', 'ProcessCodes', '$filter', '_', 'TaskBaseModel', 'ActivityBaseModel', 'MilestoneBaseModel', 'PhaseBaseModel', 'StreamModel'];
 
 /* @ngInject */
-function controllerConfigManageElement($scope, sConfiguration, ProcessCodes, $filter, _) {
+function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBaseModel, sActivityBaseModel, sMilestoneBaseModel, sPhaseBaseModel, sStreamModel) {
     var configDataElement = this;
 
     // for the task process code dropdown
@@ -300,6 +303,7 @@ function controllerConfigManageElement($scope, sConfiguration, ProcessCodes, $fi
     configDataElement.activeRecordNew = false;
 
     $scope.$watch('config', function(newValue) {
+        console.log(newValue, 'newval');
         if (newValue) {
             configDataElement.data = newValue;
         }
@@ -312,9 +316,7 @@ function controllerConfigManageElement($scope, sConfiguration, ProcessCodes, $fi
     });
 
     $scope.$watch('childGroup', function(newValue) {
-        console.log('here');
         if (newValue) {
-            console.log(newValue);
             configDataElement.child = newValue;
         }
     });
@@ -324,46 +326,104 @@ function controllerConfigManageElement($scope, sConfiguration, ProcessCodes, $fi
     configDataElement.newRecord = function() {
         configDataElement.activeRecordNew = true;
 
-        console.log('config', configDataElement.context);
-
-        sConfiguration.newConfigItem(configDataElement.context).then( function(res) {
-            configDataElement.activeRecord = res.data;
-            console.log(res.data);
-        });
-
-    };
-
-    // ----- Add a new record -----
-    configDataElement.addRecord = function() {
-
-        sConfiguration.addConfigItem(configDataElement.activeRecord, configDataElement.context).then( function(res) {
-            configDataElement.activeRecord = res.data;
-            configDataElement.msg = 'Record Added';
-            configDataElement.activeRecord = undefined;
-            configDataElement.activeRecordNew = false; 
-            $scope.$emit('refreshConfig');
-        });
-
+        switch(configDataElement.context) {
+            case 'stream':
+                sStreamModel.getNew().then( function(data) {
+                    configDataElement.activeRecord = data;
+                });
+                break;
+            case 'phase':
+                sPhaseBaseModel.getNew().then( function(data) {
+                    configDataElement.activeRecord = data;
+                });
+                break;
+            case 'milestone':
+                sMilestoneBaseModel.getNew().then( function(data) {
+                    configDataElement.activeRecord = data;
+                });
+                break;
+            case 'activity':
+                sActivityBaseModel.getNew().then( function(data) {
+                    configDataElement.activeRecord = data;
+                });
+                break;
+            case 'task':
+                sTaskBaseModel.getNew().then( function(data) {
+                    configDataElement.activeRecord = data;
+                });
+                break;
+        }
     };
 
     // ----- Edit a new record -----
     configDataElement.editRecord = function(selectedRecord) {
         configDataElement.msg = '';
-        configDataElement.activeRecordOriginal = selectedRecord;
-        configDataElement.activeRecord = angular.copy(selectedRecord);
+        configDataElement.activeRecordOriginal = angular.copy(selectedRecord);
+        // copy so the original does not get changed.
+        configDataElement.activeRecord = selectedRecord;
         configDataElement.activeRecordNew = false;
     };
+
+
+    configDataElement.objsToIds = function(obj, childObjs) {
+        if(configDataElement.child) {
+            var objIds = [];
+            _.each(obj[childObjs], function(item) {
+                objIds.push( item._id );
+            });
+            obj[childObjs] = objIds;
+        }
+    };
+
 
     // ----- Save existing record -----
     configDataElement.saveRecord = function() {
 
-        sConfiguration.saveConfigItem(configDataElement.activeRecord, configDataElement.context, configDataElement.child).then( function(res) {
-            configDataElement.msg = 'Record Saved';
-            configDataElement.activeRecord = undefined;
-            _.assign(configDataElement.activeRecordOriginal, res.data);
-            $scope.$emit('refreshConfig');
-        });
+        if(configDataElement.child) {
+            var objIds = [];
+            _.each(configDataElement.activeRecord[ configDataElement.child ], function(item) {
+                objIds.push( item._id );
+            });
+            configDataElement.activeRecord[configDataElement.child] = objIds;
+        }
 
+        switch(configDataElement.context) {
+            case 'stream':
+                sStreamModel.saveModel(configDataElement.activeRecord).then( function(data) {
+                    configDataElement.msg = 'Record Saved';
+                    configDataElement.activeRecord = undefined;
+                    $scope.$emit('refreshConfig');
+                });
+                break;
+            case 'phase':
+                sPhaseBaseModel.saveModel(configDataElement.activeRecord).then( function(data) {
+                    configDataElement.msg = 'Record Saved';
+                    configDataElement.activeRecord = undefined;
+                    $scope.$emit('refreshConfig');
+                });
+                break;
+            case 'milestone':
+                sMilestoneBaseModel.saveModel(configDataElement.activeRecord).then( function(data) {
+                    configDataElement.msg = 'Record Saved';
+                    configDataElement.activeRecord = undefined;
+                    $scope.$emit('refreshConfig');
+                });
+                break;
+            case 'activity':
+                sActivityBaseModel.saveModel(configDataElement.activeRecord).then( function(data) {
+                    configDataElement.msg = 'Record Saved';
+                    configDataElement.activeRecord = undefined;
+                    $scope.$emit('refreshConfig');
+                });
+                break;
+            case 'task':
+                sTaskBaseModel.saveModel(configDataElement.activeRecord).then( function(data) {
+                    configDataElement.msg = 'Record Saved';
+                    configDataElement.activeRecord = undefined;
+                    $scope.$emit('refreshConfig');
+                });
+                break;
+        }
     };
 
     // ----- Cancel a record -----
@@ -372,20 +432,6 @@ function controllerConfigManageElement($scope, sConfiguration, ProcessCodes, $fi
         configDataElement.activeRecordOriginal = undefined;
         configDataElement.activeRecord = undefined;
         configDataElement.activeRecordNew = false;
-    };
-
-
-    // -----------------------------------------------------------------------------------
-    //
-    // FILTER: Resovle an ID to an item name within a stream
-    //
-    // -----------------------------------------------------------------------------------
-    configDataElement.configureStream = function() {
-        sConfiguration.getStream(configDataElement.activeRecord).then( function(res) {
-            configDataElement.activeRecord = _.assign(res.data, configDataElement.activeRecord);
-            configDataElement.activeRecord.configureStream = true;
-            console.log('full stream to configure', configDataElement.activeRecord);
-        });
     };
 
 }

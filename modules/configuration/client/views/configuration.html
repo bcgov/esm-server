@@ -21,24 +21,24 @@
 						<tmpl-config-topics x-config="configData.config" x-context="topic"></tmpl-config-topics>
 					</div>
 
-					<div ng-if="configData.curTab === 'streams'">
-						<tmpl-config-streams x-config="configData.config" x-context="stream" x-child-group="phases"></tmpl-config-streams>
-					</div>
-
-					<div ng-if="configData.curTab === 'phases'">
-						<tmpl-config-phases x-config="configData.config" x-context="phase" x-child-group="milestones"></tmpl-config-phases>
-					</div>
-
-					<div ng-if="configData.curTab === 'milestones'">
-						<tmpl-config-milestones x-config="configData.config" x-context="milestone" x-child-group="activities"></tmpl-config-milestones>
+					<div ng-if="configData.curTab === 'tasks'">
+						<tmpl-config-tasks x-config="configData.config" x-context="task"></tmpl-config-tasks>
 					</div>
 
 					<div ng-if="configData.curTab === 'activities'">
 						<tmpl-config-activities x-config="configData.config" x-context="activity" x-child-group="tasks"></tmpl-config-activities>
 					</div>
 
-					<div ng-if="configData.curTab === 'tasks'">
-						<tmpl-config-tasks x-config="configData.config" x-context="task"></tmpl-config-tasks>
+					<div ng-if="configData.curTab === 'milestones'">
+						<tmpl-config-milestones x-config="configData.config" x-context="milestone" x-child-group="activities"></tmpl-config-milestones>
+					</div>
+
+					<div ng-if="configData.curTab === 'phases'">
+						<tmpl-config-phases x-config="configData.config" x-context="phase" x-child-group="milestones"></tmpl-config-phases>
+					</div>
+
+					<div ng-if="configData.curTab === 'streams'">
+						<tmpl-config-streams x-config="configData.config" x-context="stream" x-child-group="phases"></tmpl-config-streams>
 					</div>
 
 

@@ -6,16 +6,16 @@
 		<div class='panel-body'>
 			<div class="row">
 				<div class="col-sm-9">
-					<p>{{ processesetPhase.act.description }}</p>
+					<p>{{ processSetPhase.act.description }}</p>
 				</div>
 				<div class="col-sm-3 text-right form-group">
-					<select class="form-control" ng-model="processesetPhase.newPhase" ng-options="phase as phase.name for phase in processesetPhase.project.phases"></select>
+					<select class="form-control" ng-model="processSetPhase.newPhase" ng-options="phase as phase.name for phase in processSetPhase.project.phases"></select>
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-sm-12 text-right">
-					<a class="btn btn-default" href ng-click="processesetPhase.saveProcess()">Save</a>
+					<a class="btn btn-default" href ng-click="processSetPhase.saveProcess()">Save</a>
 				</div>
 			</div>
 		</div>

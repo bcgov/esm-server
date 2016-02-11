@@ -450,7 +450,7 @@ th .progress-bar {
    border-bottom: 2px solid $border-grey;
 }
 .panel > .block-content:first-child > h3 {
-  margin-top: 0px;
+  margin-top: 0;
 }
 .panel > .table.table-stacked {
   margin-bottom: 30px;
@@ -469,7 +469,7 @@ th .progress-bar {
   margin-bottom: 15px;
 }
 
-#menu-side hr {
+.menu-side hr {
   margin-top: 10px;
   margin-bottom: 10px;
 }

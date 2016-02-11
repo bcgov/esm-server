@@ -3,7 +3,6 @@
 angular.module('configuration')
     .directive('tmplConfiguration', directiveConfiguration)
     .directive('tmplConfigStreams', directiveConfigStreams)
-    .directive('tmplConfigStream', directiveConfigStream)
     .directive('tmplConfigRequirements', directiveConfigRequirements)
     .directive('tmplConfigPhases', directiveConfigPhases)
     .directive('tmplConfigTopics', directiveConfigTopics)
@@ -44,27 +43,6 @@ function directiveConfigStreams() {
             config: '=',
             context: '@',
             childGroup: '@'
-        }
-    };
-
-    return directive;
-}
-
-
-// ----- directiveFunction -----
-directiveConfigStream.$inject = [];
-
-/* @ngInject */
-function directiveConfigStream() {
-
-    var directive = {
-        restrict: 'E',
-        templateUrl: 'modules/configuration/client/views/partials/manage-configure-stream.html',
-        controller: 'controllerConfigStream',
-        controllerAs: 'configStream',
-        scope: {
-            config: '=',
-            stream: '='
         }
     };
 

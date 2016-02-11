@@ -23,7 +23,6 @@
                 <h4 ng-if="configDataElement.msg">{{configDataElement.msg}}</h4>
 
                 <div ng-show="!configDataElement.activeRecord">Select an item in the table or <a href ng-click="configDataElement.newRecord()">click here</a> to create a new one.</div>
-
                 <div ng-show="configDataElement.activeRecord">
 
                     <div class="form-group">
@@ -48,7 +47,6 @@
                             x-callback="">Edit</a>
                         <label class="control-label">Activities for this Milestone</label>
 
-
                         <ul class="list-unstyled well well-sm">
                             <li ng-show="configDataElement.activeRecord.activities.length === 0">No Activities selected</li>
                             <li ng-repeat="activity in configDataElement.activeRecord.activities track by $index"><em class="small text-success">activity:</em>&nbsp;{{ activity.name }}</li>
@@ -56,16 +54,11 @@
 
                     </div>
 
-
-                    <div class="form-group" ng-if="configDataElement.activeRecordNew">
-                        <button class="btn btn-primary" ng-click="configDataElement.addRecord()">Add</button>
-                        <button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>                        
-                    </div>
-
-                    <div ng-if="!configDataElement.activeRecordNew">
+                    <div class="form-group">
                         <button class="btn btn-primary" ng-click="configDataElement.saveRecord()">Save</button>
-                        <button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>                        
+                        <button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>
                     </div>
+
                 </div>
             </div>
         </div>

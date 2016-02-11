@@ -13,8 +13,8 @@ function directiveprocessestartProcess() {
     var directive = {
         restrict: 'E',
         templateUrl: 'modules/activities/controls/start-process/client/start-process.html',
-        controller: 'controllerprocessestartProcess',
-        controllerAs: 'processestartProcess',
+        controller: 'controllerProcesseStartProcess',
+        controllerAs: 'processeStartProcess',
         scope: {
             anchor: '@',
             task: '=',
