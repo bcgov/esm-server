@@ -83,7 +83,9 @@ exports.getDocumentVersionsAndReturn = getDocumentVersionsAndReturn;
 var getDocumentsForProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
 		console.log("getDocumentsForProject: Project: ",req.params.projectid);
-		resolve (Model.find({projectID: req.params.projectid}).exec ());
+		resolve (Model.find({project: req.params.projectid}).exec ());
+		// TODO: Make this find only documents that have been fully reviewed
+		// Or create a new seleciton criteria for reviewable documents
 	});
 };
 // -------------------------------------------------------------------------
