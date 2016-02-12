@@ -84,6 +84,7 @@ var getDocumentsForProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
 		console.log("getDocumentsForProject: Project: ",req.params.projectid);
 		resolve (Model.find({	project 				: req.params.projectid,
+								documentIsInReview 		: req.headers.reviewdocsonly,
 								documentIsLatestVersion	: true
 							}).exec());
 		// TODO: Make this find only documents that have been fully reviewed
@@ -121,7 +122,7 @@ var getDocumentTypesForProject = function (req, res) {
 		// When a document has an assigned projectID, grab it.
 		// NB: This will be true after a document has been reviewed by someone perhaps.
 		Model.find({project: req.params.projectid,
-					documentIsInReview: false,
+					documentIsInReview: req.headers.reviewdocsonly,
 					documentIsLatestVersion: true})
 			 .populate('projectID').exec( function (err, records) {
 			if (err) {
@@ -160,7 +161,7 @@ var getDocumentTypesForProject = function (req, res) {
 							for (var z=0;z<tsObj.length;z++) {
 								if (tsObj[z].projectFolderSubType === record.projectFolderSubType) {
 									// Found, start second level finding of objects.
-									stsObj = tsObj[z].projectFolderNames.push(record.projectFolderName);
+									stsObj = tsObj[z].projectFolderNames;
 									break;
 								}
 							}
@@ -169,6 +170,11 @@ var getDocumentTypesForProject = function (req, res) {
 								st.projectFolderSubType = record.projectFolderSubType;
 								st.projectFolderNames.push(record.projectFolderName);
 								tsObj.push(st);
+							} else {
+								// Push only if it's not there already
+								if (stsObj.indexOf(record.projectFolderName) === -1) {
+									stsObj.push(record.projectFolderName);
+								}
 							}
 						}
  					});
@@ -280,14 +286,15 @@ var saveReviewableDocumentObject = function (docobj) {
 		docobj.save ().then (resolve, reject);
 	});
 };
-var insertReviewableDocument = function (jobid, type, subtype, name, url, author, date) {
+var insertReviewableDocument = function (jobid, type, subtype, name, url, author, date, projectID) {
 	saveReviewableDocumentObject( new Model ({	projectFolderType   	: type,
 												projectFolderSubType	: subtype,
 												projectFolderName  		: name,
 												projectFolderURL 		: url,
 												projectFolderAuthor		: author,
 												projectFolderDatePosted : date,
-												documentIsInReview		: true
+												documentIsInReview		: true,
+												project 				: projectID
 												}));
 };
 
@@ -303,7 +310,8 @@ var scrapeAndSearch = function (req, res) {
 	// file that would be consumed by part two. This could then be edited to
 	// remove anything that we don't want pulled down.
 	return new Promise (function (resolve, reject) {
-		//console.log("scrapeAndSearch.run for ProjectID: " + req.Project._id);
+		var projectID = req.headers.projectid;
+		console.log("scrapeAndSearch.run for ProjectID: " + req.headers.projectid);
 		var url = req.headers.url;
 		console.log("URL: " + url);
 
@@ -380,7 +388,8 @@ var scrapeAndSearch = function (req, res) {
 													projectFolderName,
 													projectFolderURL,
 													author,
-													postedDate);
+													postedDate,
+													projectID);
 					}
 				}
 			});
@@ -403,7 +412,8 @@ var scrapeAndSearch = function (req, res) {
 exports.scrapeAndSearch = scrapeAndSearch;
 //
 // populateReviewDocuments - Go through each reviewable document list, grabbing each Document
-// File and inserting a full record for it.
+// File and inserting a full record for it for the specific project.
+// These urls should look like: https://a100.gov.bc.ca/appsdata/epic/html/deploy/epic_document_362_39218.html
 //
 // -------------------------------------------------------------------------
 var populateReviewDocuments = function (req, res) {
@@ -446,6 +456,8 @@ var populateReviewDocuments = function (req, res) {
 			var cheerio = require('cheerio');
 			var $ = cheerio.load(content);
 
+			var urlPrefix = "https://a100.gov.bc.ca/appsdata/epic/html/deploy/";
+
 			// Get Type+SubType
 			var TST = $('div.epic_prjDetail h1');
 			var TSTArray = TST.text().trim().split(">>");
@@ -453,8 +465,8 @@ var populateReviewDocuments = function (req, res) {
 			var top = $('table.docs');
 			var projectFolderType = TSTArray[0].trim();
 			var projectFolderSubType = TSTArray[1].trim();
-			console.log(projectFolderType);
-			console.log(projectFolderSubType);
+			// console.log(projectFolderType);
+			// console.log(projectFolderSubType);
 			var projectFolderName = "";
 			var projectFolderDatePosted = "";
 			// Get a collection of the <tr> elements
@@ -470,13 +482,12 @@ var populateReviewDocuments = function (req, res) {
 				} else if (1 === i) {
 					// Skip the first .docs class, the second one is the one we
 					// really want.
-					//console.log("got the 2nd .docs");
+					// console.log("got the 2nd .docs");
 					$(this).children().first().children().each(function (z, el) {
 						// Get each TR
 						if (0 === z) return true; // skip the first
 						if ("" === $(this).text()) return true; // skip the last
-						//console.log("Currently at: " + $(this).text());
-
+						// console.log("Currently at: " + $(this).text());
 						var tr = $(this).children();
 						var documentFileURL		= $(tr).first().children().first().attr('href');
 						var documentFileName	= $(tr).first().children().first().text();
@@ -488,11 +499,25 @@ var populateReviewDocuments = function (req, res) {
 						console.log("projectFolderSubType:"		+ projectFolderSubType);
 						console.log("projectFolderName:"		+ projectFolderName);
 						console.log("projectFolderDatePosted:"	+ projectFolderDatePosted);
-						console.log("documentFile:"				+ documentFileURL);
+						console.log("documentFile:"				+ urlPrefix + documentFileURL);
 						console.log("documentFileName:"			+ documentFileName);
 						console.log("documentSize:"				+ documentSize);
 						console.log("documentType:"				+ documentType);
-						// TODO:We are now ready to insert but still flag for review
+						// We are now ready to insert but still flag for review
+						var m = new Model ({	projectFolderType   	: projectFolderType,
+												projectFolderSubType	: projectFolderSubType,
+												projectFolderName  		: projectFolderName,
+												projectFolderDatePosted : projectFolderDatePosted,
+												// projectFolderURL 		: "xx", // We don't care about this in new system
+												documentIsInReview		: true,
+												documentFileURL 		: urlPrefix + documentFileURL,
+												documentFileName 		: documentFileName,
+												documentFileSize 		: documentSize,
+												documentFileFormat 		: documentType,
+												project 				: req.headers.projectid
+												});
+						m.save();
+						// console.log("Saved record.");
 					});
 				}
 			});

@@ -1,20 +1,23 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  chalk        = require('chalk'),
-  crypto       = require('crypto'),
-  _            = require('lodash'),
-  configs      = require('./configs.json'),
-  User         = mongoose.model('User'),
-  Activity     = mongoose.model('Activity'),
-  Phase        = mongoose.model('Phase'),
-  Bucket       = mongoose.model('Bucket'),
-  Task         = mongoose.model('Task'),
-  Milestone    = mongoose.model('Milestone'),
-  Requirement  = mongoose.model('Requirement'),
-  Project      = mongoose.model('Project'),
-  Stream      = mongoose.model('Stream'),
-  Integration  = mongoose.model('Integration');
+  chalk         = require('chalk'),
+  crypto        = require('crypto'),
+  _             = require('lodash'),
+  configs       = require('./newconfigs'),
+  User          = mongoose.model('User'),
+  Activity      = mongoose.model('Activity'),
+  Phase         = mongoose.model('Phase'),
+  Bucket        = mongoose.model('Bucket'),
+  Task          = mongoose.model('Task'),
+  Milestone     = mongoose.model('Milestone'),
+  Requirement   = mongoose.model('Requirement'),
+  Project       = mongoose.model('Project'),
+  Stream        = mongoose.model('Stream'),
+  Integration   = mongoose.model('Integration'),
+  PhaseBase     = mongoose.model('PhaseBase'),
+  MilestoneBase = mongoose.model('MilestoneBase'),
+  ActivityBase  = mongoose.model('ActivityBase');
 
 
 console.log(chalk.bold.red('Warning:  Database seeding is turned on'));
@@ -152,74 +155,73 @@ if (process.env.NODE_ENV === 'production') {
 
 
 var doConfigs = function () {
-    var i = new Integration ({module:'configs'});
+    var i = new Integration ({module:'newconfigs'});
     i.save ();
     console.log ('++ Adding default configuration objects');
-    //activity phase bucket task milestone requirement
-    var a = [
-      {m:Activity, s:'activity',p:'activities'},
-      {m:Phase, s:'phase',p:'phases'},
-      {m:Bucket, s:'bucket',p:'buckets'},
-      {m:Task, s:'task',p:'tasks'},
-      {m:Milestone, s:'milestone',p:'milestones'},
-      {m:Requirement, s:'requirement',p:'requirements'},
-      {m:Stream, s:'stream', p:'streams'}
-    ];
-    _.each (a, function (o) {
-      o.m.remove ({}, function () {
-        _.each (configs[o.p], function (obj) {
-          var m = new o.m (obj);
-          m[o.s] = m._id;
-          m.save ();
-        });
-      });
-    });
-
+    configs (Stream, PhaseBase, MilestoneBase, ActivityBase, true);
+    // //activity phase bucket task milestone requirement
+    // var a = [
+    //   {m:Activity, s:'activity',p:'activities'},
+    //   {m:Phase, s:'phase',p:'phases'},
+    //   {m:Bucket, s:'bucket',p:'buckets'},
+    //   {m:Task, s:'task',p:'tasks'},
+    //   {m:Milestone, s:'milestone',p:'milestones'},
+    //   {m:Requirement, s:'requirement',p:'requirements'},
+    //   {m:Stream, s:'stream', p:'streams'}
+    // ];
+    // _.each (a, function (o) {
+    //   o.m.remove ({}, function () {
+    //     _.each (configs[o.p], function (obj) {
+    //       var m = new o.m (obj);
+    //       m[o.s] = m._id;
+    //       m.save ();
+    //     });
+    //   });
+    // });
 };
 
 
-// check to see if the seed import executes
-// insert ajax mine project
-Integration.findOne ({module:'ajax3'}).exec()
-.then (function (row) {
-  if (!row) {
+// // check to see if the seed import executes
+// // insert ajax mine project
+// Integration.findOne ({module:'ajax3'}).exec()
+// .then (function (row) {
+//   if (!row) {
 
-    doConfigs ();
-	
-	// Project.find({name: 'Ajax Mine Project'}).remove (function () {
-	Project.remove ({}, function () {
-	var i = new Integration ({module:'ajax3'});
-	i.save ();
-		  var project = new Project({
-			lat: 50.608817,
-			lon: -120.405757,
-			name: 'Ajax Mine Project',
-			description: 'KGHM Ajax Mining Inc. proposes to develop the Ajax Project, a new open-pit copper/ gold mine located south of and adjacent to the City of Kamloops. The mine would have a production capacity of up to 24 million tonnes of ore per year, over an anticipated 23-year mine life.',
-			type: 'Mining',
-			location: 'Kamloops, BC',
-			region: 'thompsonokanagan',
-			dateCommentsClosed : '2016-04-12T06:55:00.000Z',
-			dateCommentsOpen : '2016-01-26T08:00:00.000Z'
-		  });
-		  // Then save the user
-		  project.save(function (err) {
-			if (err) {
-			  console.log('Failed to add ajax', err);
-			} else {
-			  console.log(chalk.bold.red('Ajax project added'));
-			}
-		  });
+//     doConfigs ();
 
-	  });
+// 	// Project.find({name: 'Ajax Mine Project'}).remove (function () {
+// 	Project.remove ({}, function () {
+// 	var i = new Integration ({module:'ajax3'});
+// 	i.save ();
+// 		  var project = new Project({
+// 			lat: 50.608817,
+// 			lon: -120.405757,
+// 			name: 'Ajax Mine Project',
+// 			description: 'KGHM Ajax Mining Inc. proposes to develop the Ajax Project, a new open-pit copper/ gold mine located south of and adjacent to the City of Kamloops. The mine would have a production capacity of up to 24 million tonnes of ore per year, over an anticipated 23-year mine life.',
+// 			type: 'Mining',
+// 			location: 'Kamloops, BC',
+// 			region: 'thompsonokanagan',
+// 			dateCommentsClosed : '2016-04-12T06:55:00.000Z',
+// 			dateCommentsOpen : '2016-01-26T08:00:00.000Z'
+// 		  });
+// 		  // Then save the user
+// 		  project.save(function (err) {
+// 			if (err) {
+// 			  console.log('Failed to add ajax', err);
+// 			} else {
+// 			  console.log(chalk.bold.red('Ajax project added'));
+// 			}
+// 		  });
 
-
+// 	  });
 
 
-  }
-});
 
 
-Integration.findOne ({module:'configs'}).exec()
+//   }
+// });
+
+Integration.findOne ({module:'newconfigs'}).exec()
 .then (function (row) {
   if (!row) {
     doConfigs ();

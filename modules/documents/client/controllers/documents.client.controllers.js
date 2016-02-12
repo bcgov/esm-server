@@ -174,26 +174,40 @@ function controllerDocumentBrowser($scope, Document, Project) {
 	var docBrowser = this;
 
 	docBrowser.documentFiles	= undefined;
-	docBrowser.docTypes		= undefined;
+	docBrowser.docTypes			= undefined;
+	// Review docs
+	docBrowser.rdocumentFiles	= undefined;
+	docBrowser.rdocTypes		= undefined;
 
 	$scope.$watch('project', function(newValue) {
 		docBrowser.project = newValue;
 
-		Document.getProjectDocuments(newValue._id).then( function(res) {
+		Document.getProjectDocuments(newValue._id, false).then( function(res) {
 			docBrowser.documentFiles	= res.data;
 			// console.log(res.data);
 		});
-
-		Document.getProjectDocumentTypes(newValue._id).then( function(res) {
+		Document.getProjectDocumentTypes(newValue._id, false).then( function(res) {
 			docBrowser.docTypes	= res.data;
 			// console.log(res.data);
 		});
-
+		Document.getProjectDocuments(newValue._id, true).then( function(res) {
+			docBrowser.rdocumentFiles	= res.data;
+			// console.log(res.data);
+		});
+		Document.getProjectDocumentTypes(newValue._id, true).then( function(res) {
+			docBrowser.rdocTypes	= res.data;
+			// console.log(res.data);
+		});
 	});
 
 	docBrowser.filterList = function(searchField, newValue) {
 		$scope.filterDocs = {};
 		$scope.filterDocs[searchField] = newValue;
+	};
+	// Filter for review files
+	docBrowser.rfilterList = function(searchField, newValue) {
+		$scope.rfilterDocs = {};
+		$scope.rfilterDocs[searchField] = newValue;
 	};
 	docBrowser.filterSummary = function(doc) {
 		$scope.filterSummary = doc;
@@ -211,7 +225,6 @@ function controllerDocumentBrowser($scope, Document, Project) {
 		});
 	};
 }
-
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Modal: View Documents Comment
