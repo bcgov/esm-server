@@ -1,0 +1,18 @@
+
+<section class="organization-users">
+    <label class="control-label">Users in this organization:</label>
+    <table class="table table-condensed table-hover">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Roles</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tr ng-repeat="user in usersByOrg.users" ui-sref="admin.user({userId: user._id})">
+            <td ng-bind="user.username"></td>
+            <td ng-bind="user.roles"></td>
+            <td ng-bind="user.email"></td>
+        </tr>
+    </table>
+</section>

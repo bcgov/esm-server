@@ -24,7 +24,7 @@
               <th>Registered In</th>
             </tr>
             </thead>
-            <tr ng-repeat="org in pagedItems" ui-sref="view({organizationId: org._id})">
+            <tr ng-repeat="org in listOrganizations.pagedItems" ui-sref="organization.view({organizationId: org._id})">
               <td ng-bind="org.company"></td>
               <td ng-bind="org.companyLegal"></td>
               <td ng-bind="listOrganizations.provs[org.registeredIn]"></td>
@@ -34,7 +34,7 @@
         <div class="text-right">
 
           <div class="form-group">
-            <input type="button" value="Add Organization" class="btn btn-default btn-sm" ui-sref="new">
+            <input type="button" value="Add Organization" class="btn btn-default btn-sm" ui-sref="organization.new">
           </div>
 
           <pagination class="pagination-sm" boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage" ng-change="pageChanged()"></pagination>

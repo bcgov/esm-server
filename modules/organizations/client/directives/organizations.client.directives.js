@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('core')
-	.directive('tmplOrganizationsDisplayEdit', directiveOrganizationsDisplayEdit);
+	.directive('tmplOrganizationsDisplayEdit', directiveOrganizationsDisplayEdit)
+	//.directive('tmplOrganizationsUsersByOrg', directiveOrganizationsUsersByOrg)
+;
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Activity Listing
@@ -17,11 +19,28 @@ function directiveOrganizationsDisplayEdit() {
 		controller: 'controllerOrganizationsDisplayEdit',
 		controllerAs: 'displayEdit',
 		scope: {
-			options: '@'
+			organizationId: '@',
+			mode: '@'
 		}
 	};
 	return directive;
 }
+/*
+function directiveOrganizationsUsersByOrg() {
+	var directive = {
+		restrict: 'E',
+		replace: true,
+		templateUrl: 'modules/organizations/client/views/organizations-partials/organization-user-list.html',
+		controller: 'controllerOrganizationUsersByOrg',
+		controllerAs: 'usersByOrg',
+		scope: {
+			organizationId: '@',
+			mode: '@'
+		}
+	};
+	return directive;
+}
+*/
 
 
 	/*
