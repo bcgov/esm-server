@@ -93,7 +93,9 @@ var DocumentSchema  = new Schema ({
     documentFileSize               : { type:String, default:'' }, // Looks like everything is in KB
     documentFileFormat             : { type:String, default:'' },
     documentVersion                : { type:Number, default:0 }, // Used for keeping track of this documents version.
-    documentIsLatestVersion        : { type:Boolean, default:true }, // We assume we are the latest.
+    documentIsLatestVersion        : { type:Boolean, default:true }, // We assume we are the latest. Default will be false
+                                                                     // when we hook in the reviewable interface which will
+                                                                     // decide what is the latest based on approval of such
     documentIsInReview             : { type:Boolean, default:false }, // Used to flag if this entry is a reviewable entry.
     documentAuthor                 : { type:String, default:'' },  // NB: We should add a document author in addition to the folderAuthor.
     internalURL                    : { type:String, default:'' },

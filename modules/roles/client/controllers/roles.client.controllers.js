@@ -2,29 +2,28 @@
 
 angular.module('roles')
     .controller('controllerPermissionMatrix', controllerPermissionMatrix)
-    .filter('accessHasRole', filterAccessHasRole);
+    .filter('accessHasRole', filterAccessHasRole)
+    .filter('accessInferredRole', filterAccessInferredRole);
     
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Permission Matrix
 //
 // -----------------------------------------------------------------------------------
-controllerPermissionMatrix.$inject = ['sRoles', 'rTargetObject', 'rTargetObjectType', '_', '$modalInstance'];
+controllerPermissionMatrix.$inject = ['sRoles', 'rTargetObject', '_', '$modalInstance', 'PROJECT_ROLES'];
 /* @ngInject */
-function controllerPermissionMatrix(sRoles, rTargetObject, rTargetObjectType, _, $modalInstance) {
+function controllerPermissionMatrix(sRoles, rTargetObject, _, $modalInstance, PROJECT_ROLES) {
 	var permMatrix = this;
 
 	permMatrix.permissions = {};
-	permMatrix.keys = ['read', 'write', 'watch'];
+	permMatrix.keys = ['read', 'write', 'submit'];
 
 	_.each(permMatrix.keys, function(key) {
-		permMatrix.permissions[key] = rTargetObject.access[key].split(',').map( function(item) { return item.trim(); } );
+		permMatrix.permissions[key] = rTargetObject[key];
 	});
 
 	// get system roles
-	sRoles.getRoles().then( function(res) {
-	 	permMatrix.roles = res.data;
-	});
+ 	permMatrix.roles = PROJECT_ROLES;
 
 	// on save, pass complete permission structure to the server
 	permMatrix.ok = function () { 
@@ -54,5 +53,28 @@ filterAccessHasRole.$inject = ['_'];
 function filterAccessHasRole(_) {
 	return function(perms, role, key) {
 		return _.indexOf(perms[key], role) > -1;
+	};
+}
+// -----------------------------------------------------------------------------------
+//
+// FILTER: Has inferred role.
+//
+// -----------------------------------------------------------------------------------
+filterAccessInferredRole.$inject = ['_'];
+/* @ngInject */
+function filterAccessInferredRole(_) {
+	return function(perms, role, key) {
+
+		switch(key) {
+			case 'read':
+				// yes if in write or submit
+				return (_.indexOf(perms.write, role) > -1) || (_.indexOf(perms.submit, role) > -1);
+			case 'write':
+				// yes if in submit
+				return (_.indexOf(perms.submit, role) > -1);
+			case 'submit':
+				// yes if in submit
+				return false;
+		}
 	};
 }

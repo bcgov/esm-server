@@ -32,13 +32,62 @@ exports.getObject   = crud.getObject();
 //
 // -------------------------------------------------------------------------
 //
+// getDocumentVersions
+//
+// -------------------------------------------------------------------------
+var getDocumentVersions = function (req, res) {
+	return new Promise (function (resolve, reject) {
+		console.log("getDocumentVersions: Project: ",req.params.projectid);
+		resolve (
+			Model.find({ documentIsLatestVersion: false,
+						 projectFolderType   	: req.headers.projectfoldertype,
+						 projectFolderSubType	: req.headers.projectfoldersubtype,
+						 projectFolderName 		: req.headers.projectfoldername,
+						 documentFileName 		: req.headers.documentfilename,
+						 project 				: req.params.projectid
+				}).exec (function (err, records) {
+					if (err) {
+						// console.log("getDocumentTypesForProject failed to find anything",err);
+					} else {
+						if (null === records) {
+							// Don't do anything
+							// console.log("No existing documents found.  Inserting normally.");
+						} else {
+							// Got stuff.
+							// console.log(records);
+							resolve(records);
+						}
+					}
+				}));
+	});
+};
+var getDocumentVersionsAndReturn = function (req, res) {
+	getDocumentVersions (req, res)
+	.then (function (model) {
+		// console.log (model);
+		helpers.sendData (res, model);
+	})
+	.catch (function (err) {
+		// console.log (err);
+		helpers.sendError (res, err);
+	});
+};
+exports.getDocumentVersionsAndReturn = getDocumentVersionsAndReturn;
+
+//
+// -------------------------------------------------------------------------
+//
 // getDocumentsForProject
 //
 // -------------------------------------------------------------------------
 var getDocumentsForProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
 		console.log("getDocumentsForProject: Project: ",req.params.projectid);
-		resolve (Model.find({projectID: req.params.projectid}).exec ());
+		resolve (Model.find({	project 				: req.params.projectid,
+								documentIsLatestVersion	: true
+							}).exec());
+		// TODO: Make this find only documents that have been fully reviewed
+		// Or create a new seleciton criteria for reviewable documents
 	});
 };
 // -------------------------------------------------------------------------
@@ -68,10 +117,13 @@ exports.getDocumentsForProjectAndReturn = getDocumentsForProjectAndReturn;
 // -------------------------------------------------------------------------
 var getDocumentTypesForProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
-		console.log("getDocumentTypesForProject: Project ID:");
+		console.log("getDocumentTypesForProject: Project ID:",req.params.projectid);
 		// When a document has an assigned projectID, grab it.
 		// NB: This will be true after a document has been reviewed by someone perhaps.
-		Model.find({projectID: req.params.projectid, documentIsInReview: true}).populate('projectID').exec( function (err, records) {
+		Model.find({project: req.params.projectid,
+					documentIsInReview: false,
+					documentIsLatestVersion: true})
+			 .populate('projectID').exec( function (err, records) {
 			if (err) {
 				// console.log("getDocumentTypesForProject failed to find anything",err);
 			} else {
@@ -181,15 +233,15 @@ var importDocument = function (doc, req) {
 			documentFileName 		: doc.documentFileName
 		}, function (err, mo) {
 			if (err) {
-				console.log("document.controller: Error in Query.");
+				// console.log("document.controller: Error in Query.");
 			} else {
-				//console.log("Query found: " + mo);
+				// console.log("Query found: " + mo);
 				if (null === mo) {
 					// Don't do anything
-					//console.log("No existing documents found.  Inserting normally.");
+					// console.log("No existing documents found.  Inserting normally.");
 				} else {
 					// Bump version, this is new!
-					//console.log("Found existing document.  Making old version !latest.");
+					// console.log("Found existing document.  Making old version !latest.");
 					doc.documentVersion = mo.documentVersion + 1;
 					doc.save();
 					mo.documentIsLatestVersion = false;
@@ -461,21 +513,23 @@ var upload = function (req, res) {
 	var file = req.files.file;
 	if (file) {
 		//console.log (file);
-		//console.log('++headers');
-		//console.log(req.headers);
-		//console.log('--headers');
+		// console.log('++headers');
+		// console.log(req.Project);
+		// console.log('--headers');
 		importDocumentAndReturn (new Model ({
 			// Metadata related to this specific document that has been uploaded.
 			// See the document.model.js for descriptions of the parameters to supply.
-			project 					: req.Project._id,
+			project 					: req.Project,
+			projectID 					: req.Project._id,
 			projectFolderType			: req.headers.projectfoldertype,
-			projectfoldersubtype		: req.headers.projectfoldersubtype,
+			projectFolderSubType		: req.headers.projectfoldersubtype,
 			projectFolderName			: req.headers.projectfoldername,
 			projectFolderURL			: req.headers.projectfolderurl,
 			projectFolderDatePosted		: req.headers.projectfolderdateposted,
 			// NB: In EPIC, projectFolders have authors, not the actual documents.
 			projectFolderAuthor			: req.headers.projectfolderauthor,
 			// These are the data as it was shown on the EPIC website.
+			documentAuthor		: req.headers.documentauthor,
 			documentFileName	: req.headers.documentfilename,
 			documentFileURL		: req.headers.documentfileurl,
 			documentFileSize	: req.headers.documentfilesize,

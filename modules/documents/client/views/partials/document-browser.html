@@ -40,19 +40,15 @@
 						<p>Current Revision: <a href="{{ filterSummary.documentFileURL }}">{{ filterSummary.documentVersion }} <span class="glyphicon glyphicon-download"></span></a></p>
 						<p>Latest Revision: {{ filterSummary.documentIsLatestVersion?'Yes':'No' }} </p>
 					</li>
-					<li>
+					<!-- <li>
 						Tags
-					</li>
+					</li> -->
 					<li>
-						Revisions
+						Revisions:
 					</li>
-					<li>
-						<a href>2016-01-15: 1.34 <span class="glyphicon glyphicon-download"></span></a>
+					<li ng-repeat="docVersion in docBrowser.docVersions">
+						<a href="{{ docVersion.documentFileURL }}">{{ docVersion.dateUpdated | date : format : timezone}}: {{ docVersion.documentVersion }} <span class="glyphicon glyphicon-download"></span></a>
 					</li>
-					<li>
-						<a href>2016-01-14: 1 <span class="glyphicon glyphicon-download"></span></a>
-					</li>
-
 				</ul>
 			</div>
 		</div>

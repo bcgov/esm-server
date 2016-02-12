@@ -81,4 +81,11 @@ angular
 			'Personally Identifying Information'
 		]
 	)
+	.constant('PROJECT_ROLES', 
+		[
+			{'code':'project:staff','name':'Staff'},
+			{'code':'project:wg','name':'Working Group'},
+			{'code':'project:proponent','name':'Proponent'}
+		]
+	)	
 	.value('ProcessCodes', []);

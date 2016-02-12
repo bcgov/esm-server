@@ -14,8 +14,7 @@ function directiveModalPermissionMatrix($modal) {
 	var directive = {
 		restrict:'A',
 		scope : {
-			targetObject: '=',
-			targetObjectType: '@'
+			targetObject: '='
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
@@ -27,8 +26,7 @@ function directiveModalPermissionMatrix($modal) {
 					scope: scope,
 					size: 'lg',
 					resolve: {
-						rTargetObject: function() { return scope.targetObject; },
-						rTargetObjectType: function() { return scope.targetObjectType; }						
+						rTargetObject: function() { return scope.targetObject; },					
 					}
 				});
 				modalPermissionMatrix.result.then(function () {}, function () {});
