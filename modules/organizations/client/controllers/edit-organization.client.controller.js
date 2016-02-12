@@ -6,7 +6,7 @@ angular.module('organizations').controller('editOrganizationController', ['$scop
         if ($state.params.organizationId === "") {
             $state.go('list');
         } else {
-            editOrganization.orgId = $state.params.organizationId;
+            editOrganization.organizationId = $state.params.organizationId;
         }
 
         editOrganization.options = {

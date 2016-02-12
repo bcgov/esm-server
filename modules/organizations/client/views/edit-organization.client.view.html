@@ -1,7 +1,7 @@
 <section class="row">
     <div class='col-sm-10'>
         <h1 class="page-title">
-            Admin
+            Users
         </h1>
         <div class="panel panel-default">
 
@@ -10,8 +10,9 @@
             </div>
 
             <div class="panel-body">
-                <tmpl-organizations-display-edit options="{{editOrganization.options}}"></tmpl-organizations-display-edit>
+                <tmpl-organizations-display-edit x-organization-id="{{editOrganization.organizationId}}" x-mode="edit"></tmpl-organizations-display-edit>
             </div>
+
         </div>
     </div>
     <div class='col-sm-2'>

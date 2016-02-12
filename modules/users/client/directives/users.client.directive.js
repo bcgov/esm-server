@@ -2,7 +2,8 @@
 
 angular.module('users')
 	.directive('lowercase', directiveLowercase)
-	.directive('modalUserList', directiveModalUserList);
+	.directive('modalUserList', directiveModalUserList)
+	.directive('tmplUsersByOrg', directiveUsersByOrg);
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Parser to lowercase
@@ -64,4 +65,24 @@ function directiveModalUserList($modal) {
 		}
     };
     return directive;
+}
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: List Users by Organization
+//
+// -----------------------------------------------------------------------------------
+//directiveUsersByOrg.$inject = [];
+function directiveUsersByOrg() {
+	var directive = {
+		restrict: 'E',
+		replace: true,
+		templateUrl: 'modules/users/client/views/users-partials/users-by-org-list.html',
+		controller: 'controllerUsersByOrg',
+		controllerAs: 'usersByOrg',
+		scope: {
+			organizationId: '@',
+			//mode: '@'
+		}
+	};
+	return directive;
 }

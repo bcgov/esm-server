@@ -66,3 +66,24 @@ function directiveUserEntryForm() {
 	};
 	return directive;
 }
+
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: List Users by Organization
+//
+// -----------------------------------------------------------------------------------
+//directiveUsersByOrg.$inject = [];
+function directiveUsersByOrg() {
+	var directive = {
+		restrict: 'E',
+		replace: true,
+		templateUrl: 'modules/users/client/views/users-partials/users-by-org-list.html',
+		controller: 'controllerUsersByOrg',
+		controllerAs: 'usersByOrg',
+		scope: {
+			organizationId: '@',
+			mode: '@'
+		}
+	};
+	return directive;
+}
