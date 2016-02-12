@@ -36,7 +36,13 @@ angular
 			'skeena': 'Skeena',
 			'vancouverisland': 'Vancouver Island'
 		}
-	) 
+	)
+	.constant('COMPANY_TYPES',
+		{
+			'private': 'Privately Owned',
+			'public': 'Publically Traded',
+		}
+	)
 	.constant('TASK_STATUS',
 		[
 			'Not Required',
@@ -75,4 +81,11 @@ angular
 			'Personally Identifying Information'
 		]
 	)
+	.constant('PROJECT_ROLES', 
+		[
+			{'code':'project:staff','name':'Staff'},
+			{'code':'project:wg','name':'Working Group'},
+			{'code':'project:proponent','name':'Proponent'}
+		]
+	)	
 	.value('ProcessCodes', []);

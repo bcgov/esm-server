@@ -32,9 +32,6 @@ function controllerEAOProjectNew(Project, $state) {
 angular.module('organizations').controller('viewOrganizationController', ['$scope', '$state',
     function ($scope, $state ) {
         var viewOrganization = this;
-        viewOrganization.options = {
-            organizationId: $state.params.organizationId,
-            mode: 'display'
-        };
+        viewOrganization.organizationId = $state.params.organizationId;
     }
 ]);

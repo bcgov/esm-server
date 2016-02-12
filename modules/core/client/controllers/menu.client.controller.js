@@ -28,10 +28,11 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope)
    	});
 
    	$scope.$watch('project', function(newValue) {
-		if(newValue) {
-		   	menu.project = newValue;
-		}
+   		if (newValue) {
+			menu.project = newValue;
+   		}
    	});
+
 
    	menu.showMenu = function(id) {
    		if (id) {

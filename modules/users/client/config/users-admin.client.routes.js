@@ -33,10 +33,5 @@ angular.module('users.admin.routes').config(['$stateProvider',
             }]
           }
         });
-        /*.state('admin.organizations', {
-          url: '/organizations',
-          templateUrl: 'modules/users/client/views/admin/list-organizations.client.view.html',
-          controller: 'OrganizationsListController',
-        });*/
   }
 ]);

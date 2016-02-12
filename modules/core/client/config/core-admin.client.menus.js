@@ -9,7 +9,7 @@ angular.module('core.admin').run(['Menus',
 		});
 		Menus.addMenuItem('systemMenu', {
 			title: 'Users',
-			state: 'admin.users',
+			state: 'organization.list',
 			roles: ['admin']
 		});
 	}

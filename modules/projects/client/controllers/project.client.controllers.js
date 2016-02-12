@@ -21,13 +21,14 @@ angular.module('project')
 // CONTROLLER: Public Project Detail
 //
 // -----------------------------------------------------------------------------------
-controllerProject.$inject = ['Project', '$stateParams', '_'];
+controllerProject.$inject = ['$scope', 'ProjectModel', '$stateParams', '_'];
 /* @ngInject */
-function controllerProject(Project, $stateParams, _) {
+function controllerProject($scope, ProjectModel, $stateParams, _) {
 	var proj = this;
-
-	Project.getProject({id: $stateParams.id}).then(function(res) {
-		proj.project = res.data;
+	console.log($stateParams.id);
+	ProjectModel.getModel($stateParams.id).then(function(data) {
+		proj.project = data;
+		$scope.$apply();
 	});
 }
 // -----------------------------------------------------------------------------------
@@ -35,17 +36,19 @@ function controllerProject(Project, $stateParams, _) {
 // CONTROLLER: Modal: View Project Schedule
 //
 // -----------------------------------------------------------------------------------
-controllerModalProjectSchedule.$inject = ['$modalInstance', 'rProject', 'Project'];
+controllerModalProjectSchedule.$inject = ['$modalInstance', 'ProjectModel', '_'];
 /* @ngInject */
-function controllerModalProjectSchedule($modalInstance, rProject, Project) {
+function controllerModalProjectSchedule($modalInstance, ProjectModel, _) {
 	var projSched = this;
 
-	projSched.project = angular.copy(rProject);
+	// TODO.  Revert 
+	projSched.project = angular.copy(ProjectModel.model);
 
 	projSched.cancel = function () { $modalInstance.dismiss('cancel'); };
 	projSched.ok = function () {
-		Project.saveProject(projSched.project).then( function(res) {
-			$modalInstance.close(res.data);
+		_.assign(ProjectModel.model, projSched.project);
+		ProjectModel.saveModel().then( function(data) {
+			$modalInstance.close(data);
 		});
 	};
 }
@@ -54,14 +57,12 @@ function controllerModalProjectSchedule($modalInstance, rProject, Project) {
 // CONTROLLER: Project Tombstone
 //
 // -----------------------------------------------------------------------------------
-controllerProjectTombstone.$inject = ['$scope'];
+controllerProjectTombstone.$inject = ['$scope', 'ProjectModel'];
 /* @ngInject */
-function controllerProjectTombstone($scope) {
+function controllerProjectTombstone($scope, ProjectModel) {
 	var projTomb = this;
 
-	$scope.$watch('project', function(newValue) {
-		projTomb.project = newValue;
-	});
+	projTomb.project = ProjectModel.model;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -280,26 +281,32 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, Project, rP
 // CONTROLLER: Stream Selection
 //
 // -----------------------------------------------------------------------------------
-controllerProjectStreamSelect.$inject = ['$state', 'Project', 'sConfiguration', '_'];
+controllerProjectStreamSelect.$inject = ['$scope', '$state', 'ProjectModel', 'StreamModel', '_'];
 /* @ngInject */
-function controllerProjectStreamSelect($state, sProject, sConfiguration, _) {
+function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel, _) {
 	var projectStreamSelect = this;
 
-	sProject.getProject({id: $state.params.id}).then( function(res) {
-		projectStreamSelect.project = res.data;
+	$scope.$watch('project', function(newValue) {
+		if (newValue) {
+			ProjectModel.getModel(newValue._id).then( function(data) {
+				projectStreamSelect.project = data;
+			});
+		}		
 	});
 
-	sConfiguration.getStreams().then(function(res){
-		projectStreamSelect.streams = res.data;
+
+	StreamModel.getCollection().then(function(data){
+		projectStreamSelect.streams = data;
 	});
 
 	// admin users can set the project stream
 	projectStreamSelect.setProjectStream = function() {
-		if ((!projectStreamSelect.project.stream || projectStreamSelect.project.stream === '') && projectStreamSelect.newStream) {
+		if ((!projectStreamSelect.project.stream || projectStreamSelect.project.stream === '') && projectStreamSelect.newStreamId) {
 			projectStreamSelect.project.status = 'In Progress';
-			sProject.saveProject(projectStreamSelect.project).then( function(res) {
+
+			ProjectModel.saveModel().then( function(res) {
 				// set the stream then move to the project overview page.
-				sProject.setProjectStream(projectStreamSelect.project._id, projectStreamSelect.newStream).then( function(resStream) {
+				ProjectModel.setStream(projectStreamSelect.newStreamId).then( function(resStream) {
 					projectStreamSelect.project = _.assign(resStream.data);
 					$state.go('project', {'id':projectStreamSelect.project._id}, {reload: true});
 				});
