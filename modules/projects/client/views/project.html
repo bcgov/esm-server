@@ -14,6 +14,13 @@
 				ng-if="('project' | shouldDisplayPanel:'tombstone':proj.project.status)">
 			</tmpl-project-tombstone>
 
+			<tmpl-project-initiated
+				class="anchor-section"
+				id="anchor-initiated"
+				x-project="proj.project"
+				ng-if="('project'| shouldDisplayPanel:'initiated':proj.project.status)">
+			</tmpl-project-initiated>
+
 			<tmpl-project-stream-select
 				class="anchor-section"
 				id="anchor-stream"

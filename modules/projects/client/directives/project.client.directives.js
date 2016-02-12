@@ -18,6 +18,7 @@ angular.module('project')
 	// .directive('tmplProjectNew', directiveProjectNew)
 	// .directive('tmplProjectEdit', directiveProjectEdit)
 
+	.directive('tmplProjectInitiated', directiveProjectInitiated)
 	.directive('tmplProjectStreamSelect', directiveProjectStreamSelect)
 	.directive('tmplProjectActivities', directiveProjectActivities);
 
@@ -299,6 +300,26 @@ function directiveProjectTombstone() {
 // 	};
 // 	return directive;
 // }
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Project Initiated
+//
+// -----------------------------------------------------------------------------------
+directiveProjectInitiated.$inject = [];
+/* @ngInject */
+function directiveProjectInitiated() {
+	var directive = {
+		restrict: 'E',
+		replace: true,
+		templateUrl: 'modules/projects/client/views/project-partials/project-initiated.html',
+		controller: 'controllerProjectInitiated',
+		controllerAs: 'projectInitiated',
+		scope: {
+			project: '='
+		}
+	};
+	return directive;
+}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Project Stream Select

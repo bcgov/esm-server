@@ -16,7 +16,8 @@ var ApplicationConfiguration = (function () {
     'ngMap',
     'ad3',
     'angularMoment',
-    'ui.bootstrap.datetimepicker',
+    'ui.bootstrap.datepicker',
+    'ui.bootstrap.timepicker',
     'mwl.confirm',
     'ngFileUpload',
     'duScroll'
