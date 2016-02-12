@@ -203,7 +203,11 @@ function controllerDocumentBrowser($scope, Document, Project) {
 											doc.projectFolderName,
 											doc.documentFileName).then( function(res) {
 			docBrowser.docVersions	= res.data;
-			console.log(res.data);
+			// Fix for if a version was uploaded while we hovered overtop last
+			if (docBrowser.docVersions[docBrowser.docVersions.length-1].documentVersion >= $scope.filterSummary.documentVersion) {
+				console.log("Your data is stale!  Refresh the page");
+			}
+			// console.log(res.data);
 		});
 	};
 }
