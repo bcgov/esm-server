@@ -35,12 +35,16 @@ function serviceDocument($http) {
         return $http({method:'GET',url: '/api/documents'});
     };
 
-    var getProjectDocuments = function(projectId) {
-        return $http({method:'GET',url: '/api/documents/' + projectId});
+    var getProjectDocuments = function(projectId, reviewDocsOnly) {
+        return $http({method:'GET',
+                      url: '/api/documents/' + projectId,
+                      headers: {'reviewDocsOnly': reviewDocsOnly} });
     };
 
-    var getProjectDocumentTypes = function(projectId) {
-        return $http({method:'GET',url: '/api/documents/types/' + projectId});
+    var getProjectDocumentTypes = function(projectId, reviewDocsOnly) {
+        return $http({method:'GET',
+                      url: '/api/documents/types/' + projectId,
+                      headers: {'reviewDocsOnly': reviewDocsOnly} });
     };
 
     var getProjectDocumentVersions = function(projectId, type, subtype, folderName, fileName) {
