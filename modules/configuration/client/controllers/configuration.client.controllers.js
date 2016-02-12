@@ -44,7 +44,7 @@ function controllerConfiguration($rootScope, $scope, sTaskBaseModel, sActivityBa
         });
 
         sStreamModel.getCollection().then( function(data) {
-            configData.config.stream = data;
+            configData.config.streams = data;
         }).catch( function(err) {
             $scope.error = err;
         });
@@ -98,6 +98,7 @@ function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBa
 
     // ----- New record template -----
     configDataElement.newRecord = function() {
+        configDataElement.msg = '';
         switch(configDataElement.context) {
             case 'stream':
                 sStreamModel.getNew().then( function(data) {
@@ -130,13 +131,12 @@ function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBa
                 });
                 break;
         }
-        console.log('new record', configDataElement.activeRecord);
         configDataElement.activeRecordNew = true;
     };
 
     // ----- Edit a new record -----
     configDataElement.editRecord = function(selectedRecord) {
-
+        configDataElement.msg = '';
         configDataElement.activeRecordNew = false;
         configDataElement.activeRecord = selectedRecord;
         
@@ -157,12 +157,6 @@ function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBa
                 sTaskBaseModel.setModel(selectedRecord);
                 break;
         }
-
-        // configDataElement.msg = '';
-        // configDataElement.activeRecordOriginal = angular.copy(selectedRecord);
-        // // copy so the original does not get changed.
-        // 
-        // configDataElement.activeRecordNew = false;
     };
 
 
@@ -217,6 +211,52 @@ function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBa
         configDataElement.msg = 'Record Saved';
         configDataElement.activeRecord = undefined;
     };
+
+
+    // ----- Save existing record -----
+    configDataElement.deleteRecord = function() {
+
+        switch(configDataElement.context) {
+            case 'stream':
+                sStreamModel.delete(configDataElement.activeRecord._id).then( function(data) {
+                    $scope.$emit('refreshConfig');
+                }).catch( function(err) {
+                    $scope.error = err;
+                });
+                break;
+            case 'phase':
+                sPhaseBaseModel.delete(configDataElement.activeRecord._id).then( function(data) {
+                    $scope.$emit('refreshConfig');
+                }).catch( function(err) {
+                    $scope.error = err;
+                });
+                break;
+            case 'milestone':
+                sMilestoneBaseModel.delete(configDataElement.activeRecord._id).then( function(data) {
+                    $scope.$emit('refreshConfig');
+                }).catch( function(err) {
+                    $scope.error = err;
+                });
+                break;
+            case 'activity':
+                sActivityBaseModel.delete(configDataElement.activeRecord._id).then( function(data) {
+                    $scope.$emit('refreshConfig');
+                }).catch( function(err) {
+                    $scope.error = err;
+                });
+                break;
+            case 'task':
+                sTaskBaseModel.delete(configDataElement.activeRecord._id).then( function(data) {
+                    $scope.$emit('refreshConfig');
+                }).catch( function(err) {
+                    $scope.error = err;
+                });
+                break;
+        }
+        configDataElement.msg = 'Record Deleted';
+        configDataElement.activeRecord = undefined;
+    };
+
 
     // ----- Cancel a record -----
     configDataElement.cancelRecord = function() {

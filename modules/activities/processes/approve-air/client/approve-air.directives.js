@@ -2,7 +2,7 @@
 
 angular.module('process')
     .run( initProcessApproveAIR )
-    .directive('tmplProcessApproveAIR', directiveProcessApproveAIR);
+    .directive('tmplProcessApproveAir', directiveProcessApproveAIR);
 // -----------------------------------------------------------------------------------
 //
 // Config: register this task with the UI
