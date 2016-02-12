@@ -225,7 +225,7 @@ exports.userCan = function (user, permission, thing) {
 // -------------------------------------------------------------------------
 //
 // checks against acl to see if the path is permitted for the users roles
-// the only real roles that matter are admin, user, guest. admin gets all
+// the only real roles that matter are admin, user, guest. admin gets all,
 // user is set and guest is set. policies may implement special path
 // permissions
 //
