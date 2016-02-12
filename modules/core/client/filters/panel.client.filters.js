@@ -16,8 +16,8 @@ function filterShouldDisplayPanel(Authentication, _) {
 		"project":{
 			"admin":{
 				"Initiated":["initiated", "documents"],
-				"Submitted":["stream", "edit", "documents"],
-				"In Progress":["tombstone", "map", "edit", "activities", "documents"]
+				"Submitted":["stream", "edit", "documents", "doc-approvals"],
+				"In Progress":["tombstone", "map", "edit", "activities", "documents", "doc-approvals"]
 			},
 			"guest":{
 				"Initiated":[],

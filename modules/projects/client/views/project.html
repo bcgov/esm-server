@@ -42,6 +42,13 @@
 				ng-if="('project'| shouldDisplayPanel:'activities':proj.project.status)">
 			</tmpl-project-activities>
 
+			<tmpl-documents-approvals
+				class="anchor-section"
+				id="anchor-document-approvals"
+				x-project="proj.project"
+				ng-if="('project'| shouldDisplayPanel:'doc-approvals':proj.project.status)">
+			</tmpl-documents-approvals>
+
 			<tmpl-documents-browser
 				class="anchor-section"
 				id="anchor-documents"
