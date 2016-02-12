@@ -6,7 +6,7 @@
 		<div class="row">
 			<div class="form-group col-sm-6">
 				<label for="type" class="control-label">Project Stream</label>
-				<select ng-model='projectStreamSelect.newStream' class="form-control input-sm" ng-options="stream._id as stream.name for stream in projectStreamSelect.streams" ng-disabled="projectStreamSelect.project.status !== 'Submitted'">
+				<select ng-model='projectStreamSelect.newStreamId' class="form-control input-sm" ng-options="stream._id as stream.name for stream in projectStreamSelect.streams" ng-disabled="projectStreamSelect.project.status !== 'Submitted'">
 					<option value=""></option>
 				</select>
 			</div>

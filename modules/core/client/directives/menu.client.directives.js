@@ -39,7 +39,6 @@ function directiveScroll($window, $rootScope) {
 			} else {
 				$rootScope.showLogo = false;
 			}
-			scope.$apply();
 		});
 	};
 	return directive;
