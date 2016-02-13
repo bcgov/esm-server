@@ -243,7 +243,7 @@ function controllerDocumentBrowser($scope, Document, Project) {
 	docBrowser.downloadAndApprove = function(doc) {
 		console.log("Downloading and approving:",doc);
 		// TODO: Hook up the scraping code
-	}
+	};
 }
 // -----------------------------------------------------------------------------------
 //
