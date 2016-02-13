@@ -81,7 +81,7 @@ function directiveUsersByOrg() {
 		controllerAs: 'usersByOrg',
 		scope: {
 			organizationId: '@',
-			//mode: '@'
+			mode: '@'
 		}
 	};
 	return directive;

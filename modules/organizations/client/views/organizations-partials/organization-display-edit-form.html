@@ -88,8 +88,9 @@
                     <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.organization.postal"/>
                 </div>
             </div>
-
         </div>
+
+        <tmpl-users-by-org x-organization-id="{{displayEdit.organization._id}}" x-mode="{{displayEdit.mode}}"></tmpl-users-by-org>
 
         <div class="text-right">
             <div class="form-group">

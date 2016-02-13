@@ -1,18 +1,25 @@
 
 <section class="organization-users">
+    <hr/>
     <label class="control-label">Users in this organization:</label>
-    <table class="table table-condensed table-hover">
+    <table class="table table-condensed {{(usersByOrg.mode !== 'display') || 'table-hover'}}">
         <thead>
         <tr>
             <th>Username</th>
             <th>Roles</th>
             <th>Email</th>
+            <th ng-if="usersByOrg.mode !== 'display'">Remove User</th>
         </tr>
         </thead>
-        <tr ng-repeat="user in usersByOrg.users" ui-sref="admin.user({userId: user._id})">
+        <tr ng-repeat="user in usersByOrg.users" ng-click="usersByOrg.userClickHandler(user._id)">
             <td ng-bind="user.username"></td>
             <td ng-bind="user.roles"></td>
             <td ng-bind="user.email"></td>
+            <td ng-if="usersByOrg.mode !== 'display'"><a class="btn btn-default btn-xs" ng-click="usersByOrg.removeUser(user._id)"><i class="glyphicon glyphicon-minus-sign"></i> Remove</a></td>
         </tr>
     </table>
+    <a ng-if="usersByOrg.mode !== 'display'" class="btn btn-default btn-sm" ng-click="usersByOrg.addUser()">Add User</a>
+
+    <hr/>
+
 </section>
