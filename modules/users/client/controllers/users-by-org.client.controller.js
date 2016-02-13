@@ -37,15 +37,15 @@ angular.module('users').controller('controllerUsersByOrg', ['$scope', '$filter',
 
         usersByOrg.userClickHandler = function (id) {
             if (usersByOrg.mode === "display") $state.go('admin.user', {userId: id});
-        }
+        };
 
         usersByOrg.removeUser = function (id) {
             alert ("This function will handle the remove user button click. Next development step is to remove user " + id + " from organization " + usersByOrg.organizationId +".");
-        }
+        };
 
         usersByOrg.addUser = function () {
             alert ("This function will handle the add user button. Next development step us to find a way to get a user ID, then add it to organization " + usersByOrg.organizationId +".");
-        }
+        };
 
         /*
         console.log($scope.mode);
