@@ -15,11 +15,10 @@
 				</ul>
 				<label class="control-label">Milestones</label>
 				<ul class="list-unstyled task-list">
-					<li ng-repeat="milestone in projectActs.project.milestones">
+					<li ng-repeat="milestone in projectActs.selectedPhase.milestones">
 						<button class="btn btn-block btn-sm" ng-class="{'btn-success': projectActs.selectedMilestone._id === milestone._id}" ng-click="projectActs.selectedMilestone = milestone">{{ milestone.name }}</button>
 					</li>
 				</ul>
-
 
 			</div>
 
@@ -27,7 +26,7 @@
 				<label class="control-label">Activities</label>
 				<ul class="list-unstyled task-list">
 					<li ng-repeat="activity in projectActs.activities">
-						<button class="btn btn-block btn-sm" ui-sref="activity({project: projectActs.project._id, activity: activity._id})">{{ activity.name }}</button>
+						<button class="btn btn-block btn-sm btn-default" ui-sref="activity({project: projectActs.project._id, activity: activity._id})">{{ activity.name }}</button>
 					</li>
 				</ul>
 			</div>

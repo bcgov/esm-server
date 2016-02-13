@@ -4,7 +4,8 @@ angular.module('documents')
     .directive('tmplDocumentsUploadGeneral', directiveDocumentsUploadGeneral)
     .directive('tmplDocumentsUploadClassify', directiveDocumentsUploadClassify)        
     .directive('tmplDocumentsList', directiveDocumentsList)   
-    .directive('tmplDocumentsBrowser', directiveDocumentsBrowser)            
+    .directive('tmplDocumentsBrowser', directiveDocumentsBrowser) 
+    .directive('tmplDocumentsApprovals', directiveDocumentsApprovals)                
     .directive('modalDocumentViewer', directiveModalDocumentViewer)
     .directive('modalDocumentBuckets', directiveModalDocumentBuckets);
 
@@ -93,6 +94,30 @@ function directiveDocumentsBrowser() {
 
     return directive;
 }   
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Documents for Approval
+//
+// -----------------------------------------------------------------------------------
+directiveDocumentsApprovals.$inject = ['$modal'];
+/* @ngInject */
+function directiveDocumentsApprovals() {
+
+    var directive = {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'modules/documents/client/views/partials/document-approvals.html',
+        controller: 'controllerDocumentBrowser',
+        controllerAs: 'docBrowser',
+        scope: {
+            project: '=',
+        }
+    };
+
+    return directive;
+}   
+
+
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Modal document viewer

@@ -95,8 +95,8 @@ _.extend (DBModel.prototype, {
 		}
 	},
 	setRoles : function (user) {
-		// CC: change this in production to only public
-		this.roles = (user) ? user.roles : ['public', 'admin'];
+		// CC: change this in production to only public, add 'admin' to the array to get everything
+		this.roles = (user) ? user.roles : ['public'];
 		this.setBaseQ ();
 	},
 	setUser : function (user) {

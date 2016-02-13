@@ -14,6 +14,7 @@ angular.module('project')
 	// .controller('controllerProjectNew', controllerProjectNew)
 	// .controller('controllerProjectEdit', controllerProjectEdit)
 	.controller('controllerProjectStreamSelect', controllerProjectStreamSelect)
+	.controller('controllerProjectInitiated', controllerProjectInitiated)	
 	.controller('controllerProjectActivities', controllerProjectActivities);
 
 // -----------------------------------------------------------------------------------
@@ -273,9 +274,24 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, Project, rP
 // 		projectEntry.project = res.data;
 // 	});
 
-
-
 // }
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Initiated
+//
+// -----------------------------------------------------------------------------------
+controllerProjectInitiated.$inject = ['$scope', '$state'];
+/* @ngInject */
+function controllerProjectInitiated($scope, $state) {
+	var projectInitiated = this;
+
+	$scope.$watch('project', function(newValue) {
+		if (newValue) {
+			projectInitiated.project = newValue;
+		}
+	});
+
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Stream Selection

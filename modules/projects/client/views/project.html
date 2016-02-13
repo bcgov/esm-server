@@ -14,6 +14,13 @@
 				ng-if="('project' | shouldDisplayPanel:'tombstone':proj.project.status)">
 			</tmpl-project-tombstone>
 
+			<tmpl-project-initiated
+				class="anchor-section"
+				id="anchor-initiated"
+				x-project="proj.project"
+				ng-if="('project'| shouldDisplayPanel:'initiated':proj.project.status)">
+			</tmpl-project-initiated>
+
 			<tmpl-project-stream-select
 				class="anchor-section"
 				id="anchor-stream"
@@ -34,6 +41,13 @@
 				x-project="proj.project"
 				ng-if="('project'| shouldDisplayPanel:'activities':proj.project.status)">
 			</tmpl-project-activities>
+
+			<tmpl-documents-approvals
+				class="anchor-section"
+				id="anchor-document-approvals"
+				x-project="proj.project"
+				ng-if="('project'| shouldDisplayPanel:'doc-approvals':proj.project.status)">
+			</tmpl-documents-approvals>
 
 			<tmpl-documents-browser
 				class="anchor-section"
