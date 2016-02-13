@@ -3,7 +3,7 @@
 angular.module('documents')
     .controller('controllerDocumentUploadGlobal', controllerDocumentUploadGlobal)
     .controller('controllerDocumentList', controllerDocumentList)
-    .controller('controllerDocumentBrowser', controllerDocumentBrowser)    
+    .controller('controllerDocumentBrowser', controllerDocumentBrowser)
 	.controller('controllerModalDocumentViewer', controllerModalDocumentViewer)
 	.controller('controllerModalDocumentBuckets', controllerModalDocumentBuckets);
 
@@ -52,7 +52,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 
 	// determine the correct target for the file upload based on x-type attribute.
 	docUpload.targetUrl = null;
-	
+
 	$scope.$watch('type', function(newValue) {
 		docUpload.type = newValue;
 		if (parentId) {
@@ -79,7 +79,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 
 
 	// allow the upload to be triggered from an external button.
-	// this should be called and then documentUploadComplete should be listened for. 
+	// this should be called and then documentUploadComplete should be listened for.
 	$scope.$on('documentUploadStart', function() {
 		docUpload.upload();
 	});
@@ -139,7 +139,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 
 		} else {
 			// there are no documents so say it's all done
-			$scope.$emit('documentUploadComplete');			
+			$scope.$emit('documentUploadComplete');
 		}
     };
 }
@@ -178,6 +178,7 @@ function controllerDocumentBrowser($scope, Document, Project) {
 	// Review docs
 	docBrowser.rdocumentFiles	= undefined;
 	docBrowser.rdocTypes		= undefined;
+	docBrowser.rDoc 			= undefined;
 
 	$scope.$watch('project', function(newValue) {
 		docBrowser.project = newValue;
@@ -224,6 +225,25 @@ function controllerDocumentBrowser($scope, Document, Project) {
 			// console.log(res.data);
 		});
 	};
+	docBrowser.rfilterSummary = function(doc) {
+		$scope.rfilterSummary = doc;
+		Document.getProjectDocumentVersions(doc.project,
+											doc.projectFolderType,
+											doc.projectFolderSubType,
+											doc.projectFolderName,
+											doc.documentFileName).then( function(res) {
+			docBrowser.docVersions	= res.data;
+			// Fix for if a version was uploaded while we hovered overtop last
+			if (docBrowser.docVersions[docBrowser.docVersions.length-1].documentVersion >= $scope.rfilterSummary.documentVersion) {
+				console.log("Your data is stale!  Refresh the page");
+			}
+			// console.log(res.data);
+		});
+	};
+	docBrowser.downloadAndApprove = function(doc) {
+		console.log("Downloading and approving:",doc);
+		// TODO: Hook up the scraping code
+	}
 }
 // -----------------------------------------------------------------------------------
 //
