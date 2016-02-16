@@ -15,7 +15,7 @@ angular.module('project')
 	// .controller('controllerProjectNew', controllerProjectNew)
 	// .controller('controllerProjectEdit', controllerProjectEdit)
 	.controller('controllerProjectStreamSelect', controllerProjectStreamSelect)
-	.controller('controllerProjectInitiated', controllerProjectInitiated)	
+	.controller('controllerProjectInitiated', controllerProjectInitiated)
 	.controller('controllerProjectActivities', controllerProjectActivities);
 
 // -----------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ controllerModalProjectSchedule.$inject = ['$modalInstance', 'ProjectModel', '_']
 function controllerModalProjectSchedule($modalInstance, ProjectModel, _) {
 	var projSched = this;
 
-	// TODO.  Revert 
+	// TODO.  Revert
 	projSched.project = angular.copy(ProjectModel.model);
 
 	projSched.cancel = function () { $modalInstance.dismiss('cancel'); };
@@ -327,7 +327,7 @@ function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel
 			ProjectModel.getModel(newValue._id).then( function(data) {
 				projectStreamSelect.project = data;
 			});
-		}		
+		}
 	});
 
 
@@ -343,7 +343,7 @@ function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel
 			ProjectModel.saveModel().then( function(res) {
 				// set the stream then move to the project overview page.
 				ProjectModel.setStream(projectStreamSelect.newStreamId).then( function(resStream) {
-					projectStreamSelect.project = _.assign(resStream.data);
+					projectStreamSelect.project = _.assign(resStream);
 					$state.go('project', {'id':projectStreamSelect.project._id}, {reload: true});
 				});
 			});

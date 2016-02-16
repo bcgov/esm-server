@@ -13,7 +13,8 @@ exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'milestonebase');
 	helpers.setPathPermissions (acl, [
 		[ '', 'user', '/api/milestonebase/:milestonebase/add/activity/:activitybase'],
-		[ '', 'user', '/api/milestone/:milestone/add/activity/:activitybase']
+		[ '', 'user', '/api/milestone/:milestone/add/activity/:activitybase'],
+		[ '', 'user', '/api/milestone/:milestone/with/activites']
 	]);
 };
 

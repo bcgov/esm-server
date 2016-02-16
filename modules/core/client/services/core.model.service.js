@@ -26,6 +26,7 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 			this.urlall  = '/api/'+this.urlName;
 			this.urlbase = '/api/'+this.urlName+'/';
 			this.urlnew  = '/api/new/'+this.urlName;
+			_.bindAll (this);
 		},
 		// -------------------------------------------------------------------------
 		//
@@ -133,6 +134,7 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 			return new Promise (function (resolve, reject) {
 				var p = (self.modelIsNew) ? self.add (self.model) : self.save (self.model);
 				p.then (function (res) {
+					console.log ('model saved, setting model to ',res.data);
 					self.model = res.data;
 					self.modelIsNew = false;
 					resolve (res.data);
@@ -167,54 +169,46 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		//
 		// -------------------------------------------------------------------------
 		new : function () {
-			var self = this;
-			return new Promise (function (resolve, reject) {
-				$http ({method:'GET', url:self.urlnew })
-				.then (resolve, log.reject (reject));
-			});
+			return this.mget (this.urlnew);
 		},
 		all : function () {
-			var self = this;
-			return new Promise (function (resolve, reject) {
-				$http ({method:'GET', url:self.urlall })
-				.then (resolve, log.reject (reject));
-			});
+			return this.mget (this.urlall);
 		},
 		delete : function (id) {
-			var self = this;
-			return new Promise (function (resolve, reject) {
-				$http ({method:'DELETE', url:self.urlbase+id })
-				.then (resolve, log.reject (reject));
-			});
+			return this.mdel (this.urlbase+id);
 		},
 		get : function (id) {
-			var self = this;
-			return new Promise (function (resolve, reject) {
-				$http ({method:'GET', url:self.urlbase+id })
-				.then (resolve, log.reject (reject));
-			});
+			console.log ('this.urlbase = ', this.urlbase);
+			return this.mget (this.urlbase+id);
 		},
 		save : function (obj) {
-			var self = this;
-			return new Promise (function (resolve, reject) {
-				$http ({method:'PUT', url:self.urlbase+obj._id, data:obj })
-				.then (resolve, log.reject (reject));
-			});
+			return this.put (this.urlbase+obj._id, obj);
 		},
 		add : function (obj) {
-			var self = this;
-			return new Promise (function (resolve, reject) {
-				$http ({method:'POST', url:self.urlall, data:obj })
-				.then (resolve, log.reject (reject));
-			});
+			return this.post (this.urlall, obj);
 		},
 		query : function (obj) {
-			var self = this;
+			return this.put (this.urlall, obj);
+		},
+		put : function (url, data) {
+			return this.talk ('PUT', url, data);
+		},
+		post : function (url, data) {
+			return this.talk ('POST', url, data);
+		},
+		mget : function (url) {
+			console.log ('getting: ', url);
+			return this.talk ('GET', url, null);
+		},
+		mdel : function (url) {
+			return this.talk ('DELETE', url, null);
+		},
+		talk : function (method, url, data) {
 			return new Promise (function (resolve, reject) {
-				$http ({method:'PUT', url:self.urlall, data:obj })
+				$http ({method:method, url:url, data:data })
 				.then (resolve, log.reject (reject));
 			});
-		},
+		}
 	});
 	ModelBase.extend = function (protoProps, staticProps) {
 		var parent = this; var child;

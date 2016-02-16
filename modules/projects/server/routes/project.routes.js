@@ -17,6 +17,7 @@ module.exports = function (app) {
 		.all (policy.isAllowed)
 		.put (function (req,res) {
 			var p = new Project (req.user);
+			console.log ('setting stream for project');
 			p.setStream (req.Project, req.Stream)
 			.then (helpers.success(res), helpers.failure(res));
 		});

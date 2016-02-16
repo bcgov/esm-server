@@ -34,12 +34,14 @@ module.exports = DBModel.extend ({
 			Promise.all (stream.phases.map (phasebase.findById))
 			// then make real phases from them all
 			.then (function (models) {
+				console.log ('found phase bases, length = ',models.length);
 				return Promise.all (models.map (function (m) {
 					return phase.makePhaseFromBase (m, stream._id, project._id, project.code);
 				}));
 			})
 			// then attach the new phases to the project
 			.then (function (models) {
+				console.log ('new phases, length = ',models.length);
 				_.each (models, function (m) {
 					project.phases.push (m._id);
 				});

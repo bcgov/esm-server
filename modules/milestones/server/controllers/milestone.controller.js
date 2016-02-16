@@ -103,5 +103,27 @@ module.exports = DBModel.extend ({
 			.then (self.saveDocument)
 			.then (resolve, reject);
 		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// return a promise of filling all activities out into proper activity
+	// models. this is what populate does, except that populate is not
+	// recursive, so this sort of allows us to cheat up the hierarchy
+	//
+	// -------------------------------------------------------------------------
+	getMilestoneWithActivities : function (milestone) {
+		var self = this;
+		var Activity = new ActivityClass (self.user);
+		return new Promise (function (resolve, reject) {
+			milestone = milestone.toObject ();
+			var a = milestone.activities.map (function (id) {
+				return Activity.findById (id);
+			});
+			Promise.all (a).then (function (models) {
+				milestone.activities = models;
+				return milestone;
+			})
+			.then (resolve, reject);
+		});
 	}
 });
