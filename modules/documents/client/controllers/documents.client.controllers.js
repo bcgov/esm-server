@@ -243,6 +243,10 @@ function controllerDocumentBrowser($scope, Document, Project) {
 	docBrowser.downloadAndApprove = function(doc) {
 		console.log("Downloading and approving:",doc);
 		// TODO: Hook up the scraping code
+		Document.downloadAndApprove(doc._id).then( function(res) {
+			// Update the table in the UI - call refresh
+			console.log("downloaded and approved!");
+		});
 	};
 }
 // -----------------------------------------------------------------------------------

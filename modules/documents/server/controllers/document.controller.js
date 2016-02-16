@@ -221,6 +221,24 @@ var getDocumentTypesForProjectAndReturn = function (req, res) {
 };
 exports.getDocumentTypesForProjectAndReturn = getDocumentTypesForProjectAndReturn;
 
+var approveAndDownloadDocument = function (req, res) {
+	return new Promise (function (resolve, reject) {
+		console.log("approveAndDownloadDocument: Document:",req.params.document);
+	});
+};
+var approveAndDownload = function (req, res) {
+    approveAndDownloadDocument (req, req)
+	.then (function (model) {
+		//console.log (model);
+		helpers.sendData (res, model);
+	})
+	.catch (function (err) {
+		// console.log (err);
+		helpers.sendError (res, err);
+	});
+};
+exports.approveAndDownload = approveAndDownload;
+
 // -------------------------------------------------------------------------
 //
 // import a document observation, set any special audit fields here
