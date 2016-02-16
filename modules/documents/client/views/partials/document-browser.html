@@ -54,43 +54,4 @@
 		</div>
 	</div>
 
-	<h3>Documents in Review</h3>
-
-	<div class='container-fluid'>
-		<div class='row'>
-			<div class='col-sm-4 col-no-padding vertical-scroll col-border-right'>
-
-				<ul class="small list-unstyled list-documents">
-					<li
-						class="row-folder row-folder-depth-{{ row.depth }}"
-						ng-repeat="row in docBrowser.rdocTypes"
-						ng-class="{'active btn-primary': rfilterDocs[row.reference] === row.label}">
-						<span class="glyphicon glyphicon-play"></span>
-						<a href ng-click="docBrowser.rfilterList(row.reference, row.label)">{{ row.label }}</a>
-					<li>
-				</ul>
-
-			</div>
-			<div class='col-sm-4 col-no-padding vertical-scroll col-border-right'>
-			
-				<ul class="small list-unstyled list-documents list-indent-left">
-
-					<li ng-repeat="doc in docBrowser.rdocumentFiles | filter : rfilterDocs : true" >
-						<a ng-mouseover="docBrowser.rfilterSummary(doc)" href="{{ doc.documentFileURL }}"><span class="glyphicon glyphicon-file"></span>{{ doc.documentFileName }} </a>
-					</li>
-				</ul>
-
-			</div>
-			<div class='col-sm-4 col-no-padding vertical-scroll'>
-
-				<ul class="small list-unstyled list-documents list-indent-left">
-					<li>Approve / Reject </h3>
-						<p>Download and Approve document</p>
-						<p>Open Link to document</p>
-
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
 </section>

@@ -60,11 +60,19 @@ function serviceDocument($http) {
                     });
     };
 
+    var downloadAndApprove = function(documentObj) {
+        return $http({
+            method:'PUT',
+                        url: '/api/documents/approveAndDownload/' + documentObj
+        });
+    };
+
 	return {
 		getDocumentTypes: getDocumentTypes,
         getAllDocuments: getAllDocuments,
         getProjectDocuments: getProjectDocuments,
         getProjectDocumentTypes: getProjectDocumentTypes,
-        getProjectDocumentVersions: getProjectDocumentVersions
+        getProjectDocumentVersions: getProjectDocumentVersions,
+        downloadAndApprove: downloadAndApprove
 	};
 }

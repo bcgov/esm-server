@@ -4,6 +4,7 @@ angular.module('project')
 	// General
 	.controller('controllerProject', controllerProject)
 	.controller('controllerModalProjectSchedule', controllerModalProjectSchedule)
+	.controller('controllerProjectVC', controllerProjectVC)
 	.controller('controllerProjectTombstone', controllerProjectTombstone)
 	// .controller('controllerProjectTimeline', controllerProjectTimeline)
 	.controller('controllerModalProjectEntry', controllerModalProjectEntry)
@@ -14,6 +15,7 @@ angular.module('project')
 	// .controller('controllerProjectNew', controllerProjectNew)
 	// .controller('controllerProjectEdit', controllerProjectEdit)
 	.controller('controllerProjectStreamSelect', controllerProjectStreamSelect)
+	.controller('controllerProjectInitiated', controllerProjectInitiated)	
 	.controller('controllerProjectActivities', controllerProjectActivities);
 
 // -----------------------------------------------------------------------------------
@@ -51,6 +53,25 @@ function controllerModalProjectSchedule($modalInstance, ProjectModel, _) {
 			$modalInstance.close(data);
 		});
 	};
+}
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Modal: View Project VC
+//
+// -----------------------------------------------------------------------------------
+controllerProjectVC.$inject = ['rProjectVC', '_', '$modalInstance'];
+/* @ngInject */
+function controllerProjectVC(rProjectVC, _, $modalInstance) {
+	var projectVC = this;
+
+	projectVC.roles = ['admin', 'project-team', 'working-group', 'first-nations', 'consultant'];
+
+	// on save, pass complete permission structure to the server
+	projectVC.ok = function () {
+		$modalInstance.close();
+	};
+	projectVC.cancel = function () { $modalInstance.dismiss('cancel'); };
+
 }
 // -----------------------------------------------------------------------------------
 //
@@ -273,9 +294,24 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, Project, rP
 // 		projectEntry.project = res.data;
 // 	});
 
-
-
 // }
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Initiated
+//
+// -----------------------------------------------------------------------------------
+controllerProjectInitiated.$inject = ['$scope', '$state'];
+/* @ngInject */
+function controllerProjectInitiated($scope, $state) {
+	var projectInitiated = this;
+
+	$scope.$watch('project', function(newValue) {
+		if (newValue) {
+			projectInitiated.project = newValue;
+		}
+	});
+
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Stream Selection

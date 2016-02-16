@@ -3,6 +3,7 @@
 angular.module('project')
 	.directive('tmplProject', directiveProject)
 	.directive('modalProjectSchedule', directiveModalProjectSchedule)
+	.directive('modalProjectVC', directiveProjectVC)
 	.directive('tmplProjectTombstone', directiveProjectTombstone)
 	// .directive('tmplProjectTombstoneVertical', directiveProjectTombstoneVertical)
 	// .directive('tmplProjectTimeline', directiveProjectTimeline)
@@ -18,6 +19,7 @@ angular.module('project')
 	// .directive('tmplProjectNew', directiveProjectNew)
 	// .directive('tmplProjectEdit', directiveProjectEdit)
 
+	.directive('tmplProjectInitiated', directiveProjectInitiated)
 	.directive('tmplProjectStreamSelect', directiveProjectStreamSelect)
 	.directive('tmplProjectActivities', directiveProjectActivities);
 
@@ -73,6 +75,42 @@ function directiveModalProjectSchedule($modal) {
 	};
 	return directive;
 }
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Modal Project VC
+//
+// -----------------------------------------------------------------------------------
+directiveProjectVC.$inject = ['$modal'];
+/* @ngInject */
+function directiveProjectVC($modal) {
+	var directive = {
+		restrict:'A',
+		scope : {
+			sourceObject: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalProjectVC = $modal.open({
+					animation: true,
+					templateUrl: 'modules/projects/client/views/project-partials/modal-project-vc.html',
+					controller: 'controllerProjectVC',
+					controllerAs: 'projectVC',
+					scope: scope,
+					resolve: {
+						rProjectVC: function () {
+							return scope.sourceObject;
+						}
+					},
+					size: 'lg'
+				});
+				modalProjectVC.result.then(function () {}, function () {});
+			});
+		}
+	};
+	return directive;
+}
+
+
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Modal Project Entry
@@ -299,6 +337,26 @@ function directiveProjectTombstone() {
 // 	};
 // 	return directive;
 // }
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Project Initiated
+//
+// -----------------------------------------------------------------------------------
+directiveProjectInitiated.$inject = [];
+/* @ngInject */
+function directiveProjectInitiated() {
+	var directive = {
+		restrict: 'E',
+		replace: true,
+		templateUrl: 'modules/projects/client/views/project-partials/project-initiated.html',
+		controller: 'controllerProjectInitiated',
+		controllerAs: 'projectInitiated',
+		scope: {
+			project: '='
+		}
+	};
+	return directive;
+}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Project Stream Select

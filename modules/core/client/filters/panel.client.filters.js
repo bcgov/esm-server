@@ -15,9 +15,9 @@ function filterShouldDisplayPanel(Authentication, _) {
 	var vis = {
 		"project":{
 			"admin":{
-				"Initiated":["edit", "documents"],
-				"Submitted":["stream", "edit", "documents"],
-				"In Progress":["tombstone", "map", "edit", "activities", "documents"]
+				"Initiated":["initiated", "documents"],
+				"Submitted":["stream", "edit", "documents", "doc-approvals"],
+				"In Progress":["tombstone", "map", "edit", "activities", "documents", "doc-approvals"]
 			},
 			"guest":{
 				"Initiated":[],

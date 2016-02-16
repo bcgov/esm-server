@@ -2,6 +2,7 @@
 
 angular.module('roles')
     .controller('controllerPermissionMatrix', controllerPermissionMatrix)
+    .controller('controllerUsersByRoles', controllerUsersByRoles)    
     .filter('accessHasRole', filterAccessHasRole)
     .filter('accessInferredRole', filterAccessInferredRole);
     
@@ -42,6 +43,24 @@ function controllerPermissionMatrix(sRoles, rTargetObject, _, $modalInstance, PR
 		} 
 	};
 
+}
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Permission Matrix
+//
+// -----------------------------------------------------------------------------------
+controllerUsersByRoles.$inject = ['rSourceObject', '_', '$modalInstance'];
+/* @ngInject */
+function controllerUsersByRoles(rSourceObject, _, $modalInstance) {
+	var usersByRoles = this;
+	
+	usersByRoles.roles = ['admin', 'project-team', 'working-group', 'first-nations', 'consultant'];
+
+	// on save, pass complete permission structure to the server
+	usersByRoles.ok = function () {
+		$modalInstance.close();
+	};
+	usersByRoles.cancel = function () { $modalInstance.dismiss('cancel'); };
 }
 // -----------------------------------------------------------------------------------
 //

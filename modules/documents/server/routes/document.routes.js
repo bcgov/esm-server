@@ -25,6 +25,9 @@ module.exports = function (app) {
 
 	app.route ('/api/documents/versions/:projectid')//.all (policy.isAllowed)
 		.get  (controller.getDocumentVersionsAndReturn);
+
+	app.route ('/api/documents/approveAndDownload/:document')//.all (policy.isAllowed)
+		.put  (controller.approveAndDownload);
 	//
 	// model routes
 	//

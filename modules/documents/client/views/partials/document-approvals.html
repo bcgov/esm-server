@@ -1,0 +1,46 @@
+<section class="block-content">
+	<h3>Documents in Review</h3>
+
+	<div class='container-fluid'>
+		<div class='row'>
+			<div class='col-sm-4 col-no-padding vertical-scroll col-border-right'>
+
+				<ul class="small list-unstyled list-documents">
+					<li
+						class="row-folder row-folder-depth-{{ row.depth }}"
+						ng-repeat="row in docBrowser.rdocTypes"
+						ng-class="{'active btn-primary': rfilterDocs[row.reference] === row.label}">
+						<span class="glyphicon glyphicon-play"></span>
+						<a href ng-click="docBrowser.rfilterList(row.reference, row.label)">{{ row.label }}</a>
+					<li>
+				</ul>
+
+			</div>
+			<div class='col-sm-4 col-no-padding vertical-scroll col-border-right'>
+			
+				<ul class="small list-unstyled list-documents list-indent-left">
+
+					<li ng-repeat="doc in docBrowser.rdocumentFiles | filter : rfilterDocs : true">
+						<a ng-click="docBrowser.rDoc=doc" href="">
+							<span class="glyphicon glyphicon-file"></span>{{ doc.documentFileName }}
+						</a>
+					</li>
+				</ul>
+
+			</div>
+			<div class='col-sm-4 col-no-padding vertical-scroll'>
+
+				<ul class="small list-unstyled list-documents list-indent-left">
+					<li><h3>Approve / Reject </h3>
+						<p>File Name: {{ docBrowser.rDoc.documentFileName }}</p>
+						<p>Date Posted: {{ docBrowser.rDoc.projectFolderDatePosted | date : format : timezone }}</p>
+						<p>File Format: {{ docBrowser.rDoc.documentFileFormat }}</p>
+						<p>File Size: {{ docBrowser.rDoc.documentFileSize }}</p>
+						<p><a target="new" href="{{ docBrowser.rDoc.documentFileURL }}">Open Link to document</a></p>
+						<a ng-click="docBrowser.downloadAndApprove(docBrowser.rDoc)" href="">Download and Approve document</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</section>
