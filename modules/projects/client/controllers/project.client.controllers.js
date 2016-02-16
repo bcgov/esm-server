@@ -4,6 +4,7 @@ angular.module('project')
 	// General
 	.controller('controllerProject', controllerProject)
 	.controller('controllerModalProjectSchedule', controllerModalProjectSchedule)
+	.controller('controllerProjectVC', controllerProjectVC)
 	.controller('controllerProjectTombstone', controllerProjectTombstone)
 	// .controller('controllerProjectTimeline', controllerProjectTimeline)
 	.controller('controllerModalProjectEntry', controllerModalProjectEntry)
@@ -52,6 +53,25 @@ function controllerModalProjectSchedule($modalInstance, ProjectModel, _) {
 			$modalInstance.close(data);
 		});
 	};
+}
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Modal: View Project VC
+//
+// -----------------------------------------------------------------------------------
+controllerProjectVC.$inject = ['rProjectVC', '_', '$modalInstance'];
+/* @ngInject */
+function controllerProjectVC(rProjectVC, _, $modalInstance) {
+	var projectVC = this;
+
+	projectVC.roles = ['admin', 'project-team', 'working-group', 'first-nations', 'consultant'];
+
+	// on save, pass complete permission structure to the server
+	projectVC.ok = function () {
+		$modalInstance.close();
+	};
+	projectVC.cancel = function () { $modalInstance.dismiss('cancel'); };
+
 }
 // -----------------------------------------------------------------------------------
 //

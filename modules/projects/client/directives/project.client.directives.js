@@ -3,6 +3,7 @@
 angular.module('project')
 	.directive('tmplProject', directiveProject)
 	.directive('modalProjectSchedule', directiveModalProjectSchedule)
+	.directive('modalProjectVC', directiveProjectVC)
 	.directive('tmplProjectTombstone', directiveProjectTombstone)
 	// .directive('tmplProjectTombstoneVertical', directiveProjectTombstoneVertical)
 	// .directive('tmplProjectTimeline', directiveProjectTimeline)
@@ -74,6 +75,42 @@ function directiveModalProjectSchedule($modal) {
 	};
 	return directive;
 }
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Modal Project VC
+//
+// -----------------------------------------------------------------------------------
+directiveProjectVC.$inject = ['$modal'];
+/* @ngInject */
+function directiveProjectVC($modal) {
+	var directive = {
+		restrict:'A',
+		scope : {
+			sourceObject: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalProjectVC = $modal.open({
+					animation: true,
+					templateUrl: 'modules/projects/client/views/project-partials/modal-project-vc.html',
+					controller: 'controllerProjectVC',
+					controllerAs: 'projectVC',
+					scope: scope,
+					resolve: {
+						rProjectVC: function () {
+							return scope.sourceObject;
+						}
+					},
+					size: 'lg'
+				});
+				modalProjectVC.result.then(function () {}, function () {});
+			});
+		}
+	};
+	return directive;
+}
+
+
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Modal Project Entry
