@@ -20,8 +20,10 @@
 			
 				<ul class="small list-unstyled list-documents list-indent-left">
 
-					<li ng-repeat="doc in docBrowser.rdocumentFiles | filter : rfilterDocs : true" >
-						<a ng-mouseover="docBrowser.rfilterSummary(doc)" href="{{ doc.documentFileURL }}"><span class="glyphicon glyphicon-file"></span>{{ doc.documentFileName }} </a>
+					<li ng-repeat="doc in docBrowser.rdocumentFiles | filter : rfilterDocs : true">
+						<a ng-click="docBrowser.rDoc=doc" href="">
+							<span class="glyphicon glyphicon-file"></span>{{ doc.documentFileName }}
+						</a>
 					</li>
 				</ul>
 
@@ -29,10 +31,13 @@
 			<div class='col-sm-4 col-no-padding vertical-scroll'>
 
 				<ul class="small list-unstyled list-documents list-indent-left">
-					<li>Approve / Reject </h3>
-						<p>Download and Approve document</p>
-						<p>Open Link to document</p>
-
+					<li><h3>Approve / Reject </h3>
+						<p>File Name: {{ docBrowser.rDoc.documentFileName }}</p>
+						<p>Date Posted: {{ docBrowser.rDoc.projectFolderDatePosted | date : format : timezone }}</p>
+						<p>File Format: {{ docBrowser.rDoc.documentFileFormat }}</p>
+						<p>File Size: {{ docBrowser.rDoc.documentFileSize }}</p>
+						<p><a target="new" href="{{ docBrowser.rDoc.documentFileURL }}">Open Link to document</a></p>
+						<a ng-click="docBrowser.downloadAndApprove(docBrowser.rDoc)" href="">Download and Approve document</a>
 					</li>
 				</ul>
 			</div>
