@@ -363,9 +363,11 @@ function controllerProjectActivities($scope, sActivity, _, sPhaseModel, sMilesto
 
 	projectActs.selectPhase = function(phase) {
 		if (phase) {
+			console.log('set phase', phase.name);
 			projectActs.selectedPhase = phase;
 			sMilestoneModel.milestonesForPhase(phase._id).then( function(data) {
 				projectActs.milestones = data;
+				$scope.$apply();
 			});
 		}
 	};
@@ -373,9 +375,11 @@ function controllerProjectActivities($scope, sActivity, _, sPhaseModel, sMilesto
 
 	projectActs.selectMilestone = function(milestone) {
 		if (milestone) {
+			console.log('set milestone', milestone.name);
 			projectActs.selectedMilestone = milestone;
 			sActivityModel.activitiesForMilestone(milestone._id).then( function(data) {
 				projectActs.activities = data;
+				$scope.$apply();
 			});
 		}
 	};
