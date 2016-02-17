@@ -112,12 +112,18 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 		console.log("hereagain",docUpload);
 
 		if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
-
+			var name;
 			angular.forEach( docUpload.fileList, function(file) {
+				// Quick hack to pass objects
+				if (file.docType) {
+					name = file.docType.name;
+				} else {
+					name = "No Type Specified";
+				}
 				file.upload = Upload.upload({
 					url: docUpload.targetUrl,
 					file: file,
-					headers: { 'documenttype': file.docType.name}
+					headers: { 'documenttype': name}
 				});
 
 				file.upload.then(function (response) {
