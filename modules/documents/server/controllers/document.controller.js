@@ -14,6 +14,7 @@ var helpers  = require (path.resolve('./modules/core/server/controllers/core.hel
 var Project = mongoose.model ('Project');
 var Spooky 	= require('spooky');
 var Cheerio = require('cheerio');
+var obj = require('mongoose').Types.ObjectId;
 
 var crud = new CRUD (Model);
 // -------------------------------------------------------------------------
@@ -37,15 +38,9 @@ exports.getObject   = crud.getObject();
 // -------------------------------------------------------------------------
 var getDocumentVersions = function (req, res) {
 	return new Promise (function (resolve, reject) {
-		console.log("getDocumentVersions: Project: ",req.params.projectid);
+		console.log("getDocumentVersions: Document: ",req.params.documentid);
 		resolve (
-			Model.find({ documentIsLatestVersion: false,
-						 projectFolderType   	: req.headers.projectfoldertype,
-						 projectFolderSubType	: req.headers.projectfoldersubtype,
-						 projectFolderName 		: req.headers.projectfoldername,
-						 documentFileName 		: req.headers.documentfilename,
-						 project 				: req.params.projectid
-				}).exec (function (err, records) {
+			Model.findById(req.params.documentid).exec (function (err, records) {
 					if (err) {
 						// console.log("getDocumentTypesForProject failed to find anything",err);
 					} else {
@@ -82,8 +77,7 @@ exports.getDocumentVersionsAndReturn = getDocumentVersionsAndReturn;
 // -------------------------------------------------------------------------
 var getDocumentsForProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
-		console.log("getDocumentsForProject: Project: ",req.params.projectid);
-		resolve (Model.find({	project 				: req.params.projectid,
+		resolve (Model.find({	project 				: req.params.project,
 								documentIsInReview 		: req.headers.reviewdocsonly,
 								documentIsLatestVersion	: true
 							}).exec());
@@ -187,16 +181,16 @@ var getDocumentTypesForProject = function (req, res) {
 						flattendList.push({'label': depth1, 'depth': 1, 'reference': 'projectFolderType'});
 						tsKey.projectFolderSubTypeObjects.forEach(function(subObjects) {
 							var depth2 = subObjects.projectFolderSubType;
-							// console.log(depth2);
+						// 	// console.log(depth2);
 							flattendList.push({'label': depth2, 'depth': 2, 'reference': 'projectFolderSubType'});
-							subObjects.projectFolderNames.forEach(function(labels) {
-								var depth3 = labels;
-								// console.log(depth3);
-								flattendList.push({'label': depth3, 'depth': 3, 'reference': 'projectFolderName'});
-							});
+						// 	subObjects.projectFolderNames.forEach(function(labels) {
+						// 		var depth3 = labels;
+						// 		// console.log(depth3);
+						// 		flattendList.push({'label': depth3, 'depth': 3, 'reference': 'projectFolderName'});
+						// 	});
 						});
 					});
-					// console.log(flattendList);
+					console.log(flattendList);
 					resolve (flattendList);
 				}
 			}
@@ -550,9 +544,9 @@ exports.populateReviewDocuments = populateReviewDocuments;
 //
 // -------------------------------------------------------------------------
 var upload = function (req, res) {
-	//console.log ('++uploading file:');
-	//console.log (req.files);
-	//console.log ('end of file');
+	// console.log ('++uploading file:');
+	// console.log (req.files);
+	// console.log ('end of file');
 	var file = req.files.file;
 	if (file) {
 		//console.log (file);
@@ -563,12 +557,12 @@ var upload = function (req, res) {
 			// Metadata related to this specific document that has been uploaded.
 			// See the document.model.js for descriptions of the parameters to supply.
 			project 					: req.Project,
-			projectID 					: req.Project._id,
-			projectFolderType			: req.headers.projectfoldertype,
-			projectFolderSubType		: req.headers.projectfoldersubtype,
-			projectFolderName			: req.headers.projectfoldername,
-			projectFolderURL			: req.headers.projectfolderurl,
-			projectFolderDatePosted		: req.headers.projectfolderdateposted,
+			//projectID 					: req.Project._id,
+			projectFolderType			: req.headers.documenttype,//req.headers.projectfoldertype,
+			projectFolderSubType		: req.headers.documentsubtype,//req.headers.projectfoldersubtype,
+			//projectFolderName			: "All",//req.headers.projectfoldername,
+			projectFolderURL			: file.path,//req.headers.projectfolderurl,
+			projectFolderDatePosted		: Date.now(),//req.headers.projectfolderdateposted,
 			// NB: In EPIC, projectFolders have authors, not the actual documents.
 			projectFolderAuthor			: req.headers.projectfolderauthor,
 			// These are the data as it was shown on the EPIC website.
@@ -577,6 +571,7 @@ var upload = function (req, res) {
 			documentFileURL		: req.headers.documentfileurl,
 			documentFileSize	: req.headers.documentfilesize,
 			documentFileFormat	: req.headers.documentfileformat,
+			documentVersion     : 0,
 			// These are automatic as it actually is when it comes into our system
 			internalURL				: file.path,
 			internalOriginalName	: file.originalname,

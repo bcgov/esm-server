@@ -5,7 +5,8 @@ angular.module('documents')
     .controller('controllerDocumentList', controllerDocumentList)
     .controller('controllerDocumentBrowser', controllerDocumentBrowser)
 	.controller('controllerModalDocumentViewer', controllerModalDocumentViewer)
-	.controller('controllerModalDocumentBuckets', controllerModalDocumentBuckets);
+	.controller('controllerModalDocumentBuckets', controllerModalDocumentBuckets)
+	.filter('removeExtension', filterRemoveExtension);
 
 // -----------------------------------------------------------------------------------
 //
@@ -32,6 +33,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 	$scope.$watch('project', function(newValue) {
 		if (newValue) {
 			docUpload.project = newValue;
+			docUpload.setTargetUrl();
 		}
 	});
 
@@ -70,13 +72,13 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 				break;
 			default:
 				// project type
-				docUpload.targetUrl = '/api/commentdocument/publiccomment/' + parentId + '/upload'; // todo: UPLOAD
+				docUpload.targetUrl = '/api/document/' + docUpload.project._id + '/upload';
 		}
 	};
 
 	// get types for dropdown.
 	docUpload.docTypes = Document.getDocumentTypes();
-
+	docUpload.docSubTypes = Document.getDocumentSubTypes();
 
 	// allow the upload to be triggered from an external button.
 	// this should be called and then documentUploadComplete should be listened for.
@@ -108,13 +110,29 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 	docUpload.upload = function () {
 		docUpload.inProgress = true;
 		var docCount = docUpload.fileList.length;
+		console.log("hereagain",docUpload);
 
 		if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
-
+			var name; // this is type
+			var subtype;
 			angular.forEach( docUpload.fileList, function(file) {
+				// Quick hack to pass objects
+				// TODO: Make this better
+				if (file.docType) {
+					name = file.docType.name;
+				} else {
+					name = "No Type Specified";
+				}
+				if (file.docSubType) {
+					subtype = file.docSubType.name;
+				} else {
+					subtype = "No SubType Specified";
+				}
 				file.upload = Upload.upload({
 					url: docUpload.targetUrl,
-					file: file
+					file: file,
+					headers: { 'documenttype': name,
+							   'documentsubtype': subtype}
 				});
 
 				file.upload.then(function (response) {
@@ -168,9 +186,9 @@ function controllerDocumentList($scope) {
 // CONTROLLER: Document List
 //
 // -----------------------------------------------------------------------------------
-controllerDocumentBrowser.$inject = ['$scope', 'Document', 'Project'];
+controllerDocumentBrowser.$inject = ['$scope', 'Document', '$rootScope'];
 /* @ngInject */
-function controllerDocumentBrowser($scope, Document, Project) {
+function controllerDocumentBrowser($scope, Document, $rootScope) {
 	var docBrowser = this;
 
 	docBrowser.documentFiles	= undefined;
@@ -180,17 +198,26 @@ function controllerDocumentBrowser($scope, Document, Project) {
 	docBrowser.rdocTypes		= undefined;
 	docBrowser.rDoc 			= undefined;
 
-	$scope.$watch('project', function(newValue) {
-		docBrowser.project = newValue;
 
-		Document.getProjectDocuments(newValue._id, false).then( function(res) {
+	docBrowser.refresh = function() {
+		Document.getProjectDocuments(docBrowser.project._id, false).then( function(res) {
+			console.log('refresh documents');
 			docBrowser.documentFiles	= res.data;
 			// console.log(res.data);
 		});
-		Document.getProjectDocumentTypes(newValue._id, false).then( function(res) {
+		Document.getProjectDocumentTypes(docBrowser.project._id, false).then( function(res) {
 			docBrowser.docTypes	= res.data;
 			// console.log(res.data);
 		});
+	};
+
+	$rootScope.$on('refreshDocumentList', function() {
+		docBrowser.refresh();
+	});
+
+	$scope.$watch('project', function(newValue) {
+		docBrowser.project = newValue;
+
 		Document.getProjectDocuments(newValue._id, true).then( function(res) {
 			docBrowser.rdocumentFiles	= res.data;
 			// console.log(res.data);
@@ -199,9 +226,11 @@ function controllerDocumentBrowser($scope, Document, Project) {
 			docBrowser.rdocTypes	= res.data;
 			// console.log(res.data);
 		});
+		docBrowser.refresh();
 	});
 
 	docBrowser.filterList = function(searchField, newValue) {
+		$scope.filterSummary = undefined;
 		$scope.filterDocs = {};
 		$scope.filterDocs[searchField] = newValue;
 	};
@@ -211,18 +240,12 @@ function controllerDocumentBrowser($scope, Document, Project) {
 		$scope.rfilterDocs[searchField] = newValue;
 	};
 	docBrowser.filterSummary = function(doc) {
+		$scope.bytes = {};
 		$scope.filterSummary = doc;
-		Document.getProjectDocumentVersions(doc.project,
-											doc.projectFolderType,
-											doc.projectFolderSubType,
-											doc.projectFolderName,
-											doc.documentFileName).then( function(res) {
+		$scope.filterSummary.MBytes = (doc.internalSize / Math.pow(1024, Math.floor(2))).toFixed(2);
+		Document.getProjectDocumentVersions(doc._id).then( function(res) {
 			docBrowser.docVersions	= res.data;
-			// Fix for if a version was uploaded while we hovered overtop last
-			if (docBrowser.docVersions[docBrowser.docVersions.length-1].documentVersion >= $scope.filterSummary.documentVersion) {
-				console.log("Your data is stale!  Refresh the page");
-			}
-			// console.log(res.data);
+			//console.log(res.data);
 		});
 	};
 	docBrowser.rfilterSummary = function(doc) {
@@ -273,3 +296,23 @@ function controllerModalDocumentBuckets($modalInstance) {
 	docBuckets.ok = function () { $modalInstance.close(); };
 	docBuckets.cancel = function () { $modalInstance.dismiss('cancel'); };
 }
+
+// -----------------------------------------------------------------------------------
+//
+// FILTER: Remove Extension
+//
+// -----------------------------------------------------------------------------------
+filterRemoveExtension.$inject = [];
+/* @ngInject */
+function filterRemoveExtension() {
+	return function(input) {
+		if (input) {
+			var filename = input.split('.');
+			return filename[0];
+		} 
+		return input;
+	};
+}
+
+
+

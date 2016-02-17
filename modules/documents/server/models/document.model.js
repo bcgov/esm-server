@@ -98,6 +98,7 @@ var DocumentSchema  = new Schema ({
                                                                      // decide what is the latest based on approval of such
     documentIsInReview             : { type:Boolean, default:false }, // Used to flag if this entry is a reviewable entry.
     documentAuthor                 : { type:String, default:'' },  // NB: We should add a document author in addition to the folderAuthor.
+    documentType                   : { type:String, default:'' },
     internalURL                    : { type:String, default:'' },
     internalOriginalName           : { type:String, default:'' },
     internalName                   : { type:String, default:'' },
