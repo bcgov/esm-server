@@ -156,30 +156,29 @@ function directiveModalDocumentUploadClassify($modal) {
     var directive = {
         restrict:'A',
         scope: {
-            doc: '=',
             project: '='
         },
         link : function(scope, element, attrs) {
             element.on('click', function() {
-                var modalDocBuckets = $modal.open({
+                var modalDocUpload = $modal.open({
                     animation: true,
                     templateUrl: 'modules/documents/client/views/partials/modal-document-upload-classify.html',
-                    controller: 'controllerModalDocumentBuckets',
+                    controller: 'controllerModalDocumentUploadClassify',
                     controllerAs: 'docUpload',
                     size: 'md',
                     resolve: {
-                        rDoc: function() { return scope.doc; },
                         rProject: function() { return scope.project; }
                     }
                 });
-                modalDocBuckets.result.then(function (data) {
-                    scope.doc = data;
+                modalDocUpload.result.then(function (data) {
+
                 }, function () {});
             });
         }
     };
     return directive;
 }   
+
 
 // // -----------------------------------------------------------------------------------
 // //

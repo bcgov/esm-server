@@ -155,9 +155,9 @@
 	</div>
 	<div ng-show="menu.authentication.user">
 		<hr>
-		<label class="control-label">User</label>
+		<label class="control-label">Welcome, {{ menu.authentication.user.displayName }}</label>
 		<ul class="list-unstyled">
-			<li><a href ui-sref="settings.profile">My Profile</a></li>
+			<li><a href ui-sref="settings.profile">Profile</a></li>
 			<li><a href="/api/auth/signout" target="_self">Logout</a></li>
 	  	</ul>
 	</div>

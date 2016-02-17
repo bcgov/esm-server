@@ -8,7 +8,6 @@
 		<li ng-class="{'active':projectEntry.form.curTab === 'Project Information'}"><a href ng-click="projectEntry.form.curTab = 'Project Information'">Project Information</a></li>
 		<li ng-class="{'active':projectEntry.form.curTab === 'Proponent'}"><a href ng-click="projectEntry.form.curTab = 'Proponent'">Proponent</a></li>
 		<li ng-class="{'active':projectEntry.form.curTab === 'Intake Profile'}"><a href ng-click="projectEntry.form.curTab = 'Intake Profile'">Intake Profile</a></li>
-		<li ng-class="{'active':projectEntry.form.curTab === 'Document Upload'}"><a href ng-click="projectEntry.form.curTab = 'Document Upload'">Document Upload</a></li>
 	</ul>
 	<hr/>
 	<div ng-if="projectEntry.form.curTab === 'Project Information'">
@@ -148,10 +147,6 @@
 		</div>
 	</div>
 
-	<div ng-if="projectEntry.form.curTab === 'Document Upload'">
-		<tmpl-documents-upload-classify x-project="projectEntry.project" x-type="project"></tmpl-documents-upload-classify>
-	</div>
-
 	<div ng-if="projectEntry.form.curTab === 'Accepted'">
 		<h3>Project Submission Accepted</h3>
 		<p>Thank you.</p>
@@ -172,7 +167,6 @@
 		<a class="btn btn-success" href ng-click="projectEntry.submitProject()" ng-if="projectEntry.project.status === 'Initiated'">Submit Project</a>
 		<a class="btn btn-primary" href ng-show="projectEntry.form.curTab === 'Project Information'" ng-click="projectEntry.form.curTab = 'Proponent'">Next</a>
 		<a class="btn btn-primary" href ng-show="projectEntry.form.curTab === 'Proponent'" ng-click="projectEntry.form.curTab = 'Intake Profile'">Next</a>
-		<a class="btn btn-primary" href ng-show="projectEntry.form.curTab === 'Intake Profile'" ng-click="projectEntry.form.curTab = 'Document Upload'">Next</a>
 	</div>
 </div>
 

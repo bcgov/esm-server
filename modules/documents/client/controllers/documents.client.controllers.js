@@ -5,7 +5,7 @@ angular.module('documents')
     .controller('controllerDocumentList', controllerDocumentList)
     .controller('controllerDocumentBrowser', controllerDocumentBrowser)
 	.controller('controllerModalDocumentViewer', controllerModalDocumentViewer)
-	.controller('controllerModalDocumentBuckets', controllerModalDocumentBuckets)
+	.controller('controllerModalDocumentUploadClassify', controllerModalDocumentUploadClassify)
 	.filter('removeExtension', filterRemoveExtension);
 
 // -----------------------------------------------------------------------------------
@@ -277,6 +277,18 @@ function controllerDocumentBrowser($scope, Document, $rootScope) {
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
+controllerModalDocumentUploadClassify.$inject = ['$modalInstance'];
+/* @ngInject */
+function controllerModalDocumentUploadClassify($modalInstance) {
+	var docUpload = this;
+	docUpload.ok = function () { $modalInstance.close(); };
+	docUpload.cancel = function () { $modalInstance.dismiss('cancel'); };
+}
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Modal: View Documents Comment
+//
+// -----------------------------------------------------------------------------------
 controllerModalDocumentViewer.$inject = ['$modalInstance'];
 /* @ngInject */
 function controllerModalDocumentViewer($modalInstance) {
@@ -289,13 +301,13 @@ function controllerModalDocumentViewer($modalInstance) {
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentBuckets.$inject = ['$modalInstance'];
-/* @ngInject */
-function controllerModalDocumentBuckets($modalInstance) {
-	var docBuckets = this;
-	docBuckets.ok = function () { $modalInstance.close(); };
-	docBuckets.cancel = function () { $modalInstance.dismiss('cancel'); };
-}
+// controllerModalDocumentBuckets.$inject = ['$modalInstance'];
+// /* @ngInject */
+// function controllerModalDocumentBuckets($modalInstance) {
+// 	var docBuckets = this;
+// 	docBuckets.ok = function () { $modalInstance.close(); };
+// 	docBuckets.cancel = function () { $modalInstance.dismiss('cancel'); };
+// }
 
 // -----------------------------------------------------------------------------------
 //
