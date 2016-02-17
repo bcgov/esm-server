@@ -104,28 +104,30 @@ function controllerProjectTombstone($scope, ProjectModel) {
 // CONTROLLER: Project Entry Tombstone
 //
 // -----------------------------------------------------------------------------------
-controllerModalProjectEntry.$inject = ['$modalInstance', '$scope', '$state', 'Project', 'rProject', 'REGIONS', 'PROJECT_TYPES', '_'];
+controllerModalProjectEntry.$inject = ['$modalInstance', '$scope', '$state', 'Project',  'ProjectModel', 'rProject', 'REGIONS', 'PROJECT_TYPES', '_'];
 /* @ngInject */
-function controllerModalProjectEntry($modalInstance, $scope, $state, Project, rProject, REGIONS, PROJECT_TYPES, _) {
-
-
+function controllerModalProjectEntry($modalInstance, $scope, $state, sProject, sProjectModel, rProject, REGIONS, PROJECT_TYPES, _) {
 	var projectEntry = this;
 
 	projectEntry.regions = REGIONS;
 	projectEntry.types = PROJECT_TYPES;
 
-	projectEntry.questions = Project.getProjectIntakeQuestions();
+	projectEntry.questions = sProject.getProjectIntakeQuestions();
 	projectEntry.form = {curTab: $state.params.tab};
+
+	console.log('rProject', rProject);
 
 	if (rProject) {
 		projectEntry.title = 'Edit Project';
 		projectEntry.project = rProject;
+		sProjectModel.setModel(projectEntry.project);
 		// project has been passed in, no need to get it again.
 	} else {
 		projectEntry.title = 'Add Project';
 		// no project exists, get a new blank one.
-		Project.getNewProject().then( function(res) {
-			projectEntry.project = res.data;
+		sProjectModel.getNew().then( function(data) {
+			console.log('getnew');
+			projectEntry.project = data;
 		});
 	}
 
@@ -135,26 +137,28 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, Project, rP
 
 	projectEntry.submitProject = function() {
 		projectEntry.project.status = 'Submitted';
-		projectEntry.saveProject();
+		sProjectModel.saveModel().then( function(data) {
+			$modalInstance.close(data);
+		});
 	};
 
 	projectEntry.saveProject = function() {
-		if (!rProject) {
-			Project.addProject(projectEntry.project).then( function(res) {
-				console.log (res.data);
-				$modalInstance.close(res.data);
-			})
-			.catch (function (err) {
-				console.log ('error = ', err, 'message = ', err.data.message);
-			});
-		} else {
-			Project.saveProject(projectEntry.project).then( function(res) {
-				$modalInstance.close(res.data);
-			})
-			.catch (function (err) {
-				console.log ('error = ', err, 'message = ', err.data.message);
-			});
-		}
+		// if (!rProject) {
+		// 	Project.addProject(projectEntry.project).then( function(res) {
+		// 		console.log (res.data);
+		// 		$modalInstance.close(res.data);
+		// 	})
+		// 	.catch (function (err) {
+		// 		console.log ('error = ', err, 'message = ', err.data.message);
+		// 	});
+		// } else {
+		sProjectModel.saveModel().then( function(data) {
+			$modalInstance.close(data);
+		})
+		.catch (function (err) {
+			console.log ('error = ', err, 'message = ', err.data.message);
+		});
+		//}
 	};
 
 }

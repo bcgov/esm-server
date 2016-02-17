@@ -33,16 +33,25 @@ function controllerProjects($state, ProjectModel, PROJECT_TYPES, Authentication)
 // CONTROLLER: Projects
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsList.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel'];
+controllerProjectsList.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', '$rootScope'];
 /* @ngInject */
-function controllerProjectsList($scope, $state, Authentication, ProjectModel) {
+function controllerProjectsList($scope, $state, Authentication, ProjectModel, $rootScope) {
 	var projectList = this;
 	
-	ProjectModel.getCollection().then( function(data) {
-		projectList.projects = data;
-	}).catch( function(err) {
-		$scope.error = err;
+	projectList.refresh = function() {
+		ProjectModel.getCollection().then( function(data) {
+			projectList.projects = data;
+		}).catch( function(err) {
+			$scope.error = err;
+		});
+	};
+
+	$rootScope.$on('refreshProjectsList', function() {
+		console.log('received')
+		projectList.refresh();
 	});
+
+	projectList.refresh();
 
 	projectList.auth = Authentication;	
 }

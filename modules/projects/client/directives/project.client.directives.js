@@ -116,9 +116,9 @@ function directiveProjectVC($modal) {
 // DIRECTIVE: Modal Project Entry
 //
 // -----------------------------------------------------------------------------------
-directiveModalProjectEntry.$inject = ['$modal'];
+directiveModalProjectEntry.$inject = ['$modal', '$state', '$rootScope'];
 /* @ngInject */
-function directiveModalProjectEntry($modal) {
+function directiveModalProjectEntry($modal, $state, $rootScope) {
 	var directive = {
 		restrict:'A',
 		scope : {
@@ -139,8 +139,13 @@ function directiveModalProjectEntry($modal) {
 					size: 'lg'
 				});
 				modalProjectEntry.result.then(function (res) {
-					console.log (res);
-					scope.project = res;
+					if ($state.current.name === 'projects') {
+						// reload the complete projects list
+						console.log('call');
+						$rootScope.$broadcast('refreshProjectsList');
+					} else {
+						scope.project = res;
+					}
 				}, function () {});
 			});
 		}
