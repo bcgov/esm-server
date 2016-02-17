@@ -22,7 +22,7 @@
 
 					<li ng-repeat="doc in docBrowser.rdocumentFiles | filter : rfilterDocs : true">
 						<a ng-click="docBrowser.rDoc=doc" href="">
-							<span class="glyphicon glyphicon-file"></span>{{ doc.documentFileName }}
+							<span class="glyphicon glyphicon-file"></span>{{ doc.internalName }}
 						</a>
 					</li>
 				</ul>

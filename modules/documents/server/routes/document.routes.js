@@ -17,13 +17,13 @@ module.exports = function (app) {
 		.get  (controller.list);
 		//.post (controller.create);
 
-	app.route ('/api/documents/:projectid')//.all (policy.isAllowed)
+	app.route ('/api/documents/:project')//.all (policy.isAllowed)
 		.get  (controller.getDocumentsForProjectAndReturn);
 
 	app.route ('/api/documents/types/:projectid')//.all (policy.isAllowed)
 		.get  (controller.getDocumentTypesForProjectAndReturn);
 
-	app.route ('/api/documents/versions/:projectid')//.all (policy.isAllowed)
+	app.route ('/api/documents/versions/:documentid')//.all (policy.isAllowed)
 		.get  (controller.getDocumentVersionsAndReturn);
 
 	app.route ('/api/documents/approveAndDownload/:document')//.all (policy.isAllowed)

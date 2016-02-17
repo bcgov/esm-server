@@ -32,6 +32,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 	$scope.$watch('project', function(newValue) {
 		if (newValue) {
 			docUpload.project = newValue;
+			docUpload.setTargetUrl();
 		}
 	});
 
@@ -70,7 +71,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 				break;
 			default:
 				// project type
-				docUpload.targetUrl = '/api/commentdocument/publiccomment/' + parentId + '/upload'; // todo: UPLOAD
+				docUpload.targetUrl = '/api/document/' + docUpload.project._id + '/upload';
 		}
 	};
 
@@ -108,13 +109,15 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 	docUpload.upload = function () {
 		docUpload.inProgress = true;
 		var docCount = docUpload.fileList.length;
+		console.log("hereagain",docUpload);
 
 		if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
 
 			angular.forEach( docUpload.fileList, function(file) {
 				file.upload = Upload.upload({
 					url: docUpload.targetUrl,
-					file: file
+					file: file,
+					headers: { 'documenttype': file.docType.name}
 				});
 
 				file.upload.then(function (response) {
@@ -211,18 +214,12 @@ function controllerDocumentBrowser($scope, Document, Project) {
 		$scope.rfilterDocs[searchField] = newValue;
 	};
 	docBrowser.filterSummary = function(doc) {
+		$scope.bytes = {};
 		$scope.filterSummary = doc;
-		Document.getProjectDocumentVersions(doc.project,
-											doc.projectFolderType,
-											doc.projectFolderSubType,
-											doc.projectFolderName,
-											doc.documentFileName).then( function(res) {
+		$scope.filterSummary.MBytes = (doc.internalSize / Math.pow(1024, Math.floor(2))).toFixed(2);
+		Document.getProjectDocumentVersions(doc._id).then( function(res) {
 			docBrowser.docVersions	= res.data;
-			// Fix for if a version was uploaded while we hovered overtop last
-			if (docBrowser.docVersions[docBrowser.docVersions.length-1].documentVersion >= $scope.filterSummary.documentVersion) {
-				console.log("Your data is stale!  Refresh the page");
-			}
-			// console.log(res.data);
+			//console.log(res.data);
 		});
 	};
 	docBrowser.rfilterSummary = function(doc) {
