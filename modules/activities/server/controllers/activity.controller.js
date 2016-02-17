@@ -115,5 +115,16 @@ module.exports = DBModel.extend ({
 			var p = (access === 'write') ? self.listwrite (q) : self.list (q);
 			p.then (resolve, reject);
 		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// activities for a milestone
+	//
+	// -------------------------------------------------------------------------
+	activitiesForMilestone: function (id) {
+		var p = this.list ({milestone:id});
+		return new Promise (function (resolve, reject) {
+			p.then (resolve, reject);
+		});
 	}
 });

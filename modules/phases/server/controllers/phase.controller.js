@@ -114,7 +114,7 @@ module.exports = DBModel.extend ({
 	},
 	// -------------------------------------------------------------------------
 	//
-	// milestones for a phase that this user can read
+	// phase for project that this user can read
 	//
 	// -------------------------------------------------------------------------
 	phasesForProject: function (id) {

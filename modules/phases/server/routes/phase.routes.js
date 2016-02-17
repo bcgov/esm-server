@@ -19,7 +19,7 @@ module.exports = function (app) {
 		.all (policy.isAllowed)
 		.get (function (req, res) {
 			var p = new Phase (req.user);
-			p.phasesForProject (req.Phase._id)
+			p.phasesForProject (req.Project._id)
 			.then (helpers.success(res), helpers.failure(res));
 		});
 	//
