@@ -47,7 +47,6 @@ function controllerProjectsList($scope, $state, Authentication, ProjectModel, $r
 	};
 
 	$rootScope.$on('refreshProjectsList', function() {
-		console.log('received')
 		projectList.refresh();
 	});
 

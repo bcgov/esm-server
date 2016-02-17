@@ -175,7 +175,6 @@ function directiveModalProjectEntry($modal, $state, $rootScope) {
 				modalProjectEntry.result.then(function (res) {
 					if ($state.current.name === 'projects') {
 						// reload the complete projects list
-						console.log('call');
 						$rootScope.$broadcast('refreshProjectsList');
 					} else {
 						scope.project = res;
