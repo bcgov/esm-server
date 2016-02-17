@@ -229,6 +229,98 @@ Integration.findOne ({module:'newconfigs'}).exec()
 });
 
 
+Integration.findOne ({module:'newusers'}).exec ()
+.then (function (row) {
+  if (!row) {
+    User.find({username: 'proponent-staff'}, function (err, users) {
+      if (users.length === 0) {
+        var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
+        var user = new User({
+          username: 'proponent-staff',
+          password: 'proponent-staff',
+          provider: 'local',
+          email: 'proponent-staff@localhost.com',
+          firstName: 'Johnny',
+          lastName: 'Miner',
+          displayName: 'Johnny Miner',
+          roles: ['user', 'proponent', 'proponent-staff', 'tp1:pro:admin']
+        });
+        // Then save the user
+        user.save();
+      }
+    });
+    User.find({username: 'proponent-admin'}, function (err, users) {
+      if (users.length === 0) {
+        var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
+        var user = new User({
+          username: 'proponent-admin',
+          password: 'proponent-admin',
+          provider: 'local',
+          email: 'proponent-admin@localhost.com',
+          firstName: 'Alice',
+          lastName: 'BossyPants',
+          displayName: 'Alice BossyPants',
+          roles: ['user', 'proponent', 'proponent-admin', 'tp1:pro:member']
+        });
+        // Then save the user
+        user.save();
+      }
+    });
+    User.find({username: 'eao-project-admin'}, function (err, users) {
+      if (users.length === 0) {
+        var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
+        var user = new User({
+          username: 'eao-project-admin',
+          password: 'eao-project-admin',
+          provider: 'local',
+          email: 'eao-project-admin@localhost.com',
+          firstName: 'Sebastian',
+          lastName: 'Cole',
+          displayName: 'Sebastian Cole',
+          roles: ['user', 'eao', 'eao-project-admin', 'tp1:eao:admin']
+        });
+        // Then save the user
+        user.save();
+      }
+    });
+    User.find({username: 'eao-project-staff-1'}, function (err, users) {
+      if (users.length === 0) {
+        var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
+        var user = new User({
+          username: 'eao-project-staff-1',
+          password: 'eao-project-staff-1',
+          provider: 'local',
+          email: 'eao-project-staff-1@localhost.com',
+          firstName: 'Def',
+          lastName: 'Jam',
+          displayName: 'Def Jam',
+          roles: ['user', 'eao', 'eao-project-staff-1', 'tp1:eao:working-group']
+        });
+        // Then save the user
+        user.save();
+      }
+    });
+    User.find({username: 'eao-project-staff-2'}, function (err, users) {
+      if (users.length === 0) {
+        var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
+        var user = new User({
+          username: 'eao-project-staff-2',
+          password: 'eao-project-staff-2',
+          provider: 'local',
+          email: 'eao-project-staff-2@localhost.com',
+          firstName: 'Winter',
+          lastName: 'Storm',
+          displayName: 'Winter Storm',
+          roles: ['user', 'eao', 'eao-project-staff-2', 'tp1:eao:member']
+        });
+        // Then save the user
+        user.save();
+      }
+    });
+
+  }
+});
+
 
 
 
