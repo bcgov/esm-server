@@ -121,7 +121,6 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		// -------------------------------------------------------------------------
 		saveCopy: function (obj) {
 			this.model = obj;
-			this.modelIsNew = false;
 			return this.saveModel ();
 		},
 		// -------------------------------------------------------------------------
