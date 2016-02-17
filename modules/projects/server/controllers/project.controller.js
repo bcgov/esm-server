@@ -12,12 +12,21 @@ var _           = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Project',
-	populate: 'phases',
-	preprocessAdd : function (model) {
-		var adminrole = model.code + ':admin';
-		var hasadmin = (_.indexOf (model.submit, adminrole) >= 0);
-		if (!hasadmin) model.submit.push (adminrole);
-		return model;
+	// populate: 'phases',
+	preprocessAdd : function (project) {
+		project.roles.push (
+			'pro:admin',
+			'pro:consultant',
+			'pro:member'
+		);
+		project.submit.push (
+			project.code + ':eao:admin',
+			project.code + ':pro:admin'
+		);
+		this.userModel.addRole (
+			(this.userModel.isProponent ()) ? project.code + ':pro:admin' : project.code + ':eao:admin'
+		);
+		return project;
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -50,22 +59,15 @@ module.exports = DBModel.extend ({
 			})
 			// then do some work on the project itself and save it
 			.then (function (m) {
-				// are there any new roles to add to the project?
-				var addroles = _.difference (project.roles, stream.roles);
-				project.roles.push (addroles);
-				// now copy over the stream permissions to the project
-				project.read.push (stream.read);
-				project.write.push (stream.write);
-				project.submit.push (stream.submit);
-				project.watch.push (stream.watch);
-				// fix the names of them to reflect the project code
-				project.fixRoles (project.code);
-				// remove duplicates
-				project.read.push ('public');
-				project.read = _.uniq (project.read);
-				project.write = _.uniq (project.write);
-				project.submit = _.uniq (project.submit);
-				project.watch = _.uniq (project.watch);
+				// add stream roles to the project
+				project.mergeRoles (project.code, {
+					roles  : stream.roles,
+					read   : stream.read,
+					write  : stream.write,
+					submit : stream.submit,
+					watch  : stream.watch
+				});
+				self.userModel.addRole (project.code + ':eao:admin');
 				// save
 				return self.saveAndReturn (m);
 			})

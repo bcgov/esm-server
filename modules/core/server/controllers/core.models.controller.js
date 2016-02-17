@@ -100,6 +100,27 @@ var fixRoles = function (projectCode) {
 	this.submit = this.submit.map (function (role) { return role.replace ('project:', repl); });
 	this.watch = this.watch.map (function (role) { return role.replace ('project:', repl); });
 };
+// -------------------------------------------------------------------------
+//
+// same as above but returns the fixed array
+//
+// -------------------------------------------------------------------------
+var fixRoleArray = function (projectCode, roleArray) {
+	return roleArray.map (function (role) { return role.replace ('project:', projectCode+':'); });
+};
+// -------------------------------------------------------------------------
+//
+// three for the price of one!
+//
+// -------------------------------------------------------------------------
+var mergeRoles = function (projectCode, pObject) {
+	var self = this;
+	_.each (pObject, function (p, i) {
+		self[i] = _.uniq (self[i].concat (p.map (function (role) {
+			return role.replace ('project:', projectCode+':');
+		})));
+	});
+};
 
 // -------------------------------------------------------------------------
 //
@@ -150,6 +171,8 @@ var generateSchema = function (definition) {
 		schema.methods.hasPermission     = hasPermission;
 		schema.methods.permissions       = permissions;
 		schema.methods.fixRoles          = fixRoles;
+		schema.methods.fixRoleArray      = fixRoleArray;
+		schema.methods.mergeRoles        = mergeRoles;
 	}
 	return schema;
 };

@@ -66,7 +66,8 @@ _.extend (DBModel.prototype, {
 			'decorateAll',
 			'addPermissions',
 			'decoratePermission',
-			'permissions'
+			'permissions',
+			'preprocessAdd'
 		]);
 		if (this.bind) _.bindAll (this, this.bind);
 		this.user = user;
@@ -132,6 +133,10 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	setUser : function (user) {
 		this.user = user;
+		this.userModel = {
+			isProponent:function () { return true; },
+			addRole: function (r) { console.log ('adding user role '+r); }
+		};
 		this.setRoles (user);
 		this.setAccess ('read');
 	},

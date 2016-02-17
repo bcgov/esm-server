@@ -1,0 +1,73 @@
+<div class="modal-header">
+	<h3 class="modal-title">Project Documents</h3>
+</div>
+<div class="modal-body">
+
+
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<p class="navbar-text">Title Search</p>
+				</li>
+				<li>
+					<form class="navbar-form" role="filter1">
+						<div class="form-group">
+							<input ng-model="vm.filterKeyword" type="text" class="form-control" placeholder="Keyword Search">
+						</div>
+					</form>
+				</li>
+				<li>
+					<p class="navbar-text">Categories</p>
+				</li>
+				<li>
+					<form class="navbar-form" role="filter1">
+						<div class="form-group">
+							<select ng-model='vm.filterObject.region' class="form-control" ng-options='region for region in vm.regions'>
+								<option value="">All</option>
+								<option ng-repeat='region in vm.regions' value='{{ region }}'>{{ region }}</option>
+							</select>
+						
+						</div>
+					</form>	
+				</li>	
+			</ul>
+
+		</div><!-- /.container-fluid -->
+	</nav>
+
+	<table class='table table-condensed small'>
+		<thead>
+			<tr>
+				<th colspan="2">Sub Category</th>
+				
+			</tr>
+		</thead>					
+		<tbody class="clickable">
+			<tr>
+				<td class="document-cell">
+					<a href><span class='glyphicon glyphicon-file'></span> Pre-Application
+				</td>
+				<td class='text-right'>Feb. 4, 2003</td>
+			</tr>
+			<tr>
+				<td class="document-cell">
+					<a href><span class='glyphicon glyphicon-file'></span> Under Review
+				</td>
+				<td class='text-right'>Mar. 4, 2004</td>
+			</tr>
+			<tr>
+				<td class="document-cell">
+					<a href><span class='glyphicon glyphicon-file'></span> Certificate Issued
+				</td>
+				<td class='text-right'>June. 9, 2004</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+</div>
+<div class="modal-footer">
+	<button class="btn btn-warning" type="button" ng-click="md.cancel()">Close</button>
+</div>

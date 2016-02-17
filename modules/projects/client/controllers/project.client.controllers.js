@@ -27,7 +27,6 @@ controllerProject.$inject = ['$scope', 'ProjectModel', '$stateParams', '_'];
 /* @ngInject */
 function controllerProject($scope, ProjectModel, $stateParams, _) {
 	var proj = this;
-	console.log($stateParams.id);
 	ProjectModel.getModel($stateParams.id).then(function(data) {
 		proj.project = data;
 		$scope.$apply();
@@ -115,12 +114,14 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, sProject, s
 	projectEntry.questions = sProject.getProjectIntakeQuestions();
 	projectEntry.form = {curTab: $state.params.tab};
 
+	// if a project is already there, we're in edit mode.
 	if (rProject) {
 		projectEntry.title = 'Edit Project';
-		projectEntry.project = rProject;
-		sProjectModel.setModel(projectEntry.project);
+		sProjectModel.setModel(rProject);
+		projectEntry.project = sProjectModel.getCopy();
 		// project has been passed in, no need to get it again.
 	} else {
+		// no project set to presume new mode.
 		projectEntry.title = 'Add Project';
 		// no project exists, get a new blank one.
 		sProjectModel.getNew().then( function(data) {
@@ -133,22 +134,26 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, sProject, s
 		$modalInstance.dismiss();
 	};
 
+	// Submit the project for stream assignment.
 	projectEntry.submitProject = function() {
 		projectEntry.project.status = 'Submitted';
-		sProjectModel.saveModel().then( function(data) {
-			$modalInstance.close(data);
-		});
+		$scope.$broadcast('documentUploadStart');
 	};
 
+	// Standard save make sure documents are uploaded before save.
 	projectEntry.saveProject = function() {
-		sProjectModel.saveModel().then( function(data) {
+		$scope.$broadcast('documentUploadStart');
+	};
+
+	// Document upload complete so close and continue.
+	$scope.$on('documentUploadComplete', function() {
+		sProjectModel.saveCopy(projectEntry.project).then( function(data) {
 			$modalInstance.close(data);
 		})
 		.catch (function (err) {
 			console.log ('error = ', err, 'message = ', err.data.message);
 		});
-		//}
-	};
+	});
 
 }
 // -----------------------------------------------------------------------------------
@@ -349,18 +354,50 @@ function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel
 // CONTROLLER: Project Activities
 //
 // -----------------------------------------------------------------------------------
-controllerProjectActivities.$inject = ['$scope', 'sActivity', '_'];
+controllerProjectActivities.$inject = ['$scope', 'sActivity', '_', 'PhaseModel', 'MilestoneModel' ,'ActivityModel'];
 /* @ngInject */
-function controllerProjectActivities($scope, sActivity, _) {
+function controllerProjectActivities($scope, sActivity, _, sPhaseModel, sMilestoneModel ,sActivityModel) {
 	var projectActs = this;
+
+
+
+	projectActs.selectPhase = function(phase) {
+		if (phase) {
+			console.log('set phase', phase.name);
+			projectActs.selectedPhase = phase;
+			sMilestoneModel.milestonesForPhase(phase._id).then( function(data) {
+				projectActs.milestones = data;
+				$scope.$apply();
+			});
+		}
+	};
+
+
+	projectActs.selectMilestone = function(milestone) {
+		if (milestone) {
+			console.log('set milestone', milestone.name);
+			projectActs.selectedMilestone = milestone;
+			sActivityModel.activitiesForMilestone(milestone._id).then( function(data) {
+				projectActs.activities = data;
+				$scope.$apply();
+			});
+		}
+	};
+
+
 
 	$scope.$watch( 'project', function(newValue) {
 		if (newValue) {
 			projectActs.project = newValue;
 
-			sActivity.getProjectActivities().then( function(res) {
-				projectActs.activities = res.data;
+			sPhaseModel.phasesForProject(newValue._id).then( function(data) {
+				console.log('phases', data);
+				projectActs.phases = data;
 			});
+
+			// sActivity.getProjectActivities().then( function(res) {
+			// 	projectActs.activities = res.data;
+			// });
 		}
 	});
 

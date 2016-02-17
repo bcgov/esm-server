@@ -57,7 +57,7 @@ angular.module('project').factory ('PhaseModel', function (ModelBase, _) {
 		phasesForProject: function (id) {
 			var self = this;
 			return new Promise (function (resolve, reject) {
-				self.mget ('/api/milestone/for/phase/'+id)
+				self.mget ('/api/phase/for/project/'+id)
 				.then (function (res) {
 					self.collection = res.data;
 					resolve (res.data);
