@@ -10,17 +10,17 @@
                     <th width="15%" class="text-center">Value Component</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="bucket in configDataElement.data.buckets | orderBy:['group', 'code']" ng-click='configDataElement.editRecord(bucket)' class="clickable">
-                        <td>{{ bucket.code }}</td>
-                        <td>{{ bucket.name }}</td>
-                        <td>{{ bucket.group }}</td>
+                    <tr ng-repeat="topic in configDataElement.data.topics | orderBy:['group', 'code']" ng-click='configDataElement.editRecord(topic)' class="clickable">
+                        <td>{{ topic.code }}</td>
+                        <td>{{ topic.name }}</td>
+                        <td>{{ topic.group }}</td>
                         <td class="text-center">
-                            <span ng-if="bucket.isValueComponent">Yes</span>
-                            <span ng-if="!bucket.isValueComponent">No</span>
+                            <span ng-if="topic.isValueComponent">Yes</span>
+                            <span ng-if="!topic.isValueComponent">No</span>
                         </td>
                     </tr>
-                    <tr ng-if="configDataElement.data.buckets.length === 0">
-                        <td colspan="3">No buckets defined.</td>
+                    <tr ng-if="configDataElement.data.topics.length === 0">
+                        <td colspan="3">No topics defined.</td>
                     </tr>
                 </tbody>
             </table>
@@ -67,10 +67,16 @@
                         <a href modal-permission-matrix x-target-object="configDataElement.activeRecord">Permissions</a>
                     </div>
 
-                    <div ng-if="!configDataElement.activeRecordNew">
-                        <button class="btn btn-primary" ng-click="configDataElement.saveRecord()">Save</button>
-                        <button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>                        
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <button class="btn btn-primary" ng-click="configDataElement.saveRecord()">Save</button>
+                            <button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>
+                        </div>
+                        <div class="form-group col-sm-6 text-right" ng-show="!configDataElement.activeRecordNew">
+                            <button class="btn btn-danger" ng-click="configDataElement.deleteRecord()">Delete</button>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>

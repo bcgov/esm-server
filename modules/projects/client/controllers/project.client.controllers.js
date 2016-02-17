@@ -138,20 +138,23 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, sProject, s
 	// Submit the project for stream assignment.
 	projectEntry.submitProject = function() {
 		projectEntry.project.status = 'Submitted';
-		sProjectModel.saveModel().then( function(data) {
-			$modalInstance.close(data);
-		});
+		$scope.$broadcast('documentUploadStart');
 	};
 
-	// Standard save.
+	// Standard save make sure documents are uploaded before save.
 	projectEntry.saveProject = function() {
+		$scope.$broadcast('documentUploadStart');
+	};
+
+	// Document upload complete so close and continue.
+	$scope.$on('documentUploadComplete', function() {
 		sProjectModel.saveModel().then( function(data) {
 			$modalInstance.close(data);
 		})
 		.catch (function (err) {
 			console.log ('error = ', err, 'message = ', err.data.message);
 		});
-	};
+	});
 
 }
 // -----------------------------------------------------------------------------------

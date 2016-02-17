@@ -12,7 +12,6 @@ var _           = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Project',
-	populate: 'phases',
 	preprocessAdd : function (model) {
 		var adminrole = model.code + ':admin';
 		var hasadmin = (_.indexOf (model.submit, adminrole) >= 0);
