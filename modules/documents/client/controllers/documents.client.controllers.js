@@ -77,7 +77,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 
 	// get types for dropdown.
 	docUpload.docTypes = Document.getDocumentTypes();
-
+	docUpload.docSubTypes = Document.getDocumentSubTypes();
 
 	// allow the upload to be triggered from an external button.
 	// this should be called and then documentUploadComplete should be listened for.

@@ -559,8 +559,8 @@ var upload = function (req, res) {
 			project 					: req.Project,
 			//projectID 					: req.Project._id,
 			projectFolderType			: req.headers.documenttype,//req.headers.projectfoldertype,
-			projectFolderSubType		: "SubType",//req.headers.projectfoldersubtype,
-			projectFolderName			: "All",//req.headers.projectfoldername,
+			//projectFolderSubType		: "SubType",//req.headers.projectfoldersubtype,
+			//projectFolderName			: "All",//req.headers.projectfoldername,
 			projectFolderURL			: file.path,//req.headers.projectfolderurl,
 			projectFolderDatePosted		: Date.now(),//req.headers.projectfolderdateposted,
 			// NB: In EPIC, projectFolders have authors, not the actual documents.
