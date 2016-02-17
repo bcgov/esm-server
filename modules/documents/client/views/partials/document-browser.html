@@ -7,11 +7,12 @@
 
 				<ul class="small list-unstyled list-documents">
 					<li
-						class="row-folder row-folder-depth-{{ row.depth }}"
+						ng-click="docBrowser.filterList(row.reference, row.label)"
+						class="row-folder clickable row-folder-depth-{{ row.depth }}"
 						ng-repeat="row in docBrowser.docTypes"
 						ng-class="{'active btn-primary': filterDocs[row.reference] === row.label}">
-						<span class="glyphicon glyphicon-play"></span>
-						<a href ng-click="docBrowser.filterList(row.reference, row.label)">{{ row.label }}</a>
+						<span class="glyphicon glyphicon-play arrow"></span>
+						{{ row.label }}
 					<li>
 				</ul>
 
@@ -20,17 +21,23 @@
 			
 				<ul class="small list-unstyled list-documents list-indent-left">
 
-					<li ng-repeat="doc in docBrowser.documentFiles | filter : filterDocs : true" >
-						<a ng-mouseover="docBrowser.filterSummary(doc)" href="{{ doc.internalURL }}"><span class="glyphicon glyphicon-file"></span>{{ doc.internalName }} </a>
+					<li
+						class="row-document clickable"
+						ng-click="docBrowser.filterSummary(doc)"
+						ng-repeat="doc in docBrowser.documentFiles | filter : filterDocs : true"
+						ng-class="{'active btn-primary': filterSummary._id === doc._id}">
+						<span class="glyphicon glyphicon-play arrow"></span>
+						<span class="glyphicon glyphicon-file"></span>&nbsp;{{ doc.internalOriginalName | removeExtension }}
 					</li>
 				</ul>
 
 			</div>
-			<div class='col-sm-4 col-no-padding vertical-scroll'>
+			<div class='col-sm-4 col-no-padding vertical-scroll' ng-class="{'bg-muted': !filterSummary}" >
 
-				<ul class="small list-unstyled list-documents list-indent-left">
+				<ul class="small list-unstyled list-documents list-indent-left" ng-show="filterSummary">
 					<li>
-						<h3>Executive Summary</h3>
+						<h3>{{ filterSummary.internalOriginalName | removeExtension }}</h3>
+						<p>System File Title: {{ filterSummary.internalName }}</p>
 						<p>Date Posted: {{ filterSummary.projectFolderDatePosted | date : format : timezone }}</p>
 						<p>File Format: {{ filterSummary.internalMime }}</p>
 						<p>File Size: {{ filterSummary.MBytes }} MB</p>

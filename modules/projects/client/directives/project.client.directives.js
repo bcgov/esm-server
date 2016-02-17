@@ -178,6 +178,7 @@ function directiveModalProjectEntry($modal, $state, $rootScope) {
 						$rootScope.$broadcast('refreshProjectsList');
 					} else {
 						scope.project = res;
+						$rootScope.$broadcast('refreshDocumentList');
 					}
 				}, function () {});
 			});

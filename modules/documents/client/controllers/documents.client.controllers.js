@@ -5,7 +5,8 @@ angular.module('documents')
     .controller('controllerDocumentList', controllerDocumentList)
     .controller('controllerDocumentBrowser', controllerDocumentBrowser)
 	.controller('controllerModalDocumentViewer', controllerModalDocumentViewer)
-	.controller('controllerModalDocumentBuckets', controllerModalDocumentBuckets);
+	.controller('controllerModalDocumentBuckets', controllerModalDocumentBuckets)
+	.filter('removeExtension', filterRemoveExtension);
 
 // -----------------------------------------------------------------------------------
 //
@@ -185,9 +186,9 @@ function controllerDocumentList($scope) {
 // CONTROLLER: Document List
 //
 // -----------------------------------------------------------------------------------
-controllerDocumentBrowser.$inject = ['$scope', 'Document', 'Project'];
+controllerDocumentBrowser.$inject = ['$scope', 'Document', '$rootScope'];
 /* @ngInject */
-function controllerDocumentBrowser($scope, Document, Project) {
+function controllerDocumentBrowser($scope, Document, $rootScope) {
 	var docBrowser = this;
 
 	docBrowser.documentFiles	= undefined;
@@ -197,17 +198,26 @@ function controllerDocumentBrowser($scope, Document, Project) {
 	docBrowser.rdocTypes		= undefined;
 	docBrowser.rDoc 			= undefined;
 
-	$scope.$watch('project', function(newValue) {
-		docBrowser.project = newValue;
 
-		Document.getProjectDocuments(newValue._id, false).then( function(res) {
+	docBrowser.refresh = function() {
+		Document.getProjectDocuments(docBrowser.project._id, false).then( function(res) {
+			console.log('refresh documents');
 			docBrowser.documentFiles	= res.data;
 			// console.log(res.data);
 		});
-		Document.getProjectDocumentTypes(newValue._id, false).then( function(res) {
+		Document.getProjectDocumentTypes(docBrowser.project._id, false).then( function(res) {
 			docBrowser.docTypes	= res.data;
 			// console.log(res.data);
 		});
+	};
+
+	$rootScope.$on('refreshDocumentList', function() {
+		docBrowser.refresh();
+	});
+
+	$scope.$watch('project', function(newValue) {
+		docBrowser.project = newValue;
+
 		Document.getProjectDocuments(newValue._id, true).then( function(res) {
 			docBrowser.rdocumentFiles	= res.data;
 			// console.log(res.data);
@@ -216,9 +226,11 @@ function controllerDocumentBrowser($scope, Document, Project) {
 			docBrowser.rdocTypes	= res.data;
 			// console.log(res.data);
 		});
+		docBrowser.refresh();
 	});
 
 	docBrowser.filterList = function(searchField, newValue) {
+		$scope.filterSummary = undefined;
 		$scope.filterDocs = {};
 		$scope.filterDocs[searchField] = newValue;
 	};
@@ -284,3 +296,23 @@ function controllerModalDocumentBuckets($modalInstance) {
 	docBuckets.ok = function () { $modalInstance.close(); };
 	docBuckets.cancel = function () { $modalInstance.dismiss('cancel'); };
 }
+
+// -----------------------------------------------------------------------------------
+//
+// FILTER: Remove Extension
+//
+// -----------------------------------------------------------------------------------
+filterRemoveExtension.$inject = [];
+/* @ngInject */
+function filterRemoveExtension() {
+	return function(input) {
+		if (input) {
+			var filename = input.split('.');
+			return filename[0];
+		} 
+		return input;
+	};
+}
+
+
+

@@ -115,8 +115,6 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, sProject, s
 	projectEntry.questions = sProject.getProjectIntakeQuestions();
 	projectEntry.form = {curTab: $state.params.tab};
 
-	console.log('rProject', rProject);
-
 	if (rProject) {
 		projectEntry.title = 'Edit Project';
 		projectEntry.project = rProject;

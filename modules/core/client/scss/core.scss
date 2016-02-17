@@ -278,11 +278,13 @@ ul.list-indent-left {
 }
 
 
-.row-folder span {
+.row-folder span.arrow,
+.row-document span.arrow {
 	display: none;
 }
 
-.row-folder.active span {
+.row-folder.active span.arrow,
+.row-document.active span.arrow {
 	display: inline-block;
 }
 .row-folder-depth-2 {
@@ -291,7 +293,12 @@ ul.list-indent-left {
 .row-folder-depth-3 {
 	padding-left: 30px !important;
 }
-.list-documents li.active .glyphicon-play {
+.bg-muted {
+	background-color: #f2f2f2;
+}
+
+
+.list-documents li.active .arrow {
 	position:absolute;
 	right: 4px;
 	top: 4px;
