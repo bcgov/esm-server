@@ -23,14 +23,26 @@ angular.module('project')
 // CONTROLLER: Public Project Detail
 //
 // -----------------------------------------------------------------------------------
-controllerProject.$inject = ['$scope', 'ProjectModel', '$stateParams', '_'];
+controllerProject.$inject = ['$scope', '$rootScope', 'ProjectModel', '$stateParams', '_'];
 /* @ngInject */
-function controllerProject($scope, ProjectModel, $stateParams, _) {
+function controllerProject($scope, $rootScope, sProjectModel, $stateParams, _) {
 	var proj = this;
-	ProjectModel.getModel($stateParams.id).then(function(data) {
-		proj.project = data;
-		$scope.$apply();
+
+	proj.refresh = function() {
+		sProjectModel.getModel($stateParams.id).then( function(data) {
+			proj.project = data;
+			$scope.$apply();
+		}).catch( function(err) {
+			$scope.error = err;
+		});
+	};
+
+	$rootScope.$on('refreshProject', function() {
+		proj.refresh();
 	});
+
+	proj.refresh();
+
 }
 // -----------------------------------------------------------------------------------
 //
@@ -134,27 +146,22 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, sProject, s
 		$modalInstance.dismiss();
 	};
 
-	// Submit the project for stream assignment.
-	projectEntry.submitProject = function() {
-		projectEntry.project.status = 'Submitted';
-		$scope.$broadcast('documentUploadStart');
-	};
-
 	// Standard save make sure documents are uploaded before save.
 	projectEntry.saveProject = function() {
-		$scope.$broadcast('documentUploadStart');
-	};
-
-	// Document upload complete so close and continue.
-	$scope.$on('documentUploadComplete', function() {
 		sProjectModel.saveCopy(projectEntry.project).then( function(data) {
+			rProject = data;
 			$modalInstance.close(data);
 		})
 		.catch (function (err) {
 			console.log ('error = ', err, 'message = ', err.data.message);
 		});
-	});
+	};
 
+	// Submit the project for stream assignment.
+	projectEntry.submitProject = function() {
+		projectEntry.project.status = 'Submitted';
+		projectEntry.saveProject();
+	};
 }
 // -----------------------------------------------------------------------------------
 //
