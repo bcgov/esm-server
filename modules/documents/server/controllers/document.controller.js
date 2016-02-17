@@ -586,3 +586,24 @@ var upload = function (req, res) {
 	}
 };
 exports.upload = upload;
+// -------------------------------------------------------------------------
+//
+// fetch a document from the server wherever it may live
+//
+// -------------------------------------------------------------------------
+var fetchd = function (req, res) {
+	//
+	// if the url starts with http or ftp then we redirect
+	//
+	// console.log("Attempting to fetch document: ",req.Document);
+	if (req.Document.internalURL.match (/^(http|ftp)/)) {
+		res.redirect (req.Document.internalURL);
+	} else {
+		helpers.streamFile (res,
+							req.Document.internalURL,
+							req.Document.internalName,
+							req.Document.internalMime);
+	}
+};
+exports.fetchd = fetchd;
+

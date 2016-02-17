@@ -13,6 +13,16 @@ module.exports = function (app) {
 	helpers.setCRUDRoutes (app, 'phasebase', PhaseBase, policy);
 	helpers.setCRUDRoutes (app, 'phase', Phase, policy);
 	//
+	// all phases for a project
+	//
+	app.route ('/api/phase/for/project/:project')
+		.all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Phase (req.user);
+			p.phasesForProject (req.Project._id)
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	//
 	// phase base
 	//
 	app.route ('/api/phasebase/:phasebase/add/milestone/:milestonebase')

@@ -60,6 +60,7 @@ module.exports = DBModel.extend ({
 				// fix the names of them to reflect the project code
 				project.fixRoles (project.code);
 				// remove duplicates
+				project.read.push ('public');
 				project.read = _.uniq (project.read);
 				project.write = _.uniq (project.write);
 				project.submit = _.uniq (project.submit);

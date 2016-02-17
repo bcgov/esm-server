@@ -111,6 +111,17 @@ module.exports = DBModel.extend ({
 			var p = (access === 'write') ? self.listwrite (q) : self.list (q);
 			p.then (resolve, reject);
 		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// phase for project that this user can read
+	//
+	// -------------------------------------------------------------------------
+	phasesForProject: function (id) {
+		var p = this.list ({project:id});
+		return new Promise (function (resolve, reject) {
+			p.then (resolve, reject);
+		});
 	}
 
 });

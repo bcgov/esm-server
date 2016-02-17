@@ -31,7 +31,7 @@ angular.module('project').factory ('MilestoneModel', function (ModelBase, _) {
 		},
 		// -------------------------------------------------------------------------
 		//
-		// get mielstones for a given project / access context
+		// get milestones for a given project / access context
 		//
 		// -------------------------------------------------------------------------
 		userMilestones: function (projectId, access) {
@@ -40,6 +40,19 @@ angular.module('project').factory ('MilestoneModel', function (ModelBase, _) {
 			projectId = (projectId) ? '/in/project/'+projectId : '';
 			return new Promise (function (resolve, reject) {
 				self.mget ('/api/'+access+'milestone'+projectId)
+				.then (function (res) {
+					self.collection = res.data;
+					resolve (res.data);
+				})
+				.catch (function (res) {
+					reject (res.data);
+				});
+			});
+		},
+		milestonesForPhase: function (id) {
+			var self = this;
+			return new Promise (function (resolve, reject) {
+				self.mget ('/api/milestone/for/phase/'+id)
 				.then (function (res) {
 					self.collection = res.data;
 					resolve (res.data);
