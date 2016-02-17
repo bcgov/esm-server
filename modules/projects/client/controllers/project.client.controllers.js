@@ -115,12 +115,14 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, sProject, s
 	projectEntry.questions = sProject.getProjectIntakeQuestions();
 	projectEntry.form = {curTab: $state.params.tab};
 
+	// if a project is already there, we're in edit mode.
 	if (rProject) {
 		projectEntry.title = 'Edit Project';
 		projectEntry.project = rProject;
 		sProjectModel.setModel(projectEntry.project);
 		// project has been passed in, no need to get it again.
 	} else {
+		// no project set to presume new mode.
 		projectEntry.title = 'Add Project';
 		// no project exists, get a new blank one.
 		sProjectModel.getNew().then( function(data) {
@@ -133,6 +135,7 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, sProject, s
 		$modalInstance.dismiss();
 	};
 
+	// Submit the project for stream assignment.
 	projectEntry.submitProject = function() {
 		projectEntry.project.status = 'Submitted';
 		sProjectModel.saveModel().then( function(data) {
@@ -140,6 +143,7 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, sProject, s
 		});
 	};
 
+	// Standard save.
 	projectEntry.saveProject = function() {
 		sProjectModel.saveModel().then( function(data) {
 			$modalInstance.close(data);
@@ -147,7 +151,6 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, sProject, s
 		.catch (function (err) {
 			console.log ('error = ', err, 'message = ', err.data.message);
 		});
-		//}
 	};
 
 }
