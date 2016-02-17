@@ -179,18 +179,18 @@ var getDocumentTypesForProject = function (req, res) {
 						var depth1 = tsKey.projectFolderType;
 						// console.log(depth1);
 						flattendList.push({'label': depth1, 'depth': 1, 'reference': 'projectFolderType'});
-						// tsKey.projectFolderSubTypeObjects.forEach(function(subObjects) {
-						// 	var depth2 = subObjects.projectFolderSubType;
+						tsKey.projectFolderSubTypeObjects.forEach(function(subObjects) {
+							var depth2 = subObjects.projectFolderSubType;
 						// 	// console.log(depth2);
-						// 	flattendList.push({'label': depth2, 'depth': 2, 'reference': 'projectFolderSubType'});
+							flattendList.push({'label': depth2, 'depth': 2, 'reference': 'projectFolderSubType'});
 						// 	subObjects.projectFolderNames.forEach(function(labels) {
 						// 		var depth3 = labels;
 						// 		// console.log(depth3);
 						// 		flattendList.push({'label': depth3, 'depth': 3, 'reference': 'projectFolderName'});
 						// 	});
-						// });
+						});
 					});
-					// console.log(flattendList);
+					console.log(flattendList);
 					resolve (flattendList);
 				}
 			}
@@ -544,9 +544,9 @@ exports.populateReviewDocuments = populateReviewDocuments;
 //
 // -------------------------------------------------------------------------
 var upload = function (req, res) {
-	console.log ('++uploading file:');
-	console.log (req.files);
-	console.log ('end of file');
+	// console.log ('++uploading file:');
+	// console.log (req.files);
+	// console.log ('end of file');
 	var file = req.files.file;
 	if (file) {
 		//console.log (file);
@@ -559,8 +559,8 @@ var upload = function (req, res) {
 			project 					: req.Project,
 			//projectID 					: req.Project._id,
 			projectFolderType			: req.headers.documenttype,//req.headers.projectfoldertype,
-			projectFolderSubType		: "SubType",//req.headers.projectfoldersubtype,
-			projectFolderName			: "All",//req.headers.projectfoldername,
+			projectFolderSubType		: req.headers.documentsubtype,//req.headers.projectfoldersubtype,
+			//projectFolderName			: "All",//req.headers.projectfoldername,
 			projectFolderURL			: file.path,//req.headers.projectfolderurl,
 			projectFolderDatePosted		: Date.now(),//req.headers.projectfolderdateposted,
 			// NB: In EPIC, projectFolders have authors, not the actual documents.
