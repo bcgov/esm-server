@@ -48,6 +48,24 @@ angular.module('project').factory ('PhaseModel', function (ModelBase, _) {
 					reject (res.data);
 				});
 			});
+		},
+		// -------------------------------------------------------------------------
+		//
+		// phases for this project that are readable by this user
+		//
+		// -------------------------------------------------------------------------
+		phasesForProject: function (id) {
+			var self = this;
+			return new Promise (function (resolve, reject) {
+				self.mget ('/api/milestone/for/phase/'+id)
+				.then (function (res) {
+					self.collection = res.data;
+					resolve (res.data);
+				})
+				.catch (function (res) {
+					reject (res.data);
+				});
+			});
 		}
 	});
 	return new PhaseClass ();
