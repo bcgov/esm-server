@@ -100,16 +100,15 @@ var getMimeTypeFromFileName = function (filename) {
 };
 
 var streamFile = function (res, file, name, mime) {
-	var path = require ('path');
-	var fs   = require('fs');
-	path.exists (file, function (yes) {
-		if (!yes) sendNotFound (res);
-		else {
-			res.setHeader ('Content-Type', mime);
+  var fs   = require('fs');
+  fs.exists (file, function (yes) {
+    if (!yes) sendNotFound (res);
+    else {
+      res.setHeader ('Content-Type', mime);
       res.setHeader ("Content-Disposition", 'attachment; filename='+name);
-			fs.createReadStream (file).pipe (res);
-		}
-	});
+      fs.createReadStream (file).pipe (res);
+    }
+  });
 };
 
 // var uri = url.parse(request.url).pathname;

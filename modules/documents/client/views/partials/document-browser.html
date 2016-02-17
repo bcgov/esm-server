@@ -44,7 +44,8 @@
 						<p>In Review?: {{ filterSummary.documentIsInReview?'Yes':'No' }}</p>
 						<!-- NB: Project folders are authors in EPIC:  We override this behavior here -->
 						<p>Author: {{ filterSummary.documentAuthor }}</p>
-						<p>Current Revision: <a href="{{ filterSummary.documentFileURL }}">{{ filterSummary.documentVersion }} <span class="glyphicon glyphicon-download"></span></a></p>
+						<p>Current Revision: <a href="/api/document/{{ filterSummary._id }}/fetch"
+												target="_blank">{{ filterSummary.documentVersion }} <span class="glyphicon glyphicon-download"></span></a></p>
 						<p>Latest Revision: {{ filterSummary.documentIsLatestVersion?'Yes':'No' }} </p>
 					</li>
 					<!-- <li>
