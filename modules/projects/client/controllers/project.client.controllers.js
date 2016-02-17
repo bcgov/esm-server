@@ -143,15 +143,6 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, sProject, s
 	};
 
 	projectEntry.saveProject = function() {
-		// if (!rProject) {
-		// 	Project.addProject(projectEntry.project).then( function(res) {
-		// 		console.log (res.data);
-		// 		$modalInstance.close(res.data);
-		// 	})
-		// 	.catch (function (err) {
-		// 		console.log ('error = ', err, 'message = ', err.data.message);
-		// 	});
-		// } else {
 		sProjectModel.saveModel().then( function(data) {
 			$modalInstance.close(data);
 		})
