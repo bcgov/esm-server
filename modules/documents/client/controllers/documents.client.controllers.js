@@ -112,18 +112,26 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 		console.log("hereagain",docUpload);
 
 		if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
-			var name;
+			var name; // this is type
+			var subtype;
 			angular.forEach( docUpload.fileList, function(file) {
 				// Quick hack to pass objects
+				// TODO: Make this better
 				if (file.docType) {
 					name = file.docType.name;
 				} else {
 					name = "No Type Specified";
 				}
+				if (file.docSubType) {
+					subtype = file.docSubType.name;
+				} else {
+					subtype = "No SubType Specified";
+				}
 				file.upload = Upload.upload({
 					url: docUpload.targetUrl,
 					file: file,
-					headers: { 'documenttype': name}
+					headers: { 'documenttype': name,
+							   'documentsubtype': subtype}
 				});
 
 				file.upload.then(function (response) {
