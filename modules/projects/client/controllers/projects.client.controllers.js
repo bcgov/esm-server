@@ -22,7 +22,7 @@ function controllerProjects($state, ProjectModel, PROJECT_TYPES, Authentication)
 	// sorting
 	projects.panelSort = [
 		{'field': 'name', 'name':'Name'},
-		{'field': 'status', 'name':'Status'},	
+		{'field': 'status', 'name':'Status'},
 		{'field': 'dateUpdated', 'name':'Date Updated'},
 		{'field': 'dateCreate', 'name':'Date Created'}
 	];
@@ -37,10 +37,11 @@ controllerProjectsList.$inject = ['$scope', '$state', 'Authentication', 'Project
 /* @ngInject */
 function controllerProjectsList($scope, $state, Authentication, ProjectModel, $rootScope) {
 	var projectList = this;
-	
+
 	projectList.refresh = function() {
 		ProjectModel.getCollection().then( function(data) {
 			projectList.projects = data;
+			$scope.$apply ();
 		}).catch( function(err) {
 			$scope.error = err;
 		});
@@ -52,5 +53,5 @@ function controllerProjectsList($scope, $state, Authentication, ProjectModel, $r
 
 	projectList.refresh();
 
-	projectList.auth = Authentication;	
+	projectList.auth = Authentication;
 }
