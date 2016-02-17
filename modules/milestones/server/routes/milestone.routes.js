@@ -42,5 +42,25 @@ module.exports = function (app) {
 			p.getMilestoneWithActivities (req.Milestone)
 			.then (helpers.success(res), helpers.failure(res));
 		});
+	//
+	// all milestones for this project that the user can read
+	//
+	app.route ('/api/milestone/in/project/:project')
+		.all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Milestone (req.user);
+			p.userMilestones (req.Project.code, 'read')
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	//
+	// all milestones for this project that the user can write
+	//
+	app.route ('/api/write/milestone/in/project/:project')
+		.all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Milestone (req.user);
+			p.userMilestones (req.Project.code, 'write')
+			.then (helpers.success(res), helpers.failure(res));
+		});
 };
 

@@ -12,7 +12,7 @@ var _              = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Phase',
-	populate: 'milestones',
+	// populate: 'milestones',
 	// -------------------------------------------------------------------------
 	//
 	// when making a phase from a base it will aslways be in order to attach
@@ -96,7 +96,23 @@ module.exports = DBModel.extend ({
 			.then (self.saveDocument)
 			.then (resolve, reject);
 		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// get phases based on a project, or not, with access of read or write
+	// the default get * already does any project, read, so we just need
+	// to do any project, write, and project read/write
+	//
+	// -------------------------------------------------------------------------
+	userPhases: function (projectCode, access) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			var q = (projectCode) ? {projectCode:projectCode} : {} ;
+			var p = (access === 'write') ? self.listwrite (q) : self.list (q);
+			p.then (resolve, reject);
+		});
 	}
+
 });
 
 
