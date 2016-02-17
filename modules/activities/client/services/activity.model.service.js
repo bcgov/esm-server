@@ -28,6 +28,28 @@ angular.module('project').factory ('ActivityModel', function (ModelBase, _) {
 					reject (res.data);
 				});
 			});
+		},
+		// -------------------------------------------------------------------------
+		//
+		// this will get user activities for a given context of project and/or access
+		// if project is blank then all projects is assumed, if access is blank then
+		// read access is assumed
+		//
+		// -------------------------------------------------------------------------
+		userActivities: function (projectId, access) {
+			var self = this;
+			access = (access === 'write') ? 'write/' : '';
+			projectId = (projectId) ? '/in/project/'+projectId : '';
+			return new Promise (function (resolve, reject) {
+				self.mget ('/api/'+access+'activity'+projectId)
+				.then (function (res) {
+					self.collection = res.data;
+					resolve (res.data);
+				})
+				.catch (function (res) {
+					reject (res.data);
+				});
+			});
 		}
 	});
 	return new ActivityClass ();

@@ -13,7 +13,9 @@ exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'phasebase');
 	helpers.setPathPermissions (acl, [
 		[ '', 'user', '/api/phasebase/:phasebase/add/milestone/:milestonebase'],
-		[ '', 'user', '/api/phase/:phase/add/milestone/:milestonebase']
+		[ '', 'user', '/api/phase/:phase/add/milestone/:milestonebase'],
+		[ '', 'user', '/api/phase/in/project/:project'],
+		[ '', 'user', '/api/write/phase/in/project/:project']
 	]);
 };
 

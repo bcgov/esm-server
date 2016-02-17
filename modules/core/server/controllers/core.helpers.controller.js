@@ -293,6 +293,12 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which) {
       o.list ()
       .then (success(res), failure(res));
     });
+  if (r.getall) app.route ('/api/write/'+basename).all (policy.isAllowed)
+    .get  (function (req, res) {
+      var o = new DBClass (req.user);
+      o.listwrite ()
+      .then (success(res), failure(res));
+    });
   if (r.post) app.route ('/api/'+basename).all (policy.isAllowed)
     .post (function (req, res) {
       var o = new DBClass (req.user);
@@ -340,7 +346,8 @@ exports.setCRUDPermissions = function (acl, base) {
   acl.allow ('user', [
     '/api/'+base,
     '/api/'+base+'/:'+base,
-    '/api/new/'+base
+    '/api/new/'+base,
+    '/api/write/'+base
     ],
     '*'
   );

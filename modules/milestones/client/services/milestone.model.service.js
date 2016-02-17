@@ -28,6 +28,26 @@ angular.module('project').factory ('MilestoneModel', function (ModelBase, _) {
 					reject (res.data);
 				});
 			});
+		},
+		// -------------------------------------------------------------------------
+		//
+		// get mielstones for a given project / access context
+		//
+		// -------------------------------------------------------------------------
+		userMilestones: function (projectId, access) {
+			var self = this;
+			access = (access === 'write') ? 'write/' : '';
+			projectId = (projectId) ? '/in/project/'+projectId : '';
+			return new Promise (function (resolve, reject) {
+				self.mget ('/api/'+access+'milestone'+projectId)
+				.then (function (res) {
+					self.collection = res.data;
+					resolve (res.data);
+				})
+				.catch (function (res) {
+					reject (res.data);
+				});
+			});
 		}
 	});
 	return new MilestoneClass ();

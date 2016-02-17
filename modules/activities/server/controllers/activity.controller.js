@@ -102,5 +102,18 @@ module.exports = DBModel.extend ({
 			.then (self.saveDocument)
 			.then (resolve, reject);
 		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// get activities for a given context of access and project
+	//
+	// -------------------------------------------------------------------------
+	userActivities: function (projectCode, access) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			var q = (projectCode) ? {projectCode:projectCode} : {} ;
+			var p = (access === 'write') ? self.listwrite (q) : self.list (q);
+			p.then (resolve, reject);
+		});
 	}
 });

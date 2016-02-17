@@ -32,5 +32,25 @@ module.exports = function (app) {
 			p.addTaskFromBase (req.Activity, req.TaskBase)
 			.then (helpers.success(res), helpers.failure(res));
 		});
+	//
+	// all activities for this project that the user can read
+	//
+	app.route ('/api/activity/in/project/:project')
+		.all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Activity (req.user);
+			p.userActivities (req.Project.code, 'read')
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	//
+	// all activities for this project that the user can write
+	//
+	app.route ('/api/write/activity/in/project/:project')
+		.all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Activity (req.user);
+			p.userActivities (req.Project.code, 'write')
+			.then (helpers.success(res), helpers.failure(res));
+		});
 };
 

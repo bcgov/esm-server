@@ -32,5 +32,25 @@ module.exports = function (app) {
 			p.addMilestoneFromBase (req.Phase, req.MilestoneBase)
 			.then (helpers.success(res), helpers.failure(res));
 		});
+	//
+	// all phases for this project that the user can read
+	//
+	app.route ('/api/phase/in/project/:project')
+		.all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Phase (req.user);
+			p.userPhases (req.Project.code, 'read')
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	//
+	// all phases for this project that the user can write
+	//
+	app.route ('/api/write/phase/in/project/:project')
+		.all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Phase (req.user);
+			p.userPhases (req.Project.code, 'write')
+			.then (helpers.success(res), helpers.failure(res));
+		});
 };
 

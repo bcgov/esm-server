@@ -70,38 +70,86 @@ _.extend (DBModel.prototype, {
 		]);
 		if (this.bind) _.bindAll (this, this.bind);
 		this.user = user;
+		this.readQuery = {};
+		this.writeQuery = {};
+		this.resetAccess = false;
 		this.setUser (user);
-
 	},
 	// -------------------------------------------------------------------------
 	//
-	// this sets the roles from a user object
+	// set the base query to be used for all methods, this applies filtering
+	// for access, or whatever is needed. It starts with the baseQuery at
+	// root, then adds access control if specified. the default root base
+	// query is empty, and it can be either an object or a function that
+	// returns an object
+	//
+	// access parameter is 'read' or 'write'
 	//
 	// -------------------------------------------------------------------------
-	setBaseQ : function () {
-		if (_.indexOf (this.roles, 'admin') >= 0) {
-			this.baseQ = {};
+	setBaseQ : function (accessQuery) {
+		accessQuery = accessQuery || this.readQuery;
+		this.baseQ = (_.isFunction (this.baseQuery)) ? this.baseQuery.call (this) : _.cloneDeep (this.baseQuery);
+		//
+		// for an admin we don't apply access control, so only continue
+		// if not admin, and don't continue if the model doesn't use
+		// access control either. extend the base Q with the access Q
+		//
+		if (this.useRoles && _.indexOf (this.roles, 'admin') === -1) {
+			_.extend (this.baseQ, accessQuery);
 		}
-		else {
-      		var base = this.baseQuery;
-      		if (_.isFunction (base)) base = base.call (this);
-			this.baseQ = (!this.useRoles) ? base : _.extend ({}, base, {
-				$or : [
-					{ read   : { $in : this.roles } },
-					{ write  : { $in : this.roles } },
-					{ submit : { $in : this.roles } }
-				]
-			});
-		}
+		console.log ('my roles are:', this.roles);
+		// console.log ('base query is:', this.baseQ);
 	},
+	// -------------------------------------------------------------------------
+	//
+	// this sets the roles from a user object, it also sets a base query for
+	// filtering by access level if it is needed. If there is no user present
+	// then the only assumed role for access is 'public'
+	//
+	// -------------------------------------------------------------------------
 	setRoles : function (user) {
 		// CC: change this in production to only public, add 'admin' to the array to get everything
 		this.roles = (user) ? user.roles : ['public'];
-		this.setBaseQ ();
+		this.readQuery = {
+			$or : [
+				{ read   : { $in : this.roles } },
+				{ write  : { $in : this.roles } },
+				{ submit : { $in : this.roles } }
+			]
+		};
+		this.writeQuery = {
+			$or : [
+				{ write  : { $in : this.roles } },
+				{ submit : { $in : this.roles } }
+			]
+		};
 	},
+	// -------------------------------------------------------------------------
+	//
+	// set the user context so that access control can be applied to all
+	// methods transparently
+	//
+	// -------------------------------------------------------------------------
 	setUser : function (user) {
 		this.user = user;
 		this.setRoles (user);
+		this.setAccess ('read');
+	},
+	// -------------------------------------------------------------------------
+	//
+	// this can be used to set the access filter for a query, then set it
+	// back again, its just a nice shorthand. val is read or write
+	//
+	// -------------------------------------------------------------------------
+	setAccess: function (val) {
+		console.log ('setting access ',val);
+		val = (val === 'write') ? this.writeQuery : this.readQuery;
+		this.setBaseQ (val);
+	},
+	setAccessOnce: function (val) {
+		console.log ('setting access ONCE ',val);
+		this.resetAccess = true;
+		this.setAccess (val);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -116,11 +164,15 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, {_id : id});
-			// console.log ('q = ',q);
+			console.log ('q = ',q);
 			self.model.findOne (q)
 			.populate (self.populate)
 			.exec ()
 			.then (resolve, reject);
+			if (self.resetAccess) {
+				self.resetAccess = false;
+				self.setAccess ('read');
+			}
 		});
 	},
 	// -------------------------------------------------------------------------
@@ -133,11 +185,17 @@ _.extend (DBModel.prototype, {
 		query = query || {};
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
-			self.model.find (_.extend ({}, self.baseQ, query))
+			var q = _.extend ({}, self.baseQ, query);
+			console.log ('q = ',q);
+			self.model.find (q)
 			.sort (self.sort)
 			.populate (self.populate)
 			.exec ()
 			.then (resolve, reject);
+			if (self.resetAccess) {
+				self.resetAccess = false;
+				self.setAccess ('read');
+			}
 		});
 	},
 	// -------------------------------------------------------------------------
@@ -338,7 +396,25 @@ _.extend (DBModel.prototype, {
 	list : function (q) {
 		q = q || {};
 		q = _.extend ({}, this.baseQ, q);
-		console.log (q);
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findMany (q)
+			.then (self.permissions)
+			.then (self.decorateAll)
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// GET *, but just those that we have write access to. this will not make
+	// sense in some contexts, just those where we are using the access control
+	//
+	// -------------------------------------------------------------------------
+	listwrite : function (q) {
+		q = q || {};
+		this.setAccessOnce ('write');
+		q = _.extend ({}, this.baseQ, q);
+		// console.log ('q = ', q);
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			self.findMany (q)

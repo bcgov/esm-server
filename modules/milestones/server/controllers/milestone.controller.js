@@ -125,5 +125,18 @@ module.exports = DBModel.extend ({
 			})
 			.then (resolve, reject);
 		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// get milestones for a given context of access and project
+	//
+	// -------------------------------------------------------------------------
+	userMilestones: function (projectCode, access) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			var q = (projectCode) ? {projectCode:projectCode} : {} ;
+			var p = (access === 'write') ? self.listwrite (q) : self.list (q);
+			p.then (resolve, reject);
+		});
 	}
 });
