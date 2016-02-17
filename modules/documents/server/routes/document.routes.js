@@ -49,6 +49,11 @@ module.exports = function (app) {
 	//
 	app.route ('/api/document/:project/upload')//.all (policy.isAllowed)
 		.post (controller.upload);
+
+	// Fetch doc
+	app.route ('/api/document/:document/fetch').all (policy.isAllowed)
+		.get (controller.fetchd);
+
 	//
 	// middleware to auto-fetch parameter
 	//
