@@ -172,12 +172,12 @@ function directiveModalProjectEntry($modal, $state, $rootScope) {
 					},
 					size: 'lg'
 				});
-				modalProjectEntry.result.then(function (res) {
+				modalProjectEntry.result.then(function (data) {
 					if ($state.current.name === 'projects') {
 						// reload the complete projects list
 						$rootScope.$broadcast('refreshProjectsList');
 					} else {
-						scope.project = res;
+						scope.project = data;
 						$rootScope.$broadcast('refreshDocumentList');
 					}
 				}, function () {});

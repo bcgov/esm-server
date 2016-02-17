@@ -3,29 +3,28 @@
 	<h3>Activities</h3>
 
 	<div class='panel-body'>
-
+	{{ projectActs.project.phases }}
 		<div class="row">
 			<div class="col-sm-3">
 
 				<label class="control-label">Phases</label>
 				<ul class="list-unstyled task-list">
-					<li ng-repeat="phase in projectActs.project.phases">
-						<button class="btn btn-block btn-sm btn-default" ng-class="{'btn-primary': projectActs.selectedPhase._id === phase._id}" ng-click="projectActs.selectedPhase = phase">{{ phase.name }}</button>
+					<li ng-repeat="phase in projectActs.phases">
+						<button class="btn btn-block btn-sm btn-default" ng-class="{'btn-primary': projectActs.selectedPhase._id === phase._id}" ng-click="projectActs.selectPhase(phase)">{{ phase.name }}</button>
 					</li>
 				</ul>
 				<label class="control-label">Milestones</label>
 				<ul class="list-unstyled task-list">
-					<li ng-repeat="milestone in projectActs.selectedPhase.milestones">
-						<button class="btn btn-block btn-sm" ng-class="{'btn-primary': projectActs.selectedMilestone._id === milestone._id}" ng-click="projectActs.selectedMilestone = milestone">{{ milestone.name }}</button>
+					<li ng-repeat="milestone in projectActs.milestones">
+						<button class="btn btn-block btn-sm" ng-class="{'btn-primary': projectActs.selectedMilestone._id === milestone._id}" ng-click="projectActs.selectMilestone(milestone)">{{ milestone.name }}</button>
 					</li>
 				</ul>
-
 			</div>
 
 			<div class="col-sm-9">
 				<label class="control-label">Activities</label>
 				<ul class="list-unstyled task-list">
-					<li ng-repeat="activity in projectActs.selectedMilestone.activities">
+					<li ng-repeat="activity in projectActs.activities">
 						<button class="btn btn-block btn-sm btn-default" ui-sref="activity({project: projectActs.project._id, activity: activity._id})">{{ activity.name }}</button>
 					</li>
 				</ul>

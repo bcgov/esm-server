@@ -27,7 +27,6 @@ controllerProject.$inject = ['$scope', 'ProjectModel', '$stateParams', '_'];
 /* @ngInject */
 function controllerProject($scope, ProjectModel, $stateParams, _) {
 	var proj = this;
-	console.log($stateParams.id);
 	ProjectModel.getModel($stateParams.id).then(function(data) {
 		proj.project = data;
 		$scope.$apply();
@@ -118,8 +117,8 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, sProject, s
 	// if a project is already there, we're in edit mode.
 	if (rProject) {
 		projectEntry.title = 'Edit Project';
-		projectEntry.project = rProject;
-		sProjectModel.setModel(projectEntry.project);
+		sProjectModel.setModel(rProject);
+		projectEntry.project = sProjectModel.getCopy();
 		// project has been passed in, no need to get it again.
 	} else {
 		// no project set to presume new mode.
@@ -148,7 +147,7 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, sProject, s
 
 	// Document upload complete so close and continue.
 	$scope.$on('documentUploadComplete', function() {
-		sProjectModel.saveModel().then( function(data) {
+		sProjectModel.saveCopy(projectEntry.project).then( function(data) {
 			$modalInstance.close(data);
 		})
 		.catch (function (err) {
@@ -355,18 +354,46 @@ function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel
 // CONTROLLER: Project Activities
 //
 // -----------------------------------------------------------------------------------
-controllerProjectActivities.$inject = ['$scope', 'sActivity', '_'];
+controllerProjectActivities.$inject = ['$scope', 'sActivity', '_', 'PhaseModel', 'MilestoneModel' ,'ActivityModel'];
 /* @ngInject */
-function controllerProjectActivities($scope, sActivity, _) {
+function controllerProjectActivities($scope, sActivity, _, sPhaseModel, sMilestoneModel ,sActivityModel) {
 	var projectActs = this;
+
+
+
+	projectActs.selectPhase = function(phase) {
+		if (phase) {
+			projectActs.selectedPhase = phase;
+			sMilestoneModel.milestonesForPhase(phase._id).then( function(data) {
+				projectActs.milestones = data;
+			});
+		}
+	};
+
+
+	projectActs.selectMilestone = function(milestone) {
+		if (milestone) {
+			projectActs.selectedMilestone = milestone;
+			sActivityModel.activitiesForMilestone(milestone._id).then( function(data) {
+				projectActs.activities = data;
+			});
+		}
+	};
+
+
 
 	$scope.$watch( 'project', function(newValue) {
 		if (newValue) {
 			projectActs.project = newValue;
 
-			sActivity.getProjectActivities().then( function(res) {
-				projectActs.activities = res.data;
+			sPhaseModel.phasesForProject(newValue._id).then( function(data) {
+				console.log('phases', data);
+				projectActs.phases = data;
 			});
+
+			// sActivity.getProjectActivities().then( function(res) {
+			// 	projectActs.activities = res.data;
+			// });
 		}
 	});
 
