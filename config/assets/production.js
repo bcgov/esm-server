@@ -37,11 +37,12 @@ module.exports = {
         'public/lib/moment-timezone/moment-timezone.js',
         'public/lib/angular-moment/angular-moment.js',
         'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
-    'public/lib/angular-scroll/angular-scroll.min.js',
+	    'public/lib/angular-scroll/angular-scroll.min.js',
+	    'public/lib/angular-cookies/angular-cookies.min.js',
         // these were in the application js area before
         'public/lib/ngmap/build/scripts/ng-map.js',
-    'public/moment-timezone-data.js',
-    'public/readable-range.js'
+	    'public/moment-timezone-data.js',
+	    'public/readable-range.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },
