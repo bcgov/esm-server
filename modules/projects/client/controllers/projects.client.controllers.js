@@ -53,7 +53,6 @@ function controllerProjectsList($scope, $state, Authentication, sProjectModel, $
 	});
 
 	projectList.refresh();
-
 	projectList.auth = Authentication;
 }
 
@@ -62,19 +61,30 @@ function controllerProjectsList($scope, $state, Authentication, sProjectModel, $
 // CONTROLLER: User Activities
 //
 // -----------------------------------------------------------------------------------
-controllerUserActivities.$inject = ['$scope', '$state', 'Authentication', 'ActivityList', '$rootScope'];
+controllerUserActivities.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', 'ActivityModel', '$rootScope', '_'];
 /* @ngInject */
-function controllerUserActivities($scope, $state, Authentication, sActivityList, $rootScope) {
+function controllerUserActivities($scope, $state, Authentication, sProjectModel, sActivityModel, $rootScope, _) {
 	var userActs = this;
+	userActs.projectNames = {};
 
 	userActs.refresh = function() {
-		sActivityList.getCollection().then( function(data) {
-			userActs.projects = data;
+		sActivityModel.userActivities(undefined, 'read').then( function(data) {
+			userActs.activities = data;
 			$scope.$apply ();
 		}).catch( function(err) {
 			$scope.error = err;
 		});
 	};
+
+	sProjectModel.getCollection().then( function(data) {
+		userActs.projects = data;
+
+		// reference the ID and the name.
+		_.each(data, function(project) {
+			userActs.projectNames[project._id] = project.name;
+		});
+
+	});
 
 	$rootScope.$on('refreshUserActivityList', function() {
 		userActs.refresh();

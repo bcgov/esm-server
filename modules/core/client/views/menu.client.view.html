@@ -61,7 +61,6 @@
 </div>
  -->
 
-
 	<div ng-if="menu.context === 'projects'">
 
 		<div ng-show="menu.authentication.user">
@@ -77,6 +76,26 @@
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-recent')" href="#anchor-recent">Recent Activity</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-search')" href="#anchor-search">Search</a></li>
 		</ul>
+		<ul class="list-unstyled" ng-show="menu.projectsMenu.shouldRender(menu.authentication.user);">
+			<li ng-repeat="item in menu.projectsMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
+				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
+			</li>
+		</ul>
+		<ul class="list-unstyled" ng-show="menu.authentication.user">
+			<li><a x-modal-project-entry href x-project="menu.newproject">Add Project</a></li>
+		</ul>
+	</div>
+
+
+	<div ng-if="menu.context === 'mylist'">
+
+		<div>
+			<ul class="list-unstyled" >
+				<li><a ui-sref="projects" href>All Projects</a></li>
+			</ul>
+			<hr>
+		</div>
+
 		<ul class="list-unstyled" ng-show="menu.projectsMenu.shouldRender(menu.authentication.user);">
 			<li ng-repeat="item in menu.projectsMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
