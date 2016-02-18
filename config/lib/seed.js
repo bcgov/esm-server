@@ -243,7 +243,7 @@ Integration.findOne ({module:'newusers'}).exec ()
           firstName: 'Johnny',
           lastName: 'Miner',
           displayName: 'Johnny Miner',
-          roles: ['user', 'proponent', 'proponent-staff', 'tp1:pro:admin']
+          roles: ['user', 'proponent', 'proponent-staff', 'tp1:pro:member']
         });
         // Then save the user
         user.save();
@@ -260,7 +260,7 @@ Integration.findOne ({module:'newusers'}).exec ()
           firstName: 'Alice',
           lastName: 'BossyPants',
           displayName: 'Alice BossyPants',
-          roles: ['user', 'proponent', 'proponent-admin', 'tp1:pro:member']
+          roles: ['user', 'proponent', 'proponent-admin', 'tp1:pro:admin']
         });
         // Then save the user
         user.save();

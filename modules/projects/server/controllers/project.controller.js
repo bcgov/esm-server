@@ -12,7 +12,7 @@ var _           = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Project',
-	// populate: 'phases',
+	populate: 'phases',
 	preprocessAdd : function (project) {
 		project.roles.push (
 			'pro:admin',
@@ -23,9 +23,14 @@ module.exports = DBModel.extend ({
 			project.code + ':eao:admin',
 			project.code + ':pro:admin'
 		);
+
 		this.userModel.addRole (
 			(this.userModel.isProponent ()) ? project.code + ':pro:admin' : project.code + ':eao:admin'
 		);
+		console.log ('yes');
+		this.user.roles.push (project.code + ':pro:admin');
+		console.log ('indeed');
+		this.setRoles (this.user);
 		return project;
 	},
 	// -------------------------------------------------------------------------
