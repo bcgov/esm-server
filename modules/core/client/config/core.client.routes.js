@@ -121,7 +121,16 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		data: {
 			roles: ['admin', 'user']
 		}
+	})
+	.state('activities', {
+		url: '/activities',
+		template: '<tmpl-user-activities></tmpl-user-activities>',
+		data: {
+			roles: ['admin', 'user']
+		}
 	});
+
+
 
 
 

@@ -271,7 +271,11 @@ ul.list-indent-left {
 .list-documents li.active a {
 	color: #ffffff;
 }
-
+.list-documents .btn-download {
+	position: absolute;
+	top: 0;
+	right: 15px;
+}
 .list-documents li:first-child,
 .list-tasks li:first-child {
 	border-top: none

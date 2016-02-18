@@ -15,7 +15,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="phase in projSched.project.phases track by $index">
+		<tr ng-repeat="phase in projSched.phases track by $index">
 			<td><p class="form-control-static">{{ phase.name }}</p></td>
 			<td class='text-center'>
 				<p class="form-control-static">{{ phase.dateStartEst | amDateFormat:'MMM Do YYYY' || '- tbd -' }} <a x-modal-date-picker x-selected-date="phase.dateStartEst" ng-if="!phase.dateStart">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
@@ -29,39 +29,6 @@
 
 		<tr ng-if="!projSched.project.phases">
 			<td colspan="6" class="text-center">This project has no phases.  Please contact the system administrator to structure the project.</td>
-		</tr>
-	
-	</tbody>
-</table>
-
-
-
-<table class='table table-condensed'>	
-	<thead>
-		<tr class="small">
-			<th width="28%">Milestone</th>
-			<th width="18%" class='text-center'>Estimated Start</th>
-			<th width="18%" class='text-center'>Estimated End</th>
-			<th width="18%" class='text-center'>Actual Start</th>
-			<th width="18%" class='text-center'>Actual End</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="milestone in projSched.project.milestones track by $index">
-			<td><p class="form-control-static">{{ milestone.name }}</p></td>
-			<td class='text-center'>
-				<p class="form-control-static">{{ milestone.dateStartEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="milestone.dateStartEst" ng-if="!milestone.dateStart">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
-			</td>
-			<td class='text-center'>
-				<p class="form-control-static">{{ milestone.dateEndEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="milestone.dateEndEst" ng-if="!milestone.dateEnd">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
-			</div>
-			<td class='text-center'><p class="form-control-static">{{ milestone.dateStart | amDateFormat:'MMM Do YYYY' }}</p></td>
-			<td class='text-center'><p class="form-control-static">{{ milestone.dateEnd | amDateFormat:'MMM Do YYYY' }}</p></td>
-		</tr>
-
-		<tr ng-if="!projSched.project.milestones">
-			<td colspan="6" class="text-center">This project has no milestones.  Please contact the system administrator to structure the project.</td>
 		</tr>
 	
 	</tbody>

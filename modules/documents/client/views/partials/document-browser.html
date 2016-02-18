@@ -1,6 +1,6 @@
 <section class="block-content">
 	<h3>
-	<a href class="small pull-right" x-modal-document-upload-classify x-project="docBrowser.project"><span class="glyphicon glyphicon-upload"></span> Upload</a>
+	<a href class="small pull-right" x-modal-document-upload-classify x-project="docBrowser.project">Upload <span class="glyphicon glyphicon-upload"></span> </a>
 	Documents</h3>
 
 	<div class='container-fluid'>
@@ -38,7 +38,13 @@
 
 				<ul class="small list-unstyled list-documents list-indent-left" ng-show="filterSummary">
 					<li>
-						<h3>{{ filterSummary.internalOriginalName | removeExtension }}</h3>
+						<h3>
+							<a
+								class="small btn-download"
+								href="/api/document/{{ filterSummary._id }}/fetch"
+								target="_blank">Download <span class="glyphicon glyphicon-download"></span>
+							</a>
+							{{ filterSummary.internalOriginalName | removeExtension }}</h3>
 						<p>System File Title: {{ filterSummary.internalName }}</p>
 						<p>Date Posted: {{ filterSummary.projectFolderDatePosted | date : format : timezone }}</p>
 						<p>File Format: {{ filterSummary.internalMime }}</p>

@@ -20,7 +20,8 @@ var ApplicationConfiguration = (function () {
     'ui.bootstrap.timepicker',
     'mwl.confirm',
     'ngFileUpload',
-    'duScroll'
+    'duScroll',
+    'ngCookies'
   ];
 
 
