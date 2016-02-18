@@ -1,0 +1,48 @@
+<section id="project-view" class="row">
+
+	<div class='col-sm-10'>
+		<h1 class="page-title">
+			All Activities
+		</h1>
+
+		<section class="panel panel-default">
+			<div class="panel-sub-heading">
+				<div class="form-inline">
+
+					<div class="form-group">
+						<label class="control-label">Project</label>
+						<select ng-model="userActs.filter" ng-options="project._id as project.name group by project.region for project in (userActs.projects | orderBy:('name'|regionName)) " class="form-control input-sm">
+						</select>
+						<a ng-show="userActs.filter" href class="btn btn-sm btn-default" ng-click="userActs.filter = undefined">Reset Search</a>
+					</div>
+
+				</div>
+			</div>
+
+			<div class='panel-body'>
+				
+				<ul class="list-unstyled task-list">
+					<li ng-repeat="activity in acts = (userActs.activities | filter:{ 'project': userActs.filter })">
+						<button class="btn btn-block btn-default" ui-sref="activity({project: activity.project, activity: activity._id})">{{ userActs.projectNames[activity.project] + ': ' + activity.name }}</button>
+					</li>
+					<li ng-if="!userActs.activities || userActs.activities.length === 0">
+						You have no activities.
+					</li>
+					<li ng-if="userActs.activities && userActs.activities.length !== 0 && acts.length === 0">
+						No activities match your search criteria.
+					</li>
+
+				</ul>
+
+
+			</div>
+
+
+		</section>
+		
+	</div> <!-- /col10 -->
+	<div class='col-sm-2'>
+		<tmpl-system-menu x-menu-context="mylist"></tmpl-system-menu>
+	</div>
+
+</section>

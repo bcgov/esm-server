@@ -49,18 +49,20 @@ function controllerProject($scope, $rootScope, sProjectModel, $stateParams, _) {
 // CONTROLLER: Modal: View Project Schedule
 //
 // -----------------------------------------------------------------------------------
-controllerModalProjectSchedule.$inject = ['$modalInstance', 'ProjectModel', '_'];
+controllerModalProjectSchedule.$inject = ['$modalInstance', 'ProjectModel', 'PhaseModel', '_'];
 /* @ngInject */
-function controllerModalProjectSchedule($modalInstance, ProjectModel, _) {
+function controllerModalProjectSchedule($modalInstance, sProjectModel, sPhaseModel, _) {
 	var projSched = this;
 
-	// TODO.  Revert
-	projSched.project = angular.copy(ProjectModel.model);
+	projSched.project = sProjectModel.getCopy();
+
+	sPhaseModel.phasesForProject(projSched.project._id).then( function(data) {
+		projSched.phases = data;
+	});
 
 	projSched.cancel = function () { $modalInstance.dismiss('cancel'); };
 	projSched.ok = function () {
-		_.assign(ProjectModel.model, projSched.project);
-		ProjectModel.saveModel().then( function(data) {
+		sProjectModel.saveCopy().then( function(data) {
 			$modalInstance.close(data);
 		});
 	};
@@ -343,15 +345,15 @@ function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel
 	// admin users can set the project stream
 	projectStreamSelect.setProjectStream = function() {
 		if ((!projectStreamSelect.project.stream || projectStreamSelect.project.stream === '') && projectStreamSelect.newStreamId) {
-			// projectStreamSelect.project.status = 'In Progress';
+			projectStreamSelect.project.status = 'In Progress';
 
-			// ProjectModel.saveModel().then( function(res) {
+			ProjectModel.saveModel().then( function(res) {
 				// set the stream then move to the project overview page.
 				ProjectModel.setStream(projectStreamSelect.newStreamId).then( function(resStream) {
 					projectStreamSelect.project = _.assign(resStream);
 					$state.go('project', {'id':projectStreamSelect.project._id}, {reload: true});
 				});
-			// });
+			});
 		}
 	};
 }
@@ -361,30 +363,45 @@ function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel
 // CONTROLLER: Project Activities
 //
 // -----------------------------------------------------------------------------------
-controllerProjectActivities.$inject = ['$scope', 'sActivity', '_', 'PhaseModel', 'MilestoneModel' ,'ActivityModel'];
+controllerProjectActivities.$inject = ['$scope', 'Authentication', 'sActivity', '_', 'PhaseModel', 'MilestoneModel' ,'ActivityModel', '$cookies'];
 /* @ngInject */
-function controllerProjectActivities($scope, sActivity, _, sPhaseModel, sMilestoneModel ,sActivityModel) {
+function controllerProjectActivities($scope, sAuthentication, sActivity, _, sPhaseModel, sMilestoneModel ,sActivityModel, $cookies) {
 	var projectActs = this;
 
+	projectActs.selectedPhase = $cookies.phase;
+	projectActs.selectedMilestone = $cookies.milestone;
 
 
-	projectActs.selectPhase = function(phase) {
-		if (phase) {
-			// console.log('set phase', phase.name);
-			projectActs.selectedPhase = phase;
-			sMilestoneModel.milestonesForPhase(phase._id).then( function(data) {
+	projectActs.selectPhase = function(phaseId) {
+		if (phaseId) {
+			projectActs.selectedPhase = phaseId;
+			if ($cookies.phase !== phaseId) {
+				$cookies.phase = phaseId;
+				// the phase has changed, reset the structures down the chain.
+				$cookies.milestone = undefined;
+				projectActs.milestones = undefined;
+				projectActs.activities = undefined;
+				projectActs.selectedMilestone = undefined;
+			}
+			sMilestoneModel.milestonesForPhase(phaseId).then( function(data) {
 				projectActs.milestones = data;
+				// if there is also a milestone, select that when the milestones have loaded.
 				$scope.$apply();
 			});
 		}
 	};
 
 
-	projectActs.selectMilestone = function(milestone) {
-		if (milestone) {
-			// console.log('set milestone', milestone.name);
-			projectActs.selectedMilestone = milestone;
-			sActivityModel.activitiesForMilestone(milestone._id).then( function(data) {
+	projectActs.selectMilestone = function(milestoneId) {
+		if (milestoneId) {
+			projectActs.selectedMilestone = milestoneId;
+			if ($cookies.milestone !== milestoneId) {
+				$cookies.milestone = milestoneId;
+				// the phase has changed, reset the structures down the chain.
+				projectActs.activities = undefined;
+			}			
+			$cookies.milestone = milestoneId;
+			sActivityModel.activitiesForMilestone(milestoneId).then( function(data) {
 				projectActs.activities = data;
 				$scope.$apply();
 			});
@@ -392,19 +409,35 @@ function controllerProjectActivities($scope, sActivity, _, sPhaseModel, sMilesto
 	};
 
 
+	// select a phase if there is one.
+	$scope.$watch(function () {
+		return projectActs.phases;
+	},function(newValue){
+		// if there is a preset, select it.
+		if (projectActs.selectedPhase) {
+			projectActs.selectPhase( projectActs.selectedPhase );
+		}		
+	});
+
+
+	// select a milestone if there is one.
+	$scope.$watch(function () {
+		return projectActs.milestones;
+	},function(newValue){
+		// if there is a preset, select it.
+		if (projectActs.selectedMilestone) {
+			projectActs.selectMilestone( projectActs.selectedMilestone );
+		}		
+	});
+
 
 	$scope.$watch( 'project', function(newValue) {
 		if (newValue) {
 			projectActs.project = newValue;
 
 			sPhaseModel.phasesForProject(newValue._id).then( function(data) {
-				// console.log('phases', data);
 				projectActs.phases = data;
 			});
-
-			// sActivity.getProjectActivities().then( function(res) {
-			// 	projectActs.activities = res.data;
-			// });
 		}
 	});
 

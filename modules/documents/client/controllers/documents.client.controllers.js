@@ -29,7 +29,6 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 		}
 	});
 
-
 	$scope.$watch('project', function(newValue) {
 		if (newValue) {
 			docUpload.project = newValue;
@@ -37,13 +36,10 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 		}
 	});
 
-
 	$scope.$watch('parentId', function(newValue) {
 		if (newValue) {
 			parentId = newValue;
-			if (docUpload.type) {
-				docUpload.setTargetUrl();
-			}
+			docUpload.setTargetUrl();
 		}
 	});
 
@@ -51,13 +47,12 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 		_.remove(docUpload.fileList, f);
 	};
 
-
 	// determine the correct target for the file upload based on x-type attribute.
 	docUpload.targetUrl = null;
 
 	$scope.$watch('type', function(newValue) {
-		docUpload.type = newValue;
-		if (parentId) {
+		if (newValue) {
+			docUpload.type = newValue;
 			docUpload.setTargetUrl();
 		}
 	});
@@ -65,14 +60,12 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 
 	docUpload.setTargetUrl = function() {
 		// determine URL for upload, default to project if none set.
-		switch (docUpload.type) {
-			case 'comment':
-				// comment type
-				docUpload.targetUrl = '/api/commentdocument/publiccomment/' + parentId + '/upload';
-				break;
-			default:
-				// project type
-				docUpload.targetUrl = '/api/document/' + docUpload.project._id + '/upload';
+		if (docUpload.type === 'comment' && parentId) {
+			docUpload.targetUrl = '/api/commentdocument/publiccomment/' + parentId + '/upload';
+		}
+		if (docUpload.type === 'project' && docUpload.project) {
+			
+			docUpload.targetUrl = '/api/document/' + docUpload.project._id + '/upload';
 		}
 	};
 
@@ -110,7 +103,6 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 	docUpload.upload = function () {
 		docUpload.inProgress = true;
 		var docCount = docUpload.fileList.length;
-		console.log("hereagain",docUpload);
 
 		if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
 			var name; // this is type
@@ -277,12 +269,24 @@ function controllerDocumentBrowser($scope, Document, $rootScope) {
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentUploadClassify.$inject = ['$modalInstance'];
+controllerModalDocumentUploadClassify.$inject = ['$modalInstance', '$scope', 'rProject'];
 /* @ngInject */
-function controllerModalDocumentUploadClassify($modalInstance) {
-	var docUpload = this;
-	docUpload.ok = function () { $modalInstance.close(); };
-	docUpload.cancel = function () { $modalInstance.dismiss('cancel'); };
+function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject) {
+	var docUploadModal = this;
+
+	// Document upload complete so close and continue.
+	$scope.$on('documentUploadComplete', function() {
+		$modalInstance.close();
+	});
+
+	docUploadModal.project = rProject;
+
+	docUploadModal.ok = function () { 
+		$scope.$broadcast('documentUploadStart');
+	};
+	docUploadModal.cancel = function () {
+		$modalInstance.dismiss('cancel');
+	};
 }
 // -----------------------------------------------------------------------------------
 //

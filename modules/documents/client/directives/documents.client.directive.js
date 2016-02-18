@@ -150,9 +150,9 @@ function directiveModalDocumentViewer($modal) {
 // DIRECTIVE: Upload in a modal
 //
 // -----------------------------------------------------------------------------------
-directiveModalDocumentUploadClassify.$inject = ['$modal'];
+directiveModalDocumentUploadClassify.$inject = ['$modal', '$rootScope'];
 /* @ngInject */
-function directiveModalDocumentUploadClassify($modal) {
+function directiveModalDocumentUploadClassify($modal, $rootScope) {
     var directive = {
         restrict:'A',
         scope: {
@@ -164,14 +164,14 @@ function directiveModalDocumentUploadClassify($modal) {
                     animation: true,
                     templateUrl: 'modules/documents/client/views/partials/modal-document-upload-classify.html',
                     controller: 'controllerModalDocumentUploadClassify',
-                    controllerAs: 'docUpload',
-                    size: 'md',
+                    controllerAs: 'docUploadModal',
+                    size: 'lg',
                     resolve: {
                         rProject: function() { return scope.project; }
                     }
                 });
                 modalDocUpload.result.then(function (data) {
-
+                    $rootScope.$broadcast('refreshDocumentList');
                 }, function () {});
             });
         }

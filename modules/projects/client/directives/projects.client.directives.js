@@ -5,7 +5,8 @@ angular.module('projects')
 	.directive('tmplProjectsList', directiveProjectsList)
 	.directive('tmplProjectsSchedule', directiveProjectsSchedule)
 	// .directive('tmplProjectsPanels', directiveProjectsPanels)        
-	.directive('tmplProjectsMap', directiveProjectsMap);
+	.directive('tmplProjectsMap', directiveProjectsMap)
+	.directive('tmplUserActivities', directiveUserActivities);
 	// .directive('tmplProjectsFilterBar', directiveProjectsFilterBar);
 // -----------------------------------------------------------------------------------
 //
@@ -82,6 +83,23 @@ function directiveProjectsSchedule() {
 // 	};
 // 	return directive;
 // }
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: User Activities
+//
+// -----------------------------------------------------------------------------------
+directiveUserActivities.$inject = [];
+/* @ngInject */
+function directiveUserActivities() {
+	var directive = {
+		restrict: 'E',
+		replace: true,
+		templateUrl: 'modules/projects/client/views/projects-partials/user-activities.html',
+		controller: 'controllerUserActivities',
+		controllerAs: 'userActs'
+	};
+	return directive;
+}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Projects Map

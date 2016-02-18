@@ -4,7 +4,7 @@ angular.module('project')
 	.service('Project', serviceProject);
 // -----------------------------------------------------------------------------------
 //
-// DIRECTIVE: Public Projects Main
+// SERVICE: Public Projects Main
 //
 // -----------------------------------------------------------------------------------
 serviceProject.$inject = ['$http'];
