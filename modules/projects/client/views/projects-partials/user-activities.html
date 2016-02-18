@@ -11,7 +11,7 @@
 
 					<div class="form-group">
 						<label class="control-label">Project</label>
-						<select ng-model="userActs.filter" ng-options="project._id as project.name group by project.region for project in (userActs.projects | orderBy:('name'|regionName)) " class="form-control input-sm">
+						<select ng-model="userActs.filter" ng-options="project._id as project.name group by (project.region | regionName ) for project in (userActs.projects | orderBy:'name') " class="form-control input-sm">
 						</select>
 						<a ng-show="userActs.filter" href class="btn btn-sm btn-default" ng-click="userActs.filter = undefined">Reset Search</a>
 					</div>
