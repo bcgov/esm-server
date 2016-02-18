@@ -75,7 +75,7 @@
 		</tbody>
 	</table>
 
-	<div class="row" ng-if="!docUpload.inProgress && !docUpload.hideUploadButton && false">
+	<div class="row" ng-if="!docUpload.inProgress && !docUpload.hideUploadButton">
 		<div class="col-sm-12 text-right">
 			<button ng-click="docUpload.upload()" ng-if="docUpload.fileList.length > 0" class="btn btn-success">
 				Upload Queued Documents
