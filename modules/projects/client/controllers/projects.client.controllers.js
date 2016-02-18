@@ -86,13 +86,7 @@ function controllerUserActivities($scope, $state, Authentication, sProjectModel,
 
 	});
 
-	$rootScope.$on('refreshUserActivityList', function() {
-		userActs.refresh();
-	});
-
 	userActs.refresh();
-
-	userActs.auth = Authentication;
 }
 
 
