@@ -85,7 +85,7 @@ function directiveProjectsSchedule() {
 // }
 // -----------------------------------------------------------------------------------
 //
-// DIRECTIVE: Usaer Activities
+// DIRECTIVE: User Activities
 //
 // -----------------------------------------------------------------------------------
 directiveUserActivities.$inject = [];
@@ -94,12 +94,9 @@ function directiveUserActivities() {
 	var directive = {
 		restrict: 'E',
 		replace: true,
-		templateUrl: 'modules/projects/client/views/projects-partials/projects-map.html',
-		controller: 'controllerProjectsList',
-		controllerAs: 'projectList',
-		scope: {
-			projects: '='
-		}
+		templateUrl: 'modules/projects/client/views/projects-partials/user-activities.html',
+		controller: 'controllerUserActivities',
+		controllerAs: 'userActs'
 	};
 	return directive;
 }

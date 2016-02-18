@@ -1,0 +1,32 @@
+<section id="project-view" class="row">
+
+	<div class='col-sm-10'>
+		<h1 class="page-title">
+			All Activities
+		</h1>
+
+		<div class="panel panel-default">
+
+			<div class='panel-body'>
+				<div class="row">
+
+					<div class="col-sm-12">
+
+						<ul class="list-unstyled task-list">
+							<li ng-repeat="activity in userActs.activities">
+								<button class="btn btn-block btn-sm btn-default" ui-sref="activity({project: projectActs.project._id, activity: activity._id})">{{ activity | json }}</button>
+							</li>
+							<li ng-if="!projectActs.activities || projectActs.activities.length === 0">
+								No Activities defined.
+							</li>
+						</ul>
+
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</section> <!-- /panel -->
