@@ -194,16 +194,18 @@ var baseObjects = {
 	],
 };
 var basePermissions = {
-	read   : ['project:member'],
-	write  : ['project:working-group'],
-	submit : ['project:admin'],
-	watch  : ['project:admin'],
+	read   : ['eao','project:eao:member'],
+	write  : ['project:eao:working-group'],
+	submit : ['project:eao:admin'],
+	watch  : ['project:eao:admin'],
 };
 var emptyStream = {
 	code: 'stream-test-alpha',
 	name: 'Test Stream Alpha',
 	description: 'A test stream that has every possible child object.  To be used for testing project browsing',
-	roles: ['admin', 'working-group', 'member']
+	roles: ['eao:admin', 'eao:working-group', 'eao:member'],
+	read: ['eao'],
+	submit: ['admin']
 };
 
 module.exports = function (Stream, PhaseBase, MilestoneBase, ActivityBase, clear) {

@@ -8,30 +8,54 @@ var path        = require('path');
 var DBModel     = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
 var PhaseClass  = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
 var PhaseBaseClass  = require (path.resolve('./modules/phases/server/controllers/phasebase.controller'));
+var RoleController = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 var _           = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Project',
 	populate: 'phases',
 	preprocessAdd : function (project) {
-		project.roles.push (
-			'pro:admin',
-			'pro:consultant',
-			'pro:member'
-		);
-		project.submit.push (
-			project.code + ':eao:admin',
-			project.code + ':pro:admin'
-		);
-
-		this.userModel.addRole (
-			(this.userModel.isProponent ()) ? project.code + ':pro:admin' : project.code + ':eao:admin'
-		);
-		console.log ('yes');
-		this.user.roles.push (project.code + ':pro:admin');
-		console.log ('indeed');
-		this.setRoles (this.user);
-		return project;
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			// console.log ('project = ', project);
+			project.roles.push (
+				'pro:admin',
+				'pro:member'
+			);
+			RoleController.addRolesToConfigObject (project, 'projects', {
+				read   : ['project:pro:member'],
+				submit : ['project:pro:admin']
+			})
+			.then (function () {
+				// console.log ('project is now ', project);
+				return RoleController.addUserRole (self.user, project.code + ':pro:admin');
+			})
+			.then (function () {
+				self.setRoles (self.user);
+				resolve (project);
+			})
+			.catch (reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// set a project to submitted
+	// add the eao role so that it can be seen by eao staff now
+	//
+	// -------------------------------------------------------------------------
+	submit: function (project) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			project.status = 'Submitted';
+			project.roles.push (
+				'eoa'
+			);
+			RoleController.addRolesToConfigObject (project, 'projects', {
+				read  : ['eao'],
+			});
+			self.saveAndReturn (project)
+			.then (resolve, reject);
+		});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -41,8 +65,8 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	setStream : function (project, stream) {
-		var self = this;
-		var phase = new PhaseClass (self.user);
+		var self      = this;
+		var phase     = new PhaseClass (self.user);
 		var phasebase = new PhaseBaseClass (self.user);
 		return new Promise (function (resolve, reject) {
 			// get all the phase bases
@@ -63,18 +87,63 @@ module.exports = DBModel.extend ({
 				return project;
 			})
 			// then do some work on the project itself and save it
-			.then (function (m) {
-				// add stream roles to the project
-				project.mergeRoles (project.code, {
-					roles  : stream.roles,
-					read   : stream.read,
+			.then (function (p) {
+				console.log ("setting up status and roles");
+				//
+				// set the status to in progress
+				//
+				p.status = 'In Progress';
+				//
+				// add some new roles to the roles list including the stream roles
+				//
+				p.roles.push (
+					'public',
+					'eao:admin',
+					'eao:member'
+				);
+				p.roles = _.uniq (p.roles.concat (stream.roles));
+				//
+				// now add the stream roles both ways and also make the
+				// project public
+				//
+				var o = {
+					read   : stream.read.concat (['project:eao:member', 'eao']),
 					write  : stream.write,
-					submit : stream.submit,
+					submit : stream.submit.concat (['project:eao:admin']),
 					watch  : stream.watch
+				};
+				console.log ("about to addRolesToConfigObject", o);
+				// return RoleController.addRolesToConfigObject (p, 'projects', o);
+				return RoleController.addRolesToConfigObject (p, 'projects', {
+					read   : ['animal1', 'animal2'],
+					write   : ['animal4'],
+					submit   : ['animal1'],
+					watch   : ['animal1']
 				});
-				self.userModel.addRole (project.code + ':eao:admin');
-				// save
-				return self.saveAndReturn (m);
+				// return RoleController.addRolesToConfigObject (p, 'projects', {
+				// 	read   : stream.read.concat (['project:eao:member', 'eao']),
+				// 	write  : stream.write,
+				// 	submit : stream.submit.concat (['project:eao:admin']),
+				// 	watch  : stream.watch
+				// });
+			})
+			.then (function () {
+				console.log ("adding user roles");
+				//
+				// we MUST add the admin role to the current user or they cannot
+				// perform the upcoming save
+				//
+				console.log ('about to add user role '+project.code + ':eao:admin to user ',self.user);
+				return RoleController.addUserRole (self.user, project.code + ':eao:admin');
+			})
+			.then (function () {
+				console.log ("reset user so we can save");
+				self.setRoles (self.user);
+				return (project);
+			})
+			.then (function (p) {
+				console.log ("save me!");
+				return self.saveAndReturn (p);
 			})
 			// then leave
 			.then (resolve, reject);

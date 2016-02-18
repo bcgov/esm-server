@@ -343,15 +343,15 @@ function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel
 	// admin users can set the project stream
 	projectStreamSelect.setProjectStream = function() {
 		if ((!projectStreamSelect.project.stream || projectStreamSelect.project.stream === '') && projectStreamSelect.newStreamId) {
-			projectStreamSelect.project.status = 'In Progress';
+			// projectStreamSelect.project.status = 'In Progress';
 
-			ProjectModel.saveModel().then( function(res) {
+			// ProjectModel.saveModel().then( function(res) {
 				// set the stream then move to the project overview page.
 				ProjectModel.setStream(projectStreamSelect.newStreamId).then( function(resStream) {
 					projectStreamSelect.project = _.assign(resStream);
 					$state.go('project', {'id':projectStreamSelect.project._id}, {reload: true});
 				});
-			});
+			// });
 		}
 	};
 }
@@ -370,7 +370,7 @@ function controllerProjectActivities($scope, sActivity, _, sPhaseModel, sMilesto
 
 	projectActs.selectPhase = function(phase) {
 		if (phase) {
-			console.log('set phase', phase.name);
+			// console.log('set phase', phase.name);
 			projectActs.selectedPhase = phase;
 			sMilestoneModel.milestonesForPhase(phase._id).then( function(data) {
 				projectActs.milestones = data;
@@ -382,7 +382,7 @@ function controllerProjectActivities($scope, sActivity, _, sPhaseModel, sMilesto
 
 	projectActs.selectMilestone = function(milestone) {
 		if (milestone) {
-			console.log('set milestone', milestone.name);
+			// console.log('set milestone', milestone.name);
 			projectActs.selectedMilestone = milestone;
 			sActivityModel.activitiesForMilestone(milestone._id).then( function(data) {
 				projectActs.activities = data;
@@ -398,7 +398,7 @@ function controllerProjectActivities($scope, sActivity, _, sPhaseModel, sMilesto
 			projectActs.project = newValue;
 
 			sPhaseModel.phasesForProject(newValue._id).then( function(data) {
-				console.log('phases', data);
+				// console.log('phases', data);
 				projectActs.phases = data;
 			});
 

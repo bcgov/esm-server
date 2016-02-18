@@ -12,14 +12,17 @@ module.exports = DBModel.extend ({
 	name : 'Stream',
 	populate: 'phases',
 	preprocessAdd: function (stream) {
-		stream.roles.push (
-			'eao:admin',
-			'eao:working-group',
-			'eao:member',
-			'eao:consultant',
-			'eao:first-nations'
-		);
-		stream.submit.push ('project:eao:admin');
+		stream.addRoles ({
+			roles: [
+				'eao:admin',
+				'eao:working-group',
+				'eao:member',
+				'eao:consultant',
+				'eao:first-nations'
+			],
+			read: ['eao'],
+			submit: ['project:eao:admin']
+		});
 		return stream;
 	},
 	addPhaseToStream : function (stream, phasebase) {

@@ -9,11 +9,26 @@ var DBModel  = require (path.resolve('./modules/core/server/controllers/core.dbm
 var ActivityClass = require (path.resolve('./modules/activities/server/controllers/activity.controller'));
 var ActivityBaseClass = require (path.resolve('./modules/activities/server/controllers/activitybase.controller'));
 var _ = require ('lodash');
+var RoleController = require (path.resolve('./modules/roles/server/controllers/role.controller'));
+
 
 
 module.exports = DBModel.extend ({
 	name : 'Milestone',
 	populate: 'activities',
+	preprocessAdd: function (milestone) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			RoleController.addRolesToConfigObject (milestone, 'milestones', {
+				read   : ['project:eao:member', 'eao'],
+				submit : ['project:eao:admin']
+			})
+			.then (function () {
+				resolve (milestone);
+			})
+			.catch (reject);
+		});
+	},
 	// -------------------------------------------------------------------------
 	//
 	// when making a milestone from a base it will always be in order to attach
@@ -54,6 +69,7 @@ module.exports = DBModel.extend ({
 				newobject   = model;
 				// fix the roles
 				model.fixRoles (projectcode);
+				// RoleController.addObjectRolesFromSpec (model.roleSet ());
 				// assign whatever ancenstry is needed
 				model[basename] = baseid;
 				model.project = projectid;
