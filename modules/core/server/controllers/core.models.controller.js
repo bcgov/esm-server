@@ -70,6 +70,14 @@ var permissions = function (userRoles) {
 		watch  : watch
 	};
 };
+var roleSet = function () {
+	return {
+		read   : this.read,
+		write  : this.write,
+		submit : this.submit,
+		watch  : this.watch
+	};
+};
 // -------------------------------------------------------------------------
 //
 // given a user, prepare the user roles (add public etc) and decide if the
@@ -115,10 +123,23 @@ var fixRoleArray = function (projectCode, roleArray) {
 // -------------------------------------------------------------------------
 var mergeRoles = function (projectCode, pObject) {
 	var self = this;
+	// console.log ('merging roles', pObject);
 	_.each (pObject, function (p, i) {
 		self[i] = _.uniq (self[i].concat (p.map (function (role) {
 			return role.replace ('project:', projectCode+':');
 		})));
+	});
+};
+// -------------------------------------------------------------------------
+//
+// same as merge, but without the replace as it is done elsewhere
+//
+// -------------------------------------------------------------------------
+var addRoles = function (pObject) {
+	var self = this;
+	// console.log ('adding roles', pObject);
+	_.each (pObject, function (p, i) {
+		self[i] = _.uniq (self[i].concat (p));
 	});
 };
 
@@ -153,7 +174,7 @@ var generateSchema = function (definition) {
 	};
 	if (codename) {
 		var index = (codename === 'unique') ? {unique:true} : true;
-		console.log (index);
+		// console.log (index);
 		definition = _.extend (definition, {
 			code        : { type:String, default:'code', required:'Code is required', index:index, lowercase:true, trim:true},
 			name        : { type:String, default:'name', required:'name is required' },
@@ -173,6 +194,8 @@ var generateSchema = function (definition) {
 		schema.methods.fixRoles          = fixRoles;
 		schema.methods.fixRoleArray      = fixRoleArray;
 		schema.methods.mergeRoles        = mergeRoles;
+		schema.methods.addRoles          = addRoles;
+		schema.methods.roleSet           = roleSet;
 	}
 	return schema;
 };

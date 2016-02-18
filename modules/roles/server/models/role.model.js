@@ -10,32 +10,51 @@
 // =========================================================================
 var mongoose     = require ('mongoose');
 var Schema       = mongoose.Schema;
+var _ = require ('lodash');
 
 var RoleSchema  = new Schema ({
-	code        : { type:String, default:'code', index:true, unique:true },
-	name        : { type:String, default:'New role' },
-	description : { type:String, default:'New role' },
-	stream      : { type:'ObjectId', ref:'Stream', index:true , default:null },
-	project     : { type:'ObjectId', ref:'Project', index:true , default:null }
+	code       : { type:String, default:'code', index:true, unique:true },
+	users      : [{ type:'ObjectId', ref:'User' }],
+	projects   : [{ type:'ObjectId', ref:'Project' }],
+	phases     : [{ type:'ObjectId', ref:'Phase' }],
+	milestones : [{ type:'ObjectId', ref:'Milestone' }],
+	activities : [{ type:'ObjectId', ref:'Activity' }]
 });
+
+var setUnique = function (a, value) {
+	a.push (value);
+	// console.log ('a after push = ', a);
+	var b = _.uniqWith (a, function (a, b) {
+		return (a.equals(b));
+	});
+	// console.log ('b after uniq = ', b);
+	return b;
+};
+var setUniqueArray = function (a, addArray) {
+	return _.uniqWith (a.concat (addArray), function (a, b) {
+		return (a.equals(b));
+	});
+};
+
+RoleSchema.methods.setUserRole = function (user) {
+	this.users = setUnique (this.users, user);
+};
+RoleSchema.methods.setUsersRole = function (users) {
+	this.users = setUniqueArray (this.users, users);
+};
+
+RoleSchema.methods.setObjectRole = function (object, objectId) {
+	console.log ('setting object role in model ', object, objectId, this[object]);
+	var newa = setUnique (this[object], objectId);
+	console.log ('result ', newa);
+	this[object] = newa;
+};
+
+RoleSchema.methods.setObjectsRole = function (object, objectIds) {
+	this[object] = setUniqueArray (this[object], objectIds);
+};
 
 var Role = mongoose.model ('Role', RoleSchema);
-
-
-Role.count ({}, function (err, count) {
-	if (count === 0) {
-		Role.collection.insert ([
-			{name:'Admin'    , code:'admin'    , description:'Admin'    },
-			{name:'Staff'    , code:'staff'    , description:'Staff'    },
-			{name:'Guest'    , code:'guest'    , description:'This is the public access group'},
-			{name:'Team'     , code:'team'     , description:'Team'     },
-			{name:'Team Lead', code:'teamlead' , description:'Team Lead'},
-			{name:'Minister' , code:'minister' , description:'Minister' }
-		], function (err) {
-			console.log ('insertion of base role data OK');
-		});
-	}
-});
 
 module.exports = Role;
 

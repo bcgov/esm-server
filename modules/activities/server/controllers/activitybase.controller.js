@@ -11,6 +11,11 @@ var DBModel  = require (path.resolve('./modules/core/server/controllers/core.dbm
 module.exports = DBModel.extend ({
 	name : 'ActivityBase',
 	populate: 'tasks',
+	preprocessAdd: function (me) {
+		me.read.push ('eao');
+		me.submit.push ('admin');
+		return me;
+	},
 	addTaskToActivity : function (parent, child) {
 		var self = this;
 		return new Promise (function (resolve, reject) {

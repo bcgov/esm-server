@@ -9,10 +9,25 @@ var DBModel        = require (path.resolve('./modules/core/server/controllers/co
 var MilestoneClass = require (path.resolve('./modules/milestones/server/controllers/milestone.controller'));
 var MilestoneBaseClass = require (path.resolve('./modules/milestones/server/controllers/milestonebase.controller'));
 var _              = require ('lodash');
+var RoleController = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 
 module.exports = DBModel.extend ({
 	name : 'Phase',
 	// populate: 'milestones',
+	preprocessAdd: function (phase) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			console.log ('adding phase roles');
+			RoleController.addRolesToConfigObject (phase, 'phases', {
+				read   : ['project:eao:member', 'eao'],
+				submit : ['project:eao:admin']
+			})
+			.then (function () {
+				resolve (phase);
+			})
+			.catch (reject);
+		});
+	},
 	// -------------------------------------------------------------------------
 	//
 	// when making a phase from a base it will aslways be in order to attach

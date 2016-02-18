@@ -9,11 +9,26 @@ var DBModel   = require (path.resolve('./modules/core/server/controllers/core.db
 var TaskClass = require (path.resolve('./modules/tasks/server/controllers/task.controller'));
 var TaskBaseClass = require (path.resolve('./modules/tasks/server/controllers/taskbase.controller'));
 var _         = require ('lodash');
+var RoleController = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 
 
 module.exports = DBModel.extend ({
 	name : 'Activity',
 	populate : 'tasks',
+	preprocessAdd: function (activity) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			RoleController.addRolesToConfigObject (activity, 'activities', {
+				read   : ['project:eao:member', 'eao'],
+				write  : ['project:eao:working-group'],
+				submit : ['project:eao:admin']
+			})
+			.then (function () {
+				resolve (activity);
+			})
+			.catch (reject);
+		});
+	},
 	// -------------------------------------------------------------------------
 	//
 	// when making a activity from a base it will always be in order to attach

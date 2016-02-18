@@ -98,7 +98,7 @@ _.extend (DBModel.prototype, {
 		if (this.useRoles && _.indexOf (this.roles, 'admin') === -1) {
 			_.extend (this.baseQ, accessQuery);
 		}
-		console.log ('my roles are:', this.roles);
+		// console.log ('my roles are:', this.roles);
 		// console.log ('base query is:', this.baseQ);
 	},
 	// -------------------------------------------------------------------------
@@ -147,12 +147,12 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	setAccess: function (val) {
-		console.log ('setting access ',val);
+		// console.log ('setting access ',val);
 		val = (val === 'write') ? this.writeQuery : this.readQuery;
 		this.setBaseQ (val);
 	},
 	setAccessOnce: function (val) {
-		console.log ('setting access ONCE ',val);
+		// console.log ('setting access ONCE ',val);
 		this.resetAccess = true;
 		this.setAccess (val);
 	},
@@ -169,7 +169,7 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, {_id : id});
-			console.log ('q = ',q);
+			// console.log ('q = ',q);
 			self.model.findOne (q)
 			.populate (self.populate)
 			.exec ()
@@ -191,7 +191,7 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			console.log ('q = ',q);
+			// console.log ('q = ',q);
 			self.model.find (q)
 			.sort (self.sort)
 			.populate (self.populate)
@@ -210,7 +210,8 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	saveDocument : function (doc) {
 		var self = this;
-		// console.log ('in saveDocument with ',self);
+		// console.log ('in saveDocument with doc ',doc);
+		// console.log ('in saveDocument with roles ',self.roles);
 		return new Promise (function (resolve, reject) {
 			if (self.useRoles && !doc.hasPermission (self.roles, 'write')) {
 				return reject (new Error ('Write operation not permitted for this '+self.name+' object'));
