@@ -183,11 +183,11 @@ var getDocumentTypesForProject = function (req, res) {
 							var depth2 = subObjects.projectFolderSubType;
 						// 	// console.log(depth2);
 							flattendList.push({'label': depth2, 'depth': 2, 'reference': 'projectFolderSubType'});
-						// 	subObjects.projectFolderNames.forEach(function(labels) {
-						// 		var depth3 = labels;
-						// 		// console.log(depth3);
-						// 		flattendList.push({'label': depth3, 'depth': 3, 'reference': 'projectFolderName'});
-						// 	});
+							subObjects.projectFolderNames.forEach(function(labels) {
+								var depth3 = labels;
+								// console.log(depth3);
+								flattendList.push({'label': depth3, 'depth': 3, 'reference': 'projectFolderName'});
+							});
 						});
 					});
 					console.log(flattendList);
@@ -214,6 +214,50 @@ var getDocumentTypesForProjectAndReturn = function (req, res) {
 	});
 };
 exports.getDocumentTypesForProjectAndReturn = getDocumentTypesForProjectAndReturn;
+
+
+// -------------------------------------------------------------------------
+//
+// getDocumentTypesForProject
+//
+// -------------------------------------------------------------------------
+var getDocumentFolderNamesForProject = function (req, res) {
+	return new Promise (function (resolve, reject) {
+		console.log("getDocumentFolderNamesForProject: Project ID:",req.params.projectid);
+		// When a document has an assigned projectID, grab it.
+		// NB: This will be true after a document has been reviewed by someone perhaps.
+		Model.distinct("projectFolderName",{project: req.params.projectid})
+			 .exec( function (err, records) {
+			 	if (err) {
+				// console.log("getDocumentFolderNamesForProject failed to find anything",err);
+				} else {
+					if (null === records) {
+					// Don't do anything
+					// console.log("No existing documents found.  Inserting normally.");
+					} else {
+						resolve(records);
+					}
+				}
+			});
+	});
+};
+			 // -------------------------------------------------------------------------
+//
+// Get all the folder names for a project and return it via service
+//
+// -------------------------------------------------------------------------
+var getDocumentFolderNamesForProjectAndReturn = function (req, res) {
+	getDocumentFolderNamesForProject (req, req)
+	.then (function (model) {
+		//console.log (model);
+		helpers.sendData (res, model);
+	})
+	.catch (function (err) {
+		// console.log (err);
+		helpers.sendError (res, err);
+	});
+};
+exports.getDocumentFolderNamesForProjectAndReturn = getDocumentFolderNamesForProjectAndReturn;
 
 var approveAndDownloadDocument = function (req, res) {
 	return new Promise (function (resolve, reject) {
@@ -560,7 +604,7 @@ var upload = function (req, res) {
 			//projectID 					: req.Project._id,
 			projectFolderType			: req.headers.documenttype,//req.headers.projectfoldertype,
 			projectFolderSubType		: req.headers.documentsubtype,//req.headers.projectfoldersubtype,
-			//projectFolderName			: "All",//req.headers.projectfoldername,
+			projectFolderName			: req.headers.documentfoldername,
 			projectFolderURL			: file.path,//req.headers.projectfolderurl,
 			projectFolderDatePosted		: Date.now(),//req.headers.projectfolderdateposted,
 			// NB: In EPIC, projectFolders have authors, not the actual documents.

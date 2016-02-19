@@ -11,14 +11,34 @@
 		        ngf-pattern="'image/*,application/pdf'">Drop files here or click to upload
 		    </div>
 		</div>
+		<div class="text-center" colspan=4 class="text-center">
+			<table class="table table-condensed">
+				<thead>
+					<tr class="small">
+						<th width="33%">Type</th>
+						<th width="33%">Sub Type</th>
+						<th width="33%">Folder Name</th>
+					</tr>
+				</thead>
+				<tbody>
+						<td ng-if="!f.$error && !f.progress">
+							<select class="form-control" ng-options="type as type.name group by (type.group | uppercase) for type in docUpload.docTypes track by type.code" ng-model="docUpload.type"></select>
+						</td>
+						<td ng-if="!f.$error && !f.progress">
+							<select class="form-control" ng-options="stype as stype.name group by (stype.group | uppercase) for stype in docUpload.docSubTypes track by stype.code" ng-model="docUpload.subType"></select>
+						</td>
+						<td ng-if="!f.$error && !f.progress">
+							<select class="form-control" ng-options="ftype for ftype in docUpload.docFolderNames | unique: 'projectFolderName'" ng-model="docUpload.folderName"></select>
+						</td>
+				</tbody>
+			</table>
+		</div>
 	</div>
 
 	<table class="table table-condensed">
 		<thead>
 			<tr class="small">
 				<th width="30%">File</th>
-				<th width="30%">Type</th>
-				<th width="30%">Sub Type</th>
 				<th width="10%"></th>
 			</tr>
 		</thead>
@@ -40,30 +60,12 @@
 					<p class="form-control-static text-danger">FILE ERROR: {{f.name}} {{f.$error}} {{f.$errorParam}}</p>
 				</td>
 
-
-
 				<td ng-if="!f.$error">
 					<p class="form-control-static">{{f.name}} {{f.$error}} {{f.$errorParam}}</p>
-				</td>
-				<td ng-if="!f.$error && !f.progress">
-					<select class="form-control" ng-options="type as type.name group by (type.group | uppercase) for type in docUpload.docTypes track by type.code" ng-model="f.docType"></select>
-				</td>
-				<td ng-if="!f.$error && !f.progress">
-					<select class="form-control" ng-options="stype as stype.name group by (stype.group | uppercase) for stype in docUpload.docSubTypes track by stype.code" ng-model="f.docSubType"></select>
 				</td>
 				<td ng-if="!f.$error && !f.progress" class="text-right">
 					<p class="form-control-static"><a href ng-click="docUpload.removeFile(f)"><span class="glyphicon glyphicon-remove"></span></a></p>
 				</td>
-
-
-				<td ng-if="!f.$error && f.progress">
-					<p class="form-control-static">{{ f.docType.name }}</p>
-				</td>
-
-				<td ng-if="!f.$error && f.progress">
-					<p class="form-control-static">{{ f.docType.subTypeName }}</p>
-				</td>
-
 
 				<td ng-if="!f.$error">
 					<div class="progress" ng-show="f.progress >= 0" style="margin-top: 7px;"><div class="progress-bar progress-bar-success" role="progressbar" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">{{ f.progress }}</div></div>

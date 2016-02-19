@@ -33,6 +33,9 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 		if (newValue) {
 			docUpload.project = newValue;
 			docUpload.setTargetUrl();
+			Document.getProjectDocumentFolderNames(newValue._id).then( function(res) {
+				docUpload.docFolderNames	= res.data;
+			});
 		}
 	});
 
@@ -105,26 +108,18 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 		var docCount = docUpload.fileList.length;
 
 		if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
-			var name; // this is type
-			var subtype;
 			angular.forEach( docUpload.fileList, function(file) {
 				// Quick hack to pass objects
-				// TODO: Make this better
-				if (file.docType) {
-					name = file.docType.name;
-				} else {
-					name = "No Type Specified";
-				}
-				if (file.docSubType) {
-					subtype = file.docSubType.name;
-				} else {
-					subtype = "No SubType Specified";
-				}
+				if (undefined === docUpload.type.name) docUpload.type.name = "Not Specified";
+				if (undefined === docUpload.subType.name) docUpload.subType.name = "Not Specified";
+				if (undefined === docUpload.folderName) docUpload.folderName = "Not Specified";
+
 				file.upload = Upload.upload({
 					url: docUpload.targetUrl,
 					file: file,
-					headers: { 'documenttype': name,
-							   'documentsubtype': subtype}
+					headers: { 'documenttype': docUpload.type.name,
+							   'documentsubtype': docUpload.subType.name,
+							   'documentfoldername': docUpload.folderName}
 				});
 
 				file.upload.then(function (response) {
