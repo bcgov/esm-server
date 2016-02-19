@@ -326,8 +326,8 @@ Integration.findOne ({module:'newusers'}).exec ()
 Integration.findOne ({module:'loadmem2'}).exec()
 .then (function (row) {
   if (!row) {
-    // var i = new Integration ({module:'loadmem'});
-    // i.save ();
+    var i = new Integration ({module:'loadmem'});
+    i.save ();
     loadmem ();
   }
 });

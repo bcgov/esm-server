@@ -76,7 +76,6 @@ module.exports = function () {
 		//
 		project.read = ['public'];
 		project.submit = ['mem'];
-		console.log (project.status);
 		//
 		// save
 		//
