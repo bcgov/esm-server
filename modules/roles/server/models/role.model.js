@@ -24,14 +24,14 @@ var RoleSchema  = new Schema ({
 var setUnique = function (a, value) {
 	a.push (value);
 	// console.log ('a after push = ', a);
-	var b = _.uniqWith (a, function (a, b) {
+	var b = _.uniq (a, function (a, b) {
 		return (a.equals(b));
 	});
 	// console.log ('b after uniq = ', b);
 	return b;
 };
 var setUniqueArray = function (a, addArray) {
-	return _.uniqWith (a.concat (addArray), function (a, b) {
+	return _.uniq (a.concat (addArray), function (a, b) {
 		return (a.equals(b));
 	});
 };

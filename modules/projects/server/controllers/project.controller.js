@@ -23,7 +23,7 @@ module.exports = DBModel.extend ({
 				'pro:member'
 			);
 			RoleController.addRolesToConfigObject (project, 'projects', {
-				read   : ['project:pro:member'],
+				read   : ['project:pro:member', 'eao'],
 				submit : ['project:pro:admin']
 			})
 			.then (function () {
@@ -69,8 +69,17 @@ module.exports = DBModel.extend ({
 		var phase     = new PhaseClass (self.user);
 		var phasebase = new PhaseBaseClass (self.user);
 		return new Promise (function (resolve, reject) {
-			// get all the phase bases
-			Promise.all (stream.phases.map (phasebase.findById))
+			console.log ("adding user roles");
+			//
+			// we MUST add the admin role to the current user or they cannot
+			// perform the upcoming save
+			//
+			console.log ('about to add user role '+project.code + ':eao:admin to user ',self.user);
+			return RoleController.addUserRole (self.user, project.code + ':eao:admin')
+			.then (function () {
+				// get all the phase bases
+				return Promise.all (stream.phases.map (phasebase.findById));
+			})
 			// then make real phases from them all
 			.then (function (models) {
 				console.log ('found phase bases, length = ',models.length);
@@ -106,36 +115,22 @@ module.exports = DBModel.extend ({
 				// now add the stream roles both ways and also make the
 				// project public
 				//
-				var o = {
+				return RoleController.addRolesToConfigObject (p, 'projects', {
 					read   : stream.read.concat (['project:eao:member', 'eao']),
 					write  : stream.write,
 					submit : stream.submit.concat (['project:eao:admin']),
 					watch  : stream.watch
-				};
-				console.log ("about to addRolesToConfigObject", o);
-				// return RoleController.addRolesToConfigObject (p, 'projects', o);
-				return RoleController.addRolesToConfigObject (p, 'projects', {
-					read   : ['animal1', 'animal2'],
-					write   : ['animal4'],
-					submit   : ['animal1'],
-					watch   : ['animal1']
 				});
-				// return RoleController.addRolesToConfigObject (p, 'projects', {
-				// 	read   : stream.read.concat (['project:eao:member', 'eao']),
-				// 	write  : stream.write,
-				// 	submit : stream.submit.concat (['project:eao:admin']),
-				// 	watch  : stream.watch
-				// });
 			})
-			.then (function () {
-				console.log ("adding user roles");
-				//
-				// we MUST add the admin role to the current user or they cannot
-				// perform the upcoming save
-				//
-				console.log ('about to add user role '+project.code + ':eao:admin to user ',self.user);
-				return RoleController.addUserRole (self.user, project.code + ':eao:admin');
-			})
+			// .then (function () {
+			// 	console.log ("adding user roles");
+			// 	//
+			// 	// we MUST add the admin role to the current user or they cannot
+			// 	// perform the upcoming save
+			// 	//
+			// 	console.log ('about to add user role '+project.code + ':eao:admin to user ',self.user);
+			// 	return RoleController.addUserRole (self.user, project.code + ':eao:admin');
+			// })
 			.then (function () {
 				console.log ("reset user so we can save");
 				self.setRoles (self.user);

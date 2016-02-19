@@ -19,6 +19,7 @@ var mongoose = require('mongoose'),
   MilestoneBase = mongoose.model('MilestoneBase'),
   ActivityBase  = mongoose.model('ActivityBase');
 
+var loadmem = require ('./loadmem');
 
 console.log(chalk.bold.red('Warning:  Database seeding is turned on'));
 
@@ -320,6 +321,17 @@ Integration.findOne ({module:'newusers'}).exec ()
 
   }
 });
+
+
+Integration.findOne ({module:'loadmem2'}).exec()
+.then (function (row) {
+  if (!row) {
+    // var i = new Integration ({module:'loadmem'});
+    // i.save ();
+    loadmem ();
+  }
+});
+
 
 
 
