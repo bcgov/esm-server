@@ -173,9 +173,9 @@ function controllerDocumentList($scope) {
 // CONTROLLER: Document List
 //
 // -----------------------------------------------------------------------------------
-controllerDocumentBrowser.$inject = ['$scope', 'Document', '$rootScope'];
+controllerDocumentBrowser.$inject = ['$scope', 'Document', '$rootScope', 'Authentication'];
 /* @ngInject */
-function controllerDocumentBrowser($scope, Document, $rootScope) {
+function controllerDocumentBrowser($scope, Document, $rootScope, Authentication) {
 	var docBrowser = this;
 
 	docBrowser.documentFiles	= undefined;
@@ -184,6 +184,8 @@ function controllerDocumentBrowser($scope, Document, $rootScope) {
 	docBrowser.rdocumentFiles	= undefined;
 	docBrowser.rdocTypes		= undefined;
 	docBrowser.rDoc 			= undefined;
+
+	docBrowser.authentication = Authentication;
 
 
 	docBrowser.refresh = function() {
