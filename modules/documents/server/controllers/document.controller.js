@@ -38,7 +38,7 @@ exports.getObject   = crud.getObject();
 // -------------------------------------------------------------------------
 var getDocumentVersions = function (req, res) {
 	return new Promise (function (resolve, reject) {
-		console.log("getDocumentVersions: Document: ",req.params.documentid);
+		// console.log("getDocumentVersions: Document: ",req.params.documentid);
 			Model.findById(req.params.documentid).exec (function (err, records) {
 					if (err) {
 						// console.log("getDocumentTypesForProject failed to find anything",err);
@@ -133,7 +133,7 @@ exports.getDocumentsForProjectAndReturn = getDocumentsForProjectAndReturn;
 // -------------------------------------------------------------------------
 var getDocumentTypesForProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
-		console.log("getDocumentTypesForProject: Project ID:",req.params.projectid);
+		// console.log("getDocumentTypesForProject: Project ID:",req.params.projectid);
 		// When a document has an assigned projectID, grab it.
 		// NB: This will be true after a document has been reviewed by someone perhaps.
 		Model.find({project: req.params.projectid,
@@ -211,7 +211,7 @@ var getDocumentTypesForProject = function (req, res) {
 							});
 						});
 					});
-					console.log(flattendList);
+					// console.log(flattendList);
 					resolve (flattendList);
 				}
 			}

@@ -160,7 +160,7 @@ controllerDocumentList.$inject = ['$scope'];
 /* @ngInject */
 function controllerDocumentList($scope) {
 	var docList = this;
-	console.log($scope.documents);
+	// console.log($scope.documents);
 
 	$scope.$watch('documents', function(newValue) {
 		docList.filterDocuments = newValue;
@@ -192,7 +192,7 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication)
 
 	docBrowser.refresh = function() {
 		Document.getProjectDocuments(docBrowser.project._id, false).then( function(res) {
-			console.log('refresh documents');
+			// console.log('refresh documents');
 			docBrowser.documentFiles	= res.data;
 			// console.log(res.data);
 		});
@@ -257,17 +257,17 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication)
 			docBrowser.docVersions	= res.data;
 			// Fix for if a version was uploaded while we hovered overtop last
 			if (docBrowser.docVersions[docBrowser.docVersions.length-1].documentVersion >= $scope.rfilterSummary.documentVersion) {
-				console.log("Your data is stale!  Refresh the page");
+				// console.log("Your data is stale!  Refresh the page");
 			}
 			// console.log(res.data);
 		});
 	};
 	docBrowser.downloadAndApprove = function(doc) {
-		console.log("Downloading and approving:",doc);
+		// console.log("Downloading and approving:",doc);
 		// TODO: Hook up the scraping code
 		Document.downloadAndApprove(doc._id).then( function(res) {
 			// Update the table in the UI - call refresh
-			console.log("downloaded and approved!");
+			// console.log("downloaded and approved!");
 		});
 	};
 	docBrowser.rejectDocument = function(doc) {
