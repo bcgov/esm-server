@@ -200,6 +200,14 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication)
 			docBrowser.docTypes	= res.data;
 			// console.log(res.data);
 		});
+		Document.getProjectDocuments(docBrowser.project._id, true).then( function(res) {
+			docBrowser.rdocumentFiles	= res.data;
+			// console.log(res.data);
+		});
+		Document.getProjectDocumentTypes(docBrowser.project._id, true).then( function(res) {
+			docBrowser.rdocTypes	= res.data;
+			// console.log(res.data);
+		});
 	};
 
 	$rootScope.$on('refreshDocumentList', function() {
@@ -264,7 +272,9 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication)
 	};
 	docBrowser.rejectDocument = function(doc) {
 		// Delete it from the system.
-		Document.deleteDocument(doc._id);
+		Document.deleteDocument(doc._id).then( function(res) {
+			$rootScope.$broadcast('refreshDocumentList');
+		});
 	};
 }
 // -----------------------------------------------------------------------------------
