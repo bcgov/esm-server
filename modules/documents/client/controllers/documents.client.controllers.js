@@ -260,6 +260,10 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication)
 			console.log("downloaded and approved!");
 		});
 	};
+	docBrowser.rejectDocument = function(doc) {
+		// Delete it from the system.
+		Document.deleteDocument(doc._id);
+	};
 }
 // -----------------------------------------------------------------------------------
 //

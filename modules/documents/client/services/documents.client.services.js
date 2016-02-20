@@ -177,6 +177,10 @@ function serviceDocument($http) {
         });
     };
 
+    var deleteDocument = function(document) {
+        return $http({ method: 'DELETE', url: '/api/document/' + document});
+    };
+
 	return {
         getDocumentTypes: getDocumentTypes,
 		getDocumentSubTypes: getDocumentSubTypes,
@@ -185,6 +189,7 @@ function serviceDocument($http) {
         getProjectDocumentTypes: getProjectDocumentTypes,
         getProjectDocumentFolderNames: getProjectDocumentFolderNames,
         getProjectDocumentVersions: getProjectDocumentVersions,
-        downloadAndApprove: downloadAndApprove
+        downloadAndApprove: downloadAndApprove,
+        deleteDocument: deleteDocument
 	};
 }
