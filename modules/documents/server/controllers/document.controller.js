@@ -651,6 +651,7 @@ var upload = function (req, res) {
 			documentFileURL		: req.headers.documentfileurl,
 			documentFileSize	: req.headers.documentfilesize,
 			documentFileFormat	: req.headers.documentfileformat,
+			documentIsInReview  : req.headers.documentisinreview,
 			documentVersion     : 0,
 			// These are automatic as it actually is when it comes into our system
 			internalURL				: file.path,

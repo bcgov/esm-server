@@ -6,6 +6,7 @@ angular.module('documents')
     .controller('controllerDocumentBrowser', controllerDocumentBrowser)
 	.controller('controllerModalDocumentViewer', controllerModalDocumentViewer)
 	.controller('controllerModalDocumentUploadClassify', controllerModalDocumentUploadClassify)
+	.controller('controllerModalDocumentUploadReview', controllerModalDocumentUploadReview)
 	.filter('removeExtension', filterRemoveExtension);
 
 // -----------------------------------------------------------------------------------
@@ -78,8 +79,8 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 
 	// allow the upload to be triggered from an external button.
 	// this should be called and then documentUploadComplete should be listened for.
-	$scope.$on('documentUploadStart', function() {
-		docUpload.upload();
+	$scope.$on('documentUploadStart', function(event, reviewUploader) {
+		docUpload.upload(reviewUploader);
 	});
 
 
@@ -103,7 +104,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 	// });
 	// docUpload.log = '';
 
-	docUpload.upload = function () {
+	docUpload.upload = function (uploadingReviewDocs) {
 		docUpload.inProgress = true;
 		var docCount = docUpload.fileList.length;
 
@@ -119,7 +120,8 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 					file: file,
 					headers: { 'documenttype': docUpload.type.name,
 							   'documentsubtype': docUpload.subType.name,
-							   'documentfoldername': docUpload.folderName}
+							   'documentfoldername': docUpload.folderName,
+							   'documentisinreview': uploadingReviewDocs}
 				});
 
 				file.upload.then(function (response) {
@@ -282,10 +284,34 @@ function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject)
 
 	docUploadModal.project = rProject;
 
-	docUploadModal.ok = function () { 
-		$scope.$broadcast('documentUploadStart');
+	docUploadModal.ok = function () {
+		$scope.$broadcast('documentUploadStart', false);
 	};
 	docUploadModal.cancel = function () {
+		$modalInstance.dismiss('cancel');
+	};
+}
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Modal: View Documents Comment
+//
+// -----------------------------------------------------------------------------------
+controllerModalDocumentUploadReview.$inject = ['$modalInstance', '$scope', 'rProject'];
+/* @ngInject */
+function controllerModalDocumentUploadReview($modalInstance, $scope, rProject) {
+	var docUploadModalReview = this;
+
+	// Document upload complete so close and continue.
+	$scope.$on('documentUploadComplete', function() {
+		$modalInstance.close();
+	});
+
+	docUploadModalReview.project = rProject;
+
+	docUploadModalReview.ok = function () {
+		$scope.$broadcast('documentUploadStart', true);
+	};
+	docUploadModalReview.cancel = function () {
 		$modalInstance.dismiss('cancel');
 	};
 }
