@@ -39,7 +39,6 @@ exports.getObject   = crud.getObject();
 var getDocumentVersions = function (req, res) {
 	return new Promise (function (resolve, reject) {
 		console.log("getDocumentVersions: Document: ",req.params.documentid);
-		resolve (
 			Model.findById(req.params.documentid).exec (function (err, records) {
 					if (err) {
 						// console.log("getDocumentTypesForProject failed to find anything",err);
@@ -48,12 +47,34 @@ var getDocumentVersions = function (req, res) {
 							// Don't do anything
 							// console.log("No existing documents found.  Inserting normally.");
 						} else {
-							// Got stuff.
-							// console.log(records);
-							resolve(records);
+							//resolve(records);
+							// We got this document, lets find the related ones
+							var type = records.projectFolderType;
+							var subType = records.projectFolderSubType;
+							var folderName = records.projectFolderName;
+							var originalName = records.internalOriginalName;
+							Model.find({ _id: { $ne: req.params.documentid },
+										projectFolderType: type,
+										projectFolderSubType: subType,
+										projectFolderName: folderName,
+										internalOriginalName: originalName
+										// TODO: Should this be unique per project?
+										}).exec(function (err, recs) {
+											if (err) {
+												// console.log("getDocumentTypesForProject failed to find anything",err);
+											} else {
+												if (null === records) {
+													// Don't do anything
+													// console.log("No existing documents found.  Inserting normally.");
+												} else {
+													// console.log(recs);
+													resolve(recs);
+												}
+											}
+										});
 						}
 					}
-				}));
+				});
 	});
 };
 var getDocumentVersionsAndReturn = function (req, res) {
