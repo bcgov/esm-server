@@ -280,9 +280,25 @@ var getDocumentFolderNamesForProjectAndReturn = function (req, res) {
 };
 exports.getDocumentFolderNamesForProjectAndReturn = getDocumentFolderNamesForProjectAndReturn;
 
+var saveDocObject = function (docObj) {
+	return new Promise (function (resolve, reject) {
+		docObj.save ().then (resolve, reject);
+	});
+};
 var approveAndDownloadDocument = function (req, res) {
 	return new Promise (function (resolve, reject) {
-		console.log("approveAndDownloadDocument: Document:",req.params.document);
+		// console.log("approveAndDownloadDocument: Document:",req.params.document);
+		// Update the model to reflect the non-reviewness
+		Model.findOne ({"_id": req.params.document}, function (err, docObj) {
+			if (err) return reject (err);
+			//
+			// update the document.  TODO: if exists
+			//
+			if (docObj) {
+				docObj.documentIsInReview = false;
+				saveDocObject(docObj).then(resolve, reject);
+			}
+		});
 	});
 };
 var approveAndDownload = function (req, res) {
@@ -297,7 +313,6 @@ var approveAndDownload = function (req, res) {
 	});
 };
 exports.approveAndDownload = approveAndDownload;
-
 // -------------------------------------------------------------------------
 //
 // import a document observation, set any special audit fields here
