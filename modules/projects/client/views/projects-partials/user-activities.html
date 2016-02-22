@@ -9,11 +9,17 @@
 			<div class="panel-sub-heading">
 				<div class="form-inline">
 
+					<div class="form-group pull-right">
+						<label class="control-label">Keyword Search</label>
+						<input type="text" ng-model="userActs.search" class="form-control input-sm"/ >
+						<a ng-show="userActs.search" href class="btn btn-sm btn-default" ng-click="userActs.search = undefined">Clear</a>
+					</div>
+
 					<div class="form-group">
 						<label class="control-label">Project</label>
 						<select ng-model="userActs.filter" ng-options="project._id as project.name group by (project.region | regionName ) for project in (userActs.projects | orderBy:'name') " class="form-control input-sm">
 						</select>
-						<a ng-show="userActs.filter" href class="btn btn-sm btn-default" ng-click="userActs.filter = undefined">Reset Search</a>
+						<a ng-show="userActs.filter" href class="btn btn-sm btn-default" ng-click="userActs.filter = undefined">All Projects</a>
 					</div>
 
 				</div>
@@ -21,18 +27,23 @@
 
 			<div class='panel-body'>
 				
-				<ul class="list-unstyled task-list">
-					<li ng-repeat="activity in acts = (userActs.activities | filter:{ 'project': userActs.filter })">
-						<button class="btn btn-block btn-default" ui-sref="activity({project: activity.project, activity: activity._id})">{{ userActs.projectNames[activity.project] + ': ' + activity.name }}</button>
-					</li>
-					<li ng-if="!userActs.activities || userActs.activities.length === 0">
-						You have no activities.
-					</li>
-					<li ng-if="userActs.activities && userActs.activities.length !== 0 && acts.length === 0">
-						No activities match your search criteria.
-					</li>
 
-				</ul>
+				<div class="row">
+					<div class="col-xs-12 col-sm-6 col-md-4" ng-repeat="activity in acts = (userActs.activities | filter:{ 'project': userActs.filter } | filter: userActs.search)">
+						<a href class="thumbnail bg-info" ui-sref="activity({project: activity.project, activity: activity._id})">
+							<small>{{ userActs.projectNames[activity.project] }}</small><br/>
+							{{ activity.name }}
+						</a>
+					</div>
+
+					<div class="col-xs-12" ng-if="!userActs.activities || userActs.activities.length === 0">
+						You have no activities.
+					</div>
+					<div class="col-xs-12" ng-if="userActs.activities && userActs.activities.length !== 0 && acts.length === 0">
+						No activities match your search criteria.
+					</div>
+
+				</div>
 
 
 			</div>

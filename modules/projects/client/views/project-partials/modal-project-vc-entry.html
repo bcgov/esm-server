@@ -1,23 +1,82 @@
 <div class="modal-header">
-	<h3 class="modal-title">Value Component Entry</h3>
+	<h3 class="modal-title">Edit Value Component</h3>
 </div>
 
 <div class="modal-body">
     <table class="table table-condensed table-hover">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Number of Public Communications</th>
-                <th>Number of Working Group Comments</th>
-                <th>Responded?</th>
+       <thead>
+            <tr class="small" colspan="3">
+                <th>Topic</th>
             </tr>
         </thead>
         <tbody>
+            <tr>
+                <td style="padding-top: 5px;">
+                    <!-- there are no folders or a custom folder is requested -->
+                    <div class="form-group ng-hide" ng-show="projectVCEntryModal.topicName.length === 0 || projectVCEntryModal.customTopicName">
+                        <a href class="control-label pull-left"
+                                ng-click="projectVCEntryModal.topicName = !projectVCEntryModal.customTopicName">
+                            <span>From Existing&nbsp;</span>
+                        </a>
+
+                        <label class="control-label">Topic</label>
+                        <input class="form-control ng-cloak"
+                               x-select-on-focus
+                               ng-model="projectVCEntryModal.topicName"
+                               placeholder="Custom Value Component">
+                    </div>
+
+                    <div class="form-group ng-hide" ng-show="projectVCEntryModal.topicName.length !== 0 && !projectVCEntryModal.customTopicName">
+                        <a href class="control-label pull-left"
+                                ng-click="projectVCEntryModal.topicName = !projectVCEntryModal.topicName">
+                            <span>Custom&nbsp;</span>
+                        </a>
+
+                        <label class="control-label">Topic</label>
+                        <select class="form-control"
+                                ng-options="name for name in projectVCEntryModal.topicName | unique: 'topicName'"
+                                ng-model="projectVCEntryModal.topicName"></select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-top: 5px; border: 1px solid red;">
+                    <table class="table table-condensed table-hover">
+                        <thead>
+                            <tr class="small" colspan="3">
+                                <th>Docs</th>
+                                <th>Type</th>
+                                <th>Icon</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- ng-repeat on projectVCEntryModal.documents -->
+                            <tr>
+                                <td style="padding-top: 5px;">Name</td>
+                                <td style="padding-top: 5px;">Type</td>
+                                <td style="padding-top: 5px;">x</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td width="100%">
+                    <p>Response</p>
+                    <textarea class="form-control input-sm" ng-model="projectVCEntryModal.response" rows=4></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td width="100%">
+                    <p>Comments</p>
+                    <textarea class="form-control input-sm" ng-model="projectVCEntryModal.comments" rows=4></textarea>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
 
 <div class="modal-footer">
-	<button class="btn btn-default" type="button" ng-click="projectVCEntry.cancel()">Cancel</button>
-	<button class="btn btn-primary" type="button" ng-click="projectVCEntry.ok()">Save</button>
+	<button class="btn btn-default" type="button" ng-click="projectVCEntryModal.cancel()">Cancel</button>
+	<button class="btn btn-primary" type="button" ng-click="projectVCEntryModal.ok()">Save</button>
 </div>
