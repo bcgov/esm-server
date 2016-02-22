@@ -6,6 +6,7 @@ angular.module('documents')
     .directive('tmplDocumentsList', directiveDocumentsList)   
     .directive('tmplDocumentsBrowser', directiveDocumentsBrowser) 
     .directive('tmplDocumentsApprovals', directiveDocumentsApprovals)                
+    .directive('modalDocumentUploadReview', directiveModalDocumentUploadReview)
     .directive('modalDocumentUploadClassify', directiveModalDocumentUploadClassify);
 
     // .directive('modalDocumentViewer', directiveModalDocumentViewer)
@@ -178,8 +179,39 @@ function directiveModalDocumentUploadClassify($modal, $rootScope) {
     };
     return directive;
 }   
-
-
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Upload in a modal
+//
+// -----------------------------------------------------------------------------------
+directiveModalDocumentUploadReview.$inject = ['$modal', '$rootScope'];
+/* @ngInject */
+function directiveModalDocumentUploadReview($modal, $rootScope) {
+    var directive = {
+        restrict:'A',
+        scope: {
+            project: '='
+        },
+        link : function(scope, element, attrs) {
+            element.on('click', function() {
+                var modalDocUpload = $modal.open({
+                    animation: true,
+                    templateUrl: 'modules/documents/client/views/partials/modal-document-upload-review.html',
+                    controller: 'controllerModalDocumentUploadReview',
+                    controllerAs: 'docUploadModalReview',
+                    size: 'lg',
+                    resolve: {
+                        rProject: function() { return scope.project; }
+                    }
+                });
+                modalDocUpload.result.then(function (data) {
+                    $rootScope.$broadcast('refreshDocumentList');
+                }, function () {});
+            });
+        }
+    };
+    return directive;
+}
 // // -----------------------------------------------------------------------------------
 // //
 // // DIRECTIVE: Modal document Tags

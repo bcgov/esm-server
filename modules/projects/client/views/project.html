@@ -32,7 +32,7 @@
 				class="anchor-section"
 				id="anchor-publiccomments"
 				x-project="proj.project"
-				ng-if="('project'| shouldDisplayPanel:'public-comments':proj.project.status)">
+				ng-if="('project'| shouldDisplayPanel:'public-comments':proj.project.status) && proj.project.dateCommentsOpen">
 			</tmpl-public-comment-display>
 
 			<tmpl-project-activities

@@ -129,7 +129,7 @@ function directiveProjectVCEntry($modal) {
 					animation: true,
 					templateUrl: 'modules/projects/client/views/project-partials/modal-project-vc-entry.html',
 					controller: 'controllerProjectVCEntry',
-					controllerAs: 'projectVCEntry',
+					controllerAs: 'projectVCEntryModal',
 					scope: scope,
 					resolve: {
 						rProjectVCEntry: function () {

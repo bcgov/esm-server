@@ -5,6 +5,7 @@ angular.module('project')
 	.controller('controllerProject', controllerProject)
 	.controller('controllerModalProjectSchedule', controllerModalProjectSchedule)
 	.controller('controllerProjectVC', controllerProjectVC)
+	.controller('controllerProjectVCEntry', controllerProjectVCEntry)
 	.controller('controllerProjectTombstone', controllerProjectTombstone)
 	// .controller('controllerProjectTimeline', controllerProjectTimeline)
 	.controller('controllerModalProjectEntry', controllerModalProjectEntry)
@@ -85,6 +86,27 @@ function controllerProjectVC(rProjectVC, _, $modalInstance) {
 	};
 	projectVC.cancel = function () { $modalInstance.dismiss('cancel'); };
 
+}
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Modal: View Project VC Entry
+//
+// -----------------------------------------------------------------------------------
+controllerProjectVCEntry.$inject = ['rProjectVCEntry', '_', '$modalInstance'];
+/* @ngInject */
+function controllerProjectVCEntry(rProjectVCEntry, _, $modalInstance) {
+	var projectVCEntryModal = this;
+
+	projectVCEntryModal.roles = ['admin', 'project-team', 'working-group', 'first-nations', 'consultant'];
+
+	projectVCEntryModal.response = "response";
+	projectVCEntryModal.comments = "comments";
+
+	// on save, pass complete permission structure to the server
+	projectVCEntryModal.ok = function () {
+		$modalInstance.close();
+	};
+	projectVCEntryModal.cancel = function () { $modalInstance.dismiss('cancel'); };
 }
 // -----------------------------------------------------------------------------------
 //
@@ -345,15 +367,18 @@ function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel
 	// admin users can set the project stream
 	projectStreamSelect.setProjectStream = function() {
 		if ((!projectStreamSelect.project.stream || projectStreamSelect.project.stream === '') && projectStreamSelect.newStreamId) {
-			projectStreamSelect.project.status = 'In Progress';
-
-			ProjectModel.saveModel().then( function(res) {
+			//
+			// CC : the status canges are now part of the business rules and so this
+			// portion moves to the back end, no need for a save prior to set
+			//
+			// projectStreamSelect.project.status = 'In Progress';
+			// ProjectModel.saveModel().then( function(res) {
 				// set the stream then move to the project overview page.
 				ProjectModel.setStream(projectStreamSelect.newStreamId).then( function(resStream) {
 					projectStreamSelect.project = _.assign(resStream);
 					$state.go('project', {'id':projectStreamSelect.project._id}, {reload: true});
 				});
-			});
+			// });
 		}
 	};
 }
@@ -399,7 +424,7 @@ function controllerProjectActivities($scope, sAuthentication, sActivity, _, sPha
 				$cookies.milestone = milestoneId;
 				// the phase has changed, reset the structures down the chain.
 				projectActs.activities = undefined;
-			}			
+			}
 			$cookies.milestone = milestoneId;
 			sActivityModel.activitiesForMilestone(milestoneId).then( function(data) {
 				projectActs.activities = data;
@@ -416,7 +441,7 @@ function controllerProjectActivities($scope, sAuthentication, sActivity, _, sPha
 		// if there is a preset, select it.
 		if (projectActs.selectedPhase) {
 			projectActs.selectPhase( projectActs.selectedPhase );
-		}		
+		}
 	});
 
 
@@ -427,7 +452,7 @@ function controllerProjectActivities($scope, sAuthentication, sActivity, _, sPha
 		// if there is a preset, select it.
 		if (projectActs.selectedMilestone) {
 			projectActs.selectMilestone( projectActs.selectedMilestone );
-		}		
+		}
 	});
 
 

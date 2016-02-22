@@ -27,7 +27,8 @@ angular.module('utils')
     .directive('selectOnClick', directiveSelectOnClick)
     .directive('modalSelectItems', directiveModalSelectItems)
     .directive('scrollAnchor', directiveScrollAnchor)
-    .directive('scrollTrigger', directiveScrollTrigger);
+    .directive('scrollTrigger', directiveScrollTrigger)
+    .directive('selectOnFocus', directiveSelectOnFocus);
     
 // -----------------------------------------------------------------------------------
 //
@@ -784,4 +785,21 @@ function directiveScrollTrigger($anchorScroll, $location) {
     };
     return directive;
 }
-
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Scroll Trigger
+//
+// -----------------------------------------------------------------------------------
+directiveSelectOnFocus.$inject = [];
+/* @ngInject */
+function directiveSelectOnFocus() {
+    var directive = {
+       	restrict:'A',
+		link : function(scope, element, attrs) {
+			element.on('focus', function () {
+				this.select();
+			});
+		}
+	};
+	return directive;
+}

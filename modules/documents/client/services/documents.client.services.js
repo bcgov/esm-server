@@ -14,19 +14,28 @@ function serviceDocument($http) {
     var getDocumentTypes = function() {
         return [
             {
-                "code":"intakeoverview",
-                "name":"Project Overview",
-                "bucket":"intake"
+                "code":"r",
+                "name":"Under Review",
             },
             {
-                "code":"intakeshape",
-                "name":"Shape File",
-                "bucket":"intake"
+                "code":"p",
+                "name":"Pre-Application",
             },
             {
-                "code":"intakemisc",
-                "name":"Supporting File",
-                "bucket":"intake"
+                "code":"w",
+                "name":"Withdrawn",
+            },
+            {
+                "code":"t",
+                "name":"Terminated",
+            },
+            {
+                "code":"a",
+                "name":"Certificate Issued",
+            },
+            {
+                "code":"k",
+                "name":"Amendments",
             }
         ];
     };
@@ -143,6 +152,11 @@ function serviceDocument($http) {
                       headers: {'reviewDocsOnly': reviewDocsOnly} });
     };
 
+    var getProjectDocumentFolderNames = function(projectId) {
+        return $http({method:'GET',
+                      url: '/api/documents/folderNames/' + projectId });
+    };
+
     var getProjectDocumentVersions = function(projectId, type, subtype, folderName, fileName) {
         return $http({  method:'GET',
                         url: '/api/documents/versions/' + projectId,
@@ -163,13 +177,19 @@ function serviceDocument($http) {
         });
     };
 
+    var deleteDocument = function(document) {
+        return $http({ method: 'DELETE', url: '/api/document/' + document});
+    };
+
 	return {
         getDocumentTypes: getDocumentTypes,
 		getDocumentSubTypes: getDocumentSubTypes,
         getAllDocuments: getAllDocuments,
         getProjectDocuments: getProjectDocuments,
         getProjectDocumentTypes: getProjectDocumentTypes,
+        getProjectDocumentFolderNames: getProjectDocumentFolderNames,
         getProjectDocumentVersions: getProjectDocumentVersions,
-        downloadAndApprove: downloadAndApprove
+        downloadAndApprove: downloadAndApprove,
+        deleteDocument: deleteDocument
 	};
 }
