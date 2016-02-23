@@ -48,43 +48,10 @@ angular.module('inspectionReport').controller('controllerInspectionReportDisplay
             );
         }
 
-        displayEdit.submit = function() {
-
-            angular.forEach(displayEdit.detailsToDelete, function (value,key) {
-                // remove it from the DB
-               // InspectionReportDetailModel.delete(value);
-            });
-
-            //displayEdit.inspectionReport.inspectionDetails = [];
-
-            function saveListItem(index) {
-                var myDetail = displayEdit.inspectionReport.inspectionDetails[index];
-                console.log('attempt to save', myDetail);
-                InspectionReportDetailModel.saveModel(myDetail).then(function(index) {
-                    if (index < displayEdit.inspectionReport.inspectionDetails.length) {
-                        saveListItem(index+1);
-                    }
-                });
-                //displayEdit.inspectionReport.inspectionDetails[index] = myDetail._id;
-
-            }
-
-            saveListItem(0);
-
-/*
-            angular.forEach(displayEdit.inspectionReport.inspectionDetails, function (value,key) {
-                console.log('attempt to save', value);
-                InspectionReportDetailModel.saveModel(value);
-                var index = displayEdit.inspectionReport.inspectionDetails.indexOf(value);
-                displayEdit.inspectionReport.inspectionDetails[index] = value._id;
-                //displayEdit.inspectionReport.inspectionDetails.push(value._id);
-            });
-            */
-
-            //console.log('about to submit, inspectionReport.inspectionDetails is', displayEdit.inspectionReport.inspectionDetails);
-
+        editIinspectionReport.submit = function() {
             InspectionReportModel.saveModel(displayEdit.inspectionReport).then( function(res) {
-                $state.go('inspectionReport.view', { inspectionReportId: res._id});
+                console.log("======== HERE WE ARE", res);
+                // $state.go('inspectionReport.view', { inspectionReportId: res._id});
             });
         };
 

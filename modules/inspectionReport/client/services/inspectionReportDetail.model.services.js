@@ -10,9 +10,9 @@ angular.module('inspectionReport').factory ('InspectionReportDetailModel', funct
     // build the project model by extending the base model. the base model will
     // have all the basic crud stuff built in
     //
-    var ProjectClass = ModelBase.extend ({
+    var InspectionReportDetail = ModelBase.extend ({
         urlName: 'inspectionreportdetail'
     });
 
-    return new ProjectClass ();
+    return new InspectionReportDetail ();
 });

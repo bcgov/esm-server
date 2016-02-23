@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('inspectionReport').controller('InspectionReportListController', ['$scope', '$filter', 'InspectionReportModel', 'PROVINCES',
-  function ($scope, $filter, InspectionReportModel, PROVINCES ) {
+angular.module('inspectionReport').controller('InspectionReportListController', ['$scope', '$filter', 'InspectionReportModel', 'PROVINCES', '$state',
+  function ($scope, $filter, InspectionReportModel, PROVINCES, $state ) {
 
     var listInspectionReports = this;
 
@@ -35,6 +35,10 @@ angular.module('inspectionReport').controller('InspectionReportListController', 
       listInspectionReports.figureOutItemsToDisplay();
     };
 
+    listInspectionReports.edit = function (report) {
+      InspectionReportModel.setModel(report);
+      $state.go('inspectionReport.edit');
+    }
 
   }
 ]);

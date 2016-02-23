@@ -6,19 +6,6 @@
 
             <div class="col-sm-12">
 
-                <div class="well well-sm" ng-repeat="detail in displayEdit.inspectionReport.inspectionDetails">
-                    <div class="form-group show-errors">
-                        <label class="control-label">Types of Compliance</label>
-                        <input ng-if="displayEdit.mode != 'display'" type="text" name="detail.complianceTypes" class="form-control input-sm" ng-model="detail.complianceTypes" required />
-                        <div ng-messages="detail.complianceTypes.$error" role="alert">
-                        </div>
-                        <p ng-if="displayEdit.mode == 'display'" ng-bind="detail.complianceTypes"/>
-                    </div>
-                    <a ng-if="displayEdit.mode != 'display'" class="btn-default btn-sm" ng-click="displayEdit.removeDetail(detail)">Remove</a>
-                </div>
-
-                <a ng-if="displayEdit.mode != 'display'" class="btn-default btn-sm" ng-click="displayEdit.addDetail()">Add Inspection Details</a>
-
                 <div class="form-group show-errors">
                     <label for="projectName" class="control-label">Project Name</label>
                     <input ng-if="displayEdit.mode != 'display'" type="text" id="projectName" name="projectName" class="form-control input-sm" ng-model="displayEdit.inspectionReport.projectName" required />

@@ -19,18 +19,18 @@
           <table class="table table-condensed table-hover">
             <thead>
             <tr>
-              <th>Company Name (DBA)</th>
+              <th>Project Name</th>
             </tr>
             </thead>
-            <tr ng-repeat="report in listInspectionReports.pagedItems" ui-sref="inspectionReport.view({inspectionReportId: report._id})">
-              <td ng-bind="report.company"></td>
+            <tr ng-repeat="report in listInspectionReports.pagedItems" ng-click="listInspectionReports.edit(report);">
+              <td ng-bind="report.projectName"></td>
             </tr>
           </table>
 
         <div class="text-right">
 
           <div class="form-group">
-            <input type="button" value="Add Inspection Report" class="btn btn-default btn-sm" ui-sref="inspectionReport.new">
+            <input type="button" value="Add Inspection Report" class="btn btn-default btn-sm" ui-sref="inspectionReport.edit({inspectionReportId: 'new'})">
           </div>
 
           <pagination class="pagination-sm" boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage" ng-change="pageChanged()"></pagination>

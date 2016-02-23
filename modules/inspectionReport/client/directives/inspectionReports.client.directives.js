@@ -19,8 +19,8 @@ function directiveInspectionReportDisplayEdit() {
 		controller: 'controllerInspectionReportDisplayEdit',
 		controllerAs: 'displayEdit',
 		scope: {
-			inspectionReportId: '@',
-			mode: '@'
+			inspectionReport: '@',
+			mode: '='
 		}
 	};
 	return directive;

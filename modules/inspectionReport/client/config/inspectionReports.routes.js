@@ -25,13 +25,13 @@ angular.module('inspectionReport').config(['$stateProvider',
                 controllerAs: 'addInspectionReport'
             })
             .state('inspectionReport.edit', {
-                url: '/edit/:inspectionReportId',
+                url: '/edit',
                 templateUrl: 'modules/inspectionReport/client/views/edit-inspection-report.client.view.html',
                 controller: 'editInspectionReportController',
                 controllerAs: 'editInspectionReport'
             })
             .state('inspectionReport.view', {
-                url: '/view/:inspectionReportId',
+                url: '/view',
                 templateUrl: 'modules/inspectionReport/client/views/view-inspection-report.client.view.html',
                 controller: 'viewInspectionReportController',
                 controllerAs: 'viewInspectionReport'
