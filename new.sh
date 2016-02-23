@@ -27,9 +27,9 @@ cat > modules/$PLURAL/client/services/$NAME.model.service.js <<EOFCC
 // is accessed through the front end
 //
 // =========================================================================
-angular.module('project').factory ('${PLURAL}Model', function (ModelBase, _) {
+angular.module('${NAME}').factory ('${MODEL}Model', function (ModelBase, _) {
 	//
-	// build the project model by extending the base model. the base model will
+	// build the model by extending the base model. the base model will
 	// have all the basic crud stuff built in
 	//
 	var Class = ModelBase.extend ({
@@ -67,12 +67,13 @@ cat > modules/$PLURAL/server/models/$NAME.model.js <<EOFM
 //
 // =========================================================================
 module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('Activity', {
+.generateModel ('${MODEL}', {
 	__audit        : true,
 	__access       : true,
 	__tracking     : true,
 	__status       : ['Not Started', 'Not Required', 'In Progress', 'Complete'],
 	__codename     : true,
+	project        : { type:'ObjectId', ref:'Project', default:null, index:true}
 });
 
 EOFM

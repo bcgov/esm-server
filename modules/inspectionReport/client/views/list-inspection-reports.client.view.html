@@ -6,35 +6,31 @@
     <div class="panel panel-default">
 
       <div class="panel-heading">
-        <h3 class="panel-title">Organizations</h3>
+        <h3 class="panel-title">Inspection Reports</h3>
       </div>
 
       <div class="panel-body">
 
         <div class="form-group">
-          <label for="searchOrganizations" class="control-label">Search Organizations</label>
-          <input id="searchOrganizations" class="form-control" type="text" ng-model="listOrganizations.search" placeholder="Search" ng-change="listOrganizations.figureOutItemsToDisplay()" />
+          <label for="searchInspectionReports" class="control-label">Search Inspection Reports</label>
+          <input id="searchInspectionReports" class="form-control" type="text" ng-model="listInspectionReports.search" placeholder="Search" ng-change="listInspectionReports.figureOutItemsToDisplay()" />
         </div>
         
           <table class="table table-condensed table-hover">
             <thead>
             <tr>
-              <th>Company Name (DBA)</th>
-              <th>Company Legal Name</th>
-              <th>Registered In</th>
+              <th>Project Name</th>
             </tr>
             </thead>
-            <tr ng-repeat="org in listOrganizations.pagedItems" ui-sref="organization.view({organizationId: org._id})">
-              <td ng-bind="org.company"></td>
-              <td ng-bind="org.companyLegal"></td>
-              <td ng-bind="listOrganizations.provs[org.registeredIn]"></td>
+            <tr ng-repeat="report in listInspectionReports.pagedItems" ng-click="listInspectionReports.edit(report);">
+              <td ng-bind="report.projectName"></td>
             </tr>
           </table>
 
         <div class="text-right">
 
           <div class="form-group">
-            <input type="button" value="Add Organization" class="btn btn-default btn-sm" ui-sref="organization.new">
+            <input type="button" value="Add Inspection Report" class="btn btn-default btn-sm" ui-sref="inspectionReport.edit({inspectionReportId: 'new'})">
           </div>
 
           <pagination class="pagination-sm" boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage" ng-change="pageChanged()"></pagination>

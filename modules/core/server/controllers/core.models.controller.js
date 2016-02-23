@@ -196,6 +196,10 @@ var generateSchema = function (definition) {
 		schema.methods.mergeRoles        = mergeRoles;
 		schema.methods.addRoles          = addRoles;
 		schema.methods.roleSet           = roleSet;
+		schema.index ({read:1});
+		schema.index ({write:1});
+		schema.index ({submit:1});
+		schema.index ({watch:1});
 	}
 	return schema;
 };

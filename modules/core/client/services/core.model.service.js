@@ -26,6 +26,7 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 			this.urlall  = '/api/'+this.urlName;
 			this.urlbase = '/api/'+this.urlName+'/';
 			this.urlnew  = '/api/new/'+this.urlName;
+			this.urlquery  = '/api/query/'+this.urlName;
 			_.bindAll (this);
 		},
 		// -------------------------------------------------------------------------
@@ -188,7 +189,7 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 			return this.post (this.urlall, obj);
 		},
 		query : function (obj) {
-			return this.put (this.urlall, obj);
+			return this.put (this.urlquery, obj);
 		},
 		put : function (url, data) {
 			return this.talk ('PUT', url, data);
