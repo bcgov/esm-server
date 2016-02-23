@@ -5,6 +5,7 @@ angular.module('project')
 	.controller('controllerProject', controllerProject)
 	.controller('controllerModalProjectSchedule', controllerModalProjectSchedule)
 	.controller('controllerProjectVC', controllerProjectVC)
+	.controller('controllerProjectVCEntry', controllerProjectVCEntry)
 	.controller('controllerProjectTombstone', controllerProjectTombstone)
 	// .controller('controllerProjectTimeline', controllerProjectTimeline)
 	.controller('controllerModalProjectEntry', controllerModalProjectEntry)
@@ -72,19 +73,53 @@ function controllerModalProjectSchedule($modalInstance, sProjectModel, sPhaseMod
 // CONTROLLER: Modal: View Project VC
 //
 // -----------------------------------------------------------------------------------
-controllerProjectVC.$inject = ['rProjectVC', '_', '$modalInstance'];
+controllerProjectVC.$inject = ['$scope', 'rProjectVC', '_', '$modalInstance', 'VCModel'];
 /* @ngInject */
-function controllerProjectVC(rProjectVC, _, $modalInstance) {
-	var projectVC = this;
+function controllerProjectVC($scope, rProjectVC, _, $modalInstance, VCModel) {
+        var projectVC = this;
 
-	projectVC.roles = ['admin', 'project-team', 'working-group', 'first-nations', 'consultant'];
+        projectVC.roles = ['admin', 'project-team', 'working-group', 'first-nations', 'consultant'];
+
+        $scope.$watch('project', function(newValue) {
+                if (newValue) {
+                        VCModel.getModel(newValue._id).then( function(data) {
+                                projectVC.project = data;
+                        });
+                }
+        });
+
+
+        VCModel.getCollection().then(function(data){
+                projectVC.valuecomponents = data;
+        });
+
+        // on save, pass complete permission structure to the server
+        projectVC.ok = function () {
+                $modalInstance.close();
+        };
+        projectVC.cancel = function () { $modalInstance.dismiss('cancel'); };
+
+}
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Modal: View Project VC Entry
+//
+// -----------------------------------------------------------------------------------
+controllerProjectVCEntry.$inject = ['rProjectVCEntry', '_', '$modalInstance'];
+/* @ngInject */
+function controllerProjectVCEntry(rProjectVCEntry, _, $modalInstance) {
+	var projectVCEntryModal = this;
+
+	projectVCEntryModal.roles = ['admin', 'project-team', 'working-group', 'first-nations', 'consultant'];
+
+	projectVCEntryModal.response = "response";
+	projectVCEntryModal.comments = "comments";
 
 	// on save, pass complete permission structure to the server
-	projectVC.ok = function () {
+	projectVCEntryModal.ok = function () {
 		$modalInstance.close();
 	};
-	projectVC.cancel = function () { $modalInstance.dismiss('cancel'); };
-
+	projectVCEntryModal.cancel = function () { $modalInstance.dismiss('cancel'); };
 }
 // -----------------------------------------------------------------------------------
 //

@@ -52,6 +52,7 @@ module.exports = function (app) {
 			.then (helpers.success(res), helpers.failure(res));
 		});
 
+
 	app.route ('/api/projectile').all (policy.isAllowed).get (function (req, res) {
 		var p = new Project (req.user);
 		p.list ().then (helpers.success(res), helpers.failure(res));

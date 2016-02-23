@@ -1,5 +1,6 @@
 <section class="block-content">
-	<h3>Documents in Review</h3>
+	<h3><a href class="small pull-right" x-modal-document-upload-review x-project="docBrowser.project" ng-if="docBrowser.authentication.user">Upload <span class="glyphicon glyphicon-upload"></span> </a>
+		Documents in Review</h3>
 
 	<div class='container-fluid'>
 		<div class='row'>
@@ -10,7 +11,7 @@
 						class="row-folder row-folder-depth-{{ row.depth }}"
 						ng-repeat="row in docBrowser.rdocTypes"
 						ng-class="{'active btn-primary': rfilterDocs[row.reference] === row.label}">
-						<span class="glyphicon glyphicon-play"></span>
+						<span class="glyphicon glyphicon-play arrow"></span>
 						<a href ng-click="docBrowser.rfilterList(row.reference, row.label)">{{ row.label }}</a>
 					<li>
 				</ul>
@@ -22,22 +23,29 @@
 
 					<li ng-repeat="doc in docBrowser.rdocumentFiles | filter : rfilterDocs : true">
 						<a ng-click="docBrowser.rDoc=doc" href="">
-							<span class="glyphicon glyphicon-file"></span>{{ doc.internalName }}
+							<span class="glyphicon glyphicon-file"></span>{{ doc.internalOriginalName | removeExtension }}
 						</a>
 					</li>
 				</ul>
 
 			</div>
-			<div class='col-sm-4 col-no-padding vertical-scroll'>
+			<div class='col-sm-4 col-no-padding vertical-scroll' ng-class="{'bg-muted': !docBrowser.rDoc}">
 
-				<ul class="small list-unstyled list-documents list-indent-left">
-					<li><h3>Approve / Reject </h3>
+				<ul class="small list-unstyled list-documents list-indent-left" ng-show="docBrowser.rDoc">
+					<li>
+						<h3>
+							<a
+								class="small btn-download"
+								href="/api/document/{{ docBrowser.rDoc._id }}/fetch"
+								target="_blank">Download <span class="glyphicon glyphicon-download"></span>
+							</a>
+							{{ docBrowser.rDoc.internalOriginalName | removeExtension }}</h3>
 						<p>File Name: {{ docBrowser.rDoc.documentFileName }}</p>
 						<p>Date Posted: {{ docBrowser.rDoc.projectFolderDatePosted | date : format : timezone }}</p>
 						<p>File Format: {{ docBrowser.rDoc.documentFileFormat }}</p>
 						<p>File Size: {{ docBrowser.rDoc.documentFileSize }}</p>
-						<p><a target="new" href="{{ docBrowser.rDoc.documentFileURL }}">Open Link to document</a></p>
-						<a ng-click="docBrowser.downloadAndApprove(docBrowser.rDoc)" href="">Download and Approve document</a>
+						<button class="btn btn-default" type="button" ng-click="docBrowser.downloadAndApprove(docBrowser.rDoc)">Approve</button>
+						<button class="btn btn-default" type="button" ng-click="docBrowser.rejectDocument(docBrowser.rDoc)">Reject</button>
 					</li>
 				</ul>
 			</div>

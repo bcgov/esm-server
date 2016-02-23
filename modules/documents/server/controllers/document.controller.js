@@ -38,8 +38,7 @@ exports.getObject   = crud.getObject();
 // -------------------------------------------------------------------------
 var getDocumentVersions = function (req, res) {
 	return new Promise (function (resolve, reject) {
-		console.log("getDocumentVersions: Document: ",req.params.documentid);
-		resolve (
+		// console.log("getDocumentVersions: Document: ",req.params.documentid);
 			Model.findById(req.params.documentid).exec (function (err, records) {
 					if (err) {
 						// console.log("getDocumentTypesForProject failed to find anything",err);
@@ -48,12 +47,34 @@ var getDocumentVersions = function (req, res) {
 							// Don't do anything
 							// console.log("No existing documents found.  Inserting normally.");
 						} else {
-							// Got stuff.
-							// console.log(records);
-							resolve(records);
+							//resolve(records);
+							// We got this document, lets find the related ones
+							var type = records.projectFolderType;
+							var subType = records.projectFolderSubType;
+							var folderName = records.projectFolderName;
+							var originalName = records.internalOriginalName;
+							Model.find({ _id: { $ne: req.params.documentid },
+										projectFolderType: type,
+										projectFolderSubType: subType,
+										projectFolderName: folderName,
+										internalOriginalName: originalName
+										// TODO: Should this be unique per project?
+										}).exec(function (err, recs) {
+											if (err) {
+												// console.log("getDocumentTypesForProject failed to find anything",err);
+											} else {
+												if (null === records) {
+													// Don't do anything
+													// console.log("No existing documents found.  Inserting normally.");
+												} else {
+													// console.log(recs);
+													resolve(recs);
+												}
+											}
+										});
 						}
 					}
-				}));
+				});
 	});
 };
 var getDocumentVersionsAndReturn = function (req, res) {
@@ -112,7 +133,7 @@ exports.getDocumentsForProjectAndReturn = getDocumentsForProjectAndReturn;
 // -------------------------------------------------------------------------
 var getDocumentTypesForProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
-		console.log("getDocumentTypesForProject: Project ID:",req.params.projectid);
+		// console.log("getDocumentTypesForProject: Project ID:",req.params.projectid);
 		// When a document has an assigned projectID, grab it.
 		// NB: This will be true after a document has been reviewed by someone perhaps.
 		Model.find({project: req.params.projectid,
@@ -190,7 +211,7 @@ var getDocumentTypesForProject = function (req, res) {
 							});
 						});
 					});
-					console.log(flattendList);
+					// console.log(flattendList);
 					resolve (flattendList);
 				}
 			}
@@ -259,9 +280,25 @@ var getDocumentFolderNamesForProjectAndReturn = function (req, res) {
 };
 exports.getDocumentFolderNamesForProjectAndReturn = getDocumentFolderNamesForProjectAndReturn;
 
+var saveDocObject = function (docObj) {
+	return new Promise (function (resolve, reject) {
+		docObj.save ().then (resolve, reject);
+	});
+};
 var approveAndDownloadDocument = function (req, res) {
 	return new Promise (function (resolve, reject) {
-		console.log("approveAndDownloadDocument: Document:",req.params.document);
+		// console.log("approveAndDownloadDocument: Document:",req.params.document);
+		// Update the model to reflect the non-reviewness
+		Model.findOne ({"_id": req.params.document}, function (err, docObj) {
+			if (err) return reject (err);
+			//
+			// update the document.  TODO: if exists
+			//
+			if (docObj) {
+				docObj.documentIsInReview = false;
+				saveDocObject(docObj).then(resolve, reject);
+			}
+		});
 	});
 };
 var approveAndDownload = function (req, res) {
@@ -276,7 +313,6 @@ var approveAndDownload = function (req, res) {
 	});
 };
 exports.approveAndDownload = approveAndDownload;
-
 // -------------------------------------------------------------------------
 //
 // import a document observation, set any special audit fields here
@@ -615,6 +651,7 @@ var upload = function (req, res) {
 			documentFileURL		: req.headers.documentfileurl,
 			documentFileSize	: req.headers.documentfilesize,
 			documentFileFormat	: req.headers.documentfileformat,
+			documentIsInReview  : req.headers.documentisinreview,
 			documentVersion     : 0,
 			// These are automatic as it actually is when it comes into our system
 			internalURL				: file.path,
