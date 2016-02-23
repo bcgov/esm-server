@@ -47,7 +47,7 @@ angular.module('inspectionReport').controller('editInspectionReportController', 
                     console.log("got one!");
                     editInspectionReport.newDetail = res;
                     editInspectionReport.addDetailOpen = true;
-                    $scope.safeApply();
+                    $scope.$apply();
                 }
             );
         };
