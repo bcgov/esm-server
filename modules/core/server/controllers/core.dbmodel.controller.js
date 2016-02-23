@@ -89,7 +89,7 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	setBaseQ : function (accessQuery) {
 		accessQuery = accessQuery || this.readQuery;
-		console.log (accessQuery);
+		// console.log (accessQuery);
 		this.baseQ = (_.isFunction (this.baseQuery)) ? this.baseQuery.call (this) : _.cloneDeep (this.baseQuery);
 		//
 		// for an admin we don't apply access control, so only continue
@@ -113,7 +113,7 @@ _.extend (DBModel.prototype, {
 		// CC: change this in production to only public, add 'admin' to the array to get everything
 		this.roles = (user) ? user.roles : [];
 		this.roles.push ('public');
-		console.log ("this.roles = ", this.roles);
+		// console.log ("this.roles = ", this.roles);
 		this.readQuery = {
 			$or : [
 				{ read   : { $in : this.roles } },
@@ -194,7 +194,7 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			console.log ('q.$or = ',q.$or[0].read);
+			// console.log ('q.$or = ',q.$or[0].read);
 			self.model.find (q)
 			.sort (self.sort)
 			.populate (self.populate)
