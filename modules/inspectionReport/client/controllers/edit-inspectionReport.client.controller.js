@@ -24,7 +24,7 @@ angular.module('inspectionReport').controller('editInspectionReportController', 
                 function(res) {
                     console.log("saved: ", res);
                     editInspectionReport.reportOpen = false;
-                    $scope.safeApply();
+                    $scope.$apply();
                 },
                 // If the ID is wrong let's go back to the list.
                 function(data) {
