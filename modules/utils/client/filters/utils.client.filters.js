@@ -64,7 +64,7 @@ filterRegionName.$inject = ['REGIONS'];
 /* @ngInject */
 function filterRegionName(REGIONS) {
 	return function(input) {
-		return REGIONS[input];
+		return REGIONS[input] || 'Not Defined';
 	};
 }
 // -----------------------------------------------------------------------------------

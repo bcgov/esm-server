@@ -72,9 +72,9 @@
 
 		<ul class="list-unstyled">
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-map')" href="#anchor-map">Map</a></li>
+			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-search')" href="#anchor-search">Search</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-schedule')" href="#anchor-schedule">Schedule</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-recent')" href="#anchor-recent">Recent Activity</a></li>
-			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-search')" href="#anchor-search">Search</a></li>
 		</ul>
 		<ul class="list-unstyled" ng-show="menu.projectsMenu.shouldRender(menu.authentication.user);">
 			<li ng-repeat="item in menu.projectsMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">

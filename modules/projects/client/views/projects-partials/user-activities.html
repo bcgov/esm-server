@@ -17,7 +17,7 @@
 
 					<div class="form-group">
 						<label class="control-label">Project</label>
-						<select ng-model="userActs.filter" ng-options="project._id as project.name group by (project.region | regionName ) for project in (userActs.projects | orderBy:'name') " class="form-control input-sm">
+						<select ng-model="userActs.filter" ng-options="key as project.name group by (project.region | regionName) for (key, project) in (userActs.projectNames | orderBy:'project.name')" class="form-control input-sm">
 						</select>
 						<a ng-show="userActs.filter" href class="btn btn-sm btn-default" ng-click="userActs.filter = undefined">All Projects</a>
 					</div>
@@ -31,7 +31,7 @@
 				<div class="row">
 					<div class="col-xs-12 col-sm-6 col-md-4" ng-repeat="activity in acts = (userActs.activities | filter:{ 'project': userActs.filter } | filter: userActs.search)">
 						<a href class="thumbnail bg-info" ui-sref="activity({project: activity.project, activity: activity._id})">
-							<small>{{ userActs.projectNames[activity.project] }}</small><br/>
+							<small>{{ userActs.projectNames[activity.project].name }}</small><br/>
 							{{ activity.name }}
 						</a>
 					</div>

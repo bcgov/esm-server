@@ -43,7 +43,7 @@ function controllerRecentActivity(Utils, Authentication) {
 	raPanel.auth = Authentication;
 	//	
 	Utils.getRecentActivity().then( function(res) {
-		raPanel.recentActivity = res.data;
+		raPanel.recentActivity = res.data.slice(0,4);
 	});
 }
 // -----------------------------------------------------------------------------------

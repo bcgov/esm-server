@@ -4,6 +4,7 @@ angular.module('projects')
 	// General
 	.controller('controllerProjects', controllerProjects)
 	.controller('controllerProjectsList', controllerProjectsList)
+	.controller('controllerProjectsSearch', controllerProjectsSearch)
 	.controller('controllerUserActivities', controllerUserActivities);
 
 // -----------------------------------------------------------------------------------
@@ -27,6 +28,52 @@ function controllerProjects($state, ProjectModel, PROJECT_TYPES, Authentication)
 		{'field': 'dateUpdated', 'name':'Date Updated'},
 		{'field': 'dateCreate', 'name':'Date Created'}
 	];
+}
+
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Projects
+//
+// -----------------------------------------------------------------------------------
+controllerProjectsSearch.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC'];
+/* @ngInject */
+function controllerProjectsSearch($scope, $state, Authentication, sProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC) {
+	var projectsSearch = this;
+
+	// console.log('here', PROJECT_STATUS_PUBLIC);
+
+	projectsSearch.types = PROJECT_TYPES;
+	projectsSearch.regions = REGIONS;
+	projectsSearch.status = PROJECT_STATUS_PUBLIC;
+
+	projectsSearch.foundSet = false;
+	projectsSearch.projects = [];
+
+	projectsSearch.resetSearch = function() {
+		projectsSearch.search = undefined;
+		projectsSearch.foundSet = false;
+	};
+
+	projectsSearch.performSearch = function() {
+		var query = {};
+		if (projectsSearch.search.type)  {
+			query.type = projectsSearch.search.type;
+		}
+		if (projectsSearch.search.region)  {
+			query.region = projectsSearch.search.region;
+		}
+		if (projectsSearch.search.status)  {
+			query.status = projectsSearch.search.status;
+		}
+
+		sProjectModel.getQuery (query).then( function(data) {
+			projectsSearch.projects = [];
+			projectsSearch.foundSet = true;
+		}).catch( function(err) {
+			projectsSearch.error = err;
+		});
+	};
+
 }
 
 // -----------------------------------------------------------------------------------
@@ -81,8 +128,9 @@ function controllerUserActivities($scope, $state, Authentication, sProjectModel,
 
 		// reference the ID and the name.
 		_.each(data, function(project) {
-			userActs.projectNames[project._id] = project.name;
+			userActs.projectNames[project._id] = {'name': project.name, 'region': project.region};
 		});
+		$scope.$apply();
 
 	});
 
