@@ -19,7 +19,7 @@ angular.module('project').factory ('MilestoneModel', function (ModelBase, _) {
 		addActivity : function (baseActivityId) {
 			var self = this;
 			return new Promise (function (resolve, reject) {
-				self.put ('/api/milestone/'+self.model._id+'/add/milestone/'+baseActivityId, {})
+				self.put ('/api/milestone/'+self.model._id+'/add/activity/'+baseActivityId, {})
 				.then (function (res) {
 					self.model = res.data;
 					self.modelIsNew = false;

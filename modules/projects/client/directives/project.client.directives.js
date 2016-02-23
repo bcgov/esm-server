@@ -82,9 +82,9 @@ function directiveModalProjectSchedule($modal) {
 // DIRECTIVE: Modal Add Activity
 //
 // -----------------------------------------------------------------------------------
-directiveModalAddActivity.$inject = ['$modal'];
+directiveModalAddActivity.$inject = ['$modal', '$rootScope'];
 /* @ngInject */
-function directiveModalAddActivity($modal) {
+function directiveModalAddActivity($modal, $rootScope) {
 	var directive = {
 		restrict:'A',
 		scope : {
@@ -102,9 +102,10 @@ function directiveModalAddActivity($modal) {
 							return scope.milestone;
 						}
 					},
-					size: 'lg'
+					size: 'sm'
 				});
-				modalAddAct.result.then(function () {
+				modalAddAct.result.then(function (data) {
+					$rootScope.$broadcast('refreshActivitiesForMilestone', {milestone: data});
 					// fetch project again.
 				}, function () {});
 			});

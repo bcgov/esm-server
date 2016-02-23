@@ -74,25 +74,31 @@ function controllerModalProjectSchedule($modalInstance, sProjectModel, sPhaseMod
 // CONTROLLER: Modal: Add Activity
 //
 // -----------------------------------------------------------------------------------
-controllerModalAddActivity.$inject = ['$modalInstance', 'MilestoneModel', '_', 'rMilestone'];
+controllerModalAddActivity.$inject = ['$modalInstance', 'MilestoneModel', 'ActivityBaseModel', '_', 'rMilestone'];
 /* @ngInject */
-function controllerModalAddActivity($modalInstance, sMilestoneModel, _, rMilestone) {
+function controllerModalAddActivity($modalInstance, sMilestoneModel, sActivityBaseModel,  _, rMilestone) {
 	var addAct = this;
 
 	addAct.milestone = rMilestone;
 
+	// set current (actual) milestone context
 	sMilestoneModel.setModel(rMilestone);
-	sMilestoneModel.addActivity();
 
-	sMilestoneModel.getCollection().then( function(data) {
-		addAct.milestones = data;
+	// get all possible base activities
+	sActivityBaseModel.getCollection().then( function(data) {
+		addAct.activities = data;
 	});
 
 	addAct.cancel = function () { $modalInstance.dismiss('cancel'); };
 	addAct.ok = function () {
-		sMilestoneModel.addActivity();
-			$modalInstance.close(data);
-		});
+		if (addAct.newBaseActivity) {
+			// add the new activity to the base model.
+			sMilestoneModel.addActivity(addAct.newBaseActivity._id).then( function(data) {
+				$modalInstance.close(data);
+			});
+		} else {
+			$modalInstance.close();
+		}
 	};
 }
 // -----------------------------------------------------------------------------------
@@ -428,27 +434,27 @@ function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel
 // CONTROLLER: Project Activities
 //
 // -----------------------------------------------------------------------------------
-controllerProjectActivities.$inject = ['$scope', 'Authentication', 'sActivity', '_', 'PhaseModel', 'MilestoneModel' ,'ActivityModel', '$cookies'];
+controllerProjectActivities.$inject = ['$scope', '$rootScope', 'Authentication', 'sActivity', '_', 'PhaseModel', 'MilestoneModel' ,'ActivityModel', '$cookies'];
 /* @ngInject */
-function controllerProjectActivities($scope, sAuthentication, sActivity, _, sPhaseModel, sMilestoneModel ,sActivityModel, $cookies) {
+function controllerProjectActivities($scope, $rootScope, sAuthentication, sActivity, _, sPhaseModel, sMilestoneModel ,sActivityModel, $cookies) {
 	var projectActs = this;
 
-	projectActs.selectedPhase = $cookies.phase;
-	projectActs.selectedMilestone = $cookies.milestone;
+	projectActs.selectedPhaseId = $cookies.phase;
+	projectActs.selectedMilestoneId = $cookies.milestone;
 
 
-	projectActs.selectPhase = function(phaseId) {
-		if (phaseId) {
-			projectActs.selectedPhase = phaseId;
-			if ($cookies.phase !== phaseId) {
-				$cookies.phase = phaseId;
+	projectActs.selectPhase = function(phase) {
+		if (phase) {
+			projectActs.selectedPhase = phase;
+			if ($cookies.phase !== phase._id) {
+				$cookies.phase = phase._id;
 				// the phase has changed, reset the structures down the chain.
 				$cookies.milestone = undefined;
 				projectActs.milestones = undefined;
 				projectActs.activities = undefined;
 				projectActs.selectedMilestone = undefined;
 			}
-			sMilestoneModel.milestonesForPhase(phaseId).then( function(data) {
+			sMilestoneModel.milestonesForPhase(phase._id).then( function(data) {
 				projectActs.milestones = data;
 				// if there is also a milestone, select that when the milestones have loaded.
 				$scope.$apply();
@@ -457,30 +463,41 @@ function controllerProjectActivities($scope, sAuthentication, sActivity, _, sPha
 	};
 
 
-	projectActs.selectMilestone = function(milestoneId) {
-		if (milestoneId) {
-			projectActs.selectedMilestone = milestoneId;
-			if ($cookies.milestone !== milestoneId) {
-				$cookies.milestone = milestoneId;
+	projectActs.selectMilestone = function(milestone) {
+		if (milestone) {
+			projectActs.selectedMilestone = milestone;
+			if ($cookies.milestone !== milestone._id) {
+				$cookies.milestone = milestone._id;
 				// the phase has changed, reset the structures down the chain.
 				projectActs.activities = undefined;
 			}
-			$cookies.milestone = milestoneId;
-			sActivityModel.activitiesForMilestone(milestoneId).then( function(data) {
+			$cookies.milestone = milestone._id;
+			sActivityModel.activitiesForMilestone(milestone._id).then( function(data) {
 				projectActs.activities = data;
 				$scope.$apply();
 			});
 		}
 	};
 
+	$rootScope.$on('refreshActivitiesForMilestone', function(event, data) {
+		console.log(data.milestone);
+		projectActs.selectMilestone(data.milestone);
+	});
 
-	// select a phase if there is one.
+
+	// wait until the list of phases loads.
+	// if one is set in the cookie, select it.
+	// this is triggered from the project load below.
 	$scope.$watch(function () {
 		return projectActs.phases;
 	},function(newValue){
-		// if there is a preset, select it.
-		if (projectActs.selectedPhase) {
-			projectActs.selectPhase( projectActs.selectedPhase );
+		// if there is a preset, find and select it.
+		if (projectActs.selectedPhaseId && newValue) {
+			_.each( newValue, function(phase) {
+				if (phase._id === projectActs.selectedPhaseId) {
+					projectActs.selectPhase( phase );
+				}
+			});
 		}
 	});
 
@@ -489,10 +506,16 @@ function controllerProjectActivities($scope, sAuthentication, sActivity, _, sPha
 	$scope.$watch(function () {
 		return projectActs.milestones;
 	},function(newValue){
+		console.log('mile', newValue);
 		// if there is a preset, select it.
-		if (projectActs.selectedMilestone) {
-			projectActs.selectMilestone( projectActs.selectedMilestone );
+		if (projectActs.selectedMilestoneId && newValue) {
+			_.each( newValue, function(milestone) {
+				if (milestone._id === projectActs.selectedMilestoneId) {
+					projectActs.selectMilestone( milestone );
+				}
+			});
 		}
+
 	});
 
 
