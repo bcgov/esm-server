@@ -19,26 +19,35 @@ module.exports = DBModel.extend ({
 	newExistingCondition : function () {
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			resolve (self.model.aaa.create () );
+			resolve (self.model.existingConditions.create () );
 		});
 	},
 	newPotentialEffect : function () {
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			resolve (self.model.aaa.create () );
+			resolve (self.model.potentialEffects.create () );
 		});
 	},
 	newMitigationMeasure : function () {
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			resolve (self.model.aaa.create () );
+			resolve (self.model.mitigationMeasures.create () );
 		});
 	},
 	newCumulativeEffect : function () {
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			resolve (self.model.aaa.create () );
+			resolve (self.model.cumulativeEffects.create () );
 		});
 	},
-
+	listForProject : function (project) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			// console.log ('project = ', project);
+			self.list ({
+				project: project._id
+			})
+			.then (resolve, reject);
+		});
+	},
 });

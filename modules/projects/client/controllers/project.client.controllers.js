@@ -73,18 +73,31 @@ function controllerModalProjectSchedule($modalInstance, sProjectModel, sPhaseMod
 // CONTROLLER: Modal: View Project VC
 //
 // -----------------------------------------------------------------------------------
-controllerProjectVC.$inject = ['rProjectVC', '_', '$modalInstance'];
+controllerProjectVC.$inject = ['$scope', 'rProjectVC', '_', '$modalInstance', 'VCModel'];
 /* @ngInject */
-function controllerProjectVC(rProjectVC, _, $modalInstance) {
-	var projectVC = this;
+function controllerProjectVC($scope, rProjectVC, _, $modalInstance, VCModel) {
+        var projectVC = this;
 
-	projectVC.roles = ['admin', 'project-team', 'working-group', 'first-nations', 'consultant'];
+        projectVC.roles = ['admin', 'project-team', 'working-group', 'first-nations', 'consultant'];
 
-	// on save, pass complete permission structure to the server
-	projectVC.ok = function () {
-		$modalInstance.close();
-	};
-	projectVC.cancel = function () { $modalInstance.dismiss('cancel'); };
+        $scope.$watch('project', function(newValue) {
+                if (newValue) {
+                        VCModel.getModel(newValue._id).then( function(data) {
+                                projectVC.project = data;
+                        });
+                }
+        });
+
+
+        VCModel.getCollection().then(function(data){
+                projectVC.valuecomponents = data;
+        });
+
+        // on save, pass complete permission structure to the server
+        projectVC.ok = function () {
+                $modalInstance.close();
+        };
+        projectVC.cancel = function () { $modalInstance.dismiss('cancel'); };
 
 }
 // -----------------------------------------------------------------------------------
