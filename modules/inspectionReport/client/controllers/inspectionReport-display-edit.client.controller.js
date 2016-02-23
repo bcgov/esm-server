@@ -48,7 +48,7 @@ angular.module('inspectionReport').controller('controllerInspectionReportDisplay
             );
         }
 
-        editIinspectionReport.submit = function() {
+        displayEdit.submit = function() {
             InspectionReportModel.saveModel(displayEdit.inspectionReport).then( function(res) {
                 console.log("======== HERE WE ARE", res);
                 // $state.go('inspectionReport.view', { inspectionReportId: res._id});

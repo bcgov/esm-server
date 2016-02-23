@@ -24,7 +24,7 @@ angular.module('inspectionReport').controller('editInspectionReportController', 
                 function(res) {
                     console.log("saved: ", res);
                     editInspectionReport.reportOpen = false;
-                    $scope.$apply();
+                    $scope.safeApply();
                 },
                 // If the ID is wrong let's go back to the list.
                 function(data) {
@@ -47,27 +47,27 @@ angular.module('inspectionReport').controller('editInspectionReportController', 
                     console.log("got one!");
                     editInspectionReport.newDetail = res;
                     editInspectionReport.addDetailOpen = true;
-                    $scope.$apply();
+                    $scope.safeApply();
                 }
             );
         };
 
         // Handles the "Save New Inspection Detail" button
         editInspectionReport.saveNewDetail = function(detail) {
-            console.log("detail is ", detail);
+            console.log("SAVE DETAIL ", detail);
             InspectionReportDetailModel.saveModel(detail).then(
                 function(res) {
-                    InspectionReportModel.model.inspectionDetails.push(detail);
-                    InspectionReportModel.saveModel().then(
+                    editInspectionReport.report.inspectionDetails.push(detail);
+                    InspectionReportModel.saveModel(editInspectionReport.report).then(
                         function(res) {
-                            console.log(res);
-                            InspectionReportModel.report = res;
+                            console.log("REPORT SAVED", res);
+                            editInspectionReport.report = res;
                             editInspectionReport.addDetailOpen = false;
                             $scope.$apply();
                         }
                     );
                 }
-            )
+            );
         };
 
         // Handles the "Remove" button on Details...
@@ -76,19 +76,21 @@ angular.module('inspectionReport').controller('editInspectionReportController', 
             InspectionReportDetailModel.delete(detail._id).then(
                 function(res) {
                     console.log("DETAIL REMOVED", res);
-                    _.remove(InspectionReportModel.model.inspectionDetails, detail);
+                    _.remove(editInspectionReport.report.inspectionDetails, detail);
                     // index = InspectionReportModel.model.inspectionDetails.indexOf(detail);
                     // InspectionReportModel.model.splice(index, 1);
-                    InspectionReportModel.saveModel().then(
+                    InspectionReportModel.saveModel(editInspectionReport.report).then(
                         function(res) {
                             console.log("REPORT SAVED", res);
-                            InspectionReportModel.report = res;
+                            editInspectionReport.report = res;
                             $scope.$apply();
                         }
                     );
                 }
-            )
+            );
         };
+
+
 
 
 

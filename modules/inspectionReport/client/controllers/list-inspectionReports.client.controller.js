@@ -38,7 +38,7 @@ angular.module('inspectionReport').controller('InspectionReportListController', 
     listInspectionReports.edit = function (report) {
       InspectionReportModel.setModel(report);
       $state.go('inspectionReport.edit');
-    }
+    };
 
   }
 ]);
