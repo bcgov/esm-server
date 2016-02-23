@@ -8,34 +8,27 @@ angular.module('control')
 // CONTROLLER: Process for Simple Complete
 //
 // -----------------------------------------------------------------------------------
-controllerProcesseStartProcess.$inject = ['$scope', '$rootScope'];
+controllerProcesseStartProcess.$inject = ['$scope', '$rootScope', 'ProjectModel'];
 	//
-function controllerProcesseStartProcess($scope, $rootScope) {
-	var processeStartProcess = this;
+function controllerProcesseStartProcess($scope, $rootScope, sProjectModel) {
+	var ctrlSetVis = this;
 
-	processeStartProcess.data = {
-		startTime: null
-	};
-
-	processeStartProcess.startProcess = function() {
-		processeStartProcess.data.startTime = Date();
-		processeStartProcess.task.status = 'Complete';
-		$rootScope.$broadcast('resolveItem', {item: processeStartProcess.itemId});			
-	};
-
-	// get the task identifier.  (ID + Process Type)
-	$scope.$watch('anchor', function(newValue) {
+	$scope.$watch('project', function(newValue) {
 		if (newValue) {
-			processeStartProcess.anchor = newValue;
+			ctrlSetVis.project = newValue;
 		}
 	});
 
-	// get the spec item
-	$scope.$watch('task', function(newValue) {
-		// get item for title
-		if (newValue) {
-			processeStartProcess.taskId = newValue._id;
-			processeStartProcess.task = newValue;
-		}
-	});
+	ctrlSetVis.togglePublic = function() {
+
+		// TO DO: modify roles instead.
+		ctrlSetVis.project.public = !ctrlSetVis.project.public;
+		sProjectModel.setModel(ctrlSetVis.project);
+		sProjectModel.saveModel().then( function(data) {
+			ctrlSetVis.project = data;
+		});
+	}
+
+
+
 }

@@ -1,5 +1,18 @@
 	<div class="panel-body">
-		<div class="checkbox">
-			<label><input type="checkbox" ng-model="ctrlSetVis.project.public">Make Project Public</label>
+		<div class="row">
+			<div class="col-sm-6 text-right">
+				<p ng-if="ctrlSetVis.project.public">Project is currently visible to the Public.</p>
+				<p ng-if="!ctrlSetVis.project.public">Project is currently not visible to the Public.</p>
+			</div>
+			<div class="col-sm-6 text-right">
+				<a href
+					class="btn btn-default"
+					ng-class="{'btn-primary': ctrlSetVis.project.public}"
+					ng-click="ctrlSetVis.togglePublic()">
+					<span ng-if="ctrlSetVis.project.public">Make Private</span>
+					<span ng-if="!ctrlSetVis.project.public">Make Public</span>
+				</a>
+			</div>
 		</div>
+
 	</div>

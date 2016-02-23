@@ -4,19 +4,21 @@
 	</div>
 	<table class="table table-condensed table-striped">
 		<thead>
-			<tr>
-				<th width="20%"><small>Project</small></th>
-				<th width="16%"><small>-1 month</small></th>
-				<th width="16%"><small>this month</small></th>
-				<th width="16%"><small>next month</small></th>
-				<th width="16%"><small>+2 months</small></th>
-				<th width="16%"><small>+3 months</small></th>
+			<tr class="small">
+				<th width="20%">Project</th>
+				<th width="10%">Phase</th>
+				<th width="14%">-1 month</th>
+				<th width="14%">this month</th>
+				<th width="14%">next month</th>
+				<th width="14%">+2 months</th>
+				<th width="14%">+3 months</th>
 			</tr>
 		</thead>
 		<tbody>
 
 			<tr ng-repeat="project in projectList.projects" class='clickable' ui-sref="project({id: project._id})">
 				<td ng-if="project.status === 'In Progress'">{{ project.name }}</td>
+				<td>{{ project.phase.name }}</td>				
 				<td ng-if="project.status === 'In Progress'" colspan="5" class="bg-warning"><!-- show schedule widget --></td>
 
 				<td ng-if="project.status === 'Certified' || project.status === 'Decomissioned'">{{ project.name }}</td>
@@ -27,7 +29,7 @@
 			</tr>
 
 			<tr ng-if="projectList.projects.length === 0">
-				<td colspan="4">No projects match your filter criteria.</td>
+				<td colspan="5">No projects match your filter criteria.</td>
 			</tr>
 		</tbody>
 	</table>
