@@ -9,7 +9,8 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__access : true,
 	__codename  : 'unique',
 	phases       : [ {type: 'ObjectId', ref:'PhaseBase'} ],
-	roles : [ { type:String} ]
+	roles : [ { type:String} ],
+	order	  : { type: Number, default:0 }
 });
 
 

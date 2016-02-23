@@ -56,6 +56,7 @@ function controllerProjectsSearch($scope, $state, Authentication, sProjectModel,
 
 	projectsSearch.performSearch = function() {
 		var query = {};
+
 		if (projectsSearch.search.type)  {
 			query.type = projectsSearch.search.type;
 		}
@@ -65,7 +66,10 @@ function controllerProjectsSearch($scope, $state, Authentication, sProjectModel,
 		if (projectsSearch.search.status)  {
 			query.status = projectsSearch.search.status;
 		}
-
+		if (projectsSearch.search.keywords) {
+			query.keywords = {'$in': projectsSearch.search.keywords.split(' ') };
+		}
+		console.log(query);
 		sProjectModel.getQuery (query).then( function(data) {
 			projectsSearch.projects = [];
 			projectsSearch.foundSet = true;
@@ -81,10 +85,15 @@ function controllerProjectsSearch($scope, $state, Authentication, sProjectModel,
 // CONTROLLER: Projects
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsList.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', '$rootScope'];
+controllerProjectsList.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC'];
 /* @ngInject */
-function controllerProjectsList($scope, $state, Authentication, sProjectModel, $rootScope) {
+function controllerProjectsList($scope, $state, Authentication, sProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC) {
 	var projectList = this;
+
+	projectList.types = PROJECT_TYPES;
+	projectList.regions = REGIONS;
+	projectList.status = PROJECT_STATUS_PUBLIC;
+
 
 	projectList.refresh = function() {
 		sProjectModel.getCollection().then( function(data) {
