@@ -15,6 +15,32 @@ mkdir modules/$PLURAL/server/controllers
 mkdir modules/$PLURAL/server/policies
 mkdir modules/$PLURAL/server/models
 mkdir modules/$PLURAL/server/routes
+mkdir modules/$PLURAL/client
+mkdir modules/$PLURAL/client/services
+
+cat > modules/$PLURAL/client/services/$NAME.model.service.js <<EOFCC
+
+'use strict';
+// =========================================================================
+//
+// this is the data model (service). This is how all data
+// is accessed through the front end
+//
+// =========================================================================
+angular.module('project').factory ('${PLURAL}Model', function (ModelBase, _) {
+	//
+	// build the project model by extending the base model. the base model will
+	// have all the basic crud stuff built in
+	//
+	var Class = ModelBase.extend ({
+		urlName : '${NAME}'
+	});
+	return new Class ();
+});
+
+
+EOFCC
+
 
 cat > modules/$PLURAL/server/controllers/$NAME.controller.js <<EOFC
 'use strict';
@@ -24,23 +50,12 @@ cat > modules/$PLURAL/server/controllers/$NAME.controller.js <<EOFC
 //
 // =========================================================================
 var path     = require('path');
-var mongoose = require ('mongoose');
-var CRUD     = require (path.resolve('./modules/core/server/controllers/core.crud.controller'));
-var Model    = mongoose.model ('$MODEL');
+var DBModel   = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var _         = require ('lodash');
 
-var crud = new CRUD (Model);
-// -------------------------------------------------------------------------
-//
-// Basic CRUD
-//
-// -------------------------------------------------------------------------
-exports.new    = crud.new    ();
-exports.create = crud.create ();
-exports.read   = crud.read   ();
-exports.update = crud.update ();
-exports.delete = crud.delete ();
-exports.list   = crud.list   ();
-exports.getObject   = crud.getObject   ();
+module.exports = DBModel.extend ({
+	name : '${MODEL}',
+});
 
 EOFC
 
@@ -51,18 +66,14 @@ cat > modules/$PLURAL/server/models/$NAME.model.js <<EOFM
 // Model for $PLURAL
 //
 // =========================================================================
-var mongoose     = require ('mongoose');
-var Schema       = mongoose.Schema;
-
-var ${MODEL}Schema  = new Schema ({
-	code        : { type:String, default:'code' },
-	name        : { type:String, default:'New $NAME' },
-	description : { type:String, default:'New $NAME' }
+module.exports = require ('../../../core/server/controllers/core.models.controller')
+.generateModel ('Activity', {
+	__audit        : true,
+	__access       : true,
+	__tracking     : true,
+	__status       : ['Not Started', 'Not Required', 'In Progress', 'Complete'],
+	__codename     : true,
 });
-
-var $MODEL = mongoose.model ('$MODEL', ${MODEL}Schema);
-
-module.exports = $MODEL;
 
 EOFM
 
@@ -73,30 +84,12 @@ cat > modules/$PLURAL/server/routes/$NAME.routes.js <<EOFR
 // Routes for $PLURAL
 //
 // =========================================================================
-var policy     = require ('../policies/$NAME.policy');
-var controller = require ('../controllers/$NAME.controller');
+var policy  = require ('../policies/$NAME.policy');
+var $MODEL  = require ('../controllers/$NAME.controller');
+var helpers = require ('../../../core/server/controllers/core.helpers.controller');
 
 module.exports = function (app) {
-	//
-	// collection routes
-	//
-	app.route ('/api/$NAME').all (policy.isAllowed)
-		.get  (controller.list)
-		.post (controller.create);
-	//
-	// model routes
-	//
-	app.route ('/api/$NAME/:${NAME}').all (policy.isAllowed)
-		.get    (controller.read)
-		.put    (controller.update)
-		.delete (controller.delete);
-	app.route ('/api/new/$NAME').all (policy.isAllowed)
-		.get (controller.new);
-	//
-	// middleware to auto-fetch parameter
-	//
-	app.param ('${NAME}', controller.getObject);
-	//app.param ('${NAME}Id', controller.getId);
+	helpers.setCRUDRoutes (app, '${NAME}', $MODEL, policy);
 };
 
 EOFR
@@ -121,4 +114,9 @@ exports.isAllowed = helpers.isAllowed (acl);
 
 EOFP
 
-./link.sh
+
+
+
+
+
+#./link.sh

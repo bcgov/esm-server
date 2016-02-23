@@ -6,17 +6,18 @@
 // =========================================================================
 module.exports = require ('../../../core/server/controllers/core.models.controller')
 .generateModel ('Project', {
-	__audit     : true,
-	__access    : true,
-	__tracking    : true,
-	__status  : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Decommissioned'],
-	__codename  : 'unique',
-	phases       : [ {type: 'ObjectId', ref:'Phase'} ],
-	type        : { type:String, default:'', index:true },
-	region      : { type:String, default:'' },     // object id
-	location    : { type:String, default:'' },
-	stream      : { type:'ObjectId', ref:'Stream'     , index:true, default:null },
-	proponent   : { type:'ObjectId', ref:'Entity'     , index:true, default:null },
+	__audit               : true,
+	__access              : true,
+	__tracking            : true,
+	__status              : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Decommissioned'],
+	__codename            : 'unique',
+	phases                : [ {type: 'ObjectId', ref:'Phase'} ],
+	type                  : { type:String, default:'', index:true },
+	region                : { type:String, default:'' },     // object id
+	location              : { type:String, default:'' },
+	stream                : { type:'ObjectId', ref:'Stream'     , index:true, default:null },
+	proponent             : { type:'ObjectId', ref:'Entity'     , index:true, default:null },
+	substitution : { type:Boolean, default:false },
 	//
 	// location is a free form string entry
 	//
