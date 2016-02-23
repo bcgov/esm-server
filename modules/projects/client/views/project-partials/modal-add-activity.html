@@ -1,0 +1,172 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{ projectEntry.title }}</h3>
+</div>
+
+<div class="modal-body">
+
+	<ul class="nav nav-pills nav-justified" ng-init="projectEntry.form.curTab = 'Project Information'">
+		<li ng-class="{'active':projectEntry.form.curTab === 'Project Information'}"><a href ng-click="projectEntry.form.curTab = 'Project Information'">Project Information</a></li>
+		<li ng-class="{'active':projectEntry.form.curTab === 'Proponent'}"><a href ng-click="projectEntry.form.curTab = 'Proponent'">Proponent</a></li>
+		<li ng-class="{'active':projectEntry.form.curTab === 'Intake Profile'}"><a href ng-click="projectEntry.form.curTab = 'Intake Profile'">Intake Profile</a></li>
+	</ul>
+	<hr/>
+	<div ng-if="projectEntry.form.curTab === 'Project Information'">
+
+
+
+
+		<div class="row">
+			<div class="col-sm-9">
+				<div class="form-group">
+					<label for="title" class="control-label">Project Name</label>
+					<input id="title" type="text" class="form-control input-sm" ng-model="projectEntry.project.name">
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="code" class="control-label">Project Code</label>
+					<input id="code" type="text" class="form-control input-sm" ng-model="projectEntry.project.code">
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label for="shortDesc" class="control-label">Short Description</label>
+					<textarea ui-tinymce id="shortDesc" type="text" class="form-control input-sm" ng-model="projectEntry.project.description" rows=6></textarea>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="type" class="control-label">Type</label>
+					<select id="type" ng-model='projectEntry.project.type' class="form-control input-sm" ng-options="type as type for type in projectEntry.types"></select>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="build" class="control-label">Project Nature</label>
+					<select id="build" ng-model='projectEntry.project.build' class="form-control input-sm">
+						<option value="new">New Construction</option>
+						<option value="modification">Modification of Existing</option>
+						<option value="dismantling">Dismantling or Abandonment</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+
+		<hr/>
+
+
+		<div class="row">
+			<div class="col-sm-8">
+				<div class="form-group">
+					<label for="location" class="control-label">Location Description</label>
+					<input id="location" type="text" class="form-control input-sm" ng-model="projectEntry.project.location">
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="region" class="control-label">Region</label>
+					<select if="region" ng-model='projectEntry.project.region' class="form-control input-sm" ng-options="key as value for (key, value) in projectEntry.regions"></select>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="latitude" class="control-label">Latitude</label>
+					<input id="latitude" type="text" class="form-control input-sm" ng-model="projectEntry.project.lat">
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="longitude" class="control-label">Longitude</label>
+					<input id="longitude" type="text" class="form-control input-sm" ng-model="projectEntry.project.lon">
+				</div>
+			</div>
+		</div>
+
+
+		<hr/>
+
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" ng-model="projectEntry.project.isTermsAgreed">
+						I agree to the terms and conditions.
+					</label>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div ng-if="projectEntry.form.curTab === 'Proponent'">
+		<tmpl-company-entry-form x-project="projectEntry.project"></tmpl-company-entry-form>
+		<tmpl-user-entry-form x-project="projectEntry.project"></tmpl-user-entry-form>
+	</div>
+
+	<div ng-if="projectEntry.form.curTab === 'Intake Profile'">
+		<div ng-repeat="question in projectEntry.questions">
+
+			<div class="form-group row" ng-if="question.type === 'smalltext'">
+				<div class="col-xs-8">
+					<p>{{ question.content }}</p>
+				</div>
+				<div class="col-xs-4">
+					<input class="form-control input-sm" ng-model="projectEntry.project.intake[question.code]"/>
+				</div>
+			</div>
+
+
+			<div class="form-group" ng-if="question.type === 'text'">
+				<p>{{ question.content }}</p>
+				<textarea ng-if="question.type === 'text'" class="form-control input-sm" ng-model="projectEntry.project.intake[question.code]" rows=4></textarea>
+			</div>
+
+
+			<div class="form-group row" ng-if="question.type === 'dropdown'">
+				<div class="col-xs-8">
+					<p>{{ question.content }}</p>
+				</div>
+				<div class="col-xs-4">
+					<select ng-if="question.type === 'dropdown'" class="form-control input-sm" ng-model="projectEntry.project.intake[question.code]" ng-options="opt for opt in question.options"></select>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+	<div ng-if="projectEntry.form.curTab === 'Accepted'">
+		<h3>Project Submission Accepted</h3>
+		<p>Thank you.</p>
+		<p>Your project submission has been sent to EAO and is waiting to be received.</p>
+		<p>You will be contacted shortly regarding the next steps.</p>
+	</div>
+
+</div> <!-- /modalbody -->
+
+
+<div class="modal-footer">
+	<div class="pull-left" ng-if="projectEntry.project.dateUpdated">
+		<div class="form-control-static">{{ projectEntry.project.dateUpdated | amDateFormat:'MMM Do, YYYY hh:mm a' }}</div>
+	</div>
+	<div>
+		<a class="btn btn-default" href ng-click="projectEntry.cancel()">Cancel</a>
+		<a class="btn btn-default" href ng-click="projectEntry.saveProject()">Save</a>
+		<a class="btn btn-success" href ng-click="projectEntry.submitProject()" ng-if="projectEntry.project.status === 'Initiated'">Submit Project</a>
+		<a class="btn btn-primary" href ng-show="projectEntry.form.curTab === 'Project Information'" ng-click="projectEntry.form.curTab = 'Proponent'">Next</a>
+		<a class="btn btn-primary" href ng-show="projectEntry.form.curTab === 'Proponent'" ng-click="projectEntry.form.curTab = 'Intake Profile'">Next</a>
+	</div>
+</div>
+

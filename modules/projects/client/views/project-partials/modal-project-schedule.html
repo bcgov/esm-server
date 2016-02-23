@@ -18,10 +18,10 @@
 		<tr ng-repeat="phase in projSched.phases track by $index">
 			<td><p class="form-control-static">{{ phase.name }}</p></td>
 			<td class='text-center'>
-				<p class="form-control-static">{{ phase.dateStartEst | amDateFormat:'MMM Do YYYY' || '- tbd -' }} <a x-modal-date-picker x-selected-date="phase.dateStartEst" ng-if="!phase.dateStart">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
+				<p class="form-control-static">{{ phase.dateStartEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="phase.dateStartEst" ng-if="!phase.dateStart">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
 			</td>
 			<td class='text-center'>
-				<p class="form-control-static">{{ phase.dateEndEst | amDateFormat:'MMM Do YYYY' || '- tbd -' }} <a x-modal-date-picker x-selected-date="phase.dateEndEst" ng-if="!phase.dateEnd">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
+				<p class="form-control-static">{{ phase.dateEndEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="phase.dateEndEst" ng-if="!phase.dateEnd">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
 			</div>
 			<td class='text-center'><p class="form-control-static">{{ phase.dateStart | amDateFormat:'MMM Do YYYY' }}</p></td>
 			<td class='text-center'><p class="form-control-static">{{ phase.dateEnd | amDateFormat:'MMM Do YYYY' }}</p></td>
@@ -33,6 +33,9 @@
 	
 	</tbody>
 </table>
+
+<div class="form-group">
+</div>
 
 
 <div class="modal-footer">

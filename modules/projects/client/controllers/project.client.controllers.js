@@ -4,6 +4,7 @@ angular.module('project')
 	// General
 	.controller('controllerProject', controllerProject)
 	.controller('controllerModalProjectSchedule', controllerModalProjectSchedule)
+	.controller('controllerModalAddActivity', controllerModalAddActivity)	
 	.controller('controllerProjectVC', controllerProjectVC)
 	.controller('controllerProjectVCEntry', controllerProjectVCEntry)
 	.controller('controllerProjectTombstone', controllerProjectTombstone)
@@ -64,6 +65,32 @@ function controllerModalProjectSchedule($modalInstance, sProjectModel, sPhaseMod
 	projSched.cancel = function () { $modalInstance.dismiss('cancel'); };
 	projSched.ok = function () {
 		sProjectModel.saveCopy().then( function(data) {
+			$modalInstance.close(data);
+		});
+	};
+}
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Modal: Add Activity
+//
+// -----------------------------------------------------------------------------------
+controllerModalAddActivity.$inject = ['$modalInstance', 'MilestoneModel', '_', 'rMilestone'];
+/* @ngInject */
+function controllerModalAddActivity($modalInstance, sMilestoneModel, _, rMilestone) {
+	var addAct = this;
+
+	addAct.milestone = rMilestone;
+
+	sMilestoneModel.setModel(rMilestone);
+	sMilestoneModel.addActivity();
+
+	sMilestoneModel.getCollection().then( function(data) {
+		addAct.milestones = data;
+	});
+
+	addAct.cancel = function () { $modalInstance.dismiss('cancel'); };
+	addAct.ok = function () {
+		sMilestoneModel.addActivity();
 			$modalInstance.close(data);
 		});
 	};

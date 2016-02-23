@@ -27,7 +27,11 @@
 			
 			</div>
 			<div class="col-sm-4">
-
+                        <a href
+                            class="control-label pull-right"
+                            x-modal-add-activity
+                            x-milestones="projectActs.selectedMilestone"
+                            ng-if="projectActs.selectedMilestone">Add Activity</a>
 				<label class="control-label">Activities</label>
 				<ul class="list-unstyled task-list">
 					<li ng-repeat="activity in projectActs.activities">
