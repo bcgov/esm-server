@@ -1,4 +1,5 @@
 <div class="modal-header">
+<div class="modal-header">
 	<h3 class="modal-title">{{ projectEntry.title }}</h3>
 </div>
 
@@ -10,7 +11,7 @@
 		<li ng-class="{'active':projectEntry.form.curTab === 'Intake Profile'}"><a href ng-click="projectEntry.form.curTab = 'Intake Profile'">Intake Profile</a></li>
 	</ul>
 	<hr/>
-	<div ng-if="projectEntry.form.curTab === 'Project Information'">
+	<div ng-show="projectEntry.form.curTab === 'Project Information'">
 
 
 
@@ -110,12 +111,12 @@
 		</div>
 	</div>
 
-	<div ng-if="projectEntry.form.curTab === 'Proponent'">
-		<tmpl-company-entry-form x-project="projectEntry.project"></tmpl-company-entry-form>
+	<div ng-show="projectEntry.form.curTab === 'Proponent'">
+		<tmpl-company-entry-form x-company="projectEntry.project.proponent"></tmpl-company-entry-form>
 		<tmpl-user-entry-form x-project="projectEntry.project"></tmpl-user-entry-form>
 	</div>
 
-	<div ng-if="projectEntry.form.curTab === 'Intake Profile'">
+	<div ng-show="projectEntry.form.curTab === 'Intake Profile'">
 		<div ng-repeat="question in projectEntry.questions">
 
 			<div class="form-group row" ng-if="question.type === 'smalltext'">

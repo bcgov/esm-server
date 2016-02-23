@@ -37,9 +37,7 @@ function directiveCompanyEntryForm() {
 		controller: 'controllerCompanyEntryForm',
 		controllerAs: 'uco',
 		scope: {
-			project: '=',
-			company: '=',
-			user: '='
+			company: '='
 		}
 	};
 	return directive;
@@ -52,7 +50,7 @@ function directiveCompanyEntryForm() {
 directiveUserEntryForm.$inject = [];
 /* @ngInject */
 function directiveUserEntryForm() {
-	
+
 	var directive = {
 		restrict: 'E',
 		templateUrl: 'modules/users/client/views/user-partials/user-user.html',

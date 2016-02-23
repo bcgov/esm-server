@@ -14,7 +14,7 @@ var _           = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Project',
-	// populate: 'phases',
+	populate: 'proponent',
 	preprocessAdd : function (project) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
