@@ -265,7 +265,7 @@ exports.isAllowed = function (acl, dbg) {
 // -------------------------------------------------------------------------
 exports.setCRUDRoutes = function (app, basename, DBClass, policy, which) {
   var r = {};
-  which = which || ['getall', 'get', 'post', 'put', 'delete', 'new'];
+  which = which || ['getall', 'get', 'post', 'put', 'delete', 'new', 'query'];
   which.map (function (p) { r[p]=true; });
   //
   // middleware to auto-fetch parameter
@@ -285,7 +285,12 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which) {
   //
   // collection routes
   //
-
+  if (r.query) app.route ('/api/query/'+basename).all (policy.isAllowed)
+    .put (function (req, res) {
+      var o = new DBClass (req.user);
+      o.list (req.data)
+      then (success(res), failure(res));
+    });
   if (r.getall) app.route ('/api/'+basename).all (policy.isAllowed)
     .get  (function (req, res) {
       var o = new DBClass (req.user);
@@ -347,6 +352,7 @@ exports.setCRUDPermissions = function (acl, base) {
     '/api/'+base+'/:'+base,
     '/api/new/'+base,
     '/api/write/'+base
+    '/api/query/'+base
     ],
     '*'
   );
