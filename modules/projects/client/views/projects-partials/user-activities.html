@@ -25,31 +25,32 @@
 				</div>
 			</div>
 
-			<div class='panel-body'>
-				
 
-				<div class="row">
-					<div class="col-xs-12 col-sm-6 col-md-4" ng-repeat="activity in acts = (userActs.activities | filter:{ 'project': userActs.filter } | filter: userActs.search)">
-						<a href class="thumbnail bg-info" ui-sref="activity({project: activity.project, activity: activity._id})">
-							<small>{{ userActs.projectNames[activity.project].name }}</small><br/>
-							{{ activity.name }}
-						</a>
-					</div>
+			<table class="table table-condensed table-striped">
+				<thead>
+					<tr class="small">
+						<th width="20%">Project</th>
+						<th>Activity</th>
+					</tr>
+				</thead>
+				<tbody>
 
-					<div class="col-xs-12" ng-if="!userActs.activities || userActs.activities.length === 0">
-						You have no activities.
-					</div>
-					<div class="col-xs-12" ng-if="userActs.activities && userActs.activities.length !== 0 && acts.length === 0">
-						No activities match your search criteria.
-					</div>
+					<tr ng-repeat="activity in acts = (userActs.activities | filter:{ 'project': userActs.filter } | filter: userActs.search) | orderBy:'order'" ui-sref="activity({project: activity.project, activity: activity._id})" class="clickable">
+						<td>{{ userActs.projectNames[activity.project].name }}</td>
+						<td>{{ activity.name }}</td>
+					</tr>
 
-				</div>
+					<tr ng-if="!userActs.activities || userActs.activities.length === 0">
+						<td colspan="2">You have no activities.</td>
+					</tr>
+					<tr ng-if="userActs.activities && userActs.activities.length !== 0 && acts.length === 0">
+						<td colspan="2">No activities match your search criteria.</td>
+					</tr>
 
-
-			</div>
-
-
+				</tbody>
+			</table>
 		</section>
+
 		
 	</div> <!-- /col10 -->
 	<div class='col-sm-2'>

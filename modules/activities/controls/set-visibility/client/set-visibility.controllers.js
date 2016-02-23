@@ -27,7 +27,7 @@ function controllerProcesseStartProcess($scope, $rootScope, sProjectModel) {
 		sProjectModel.saveModel().then( function(data) {
 			ctrlSetVis.project = data;
 		});
-	}
+	};
 
 
 
