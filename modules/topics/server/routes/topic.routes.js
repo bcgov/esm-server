@@ -42,4 +42,10 @@ module.exports = function (app) {
 			var vc = new VC (req.user);
 			vc.newCumulativeEffect ().then (helpers.success(res), helpers.failure(res));
 		});
+	app.route ('/api/valuedcomponent/list/:project').all (policy.isAllowed)
+		.get (function (req,res) {
+			var vc = new VC (req.user);
+			vc.listForProject (req.Project)
+			.then (helpers.success(res), helpers.failure(res));
+		});
 };

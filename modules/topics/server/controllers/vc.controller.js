@@ -40,5 +40,14 @@ module.exports = DBModel.extend ({
 			resolve (self.model.cumulativeEffects.create () );
 		});
 	},
-
+	listForProject : function (project) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			// console.log ('project = ', project);
+			self.list ({
+				project: project._id
+			})
+			.then (resolve, reject);
+		});
+	},
 });
