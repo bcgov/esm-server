@@ -22,6 +22,7 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 	var docLink = this;
 	docLink.linkFiles = [];
 	docLink.project = null;
+	docLink.current = [];
 
 	$scope.ids = [];
 
@@ -37,10 +38,16 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 		// console.log("Files Array:",docLink.linkFiles);
 	};
 
+	$scope.$watch('current', function(newValue) {
+		// Bring in existing values.
+		docLink.current = newValue;
+	});
+
 	$scope.$watch('project', function(newValue) {
 		if (newValue) {
 			docLink.project = newValue;
 			// console.log("project:",docLink.project);
+			// TODO: Format in a nice list.
 			Document.getProjectDocuments(docLink.project._id,false).then( function(res) {
 				$scope.documents = res.data;
 				// console.log("res:",res.data);
@@ -50,7 +57,12 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 
 	$scope.$on('documentLinkDone', function() {
 		// This is an array of objectID's that the user decided to link
-		console.log("documentLinkDone",docLink.linkFiles);
+		// console.log("documentLinkDone",docLink.linkFiles);
+		// Set the new array before we return back to the caller
+		for (var i=0;i<docLink.linkFiles.length; i++) {
+			// console.log("Document to link:",docLink.linkFiles[i]);
+			docLink.current.push(docLink.linkFiles[i]);
+		}
 	});
 }
 // -----------------------------------------------------------------------------------
@@ -326,16 +338,17 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication)
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentLink.$inject = ['$modalInstance', '$scope', 'rProject'];
+controllerModalDocumentLink.$inject = ['$modalInstance', '$scope', 'rProject', 'rCurrent'];
 /* @ngInject */
-function controllerModalDocumentLink($modalInstance, $scope, rProject) {
+function controllerModalDocumentLink($modalInstance, $scope, rProject, rCurrent) {
 	var docLink = this;
 	docLink.linkFiles = [];
 	docLink.project = rProject;
+	docLink.current = rCurrent;
 
 	docLink.ok = function () {
 		$scope.$broadcast('documentLinkDone');
-		$modalInstance.close();
+		$modalInstance.close(docLink.current);
 	};
 	docLink.cancel = function () {
 		$modalInstance.dismiss('cancel');
