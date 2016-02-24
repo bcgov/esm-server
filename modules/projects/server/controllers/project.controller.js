@@ -165,6 +165,21 @@ module.exports = DBModel.extend ({
 			.then (resolve, reject);
 		});
 	},
+	// -------------------------------------------------------------------------
+	//
+	// set current phase
+	//
+	// -------------------------------------------------------------------------
+	setPhase : function (project, phase) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			project.currentPhase = phase;
+			console.log('setcurrentphase', project, phase);
+			self.saveAndReturn(project)
+			.then (resolve, reject);
+		});
+	},
+
 	getIntakeQuestions: function (project) {
 		var self = this;
 		return new Promise (function (resolve, reject) {

@@ -49,6 +49,31 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 				});
 			});
 		},
+		// -------------------------------------------------------------------------
+		//
+		// set the current phase
+		//
+		// -------------------------------------------------------------------------
+		setPhase : function (phaseId) {
+			// TODO: set project current phase to the new phase id.
+			// return updated project.
+			var self = this;
+			return new Promise (function (resolve, reject) {
+				self.put ('/api/project/'+self.model._id+'/set/phase/'+phaseId, {})
+				.then (function (res) {
+					self.model = res.data;
+					self.modelIsNew = false;
+					resolve (res.data);
+				}).catch (function (res) {
+					reject (res.data);
+				});
+			});			
+		},
+		// -------------------------------------------------------------------------
+		//
+		// intake questions
+		//
+		// -------------------------------------------------------------------------
 		getProjectIntakeQuestions: function () {
 			return [
 				{

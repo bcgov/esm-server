@@ -65,11 +65,21 @@ function controllerModalProjectSchedule($modalInstance, sProjectModel, sPhaseMod
 
 	projSched.cancel = function () { $modalInstance.dismiss('cancel'); };
 	projSched.ok = function () {
-		sProjectModel.saveCopy().then( function(data) {
-			$modalInstance.close(data);
-		}).catch( function(err) {
-			$modalInstance.dismiss('cancel');
-		});
+
+		console.log(projSched.newPhase);
+
+		if (projSched.newPhase) {
+			console.log('setphase');
+			sProjectModel.setPhase( projSched.newPhase._id ).then( function(data) {
+				$modalInstance.close(data);
+				console.log('closed');
+
+			}).catch( function(err) {
+				$modalInstance.dismiss('cancel');
+			});
+		} else {
+			$modalInstance.close();
+		}
 	};
 }
 // -----------------------------------------------------------------------------------

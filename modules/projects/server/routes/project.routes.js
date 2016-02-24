@@ -32,6 +32,16 @@ module.exports = function (app) {
 			.then (helpers.success(res), helpers.failure(res));
 		});
 	//
+	// set current phase
+	//
+	app.route ('/api/project/:project/set/phase/:phase')
+		.all (policy.isAllowed)
+		.put (function (req,res) {
+			var p = new Project (req.user);
+			p.setPhase (req.Project, req.Phase)
+			.then (helpers.success(res), helpers.failure(res));
+		});		
+	//
 	// get all projects in certain statuses
 	//
 	app.route ('/api/projects/with/status/:statustoken')
