@@ -52,7 +52,7 @@ function controllerProjectDescriptionEdit ($scope, $state, sAuthentication, _, s
 			console.log('saved');
 		});
 
-	}
+	};
 
 }
 
