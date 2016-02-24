@@ -142,6 +142,14 @@ var addRoles = function (pObject) {
 		self[i] = _.uniq (self[i].concat (p));
 	});
 };
+var removeRoles = function (pObject) {
+	var self = this;
+	_.each (pObject, function (p, i) {
+		_.remove (self[i], function (val) {
+			return _.indexOf (p, val) !== -1;
+		});
+	});
+};
 
 // -------------------------------------------------------------------------
 //
@@ -153,7 +161,7 @@ var addRoles = function (pObject) {
 // __access : add the ACL functionality
 //
 // -------------------------------------------------------------------------
-var generateSchema = function (definition) {
+var generateSchema = function (definition, indexes) {
 	var audit = definition.__audit || false;
 	var access = definition.__access || false;
 	var tracking = definition.__tracking || false;
@@ -196,6 +204,15 @@ var generateSchema = function (definition) {
 		schema.methods.mergeRoles        = mergeRoles;
 		schema.methods.addRoles          = addRoles;
 		schema.methods.roleSet           = roleSet;
+		schema.index ({read:1});
+		schema.index ({write:1});
+		schema.index ({submit:1});
+		schema.index ({watch:1});
+	}
+	if (indexes && _.isArray(indexes)) {
+		_.each (indexes, function (ind) {
+			schema.index (ind);
+		});
 	}
 	return schema;
 };
@@ -205,8 +222,8 @@ var generateSchema = function (definition) {
 // to making the model itself
 //
 // -------------------------------------------------------------------------
-var generateModel = function (name, definition) {
-	return mongoose.model (name, generateSchema (definition));
+var generateModel = function (name, definition, indexes) {
+	return mongoose.model (name, generateSchema (definition, indexes));
 };
 
 module.exports = {

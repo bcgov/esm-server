@@ -28,6 +28,12 @@
 				ng-if="('project'| shouldDisplayPanel:'stream':proj.project.status)">
 			</tmpl-project-stream-select>
 
+			<tmpl-project-description-read
+				class="anchor-section"
+				id="anchor-description"
+				x-project="proj.project">
+			</tmpl-project-description-read>
+
 			<tmpl-public-comment-display
 				class="anchor-section"
 				id="anchor-publiccomments"
@@ -48,7 +54,7 @@
 				x-project="proj.project"
 				ng-if="('project'| shouldDisplayPanel:'documents':proj.project.status)">
 			</tmpl-documents-browser>
-			
+
 			<tmpl-documents-approvals
 				class="anchor-section"
 				id="anchor-document-approvals"
@@ -76,7 +82,7 @@
 			</tmpl-project-research>
 
 		</section>
-		
+
 	</div> <!-- /col9 -->
 	<div class='col-sm-2'>
 		<tmpl-system-menu x-menu-context="project" x-project="proj.project"></tmpl-system-menu>

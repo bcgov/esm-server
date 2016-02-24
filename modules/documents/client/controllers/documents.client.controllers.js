@@ -2,13 +2,69 @@
 
 angular.module('documents')
     .controller('controllerDocumentUploadGlobal', controllerDocumentUploadGlobal)
+    .controller('controllerDocumentLinkGlobal', controllerDocumentLinkGlobal)
     .controller('controllerDocumentList', controllerDocumentList)
     .controller('controllerDocumentBrowser', controllerDocumentBrowser)
 	.controller('controllerModalDocumentViewer', controllerModalDocumentViewer)
 	.controller('controllerModalDocumentUploadClassify', controllerModalDocumentUploadClassify)
+	.controller('controllerModalDocumentLink', controllerModalDocumentLink)
 	.controller('controllerModalDocumentUploadReview', controllerModalDocumentUploadReview)
 	.filter('removeExtension', filterRemoveExtension);
 
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Document Upload General
+//
+// -----------------------------------------------------------------------------------
+controllerDocumentLinkGlobal.$inject = ['$scope', 'Upload', '$timeout', 'Document', '_'];
+/* @ngInject */
+function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
+	var docLink = this;
+	docLink.linkFiles = [];
+	docLink.project = null;
+	docLink.current = [];
+
+	$scope.ids = [];
+
+	$scope.changeItem = function (docObj) {
+		// console.log("changeItem",docObj);
+		var idx = docLink.linkFiles.indexOf(docObj._id);
+		// console.log("idx:",idx);
+		if (idx === -1) {
+			docLink.linkFiles.push(docObj._id);
+		} else {
+			docLink.linkFiles.splice(idx, 1);
+		}
+		// console.log("Files Array:",docLink.linkFiles);
+	};
+
+	$scope.$watch('current', function(newValue) {
+		// Bring in existing values.
+		docLink.current = newValue;
+	});
+
+	$scope.$watch('project', function(newValue) {
+		if (newValue) {
+			docLink.project = newValue;
+			// console.log("project:",docLink.project);
+			// TODO: Format in a nice list.
+			Document.getProjectDocuments(docLink.project._id,false).then( function(res) {
+				$scope.documents = res.data;
+				// console.log("res:",res.data);
+			});
+		}
+	});
+
+	$scope.$on('documentLinkDone', function() {
+		// This is an array of objectID's that the user decided to link
+		// console.log("documentLinkDone",docLink.linkFiles);
+		// Set the new array before we return back to the caller
+		for (var i=0;i<docLink.linkFiles.length; i++) {
+			// console.log("Document to link:",docLink.linkFiles[i]);
+			docLink.current.push(docLink.linkFiles[i]);
+		}
+	});
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Document Upload General
@@ -275,6 +331,27 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication)
 		Document.deleteDocument(doc._id).then( function(res) {
 			$rootScope.$broadcast('refreshDocumentList');
 		});
+	};
+}
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Modal: View Documents Comment
+//
+// -----------------------------------------------------------------------------------
+controllerModalDocumentLink.$inject = ['$modalInstance', '$scope', 'rProject', 'rCurrent'];
+/* @ngInject */
+function controllerModalDocumentLink($modalInstance, $scope, rProject, rCurrent) {
+	var docLink = this;
+	docLink.linkFiles = [];
+	docLink.project = rProject;
+	docLink.current = rCurrent;
+
+	docLink.ok = function () {
+		$scope.$broadcast('documentLinkDone');
+		$modalInstance.close(docLink.current);
+	};
+	docLink.cancel = function () {
+		$modalInstance.dismiss('cancel');
 	};
 }
 // -----------------------------------------------------------------------------------

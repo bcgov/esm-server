@@ -87,5 +87,21 @@ angular
 			{'code':'project:wg','name':'Working Group'},
 			{'code':'project:proponent','name':'Proponent'}
 		]
+	)
+	.constant('PROJECT_STATUS', 
+		{
+			'initiated' : 'Initiated',
+			'submitted' : 'Submitted',
+			'inprogress' : 'In Progress',
+			'certified' : 'Certified',
+			'decommissioned' : 'Decommissioned'
+		}
+	)
+	.constant('PROJECT_STATUS_PUBLIC', 
+		{
+			'inprogress' : 'In Progress',
+			'certified' : 'Certified',
+			'decommissioned' : 'Decommissioned'
+		}
 	)	
 	.value('ProcessCodes', []);

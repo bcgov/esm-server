@@ -12,17 +12,12 @@
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-lg-12">
-				<tmpl-projects-map id="anchor-map" x-projects='projects.projects'></tmpl-projects-map>
-			</div>
-		</div>
+		<tmpl-projects-map id="anchor-map" x-projects='projects.projects'></tmpl-projects-map>
 
-		<div class="row">		
-			<div class="col-lg-12">
-				<tmpl-projects-schedule id="anchor-schedule" x-projects='projects.projects'></tmpl-projects-schedule>
-			</div>
-		</div>
+		<tmpl-projects-search id="anchor-search"></tmpl-projects-search>
+
+		<tmpl-projects-schedule id="anchor-schedule" x-projects='projects.projects'></tmpl-projects-schedule>
+
 
 		<div x-window-height>
 			<tmpl-recent-activity id="anchor-recent"></tmpl-recent-activity>

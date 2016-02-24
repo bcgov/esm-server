@@ -4,16 +4,18 @@
         <div class="col-sm-7">
             <table class="table table-condensed table-striped table-hover">
                 <thead class="small">
-                    <th width="50%">Code</th>
+                    <th width="40%">Code</th>
                     <th width="50%">Name</th>
+                    <th width="10%" class="text-center">Order</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="milestone in configDataElement.data.milestones | orderBy:'name'" ng-click='configDataElement.editRecord(milestone)' class="clickable">
+                    <tr ng-repeat="milestone in configDataElement.data.milestones | orderBy:'order'" ng-click='configDataElement.editRecord(milestone)' class="clickable">
                         <td>{{ milestone.code }}</td>
                         <td>{{ milestone.name }}</td>
+                        <td class="text-center">{{ milestone.order }}</td>
                     </tr>
                     <tr ng-if="configDataElement.data.milestones.length === 0">
-                        <td colspan="2">No milestones defined.</td>
+                        <td colspan="3">No milestones defined.</td>
                     </tr>
                 </tbody>
             </table>
@@ -36,6 +38,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label class="control-label">Order</label>
+                        <input class="form-control" type="number" ng-model="configDataElement.activeRecord.order">
+                    </div>
+
+                    <div class="form-group">
                         <a href
                             class="control-label pull-right"
                             x-modal-select-items
@@ -49,7 +56,7 @@
 
                         <ul class="list-unstyled well well-sm">
                             <li ng-show="configDataElement.activeRecord.activities.length === 0">No Activities selected</li>
-                            <li ng-repeat="activity in configDataElement.activeRecord.activities track by $index"><em class="small text-success">activity:</em>&nbsp;{{ activity.name }}</li>
+                            <li ng-repeat="activity in configDataElement.activeRecord.activities | orderBy:'order' track by $index"><em class="small text-success">activity:</em>&nbsp;{{ activity.name }}</li>
                         </ul>
 
                     </div>

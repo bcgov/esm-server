@@ -14,6 +14,8 @@ exports.invokeRolesPolicies = function () {
 	helpers.setPathPermissions (acl, [
 		// [ '', 'user', '/api/projects/with/status/:statustoken'      ],
 		// [ '', 'user', '/api/project/:project/add/phase/:phasebase'  ],
+		[ '', 'user', '/api/project/:project/publish'    ],
+		[ '', 'user', '/api/project/:project/unpublish'    ],
 		[ '', 'user', '/api/project/:project/set/stream/:stream'    ]
 	]);
 };

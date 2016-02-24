@@ -11,11 +11,11 @@ angular.module('process')
 controllerProcessFederalSub.$inject = ['$scope'];
 //
 function controllerProcessFederalSub($scope) {
-	var processFederalSub = this;
+	var processFedSub = this;
 	
 	$scope.$watch('project', function(newValue) {
 		if (newValue) {
-			processFederalSub.project = newValue;
+			processFedSub.project = newValue;
 		}
 	});
 }

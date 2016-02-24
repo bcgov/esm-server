@@ -4,6 +4,7 @@ angular.module('projects')
 	// General
 	.controller('controllerProjects', controllerProjects)
 	.controller('controllerProjectsList', controllerProjectsList)
+	.controller('controllerProjectsSearch', controllerProjectsSearch)
 	.controller('controllerUserActivities', controllerUserActivities);
 
 // -----------------------------------------------------------------------------------
@@ -11,14 +12,30 @@ angular.module('projects')
 // CONTROLLER: Public Projects Main
 //
 // -----------------------------------------------------------------------------------
-controllerProjects.$inject = ['$state', 'ProjectModel', 'PROJECT_TYPES', 'Authentication'];
+controllerProjects.$inject = ['$scope', '$state', '$rootScope', 'ProjectModel', 'PROJECT_TYPES', 'Authentication'];
 /* @ngInject */
-function controllerProjects($state, ProjectModel, PROJECT_TYPES, Authentication) {
+function controllerProjects($scope, $state, $rootScope, sProjectModel, PROJECT_TYPES, Authentication) {
 	var projects = this;
 
 	projects.types = PROJECT_TYPES;
 
 	projects.authentication = Authentication;
+
+	projects.refresh = function() {
+		sProjectModel.getCollection().then( function(data) {
+			projects.projects = data;
+			$scope.$apply ();
+		}).catch( function(err) {
+			$scope.error = err;
+		});
+	};
+
+	$rootScope.$on('refreshProjectsList', function() {
+		projects.refresh();
+	});
+
+	projects.refresh();
+
 
 	// sorting
 	projects.panelSort = [
@@ -34,26 +51,74 @@ function controllerProjects($state, ProjectModel, PROJECT_TYPES, Authentication)
 // CONTROLLER: Projects
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsList.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', '$rootScope'];
+controllerProjectsSearch.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC', 'PhaseBaseModel'];
 /* @ngInject */
-function controllerProjectsList($scope, $state, Authentication, sProjectModel, $rootScope) {
-	var projectList = this;
+function controllerProjectsSearch($scope, $state, Authentication, sProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC, sPhaseBaseModel) {
+	var projectsSearch = this;
 
-	projectList.refresh = function() {
-		sProjectModel.getCollection().then( function(data) {
-			projectList.projects = data;
-			$scope.$apply ();
+	sPhaseBaseModel.getCollection().then( function(data) {
+		projectsSearch.phases = data;
+	});
+	projectsSearch.types = PROJECT_TYPES;
+	projectsSearch.regions = REGIONS;
+	projectsSearch.status = PROJECT_STATUS_PUBLIC;
+
+	projectsSearch.foundSet = false;
+	projectsSearch.projects = [];
+
+	projectsSearch.resetSearch = function() {
+		projectsSearch.search = undefined;
+		projectsSearch.foundSet = false;
+	};
+
+	projectsSearch.performSearch = function() {
+		var query = {};
+
+		if (projectsSearch.search.type)  {
+			query.type = projectsSearch.search.type;
+		}
+		if (projectsSearch.search.region)  {
+			query.region = projectsSearch.search.region;
+		}
+		if (projectsSearch.search.status)  {
+			query.status = projectsSearch.search.status;
+		}
+		if (projectsSearch.search.keywords) {
+			query.keywords = {'$in': projectsSearch.search.keywords.split(' ') };
+		}
+		console.log(query);
+		sProjectModel.getQuery (query).then( function(data) {
+			projectsSearch.projects = [];
+			projectsSearch.foundSet = true;
 		}).catch( function(err) {
-			$scope.error = err;
+			projectsSearch.error = err;
 		});
 	};
 
-	$rootScope.$on('refreshProjectsList', function() {
-		projectList.refresh();
+}
+
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Projects
+//
+// -----------------------------------------------------------------------------------
+controllerProjectsList.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC'];
+/* @ngInject */
+function controllerProjectsList($scope, $state, Authentication, sProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC) {
+	var projectList = this;
+
+	projectList.types = PROJECT_TYPES;
+	projectList.regions = REGIONS;
+	projectList.status = PROJECT_STATUS_PUBLIC;
+
+	projectList.auth = Authentication;
+
+	$scope.$watch('projects', function(newValue) {
+		if (newValue) {
+			projectList.projects = newValue;
+		}
 	});
 
-	projectList.refresh();
-	projectList.auth = Authentication;
 }
 
 // -----------------------------------------------------------------------------------
@@ -81,9 +146,9 @@ function controllerUserActivities($scope, $state, Authentication, sProjectModel,
 
 		// reference the ID and the name.
 		_.each(data, function(project) {
-			userActs.projectNames[project._id] = project.name;
+			userActs.projectNames[project._id] = {'name': project.name, 'region': project.region};
 		});
-
+		$scope.$apply();
 	});
 
 	userActs.refresh();

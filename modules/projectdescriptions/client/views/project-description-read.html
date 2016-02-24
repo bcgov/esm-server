@@ -1,0 +1,45 @@
+<section class="block-content">
+	<h3>Project Description <small><em>{{projDesc.data.version}}</em></small></h3>
+	<a href ui-sref="projectdescription({project:projDesc.project._id})">Edit</a>
+	<div class='panel-body'>
+		<div class="row">
+			<div class="col-sm-12">
+			<h4>General</h4>
+
+			<h5>Background</h5>
+
+			<p ng-bind-html="projDesc.data.general.background"></p>
+
+			<h5>Location</h5>
+
+			<p ng-bind-html="projDesc.data.general.location"></p>
+
+			<h5>Location Documents</h5>
+
+			<p>List here</p>
+
+			<h4>Overview</h4>
+			<h5>Components</h5>
+			<p ng-bind-html="projDesc.data.overview.components"></p>
+
+			<h5>Scheduled Phases</h5>
+			<p ng-bind-html="projDesc.data.overview.schedulePhases"></p>
+
+			<h5>Costs</h5>
+			<p ng-bind-html="projDesc.data.overview.costs"></p>
+
+			<h5>Site Plan Documents</h5>
+			<p>List here</p>
+
+			<h4>Land User Setting</h4>
+			<p ng-bind-html="projDesc.data.landUserSetting"></p>
+
+			<h4>Consulting Activities</h4>
+			<p ng-bind-html="projDesc.data.consultingActivities"></p>
+
+			<h4>Proposed Development Schedule</h4>
+			<p ng-bind-html="projDesc.data.proposedDevelopmentSchedule"></p>
+		</div>
+	</div>
+</section>
+

@@ -8,12 +8,13 @@ var path        = require('path');
 var DBModel     = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
 var PhaseClass  = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
 var PhaseBaseClass  = require (path.resolve('./modules/phases/server/controllers/phasebase.controller'));
+var ProjectIntakeClass  = require (path.resolve('./modules/phases/server/controllers/phasebase.controller'));
 var RoleController = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 var _           = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Project',
-	populate: 'phases',
+	populate: 'proponent',
 	preprocessAdd : function (project) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
@@ -162,6 +163,41 @@ module.exports = DBModel.extend ({
 				return self.saveAndReturn (m);
 			})
 			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// set current phase
+	//
+	// -------------------------------------------------------------------------
+	setPhase : function (project, phase) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			project.currentPhase = phase;
+			console.log('setcurrentphase', project, phase);
+			self.saveAndReturn(project)
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// publish, unpublish
+	//
+	// -------------------------------------------------------------------------
+	publish: function (project, value) {
+		var self = this;
+		if (value) project.addRoles ( { read: 'public' });
+		else project.removeRoles ( { read: 'public' });
+		return new Promise (function (resolve, reject) {
+			self.saveAndReturn (project)
+			.then (resolve, reject);
+		});
+	},
+
+	getIntakeQuestions: function (project) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			var projectintake = new ProjectIntakeClass ();
 		});
 	}
 });

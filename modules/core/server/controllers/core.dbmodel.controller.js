@@ -89,6 +89,7 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	setBaseQ : function (accessQuery) {
 		accessQuery = accessQuery || this.readQuery;
+		// console.log (accessQuery);
 		this.baseQ = (_.isFunction (this.baseQuery)) ? this.baseQuery.call (this) : _.cloneDeep (this.baseQuery);
 		//
 		// for an admin we don't apply access control, so only continue
@@ -110,7 +111,9 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	setRoles : function (user) {
 		// CC: change this in production to only public, add 'admin' to the array to get everything
-		this.roles = (user) ? user.roles : ['public'];
+		this.roles = (user) ? user.roles : [];
+		this.roles.push ('public');
+		// console.log ("this.roles = ", this.roles);
 		this.readQuery = {
 			$or : [
 				{ read   : { $in : this.roles } },
@@ -191,7 +194,7 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			// console.log ('q = ',q);
+			// console.log ('q.$or = ',q.$or[0].read);
 			self.model.find (q)
 			.sort (self.sort)
 			.populate (self.populate)
@@ -213,7 +216,7 @@ _.extend (DBModel.prototype, {
 		// console.log ('in saveDocument with doc ',doc);
 		// console.log ('in saveDocument with roles ',self.roles);
 		return new Promise (function (resolve, reject) {
-			if (self.useRoles && !doc.hasPermission (self.roles, 'write')) {
+			if (self.useRoles && !doc.userHasPermission (self.user, 'write')) {
 				return reject (new Error ('Write operation not permitted for this '+self.name+' object'));
 			}
 			if (self.useAudit) doc.setAuditFields (self.user);

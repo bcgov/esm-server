@@ -32,6 +32,16 @@ module.exports = function (app) {
 			.then (helpers.success(res), helpers.failure(res));
 		});
 	//
+	// set current phase
+	//
+	app.route ('/api/project/:project/set/phase/:phase')
+		.all (policy.isAllowed)
+		.put (function (req,res) {
+			var p = new Project (req.user);
+			p.setPhase (req.Project, req.Phase)
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	//
 	// get all projects in certain statuses
 	//
 	app.route ('/api/projects/with/status/:statustoken')
@@ -49,6 +59,23 @@ module.exports = function (app) {
 			p.list ({
 				status : stat
 			})
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	//
+	// publish or unpublish a project
+	//
+	app.route ('/api/project/:project/publish')
+		.all (policy.isAllowed)
+		.put (function (req,res) {
+			var p = new Project (req.user);
+			p.publish (req.Project, true)
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	app.route ('/api/project/:project/unpublish')
+		.all (policy.isAllowed)
+		.put (function (req,res) {
+			var p = new Project (req.user);
+			p.publish (req.Project, false)
 			.then (helpers.success(res), helpers.failure(res));
 		});
 

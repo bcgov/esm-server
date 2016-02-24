@@ -101,7 +101,10 @@ var UserSchema = new Schema({
   },
   resetPasswordExpires: {
     type: Date
-  }
+  },
+  organizations: [
+    { type:'ObjectId', ref:'Organization' }
+  ]
 });
 
 /**
@@ -162,5 +165,9 @@ UserSchema.statics.findUniqueUsername = function (username, suffix, callback) {
     }
   });
 };
+
+UserSchema.index ({
+  organizations: 1
+});
 
 mongoose.model('User', UserSchema);

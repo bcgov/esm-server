@@ -16,8 +16,22 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	region                : { type:String, default:'' },     // object id
 	location              : { type:String, default:'' },
 	stream                : { type:'ObjectId', ref:'Stream'     , index:true, default:null },
-	proponent             : { type:'ObjectId', ref:'Entity'     , index:true, default:null },
+	proponent             : { type:'ObjectId', ref:'Organization'     , index:true, default:null },
 	substitution : { type:Boolean, default:false },
+	intake: {
+		affectedFirstNations  : { type:String, default:'' },
+		constructionjobs      : { type:String, default:'' },
+		contactedCEAA         : { type:String, default:'' },
+		contactedFirstNations : { type:String, default:'' },
+		investment            : { type:String, default:'' },
+		lifespan              : { type:String, default:'' },
+		meetsCEAACriteria     : { type:String, default:'' },
+		meetsrprcriteria      : { type:String, default:'' },
+		operatingjobs         : { type:String, default:'' },
+		section7optin         : { type:String, default:'' }
+	},
+	isTermsAgreed: {type:Boolean, default:false},
+	build: { type:String, default:'' },
 	//
 	// location is a free form string entry
 	//
