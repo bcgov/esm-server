@@ -48,8 +48,8 @@ function directiveDocumentsLink() {
         scope: {
             project: '=',
             type: '@',  //project or comment
-            hideUploadButton: '=',
-            parentId: '='
+            current: '=',
+            parentId: '=',
         },
         controller: 'controllerDocumentLinkGlobal',
         controllerAs: 'docLink'
@@ -180,10 +180,12 @@ function directiveModalDocumentLink($modal, $rootScope) {
     var directive = {
         restrict:'A',
         scope: {
-            project: '='
+            project: '=',
+            current: '='
         },
         link : function(scope, element, attrs) {
             element.on('click', function() {
+                console.log("Docs Current: ",attrs.current);
                 var modalDocLink = $modal.open({
                     animation: true,
                     templateUrl: 'modules/documents/client/views/partials/modal-document-link.html',
@@ -191,10 +193,12 @@ function directiveModalDocumentLink($modal, $rootScope) {
                     controllerAs: 'docLinkModal',
                     size: 'lg',
                     resolve: {
-                        rProject: function() { return scope.project; }
+                        rProject: function() { return scope.project; },
+                        rCurrent: function() { return scope.current; }
                     }
                 });
                 modalDocLink.result.then(function (data) {
+                    console.log("New set of Documents:",data);
                     $rootScope.$broadcast('refreshDocumentList');
                 }, function () {});
             });
