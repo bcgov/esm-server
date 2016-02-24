@@ -51,11 +51,12 @@ function controllerProject($scope, $rootScope, sProjectModel, $stateParams, _) {
 // CONTROLLER: Modal: View Project Schedule
 //
 // -----------------------------------------------------------------------------------
-controllerModalProjectSchedule.$inject = ['$modalInstance', 'ProjectModel', 'PhaseModel', '_'];
+controllerModalProjectSchedule.$inject = ['$modalInstance', 'ProjectModel', 'PhaseModel', '_', 'rProject'];
 /* @ngInject */
-function controllerModalProjectSchedule($modalInstance, sProjectModel, sPhaseModel, _) {
+function controllerModalProjectSchedule($modalInstance, sProjectModel, sPhaseModel, _, rProject) {
 	var projSched = this;
 
+	sProjectModel.setModel(rProject);
 	projSched.project = sProjectModel.getCopy();
 
 	sPhaseModel.phasesForProject(projSched.project._id).then( function(data) {
@@ -66,6 +67,8 @@ function controllerModalProjectSchedule($modalInstance, sProjectModel, sPhaseMod
 	projSched.ok = function () {
 		sProjectModel.saveCopy().then( function(data) {
 			$modalInstance.close(data);
+		}).catch( function(err) {
+			$modalInstance.dismiss('cancel');
 		});
 	};
 }

@@ -15,7 +15,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="phase in projSched.phases track by $index">
+		<tr ng-repeat="phase in projSched.phases track by $index" ng-class="{'bg-success': phase === projSched.project.currentPhase}">
 			<td><p class="form-control-static">{{ phase.name }}</p></td>
 			<td class='text-center'>
 				<p class="form-control-static">{{ phase.dateStartEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="phase.dateStartEst" ng-if="!phase.dateStart">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
@@ -34,9 +34,16 @@
 	</tbody>
 </table>
 
-<div class="form-group">
-</div>
+<div class="modal-body">
 
+	<div class="form-inline well well-sm text-right">
+		<div class="form-group">
+	  		<label for="newCurPhase">Set Current Project Phase&nbsp;</label>
+			<select id="newCurPhase" class="form-control" ng-model="projSched.project.currentPhase" ng-options="phase as phase.name for phase in projSched.phases"></select>
+		</div>
+	</div>
+
+</div>
 
 <div class="modal-footer">
 	<button class="btn btn-default" type="button" ng-click="projSched.cancel()">Cancel</button>

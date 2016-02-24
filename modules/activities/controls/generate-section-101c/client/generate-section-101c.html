@@ -1,62 +1,58 @@
-	<div class="panel-body">
-		<p>Verify the merge content for the Section 10(1)c listed below.</p>
-		<table class='table table-condensed'>
-			<tbody>
-				<tr>
-					<th>Project Title</th>
-					<td>{{ ctrlSection101c.project.name }}</td>
-				</tr>
-				<tr>
-					<th>Proponent Contact</th>
-					<td>{{ ctrlSection101c.project.shortDescription }}</td>
-				</tr>
-				<tr>
-					<th>Proponent Name</th>
-					<td></td>
-				</tr>
-				<tr>
-					<th>Describe Project</th>
-					<td><div ng-bind-html="ctrlSection101c.project.description"></div></td>
-				</tr>
-				<tr>
-					<th>Part #</th>
-					<td>{{ ctrlSection101c.project.code }}</td>
-				</tr>
-				<tr>
-					<th>Threshold</th>
-					<td></td>
-				</tr>
-				<tr>
-					<th>Project Director / Project Assessment Manager</th>
-					<td></td>
-				</tr>
-				<tr>
-					<th>Executive Project Director / Project Assessment Manager</th>
-					<td></td>
-				</tr>
-			</tbody>
-		</table>
+<div class="panel-body">
+	<p>Verify the merge content for the Section 10(1)c listed below.</p>
+	<table class='table table-condensed'>
+		<tbody>
+			<tr>
+				<th>Project Title</th>
+				<td>{{ ctrlSection101c.project.name }}</td>
+			</tr>
+			<tr>
+				<th>Proponent Contact</th>
+				<td>{{ ctrlSection101c.project.shortDescription }}</td>
+			</tr>
+			<tr>
+				<th>Proponent Name</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>Describe Project</th>
+				<td><div ng-bind-html="ctrlSection101c.project.description"></div></td>
+			</tr>
+			<tr>
+				<th>Part #</th>
+				<td>{{ ctrlSection101c.project.code }}</td>
+			</tr>
+			<tr>
+				<th>Threshold</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>Project Director / Project Assessment Manager</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>Executive Project Director / Project Assessment Manager</th>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
 
-		<div class="alert alert-info">
-			<div class='row'>
-				<div class="col-sm-8">
-					By generating the Section 10(1)c, you confirm that the information indicated above is correct.
-				</div>
-				<div class="col-sm-4 text-right">
-					<button class="btn btn-default" x-modal-order-detail x-project="ctrlSection101c.project" x-context="Section101c">Edit Order Detail</button>
-					<button class="btn btn-success" ng-click="ctrlSection101c.generateDocument();">Generate</button>
-				</div>
-			</div>  
-		</div>
-
-		<div class="row">
-			<div class="col-sm-12">
-				Process Completed on DATE TIME, by USER 
+	<div class="alert alert-info">
+		<div class='row'>
+			<div class="col-sm-8">
+				By generating the Section 10(1)c, you confirm that the information indicated above is correct.
 			</div>
-		</div>
-
+			<div class="col-sm-4 text-right">
+				<button class="btn btn-default" x-modal-order-detail x-project="ctrlSection101c.project" x-context="Section101c">Edit Order Detail</button>
+				<button class="btn btn-success" ng-click="ctrlSection101c.generateDocument();">Generate</button>
+			</div>
+		</div>  
 	</div>
 
+	<div class="row">
+		<div class="col-sm-12">
+			Process Completed on DATE TIME, by USER 
+		</div>
+	</div>
 
 </div>
-
