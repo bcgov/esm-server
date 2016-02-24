@@ -2,11 +2,13 @@
 
 angular.module('documents')
     .directive('tmplDocumentsUploadGeneral', directiveDocumentsUploadGeneral)
+    .directive('tmplDocumentsLink', directiveDocumentsLink)
     .directive('tmplDocumentsUploadClassify', directiveDocumentsUploadClassify)        
     .directive('tmplDocumentsList', directiveDocumentsList)   
     .directive('tmplDocumentsBrowser', directiveDocumentsBrowser) 
     .directive('tmplDocumentsApprovals', directiveDocumentsApprovals)                
     .directive('modalDocumentUploadReview', directiveModalDocumentUploadReview)
+    .directive('modalDocumentLink', directiveModalDocumentLink)
     .directive('modalDocumentUploadClassify', directiveModalDocumentUploadClassify);
 
     // .directive('modalDocumentViewer', directiveModalDocumentViewer)
@@ -30,6 +32,27 @@ function directiveDocumentsUploadGeneral() {
         },
         controller: 'controllerDocumentUploadGlobal',
         controllerAs: 'docUpload'
+    };
+
+    return directive;
+}
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Document Link General
+//
+// -----------------------------------------------------------------------------------
+function directiveDocumentsLink() {
+    var directive = {
+        restrict: 'E',
+        templateUrl: 'modules/documents/client/views/partials/document-link.html',
+        scope: {
+            project: '=',
+            type: '@',  //project or comment
+            hideUploadButton: '=',
+            parentId: '='
+        },
+        controller: 'controllerDocumentLinkGlobal',
+        controllerAs: 'docLink'
     };
 
     return directive;
@@ -147,6 +170,38 @@ function directiveModalDocumentViewer($modal) {
     return directive;
 }
 // -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Link in a modal
+//
+// -----------------------------------------------------------------------------------
+directiveModalDocumentLink.$inject = ['$modal', '$rootScope'];
+/* @ngInject */
+function directiveModalDocumentLink($modal, $rootScope) {
+    var directive = {
+        restrict:'A',
+        scope: {
+            project: '='
+        },
+        link : function(scope, element, attrs) {
+            element.on('click', function() {
+                var modalDocLink = $modal.open({
+                    animation: true,
+                    templateUrl: 'modules/documents/client/views/partials/modal-document-link.html',
+                    controller: 'controllerModalDocumentLink',
+                    controllerAs: 'docLinkModal',
+                    size: 'lg',
+                    resolve: {
+                        rProject: function() { return scope.project; }
+                    }
+                });
+                modalDocLink.result.then(function (data) {
+                    $rootScope.$broadcast('refreshDocumentList');
+                }, function () {});
+            });
+        }
+    };
+    return directive;
+}   // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Upload in a modal
 //
