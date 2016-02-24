@@ -19,6 +19,27 @@ angular.module('projectdescription').factory ('ProjectDescriptionModel', functio
 				self.getQuery ({project:projectId})
 				.then (resolve, reject);
 			});
+		},
+		getCurrentProjectDescription : function (projectId) {
+			var self = this;
+			return new Promise (function (resolve, reject) {
+				self.getQuery ({project:projectId})
+				.then (function (descriptions) {
+					if (descriptions[0]) {
+						self.setModel (descriptions[0]);
+						return descriptions[0];
+					}
+					else return null;
+				})
+				.then (resolve, reject);
+			});
+		},
+		saveAs: function (type) {
+			var self = this;
+			return new Promise (function (resolve, reject) {
+				self.post('/api/projectdescription/save/as/'+type, self.model)
+				.then (resolve, reject);
+			});
 		}
 	});
 	return new Class ();

@@ -51,15 +51,16 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 		},
 		// -------------------------------------------------------------------------
 		//
-		// set the current phase
+		// start or stop a phase
 		//
 		// -------------------------------------------------------------------------
-		setPhase : function (phaseId) {
-			// TODO: set project current phase to the new phase id.
-			// return updated project.
+		startPhase : function (phaseId, start) {
 			var self = this;
+			var url ='/api/project/'+self.model._id;
+			url += start ? '/start/phase/' : '/stop/phase/';
+			url += phaseId;
 			return new Promise (function (resolve, reject) {
-				self.put ('/api/project/'+self.model._id+'/set/phase/'+phaseId, {})
+				self.put (url, self.model)
 				.then (function (res) {
 					self.model = res.data;
 					self.modelIsNew = false;
@@ -67,7 +68,27 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 				}).catch (function (res) {
 					reject (res.data);
 				});
-			});			
+			});
+		},
+		// -------------------------------------------------------------------------
+		//
+		// publish this project, make it publicly viewable
+		//
+		// -------------------------------------------------------------------------
+		publish: function (willPublish) {
+			var self = this;
+			var url ='/api/project/'+self.model._id;
+			url += willPublish ? '/publish' : '/unpublish';
+			return new Promise (function (resolve, reject) {
+				self.put (url, self.model)
+				.then (function (res) {
+					self.model = res.data;
+					self.modelIsNew = false;
+					resolve (res.data);
+				}).catch (function (res) {
+					reject (res.data);
+				});
+			});
 		},
 		// -------------------------------------------------------------------------
 		//

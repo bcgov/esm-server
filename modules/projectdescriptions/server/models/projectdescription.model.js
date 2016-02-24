@@ -11,7 +11,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__tracking     : true,
 	project        : { type:'ObjectId', ref:'Project', default:null, index:true},
 	version        : { type:String, enum:['Draft', 'Final', 'Certified'], default:'Draft', index:true},
-	versionNumber  : { type:Number },
+	versionNumber  : { type:Number, default:0 },
 	general: {
 		background : {type:String, default: ''},
 		location : {type:String, default: ''},

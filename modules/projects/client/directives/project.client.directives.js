@@ -3,7 +3,7 @@
 angular.module('project')
 	.directive('tmplProject', directiveProject)
 	.directive('modalProjectSchedule', directiveModalProjectSchedule)
-	.directive('modalAddActivity', directiveModalAddActivity)	
+	.directive('modalAddActivity', directiveModalAddActivity)
 	.directive('modalProjectVc', directiveProjectVC)
 	.directive('modalProjectVcEntry', directiveProjectVCEntry)
 	.directive('tmplProjectTombstone', directiveProjectTombstone)
@@ -480,7 +480,7 @@ function directiveProjectDescriptionRead(ProjectDescriptionModel) {
 		restrict: 'E',
 		templateUrl: 'modules/projects/client/views/project-partials/project-description-read.html',
 		controller: 'controllerProjectDescriptionRead',
-		controllerAs: 'projDesc',
+		controllerAs: 'desc',
 		scope: {
 			project: '='
 		}

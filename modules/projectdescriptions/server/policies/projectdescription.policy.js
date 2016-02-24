@@ -11,7 +11,8 @@ var helpers  = require (require('path').resolve('./modules/core/server/controlle
 exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'projectdescription');
 	helpers.setPathPermissions (acl, [
-		[ '', 'user', '/api/projectdescription/for/project/:project'    ]
+		[ '', 'user', '/api/projectdescription/for/project/:project'    ],
+		[ '', 'user', '/api/projectdescription/save/as/:type'    ]
 	]);
 };
 

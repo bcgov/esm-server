@@ -4,7 +4,7 @@ angular.module('project')
 	// General
 	.controller('controllerProject', controllerProject)
 	.controller('controllerModalProjectSchedule', controllerModalProjectSchedule)
-	.controller('controllerModalAddActivity', controllerModalAddActivity)	
+	.controller('controllerModalAddActivity', controllerModalAddActivity)
 	.controller('controllerProjectVC', controllerProjectVC)
 	.controller('controllerProjectVCEntry', controllerProjectVCEntry)
 	.controller('controllerProjectTombstone', controllerProjectTombstone)
@@ -543,14 +543,26 @@ function controllerProjectActivities($scope, $rootScope, sAuthentication, sActiv
 		}
 	});
 
-};
+}
 
 controllerProjectDescriptionRead.$inject = ['$scope', '$state', 'Authentication', '_', 'ProjectDescriptionModel'];
 /* @ngInject */
 function controllerProjectDescriptionRead ($scope, $state, sAuthentication, _, ProjectDescriptionModel) {
 	// ui-sref="route.route({projectid:model.projectid})"
 	//$state.go (route.route, {projectid:$scope.projectid})
-	var projDesc = this;
+
+	var desc = this;
+
+	$scope.$watch('project', function(newProject) {
+		if (newProject) {
+			ProjectDescriptionModel.getDescriptionsForProject (newProject._id)
+			.then (function (descriptions) {
+				desc.data = descriptions[0];
+				console.log ('description = ',desc.data);
+				// $scope.$apply();
+			});
+		}
+	});
 }
 
 

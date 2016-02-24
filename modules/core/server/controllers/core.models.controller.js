@@ -142,6 +142,14 @@ var addRoles = function (pObject) {
 		self[i] = _.uniq (self[i].concat (p));
 	});
 };
+var removeRoles = function (pObject) {
+	var self = this;
+	_.each (pObject, function (p, i) {
+		_.remove (self[i], function (val) {
+			return _.indexOf (p, val) !== -1;
+		});
+	});
+};
 
 // -------------------------------------------------------------------------
 //

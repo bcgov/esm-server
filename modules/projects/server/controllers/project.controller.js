@@ -179,6 +179,20 @@ module.exports = DBModel.extend ({
 			.then (resolve, reject);
 		});
 	},
+	// -------------------------------------------------------------------------
+	//
+	// publish, unpublish
+	//
+	// -------------------------------------------------------------------------
+	publish: function (project, value) {
+		var self = this;
+		if (value) project.addRoles ( { read: 'public' });
+		else project.removeRoles ( { read: 'public' });
+		return new Promise (function (resolve, reject) {
+			self.saveAndReturn (project)
+			.then (resolve, reject);
+		});
+	},
 
 	getIntakeQuestions: function (project) {
 		var self = this;
