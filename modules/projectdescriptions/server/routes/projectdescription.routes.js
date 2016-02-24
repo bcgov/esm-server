@@ -4,8 +4,8 @@
 // Routes for projectdescriptions
 //
 // =========================================================================
-var policy  = require ('../policies/project-description.policy');
-var ProjectDescription  = require ('../controllers/project-description.controller');
+var policy  = require ('../policies/projectdescription.policy');
+var ProjectDescription  = require ('../controllers/projectdescription.controller');
 var helpers = require ('../../../core/server/controllers/core.helpers.controller');
 
 module.exports = function (app) {
