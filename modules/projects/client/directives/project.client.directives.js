@@ -3,6 +3,7 @@
 angular.module('project')
 	.directive('tmplProject', directiveProject)
 	.directive('modalProjectSchedule', directiveModalProjectSchedule)
+	.directive('modalAddActivity', directiveModalAddActivity)	
 	.directive('modalProjectVc', directiveProjectVC)
 	.directive('modalProjectVcEntry', directiveProjectVCEntry)
 	.directive('tmplProjectTombstone', directiveProjectTombstone)
@@ -71,6 +72,42 @@ function directiveModalProjectSchedule($modal) {
 				});
 				modalDocView.result.then(function (items) {
 					scope.project = items;
+				}, function () {});
+			});
+		}
+	};
+	return directive;
+}
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Modal Add Activity
+//
+// -----------------------------------------------------------------------------------
+directiveModalAddActivity.$inject = ['$modal', '$rootScope'];
+/* @ngInject */
+function directiveModalAddActivity($modal, $rootScope) {
+	var directive = {
+		restrict:'A',
+		scope : {
+			milestone: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalAddAct = $modal.open({
+					animation: true,
+					templateUrl: 'modules/projects/client/views/project-partials/modal-add-activity.html',
+					controller: 'controllerModalAddActivity',
+					controllerAs: 'addAct',
+					resolve: {
+						rMilestone: function () {
+							return scope.milestone;
+						}
+					},
+					size: 'sm'
+				});
+				modalAddAct.result.then(function (data) {
+					$rootScope.$broadcast('refreshActivitiesForMilestone', {milestone: data});
+					// fetch project again.
 				}, function () {});
 			});
 		}

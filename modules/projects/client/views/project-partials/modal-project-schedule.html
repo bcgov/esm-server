@@ -2,6 +2,16 @@
 	<h3 class="modal-title">Project Schedule</h3>
 </div>
 
+<div class="modal-body">
+
+	<div class="form-inline well well-sm text-right">
+		<div class="form-group">
+	  		<label for="newCurPhase">Set Current Project Phase&nbsp;</label>
+			<select id="newCurPhase" class="form-control" ng-model="projSched.newPhase" ng-options="phase as phase.name for phase in projSched.phases"></select>
+		</div>
+	</div>
+
+</div>
 
 <table class='table table-condensed'>	
 	<thead>
@@ -15,13 +25,13 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="phase in projSched.phases track by $index">
+		<tr ng-repeat="phase in projSched.phases track by $index" ng-class="{'bg-success': phase === projSched.project.currentPhase}">
 			<td><p class="form-control-static">{{ phase.name }}</p></td>
 			<td class='text-center'>
-				<p class="form-control-static">{{ phase.dateStartEst | amDateFormat:'MMM Do YYYY' || '- tbd -' }} <a x-modal-date-picker x-selected-date="phase.dateStartEst" ng-if="!phase.dateStart">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
+				<p class="form-control-static">{{ phase.dateStartEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="phase.dateStartEst" ng-if="!phase.dateStart">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
 			</td>
 			<td class='text-center'>
-				<p class="form-control-static">{{ phase.dateEndEst | amDateFormat:'MMM Do YYYY' || '- tbd -' }} <a x-modal-date-picker x-selected-date="phase.dateEndEst" ng-if="!phase.dateEnd">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
+				<p class="form-control-static">{{ phase.dateEndEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="phase.dateEndEst" ng-if="!phase.dateEnd">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
 			</div>
 			<td class='text-center'><p class="form-control-static">{{ phase.dateStart | amDateFormat:'MMM Do YYYY' }}</p></td>
 			<td class='text-center'><p class="form-control-static">{{ phase.dateEnd | amDateFormat:'MMM Do YYYY' }}</p></td>

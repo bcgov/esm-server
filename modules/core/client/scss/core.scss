@@ -218,11 +218,16 @@ h3 .small .label {
 	padding-bottom: 0 !important;
 }
 
-.vertical-scroll {
+.vertical-scroll,
+.vertical-scroll-padded {
 	overflow-x: hidden;
 	overflow-y: auto;
 	min-height: 400px;
 	max-height: 400px;
+}
+.vertical-scroll-padded {
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 
 .scrolling-fixed-box {
@@ -461,13 +466,20 @@ th .progress-bar {
 	padding: 8px 15px;
 	margin-bottom: 0;
 }
-
 .block-content {
 	 margin-bottom: 15px;
 	 border-bottom: 2px solid $border-grey;
 }
+.block-content:last-child,
+.block-content.block-stacked {
+	margin-bottom: 0;
+}
 .panel > .block-content:first-child > h3 {
 	margin-top: 0;
+}
+.panel-body.no-vertical-padding {
+	padding-top: 0;
+	padding-bottom: 0;
 }
 .panel > .table.table-stacked {
 	margin-bottom: 30px;

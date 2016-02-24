@@ -1,5 +1,4 @@
 <div class="modal-header">
-<div class="modal-header">
 	<h3 class="modal-title">{{ projectEntry.title }}</h3>
 </div>
 
@@ -111,10 +110,10 @@
 		</div>
 	</div>
 
-	<div ng-show="projectEntry.form.curTab === 'Proponent'">
+	<fieldset ng-show="projectEntry.form.curTab === 'Proponent'" disabled>
 		<tmpl-company-entry-form x-company="projectEntry.project.proponent"></tmpl-company-entry-form>
 		<tmpl-user-entry-form x-project="projectEntry.project"></tmpl-user-entry-form>
-	</div>
+	</fieldset>
 
 	<div ng-show="projectEntry.form.curTab === 'Intake Profile'">
 		<div ng-repeat="question in projectEntry.questions">

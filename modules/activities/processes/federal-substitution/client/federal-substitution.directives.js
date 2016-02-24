@@ -25,7 +25,7 @@ function directiveProcessFederalSub() {
         restrict: 'E',
         templateUrl: 'modules/activities/processes/federal-substitution/client/federal-substitution.html',
         controller: 'controllerProcessFederalSub',
-        controllerAs: 'processFederalSub',
+        controllerAs: 'processFedSub',
         scope: {
             project: '='
         }

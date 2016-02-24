@@ -1,0 +1,21 @@
+<div class="panel-body">
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="form-group">
+				<label class="control-label" for="template">Received On</label>
+				<div class="input-group">
+					<input type="text" class="form-control text-center" ng-model="ctrlFedDec.decision.dateReceived" ng-disabled="1"/>
+					<div x-modal-date-picker x-selected-date="ctrlFedDec.decision.dateReceived" class="input-group-addon btn-default"><i class="glyphicon glyphicon-calendar"></i></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-8">
+			<label class="control-label">Summary</label>
+			<textarea ui-tinymce rows="10" ng-model="ctrlFedDec.decision.summary" class="form-control"></textarea>
+		</div>
+	</div>
+	<hr/>
+	<div class="text-right">
+		<a class="btn btn-default" href ng-click="taskNotifications.saveProcess()">Save</a>
+	</div>	
+</div>

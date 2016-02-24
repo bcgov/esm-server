@@ -12,14 +12,30 @@ angular.module('projects')
 // CONTROLLER: Public Projects Main
 //
 // -----------------------------------------------------------------------------------
-controllerProjects.$inject = ['$state', 'ProjectModel', 'PROJECT_TYPES', 'Authentication'];
+controllerProjects.$inject = ['$scope', '$state', '$rootScope', 'ProjectModel', 'PROJECT_TYPES', 'Authentication'];
 /* @ngInject */
-function controllerProjects($state, ProjectModel, PROJECT_TYPES, Authentication) {
+function controllerProjects($scope, $state, $rootScope, sProjectModel, PROJECT_TYPES, Authentication) {
 	var projects = this;
 
 	projects.types = PROJECT_TYPES;
 
 	projects.authentication = Authentication;
+
+	projects.refresh = function() {
+		sProjectModel.getCollection().then( function(data) {
+			projects.projects = data;
+			$scope.$apply ();
+		}).catch( function(err) {
+			$scope.error = err;
+		});
+	};
+
+	$rootScope.$on('refreshProjectsList', function() {
+		projects.refresh();
+	});
+
+	projects.refresh();
+
 
 	// sorting
 	projects.panelSort = [
@@ -40,7 +56,6 @@ controllerProjectsSearch.$inject = ['$scope', '$state', 'Authentication', 'Proje
 function controllerProjectsSearch($scope, $state, Authentication, sProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC) {
 	var projectsSearch = this;
 
-	// console.log('here', PROJECT_STATUS_PUBLIC);
 
 	projectsSearch.types = PROJECT_TYPES;
 	projectsSearch.regions = REGIONS;
@@ -94,22 +109,14 @@ function controllerProjectsList($scope, $state, Authentication, sProjectModel, $
 	projectList.regions = REGIONS;
 	projectList.status = PROJECT_STATUS_PUBLIC;
 
+	projectList.auth = Authentication;
 
-	projectList.refresh = function() {
-		sProjectModel.getCollection().then( function(data) {
-			projectList.projects = data;
-			$scope.$apply ();
-		}).catch( function(err) {
-			$scope.error = err;
-		});
-	};
-
-	$rootScope.$on('refreshProjectsList', function() {
-		projectList.refresh();
+	$scope.$watch('projects', function(newValue) {
+		if (newValue) {
+			projectList.projects = newValue;
+		}
 	});
 
-	projectList.refresh();
-	projectList.auth = Authentication;
 }
 
 // -----------------------------------------------------------------------------------
@@ -140,7 +147,6 @@ function controllerUserActivities($scope, $state, Authentication, sProjectModel,
 			userActs.projectNames[project._id] = {'name': project.name, 'region': project.region};
 		});
 		$scope.$apply();
-
 	});
 
 	userActs.refresh();
