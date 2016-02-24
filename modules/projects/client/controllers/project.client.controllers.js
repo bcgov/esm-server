@@ -122,21 +122,16 @@ function controllerModalAddActivity($modalInstance, sMilestoneModel, sActivityBa
 // -----------------------------------------------------------------------------------
 controllerProjectVC.$inject = ['$scope', 'rProjectVC', '_', '$modalInstance', 'VCModel'];
 /* @ngInject */
-function controllerProjectVC($scope, rProjectVC, _, $modalInstance, VCModel) {
+function controllerProjectVC($scope, rProjectVC, _, $modalInstance, sVCModel) {
         var projectVC = this;
 
         projectVC.roles = ['admin', 'project-team', 'working-group', 'first-nations', 'consultant'];
+        projectVC.vc = rProjectVC;
 
-        $scope.$watch('project', function(newValue) {
-                if (newValue) {
-                        VCModel.getModel(newValue._id).then( function(data) {
-                                projectVC.project = data;
-                        });
-                }
-        });
+        // Set current model for VC
+        sVCModel.setModel(rProjectVC);
 
-
-        VCModel.getCollection().then(function(data){
+        sVCModel.getCollection().then(function(data){
                 projectVC.valuecomponents = data;
         });
 

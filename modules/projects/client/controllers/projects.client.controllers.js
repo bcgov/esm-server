@@ -51,12 +51,14 @@ function controllerProjects($scope, $state, $rootScope, sProjectModel, PROJECT_T
 // CONTROLLER: Projects
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsSearch.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC'];
+controllerProjectsSearch.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC', 'PhaseBaseModel'];
 /* @ngInject */
-function controllerProjectsSearch($scope, $state, Authentication, sProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC) {
+function controllerProjectsSearch($scope, $state, Authentication, sProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC, sPhaseBaseModel) {
 	var projectsSearch = this;
 
-
+	sPhaseBaseModel.getCollection().then( function(data) {
+		projectsSearch.phases = data;
+	});
 	projectsSearch.types = PROJECT_TYPES;
 	projectsSearch.regions = REGIONS;
 	projectsSearch.status = PROJECT_STATUS_PUBLIC;
