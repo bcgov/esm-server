@@ -23,12 +23,10 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 			return new Promise (function (resolve, reject) {
 				self.put ('/api/project/'+self.model._id+'/set/stream/'+streamId, {})
 				.then (function (res) {
-					self.model = res.data;
+					self.model = res;
 					self.modelIsNew = false;
-					resolve (res.data);
-				}).catch (function (res) {
-					reject (res.data);
-				});
+					resolve (res);
+				}).catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -41,12 +39,10 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 			return new Promise (function (resolve, reject) {
 				self.put ('/api/project/'+self.model._id+'/add/phase/'+basePhaseId, {})
 				.then (function (res) {
-					self.model = res.data;
+					self.model = res;
 					self.modelIsNew = false;
-					resolve (res.data);
-				}).catch (function (res) {
-					reject (res.data);
-				});
+					resolve (res);
+				}).catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -62,12 +58,10 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 			return new Promise (function (resolve, reject) {
 				self.put (url, self.model)
 				.then (function (res) {
-					self.model = res.data;
+					self.model = res;
 					self.modelIsNew = false;
-					resolve (res.data);
-				}).catch (function (res) {
-					reject (res.data);
-				});
+					resolve (res);
+				}).catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -82,12 +76,10 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 			return new Promise (function (resolve, reject) {
 				self.put (url, self.model)
 				.then (function (res) {
-					self.model = res.data;
+					self.model = res;
 					self.modelIsNew = false;
-					resolve (res.data);
-				}).catch (function (res) {
-					reject (res.data);
-				});
+					resolve (res);
+				}).catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------

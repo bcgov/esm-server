@@ -41,11 +41,9 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 			var self = this;
 			return new Promise (function (resolve, reject) {
 				self.all ().then (function (res) {
-					self.collection = res.data;
-					resolve (res.data);
-				}).catch (function (res) {
-					reject (res.data);
-				});
+					self.collection = res;
+					resolve (res);
+				}).catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -56,13 +54,11 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		getModel: function (id) {
 			var self = this;
 			return new Promise (function (resolve, reject) {
-				self.get (id).then (function (res) {
-					self.model = res.data;
+				self.getId (id).then (function (res) {
+					self.model = res;
 					self.modelIsNew = false;
-					resolve (res.data);
-				}).catch (function (res) {
-					reject (res.data);
-				});
+					resolve (res);
+				}).catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -74,11 +70,9 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 			var self = this;
 			return new Promise (function (resolve, reject) {
 				self.query (q).then (function (res) {
-					self.collection = res.data;
-					resolve (res.data);
-				}).catch (function (res) {
-					reject (res.data);
-				});
+					self.collection = res;
+					resolve (res);
+				}).catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -90,12 +84,10 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 			var self = this;
 			return new Promise (function (resolve, reject) {
 				self.new ().then (function (res) {
-					self.model = res.data;
+					self.model = res;
 					self.modelIsNew = true;
-					resolve (res.data);
-				}).catch (function (res) {
-					reject (res.data);
-				});
+					resolve (res);
+				}).catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -135,13 +127,11 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 			return new Promise (function (resolve, reject) {
 				var p = (self.modelIsNew) ? self.add (self.model) : self.save (self.model);
 				p.then (function (res) {
-					console.log ('model saved, setting model to ',res.data);
-					self.model = res.data;
+					console.log ('model saved, setting model to ',res);
+					self.model = res;
 					self.modelIsNew = false;
-					resolve (res.data);
-				}).catch (function (res) {
-					reject (res.data);
-				});
+					resolve (res);
+				}).catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -170,15 +160,15 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		//
 		// -------------------------------------------------------------------------
 		new : function () {
-			return this.mget (this.urlnew);
+			return this.get (this.urlnew);
 		},
 		all : function () {
-			return this.mget (this.urlall);
+			return this.get (this.urlall);
 		},
-		delete : function (id) {
-			return this.mdel (this.urlbase+id);
+		deleteId : function (id) {
+			return this.delete (this.urlbase+id);
 		},
-		get : function (id) {
+		getId : function (id) {
 			console.log ('this.urlbase = ', this.urlbase);
 			return this.mget (this.urlbase+id);
 		},
@@ -191,23 +181,32 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		query : function (obj) {
 			return this.put (this.urlquery, obj);
 		},
+		// -------------------------------------------------------------------------
+		//
+		// basic
+		//
+		// -------------------------------------------------------------------------
 		put : function (url, data) {
 			return this.talk ('PUT', url, data);
 		},
 		post : function (url, data) {
 			return this.talk ('POST', url, data);
 		},
-		mget : function (url) {
-			console.log ('getting: ', url);
+		get : function (url) {
 			return this.talk ('GET', url, null);
 		},
-		mdel : function (url) {
+		delete : function (url) {
 			return this.talk ('DELETE', url, null);
 		},
 		talk : function (method, url, data) {
+			console.log (method, url, data);
 			return new Promise (function (resolve, reject) {
 				$http ({method:method, url:url, data:data })
-				.then (resolve, log.reject (reject));
+				.then (function (res) {
+					resolve (res.data);
+				}).catch (function (res) {
+					reject (res.data);
+				});
 			});
 		}
 	});

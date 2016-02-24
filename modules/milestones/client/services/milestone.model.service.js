@@ -21,12 +21,10 @@ angular.module('project').factory ('MilestoneModel', function (ModelBase, _) {
 			return new Promise (function (resolve, reject) {
 				self.put ('/api/milestone/'+self.model._id+'/add/activity/'+baseActivityId, {})
 				.then (function (res) {
-					self.model = res.data;
+					self.model = res;
 					self.modelIsNew = false;
-					resolve (res.data);
-				}).catch (function (res) {
-					reject (res.data);
-				});
+					resolve (res);
+				}).catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -39,27 +37,23 @@ angular.module('project').factory ('MilestoneModel', function (ModelBase, _) {
 			access = (access === 'write') ? 'write/' : '';
 			projectId = (projectId) ? '/in/project/'+projectId : '';
 			return new Promise (function (resolve, reject) {
-				self.mget ('/api/'+access+'milestone'+projectId)
+				self.get ('/api/'+access+'milestone'+projectId)
 				.then (function (res) {
-					self.collection = res.data;
-					resolve (res.data);
+					self.collection = res;
+					resolve (res);
 				})
-				.catch (function (res) {
-					reject (res.data);
-				});
+				.catch (reject);
 			});
 		},
 		milestonesForPhase: function (id) {
 			var self = this;
 			return new Promise (function (resolve, reject) {
-				self.mget ('/api/milestone/for/phase/'+id)
+				self.get ('/api/milestone/for/phase/'+id)
 				.then (function (res) {
-					self.collection = res.data;
-					resolve (res.data);
+					self.collection = res;
+					resolve (res);
 				})
-				.catch (function (res) {
-					reject (res.data);
-				});
+				.catch (reject);
 			});
 		}
 	});

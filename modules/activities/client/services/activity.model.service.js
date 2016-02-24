@@ -21,12 +21,10 @@ angular.module('project').factory ('ActivityModel', function (ModelBase, _) {
 			return new Promise (function (resolve, reject) {
 				self.put ('/api/activity/'+self.model._id+'/add/task/'+baseTaskId, {})
 				.then (function (res) {
-					self.model = res.data;
+					self.model = res;
 					self.modelIsNew = false;
-					resolve (res.data);
-				}).catch (function (res) {
-					reject (res.data);
-				});
+					resolve (res);
+				}).catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -41,14 +39,12 @@ angular.module('project').factory ('ActivityModel', function (ModelBase, _) {
 			access = (access === 'write') ? 'write/' : '';
 			projectId = (projectId) ? '/in/project/'+projectId : '';
 			return new Promise (function (resolve, reject) {
-				self.mget ('/api/'+access+'activity'+projectId)
+				self.get ('/api/'+access+'activity'+projectId)
 				.then (function (res) {
-					self.collection = res.data;
-					resolve (res.data);
+					self.collection = res;
+					resolve (res);
 				})
-				.catch (function (res) {
-					reject (res.data);
-				});
+				.catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -59,14 +55,12 @@ angular.module('project').factory ('ActivityModel', function (ModelBase, _) {
 		activitiesForMilestone: function (id) {
 			var self = this;
 			return new Promise (function (resolve, reject) {
-				self.mget ('/api/activity/for/milestone/'+id)
+				self.get ('/api/activity/for/milestone/'+id)
 				.then (function (res) {
-					self.collection = res.data;
-					resolve (res.data);
+					self.collection = res;
+					resolve (res);
 				})
-				.catch (function (res) {
-					reject (res.data);
-				});
+				.catch (reject);
 			});
 		}
 	});
