@@ -17,7 +17,8 @@ angular.module('project')
 	// .controller('controllerProjectEdit', controllerProjectEdit)
 	.controller('controllerProjectStreamSelect', controllerProjectStreamSelect)
 	.controller('controllerProjectInitiated', controllerProjectInitiated)
-	.controller('controllerProjectActivities', controllerProjectActivities);
+	.controller('controllerProjectActivities', controllerProjectActivities)
+	.controller('controllerProjectDescriptionRead', controllerProjectDescriptionRead);
 
 // -----------------------------------------------------------------------------------
 //
@@ -479,9 +480,15 @@ function controllerProjectActivities($scope, sAuthentication, sActivity, _, sPha
 		}
 	});
 
+};
+
+controllerProjectDescriptionRead.$inject = ['$scope', '$state', 'Authentication', '_', 'ProjectDescriptionModel'];
+/* @ngInject */
+function controllerProjectDescriptionRead ($scope, $state, sAuthentication, _, ProjectDescriptionModel) {
+	// ui-sref="route.route({projectid:model.projectid})"
+	//$state.go (route.route, {projectid:$scope.projectid})
+	var projDesc = this;
 }
-
-
 
 
 

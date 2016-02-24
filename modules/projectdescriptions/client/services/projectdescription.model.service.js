@@ -12,7 +12,14 @@ angular.module('projectdescription').factory ('ProjectDescriptionModel', functio
 	// have all the basic crud stuff built in
 	//
 	var Class = ModelBase.extend ({
-		urlName : 'projectdescription'
+		urlName : 'projectdescription',
+		getDescriptionsForProject : function (projectId) {
+			var self = this;
+			return new Promise (function (resolve, reject) {
+				self.getQuery ({project:projectId})
+				.then (resolve, reject);
+			});
+		}
 	});
 	return new Class ();
 });

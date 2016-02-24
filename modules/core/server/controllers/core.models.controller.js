@@ -153,7 +153,7 @@ var addRoles = function (pObject) {
 // __access : add the ACL functionality
 //
 // -------------------------------------------------------------------------
-var generateSchema = function (definition) {
+var generateSchema = function (definition, indexes) {
 	var audit = definition.__audit || false;
 	var access = definition.__access || false;
 	var tracking = definition.__tracking || false;
@@ -201,6 +201,11 @@ var generateSchema = function (definition) {
 		schema.index ({submit:1});
 		schema.index ({watch:1});
 	}
+	if (indexes && _.isArray(indexes)) {
+		_.each (indexes, function (ind) {
+			schema.index (ind);
+		});
+	}
 	return schema;
 };
 // -------------------------------------------------------------------------
@@ -209,8 +214,8 @@ var generateSchema = function (definition) {
 // to making the model itself
 //
 // -------------------------------------------------------------------------
-var generateModel = function (name, definition) {
-	return mongoose.model (name, generateSchema (definition));
+var generateModel = function (name, definition, indexes) {
+	return mongoose.model (name, generateSchema (definition, indexes));
 };
 
 module.exports = {

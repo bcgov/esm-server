@@ -22,7 +22,8 @@ angular.module('project')
 
 	.directive('tmplProjectInitiated', directiveProjectInitiated)
 	.directive('tmplProjectStreamSelect', directiveProjectStreamSelect)
-	.directive('tmplProjectActivities', directiveProjectActivities);
+	.directive('tmplProjectActivities', directiveProjectActivities)
+	.directive('tmplProjectDescriptionRead', directiveProjectDescriptionRead);
 
 // -----------------------------------------------------------------------------------
 //
@@ -429,6 +430,20 @@ function directiveProjectActivities() {
 		templateUrl: 'modules/projects/client/views/project-partials/project-activities.html',
 		controller: 'controllerProjectActivities',
 		controllerAs: 'projectActs',
+		scope: {
+			project: '='
+		}
+	};
+	return directive;
+}
+directiveProjectDescriptionRead.$inject = ['ProjectDescriptionModel'];
+/* @ngInject */
+function directiveProjectDescriptionRead(ProjectDescriptionModel) {
+	var directive = {
+		restrict: 'E',
+		templateUrl: 'modules/projects/client/views/project-partials/project-description-read.html',
+		controller: 'controllerProjectDescriptionRead',
+		controllerAs: 'projDesc',
 		scope: {
 			project: '='
 		}

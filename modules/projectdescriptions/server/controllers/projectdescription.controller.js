@@ -10,5 +10,6 @@ var _         = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'ProjectDescription',
+	sort : {versionNumber: -1}
 });
 
