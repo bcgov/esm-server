@@ -46,6 +46,14 @@ function controllerProjectDescriptionEdit ($scope, $state, sAuthentication, _, s
 	.then (function (descriptions) {
 		projDescEdit.data = descriptions[0];
 	});
+
+	projDescEdit.save = function() {
+		sProjectDescriptionModel.saveModel().then( function() {
+			console.log('saved');
+		});
+
+	}
+
 }
 
 
