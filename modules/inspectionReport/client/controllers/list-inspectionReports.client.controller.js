@@ -40,5 +40,12 @@ angular.module('inspectionReport').controller('InspectionReportListController', 
       $state.go('inspectionReport.edit');
     };
 
+    listInspectionReports.add = function (report) {
+      InspectionReportModel.getNew(report).then(function(res){
+        InspectionReportModel.setModel(res);
+        $state.go('inspectionReport.edit');
+      });
+    };
+
   }
 ]);

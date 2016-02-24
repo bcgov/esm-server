@@ -33,13 +33,19 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	inAttendance						: { type: String, default:'' },
 	address1							: { type: String, default:'' },
 	address2							: { type: String, default:'' },
-	city							: { type: String, default:'' },
+	city								: { type: String, default:'' },
 	province							: { type: String, default:'' },
 	postal								: { type: String, default:'' },
 	phone								: { type: String, default:'' },
 	fax									: { type: String, default:'' },
 	contactEmail						: { type: String, default:'' },
-	inspectionDetails					: [ {type: 'ObjectId', ref: 'Inspectionreportdetail' }]
+	inspectionDetails					: [ {type: 'ObjectId', ref: 'Inspectionreportdetail' }],
+	actionsAndComments					: { type: String, default:'' },
+	inspector							: { type: String, default:'' },
+	signature							: { type: String, default:'' },
+	dateSigned							: { type: Date, default: Date.now },
+	enclosuresAndDescription			: { type: String, default:'' },
+	regulatoryConsideration				: { type: String, default:'' }
 });
 
 
