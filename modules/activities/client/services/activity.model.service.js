@@ -4,7 +4,7 @@
 // activity model and activity base model
 //
 // =========================================================================
-angular.module('project').factory ('ActivityModel', function (ModelBase, _) {
+angular.module('project').factory ('ActivityModel', function (ModelBase, _, WGCommentPeriodModel) {
 	//
 	// build the project model by extending the base model. the base model will
 	// have all the basic crud stuff built in
@@ -21,12 +21,10 @@ angular.module('project').factory ('ActivityModel', function (ModelBase, _) {
 			return new Promise (function (resolve, reject) {
 				self.put ('/api/activity/'+self.model._id+'/add/task/'+baseTaskId, {})
 				.then (function (res) {
-					self.model = res.data;
+					self.model = res;
 					self.modelIsNew = false;
-					resolve (res.data);
-				}).catch (function (res) {
-					reject (res.data);
-				});
+					resolve (res);
+				}).catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -41,14 +39,12 @@ angular.module('project').factory ('ActivityModel', function (ModelBase, _) {
 			access = (access === 'write') ? 'write/' : '';
 			projectId = (projectId) ? '/in/project/'+projectId : '';
 			return new Promise (function (resolve, reject) {
-				self.mget ('/api/'+access+'activity'+projectId)
+				self.get ('/api/'+access+'activity'+projectId)
 				.then (function (res) {
-					self.collection = res.data;
-					resolve (res.data);
+					self.collection = res;
+					resolve (res);
 				})
-				.catch (function (res) {
-					reject (res.data);
-				});
+				.catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -59,14 +55,49 @@ angular.module('project').factory ('ActivityModel', function (ModelBase, _) {
 		activitiesForMilestone: function (id) {
 			var self = this;
 			return new Promise (function (resolve, reject) {
-				self.mget ('/api/activity/for/milestone/'+id)
+				self.get ('/api/activity/for/milestone/'+id)
 				.then (function (res) {
-					self.collection = res.data;
-					resolve (res.data);
+					self.collection = res;
+					resolve (res);
 				})
-				.catch (function (res) {
-					reject (res.data);
-				});
+				.catch (reject);
+			});
+		},
+		// -------------------------------------------------------------------------
+		//
+		// initiate the data portion of the activity
+		//
+		// -------------------------------------------------------------------------
+		initiateActivityData: function () {
+			var self = this;
+			return new Promise (function (resolve, reject) {
+				if (self.model.processCode === 'engage-wg') {
+					WGCommentPeriodModel.getNewForProject (self.model.project)
+					.then (function (commentPeriod) {
+						self.model.data = commentPeriod;
+						return commentPeriod;
+					}).then (resolve, reject);
+				}
+			});
+		},
+		// -------------------------------------------------------------------------
+		//
+		// save the activity along with its data, do whatever else is required.
+		// this essentially starts the activity as it is now linked to data
+		//
+		// -------------------------------------------------------------------------
+		initiateActivity: function () {
+			var self = this;
+			return new Promise (function (resolve, reject) {
+				if (self.model.processCode === 'engage-wg') {
+					// WGCommentPeriodModel.setModel (self.model.data)
+					// self.saveModel ()
+					// WGCommentPeriodModel.getNewForProject (self.model.project)
+					// .then (function (commentPeriod) {
+					// 	self.model.data = {commentPeriod: commentPeriod._id};
+					// 	return commentPeriod;
+					// }).then (resolve, reject);
+				}
 			});
 		}
 	});

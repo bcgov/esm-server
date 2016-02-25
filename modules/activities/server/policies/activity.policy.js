@@ -15,6 +15,8 @@ exports.invokeRolesPolicies = function () {
 	helpers.setPathPermissions (acl, [
 		[ '', 'user', '/api/activitybase/:activitybase/add/task/:taskbase'],
 		[ '', 'user', '/api/activity/:activity/add/task/:taskbase'],
+		[ '', 'user', '/api/start/activity/:activity'],
+		[ '', 'user', '/api/complete/activity/:activity'],
 		[ '', 'user', '/api/activity/in/project/:project'],
 		[ '', 'user', '/api/write/activity/in/project/:project'],
 		[ '', 'user', '/api/activity/for/milestone/:milestone']

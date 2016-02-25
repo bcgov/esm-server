@@ -19,8 +19,7 @@ mkdir modules/$PLURAL/client
 mkdir modules/$PLURAL/client/services
 
 
-cat > modules/$PLURAL/client/services/$NAME.model.service.js <<EOFMOD
-
+cat > modules/$PLURAL/client/$NAME.client.module.js <<EOFMOD
 'use strict';
 
 // Use Applicaion configuration module to register a new module
@@ -28,8 +27,7 @@ ApplicationConfiguration.registerModule('${NAME}');
 
 EOFMOD
 
-cat > modules/$PLURAL/client/$NAME.client.module.js <<EOFCC
-
+cat > modules/$PLURAL/client/services/$NAME.model.service.js <<EOFCC
 'use strict';
 // =========================================================================
 //

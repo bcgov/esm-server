@@ -2,6 +2,17 @@
 // =========================================================================
 //
 // Model for conditions
+// Condition / Commitments Fields
+
+// Number / ID
+// Project Phase: Construction, Operations, Decommissioning
+// Title
+// Description
+// Report Requirements
+// Type of Condition (list of values), including FN accommodation
+// Pillar
+// Sector: i.e. mining, wind, power generation
+
 //
 // =========================================================================
 module.exports = require ('../../../core/server/controllers/core.models.controller')

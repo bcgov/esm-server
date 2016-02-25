@@ -21,6 +21,46 @@ module.exports = DBModel.extend ({
 			.then (self.saveDocument)
 			.then (resolve, reject);
 		});
+	},
+	getCurrent: function (projectId) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findFirst ({project:projectId},null,{versionNumber:-1})
+			.then (function (docs) {
+				if (docs[0]) return docs[0];
+				else return {};
+			})
+			.then (resolve, reject);
+		});
+	},
+	getVersions: function (projectId) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findMany ({project:projectId},{version:1, versionNumber:1})
+			.then (resolve, reject);
+		});
+	},
+	getCurrentInfo: function (projectId) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findFirst ({project:projectId},{version:1, versionNumber:1},{versionNumber:-1})
+			.then (resolve, reject);
+		});
+	},
+	getVersionList: function (projectId) {
+		return new Promise (function (resolve, reject) {
+			resolve ([
+				'Submission',
+				'Draft',
+				'Final',
+				'Draft for Draft AIR',
+				'Final for Draft AIR',
+				'Draft for AIR',
+				'Final for AIR',
+				'Draft for Application',
+				'Certified (Schedule A)'
+			]);
+		});
 	}
 });
 
