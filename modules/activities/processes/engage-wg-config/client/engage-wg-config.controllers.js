@@ -8,8 +8,8 @@ angular.module('process')
 // CONTROLLER: Process for Engage WG Configuration
 //
 // -----------------------------------------------------------------------------------
-controllerProcessEngageWG.$inject = ['$scope'];
+controllerProcessEngageWGConfig.$inject = ['$scope'];
 //
-function controllerProcessEngageWG($scope) {
+function controllerProcessEngageWGConfig($scope) {
 	var processEngageWGConfig = this;
 }
