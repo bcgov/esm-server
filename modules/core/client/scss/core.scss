@@ -933,5 +933,13 @@ h2.page-title {
 }
 
 
-
+.text-block {
+	border: 2px dashed $brand-info;
+	padding: 10px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+.text-block > p:last-child {
+	margin-bottom: 0;
+}
 
