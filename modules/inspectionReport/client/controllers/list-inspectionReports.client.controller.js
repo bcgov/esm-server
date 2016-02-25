@@ -40,10 +40,11 @@ angular.module('inspectionReport').controller('InspectionReportListController', 
       $state.go('inspectionReport.edit');
     };
 
-    listInspectionReports.add = function (report) {
-      InspectionReportModel.getNew(report).then(function(res){
+    listInspectionReports.add = function () {
+      InspectionReportModel.getNew().then(function(res){
         InspectionReportModel.setModel(res);
-        $state.go('inspectionReport.edit');
+        //console.log("About to leave list, model is ", InspectionReportModel.model);
+        $state.go('inspectionReport.edit', {mode:"new"});
       });
     };
 

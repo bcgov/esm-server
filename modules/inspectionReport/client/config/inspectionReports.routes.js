@@ -25,7 +25,7 @@ angular.module('inspectionReport').config(['$stateProvider',
                 controllerAs: 'addInspectionReport'
             })
             .state('inspectionReport.edit', {
-                url: '/edit',
+                url: '/edit/',
                 templateUrl: 'modules/inspectionReport/client/views/edit-inspection-report.client.view.html',
                 controller: 'editInspectionReportController',
                 controllerAs: 'editInspectionReport'

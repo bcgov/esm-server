@@ -11,7 +11,9 @@ angular.module('inspectionReport').controller('editInspectionReportController', 
         // if no model is set, go to the list to choose.
         if (editInspectionReport.report === null) $state.go("inspectionReport.list");
 
-        console.log("Just arrived to edit. ", editInspectionReport.report);
+
+
+        console.log(editInspectionReport.report);
 
         // Handles the cancel button...
         editInspectionReport.cancel = function() {
@@ -20,11 +22,12 @@ angular.module('inspectionReport').controller('editInspectionReportController', 
 
         // Handles the submit button on the form.
         editInspectionReport.submitInspectionReport = function() {
-            InspectionReportModel.saveModel(editInspectionReport.report).then(
+            // IMPORTANT! if new: InspectionReportModel.add(editInspectionReport.report).then(
+            InspectionReportModel.saveModel().then(
                 function(res) {
                     console.log("saved: ", res);
                     editInspectionReport.reportOpen = false;
-                    //$scope.$apply();
+                    $scope.$apply();
                 },
                 // If the ID is wrong let's go back to the list.
                 function(data) {
