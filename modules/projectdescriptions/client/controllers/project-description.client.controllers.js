@@ -19,9 +19,10 @@ function controllerProjectDescriptionRead ($scope, $state, sAuthentication, _, s
 	$scope.$watch('project', function(newProject) {
 		if (newProject) {
 			projDesc.project = newProject;
-			sProjectDescriptionModel.getDescriptionsForProject (newProject._id)
-			.then (function (descriptions) {
-				projDesc.data = descriptions[0];
+			sProjectDescriptionModel.getCurrentProjectDescription (newProject._id)
+			.then (function (description) {
+				console.log('single desc', description);
+				projDesc.data = description;
 			});
 		}
 	});
@@ -44,14 +45,27 @@ function controllerProjectDescriptionEdit ($scope, $state, sAuthentication, _, s
 
 	sProjectDescriptionModel.getDescriptionsForProject ($state.params.project)
 	.then (function (descriptions) {
-		projDescEdit.data = descriptions[0];
+		if (descriptions.length === 0) {
+			// add new model
+			sProjectDescriptionModel.new().then( function(newDesc) {
+				projDescEdit.data = newDesc;
+
+				sProjectDescriptionModel.setModel(newDesc);
+
+				console.log(newDesc);
+			});
+		} else {
+			projDescEdit.versions = descriptions;
+			projDescEdit.data = descriptions[0];
+
+			sProjectDescriptionModel.setModel(descriptions[0]);
+		}
 	});
 
-	projDescEdit.save = function() {
-		sProjectDescriptionModel.saveModel().then( function() {
-			console.log('saved');
+	projDescEdit.save = function(type) {
+		sProjectDescriptionModel.saveAs(type).then( function(resp) {
+			console.log('saved', resp);
 		});
-
 	};
 
 }

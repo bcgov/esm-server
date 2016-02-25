@@ -2,7 +2,7 @@
 
 angular.module('process')
     .run( initProcessEngageWGConfig )
-    .directive('tmplProcessEngageWorkingGroupConfig',  directiveProcessEngageWGConfig);
+    .directive('tmplProcessEngageWorkingGroupConfiguration',  directiveProcessEngageWGConfig);
 // -----------------------------------------------------------------------------------
 //
 // Config: register this task with the UI

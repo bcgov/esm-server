@@ -34,6 +34,13 @@ var baseObjects = {
 		    "processCode" : "engage-working-group"
 		},
 		{
+		    "description" : "Engage Working Group Configuration",
+		    "name" : "Engage Working Group Configuration",
+		    "code" : "engage-working-group-configuration",
+		    "tasks" : [],
+		    "processCode" : "engage-working-group-configuration"
+		},		
+		{
 		    "description" : "Federal Substitution",
 		    "name" : "Federal Substitution",
 		    "code" : "federal-substitution",
