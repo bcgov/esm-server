@@ -22,5 +22,6 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	overriddenBy   : { type:'ObjectId', ref:'User' },
 	overrideReason : { type:String, default:'' },
 	completed      : { type:Boolean, default:false },
-	order	  : { type: Number, default:0 }
+	order          : { type: Number, default:0 },
+	data           : {}
 });

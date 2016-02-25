@@ -168,13 +168,40 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	findById : function (id) {
+		return this.findOne ({_id : id});
+		// var self = this;
+		// return new Promise (function (resolve, reject) {
+		// 	if (self.err) return reject (self.err);
+		// 	var q = _.extend ({}, self.baseQ, {_id : id});
+		// 	// console.log ('q = ',q);
+		// 	self.model.findOne (q)
+		// 	.populate (self.populate)
+		// 	.exec ()
+		// 	.then (resolve, reject);
+		// 	if (self.resetAccess) {
+		// 		self.resetAccess = false;
+		// 		self.setAccess ('read');
+		// 	}
+		// });
+	},
+	// -------------------------------------------------------------------------
+	//
+	// this function returns a promise using the find by Id method. It has an
+	// optional populate as well. this is assumed blank unless otherwise passed in
+	// it aslo deals woith permissions on the actual object, adding this to the
+	// query if required
+	//
+	// -------------------------------------------------------------------------
+	findOne : function (query, fields) {
 		var self = this;
+		query = query || {};
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
-			var q = _.extend ({}, self.baseQ, {_id : id});
+			var q = _.extend ({}, self.baseQ, query);
 			// console.log ('q = ',q);
 			self.model.findOne (q)
 			.populate (self.populate)
+			.select (fields)
 			.exec ()
 			.then (resolve, reject);
 			if (self.resetAccess) {
@@ -188,7 +215,7 @@ _.extend (DBModel.prototype, {
 	// returns a promise, takes optional query, sort and populate
 	//
 	// -------------------------------------------------------------------------
-	findMany : function (query) {
+	findMany : function (query, fields) {
 		var self = this;
 		query = query || {};
 		return new Promise (function (resolve, reject) {
@@ -198,6 +225,27 @@ _.extend (DBModel.prototype, {
 			self.model.find (q)
 			.sort (self.sort)
 			.populate (self.populate)
+			.select (fields)
+			.exec ()
+			.then (resolve, reject);
+			if (self.resetAccess) {
+				self.resetAccess = false;
+				self.setAccess ('read');
+			}
+		});
+	},
+	findFirst : function (query, fields, sort) {
+		var self = this;
+		query = query || {};
+		return new Promise (function (resolve, reject) {
+			if (self.err) return reject (self.err);
+			var q = _.extend ({}, self.baseQ, query);
+			// console.log ('q.$or = ',q.$or[0].read);
+			self.model.find (q)
+			.sort (sort)
+			.limit (1)
+			.populate (self.populate)
+			.select (fields)
 			.exec ()
 			.then (resolve, reject);
 			if (self.resetAccess) {

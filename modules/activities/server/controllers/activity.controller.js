@@ -31,6 +31,19 @@ module.exports = DBModel.extend ({
 	},
 	// -------------------------------------------------------------------------
 	//
+	// start or complete activity
+	//
+	// -------------------------------------------------------------------------
+	startActivity: function (oldDoc, newDoc) {
+		newDoc.status = 'In Progress';
+		return this.update (oldDoc, newDoc);
+	},
+	completeActivity: function (oldDoc, newDoc) {
+		newDoc.status = 'Completed';
+		return this.update (oldDoc, newDoc);
+	},
+	// -------------------------------------------------------------------------
+	//
 	// when making a activity from a base it will always be in order to attach
 	// to a milestone, so the project and stream and milestone are passed in here along
 	// with the base

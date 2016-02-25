@@ -14,32 +14,22 @@ angular.module('projectdescription').factory ('ProjectDescriptionModel', functio
 	var Class = ModelBase.extend ({
 		urlName : 'projectdescription',
 		getDescriptionsForProject : function (projectId) {
-			var self = this;
-			return new Promise (function (resolve, reject) {
-				self.getQuery ({project:projectId})
-				.then (resolve, reject);
-			});
+			return this.getQuery ({project:projectId});
 		},
 		getCurrentProjectDescription : function (projectId) {
-			var self = this;
-			return new Promise (function (resolve, reject) {
-				self.getQuery ({project:projectId})
-				.then (function (descriptions) {
-					if (descriptions[0]) {
-						self.setModel (descriptions[0]);
-						return descriptions[0];
-					}
-					else return null;
-				})
-				.then (resolve, reject);
-			});
+			return this.get ('/api/projectdescription/for/project/'+projectId+'/current');
 		},
 		saveAs: function (type) {
-			var self = this;
-			return new Promise (function (resolve, reject) {
-				self.post('/api/projectdescription/save/as/'+type, self.model)
-				.then (resolve, reject);
-			});
+			return this.post('/api/projectdescription/save/as/'+type, this.model);
+		},
+		getVersionsForProject: function (projectId) {
+			return this.get ('/api/projectdescription/for/project/'+projectId+'/versions');
+		},
+		getCurrentInfo: function (projectId) {
+			return this.get ('/api/projectdescription/for/project/'+projectId+'/current/info');
+		},
+		getVersionStrings: function () {
+			return this.get ('/api/projectdescription/list/versions');
 		}
 	});
 	return new Class ();

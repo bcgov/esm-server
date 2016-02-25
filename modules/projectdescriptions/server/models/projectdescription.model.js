@@ -10,7 +10,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__access       : true,
 	__tracking     : true,
 	project        : { type:'ObjectId', ref:'Project', default:null, index:true},
-	version        : { type:String, enum:['Draft', 'Final', 'Certified'], default:'Draft', index:true},
+	version        : { type:String, enum:['Submission', 'Draft', 'Final', 'Draft for Draft AIR', 'Final for Draft AIR', 'Draft for AIR', 'Final for AIR', 'Draft for Application', 'Certified (Schedule A)'], default:'Submission', index:true},
 	versionNumber  : { type:Number, default:0 },
 	general: {
 		background : {type:String, default: ''},

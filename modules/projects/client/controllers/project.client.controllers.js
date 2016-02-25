@@ -32,9 +32,11 @@ function controllerProject($scope, $rootScope, sProjectModel, $stateParams, _) {
 
 	proj.refresh = function() {
 		sProjectModel.getModel($stateParams.id).then( function(data) {
+			console.log (data);
 			proj.project = data;
 			$scope.$apply();
 		}).catch( function(err) {
+			console.log (err);
 			$scope.error = err;
 		});
 	};
