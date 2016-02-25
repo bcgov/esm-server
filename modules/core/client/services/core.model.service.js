@@ -170,7 +170,7 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		},
 		getId : function (id) {
 			console.log ('this.urlbase = ', this.urlbase);
-			return this.mget (this.urlbase+id);
+			return this.get (this.urlbase+id);
 		},
 		save : function (obj) {
 			return this.put (this.urlbase+obj._id, obj);

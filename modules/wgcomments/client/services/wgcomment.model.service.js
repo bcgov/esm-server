@@ -11,7 +11,10 @@ angular.module('wgcomment').factory ('WGCommentModel', function (ModelBase, _) {
 	// have all the basic crud stuff built in
 	//
 	var Class = ModelBase.extend ({
-		urlName : 'wgcomment'
+		urlName : 'wgcomment',
+		getCommentsForPeriod: function (periodId) {
+			return this.get ('/api/wgcomments/for/period/'+periodId);
+		}
 	});
 	return new Class ();
 });

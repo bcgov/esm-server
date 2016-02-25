@@ -10,5 +10,8 @@ var _         = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'WGComment',
+	getCommentsForPeriod : function (periodId) {
+		this.findMany();
+	}
 });
 

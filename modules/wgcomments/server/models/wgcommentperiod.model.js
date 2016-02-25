@@ -11,7 +11,8 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__tracking           : true,
 	__status             : ['Not Started', 'In Progress', 'Complete'],
 	project              : { type:'ObjectId', ref:'Project', default:null, index:true},
-	content              : {type:String, default: ''},
+	contentType          : {type:String, default: ''},
+	contentVersion       : {type:String, default: ''},
 	contentVersionNumber : {type:Number, default:0},
 	roles                : { type: String },
 	instructions         : {type:String, default: ''}
