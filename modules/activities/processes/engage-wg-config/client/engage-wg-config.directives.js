@@ -27,7 +27,8 @@ function directiveProcessEngageWGConfig() {
         controller: 'controllerProcessEngageWGConfig',
         controllerAs: 'processEngageWGConfig',
         scope: {
-            project: '='
+            project: '=',
+            activity: '='
         }
     };
     return directive;

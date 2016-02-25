@@ -75,6 +75,7 @@
 						<h5>Location Documents</h5>
 
 						<p>List here</p>
+						<!-- <a href class="small pull-right" current="[1,2,3]" x-modal-document-link x-project="docBrowser.project" ng-if="docBrowser.authentication.user">Link <span class="glyphicon glyphicon-upload"></span></a> -->
 
 						<h4>Overview</h4>
 						<h5>Components</h5>
@@ -231,10 +232,14 @@
 								<a class="btn btn-default" href ng-click="edit.proposedDevelopmentSchedule = false">Close</a>
 							</div>
 						</div>
-
-						<div class="form-group text-right">
-							<a class="btn btn-default" href ng-click="projDescEdit.save('Final')">Save as Final</a>
-							<a class="btn btn-default btn-primary" href ng-click="projDescEdit.save('Draft')">Save as Draft</a>
+						<hr/>
+						<div class="form-inline text-right">
+							<div class="form-group">
+								<select ng-model="projDescEdit.saveAsType" class="form-control" ng-options="type as type for type in projDescEdit.versionStrings"></select>
+							</div>
+							<div class="form-group">						
+								<a class="btn btn-default" href ng-disabled="!projDescEdit.saveAsType" ng-click="projDescEdit.save()">Save</a>
+							</div>
 						</div>	
 					</div>
 				</section>

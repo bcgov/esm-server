@@ -8,11 +8,7 @@
 				<div class="col-sm-3">
 					<div class="form-group">
 						<label class="control-label">Content for Review</label>
-						<select ng-model="processEngageWGConfig.config.content" class="form-control">
-							<option value="projectdescription">Project Description</option>
-							<option value="draftair">Draft AIR</option>
-							<option value="air">AIR</option>
-							<option value="application">Application</option>
+						<select ng-model="processEngageWGConfig.config.contentType" class="form-control" ng-options="doc[0] as doc[0].name for doc in processEngageWGConfig.config.currentDocuments">
 						</select>
 					</div>
 					<div class="form-group">
@@ -24,7 +20,7 @@
 								ng-model="processEngageWGConfig.config.dateOpen"
 								ng-disabled="1"/>
 							<div x-modal-date-picker
-								x-selected-date="processEngageWGConfig.config.dateOpen"
+								x-selected-date="processEngageWGConfig.config.dateStarted"
 								class="input-group-addon btn-default">
 							<i class="glyphicon glyphicon-calendar"></i></div>
 						</div>
@@ -39,7 +35,7 @@
 								ng-model="processEngageWGConfig.config.dateClose"
 								ng-disabled="1"/>
 							<div x-modal-date-picker
-								x-selected-date="processEngageWGConfig.config.dateClose"
+								x-selected-date="processEngageWGConfig.config.dateCompleted"
 								class="input-group-addon btn-default">
 							<i class="glyphicon glyphicon-calendar"></i></div>
 						</div>
@@ -50,7 +46,7 @@
 					<label class="control-label">Select Applicable Roles</label>
 					<div class="well well-sm">
 						<ul class="list-unstyled task-list">
-							<li ng-repeat="role in ['admin', 'project-team', 'working-group', 'first-nations', 'consultant']">
+							<li ng-repeat="role in processEngageWGConfig.config.projectRoles">
 								<button class="btn btn-block btn-sm btn-layer btn-default"
 									ng-click="processEngageWGConfig.chosenRoles[role] = !processEngageWGConfig.chosenRoles[role]"
 									ng-class="{'btn-success': processEngageWGConfig.chosenRoles[role]}">{{ role }}</button>

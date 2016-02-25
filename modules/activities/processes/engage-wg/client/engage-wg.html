@@ -34,9 +34,9 @@
 		<div class="panel-body">
 			<div class="row">
 				<div class="col-sm-8">
-					<div class="form-group">
+					<div class="form-group">{{ tinymceOptions }}
 						<label class="control-label">Your Response To Selected Item</label>
-						<textarea rows="10" ng-model="processEngageWG.config.instructions" class="form-control"></textarea>
+						<textarea ui-tinymce="tinymceOptions" rows="10" ng-model="processEngageWG.config.instructions" class="form-control"></textarea>
 					</div>
 				</div>
 				<div class="col-sm-4">
@@ -85,16 +85,3 @@
 	</div>
 
 </section>
-
-
-
-
-
-</section> <!-- /panel -->
-
-<section class="panel panel-default">
-	<div class="block-content">
-		<h3>Notify Working Group</h3>
-		<tmpl-notifications x-project=""></tmpl-notifications>
-	</div>
-</section> <!-- /panel -->

@@ -1,7 +1,7 @@
 <section class="block-content">
 	<h3>Project Description <small>
-	<em ng-show="proJDesc.data.version">{{projDesc.data.version}} {{projDesc.data.versionNumber}}&nbsp;</em>
-		<a href ui-sref="projectdescription({project:projDesc.project._id})">Edit</a>
+		<em ng-show="proJDesc.data.version">{{projDesc.data.version}} {{projDesc.data.versionNumber}}&nbsp;</em>
+		<a href ui-sref="projectdescription({project:projDesc.project._id})" ng-if="projDesc.authentication.user">Edit</a>
 	</small>
 	</h3>
 	
