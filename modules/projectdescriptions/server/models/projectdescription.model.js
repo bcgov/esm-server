@@ -25,6 +25,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	},
 	landUserSetting :{type:String, default: ''},
 	consultingActivities:{type:String, default: ''},
-	proposedDevelopmentSchedule:{type:String, default: ''}
+	proposedDevelopmentSchedule:{type:String, default: ''},
+	generated: {type:String, default:''}
 });
 
