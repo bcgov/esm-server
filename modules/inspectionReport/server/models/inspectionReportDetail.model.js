@@ -12,6 +12,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	complianceTypes						: { type: String, default:'' },
 	requirementDescription				: { type: String, default:'' },
 	findings							: { type: String, default:'' },
-	compliance							: { type: String, default:'' }
+	compliance							: { type: String, default:'' } // ,
+	// inspectionReport					: {type: 'ObjectId', ref: 'Inspectionreport' }
 });
 

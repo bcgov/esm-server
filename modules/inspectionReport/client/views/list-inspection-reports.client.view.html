@@ -30,7 +30,7 @@
         <div class="text-right">
 
           <div class="form-group">
-            <input type="button" value="Add Inspection Report" class="btn btn-default btn-sm" ui-sref="inspectionReport.edit({inspectionReportId: 'new'})">
+            <input type="button" value="Add Inspection Report" class="btn btn-default btn-sm" ng-click="listInspectionReports.add();">
           </div>
 
           <pagination class="pagination-sm" boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage" ng-change="pageChanged()"></pagination>
