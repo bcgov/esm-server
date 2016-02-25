@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('process')
-	.controller('controllerProcessEngageWG', controllerProcessEngageWG);
+	.controller('controllerProcessEngageWGConfig', controllerProcessEngageWGConfig);
 
 // -----------------------------------------------------------------------------------
 //
-// CONTROLLER: Process for Engage WG
+// CONTROLLER: Process for Engage WG Configuration
 //
 // -----------------------------------------------------------------------------------
 controllerProcessEngageWG.$inject = ['$scope'];
 //
 function controllerProcessEngageWG($scope) {
-	var processEngageWG = this;
+	var processEngageWGConfig = this;
 }
