@@ -40,7 +40,7 @@ var addUserRole = function (user, code) {
 	return new Promise (function (resolve, reject) {
 		getNewOrExistingRole (code)
 		.then (function (role) {
-			role.setUserRole (user._id);
+			role.setUserRole (user._id.toString());
 			return role.save ();
 		})
 		.then (function (role) {
@@ -56,7 +56,7 @@ var addObjectRole = function (objectType, objectId, code) {
 		getNewOrExistingRole (code)
 		.then (function (role) {
 			console.log ('++ adding object role ',objectType, objectId, role);
-			role.setObjectRole (objectType, objectId);
+			role.setObjectRole (objectType, objectId.toString());
 			return role.save ();
 		})
 		.then (resolve, reject);
@@ -131,8 +131,9 @@ var addRolesToConfigObject = function (dbobject, objectType, spec) {
 //
 // -------------------------------------------------------------------------
 var getUsersForRole = function (code) {
+	console.log (code);
 	return new Promise (function (resolve, reject) {
-		Role.findOne ({ code: code },{users:1})
+		Role.findOne ({ code: code },{users:1, code:1})
 		.populate('users', 'username displayName _id')
 		.exec()
 		.then (resolve, reject);
@@ -143,6 +144,74 @@ var getUsersForRoleRoute = function (req, res) {
 	.then (helpers.success(res), helpers.failure(res));
 };
 
+var getRolesInProject = function (project) {
+	return new Promise (function (resolve, reject) {
+		resolve (project.roles);
+	});
+};
+var getRolesInProjectRoute = function (req, res) {
+	getRolesInProject (req.Project)
+	.then (helpers.success(res), helpers.failure(res));
+};
+
+var getUsersInRolesInProject = function (project) {
+	return new Promise (function (resolve, reject) {
+		var a = project.roles.map (function (role) {
+			return getUsersForRole (role);
+		});
+		Promise.all (a)
+		.then (function (newa) {
+			var ret = {};
+			for (var i=0; i<project.roles.length; i++) {
+				var role = project.roles[i];
+				var result = (newa[i] && newa[i].users && newa[i].users.length) ? newa[i].users : [];
+				console.log ('role = ', role);
+				console.log ('result = ', result);
+				ret[role] = result;
+			}
+			console.log ('return', ret);
+			return ret;
+		})
+		.then (resolve, reject);
+	});
+};
+var getUsersInRolesInProjectRoute = function (req, res) {
+	getUsersInRolesInProject (req.Project)
+	.then (helpers.success(res), helpers.failure(res));
+};
+var getProjectsWithRole = function (code) {
+	return new Promise (function (resolve, reject) {
+		Role.findOne ({ code: code },{projects:1, code:1})
+		.populate('projects', 'code name description _id')
+		.exec()
+		.then (resolve, reject);
+	});
+};
+var getProjectsWithRoleRoute = function (req, res) {
+	getProjectsWithRole (req.params.role)
+	.then (helpers.success(res), helpers.failure(res));
+};
+
+var addRoleRoute = function (req, res) {
+	newRole (req.params.role)
+	.then (function (role) {
+		role.set (req.body);
+		return role.save ();
+	})
+	.then (helpers.success(res), helpers.failure(res));
+};
+var updateRoleRoute = function (req, res) {
+	getRole (req.params.role)
+	.then (function (role) {
+		role.set (req.body);
+		return role.save ();
+	})
+	.then (helpers.success(res), helpers.failure(res));
+};
+var getRoleRoute = function (req, res) {
+	getRole (req.params.role)
+	.then (helpers.success(res), helpers.failure(res));
+};
 
 module.exports = {
 	getRole : getRole,
@@ -156,6 +225,13 @@ module.exports = {
 	addObjectRolesFromSpec : addObjectRolesFromSpec,
 	addRolesToConfigObject : addRolesToConfigObject,
 	getUsersForRole : getUsersForRole,
-	getUsersForRoleRoute : getUsersForRoleRoute
+	getUsersForRoleRoute : getUsersForRoleRoute,
+	getRolesInProjectRoute:getRolesInProjectRoute,
+	getUsersInRolesInProjectRoute:getUsersInRolesInProjectRoute,
+	getProjectsWithRole:getProjectsWithRole,
+	getProjectsWithRoleRoute:getProjectsWithRoleRoute,
+	addRoleRoute:addRoleRoute,
+	updateRoleRoute:updateRoleRoute,
+	getRoleRoute:getRoleRoute,
 };
 

@@ -23,11 +23,11 @@ var RoleSchema  = new Schema ({
 
 var setUnique = function (a, value) {
 	a.push (value);
-	// console.log ('a after push = ', a);
+	console.log ('a after push = ', a);
 	var b = _.uniq (a, function (a, b) {
 		return (a.equals(b));
 	});
-	// console.log ('b after uniq = ', b);
+	console.log ('b after uniq = ', b);
 	return b;
 };
 var setUniqueArray = function (a, addArray) {

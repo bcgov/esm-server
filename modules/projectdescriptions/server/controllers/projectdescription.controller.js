@@ -14,7 +14,7 @@ module.exports = DBModel.extend ({
 	saveAs: function (type, desc) {
 		var self = this;
 		delete desc._id;
-		desc.versionNumber ++;
+		desc.versionNumber++;
 		desc.version = type;
 		return new Promise (function (resolve, reject) {
 			self.newDocument (desc)
