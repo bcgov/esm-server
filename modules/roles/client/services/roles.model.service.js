@@ -33,15 +33,6 @@ angular.module('roles').factory ('RoleModel', function (ModelBase, _) {
 		setRoleUsers: function (rolecode, userIdArray) {
 			return this.put ('/api/role/'+rolecode, {users:userIdArray});
 		}
-
-
-
-		getCurrentInfo: function (projectId) {
-			return this.get ('/api/projectdescription/for/project/'+projectId+'/current/info');
-		},
-		getVersionStrings: function () {
-			return this.get ('/api/projectdescription/list/versions');
-		}
 	});
 	return new Class ();
 });
