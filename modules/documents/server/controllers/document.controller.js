@@ -688,3 +688,17 @@ var fetchd = function (req, res) {
 };
 exports.fetchd = fetchd;
 
+exports.getlist = function (req, res) {
+	var pa = req.body.map (function (id) {
+		return Model.findOne ({_id:id}).exec();
+	});
+	Promise.all (pa)
+	.then (function (model) {
+		//console.log (model);
+		helpers.sendData (res, model);
+	})
+	.catch (function (err) {
+		// console.log (err);
+		helpers.sendError (res, err);
+	});
+};
