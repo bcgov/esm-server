@@ -14,14 +14,18 @@ function controllerProjectDescriptionRead ($scope, $state, sAuthentication, _, s
 	// ui-sref="route.route({projectid:model.projectid})"
 	//$state.go (route.route, {projectid:$scope.projectid})
 
+
 	var projDesc = this;
 
+	projDesc.authentication = sAuthentication;
+	
 	$scope.$watch('project', function(newProject) {
 		if (newProject) {
 			projDesc.project = newProject;
-			sProjectDescriptionModel.getDescriptionsForProject (newProject._id)
-			.then (function (descriptions) {
-				projDesc.data = descriptions[0];
+			sProjectDescriptionModel.getCurrentProjectDescription (newProject._id)
+			.then (function (description) {
+				console.log('single desc', description);
+				projDesc.data = description;
 			});
 		}
 	});
@@ -42,16 +46,46 @@ function controllerProjectDescriptionEdit ($scope, $state, sAuthentication, _, s
 		projDescEdit.project = data;
 	});
 
+	sProjectDescriptionModel.getVersionStrings().then( function(data) {
+		projDescEdit.versionStrings = data;
+	});
+
 	sProjectDescriptionModel.getDescriptionsForProject ($state.params.project)
 	.then (function (descriptions) {
-		projDescEdit.data = descriptions[0];
+		if (descriptions.length === 0) {
+			// add new model
+			sProjectDescriptionModel.new().then( function(newDesc) {
+				projDescEdit.data = newDesc;
+				projDescEdit.saveAsType = newDesc.version;
+				sProjectDescriptionModel.setModel(newDesc);
+			});
+		} else {
+			projDescEdit.versions = descriptions;
+			projDescEdit.data = descriptions[0];
+			projDescEdit.saveAsType = descriptions[0].version;
+			sProjectDescriptionModel.setModel(descriptions[0]);
+		}
 	});
 
 	projDescEdit.save = function() {
-		sProjectDescriptionModel.saveModel().then( function() {
-			console.log('saved');
-		});
-
+		// if the save type changes, perform a save as.  Otherwise, just save.
+		if (projDescEdit.saveAsType !== projDescEdit.data.version) {
+			projDescEdit.data.project = projDescEdit.project._id;
+			sProjectDescriptionModel.saveAs(projDescEdit.saveAsType).then( function(resp) {
+				sProjectDescriptionModel.getDescriptionsForProject(projDescEdit.project._id).then( function(descriptions) {
+					projDescEdit.versions = descriptions;
+					projDescEdit.data = descriptions[0];
+					projDescEdit.saveAsType = descriptions[0].version;
+					sProjectDescriptionModel.setModel(descriptions[0]);
+					$scope.$apply();
+				});
+			});
+		} else {
+			projDescEdit.data.project = projDescEdit.project._id;
+			sProjectDescriptionModel.saveModel(projDescEdit.saveAsType).then( function(resp) {
+				projDescEdit.data = resp;
+			});
+		}
 	};
 
 }

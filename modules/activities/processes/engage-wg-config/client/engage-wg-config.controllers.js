@@ -8,8 +8,29 @@ angular.module('process')
 // CONTROLLER: Process for Engage WG Configuration
 //
 // -----------------------------------------------------------------------------------
-controllerProcessEngageWGConfig.$inject = ['$scope'];
+controllerProcessEngageWGConfig.$inject = ['$scope', 'WGCommentPeriodModel'];
 //
-function controllerProcessEngageWGConfig($scope) {
+function controllerProcessEngageWGConfig($scope, WGCommentPeriodModel) {
 	var processEngageWGConfig = this;
+
+	$scope.$watch('project', function(newValue) {
+		if (newValue) {
+			processEngageWGConfig.project = newValue;
+			console.log('proj', newValue);
+			WGCommentPeriodModel.getNewForProject(newValue._id).then( function(data) {
+				processEngageWGConfig.config = data;
+				console.log('config', data);
+			});
+		}
+	});
+
+	$scope.$watch('activity', function(newValue) {
+		if (newValue) {
+			processEngageWGConfig.activity = newValue;
+			console.log('act', newValue);
+		}
+	});
+
+
+	
 }

@@ -292,6 +292,15 @@ ul.list-indent-left {
 	display: none;
 }
 
+.row-folder.active,
+.row-document.active {
+    background-color: #204d74;
+    border-color: #122b40;
+}
+.row-folder a,
+.row-document a {
+	display: block
+}
 .row-folder.active span.arrow,
 .row-document.active span.arrow {
 	display: inline-block;
@@ -305,7 +314,6 @@ ul.list-indent-left {
 .bg-muted {
 	background-color: #f2f2f2;
 }
-
 
 .list-documents li.active .arrow {
 	position:absolute;
@@ -938,6 +946,11 @@ h2.page-title {
 	padding: 10px;
 	border-radius: 10px;
 	cursor: pointer;
+	background-color: #d9edf7;
+}
+.text-block-success {
+	border: 2px dotted $brand-success;
+	background-color: transparent;
 }
 .text-block > p:last-child {
 	margin-bottom: 0;

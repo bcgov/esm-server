@@ -27,6 +27,7 @@ module.exports = DBModel.extend ({
 		return new Promise (function (resolve, reject) {
 			self.findFirst ({project:projectId},null,{versionNumber:-1})
 			.then (function (docs) {
+				console.log('here', docs);
 				if (docs[0]) return docs[0];
 				else return {};
 			})
