@@ -4,7 +4,6 @@
 		<h1 class="page-title">
 			{{ projDescEdit.project.name }}
 		</h1>
-
 		<div class="row">
 			<div class="col-sm-2">
 				<label class="control-label">Versions</label>
@@ -74,8 +73,7 @@
 
 						<h5>Location Documents</h5>
 
-						<p>List here</p>
-						<!-- <a href class="small pull-right" current="[1,2,3]" x-modal-document-link x-project="docBrowser.project" ng-if="docBrowser.authentication.user">Link <span class="glyphicon glyphicon-upload"></span></a> -->
+						<tmpl-documents-list x-documents="projDescEdit.data.general.locationDocuments" x-project="projDescEdit.project"></tmpl-documents-list>
 
 						<h4>Overview</h4>
 						<h5>Components</h5>
@@ -157,7 +155,8 @@
 
 
 						<h5>Site Plan Documents</h5>
-						<p>List here</p>
+
+						<tmpl-documents-list x-documents="projDescEdit.data.general.sitePlanDocuments" x-project="projDescEdit.project"></tmpl-documents-list>
 
 						<h4>Land User Setting</h4>
 
@@ -234,6 +233,9 @@
 						</div>
 						<hr/>
 						<div class="form-inline text-right">
+							<div class="form-group fadeIn" ng-if="projDescEdit.saveMessage">
+								{{ projDescEdit.saveMessage }}&nbsp;&nbsp;&nbsp;
+							</div>
 							<div class="form-group">
 								<select ng-model="projDescEdit.saveAsType" class="form-control" ng-options="type as type for type in projDescEdit.versionStrings"></select>
 							</div>

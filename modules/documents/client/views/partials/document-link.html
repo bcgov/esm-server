@@ -1,13 +1,22 @@
-<label class="control-label">Link Documents</label>
-<div class="well well-sm container-fluid">
-	<table class="table table-condensed">
-		<tbody>
-			<tr ng-repeat="doc in documents">
-	        	<td>
-	          		<input type="checkbox" ng-change="changeItem({{doc}})" ng-model="ids" />{{doc.internalOriginalName}}
-	        	</td>
-	    	</tr>
-		</tbody>
-	</table>
-</div>
+<tmpl-documents-browser
+	x-project="docLink.project">
+</tmpl-documents-browser>
 
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-12">
+			<p>Select a document above and click the link icon to associate.</p>
+			<div class="well well-sm">
+				<table class="table table-condensed table-no-head no-lower-margin">
+					<tbody>
+						<tr ng-repeat="doc in docLink.linkFiles track by $index">
+				        		<td>
+				          		{{doc.internalOriginalName}}
+				        		</td>
+				    		</tr>
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+	</d

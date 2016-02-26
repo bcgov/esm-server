@@ -1,17 +1,24 @@
-<label class="control-label pull-right slight clickable" ng-if="docList.filterId" ng-click="docList.filterId = ''">All</label>
-<label class="control-label">Related Documents</label>
 <div class="well well-sm clearfix">
-	<table class='table table-condensed small table-no-head'>
-		<tbody class="clickable">
-			<tr ng-repeat='file in docList.filterDocuments | filter:{"responses": docList.filterId }'>
+	<table class='table table-condensed small table-no-head no-lower-margin'>
+		<tbody>
+			<tr ng-repeat='file in docList.documents'>
 				<td class="document-cell">
-					<a href><span class='glyphicon glyphicon-file'></span> {{ file.title }} </a>
+					<a href="/api/document/{{ file._id }}/fetch" target="_blank"><span class='glyphicon glyphicon-file'></span> {{ file.internalOriginalName }}</a>{{ file.projectFolderType }} / {{ file.projectFolderSubType }} / {{ file.projectFolderName }}
 				</td>
 				<td>
-					<small ng-if="file.v">v.{{ file.v }}</small>
+					<small ng-if="file.v">v.{{ file.documentVersion }}</small>
 				</td>
-				<td class='text-right no-wrap'>{{ file.date | amDateFormat:'MMM Do'}}</td>
+				<td class='text-right no-wrap'>{{ file.dateUpdated | amDateFormat:'MMM Do'}}</td>
+			</tr>
+			<tr ng-if="!docList.documents || docList.documents.length === 0">
+				<td colspan="3">No associated documents</td>
 			</tr>
 		</tbody>
 	</table>
+	<a href
+		x-modal-document-link
+		class="btn btn-xs btn-default"
+		x-current="docList.documents"
+		x-project="docList.project"
+		ng-if="docList.authentication.user">Select Documents</a>
 </div>

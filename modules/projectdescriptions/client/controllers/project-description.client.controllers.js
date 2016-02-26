@@ -37,11 +37,12 @@ function controllerProjectDescriptionRead ($scope, $state, sAuthentication, _, s
 // CONTROLLER: Public Project Description Edit
 //
 // -----------------------------------------------------------------------------------
-controllerProjectDescriptionEdit.$inject = ['$scope', '$state', 'Authentication', '_', 'ProjectModel', 'ProjectDescriptionModel'];
+controllerProjectDescriptionEdit.$inject = ['$scope', '$state', 'Authentication', '_', 'ProjectModel', 'ProjectDescriptionModel', 'moment'];
 /* @ngInject */
-function controllerProjectDescriptionEdit ($scope, $state, sAuthentication, _, sProjectModel, sProjectDescriptionModel) {
+function controllerProjectDescriptionEdit ($scope, $state, sAuthentication, _, sProjectModel, sProjectDescriptionModel, moment) {
 	var projDescEdit = this;
-
+	projDescEdit.saveMessage = null;
+	
 	sProjectModel.getModel($state.params.project).then( function(data) {
 		projDescEdit.project = data;
 	});
@@ -49,6 +50,12 @@ function controllerProjectDescriptionEdit ($scope, $state, sAuthentication, _, s
 	sProjectDescriptionModel.getVersionStrings().then( function(data) {
 		projDescEdit.versionStrings = data;
 	});
+
+//	projDescEdit.refreshDocuments = function() {	
+		//populate: 'general.locationDocuments overview.sitePlanDocuments',
+		// Document.getDocumentsInList (array)  its using the old way, so use .then (function (res) { res.data
+//	};
+
 
 	sProjectDescriptionModel.getDescriptionsForProject ($state.params.project)
 	.then (function (descriptions) {
@@ -67,6 +74,7 @@ function controllerProjectDescriptionEdit ($scope, $state, sAuthentication, _, s
 		}
 	});
 
+
 	projDescEdit.save = function() {
 		// if the save type changes, perform a save as.  Otherwise, just save.
 		if (projDescEdit.saveAsType !== projDescEdit.data.version) {
@@ -77,6 +85,7 @@ function controllerProjectDescriptionEdit ($scope, $state, sAuthentication, _, s
 					projDescEdit.data = descriptions[0];
 					projDescEdit.saveAsType = descriptions[0].version;
 					sProjectDescriptionModel.setModel(descriptions[0]);
+					projDescEdit.saveMessage = descriptions[0].version + " saved " + moment().format('MMMM Do YYYY, h:mm:ss a');
 					$scope.$apply();
 				});
 			});
@@ -84,6 +93,8 @@ function controllerProjectDescriptionEdit ($scope, $state, sAuthentication, _, s
 			projDescEdit.data.project = projDescEdit.project._id;
 			sProjectDescriptionModel.saveModel(projDescEdit.saveAsType).then( function(resp) {
 				projDescEdit.data = resp;
+				projDescEdit.saveMessage = projDescEdit.saveAsType + " saved " + moment().format('MMMM Do YYYY, h:mm:ss a');
+				$scope.$apply();
 			});
 		}
 	};

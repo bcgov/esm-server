@@ -92,7 +92,7 @@ function directiveDocumentsList() {
         controllerAs: 'docList',
         scope: {
             documents: '=',
-            filterBy: '='
+            project: '='
         }
     };
 
