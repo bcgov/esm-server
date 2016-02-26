@@ -134,7 +134,7 @@ function serviceDocument($http) {
                 "name":"Public Comments/Submissions",
             }
         ];
-    };    
+    };
 
     var getAllDocuments = function() {
         return $http({method:'GET',url: '/api/documents'});
@@ -181,6 +181,12 @@ function serviceDocument($http) {
         return $http({ method: 'DELETE', url: '/api/document/' + document});
     };
 
+    var getDocumentsInList = function (documentList) {
+        return $http({ method: 'PUT', url: '/api/documentlist', data:documentList});
+    };
+
+
+
 	return {
         getDocumentTypes: getDocumentTypes,
 		getDocumentSubTypes: getDocumentSubTypes,
@@ -190,6 +196,7 @@ function serviceDocument($http) {
         getProjectDocumentFolderNames: getProjectDocumentFolderNames,
         getProjectDocumentVersions: getProjectDocumentVersions,
         downloadAndApprove: downloadAndApprove,
-        deleteDocument: deleteDocument
+        deleteDocument: deleteDocument,
+        getDocumentsInList: getDocumentsInList
 	};
 }

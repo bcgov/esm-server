@@ -57,6 +57,8 @@ module.exports = function (app) {
 	app.route ('/api/document/:document/fetch').all (policy.isAllowed)
 		.get (controller.fetchd);
 
+	app.route ('/api/documentlist').all (policy.isAllowed)
+		.put (controller.getlist);
 	//
 	// middleware to auto-fetch parameter
 	//
