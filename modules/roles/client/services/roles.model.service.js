@@ -28,7 +28,7 @@ angular.module('roles').factory ('RoleModel', function (ModelBase, _) {
 			return this.add ({code:rolecode});
 		},
 		addProjectRole: function (projectCode, orgCode, rolecode) {
-			return this.add ({code:projectCode+':'+orgCode'++'rolecode});
+			return this.add ({code:projectCode+':'+orgCode+':'+rolecode});
 		},
 		setRoleUsers: function (rolecode, userIdArray) {
 			return this.put ('/api/role/'+rolecode, {users:userIdArray});
