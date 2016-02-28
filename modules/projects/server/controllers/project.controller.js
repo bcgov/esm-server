@@ -17,20 +17,46 @@ module.exports = DBModel.extend ({
 	populate: 'proponent',
 	preprocessAdd : function (project) {
 		var self = this;
+		var rolePrefix             = project.code + ':';
+		var adminSuffix            = ':admin';
+		var projectAdminRole       = rolePrefix + 'eao' + adminSuffix;
+		var projectProponentAdmin  = rolePrefix + project.orgCode + adminSuffix;
+		var projectProponentMember = rolePrefix + project.orgCode + ':member';
 		return new Promise (function (resolve, reject) {
 			// console.log ('project = ', project);
+			//
+			// add the admin roles to the project roles list
+			//
 			project.roles.push (
-				'pro:admin',
-				'pro:member'
+				projectAdminRole,
+				projectProponentAdmin,
+				projectProponentMember
 			);
+			//
+			// set the project admin role
+			//
+			project.adminRole = projectAdminRole;
+			project.proponentAdminRole = projectProponentAdmin;
+			//
+			// add the project to the roles
+			//
 			RoleController.addRolesToConfigObject (project, 'projects', {
-				read   : ['project:pro:member', 'eao'],
-				submit : ['project:pro:admin']
+				read   : [projectProponentMember],
+				submit : [projectProponentAdmin, projectAdminRole]
 			})
+			//
+			// add the appropriate role to the user
+			//
 			.then (function () {
 				// console.log ('project is now ', project);
-				return RoleController.addUserRole (self.user, project.code + ':pro:admin');
+				var userRole = (user.orgCode === project.orgCode) ? projectProponentAdmin : projectAdminRole;
+				return RoleController.addUserRole (self.user, userRole);
 			})
+			//
+			// update this model's user roles
+			// do this because the user now has new access, without this they
+			// cannot save the project
+			//
 			.then (function () {
 				self.setRoles (self.user);
 				resolve (project);

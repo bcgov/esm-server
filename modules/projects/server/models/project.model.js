@@ -17,6 +17,9 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	location              : { type:String, default:'' },
 	stream                : { type:'ObjectId', ref:'Stream'     , index:true, default:null },
 	proponent             : { type:'ObjectId', ref:'Organization'     , index:true, default:null },
+	adminRole             : { type:String, default: '' },
+	proponentAdminRole    : { type:String, default: '' },
+	orgCode               : { type:String, default: '' },
 	substitution : { type:Boolean, default:false },
 	intake: {
 		affectedFirstNations  : { type:String, default:'' },
