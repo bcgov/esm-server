@@ -10,12 +10,12 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__access             : true,
 	__tracking           : true,
 	__status             : ['Not Started', 'In Progress', 'Complete'],
-	project              : { type:'ObjectId', ref:'Project', default:null, index:true},
-	contentType          : {type:String, default: ''},
-	contentVersion       : {type:String, default: ''},
-	contentVersionNumber : {type:Number, default:0},
+	project              : { type:'ObjectId', ref:'Project', default:null, index:true },
+	contentType          : { type:String, default: '' },
+	contentVersion       : { type:String, default: '' },
+	contentVersionNumber : { type:Number, default:0 },
 	roles                : { type: String },
-	instructions         : {type:String, default: ''}
+	instructions         : { type:String, default: '' }
 },
 {
 	roles: 1
