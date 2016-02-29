@@ -21,7 +21,9 @@ _.extend (DBModel.prototype, {
 	emptyPromise     : helpers.emptyPromise,
 	decorate         : helpers.emptyPromise,
 	preprocessAdd    : helpers.emptyPromise,
+	postprocessAdd   : helpers.emptyPromise,
 	preprocessUpdate : helpers.emptyPromise,
+	postprocessUpdate: helpers.emptyPromise,
 	name             : 'Project',
 	populate         : '',
 	sort             : '',
@@ -42,6 +44,7 @@ _.extend (DBModel.prototype, {
 		// }, options);
 		// // console.log ("opts = ", this.opts);
 		// if (name) this.name = name;
+		this.mongoose   = mongoose;
 		this.model      = mongoose.model (this.name);
 		this.err        = (!this.model) ? new Error ('Model not provided when instantiating ESM Model') : false;
 		this.useAudit   = _.has (this.model.schema.methods, 'setAuditFields');
@@ -382,6 +385,7 @@ _.extend (DBModel.prototype, {
 			.then (self.preprocessAdd)
 			.then (self.saveDocument)
 			.then (self.permissions)
+			.then (self.postprocessAdd)
 			.then (self.decorate)
 			.then (resolve, reject);
 		});
@@ -400,6 +404,7 @@ _.extend (DBModel.prototype, {
 			.then (self.preprocessUpdate)
 			.then (self.saveDocument)
 			.then (self.permissions)
+			.then (self.postprocessUpdate)
 			.then (self.decorate)
 			.then (resolve, reject);
 		});
