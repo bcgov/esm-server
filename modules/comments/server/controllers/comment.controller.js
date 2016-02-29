@@ -10,6 +10,7 @@ var _         = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Comment',
+	populate : {path:'user', select:'_id displayName username orgCode'},
 	// -------------------------------------------------------------------------
 	//
 	// pass in the target type (Project Description, Document, AIR, etc)

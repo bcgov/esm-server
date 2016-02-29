@@ -19,11 +19,12 @@ angular.module('comment').factory ('CommentPeriodModel', function (ModelBase, _)
 		// comments. likely this will only be the project administrator role
 		//
 		// -------------------------------------------------------------------------
-		addNewCommentPeriod: function (newCommentPeriod, project, targetType, targetId, roles) {
+		addNewCommentPeriod: function (newCommentPeriod, project, phaseId, targetType, targetId, roles) {
 			//
 			// set some details
 			//
 			newCommentPeriod.project    = project._id;
+			newCommentPeriod.phase      = phaseId;
 			newCommentPeriod.targetType = targetType;
 			newCommentPeriod.target     = targetId;
 			newCommentPeriod.roles      = roles;

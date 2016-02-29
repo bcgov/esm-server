@@ -17,6 +17,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	ancestor   : { type:'ObjectId', ref:'Comment', default:null, index:true },
 	resolved   : { type:Boolean, default:false },
 	published  : { type:Boolean, default:false },
+	user       : { type:'ObjectId', ref:'User', default:null, index:true },
 	comment    : { type:String, default:'' },
 	documents  : [ {type:'ObjectId', ref:'Document'} ]
 });

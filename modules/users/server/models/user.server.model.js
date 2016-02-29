@@ -102,6 +102,7 @@ var UserSchema = new Schema({
   resetPasswordExpires: {
     type: Date
   },
+  orgCode : { type:String },
   organizations: [
     { type:'ObjectId', ref:'Organization' }
   ]
