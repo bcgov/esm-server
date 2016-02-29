@@ -78,6 +78,9 @@ var roleSet = function () {
 		watch  : this.watch
 	};
 };
+var allRoles = function () {
+	return _.uniq(_.concat (this.read, this.write, this.submit, this.watch));
+};
 // -------------------------------------------------------------------------
 //
 // given a user, prepare the user roles (add public etc) and decide if the
@@ -204,6 +207,7 @@ var generateSchema = function (definition, indexes) {
 		schema.methods.mergeRoles        = mergeRoles;
 		schema.methods.addRoles          = addRoles;
 		schema.methods.roleSet           = roleSet;
+		schema.methods.allRoles          = allRoles;
 		schema.index ({read:1});
 		schema.index ({write:1});
 		schema.index ({submit:1});
