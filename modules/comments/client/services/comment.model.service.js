@@ -22,15 +22,7 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 		//
 		// -------------------------------------------------------------------------
 		getCommentsForTarget : function (targetType, targetId, commentType) {
-			// perform call here
-			return [
-				[{
-					_id : 1,
-					addedBy: 1,
-					comment: 'blah di blah';
-					dateAdded: '2012-03-04'
-				}]
-			];
+			return this.get ('/api/comments/type/'+commentType+'/target/'+targetType+'/'+targetId);
 		},
 		// -------------------------------------------------------------------------
 		//
@@ -50,7 +42,7 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 			newComment.type       = period.commentType;
 			newComment.resolved   = false;
 			newComment.published  = false;
-			// save new comment
+			return this.add (newComment);
 		},
 		// -------------------------------------------------------------------------
 		//
@@ -69,7 +61,7 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 			newComment.type       = originalComment.type;
 			newComment.resolved   = originalComment.resolved;
 			newComment.published  = originalComment.published;
-			// save new comment here and return it
+			return this.add (newComment);
 		},
 		// -------------------------------------------------------------------------
 		//
@@ -79,8 +71,7 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 		//
 		// -------------------------------------------------------------------------
 		resolveCommentChain: function (comment) {
-			// call route to resolve with comment.ancestor
-			// route should return getCommentChain (comment.ancestor)
+			return this.put ('/api/resolve/comment/'+comment.ancestor);
 		},
 		// -------------------------------------------------------------------------
 		//
@@ -90,8 +81,7 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 		//
 		// -------------------------------------------------------------------------
 		publishCommentChain: function (comment) {
-			// call route to publish with comment.ancestor
-			// route should return getCommentChain (comment.ancestor)
+			return this.put ('/api/publish/comment/'+comment.ancestor);
 		},
 		// -------------------------------------------------------------------------
 		//
@@ -101,8 +91,7 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 		//
 		// -------------------------------------------------------------------------
 		unpublishCommentChain: function (comment) {
-			// call route to unpublish with comment.ancestor
-			// route should return getCommentChain (comment.ancestor)
+			return this.put ('/api/unpublish/comment/'+comment.ancestor);
 		},
 		// -------------------------------------------------------------------------
 		//
@@ -110,13 +99,7 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 		//
 		// -------------------------------------------------------------------------
 		getCommentChain: function (ancestorId) {
-			// call route to get by ancestorId
-			return [{
-				_id : 1,
-				addedBy: 1,
-				comment: 'blah di blah';
-				dateAdded: '2012-03-04'
-			}];
+			return this.get ('/api/comments/ancestor/'+ancestorId);
 		}
 	});
 	return new Class ();

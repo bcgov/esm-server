@@ -34,7 +34,8 @@ angular.module('comment').factory ('CommentPeriodModel', function (ModelBase, _)
 			//
 			newCommentPeriod.read       = _.concat (roles, project.adminRole);
 			newCommentPeriod.submit     = [project.adminRole];
-			// save new comment
+			// save new comment period
+			return this.add (newCommentPeriod);
 		},
 		// -------------------------------------------------------------------------
 		//
@@ -42,8 +43,7 @@ angular.module('comment').factory ('CommentPeriodModel', function (ModelBase, _)
 		//
 		// -------------------------------------------------------------------------
 		resolveCommentPeriod: function (commentPeriod) {
-			// call route to resolve
-			// route should return getCommentChain (comment.ancestor)
+			return this.put ('/api/resolve/commentperiod/'+commentPeriod._id);
 		},
 		// -------------------------------------------------------------------------
 		//
@@ -51,8 +51,7 @@ angular.module('comment').factory ('CommentPeriodModel', function (ModelBase, _)
 		//
 		// -------------------------------------------------------------------------
 		publishCommentPeriod: function (commentPeriod) {
-			// call route to publish
-			// route should return getCommentChain (comment.ancestor)
+			return this.put ('/api/publish/commentperiod/'+commentPeriod._id);
 		},
 		// -------------------------------------------------------------------------
 		//
@@ -60,8 +59,7 @@ angular.module('comment').factory ('CommentPeriodModel', function (ModelBase, _)
 		//
 		// -------------------------------------------------------------------------
 		unpublishCommentPeriod: function (commentPeriod) {
-			// call route to unpublish
-			// route should return getCommentChain (comment.ancestor)
+			return this.put ('/api/unpublish/commentperiod/'+commentPeriod._id);
 		}
 	});
 	return new Class ();

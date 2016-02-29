@@ -20,15 +20,15 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	getCommentsForTarget : function (targetType, targetId, commentType) {
-		// perform call here
-		return [
-			[{
-				_id : 1,
-				addedBy: 1,
-				comment: 'blah di blah';
-				dateAdded: '2012-03-04'
-			}]
-		];
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findMany ({
+				targetType : targetType,
+				target     : targetId,
+				type       : commentType
+			})
+			.then (resolve, reject);
+		});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -36,8 +36,16 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	resolveCommentChain: function (ancestorId) {
-		// call route to resolve with comment.ancestor
-		// route should return getCommentChain (comment.ancestor)
+		var self = this;
+		var query = { ancestor: ancestorId };
+		var update = { resolved: true };
+		var promise = self.model.update (query, update, {multi: true}).exec();
+		return new Promise (function (resolve, reject) {
+			promise.then (function () {
+				return self.getCommentChain (ancestorId);
+			})
+			.then (resolve, reject);
+		});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -45,8 +53,27 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	publishCommentChain: function (ancestorId, value) {
-		// call route to publish with comment.ancestor
-		// route should return getCommentChain (comment.ancestor)
+		var self = this;
+		var query = { ancestor: ancestorId };
+		var update;
+		if (value) {
+			update = {
+				published: true,
+				$addToSet: {read: 'public'}
+			};
+		} else {
+			update = {
+				published: false,
+				$pull: {read: 'public'}
+			};
+		}
+		var promise = self.model.update (query, update, {multi: true}).exec();
+		return new Promise (function (resolve, reject) {
+			promise.then (function () {
+				return self.getCommentChain (ancestorId);
+			})
+			.then (resolve, reject);
+		});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -54,6 +81,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	getCommentChain: function (ancestorId) {
+		return this.findMany ({ ancestor: ancestorId });
 	}
 });
 
