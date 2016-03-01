@@ -26,6 +26,15 @@ function controllerProjectDescriptionRead ($scope, $state, sAuthentication, _, s
 			.then (function (description) {
 				console.log('single desc', description);
 				projDesc.data = description;
+
+				Document.getDocumentsInList (description.general.locationDocuments).then( function(res) {
+					projDesc.data.general.locationDocuments = res.data;
+				});
+
+				Document.getDocumentsInList (description.overview.sitePlanDocuments).then( function(res) {
+					projDesc.data.overview.sitePlanDocuments = res.data;
+				});
+
 			});
 		}
 	});
@@ -37,9 +46,9 @@ function controllerProjectDescriptionRead ($scope, $state, sAuthentication, _, s
 // CONTROLLER: Public Project Description Edit
 //
 // -----------------------------------------------------------------------------------
-controllerProjectDescriptionEdit.$inject = ['$scope', '$state', 'Authentication', '_', 'ProjectModel', 'ProjectDescriptionModel', 'moment'];
+controllerProjectDescriptionEdit.$inject = ['$scope', '$state', 'Authentication', '_', 'ProjectModel', 'ProjectDescriptionModel', 'moment', 'Document'];
 /* @ngInject */
-function controllerProjectDescriptionEdit ($scope, $state, sAuthentication, _, sProjectModel, sProjectDescriptionModel, moment) {
+function controllerProjectDescriptionEdit ($scope, $state, sAuthentication, _, sProjectModel, sProjectDescriptionModel, moment, sDocument) {
 	var projDescEdit = this;
 	projDescEdit.saveMessage = null;
 	
@@ -51,26 +60,33 @@ function controllerProjectDescriptionEdit ($scope, $state, sAuthentication, _, s
 		projDescEdit.versionStrings = data;
 	});
 
-//	projDescEdit.refreshDocuments = function() {	
-		//populate: 'general.locationDocuments overview.sitePlanDocuments',
-		// Document.getDocumentsInList (array)  its using the old way, so use .then (function (res) { res.data
-//	};
+	projDescEdit.refreshDocuments = function() {	
+		sDocument.getDocumentsInList (projDescEdit.data.general.locationDocuments).then( function(res) {
+			projDescEdit.data.general.locationDocumentsObjs = res.data;
+		});
 
+		sDocument.getDocumentsInList (projDescEdit.data.overview.sitePlanDocuments).then( function(res) {
+			projDescEdit.data.overview.sitePlanDocumentsObjs = res.data;
+		});
+	};
 
-	sProjectDescriptionModel.getDescriptionsForProject ($state.params.project)
-	.then (function (descriptions) {
+	
+	sProjectDescriptionModel.getDescriptionsForProject ($state.params.project).then (function (descriptions) {
+		console.log($state.params.project, descriptions);
 		if (descriptions.length === 0) {
 			// add new model
 			sProjectDescriptionModel.new().then( function(newDesc) {
 				projDescEdit.data = newDesc;
 				projDescEdit.saveAsType = newDesc.version;
 				sProjectDescriptionModel.setModel(newDesc);
+				projDescEdit.refreshDocuments();
 			});
 		} else {
 			projDescEdit.versions = descriptions;
 			projDescEdit.data = descriptions[0];
 			projDescEdit.saveAsType = descriptions[0].version;
 			sProjectDescriptionModel.setModel(descriptions[0]);
+			projDescEdit.refreshDocuments();
 		}
 	});
 

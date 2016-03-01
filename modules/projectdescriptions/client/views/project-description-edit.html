@@ -73,7 +73,11 @@
 
 						<h5>Location Documents</h5>
 
-						<tmpl-documents-list x-documents="projDescEdit.data.general.locationDocuments" x-project="projDescEdit.project"></tmpl-documents-list>
+						<tmpl-documents-list
+							x-documents="projDescEdit.data.general.locationDocuments"
+							x-documents-objs="projDescEdit.data.general.locationDocumentsObjs"
+							x-allow-edit="true"
+							x-project="projDescEdit.project"></tmpl-documents-list>
 
 						<h4>Overview</h4>
 						<h5>Components</h5>

@@ -92,7 +92,9 @@ function directiveDocumentsList() {
         controllerAs: 'docList',
         scope: {
             documents: '=',
-            project: '='
+            project: '=',
+            documentsObjs: '=',
+            allowEdit: '@'
         }
     };
 
@@ -115,6 +117,7 @@ function directiveDocumentsBrowser() {
         controllerAs: 'docBrowser',
         scope: {
             project: '=',
+            allowLink: '@'
         }
     };
 

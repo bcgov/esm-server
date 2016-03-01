@@ -1,7 +1,7 @@
 <div class="well well-sm clearfix">
 	<table class='table table-condensed small table-no-head no-lower-margin'>
 		<tbody>
-			<tr ng-repeat='file in docList.documents'>
+			<tr ng-repeat='file in docList.documentsObjs'>
 				<td class="document-cell">
 					<a href="/api/document/{{ file._id }}/fetch" target="_blank"><span class='glyphicon glyphicon-file'></span> {{ file.internalOriginalName }}</a>{{ file.projectFolderType }} / {{ file.projectFolderSubType }} / {{ file.projectFolderName }}
 				</td>
@@ -10,15 +10,18 @@
 				</td>
 				<td class='text-right no-wrap'>{{ file.dateUpdated | amDateFormat:'MMM Do'}}</td>
 			</tr>
-			<tr ng-if="!docList.documents || docList.documents.length === 0">
+			<tr ng-if="!docList.documentsObjs || docList.documentsObjs.length === 0">
 				<td colspan="3">No associated documents</td>
 			</tr>
 		</tbody>
 	</table>
-	<a href
-		x-modal-document-link
-		class="btn btn-xs btn-default"
-		x-current="docList.documents"
-		x-project="docList.project"
-		ng-if="docList.authentication.user">Select Documents</a>
+	<div ng-if="docList.authentication.user && docList.allowEdit">
+		<hr>
+		<a href
+			x-modal-document-link
+			class="btn btn-xs btn-default"
+			x-current="docList.documents"
+			x-project="docList.project"
+			>Select Documents</a>
+	</div>
 </div>

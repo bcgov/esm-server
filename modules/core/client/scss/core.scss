@@ -975,3 +975,10 @@ h2.page-title {
 	overflow: hidden;
 	white-space: nowrap;	
 }
+
+.well hr {
+	border-top: 1px solid $border-grey;
+	margin-top: 5px;
+	margin-bottom: 8px;
+}
+
