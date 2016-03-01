@@ -34,7 +34,7 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 			$scope.current.push(docObj._id);
 		} else {
 			_.remove(docLink.linkFiles, {_id: docObj._id});
-			_.remove($scope.current, function(n) {return n === docObj._id});
+			_.remove($scope.current, function(n) {return n === docObj._id;});
 		}
 	};
 
