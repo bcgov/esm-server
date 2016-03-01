@@ -1,0 +1,22 @@
+'use strict';
+
+angular.module ('comment')
+
+.controller ('controllerCommentPeriodList', ['$scope','$state','CommentPeriodModel','NgTableParams', function ($scope,$state,CommentPeriodModel,NgTableParams) {
+	console.log ('yes, I am running');
+	var plist = this;
+	CommentPeriodModel.getPeriodsForProject ($state.params.project)
+	.then (function (data) {
+		console.log (data);
+		plist.tableParams = new NgTableParams ({count:50}, {data: data});
+		plist.name = 'HAROLD';
+	});
+}])
+
+
+.controller ('controllerEditPeriodModal', ['$scope','$state','CommentPeriodModel', function ($scope,$state,CommentPeriodModel) {
+
+}])
+
+;
+

@@ -22,7 +22,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		template: '<tmpl-configuration></tmpl-configuration>',
 		data: {
 			roles: ['admin']
-		}		
+		}
 	})
 	.state('projects', {
 		url: '/',
@@ -120,8 +120,15 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		template: '<tmpl-project-description-edit></tmpl-project-description-edit>',
 		data: {
 			roles: ['admin', 'user']
-		}		
-	})	
+		}
+	})
+	.state('comments', {
+		url: '/comments/:project',
+		template: '<tmpl-comment-period-list></tmpl-comment-period-list>',
+		data: {
+			roles: ['admin', 'user']
+		}
+	})
 	.state('activity', {
 		url: '/project/:project/activity/:activity',
 		template: '<tmpl-activity></tmpl-activity>',

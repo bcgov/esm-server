@@ -4,35 +4,73 @@
 // Controller for projects
 //
 // =========================================================================
-var path        = require('path');
-var DBModel     = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
-var PhaseClass  = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
-var PhaseBaseClass  = require (path.resolve('./modules/phases/server/controllers/phasebase.controller'));
-var ProjectIntakeClass  = require (path.resolve('./modules/phases/server/controllers/phasebase.controller'));
-var RoleController = require (path.resolve('./modules/roles/server/controllers/role.controller'));
-var _           = require ('lodash');
+var path               = require('path');
+var DBModel            = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var PhaseClass         = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
+var PhaseBaseClass     = require (path.resolve('./modules/phases/server/controllers/phasebase.controller'));
+var ProjectIntakeClass = require (path.resolve('./modules/phases/server/controllers/phasebase.controller'));
+var RoleController     = require (path.resolve('./modules/roles/server/controllers/role.controller'));
+var _                  = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Project',
 	populate: 'proponent',
+	// -------------------------------------------------------------------------
+	//
+	// Before adding a project this is what must happen:
+	//
+	// set up the eao and proponent admin and member roles
+	// add them to the project
+	// reverse add the project to the roles
+	// add the project admin role to the current user, eao if internal, proponent
+	//    otherwise
+	// reset the user roles in this object so the user can save it
+	//
+	// -------------------------------------------------------------------------
 	preprocessAdd : function (project) {
 		var self = this;
+		var rolePrefix             = project.code + ':';
+		var adminSuffix            = ':admin';
+		var projectAdminRole       = rolePrefix + 'eao' + adminSuffix;
+		var projectProponentAdmin  = rolePrefix + project.orgCode + adminSuffix;
+		var projectProponentMember = rolePrefix + project.orgCode + ':member';
 		return new Promise (function (resolve, reject) {
 			// console.log ('project = ', project);
-			project.roles.push (
-				'pro:admin',
-				'pro:member'
-			);
+			var sectorRole;
+			if (project.type === 'lng') {
+				sectorRole = 'sector-lead-lng';
+			} else {
+				sectorRole = 'sector-lead-mining';
+			}
+			//
+			// set the project admin role
+			//
+			project.adminRole = projectAdminRole;
+			project.proponentAdminRole = projectProponentAdmin;
+			project.submit.addRoles ({submit:sectorRole});
+			//
+			// add the project to the roles
+			//
 			RoleController.addRolesToConfigObject (project, 'projects', {
-				read   : ['project:pro:member', 'eao'],
-				submit : ['project:pro:admin']
+				read   : [projectProponentMember],
+				submit : [projectProponentAdmin, projectAdminRole, sectorRole]
 			})
+			//
+			// add the appropriate role to the user
+			//
 			.then (function () {
 				// console.log ('project is now ', project);
-				return RoleController.addUserRole (self.user, project.code + ':pro:admin');
+				var userRole = (self.user.orgCode === project.orgCode) ? projectProponentAdmin : projectAdminRole;
+				return RoleController.addUserRole (self.user, userRole);
 			})
+			//
+			// update this model's user roles
+			// do this because the user now has new access, without this they
+			// cannot save the project
+			//
 			.then (function () {
 				self.setRoles (self.user);
+				project.roles = project.allRoles ();
 				resolve (project);
 			})
 			.catch (reject);
@@ -41,19 +79,18 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	//
 	// set a project to submitted
-	// add the eao role so that it can be seen by eao staff now
 	//
 	// -------------------------------------------------------------------------
 	submit: function (project) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			project.status = 'Submitted';
-			project.roles.push (
-				'eoa'
-			);
-			RoleController.addRolesToConfigObject (project, 'projects', {
-				read  : ['eao'],
-			});
+			// project.roles.push (
+			// 	'eoa'
+			// );
+			// RoleController.addRolesToConfigObject (project, 'projects', {
+			// 	read  : ['eao'],
+			// });
 			self.saveAndReturn (project)
 			.then (resolve, reject);
 		});
@@ -63,6 +100,16 @@ module.exports = DBModel.extend ({
 	// setting a stream requires the following:
 	// get all the phase base objects and create proper phases from them
 	// add those to the project and link backwards as well
+	// here's the big list of stuff to do:
+	//
+	// add the project admin role to the current user so they can perform this action
+	// give the user permission to save by resetting the access in this object
+	// get all the base phases in the stream
+	// make real phases from all the bases, passing in the current project roles
+	// attach all new phases to the project
+	// update the roles list in the project from the stream
+	// reverse add the project to all the roles
+	// save the project
 	//
 	// -------------------------------------------------------------------------
 	setStream : function (project, stream) {
@@ -75,9 +122,15 @@ module.exports = DBModel.extend ({
 			// we MUST add the admin role to the current user or they cannot
 			// perform the upcoming save
 			//
-			console.log ('about to add user role '+project.code + ':eao:admin to user ',self.user);
-			return RoleController.addUserRole (self.user, project.code + ':eao:admin')
+			var projectAdminRole = project.code + ':eao:admin';
+			var projectMemberRole = project.code + ':eao:member';
+			console.log ('about to add user role '+projectAdminRole + ' to user ',self.user);
+			return RoleController.addUserRole (self.user, projectAdminRole)
 			.then (function () {
+				//
+				// reset the user in this object with its new permissions
+				//
+				self.setRoles (self.user);
 				// get all the phase bases
 				return Promise.all (stream.phases.map (phasebase.findById));
 			})
@@ -85,7 +138,7 @@ module.exports = DBModel.extend ({
 			.then (function (models) {
 				console.log ('found phase bases, length = ',models.length);
 				return Promise.all (models.map (function (m) {
-					return phase.makePhaseFromBase (m, stream._id, project._id, project.code);
+					return phase.makePhaseFromBase (m, stream._id, project._id, project.code, project.roleSet());
 				}));
 			})
 			// then attach the new phases to the project
@@ -107,21 +160,16 @@ module.exports = DBModel.extend ({
 				// add some new roles to the roles list including the stream roles
 				//
 				p.roles.push (
-					'public',
-					'eao:admin',
-					'eao:member'
+					projectAdminRole,
+					projectMemberRole
 				);
 				p.roles = _.uniq (p.roles.concat (stream.roles));
 				//
 				// now add the stream roles both ways and also make the
 				// project public
 				//
-				return RoleController.addRolesToConfigObject (p, 'projects', {
-					read   : stream.read.concat (['project:eao:member', 'eao']),
-					write  : stream.write,
-					submit : stream.submit.concat (['project:eao:admin']),
-					watch  : stream.watch
-				});
+				RoleController.addRolesToConfigObject (p, 'projects', project.roleSet());
+				return project;
 			})
 			// .then (function () {
 			// 	console.log ("adding user roles");
@@ -132,11 +180,6 @@ module.exports = DBModel.extend ({
 			// 	console.log ('about to add user role '+project.code + ':eao:admin to user ',self.user);
 			// 	return RoleController.addUserRole (self.user, project.code + ':eao:admin');
 			// })
-			.then (function () {
-				console.log ("reset user so we can save");
-				self.setRoles (self.user);
-				return (project);
-			})
 			.then (function (p) {
 				console.log ("save me!");
 				return self.saveAndReturn (p);
@@ -148,13 +191,14 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	//
 	// add a phase to the project from a phase base
+	// add the phase with whatever new permissions
 	//
 	// -------------------------------------------------------------------------
-	addPhase : function (project, phasebase) {
+	addPhase : function (project, phasebase, roles) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			var phase = new PhaseClass (self.user);
-			phase.makePhaseFromBase (phasebase, project.stream, project._id, project.code)
+			phase.makePhaseFromBase (phasebase, project.stream, project._id, project.code, roles)
 			.then (function (model) {
 				project.phases.push (model._id);
 				return  project;

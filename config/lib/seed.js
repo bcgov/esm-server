@@ -230,89 +230,94 @@ Integration.findOne ({module:'newconfigs'}).exec()
 });
 
 
-Integration.findOne ({module:'newusers'}).exec ()
+Integration.findOne ({module:'newusers2'}).exec ()
 .then (function (row) {
   if (!row) {
-    User.find({username: 'proponent-staff'}, function (err, users) {
+    User.find({username: 'pro-staff'}, function (err, users) {
       if (users.length === 0) {
         var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
         var user = new User({
-          username: 'proponent-staff',
-          password: 'proponent-staff',
+          username: 'pro-staff',
+          password: 'password',
           provider: 'local',
-          email: 'proponent-staff@localhost.com',
+          email: 'pro-staff@localhost.com',
+          orgCode: 'acme-mining',
           firstName: 'Johnny',
           lastName: 'Miner',
           displayName: 'Johnny Miner',
-          roles: ['user', 'proponent', 'proponent-staff', 'tp1:pro:member']
+          roles: ['user', 'proponent', 'pro-staff', 'tp1:pro:member']
         });
         // Then save the user
         user.save();
       }
     });
-    User.find({username: 'proponent-admin'}, function (err, users) {
+    User.find({username: 'pro-admin'}, function (err, users) {
       if (users.length === 0) {
         var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
         var user = new User({
-          username: 'proponent-admin',
-          password: 'proponent-admin',
+          username: 'eao-admin',
+          password: 'password',
           provider: 'local',
-          email: 'proponent-admin@localhost.com',
+          email: 'eao-admin@localhost.com',
+          orgCode: 'acme-mining',
           firstName: 'Alice',
           lastName: 'BossyPants',
           displayName: 'Alice BossyPants',
-          roles: ['user', 'proponent', 'proponent-admin', 'tp1:pro:admin']
+          roles: ['user', 'proponent', 'eao-admin', 'tp1:pro:admin']
         });
         // Then save the user
         user.save();
       }
     });
-    User.find({username: 'eao-project-admin'}, function (err, users) {
+    User.find({username: 'eao-admin'}, function (err, users) {
       if (users.length === 0) {
         var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
         var user = new User({
-          username: 'eao-project-admin',
-          password: 'eao-project-admin',
+          username: 'eao-admin',
+          password: 'password',
           provider: 'local',
-          email: 'eao-project-admin@localhost.com',
+          email: 'eao-admin@localhost.com',
+          orgCode: 'eao',
           firstName: 'Sebastian',
           lastName: 'Cole',
           displayName: 'Sebastian Cole',
-          roles: ['user', 'eao', 'eao-project-admin', 'tp1:eao:admin']
+          roles: ['user', 'eao', 'eao-admin', 'tp1:eao:admin']
         });
         // Then save the user
         user.save();
       }
     });
-    User.find({username: 'eao-project-staff-1'}, function (err, users) {
+    User.find({username: 'eao-staff1'}, function (err, users) {
       if (users.length === 0) {
         var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
         var user = new User({
-          username: 'eao-project-staff-1',
-          password: 'eao-project-staff-1',
+          username: 'eao-staff1',
+          password: 'password',
           provider: 'local',
-          email: 'eao-project-staff-1@localhost.com',
+          email: 'eao-staff1@localhost.com',
+          orgCode: 'eao',
           firstName: 'Def',
           lastName: 'Jam',
           displayName: 'Def Jam',
-          roles: ['user', 'eao', 'eao-project-staff-1', 'tp1:eao:working-group']
+          roles: ['user', 'eao', 'sector-lead-lng']
         });
         // Then save the user
         user.save();
       }
     });
-    User.find({username: 'eao-project-staff-2'}, function (err, users) {
+    User.find({username: 'eao-staff2'}, function (err, users) {
       if (users.length === 0) {
         var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
         var user = new User({
-          username: 'eao-project-staff-2',
-          password: 'eao-project-staff-2',
+          username: 'eao-staff1',
+          password: 'password',
           provider: 'local',
-          email: 'eao-project-staff-2@localhost.com',
+          email: 'eao-staff1@localhost.com',
+          orgCode: 'eao',
           firstName: 'Winter',
           lastName: 'Storm',
           displayName: 'Winter Storm',
-          roles: ['user', 'eao', 'eao-project-staff-2', 'tp1:eao:member']
+          roles: ['user', 'eao', 'sector-lead-mining']
         });
         // Then save the user
         user.save();

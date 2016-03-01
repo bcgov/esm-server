@@ -41,7 +41,7 @@ module.exports = DBModel.extend ({
 	// save the milestone
 	//
 	// -------------------------------------------------------------------------
-	makeMilestoneFromBase : function (base, streamid, projectid, projectcode, phaseid) {
+	makeMilestoneFromBase : function (base, streamid, projectid, projectcode, phaseid, roles) {
 		var self = this;
 		// console.log ('in miolestone', base);
 		var Activity = new ActivityClass (this.user);
@@ -67,10 +67,15 @@ module.exports = DBModel.extend ({
 			.then (function (model) {
 				newobjectid = model._id;
 				newobject   = model;
+				//
 				// fix the roles
+				//
 				model.fixRoles (projectcode);
-				// RoleController.addObjectRolesFromSpec (model.roleSet ());
+				if (roles) model.addRoles (roles);
+				RoleController.addRolesToConfigObject (model, 'milestones', model.roleSet());
+				//
 				// assign whatever ancenstry is needed
+				//
 				model[basename] = baseid;
 				model.project = projectid;
 				model.projectCode = projectcode;
@@ -78,7 +83,7 @@ module.exports = DBModel.extend ({
 				model.phase   = phaseid;
 				// return the promise of new children
 				return Promise.all (children.map (function (m) {
-					return Activity.makeActivityFromBase (m, streamid, projectid, projectcode, phaseid, newobjectid);
+					return Activity.makeActivityFromBase (m, streamid, projectid, projectcode, phaseid, newobjectid, roles);
 				}));
 			})
 			.then (function (models) {
@@ -100,7 +105,7 @@ module.exports = DBModel.extend ({
 	// add an activity to this milestone (from a base)
 	//
 	// -------------------------------------------------------------------------
-	addActivityFromBase : function (milestone, activitybase) {
+	addActivityFromBase : function (milestone, activitybase, roles) {
 		var self = this;
 		var Activity = new ActivityClass (self.user);
 		return new Promise (function (resolve, reject) {
@@ -110,7 +115,8 @@ module.exports = DBModel.extend ({
 				milestone.project,
 				milestone.projectCode,
 				milestone.phase,
-				milestone._id
+				milestone._id,
+				roles
 			)
 			.then (function (newactivity) {
 				milestone.activities.push (newactivity._id);

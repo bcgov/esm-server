@@ -1,0 +1,46 @@
+<section id="project-view" class="row">
+
+	<div class='col-sm-10'>
+		<h1 class="page-title">
+			{{ plist.project.name }}
+		</h1>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<button class="btn btn-default btn-sm" x-edit-period-modal x-project="plist.project._id" x-period=""><i class="glyphicon glyphicon-plus"></i> Add New Period</button>
+				<section class="panel panel-default">
+					<table ng-table="plist.tableParams" show-filter="true" class="table table-condensed table-bordered table-striped">
+					    <tr ng-repeat="p in $data">
+					        <td title="'Phase'" filter="{ phaseName: 'text'}" sortable="'phaseName'">
+					            {{p.phaseName}}
+					        </td>
+					        <td title="'Target'" filter="{ targetType: 'text'}" sortable="'targetType'">
+					            {{p.targetType}}
+					        </td>
+					        <td title="'Version'" filter="{ targetVersion: 'text'}" sortable="'targetVersion'">
+					            {{p.targetVersion}}
+					        </td>
+					        <td title="'Roles'" >
+					            {{p.roles.join(', ')}}
+					        </td>
+					        <td title="'Resolved'" >
+					            {{p.resolved}}
+					        </td>
+					        <td title="'Published'" >
+					            {{p.published}}
+					        </td>
+					        <td title="">
+					        	<button class="btn btn-default btn-xs" x-edit-period-modal x-project="plist.project._id" x-period="p._id"><i class="glyphicon glyphicon-pencil"></i></button>
+					        </td>
+					    </tr>
+					</table>
+				</section>
+			</div>
+		</div>
+
+	</div> <!-- /col9 -->
+	<div class='col-sm-2'>
+		<tmpl-system-menu x-menu-context="project" x-project="projDescEdit.project"></tmpl-system-menu>
+	</div>
+
+</section>

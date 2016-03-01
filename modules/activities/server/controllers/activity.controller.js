@@ -20,7 +20,6 @@ module.exports = DBModel.extend ({
 		return new Promise (function (resolve, reject) {
 			RoleController.addRolesToConfigObject (activity, 'activities', {
 				read   : ['project:eao:member', 'eao'],
-				write  : ['project:eao:working-group'],
 				submit : ['project:eao:admin']
 			})
 			.then (function () {
@@ -54,7 +53,7 @@ module.exports = DBModel.extend ({
 	// save the activity
 	//
 	// -------------------------------------------------------------------------
-	makeActivityFromBase : function (base, streamid, projectid, projectcode, phaseid, milestoneid) {
+	makeActivityFromBase : function (base, streamid, projectid, projectcode, phaseid, milestoneid, roles) {
 		var self = this;
 		var Task = new TaskClass (this.user);
 		var TaskBase = new TaskBaseClass (this.user);
@@ -78,9 +77,15 @@ module.exports = DBModel.extend ({
 			.then (function (model) {
 				newobjectid = model._id;
 				newobject   = model;
+				//
 				// fix the roles
+				//
 				model.fixRoles (projectcode);
+				if (roles) model.addRoles (roles);
+				RoleController.addRolesToConfigObject (model, 'activities', model.roleSet());
+				//
 				// assign whatever ancenstry is needed
+				//
 				model[basename] = baseid;
 				model.project   = projectid;
 				model.projectCode = projectcode;
