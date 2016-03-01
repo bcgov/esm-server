@@ -36,17 +36,24 @@ module.exports = DBModel.extend ({
 		var projectProponentMember = rolePrefix + project.orgCode + ':member';
 		return new Promise (function (resolve, reject) {
 			// console.log ('project = ', project);
+			var sectorRole;
+			if (project.type === 'lng') {
+				sectorRole = 'sector-lead-lng';
+			} else {
+				sectorRole = 'sector-lead-mining';
+			}
 			//
 			// set the project admin role
 			//
 			project.adminRole = projectAdminRole;
 			project.proponentAdminRole = projectProponentAdmin;
+			project.submit.addRoles ({submit:sectorRole});
 			//
 			// add the project to the roles
 			//
 			RoleController.addRolesToConfigObject (project, 'projects', {
 				read   : [projectProponentMember],
-				submit : [projectProponentAdmin, projectAdminRole]
+				submit : [projectProponentAdmin, projectAdminRole, sectorRole]
 			})
 			//
 			// add the appropriate role to the user
