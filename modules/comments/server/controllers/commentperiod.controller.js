@@ -27,7 +27,8 @@ module.exports = DBModel.extend ({
 			p = PhaseModel.addMilestoneFromCode (period.phase, 'working-group-comment', {write:period.roles});
 		}
 		return new Promise (function (resolve, reject) {
-			p.then (function () { resolve (period); }).catch(reject);
+			if (p) p.then (function () { resolve (period); }).catch(reject);
+			else resolve (period);
 		});
 	},
 	// -------------------------------------------------------------------------

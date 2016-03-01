@@ -14,6 +14,16 @@ angular.module('comment').factory ('CommentPeriodModel', function (ModelBase, _)
 		urlName : 'commentperiod',
 		// -------------------------------------------------------------------------
 		//
+		// get all periods for a project
+		//
+		// -------------------------------------------------------------------------
+		getPeriodsForProject: function (projectId) {
+			return this.getQuery ({project:projectId}).then (function (result) {
+				return result;
+			}) ;
+		},
+		// -------------------------------------------------------------------------
+		//
 		// add a new comment period, params are broken out to ensure they are provided
 		// editRoles indicates who can edit the comment period information, not
 		// comments. likely this will only be the project administrator role
