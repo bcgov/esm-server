@@ -9,7 +9,9 @@ module.exports = {
         // these were in the application css are before
         'public/lib/angular-toastr/dist/angular-toastr.css',
         'public/lib/angular-bootstrap/ui-bootstrap-csp.css',
-        'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css'
+        'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css',
+        // cc : ngtable
+        'public/lib/ng-table/dist/ng-table.min.css'
       ],
       js: [
         'public/lib/angular/angular.js',
@@ -33,6 +35,9 @@ module.exports = {
         'public/lib/lodash/lodash.min.js',
         'public/lib/d3/d3.min.js',
         'public/lib/angularD3/dist/angularD3.js',
+        // cc : ngtable
+        'public/lib/ng-table/dist/ng-table.min.js',
+        // cc: end ngtable
         'public/lib/moment/moment.js',
         'public/lib/moment-timezone/moment-timezone.js',
         'public/lib/angular-moment/angular-moment.js',
