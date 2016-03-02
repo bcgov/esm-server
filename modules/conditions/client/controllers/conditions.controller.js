@@ -8,40 +8,47 @@ angular.module ('conditions')
 //
 // -------------------------------------------------------------------------
 .controller ('controllerConditionList',
-	['$scope','$stateParams','ConditionModel','NgTableParams','PROJECT_TYPES','CE_STAGES','PILLARS',
-	function ($scope,$stateParams,ConditionModel,NgTableParams,PROJECT_TYPES,CE_STAGES,PILLARS) {
+	['$scope','$rootScope','$stateParams','ConditionModel','NgTableParams','PROJECT_TYPES','CE_STAGES','PILLARS',
+	function ($scope,$rootScope,$stateParams,ConditionModel,NgTableParams,PROJECT_TYPES,CE_STAGES,PILLARS) {
 
 	console.log ('yes, I am running');
 	var self = this;
-	ConditionModel.getCollection ()
-	.then (function (data) {
-		console.log (data);
-		self.collection = data;
-		self.tableParams = new NgTableParams ({
-			count:50,
-			sorting: {name:"asc"}
-		}, {dataset: data});
-		//
-		// if data is present and filter == select or select-multiple, it will be a drop down
-		//
-		var ptypes = PROJECT_TYPES.map (function (e) {
-			return {id:e,title:e};
-		});
-		var stypes = CE_STAGES.map (function (e) {
-			return {id:e,title:e};
-		});
-		var pillars = PILLARS.map (function (e) {
-			return {id:e,title:e};
-		});
-		self.cols = [
-			{ field:'name'               , title:'Title'       , filter:{name:'text'}              , sortable:'name'              , show:true },
-			{ field:'type'               , title:'Type'        , filter:{type:'text'}              , sortable:'type'              , show:true },
-			{ data:ptypes, field:'sector'             , title:'Sector'      , filter:{sector:'select'}            , sortable:'sector'            , show:true },
-			{ data:stypes, field:'stage'       , title:'Stage'       , filter:{stage:'select'}      , sortable:'stage'      , show:true },
-			{ data:pillars, field:'pillar'             , title:'Pillar'      , filter:{pillar:'select'}            , sortable:'pillar'            , show:true },
-			{ }
-		];
+
+	var ptypes = PROJECT_TYPES.map (function (e) {
+		return {id:e,title:e};
 	});
+	var stypes = CE_STAGES.map (function (e) {
+		return {id:e,title:e};
+	});
+	var pillars = PILLARS.map (function (e) {
+		return {id:e,title:e};
+	});
+	self.cols = [
+		{ field:'name'               , title:'Title'       , filter:{name:'text'}              , sortable:'name'              , show:true },
+		{ field:'type'               , title:'Type'        , filter:{type:'text'}              , sortable:'type'              , show:true },
+		{ data:ptypes, field:'sector'             , title:'Sector'      , filter:{sector:'select'}            , sortable:'sector'            , show:true },
+		{ data:stypes, field:'stage'       , title:'Stage'       , filter:{stage:'select'}      , sortable:'stage'      , show:true },
+		{ data:pillars, field:'pillar'             , title:'Pillar'      , filter:{pillar:'select'}            , sortable:'pillar'            , show:true },
+		{ }
+	];
+
+	var setData = function () {
+		ConditionModel.getCollection ()
+		.then (function (data) {
+			console.log (data);
+			self.collection = data;
+			self.tableParams = new NgTableParams ({
+				count:50,
+				sorting: {name:"asc"}
+			}, {dataset: data});
+		});
+	};
+
+	$rootScope.$on('refreshConditionList', function() {
+		setData();
+	});
+
+	setData();
 }])
 
 
@@ -62,19 +69,29 @@ angular.module ('conditions')
 	this.mode = $scope.mode;
 	// $scope.condition;
 	// var dataPromise;
+	this.selectTopic = function () {
+		var self = this;
+		TopicModel.getTopicsForPillar (this.condition.pillar).then (function (topics) {
+			self.topics = topics;
+			$scope.$apply();
+		});
+	};
 
 	if (this.mode === 'add') {
 		this.dmode = 'Add';
 		ConditionModel.getNew ().then (function (model) {
 			self.condition = model;
+			self.selectTopic ();
 		});
 	} else if (this.mode === 'edit') {
 		this.dmode = 'Edit';
 		this.condition = ConditionModel.getCopy ($scope.condition);
 		ConditionModel.setModel (this.condition);
+		this.selectTopic ();
 	} else {
 		this.dmode = 'View';
 		this.condition = $scope.condition;
+		this.selectTopic ();
 	}
 
 	this.sectors = PROJECT_TYPES;
@@ -83,10 +100,8 @@ angular.module ('conditions')
 
 	console.log ('stages:', this.stages);
 
-	this.selectTopic = function () {
-		var val = this.condition.pillar;
-		console.log ('selected' ,val);
-	};
+
+
 
 	this.ok = function () {
 		console.log ('save clicked');
@@ -99,7 +114,7 @@ angular.module ('conditions')
 		}
 		else if (this.mode === 'edit') {
 			ConditionModel.saveModel ().then (function (result) {
-				$scope.condition = _.deepCopy (result);
+				$scope.condition = _.cloneDeep (result);
 				$modalInstance.close(result);
 			});
 		}
@@ -111,6 +126,8 @@ angular.module ('conditions')
 		console.log ('cancel clicked');
 		$modalInstance.dismiss('cancel');
 	};
+
+
 }])
 
 ;

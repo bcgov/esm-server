@@ -56,8 +56,10 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group">
-					<label for="pillar" class="control-label">Topics</label>
-					<select multi id="pillar" ng-model='d.condition.topics' class="form-control input-sm" ng-options="code as topic for topic in d.topics"></select>
+					<label for="topics" class="control-label">Topics</label>
+					<select multiple id="topics" ng-model='d.condition.topics' class="form-control input-sm">
+						<option ng-repeat="topic in d.topics" value="{{topic.code}}">{{topic.name}}</option>
+					</select>
 				</div>
 			</div>
 

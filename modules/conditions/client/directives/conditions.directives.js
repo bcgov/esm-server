@@ -21,7 +21,7 @@ angular.module ('conditions')
 // directive for adding or editing a condition
 //
 // -------------------------------------------------------------------------
-.directive ('editConditionModal', ['$modal', function ($modal) {
+.directive ('editConditionModal', ['$modal','$rootScope', function ($modal, $rootScope) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -32,9 +32,6 @@ angular.module ('conditions')
 		link : function (scope, element, attrs) {
 			console.log('condition modal is running');
 			element.on ('click', function () {
-				console.log ("condition = ",scope.condition);
-				console.log ("collection = ",scope.collection);
-				console.log ("mode = ",scope.mode);
 				var modalView = $modal.open ({
 					animation    : true,
 					templateUrl  : 'modules/conditions/client/views/condition-edit.html',
@@ -44,10 +41,7 @@ angular.module ('conditions')
 					size         : 'lg'
 				});
 				modalView.result.then (function (model) {
-					console.log ('this was returned:', model);
-
-					// if (scope.mode === 'edit') scope.condition = model;
-					if (scope.mode === 'add') scope.collection.push (model);
+					$rootScope.$broadcast('refreshConditionList');
 				}, function () {});
 			});
 		}
