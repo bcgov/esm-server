@@ -9,6 +9,6 @@ var DBModel   = require (path.resolve('./modules/core/server/controllers/core.db
 var _         = require ('lodash');
 
 module.exports = DBModel.extend ({
-	name : 'Conditions',
+	name : 'Condition',
 });
 

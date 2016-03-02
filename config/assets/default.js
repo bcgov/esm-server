@@ -36,7 +36,7 @@ module.exports = {
         'public/lib/lodash/lodash.min.js',
         'public/lib/d3/d3.min.js',
         // cc : ngtable
-        'public/lib/ng-table/dist/ng-table.min.js',
+        'public/lib/ng-table/dist/ng-table.js',
         // cc: end ngtable
         'public/lib/angularD3/dist/angularD3.js',
         'public/lib/moment/moment.js',

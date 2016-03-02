@@ -1,0 +1,40 @@
+<section id="project-view" class="row">
+<div class='col-sm-10'>
+	<h1 class="page-title">Conditions Library</h1>
+	<div class="row text-right">
+		<div class="col-sm-12">
+			<button class="btn btn-success btn-sm" x-mode="add" x-collection="data.collection" x-edit-condition-modal><i class="glyphicon glyphicon-plus"></i> Add New Condition</button>
+		</div>
+	</div>
+	<div calss="row">&nbsp;</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<section class="panel panel-default">
+<!-- 				<table ng-table-dynamic="data.tableParams with data.cols" class="table table-condensed table-bordered table-striped">
+					<tr ng-repeat="row in $data">
+						<td data-title="'Name'"         ><a href x-edit-condition-modal x-mode="view" x-condition="o">{{row.name}}</a></td>
+						<td ng-repeat="col in $columns">{{row[col.field]}}</td>
+						<td><button class="btn btn-default btn-xs" x-edit-condition-modal x-mode="edit" x-condition="row"><i class="glyphicon glyphicon-pencil"></i></button></td>
+					</tr>
+				</table>
+ -->
+				<table ng-table-dynamic="data.tableParams with data.cols" class="dtable table table-condensed table-bordered table-striped">
+					<tr ng-repeat="o in $data">
+						<td data-title="'Name'"         ><a href x-edit-condition-modal x-mode="view" x-condition="o">{{o.name}}</a></td>
+						<td data-title="'Type'"         >{{o.type}}</td>
+						<td data-title="'Sector'"       >{{o.sector}}</td>
+						<td data-title="'Stage'"        >{{o.stage}}</td>
+						<td data-title="'Pillar'"       >{{o.pillar}}</td>
+						<td><button class="btn btn-default btn-xs" x-edit-condition-modal x-mode="edit" x-condition="o"><i class="glyphicon glyphicon-pencil"></i></button></td>
+					</tr>
+				</table>
+			</section>
+		</div>
+	</div>
+
+</div> <!-- /col10 -->
+<div class='col-sm-2'>
+	<tmpl-system-menu x-menu-context="project" x-project="projDescEdit.project"></tmpl-system-menu>
+</div>
+
+</section>
