@@ -328,7 +328,7 @@ var importDocument = function (doc, req) {
 			projectFolderType   	: doc.projectFolderType,
 			projectFolderSubType	: doc.projectFolderSubType,
 			projectFolderName  		: doc.projectFolderName,
-			documentFileName 		: doc.documentFileName
+			internalOriginalName	: doc.internalOriginalName
 		}, function (err, mo) {
 			if (err) {
 				// console.log("document.controller: Error in Query.");
