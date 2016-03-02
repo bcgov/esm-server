@@ -24,23 +24,32 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 	docLink.project = null;
 	docLink.current = [];
 
-	$scope.ids = [];
+	docLink.ids = [];
 
-	$scope.changeItem = function (docObj) {
-		// console.log("changeItem",docObj);
-		var idx = docLink.linkFiles.indexOf(docObj._id);
-		// console.log("idx:",idx);
+	docLink.changeItem = function (docObj) {
+		var idx = $scope.current.indexOf(docObj._id);
+		console.log(idx);
 		if (idx === -1) {
-			docLink.linkFiles.push(docObj._id);
+			docLink.linkFiles.push(docObj);
+			$scope.current.push(docObj._id);
 		} else {
-			docLink.linkFiles.splice(idx, 1);
+			_.remove(docLink.linkFiles, {_id: docObj._id});
+			_.remove($scope.current, function(n) {return n === docObj._id;});
 		}
-		// console.log("Files Array:",docLink.linkFiles);
 	};
+
+	$scope.$on('toggleDocumentLink', function(event, docObj) {
+		docLink.changeItem(docObj);
+	});
 
 	$scope.$watch('current', function(newValue) {
 		// Bring in existing values.
-		docLink.current = newValue;
+		if (newValue) {
+			// get the objects from the array.
+			Document.getDocumentsInList (newValue).then( function(res) {
+				docLink.linkFiles = res.data;
+			});
+		}
 	});
 
 	$scope.$watch('project', function(newValue) {
@@ -49,7 +58,7 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 			// console.log("project:",docLink.project);
 			// TODO: Format in a nice list.
 			Document.getProjectDocuments(docLink.project._id,false).then( function(res) {
-				$scope.documents = res.data;
+				docLink.documents = res.data;
 				// console.log("res:",res.data);
 			});
 		}
@@ -59,10 +68,11 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 		// This is an array of objectID's that the user decided to link
 		// console.log("documentLinkDone",docLink.linkFiles);
 		// Set the new array before we return back to the caller
-		for (var i=0;i<docLink.linkFiles.length; i++) {
-			// console.log("Document to link:",docLink.linkFiles[i]);
-			docLink.current.push(docLink.linkFiles[i]);
-		}
+		$scope.current = [];
+		_.each(docLink.linkFiles, function(item) {
+			console.log('save', item);
+			$scope.current.push(item._id);
+		});
 	});
 }
 // -----------------------------------------------------------------------------------
@@ -163,7 +173,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 	docUpload.upload = function (uploadingReviewDocs) {
 		docUpload.inProgress = true;
 		var docCount = docUpload.fileList.length;
-
+		console.log('upload', docCount);
 		if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
 			angular.forEach( docUpload.fileList, function(file) {
 				// Quick hack to pass objects
@@ -183,6 +193,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 				file.upload.then(function (response) {
 					$timeout(function () {
 						file.result = response.data;
+						console.log('file', response.data);
 						// when the last file is finished, send complete event.
 						if (--docCount === 0) {
 							// emit to parent.
@@ -212,18 +223,27 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 //
 // -----------------------------------------------------------------------------------
 // MBL: TODO inject Project, get documents related to this thing.
-controllerDocumentList.$inject = ['$scope'];
+controllerDocumentList.$inject = ['$scope', 'Authentication'];
 /* @ngInject */
-function controllerDocumentList($scope) {
+function controllerDocumentList($scope, sAuthentication) {
 	var docList = this;
-	// console.log($scope.documents);
+
+	docList.authentication = sAuthentication;
 
 	$scope.$watch('documents', function(newValue) {
-		docList.filterDocuments = newValue;
+		docList.documents = newValue;
 	});
 
-	$scope.$watch('filterBy', function(newValue) {
-		docList.filterId = newValue;
+	$scope.$watch('documentsObjs', function(newValue) {
+		docList.documentsObjs = newValue;
+	});
+
+	$scope.$watch('allowEdit', function(newValue) {
+		docList.allowEdit = !!newValue;
+	});
+
+	$scope.$watch('project', function(newValue) {
+		docList.project = newValue;
 	});
 }
 // -----------------------------------------------------------------------------------
@@ -244,8 +264,11 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication)
 	docBrowser.rDoc 			= undefined;
 
 	docBrowser.authentication = Authentication;
-
-
+	// -----------------------------------------------------------------------------------
+	//
+	// BROWSER: A complete refresh of everything.
+	//
+	// -----------------------------------------------------------------------------------
 	docBrowser.refresh = function() {
 		Document.getProjectDocuments(docBrowser.project._id, false).then( function(res) {
 			// console.log('refresh documents');
@@ -270,6 +293,31 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication)
 		docBrowser.refresh();
 	});
 
+	// -----------------------------------------------------------------------------------
+	//
+	// BROWSER: If in link mode, add the current document to the link list, or remove.
+	//
+	// -----------------------------------------------------------------------------------
+	docBrowser.toggleDocumentLink = function(docObj) {
+		$rootScope.$broadcast('toggleDocumentLink', docObj);
+	};
+	// -----------------------------------------------------------------------------------
+	//
+	// BROWSER: Wait for the allowLink
+	//
+	// -----------------------------------------------------------------------------------
+	$scope.$watch('allowLink', function(newValue) {
+		if (newValue) {
+			docBrowser.allowLink = !!newValue;
+		} else {
+			docBrowser.allowLink = false;
+		}
+	});
+	// -----------------------------------------------------------------------------------
+	//
+	// BROWSER: Wait for the Project, Load everythin related
+	//
+	// -----------------------------------------------------------------------------------
 	$scope.$watch('project', function(newValue) {
 		docBrowser.project = newValue;
 
@@ -283,7 +331,11 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication)
 		});
 		docBrowser.refresh();
 	});
-
+	// -----------------------------------------------------------------------------------
+	//
+	// BROWSER: Filtering
+	//
+	// -----------------------------------------------------------------------------------
 	docBrowser.filterList = function(searchField, newValue) {
 		$scope.filterSummary = undefined;
 		$scope.filterDocs = {};
@@ -338,19 +390,28 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication)
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentLink.$inject = ['$modalInstance', '$scope', 'rProject', 'rCurrent'];
+controllerModalDocumentLink.$inject = ['$modalInstance', '$scope', 'rProject', 'rCurrent', '_'];
 /* @ngInject */
-function controllerModalDocumentLink($modalInstance, $scope, rProject, rCurrent) {
+function controllerModalDocumentLink($modalInstance, $scope, rProject, rCurrent, _) {
 	var docLink = this;
 	docLink.linkFiles = [];
 	docLink.project = rProject;
 	docLink.current = rCurrent;
 
-	docLink.ok = function () {
-		$scope.$broadcast('documentLinkDone');
-		$modalInstance.close(docLink.current);
+	docLink.savedCurrent = angular.copy(rCurrent);
+
+	docLink.unlinkFile = function(f) {
+		console.log(f);
+		//_.remove(docLink.documentsObjs, {_id: f._id});
+		//_.remove(docLink.documents, function(n) {return n === f._id; });
+	};
+
+	docLink.ok = function (items) {
+		console.log(items);
+		$modalInstance.close();
 	};
 	docLink.cancel = function () {
+		rCurrent = docLink.savedCurrent;
 		$modalInstance.dismiss('cancel');
 	};
 }

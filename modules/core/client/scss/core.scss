@@ -956,3 +956,29 @@ h2.page-title {
 	margin-bottom: 0;
 }
 
+.doc-detail-col {
+	border-right: 1px solid $border-grey;
+	overflow: hidden;
+	padding-right: 0;
+}
+
+.doc-action-col {
+	text-align: center;
+	font-size: 2rem;
+	padding-top: 5px;
+	padding-left: 0;
+}
+
+.doc-action-col a {
+	display: block;
+	text-align: center;
+	overflow: hidden;
+	white-space: nowrap;	
+}
+
+.well hr {
+	border-top: 1px solid $border-grey;
+	margin-top: 5px;
+	margin-bottom: 8px;
+}
+

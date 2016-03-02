@@ -1,13 +1,35 @@
-<label class="control-label">Link Documents</label>
-<div class="well well-sm container-fluid">
-	<table class="table table-condensed">
-		<tbody>
-			<tr ng-repeat="doc in documents">
-	        	<td>
-	          		<input type="checkbox" ng-change="changeItem({{doc}})" ng-model="ids" />{{doc.internalOriginalName}}
-	        	</td>
-	    	</tr>
-		</tbody>
-	</table>
-</div>
+<tmpl-documents-browser
+	x-project="docLink.project"
+	x-allow-links='true'>
+</tmpl-documents-browser>
+{{ $scope.current | json }}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-12">
+			<p>Select a document above and click the link icon to associate.</p>
+			<div class="well well-sm">
+				<table class="table table-condensed table-no-head no-lower-margin">
+					<tbody>
+						<tr ng-repeat="file in docLink.linkFiles track by $index">
 
+							<td class="document-cell">
+								<span class='glyphicon glyphicon-file'></span> {{ file.internalOriginalName }}</a><br/>
+								<small>{{ file.projectFolderType }} / {{ file.projectFolderSubType }} / {{ file.projectFolderName }}</small>
+							</td>
+							<td>
+								<small ng-if="file.v">v.{{ file.documentVersion }}</small>
+							</td>
+							<td class='text-right no-wrap'>{{ file.dateUpdated | amDateFormat:'MMM Do'}}</td>
+							<td class="text-right">
+								<p class="form-control-static">
+									<a href ng-click="docLink.changeItem(file)"><span class="glyphicon glyphicon-remove"></span></a>
+								</p>
+							</td>
+
+				    		</tr>
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+	</d
