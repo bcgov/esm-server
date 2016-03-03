@@ -14,23 +14,15 @@ angular.module ('vcs')
 	console.log ('yes, I am running');
 	var self = this;
 
-	var ptypes = PROJECT_TYPES.map (function (e) {
+	self.ptypes = PROJECT_TYPES.map (function (e) {
 		return {id:e,title:e};
 	});
-	var stypes = CE_STAGES.map (function (e) {
+	self.stypes = CE_STAGES.map (function (e) {
 		return {id:e,title:e};
 	});
-	var pillars = PILLARS.map (function (e) {
+	self.pillars = PILLARS.map (function (e) {
 		return {id:e,title:e};
 	});
-	self.cols = [
-		{ field:'name'               , title:'Title'       , filter:{name:'text'}              , sortable:'name'              , show:true },
-		{ field:'type'               , title:'Type'        , filter:{type:'text'}              , sortable:'type'              , show:true },
-		{ data:ptypes, field:'sector'             , title:'Sector'      , filter:{sector:'select'}            , sortable:'sector'            , show:true },
-		{ data:stypes, field:'stage'       , title:'Stage'       , filter:{stage:'select'}      , sortable:'stage'      , show:true },
-		{ data:pillars, field:'pillar'             , title:'Pillar'      , filter:{pillar:'select'}            , sortable:'pillar'            , show:true },
-		{ }
-	];
 
 	var setData = function () {
 		VcModel.getCollection ()

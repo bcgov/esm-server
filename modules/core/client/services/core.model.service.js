@@ -39,6 +39,7 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		// -------------------------------------------------------------------------
 		getCollection: function () {
 			var self = this;
+			console.log ('getting collection');
 			return new Promise (function (resolve, reject) {
 				self.all ().then (function (res) {
 					self.collection = res;
