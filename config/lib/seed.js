@@ -17,9 +17,12 @@ var mongoose = require('mongoose'),
   Integration   = mongoose.model('Integration'),
   PhaseBase     = mongoose.model('PhaseBase'),
   MilestoneBase = mongoose.model('MilestoneBase'),
-  ActivityBase  = mongoose.model('ActivityBase');
+  ActivityBase  = mongoose.model('ActivityBase'),
+  Topic         = mongoose.model('Topic');
 
 var loadmem = require ('./loadmem');
+var baseFeatures = require ('./baseFeatures');
+var topiclist = require ('./topiclist');
 
 console.log(chalk.bold.red('Warning:  Database seeding is turned on'));
 
@@ -339,6 +342,44 @@ Integration.findOne ({module:'loadmem2'}).exec()
 
 
 
+// Integration.findOne ({module:'basefeatures'}).exec()
+// .then (function (row) {
+//   if (!row) {
+//     var i = new Integration ({module:'basefeatures'});
+//     i.save ();
+//     baseFeatures ();
+//   }
+// });
+
+
+Integration.findOne ({module:'topics'}).exec()
+.then (function (row) {
+  if (!row) {
+    //
+    // write and replace
+    //
+    var total = 0;
+    var count = 0;
+    Topic.remove ({}, function () {
+      Promise.all (topiclist.map (function (topic) {
+        count++;
+        var t = new Topic (topic);
+        return t.save ();
+      }))
+      .then (function () {
+        console.log ('Topics added: ', count);
+        //
+        // make this not happen again
+        //
+        var i = new Integration ({module:'topics'});
+        i.save ();
+      })
+      .catch (function (err) {
+        console.error ('Error loading topics: ', err);
+      });
+    });
+  }
+});
 
 
 
