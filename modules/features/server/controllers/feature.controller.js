@@ -1,7 +1,7 @@
 'use strict';
 // =========================================================================
 //
-// Controller for topics
+// Controller for features
 //
 // =========================================================================
 var path     = require('path');
@@ -9,6 +9,12 @@ var DBModel   = require (path.resolve('./modules/core/server/controllers/core.db
 var _         = require ('lodash');
 
 module.exports = DBModel.extend ({
-	name : 'Topic',
+	name : 'Feature',
+	getForProject: function (projectId) {
+		return this.findMany ({project:projectId});
+	},
+	getBase: function () {
+		return this.findMany ({project:null});
+	}
 });
 

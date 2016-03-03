@@ -1,7 +1,7 @@
 'use strict';
 // =========================================================================
 //
-// Controller for topics
+// Controller for vcs
 //
 // =========================================================================
 var path     = require('path');
@@ -9,6 +9,6 @@ var DBModel   = require (path.resolve('./modules/core/server/controllers/core.db
 var _         = require ('lodash');
 
 module.exports = DBModel.extend ({
-	name : 'Topic',
+	name : 'Vc',
 });
 

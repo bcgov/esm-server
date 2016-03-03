@@ -14,11 +14,13 @@ var _ = require ('lodash');
 
 var RoleSchema  = new Schema ({
 	code       : { type:String, default:'code', index:true, unique:true },
+	isSystem   : { type:Boolean, default:false, index:true },
 	users      : [{ type:'ObjectId', ref:'User' }],
 	projects   : [{ type:'ObjectId', ref:'Project' }],
 	phases     : [{ type:'ObjectId', ref:'Phase' }],
 	milestones : [{ type:'ObjectId', ref:'Milestone' }],
-	activities : [{ type:'ObjectId', ref:'Activity' }]
+	activities : [{ type:'ObjectId', ref:'Activity' }],
+	features   : [{ type:'ObjectId', ref:'Feature' }]
 });
 
 var setUnique = function (a, value) {

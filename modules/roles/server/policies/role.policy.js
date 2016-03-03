@@ -10,6 +10,7 @@ var helpers  = require (require('path').resolve('./modules/core/server/controlle
 
 exports.invokeRolesPolicies = function () {
 	helpers.setPathPermissions (acl, [
+		[ '', 'user', '/api/system/roles'   ],
 		[ '', 'user', '/api/users/in/role/:role'   ],
 		[ '', 'user', '/api/roles/project/:project'   ],
 		[ '', 'user', '/api/users/roles/project/:project'   ],

@@ -47,7 +47,7 @@ module.exports = DBModel.extend ({
 			//
 			project.adminRole = projectAdminRole;
 			project.proponentAdminRole = projectProponentAdmin;
-			project.submit.addRoles ({submit:sectorRole});
+			project.addRoles ({submit:sectorRole});
 			//
 			// add the project to the roles
 			//
@@ -70,6 +70,7 @@ module.exports = DBModel.extend ({
 			//
 			.then (function () {
 				self.setRoles (self.user);
+				console.log ('here we are');
 				project.roles = project.allRoles ();
 				resolve (project);
 			})
@@ -159,6 +160,7 @@ module.exports = DBModel.extend ({
 				//
 				// add some new roles to the roles list including the stream roles
 				//
+				console.log ('roles are now:', p.roles);
 				p.roles.push (
 					projectAdminRole,
 					projectMemberRole

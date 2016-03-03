@@ -33,6 +33,10 @@ module.exports = function (app) {
 	//
 	app.route ('/api/projects/with/role/:role').all (policy.isAllowed)
 		.get (controller.getProjectsWithRoleRoute);
-
+	//
+	// get system roles only
+	//
+	app.route ('/api/system/roles').all (policy.isAllowed)
+		.get (controller.getSystemRolesRoute);
 };
 

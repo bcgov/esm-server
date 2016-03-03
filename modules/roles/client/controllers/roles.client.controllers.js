@@ -49,14 +49,12 @@ function controllerPermissionMatrix(sRoles, rTargetObject, _, $modalInstance, PR
 // CONTROLLER: Permission Matrix
 //
 // -----------------------------------------------------------------------------------
-controllerUsersByRoles.$inject = ['rSourceObject', '_', '$modalInstance', 'RoleModel'];
+controllerUsersByRoles.$inject = ['rSourceObject', '_', '$modalInstance'];
 /* @ngInject */
-function controllerUsersByRoles(rSourceObject, _, $modalInstance, sRoleModel) {
+function controllerUsersByRoles(rSourceObject, _, $modalInstance) {
 	var usersByRoles = this;
 	
-	sRoleModel.getUsersInRolesInProject(rSourceObject._id).then( function(data) {
-		usersByRoles.roles = data;
-	});
+	usersByRoles.roles = ['admin', 'project-team', 'working-group', 'first-nations', 'consultant'];
 
 	// on save, pass complete permission structure to the server
 	usersByRoles.ok = function () {

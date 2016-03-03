@@ -33,7 +33,7 @@ angular.module('review').factory ('ReviewPeriodModel', function (ModelBase, _) {
 			//
 			// set access to the period itself
 			//
-			newReviewPeriod.read       = _.concat (roles, project.adminRole);
+			newReviewPeriod.read       = _.union (roles, [project.adminRole]);
 			newReviewPeriod.submit     = [project.adminRole];
 			// save new review period
 			return this.add (newReviewPeriod);
