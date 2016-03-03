@@ -29,13 +29,13 @@
 			<tr>
 				<td width="33%" style="padding-top: 5px;">
 					<div class="form-group">
-						<label class="control-label">Type</label>
+						<label class="control-label">Phase</label>
 						<select class="form-control" ng-options="type as type.name group by (type.group | uppercase) for type in docUpload.docTypes track by type.code" ng-model="docUpload.type"></select>					
 					</div>
 				</td>
 				<td width="34%" style="padding-top: 5px;">
 					<div class="form-group">
-						<label class="control-label">Sub Type</label>
+						<label class="control-label">Deliverable</label>
 						<select class="form-control" ng-options="stype as stype.name group by (stype.group | uppercase) for stype in docUpload.docSubTypes track by stype.code" ng-model="docUpload.subType"></select>					
 					</div>
 				</td>
@@ -47,7 +47,7 @@
 							<span>From Existing</span>
 						</a>
 
-						<label class="control-label">Folder Name</label>
+						<label class="control-label">Document Category / Folder</label>
 						<input class="form-control ng-cloak" x-select-on-focus ng-model="docUpload.folderName" placeholder="New Folder Name">
 					</div>
 
@@ -56,7 +56,7 @@
 							<span>New Folder</span>
 						</a>
 
-						<label class="control-label">Folder Name</label>
+						<label class="control-label">Document Category / Folder</label>
 						<select class="form-control" ng-options="ftype for ftype in docUpload.docFolderNames | unique: 'projectFolderName'" ng-model="docUpload.folderName"></select>
 					</div>
 
