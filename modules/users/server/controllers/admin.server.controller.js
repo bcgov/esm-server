@@ -27,10 +27,11 @@ exports.update = function (req, res) {
   user.lastName = req.body.lastName;
   user.displayName = user.firstName + ' ' + user.lastName;
   user.roles = req.body.roles;
+  user.password = req.body.password;
   //
   // set the user roles in the ACL
   //
-  access.setUserRoles (user._id, req.body.roles);
+  // access.setUserRoles (user._id, req.body.roles);
 
 
   user.save(function (err) {
