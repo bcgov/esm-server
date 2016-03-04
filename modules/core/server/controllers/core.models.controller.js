@@ -79,7 +79,7 @@ var roleSet = function () {
 	};
 };
 var allRoles = function () {
-	return _.uniq(_.concat (this.read, this.write, this.submit, this.watch));
+	return _.union (this.read, this.write, this.submit, this.watch);
 };
 // -------------------------------------------------------------------------
 //

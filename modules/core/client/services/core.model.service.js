@@ -39,6 +39,7 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		// -------------------------------------------------------------------------
 		getCollection: function () {
 			var self = this;
+			console.log ('getting collection');
 			return new Promise (function (resolve, reject) {
 				self.all ().then (function (res) {
 					self.collection = res;
@@ -92,11 +93,12 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		},
 		// -------------------------------------------------------------------------
 		//
-		// get a copy of the current model
+		// get a copy of the current model, or the one passed in
 		//
 		// -------------------------------------------------------------------------
-		getCopy: function () {
-			return _.cloneDeep (this.model);
+		getCopy: function (m) {
+			if (m) return _.cloneDeep (m);
+			else return _.cloneDeep (this.model);
 		},
 		// -------------------------------------------------------------------------
 		//
@@ -118,10 +120,12 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		},
 		// -------------------------------------------------------------------------
 		//
-		// Save the current model
+		// Save the current model, or, if one is passed in, set that one to
+		// current and save it
 		//
 		// -------------------------------------------------------------------------
-		saveModel: function () {
+		saveModel: function (m) {
+			if (m) this.setModel (m);
 			var self = this;
 			console.log('save or add', self.modelIsNew, this);
 			return new Promise (function (resolve, reject) {

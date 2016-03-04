@@ -8,7 +8,7 @@ angular
 	.constant('d3', window.d3)
 	.constant('google', window.google)
 	.constant('moment', window.moment)
-	.constant('PROVINCES', 
+	.constant('PROVINCES',
 		{
 			'ab': 'Alberta',
 			'bc': 'British Columbia',
@@ -25,7 +25,7 @@ angular
 			'yt': 'Yukon'
 		}
 	)
-	.constant('REGIONS', 
+	.constant('REGIONS',
 		{
 			'cariboo': 'Cariboo',
 			'kootenay': 'Kootenay',
@@ -60,11 +60,20 @@ angular
 			'Health'
 		]
 	)
+	.constant('PILLARS',
+		[
+			'Environment',
+			'Economic',
+			'Social',
+			'Heritage',
+			'Health'
+		]
+	)
 	.constant('PROJECT_TYPES',
 		[
 			'Mining',
 			'Energy',
-			'Transportation', 
+			'Transportation',
 			'Water Management',
 			'Industrial',
 			'Waste Management',
@@ -73,7 +82,15 @@ angular
 			'Tourist Destination'
 		]
 	)
-	.constant('COMMENT_REJECT', 
+	.constant('CE_STAGES',
+		[
+			'Pre-Construction',
+			'Construction',
+			'Operations',
+			'Decommissioning'
+		]
+	)
+	.constant('COMMENT_REJECT',
 		[
 			'Unsuitable Language',
 			'Quoting Third Parties',
@@ -81,14 +98,14 @@ angular
 			'Personally Identifying Information'
 		]
 	)
-	.constant('PROJECT_ROLES', 
+	.constant('PROJECT_ROLES',
 		[
 			{'code':'project:staff','name':'Staff'},
 			{'code':'project:wg','name':'Working Group'},
 			{'code':'project:proponent','name':'Proponent'}
 		]
 	)
-	.constant('PROJECT_STATUS', 
+	.constant('PROJECT_STATUS',
 		{
 			'initiated' : 'Initiated',
 			'submitted' : 'Submitted',
@@ -97,11 +114,19 @@ angular
 			'decommissioned' : 'Decommissioned'
 		}
 	)
-	.constant('PROJECT_STATUS_PUBLIC', 
+	.constant('PROJECT_STATUS_PUBLIC',
 		{
 			'inprogress' : 'In Progress',
 			'certified' : 'Certified',
 			'decommissioned' : 'Decommissioned'
 		}
-	)	
+	)
+	.factory ('codeFromTitle', function () {
+		return function (title) {
+			var s = title.toLowerCase ();
+			s = s.replace (/\W/g,'-');
+			s = s.replace (/-+/,'-');
+			return s;
+		};
+	})
 	.value('ProcessCodes', []);

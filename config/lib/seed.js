@@ -17,9 +17,12 @@ var mongoose = require('mongoose'),
   Integration   = mongoose.model('Integration'),
   PhaseBase     = mongoose.model('PhaseBase'),
   MilestoneBase = mongoose.model('MilestoneBase'),
-  ActivityBase  = mongoose.model('ActivityBase');
+  ActivityBase  = mongoose.model('ActivityBase'),
+  Topic         = mongoose.model('Topic');
 
 var loadmem = require ('./loadmem');
+var baseFeatures = require ('./baseFeatures');
+var topiclist = require ('./topiclist');
 
 console.log(chalk.bold.red('Warning:  Database seeding is turned on'));
 
@@ -230,7 +233,7 @@ Integration.findOne ({module:'newconfigs'}).exec()
 });
 
 
-Integration.findOne ({module:'newusers2'}).exec ()
+Integration.findOne ({module:'newusers3'}).exec ()
 .then (function (row) {
   if (!row) {
     User.find({username: 'pro-staff'}, function (err, users) {
@@ -255,7 +258,7 @@ Integration.findOne ({module:'newusers2'}).exec ()
       if (users.length === 0) {
         var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
         var user = new User({
-          username: 'eao-admin',
+          username: 'pro-admin',
           password: 'password',
           provider: 'local',
           email: 'eao-admin@localhost.com',
@@ -263,7 +266,7 @@ Integration.findOne ({module:'newusers2'}).exec ()
           firstName: 'Alice',
           lastName: 'BossyPants',
           displayName: 'Alice BossyPants',
-          roles: ['user', 'proponent', 'eao-admin', 'tp1:pro:admin']
+          roles: ['user', 'proponent', 'pro-admin', 'tp1:pro:admin']
         });
         // Then save the user
         user.save();
@@ -339,6 +342,44 @@ Integration.findOne ({module:'loadmem2'}).exec()
 
 
 
+// Integration.findOne ({module:'basefeatures'}).exec()
+// .then (function (row) {
+//   if (!row) {
+//     var i = new Integration ({module:'basefeatures'});
+//     i.save ();
+//     baseFeatures ();
+//   }
+// });
+
+
+Integration.findOne ({module:'topics'}).exec()
+.then (function (row) {
+  if (!row) {
+    //
+    // write and replace
+    //
+    var total = 0;
+    var count = 0;
+    Topic.remove ({}, function () {
+      Promise.all (topiclist.map (function (topic) {
+        count++;
+        var t = new Topic (topic);
+        return t.save ();
+      }))
+      .then (function () {
+        console.log ('Topics added: ', count);
+        //
+        // make this not happen again
+        //
+        var i = new Integration ({module:'topics'});
+        i.save ();
+      })
+      .catch (function (err) {
+        console.error ('Error loading topics: ', err);
+      });
+    });
+  }
+});
 
 
 

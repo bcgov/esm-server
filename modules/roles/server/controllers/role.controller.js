@@ -212,6 +212,13 @@ var getRoleRoute = function (req, res) {
 	getRole (req.params.role)
 	.then (helpers.success(res), helpers.failure(res));
 };
+var getSystemRoles = function () {
+	return Role.find ({isSystem: true}).exec();
+};
+var getSystemRolesRoute = function (req, res) {
+	getSystemRoles ()
+	.then (helpers.success(res), helpers.failure(res));
+};
 
 module.exports = {
 	getRole : getRole,
@@ -233,5 +240,7 @@ module.exports = {
 	addRoleRoute:addRoleRoute,
 	updateRoleRoute:updateRoleRoute,
 	getRoleRoute:getRoleRoute,
+	getSystemRolesRoute:getSystemRolesRoute,
+	getSystemRoles:getSystemRoles,
 };
 

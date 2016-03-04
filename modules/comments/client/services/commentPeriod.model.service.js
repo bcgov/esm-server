@@ -43,7 +43,7 @@ angular.module('comment').factory ('CommentPeriodModel', function (ModelBase, _)
 			//
 			// set access to the period itself
 			//
-			newCommentPeriod.read       = _.concat (roles, project.adminRole);
+			newCommentPeriod.read       = _.union (roles, [project.adminRole]);
 			newCommentPeriod.submit     = [project.adminRole];
 			// save new comment period
 			return this.add (newCommentPeriod);

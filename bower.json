@@ -17,7 +17,7 @@
     "angular-moment": "~0.10.3",
     "angularD3": "~0.0.29",
     "bootstrap-sass": "~3.3.4",
-    "lodash": "~3.9.3",
+    "lodash": "3.10.1",
     "moment-timezone": "~0.4.0",
     "ng-file-upload": "~7.3.8",
     "ngmap": "~1.13.4",
@@ -26,9 +26,11 @@
     "angular-toastr": "~1.6.0",
     "angular-scroll": "~1.0.0",
     "angular-cookies": "1.3.20",
-    "ng-table": "~0.8.3"
+    "ng-table": "1.0.0-beta.9"
   },
   "resolutions": {
-    "angular": "~1.3"
+    "angular": "~1.3",
+    "ng-table": "1.0.0-beta.9",
+    "lodash": "4.5.1"
   }
 }
