@@ -49,14 +49,38 @@ function controllerPermissionMatrix(sRoles, rTargetObject, _, $modalInstance, PR
 // CONTROLLER: Permission Matrix
 //
 // -----------------------------------------------------------------------------------
-controllerUsersByRoles.$inject = ['rSourceObject', '_', '$modalInstance', 'RoleModel'];
+controllerUsersByRoles.$inject = ['rSourceObject', '_', '$modalInstance', 'RoleModel', 'Authentication'];
 /* @ngInject */
-function controllerUsersByRoles(rSourceObject, _, $modalInstance, sRoleModel) {
+function controllerUsersByRoles(rSourceObject, _, $modalInstance, sRoleModel, sAuthentication) {
 	var usersByRoles = this;
-	
+	usersByRoles.error = undefined;
+
 	sRoleModel.getUsersInRolesInProject(rSourceObject._id).then( function(data) {
 		usersByRoles.roles = data;
 	});
+
+	usersByRoles.userOrgs = sAuthentication.user.organizations;
+
+	usersByRoles.saveNewRole = function() {
+		usersByRoles.error = undefined;
+		if (usersByRoles.newRole) {
+			sRoleModel.addProjectRole(rSourceObject.code, 'eao', usersByRoles.newRole).then( function(data) {
+				sRoleModel.getUsersInRolesInProject(rSourceObject._id).then( function(data) {
+					usersByRoles.roles = data;
+				});
+				$scope.$apply();
+			}).catch( function(err) {
+				usersByRoles.error = err.message;
+				$scope.$apply();
+			});
+		}
+	};
+
+	usersByRoles.cancelRole = function() {
+		usersByRoles.newRole = undefined;
+		usersByRoles.addRoleMode = false;
+		usersByRoles.error = undefined;
+	};
 
 	// on save, pass complete permission structure to the server
 	usersByRoles.ok = function () {

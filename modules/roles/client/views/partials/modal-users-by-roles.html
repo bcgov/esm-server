@@ -15,8 +15,30 @@
 			</div>
 		</div>
 	</div>
+	<div class="alert alert-warning fadeIn" ng-show="usersByRoles.error" >{{ usersByRoles.error }}</div>
+	<div class="row">
+		<div class="col-sm-12 text-right form-inline">
 
+			<button class="btn btn-default"
+				ng-show="!usersByRoles.addRoleMode"
+				ng-click="usersByRoles.addRoleMode = true">Add Role</button>
 
+			<div class="form-group" ng-show="usersByRoles.addRoleMode">
+
+				<select class="form-control" ng-model="usersByRoles.newOrg" ng-options="item as item for item in usersByRoles.userOrgs">
+                    </select>
+
+				<input class="form-control"					
+					type="text"
+					ng-model="usersByRoles.newRole"
+					placeholder="Role Name">
+
+				<button class="btn btn-default" ng-click="usersByRoles.saveNewRole()">Save</button>
+				<button class="btn btn-default" ng-click="usersByRoles.cancelRole()">Cancel</button>				
+			</div>
+
+		</div>
+	</div>
 </div>
 <div class="modal-footer">
 	<button class="btn btn-default" type="button" ng-click="usersByRoles.cancel()">Close</button>
