@@ -1,6 +1,4 @@
 'use strict';
-
-'use strict';
 // =========================================================================
 //
 // milestone model and milestone base model

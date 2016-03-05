@@ -49,9 +49,9 @@ function controllerPermissionMatrix(sRoles, rTargetObject, _, $modalInstance, PR
 // CONTROLLER: Permission Matrix
 //
 // -----------------------------------------------------------------------------------
-controllerUsersByRoles.$inject = ['rSourceObject', '_', '$modalInstance', 'RoleModel', 'Authentication'];
+controllerUsersByRoles.$inject = ['$scope', 'rSourceObject', '_', '$modalInstance', 'RoleModel', 'Authentication'];
 /* @ngInject */
-function controllerUsersByRoles(rSourceObject, _, $modalInstance, sRoleModel, sAuthentication) {
+function controllerUsersByRoles($scope, rSourceObject, _, $modalInstance, sRoleModel, sAuthentication) {
 	var usersByRoles = this;
 	usersByRoles.error = undefined;
 
