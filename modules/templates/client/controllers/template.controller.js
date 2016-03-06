@@ -37,9 +37,10 @@ angular.module ('templates')
 	//
 	// listen for when to reset
 	//
-	$rootScope.$on('refreshTemplateList', function() {
+	var unbind = $rootScope.$on('refreshTemplateList', function() {
 		setData();
 	});
+	$scope.$on('$destroy', unbind);
 
 	//
 	// finally, set the data

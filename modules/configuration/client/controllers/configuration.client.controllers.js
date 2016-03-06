@@ -56,12 +56,13 @@ function controllerConfiguration($rootScope, $scope, sTaskBaseModel, sActivityBa
         });
 
     };
-    
+
     configData.refresh();
 
-    $rootScope.$on('refreshConfig', function() { 
+    var unbind = $rootScope.$on('refreshConfig', function() {
         configData.refresh();
     });
+	$scope.$on('$destroy', unbind);
 }
 
 
@@ -150,8 +151,8 @@ function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBa
     configDataElement.editRecord = function(selectedRecord) {
         configDataElement.msg = '';
         configDataElement.activeRecordNew = false;
-        
-        
+
+
         switch(configDataElement.context) {
             case 'stream':
                 sStreamModel.setModel(selectedRecord);
@@ -234,7 +235,7 @@ function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBa
                 }).catch( function(err) {
                     $scope.error = err;
                 });
-                break;            
+                break;
         }
         configDataElement.msg = 'Record Saved';
         configDataElement.activeRecord = undefined;
@@ -286,7 +287,7 @@ function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBa
                 }).catch( function(err) {
                     $scope.error = err;
                 });
-                break;                
+                break;
         }
         configDataElement.msg = 'Record Deleted';
         configDataElement.activeRecord = undefined;

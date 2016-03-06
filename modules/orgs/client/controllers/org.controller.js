@@ -37,9 +37,10 @@ angular.module ('orgs')
 	//
 	// listen for when to reset
 	//
-	$rootScope.$on('refreshOrgList', function() {
+	var unbind = $rootScope.$on('refreshOrgList', function() {
 		setData();
 	});
+	$scope.$on('$destroy', unbind);
 
 	//
 	// finally, set the data

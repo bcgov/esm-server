@@ -41,9 +41,10 @@ function controllerProject($scope, $rootScope, sProjectModel, $stateParams, _) {
 		});
 	};
 
-	$rootScope.$on('refreshProject', function() {
+	var unbind = $rootScope.$on('refreshProject', function() {
 		proj.refresh();
 	});
+	$scope.$on('$destroy', unbind);
 
 	proj.refresh();
 
@@ -489,10 +490,11 @@ function controllerProjectActivities($scope, $rootScope, sAuthentication, sActiv
 		}
 	};
 
-	$rootScope.$on('refreshActivitiesForMilestone', function(event, data) {
+	var unbind = $rootScope.$on('refreshActivitiesForMilestone', function(event, data) {
 		console.log(data.milestone);
 		projectActs.selectMilestone(data.milestone);
 	});
+	$scope.$on('$destroy',unbind);
 
 
 	// wait until the list of phases loads.

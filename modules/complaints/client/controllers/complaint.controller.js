@@ -37,9 +37,10 @@ angular.module ('complaints')
 	//
 	// listen for when to reset
 	//
-	$rootScope.$on('refreshComplaintList', function() {
+	var unbind = $rootScope.$on('refreshComplaintList', function() {
 		setData();
 	});
+		$scope.$on('$destroy', unbind);
 
 	//
 	// finally, set the data

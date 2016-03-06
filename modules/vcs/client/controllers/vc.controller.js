@@ -37,9 +37,10 @@ angular.module ('vcs')
 	//
 	// listen for when to reset
 	//
-	$rootScope.$on('refreshVcList', function() {
+	var unbind = $rootScope.$on('refreshVcList', function() {
 		setData();
 	});
+	$scope.$on('$destroy', unbind);
 
 	//
 	// finally, set the data

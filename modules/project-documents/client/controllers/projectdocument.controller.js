@@ -37,9 +37,10 @@ angular.module ('projectdocuments')
 	//
 	// listen for when to reset
 	//
-	$rootScope.$on('refreshProjectDocumentList', function() {
+	var unbind = $rootScope.$on('refreshProjectDocumentList', function() {
 		setData();
 	});
+	$scope.$on('$destroy', unbind);
 
 	//
 	// finally, set the data

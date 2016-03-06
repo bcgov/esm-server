@@ -39,9 +39,10 @@ angular.module ('features')
 		});
 	};
 
-	$rootScope.$on('refreshFeatureList', function() {
+	var unbind = $rootScope.$on('refreshFeatureList', function() {
 		self.setData();
 	});
+	$scope.$on('$destroy', unbind);
 
 	this.setData();
 }])

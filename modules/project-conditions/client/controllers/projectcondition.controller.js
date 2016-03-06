@@ -36,9 +36,10 @@ angular.module ('projectconditions')
 		});
 	};
 
-	$rootScope.$on('refreshProjectConditionList', function() {
+	var unbind = $rootScope.$on('refreshProjectConditionList', function() {
 		setData();
 	});
+	$scope.$on('$destroy', unbind);
 
 	setData();
 }])

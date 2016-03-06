@@ -134,7 +134,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
 			docUpload.targetUrl = '/api/commentdocument/publiccomment/' + parentId + '/upload';
 		}
 		if (docUpload.type === 'project' && docUpload.project) {
-			
+
 			docUpload.targetUrl = '/api/document/' + docUpload.project._id + '/upload';
 		}
 	};
@@ -289,9 +289,10 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication)
 		});
 	};
 
-	$rootScope.$on('refreshDocumentList', function() {
+	var unbind = $rootScope.$on('refreshDocumentList', function() {
 		docBrowser.refresh();
 	});
+	$scope.$on('$destroy', unbind);
 
 	// -----------------------------------------------------------------------------------
 	//
@@ -500,7 +501,7 @@ function filterRemoveExtension() {
 		if (input) {
 			var filename = input.split('.');
 			return filename[0];
-		} 
+		}
 		return input;
 	};
 }

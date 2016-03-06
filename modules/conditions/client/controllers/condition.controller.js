@@ -36,9 +36,10 @@ angular.module ('conditions')
 		});
 	};
 
-	$rootScope.$on('refreshConditionList', function() {
+	var unbind = $rootScope.$on('refreshConditionList', function() {
 		setData();
 	});
+		$scope.$on('$destroy', unbind);
 
 	setData();
 }])

@@ -31,9 +31,10 @@ function controllerProjects($scope, $state, $rootScope, sProjectModel, PROJECT_T
 		});
 	};
 
-	$rootScope.$on('refreshProjectsList', function() {
+	var unbind = $rootScope.$on('refreshProjectsList', function() {
 		projects.refresh();
 	});
+	$scope.$on('$destroy', unbind);
 
 	projects.refresh();
 

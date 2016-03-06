@@ -37,9 +37,10 @@ angular.module ('descriptions')
 	//
 	// listen for when to reset
 	//
-	$rootScope.$on('refreshDescriptionList', function() {
+	var unbind = $rootScope.$on('refreshDescriptionList', function() {
 		setData();
 	});
+	$scope.$on('$destroy', unbind);
 
 	//
 	// finally, set the data

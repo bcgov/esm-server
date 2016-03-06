@@ -37,9 +37,10 @@ angular.module ('orders')
 	//
 	// listen for when to reset
 	//
-	$rootScope.$on('refreshOrderList', function() {
+	var unbind = $rootScope.$on('refreshOrderList', function() {
 		setData();
 	});
+	$scope.$on('$destroy', unbind);
 
 	//
 	// finally, set the data

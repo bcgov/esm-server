@@ -37,9 +37,10 @@ angular.module ('irs')
 	//
 	// listen for when to reset
 	//
-	$rootScope.$on('refreshIrList', function() {
+	var unbind = $rootScope.$on('refreshIrList', function() {
 		setData();
 	});
+	$scope.$on('$destroy', unbind);
 
 	//
 	// finally, set the data

@@ -37,9 +37,10 @@ angular.module ('contacts')
 	//
 	// listen for when to reset
 	//
-	$rootScope.$on('refreshContactList', function() {
+	var unbind = $rootScope.$on('refreshContactList', function() {
 		setData();
 	});
+	$scope.$on('$destroy', unbind);
 
 	//
 	// finally, set the data
