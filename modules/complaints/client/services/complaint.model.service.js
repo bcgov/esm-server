@@ -12,7 +12,10 @@ angular.module('complaints').factory ('ComplaintModel', function (ModelBase, _) 
 	// have all the basic crud stuff built in
 	//
 	var Class = ModelBase.extend ({
-		urlName : 'complaint'
+		urlName : 'complaint',
+		forProject: function (projectid) {
+			return this.get ('/api/complaint/for/project/'+projectid);
+		},
 	});
 	return new Class ();
 });

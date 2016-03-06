@@ -10,6 +10,7 @@ var DBModel  = require (path.resolve('./modules/core/server/controllers/core.dbm
 
 module.exports = DBModel.extend ({
 	name : 'Stream',
+	plural : 'streams',
 	populate: 'phases',
 	preprocessAdd: function (stream) {
 		stream.addRoles ({

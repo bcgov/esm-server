@@ -1,0 +1,51 @@
+<div class="modal-header">
+	<h3 class="modal-title">Template Detail ({{d.dmode}})</h3>
+</div>
+
+<div class="modal-body">
+
+	<div class="block-content">
+		<div class="panel-body">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="title" class="control-label">Template Name</label>
+					<input id="title" type="text" class="form-control input-sm" ng-model="d.template.name" ng-disabled="d.mode == 'view'">
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="version" class="control-label">Version (free text)</label>
+					<input id="version" type="text" class="form-control input-sm" ng-model="d.template.version" ng-disabled="d.mode == 'view'">
+				</div>
+			</div>
+			<div class="col-sm-3" ng-if="d.mode=='edit'">
+				<div class="form-group">
+					<div class="checkbox">
+						<label>
+						<input type="checkbox" ng-model="d.newversion">New Version ? (will save new copy)
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label for="template" class="control-label">Template</label>
+					<textarea ui-tinymce rows="10" ng-model="d.template.template" class="form-control" ng-disabled="d.mode == 'view'"></textarea>
+				</div>
+			</div>
+		</div>
+
+		</div>
+	</div>
+
+</div> <!-- /modalbody -->
+
+<div class="modal-footer">
+	<a class="btn btn-default" href ng-click="d.cancel()">Cancel</a>
+	<a class="btn btn-default" href ng-click="d.ok()">OK</a>
+</div>
+

@@ -8,38 +8,42 @@ angular.module ('descriptions')
 //
 // -------------------------------------------------------------------------
 .controller ('controllerDescriptionList',
-	['$scope','$rootScope','$stateParams','DescriptionModel','NgTableParams','PROJECT_TYPES','CE_STAGES','PILLARS',
-	function ($scope,$rootScope,$stateParams,DescriptionModel,NgTableParams,PROJECT_TYPES,CE_STAGES,PILLARS) {
+	['$scope', '$rootScope', '$stateParams', 'DescriptionModel', 'NgTableParams', 'PILLARS',
+	function ($scope, $rootScope, $stateParams, DescriptionModel, NgTableParams, PILLARS) {
 
-	console.log ('yes, I am running');
+	console.log ('controllerDescriptionList is running');
+
 	var self = this;
 
-	self.ptypes = PROJECT_TYPES.map (function (e) {
-		return {id:e,title:e};
-	});
-	self.stypes = CE_STAGES.map (function (e) {
-		return {id:e,title:e};
-	});
+	//
+	// map out any supporting data
+	//
 	self.pillars = PILLARS.map (function (e) {
 		return {id:e,title:e};
 	});
+	self.project = $stateParams.project;
 
+	//
+	// set or reset the collection
+	//
 	var setData = function () {
-		DescriptionModel.getCollection ()
-		.then (function (data) {
-			console.log (data);
+		DescriptionModel.forProject ($stateParams.project).then (function (data) {
+			console.log ('controllerDescriptionList data received: ', data);
 			self.collection = data;
-			self.tableParams = new NgTableParams ({
-				count:50,
-				sorting: {name:"asc"}
-			}, {dataset: data});
+			self.tableParams = new NgTableParams ({count: 10}, {dataset: data});
 		});
 	};
 
+	//
+	// listen for when to reset
+	//
 	$rootScope.$on('refreshDescriptionList', function() {
 		setData();
 	});
 
+	//
+	// finally, set the data
+	//
 	setData();
 }])
 
@@ -50,17 +54,28 @@ angular.module ('descriptions')
 //
 // -------------------------------------------------------------------------
 .controller ('controllerEditDescriptionModal',
-	['$modalInstance','$scope','_','codeFromTitle','DescriptionModel','TopicModel','PROJECT_TYPES','CE_STAGES','PILLARS',
-	function ($modalInstance, $scope,_, codeFromTitle,DescriptionModel,TopicModel,PROJECT_TYPES,CE_STAGES,PILLARS) {
+	['$modalInstance', '$scope', '_', 'codeFromTitle', 'DescriptionModel', 'TopicModel', 'PILLARS',
+	function ($modalInstance, $scope, _, codeFromTitle, DescriptionModel, TopicModel, PILLARS) {
+
+	console.log ('controllerEditDescriptionModal is running');
 
 	var self = this;
 
-	console.log ($scope.description);
-	console.log ($scope.mode);
-
+	//
+	// pull the mode and other info from the scope inputs
+	//
 	this.mode = $scope.mode;
-	// $scope.description;
-	// var dataPromise;
+
+	//
+	// set up any data from services that needs massaging
+	//
+	this.pillars = PILLARS;
+
+	// -------------------------------------------------------------------------
+	//
+	// set up handlers and functions on scope
+	//
+	// -------------------------------------------------------------------------
 	this.selectTopic = function () {
 		var self = this;
 		TopicModel.getTopicsForPillar (this.description.pillar).then (function (topics) {
@@ -68,33 +83,6 @@ angular.module ('descriptions')
 			$scope.$apply();
 		});
 	};
-
-	if (this.mode === 'add') {
-		this.dmode = 'Add';
-		DescriptionModel.getNew ().then (function (model) {
-			self.description = model;
-			self.selectTopic ();
-		});
-	} else if (this.mode === 'edit') {
-		this.dmode = 'Edit';
-		this.description = DescriptionModel.getCopy ($scope.description);
-		DescriptionModel.setModel (this.description);
-		this.selectTopic ();
-	} else {
-		this.dmode = 'View';
-		this.description = $scope.description;
-		this.selectTopic ();
-	}
-
-	this.sectors = PROJECT_TYPES;
-	this.stages = CE_STAGES;
-	this.pillars = PILLARS;
-
-	console.log ('stages:', this.stages);
-
-
-
-
 	this.ok = function () {
 		console.log ('save clicked');
 		this.description.code = codeFromTitle (this.description.name);
@@ -119,7 +107,26 @@ angular.module ('descriptions')
 		$modalInstance.dismiss('cancel');
 	};
 
-
+	//
+	// finally, deal with the mode and setting data up for each one
+	// and kick off the directive
+	//
+	if (this.mode === 'add') {
+		this.dmode = 'Add';
+		DescriptionModel.getNew ().then (function (model) {
+			self.description = model;
+			self.selectTopic ();
+		});
+	} else if (this.mode === 'edit') {
+		this.dmode = 'Edit';
+		this.description = DescriptionModel.getCopy ($scope.description);
+		DescriptionModel.setModel (this.description);
+		this.selectTopic ();
+	} else {
+		this.dmode = 'View';
+		this.description = $scope.description;
+		this.selectTopic ();
+	}
 }])
 
 ;

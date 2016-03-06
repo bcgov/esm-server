@@ -12,7 +12,10 @@ angular.module('vcs').factory ('VcModel', function (ModelBase, _) {
 	// have all the basic crud stuff built in
 	//
 	var Class = ModelBase.extend ({
-		urlName : 'vc'
+		urlName : 'vc',
+		forProject: function (projectid) {
+			return this.get ('/api/vc/for/project/'+projectid);
+		},
 	});
 	return new Class ();
 });

@@ -11,6 +11,7 @@ var _          = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'ReviewPeriod',
+	plural : 'reviewperiods',
 	postprocessAdd: function (period) {
 		var self=this;
 		var p;

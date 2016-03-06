@@ -12,7 +12,10 @@ angular.module('contacts').factory ('ContactModel', function (ModelBase, _) {
 	// have all the basic crud stuff built in
 	//
 	var Class = ModelBase.extend ({
-		urlName : 'contact'
+		urlName : 'contact',
+		forProject: function (projectid) {
+			return this.get ('/api/contact/for/project/'+projectid);
+		},
 	});
 	return new Class ();
 });

@@ -15,6 +15,7 @@ var RoleController = require (path.resolve('./modules/roles/server/controllers/r
 
 module.exports = DBModel.extend ({
 	name : 'Milestone',
+	plural : 'milestones',
 	populate: 'activities',
 	preprocessAdd: function (milestone) {
 		var self = this;

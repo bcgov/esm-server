@@ -4,8 +4,9 @@ angular.module('projects')
 	.directive('tmplProjects', directiveProjects)
 	.directive('tmplProjectsList', directiveProjectsList)
 	.directive('tmplProjectsSchedule', directiveProjectsSchedule)
-	.directive('tmplProjectsSearch', directiveProjectsSearch)	
-	// .directive('tmplProjectsPanels', directiveProjectsPanels)        
+	.directive('tmplProjectsList2', directiveProjectsList2)
+	.directive('tmplProjectsSearch', directiveProjectsSearch)
+	// .directive('tmplProjectsPanels', directiveProjectsPanels)
 	.directive('tmplProjectsMap', directiveProjectsMap)
 	.directive('tmplUserActivities', directiveUserActivities);
 	// .directive('tmplProjectsFilterBar', directiveProjectsFilterBar);
@@ -64,7 +65,26 @@ function directiveProjectsSchedule() {
 		}
 	};
 	return directive;
-}    
+}
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Projects List
+//
+// -----------------------------------------------------------------------------------
+directiveProjectsList2.$inject = [];
+/* @ngInject */
+function directiveProjectsList2 () {
+	var directive = {
+		restrict: 'E',
+		templateUrl: 'modules/projects/client/views/projects-partials/projects-list.html',
+		controller: 'controllerProjectsList2',
+		controllerAs: 'projectList',
+		scope: {
+			projects: '='
+		}
+	};
+	return directive;
+}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Projects Search
@@ -80,7 +100,7 @@ function directiveProjectsSearch() {
 		controllerAs: 'projectsSearch'
 	};
 	return directive;
-}    
+}
 
 // -----------------------------------------------------------------------------------
 //

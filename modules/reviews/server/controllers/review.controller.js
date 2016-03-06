@@ -10,6 +10,7 @@ var _         = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Review',
+	plural : 'reviews',
 	populate : {path:'user', select:'_id displayName username orgCode'},
 	// -------------------------------------------------------------------------
 	//

@@ -5,12 +5,10 @@
 //
 // =========================================================================
 var path     = require('path');
-var mongoose = require ('mongoose');
-var _ = require ('lodash');
 var helpers  = require (path.resolve('./modules/core/server/controllers/core.helpers.controller'));
-// var CRUD     = require (path.resolve('./modules/core/server/controllers/core.crud.controller'));
+var mongoose = require ('mongoose');
 var Role     = mongoose.model ('Role');
-// var userController = require(path.resolve('./modules/users/server/controllers/admin.server.controller'));
+var _        = require ('lodash');
 
 var getRole = function (code) {
 	return new Promise (function (resolve, reject) {
@@ -73,11 +71,9 @@ var addObjectRoles = function (objectType, objectId, codes) {
 	console.log ('adding object codes ',codes);
 	console.log ('for type ',objectType);
 	console.log ('aand id ',objectId);
-	return new Promise (function (resolve, reject) {
-		Promise.all (codes.map (function (code) {
-			return addObjectRole (objectType, objectId, code);
-		})).then (resolve, reject);
-	});
+	return Promise.all (codes.map (function (code) {
+		return addObjectRole (objectType, objectId, code);
+	}));
 };
 var addObjectsRole = function (objectType, objectIds, code) {
 	return new Promise (function (resolve, reject) {
@@ -124,7 +120,28 @@ var addRolesToConfigObject = function (dbobject, objectType, spec) {
 	dbobject.addRoles (spec);
 	return addObjectRolesFromSpec (objectType, dbobject._id, spec);
 };
-
+// -------------------------------------------------------------------------
+//
+// OK, here's one that may be more useful.
+// given an object of some sort, upon which we apply roles, so a dbobject
+// with roles, and given the role spec that we wish to apply to it,
+// absolutely, just set the roles in the object itself (no save), and
+// then update the roles with the new object id for the thing
+//
+// -------------------------------------------------------------------------
+var setObjectRoles = function (dbobject, roleSpec) {
+	dbobject.setRoles (roleSpec);
+	return addObjectRoles (dbobject.plural, dbobject._id, dbobject.roles);
+};
+// -------------------------------------------------------------------------
+//
+// and a merge of the same type
+//
+// -------------------------------------------------------------------------
+var mergeObjectRoles = function (dbobject, roleSpec) {
+	dbobject.addRoles (roleSpec);
+	return addObjectRoles (dbobject.plural, dbobject._id, dbobject.roles);
+};
 // -------------------------------------------------------------------------
 //
 // get all user in a role, just username, and displayName, and id
@@ -242,5 +259,7 @@ module.exports = {
 	getRoleRoute:getRoleRoute,
 	getSystemRolesRoute:getSystemRolesRoute,
 	getSystemRoles:getSystemRoles,
+	mergeObjectRoles:mergeObjectRoles,
+	setObjectRoles:setObjectRoles
 };
 

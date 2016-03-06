@@ -12,7 +12,10 @@ angular.module('irs').factory ('IrModel', function (ModelBase, _) {
 	// have all the basic crud stuff built in
 	//
 	var Class = ModelBase.extend ({
-		urlName : 'ir'
+		urlName : 'ir',
+		forProject: function (projectid) {
+			return this.get ('/api/ir/for/project/'+projectid);
+		},
 	});
 	return new Class ();
 });

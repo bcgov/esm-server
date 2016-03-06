@@ -12,7 +12,10 @@ angular.module('descriptions').factory ('DescriptionModel', function (ModelBase,
 	// have all the basic crud stuff built in
 	//
 	var Class = ModelBase.extend ({
-		urlName : 'description'
+		urlName : 'description',
+		forProject: function (projectid) {
+			return this.get ('/api/description/for/project/'+projectid);
+		},
 	});
 	return new Class ();
 });

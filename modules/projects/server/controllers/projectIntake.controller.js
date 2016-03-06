@@ -14,6 +14,7 @@ var _           = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'ProjectIntake',
+	plural : 'projectintakes',
 	populate: 'phases',
 	listForProject : function (project) {
 		var self = this;

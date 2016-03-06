@@ -4,7 +4,7 @@ angular.module('descriptions').config(['$stateProvider', function ($stateProvide
 
 	$stateProvider
 	.state('descriptions', {
-		url: '/descriptions',
+		url: '/descriptions/project/:project',
 		template: '<tmpl-description-list></tmpl-description-list>',
 		data: {
 			roles: ['admin', 'user']

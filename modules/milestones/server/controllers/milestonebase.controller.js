@@ -10,6 +10,7 @@ var DBModel  = require (path.resolve('./modules/core/server/controllers/core.dbm
 
 module.exports = DBModel.extend ({
 	name : 'MilestoneBase',
+	plural : 'milestonebases',
 	populate: 'activities',
 	preprocessAdd: function (me) {
 		me.read.push ('eao');

@@ -1,0 +1,14 @@
+<section class='panel panel-default'>
+	<div class="block-content">
+		<h3>Current Projects</h3>
+	</div>
+	<table ng-table="projectList.tableParams" class="table table-condensed table-striped">
+		<tr ng-repeat="o in $data" class='clickable' ui-sref="project({id: o._id})">
+			<td title="'Name'"     filter="{'name':'text'}"     sortable="'name'"   >{{o.name}}</td>
+			<td title="'Type'"     filter="{'type':'text'}"     sortable="'type'"   >{{o.type}}</td>
+			<td title="'Region'"   filter="{'region':'text'}"   sortable="'sector'" >{{o.region}}</td>
+			<td title="'Location'" filter="{'location':'text'}" sortable="'stage'"  >{{o.location}}</td>
+		</tr>
+	</table>
+
+</section>

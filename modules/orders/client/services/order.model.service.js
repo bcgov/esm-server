@@ -12,7 +12,10 @@ angular.module('orders').factory ('OrderModel', function (ModelBase, _) {
 	// have all the basic crud stuff built in
 	//
 	var Class = ModelBase.extend ({
-		urlName : 'order'
+		urlName : 'order',
+		forProject: function (projectid) {
+			return this.get ('/api/order/for/project/'+projectid);
+		},
 	});
 	return new Class ();
 });

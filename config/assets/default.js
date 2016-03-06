@@ -11,7 +11,8 @@ module.exports = {
         'public/lib/angular-bootstrap/ui-bootstrap-csp.css',
         'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css',
         // cc : ngtable
-        'public/lib/ng-table/dist/ng-table.min.css'
+        // 'public/lib/ng-table/dist/ng-table.min.css'
+        'public/assimilated/ng-table/dist/ng-table.min.css'
         // cc: end ngtable
       ],
       js: [
@@ -36,7 +37,8 @@ module.exports = {
         'public/lib/lodash/lodash.min.js',
         'public/lib/d3/d3.min.js',
         // cc : ngtable
-        'public/lib/ng-table/dist/ng-table.js',
+        // 'public/lib/ng-table/dist/ng-table.js',
+        'public/assimilated/ng-table/dist/ng-table.js',
         // cc: end ngtable
         'public/lib/angularD3/dist/angularD3.js',
         'public/lib/moment/moment.js',
