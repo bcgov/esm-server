@@ -17,6 +17,7 @@ angular.module('project')
 	// .directive('tmplProjectResearch', directiveProjectResearch)
 
 	.directive('modalProjectEntry', directiveModalProjectEntry)
+	.directive('modalProjectImport', directiveModalProjectImport)
 
 	// .directive('tmplProjectNew', directiveProjectNew)
 	// .directive('tmplProjectEdit', directiveProjectEdit)
@@ -202,6 +203,47 @@ function directiveModalProjectEntry($modal, $state, $rootScope, sProjectModel) {
 					templateUrl: 'modules/projects/client/views/project-partials/modal-project-entry.html',
 					controller: 'controllerModalProjectEntry',
 					controllerAs: 'projectEntry',
+					resolve: {
+						rProject: function () {
+							return scope.project;
+						}
+					},
+					size: 'lg'
+				});
+				modalProjectEntry.result.then(function (data) {
+					if ($state.current.name === 'projects') {
+						// reload the complete projects list
+						$rootScope.$broadcast('refreshProjectsList');
+					} else {
+						$rootScope.$broadcast('refreshProject');
+						$rootScope.$broadcast('refreshDocumentList');
+					}
+				}, function () {});
+			});
+		}
+	};
+	return directive;
+}
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Modal Project Entry
+//
+// -----------------------------------------------------------------------------------
+directiveModalProjectImport.$inject = ['$modal', '$state', '$rootScope', 'ProjectModel'];
+/* @ngInject */
+function directiveModalProjectImport($modal, $state, $rootScope, sProjectModel) {
+	var directive = {
+		restrict:'A',
+		scope : {
+			project: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalProjectEntry = $modal.open({
+					animation: true,
+					templateUrl: 'modules/projects/client/views/project-partials/modal-project-import.html',
+					controller: 'controllerModalProjectImport',
+					controllerAs: 'projectImport',
 					resolve: {
 						rProject: function () {
 							return scope.project;
