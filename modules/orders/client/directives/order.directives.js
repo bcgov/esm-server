@@ -30,7 +30,7 @@ angular.module ('orders')
 			mode: '@'
 		},
 		link : function (scope, element, attrs) {
-			console.log('order modal is running');
+			console.log('editOrderModal is running');
 			element.on ('click', function () {
 				var modalView = $modal.open ({
 					animation    : true,

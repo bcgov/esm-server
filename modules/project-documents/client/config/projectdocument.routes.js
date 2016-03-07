@@ -4,8 +4,8 @@ angular.module('projectdocuments').config(['$stateProvider', function ($statePro
 
 	$stateProvider
 	.state('projectdocuments', {
-		url: '/projectdocuments',
-		template: '<tmpl-project-document-list></tmpl-project-document-list>',
+		url: '/projectdocuments/project/:project',
+		template: '<tmpl-projectdocument-list></tmpl-projectdocument-list>',
 		data: {
 			roles: ['admin', 'user']
 		}

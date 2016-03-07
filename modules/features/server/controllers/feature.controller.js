@@ -10,6 +10,7 @@ var _         = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Feature',
+	plural : 'features',
 	getForProject: function (projectId) {
 		return this.findMany ({project:projectId});
 	},

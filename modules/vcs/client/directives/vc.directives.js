@@ -30,7 +30,7 @@ angular.module ('vcs')
 			mode: '@'
 		},
 		link : function (scope, element, attrs) {
-			console.log('vc modal is running');
+			console.log('editVcModal is running');
 			element.on ('click', function () {
 				var modalView = $modal.open ({
 					animation    : true,

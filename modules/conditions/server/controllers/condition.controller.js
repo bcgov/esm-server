@@ -10,5 +10,6 @@ var _         = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Condition',
+	plural : 'conditions',
 });
 

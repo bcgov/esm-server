@@ -29,9 +29,10 @@ angular.module ('topics')
 		});
 	};
 
-	$rootScope.$on('refreshTopicList', function() {
+	var unbind = $rootScope.$on('refreshTopicList', function() {
 		setData();
 	});
+	$scope.$on('$destroy', unbind);
 
 	this.examine = function () {
 		console.log ('collection returned is:', this.collection);

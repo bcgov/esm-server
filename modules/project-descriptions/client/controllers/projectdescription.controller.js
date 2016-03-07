@@ -36,9 +36,10 @@ angular.module ('projectdescriptions')
 		});
 	};
 
-	$rootScope.$on('refreshProjectDescriptionList', function() {
+	var unbind = $rootScope.$on('refreshProjectDescriptionList', function() {
 		setData();
 	});
+	$scope.$on('$destroy', unbind);
 
 	setData();
 }])

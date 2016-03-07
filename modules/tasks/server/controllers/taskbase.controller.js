@@ -9,7 +9,8 @@ var DBModel  = require (path.resolve('./modules/core/server/controllers/core.dbm
 
 
 module.exports = DBModel.extend ({
-	name : 'TaskBase'
+	name : 'TaskBase',
+	plural : 'taskbases'
 });
 
 

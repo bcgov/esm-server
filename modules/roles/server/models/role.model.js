@@ -33,9 +33,7 @@ var setUnique = function (a, value) {
 	return b;
 };
 var setUniqueArray = function (a, addArray) {
-	return _.uniq (a.concat (addArray), function (a, b) {
-		return (a.equals(b));
-	});
+	return _.union (a, addArray);
 };
 
 RoleSchema.methods.setUserRole = function (user) {

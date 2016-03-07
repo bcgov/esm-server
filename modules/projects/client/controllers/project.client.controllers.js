@@ -10,6 +10,7 @@ angular.module('project')
 	.controller('controllerProjectTombstone', controllerProjectTombstone)
 	// .controller('controllerProjectTimeline', controllerProjectTimeline)
 	.controller('controllerModalProjectEntry', controllerModalProjectEntry)
+	.controller('controllerModalProjectImport', controllerModalProjectImport)
 	// .controller('controllerProjectProponent', controllerProjectProponent)
 	// .controller('controllerProjectBucketListing', controllerProjectBucketListing)
 	// .controller('controllerProjectResearch', controllerProjectResearch)
@@ -41,9 +42,10 @@ function controllerProject($scope, $rootScope, sProjectModel, $stateParams, _) {
 		});
 	};
 
-	$rootScope.$on('refreshProject', function() {
+	var unbind = $rootScope.$on('refreshProject', function() {
 		proj.refresh();
 	});
+	$scope.$on('$destroy', unbind);
 
 	proj.refresh();
 
@@ -190,6 +192,89 @@ function controllerProjectTombstone($scope, ProjectModel) {
 // 		ptime.project = newValue;
 // 	});
 // }
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Project Entry Tombstone
+//
+// -----------------------------------------------------------------------------------
+controllerModalProjectImport.$inject = ['Upload', '$modalInstance', '$timeout', '$scope', '$state', 'Project',  'ProjectModel', 'rProject', 'REGIONS', 'PROJECT_TYPES', '_'];
+/* @ngInject */
+function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, $state, sProject, sProjectModel, rProject, REGIONS, PROJECT_TYPES, _) {
+	var projectImport = this;
+
+	projectImport.fileList = [];
+
+	// projectEntry.regions = REGIONS;
+	// projectEntry.types = PROJECT_TYPES;
+
+	// projectEntry.questions = sProject.getProjectIntakeQuestions();
+	// projectEntry.form = {curTab: $state.params.tab};
+
+	// // if a project is already there, we're in edit mode.
+	// if (rProject) {
+	// 	projectEntry.title = 'Edit Project';
+	// 	sProjectModel.setModel(rProject);
+	// 	projectEntry.project = sProjectModel.getCopy();
+	// 	// project has been passed in, no need to get it again.
+	// } else {
+	// 	// no project set to presume new mode.
+	// 	projectEntry.title = 'Add Project';
+	// 	// no project exists, get a new blank one.
+	// 	sProjectModel.getNew().then( function(data) {
+	// 		console.log('getnew');
+	// 		projectEntry.project = data;
+	// 	});
+	// }
+	$scope.$watch('files', function (newValue) {
+		if (newValue) {
+			projectImport.inProgress = false;
+			_.each( newValue, function(file, idx) {
+				projectImport.fileList.push(file);
+			});
+		}
+		// add the file to our central list.
+		// click the upload buton to actually upload this list.
+
+		//docUpload.upload($scope.files);
+	});
+
+	projectImport.removeFile = function(f) {
+		_.remove(projectImport.fileList, f);
+	};
+
+	projectImport.cancel = function () {
+		$modalInstance.dismiss();
+	};
+
+	// Standard save make sure documents are uploaded before save.
+	projectImport.upload = function() {
+		console.log("Got file:",projectImport.fileList);
+		var upload = Upload.upload({
+			url: '/api/projects/import',
+			file: projectImport.fileList
+		});
+
+		upload.then(function (response) {
+			$timeout(function () {
+				//console.log('filedata', response.data);
+				// // when the last file is finished, send complete event.
+				// if (--docCount === 0) {
+				// 	// emit to parent.
+				// 	$scope.$emit('documentUploadComplete');
+				// }
+				console.log("we're done with ",upload.file);
+			});
+		}, function (response) {
+			// if (response.status > 0) {
+			// 	projectImport.errorMsg = response.status + ': ' + response.data;
+			// } else {
+			// 	_.remove($scope.files, file);
+			// }
+		}, function (evt) {
+			//file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+		});
+	};
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Entry Tombstone
@@ -489,10 +574,11 @@ function controllerProjectActivities($scope, $rootScope, sAuthentication, sActiv
 		}
 	};
 
-	$rootScope.$on('refreshActivitiesForMilestone', function(event, data) {
+	var unbind = $rootScope.$on('refreshActivitiesForMilestone', function(event, data) {
 		console.log(data.milestone);
 		projectActs.selectMilestone(data.milestone);
 	});
+	$scope.$on('$destroy',unbind);
 
 
 	// wait until the list of phases loads.

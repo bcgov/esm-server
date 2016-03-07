@@ -372,6 +372,46 @@ _.extend (DBModel.prototype, {
 	},
 	// -------------------------------------------------------------------------
 	//
+	// this is when we need to ensure that the provided code is in fact unique
+	// this is NOT a good implementation as it can easily fail. Later someone
+	// should figure out a nice way to do a loop of promises, can't think of it
+	// right now and don't have a lot if time to get this done.
+	//
+	// TBD: implement a proper loop of promises checking for random code
+	// patterns
+	//
+	// -------------------------------------------------------------------------
+	guaranteeUniqueCode : function (code) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			var trialCode = code;
+			self.model.findOne ({code:trialCode}).select('code').exec()
+			.then (function (result) {
+				if (!result) resolve (trialCode);
+				else {
+					trialCode = code + '-' + _.random (0,100);
+					return self.model.findOne({code:trialCode}).select('code').exec();
+				}
+			})
+			.then (function (result) {
+				if (!result) resolve (trialCode);
+				else {
+					trialCode = code + '-' + _.random (0,100);
+					return self.model.findOne({code:trialCode}).select('code').exec();
+				}
+			})
+			.then (function (result) {
+				if (!result) resolve (trialCode);
+				else {
+					trialCode = code + '-' + _.random (0,100);
+					resolve (trialCode);
+				}
+			})
+			.catch (reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
 	// POST
 	// has optional preprocess and decorate (postprocess)
 	// these assume that the object being saved already has an Id (it was made

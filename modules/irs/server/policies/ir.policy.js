@@ -10,6 +10,9 @@ var helpers  = require (require('path').resolve('./modules/core/server/controlle
 
 exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'ir');
+	helpers.setPathPermissions (acl, [
+		[ '', 'user', '/api/ir/for/project/:projectId'    ],
+	]);
 };
 
 exports.isAllowed = helpers.isAllowed (acl);

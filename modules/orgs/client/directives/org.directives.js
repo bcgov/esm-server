@@ -30,7 +30,7 @@ angular.module ('orgs')
 			mode: '@'
 		},
 		link : function (scope, element, attrs) {
-			console.log('org modal is running');
+			console.log('editOrgModal is running');
 			element.on ('click', function () {
 				var modalView = $modal.open ({
 					animation    : true,

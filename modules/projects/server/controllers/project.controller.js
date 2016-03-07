@@ -14,6 +14,7 @@ var _                  = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Project',
+	plural : 'projects',
 	populate: 'proponent',
 	// -------------------------------------------------------------------------
 	//
@@ -29,31 +30,50 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	preprocessAdd : function (project) {
 		var self = this;
-		var rolePrefix             = project.code + ':';
-		var adminSuffix            = ':admin';
-		var projectAdminRole       = rolePrefix + 'eao' + adminSuffix;
-		var projectProponentAdmin  = rolePrefix + project.orgCode + adminSuffix;
-		var projectProponentMember = rolePrefix + project.orgCode + ':member';
+		var rolePrefix;
+		var adminSuffix = ':admin';
+		var projectAdminRole;
+		var projectProponentAdmin;
+		var projectProponentMember;
+		var sectorRole;
+		//
+		// return a promise, we have lots of work to do
+		//
 		return new Promise (function (resolve, reject) {
-			// console.log ('project = ', project);
-			var sectorRole;
-			if (project.type === 'lng') {
-				sectorRole = 'sector-lead-lng';
-			} else {
-				sectorRole = 'sector-lead-mining';
-			}
 			//
-			// set the project admin role
+			// first generate a project code that can be used internally
 			//
-			project.adminRole = projectAdminRole;
-			project.proponentAdminRole = projectProponentAdmin;
-			project.addRoles ({submit:sectorRole});
+			project.code = project.shortName.toLowerCase ();
+			project.code = project.code.replace (/\W/g,'-');
+			project.code = project.code.replace (/-+/,'-');
 			//
-			// add the project to the roles
+			// this does the work of that and returns a promise
 			//
-			RoleController.addRolesToConfigObject (project, 'projects', {
-				read   : [projectProponentMember],
-				submit : [projectProponentAdmin, projectAdminRole, sectorRole]
+			self.guaranteeUniqueCode (project.code)
+			//
+			// then go about setting up the default admin roles on both
+			// sides of the fence
+			//
+			.then (function (projectCode) {
+				rolePrefix             = projectCode + ':';
+				adminSuffix            = ':admin';
+				projectAdminRole       = rolePrefix + 'eao' + adminSuffix;
+				projectProponentAdmin  = rolePrefix + project.orgCode + adminSuffix;
+				projectProponentMember = rolePrefix + project.orgCode + ':member';
+				//
+				// set the project admin role
+				//
+				project.adminRole = projectAdminRole;
+				project.proponentAdminRole = projectProponentAdmin;
+				//
+				// add the project to the roles and the roles to the project
+				// we absolutely set them at this point.
+				//
+				//
+				RoleController.setObjectRoles (project, {
+					read   : [projectProponentMember],
+					submit : [projectProponentAdmin, projectAdminRole, sectorRole]
+				});
 			})
 			//
 			// add the appropriate role to the user
@@ -85,13 +105,30 @@ module.exports = DBModel.extend ({
 	submit: function (project) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
+			//
+			// set the status to submitted
+			//
 			project.status = 'Submitted';
-			// project.roles.push (
-			// 	'eoa'
-			// );
-			// RoleController.addRolesToConfigObject (project, 'projects', {
-			// 	read  : ['eao'],
-			// });
+			//
+			// select the right sector lead role
+			//
+			if (project.type === 'lng') {
+				project.sectorRole = 'sector-lead-lng';
+			} else {
+				project.sectorRole = 'sector-lead-mining';
+			}
+			//
+			// add the project to the roles and the roles to the project
+			// this is where the project first becomes visible to EAO
+			// through the project admin role and the sector lead role
+			// (we dont wait on the promise here, just trust it)
+			//
+			RoleController.mergeObjectRoles (project, {
+				submit : [project.adminRole, project.sectorRole]
+			});
+			//
+			// save changes
+			//
 			self.saveAndReturn (project)
 			.then (resolve, reject);
 		});
@@ -165,7 +202,7 @@ module.exports = DBModel.extend ({
 					projectAdminRole,
 					projectMemberRole
 				);
-				p.roles = _.uniq (p.roles.concat (stream.roles));
+				p.roles = _.union (p.roles, stream.roles);
 				//
 				// now add the stream roles both ways and also make the
 				// project public

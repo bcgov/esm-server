@@ -3,7 +3,7 @@
 	<h1 class="page-title">ProjectDocuments Library</h1>
 	<div class="row text-right">
 		<div class="col-sm-12">
-			<button class="btn btn-success btn-sm" x-mode="add" x-collection="data.collection" x-edit-project-document-modal><i class="glyphicon glyphicon-plus"></i> Add New ProjectDocument</button>
+			<button class="btn btn-success btn-sm" x-mode="add" x-collection="data.collection" x-edit-projectdocument-modal><i class="glyphicon glyphicon-plus"></i> Add New ProjectDocument</button>
 		</div>
 	</div>
 	<div calss="row">&nbsp;</div>
@@ -12,12 +12,12 @@
 			<section class="panel panel-default">
 				<table ng-table="data.tableParams" class="dtable table table-condensed table-bordered table-striped">
 					<tr ng-repeat="o in $data">
-						<td data-title="'Name'"   title:'Title'   filter="{'name':'text'}"       sortable="'name'"    ><a href x-edit-project-document-modal x-mode="view" x-projectdocument="o">{{o.name}}</a></td>
+						<td data-title="'Name'"   title:'Title'   filter="{'name':'text'}"       sortable="'name'"    ><a href x-edit-projectdocument-modal x-mode="view" x-projectdocument="o">{{o.name}}</a></td>
 						<td data-title="'Type'"   title:'Type'    filter="{'type':'text'}"       sortable="'type'"    >{{o.type}}</td>
 						<td data-title="'Sector'" title:'Sector'  filter="{'sector':'select'}"   sortable="'sector'"  filter-data="data.ptypes" >{{o.sector}}</td>
 						<td data-title="'Stage'"  title:'Stage'   filter="{'stage':'select'}"    sortable="'stage'"   filter-data="data.stypes">{{o.stage}}</td>
 						<td data-title="'Pillar'" title:'Pillar'  filter="{'pillar':'select'}"   sortable="'pillar'"  filter-data="data.pillars">{{o.pillar}}</td>
-						<td><button class="btn btn-default btn-xs" x-edit-project-document-modal x-mode="edit" x-projectdocument="o"><i class="glyphicon glyphicon-pencil"></i></button></td>
+						<td><button class="btn btn-default btn-xs" x-edit-projectdocument-modal x-mode="edit" x-projectdocument="o"><i class="glyphicon glyphicon-pencil"></i></button></td>
 					</tr>
 				</table>
 			</section>

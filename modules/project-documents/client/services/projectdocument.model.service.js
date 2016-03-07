@@ -12,7 +12,10 @@ angular.module('projectdocuments').factory ('ProjectDocumentModel', function (Mo
 	// have all the basic crud stuff built in
 	//
 	var Class = ModelBase.extend ({
-		urlName : 'projectdocument'
+		urlName : 'projectdocument',
+		forProject: function (projectid) {
+			return this.get ('/api/projectdocument/for/project/'+projectid);
+		},
 	});
 	return new Class ();
 });

@@ -11,6 +11,8 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__tracking            : true,
 	__status              : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Decommissioned'],
 	__codename            : 'unique',
+	epicProjectID		  : { type:Number, default: 0 },  // Used to relate ePIC imports
+	shortName             : { type:String, default: '' },
 	phases                : [ {type: 'ObjectId', ref:'Phase'} ],
 	type                  : { type:String, default:'', index:true },
 	region                : { type:String, default:'' },     // object id
@@ -19,6 +21,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	proponent             : { type:'ObjectId', ref:'Organization'     , index:true, default:null },
 	adminRole             : { type:String, default: '' },
 	proponentAdminRole    : { type:String, default: '' },
+	sectorRole            : { type:String, default: '' },
 	orgCode               : { type:String, default: '' },
 	substitution : { type:Boolean, default:false },
 	intake: {
@@ -51,6 +54,5 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	lat                          : { type: Number, default:0 },
 	lon                          : { type: Number, default:0 },
 	dateCommentsOpen             : { type: Date, default: null },
-	dateCommentsClosed           : { type: Date, default: null },
-	roles : [ { type:String} ]
+	dateCommentsClosed           : { type: Date, default: null }
 });

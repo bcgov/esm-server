@@ -30,7 +30,7 @@ angular.module ('contacts')
 			mode: '@'
 		},
 		link : function (scope, element, attrs) {
-			console.log('contact modal is running');
+			console.log('editContactModal is running');
 			element.on ('click', function () {
 				var modalView = $modal.open ({
 					animation    : true,

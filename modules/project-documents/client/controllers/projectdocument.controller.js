@@ -8,38 +8,43 @@ angular.module ('projectdocuments')
 //
 // -------------------------------------------------------------------------
 .controller ('controllerProjectDocumentList',
-	['$scope','$rootScope','$stateParams','ProjectDocumentModel','NgTableParams','PROJECT_TYPES','CE_STAGES','PILLARS',
-	function ($scope,$rootScope,$stateParams,ProjectDocumentModel,NgTableParams,PROJECT_TYPES,CE_STAGES,PILLARS) {
+	['$scope', '$rootScope', '$stateParams', 'ProjectDocumentModel', 'NgTableParams', 'PILLARS',
+	function ($scope, $rootScope, $stateParams, ProjectDocumentModel, NgTableParams, PILLARS) {
 
-	console.log ('yes, I am running');
+	console.log ('controllerProjectDocumentList is running');
+
 	var self = this;
 
-	self.ptypes = PROJECT_TYPES.map (function (e) {
-		return {id:e,title:e};
-	});
-	self.stypes = CE_STAGES.map (function (e) {
-		return {id:e,title:e};
-	});
+	//
+	// map out any supporting data
+	//
 	self.pillars = PILLARS.map (function (e) {
 		return {id:e,title:e};
 	});
+	self.project = $stateParams.project;
 
+	//
+	// set or reset the collection
+	//
 	var setData = function () {
-		ProjectDocumentModel.getCollection ()
-		.then (function (data) {
-			console.log (data);
+		ProjectDocumentModel.forProject ($stateParams.project).then (function (data) {
+			console.log ('controllerProjectDocumentList data received: ', data);
 			self.collection = data;
-			self.tableParams = new NgTableParams ({
-				count:50,
-				sorting: {name:"asc"}
-			}, {dataset: data});
+			self.tableParams = new NgTableParams ({count: 10}, {dataset: data});
 		});
 	};
 
-	$rootScope.$on('refreshProjectDocumentList', function() {
+	//
+	// listen for when to reset
+	//
+	var unbind = $rootScope.$on('refreshProjectDocumentList', function() {
 		setData();
 	});
+	$scope.$on('$destroy', unbind);
 
+	//
+	// finally, set the data
+	//
 	setData();
 }])
 
@@ -50,17 +55,28 @@ angular.module ('projectdocuments')
 //
 // -------------------------------------------------------------------------
 .controller ('controllerEditProjectDocumentModal',
-	['$modalInstance','$scope','_','codeFromTitle','ProjectDocumentModel','TopicModel','PROJECT_TYPES','CE_STAGES','PILLARS',
-	function ($modalInstance, $scope,_, codeFromTitle,ProjectDocumentModel,TopicModel,PROJECT_TYPES,CE_STAGES,PILLARS) {
+	['$modalInstance', '$scope', '_', 'codeFromTitle', 'ProjectDocumentModel', 'TopicModel', 'PILLARS',
+	function ($modalInstance, $scope, _, codeFromTitle, ProjectDocumentModel, TopicModel, PILLARS) {
+
+	console.log ('controllerEditProjectDocumentModal is running');
 
 	var self = this;
 
-	console.log ($scope.projectdocument);
-	console.log ($scope.mode);
-
+	//
+	// pull the mode and other info from the scope inputs
+	//
 	this.mode = $scope.mode;
-	// $scope.projectdocument;
-	// var dataPromise;
+
+	//
+	// set up any data from services that needs massaging
+	//
+	this.pillars = PILLARS;
+
+	// -------------------------------------------------------------------------
+	//
+	// set up handlers and functions on scope
+	//
+	// -------------------------------------------------------------------------
 	this.selectTopic = function () {
 		var self = this;
 		TopicModel.getTopicsForPillar (this.projectdocument.pillar).then (function (topics) {
@@ -68,33 +84,6 @@ angular.module ('projectdocuments')
 			$scope.$apply();
 		});
 	};
-
-	if (this.mode === 'add') {
-		this.dmode = 'Add';
-		ProjectDocumentModel.getNew ().then (function (model) {
-			self.projectdocument = model;
-			self.selectTopic ();
-		});
-	} else if (this.mode === 'edit') {
-		this.dmode = 'Edit';
-		this.projectdocument = ProjectDocumentModel.getCopy ($scope.projectdocument);
-		ProjectDocumentModel.setModel (this.projectdocument);
-		this.selectTopic ();
-	} else {
-		this.dmode = 'View';
-		this.projectdocument = $scope.projectdocument;
-		this.selectTopic ();
-	}
-
-	this.sectors = PROJECT_TYPES;
-	this.stages = CE_STAGES;
-	this.pillars = PILLARS;
-
-	console.log ('stages:', this.stages);
-
-
-
-
 	this.ok = function () {
 		console.log ('save clicked');
 		this.projectdocument.code = codeFromTitle (this.projectdocument.name);
@@ -119,7 +108,26 @@ angular.module ('projectdocuments')
 		$modalInstance.dismiss('cancel');
 	};
 
-
+	//
+	// finally, deal with the mode and setting data up for each one
+	// and kick off the directive
+	//
+	if (this.mode === 'add') {
+		this.dmode = 'Add';
+		ProjectDocumentModel.getNew ().then (function (model) {
+			self.projectdocument = model;
+			self.selectTopic ();
+		});
+	} else if (this.mode === 'edit') {
+		this.dmode = 'Edit';
+		this.projectdocument = ProjectDocumentModel.getCopy ($scope.projectdocument);
+		ProjectDocumentModel.setModel (this.projectdocument);
+		this.selectTopic ();
+	} else {
+		this.dmode = 'View';
+		this.projectdocument = $scope.projectdocument;
+		this.selectTopic ();
+	}
 }])
 
 ;

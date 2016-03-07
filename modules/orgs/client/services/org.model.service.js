@@ -12,7 +12,10 @@ angular.module('orgs').factory ('OrgModel', function (ModelBase, _) {
 	// have all the basic crud stuff built in
 	//
 	var Class = ModelBase.extend ({
-		urlName : 'org'
+		urlName : 'org',
+		forProject: function (projectid) {
+			return this.get ('/api/org/for/project/'+projectid);
+		},
 	});
 	return new Class ();
 });

@@ -25,12 +25,12 @@ angular.module ('complaints')
 	return {
 		restrict: 'A',
 		scope: {
-			collection: '=',
+			project: '=',
 			complaint: '=',
 			mode: '@'
 		},
 		link : function (scope, element, attrs) {
-			console.log('complaint modal is running');
+			console.log('editComplaintModal is running');
 			element.on ('click', function () {
 				var modalView = $modal.open ({
 					animation    : true,

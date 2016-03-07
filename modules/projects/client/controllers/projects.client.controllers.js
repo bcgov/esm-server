@@ -4,6 +4,7 @@ angular.module('projects')
 	// General
 	.controller('controllerProjects', controllerProjects)
 	.controller('controllerProjectsList', controllerProjectsList)
+	.controller('controllerProjectsList2', controllerProjectsList2)
 	.controller('controllerProjectsSearch', controllerProjectsSearch)
 	.controller('controllerUserActivities', controllerUserActivities);
 
@@ -30,9 +31,10 @@ function controllerProjects($scope, $state, $rootScope, sProjectModel, PROJECT_T
 		});
 	};
 
-	$rootScope.$on('refreshProjectsList', function() {
+	var unbind = $rootScope.$on('refreshProjectsList', function() {
 		projects.refresh();
 	});
+	$scope.$on('$destroy', unbind);
 
 	projects.refresh();
 
@@ -116,6 +118,30 @@ function controllerProjectsList($scope, $state, Authentication, sProjectModel, $
 	$scope.$watch('projects', function(newValue) {
 		if (newValue) {
 			projectList.projects = newValue;
+		}
+	});
+
+}
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Projects List 2
+//
+// -----------------------------------------------------------------------------------
+controllerProjectsList2.$inject = ['$scope', 'NgTableParams', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC'];
+/* @ngInject */
+function controllerProjectsList2($scope, NgTableParams, $state, Authentication, sProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC) {
+	var projectList = this;
+
+	projectList.types = PROJECT_TYPES;
+	projectList.regions = REGIONS;
+	projectList.status = PROJECT_STATUS_PUBLIC;
+
+	projectList.auth = Authentication;
+
+	$scope.$watch('projects', function(newValue) {
+		if (newValue) {
+			projectList.tableParams = new NgTableParams ({count: 10}, {dataset: newValue});
+			// projectList.projects = newValue;
 		}
 	});
 

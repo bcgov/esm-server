@@ -43,6 +43,8 @@ var trackingFields = {
 // -------------------------------------------------------------------------
 //
 // things to do with handling access stuff
+// roles is set to the totla set of roles
+// userPermissions gets set on find(), shows the users individual permissions
 //
 // -------------------------------------------------------------------------
 var accessFields = {
@@ -50,6 +52,7 @@ var accessFields = {
 	write : [ {type:String} ],
 	submit: [ {type:String} ],
 	watch : [ {type:String} ],
+	roles : [ {type:String} ],
 	userPermissions : {}
 };
 // -------------------------------------------------------------------------
@@ -110,6 +113,7 @@ var fixRoles = function (projectCode) {
 	this.write = this.write.map (function (role) { return role.replace ('project:', repl); });
 	this.submit = this.submit.map (function (role) { return role.replace ('project:', repl); });
 	this.watch = this.watch.map (function (role) { return role.replace ('project:', repl); });
+	this.roles = this.allRoles ();
 };
 // -------------------------------------------------------------------------
 //
@@ -126,12 +130,12 @@ var fixRoleArray = function (projectCode, roleArray) {
 // -------------------------------------------------------------------------
 var mergeRoles = function (projectCode, pObject) {
 	var self = this;
-	// console.log ('merging roles', pObject);
 	_.each (pObject, function (p, i) {
-		self[i] = _.uniq (self[i].concat (p.map (function (role) {
+		self[i] = _.union (self[i], p.map (function (role) {
 			return role.replace ('project:', projectCode+':');
-		})));
+		}));
 	});
+	this.roles = this.allRoles ();
 };
 // -------------------------------------------------------------------------
 //
@@ -140,11 +144,16 @@ var mergeRoles = function (projectCode, pObject) {
 // -------------------------------------------------------------------------
 var addRoles = function (pObject) {
 	var self = this;
-	// console.log ('adding roles', pObject);
 	_.each (pObject, function (p, i) {
-		self[i] = _.uniq (self[i].concat (p));
+		self[i] = _.union (self[i], p);
 	});
+	this.roles = this.allRoles ();
 };
+// -------------------------------------------------------------------------
+//
+// remove a set of roles
+//
+// -------------------------------------------------------------------------
 var removeRoles = function (pObject) {
 	var self = this;
 	_.each (pObject, function (p, i) {
@@ -152,6 +161,19 @@ var removeRoles = function (pObject) {
 			return _.indexOf (p, val) !== -1;
 		});
 	});
+	this.roles = this.allRoles ();
+};
+// -------------------------------------------------------------------------
+//
+// absolutely define the roles
+//
+// -------------------------------------------------------------------------
+var setRoles = function (pObject) {
+	this.read   = pObject.read   || [] ;
+	this.write  = pObject.write  || [] ;
+	this.submit = pObject.submit || [] ;
+	this.watch  = pObject.watch  || [] ;
+	this.roles  = this.allRoles ();
 };
 
 // -------------------------------------------------------------------------
@@ -187,9 +209,9 @@ var generateSchema = function (definition, indexes) {
 		var index = (codename === 'unique') ? {unique:true} : true;
 		// console.log (index);
 		definition = _.extend (definition, {
-			code        : { type:String, default:'code', required:'Code is required', index:index, lowercase:true, trim:true},
-			name        : { type:String, default:'name', required:'name is required' },
-			description : { type:String, default:'description' }
+			code        : { type:String, default:'', required:'Code is required', index:index, lowercase:true, trim:true},
+			name        : { type:String, default:'', required:'name is required' },
+			description : { type:String, default:'' }
 		});
 	}
 	// console.log (definition);
@@ -208,6 +230,7 @@ var generateSchema = function (definition, indexes) {
 		schema.methods.addRoles          = addRoles;
 		schema.methods.roleSet           = roleSet;
 		schema.methods.allRoles          = allRoles;
+		schema.methods.setRoles          = setRoles;
 		schema.index ({read:1});
 		schema.index ({write:1});
 		schema.index ({submit:1});

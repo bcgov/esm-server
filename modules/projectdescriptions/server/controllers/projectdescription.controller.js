@@ -10,6 +10,7 @@ var _         = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'ProjectDescription',
+	plural : 'projectdescriptions',
 	sort : {versionNumber: -1},
 	saveAs: function (type, desc) {
 		var self = this;

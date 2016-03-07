@@ -8,38 +8,43 @@ angular.module ('complaints')
 //
 // -------------------------------------------------------------------------
 .controller ('controllerComplaintList',
-	['$scope','$rootScope','$stateParams','ComplaintModel','NgTableParams','PROJECT_TYPES','CE_STAGES','PILLARS',
-	function ($scope,$rootScope,$stateParams,ComplaintModel,NgTableParams,PROJECT_TYPES,CE_STAGES,PILLARS) {
+	['$scope', '$rootScope', '$stateParams', 'ComplaintModel', 'NgTableParams', 'PILLARS',
+	function ($scope, $rootScope, $stateParams, ComplaintModel, NgTableParams, PILLARS) {
 
-	console.log ('yes, I am running');
+	console.log ('controllerComplaintList is running');
+
 	var self = this;
 
-	self.ptypes = PROJECT_TYPES.map (function (e) {
-		return {id:e,title:e};
-	});
-	self.stypes = CE_STAGES.map (function (e) {
-		return {id:e,title:e};
-	});
+	//
+	// map out any supporting data
+	//
 	self.pillars = PILLARS.map (function (e) {
 		return {id:e,title:e};
 	});
+	self.project = $stateParams.project;
 
+	//
+	// set or reset the collection
+	//
 	var setData = function () {
-		ComplaintModel.getCollection ()
-		.then (function (data) {
-			console.log (data);
+		ComplaintModel.forProject ($stateParams.project).then (function (data) {
+			console.log ('controllerComplaintList data received: ', data);
 			self.collection = data;
-			self.tableParams = new NgTableParams ({
-				count:50,
-				sorting: {name:"asc"}
-			}, {dataset: data});
+			self.tableParams = new NgTableParams ({count: 10}, {dataset: data});
 		});
 	};
 
-	$rootScope.$on('refreshComplaintList', function() {
+	//
+	// listen for when to reset
+	//
+	var unbind = $rootScope.$on('refreshComplaintList', function() {
 		setData();
 	});
+		$scope.$on('$destroy', unbind);
 
+	//
+	// finally, set the data
+	//
 	setData();
 }])
 
@@ -50,17 +55,28 @@ angular.module ('complaints')
 //
 // -------------------------------------------------------------------------
 .controller ('controllerEditComplaintModal',
-	['$modalInstance','$scope','_','codeFromTitle','ComplaintModel','TopicModel','PROJECT_TYPES','CE_STAGES','PILLARS',
-	function ($modalInstance, $scope,_, codeFromTitle,ComplaintModel,TopicModel,PROJECT_TYPES,CE_STAGES,PILLARS) {
+	['$modalInstance', '$scope', '_', 'codeFromTitle', 'ComplaintModel', 'TopicModel', 'PILLARS',
+	function ($modalInstance, $scope, _, codeFromTitle, ComplaintModel, TopicModel, PILLARS) {
+
+	console.log ('controllerEditComplaintModal is running');
 
 	var self = this;
 
-	console.log ($scope.complaint);
-	console.log ($scope.mode);
-
+	//
+	// pull the mode and other info from the scope inputs
+	//
 	this.mode = $scope.mode;
-	// $scope.complaint;
-	// var dataPromise;
+
+	//
+	// set up any data from services that needs massaging
+	//
+	this.pillars = PILLARS;
+
+	// -------------------------------------------------------------------------
+	//
+	// set up handlers and functions on scope
+	//
+	// -------------------------------------------------------------------------
 	this.selectTopic = function () {
 		var self = this;
 		TopicModel.getTopicsForPillar (this.complaint.pillar).then (function (topics) {
@@ -68,33 +84,6 @@ angular.module ('complaints')
 			$scope.$apply();
 		});
 	};
-
-	if (this.mode === 'add') {
-		this.dmode = 'Add';
-		ComplaintModel.getNew ().then (function (model) {
-			self.complaint = model;
-			self.selectTopic ();
-		});
-	} else if (this.mode === 'edit') {
-		this.dmode = 'Edit';
-		this.complaint = ComplaintModel.getCopy ($scope.complaint);
-		ComplaintModel.setModel (this.complaint);
-		this.selectTopic ();
-	} else {
-		this.dmode = 'View';
-		this.complaint = $scope.complaint;
-		this.selectTopic ();
-	}
-
-	this.sectors = PROJECT_TYPES;
-	this.stages = CE_STAGES;
-	this.pillars = PILLARS;
-
-	console.log ('stages:', this.stages);
-
-
-
-
 	this.ok = function () {
 		console.log ('save clicked');
 		this.complaint.code = codeFromTitle (this.complaint.name);
@@ -119,7 +108,26 @@ angular.module ('complaints')
 		$modalInstance.dismiss('cancel');
 	};
 
-
+	//
+	// finally, deal with the mode and setting data up for each one
+	// and kick off the directive
+	//
+	if (this.mode === 'add') {
+		this.dmode = 'Add';
+		ComplaintModel.getNew ().then (function (model) {
+			self.complaint = model;
+			self.selectTopic ();
+		});
+	} else if (this.mode === 'edit') {
+		this.dmode = 'Edit';
+		this.complaint = ComplaintModel.getCopy ($scope.complaint);
+		ComplaintModel.setModel (this.complaint);
+		this.selectTopic ();
+	} else {
+		this.dmode = 'View';
+		this.complaint = $scope.complaint;
+		this.selectTopic ();
+	}
 }])
 
 ;
