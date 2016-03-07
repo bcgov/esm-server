@@ -1,32 +1,27 @@
-<section id="project-view" class="row">
-<div class='col-sm-10'>
-	<h1 class="page-title">Topics Library</h1>
-	<div class="row text-right">
-		<div class="col-sm-12">
-			<button class="btn btn-success btn-sm" x-mode="add" x-edit-topic-modal><i class="glyphicon glyphicon-plus"></i> Add New Topic</button>
-		</div>
+<h1 class="page-title">Topics Library</h1>
+<div class="row text-right">
+	<div class="col-sm-12">
+		<a class="btn btn-success btn-sm" ui-sref="admin.topic.create()"><i class="glyphicon glyphicon-plus"></i> Add New Topic</a>
 	</div>
-	<div calss="row">&nbsp;</div>
-	<div class="row">
-		<div class="col-sm-12">
-			<section class="panel panel-default">
-
-				<table ng-table="data.tableParams" class="dtable table table-condensed table-bordered table-striped">
-					<tr ng-repeat="o in $data">
-						<td title="'Pillar'"  sortable="'pillar'"  filter="{'pillar':'select'}"  filter-data="data.pillars" >{{o.pillar}}</td>
-						<td title="'Name'"    sortable="'name'"    filter="{'name':'text'}"     ><a href x-edit-topic-modal x-mode="view" x-topic="o">{{o.name}}</a></td>
-						<td title="'Type'"    sortable="'type'"    filter="{'type':'select'}"       filter-data="data.pillars">{{o.type}}</td>
-						<td title="'Parent'"  sortable="'parent'"  filter="{'parent':'text'}"   >{{o.parent}}</td>
-						<td><button class="btn btn-default btn-xs" x-edit-topic-modal x-mode="edit" x-topic="o"><i class="glyphicon glyphicon-pencil"></i></button></td>
-					</tr>
-				</table>
-			</section>
-		</div>
-	</div>
-
-</div> <!-- /col10 -->
-<div class='col-sm-2'>
-	<tmpl-system-menu x-menu-context="project" x-project="projDescEdit.project"></tmpl-system-menu>
 </div>
+<div calss="row">&nbsp;</div>
+<div class="row">
+	<div class="col-sm-12">
+		<section class="panel panel-default">
 
-</section>
+			<table ng-table="tableParams" class="dtable table table-condensed table-bordered table-striped">
+				<tr ng-repeat="o in $data" ui-sref="admin.topic.detail({topicId:o._id})">
+					<td title="'Pillar'"  sortable="'pillar'"  filter="{'pillar':'select'}" filter-data="pillars" >{{o.pillar}}</td>
+					<td title="'Name'"    sortable="'name'"    filter="{'name':'text'}"                           >{{o.name}}</td>
+					<td title="'Type'"    sortable="'type'"    filter="{'type':'select'}"   filter-data="types"   >{{o.type}}</td>
+					<td title="'Parent'"  sortable="'parent'"  filter="{'parent':'text'}"                         >{{o.parent}}</td>
+					<td>
+						<a ng-click="$event.stopPropagation()" class="btn btn-default btn-xs" ui-sref="admin.topic.edit({topicId:o._id})">
+						<i class="glyphicon glyphicon-pencil"></i>
+						</a>
+					</td>
+				</tr>
+			</table>
+		</section>
+	</div>
+</div>

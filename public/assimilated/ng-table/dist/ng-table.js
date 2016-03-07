@@ -621,8 +621,8 @@
                             }
                         }
                     }
-                    log('ngTable: set parameters', params);
-                    console.log ('params:',params);
+                    // log('ngTable: set parameters', params);
+                    // console.log ('params:',params);
                     return this;
                 }
                 return params;
@@ -713,7 +713,7 @@
                         }
                     }
                     log('ngTable: set settings', settings);
-                    console.log('ngTable: set settings', settings);
+                    // console.log('ngTable: set settings', settings);
                     return this;
                 }
                 return settings;
@@ -1860,7 +1860,7 @@
             var setter = $parse($attrs.ngTableColumnsBinding).assign;
             if (setter){
                 $scope.$watch('$columns', function(newColumns){
-                    console.log ('newColumns = ', newColumns);
+                    // console.log ('newColumns = ', newColumns);
                     var shallowClone = (newColumns || []).slice(0);
                     setter($scope, shallowClone);
                 });

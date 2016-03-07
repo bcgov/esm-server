@@ -8,6 +8,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 .generateModel ('CommentPeriod', {
 	__audit          : true,
 	__access         : true,
+	__tracking       : true,
 	project          : { type:'ObjectId', ref:'Project', default:null, index:true },
 	phase            : { type:'ObjectId', ref:'Phase', default:null, index:true },
 	phaseName        : { type:String, default: '' },
