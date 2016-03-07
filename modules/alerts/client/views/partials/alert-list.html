@@ -1,0 +1,18 @@
+<div class="panel">
+	<div class="panel-heading">
+		<a x-modal-alerts-viewer x-project="alertList.project" class="text-danger" x-divider=false></a>
+	</div>
+	<table class='table table-condensed'>
+		<tbody>
+			<tr ng-repeat="alert in alertList.alerts" ng-class="{'bg-danger': alert.urgency === 'Critical'}">
+				<td>
+					<p>{{ alert.subject }}</p>
+				</td>
+			</tr>
+			<tr ng-if="alertList.alerts.length === 0">
+				<td>No matching alerts found.</td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>
