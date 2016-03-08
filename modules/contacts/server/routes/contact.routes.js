@@ -19,8 +19,7 @@ module.exports = function (app) {
 			.then (helpers.success(res), helpers.failure(res));
 		});
 
-
-	app.route ('/api/contacts/import').all (policy.isAllowed)
+	app.route ('/api/contacts/import')//.all (policy.isAllowed)
 		.post (function (req, res) {
 			var file = req.files.file;
 			if (file) {
@@ -31,29 +30,61 @@ module.exports = function (app) {
 						return console.log(err);
 					}
 					// console.log("FILE DATA:",data);
-					// Here for reference later:
-					// PERSON_ID	EAO_STAFF_FLAG	PROPONENT_FLAG	SALUTATION	FIRST_NAME	MIDDLE_NAME	LAST_NAME	TITLE	ORGANIZATION_NAME	DEPARTMENT	EMAIL_ADDRESS	PHONE_NUMBER	FAX_NUMBER	CELL_PHONE_NUMBER	ADDRESS_LINE_1	ADDRESS_LINE_2	CITY PROVINCE_STATE	COUNTRY	POSTAL_CODE	NOTES
-					var colArray = ['GROUP_ID','NAME','ORGANIZATION_NAME','TITLE','FIRST_NAME','MIDDLE_NAME','LAST_NAME','PHONE_NUMBER','EMAIL_ADDRESS','PROJECT_ID'];
-					var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, data){
-						// console.log("ParsedData:",output);
-						// for(var i = 2; i < output.length; i++) {
-						// 	console.log("ROW:",output[i])
-						// }
+					var colArray = ['PERSON_ID','EAO_STAFF_FLAG','PROPONENT_FLAG','SALUTATION','FIRST_NAME','MIDDLE_NAME','LAST_NAME','TITLE','ORGANIZATION_NAME','DEPARTMENT','EMAIL_ADDRESS','PHONE_NUMBER','FAX_NUMBER','CELL_PHONE_NUMBER','ADDRESS_LINE_1','ADDRESS_LINE_2','CITY','PROVINCE_STATE','COUNTRY','POSTAL_CODE','NOTES'];
+					var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 						// Skip the header
 						var skip = 1;
-						Object.keys(data).forEach(function(key) {
-							if (skip-- !== 0) {
-								return; // Skip the first 2 headers
-							}
-							var row = data[key];
-							console.log("rowData:",row);
-							// TODO: 1. First try to find the existing group contact or person contact (create/check params incoming)
+						Object.keys(output).forEach(function(key) {
+							if (skip !== 0) {
+								skip--;
+								console.log("skipping"); // Skip the first header
+							} else {
+								var row = output[key];
+								console.log("rowData:",row);
+								// TODO: 1. First try to find the existing group contact or person contact (create/check params incoming)
 
-							// 2. Create new if not existing
-							// Object.keys(obj).forEach(function(key) {
-							//   var val = obj[key];
-							//   console.log("key:"+key+" ",val);
-							// });
+								// 2. Create new if not existing
+								// Object.keys(obj).forEach(function(key) {
+								//   var val = obj[key];
+								//   console.log("key:"+key+" ",val);
+								// });
+							}
+						});
+					});
+					helpers.success(res);
+				});
+			}
+		});
+
+	app.route ('/api/groupcontacts/import')//.all (policy.isAllowed)
+		.post (function (req, res) {
+			var file = req.files.file;
+			if (file) {
+				console.log("Received contact import file:",file);
+				// Now parse and go through this thing.
+				fs.readFile(file.path, 'utf8', function(err, data) {
+					if (err) {
+						return console.log(err);
+					}
+					// console.log("FILE DATA:",data);
+					var colArray = ['GROUP_ID','NAME','ORGANIZATION_NAME','TITLE','FIRST_NAME','MIDDLE_NAME','LAST_NAME','PHONE_NUMBER','EMAIL_ADDRESS','PROJECT_ID'];
+					var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
+						var skip = 1;
+						Object.keys(output).forEach(function(key) {
+							if (skip !== 0) {
+								skip--;
+								console.log("skipping"); // Skip the first header
+							} else {
+								var row = output[key];
+								console.log("rowData:",row);
+								// TODO: 1. First try to find the existing group contact or person contact (create/check params incoming)
+
+								// 2. Create new if not existing
+								// Object.keys(obj).forEach(function(key) {
+								//   var val = obj[key];
+								//   console.log("key:"+key+" ",val);
+								// });
+							}
 						});
 					});
 					helpers.success(res);
