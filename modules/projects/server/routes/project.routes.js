@@ -87,7 +87,7 @@ module.exports = function (app) {
 		p.list ().then (helpers.success(res), helpers.failure(res));
 	});
 
-	app.route ('/api/projects/import').all (policy.isAllowed)
+	app.route ('/api/projects/import')//.all (policy.isAllowed)
 		.post (function (req, res) {
 			var file = req.files.file;
 			if (file) {
@@ -99,15 +99,24 @@ module.exports = function (app) {
 					}
 					// console.log("FILE DATA:",data);
 					//var colArray = ['Project ID','Project Name','Proponent','Region','PD Summary (Short Description)','!Location - Spatial','Location - Description','Provincial Electoral Districts','!Federal Electoral Districts','Capital Investment $M','!Project File Creation Date','!Project Description (Living Data)','!Note: Tombstone','!Project URL','Note: Capital Investment $M','Latitude (Depreciated)','Longitude (Depereciated)','Construction Jobs','Note: Construction Jobs','Operation Jobs','Note: Operation Jobs','Sector','Sub-Sector','Current Phase/Type/Activity','!Active','CEAA Involvement (Fed EA Req. & Type)','DELETED','DELETED','EA Issues','DELETED','!Note: Environmental Assessment','CEAA','First Nations - Consultation','First Nations - Access','First Nations - Notification','!Note: Stakeholders','Federal Agencies','!Working Group(s)','!All Other Stakeholder Group(s)','DELETED','Responsible EPD','Project Lead','EAO CAART Representative','Project Officer','Project Analyst','Project Assistant','Administrative Assistant','C&E Lead','!Note: Team'];
-					var colArray = ['id','ProjectName','Proponent','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49'];
-					var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
-						// console.log("ParsedData:",output);
-						// for(var i = 2; i < output.length; i++) {
-						// 	console.log("ROW:",output[i])
-						// }
-						console.log("ProjectID:",output[2].id);
-						console.log("Project Name:",output[2].ProjectName);
-						console.log("Proponent:",output[2].Proponent);
+					var colArray = ['id','ProjectName','Proponent','Region','shortD','locSpatial','locDescription','provincialED','federalED','capitalInvestment','projectCreateDate','projectDescriptionLivingData','tombstoneNote','projectURL','captialInvestmentNote','lat','long','constructionJobs','constructionJobsNotes','operationJobs','operationJobsNotes','sector','subSector','currentPhaseTypeActivity','active','CEAAInvolvement','deleted','deleted','eaIssues','deleted','environmentalAssessmentNotes','CEAA','firstNationsConsultation','firstNationsAccess','firstNationsNotification','stakeholdersNotes','federalAgencies','workingGroups','allOtherStakeholderGroups','deleted','responsibleEPD','projectLead','EAOCAARTRepresentative','projectOfficer','projectAnalyst','projectAssistant','administrativeAssistant','CELead','teamNotes'];
+					var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, data){
+						// loop each row in project
+						var skip = 2;
+						Object.keys(data).forEach(function(key) {
+							if (skip-- !== 0) {
+								return; // Skip the first 2 headers
+							}
+							var row = data[key];
+							console.log("rowData:",row);
+							// TODO: 1. First try to find the existing epicID
+
+							// 2. Create new if not existing
+							// Object.keys(obj).forEach(function(key) {
+							//   var val = obj[key];
+							//   console.log("key:"+key+" ",val);
+							// });
+						});
 					});
 					helpers.success(res);
 				});
