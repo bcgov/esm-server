@@ -65,7 +65,47 @@ var loadContacts = function(file, req, res) {
 	    });
 	});
 };
-
+var loadGroupContacts = function(file, req, res) {
+	// Now parse and go through this thing.
+	fs.readFile(file.path, 'utf8', function(err, data) {
+	    if (err) {
+	        return console.log(err);
+	    }
+	    // console.log("FILE DATA:",data);
+		var colArray = ['GROUP_ID','NAME','ORGANIZATION_NAME','TITLE','FIRST_NAME','MIDDLE_NAME','LAST_NAME','PHONE_NUMBER','EMAIL_ADDRESS','PROJECT_ID'];
+	    var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
+	        // Skip this many rows
+	        var skip = 1;
+	        var length = Object.keys(output).length;
+	        console.log("length",length);
+	        Object.keys(output).forEach(function(key) {
+	            if (skip !== 0) {
+	                skip--;
+	                // console.log("skipping");
+	            } else {
+	                var row = output[key];
+	                // console.log("rowData:",row);
+	                var c = new Contact (req.user);
+	                c.new().then(function(model) {
+	                    // console.log("MODEL:",model);
+	                    // LATER
+	                    // model.project = row.PROJECT_ID;
+	                    model.groupId = row.GROUP_ID;
+	                    model.groupName = row.NAME;
+	                    model.orgName = row.ORGANIZATION_NAME;
+	                    model.title = row.TITLE;
+	                    model.firstName = row.FIRST_NAME;
+	                    model.middleName = row.MIDDLE_NAME;
+	                    model.lastName = row.LAST_NAME;
+	                    model.phoneNumber = row.PHONE_NUMBER;
+	                    model.email = row.EMAIL_ADDRESS;
+	                    model.save();
+	                });
+	            }
+	        });
+	    });
+	});
+};
 module.exports = function (app) {
 	helpers.setCRUDRoutes (app, 'contact', Contact, policy);
 	app.route ('/api/contact/for/project/:projectid').all (policy.isAllowed)
@@ -91,36 +131,13 @@ module.exports = function (app) {
 		.post (function (req, res) {
 			var file = req.files.file;
 			if (file) {
-				console.log("Received contact import file:",file);
-				// Now parse and go through this thing.
-				fs.readFile(file.path, 'utf8', function(err, data) {
-					if (err) {
-						return console.log(err);
-					}
-					// console.log("FILE DATA:",data);
-					var colArray = ['GROUP_ID','NAME','ORGANIZATION_NAME','TITLE','FIRST_NAME','MIDDLE_NAME','LAST_NAME','PHONE_NUMBER','EMAIL_ADDRESS','PROJECT_ID'];
-					var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
-						var skip = 1;
-						Object.keys(output).forEach(function(key) {
-							if (skip !== 0) {
-								skip--;
-								console.log("skipping"); // Skip the first header
-							} else {
-								var row = output[key];
-								console.log("rowData:",row);
-								// TODO: 1. First try to find the existing group contact or person contact (create/check params incoming)
-
-								// 2. Create new if not existing
-								// Object.keys(obj).forEach(function(key) {
-								//   var val = obj[key];
-								//   console.log("key:"+key+" ",val);
-								// });
-							}
-						});
-					});
-					helpers.success(res);
+				// console.log("Received contact import file:",file);
+				console.log("job submitted");
+				return new Promise (function (resolve, reject) {
+					loadGroupContacts(file, req, res).then(resolve, reject);
 				});
 			}
+
 		});
 };
 
