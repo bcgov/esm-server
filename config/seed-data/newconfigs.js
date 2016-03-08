@@ -2,6 +2,11 @@
 
 
 var _ = require ('lodash');
+var mongoose      = require('mongoose');
+var Stream        = mongoose.model('Stream');
+var PhaseBase     = mongoose.model('PhaseBase');
+var MilestoneBase = mongoose.model('MilestoneBase');
+var ActivityBase  = mongoose.model('ActivityBase');
 
 var baseObjects = {
 	activities: [
@@ -39,7 +44,7 @@ var baseObjects = {
 		    "code" : "engage-working-group-configuration",
 		    "tasks" : [],
 		    "processCode" : "engage-working-group-configuration"
-		},		
+		},
 		{
 		    "description" : "Federal Substitution",
 		    "name" : "Federal Substitution",
@@ -201,7 +206,7 @@ var baseObjects = {
 	],
 };
 var basePermissions = {
-	read   : ['eao','project:eao:member'],
+	read   : ['project:eao:member'],
 	write  : ['project:eao:working-group'],
 	submit : ['project:eao:admin'],
 	watch  : ['project:eao:admin'],
@@ -210,12 +215,12 @@ var emptyStream = {
 	code: 'stream-test-alpha',
 	name: 'Test Stream Alpha',
 	description: 'A test stream that has every possible child object.  To be used for testing project browsing',
-	roles: ['eao:admin', 'eao:working-group', 'eao:member'],
-	read: ['eao'],
-	submit: ['admin']
+	roles: ['project:eao:admin', 'project:eao:working-group', 'project:eao:member'],
+	read: ['project:eao:working-group', 'project:eao:member'],
+	submit: ['project:eao:admin']
 };
 
-module.exports = function (Stream, PhaseBase, MilestoneBase, ActivityBase, clear) {
+module.exports = function (clear) {
 	console.log ('Running configuration seeding');
 	if (clear) {
 		console.log ('\t removing existing configuration objects');
@@ -224,22 +229,22 @@ module.exports = function (Stream, PhaseBase, MilestoneBase, ActivityBase, clear
 		MilestoneBase.remove ({}).exec();
 		ActivityBase.remove ({}).exec();
 	}
-	console.log ('\t adding phases', baseObjects.phases);
+	console.log ('\t adding phases');
 	_.each (baseObjects.phases, function (o) {
 		var m = new PhaseBase (_.extend ({},o,basePermissions));
 		m.save ();
 	});
-	console.log ('\t adding milestones', baseObjects.milestones);
+	console.log ('\t adding milestones');
 	_.each (baseObjects.milestones, function (o) {
 		var m = new MilestoneBase (_.extend ({},o,basePermissions));
 		m.save ();
 	});
-	console.log ('\t adding activities', baseObjects.activities);
+	console.log ('\t adding activities');
 	_.each (baseObjects.activities, function (o) {
 		var m = new ActivityBase (_.extend ({},o,basePermissions));
 		m.save ();
 	});
-	console.log ('\t adding test stream', emptyStream);
+	console.log ('\t adding test stream');
 	var s = new Stream (_.extend ({},emptyStream,basePermissions));
 	s.save ();
 };
