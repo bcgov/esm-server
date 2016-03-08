@@ -13,6 +13,8 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	groupId     : { type:String, default: '' },
 	contactName : { type:String, default: '' },
 	org     	: { type:'ObjectId', ref:'Org', default:null, index:true },
+	orgName    	: { type:String, default: '' },
+	personId 	: { type:Number, default: 0 },
 	title     	: { type:String, default: '' },
 	firstName   : { type:String, default: '' },
 	middleName  : { type:String, default: '' },
