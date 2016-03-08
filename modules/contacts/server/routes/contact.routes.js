@@ -31,6 +31,8 @@ module.exports = function (app) {
 						return console.log(err);
 					}
 					// console.log("FILE DATA:",data);
+					// Here for reference later:
+					// PERSON_ID	EAO_STAFF_FLAG	PROPONENT_FLAG	SALUTATION	FIRST_NAME	MIDDLE_NAME	LAST_NAME	TITLE	ORGANIZATION_NAME	DEPARTMENT	EMAIL_ADDRESS	PHONE_NUMBER	FAX_NUMBER	CELL_PHONE_NUMBER	ADDRESS_LINE_1	ADDRESS_LINE_2	CITY PROVINCE_STATE	COUNTRY	POSTAL_CODE	NOTES
 					var colArray = ['GROUP_ID','NAME','ORGANIZATION_NAME','TITLE','FIRST_NAME','MIDDLE_NAME','LAST_NAME','PHONE_NUMBER','EMAIL_ADDRESS','PROJECT_ID'];
 					var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 						// console.log("ParsedData:",output);
