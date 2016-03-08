@@ -34,15 +34,27 @@ module.exports = function (app) {
 					// Here for reference later:
 					// PERSON_ID	EAO_STAFF_FLAG	PROPONENT_FLAG	SALUTATION	FIRST_NAME	MIDDLE_NAME	LAST_NAME	TITLE	ORGANIZATION_NAME	DEPARTMENT	EMAIL_ADDRESS	PHONE_NUMBER	FAX_NUMBER	CELL_PHONE_NUMBER	ADDRESS_LINE_1	ADDRESS_LINE_2	CITY PROVINCE_STATE	COUNTRY	POSTAL_CODE	NOTES
 					var colArray = ['GROUP_ID','NAME','ORGANIZATION_NAME','TITLE','FIRST_NAME','MIDDLE_NAME','LAST_NAME','PHONE_NUMBER','EMAIL_ADDRESS','PROJECT_ID'];
-					var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
+					var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, data){
 						// console.log("ParsedData:",output);
 						// for(var i = 2; i < output.length; i++) {
 						// 	console.log("ROW:",output[i])
 						// }
 						// Skip the header
-						console.log("PROJECT_ID:",output[1].GROUP_ID);
-						console.log("Contact Name:",output[1].NAME);
-						console.log("Contact Email:",output[1].EMAIL_ADDRESS);
+						var skip = 1;
+						Object.keys(data).forEach(function(key) {
+							if (skip-- !== 0) {
+								return; // Skip the first 2 headers
+							}
+							var row = data[key];
+							console.log("rowData:",row);
+							// TODO: 1. First try to find the existing group contact or person contact (create/check params incoming)
+
+							// 2. Create new if not existing
+							// Object.keys(obj).forEach(function(key) {
+							//   var val = obj[key];
+							//   console.log("key:"+key+" ",val);
+							// });
+						});
 					});
 					helpers.success(res);
 				});
