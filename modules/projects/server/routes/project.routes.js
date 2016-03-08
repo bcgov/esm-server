@@ -87,6 +87,12 @@ module.exports = function (app) {
 		p.list ().then (helpers.success(res), helpers.failure(res));
 	});
 
+	app.route ('/api/project/bycode/:projectcode').all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Project (req.user);
+			p.findOne ({code:req.params.projectcode}).then (helpers.success(res), helpers.failure(res));
+		});
+
 	app.route ('/api/projects/import').all (policy.isAllowed)
 		.post (function (req, res) {
 			var file = req.files.file;

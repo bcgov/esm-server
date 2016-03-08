@@ -176,7 +176,10 @@ controllerProjectTombstone.$inject = ['$scope', 'ProjectModel'];
 function controllerProjectTombstone($scope, ProjectModel) {
 	var projTomb = this;
 
-	projTomb.project = ProjectModel.model;
+
+	$scope.$watch('project', function (newValue) {
+		if (newValue) projTomb.project = newValue;
+	});
 }
 // -----------------------------------------------------------------------------------
 //
@@ -492,13 +495,15 @@ controllerProjectStreamSelect.$inject = ['$scope', '$state', 'ProjectModel', 'St
 function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel, _) {
 	var projectStreamSelect = this;
 
-	$scope.$watch('project', function(newValue) {
-		if (newValue) {
-			ProjectModel.getModel(newValue._id).then( function(data) {
-				projectStreamSelect.project = data;
-			});
-		}
-	});
+	this.project = $scope.project;
+
+	// $scope.$watch('project', function(newValue) {
+	// 	if (newValue) {
+	// 		ProjectModel.getModel(newValue._id).then( function(data) {
+	// 			projectStreamSelect.project = data;
+	// 		});
+	// 	}
+	// });
 
 
 	StreamModel.getCollection().then(function(data){

@@ -61,13 +61,14 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	//
 	// -------------------------------------------------------------------------
 	.state('p', {
-		url: '/p/:projectId',
+		url: '/p/:projectid',
 		abstract: true,
 		templateUrl: 'modules/projects/client/views/project.abstract.html',
 		resolve: {
 			project: function ($stateParams, ProjectModel) {
-				console.log ('project abstract resolving projectId');
-				return ProjectModel.getModel ($stateParams.projectId);
+				console.log ('project abstract resolving projectid', $stateParams.projectid);
+				// return ProjectModel.getModel ($stateParams.projectid);
+				return ProjectModel.byCode ($stateParams.projectid);
 			},
 			eaoAdmin: function (project) {
 				return project.adminRole;
@@ -76,7 +77,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 				return project.proponentAdminRole;
 			}
 		},
-		controller: function($scope, $stateParams, project) {
+		controller: function ($scope, $stateParams, project) {
 			console.log ("project abstract controller is running", project);
 			$scope.project = project;
 			console.log ('project = ', project);
@@ -90,8 +91,8 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	.state('p.detail', {
 		url: '/detail',
 		templateUrl: 'modules/projects/client/views/project-partials/project.detail.html',
-		controller: function ($scope, $stateParams) {
-			$scope.project = $scope.$parent.project;
+		controller: function ($scope, project) {
+			$scope.project = project;
 		}
 	})
 	// -------------------------------------------------------------------------
