@@ -54,5 +54,8 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	lat                          : { type: Number, default:0 },
 	lon                          : { type: Number, default:0 },
 	dateCommentsOpen             : { type: Date, default: null },
-	dateCommentsClosed           : { type: Date, default: null }
+	dateCommentsClosed           : { type: Date, default: null },
+
+	// OLD DATA
+	oldData           : { type: String, default: '' }
 });
