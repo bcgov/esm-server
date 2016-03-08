@@ -6,12 +6,14 @@
 	<div class="row">
 		<div class="col-sm-9">
 			<div class="form-group">
-				Topic Name: {{topic.name}}
+				<span class="input-label">Topic Name:</span>
+				<span class="input-lg left-align">{{topic.name}}</span>
 			</div>
 		</div>
 		<div class="col-sm-3">
 			<div class="form-group">
-				Topic Type: {{topic.type}}
+				<span class="input-label">Topic Type:</span>
+				<span class="input-lg left-align">{{topic.type}}</span>
 			</div>
 		</div>
 	</div>
@@ -19,7 +21,8 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="form-group">
-				Topic Description: {{topic.description}}
+				<span class="input-label">Topic Description:</span>
+				<span class="input-lg left-align">{{topic.description}}</span>
 			</div>
 		</div>
 	</div>
@@ -27,21 +30,23 @@
 	<div class="row">
 		<div class="col-sm-6">
 			<div class="form-group">
-				Pillar: {{topic.pillar}}
+				<span class="input-label">Pillar:</span>
+				<span class="input-lg left-align">{{topic.pillar}}</span>
 			</div>
 		</div>
 
 		<div class="col-sm-6">
 			<div class="form-group">
-				Parent Topic: {{topic.parent}}
+				<span class="input-label">Parent Topic:</span>
+				<span class="input-lg left-align">{{topic.parent}}</span>
 			</div>
 		</div>
 	</div>
 	</div>
 </div>
 <div>
-	<a class="btn btn-default" ui-sref="admin.topic.list">Cancel</a>
-	<a class="btn btn-success" ui-sref="admin.topic.edit({topicId:topic._id})">Edit</a>
+	<a class="btn btn-danger" ui-sref="admin.topic.list">Cancel</a>
+	<a class="btn btn-primary" ui-sref="admin.topic.edit({topicId:topic._id})">Edit</a>
 </div>
 
 
