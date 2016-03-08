@@ -4,38 +4,13 @@
 <div class="block-content">
 	<div class="panel-body">
 	<div class="row">
-		<div class="col-sm-9">
-			<div class="form-group">
-				Topic Name: {{topic.name}}
-			</div>
-		</div>
-		<div class="col-sm-3">
-			<div class="form-group">
-				Topic Type: {{topic.type}}
-			</div>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-sm-12">
-			<div class="form-group">
-				Topic Description: {{topic.description}}
-			</div>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-sm-6">
-			<div class="form-group">
-				Pillar: {{topic.pillar}}
-			</div>
-		</div>
-
-		<div class="col-sm-6">
-			<div class="form-group">
-				Parent Topic: {{topic.parent}}
-			</div>
-		</div>
+		<table class="table table-condensed table-striped">
+		<tr><td>Topic Name</td> <td>{topic.name}}</td></tr>
+		<tr><td>Topic Type</td> <td>{{topic.type}}</td></tr>
+		<tr><td>Topic Description</td> <td>{{topic.description}}</td></tr>
+		<tr><td>Pillar</td> <td>{{topic.pillar}}</td></tr>
+		<tr><td>Parent Topic</td> <td>{{topic.parent}}</td></tr>
+		</table>
 	</div>
 	</div>
 </div>

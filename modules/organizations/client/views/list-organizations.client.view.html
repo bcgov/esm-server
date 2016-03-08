@@ -15,7 +15,7 @@
           <label for="searchOrganizations" class="control-label">Search Organizations</label>
           <input id="searchOrganizations" class="form-control" type="text" ng-model="listOrganizations.search" placeholder="Search" ng-change="listOrganizations.figureOutItemsToDisplay()" />
         </div>
-        
+
           <table class="table table-condensed table-hover">
             <thead>
             <tr>
@@ -44,6 +44,6 @@
     </div>
   </div>
   <div class='col-sm-2'>
-    <tmpl-system-menu x-menu-context="settings"></tmpl-system-menu>
+    <tmpl-system-menu x-menu-context="'settings'"></tmpl-system-menu>
   </div>
 </section>

@@ -81,7 +81,7 @@
 
 						<h4>Overview</h4>
 						<h5>Components</h5>
-						
+
 						<div class="text-block form-group"
 							ng-show="!edit.components"
 							ng-class="{'text-block-success': projDescEdit.data.overview.components}"
@@ -243,10 +243,10 @@
 							<div class="form-group">
 								<select ng-model="projDescEdit.saveAsType" class="form-control" ng-options="type as type for type in projDescEdit.versionStrings"></select>
 							</div>
-							<div class="form-group">						
+							<div class="form-group">
 								<a class="btn btn-default" href ng-disabled="!projDescEdit.saveAsType" ng-click="projDescEdit.save()">Save</a>
 							</div>
-						</div>	
+						</div>
 					</div>
 				</section>
 			</div>
@@ -254,7 +254,7 @@
 
 	</div> <!-- /col9 -->
 	<div class='col-sm-2'>
-		<tmpl-system-menu x-menu-context="project" x-project="projDescEdit.project"></tmpl-system-menu>
+		<tmpl-system-menu x-menu-context="'project'" x-project="projDescEdit.project"></tmpl-system-menu>
 	</div>
 
 </section>
