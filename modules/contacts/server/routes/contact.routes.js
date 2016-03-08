@@ -64,7 +64,7 @@ var loadContacts = function(file, req, res) {
 	        });
 	    });
 	});
-}
+};
 
 module.exports = function (app) {
 	helpers.setCRUDRoutes (app, 'contact', Contact, policy);
