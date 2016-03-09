@@ -1,7 +1,7 @@
 <h1 class="page-title">Topics Library</h1>
 <div class="row text-right">
 	<div class="col-sm-12">
-		<a class="btn btn-success btn-sm" ui-sref="admin.topic.create()"><i class="glyphicon glyphicon-plus"></i> Add New Topic</a>
+		<a class="btn btn-info" ui-sref="admin.topic.create()"><i class="glyphicon glyphicon-plus"></i> Add New Topic</a>
 	</div>
 </div>
 <div calss="row">&nbsp;</div>
@@ -9,7 +9,7 @@
 	<div class="col-sm-12">
 		<section class="panel panel-default">
 
-			<table ng-table="tableParams" class="dtable table table-condensed table-bordered table-striped">
+			<table ng-table="tableParams" class="table table-condensed table-bordered table-striped">
 				<tr ng-repeat="o in $data" ui-sref="admin.topic.detail({topicId:o._id})">
 					<td title="'Pillar'"  sortable="'pillar'"  filter="{'pillar':'select'}" filter-data="pillars" >{{o.pillar}}</td>
 					<td title="'Name'"    sortable="'name'"    filter="{'name':'text'}"                           >{{o.name}}</td>

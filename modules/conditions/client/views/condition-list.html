@@ -8,9 +8,9 @@
 <div class="row">
 	<div class="col-sm-12">
 		<section class="panel panel-default">
-			<table ng-table="tableParams" class="dtable table table-condensed table-bordered table-striped">
+			<table ng-table="tableParams" class="table table-condensed table-bordered table-striped">
 				<tr ng-repeat="o in $data" ui-sref="admin.topic.detail({conditionId:o._id})">
-					<td data-title="'Name'"   title:'Title'   filter="{'name':'text'}"       sortable="'name'"    ><a href x-edit-condition-modal x-mode="view" x-condition="o">{{o.name}}</a></td>
+					<td data-title="'Name'"   title:'Title'   filter="{'name':'text'}"       sortable="'name'"    >{{o.name}}</td>
 					<td data-title="'Type'"   title:'Type'    filter="{'type':'text'}"       sortable="'type'"    >{{o.type}}</td>
 					<td data-title="'Sector'" title:'Sector'  filter="{'sector':'select'}"   sortable="'sector'"  filter-data="ptypes" >{{o.sector}}</td>
 					<td data-title="'Stage'"  title:'Stage'   filter="{'stage':'select'}"    sortable="'stage'"   filter-data="stypes">{{o.stage}}</td>

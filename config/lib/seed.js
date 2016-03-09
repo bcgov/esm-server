@@ -78,6 +78,15 @@ checkIntegration ('loadtopics').then (function () {
 	require('../seed-data/loadtopics')();
 });
 
+// -------------------------------------------------------------------------
+//
+// Conditions
+//
+// -------------------------------------------------------------------------
+checkIntegration ('loadconditions').then (function () {
+	require('../seed-data/loadconditions')();
+});
+
 // =========================================================================
 //
 // THings in this section are split into production and non-production

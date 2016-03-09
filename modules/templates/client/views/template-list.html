@@ -1,30 +1,25 @@
-<section id="project-view" class="row">
-<div class='col-sm-10'>
-	<h1 class="page-title">Templates Library</h1>
-	<div class="row text-right">
-		<div class="col-sm-12">
-			<button class="btn btn-success btn-sm" x-mode="add" x-collection="data.collection" x-edit-template-modal><i class="glyphicon glyphicon-plus"></i> Add New Template</button>
-		</div>
+<h1 class="page-title">Templates Library</h1>
+<div class="row text-right">
+	<div class="col-sm-12">
+		<a class="btn btn-success btn-sm" ui-sref="admin.template.create()"><i class="glyphicon glyphicon-plus"></i> Add New Template</a>
 	</div>
-	<div calss="row">&nbsp;</div>
-	<div class="row">
-		<div class="col-sm-12">
-			<section class="panel panel-default">
-				<table ng-table="data.tableParams" class="dtable table table-condensed table-bordered table-striped">
-					<tr ng-repeat="o in $data">
-						<td title="'Name'"    filter="{'name':'text'}"       sortable="'name'"          ><a href x-edit-template-modal x-mode="view" x-template="o">{{o.name}}</a></td>
-						<td title="'Version'"                                sortable="'version'"       >{{o.version}}</td>
-						<td title="'V.Number'"                               sortable="'versionNumber'" >{{o.versionNumber}}</td>
-						<td><button class="btn btn-default btn-xs" x-edit-template-modal x-mode="edit" x-template="o"><i class="glyphicon glyphicon-pencil"></i></button></td>
-					</tr>
-				</table>
-			</section>
-		</div>
-	</div>
-
-</div> <!-- /col10 -->
-<div class='col-sm-2'>
-	<tmpl-system-menu x-menu-context="'project'" x-project="projDescEdit.project"></tmpl-system-menu>
 </div>
-
-</section>
+<div calss="row">&nbsp;</div>
+<div class="row">
+	<div class="col-sm-12">
+		<section class="panel panel-default">
+			<table ng-table="tableParams" class="table table-condensed table-bordered table-striped">
+					<tr ng-repeat="o in $data" ui-sref="admin.template.detail({templateId:o.id})">
+						<td title="'Document Type'"    filter="{'documentType':'text'}"  sortable="'name'">{{o.documentType}}</td>
+						<td title="'Version Number'"                sortable="'versionNumber'" >{{o.versionNumber}}</td>
+						<td title="'Date Updated'"                    sortable="'dateUpdated'" >{{o.id}}</td>
+					<td>
+						<a ng-click="$event.stopPropagation()" class="btn btn-default btn-xs" ui-sref="admin.template.edit({templateId:o.id})">
+						<i class="glyphicon glyphicon-pencil"></i>
+						</a>
+					</td>
+				</tr>
+			</table>
+		</section>
+	</div>
+</div>

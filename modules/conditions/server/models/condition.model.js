@@ -21,11 +21,12 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__access           : true,
 	__tracking         : true,
 	__codename         : 'unique',
-	sector             : { type:String, default:'Mining', enum:['Mining', 'Energy', 'Transportation', 'Water Management', 'Industrial', 'Waste Management', 'Waste Disposal', 'Food Processing', 'Tourist Destination']},
-	stage              : {type:String, enum:['Pre-Construction', 'Construction', 'Operations', 'Decommissioning'], default:'Operations' },
+	subject            : {type:String, default: ''},
+	sector             : { type:String, default:'Mining', enum:['Mining', 'Energy', 'Transportation', 'Water Management', 'Industrial', 'Waste Management', 'Waste Disposal', 'Food Processing', 'Tourist Destination', 'Other']},
+	stages             : [{type:String, enum:['Pre-Construction', 'Construction', 'Operations', 'Decommissioning']}],
 	reportRequirements : {type:String, default: ''},
 	type               : {type:String, enum:['FN Accommodation', 'Severe'], default:'Severe' },
-	pillar             : {type:String, default: ''},
-	topics             : [{type:String}]
+	pillars             : [{type:String}]
 });
+
 

@@ -973,7 +973,7 @@ h2.page-title {
 	display: block;
 	text-align: center;
 	overflow: hidden;
-	white-space: nowrap;	
+	white-space: nowrap;
 }
 
 .well hr {
@@ -982,3 +982,34 @@ h2.page-title {
 	margin-bottom: 8px;
 }
 
+// -------------------
+// Jonny's new styles
+// -------------------
+
+table thead tr.ng-table-sort-header {
+	background-color: #CCC;
+    font-size: 16px;
+}
+
+table[ng-table] {
+	margin-bottom: 20px !important;
+	border-bottom: 1px solid #ddd !important;
+}
+
+table thead tr.ng-table-filters {
+	background-color: #858585;
+}
+
+label, span.input-label {
+	font-size: 16px;
+	font-weight: bold;
+	//font-style: bold;
+	display: block;
+	padding: 0 0 2px;
+	margin: 0 0 2px;
+	color: #A1A1A1;
+}
+
+.left-align {
+	padding-left: 0;
+}

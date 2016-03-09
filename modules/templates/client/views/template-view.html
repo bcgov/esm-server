@@ -1,1 +1,46 @@
-view-template.html
+<h1 class="page-title">
+	View Template
+</h1>
+<div class="block-content">
+	<div class="panel-body">
+	<div class="row">
+		<table class="table table-striped table-condensed">
+		<tr> <td>Document Type</td>  <td>{{template.documentType}}</td> </tr>
+		<tr> <td>Version Number</td>  <td>{{template.versionNumber}}</td> </tr>
+		<tr> <td>Date Updated</td>  <td>{{template.dateUpdated}}</td> </tr>
+		<tr> <td>Sections</td>  <td>
+
+			<table class="table table-condensed">
+			<tbody ng-repeat="section in template.sections">
+			<tr> <td>Name</td>  <td>{{section.name}}</td> </tr>
+			<tr> <td>Multiple</td>  <td>{{section.multiple}}</td> </tr>
+			<tr> <td>Optional</td>  <td>{{section.optional}}</td> </tr>
+			<tr> <td>Template</td>  <td><textarea disabled="true"></textarea>{{section.template}}</textarea></td> </tr>
+			<tr> <td>Variables</td>  <td>
+
+				<table class="table table-condensed">
+				<tbody ng-repeat="field in section.meta">
+				<tr> <td>Name</td>  <td>{{field.name}}</td> </tr>
+				<tr> <td>Label</td>  <td>{{field.label}}</td> </tr>
+				<tr> <td>type</td>  <td>{{field.type}}</td> </tr>
+				<tr> <td>default</td>  <td>{{field.default}}</td> </tr>
+				</tbody>
+				</table>
+
+
+			</td> </tr>
+			</tbody>
+			</table>
+
+		</td> </tr>
+		</table>
+	</div>
+	</div>
+</div>
+<div class="button-panel">
+	<a class="btn btn-danger" ui-sref="admin.template.list">Cancel</a>
+	<a class="btn btn-primary" ui-sref="admin.template.edit({conditionId:template._id})">Edit</a>
+</div>
+
+
+
