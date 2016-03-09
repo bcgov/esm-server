@@ -3,6 +3,7 @@
 angular.module('project')
 	.directive('tmplProject', directiveProject)
 	.directive('modalProjectSchedule', directiveModalProjectSchedule)
+	.directive('modalAddPhaseToProject', directiveModalAddPhaseToProject )
 	.directive('modalAddActivity', directiveModalAddActivity)
 	.directive('modalProjectVc', directiveProjectVC)
 	.directive('modalProjectVcEntry', directiveProjectVCEntry)
@@ -72,6 +73,74 @@ function directiveModalProjectSchedule($modal) {
 				});
 				modalDocView.result.then(function (items) {
 					scope.project = items;
+				}, function () {});
+			});
+		}
+	};
+	return directive;
+}
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Modal Add Phase to Project
+//
+// -----------------------------------------------------------------------------------
+directiveModalAddPhaseToProject.$inject = ['$modal', '$rootScope'];
+/* @ngInject */
+function directiveModalAddPhaseToProject($modal, $rootScope) {
+	var directive = {
+		restrict:'A',
+		scope: {
+			project: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalAddPhase = $modal.open({
+					animation: true,
+					templateUrl: 'modules/projects/client/views/project-partials/modal-add-phase.html',
+					controller: 'controllerModalAddPhase',
+					controllerAs: 'addPhase',
+					resolve: {
+						rProject: function() {
+							return scope.project
+						}
+					},
+					size: 'sm'
+				});
+				modalAddPhase.result.then(function (data) {
+				}, function () {});
+			});
+		}
+	};
+	return directive;
+}
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Modal Add Milestone to Phase
+//
+// -----------------------------------------------------------------------------------
+directiveModalAddMilestoneToPhase.$inject = ['$modal', '$rootScope'];
+/* @ngInject */
+function directiveModalAddMilestoneToPhase($modal, $rootScope) {
+	var directive = {
+		restrict:'A',
+		scope: {
+			phase: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalAddMilestone = $modal.open({
+					animation: true,
+					templateUrl: 'modules/projects/client/views/project-partials/modal-add-milestone.html',
+					controller: 'controllerModalAddMilestone',
+					controllerAs: 'addMile',
+					resolve: {
+						rPhase: function() {
+							return scope.phase
+						}
+					},
+					size: 'sm'
+				});
+				modalAddMilestone.result.then(function (data) {
 				}, function () {});
 			});
 		}

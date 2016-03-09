@@ -4,7 +4,7 @@
 // activity model and activity base model
 //
 // =========================================================================
-angular.module('project').factory ('ActivityModel', function (ModelBase, _, WGCommentPeriodModel) {
+angular.module('project').factory ('ActivityModel', function (ModelBase, _) {
 	//
 	// build the project model by extending the base model. the base model will
 	// have all the basic crud stuff built in
@@ -71,13 +71,13 @@ angular.module('project').factory ('ActivityModel', function (ModelBase, _, WGCo
 		initiateActivityData: function () {
 			var self = this;
 			return new Promise (function (resolve, reject) {
-				if (self.model.processCode === 'engage-wg') {
-					WGCommentPeriodModel.getNewForProject (self.model.project)
-					.then (function (commentPeriod) {
-						self.model.data = commentPeriod;
-						return commentPeriod;
-					}).then (resolve, reject);
-				}
+				//if (self.model.processCode === 'engage-wg') {
+					// WGCommentPeriodModel.getNewForProject (self.model.project)
+					// .then (function (commentPeriod) {
+					// 	self.model.data = commentPeriod;
+					// 	return commentPeriod;
+					// }).then (resolve, reject);
+				//}
 			});
 		},
 		// -------------------------------------------------------------------------

@@ -4,6 +4,7 @@ angular.module('project')
 	// General
 	.controller('controllerProject', controllerProject)
 	.controller('controllerModalProjectSchedule', controllerModalProjectSchedule)
+	.controller('controllerModalAddPhase', controllerModalAddPhase)
 	.controller('controllerModalAddActivity', controllerModalAddActivity)
 	.controller('controllerProjectVC', controllerProjectVC)
 	.controller('controllerProjectVCEntry', controllerProjectVCEntry)
@@ -80,6 +81,65 @@ function controllerModalProjectSchedule($modalInstance, sProjectModel, sPhaseMod
 
 			}).catch( function(err) {
 				$modalInstance.dismiss('cancel');
+			});
+		} else {
+			$modalInstance.close();
+		}
+	};
+}
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Modal: Add Activity
+//
+// -----------------------------------------------------------------------------------
+controllerModalAddPhase.$inject = ['$modalInstance', 'PhaseBaseModel', '_', 'ProjectModel'];
+/* @ngInject */
+function controllerModalAddPhase($modalInstance, sPhaseBaseModel, _, sProjectModel) {
+	var addPhase = this;
+
+	// get all possible base activities
+	sPhaseBaseModel.getCollection().then( function(data) {
+		addPhase.phases = data;
+	});
+
+	addPhase.cancel = function () { $modalInstance.dismiss('cancel'); };
+	addPhase.ok = function () {
+		if (addPhase.newBasePhase) {
+			// add the new activity to the base model.
+			sProjectModel.addPhase(addPhase.newBasePhase._id).then( function(data) {
+				$modalInstance.close(data);
+			});
+		} else {
+			$modalInstance.close();
+		}
+	};
+}
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Modal: Add Milestone
+//
+// -----------------------------------------------------------------------------------
+controllerModalAddMilestone.$inject = ['$modalInstance', 'PhaseModel', 'MilestoneBaseModel', '_', 'rPhase'];
+/* @ngInject */
+function controllerModalAddMilestone($modalInstance, sPhaseModel, sMilestoneBaseModel,  _, rPhase) {
+	var addMile = this;
+
+	addMile.milestone = rPhase;
+
+	// set current (actual) milestone context
+	sPhaseModel.setModel(rPhase);
+
+	// get all possible base activities
+	sMilestoneBaseModel.getCollection().then( function(data) {
+		addMile.milestones = data;
+	});
+
+	addMile.cancel = function () { $modalInstance.dismiss('cancel'); };
+	addMile.ok = function () {
+		if (addMile.newBaseMilestone) {
+			// add the new activity to the base model.
+			sPhaseModel.addMilestone(addMile.newBaseMilestone._id).then( function(data) {
+				$modalInstance.close(data);
 			});
 		} else {
 			$modalInstance.close();

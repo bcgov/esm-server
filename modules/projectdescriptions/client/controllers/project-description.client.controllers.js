@@ -27,14 +27,17 @@ function controllerProjectDescriptionRead ($scope, $state, sAuthentication, _, s
 				console.log('single desc', description);
 				projDesc.data = description;
 
-				Document.getDocumentsInList (description.general.locationDocuments).then( function(res) {
-					projDesc.data.general.locationDocuments = res.data;
-				});
+				if (description.general) {
+					Document.getDocumentsInList (description.general.locationDocuments).then( function(res) {
+						projDesc.data.general.locationDocuments = res.data;
+					});
+				}
 
-				Document.getDocumentsInList (description.overview.sitePlanDocuments).then( function(res) {
-					projDesc.data.overview.sitePlanDocuments = res.data;
-				});
-
+				if (description.overview) {
+					Document.getDocumentsInList (description.overview.sitePlanDocuments).then( function(res) {
+						projDesc.data.overview.sitePlanDocuments = res.data;
+					});
+				}
 			});
 		}
 	});

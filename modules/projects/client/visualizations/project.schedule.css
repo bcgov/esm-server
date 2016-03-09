@@ -1,0 +1,53 @@
+.svg-div-root{
+	position: absolute;
+	top:0;left:0;bottom:0;right:0;
+}
+
+.svg-element{
+	position: relative;
+/*    
+	position: static;
+	position: relative;
+	position: absolute;
+	position: fixed;
+*/    width: 100%;
+}
+
+.svg-background{
+	fill: lightyellow;
+	fill-opacity: 0.3;
+}
+
+.phase-background-odd{
+	fill: cornflowerblue;
+}
+
+.phase-background-even{
+	fill: forestgreen;
+}
+
+.svg-phase-text-even{
+	fill: white;
+	font-family: "Helvetica Neue", "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+	font-size: 5px;
+	margin-top: .4em; 
+	text-anchor: start;
+	lengthAdjust: spacingAndGlyphs;
+	alignment-baseline: hanging;
+}
+
+.svg-phase-text-odd{
+	fill: white;
+	font-family: "Helvetica Neue", "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+	font-size: 5px;
+	margin-top: .4em; 
+	text-anchor: start;
+	lengthAdjust: spacingAndGlyphs;
+	alignment-baseline: hanging;
+}
+
+.projectToday-line{
+	stroke: darkorange;
+	stroke-width: .5;
+	fill: none;	
+}
