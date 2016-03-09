@@ -10,6 +10,85 @@ var helpers    = require ('../../../core/server/controllers/core.helpers.control
 var fs		   = require ('fs');
 var CSVParse   = require('csv-parse');
 
+var loadProjects = function(file, req, res) {
+	// Now parse and go through this thing.
+	fs.readFile(file.path, 'utf8', function(err, data) {
+	    if (err) {
+	        return console.log(err);
+	    }
+	    // console.log("FILE DATA:",data);
+		var colArray = ['id','ProjectName','Proponent','Region','shortD','locSpatial','locDescription','provincialED','federalED','capitalInvestment','projectCreateDate','projectDescriptionLivingData','tombstoneNote','projectURL','captialInvestmentNote','lat','long','constructionJobs','constructionJobsNotes','operationJobs','operationJobsNotes','sector','subSector','currentPhaseTypeActivity','active','CEAAInvolvement','deleted','deleted','eaIssues','deleted','environmentalAssessmentNotes','CEAA','firstNationsConsultation','firstNationsAccess','firstNationsNotification','stakeholdersNotes','federalAgencies','workingGroups','allOtherStakeholderGroups','deleted','responsibleEPD','projectLead','EAOCAARTRepresentative','projectOfficer','projectAnalyst','projectAssistant','administrativeAssistant','CELead','teamNotes'];
+	    var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
+	        // Skip this many rows
+	        var skip = 2;
+	        var length = Object.keys(output).length;
+	        console.log("length",length);
+	        Object.keys(output).forEach(function(key) {
+	            if (skip !== 0) {
+	                skip--;
+	                // console.log("skipping");
+	            } else {
+	                var row = output[key];
+	                // console.log("rowData:",row);
+	                var p = new Project (req.user);
+	                p.new().then(function(model) {
+	                    // console.log("MODEL:",model);
+	                    // LATER
+	                    model.epicProjectID = row.id;
+	                    model.oldData = JSON.stringify(row);
+	                    console.log("epicProjectID",model.epicProjectID);
+	                    console.log("oldData",model.oldData);
+	                    // model.fillmein = row.Proponent;
+	                    // model.fillmein = row.Region;
+	                    // model.fillmein = row.shortD;
+	                    // model.fillmein = row.locSpatial;
+	                    // model.fillmein = row.locDescription;
+	                    // model.fillmein = row.provincialED;
+	                    // model.fillmein = row.federalED;
+	                    // model.fillmein = row.capitalInvestment;
+	                    // model.fillmein = row.projectCreateDate;
+	                    // model.fillmein = row.projectDescriptionLivingData;
+	                    // model.fillmein = row.tombstoneNote;
+	                    // model.fillmein = row.projectURL;
+	                    // model.fillmein = row.captialInvestmentNote;
+	                    // model.fillmein = row.lat;
+	                    // model.fillmein = row.long;
+	                    // model.fillmein = row.constructionJobs;
+	                    // model.fillmein = row.constructionJobsNotes;
+	                    // model.fillmein = row.operationJobs;
+	                    // model.fillmein = row.operationJobsNotes;
+	                    // model.fillmein = row.sector;
+	                    // model.fillmein = row.subSector;
+	                    // model.fillmein = row.currentPhaseTypeActivity;
+	                    // model.fillmein = row.active;
+	                    // model.fillmein = row.CEAAInvolvement;
+	                    // model.fillmein = row.eaIssues;
+	                    // model.fillmein = row.environmentalAssessmentNotes;
+	                    // model.fillmein = row.CEAA;
+	                    // model.fillmein = row.firstNationsConsultation;
+	                    // model.fillmein = row.firstNationsAccess;
+	                    // model.fillmein = row.firstNationsNotification;
+	                    // model.fillmein = row.stakeholdersNotes;
+	                    // model.fillmein = row.federalAgencies;
+	                    // model.fillmein = row.workingGroups;
+	                    // model.fillmein = row.allOtherStakeholderGroups;
+	                    // model.fillmein = row.responsibleEPD;
+	                    // model.fillmein = row.projectLead;
+	                    // model.fillmein = row.EAOCAARTRepresentative;
+	                    // model.fillmein = row.projectOfficer;
+	                    // model.fillmein = row.projectAnalyst;
+	                    // model.fillmein = row.projectAssistant;
+	                    // model.fillmein = row.administrativeAssistant;
+	                    // model.fillmein = row.CELead;
+	                    // model.fillmein = row.teamNotes;
+	                    model.save();
+	                });
+	            }
+	        });
+	    });
+	});
+};
+
 module.exports = function (app) {
 	helpers.setCRUDRoutes (app, 'project', Project, policy);
 	//
@@ -97,36 +176,10 @@ module.exports = function (app) {
 		.post (function (req, res) {
 			var file = req.files.file;
 			if (file) {
-				console.log("Received import file:",file);
-				// Now parse and go through this thing.
-				fs.readFile(file.path, 'utf8', function(err, data) {
-					if (err) {
-						return console.log(err);
-					}
-					// console.log("FILE DATA:",data);
-					//var colArray = ['Project ID','Project Name','Proponent','Region','PD Summary (Short Description)','!Location - Spatial','Location - Description','Provincial Electoral Districts','!Federal Electoral Districts','Capital Investment $M','!Project File Creation Date','!Project Description (Living Data)','!Note: Tombstone','!Project URL','Note: Capital Investment $M','Latitude (Depreciated)','Longitude (Depereciated)','Construction Jobs','Note: Construction Jobs','Operation Jobs','Note: Operation Jobs','Sector','Sub-Sector','Current Phase/Type/Activity','!Active','CEAA Involvement (Fed EA Req. & Type)','DELETED','DELETED','EA Issues','DELETED','!Note: Environmental Assessment','CEAA','First Nations - Consultation','First Nations - Access','First Nations - Notification','!Note: Stakeholders','Federal Agencies','!Working Group(s)','!All Other Stakeholder Group(s)','DELETED','Responsible EPD','Project Lead','EAO CAART Representative','Project Officer','Project Analyst','Project Assistant','Administrative Assistant','C&E Lead','!Note: Team'];
-					var colArray = ['id','ProjectName','Proponent','Region','shortD','locSpatial','locDescription','provincialED','federalED','capitalInvestment','projectCreateDate','projectDescriptionLivingData','tombstoneNote','projectURL','captialInvestmentNote','lat','long','constructionJobs','constructionJobsNotes','operationJobs','operationJobsNotes','sector','subSector','currentPhaseTypeActivity','active','CEAAInvolvement','deleted','deleted','eaIssues','deleted','environmentalAssessmentNotes','CEAA','firstNationsConsultation','firstNationsAccess','firstNationsNotification','stakeholdersNotes','federalAgencies','workingGroups','allOtherStakeholderGroups','deleted','responsibleEPD','projectLead','EAOCAARTRepresentative','projectOfficer','projectAnalyst','projectAssistant','administrativeAssistant','CELead','teamNotes'];
-					var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
-						// loop each row in project
-						var skip = 2;
-						Object.keys(output).forEach(function(key) {
-							if (skip !== 0) {
-								skip--;
-								console.log("skipping"); // Skip the first 2 headers
-							} else {
-								var row = output[key];
-								console.log("rowData:",row);
-								// TODO: 1. First try to find the existing epicID
-
-								// 2. Create new if not existing
-								// Object.keys(obj).forEach(function(key) {
-								//   var val = obj[key];
-								//   console.log("key:"+key+" ",val);
-								// });
-							}
-						});
-					});
-					helpers.success(res);
+				// console.log("Received contact import file:",file);
+				console.log("job submitted");
+				return new Promise (function (resolve, reject) {
+					loadProjects(file, req, res).then(resolve, reject);
 				});
 			}
 	});
