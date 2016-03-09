@@ -14,6 +14,15 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 		urlName : 'project',
 		// -------------------------------------------------------------------------
 		//
+		// get a project by its code
+		//
+		// -------------------------------------------------------------------------
+		byCode : function (code) {
+			console.log ('go and get '+code);
+			return this.get ('/api/project/bycode/'+code);
+		},
+		// -------------------------------------------------------------------------
+		//
 		// set a stream into a project, this copies over ALL base objects and makes
 		// then real
 		//

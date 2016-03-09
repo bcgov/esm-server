@@ -40,81 +40,66 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		url: '/recover',
 		template: '<tmpl-recover></tmpl-recover>'
 	})
-	// -----------------------------------------------------------------------------------
+	// =========================================================================
 	//
-	// ROUTES: Public
+	// Old Project Routes
 	//
-	// -----------------------------------------------------------------------------------
-	// .state('public', {
-	// 	url: '/public',
-	// 	abstract: true,
-	// 	template: '<div ui-view></div>'
-	// })
-	// .state('public.projects', {
-	// 	url: '/projects',
-	// 	template: '<tmpl-public-projects></tmpl-public-projects>'
-	// })
-	// .state('public.project', {
-	// 	url: '/project/:id',
-	// 	template: '<tmpl-public-project></tmpl-public-project>'
-	// })
-	// -----------------------------------------------------------------------------------
-	//
-	// ROUTES: Proponent
-	//
-	// -----------------------------------------------------------------------------------
-	// .state('proponent', {
-	// 	url: '/proponent',
-	// 	abstract: true,
-	// 	template: '<div ui-view></div>',
-	// 	data: {
-	// 		roles: ['admin']
-	// 	}
-	// })
-	// .state('proponent.projects', {
-	// 	url: '/projects',
-	// 	template: '<tmpl-eao-projects></tmpl-eao-projects>'
-	// })
-	// .state('proponent.project', {
-	// 	url: '/project/:id',
-	// 	template: '<tmpl-eao-project></tmpl-eao-project>'
-	// })
-	// .state('proponent.newproject', {
-	// 	url: '/newproject/',
-	// 	template: '<tmpl-eao-project-new></tmpl-eao-project-new>'
-	// })
-	// .state('proponent.register', {
-	// 	url: '/register/',
-	// 	template: '<tmpl-proponent-register></tmpl-proponent-register>'
-	// })
-	// .state('proponent.activity', {
-	// 	url: '/activity/:id',
-	// 	template: '<tmpl-proponent-activity></tmpl-proponent-activity>'
-	// })
-	// -----------------------------------------------------------------------------------
-	//
-	// ROUTES: Proponent
-	//
-	// -----------------------------------------------------------------------------------
-	// .state('eao', {
-	// 	url: '/eao',
-	// 	abstract: true,
-	// 	template: '<div ui-view></div>',
-	// 	data: {
-	// 		roles: ['admin', 'user']
-	// 	}
-	// })
-	// .state('eao.projects', {
-	// 	url: '/projects',
-	// 	template: '<tmpl-eao-projects></tmpl-eao-projects>',
-	// 	data: {
-	// 		roles: ['admin', 'user']
-	// 	}
-	// })
+	// =========================================================================
 	.state('project', {
 		url: '/project/:id',
 		template: '<tmpl-project></tmpl-project>'
 	})
+	// =========================================================================
+	//
+	// New Project Routes
+	//
+	// =========================================================================
+	// -------------------------------------------------------------------------
+	//
+	// the project abstract, this contains the menu and a ui-view for loading
+	// child views. it also handles injecting the project
+	//
+	// -------------------------------------------------------------------------
+	.state('p', {
+		url: '/p/:projectid',
+		abstract: true,
+		templateUrl: 'modules/projects/client/views/project.abstract.html',
+		resolve: {
+			project: function ($stateParams, ProjectModel) {
+				console.log ('project abstract resolving projectid', $stateParams.projectid);
+				// return ProjectModel.getModel ($stateParams.projectid);
+				return ProjectModel.byCode ($stateParams.projectid);
+			},
+			eaoAdmin: function (project) {
+				return project.adminRole;
+			},
+			proponentAdmin: function (project) {
+				return project.proponentAdminRole;
+			}
+		},
+		controller: function ($scope, $stateParams, project) {
+			console.log ("project abstract controller is running", project);
+			$scope.project = project;
+			console.log ('project = ', project);
+		}
+	})
+	// -------------------------------------------------------------------------
+	//
+	// the detail view of a project
+	//
+	// -------------------------------------------------------------------------
+	.state('p.detail', {
+		url: '/detail',
+		templateUrl: 'modules/projects/client/views/project-partials/project.detail.html',
+		controller: function ($scope, project) {
+			$scope.project = project;
+		}
+	})
+	// -------------------------------------------------------------------------
+	//
+	// project description
+	//
+	// -------------------------------------------------------------------------
 	.state('projectdescription', {
 		url: '/projectdescription/:project',
 		template: '<tmpl-project-description-edit></tmpl-project-description-edit>',

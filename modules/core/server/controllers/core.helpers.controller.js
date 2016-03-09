@@ -417,8 +417,8 @@ exports.extend = function(protoProps, staticProps) {
   return child;
 };
 
-// exports.emptyPromise = function (t) {return new Promise (function (r, e) { r (t); }); };
-exports.emptyPromise = function (t) {return t;};
+exports.emptyPromise = function (t) {return new Promise (function (r, e) { r (t); }); };
+// exports.emptyPromise = function (t) {return t;};
 
 
 

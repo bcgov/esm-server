@@ -24,34 +24,26 @@ var RoleSchema  = new Schema ({
 });
 
 var setUnique = function (a, value) {
-	a.push (value);
-	console.log ('a after push = ', a);
-	var b = _.uniq (a, function (a, b) {
-		return (a.equals(b));
-	});
-	console.log ('b after uniq = ', b);
-	return b;
+	return _.union (a, [value]);
 };
 var setUniqueArray = function (a, addArray) {
 	return _.union (a, addArray);
 };
 
 RoleSchema.methods.setUserRole = function (user) {
-	this.users = setUnique (this.users, user);
+	this.users = setUnique (this.users, user.toString ());
 };
+
 RoleSchema.methods.setUsersRole = function (users) {
-	this.users = setUniqueArray (this.users, users);
+	this.users = setUniqueArray (this.users, users.map (function (u) { return u.toString();}));
 };
 
 RoleSchema.methods.setObjectRole = function (object, objectId) {
-	console.log ('setting object role in model ', object, objectId, this[object]);
-	var newa = setUnique (this[object], objectId);
-	console.log ('result ', newa);
-	this[object] = newa;
+	this[object] = setUnique (this[object], objectId.toString ());
 };
 
 RoleSchema.methods.setObjectsRole = function (object, objectIds) {
-	this[object] = setUniqueArray (this[object], objectIds);
+	this[object] = setUniqueArray (this[object], objectIds.map (function (u) { return u.toString();}));
 };
 
 var Role = mongoose.model ('Role', RoleSchema);

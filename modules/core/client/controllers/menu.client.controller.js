@@ -17,6 +17,10 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope)
 	menu.$state = $state;
    	menu.authentication = Authentication;
 
+   	menu.isAdmin = (Authentication.user && Authentication.user.roles.indexOf ('admin') !== -1);
+   	menu.isProjectAdmin = false;
+   	menu.isProponentAdmin = false;
+
    	menu.goToPrevious = function() {
 		$state.go($state.previous.state.name, $state.previous.params);
    	};
@@ -30,6 +34,8 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope)
    	$scope.$watch('project', function(newValue) {
    		if (newValue) {
 			menu.project = newValue;
+		   	menu.isProjectAdmin = (Authentication.user && Authentication.user.roles.indexOf (menu.project.adminRole) !== -1);
+		   	menu.isProponentAdmin = (Authentication.user && Authentication.user.roles.indexOf (menu.project.proponentAdminRole) !== -1);
    		}
    	});
 

@@ -11,7 +11,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__tracking            : true,
 	__status              : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Decommissioned'],
 	__codename            : 'unique',
-	epicProjectID		  : { type:Number, default: 0 },  // Used to relate ePIC imports
+	epicProjectID		  : { type:String, default: ''},  // Used to relate ePIC imports
 	shortName             : { type:String, default: '' },
 	phases                : [ {type: 'ObjectId', ref:'Phase'} ],
 	type                  : { type:String, default:'', index:true },
@@ -54,5 +54,8 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	lat                          : { type: Number, default:0 },
 	lon                          : { type: Number, default:0 },
 	dateCommentsOpen             : { type: Date, default: null },
-	dateCommentsClosed           : { type: Date, default: null }
+	dateCommentsClosed           : { type: Date, default: null },
+
+	// OLD DATA
+	oldData           : { type: String, default: '' }
 });
