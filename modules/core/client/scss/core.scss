@@ -982,9 +982,9 @@ h2.page-title {
 	margin-bottom: 8px;
 }
 
-// -------------------
-// Jonny's new styles
-// -------------------
+// --------------------------
+// ng-table and form styles
+// --------------------------
 
 table thead tr.ng-table-sort-header {
 	background-color: #CCC;
@@ -1016,4 +1016,41 @@ label, span.input-label {
 
 .button-panel {
 	margin-bottom: 20px;
+}
+
+// -------------------
+// template styles
+// -------------------
+
+.template {
+  background-color:white;
+  padding:10px;
+}
+
+.template h1, li, p {
+  font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+
+.template-subitem {
+  margin-left:10px;
+}
+
+.template ol[type="1"] li {
+  font-weight: bold;
+  font-size: 28px;
+  color: #65909a;
+}
+
+.template ol[type="a"] li {
+  font-weight: bold;
+  font-size: 24px;
+  color: #9a6590;
+  margin-top:10px;
+}
+
+.template ol[type="i"] li {
+  font-weight: bold;
+  font-size: 20px;
+  color: #909a65;
+  margin-top:10px;
 }
