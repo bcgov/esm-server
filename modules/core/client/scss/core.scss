@@ -982,33 +982,66 @@ h2.page-title {
 	margin-bottom: 8px;
 }
 
+/*
+//-------------------
+// Schedule D3 Styles
+// -------------------
+*/
+
+.schedule-control-cell {
+	padding: 0 !important;
+	position: relative;
+}
+.svg-div-root {
+	position: absolute;
+	top:0;left:0;bottom:0;right:0;
+	overflow: hidden;
+}
+
+.svg-element{
+	position: relative;
+	width: 100%;
+}
+
+.svg-background{
+	fill: lightyellow;
+	fill-opacity: 0.3;
+}
+
+.projectToday-line {
+	stroke: darkorange;
+	stroke-width: .5;
+	fill: none;
+}
+
+/*
 // --------------------------
 // ng-table and form styles
 // --------------------------
+*/
 
 table thead tr.ng-table-sort-header {
-	background-color: #CCC;
-    font-size: 16px;
 }
 
-table[ng-table] {
-	margin-bottom: 20px !important;
-	border-bottom: 1px solid #ddd !important;
+.ng-table-pager {
+	border-top: 1px solid $border-grey;
+	padding: 15px;
 }
 
 table thead tr.ng-table-filters {
-	background-color: #858585;
+	background-color: $border-grey;
 }
 
+/*
 label, span.input-label {
 	font-size: 16px;
 	font-weight: bold;
-	//font-style: bold;
 	display: block;
 	padding: 0 0 2px;
 	margin: 0 0 2px;
 	color: #A1A1A1;
 }
+*/
 
 .left-align {
 	padding-left: 0;
@@ -1018,17 +1051,19 @@ label, span.input-label {
 	margin-bottom: 20px;
 }
 
+/*
 // -------------------
 // template styles
 // -------------------
+*/
 
 .template {
-  background-color:white;
+  background-color: #ffffff;
   padding:10px;
 }
 
 .template h1, li, p {
-  font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-family: $font-family-sans-serif;
 }
 
 .template-subitem {

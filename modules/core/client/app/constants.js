@@ -135,6 +135,7 @@ angular
 			'decommissioned' : 'Decommissioned'
 		}
 	)
+	.constant('ENV', 'MEM')
 	.factory ('codeFromTitle', function () {
 		return function (title) {
 			var s = title.toLowerCase ();
