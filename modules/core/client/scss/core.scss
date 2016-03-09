@@ -973,7 +973,7 @@ h2.page-title {
 	display: block;
 	text-align: center;
 	overflow: hidden;
-	white-space: nowrap;	
+	white-space: nowrap;
 }
 
 .well hr {
@@ -982,11 +982,9 @@ h2.page-title {
 	margin-bottom: 8px;
 }
 
-/*
-//-------------------
-// NG Table Style
-// -------------------
-*/
+// --------------------------
+// ng-table and form styles
+// --------------------------
 
 table thead tr.ng-table-sort-header {
 	background-color: #CCC;
@@ -1005,6 +1003,7 @@ table thead tr.ng-table-filters {
 label, span.input-label {
 	font-size: 16px;
 	font-weight: bold;
+	//font-style: bold;
 	display: block;
 	padding: 0 0 2px;
 	margin: 0 0 2px;
@@ -1012,44 +1011,46 @@ label, span.input-label {
 }
 
 .left-align {
-	padding-left: 0px;
+	padding-left: 0;
 }
 
 .button-panel {
 	margin-bottom: 20px;
 }
 
-/*
-//-------------------
-// Schedule D3 Styles
 // -------------------
-*/
+// template styles
+// -------------------
 
-.schedule-control-cell {
-	padding: 0 !important;
-	position: relative;
-}
-.svg-div-root {
-	position: absolute;
-	top:0;left:0;bottom:0;right:0;
+.template {
+  background-color:white;
+  padding:10px;
 }
 
-.svg-element{
-	position: relative;
-	width: 100%;
+.template h1, li, p {
+  font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
 }
 
-.svg-background{
-	fill: lightyellow;
-	fill-opacity: 0.3;
+.template-subitem {
+  margin-left:10px;
 }
 
-.projectToday-line {
-	stroke: darkorange;
-	stroke-width: .5;
-	fill: none;
+.template ol[type="1"] li {
+  font-weight: bold;
+  font-size: 28px;
+  color: #65909a;
 }
 
+.template ol[type="a"] li {
+  font-weight: bold;
+  font-size: 24px;
+  color: #9a6590;
+  margin-top:10px;
+}
 
-
-
+.template ol[type="i"] li {
+  font-weight: bold;
+  font-size: 20px;
+  color: #909a65;
+  margin-top:10px;
+}

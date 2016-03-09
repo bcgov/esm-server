@@ -16,6 +16,18 @@ angular.module('templates').factory ('TemplateModel', function (ModelBase, _) {
 		forProject: function (projectid) {
 			return this.get ('/api/template/for/project/'+projectid);
 		},
+		forDocumentType: function (documentType) {
+			return this.get ('/api/template/for/document/'+documentType);
+		},
+		newSection: function () {
+			return this.get ('/api/new/template/section');
+		},
+		newMeta: function () {
+			return this.get ('/api/new/template/section');
+		},
+		currentTemplates: function () {
+			return this.get ('/api/current/templates');
+		}
 	});
 	return new Class ();
 });

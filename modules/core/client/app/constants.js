@@ -79,7 +79,8 @@ angular
 			'Waste Management',
 			'Waste Disposal',
 			'Food Processing',
-			'Tourist Destination'
+			'Tourist Destination',
+			'Other'
 		]
 	)
 	.constant('CE_STAGES',
@@ -88,6 +89,19 @@ angular
 			'Construction',
 			'Operations',
 			'Decommissioning'
+		]
+	)
+	.constant('DOCUMENT_TEMPLATE_TYPES',
+		[
+			'Project Description',
+			'Section 10 Order',
+			'Section 11 Order',
+			'Valued Component',
+			'AIR',
+			'Application',
+			'Conditions List',
+			'Section 34 Order',
+			'Section 36 Order'
 		]
 	)
 	.constant('COMMENT_REJECT',

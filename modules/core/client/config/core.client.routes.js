@@ -67,7 +67,6 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		resolve: {
 			project: function ($stateParams, ProjectModel) {
 				console.log ('project abstract resolving projectid', $stateParams.projectid);
-				// return ProjectModel.getModel ($stateParams.projectid);
 				return ProjectModel.byCode ($stateParams.projectid);
 			},
 			eaoAdmin: function (project) {
@@ -78,9 +77,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 			}
 		},
 		controller: function ($scope, $stateParams, project) {
-			console.log ("project abstract controller is running", project);
 			$scope.project = project;
-			console.log ('project = ', project);
 		}
 	})
 	// -------------------------------------------------------------------------

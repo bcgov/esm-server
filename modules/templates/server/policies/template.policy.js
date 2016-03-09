@@ -12,6 +12,10 @@ exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'template');
 	helpers.setPathPermissions (acl, [
 		[ '', 'user', '/api/template/for/project/:projectId'    ],
+		[ '', 'user', '/api/template/for/document/:documenttype'    ],
+		[ '', 'user', '/api/new/template/section'    ],
+		[ '', 'user', '/api/new/template/meta'    ],
+		[ '', 'user', '/api/current/templates'    ],
 	]);
 };
 

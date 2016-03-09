@@ -16,5 +16,29 @@ module.exports = function (app) {
 			p.getForProject (req.params.projectid)
 			.then (helpers.success(res), helpers.failure(res));
 		});
+	app.route ('/api/template/for/document/:documenttype').all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Template (req.user);
+			p.getCurrentType (req.params.documenttype)
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	app.route ('/api/new/template/section').all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Template (req.user);
+			p.newSection ()
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	app.route ('/api/new/template/meta').all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Template (req.user);
+			p.newMeta ()
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	app.route ('/api/current/templates').all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Template (req.user);
+			p.currentTemplates ()
+			.then (helpers.success(res), helpers.failure(res));
+		});
 };
 

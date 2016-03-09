@@ -27,6 +27,7 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope)
 
    	$scope.$watch('menuContext', function(newValue) {
 		if(newValue) {
+			console.log ('menu.context = >' + newValue + '<');
 		   	menu.context = newValue;
 		}
    	});
