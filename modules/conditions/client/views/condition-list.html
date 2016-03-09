@@ -10,11 +10,11 @@
 		<section class="panel panel-default">
 			<table ng-table="tableParams" class="table table-condensed table-bordered table-striped">
 				<tr ng-repeat="o in $data" ui-sref="admin.topic.detail({conditionId:o._id})">
-					<td data-title="'Name'"   title:'Title'   filter="{'name':'text'}"       sortable="'name'"    >{{o.name}}</td>
-					<td data-title="'Type'"   title:'Type'    filter="{'type':'text'}"       sortable="'type'"    >{{o.type}}</td>
-					<td data-title="'Sector'" title:'Sector'  filter="{'sector':'select'}"   sortable="'sector'"  filter-data="ptypes" >{{o.sector}}</td>
-					<td data-title="'Stage'"  title:'Stage'   filter="{'stage':'select'}"    sortable="'stage'"   filter-data="stypes">{{o.stage}}</td>
-					<td data-title="'Pillar'" title:'Pillar'  filter="{'pilla	r':'select'}"   sortable="'pillar'"  filter-data="pillars">{{o.pillar}}</td>
+					<td data-title="'Code'"    filter="{'code':'text'}"       sortable="'code'"    >{{o.code}}</td>
+					<td data-title="'Subject'" filter="{'subject':'text'}"    sortable="'subject'" >{{o.subject}}</td>
+					<td data-title="'Sector'"  filter="{'sector':'select'}"   sortable="'sector'"  filter-data="ptypes" >{{o.sector}}</td>
+					<td data-title="'Stages'"   filter="{'stages':'text'}"  sortable="'stages'" >{{o.stageString}}</td>
+					<td data-title="'Pillars'"  filter="{'pillars':'text'}" sortable="'pillars'"  >{{o.pillarString}}</td>
 					<td>
 						<a ng-click="$event.stopPropagation()" class="btn btn-default btn-xs" ui-sref="admin.condition.edit({conditionId:o._id})">
 						<i class="glyphicon glyphicon-pencil"></i>
