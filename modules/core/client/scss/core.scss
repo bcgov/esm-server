@@ -248,7 +248,9 @@ h3 .small .label {
 .wrap {
 	white-space: normal !important;
 }
-
+.no-upper-margin {
+	margin-top: 0 !important;
+}
 .no-lower-margin {
 	margin-bottom: 0 !important;
 }
@@ -465,6 +467,9 @@ th .progress-bar {
 	opacity: 0.8;
 }
 
+.control-with-label {
+	margin-top: 25px !important;
+}
 // -------------------------
 // PANELS...
 // -------------------------
@@ -951,6 +956,8 @@ h2.page-title {
 .text-block-success {
 	border: 2px dotted $brand-success;
 	background-color: transparent;
+	padding-left: 5px;
+	padding-right: 5px;
 }
 .text-block > p:last-child {
 	margin-bottom: 0;
@@ -1032,8 +1039,8 @@ table thead tr.ng-table-sort-header {
 .ng-table-pager {
 	border-top: 1px solid $border-grey;
 	padding: 15px;
+	overflow: auto;
 }
-
 table thead tr.ng-table-filters {
 	background-color: $border-grey;
 }
