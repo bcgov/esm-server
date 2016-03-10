@@ -4,12 +4,13 @@ angular.module('project')
 	// General
 	.controller('controllerProject', controllerProject)
 	.controller('controllerModalProjectSchedule', controllerModalProjectSchedule)
+	.controller('controllerModalAddPhase', controllerModalAddPhase)
 	.controller('controllerModalAddActivity', controllerModalAddActivity)
 	.controller('controllerProjectVC', controllerProjectVC)
 	.controller('controllerProjectVCEntry', controllerProjectVCEntry)
 	.controller('controllerProjectTombstone', controllerProjectTombstone)
 	// .controller('controllerProjectTimeline', controllerProjectTimeline)
-	.controller('controllerModalProjectEntry', controllerModalProjectEntry)
+	.controller('controllerProjectEntry', controllerProjectEntry)
 	.controller('controllerModalProjectImport', controllerModalProjectImport)
 	// .controller('controllerProjectProponent', controllerProjectProponent)
 	// .controller('controllerProjectBucketListing', controllerProjectBucketListing)
@@ -80,6 +81,65 @@ function controllerModalProjectSchedule($modalInstance, sProjectModel, sPhaseMod
 
 			}).catch( function(err) {
 				$modalInstance.dismiss('cancel');
+			});
+		} else {
+			$modalInstance.close();
+		}
+	};
+}
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Modal: Add Activity
+//
+// -----------------------------------------------------------------------------------
+controllerModalAddPhase.$inject = ['$modalInstance', 'PhaseBaseModel', '_', 'ProjectModel'];
+/* @ngInject */
+function controllerModalAddPhase($modalInstance, sPhaseBaseModel, _, sProjectModel) {
+	var addPhase = this;
+
+	// get all possible base activities
+	sPhaseBaseModel.getCollection().then( function(data) {
+		addPhase.phases = data;
+	});
+
+	addPhase.cancel = function () { $modalInstance.dismiss('cancel'); };
+	addPhase.ok = function () {
+		if (addPhase.newBasePhase) {
+			// add the new activity to the base model.
+			sProjectModel.addPhase(addPhase.newBasePhase._id).then( function(data) {
+				$modalInstance.close(data);
+			});
+		} else {
+			$modalInstance.close();
+		}
+	};
+}
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Modal: Add Milestone
+//
+// -----------------------------------------------------------------------------------
+controllerModalAddMilestone.$inject = ['$modalInstance', 'PhaseModel', 'MilestoneBaseModel', '_', 'rPhase'];
+/* @ngInject */
+function controllerModalAddMilestone($modalInstance, sPhaseModel, sMilestoneBaseModel,  _, rPhase) {
+	var addMile = this;
+
+	addMile.milestone = rPhase;
+
+	// set current (actual) milestone context
+	sPhaseModel.setModel(rPhase);
+
+	// get all possible base activities
+	sMilestoneBaseModel.getCollection().then( function(data) {
+		addMile.milestones = data;
+	});
+
+	addMile.cancel = function () { $modalInstance.dismiss('cancel'); };
+	addMile.ok = function () {
+		if (addMile.newBaseMilestone) {
+			// add the new activity to the base model.
+			sPhaseModel.addMilestone(addMile.newBaseMilestone._id).then( function(data) {
+				$modalInstance.close(data);
 			});
 		} else {
 			$modalInstance.close();
@@ -283,42 +343,20 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 // CONTROLLER: Project Entry Tombstone
 //
 // -----------------------------------------------------------------------------------
-controllerModalProjectEntry.$inject = ['$modalInstance', '$scope', '$state', 'Project',  'ProjectModel', 'rProject', 'REGIONS', 'PROJECT_TYPES', '_'];
+controllerProjectEntry.$inject = ['$scope', '$state', 'project', 'REGIONS', 'PROJECT_TYPES', '_', 'intakeQuestions', 'ProjectModel'];
 /* @ngInject */
-function controllerModalProjectEntry($modalInstance, $scope, $state, sProject, sProjectModel, rProject, REGIONS, PROJECT_TYPES, _) {
-	var projectEntry = this;
+function controllerProjectEntry($scope, $state, project, REGIONS, PROJECT_TYPES, _, intakeQuestions, ProjectModel) {
 
-	projectEntry.regions = REGIONS;
-	projectEntry.types = PROJECT_TYPES;
-
-	projectEntry.questions = sProject.getProjectIntakeQuestions();
-	projectEntry.form = {curTab: $state.params.tab};
-
-	// if a project is already there, we're in edit mode.
-	if (rProject) {
-		projectEntry.title = 'Edit Project';
-		sProjectModel.setModel(rProject);
-		projectEntry.project = sProjectModel.getCopy();
-		// project has been passed in, no need to get it again.
-	} else {
-		// no project set to presume new mode.
-		projectEntry.title = 'Add Project';
-		// no project exists, get a new blank one.
-		sProjectModel.getNew().then( function(data) {
-			console.log('getnew');
-			projectEntry.project = data;
-		});
-	}
-
-	projectEntry.cancel = function () {
-		$modalInstance.dismiss();
-	};
-
-	// Standard save make sure documents are uploaded before save.
-	projectEntry.saveProject = function() {
-		sProjectModel.saveCopy(projectEntry.project).then( function(data) {
-			rProject = data;
-			$modalInstance.close(data);
+	$scope.project = project;
+	$scope.questions = intakeQuestions;
+	$scope.regions = REGIONS;
+	$scope.types = PROJECT_TYPES;
+	$scope._ = _;
+	// Save
+	$scope.saveProject = function() {
+		ProjectModel.save($scope.project).then( function(data) {
+			console.log(data);
+			$state.go('p.edit', {projectid: data.code});
 		})
 		.catch (function (err) {
 			console.log ('error = ', err, 'message = ', err.data.message);
@@ -326,9 +364,8 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, sProject, s
 	};
 
 	// Submit the project for stream assignment.
-	projectEntry.submitProject = function() {
-		projectEntry.project.status = 'Submitted';
-		projectEntry.saveProject();
+	$scope.submitProject = function() {
+		//saveProject();
 	};
 }
 // -----------------------------------------------------------------------------------

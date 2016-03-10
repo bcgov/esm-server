@@ -1,32 +1,13 @@
 'use strict';
 
 angular.module('projects')
-	.directive('tmplProjects', directiveProjects)
 	.directive('tmplProjectsList', directiveProjectsList)
-	.directive('tmplProjectsSchedule', directiveProjectsSchedule)
 	.directive('tmplProjectsList2', directiveProjectsList2)
 	.directive('tmplProjectsSearch', directiveProjectsSearch)
 	// .directive('tmplProjectsPanels', directiveProjectsPanels)
 	.directive('tmplProjectsMap', directiveProjectsMap)
 	.directive('tmplUserActivities', directiveUserActivities);
 	// .directive('tmplProjectsFilterBar', directiveProjectsFilterBar);
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Public Projects Main
-//
-// -----------------------------------------------------------------------------------
-directiveProjects.$inject = [];
-/* @ngInject */
-function directiveProjects() {
-	var directive = {
-		restrict: 'E',
-		replace: true,
-		templateUrl: 'modules/projects/client/views/projects.html',
-		controller: 'controllerProjects',
-		controllerAs: 'projects'
-	};
-	return directive;
-}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Projects List
@@ -39,25 +20,6 @@ function directiveProjectsList() {
 		restrict: 'E',
 		replace: true,
 		templateUrl: 'modules/projects/client/views/projects-partials/projects-list.html',
-		controller: 'controllerProjectsList',
-		controllerAs: 'projectList',
-		scope: {
-			projects: '='
-		}
-	};
-	return directive;
-}
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Projects Schedule
-//
-// -----------------------------------------------------------------------------------
-directiveProjectsSchedule.$inject = [];
-/* @ngInject */
-function directiveProjectsSchedule() {
-	var directive = {
-		restrict: 'E',
-		templateUrl: 'modules/projects/client/views/projects-partials/projects-schedule.html',
 		controller: 'controllerProjectsList',
 		controllerAs: 'projectList',
 		scope: {

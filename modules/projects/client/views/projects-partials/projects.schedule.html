@@ -16,11 +16,12 @@
 		</thead>
 		<tbody>
 
-			<tr ng-repeat="project in projectList.projects" class='clickable' ui-sref="project({id: project._id})">
+			<tr ng-repeat="project in projects" class='clickable' ui-sref="p.detail({projectid: project.code})">
 				<td ng-if="project.status === 'In Progress'">{{ project.name }}</td>
 				<td ng-if="project.status === 'In Progress'">{{ project.phase.name }}</td>
-				<td ng-if="project.status === 'In Progress'" colspan="5" class="bg-warning">
+				<td ng-if="project.status === 'In Progress'" colspan="5" class="schedule-control-cell">
 				<!-- show schedule widget -->
+					<tmpl-schedule-chart></tmpl-schedule-chart>
 				</td>
 
 				<td ng-if="project.status === 'Certified' || project.status === 'Decomissioned'">{{ project.name }}</td>

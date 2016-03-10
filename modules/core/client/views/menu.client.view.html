@@ -1,5 +1,22 @@
 <section id="menu-side" class="menu-side" style="position: fixed;">
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<div ng-if="menu.context === 'projects'">
 
 		<div ng-show="menu.authentication.user">
@@ -13,6 +30,7 @@
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-map')" href="#anchor-map">Map</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-search')" href="#anchor-search">Search</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-schedule')" href="#anchor-schedule">Schedule</a></li>
+			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-list')" href="#anchor-list">List</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-recent')" href="#anchor-recent">Recent Activity</a></li>
 		</ul>
 		<ul class="list-unstyled" ng-show="menu.projectsMenu.shouldRender(menu.authentication.user);">
@@ -21,12 +39,27 @@
 			</li>
 		</ul>
 		<ul class="list-unstyled" ng-show="menu.authentication.user">
-			<li><a x-modal-project-entry href x-project="menu.newproject">Add Project</a></li>
+			<li><a ui-sref="p.edit({projectid: 'new'})">Add Project</a></li>
 		</ul>
 		<ul class="list-unstyled" ng-show="menu.authentication.user">
 			<li><a x-modal-project-import href x-project="menu.import">Import Projects</a></li>
 		</ul>
 	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	<div ng-if="menu.context === 'mylist'">
@@ -44,9 +77,23 @@
 			</li>
 		</ul>
 		<ul class="list-unstyled" ng-show="menu.authentication.user">
-			<li><a x-modal-project-entry href x-project="menu.newproject">Add Project</a></li>
+			<li><a ui-sref="p.edit({projectid: 'new'})">Add Project</a></li>
 		</ul>
 	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -54,7 +101,7 @@
 
 		<ul class="list-unstyled">
 			<li><a ui-sref="projects" href>All Projects</a></li>
-			<li><a ui-sref="project({id: menu.project._id})" href>{{ menu.project.name }}</a></li>
+			<li><a ui-sref="p.detail({projectid: menu.project.code})" href>{{ menu.project.name }}</a></li>
 			<li><a ng-click="menu.goToPrevious()" href>Back</a></li>
 		</ul>
 		<div ng-show="menu.authentication.user">
@@ -79,12 +126,26 @@
 			</li>
 		</ul>
 		<ul class="list-unstyled" ng-show="menu.authentication.user">
-			<li><a x-modal-project-entry href x-project="menu.project">Edit Project</a></li>
+			<li><a ui-sref="p.edit({projectid: menu.project.code})">Edit Project</a></li>
 			<li><a x-modal-project-schedule href x-project="menu.project">Edit Schedule</a></li>
 			<li><a x-modal-users-by-roles href x-source-object="menu.project">Edit Project Users</a></li>
 			<li><a x-modal-project-vc href x-project="menu.project">Edit VC</a></li>
 		</ul>
 	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -102,6 +163,20 @@
 		</div>
 
 	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

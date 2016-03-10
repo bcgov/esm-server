@@ -1,0 +1,25 @@
+<div class="modal-header">
+	<h3 class="modal-title">Add Phase to Project</h3>
+</div>
+
+<div class="modal-body">
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label for="activ" class="control-label">Select Phase</label>
+					<select id="activ" ng-model='addPhase.newBasePhase' class="form-control input-sm" ng-options="phase as phase.name for phase in addPhase.phases | orderBy:'order'"></select>
+				</div>
+			</div>
+		</div>
+
+</div> <!-- /modalbody -->
+
+
+<div class="modal-footer">
+	<div>
+		<a class="btn btn-default" href ng-click="addPhase.cancel()">Cancel</a>
+		<a class="btn btn-default" href ng-click="addPhase.ok()">Save</a>
+	</div>
+</div>
+

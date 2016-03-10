@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users').controller('controllerUsersByOrg', ['$scope', '$filter', 'Organizations', '$state', 'PROVINCES', 'COMPANY_TYPES',
-    function ($scope, $filter, Organizations, $state, PROVINCES, COMPANY_TYPES ) {
+angular.module('users').controller('controllerUsersByOrg', ['$scope', '$filter', 'OrganizationModel', '$state', 'PROVINCES', 'COMPANY_TYPES',
+    function ($scope, $filter, sOrganizationModel, $state, PROVINCES, COMPANY_TYPES ) {
 
         var usersByOrg = this;
 

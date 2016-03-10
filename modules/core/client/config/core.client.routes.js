@@ -24,10 +24,10 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 			roles: ['admin']
 		}
 	})
-	.state('projects', {
-		url: '/',
-		template: '<tmpl-projects></tmpl-projects>'
-	})
+	// .state('projects', {
+	// 	url: '/',
+	// 	template: '<tmpl-projects></tmpl-projects>'
+	// })
 	.state('login', {
 		url: '/login',
 		template: '<tmpl-login></tmpl-login>'
@@ -45,15 +45,39 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	// Old Project Routes
 	//
 	// =========================================================================
-	.state('project', {
-		url: '/project/:id',
-		template: '<tmpl-project></tmpl-project>'
-	})
+	// .state('project', {
+	// 	url: '/project/:id',
+	// 	template: '<tmpl-project></tmpl-project>'
+	// })
 	// =========================================================================
 	//
 	// New Project Routes
 	//
 	// =========================================================================
+	.state('projects', {
+		url: '/',
+		templateUrl: 'modules/projects/client/views/projects.abstract.html',
+		resolve: {
+			projects: function ($stateParams, ProjectModel) {
+				return ProjectModel.getCollection ();
+			}
+		},
+		controller: function ($scope, $stateParams, projects) {
+			$scope.projects = projects;
+		}
+	})
+	// -------------------------------------------------------------------------
+	//
+	// the scheudle view for all projects
+	//
+	// -------------------------------------------------------------------------
+	.state('projects.schedule', {
+		url: '/schedule',
+		templateUrl: 'modules/projects/client/views/projects-partials/projects.schedule.html',
+		controller: function ($scope, projects) {
+			$scope.projects = projects;
+		}
+	})	
 	// -------------------------------------------------------------------------
 	//
 	// the project abstract, this contains the menu and a ui-view for loading
@@ -66,7 +90,6 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		templateUrl: 'modules/projects/client/views/project.abstract.html',
 		resolve: {
 			project: function ($stateParams, ProjectModel) {
-				console.log ('project abstract resolving projectid', $stateParams.projectid);
 				return ProjectModel.byCode ($stateParams.projectid);
 			},
 			eaoAdmin: function (project) {
@@ -92,6 +115,21 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 			$scope.project = project;
 		}
 	})
+	// -------------------------------------------------------------------------
+	//
+	// the detail view of a project
+	//
+	// -------------------------------------------------------------------------
+	.state('p.edit', {
+		url: '/edit',
+		templateUrl: 'modules/projects/client/views/project-partials/project.entry.html',
+		controller: 'controllerProjectEntry',
+		resolve: {
+			intakeQuestions: function(ProjectModel) {
+				return ProjectModel.getProjectIntakeQuestions();
+			}
+		}
+	})	
 	// -------------------------------------------------------------------------
 	//
 	// project description

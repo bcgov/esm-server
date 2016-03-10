@@ -163,7 +163,11 @@ module.exports = function (app) {
 	app.route ('/api/project/bycode/:projectcode').all (policy.isAllowed)
 		.get (function (req, res) {
 			var p = new Project (req.user);
-			p.findOne ({code:req.params.projectcode}).then (helpers.success(res), helpers.failure(res));
+			if (req.params.projectcode === 'new') {
+				p.new().then (helpers.success(res), helpers.failure(res));
+			} else {
+				p.findOne ({code:req.params.projectcode}).then (helpers.success(res), helpers.failure(res));
+			}
 		});
 
 
