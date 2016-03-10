@@ -158,7 +158,20 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	})
 	.state('activities', {
 		url: '/activities',
-		template: '<tmpl-user-activities></tmpl-user-activities>',
+		templateUrl: 'modules/users/client/views/user-partials/user-activities.html',
+		resolve: {
+			activities: function(ActivityModel) {
+				return ActivityModel.userActivities ();
+			},
+			projects: function(ProjectModel) {
+				return ProjectModel.getCollection ();
+			}
+		},
+		controller: function ($scope, $stateParams, activities, projects, _) {
+			$scope.activities = activities;
+			$scope.projectNames = _.map(projects, 'name');
+			console.log($scope.projectNames);
+		},
 		data: {
 			roles: ['admin', 'user']
 		}

@@ -52,6 +52,25 @@
 		</section>
 
 
+{{ activities | json }}
+
+		<div class="row">
+			<div class="col-sm-12">
+				<section class="panel panel-default">
+					<table ng-table="tableParams" class="table table-condensed table-striped table-hover">
+						<tr ng-repeat="o in activities | orderBy:'order'" ui-sref="activity({project: activity.project, activity: activity._id})" class="clickable">
+							<td data-title="'Project'"  filter="{'project':'select'}"   sortable="'project'"  filter-data="projects.name" >{{o.project}}</td>
+							<td data-title="'Name'" filter="{'name':'text'}"    sortable="'name'" >{{o.name}}</td>
+						</tr>
+					</table>
+				</section>
+			</div>
+
+		</div>
+
+
+
+
 	</div> <!-- /col10 -->
 	<div class='col-sm-2'>
 		<tmpl-system-menu x-menu-context="'mylist'"></tmpl-system-menu>

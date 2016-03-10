@@ -5,8 +5,7 @@ angular.module('projects')
 	.controller('controllerProjects', controllerProjects)
 	.controller('controllerProjectsList', controllerProjectsList)
 	.controller('controllerProjectsList2', controllerProjectsList2)
-	.controller('controllerProjectsSearch', controllerProjectsSearch)
-	.controller('controllerUserActivities', controllerUserActivities);
+	.controller('controllerProjectsSearch', controllerProjectsSearch);
 
 // -----------------------------------------------------------------------------------
 //
@@ -152,32 +151,32 @@ function controllerProjectsList2($scope, NgTableParams, $state, Authentication, 
 // CONTROLLER: User Activities
 //
 // -----------------------------------------------------------------------------------
-controllerUserActivities.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', 'ActivityModel', '$rootScope', '_'];
-/* @ngInject */
-function controllerUserActivities($scope, $state, Authentication, sProjectModel, sActivityModel, $rootScope, _) {
-	var userActs = this;
-	userActs.projectNames = {};
+// controllerUserActivities.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', 'ActivityModel', '$rootScope', '_'];
+// /* @ngInject */
+// function controllerUserActivities($scope, $state, Authentication, sProjectModel, sActivityModel, $rootScope, _) {
+// 	var userActs = this;
+// 	userActs.projectNames = {};
 
-	userActs.refresh = function() {
-		sActivityModel.userActivities(undefined, 'read').then( function(data) {
-			userActs.activities = data;
-			$scope.$apply ();
-		}).catch( function(err) {
-			$scope.error = err;
-		});
-	};
+// 	userActs.refresh = function() {
+// 		sActivityModel.userActivities(undefined, 'read').then( function(data) {
+// 			userActs.activities = data;
+// 			$scope.$apply ();
+// 		}).catch( function(err) {
+// 			$scope.error = err;
+// 		});
+// 	};
 
-	sProjectModel.getCollection().then( function(data) {
-		userActs.projects = data;
+// 	sProjectModel.getCollection().then( function(data) {
+// 		userActs.projects = data;
 
-		// reference the ID and the name.
-		_.each(data, function(project) {
-			userActs.projectNames[project._id] = {'name': project.name, 'region': project.region};
-		});
-		$scope.$apply();
-	});
+// 		// reference the ID and the name.
+// 		_.each(data, function(project) {
+// 			userActs.projectNames[project._id] = {'name': project.name, 'region': project.region};
+// 		});
+// 		$scope.$apply();
+// 	});
 
-	userActs.refresh();
-}
+// 	userActs.refresh();
+// }
 
 
