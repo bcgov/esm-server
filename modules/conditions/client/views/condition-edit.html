@@ -1,8 +1,17 @@
-<h1 class="page-title">
-	Add/Edit Condition
+<h1 class="page-title no-lower-margin">
+	Add / Edit Condition
 </h1>
-	<div class="block-content">
-		<div class="panel-body">
+
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="admin.condition.list">Cancel</a>
+		<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group">
@@ -50,12 +59,15 @@
 				</div>
 			</div>
 		</div>
-
+		
+		<hr>
+		
+		<div class="text-right">
+			<a class="btn btn-default" ui-sref="admin.condition.list">Cancel</a>
+			<a class="btn btn-default" href ng-click="save()">Save</a>
 		</div>
-	</div>
 
-<div class="button-panel">
-	<a class="btn btn-danger" ui-sref="admin.condition.list">Cancel</a>
-	<a class="btn btn-primary" href ng-click="save()">Save</a>
+	</div>
 </div>
+
 
