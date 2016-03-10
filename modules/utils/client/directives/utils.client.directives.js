@@ -1,6 +1,8 @@
 'use strict';
 
 angular.module('utils')
+    .directive('selectArray', directiveSelectArray)
+
     .directive('tmplQuickLinks', directiveQuickLinks)
     .directive('tmplRecentActivity', directiveRecentNews)
     .directive('kebabThis', directiveKebabThis)
@@ -30,6 +32,28 @@ angular.module('utils')
     .directive('scrollTrigger', directiveScrollTrigger)
     .directive('selectOnFocus', directiveSelectOnFocus);
     
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Select Array
+//
+// -----------------------------------------------------------------------------------
+directiveSelectArray.$inject = [];
+/* @ngInject */
+function directiveSelectArray() {
+	var directive = {
+     	restrict:'E',
+     	scope : {
+			sourceArray: '=',
+			selectedArray: '='
+		},
+		templateUrl: 'modules/utils/client/views/partials/select-array.html',
+		controller: 'controllerSelectArray'
+    };
+    return directive;
+}
+
+
+
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Projects Quicklinks

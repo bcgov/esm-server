@@ -1,6 +1,8 @@
 'use strict';
 
 angular.module('utils')
+    .controller('controllerSelectArray', controllerSelectArray)
+
     .controller('controllerQuickLinks', controllerQuickLinks)
     .controller('controllerRecentActivity', controllerRecentActivity)   
     .controller('controllerPanelSort', controllerPanelSort)
@@ -13,7 +15,31 @@ angular.module('utils')
     .controller('controllerModalUserContactInfo', controllerModalUserContactInfo)
     .controller('controllerModalSelectItems', controllerModalSelectItems)
     .controller('controllerModalDatePicker', controllerModalDatePicker);
-    
+   
+
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Toggle the contents of an array
+//
+// -----------------------------------------------------------------------------------    
+controllerSelectArray.$inject = ['$scope', '_'];
+/* @ngInject */
+function controllerSelectArray($scope, _) {
+	$scope._ = _;
+
+	$scope.toggleArrayItem = function(newItem) {
+		if( _.contains($scope.selectedArray, newItem) ) {
+			// remove
+			_.pull($scope.selectedArray, newItem);
+		} else {
+			$scope.selectedArray.push(newItem);
+		}
+	};
+}
+
+
+
+
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Quick Links

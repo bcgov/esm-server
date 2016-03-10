@@ -48,14 +48,18 @@
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="pillar" class="control-label">Pillars</label>
-					<select ng-multiple="true" multiple="true" id="pillar" ng-model='condition.pillars' class="form-control input-sm" ng-options="pillar.id as pillar.title for pillar in pillars"></select>
+					<div class="well well-sm">
+						<select-array x-source-array="pillars" x-selected-array="condition.pillars"></select-array>
+					</div>
 				</div>
 			</div>
 
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="stage" class="control-label">Applicable Stages</label>
-					<select ng-multiple="true" multiple="true" id="stage" ng-model='condition.stages' class="form-control input-sm" ng-options="stage.id as stage.title for stage in stages"></select>
+					<div class="well well-sm">
+						<select-array x-source-array="stages" x-selected-array="condition.stages"></select-array>
+					</div>
 				</div>
 			</div>
 		</div>
