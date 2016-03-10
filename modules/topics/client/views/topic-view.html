@@ -1,53 +1,62 @@
-<h1 class="page-title">
+<h1 class="page-title no-lower-margin">
 	View Topic
 </h1>
-<div class="block-content">
+
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="admin.topic.list">Cancel</a>
+		<a class="btn btn-xs btn-link" ui-sref="admin.topic.edit({topicId:topic._id})">Edit</a>
+	</div>
+</div>
+
+<div class="panel panel-default">
 	<div class="panel-body">
-	<div class="row">
-		<div class="col-sm-9">
-			<div class="form-group">
-				<span class="input-label">Topic Name:</span>
-				<span class="input-lg left-align">{{topic.name}}</span>
+		<div class="row">
+			<div class="col-sm-9">
+				<div class="form-group">
+					<label for="title" class="control-label">Topic Name</label>
+					<p class="form-control-static">{{ topic.name }}</p>
+				</div>
 			</div>
-		</div>
-		<div class="col-sm-3">
-			<div class="form-group">
-				<span class="input-label">Topic Type:</span>
-				<span class="input-lg left-align">{{topic.type}}</span>
-			</div>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-sm-12">
-			<div class="form-group">
-				<span class="input-label">Topic Description:</span>
-				<span class="input-lg left-align">{{topic.description}}</span>
-			</div>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-sm-6">
-			<div class="form-group">
-				<span class="input-label">Pillar:</span>
-				<span class="input-lg left-align">{{topic.pillar}}</span>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="type" class="control-label">Topic Type</label>
+					<p class="form-control-static">{{ topic.type }}</p>
+				</div>
 			</div>
 		</div>
 
-		<div class="col-sm-6">
-			<div class="form-group">
-				<span class="input-label">Parent Topic:</span>
-				<span class="input-lg left-align">{{topic.parent}}</span>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label for="shortDesc" class="control-label">Topic Description</label>
+					<div class='form-control-static' ng-bind-html="topic.description"></div>
+				</div>
 			</div>
 		</div>
-	</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="pillar" class="control-label">Pillar</label>
+					<p class="form-control-static">{{ topic.pillar || 'Not Defined' }}</p>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="parent" class="control-label">Parent Topic</label>
+					<p class="form-control-static">{{ topic.parent || 'Not Defined' }}</p>
+				</div>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="text-right">
+			<a class="btn btn-default" ui-sref="admin.topic.list">Cancel</a>
+			<a class="btn btn-default" ui-sref="admin.topic.edit({topicId:topic._id})">Edit</a>
+		</div>
+
 	</div>
 </div>
-<div class="button-panel">
-	<a class="btn btn-danger" ui-sref="admin.topic.list">Cancel</a>
-	<a class="btn btn-primary" ui-sref="admin.topic.edit({topicId:topic._id})">Edit</a>
-</div>
-
-
-
