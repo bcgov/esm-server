@@ -2,7 +2,6 @@
 
 angular.module('projects')
 	.directive('tmplProjectsList', directiveProjectsList)
-	.directive('tmplProjectsSchedule', directiveProjectsSchedule)
 	.directive('tmplProjectsList2', directiveProjectsList2)
 	.directive('tmplProjectsSearch', directiveProjectsSearch)
 	// .directive('tmplProjectsPanels', directiveProjectsPanels)
@@ -21,25 +20,6 @@ function directiveProjectsList() {
 		restrict: 'E',
 		replace: true,
 		templateUrl: 'modules/projects/client/views/projects-partials/projects-list.html',
-		controller: 'controllerProjectsList',
-		controllerAs: 'projectList',
-		scope: {
-			projects: '='
-		}
-	};
-	return directive;
-}
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Projects Schedule
-//
-// -----------------------------------------------------------------------------------
-directiveProjectsSchedule.$inject = [];
-/* @ngInject */
-function directiveProjectsSchedule() {
-	var directive = {
-		restrict: 'E',
-		templateUrl: 'modules/projects/client/views/projects-partials/projects-schedule.html',
 		controller: 'controllerProjectsList',
 		controllerAs: 'projectList',
 		scope: {

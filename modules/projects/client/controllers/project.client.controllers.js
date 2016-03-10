@@ -10,7 +10,7 @@ angular.module('project')
 	.controller('controllerProjectVCEntry', controllerProjectVCEntry)
 	.controller('controllerProjectTombstone', controllerProjectTombstone)
 	// .controller('controllerProjectTimeline', controllerProjectTimeline)
-	.controller('controllerModalProjectEntry', controllerModalProjectEntry)
+	.controller('controllerProjectEntry', controllerProjectEntry)
 	.controller('controllerModalProjectImport', controllerModalProjectImport)
 	// .controller('controllerProjectProponent', controllerProjectProponent)
 	// .controller('controllerProjectBucketListing', controllerProjectBucketListing)
@@ -343,42 +343,20 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 // CONTROLLER: Project Entry Tombstone
 //
 // -----------------------------------------------------------------------------------
-controllerModalProjectEntry.$inject = ['$modalInstance', '$scope', '$state', 'Project',  'ProjectModel', 'rProject', 'REGIONS', 'PROJECT_TYPES', '_'];
+controllerProjectEntry.$inject = ['$scope', '$state', 'project', 'REGIONS', 'PROJECT_TYPES', '_', 'intakeQuestions', 'ProjectModel'];
 /* @ngInject */
-function controllerModalProjectEntry($modalInstance, $scope, $state, sProject, sProjectModel, rProject, REGIONS, PROJECT_TYPES, _) {
-	var projectEntry = this;
+function controllerProjectEntry($scope, $state, project, REGIONS, PROJECT_TYPES, _, intakeQuestions, ProjectModel) {
 
-	projectEntry.regions = REGIONS;
-	projectEntry.types = PROJECT_TYPES;
-
-	projectEntry.questions = sProject.getProjectIntakeQuestions();
-	projectEntry.form = {curTab: $state.params.tab};
-
-	// if a project is already there, we're in edit mode.
-	if (rProject) {
-		projectEntry.title = 'Edit Project';
-		sProjectModel.setModel(rProject);
-		projectEntry.project = sProjectModel.getCopy();
-		// project has been passed in, no need to get it again.
-	} else {
-		// no project set to presume new mode.
-		projectEntry.title = 'Add Project';
-		// no project exists, get a new blank one.
-		sProjectModel.getNew().then( function(data) {
-			console.log('getnew');
-			projectEntry.project = data;
-		});
-	}
-
-	projectEntry.cancel = function () {
-		$modalInstance.dismiss();
-	};
-
-	// Standard save make sure documents are uploaded before save.
-	projectEntry.saveProject = function() {
-		sProjectModel.saveCopy(projectEntry.project).then( function(data) {
-			rProject = data;
-			$modalInstance.close(data);
+	$scope.project = project;
+	$scope.questions = intakeQuestions;
+	$scope.regions = REGIONS;
+	$scope.types = PROJECT_TYPES;
+	$scope._ = _;
+	// Save
+	$scope.saveProject = function() {
+		ProjectModel.save($scope.project).then( function(data) {
+			console.log(data);
+			$state.go('p.edit', {projectid: data.code});
 		})
 		.catch (function (err) {
 			console.log ('error = ', err, 'message = ', err.data.message);
@@ -386,9 +364,8 @@ function controllerModalProjectEntry($modalInstance, $scope, $state, sProject, s
 	};
 
 	// Submit the project for stream assignment.
-	projectEntry.submitProject = function() {
-		projectEntry.project.status = 'Submitted';
-		projectEntry.saveProject();
+	$scope.submitProject = function() {
+		//saveProject();
 	};
 }
 // -----------------------------------------------------------------------------------

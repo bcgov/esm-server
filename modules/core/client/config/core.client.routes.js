@@ -56,27 +56,13 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	// =========================================================================
 	.state('projects', {
 		url: '/',
-		// abstract: true,
 		templateUrl: 'modules/projects/client/views/projects.abstract.html',
 		resolve: {
 			projects: function ($stateParams, ProjectModel) {
-				console.log('resolve projects');
 				return ProjectModel.getCollection ();
 			}
 		},
 		controller: function ($scope, $stateParams, projects) {
-			$scope.projects = projects;
-		}
-	})
-	// -------------------------------------------------------------------------
-	//
-	// the main view for all projects
-	//
-	// -------------------------------------------------------------------------
-	.state('projects.map', {
-		url: '/map',
-		templateUrl: 'modules/projects/client/views/projects-partials/projects.default.html',
-		controller: function ($scope, projects) {
 			$scope.projects = projects;
 		}
 	})
@@ -104,7 +90,6 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		templateUrl: 'modules/projects/client/views/project.abstract.html',
 		resolve: {
 			project: function ($stateParams, ProjectModel) {
-				console.log ('project abstract resolving projectid', $stateParams.projectid);
 				return ProjectModel.byCode ($stateParams.projectid);
 			},
 			eaoAdmin: function (project) {
@@ -130,6 +115,21 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 			$scope.project = project;
 		}
 	})
+	// -------------------------------------------------------------------------
+	//
+	// the detail view of a project
+	//
+	// -------------------------------------------------------------------------
+	.state('p.edit', {
+		url: '/edit',
+		templateUrl: 'modules/projects/client/views/project-partials/project.entry.html',
+		controller: 'controllerProjectEntry',
+		resolve: {
+			intakeQuestions: function(ProjectModel) {
+				return ProjectModel.getProjectIntakeQuestions();
+			}
+		}
+	})	
 	// -------------------------------------------------------------------------
 	//
 	// project description
