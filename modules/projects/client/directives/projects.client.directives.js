@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('projects')
-	.directive('tmplProjects', directiveProjects)
 	.directive('tmplProjectsList', directiveProjectsList)
 	.directive('tmplProjectsSchedule', directiveProjectsSchedule)
 	.directive('tmplProjectsList2', directiveProjectsList2)
@@ -10,23 +9,6 @@ angular.module('projects')
 	.directive('tmplProjectsMap', directiveProjectsMap)
 	.directive('tmplUserActivities', directiveUserActivities);
 	// .directive('tmplProjectsFilterBar', directiveProjectsFilterBar);
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Public Projects Main
-//
-// -----------------------------------------------------------------------------------
-directiveProjects.$inject = [];
-/* @ngInject */
-function directiveProjects() {
-	var directive = {
-		restrict: 'E',
-		replace: true,
-		templateUrl: 'modules/projects/client/views/projects.html',
-		controller: 'controllerProjects',
-		controllerAs: 'projects'
-	};
-	return directive;
-}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Projects List

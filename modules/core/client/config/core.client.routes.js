@@ -24,10 +24,10 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 			roles: ['admin']
 		}
 	})
-	.state('projects', {
-		url: '/',
-		template: '<tmpl-projects></tmpl-projects>'
-	})
+	// .state('projects', {
+	// 	url: '/',
+	// 	template: '<tmpl-projects></tmpl-projects>'
+	// })
 	.state('login', {
 		url: '/login',
 		template: '<tmpl-login></tmpl-login>'
@@ -45,15 +45,53 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 	// Old Project Routes
 	//
 	// =========================================================================
-	.state('project', {
-		url: '/project/:id',
-		template: '<tmpl-project></tmpl-project>'
-	})
+	// .state('project', {
+	// 	url: '/project/:id',
+	// 	template: '<tmpl-project></tmpl-project>'
+	// })
 	// =========================================================================
 	//
 	// New Project Routes
 	//
 	// =========================================================================
+	.state('projects', {
+		url: '/',
+		// abstract: true,
+		templateUrl: 'modules/projects/client/views/projects.abstract.html',
+		resolve: {
+			projects: function ($stateParams, ProjectModel) {
+				console.log('resolve projects');
+				return ProjectModel.getCollection ();
+			}
+		},
+		controller: function ($scope, $stateParams, projects) {
+			$scope.projects = projects;
+		}
+	})
+	// -------------------------------------------------------------------------
+	//
+	// the main view for all projects
+	//
+	// -------------------------------------------------------------------------
+	.state('projects.map', {
+		url: '/map',
+		templateUrl: 'modules/projects/client/views/projects-partials/projects.default.html',
+		controller: function ($scope, projects) {
+			$scope.projects = projects;
+		}
+	})
+	// -------------------------------------------------------------------------
+	//
+	// the scheudle view for all projects
+	//
+	// -------------------------------------------------------------------------
+	.state('projects.schedule', {
+		url: '/schedule',
+		templateUrl: 'modules/projects/client/views/projects-partials/projects.schedule.html',
+		controller: function ($scope, projects) {
+			$scope.projects = projects;
+		}
+	})	
 	// -------------------------------------------------------------------------
 	//
 	// the project abstract, this contains the menu and a ui-view for loading

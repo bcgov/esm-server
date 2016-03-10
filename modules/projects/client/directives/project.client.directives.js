@@ -101,7 +101,7 @@ function directiveModalAddPhaseToProject($modal, $rootScope) {
 					controllerAs: 'addPhase',
 					resolve: {
 						rProject: function() {
-							return scope.project
+							return scope.project;
 						}
 					},
 					size: 'sm'
@@ -135,7 +135,7 @@ function directiveModalAddMilestoneToPhase($modal, $rootScope) {
 					controllerAs: 'addMile',
 					resolve: {
 						rPhase: function() {
-							return scope.phase
+							return scope.phase;
 						}
 					},
 					size: 'sm'

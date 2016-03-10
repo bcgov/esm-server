@@ -43,24 +43,17 @@ function directiveScheduleChart(d3, $window) {
 
 			var msOneDay=1000*60*60*24;	 // Value of 1 day in milliseconds
 			var dDateToday = new Date(); // Fetch todays -1 month date for comparison
-			dDateToday.setDate(dDateToday.getDate() - (_NumberOfPreceedingMonths * _MonthLen))	
+			dDateToday.setDate(dDateToday.getDate() - (_NumberOfPreceedingMonths * _MonthLen));	
 			var _DrawPhase = false;
 
 			var minVal = 0;
 
-			var rngMaxDate = new Date;
+			var rngMaxDate = new Date();
 			rngMaxDate.setDate(rngMaxDate.getDate() + ((_NumberOfMonths - _NumberOfPreceedingMonths) * _MonthLen));
-			var maxVal = (rngMaxDate - dDateToday)/msOneDay
+			var maxVal = (rngMaxDate - dDateToday)/msOneDay;
 
-			var sDateStart = new Date;
-			var sDateEnd = new Date;
-
-			if (_DEBUG){
-				console.log("Project Name: "+oProjectData.name);
-				console.log("      minVal: "+minVal);
-				console.log("      maxVal: "+maxVal);
-				console.log("       Today: "+dDateToday);
-			};
+			var sDateStart = new Date();
+			var sDateEnd = new Date();
 
 			var svgCont = d3.select(element[0]).append("svg")
 				.attr("preserveAspectRatio", "xMinYMin meet")
@@ -110,7 +103,7 @@ function directiveScheduleChart(d3, $window) {
 		
 			for (var i = 0; i < oPhases.length; i++) {
 				_DrawPhase = false;
-				oPhaseDetail = oPhases[i]
+				oPhaseDetail = oPhases[i];
 				sPhaseName = oPhaseDetail.name;
 				sDateStart = new Date(oPhaseDetail.dateStart);
 				sDateEnd = new Date(oPhaseDetail.dateEnd);
@@ -118,25 +111,22 @@ function directiveScheduleChart(d3, $window) {
 				var sDiff = (sDateStart-dDateToday)/msOneDay;
 				var eDiff = (sDateEnd-dDateToday)/msOneDay;
 				
-				if (_DEBUG){
-					console.log("Phase "+i+": "+sPhaseName);
-					console.log("  Start ("+sDiff+") : "+sDateStart);
-					console.log("    End ("+eDiff+"): "+sDateEnd);
-				}
-				
+				var x1;
+				var x2;
+			
 				// Is the date within the bounds of the display?
 				if ((sDiff >= minVal && sDiff <= maxVal) && (eDiff >= minVal && eDiff <= maxVal)){
 					// Entire phase fits within the display bar, draw it all
-					var x1 = sDiff *_DayScale; // phase start
-					var x2 = (eDiff - sDiff) * _DayScale; // phase end
+					x1 = sDiff *_DayScale; // phase start
+					x2 = (eDiff - sDiff) * _DayScale; // phase end
 					_DrawPhase = true;
 					if (_DEBUG){
 						console.log("	Draw Phase (all) "+x1+" "+x2 );
 					}			
 				} else if (sDiff >= minVal && sDiff <= maxVal){
 					// Only the start of the phase fits within the display bar
-					var x1 = sDiff * _DayScale; // phase start 
-					var x2 = (maxVal-sDiff) * _DayScale; // phase end
+					x1 = sDiff * _DayScale; // phase start 
+					x2 = (maxVal-sDiff) * _DayScale; // phase end
 					_DrawPhase = true;
 					if (_DEBUG){
 						console.log("	Draw Phase (start): "+x1+" "+x2 );
@@ -176,7 +166,7 @@ function directiveScheduleChart(d3, $window) {
 					;
 					
 				}
-			};
+			}
 
 			
 
