@@ -17,23 +17,23 @@ angular.module ('templates')
 		templateUrl: 'modules/templates/client/views/template-list.html',
 		controller: function ($scope, _) {
 
-			var sectionControls
+			// var sectionControls
 
-			_.each ($scope.template.section, function (section) {
-				var sectionTemplate = '';
-				if (!section.multiple) {
-					sectionTemplate = section.template;
-				}
-				else {
-					if (section.isheader) {
-						sectionTemplate += section.header;
-					}
-					_.each ()
-				}
-			})
+			// _.each ($scope.template.section, function (section) {
+			// 	var sectionTemplate = '';
+			// 	if (!section.multiple) {
+			// 		sectionTemplate = section.template;
+			// 	}
+			// 	else {
+			// 		if (section.isheader) {
+			// 			sectionTemplate += section.header;
+			// 		}
+			// 		_.each ()
+			// 	}
+			// })
 		},
 	};
 })
-.
+
 
 ;
