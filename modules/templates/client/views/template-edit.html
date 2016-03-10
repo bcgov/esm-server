@@ -34,7 +34,7 @@
 			<div class="col-sm-12">
 				<h5 class="no-upper-margin">Section</h5>
 			</div>
-		</div>	
+		</div>
 		<div class="row">
 			<div class="col-sm-12">
 				<p>There are no sections on this template.</p>
@@ -51,7 +51,7 @@
 			<div class="col-sm-12">
 				<h5 class="no-upper-margin">Section: {{ section.name }}</h5>
 			</div>
-		</div>	
+		</div>
 		<div class="row form-group">
 			<div class="col-sm-4">
 				<label for="name" class="control-label">Section Name</label>
@@ -129,10 +129,11 @@
 				<input id="label" type="text" class="form-control input-sm" ng-model="field.label">
 			</div>
 			<div class="col-sm-3">
-				<label for="type" class="radio-inline control-with-label">
-				<input name="type" type="radio" ng-model="field.type" value="Text">Text</label>
-				<label for="type" class="radio-inline control-with-label">
-				<input name="type" type="radio" ng-model="field.type" value="Html">Html</label>
+				<label for="type" class="control-label">Variable Type</label>
+				<select id="type" ng-model="field.type" class="form-control">
+					<option>Text</option>
+					<option>Html</option>
+				</select>
 			</div>
 			<div class="col-sm-3">
 				<label for="default" class="control-label">Default value</label>
@@ -144,7 +145,7 @@
 				<a href class="small" ng-click="addVariable(section.meta)">+ Add Variable</a>
 			</div>
 		</div>
-		
+
 	</div>
 	<div class="panel-footer" ng-if="$last">
 
@@ -152,7 +153,7 @@
 			<div class="col-sm-12">
 				<a href class="small" ng-click="addSection()">+ Append Section</a>
 			</div>
-		</div>			
+		</div>
 
 	</div>
 </div>

@@ -193,7 +193,21 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.dataset = {
 				execsummary: {
 					happy: 'Am I really happy?'
-				}
+				},
+				boundaries: [{
+					title: 'this is a title',
+					footnote: 'this is a footnote',
+					apple : 'macintosh',
+					colour: 'green',
+					fruit : '<p>Wabba wabba</p>'
+				},
+				{
+					title: 'this is a title',
+					footnote: 'this is a footnote',
+					apple: 'royal gala',
+					colour: 'red',
+					fruit : '<p>no no <b>NO!</b></p>'
+				}]
 			};
 		}
 

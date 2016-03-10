@@ -45,14 +45,11 @@
 			name : value,
 			name : value,
 		},
-		sectionName : {
+		sectionName : [{
 			name : value,
 			name : value,
-			_data : [{
-				name : value,
-				name : value,
-			}]
-		}
+		}]
+
 	}
 
 	Where a flat section merely has named data elements, while a repeating
