@@ -74,7 +74,7 @@ checkIntegration ('newconfigs').then (function () {
 // Topics
 //
 // -------------------------------------------------------------------------
-checkIntegration ('loadtopics').then (function () {
+checkIntegration ('loadtopics2').then (function () {
 	require('../seed-data/loadtopics')();
 });
 
@@ -83,7 +83,7 @@ checkIntegration ('loadtopics').then (function () {
 // Conditions
 //
 // -------------------------------------------------------------------------
-checkIntegration ('loadconditions').then (function () {
+checkIntegration ('loadconditions2').then (function () {
 	require('../seed-data/loadconditions')();
 });
 

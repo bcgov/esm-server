@@ -1,37 +1,4 @@
 'use strict';
-// -------------------------------------------------------------------------
-//
-// A shared controller for add/edit
-//
-// -------------------------------------------------------------------------
-var addEdit = function (which, $scope, $state, condition, ConditionModel, TopicModel, pillars, projecttypes, stages, codeFromTitle) {
-	$scope.condition = condition;
-	$scope.sectors = projecttypes;
-	$scope.pillars = pillars;
-	$scope.stages  = stages;
-	$scope.save = function () {
-		$scope.condition.code = codeFromTitle ($scope.condition.name);
-		var p = (which === 'add') ? ConditionModel.add ($scope.condition) : ConditionModel.save ($scope.condition);
-		p.then (function (model) {
-			$state.transitionTo('admin.condition.list', {}, {
-	  			reload: true, inherit: false, notify: true
-			});
-		})
-		.catch (function (err) {
-			console.error (err);
-			alert (err);
-		});
-	};
-	$scope.selectTopic = function () {
-		if (!$scope.condition.pillar) return;
-		TopicModel.getTopicsForPillar ($scope.condition.pillar).then (function (topics) {
-			console.log ('topics = ', $scope.topics);
-			$scope.topics = topics;
-			$scope.$apply();
-		});
-	};
-	$scope.selectTopic ();
-};
 // =========================================================================
 //
 // condition routes (under admin)
@@ -101,7 +68,26 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			}
 		},
 		controller: function ($scope, $state, condition, ConditionModel, TopicModel, pillars, projecttypes, stages, codeFromTitle) {
-			addEdit ('add', $scope, $state, condition, ConditionModel, TopicModel, pillars, projecttypes, stages, codeFromTitle);
+			console.log ('add condition = ', condition);
+			$scope.condition = condition;
+			console.log ('condition = ', condition);
+			$scope.sectors = projecttypes;
+			$scope.pillars = pillars;
+			$scope.stages  = stages;
+			var which = 'add';
+			$scope.save = function () {
+				$scope.condition.code = codeFromTitle ($scope.condition.name);
+				var p = (which === 'add') ? ConditionModel.add ($scope.condition) : ConditionModel.save ($scope.condition);
+				p.then (function (model) {
+					$state.transitionTo('admin.condition.list', {}, {
+			  			reload: true, inherit: false, notify: true
+					});
+				})
+				.catch (function (err) {
+					console.error (err);
+					alert (err);
+				});
+			};
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -118,7 +104,30 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			}
 		},
 		controller: function ($scope, $state, condition, ConditionModel, TopicModel, pillars, projecttypes, stages, codeFromTitle) {
-			addEdit ('edit', $scope, $state, condition, ConditionModel, TopicModel, pillars, projecttypes, stages, codeFromTitle);
+			console.log ('edit condition = ', condition);
+			$scope.condition = condition;
+			console.log ('condition = ', condition);
+			$scope.sectors = projecttypes;
+			$scope.pillars = pillars;
+			$scope.stages  = stages;
+			console.log ('stages:', $scope.stages);
+			console.log ('condition.stage:',condition.stages);
+			console.log ($scope.pillars);
+
+			var which = 'edit';
+			$scope.save = function () {
+				$scope.condition.code = codeFromTitle ($scope.condition.name);
+				var p = (which === 'add') ? ConditionModel.add ($scope.condition) : ConditionModel.save ($scope.condition);
+				p.then (function (model) {
+					$state.transitionTo('admin.condition.list', {}, {
+			  			reload: true, inherit: false, notify: true
+					});
+				})
+				.catch (function (err) {
+					console.error (err);
+					alert (err);
+				});
+			};
 		}
 	})
 	// -------------------------------------------------------------------------

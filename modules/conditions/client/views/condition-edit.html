@@ -4,15 +4,15 @@
 	<div class="block-content">
 		<div class="panel-body">
 		<div class="row">
-			<div class="col-sm-9">
+			<div class="col-sm-6">
 				<div class="form-group">
-					<label for="title" class="control-label">Condition Name</label>
-					<input id="title" type="text" class="form-control input-sm" ng-model="condition.name">
+					<label for="subject" class="control-label">Subject</label>
+					<input id="subject" type="text" class="form-control input-sm" ng-model="condition.subject">
 				</div>
 			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-6">
 				<div class="form-group">
-					<label for="sector" class="control-label">Project Sector</label>
+					<label for="sector" class="control-label">Sector</label>
 					<select id="sector" ng-model='condition.sector' class="form-control input-sm" ng-options="sector.id as sector.title for sector in sectors"></select>
 				</div>
 			</div>
@@ -21,7 +21,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
-					<label for="shortDesc" class="control-label">Condition Description</label>
+					<label for="shortDesc" class="control-label">Condition</label>
 					<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="condition.description" rows=6></textarea>
 				</div>
 			</div>
@@ -38,28 +38,17 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group">
-					<label for="pillar" class="control-label">Pillar</label>
-					<select ng-change="selectTopic(pillar)" id="pillar" ng-model='condition.pillar' class="form-control input-sm" ng-options="pillar.id as pillar.title for pillar in pillars"></select>
+					<label for="pillar" class="control-label">Pillars</label>
+					<select ng-multiple="true" multiple="true" id="pillar" ng-model='condition.pillars' class="form-control input-sm" ng-options="pillar.id as pillar.title for pillar in pillars"></select>
 				</div>
 			</div>
 
 			<div class="col-sm-6">
 				<div class="form-group">
-					<label for="stage" class="control-label">Project Stage</label>
-					<select id="stage" ng-model='condition.stage' class="form-control input-sm" ng-options="stage.id as stage.title for stage in stages"></select>
+					<label for="stage" class="control-label">Applicable Stages</label>
+					<select ng-multiple="true" multiple="true" id="stage" ng-model='condition.stages' class="form-control input-sm" ng-options="stage.id as stage.title for stage in stages"></select>
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="topics" class="control-label">Topics</label>
-					<select multiple id="topics" ng-model='condition.topics' class="form-control input-sm"
-					ng-options="topic.code as topic.name for topic in topics">
-					</select>
-				</div>
-			</div>
-
 		</div>
 
 		</div>

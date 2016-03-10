@@ -34,14 +34,14 @@
 		<div class="col-sm-6">
 			<div class="form-group">
 				<label for="pillar" class="input-label">Pillar</label>
-				<select ng-change="selectTopic(pillar)" id="pillar" ng-model='topic.pillar' class="form-control input-lg" ng-options="pillar as pillar for pillar in pillars"></select>
+				<select ng-change="selectTopic(pillar)" id="pillar" ng-model='topic.pillar' class="form-control input-lg" ng-options="pillar.id as pillar.title for pillar in pillars"></select>
 			</div>
 		</div>
 
 		<div class="col-sm-6">
 			<div class="form-group">
 				<label for="parent" class="input-label">Parent Topic</label>
-				<select id="parent" ng-model='topic.parent' class="form-control input-lg" ng-options="topic as topic for topic in pillartopics"></select>
+				<select id="parent" ng-model='topic.parent' class="form-control input-lg" ng-options="topic.code as topic.name for topic in pillartopics"><option></option></select>
 			</div>
 		</div>
 	</div>
