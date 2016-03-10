@@ -190,6 +190,11 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		},
 		controller: function ($scope, template) {
 			$scope.template = template;
+			$scope.dataset = {
+				execsummary: {
+					happy: 'Am I really happy?'
+				}
+			};
 		}
 
 	})
