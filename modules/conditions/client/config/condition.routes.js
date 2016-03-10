@@ -144,10 +144,11 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				return ConditionModel.getModel ($stateParams.conditionId);
 			}
 		},
-		controller: function ($scope, condition, pillars, types) {
+		controller: function ($scope, condition, pillars, projecttypes, stages) {
 			$scope.condition = condition;
-			$scope.types = types;
+			$scope.sectors = projecttypes;
 			$scope.pillars = pillars;
+			$scope.stages  = stages;
 		}
 	})
 

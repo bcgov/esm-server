@@ -1,0 +1,3 @@
+<p ng-repeat="item in sourceArray track by $index"
+	class="list-array-item"
+	ng-class="{'bg-primary': _.indexOf(selectedArray, item.id) > -1}">{{ item.title }}</p>

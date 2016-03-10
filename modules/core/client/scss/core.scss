@@ -1014,6 +1014,12 @@ h2.page-title {
 	fill: none;
 }
 
+
+.list-array-item {
+	margin-bottom: 3px;
+	padding: 3px 5px;
+}
+
 /*
 // --------------------------
 // ng-table and form styles
@@ -1030,25 +1036,6 @@ table thead tr.ng-table-sort-header {
 
 table thead tr.ng-table-filters {
 	background-color: $border-grey;
-}
-
-/*
-label, span.input-label {
-	font-size: 16px;
-	font-weight: bold;
-	display: block;
-	padding: 0 0 2px;
-	margin: 0 0 2px;
-	color: #A1A1A1;
-}
-*/
-
-.left-align {
-	padding-left: 0;
-}
-
-.button-panel {
-	margin-bottom: 20px;
 }
 
 /*

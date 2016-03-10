@@ -1,8 +1,17 @@
-<h1 class="page-title">
-	Add/Edit Condition
+<h1 class="page-title no-lower-margin">
+	Add / Edit Condition
 </h1>
-	<div class="block-content">
-		<div class="panel-body">
+
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="admin.condition.list">Cancel</a>
+		<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group">
@@ -39,23 +48,30 @@
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="pillar" class="control-label">Pillars</label>
-					<select ng-multiple="true" multiple="true" id="pillar" ng-model='condition.pillars' class="form-control input-sm" ng-options="pillar.id as pillar.title for pillar in pillars"></select>
+					<div class="well well-sm">
+						<select-array x-source-array="pillars" x-selected-array="condition.pillars"></select-array>
+					</div>
 				</div>
 			</div>
 
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="stage" class="control-label">Applicable Stages</label>
-					<select ng-multiple="true" multiple="true" id="stage" ng-model='condition.stages' class="form-control input-sm" ng-options="stage.id as stage.title for stage in stages"></select>
+					<div class="well well-sm">
+						<select-array x-source-array="stages" x-selected-array="condition.stages"></select-array>
+					</div>
 				</div>
 			</div>
 		</div>
-
+		
+		<hr>
+		
+		<div class="text-right">
+			<a class="btn btn-default" ui-sref="admin.condition.list">Cancel</a>
+			<a class="btn btn-default" href ng-click="save()">Save</a>
 		</div>
-	</div>
 
-<div class="button-panel">
-	<a class="btn btn-danger" ui-sref="admin.condition.list">Cancel</a>
-	<a class="btn btn-primary" href ng-click="save()">Save</a>
+	</div>
 </div>
+
 
