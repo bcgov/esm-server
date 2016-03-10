@@ -48,14 +48,18 @@
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="pillar" class="control-label">Pillars</label>
-					<div class="form-control-static" ng-bind-html="condition.pillars"></div>
+					<div class="well well-sm">
+						<display-array x-source-array="pillars" x-selected-array="condition.pillars"></display-array>
+					</div>
 				</div>
 			</div>
 
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="stage" class="control-label">Applicable Stages</label>
-					<select ng-multiple="true" multiple="true" id="stage" ng-model='condition.stages' class="form-control input-sm" ng-options="stage.id as stage.title for stage in stages"></select>
+					<div class="well well-sm">
+						<display-array x-source-array="stages" x-selected-array="condition.stages"></display-array>
+					</div>
 				</div>
 			</div>
 		</div>

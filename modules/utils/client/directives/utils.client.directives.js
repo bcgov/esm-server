@@ -2,6 +2,7 @@
 
 angular.module('utils')
     .directive('selectArray', directiveSelectArray)
+    .directive('displayArray', directiveDisplayArray)
 
     .directive('tmplQuickLinks', directiveQuickLinks)
     .directive('tmplRecentActivity', directiveRecentNews)
@@ -48,6 +49,28 @@ function directiveSelectArray() {
 		},
 		templateUrl: 'modules/utils/client/views/partials/select-array.html',
 		controller: 'controllerSelectArray'
+    };
+    return directive;
+}
+
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Display Array
+//
+// -----------------------------------------------------------------------------------
+directiveDisplayArray.$inject = [];
+/* @ngInject */
+function directiveDisplayArray() {
+	var directive = {
+     	restrict:'E',
+     	scope : {
+			sourceArray: '=',
+			selectedArray: '='
+		},
+		templateUrl: 'modules/utils/client/views/partials/display-array.html',
+		controller: function($scope, _) {
+			$scope._ = _;
+		}		
     };
     return directive;
 }
