@@ -14,8 +14,10 @@ var templateMeta = new mongoose.Schema ({
 });
 var templateSection = new mongoose.Schema ({
 	name     : { type:String, default:'' },
-	multiple : { type:Boolean, default:false },
 	optional : { type:Boolean, default:false },
+	multiple : { type:Boolean, default:false },
+	isheader : { type:Boolean, default:false },
+	isfooter : { type:Boolean, default:false },
 	template : { type:String, default:'' },
 	header   : { type:String, default:'' },
 	footer   : { type:String, default:'' },

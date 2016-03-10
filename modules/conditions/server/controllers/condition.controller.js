@@ -17,7 +17,7 @@ module.exports = DBModel.extend ({
 	// number. increment on post
 	//
 	// -------------------------------------------------------------------------
-	preProcessAdd: function (model) {
+	preprocessAdd: function (model) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			self.model.find ({})

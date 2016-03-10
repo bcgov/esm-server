@@ -7,45 +7,33 @@ angular.module ('templates')
 // directive for listing templates
 //
 // -------------------------------------------------------------------------
-.directive ('tmplTemplateList', function () {
+.directive ('tmplTemplateRender', function () {
 	return {
 		restrict: 'E',
+		scope: {
+			template: '=',
+			data: '='
+		},
 		templateUrl: 'modules/templates/client/views/template-list.html',
-		controller: 'controllerTemplateList',
-		controllerAs: 'data'
+		controller: function ($scope, _) {
+
+			var sectionControls
+
+			_.each ($scope.template.section, function (section) {
+				var sectionTemplate = '';
+				if (!section.multiple) {
+					sectionTemplate = section.template;
+				}
+				else {
+					if (section.isheader) {
+						sectionTemplate += section.header;
+					}
+					_.each ()
+				}
+			})
+		},
 	};
 })
-
-// -------------------------------------------------------------------------
-//
-// directive for adding or editing a template
-//
-// -------------------------------------------------------------------------
-.directive ('editTemplateModal', ['$modal','$rootScope', function ($modal, $rootScope) {
-	return {
-		restrict: 'A',
-		scope: {
-			collection: '=',
-			template: '=',
-			mode: '@'
-		},
-		link : function (scope, element, attrs) {
-			console.log('editTemplateModal is running');
-			element.on ('click', function () {
-				var modalView = $modal.open ({
-					animation    : true,
-					templateUrl  : 'modules/templates/client/views/template-edit.html',
-					controller   : 'controllerEditTemplateModal',
-					controllerAs : 'd',
-					scope        : scope,
-					size         : 'lg'
-				});
-				modalView.result.then (function (model) {
-					$rootScope.$broadcast('refreshTemplateList');
-				}, function () {});
-			});
-		}
-	};
-}])
+.
 
 ;

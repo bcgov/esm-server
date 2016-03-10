@@ -1,39 +1,56 @@
 'use strict';
-// -------------------------------------------------------------------------
-//
-// A shared controller for add/edit
-//
-// -------------------------------------------------------------------------
-var addEdit = function (which, $scope, $state, template, TemplateModel, TopicModel, types) {
-	$scope.template = template;
-	$scope.save = function () {
-		var p = (which === 'add') ? TemplateModel.add ($scope.template) : TemplateModel.save ($scope.template);
-		p.then (function (model) {
-			$state.transitionTo('admin.template.list', {}, {
-	  			reload: true, inherit: false, notify: true
-			});
-		})
-		.catch (function (err) {
-			console.error (err);
-			alert (err);
-		});
-	};
-	$scope.selectTopic = function () {
-		if (!$scope.template.pillar) return;
-		TopicModel.getTopicsForPillar ($scope.template.pillar).then (function (topics) {
-			console.log ('topics = ', $scope.topics);
-			$scope.topics = topics;
-			$scope.$apply();
-		});
-	};
-	$scope.selectTopic ();
-};
 // =========================================================================
 //
 // template routes (under admin)
 //
 // =========================================================================
 angular.module('core').config(['$stateProvider', function ($stateProvider) {
+	// -------------------------------------------------------------------------
+	//
+	// A shared controller for add/edit
+	//
+	// -------------------------------------------------------------------------
+	var addEdit = function (which, $scope, $state, template, TemplateModel, types) {
+		$scope.types    = types;
+		$scope.template = template;
+		$scope.which    = which;
+		// -------------------------------------------------------------------------
+		//
+		// add a new section to the template
+		//
+		// -------------------------------------------------------------------------
+		$scope.addSection = function () {
+			TemplateModel.newSection ().then (function (s) {
+				$scope.template.sections.push (s);
+				$scope.$apply ();
+			});
+		};
+		// -------------------------------------------------------------------------
+		//
+		// add a variable to the meta data area that will get replaced in the
+		// template
+		//
+		// -------------------------------------------------------------------------
+		$scope.addVariable = function (meta) {
+			TemplateModel.newMeta ().then (function (m) {
+				meta.push (m);
+				$scope.$apply ();
+			});
+		};
+		$scope.save = function () {
+			var p = (which === 'add') ? TemplateModel.add ($scope.template) : TemplateModel.save ($scope.template);
+			p.then (function (model) {
+				$state.transitionTo('admin.template.list', {}, {
+		  			reload: true, inherit: false, notify: true
+				});
+			})
+			.catch (function (err) {
+				console.error (err);
+				alert (err);
+			});
+		};
+	};
+
 	$stateProvider
 	// -------------------------------------------------------------------------
 	//
@@ -48,6 +65,9 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		resolve: {
 			templates: function ($stateParams, TemplateModel) {
 				return TemplateModel.currentTemplates ();
+			},
+			types: function (DOCUMENT_TEMPLATE_TYPES) {
+				return DOCUMENT_TEMPLATE_TYPES;
 			}
 		}
 	})
@@ -76,13 +96,48 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		resolve: {
 			template: function (TemplateModel) {
 				return TemplateModel.getNew ();
-			},
-			types: function (DOCUMENT_TEMPLATE_TYPES) {
-				return DOCUMENT_TEMPLATE_TYPES;
 			}
 		},
 		controller: function ($scope, $state, template, TemplateModel, types) {
 			addEdit ('add', $scope, $state, template, TemplateModel, types);
+			// $scope.types    = types;
+			// $scope.template = template;
+			// var which       = 'add';
+			// // -------------------------------------------------------------------------
+			// //
+			// // add a new section to the template
+			// //
+			// // -------------------------------------------------------------------------
+			// $scope.addSection = function () {
+			// 	TemplateModel.newSection ().then (function (s) {
+			// 		$scope.template.sections.push (s);
+			// 		$scope.$apply ();
+			// 	});
+			// };
+			// // -------------------------------------------------------------------------
+			// //
+			// // add a variable to the meta data area that will get replaced in the
+			// // template
+			// //
+			// // -------------------------------------------------------------------------
+			// $scope.addVariable = function (meta) {
+			// 	TemplateModel.newMeta ().then (function (m) {
+			// 		meta.push (m);
+			// 		$scope.$apply ();
+			// 	});
+			// };
+			// $scope.save = function () {
+			// 	var p = (which === 'add') ? TemplateModel.add ($scope.template) : TemplateModel.save ($scope.template);
+			// 	p.then (function (model) {
+			// 		$state.transitionTo('admin.template.list', {}, {
+			//   			reload: true, inherit: false, notify: true
+			// 		});
+			// 	})
+			// 	.catch (function (err) {
+			// 		console.error (err);
+			// 		alert (err);
+			// 	});
+			// };
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -96,13 +151,10 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		resolve: {
 			template: function ($stateParams, TemplateModel) {
 				return TemplateModel.getModel ($stateParams.templateId);
-			},
-			types: function (DOCUMENT_TEMPLATE_TYPES) {
-				return DOCUMENT_TEMPLATE_TYPES;
 			}
 		},
-		controller: function ($scope, $state, template, TemplateModel, TopicModel, types) {
-			addEdit ('edit', $scope, $state, template, TemplateModel, TopicModel, types);
+		controller: function ($scope, $state, template, TemplateModel, types) {
+			addEdit ('edit', $scope, $state, template, TemplateModel, types);
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -122,6 +174,24 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		controller: function ($scope, template) {
 			$scope.template = template;
 		}
+	})
+	// -------------------------------------------------------------------------
+	//
+	// this is used to test the template editing
+	//
+	// -------------------------------------------------------------------------
+	.state ('admin.template.test', {
+		url: '/:templateId/test',
+		templateUrl: 'modules/templates/client/views/template-test.html',
+		resolve: {
+			template: function ($stateParams, TemplateModel) {
+				return TemplateModel.getModel ($stateParams.templateId);
+			}
+		},
+		controller: function ($scope, template) {
+			$scope.template = template;
+		}
+
 	})
 
 	;

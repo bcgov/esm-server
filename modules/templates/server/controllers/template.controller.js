@@ -11,13 +11,29 @@ var _         = require ('lodash');
 module.exports = DBModel.extend ({
 	name : 'Template',
 	plural : 'templates',
-	preProcessAdd: function (model) {
-		model.versionNumber++;
-		return model;
+	preprocessAdd: function (model) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.getCurrentType (model.documentType).then (function (latest) {
+				if (latest && latest.versionNumber) {
+					model.versionNumber = latest.versionNumber + 1;
+				} else {
+					model.versionNumber++;
+				}
+				return model;
+			})
+			.then (resolve, reject);
+		});
 	},
-	preProcessUpdate: function (model) {
-		model.versionNumber++;
-		return model;
+	preprocessUpdate: function (model) {
+		console.log ('updating model', model);
+		console.log ('this = ', this);
+		var self = this;
+			model = model.toObject ();
+			delete model._id;
+			var newmodel = new self.model (model);
+			newmodel.versionNumber++;
+			return newmodel;
 	},
 	getCurrentType: function (documentType) {
 		var self = this;
@@ -25,7 +41,7 @@ module.exports = DBModel.extend ({
 			self.findFirst ({documentType:documentType},null,{versionNumber:-1})
 			.then (function (docs) {
 				if (docs[0]) return docs[0];
-				else return {};
+				else return null;
 			})
 			.then (resolve, reject);
 		});
@@ -55,9 +71,9 @@ module.exports = DBModel.extend ({
 			    { "$group": {
 			        "_id": "$documentType",
 			        "id": {"$first": "$_id"},
-			        "documentTyp": {"$first": "$documentType"},
+			        "documentType": {"$first": "$documentType"},
 			        "versionNumber": { "$first": "$versionNumber" },
-			        "sections": { "$first": "$sections" }
+			        "dateUpdated": { "$first": "$dateUpdated" }
 			    }}
 			], function (err, result) {
 				if (err) return reject (err);

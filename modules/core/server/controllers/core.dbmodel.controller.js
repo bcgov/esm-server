@@ -70,7 +70,8 @@ _.extend (DBModel.prototype, {
 			'addPermissions',
 			'decoratePermission',
 			'permissions',
-			'preprocessAdd'
+			'preprocessAdd',
+			'preprocessUpdate'
 		]);
 		if (this.bind) _.bindAll (this, this.bind);
 		this.user = user;
