@@ -9,10 +9,9 @@
 	<div class="col-sm-12">
 		<section class="panel panel-default">
 			<table ng-table="tableParams" class="table table-condensed table-bordered table-striped">
-				<tr ng-repeat="o in $data" ui-sref="admin.topic.detail({conditionId:o._id})">
-					<td data-title="'Code'"    filter="{'code':'text'}"       sortable="'code'"    >{{o.code}}</td>
-					<td data-title="'Subject'" filter="{'subject':'text'}"    sortable="'subject'" >{{o.subject}}</td>
+				<tr ng-repeat="o in $data" ui-sref="admin.condition.detail({conditionId:o._id})">
 					<td data-title="'Sector'"  filter="{'sector':'select'}"   sortable="'sector'"  filter-data="ptypes" >{{o.sector}}</td>
+					<td data-title="'Subject'" filter="{'subject':'text'}"    sortable="'subject'" >{{o.subject}}</td>
 					<td data-title="'Stages'"   filter="{'stages':'text'}"  sortable="'stages'" >{{o.stageString}}</td>
 					<td data-title="'Pillars'"  filter="{'pillars':'text'}" sortable="'pillars'"  >{{o.pillarString}}</td>
 					<td>

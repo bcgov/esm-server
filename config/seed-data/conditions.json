@@ -636,7 +636,7 @@
     "stages":"Construction",
     "description":"The Proponent must insert specific language in the bid documents to encourage local suppliers of goods and services to establish partnerships with First Nations firms in order to establish qualifications of First Nations in the bidding process for construction contracts.",
     "subject":"Business Opportunities",
-    "pillar":["Economic, Aboriginal "],
+    "pillar":["Economic", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -756,7 +756,7 @@
     "stages":"",
     "description":"The Proponent must provide start-up support for an elder/youth camp program and/or a community language/traditional skills program, subject to an agreement with Fort Nelson First Nation.",
     "subject":"Cultural Awareness Training; Traditional Knowledge",
-    "pillar":["Economic, Aboriginal "],
+    "pillar":["Economic", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -772,7 +772,7 @@
     "stages":"Operations",
     "description":"The Proponent must provide their Emergency Response Plan, including applicable contacts, one month before operations commence for the Project, to Fort Nelson First Nation and Dene Thaï¿½ First Nation.",
     "subject":"Emergency Plan",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -828,7 +828,7 @@
     "stages":"Construction, Decommissioning",
     "description":"The Restoration and Vegetation Management Plan referenced in Commitment #63 must cover the RoW. The Restoration and Vegetation Management Plan must provide opportunities for the Fort Nelson First Nation and the Dene Thaï¿½ First Nation to participate in pre-construction surveys to identify the presence of traditional use plants along the RoW.  The Restoration and Vegetation Management Plan must include direction for the restoration of:\nï¿½ All temporary workspace and other temporary disturbance required during construction; and,\nï¿½ All disturbance caused by the construction of the pipeline, well A and well B, and RoW, except where safety requirements or the presence of infrastructure prevents this.",
     "subject":"Management and Monitoring Plans; Aboriginal; Traditional Knowledge",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -1548,7 +1548,7 @@
     "stages":"All",
     "description":"If the DNC proposes to change the Project plans with respect to the general location of the proposed pumping station, wells, watermains, or reservoir, (i.e., outside the area previously surveyed), the DNC will contact the Manager, Permitting and Assessment Section, Archaeology Branch, BC Ministry of Tourism, Culture and the Arts, for further direction on whether additional archaeological inventory is required and will also contact the Hulï¿½qumiï¿½num Treaty Group and the Halalt First Nation.",
     "subject":"Archaeology",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Water Management "
   },
   {
@@ -1660,7 +1660,7 @@
     "stages":"Pre-Construction",
     "description":"The Holder must develop and implement a Caribou Mitigation and Monitoring Plan (CMMP) in consultation with FLNR, EC and OGC for the areas identified by FLNR as the Hart and Telkwa caribou ranges (Caribou Ranges).\n\nA Qualified Professional must develop and supervise the implementation of the CMMP. The CMMP must address the following objectives (CMMP Objectives) respecting the Construction and Operation of the Project:\nï¿½ avoidance of displacement and sensory disturbance of caribou in the Caribou Ranges;\nï¿½ no net loss of caribou habitat in the Caribou Ranges; and\nï¿½ avoidance of increased predation of caribou in the Caribou Ranges.\n\nThe CMMP must be consistent with BCï¿½s Policy for Mitigating Impacts on Environmental Values.\n\nThe CMMP must describe the Holderï¿½s:\nï¿½ strategies for achieving the CMMP Objectives, including, but not limited to:\no mitigation to avoid, minimize, or complete restoration in response to the adverse effects of the Project and the Projectï¿½s contribution to cumulative adverse effects on caribou and high quality caribou habitat (primary mitigation); and\no mitigation to offset residual adverse effects if the primary mitigation is not expected to achieve the objectives within five years (offset mitigation);\nï¿½ plan to monitor and assess:\no the effectiveness of primary and offset mitigation; and\no whether the objectives are being achieved;\nï¿½ adaptive management approach to respond to monitoring and assessment results;\nï¿½ plan to report on the implementation of the CMMP; and\nï¿½ plan to engage with Aboriginal Groups with traditional territories affected by the Project that overlap Caribou Ranges, as well as EC, OGC, and FLNR, throughout the implementation of the CMMP.\n\nThe Holder must:\nï¿½ provide a reasonable opportunity to Aboriginal Groups that have traditional territories affected by the Project, that overlap Caribou Ranges, as well as EC, OGC and FLNR to review and provide input regarding the content of the CMMP; and\nï¿½ prepare a report to accompany the submission of the CMMP describing how input received from Aboriginal Groups that have traditional territories affected by the Project that overlap Caribou Ranges, EC, OGC and FLNR was addressed in the CMMP.\n\nIn order to allow for 60 days review and comment, the Holder must provide the CMMP to EAO no less than 90 days prior to the Holderï¿½s planned date to commence Construction. The Holder must not start Construction in the Caribou Ranges until the Plan has been approved by EAO, unless otherwise authorized by EAO.\n\nOnce approved the Holder must provide the CMMP to FLNR, EC and OGC. \n\nAny amendments to the CMMP as a result of the adaptive management approach must be developed in consultation with FLNR, and approved by EAO.\n",
     "subject":"Management and Monitoring Plans; Qualified Professional; Wildlife and Wildlife Habitat",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -1708,7 +1708,7 @@
     "stages":"All",
     "description":"The Holder must use alternative methods of vegetation control, as specified in the Holderï¿½s Invasive Plant Management Plan, in the asserted territories of Aboriginal Groups that have requested that pesticides or herbicides not be used, and tracked in the Working Group Issue-Response Tracking Table (including First Nations) for the Coastal GasLink Pipeline Project, provided those alternative methods are consistent with the Integrated Pest Management Act.",
     "subject":"Vegetation",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -1804,7 +1804,7 @@
     "stages":"All",
     "description":"The Holder must, at the request of one or more Aboriginal Groups:\n(i) provide a schedule of Construction activities;\n(ii) provide notification, a minimum of 30 days in advance, of Operations activities causing disturbance to land, vegetation or watercourses; and\n(iii) prior to providing (i) and (ii), the Holder must seek input from the Aboriginal Group(s) about the format of the information.\n\nIn addition, the Holder must, at the request of one or more Aboriginal Groups:\nï¿½ provide any plans for offsets on aquatic, riparian, or in-stream values required by any RRA, for information sharing purposes prior to submission to the RRA; and\nï¿½ discuss the development of the EMP set out in Condition 26, as well as any plans set out in this Table of Conditions, and other relevant plans developed to meet regulatory requirements.\n\nIf Aboriginal Groups provide TUS or TEK to the Holder after the date of this EAC, the Holder must consider the TUS and or TEK in authorization applications related to the Construction or Operation of the Project.\n",
     "subject":"Traditional Use",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -2068,7 +2068,7 @@
     "stages":"Pre-Construction",
     "description":"During Project design, the Proponent must seek input directly from, or require that the Contractor seek input directly from the affected municipality and First Nations regarding the location, condition, and values of all watercourses intersected or otherwise affected by the Project within that municipality.  On the basis of anticipated Project-related impacts to aquatic and/or riparian habitats, the Proponent or the Contractor must identify, review and seek input from the municipality and First Nations regarding mutually acceptable mitigation measures to be used to avoid or minimize adverse impacts to these watercourses.  ",
     "subject":"Consultation; Fish and Fish Habitat",
-    "pillar":["Environmental, Social, Aboriginal "],
+    "pillar":["Environmental", "Social", "Aboriginal"],
     "sector":"Transportation"
   },
   {
@@ -2076,7 +2076,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"During Project design and construction, the Proponent and the Contractor must seek input directly from the affected municipality and First Nations to identify and implement mutually acceptable, cost-effective mitigation measures to address impacts to watercourses intersected or otherwise affected by the Project, provided that the failure to identify and implement mutually acceptable measures will not result in a  default, breach of, or noncompliance with any requirement or condition of the Environmental Assessment Certificate  and the Proponent / Contractor  may proceed with the work. ",
     "subject":"Consultation; Fish and Fish Habitat",
-    "pillar":["Environmental, Social, Aboriginal "],
+    "pillar":["Environmental", "Social", "Aboriginal"],
     "sector":"Transportation"
   },
   {
@@ -2084,7 +2084,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"During Project design, the Proponent must seek input directly from, or require that the Contractor seek input directly from, the affected municipality and First Nations during the development of proposed habitat compensation designs pursuant to the application for a Section 35(2) Authorization under the federal Fisheries Act.",
     "subject":"Consultation; Fish and Fish Habitat",
-    "pillar":["Environmental, Social, Aboriginal "],
+    "pillar":["Environmental", "Social", "Aboriginal"],
     "sector":"Transportation"
   },
   {
@@ -2100,7 +2100,7 @@
     "stages":"Pre-Construction",
     "description":"In the event that, during detailed design, it is determined that culverting of either Kyle Creek or Slaughterhouse Creek will be necessary within the Project alignment, the Proponent must seek input from, or require that the Contractor seek input from, the City of Port Moody and First Nations regarding mutually acceptable, cost-effective measures to be used to mitigate/compensate for any associated aquatic and/or riparian impacts. ",
     "subject":"Consultation; Fish and Fish Habitat",
-    "pillar":["Environmental, Social, Aboriginal "],
+    "pillar":["Environmental", "Social", "Aboriginal"],
     "sector":"Transportation"
   },
   {
@@ -2340,7 +2340,7 @@
     "stages":"Pre-Construction",
     "description":"During station area design, the Proponent commits to engage and seek input from, or require that the Contractor engage with and seek input from, the City of Burnaby, City of Port Moody, City of Coquitlam and First Nations and to incorporate agreed upon station design elements to address issues such as, but not necessarily limited to, visual aesthetics, including rooftop features, hard and soft landscaping, parking, bicycle storage, passenger loading, signage, public amenities, lighting, protection of community safety, and noise mitigation.  ",
     "subject":"Consultation; Land and Resource Use",
-    "pillar":["Social, Aboriginal "],
+    "pillar":["Social", "Aboriginal"],
     "sector":"Transportation"
   },
   {
@@ -2580,7 +2580,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"During detailed design and construction, the Proponent must explore opportunities with the municipalities and First Nations and incorporate mutually acceptable and cost-effective public art and First Nations art into the Project.  ",
     "subject":"Cultural and Heritage Resources",
-    "pillar":["Social, Aboriginal "],
+    "pillar":["Social", "Aboriginal"],
     "sector":"Transportation"
   },
   {
@@ -3124,7 +3124,7 @@
     "stages":"All",
     "description":"Prior to the start of construction, the EAC Holder must retain an Aboriginal Environmental Monitor to assist the independent Environmental Monitor with sampling, inspections, and reporting related to the mitigation measures and Plans. The EAC Holder must, prior to the start of construction, meet with interested First Nations (FNFN, DTFN) and Aboriginal groups (Acho Dene Koe First Nation (ADK), Fort Liard Mï¿½tis (FLM)) to discuss the role of the Aboriginal environmental monitor during the construction and operation phases of the Project. The EAC Holder must provide details regarding the role of the Aboriginal environmental monitor in the Construction Environmental Management Plan and Operations Environmental Management Plan.",
     "subject":"Environmental Monitor",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -3164,7 +3164,7 @@
     "stages":"Pre-Construction",
     "description":"Prior to construction, the EAC holder must contact and offer to meet with FNFN and DTFN regarding their involvement in environmental and compliance monitoring, reporting and adaptive management for the Project. The EAC Holder must make reasonable efforts to meet with FNFN and DTFN and provide details regarding their proposed involvement in environmental and compliance monitoring, reporting, and adaptive management for the Project as set out in the Plans.",
     "subject":"Compliance Report; Consultation",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -3316,7 +3316,7 @@
     "stages":"Construction",
     "description":"Prior to construction, the EAC Holder must seek the input of interested First Nations (FNFN, DTFN) and Aboriginal groups (ADK, FLM) in preparing an inventory of traditional use plants and invasive species within the Project footprint, as identified in the Certified Project Description, or within a geographic area agreed to by the EAC Holder and interested First Nations (FNFN, DTFN) and Aboriginal groups (ADK, FLM). The EAC Holder must set out the inventory of traditional use plants and invasive species in the Vegetation Management Plan. ",
     "subject":"Consultation; Traditional Use; Vegetation",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -3836,7 +3836,7 @@
     "stages":"Pre-Construction",
     "description":"In consultation with First Nations and stakeholders, BCTC will develop and implement an access plan to assist in the management of appropriate road access through adjacent forest land and across, or along, the right-of-way in accordance with applicable legislation, permits and approvals, and ROW agreements.  First Nations will be provided an opportunity to review the Project access management plan during construction, and where feasible and warranted, modifications or refinements to the plan will be made.",
     "subject":"Management and Monitoring Plans; Access; Consultation; Land and Resource Use ",
-    "pillar":["Social, Aboriginal "],
+    "pillar":["Social", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -3900,7 +3900,7 @@
     "stages":"Pre-Construction",
     "description":"BCTC will prepare a spill contingency plan for the Ruby Creek Series Capacitor Station prior to operation of the Project.  BCTC will provide opportunities to the Skawahlook First Nation to review and comment on the spill contingency plan for the Ruby Creek Series Capacitor Station.",
     "subject":"Emergency Plan; Consultation; Spills",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -4012,7 +4012,7 @@
     "stages":"Construction",
     "description":"BCTC will conduct archaeological and heritage monitoring with First Nations assistants during construction in select areas of high archaeological significance in accordance with its permit conditions under the Heritage Conservation Act.  For monitoring actions conducted within their traditional territories, activities would also comply with the standard terms and conditions of the policies and procedures of the respective First Nations.  BCTC will suspend work in the event that a suspected archaeological site is uncovered during any phase of the ILM Project, and the Project supervisor will be required to contact the Archaeology Branch and the relevant First Nation communities and/or organizations for direction.",
     "subject":"Management and Monitoring Plans; Archaeology ",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -4204,7 +4204,7 @@
     "stages":"Construction",
     "description":"Procurement to engage contractors during construction of the transmission line will be publicly advertised and open to all qualified businesses including First Nations.  BCTC will include requirements in the materials and construction contract(s) to employ and subcontract to competitive, qualified First Nations businesses, if available, to work on the Project.ï¿½ Work not included in the contractorsï¿½ scope will be reviewed and opportunities made available to qualified and competitive First Nations businesses. ",
     "subject":"Business Opportunities; Employment and Training",
-    "pillar":["Social, Economic, Aboriginal "],
+    "pillar":["Social", "Economic", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -4436,7 +4436,7 @@
     "stages":"Pre-Construction",
     "description":"Prior to the commencement of construction of the Project, the EAC Holder must develop, and make reasonable efforts to consult with the Nisgaï¿½a Lisims Government and the Metlakatla First Nation on, a document that describes, in detail, the Aquatic Effects Monitoring Program. \n\nThe Aquatic Effects Monitoring Program must include, at a minimum, all of the elements described in Section 7.5 of the Certified Project Description. The EAC Holder must obtain the approval of the Ministry of Environment and Environmental Assessment Office for the Program. The Program must be implemented. \n",
     "subject":"Consultation; Fish and Fish Habitat",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -4444,7 +4444,7 @@
     "stages":"Pre-Construction",
     "description":"Prior to the commencement of construction of the Project, the EAC Holder must develop, and make reasonable efforts to consult with the Nisgaï¿½a Lisims Government and the Metlakatla First Nation on, a document that describes, in detail, the Marine Environment Monitoring Program. \n\nThe Marine Environment Monitoring Program must include, at a minimum, all of the elements described in Section 7.6 of the Certified Project Description. The \nEAC Holder must obtain the approval of the Ministry of Environment and Environmental Assessment Office for the Program. The Program must be implemented. \n\nThe EAC Holder must collect, summarize and assess at least two years of baseline data in the marine environment prior to the commencement of operations.",
     "subject":"Consultation; Fish and Fish Habitat",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -4532,7 +4532,7 @@
     "stages":"Pre-Construction",
     "description":"Within six months of the issuance of the Environmental Assessment Certificate, the EAC Holder must complete, to the approval of Environmental Assessment Office and the Ministry of Aboriginal Relations and Reconciliation, the following management and mitigation plans consistent with the frameworks described in Section 8 of the Certified Project Description: \nï¿½ Social and Cultural Management Plan (Section 8.1);\nï¿½ Recruitment, Training, and Employment Plan (Section 8.2);\nï¿½ Business Capacity Plan (Section 8.3);\nï¿½ Economic Closure Plan (Section 8.4); and,\nï¿½ Communications Plan (Section 8.5).\nPrior to submitting the Plans the EAC Holder must take reasonable efforts to consult the Nisgaï¿½a Lisims Government. The Plans, along with a description of the efforts taken and results of consultations with the Nisgaï¿½a Lisims Government, must be provided to Environmental Assessment Office and the Ministry of Aboriginal Relations and Reconciliation. The EAC Holder must obtain the approval of Environmental Assessment Office and the Ministry of Aboriginal Relations and Reconciliation for the Plans. The actions described in the Plans must be implemented.",
     "subject":"Management and Monitoring Plans",
-    "pillar":["Social, Economic, Aboriginal "],
+    "pillar":["Social", "Economic", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -4564,7 +4564,7 @@
     "stages":"All",
     "description":"The Proponent must carry out consultation activities as detailed in the Public and First Nations Consultation Plans submitted to Transport Canada.",
     "subject":"Consultation",
-    "pillar":["Social, Aboriginal "],
+    "pillar":["Social", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -4860,7 +4860,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"Prior to Project construction, the Proponent must develop an Archaeological Resources Monitoring Plan (see commitment 1) that includes measures to protect, monitor and, where necessary, assess and recover artefacts from archaeological sites that are found in the Project area during Project construction.  The Proponent must provide the plan to the ï¿½Namgis First Nation for review and comment.\n\nDuring Project construction, the Proponent must implement the plan and ensure that any recovery of artefacts is done under the direction of a qualified archaeological professional.",
     "subject":"Archaeology",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -5804,7 +5804,7 @@
     "stages":"Construction, Operations",
     "description":"All disturbed areas (beyond the footprint of each facility) will be reclaimed (contoured and planted with native species) following construction activities.  The details of reclamation and re-vegetation prescriptions will be provided in the CEMP and monitoring for determining success of planting will be in the OEMP.  MOFR, MOE and First Nations will be consulted on species to be used prior to construction.",
     "subject":"Vegetation; Consultation",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -5980,7 +5980,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"Prior to construction, KCRLP will develop an Archaeological Monitoring and Management Plan, in consultation with First Nations and the Archaeology Branch of the Ministry of Tourism, Culture and Arts, that will include the following specifications:  (1) archaeological monitor(s) will be on-site during the most disruptive periods and will have the authority to suspend construction activities where they are found to be in conflict with a previously unidentified archaeological site; and, (2) mitigation measures will be undertaken in consultation with First Nations and the Archaeology Branch.\n\nAny archaeological findings will be treated in a respectful manner and reported to First Nations and the Archeology Branch.  All reasonable efforts will be made to avoid impacting known and unknown archaeological sites.  In the event avoidance is not possible, KCRLP will retain a qualified archaeologist and apply for a permit to excavate and recover artifacts at sites that may be impacted by project facilities, in consultation with First Nations.  ",
     "subject":"Management and Monitoring Plans; Archaeology ",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -6004,7 +6004,7 @@
     "stages":"Construction",
     "description":"KCRLP will encourage training programs that will maximize the First Nations employment opportunities.  KCRLP will give preference to contractors that commit to and have a track record of providing training and employment opportunities to local First Nations members.  The selected contractors will be required to host a job fair in the local community prior to starting construction.  First Nations employment and contracting will be tracked during construction.",
     "subject":"Employment and Training",
-    "pillar":["Economic, Aboriginal "],
+    "pillar":["Economic", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -6108,7 +6108,7 @@
     "stages":"All",
     "description":"The Holder must provide web based access to the plans and reports identified in this Table of Conditions, in electronic format to:\nï¿½ all provincial and federal government agencies, including, but not limited to EAO, MEM, FLNR, ENV, DFO and EC;\nï¿½ the Regional District of East Kootenay, and the District of Sparwood; and \nï¿½ Ktunaxa Nation.\n\nThe Holder must ensure that the plans and reports are accessible throughout the life of the Project.",
     "subject":"Communication",
-    "pillar":["Social, Aboriginal "],
+    "pillar":["Social", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -6284,7 +6284,7 @@
     "stages":"All",
     "description":"The Holder must only use archaeologists on the Holderï¿½s properties in the Elk Valley who are accepted by Ktunaxa Nation, acting reasonably, as duly qualified for such work.\nThe Holder must provide Ktunaxa Nation with reasonable notice and access to the Holderï¿½s Properties to monitor and oversee any archaeological work on the Holderï¿½s Properties.\n",
     "subject":"Archaeology",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -6556,7 +6556,7 @@
     "stages":"Construction",
     "description":"The Proponent must ensure the development of construction boundaries for the main access road which minimize impact of road on areas with high mushroom potential.  The Proponent must require and ensure the Contractor(s) clearly mark construction boundaries on the Projectï¿½s main access road Right-of-Way Plan and require the Contractor(s) to flag the construction boundaries in the field to ensure the amount of clearing in areas of high mushroom potential within the main access road Right-of-Way, is kept to the minimum amount of area required for safely constructing the road.",
     "subject":"Vegetation; Land and Resource Use",
-    "pillar":["Environmental, Economic, Aboriginal "],
+    "pillar":["Environmental", "Economic", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -6564,7 +6564,7 @@
     "stages":"Construction",
     "description":"The Proponent must work with the Tahltan to develop permanent facilities for sorting mushrooms adjacent to harvesting grounds, prior to the start of Project operations.",
     "subject":"Land and Resource Use",
-    "pillar":["Economic, Aboriginal "],
+    "pillar":["Economic", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -6796,7 +6796,7 @@
     "stages":"Pre-Construction, Construction, Operations",
     "description":"The Holder must offer to each of the First Nations and implement a First Nation Environmental Technician Program during the pre-construction and construction phases and during operational monitoring. \nThe program must consider:\nï¿½ Traditional water use.\nï¿½ First Nations identification of plants of traditional importance.\n",
     "subject":"Traditional Use",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -7236,7 +7236,7 @@
     "stages":"Pre-Construction",
     "description":"BC Hydro will advertise and inform local employment centres (Revelstoke, Golden, Valemount, Nakusp, Sicamous, Salmon Arm) and interested First Nations Bands in the Columbia region about Project job opportunities and the hiring process in advance of Project construction.",
     "subject":"Employment and Training",
-    "pillar":["Economic, Aboriginal "],
+    "pillar":["Economic", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -7324,7 +7324,7 @@
     "stages":"Construction",
     "description":"BC Hydro will consider applicable First Nationsï¿½ Heritage Management Policies for future Archaeological work during Mica Unit 5 Project construction.",
     "subject":"Archaeology",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -7524,7 +7524,7 @@
     "stages":"Pre-Construction",
     "description":"BC Hydro will advertise and inform local employment centres (Revelstoke, Golden, Valemount, Nakusp, Sicamous, Salmon Arm) and interested First Nations Bands in the Columbia region about Project job opportunities and the hiring process in advance of Project construction.",
     "subject":"Employment and Training",
-    "pillar":["Economic, Aboriginal "],
+    "pillar":["Economic", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -7684,7 +7684,7 @@
     "stages":"Construction",
     "description":"In support of employment opportunities provided through the Columbia Hydro Constructors (CHC) Allied Hydro Council (AHC) Agreement, BC Hydro will:\n\nï¿½ Prepare information that summarizes the types of CHC jobs available, outline skills/experience required, explain the CHC hiring process, and provide contact information to interested First Nations. \nï¿½ Prepare information of other non-CHC job opportunities, skills and experience required and contractor contact information. \nï¿½ Notify and provide information to local employment centres (e.g., Valemount, Revelstoke, Golden, Nakusp, Salmon Arm, Sicamous) and interested First Nation communities in the Columbia Region (e.g., KNC, Columbia Lake, ONA, Okanagan, SNTC, Adams Lake, Little Shuswap, Neskonlith, Shuswap, Simpcw, Splatsin, Lheidli Tï¿½enneh Band). \nï¿½ Place advertisements in local newspapers as major contracts are awarded to inform residents of potential job opportunities and direct candidates to their local employment centres, the CHC, and project contractors. \n\nIn support of First Nations participation in major contracts, BC Hydro will, through contract language, include provisions to support employment, contracting and subcontracting to competitive, qualified First Nations businesses, if available.\n\nTo facilitate First Nations participation in Mica Unit 5 Project work that is not included under the CHC AHC Agreement, BC Hydro will adhere to its Aboriginal Procurement and Contracting Policy which outlines specific mechanisms to support contracting, procurement and business development opportunities for First Nations.",
     "subject":"Business Opportunities; Employment and Training",
-    "pillar":["Economic, Aboriginal "],
+    "pillar":["Economic", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -7724,7 +7724,7 @@
     "stages":"All",
     "description":"If requested by a First Nation consulted by EAO on this Amendment, the Holder must supply to the First Nation the updated management and monitoring plans that will be applied to the Project in Schedule A. ",
     "subject":"Management and Monitoring Plans",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -7924,7 +7924,7 @@
     "stages":"All",
     "description":"Establish a consultation and review process that provides for periodic reporting and comment on sustainability indicators and an on-going stakeholder forum process for discussing current and future initiatives. The primary mechanism for stakeholder and First Nation involvement will be a Community Sustainability Committee.",
     "subject":"Consultation",
-    "pillar":["Social, Aboriginal "],
+    "pillar":["Social", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -7932,7 +7932,7 @@
     "stages":"All",
     "description":"Publish an annual sustainability report for First Nations and local communities on Terraneï¿½s progress in implementing environmental stewardship, economic contributions and social development. An initial report will be prepared during construction and the first full report will be prepared following the first year of operations.",
     "subject":"Consultation",
-    "pillar":["Social, Aboriginal "],
+    "pillar":["Social", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -7940,7 +7940,7 @@
     "stages":"All",
     "description":"Continue to consult with First Nations and local communities of the socio-economic Regional Study Area on a regular basis throughout the life of the project and during key periods such as closure. If requested, provide them with copies of monthly and annual environmental reports submitted to government agencies.",
     "subject":"Consultation",
-    "pillar":["Social, Aboriginal "],
+    "pillar":["Social", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -7948,7 +7948,7 @@
     "stages":"All",
     "description":"Establish measurable sustainability goals and objectives in consultation with First Nations, local communities and regulatory agency representatives.",
     "subject":"Consultation",
-    "pillar":["Social, Aboriginal "],
+    "pillar":["Social", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -7964,7 +7964,7 @@
     "stages":"All",
     "description":"Develop a Sustainability Management Plan (SMP) that includes guidelines on community participation, means to address issues, complaints, criticisms, commendations or constructive advice and ways to build and support community organizations. The SMP will address First Nation and Non-First Nation communities and will be developed in consultation with local communities.",
     "subject":"Management and Monitoring Plans",
-    "pillar":["Social, Aboriginal "],
+    "pillar":["Social", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -8172,7 +8172,7 @@
     "stages":"Decommissioning",
     "description":"Further develop in consultation with regulatory agencies, First Nations and local communities the closure plan including progressive reclamation as described in Section 3.9 of the Application. At the end of mine operations, implement the approved closure plan.",
     "subject":"Consultation; Decommissioning; Reclamation",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -8180,7 +8180,7 @@
     "stages":"Operations",
     "description":"Establish a native plant nursery in year 10 of operations to provide native plant feedstock including, in consultation with First Nations, plants of traditional value for reclamation.",
     "subject":"Reclamation; Vegetation",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -8436,7 +8436,7 @@
     "stages":"All",
     "description":"Work closely with the employment and training officers in First Nations communities and Band Councils to establish conditions at the operation that supports a multi-cultural workforce and encourages their participation in the labour pool.",
     "subject":"Employment and Training",
-    "pillar":["Economic, Aboriginal "],
+    "pillar":["Economic", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -8484,7 +8484,7 @@
     "stages":"All",
     "description":"Work with First Nations groups to increase the participation of First Nation-owned businesses in providing goods and services to the project. Develop a business policy including processes to assist First Nations businesses in bidding contracts, and a published list of project requirements for goods and services.",
     "subject":"Business Opportunities",
-    "pillar":["Economic, Aboriginal "],
+    "pillar":["Economic", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -8588,7 +8588,7 @@
     "stages":"All",
     "description":"Continue to seek and use Traditional Knowledge (TK) throughout the life of the project.",
     "subject":"Traditional Use",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -8596,7 +8596,7 @@
     "stages":"Pre-Construction",
     "description":"Incorporate TK into the environmental assessment review and permitting process.",
     "subject":"Traditional Use",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -9860,7 +9860,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"With respect to any proposed systematic data recovery programs, the Proponent will provide opportunity for input to proposed methodologies, as required, prior to submission to the Archaeology Branch and will facilitate participation in any proposed study programs from the Metlakatla, Lax Kwï¿½alaams and Gitxaala First Nations. The Proponent will review Gitxaala Nation protocols regarding development projects and incorporate, as appropriate, into any proposed systematic data recovery program and will work cooperatively with the Gitxaala Nation in an effort to obtain the appropriate approvals for such recovery programs.",
     "subject":"Archaeology",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -10140,7 +10140,7 @@
     "stages":"Pre-Construction, Construction, Operations, Decommissioning",
     "description":"The Proponent will continue to work cooperatively with participating First Nations to expedite planning in relation to the training, employment, and economic provisions previously agreed to by NaiKun and the respective First Nations.",
     "subject":"Employment and Training",
-    "pillar":["Economic, Aboriginal "],
+    "pillar":["Economic", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -10188,7 +10188,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"The archaeological follow-up and monitoring program, and any related study designs, will incorporate traditional knowledge information made available by participating First Nations. The Proponent will seek the input and participation of the Metlakatla, Lax Kwï¿½alaams and Gitxaala First Nations (as appropriate) in any future study programs related to the marine cable corridor on the mainland side.",
     "subject":"Archaeology; Traditional Knowledge",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -10196,7 +10196,7 @@
     "stages":"Pre-Construction",
     "description":"The Proponent is committed to a series of avoidance strategies, mitigation measures, and management practices to ensure that potential effects to the environment, and all species endangered or not, are avoided, as presented in the commitments for marine and terrestrial biota. Final design and siting surveys will be conducted in order to confirm siting avoids sensitive habitats where possible and minimize encroachment. First Nations observations of sea turtles will be relayed to Project biologists in order that potential adverse effects be considered and mitigated, if necessary, under the adaptive management framework.",
     "subject":"Land and Resource Use; Fish and Fish Habitat; Wildlife and Wildife Habitat",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -10212,7 +10212,7 @@
     "stages":"Pre-Construction",
     "description":"Proponent will consult with DFO to assess feasible methods for monitoring pre and post cable laying activities, to address pelagic and benthic species affected by Project activities. NaiKun would welcome participation in these discussions by First Nations.\nProponent will use feasible method(s) for pre and post cable laying construction period follow_up and monitoring.\nAlthough sampling infauna in deep water (>20 m) is difficult and methods available are difficult to replicate in areas where changes in an area 5 m either side the cable may be required, the Proponent will work with relevant agencies to examine alternatives. This will include a test site on Dogfish Banks east of the offshore converter station; a review of applicability of sample methods to waters greater than 20 m (and typically over 100 m in Edye Pass area); and a test site near Ridley Island in waters < 20 m deep. Options for sampling for infauna in waters less than 20 m deep are significantly better than in deeper waters as divers can be used to establish reference sites for repeat surveys and this will be taken into account. This commitment will be undertaken with the understanding that substrates in these three areas have variations in the particle size of the sediments.\nThe results of the feasibility assessment will be reported to DFO, Haida Nation, Gitxaala Nation, Metlakatla First Nation and Lax Kwï¿½alaams First Nation, on a schedule to be determined in the study plan.",
     "subject":"Consultation; Fish and Fish Habitat",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -10668,7 +10668,7 @@
     "stages":"Operations",
     "description":"To  the satisfaction of the Ministry of Environment and in consultation with First Nations the proponent will evaluate the effectiveness of waterfowl landing deterrent measures in place at the facility and modify them if required. ",
     "subject":"Consultation; Wildlife and Wildlife Habitat",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Waste Disposal"
   },
   {
@@ -10972,7 +10972,7 @@
     "stages":"Construction",
     "description":"If the construction of the Project is to remove trees within an Old Growth Management Area, BC Hydro must consult with First Nations or Nisgaï¿½a Nation (where the areas are located within the asserted traditional territories of First Nations, and Nisgaï¿½a Lands, Nass Wildlife Area and Nass Area respectively), and the appropriate MNRO manager to discuss an approach and process to address the impact. ",
     "subject":"Consultation; Vegetation",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -11084,7 +11084,7 @@
     "stages":"Construction",
     "description":"BC Hydro will complete the Archeological Impact Assessment (AIA) to current provincial standards and report AIA results to the Archaeology Branch of Ministry of Natural Resources Operations (MNRO) in order to provide an opportunity for timely regulatory review and comment. Prior to any site disturbance, BC Hydro will implement measures approved by the Archaeology Branch to avoid or mitigate any impacts to significant archeological sites.\n\nBC Hydro will provide an opportunity for one member of each First Nation and one Nisgaï¿½a Nation citizen to participate on the AIA crew for any additional AIA work conducted on their traditional territories, or on Nisgaï¿½a Lands, Nass Wildlife Area and Nass Area respectively.",
     "subject":"Archaeology",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -11092,7 +11092,7 @@
     "stages":"Construction",
     "description":"The Access Plan must identify which existing roads will be used for construction access and where new roads will be constructed. The Access Plan must be updated and shared with First Nations and the Nisgaï¿½a Nation prior to seeking agency authorizations for road use and construction. As part of the construction and restoration phase, the Access Plan will be updated to identify which roads will be decommissioned and which roads will be retained for access during operation of the Project.",
     "subject":"Access",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -11276,7 +11276,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"In consultation with First Nations and Nisgaï¿½a Nation, BC Hydro must prepare the following component plans:",
     "subject":"Management and Monitoring Plans; Consultation",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -11284,7 +11284,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Archaeological Impact Management Plan",
     "subject":"Management and Monitoring Plans; Consultation",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -11292,7 +11292,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Communications Plan",
     "subject":"Management and Monitoring Plans; Consultation",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -11300,7 +11300,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Access Plan",
     "subject":"Management and Monitoring Plans; Consultation",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -11308,7 +11308,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Clearing Prescriptions.",
     "subject":"Management and Monitoring Plans; Consultation",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -11332,7 +11332,7 @@
     "stages":"Construction",
     "description":"In the ongoing development of the construction EMP, BC Hydro must consider traditional and contemporary use and knowledge information as made available to BC Hydro by First Nations and the NLG.",
     "subject":"Traditional Knowledge; Traditional Use",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -11388,7 +11388,7 @@
     "stages":"Pre-Construction, Construction, Operations, Decommissioning",
     "description":"The Holder must continue to implement the EAO-approved Aboriginal Consultation Plan (Plan for Procedural Aspects of Aboriginal Consultation dated January 2014), and the EAO-approved Public Consultation Plan (Pacific NorthWest LNG Community Consultation and Engagement Report February 6, 2014), for all phases of the Project. The implementation of these plans must include information sharing, discussion of site-specific mitigation measures, the development of specific environmental management plans, and any compensation plans developed to meet regulatory requirements of the Project.\n",
     "subject":"Consultation",
-    "pillar":["Social, Aboriginal "],
+    "pillar":["Social", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -11780,7 +11780,7 @@
     "stages":"Pre-Construction",
     "description":"If the final pipeline route overlaps with existing aquatic or riparian habitat restoration or compensation sites within Nis_aï¿½a Lands, the Holder must develop, in consultation with Nis_aï¿½a Nation, a Nis_aï¿½a Watercourse Restoration Plan with the objective of achieving no net loss of environmental function. \n\nIn order to allow for 15 days review and comment, the Holder must provide the plan to EAO and Nis_aï¿½a Nation no less than 30 days prior to the Holderï¿½s planned date to commence Construction in the area of the existing aquatic or riparian habitat restoration or compensation site. Once the plan is complete, the Holder must also provide the plan to OGC prior to the Holderï¿½s planned date to commence Construction.\n",
     "subject":"Fish and Fish Habitat; Vegetation; Water",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -11788,7 +11788,7 @@
     "stages":"Pre-Construction, Construction, Operations, Decommissioning",
     "description":"Develop and implement corporate policies (Policies) that will be made available on the Taseko website for reference during all phases of the Project. Current policies in place or under development comprise the Prosperity Sustainability framework and include:\na) Environment Policy (in place);\nb) Health and Safety Policy (in place);\nc) Code of Ethics and Trading Restrictions (in place);\nd) First Nations Long-term strategy for consultation and engagement (in place);\ne) Emergency Preparedness (under development); and,\nf) Responsible Resource Development (on-going development) Tasekoï¿½s goal is to develop the mineral resource while making certain that the construction, operations and closure of Prosperity are handled in a sustainable manner, including the primary responsibility of contributing towards the maintenance of healthy lands,  communities, resources and ecosystems for present and future generations. Moreover, Taseko is committed to ensuring the entire Project makes a net positive contribution to sustainability of lands, communities, resources and ecosystems over the long term.",
     "subject":"Management and Monitoring Plans",
-    "pillar":["Environmental, Health, Economic, Aboriginal "],
+    "pillar":["Environmental", "Health", "Economic", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -11796,7 +11796,7 @@
     "stages":"Pre-Construction, Construction, Operations, Decommissioning",
     "description":"Implement Prosperityï¿½s Sustainability Framework through the life of the Project.",
     "subject":"Management and Monitoring Plans",
-    "pillar":["Environmental, Health, Economic, Aboriginal "],
+    "pillar":["Environmental", "Health", "Economic", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -11804,7 +11804,7 @@
     "stages":"Pre-Construction, Construction, Operations, Decommissioning",
     "description":"Ensure that responsible site management, employees and contractors are familiar with these Policies, and their actions at all times comply with them and relevant acts, regulations, permits, licenses, authorizations and approvals.",
     "subject":"Management and Monitoring Plans",
-    "pillar":["Environmental, Health, Economic, Aboriginal "],
+    "pillar":["Environmental", "Health", "Economic", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -11836,7 +11836,7 @@
     "stages":"All",
     "description":"Work with First Nation Governments to encourage the formation and development of locally owned businesses.",
     "subject":"Business Opportunities",
-    "pillar":["Economic, Aboriginal "],
+    "pillar":["Economic", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -11844,7 +11844,7 @@
     "stages":"All",
     "description":"Provide opportunities for employment.",
     "subject":"Employment and Training",
-    "pillar":["Economic, Aboriginal "],
+    "pillar":["Economic", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -11852,7 +11852,7 @@
     "stages":"All",
     "description":"Provide opportunities for training and career advancement for employees.",
     "subject":"Employment and Training",
-    "pillar":["Economic, Aboriginal "],
+    "pillar":["Economic", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -11868,7 +11868,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"Prior to or during the construction of the transmission line, should information become available from First Nations identifying habitat, vegetation, or features of importance not previously considered in the constraints analysis undertaken to select the centre-line, Taseko will make reasonable efforts to avoid or mitigate impacts to these features.",
     "subject":"Land and Resource Use",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -11940,7 +11940,7 @@
     "stages":"All",
     "description":"Require that Prosperityï¿½s contractors or consultants comply with Taseko Policies related to sustainability, environment, health and safety, training, local employment, and procurement.",
     "subject":"",
-    "pillar":["Environmental, Social, Health, Economic"],
+    "pillar":["Environmental", "Social", "Health", "Economic"],
     "sector":"Mining"
   },
   {
@@ -12444,7 +12444,7 @@
     "stages":"All",
     "description":"Expand efforts to hire local First Nations candidates by ensuring employment opportunities are communicated. Undertake to inform local communities of the employment positions and opportunities available at Prosperity before expanding the search for potential employees beyond the Cariboo-Chilcotin region.",
     "subject":"Employment and Training",
-    "pillar":["Economic, Aboriginal "],
+    "pillar":["Economic", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -12492,7 +12492,7 @@
     "stages":"All",
     "description":"Encourage First Nations to form and develop locally owned businesses that provide supplies or services to Prosperity.",
     "subject":"Business Opportunities",
-    "pillar":["Economic, Aboriginal "],
+    "pillar":["Economic", "Aboriginal"],
     "sector":"Mining"
   },
   {
@@ -12692,7 +12692,7 @@
     "stages":"Construction",
     "description":"The Proponent must consult with local palaeontologists to develop a chance encounter procedure for palaeontological sites encountered during construction. The chance encounter protocol will be shared with interested First Nations for review and comment.",
     "subject":"Consultation; Geology; Qualified Professional",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -13148,7 +13148,7 @@
     "stages":"Pre-Construction",
     "description":"The Proponent must maintain a minimum set back of 100 m from the wildlife feature (QW3) found in the north end of the QWP footprint at 10U 10 635742 6128529. Also see commitment 5.6-4. Based on the revised layout provided to the Working Group on March 23, 2010, the setback from the wildlife site is approximately 750 m.\n\nThe Proponent must maintain a minimum setback of 15 m from the spring found at 10U 637287 6123642.",
     "subject":"Traditional Use",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -13156,7 +13156,7 @@
     "stages":"Pre-Construction",
     "description":"The Proponent must minimize impacts to previously unrecorded traditional use sites newly encountered during detailed design work that are similar to those identified during First Nations and Aboriginal group consultation conducted for the QWP, by marking them in the field prior to construction to minimize impacts.",
     "subject":"Traditional Use",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -13164,7 +13164,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"Prior to applicable site works, the Proponent must develop a communication process to facilitate access, subject to safety precautions, to the Project Area for First Nations and aboriginal community members seeking to hunt, trap, or undertake plant gathering. This process must be detailed in the CEMP.",
     "subject":"Communication; Traditional Use",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -13172,7 +13172,7 @@
     "stages":"Operations",
     "description":"Subject to safety precautions, the Proponent must maintain access to First Nations members to exercise their Treaty Rights and for members of aboriginal communities to undertake trapping, plant gathering, or other traditional use activities.",
     "subject":"Traditional Use",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -13972,7 +13972,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"The EAC Holder must undertake a ground truthing program of traditional plants currently used by Aboriginal Groups in collaboration with Aboriginal Groups prior to construction. Where specific plants are known to be harvested by Aboriginal Groups, the EAC Holder must make reasonable efforts to consult interested Aboriginal Groups using the results of the ground truthing to inform the development and implementation of mitigation and compensation measures to accommodate adverse effects of the Project on plants traditionally used by Aboriginal Groups. ",
     "subject":"Traditional Use; Vegetation",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -13980,7 +13980,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"The EAC Holder must develop an Aboriginal Plant Use Mitigation Plan to describe how the effects of the Project on plants currently harvested by Aboriginal Groups will be mitigated, including through compensation measures. \n\nThe Aboriginal Plant Use Mitigation Plan must include at least the following: \nï¿½ Identify within the Project footprint including areas being reclaimed potential sites for relocation of medicinal and food plants; relocate when deemed necessary by a QEP. \nï¿½ Identify within the Project footprint including areas being reclaimed opportunities to restore ecological communities that support species of high traditional use value for affected Aboriginal Groups and undertake restoration of those ecological communities where deemed necessary by a QEP. \nï¿½ Identify opportunities and provide financial support for propagation of indigenous plant species for use in reclamation programs, such as that offered through the indigenous nursery owned by the West Moberly First Nation and Saulteau First Nation. The EAC Holder must make reasonable commercial efforts to obtain up to    $1 million in commercial service contracts with indigenous nurseries for provision of plants. \n\nThe EAC Holder must make reasonable efforts to develop the Aboriginal Plant Use Mitigation Plan in collaboration with FLNR and Aboriginal Groups, at least 90 days prior to Project activities that may affect traditional plants. \n\nThe EAC Holder must file the final Aboriginal Plant Use Mitigation Plan with EAO, FLNR and Aboriginal Groups at least 30 days prior to Project activities that may affect traditional plants. \n\nThe EAC Holder must develop, implement and adhere to the final Aboriginal Plant Use Mitigation Plan, and any amendments, to the satisfaction of EAO.\n",
     "subject":"Management and Monitoring Plans; Compensation; Traditional Use; Vegetation",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -14268,7 +14268,7 @@
     "stages":"Pre-Construction, Construction, Operations",
     "description":"The EAC Holder must protect and preserve heritage resources by implementing measures as detailed in a Heritage Resources Management Plan. The Heritage Resources Management Plan must be developed by a QEP.\n\nThe Heritage Resources Management Plan must specify a process for the engagement of Aboriginal Groups in planning and follow-up/monitoring activities related to heritage resources as the Project proceeds. In particular, the Plan must incorporate a process for continued collaboration with Aboriginal Groups on ground-truthing for the identification of any burial sites that the Project may disturb.\n\nThe EAC Holder must provide the draft Heritage Resources Management Plan to Archaeology Branch of FLNR and Aboriginal Groups for review a minimum of 90 days prior to the commencement of construction.\n\nThe Heritage Resources Management Plan must include Archaeological Impact Management and Heritage Resources Monitoring and Follow-Up Programs. The field and reporting portions of each program will be of a scope, duration and frequency prescribed by the BC Heritage Conservation Act permits. The Archaeology Impact Management Program must be developed by a QEP qualified to hold Section 14 Heritage Inspection and Investigation Permits.\n\nThe Heritage Resources Monitoring and Follow-Up Program must include at least the following:\n- Monitor reservoir erosion during occurrences of exposure to assess the impacts on existing or newly identified protected archaeological sites and other heritage resources\n- Implement mitigation measures, systematic data recovery or emergency salvage operations in accordance with the Heritage Resources Management Plan.\n- Conduct the monitoring of shoreline erosion downstream (for approximately 2 km) as part of chance-find procedures to determine if physical heritage resources are affected by the Project. The EAC Holder must undertake this monitoring for any spills from the Project reservoir for a period of two years following the commencement of reservoir filling and commissioning.\n- Establish a reporting structure for reporting to Aboriginal Groups and the Archaeology Branch beginning 180 days following the commencement of operations.\n\nThe EAC Holder must file the final Heritage Resources Management Plan with EAO, Archaeology Branch and Aboriginal Groups a minimum of 30 days prior to commencement of construction.\n\nThe EAC Holder must develop, implement and adhere to the final Heritage Resources Management Plan, and any amendments, to the satisfaction of EAO.",
     "subject":"Management and Monitoring Plans; Cultural and Heritage Resources",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -14276,7 +14276,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"The EAC Holder must manage adverse Project effects on cultural resources by implementing mitigation measures detailed in a Cultural Resources Mitigation Plan. The Cultural Resources Mitigation Plan must be developed in collaboration with a Cultural and Heritage Resources Committee (Committee) established by the EAC Holder that includes Aboriginal Groups.\n\nThe Cultural Resources Mitigation Plan must include consideration of the following elements and/or others that may be recommended by the Committee:\n- Identification and naming of key cultural sites.\n- Documenting historical use of the area, including trails, sites, and stories.\n- Commemoration of sites lost to inundation.\n- Cultural awareness and orientation of workforce.\n- Support for cultural camps through financial or in-kind support.\n\nThe EAC Holder must provide the draft Cultural Resources Mitigation Plan to the Committee for review a minimum 90 days prior to the commencement of construction.\n\nThe EAC Holder must file the final Cultural Resources Mitigation Plan with EAO and the Committee a minimum of 30 days prior to the commencement of construction\n\nThe EAC Holder must develop, implement and adhere to the final Cultural Resources Mitigation Plan, and any amendments, to the satisfaction of EAO.",
     "subject":"Cultural and Heritage Resources",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -14716,7 +14716,7 @@
     "stages":"Operations",
     "description":"The Proponent will revegetate on a site by site basis in consideration of the elements contained in Commitment 19, above.  This will include the option to revegetate with country food stock in zones that have been identified in advance of construction as traditional use areas by members of local First Nations or aboriginal communities.",
     "subject":"Species at Risk; Vegetation",
-    "pillar":["Environmental, Social, Aboriginal "],
+    "pillar":["Environmental", "Social", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -14764,7 +14764,7 @@
     "stages":"All",
     "description":"The Proponent will continue to work with those Aboriginal communities that have submitted detailed Traditional Use Study (TUS) proposals to the Proponent for consideration prior to the end of the 180 day Application review period.  Findings of any studies or reports that may result and be presented to the Proponent prior to the detailed design phase of the Project will be taken into consideration during this phase and the outcome of this process will be presented to the relevant community",
     "subject":"Traditional Use",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -15020,7 +15020,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"The Proponent must invite the First Nations to identify a representative to serve as an Assistant Environmental Monitor/ Cultural Monitor during the construction phase. The Proponent must develop Terms of Reference (TOR) for the position of Assistant Environmental Monitor/ Cultural Monitor that clarifies the following: \nï¿½ nature of the assistance provided to the EM with tasks and responsibilities outlined including responsibility for identifying cultural values which could be disturbed by excavation/construction activities and reporting these to the Proponent; \nï¿½ dispute resolution process, including notification procedures to EAO, if an issue remains unresolved between the Assistant Environmental Monitor/ Cultural Monitor and the Proponent;\nï¿½ rotational schedule for the position among the First Nations;\nï¿½ mechanism for working with First Nationsï¿½ Elders so that an Elder-Junior relationship is established; and,\nï¿½ liaison with First Nations communities, providing them with information about the Project and bringing any concerns to the Proponent.\n\nThe Proponent must provide the TOR to the First Nations for a three week review and comment period and must demonstrate to the First Nations and EAO how First Nationsï¿½ comments were considered, prior to construction commencing. ",
     "subject":"Environmental Monitor; Cultural and Heritage Resources",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -15524,7 +15524,7 @@
     "stages":"Pre-Construction, Construction, Operations",
     "description":"As per Condition 2, the Proponent must invite a representative from each of the First Nations to participate on the TAC, and the Proponent must make capacity funding available for First Nations members attending TAC meetings.",
     "subject":"Compensation; Consultation",
-    "pillar":["Economic, Aboriginal "],
+    "pillar":["Economic", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -15612,7 +15612,7 @@
     "stages":"All",
     "description":"To increase local economic development and employment opportunities, the Proponent must consult with the First Nations and the DTR to discuss economic opportunities and measures to increase the likelihood of local hires including providing job skill development and training, notifying First Nations of upcoming opportunities and industry-educational institution partnership opportunities.",
     "subject":"Business Opportunities; Consultation",
-    "pillar":["Economic, Aboriginal "],
+    "pillar":["Economic", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -16300,7 +16300,7 @@
     "stages":"Pre-Construction, Construction",
     "description":"a) The Proponent will seek to avoid disturbances wherever cultural or heritage resources are identified.  \n\nb) If impacts cannot be avoided, even after investigation of changes to Project design, the Proponent, in consultation with the Klahoose First Nation, Archaeology Branch and any appropriate federal departments, will conduct studies (as needed) and develop contingency plans to preserve resource values prior to any impact.  ",
     "subject":"Cultural and Heritage Resources",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -16324,7 +16324,7 @@
     "stages":"Construction",
     "description":"The Proponent will incorporate a Traditional Use Monitoring Plan into the Construction Environmental Management Plan for Klahoose First Nation Traditional Territory. ",
     "subject":"Construction EMP; Traditional Use",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -16388,7 +16388,7 @@
     "stages":"Construction, Operations",
     "description":"The Proponent will identify measures to manage access and use of roads constructed for the Project, in consultation with the Klahoose First Nation.  ",
     "subject":"Access",
-    "pillar":["Social, Aboriginal "],
+    "pillar":["Social", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -16828,7 +16828,7 @@
     "stages":"Construction",
     "description":"The Holder must:\na.   Conduct an Archaeological Impact Assessment for the fuel receiving facility located on Vancouver Fraser Port Authority land, the pipeline exit point on Sea Island, and pipeline crossings of old slough channels; and\nb.   Monitor site preparation and construction activities that will enter into native soils (i.e. non-fill) in locations rated as having high or moderate archaeological potential in the Holderï¿½s previously completed Archaeological Overview Assessment.\n\nThe monitoring procedures must adhere to those identified in the ï¿½British Columbia Archaeological Resource Management Handbookï¿½ and the ï¿½Archaeological Impact Assessment Guidelinesï¿½ issued by the Ministry of Forests, Lands and Natural Resources Operations.\n\nThe Holder must invite relevant First Nations to participate in the Archaeological Impact Assessment at least four weeks before commencing the Archaeological Impact Assessment.",
     "subject":"Archaeology",
-    "pillar":["Heritage, Aboriginal "],
+    "pillar":["Heritage", "Aboriginal"],
     "sector":"Other"
   },
   {
@@ -17372,7 +17372,7 @@
     "stages":"Pre-Construction",
     "description":"If the final pipeline route overlaps with existing aquatic or riparian habitat restoration or compensation sites within Nis_aï¿½a Lands, the Holder must develop, in consultation with Nis_aï¿½a Nation, a Nis_aï¿½a Watercourse Restoration Plan with the objective of achieving no net loss of environmental function. \n\nIn order to allow for 60 days review and comment, the Holder must provide the plan to EAO and Nis_aï¿½a Nation no less than 90 days prior to the Holderï¿½s planned date to commence Construction. Once the plan is complete, the Holder must also provide the plan to OGC prior to the Holderï¿½s planned date to commence Construction.\n",
     "subject":"Fish and Fish Habitat; Vegetation; Water",
-    "pillar":["Environmental, Aboriginal "],
+    "pillar":["Environmental", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -17596,7 +17596,7 @@
     "stages":"Construction, Operations",
     "description":"Local Economic Opportunities\n\nThe Holder must design and deliver programs to support local and Aboriginal employment and contracting opportunities, skills training and education.\n \nAt the time of submitting compliance reports required by this EACï¿½s clause 1, the Holder must report to EAO on the implementation of these programs. The programs must be implemented during Construction and Operations.\n\n",
     "subject":"Local Economic Opportunities",
-    "pillar":["Social, Economic, Aboriginal "],
+    "pillar":["Social", "Economic", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -17604,7 +17604,7 @@
     "stages":"Pre-Construction",
     "description":"Community Services and Infrastructure\n\nThe Holder must develop a plan to adaptively manage potential socio-economic effects on services and infrastructure delivered by provincial agencies and local governments. The scope of the plan is for effects that are directly attributable to the Project, and related to the temporary Construction workforce. The plan must include the mitigation measures in the Mitigation Table under the headings ï¿½infrastructure and servicesï¿½ \n(section 7.2) and ï¿½community health and wellbeingï¿½ (section 7.5).\n\nThe Holder must develop the plan in consultation with CSCD and based on CSCD guidance materials. The Holder must demonstrate reasonable efforts to engage Aboriginal Groups, local governments, provincial government infrastructure and service providers in developing the plan.\n\nThe plan must include specific actions to address the following:\nï¿½ Communication with potentially affected Aboriginal Groups, local governments, provincial government infrastructure and service providers regarding Project activities and actions related to the implementation of mitigation measures;\nï¿½ An approach for monitoring and reporting on the effectiveness of the mitigation  measures set out in the plan; \nï¿½ An adaptive management approach, which includes the development of additional and/or alternative mitigation measures to address the Projectï¿½s effects on community infrastructure and services, if those effects are not mitigated to the extent identified in the Application, or if unexpected effects occur; and\nï¿½ Engagement with potentially affected Aboriginal Groups, local governments and provincial government infrastructure and service providers on the adaptive management activities.\n\nThe Holder must provide the plan to EAO and CSCD no less than 60 days prior to the Holderï¿½s planned date to commence Construction. The Holder must not commence Construction until the plan has been approved by EAO. Once approved, the Holder must also provide the final plan to CSCD, local governments, provincial government infrastructure and service providers, and Aboriginal Groups.\n\nThe Holder is required to implement the plan, in consultation with CSCD, and to the satisfaction of EAO, until two years after the completion of Construction, or as otherwise directed by EAO.\n\nAs requested by EAO, the Holder must participate in multi-stakeholder initiatives undertaken by the Province with regards to managing cumulative effects to community infrastructure and services.\n\nFor the purposes of this condition, ï¿½Constructionï¿½ does not include site clearing or preparation. \n\n",
     "subject":"socio-economic effects management plan",
-    "pillar":["Social, Economic, Aboriginal "],
+    "pillar":["Social", "Economic", "Aboriginal"],
     "sector":"Energy"
   },
   {
@@ -17668,7 +17668,7 @@
     "stages":"Construction, Operations",
     "description":"Aboriginal and Public Consultation\n\nThe Holder must continue to implement the EAO-approved LNG Canada Aboriginal Consultation Plan (dated August 2013) and the EAO-approved LNG Canada Public Consultation Plan (dated August 2013) for all phases of the Project. The implementation of these plans must include information sharing and discussion of site-specific mitigation measures, including the development and implementation of social and environmental plans (including compensation plans) developed to meet regulatory requirements of the Project.\n\nThe Holder must provide an Aboriginal consultation report and a public consultation report to EAO:\nï¿½ Two years after the commencement of Construction; and\nï¿½ One year after the commencement of Operations.\n\nThe Holder must share the Aboriginal consultation report with Aboriginal Groups for review and comment prior to providing it to EAO.\n\n",
     "subject":"Aboriginal and Public Consultation",
-    "pillar":["Social, Aboriginal "],
+    "pillar":["Social", "Aboriginal"],
     "sector":"Energy"
   },
   {

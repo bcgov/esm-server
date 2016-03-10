@@ -17,8 +17,17 @@ module.exports = function () {
 			var stages = condition.stages.split(',');
 			condition.sector = condition.sector.trim ();
 			condition.stages = stages.map (function (stage) { return stage.trim(); });
-			condition.pillars = condition.pillar.map (function (p) { return p.trim(); });
+			condition.pillars = condition.pillar.map (function (p) {
+				var pill = p.trim();
+				if (pill === 'Environmental') pill = 'Environment';
+				if (pill === 'Aboriginal') pill = 'Social';
+				if (pill === '') pill = 'Environment';
+				if (pill === 'Economic, Aboriginal') pill = 'Economic';
+				if (pill === 'Environmental, Aboriginal') pill = 'Environment';
+				return pill;
+			});
 			condition.name = condition.code;
+
 			var t = new Condition (condition);
 			return t.save ();
 		}))
