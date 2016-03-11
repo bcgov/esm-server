@@ -10,12 +10,12 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__access    : true,
 	__tracking  : true,
 	project     : { type:'ObjectId', ref:'Project', default:null, index:true },
-	groupId     : { type:Number, default: 0 }, // From ePIC
+	groupId     : { type:Number, default: null }, // From ePIC
 	groupName 	: { type:String, default: '' },
 	contactName : { type:String, default: '' },
 	org     	: { type:'ObjectId', ref:'Org', default:null, index:true },
 	orgName    	: { type:String, default: '' },
-	personId 	: { type:Number, default: 0 }, // From ePIC
+	personId 	: { type:Number, default: null }, // From ePIC
 	title     	: { type:String, default: '' },
 	firstName   : { type:String, default: '' },
 	middleName  : { type:String, default: '' },
