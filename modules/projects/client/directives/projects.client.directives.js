@@ -5,7 +5,7 @@ angular.module('projects')
 	.directive('tmplProjectsList2', directiveProjectsList2)
 	.directive('tmplProjectsSearch', directiveProjectsSearch)
 	// .directive('tmplProjectsPanels', directiveProjectsPanels)
-	.directive('tmplProjectsMap', directiveProjectsMap)
+	.directive('tmplProjectsMap', directiveProjectsMap);
 	// .directive('tmplProjectsFilterBar', directiveProjectsFilterBar);
 // -----------------------------------------------------------------------------------
 //
