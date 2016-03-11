@@ -23,7 +23,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			complaints: function ($stateParams, ComplaintModel, project) {
 				console.log ('complaint abstract resolving complaints');
 				console.log ('project id = ', project._id);
-				return ComplaintModel.getComplaintsForProject (project._id);
+				return ComplaintModel.forProject (project._id);
 			},
 		}
 	})
