@@ -12,6 +12,15 @@
 <div class="panel panel-default">
 	<div class="panel-body">
 		<div class="row">
+		<P>{{ template.documentType1 }}</P>
+		<p>Hi There, this is a thing <span x-content-inline ng-model="template.documentType" x-default="'that is blue'"></span> and that's that.</p>
+		
+<span x-content-inline ng-model="template.documentType1" x-default="'that is 222 blue'"></span>
+
+<div x-content-html ng-model="template.another" x-default="'that is blue and red'"></div>
+
+<div ng-bind-html="template.another"></div>
+
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="documentType" class="control-label">For Document Type</label>

@@ -6,7 +6,6 @@ angular.module('projects')
 	.directive('tmplProjectsSearch', directiveProjectsSearch)
 	// .directive('tmplProjectsPanels', directiveProjectsPanels)
 	.directive('tmplProjectsMap', directiveProjectsMap)
-	.directive('tmplUserActivities', directiveUserActivities);
 	// .directive('tmplProjectsFilterBar', directiveProjectsFilterBar);
 // -----------------------------------------------------------------------------------
 //
@@ -60,43 +59,6 @@ function directiveProjectsSearch() {
 		templateUrl: 'modules/projects/client/views/projects-partials/projects-search.html',
 		controller: 'controllerProjectsSearch',
 		controllerAs: 'projectsSearch'
-	};
-	return directive;
-}
-
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Projects Panels
-//
-// -----------------------------------------------------------------------------------
-// directiveProjectsPanels.$inject = [];
-// /* @ngInject */
-// function directiveProjectsPanels() {
-// 	var directive = {
-// 		restrict: 'E',
-// 		templateUrl: 'modules/projects/client/views/projects-partials/projects-panels.html',
-// 		controller: 'controllerProjectsList',
-// 		controllerAs: 'projectList',
-// 		scope: {
-// 			projects: '='
-// 		}
-// 	};
-// 	return directive;
-// }
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: User Activities
-//
-// -----------------------------------------------------------------------------------
-directiveUserActivities.$inject = [];
-/* @ngInject */
-function directiveUserActivities() {
-	var directive = {
-		restrict: 'E',
-		replace: true,
-		templateUrl: 'modules/projects/client/views/projects-partials/user-activities.html',
-		controller: 'controllerUserActivities',
-		controllerAs: 'userActs'
 	};
 	return directive;
 }

@@ -111,73 +111,89 @@ angular.module ('templates')
 // directive to edit text field in template
 //
 // -------------------------------------------------------------------------
-.directive('tmplContentInline', ['$sce', function($sce) {
-  return {
-    restrict: 'A', // only activate on element attribute
-    require: '?ngModel', // get a hold of NgModelController
-    link: function(scope, element, attrs, ngModel) {
-      if (!ngModel) return; // do nothing if no ng-model
+.directive('contentInline', ['$sce', function($sce) {
+	return {
+		restrict: 'A', // only activate on element attribute
+		require: '?ngModel', // get a hold of NgModelController,
+		scope: {
+			default: '=',
+			curVal: '=ngModel'
+		},
+		replace: true,
+		template: '<span class="text-block" contenteditable="true"></span>',
+		link: function(scope, element, attrs, ngModel) {
+			if (!ngModel) return; // do nothing if no ng-model
 
-      // Specify how UI should be updated
-      ngModel.$render = function() {
-        element.html($sce.getTrustedHtml(ngModel.$viewValue || ''));
-      };
+			element.html($sce.getTrustedHtml(scope.curVal || scope.default || ''));
 
-      // Listen for change events to enable binding
-      element.on('blur keyup change', function() {
-        scope.$evalAsync(read);
-      });
-      read(); // initialize
+			// Specify how UI should be updated
+			ngModel.$render = function() {
+            	element.html($sce.getTrustedHtml(ngModel.$viewValue));
+			};
+			
+			// Listen for change events to enable binding
+			element.on('blur keyup change', function() {
+				scope.$evalAsync(read);
+			});
+			read(); // initialize
 
-      // Write data to the model
-      function read() {
-        var html = element.html();
-        // When we clear the content editable the browser leaves a <br> behind
-        // If strip-br attribute is provided then we strip this out
-        if ( attrs.stripBr && html === '<br>' ) {
-          html = '';
-        }
-        ngModel.$setViewValue(html);
-      }
-    }
-  };
+			// Write data to the model
+			function read() {
+				var html = element.html() || ngModel.$modelValue;
+				// When we clear the content editable the browser leaves a <br> behind
+				// If strip-br attribute is provided then we strip this out
+				if ( attrs.stripBr && html === '<br>' ) {
+					html = '';
+				}
+				element.html($sce.getTrustedHtml( html ));
+				ngModel.$setViewValue(html);
+			}
+		}
+	};
 }])
 // -------------------------------------------------------------------------
 //
 // directive to edit html field in template
 //
 // -------------------------------------------------------------------------
-.directive('tmplContentHtml', ['$sce', function($sce) {
-  return {
-    restrict: 'A', // only activate on element attribute
-    require: '?ngModel', // get a hold of NgModelController
-    link: function(scope, element, attrs, ngModel) {
-      if (!ngModel) return; // do nothing if no ng-model
+.directive('contentHtml', ['$sce', function($sce) {
+	return {
+		restrict: 'A', // only activate on element attribute
+		require: '?ngModel', // get a hold of NgModelController
+		scope: {
+			default: '=',
+			curVal: '=ngModel'
+		},
+		replace: true,
+		templateUrl: 'modules/templates/client/views/template-html-editor.html',
+		link: function(scope, element, attrs, ngModel) {
+			// if (!ngModel) return; // do nothing if no ng-model
 
-      // Specify how UI should be updated
-      ngModel.$render = function() {
-        element.html($sce.getTrustedHtml(ngModel.$viewValue || ''));
-      };
+			if (ngModel.$isEmpty(scope.curVal)) {
+				scope.curVal = scope.default;
+			}
 
-      // Listen for change events to enable binding
-      element.on('blur keyup change', function() {
-        scope.$evalAsync(read);
-      });
-      read(); // initialize
+			scope.activeItem = false;
 
-      // Write data to the model
-      function read() {
-        var html = element.html();
-        // When we clear the content editable the browser leaves a <br> behind
-        // If strip-br attribute is provided then we strip this out
-        if ( attrs.stripBr && html === '<br>' ) {
-          html = '';
-        }
-        ngModel.$setViewValue(html);
-      }
-    }
-  };
+			// scope.saveModel = function() {
+			// 	console.log('savemodel');
+			// 	scope.$evalAsync(read);
+			// };
+			// // Listen for change events to enable binding
+			// element.on('blur keyup change', function() {
+			// 	scope.$evalAsync(read);
+			// });
+			// read(); // initialize
+
+			// // Write data to the model
+			// function read() {
+			// 	ngModel.$setViewValue(scope.curVal);
+			// }
+		}
+	};
 }])
 
 
 ;
+
+

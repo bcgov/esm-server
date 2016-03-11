@@ -947,11 +947,11 @@ h2.page-title {
 
 
 .text-block {
-	border: 2px dashed $brand-info;
-	padding: 10px;
-	border-radius: 10px;
+	border: 2px dotted $brand-info;
+	padding: 3px;
+	border-radius: 8px;
 	cursor: pointer;
-	background-color: #d9edf7;
+	background-color: transparent;
 }
 .text-block-success {
 	border: 2px dotted $brand-success;
@@ -961,6 +961,13 @@ h2.page-title {
 }
 .text-block > p:last-child {
 	margin-bottom: 0;
+}
+
+.text-block:focus,
+.text-block-focus {
+	border: 2px dashed $brand-info;
+	outline: none !important;
+	background-color: #d9edf7;
 }
 
 .doc-detail-col {
