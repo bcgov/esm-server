@@ -10,6 +10,12 @@ angular.module('templates').factory ('templateCompile', function (_) {
 	return function (template, purpose) {
 		var t = '';
 		if (purpose === 'view') {
+			var showVariable = function (template, root, section, field, type) {
+				var dataname = root+section+'.'+field;
+				var regex = new RegExp ('\\{\\{ *' + field + ' *\\}\\}', 'g');
+				var directive = (type==='Text') ? '{{'+dataname+'}}' : '<div ng-bind-html="dataname"></div>';
+				return template.replace (regex, directive);
+			};
 			_.each (template.sections, function (section) {
 				var name = section.name;
 				var temp = section.template;
@@ -21,10 +27,7 @@ angular.module('templates').factory ('templateCompile', function (_) {
 				//
 				if (!section.multiple) {
 					_.each (section.meta, function (field) {
-						var r = '\\{\\{ *' + field.name + ' *\\}\\}';
-						var regex = new RegExp (r, 'g');
-						var dataname = 'document.'+section.name+'.'+field.name;
-						temp = temp.replace (regex, '{{'+dataname+'}}');
+						temp = showVariable (temp, 'document.', section.name, field.name, field.type);
 					});
 					console.log ('+ temp = ', temp);
 					t += temp;
@@ -38,36 +41,22 @@ angular.module('templates').factory ('templateCompile', function (_) {
 					// header
 					//
 					if (section.isheader) {
-						var header = section.header;
-						_.each (section.meta, function (field) {
-							var regex = new RegExp ('\{\{ *' + field.name + ' *\}\}', 'g');
-							var dataname = 'document.'+section.name+'.'+field.name;
-							header = header.replace (regex, '{{'+dataname+'}}');
-						});
-						t += header;
+						t += section.header;
 					}
 					//
 					// template
 					//
 					_.each (section.meta, function (field) {
-						var regex = new RegExp ('\{\{ *' + field.name + ' *\}\}', 'g');
-						var dataname = '_v.'+section.name+'.'+field.name;
-						temp = temp.replace (regex, '{{'+dataname+'}}');
+						temp = showVariable (temp, '', '_v', field.name, field.type);
 					});
-					t += '<div ng-if="0" ng-repeat-start="_v in document.'+section.name+'._data"></div>';
+					t += '<div ng-if="0" ng-repeat-start="_v in document.'+section.name+'"></div>';
 					t += temp;
 					t += '<div ng-if="0" ng-repeat-end></div>';
 					//
 					// footer
 					//
 					if (section.isfooter) {
-						var footer = section.footer;
-						_.each (section.meta, function (field) {
-							var regex = new RegExp ('\{\{ *' + field.name + ' *\}\}', 'g');
-							var dataname = 'document.'+section.name+'.'+field.name;
-							footer = footer.replace (regex, '{{'+dataname+'}}');
-						});
-						t += footer;
+						t += section.footer;
 					}
 				}
 			});

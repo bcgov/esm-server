@@ -1,32 +1,29 @@
-<section id="project-view" class="row">
-<div class='col-sm-10'>
-	<h1 class="page-title">Complaints Library</h1>
-	<div class="row text-right">
-		<div class="col-sm-12">
-			<button class="btn btn-success btn-sm" x-mode="add" x-collection="data.collection" x-edit-complaint-modal><i class="glyphicon glyphicon-plus"></i> Add New Complaint</button>
-		</div>
-	</div>
-	<div calss="row">&nbsp;</div>
-	<div class="row">
-		<div class="col-sm-12">
-			<section class="panel panel-default">
-				<table ng-table="data.tableParams" class="dtable table table-condensed table-bordered table-striped">
-					<tr ng-repeat="o in $data">
-						<td data-title="'Name'"   title:'Title'   filter="{'name':'text'}"       sortable="'name'"    ><a href x-edit-complaint-modal x-mode="view" x-complaint="o">{{o.name}}</a></td>
-						<td data-title="'Type'"   title:'Type'    filter="{'type':'text'}"       sortable="'type'"    >{{o.type}}</td>
-						<td data-title="'Sector'" title:'Sector'  filter="{'sector':'select'}"   sortable="'sector'"  filter-data="data.ptypes" >{{o.sector}}</td>
-						<td data-title="'Stage'"  title:'Stage'   filter="{'stage':'select'}"    sortable="'stage'"   filter-data="data.stypes">{{o.stage}}</td>
-						<td data-title="'Pillar'" title:'Pillar'  filter="{'pillar':'select'}"   sortable="'pillar'"  filter-data="data.pillars">{{o.pillar}}</td>
-						<td><button class="btn btn-default btn-xs" x-edit-complaint-modal x-mode="edit" x-complaint="o"><i class="glyphicon glyphicon-pencil"></i></button></td>
-					</tr>
-				</table>
-			</section>
-		</div>
-	</div>
+<h1 class="page-title">
+	Complaints for {{ project.name }}
+</h1>
 
-</div> <!-- /col10 -->
+<div class="row">
+	<div class="col-sm-12">
+		<a class="btn btn-default btn-sm"  ui-sref="o.complaint.create()"><i class="glyphicon glyphicon-plus"></i> Add New Complaint</a>
+		<section class="panel panel-default">
+			<table ng-table="tableParams" show-filter="true" class="table table-condensed table-bordered table-striped">
+			    <tr ng-repeat="o in $data" ui-sref="o.complaint.detail({complaintId:o._id})">
+			        <td data-title="'Name'"   title:'Title'   filter="{'name':'text'}"       sortable="'name'"    ><a href x-edit-complaint-modal x-mode="view" x-complaint="o">{{o.name}}</a></td>
+					<td data-title="'Type'"   title:'Type'    filter="{'type':'text'}"       sortable="'type'"    >{{o.type}}</td>
+					<td data-title="'Sector'" title:'Sector'  filter="{'sector':'select'}"   sortable="'sector'"  filter-data="data.ptypes" >{{o.sector}}</td>
+					<td data-title="'Stage'"  title:'Stage'   filter="{'stage':'select'}"    sortable="'stage'"   filter-data="data.stypes">{{o.stage}}</td>
+					<td data-title="'Pillar'" title:'Pillar'  filter="{'pillar':'select'}"   sortable="'pillar'"  filter-data="data.pillars">{{o.pillar}}</td>
+			        <td title="">
+			        	<a ng-click="$event.stopPropagation()" class="btn btn-default btn-xs" ui-sref="p.complaint.edit({complaintId:o._id})">
+			        	<i class="glyphicon glyphicon-pencil"></i>
+			        	</a>
+			        </td>
+			    </tr>
+			</table>
+		</section>
+	</div>
+</div>
+
 <div class='col-sm-2'>
 	<tmpl-system-menu x-menu-context="'project'" x-project="projDescEdit.project"></tmpl-system-menu>
 </div>
-
-</section>
