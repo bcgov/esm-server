@@ -20,30 +20,30 @@ var loadProjects = function(file, req, res) {
 			return console.log(err);
 		}
 		// console.log("FILE DATA:",data);
-		var colArray = ['id','ProjectName','Proponent','Region','shortD','locSpatial','locDescription','provincialED','federalED','capitalInvestment','projectCreateDate','projectDescriptionLivingData','tombstoneNote','projectURL','captialInvestmentNote','lat','long','constructionJobs','constructionJobsNotes','operationJobs','operationJobsNotes','sector','subSector','currentPhaseTypeActivity','active','CEAAInvolvement','deleted','deleted','eaIssues','deleted','environmentalAssessmentNotes','CEAA','firstNationsConsultation','firstNationsAccess','firstNationsNotification','stakeholdersNotes','federalAgencies','workingGroups','allOtherStakeholderGroups','deleted','responsibleEPD','projectLead','EAOCAARTRepresentative','projectOfficer','projectAnalyst','projectAssistant','administrativeAssistant','CELead','teamNotes'];
+		var colArray = ['id','ProjectName','Proponent','Region','shortD','locSpatial','locDescription','provincialED','federalED','capitalInvestment','projectCreateDate','projectDescriptionLivingData','tombstoneNote','projectURL','captialInvestmentNote','lat','long','constructionJobs','constructionJobsNotes','operationJobs','operationJobsNotes','sector','subSector','currentPhaseTypeActivity','active','CEAAInvolvement','eaIssues','environmentalAssessmentNotes','CEAA','firstNationsConsultation','firstNationsAccess','firstNationsNotification','stakeholdersNotes','federalAgencies','workingGroups','allOtherStakeholderGroups','responsibleEPD','projectLead','EAOCAARTRepresentative','projectOfficer','projectAnalyst','projectAssistant','administrativeAssistant','CELead','teamNotes'];
 		var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 			// Skip this many rows
 			var length = Object.keys(output).length;
 			var projectProcessed = 0;
 			console.log("length",length);
 			Object.keys(output).forEach(function(key, index) {
-				if (index > 1) {
+				if (index > 0) {
 					var row = output[key];
-					// console.log("rowData:",row);
+					// console.log("rowData:",row.id);
 					Model.findOne({epicProjectID: row.id}, function (err, doc) {
 						if (doc === null) {
+							projectProcessed++;
 							var p = new Project (req.user);
 							p.new().then(function(model) {
 								// console.log("MODEL:",model);
 								// LATER
-								projectProcessed++;
-								model.epicProjectID = row.id;
-								console.log("epicProjectID",model.epicProjectID);
+								model.epicProjectID = parseInt(row.id);
+								// console.log("epicProjectID",model.epicProjectID);
 								model.oldData = JSON.stringify(row);
 								model.status = 'In Progress';
 								model.name = row.ProjectName;
 								model.description = row.shortD;
-								model.code = model.name.toLowerCase ().replace (' ', '-').substr (0, 10);
+								model.code = model.name.toLowerCase ().replace (' ', '-').substr (0, model.name.length+1);
 								model.phases = [];
 								// _.each (phases, function (ph) {
 								// 	var phase = new Phase (ph);
@@ -53,8 +53,8 @@ var loadProjects = function(file, req, res) {
 								model.type = 'Mine';
 								model.region = row.Region;
 								model.currentPhase = model.phases[0];
-								model.lat = row.lat;
-								model.lon = row.lon;
+								if (row.lat) model.lat = parseFloat(row.lat);
+								if (row.lat) model.lon = parseFloat(row.long);
 								model.roles = ['mem', 'public'];
 								//
 								// cram in all other infor into the description
@@ -118,13 +118,14 @@ var loadProjects = function(file, req, res) {
 								// model.fillmein = row.administrativeAssistant;
 								// model.fillmein = row.CELead;
 								// model.fillmein = row.teamNotes;
-								model.save();
-								// Am I done processing?
-								// console.log("INDEX:",index);
-								if (index === length-1) {
-									console.log("processed: ",projectProcessed);
-									res.json("{done: true, rowsProcessed: "+projectProcessed+"}");
-								}
+								model.save().then(function () {
+									// Am I done processing?
+									// console.log("INDEX:",index);
+									if (index === length-1) {
+										console.log("processed: ",projectProcessed);
+										res.json("{done: true, rowsProcessed: "+projectProcessed+"}");
+									}
+								});
 							});
 						} else {
 							// console.log("INDEX:",index);
