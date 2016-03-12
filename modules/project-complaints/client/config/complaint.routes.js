@@ -23,7 +23,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			complaints: function ($stateParams, ComplaintModel, project) {
 				console.log ('complaint abstract resolving complaints');
 				console.log ('project id = ', project._id);
-				return ComplaintModel.getComplaintsForProject (project._id);
+				return ComplaintModel.forProject (project._id);
 			},
 		}
 	})
@@ -35,7 +35,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	// -------------------------------------------------------------------------
 	.state('p.complaint.list', {
 		url: '/list',
-		templateUrl: 'modules/complaints/client/views/complaint-list.html',
+		templateUrl: 'modules/project-complaints/client/views/complaint-list.html',
 		controller: function ($scope, NgTableParams, complaints, project) {
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: complaints});
 			$scope.project = project;
@@ -49,7 +49,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	// -------------------------------------------------------------------------
 	.state('p.complaint.create', {
 		url: '/create',
-		templateUrl: 'modules/complaints/client/views/complaint-edit.html',
+		templateUrl: 'modules/project-complaints/client/views/complaint-edit.html',
 		resolve: {
 			complaint: function (ComplaintModel) {
 				return ComplaintModel.getNew ();
@@ -79,7 +79,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	// -------------------------------------------------------------------------
 	.state('p.complaint.edit', {
 		url: '/:complaintId/edit',
-		templateUrl: 'modules/complaints/client/views/complaint-edit.html',
+		templateUrl: 'modules/project-complaints/client/views/complaint-edit.html',
 		resolve: {
 			complaint: function ($stateParams, ComplaintModel) {
 				console.log ('editing complaintId = ', $stateParams.complaintId);
@@ -114,7 +114,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	// -------------------------------------------------------------------------
 	.state('p.complaint.detail', {
 		url: '/:complaintId',
-		templateUrl: 'modules/complaints/client/views/complaint-view.html',
+		templateUrl: 'modules/project-complaints/client/views/complaint-view.html',
 		resolve: {
 			complaint: function ($stateParams, ComplaintModel) {
 				console.log ('complaintId = ', $stateParams.complaintId);
