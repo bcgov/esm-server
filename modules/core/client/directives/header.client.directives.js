@@ -13,8 +13,9 @@ function directiveHeader() {
 	var directive = {
 		restrict: 'E',
 		templateUrl: 'modules/core/client/views/header.client.view.html',
-		controller: 'controllerHeader',
-		controllerAs: 'header'
+		controller: function($scope, LOGO) {
+			$scope.logo = LOGO;
+		}
 	};
 	return directive;
 }
