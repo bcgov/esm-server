@@ -62,9 +62,10 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 				return ProjectModel.getCollection ();
 			}
 		},
-		controller: function ($scope, $stateParams, projects, MEM) {
+		controller: function ($scope, $stateParams, projects, MEM, Authentication) {
 			$scope.projects = projects;
 			$scope.isMEM = MEM;
+			$scope.authentication = Authentication;
 		}
 	})
 	// -------------------------------------------------------------------------
