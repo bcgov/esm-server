@@ -51,13 +51,14 @@ var loadProjects = function(file, req, res) {
 								// 	phase.save ();
 								// });
 								model.type = row.sector;
-								model.region = row.Region;
+								// TODO: Remove this
+								model.region = row.Region.toLowerCase ().replace(' region','');
 								model.currentPhase = model.phases[0];
 								if (row.lat) model.lat = parseFloat(row.lat);
 								if (row.lat) model.lon = parseFloat(row.long);
+								if (row.locDescription) model.location = row.locDescription;
 								model.roles = ['mem', 'public'];
 								model.description = "";
-								model.description += 'Location - Description: '+row.locDescription+"\n";
 								model.description += 'Provincial Electoral Districts: '+row.provincialED+"\n";
 								model.description += 'Capital Investment $M: '+row.capitalInvestment+"\n";
 								model.description += 'Project File Creation Date: '+row.projectCreateDate+"\n";
