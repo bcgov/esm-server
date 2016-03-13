@@ -12,6 +12,7 @@ var CSVParse   = require('csv-parse');
 var mongoose = require('mongoose');
 var Model    = mongoose.model ('Project');
 var _ = require ('lodash');
+var Organization = mongoose.model ('Organization');
 
 var loadProjects = function(file, req, res) {
 	// Now parse and go through this thing.
@@ -51,6 +52,18 @@ var loadProjects = function(file, req, res) {
 								// 	phase.save ();
 								// });
 								model.type = row.sector;
+								Organization.findOne ({name:row.Proponent}, function (err, result) {
+									// var o = new Organization (org);
+									// o.save ().then(function (o) {
+									// 	model.proponent = o;
+									// 	model.save();
+									// });
+									if (result) {
+										console.log("RES",result);
+										model.proponent = result;
+										model.save();
+									}
+								});
 								// TODO: Remove this
 								model.region = row.Region.toLowerCase ().replace(' region','');
 								model.currentPhase = model.phases[0];
