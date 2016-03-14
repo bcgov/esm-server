@@ -328,7 +328,7 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 						// emit to parent.
 						$scope.$emit('documentUploadComplete');
 					}
-					console.log("we're done with ",upload.file);
+					console.log("we're done with ",response);
 					item.processingComplete = true;
 				});
 			}, function (response) {
