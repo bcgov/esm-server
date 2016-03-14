@@ -93,10 +93,11 @@ angular.module ('templates')
 		restrict: 'E',
 		scope: {
 			template: '=',
-			document: '='
+			document: '=',
+			mode:     '@'
 		},
 		link: function (scope, element, attrs) {
-			var template = templateCompile (scope.template, 'view');
+			var template = templateCompile (scope.template, scope.mode);
 			element.html (template);
 			$compile (element.contents())(scope);
 		}
@@ -113,7 +114,7 @@ angular.module ('templates')
 		restrict: 'A', // only activate on element attribute
 		require: '?ngModel', // get a hold of NgModelController,
 		scope: {
-			default: '=',
+			// default: '=',
 			curVal: '=ngModel'
 		},
 		replace: true,
@@ -121,13 +122,14 @@ angular.module ('templates')
 		link: function(scope, element, attrs, ngModel) {
 			if (!ngModel) return; // do nothing if no ng-model
 
-			element.html($sce.getTrustedHtml(scope.curVal || scope.default || ''));
+			// element.html($sce.getTrustedHtml(scope.curVal || scope.default || ''));
+			element.html($sce.getTrustedHtml(scope.curVal || ''));
 
 			// Specify how UI should be updated
 			ngModel.$render = function() {
             	element.html($sce.getTrustedHtml(ngModel.$viewValue));
 			};
-			
+
 			// Listen for change events to enable binding
 			element.on('blur keyup change', function() {
 				scope.$evalAsync(read);
@@ -158,7 +160,7 @@ angular.module ('templates')
 		restrict: 'A', // only activate on element attribute
 		require: '?ngModel', // get a hold of NgModelController
 		scope: {
-			default: '=',
+			// default: '=',
 			curVal: '=ngModel'
 		},
 		replace: true,
@@ -166,9 +168,9 @@ angular.module ('templates')
 		link: function(scope, element, attrs, ngModel) {
 			// if (!ngModel) return; // do nothing if no ng-model
 
-			if (ngModel.$isEmpty(scope.curVal)) {
-				scope.curVal = scope.default;
-			}
+			// if (ngModel.$isEmpty(scope.curVal)) {
+			// 	scope.curVal = scope.default;
+			// }
 
 			scope.activeItem = false;
 

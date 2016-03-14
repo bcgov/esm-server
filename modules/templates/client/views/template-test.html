@@ -2,9 +2,23 @@
 	Test Template for {{template.documentType}} version {{template.versionNumber}}
 </h1>
 <div class="row">
-	<div class="col-sm-3">{{dataset | json}}</div>
+	<div class="col-sm-3"><pre style="font-size: 10px">{{dataset | json}}</pre></div>
 	<div class="col-sm-9">
-		<tmpl-template-render x-template="template" x-document="dataset"></tmpl-template-render>
+		<div>
+			<div class="col-sm-6">
+			<div class="form-group">
+				<label for="pillar" class="control-label">Go to Section</label>
+				<select ng-change="goto(gosection)" id="pillar" ng-model='gosection' class="form-control" ng-options="section.name as section.label for section in allsections"></select>
+			</div>
+			</div>
+			<div class="col-sm-6">
+			<div class="form-group">
+				<label for="pillar" class="control-label">Append New in Section</label>
+				<select ng-change="append(newsection)" id="pillar" ng-model='newsection' class="form-control" ng-options="section.name as section.label for section in repeatsections"></select>
+			</div>
+			</div>
+		</div>
+		<tmpl-template-render x-template="template" x-mode="edit" x-document="dataset"></tmpl-template-render>
 	</div>
 </div>
 <div class="button-panel">

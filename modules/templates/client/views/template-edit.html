@@ -53,10 +53,15 @@
 			</div>
 		</div>
 		<div class="row form-group">
-			<div class="col-sm-4">
-				<label for="name" class="control-label">Section Name</label>
+			<div class="col-sm-3">
+				<label for="name" class="control-label">Name</label>
 				<input id="name" type="text" class="form-control input-sm" ng-model="section.name">
 			</div>
+			<div class="col-sm-3">
+				<label for="slabel" class="control-label">Label</label>
+				<input id="slabel" type="text" class="form-control input-sm" ng-model="section.label">
+			</div>
+<!--
 			<div class="col-sm-2">
 				<div class="checkbox control-with-label">
 					<label for="optional">
@@ -65,7 +70,8 @@
 					</label>
 				</div>
 			</div>
-			<div class="col-sm-2">
+ -->
+ 			<div class="col-sm-2">
 				<div class="checkbox control-with-label">
 					<label for="multiple">
 						<input id="multiple" type="checkbox" ng-model="section.multiple">

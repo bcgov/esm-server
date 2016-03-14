@@ -188,26 +188,24 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				return TemplateModel.getModel ($stateParams.templateId);
 			}
 		},
-		controller: function ($scope, template) {
+		controller: function ($scope, template, templateData, $location, $anchorScroll) {
 			$scope.template = template;
-			$scope.dataset = {
-				execsummary: {
-					happy: 'Am I really happy?'
-				},
-				boundaries: [{
-					title: 'this is a title',
-					footnote: 'this is a footnote',
-					apple : 'macintosh',
-					colour: 'green',
-					fruit : '<p>Wabba wabba</p>'
-				},
-				{
-					title: 'this is a title',
-					footnote: 'this is a footnote',
-					apple: 'royal gala',
-					colour: 'red',
-					fruit : '<p>no no <b>NO!</b></p>'
-				}]
+			var tData = templateData (template);
+			$scope.dataset = tData.document;
+			$scope.allsections = tData.sectionList ();
+			$scope.repeatsections = tData.repeatable ();
+			$scope.gosection = '';
+			$scope.newsection = '';
+			$scope.goto = function (sectionname) {
+				console.log ('goto ', sectionname);
+				$location.hash (sectionname);
+				$anchorScroll ();
+				$scope.gosection = '';
+			};
+			$scope.append = function (sectionname) {
+				console.log ('append ', sectionname);
+				tData.push (sectionname);
+				$scope.newsection = '';
 			};
 		}
 
