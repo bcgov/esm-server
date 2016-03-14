@@ -51,14 +51,26 @@ var loadProjects = function(file, req, res) {
 							// });
 							model.type = row.sector;
 							Organization.findOne ({name:row.Proponent}, function (err, result) {
-								// var o = new Organization (org);
-								// o.save ().then(function (o) {
-								// 	model.proponent = o;
-								// 	model.save();
-								// });
 								if (result) {
+									// console.log("saving proponent details");
 									model.proponent = result;
 									model.save();
+								} else {
+									// Make an organization from the proponent string listed.
+									var org = new Organization();
+									// Make code from leading letters in string
+									org.code = row.Proponent.toLowerCase().match(/\b(\w)/g).join('');
+									org.name = row.Proponent;
+									org.address1 = "";
+									org.city = "";
+									org.province = "";
+									org.postal = "";
+									org.save().then(function (org) {
+										model.proponent = org;
+										model.save();
+										// console.log("saved",o);
+										// console.log("model",model);
+									});
 								}
 							});
 							// TODO: Remove this
