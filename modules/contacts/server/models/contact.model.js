@@ -10,8 +10,6 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__access    : true,
 	__tracking  : true,
 	project     : { type:'ObjectId', ref:'Project', default:null, index:true },
-	groupId     : { type:Number, default: null }, // From ePIC
-	groupName 	: { type:String, default: '' },
 	contactName : { type:String, default: '' },
 	org     	: { type:'ObjectId', ref:'Org', default:null, index:true },
 	orgName    	: { type:String, default: '' },
