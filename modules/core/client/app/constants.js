@@ -135,7 +135,9 @@ angular
 			'decommissioned' : 'Decommissioned'
 		}
 	)
-	.constant('ENV', 'MEM')
+	.constant('MEM', true)
+	//.constant('LOGO', 'modules/core/client/img/brand/eao-logo.png')
+	.constant('LOGO', 'modules/core/client/img/brand/mem-logo.png')
 	.factory ('codeFromTitle', function () {
 		return function (title) {
 			var s = title.toLowerCase ();

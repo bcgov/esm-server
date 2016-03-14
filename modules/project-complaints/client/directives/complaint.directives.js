@@ -10,7 +10,7 @@ angular.module ('complaints')
 .directive ('tmplComplaintList', function () {
 	return {
 		restrict: 'E',
-		templateUrl: 'modules/complaints/client/views/complaint-list.html',
+		templateUrl: 'modules/project-complaints/client/views/complaint-list.html',
 		controller: 'controllerComplaintList',
 		controllerAs: 'data'
 	};
@@ -34,7 +34,7 @@ angular.module ('complaints')
 			element.on ('click', function () {
 				var modalView = $modal.open ({
 					animation    : true,
-					templateUrl  : 'modules/complaints/client/views/complaint-edit.html',
+					templateUrl  : 'modules/project-complaints/client/views/complaint-edit.html',
 					controller   : 'controllerEditComplaintModal',
 					controllerAs : 'd',
 					scope        : scope,

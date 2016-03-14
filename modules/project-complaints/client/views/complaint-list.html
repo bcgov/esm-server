@@ -8,7 +8,7 @@
 		<section class="panel panel-default">
 			<table ng-table="tableParams" show-filter="true" class="table table-condensed table-bordered table-striped">
 			    <tr ng-repeat="o in $data" ui-sref="o.complaint.detail({complaintId:o._id})">
-			        <td data-title="'Name'"   title:'Title'   filter="{'name':'text'}"       sortable="'name'"    ><a href x-edit-complaint-modal x-mode="view" x-complaint="o">{{o.name}}</a></td>
+			        <td data-title="'Name'"   title:'Title'   filter="{'name':'text'}"       sortable="'name'"    >{{o.name}}</td>
 					<td data-title="'Type'"   title:'Type'    filter="{'type':'text'}"       sortable="'type'"    >{{o.type}}</td>
 					<td data-title="'Sector'" title:'Sector'  filter="{'sector':'select'}"   sortable="'sector'"  filter-data="data.ptypes" >{{o.sector}}</td>
 					<td data-title="'Stage'"  title:'Stage'   filter="{'stage':'select'}"    sortable="'stage'"   filter-data="data.stypes">{{o.stage}}</td>
@@ -22,8 +22,4 @@
 			</table>
 		</section>
 	</div>
-</div>
-
-<div class='col-sm-2'>
-	<tmpl-system-menu x-menu-context="'project'" x-project="projDescEdit.project"></tmpl-system-menu>
 </div>

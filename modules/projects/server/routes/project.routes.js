@@ -12,6 +12,7 @@ var CSVParse   = require('csv-parse');
 var mongoose = require('mongoose');
 var Model    = mongoose.model ('Project');
 var _ = require ('lodash');
+var Organization = mongoose.model ('Organization');
 
 var loadProjects = function(file, req, res) {
 	// Now parse and go through this thing.
@@ -20,57 +21,85 @@ var loadProjects = function(file, req, res) {
 			return console.log(err);
 		}
 		// console.log("FILE DATA:",data);
-		var colArray = ['id','ProjectName','Proponent','Region','shortD','locSpatial','locDescription','provincialED','federalED','capitalInvestment','projectCreateDate','projectDescriptionLivingData','tombstoneNote','projectURL','captialInvestmentNote','lat','long','constructionJobs','constructionJobsNotes','operationJobs','operationJobsNotes','sector','subSector','currentPhaseTypeActivity','active','CEAAInvolvement','deleted','deleted','eaIssues','deleted','environmentalAssessmentNotes','CEAA','firstNationsConsultation','firstNationsAccess','firstNationsNotification','stakeholdersNotes','federalAgencies','workingGroups','allOtherStakeholderGroups','deleted','responsibleEPD','projectLead','EAOCAARTRepresentative','projectOfficer','projectAnalyst','projectAssistant','administrativeAssistant','CELead','teamNotes'];
+		var colArray = ['id','ProjectName','Proponent','Region','shortD','locSpatial','locDescription','provincialED','federalED','capitalInvestment','projectCreateDate','projectDescriptionLivingData','tombstoneNote','projectURL','captialInvestmentNote','lat','long','constructionJobs','constructionJobsNotes','operationJobs','operationJobsNotes','sector','subSector','currentPhaseTypeActivity','active','CEAAInvolvement','eaIssues','environmentalAssessmentNotes','CEAA','firstNationsConsultation','firstNationsAccess','firstNationsNotification','stakeholdersNotes','federalAgencies','workingGroups','allOtherStakeholderGroups','responsibleEPD','projectLead','EAOCAARTRepresentative','projectOfficer','projectAnalyst','projectAssistant','administrativeAssistant','CELead','teamNotes'];
 		var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 			// Skip this many rows
 			var length = Object.keys(output).length;
 			var projectProcessed = 0;
 			console.log("length",length);
 			Object.keys(output).forEach(function(key, index) {
-				if (index > 1) {
+				if (index > 0) {
 					var row = output[key];
-					// console.log("rowData:",row);
+					// console.log("rowData:",row.id);
 					Model.findOne({epicProjectID: row.id}, function (err, doc) {
 						if (doc === null) {
+							projectProcessed++;
 							var p = new Project (req.user);
 							p.new().then(function(model) {
 								// console.log("MODEL:",model);
 								// LATER
-								projectProcessed++;
-								model.epicProjectID = row.id;
-								console.log("epicProjectID",model.epicProjectID);
+								model.epicProjectID = parseInt(row.id);
+								// console.log("epicProjectID",model.epicProjectID);
 								model.oldData = JSON.stringify(row);
 								model.status = 'In Progress';
 								model.name = row.ProjectName;
 								model.description = row.shortD;
-								model.code = model.name.toLowerCase ().replace (' ', '-').substr (0, 10);
+								model.code = model.name.toLowerCase ().replace (' ', '-').substr (0, model.name.length+1);
 								model.phases = [];
 								// _.each (phases, function (ph) {
 								// 	var phase = new Phase (ph);
 								// 	project.phases.push (phase._id);
 								// 	phase.save ();
 								// });
-								model.type = 'Mine';
-								model.region = row.Region;
+								model.type = row.sector;
+								Organization.findOne ({name:row.Proponent}, function (err, result) {
+									// var o = new Organization (org);
+									// o.save ().then(function (o) {
+									// 	model.proponent = o;
+									// 	model.save();
+									// });
+									if (result) {
+										console.log("RES",result);
+										model.proponent = result;
+										model.save();
+									}
+								});
+								// TODO: Remove this
+								model.region = row.Region.toLowerCase ().replace(' region','');
 								model.currentPhase = model.phases[0];
-								model.lat = row.lat;
-								model.lon = row.lon;
+								if (row.lat) model.lat = parseFloat(row.lat);
+								if (row.lat) model.lon = parseFloat(row.long);
+								if (row.locDescription) model.location = row.locDescription;
 								model.roles = ['mem', 'public'];
-								//
-								// cram in all other infor into the description
-								//
-								//var od = p.description;
-								// project.description = 'Permit Number: '+p.permit+"\n";
-								// project.description += 'Project Name: '+p.name+"\n";
-								// project.description += 'Proponent/Operator: '+p.prop+"\n";
-								// project.description += 'Ownership: '+p.ownership+"\n";
-								// project.description += 'Latitude [decimal degrees N]: '+p.lat+"\n";
-								// project.description += 'Longitude [decimal degrees E]: '+p.lon+"\n";
-								// project.description += 'Status: '+p.status+"\n";
-								// project.description += 'Commodity/ies: '+p.comm+"\n";
-								// project.description += 'MEM Region: '+p.memRegion+"\n";
-								// project.description += 'Tailings Impoundments: '+p.tail+"\n";
+								model.description = "";
+								model.description += 'Provincial Electoral Districts: '+row.provincialED+"\n";
+								model.description += 'Capital Investment $M: '+row.capitalInvestment+"\n";
+								model.description += 'Project File Creation Date: '+row.projectCreateDate+"\n";
+								model.description += 'Construction Jobs: '+row.constructionJobs+"\n";
+								model.description += 'Operation Jobs: '+row.operationJobs+"\n";
+								model.description += 'Sub Sector: '+row.subSector+"\n";
+								model.description += 'Active: '+row.active+"\n";
+								model.description += 'CEAA Involvement (Fed EA Req. & Type): '+row.CEAAInvolvement+"\n";
+								model.description += 'EA Issues: '+row.eaIssues+"\n";
+								model.description += 'Environmental Assessment: '+row.environmentalAssessmentNotes+"\n";
+								model.description += 'CEAA: '+row.CEAA+"\n";
 								model.description += 'Description: '+row.projectDescriptionLivingData+"\n";
+								model.description += 'firstNationsConsultation: '+row.firstNationsConsultation+"\n";
+								model.description += 'firstNationsAccess: '+row.firstNationsAccess+"\n";
+								model.description += 'firstNationsNotification: '+row.firstNationsNotification+"\n";
+								model.description += 'stakeholdersNotes: '+row.stakeholdersNotes+"\n";
+								model.description += 'federalAgencies: '+row.federalAgencies+"\n";
+								model.description += 'workingGroups: '+row.workingGroups+"\n";
+								model.description += 'allOtherStakeholderGroups: '+row.allOtherStakeholderGroups+"\n";
+								model.description += 'responsibleEPD: '+row.responsibleEPD+"\n";
+								model.description += 'projectLead: '+row.projectLead+"\n";
+								model.description += 'EAOCAARTRepresentative: '+row.EAOCAARTRepresentative+"\n";
+								model.description += 'projectOfficer: '+row.projectOfficer+"\n";
+								model.description += 'projectAnalyst: '+row.projectAnalyst+"\n";
+								model.description += 'projectAssistant: '+row.projectAssistant+"\n";
+								model.description += 'administrativeAssistant: '+row.administrativeAssistant+"\n";
+								model.description += 'CELead: '+row.CELead+"\n";
+								model.description += 'teamNotes: '+row.teamNotes+"\n";
 								model.read = ['public'];
 								model.submit = ['mem'];
 								// console.log("epicProjectID",model.epicProjectID);
@@ -118,13 +147,14 @@ var loadProjects = function(file, req, res) {
 								// model.fillmein = row.administrativeAssistant;
 								// model.fillmein = row.CELead;
 								// model.fillmein = row.teamNotes;
-								model.save();
-								// Am I done processing?
-								// console.log("INDEX:",index);
-								if (index === length-1) {
-									console.log("processed: ",projectProcessed);
-									res.json("{done: true, rowsProcessed: "+projectProcessed+"}");
-								}
+								model.save().then(function () {
+									// Am I done processing?
+									// console.log("INDEX:",index);
+									if (index === length-1) {
+										console.log("processed: ",projectProcessed);
+										res.json("{done: true, rowsProcessed: "+projectProcessed+"}");
+									}
+								});
 							});
 						} else {
 							// console.log("INDEX:",index);

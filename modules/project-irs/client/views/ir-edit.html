@@ -1,11 +1,8 @@
-<div class="modal-header">
-	<h3 class="modal-title">Ir Detail ({{d.dmode}})</h3>
-</div>
-
-<div class="modal-body">
-
-	<div class="block-content">
-		<div class="panel-body">
+<h1 class="page-title">
+	Add/Edit Inspection Report
+</h1>
+<div class="block-content">
+	<div class="panel-body">
 		<div class="row">
 			<div class="col-sm-9">
 				<div class="form-group">
@@ -65,13 +62,9 @@
 
 		</div>
 
-		</div>
 	</div>
-
-</div> <!-- /modalbody -->
-
-<div class="modal-footer">
-	<a class="btn btn-default" href ng-click="d.cancel()">Cancel</a>
-	<a class="btn btn-default" href ng-click="d.ok()">OK</a>
 </div>
-
+<div>
+	<a class="btn btn-default" ui-sref="p.ir.list">Cancel</a>
+	<a class="btn btn-primary" href ng-click="save()">Save</a>
+</div>

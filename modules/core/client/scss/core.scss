@@ -946,14 +946,14 @@ h2.page-title {
 }
 
 
-.text-block {
+.edit-outlines .text-block {
 	border: 2px dotted $brand-info;
 	padding: 3px;
 	border-radius: 8px;
 	cursor: pointer;
 	background-color: transparent;
 }
-.text-block-success {
+.edit-outlines .text-block-success {
 	border: 2px dotted $brand-success;
 	background-color: transparent;
 	padding-left: 5px;
@@ -963,8 +963,8 @@ h2.page-title {
 	margin-bottom: 0;
 }
 
-.text-block:focus,
-.text-block-focus {
+.edit-outlines .text-block:focus,
+.edit-outlines .text-block-focus {
 	border: 2px dashed $brand-info;
 	outline: none !important;
 	background-color: #d9edf7;

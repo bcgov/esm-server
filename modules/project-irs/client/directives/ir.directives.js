@@ -10,7 +10,7 @@ angular.module ('irs')
 .directive ('tmplIrList', function () {
 	return {
 		restrict: 'E',
-		templateUrl: 'modules/irs/client/views/ir-list.html',
+		templateUrl: 'modules/project-irs/client/views/ir-list.html',
 		controller: 'controllerIrList',
 		controllerAs: 'data'
 	};
@@ -34,7 +34,7 @@ angular.module ('irs')
 			element.on ('click', function () {
 				var modalView = $modal.open ({
 					animation    : true,
-					templateUrl  : 'modules/irs/client/views/ir-edit.html',
+					templateUrl  : 'modules/project-irs/client/views/ir-edit.html',
 					controller   : 'controllerEditIrModal',
 					controllerAs : 'd',
 					scope        : scope,
