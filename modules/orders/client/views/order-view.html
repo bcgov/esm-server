@@ -1,1 +1,13 @@
-view-order.html
+<h1 class="page-title">
+	Order for {{ project.name }}
+</h1>
+
+<div class="block-content">
+	<div class="panel-body">
+		Order Details Go Here
+	</div>
+</div>
+<div>
+	<a class="btn btn-default" ui-sref="p.order.list">Cancel</a>
+	<a class="btn btn-success" ui-sref="p.order.edit({orderId:order._id})">Edit</a>
+</div>

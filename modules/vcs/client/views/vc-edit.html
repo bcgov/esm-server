@@ -1,15 +1,12 @@
-<div class="modal-header">
-	<h3 class="modal-title">Vc Detail ({{d.dmode}})</h3>
-</div>
-
-<div class="modal-body">
-
-	<div class="block-content">
-		<div class="panel-body">
+<h1 class="page-title">
+	Add/Edit Valued Component
+</h1>
+<div class="block-content">
+	<div class="panel-body">
 		<div class="row">
 			<div class="col-sm-9">
 				<div class="form-group">
-					<label for="title" class="control-label">Vc Name</label>
+					<label for="title" class="control-label">Valued Component Name</label>
 					<input id="title" type="text" class="form-control input-sm" ng-model="d.vc.name">
 				</div>
 			</div>
@@ -24,7 +21,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
-					<label for="shortDesc" class="control-label">Vc Description</label>
+					<label for="shortDesc" class="control-label">Valued Component Description</label>
 					<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="d.vc.description" rows=6></textarea>
 				</div>
 			</div>
@@ -65,13 +62,10 @@
 
 		</div>
 
-		</div>
 	</div>
-
-</div> <!-- /modalbody -->
-
-<div class="modal-footer">
-	<a class="btn btn-default" href ng-click="d.cancel()">Cancel</a>
-	<a class="btn btn-default" href ng-click="d.ok()">OK</a>
+</div>
+<div>
+	<a class="btn btn-default" ui-sref="p.vc.list">Cancel</a>
+	<a class="btn btn-primary" href ng-click="save()">Save</a>
 </div>
 

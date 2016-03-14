@@ -11,7 +11,7 @@ angular.module ('comment')
 .directive ('tmplCommentPeriodList', function () {
 	return {
 		restrict: 'E',
-		templateUrl: 'modules/comments/client/views/period-list.html',
+		templateUrl: 'modules/project-comments/client/views/period-list.html',
 		controller: 'controllerCommentPeriodList',
 		controllerAs: 'plist'
 	};
@@ -29,7 +29,7 @@ angular.module ('comment')
 			element.on ('click', function () {
 				var modalView = $modal.open ({
 					animation: true,
-					templateUrl: 'modules/comments/client/views/period-edit.html',
+					templateUrl: 'modules/project-comments/client/views/period-edit.html',
 					controller: 'controllerEditPeriodModal',
 					controllerAs: 'p',
 					scope: scope,

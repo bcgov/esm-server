@@ -131,6 +131,20 @@
 			<li><a x-modal-users-by-roles href x-source-object="menu.project">Edit Project Users</a></li>
 			<li><a x-modal-project-vc href x-project="menu.project">Edit VC</a></li>
 		</ul>
+
+		<ul class="list-unstyled" ng-show="menu.authentication.user">
+			<li><a ui-sref="p.projectdescription.list">Project Descriptions</a></li>
+			<li><a ui-sref="p.vc.list">Valued Components</a></li>
+			<li><a ui-sref="p.commentperiod.list">Componentsment Periods</a></li>
+			<li><a ui-sref="p.workinggroup.list">Working Group</a></li>
+			<li><a ui-sref="p.role.list">Project Roles</a></li>
+			<li><a ui-sref="p.projectcondition.list">Project Conditions</a></li>
+			<li><a ui-sref="p.ir.list">Inspection Reports</a></li>
+			<li><a ui-sref="p.order.list">Orders</a></li>
+			<li><a ui-sref="p.complaint.list">Complaints</a></li>
+			<li><a ui-sref="p.document.list">Documents</a></li>
+			<li><a ui-sref="p.notification.list">Notifications</a></li>
+		</ul>
 	</div>
 
 
@@ -184,11 +198,36 @@
 		<hr>
 		<label class="control-label">System</label>
 		<ul class="list-unstyled">
-			<li ng-repeat="item in menu.systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
+<!-- 			<li ng-repeat="item in menu.systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
+ -->
 			<li ng-if="menu.isAdmin">
-				<a ui-sref="p.detail">Detail</a>
+				<a ui-sref="admin.condition.list">Conditions</a>
+			</li>
+			<li ng-if="menu.isAdmin">
+				<a ui-sref="admin.topic.list">Topics</a>
+			</li>
+			<li ng-if="menu.isAdmin">
+				<a ui-sref="admin.legal.list">Legal Opinions</a>
+			</li>
+			<li ng-if="menu.isAdmin">
+				<a ui-sref="admin.contact.list">Contacts</a>
+			</li>
+			<li ng-if="menu.isAdmin">
+				<a ui-sref="admin.org.list">Organizations</a>
+			</li>
+			<li ng-if="menu.isAdmin">
+				<a ui-sref="admin.user.list">Users</a>
+			</li>
+			<li ng-if="menu.isAdmin">
+				<a ui-sref="admin.user.list">System Roles</a>
+			</li>
+ 			<li ng-if="menu.isAdmin">
+				<a ui-sref="admin.template.list">Templates</a>
+			</li>
+ 			<li ng-if="menu.isAdmin">
+				<a ui-sref="configuration">Configuration</a>
 			</li>
 		</ul>
 	</div>

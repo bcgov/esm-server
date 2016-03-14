@@ -35,7 +35,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	// -------------------------------------------------------------------------
 	.state('p.commentperiod.list', {
 		url: '/list',
-		templateUrl: 'modules/comments/client/views/period-list.html',
+		templateUrl: 'modules/project-comments/client/views/period-list.html',
 		controller: function ($scope, NgTableParams, periods, project) {
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: periods});
 			$scope.project = project;
@@ -49,7 +49,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	// -------------------------------------------------------------------------
 	.state('p.commentperiod.create', {
 		url: '/create',
-		templateUrl: 'modules/comments/client/views/period-edit.html',
+		templateUrl: 'modules/project-comments/client/views/period-edit.html',
 		resolve: {
 			period: function (CommentPeriodModel) {
 				return CommentPeriodModel.getNew ();
@@ -79,7 +79,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	// -------------------------------------------------------------------------
 	.state('p.commentperiod.edit', {
 		url: '/:periodId/edit',
-		templateUrl: 'modules/comments/client/views/period-edit.html',
+		templateUrl: 'modules/project-comments/client/views/period-edit.html',
 		resolve: {
 			period: function ($stateParams, CommentPeriodModel) {
 				console.log ('editing periodId = ', $stateParams.periodId);
@@ -114,7 +114,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	// -------------------------------------------------------------------------
 	.state('p.commentperiod.detail', {
 		url: '/:periodId',
-		templateUrl: 'modules/comments/client/views/period-view.html',
+		templateUrl: 'modules/project-comments/client/views/period-view.html',
 		resolve: {
 			period: function ($stateParams, CommentPeriodModel) {
 				console.log ('periodId = ', $stateParams.periodId);
