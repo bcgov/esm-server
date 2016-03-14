@@ -267,27 +267,6 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 
 	projectImport.fileList = [];
 
-	// projectEntry.regions = REGIONS;
-	// projectEntry.types = PROJECT_TYPES;
-
-	// projectEntry.questions = sProject.getProjectIntakeQuestions();
-	// projectEntry.form = {curTab: $state.params.tab};
-
-	// // if a project is already there, we're in edit mode.
-	// if (rProject) {
-	// 	projectEntry.title = 'Edit Project';
-	// 	sProjectModel.setModel(rProject);
-	// 	projectEntry.project = sProjectModel.getCopy();
-	// 	// project has been passed in, no need to get it again.
-	// } else {
-	// 	// no project set to presume new mode.
-	// 	projectEntry.title = 'Add Project';
-	// 	// no project exists, get a new blank one.
-	// 	sProjectModel.getNew().then( function(data) {
-	// 		console.log('getnew');
-	// 		projectEntry.project = data;
-	// 	});
-	// }
 	$scope.$watch('files', function (newValue) {
 		if (newValue) {
 			projectImport.inProgress = false;
@@ -295,11 +274,19 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 				projectImport.fileList.push(file);
 			});
 		}
-		// add the file to our central list.
-		// click the upload buton to actually upload this list.
-
-		//docUpload.upload($scope.files);
 	});
+
+	$scope.$on('importUploadComplete', function() {
+		$modalInstance.close();
+	});
+
+	$scope.$on('importUploadStart', function(event) {
+		projectImport.upload();
+	});
+
+	projectImport.ok = function () {
+		$scope.$broadcast('importUploadStart', false);
+	};
 
 	projectImport.removeFile = function(f) {
 		_.remove(projectImport.fileList, f);
@@ -326,7 +313,7 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 					// // when the last file is finished, send complete event.
 					if (--docCount === 0) {
 						// emit to parent.
-						$scope.$emit('documentUploadComplete');
+						$scope.$emit('importUploadComplete');
 					}
 					console.log("we're done with ",response);
 					item.processingComplete = true;
