@@ -102,26 +102,14 @@ var loadGroupContacts = function(file, req, res) {
 					rowsProcessed++;
 					// console.log("rowData:",row);
 					GroupModel.findOne({groupId: parseInt(row.GROUP_ID), personId: parseInt(row.PERSON_ID)}, function (err, doc) {
-						if (doc === null) {
+						var addOrChangeModel = function(model) {
 							// console.log("Nothing Found");
-							var c = new Group (req.user);
-							c.new().then(function(model) {
-								// console.log("MODEL:",model);
-								// LATER
-								// model.project = row.PROJECT_ID;
-								model.groupId 		= parseInt(row.GROUP_ID);
-								model.groupName 	= row.NAME;
-								model.groupType 	= row.CONTACT_GROUP_TYPE;
-								model.personId 		= parseInt(row.PERSON_ID);
-								model.epicProjectID  = parseInt(row.PROJECT_ID); // Save epic data just in case
-								model.save();
-								// Attempt to link up the project if it's loaded.
-								Project.findOne({epicProjectID: parseInt(row.PROJECT_ID)}).then(function(p) {
-									if (p) {
-										model.project = p;
-										model.save();
-									}
-								});
+							model.groupId 		= parseInt(row.GROUP_ID);
+							model.groupName 	= row.NAME;
+							model.groupType 	= row.CONTACT_GROUP_TYPE;
+							model.personId 		= parseInt(row.PERSON_ID);
+							model.epicProjectID  = parseInt(row.PROJECT_ID); // Save epic data just in case
+							model.save().then(function () {
 								// Am I done processing?
 								// console.log("INDEX:",index);
 								if (index === length-1) {
@@ -129,12 +117,21 @@ var loadGroupContacts = function(file, req, res) {
 									res.json("{done: true, rowsProcessed: "+rowsProcessed+"}");
 								}
 							});
+							// Attempt to link up the project if it's loaded.
+							Project.findOne({epicProjectID: parseInt(row.PROJECT_ID)}).then(function(p) {
+								if (p) {
+									model.project = p;
+									model.save();
+								}
+							});
+						};
+						if (doc === null) {
+							// Create new
+							var g = new Group (req.user);
+							g.new().then(addOrChangeModel);
 						} else {
-							console.log("INDEX:",index);
-							if (index === length-1) {
-								console.log("rowsProcessed: ",rowsProcessed);
-								res.json("{done: true, rowsProcessed: "+rowsProcessed+"}");
-							}
+							// Update:
+							addOrChangeModel(doc);
 						}
 					});
 				}
