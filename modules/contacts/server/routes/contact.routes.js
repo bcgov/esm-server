@@ -33,49 +33,45 @@ var loadContacts = function(file, req, res) {
 					var row = output[key];
 					rowsProcessed++;
 					Model.findOne({personId: row.PERSON_ID}, function (err, doc) {
-						if (doc === null) {
-							// console.log("rowData:",row);
-							var c = new Contact (req.user);
-							c.new().then(function(model) {
-								// console.log("MODEL:",model);
-								// LATER
-								// model.project = row.TITLE;
-								// model.contactName = row.TITLE;
-								model.personId 		= row.PERSON_ID;
-								model.orgName 		= row.ORGANIZATION_NAME;
-								model.title 		= row.TITLE;
-								model.firstName 	= row.FIRST_NAME;
-								model.middleName 	= row.MIDDLE_NAME;
-								model.lastName 		= row.LAST_NAME;
-								model.phoneNumber 	= row.PHONE_NUMBER;
-								model.email 		= row.EMAIL_ADDRESS;
-								model.eaoStaffFlag 	= row.EAO_STAFF_FLAG;
-								model.proponentFlag = row.PROPONENT_FLAG;
-								model.salutation 	= row.SALUTATION;
-								model.department 	= row.DEPARTMENT;
-								model.faxNumber 	= row.FAX_NUMBER;
-								model.cellPhoneNumber = row.CELL_PHONE_NUMBER;
-								model.address1 		= row.ADDRESS_LINE_1;
-								model.address2 		= row.ADDRESS_LINE_2;
-								model.city 			= row.CITY;
-								model.province 		= row.PROVINCE_STATE;
-								model.country 		= row.COUNTRY;
-								model.postalCode 	= row.POSTAL_CODE;
-								model.notes 		= row.NOTES;
-								model.save();
+						var addOrChangeModel = function(model) {
+							// console.log("Nothing Found");
+							model.personId 		= row.PERSON_ID;
+							model.orgName 		= row.ORGANIZATION_NAME;
+							model.title 		= row.TITLE;
+							model.firstName 	= row.FIRST_NAME;
+							model.middleName 	= row.MIDDLE_NAME;
+							model.lastName 		= row.LAST_NAME;
+							model.phoneNumber 	= row.PHONE_NUMBER;
+							model.email 		= row.EMAIL_ADDRESS;
+							model.eaoStaffFlag 	= row.EAO_STAFF_FLAG;
+							model.proponentFlag = row.PROPONENT_FLAG;
+							model.salutation 	= row.SALUTATION;
+							model.department 	= row.DEPARTMENT;
+							model.faxNumber 	= row.FAX_NUMBER;
+							model.cellPhoneNumber = row.CELL_PHONE_NUMBER;
+							model.address1 		= row.ADDRESS_LINE_1;
+							model.address2 		= row.ADDRESS_LINE_2;
+							model.city 			= row.CITY;
+							model.province 		= row.PROVINCE_STATE;
+							model.country 		= row.COUNTRY;
+							model.postalCode 	= row.POSTAL_CODE;
+							model.notes 		= row.NOTES;
+							model.save().then(function () {
 								// Am I done processing?
 								// console.log("INDEX:",index);
 								if (index === length-1) {
-									console.log("processed: ",rowsProcessed);
+									console.log("rowsProcessed: ",rowsProcessed);
 									res.json("{done: true, rowsProcessed: "+rowsProcessed+"}");
 								}
 							});
+						};
+						if (doc === null) {
+							// Create new
+							var c = new Contact (req.user);
+							c.new().then(addOrChangeModel);
 						} else {
-							// console.log("INDEX:",index);
-							if (index === length-1) {
-								console.log("processed: ",rowsProcessed);
-								res.json("{done: true, rowsProcessed: "+rowsProcessed+"}");
-							}
+							// Update:
+							addOrChangeModel(doc);
 						}
 					});
 				}
