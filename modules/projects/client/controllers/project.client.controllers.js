@@ -312,29 +312,34 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 	// Standard save make sure documents are uploaded before save.
 	projectImport.upload = function() {
 		console.log("Got file:",projectImport.fileList);
-		var upload = Upload.upload({
-			url: '/api/projects/import',
-			file: projectImport.fileList
-		});
-
-		upload.then(function (response) {
-			$timeout(function () {
-				//console.log('filedata', response.data);
-				// // when the last file is finished, send complete event.
-				// if (--docCount === 0) {
-				// 	// emit to parent.
-				// 	$scope.$emit('documentUploadComplete');
-				// }
-				console.log("we're done with ",upload.file);
+		var docCount = projectImport.fileList.length;
+		projectImport.fileList.forEach(function (item) {
+			// Check file type
+			var upload = Upload.upload({
+				url: item.importType,
+				file: item
 			});
-		}, function (response) {
-			// if (response.status > 0) {
-			// 	projectImport.errorMsg = response.status + ': ' + response.data;
-			// } else {
-			// 	_.remove($scope.files, file);
-			// }
-		}, function (evt) {
-			//file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+
+			upload.then(function (response) {
+				$timeout(function () {
+					//console.log('filedata', response.data);
+					// // when the last file is finished, send complete event.
+					if (--docCount === 0) {
+						// emit to parent.
+						$scope.$emit('documentUploadComplete');
+					}
+					console.log("we're done with ",upload.file);
+					item.processingComplete = true;
+				});
+			}, function (response) {
+				// if (response.status > 0) {
+				// 	projectImport.errorMsg = response.status + ': ' + response.data;
+				// } else {
+				// 	_.remove($scope.files, file);
+				// }
+			}, function (evt) {
+				item.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+			});
 		});
 	};
 }
