@@ -36,11 +36,11 @@ fi
 docker pull $image_name
 
 # find the id of the prior container, if it exists
-priorContainer=`docker ps -a --filter name=$environment_name | awk '{if(NR>1)print $1;}'`
+priorContainer=`docker ps -a --filter name=app-$environment_name | awk '{if(NR>1)print $1;}'`
 
 # stop the previously deployed instance of the app
 if [ -n "$priorContainer" ] ; then
-    priorContainerRunning=`docker ps -a --filter name=$environment_name -f status=running | awk '{if(NR>1)print $1;}'`
+    priorContainerRunning=`docker ps -a --filter name=app-$environment_name -f status=running | awk '{if(NR>1)print $1;}'`
         if [ -n "$priorContainerRunning" ]; then
                 echo "Stopping previously deployed container..."
                 docker stop $priorContainer
@@ -51,8 +51,8 @@ fi;
 
 if  [ "$proxy" = "true" ]; then
     echo "Running with proxy."
-    docker run -p $proxyPort:3000 -v /data/$environment_name/uploads:/uploads -d --restart=always --link webapp-proxy:webapp-proxy --link mongo:db_1 --name $environment_name  $proxyParams -l appname=$environment_name $image_name
+    docker run -p $proxyPort:3000 -v /data/$environment_name/uploads:/uploads -d --restart=always --link webapp-proxy:webapp-proxy --link mongo-$environment_name:db_1 --name app-$environment_name  $proxyParams -l appname=$environment_name $image_name
 else
     echo "Running without proxy."
-    docker run -p $proxyPort:3000 -v /data/$environment_name/esm-uploads:/uploads -d --restart=always --link mongo:db_1 --name $environment_name -l appname=$environment_name $image_name
+    docker run -p $proxyPort:3000 -v /data/$environment_name/esm-uploads:/uploads -d --restart=always --link mongo-$environment_name:db_1 --name app-$environment_name -l appname=$environment_name $image_name
 fi
