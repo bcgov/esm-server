@@ -23,7 +23,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	phoneNumber : { type:String, default: '' },
 	email       : { type:String, default: '' },
 
-	// if gropuId == null, then this is a person (hack)
+	// if groupId == null, then this is a person (hack)
 	eaoStaffFlag : { type:Boolean, default: false },
 	proponentFlag : { type:Boolean, default: false },
 	salutation  : { type:String, default: '' },

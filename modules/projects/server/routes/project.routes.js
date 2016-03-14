@@ -44,6 +44,7 @@ var loadProjects = function(file, req, res) {
 							model.description = row.shortD;
 							model.code = model.name.toLowerCase ().replace (' ', '-').substr (0, model.name.length+1);
 							model.phases = [];
+							// No phases yet from export document.
 							// _.each (phases, function (ph) {
 							// 	var phase = new Phase (ph);
 							// 	project.phases.push (phase._id);
