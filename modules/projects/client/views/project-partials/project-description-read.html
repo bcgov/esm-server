@@ -1,0 +1,41 @@
+<section class="block-content">
+	<h3>Project Description ({{desc.data.version}})</h3>
+	<div float-right>
+		<a href="" ui-sref="route.route({projectid:desc.data.project})" >Edit</a>
+	</div>
+	<div class='panel-body'>
+		<div class="row">
+			<h4>General</h4>
+			<h5>Background</h5>
+			<p>{{desc.data.general.background}}</p>
+			<h5>Location</h5>
+			<p>{{desc.data.general.location}}</p>
+			<h5>Location Documents</h5>
+			<p>List here</p>
+		</div>
+		<div class="row">
+			<h4>Overview</h4>
+			<h5>Components</h5>
+			<p>{{desc.data.overview.components}}</p>
+			<h5>Scheduled Phases</h5>
+			<p>{{desc.data.overview.schedulePhases}}</p>
+			<h5>Costs</h5>
+			<p>{{desc.data.overview.costs}}</p>
+			<h5>Site Plan Documents</h5>
+			<p>List here</p>
+		</div>
+		<div class="row">
+			<h4>Land User Setting</h4>
+			<p>{{desc.data.landUserSetting}}</p>
+		</div>
+		<div class="row">
+			<h4>Consulting Activities</h4>
+			<p>{{desc.data.consultingActivities}}</p>
+		</div>
+		<div class="row">
+			<h4>Proposed Development Schedule</h4>
+			<p>{{desc.data.proposedDevelopmentSchedule}}</p>
+		</div>
+	</div>
+</section>
+

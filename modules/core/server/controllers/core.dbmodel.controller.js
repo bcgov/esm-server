@@ -21,7 +21,9 @@ _.extend (DBModel.prototype, {
 	emptyPromise     : helpers.emptyPromise,
 	decorate         : helpers.emptyPromise,
 	preprocessAdd    : helpers.emptyPromise,
+	postprocessAdd   : helpers.emptyPromise,
 	preprocessUpdate : helpers.emptyPromise,
+	postprocessUpdate: helpers.emptyPromise,
 	name             : 'Project',
 	populate         : '',
 	sort             : '',
@@ -42,6 +44,7 @@ _.extend (DBModel.prototype, {
 		// }, options);
 		// // console.log ("opts = ", this.opts);
 		// if (name) this.name = name;
+		this.mongoose   = mongoose;
 		this.model      = mongoose.model (this.name);
 		this.err        = (!this.model) ? new Error ('Model not provided when instantiating ESM Model') : false;
 		this.useAudit   = _.has (this.model.schema.methods, 'setAuditFields');
@@ -67,7 +70,8 @@ _.extend (DBModel.prototype, {
 			'addPermissions',
 			'decoratePermission',
 			'permissions',
-			'preprocessAdd'
+			'preprocessAdd',
+			'preprocessUpdate'
 		]);
 		if (this.bind) _.bindAll (this, this.bind);
 		this.user = user;
@@ -89,6 +93,7 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	setBaseQ : function (accessQuery) {
 		accessQuery = accessQuery || this.readQuery;
+		// console.log (accessQuery);
 		this.baseQ = (_.isFunction (this.baseQuery)) ? this.baseQuery.call (this) : _.cloneDeep (this.baseQuery);
 		//
 		// for an admin we don't apply access control, so only continue
@@ -98,7 +103,7 @@ _.extend (DBModel.prototype, {
 		if (this.useRoles && _.indexOf (this.roles, 'admin') === -1) {
 			_.extend (this.baseQ, accessQuery);
 		}
-		console.log ('my roles are:', this.roles);
+		// console.log ('my roles are:', this.roles);
 		// console.log ('base query is:', this.baseQ);
 	},
 	// -------------------------------------------------------------------------
@@ -110,7 +115,9 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	setRoles : function (user) {
 		// CC: change this in production to only public, add 'admin' to the array to get everything
-		this.roles = (user) ? user.roles : ['public'];
+		this.roles = (user) ? user.roles : [];
+		this.roles.push ('public');
+		// console.log ("this.roles = ", this.roles);
 		this.readQuery = {
 			$or : [
 				{ read   : { $in : this.roles } },
@@ -147,12 +154,12 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	setAccess: function (val) {
-		console.log ('setting access ',val);
+		// console.log ('setting access ',val);
 		val = (val === 'write') ? this.writeQuery : this.readQuery;
 		this.setBaseQ (val);
 	},
 	setAccessOnce: function (val) {
-		console.log ('setting access ONCE ',val);
+		// console.log ('setting access ONCE ',val);
 		this.resetAccess = true;
 		this.setAccess (val);
 	},
@@ -165,13 +172,40 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	findById : function (id) {
+		return this.findOne ({_id : id});
+		// var self = this;
+		// return new Promise (function (resolve, reject) {
+		// 	if (self.err) return reject (self.err);
+		// 	var q = _.extend ({}, self.baseQ, {_id : id});
+		// 	// console.log ('q = ',q);
+		// 	self.model.findOne (q)
+		// 	.populate (self.populate)
+		// 	.exec ()
+		// 	.then (resolve, reject);
+		// 	if (self.resetAccess) {
+		// 		self.resetAccess = false;
+		// 		self.setAccess ('read');
+		// 	}
+		// });
+	},
+	// -------------------------------------------------------------------------
+	//
+	// this function returns a promise using the find by Id method. It has an
+	// optional populate as well. this is assumed blank unless otherwise passed in
+	// it aslo deals woith permissions on the actual object, adding this to the
+	// query if required
+	//
+	// -------------------------------------------------------------------------
+	findOne : function (query, fields) {
 		var self = this;
+		query = query || {};
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
-			var q = _.extend ({}, self.baseQ, {_id : id});
-			console.log ('q = ',q);
+			var q = _.extend ({}, self.baseQ, query);
+			// console.log ('q = ',q);
 			self.model.findOne (q)
 			.populate (self.populate)
+			.select (fields)
 			.exec ()
 			.then (resolve, reject);
 			if (self.resetAccess) {
@@ -185,16 +219,37 @@ _.extend (DBModel.prototype, {
 	// returns a promise, takes optional query, sort and populate
 	//
 	// -------------------------------------------------------------------------
-	findMany : function (query) {
+	findMany : function (query, fields) {
 		var self = this;
 		query = query || {};
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			console.log ('q = ',q);
+			// console.log ('q.$or = ',q.$or[0].read);
 			self.model.find (q)
 			.sort (self.sort)
 			.populate (self.populate)
+			.select (fields)
+			.exec ()
+			.then (resolve, reject);
+			if (self.resetAccess) {
+				self.resetAccess = false;
+				self.setAccess ('read');
+			}
+		});
+	},
+	findFirst : function (query, fields, sort) {
+		var self = this;
+		query = query || {};
+		return new Promise (function (resolve, reject) {
+			if (self.err) return reject (self.err);
+			var q = _.extend ({}, self.baseQ, query);
+			// console.log ('q.$or = ',q.$or[0].read);
+			self.model.find (q)
+			.sort (sort)
+			.limit (1)
+			.populate (self.populate)
+			.select (fields)
 			.exec ()
 			.then (resolve, reject);
 			if (self.resetAccess) {
@@ -210,9 +265,10 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	saveDocument : function (doc) {
 		var self = this;
-		// console.log ('in saveDocument with ',self);
+		// console.log ('in saveDocument with doc ',doc);
+		// console.log ('in saveDocument with roles ',self.roles);
 		return new Promise (function (resolve, reject) {
-			if (self.useRoles && !doc.hasPermission (self.roles, 'write')) {
+			if (self.useRoles && !doc.userHasPermission (self.user, 'write')) {
 				return reject (new Error ('Write operation not permitted for this '+self.name+' object'));
 			}
 			if (self.useAudit) doc.setAuditFields (self.user);
@@ -317,6 +373,46 @@ _.extend (DBModel.prototype, {
 	},
 	// -------------------------------------------------------------------------
 	//
+	// this is when we need to ensure that the provided code is in fact unique
+	// this is NOT a good implementation as it can easily fail. Later someone
+	// should figure out a nice way to do a loop of promises, can't think of it
+	// right now and don't have a lot if time to get this done.
+	//
+	// TBD: implement a proper loop of promises checking for random code
+	// patterns
+	//
+	// -------------------------------------------------------------------------
+	guaranteeUniqueCode : function (code) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			var trialCode = code;
+			self.model.findOne ({code:trialCode}).select('code').exec()
+			.then (function (result) {
+				if (!result) resolve (trialCode);
+				else {
+					trialCode = code + '-' + _.random (0,100);
+					return self.model.findOne({code:trialCode}).select('code').exec();
+				}
+			})
+			.then (function (result) {
+				if (!result) resolve (trialCode);
+				else {
+					trialCode = code + '-' + _.random (0,100);
+					return self.model.findOne({code:trialCode}).select('code').exec();
+				}
+			})
+			.then (function (result) {
+				if (!result) resolve (trialCode);
+				else {
+					trialCode = code + '-' + _.random (0,100);
+					resolve (trialCode);
+				}
+			})
+			.catch (reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
 	// POST
 	// has optional preprocess and decorate (postprocess)
 	// these assume that the object being saved already has an Id (it was made
@@ -330,6 +426,7 @@ _.extend (DBModel.prototype, {
 			.then (self.preprocessAdd)
 			.then (self.saveDocument)
 			.then (self.permissions)
+			.then (self.postprocessAdd)
 			.then (self.decorate)
 			.then (resolve, reject);
 		});
@@ -348,6 +445,7 @@ _.extend (DBModel.prototype, {
 			.then (self.preprocessUpdate)
 			.then (self.saveDocument)
 			.then (self.permissions)
+			.then (self.postprocessUpdate)
 			.then (self.decorate)
 			.then (resolve, reject);
 		});

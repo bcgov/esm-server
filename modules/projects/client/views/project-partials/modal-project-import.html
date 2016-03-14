@@ -1,0 +1,74 @@
+<div class="modal-header">
+	<h3 class="modal-title">Import Projects</h3>
+</div>
+
+<div class="modal-body">
+	<div class="well well-sm clearfix">
+		<div class="row">
+			<div class="col-md-12">
+			    <div ngf-drop ngf-select ng-model="files" class="drop-box"
+			        ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+			        accept=".csv,text/csv"
+			        ngf-pattern="'.csv,text/csv'">Drop files here or click to select
+			    </div>
+			</div>
+		</div>
+
+		<table class="table table-condensed">
+			<thead>
+				<tr class="small">
+					<th width="90%">File</th>
+					<th width="10%"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ngf-no-file-drop>
+					<td class="text-center">
+						<p class="form-control-static">File Drag/Drop is not supported for this browser (pdf or image files only)</p>
+					</td>
+				</tr>
+				<tr ng-if="!files">
+					<td class="text-center" class="text-center">
+						<p class="form-control-static">Drag a file to the dashed region above to upload.</p>
+					</td>
+				</tr>
+				<tr ng-repeat="f in projectImport.fileList" ng-class="{'danger': f.$error}">
+
+
+					<td ng-if="f.$error">
+						<p class="form-control-static text-danger">FILE ERROR: {{f.name}} {{f.$error}} {{f.$errorParam}}</p>
+					</td>
+
+					<td ng-if="!f.$error">
+						<p class="form-control-static">{{f.name}}</p>
+					</td>
+
+
+					<td ng-if="!f.$error && !f.progress" class="text-right">
+						<p class="form-control-static"><a href ng-click="projectImport.removeFile(f)"><span class="glyphicon glyphicon-remove"></span></a></p>
+					</td>
+
+					<td ng-if="!f.$error && f.progress">
+						<div class="progress" ng-show="f.progress >= 0" style="margin-top: 7px;"><div class="progress-bar progress-bar-success" role="progressbar" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">{{ f.progress }}</div></div>
+					</td>
+
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="row" ng-if="!projectImport.inProgress && !projectImport.hideUploadButton">
+			<div class="col-sm-12 text-right">
+				<button ng-click="projectImport.upload()" ng-if="projectImport.fileList.length > 0" class="btn btn-success">
+					Upload Queued Documents
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div>
+			<a class="btn btn-default" href ng-click="projectImport.cancel()">Cancel</a>
+			<a class="btn btn-default" href ng-click="projectImport.ok()">Save</a>
+		</div>
+	</div>
+</div>
+

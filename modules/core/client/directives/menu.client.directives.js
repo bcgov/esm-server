@@ -18,7 +18,7 @@ function directiveSystemMenu() {
 		controller: 'controllerSystemMenu',
 		controllerAs: 'menu',
 		scope: {
-			menuContext: '@',
+			menuContext: '=',
 			project: '='
 		}
 	};

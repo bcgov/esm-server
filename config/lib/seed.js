@@ -1,184 +1,133 @@
 'use strict';
 
-var mongoose = require('mongoose'),
-  chalk         = require('chalk'),
-  crypto        = require('crypto'),
-  _             = require('lodash'),
-  configs       = require('./newconfigs'),
-  User          = mongoose.model('User'),
-  Activity      = mongoose.model('Activity'),
-  Phase         = mongoose.model('Phase'),
-  Bucket        = mongoose.model('Bucket'),
-  Task          = mongoose.model('Task'),
-  Milestone     = mongoose.model('Milestone'),
-  Requirement   = mongoose.model('Requirement'),
-  Project       = mongoose.model('Project'),
-  Stream        = mongoose.model('Stream'),
-  Integration   = mongoose.model('Integration'),
-  PhaseBase     = mongoose.model('PhaseBase'),
-  MilestoneBase = mongoose.model('MilestoneBase'),
-  ActivityBase  = mongoose.model('ActivityBase');
-
+var mongoose = require('mongoose');
+var chalk         = require('chalk');
+var _             = require('lodash');
+var Integration  = mongoose.model ('Integration');
+var promise = require ('promise');
 
 console.log(chalk.bold.red('Warning:  Database seeding is turned on'));
 
-//If production only seed admin if it does not exist
-if (process.env.NODE_ENV === 'production') {
-  //Add Local Admin
-  User.find({username: 'admin'}, function (err, users) {
-    if (users.length === 0) {
-      var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
-      var user = new User({
-        username: 'admin',
-        password: password,
-        provider: 'local',
-        email: 'admin@localhost.com',
-        firstName: 'Admin',
-        lastName: 'Local',
-        displayName: 'Admin Local',
-        roles: ['user', 'admin']
-      });
-      // Then save the user
-      user.save(function (err) {
-        if (err) {
-          console.log('Failed to add local admin', err);
-        } else {
-          console.log(chalk.bold.red('Local admin added with password set to ' + password));
-        }
-      });
-    } else {
-      console.log('Admin user exists');
-    }
-  });
-} else {
-  //Add Local User
-  User.find({username: 'user'}, function (err, users) {
-    if (users.length === 0) {
-      var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
-      var user = new User({
-        username: 'user',
-        password: 'user',
-        provider: 'local',
-        email: 'user@localhost.com',
-        firstName: 'User',
-        lastName: 'Local',
-        displayName: 'User Local',
-        roles: ['user']
-      });
-      // Then save the user
-      user.save(function (err) {
-        if (err) {
-          console.log('Failed to add local user', err);
-        } else {
-          console.log(chalk.bold.red('Local user added with password set to ' + password));
-        }
-      });
-    }
-  });
+// =========================================================================
+//
+// !!!! IMPORTANT !!!!
+//
+// This will drop schemas first if set to true
+//
+// =========================================================================
+var DROP_SCHEMAS = false;
+
+require('../seed-data/dropschemas')(DROP_SCHEMAS);
+
+// =========================================================================
+//
+// This will force all integrations if set to true
+//
+// =========================================================================
+var FORCE = false;
+
+// -------------------------------------------------------------------------
+//
+// check if the integration was performed, can override
+//
+// -------------------------------------------------------------------------
+var checkIntegration = function (name, override) {
+	return new promise (function (resolve, reject) {
+		if (!FORCE && override) return resolve (true);
+		Integration.findOne ({module:name}, function (err, row) {
+			if (err) {
+				console.log ('Error seeding '+name+' : ', err);
+				reject (err);
+			}
+			else if (!FORCE && row) {
+				console.log ('seeding :' + name + ' has already been performed');
+				reject ('seeding :' + name + ' has already been performed');
+			}
+			else {
+				console.log ('seeding :' + name);
+				var i = new Integration ({module:name});
+    			i.save ();
+    			resolve (true);
+			}
+		});
+	});
+};
+
+// =========================================================================
+//
+// Things in this section go into ALL environments
+//
+// =========================================================================
+
+// -------------------------------------------------------------------------
+//
+// configurations
+//
+// -------------------------------------------------------------------------
+checkIntegration ('newconfigs').then (function () {
+	require('../seed-data/newconfigs')(true);
+});
 
 
-  //Add Local Admin
-  User.find({username: 'admin'}, function (err, users) {
-    if (users.length === 0) {
-      var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
-      var user = new User({
-        username: 'admin',
-        password: 'admin',
-        provider: 'local',
-        email: 'admin@localhost.com',
-        firstName: 'Admin',
-        lastName: 'Local',
-        displayName: 'Admin Local',
-        roles: ['user', 'admin']
-      });
-      // Then save the user
-      user.save(function (err) {
-        if (err) {
-          console.log('Failed to add local admin', err);
-        } else {
-          console.log(chalk.bold.red('Local admin added with password set to ' + password));
-        }
-      });
-    }
-  });
+// -------------------------------------------------------------------------
+//
+// Topics
+//
+// -------------------------------------------------------------------------
+checkIntegration ('loadtopics2').then (function () {
+	require('../seed-data/loadtopics')();
+});
 
-  // Add Vetting User
-  User.find({username: 'vetting'}, function (err, users) {
-    if (users.length === 0) {
-      var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
-      var user = new User({
-        username: 'vetting',
-        password: 'vetting',
-        provider: 'local',
-        email: 'vetting@localhost.com',
-        firstName: 'vetting',
-        lastName: 'Local',
-        displayName: 'vetting Local',
-        roles: ['user', 'vetting']
-      });
-      // Then save the user
-      user.save(function (err) {
-        if (err) {
-          console.log('Failed to add local admin', err);
-        } else {
-          console.log(chalk.bold.red('Local admin added with password set to ' + password));
-        }
-      });
-    }
-  });
+// -------------------------------------------------------------------------
+//
+// Conditions
+//
+// -------------------------------------------------------------------------
+checkIntegration ('loadconditions2').then (function () {
+	require('../seed-data/loadconditions')();
+});
 
-  // Add Classification User
-  User.find({username: 'classify'}, function (err, users) {
-    if (users.length === 0) {
-      var password = crypto.randomBytes(64).toString('hex').slice(1, 20);
-      var user = new User({
-        username: 'classify',
-        password: 'classify',
-        provider: 'local',
-        email: 'classify@localhost.com',
-        firstName: 'classify',
-        lastName: 'Local',
-        displayName: 'classify Local',
-        roles: ['user', 'classify']
-      });
-      // Then save the user
-      user.save(function (err) {
-        if (err) {
-          console.log('Failed to add local admin', err);
-        } else {
-          console.log(chalk.bold.red('Local admin added with password set to ' + password));
-        }
-      });
-    }
-  });
+// =========================================================================
+//
+// THings in this section are split into production and non-production
+//
+// =========================================================================
+if (process.env.NODE_ENV === 'production')
+{
+	// -------------------------------------------------------------------------
+	//
+	// add production admin user
+	//
+	// -------------------------------------------------------------------------
+	require ('../seed-data/users-production')();
+}
+else
+{
+	// -------------------------------------------------------------------------
+	//
+	// add non-production test user accounts
+	//
+	// -------------------------------------------------------------------------
+	require ('../seed-data/users-other')();
+	// -------------------------------------------------------------------------
+	//
+	// MEM
+	//
+	// -------------------------------------------------------------------------
+	checkIntegration ('loadmem').then (function () {
+		require('../seed-data/loadmem')();
+	});
+	// -------------------------------------------------------------------------
+	//
+	// MEM
+	//
+	// -------------------------------------------------------------------------
+	checkIntegration ('orgload').then (function () {
+		require('../seed-data/orgload')();
+	});
+
 }
 
-
-var doConfigs = function () {
-    var i = new Integration ({module:'newconfigs'});
-    i.save ();
-    console.log ('++ Adding default configuration objects');
-    configs (Stream, PhaseBase, MilestoneBase, ActivityBase, true);
-    // //activity phase bucket task milestone requirement
-    // var a = [
-    //   {m:Activity, s:'activity',p:'activities'},
-    //   {m:Phase, s:'phase',p:'phases'},
-    //   {m:Bucket, s:'bucket',p:'buckets'},
-    //   {m:Task, s:'task',p:'tasks'},
-    //   {m:Milestone, s:'milestone',p:'milestones'},
-    //   {m:Requirement, s:'requirement',p:'requirements'},
-    //   {m:Stream, s:'stream', p:'streams'}
-    // ];
-    // _.each (a, function (o) {
-    //   o.m.remove ({}, function () {
-    //     _.each (configs[o.p], function (obj) {
-    //       var m = new o.m (obj);
-    //       m[o.s] = m._id;
-    //       m.save ();
-    //     });
-    //   });
-    // });
-};
 
 
 // // check to see if the seed import executes
@@ -214,19 +163,6 @@ var doConfigs = function () {
 // 		  });
 
 // 	  });
-
-
-
-
-//   }
-// });
-
-Integration.findOne ({module:'newconfigs'}).exec()
-.then (function (row) {
-  if (!row) {
-    doConfigs ();
-  }
-});
 
 
 

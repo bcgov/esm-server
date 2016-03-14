@@ -1,16 +1,23 @@
+
 'use strict';
 // =========================================================================
 //
-// topic model
+// this is the data model (service). This is how all data
+// is accessed through the front end
 //
 // =========================================================================
-angular.module('project').factory ('TopicModel', function (ModelBase, _) {
+angular.module('topics').factory ('TopicModel', function (ModelBase, _) {
 	//
-	// build the project model by extending the base model. the base model will
+	// build the model by extending the base model. the base model will
 	// have all the basic crud stuff built in
 	//
-	var TopicClass = ModelBase.extend ({
-		urlName : 'topic'
+	var Class = ModelBase.extend ({
+		urlName : 'topic',
+		getTopicsForPillar: function (pillar) {
+			return this.get ('/api/topics/for/pillar/'+pillar);
+		}
 	});
-	return new TopicClass ();
+	return new Class ();
 });
+
+

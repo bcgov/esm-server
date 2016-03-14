@@ -1,8 +1,7 @@
 <section class="block-content">
 	<h3>
-	<a href class="small pull-right" x-modal-document-upload-classify><span class="glyphicon glyphicon-upload"></span> Upload</a>
+	<a href class="small pull-right" x-modal-document-upload-classify x-project="docBrowser.project" ng-if="docBrowser.authentication.user"> Upload <span class="glyphicon glyphicon-upload"></span> </a>
 	Documents</h3>
-
 	<div class='container-fluid'>
 		<div class='row'>
 			<div class='col-sm-4 col-no-padding vertical-scroll col-border-right'>
@@ -36,30 +35,50 @@
 			</div>
 			<div class='col-sm-4 col-no-padding vertical-scroll' ng-class="{'bg-muted': !filterSummary}" >
 
-				<ul class="small list-unstyled list-documents list-indent-left" ng-show="filterSummary">
-					<li>
-						<h3>{{ filterSummary.internalOriginalName | removeExtension }}</h3>
-						<p>System File Title: {{ filterSummary.internalName }}</p>
-						<p>Date Posted: {{ filterSummary.projectFolderDatePosted | date : format : timezone }}</p>
-						<p>File Format: {{ filterSummary.internalMime }}</p>
-						<p>File Size: {{ filterSummary.MBytes }} MB</p>
-						<p>In Review?: {{ filterSummary.documentIsInReview?'Yes':'No' }}</p>
-						<!-- NB: Project folders are authors in EPIC:  We override this behavior here -->
-						<p>Author: {{ filterSummary.documentAuthor }}</p>
-						<p>Current Revision: <a href="/api/document/{{ filterSummary._id }}/fetch"
-												target="_blank">{{ filterSummary.documentVersion }} <span class="glyphicon glyphicon-download"></span></a></p>
-						<p>Latest Revision: {{ filterSummary.documentIsLatestVersion?'Yes':'No' }} </p>
-					</li>
-					<!-- <li>
-						Tags
-					</li> -->
-					<li>
-						Revisions:
-					</li>
-					<!-- <li ng-repeat="docVersion in docBrowser.docVersions">
-						<a href="{{ docVersion.documentFileURL }}">{{ docVersion.dateUpdated | date : format : timezone}}: {{ docVersion.documentVersion }} <span class="glyphicon glyphicon-download"></span></a>
-					</li> -->
-				</ul>
+				<div class="row" ng-show="filterSummary">
+					<div class="col-sm-10 doc-detail-col">
+						<ul class="small list-unstyled list-documents list-indent-left" >
+							<li>
+								<h3>
+									{{ filterSummary.internalOriginalName | removeExtension }}
+								</h3>
+								<p>System File Title: {{ filterSummary.internalName }}</p>
+								<p>Date Posted: {{ filterSummary.projectFolderDatePosted | date : format : timezone }}</p>
+								<p>File Format: {{ filterSummary.internalMime }}</p>
+								<p>File Size: {{ filterSummary.MBytes }} MB</p>
+								<p>In Review?: {{ filterSummary.documentIsInReview?'Yes':'No' }}</p>
+								<!-- NB: Project folders are authors in EPIC:  We override this behavior here -->
+								<p>Author: {{ filterSummary.documentAuthor }}</p>
+								<p>Current Revision: <a href="/api/document/{{ filterSummary._id }}/fetch"
+														target="_blank">{{ filterSummary.documentVersion }} <span class="glyphicon glyphicon-download"></span></a></p>
+								<p>Latest Revision: {{ filterSummary.documentIsLatestVersion?'Yes':'No' }} </p>
+							</li>
+							<li>
+								Revisions:
+							</li>
+							<li ng-repeat="docVersion in docBrowser.docVersions">
+								<a href="{{ docVersion.documentFileURL }}">{{ docVersion.dateUpdated | date : format : timezone}}: {{ docVersion.documentVersion }} <span class="glyphicon glyphicon-download"></span></a>
+							</li>
+						</ul>
+					</div>
+					<div class="col-sm-2 doc-action-col">
+						<a
+							href="/api/document/{{ filterSummary._id }}/fetch"
+							target="_blank" title="Download">
+								<span class="glyphicon glyphicon-download"></span>
+						</a>
+
+						<a
+							ng-if="docBrowser.allowLink"
+							href
+							ng-click="docBrowser.toggleDocumentLink( filterSummary )"
+							title="Link">
+								<span class="glyphicon glyphicon-link"></span>
+						</a>
+
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>

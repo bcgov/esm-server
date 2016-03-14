@@ -43,6 +43,8 @@ var trackingFields = {
 // -------------------------------------------------------------------------
 //
 // things to do with handling access stuff
+// roles is set to the totla set of roles
+// userPermissions gets set on find(), shows the users individual permissions
 //
 // -------------------------------------------------------------------------
 var accessFields = {
@@ -50,6 +52,7 @@ var accessFields = {
 	write : [ {type:String} ],
 	submit: [ {type:String} ],
 	watch : [ {type:String} ],
+	roles : [ {type:String} ],
 	userPermissions : {}
 };
 // -------------------------------------------------------------------------
@@ -69,6 +72,17 @@ var permissions = function (userRoles) {
 		submit : submit,
 		watch  : watch
 	};
+};
+var roleSet = function () {
+	return {
+		read   : this.read,
+		write  : this.write,
+		submit : this.submit,
+		watch  : this.watch
+	};
+};
+var allRoles = function () {
+	return _.union (this.read, this.write, this.submit, this.watch);
 };
 // -------------------------------------------------------------------------
 //
@@ -99,6 +113,7 @@ var fixRoles = function (projectCode) {
 	this.write = this.write.map (function (role) { return role.replace ('project:', repl); });
 	this.submit = this.submit.map (function (role) { return role.replace ('project:', repl); });
 	this.watch = this.watch.map (function (role) { return role.replace ('project:', repl); });
+	this.roles = this.allRoles ();
 };
 // -------------------------------------------------------------------------
 //
@@ -116,10 +131,49 @@ var fixRoleArray = function (projectCode, roleArray) {
 var mergeRoles = function (projectCode, pObject) {
 	var self = this;
 	_.each (pObject, function (p, i) {
-		self[i] = _.uniq (self[i].concat (p.map (function (role) {
+		self[i] = _.union (self[i], p.map (function (role) {
 			return role.replace ('project:', projectCode+':');
-		})));
+		}));
 	});
+	this.roles = this.allRoles ();
+};
+// -------------------------------------------------------------------------
+//
+// same as merge, but without the replace as it is done elsewhere
+//
+// -------------------------------------------------------------------------
+var addRoles = function (pObject) {
+	var self = this;
+	_.each (pObject, function (p, i) {
+		self[i] = _.union (self[i], p);
+	});
+	this.roles = this.allRoles ();
+};
+// -------------------------------------------------------------------------
+//
+// remove a set of roles
+//
+// -------------------------------------------------------------------------
+var removeRoles = function (pObject) {
+	var self = this;
+	_.each (pObject, function (p, i) {
+		_.remove (self[i], function (val) {
+			return _.indexOf (p, val) !== -1;
+		});
+	});
+	this.roles = this.allRoles ();
+};
+// -------------------------------------------------------------------------
+//
+// absolutely define the roles
+//
+// -------------------------------------------------------------------------
+var setRoles = function (pObject) {
+	this.read   = pObject.read   || [] ;
+	this.write  = pObject.write  || [] ;
+	this.submit = pObject.submit || [] ;
+	this.watch  = pObject.watch  || [] ;
+	this.roles  = this.allRoles ();
 };
 
 // -------------------------------------------------------------------------
@@ -132,7 +186,7 @@ var mergeRoles = function (projectCode, pObject) {
 // __access : add the ACL functionality
 //
 // -------------------------------------------------------------------------
-var generateSchema = function (definition) {
+var generateSchema = function (definition, indexes) {
 	var audit = definition.__audit || false;
 	var access = definition.__access || false;
 	var tracking = definition.__tracking || false;
@@ -153,11 +207,11 @@ var generateSchema = function (definition) {
 	};
 	if (codename) {
 		var index = (codename === 'unique') ? {unique:true} : true;
-		console.log (index);
+		// console.log (index);
 		definition = _.extend (definition, {
-			code        : { type:String, default:'code', required:'Code is required', index:index, lowercase:true, trim:true},
-			name        : { type:String, default:'name', required:'name is required' },
-			description : { type:String, default:'description' }
+			code        : { type:String, default:'', required:'Code is required', index:index, lowercase:true, trim:true},
+			name        : { type:String, default:'', required:'name is required' },
+			description : { type:String, default:'' }
 		});
 	}
 	// console.log (definition);
@@ -173,6 +227,19 @@ var generateSchema = function (definition) {
 		schema.methods.fixRoles          = fixRoles;
 		schema.methods.fixRoleArray      = fixRoleArray;
 		schema.methods.mergeRoles        = mergeRoles;
+		schema.methods.addRoles          = addRoles;
+		schema.methods.roleSet           = roleSet;
+		schema.methods.allRoles          = allRoles;
+		schema.methods.setRoles          = setRoles;
+		schema.index ({read:1});
+		schema.index ({write:1});
+		schema.index ({submit:1});
+		schema.index ({watch:1});
+	}
+	if (indexes && _.isArray(indexes)) {
+		_.each (indexes, function (ind) {
+			schema.index (ind);
+		});
 	}
 	return schema;
 };
@@ -182,8 +249,8 @@ var generateSchema = function (definition) {
 // to making the model itself
 //
 // -------------------------------------------------------------------------
-var generateModel = function (name, definition) {
-	return mongoose.model (name, generateSchema (definition));
+var generateModel = function (name, definition, indexes) {
+	return mongoose.model (name, generateSchema (definition, indexes));
 };
 
 module.exports = {

@@ -1,15 +1,17 @@
 <p class="lead">Company</p>
+{{ uco.proponent | json }}
+<div ng-bind-html="uco.proponent.company"></div>
 <div class="row">
 	<div class="col-sm-8">
 		<div class="form-group">
-			<label for="proponent" class="control-label">Company (Doing Business As)</label>
-			<input id="proponent" type="text" class="form-control input-sm" ng-model="uco.company">
+			<label for="proponent" class="control-label">Company (Doing Business As Dude)</label>
+			<input id="proponent" type="text" class="form-control input-sm" ng-bind-html="uco.proponent.company">
 		</div>
 	</div>
 	<div class="col-sm-4">
 		<div class="form-group">
 			<label for="website" class="control-label">Website</label>
-			<input id="website" type="text" class="form-control input-sm" ng-model="uco.website">
+			<input id="website" type="text" class="form-control input-sm" ng-model="uco.proponent.website">
 		</div>
 	</div>
 </div>
@@ -18,13 +20,13 @@
 	<div class="col-sm-8">
 		<div class="form-group">
 			<label for="companylegal" class="control-label">Company Legal Name</label>
-			<input id="companylegal" type="text" class="form-control input-sm" ng-model="uco.companyLegal">
+			<input id="companylegal" type="text" class="form-control input-sm" ng-model="uco.proponent.companyLegal">
 		</div>
 	</div>
 	<div class="col-sm-4">
 		<div class="form-group">
 			<label for="website" class="control-label">Registered In</label>
-			<select class="form-control input-sm" ng-model="uco.registeredIn" ng-options="key as value for (key, value) in uco.provs"></select>
+			<select class="form-control input-sm" ng-model="uco.proponent.registeredIn" ng-options="key as value for (key, value) in uco.proponent.provs"></select>
 		</div>
 	</div>
 </div>
@@ -33,13 +35,13 @@
 	<div class="col-sm-8">
 		<div class="form-group">
 			<label for="proponent" class="control-label">Parent Company (if applicable)</label>
-			<input id="proponent" type="text" class="form-control input-sm" ng-model="uco.parentCompany">
+			<input id="proponent" type="text" class="form-control input-sm" ng-model="uco.proponent.parentCompany">
 		</div>
 	</div>
 	<div class="col-sm-4">
 		<div class="form-group">
 			<label for="companytype" class="control-label">Type</label>
-			<select id="companytype" ng-model='uco.type' class="form-control input-sm">
+			<select id="companytype" ng-model='uco.proponent.type' class="form-control input-sm">
 				<option value="public">Publically Traded</option>
 				<option value="private">Privately Owned</option>
 			</select>
@@ -52,7 +54,7 @@
 		<div class="col-sm-12">
 			<div class="form-group">
 				<label for="address1" class="control-label">Address (Line 1)</label>
-				<input id="address1" type="text" class="form-control input-sm" ng-model="uco.address1">
+				<input id="address1" type="text" class="form-control input-sm" ng-model="uco.proponent.address1">
 			</div>
 		</div>
 	</div>
@@ -61,7 +63,7 @@
 		<div class="col-sm-12">
 			<div class="form-group">
 				<label for="address2" class="control-label">Address (Line 2)</label>
-				<input id="address2" type="text" class="form-control input-sm" ng-model="uco.address2">
+				<input id="address2" type="text" class="form-control input-sm" ng-model="uco.proponent.address2">
 			</div>
 		</div>
 	</div>
@@ -70,21 +72,21 @@
 		<div class="col-sm-4">
 			<div class="form-group">
 				<label for="city" class="control-label">City</label>
-				<input id="city" type="text" class="form-control input-sm" ng-model="uco.city">
+				<input id="city" type="text" class="form-control input-sm" ng-model="uco.proponent.city">
 			</div>
 		</div>
 
 		<div class="col-sm-4">
 			<div class="form-group">
 				<label for="province" class="control-label">Province</label>
-				<select class="form-control input-sm" ng-model="uco.province" ng-options="key as value for (key, value) in uco.project.provs"></select>
+				<select class="form-control input-sm" ng-model="uco.proponent.province" ng-options="key as value for (key, value) in uco.proponent.project.provs"></select>
 			</div>
 		</div>
 
 		<div class="col-sm-4">
 			<div class="form-group">
 				<label for="postal" class="control-label">Postal</label>
-				<input id="postal" type="text" class="form-control input-sm" ng-model="uco.postal">
+				<input id="postal" type="text" class="form-control input-sm" ng-model="uco.proponent.postal">
 			</div>
 		</div>
 	</div>

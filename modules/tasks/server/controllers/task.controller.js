@@ -10,6 +10,7 @@ var DBModel  = require (path.resolve('./modules/core/server/controllers/core.dbm
 
 module.exports = DBModel.extend ({
 	name : 'Task',
+	plural : 'tasks',
 	// -------------------------------------------------------------------------
 	//
 	// when making a activity from a base it will always be in order to attach

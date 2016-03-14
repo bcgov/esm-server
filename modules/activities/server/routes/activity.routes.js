@@ -13,6 +13,26 @@ module.exports = function (app) {
 	helpers.setCRUDRoutes (app, 'activitybase', Activitybase, policy);
 	helpers.setCRUDRoutes (app, 'activity', Activity, policy);
 	//
+	// start an activity
+	//
+	app.route ('/api/start/activity/:activity')
+		.all (policy.isAllowed)
+		.put (function (req, res) {
+			var p = new Activity (req.user);
+			p.startActivity (req.Activity, req.body)
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	//
+	// complete an activity
+	//
+	app.route ('/api/complete/activity/:activity')
+		.all (policy.isAllowed)
+		.put (function (req, res) {
+			var p = new Activity (req.user);
+			p.completeActivity (req.Activity, req.body)
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	//
 	// all activities for a milestone
 	//
 	app.route ('/api/activity/for/milestone/:milestone')

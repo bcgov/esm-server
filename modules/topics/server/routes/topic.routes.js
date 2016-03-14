@@ -1,45 +1,19 @@
 'use strict';
 // =========================================================================
 //
-// Routes for milestones
+// Routes for topics
 //
 // =========================================================================
 var policy  = require ('../policies/topic.policy');
-var Topic   = require ('../controllers/topic.controller');
-var VC      = require ('../controllers/vc.controller');
+var Topic  = require ('../controllers/topic.controller');
 var helpers = require ('../../../core/server/controllers/core.helpers.controller');
 
 module.exports = function (app) {
 	helpers.setCRUDRoutes (app, 'topic', Topic, policy);
-	helpers.setCRUDRoutes (app, 'valuedcomponent', VC, policy);
-	// -------------------------------------------------------------------------
-	//
-	// routes for getting new sections of the vc
-	//
-	// -------------------------------------------------------------------------
-	app.route ('/api/valuedcomponent/new/boundary').all (policy.isAllowed)
+	app.route ('/api/topics/for/pillar/:pillar').all (policy.isAllowed)
 		.get (function (req, res) {
-			var vc = new VC (req.user);
-			vc.newAssessmentBoundary ().then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/valuedcomponent/new/condition').all (policy.isAllowed)
-		.get (function (req, res) {
-			var vc = new VC (req.user);
-			vc.newExistingCondition ().then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/valuedcomponent/new/effect').all (policy.isAllowed)
-		.get (function (req, res) {
-			var vc = new VC (req.user);
-			vc.newPotentialEffect ().then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/valuedcomponent/new/mitigation').all (policy.isAllowed)
-		.get (function (req, res) {
-			var vc = new VC (req.user);
-			vc.newMitigationMeasure ().then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/valuedcomponent/new/cumulative').all (policy.isAllowed)
-		.get (function (req, res) {
-			var vc = new VC (req.user);
-			vc.newCumulativeEffect ().then (helpers.success(res), helpers.failure(res));
+			var o = new Topic (req.user);
+			o.findMany ({pillar:req.params.pillar}).then (helpers.success(res), helpers.failure(res));
 		});
 };
+

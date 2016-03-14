@@ -7,15 +7,17 @@
                     <th width="25%">Code</th>
                     <th width="25%">Name</th>
                     <th width="50%">Description</th>
+                    <th width="10%" class="text-center">Order</th>
                 </thead>
                 <tbody>
-                <tr ng-repeat="task in configDataElement.data.tasks | orderBy:'name'" ng-click='configDataElement.editRecord(task)' class="clickable">
+                <tr ng-repeat="task in configDataElement.data.tasks | orderBy:'order'" ng-click='configDataElement.editRecord(task)' class="clickable">
                     <td>{{ task.code }}</td>
                     <td>{{ task.name }}</td>
                     <td>{{ task.description }}</td>
+                    <td class="text-center">{{ task.order }}</td>
                 </tr>
                 <tr ng-if="configDataElement.data.tasks.length === 0">
-                    <td colspan="4">No tasks defined.</td>
+                    <td colspan="5">No tasks defined.</td>
                 </tr>
                 </tbody>
             </table>
@@ -42,6 +44,11 @@
                     <div class="form-group">
                         <label class="control-label">Description</label>
                         <textarea class="form-control" ng-model="configDataElement.activeRecord.description">{{ configDataElement.activeRecord.description }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Order</label>
+                        <input class="form-control" type="number" ng-model="configDataElement.activeRecord.order">
                     </div>
 
                     <div class="form-group">

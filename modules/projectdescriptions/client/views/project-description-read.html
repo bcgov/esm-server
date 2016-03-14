@@ -1,0 +1,117 @@
+<section class="block-content">
+	<h3>Project Description <small>
+		<em ng-show="proJDesc.data.version">{{projDesc.data.version}} {{projDesc.data.versionNumber}}&nbsp;</em>
+		<a href ui-sref="projectdescription({project:projDesc.project._id})" ng-if="projDesc.authentication.user">Edit</a>
+	</small>
+	</h3>
+	
+
+
+
+	<div class="panel-body no-vertical-padding" du-scroll-container="projectDescrptionContent">
+		<div class="row block-section" ng-show="processEngageWG.config.instructions">
+			<div class="col-sm-12" ng-bind-html="processEngageWG.config.instructions"></div>
+		</div>
+		<div class="row block-section">
+			<div class="col-sm-4 col-no-padding vertical-scroll col-border-right">
+				<ul class="small list-unstyled list-documents">
+					<li class="row-folder clickable"
+						du-scrollspy="pdGeneral">
+						<a href="#pdGeneral" x-offset=10 du-smooth-scroll>General</a>
+					</li>
+					<li class="row-folder row-folder-depth-2 clickable"
+						du-scrollspy="pdBackground">
+						<a href="#pdBackground" x-offset=10 du-smooth-scroll>Background</a>
+					</li>
+					<li class="row-folder row-folder-depth-2 clickable"
+						du-scrollspy="pdLocation">
+						<a href="#pdLocation" x-offset=10 du-smooth-scroll>Location</a>
+					</li>
+					<li class="row-folder row-folder-depth-2 clickable"
+						du-scrollspy="pdLocationDocuments">
+						<a href="#pdLocation" x-offset=10 du-smooth-scroll>Location Documents</a>
+					</li>
+					<li class="row-folder clickable"
+						du-scrollspy="pdOverview">
+						<a href="#pdOverview" x-offset=10 du-smooth-scroll>Overview</a>
+					</li>
+					<li class="row-folder row-folder-depth-2 clickable"
+						du-scrollspy="pdComponents">
+						<a href="#pdComponents" x-offset=10 du-smooth-scroll>Components</a>
+					</li>
+					<li class="row-folder row-folder-depth-2 clickable"
+						du-scrollspy="pdScheduldPhases">
+						<a href="#pdScheduledPhases" x-offset=10 du-smooth-scroll>Scheduled Phases</a>
+					</li>
+					<li class="row-folder row-folder-depth-2 clickable"
+						du-scrollspy="pdCosts">
+						<a href="#pdCosts" x-offset=10 du-smooth-scroll>Costs</a>
+					</li>
+					<li class="row-folder row-folder-depth-2 clickable"
+						du-scrollspy="pdSitePlanDocuments">
+						<a href="#pdSitePlanDocuments" x-offset=10 du-smooth-scroll>Site Plan Documents</a>
+					</li>
+					<li class="row-folder clickable"
+						du-scrollspy="pdLandUserSettings">
+						<a href="#pdLandUserSettings" x-offset=10 du-smooth-scroll>Land User Setting</a>
+					</li>
+					<li class="row-folder clickable"
+						du-scrollspy="pdConsultingActivities">
+						<a href="#pdConsultingActivities" x-offset=10 du-smooth-scroll>Consulting Activities</a>
+					</li>
+					<li class="row-folder clickable"
+						du-scrollspy="pdProposedDevelopmentSchedule">
+						<a href="#pdProposedDevelopmentSchedule" x-offset=10 du-smooth-scroll>Proposed Development Schedule</a>
+					</li>
+
+
+				</ul>
+			</div>
+			<div class="col-sm-8 vertical-scroll-padded" id="projectDescrptionContent">
+				
+				<h4 id="pdGeneral">General</h4>
+
+				<h5 id="pdBackground">Background</h5>
+
+				<p ng-bind-html="projDesc.data.general.background || 'No Content'"></p>
+
+				<h5 id="pdLocation">Location</h5>
+
+				<p ng-bind-html="projDesc.data.general.location || 'No Content'"></p>
+
+				<h5 id="pdLocationDocuments">Location Documents</h5>
+
+				<p>No Documents identified</p>
+
+				<h4 id="pdOverview">Overview</h4>
+				<h5 id="pdComponents">Components</h5>
+
+				<p ng-bind-html="projDesc.data.overview.components || 'No Content'"></p>
+
+				<h5 id="pdScheduledPhases">Scheduled Phases</h5>
+				<p ng-bind-html="projDesc.data.overview.schedulePhases || 'No Content'"></p>
+
+				<h5 id="pdCosts">Costs</h5>
+				<p ng-bind-html="projDesc.data.overview.costs || 'No Content'"></p>
+
+				<h5 id="pdSitePlanDocuments">Site Plan Documents</h5>
+
+				<p>No Documents identified</p>
+
+				<h4 id="pdLandUserSettings">Land User Setting</h4>
+				<p ng-bind-html="projDesc.data.landUserSetting || 'No Content'"></p>
+
+				<h4 id="pdConsultingActivities">Consulting Activities</h4>
+				<p ng-bind-html="projDesc.data.consultingActivities || 'No Content'"></p>
+
+				<h4 id="pdProposedDevelopmentSchedule">Proposed Development Schedule</h4>
+				<p ng-bind-html="projDesc.data.proposedDevelopmentSchedule || 'No Content'"></p>
+
+				<div style="height: 400px; display: block"></div>
+
+			</div>
+		</div>
+	</div>
+
+</section>
+

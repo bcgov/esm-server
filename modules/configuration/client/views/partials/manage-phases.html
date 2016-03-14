@@ -8,18 +8,20 @@
                     <th width="20%">Name</th>
                     <th width="20%">Description</th>
                     <th width="20%">Default Status</th>                
-                    <th width="20%">Mandatory Duration (days)</th>
+                    <th width="10%">Mandatory Duration (days)</th>
+                    <th width="10%" class="text-center">Order</th>
                 </thead>
                 <tbody>
-                <tr ng-repeat="phase in configDataElement.data.phases | orderBy:'name'" ng-click='configDataElement.editRecord(phase)' class="clickable">
+                <tr ng-repeat="phase in configDataElement.data.phases | orderBy:'order'" ng-click='configDataElement.editRecord(phase)' class="clickable">
                     <td>{{ phase.code }}</td>
                     <td>{{ phase.name }}</td>
                     <td>{{ phase.description }}</td>
                     <td>{{ phase.status }}</td>
                     <td>{{ phase.mandatoryDurationDays }}</td>
+                    <td class="text-center">{{ phase.order }}</td>
                 </tr>
                 <tr ng-if="configDataElement.data.phases.length === 0">
-                    <td colspan="5">No phases defined.</td>
+                    <td colspan="6">No phases defined.</td>
                 </tr>
                 </tbody>
             </table>
@@ -60,6 +62,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label class="control-label">Order</label>
+                        <input class="form-control" type="number" ng-model="configDataElement.activeRecord.order">
+                    </div>
+
+                    <div class="form-group">
                         <a href
                             class="control-label pull-right"
                             x-modal-select-items
@@ -74,7 +81,7 @@
 
                         <ul class="list-unstyled well well-sm">
                             <li ng-show="configDataElement.activeRecord.milestones.length === 0">No Milestones selected</li>
-                            <li ng-repeat="milestone in configDataElement.activeRecord.milestones track by $index"><em class="small text-success">milestone:</em>&nbsp;{{ milestone.name }}</li>
+                            <li ng-repeat="milestone in configDataElement.activeRecord.milestones | orderBy:'order' track by $index"><em class="small text-success">milestone:</em>&nbsp;{{ milestone.name }}</li>
                         </ul>
 
                     </div>

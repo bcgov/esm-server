@@ -8,7 +8,7 @@ angular
 	.constant('d3', window.d3)
 	.constant('google', window.google)
 	.constant('moment', window.moment)
-	.constant('PROVINCES', 
+	.constant('PROVINCES',
 		{
 			'ab': 'Alberta',
 			'bc': 'British Columbia',
@@ -25,7 +25,7 @@ angular
 			'yt': 'Yukon'
 		}
 	)
-	.constant('REGIONS', 
+	.constant('REGIONS',
 		{
 			'cariboo': 'Cariboo',
 			'kootenay': 'Kootenay',
@@ -60,20 +60,51 @@ angular
 			'Health'
 		]
 	)
+	.constant('PILLARS',
+		[
+			'Environment',
+			'Economic',
+			'Social',
+			'Heritage',
+			'Health'
+		]
+	)
 	.constant('PROJECT_TYPES',
 		[
 			'Mining',
 			'Energy',
-			'Transportation', 
+			'Transportation',
 			'Water Management',
 			'Industrial',
 			'Waste Management',
 			'Waste Disposal',
 			'Food Processing',
-			'Tourist Destination'
+			'Tourist Destination',
+			'Other'
 		]
 	)
-	.constant('COMMENT_REJECT', 
+	.constant('CE_STAGES',
+		[
+			'Pre-Construction',
+			'Construction',
+			'Operations',
+			'Decommissioning'
+		]
+	)
+	.constant('DOCUMENT_TEMPLATE_TYPES',
+		[
+			'Project Description',
+			'Section 10 Order',
+			'Section 11 Order',
+			'Valued Component',
+			'AIR',
+			'Application',
+			'Conditions List',
+			'Section 34 Order',
+			'Section 36 Order'
+		]
+	)
+	.constant('COMMENT_REJECT',
 		[
 			'Unsuitable Language',
 			'Quoting Third Parties',
@@ -81,11 +112,38 @@ angular
 			'Personally Identifying Information'
 		]
 	)
-	.constant('PROJECT_ROLES', 
+	.constant('PROJECT_ROLES',
 		[
 			{'code':'project:staff','name':'Staff'},
 			{'code':'project:wg','name':'Working Group'},
 			{'code':'project:proponent','name':'Proponent'}
 		]
-	)	
+	)
+	.constant('PROJECT_STATUS',
+		{
+			'initiated' : 'Initiated',
+			'submitted' : 'Submitted',
+			'inprogress' : 'In Progress',
+			'certified' : 'Certified',
+			'decommissioned' : 'Decommissioned'
+		}
+	)
+	.constant('PROJECT_STATUS_PUBLIC',
+		{
+			'inprogress' : 'In Progress',
+			'certified' : 'Certified',
+			'decommissioned' : 'Decommissioned'
+		}
+	)
+	.constant('MEM', true)
+	//.constant('LOGO', 'modules/core/client/img/brand/eao-logo.png')
+	.constant('LOGO', 'modules/core/client/img/brand/mem-logo.png')
+	.factory ('codeFromTitle', function () {
+		return function (title) {
+			var s = title.toLowerCase ();
+			s = s.replace (/\W/g,'-');
+			s = s.replace (/-+/,'-');
+			return s;
+		};
+	})
 	.value('ProcessCodes', []);

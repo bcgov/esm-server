@@ -1,0 +1,72 @@
+<section class='panel panel-default'>
+
+	<div class="panel-body">
+		<h3>Find a Project</h3>		
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label class="control-label">Keywords</label>
+					<input class="input-sm form-control" type="text" ng-model="projectsSearch.search.keywords"/>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="form-group">
+					<label for="type" class="control-label">Project Type</label>
+					<select id="type" ng-model="projectsSearch.search.type" class="form-control input-sm" ng-options="type as type for type in projectsSearch.types"></select>
+
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="form-group">
+					<label for="phase" class="control-label">Phase</label>
+					<select id="phase" ng-model="projectsSearch.search.phase" class="form-control input-sm" ng-options="phase.name as phase.name for phase in projectsSearch.phases"></select>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="form-group">
+					<label for="region" class="control-label">Region</label>
+					<select id="region" ng-model="projectsSearch.search.region" class="form-control input-sm" ng-options="key as value for (key, value) in projectsSearch.regions"></select>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="form-group">
+					<label for="status" class="control-label">Status</label>
+					<select id="status" ng-model="projectsSearch.search.status" class="form-control input-sm" ng-options="key as value for (key, value) in projectsSearch.status"></select>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group text-right">
+					<button class="btn btn-sm btn-default" ng-click="projectsSearch.resetSearch()">Clear</button> 
+					<button class="btn btn-sm btn-primary" ng-click="projectsSearch.performSearch()">Search</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<table class="table table-condensed table-striped" ng-show="projectsSearch.foundSet">
+		<thead>
+			<tr>
+				<th width="25%"><small>Project</small></th>
+				<th width="25%"><small>Type</small></th>
+				<th width="25%"><small>Region</small></th>
+				<th width="25%"><small>Status</small></th>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr ng-repeat="project in projectsSearch.projects" class='clickable' ui-sref="project({id: project._id})">
+				<td>{{ project.name }}</td>
+				<td>{{ project.type }}</td>
+				<td>{{ project.region }}</td>
+				<td>{{ project.status }}</td>			
+			</tr>
+
+			<tr ng-if="projectsSearch.projects.length === 0">
+				<td colspan="4">No projects match your search criteria.</td>
+			</tr>
+
+		</tbody>
+	</table>
+</section>

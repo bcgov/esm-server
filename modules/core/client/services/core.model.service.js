@@ -26,6 +26,7 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 			this.urlall  = '/api/'+this.urlName;
 			this.urlbase = '/api/'+this.urlName+'/';
 			this.urlnew  = '/api/new/'+this.urlName;
+			this.urlquery  = '/api/query/'+this.urlName;
 			_.bindAll (this);
 		},
 		// -------------------------------------------------------------------------
@@ -38,13 +39,12 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		// -------------------------------------------------------------------------
 		getCollection: function () {
 			var self = this;
+			console.log ('getting collection');
 			return new Promise (function (resolve, reject) {
 				self.all ().then (function (res) {
-					self.collection = res.data;
-					resolve (res.data);
-				}).catch (function (res) {
-					reject (res.data);
-				});
+					self.collection = res;
+					resolve (res);
+				}).catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -55,13 +55,11 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		getModel: function (id) {
 			var self = this;
 			return new Promise (function (resolve, reject) {
-				self.get (id).then (function (res) {
-					self.model = res.data;
+				self.getId (id).then (function (res) {
+					self.model = res;
 					self.modelIsNew = false;
-					resolve (res.data);
-				}).catch (function (res) {
-					reject (res.data);
-				});
+					resolve (res);
+				}).catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -73,11 +71,9 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 			var self = this;
 			return new Promise (function (resolve, reject) {
 				self.query (q).then (function (res) {
-					self.collection = res.data;
-					resolve (res.data);
-				}).catch (function (res) {
-					reject (res.data);
-				});
+					self.collection = res;
+					resolve (res);
+				}).catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -89,21 +85,20 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 			var self = this;
 			return new Promise (function (resolve, reject) {
 				self.new ().then (function (res) {
-					self.model = res.data;
+					self.model = res;
 					self.modelIsNew = true;
-					resolve (res.data);
-				}).catch (function (res) {
-					reject (res.data);
-				});
+					resolve (res);
+				}).catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
 		//
-		// get a copy of the current model
+		// get a copy of the current model, or the one passed in
 		//
 		// -------------------------------------------------------------------------
-		getCopy: function () {
-			return _.cloneDeep (this.model);
+		getCopy: function (m) {
+			if (m) return _.cloneDeep (m);
+			else return _.cloneDeep (this.model);
 		},
 		// -------------------------------------------------------------------------
 		//
@@ -125,22 +120,22 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		},
 		// -------------------------------------------------------------------------
 		//
-		// Save the current model
+		// Save the current model, or, if one is passed in, set that one to
+		// current and save it
 		//
 		// -------------------------------------------------------------------------
-		saveModel: function () {
+		saveModel: function (m) {
+			if (m) this.setModel (m);
 			var self = this;
 			console.log('save or add', self.modelIsNew, this);
 			return new Promise (function (resolve, reject) {
 				var p = (self.modelIsNew) ? self.add (self.model) : self.save (self.model);
 				p.then (function (res) {
-					console.log ('model saved, setting model to ',res.data);
-					self.model = res.data;
+					console.log ('model saved, setting model to ',res);
+					self.model = res;
 					self.modelIsNew = false;
-					resolve (res.data);
-				}).catch (function (res) {
-					reject (res.data);
-				});
+					resolve (res);
+				}).catch (reject);
 			});
 		},
 		// -------------------------------------------------------------------------
@@ -169,17 +164,17 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		//
 		// -------------------------------------------------------------------------
 		new : function () {
-			return this.mget (this.urlnew);
+			return this.get (this.urlnew);
 		},
 		all : function () {
-			return this.mget (this.urlall);
+			return this.get (this.urlall);
 		},
-		delete : function (id) {
-			return this.mdel (this.urlbase+id);
+		deleteId : function (id) {
+			return this.delete (this.urlbase+id);
 		},
-		get : function (id) {
+		getId : function (id) {
 			console.log ('this.urlbase = ', this.urlbase);
-			return this.mget (this.urlbase+id);
+			return this.get (this.urlbase+id);
 		},
 		save : function (obj) {
 			return this.put (this.urlbase+obj._id, obj);
@@ -188,25 +183,34 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 			return this.post (this.urlall, obj);
 		},
 		query : function (obj) {
-			return this.put (this.urlall, obj);
+			return this.put (this.urlquery, obj);
 		},
+		// -------------------------------------------------------------------------
+		//
+		// basic
+		//
+		// -------------------------------------------------------------------------
 		put : function (url, data) {
 			return this.talk ('PUT', url, data);
 		},
 		post : function (url, data) {
 			return this.talk ('POST', url, data);
 		},
-		mget : function (url) {
-			console.log ('getting: ', url);
+		get : function (url) {
 			return this.talk ('GET', url, null);
 		},
-		mdel : function (url) {
+		delete : function (url) {
 			return this.talk ('DELETE', url, null);
 		},
 		talk : function (method, url, data) {
+			console.log (method, url, data);
 			return new Promise (function (resolve, reject) {
 				$http ({method:method, url:url, data:data })
-				.then (resolve, log.reject (reject));
+				.then (function (res) {
+					resolve (res.data);
+				}).catch (function (res) {
+					reject (res.data);
+				});
 			});
 		}
 	});

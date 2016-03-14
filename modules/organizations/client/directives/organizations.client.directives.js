@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('core')
+angular.module('organizations')
 	.directive('tmplOrganizationsDisplayEdit', directiveOrganizationsDisplayEdit)
 	//.directive('tmplOrganizationsUsersByOrg', directiveOrganizationsUsersByOrg)
 ;
@@ -19,8 +19,7 @@ function directiveOrganizationsDisplayEdit() {
 		controller: 'controllerOrganizationsDisplayEdit',
 		controllerAs: 'displayEdit',
 		scope: {
-			organizationId: '@',
-			mode: '@'
+			organizationId: '@'
 		}
 	};
 	return directive;

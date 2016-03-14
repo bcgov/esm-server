@@ -38,8 +38,7 @@ exports.getObject   = crud.getObject();
 // -------------------------------------------------------------------------
 var getDocumentVersions = function (req, res) {
 	return new Promise (function (resolve, reject) {
-		console.log("getDocumentVersions: Document: ",req.params.documentid);
-		resolve (
+		// console.log("getDocumentVersions: Document: ",req.params.documentid);
 			Model.findById(req.params.documentid).exec (function (err, records) {
 					if (err) {
 						// console.log("getDocumentTypesForProject failed to find anything",err);
@@ -48,12 +47,34 @@ var getDocumentVersions = function (req, res) {
 							// Don't do anything
 							// console.log("No existing documents found.  Inserting normally.");
 						} else {
-							// Got stuff.
-							// console.log(records);
-							resolve(records);
+							//resolve(records);
+							// We got this document, lets find the related ones
+							var type = records.projectFolderType;
+							var subType = records.projectFolderSubType;
+							var folderName = records.projectFolderName;
+							var originalName = records.internalOriginalName;
+							Model.find({ _id: { $ne: req.params.documentid },
+										projectFolderType: type,
+										projectFolderSubType: subType,
+										projectFolderName: folderName,
+										internalOriginalName: originalName
+										// TODO: Should this be unique per project?
+										}).exec(function (err, recs) {
+											if (err) {
+												// console.log("getDocumentTypesForProject failed to find anything",err);
+											} else {
+												if (null === records) {
+													// Don't do anything
+													// console.log("No existing documents found.  Inserting normally.");
+												} else {
+													// console.log(recs);
+													resolve(recs);
+												}
+											}
+										});
 						}
 					}
-				}));
+				});
 	});
 };
 var getDocumentVersionsAndReturn = function (req, res) {
@@ -112,7 +133,7 @@ exports.getDocumentsForProjectAndReturn = getDocumentsForProjectAndReturn;
 // -------------------------------------------------------------------------
 var getDocumentTypesForProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
-		console.log("getDocumentTypesForProject: Project ID:",req.params.projectid);
+		// console.log("getDocumentTypesForProject: Project ID:",req.params.projectid);
 		// When a document has an assigned projectID, grab it.
 		// NB: This will be true after a document has been reviewed by someone perhaps.
 		Model.find({project: req.params.projectid,
@@ -183,14 +204,14 @@ var getDocumentTypesForProject = function (req, res) {
 							var depth2 = subObjects.projectFolderSubType;
 						// 	// console.log(depth2);
 							flattendList.push({'label': depth2, 'depth': 2, 'reference': 'projectFolderSubType'});
-						// 	subObjects.projectFolderNames.forEach(function(labels) {
-						// 		var depth3 = labels;
-						// 		// console.log(depth3);
-						// 		flattendList.push({'label': depth3, 'depth': 3, 'reference': 'projectFolderName'});
-						// 	});
+							subObjects.projectFolderNames.forEach(function(labels) {
+								var depth3 = labels;
+								// console.log(depth3);
+								flattendList.push({'label': depth3, 'depth': 3, 'reference': 'projectFolderName'});
+							});
 						});
 					});
-					console.log(flattendList);
+					// console.log(flattendList);
 					resolve (flattendList);
 				}
 			}
@@ -215,9 +236,69 @@ var getDocumentTypesForProjectAndReturn = function (req, res) {
 };
 exports.getDocumentTypesForProjectAndReturn = getDocumentTypesForProjectAndReturn;
 
+
+// -------------------------------------------------------------------------
+//
+// getDocumentTypesForProject
+//
+// -------------------------------------------------------------------------
+var getDocumentFolderNamesForProject = function (req, res) {
+	return new Promise (function (resolve, reject) {
+		console.log("getDocumentFolderNamesForProject: Project ID:",req.params.projectid);
+		// When a document has an assigned projectID, grab it.
+		// NB: This will be true after a document has been reviewed by someone perhaps.
+		Model.distinct("projectFolderName",{project: req.params.projectid})
+			 .exec( function (err, records) {
+			 	if (err) {
+				// console.log("getDocumentFolderNamesForProject failed to find anything",err);
+				} else {
+					if (null === records) {
+					// Don't do anything
+					// console.log("No existing documents found.  Inserting normally.");
+					} else {
+						resolve(records);
+					}
+				}
+			});
+	});
+};
+			 // -------------------------------------------------------------------------
+//
+// Get all the folder names for a project and return it via service
+//
+// -------------------------------------------------------------------------
+var getDocumentFolderNamesForProjectAndReturn = function (req, res) {
+	getDocumentFolderNamesForProject (req, req)
+	.then (function (model) {
+		//console.log (model);
+		helpers.sendData (res, model);
+	})
+	.catch (function (err) {
+		// console.log (err);
+		helpers.sendError (res, err);
+	});
+};
+exports.getDocumentFolderNamesForProjectAndReturn = getDocumentFolderNamesForProjectAndReturn;
+
+var saveDocObject = function (docObj) {
+	return new Promise (function (resolve, reject) {
+		docObj.save ().then (resolve, reject);
+	});
+};
 var approveAndDownloadDocument = function (req, res) {
 	return new Promise (function (resolve, reject) {
-		console.log("approveAndDownloadDocument: Document:",req.params.document);
+		// console.log("approveAndDownloadDocument: Document:",req.params.document);
+		// Update the model to reflect the non-reviewness
+		Model.findOne ({"_id": req.params.document}, function (err, docObj) {
+			if (err) return reject (err);
+			//
+			// update the document.  TODO: if exists
+			//
+			if (docObj) {
+				docObj.documentIsInReview = false;
+				saveDocObject(docObj).then(resolve, reject);
+			}
+		});
 	});
 };
 var approveAndDownload = function (req, res) {
@@ -232,7 +313,6 @@ var approveAndDownload = function (req, res) {
 	});
 };
 exports.approveAndDownload = approveAndDownload;
-
 // -------------------------------------------------------------------------
 //
 // import a document observation, set any special audit fields here
@@ -248,7 +328,7 @@ var importDocument = function (doc, req) {
 			projectFolderType   	: doc.projectFolderType,
 			projectFolderSubType	: doc.projectFolderSubType,
 			projectFolderName  		: doc.projectFolderName,
-			documentFileName 		: doc.documentFileName
+			internalOriginalName	: doc.internalOriginalName
 		}, function (err, mo) {
 			if (err) {
 				// console.log("document.controller: Error in Query.");
@@ -560,7 +640,7 @@ var upload = function (req, res) {
 			//projectID 					: req.Project._id,
 			projectFolderType			: req.headers.documenttype,//req.headers.projectfoldertype,
 			projectFolderSubType		: req.headers.documentsubtype,//req.headers.projectfoldersubtype,
-			//projectFolderName			: "All",//req.headers.projectfoldername,
+			projectFolderName			: req.headers.documentfoldername,
 			projectFolderURL			: file.path,//req.headers.projectfolderurl,
 			projectFolderDatePosted		: Date.now(),//req.headers.projectfolderdateposted,
 			// NB: In EPIC, projectFolders have authors, not the actual documents.
@@ -571,6 +651,7 @@ var upload = function (req, res) {
 			documentFileURL		: req.headers.documentfileurl,
 			documentFileSize	: req.headers.documentfilesize,
 			documentFileFormat	: req.headers.documentfileformat,
+			documentIsInReview  : req.headers.documentisinreview,
 			documentVersion     : 0,
 			// These are automatic as it actually is when it comes into our system
 			internalURL				: file.path,
@@ -607,3 +688,17 @@ var fetchd = function (req, res) {
 };
 exports.fetchd = fetchd;
 
+exports.getlist = function (req, res) {
+	var pa = req.body.map (function (id) {
+		return Model.findOne ({_id:id}).exec();
+	});
+	Promise.all (pa)
+	.then (function (model) {
+		//console.log (model);
+		helpers.sendData (res, model);
+	})
+	.catch (function (err) {
+		// console.log (err);
+		helpers.sendError (res, err);
+	});
+};

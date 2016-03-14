@@ -1,0 +1,67 @@
+<h1 class="page-title no-lower-margin">
+	Add / Edit Topic
+</h1>
+
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="admin.topic.list">Cancel</a>
+		<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-sm-9">
+				<div class="form-group">
+					<label for="title" class="control-label">Topic Name</label>
+					<input id="title" type="text" class="form-control" ng-model="topic.name">
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="type" class="control-label">Topic Type</label>
+					<select id="type" ng-model='topic.type' class="form-control">
+						<option>Valued Component</option>
+						<option>Pathway Component</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label for="shortDesc" class="control-label">Topic Description</label>
+					<textarea id="shortDesc" type="text" class="form-control" ng-model="topic.description" rows=6></textarea>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="pillar" class="control-label">Pillar</label>
+					<select ng-change="selectTopic(pillar)" id="pillar" ng-model='topic.pillar' class="form-control" ng-options="pillar.id as pillar.title for pillar in pillars"></select>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="parent" class="control-label">Parent Topic</label>
+					<select id="parent" ng-model='topic.parent' class="form-control" ng-options="topic.code as topic.name for topic in pillartopics"><option></option></select>
+				</div>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="text-right">
+			<a class="btn btn-default" ui-sref="admin.topic.list">Cancel</a>
+			<a class="btn btn-default" href ng-click="save()">Save</a>
+		</div>
+
+	</div>
+</div>
+
+

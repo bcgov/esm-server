@@ -1,0 +1,30 @@
+<section class="row">
+	<ui-view class='col-sm-10'></ui-view>
+	<div class='col-sm-2'>
+		<tmpl-system-menu x-menu-context="'settings'"></tmpl-system-menu>
+<!-- 		<section id="menu-side" class="menu-side" style="position: fixed;">
+			<div>
+				<label class="control-label">Admin Menu</label>
+				<ul class="list-unstyled">
+					<li><a ui-sref="admin.top">Top</a></li>
+					<li><a ui-sref="admin.topic">Topics</a></li>
+				</ul>
+				<hr/>
+			</div>
+			<div>
+				<ul class="list-unstyled" >
+					<li><a ui-sref="projects" href>All Projects</a></li>
+				</ul>
+				<hr/>
+			</div>
+			<div ng-show="authentication.user">
+				<label class="control-label">Welcome, {{ authentication.user.displayName }}</label>
+				<ul class="list-unstyled">
+					<li><a ui-sref="settings.profile">Profile</a></li>
+					<li><a href="/api/auth/signout" target="_self">Logout</a></li>
+			  	</ul>
+			</div>
+		</div>
+ -->
+	</div>
+</section>

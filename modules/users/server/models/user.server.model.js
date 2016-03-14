@@ -6,6 +6,7 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   crypto = require('crypto'),
+  _ = require ('lodash'),
   validator = require('validator');
 
 /**
@@ -100,7 +101,11 @@ var UserSchema = new Schema({
   },
   resetPasswordExpires: {
     type: Date
-  }
+  },
+  orgCode : { type:String },
+  organizations: [
+    { type:'ObjectId', ref:'Organization' }
+  ]
 });
 
 /**
@@ -130,9 +135,15 @@ UserSchema.methods.hashPassword = function (password) {
  * Create instance method for authenticating user
  */
 UserSchema.methods.authenticate = function (password) {
-  console.log ("password = ", password);
+  // console.log ("password = ", password);
   return this.password === this.hashPassword(password);
 };
+
+UserSchema.methods.setUserRole = function (role) {
+  this.roles.push (role);
+  this.roles = _.uniq (this.roles);
+};
+
 
 /**
  * Find possible not used username
@@ -155,5 +166,9 @@ UserSchema.statics.findUniqueUsername = function (username, suffix, callback) {
     }
   });
 };
+
+UserSchema.index ({
+  organizations: 1
+});
 
 mongoose.model('User', UserSchema);

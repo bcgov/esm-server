@@ -1,0 +1,72 @@
+<section class="panel panel-default">
+	<div class="block-content">
+		<h3>Working Group Engagement Configuration</h3>
+
+		<div class="panel-body">
+			<!-- START/END DATE -->
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label class="control-label">Content for Review</label>
+						<select ng-model="processEngageWGConfig.config.contentType" class="form-control" ng-options="doc[0] as doc[0].name for doc in processEngageWGConfig.config.currentDocuments">
+						</select>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Working Group Session Open</label>
+
+						<div class="input-group">
+							<input type="text"
+								class="form-control text-center"
+								ng-model="processEngageWGConfig.config.dateOpen"
+								ng-disabled="1"/>
+							<div x-modal-date-picker
+								x-selected-date="processEngageWGConfig.config.dateStarted"
+								class="input-group-addon btn-default">
+							<i class="glyphicon glyphicon-calendar"></i></div>
+						</div>
+										
+					</div>
+					<div class="form-group">
+						<label class="control-label">Working Group Session Close</label>
+
+						<div class="input-group">
+							<input type="text"
+								class="form-control text-center"
+								ng-model="processEngageWGConfig.config.dateClose"
+								ng-disabled="1"/>
+							<div x-modal-date-picker
+								x-selected-date="processEngageWGConfig.config.dateCompleted"
+								class="input-group-addon btn-default">
+							<i class="glyphicon glyphicon-calendar"></i></div>
+						</div>
+
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<label class="control-label">Select Applicable Roles</label>
+					<div class="well well-sm">
+						<ul class="list-unstyled task-list">
+							<li ng-repeat="role in processEngageWGConfig.config.projectRoles">
+								<button class="btn btn-block btn-sm btn-layer btn-default"
+									ng-click="processEngageWGConfig.chosenRoles[role] = !processEngageWGConfig.chosenRoles[role]"
+									ng-class="{'btn-success': processEngageWGConfig.chosenRoles[role]}">{{ role }}</button>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<label class="control-label">Instructions to Working Group</label>
+					<textarea rows="6" ng-model="processEngageWGConfig.config.instructions" class="form-control"></textarea>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="panel panel-default">
+	<div class="block-content">
+		<h3>Notify Working Group</h3>
+		<tmpl-notifications x-project=""></tmpl-notifications>
+	</div>
+</section> <!-- /panel -->

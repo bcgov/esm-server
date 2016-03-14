@@ -3,6 +3,8 @@
 angular.module('project')
 	.directive('tmplProject', directiveProject)
 	.directive('modalProjectSchedule', directiveModalProjectSchedule)
+	.directive('modalAddPhaseToProject', directiveModalAddPhaseToProject )
+	.directive('modalAddActivity', directiveModalAddActivity)
 	.directive('modalProjectVc', directiveProjectVC)
 	.directive('modalProjectVcEntry', directiveProjectVCEntry)
 	.directive('tmplProjectTombstone', directiveProjectTombstone)
@@ -16,6 +18,7 @@ angular.module('project')
 	// .directive('tmplProjectResearch', directiveProjectResearch)
 
 	.directive('modalProjectEntry', directiveModalProjectEntry)
+	.directive('modalProjectImport', directiveModalProjectImport)
 
 	// .directive('tmplProjectNew', directiveProjectNew)
 	// .directive('tmplProjectEdit', directiveProjectEdit)
@@ -78,6 +81,110 @@ function directiveModalProjectSchedule($modal) {
 }
 // -----------------------------------------------------------------------------------
 //
+// DIRECTIVE: Modal Add Phase to Project
+//
+// -----------------------------------------------------------------------------------
+directiveModalAddPhaseToProject.$inject = ['$modal', '$rootScope'];
+/* @ngInject */
+function directiveModalAddPhaseToProject($modal, $rootScope) {
+	var directive = {
+		restrict:'A',
+		scope: {
+			project: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalAddPhase = $modal.open({
+					animation: true,
+					templateUrl: 'modules/projects/client/views/project-partials/modal-add-phase.html',
+					controller: 'controllerModalAddPhase',
+					controllerAs: 'addPhase',
+					resolve: {
+						rProject: function() {
+							return scope.project;
+						}
+					},
+					size: 'sm'
+				});
+				modalAddPhase.result.then(function (data) {
+				}, function () {});
+			});
+		}
+	};
+	return directive;
+}
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Modal Add Milestone to Phase
+//
+// -----------------------------------------------------------------------------------
+directiveModalAddMilestoneToPhase.$inject = ['$modal', '$rootScope'];
+/* @ngInject */
+function directiveModalAddMilestoneToPhase($modal, $rootScope) {
+	var directive = {
+		restrict:'A',
+		scope: {
+			phase: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalAddMilestone = $modal.open({
+					animation: true,
+					templateUrl: 'modules/projects/client/views/project-partials/modal-add-milestone.html',
+					controller: 'controllerModalAddMilestone',
+					controllerAs: 'addMile',
+					resolve: {
+						rPhase: function() {
+							return scope.phase;
+						}
+					},
+					size: 'sm'
+				});
+				modalAddMilestone.result.then(function (data) {
+				}, function () {});
+			});
+		}
+	};
+	return directive;
+}
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Modal Add Activity
+//
+// -----------------------------------------------------------------------------------
+directiveModalAddActivity.$inject = ['$modal', '$rootScope'];
+/* @ngInject */
+function directiveModalAddActivity($modal, $rootScope) {
+	var directive = {
+		restrict:'A',
+		scope : {
+			milestone: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalAddAct = $modal.open({
+					animation: true,
+					templateUrl: 'modules/projects/client/views/project-partials/modal-add-activity.html',
+					controller: 'controllerModalAddActivity',
+					controllerAs: 'addAct',
+					resolve: {
+						rMilestone: function () {
+							return scope.milestone;
+						}
+					},
+					size: 'sm'
+				});
+				modalAddAct.result.then(function (data) {
+					$rootScope.$broadcast('refreshActivitiesForMilestone', {milestone: data});
+					// fetch project again.
+				}, function () {});
+			});
+		}
+	};
+	return directive;
+}
+// -----------------------------------------------------------------------------------
+//
 // DIRECTIVE: Modal Project VC
 //
 // -----------------------------------------------------------------------------------
@@ -129,7 +236,7 @@ function directiveProjectVCEntry($modal) {
 					animation: true,
 					templateUrl: 'modules/projects/client/views/project-partials/modal-project-vc-entry.html',
 					controller: 'controllerProjectVCEntry',
-					controllerAs: 'projectVCEntry',
+					controllerAs: 'projectVCEntryModal',
 					scope: scope,
 					resolve: {
 						rProjectVCEntry: function () {
@@ -150,9 +257,9 @@ function directiveProjectVCEntry($modal) {
 // DIRECTIVE: Modal Project Entry
 //
 // -----------------------------------------------------------------------------------
-directiveModalProjectEntry.$inject = ['$modal', '$state', '$rootScope'];
+directiveModalProjectEntry.$inject = ['$modal', '$state', '$rootScope', 'ProjectModel'];
 /* @ngInject */
-function directiveModalProjectEntry($modal, $state, $rootScope) {
+function directiveModalProjectEntry($modal, $state, $rootScope, sProjectModel) {
 	var directive = {
 		restrict:'A',
 		scope : {
@@ -177,7 +284,48 @@ function directiveModalProjectEntry($modal, $state, $rootScope) {
 						// reload the complete projects list
 						$rootScope.$broadcast('refreshProjectsList');
 					} else {
-						scope.project = data;
+						$rootScope.$broadcast('refreshProject');
+						$rootScope.$broadcast('refreshDocumentList');
+					}
+				}, function () {});
+			});
+		}
+	};
+	return directive;
+}
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Modal Project Entry
+//
+// -----------------------------------------------------------------------------------
+directiveModalProjectImport.$inject = ['$modal', '$state', '$rootScope', 'ProjectModel'];
+/* @ngInject */
+function directiveModalProjectImport($modal, $state, $rootScope, sProjectModel) {
+	var directive = {
+		restrict:'A',
+		scope : {
+			project: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalProjectEntry = $modal.open({
+					animation: true,
+					templateUrl: 'modules/projects/client/views/project-partials/modal-project-import.html',
+					controller: 'controllerModalProjectImport',
+					controllerAs: 'projectImport',
+					resolve: {
+						rProject: function () {
+							return scope.project;
+						}
+					},
+					size: 'lg'
+				});
+				modalProjectEntry.result.then(function (data) {
+					if ($state.current.name === 'projects') {
+						// reload the complete projects list
+						$rootScope.$broadcast('refreshProjectsList');
+					} else {
+						$rootScope.$broadcast('refreshProject');
 						$rootScope.$broadcast('refreshDocumentList');
 					}
 				}, function () {});
@@ -435,5 +583,3 @@ function directiveProjectActivities() {
 	};
 	return directive;
 }
-
-

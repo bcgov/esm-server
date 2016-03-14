@@ -8,32 +8,35 @@ var policy     = require ('../policies/role.policy');
 var controller = require ('../controllers/role.controller');
 
 module.exports = function (app) {
-	//
-	// collection routes
-	//
 	app.route ('/api/role').all (policy.isAllowed)
-		.get  (controller.list)
-		.post (controller.create);
-	//
-	// model routes
-	//
+		.post (controller.addRoleRoute);
 	app.route ('/api/role/:role').all (policy.isAllowed)
-		.get    (controller.read)
-		.put    (controller.update)
-		.delete (controller.delete);
-	app.route ('/api/new/role').all (policy.isAllowed)
-		.get (controller.new);
-
+		.put (controller.updateRoleRoute)
+		.get (controller.getRoleRoute);
 	//
-	// add a user to a role/group
+	// get all users in a role
 	//
-	app.route ('/api/role/:role/add/user/:userId').all (policy.isAllowed)
-		.put (controller.addUserToRole);
-
+	app.route ('/api/users/in/role/:role').all (policy.isAllowed)
+		.get (controller.getUsersForRoleRoute);
 	//
-	// middleware to auto-fetch parameter
+	// get all roles in a project
 	//
-	app.param ('role', controller.getObject);
-	// app.param ('roleId', controller.getId);
+	app.route ('/api/roles/project/:project').all (policy.isAllowed)
+		.get (controller.getRolesInProjectRoute);
+	//
+	// get all users in all roles for a project
+	//
+	app.route ('/api/users/roles/project/:project').all (policy.isAllowed)
+		.get (controller.getUsersInRolesInProjectRoute);
+	//
+	// get all projects with a role
+	//
+	app.route ('/api/projects/with/role/:role').all (policy.isAllowed)
+		.get (controller.getProjectsWithRoleRoute);
+	//
+	// get system roles only
+	//
+	app.route ('/api/system/roles').all (policy.isAllowed)
+		.get (controller.getSystemRolesRoute);
 };
 

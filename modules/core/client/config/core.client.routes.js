@@ -22,12 +22,12 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		template: '<tmpl-configuration></tmpl-configuration>',
 		data: {
 			roles: ['admin']
-		}		
+		}
 	})
-	.state('projects', {
-		url: '/',
-		template: '<tmpl-projects></tmpl-projects>'
-	})
+	// .state('projects', {
+	// 	url: '/',
+	// 	template: '<tmpl-projects></tmpl-projects>'
+	// })
 	.state('login', {
 		url: '/login',
 		template: '<tmpl-login></tmpl-login>'
@@ -40,80 +40,116 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		url: '/recover',
 		template: '<tmpl-recover></tmpl-recover>'
 	})
-	// -----------------------------------------------------------------------------------
+	// =========================================================================
 	//
-	// ROUTES: Public
+	// Old Project Routes
 	//
-	// -----------------------------------------------------------------------------------
-	// .state('public', {
-	// 	url: '/public',
-	// 	abstract: true,
-	// 	template: '<div ui-view></div>'
-	// })
-	// .state('public.projects', {
-	// 	url: '/projects',
-	// 	template: '<tmpl-public-projects></tmpl-public-projects>'
-	// })
-	// .state('public.project', {
+	// =========================================================================
+	// .state('project', {
 	// 	url: '/project/:id',
-	// 	template: '<tmpl-public-project></tmpl-public-project>'
+	// 	template: '<tmpl-project></tmpl-project>'
 	// })
-	// -----------------------------------------------------------------------------------
+	// =========================================================================
 	//
-	// ROUTES: Proponent
+	// New Project Routes
 	//
-	// -----------------------------------------------------------------------------------
-	// .state('proponent', {
-	// 	url: '/proponent',
-	// 	abstract: true,
-	// 	template: '<div ui-view></div>',
-	// 	data: {
-	// 		roles: ['admin']
-	// 	}
-	// })
-	// .state('proponent.projects', {
-	// 	url: '/projects',
-	// 	template: '<tmpl-eao-projects></tmpl-eao-projects>'
-	// })
-	// .state('proponent.project', {
-	// 	url: '/project/:id',
-	// 	template: '<tmpl-eao-project></tmpl-eao-project>'
-	// })
-	// .state('proponent.newproject', {
-	// 	url: '/newproject/',
-	// 	template: '<tmpl-eao-project-new></tmpl-eao-project-new>'
-	// })
-	// .state('proponent.register', {
-	// 	url: '/register/',
-	// 	template: '<tmpl-proponent-register></tmpl-proponent-register>'
-	// })
-	// .state('proponent.activity', {
-	// 	url: '/activity/:id',
-	// 	template: '<tmpl-proponent-activity></tmpl-proponent-activity>'
-	// })
-	// -----------------------------------------------------------------------------------
+	// =========================================================================
+	.state('projects', {
+		url: '/',
+		templateUrl: 'modules/projects/client/views/projects.abstract.html',
+		resolve: {
+			projects: function ($stateParams, ProjectModel) {
+				return ProjectModel.getCollection ();
+			}
+		},
+		controller: function ($scope, $stateParams, projects, MEM, Authentication) {
+			$scope.projects = projects;
+			$scope.isMEM = MEM;
+			$scope.authentication = Authentication;
+		}
+	})
+	// -------------------------------------------------------------------------
 	//
-	// ROUTES: Proponent
+	// the scheudle view for all projects
 	//
-	// -----------------------------------------------------------------------------------
-	// .state('eao', {
-	// 	url: '/eao',
-	// 	abstract: true,
-	// 	template: '<div ui-view></div>',
-	// 	data: {
-	// 		roles: ['admin', 'user']
-	// 	}
-	// })
-	// .state('eao.projects', {
-	// 	url: '/projects',
-	// 	template: '<tmpl-eao-projects></tmpl-eao-projects>',
-	// 	data: {
-	// 		roles: ['admin', 'user']
-	// 	}
-	// })
-	.state('project', {
-		url: '/project/:id',
-		template: '<tmpl-project></tmpl-project>'
+	// -------------------------------------------------------------------------
+	.state('projects.schedule', {
+		url: '/schedule',
+		templateUrl: 'modules/projects/client/views/projects-partials/projects.schedule.html',
+		controller: function ($scope, projects) {
+			$scope.projects = projects;
+		}
+	})	
+	// -------------------------------------------------------------------------
+	//
+	// the project abstract, this contains the menu and a ui-view for loading
+	// child views. it also handles injecting the project
+	//
+	// -------------------------------------------------------------------------
+	.state('p', {
+		url: '/p/:projectid',
+		abstract: true,
+		templateUrl: 'modules/projects/client/views/project.abstract.html',
+		resolve: {
+			project: function ($stateParams, ProjectModel) {
+				return ProjectModel.byCode ($stateParams.projectid);
+			},
+			eaoAdmin: function (project) {
+				return project.adminRole;
+			},
+			proponentAdmin: function (project) {
+				return project.proponentAdminRole;
+			}
+		},
+		controller: function ($scope, $stateParams, project) {
+			$scope.project = project;
+		}
+	})
+	// -------------------------------------------------------------------------
+	//
+	// the detail view of a project
+	//
+	// -------------------------------------------------------------------------
+	.state('p.detail', {
+		url: '/detail',
+		templateUrl: 'modules/projects/client/views/project-partials/project.detail.html',
+		controller: function ($scope, project) {
+			$scope.project = project;
+		}
+	})
+	// -------------------------------------------------------------------------
+	//
+	// the detail view of a project
+	//
+	// -------------------------------------------------------------------------
+	.state('p.edit', {
+		url: '/edit',
+		templateUrl: 'modules/projects/client/views/project-partials/project.entry.html',
+		controller: 'controllerProjectEntry',
+		resolve: {
+			intakeQuestions: function(ProjectModel) {
+				return ProjectModel.getProjectIntakeQuestions();
+			}
+		}
+	})	
+	// -------------------------------------------------------------------------
+	//
+	// project description
+	//
+	// -------------------------------------------------------------------------
+	.state('projectdescription', {
+		url: '/projectdescription/:project',
+		template: '<tmpl-project-description-edit></tmpl-project-description-edit>',
+		data: {
+			roles: ['admin', 'user']
+		}
+	})
+	.state('comments', {
+		url: '/comments/:project',
+		template: '<tmpl-comment-period-list></tmpl-comment-period-list>',
+		data: {
+			roles: ['admin', 'user']
+		}
 	})
 	.state('activity', {
 		url: '/project/:project/activity/:activity',
@@ -121,7 +157,29 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		data: {
 			roles: ['admin', 'user']
 		}
+	})
+	.state('activities', {
+		url: '/activities',
+		templateUrl: 'modules/users/client/views/user-partials/user-activities.html',
+		resolve: {
+			activities: function(ActivityModel) {
+				return ActivityModel.userActivities ();
+			},
+			projects: function(ProjectModel) {
+				return ProjectModel.getCollection ();
+			}
+		},
+		controller: function ($scope, $stateParams, activities, projects, _) {
+			$scope.activities = activities;
+			$scope.projectNames = _.map(projects, 'name');
+			console.log($scope.projectNames);
+		},
+		data: {
+			roles: ['admin', 'user']
+		}
 	});
+
+
 
 
 

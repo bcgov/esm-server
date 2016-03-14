@@ -9,5 +9,6 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__access     : true,
 	__codename  : true,
 	priorPhase  : { type: 'ObjectId', ref:'PhaseBase' },
-	milestones  : [ {type: 'ObjectId', ref:'MilestoneBase'} ]
+	milestones  : [ {type: 'ObjectId', ref:'MilestoneBase'} ],
+	order	  : { type: Number, default:0 }
 });

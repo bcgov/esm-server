@@ -9,10 +9,26 @@ var DBModel        = require (path.resolve('./modules/core/server/controllers/co
 var MilestoneClass = require (path.resolve('./modules/milestones/server/controllers/milestone.controller'));
 var MilestoneBaseClass = require (path.resolve('./modules/milestones/server/controllers/milestonebase.controller'));
 var _              = require ('lodash');
+var RoleController = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 
 module.exports = DBModel.extend ({
 	name : 'Phase',
+	plural : 'phases',
 	// populate: 'milestones',
+	preprocessAdd: function (phase) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			console.log ('adding phase roles');
+			RoleController.addRolesToConfigObject (phase, 'phases', {
+				read   : ['project:eao:member', 'eao'],
+				submit : ['project:eao:admin']
+			})
+			.then (function () {
+				resolve (phase);
+			})
+			.catch (reject);
+		});
+	},
 	// -------------------------------------------------------------------------
 	//
 	// when making a phase from a base it will aslways be in order to attach
@@ -25,7 +41,7 @@ module.exports = DBModel.extend ({
 	// save the phase
 	//
 	// -------------------------------------------------------------------------
-	makePhaseFromBase : function (base, streamid, projectid, projectcode) {
+	makePhaseFromBase : function (base, streamid, projectid, projectcode, roles) {
 		var self = this;
 		var Milestone = new MilestoneClass (this.user);
 		var MilestoneBase = new MilestoneBaseClass (this.user);
@@ -49,16 +65,22 @@ module.exports = DBModel.extend ({
 			.then (function (model) {
 				newobjectid = model._id;
 				newobject   = model;
+				//
 				// fix the roles
+				//
 				model.fixRoles (projectcode);
+				if (roles) model.addRoles (roles);
+				RoleController.addRolesToConfigObject (model, 'phases', model.roleSet());
+				//
 				// assign whatever ancenstry is needed
+				//
 				model[basename] = baseid;
 				model.project = projectid;
 				model.projectCode = projectcode;
 				model.stream  = streamid;
 				// return the promise of new children
 				return Promise.all (children.map (function (m) {
-					return Milestone.makeMilestoneFromBase (m, streamid, projectid, projectcode, newobjectid);
+					return Milestone.makeMilestoneFromBase (m, streamid, projectid, projectcode, newobjectid, roles);
 				}));
 			})
 			.then (function (models) {
@@ -78,7 +100,7 @@ module.exports = DBModel.extend ({
 	// milestone with all its children and pushes it onto the array)
 	//
 	// -------------------------------------------------------------------------
-	addMilestoneFromBase : function (phase, milestonebase) {
+	addMilestoneFromBase : function (phase, milestonebase, roles) {
 		var self = this;
 		var Milestone = new MilestoneClass (this.user);
 		return new Promise (function (resolve, reject) {
@@ -87,13 +109,31 @@ module.exports = DBModel.extend ({
 				phase.stream,
 				phase.project,
 				phase.projectCode,
-				phase._id
+				phase._id,
+				roles
 			)
 			.then (function (newmilestone) {
 				phase.milestones.push (newmilestone._id);
 				return phase;
 			})
 			.then (self.saveDocument)
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// given a base milestone code, add a copy of it to the phase
+	//
+	// -------------------------------------------------------------------------
+	addMilestoneFromCode : function (phase, milestoneCode, roles) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			MilestoneBaseClass.findOne ({
+				code: milestoneCode
+			})
+			.then (function (base) {
+				return self.addMilestoneFromBase (phase, base, roles);
+			})
 			.then (resolve, reject);
 		});
 	},

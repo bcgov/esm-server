@@ -23,6 +23,9 @@ module.exports = function (app) {
 	app.route ('/api/documents/types/:projectid')//.all (policy.isAllowed)
 		.get  (controller.getDocumentTypesForProjectAndReturn);
 
+	app.route ('/api/documents/folderNames/:projectid')//.all (policy.isAllowed)
+		.get  (controller.getDocumentFolderNamesForProjectAndReturn);
+
 	app.route ('/api/documents/versions/:documentid')//.all (policy.isAllowed)
 		.get  (controller.getDocumentVersionsAndReturn);
 
@@ -54,6 +57,8 @@ module.exports = function (app) {
 	app.route ('/api/document/:document/fetch').all (policy.isAllowed)
 		.get (controller.fetchd);
 
+	app.route ('/api/documentlist').all (policy.isAllowed)
+		.put (controller.getlist);
 	//
 	// middleware to auto-fetch parameter
 	//

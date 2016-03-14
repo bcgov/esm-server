@@ -218,11 +218,16 @@ h3 .small .label {
 	padding-bottom: 0 !important;
 }
 
-.vertical-scroll {
+.vertical-scroll,
+.vertical-scroll-padded {
 	overflow-x: hidden;
 	overflow-y: auto;
 	min-height: 400px;
 	max-height: 400px;
+}
+.vertical-scroll-padded {
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 
 .scrolling-fixed-box {
@@ -243,7 +248,9 @@ h3 .small .label {
 .wrap {
 	white-space: normal !important;
 }
-
+.no-upper-margin {
+	margin-top: 0 !important;
+}
 .no-lower-margin {
 	margin-bottom: 0 !important;
 }
@@ -271,7 +278,11 @@ ul.list-indent-left {
 .list-documents li.active a {
 	color: #ffffff;
 }
-
+.list-documents .btn-download {
+	position: absolute;
+	top: 0;
+	right: 15px;
+}
 .list-documents li:first-child,
 .list-tasks li:first-child {
 	border-top: none
@@ -283,6 +294,15 @@ ul.list-indent-left {
 	display: none;
 }
 
+.row-folder.active,
+.row-document.active {
+    background-color: #204d74;
+    border-color: #122b40;
+}
+.row-folder a,
+.row-document a {
+	display: block
+}
 .row-folder.active span.arrow,
 .row-document.active span.arrow {
 	display: inline-block;
@@ -296,7 +316,6 @@ ul.list-indent-left {
 .bg-muted {
 	background-color: #f2f2f2;
 }
-
 
 .list-documents li.active .arrow {
 	position:absolute;
@@ -448,6 +467,9 @@ th .progress-bar {
 	opacity: 0.8;
 }
 
+.control-with-label {
+	margin-top: 25px !important;
+}
 // -------------------------
 // PANELS...
 // -------------------------
@@ -457,13 +479,20 @@ th .progress-bar {
 	padding: 8px 15px;
 	margin-bottom: 0;
 }
-
 .block-content {
 	 margin-bottom: 15px;
 	 border-bottom: 2px solid $border-grey;
 }
+.block-content:last-child,
+.block-content.block-stacked {
+	margin-bottom: 0;
+}
 .panel > .block-content:first-child > h3 {
 	margin-top: 0;
+}
+.panel-body.no-vertical-padding {
+	padding-top: 0;
+	padding-bottom: 0;
 }
 .panel > .table.table-stacked {
 	margin-bottom: 30px;
@@ -917,5 +946,147 @@ h2.page-title {
 }
 
 
+.edit-outlines .text-block {
+	border: 2px dotted $brand-info;
+	padding: 3px;
+	border-radius: 8px;
+	cursor: pointer;
+	background-color: transparent;
+}
+.edit-outlines .text-block-success {
+	border: 2px dotted $brand-success;
+	background-color: transparent;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.text-block > p:last-child {
+	margin-bottom: 0;
+}
+
+.edit-outlines .text-block:focus,
+.edit-outlines .text-block-focus {
+	border: 2px dashed $brand-info;
+	outline: none !important;
+	background-color: #d9edf7;
+}
+
+.doc-detail-col {
+	border-right: 1px solid $border-grey;
+	overflow: hidden;
+	padding-right: 0;
+}
+
+.doc-action-col {
+	text-align: center;
+	font-size: 2rem;
+	padding-top: 5px;
+	padding-left: 0;
+}
+
+.doc-action-col a {
+	display: block;
+	text-align: center;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.well hr {
+	border-top: 1px solid $border-grey;
+	margin-top: 5px;
+	margin-bottom: 8px;
+}
+
+/*
+//-------------------
+// Schedule D3 Styles
+// -------------------
+*/
+
+.schedule-control-cell {
+	padding: 0 !important;
+	position: relative;
+}
+.svg-div-root {
+	position: absolute;
+	top:0;left:0;bottom:0;right:0;
+	overflow: hidden;
+}
+
+.svg-element{
+	position: relative;
+	width: 100%;
+}
+
+.svg-background{
+	fill: lightyellow;
+	fill-opacity: 0.3;
+}
+
+.projectToday-line {
+	stroke: darkorange;
+	stroke-width: .5;
+	fill: none;
+}
 
 
+.list-array-item {
+	margin-bottom: 3px;
+	padding: 3px 5px;
+}
+
+/*
+// --------------------------
+// ng-table and form styles
+// --------------------------
+*/
+
+table thead tr.ng-table-sort-header {
+}
+
+.ng-table-pager {
+	border-top: 1px solid $border-grey;
+	padding: 15px;
+	overflow: auto;
+}
+table thead tr.ng-table-filters {
+	background-color: $border-grey;
+}
+
+/*
+// -------------------
+// template styles
+// -------------------
+*/
+
+.template {
+  background-color: #ffffff;
+  padding:10px;
+}
+
+.template h1, li, p {
+  font-family: $font-family-sans-serif;
+}
+
+.template-subitem {
+  margin-left:10px;
+}
+
+.template ol[type="1"] li {
+  font-weight: bold;
+  font-size: 28px;
+  color: #65909a;
+}
+
+.template ol[type="a"] li {
+  font-weight: bold;
+  font-size: 24px;
+  color: #9a6590;
+  margin-top:10px;
+}
+
+.template ol[type="i"] li {
+  font-weight: bold;
+  font-size: 20px;
+  color: #909a65;
+  margin-top:10px;
+}

@@ -1,0 +1,20 @@
+<div class="text-block"
+	ng-class="{'text-block-focus': activeItem}">
+
+	<div ng-show="!activeItem"
+		ng-bind-html="curVal"
+		ng-click="activeItem = true"></div>
+
+	<div ng-show="activeItem">
+		<textarea
+			ui-tinymce="{menubar:'', statusbar:false}"
+			type="text"
+			class="form-control input-sm text-editor"
+			ng-model="curVal" rows=10
+			ng-blur="saveModel()">
+		</textarea>
+		<div class="text-right">
+			<a class="btn btn-sm btn-link" href ng-click="activeItem = false">Close</a>
+		</div>
+	</div>
+</div>

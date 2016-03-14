@@ -6,18 +6,32 @@
 		<div class="row">
 			<div class="col-sm-4">
 
+                   <a href
+                       class="control-label pull-right"
+                       x-modal-add-phase-to-project
+                       x-project="projectsActs.project">Add Phase</a>
+
 				<label class="control-label">Phases</label>
 				<ul class="list-unstyled task-list">
-					<li ng-repeat="phase in projectActs.phases">
+					<li ng-repeat="phase in projectActs.phases | orderBy:'order'">
 						<button class="btn btn-block btn-sm btn-default" ng-class="{'btn-primary': projectActs.selectedPhase._id === phase._id}" ng-click="projectActs.selectPhase(phase)">{{ phase.name }}</button>
+					</li>
+					<li ng-if="!projectActs.phases || projectActs.phases.length === 0">
+						No Phases defined.
 					</li>
 				</ul>
 
 			</div>
 			<div class="col-sm-4">
+                   <a href
+                       class="control-label pull-right"
+                       x-modal-add-milestone-to-phase
+                       x-phase="projectActs.selectedPhase"
+                       ng-show="projectActs.selectedPhase">Add Milestone</a>
+
 				<label class="control-label">Milestones</label>
 				<ul class="list-unstyled task-list">
-					<li ng-repeat="milestone in projectActs.milestones">
+					<li ng-repeat="milestone in projectActs.milestones | orderBy:'order'">
 						<button class="btn btn-block btn-sm btn-default" ng-class="{'btn-primary': projectActs.selectedMilestone._id === milestone._id}" ng-click="projectActs.selectMilestone(milestone)">{{ milestone.name }}</button>
 					</li>
 					<li ng-if="!projectActs.milestones || projectActs.milestones.length === 0">
@@ -27,10 +41,15 @@
 			
 			</div>
 			<div class="col-sm-4">
+                        <a href
+                            class="control-label pull-right"
+                            x-modal-add-activity
+                            x-milestone="projectActs.selectedMilestone"
+                            ng-show="projectActs.selectedMilestone">Add Activity</a>
 
 				<label class="control-label">Activities</label>
 				<ul class="list-unstyled task-list">
-					<li ng-repeat="activity in projectActs.activities">
+					<li ng-repeat="activity in projectActs.activities | orderBy:'order'">
 						<button class="btn btn-block btn-sm btn-default" ui-sref="activity({project: projectActs.project._id, activity: activity._id})">{{ activity.name }}</button>
 					</li>
 					<li ng-if="!projectActs.activities || projectActs.activities.length === 0">

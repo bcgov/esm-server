@@ -33,9 +33,10 @@ controllerCompanyEntryForm.$inject = ['$scope'];
 function controllerCompanyEntryForm($scope) {
 	var uco = this;
 
-	$scope.$watch('project', function(newValue) {
+	$scope.$watch('company', function(newValue) {
 		if (newValue) {
-			uco.project = newValue;
+			uco.proponent = newValue;
+			console.log ('uco.proponent = ',uco.proponent);
 		}
 	});
 

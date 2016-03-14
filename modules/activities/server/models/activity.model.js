@@ -21,5 +21,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	stream         : { type:'ObjectId', default:null, ref:'Stream'      , index:true },
 	overriddenBy   : { type:'ObjectId', ref:'User' },
 	overrideReason : { type:String, default:'' },
-	completed      : { type:Boolean, default:false }
+	completed      : { type:Boolean, default:false },
+	order          : { type: Number, default:0 },
+	data           : {}
 });

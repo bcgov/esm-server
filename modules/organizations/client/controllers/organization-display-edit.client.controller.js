@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('organizations').controller('controllerOrganizationsDisplayEdit', ['$scope', '$filter', 'Organizations', '$state', 'PROVINCES', 'COMPANY_TYPES',
-    function ($scope, $filter, Organizations, $state, PROVINCES, COMPANY_TYPES ) {
+angular.module('organizations').controller('controllerOrganizationsDisplayEdit', ['$scope', '$filter', 'OrganizationModel', '$state', 'PROVINCES', 'COMPANY_TYPES',
+    function ($scope, $filter, sOrganizationModel, $state, PROVINCES, COMPANY_TYPES ) {
         var displayEdit = this;
 
         displayEdit.organizationId = $scope.organizationId;
@@ -10,50 +10,60 @@ angular.module('organizations').controller('controllerOrganizationsDisplayEdit',
         displayEdit.provs = PROVINCES;
         displayEdit.companyTypes = COMPANY_TYPES;
 
-        // Is this a new entry? If so, let's create it...
-        if (displayEdit.mode === "add") {
-
-        } else
-        // If this isn't a new entry, If the ID is wrong let's go back to the list.
-        {
-            Organizations.getOrganization({id: displayEdit.organizationId}).then(
-                function(res) {
-                    displayEdit.organization = res.data;
-                },
-                function(data) {
-                    $state.go('organization.list');
+        $scope.$watch( 'organizationId', function(newValue) {
+            if (newValue) {
+                if (newValue === 'new') {
+                    console.log('new');
+                    sOrganizationModel.getNew().then( function(data) {
+                        console.log(data);
+                        displayEdit.organization = data;
+                        $scope.$apply();
+                    });
+                } else {
+                    console.log('edit');
+                    sOrganizationModel.getModel({id: newValue}).then( function(data) {
+                        displayEdit.organization = data;
+                    });
                 }
-            );
-        }
-
-        displayEdit.submit = function() {
-            if (displayEdit.mode === "add") {
-                Organizations.addOrganization(displayEdit.organization).then( function(res) {
-                    $state.go('organization.view', { organizationId: res.data._id});
-                });
-            } else {
-                Organizations.updateOrganization(displayEdit.organization).then( function(res) {
-                    $state.go('organization.view', { organizationId: res.data._id});
-                });
             }
+        });        
+
+
+        displayEdit.submit = function(form) {
+            console.log('submit', form);
+
+            sOrganizationModel.setModel(displayEdit.organization);
+
+            if (form.$valid) {
+                sOrganizationModel.saveModel().then( function(data) {
+                    $state.go('organization.view', { organizationId: data._id});
+                });
+
+            }
+
+            // if (displayEdit.mode === "add") {
+            //     sOrganizationModel.addOrganization(displayEdit.organization).then( function(res) {
+            //         $state.go('organization.view', { organizationId: res.data._id});
+            //     });
+            // } else {
+            //     sOrganizationModel.updateOrganization(displayEdit.organization).then( function(res) {
+            //         $state.go('organization.view', { organizationId: res.data._id});
+            //     });
+            // }
         };
 
         displayEdit.cancel = function() {
-            if (displayEdit.mode === "add") {
-                $state.go('list');
-            } else {
-                $state.go('organization.view', {organizationId: displayEdit.organization._id});
-            }
+            $state.go('organization.list');
         };
 
-        displayEdit.remove = function() {
-            if (confirm('Are you sure you want to delete this organization?')) {
-                Organizations.deleteOrganization({id: displayEdit.organizationId}).then(
-                    function (res) {
-                        $state.go('organization.list');
-                    }
-                );
-            }
-        };
+        // displayEdit.remove = function() {
+        //     if (confirm('Are you sure you want to delete this organization?')) {
+        //         sOrganizationModel.deleteOrganization({id: displayEdit.organizationId}).then(
+        //             function (res) {
+        //                 $state.go('organization.list');
+        //             }
+        //         );
+        //     }
+        // };
     }
 ]);

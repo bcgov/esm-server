@@ -19,6 +19,11 @@ function filterShouldDisplayPanel(Authentication, _) {
 				"Submitted":["stream", "edit", "documents", "doc-approvals"],
 				"In Progress":["tombstone", "map", "edit", "activities", "documents", "doc-approvals"]
 			},
+			"eao":{
+				"Initiated":["initiated", "documents"],
+				"Submitted":["stream", "edit", "documents", "doc-approvals"],
+				"In Progress":["tombstone", "map", "edit", "activities", "documents", "doc-approvals"]
+			},
 			"guest":{
 				"Initiated":[],
 				"Submitted":[],

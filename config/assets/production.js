@@ -9,7 +9,10 @@ module.exports = {
         // these were in the application css are before
         'public/lib/angular-toastr/dist/angular-toastr.css',
         'public/lib/angular-bootstrap/ui-bootstrap-csp.css',
-        'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css'
+        'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css',
+        // cc : ngtable
+        // 'public/lib/ng-table/dist/ng-table.min.css'
+        'public/assimilated/ng-table/dist/ng-table.min.css'
       ],
       js: [
         'public/lib/angular/angular.js',
@@ -33,15 +36,20 @@ module.exports = {
         'public/lib/lodash/lodash.min.js',
         'public/lib/d3/d3.min.js',
         'public/lib/angularD3/dist/angularD3.js',
+        // cc : ngtable
+        // 'public/lib/ng-table/dist/ng-table.min.js',
+        'public/assimilated/ng-table/dist/ng-table.js',
+        // cc: end ngtable
         'public/lib/moment/moment.js',
         'public/lib/moment-timezone/moment-timezone.js',
         'public/lib/angular-moment/angular-moment.js',
         'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
-    'public/lib/angular-scroll/angular-scroll.min.js',
+	    'public/lib/angular-scroll/angular-scroll.min.js',
+	    'public/lib/angular-cookies/angular-cookies.min.js',
         // these were in the application js area before
         'public/lib/ngmap/build/scripts/ng-map.js',
-    'public/moment-timezone-data.js',
-    'public/readable-range.js'
+	    'public/moment-timezone-data.js',
+	    'public/readable-range.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },

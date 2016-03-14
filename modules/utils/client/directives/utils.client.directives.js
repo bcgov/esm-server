@@ -1,6 +1,9 @@
 'use strict';
 
 angular.module('utils')
+    .directive('selectArray', directiveSelectArray)
+    .directive('displayArray', directiveDisplayArray)
+
     .directive('tmplQuickLinks', directiveQuickLinks)
     .directive('tmplRecentActivity', directiveRecentNews)
     .directive('kebabThis', directiveKebabThis)
@@ -27,8 +30,53 @@ angular.module('utils')
     .directive('selectOnClick', directiveSelectOnClick)
     .directive('modalSelectItems', directiveModalSelectItems)
     .directive('scrollAnchor', directiveScrollAnchor)
-    .directive('scrollTrigger', directiveScrollTrigger);
+    .directive('scrollTrigger', directiveScrollTrigger)
+    .directive('selectOnFocus', directiveSelectOnFocus);
     
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Select Array
+//
+// -----------------------------------------------------------------------------------
+directiveSelectArray.$inject = [];
+/* @ngInject */
+function directiveSelectArray() {
+	var directive = {
+     	restrict:'E',
+     	scope : {
+			sourceArray: '=',
+			selectedArray: '='
+		},
+		templateUrl: 'modules/utils/client/views/partials/select-array.html',
+		controller: 'controllerSelectArray'
+    };
+    return directive;
+}
+
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Display Array
+//
+// -----------------------------------------------------------------------------------
+directiveDisplayArray.$inject = [];
+/* @ngInject */
+function directiveDisplayArray() {
+	var directive = {
+     	restrict:'E',
+     	scope : {
+			sourceArray: '=',
+			selectedArray: '='
+		},
+		templateUrl: 'modules/utils/client/views/partials/display-array.html',
+		controller: function($scope, _) {
+			$scope._ = _;
+		}		
+    };
+    return directive;
+}
+
+
+
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Projects Quicklinks
@@ -784,4 +832,21 @@ function directiveScrollTrigger($anchorScroll, $location) {
     };
     return directive;
 }
-
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Scroll Trigger
+//
+// -----------------------------------------------------------------------------------
+directiveSelectOnFocus.$inject = [];
+/* @ngInject */
+function directiveSelectOnFocus() {
+    var directive = {
+       	restrict:'A',
+		link : function(scope, element, attrs) {
+			element.on('focus', function () {
+				this.select();
+			});
+		}
+	};
+	return directive;
+}

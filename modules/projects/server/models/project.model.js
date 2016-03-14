@@ -6,17 +6,38 @@
 // =========================================================================
 module.exports = require ('../../../core/server/controllers/core.models.controller')
 .generateModel ('Project', {
-	__audit     : true,
-	__access    : true,
-	__tracking    : true,
-	__status  : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Decommissioned'],
-	__codename  : 'unique',
-	phases       : [ {type: 'ObjectId', ref:'Phase'} ],
-	type        : { type:String, default:'', index:true },
-	region      : { type:String, default:'' },     // object id
-	location    : { type:String, default:'' },
-	stream      : { type:'ObjectId', ref:'Stream'     , index:true, default:null },
-	proponent   : { type:'ObjectId', ref:'Entity'     , index:true, default:null },
+	__audit               : true,
+	__access              : true,
+	__tracking            : true,
+	__status              : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Decommissioned'],
+	__codename            : 'unique',
+	epicProjectID		  : { type:Number, default: 0},  // Used to relate ePIC imports
+	shortName             : { type:String, default: '' },
+	phases                : [ {type: 'ObjectId', ref:'Phase'} ],
+	type                  : { type:String, default:'', index:true },
+	region                : { type:String, default:'' },     // object id
+	location              : { type:String, default:'' },
+	stream                : { type:'ObjectId', ref:'Stream'     , index:true, default:null },
+	proponent             : { type:'ObjectId', ref:'Organization'     , index:true, default:null },
+	adminRole             : { type:String, default: '' },
+	proponentAdminRole    : { type:String, default: '' },
+	sectorRole            : { type:String, default: '' },
+	orgCode               : { type:String, default: '' },
+	substitution : { type:Boolean, default:false },
+	intake: {
+		affectedFirstNations  : { type:String, default:'' },
+		constructionjobs      : { type:String, default:'' },
+		contactedCEAA         : { type:String, default:'' },
+		contactedFirstNations : { type:String, default:'' },
+		investment            : { type:String, default:'' },
+		lifespan              : { type:String, default:'' },
+		meetsCEAACriteria     : { type:String, default:'' },
+		meetsrprcriteria      : { type:String, default:'' },
+		operatingjobs         : { type:String, default:'' },
+		section7optin         : { type:String, default:'' }
+	},
+	isTermsAgreed: {type:Boolean, default:false},
+	build: { type:String, default:'' },
 	//
 	// location is a free form string entry
 	//
@@ -34,5 +55,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	lon                          : { type: Number, default:0 },
 	dateCommentsOpen             : { type: Date, default: null },
 	dateCommentsClosed           : { type: Date, default: null },
-	roles : [ { type:String} ]
+
+	// OLD DATA
+	oldData           : { type: String, default: '' }
 });

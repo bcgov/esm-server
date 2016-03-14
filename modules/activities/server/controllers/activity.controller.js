@@ -9,11 +9,39 @@ var DBModel   = require (path.resolve('./modules/core/server/controllers/core.db
 var TaskClass = require (path.resolve('./modules/tasks/server/controllers/task.controller'));
 var TaskBaseClass = require (path.resolve('./modules/tasks/server/controllers/taskbase.controller'));
 var _         = require ('lodash');
+var RoleController = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 
 
 module.exports = DBModel.extend ({
 	name : 'Activity',
+	plural: 'activities',
 	populate : 'tasks',
+	preprocessAdd: function (activity) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			RoleController.addRolesToConfigObject (activity, 'activities', {
+				read   : ['project:eao:member', 'eao'],
+				submit : ['project:eao:admin']
+			})
+			.then (function () {
+				resolve (activity);
+			})
+			.catch (reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// start or complete activity
+	//
+	// -------------------------------------------------------------------------
+	startActivity: function (oldDoc, newDoc) {
+		newDoc.status = 'In Progress';
+		return this.update (oldDoc, newDoc);
+	},
+	completeActivity: function (oldDoc, newDoc) {
+		newDoc.status = 'Completed';
+		return this.update (oldDoc, newDoc);
+	},
 	// -------------------------------------------------------------------------
 	//
 	// when making a activity from a base it will always be in order to attach
@@ -26,7 +54,7 @@ module.exports = DBModel.extend ({
 	// save the activity
 	//
 	// -------------------------------------------------------------------------
-	makeActivityFromBase : function (base, streamid, projectid, projectcode, phaseid, milestoneid) {
+	makeActivityFromBase : function (base, streamid, projectid, projectcode, phaseid, milestoneid, roles) {
 		var self = this;
 		var Task = new TaskClass (this.user);
 		var TaskBase = new TaskBaseClass (this.user);
@@ -50,9 +78,15 @@ module.exports = DBModel.extend ({
 			.then (function (model) {
 				newobjectid = model._id;
 				newobject   = model;
+				//
 				// fix the roles
+				//
 				model.fixRoles (projectcode);
+				if (roles) model.addRoles (roles);
+				RoleController.addRolesToConfigObject (model, 'activities', model.roleSet());
+				//
 				// assign whatever ancenstry is needed
+				//
 				model[basename] = baseid;
 				model.project   = projectid;
 				model.projectCode = projectcode;

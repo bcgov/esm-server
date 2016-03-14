@@ -19,6 +19,12 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	address2      : { type: String, default:'' },
 	city          : { type: String, default:'' },
 	province      : { type: String, default:'' },
-	postal        : { type: String, default:'' }
-});
+	postal        : { type: String, default:'' },
+	users         : [
+		{ type:'ObjectId', ref:'User' }
+	]
+},[{
+	users : 1
+}]
+);
 

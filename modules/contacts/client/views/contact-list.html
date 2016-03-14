@@ -1,0 +1,32 @@
+<section id="project-view" class="row">
+<div class='col-sm-10'>
+	<h1 class="page-title">Contacts Library</h1>
+	<div class="row text-right">
+		<div class="col-sm-12">
+			<button class="btn btn-success btn-sm" x-mode="add" x-collection="data.collection" x-edit-contact-modal><i class="glyphicon glyphicon-plus"></i> Add New Contact</button>
+		</div>
+	</div>
+	<div calss="row">&nbsp;</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<section class="panel panel-default">
+				<table ng-table="data.tableParams" class="dtable table table-condensed table-bordered table-striped">
+					<tr ng-repeat="o in $data">
+						<td data-title="'Name'"   title:'Title'   filter="{'name':'text'}"       sortable="'name'"    ><a href x-edit-contact-modal x-mode="view" x-contact="o">{{o.name}}</a></td>
+						<td data-title="'Type'"   title:'Type'    filter="{'type':'text'}"       sortable="'type'"    >{{o.type}}</td>
+						<td data-title="'Sector'" title:'Sector'  filter="{'sector':'select'}"   sortable="'sector'"  filter-data="data.ptypes" >{{o.sector}}</td>
+						<td data-title="'Stage'"  title:'Stage'   filter="{'stage':'select'}"    sortable="'stage'"   filter-data="data.stypes">{{o.stage}}</td>
+						<td data-title="'Pillar'" title:'Pillar'  filter="{'pillar':'select'}"   sortable="'pillar'"  filter-data="data.pillars">{{o.pillar}}</td>
+						<td><button class="btn btn-default btn-xs" x-edit-contact-modal x-mode="edit" x-contact="o"><i class="glyphicon glyphicon-pencil"></i></button></td>
+					</tr>
+				</table>
+			</section>
+		</div>
+	</div>
+
+</div> <!-- /col10 -->
+<div class='col-sm-2'>
+	<tmpl-system-menu x-menu-context="'project'" x-project="projDescEdit.project"></tmpl-system-menu>
+</div>
+
+</section>

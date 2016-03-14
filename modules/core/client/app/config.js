@@ -14,13 +14,15 @@ var ApplicationConfiguration = (function () {
   	'ui.tinymce',
   	'angularFileUpload',
     'ngMap',
+    'ngTable',
     'ad3',
     'angularMoment',
     'ui.bootstrap.datepicker',
     'ui.bootstrap.timepicker',
     'mwl.confirm',
     'ngFileUpload',
-    'duScroll'
+    'duScroll',
+    'ngCookies'
   ];
 
 

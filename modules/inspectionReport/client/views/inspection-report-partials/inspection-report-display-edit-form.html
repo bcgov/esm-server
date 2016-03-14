@@ -1,0 +1,268 @@
+<section class="single-inspectionReport">
+
+    <form name="displayEdit.inspectionReportForm" ng-submit="displayEdit.submit(inspectionReportForm.$valid)" novalidate>
+
+        <div class="row">
+
+            <div class="col-sm-12">
+
+                <div class="form-group show-errors">
+                    <label for="projectName" class="control-label">Project Name</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="projectName" name="projectName" class="form-control input-sm" ng-model="displayEdit.inspectionReport.projectName" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.projectName.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.projectName"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="status" class="control-label">Status</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="status" name="status" class="form-control input-sm" ng-model="displayEdit.inspectionReport.status" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.status.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.status"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="certificateNum" class="control-label">Certificate #</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="certificateNum" name="certificateNum" class="form-control input-sm" ng-model="displayEdit.inspectionReport.certificateNum" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.certificateNum.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.certificateNum"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="inspectionNum" class="control-label">Inspection #</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="inspectionNum" name="inspectionNum" class="form-control input-sm" ng-model="displayEdit.inspectionReport.inspectionNum" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.inspectionNum.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.inspectionNum"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="inspectionDate" class="control-label">Inspection Date</label>
+                    <p ng-if="displayEdit.mode == 'display'">{{ displayEdit.inspectionReport.inspectionDate | date }}</p>
+                    <p ng-if="displayEdit.mode !== 'display'">
+                        <a x-modal-date-picker x-selected-date="displayEdit.inspectionReport.inspectionDate" class="btn btn-default btn-sm">{{ displayEdit.inspectionReport.inspectionDate | date }} <i class="glyphicon glyphicon-calendar"></i></a>
+                    </p>
+
+                    <div ng-messages="displayEdit.inspectionReportForm.inspectionDate.$error" role="alert">
+                    </div>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="region" class="control-label">Region</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="region" name="region" class="form-control input-sm" ng-model="displayEdit.inspectionReport.region" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.region.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.region"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="office" class="control-label">Office</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="office" name="office" class="form-control input-sm" ng-model="displayEdit.inspectionReport.office" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.office.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.office"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="trigger" class="control-label">Trigger</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="trigger" name="trigger" class="form-control input-sm" ng-model="displayEdit.inspectionReport.trigger" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.trigger.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.trigger"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="inspectors" class="control-label">Inspector(s)</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="inspectors" name="inspectors" class="form-control input-sm" ng-model="displayEdit.inspectionReport.inspectors" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.inspectors.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.inspectors"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="sector" class="control-label">Sector</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="sector" name="sector" class="form-control input-sm" ng-model="displayEdit.inspectionReport.sector" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.sector.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.sector"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="utm" class="control-label">UTM</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="utm" name="utm" class="form-control input-sm" ng-model="displayEdit.inspectionReport.utm" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.utm.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.utm"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="locationDescription" class="control-label">Location Description</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="locationDescription" name="locationDescription" class="form-control input-sm" ng-model="displayEdit.inspectionReport.locationDescription" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.locationDescription.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.locationDescription"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="nonCompliantIncidences" class="control-label">Incidences of Non-Compliance Observed</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="nonCompliantIncidences" name="nonCompliantIncidences" class="form-control input-sm" ng-model="displayEdit.inspectionReport.nonCompliantIncidences" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.nonCompliantIncidences.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.nonCompliantIncidences"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="nonComplianceDecisionMatrixLevel" class="control-label">Non-Compliance Decision Matrix Level</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="nonComplianceDecisionMatrixLevel" name="nonComplianceDecisionMatrixLevel" class="form-control input-sm" ng-model="displayEdit.inspectionReport.nonComplianceDecisionMatrixLevel" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.nonComplianceDecisionMatrixLevel.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.nonComplianceDecisionMatrixLevel"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="nonComplianceDecisionMatrixCategory" class="control-label">Non-Compliance Decision Matrix Category</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="nonComplianceDecisionMatrixCategory" name="nonComplianceDecisionMatrixCategory" class="form-control input-sm" ng-model="displayEdit.inspectionReport.nonComplianceDecisionMatrixCategory" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.nonComplianceDecisionMatrixCategory.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.nonComplianceDecisionMatrixCategory"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="inspectionSummary" class="control-label">Inspection Summary</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="inspectionSummary" name="inspectionSummary" class="form-control input-sm" ng-model="displayEdit.inspectionReport.inspectionSummary" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.inspectionSummary.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.inspectionSummary"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="certificateOrAct" class="control-label">Certificate or Act</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="certificateOrAct" name="certificateOrAct" class="form-control input-sm" ng-model="displayEdit.inspectionReport.certificateOrAct" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.certificateOrAct.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.certificateOrAct"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="activity" class="control-label">Activity</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="activity" name="activity" class="form-control input-sm" ng-model="displayEdit.inspectionReport.activity" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.activity.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.activity"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="response" class="control-label">Response</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="response" name="response" class="form-control input-sm" ng-model="displayEdit.inspectionReport.response" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.response.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.response"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="certificateHolderName" class="control-label">Certificate Holder's Name</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="certificateHolderName" name="certificateHolderName" class="form-control input-sm" ng-model="displayEdit.inspectionReport.certificateHolderName" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.certificateHolderName.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.certificateHolderName"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="certificateHolderContacts" class="control-label">Certificate Holder Contacts</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="certificateHolderContacts" name="certificateHolderContacts" class="form-control input-sm" ng-model="displayEdit.inspectionReport.certificateHolderContacts" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.certificateHolderContacts.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.certificateHolderContacts"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="inAttendance" class="control-label">In Attendance</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="inAttendance" name="inAttendance" class="form-control input-sm" ng-model="displayEdit.inspectionReport.inAttendance" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.inAttendance.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.inAttendance"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="address1" class="control-label">Mailing Address</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="address1" name="address1" class="form-control input-sm" ng-model="displayEdit.inspectionReport.address1" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.address1.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.address1"/>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="address2" name="address2" class="form-control input-sm" ng-model="displayEdit.inspectionReport.address2" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.address2.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.address2"/>
+                </div>
+
+                    <div class="form-group show-errors">
+                        <label for="city" class="control-label">City</label>
+                        <input ng-if="displayEdit.mode != 'display'" type="text" id="city" name="city" class="form-control input-sm" ng-model="displayEdit.inspectionReport.city" placeholder="City" required />
+                        <div ng-messages="displayEdit.inspectionReportForm.city.$error" role="alert">
+                        </div>
+                        <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.city"/>
+                    </div>
+
+                <div class="form-group show-errors">
+                    <label for="postal" class="control-label">Postal Code</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="postal" name="postal" class="form-control input-sm" ng-model="displayEdit.inspectionReport.postal" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.postal.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.postal"/>
+                </div>
+
+                    <div class="form-group show-errors">
+                        <label for="province" class="control-label">Province</label>
+                        <select id="province" name="province" ng-if="displayEdit.mode != 'display'" class="form-control input-sm" ng-model="displayEdit.inspectionReport.province" ng-options="key as value for (key, value) in displayEdit.provs" required></select>
+                        <div ng-messages="displayEdit.inspectionReportForm.province.$error" role="alert">
+                        </div>
+                        <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.provs[displayEdit.inspectionReport.province]"/>
+                    </div>
+
+                <div class="form-group show-errors">
+                    <label for="phone" class="control-label">Phone</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="phone" name="phone" class="form-control input-sm" ng-model="displayEdit.inspectionReport.phone" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.phone.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.phone"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="fax" class="control-label">Fax</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="fax" name="fax" class="form-control input-sm" ng-model="displayEdit.inspectionReport.fax" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.fax.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.fax"/>
+                </div>
+
+                <div class="form-group show-errors">
+                    <label for="contactEmail" class="control-label">Contact Email</label>
+                    <input ng-if="displayEdit.mode != 'display'" type="text" id="contactEmail" name="contactEmail" class="form-control input-sm" ng-model="displayEdit.inspectionReport.contactEmail" required />
+                    <div ng-messages="displayEdit.inspectionReportForm.contactEmail.$error" role="alert">
+                    </div>
+                    <p ng-if="displayEdit.mode == 'display'" ng-bind="displayEdit.inspectionReport.contactEmail"/>
+                </div>
+
+                <hr/>
+
+
+            </div>
+        </div>
+
+        <div class="text-right">
+            <div class="form-group">
+                <button ng-if="displayEdit.mode != 'display'" type="submit" class="btn btn-default button-sm " ><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+                <button ng-if="displayEdit.mode != 'display'" type="button" class="btn btn-default button-sm" ng-click="displayEdit.cancel();" ><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                <button ng-if="displayEdit.mode == 'edit'" class="btn btn-default btn-danger" ng-click="displayEdit.remove();"><i class="glyphicon glyphicon-trash"></i> Delete</button>
+                <button ng-if="displayEdit.mode == 'display'" class="btn btn-default btn-small" ui-sref="inspectionReport.edit({inspectionReportId: displayEdit.inspectionReport._id})"><i class="glyphicon glyphicon-edit"></i> Edit</button>
+            </div>
+
+            <div ng-show="error" class="text-danger">
+                <strong ng-bind="error"></strong>
+            </div>
+        </div>
+
+    </form>
+</section>

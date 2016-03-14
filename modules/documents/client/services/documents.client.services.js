@@ -14,19 +14,28 @@ function serviceDocument($http) {
     var getDocumentTypes = function() {
         return [
             {
-                "code":"intakeoverview",
-                "name":"Project Overview",
-                "bucket":"intake"
+                "code":"r",
+                "name":"Under Review",
             },
             {
-                "code":"intakeshape",
-                "name":"Shape File",
-                "bucket":"intake"
+                "code":"p",
+                "name":"Pre-Application",
             },
             {
-                "code":"intakemisc",
-                "name":"Supporting File",
-                "bucket":"intake"
+                "code":"w",
+                "name":"Withdrawn",
+            },
+            {
+                "code":"t",
+                "name":"Terminated",
+            },
+            {
+                "code":"a",
+                "name":"Certificate Issued",
+            },
+            {
+                "code":"k",
+                "name":"Amendments",
             }
         ];
     };
@@ -125,7 +134,7 @@ function serviceDocument($http) {
                 "name":"Public Comments/Submissions",
             }
         ];
-    };    
+    };
 
     var getAllDocuments = function() {
         return $http({method:'GET',url: '/api/documents'});
@@ -141,6 +150,11 @@ function serviceDocument($http) {
         return $http({method:'GET',
                       url: '/api/documents/types/' + projectId,
                       headers: {'reviewDocsOnly': reviewDocsOnly} });
+    };
+
+    var getProjectDocumentFolderNames = function(projectId) {
+        return $http({method:'GET',
+                      url: '/api/documents/folderNames/' + projectId });
     };
 
     var getProjectDocumentVersions = function(projectId, type, subtype, folderName, fileName) {
@@ -163,13 +177,26 @@ function serviceDocument($http) {
         });
     };
 
+    var deleteDocument = function(document) {
+        return $http({ method: 'DELETE', url: '/api/document/' + document});
+    };
+
+    var getDocumentsInList = function (documentList) {
+        return $http({ method: 'PUT', url: '/api/documentlist', data:documentList});
+    };
+
+
+
 	return {
         getDocumentTypes: getDocumentTypes,
 		getDocumentSubTypes: getDocumentSubTypes,
         getAllDocuments: getAllDocuments,
         getProjectDocuments: getProjectDocuments,
         getProjectDocumentTypes: getProjectDocumentTypes,
+        getProjectDocumentFolderNames: getProjectDocumentFolderNames,
         getProjectDocumentVersions: getProjectDocumentVersions,
-        downloadAndApprove: downloadAndApprove
+        downloadAndApprove: downloadAndApprove,
+        deleteDocument: deleteDocument,
+        getDocumentsInList: getDocumentsInList
 	};
 }
