@@ -98,6 +98,8 @@ angular.module ('templates')
 		},
 		link: function (scope, element, attrs) {
 			var template = templateCompile (scope.template, scope.mode);
+			var wrapperClass= 'template';
+			template = '<div class="'+wrapperClass+'">'+template+'</div>';
 			element.html (template);
 			$compile (element.contents())(scope);
 		}
