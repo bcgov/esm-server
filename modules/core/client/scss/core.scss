@@ -1091,6 +1091,24 @@ table thead tr.ng-table-filters {
   margin-top:10px;
 }
 
+.template .letter-head {
+  text-align: center;
+  font-weight:bold;
+}
+
+.template .letter-section {
+  margin-top:40px;
+}
+
+.template .custom-list {
+  margin: 16px 0px;
+  padding-left: 20px;
+}
+
+.template .letter-footer {
+  margin-top:100px;
+}
+
 .glyphicon-refresh-animate {
     -animation: spin .7s infinite linear;
     -ms-animation: spin .7s infinite linear;
