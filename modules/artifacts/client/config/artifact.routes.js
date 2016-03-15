@@ -28,9 +28,9 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				console.log ('artifacttypeId = ', $stateParams.artifacttypeId);
 				return ArtifactModel.newFromType ($stateParams.artifacttypeId);
 			}
-		}
+		},
 		controller: function ($scope, $state, artifact, project) {
-			$state.go (p.artifact.edit, {artifactId:artifact_.id});
+			$state.go ('p.artifact.edit', {artifactId:artifact._id});
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -104,6 +104,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.artifact = artifact;
 			$scope.project = project;
 		}
+	})
 	.state('p.artifact.detail.approve', {
 		url: '/review',
 		templateUrl: 'modules/project-artifacts/client/views/artifact-approve.html',

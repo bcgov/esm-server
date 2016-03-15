@@ -11,6 +11,6 @@ var listTypes = function () {
 		.then (resolve, reject);
 	});
 
-}
+};
 
 

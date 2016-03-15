@@ -39,7 +39,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	phase: { type:'ObjectId', ref:'Phase'},
 	milestone: { type:'ObjectId', ref:'Milestone'},
 	stages          : [{
-		name: { type:String }
+		name: { type:String },
 		activity: { type:'ObjectId', ref:'Activity' }
 	}],
 	//
@@ -50,24 +50,24 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	templateData     : {},
 	sectionDocuments : [{
 		sectionName : { type:String, default: '' },
-		documents   : [{ type:'ObjectId', ref:'Document'] }],
+		documents   : [{ type:'ObjectId', ref:'Document' }],
 	}],
 	//
 	// if this is an uploaded document then here it is along with whatever
 	// supporting documents there are
 	//
 	document            : { type:'ObjectId', ref:'Document', default:null },
-	supportingDocuments : [{ type:'ObjectId', ref:'Document'] }],
+	supportingDocuments : [{ type:'ObjectId', ref:'Document' }],
 	//
 	// this artifact may be tagged with various vcs, these need to be copied
 	// forward through all iterations
 	//
-	valuedComponents : [{ type:'ObjectId', ref:'ValuedComponent'}]
+	valuedComponents : [{ type:'ObjectId', ref:'ValuedComponent'}],
 	//
 	// reviews, comments, public comments, acceptance / rejection comments
 	//
-	commentPeriods: [{ type'ObjectId', ref:'CommentPeriod' }],
-	publicCommentPeriods: [{ type'ObjectId', ref:'CommentPeriod' }],
+	commentPeriods: [{ type:'ObjectId', ref:'CommentPeriod' }],
+	publicCommentPeriods: [{ type:'ObjectId', ref:'CommentPeriod' }],
 	reviewNotes: [{
 		username: { type:String, default:'' },
 		note: { type:String, default:'' },
