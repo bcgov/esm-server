@@ -17,7 +17,8 @@
 		<table class="table table-condensed">
 			<thead>
 				<tr class="small">
-					<th width="90%">File</th>
+					<th width="70%">File</th>
+					<th width="20%">Import As</th>
 					<th width="10%"></th>
 				</tr>
 			</thead>
@@ -43,6 +44,13 @@
 						<p class="form-control-static">{{f.name}}</p>
 					</td>
 
+					<td ng-if="!f.$error">
+						<select ng-model="f.importType" class="form-control input-sm ng-pristine ng-valid ng-touched">
+							<option value="/api/projects/import" label="Projects">Projects</option>
+							<option value="/api/contacts/import" label="Contacts">Contacts</option>
+							<option value="/api/groupcontacts/import" label="Group Contacts">Group Contacts</option>
+						</select>
+					</td>
 
 					<td ng-if="!f.$error && !f.progress" class="text-right">
 						<p class="form-control-static"><a href ng-click="projectImport.removeFile(f)"><span class="glyphicon glyphicon-remove"></span></a></p>
@@ -51,7 +59,16 @@
 					<td ng-if="!f.$error && f.progress">
 						<div class="progress" ng-show="f.progress >= 0" style="margin-top: 7px;"><div class="progress-bar progress-bar-success" role="progressbar" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">{{ f.progress }}</div></div>
 					</td>
-
+					<td ng-if="!f.$error && f.processingComplete">
+						<div class="progress" ng-show="f.processingComplete == true" style="margin-top: 7px;">
+							<span class="glyphicon glyphicon-ok"></span>
+						</div>
+					</td>
+					<td ng-if="!f.$error && !f.processingComplete">
+						<div class="progress" ng-show="f.progress == 100" style="margin-top: 7px;">
+							<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+						</div>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -67,7 +84,7 @@
 	<div class="modal-footer">
 		<div>
 			<a class="btn btn-default" href ng-click="projectImport.cancel()">Cancel</a>
-			<a class="btn btn-default" href ng-click="projectImport.ok()">Save</a>
+			<a class="btn btn-default" href ng-click="projectImport.ok()">Ok</a>
 		</div>
 	</div>
 </div>
