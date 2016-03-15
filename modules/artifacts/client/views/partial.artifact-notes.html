@@ -1,0 +1,24 @@
+<h4>Review Notes</h4>
+<div ng-repeat="note in artifact.reviewNotes">
+	<p>
+		{{ note.username }}<br/>
+		{{ note.date }}<br/>
+		{{ note.note }}
+	</p>
+</div>
+<h4>Rejection Notes</h4>
+<div ng-repeat="note in artifact.rejectionNotes">
+	<p>
+		{{ note.username }}<br/>
+		{{ note.date }}<br/>
+		{{ note.note }}
+	</p>
+</div>
+<h4>Approval Notes</h4>
+<div ng-repeat="note in artifact.approvalNotes">
+	<p>
+		{{ note.username }}<br/>
+		{{ note.date }}<br/>
+		{{ note.note }}
+	</p>
+</div>

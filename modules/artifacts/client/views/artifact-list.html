@@ -1,0 +1,24 @@
+<h1 class="page-title">
+	Artifacts for {{ project.name }}
+</h1>
+
+<div class="row">
+	<div class="col-sm-12">
+		<a class="btn btn-default btn-sm"  ui-sref="o.artifact.create()"><i class="glyphicon glyphicon-plus"></i> Add New Complaint</a>
+		<section class="panel panel-default">
+			<table ng-table="tableParams" show-filter="true" class="table table-condensed table-bordered table-striped">
+			    <tr ng-repeat="o in $data" ui-sref="o.artifact.detail({artifactId:o._id})">
+					<td data-title="'Type'"    filter="{'type':'text'}"       sortable="'type'"    >{{o.type}}</td>
+					<td data-title="'Version'" filter="{'version':'text'}"   sortable="'version'"  >{{o.version}}</td>
+					<td data-title="'Stage'"   filter="{'stage':'text'}"    sortable="'stage'"   >{{o.stage}}</td>
+					<td data-title="'Phase'"   filter="{'phase.name':'text'}"   sortable="'phase.name'"  >{{o.phase.name}}</td>
+			        <td title="">
+			        	<a ng-click="$event.stopPropagation()" class="btn btn-default btn-xs" ui-sref="p.artifact.edit({artifactId:o._id})">
+			        	<i class="glyphicon glyphicon-pencil"></i>
+			        	</a>
+			        </td>
+			    </tr>
+			</table>
+		</section>
+	</div>
+</div>

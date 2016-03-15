@@ -1,0 +1,21 @@
+<h1 class="page-title">
+	Edit {{artifact.type.type}} for {{ project.name }}
+</h1>
+
+<div class="block-content">
+	<div ng-include="modules/artifacts/client/views/partial.artifact-edit.html"></div>
+</div>
+
+<div>
+<textarea ng-model="review"></textarea>
+</div>
+
+<div  class="block-content" ng-include="modules/artifacts/client/views/partial.artifact-notes.html"></div>
+
+<div  class="block-content" ng-include="modules/artifacts/client/views/partial.artifact-comments.html"></div>
+
+<div>
+	<a class="btn btn-default" ui-sref="p.artifactlist">Cancel</a>
+	<a class="btn btn-success" ui-sref="reject()">Reject</a>
+	<a class="btn btn-success" ui-sref="submit()">Accept</a>
+</div>
