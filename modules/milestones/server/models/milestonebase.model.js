@@ -9,6 +9,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__access     : true,
 	__codename  : true,
 	activities  : [ {type: 'ObjectId', ref:'ActivityBase'} ],
-	order	  : { type: Number, default:0 }
+	order	  : { type: Number, default:0 },
+	artifactType : { type:String, default:null }
 });
 

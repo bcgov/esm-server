@@ -19,5 +19,6 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	stream        : { type:'ObjectId', ref:'Stream'   , index:true , default:null},
 	completed     : { type:Boolean, default:false},
 	order	  : { type: Number, default:0 }
+	artifact : { type:'ObjectId', ref:'Artifact', default:null }
 });
 
