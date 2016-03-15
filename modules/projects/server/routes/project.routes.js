@@ -44,6 +44,7 @@ var loadProjects = function(file, req, res) {
 							model.description = row.shortD;
 							model.code = model.name.toLowerCase ().replace (' ', '-').substr (0, model.name.length+1);
 							model.phases = [];
+							// No phases yet from export document.
 							// _.each (phases, function (ph) {
 							// 	var phase = new Phase (ph);
 							// 	project.phases.push (phase._id);
@@ -51,21 +52,34 @@ var loadProjects = function(file, req, res) {
 							// });
 							model.type = row.sector;
 							Organization.findOne ({name:row.Proponent}, function (err, result) {
-								// var o = new Organization (org);
-								// o.save ().then(function (o) {
-								// 	model.proponent = o;
-								// 	model.save();
-								// });
 								if (result) {
+									// console.log("saving proponent details");
 									model.proponent = result;
 									model.save();
+								} else {
+									// Make an organization from the proponent string listed.
+									var org = new Organization();
+									// Make code from leading letters in string
+									org.code = row.Proponent.toLowerCase().match(/\b(\w)/g).join('');
+									org.name = row.Proponent;
+									org.address1 = "";
+									org.city = "";
+									org.province = "";
+									org.postal = "";
+									org.save().then(function (org) {
+										model.proponent = org;
+										model.save();
+										// console.log("saved",o);
+										// console.log("model",model);
+									});
 								}
 							});
 							// TODO: Remove this
 							model.region = row.Region.toLowerCase ().replace(' region','');
 							model.currentPhase = model.phases[0];
 							if (row.lat) model.lat = parseFloat(row.lat);
-							if (row.lat) model.lon = parseFloat(row.long);
+							// Force negative because of import data
+							if (row.long) model.lon = -Math.abs(parseFloat(row.long));
 							if (row.locDescription) model.location = row.locDescription;
 							model.roles = ['mem', 'public'];
 							model.description = "";

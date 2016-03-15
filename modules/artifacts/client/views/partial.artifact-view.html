@@ -1,0 +1,43 @@
+<div class="panel-body" ng-if="artifact.type.isTemplate">
+	<!--
+
+		This section gets displayed if the content is a template
+
+	 -->
+	<div>
+		<div class="col-sm-6">
+		<div class="form-group">
+			<label for="sections" class="control-label">Go to Section</label>
+			<select ng-change="goto(gosection)" id="sections" ng-model='gosection' class="form-control" ng-options="section.name as section.label for section in allsections"></select>
+		</div>
+		</div>
+	</div>
+	<tmpl-template-render x-template="template" x-mode="view" x-document="dataset"></tmpl-template-render>
+</div>
+<div class="panel-body" ng-if="artifact.type.isTemplate">
+	<!--
+
+		This section gets displayed if the content is a document
+
+	 -->
+	<div class="col-sm-2 doc-action-col">
+		<a
+			href="/api/document/{{ filterSummary._id }}/fetch"
+			target="_blank" title="Download">
+				<span class="glyphicon glyphicon-download"></span>
+		</a>
+
+		<a
+			ng-if="docBrowser.allowLink"
+			href
+			ng-click="docBrowser.toggleDocumentLink( filterSummary )"
+			title="Link">
+				<span class="glyphicon glyphicon-link"></span>
+		</a>
+
+	</div>
+	<div>
+		<h4>Supporting Documents</h4>
+		[[ this is where a list of upporting documents will go ]]
+	</div>
+</div>
