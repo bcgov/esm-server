@@ -1071,20 +1071,20 @@ table thead tr.ng-table-filters {
   margin-left:10px;
 }
 
-.template ol[type="1"] li {
+.template ol[type="1"].template-hierarchy li {
   font-weight: bold;
   font-size: 28px;
   color: #65909a;
 }
 
-.template ol[type="a"] li {
+.template ol[type="a"].template-hierarchy li {
   font-weight: bold;
   font-size: 24px;
   color: #9a6590;
   margin-top:10px;
 }
 
-.template ol[type="i"] li {
+.template ol[type="i"].template-hierarchy li {
   font-weight: bold;
   font-size: 20px;
   color: #909a65;
