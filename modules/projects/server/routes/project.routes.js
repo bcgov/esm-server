@@ -221,7 +221,7 @@ module.exports = function (app) {
 		p.list ().then (helpers.success(res), helpers.failure(res));
 	});
 
-	app.route ('/api/projects/import')//.all (policy.isAllowed)
+	app.route ('/api/projects/import').all (policy.isAllowed)
 		.post (function (req, res) {
 			var file = req.files.file;
 			if (file) {

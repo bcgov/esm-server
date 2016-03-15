@@ -18,7 +18,7 @@ module.exports = function (app) {
 		//.post (controller.create);
 
 	// Import via CSV
-	app.route ('/api/documents/import')//.all (policy.isAllowed)
+	app.route ('/api/documents/import').all (policy.isAllowed)
 		.post (controller.loadDocuments);
 
 	app.route ('/api/documents/:project')//.all (policy.isAllowed)
