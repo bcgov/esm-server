@@ -144,7 +144,7 @@ module.exports = function (app) {
 			.then (helpers.success(res), helpers.failure(res));
 		});
 
-	app.route ('/api/contacts/import')//.all (policy.isAllowed)
+	app.route ('/api/contacts/import').all (policy.isAllowed)
 		.post (function (req, res) {
 			var file = req.files.file;
 			if (file) {
@@ -153,7 +153,7 @@ module.exports = function (app) {
 			}
 		});
 
-	app.route ('/api/groupcontacts/import')//.all (policy.isAllowed)
+	app.route ('/api/groupcontacts/import').all (policy.isAllowed)
 		.post (function (req, res) {
 			var file = req.files.file;
 			if (file) {

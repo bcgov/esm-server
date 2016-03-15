@@ -21,7 +21,7 @@ var loadProjects = function(file, req, res) {
 			return console.log(err);
 		}
 		// console.log("FILE DATA:",data);
-		var colArray = ['id','ProjectName','Proponent','Region','shortD','locSpatial','locDescription','provincialED','federalED','capitalInvestment','projectCreateDate','projectDescriptionLivingData','tombstoneNote','projectURL','captialInvestmentNote','lat','long','constructionJobs','constructionJobsNotes','operationJobs','operationJobsNotes','sector','subSector','currentPhaseTypeActivity','active','CEAAInvolvement','eaIssues','environmentalAssessmentNotes','CEAA','firstNationsConsultation','firstNationsAccess','firstNationsNotification','stakeholdersNotes','federalAgencies','workingGroups','allOtherStakeholderGroups','responsibleEPD','projectLead','EAOCAARTRepresentative','projectOfficer','projectAnalyst','projectAssistant','administrativeAssistant','CELead','teamNotes'];
+		var colArray = ['id','ProjectName','Proponent','Region','description','locSpatial','locDescription','provincialED','federalED','investment','projectCreateDate','projectDescriptionLivingData','projectNotes','projectURL','investmentNotes','lat','long','constructionjobs','constructionjobsNotes','operatingjobs','operatingjobsNotes','projectType','sector','currentPhaseTypeActivity','eaActive','CEAAInvolvement','eaIssues','eaNotes','responsibleEPD','projectLead','EAOCAARTRepresentative','projectOfficer','projectAnalyst','projectAssistant','administrativeAssistant','CELead','teamNotes'];
 		var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 			// Skip this many rows
 			var length = Object.keys(output).length;
@@ -31,26 +31,19 @@ var loadProjects = function(file, req, res) {
 				if (index > 0) {
 					var row = output[key];
 					projectProcessed++;
-					// console.log("rowData:",row.id);
-					Model.findOne({epicProjectID: row.id}, function (err, doc) {
+					// Hack for incoming table data
+					var id = 0;
+					if (!isNaN(row.id)) {
+						id = parseInt(row.id);
+					}
+					Model.findOne({epicProjectID: id}, function (err, doc) {
 						var addOrChangeModel = function(model) {
 							// console.log("MODEL:",model);
-							// LATER
-							model.epicProjectID = parseInt(row.id);
-							// console.log("epicProjectID",model.epicProjectID);
-							model.oldData = JSON.stringify(row);
+							// TODO:
 							model.status = 'In Progress';
 							model.name = row.ProjectName;
-							model.description = row.shortD;
 							model.code = model.name.toLowerCase ().replace (' ', '-').substr (0, model.name.length+1);
-							model.phases = [];
-							// No phases yet from export document.
-							// _.each (phases, function (ph) {
-							// 	var phase = new Phase (ph);
-							// 	project.phases.push (phase._id);
-							// 	phase.save ();
-							// });
-							model.type = row.sector;
+							model.epicProjectID = id;
 							Organization.findOne ({name:row.Proponent}, function (err, result) {
 								if (result) {
 									// console.log("saving proponent details");
@@ -76,41 +69,49 @@ var loadProjects = function(file, req, res) {
 							});
 							// TODO: Remove this
 							model.region = row.Region.toLowerCase ().replace(' region','');
-							model.currentPhase = model.phases[0];
+							model.description = row.description;
+							if (row.locSpatial) model.locSpatial = row.locSpatial;
+							if (row.locDescription) model.location = row.locDescription;
+							if (row.provincialED) model.provElecDist = row.provincialED;
+							if (row.federalED) model.fedElecDist = row.federalED;
+							model.intake.investment            = row.investment;
+							//projectCreateDate
+							if (row.projectNotes) model.projectNotes = row.projectNotes;
+							model.intake.investmentNotes       = row.investmentNotes;
 							if (row.lat) model.lat = parseFloat(row.lat);
 							// Force negative because of import data
 							if (row.long) model.lon = -Math.abs(parseFloat(row.long));
-							if (row.locDescription) model.location = row.locDescription;
+							model.intake.constructionjobs      = row.constructionjobs;
+							model.intake.constructionjobsNotes = row.constructionjobsNotes;
+							model.intake.operatingjobs         = row.operatingjobs;
+							model.intake.operatingjobsNotes    = row.operatingjobsNotes;
+							model.type = row.projectType;
+							model.sector = row.sector;
+							model.phases = [];
+							model.currentPhase = model.phases[0];
+							// No phases yet from export document.
+							// _.each (phases, function (ph) {
+							// 	var phase = new Phase (ph);
+							// 	project.phases.push (phase._id);
+							// 	phase.save ();
+							// });
+							if (row.eaActive) model.eaActive = row.eaActive;
+							if (row.CEAAInvolvement) model.CEAAInvolvement = row.CEAAInvolvement;
+							if (row.eaIssues) model.eaIssues = row.eaIssues;
+							if (row.eaNotes) model.eaNotes = row.eaNotes;
+
+							// The rest comes in as old data for now
+							model.responsibleEPD 			= row.responsibleEPD;
+							model.projectLead 				= row.projectLead;
+							model.EAOCAARTRepresentative 	= row.EAOCAARTRepresentative;
+							model.projectOfficer 			= row.projectOfficer;
+							model.projectAnalyst 			= row.projectAnalyst;
+							model.projectAssistant 			= row.projectAssistant;
+							model.administrativeAssistant 	= row.administrativeAssistant;
+							model.CELead 					= row.CELead;
+							model.teamNotes 				= row.teamNotes;
+
 							model.roles = ['mem', 'public'];
-							model.description = "";
-							model.description += 'Provincial Electoral Districts: '+row.provincialED+"\n";
-							model.description += 'Capital Investment $M: '+row.capitalInvestment+"\n";
-							model.description += 'Project File Creation Date: '+row.projectCreateDate+"\n";
-							model.description += 'Construction Jobs: '+row.constructionJobs+"\n";
-							model.description += 'Operation Jobs: '+row.operationJobs+"\n";
-							model.description += 'Sub Sector: '+row.subSector+"\n";
-							model.description += 'Active: '+row.active+"\n";
-							model.description += 'CEAA Involvement (Fed EA Req. & Type): '+row.CEAAInvolvement+"\n";
-							model.description += 'EA Issues: '+row.eaIssues+"\n";
-							model.description += 'Environmental Assessment: '+row.environmentalAssessmentNotes+"\n";
-							model.description += 'CEAA: '+row.CEAA+"\n";
-							model.description += 'Description: '+row.projectDescriptionLivingData+"\n";
-							model.description += 'firstNationsConsultation: '+row.firstNationsConsultation+"\n";
-							model.description += 'firstNationsAccess: '+row.firstNationsAccess+"\n";
-							model.description += 'firstNationsNotification: '+row.firstNationsNotification+"\n";
-							model.description += 'stakeholdersNotes: '+row.stakeholdersNotes+"\n";
-							model.description += 'federalAgencies: '+row.federalAgencies+"\n";
-							model.description += 'workingGroups: '+row.workingGroups+"\n";
-							model.description += 'allOtherStakeholderGroups: '+row.allOtherStakeholderGroups+"\n";
-							model.description += 'responsibleEPD: '+row.responsibleEPD+"\n";
-							model.description += 'projectLead: '+row.projectLead+"\n";
-							model.description += 'EAOCAARTRepresentative: '+row.EAOCAARTRepresentative+"\n";
-							model.description += 'projectOfficer: '+row.projectOfficer+"\n";
-							model.description += 'projectAnalyst: '+row.projectAnalyst+"\n";
-							model.description += 'projectAssistant: '+row.projectAssistant+"\n";
-							model.description += 'administrativeAssistant: '+row.administrativeAssistant+"\n";
-							model.description += 'CELead: '+row.CELead+"\n";
-							model.description += 'teamNotes: '+row.teamNotes+"\n";
 							model.read = ['public'];
 							model.submit = ['mem'];
 							model.save().then(function () {
@@ -220,7 +221,7 @@ module.exports = function (app) {
 		p.list ().then (helpers.success(res), helpers.failure(res));
 	});
 
-	app.route ('/api/projects/import')//.all (policy.isAllowed)
+	app.route ('/api/projects/import').all (policy.isAllowed)
 		.post (function (req, res) {
 			var file = req.files.file;
 			if (file) {
