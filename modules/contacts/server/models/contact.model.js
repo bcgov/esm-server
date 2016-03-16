@@ -11,7 +11,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__tracking  : true,
 	project     : { type:'ObjectId', ref:'Project', default:null, index:true },
 	contactName : { type:String, default: '' },
-	code: 		{type:String, default: ''},
+	code 		:{type:String, default: ''},
 	org     	: { type:'ObjectId', ref:'Org', default:null, index:true },
 	orgName    	: { type:String, default: '' },
 	personId 	: { type:Number, default: null }, // From ePIC

@@ -38,6 +38,7 @@ var loadContacts = function(file, req, res) {
 							model.personId 		= row.PERSON_ID;
 							model.orgName 		= row.ORGANIZATION_NAME;
 							model.title 		= row.TITLE;
+							model.contactName 	= row.FIRST_NAME + " " + row.LAST_NAME;
 							model.firstName 	= row.FIRST_NAME;
 							model.middleName 	= row.MIDDLE_NAME;
 							model.lastName 		= row.LAST_NAME;
