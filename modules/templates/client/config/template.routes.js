@@ -188,7 +188,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				return TemplateModel.getModel ($stateParams.templateId);
 			}
 		},
-		controller: function ($scope, template, templateData, $location, $anchorScroll) {
+		controller: function ($scope, template, templateData, $location) {
 			$scope.template = template;
 			var tData = templateData (template);
 			$scope.dataset = tData.document;
@@ -196,12 +196,6 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.repeatsections = tData.repeatable ();
 			$scope.gosection = '';
 			$scope.newsection = '';
-			$scope.goto = function (sectionname) {
-				console.log ('goto ', sectionname);
-				$location.hash (sectionname);
-				$anchorScroll ();
-				$scope.gosection = '';
-			};
 			$scope.append = function (sectionname) {
 				console.log ('append ', sectionname);
 				tData.push (sectionname);

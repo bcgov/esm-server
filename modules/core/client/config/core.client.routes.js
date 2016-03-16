@@ -62,9 +62,9 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 				return ProjectModel.getCollection ();
 			}
 		},
-		controller: function ($scope, $stateParams, projects, MEM, Authentication) {
+		controller: function ($scope, $stateParams, projects, ENV, Authentication) {
 			$scope.projects = projects;
-			$scope.isMEM = MEM;
+			$scope.environment = ENV;
 			$scope.authentication = Authentication;
 		}
 	})
@@ -101,8 +101,9 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 				return project.proponentAdminRole;
 			}
 		},
-		controller: function ($scope, $stateParams, project) {
+		controller: function ($scope, $stateParams, project, ENV) {
 			$scope.project = project;
+			$scope.environment = ENV;
 		}
 	})
 	// -------------------------------------------------------------------------
