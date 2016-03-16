@@ -20,6 +20,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	middleName  : { type:String, default: '' },
 	lastName    : { type:String, default: '' },
 	phoneNumber : { type:String, default: '' },
+	homePhoneNumber : { type:String, default: '' },
 	email       : { type:String, default: '' },
 
 	// if groupId == null, then this is a person (hack)

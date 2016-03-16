@@ -22,7 +22,7 @@ var loadContacts = function(file, req, res) {
 			return console.log(err);
 		}
 		// console.log("FILE DATA:",data);
-		var colArray = ['PERSON_ID','EAO_STAFF_FLAG','PROPONENT_FLAG','SALUTATION','FIRST_NAME','MIDDLE_NAME','LAST_NAME','TITLE','ORGANIZATION_NAME','DEPARTMENT','EMAIL_ADDRESS','PHONE_NUMBER','FAX_NUMBER','CELL_PHONE_NUMBER','ADDRESS_LINE_1','ADDRESS_LINE_2','CITY','PROVINCE_STATE','COUNTRY','POSTAL_CODE','NOTES'];
+		var colArray = ['PERSON_ID','EAO_STAFF_FLAG','PROPONENT_FLAG','SALUTATION','FIRST_NAME','MIDDLE_NAME','LAST_NAME','TITLE','ORGANIZATION_NAME','DEPARTMENT','EMAIL_ADDRESS','PHONE_NUMBER','HOME_PHONE_NUMBER','FAX_NUMBER','CELL_PHONE_NUMBER','ADDRESS_LINE_1','ADDRESS_LINE_2','CITY','PROVINCE_STATE','COUNTRY','POSTAL_CODE','NOTES'];
 		var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 			// Skip this many rows
 			var length = Object.keys(output).length;
@@ -42,9 +42,10 @@ var loadContacts = function(file, req, res) {
 							model.middleName 	= row.MIDDLE_NAME;
 							model.lastName 		= row.LAST_NAME;
 							model.phoneNumber 	= row.PHONE_NUMBER;
+							model.homePhoneNumber 	= row.HOME_PHONE_NUMBER;
 							model.email 		= row.EMAIL_ADDRESS;
-							model.eaoStaffFlag 	= row.EAO_STAFF_FLAG;
-							model.proponentFlag = row.PROPONENT_FLAG;
+							model.eaoStaffFlag 	= Boolean(row.EAO_STAFF_FLAG);
+							model.proponentFlag = Boolean(row.PROPONENT_FLAG);
 							model.salutation 	= row.SALUTATION;
 							model.department 	= row.DEPARTMENT;
 							model.faxNumber 	= row.FAX_NUMBER;
