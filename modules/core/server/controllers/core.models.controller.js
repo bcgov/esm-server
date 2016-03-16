@@ -192,11 +192,18 @@ var generateSchema = function (definition, indexes) {
 	var tracking = definition.__tracking || false;
 	var status = definition.__status || false;
 	var codename = definition.__codename || false;
+	var statics = definition.__statics || false;
+	var methods = definition.__methods || false;
+	var preSave = definition.__preSave || false;
 	delete definition.__audit;
 	delete definition.__access;
 	delete definition.__tracking;
 	delete definition.__status;
 	delete definition.__codename;
+	delete definition.__statics;
+	delete definition.__methods;
+	delete definition.__preSave;
+
 	if (audit) definition = _.extend (definition, auditFields);
 	if (access) definition = _.extend (definition, accessFields);
 	if (tracking) definition = _.extend (definition, trackingFields);
@@ -214,10 +221,17 @@ var generateSchema = function (definition, indexes) {
 			description : { type:String, default:'' }
 		});
 	}
-	// console.log (definition);
 	var schema = new mongoose.Schema (definition);
+	if (methods) { 
+		_.extend(schema.methods, methods);
+	}
+	if (statics) {
+		_.extend(schema.statics, statics);
+	}
 	if (audit) {
-		// schema.pre ('save', auditSaveFunction);
+		if (preSave) {
+			schema.pre ('save', preSave);
+		}
 		schema.methods.setAuditFields = setAuditFields;
 	}
 	if (access) {
@@ -241,6 +255,7 @@ var generateSchema = function (definition, indexes) {
 			schema.index (ind);
 		});
 	}
+	
 	return schema;
 };
 // -------------------------------------------------------------------------
