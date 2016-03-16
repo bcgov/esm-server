@@ -724,7 +724,7 @@ var loadDocuments = function(req, res) {
 							};
 							if (doc === null) {
 								// Create new
-								var d = new Model ({documentEPICId: 3});
+								var d = new Model ({documentEPICId: row.DOCUMENT_ID});
 								addOrChangeModel(d);
 							} else {
 								// Update:

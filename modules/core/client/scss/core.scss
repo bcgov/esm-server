@@ -1071,24 +1071,42 @@ table thead tr.ng-table-filters {
   margin-left:10px;
 }
 
-.template ol[type="1"] li {
+.template ol[type="1"].template-hierarchy li {
   font-weight: bold;
   font-size: 28px;
   color: #65909a;
 }
 
-.template ol[type="a"] li {
+.template ol[type="a"].template-hierarchy li {
   font-weight: bold;
   font-size: 24px;
   color: #9a6590;
   margin-top:10px;
 }
 
-.template ol[type="i"] li {
+.template ol[type="i"].template-hierarchy li {
   font-weight: bold;
   font-size: 20px;
   color: #909a65;
   margin-top:10px;
+}
+
+.template .letter-head {
+  text-align: center;
+  font-weight:bold;
+}
+
+.template .letter-section {
+  margin-top:40px;
+}
+
+.template .custom-list {
+  margin: 16px 0px;
+  padding-left: 20px;
+}
+
+.template .letter-footer {
+  margin-top:100px;
 }
 
 .glyphicon-refresh-animate {

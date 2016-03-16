@@ -18,22 +18,22 @@ module.exports = function (app) {
 		//.post (controller.create);
 
 	// Import via CSV
-	app.route ('/api/documents/import')//.all (policy.isAllowed)
+	app.route ('/api/documents/import').all (policy.isAllowed)
 		.post (controller.loadDocuments);
 
-	app.route ('/api/documents/:project')//.all (policy.isAllowed)
+	app.route ('/api/documents/:project').all (policy.isAllowed)
 		.get  (controller.getDocumentsForProjectAndReturn);
 
-	app.route ('/api/documents/types/:projectid')//.all (policy.isAllowed)
+	app.route ('/api/documents/types/:projectid').all (policy.isAllowed)
 		.get  (controller.getDocumentTypesForProjectAndReturn);
 
-	app.route ('/api/documents/folderNames/:projectid')//.all (policy.isAllowed)
+	app.route ('/api/documents/folderNames/:projectid').all (policy.isAllowed)
 		.get  (controller.getDocumentFolderNamesForProjectAndReturn);
 
-	app.route ('/api/documents/versions/:documentid')//.all (policy.isAllowed)
+	app.route ('/api/documents/versions/:documentid').all (policy.isAllowed)
 		.get  (controller.getDocumentVersionsAndReturn);
 
-	app.route ('/api/documents/approveAndDownload/:document')//.all (policy.isAllowed)
+	app.route ('/api/documents/approveAndDownload/:document').all (policy.isAllowed)
 		.put  (controller.approveAndDownload);
 	//
 	// model routes
@@ -44,17 +44,17 @@ module.exports = function (app) {
 		.delete (controller.delete);
 
 	// Find a document Folder (scrapeAndSearch)
-	app.route ('/api/scrapeAndSearch')//.all (policy.isAllowed)
+	app.route ('/api/scrapeAndSearch').all (policy.isAllowed)
 		.get (controller.scrapeAndSearch);
 
 	// Find a specific document (populateReviewDocuments)
-	app.route ('/api/populateReviewDocuments')//.all (policy.isAllowed)
+	app.route ('/api/populateReviewDocuments').all (policy.isAllowed)
 		.get (controller.populateReviewDocuments);
 
 	//
 	// upload a document
 	//
-	app.route ('/api/document/:project/upload')//.all (policy.isAllowed)
+	app.route ('/api/document/:project/upload').all (policy.isAllowed)
 		.post (controller.upload);
 
 	// Fetch doc
