@@ -1,16 +1,15 @@
 'use strict';
-
+// =========================================================================
+//
+// Controller for projects
+//
+// =========================================================================
+var path               = require('path');
+var DBModel            = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var _                  = require ('lodash');
 var mongoose = require('mongoose');
-var ArtifactType = mongoose.model ('ArtifactType');
-var _ = require ('lodash');
 
-
-var listTypes = function () {
-	return new Promise (function (resolve, reject) {
-		ArtifactType.find ({}).exec()
-		.then (resolve, reject);
-	});
-
-};
-
-
+module.exports = DBModel.extend ({
+	name : 'ArtifactType',
+	plural : 'artifacttypes'
+});

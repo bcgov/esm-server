@@ -15,7 +15,7 @@ var _                  = require ('lodash');
 module.exports = DBModel.extend ({
 	name : 'Project',
 	plural : 'projects',
-	populate: 'proponent',
+	populate: 'proponent, currentPhase',
 	// -------------------------------------------------------------------------
 	//
 	// Before adding a project this is what must happen:

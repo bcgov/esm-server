@@ -1,7 +1,7 @@
 'use strict';
 // =========================================================================
 //
-// model for ProjectType
+// model for artifact type
 //
 // =========================================================================
 
@@ -20,7 +20,7 @@ module.exports = mongoose.model ('ArtifactType', new mongoose.Schema ({
 			write : [ {type:String} ],
 			submit : [ {type:String} ]
 		} ,
-		activity: { type:'ObjectId', ref:'ActivityBase' }
+		activity: { type:'String' }
 	}],
-	milestone       : { type:'ObjectId', ref:'MilestoneBase', index:true }
+	milestone       : { type:'String' }
 }));

@@ -14,23 +14,23 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	// -------------------------------------------------------------------------
 	.state('p.artifactlist', {
 		url: '/artifactlist',
-		templateUrl: 'modules/project-artifacts/client/views/artifact-list.html',
+		templateUrl: 'modules/artifacts/client/views/artifact-list.html',
 		controller: function ($scope, NgTableParams, artifacts, project) {
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: artifacts});
 			$scope.project = project;
 		}
 	})
 	.state('p.artifactcreate', {
-		url: '/artifactcreate/:artifacttypeId',
-		templateUrl: 'modules/project-artifacts/client/views/artifact-list.html',
-		resolve: {
-			artifact: function ($stateParams, ArtifactModel) {
-				console.log ('artifacttypeId = ', $stateParams.artifacttypeId);
-				return ArtifactModel.newFromType ($stateParams.artifacttypeId);
-			}
-		},
-		controller: function ($scope, $state, artifact, project) {
-			$state.go ('p.artifact.edit', {artifactId:artifact._id});
+		url: '/artifactcreate/:code',
+		template: '<p></p>',
+		controller: function ($scope, $state, project, $stateParams, ArtifactModel) {
+			console.log ('c code = ', $stateParams.code);
+			console.log ('project = ', project);
+			ArtifactModel.newFromType ($stateParams.code, project._id)
+			.then (function (a) {
+				console.log ('artifact = ', a);
+				$state.go ('p.artifact.edit', {artifactId:a._id});
+			});
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -60,7 +60,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	// -------------------------------------------------------------------------
 	.state('p.artifact.edit', {
 		url: '/edit',
-		templateUrl: 'modules/project-artifacts/client/views/artifact-edit.html',
+		templateUrl: 'modules/artifacts/client/views/artifact-edit.html',
 		controller: function ($scope, $state, artifact, project, ArtifactModel) {
 			console.log ('artifact = ', artifact);
 			$scope.artifact = artifact;
@@ -89,7 +89,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	// -------------------------------------------------------------------------
 	.state('p.artifact.view', {
 		url: '/view',
-		templateUrl: 'modules/project-artifacts/client/views/artifact-view.html',
+		templateUrl: 'modules/artifacts/client/views/artifact-view.html',
 		controller: function ($scope, artifact, project) {
 			console.log ('artifact = ', artifact);
 			$scope.artifact = artifact;
@@ -98,7 +98,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	})
 	.state('p.artifact.detail.review', {
 		url: '/review',
-		templateUrl: 'modules/project-artifacts/client/views/artifact-review.html',
+		templateUrl: 'modules/artifacts/client/views/artifact-review.html',
 		controller: function ($scope, artifact, project) {
 			console.log ('artifact = ', artifact);
 			$scope.artifact = artifact;
@@ -107,7 +107,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	})
 	.state('p.artifact.detail.approve', {
 		url: '/review',
-		templateUrl: 'modules/project-artifacts/client/views/artifact-approve.html',
+		templateUrl: 'modules/artifacts/client/views/artifact-approve.html',
 		controller: function ($scope, artifact, project) {
 			console.log ('artifact = ', artifact);
 			$scope.artifact = artifact;
@@ -116,7 +116,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	})
 	.state('p.artifact.detail.executive', {
 		url: '/review',
-		templateUrl: 'modules/project-artifacts/client/views/artifact-executive.html',
+		templateUrl: 'modules/artifacts/client/views/artifact-executive.html',
 		controller: function ($scope, artifact, project) {
 			console.log ('artifact = ', artifact);
 			$scope.artifact = artifact;
@@ -125,7 +125,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	})
 	.state('p.artifact.detail.publish', {
 		url: '/review',
-		templateUrl: 'modules/project-artifacts/client/views/artifact-publish.html',
+		templateUrl: 'modules/artifacts/client/views/artifact-publish.html',
 		controller: function ($scope, artifact, project) {
 			console.log ('artifact = ', artifact);
 			$scope.artifact = artifact;
@@ -134,7 +134,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	})
 	.state('p.artifact.detail.notify', {
 		url: '/review',
-		templateUrl: 'modules/project-artifacts/client/views/artifact-notify.html',
+		templateUrl: 'modules/artifacts/client/views/artifact-notify.html',
 		controller: function ($scope, artifact, project) {
 			console.log ('artifact = ', artifact);
 			$scope.artifact = artifact;

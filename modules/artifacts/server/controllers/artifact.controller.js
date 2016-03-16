@@ -6,15 +6,51 @@
 // =========================================================================
 var path               = require('path');
 var DBModel            = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
-var ArtifactTypes      = require ('./artifact.type.controller');
+var Template            = require (path.resolve('./modules/templates/server/controllers/template.controller'));
+var ArtifactType      = require ('./artifact.type.controller');
 var _                  = require ('lodash');
-var mongoose = require('mongoose');
-var atypes = mongoose.model ('ArtifactType');
 
 module.exports = DBModel.extend ({
 	name : 'Artifact',
 	plural : 'artifacts',
 	populate : 'type',
+	getForProject: function (projectid) {
+
+	},
+	newFromType: function (type, project) {
+		var types = new ArtifactType (this.user);
+		var template = new Template (this.user);
+		var p = types.findOne ({type:type});
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			var newArtifact = {
+				typeName: type,
+				name: type,
+				project: project._id,
+				phase: project.currentPhase._id,
+			};
+			p.then (function (atype) {
+				if (!_.isEmpty (atype)) {
+					newArtifact.type = atype._id;
+					console.log ("\n\n");
+					console.log ('atype.isTemplate = ',atype.isTemplate);
+					if (atype.isTemplate) {
+						console.log ('documentType:'+type+':');
+						return template.findFirst ({documentType:type},null,{versionNumber: -1})
+						.then (function (t) {
+							console.log ('template = ', t[0]);
+							newArtifact.template = t[0]._id;
+							newArtifact.isTemplate = true;
+							return self.newDocument (newArtifact);
+						});
+					} else return self.newDocument (newArtifact);
+				}
+				else return null;
+			})
+			.then (self.saveDocument)
+			.then (resolve, reject);
+		});
+	},
 	// -------------------------------------------------------------------------
 	//
 	// this gets the most current version of each artifact
@@ -45,7 +81,7 @@ module.exports = DBModel.extend ({
 	// in its current phase.
 	//
 	// -------------------------------------------------------------------------
-	createNewArtifactInProject (type, project) {
+	createNewArtifactInProject: function (type, project) {
 
 	},
 	// -------------------------------------------------------------------------
