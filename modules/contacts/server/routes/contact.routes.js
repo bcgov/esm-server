@@ -13,7 +13,7 @@ var mongoose = require('mongoose');
 var Model    = mongoose.model ('Contact');
 var GroupModel    = mongoose.model ('Group');
 var Project    = mongoose.model ('Project');
-var Group  = require ('../controllers/Group.controller');
+var Group  = require ('../controllers/group.controller');
 
 var loadContacts = function(file, req, res) {
 	// Now parse and go through this thing.
@@ -144,7 +144,7 @@ module.exports = function (app) {
 			.then (helpers.success(res), helpers.failure(res));
 		});
 
-	app.route ('/api/contacts/import')//.all (policy.isAllowed)
+	app.route ('/api/contacts/import').all (policy.isAllowed)
 		.post (function (req, res) {
 			var file = req.files.file;
 			if (file) {
@@ -153,7 +153,7 @@ module.exports = function (app) {
 			}
 		});
 
-	app.route ('/api/groupcontacts/import')//.all (policy.isAllowed)
+	app.route ('/api/groupcontacts/import').all (policy.isAllowed)
 		.post (function (req, res) {
 			var file = req.files.file;
 			if (file) {

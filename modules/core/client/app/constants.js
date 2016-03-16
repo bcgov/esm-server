@@ -94,7 +94,10 @@ angular
 	.constant('DOCUMENT_TEMPLATE_TYPES',
 		[
 			'Project Description',
-			'Section 10 Order',
+			'Section 7(3) Order',
+			'Section 10(1)(a) Order',
+			'Section 10(1)(b) Order',
+			'Section 10(1)(c) Order',
 			'Section 11 Order',
 			'Valued Component',
 			'AIR',

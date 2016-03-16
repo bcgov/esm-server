@@ -15,8 +15,12 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	shortName             : { type:String, default: '' },
 	phases                : [ {type: 'ObjectId', ref:'Phase'} ],
 	type                  : { type:String, default:'', index:true },
+	sector                : { type:String, default:'' },
 	region                : { type:String, default:'' },     // object id
+	locSpatial            : { type:String, default:'' }, // incoming ePIC
 	location              : { type:String, default:'' },
+	provElecDist 		  : { type:String, default:'' },
+	fedElecDist 		  : { type:String, default:'' },
 	stream                : { type:'ObjectId', ref:'Stream'     , index:true, default:null },
 	proponent             : { type:'ObjectId', ref:'Organization'     , index:true, default:null },
 	adminRole             : { type:String, default: '' },
@@ -27,13 +31,16 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	intake: {
 		affectedFirstNations  : { type:String, default:'' },
 		constructionjobs      : { type:String, default:'' },
+		constructionjobsNotes : { type:String, default:'' },
 		contactedCEAA         : { type:String, default:'' },
 		contactedFirstNations : { type:String, default:'' },
 		investment            : { type:String, default:'' },
+		investmentNotes       : { type:String, default:'' },
 		lifespan              : { type:String, default:'' },
 		meetsCEAACriteria     : { type:String, default:'' },
 		meetsrprcriteria      : { type:String, default:'' },
 		operatingjobs         : { type:String, default:'' },
+		operatingjobsNotes    : { type:String, default:'' },
 		section7optin         : { type:String, default:'' }
 	},
 	isTermsAgreed: {type:Boolean, default:false},
@@ -57,5 +64,20 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	dateCommentsClosed           : { type: Date, default: null },
 
 	// OLD DATA
-	oldData           : { type: String, default: '' }
+	responsibleEPD          : { type: String, default: '' },
+	projectLead           	: { type: String, default: '' },
+	EAOCAARTRepresentative  : { type: String, default: '' },
+	projectOfficer          : { type: String, default: '' },
+	projectAnalyst          : { type: String, default: '' },
+	projectAssistant        : { type: String, default: '' },
+	administrativeAssistant : { type: String, default: '' },
+	CELead           		: { type: String, default: '' },
+	teamNotes           	: { type: String, default: '' },
+
+	// Migrated epic data wanting to be made available
+	eaActive 					: { type: String, default: '' },
+	eaIssues 					: { type: String, default: '' },
+	eaNotes 					: { type: String, default: '' },
+	CEAAInvolvement 			: { type: String, default: '' },
+	projectNotes 				: { type: String, default: '' } // Formal notes about the project
 });

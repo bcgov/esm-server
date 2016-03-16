@@ -1,0 +1,8 @@
+<h4>Comments</h4>
+<div ng-repeat="period in artifact.commmentPeriods">
+	<a ui-sref="p.commentperiod.detail({periodId:period._id})">View Comments</a>
+</div>
+<h4>Public Comments</h4>
+<div ng-repeat="period in artifact.commmentPeriods">
+	<a ui-sref="p.publiccommentperiod.detail({periodId:period._id})">View Public Comments</a>
+</div>
