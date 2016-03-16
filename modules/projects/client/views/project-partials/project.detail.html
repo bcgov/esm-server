@@ -13,34 +13,35 @@
 		class="anchor-section"
 		id="anchor-initiated"
 		x-project="project"
-		ng-if="('project'| shouldDisplayPanel:'initiated':project.status)">
+		ng-if="('project'| shouldDisplayPanel:'initiated':project.status) && environment === 'EAO'">
 	</tmpl-project-initiated>
 
 	<tmpl-project-stream-select
 		class="anchor-section"
 		id="anchor-stream"
 		x-project="project"
-		ng-if="('project'| shouldDisplayPanel:'stream':project.status)">
+		ng-if="('project'| shouldDisplayPanel:'stream':project.status) && environment === 'EAO'">
 	</tmpl-project-stream-select>
 
 	<tmpl-project-description-read
 		class="anchor-section"
 		id="anchor-description"
-		x-project="project">
+		x-project="project"
+		ng-if="environment === 'EAO'">
 	</tmpl-project-description-read>
 
 	<tmpl-public-comment-display
 		class="anchor-section"
 		id="anchor-publiccomments"
 		x-project="project"
-		ng-if="('project'| shouldDisplayPanel:'public-comments':project.status) && project.dateCommentsOpen">
+		ng-if="('project'| shouldDisplayPanel:'public-comments':project.status) && project.dateCommentsOpen && environment === 'EAO'">
 	</tmpl-public-comment-display>
 
 	<tmpl-project-activities
 		class="anchor-section"
 		id="anchor-activities"
 		x-project="project"
-		ng-if="('project'| shouldDisplayPanel:'activities':project.status)">
+		ng-if="('project'| shouldDisplayPanel:'activities':project.status) && environment === 'EAO'">
 	</tmpl-project-activities>
 
 	<tmpl-documents-browser
@@ -54,7 +55,7 @@
 		class="anchor-section"
 		id="anchor-document-approvals"
 		x-project="project"
-		ng-if="('project'| shouldDisplayPanel:'doc-approvals':project.status)">
+		ng-if="('project'| shouldDisplayPanel:'doc-approvals':project.status) && environment === 'EAO'">
 	</tmpl-documents-approvals>
 
 	<tmpl-map
@@ -64,7 +65,7 @@
 		ng-if="('project'| shouldDisplayPanel:'map':project.status)">
 	</tmpl-map>
 
-	<tmpl-project-bucket-listing
+	<!-- <tmpl-project-bucket-listing
 		class="anchor-section"
 		x-project="project"
 		x-filter="artifactView">
@@ -74,6 +75,6 @@
 		class="anchor-section"
 		x-project="project"
 		ng-if="('project'| shouldDisplayPanel:'public-comments':project.status)">
-	</tmpl-project-research>
+	</tmpl-project-research> -->
 
 </section>

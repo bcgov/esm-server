@@ -138,9 +138,9 @@ angular
 			'decommissioned' : 'Decommissioned'
 		}
 	)
-	.constant('MEM', true)
-	//.constant('LOGO', 'modules/core/client/img/brand/eao-logo.png')
-	.constant('LOGO', 'modules/core/client/img/brand/mem-logo.png')
+	.constant('ENV', 'MEM') // MEM, EAO
+	//.constant('LOGO', 'modules/core/client/img/brand/eao-logo.png') // EAO Logo
+	.constant('LOGO', 'modules/core/client/img/brand/mem-logo.png') // MEM Logo
 	.factory ('codeFromTitle', function () {
 		return function (title) {
 			var s = title.toLowerCase ();

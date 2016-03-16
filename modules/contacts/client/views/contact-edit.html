@@ -1,77 +1,168 @@
-<div class="modal-header">
-	<h3 class="modal-title">Contact Detail ({{d.dmode}})</h3>
+<h1 class="page-title no-lower-margin">
+	Add / Edit Contact
+</h1>
+
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="admin.contact.list">Cancel</a>
+		<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+	</div>
 </div>
 
-<div class="modal-body">
+<div class="panel panel-default">
+	<div class="panel-body">
 
-	<div class="block-content">
-		<div class="panel-body">
 		<div class="row">
-			<div class="col-sm-9">
+			<div class="col-sm-3">
 				<div class="form-group">
-					<label for="title" class="control-label">Contact Name</label>
-					<input id="title" type="text" class="form-control input-sm" ng-model="d.contact.name">
+					<label for="salutation" class="control-label">Salutation</label>
+					<input id="salutation" type="text" class="form-control input-sm" ng-model="contact.salutation">
+				</div>
+			</div>		
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="firstName" class="control-label">First Name</label>
+					<input id="firstName" ng-change="calculateName()" type="text" class="form-control input-sm" ng-model="contact.firstName">
 				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="form-group">
-					<label for="sector" class="control-label">Project Sector</label>
-					<select id="sector" ng-model='d.contact.sector' class="form-control input-sm" ng-options="sector as sector for sector in d.sectors"></select>
+					<label for="middleName" class="control-label">Middle Name</label>
+					<input id="middleName" ng-change="calculateName()" type="text" class="form-control input-sm" ng-model="contact.middleName">
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="lastName" class="control-label">Last Name</label>
+					<input id="lastName" ng-change="calculateName()" type="text" class="form-control input-sm" ng-model="contact.lastName">
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-sm-9">
+				<div class="form-group">
+					<label for="contactName" class="control-label">Full Name</label>
+					<input id="contactName" disabled=true type="text" class="form-control input-sm" ng-model="contact.contactName">
+				</div>
+			</div>	
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="contactCode" class="control-label">Code</label>
+					<input id="contactCode" disabled=true type="text" class="form-control input-sm" ng-model="contact.code">
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="phoneNumber" class="control-label">Phone Number</label>
+					<input id="phoneNumber" type="text" class="form-control input-sm" ng-model="contact.phoneNumber">
+				</div>
+			</div>		
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="faxNumber" class="control-label">Fax Number</label>
+					<input id="faxNumber" type="text" class="form-control input-sm" ng-model="contact.faxNumber">
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="cellPhoneNumber" class="control-label">Mobile Number</label>
+					<input id="cellPhoneNumber" type="text" class="form-control input-sm" ng-model="contact.cellPhoneNumber">
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="email" class="control-label">Email</label>
+					<input id="email" type="text" class="form-control input-sm" ng-model="contact.email">
+				</div>
+			</div>
+		</div>
+
+
+		<div class="well well-sm">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="address1" class="control-label">Address (Line 1)</label>
+						<input id="address1" type="text" class="form-control input-sm" ng-model="contact.address1">
+					</div>
+				</div>		
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="address2" class="control-label">Address (Line 2)</label>
+						<input id="address2" type="text" class="form-control input-sm" ng-model="contact.address2">
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="city" class="control-label">City</label>
+						<input id="city" type="text" class="form-control input-sm" ng-model="contact.city">
+					</div>
+				</div>		
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="province" class="control-label">Province</label>
+						<input id="province" type="text" class="form-control input-sm" ng-model="contact.province">
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="country" class="control-label">Country</label>
+						<input id="country" type="text" class="form-control input-sm" ng-model="contact.country">
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="postalCode" class="control-label">Postal Code</label>
+						<input id="postalCode" type="text" class="form-control input-sm" ng-model="contact.postalCode">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="orgName" class="control-label">Organization</label>
+					<input id="orgName" type="text" class="form-control input-sm" ng-model="contact.orgName">
+				</div>
+			</div>		
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="department" class="control-label">Department</label>
+					<input id="department" type="text" class="form-control input-sm" ng-model="contact.department">
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="title" class="control-label">Title</label>
+					<input id="title" type="text" class="form-control input-sm" ng-model="contact.title">
+				</div>
+			</div>			
+		</div>
+
 
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
-					<label for="shortDesc" class="control-label">Contact Description</label>
-					<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="d.contact.description" rows=6></textarea>
+					<label for="notes" class="control-label">Notes</label>
+					<textarea id="notes" class="form-control" ng-model="contact.notes"></textarea>
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="shortDesc" class="control-label">Report Requirements</label>
-					<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="d.contact.reportRequirements" rows=6></textarea>
-				</div>
-			</div>
-		</div>
+
+		<hr>
 
 		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="pillar" class="control-label">Pillar</label>
-					<select ng-change="d.selectTopic(pillar)" id="pillar" ng-model='d.contact.pillar' class="form-control input-sm" ng-options="pillar as pillar for pillar in d.pillars"></select>
-				</div>
+			<div class="col-sm-12 text-right">
+				<a class="btn btn-default" ui-sref="admin.contact.list">Cancel</a>
+				<a class="btn btn-default" href ng-click="save()">Save</a>
 			</div>
-
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="stage" class="control-label">Project Stage</label>
-					<select id="stage" ng-model='d.contact.stage' class="form-control input-sm" ng-options="stage as stage for stage in d.stages"></select>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="topics" class="control-label">Topics</label>
-					<select multiple id="topics" ng-model='d.contact.topics' class="form-control input-sm">
-						<option ng-repeat="topic in d.topics" value="{{topic.code}}">{{topic.name}}</option>
-					</select>
-				</div>
-			</div>
-
-		</div>
-
 		</div>
 	</div>
 
-</div> <!-- /modalbody -->
-
-<div class="modal-footer">
-	<a class="btn btn-default" href ng-click="d.cancel()">Cancel</a>
-	<a class="btn btn-default" href ng-click="d.ok()">OK</a>
-</div>
-
+</div> <!-- /panelbody -->
