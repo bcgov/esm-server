@@ -1,21 +1,22 @@
 <h1 class="page-title">
-	Edit {{artifact.type.type}} for {{ project.name }}
+	Review {{artifact.type.type}} ({{artifact.version}}) for {{ project.name }}
 </h1>
 
 <div class="block-content">
-	<div ng-include="modules/artifacts/client/views/partial.artifact-edit.html"></div>
+	<div ng-include="'modules/artifacts/client/views/partial.artifact-view.html'"></div>
 </div>
 
 <div>
-<textarea ng-model="review"></textarea>
+<h4>Review Note</h4>
+<textarea ng-model="artifact.reviewnote"></textarea>
 </div>
-
-<div  class="block-content" ng-include="modules/artifacts/client/views/partial.artifact-notes.html"></div>
-
-<div  class="block-content" ng-include="modules/artifacts/client/views/partial.artifact-comments.html"></div>
-
 <div>
-	<a class="btn btn-default" ui-sref="p.artifactlist">Cancel</a>
-	<a class="btn btn-success" ui-sref="reject()">Reject</a>
-	<a class="btn btn-success" ui-sref="submit()">Accept</a>
+	<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
+	<a class="btn btn-success" ng-click="reject()">Reject and return for {{buttons.prev}}</a>
+	<a class="btn btn-success" ng-click="submit()">Submit for {{buttons.next}}</a>
 </div>
+
+<div  class="block-content" ng-include="'modules/artifacts/client/views/partial.artifact-notes.html'"></div>
+
+<div  class="block-content" ng-include="'modules/artifacts/client/views/partial.artifact-comments.html'"></div>
+

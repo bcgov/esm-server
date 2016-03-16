@@ -1,20 +1,14 @@
-<div class="panel-body" ng-if="artifact.type.isTemplate">
+<div class="panel-body" ng-if="artifact.isTemplate">
 	<!--
 
 		This section gets displayed if the content is a template
 
 	 -->
-	<div>
-		<div class="col-sm-6">
-		<div class="form-group">
-			<label for="sections" class="control-label">Go to Section</label>
-			<select ng-change="goto(gosection)" id="sections" ng-model='gosection' class="form-control" ng-options="section.name as section.label for section in allsections"></select>
-		</div>
-		</div>
-	</div>
-	<tmpl-template-render x-template="template" x-mode="view" x-document="dataset"></tmpl-template-render>
+	<tmpl-template-render x-template="artifact.template" x-mode="view" x-document="artifact.templateData"></tmpl-template-render>
 </div>
-<div class="panel-body" ng-if="artifact.type.isTemplate">
+
+
+<div class="panel-body" ng-if="!artifact.isTemplate">
 	<!--
 
 		This section gets displayed if the content is a document

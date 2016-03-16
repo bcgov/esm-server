@@ -23,5 +23,6 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	overrideReason : { type:String, default:'' },
 	completed      : { type:Boolean, default:false },
 	order          : { type: Number, default:0 },
+	state          : { type:String, default:'' },
 	data           : {}
 });
