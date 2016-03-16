@@ -65,7 +65,10 @@ module.exports = DBModel.extend ({
 			.then (self.saveDocument)
 			.then (function (m) {
 				var p = new PhaseClass (self.user);
+				console.log ('adding a new milestone to the project for this artifact, type = ', artifactType.milestone);
+				console.log ('projecty.currentphase = ', project.currentPhase);
 				p.addMilestoneFromCode (project.currentPhase, artifactType.milestone);
+				return m;
 			})
 			.then (resolve, reject);
 		});
