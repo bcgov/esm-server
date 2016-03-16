@@ -13,7 +13,7 @@ var mongoose = require('mongoose');
 var Model    = mongoose.model ('Contact');
 var GroupModel    = mongoose.model ('Group');
 var Project    = mongoose.model ('Project');
-var Group  = require ('../controllers/Group.controller');
+var Group  = require ('../controllers/group.controller');
 
 var loadContacts = function(file, req, res) {
 	// Now parse and go through this thing.
