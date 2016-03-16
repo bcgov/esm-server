@@ -118,6 +118,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	orgName: 		{ type:String, default: '' },
 	personId: 	{ type:Number, default: null }, // From ePIC
 	title: 		{ type:String, default: '' },
+	homePhoneNumber : { type:String, default: '' },
 	phoneNumber: 	{ type:String, default: '' },
 	
 	// if groupId == null, then this is a person (hack)
