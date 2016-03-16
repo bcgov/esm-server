@@ -190,17 +190,20 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		},
 		controller: function ($scope, template, templateData, $location) {
 			$scope.template = template;
-			var tData = templateData (template);
-			$scope.dataset = tData.document;
-			$scope.allsections = tData.sectionList ();
-			$scope.repeatsections = tData.repeatable ();
-			$scope.gosection = '';
-			$scope.newsection = '';
-			$scope.append = function (sectionname) {
-				console.log ('append ', sectionname);
-				tData.push (sectionname);
-				$scope.newsection = '';
-			};
+			$scope.dataset = {};
+			// console.log ('template', $scope.template);
+			// var tData = templateData (template);
+			// $scope.dataset = tData.document;
+			// console.log ('dataset', $scope.dataset);
+			// $scope.allsections = tData.sectionList ();
+			// $scope.repeatsections = tData.repeatable ();
+			// $scope.gosection = '';
+			// $scope.newsection = '';
+			// $scope.append = function (sectionname) {
+			// 	console.log ('append ', sectionname);
+			// 	tData.push (sectionname);
+			// 	$scope.newsection = '';
+			// };
 		}
 
 	})

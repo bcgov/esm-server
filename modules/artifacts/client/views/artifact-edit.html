@@ -1,5 +1,5 @@
 <h1 class="page-title">
-	Edit {{artifact.type.type}} for {{ project.name }}
+	Edit {{artifact.type.type}} ({{artifact.version}}) for {{ project.name }}
 </h1>
 
 <div class="block-content">
@@ -11,7 +11,9 @@
 <div class="block-content" ng-include="'/modules/artifacts/client/views/partial.artifact-comments.html'"></div>
 
 <div>
-	<a class="btn btn-default" ui-sref="p.artifactlist">Cancel</a>
-	<a class="btn btn-success" ui-sref="save()">Save</a>
-	<a class="btn btn-success" ui-sref="submit()">Submit</a>
+	<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
+	<a class="btn btn-success" ng-click="save()">Save</a>
+	<a class="btn btn-success" ng-click="saveas()">Save As</a>
+	<select ng-model="version" class="form-control" ng-options="v as v for v in artifact.type.versions"></select>
+	<a class="btn btn-success" ng-click="submit()">Submit for {{buttons.next}}</a>
 </div>

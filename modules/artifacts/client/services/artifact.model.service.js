@@ -17,6 +17,12 @@ angular.module('artifacts').factory ('ArtifactModel', function (ModelBase, _) {
 		},
 		newFromType: function (type, projectid) {
 			return this.get ('api/artifact/project/'+projectid+'/from/type/'+type);
+		},
+		nextStage: function (artifact) {
+			return this.put ('api/artifact/next/stage/'+artifact._id, artifact);
+		},
+		prevStage: function (artifact) {
+			return this.put ('api/artifact/prev/stage/'+artifact._id, artifact);
 		}
 	});
 	return new Class ();

@@ -1,21 +1,13 @@
-<h4>Review Notes</h4>
-<div ng-repeat="note in artifact.reviewNotes">
+<h4 ng-if="artifact.reviewNotes.length">Review Notes</h4>
+<div ng-if="artifact.reviewNotes.length" ng-repeat="note in artifact.reviewNotes">
 	<p>
 		{{ note.username }}<br/>
 		{{ note.date }}<br/>
 		{{ note.note }}
 	</p>
 </div>
-<h4>Rejection Notes</h4>
-<div ng-repeat="note in artifact.rejectionNotes">
-	<p>
-		{{ note.username }}<br/>
-		{{ note.date }}<br/>
-		{{ note.note }}
-	</p>
-</div>
-<h4>Approval Notes</h4>
-<div ng-repeat="note in artifact.approvalNotes">
+<h4 ng-if="artifact.approvalNotes.length">Approval Notes</h4>
+<div ng-if="artifact.approvalNotes.length" ng-repeat="note in artifact.approvalNotes">
 	<p>
 		{{ note.username }}<br/>
 		{{ note.date }}<br/>

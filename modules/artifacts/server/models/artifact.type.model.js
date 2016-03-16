@@ -15,6 +15,8 @@ module.exports = mongoose.model ('ArtifactType', new mongoose.Schema ({
 	versions        : [{ type:String }],
 	stages          : [{
 		name: { type:String },
+		next: { type:String },
+		prev: { type:String },
 		roles: {
 			read : [ {type:String} ],
 			write : [ {type:String} ],

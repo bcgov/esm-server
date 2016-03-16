@@ -9,32 +9,50 @@ var activitybases = [{
 	code: 'edit',
 	name: 'Edit Document',
 	description: 'Edit Document',
-	state: 'p.artifact.edit'
+	state: 'p.artifact.edit',
+    read: ['project:eao:admin'],
+    write: ['project:pro:member'],
+    submit: ['project:pro:admin']
 },{
 	code: 'review',
 	name: 'Review Document',
 	description: 'Review Document',
-	state: 'p.artifact.review'
+	state: 'p.artifact.review',
+    read: ['project:pro:admin','project:pro:member'],
+    write: ['project:eao:member'],
+    submit: ['project.eao.admin']
 },{
 	code: 'approve',
 	name: 'Approve Document',
 	description: 'Approve Document',
-	state: 'p.artifact.approve'
+	state: 'p.artifact.approve',
+    read: ['project:pro:admin','project:pro:member'],
+    write: ['project:eao:member'],
+    submit: ['project.eao.admin']
 },{
 	code: 'executive',
 	name: 'Executive Approve Document',
 	description: 'Executive Approve Document',
-	state: 'p.artifact.executive'
+	state: 'p.artifact.executive',
+    read: ['project:pro:admin','project:pro:member'],
+    write: ['project:eao:member'],
+    submit: ['project.eao.admin']
 },{
 	code: 'publish',
 	name: 'Publish Document',
 	description: 'Publish Document',
-	state: 'p.artifact.publish'
+	state: 'p.artifact.publish',
+    read: ['project:pro:admin','project:pro:member'],
+    write: ['project:eao:member'],
+    submit: ['project.eao.admin']
 },{
 	code: 'notify',
 	name: 'Notify Document',
 	description: 'Notify Document',
-	state: 'p.artifact.notify'
+	state: 'p.artifact.notify',
+    read: ['project:pro:admin','project:pro:member'],
+    write: ['project:eao:member'],
+    submit: ['project.eao.admin']
 }];
 
 var artifacttypes = [{
@@ -55,21 +73,33 @@ var artifacttypes = [{
 	milestone: 'project-description',
 	stages: [{
 		name: 'Edit',
+        next: 'Review',
+        prev: '',
 		activity: 'edit'
 	},{
 		name: 'Review',
+        next: 'Approval',
+        prev: 'Edit',
 		activity: 'review'
 	},{
-		name: 'Approve',
+		name: 'Approval',
+        next: 'Executive Approval',
+        prev: 'Review',
 		activity: 'approve'
 	},{
-		name: 'Executive',
+		name: 'Executive Approval',
+        next: 'Publishing',
+        prev: 'Approval',
 		activity: 'executive'
 	},{
-		name: 'Publish',
+		name: 'Publishing',
+        next: 'Notification',
+        prev: 'Executive Approval',
 		activity: 'publish'
 	},{
-		name: 'Notify',
+		name: 'Notification',
+        next: '',
+        prev: 'Publishing',
 		activity: 'notify'
 	}]
 }];

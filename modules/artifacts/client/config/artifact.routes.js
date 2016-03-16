@@ -4,7 +4,27 @@
 // artifact routes
 //
 // =========================================================================
-angular.module('core').config(['$stateProvider', function ($stateProvider) {
+angular.module('core').config(['$stateProvider','_', function ($stateProvider, _) {
+
+	var getPrevNextStage = function (stage, stages) {
+		var index = _.findIndex (stages, function (s) { return s.name === stage;});
+		console.log (index);
+		return {
+			prev: (stages[index - 1]) ? stages[index - 1].name : '',
+			next: (stages[index + 1]) ? stages[index + 1].name : '',
+		};
+	};
+	var properMethod = function (stage) {
+		if (stage === 'Edit') return 'edit';
+		else if (stage === 'Review') return 'review';
+		else if (stage === 'Approval') return 'approve';
+		else if (stage === 'Executive Approval') return 'executive';
+		else if (stage === 'Publishing') return 'publish';
+		else if (stage === 'Notification') return 'notify';
+	};
+
+
+
 	$stateProvider
 	// -------------------------------------------------------------------------
 	//
@@ -48,7 +68,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		template: '<ui-view></ui-view>',
 		resolve: {
 			artifact: function ($stateParams, ArtifactModel) {
-				console.log ('artifactId = ', $stateParams.artifactId);
+				// console.log ('artifactId = ', $stateParams.artifactId);
 				return ArtifactModel.getModel ($stateParams.artifactId);
 			}
 		}
@@ -63,16 +83,51 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		templateUrl: 'modules/artifacts/client/views/artifact-edit.html',
 		controller: function ($scope, $state, artifact, project, ArtifactModel) {
 			console.log ('artifact = ', artifact);
+			console.log ('project  = ', project);
+			var method = properMethod (artifact.stage);
+			if (method !== 'edit') $state.go ('p.artifact.'+method);
+			$scope.buttons = getPrevNextStage (artifact.stage, artifact.type.stages);
 			$scope.artifact = artifact;
 			$scope.project = project;
+			if (_.isEmpty (artifact.templateData)) artifact.templateData = {};
+			$scope.version = artifact.version;
+			$scope.saveas = function () {
+				ArtifactModel.getNew ().then (function (newartifact) {
+					var a = ArtifactModel.getCopy ($scope.artifact);
+					a._id = newartifact._id;
+					a.version =  $scope.version;
+					ArtifactModel.add (a).then (function (m) {
+						console.log ('new artifact was saved', m);
+						$state.go ('p.detail', {project:project.code});
+					})
+					.catch (function (err) {
+						console.error (err);
+						alert (err);
+					});
+				});
+			};
 			$scope.save = function () {
 				ArtifactModel.save ($scope.artifact)
 				.then (function (model) {
 					console.log ('artifact was saved',model);
 					console.log ('now going to reload state');
-					$state.transitionTo('p.artifact.list', {project:project._id}, {
-			  			reload: true, inherit: false, notify: true
-					});
+					$state.go ('p.detail', {project:project.code});
+					// $state.transitionTo('p.detail', {project:project.code}, {
+			  // 			reload: true, inherit: false, notify: true
+					// });
+				})
+				.catch (function (err) {
+					console.error (err);
+					alert (err);
+				});
+			};
+			$scope.submit = function () {
+				ArtifactModel.nextStage ($scope.artifact)
+				.then (function (model) {
+					$state.go ('p.detail', {project:project.code});
+					// $state.transitionTo('p.detail', {project:project.code}, {
+			  // 			reload: true, inherit: false, notify: true
+					// });
 				})
 				.catch (function (err) {
 					console.error (err);
@@ -90,53 +145,86 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	.state('p.artifact.view', {
 		url: '/view',
 		templateUrl: 'modules/artifacts/client/views/artifact-view.html',
-		controller: function ($scope, artifact, project) {
+		controller: function ($scope, $state, artifact, project, ArtifactModel) {
 			console.log ('artifact = ', artifact);
 			$scope.artifact = artifact;
 			$scope.project = project;
 		}
 	})
-	.state('p.artifact.detail.review', {
+	.state('p.artifact.review', {
 		url: '/review',
 		templateUrl: 'modules/artifacts/client/views/artifact-review.html',
-		controller: function ($scope, artifact, project) {
+		controller: function ($scope, $state, artifact, project, ArtifactModel) {
 			console.log ('artifact = ', artifact);
+			var method = properMethod (artifact.stage);
+			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
+			$scope.buttons = getPrevNextStage (artifact.stage, artifact.type.stages);
+			$scope.reject = function () {
+				ArtifactModel.nextStage ($scope.artifact)
+				.then (function (model) {
+					$state.go ('p.detail', {project:project.code});
+				})
+				.catch (function (err) {
+					console.error (err);
+					alert (err);
+				});
+
+			};
+			$scope.submit = function () {
+				ArtifactModel.nextStage ($scope.artifact)
+				.then (function (model) {
+					$state.go ('p.detail', {project:project.code});
+				})
+				.catch (function (err) {
+					console.error (err);
+					alert (err);
+				});
+
+			};
 		}
 	})
-	.state('p.artifact.detail.approve', {
-		url: '/review',
+	.state('p.artifact.approve', {
+		url: '/approve',
 		templateUrl: 'modules/artifacts/client/views/artifact-approve.html',
-		controller: function ($scope, artifact, project) {
+		controller: function ($scope, $state, artifact, project, ArtifactModel) {
 			console.log ('artifact = ', artifact);
+			var method = properMethod (artifact.stage);
+			if (method !== 'approve') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
 		}
 	})
-	.state('p.artifact.detail.executive', {
-		url: '/review',
+	.state('p.artifact.executive', {
+		url: '/executive',
 		templateUrl: 'modules/artifacts/client/views/artifact-executive.html',
-		controller: function ($scope, artifact, project) {
+		controller: function ($scope, $state, artifact, project, ArtifactModel) {
 			console.log ('artifact = ', artifact);
+			var method = properMethod (artifact.stage);
+			if (method !== 'executive') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
 		}
 	})
-	.state('p.artifact.detail.publish', {
-		url: '/review',
+	.state('p.artifact.publish', {
+		url: '/publish',
 		templateUrl: 'modules/artifacts/client/views/artifact-publish.html',
-		controller: function ($scope, artifact, project) {
+		controller: function ($scope, $state, artifact, project, ArtifactModel) {
 			console.log ('artifact = ', artifact);
+			var method = properMethod (artifact.stage);
+			if (method !== 'publish') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
 		}
 	})
-	.state('p.artifact.detail.notify', {
-		url: '/review',
+	.state('p.artifact.notify', {
+		url: '/notify',
 		templateUrl: 'modules/artifacts/client/views/artifact-notify.html',
-		controller: function ($scope, artifact, project) {
+		controller: function ($scope, $state, artifact, project, ArtifactModel) {
 			console.log ('artifact = ', artifact);
+			var method = properMethod (artifact.stage);
+			if (method !== 'notify') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
 		}

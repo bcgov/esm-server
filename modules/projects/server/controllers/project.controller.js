@@ -92,9 +92,20 @@ module.exports = DBModel.extend ({
 				self.setRoles (self.user);
 				console.log ('here we are');
 				project.roles = project.allRoles ();
-				resolve (project);
+				return project;
 			})
-			.catch (reject);
+			//
+			// add a pre submission phase
+			//
+			.then (function () {
+				return self.addPhaseFromCode (project, 'presubmission')
+				.then (function (m) {
+					m.currentPhase = m.phases[0];
+					return m;
+				});
+			})
+			.then (self.saveAndReturn)
+			.then (resolve, reject);
 		});
 	},
 	// -------------------------------------------------------------------------
@@ -244,6 +255,19 @@ module.exports = DBModel.extend ({
 			})
 			.then (function (m) {
 				return self.saveAndReturn (m);
+			})
+			.then (resolve, reject);
+		});
+	},
+	addPhaseFromCode : function (project, phasecode, roles) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			var PhaseBase = new PhaseBaseClass (self.user);
+			PhaseBase.findOne ({
+				code: phasecode
+			})
+			.then (function (base) {
+				return self.addPhase (project, base, roles);
 			})
 			.then (resolve, reject);
 		});

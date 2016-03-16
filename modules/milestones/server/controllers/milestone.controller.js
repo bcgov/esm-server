@@ -106,6 +106,25 @@ module.exports = DBModel.extend ({
 	// add an activity to this milestone (from a base)
 	//
 	// -------------------------------------------------------------------------
+	addActivityFromBaseCode : function (milestone, activitybasecode, roles) {
+		var self = this;
+		var ActivityBase = new ActivityBaseClass (self.user);
+		return new Promise (function (resolve, reject) {
+			ActivityBase.findOne ({code:activitybasecode})
+			.then (function (activitybase) {
+				console.log ('found activity base for', activitybasecode);
+				console.log ('activitybase id = ', activitybase._id);
+				console.log ('activitybase = ', activitybase);
+				return self.addActivityFromBase (milestone, activitybase, roles);
+			})
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// add an activity to this milestone (from a base)
+	//
+	// -------------------------------------------------------------------------
 	addActivityFromBase : function (milestone, activitybase, roles) {
 		var self = this;
 		var Activity = new ActivityClass (self.user);
