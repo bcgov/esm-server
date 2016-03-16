@@ -170,7 +170,6 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					console.error (err);
 					alert (err);
 				});
-
 			};
 			$scope.submit = function () {
 				ArtifactModel.nextStage ($scope.artifact)
@@ -181,7 +180,6 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					console.error (err);
 					alert (err);
 				});
-
 			};
 		}
 	})
@@ -191,9 +189,30 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		controller: function ($scope, $state, artifact, project, ArtifactModel) {
 			console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
-			if (method !== 'approve') $state.go ('p.artifact.'+method);
+			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
+			$scope.buttons = getPrevNextStage (artifact.stage, artifact.type.stages);
+			$scope.reject = function () {
+				ArtifactModel.nextStage ($scope.artifact)
+				.then (function (model) {
+					$state.go ('p.detail', {project:project.code});
+				})
+				.catch (function (err) {
+					console.error (err);
+					alert (err);
+				});
+			};
+			$scope.submit = function () {
+				ArtifactModel.nextStage ($scope.artifact)
+				.then (function (model) {
+					$state.go ('p.detail', {project:project.code});
+				})
+				.catch (function (err) {
+					console.error (err);
+					alert (err);
+				});
+			};
 		}
 	})
 	.state('p.artifact.executive', {
@@ -202,9 +221,30 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		controller: function ($scope, $state, artifact, project, ArtifactModel) {
 			console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
-			if (method !== 'executive') $state.go ('p.artifact.'+method);
+			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
+			$scope.buttons = getPrevNextStage (artifact.stage, artifact.type.stages);
+			$scope.reject = function () {
+				ArtifactModel.nextStage ($scope.artifact)
+				.then (function (model) {
+					$state.go ('p.detail', {project:project.code});
+				})
+				.catch (function (err) {
+					console.error (err);
+					alert (err);
+				});
+			};
+			$scope.submit = function () {
+				ArtifactModel.nextStage ($scope.artifact)
+				.then (function (model) {
+					$state.go ('p.detail', {project:project.code});
+				})
+				.catch (function (err) {
+					console.error (err);
+					alert (err);
+				});
+			};
 		}
 	})
 	.state('p.artifact.publish', {
@@ -213,9 +253,30 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		controller: function ($scope, $state, artifact, project, ArtifactModel) {
 			console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
-			if (method !== 'publish') $state.go ('p.artifact.'+method);
+			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
+			$scope.buttons = getPrevNextStage (artifact.stage, artifact.type.stages);
+			$scope.reject = function () {
+				ArtifactModel.nextStage ($scope.artifact)
+				.then (function (model) {
+					$state.go ('p.detail', {project:project.code});
+				})
+				.catch (function (err) {
+					console.error (err);
+					alert (err);
+				});
+			};
+			$scope.submit = function () {
+				ArtifactModel.nextStage ($scope.artifact)
+				.then (function (model) {
+					$state.go ('p.detail', {project:project.code});
+				})
+				.catch (function (err) {
+					console.error (err);
+					alert (err);
+				});
+			};
 		}
 	})
 	.state('p.artifact.notify', {
@@ -224,9 +285,30 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		controller: function ($scope, $state, artifact, project, ArtifactModel) {
 			console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
-			if (method !== 'notify') $state.go ('p.artifact.'+method);
+			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
+			$scope.buttons = getPrevNextStage (artifact.stage, artifact.type.stages);
+			$scope.reject = function () {
+				ArtifactModel.nextStage ($scope.artifact)
+				.then (function (model) {
+					$state.go ('p.detail', {project:project.code});
+				})
+				.catch (function (err) {
+					console.error (err);
+					alert (err);
+				});
+			};
+			$scope.submit = function () {
+				ArtifactModel.nextStage ($scope.artifact)
+				.then (function (model) {
+					$state.go ('p.detail', {project:project.code});
+				})
+				.catch (function (err) {
+					console.error (err);
+					alert (err);
+				});
+			};
 		}
 	})
 

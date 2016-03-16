@@ -188,7 +188,7 @@ angular.module ('templates')
 				// console.log ('tdata    = ',tData.document);
 			};
 
-			template = header[usemode]+'<div class="'+wrapperClass+' row">'+template+'</div>'+footer;
+			template = header[usemode]+'<div class="'+wrapperClass+' vertical-scroll-padded">'+template+'</div>'+footer;
 			// console.log ('template = ', template);
 			element.html (template);
 			$compile (element.contents())(scope);
