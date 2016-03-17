@@ -40,9 +40,12 @@
 		</ul>
 		<ul class="list-unstyled" ng-show="menu.authentication.user">
 			<li><a ui-sref="p.edit({projectid: 'new'})">Add Project</a></li>
+		<ul class="list-unstyled">
+			<li ng-if="menu.isAdmin">
+				<a x-modal-project-import href x-project="menu.import">Import</a>
+			</li>
 		</ul>
-		<ul class="list-unstyled" ng-show="menu.authentication.user">
-			<li><a x-modal-project-import href x-project="menu.import">Import</a></li>
+
 		</ul>
 	</div>
 
