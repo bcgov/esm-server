@@ -4,16 +4,17 @@
 // Routes for contacts
 //
 // =========================================================================
-var policy  = require ('../policies/contact.policy');
-var Contact  = require ('../controllers/contact.controller');
-var helpers = require ('../../../core/server/controllers/core.helpers.controller');
-var fs		   = require ('fs');
-var CSVParse   = require('csv-parse');
-var mongoose = require('mongoose');
-var UserModel    = mongoose.model ('User');
-var GroupModel    = mongoose.model ('Group');
-var Project    = mongoose.model ('Project');
-var Group  = require ('../controllers/group.controller');
+var policy 		= require ('../policies/contact.policy');
+var Contact 	= require ('../controllers/contact.controller');
+var helpers 	= require ('../../../core/server/controllers/core.helpers.controller');
+var fs 			= require ('fs');
+var CSVParse 	= require ('csv-parse');
+var mongoose 	= require ('mongoose');
+var UserModel 	= mongoose.model ('User');
+var GroupModel 	= mongoose.model ('Group');
+var Project 	= mongoose.model ('Project');
+var Group 		= require ('../controllers/group.controller');
+var crypto 		= require('crypto');
 
 var loadContacts = function(file, req, res) {
 	// Now parse and go through this thing.
@@ -57,8 +58,8 @@ var loadContacts = function(file, req, res) {
 							model.country 		= row.COUNTRY;
 							model.postalCode 	= row.POSTAL_CODE;
 							model.notes 		= row.NOTES;
-							model.username = "username"+row.PERSON_ID;
-							model.password = "fasld"+row.PERSON_ID;
+							model.username 		= model.email;
+							model.password 		= crypto.randomBytes(8);
 							model.save().then(function () {
 								// Am I done processing?
 								// console.log("INDEX:",index);
