@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var chalk         = require('chalk');
 var _             = require('lodash');
 var Integration  = mongoose.model ('Integration');
+var Template  = mongoose.model ('Template');
 var promise = require ('promise');
 
 console.log(chalk.bold.red('Warning:  Database seeding is turned on'));
@@ -92,7 +93,7 @@ checkIntegration ('loadconditions2').then (function () {
 // artifact types
 //
 // -------------------------------------------------------------------------
-checkIntegration ('loadartifacts').then (function () {
+checkIntegration ('loadartifacts33').then (function () {
 	require('../seed-data/loadartifacts')();
 });
 
@@ -136,8 +137,6 @@ else
 	});
 
 }
-
-
 
 // // check to see if the seed import executes
 // // insert ajax mine project

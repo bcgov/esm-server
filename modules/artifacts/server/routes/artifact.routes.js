@@ -29,7 +29,7 @@ module.exports = function (app) {
 			p.nextStage (req.body, req.Artifact)
 			.then (helpers.success(res), helpers.failure(res));
 		});
-	app.route ('/api/artifact/next/stage/:artifact').all (policy.isAllowed)
+	app.route ('/api/artifact/prev/stage/:artifact').all (policy.isAllowed)
 		.put (function (req, res) {
 			var p = new Artifact (req.user);
 			p.prevStage (req.body, req.Artifact)
