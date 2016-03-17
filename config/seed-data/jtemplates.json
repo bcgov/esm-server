@@ -1,0 +1,1882 @@
+[
+  {
+    "sections": [
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Component Name",
+            "type": "Html",
+            "name": "valCompName"
+          },
+          {
+            "default": "",
+            "label": "Valued Component, Pathway Component",
+            "type": "Text",
+            "name": "valCompType"
+          },
+          {
+            "default": "",
+            "label": "Component Description",
+            "type": "Html",
+            "name": "valCompDesc"
+          },
+          {
+            "default": "",
+            "label": "Environmental, Economic, Social, Heritage and Health",
+            "type": "Text",
+            "name": "valCompPillar"
+          },
+          {
+            "default": "",
+            "label": "Explanation",
+            "type": "Html",
+            "name": "valCompIdentified"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"template-subitem\">\n    <ol type=\"1\" class=\"template-hierarchy\">\n      <li>Valued Component</li>\n      <ol type=\"a\" class=\"template-hierarchy\">\n        <li>Component Name</li>\n        <p>\n          {{valCompName}}\n        </p>\n        <li>Component Type</li>\n        <p>\n          {{valCompType}}\n        </p>\n        <li>Component Description</li>\n        <p>\n          {{valCompDesc}}\n        </p>\n        <li>Associated Pillar</li>\n        <p>\n          {{valCompPillar}}\n        </p>\n        <li>How was this Component Identified and analyzed?</li>\n        <p>\n          {{valCompIdentified}}\n        </p>\n      </ol>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Valued Component",
+        "name": "valuedComponent"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "",
+            "type": "Text",
+            "name": ""
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          }
+        ],
+        "footer": "</ol>",
+        "header": "<li>Assessment Boundary</li>\n      <ol type=\"a\">",
+        "template": "<li>Assessment Boundaries</li>\n      <ol type=\"a\" class=\"template-hierarchy\">",
+        "isfooter": true,
+        "isheader": true,
+        "multiple": false,
+        "optional": false,
+        "label": "Assessment Boundaries",
+        "name": "assessmentBoundaries"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Explanation",
+            "type": "Html",
+            "name": "boundaryIdentified"
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<li>Boundary</li>\n        <ol type=\"i\" class=\"template-hierarchy\">\n          <li>Type: Spatial</li>\n          <br><fileupload></fileupload><br>\n          <li>How was the boundary identified and analyzed?</li>\n          <p>\n            {{boundaryIdentified}}\n          </p>\n        </ol>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": true,
+        "optional": false,
+        "label": "Spatial Boundary",
+        "name": "spatialBoundary"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Eg., Construction, Operations, Decommissioning, etc.",
+            "type": "Text",
+            "name": "boundaryExplanation"
+          },
+          {
+            "default": "",
+            "label": "Explanation",
+            "type": "Html",
+            "name": "boundaryIdentified"
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<li>Boundary</li>\n        <ol type=\"i\" class=\"template-hierarchy\">\n          <li>Type: Temporal </li>\n          <p>\n            {{boundaryExplanation}}\n          </p>\n          <li>How was the boundary identified and analyzed?</li>\n          <p>\n            {{boundaryIdentified}}\n          </p>\n        </ol>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": true,
+        "optional": false,
+        "label": "Temporal Boundary",
+        "name": "temporalBoundary"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Administrative  Assessment",
+            "type": "Html",
+            "name": "boundaryExplanation"
+          },
+          {
+            "default": "",
+            "label": "Explanation",
+            "type": "Html",
+            "name": "boundaryIdentified"
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<li>Boundary</li>\n        <ol type=\"i\" class=\"template-hierarchy\">\n          <li>Type: Administrative </li>\n          <p>\n            {{boundaryExplanation}}\n          </p>\n          <li>How was the boundary identified and analyzed?</li>\n          <p>\n            {{boundaryIdentified}}\n          </p>\n        </ol>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": true,
+        "optional": false,
+        "label": "Administrative Boundary",
+        "name": "adminBoundary"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Technical  Assessment",
+            "type": "Html",
+            "name": "boundaryExplanation"
+          },
+          {
+            "default": "",
+            "label": "Explanation",
+            "type": "Html",
+            "name": "boundaryIdentified"
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Html",
+            "name": ""
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<li>Boundary</li>\n        <ol type=\"i\" class=\"template-hierarchy\">\n          <li>Type: Technical</li>\n          <p>\n            {{boundaryExplanation}}\n          </p>\n          <li>How was the boundary identified and analyzed?</li>\n          <p>\n            {{boundaryIdentified}}\n          </p>\n        </ol>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": true,
+        "optional": false,
+        "label": "Technical Boundary",
+        "name": "techBoundary"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "",
+            "type": "Text",
+            "name": ""
+          },
+          {
+            "default": "",
+            "label": "",
+            "type": "Text",
+            "name": ""
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "</ol>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Assessment Boundary Footer",
+        "name": "assessmentBoundaryFooter"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Description",
+            "type": "Html",
+            "name": "existCondDesc"
+          },
+          {
+            "default": "",
+            "label": "References",
+            "type": "Html",
+            "name": "existCondRef"
+          },
+          {
+            "default": "",
+            "label": "Explanation",
+            "type": "Html",
+            "name": "existCondIdentified"
+          }
+        ],
+        "footer": "</ol>",
+        "header": "<li>Existing Conditions</li>\n      <ol type=\"a\" class=\"template-hierarchy\">",
+        "template": "<li>Condition</li>\n        <ol type=\"i\" class=\"template-hierarchy\">        \n          <li>Description</li>\n          <p>\n            {{existCondDesc}}\n          </p>\n          <li>Reference to Technical Reports</li>\n          <p>\n            {{existCondRef}}\n          </p>\n          <li>How was the existing/baseline condition identified and analyzed?</li>\n          <p>\n            {{existCondIdentified}}\n          </p>\n        </ol>",
+        "isfooter": true,
+        "isheader": true,
+        "multiple": true,
+        "optional": false,
+        "label": "Existing Conditions",
+        "name": "existingConditions"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Explanation",
+            "type": "Html",
+            "name": "potEffIdentified"
+          },
+          {
+            "default": "",
+            "label": "Interactions",
+            "type": "Html",
+            "name": "potEffInteractions"
+          },
+          {
+            "default": "",
+            "label": "Adverse Effects",
+            "type": "Html",
+            "name": "potEffAdverseEff"
+          },
+          {
+            "default": "",
+            "label": "Working Group Comments",
+            "type": "Html",
+            "name": "potEffFeebackWorkGrp"
+          },
+          {
+            "default": "",
+            "label": "Stakeholder Comments",
+            "type": "Html",
+            "name": "potEffFeebackStkhold"
+          },
+          {
+            "default": "",
+            "label": "Public Comments",
+            "type": "Html",
+            "name": "potEffFeebackPublic"
+          },
+          {
+            "default": "",
+            "label": "Rationale",
+            "type": "Html",
+            "name": "potEffExcldExp"
+          }
+        ],
+        "footer": "</ol>",
+        "header": "<li>Potential Effects</li>\n      <ol type=\"a\" class=\"template-hierarchy\">",
+        "template": "<li>Effect</li>\n        <ol type=\"i\" class=\"template-hierarchy\">\n          <li>How was the potential effect identified and analyzed?</li>\n          <p>\n            {{potEffIdentified}}\n          </p>\n          <li>Potential Interactions of the Project</li>\n          <p>\n            {{potEffInteractions}}\n          </p>\n          <li>Potential Adverse Effects</li>\n          <p>\n            {{potEffAdverseEff}}\n          </p>\n          <li>How are feedback from working group incorporated?</li>\n          <p>\n            {{potEffFeebackWorkGrp}}\n          </p>\n          <br><fileupload></fileupload><br>\n          <li>How are feedback from stakeholders incorporated?</li>\n          <p>\n            {{potEffFeebackStkhold}}\n          </p>\n          <br><fileupload></fileupload><br>\n          <li>How are feedback from the public incorporated?</li>\n          <p>\n            {{potEffFeebackPublic}}\n          </p>\n          <li>If this VC was excluded for further study, explain your rationale</li>\n          <p>\n            {{potEffExcldExp}}\n          </p>\n          <br><fileupload></fileupload><br>\n        </ol>",
+        "isfooter": true,
+        "isheader": true,
+        "multiple": true,
+        "optional": false,
+        "label": "Potential Effects",
+        "name": "potentialEffects"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Name",
+            "type": "Html",
+            "name": "mitigationName"
+          },
+          {
+            "default": "",
+            "label": "Description",
+            "type": "Html",
+            "name": "mitigationDesc"
+          },
+          {
+            "default": "",
+            "label": "Explanation",
+            "type": "Html",
+            "name": "mitigationIdentified"
+          },
+          {
+            "default": "",
+            "label": "Standard Measures",
+            "type": "Html",
+            "name": "mitigationMeasures"
+          },
+          {
+            "default": "",
+            "label": "Explanation",
+            "type": "Html",
+            "name": "mitigationAdverseEff"
+          },
+          {
+            "default": "",
+            "label": "Explanation",
+            "type": "Html",
+            "name": "mitigationSuccess"
+          },
+          {
+            "default": "",
+            "label": "Explanation",
+            "type": "Html",
+            "name": "mitigationFurtherMeasures"
+          },
+          {
+            "default": "",
+            "label": "Timeframe",
+            "type": "Html",
+            "name": "mitigationTimeframe"
+          },
+          {
+            "default": "",
+            "label": "Project Phase Description",
+            "type": "Html",
+            "name": "mitigationProjectPhase"
+          }
+        ],
+        "footer": "</ol>",
+        "header": "<li>Mitigation Measures</li>\n      <ol type=\"a\" class=\"template-hierarchy\">",
+        "template": "<li>Measure</li>\n        <ol type=\"i\" class=\"template-hierarchy\">\n          <li>Name</li>\n          <p>\n            {{mitigationName}}\n          </p>\n          <li>Description</li>\n          <p>\n            {{mitigationDesc}}\n          </p>\n          <li>How was this mitigation measure identified and analyzed?</li>\n          <p>\n            {{mitigationIdentified}}\n          </p>\n          <li>Assumed standard mitigation measures</li>\n          <p>\n            {{mitigationMeasures}}\n          </p>\n          <li>How will this measure mitigate the potential adverse effect?</li>\n          <p>\n            {{mitigationAdverseEff}}\n          </p>\n          <li>Anticipated success of mitigation measure</li>\n          <p>\n            {{mitigationSuccess}}\n          </p>\n          <li>If other mitigation measures were analyzed, further reduction avoidance or mitigation measures</li>\n          <p>\n            {{mitigationFurtherMeasures}}\n          </p>\n          <li>Anticipated timeframe for effectiveness of measure</li>\n          <p>\n            {{mitigationTimeframe}}\n          </p>\n          <li>Which project phase will this measure be for?</li>\n          <p>\n            {{mitigationProjectPhase}}\n          </p>\n        </ol>",
+        "isfooter": true,
+        "isheader": true,
+        "multiple": true,
+        "optional": false,
+        "label": "Mitigation Measures",
+        "name": "mitigationMeasures"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Magnitude Description",
+            "type": "Html",
+            "name": "resEffMagnitude"
+          },
+          {
+            "default": "",
+            "label": "Extent Description",
+            "type": "Html",
+            "name": "resEffExtent"
+          },
+          {
+            "default": "",
+            "label": "Duration Description",
+            "type": "Html",
+            "name": "resEffDuration"
+          },
+          {
+            "default": "",
+            "label": "Reversibility Description",
+            "type": "Html",
+            "name": "resEffReverse"
+          },
+          {
+            "default": "",
+            "label": "Frequency Description",
+            "type": "Html",
+            "name": "resEffFreq"
+          },
+          {
+            "default": "",
+            "label": "Percentage",
+            "type": "Text",
+            "name": "probAdvEffQuant"
+          },
+          {
+            "default": "",
+            "label": "Low, Medium, High",
+            "type": "Text",
+            "name": "probAdvEffQual"
+          },
+          {
+            "default": "",
+            "label": "Methodology Description",
+            "type": "Html",
+            "name": "signifMethod"
+          },
+          {
+            "default": "",
+            "label": "Low, Medium, High",
+            "type": "Text",
+            "name": "confRiskResEff"
+          },
+          {
+            "default": "",
+            "label": "Risk Analysis",
+            "type": "Html",
+            "name": "confRiskAnalReqd"
+          },
+          {
+            "default": "",
+            "label": "Measures",
+            "type": "Html",
+            "name": "confRiskReduceMeasures"
+          },
+          {
+            "default": "",
+            "label": "Assessment",
+            "type": "Html",
+            "name": "cumulEffAssess"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<li>Residual Effects</li>\n      <ol type=\"a\" class=\"template-hierarchy\">\n        <li>Magnitude</li>\n        <p>\n          {{resEffMagnitude}}\n        </p>\n        <li>Extent</li>\n        <p>\n          {{resEffExtent}}\n        </p>\n        <li>Duration</li>\n        <p>\n          {{resEffDuration}}\n        </p>\n        <li>Reversibility</li>\n        <p>\n          {{resEffReverse}}\n        </p>\n        <li>Frequency</li>\n        <p>\n          {{resEffFreq}}\n        </p>\n      </ol>\n      <li>Likelihood (Probability) of Adverse Effect</li>\n      <ol type=\"a\" class=\"template-hierarchy\">\n        <li>Quantitative</li>\n        <p>\n          {{probAdvEffQuant}}\n        </p>\n        <li>If Qualitative</li>\n        <p>\n          {{probAdvEffQual}}\n        </p>\n      </ol>\n      <li>Determination of Significance</li>\n      <ol type=\"a\" class=\"template-hierarchy\">\n        <li>Methodology for Determining Significance</li>\n        <p>\n          {{signifMethod}}\n        </p>\n      </ol>\n      <li>Confidence and Risk</li>\n      <ol type=\"a\" class=\"template-hierarchy\">\n        <li>Confidence of predicted residual effect</li>\n        <p>\n          {{confRiskResEff}}\n        </p>\n        <li>Additional Risk Analysis Required</li>\n        <p>\n          {{confRiskAnalReqd}}\n        </p>\n        <li>Measures to reduce uncertainty/risk</li>\n        <p>\n          {{confRiskReduceMeasures}}\n        </p>\n      </ol>\n      <li>Cumulative Effects</li>\n      <ol type=\"a\" class=\"template-hierarchy\">\n        <li>Assessment of Projects to include</li>\n        <p>\n          {{cumulEffAssess}}\n        </p>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Effects and Significance",
+        "name": "effectsSignificance"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Name",
+            "type": "Html",
+            "name": "cumulEffProjName"
+          },
+          {
+            "default": "",
+            "label": "Description",
+            "type": "Html",
+            "name": "cumulEffProjDesc"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<li>Project/Activity</li>\n        <ol type=\"i\" class=\"template-hierarchy\">\n          <li>Name</li>\n          <p>\n            {{cumulEffProjName}}\n          </p>\n          <li>Description</li>\n          <p>\n            {{cumulEffProjDesc}}\n          </p>\n        </ol>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": true,
+        "optional": false,
+        "label": "Projects and Activities",
+        "name": "projectActivity"
+      },
+      {
+        "meta": [],
+        "footer": "",
+        "header": "",
+        "template": "</ol>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Effects and Significance Footer",
+        "name": "effectsSignificanceFooter"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Description",
+            "type": "Html",
+            "name": "strategyDesc"
+          },
+          {
+            "default": "",
+            "label": "Explanation",
+            "type": "Html",
+            "name": "strategyIdentified"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<li>Follow-up Strategy</li>\n      <ol type=\"a\" class=\"template-hierarchy\">\n        <li>Description</li>\n        <p>\n          {{strategyDesc}}\n        </p>\n        <li>How was this strategy identified and analyzed?</li>\n        <p>\n          {{strategyIdentified}}\n        </p>\n      </ol>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Strategy",
+        "name": "strategy"
+      },
+      {
+        "meta": [],
+        "footer": "",
+        "header": "",
+        "template": "</ol>\n</div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Valued Component Footer",
+        "name": "valuedComponentFooter"
+      }
+    ],
+    "versionNumber": 18,
+    "documentType": "Valued Component"
+  },
+  {
+    "sections": [
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "PROJECT TITLE",
+            "type": "Text",
+            "name": "projectTitle"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-head\">\n    <p>\n      IN THE MATTER OF THE ENVIRONMENTAL ASSESSMENT ACT<br>S.B.C. 2002, c.43 (ACT)\n    </p>\n    <p>\n      AND\n    </p>\n    <p>\n      AN ENVIRONMENTAL ASSESSMENT OF THE<br>{{projectTitle}}<br>(PROPOSED PROJECT)\n    </p>\n    <br>\n    <p>\n      <u>ORDER UNDER SECTION 10(1)(b)</u>\n    </p>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Header",
+        "name": "header"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Proponent Name",
+            "type": "Text",
+            "name": "proponentName"
+          },
+          {
+            "default": "",
+            "label": "Describe Project",
+            "type": "Text",
+            "name": "projectDescription"
+          },
+          {
+            "default": "",
+            "label": "#",
+            "type": "Text",
+            "name": "partNumber"
+          },
+          {
+            "default": "",
+            "label": "Insert Threshold",
+            "type": "Text",
+            "name": "threshold"
+          },
+          {
+            "default": "",
+            "label": "day, month, year",
+            "type": "Text",
+            "name": "proponentRequestedDate"
+          },
+          {
+            "default": "",
+            "label": "day, month, year; or, relevant time period",
+            "type": "Text",
+            "name": "eaoReferredGovtDate"
+          },
+          {
+            "default": "",
+            "label": "day, month, year",
+            "type": "Text",
+            "name": "eaoReferredFNationDate"
+          },
+          {
+            "default": "",
+            "label": "identify the First Nation(s)",
+            "type": "Text",
+            "name": "referredFNation"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-section\">\n    <p>\n      <b>WHEREAS:</b>\n    </p>\n    <ol type=\"A\">\n      <li>\n        <p>\n          {{proponentName}} (Proponent) proposes to {{projectDescription}}\n        </p>\n      </li>\n      <li>\n        <p>\n          The proposed Project constitutes a reviewable project pursuant to Part {{partNumber}} of the \n          Reviewable Projects Regulation (B.C. Reg. 370/02), since the proposed Project exceeds \n          {{threshold}}\n        </p>\n      </li>\n      <li>\n        <p>\n          On {{proponentRequestedDate}}, under section 10(1)(b) of the Act, the Proponent requested \n          that the Executive Director determine that an environmental assessment certificate is not \n          required for the proposed Project and that the Proponent be allowed to proceed with the \n          proposed Project without an assessment.\n        </p>        \n      </li>\n      <li>\n        <p>\n          On {{eaoReferredGovtDate}} Environmental Assessment Office (EAO) referred the Proponent’s \n          request and the supporting information to the appropriate federal, provincial and local \n          government agencies and none have identified significant adverse environmental, economic, \n          social, heritage or health effects.\n        </p>        \n      </li>\n      <li>\n        <p>\n          On {{eaoReferredFNationDate}}, EAO referred the Proponent’s request and the supporting \n          information to the {{referredFNation}} for consultation and comment on the potential \n          effects on their treaty rights or aboriginal interests.\n        </p>        \n      </li>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Whereas Static 1",
+        "name": "whereasStatic1"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Provide a chronological list of the factors supporting the Order",
+            "type": "Html",
+            "name": "supportingFactors"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<li>\n        <p>\n          {{supportingFactors}}\n        </p>        \n      </li>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Whereas Optional 1",
+        "name": "whereasOptional1"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "day, month, year",
+            "type": "Text",
+            "name": "groupAdvisedDate"
+          },
+          {
+            "default": "",
+            "label": "indicate the group’s name",
+            "type": "Text",
+            "name": "advisorGroup"
+          },
+          {
+            "default": "",
+            "label": "insert advice or information provided to EAO by the group and identify any reports or studies the group provided to EAO",
+            "type": "Text",
+            "name": "eaoAdvice"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<li>\n        <p>\n          On {{groupAdvisedDate}}, the {{advisorGroup}} advised EAO that {{eaoAdvice}}\n        </p>        \n      </li>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Whereas Optional 2",
+        "name": "whereasOptional2"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "day, month, year",
+            "type": "Text",
+            "name": "proponentHeldDate"
+          },
+          {
+            "default": "",
+            "label": "an open house OR a public meeting",
+            "type": "Text",
+            "name": "meetingType"
+          },
+          {
+            "default": "",
+            "label": "city, BC",
+            "type": "Text",
+            "name": "location"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<li>\n        <p>\n          On {{proponentHeldDate}}, the Proponent held {{meetingType}} in {{location}}. EAO’s \n          staff attended, to assess whether there were any public issues regarding the proposed \n          Project.\n        </p>        \n      </li>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Whereas Optional 3",
+        "name": "whereasOptional3"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "day, month, year",
+            "type": "Text",
+            "name": "eaoMeetingDate"
+          },
+          {
+            "default": "",
+            "label": "First Nation",
+            "type": "Text",
+            "name": "metFNation"
+          },
+          {
+            "default": "",
+            "label": "title of the First Nation’s representative",
+            "type": "Text",
+            "name": "titleFNationRep"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<li>\n        <p>\n          On {{eaoMeetingDate}}, EAO met with the {{metFNation}}'s {{titleFNationRep}} to consult \n          the First Nation about the proposed Project’s potential effect on aboriginal interests.\n        </p>        \n      </li>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Whereas Optional 4",
+        "name": "whereasOptional4"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "day, month, year",
+            "type": "Text",
+            "name": "FNationAdvisedDate"
+          },
+          {
+            "default": "",
+            "label": "name",
+            "type": "Text",
+            "name": "advisorFNation"
+          },
+          {
+            "default": "",
+            "label": "name",
+            "type": "Text",
+            "name": "delegateName"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<li>\n        <p>\n          On {{FNationAdvisedDate}}, the {{advisorFNation}} First Nation advised EAO that for \n          future dealings regarding the proposed Project, it has delegated representation of its \n          interests to {{delegateName}}.\n        </p>        \n      </li>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Whereas Optional 5",
+        "name": "whereasOptional5"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "day, month, year",
+            "type": "Text",
+            "name": "eaoAdvisedDate"
+          },
+          {
+            "default": "",
+            "label": "representative First Nation",
+            "type": "Text",
+            "name": "FNationRep"
+          },
+          {
+            "default": "",
+            "label": "delegating First Nation",
+            "type": "Text",
+            "name": "FNationDelegate1"
+          },
+          {
+            "default": "",
+            "label": "representative First Nation",
+            "type": "Text",
+            "name": "FNationRep1"
+          },
+          {
+            "default": "",
+            "label": "representative First Nation",
+            "type": "Text",
+            "name": "FNationRep2"
+          },
+          {
+            "default": "",
+            "label": "representative First Nation",
+            "type": "Text",
+            "name": "FNationRep3"
+          },
+          {
+            "default": "",
+            "label": "day, month, year",
+            "type": "Text",
+            "name": "letterDate"
+          },
+          {
+            "default": "",
+            "label": "delegating First Nation",
+            "type": "Text",
+            "name": "FNationDelegate2"
+          },
+          {
+            "default": "",
+            "label": "day, month, year",
+            "type": "Text",
+            "name": "issueDate"
+          },
+          {
+            "default": "",
+            "label": "representative First Nation",
+            "type": "Text",
+            "name": "FNationRep4"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<li>\n        <p>\n          On {{eaoAdvisedDate}}, EAO advised the {{FNationRep}} that EAO:\n        </p>\n        <ul type=\"disc\">\n          <li>\n            is of the view that an Order under section 10(1)(b) of the Act is appropriate;\n          </li>\n          <li>\n            assumes that the {{FNationDelegate1}} shares {{FNationRep1}}'s support for the proposed \n            Project based on correspondence received from {{FNationRep2}};\n          </li>\n          <li>\n            assumes {{FNationRep3}} has provided a copy of EAO’s {{letterDate}} to {{FNationDelegate2}} \n            for their reference; and\n          </li>\n          <li>\n            will issue a section 10(1)(b) Order on or about {{issueDate}} unless the {{FNationRep4}} \n            indicates to EAO that it has concerns with that course of action.\n          </li>\n        </ul>\n      </li>\n      <li>\n        <p>\n          Based on the consultations carried out by the Proponent and EAO with First Nations, EAO \n          is satisfied that the proposed Project will have no significant adverse impact on the \n          aboriginal interests of the First Nations.\n        </p>        \n      </li>\n      <li>\n        <p>\n          Based on the information reviewed by EAO, the Executive Director considers that the \n          proposed Project will not have significant adverse environmental, economic, social, \n          heritage or health effects, taking into account, the practical means of preventing or \n          reducing to an acceptable level, any potential adverse effects of the proposed Project.\n        </p>        \n      </li>\n    </ol>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Whereas Static 2",
+        "name": "whereasStatic2"
+      },
+      {
+        "meta": [],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-section\">\n    <p>\n      <b>NOW THEREFORE:</b>\n    </p>\n    <p>\n      Pursuant to section 10(1)(b) of the Act, the Executive Director orders that:\n    </p>\n    <div class=\"custom-list\">\n      <p>\n        (i) the proposed Project does not require an environmental assessment certificate; and\n      </p>\n      <p>\n        (ii) the Proponent may proceed with the proposed Project without an assessment.\n      </p>\n    </div>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Therefore",
+        "name": "therefore"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "XX",
+            "type": "Text",
+            "name": "currentYear"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-footer\">\n    <p>\n      __________________________________<br>Doug Caul<br>Associate Deputy Minister and Executive\n      Director<br>Environmental Assessment Office\n    </p>\n    <p>\n      Dated ________________, 20{{currentYear}}\n    </p>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Footer",
+        "name": "footer"
+      }
+    ],
+    "versionNumber": 1,
+    "documentType": "Section 10(1)(b) Order"
+  },
+  {
+    "sections": [
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "PROJECT TITLE",
+            "type": "Text",
+            "name": "projectTitle"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-head\">\n    <p>\n      IN THE MATTER OF THE ENVIRONMENTAL ASSESSMENT ACT<br>S.B.C. 2002, c.43<br>(ACT)\n    </p>\n    <p>\n      AND\n    </p>\n    <p>\n      AN ENVIRONMENTAL ASSESSMENT OF THE<br><i>{{projectTitle}}</i><br>(PROPOSED PROJECT)\n    </p>\n    <br>\n    <p>\n      <u>ORDER UNDER SECTION 7(3)</u>\n    </p>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Header",
+        "name": "header"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Proponent Name",
+            "type": "Text",
+            "name": "proponentName"
+          },
+          {
+            "default": "",
+            "label": "Describe Project",
+            "type": "Text",
+            "name": "projectDescription"
+          },
+          {
+            "default": "",
+            "label": "day, month, year",
+            "type": "Text",
+            "name": "proponentRequestedDate"
+          },
+          {
+            "default": "",
+            "label": "if necessary state reasons for the Order under here",
+            "type": "Html",
+            "name": "orderReasons"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-section\">\n    <p>\n      <b>WHEREAS:</b>\n    </p>\n    <ol type=\"A\">\n      <li>\n        <p>\n          {{proponentName}} (Proponent) proposes to {{projectDescription}}\n        </p>\n      </li>\n      <li>\n        <p>\n          The proposed Project does not constitute a reviewable project pursuant to section 6 of the \n          Act or the Reviewable Projects Regulation (B.C. Reg 370/02);\n        </p>\n      </li>\n      <li>\n        <p>\n          On {{proponentRequestedDate}}, the Proponent requested that the Executive Director designate \n          the proposed Project as a reviewable project under section 7(3) of the Act;\n        </p>        \n      </li>\n      <li>\n        <p>\n          {{orderReasons}}\n        </p>        \n      </li>\n    </ol>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Whereas",
+        "name": "whereas"
+      },
+      {
+        "meta": [],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-section\">\n    <p>\n      <b>NOW THEREFORE:</b>\n    </p>\n    <div class=\"custom-list\">\n      <p>\n        Pursuant to section 7(3) of the Act, the Executive Director orders that:\n      </p>\n      <p>\n        (i) the proposed Project be designated a reviewable project under the Act.\n      </p>\n    </div>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Therefore",
+        "name": "therefore"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "XX",
+            "type": "Text",
+            "name": "currentYear"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-footer\">\n    <p>\n      __________________________________<br>Doug Caul<br>Associate Deputy Minister and Executive\n      Director<br>Environmental Assessment Office\n    </p>\n    <p>\n      Dated ________________, 20{{currentYear}}\n    </p>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Footer",
+        "name": "footer"
+      }
+    ],
+    "versionNumber": 1,
+    "documentType": "Section 7(3) Order"
+  },
+  {
+    "sections": [
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Executive Summary",
+            "type": "Html",
+            "name": "executiveSummary"
+          },
+          {
+            "default": "",
+            "label": "Acronyms and Abbreviations",
+            "type": "Html",
+            "name": "acronymsAbbrevs"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<h1>\n    Executive Summary\n</h1>\n<p>\n    {{executiveSummary}}\n</p>\n<h1>\n    Acronyms and Abbreviations – glossary of term\n</h1>\n<p>\n    {{acronymsAbbrevs}}\n</p>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Summary and Acronyms",
+        "name": "summaryAcronyms"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Project Name",
+            "type": "Html",
+            "name": "projectName"
+          },
+          {
+            "default": "",
+            "label": "Brief Description",
+            "type": "Html",
+            "name": "briefDescription"
+          },
+          {
+            "default": "",
+            "label": "Corporate Information",
+            "type": "Html",
+            "name": "coporateInfo"
+          },
+          {
+            "default": "",
+            "label": "Proponent Address",
+            "type": "Html",
+            "name": "proponentMailAddress"
+          },
+          {
+            "default": "",
+            "label": "Proponent Phone",
+            "type": "Html",
+            "name": "proponentPhone"
+          },
+          {
+            "default": "",
+            "label": "Proponent Fax",
+            "type": "Html",
+            "name": "proponentFax"
+          },
+          {
+            "default": "",
+            "label": "Proponent Email",
+            "type": "Html",
+            "name": "proponentEmail"
+          },
+          {
+            "default": "",
+            "label": "Proponent Url",
+            "type": "Html",
+            "name": "proponentUrl"
+          },
+          {
+            "default": "",
+            "label": "Contact Name",
+            "type": "Html",
+            "name": "contactName"
+          },
+          {
+            "default": "",
+            "label": "Contact Email",
+            "type": "Html",
+            "name": "contactEmail"
+          },
+          {
+            "default": "",
+            "label": "Contact Phone",
+            "type": "Html",
+            "name": "contactPhone"
+          },
+          {
+            "default": "",
+            "label": "Contact Fax",
+            "type": "Html",
+            "name": "contactFax"
+          },
+          {
+            "default": "",
+            "label": "Company Name",
+            "type": "Html",
+            "name": "companyName"
+          },
+          {
+            "default": "",
+            "label": "Consultant Name",
+            "type": "Html",
+            "name": "consultantName"
+          },
+          {
+            "default": "",
+            "label": "Consultant Phone",
+            "type": "Html",
+            "name": "consultantPhone"
+          },
+          {
+            "default": "",
+            "label": "Consultant Fax",
+            "type": "Html",
+            "name": "consultantFax"
+          },
+          {
+            "default": "",
+            "label": "Consultant Address",
+            "type": "Html",
+            "name": "consultantMailAddress"
+          },
+          {
+            "default": "",
+            "label": "Consultant Url",
+            "type": "Html",
+            "name": "consultantUrl"
+          }
+        ],
+        "footer": "",
+        "header": "<h1>This is my new section</h1>",
+        "template": "<h1>\n    General Information and Contacts\n  </h1>\n  <div class=\"template-subitem\">\n    <ol type=\"1\" class=\"template-hierarchy\">\n      <li>Project Name</li>\n      <p>\n        {{projectName}}\n      </p>\n      <li>Brief Description</li>\n      <p>\n        {{briefDescription}}\n      </p>\n      <li>Location (latitude and longitude), upload map file</li>\n      <br><fileupload></fileupload><br>\n      <li>Proponent Information</li>\n      <ol type=\"a\" class=\"template-hierarchy\">\n        <li>Proponent</li>\n        <ol type=\"i\" class=\"template-hierarchy\">\n          <li>Corporate Information</li>\n          <p>\n            {{coporateInfo}}\n          </p>\n          <li>Mailing Address</li>\n          <p>\n            {{proponentMailAddress}}\n          </p>\n          <li>Phone</li>\n          <p>\n            {{proponentPhone}}\n          </p>\n          <li>Fax</li>\n          <p>\n            {{proponentFax}}\n          </p>\n          <li>Email</li>\n          <p>\n            {{proponentEmail}}\n          </p>\n          <li>Website URL</li>\n          <p>\n            {{proponentUrl}}\n          </p>\n        </ol>\n        <li>Primary Contact Information</li>\n        <ol type=\"i\" class=\"template-hierarchy\">\n          <li>Name</li>\n          <p>\n            {{contactName}}\n          </p>\n          <li>Email</li>\n          <p>\n            {{contactEmail}}\n          </p>\n          <li>Phone</li>\n          <p>\n            {{contactPhone}}\n          </p>\n          <li>Fax</li>\n          <p>\n            {{contactFax}}\n          </p>\n        </ol>\n        <li>Primary Consultant to Proponent</li>\n        <ol type=\"i\" class=\"template-hierarchy\">\n          <li>Company Name</li>\n          <p>\n            {{companyName}}\n          </p>\n          <li>Name</li>\n          <p>\n            {{consultantName}}\n          </p>\n          <li>Phone</li>\n          <p>\n            {{consultantPhone}}\n          </p>\n          <li>Fax</li>\n          <p>\n            {{consultantFax}}\n          </p>\n          <li>Mailing address</li>\n          <p>\n            {{consultantMailAddress}}\n          </p>\n          <li>Website URL</li>\n          <p>\n            {{consultantUrl}}\n          </p>\n        </ol>\n      </ol>",
+        "isfooter": false,
+        "isheader": true,
+        "multiple": false,
+        "optional": false,
+        "label": "General Information",
+        "name": "generalInfo"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Stakeholder Name",
+            "type": "Html",
+            "name": "stakeholderName"
+          },
+          {
+            "default": "",
+            "label": "Stakeholder Type",
+            "type": "Html",
+            "name": "stakeholderType"
+          },
+          {
+            "default": "",
+            "label": "Stakeholder Summary",
+            "type": "Html",
+            "name": "stakeholderSummary"
+          }
+        ],
+        "footer": "</ol>",
+        "header": "<li>List of Stakeholders Consulted Prior to Preparing Project Description</li>\n      <ol type=\"a\" class=\"template-hierarchy\">",
+        "template": "<li>StakeHolder</li>\n        <ol type=\"i\" class=\"template-hierarchy\">\n          <li>Name</li>\n          <p>\n            {{stakeholderName}}\n          </p>\n          <li>Type (Ministry, FN, public, local interest parties, etc)</li>\n          <p>\n            {{stakeholderType}}\n          </p>\n          <li>Summary</li>\n          <p>\n            {{stakeholderSummary}}\n          </p>\n        </ol>",
+        "isfooter": true,
+        "isheader": true,
+        "multiple": true,
+        "optional": false,
+        "label": "Stakeholders List",
+        "name": "stakeholderList"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Project/Facility Name",
+            "type": "Html",
+            "name": "projectFacName"
+          },
+          {
+            "default": "",
+            "label": "Project/Facility Location",
+            "type": "Html",
+            "name": "projectFacLocation"
+          },
+          {
+            "default": "",
+            "label": "Project/Facility Status or Certificate",
+            "type": "Html",
+            "name": "projectFacStatus"
+          }
+        ],
+        "footer": "</ol>\n     </ol>\n</div>",
+        "header": "<li>List of Projects and Facilities owned or operated by Proponent in BC</li>\n      <ol type=\"a\" class=\"template-hierarchy\">",
+        "template": "<li>Project/Facility</li>\n        <ol type=\"i\" class=\"template-hierarchy\">\n          <li>Name</li>\n          <p>\n            {{projectFacName}}\n          </p>\n          <li>Location</li>\n          <p>\n            {{projectFacLocation}}\n          </p>\n          <li>Status or EA Certificate</li>\n          <p>\n            {{projectFacStatus}}\n          </p>\n        </ol>",
+        "isfooter": true,
+        "isheader": true,
+        "multiple": true,
+        "optional": false,
+        "label": "Projects and Facilities",
+        "name": "projectsFacilities"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Project History",
+            "type": "Html",
+            "name": "projectHistory"
+          },
+          {
+            "default": "",
+            "label": "Project Purpose",
+            "type": "Html",
+            "name": "projectPurpose"
+          },
+          {
+            "default": "",
+            "label": "Project Rationale",
+            "type": "Html",
+            "name": "projectRationale"
+          },
+          {
+            "default": "",
+            "label": "Project Goals",
+            "type": "Html",
+            "name": "projectGoals"
+          },
+          {
+            "default": "",
+            "label": "Project Benefits",
+            "type": "Html",
+            "name": "projectBenefits"
+          },
+          {
+            "default": "",
+            "label": "Project Construction Jobs",
+            "type": "Html",
+            "name": "projectConstructJobs"
+          },
+          {
+            "default": "",
+            "label": "Project Operation Jobs",
+            "type": "Html",
+            "name": "projectOpJobs"
+          },
+          {
+            "default": "",
+            "label": "Component and Activity Description",
+            "type": "Html",
+            "name": "projectCompActDesc"
+          },
+          {
+            "default": "",
+            "label": "Project Size",
+            "type": "Html",
+            "name": "projectSize"
+          },
+          {
+            "default": "",
+            "label": "Project Dimension",
+            "type": "Html",
+            "name": "projectDimension"
+          },
+          {
+            "default": "",
+            "label": "Project Capacity",
+            "type": "Html",
+            "name": "projectCapacity"
+          },
+          {
+            "default": "",
+            "label": "Affected Phases",
+            "type": "Html",
+            "name": "projectAffectedPhases"
+          },
+          {
+            "default": "",
+            "label": "Project Schedule Table",
+            "type": "Html",
+            "name": "projectScheduleTable"
+          },
+          {
+            "default": "",
+            "label": "Project Capital",
+            "type": "Html",
+            "name": "projectCapital"
+          },
+          {
+            "default": "",
+            "label": "Project Operational",
+            "type": "Html",
+            "name": "projectOperational"
+          },
+          {
+            "default": "",
+            "label": "Emissions, Discharge and Waste",
+            "type": "Html",
+            "name": "projectEmissDischargeWaste"
+          },
+          {
+            "default": "",
+            "label": "Project Latitude and Longitude",
+            "type": "Html",
+            "name": "projectLatLong"
+          },
+          {
+            "default": "",
+            "label": "Project Map",
+            "type": "Html",
+            "name": "projectMap"
+          },
+          {
+            "default": "",
+            "label": "Project Past Use",
+            "type": "Html",
+            "name": "projectPastUse"
+          },
+          {
+            "default": "",
+            "label": "Project Water Required",
+            "type": "Html",
+            "name": "projectWaterReqd"
+          },
+          {
+            "default": "",
+            "label": "Stakeholder and Community Consultation",
+            "type": "Html",
+            "name": "projectStakeCommConsult"
+          },
+          {
+            "default": "",
+            "label": "Regulatory Engagement",
+            "type": "Html",
+            "name": "projectRegEngage"
+          },
+          {
+            "default": "",
+            "label": "Aboriginal Group Consultation",
+            "type": "Html",
+            "name": "projectAborigConsult"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<h1>\n      Project Overview\n  </h1> \n  <div class=\"template-subitem\">\n    <ol type=\"1\" class=\"template-hierarchy\">\n      <li>Project Description</li>\n      <ol type=\"a\" class=\"template-hierarchy\">\n        <li>Background and History</li>\n        <p>\n          {{projectHistory}}\n        </p>\n        <li>Purpose</li>\n        <p>\n          {{projectPurpose}}\n        </p>\n        <li>Rationale</li>\n        <p>\n          {{projectRationale}}\n        </p>\n        <li>Goals</li>\n        <p>\n          {{projectGoals}}\n        </p>\n        <li>Benefits</li>\n        <ol type=\"i\" class=\"template-hierarchy\">\n          <li>Project Benefits</li>\n          <p>\n            {{projectBenefits}}\n          </p>\n          <li>Construction Jobs</li>\n          <p>\n            {{projectConstructJobs}}\n          </p>\n          <li>Operation Jobs</li>\n          <p>\n            {{projectOpJobs}}\n          </p>\n        </ol>\n      </ol>\n      <li>Project Components and Activities</li>\n      <ol type=\"a\" class=\"template-hierarchy\">\n        <li>Component and Activity Description</li>\n        <p>\n          {{projectCompActDesc}}\n        </p>\n        <li>Size</li>\n        <p>\n          {{projectSize}}\n        </p>\n        <li>Dimension</li>\n        <p>\n          {{projectDimension}}\n        </p>\n        <li>Capacity</li>\n        <p>\n          {{projectCapacity}}\n        </p>\n        <li>Affected Phases</li>\n        <p>\n          {{projectAffectedPhases}}\n        </p>\n      </ol>\n      <li>Project Schedule Table</li>\n      <p>\n        {{projectScheduleTable}}\n      </p>\n      <li>Project Costs</li>\n      <ol type=\"a\" class=\"template-hierarchy\">\n        <li>Capital</li>\n        <p>\n          {{projectCapital}}\n        </p>\n        <li>Operational</li>\n        <p>\n          {{projectOperational}}\n        </p>\n      </ol>\n      <li>Emissions, Discharge, Waste</li>\n      <p>\n        {{projectEmissDischargeWaste}}\n      </p>\n      <li>Land and Water Use Setting</li>\n      <ol type=\"a\" class=\"template-hierarchy\">\n        <li>Latitude and Longitude</li>\n        <p>\n          {{projectLatLong}}\n        </p>\n        <li>Map of project and components</li>\n        <p>\n          {{projectMap}}\n        </p>\n        <li>Conceptual Site plan, upload map file</li>\n        <br><fileupload></fileupload><br>\n        <li>Land Required</li>\n        <ol type=\"i\" class=\"template-hierarchy\">\n          <li>Past use</li>\n          <p>\n            {{projectPastUse}}\n          </p>\n        </ol>\n        <li>Water Required</li>\n        <p>\n          {{projectWaterReqd}}\n        </p>\n      </ol>\n      <li>Consulting Activities</li>\n      <ol type=\"a\" class=\"template-hierarchy\">\n        <li>Stakeholder and Community Consultation</li>\n        <p>\n          {{projectStakeCommConsult}}\n        </p>\n        <li>Regulatory Engagement</li>\n        <p>\n          {{projectRegEngage}}\n        </p>\n        <li>Aboriginal Group Consultation</li>\n        <p>\n          {{projectAborigConsult}}\n        </p>\n      </ol>\n    </ol>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Project Overview",
+        "name": "projectOverview"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Environmental Description",
+            "type": "Html",
+            "name": "keyAreasEnviron"
+          },
+          {
+            "default": "",
+            "label": "Economic Description",
+            "type": "Html",
+            "name": "keyAreasEcon"
+          },
+          {
+            "default": "",
+            "label": "Social Description",
+            "type": "Html",
+            "name": "keyAreasSocial"
+          },
+          {
+            "default": "",
+            "label": "Heritage Description",
+            "type": "Html",
+            "name": "keyAreasHeritage"
+          },
+          {
+            "default": "",
+            "label": "Health Description",
+            "type": "Html",
+            "name": "keyAreasHealth"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<h1>\n      Key Areas of Study / Valued Components / Potential Project Effects\n  </h1>\n  <div class=\"template-subitem\">\n    <ol type=\"1\" class=\"template-hierarchy\">\n      <li>Environmental</li>\n      <p>\n        {{keyAreasEnviron}}\n      </p>\n      <li>Economic</li>\n      <p>\n        {{keyAreasEcon}}\n      </p>\n      <li>Social</li>\n      <p>\n        {{keyAreasSocial}}\n      </p>\n      <li>Heritage</li>\n      <p>\n        {{keyAreasHeritage}}\n      </p>\n      <li>Health</li>\n      <p>\n        {{keyAreasHealth}}\n      </p>\n    </ol>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Key Areas",
+        "name": "keyAreas"
+      }
+    ],
+    "versionNumber": 13,
+    "documentType": "Project Description"
+  },
+  {
+    "sections": [
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "PROJECT TITLE",
+            "type": "Text",
+            "name": "projectTitle"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-head\">\n    <p>\n      IN THE MATTER OF THE ENVIRONMENTAL ASSESSMENT ACT<br>S.B.C. 2002, c.43 (ACT)\n    </p>\n    <p>\n      AND\n    </p>\n    <p>\n      AN ENVIRONMENTAL ASSESSMENT OF THE<br>{{projectTitle}}<br>(PROPOSED PROJECT)\n    </p>\n    <br>\n    <p>\n      <u>ORDER UNDER SECTION 10(1)(a)</u>\n    </p>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Header",
+        "name": "header"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Proponent Name",
+            "type": "Text",
+            "name": "proponentName"
+          },
+          {
+            "default": "",
+            "label": "Describe Project",
+            "type": "Text",
+            "name": "projectDescription"
+          },
+          {
+            "default": "",
+            "label": "#",
+            "type": "Text",
+            "name": "partNumber"
+          },
+          {
+            "default": "",
+            "label": "Insert Threshold",
+            "type": "Text",
+            "name": "threshold"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-section\">\n    <p>\n      <b>WHEREAS:</b>\n    </p>\n    <ol type=\"A\">\n      <li>\n        <p>\n          {{proponentName}} (Proponent) proposes to {{projectDescription}}\n        </p>\n      </li>\n      <li>\n        <p>\n          The proposed Project constitutes a reviewable project pursuant to Part {{partNumber}} of the \n          Reviewable Projects Regulation (B.C. Reg. 370/02), since the proposed Project exceeds \n          {{threshold}}\n        </p>\n      </li>\n      <li>\n        <p>\n          Under section 10(1)(a) of the Act, the Executive Director is authorized to refer a proposed \n          Project to the Minister for a determination of the assessment’s scope, procedure and methods \n          under section 14 of the Act.\n        </p>        \n      </li>\n    </ol>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Whereas",
+        "name": "whereas"
+      },
+      {
+        "meta": [],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-section\">\n    <p>\n      <b>NOW THEREFORE:</b>\n    </p>\n    <div class=\"custom-list\">\n      <p>\n        Pursuant to section 10(1)(a) of the Act, the Executive Director orders that the proposed \n        Project be referred to the Minister for a determination under section 14 of the Act.\n      </p>\n    </div>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Therefore",
+        "name": "therefore"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "XX",
+            "type": "Text",
+            "name": "currentYear"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-footer\">\n    <p>\n      __________________________________<br>Doug Caul<br>Associate Deputy Minister and Executive\n      Director<br>Environmental Assessment Office\n    </p>\n    <p>\n      Dated ________________, 20{{currentYear}}\n    </p>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Footer",
+        "name": "footer"
+      }
+    ],
+    "versionNumber": 1,
+    "documentType": "Section 10(1)(a) Order"
+  },
+  {
+    "sections": [
+      {
+        "_id": "56e99e571fec9f680e805708",
+        "meta": [
+          {
+            "_id": "56e99f2a1fec9f680e80570a",
+            "default": "",
+            "label": "XXX",
+            "type": "Text",
+            "name": "projectTitle"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-head\">\n    <p>\n      IN THE MATTER OF THE ENVIRONMENTAL ASSESSMENT ACT S.B.C. 2002, c.43<br>(ACT)\n    </p>\n    <p>\n      AND\n    </p>\n    <p>\n      AN ENVIRONMENTAL ASSESSMENT OF THE<br>{{projectTitle}} PROJECT\n    </p>\n    <p>\n      <u>ORDER UNDER SECTION 11</u>\n    </p>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Header",
+        "name": "header"
+      },
+      {
+        "_id": "56e99f541fec9f680e80570c",
+        "meta": [
+          {
+            "_id": "56e99fa91fec9f680e80570e",
+            "default": "",
+            "label": "XXX",
+            "type": "Text",
+            "name": "proponentName"
+          },
+          {
+            "_id": "56e99fbb1fec9f680e805710",
+            "default": "",
+            "label": "XXX",
+            "type": "Text",
+            "name": "projectTitle"
+          },
+          {
+            "_id": "56e99fd41fec9f680e805712",
+            "default": "",
+            "label": "XXX",
+            "type": "Text",
+            "name": "projectLocation"
+          },
+          {
+            "_id": "56e9a0521fec9f680e805714",
+            "default": "",
+            "label": "X",
+            "type": "Text",
+            "name": "partNumber"
+          },
+          {
+            "_id": "56e9a0671fec9f680e805716",
+            "default": "",
+            "label": "describe threshold",
+            "type": "Text",
+            "name": "thresholdDescription"
+          },
+          {
+            "_id": "56e9a0811fec9f680e805718",
+            "default": "",
+            "label": "",
+            "type": "Text",
+            "name": ""
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-section\">\n    <p>\n      <b>WHEREAS:</b>\n    </p>\n    <ol type=\"A\">\n      <li>\n        <p>\n          {{proponentName}} (Proponent) proposes to develop {{projectTitle}} project near \n          {{projectLocation}} (proposed Project);\n        </p>\n      </li>\n      <li>\n        <p>\n          The proposed Project constitutes a reviewable project, pursuant to Part {{partNumber}} of the \n          Reviewable Projects Regulation (B.C. Reg. 370/02), because {{thresholdDescription}};\n        </p>\n      </li>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Whereas Static 1",
+        "name": "whereasStatic1"
+      },
+      {
+        "_id": "56e9a1391fec9f680e80571a",
+        "meta": [
+          {
+            "_id": "56e9a1771fec9f680e80571c",
+            "default": "",
+            "label": "Environmental Assessment",
+            "type": "Html",
+            "name": "environmentalAssessment"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<li>\n        <p>\n          {{environmentalAssessment}}\n        </p>        \n      </li>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Whereas Optional",
+        "name": "whereasOptional"
+      },
+      {
+        "_id": "56e9a1861fec9f680e80571e",
+        "meta": [
+          {
+            "_id": "56e9a1c11fec9f680e805720",
+            "default": "",
+            "label": "date",
+            "type": "Text",
+            "name": "issueDate"
+          },
+          {
+            "_id": "56e9a1c81fec9f680e805722",
+            "default": "",
+            "label": "name",
+            "type": "Text",
+            "name": "issuerName"
+          },
+          {
+            "_id": "56e9a1d11fec9f680e805724",
+            "default": "",
+            "label": "section 10(1)(c) or section 6(2)",
+            "type": "Text",
+            "name": "sectionOrder"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<li>\n        <p>\n          The Executive Director has delegated to the undersigned, certain powers and functions \n          under the Act, including the power to issue Orders under section 11 of the Act; and\n        </p>        \n      </li>\n      <li>\n        <p>\n          On {{issueDate}}, {{issuerName}} issued an Order under {{sectionOrder}} of the Act, \n          stating that the proposed Project requires an environmental assessment certificate \n          and that the Proponent may not proceed with the proposed Project without an assessment.\n\n        </p>        \n      </li>\n    </ol>\n    <div class=\"note-box-lrg\">\n      Note: Recitals are non-binding and it is recommended that no additional recitals are included \n      except for the above basic contextual statements.\n    </div>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Whereas Static 2",
+        "name": "whereasStatic2"
+      },
+      {
+        "_id": "56e9a1f91fec9f680e805726",
+        "meta": [
+          {
+            "_id": "56e9a2331fec9f680e805728",
+            "default": "",
+            "label": "B, C, and D, as required",
+            "type": "Text",
+            "name": "otherSchedules"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-section\">\n    <p>\n      <b>NOW THEREFORE:</b>\n    </p>\n    <p>\n      Pursuant to section 11 of the Act, I order that the environmental assessment of the proposed \n      Project be conducted according to the scope, procedures and methods set out in Schedules A \n      {{otherSchedules}} to this Order.\n    </p>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Therefore",
+        "name": "therefore"
+      },
+      {
+        "_id": "56e9a26b1fec9f680e80572a",
+        "meta": [
+          {
+            "_id": "56e9a2ab1fec9f680e80572c",
+            "default": "",
+            "label": "First Name Last Name",
+            "type": "Text",
+            "name": "name"
+          },
+          {
+            "_id": "56e9a2c21fec9f680e80572e",
+            "default": "",
+            "label": "Executive Project Director / Project Assessment Manager",
+            "type": "Text",
+            "name": "projectManager"
+          },
+          {
+            "_id": "56e9a2d71fec9f680e805730",
+            "default": "",
+            "label": "XX",
+            "type": "Text",
+            "name": "currentYear"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-footer\">\n    <p>\n      __________________________________<br>{{name}}<br>{{projectManager}}\n    </p>\n    <p>\n      Dated ________________, 20{{currentYear}}\n    </p>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Signature",
+        "name": "signature"
+      },
+      {
+        "_id": "56e9a2e61fec9f680e805732",
+        "meta": [
+          {
+            "_id": "56e9a3421fec9f680e805734",
+            "default": "",
+            "label": "Add other schedules as necessary",
+            "type": "Text",
+            "name": "otherSchedule"
+          }
+        ],
+        "footer": "</div>",
+        "header": "Enclosure(s):\n    <div class=\"custom-list-no-space\">\n      Schedule A\n    </div>",
+        "template": "<div class=\"custom-list-no-space\">\n      {{otherSchedule}}\n    </div>",
+        "isfooter": true,
+        "isheader": true,
+        "multiple": true,
+        "optional": false,
+        "label": "Enclosures",
+        "name": "enclosures"
+      }
+    ],
+    "versionNumber": 3,
+    "documentType": "Section 11 Order"
+  },
+  {
+    "sections": [
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "PROJECT TITLE",
+            "type": "Text",
+            "name": "projectTitle"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-head\">\n    <p>\n      IN THE MATTER OF THE ENVIRONMENTAL ASSESSMENT ACT S.B.C. 2002, c.43<br>(ACT)\n    </p>\n    <p>\n      AND\n    </p>\n    <p>\n      AN ENVIRONMENTAL ASSESSMENT OF THE PROPOSED<br>{{projectTitle}}<br>(PROPOSED PROJECT)\n    </p>\n    <br>\n    <p>\n      <u>ORDER UNDER SECTION 10(1)(c)</u>\n    </p>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Header",
+        "name": "header"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Proponent Name",
+            "type": "Text",
+            "name": "proponentName"
+          },
+          {
+            "default": "",
+            "label": "Describe Project",
+            "type": "Text",
+            "name": "projectDescription"
+          },
+          {
+            "default": "",
+            "label": "#",
+            "type": "Text",
+            "name": "partNumber"
+          },
+          {
+            "default": "",
+            "label": "Insert Threshold",
+            "type": "Text",
+            "name": "threshold"
+          },
+          {
+            "default": "",
+            "label": "Executive Project Director / Project Assessment Manager",
+            "type": "Text",
+            "name": "projectDirector"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-section\">\n    <p>\n      <b>WHEREAS:</b>\n    </p>\n    <ol type=\"A\">\n      <li>\n        <p>\n          {{proponentName}} (Proponent) proposes to {{projectDescription}}\n        </p>\n      </li>\n      <li>\n        <p>\n          The proposed Project constitutes a reviewable project pursuant to Part {{partNumber}} of the \n          Reviewable Projects Regulation (B.C. Reg. 370/02), since the proposed Project exceeds \n          {{threshold}}\n        </p>\n      </li>\n      <li>\n        <p>\n          The Executive Director has delegated to the undersigned, powers and functions under \n          the Act, including the power to issue Orders under section 10 of the Act.\n        </p>        \n      </li>\n      <li>\n        <p>\n          The {{projectDirector}} considers that the proposed Project may have a potential \n          significant adverse environmental, economic, social, heritage or health effect, \n          taking into account practical means of preventing or reducing to an acceptable level, \n          any potential adverse effects of the proposed Project.\n        </p>        \n      </li>\n    </ol>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Whereas",
+        "name": "whereas"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "Executive Project Director / Project Assessment Manager",
+            "type": "Text",
+            "name": "projectDirector"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-section\">\n    <p>\n      <b>NOW THEREFORE:</b>\n    </p>\n    <p>\n      Pursuant to section 10(1)(c) of the Act, the {{projectDirector}} orders that:\n    </p>\n    <div class=\"custom-list\">\n      <p>\n        (i) the proposed Project requires an environmental assessment certificate; and\n      </p>\n      <p>\n        (ii) the Proponent may not proceed with the proposed Project without an assessment.\n      </p>\n    </div>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Therefore",
+        "name": "therefore"
+      },
+      {
+        "meta": [
+          {
+            "default": "",
+            "label": "First Name Last Name",
+            "type": "Text",
+            "name": "name"
+          },
+          {
+            "default": "",
+            "label": "Executive Project Director / Project Assessment Manager",
+            "type": "Text",
+            "name": "projectDirector"
+          },
+          {
+            "default": "",
+            "label": "XX",
+            "type": "Text",
+            "name": "currentYear"
+          }
+        ],
+        "footer": "",
+        "header": "",
+        "template": "<div class=\"letter-footer\">\n    <p>\n      __________________________________<br>{{name}}<br>{{projectDirector}}<br>Environmental Assessment Office\n    </p>\n    <p>\n      Dated ________________, 20{{currentYear}}\n    </p>\n  </div>",
+        "isfooter": false,
+        "isheader": false,
+        "multiple": false,
+        "optional": false,
+        "label": "Footer",
+        "name": "footer"
+      }
+    ],
+    "versionNumber": 4,
+    "documentType": "Section 10(1)(c) Order"
+  }
+]
