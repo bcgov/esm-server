@@ -2,7 +2,10 @@
 
 module.exports = function (app) {
   // User Routes
-  var users = require('../controllers/users.server.controller');
+  var users   = require('../controllers/users.server.controller');
+  // TODO: Re-enable this
+  // var policy  = require ('../../policies/contact.policy');
+  var helpers   = require ('../../../core/server/controllers/core.helpers.controller');
 
   // Setting up the users profile api
   app.route('/api/users/me').get(users.me);
@@ -13,6 +16,27 @@ module.exports = function (app) {
 
   app.route('/api/user/alert').get(function(req,res){res.json([]);});
 
+  // Import logic
+  app.route ('/api/users/import')//.all (policy.isAllowed)
+  .post (function (req, res) {
+    var file = req.files.file;
+    if (file) {
+      // console.log("Received users import file:",file);
+      users.loadUsers(file, req, res)
+           .then (helpers.success(res), helpers.failure(res));
+    }
+  });
+
+  // Import logic
+  app.route ('/api/groupusers/import')//.all (policy.isAllowed)
+    .post (function (req, res) {
+      var file = req.files.file;
+      if (file) {
+        // console.log("Received contact import file:",file);
+        users.loadGroupUsers(file, req, res)
+             .then (helpers.success(res), helpers.failure(res));
+      }
+    });
   // Finish by binding the user middleware
   app.param('userId', users.userByID);
 };
