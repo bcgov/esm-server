@@ -142,6 +142,7 @@ angular
 	.constant('ENV', 'MEM') // MEM, EAO
 	//.constant('LOGO', 'modules/core/client/img/brand/eao-logo.png') // EAO Logo
 	.constant('LOGO', 'modules/core/client/img/brand/mem-logo.png') // MEM Logo
+	.constant('SALUTATIONS', ['Mr','Mrs','Miss','Ms','Dr','Capt','Prof','Rev','Other'])
 	.factory ('codeFromTitle', function () {
 		return function (title) {
 			var s = title.toLowerCase ();

@@ -88,7 +88,7 @@ angular.module ('templates')
 // directive for listing templates
 //
 // -------------------------------------------------------------------------
-.directive ('tmplTemplateRender', function ($compile, templateCompile) {
+.directive ('tmplTemplateRender', function ($compile, templateCompile, templateData, $location, $anchorScroll, _) {
 	return {
 		restrict: 'E',
 		scope: {
@@ -97,9 +97,91 @@ angular.module ('templates')
 			mode:     '@'
 		},
 		link: function (scope, element, attrs) {
-			var template = templateCompile (scope.template, scope.mode);
+			var usemode = scope.mode;
+			if (scope.mode === 'print') {
+				usemode = 'view';
+			}
+			var template = templateCompile (scope.template, usemode);
 			var wrapperClass= 'template';
-			template = '<div class="'+wrapperClass+'">'+template+'</div>';
+			// var header = {
+			// 	edit : '<div class="row">'+
+			// 		'<div class="col-sm-6">'+
+			// 		'<div class="form-group">'+
+			// 		'<label for="gg" class="control-label">Go to Section</label>'+
+			// 		'<select ng-change="goto(gosection)" id="gg" ng-model="gosection" class="form-control" ng-options="section.name as section.label for section in allsections"></select>'+
+			// 		'</div>'+
+			// 		'</div>'+
+			// 		'<div class="col-sm-6">'+
+			// 		'<div class="form-group">'+
+			// 		'<label for="hh" class="control-label">Append New in Section</label>'+
+			// 		'<select ng-change="append(newsection)" id="hh" ng-model="newsection" class="form-control" ng-options="section.name as section.label for section in repeatsections"></select>'+
+			// 		'</div>'+
+			// 		'</div>'+
+			// 		'</div>',
+			// 	view : '<div class="row">'+
+			// 		'<div class="col-sm-6">'+
+			// 		'<div class="form-group">'+
+			// 		'<label for="gg" class="control-label">Go to Section</label>'+
+			// 		'<select ng-change="goto(gosection)" id="gg" ng-model="gosection" class="form-control" ng-options="section.name as section.label for section in allsections"></select>'+
+			// 		'</div>'+
+			// 		'</div>'+
+			// 		'<div class="col-sm-6">&nbsp;</div>'+
+			// 		'</div>'
+			// };
+
+
+
+
+			var header = {
+				edit:'<div class="panel panel-default" ng-init="toggleBlue = true">'+
+					'<div class="panel-body no-vertical-padding" du-scroll-container="templateContainer"><div class="row block-section">'+
+					'<div class="col-sm-3 col-no-padding vertical-scroll col-border-right">'+
+					'<ul class="small list-unstyled list-documents">'+
+					'<li>'+
+					'<a href ng-click="toggleBlue = !toggleBlue">Toggle Outlines</a>'+
+					'</li>'+
+					'<li class="row-folder clickable" du-scrollspy="{{ section.name }}" ng-repeat="section in allsections">'+
+					'<a href ng-if="section.repeatable" ng-click="append(section.name)" class="pull-right">+ Append New</a>'+					
+					'<a href="#{{ section.name }}" du-smooth-scroll>{{ section.label }}</a></li>'+
+					'</ul>'+
+					'</div>'+
+					'<div class="col-sm-9 vertical-scroll-padded" id="templateContainer" ng-class="{\'edit-outlines\': toggleBlue}">',
+				view: 
+					'<div class="panel panel-default">'+
+					'<div class="panel-body no-vertical-padding" du-scroll-container="templateContainer"><div class="row block-section">'+
+					'<div class="col-sm-3 col-no-padding vertical-scroll col-border-right">'+
+					'<ul class="small list-unstyled list-documents">'+
+					'<li class="row-folder clickable" du-scrollspy="{{ section.name }}" ng-repeat="section in allsections">'+
+					'<a href="#{{ section.name }}" x-offset=10 du-smooth-scroll>{{ section.label }}</a></li>'+
+					'</ul>'+
+					'</div>'+
+					'<div class="col-sm-9 vertical-scroll-padded" id="templateContainer">'
+			};
+
+			var footer = '</div></div></div></div>';
+
+			var tData = templateData (scope.template, scope.document);
+			scope.allsections = tData.sectionList ();
+			// console.log (scope.allsections);
+			// scope.repeatsections = tData.repeatable ();
+			scope.gosection = '';
+			scope.newsection = '';
+			// scope.goto = function (sectionname) {
+			// 	// console.log ('goto ', sectionname);
+			// 	$location.hash (sectionname);
+			// 	$anchorScroll ();
+			// 	scope.gosection = '';
+			// };
+			scope.append = function (sectionname) {
+				// console.log ('append ', sectionname);
+				tData.push (sectionname);
+				scope.newsection = '';
+				// console.log ('document = ',scope.document);
+				// console.log ('tdata    = ',tData.document);
+			};
+
+			template = header[usemode]+'<div class="'+wrapperClass+'">'+template+'</div>'+footer;
+			// console.log ('template = ', template);
 			element.html (template);
 			$compile (element.contents())(scope);
 		}

@@ -17,8 +17,8 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	//
 	// what type of artifcat is this? i.e. project description, etc
 	//
-	type            : { type:'ObjectId', ref:'ArtifactType' },
-	typeName        : { type:String, default:'' },
+	type            : { type:'ObjectId', ref:'ArtifactType', index:true },
+	typeName        : { type:String, default:'',  index:true},
 	//
 	// a name for this artifact that is unique in the project and will be used
 	// to group all the various versions of this artifact together over time
@@ -36,6 +36,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	// the milestone this artifact is attached to
 	// each actual activity that was created to service this artifact
 	//
+	project: { type:'ObjectId', ref:'Project'},
 	phase: { type:'ObjectId', ref:'Phase'},
 	milestone: { type:'ObjectId', ref:'Milestone'},
 	stages          : [{
@@ -46,6 +47,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	// if it is built fmor a template, here is that reference, plus its data
 	// plus if there are documents attached to sections those are here too
 	//
+	isTemplate       : { type:Boolean, default:false },
 	template         : { type:'ObjectId', ref:'Template', default:null },
 	templateData     : {},
 	sectionDocuments : [{

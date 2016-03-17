@@ -174,6 +174,11 @@ var baseObjects = {
 	],
 	"phases": [
 		{
+			"description": "Pre-Submission",
+			"name": "Pre-submission",
+			"code": "presubmission",
+		},
+		{
 			"description": "Pre-Application preparation",
 			"name": "Pre-EA",
 			"code": "preea",

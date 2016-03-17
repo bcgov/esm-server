@@ -21,7 +21,7 @@ var CSVParse  		   = require ('csv-parse');
 module.exports = DBModel.extend ({
 	name : 'Project',
 	plural : 'projects',
-	populate: 'proponent',
+	populate: 'proponent, currentPhase',
 	// -------------------------------------------------------------------------
 	//
 	// Before adding a project this is what must happen:
@@ -98,9 +98,20 @@ module.exports = DBModel.extend ({
 				self.setRoles (self.user);
 				console.log ('here we are');
 				project.roles = project.allRoles ();
-				resolve (project);
+				return project;
 			})
-			.catch (reject);
+			//
+			// add a pre submission phase
+			//
+			.then (function () {
+				return self.addPhaseFromCode (project, 'presubmission')
+				.then (function (m) {
+					m.currentPhase = m.phases[0];
+					return m;
+				});
+			})
+			.then (self.saveAndReturn)
+			.then (resolve, reject);
 		});
 	},
 	// -------------------------------------------------------------------------
@@ -254,6 +265,19 @@ module.exports = DBModel.extend ({
 			.then (resolve, reject);
 		});
 	},
+	addPhaseFromCode : function (project, phasecode, roles) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			var PhaseBase = new PhaseBaseClass (self.user);
+			PhaseBase.findOne ({
+				code: phasecode
+			})
+			.then (function (base) {
+				return self.addPhase (project, base, roles);
+			})
+			.then (resolve, reject);
+		});
+	},
 	// -------------------------------------------------------------------------
 	//
 	// set current phase
@@ -317,51 +341,54 @@ module.exports = DBModel.extend ({
 								var addOrChangeModel = function(model) {
 									// console.log("MODEL:",model);
 									// TODO:
-									model.status = 'In Progress';
-									model.name = row.ProjectName;
-									model.code = model.name.toLowerCase ().replace (' ', '-').substr (0, model.name.length+1);
+									model.status 		= 'In Progress';
+									model.name 			= row.ProjectName;
+									model.code 			= model.name.toLowerCase ().replace (' ', '-').substr (0, model.name.length+1);
 									model.epicProjectID = id;
-									Organization.findOne ({name:row.Proponent}, function (err, result) {
-										if (result) {
-											// console.log("saving proponent details");
-											model.proponent = result;
+									var addOrChangeProp = function(prop) {
+										prop.code 		= row.Proponent.toLowerCase().match(/\b(\w)/g).join('');
+										prop.name 		= row.Proponent;
+										prop.company	= row.Proponent;
+										prop.address1 	= "";
+										prop.city 		= "";
+										prop.province 	= "";
+										prop.postal 	= "";
+										prop.save().then(function (org) {
+											model.proponent = org;
 											model.save();
-										} else {
-											// Make an organization from the proponent string listed.
-											var org = new Organization();
-											// Make code from leading letters in string
-											org.code = row.Proponent.toLowerCase().match(/\b(\w)/g).join('');
-											org.name = row.Proponent;
-											org.address1 = "";
-											org.city = "";
-											org.province = "";
-											org.postal = "";
-											org.save().then(function (org) {
-												model.proponent = org;
-												model.save();
 												// console.log("saved",o);
 												// console.log("model",model);
 											});
+									};
+									Organization.findOne ({name:row.Proponent}, function (err, result) {
+										if (result) {
+											addOrChangeProp(result);
+										} else {
+											addOrChangeProp(new Organization());
 										}
 									});
-									// TODO: Remove this
-									model.region = row.Region.toLowerCase ().replace(' region','');
+									model.region 	  = row.Region.toLowerCase ().replace(' region','');
 									model.description = row.description;
-									if (row.locSpatial) model.locSpatial = row.locSpatial;
-									if (row.locDescription) model.location = row.locDescription;
+
+									if (row.locSpatial) model.locSpatial 	 = row.locSpatial;
+									if (row.locDescription) model.location 	 = row.locDescription;
 									if (row.provincialED) model.provElecDist = row.provincialED;
-									if (row.federalED) model.fedElecDist = row.federalED;
-									model.intake.investment            = row.investment;
+									if (row.federalED) model.fedElecDist 	 = row.federalED;
+
+
 									//projectCreateDate
 									if (row.projectNotes) model.projectNotes = row.projectNotes;
-									model.intake.investmentNotes       = row.investmentNotes;
-									if (row.lat) model.lat = parseFloat(row.lat);
+									if (row.lat) model.lat 					 = parseFloat(row.lat);
 									// Force negative because of import data
-									if (row.long) model.lon = -Math.abs(parseFloat(row.long));
-									model.intake.constructionjobs      = row.constructionjobs;
-									model.intake.constructionjobsNotes = row.constructionjobsNotes;
-									model.intake.operatingjobs         = row.operatingjobs;
-									model.intake.operatingjobsNotes    = row.operatingjobsNotes;
+									if (row.long) model.lon 				 = -Math.abs(parseFloat(row.long));
+
+									model.intake.constructionjobs 		= row.constructionjobs;
+									model.intake.constructionjobsNotes 	= row.constructionjobsNotes;
+									model.intake.operatingjobs 			= row.operatingjobs;
+									model.intake.operatingjobsNotes 	= row.operatingjobsNotes;
+									model.intake.investment 			= row.investment;
+									model.intake.investmentNotes 		= row.investmentNotes;
+
 									model.type = row.projectType;
 									model.sector = row.sector;
 									model.phases = [];

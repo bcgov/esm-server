@@ -244,7 +244,7 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			// console.log ('q.$or = ',q.$or[0].read);
+			console.log ('q = ',q);
 			self.model.find (q)
 			.sort (sort)
 			.limit (1)

@@ -87,6 +87,15 @@ checkIntegration ('loadconditions2').then (function () {
 	require('../seed-data/loadconditions')();
 });
 
+// -------------------------------------------------------------------------
+//
+// artifact types
+//
+// -------------------------------------------------------------------------
+checkIntegration ('loadartifacts').then (function () {
+	require('../seed-data/loadartifacts')();
+});
+
 // =========================================================================
 //
 // THings in this section are split into production and non-production

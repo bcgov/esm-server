@@ -1,1 +1,115 @@
-view-org.html
+<h1 class="page-title no-lower-margin">
+	Add / Edit Organization
+</h1>
+
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="admin.org.list">Cancel</a>
+		<a class="btn btn-xs btn-link" ui-sref="admin.org.edit({orgId: org._id})">Edit</a>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+
+		<div class="row">
+			<div class="col-sm-8">
+				<div class="form-group">
+					<label for="name" class="control-label">Name</label>
+					<p class="form-control-static">{{ org.name }}</p>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="website" class="control-label">Website</label>
+					<p class="form-control-static">{{ org.website }}</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-8">
+				<div class="form-group">
+					<label for="companyDba" class="control-label">Doing Business As</label>
+					<p class="form-control-static">{{ org.companyDba }}</p>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="registeredIn" class="control-label">Registered In</label>
+					<p class="form-control-static">{{ org.registeredIn }}</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-8">
+				<div class="form-group">
+					<label for="companyLegal" class="control-label">Company Legal</label>
+					<p class="form-control-static">{{ org.companyLegal }}</p>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="companyType" class="control-label">Company Type</label>
+					<p class="form-control-static">{{ org.companyType }}</p>
+				</div>
+			</div>
+		</div>
+
+			
+		<div class="well well-sm">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="address1" class="control-label">Address (Line 1)</label>
+						<p class="form-control-static">{{ org.address1 }}</p>
+					</div>
+				</div>    
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="address2" class="control-label">Address (Line 2)</label>
+						<p class="form-control-static">{{ org.address2 }}</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="city" class="control-label">City</label>
+						<p class="form-control-static">{{ org.city }}</p>
+					</div>
+				</div>    
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="province" class="control-label">Province</label>
+						<p class="form-control-static">{{ org.province }}</p>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="country" class="control-label">Country</label>
+						<p class="form-control-static">{{ org.country }}</p>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="postalCode" class="control-label">Postal Code</label>
+						<p class="form-control-static">{{ org.postalCode }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<hr>
+		
+		<div class="text-right">
+			<a class="btn btn-default" ui-sref="admin.org.list">Cancel</a>
+			<a class="btn btn-default" ui-sref="admin.org.edit({orgId: org._id})">Edit</a>
+		</div>
+
+	</div>
+</div>
+
+

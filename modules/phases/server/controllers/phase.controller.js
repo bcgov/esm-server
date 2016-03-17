@@ -128,7 +128,8 @@ module.exports = DBModel.extend ({
 	addMilestoneFromCode : function (phase, milestoneCode, roles) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			MilestoneBaseClass.findOne ({
+			var MilestoneBase = new MilestoneBaseClass (self.user);
+			MilestoneBase.findOne ({
 				code: milestoneCode
 			})
 			.then (function (base) {

@@ -18,7 +18,7 @@ angular.module('templates')
 // =========================================================================
 .factory ('templateCompile', function (_) {
 	return function (template, purpose) {
-		console.log ('purpose = ', purpose);
+		// console.log ('purpose = ', purpose);
 		var temp;
 		var compiled    = '';
 		var t           = '';
@@ -56,11 +56,11 @@ angular.module('templates')
 				// model reference as being under '_v' instead of 'document'
 				// as it will be nested inside an angular repeat
 				//
-				console.log ('++++++ ', temp);
+				// console.log ('++++++ ', temp);
 				temp = (section.multiple) ?
 					replaceVar (purpose, temp, '_v', field) :
 					replaceVar (purpose, temp, 'document.' + section.name, field) ;
-				console.log ('------ ', temp);
+				// console.log ('------ ', temp);
 			});
 			if (section.multiple) {
 				if (section.isheader) compiled += section.header;
@@ -103,10 +103,10 @@ angular.module('templates')
 			//
 			// -------------------------------------------------------------------------
 			_init: function (template, inputData) {
-				console.log ('++inside init function of TemplateData');
-				inputData        = inputData || {};
-				console.log ('initializing with template:', template);
-				console.log ('initializing with inputData:', inputData);
+				// console.log ('++inside init function of TemplateData');
+				// inputData        = inputData || {};
+				// console.log ('initializing with template:', template);
+				// console.log ('initializing with inputData:', _.cloneDeep (inputData));
 				//
 				// first make a structure of all sections with
 				// all variables (just meta data) and, while doing
@@ -139,9 +139,9 @@ angular.module('templates')
 				});
 				this.mindata  = this.ensureData ({});
 				this.document = this.ensureData (inputData);
-				console.log ('sections = ', this.sections);
-				console.log ('this.mindata :', this.mindata);
-				console.log ('this.document :', this.document);
+				// console.log ('sections = ', this.sections);
+				// console.log ('this.mindata :', this.mindata);
+				// console.log ('this.document :', this.document);
 			},
 			// -------------------------------------------------------------------------
 			//
@@ -154,12 +154,12 @@ angular.module('templates')
 				_.each (this.sections, function (section) {
 					// if (!section.optional) {
 						if (section.multiple) {
-							if (!document[section.name] || _.isEmpty (document[section.name].length)) {
+							if (!document[section.name] || (document[section.name].length) === 0) {
 								document[section.name] = [ _.assign ({}, section.data) ];
 							}
 						}
 						else {
-							if (!document[section.name] || _.isEmpty (document[section.name].length)) {
+							if (!document[section.name] || _.isEmpty (document[section.name])) {
 								document[section.name] = _.assign ({}, section.data);
 							}
 						}
@@ -194,7 +194,8 @@ angular.module('templates')
 				return this.order.map (function (section) {
 					return {
 						name: section.name,
-						label: section.label || section.name
+						label: section.label || section.name,
+						repeatable: section.multiple
 					};
 				});
 			},

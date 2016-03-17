@@ -1,77 +1,115 @@
-<div class="modal-header">
-	<h3 class="modal-title">Org Detail ({{d.dmode}})</h3>
-</div>
+<h1 class="page-title no-lower-margin">
+	Add / Edit Organization
+</h1>
 
-<div class="modal-body">
-
-	<div class="block-content">
-		<div class="panel-body">
-		<div class="row">
-			<div class="col-sm-9">
-				<div class="form-group">
-					<label for="title" class="control-label">Org Name</label>
-					<input id="title" type="text" class="form-control input-sm" ng-model="d.org.name">
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="sector" class="control-label">Project Sector</label>
-					<select id="sector" ng-model='d.org.sector' class="form-control input-sm" ng-options="sector as sector for sector in d.sectors"></select>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="shortDesc" class="control-label">Org Description</label>
-					<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="d.org.description" rows=6></textarea>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="shortDesc" class="control-label">Report Requirements</label>
-					<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="d.org.reportRequirements" rows=6></textarea>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="pillar" class="control-label">Pillar</label>
-					<select ng-change="d.selectTopic(pillar)" id="pillar" ng-model='d.org.pillar' class="form-control input-sm" ng-options="pillar as pillar for pillar in d.pillars"></select>
-				</div>
-			</div>
-
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="stage" class="control-label">Project Stage</label>
-					<select id="stage" ng-model='d.org.stage' class="form-control input-sm" ng-options="stage as stage for stage in d.stages"></select>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="topics" class="control-label">Topics</label>
-					<select multiple id="topics" ng-model='d.org.topics' class="form-control input-sm">
-						<option ng-repeat="topic in d.topics" value="{{topic.code}}">{{topic.name}}</option>
-					</select>
-				</div>
-			</div>
-
-		</div>
-
-		</div>
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="admin.org.list">Cancel</a>
+		<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
 	</div>
-
-</div> <!-- /modalbody -->
-
-<div class="modal-footer">
-	<a class="btn btn-default" href ng-click="d.cancel()">Cancel</a>
-	<a class="btn btn-default" href ng-click="d.ok()">OK</a>
 </div>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+
+		<div class="row">
+			<div class="col-sm-8">
+				<div class="form-group">
+					<label for="name" class="control-label">Name</label>
+					<input id="name" type="text" class="form-control input-sm" ng-model="org.name">
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="website" class="control-label">Website</label>
+					<input id="website" type="text" class="form-control input-sm" ng-model="org.website">
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-8">
+				<div class="form-group">
+					<label for="companyDba" class="control-label">Doing Business As</label>
+					<input id="companyDba" type="text" class="form-control input-sm" ng-model="org.companyDba">
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="registeredIn" class="control-label">Registered In</label>
+					<input id="registeredIn" type="text" class="form-control input-sm" ng-model="org.registeredIn">
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-8">
+				<div class="form-group">
+					<label for="companyLegal" class="control-label">Company Legal</label>
+					<input id="companyLegal" type="text" class="form-control input-sm" ng-model="org.companyLegal">
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="companyType" class="control-label">Company Type</label>
+					<input id="companyType" type="text" class="form-control input-sm" ng-model="org.companyType">
+				</div>
+			</div>
+		</div>
+
+			
+		<div class="well well-sm">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="address1" class="control-label">Address (Line 1)</label>
+						<input id="address1" type="text" class="form-control input-sm" ng-model="org.address1">
+					</div>
+				</div>    
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="address2" class="control-label">Address (Line 2)</label>
+						<input id="address2" type="text" class="form-control input-sm" ng-model="org.address2">
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="city" class="control-label">City</label>
+						<input id="city" type="text" class="form-control input-sm" ng-model="org.city">
+					</div>
+				</div>    
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="province" class="control-label">Province</label>
+						<input id="province" type="text" class="form-control input-sm" ng-model="org.province">
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="country" class="control-label">Country</label>
+						<input id="country" type="text" class="form-control input-sm" ng-model="org.country">
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="postalCode" class="control-label">Postal Code</label>
+						<input id="postalCode" type="text" class="form-control input-sm" ng-model="org.postalCode">
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<hr>
+		
+		<div class="text-right">
+			<a class="btn btn-default" ui-sref="admin.org.list">Cancel</a>
+			<a class="btn btn-default" href ng-click="save()">Save</a>
+		</div>
+
+	</div>
+</div>
+
 

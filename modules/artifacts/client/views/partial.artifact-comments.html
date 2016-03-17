@@ -1,8 +1,8 @@
-<h4>Comments</h4>
-<div ng-repeat="period in artifact.commmentPeriods">
+<h4 ng-if="artifact.commmentPeriods.length">Comments</h4>
+<div ng-if="artifact.commmentPeriods.length" ng-repeat="period in artifact.commmentPeriods">
 	<a ui-sref="p.commentperiod.detail({periodId:period._id})">View Comments</a>
 </div>
-<h4>Public Comments</h4>
-<div ng-repeat="period in artifact.commmentPeriods">
+<h4 ng-if="artifact.commmentPeriods.length">Public Comments</h4>
+<div ng-if="artifact.commmentPeriods.length" ng-repeat="period in artifact.commmentPeriods">
 	<a ui-sref="p.publiccommentperiod.detail({periodId:period._id})">View Public Comments</a>
 </div>

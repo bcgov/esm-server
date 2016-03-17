@@ -13,13 +13,19 @@
 	<div class="panel-body">
 
 		<div class="row">
-			<div class="col-sm-6">
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="name" class="control-label">Name</label>
+					<input id="name" type="text" class="form-control input-sm" ng-model="condition.name">
+				</div>
+			</div>
+			<div class="col-sm-4">
 				<div class="form-group">
 					<label for="subject" class="control-label">Subject</label>
 					<input id="subject" type="text" class="form-control input-sm" ng-model="condition.subject">
 				</div>
 			</div>
-			<div class="col-sm-6">
+			<div class="col-sm-4">
 				<div class="form-group">
 					<label for="sector" class="control-label">Sector</label>
 					<select id="sector" ng-model='condition.sector' class="form-control input-sm" ng-options="sector.id as sector.title for sector in sectors"></select>
