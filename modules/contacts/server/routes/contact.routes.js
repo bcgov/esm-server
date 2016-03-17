@@ -10,7 +10,7 @@ var helpers = require ('../../../core/server/controllers/core.helpers.controller
 var fs		   = require ('fs');
 var CSVParse   = require('csv-parse');
 var mongoose = require('mongoose');
-var Model    = mongoose.model ('Contact');
+var UserModel    = mongoose.model ('User');
 var GroupModel    = mongoose.model ('Group');
 var Project    = mongoose.model ('Project');
 var Group  = require ('../controllers/group.controller');
@@ -27,15 +27,14 @@ var loadContacts = function(file, req, res) {
 			// Skip this many rows
 			var length = Object.keys(output).length;
 			var rowsProcessed = 0;
-			console.log("length",length);
+			// console.log("length",length);
 			Object.keys(output).forEach(function(key, index) {
 				if (index > 0) {
 					var row = output[key];
 					rowsProcessed++;
-					Model.findOne({personId: row.PERSON_ID}, function (err, doc) {
+					UserModel.findOne({personId: parseInt(row.PERSON_ID)}, function (err, doc) {
 						var addOrChangeModel = function(model) {
-							// console.log("Nothing Found");
-							model.personId 		= row.PERSON_ID;
+							model.personId 		= parseInt(row.PERSON_ID);
 							model.orgName 		= row.ORGANIZATION_NAME;
 							model.title 		= row.TITLE;
 							model.contactName 	= row.FIRST_NAME + " " + row.LAST_NAME;
@@ -58,6 +57,8 @@ var loadContacts = function(file, req, res) {
 							model.country 		= row.COUNTRY;
 							model.postalCode 	= row.POSTAL_CODE;
 							model.notes 		= row.NOTES;
+							model.username = "username"+row.PERSON_ID;
+							model.password = "fasld"+row.PERSON_ID;
 							model.save().then(function () {
 								// Am I done processing?
 								// console.log("INDEX:",index);
@@ -66,11 +67,12 @@ var loadContacts = function(file, req, res) {
 									res.json("{done: true, rowsProcessed: "+rowsProcessed+"}");
 								}
 							});
+
 						};
 						if (doc === null) {
 							// Create new
-							var c = new Contact (req.user);
-							c.new().then(addOrChangeModel);
+							var c = new UserModel ();
+							addOrChangeModel(c);
 						} else {
 							// Update:
 							addOrChangeModel(doc);
