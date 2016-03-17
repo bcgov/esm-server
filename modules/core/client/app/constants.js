@@ -94,6 +94,7 @@ angular
 	.constant('DOCUMENT_TEMPLATE_TYPES',
 		[
 			'Project Description',
+			'Schedule A',
 			'Section 7(3) Order',
 			'Section 10(1)(a) Order',
 			'Section 10(1)(b) Order',
