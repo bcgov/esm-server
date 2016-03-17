@@ -88,7 +88,7 @@ angular.module ('templates')
 // directive for listing templates
 //
 // -------------------------------------------------------------------------
-.directive ('tmplTemplateRender', function ($compile, templateCompile, templateData, $location, $anchorScroll) {
+.directive ('tmplTemplateRender', function ($compile, templateCompile, templateData, $location, $anchorScroll, _) {
 	return {
 		restrict: 'E',
 		scope: {
@@ -128,58 +128,50 @@ angular.module ('templates')
 			// 		'<div class="col-sm-6">&nbsp;</div>'+
 			// 		'</div>'
 			// };
+
+
+
+
 			var header = {
-				edit: '<div class="row" ng-class="{\'edit-outlines\': toggleBlue}">'+
-					'<div class="col-sm-3">'+
-					'<div class="form-group" ng-init="toggleBlue = true">'+
-					'<a href ng-click="toggleBlue = !toggleBlue">'+
-					'<span ng-show="toggleBlue">Hide Outlines</span>'+
-					'<span ng-show="!toggleBlue">Show Outlines</span>				'+
-					'</a>'+
-					'</div>'+
-					'<div class="form-group" ng-if="allsections.length > 0"><hr>'+
-					'<label class="control-label">Go To Section</label>'+
-					'<ul class="task-list list-unstyled">'+
-					'<li ng-repeat="section in allsections"><a du-smooth-scroll href="#{{ section.name }}">{{ section.label }}</a></li>'+
+				edit:'<div class="panel panel-default" ng-init="toggleBlue = true">'+
+					'<div class="panel-body no-vertical-padding" du-scroll-container="templateContainer"><div class="row block-section">'+
+					'<div class="col-sm-3 col-no-padding vertical-scroll col-border-right">'+
+					'<ul class="small list-unstyled list-documents">'+
+					'<li>'+
+					'<a href ng-click="toggleBlue = !toggleBlue">Toggle Outlines</a>'+
+					'</li>'+
+					'<li class="row-folder clickable" du-scrollspy="{{ section.name }}" ng-repeat="section in allsections">'+
+					'<a href ng-if="section.repeatable" ng-click="append(section.name)" class="pull-right">+ Append New</a>'+					
+					'<a href="#{{ section.name }}" du-smooth-scroll>{{ section.label }}</a></li>'+
 					'</ul>'+
 					'</div>'+
-					'<div class="form-group" ng-if="repeatsections.length > 0"><hr>'+
-					'<label class="control-label">Append New in Section</label>'+
-					'<ul class="task-list list-unstyled">'+
-					'<li ng-repeat="section in repeatsections"><a href ng-click="append(section.name)">{{ section.label }}</a></li>'+
-					'</ul>'+
-					'</div>'+
-					'</div>'+
-					'<div class="col-sm-9">'+
+					'<div class="col-sm-9 vertical-scroll-padded" id="templateContainer" ng-class="{\'edit-outlines\': toggleBlue}">',
+				view: 
 					'<div class="panel panel-default">'+
-					'<div class="panel-body">',
-				view: '<div class="row" ng-class="{\'edit-outlines\': toggleBlue}">'+
-					'<div class="col-sm-3">'+
-					'<div class="form-group" ng-if="allsections.length > 0">'+
-					'<label class="control-label">Go To Section</label>'+
-					'<ul class="task-list list-unstyled">'+
-					'<li ng-repeat="section in allsections"><a du-smooth-scroll href="#{{ section.name }}">{{ section.label }}</a></li>'+
+					'<div class="panel-body no-vertical-padding" du-scroll-container="templateContainer"><div class="row block-section">'+
+					'<div class="col-sm-3 col-no-padding vertical-scroll col-border-right">'+
+					'<ul class="small list-unstyled list-documents">'+
+					'<li class="row-folder clickable" du-scrollspy="{{ section.name }}" ng-repeat="section in allsections">'+
+					'<a href="#{{ section.name }}" x-offset=10 du-smooth-scroll>{{ section.label }}</a></li>'+
 					'</ul>'+
 					'</div>'+
-					'</div>'+
-					'<div class="col-sm-9">'+
-					'<div class="panel panel-default">'+
-					'<div class="panel-body">'
+					'<div class="col-sm-9 vertical-scroll-padded" id="templateContainer">'
 			};
-			var footer = '</div> </div> </div> </div> ';
+
+			var footer = '</div></div></div></div>';
 
 			var tData = templateData (scope.template, scope.document);
 			scope.allsections = tData.sectionList ();
 			// console.log (scope.allsections);
-			scope.repeatsections = tData.repeatable ();
+			// scope.repeatsections = tData.repeatable ();
 			scope.gosection = '';
 			scope.newsection = '';
-			scope.goto = function (sectionname) {
-				// console.log ('goto ', sectionname);
-				$location.hash (sectionname);
-				$anchorScroll ();
-				scope.gosection = '';
-			};
+			// scope.goto = function (sectionname) {
+			// 	// console.log ('goto ', sectionname);
+			// 	$location.hash (sectionname);
+			// 	$anchorScroll ();
+			// 	scope.gosection = '';
+			// };
 			scope.append = function (sectionname) {
 				// console.log ('append ', sectionname);
 				tData.push (sectionname);
@@ -188,7 +180,7 @@ angular.module ('templates')
 				// console.log ('tdata    = ',tData.document);
 			};
 
-			template = header[usemode]+'<div class="'+wrapperClass+' vertical-scroll-padded">'+template+'</div>'+footer;
+			template = header[usemode]+'<div class="'+wrapperClass+'">'+template+'</div>'+footer;
 			// console.log ('template = ', template);
 			element.html (template);
 			$compile (element.contents())(scope);

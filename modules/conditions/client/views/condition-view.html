@@ -13,13 +13,19 @@
 	<div class="panel-body">
 
 		<div class="row">
-			<div class="col-sm-6">
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="name" class="control-label">Name</label>
+					<div id="name" name="name" class="form-control-static" ng-bind-html="condition.name"></div>
+				</div>
+			</div>
+			<div class="col-sm-4">
 				<div class="form-group">
 					<label for="subject" class="control-label">Subject</label>
 					<div class="form-control-static" ng-bind-html="condition.subject"></div>
 				</div>
 			</div>
-			<div class="col-sm-6">
+			<div class="col-sm-4">
 				<div class="form-group">
 					<label for="sector" class="control-label">Sector</label>
 					<div class="form-control-static" ng-bind-html="condition.sector"></div>

@@ -194,7 +194,8 @@ angular.module('templates')
 				return this.order.map (function (section) {
 					return {
 						name: section.name,
-						label: section.label || section.name
+						label: section.label || section.name,
+						repeatable: section.multiple
 					};
 				});
 			},
