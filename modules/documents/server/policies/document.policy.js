@@ -12,7 +12,12 @@ exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'document');
 
 	helpers.setPathPermissions (acl, [
-		[ '', 'user', '/api/documentlist'    ]
+        [ '', 'user', '/api/documentlist'    ],
+        [ '', 'user', '/api/documents/:project'    ],
+        [ '', 'user', '/api/documents/versions/:documentid'    ],
+        [ '', 'user', '/api/documents/folderNames/:projectid'    ],
+        [ '', 'user', '/api/documents/approveAndDownload/:document'    ],
+		[ '', 'user', '/api/documents/types/:projectid'    ]
 	]);
 
 };
