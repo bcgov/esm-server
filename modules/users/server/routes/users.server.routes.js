@@ -20,11 +20,20 @@ module.exports = function (app) {
   .post (function (req, res) {
     var file = req.files.file;
     if (file) {
-      // console.log("Received contact import file:",file);
-      users.loadContacts(file, req, res);
+      // console.log("Received users import file:",file);
+      users.loadUsers(file, req, res);
     }
   });
 
+  // Import logic
+  app.route ('/api/groupusers/import')//.all (policy.isAllowed)
+    .post (function (req, res) {
+      var file = req.files.file;
+      if (file) {
+        // console.log("Received contact import file:",file);
+        users.loadGroupUsers(file, req, res);
+      }
+    });
   // Finish by binding the user middleware
   app.param('userId', users.userByID);
 };
