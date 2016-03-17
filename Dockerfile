@@ -1,4 +1,4 @@
-FROM node:0.10
+FROM node:0.10.43
 
 MAINTAINER Matthias Luebken, matthias@catalyst-zero.com
 
