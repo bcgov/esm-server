@@ -5,6 +5,7 @@ module.exports = function (app) {
   var users   = require('../controllers/users.server.controller');
   // TODO: Re-enable this
   // var policy  = require ('../../policies/contact.policy');
+  var helpers   = require ('../../../core/server/controllers/core.helpers.controller');
 
   // Setting up the users profile api
   app.route('/api/users/me').get(users.me);
@@ -21,7 +22,8 @@ module.exports = function (app) {
     var file = req.files.file;
     if (file) {
       // console.log("Received users import file:",file);
-      users.loadUsers(file, req, res);
+      users.loadUsers(file, req, res)
+           .then (helpers.success(res), helpers.failure(res));
     }
   });
 
@@ -31,7 +33,8 @@ module.exports = function (app) {
       var file = req.files.file;
       if (file) {
         // console.log("Received contact import file:",file);
-        users.loadGroupUsers(file, req, res);
+        users.loadGroupUsers(file, req, res)
+             .then (helpers.success(res), helpers.failure(res));
       }
     });
   // Finish by binding the user middleware
