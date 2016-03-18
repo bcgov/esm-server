@@ -86,6 +86,12 @@ module.exports = function (app) {
 		});
 
 
+	app.route ('/api/project/byID/:projectid').all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Project (req.user);
+			p.findOne ({_id:req.params.projectid},{name: 1, code: 1}).then (helpers.success(res), helpers.failure(res));
+		});
+
 	app.route ('/api/projectile').all (policy.isAllowed).get (function (req, res) {
 		var p = new Project (req.user);
 		p.list ().then (helpers.success(res), helpers.failure(res));
