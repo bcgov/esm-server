@@ -29,10 +29,15 @@ var milestonebases = [{
     description: 'Section 7(3) Order',
     artifactType: 'Section 7(3) Order'
 },{
-	code: 'valued-component',
-	name: 'Valued Component',
-	description: 'Valued Component',
-	artifactType: 'Valued Component'
+    code: 'valued-component',
+    name: 'Valued Component',
+    description: 'Valued Component',
+    artifactType: 'Valued Component'
+},{
+	code: 'schedule-a',
+	name: 'Schedule A',
+	description: 'Schedule A',
+	artifactType: 'Schedule A'
 }];
 
 var activitybases = [{
@@ -140,6 +145,13 @@ var artifacttypes = [{
 },{
     type: 'Section 11 Order',
     milestone: 'section-11-order',
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
+    type: 'Schedule A',
+    milestone: 'schedule-a',
     versions : [
         'Draft',
         'Final'
