@@ -1,0 +1,111 @@
+<h1 class="page-title no-lower-margin">
+	Add / Edit Recent Activity
+</h1>
+
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="admin.recentactivity.list">Cancel</a>
+		<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label for="headline" class="control-label">Headline</label>
+					<input id="headline" name="headline" type="text" class="form-control input-sm" ng-model="recentActivity.headline">
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label for="content" class="control-label">Content</label>
+					<textarea id="content" rows="6" name="content" class="form-control input-sm" ng-model="recentActivity.content"></textarea>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="project" class="control-label">Project</label>
+					<select id="project"
+						name="project"
+						class="form-control input-sm"
+						ng-model="recentActivity.project"
+						ng-options="v._id as v.name group by v.region for v  in projects"></select>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="dateAdded" class="control-label">Date Added</label>
+
+					<div class="input-group input-group-sm">
+						<input type="text"
+							id="dateAdded"
+							name="dateAdded"
+							class="form-control text-center "
+							ng-model="recentActivity.dateAdded"
+							ng-disabled="1"/>
+						<div x-modal-date-picker
+							x-selected-date="recentactivity.dateAdded"
+							class="input-group-addon btn-default">
+						<i class="glyphicon glyphicon-calendar"></i></div>
+					</div>
+
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="type" class="control-label">Type</label>
+					<select id="type"
+						name="type"
+						class="form-control input-sm"
+						ng-model="recentActivity.type"
+						>
+						<option>Public Comment Period</option>
+						<option>News</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-1">
+				<div class="form-group">
+					<label for="priority" class="control-label">Priority</label>
+					<select id="priority"
+						name="priority"
+						class="form-control input-sm"
+						ng-model="recentActivity.priority"
+						>
+						<option value="0">Critical</option>
+						<option value="1">Top</option>
+						<option value="2">Normal</option>
+						<option value="4">Low</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-1">
+				<div class="form-group form-group-sm">
+					<div class="checkbox control-with-label">
+					<label>
+						<input id="active" name="active" type="checkbox" ng-model="recentActivity.active"> Active
+					</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<hr>
+		
+		<div class="text-right">
+			<a class="btn btn-default" ui-sref="admin.recentactivity.list">Cancel</a>
+			<a class="btn btn-default" href ng-click="save()">Save</a>
+		</div>
+
+	</div>
+</div>
+
+

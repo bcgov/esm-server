@@ -1,0 +1,33 @@
+<h1 class="page-title no-lower-margin">Recent Activity / News Feed</h1>
+
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="admin.recentactivity.create()">+ Add New Recent Activity Item</a>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-12">
+		<section class="panel panel-default">
+			<table ng-table="tableParams" class="table table-condensed table-striped table-hover">
+				<tr ng-repeat="o in $data" ui-sref="admin.recentactivity.detail({recentActivityId:o._id})" class="clickable">
+					<td data-title="'Headline'"  filter="{'name':'text'}"   sortable="'name'">{{o.headline}}</td>
+					<td data-title="'Type'"  filter="{'type':'text'}"   sortable="'type'">{{o.type}}</td>					
+					<td data-title="'Date Added'" class="text-center" sortable="'dateAdded'" >{{o.dateAdded | date}}</td>
+					<td data-title="'Priority'" class="text-center" sortable="'priority'" >{{o.priority}}</td>
+					<td width="1%" class="text-right">
+						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="admin.recentactivity.edit({recentActivityId:o._id})">
+							<i class="glyphicon glyphicon-pencil"></i>
+						</a>
+					</td>
+				</tr>
+				<tr ng-if="!$data || $data.length === 0">
+					<td colspan="5">
+						No Recent Activity records found.
+					</td>
+				</tr>
+			</table>
+		</section>
+	</div>
+
+</div>

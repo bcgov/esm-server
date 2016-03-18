@@ -202,8 +202,9 @@ function serviceProject($http) {
 		return $http({method:'GET',url: '/api/publiccomment/project/' + req._id + '/classify/claim'});
 	};
 
-
-
+	var getNameAndCodeByID = function(req) {
+		return $http({method:'GET',url: '/api/project/byid/'});
+	};
 
 	return {
 		getNewProject: getNewProject,
@@ -239,7 +240,8 @@ function serviceProject($http) {
 		getPublicCommentVettingStart: getPublicCommentVettingStart,
 		getPublicCommentVettingClaim: getPublicCommentVettingClaim,
 		getPublicCommentClassifyStart: getPublicCommentClassifyStart,
-		getPublicCommentClassifyClaim: getPublicCommentClassifyClaim
+		getPublicCommentClassifyClaim: getPublicCommentClassifyClaim,
+		getNameAndCodeByID: getNameAndCodeByID
 
 	};
 }

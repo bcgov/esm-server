@@ -176,6 +176,7 @@ pre {
 	padding: 0;
 	margin: 0;
 	font-size: inherit;
+	font-family: $font-family-sans-serif;
 	line-height: inherit;
 	background-color: transparent;
 	border: 0;
@@ -569,6 +570,21 @@ h3.panel-title {
 	border-bottom: 1px solid #ddd;
 }
 
+.map-filter .form-inline {
+	border-top: 1px solid #ddd;
+	background-image: -webkit-linear-gradient(top, #f5f5f5 0%, #e8e8e8 100%);
+	background-image: -o-linear-gradient(top, #f5f5f5 0%, #e8e8e8 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#e8e8e8));
+	background-image: linear-gradient(to bottom, #f5f5f5 0%, #e8e8e8 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#ffe8e8e8', GradientType=0);
+	background-repeat: repeat-x;
+	padding: 3px;
+}
+
+.map-filter .form-inline .form-control-static {
+	margin-top: 1px;
+}
+
 .panel label + p,
 .panel label + ul {
 	margin-bottom: 15px;
@@ -856,7 +872,7 @@ a:hover .header-profile-image {
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
-		padding-top: 0;
+	padding-top: 0;
 	background-color: transparent;
 	font-family: $font-family-sans-serif;
 }
@@ -996,6 +1012,28 @@ h2.page-title {
 	margin-bottom: 8px;
 }
 
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -ms-animation: spin .7s infinite linear;
+    -webkit-animation: spinw .7s infinite linear;
+    -moz-animation: spinm .7s infinite linear;
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+  
+@-webkit-keyframes spinw {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@-moz-keyframes spinm {
+    from { -moz-transform: rotate(0deg);}
+    to { -moz-transform: rotate(360deg);}
+}
+
 /*
 //-------------------
 // Schedule D3 Styles
@@ -1063,12 +1101,15 @@ table thead tr.ng-table-filters {
   padding:10px;
 }
 
-.template h1, li, p, div {
-  font-family: $font-family-sans-serif;
+.template h1,
+.template li,
+.template p,
+.template div {
+	font-family: $font-family-sans-serif;
 }
 
 .template-subitem {
-  margin-left:10px;
+	margin-left:10px;
 }
 
 .template ol[type="1"].template-hierarchy li {
@@ -1167,24 +1208,3 @@ table thead tr.ng-table-filters {
   padding-bottom: 5px;
 }
 
-.glyphicon-refresh-animate {
-    -animation: spin .7s infinite linear;
-    -ms-animation: spin .7s infinite linear;
-    -webkit-animation: spinw .7s infinite linear;
-    -moz-animation: spinm .7s infinite linear;
-}
-
-@keyframes spin {
-    from { transform: scale(1) rotate(0deg);}
-    to { transform: scale(1) rotate(360deg);}
-}
-  
-@-webkit-keyframes spinw {
-    from { -webkit-transform: rotate(0deg);}
-    to { -webkit-transform: rotate(360deg);}
-}
-
-@-moz-keyframes spinm {
-    from { -moz-transform: rotate(0deg);}
-    to { -moz-transform: rotate(360deg);}
-}

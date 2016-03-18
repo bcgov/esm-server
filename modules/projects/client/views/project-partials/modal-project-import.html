@@ -46,7 +46,8 @@
 
 					<td ng-if="!f.$error">
 						<select ng-model="f.importType" class="form-control input-sm ng-pristine ng-valid ng-touched">
-							<option value="/api/projects/import" label="Projects">Projects</option>
+							<option value="/api/projects/import/mem" label="MEM Projects">MEM Projects</option>
+							<option value="/api/projects/import/eao" label="EAO Projects">EAO Projects</option>
 							<option value="/api/users/import" label="Contacts">Contacts</option>
 							<option value="/api/groupusers/import" label="Group Contacts">Group Contacts</option>
 						</select>
