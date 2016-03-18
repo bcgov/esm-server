@@ -15,7 +15,7 @@ module.exports = function (app) {
     // all active activities
     //
     app.route ('/api/recentactivity/active/list')
-        //.all (policy.isAllowed)
+        .all (policy.isAllowed)
         .get (function (req, res) {
             var p = new RecentActivity ();
             p.getRecentActivityActive ()

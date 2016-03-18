@@ -12,7 +12,10 @@ angular.module('recent-activity').factory ('RecentActivityModel', function (Mode
 	// have all the basic crud stuff built in
 	//
 	var Class = ModelBase.extend ({
-		urlName : 'recentactivity'
+		urlName : 'recentactivity',
+        getRecentActivityActive : function() {
+            return this.get ('/api/recentactivity/active/list/');
+        }
 	});
 	return new Class ();
 });

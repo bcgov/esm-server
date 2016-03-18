@@ -24,9 +24,7 @@ module.exports = DBModel.extend ({
                             {},
                             {});
         return new Promise (function (resolve, reject) {
-            //p.then (resolve, reject);
             p.then(function (doc) {
-                // console.log("doc",doc);
                 var pcSort = _.partition(doc, { type: "Public Comment Period" });
                 var pcp = pcSort[0];
                 var news = pcSort[1];
