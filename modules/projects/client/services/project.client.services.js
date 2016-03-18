@@ -203,7 +203,7 @@ function serviceProject($http) {
 	};
 
 	var getNameAndCodeByID = function(req) {
-		return $http({method:'GET',url: '/api/project/byID/:projectid' + req._id});
+		return $http({method:'GET',url: '/api/project/byid/'});
 	};
 
 	return {
