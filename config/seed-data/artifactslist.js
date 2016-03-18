@@ -1,8 +1,38 @@
 var milestonebases = [{
-	code: 'project-description',
-	name: 'Project Description',
-	description: 'Project Description',
-	artifactType: 'Project Description'
+    code: 'project-description',
+    name: 'Project Description',
+    description: 'Project Description',
+    artifactType: 'Project Description'
+},{
+    code: 'section-10-1-a-order',
+    name: 'Section 10(1)(a) Order',
+    description: 'Section 10(1)(a) Order',
+    artifactType: 'Section 10(1)(a) Order'
+},{
+    code: 'section-10-1-b-order',
+    name: 'Section 10(1)(b) Order',
+    description: 'Section 10(1)(b) Order',
+    artifactType: 'Section 10(1)(b) Order'
+},{
+    code: 'section-10-1-c-order',
+    name: 'Section 10(1)(c) Order',
+    description: 'Section 10(1)(c) Order',
+    artifactType: 'Section 10(1)(c) Order'
+},{
+    code: 'section-11-order',
+    name: 'Section 11 Order',
+    description: 'Section 11 Order',
+    artifactType: 'Section 11 Order'
+},{
+    code: 'section-7-3-order',
+    name: 'Section 7(3) Order',
+    description: 'Section 7(3) Order',
+    artifactType: 'Section 7(3) Order'
+},{
+	code: 'valued-component',
+	name: 'Valued Component',
+	description: 'Valued Component',
+	artifactType: 'Valued Component'
 }];
 
 var activitybases = [{
@@ -56,22 +86,66 @@ var activitybases = [{
 }];
 
 var artifacttypes = [{
-	type: 'Project Description',
-	isTemplate: true,
-	multiple: false,
-	versions : [
-		'Submission',
-		'Draft',
-		'Final',
-		'Draft for Draft AIR',
-		'Final for Draft AIR',
-		'Draft for AIR',
-		'Final for AIR',
-		'Draft for Application',
-		'Certified (Schedule A)'
-	],
+    type: 'Valued Component',
+    milestone: 'valued-component',
+    versions : [
+        'Submission',
+        'Draft for Public Comment Period',
+        'Draft VC (DAIR)',
+        'Final Draft (DAIR)',
+        'Final (AIR)'
+    ]
+},{
+	type: 'Valued Component',
 	milestone: 'project-description',
-	stages: [{
+    versions : [
+        'Submission',
+        'Draft',
+        'Final',
+        'Draft for Draft AIR',
+        'Final for Draft AIR',
+        'Draft for AIR',
+        'Final for AIR',
+        'Draft for Application',
+        'Certified (Schedule A)'
+    ]
+},{
+    type: 'Section 10(1)(a) Order',
+    milestone: 'section-10-1-a-order',
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
+    type: 'Section 10(1)(b) Order',
+    milestone: 'section-10-1-b-order',
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
+    type: 'Section 10(1)(c) Order',
+    milestone: 'section-10-1-c-order',
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
+    type: 'Section 7(3) Order',
+    milestone: 'section-7-3-order',
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
+    type: 'Section 11 Order',
+    milestone: 'section-11-order',
+    versions : [
+        'Draft',
+        'Final'
+    ]
+}];
+var stages = [{
 		name: 'Edit',
         next: 'Review',
         prev: '',
@@ -101,93 +175,13 @@ var artifacttypes = [{
         next: '',
         prev: 'Publishing',
 		activity: 'notify'
-	}]
-}];
+	}];
 
-var templates = [{
-    "sections" : [
-        {
-            "meta" : [
-                {
-                    "default" : "sad",
-                    "label" : "Happy",
-                    "type" : "Text",
-                    "name" : "happy"
-                }
-            ],
-            "footer" : "",
-            "header" : "",
-            "template" : "<h1>Executive Summary</h1>\n<p>{{happy}}</p>",
-            "isfooter" : false,
-            "isheader" : false,
-            "multiple" : false,
-            "optional" : false,
-            "label" : "",
-            "name" : "execsummary"
-        },
-        {
-            "meta" : [
-                {
-                    "default" : "",
-                    "label" : "Title",
-                    "type" : "Text",
-                    "name" : "title"
-                },
-                {
-                    "default" : "",
-                    "label" : "Foot Note",
-                    "type" : "Text",
-                    "name" : "footnote"
-                },
-                {
-                    "default" : "",
-                    "label" : "Apple Type",
-                    "type" : "Text",
-                    "name" : "apple"
-                },
-                {
-                    "default" : "",
-                    "label" : "Colour",
-                    "type" : "Text",
-                    "name" : "colour"
-                },
-                {
-                    "default" : "",
-                    "label" : "Fruit",
-                    "type" : "Html",
-                    "name" : "fruit"
-                }
-            ],
-            "footer" : "<hr/>\n<div><i>all boundaries have been approved</i></div>",
-            "header" : "<h1>Boundaries</h1>",
-            "template" : "<h2>{{apple}} Apple</h2>\n<p>this is my apple and it is {{colour}}</p>\n\n<h3>Things about it</h3>\n{{fruit}}",
-            "isfooter" : true,
-            "isheader" : true,
-            "multiple" : true,
-            "optional" : false,
-            "label" : "",
-            "name" : "boundaries"
-        },
-        {
-            "meta" : [],
-            "footer" : "",
-            "header" : "",
-            "template" : "this is an optional final paragraph",
-            "isfooter" : false,
-            "isheader" : false,
-            "multiple" : false,
-            "optional" : true,
-            "label" : "final",
-            "name" : "fInal"
-        }
-    ],
-    "versionNumber" : 10,
-    "documentType" : "Project Description"
-}];
 
 module.exports = {
-	templates:templates,
+	templates:require('./jtemplates.json'),
 	milestonebases:milestonebases,
-	activitybases:activitybases,
+    activitybases:activitybases,
+	stages:stages,
 	artifacttypes:artifacttypes
 };

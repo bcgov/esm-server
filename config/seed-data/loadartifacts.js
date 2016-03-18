@@ -34,6 +34,9 @@ module.exports = function () {
 		}));
 	})
 	.then (function () {
+		return Template.remove ();
+	})
+	.then (function () {
 		return promise.all (list.templates.map (function (template) {
 			console.log ('adding template ',template.documentType);
 			var a = new Template (template);
@@ -42,6 +45,9 @@ module.exports = function () {
 	})
 	.then (function () {
 		return promise.all (list.artifacttypes.map (function (artifacttype) {
+			artifacttype.multiple = false;
+			artifacttype.isTemplate = true;
+			artifacttype.stages = list.stages;
 			Template.findOne ({documentType:artifacttype.type}).exec()
 			.then (function (template) {
 				if (!_.isEmpty(template)) {

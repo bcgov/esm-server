@@ -79,5 +79,11 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	eaIssues 					: { type: String, default: '' },
 	eaNotes 					: { type: String, default: '' },
 	CEAAInvolvement 			: { type: String, default: '' },
-	projectNotes 				: { type: String, default: '' } // Formal notes about the project
+	projectNotes 				: { type: String, default: '' }, // Formal notes about the project
+
+	// MEM data
+	ownership				: { type: String, default: '' },
+	memPermitID				: { type:String, default: '', index:true},  // Used to relate mem permitID on import
+	commodity				: { type: String, default: '' },
+	tailingsImpoundments	: { type: String, default: '' }
 });

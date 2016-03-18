@@ -162,7 +162,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.type.stages);
 			$scope.reject = function () {
-				ArtifactModel.nextStage ($scope.artifact)
+				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
 					$state.go ('p.detail', {project:project.code});
 				})
@@ -194,7 +194,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.type.stages);
 			$scope.reject = function () {
-				ArtifactModel.nextStage ($scope.artifact)
+				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
 					$state.go ('p.detail', {project:project.code});
 				})
@@ -226,7 +226,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.type.stages);
 			$scope.reject = function () {
-				ArtifactModel.nextStage ($scope.artifact)
+				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
 					$state.go ('p.detail', {project:project.code});
 				})
@@ -258,7 +258,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.type.stages);
 			$scope.reject = function () {
-				ArtifactModel.nextStage ($scope.artifact)
+				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
 					$state.go ('p.detail', {project:project.code});
 				})
@@ -290,7 +290,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.type.stages);
 			$scope.reject = function () {
-				ArtifactModel.nextStage ($scope.artifact)
+				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
 					$state.go ('p.detail', {project:project.code});
 				})
