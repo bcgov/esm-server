@@ -1,6 +1,6 @@
-FROM node:0.10.43
+FROM node:0.10
 
-MAINTAINER Matthias Luebken, matthias@catalyst-zero.com
+MAINTAINER Shea Phillips, shea.phillips@cloudcompass.ca
 
 # Install gem sass for  grunt-contrib-sass
 RUN apt-get update -qq && apt-get install -y build-essential
