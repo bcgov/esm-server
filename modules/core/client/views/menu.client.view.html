@@ -40,9 +40,12 @@
 		</ul>
 		<ul class="list-unstyled" ng-show="menu.authentication.user">
 			<li><a ui-sref="p.edit({projectid: 'new'})">Add Project</a></li>
+		<ul class="list-unstyled">
+			<li ng-if="menu.isAdmin">
+				<a x-modal-project-import href x-project="menu.import">Import</a>
+			</li>
 		</ul>
-		<ul class="list-unstyled" ng-show="menu.authentication.user">
-			<li><a x-modal-project-import href x-project="menu.import">Import</a></li>
+
 		</ul>
 	</div>
 
@@ -185,10 +188,10 @@
 		<hr>
 		<label class="control-label">System</label>
 		<ul class="list-unstyled">
-<!-- 			<li ng-repeat="item in menu.systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
+			<li ng-repeat="item in menu.systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
- -->
+
 			<li ng-if="menu.isAdmin">
 				<a ui-sref="admin.condition.list">Conditions</a>
 			</li>
@@ -212,9 +215,6 @@
 			</li>
  			<li ng-if="menu.isAdmin">
 				<a ui-sref="admin.template.list">Templates</a>
-			</li>
- 			<li ng-if="menu.isAdmin">
-				<a ui-sref="configuration">Configuration</a>
 			</li>
 		</ul>
 	</div>

@@ -1,0 +1,11 @@
+<section class="panel panel-default" ng-repeat="activity in recentActs | orderBy:'priority':true">
+	<div class='panel-body' ui-sref="p.detail({projectId: activity.project})">
+		<h3>{{ headline }}</h3>
+		<p>{{ content }}</p>
+	</div>
+</section>
+<section class="panel panel-default" ng-show="!recentActs || recentActs.length === 0">
+	<div class='panel-body' ui-sref="p.detail({projectId: activity.project})">
+		<h3>No Recent Activity to Report</h3>
+	</div>
+</section>

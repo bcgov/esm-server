@@ -1,7 +1,7 @@
 'use strict';
 // =========================================================================
 //
-// Policies for contacts
+// Policies for orgs
 //
 // =========================================================================
 var acl  = require ('acl');
@@ -9,10 +9,7 @@ acl      = new acl (new acl.memoryBackend ());
 var helpers  = require (require('path').resolve('./modules/core/server/controllers/core.helpers.controller'));
 
 exports.invokeRolesPolicies = function () {
-	helpers.setCRUDPermissions (acl, 'contact');
-	helpers.setPathPermissions (acl, [
-		[ '', 'user', '/api/contact/for/project/:projectId'    ],
-	]);
+	helpers.setCRUDPermissions (acl, 'recentActivity');
 };
 
 exports.isAllowed = helpers.isAllowed (acl);

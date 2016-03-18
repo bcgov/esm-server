@@ -103,9 +103,9 @@ function controllerProjectsSearch($scope, $state, Authentication, sProjectModel,
 // CONTROLLER: Projects
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsList.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC'];
+controllerProjectsList.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC', '_'];
 /* @ngInject */
-function controllerProjectsList($scope, $state, Authentication, sProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC) {
+function controllerProjectsList($scope, $state, Authentication, sProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC, _) {
 	var projectList = this;
 
 	projectList.types = PROJECT_TYPES;
@@ -117,6 +117,10 @@ function controllerProjectsList($scope, $state, Authentication, sProjectModel, $
 	$scope.$watch('projects', function(newValue) {
 		if (newValue) {
 			projectList.projects = newValue;
+			var projs = _(projectList.projects).chain().flatten();
+			projectList.regions = projs.pluck('region').unique().value();
+			projectList.status = projs.pluck('status').unique().value();
+			projectList.types = projs.pluck('type').unique().value();
 		}
 	});
 

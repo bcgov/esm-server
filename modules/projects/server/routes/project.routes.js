@@ -86,12 +86,17 @@ module.exports = function (app) {
 		});
 
 
-	app.route ('/api/projectile').all (policy.isAllowed).get (function (req, res) {
+	app.route ('/api/').all (policy.isAllowed).get (function (req, res) {
 		var p = new Project (req.user);
 		p.list ().then (helpers.success(res), helpers.failure(res));
 	});
 
-	app.route ('/api/projects/import').all (policy.isAllowed)
+	app.route ('/api/projects/byid').all (policy.isAllowed).get (function (req, res) {
+		var p = new Project (req.user);
+		p.findMany ({},{code: 1, name: 1, _id: 1}).then (helpers.success(res), helpers.failure(res));
+	});
+
+	app.route ('/api/projects/import/eao').all (policy.isAllowed)
 		.post (function (req, res) {
 			var file = req.files.file;
 			if (file) {
@@ -101,5 +106,15 @@ module.exports = function (app) {
 				.then (helpers.success(res), helpers.failure(res));
 			}
 		});
+	app.route ('/api/projects/import/mem').all (policy.isAllowed)
+		.post (function (req, res) {
+			var file = req.files.file;
+			if (file) {
+				// console.log("Received contact import file:",file);
+				var p = new Project (req.user);
+				p.loadProjects(file, req, res)
+				.then (helpers.success(res), helpers.failure(res));
+			}
+		});		
 };
 

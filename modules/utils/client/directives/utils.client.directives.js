@@ -5,7 +5,6 @@ angular.module('utils')
     .directive('displayArray', directiveDisplayArray)
 
     .directive('tmplQuickLinks', directiveQuickLinks)
-    .directive('tmplRecentActivity', directiveRecentNews)
     .directive('kebabThis', directiveKebabThis)
     .directive('modalDatePicker', directiveModalDatePicker)
     .directive('centerVertical', directiveCenterVertical)
@@ -32,7 +31,7 @@ angular.module('utils')
     .directive('scrollAnchor', directiveScrollAnchor)
     .directive('scrollTrigger', directiveScrollTrigger)
     .directive('selectOnFocus', directiveSelectOnFocus);
-    
+
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Select Array
@@ -90,22 +89,6 @@ function directiveQuickLinks() {
         templateUrl: 'modules/utils/client/views/partials/quick-links.html',
         controller: 'controllerQuickLinks',
         controllerAs: 'qlPanel'
-    };
-    return directive;
-}
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Projects Recent News
-//
-// -----------------------------------------------------------------------------------
-directiveRecentNews.$inject = [];
-/* @ngInject */
-function directiveRecentNews() {
-    var directive = {
-        restrict: 'E',
-        templateUrl: 'modules/utils/client/views/partials/recent-activity.html',
-        controller: 'controllerRecentActivity',
-        controllerAs: 'raPanel'
     };
     return directive;
 }
