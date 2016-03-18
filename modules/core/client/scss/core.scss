@@ -57,10 +57,27 @@ $font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-s
 	padding-top: 0;
 }
 
-.well > h3, .panel-body h3:first-child {
+.well > h3,.panel-body h3:first-child {
 	margin-top: 0;
 	margin-bottom: 20px;
 }
+
+.panel-body.news-headline h3:first-child {
+	margin-bottom: 10px;
+}
+
+.watermark-chat {
+	background-image: url('/modules/core/client/img/watermarks/eao-chat.png');
+	background-repeat: no-repeat;
+	background-position: 110% -10%;
+}
+.watermark-news {
+	background-image: url('/modules/core/client/img/watermarks/eao-news.png');
+	background-repeat: no-repeat;
+	background-position: 110% -10%;	
+}
+
+
 .well > h4 {
 	margin-top: 0;
 	margin-bottom: 15px;
@@ -632,6 +649,7 @@ h3.panel-title {
 .panel {
 	position: relative;
 }
+
 
 // -------------------------
 // SECTION SPECIFIC RULES

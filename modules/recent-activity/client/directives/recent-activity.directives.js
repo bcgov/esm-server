@@ -12,8 +12,12 @@ angular.module ('recent-activity')
 		restrict: 'E',
 		templateUrl: 'modules/recent-activity/client/views/recent-activity.html',
 		controller: function($scope, RecentActivityModel, ProjectModel) {
-			$scope.recentActs = RecentActivityModel.getCollection();
-			$scope.projectlookup = ProjectModel.lookup();
+			RecentActivityModel.getRecentActivityActive().then( function(res) {
+				$scope.recentActs = res;
+			});
+			ProjectModel.lookup().then( function(res) {
+				$scope.projectlookup = res;
+			});
 		}
 	};
 })
