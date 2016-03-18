@@ -103,8 +103,19 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 			docUpload.project = newValue;
 			docUpload.setTargetUrl();
 			Document.getProjectDocumentFolderNames(newValue._id).then( function(res) {
+				// console.log("getProjectDocumentFolderNames",res.data);
 				docUpload.docFolderNames	= res.data;
 			});
+			if (ENV === 'MEM') {
+				Document.getProjectDocumentMEMTypes(newValue._id, false).then( function(res) {
+					// console.log("getProjectDocumentMEMTypes",res.data);
+					docUpload.docTypes = res.data;
+				});
+				Document.getProjectDocumentSubTypes(newValue._id, false).then( function(res) {
+					// console.log("getProjectDocumentSubTypes",res.data);
+					docUpload.docSubTypes = res.data;
+				});
+			}
 		}
 	});
 
@@ -141,9 +152,11 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 		}
 	};
 
-	// get types for dropdown.
-	docUpload.docTypes = Document.getDocumentTypes();
-	docUpload.docSubTypes = Document.getDocumentSubTypes();
+	// get types for dropdown.  EAO ONLY
+	if (ENV === 'EAO') {
+		docUpload.docTypes = Document.getDocumentTypes();
+		docUpload.docSubTypes = Document.getDocumentSubTypes();
+	}
 
 	// allow the upload to be triggered from an external button.
 	// this should be called and then documentUploadComplete should be listened for.
@@ -179,15 +192,15 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 		if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
 			angular.forEach( docUpload.fileList, function(file) {
 				// Quick hack to pass objects
-				if (undefined === docUpload.type.name) docUpload.type.name = "Not Specified";
-				if (undefined === docUpload.subType.name) docUpload.subType.name = "Not Specified";
+				if (undefined === docUpload.typeName) docUpload.typeName = "Not Specified";
+				if (undefined === docUpload.subTypeName) docUpload.subTypeName = "Not Specified";
 				if (undefined === docUpload.folderName) docUpload.folderName = "Not Specified";
 
 				file.upload = Upload.upload({
 					url: docUpload.targetUrl,
 					file: file,
-					headers: { 'documenttype': docUpload.type.name,
-							   'documentsubtype': docUpload.subType.name,
+					headers: { 'documenttype': docUpload.typeName,
+							   'documentsubtype': docUpload.subTypeName,
 							   'documentfoldername': docUpload.folderName,
 							   'documentisinreview': uploadingReviewDocs}
 				});
@@ -257,6 +270,8 @@ controllerDocumentBrowser.$inject = ['$scope', 'Document', '$rootScope', 'Authen
 /* @ngInject */
 function controllerDocumentBrowser($scope, Document, $rootScope, Authentication, ENV) {
 	var docBrowser = this;
+
+	$scope.environment = ENV;
 
 	docBrowser.documentFiles	= undefined;
 	docBrowser.docTypes			= undefined;

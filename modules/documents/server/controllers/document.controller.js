@@ -17,6 +17,7 @@ var Cheerio = require('cheerio');
 var obj = require('mongoose').Types.ObjectId;
 var fs		   = require ('fs');
 var CSVParse   = require('csv-parse');
+var _ 			= require('lodash');
 
 var crud = new CRUD (Model);
 // -------------------------------------------------------------------------
@@ -220,11 +221,6 @@ var getDocumentTypesForProject = function (req, res) {
 		});
 	});
 };
-// -------------------------------------------------------------------------
-//
-// import a document, return it via service
-//
-// -------------------------------------------------------------------------
 var getDocumentTypesForProjectAndReturn = function (req, res) {
 	getDocumentTypesForProject (req, req)
 	.then (function (model) {
@@ -238,6 +234,54 @@ var getDocumentTypesForProjectAndReturn = function (req, res) {
 };
 exports.getDocumentTypesForProjectAndReturn = getDocumentTypesForProjectAndReturn;
 
+
+var getDocumentSubTypesForProject = function (req, res) {
+	return new Promise (function (resolve, reject) {
+		var projectID = req.params.projectid;
+			Model.find({project: projectID},{projectFolderSubType: 1}).then(function (doc) {
+				var data = _.map(doc, function (foo) {
+					return foo.projectFolderSubType;
+				});
+				resolve(data);
+			}, reject);
+		});
+};
+var getDocumentSubTypesForProjectAndReturn = function (req, res) {
+	getDocumentSubTypesForProject (req, req)
+	.then (function (model) {
+		//console.log (model);
+		helpers.sendData (res, model);
+	})
+	.catch (function (err) {
+		// console.log (err);
+		helpers.sendError (res, err);
+	});
+};
+exports.getDocumentSubTypesForProjectAndReturn = getDocumentSubTypesForProjectAndReturn;
+
+var getDocumentTypesForProjectMEM = function (req, res) {
+	return new Promise (function (resolve, reject) {
+		var projectID = req.params.projectid;
+			Model.find({project: projectID},{projectFolderType: 1}).then(function (doc) {
+				var data = _.map(doc, function (foo) {
+					return foo.projectFolderType;
+				});
+				resolve(data);
+			}, reject);
+		});
+};
+var getDocumentTypesForProjectMEMAndReturn = function (req, res) {
+	getDocumentTypesForProjectMEM (req, req)
+	.then (function (model) {
+		//console.log (model);
+		helpers.sendData (res, model);
+	})
+	.catch (function (err) {
+		// console.log (err);
+		helpers.sendError (res, err);
+	});
+};
+exports.getDocumentTypesForProjectMEMAndReturn = getDocumentTypesForProjectMEMAndReturn;
 
 // -------------------------------------------------------------------------
 //

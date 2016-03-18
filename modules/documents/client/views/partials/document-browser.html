@@ -3,7 +3,11 @@
 	<a href class="small pull-right"
 		x-modal-document-upload-classify
 		x-project="docBrowser.project"
-		ng-if="docBrowser.authentication.user"> Upload <span class="glyphicon glyphicon-upload"></span> </a>
+		ng-if="(docBrowser.authentication.user) && environment === 'EAO'"> Upload <span class="glyphicon glyphicon-upload"></span> </a>
+	<a href class="small pull-right"
+		x-modal-document-upload-classify-mem
+		x-project="docBrowser.project"
+		ng-if="(docBrowser.authentication.user) && environment === 'MEM'"> Upload <span class="glyphicon glyphicon-upload"></span> </a>	
 	Documents</h3>
 	<div class='container-fluid'>
 		<div class='row'>
