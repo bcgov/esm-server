@@ -496,12 +496,13 @@ _.extend (DBModel.prototype, {
 	// GET *
 	//
 	// -------------------------------------------------------------------------
-	list : function (q) {
+	list : function (q, f) {
 		q = q || {};
 		q = _.extend ({}, this.baseQ, q);
+		f = f || {};
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			self.findMany (q)
+			self.findMany (q, f)
 			.then (self.permissions)
 			.then (self.decorateAll)
 			.then (resolve, reject);

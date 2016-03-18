@@ -1,5 +1,5 @@
 <section class="panel panel-default" ng-repeat="activity in recentActs | orderBy:'priority':true">
-	<div class='panel-body' ui-sref="p.detail({projectId: activity.project})">
+	<div class='panel-body' ui-sref="p.detail({projectId: projectsLookup[activity.project].code })">
 		<h3>{{ headline }}</h3>
 		<p>{{ content }}</p>
 	</div>

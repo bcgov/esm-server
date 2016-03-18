@@ -18,8 +18,15 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 		//
 		// -------------------------------------------------------------------------
 		byCode : function (code) {
-			console.log ('go and get '+code);
 			return this.get ('/api/project/bycode/'+code);
+		},
+		// -------------------------------------------------------------------------
+		//
+		// get just the code and name of the projects for a subset
+		//
+		// -------------------------------------------------------------------------
+		lookup : function () {
+			return this.get ('/api/projects/lookup');
 		},
 		// -------------------------------------------------------------------------
 		//

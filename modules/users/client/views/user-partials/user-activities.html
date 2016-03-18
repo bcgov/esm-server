@@ -5,61 +5,12 @@
 			All Activities
 		</h1>
 
-		<section class="panel panel-default">
-			<div class="panel-sub-heading">
-				<div class="form-inline">
-
-					<div class="form-group pull-right">
-						<label class="control-label">Keyword Search</label>
-						<input type="text" ng-model="userActs.search" class="form-control input-sm"/ >
-						<a ng-show="userActs.search" href class="btn btn-sm btn-default" ng-click="userActs.search = undefined">Clear</a>
-					</div>
-
-					<div class="form-group">
-						<label class="control-label">Project</label>
-						<select ng-model="userActs.filter" ng-options="key as project.name group by (project.region | regionName) for (key, project) in (userActs.projectNames | orderBy:'project.name')" class="form-control input-sm">
-						</select>
-						<a ng-show="userActs.filter" href class="btn btn-sm btn-default" ng-click="userActs.filter = undefined">All Projects</a>
-					</div>
-
-				</div>
-			</div>
-
-
-			<table class="table table-condensed table-striped">
-				<thead>
-					<tr class="small">
-						<th width="20%">Project</th>
-						<th>Activity</th>
-					</tr>
-				</thead>
-				<tbody>
-
-					<tr ng-repeat="activity in acts = (userActs.activities | filter:{ 'project': userActs.filter } | filter: userActs.search) | orderBy:'order'" ui-sref="activity({project: activity.project, activity: activity._id})" class="clickable">
-						<td>{{ userActs.projectNames[activity.project].name }}</td>
-						<td>{{ activity.name }}</td>
-					</tr>
-
-					<tr ng-if="!userActs.activities || userActs.activities.length === 0">
-						<td colspan="2">You have no activities.</td>
-					</tr>
-					<tr ng-if="userActs.activities && userActs.activities.length !== 0 && acts.length === 0">
-						<td colspan="2">No activities match your search criteria.</td>
-					</tr>
-
-				</tbody>
-			</table>
-		</section>
-
-
-{{ activities | json }}
-
 		<div class="row">
 			<div class="col-sm-12">
 				<section class="panel panel-default">
 					<table ng-table="tableParams" class="table table-condensed table-striped table-hover">
-						<tr ng-repeat="o in activities | orderBy:'order'" ui-sref="activity({project: activity.project, activity: activity._id})" class="clickable">
-							<td data-title="'Project'"  filter="{'project':'select'}"   sortable="'project'"  filter-data="projects.name" >{{o.project}}</td>
+						<tr ng-repeat="o in $data | orderBy:'order'" ui-sref="activity({project: activity.project, activity: activity._id})" class="clickable">
+							<td data-title="'Project'"  filter="{'project':'text'}" sortable="'project'">{{ o.project }}</td>
 							<td data-title="'Name'" filter="{'name':'text'}"    sortable="'name'" >{{o.name}}</td>
 						</tr>
 					</table>
@@ -67,9 +18,6 @@
 			</div>
 
 		</div>
-
-
-
 
 	</div> <!-- /col10 -->
 	<div class='col-sm-2'>

@@ -37,7 +37,7 @@
 						name="project"
 						class="form-control input-sm"
 						ng-model="recentActivity.project"
-						ng-options="v._id as v.name group by v.region for v  in projects"></select>
+						ng-options="v._id as v.name group by v.region for (k, v) in projects"></select>
 				</div>
 			</div>
 			<div class="col-sm-3">
