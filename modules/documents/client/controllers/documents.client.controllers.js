@@ -80,11 +80,13 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 // CONTROLLER: Document Upload General
 //
 // -----------------------------------------------------------------------------------
-controllerDocumentUploadGlobal.$inject = ['$scope', 'Upload', '$timeout', 'Document', '_'];
+controllerDocumentUploadGlobal.$inject = ['$scope', 'Upload', '$timeout', 'Document', '_', 'ENV'];
 /* @ngInject */
-function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _) {
+function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, ENV) {
 	var docUpload = this;
 	var parentId = null;
+
+	$scope.environment = ENV;
 
 	docUpload.inProgress = false;
 	docUpload.fileList = [];
@@ -251,9 +253,9 @@ function controllerDocumentList($scope, sAuthentication) {
 // CONTROLLER: Document List
 //
 // -----------------------------------------------------------------------------------
-controllerDocumentBrowser.$inject = ['$scope', 'Document', '$rootScope', 'Authentication'];
+controllerDocumentBrowser.$inject = ['$scope', 'Document', '$rootScope', 'Authentication', 'ENV'];
 /* @ngInject */
-function controllerDocumentBrowser($scope, Document, $rootScope, Authentication) {
+function controllerDocumentBrowser($scope, Document, $rootScope, Authentication, ENV) {
 	var docBrowser = this;
 
 	docBrowser.documentFiles	= undefined;

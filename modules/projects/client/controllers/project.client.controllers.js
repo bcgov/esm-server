@@ -260,10 +260,18 @@ function controllerProjectTombstone($scope, ProjectModel) {
 // CONTROLLER: Project Entry Tombstone
 //
 // -----------------------------------------------------------------------------------
-controllerModalProjectImport.$inject = ['Upload', '$modalInstance', '$timeout', '$scope', '$state', 'Project',  'ProjectModel', 'rProject', 'REGIONS', 'PROJECT_TYPES', '_'];
+controllerModalProjectImport.$inject = ['Upload', '$modalInstance', '$timeout', '$scope', '$state', 'Project',  'ProjectModel', 'rProject', 'REGIONS', 'PROJECT_TYPES', '_', 'ENV'];
 /* @ngInject */
-function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, $state, sProject, sProjectModel, rProject, REGIONS, PROJECT_TYPES, _) {
+function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, $state, sProject, sProjectModel, rProject, REGIONS, PROJECT_TYPES, _, ENV) {
 	var projectImport = this;
+	$scope.environment = ENV;
+
+	// Setup default endpoint for import option
+	if (ENV === 'MEM') {
+		$scope.defaultOption = '/api/projects/import/mem';
+	} else {
+		$scope.defaultOption = '/api/projects/import/eao';
+	}
 
 	projectImport.fileList = [];
 
