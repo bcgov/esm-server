@@ -1,7 +1,7 @@
 <section class='panel panel-default'>
 
 	<map center="54.726668, -127.647621" zoom="5" style='height: 500px' map-type-id="ROADMAP" min-zoom=5 disable-default-u-i="true">
-		<marker id="marker_{{ project._id }}" position="{{ project.lat }},{{ project.lon }}" ng-repeat-start="project in projectList.projects" on-click="showInfoWindow(event, 'info_{{ project._id }}')">
+		<marker id="marker_{{ project._id }}" position="{{ project.lat }},{{ project.lon }}" ng-repeat-start="project in projectsFiltered = (projectList.projects | filter:{'type':filterType, 'status':filterStatus,'region':filterRegion})" on-click="showInfoWindow(event, 'info_{{ project._id }}')">
 		</marker>
 		<info-window id="info_{{ project._id }}" visible-on-marker="marker_{{ project._id }}" max-width="300" ng-repeat-end>
 			<div>
@@ -16,9 +16,19 @@
 			</div>
 		</info-window>
 	</map>
-	<div class="">
+	<div class="row map-filter">
+		<div class="col-sm-12">
+			<div class="form-inline text-right">
+				<div class="form-group form-group-sm">
+					<span class="form-control-static">Projects Found: {{ projectsFiltered.length || 0}}&nbsp;&nbsp;</span>
+				</div>
+				<select ng-model="filterType" class="form-control input-sm" ng-options="v as v for v in projectList.types"><option value="">All</option></select>
+				<select ng-model="filterStatus" class="form-control input-sm" ng-options="v as v for v in projectList.status"><option value="">All</option></select>
+				<select ng-model="filterRegion" class="form-control input-sm" ng-options="v as v for v in projectList.regions"><option value="">All</option></select>
+				<button class="btn btn-link btn-sm" ng-click="filterType = undefined; filterStatus = undefined; filterRegion=undefined;">Show All</button>
 
-
+			</div>
+		</div>
 	</div>
 
 </section>

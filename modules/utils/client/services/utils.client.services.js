@@ -10,9 +10,6 @@ angular.module('utils')
 serviceUtils.$inject = ['$http'];
 /* @ngInject */
 function serviceUtils($http) {
-	var getRecentActivity = function(req) {
-		return $http({method:'GET',url: 'api/project'});
-	};
 	var getQuickLinks = function(req) {
 		return $http({method:'GET',url: 'api/project'});
 	};
@@ -36,8 +33,7 @@ function serviceUtils($http) {
 	};
 	
 	return {
-		// getCurrentUser: getCurrentUser,
-		getRecentActivity: getRecentActivity,
+		// getCurrentUser: getCurrentUser
 		getQuickLinks: getQuickLinks,
 		// getProjectMilestones: getProjectMilestones,
 		getCommonLayers: getCommonLayers,

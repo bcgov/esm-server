@@ -1,15 +1,11 @@
 <section id="projects-view" class="row">
 	<ui-view class='col-sm-10'>
 
-		<div class="panel panel-default" ng-show="!authentication.user">
+		<div class="panel panel-default" ng-show="environment === 'MEM' &&!authentication.user">
 			<div class="panel-heading">
 				<h3 class="panel-title">Public Project Listing</h3>
 			</div>
-			<div class='panel-body' ng-show="environment === 'EAO'">
-				<p>The Environmental Assessment Office (EAO) is a neutral agency that manages the review of proposed major projects in British Columbia, as required by the Environmental Assessment Act.</p>
-				<p>This service provides information on current and historical projects.  Click a project below to view.</p>
-			</div>
-			<div class='panel-body' ng-show="environment === 'MEM'">
+			<div class='panel-body'>
 				<p>The Ministry of Energy and Mines (MEM) is committed to making information on permitted mine sites in British Columbia more accessible to interested parties. MEM has collaborated with the BC Environmental Assessment Office (EAO) to post the following documents online:</p>
 				<ul>
 				<li>Permits and amendments for major mines</li>
@@ -21,12 +17,15 @@
 			</div>
 		</div>
 
-		<tmpl-projects-map id="anchor-map" x-projects='projects'></tmpl-projects-map>
+		<div class="row">
+			<div class="col-sm-4">
+				<tmpl-recent-activity id="anchor-recent"></tmpl-recent-activity>
+			</div>
+			<div class="col-sm-8">
+				<tmpl-projects-map id="anchor-map" x-projects='projects'></tmpl-projects-map>
 
-		<tmpl-projects-list2 id="anchor-list" x-projects='projects'></tmpl-projects-list2>
-
-		<div x-window-height>
-			<tmpl-recent-activity id="anchor-recent"></tmpl-recent-activity>
+				<tmpl-projects-list2 id="anchor-list" x-projects='projects'></tmpl-projects-list2>
+			</div>
 		</div>
 
 	</ui-view>
