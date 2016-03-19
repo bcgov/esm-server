@@ -3,12 +3,14 @@
 angular.module('documents')
     .directive('tmplDocumentsUploadGeneral', directiveDocumentsUploadGeneral)
     .directive('tmplDocumentsLink', directiveDocumentsLink)
+    .directive('tmplDocumentsUploadClassifyMem', directiveDocumentsUploadClassifyMem)
     .directive('tmplDocumentsUploadClassify', directiveDocumentsUploadClassify)        
     .directive('tmplDocumentsList', directiveDocumentsList)   
     .directive('tmplDocumentsBrowser', directiveDocumentsBrowser) 
     .directive('tmplDocumentsApprovals', directiveDocumentsApprovals)                
     .directive('modalDocumentUploadReview', directiveModalDocumentUploadReview)
     .directive('modalDocumentLink', directiveModalDocumentLink)
+    .directive('modalDocumentUploadClassifyMem', directiveModalDocumentUploadClassifyMem)
     .directive('modalDocumentUploadClassify', directiveModalDocumentUploadClassify);
 
     // .directive('modalDocumentViewer', directiveModalDocumentViewer)
@@ -59,7 +61,7 @@ function directiveDocumentsLink() {
 }
 // -----------------------------------------------------------------------------------
 //
-// CONTROLLER: Document Upload General
+// CONTROLLER: Document Upload General for
 //
 // -----------------------------------------------------------------------------------
 function directiveDocumentsUploadClassify() {
@@ -78,6 +80,27 @@ function directiveDocumentsUploadClassify() {
 
     return directive;
 }    
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Document Upload General for MEM
+//
+// -----------------------------------------------------------------------------------
+function directiveDocumentsUploadClassifyMem() {
+    var directive = {
+        restrict: 'E',
+        templateUrl: 'modules/documents/client/views/partials/document-upload-classify-mem.html',
+        scope: {
+            project: '=',
+            type: '@',  //project or comment
+            hideUploadButton: '=',
+            parentId: '='
+        },
+        controller: 'controllerDocumentUploadGlobal',
+        controllerAs: 'docUpload'
+    };
+
+    return directive;
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Document List Table
@@ -241,6 +264,39 @@ function directiveModalDocumentUploadClassify($modal, $rootScope) {
     };
     return directive;
 }   
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Upload in a modal
+//
+// -----------------------------------------------------------------------------------
+directiveModalDocumentUploadClassifyMem.$inject = ['$modal', '$rootScope'];
+/* @ngInject */
+function directiveModalDocumentUploadClassifyMem($modal, $rootScope) {
+    var directive = {
+        restrict:'A',
+        scope: {
+            project: '='
+        },
+        link : function(scope, element, attrs) {
+            element.on('click', function() {
+                var modalDocUpload = $modal.open({
+                    animation: true,
+                    templateUrl: 'modules/documents/client/views/partials/modal-document-upload-classify-mem.html',
+                    controller: 'controllerModalDocumentUploadClassify',
+                    controllerAs: 'docUploadModal',
+                    size: 'lg',
+                    resolve: {
+                        rProject: function() { return scope.project; }
+                    }
+                });
+                modalDocUpload.result.then(function (data) {
+                    $rootScope.$broadcast('refreshDocumentList');
+                }, function () {});
+            });
+        }
+    };
+    return directive;
+}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Upload in a modal

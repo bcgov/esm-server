@@ -88,7 +88,7 @@ var DocumentSchema  = new Schema ({
     projectFolderURL               : { type:String, default:'' }, // The specific DirectoryID instance of a collection of documents
     projectFolderDatePosted        : { type: Date, default: Date.now }, // We'll want to convert any incoming date to this fmt.
     projectFolderAuthor            : { type:String, default:'' },
-    documentEPICId                 : { type:String, default:'', index:true },
+    documentEPICId                 : { type:Number, default:0, index:true },
     documentFileName               : { type:String, default:'' }, // A.K.A. Document File Name in EPIC
     documentFileURL                : { type:String, default:'' },
     documentFileSize               : { type:String, default:'' }, // Looks like everything is in KB

@@ -26,6 +26,11 @@ module.exports = function (app) {
 
 	app.route ('/api/documents/types/:projectid').all (policy.isAllowed)
 		.get  (controller.getDocumentTypesForProjectAndReturn);
+	app.route ('/api/documents/memtypes/:projectid').all (policy.isAllowed)
+		.get  (controller.getDocumentTypesForProjectMEMAndReturn);
+
+	app.route ('/api/documents/subtypes/:projectid').all (policy.isAllowed)
+		.get  (controller.getDocumentSubTypesForProjectAndReturn);
 
 	app.route ('/api/documents/folderNames/:projectid').all (policy.isAllowed)
 		.get  (controller.getDocumentFolderNamesForProjectAndReturn);

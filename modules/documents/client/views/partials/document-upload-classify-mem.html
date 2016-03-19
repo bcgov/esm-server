@@ -1,0 +1,136 @@
+<label class="control-label">Upload Documents MEM</label>
+<div class="well well-sm container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+		    <div ngf-drop ngf-select ng-model="files" class="drop-box"
+		        ngf-drag-over-class="dragover"
+		        ngf-multiple="true"
+		        ngf-allow-dir="true"
+		        ngf-max-total-size="100MB"
+		        accept="image/*,application/pdf"
+		        ngf-pattern="'image/*,application/pdf'">Drop files here or click to upload
+		    </div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-4">
+		
+		</div>
+	</div>
+
+	<table class="table table-condensed">
+		<thead>
+			<tr class="small" colspan="3">
+				<th>Type and Destination for New Documents</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td width="33%" style="padding-top: 5px;">
+					<div class="form-group ng-hide" ng-show="docUpload.docTypes.length === 0 || docUpload.customType">
+						<a href class="control-label pull-right" ng-click="docUpload.customType = !docUpload.customType">
+							<span>From Existing</span>
+						</a>
+
+						<label class="control-label">Root Folder</label>
+						<input class="form-control ng-cloak" x-select-on-focus ng-model="docUpload.typeName" placeholder="New Folder Name">
+					</div>
+
+					<div class="form-group ng-hide" ng-show="docUpload.docTypes.length !== 0 && !docUpload.customType">
+						<a href class="control-label pull-right" ng-click="docUpload.customType = !docUpload.customType">
+							<span>New Folder</span>
+						</a>
+
+						<label class="control-label">Root Folder</label>
+						<select class="form-control" ng-options="ftype for ftype in docUpload.docTypes | unique: 'projectTypeName'" ng-model="docUpload.typeName"></select>
+					</div>
+
+				</td>
+				<td width="34%" style="padding-top: 5px;">
+					<div class="form-group ng-hide" ng-show="docUpload.docSubTypes.length === 0 || docUpload.customSubType">
+						<a href class="control-label pull-right" ng-click="docUpload.customSubType = !docUpload.customSubType">
+							<span>From Existing</span>
+						</a>
+
+						<label class="control-label">Sub Folder</label>
+						<input class="form-control ng-cloak" x-select-on-focus ng-model="docUpload.subTypeName" placeholder="New Folder Name">
+					</div>
+
+					<div class="form-group ng-hide" ng-show="docUpload.docSubTypes.length !== 0 && !docUpload.customSubType">
+						<a href class="control-label pull-right" ng-click="docUpload.customSubType = !docUpload.customSubType">
+							<span>New Folder</span>
+						</a>
+
+						<label class="control-label">Sub Folder</label>
+						<select class="form-control" ng-options="ftype for ftype in docUpload.docSubTypes | unique: 'projectSubTypeName'" ng-model="docUpload.subTypeName"></select>
+					</div>
+				</td>
+				<td width="33%" style="padding-top: 5px;">
+
+					<!-- there are no folders or a custom folder is requested -->
+					<div class="form-group ng-hide" ng-show="docUpload.docFolderNames.length === 0 || docUpload.customFolder">
+						<a href class="control-label pull-right" ng-click="docUpload.customFolder = !docUpload.customFolder">
+							<span>From Existing</span>
+						</a>
+
+						<label class="control-label">Base Folder</label>
+						<input class="form-control ng-cloak" x-select-on-focus ng-model="docUpload.folderName" placeholder="New Folder Name">
+					</div>
+
+					<div class="form-group ng-hide" ng-show="docUpload.docFolderNames.length !== 0 && !docUpload.customFolder">
+						<a href class="control-label pull-right" ng-click="docUpload.customFolder = !docUpload.customFolder">
+							<span>New Folder</span>
+						</a>
+
+						<label class="control-label">Base Folder</label>
+						<select class="form-control" ng-options="ftype for ftype in docUpload.docFolderNames | unique: 'projectFolderName'" ng-model="docUpload.folderName"></select>
+					</div>
+
+
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table class="table table-condensed">
+		<thead>
+			<tr class="small">
+				<th>Files</th>
+				<th width="10%"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ngf-no-file-drop>
+				<td class="text-center" colspan=2>
+					<p class="form-control-static">File Drag/Drop is not supported for this browser</p>
+				</td>
+			</tr>
+			<tr ng-if="!files">
+				<td class="text-center" colspan=2 class="text-center">
+					<p class="form-control-static">Drag a file to the dashed region above to upload.</p>
+				</td>
+			</tr>
+			<tr ng-repeat="f in docUpload.fileList" ng-class="{'danger': f.$error}">
+
+				<td ng-if="f.$error" colspan=2>
+					<p class="form-control-static text-danger">FILE ERROR: {{f.name}} {{f.$error}} {{f.$errorParam}}</p>
+				</td>
+
+				<td ng-if="!f.$error">
+					<p class="form-control-static">{{f.name}} {{f.$error}} {{f.$errorParam}}</p>
+				</td>
+				<td ng-if="!f.$error && !f.progress" class="text-right">
+					<p class="form-control-static"><a href ng-click="docUpload.removeFile(f)"><span class="glyphicon glyphicon-remove"></span></a></p>
+				</td>
+
+				<td ng-if="!f.$error && f.progress">
+					<div class="progress" ng-show="f.progress >= 0" style="margin-top: 7px;"><div class="progress-bar progress-bar-success" role="progressbar" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">{{ f.progress }}</div></div>
+				</td>
+
+			</tr>
+		</tbody>
+	</table>
+
+</div>
+

@@ -57,10 +57,27 @@ $font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-s
 	padding-top: 0;
 }
 
-.well > h3, .panel-body h3:first-child {
+.well > h3,.panel-body h3:first-child {
 	margin-top: 0;
 	margin-bottom: 20px;
 }
+
+.panel-body.news-headline h3:first-child {
+	margin-bottom: 10px;
+}
+
+.watermark-chat {
+	background-image: url('/modules/core/client/img/watermarks/eao-chat.png');
+	background-repeat: no-repeat;
+	background-position: 110% -10%;
+}
+.watermark-news {
+	background-image: url('/modules/core/client/img/watermarks/eao-news.png');
+	background-repeat: no-repeat;
+	background-position: 110% -10%;	
+}
+
+
 .well > h4 {
 	margin-top: 0;
 	margin-bottom: 15px;
@@ -632,6 +649,7 @@ h3.panel-title {
 .panel {
 	position: relative;
 }
+
 
 // -------------------------
 // SECTION SPECIFIC RULES
@@ -1208,3 +1226,85 @@ table thead tr.ng-table-filters {
   padding-bottom: 5px;
 }
 
+.template .title-pg {
+  margin: 150px 0;
+}
+
+.template .title-pg-space {
+  margin-top: 100px;
+}
+
+.template .title-pg-txt-lrg {
+  font-weight: bold; 
+  font-size: 50px;
+}
+
+.template .title-pg-in-txt-lrg {
+  font-weight: bold; 
+  font-size: 28px; 
+  color: #336699;
+}
+
+.template .title-pg-txt-med {
+  font-weight: bold; 
+  font-size: 24px;
+}
+
+.template .title-pg-in-txt-med {
+  font-weight: bold; 
+  font-size: 24px; 
+  color: #336699;
+}
+
+.template .title-pg-txt-sml {
+  font-size: 10px;
+}
+
+.template .section-header-lrg {
+  font-weight: bold; 
+  font-size: 26px;
+}
+
+.template .section-header-med {
+  font-weight: bold; 
+  font-size: 19px;
+}
+
+.template .section-header-sml {
+  font-weight: bold; 
+  font-size: 16px;
+}
+
+.template table.air-table {
+  width: 100%;
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin: 10px 0;
+}
+
+.template table.air-table td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  font-size: 11px;
+  padding: 5px;
+}
+
+.template table.air-table thead tr td {
+  font-weight: bold;
+  text-align: center;
+  background-color: #D9D9D9;
+}
+
+.template .letter-section-sub {
+  margin-top:30px;
+}
+
+.template table tr td.fixed-width-70 {
+  width:70px;
+}
+
+.template table.air-table tr.sub-header td {
+  font-weight: bold;
+  background-color: #F2F2F2;
+  color: #000;
+}

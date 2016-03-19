@@ -1,11 +1,13 @@
-<section class="panel panel-default" ng-repeat="activity in recentActs | orderBy:'priority':true">
-	<div class='panel-body' ui-sref="p.detail({projectId: activity.project})">
-		<h3>{{ headline }}</h3>
-		<p>{{ content }}</p>
+<section class="panel panel-default" ng-repeat="activity in recentActs" ng-class="{'watermark-chat': activity.type === 'Public Comment Period', 'watermark-news': activity.type === 'News'}">
+	<div class='panel-body news-headline' ui-sref="p.detail({projectId: projectsLookup[activity.project].code })">
+		<h3>{{ activity.headline }}</h3>
+		<p><pre>{{ activity.content }}</pre></p>
+		<p class="small">{{ activity.dateAdded | date }}</p>
+		<p class="small">{{ activity.type }}</p>
 	</div>
 </section>
 <section class="panel panel-default" ng-show="!recentActs || recentActs.length === 0">
-	<div class='panel-body' ui-sref="p.detail({projectId: activity.project})">
+	<div class='panel-body'>
 		<h3>No Recent Activity to Report</h3>
 	</div>
 </section>

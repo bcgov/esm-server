@@ -2,10 +2,10 @@
 
 angular.module('core').config(configFunction);
 
-configFunction.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider'];
+configFunction.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider', '_'];
 
 /* @ngInject */
-function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
+function configFunction($locationProvider, $stateProvider, $urlRouterProvider, _) {
 
 	$locationProvider.html5Mode(true);
 
@@ -24,10 +24,6 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 			roles: ['admin']
 		}
 	})
-	// .state('projects', {
-	// 	url: '/',
-	// 	template: '<tmpl-projects></tmpl-projects>'
-	// })
 	.state('login', {
 		url: '/login',
 		template: '<tmpl-login></tmpl-login>'
@@ -167,13 +163,15 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 				return ActivityModel.userActivities ();
 			},
 			projects: function(ProjectModel) {
-				return ProjectModel.getCollection ();
+				return ProjectModel.lookup ();
 			}
 		},
-		controller: function ($scope, $stateParams, activities, projects, _) {
-			$scope.activities = activities;
-			$scope.projectNames = _.map(projects, 'name');
-			console.log($scope.projectNames);
+		controller: function ($scope, $stateParams, activities, projects, NgTableParams) {
+			$scope.projects = projects;
+			_.map(activities, function(item) {
+				item.project = projects[item.project].name;
+			});
+			$scope.tableParams = new NgTableParams ({count:50}, {dataset: activities});
 		},
 		data: {
 			roles: ['admin', 'user']

@@ -7,6 +7,8 @@
 var policy     = require ('../policies/project.policy');
 var Project    = require ('../controllers/project.controller');
 var helpers    = require ('../../../core/server/controllers/core.helpers.controller');
+var helpers    = require ('../../../core/server/controllers/core.helpers.controller');
+var _ 		= require('lodash');
 
 module.exports = function (app) {
 	helpers.setCRUDRoutes (app, 'project', Project, policy);
@@ -91,10 +93,20 @@ module.exports = function (app) {
 		p.list ().then (helpers.success(res), helpers.failure(res));
 	});
 
-	app.route ('/api/projects/byid').all (policy.isAllowed).get (function (req, res) {
-		var p = new Project (req.user);
-		p.findMany ({},{code: 1, name: 1, _id: 1}).then (helpers.success(res), helpers.failure(res));
-	});
+	app.route ('/api/projects/lookup')
+		.all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Project (req.user);
+			p.list ({},{code: 1, name: 1, region: 1})
+			.then ( function(res) {
+				var obj = {};
+				_.each( res, function(item) {
+					obj[item._id] = item;
+				});
+				return obj;
+			})
+			.then (helpers.success(res), helpers.failure(res));
+		});
 
 	app.route ('/api/projects/import/eao').all (policy.isAllowed)
 		.post (function (req, res) {

@@ -20,7 +20,6 @@ function controllerActivity($scope, $state, $modal, sActivity, Project, $statePa
 	});
 
 	sActivity.getActivity({id: $state.params.activity}).then(function(res) {
-		console.log(res.data);
 		actBase.activity = res.data;
 	});
 }		

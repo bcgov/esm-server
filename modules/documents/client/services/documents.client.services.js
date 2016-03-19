@@ -151,6 +151,16 @@ function serviceDocument($http) {
                       url: '/api/documents/types/' + projectId,
                       headers: {'reviewDocsOnly': reviewDocsOnly} });
     };
+    var getProjectDocumentMEMTypes = function(projectId, reviewDocsOnly) {
+        return $http({method:'GET',
+                      url: '/api/documents/memtypes/' + projectId,
+                      headers: {'reviewDocsOnly': reviewDocsOnly} });
+    };
+    var getProjectDocumentSubTypes = function(projectId, reviewDocsOnly) {
+        return $http({method:'GET',
+                      url: '/api/documents/subtypes/' + projectId,
+                      headers: {'reviewDocsOnly': reviewDocsOnly} });
+    };
 
     var getProjectDocumentFolderNames = function(projectId) {
         return $http({method:'GET',
@@ -193,6 +203,8 @@ function serviceDocument($http) {
         getAllDocuments: getAllDocuments,
         getProjectDocuments: getProjectDocuments,
         getProjectDocumentTypes: getProjectDocumentTypes,
+        getProjectDocumentMEMTypes: getProjectDocumentMEMTypes,
+        getProjectDocumentSubTypes: getProjectDocumentSubTypes,
         getProjectDocumentFolderNames: getProjectDocumentFolderNames,
         getProjectDocumentVersions: getProjectDocumentVersions,
         downloadAndApprove: downloadAndApprove,
