@@ -715,71 +715,91 @@ var upload = function (req, res) {
 exports.upload = upload;
 
 var loadDocuments = function(req, res) {
-	var file = req.files.file;
-	if (file) {
-		// Now parse and go through this thing.
-		fs.readFile(file.path, 'utf8', function(err, data) {
-			if (err) {
-				return console.log(err);
-			}
-			// console.log("FILE DATA:",data);
-			var colArray = ['PROJECT_ID','PRJ_TITLE','DOCUMENT_ID','PROJECT_STATUS_CD','PST_DESCRIPTION','PST_DISPLAY_ORDER','DOCUMENT_TYPE_CD','DTP_DESCRIPTION','DTP_DISPLAY_ORDER','DESCRIPTION','DATE_POSTED','DATE_RECEIVED','CONTACT_SNAPSHOT_ID','ARCS_ORCS_FILE_NUMBER','FULL_DOCUMENT_POINTER','FILE_TYPE','FILE_SIZE','CONTACT_NAME','PERSON_ORGANIZATION_ID','WHO_CREATED','WHEN_CREATED','WHO_UPDATED','WHEN_UPDATED'];
-			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
-				// Skip this many rows
-				var length = Object.keys(output).length;
-				var rowsProcessed = 0;
-				console.log("length",length);
-				Object.keys(output).forEach(function(key, index) {
-					if (index > 0) {
-						var row = output[key];
-						rowsProcessed++;
-						// console.log("rowData:",row);
-						Model.findOne({documentEPICId: parseInt(row.DOCUMENT_ID)}, function (err, doc) {
-							var addOrChangeModel = function(model) {
-								// If it has a file size, it's a real document pointer
-								if (row.FILE_SIZE) {
-									model.documentEPICId 			= row.DOCUMENT_ID;
-									model.projectFolderType         = row.PST_DESCRIPTION;
-									model.projectFolderSubType      = row.DTP_DESCRIPTION;
-									model.projectFolderName         = row.DESCRIPTION;
-									model.projectFolderURL          = row.FULL_DOCUMENT_POINTER;
-									model.projectFolderDatePosted   = row.DATE_POSTED;
-									model.projectFolderAuthor       = row.WHO_CREATED;
-									model.documentAuthor			= row.WHO_CREATED;
-									model.documentFileName			= row.FULL_DOCUMENT_POINTER;
-									model.documentFileURL			= row.FULL_DOCUMENT_POINTER;
-									model.documentFileSize			= row.FILE_SIZE;
-									model.documentFileFormat		= row.FILE_TYPE;
-									model.save().then(function () {
-										Project.findOne({epicProjectID: parseInt(row.PROJECT_ID)}).then(function(p) {
-											if (p) {
-												model.project = p;
-												model.save();
+	return new Promise (function (resolve, reject) {
+		var file = req.files.file;
+		if (file) {
+			// Now parse and go through this thing.
+			fs.readFile(file.path, 'utf8', function(err, data) {
+				if (err) {
+					reject("err:"+err);
+				}
+				// console.log("FILE DATA:",data);
+				var colArray = ['PROJECT_ID','PRJ_TITLE','DOCUMENT_ID','PROJECT_STATUS_CD','PST_DESCRIPTION','PST_DISPLAY_ORDER','DOCUMENT_TYPE_CD','DTP_DESCRIPTION','DTP_DISPLAY_ORDER','DESCRIPTION','DATE_POSTED','DATE_RECEIVED','CONTACT_SNAPSHOT_ID','ARCS_ORCS_FILE_NUMBER','FULL_DOCUMENT_POINTER','FILE_TYPE','FILE_SIZE','CONTACT_NAME','PERSON_ORGANIZATION_ID','WHO_CREATED','WHEN_CREATED','WHO_UPDATED','WHEN_UPDATED'];
+				var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
+					// Skip this many rows
+					var URLPrefix = "https://a100.gov.bc.ca/appsdata/epic/documents/";
+					var length = Object.keys(output).length;
+					var rowsProcessed = 0;
+					console.log("length",length);
+					Object.keys(output).forEach(function(key, index) {
+						if (index > 0) {
+							var row = output[key];
+							console.log("row:",row);
+							rowsProcessed++;
+							// console.log("rowData:",row);
+							Model.findOne({documentEPICId: parseInt(row.DOCUMENT_ID)}, function (err, doc) {
+								if (err) {
+									console.log("err",err);
+								} else {
+									// console.log("doc",doc);
+								}
+								var addOrChangeModel = function(model) {
+									// If it has a file size, it's a real document pointer
+									if (row.FILE_TYPE) {
+										model.documentEPICId 			= parseInt(row.DOCUMENT_ID);
+										model.projectFolderType         = row.PST_DESCRIPTION;
+										model.projectFolderSubType      = row.DTP_DESCRIPTION;
+										model.projectFolderURL          = row.PRJ_TITLE;
+										// // Do this on 2nd pass
+										// //model.projectFolderName         = row.DESCRIPTION;
+										model.projectFolderDatePosted   = Date(row.DATE_POSTED);
+										// // Do this on 2nd pass
+										// model.projectFolderAuthor       = row.WHO_CREATED;
+										model.documentAuthor	 = row.WHO_CREATED;
+										model.documentFileName	 = row.DESCRIPTION;
+										model.documentFileURL	 = URLPrefix + row.FULL_DOCUMENT_POINTER;//.replace(/\\/g,"/");
+										model.documentFileSize	 = row.FILE_SIZE;
+										model.documentFileFormat = row.FILE_TYPE;
+										model.save().then(function (mod) {
+											// console.log("SAVED",mod);
+											Project.findOne({epicProjectID: parseInt(row.PROJECT_ID)}).then(function(p) {
+												if (p) {
+													model.project = p;
+													model.save();
+												}
+											});
+											// Am I done processing?
+											// console.log("INDEX:",index);
+											if (index === length-1) {
+												console.log("rowsProcessed: ",rowsProcessed);
+												res.json("{done: true, rowsProcessed: "+rowsProcessed+"}");
 											}
 										});
+									} else {
+										// It's a folder
+
 										// Am I done processing?
 										// console.log("INDEX:",index);
 										if (index === length-1) {
 											console.log("rowsProcessed: ",rowsProcessed);
 											res.json("{done: true, rowsProcessed: "+rowsProcessed+"}");
 										}
-									});
+									}
+								};
+								if (doc === null) {
+									// Create new
+									addOrChangeModel(new Model ());
+								} else {
+									// Update:
+									addOrChangeModel(doc);
 								}
-							};
-							if (doc === null) {
-								// Create new
-								var d = new Model ({documentEPICId: row.DOCUMENT_ID});
-								addOrChangeModel(d);
-							} else {
-								// Update:
-								addOrChangeModel(doc);
-							}
-						});
-					}
+							});
+						}
+					});
 				});
 			});
-		});
-	}
+		}
+	});
 };
 exports.loadDocuments = loadDocuments;
 // -------------------------------------------------------------------------
