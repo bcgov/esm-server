@@ -4,7 +4,7 @@
 // comment period routes
 //
 // =========================================================================
-angular.module('core').config(['$stateProvider', function ($stateProvider) {
+angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 	$stateProvider
 	// -------------------------------------------------------------------------
 	//
@@ -21,8 +21,6 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		template: '<ui-view></ui-view>',
 		resolve: {
 			periods: function ($stateParams, CommentPeriodModel, project) {
-				console.log ('commentperiod abstract resolving periods');
-				console.log ('project id = ', project._id);
 				return CommentPeriodModel.getPeriodsForProject (project._id);
 			},
 		}

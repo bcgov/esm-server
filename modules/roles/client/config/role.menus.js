@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module('comment').run(['Menus',
+angular.module('roles').run(['Menus',
 	function (Menus) {
 		Menus.addMenuItem('projectMenu', {
-			title: 'Comment Periods',
-			state: 'p.commentperiod.list',
+			title: 'Roles',
+			state: 'p.roles.list',
 			roles: ['user']
 		});
 	}

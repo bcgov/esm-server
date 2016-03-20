@@ -1,8 +1,15 @@
-<h1 class="page-title">
+<h1 class="page-title no-lower-margin">
 	Comment Periods for {{ project.name }}
 </h1>
 
-<div class="block-content">
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="p.commentperiod.list">Cancel</a>
+		<a class="btn btn-xs btn-link" ui-sref="p.commentperiod.edit({periodId:period._id})">Edit</a>
+	</div>
+</div>
+
+<div class="panel panel-default">
 	<div class="panel-body">
 		Phase: {{period.phaseName}} <br/>
 		Target: {{period.targetType}}  {{period.targetVersion}}<br/>
@@ -11,11 +18,14 @@
 		Resolved: {{period.resolved}} <br/>
 		Start Date : {{period.dateStarted}} <br/>
 		End Date : {{period.dateCompleted}} <br/>
+
+		<hr>
+
+		<div>
+			<a class="btn btn-default" ui-sref="p.commentperiod.list">Cancel</a>
+			<a class="btn btn-deafult" ui-sref="p.commentperiod.edit({periodId:period._id})">Edit</a>
+		</div>
+
 	</div>
 </div>
-<div>
-	<a class="btn btn-default" ui-sref="p.commentperiod.list">Cancel</a>
-	<a class="btn btn-success" ui-sref="p.commentperiod.edit({periodId:period._id})">Edit</a>
-</div>
-
 

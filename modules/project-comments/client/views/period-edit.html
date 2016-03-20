@@ -1,7 +1,15 @@
-<h1 class="page-title">
-	Add/Edit Period
+<h1 class="page-title no-lower-margin">
+	Add / Edit Comment Period for {{ project.name }}
 </h1>
-<div class="block-content">
+
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="p.commentperiod.list">Cancel</a>
+		<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+	</div>
+</div>
+
+<div class="panel panel-default">
 	<div class="panel-body">
 		<!-- START/END DATE -->
 		<div class="row">
@@ -60,10 +68,14 @@
 			</div>
 
 		</div>
+
+		<hr>
+		
+		<div class="text-right">
+			<a class="btn btn-default" ui-sref="p.commentperiod.list">Cancel</a>
+			<a class="btn btn-default" href ng-click="save()">Save</a>
+		</div>
+
 	</div>
-</div>
-<div>
-	<a class="btn btn-default" ui-sref="p.commentperiod.list">Cancel</a>
-	<a class="btn btn-primary" href ng-click="save()">Save</a>
 </div>
 
