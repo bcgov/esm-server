@@ -84,7 +84,7 @@ module.exports = DBModel.extend ({
 				//
 				//
 				console.log ('Step2. assign default roles.');
-				RoleController.setObjectRoles (project, {
+				return RoleController.setObjectRoles (self, project, {
 					read   : [projectProponentMember],
 					submit : [projectProponentAdmin, projectAdminRole]
 				});
@@ -333,7 +333,7 @@ module.exports = DBModel.extend ({
 		console.log ('code = ', code);
 		return new Promise (function (resolve, reject) {
 			self.newDocument ({code:code, name:code})
-			.then (self.saveAndReturn)
+			.then (self.create)
 			.then (resolve, reject);
 		});
 	},

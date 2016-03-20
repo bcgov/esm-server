@@ -70,7 +70,8 @@ _.extend (DBModel.prototype, {
 			'decoratePermission',
 			'permissions',
 			'preprocessAdd',
-			'preprocessUpdate'
+			'preprocessUpdate',
+			'create'
 		]);
 		if (this.bind) _.bindAll (this, this.bind);
 		this.user = user;
@@ -420,6 +421,7 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	create : function (obj) {
 		var self = this;
+		console.log ('creating', obj.code);
 		return new Promise (function (resolve, reject) {
 			self.newDocument (obj)
 			.then (self.preprocessAdd)

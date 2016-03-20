@@ -35,13 +35,16 @@ var getNewOrExistingRole = function (code) {
 	});
 };
 var addUserRole = function (user, code) {
+	console.log ('+ adding user role ', code, user.username);
 	return new Promise (function (resolve, reject) {
 		getNewOrExistingRole (code)
 		.then (function (role) {
+			console.log ('set the user role on role and save', role.code);
 			role.setUserRole (user._id.toString());
 			return role.save ();
 		})
 		.then (function (role) {
+			console.log ('set the user role on user and save');
 			user.setUserRole (code);
 			return user.save ();
 		})
@@ -129,9 +132,9 @@ var addRolesToConfigObject = function (dbobject, objectType, spec) {
 // then update the roles with the new object id for the thing
 //
 // -------------------------------------------------------------------------
-var setObjectRoles = function (dbobject, roleSpec) {
-	dbobject.setRoles (roleSpec);
-	return addObjectRoles (dbobject.plural, dbobject._id, dbobject.roles);
+var setObjectRoles = function (dbobject, object, roleSpec) {
+	object.setRoles (roleSpec);
+	return addObjectRoles (dbobject.plural, object._id, object.roles);
 };
 // -------------------------------------------------------------------------
 //

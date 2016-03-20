@@ -14,28 +14,32 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider, _
 	// child views. it also handles injecting the project
 	//
 	// -------------------------------------------------------------------------
-	.state ('newproject', {
-		url: '/newproject',
-		abstract: false,
-		template:'<p></p>',
-		resolve: {
-			project: function (ProjectModel, Authentication, _ ) {
-					var code = Authentication.user.username + '-' + 'newproject' + '-' + _.random (0,1000);
-					return ProjectModel.getNewWithCode (code);
-			}
-		},
-		controller: function ($state, project) {
-			console.log ('new project =' , project);
-			$state.go ('p.edit', {projectid:project.code,project:project.code});
-		}
-	})
+	// .state ('newproject', {
+	// 	url: '/newproject',
+	// 	abstract: false,
+	// 	template:'<p></p>',
+	// 	resolve: {
+	// 		project: function (ProjectModel, Authentication, _ ) {
+	// 				var code = Authentication.user.username + '-' + 'newproject' + '-' + _.random (0,1000);
+	// 				return ProjectModel.getNewWithCode (code);
+	// 		}
+	// 	},
+	// 	controller: function ($state, project) {
+	// 		console.log ('new project =' , project);
+	// 		$state.go ('p.edit', {projectid:project.code,project:project.code});
+	// 	}
+	// })
 	.state('p', {
 		url: '/p/:projectid',
 		abstract: true,
 		templateUrl: 'modules/projects/client/views/project.abstract.html',
 		resolve: {
 			project: function ($stateParams, ProjectModel) {
-				return ProjectModel.byCode ($stateParams.projectid);
+				if ($stateParams.projectid === 'new') {
+					return ProjectModel.getNew ();
+				} else {
+					return ProjectModel.byCode ($stateParams.projectid);
+				}
 			},
 			eaoAdmin: function (project) {
 				return project.adminRole;

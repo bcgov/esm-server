@@ -343,9 +343,16 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 // CONTROLLER: Project Entry Tombstone
 //
 // -----------------------------------------------------------------------------------
-controllerProjectEntry.$inject = ['$scope', '$state', 'project', 'REGIONS', 'PROJECT_TYPES', '_', 'intakeQuestions', 'ProjectModel'];
+controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', 'project', 'REGIONS', 'PROJECT_TYPES', '_', 'intakeQuestions', 'ProjectModel'];
 /* @ngInject */
-function controllerProjectEntry($scope, $state, project, REGIONS, PROJECT_TYPES, _, intakeQuestions, ProjectModel) {
+function controllerProjectEntry($scope, $state, $stateParams, project, REGIONS, PROJECT_TYPES, _, intakeQuestions, ProjectModel) {
+	console.log ('$stateParams.projectid',$stateParams.projectid, project);
+
+	ProjectModel.setModel ($scope.project);
+
+	if ($stateParams.projectid === 'new') {
+		ProjectModel.modelIsNew = true;
+	}
 
 	$scope.project = project;
 	$scope.questions = intakeQuestions;
@@ -354,7 +361,7 @@ function controllerProjectEntry($scope, $state, project, REGIONS, PROJECT_TYPES,
 	$scope._ = _;
 	// Save
 	$scope.saveProject = function() {
-		ProjectModel.save($scope.project).then( function(data) {
+		ProjectModel.saveModel().then( function(data) {
 			console.log(data);
 			$state.go('p.edit', {projectid: data.code});
 		})
