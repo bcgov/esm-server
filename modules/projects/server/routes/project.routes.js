@@ -97,7 +97,7 @@ module.exports = function (app) {
 		.all (policy.isAllowed)
 		.get (function (req, res) {
 			var p = new Project (req.user);
-			p.list ({},{code: 1, name: 1, region: 1})
+			p.list ({},{_id: 1, code: 1, name: 1, region: 1})
 			.then ( function(res) {
 				var obj = {};
 				_.each( res, function(item) {
