@@ -2,6 +2,7 @@
 
 <div class="row">
 	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ng-click="showfilter=!showfilter"><span ng-show="!showfilter">Show</span><span ng-show="showfilter">Hide</span> Filter</a>
 		<a class="btn btn-xs btn-link" ui-sref="admin.condition.create()">+ Add New Condition</a>
 	</div>
 </div>
@@ -9,7 +10,7 @@
 <div class="row">
 	<div class="col-sm-12">
 		<section class="panel panel-default">
-			<table ng-table="tableParams" class="table table-condensed table-striped table-hover">
+			<table ng-table="tableParams" show-filter="showfilter" class="table table-condensed table-hover">
 				<tr ng-repeat="o in $data" ui-sref="admin.condition.detail({conditionId:o._id})" class="clickable">
 					<td data-title="'Sector'"  filter="{'sector':'select'}"   sortable="'sector'"  filter-data="ptypes" >{{o.sector}}</td>
 					<td data-title="'Name'"  filter="{'name':'text'}"   sortable="'name'" >{{o.name}}</td>

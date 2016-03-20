@@ -23,6 +23,17 @@
 		ng-if="('project'| shouldDisplayPanel:'stream':project.status) && environment === 'EAO'">
 	</tmpl-project-stream-select>
 
+<section class="block-content">
+	<h3>Project Artifacts</h3>
+	<div class="container-fluid">
+		<tmpl-artifact-list
+			class="anchor-section"
+			id="anchor-description"
+			x-project="project">
+		</tmpl-artifact-list>
+	</div>
+</section>
+
 	<tmpl-project-description-read
 		class="anchor-section"
 		id="anchor-description"

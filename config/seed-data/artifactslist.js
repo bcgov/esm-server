@@ -92,6 +92,7 @@ var activitybases = [{
 
 var artifacttypes = [{
     type: 'Valued Component',
+    multiple: true,
     milestone: 'valued-component',
     versions : [
         'Submission',
@@ -101,8 +102,9 @@ var artifacttypes = [{
         'Final (AIR)'
     ]
 },{
-	type: 'Valued Component',
-	milestone: 'project-description',
+    type: 'Project Description',
+    milestone: 'project-description',
+    multiple: false,
     versions : [
         'Submission',
         'Draft',
@@ -117,6 +119,7 @@ var artifacttypes = [{
 },{
     type: 'Section 10(1)(a) Order',
     milestone: 'section-10-1-a-order',
+    multiple: false,
     versions : [
         'Draft',
         'Final'
@@ -124,6 +127,7 @@ var artifacttypes = [{
 },{
     type: 'Section 10(1)(b) Order',
     milestone: 'section-10-1-b-order',
+    multiple: false,
     versions : [
         'Draft',
         'Final'
@@ -131,6 +135,7 @@ var artifacttypes = [{
 },{
     type: 'Section 10(1)(c) Order',
     milestone: 'section-10-1-c-order',
+    multiple: false,
     versions : [
         'Draft',
         'Final'
@@ -138,6 +143,7 @@ var artifacttypes = [{
 },{
     type: 'Section 7(3) Order',
     milestone: 'section-7-3-order',
+    multiple: false,
     versions : [
         'Draft',
         'Final'
@@ -145,6 +151,7 @@ var artifacttypes = [{
 },{
     type: 'Section 11 Order',
     milestone: 'section-11-order',
+    multiple: false,
     versions : [
         'Draft',
         'Final'
@@ -152,6 +159,7 @@ var artifacttypes = [{
 },{
     type: 'Schedule A',
     milestone: 'schedule-a',
+    multiple: false,
     versions : [
         'Draft',
         'Final'

@@ -75,13 +75,30 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider, _
 		controller: function ($scope, projects) {
 			$scope.projects = projects;
 		}
-	})	
+	})
 	// -------------------------------------------------------------------------
 	//
 	// the project abstract, this contains the menu and a ui-view for loading
 	// child views. it also handles injecting the project
 	//
 	// -------------------------------------------------------------------------
+	.state ('newproject', {
+		url: 'newproject',
+		abstract: false,
+		template:'<p></p>',
+		resolve: {
+			project: function (ProjectModel, Authentication, _ ) {
+				return ProjectModel.getNewWithCode ().then (function (newproject) {
+					var code = Authentication.user.username + '-' + 'newproject' + '-' + _.random (0,1000);
+					return ProjectModel.getNewWithCode (code);
+				});
+			}
+		},
+		controller: function ($state, project) {
+			console.log ('new project =' , project);
+			$state.go ('p.edit', {projectid:project.code});
+		}
+	})
 	.state('p', {
 		url: '/p/:projectid',
 		abstract: true,
@@ -128,7 +145,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider, _
 				return ProjectModel.getProjectIntakeQuestions();
 			}
 		}
-	})	
+	})
 	// -------------------------------------------------------------------------
 	//
 	// project description

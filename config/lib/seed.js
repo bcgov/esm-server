@@ -93,7 +93,7 @@ checkIntegration ('loadconditions2').then (function () {
 // artifact types
 //
 // -------------------------------------------------------------------------
-checkIntegration ('loadartifacts33').then (function () {
+checkIntegration ('loadartifacts99').then (function () {
 	require('../seed-data/loadartifacts')();
 });
 

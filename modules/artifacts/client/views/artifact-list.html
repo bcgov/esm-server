@@ -1,21 +1,38 @@
-<h1 class="page-title">
-	Artifacts for {{ project.name }}
-</h1>
+<div class="row">
+	<div class="col-sm-4 text-left">
+		<a class="btn btn-xs btn-link" ng-click="s.showfilter=!s.showfilter"><span ng-show="!s.showfilter">Show</span><span ng-show="s.showfilter">Hide</span> Filter</a>
+	</div>
+	<div class="col-sm-4"></div>
+	<div class="col-sm-4 text-right">
+       <div class="dropdown">
+            <div class="input-group input-sm" data-toggle="dropdown">
+                <input class="entryInput form-control input-sm" id="query" name="query" type="text" placeholder="select an artifact type to add" ng-model="s.addtype"></input>
+                <span class="input-group-btn">
+                    <button ng-disabled="!s.addtype" ng-click="$event.stopPropagation();s.addType()" class="btn btn-default btn-sm btn-primary" type="button">Add</button>
+                </span>
+            </div>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="query">
+            	<li class="clickable" ng-click="s.selectType(type)" ng-repeat="type in s.availableTypes"> &nbsp; {{type}}</li>
+            </ul>
 
+        </div>
+	</div>
+</div>
 <div class="row">
 	<div class="col-sm-12">
-		<a class="btn btn-default btn-sm"  ui-sref="o.artifact.create()"><i class="glyphicon glyphicon-plus"></i> Add New Complaint</a>
 		<section class="panel panel-default">
-			<table ng-table="tableParams" show-filter="true" class="table table-condensed table-bordered table-striped">
+			<table ng-table="s.tableParams" show-filter="s.showfilter" class="table table-condensed 	table-striped">
 			    <tr ng-repeat="o in $data" ui-sref="o.artifact.detail({artifactId:o._id})">
-					<td data-title="'Type'"    filter="{'type':'text'}"       sortable="'type'"    >{{o.type}}</td>
+					<td data-title="'Type'"    filter="{'typeName':'text'}"       sortable="'typeName'"    >{{o.typeName}}</td>
 					<td data-title="'Version'" filter="{'version':'text'}"   sortable="'version'"  >{{o.version}}</td>
 					<td data-title="'Stage'"   filter="{'stage':'text'}"    sortable="'stage'"   >{{o.stage}}</td>
-					<td data-title="'Phase'"   filter="{'phase.name':'text'}"   sortable="'phase.name'"  >{{o.phase.name}}</td>
+					<td data-title="'Published'" sortable="'published'"><i ng-if="o.published" class="glyphicon glyphicon-pencil"></i></td>
 			        <td title="">
-			        	<a ng-click="$event.stopPropagation()" class="btn btn-default btn-xs" ui-sref="p.artifact.edit({artifactId:o._id})">
-			        	<i class="glyphicon glyphicon-pencil"></i>
-			        	</a>
+			        	<span ng-if="o.userPermissions.write && !o.published">
+				        	<a ng-click="$event.stopPropagation()" class="btn btn-default btn-xs" ui-sref="p.artifact.edit({artifactId:o._id})">
+				        	<i class="glyphicon glyphicon-pencil"></i>
+				        	</a>
+				        </span>
 			        </td>
 			    </tr>
 			</table>

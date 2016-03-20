@@ -57,7 +57,6 @@ _.extend (DBModel.prototype, {
 		// this.populate   = this.opts.populate;
 		// this.roles      = this.opts.roles;
 		this.permissions = (this.useRoles) ? this.decoratePermission : this.emptyPromise;
-
 		_.bindAll (this, [
 			'findById',
 			'findMany',
