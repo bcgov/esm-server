@@ -42,6 +42,7 @@ module.exports = DBModel.extend ({
 		var projectProponentAdmin;
 		var projectProponentMember;
 		var sectorRole;
+		console.log ('adding a new project');
 		//
 		// return a promise, we have lots of work to do
 		//
@@ -61,32 +62,40 @@ module.exports = DBModel.extend ({
 			// sides of the fence
 			//
 			.then (function (projectCode) {
+				console.log ('Step1. assign project code: ', projectCode);
+				project.code           = projectCode;
 				rolePrefix             = projectCode + ':';
 				adminSuffix            = ':admin';
 				projectAdminRole       = rolePrefix + 'eao' + adminSuffix;
-				projectProponentAdmin  = rolePrefix + project.orgCode + adminSuffix;
-				projectProponentMember = rolePrefix + project.orgCode + ':member';
+				projectProponentAdmin  = rolePrefix + 'pro' + adminSuffix;
+				projectProponentMember = rolePrefix + 'pro' + ':member';
 				//
 				// set the project admin role
 				//
 				project.adminRole = projectAdminRole;
 				project.proponentAdminRole = projectProponentAdmin;
 				//
+				// if the project hasn't an orgCode yet then copy in the user's
+				//
+				if (!project.orgCode) project.orgCode = self.user.orgCode;
+				//
 				// add the project to the roles and the roles to the project
 				// we absolutely set them at this point.
 				//
 				//
+				console.log ('Step2. assign default roles.');
 				RoleController.setObjectRoles (project, {
 					read   : [projectProponentMember],
-					submit : [projectProponentAdmin, projectAdminRole, sectorRole]
+					submit : [projectProponentAdmin, projectAdminRole]
 				});
 			})
 			//
 			// add the appropriate role to the user
 			//
 			.then (function () {
-				// console.log ('project is now ', project);
-				var userRole = (self.user.orgCode === project.orgCode) ? projectProponentAdmin : projectAdminRole;
+				console.log ('Step3. assign admin role to user.');
+				console.log ('project is now ', project);
+				var userRole = (self.user.orgCode !== 'eao' && self.user.orgCode === project.orgCode) ? projectProponentAdmin : projectAdminRole;
 				return RoleController.addUserRole (self.user, userRole);
 			})
 			//
@@ -95,8 +104,8 @@ module.exports = DBModel.extend ({
 			// cannot save the project
 			//
 			.then (function () {
+				console.log ('Step4. set query access roles in the dbmodel object');
 				self.setRoles (self.user);
-				console.log ('here we are');
 				project.roles = project.allRoles ();
 				return project;
 			})
@@ -104,6 +113,7 @@ module.exports = DBModel.extend ({
 			// add a pre submission phase
 			//
 			.then (function () {
+				console.log ('Step5. add the first basic phase, pre-stream, pre-submission');
 				return self.addPhaseFromCode (project, 'presubmission')
 				.then (function (m) {
 					m.currentPhase = m.phases[0];

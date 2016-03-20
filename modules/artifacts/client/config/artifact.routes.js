@@ -98,7 +98,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					a.version =  $scope.version;
 					ArtifactModel.add (a).then (function (m) {
 						console.log ('new artifact was saved', m);
-						$state.go ('p.detail', {project:project.code});
+						$state.go ('p.detail', {projectid:project.code});
 					})
 					.catch (function (err) {
 						console.error (err);
@@ -111,8 +111,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				.then (function (model) {
 					console.log ('artifact was saved',model);
 					console.log ('now going to reload state');
-					$state.go ('p.detail', {project:project.code});
-					// $state.transitionTo('p.detail', {project:project.code}, {
+					$state.go ('p.detail', {projectid:project.code});
+					// $state.transitionTo('p.detail', {projectid:project.code}, {
 			  // 			reload: true, inherit: false, notify: true
 					// });
 				})
@@ -124,8 +124,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.submit = function () {
 				ArtifactModel.nextStage ($scope.artifact)
 				.then (function (model) {
-					$state.go ('p.detail', {project:project.code});
-					// $state.transitionTo('p.detail', {project:project.code}, {
+					$state.go ('p.detail', {projectid:project.code});
+					// $state.transitionTo('p.detail', {projectid:project.code}, {
 			  // 			reload: true, inherit: false, notify: true
 					// });
 				})
@@ -164,7 +164,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
-					$state.go ('p.detail', {project:project.code});
+					$state.go ('p.detail', {projectid:project.code});
 				})
 				.catch (function (err) {
 					console.error (err);
@@ -174,7 +174,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.submit = function () {
 				ArtifactModel.nextStage ($scope.artifact)
 				.then (function (model) {
-					$state.go ('p.detail', {project:project.code});
+					$state.go ('p.detail', {projectid:project.code});
 				})
 				.catch (function (err) {
 					console.error (err);
@@ -196,7 +196,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
-					$state.go ('p.detail', {project:project.code});
+					$state.go ('p.detail', {projectid:project.code});
 				})
 				.catch (function (err) {
 					console.error (err);
@@ -206,7 +206,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.submit = function () {
 				ArtifactModel.nextStage ($scope.artifact)
 				.then (function (model) {
-					$state.go ('p.detail', {project:project.code});
+					$state.go ('p.detail', {projectid:project.code});
 				})
 				.catch (function (err) {
 					console.error (err);
@@ -228,7 +228,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
-					$state.go ('p.detail', {project:project.code});
+					$state.go ('p.detail', {projectid:project.code});
 				})
 				.catch (function (err) {
 					console.error (err);
@@ -238,7 +238,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.submit = function () {
 				ArtifactModel.nextStage ($scope.artifact)
 				.then (function (model) {
-					$state.go ('p.detail', {project:project.code});
+					$state.go ('p.detail', {projectid:project.code});
 				})
 				.catch (function (err) {
 					console.error (err);
@@ -260,7 +260,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
-					$state.go ('p.detail', {project:project.code});
+					$state.go ('p.detail', {projectid:project.code});
 				})
 				.catch (function (err) {
 					console.error (err);
@@ -270,7 +270,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.submit = function () {
 				ArtifactModel.nextStage ($scope.artifact)
 				.then (function (model) {
-					$state.go ('p.detail', {project:project.code});
+					$state.go ('p.detail', {projectid:project.code});
 				})
 				.catch (function (err) {
 					console.error (err);
@@ -292,7 +292,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
-					$state.go ('p.detail', {project:project.code});
+					$state.go ('p.detail', {projectid:project.code});
 				})
 				.catch (function (err) {
 					console.error (err);
@@ -302,7 +302,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.submit = function () {
 				ArtifactModel.nextStage ($scope.artifact)
 				.then (function (model) {
-					$state.go ('p.detail', {project:project.code});
+					$state.go ('p.detail', {projectid:project.code});
 				})
 				.catch (function (err) {
 					console.error (err);

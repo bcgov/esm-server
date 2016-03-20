@@ -243,7 +243,7 @@ module.exports = {
 	getNewOrExistingRole : getNewOrExistingRole,
 	addUserRole : addUserRole,
 	addObjectRole : addObjectRole,
-	addUserRoles : addUserRole,
+	addUserRoles : addUserRoles,
 	addObjectRoles : addObjectRole,
 	addObjectsRole : addObjectRole,
 	addObjectRolesFromSpec : addObjectRolesFromSpec,

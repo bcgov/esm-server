@@ -83,20 +83,18 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider, _
 	//
 	// -------------------------------------------------------------------------
 	.state ('newproject', {
-		url: 'newproject',
+		url: '/newproject',
 		abstract: false,
 		template:'<p></p>',
 		resolve: {
 			project: function (ProjectModel, Authentication, _ ) {
-				return ProjectModel.getNewWithCode ().then (function (newproject) {
 					var code = Authentication.user.username + '-' + 'newproject' + '-' + _.random (0,1000);
 					return ProjectModel.getNewWithCode (code);
-				});
 			}
 		},
 		controller: function ($state, project) {
 			console.log ('new project =' , project);
-			$state.go ('p.edit', {projectid:project.code});
+			$state.go ('p.edit', {projectid:project.code,project:project.code});
 		}
 	})
 	.state('p', {
