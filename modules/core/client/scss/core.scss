@@ -1042,18 +1042,42 @@ h2.page-title {
 }
 
 @keyframes spin {
-    from { transform: scale(1) rotate(0deg);}
-    to { transform: scale(1) rotate(360deg);}
+    from {
+    	-webkit-transform: rotate(0deg);
+    	-moz-transform: rotate(0deg);
+    	transform: scale(1) rotate(0deg);
+    }
+    to {
+    	-webkit-transform: rotate(360deg);
+    	-moz-transform: rotate(360deg);
+    	transform: scale(1) rotate(360deg);
+    }
 }
-  
+
 @-webkit-keyframes spinw {
-    from { -webkit-transform: rotate(0deg);}
-    to { -webkit-transform: rotate(360deg);}
+    from {
+    	-webkit-transform: rotate(0deg);
+    	-moz-transform: rotate(0deg);
+    	transform: scale(1) rotate(0deg);
+    }
+    to {
+    	-webkit-transform: rotate(360deg);
+    	-moz-transform: rotate(360deg);
+    	transform: scale(1) rotate(360deg);
+    }
 }
 
 @-moz-keyframes spinm {
-    from { -moz-transform: rotate(0deg);}
-    to { -moz-transform: rotate(360deg);}
+    from {
+    	-webkit-transform: rotate(0deg);
+    	-moz-transform: rotate(0deg);
+    	transform: scale(1) rotate(0deg);
+    }
+    to {
+    	-webkit-transform: rotate(360deg);
+    	-moz-transform: rotate(360deg);
+    	transform: scale(1) rotate(360deg);
+    }
 }
 
 /*
@@ -1239,24 +1263,24 @@ table thead tr.ng-table-filters {
 }
 
 .template .title-pg-txt-lrg {
-  font-weight: bold; 
+  font-weight: bold;
   font-size: 50px;
 }
 
 .template .title-pg-in-txt-lrg {
-  font-weight: bold; 
-  font-size: 28px; 
+  font-weight: bold;
+  font-size: 28px;
   color: #336699;
 }
 
 .template .title-pg-txt-med {
-  font-weight: bold; 
+  font-weight: bold;
   font-size: 24px;
 }
 
 .template .title-pg-in-txt-med {
-  font-weight: bold; 
-  font-size: 24px; 
+  font-weight: bold;
+  font-size: 24px;
   color: #336699;
 }
 
@@ -1265,17 +1289,17 @@ table thead tr.ng-table-filters {
 }
 
 .template .section-header-lrg {
-  font-weight: bold; 
+  font-weight: bold;
   font-size: 26px;
 }
 
 .template .section-header-med {
-  font-weight: bold; 
+  font-weight: bold;
   font-size: 19px;
 }
 
 .template .section-header-sml {
-  font-weight: bold; 
+  font-weight: bold;
   font-size: 16px;
 }
 
