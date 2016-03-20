@@ -1,11 +1,8 @@
 'use strict';
 
-angular.module('project').config(configFunction);
-
-configFunction.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider', '_'];
-
-/* @ngInject */
-function configFunction($locationProvider, $stateProvider, $urlRouterProvider, _) {
+angular.module('project').config (
+	['$locationProvider', '$stateProvider', '$urlRouterProvider', '_',
+	function ($locationProvider, $stateProvider, $urlRouterProvider, _) {
 
 	$stateProvider
 	// -------------------------------------------------------------------------
@@ -128,7 +125,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider, _
 			roles: ['admin', 'user']
 		}
 	});
-}
+}]);
 
 
 

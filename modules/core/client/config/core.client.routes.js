@@ -1,11 +1,8 @@
 'use strict';
 
-angular.module('core').config(configFunction);
-
-configFunction.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider', '_'];
-
-/* @ngInject */
-function configFunction($locationProvider, $stateProvider, $urlRouterProvider, _) {
+angular.module('core').config (
+	['$locationProvider', '$stateProvider', '$urlRouterProvider', '_',
+	function ($locationProvider, $stateProvider, $urlRouterProvider, _) {
 
 	$locationProvider.html5Mode(true);
 
@@ -59,7 +56,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider, _
 		}
 	});
 
-}
+}]);
 
 
 

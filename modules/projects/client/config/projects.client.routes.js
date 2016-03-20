@@ -1,11 +1,8 @@
 'use strict';
 
-angular.module('projects').config(configFunction);
-
-configFunction.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider', '_'];
-
-/* @ngInject */
-function configFunction($locationProvider, $stateProvider, $urlRouterProvider, _) {
+angular.module('projects').config (
+	['$locationProvider', '$stateProvider', '$urlRouterProvider', '_',
+	function ($locationProvider, $stateProvider, $urlRouterProvider, _) {
 
 	$stateProvider
 	// =========================================================================
@@ -39,7 +36,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider, _
 			$scope.projects = projects;
 		}
 	});
-}
+}]);
 
 
 
