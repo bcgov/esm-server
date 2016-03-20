@@ -13,6 +13,7 @@ exports.invokeRolesPolicies = function () {
 	helpers.setPathPermissions (acl, [
 		[ '', 'user', '/api/artifact/for/project/:projectid'],
 		[ '', 'user', '/api/artifact/project/:project/from/type/:documenttype'],
+		[ '', 'user', '/api/artifact/project/:projectid/available/types'],
 		[ '', 'user', '/api/artifact/next/stage/:artifact'],
 		[ '', 'user', '/api/artifact/prev/stage/:artifact'],
 	]);

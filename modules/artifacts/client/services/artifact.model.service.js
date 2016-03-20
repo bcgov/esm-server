@@ -23,6 +23,9 @@ angular.module('artifacts').factory ('ArtifactModel', function (ModelBase, _) {
 		},
 		prevStage: function (artifact) {
 			return this.put ('api/artifact/prev/stage/'+artifact._id, artifact);
+		},
+		availableTypes: function (projectid) {
+			return this.get ('api/artifact/project/'+projectid+'/available/types');
 		}
 	});
 	return new Class ();

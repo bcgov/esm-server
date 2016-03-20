@@ -12,6 +12,7 @@ exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'project');
 	acl.allow ('admin', '/api/projectile', 'get');
 	helpers.setPathPermissions (acl, [
+		[ '', 'user', '/api/newcode/project/:pcode'    ],
 		[ '', 'user', '/api/project/bycode/:projectcode'    ],
 		[ '', 'user', '/api/project/:project/publish'    ],
 		[ '', 'user', '/api/project/:project/unpublish'    ],

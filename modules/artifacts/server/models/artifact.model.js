@@ -31,6 +31,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	stage   : { type:String, default:'' },
 	version : { type:String, default:'' },
 	versionNumber : { type:Number, default:0, index:true },
+	published : { type:Boolean, default:false, index:true },
 	//
 	// the phase during which this was added or edited
 	// the milestone this artifact is attached to

@@ -87,6 +87,12 @@ module.exports = function (app) {
 			p.findOne ({code:req.params.projectcode}).then (helpers.success(res), helpers.failure(res));
 		});
 
+	app.route ('/api/newcode/project/:pcode').all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Project (req.user);
+			p.getNewWithCode (req.params.pcode).then (helpers.success(res), helpers.failure(res));
+		});
+
 
 	app.route ('/api/').all (policy.isAllowed).get (function (req, res) {
 		var p = new Project (req.user);
@@ -127,6 +133,6 @@ module.exports = function (app) {
 				p.loadProjects(file, req, res)
 				.then (helpers.success(res), helpers.failure(res));
 			}
-		});		
+		});
 };
 

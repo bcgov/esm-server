@@ -313,6 +313,20 @@ module.exports = DBModel.extend ({
 			var projectintake = new ProjectIntakeClass ();
 		});
 	},
+	// -------------------------------------------------------------------------
+	//
+	// get a new project, pre-saved with a temporary code
+	//
+	// -------------------------------------------------------------------------
+	getNewWithCode: function (code) {
+		var self = this;
+		console.log ('code = ', code);
+		return new Promise (function (resolve, reject) {
+			self.newDocument ({code:code, name:code})
+			.then (self.saveAndReturn)
+			.then (resolve, reject);
+		});
+	},
 
 	loadProjects: function(file, req, res) {
 		return new Promise (function (resolve, reject) {
@@ -348,7 +362,7 @@ module.exports = DBModel.extend ({
 							var query = {epicProjectID: id};
 							if (projectType === "mem") {
 								query = {memPermitID: row.id};
-							} 
+							}
 							Model.findOne(query, function (err, doc) {
 								var addOrChangeModel = function(model) {
 									// console.log("MODEL:",model);

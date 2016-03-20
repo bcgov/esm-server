@@ -34,7 +34,7 @@ module.exports = function () {
 		}));
 	})
 	.then (function () {
-		return Template.remove ();
+		return mongoose.connection.collections.artifacttypes.drop();
 	})
 	.then (function () {
 		return promise.all (list.templates.map (function (template) {
@@ -44,23 +44,14 @@ module.exports = function () {
 		}));
 	})
 	.then (function () {
+		return ArtifactType.remove ();
+	})
+	.then (function () {
 		return promise.all (list.artifacttypes.map (function (artifacttype) {
-			artifacttype.multiple = false;
 			artifacttype.isTemplate = true;
 			artifacttype.stages = list.stages;
-			Template.findOne ({documentType:artifacttype.type}).exec()
-			.then (function (template) {
-				if (!_.isEmpty(template)) {
-					artifacttype.isTemplate = true;
-					artifacttype.isDocument = false;
-				} else {
-					artifacttype.isTemplate = false;
-					artifacttype.isDocument = true;
-				}
-				console.log ('adding artifacttype ',artifacttype);
-				var a = new ArtifactType (artifacttype);
-				return a.save ();
-			});
+			var a = new ArtifactType (artifacttype);
+			return a.save ();
 		}));
 	})
 	.then (function () {

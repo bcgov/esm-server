@@ -11,5 +11,45 @@ var mongoose = require('mongoose');
 
 module.exports = DBModel.extend ({
 	name : 'ArtifactType',
-	plural : 'artifacttypes'
+	plural : 'artifacttypes',
+	bind: [
+		'getMultiples',
+		'getNonMultiples'
+	],
+	// -------------------------------------------------------------------------
+	//
+	// get all records that allow multiples
+	//
+	// -------------------------------------------------------------------------
+	getMultiples: function () {
+		var self = this;
+		console.log (self.name);
+		return new Promise (function (resolve, reject) {
+			self.findMany ({multiple:true},{type:1})
+			.then (function (result) {
+				return result.map (function (e) {
+					return e.type;
+				});
+			})
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// get all records that do not allow multiples
+	//
+	// -------------------------------------------------------------------------
+	getNonMultiples: function () {
+		var self = this;
+		console.log (self.name);
+		return new Promise (function (resolve, reject) {
+			self.findMany ({multiple:false},{type:1})
+			.then (function (result) {
+				return result.map (function (e) {
+					return e.type;
+				});
+			})
+			.then (resolve, reject);
+		});
+	}
 });

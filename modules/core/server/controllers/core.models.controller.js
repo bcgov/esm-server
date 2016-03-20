@@ -222,7 +222,7 @@ var generateSchema = function (definition, indexes) {
 		});
 	}
 	var schema = new mongoose.Schema (definition);
-	if (methods) { 
+	if (methods) {
 		_.extend(schema.methods, methods);
 	}
 	if (statics) {
@@ -255,7 +255,7 @@ var generateSchema = function (definition, indexes) {
 			schema.index (ind);
 		});
 	}
-	
+
 	return schema;
 };
 // -------------------------------------------------------------------------

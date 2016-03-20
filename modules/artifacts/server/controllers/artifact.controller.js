@@ -16,8 +16,9 @@ module.exports = DBModel.extend ({
 	name : 'Artifact',
 	plural : 'artifacts',
 	populate : 'type template',
+	bind: ['getCurrentTypes'],
 	getForProject: function (projectid) {
-
+		return this.list ({project:projectid},{typeName:1, version:1, stage:1, published:1, userPermissions:1});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -69,6 +70,68 @@ module.exports = DBModel.extend ({
 				console.log ('projecty.currentphase = ', project.currentPhase);
 				p.addMilestoneFromCode (project.currentPhase, artifactType.milestone);
 				return m;
+			})
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// return a list of avaible types based upon the table, but also what the
+	// project already has.  So, any artifaacts that can only appear once,
+	// such as the project description, cannot be returned if they have already
+	// been established within the project
+	//
+	// -------------------------------------------------------------------------
+	availableTypes: function (projectId) {
+		//
+		// get a list of all multiple types, those can be used
+		// get a list of non-multiples
+		// get a list of already used types in the project
+		// get the disjoint of the latter two and add those to the list of available
+		//
+		var self = this;
+		var Types = new ArtifactType (self.user);
+		var multiples = [];
+		var nonmultiples = [];
+		return new Promise (function (resolve, reject) {
+			Types.getMultiples ()
+			.then (function (result) {
+				console.log (result);
+				if (result) multiples = result;
+				console.log ('multiples = ', multiples);
+			})
+			.then (Types.getNonMultiples)
+			.then (function (result) {
+				console.log (result);
+				if (result) nonmultiples = result;
+				console.log ('non-multiples = ', nonmultiples);
+				return projectId;
+			})
+			.then (self.getCurrentTypes)
+			.then (function (result) {
+				var allowed = [];
+				if (result) {
+					allowed = _.difference (nonmultiples, result);
+				}
+				return _.union (multiples, allowed);
+			})
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// get all the current types used for a project
+	//
+	// -------------------------------------------------------------------------
+	getCurrentTypes: function (projectId) {
+		console.log ('getCurrentTypes for ', projectId);
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findMany ({project:projectId},{typeName:1})
+			.then (function (result) {
+				return result.map (function (e) {
+					return e.typeName;
+				});
 			})
 			.then (resolve, reject);
 		});

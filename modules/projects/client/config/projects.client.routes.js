@@ -39,7 +39,6 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider, _
 			$scope.projects = projects;
 		}
 	});
-
 }
 
 

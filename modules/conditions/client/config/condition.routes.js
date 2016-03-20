@@ -51,6 +51,10 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.stypes = stages;
 			$scope.pillars = pillars;
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: conditions});
+			$scope.show_filter = false;
+			$scope.toggleFilter = function () {
+				// $('.ng-table-filters').toggle();
+			};
 		}
 	})
 	// -------------------------------------------------------------------------
