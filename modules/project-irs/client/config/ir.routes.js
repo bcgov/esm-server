@@ -4,7 +4,7 @@
 // inspection report routes
 //
 // =========================================================================
-angular.module('core').config(['$stateProvider', function ($stateProvider) {
+angular.module('irs').config(['$stateProvider', function ($stateProvider) {
 	$stateProvider
 	// -------------------------------------------------------------------------
 	//

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('recent-activity').run(['Menus',
+angular.module('complaints').run(['Menus',
 	function (Menus) {
 		Menus.addMenuItem('projectMenu', {
 			title: 'Complaints',

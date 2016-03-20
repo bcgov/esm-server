@@ -30,3 +30,19 @@
 </div>
 
 </section>
+
+
+
+	<tmpl-documents-browser
+		class="anchor-section"
+		id="anchor-documents"
+		x-project="project"
+		ng-if="('project'| shouldDisplayPanel:'documents':project.status)">
+	</tmpl-documents-browser>
+
+	<tmpl-documents-approvals
+		class="anchor-section"
+		id="anchor-document-approvals"
+		x-project="project"
+		ng-if="('project'| shouldDisplayPanel:'doc-approvals':project.status) && environment === 'EAO'">
+	</tmpl-documents-approvals>

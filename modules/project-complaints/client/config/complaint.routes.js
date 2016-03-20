@@ -4,7 +4,7 @@
 // complaint routes
 //
 // =========================================================================
-angular.module('core').config(['$stateProvider', function ($stateProvider) {
+angular.module('complaints').config(['$stateProvider', function ($stateProvider) {
 	$stateProvider
 	// -------------------------------------------------------------------------
 	//
@@ -21,10 +21,11 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		template: '<ui-view></ui-view>',
 		resolve: {
 			complaints: function ($stateParams, ComplaintModel, project) {
-				console.log ('complaint abstract resolving complaints');
-				console.log ('project id = ', project._id);
 				return ComplaintModel.forProject (project._id);
 			},
+			vcs: function(VcModel, project) {
+				return VcModel.forProject(project._id);
+			}
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -36,9 +37,10 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	.state('p.complaint.list', {
 		url: '/list',
 		templateUrl: 'modules/project-complaints/client/views/complaint-list.html',
-		controller: function ($scope, NgTableParams, complaints, project) {
+		controller: function ($scope, NgTableParams, complaints, vcs, project, CE_STAGES) {
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: complaints});
 			$scope.project = project;
+			$scope.stages = CE_STAGES;
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -55,13 +57,15 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				return ComplaintModel.getNew ();
 			}
 		},
-		controller: function ($scope, $state, project, complaint, ComplaintModel) {
+		controller: function ($scope, $state, project, complaint, vcs, ComplaintModel, CE_STAGES) {
 			$scope.complaint = complaint;
+			$scope.complaint.project = project._id;
 			$scope.project = project;
+			$scope.stages = CE_STAGES;
 			$scope.save = function () {
 				ComplaintModel.add ($scope.complaint)
 				.then (function (model) {
-					$state.transitionTo('p.complaint.list', {project:project._id}, {
+					$state.transitionTo('p.complaint.list', {projectid:project.code}, {
 			  			reload: true, inherit: false, notify: true
 					});
 				})
@@ -82,20 +86,21 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		templateUrl: 'modules/project-complaints/client/views/complaint-edit.html',
 		resolve: {
 			complaint: function ($stateParams, ComplaintModel) {
-				console.log ('editing complaintId = ', $stateParams.complaintId);
 				return ComplaintModel.getModel ($stateParams.complaintId);
 			}
 		},
-		controller: function ($scope, $state, complaint, project, ComplaintModel) {
-			console.log ('complaint = ', complaint);
+		controller: function ($scope, $state, complaint, project, vcs, ComplaintModel, CE_STAGES) {
 			$scope.complaint = complaint;
 			$scope.project = project;
+			$scope.stages = CE_STAGES;
+			$scope.vcs = vcs;
+			
 			$scope.save = function () {
 				ComplaintModel.save ($scope.complaint)
 				.then (function (model) {
 					console.log ('complaint was saved',model);
 					console.log ('now going to reload state');
-					$state.transitionTo('p.complaint.list', {project:project._id}, {
+					$state.transitionTo('p.complaint.list', {projectid:project.code}, {
 			  			reload: true, inherit: false, notify: true
 					});
 				})
@@ -117,12 +122,10 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		templateUrl: 'modules/project-complaints/client/views/complaint-view.html',
 		resolve: {
 			complaint: function ($stateParams, ComplaintModel) {
-				console.log ('complaintId = ', $stateParams.complaintId);
 				return ComplaintModel.getModel ($stateParams.complaintId);
 			}
 		},
 		controller: function ($scope, complaint, project) {
-			console.log ('complaint = ', complaint);
 			$scope.complaint = complaint;
 			$scope.project = project;
 		}

@@ -1,10 +1,13 @@
-<h1 class="page-title">
-	Comment Periods for {{ project.name }}
-</h1>
+<h1 class="page-title no-lower-margin">Comment Periods for {{ project.name }}</h1>
+
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="p.commentperiod.create()">+ Add New Comment Period</a>
+	</div>
+</div>
 
 <div class="row">
 	<div class="col-sm-12">
-		<a class="btn btn-default btn-sm"  ui-sref="p.commentperiod.create()"><i class="glyphicon glyphicon-plus"></i> Add New Period</a>
 		<section class="panel panel-default">
 			<table ng-table="tableParams" show-filter="true" class="table table-condensed table-bordered table-striped">
 			    <tr ng-repeat="p in $data" ui-sref="p.commentperiod.detail({periodId:p._id})">
@@ -26,12 +29,17 @@
 			        <td title="'Published'" >
 			            {{p.published}}
 			        </td>
-			        <td title="">
-			        	<a ng-click="$event.stopPropagation()" class="btn btn-default btn-xs" ui-sref="p.commentperiod.edit({periodId:p._id})">
+			        <td width="1%" class="text-right">
+			        	<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.commentperiod.edit({periodId:p._id})">
 			        	<i class="glyphicon glyphicon-pencil"></i>
 			        	</a>
 			        </td>
 			    </tr>
+				<tr ng-if="!$data || $data.length === 0">
+					<td colspan="7">
+						No records found.
+					</td>
+				</tr>			    
 			</table>
 		</section>
 	</div>
