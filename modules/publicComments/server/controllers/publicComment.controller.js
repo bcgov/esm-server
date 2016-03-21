@@ -215,6 +215,11 @@ var queryModelsDecorate = function (query, limit) {
 //
 // get all comments for a project by status in descending date order
 //
+// NOTE: it may not be a good idea, in some cases, to decorate the comments
+// as this will essentially add the equivalent of a table scan. for the
+// main page perhaps have a flag for NOT decorating, but only for
+// vetting and classification
+//
 // -------------------------------------------------------------------------
 var getByProjectByStatus = function (projectId, status, limit) {
 	var query = {
