@@ -42,7 +42,7 @@ module.exports = DBModel.extend ({
 		var projectProponentAdmin;
 		var projectProponentMember;
 		var sectorRole;
-		console.log ('adding a new project');
+		console.log ('adding a new project', Promise);
 		//
 		// return a promise, we have lots of work to do
 		//
