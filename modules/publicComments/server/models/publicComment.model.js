@@ -10,10 +10,10 @@ var Schema       = mongoose.Schema;
 var PublicCommentSchema  = new Schema ({
 	project         : { type:'ObjectId', ref:'Project', index:true, required:'Project is required' },
 	dateAdded       : { type: Date, default: Date.now },
-	classification  : [ String ], 
+	classification  : [ String ],
 	author          : { type:String, default:'' },
 	location		 : { type:String, default:'' },
-	displayName	 : { type:Boolean, default:false },	
+	displayName	 : { type:Boolean, default:false },
 	comment         : { type:String, default:'' },
 	original        : { type:'ObjectId', ref:'PublicComment', default:null },
 	eaoStatus       : { type:String, default:'Unvetted', enum:['Unvetted', 'Rejected', 'Deferred', 'Accepted', 'Published', 'Spam'] },
@@ -26,6 +26,10 @@ var PublicCommentSchema  = new Schema ({
 	updatedBy       : { type:'ObjectId', ref:'User', default:null },
 	dateUpdated     : { type: Date, default: Date.now }
 });
+
+PublicCommentSchema.index ({eaoStatus:1});
+PublicCommentSchema.index ({overallStatus:1});
+PublicCommentSchema.index ({classification:1});
 
 var PublicComment = mongoose.model ('PublicComment', PublicCommentSchema);
 
