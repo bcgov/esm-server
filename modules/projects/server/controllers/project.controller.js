@@ -353,7 +353,7 @@ module.exports = DBModel.extend ({
 				if (projectType === "eao") {
 					colArray = ['id','ProjectName','Proponent','Region','description','locSpatial','locDescription','provincialED','federalED','investment','projectCreateDate','projectDescriptionLivingData','projectNotes','projectURL','investmentNotes','lat','long','constructionjobs','constructionjobsNotes','operatingjobs','operatingjobsNotes','projectType','sector','currentPhaseTypeActivity','eaActive','CEAAInvolvement','eaIssues','eaNotes','responsibleEPD','projectLead','EAOCAARTRepresentative','projectOfficer','projectAnalyst','projectAssistant','administrativeAssistant','CELead','teamNotes'];
 				} else {
-					colArray = ['id','ProjectName','Proponent','Ownership','lat','lon','Status','Commodity','Region','TailingsImpoundments','description'];
+					colArray = ['id','ProjectName','Proponent','Ownership','lat','long','Status','Commodity','Region','TailingsImpoundments','description'];
 				}
 				var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 					// Skip this many rows
