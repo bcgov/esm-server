@@ -139,7 +139,7 @@ angular
 			'decommissioned' : 'Decommissioned'
 		}
 	)
-	.constant('ENV', 'MEM') // MEM, EAO
+	.constant('ENV', 'EAO') // MEM, EAO
 	//.constant('LOGO', 'modules/core/client/img/brand/eao-logo.png') // EAO Logo
 	.constant('LOGO', 'modules/core/client/img/brand/mem-logo.png') // MEM Logo
 	.constant('SALUTATIONS', ['Mr','Mrs','Miss','Ms','Dr','Capt','Prof','Rev','Other'])
