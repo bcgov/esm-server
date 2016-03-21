@@ -140,8 +140,14 @@ angular
 		}
 	)
 	.constant('ENV', 'EAO') // MEM, EAO
-	//.constant('LOGO', 'modules/core/client/img/brand/eao-logo.png') // EAO Logo
-	.constant('LOGO', 'modules/core/client/img/brand/mem-logo.png') // MEM Logo
+	.factory('LOGO', function(ENV) {
+		if (ENV === 'EAO') {
+			return 'modules/core/client/img/brand/eao-logo.png'; // MEM Logo
+		}
+		if (ENV === 'MEM') {
+			return 'modules/core/client/img/brand/mem-logo.png'; // EAO Logo
+		}
+	})
 	.constant('SALUTATIONS', ['Mr','Mrs','Miss','Ms','Dr','Capt','Prof','Rev','Other'])
 	.factory ('codeFromTitle', function () {
 		return function (title) {
