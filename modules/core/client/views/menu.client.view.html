@@ -28,8 +28,6 @@
 
 		<ul class="list-unstyled">
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-map')" href="#anchor-map">Map</a></li>
-			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-search')" href="#anchor-search">Search</a></li>
-			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-schedule')" href="#anchor-schedule">Schedule</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-list')" href="#anchor-list">List</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-recent')" href="#anchor-recent">Recent Activity</a></li>
 		</ul>
@@ -38,14 +36,10 @@
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
 		</ul>
+
 		<ul class="list-unstyled" ng-show="menu.authentication.user">
 			<li><a ui-sref="p.edit({projectid:'new'})">Add Project</a></li>
-		<ul class="list-unstyled">
-			<li ng-if="menu.isAdmin">
-				<a x-modal-project-import href x-project="menu.import">Import</a>
-			</li>
-		</ul>
-
+			<li ng-if="menu.isAdmin"><a x-modal-project-import href x-project="menu.import">Import</a></li>
 		</ul>
 	</div>
 
@@ -116,14 +110,13 @@
 
 	 	<hr>
 		<label class="control-label">{{ menu.project.name }}</label>
-		<ul class="list-unstyled">
+		<ul class="list-unstyled" ng-show="dispMenu==='project'">
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-tombstone')"		href="#anchor-tombstone">Overview</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-publiccomments')"	href="#anchor-publiccomments">Public Comments</a></li>
-			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-activities')"		href="#anchor-activities">Activities</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-documents')"		href="#anchor-documents">Documents</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-map')"				href="#anchor-map">Map</a></li>
 		</ul>
-		<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user);">
+		<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user)">
 			<li ng-repeat="item in menu.projectMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
@@ -137,10 +130,6 @@
 		<ul class="list-unstyled" ng-show="menu.authentication.user">
 			<li><a ui-sref="p.workinggroup.list">Working Group</a></li>
 			<li><a ui-sref="p.role.list">Project Roles</a></li>
-<!-- 			<li><a ui-sref="p.projectcondition.list">Project Conditions</a></li>
-			<li><a ui-sref="p.ir.list">Inspection Reports</a></li>
-			<li><a ui-sref="p.complaint.list">Complaints</a></li>
-			<li><a ui-sref="p.document.list">Documents</a></li> -->
 		</ul>
 	</div>
 
@@ -156,32 +145,17 @@
 		<div ng-show="menu.authentication.user">
 			<hr>
 			<ul class="list-unstyled">
-				<li><a href ui-sref="settings.profile">My Tasks</a></li>
+				<li><a href ui-sref="settings.profile">My List</a></li>
 			</ul>
 		</div>
 
 	</div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	<div ng-show="menu.systemMenu.shouldRender(menu.authentication.user);">
 		<hr>
 		<label class="control-label">System</label>
-		<ul class="list-unstyled">
+		<ul class="list-unstyled ng-hide">
 			<li ng-repeat="item in menu.systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
