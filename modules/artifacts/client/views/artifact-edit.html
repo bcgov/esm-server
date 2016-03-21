@@ -2,7 +2,7 @@
 	Edit {{artifact.type.type}} ({{artifact.version}}) for {{ project.name }}
 </h1>
 
-<div class="row">
+<div class="row top-nav-lower-margin">
 	<div class="col-sm-12">
 		<div class="form-inline text-right">
 			<a class="btn btn-sm btn-link" ui-sref="p.detail">Cancel</a>
@@ -14,7 +14,7 @@
 	</div>
 </div>
 
-<div ng-include="'/modules/artifacts/client/views/partial.artifact-edit.html'"></div>
+<div class="block-content" ng-include="'/modules/artifacts/client/views/partial.artifact-edit.html'"></div>
 
 <div class="block-content" ng-include="'/modules/artifacts/client/views/partial.artifact-notes.html'"></div>
 

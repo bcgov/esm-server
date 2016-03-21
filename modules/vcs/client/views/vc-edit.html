@@ -1,7 +1,15 @@
-<h1 class="page-title">
-	Add/Edit Valued Component
+<h1 class="page-title no-lower-margin">
+	Add / Edit Value Component
 </h1>
-<div class="block-content">
+
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="p.vc.list">Cancel</a>
+		<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+	</div>
+</div>
+
+<div class="panel panel-default">
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-sm-9">
@@ -62,10 +70,13 @@
 
 		</div>
 
+		<hr>
+
+		<div text-align="right">
+			<a class="btn btn-default" ui-sref="p.vc.list">Cancel</a>
+			<a class="btn btn-default" href ng-click="save()">Save</a>
+		</div>
+
 	</div>
-</div>
-<div>
-	<a class="btn btn-default" ui-sref="p.vc.list">Cancel</a>
-	<a class="btn btn-primary" href ng-click="save()">Save</a>
 </div>
 
