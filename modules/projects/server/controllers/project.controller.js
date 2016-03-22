@@ -21,6 +21,7 @@ var CSVParse  		   = require ('csv-parse');
 module.exports = DBModel.extend ({
 	name : 'Project',
 	plural : 'projects',
+	sort: {name:1},
 	populate: 'proponent, currentPhase',
 	// -------------------------------------------------------------------------
 	//
