@@ -9,7 +9,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__audit               : true,
 	__access              : true,
 	__tracking            : true,
-	__status              : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Decommissioned'],
+	__status              : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Not Certified', 'Decommissioned'],
 	__codename            : 'unique',
 	epicProjectID		  : { type:Number, default: 0, index:true},  // Used to relate ePIC imports
 	shortName             : { type:String, default: '' },
