@@ -13,13 +13,11 @@ angular.module('artifacts')
 		restrict: 'E',
 		templateUrl: 'modules/artifacts/client/views/artifact-list.html',
 		scope: {
-			project: '=',
-			public: '='
+			project: '='
 		},
-		controller: function ($scope, NgTableParams) {
+		controller: function ($scope, NgTableParams, Authentication) {
 			var s = this;
-			console.log ('here inside artifact list with ', $scope.project);
-			console.log ('and ', $scope.public);
+			s.public = (!Authentication.user);
 			this.selectType = function (type) {
 				this.addtype = type;
 			};

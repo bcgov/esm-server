@@ -71,7 +71,9 @@ _.extend (DBModel.prototype, {
 			'permissions',
 			'preprocessAdd',
 			'preprocessUpdate',
-			'create'
+			'create',
+			'findAndUpdate',
+			'newFromObject'
 		]);
 		if (this.bind) _.bindAll (this, this.bind);
 		this.user = user;
@@ -258,6 +260,22 @@ _.extend (DBModel.prototype, {
 			}
 		});
 	},
+	findAndUpdate : function (obj) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.model.findOne ({_id:obj._id}, function (err, doc) {
+				console.log (doc);
+				doc.set (obj);
+				doc.save ().then (resolve, reject);
+			});
+		});
+	},
+	newFromObject: function (obj) {
+		var self = this;
+		console.log (self.name +' newthing = ', obj);
+		var m = new self.model (obj);
+		return this.saveDocument (m);
+	},
 	// -------------------------------------------------------------------------
 	//
 	// save a document, but only if the user has write permission
@@ -265,8 +283,8 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	saveDocument : function (doc) {
 		var self = this;
-		// console.log ('in saveDocument with doc ',doc);
-		// console.log ('in saveDocument with roles ',self.roles);
+		console.log ('in saveDocument with doc ',doc);
+		console.log ('in saveDocument with roles ',self.roles);
 		return new Promise (function (resolve, reject) {
 			if (self.useRoles && !doc.userHasPermission (self.user, 'write')) {
 				return reject (new Error ('Write operation not permitted for this '+self.name+' object'));

@@ -3,7 +3,7 @@
 		<div class="form-group">
 			<button class="btn btn-xs btn-link" ng-click="s.showfilter=!s.showfilter"><span ng-show="!s.showfilter">Show</span><span ng-show="s.showfilter">Hide</span> Filter</button>
 		</div>
-		<div class="dropdown form-group">
+		<div class="dropdown form-group" ng-if="!s.public">
 			<div class="input-group input-sm" data-toggle="dropdown">
 				<input class="entryInput form-control input-sm" id="query" name="query" type="text" placeholder="select an artifact type" ng-model="s.addtype"></input>
 				<span class="input-group-btn">
@@ -14,7 +14,6 @@
 				<li class="clickable" ng-click="s.selectType(type)" ng-repeat="type in s.availableTypes"> &nbsp; {{type}}</li>
 			</ul>
 		</div>
-
 	</div>
 </div>
 <div class="row">

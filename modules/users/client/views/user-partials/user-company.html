@@ -1,11 +1,11 @@
 <p class="lead">Company</p>
-{{ uco.proponent | json }}
+
 <div ng-bind-html="uco.proponent.company"></div>
 <div class="row">
 	<div class="col-sm-8">
 		<div class="form-group">
-			<label for="proponent" class="control-label">Company (Doing Business As Dude)</label>
-			<input id="proponent" type="text" class="form-control input-sm" ng-bind-html="uco.proponent.company">
+			<label for="p" class="control-label">Company (Doing Business As)</label>
+			<input id="p" type="text" class="form-control input-sm" ng-model="uco.proponent.company">
 		</div>
 	</div>
 	<div class="col-sm-4">
