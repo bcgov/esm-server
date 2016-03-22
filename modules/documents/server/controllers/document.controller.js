@@ -723,6 +723,8 @@ var loadDocuments = function(req, res) {
 				if (err) {
 					reject("err:"+err);
 				}
+				res.writeHead(200, {'Content-Type': 'text/plain'});
+				res.write('[ { "jobid": 0 }');
 				// console.log("FILE DATA:",data);
 				var colArray = ['PROJECT_ID','PRJ_TITLE','DOCUMENT_ID','PROJECT_STATUS_CD','PST_DESCRIPTION','PST_DISPLAY_ORDER','DOCUMENT_TYPE_CD','DTP_DESCRIPTION','DTP_DISPLAY_ORDER','DESCRIPTION','DATE_POSTED','DATE_RECEIVED','CONTACT_SNAPSHOT_ID','ARCS_ORCS_FILE_NUMBER','FULL_DOCUMENT_POINTER','FILE_TYPE','FILE_SIZE','CONTACT_NAME','PERSON_ORGANIZATION_ID','WHO_CREATED','WHEN_CREATED','WHO_UPDATED','WHEN_UPDATED'];
 				var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
@@ -734,7 +736,7 @@ var loadDocuments = function(req, res) {
 					Object.keys(output).forEach(function(key, index) {
 						if (index > 0) {
 							var row = output[key];
-							console.log("row:",row);
+							// console.log("row:",row);
 							rowsProcessed++;
 							// console.log("rowData:",row);
 							Model.findOne({documentEPICId: parseInt(row.DOCUMENT_ID)}, function (err, doc) {
@@ -746,9 +748,13 @@ var loadDocuments = function(req, res) {
 								var addOrChangeModel = function(model) {
 									// If it has a file size, it's a real document pointer
 									if (row.FILE_TYPE) {
+										res.write(",");
+										res.write(JSON.stringify({documentEPICId:parseInt(row.DOCUMENT_ID)}));
+										res.flush();
 										model.documentEPICId 			= parseInt(row.DOCUMENT_ID);
 										model.projectFolderType         = row.PST_DESCRIPTION;
 										model.projectFolderSubType      = row.DTP_DESCRIPTION;
+										// This is wrong: TODO post-process
 										model.projectFolderURL          = row.PRJ_TITLE;
 										// // Do this on 2nd pass
 										// //model.projectFolderName         = row.DESCRIPTION;
@@ -762,17 +768,18 @@ var loadDocuments = function(req, res) {
 										model.documentFileFormat = row.FILE_TYPE;
 										model.save().then(function (mod) {
 											// console.log("SAVED",mod);
-											Project.findOne({epicProjectID: parseInt(row.PROJECT_ID)}).then(function(p) {
-												if (p) {
-													model.project = p;
-													model.save();
-												}
-											});
+											// We should do this post-process
+											// Project.findOne({epicProjectID: parseInt(row.PROJECT_ID)}).then(function(p) {
+											// 	if (p) {
+											// 		model.project = p;
+											// 		model.save();
+											// 	}
+											// });
 											// Am I done processing?
 											// console.log("INDEX:",index);
 											if (index === length-1) {
-												console.log("rowsProcessed: ",rowsProcessed);
-												res.json("{done: true, rowsProcessed: "+rowsProcessed+"}");
+												res.write("]");
+												res.end();
 											}
 										});
 									} else {
@@ -781,8 +788,8 @@ var loadDocuments = function(req, res) {
 										// Am I done processing?
 										// console.log("INDEX:",index);
 										if (index === length-1) {
-											console.log("rowsProcessed: ",rowsProcessed);
-											res.json("{done: true, rowsProcessed: "+rowsProcessed+"}");
+											res.write("]");
+											res.end();
 										}
 									}
 								};
