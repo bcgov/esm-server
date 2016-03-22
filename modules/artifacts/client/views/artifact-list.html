@@ -1,35 +1,34 @@
 <div class="row">
-	<div class="col-sm-4 text-left">
-		<a class="btn btn-xs btn-link" ng-click="s.showfilter=!s.showfilter"><span ng-show="!s.showfilter">Show</span><span ng-show="s.showfilter">Hide</span> Filter</a>
-	</div>
-	<div class="col-sm-4"></div>
-	<div class="col-sm-4 text-right">
-       <div class="dropdown">
-            <div class="input-group input-sm" data-toggle="dropdown">
-                <input class="entryInput form-control input-sm" id="query" name="query" type="text" placeholder="select an artifact type to add" ng-model="s.addtype"></input>
-                <span class="input-group-btn">
-                    <button ng-disabled="!s.addtype" ng-click="$event.stopPropagation();s.addType()" class="btn btn-default btn-sm btn-primary" type="button">Add</button>
-                </span>
-            </div>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="query">
-            	<li class="clickable" ng-click="s.selectType(type)" ng-repeat="type in s.availableTypes"> &nbsp; {{type}}</li>
-            </ul>
+	<div class="col-sm-6 col-sm-offset-6 text-right form-inline">
+		<div class="form-group">
+			<button class="btn btn-xs btn-link" ng-click="s.showfilter=!s.showfilter"><span ng-show="!s.showfilter">Show</span><span ng-show="s.showfilter">Hide</span> Filter</button>
+		</div>
+		<div class="dropdown form-group">
+			<div class="input-group input-sm" data-toggle="dropdown">
+				<input class="entryInput form-control input-sm" id="query" name="query" type="text" placeholder="select an artifact type" ng-model="s.addtype"></input>
+				<span class="input-group-btn">
+					<button ng-disabled="!s.addtype" ng-click="$event.stopPropagation();s.addType()" class="btn btn-default btn-sm btn-primary" type="button">Add</button>
+				</span>
+			</div>
+			<ul class="dropdown-menu" role="menu" aria-labelledby="query">
+				<li class="clickable" ng-click="s.selectType(type)" ng-repeat="type in s.availableTypes"> &nbsp; {{type}}</li>
+			</ul>
+		</div>
 
-        </div>
 	</div>
 </div>
 <div class="row">
 	<div class="col-sm-12">
 		<section class="panel panel-default">
-			<table ng-table="s.tableParams" show-filter="s.showfilter" class="table table-condensed 	table-striped">
+			<table ng-table="s.tableParams" show-filter="s.showfilter" class="table table-condensed table-hover	table-striped">
 			    <tr ng-repeat="o in $data" ui-sref="o.artifact.detail({artifactId:o._id})">
-					<td data-title="'Type'"    filter="{'typeName':'text'}"       sortable="'typeName'"    >{{o.typeName}}</td>
-					<td data-title="'Version'" filter="{'version':'text'}"   sortable="'version'"  >{{o.version}}</td>
-					<td data-title="'Stage'"   filter="{'stage':'text'}"    sortable="'stage'"   >{{o.stage}}</td>
+					<td data-title="'Type'"    filter="{'typeName':'text'}"     sortable="'typeName'"    >{{o.typeName}}</td>
+					<td data-title="'Version'" filter="{'version':'text'}"   	class="text-center" sortable="'version'"  >{{o.version}}</td>
+					<td data-title="'Stage'"   filter="{'stage':'text'}"    	class="text-center" sortable="'stage'"   >{{o.stage}}</td>
 					<td data-title="'Published'" sortable="'published'"><i ng-if="o.published" class="glyphicon glyphicon-pencil"></i></td>
-			        <td title="">
-			        	<span ng-if="o.userPermissions.write && !o.published">
-				        	<a ng-click="$event.stopPropagation()" class="btn btn-default btn-xs" ui-sref="p.artifact.edit({artifactId:o._id})">
+					<td width="1%" class="text-right">
+			        		<span ng-if="o.userPermissions.write && !o.published">
+				        	<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.artifact.edit({artifactId:o._id})">
 				        	<i class="glyphicon glyphicon-pencil"></i>
 				        	</a>
 				        </span>

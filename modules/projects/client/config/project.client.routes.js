@@ -115,11 +115,13 @@ angular.module('project').config (
 			}
 		},
 		controller: function ($scope, $stateParams, activities, projects, NgTableParams) {
-			$scope.projects = projects;
-			_.map(activities, function(item) {
-				item.project = projects[item.project].name;
+			_.each(activities, function(item) {
+				if (projects[item.project]) {
+					item.project = projects[item.project].name;
+				}
 			});
 			$scope.tableParams = new NgTableParams ({count:50}, {dataset: activities});
+			console.log($scope.tableParams);
 		},
 		data: {
 			roles: ['admin', 'user']
