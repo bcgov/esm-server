@@ -1390,3 +1390,8 @@ table thead tr.ng-table-filters {
   border-top: 1px solid #000;
   margin-bottom: 10px;
 }
+
+.activity-list-med {
+	max-height: 540px;
+	overflow-y: auto;
+}
