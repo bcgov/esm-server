@@ -343,12 +343,58 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 // CONTROLLER: Project Entry Tombstone
 //
 // -----------------------------------------------------------------------------------
-controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', 'project', 'REGIONS', 'PROJECT_TYPES', '_', 'intakeQuestions', 'ProjectModel'];
+controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', 'project', 'REGIONS', 'PROJECT_TYPES', '_', 'intakeQuestions', 'UserModel', 'ProjectModel', 'OrganizationModel', 'Authentication'];
 /* @ngInject */
-function controllerProjectEntry($scope, $state, $stateParams, project, REGIONS, PROJECT_TYPES, _, intakeQuestions, ProjectModel) {
-	console.log ('$stateParams.projectid',$stateParams.projectid, project);
+function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS, PROJECT_TYPES, _, intakeQuestions, UserModel, ProjectModel, OrganizationModel, Authentication) {
 
 	ProjectModel.setModel ($scope.project);
+
+	if (!$scope.project.proponent || _.isEmpty ($scope.project.proponent)) {
+		if (Authentication.user.org) {
+			OrganizationModel.getModel (Authentication.user.org)
+			.then (function (org) {
+				if (org) {
+					$scope.project.proponent = org;
+				} else {
+					OrganizationModel.getNew ().then (function (neworg) {
+						$scope.project.proponent = neworg;
+					});
+				}
+			})
+			.catch (function (err) {
+				console.error ('Error getting organization:', err.data.message);
+			});
+		} else {
+			OrganizationModel.getNew ().then (function (neworg) {
+				$scope.project.proponent = neworg;
+			});
+		}
+	} else {
+		OrganizationModel.getModel ($scope.project.proponent).then (function (org) {
+			$scope.project.proponent = org;
+		});
+	}
+	if (!$scope.project.primaryContact || _.isEmpty ($scope.project.primaryContact)) {
+		UserModel.getModel (Authentication.user._id)
+		.then (function (userrecord) {
+			if (userrecord) {
+				$scope.project.primaryContact = userrecord;
+			} else {
+				UserModel.getNew ().then (function (newuser) {
+					$scope.project.primaryContact = newuser;
+				});
+			}
+		})
+		.catch (function (err) {
+			console.error ('Error getting user record:', err.data.message);
+		});
+	} else {
+		UserModel.getModel ($scope.project.primaryContact)
+		.then (function (userrecord) {
+			$scope.project.primaryContact = userrecord;
+		});
+	}
+
 
 	if ($stateParams.projectid === 'new') {
 		ProjectModel.modelIsNew = true;
@@ -359,9 +405,22 @@ function controllerProjectEntry($scope, $state, $stateParams, project, REGIONS, 
 	$scope.regions = REGIONS;
 	$scope.types = PROJECT_TYPES;
 	$scope._ = _;
-	// Save
+
+
+
+
+
 	$scope.saveProject = function() {
-		ProjectModel.saveModel().then( function(data) {
+		UserModel.saveModel ()
+		.then (function (um) {
+			$scope.project.primaryContact = um._id;
+			return OrganizationModel.saveModel ();
+		})
+		.then (function (om) {
+			$scope.project.proponent = om._id;
+			return ProjectModel.saveModel ();
+		})
+		.then( function(data) {
 			$state.go('p.detail', {projectid: data.code});
 		})
 		.catch (function (err) {
@@ -371,7 +430,16 @@ function controllerProjectEntry($scope, $state, $stateParams, project, REGIONS, 
 
 	// Submit the project for stream assignment.
 	$scope.submitProject = function() {
-		ProjectModel.submit().then (function (data) {
+		UserModel.saveModel ()
+		.then (function (um) {
+			$scope.project.primaryContact = um._id;
+			return OrganizationModel.saveModel ();
+		})
+		.then (function (om) {
+			$scope.project.proponent = om._id;
+			return ProjectModel.submit ();
+		})
+		.then (function (data) {
 			$state.go('p.detail', {projectid: data.code});
 		})
 		.catch (function (err) {

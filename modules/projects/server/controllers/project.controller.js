@@ -6,7 +6,9 @@
 // =========================================================================
 var path               = require ('path');
 var DBModel            = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var UserClass          = require (path.resolve('./modules/users/server/controllers/admin.server.controller'));
 var PhaseClass         = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
+var OrganizationClass  = require (path.resolve('./modules/organizations/server/controllers/organization.controller'));
 var PhaseBaseClass     = require (path.resolve('./modules/phases/server/controllers/phasebase.controller'));
 var ProjectIntakeClass = require (path.resolve('./modules/phases/server/controllers/phasebase.controller'));
 var RoleController     = require (path.resolve('./modules/roles/server/controllers/role.controller'));
@@ -22,7 +24,8 @@ module.exports = DBModel.extend ({
 	name : 'Project',
 	plural : 'projects',
 	sort: {name:1},
-	populate: 'proponent, currentPhase',
+	populate: 'currentPhase',
+	bind: ['addPrimaryUser','addProponent'],
 	// -------------------------------------------------------------------------
 	//
 	// Before adding a project this is what must happen:
@@ -120,8 +123,52 @@ module.exports = DBModel.extend ({
 					return m;
 				});
 			})
-			.then (self.saveAndReturn)
+			// .then (self.addPrimaryUser)
+			// .then (self.addProponent)
 			.then (resolve, reject);
+		});
+	},
+	// preprocessUpdate: function (project) {
+	// 	// var self = this;
+	// 	// return self.addPrimaryUser (project)
+	// 	// .then (self.addProponent);
+	// },
+	addPrimaryUser: function (project) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			var p = null;
+			if (project.primaryContact && !_.isEmpty (project.primaryContact)) {
+				var User = new UserClass (self.user);
+				if (project.primaryContact._id) {
+					p = User.findAndUpdate (project.primaryContact);
+				} else {
+					p = User.newFromObject (project.primaryContact);
+				}
+			}
+			p.then (function (rec) {
+				project.primaryContact = rec._id;
+				resolve (project);
+			})
+			.catch (reject);
+		});
+	},
+	addProponent: function (project) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			var p = null;
+			if (project.proponent && !_.isEmpty (project.proponent)) {
+				var User = new OrganizationClass (self.user);
+				if (project.proponent._id) {
+					p = User.findAndUpdate (project.proponent);
+				} else {
+					p = User.newFromObject (project.proponent);
+				}
+			}
+			p.then (function (rec) {
+				project.proponent = rec._id;
+				resolve (project);
+			})
+			.catch (reject);
 		});
 	},
 	// -------------------------------------------------------------------------

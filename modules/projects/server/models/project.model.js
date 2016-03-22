@@ -23,6 +23,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	fedElecDist 		  : { type:String, default:'' },
 	stream                : { type:'ObjectId', ref:'Stream'     , index:true, default:null },
 	proponent             : { type:'ObjectId', ref:'Organization'     , index:true, default:null },
+	primaryContact        : { type:'ObjectId', ref:'User', default:null },
 	adminRole             : { type:String, default: '' },
 	proponentAdminRole    : { type:String, default: '' },
 	sectorRole            : { type:String, default: '' },

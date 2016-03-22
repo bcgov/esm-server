@@ -11,6 +11,7 @@ var _         = require ('lodash');
 module.exports = DBModel.extend ({
 	name : 'User',
 	plural : 'users',
+	populate: 'org'
 });
 
 

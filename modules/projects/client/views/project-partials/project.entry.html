@@ -124,9 +124,9 @@
 			</div>
 		</div>
 
-		<fieldset ng-show="form.curTab === 'Proponent'" disabled>
+		<fieldset ng-show="form.curTab === 'Proponent'">
 			<tmpl-company-entry-form x-company="project.proponent"></tmpl-company-entry-form>
-			<tmpl-user-entry-form x-project="project"></tmpl-user-entry-form>
+			<tmpl-user-entry-form x-user="project.primaryContact" x-project="project" ></tmpl-user-entry-form>
 		</fieldset>
 
 		<div ng-show="form.curTab === 'Intake Profile'">

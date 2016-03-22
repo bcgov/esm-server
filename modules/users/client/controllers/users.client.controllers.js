@@ -51,6 +51,12 @@ controllerUserEntryForm.$inject = ['$scope'];
 function controllerUserEntryForm($scope) {
 	var uu = this;
 
+	$scope.$watch('user', function(newValue) {
+		if (newValue) {
+			uu.user = newValue;
+			console.log (uu.user);
+		}
+	});
 	$scope.$watch('project', function(newValue) {
 		if (newValue) {
 			uu.project = newValue;
