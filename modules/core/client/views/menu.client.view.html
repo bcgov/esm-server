@@ -110,7 +110,7 @@
 
 	 	<hr>
 		<label class="control-label">{{ menu.project.name }}</label>
-		<ul class="list-unstyled" ng-show="dispMenu==='project'">
+		<ul class="list-unstyled">
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-tombstone')"		href="#anchor-tombstone">Overview</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-publiccomments')"	href="#anchor-publiccomments">Public Comments</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-documents')"		href="#anchor-documents">Documents</a></li>
@@ -145,7 +145,7 @@
 		<div ng-show="menu.authentication.user">
 			<hr>
 			<ul class="list-unstyled">
-				<li><a href ui-sref="settings.profile">My List</a></li>
+				<li><a href ui-sref="activities">My List</a></li>
 			</ul>
 		</div>
 
@@ -155,7 +155,7 @@
 	<div ng-show="menu.systemMenu.shouldRender(menu.authentication.user);">
 		<hr>
 		<label class="control-label">System</label>
-		<ul class="list-unstyled ng-hide">
+		<ul class="list-unstyled">
 			<li ng-repeat="item in menu.systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
