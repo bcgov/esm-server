@@ -80,6 +80,13 @@ module.exports = function (app) {
 			p.publish (req.Project, false)
 			.then (helpers.success(res), helpers.failure(res));
 		});
+	app.route ('/api/project/:project/submit')
+		.all (policy.isAllowed)
+		.put (function (req, res) {
+			var p = new Project (req.user);
+			p.submit (req.Project)
+			.then (helpers.success(res), helpers.failure(res));
+		});
 
 	app.route ('/api/project/bycode/:projectcode').all (policy.isAllowed)
 		.get (function (req, res) {

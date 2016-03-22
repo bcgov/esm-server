@@ -362,17 +362,21 @@ function controllerProjectEntry($scope, $state, $stateParams, project, REGIONS, 
 	// Save
 	$scope.saveProject = function() {
 		ProjectModel.saveModel().then( function(data) {
-			console.log(data);
-			$state.go('p.edit', {projectid: data.code});
+			$state.go('p.detail', {projectid: data.code});
 		})
 		.catch (function (err) {
-			console.log ('error = ', err, 'message = ', err.data.message);
+			console.error ('error = ', err, 'message = ', err.data.message);
 		});
 	};
 
 	// Submit the project for stream assignment.
 	$scope.submitProject = function() {
-		//saveProject();
+		ProjectModel.submit().then (function (data) {
+			$state.go('p.detail', {projectid: data.code});
+		})
+		.catch (function (err) {
+			console.error ('error = ', err, 'message = ', err.data.message);
+		});
 	};
 }
 // -----------------------------------------------------------------------------------
