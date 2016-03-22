@@ -159,7 +159,8 @@
 			<li ng-repeat="item in menu.systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
-
+		</ul>
+		<ul class="list-unstyled" ng-if="menu.context === 'configuration'">
 			<li ng-if="menu.isAdmin">
 				<a ui-sref="admin.condition.list">Conditions</a>
 			</li>
@@ -186,6 +187,7 @@
 			</li>
 		</ul>
 	</div>
+
 	<div ng-show="menu.authentication.user">
 		<hr>
 		<label class="control-label">Welcome, {{ menu.authentication.user.displayName }}</label>
