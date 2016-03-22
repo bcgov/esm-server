@@ -714,6 +714,28 @@ var upload = function (req, res) {
 };
 exports.upload = upload;
 
+var mapDocumentToProject = function (req, res) {
+	return new Promise (function (resolve, reject) {
+		var projectID = req.params.projectid;
+		var documentID = req.params.documentid;
+		console.log("projectID",projectID);
+		console.log("documentID",documentID);
+		Project.findOne({epicProjectID: projectID})
+		.then(function(p) {
+			if (p) {
+				Model.findOne({documentEPICId: documentID})
+				.then(function(model) {
+					model.project = p;
+					model.save().then(function (m) {
+						res.json(m);
+					});
+				});
+			}
+		});
+	});
+};
+exports.mapDocumentToProject = mapDocumentToProject;
+
 var loadDocuments = function(req, res) {
 	return new Promise (function (resolve, reject) {
 		var file = req.files.file;
