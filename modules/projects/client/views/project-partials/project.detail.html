@@ -23,23 +23,16 @@
 		ng-if="('project'| shouldDisplayPanel:'stream':project.status) && environment === 'EAO'">
 	</tmpl-project-stream-select>
 
-<section class="block-content">
-	<h3>Project Artifacts</h3>
-	<div class="container-fluid">
-		<tmpl-artifact-list
-			class="anchor-section"
-			id="anchor-description"
-			x-project="project">
-		</tmpl-artifact-list>
-	</div>
-</section>
-
-	<tmpl-project-description-read
-		class="anchor-section"
-		id="anchor-description"
-		x-project="project"
-		ng-if="environment === 'EAO'">
-	</tmpl-project-description-read>
+	<section class="block-content" ng-if="environment === 'EAO'">
+		<h3>Project Artifacts</h3>
+		<div class="container-fluid">
+			<tmpl-artifact-list
+				class="anchor-section"
+				id="anchor-description"
+				x-project="project">
+			</tmpl-artifact-list>
+		</div>
+	</section>
 
 	<tmpl-public-comment-display
 		class="anchor-section"
@@ -52,22 +45,16 @@
 		class="anchor-section"
 		id="anchor-activities"
 		x-project="project"
-		ng-if="('project'| shouldDisplayPanel:'activities':project.status) && environment === 'EAO'">
+		ng-if="('project'| shouldDisplayPanel:'activities':project.status) && environment === 'EAO' && 0">
 	</tmpl-project-activities>
 
 	<tmpl-documents-browser
 		class="anchor-section"
 		id="anchor-documents"
 		x-project="project"
-		ng-if="('project'| shouldDisplayPanel:'documents':project.status)">
+		ng-if="('project'| shouldDisplayPanel:'documents':project.status) && environment === 'MEM'">
 	</tmpl-documents-browser>
 
-	<tmpl-documents-approvals
-		class="anchor-section"
-		id="anchor-document-approvals"
-		x-project="project"
-		ng-if="('project'| shouldDisplayPanel:'doc-approvals':project.status) && environment === 'EAO'">
-	</tmpl-documents-approvals>
 
 	<tmpl-map
 		class="anchor-section"

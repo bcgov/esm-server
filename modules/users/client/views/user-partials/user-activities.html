@@ -13,6 +13,11 @@
 							<td data-title="'Project'"  filter="{'project':'text'}" sortable="'project'">{{ o.project }}</td>
 							<td data-title="'Name'" filter="{'name':'text'}"    sortable="'name'" >{{o.name}}</td>
 						</tr>
+						<tr ng-if="!$data || $data.length === 0">
+							<td colspan="2">
+								No records found.
+							</td>
+						</tr>
 					</table>
 				</section>
 			</div>
