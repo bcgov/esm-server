@@ -62,7 +62,11 @@ angular.module('complaints').config(['$stateProvider', function ($stateProvider)
 			$scope.complaint.project = project._id;
 			$scope.project = project;
 			$scope.stages = CE_STAGES;
-			$scope.save = function () {
+			$scope.save = function (isValid) {
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'complaintForm');
+					return false;
+				}
 				ComplaintModel.add ($scope.complaint)
 				.then (function (model) {
 					$state.transitionTo('p.complaint.list', {projectid:project.code}, {
@@ -95,7 +99,11 @@ angular.module('complaints').config(['$stateProvider', function ($stateProvider)
 			$scope.stages = CE_STAGES;
 			$scope.vcs = vcs;
 
-			$scope.save = function () {
+			$scope.save = function (isValid) {
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'complaintForm');
+					return false;
+				}
 				ComplaintModel.save ($scope.complaint)
 				.then (function (model) {
 					// console.log ('complaint was saved',model);

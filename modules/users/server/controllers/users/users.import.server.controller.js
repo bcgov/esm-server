@@ -92,7 +92,45 @@ exports.postproc = function(req, res) {
     });
   });
 };
-
+exports.postprocgroups = function(req, res) {
+  return new Promise (function (resolve, reject) {
+    GroupModel.find({}, function(err, docs) {
+      if (docs) {
+        var length = docs.length;
+        // console.log("length:",length);
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.write('[0');
+        // console.log("length",length);
+        docs.forEach(function (key, index) {
+          var epicProjectID = key.epicProjectID;
+          // console.log("person:",person);
+          Project.findOne({epicProjectID: epicProjectID}, function (err, project) { // Find an project and relate it
+              if (project) {
+                key.project = project;
+                key.save().then(function () {
+                  // console.log("per:",person);
+                  if (index === length-1) {
+                    res.write("]");
+                    res.end();
+                  } else {
+                    res.write(",");
+                    res.flush();
+                  }
+                });
+              } else {
+                setTimeout(function() {
+                  if (index === length-1) {
+                    res.write("]");
+                    res.end();
+                  }
+                }, 2000);
+              }
+            });
+        });
+      }
+    });
+  });
+};
 // Import a list of users
 exports.loadUsers = function(file, req, res) {
   return new Promise (function (resolve, reject) {
@@ -101,16 +139,19 @@ exports.loadUsers = function(file, req, res) {
       if (err) {
         reject("{err: "+err);
       }
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.write('[ { "jobid": 0 }');
       // console.log("FILE DATA:",data);
       var colArray = ['PERSON_ID','EAO_STAFF_FLAG','PROPONENT_FLAG','SALUTATION','FIRST_NAME','MIDDLE_NAME','LAST_NAME','TITLE','ORGANIZATION_NAME','DEPARTMENT','EMAIL_ADDRESS','PHONE_NUMBER','HOME_PHONE_NUMBER','FAX_NUMBER','CELL_PHONE_NUMBER','ADDRESS_LINE_1','ADDRESS_LINE_2','CITY','PROVINCE_STATE','COUNTRY','POSTAL_CODE','NOTES'];
       var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
         // Skip this many rows
         var length = Object.keys(output).length;
         var rowsProcessed = 0;
-        // console.log("length",length);
+        console.log("length",length);
         Object.keys(output).forEach(function(key, index) {
           if (index > 0) {
             var row = output[key];
+            res.write(".");
             rowsProcessed++;
             User.findOne({personId: parseInt(row.PERSON_ID)}, function (err, doc) {
               var addOrChangeModel = function(model) {
@@ -139,12 +180,16 @@ exports.loadUsers = function(file, req, res) {
                 model.notes         = row.NOTES;
                 model.username      = model.email;
                 model.password      = crypto.randomBytes(8);
+                res.write(".");
                 model.save().then(function () {
+                  res.write(".");
                   // Am I done processing?
                   // console.log("INDEX:",index);
                   if (index === length-1) {
-                    // console.log("rowsProcessed: ",rowsProcessed);
-                    resolve("{done: true, rowsProcessed: "+rowsProcessed+"}");
+                    console.log("rowsProcessed: ",rowsProcessed);
+                    //resolve("{done: true, rowsProcessed: "+rowsProcessed+"}");
+                    res.write("]");
+                    res.end();
                   }
                 });
 
@@ -172,10 +217,13 @@ exports.loadGroupUsers = function(file, req, res) {
       if (err) {
         reject("{err: "+err);
       }
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.write('[ { "jobid": 0 }');
       // console.log("FILE DATA:",data);
       var colArray = ['GROUP_ID','NAME','CONTACT_GROUP_TYPE','PERSON_ID','PROJECT_ID'];
       var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
         // Skip this many rows
+        res.write(".");
         var length = Object.keys(output).length;
         var rowsProcessed = 0;
         // console.log("length",length);
@@ -192,21 +240,24 @@ exports.loadGroupUsers = function(file, req, res) {
                 model.groupType   = row.CONTACT_GROUP_TYPE;
                 model.personId    = parseInt(row.PERSON_ID);
                 model.epicProjectID  = parseInt(row.PROJECT_ID); // Save epic data just in case
+                res.write(".");
                 model.save().then(function () {
                   // Am I done processing?
                   // console.log("INDEX:",index);
                   if (index === length-1) {
-                    // console.log("rowsProcessed: ",rowsProcessed);
-                    resolve("{done: true, rowsProcessed: "+rowsProcessed+"}");
+                    console.log("rowsProcessed: ",rowsProcessed);
+                    res.write("]");
+                    res.end();
+                    //resolve("{done: true, rowsProcessed: "+rowsProcessed+"}");
                   }
                 });
                 // Attempt to link up the project if it's loaded.
-                Project.findOne({epicProjectID: parseInt(row.PROJECT_ID)}).then(function(p) {
-                  if (p) {
-                    model.project = p;
-                    model.save();
-                  }
-                });
+                // Project.findOne({epicProjectID: parseInt(row.PROJECT_ID)}).then(function(p) {
+                //   if (p) {
+                //     model.project = p;
+                //     model.save();
+                //   }
+                // });
               };
               if (doc === null) {
                 // Create new

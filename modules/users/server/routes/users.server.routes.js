@@ -32,6 +32,11 @@ module.exports = function (app) {
       users.postproc(req, res)
            .then (helpers.success(res), helpers.failure(res));
   });
+  app.route ('/api/users/postprocgroups').all (policy.isAllowed)
+  .post (function (req, res) {
+      users.postprocgroups(req, res)
+           .then (helpers.success(res), helpers.failure(res));
+  });
 
   // Import logic
   app.route ('/api/groupusers/import').all (policy.isAllowed)

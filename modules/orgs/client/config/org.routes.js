@@ -53,7 +53,11 @@ angular.module('orgs').config(['$stateProvider', function ($stateProvider) {
 		controller: function ($scope, $state, org, OrgModel, $filter) {
 			$scope.org = org;
 			var which = 'add';
-			$scope.save = function () {
+			$scope.save = function (isValid) {
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'organizationForm');
+					return false;
+				}
 				$scope.org.code = $filter('kebab')($scope.org.name);
 				var p = (which === 'add') ? OrgModel.add ($scope.org) : OrgModel.save ($scope.org);
 				p.then (function (model) {
@@ -84,7 +88,11 @@ angular.module('orgs').config(['$stateProvider', function ($stateProvider) {
 		controller: function ($scope, $state, org, OrgModel, $filter) {
 			$scope.org = org;
 			var which = 'edit';
-			$scope.save = function () {
+			$scope.save = function (isValid) {
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'organizationForm');
+					return false;
+				}
 				$scope.org.code = $filter('kebab')($scope.org.name);
 				var p = (which === 'add') ? OrgModel.add ($scope.org) : OrgModel.save ($scope.org);
 				p.then (function (model) {
