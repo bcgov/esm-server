@@ -59,13 +59,19 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				return TopicModel.getNew ();
 			}
 		},
-		controller: function ($scope, $state, topic, TopicModel, pillars, types) {
+		controller: function ($scope, $state, topic, TopicModel, pillars, types, codeFromTitle) {
 			$scope.topic = topic;
 			$scope.types = types;
 			$scope.pillars = pillars;
-			$scope.save = function () {
-				TopicModel.add ($scope.topic)
-				.then (function (model) {
+			var which = 'add';
+			$scope.save = function (isValid) {
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'topicForm');
+					return false;
+				}
+				$scope.topic.code = codeFromTitle ($scope.topic.name);
+				var p = (which === 'add') ? TopicModel.add ($scope.topic) : TopicModel.save ($scope.topic);
+				p.then (function (model) {
 					$state.transitionTo('admin.topic.list', {}, {
 			  			reload: true, inherit: false, notify: true
 					});
@@ -78,6 +84,21 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.selectTopic = function () {
 				TopicModel.getTopicsForPillar ($scope.topic.pillar).then (function (topics) {
 					$scope.pillartopics = topics;
+
+					//check to see if the current parent topic is in the topics list
+					//if it's not, clear it out
+					var topicFound = false;
+					for (var i=0; i < topics.length; i++) {
+						if (topics[i].code === $scope.topic.parent) {
+        					topicFound = true;
+							break;
+        				}
+    				}
+
+    				if(!topicFound) {
+    					$scope.topic.parent = '';
+    				}
+
 					$scope.$apply();
 				});
 			};
@@ -97,13 +118,20 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				return TopicModel.getModel ($stateParams.topicId);
 			}
 		},
-		controller: function ($scope, $state, topic, TopicModel, pillars, types) {
+		controller: function ($scope, $state, topic, TopicModel, pillars, types, codeFromTitle) {
 			$scope.topic = topic;
 			$scope.types = types;
 			$scope.pillars = pillars;
-			$scope.save = function () {
-				TopicModel.save ($scope.topic)
-				.then (function (model) {
+			var which = 'edit';
+			$scope.save = function (isValid) {
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'topicForm');
+					return false;
+				}
+				$scope.topic.code = codeFromTitle ($scope.topic.name);
+				console.log('parent topic = ', $scope.topic.parent);
+				var p = (which === 'add') ? TopicModel.add ($scope.topic) : TopicModel.save ($scope.topic);
+				p.then (function (model) {
 					$state.transitionTo('admin.topic.list', {}, {
 			  			reload: true, inherit: false, notify: true
 					});
@@ -116,9 +144,25 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.selectTopic = function () {
 				TopicModel.getTopicsForPillar ($scope.topic.pillar).then (function (topics) {
 					$scope.pillartopics = topics;
-					// console.log ('pillar topics = ', topics);
-					// console.log ('parent topic = ', $scope.topic.parent);
+					//console.log ('pillar topics = ', topics);
+					//console.log ('parent topic = ', $scope.topic.parent);
+
+					//check to see if the current parent topic is in the topics list
+					//if it's not, clear it out
+					var topicFound = false;
+					for (var i=0; i < topics.length; i++) {
+						if (topics[i].code === $scope.topic.parent) {
+        					topicFound = true;
+							break;
+        				}
+    				}
+
+    				if(!topicFound) {
+    					$scope.topic.parent = '';
+    				}
+
 					$scope.$apply();
+
 				});
 			};
 			$scope.selectTopic ();

@@ -149,13 +149,12 @@ angular
 			'decommissioned' : 'Decommissioned'
 		}
 	)
-	.constant('ENV', 'EAO')
-	// function () {
-	// 	var u = window.location.href.split ('://');
-	// 	var e = 'EAO';
-	// 	if (u[1].substr(0,3).toLowerCase() === 'mem') return 'MEM';
-	// 	else return 'EAO';
-	// }) // MEM, EAO
+	.factory('ENV', function () {
+		var u = window.location.href.split ('://');
+		var e = 'EAO';
+		if (u[1].substr(0,3).toLowerCase() === 'mem') return 'MEM';
+		else return 'EAO';
+	}) // MEM, EAO
 	.factory('LOGO', function () {
 		var u = window.location.href.split ('://');
 		var e = 'EAO';
