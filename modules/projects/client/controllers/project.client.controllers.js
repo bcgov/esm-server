@@ -440,7 +440,10 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 			return ProjectModel.submit ();
 		})
 		.then (function (data) {
-			$state.go('p.detail', {projectid: data.code});
+			$state.transitionTo('p.detail', {projectid: data.code}, {
+	  			reload: true, inherit: false, notify: true
+	  		});
+			// $state.go('p.detail', {projectid: data.code});
 		})
 		.catch (function (err) {
 			console.error ('error = ', err, 'message = ', err.data.message);
