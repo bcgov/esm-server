@@ -54,13 +54,10 @@ angular.module('orgs').config(['$stateProvider', function ($stateProvider) {
 			$scope.org = org;
 			var which = 'add';
 			$scope.save = function (isValid) {
-				console.log('Adding new org');
 				if (!isValid) {
-					console.log('Not Valid');
 					$scope.$broadcast('show-errors-check-validity', 'organizationForm');
 					return false;
 				}
-				console.log('Valid');
 				$scope.org.code = $filter('kebab')($scope.org.name);
 				var p = (which === 'add') ? OrgModel.add ($scope.org) : OrgModel.save ($scope.org);
 				p.then (function (model) {
