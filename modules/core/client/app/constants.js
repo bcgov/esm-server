@@ -132,6 +132,16 @@ angular
 			'decommissioned' : 'Decommissioned'
 		}
 	)
+	.constant('PROJECT_STATUS_ARRAY',
+		[
+			'Initiated',
+			'Submitted',
+			'In Progress',
+			'Certified',
+			'Not Certified',
+			'Decommissioned'
+		]
+	)
 	.constant('PROJECT_STATUS_PUBLIC',
 		{
 			'inprogress' : 'In Progress',

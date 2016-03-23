@@ -130,14 +130,18 @@ function controllerProjectsList($scope, $state, Authentication, sProjectModel, $
 // CONTROLLER: Projects List 2
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsList2.$inject = ['$scope', 'NgTableParams', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC'];
+controllerProjectsList2.$inject = ['$scope', 'NgTableParams', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_ARRAY'];
 /* @ngInject */
-function controllerProjectsList2($scope, NgTableParams, $state, Authentication, sProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC) {
+function controllerProjectsList2($scope, NgTableParams, $state, Authentication, sProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_ARRAY) {
 	var projectList = this;
 
-	projectList.types = PROJECT_TYPES;
+	projectList.types = PROJECT_TYPES.map (function (e) {
+		return {id:e,title:e};
+	});
 	projectList.regions = REGIONS;
-	projectList.status = PROJECT_STATUS_PUBLIC;
+	projectList.status = PROJECT_STATUS_ARRAY.map (function (e) {
+		return {id:e,title:e};
+	});;
 
 	projectList.auth = Authentication;
 
