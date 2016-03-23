@@ -108,13 +108,13 @@ angular.module('project').config (
 		templateUrl: 'modules/users/client/views/user-partials/user-activities.html',
 		resolve: {
 			activities: function(ActivityModel) {
-				return ActivityModel.userActivities ();
+				return ActivityModel.userActivities (null, 'write');
 			},
 			projects: function(ProjectModel) {
 				return ProjectModel.lookup ();
 			}
 		},
-		controller: function ($scope, $stateParams, activities, projects, NgTableParams) {
+		controller: function ($scope, $state, $stateParams, activities, projects, NgTableParams) {
 			_.each(activities, function(item) {
 				if (projects[item.project]) {
 					item.project = projects[item.project].name;
@@ -122,6 +122,10 @@ angular.module('project').config (
 			});
 			$scope.tableParams = new NgTableParams ({count:50}, {dataset: activities});
 			console.log($scope.tableParams);
+			$scope.getLinkUrl = function (state, params) {
+				console.log (state, params);
+				return $state.href (state, params);
+			};
 		},
 		data: {
 			roles: ['admin', 'user']

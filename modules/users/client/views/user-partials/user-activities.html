@@ -9,7 +9,9 @@
 			<div class="col-sm-12">
 				<section class="panel panel-default">
 					<table ng-table="tableParams" class="table table-condensed table-striped table-hover">
-						<tr ng-repeat="o in $data | orderBy:'order'" ui-sref="activity({project: activity.project, activity: activity._id})" class="clickable">
+						<tr ng-repeat="o in $data | orderBy:'order'"
+							ng-href="{{getLinkUrl(o.state, o.data)}}"
+							class="clickable">
 							<td data-title="'Project'"  filter="{'project':'text'}" sortable="'project'">{{ o.project }}</td>
 							<td data-title="'Name'" filter="{'name':'text'}"    sortable="'name'" >{{o.name}}</td>
 						</tr>
