@@ -4,7 +4,7 @@ module.exports = function (app) {
   // User Routes
   var users   = require('../controllers/users.server.controller');
   // TODO: Re-enable this
-  // var policy  = require ('../../policies/contact.policy');
+  var policy  = require ('../policies/user.server.policy');
   var helpers   = require ('../../../core/server/controllers/core.helpers.controller');
 
   // Setting up the users profile api
@@ -17,7 +17,7 @@ module.exports = function (app) {
   app.route('/api/user/alert').get(function(req,res){res.json([]);});
 
   // Import logic
-  app.route ('/api/users/import')//.all (policy.isAllowed)
+  app.route ('/api/users/import').all (policy.isAllowed)
   .post (function (req, res) {
     var file = req.files.file;
     if (file) {
@@ -27,8 +27,14 @@ module.exports = function (app) {
     }
   });
 
+  app.route ('/api/users/postproc').all (policy.isAllowed)
+  .post (function (req, res) {
+      users.postproc(req, res)
+           .then (helpers.success(res), helpers.failure(res));
+  });
+
   // Import logic
-  app.route ('/api/groupusers/import')//.all (policy.isAllowed)
+  app.route ('/api/groupusers/import').all (policy.isAllowed)
     .post (function (req, res) {
       var file = req.files.file;
       if (file) {
