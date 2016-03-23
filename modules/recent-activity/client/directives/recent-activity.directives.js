@@ -11,8 +11,7 @@ angular.module ('recent-activity')
 	return {
 		restrict: 'E',
 		templateUrl: 'modules/recent-activity/client/views/recent-activity.html',
-		controller: function($scope, RecentActivityModel, ProjectModel, limitWords) {
-			$scope.limitWords = limitWords;
+		controller: function($scope, RecentActivityModel, ProjectModel) {
 			RecentActivityModel.getRecentActivityActive().then( function(res) {
 				$scope.recentActs = res;
 			});

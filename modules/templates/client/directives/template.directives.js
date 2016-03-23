@@ -203,7 +203,7 @@ angular.module ('templates')
 			curVal: '=ngModel'
 		},
 		replace: true,
-		template: '<span class="text-block" contenteditable="true"></span>',
+		template: '<span class="text-block" ng-keypress="cancelReturn($event)" contenteditable="true"></span>',
 		link: function(scope, element, attrs, ngModel) {
 			if (!ngModel) return; // do nothing if no ng-model
 
@@ -232,6 +232,15 @@ angular.module ('templates')
 				element.html($sce.getTrustedHtml( html ));
 				ngModel.$setViewValue(html);
 			}
+		},
+		controller: function($scope) {
+			$scope.cancelReturn = function(event) {
+				if (event.keyCode === 13) {
+					event.preventDefault();
+					return false;
+				}
+				return true;
+			};
 		}
 	};
 }])

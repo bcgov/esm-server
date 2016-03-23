@@ -2,10 +2,12 @@
 	Add / Edit Topic
 </h1>
 
+<form name="topicForm" ng-submit="save(topicForm.$valid)" novalidate>
+
 <div class="row">
 	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="admin.topic.list">Cancel</a>
-		<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+		<button class="btn btn-xs btn-link" ui-sref="admin.topic.list">Cancel</button>
+		<button class="btn btn-xs btn-link" href type="submit">Save</button>
 	</div>
 </div>
 
@@ -13,9 +15,12 @@
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-sm-9">
-				<div class="form-group">
+				<div class="form-group" x-show-errors>
 					<label for="title" class="control-label">Topic Name</label>
-					<input id="title" type="text" class="form-control" ng-model="topic.name">
+					<input id="title" name="name" type="text" class="form-control" ng-model="topic.name" required>
+						<div ng-messages="topicForm.name.$error" role="alert">
+							<p class="help-block error-text" ng-message="required">Topic name is required.</p>
+						</div>
 				</div>
 			</div>
 			<div class="col-sm-3">
@@ -40,9 +45,13 @@
 
 		<div class="row">
 			<div class="col-sm-6">
-				<div class="form-group">
+				<div class="form-group" x-show-errors>
 					<label for="pillar" class="control-label">Pillar</label>
-					<select ng-change="selectTopic(pillar)" id="pillar" ng-model='topic.pillar' class="form-control" ng-options="pillar.id as pillar.title for pillar in pillars"></select>
+					<select ng-change="selectTopic(pillar)" id="pillar" name="pillar" ng-model='topic.pillar' class="form-control" ng-options="pillar.id as pillar.title for pillar in pillars" required>
+					</select>
+					<div ng-messages="topicForm.pillar.$error" role="alert">
+						<p class="help-block error-text" ng-message="required">Pillar is required.</p>
+					</div>
 				</div>
 			</div>
 
@@ -56,12 +65,14 @@
 
 		<hr>
 
-		<div class="text-right">
-			<a class="btn btn-default" ui-sref="admin.topic.list">Cancel</a>
-			<a class="btn btn-default" href ng-click="save()">Save</a>
+		<div class="row">
+			<div class="col-sm-12 text-right">
+				<button class="btn btn-default" ui-sref="admin.topic.list">Cancel</button>
+				<button class="btn btn-default" type="submit">Save</button>
+			</div>
 		</div>
 
 	</div>
 </div>
 
-
+</form>
