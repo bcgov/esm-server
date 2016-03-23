@@ -16,13 +16,8 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 		abstract:true,
 		url: '/recentactivity',
 		template: '<ui-view></ui-view>',
-		resolve: {
-			projects: function (ProjectModel) {
-				return ProjectModel.lookup();
-			}
-		},
-		controller: function ($scope, projects) {
-			$scope.projects = projects;
+		controller: function ($scope, projectsLookup) {
+			$scope.projects = projectsLookup;
 		}	
 	})
 	// -------------------------------------------------------------------------
