@@ -467,12 +467,12 @@ function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, r
 // CONTROLLER: Modal: Add Anon Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDatePicker.$inject = ['$modalInstance', 'rChosenDate'];
+controllerModalDatePicker.$inject = ['$modalInstance', 'rChosenDate', 'moment'];
 /* @ngInject */
-function controllerModalDatePicker($modalInstance, rChosenDate) { 
+function controllerModalDatePicker($modalInstance, rChosenDate, moment) { 
 	var modalDatePick = this;
-	
-	modalDatePick.chosenDate = rChosenDate;
+
+	modalDatePick.chosenDate = rChosenDate || moment();
 	modalDatePick.showSelector = true;
 
 	modalDatePick.onTimeSet = function() {
@@ -485,4 +485,5 @@ function controllerModalDatePicker($modalInstance, rChosenDate) {
 
 	modalDatePick.ok = function () { $modalInstance.close(modalDatePick.chosenDate); };
 	modalDatePick.cancel = function () { $modalInstance.dismiss('cancel'); };
+	modalDatePick.none = function() { modalDatePick.chosenDate = undefined; };
 }

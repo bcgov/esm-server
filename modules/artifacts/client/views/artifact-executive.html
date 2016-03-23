@@ -2,22 +2,24 @@
 	Executive Approval of {{artifact.type.type}} ({{artifact.version}}) for {{ project.name }}
 </h1>
 
-<div class="block-content">
-	<div ng-include="'modules/artifacts/client/views/partial.artifact-view.html'"></div>
+<div ng-include="'modules/artifacts/client/views/partial.artifact-view.html'"></div>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+
+		<h3>Approval / Rejection Note</h3>
+		<div class="form-group">
+			<textarea rows="10" class="form-control" ng-model="artifact.approvalnote"></textarea>
+		</div>
+		<div class="text-right">
+			<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
+			<a class="btn btn-default" ng-click="reject()">Reject and return for {{buttons.prev}}</a>
+			<a class="btn btn-success" ng-click="submit()">Accept for {{buttons.next}}</a>
+		</div>
+	</div>
 </div>
 
-<div>
-	<h4>Approval / Rejection Note</h4>
-	<textarea class="col-sm-12" ng-model="artifact.approvalnote"></textarea>
-</div>
-<div>&nbsp;</div>
-<div>
-	<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
-	<a class="btn btn-success" ng-click="reject()">Reject and return for {{buttons.prev}}</a>
-	<a class="btn btn-success" ng-click="submit()">Accept for {{buttons.next}}</a>
-</div>
+<div ng-include="'modules/artifacts/client/views/partial.artifact-notes.html'"></div>
 
-<div  class="block-content" ng-include="'modules/artifacts/client/views/partial.artifact-notes.html'"></div>
-
-<div  class="block-content" ng-include="'modules/artifacts/client/views/partial.artifact-comments.html'"></div>
+<div ng-include="'modules/artifacts/client/views/partial.artifact-comments.html'"></div>
 

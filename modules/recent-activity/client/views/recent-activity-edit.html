@@ -4,14 +4,13 @@
 
 <div class="row">
 	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="admin.recentactivity.list">Cancel</a>
+		<a class="btn btn-xs btn-link" ui-sref="admin.recentActivity.list">Cancel</a>
 		<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
 	</div>
 </div>
 
 <div class="panel panel-default">
 	<div class="panel-body">
-
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
@@ -52,7 +51,7 @@
 							ng-model="recentActivity.dateAdded"
 							ng-disabled="1"/>
 						<div x-modal-date-picker
-							x-selected-date="recentactivity.dateAdded"
+							x-selected-date="recentActivity.dateAdded"
 							class="input-group-addon btn-default">
 						<i class="glyphicon glyphicon-calendar"></i></div>
 					</div>
@@ -72,7 +71,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-sm-1">
+			<div class="col-sm-2">
 				<div class="form-group">
 					<label for="priority" class="control-label">Priority</label>
 					<select id="priority"
@@ -101,7 +100,7 @@
 		<hr>
 		
 		<div class="text-right">
-			<a class="btn btn-default" ui-sref="admin.recentactivity.list">Cancel</a>
+			<a class="btn btn-default" ui-sref="admin.recentActivity.list">Cancel</a>
 			<a class="btn btn-default" href ng-click="save()">Save</a>
 		</div>
 
