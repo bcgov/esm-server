@@ -141,7 +141,7 @@ function controllerProjectsList2($scope, NgTableParams, $state, Authentication, 
 	projectList.regions = REGIONS;
 	projectList.status = PROJECT_STATUS_ARRAY.map (function (e) {
 		return {id:e,title:e};
-	});;
+	});
 
 	projectList.auth = Authentication;
 

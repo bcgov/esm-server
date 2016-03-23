@@ -10,7 +10,7 @@ var UserClass          = require (path.resolve('./modules/users/server/controlle
 var PhaseClass         = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
 var OrganizationClass  = require (path.resolve('./modules/organizations/server/controllers/organization.controller'));
 var PhaseBaseClass     = require (path.resolve('./modules/phases/server/controllers/phasebase.controller'));
-var ProjectIntakeClass = require (path.resolve('./modules/phases/server/controllers/phasebase.controller'));
+var RecentActivityClass = require (path.resolve('./modules/recent-activity/server/controllers/recent-activity.controller'));
 var RoleController     = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 var _                  = require ('lodash');
 var fs		   		   = require ('fs');
@@ -200,6 +200,12 @@ module.exports = DBModel.extend ({
 			RoleController.mergeObjectRoles (project, {
 				submit : [project.adminRole, project.sectorRole]
 			});
+			(new RecentActivityClass (self.user)).create ({
+				headline: 'Submitted for Approval: '+project.name,
+				content: project.name+' has been submitted for approval to the Environmental Assessment process.\n'+project.description,
+				project: project._id,
+				type: 'News'
+			});
 			//
 			// save changes
 			//
@@ -295,6 +301,12 @@ module.exports = DBModel.extend ({
 			// })
 			.then (function (p) {
 				console.log ("save me!");
+				(new RecentActivityClass (self.user)).create ({
+					headline: 'Accepted: '+project.name,
+					content: project.name+' has been accepted for an Environmental Assessment\n'+project.description,
+					project: project._id,
+					type: 'News'
+				});
 				return self.saveAndReturn (p);
 			})
 			// then leave
@@ -364,12 +376,6 @@ module.exports = DBModel.extend ({
 		});
 	},
 
-	getIntakeQuestions: function (project) {
-		var self = this;
-		return new Promise (function (resolve, reject) {
-			var projectintake = new ProjectIntakeClass ();
-		});
-	},
 	// -------------------------------------------------------------------------
 	//
 	// get a new project, pre-saved with a temporary code

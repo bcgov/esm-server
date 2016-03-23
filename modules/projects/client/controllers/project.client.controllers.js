@@ -641,6 +641,7 @@ function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel
 			// projectStreamSelect.project.status = 'In Progress';
 			// ProjectModel.saveModel().then( function(res) {
 				// set the stream then move to the project overview page.
+				ProjectModel.setModel ($scope.project);
 				ProjectModel.setStream(projectStreamSelect.newStreamId).then( function(resStream) {
 					projectStreamSelect.project = _.assign(resStream);
 					$state.go('p.detail', {'projectid':projectStreamSelect.project.code}, {reload: true});
