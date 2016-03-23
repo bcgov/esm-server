@@ -71,12 +71,14 @@ $font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-s
 	background-repeat: no-repeat;
 	background-position: 106% -7%;
 	background-size: 30%;
+	background-opacity: 50%;
 }
 .watermark-news {
 	background-image: url('/modules/core/client/img/watermarks/eao-news.png');
 	background-repeat: no-repeat;
 	background-position: 106% -7%;
 	background-size: 30%;
+	background-opacity: 50%;
 }
 
 
@@ -1342,48 +1344,48 @@ table thead tr.ng-table-filters {
   color: #000;
 }
 
-.template .rTable {   	
-  display: table;   	
-  width: 100%; 
+.template .rTable {
+  display: table;
+  width: 100%;
   margin-top: 10px;
   font-size: 11px;
-} 
+}
 
-.template .rTableRow {   	
-  display: table-row; 
-} 
- 
-.template .rTableCell{   	
-  display: table-cell;   	
-  padding: 5px;   	
-  border-right: 1px solid #000; 
-  border-top: 1px solid #000; 
-} 
+.template .rTableRow {
+  display: table-row;
+}
 
-.template .rTableHead {   	
-  display: table-cell;   	
-  padding: 5px;   	
-  border-right: 1px solid #000; 
-  border-top: 1px solid #000; 
+.template .rTableCell{
+  display: table-cell;
+  padding: 5px;
+  border-right: 1px solid #000;
+  border-top: 1px solid #000;
+}
+
+.template .rTableHead {
+  display: table-cell;
+  padding: 5px;
+  border-right: 1px solid #000;
+  border-top: 1px solid #000;
   font-weight: bold;
   text-align: center;
   background-color: #D9D9D9;
   vertical-align: middle;
-} 
+}
 
-.template .rTableSubHead{   	
-  display: table-cell;   	
-  padding: 3px 10px; 
-  border-top: 1px solid #000; 
+.template .rTableSubHead{
+  display: table-cell;
+  padding: 3px 10px;
+  border-top: 1px solid #000;
   background-color: #F2F2F2;
 }
 
 .template .first-cell {
-  border-left: 1px solid #000; 
+  border-left: 1px solid #000;
 }
 
 .template .last-cell {
-  border-right: 1px solid #000; 
+  border-right: 1px solid #000;
 }
 
 .template .tbl-bottom {
