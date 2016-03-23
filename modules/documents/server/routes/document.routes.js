@@ -10,6 +10,11 @@ var Project    = require ('../../../projects/server/controllers/project.controll
 var helpers    = require ('../../../core/server/controllers/core.helpers.controller');
 
 module.exports = function (app) {
+	app.route ('/api/documents/postproc/mapdocumentstoprojects').all (policy.isAllowed)
+  		.get (function (req, res) {
+			controller.mapDocumentsToProjects(req, res)
+			.then (helpers.success(res), helpers.failure(res));
+	});
 	//
 	// collection routes
 	//
@@ -76,5 +81,6 @@ module.exports = function (app) {
 	//
 	app.param ('document', controller.getObject);
 	//app.param ('documentId', controller.getId);
+
 };
 
