@@ -410,7 +410,12 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 
 
 
-	$scope.saveProject = function() {
+	$scope.saveProject = function(isValid) {
+		if (!isValid) {
+			$scope.$broadcast('show-errors-check-validity', 'projectForm');
+			return false;
+		}
+
 		UserModel.saveModel ()
 		.then (function (um) {
 			$scope.project.primaryContact = um._id;
@@ -430,7 +435,12 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 	};
 
 	// Submit the project for stream assignment.
-	$scope.submitProject = function() {
+	$scope.submitProject = function(isValid) {
+		if (!isValid) {
+			$scope.$broadcast('show-errors-check-validity', 'projectForm');
+			return false;
+		}
+
 		UserModel.saveModel ()
 		.then (function (um) {
 			$scope.project.primaryContact = um._id;
