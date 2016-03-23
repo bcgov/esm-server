@@ -2,16 +2,22 @@
 	Publish {{artifact.type.type}} for {{ project.name }}
 </h1>
 
-<div class="block-content">
-	<div ng-include="'modules/artifacts/client/views/partial.artifact-view.html'"></div>
+<div class="text-right">
+	<a class="btn btn-link btn-xs" ui-sref="p.detail">Cancel</a>
 </div>
 
-<div>
-	<a class="btn btn-default" ui-sref="p.artifactlist">Cancel</a>
-	<a class="btn btn-success" ng-click="submit()">Publish</a>
+<div ng-include="'modules/artifacts/client/views/partial.artifact-view.html'"></div>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+		<div class="text-right">
+			<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
+			<a class="btn btn-success" ng-click="submit()">Publish</a>
+		</div>
+	</div>
 </div>
 
-<div  class="block-content" ng-include="'modules/artifacts/client/views/partial.artifact-notes.html'"></div>
+<div ng-include="'modules/artifacts/client/views/partial.artifact-notes.html'"></div>
 
-<div  class="block-content" ng-include="'modules/artifacts/client/views/partial.artifact-comments.html'"></div>
+<div ng-include="'modules/artifacts/client/views/partial.artifact-comments.html'"></div>
 
