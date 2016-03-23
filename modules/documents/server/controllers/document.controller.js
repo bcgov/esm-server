@@ -12,12 +12,12 @@ var Types    = mongoose.model ('TypesSchema');
 var SubTypes = mongoose.model ('SubTypesSchema');
 var helpers  = require (path.resolve('./modules/core/server/controllers/core.helpers.controller'));
 var Project = mongoose.model ('Project');
-var Spooky 	= require('spooky');
+var Spooky  = require('spooky');
 var Cheerio = require('cheerio');
 var obj = require('mongoose').Types.ObjectId;
-var fs		   = require ('fs');
+var fs         = require ('fs');
 var CSVParse   = require('csv-parse');
-var _ 			= require('lodash');
+var _           = require('lodash');
 
 var crud = new CRUD (Model);
 // -------------------------------------------------------------------------
@@ -101,9 +101,9 @@ exports.getDocumentVersionsAndReturn = getDocumentVersionsAndReturn;
 // -------------------------------------------------------------------------
 var getDocumentsForProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
-		resolve (Model.find({	project 				: req.params.project,
-								documentIsInReview 		: req.headers.reviewdocsonly,
-								documentIsLatestVersion	: true
+		resolve (Model.find({   project                 : req.params.project,
+								documentIsInReview      : req.headers.reviewdocsonly,
+								documentIsLatestVersion : true
 							}).exec());
 		// TODO: Make this find only documents that have been fully reviewed
 		// Or create a new seleciton criteria for reviewable documents
@@ -195,7 +195,7 @@ var getDocumentTypesForProject = function (req, res) {
 								}
 							}
 						}
- 					});
+					});
 					// console.log(ts);
 					// Flatten.
 					var flattendList = [];
@@ -205,7 +205,7 @@ var getDocumentTypesForProject = function (req, res) {
 						flattendList.push({'label': depth1, 'depth': 1, 'reference': 'projectFolderType'});
 						tsKey.projectFolderSubTypeObjects.forEach(function(subObjects) {
 							var depth2 = subObjects.projectFolderSubType;
-						// 	// console.log(depth2);
+						//  // console.log(depth2);
 							flattendList.push({'label': depth2, 'depth': 2, 'reference': 'projectFolderSubType'});
 							subObjects.projectFolderNames.forEach(function(labels) {
 								var depth3 = labels;
@@ -295,7 +295,7 @@ var getDocumentFolderNamesForProject = function (req, res) {
 		// NB: This will be true after a document has been reviewed by someone perhaps.
 		Model.distinct("projectFolderName",{project: req.params.projectid})
 			 .exec( function (err, records) {
-			 	if (err) {
+				if (err) {
 				// console.log("getDocumentFolderNamesForProject failed to find anything",err);
 				} else {
 					if (null === records) {
@@ -348,7 +348,7 @@ var approveAndDownloadDocument = function (req, res) {
 	});
 };
 var approveAndDownload = function (req, res) {
-    approveAndDownloadDocument (req, req)
+	approveAndDownloadDocument (req, req)
 	.then (function (model) {
 		//console.log (model);
 		helpers.sendData (res, model);
@@ -371,10 +371,10 @@ var importDocument = function (doc, req) {
 		// ? - If these are all = to each other, then this is very likely a new version.
 		Model.findOne({
 			documentIsLatestVersion: true,
-			projectFolderType   	: doc.projectFolderType,
-			projectFolderSubType	: doc.projectFolderSubType,
-			projectFolderName  		: doc.projectFolderName,
-			internalOriginalName	: doc.internalOriginalName
+			projectFolderType       : doc.projectFolderType,
+			projectFolderSubType    : doc.projectFolderSubType,
+			projectFolderName       : doc.projectFolderName,
+			internalOriginalName    : doc.internalOriginalName
 		}, function (err, mo) {
 			if (err) {
 				// console.log("document.controller: Error in Query.");
@@ -425,14 +425,14 @@ var saveReviewableDocumentObject = function (docobj) {
 	});
 };
 var insertReviewableDocument = function (jobid, type, subtype, name, url, author, date, projectID) {
-	saveReviewableDocumentObject( new Model ({	projectFolderType   	: type,
-												projectFolderSubType	: subtype,
-												projectFolderName  		: name,
-												projectFolderURL 		: url,
-												projectFolderAuthor		: author,
+	saveReviewableDocumentObject( new Model ({  projectFolderType       : type,
+												projectFolderSubType    : subtype,
+												projectFolderName       : name,
+												projectFolderURL        : url,
+												projectFolderAuthor     : author,
 												projectFolderDatePosted : date,
-												documentIsInReview		: true,
-												project 				: projectID
+												documentIsInReview      : true,
+												project                 : projectID
 												}));
 };
 
@@ -520,7 +520,7 @@ var scrapeAndSearch = function (req, res) {
 						// console.log("author: "               + author);
 						// console.log("postedDate: "           + postedDate);
 						// console.log("----------");
-						insertReviewableDocument(	jobID,
+						insertReviewableDocument(   jobID,
 													projectFolderType,
 													projectFolderSubType,
 													projectFolderName,
@@ -627,32 +627,32 @@ var populateReviewDocuments = function (req, res) {
 						if ("" === $(this).text()) return true; // skip the last
 						// console.log("Currently at: " + $(this).text());
 						var tr = $(this).children();
-						var documentFileURL		= $(tr).first().children().first().attr('href');
-						var documentFileName	= $(tr).first().children().first().text();
-						var documentSize		= $(tr).first().next().text().trim();
-						var documentType		= $(tr).first().next().next().text();
+						var documentFileURL     = $(tr).first().children().first().attr('href');
+						var documentFileName    = $(tr).first().children().first().text();
+						var documentSize        = $(tr).first().next().text().trim();
+						var documentType        = $(tr).first().next().next().text();
 
 						// console.log("..........");
-						// console.log("projectFolderType:"		+ projectFolderType);
-						// console.log("projectFolderSubType:"		+ projectFolderSubType);
-						// console.log("projectFolderName:"		+ projectFolderName);
-						// console.log("projectFolderDatePosted:"	+ projectFolderDatePosted);
-						// console.log("documentFile:"				+ urlPrefix + documentFileURL);
-						// console.log("documentFileName:"			+ documentFileName);
-						// console.log("documentSize:"				+ documentSize);
-						// console.log("documentType:"				+ documentType);
+						// console.log("projectFolderType:"     + projectFolderType);
+						// console.log("projectFolderSubType:"      + projectFolderSubType);
+						// console.log("projectFolderName:"     + projectFolderName);
+						// console.log("projectFolderDatePosted:"   + projectFolderDatePosted);
+						// console.log("documentFile:"              + urlPrefix + documentFileURL);
+						// console.log("documentFileName:"          + documentFileName);
+						// console.log("documentSize:"              + documentSize);
+						// console.log("documentType:"              + documentType);
 						// We are now ready to insert but still flag for review
-						var m = new Model ({	projectFolderType   	: projectFolderType,
-												projectFolderSubType	: projectFolderSubType,
-												projectFolderName  		: projectFolderName,
+						var m = new Model ({    projectFolderType       : projectFolderType,
+												projectFolderSubType    : projectFolderSubType,
+												projectFolderName       : projectFolderName,
 												projectFolderDatePosted : projectFolderDatePosted,
-												// projectFolderURL 		: "xx", // We don't care about this in new system
-												documentIsInReview		: true,
-												documentFileURL 		: urlPrefix + documentFileURL,
-												documentFileName 		: documentFileName,
-												documentFileSize 		: documentSize,
-												documentFileFormat 		: documentType,
-												project 				: req.headers.projectid
+												// projectFolderURL         : "xx", // We don't care about this in new system
+												documentIsInReview      : true,
+												documentFileURL         : urlPrefix + documentFileURL,
+												documentFileName        : documentFileName,
+												documentFileSize        : documentSize,
+												documentFileFormat      : documentType,
+												project                 : req.headers.projectid
 												});
 						m.save();
 						// console.log("Saved record.");
@@ -682,31 +682,31 @@ var upload = function (req, res) {
 		importDocumentAndReturn (new Model ({
 			// Metadata related to this specific document that has been uploaded.
 			// See the document.model.js for descriptions of the parameters to supply.
-			project 					: req.Project,
-			//projectID 					: req.Project._id,
-			projectFolderType			: req.headers.documenttype,//req.headers.projectfoldertype,
-			projectFolderSubType		: req.headers.documentsubtype,//req.headers.projectfoldersubtype,
-			projectFolderName			: req.headers.documentfoldername,
-			projectFolderURL			: file.path,//req.headers.projectfolderurl,
-			projectFolderDatePosted		: Date.now(),//req.headers.projectfolderdateposted,
+			project                     : req.Project,
+			//projectID                     : req.Project._id,
+			projectFolderType           : req.headers.documenttype,//req.headers.projectfoldertype,
+			projectFolderSubType        : req.headers.documentsubtype,//req.headers.projectfoldersubtype,
+			projectFolderName           : req.headers.documentfoldername,
+			projectFolderURL            : file.path,//req.headers.projectfolderurl,
+			projectFolderDatePosted     : Date.now(),//req.headers.projectfolderdateposted,
 			// NB: In EPIC, projectFolders have authors, not the actual documents.
-			projectFolderAuthor			: req.headers.projectfolderauthor,
+			projectFolderAuthor         : req.headers.projectfolderauthor,
 			// These are the data as it was shown on the EPIC website.
-			documentAuthor		: req.headers.documentauthor,
-			documentFileName	: req.headers.documentfilename,
-			documentFileURL		: req.headers.documentfileurl,
-			documentFileSize	: req.headers.documentfilesize,
-			documentFileFormat	: req.headers.documentfileformat,
+			documentAuthor      : req.headers.documentauthor,
+			documentFileName    : req.headers.documentfilename,
+			documentFileURL     : req.headers.documentfileurl,
+			documentFileSize    : req.headers.documentfilesize,
+			documentFileFormat  : req.headers.documentfileformat,
 			documentIsInReview  : req.headers.documentisinreview,
 			documentVersion     : 0,
 			// These are automatic as it actually is when it comes into our system
-			internalURL				: file.path,
-			internalOriginalName	: file.originalname,
-			internalName			: file.name,
-			internalMime			: file.mimetype,
-			internalExt				: file.extension,
-			internalSize			: file.size,
-			internalEncoding		: file.encoding
+			internalURL             : file.path,
+			internalOriginalName    : file.originalname,
+			internalName            : file.name,
+			internalMime            : file.mimetype,
+			internalExt             : file.extension,
+			internalSize            : file.size,
+			internalEncoding        : file.encoding
 		}), req, res);
 	} else {
 		helpers.sendErrorMessage (res, "document.controller.upload: No file found to upload");
@@ -773,7 +773,8 @@ var loadDocuments = function(req, res) {
 										res.write(",");
 										res.write(JSON.stringify({documentEPICId:parseInt(row.DOCUMENT_ID)}));
 										res.flush();
-										model.documentEPICId 			= parseInt(row.DOCUMENT_ID);
+										model.documentEPICProjectId 	= parseInt(row.PROJECT_ID);
+										model.documentEPICId            = parseInt(row.DOCUMENT_ID);
 										model.projectFolderType         = row.PST_DESCRIPTION;
 										model.projectFolderSubType      = row.DTP_DESCRIPTION;
 										// This is wrong: TODO post-process
@@ -783,19 +784,19 @@ var loadDocuments = function(req, res) {
 										model.projectFolderDatePosted   = Date(row.DATE_POSTED);
 										// // Do this on 2nd pass
 										// model.projectFolderAuthor       = row.WHO_CREATED;
-										model.documentAuthor	 = row.WHO_CREATED;
-										model.documentFileName	 = row.DESCRIPTION;
-										model.documentFileURL	 = URLPrefix + row.FULL_DOCUMENT_POINTER;//.replace(/\\/g,"/");
-										model.documentFileSize	 = row.FILE_SIZE;
+										model.documentAuthor     = row.WHO_CREATED;
+										model.documentFileName   = row.DESCRIPTION;
+										model.documentFileURL    = URLPrefix + row.FULL_DOCUMENT_POINTER;//.replace(/\\/g,"/");
+										model.documentFileSize   = row.FILE_SIZE;
 										model.documentFileFormat = row.FILE_TYPE;
 										model.save().then(function (mod) {
 											// console.log("SAVED",mod);
 											// We should do this post-process
 											// Project.findOne({epicProjectID: parseInt(row.PROJECT_ID)}).then(function(p) {
-											// 	if (p) {
-											// 		model.project = p;
-											// 		model.save();
-											// 	}
+											//  if (p) {
+											//      model.project = p;
+											//      model.save();
+											//  }
 											// });
 											// Am I done processing?
 											// console.log("INDEX:",index);
@@ -831,6 +832,50 @@ var loadDocuments = function(req, res) {
 	});
 };
 exports.loadDocuments = loadDocuments;
+
+var mapDocumentsToProjects = function (req, res) {
+	return new Promise (function (resolve, reject) {
+		Model.find({}, function(err, docs) {
+			if (docs) {
+				var length = docs.length;
+				console.log("length:",length);
+				//res.writeHead(200, {'Content-Type': 'text/plain'});
+				res.write('[0');
+				// console.log("length",length);
+				docs.forEach(function (key, index) {
+					res.write(",");
+					var documentEPICProjectId = key.documentEPICProjectId;
+					// console.log("documentEPICId:",JSON.stringify({epicProjectID: documentEPICProjectId}));
+					Project.findOne({epicProjectID: documentEPICProjectId}, function (err, project) {
+						if (project) {
+							// console.log("found:",project.epicProjectID);
+							key.project = project;
+							key.save().then(function () {
+								// console.log("saved");
+								if (index === length-1) {
+									res.write("]");
+									res.end();
+								} else {
+									res.write(",");
+									res.flush();
+								}
+							});
+						} else {
+							setTimeout(function() {
+							  if (index === length-1) {
+								res.write("]");
+								res.end();
+							  }
+							}, 2000);
+						}
+					});
+				});
+			}
+		});
+	});
+};
+exports.mapDocumentsToProjects = mapDocumentsToProjects;
+
 // -------------------------------------------------------------------------
 //
 // fetch a document from the server wherever it may live
