@@ -61,9 +61,19 @@ $font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-s
 	margin-top: 0;
 	margin-bottom: 20px;
 }
+.well > h5,.panel-body h5:first-child {
+	margin-top: 0;
+	margin-bottom: 20px;
+}
 
-.panel-body.news-headline h3:first-child {
+.panel-body.news-headline h5:first-child {
 	margin-bottom: 10px;
+}
+.panel-body.news-headline h5:first-sibling {
+	margin-top: 0;
+}
+.panel-body.news-headline h5 {
+	margin-bottom: 0;
 }
 
 .watermark-chat {
@@ -79,6 +89,11 @@ $font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-s
 	background-position: 106% -7%;
 	background-size: 30%;
 	background-opacity: 50%;
+}
+
+.news-content {
+	/*white-space: pre-line;*/
+	margin-top: 0;
 }
 
 
