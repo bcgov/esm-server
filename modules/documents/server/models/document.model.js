@@ -107,7 +107,8 @@ var DocumentSchema  = new Schema ({
     internalMime                   : { type:String, default:'' },
     internalExt                    : { type:String, default:'' },
     internalSize                   : { type:Number, default:0 },
-    internalEncoding               : { type:String, default:'' }
+    internalEncoding               : { type:String, default:'' },
+    oldData                        : { type:String, default:'' }
 
 });
 var mDocument = mongoose.model ('Document', DocumentSchema);
