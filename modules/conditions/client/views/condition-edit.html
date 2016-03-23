@@ -2,10 +2,12 @@
 	Add / Edit Condition
 </h1>
 
+<form name="conditionForm" ng-submit="save(conditionForm.$valid)" novalidate>
+
 <div class="row">
 	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="admin.condition.list">Cancel</a>
-		<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+		<button class="btn btn-default" ui-sref="admin.condition.list">Cancel</button>
+		<button class="btn btn-default" type="submit">Save</button>
 	</div>
 </div>
 
@@ -14,9 +16,12 @@
 
 		<div class="row">
 			<div class="col-sm-4">
-				<div class="form-group">
+				<div class="form-group" x-show-errors>
 					<label for="name" class="control-label">Name</label>
-					<input id="name" type="text" class="form-control input-sm" ng-model="condition.name">
+					<input id="name" name="name" type="text" class="form-control input-sm" ng-model="condition.name" required>
+						<div ng-messages="conditionForm.name.$error" role="alert">
+							<p class="help-block error-text" ng-message="required">Name is required.</p>
+						</div>
 				</div>
 			</div>
 			<div class="col-sm-4">
@@ -72,12 +77,14 @@
 		
 		<hr>
 		
-		<div class="text-right">
-			<a class="btn btn-default" ui-sref="admin.condition.list">Cancel</a>
-			<a class="btn btn-default" href ng-click="save()">Save</a>
+		<div class="row">
+			<div class="col-sm-12 text-right">
+				<button class="btn btn-default" ui-sref="admin.condition.list">Cancel</button>
+				<button class="btn btn-default" type="submit">Save</button>
+			</div>
 		</div>
 
 	</div>
 </div>
 
-
+</form>

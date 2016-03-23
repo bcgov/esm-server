@@ -79,7 +79,11 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.pillars = pillars;
 			$scope.stages  = stages;
 			var which = 'add';
-			$scope.save = function () {
+			$scope.save = function (isValid) {
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'conditionForm');
+					return false;
+				}
 				$scope.condition.code = codeFromTitle ($scope.condition.name);
 				var p = (which === 'add') ? ConditionModel.add ($scope.condition) : ConditionModel.save ($scope.condition);
 				p.then (function (model) {
@@ -119,7 +123,11 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			// console.log ($scope.pillars);
 
 			var which = 'edit';
-			$scope.save = function () {
+			$scope.save = function (isValid) {
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'conditionForm');
+					return false;
+				}
 				$scope.condition.code = codeFromTitle ($scope.condition.name);
 				var p = (which === 'add') ? ConditionModel.add ($scope.condition) : ConditionModel.save ($scope.condition);
 				p.then (function (model) {
