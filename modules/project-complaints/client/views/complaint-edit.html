@@ -2,10 +2,12 @@
 	Add / Edit Complaint
 </h1>
 
+<form name="complaintForm" ng-submit="save(complaintForm.$valid)" novalidate>
+
 <div class="row">
 	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="p.complaint.list">Cancel</a>
-		<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+		<button class="btn btn-xs btn-link" ui-sref="p.complaint.list">Cancel</button>
+		<button class="btn btn-xs btn-link" href type="submit">Save</button>
 	</div>
 </div>
 
@@ -14,9 +16,12 @@
 		<div class="row">
 
 			<div class="col-sm-8">
-				<div class="form-group">
+				<div class="form-group" x-show-errors>
 					<label for="complainant" class="control-label">Complainant</label>
-					<input id="complainant" ng-model='complaint.complainant' class="form-control input-sm" />
+					<input id="complainant" name="complainant" ng-model='complaint.complainant' class="form-control input-sm" required>
+						<div ng-messages="complaintForm.complainant.$error" role="alert">
+							<p class="help-block error-text" ng-message="required">Complainant is required.</p>
+						</div>
 				</div>
 			</div>
 			<div class="col-sm-4">
@@ -29,9 +34,12 @@
 
 		<div class="row">
 			<div class="col-sm-8">
-				<div class="form-group">
+				<div class="form-group" x-show-errors>
 					<label for="complaint" class="control-label">Complaint Description</label>
-					<textarea id="complaint" type="text" class="form-control input-sm" ng-model="complaint.complaint" rows=10></textarea>
+					<textarea id="complaint" name="complaint" type="text" class="form-control input-sm" ng-model="complaint.complaint" rows=10 required></textarea>
+						<div ng-messages="complaintForm.complaint.$error" role="alert">
+							<p class="help-block error-text" ng-message="required">Complaint is required.</p>
+						</div>
 				</div>
 			</div>
 			<div class="col-sm-4">
@@ -44,11 +52,14 @@
 		
 		<hr>
 
-		<div class="text-right">
-			<a class="btn btn-default" ui-sref="p.complaint.list">Cancel</a>
-			<a class="btn btn-default" href ng-click="save()">Save</a>
+		<div class="row">
+			<div class="col-sm-12 text-right">
+				<button class="btn btn-default" ui-sref="p.complaint.list">Cancel</button>
+				<button class="btn btn-default" type="submit">Save</button>
+			</div>
 		</div>
 
 	</div>
 </div>
 
+</form>

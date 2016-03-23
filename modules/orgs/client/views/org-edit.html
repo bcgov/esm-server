@@ -2,10 +2,12 @@
 	Add / Edit Organization
 </h1>
 
+<form name="organizationForm" ng-submit="save(organizationForm.$valid)" novalidate>
+
 <div class="row">
 	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="admin.org.list">Cancel</a>
-		<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+		<button class="btn btn-xs btn-link" ui-sref="admin.org.list">Cancel</button>
+		<button class="btn btn-xs btn-link" href type="submit">Save</button>
 	</div>
 </div>
 
@@ -14,9 +16,12 @@
 
 		<div class="row">
 			<div class="col-sm-8">
-				<div class="form-group">
+				<div class="form-group" x-show-errors>
 					<label for="name" class="control-label">Name</label>
-					<input id="name" type="text" class="form-control input-sm" ng-model="org.name">
+					<input id="name" name="name" type="text" class="form-control input-sm" ng-model="org.name" required>
+					<div ng-messages="organizationForm.name.$error" role="alert">
+						<p class="help-block error-text" ng-message="required">Name is required.</p>
+					</div>
 				</div>
 			</div>
 			<div class="col-sm-4">
@@ -104,12 +109,14 @@
 		
 		<hr>
 		
-		<div class="text-right">
-			<a class="btn btn-default" ui-sref="admin.org.list">Cancel</a>
-			<a class="btn btn-default" href ng-click="save()">Save</a>
+		<div class="row">
+			<div class="col-sm-12 text-right">
+				<button class="btn btn-default" ui-sref="admin.org.list">Cancel</button>
+				<button class="btn btn-default" type="submit">Save</button>
+			</div>
 		</div>
 
 	</div>
 </div>
 
-
+</form>
