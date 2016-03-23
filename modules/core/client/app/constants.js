@@ -139,12 +139,21 @@ angular
 			'decommissioned' : 'Decommissioned'
 		}
 	)
-	.constant('ENV', 'EAO') // MEM, EAO
-	.factory('LOGO', function(ENV) {
-		if (ENV === 'EAO') {
+	.constant('ENV', 'EAO')
+	// function () {
+	// 	var u = window.location.href.split ('://');
+	// 	var e = 'EAO';
+	// 	if (u[1].substr(0,3).toLowerCase() === 'mem') return 'MEM';
+	// 	else return 'EAO';
+	// }) // MEM, EAO
+	.factory('LOGO', function () {
+		var u = window.location.href.split ('://');
+		var e = 'EAO';
+		if (u[1].substr(0,3).toLowerCase() === 'mem') e = 'MEM';
+		if (e === 'EAO') {
 			return 'modules/core/client/img/brand/eao-logo.png'; // MEM Logo
 		}
-		if (ENV === 'MEM') {
+		if (e === 'MEM') {
 			return 'modules/core/client/img/brand/mem-logo.png'; // EAO Logo
 		}
 	})
