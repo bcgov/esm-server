@@ -25,7 +25,7 @@ angular.module ('comment')
 			period: '='
 		},
 		link : function (scope, element, attrs) {
-			console.log('my modal is running');
+			// console.log('my modal is running');
 			element.on ('click', function () {
 				var modalView = $modal.open ({
 					animation: true,

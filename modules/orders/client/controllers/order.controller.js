@@ -11,7 +11,7 @@ angular.module ('orders')
 	['$scope', '$rootScope', '$stateParams', 'OrderModel', 'NgTableParams', 'PILLARS',
 	function ($scope, $rootScope, $stateParams, OrderModel, NgTableParams, PILLARS) {
 
-	console.log ('controllerOrderList is running');
+	// console.log ('controllerOrderList is running');
 
 	var self = this;
 
@@ -28,7 +28,7 @@ angular.module ('orders')
 	//
 	var setData = function () {
 		OrderModel.forProject ($stateParams.project).then (function (data) {
-			console.log ('controllerOrderList data received: ', data);
+			// console.log ('controllerOrderList data received: ', data);
 			self.collection = data;
 			self.tableParams = new NgTableParams ({count: 10}, {dataset: data});
 		});
@@ -58,7 +58,7 @@ angular.module ('orders')
 	['$modalInstance', '$scope', '_', 'codeFromTitle', 'OrderModel', 'TopicModel', 'PILLARS',
 	function ($modalInstance, $scope, _, codeFromTitle, OrderModel, TopicModel, PILLARS) {
 
-	console.log ('controllerEditOrderModal is running');
+	// console.log ('controllerEditOrderModal is running');
 
 	var self = this;
 
@@ -85,9 +85,9 @@ angular.module ('orders')
 		});
 	};
 	this.ok = function () {
-		console.log ('save clicked');
+		// console.log ('save clicked');
 		this.order.code = codeFromTitle (this.order.name);
-		console.log ('new code = ', this.order.code);
+		// console.log ('new code = ', this.order.code);
 		if (this.mode === 'add') {
 			OrderModel.saveModel ().then (function (result) {
 				$modalInstance.close(result);
@@ -104,7 +104,7 @@ angular.module ('orders')
 		}
 	};
 	this.cancel = function () {
-		console.log ('cancel clicked');
+		// console.log ('cancel clicked');
 		$modalInstance.dismiss('cancel');
 	};
 

@@ -13,13 +13,13 @@ angular.module ('features')
 
 
 	if ($stateParams.project) {
-		console.log ('we have a project : ', $stateParams.project);
+		// console.log ('we have a project : ', $stateParams.project);
 		this.title = 'Project Features';
 		this.projectId = $stateParams.project;
 		this.base = false;
 	}
 	else {
-		console.log ('there is no project');
+		// console.log ('there is no project');
 		this.title = 'Base Features';
 		this.projectId = null;
 		this.base = true;
@@ -30,7 +30,7 @@ angular.module ('features')
 	this.setData = function () {
 		var p = (this.base) ? FeatureModel.base () : FeatureModel.forProject (this.projectId);
 		p.then (function (data) {
-			console.log (data);
+			// console.log (data);
 			self.collection = data;
 			self.tableParams = new NgTableParams ({
 				count:50,
@@ -74,7 +74,7 @@ angular.module ('features')
 			});
 		}
 	};
-	console.log ('project = ',$scope.project);
+	// console.log ('project = ',$scope.project);
 	if (!$scope.project) {
 		this.rolename = 'System Roles';
 	} else {
@@ -100,7 +100,7 @@ angular.module ('features')
 	}
 
 	this.ok = function () {
-		console.log ('roles = ',self.roles);
+		// console.log ('roles = ',self.roles);
 		this.feature.code = codeFromTitle (this.feature.name);
 		if (this.mode === 'add') {
 			FeatureModel.saveModel ().then (function (result) {
@@ -118,7 +118,7 @@ angular.module ('features')
 		}
 	};
 	this.cancel = function () {
-		console.log ('cancel clicked');
+		// console.log ('cancel clicked');
 		$modalInstance.dismiss('cancel');
 	};
 

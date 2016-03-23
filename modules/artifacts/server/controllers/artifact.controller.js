@@ -48,13 +48,13 @@ module.exports = DBModel.extend ({
 					newArtifact.type = atype._id;
 					newArtifact.version = atype.versions[0];
 					newArtifact.stage = atype.stages[0].name;
-					console.log ("\n\n");
-					console.log ('atype.isTemplate = ',atype.isTemplate);
+					// console.log ("\n\n");
+					// console.log ('atype.isTemplate = ',atype.isTemplate);
 					if (atype.isTemplate) {
-						console.log ('documentType:'+type+':');
+						// console.log ('documentType:'+type+':');
 						return template.findFirst ({documentType:type},null,{versionNumber: -1})
 						.then (function (t) {
-							console.log ('template = ', t[0]);
+							// console.log ('template = ', t[0]);
 							newArtifact.template = t[0]._id;
 							newArtifact.isTemplate = true;
 							return self.newDocument (newArtifact);
@@ -66,8 +66,8 @@ module.exports = DBModel.extend ({
 			.then (self.saveDocument)
 			.then (function (m) {
 				var p = new PhaseClass (self.user);
-				console.log ('adding a new milestone to the project for this artifact, type = ', artifactType.milestone);
-				console.log ('projecty.currentphase = ', project.currentPhase);
+				// console.log ('adding a new milestone to the project for this artifact, type = ', artifactType.milestone);
+				// console.log ('projecty.currentphase = ', project.currentPhase);
 				p.addMilestoneFromCode (project.currentPhase, artifactType.milestone);
 				return m;
 			})
@@ -96,15 +96,15 @@ module.exports = DBModel.extend ({
 		return new Promise (function (resolve, reject) {
 			Types.getMultiples ()
 			.then (function (result) {
-				console.log (result);
+				// console.log (result);
 				if (result) multiples = result;
-				console.log ('multiples = ', multiples);
+				// console.log ('multiples = ', multiples);
 			})
 			.then (Types.getNonMultiples)
 			.then (function (result) {
-				console.log (result);
+				// console.log (result);
 				if (result) nonmultiples = result;
-				console.log ('non-multiples = ', nonmultiples);
+				// console.log ('non-multiples = ', nonmultiples);
 				return projectId;
 			})
 			.then (self.getCurrentTypes)
@@ -124,7 +124,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	getCurrentTypes: function (projectId) {
-		console.log ('getCurrentTypes for ', projectId);
+		// console.log ('getCurrentTypes for ', projectId);
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			self.findMany ({project:projectId},{typeName:1})
@@ -157,8 +157,8 @@ module.exports = DBModel.extend ({
 	},
 	newStage: function (doc, oldDoc, next) {
 		doc.stage = next.name;
-		console.log (doc);
-		console.log (doc.reviewnote);
+		// console.log (doc);
+		// console.log (doc.reviewnote);
 		//
 		// if there is a new review note then push it
 		//
@@ -182,7 +182,7 @@ module.exports = DBModel.extend ({
 		//
 		// save the document
 		//
-		console.log ('about to attempt to save saveDocument', doc);
+		// console.log ('about to attempt to save saveDocument', doc);
 		var p = this.update (oldDoc, doc);
 		var self = this;
 		return new Promise (function (resolve, reject) {
@@ -191,7 +191,7 @@ module.exports = DBModel.extend ({
 			// this stage
 			//
 			p.then (function (model) {
-				console.log ('document saved, now add the activity');
+				// console.log ('document saved, now add the activity');
 				if (model.milestone && next.activity) {
 					var m = new MilestoneClass (self.user);
 					return m.findById (model.milestone)

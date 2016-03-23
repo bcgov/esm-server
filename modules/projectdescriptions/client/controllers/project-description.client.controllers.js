@@ -18,13 +18,13 @@ function controllerProjectDescriptionRead ($scope, $state, sAuthentication, _, s
 	var projDesc = this;
 
 	projDesc.authentication = sAuthentication;
-	
+
 	$scope.$watch('project', function(newProject) {
 		if (newProject) {
 			projDesc.project = newProject;
 			sProjectDescriptionModel.getCurrentProjectDescription (newProject._id)
 			.then (function (description) {
-				console.log('single desc', description);
+				// console.log('single desc', description);
 				projDesc.data = description;
 
 				if (description.general) {
@@ -54,7 +54,7 @@ controllerProjectDescriptionEdit.$inject = ['$scope', '$state', 'Authentication'
 function controllerProjectDescriptionEdit ($scope, $state, sAuthentication, _, sProjectModel, sProjectDescriptionModel, moment, sDocument) {
 	var projDescEdit = this;
 	projDescEdit.saveMessage = null;
-	
+
 	sProjectModel.getModel($state.params.project).then( function(data) {
 		projDescEdit.project = data;
 	});
@@ -63,7 +63,7 @@ function controllerProjectDescriptionEdit ($scope, $state, sAuthentication, _, s
 		projDescEdit.versionStrings = data;
 	});
 
-	projDescEdit.refreshDocuments = function() {	
+	projDescEdit.refreshDocuments = function() {
 		sDocument.getDocumentsInList (projDescEdit.data.general.locationDocuments).then( function(res) {
 			projDescEdit.data.general.locationDocumentsObjs = res.data;
 		});
@@ -73,9 +73,9 @@ function controllerProjectDescriptionEdit ($scope, $state, sAuthentication, _, s
 		});
 	};
 
-	
+
 	sProjectDescriptionModel.getDescriptionsForProject ($state.params.project).then (function (descriptions) {
-		console.log($state.params.project, descriptions);
+		// console.log($state.params.project, descriptions);
 		if (descriptions.length === 0) {
 			// add new model
 			sProjectDescriptionModel.new().then( function(newDesc) {

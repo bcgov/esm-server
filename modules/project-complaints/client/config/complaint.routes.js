@@ -94,12 +94,12 @@ angular.module('complaints').config(['$stateProvider', function ($stateProvider)
 			$scope.project = project;
 			$scope.stages = CE_STAGES;
 			$scope.vcs = vcs;
-			
+
 			$scope.save = function () {
 				ComplaintModel.save ($scope.complaint)
 				.then (function (model) {
-					console.log ('complaint was saved',model);
-					console.log ('now going to reload state');
+					// console.log ('complaint was saved',model);
+					// console.log ('now going to reload state');
 					$state.transitionTo('p.complaint.list', {projectid:project.code}, {
 			  			reload: true, inherit: false, notify: true
 					});

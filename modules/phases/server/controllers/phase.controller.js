@@ -18,7 +18,7 @@ module.exports = DBModel.extend ({
 	preprocessAdd: function (phase) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			console.log ('adding phase roles');
+			// console.log ('adding phase roles');
 			RoleController.addRolesToConfigObject (phase, 'phases', {
 				read   : ['project:eao:member', 'eao'],
 				submit : ['project:eao:admin']

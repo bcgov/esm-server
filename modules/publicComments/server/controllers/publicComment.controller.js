@@ -88,7 +88,7 @@ var getBucketsForComment = function (commentId) {
 		BucketComment.find ({publicComment: commentId}).populate('bucket').exec(function (err, models) {
 			if (err) return reject (err);
 			else {
-				console.log (models);
+				// console.log (models);
 				var ret = [];
 				_.each (models, function (m) {
 					ret.push (m.bucket);
@@ -108,7 +108,7 @@ var decorateComment = function (comment) {
 	return new Promise (function (resolve, reject) {
 		if (!comment) return resolve ({});
 		comment = comment.toObject ();
-		console.log (comment);
+		// console.log (comment);
 		getDocumentsForComment (comment._id)
 		.then (function (a) {
 			comment.documents = a;
@@ -424,7 +424,7 @@ var getInProgressForUser = function (userid, query) {
 // -------------------------------------------------------------------------
 var vettingStart = function (req, res) {
 	var userid = (req.user) ? req.user._id : null;
-	console.log(req);
+	// console.log(req);
 	getInProgressForUser (userid, {
 		project : req.params.projectid
 	})

@@ -14,7 +14,7 @@ function controllerProcessPublicCommentVetting($scope, $rootScope, _, PublicComm
 	var taskPubComVet = this;
 
 	taskPubComVet.data = {comments:[]};
-	
+
 	taskPubComVet.rejectReasons = COMMENT_REJECT;
 
 	taskPubComVet.workingStatus = null;
@@ -33,7 +33,7 @@ function controllerProcessPublicCommentVetting($scope, $rootScope, _, PublicComm
 					PublicCommentVetting.setDocumentPublish(doc._id).then( function(res) {
 						doc = _.assign(doc, res.data);
 					});
-				} else if (doc.eaoStatus === 'Deferred') {					
+				} else if (doc.eaoStatus === 'Deferred') {
 					PublicCommentVetting.setDocumentDefer(doc._id).then( function(res) {
 						doc = _.assign(doc, res.data);
 					});
@@ -101,7 +101,7 @@ function controllerProcessPublicCommentVetting($scope, $rootScope, _, PublicComm
 		// see if there's any more comments in this category, if so stay, otherwise go to unvetted and get a new one.
 		_.each(taskPubComVet.data.comments, function(comment) {
 			if ((comment.eaoStatus === taskPubComVet.filter) && !taskPubComVet.activeComment) {
-				console.log(comment.eaoStatus, taskPubComVet.filter);
+				// console.log(comment.eaoStatus, taskPubComVet.filter);
 				taskPubComVet.activeComment = comment;
 				taskPubComVet.workingStatus = comment.eaoStatus;
 			}
@@ -144,7 +144,7 @@ function controllerProcessPublicCommentVetting($scope, $rootScope, _, PublicComm
 
 	// get the task identifier.  (ID + Process Type)
 	$scope.$watch('anchor', function(newValue) {
-		if (newValue) {	
+		if (newValue) {
 			taskPubComVet.anchor = newValue;
 		}
 	});
@@ -161,7 +161,7 @@ function controllerProcessPublicCommentVetting($scope, $rootScope, _, PublicComm
 	taskPubComVet.completeProcess = function() {
 		// validate
 		// when ok, broadcast
-		console.log('complete', taskPubComVet.item);
+		// console.log('complete', taskPubComVet.item);
 		taskPubComVet.item.value = 'Complete';
 		$rootScope.$broadcast('resolveItem', {itemId: taskPubComVet.itemId});
 	};

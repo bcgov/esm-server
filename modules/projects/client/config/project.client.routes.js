@@ -121,9 +121,9 @@ angular.module('project').config (
 				}
 			});
 			$scope.tableParams = new NgTableParams ({count:50}, {dataset: activities});
-			console.log($scope.tableParams);
+			// console.log($scope.tableParams);
 			$scope.getLinkUrl = function (state, params) {
-				console.log (state, params);
+				// console.log (state, params);
 				return $state.href (state, params);
 			};
 		},

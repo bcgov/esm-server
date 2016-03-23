@@ -39,7 +39,7 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		// -------------------------------------------------------------------------
 		getCollection: function () {
 			var self = this;
-			console.log ('getting collection');
+			// console.log ('getting collection');
 			return new Promise (function (resolve, reject) {
 				self.all ().then (function (res) {
 					self.collection = res;
@@ -127,11 +127,11 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		saveModel: function (m) {
 			if (m) this.setModel (m);
 			var self = this;
-			console.log('save or add', self.modelIsNew, this);
+			// console.log('save or add', self.modelIsNew, this);
 			return new Promise (function (resolve, reject) {
 				var p = (self.modelIsNew) ? self.add (self.model) : self.save (self.model);
 				p.then (function (res) {
-					console.log ('model saved, setting model to ',res);
+					// console.log ('model saved, setting model to ',res);
 					self.model = res;
 					self.modelIsNew = false;
 					resolve (res);
@@ -173,7 +173,7 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 			return this.delete (this.urlbase+id);
 		},
 		getId : function (id) {
-			console.log ('this.urlbase = ', this.urlbase);
+			// console.log ('this.urlbase = ', this.urlbase);
 			return this.get (this.urlbase+id);
 		},
 		save : function (obj) {
@@ -203,7 +203,7 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 			return this.talk ('DELETE', url, null);
 		},
 		talk : function (method, url, data) {
-			console.log (method, url, data);
+			// console.log (method, url, data);
 			return new Promise (function (resolve, reject) {
 				$http ({method:method, url:url, data:data })
 				.then (function (res) {

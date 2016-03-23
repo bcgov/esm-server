@@ -21,8 +21,8 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		template: '<ui-view></ui-view>',
 		resolve: {
 			descriptions: function ($stateParams, ProjectDescriptionModel, project) {
-				console.log ('projectdescription abstract resolving descriptions');
-				console.log ('project id = ', project._id);
+				// console.log ('projectdescription abstract resolving descriptions');
+				// console.log ('project id = ', project._id);
 				return ProjectDescriptionModel.getDescriptionsForProject (project._id);
 			},
 		}
@@ -82,19 +82,19 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		templateUrl: 'modules/project-descriptions/client/views/projectdescription-edit.html',
 		resolve: {
 			description: function ($stateParams, ProjectDescriptionModel) {
-				console.log ('editing descriptionId = ', $stateParams.descriptionId);
+				// console.log ('editing descriptionId = ', $stateParams.descriptionId);
 				return ProjectDescriptionModel.getModel ($stateParams.descriptionId);
 			}
 		},
 		controller: function ($scope, $state, description, project, ProjectDescriptionModel) {
-			console.log ('description = ', description);
+			// console.log ('description = ', description);
 			$scope.description = description;
 			$scope.project = project;
 			$scope.save = function () {
 				ProjectDescriptionModel.save ($scope.description)
 				.then (function (model) {
-					console.log ('description was saved',model);
-					console.log ('now going to reload state');
+					// console.log ('description was saved',model);
+					// console.log ('now going to reload state');
 					$state.transitionTo('p.projectdescription.list', {project:project._id}, {
 			  			reload: true, inherit: false, notify: true
 					});
@@ -117,12 +117,12 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		templateUrl: 'modules/project-descriptions/client/views/projectdescription-view.html',
 		resolve: {
 			description: function ($stateParams, ProjectDescriptionModel) {
-				console.log ('descriptionId = ', $stateParams.descriptionId);
+				// console.log ('descriptionId = ', $stateParams.descriptionId);
 				return ProjectDescriptionModel.getModel ($stateParams.descriptionId);
 			}
 		},
 		controller: function ($scope, description, project) {
-			console.log ('description = ', description);
+			// console.log ('description = ', description);
 			$scope.description = description;
 			$scope.project = project;
 		}

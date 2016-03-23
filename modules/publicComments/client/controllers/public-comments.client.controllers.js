@@ -22,7 +22,7 @@ function controllerPublicCommentsClassify($scope, $rootScope, _, sPublicComments
 	pubComClass.filterScopeValueComponents = true;
 	pubComClass.filterScopeTopics = true;
 
-	console.log($scope.single);
+	// console.log($scope.single);
 	pubComClass.singleMode = $scope.single;
 
 	pubComClass.data = {comments: []};
@@ -172,7 +172,7 @@ function controllerPublicCommentsClassify($scope, $rootScope, _, sPublicComments
 	// Is the topic selected, used in the ng-class in the topic select list.
 	// t/f if the bucket has been selected or not
 	//
-	// -----------------------------------------------------------------------------------	
+	// -----------------------------------------------------------------------------------
 	pubComClass.selectedBucket = function(bucket) {
 		return _.some(pubComClass.com.buckets, function(item) {
 			return item._id === bucket._id;
@@ -187,7 +187,7 @@ function controllerPublicCommentsClassify($scope, $rootScope, _, sPublicComments
 // -----------------------------------------------------------------------------------
 controllerModalAddComment.$inject = ['$modalInstance', '$scope', 'Project', 'rProject'];
 /* @ngInject */
-function controllerModalAddComment($modalInstance, $scope, Project, rProject) { 
+function controllerModalAddComment($modalInstance, $scope, Project, rProject) {
 	var publicComment = this;
 	var commentSubmitted = false;
 
@@ -213,7 +213,7 @@ function controllerModalAddComment($modalInstance, $scope, Project, rProject) {
 			$scope.$broadcast('show-errors-check-validity', 'publicCommentForm');
 		}
 	};
-	
+
 	publicComment.ok = function () {
 		$modalInstance.close();
 		publicComment.step = 2;
@@ -244,7 +244,7 @@ function controllerModalAddComment($modalInstance, $scope, Project, rProject) {
 // -----------------------------------------------------------------------------------
 controllerPublicCommentDisplay.$inject = ['$modal', 'Project', '$stateParams', '_', 'moment', '$filter', '$location'];
 /* @ngInject */
-function controllerPublicCommentDisplay($modal, Project, $stateParams, _, moment, $filter, $location) { 
+function controllerPublicCommentDisplay($modal, Project, $stateParams, _, moment, $filter, $location) {
 	var pubComDisp = this;
 
 	pubComDisp.host = $location.protocol() + '://' + $location.host() + ($location.port() ? ':' + $location.port() : '');
@@ -258,7 +258,7 @@ function controllerPublicCommentDisplay($modal, Project, $stateParams, _, moment
 	// Get Project
 	Project.getProject({id: $stateParams.id}).then(function(res) {
 		pubComDisp.project = res.data;
-	
+
 		pubComDisp.bucketGroups = _.unique(_.pluck(pubComDisp.project.buckets, 'group'));
 
 		// get public comments and sort into date groups.
@@ -297,7 +297,7 @@ function controllerPublicCommentDisplay($modal, Project, $stateParams, _, moment
 						// make a structure of keys to filter on key meta.
 						if (!pubComDisp.commentsByTopicKeys[bucket.name]) pubComDisp.commentsByTopicKeys[bucket.name] = {name:bucket.name, group:bucket.group};
 
-						// is the bucket already in the visualization?						
+						// is the bucket already in the visualization?
 						var findBucket = _.find(pubComDisp.commentsByTopicVis.children, function(o) {
 							return o.name === bucket.name;
 						});

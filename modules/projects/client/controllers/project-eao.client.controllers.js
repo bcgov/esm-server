@@ -17,7 +17,7 @@ controllerEAOProject.$inject = ['$scope', 'Project', '$stateParams'];
 /* @ngInject */
 function controllerEAOProject($scope, Project, $stateParams) {
 	var vm = this;
-	
+
 	// show activities first
 	vm.mainView = 'activity';
 	//vm.activityView = 'all';
@@ -33,7 +33,7 @@ function controllerEAOProject($scope, Project, $stateParams) {
 //
 // CONTROLLER: EAO Project New
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 controllerEAOProjectNew.$inject = ['Project', '$state'];
 /* @ngInject */
 function controllerEAOProjectNew(Project, $state) {
@@ -68,9 +68,9 @@ function controllerEAOProjectNew(Project, $state) {
 // -----------------------------------------------------------------------------------
 controllerModalProjectEdit.$inject = ['$modalInstance', 'rProject', 'Utils', 'Project'];
 /* @ngInject */
-function controllerModalProjectEdit($modalInstance, rProject, Utils, Project) { 
+function controllerModalProjectEdit($modalInstance, rProject, Utils, Project) {
 	var projectEdit = this;
-	
+
 	// set local var to passed project
 	projectEdit.project = angular.copy(rProject);
 
@@ -90,9 +90,9 @@ function controllerModalProjectEdit($modalInstance, rProject, Utils, Project) {
 // -----------------------------------------------------------------------------------
 controllerModalProjectEditPlanMilestones.$inject = ['$modalInstance', 'rProject', 'Utils', '_'];
 /* @ngInject */
-function controllerModalProjectEditPlanMilestones($modalInstance, rProject, Utils, _) { 
+function controllerModalProjectEditPlanMilestones($modalInstance, rProject, Utils, _) {
 	var pestag = this;
-	
+
 	// remove a milestone from the temporary list.
 	pestag.removeMilestoneFromProject = function(idx) {
 		pestag.projectMilestones.splice(idx, 1);
@@ -108,9 +108,9 @@ function controllerModalProjectEditPlanMilestones($modalInstance, rProject, Util
 	pestag.inProject = function(milestone) {
 		return _.includes(pestag.projectMilestones, milestone);
 	};
-	
+
 	// TODO: manually sort the milestone list.
-	
+
 	// set local var to passed project
 	pestag.project = rProject;
 
@@ -122,7 +122,7 @@ function controllerModalProjectEditPlanMilestones($modalInstance, rProject, Util
 	});
 
 	pestag.cancel = function () { $modalInstance.dismiss('cancel'); };
-	pestag.ok = function () { 
+	pestag.ok = function () {
 		// saving so write the new data.
 		rProject.milestones = angular.copy(pestag.projectMilestones);
 		$modalInstance.close();
@@ -135,9 +135,9 @@ function controllerModalProjectEditPlanMilestones($modalInstance, rProject, Util
 // -----------------------------------------------------------------------------------
 controllerModalProjectEditPlanSchedule.$inject = ['$modalInstance', 'rProject', 'Project', '_'];
 /* @ngInject */
-function controllerModalProjectEditPlanSchedule($modalInstance, rProject, Project, _) { 
+function controllerModalProjectEditPlanSchedule($modalInstance, rProject, Project, _) {
 	var pesched = this;
-	
+
 	var original = angular.copy(rProject.milestones);
 
 	// set local var to passed project
@@ -147,15 +147,15 @@ function controllerModalProjectEditPlanSchedule($modalInstance, rProject, Projec
 		pesched.project.milestones = original;
 		$modalInstance.dismiss('cancel');
 	};
-	pesched.ok = function () { 
+	pesched.ok = function () {
 		// saving so write the new data.
 		_.each(pesched.project.milestones, function(milestone) {
-			console.log('this', milestone);
+			// console.log('this', milestone);
 			if (milestone.changed) {
 				Project.updateMilestone(milestone);
 			}
 		});
 
 		$modalInstance.close();
-	};	
+	};
 }

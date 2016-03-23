@@ -21,8 +21,8 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		template: '<ui-view></ui-view>',
 		resolve: {
 			orders: function ($stateParams, OrderModel, project) {
-				console.log ('order abstract resolving orders');
-				console.log ('project id = ', project._id);
+				// console.log ('order abstract resolving orders');
+				// console.log ('project id = ', project._id);
 				return OrderModel.forProject (project._id);
 			},
 		}
@@ -82,19 +82,19 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		templateUrl: 'modules/orders/client/views/order-edit.html',
 		resolve: {
 			order: function ($stateParams, OrderModel) {
-				console.log ('editing orderId = ', $stateParams.orderId);
+				// console.log ('editing orderId = ', $stateParams.orderId);
 				return OrderModel.getModel ($stateParams.orderId);
 			}
 		},
 		controller: function ($scope, $state, order, project, OrderModel) {
-			console.log ('order = ', order);
+			// console.log ('order = ', order);
 			$scope.order = order;
 			$scope.project = project;
 			$scope.save = function () {
 				OrderModel.save ($scope.order)
 				.then (function (model) {
-					console.log ('order was saved',model);
-					console.log ('now going to reload state');
+					// console.log ('order was saved',model);
+					// console.log ('now going to reload state');
 					$state.transitionTo('p.order.list', {project:project._id}, {
 			  			reload: true, inherit: false, notify: true
 					});
@@ -117,12 +117,12 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		templateUrl: 'modules/orders/client/views/order-view.html',
 		resolve: {
 			order: function ($stateParams, OrderModel) {
-				console.log ('orderId = ', $stateParams.orderId);
+				// console.log ('orderId = ', $stateParams.orderId);
 				return OrderModel.getModel ($stateParams.orderId);
 			}
 		},
 		controller: function ($scope, order, project) {
-			console.log ('order = ', order);
+			// console.log ('order = ', order);
 			$scope.order = order;
 			$scope.project = project;
 		}

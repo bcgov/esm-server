@@ -26,8 +26,8 @@ module.exports = DBModel.extend ({
 		});
 	},
 	preprocessUpdate: function (model) {
-		console.log ('updating model', model);
-		console.log ('this = ', this);
+		// console.log ('updating model', model);
+		// console.log ('this = ', this);
 		var self = this;
 			model = model.toObject ();
 			delete model._id;

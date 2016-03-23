@@ -11,7 +11,7 @@ angular.module ('irs')
 	['$scope', '$rootScope', '$stateParams', 'IrModel', 'NgTableParams', 'PILLARS',
 	function ($scope, $rootScope, $stateParams, IrModel, NgTableParams, PILLARS) {
 
-	console.log ('controllerIrList is running');
+	// console.log ('controllerIrList is running');
 
 	var self = this;
 
@@ -28,7 +28,7 @@ angular.module ('irs')
 	//
 	var setData = function () {
 		IrModel.forProject ($stateParams.project).then (function (data) {
-			console.log ('controllerIrList data received: ', data);
+			// console.log ('controllerIrList data received: ', data);
 			self.collection = data;
 			self.tableParams = new NgTableParams ({count: 10}, {dataset: data});
 		});
@@ -58,7 +58,7 @@ angular.module ('irs')
 	['$modalInstance', '$scope', '_', 'codeFromTitle', 'IrModel', 'TopicModel', 'PILLARS',
 	function ($modalInstance, $scope, _, codeFromTitle, IrModel, TopicModel, PILLARS) {
 
-	console.log ('controllerEditIrModal is running');
+	// console.log ('controllerEditIrModal is running');
 
 	var self = this;
 
@@ -85,9 +85,9 @@ angular.module ('irs')
 		});
 	};
 	this.ok = function () {
-		console.log ('save clicked');
+		// console.log ('save clicked');
 		this.ir.code = codeFromTitle (this.ir.name);
-		console.log ('new code = ', this.ir.code);
+		// console.log ('new code = ', this.ir.code);
 		if (this.mode === 'add') {
 			IrModel.saveModel ().then (function (result) {
 				$modalInstance.close(result);
@@ -104,7 +104,7 @@ angular.module ('irs')
 		}
 	};
 	this.cancel = function () {
-		console.log ('cancel clicked');
+		// console.log ('cancel clicked');
 		$modalInstance.dismiss('cancel');
 	};
 

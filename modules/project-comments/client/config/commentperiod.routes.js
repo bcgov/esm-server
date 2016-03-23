@@ -80,19 +80,19 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 		templateUrl: 'modules/project-comments/client/views/period-edit.html',
 		resolve: {
 			period: function ($stateParams, CommentPeriodModel) {
-				console.log ('editing periodId = ', $stateParams.periodId);
+				// console.log ('editing periodId = ', $stateParams.periodId);
 				return CommentPeriodModel.getModel ($stateParams.periodId);
 			}
 		},
 		controller: function ($scope, $state, period, project, CommentPeriodModel) {
-			console.log ('period = ', period);
+			// console.log ('period = ', period);
 			$scope.period = period;
 			$scope.project = project;
 			$scope.save = function () {
 				CommentPeriodModel.save ($scope.period)
 				.then (function (model) {
-					console.log ('period was saved',model);
-					console.log ('now going to reload state');
+					// console.log ('period was saved',model);
+					// console.log ('now going to reload state');
 					$state.transitionTo('p.commentperiod.list', {project:project._id}, {
 			  			reload: true, inherit: false, notify: true
 					});
@@ -115,12 +115,12 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 		templateUrl: 'modules/project-comments/client/views/period-view.html',
 		resolve: {
 			period: function ($stateParams, CommentPeriodModel) {
-				console.log ('periodId = ', $stateParams.periodId);
+				// console.log ('periodId = ', $stateParams.periodId);
 				return CommentPeriodModel.getModel ($stateParams.periodId);
 			}
 		},
 		controller: function ($scope, period, project) {
-			console.log ('period = ', period);
+			// console.log ('period = ', period);
 			$scope.period = period;
 			$scope.project = project;
 		}

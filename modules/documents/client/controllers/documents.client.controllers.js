@@ -28,7 +28,7 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 
 	docLink.changeItem = function (docObj) {
 		var idx = $scope.current.indexOf(docObj._id);
-		console.log(idx);
+		// console.log(idx);
 		if (idx === -1) {
 			docLink.linkFiles.push(docObj);
 			$scope.current.push(docObj._id);
@@ -70,7 +70,7 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 		// Set the new array before we return back to the caller
 		$scope.current = [];
 		_.each(docLink.linkFiles, function(item) {
-			console.log('save', item);
+			// console.log('save', item);
 			$scope.current.push(item._id);
 		});
 	});
@@ -188,7 +188,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 	docUpload.upload = function (uploadingReviewDocs) {
 		docUpload.inProgress = true;
 		var docCount = docUpload.fileList.length;
-		console.log('upload', docCount);
+		// console.log('upload', docCount);
 		if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
 			angular.forEach( docUpload.fileList, function(file) {
 				// Quick hack to pass objects
@@ -208,7 +208,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 				file.upload.then(function (response) {
 					$timeout(function () {
 						file.result = response.data;
-						console.log('file', response.data);
+						// console.log('file', response.data);
 						// when the last file is finished, send complete event.
 						if (--docCount === 0) {
 							// emit to parent.
@@ -419,13 +419,13 @@ function controllerModalDocumentLink($modalInstance, $scope, rProject, rCurrent,
 	docLink.savedCurrent = angular.copy(rCurrent);
 
 	docLink.unlinkFile = function(f) {
-		console.log(f);
+		// console.log(f);
 		//_.remove(docLink.documentsObjs, {_id: f._id});
 		//_.remove(docLink.documents, function(n) {return n === f._id; });
 	};
 
 	docLink.ok = function (items) {
-		console.log(items);
+		// console.log(items);
 		$modalInstance.close();
 	};
 	docLink.cancel = function () {

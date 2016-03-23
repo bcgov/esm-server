@@ -11,7 +11,7 @@ angular.module('core').service ('EsmLog', ['$http', '_', function ($http, _) {
 	//
 	// -------------------------------------------------------------------------
 	this.logError = function (err) {
-		console.log ('Error received:', err);
+		// console.log ('Error received:', err);
 	};
 	// -------------------------------------------------------------------------
 	//

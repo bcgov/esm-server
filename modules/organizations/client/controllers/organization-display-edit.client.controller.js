@@ -13,24 +13,24 @@ angular.module('organizations').controller('controllerOrganizationsDisplayEdit',
         $scope.$watch( 'organizationId', function(newValue) {
             if (newValue) {
                 if (newValue === 'new') {
-                    console.log('new');
+                    // console.log('new');
                     sOrganizationModel.getNew().then( function(data) {
-                        console.log(data);
+                        // console.log(data);
                         displayEdit.organization = data;
                         $scope.$apply();
                     });
                 } else {
-                    console.log('edit');
+                    // console.log('edit');
                     sOrganizationModel.getModel({id: newValue}).then( function(data) {
                         displayEdit.organization = data;
                     });
                 }
             }
-        });        
+        });
 
 
         displayEdit.submit = function(form) {
-            console.log('submit', form);
+            // console.log('submit', form);
 
             sOrganizationModel.setModel(displayEdit.organization);
 

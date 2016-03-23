@@ -17,7 +17,7 @@ function directiveControlOrderDetail($modal) {
 			context: '@'
 		},
 		link : function(scope, element, attrs) {
-			console.log('this thing');
+			// console.log('this thing');
 			element.on('click', function() {
 				var modalOrderDetail = $modal.open({
 					animation: true,

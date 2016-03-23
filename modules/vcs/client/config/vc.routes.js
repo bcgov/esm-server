@@ -21,8 +21,8 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		template: '<ui-view></ui-view>',
 		resolve: {
 			vcs: function ($stateParams, VcModel, project) {
-				console.log ('vc abstract resolving vcs');
-				console.log ('project id = ', project._id);
+				// console.log ('vc abstract resolving vcs');
+				// console.log ('project id = ', project._id);
 				return VcModel.forProject (project._id);
 			},
 		}
@@ -82,19 +82,19 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		templateUrl: 'modules/vcs/client/views/vc-edit.html',
 		resolve: {
 			vc: function ($stateParams, VcModel) {
-				console.log ('editing vcId = ', $stateParams.vcId);
+				// console.log ('editing vcId = ', $stateParams.vcId);
 				return VcModel.getModel ($stateParams.vcId);
 			}
 		},
 		controller: function ($scope, $state, vc, project, VcModel) {
-			console.log ('vc = ', vc);
+			// console.log ('vc = ', vc);
 			$scope.vc = vc;
 			$scope.project = project;
 			$scope.save = function () {
 				VcModel.save ($scope.vc)
 				.then (function (model) {
-					console.log ('vc was saved',model);
-					console.log ('now going to reload state');
+					// console.log ('vc was saved',model);
+					// console.log ('now going to reload state');
 					$state.transitionTo('p.vc.list', {project:project._id}, {
 			  			reload: true, inherit: false, notify: true
 					});
@@ -117,12 +117,12 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		templateUrl: 'modules/vcs/client/views/vc-view.html',
 		resolve: {
 			vc: function ($stateParams, VcModel) {
-				console.log ('vcId = ', $stateParams.vcId);
+				// console.log ('vcId = ', $stateParams.vcId);
 				return VcModel.getModel ($stateParams.vcId);
 			}
 		},
 		controller: function ($scope, vc, project) {
-			console.log ('vc = ', vc);
+			// console.log ('vc = ', vc);
 			$scope.vc = vc;
 			$scope.project = project;
 		}

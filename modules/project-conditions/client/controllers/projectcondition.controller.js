@@ -11,7 +11,7 @@ angular.module ('projectconditions')
 	['$scope','$rootScope','$stateParams','ProjectConditionModel','NgTableParams','PROJECT_TYPES','CE_STAGES','PILLARS',
 	function ($scope,$rootScope,$stateParams,ProjectConditionModel,NgTableParams,PROJECT_TYPES,CE_STAGES,PILLARS) {
 
-	console.log ('yes, I am running');
+	// console.log ('yes, I am running');
 	var self = this;
 
 	self.ptypes = PROJECT_TYPES.map (function (e) {
@@ -27,7 +27,7 @@ angular.module ('projectconditions')
 	var setData = function () {
 		ProjectConditionModel.getCollection ()
 		.then (function (data) {
-			console.log (data);
+			// console.log (data);
 			self.collection = data;
 			self.tableParams = new NgTableParams ({
 				count:50,
@@ -56,8 +56,8 @@ angular.module ('projectconditions')
 
 	var self = this;
 
-	console.log ($scope.projectcondition);
-	console.log ($scope.mode);
+	// console.log ($scope.projectcondition);
+	// console.log ($scope.mode);
 
 	this.mode = $scope.mode;
 	// $scope.projectcondition;
@@ -91,15 +91,15 @@ angular.module ('projectconditions')
 	this.stages = CE_STAGES;
 	this.pillars = PILLARS;
 
-	console.log ('stages:', this.stages);
+	// console.log ('stages:', this.stages);
 
 
 
 
 	this.ok = function () {
-		console.log ('save clicked');
+		// console.log ('save clicked');
 		this.projectcondition.code = codeFromTitle (this.projectcondition.name);
-		console.log ('new code = ', this.projectcondition.code);
+		// console.log ('new code = ', this.projectcondition.code);
 		if (this.mode === 'add') {
 			ProjectConditionModel.saveModel ().then (function (result) {
 				$modalInstance.close(result);
@@ -116,7 +116,7 @@ angular.module ('projectconditions')
 		}
 	};
 	this.cancel = function () {
-		console.log ('cancel clicked');
+		// console.log ('cancel clicked');
 		$modalInstance.dismiss('cancel');
 	};
 

@@ -116,8 +116,8 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.selectTopic = function () {
 				TopicModel.getTopicsForPillar ($scope.topic.pillar).then (function (topics) {
 					$scope.pillartopics = topics;
-					console.log ('pillar topics = ', topics);
-					console.log ('parent topic = ', $scope.topic.parent);
+					// console.log ('pillar topics = ', topics);
+					// console.log ('parent topic = ', $scope.topic.parent);
 					$scope.$apply();
 				});
 			};

@@ -4,10 +4,10 @@ angular.module('documents')
     .directive('tmplDocumentsUploadGeneral', directiveDocumentsUploadGeneral)
     .directive('tmplDocumentsLink', directiveDocumentsLink)
     .directive('tmplDocumentsUploadClassifyMem', directiveDocumentsUploadClassifyMem)
-    .directive('tmplDocumentsUploadClassify', directiveDocumentsUploadClassify)        
-    .directive('tmplDocumentsList', directiveDocumentsList)   
-    .directive('tmplDocumentsBrowser', directiveDocumentsBrowser) 
-    .directive('tmplDocumentsApprovals', directiveDocumentsApprovals)                
+    .directive('tmplDocumentsUploadClassify', directiveDocumentsUploadClassify)
+    .directive('tmplDocumentsList', directiveDocumentsList)
+    .directive('tmplDocumentsBrowser', directiveDocumentsBrowser)
+    .directive('tmplDocumentsApprovals', directiveDocumentsApprovals)
     .directive('modalDocumentUploadReview', directiveModalDocumentUploadReview)
     .directive('modalDocumentLink', directiveModalDocumentLink)
     .directive('modalDocumentUploadClassifyMem', directiveModalDocumentUploadClassifyMem)
@@ -79,7 +79,7 @@ function directiveDocumentsUploadClassify() {
     };
 
     return directive;
-}    
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Document Upload General for MEM
@@ -122,7 +122,7 @@ function directiveDocumentsList() {
     };
 
     return directive;
-}    
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Document Browser
@@ -145,7 +145,7 @@ function directiveDocumentsBrowser() {
     };
 
     return directive;
-}   
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Documents for Approval
@@ -167,7 +167,7 @@ function directiveDocumentsApprovals() {
     };
 
     return directive;
-}   
+}
 
 
 // -----------------------------------------------------------------------------------
@@ -211,7 +211,7 @@ function directiveModalDocumentLink($modal, $rootScope) {
         },
         link : function(scope, element, attrs) {
             element.on('click', function() {
-                console.log("Docs Current: ",attrs.current);
+                // console.log("Docs Current: ",attrs.current);
                 var modalDocLink = $modal.open({
                     animation: true,
                     templateUrl: 'modules/documents/client/views/partials/modal-document-link.html',
@@ -224,7 +224,7 @@ function directiveModalDocumentLink($modal, $rootScope) {
                     }
                 });
                 modalDocLink.result.then(function (data) {
-                    console.log("New set of Documents:",data);
+                    // console.log("New set of Documents:",data);
                     $rootScope.$broadcast('refreshDocumentList');
                 }, function () {});
             });
@@ -263,7 +263,7 @@ function directiveModalDocumentUploadClassify($modal, $rootScope) {
         }
     };
     return directive;
-}   
+}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Upload in a modal
@@ -364,4 +364,4 @@ function directiveModalDocumentUploadReview($modal, $rootScope) {
 //         }
 //     };
 //     return directive;
-// }   
+// }

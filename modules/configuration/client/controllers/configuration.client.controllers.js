@@ -32,7 +32,7 @@ function controllerConfiguration($rootScope, $scope, sTaskBaseModel, sActivityBa
 
         sMilestoneBaseModel.getCollection().then( function(data) {
             configData.config.milestones = data;
-            console.log(data, configData.config);
+            // console.log(data, configData.config);
         }).catch( function(err) {
             $scope.error = err;
         });
@@ -84,7 +84,7 @@ function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBa
     configDataElement.activeRecordNew = false;
 
     $scope.$watch('config', function(newValue) {
-        console.log(newValue, 'newval');
+        // console.log(newValue, 'newval');
         if (newValue) {
             configDataElement.data = newValue;
         }

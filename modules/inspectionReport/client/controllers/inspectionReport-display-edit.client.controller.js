@@ -35,7 +35,7 @@ angular.module('inspectionReport').controller('controllerInspectionReportDisplay
         {
             InspectionReportModel.getModel(displayEdit.inspectionReportId).then(
                 function(res) {
-                    console.log(res);
+                    // console.log(res);
 
                     displayEdit.inspectionReport = res;
                     //displayEdit.details = displayEdit.inspectionReport.inspectionDetails;
@@ -50,7 +50,7 @@ angular.module('inspectionReport').controller('controllerInspectionReportDisplay
 
         displayEdit.submit = function() {
             InspectionReportModel.saveModel(displayEdit.inspectionReport).then( function(res) {
-                console.log("======== HERE WE ARE", res);
+                // console.log("======== HERE WE ARE", res);
                 // $state.go('inspectionReport.view', { inspectionReportId: res._id});
             });
         };

@@ -25,7 +25,7 @@ ProjectType.count (function (err, count) {
 			{name:'Metal Mining'            , code:'metal'},
 			{name:'Oil and Gas'             , code:'oil'}
 		], function (err) {
-			console.log ('insertion of base project type data OK');
+			// console.log ('insertion of base project type data OK');
 		});
 	}
 });

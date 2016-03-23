@@ -23,7 +23,7 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	getMultiples: function () {
 		var self = this;
-		console.log (self.name);
+		// console.log (self.name);
 		return new Promise (function (resolve, reject) {
 			self.findMany ({multiple:true},{type:1})
 			.then (function (result) {
@@ -41,7 +41,7 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	getNonMultiples: function () {
 		var self = this;
-		console.log (self.name);
+		// console.log (self.name);
 		return new Promise (function (resolve, reject) {
 			self.findMany ({multiple:false},{type:1})
 			.then (function (result) {

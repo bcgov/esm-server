@@ -20,7 +20,7 @@
 	<div class="col-sm-12">
 		<section class="panel panel-default">
 			<table ng-table="s.tableParams" show-filter="s.showfilter" class="table table-condensed table-hover	table-striped">
-			    <tr ng-repeat="o in $data" ui-sref="o.artifact.detail({artifactId:o._id})">
+			    <tr ng-repeat="o in $data">
 					<td data-title="'Type'"    filter="{'typeName':'text'}"     sortable="'typeName'"    >{{o.typeName}}</td>
 					<td data-title="'Version'" filter="{'version':'text'}"   	class="text-center" sortable="'version'"  >{{o.version}}</td>
 					<td data-title="'Stage'"   filter="{'stage':'text'}"    	class="text-center" sortable="'stage'"   >{{o.stage}}</td>

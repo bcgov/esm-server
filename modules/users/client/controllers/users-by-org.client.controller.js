@@ -48,7 +48,7 @@ angular.module('users').controller('controllerUsersByOrg', ['$scope', '$filter',
         };
 
         /*
-        console.log($scope.mode);
+        // console.log($scope.mode);
 
         displayEdit.organizationId = $scope.organizationId;
         displayEdit.mode = $scope.mode;
@@ -75,12 +75,12 @@ angular.module('users').controller('controllerUsersByOrg', ['$scope', '$filter',
         displayEdit.submit = function() {
             if (displayEdit.mode === "add") {
                 Organizations.addOrganization(displayEdit.organization).then( function(res) {
-                    console.log(res);
+                    // console.log(res);
                     $state.go('organization.view', { organizationId: res.data._id});
                 });
             } else {
                 Organizations.updateOrganization(displayEdit.organization).then( function(res) {
-                    console.log(res);
+                    // console.log(res);
                     $state.go('organization.view', { organizationId: res.data._id});
                 });
             }

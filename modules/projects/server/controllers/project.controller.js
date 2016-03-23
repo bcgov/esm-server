@@ -65,7 +65,7 @@ module.exports = DBModel.extend ({
 			// sides of the fence
 			//
 			.then (function (projectCode) {
-				console.log ('Step1. assign project code: ', projectCode);
+				// console.log ('Step1. assign project code: ', projectCode);
 				project.code           = projectCode;
 				rolePrefix             = projectCode + ':';
 				adminSuffix            = ':admin';
@@ -86,7 +86,7 @@ module.exports = DBModel.extend ({
 				// we absolutely set them at this point.
 				//
 				//
-				console.log ('Step2. assign default roles.');
+				// console.log ('Step2. assign default roles.');
 				return RoleController.setObjectRoles (self, project, {
 					read   : [projectProponentMember],
 					submit : [projectProponentAdmin, projectAdminRole]
@@ -96,8 +96,8 @@ module.exports = DBModel.extend ({
 			// add the appropriate role to the user
 			//
 			.then (function () {
-				console.log ('Step3. assign admin role to user.');
-				console.log ('project is now ', project);
+				// console.log ('Step3. assign admin role to user.');
+				// console.log ('project is now ', project);
 				var userRole = (self.user.orgCode !== 'eao' && self.user.orgCode === project.orgCode) ? projectProponentAdmin : projectAdminRole;
 				return RoleController.addUserRole (self.user, userRole);
 			})
@@ -107,7 +107,7 @@ module.exports = DBModel.extend ({
 			// cannot save the project
 			//
 			.then (function () {
-				console.log ('Step4. set query access roles in the dbmodel object');
+				// console.log ('Step4. set query access roles in the dbmodel object');
 				self.setRoles (self.user);
 				project.roles = project.allRoles ();
 				return project;
@@ -116,7 +116,7 @@ module.exports = DBModel.extend ({
 			// add a pre submission phase
 			//
 			.then (function () {
-				console.log ('Step5. add the first basic phase, pre-stream, pre-submission');
+				// console.log ('Step5. add the first basic phase, pre-stream, pre-submission');
 				return self.addPhaseFromCode (project, 'presubmission')
 				.then (function (m) {
 					m.currentPhase = m.phases[0];
@@ -235,14 +235,14 @@ module.exports = DBModel.extend ({
 		var phase     = new PhaseClass (self.user);
 		var phasebase = new PhaseBaseClass (self.user);
 		return new Promise (function (resolve, reject) {
-			console.log ("adding user roles");
+			// console.log ("adding user roles");
 			//
 			// we MUST add the admin role to the current user or they cannot
 			// perform the upcoming save
 			//
 			var projectAdminRole = project.code + ':eao:admin';
 			var projectMemberRole = project.code + ':eao:member';
-			console.log ('about to add user role '+projectAdminRole + ' to user ',self.user);
+			// console.log ('about to add user role '+projectAdminRole + ' to user ',self.user);
 			return RoleController.addUserRole (self.user, projectAdminRole)
 			.then (function () {
 				//
@@ -254,14 +254,14 @@ module.exports = DBModel.extend ({
 			})
 			// then make real phases from them all
 			.then (function (models) {
-				console.log ('found phase bases, length = ',models.length);
+				// console.log ('found phase bases, length = ',models.length);
 				return Promise.all (models.map (function (m) {
 					return phase.makePhaseFromBase (m, stream._id, project._id, project.code, project.roleSet());
 				}));
 			})
 			// then attach the new phases to the project
 			.then (function (models) {
-				console.log ('new phases, length = ',models.length);
+				// console.log ('new phases, length = ',models.length);
 				_.each (models, function (m) {
 					project.phases.push (m._id);
 				});
@@ -269,7 +269,7 @@ module.exports = DBModel.extend ({
 			})
 			// then do some work on the project itself and save it
 			.then (function (p) {
-				console.log ("setting up status and roles");
+				// console.log ("setting up status and roles");
 				//
 				// set the status to in progress
 				//
@@ -277,7 +277,7 @@ module.exports = DBModel.extend ({
 				//
 				// add some new roles to the roles list including the stream roles
 				//
-				console.log ('roles are now:', p.roles);
+				// console.log ('roles are now:', p.roles);
 				p.roles.push (
 					projectAdminRole,
 					projectMemberRole
@@ -300,7 +300,7 @@ module.exports = DBModel.extend ({
 			// 	return RoleController.addUserRole (self.user, project.code + ':eao:admin');
 			// })
 			.then (function (p) {
-				console.log ("save me!");
+				// console.log ("save me!");
 				(new RecentActivityClass (self.user)).create ({
 					headline: 'Accepted: '+project.name,
 					content: project.name+' has been accepted for an Environmental Assessment\n'+project.description,
@@ -356,7 +356,7 @@ module.exports = DBModel.extend ({
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			project.currentPhase = phase;
-			console.log('setcurrentphase', project, phase);
+			// console.log('setcurrentphase', project, phase);
 			self.saveAndReturn(project)
 			.then (resolve, reject);
 		});
@@ -383,7 +383,7 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	getNewWithCode: function (code) {
 		var self = this;
-		console.log ('code = ', code);
+		// console.log ('code = ', code);
 		return new Promise (function (resolve, reject) {
 			self.newDocument ({code:code, name:code})
 			.then (self.create)
@@ -435,7 +435,7 @@ module.exports = DBModel.extend ({
 									model.code 			= model.name.toLowerCase ().replace (' ', '-').substr (0, model.name.length+1);
 									var addOrChangeProp = function(prop) {
 										// Sometimes mem Props are NULL
-										console.log(row.Proponent);
+										// console.log(row.Proponent);
 										if (row.Proponent === "") {
 											row.Proponent = "N/A";
 											prop.code = model.code;
@@ -536,7 +536,7 @@ module.exports = DBModel.extend ({
 										// Am I done processing?
 										// console.log("INDEX:",index);
 										if (index === length-1) {
-											console.log("processed: ",projectProcessed);
+											// console.log("processed: ",projectProcessed);
 											resolve("{done: true, rowsProcessed: "+projectProcessed+"}");
 										}
 									});

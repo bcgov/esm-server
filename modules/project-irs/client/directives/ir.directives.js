@@ -30,7 +30,7 @@ angular.module ('irs')
 			mode: '@'
 		},
 		link : function (scope, element, attrs) {
-			console.log('editIrModal is running');
+			// console.log('editIrModal is running');
 			element.on ('click', function () {
 				var modalView = $modal.open ({
 					animation    : true,

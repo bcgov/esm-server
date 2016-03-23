@@ -51,7 +51,7 @@ function filterProjectPhaseContributor($filter, _) {
 		// 	if (cur.groups.indexOf( Global.user.type ) !== -1) {
 		// 		return true;
 		// 	}
-		// } 
+		// }
 		return false;
 	};
 }
@@ -124,7 +124,7 @@ function filterProjects(_) {
 		});
 		return output;
 	};
-}    
+}
 // -----------------------------------------------------------------------------------
 //
 // FILTER: Is in the future
@@ -137,7 +137,7 @@ function filterIsInTheFuture(_, moment) {
 	return function(input) {
 		return moment(input) > moment();
 	};
-}   
+}
 // -----------------------------------------------------------------------------------
 //
 // FILTER: Is in the future
@@ -150,7 +150,7 @@ function filterIsInThePast(_, moment) {
 	return function(input) {
 		return moment(input) < moment();
 	};
-}   
+}
 // -----------------------------------------------------------------------------------
 //
 // FILTER: First 15 words
@@ -172,7 +172,7 @@ filterMaxWords.$inject = ['_'];
 /* @ngInject */
 function filterMaxWords(_) {
 	return function(input, num, showAll) {
-		console.log(input, num, showAll);
+		// console.log(input, num, showAll);
 		if (_.words(input).length > num && !showAll) {
 	    		return _.take(_.words(input), num).join(' ') + '...';
 		} else {

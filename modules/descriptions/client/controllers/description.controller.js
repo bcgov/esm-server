@@ -11,7 +11,7 @@ angular.module ('descriptions')
 	['$scope', '$rootScope', '$stateParams', 'DescriptionModel', 'NgTableParams', 'PILLARS',
 	function ($scope, $rootScope, $stateParams, DescriptionModel, NgTableParams, PILLARS) {
 
-	console.log ('controllerDescriptionList is running');
+	// console.log ('controllerDescriptionList is running');
 
 	var self = this;
 
@@ -28,7 +28,7 @@ angular.module ('descriptions')
 	//
 	var setData = function () {
 		DescriptionModel.forProject ($stateParams.project).then (function (data) {
-			console.log ('controllerDescriptionList data received: ', data);
+			// console.log ('controllerDescriptionList data received: ', data);
 			self.collection = data;
 			self.tableParams = new NgTableParams ({count: 10}, {dataset: data});
 		});
@@ -58,7 +58,7 @@ angular.module ('descriptions')
 	['$modalInstance', '$scope', '_', 'codeFromTitle', 'DescriptionModel', 'TopicModel', 'PILLARS',
 	function ($modalInstance, $scope, _, codeFromTitle, DescriptionModel, TopicModel, PILLARS) {
 
-	console.log ('controllerEditDescriptionModal is running');
+	// console.log ('controllerEditDescriptionModal is running');
 
 	var self = this;
 
@@ -85,9 +85,9 @@ angular.module ('descriptions')
 		});
 	};
 	this.ok = function () {
-		console.log ('save clicked');
+		// console.log ('save clicked');
 		this.description.code = codeFromTitle (this.description.name);
-		console.log ('new code = ', this.description.code);
+		// console.log ('new code = ', this.description.code);
 		if (this.mode === 'add') {
 			DescriptionModel.saveModel ().then (function (result) {
 				$modalInstance.close(result);
@@ -104,7 +104,7 @@ angular.module ('descriptions')
 		}
 	};
 	this.cancel = function () {
-		console.log ('cancel clicked');
+		// console.log ('cancel clicked');
 		$modalInstance.dismiss('cancel');
 	};
 

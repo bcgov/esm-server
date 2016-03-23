@@ -11,7 +11,7 @@ angular.module ('vcs')
 	['$scope', '$rootScope', '$stateParams', 'VcModel', 'NgTableParams', 'PILLARS',
 	function ($scope, $rootScope, $stateParams, VcModel, NgTableParams, PILLARS) {
 
-	console.log ('controllerVcList is running');
+	// console.log ('controllerVcList is running');
 
 	var self = this;
 
@@ -28,7 +28,7 @@ angular.module ('vcs')
 	//
 	var setData = function () {
 		VcModel.forProject ($stateParams.project).then (function (data) {
-			console.log ('controllerVcList data received: ', data);
+			// console.log ('controllerVcList data received: ', data);
 			self.collection = data;
 			self.tableParams = new NgTableParams ({count: 10}, {dataset: data});
 		});
@@ -58,7 +58,7 @@ angular.module ('vcs')
 	['$modalInstance', '$scope', '_', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS',
 	function ($modalInstance, $scope, _, codeFromTitle, VcModel, TopicModel, PILLARS) {
 
-	console.log ('controllerEditVcModal is running');
+	// console.log ('controllerEditVcModal is running');
 
 	var self = this;
 
@@ -85,9 +85,9 @@ angular.module ('vcs')
 		});
 	};
 	this.ok = function () {
-		console.log ('save clicked');
+		// console.log ('save clicked');
 		this.vc.code = codeFromTitle (this.vc.name);
-		console.log ('new code = ', this.vc.code);
+		// console.log ('new code = ', this.vc.code);
 		if (this.mode === 'add') {
 			VcModel.saveModel ().then (function (result) {
 				$modalInstance.close(result);
@@ -104,7 +104,7 @@ angular.module ('vcs')
 		}
 	};
 	this.cancel = function () {
-		console.log ('cancel clicked');
+		// console.log ('cancel clicked');
 		$modalInstance.dismiss('cancel');
 	};
 

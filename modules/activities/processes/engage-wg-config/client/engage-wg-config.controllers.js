@@ -26,10 +26,10 @@ function controllerProcessEngageWGConfig($scope) {
 	$scope.$watch('activity', function(newValue) {
 		if (newValue) {
 			processEngageWGConfig.activity = newValue;
-			console.log('act', newValue);
+			// console.log('act', newValue);
 		}
 	});
 
 
-	
+
 }

@@ -34,11 +34,11 @@ function controllerProject($scope, $rootScope, sProjectModel, $stateParams, _) {
 
 	proj.refresh = function() {
 		sProjectModel.getModel($stateParams.id).then( function(data) {
-			console.log (data);
+			// console.log (data);
 			proj.project = data;
 			$scope.$apply();
 		}).catch( function(err) {
-			console.log (err);
+			// console.log (err);
 			$scope.error = err;
 		});
 	};
@@ -71,13 +71,13 @@ function controllerModalProjectSchedule($modalInstance, sProjectModel, sPhaseMod
 	projSched.cancel = function () { $modalInstance.dismiss('cancel'); };
 	projSched.ok = function () {
 
-		console.log(projSched.newPhase);
+		// console.log(projSched.newPhase);
 
 		if (projSched.newPhase) {
-			console.log('setphase');
+			// console.log('setphase');
 			sProjectModel.setPhase( projSched.newPhase._id ).then( function(data) {
 				$modalInstance.close(data);
-				console.log('closed');
+				// console.log('closed');
 
 			}).catch( function(err) {
 				$modalInstance.dismiss('cancel');
@@ -306,7 +306,7 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 
 	// Standard save make sure documents are uploaded before save.
 	projectImport.upload = function() {
-		console.log("Got file:",projectImport.fileList);
+		// console.log("Got file:",projectImport.fileList);
 		var docCount = projectImport.fileList.length;
 		projectImport.fileList.forEach(function (item) {
 			// Check file type
@@ -323,7 +323,7 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 						// emit to parent.
 						$scope.$emit('importUploadComplete');
 					}
-					console.log("we're done with ",response);
+					// console.log("we're done with ",response);
 					item.processingComplete = true;
 				});
 			}, function (response) {
@@ -702,7 +702,7 @@ function controllerProjectActivities($scope, $rootScope, sAuthentication, sActiv
 	};
 
 	var unbind = $rootScope.$on('refreshActivitiesForMilestone', function(event, data) {
-		console.log(data.milestone);
+		// console.log(data.milestone);
 		projectActs.selectMilestone(data.milestone);
 	});
 	$scope.$on('$destroy',unbind);
@@ -729,7 +729,7 @@ function controllerProjectActivities($scope, $rootScope, sAuthentication, sActiv
 	$scope.$watch(function () {
 		return projectActs.milestones;
 	},function(newValue){
-		console.log('mile', newValue);
+		// console.log('mile', newValue);
 		// if there is a preset, select it.
 		if (projectActs.selectedMilestoneId && newValue) {
 			_.each( newValue, function(milestone) {

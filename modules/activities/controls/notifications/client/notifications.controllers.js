@@ -90,7 +90,7 @@ function controllerProcessNotifications($scope, $rootScope, sProcessNotification
 	taskNotifications.saveProcess = function() {
 		// structure the data to save.
 		//sProcessNotification.saveProcess();
-		console.log('save notifications.controllers.js');
+		// console.log('save notifications.controllers.js');
 	};
 
 	// taskNotification.completeProcess = function() {
@@ -99,5 +99,5 @@ function controllerProcessNotifications($scope, $rootScope, sProcessNotification
 	// 	taskNotifications.item.value = 'Complete';
 	// 	$rootScope.$broadcast('resolveItem', {item: taskNotifications.itemId});
 	// }
-	
+
 }

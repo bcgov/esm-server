@@ -87,7 +87,7 @@ function controllerProjectsSearch($scope, $state, Authentication, sProjectModel,
 		if (projectsSearch.search.keywords) {
 			query.keywords = {'$in': projectsSearch.search.keywords.split(' ') };
 		}
-		console.log(query);
+		// console.log(query);
 		sProjectModel.getQuery (query).then( function(data) {
 			projectsSearch.projects = [];
 			projectsSearch.foundSet = true;

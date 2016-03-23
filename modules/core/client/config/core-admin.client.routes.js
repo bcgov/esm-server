@@ -12,7 +12,7 @@ angular.module('core.admin.routes').config(['$stateProvider',
           roles: ['admin']
         },
         controller: function ($scope, Authentication) {
-          console.log ('auth = ', Authentication);
+          // console.log ('auth = ', Authentication);
           $scope.authentication = Authentication;
         }
       })

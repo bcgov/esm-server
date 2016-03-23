@@ -36,7 +36,7 @@ function controllerCompanyEntryForm($scope) {
 	$scope.$watch('company', function(newValue) {
 		if (newValue) {
 			uco.proponent = newValue;
-			console.log ('uco.proponent = ',uco.proponent);
+			// console.log ('uco.proponent = ',uco.proponent);
 		}
 	});
 
@@ -54,7 +54,7 @@ function controllerUserEntryForm($scope) {
 	$scope.$watch('user', function(newValue) {
 		if (newValue) {
 			uu.user = newValue;
-			console.log (uu.user);
+			// console.log (uu.user);
 		}
 	});
 	$scope.$watch('project', function(newValue) {

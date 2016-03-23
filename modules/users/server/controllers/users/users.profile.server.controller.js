@@ -56,7 +56,7 @@ exports.changeProfilePicture = function (req, res) {
   var message = null;
 
   if (user) {
-    console.log (req.files);
+    // console.log (req.files);
     res.json(user);
     // fs.createReadStream('test.log').pipe(fs.createWriteStream('newLog.log'));
     // fs.writeFile('./modules/users/client/img/profile/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {

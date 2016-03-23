@@ -112,9 +112,9 @@ module.exports = DBModel.extend ({
 		return new Promise (function (resolve, reject) {
 			ActivityBase.findOne ({code:activitybasecode})
 			.then (function (activitybase) {
-				console.log ('found activity base for', activitybasecode);
-				console.log ('activitybase id = ', activitybase._id);
-				console.log ('activitybase = ', activitybase);
+				// console.log ('found activity base for', activitybasecode);
+				// console.log ('activitybase id = ', activitybase._id);
+				// console.log ('activitybase = ', activitybase);
 				return self.addActivityFromBase (milestone, activitybase, roles);
 			})
 			.then (resolve, reject);

@@ -30,7 +30,7 @@ angular.module ('projectdocuments')
 			mode: '@'
 		},
 		link : function (scope, element, attrs) {
-			console.log('editProjectDocumentModal is running');
+			// console.log('editProjectDocumentModal is running');
 			element.on ('click', function () {
 				var modalView = $modal.open ({
 					animation    : true,

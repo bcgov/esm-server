@@ -103,7 +103,7 @@ module.exports = function (Model, options) {
 		q = q || {};
 		var self = this;
 		return function (req, res) {
-			console.log ("running crud list");
+			// console.log ("running crud list");
 			var s = '';
 			var p = '';
 			// console.log ("q = ", q);

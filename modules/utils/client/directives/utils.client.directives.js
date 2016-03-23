@@ -8,8 +8,8 @@ angular.module('utils')
     .directive('kebabThis', directiveKebabThis)
     .directive('modalDatePicker', directiveModalDatePicker)
     .directive('centerVertical', directiveCenterVertical)
-    .directive('contentHeight', directiveContentHeight) 
-    .directive('windowHeight', directiveWindowHeight) 
+    .directive('contentHeight', directiveContentHeight)
+    .directive('windowHeight', directiveWindowHeight)
     .directive('countdownClock',directiveCountdownClock)
     .directive('panelSort',directivePanelSort)
     .directive('phaseColour',directivePhaseColour)
@@ -24,7 +24,7 @@ angular.module('utils')
     .directive('modalSelectUsers', directiveModalSelectUsers)
     .directive('modalRecipientList', directiveModalRecipientList)
     .directive('tmplRequirementChecklist', directiveRequirementChecklist)
-    .directive('tmplRequirementTally', directiveRequirementTally)        
+    .directive('tmplRequirementTally', directiveRequirementTally)
     .directive('modalUserContactInfo', directiveModalUserContactInfo)
     .directive('selectOnClick', directiveSelectOnClick)
     .directive('modalSelectItems', directiveModalSelectItems)
@@ -69,7 +69,7 @@ function directiveDisplayArray() {
 		templateUrl: 'modules/utils/client/views/partials/display-array.html',
 		controller: function($scope, _) {
 			$scope._ = _;
-		}		
+		}
     };
     return directive;
 }
@@ -131,10 +131,10 @@ function directiveCenterVertical($window) {
 
 			var w = angular.element($window);
 			var box = angular.element(element);
-			
+
 			scope.$watch(function () {
 				return {
-					'h': window.innerHeight, 
+					'h': window.innerHeight,
 					'w': window.innerWidth,
 					'bh': box[0].offsetHeight
 				};
@@ -164,7 +164,7 @@ function directiveContentHeight($window) {
 
 			var w = angular.element($window);
 			var box = angular.element(element);
-			
+
 			scope.$watch(function () {
 				return {
 					'h': window.innerHeight
@@ -194,7 +194,7 @@ function directiveWindowHeight($window) {
 
 			var w = angular.element($window);
 			var box = angular.element(element);
-			
+
 			scope.$watch(function () {
 				return {
 					'h': window.innerHeight
@@ -234,7 +234,7 @@ function directiveCountdownClock(moment, $interval) {
 									moment(scope.end).format(localFormat),
 									moment().format(localFormat)
 								);
-				
+
 				if (countDown) {
 					angular.element(element).html(countDown);
 				}
@@ -294,15 +294,15 @@ function directivePhaseColour($filter) {
 			phase: '='
 		},
 		link: function link(scope, element, attrs) {
-		
+
 			scope.$watch('phase', function(newValue) {
 				if (newValue) {
 					var mine = $filter('projectPhaseContributor')(newValue);
-					
+
 					if (mine) {
 						angular.element(element).addClass('text-success');
 					} else {
-						angular.element(element).addClass('text-primary');				
+						angular.element(element).addClass('text-primary');
 					}
 				}
 			});
@@ -326,13 +326,13 @@ function directiveIsCurrentUser() {
 			user: '='
 		},
 		link: function link(scope, element, attrs) {
-		
+
 			scope.$watch('user', function(newValue) {
 				if (newValue) {
 					// if (newValue === Global.user.type) {
 						angular.element(element).addClass('label-success');
 					// } else {
-					// 	angular.element(element).addClass('label-info');				
+					// 	angular.element(element).addClass('label-info');
 					// }
 				}
 			});
@@ -352,7 +352,7 @@ function directiveExpandPanel($compile) {
 		restrict: 'A',
 		link: function link(scope, element, attrs) {
 			if (attrs.expandPanel) {
-				var tmpl = $compile('<a class="panel-toggle" ng-click="' + attrs.expandPanel + ' = !' + attrs.expandPanel + '"><i ng-if="!' + attrs.expandPanel + '" class="glyphicon glyphicon-plus-sign"></i><i ng-if="' + attrs.expandPanel + '" class="glyphicon glyphicon-minus-sign"></i></a>')(scope);	
+				var tmpl = $compile('<a class="panel-toggle" ng-click="' + attrs.expandPanel + ' = !' + attrs.expandPanel + '"><i ng-if="!' + attrs.expandPanel + '" class="glyphicon glyphicon-plus-sign"></i><i ng-if="' + attrs.expandPanel + '" class="glyphicon glyphicon-minus-sign"></i></a>')(scope);
 				element.append(tmpl);
 			}
 		}
@@ -497,7 +497,7 @@ function directiveDateField(moment) {
 			});
 
 // 				ngModel.$parsers.push(function(value){
-// 
+//
 // 				});
 
 		}
@@ -519,7 +519,7 @@ function directiveModalSelectUsers($modal) {
         	project: '='
         },
 		link : function(scope, element, attrs) {
-			console.log('here', scope.users);
+			// console.log('here', scope.users);
 			element.on('click', function() {
 				var modalUsersView = $modal.open({
 					animation: true,
@@ -581,7 +581,7 @@ function directiveModalRecipientList($modal) {
 		}
     };
     return directive;
-}    
+}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Requirement Checklist
@@ -654,7 +654,7 @@ function directiveModalUserContactInfo($modal) {
 		}
     };
     return directive;
-}    
+}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Select On Click
@@ -803,7 +803,7 @@ function directiveScrollTrigger($anchorScroll, $location) {
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
 				var newHash = 'anchor-' + attrs.scrollTrigger;
-				console.log(newHash);
+				// console.log(newHash);
 				if ($location.hash() !== newHash) {
 					// set the $location.hash to `newHash` and
 					// $anchorScroll will automatically scroll to it

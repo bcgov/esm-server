@@ -13,7 +13,7 @@ angular.module('inspectionReport').controller('editInspectionReportController', 
 
 
 
-        console.log(editInspectionReport.report);
+        // console.log(editInspectionReport.report);
 
         // Handles the cancel button...
         editInspectionReport.cancel = function() {
@@ -25,7 +25,7 @@ angular.module('inspectionReport').controller('editInspectionReportController', 
             // IMPORTANT! if new: InspectionReportModel.add(editInspectionReport.report).then(
             InspectionReportModel.saveModel().then(
                 function(res) {
-                    console.log("saved: ", res);
+                    // console.log("saved: ", res);
                     editInspectionReport.reportOpen = false;
                     $scope.$apply();
                 },
@@ -44,10 +44,10 @@ angular.module('inspectionReport').controller('editInspectionReportController', 
 
         // Handles the "Add Inspection Detail" button
         editInspectionReport.openDetailForm = function() {
-            console.log("get a new detail!");
+            // console.log("get a new detail!");
             InspectionReportDetailModel.getNew().then(
                 function(res) {
-                    console.log("got one!");
+                    // console.log("got one!");
                     editInspectionReport.newDetail = res;
                     editInspectionReport.addDetailOpen = true;
                     $scope.$apply();
@@ -57,13 +57,13 @@ angular.module('inspectionReport').controller('editInspectionReportController', 
 
         // Handles the "Save New Inspection Detail" button
         editInspectionReport.saveNewDetail = function(detail) {
-            console.log("SAVE DETAIL ", detail);
+            // console.log("SAVE DETAIL ", detail);
             InspectionReportDetailModel.saveModel(detail).then(
                 function(res) {
                     editInspectionReport.report.inspectionDetails.push(detail);
                     InspectionReportModel.saveModel(editInspectionReport.report).then(
                         function(res) {
-                            console.log("REPORT SAVED", res);
+                            // console.log("REPORT SAVED", res);
                             editInspectionReport.report = res;
                             editInspectionReport.addDetailOpen = false;
                             $scope.$apply();
@@ -75,16 +75,16 @@ angular.module('inspectionReport').controller('editInspectionReportController', 
 
         // Handles the "Remove" button on Details...
         editInspectionReport.removeDetail = function(detail) {
-            console.log("REMOVE DETAIL", detail);
+            // console.log("REMOVE DETAIL", detail);
             InspectionReportDetailModel.delete(detail._id).then(
                 function(res) {
-                    console.log("DETAIL REMOVED", res);
+                    // console.log("DETAIL REMOVED", res);
                     _.remove(editInspectionReport.report.inspectionDetails, detail);
                     // index = InspectionReportModel.model.inspectionDetails.indexOf(detail);
                     // InspectionReportModel.model.splice(index, 1);
                     InspectionReportModel.saveModel(editInspectionReport.report).then(
                         function(res) {
-                            console.log("REPORT SAVED", res);
+                            // console.log("REPORT SAVED", res);
                             editInspectionReport.report = res;
                             $scope.$apply();
                         }
@@ -96,20 +96,20 @@ angular.module('inspectionReport').controller('editInspectionReportController', 
         // Handles the "Edit" button on Details...
         editInspectionReport.editDetail = function(detail) {
             var index = _.indexOf(editInspectionReport.report.inspectionDetails, detail);
-            console.log(editInspectionReport.report.inspectionDetails[index]);
+            // console.log(editInspectionReport.report.inspectionDetails[index]);
             InspectionReportDetailModel.setModel(editInspectionReport.report.inspectionDetails[index]);
             editInspectionReport.report.inspectionDetails[index].editMode = true;
             editInspectionReport.report.inspectionDetails[index].copy = InspectionReportDetailModel.getCopy();
-            console.log( editInspectionReport.report.inspectionDetails[index] );
+            // console.log( editInspectionReport.report.inspectionDetails[index] );
         };
 
         // Handles the "Update" button on Details...
         editInspectionReport.updateDetail = function(detail) {
-            console.log("DETAIL TO SAVE IS", detail.copy);
+            // console.log("DETAIL TO SAVE IS", detail.copy);
             var index = _.indexOf(editInspectionReport.report.inspectionDetails, detail);
 
             InspectionReportDetailModel.saveCopy(detail.copy).then(function(res){
-                console.log("DETAIL SAVED, ", detail);
+                // console.log("DETAIL SAVED, ", detail);
                 editInspectionReport.report.inspectionDetails[index] = res;
                 editInspectionReport.report.inspectionDetails[index].editMode = false;
                 $scope.$apply();
@@ -130,11 +130,11 @@ angular.module('inspectionReport').controller('editInspectionReportController', 
             InspectionReportModel.getNew().then(
                 function(res) {
                     editInspectionReport.inspectionReport = res;
-                    console.log(editInspectionReport.inspectionReport);
+                    // console.log(editInspectionReport.inspectionReport);
                     $scope.$apply();
                 }
             );
-            console.log(editInspectionReport.inspectionReport);
+            // console.log(editInspectionReport.inspectionReport);
         } else {
             InspectionReportModel.getModel($state.params.inspectionReportId).then(
                 function(res) {
@@ -157,7 +157,7 @@ angular.module('inspectionReport').controller('editInspectionReportController', 
         editInspectionReport.submitInspectionReport = function() {
             InspectionReportModel.saveModel($state.params.inspectionReportId).then(
                 function(res) {
-                    console.log("saved: ", res);
+                    // console.log("saved: ", res);
                     editInspectionReport.inspectionReport = res;
                     editInspectionReport.reportOpen = false;
                     $scope.$apply();

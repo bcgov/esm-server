@@ -51,10 +51,10 @@ function controllerProcessTopics($scope, $rootScope, Process, $q, ProcessCodes, 
 	taskTopics.saveProcess = function() {
 		// structure the data to save.
 		//ValueComponents.saveProcess();
-		console.log('save ValueComponents.controllers.js');
+		// console.log('save ValueComponents.controllers.js');
 	};
 
-	
+
 	// add callback from adding the new components.
 	taskTopics.saveNewBuckets = function(newBuckets) {
         var i = newBuckets.length;
@@ -76,5 +76,5 @@ function controllerProcessTopics($scope, $rootScope, Process, $q, ProcessCodes, 
 	// 	taskTopics.item.value = 'Complete';
 	// 	$rootScope.$broadcast('resolveItem', {item: taskTopics.itemId});
 	// }
-	
-}    
+
+}

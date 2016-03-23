@@ -35,16 +35,16 @@ var getNewOrExistingRole = function (code) {
 	});
 };
 var addUserRole = function (user, code) {
-	console.log ('+ adding user role ', code, user.username);
+	// console.log ('+ adding user role ', code, user.username);
 	return new Promise (function (resolve, reject) {
 		getNewOrExistingRole (code)
 		.then (function (role) {
-			console.log ('set the user role on role and save', role.code);
+			// console.log ('set the user role on role and save', role.code);
 			role.setUserRole (user._id.toString());
 			return role.save ();
 		})
 		.then (function (role) {
-			console.log ('set the user role on user and save');
+			// console.log ('set the user role on user and save');
 			user.setUserRole (code);
 			return user.save ();
 		})
@@ -52,11 +52,11 @@ var addUserRole = function (user, code) {
 	});
 };
 var addObjectRole = function (objectType, objectId, code) {
-	console.log ('adding object role ',objectType, objectId, code);
+	// console.log ('adding object role ',objectType, objectId, code);
 	return new Promise (function (resolve, reject) {
 		getNewOrExistingRole (code)
 		.then (function (role) {
-			console.log ('++ adding object role ',objectType, objectId, role);
+			// console.log ('++ adding object role ',objectType, objectId, role);
 			role.setObjectRole (objectType, objectId.toString());
 			return role.save ();
 		})
@@ -71,9 +71,9 @@ var addUserRoles = function (user, codes) {
 	});
 };
 var addObjectRoles = function (objectType, objectId, codes) {
-	console.log ('adding object codes ',codes);
-	console.log ('for type ',objectType);
-	console.log ('aand id ',objectId);
+	// console.log ('adding object codes ',codes);
+	// console.log ('for type ',objectType);
+	// console.log ('aand id ',objectId);
 	return Promise.all (codes.map (function (code) {
 		return addObjectRole (objectType, objectId, code);
 	}));
@@ -106,20 +106,20 @@ var addObjectRolesFromSpec = function (objectType, objectId, spec) {
 	var codes = [];
 	_.each (spec, function (a) { codes = codes.concat (a); });
 	codes = _.uniq (codes);
-	console.log ('addObjectRolesFromSpec codes ',codes);
-	console.log ('addObjectRolesFromSpec type ',objectType);
-	console.log ('addObjectRolesFromSpec id ',objectId);
+	// console.log ('addObjectRolesFromSpec codes ',codes);
+	// console.log ('addObjectRolesFromSpec type ',objectType);
+	// console.log ('addObjectRolesFromSpec id ',objectId);
 	return addObjectRoles (objectType, objectId, codes);
 };
 var addRolesToConfigObject = function (dbobject, objectType, spec) {
-	console.log ('objectType: ', objectType);
-	console.log ('dbobject: ', dbobject);
+	// console.log ('objectType: ', objectType);
+	// console.log ('dbobject: ', dbobject);
 	var projectCode = (objectType === 'projects') ? dbobject.code : dbobject.projectCode;
-	console.log ('projectCode: ', projectCode);
+	// console.log ('projectCode: ', projectCode);
 	_.each (spec, function (a, i) {
 		spec[i] = a.map (function (r) {return r.replace ('project:', projectCode+':');});
 	});
-	console.log ('spec: ', spec);
+	// console.log ('spec: ', spec);
 	dbobject.addRoles (spec);
 	return addObjectRolesFromSpec (objectType, dbobject._id, spec);
 };
@@ -151,7 +151,7 @@ var mergeObjectRoles = function (dbobject, roleSpec) {
 //
 // -------------------------------------------------------------------------
 var getUsersForRole = function (code) {
-	console.log (code);
+	// console.log (code);
 	return new Promise (function (resolve, reject) {
 		Role.findOne ({ code: code },{users:1, code:1})
 		.populate('users', 'username displayName _id')
@@ -185,11 +185,11 @@ var getUsersInRolesInProject = function (project) {
 			for (var i=0; i<project.roles.length; i++) {
 				var role = project.roles[i];
 				var result = (newa[i] && newa[i].users && newa[i].users.length) ? newa[i].users : [];
-				console.log ('role = ', role);
-				console.log ('result = ', result);
+				// console.log ('role = ', role);
+				// console.log ('result = ', result);
 				ret[role] = result;
 			}
-			console.log ('return', ret);
+			// console.log ('return', ret);
 			return ret;
 		})
 		.then (resolve, reject);

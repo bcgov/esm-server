@@ -55,7 +55,7 @@ function controllerProcessManageComments($scope, $rootScope, Process, _, sProces
 			// get the bucket groups for general classification
 			taskManComm.bucketGroups = _.unique(_.pluck(taskManComm.project.buckets, 'group'));
 			taskManComm.topicsList = _.unique(_.pluck(taskManComm.project.buckets, 'name'));
-			console.log('tl',taskManComm.topicsList);
+			// console.log('tl',taskManComm.topicsList);
 			taskManComm.bucketsFiltered = taskManComm.project.buckets;
 			//
 			//
@@ -108,8 +108,8 @@ function controllerProcessManageComments($scope, $rootScope, Process, _, sProces
 	// 	taskManComm.item.value = 'Complete';
 	// 	$rootScope.$broadcast('resolveItem', {item: taskManageComments.itemId});
 	// }
-	
-}   
+
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Process Comment Detail Modal

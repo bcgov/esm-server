@@ -20,7 +20,7 @@ function directiveProcessConfirmNoComment() {
         	item: '='
         },
         link: function(scope, element, attrs) {
-            console.log('in item', scope.item);
+            // console.log('in item', scope.item);
         }
     };
     return directive;

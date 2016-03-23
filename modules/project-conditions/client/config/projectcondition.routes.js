@@ -21,8 +21,8 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 		template: '<ui-view></ui-view>',
 		resolve: {
 			conditions: function ($stateParams, ProjectConditionModel, project) {
-				console.log ('projectcondition abstract resolving conditions');
-				console.log ('project id = ', project._id);
+				// console.log ('projectcondition abstract resolving conditions');
+				// console.log ('project id = ', project._id);
 				return ProjectConditionModel.getConditionsForProject (project._id);
 			},
 		}
@@ -82,19 +82,19 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 		templateUrl: 'modules/project-conditions/client/views/projectcondition-edit.html',
 		resolve: {
 			condition: function ($stateParams, ProjectConditionModel) {
-				console.log ('editing conditionId = ', $stateParams.conditionId);
+				// console.log ('editing conditionId = ', $stateParams.conditionId);
 				return ProjectConditionModel.getModel ($stateParams.conditionId);
 			}
 		},
 		controller: function ($scope, $state, condition, project, ProjectConditionModel) {
-			console.log ('condition = ', condition);
+			// console.log ('condition = ', condition);
 			$scope.condition = condition;
 			$scope.project = project;
 			$scope.save = function () {
 				ProjectConditionModel.save ($scope.condition)
 				.then (function (model) {
-					console.log ('condition was saved',model);
-					console.log ('now going to reload state');
+					// console.log ('condition was saved',model);
+					// console.log ('now going to reload state');
 					$state.transitionTo('p.projectcondition.list', {project:project._id}, {
 			  			reload: true, inherit: false, notify: true
 					});
@@ -117,12 +117,12 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 		templateUrl: 'modules/project-conditions/client/views/projectcondition-view.html',
 		resolve: {
 			condition: function ($stateParams, ProjectConditionModel) {
-				console.log ('conditionId = ', $stateParams.conditionId);
+				// console.log ('conditionId = ', $stateParams.conditionId);
 				return ProjectConditionModel.getModel ($stateParams.conditionId);
 			}
 		},
 		controller: function ($scope, condition, project) {
-			console.log ('condition = ', condition);
+			// console.log ('condition = ', condition);
 			$scope.condition = condition;
 			$scope.project = project;
 		}

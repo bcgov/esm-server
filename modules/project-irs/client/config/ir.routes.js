@@ -11,7 +11,7 @@ angular.module('irs').config(['$stateProvider', function ($stateProvider) {
 	// this is the abstract, top level view for inspection reports (irs).
 	// since it is a child of p (project), the project injection has already
 	// been resolved and is available to subsequent child states as 'project'
-	// here we will resolve the list of irs for this project, 
+	// here we will resolve the list of irs for this project,
 	// which will also become available to child states as 'irs'
 	//
 	// -------------------------------------------------------------------------
@@ -21,8 +21,8 @@ angular.module('irs').config(['$stateProvider', function ($stateProvider) {
 		template: '<ui-view></ui-view>',
 		resolve: {
 			irs: function ($stateParams, IrModel, project) {
-				console.log ('ir abstract resolving irs');
-				console.log ('project id = ', project._id);
+				// console.log ('ir abstract resolving irs');
+				// console.log ('project id = ', project._id);
 				return IrModel.getIRsForProject (project._id);
 			},
 		}
@@ -82,19 +82,19 @@ angular.module('irs').config(['$stateProvider', function ($stateProvider) {
 		templateUrl: 'modules/project-irs/client/views/ir-edit.html',
 		resolve: {
 			ir: function ($stateParams, IrModel) {
-				console.log ('editing irId = ', $stateParams.irId);
+				// console.log ('editing irId = ', $stateParams.irId);
 				return IrModel.getModel ($stateParams.irId);
 			}
 		},
 		controller: function ($scope, $state, ir, project, IrModel) {
-			console.log ('ir = ', ir);
+			// console.log ('ir = ', ir);
 			$scope.ir = ir;
 			$scope.project = project;
 			$scope.save = function () {
 				IrModel.save ($scope.ir)
 				.then (function (model) {
-					console.log ('ir was saved',model);
-					console.log ('now going to reload state');
+					// console.log ('ir was saved',model);
+					// console.log ('now going to reload state');
 					$state.transitionTo('p.ir.list', {project:project._id}, {
 			  			reload: true, inherit: false, notify: true
 					});
@@ -117,12 +117,12 @@ angular.module('irs').config(['$stateProvider', function ($stateProvider) {
 		templateUrl: 'modules/project-irs/client/views/ir-view.html',
 		resolve: {
 			ir: function ($stateParams, IrModel) {
-				console.log ('irId = ', $stateParams.irId);
+				// console.log ('irId = ', $stateParams.irId);
 				return IrModel.getModel ($stateParams.irId);
 			}
 		},
 		controller: function ($scope, ir, project) {
-			console.log ('ir = ', ir);
+			// console.log ('ir = ', ir);
 			$scope.ir = ir;
 			$scope.project = project;
 		}

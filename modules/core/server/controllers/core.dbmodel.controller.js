@@ -246,7 +246,7 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			console.log ('q = ',q);
+			// console.log ('q = ',q);
 			self.model.find (q)
 			.sort (sort)
 			.limit (1)
@@ -264,7 +264,7 @@ _.extend (DBModel.prototype, {
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			self.model.findOne ({_id:obj._id}, function (err, doc) {
-				console.log (doc);
+				// console.log (doc);
 				doc.set (obj);
 				doc.save ().then (resolve, reject);
 			});
@@ -272,7 +272,7 @@ _.extend (DBModel.prototype, {
 	},
 	newFromObject: function (obj) {
 		var self = this;
-		console.log (self.name +' newthing = ', obj);
+		// console.log (self.name +' newthing = ', obj);
 		var m = new self.model (obj);
 		return this.saveDocument (m);
 	},
@@ -283,8 +283,8 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	saveDocument : function (doc) {
 		var self = this;
-		console.log ('in saveDocument with doc ',doc);
-		console.log ('in saveDocument with roles ',self.roles);
+		// console.log ('in saveDocument with doc ',doc);
+		// console.log ('in saveDocument with roles ',self.roles);
 		return new Promise (function (resolve, reject) {
 			if (self.useRoles && !doc.userHasPermission (self.user, 'write')) {
 				return reject (new Error ('Write operation not permitted for this '+self.name+' object'));
@@ -439,7 +439,7 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	create : function (obj) {
 		var self = this;
-		console.log ('creating', obj.code);
+		// console.log ('creating', obj.code);
 		return new Promise (function (resolve, reject) {
 			self.newDocument (obj)
 			.then (self.preprocessAdd)

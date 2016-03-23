@@ -11,11 +11,11 @@ acl          = new acl(new acl.mongodbBackend(mongoose.connection.db, 'acl_', tr
 //
 // -------------------------------------------------------------------------
 var _allow = function (roles, resources, permissions, cb) {
-	console.log ('Lets go do this:', roles, resources, permissions);
+	// console.log ('Lets go do this:', roles, resources, permissions);
 	// cb();
 	// return;
 	if (!roles || !resources || !permissions || roles.length === 0) {
-		console.log ('something amiss attempting to set permissions');
+		// console.log ('something amiss attempting to set permissions');
 		cb ();
 	}
 	acl.allow (roles, resources, permissions, cb);

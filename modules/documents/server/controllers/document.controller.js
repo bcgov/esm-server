@@ -290,7 +290,7 @@ exports.getDocumentTypesForProjectMEMAndReturn = getDocumentTypesForProjectMEMAn
 // -------------------------------------------------------------------------
 var getDocumentFolderNamesForProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
-		console.log("getDocumentFolderNamesForProject: Project ID:",req.params.projectid);
+		// console.log("getDocumentFolderNamesForProject: Project ID:",req.params.projectid);
 		// When a document has an assigned projectID, grab it.
 		// NB: This will be true after a document has been reviewed by someone perhaps.
 		Model.distinct("projectFolderName",{project: req.params.projectid})
@@ -449,9 +449,9 @@ var scrapeAndSearch = function (req, res) {
 	// remove anything that we don't want pulled down.
 	return new Promise (function (resolve, reject) {
 		var projectID = req.headers.projectid;
-		console.log("scrapeAndSearch.run for ProjectID: " + req.headers.projectid);
+		// console.log("scrapeAndSearch.run for ProjectID: " + req.headers.projectid);
 		var url = req.headers.url;
-		console.log("URL: " + url);
+		// console.log("URL: " + url);
 
 		var spooky = new Spooky({
 			child: {
@@ -467,7 +467,7 @@ var scrapeAndSearch = function (req, res) {
 				e.details = err;
 				throw e;
 			}
-			console.log("Spooky getting: " + url);
+			// console.log("Spooky getting: " + url);
 			spooky.start(url);
 			spooky.then(function () {
 				this.emit('pageContent', this.getHTML('html', true));
@@ -478,7 +478,7 @@ var scrapeAndSearch = function (req, res) {
 		spooky.on('error', function (e, stack) {
 			console.error(e);
 			if (stack) {
-				console.log(stack);
+				// console.log(stack);
 			}
 		});
 
@@ -558,7 +558,7 @@ var populateReviewDocuments = function (req, res) {
 	return new Promise (function (resolve, reject) {
 		//console.log("populateReviewDocuments.run for ProjectID: " + req.Project._id);
 		var url = req.headers.url;
-		console.log("URL: " + url);
+		// console.log("URL: " + url);
 
 		var spooky = new Spooky({
 			child: {
@@ -574,7 +574,7 @@ var populateReviewDocuments = function (req, res) {
 				e.details = err;
 				throw e;
 			}
-			console.log("Spooky getting: " + url);
+			// console.log("Spooky getting: " + url);
 			spooky.start(url);
 			spooky.then(function () {
 				this.emit('pageContent', this.getHTML('html', true));
@@ -585,7 +585,7 @@ var populateReviewDocuments = function (req, res) {
 		spooky.on('error', function (e, stack) {
 			console.error(e);
 			if (stack) {
-				console.log(stack);
+				// console.log(stack);
 			}
 		});
 
@@ -632,15 +632,15 @@ var populateReviewDocuments = function (req, res) {
 						var documentSize		= $(tr).first().next().text().trim();
 						var documentType		= $(tr).first().next().next().text();
 
-						console.log("..........");
-						console.log("projectFolderType:"		+ projectFolderType);
-						console.log("projectFolderSubType:"		+ projectFolderSubType);
-						console.log("projectFolderName:"		+ projectFolderName);
-						console.log("projectFolderDatePosted:"	+ projectFolderDatePosted);
-						console.log("documentFile:"				+ urlPrefix + documentFileURL);
-						console.log("documentFileName:"			+ documentFileName);
-						console.log("documentSize:"				+ documentSize);
-						console.log("documentType:"				+ documentType);
+						// console.log("..........");
+						// console.log("projectFolderType:"		+ projectFolderType);
+						// console.log("projectFolderSubType:"		+ projectFolderSubType);
+						// console.log("projectFolderName:"		+ projectFolderName);
+						// console.log("projectFolderDatePosted:"	+ projectFolderDatePosted);
+						// console.log("documentFile:"				+ urlPrefix + documentFileURL);
+						// console.log("documentFileName:"			+ documentFileName);
+						// console.log("documentSize:"				+ documentSize);
+						// console.log("documentType:"				+ documentType);
 						// We are now ready to insert but still flag for review
 						var m = new Model ({	projectFolderType   	: projectFolderType,
 												projectFolderSubType	: projectFolderSubType,
@@ -718,8 +718,8 @@ var mapDocumentToProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
 		var projectID = req.params.projectid;
 		var documentID = req.params.documentid;
-		console.log("projectID",projectID);
-		console.log("documentID",documentID);
+		// console.log("projectID",projectID);
+		// console.log("documentID",documentID);
 		Project.findOne({epicProjectID: projectID})
 		.then(function(p) {
 			if (p) {
@@ -754,7 +754,7 @@ var loadDocuments = function(req, res) {
 					var URLPrefix = "https://a100.gov.bc.ca/appsdata/epic/documents/";
 					var length = Object.keys(output).length;
 					var rowsProcessed = 0;
-					console.log("length",length);
+					// console.log("length",length);
 					Object.keys(output).forEach(function(key, index) {
 						if (index > 0) {
 							var row = output[key];
@@ -763,7 +763,7 @@ var loadDocuments = function(req, res) {
 							// console.log("rowData:",row);
 							Model.findOne({documentEPICId: parseInt(row.DOCUMENT_ID)}, function (err, doc) {
 								if (err) {
-									console.log("err",err);
+									// console.log("err",err);
 								} else {
 									// console.log("doc",doc);
 								}

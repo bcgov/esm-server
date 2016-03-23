@@ -72,9 +72,9 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			}
 		},
 		controller: function ($scope, $state, condition, ConditionModel, TopicModel, pillars, projecttypes, stages, codeFromTitle) {
-			console.log ('add condition = ', condition);
+			// console.log ('add condition = ', condition);
 			$scope.condition = condition;
-			console.log ('condition = ', condition);
+			// console.log ('condition = ', condition);
 			$scope.sectors = projecttypes;
 			$scope.pillars = pillars;
 			$scope.stages  = stages;
@@ -108,15 +108,15 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			}
 		},
 		controller: function ($scope, $state, condition, ConditionModel, TopicModel, pillars, projecttypes, stages, codeFromTitle) {
-			console.log ('edit condition = ', condition);
+			// console.log ('edit condition = ', condition);
 			$scope.condition = condition;
-			console.log ('condition = ', condition);
+			// console.log ('condition = ', condition);
 			$scope.sectors = projecttypes;
 			$scope.pillars = pillars;
 			$scope.stages  = stages;
-			console.log ('stages:', $scope.stages);
-			console.log ('condition.stage:',condition.stages);
-			console.log ($scope.pillars);
+			// console.log ('stages:', $scope.stages);
+			// console.log ('condition.stage:',condition.stages);
+			// console.log ($scope.pillars);
 
 			var which = 'edit';
 			$scope.save = function () {

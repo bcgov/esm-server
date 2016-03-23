@@ -11,7 +11,7 @@ angular.module ('projectdocuments')
 	['$scope', '$rootScope', '$stateParams', 'ProjectDocumentModel', 'NgTableParams', 'PILLARS',
 	function ($scope, $rootScope, $stateParams, ProjectDocumentModel, NgTableParams, PILLARS) {
 
-	console.log ('controllerProjectDocumentList is running');
+	// console.log ('controllerProjectDocumentList is running');
 
 	var self = this;
 
@@ -28,7 +28,7 @@ angular.module ('projectdocuments')
 	//
 	var setData = function () {
 		ProjectDocumentModel.forProject ($stateParams.project).then (function (data) {
-			console.log ('controllerProjectDocumentList data received: ', data);
+			// console.log ('controllerProjectDocumentList data received: ', data);
 			self.collection = data;
 			self.tableParams = new NgTableParams ({count: 10}, {dataset: data});
 		});
@@ -58,7 +58,7 @@ angular.module ('projectdocuments')
 	['$modalInstance', '$scope', '_', 'codeFromTitle', 'ProjectDocumentModel', 'TopicModel', 'PILLARS',
 	function ($modalInstance, $scope, _, codeFromTitle, ProjectDocumentModel, TopicModel, PILLARS) {
 
-	console.log ('controllerEditProjectDocumentModal is running');
+	// console.log ('controllerEditProjectDocumentModal is running');
 
 	var self = this;
 
@@ -85,9 +85,9 @@ angular.module ('projectdocuments')
 		});
 	};
 	this.ok = function () {
-		console.log ('save clicked');
+		// console.log ('save clicked');
 		this.projectdocument.code = codeFromTitle (this.projectdocument.name);
-		console.log ('new code = ', this.projectdocument.code);
+		// console.log ('new code = ', this.projectdocument.code);
 		if (this.mode === 'add') {
 			ProjectDocumentModel.saveModel ().then (function (result) {
 				$modalInstance.close(result);
@@ -104,7 +104,7 @@ angular.module ('projectdocuments')
 		}
 	};
 	this.cancel = function () {
-		console.log ('cancel clicked');
+		// console.log ('cancel clicked');
 		$modalInstance.dismiss('cancel');
 	};
 
