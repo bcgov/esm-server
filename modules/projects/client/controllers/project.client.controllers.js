@@ -411,16 +411,16 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 
 
 	$scope.saveProject = function() {
-		// UserModel.saveModel ()
-		// .then (function (um) {
-		// 	$scope.project.primaryContact = um._id;
-		// 	return OrganizationModel.saveModel ();
-		// })
-		// .then (function (om) {
-		// 	$scope.project.proponent = om._id;
-		// 	return ProjectModel.saveModel ();
-		// })
-		ProjectModel.saveModel ()
+		UserModel.saveModel ()
+		.then (function (um) {
+			$scope.project.primaryContact = um._id;
+			return OrganizationModel.saveModel ();
+		})
+		.then (function (om) {
+			$scope.project.proponent = om._id;
+			return ProjectModel.saveModel ();
+		})
+		// ProjectModel.saveModel ()
 		.then( function(data) {
 			$state.go('p.detail', {projectid: data.code});
 		})
@@ -431,16 +431,16 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 
 	// Submit the project for stream assignment.
 	$scope.submitProject = function() {
-		// UserModel.saveModel ()
-		// .then (function (um) {
-		// 	$scope.project.primaryContact = um._id;
-		// 	return OrganizationModel.saveModel ();
-		// })
-		// .then (function (om) {
-		// 	$scope.project.proponent = om._id;
-		// 	return ProjectModel.submit ();
-		// })
-		ProjectModel.submit ()
+		UserModel.saveModel ()
+		.then (function (um) {
+			$scope.project.primaryContact = um._id;
+			return OrganizationModel.saveModel ();
+		})
+		.then (function (om) {
+			$scope.project.proponent = om._id;
+			return ProjectModel.submit ();
+		})
+		// ProjectModel.submit ()
 		.then (function (data) {
 			$state.transitionTo('p.detail', {projectid: data.code}, {
 	  			reload: true, inherit: false, notify: true
@@ -643,7 +643,7 @@ function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel
 				// set the stream then move to the project overview page.
 				ProjectModel.setStream(projectStreamSelect.newStreamId).then( function(resStream) {
 					projectStreamSelect.project = _.assign(resStream);
-					$state.go('project', {'id':projectStreamSelect.project._id}, {reload: true});
+					$state.go('p.detail', {'projectid':projectStreamSelect.project.code}, {reload: true});
 				});
 			// });
 		}

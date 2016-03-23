@@ -94,6 +94,7 @@ angular.module ('templates')
 		scope: {
 			template: '=',
 			document: '=',
+			project: '=',
 			mode:     '@'
 		},
 		link: function (scope, element, attrs) {
@@ -141,12 +142,12 @@ angular.module ('templates')
 					'<a href ng-click="toggleBlue = !toggleBlue">Toggle Outlines</a>'+
 					'</li>'+
 					'<li class="row-folder clickable" du-scrollspy="{{ section.name }}" ng-repeat="section in allsections">'+
-					'<a href ng-if="section.repeatable" ng-click="append(section.name)" class="pull-right">+ Append New</a>'+					
+					'<a href ng-if="section.repeatable" ng-click="append(section.name)" class="pull-right">+ Append New</a>'+
 					'<a href="#{{ section.name }}" du-smooth-scroll>{{ section.label }}</a></li>'+
 					'</ul>'+
 					'</div>'+
 					'<div class="col-sm-9 vertical-scroll-padded" id="templateContainer" ng-class="{\'edit-outlines\': toggleBlue}">',
-				view: 
+				view:
 					'<div class="panel panel-default">'+
 					'<div class="panel-body no-vertical-padding" du-scroll-container="templateContainer"><div class="row block-section">'+
 					'<div class="col-sm-3 col-no-padding vertical-scroll col-border-right">'+
@@ -159,7 +160,7 @@ angular.module ('templates')
 			};
 
 			var footer = '</div></div></div></div>';
-
+			if (scope.project) scope.document._project = scope.project;
 			var tData = templateData (scope.template, scope.document);
 			scope.allsections = tData.sectionList ();
 			// console.log (scope.allsections);
