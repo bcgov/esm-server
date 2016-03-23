@@ -18,7 +18,26 @@ module.exports = DBModel.extend ({
 		} else if (!org.company && org.name) {
 			org.company = org.name;
 		}
-		return org;
+		if (!org.code) {
+			org.code = org.name.toLowerCase ();
+			org.code = org.code.replace (/\W/g,'-');
+			org.code = org.code.replace (/-+/,'-');
+			//
+			// this does the work of that and returns a promise
+			//
+			var self = this;
+			return new Promise (function (resolve, reject) {
+				self.guaranteeUniqueCode (org.code)
+				.then (function (cd) {
+					org.code = cd;
+					return org;
+				})
+				.then (resolve, reject);
+			});
+		}
+		else {
+			return org;
+		}
 	},
 });
 
