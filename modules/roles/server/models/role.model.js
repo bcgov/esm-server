@@ -13,14 +13,22 @@ var Schema       = mongoose.Schema;
 var _ = require ('lodash');
 
 var RoleSchema  = new Schema ({
-	code       : { type:String, default:'code', index:true, unique:true },
-	isSystem   : { type:Boolean, default:false, index:true },
-	users      : [{ type:'ObjectId', ref:'User' }],
-	projects   : [{ type:'ObjectId', ref:'Project' }],
-	phases     : [{ type:'ObjectId', ref:'Phase' }],
-	milestones : [{ type:'ObjectId', ref:'Milestone' }],
-	activities : [{ type:'ObjectId', ref:'Activity' }],
-	features   : [{ type:'ObjectId', ref:'Feature' }]
+	code           : { type:String, default:'code', index:true, unique:true },
+	projectCode    : { type:String, default:'', index:true },
+	orgCode        : { type:String, default:'eao', enum:['eao', 'proponent'], index:true },
+	roleCode       : { type:String, default:'' },
+	isSystem       : { type:Boolean, default:false, index:true },
+	users          : [{ type:'ObjectId', ref:'User' }],
+	projects       : [{ type:'ObjectId', ref:'Project' }],
+	phases         : [{ type:'ObjectId', ref:'Phase' }],
+	milestones     : [{ type:'ObjectId', ref:'Milestone' }],
+	activities     : [{ type:'ObjectId', ref:'Activity' }],
+	features       : [{ type:'ObjectId', ref:'Feature' }],
+	artifacts      : [{ type:'ObjectId', ref:'Artifact' }],
+	documents      : [{ type:'ObjectId', ref:'Document' }],
+	comments       : [{ type:'ObjectId', ref:'Comment' }],
+	publiccomments : [{ type:'ObjectId', ref:'PublicComment' }],
+	commentperiod  : [{ type:'ObjectId', ref:'CommentPeriod' }]
 });
 
 var setUnique = function (a, value) {
@@ -44,6 +52,14 @@ RoleSchema.methods.setObjectRole = function (object, objectId) {
 
 RoleSchema.methods.setObjectsRole = function (object, objectIds) {
 	this[object] = setUniqueArray (this[object], objectIds.map (function (u) { return u.toString();}));
+};
+
+RoleSchema.methods.generateCode = function () {
+	var a = [];
+	if (this.projectCode) a.push (this.projectCode);
+	if (this.orgCode) a.push (this.orgCode);
+	if (this.roleCode) a.push (this.roleCode);
+	this.code = a.join (':');
 };
 
 var Role = mongoose.model ('Role', RoleSchema);

@@ -148,6 +148,14 @@ module.exports = DBModel.extend ({
 	},
 	// -------------------------------------------------------------------------
 	//
+	// add an activity from base,
+	//
+	// -------------------------------------------------------------------------
+	addActivity: function (input) {
+
+	},
+	// -------------------------------------------------------------------------
+	//
 	// return a promise of filling all activities out into proper activity
 	// models. this is what populate does, except that populate is not
 	// recursive, so this sort of allows us to cheat up the hierarchy

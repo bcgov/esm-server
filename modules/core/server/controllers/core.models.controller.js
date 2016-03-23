@@ -35,8 +35,8 @@ var setAuditFields = function (user) {
 //
 // -------------------------------------------------------------------------
 var trackingFields = {
-	dateStarted      : { type: Date, default: null }, // date in progress
-	dateCompleted    : { type: Date, default: null }, // date complete
+	dateStarted      : { type: Date, default: null, index: true }, // date in progress
+	dateCompleted    : { type: Date, default: null, index: true }, // date complete
 	dateStartedEst   : { type: Date, default: null }, // date in progress
 	dateCompletedEst : { type: Date, default: null } // date complete
 };
@@ -134,6 +134,15 @@ var mergeRoles = function (projectCode, pObject) {
 		self[i] = _.union (self[i], p.map (function (role) {
 			return role.replace ('project:', projectCode+':');
 		}));
+	});
+	this.roles = this.allRoles ();
+};
+var setFixRoles = function (projectCode, pObject) {
+	var self = this;
+	_.each (pObject, function (p, i) {
+		self[i] = p.map (function (role) {
+			return role.replace ('project:', projectCode+':');
+		});
 	});
 	this.roles = this.allRoles ();
 };

@@ -65,7 +65,36 @@ newMethods.setUserRole = function (role) {
 	this.roles.push (role);
 	this.roles = _.uniq (this.roles);
 };
+newMethods.setUserRoles = function (roles) {
+	this.roles = roles;
+};
 
+// -------------------------------------------------------------------------
+//
+// same as merge, but without the replace as it is done elsewhere
+//
+// -------------------------------------------------------------------------
+var addRoles = function (rolearray) {
+	this.roles = _.union (this.roles, rolearray);
+};
+// -------------------------------------------------------------------------
+//
+// remove a set of roles
+//
+// -------------------------------------------------------------------------
+var removeRoles = function (rolearray) {
+	_.remove (this.roles, function (code) {
+		return _.indexOf (rolearray, code) !== -1;
+	});
+};
+// -------------------------------------------------------------------------
+//
+// absolutely define the roles
+//
+// -------------------------------------------------------------------------
+var setRoles = function (rolearray) {
+	this.roles = _.union ([], rolearray);
+};
 
 /**
  * Find possible not used username
@@ -120,7 +149,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	title: 		{ type:String, default: '' },
 	homePhoneNumber : { type:String, default: '' },
 	phoneNumber: 	{ type:String, default: '' },
-	
+
 	// if groupId == null, then this is a person (hack)
 	eaoStaffFlag: 	{ type:Boolean, default: false },
 	proponentFlag: { type:Boolean, default: false },

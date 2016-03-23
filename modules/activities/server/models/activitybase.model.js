@@ -10,6 +10,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__codename  : true,
 	processCode : { type:String    , default:'' },
 	tasks       : [ {type: 'ObjectId', ref:'TaskBase'} ],
-	order	  : { type: Number, default:0 },
+	order	  : { type:Number, default:0 },
+	duration  : { type:Number, default:14 },
 	state     : { type:String, default:'' }
 });

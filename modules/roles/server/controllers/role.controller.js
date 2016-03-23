@@ -10,6 +10,11 @@ var mongoose = require ('mongoose');
 var Role     = mongoose.model ('Role');
 var _        = require ('lodash');
 
+// =========================================================================
+//
+// these all service API routes
+//
+// =========================================================================
 var getRole = function (code) {
 	return new Promise (function (resolve, reject) {
 		Role.findOne ({ code: code }).exec().then (resolve, reject);
@@ -20,6 +25,65 @@ var newRole = function (code) {
 		resolve ( new Role ({ code: code }) );
 	});
 };
+var getUsersForRole = function (code) {
+	// console.log (code);
+	return new Promise (function (resolve, reject) {
+		Role.findOne ({ code: code },{users:1, code:1})
+		.populate('users', 'username displayName _id')
+		.exec()
+		.then (resolve, reject);
+	});
+};
+var getRolesInProject = function (project) {
+	return new Promise (function (resolve, reject) {
+		resolve (project.roles);
+	});
+};
+var getUsersInRolesInProject = function (project) {
+	return new Promise (function (resolve, reject) {
+		var a = project.roles.map (function (role) {
+			return getUsersForRole (role);
+		});
+		Promise.all (a)
+		.then (function (newa) {
+			var ret = {};
+			for (var i=0; i<project.roles.length; i++) {
+				var role = project.roles[i];
+				var result = (newa[i] && newa[i].users && newa[i].users.length) ? newa[i].users : [];
+				// console.log ('role = ', role);
+				// console.log ('result = ', result);
+				ret[role] = result;
+			}
+			// console.log ('return', ret);
+			return ret;
+		})
+		.then (resolve, reject);
+	});
+};
+var getProjectsWithRole = function (code) {
+	return new Promise (function (resolve, reject) {
+		Role.findOne ({ code: code },{projects:1, code:1})
+		.populate('projects', 'code name description _id')
+		.exec()
+		.then (resolve, reject);
+	});
+};
+var getSystemRoles = function () {
+	return Role.find ({isSystem: true}).exec();
+};
+
+
+// =========================================================================
+//
+// These are more esoteric
+//
+// =========================================================================
+// -------------------------------------------------------------------------
+//
+// Helper. This either returns the existing role record, or a new one with
+// the code set
+//
+// -------------------------------------------------------------------------
 var getNewOrExistingRole = function (code) {
 	return new Promise (function (resolve, reject) {
 		getRole (code)
@@ -34,6 +98,11 @@ var getNewOrExistingRole = function (code) {
 		.then (resolve, reject);
 	});
 };
+// -------------------------------------------------------------------------
+//
+// Add one role to the user. this works in both directions as it
+//
+// -------------------------------------------------------------------------
 var addUserRole = function (user, code) {
 	// console.log ('+ adding user role ', code, user.username);
 	return new Promise (function (resolve, reject) {
@@ -51,6 +120,13 @@ var addUserRole = function (user, code) {
 		.then (resolve, reject);
 	});
 };
+var addUserRoles = function (user, codes) {
+	return new Promise (function (resolve, reject) {
+		Promise.all (codes.map (function (code) {
+			return addUserRole (user, code);
+		})).then (resolve, reject);
+	});
+};
 var addObjectRole = function (objectType, objectId, code) {
 	// console.log ('adding object role ',objectType, objectId, code);
 	return new Promise (function (resolve, reject) {
@@ -61,13 +137,6 @@ var addObjectRole = function (objectType, objectId, code) {
 			return role.save ();
 		})
 		.then (resolve, reject);
-	});
-};
-var addUserRoles = function (user, codes) {
-	return new Promise (function (resolve, reject) {
-		Promise.all (codes.map (function (code) {
-			return addUserRole (user, code);
-		})).then (resolve, reject);
 	});
 };
 var addObjectRoles = function (objectType, objectId, codes) {
@@ -145,105 +214,22 @@ var mergeObjectRoles = function (dbobject, roleSpec) {
 	dbobject.addRoles (roleSpec);
 	return addObjectRoles (dbobject.plural, dbobject._id, dbobject.roles);
 };
-// -------------------------------------------------------------------------
-//
-// get all user in a role, just username, and displayName, and id
-//
-// -------------------------------------------------------------------------
-var getUsersForRole = function (code) {
-	// console.log (code);
-	return new Promise (function (resolve, reject) {
-		Role.findOne ({ code: code },{users:1, code:1})
-		.populate('users', 'username displayName _id')
-		.exec()
-		.then (resolve, reject);
-	});
-};
-var getUsersForRoleRoute = function (req, res) {
-	getUsersForRole (req.params.role)
-	.then (helpers.success(res), helpers.failure(res));
-};
 
-var getRolesInProject = function (project) {
-	return new Promise (function (resolve, reject) {
-		resolve (project.roles);
-	});
-};
-var getRolesInProjectRoute = function (req, res) {
-	getRolesInProject (req.Project)
-	.then (helpers.success(res), helpers.failure(res));
-};
 
-var getUsersInRolesInProject = function (project) {
-	return new Promise (function (resolve, reject) {
-		var a = project.roles.map (function (role) {
-			return getUsersForRole (role);
-		});
-		Promise.all (a)
-		.then (function (newa) {
-			var ret = {};
-			for (var i=0; i<project.roles.length; i++) {
-				var role = project.roles[i];
-				var result = (newa[i] && newa[i].users && newa[i].users.length) ? newa[i].users : [];
-				// console.log ('role = ', role);
-				// console.log ('result = ', result);
-				ret[role] = result;
-			}
-			// console.log ('return', ret);
-			return ret;
-		})
-		.then (resolve, reject);
-	});
-};
-var getUsersInRolesInProjectRoute = function (req, res) {
-	getUsersInRolesInProject (req.Project)
-	.then (helpers.success(res), helpers.failure(res));
-};
-var getProjectsWithRole = function (code) {
-	return new Promise (function (resolve, reject) {
-		Role.findOne ({ code: code },{projects:1, code:1})
-		.populate('projects', 'code name description _id')
-		.exec()
-		.then (resolve, reject);
-	});
-};
-var getProjectsWithRoleRoute = function (req, res) {
-	getProjectsWithRole (req.params.role)
-	.then (helpers.success(res), helpers.failure(res));
-};
-
-var addRoleRoute = function (req, res) {
-	newRole (req.params.role)
-	.then (function (role) {
-		role.set (req.body);
-		return role.save ();
-	})
-	.then (helpers.success(res), helpers.failure(res));
-};
-var updateRoleRoute = function (req, res) {
-	getRole (req.params.role)
-	.then (function (role) {
-		role.set (req.body);
-		return role.save ();
-	})
-	.then (helpers.success(res), helpers.failure(res));
-};
-var getRoleRoute = function (req, res) {
-	getRole (req.params.role)
-	.then (helpers.success(res), helpers.failure(res));
-};
-var getSystemRoles = function () {
-	return Role.find ({isSystem: true}).exec();
-};
-var getSystemRolesRoute = function (req, res) {
-	getSystemRoles ()
-	.then (helpers.success(res), helpers.failure(res));
-};
+// var setUserRoles
 
 module.exports = {
-	getRole : getRole,
+	//
+	// servicing api routes
+	//
 	newRole : newRole,
-	getNewOrExistingRole : getNewOrExistingRole,
+	getRole : getRole,
+	getUsersForRole : getUsersForRole,
+	getRolesInProject : getRolesInProject,
+	getUsersInRolesInProject:getUsersInRolesInProject,
+	getProjectsWithRole:getProjectsWithRole,
+	getSystemRoles:getSystemRoles,
+
 	addUserRole : addUserRole,
 	addObjectRole : addObjectRole,
 	addUserRoles : addUserRoles,
@@ -251,18 +237,8 @@ module.exports = {
 	addObjectsRole : addObjectRole,
 	addObjectRolesFromSpec : addObjectRolesFromSpec,
 	addRolesToConfigObject : addRolesToConfigObject,
-	getUsersForRole : getUsersForRole,
-	getUsersForRoleRoute : getUsersForRoleRoute,
-	getRolesInProjectRoute:getRolesInProjectRoute,
-	getUsersInRolesInProjectRoute:getUsersInRolesInProjectRoute,
-	getProjectsWithRole:getProjectsWithRole,
-	getProjectsWithRoleRoute:getProjectsWithRoleRoute,
-	addRoleRoute:addRoleRoute,
-	updateRoleRoute:updateRoleRoute,
-	getRoleRoute:getRoleRoute,
-	getSystemRolesRoute:getSystemRolesRoute,
-	getSystemRoles:getSystemRoles,
 	mergeObjectRoles:mergeObjectRoles,
-	setObjectRoles:setObjectRoles
+	setObjectRoles:setObjectRoles,
+	getNewOrExistingRole : getNewOrExistingRole,
 };
 

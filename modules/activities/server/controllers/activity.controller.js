@@ -6,8 +6,7 @@
 // =========================================================================
 var path      = require('path');
 var DBModel   = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
-var TaskClass = require (path.resolve('./modules/tasks/server/controllers/task.controller'));
-var TaskBaseClass = require (path.resolve('./modules/tasks/server/controllers/taskbase.controller'));
+var ActivityBaseClass = require ('./activitybase.controller');
 var _         = require ('lodash');
 var RoleController = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 
@@ -16,6 +15,7 @@ module.exports = DBModel.extend ({
 	name : 'Activity',
 	plural: 'activities',
 	populate : 'tasks',
+	bind: ['start','complete'],
 	preprocessAdd: function (activity) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
@@ -38,9 +38,21 @@ module.exports = DBModel.extend ({
 		newDoc.status = 'In Progress';
 		return this.update (oldDoc, newDoc);
 	},
+	start: function (activity) {
+		activity.status           = 'In Progress';
+		activity.dateStarted      = Date.now ();
+		activity.dateCompletedEst = Date.now ();
+		activity.setDate (activity.dateCompletedEst.getDate () + activity.duration);
+		return this.findAndUpdate (activity);
+	},
 	completeActivity: function (oldDoc, newDoc) {
 		newDoc.status = 'Completed';
 		return this.update (oldDoc, newDoc);
+	},
+	complete: function (activity) {
+		activity.status        = 'Completed';
+		activity.dateCompleted = Date.now ();
+		return this.findAndUpdate (activity);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -56,86 +68,45 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	makeActivityFromBase : function (base, streamid, projectid, projectcode, phaseid, milestoneid, roles) {
 		var self = this;
-		var Task = new TaskClass (this.user);
-		var TaskBase = new TaskBaseClass (this.user);
 		return new Promise (function (resolve, reject) {
 			var baseid = base._id;
 			var newobjectid;
 			var newobject;
 			var children;
 			var basename = 'activityBase';
-			var newchildfunction = Task.makeTaskFromBase;
-			var findchildbyid = TaskBase.findById;
-			var childname = 'tasks';
-			// get all the children
-			Promise.all (base[childname].map (findchildbyid))
-			.then (function (models) {
-				// assign it for later use
-				children = models;
-				// make the new newobject from the base
-				return self.copy (base);
-			})
-			.then (function (model) {
-				newobjectid = model._id;
-				newobject   = model;
-				//
-				// fix the roles
-				//
-				model.fixRoles (projectcode);
-				if (roles) model.addRoles (roles);
-				RoleController.addRolesToConfigObject (model, 'activities', model.roleSet());
-				//
-				// assign whatever ancenstry is needed
-				//
-				model[basename] = baseid;
-				model.project   = projectid;
-				model.projectCode = projectcode;
-				model.stream    = streamid;
-				model.phase     = phaseid;
-				model.milestone = milestoneid;
-				// return the promise of new children
-				return Promise.all (children.map (function (m) {
-					return Task.makeTaskFromBase (m, streamid, projectid, projectcode, phaseid, milestoneid, newobjectid);
-				}));
-			})
-			.then (function (models) {
-				// assign each new child to the newobject
-				_.each (models, function (m) {
-					newobject[childname].push (m._id);
-				});
-				return newobject;
-			})
-			.then (function (m) {
-				return self.saveDocument (m);
-			})
-			.then (resolve, reject);
+			var model = self.copy (base);
+			newobjectid = model._id;
+			newobject   = model;
+			//
+			// fix the roles
+			//
+			model.fixRoles (projectcode);
+			if (roles) model.addRoles (roles);
+			RoleController.addRolesToConfigObject (model, 'activities', model.roleSet());
+			//
+			// assign whatever ancenstry is needed
+			//
+			model[basename] = baseid;
+			model.project   = projectid;
+			model.projectCode = projectcode;
+			model.stream    = streamid;
+			model.phase     = phaseid;
+			model.milestone = milestoneid;
+			self.saveDocument (model).then (resolve, reject);
 		});
 	},
-	// -------------------------------------------------------------------------
-	//
-	// add a task to this activity (from a base)
-	//
-	// -------------------------------------------------------------------------
-	addTaskFromBase : function (activity, taskbase) {
-		var self = this;
-		var Task = new TaskClass (self.user);
-		return new Promise (function (resolve, reject) {
-			Task.makeTaskFromBase (
-				taskbase,
-				activity.stream,
-				activity.project,
-				activity.projectCode,
-				activity.phase,
-				activity.milestone,
-				activity._id
-			)
-			.then (function (newtask) {
-				activity.tasks.push (newtask._id);
-				return activity;
-			})
-			.then (self.saveDocument)
-			.then (resolve, reject);
-		});
+	getActivityBase: function (code) {
+		return (new ActivityBaseClass (this.user)).findOne ({code:code});
+	},
+	copyActivityBase: function (base) {
+		return this.newDocument (base);
+	},
+	setInitalDates: function (activity) {
+		activity.dateStartedEst = Date.now ();
+		return activity;
+	},
+	setInitialRoles: function (activity, roles) {
+
 	},
 	// -------------------------------------------------------------------------
 	//
