@@ -4,40 +4,38 @@ read: ['public'],
  submit: ['mem'],
  status : 'In Progress',
  code : 'pre-application',
- name : 'Pre-Application',
- description : 'pre-application'
+ name : 'Pre-application (permitting)',
+ description : 'Pre-application (permitting)'
 },
 {
 read: ['public'],
  submit: ['mem'],
  status : 'In Progress',
- code : 'evaluation',
-	name : 'Evaluation',
-	description : 'evaluation'
+ code : 'under-construction',
+	name : 'Under Construction',
+	description : 'Under Construction'
 },
 {
 read: ['public'],
  submit: ['mem'],
  status : 'In Progress',
- code : 'review',
- name : 'Review',
- description : 'review'
+ code : 'operating',
+ name : 'Operating',
+ description : 'Operating'
 },
 {
 read: ['public'],
  submit: ['mem'],
  status : 'In Progress',
- code : 'inspections-and-monitoring',
- name : 'Inspections and Monitoring',
- description : 'inspections-and-monitoring'
+ code : 'care-and-maintenance',
+ name : 'Care & Maintenance',
+ description : 'Care & Maintenance'
 },
 {
 read: ['public'],
  submit: ['mem'],
  status : 'In Progress',
- code : 'closure-or-post-closure',
- name : 'Closure or Post-Closure',
- description : 'closure-or-post-closure'
+ code : 'closed',
+ name : 'Closed',
+ description : 'closed'
 }];
-
-
