@@ -216,7 +216,138 @@ var mergeObjectRoles = function (dbobject, roleSpec) {
 };
 
 
-// var setUserRoles
+var addUserRole = function (user, code) {
+	// console.log ('+ adding user role ', code, user.username);
+	return new Promise (function (resolve, reject) {
+		getNewOrExistingRole (code)
+		.then (function (role) {
+			// console.log ('set the user role on role and save', role.code);
+			role.setUserRole (user._id.toString());
+			return role.save ();
+		})
+		.then (function (role) {
+			// console.log ('set the user role on user and save');
+			user.setUserRole (code);
+			return user.save ();
+		})
+		.then (resolve, reject);
+	});
+};
+var addUserRoles = function (user, codes) {
+	return new Promise (function (resolve, reject) {
+		Promise.all (codes.map (function (code) {
+			return addUserRole (user, code);
+		})).then (resolve, reject);
+	});
+};
+// -------------------------------------------------------------------------
+//
+// this should do everything with users and roles. expecting to be passed in
+// an object like this one:
+// {
+// 	method: 'add', 'set', 'remove'
+// 	users: an array of users effected, all schema objects
+// 	roles: an array of role codes effected, all strings
+// }
+//
+// promise resolves to the list of saved users
+//
+// -------------------------------------------------------------------------
+var userRoles = function (data) {
+	return new Promise (function (resolve, reject) {
+		//
+		// get all the roles
+		//
+		Promise.all (data.roles, function (code) {
+			return Role.findOne ({ code: code }).exec ();
+		})
+		.then (function (rolesarray) {
+			//
+			// make an array of just user ids and add all of them
+			// to each role using the correct method
+			//
+			var idArray = data.users.map (function (u) {
+				return u._id.toString ();
+			});
+			return Promise.all (rolesarray, function (role) {
+				role.modObject (data.method, 'users', idArray);
+				return role.save ();
+			});
+		})
+		.then (function (rolesalldone) {
+			//
+			// now we can deal with the other direction. we already
+			// have all the user schema docs, so let's plow
+			// through those and do the same
+			//
+			return Promise.all (data.users, function (user) {
+				user.modRoles (data.method, data.roles);
+				return user.save ();
+			});
+		})
+		.then (resolve, reject);
+	});
+};
+// -------------------------------------------------------------------------
+//
+// this should do everything with all other objects but users and roles.
+// expecting to be passed in an object like this one:
+// {
+// 	method: 'add', 'set', 'remove'
+// 	objects: an array of objects effected, all schema objects
+//  type : the type of object, but in plural form, all lower case,
+//         pretty much the plural of the schema name, so 'projects'
+// 	permissions: a permission object which looks like this:
+//	{
+//		read   : [roles],
+//		write  : [roles],
+//		submit : [roles],
+//		watch  : [roles]
+//	}
+// }
+//
+// promise resolves to the list of saved objects
+//
+// -------------------------------------------------------------------------
+var objectRoles = function (data) {
+	return new Promise (function (resolve, reject) {
+		//
+		// flatten out the roles into a discreet list
+		//
+		var allRoles = _.union (data.permissions.read, data.permissions.write, data.permissions.submit, data.permissions.watch);
+		//
+		// get all the roles
+		//
+		Promise.all (allRoles, function (code) {
+			return Role.findOne ({ code: code }).exec ();
+		})
+		.then (function (rolesarray) {
+			//
+			// make an array of just object ids and add all of them
+			// to each role using the correct method
+			//
+			var idArray = data.objects.map (function (u) {
+				return u._id.toString ();
+			});
+			return Promise.all (rolesarray, function (role) {
+				role.modObject (data.method, data.type, idArray);
+				return role.save ();
+			});
+		})
+		.then (function (rolesalldone) {
+			//
+			// now we can deal with the other direction. we already
+			// have all the object schema docs, so let's plow
+			// through those and do the same, but add the permissions
+			//
+			return Promise.all (data.objects, function (object) {
+				object.modRoles (data.method, data.permissions);
+				return object.save ();
+			});
+		})
+		.then (resolve, reject);
+	});
+};
 
 module.exports = {
 	//

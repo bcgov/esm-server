@@ -185,6 +185,18 @@ var setRoles = function (pObject) {
 	this.roles  = this.allRoles ();
 };
 
+var modRoles = function (method, pObject) {
+	if (method === 'add') {
+		this.addRoles (pObject);
+	}
+	else if (method === 'remove') {
+		this.removeRoles (pObject);
+	}
+	else {
+		this.setRoles (pObject);
+	}
+};
+
 // -------------------------------------------------------------------------
 //
 // take the passed in schema declaration and create a mongoose schema object

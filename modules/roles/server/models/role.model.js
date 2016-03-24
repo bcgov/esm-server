@@ -54,6 +54,20 @@ RoleSchema.methods.setObjectsRole = function (object, objectIds) {
 	this[object] = setUniqueArray (this[object], objectIds.map (function (u) { return u.toString();}));
 };
 
+RoleSchema.methods.modObject = function (method, type, array) {
+	if (method === 'add') {
+		this[type] = _.union (this[type], array);
+	}
+	else if (method === 'remove') {
+		_.remove (this[type], function (id) {
+			return _.indexOf (array, id) !== -1;
+		});
+	}
+	else {
+		this[type] = _.union ([], array);
+	}
+};
+
 RoleSchema.methods.generateCode = function () {
 	var a = [];
 	if (this.projectCode) a.push (this.projectCode);

@@ -150,15 +150,12 @@ angular
 		}
 	)
 	.factory('ENV', function () {
-		var u = window.location.href.split ('://');
-		var e = 'EAO';
-		if (u[1].substr(0,3).toLowerCase() === 'mem') return 'MEM';
+		if (window.location.href.indexOf('mem.') >= 0 ) return 'MEM';
 		else return 'EAO';
 	}) // MEM, EAO
 	.factory('LOGO', function () {
-		var u = window.location.href.split ('://');
 		var e = 'EAO';
-		if (u[1].substr(0,3).toLowerCase() === 'mem') e = 'MEM';
+		if (window.location.href.indexOf ('mem.') >= 0 ) e = 'MEM'; e = 'MEM';
 		if (e === 'EAO') {
 			return 'modules/core/client/img/brand/eao-logo.png'; // MEM Logo
 		}

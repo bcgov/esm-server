@@ -69,31 +69,18 @@ newMethods.setUserRoles = function (roles) {
 	this.roles = roles;
 };
 
-// -------------------------------------------------------------------------
-//
-// same as merge, but without the replace as it is done elsewhere
-//
-// -------------------------------------------------------------------------
-var addRoles = function (rolearray) {
-	this.roles = _.union (this.roles, rolearray);
-};
-// -------------------------------------------------------------------------
-//
-// remove a set of roles
-//
-// -------------------------------------------------------------------------
-var removeRoles = function (rolearray) {
-	_.remove (this.roles, function (code) {
-		return _.indexOf (rolearray, code) !== -1;
-	});
-};
-// -------------------------------------------------------------------------
-//
-// absolutely define the roles
-//
-// -------------------------------------------------------------------------
-var setRoles = function (rolearray) {
-	this.roles = _.union ([], rolearray);
+var modRoles = function (method, rolearray) {
+	if (method === 'add') {
+		this.roles = _.union (this.roles, rolearray);
+	}
+	else if (method === 'remove') {
+		_.remove (this.roles, function (code) {
+			return _.indexOf (rolearray, code) !== -1;
+		});
+	}
+	else {
+		this.roles = _.union ([], rolearray);
+	}
 };
 
 /**
