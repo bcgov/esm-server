@@ -747,7 +747,6 @@ var loadDocuments = function(req, res) {
 				}
 				res.writeHead(200, {'Content-Type': 'text/plain'});
 				res.write('[ { "jobid": 0 }');
-				// console.log("FILE DATA:",data);
 				var colArray = ['PROJECT_ID','DOCUMENT_ID','PST_DESCRIPTION','DTP_DESCRIPTION','SECTION_NUMBER','FOLDER','FILE_NAME','DOCUMENT_POINTER','FILE_TYPE','FILE_SIZE','DATE_POSTED','DATE_RECEIVED','ARCS_ORCS_FILE_NUMBER','WHO_CREATED','WHEN_CREATED','WHO_UPDATED','WHEN_UPDATED'];
 				var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 					// Skip this many rows
@@ -760,7 +759,6 @@ var loadDocuments = function(req, res) {
 							var row = output[key];
 							// console.log("row:",row);
 							rowsProcessed++;
-							// console.log("rowData:",row);
 							Model.findOne({documentEPICId: parseInt(row.DOCUMENT_ID)}, function (err, doc) {
 								if (err) {
 									// console.log("err",err);
@@ -768,51 +766,38 @@ var loadDocuments = function(req, res) {
 									// console.log("doc",doc);
 								}
 								var addOrChangeModel = function(model) {
-									// If it has a file size, it's a real document pointer
-									//if (row.FILE_TYPE) {
-										res.write(",");
-										res.write(JSON.stringify({documentEPICId:parseInt(row.DOCUMENT_ID)}));
-										res.flush();
-										model.documentEPICProjectId 	= parseInt(row.PROJECT_ID);
-										model.documentEPICId            = parseInt(row.DOCUMENT_ID);
-										model.projectFolderType         = row.PST_DESCRIPTION;
-										model.projectFolderSubType      = row.DTP_DESCRIPTION;
-										// This is wrong: TODO post-process
-										model.projectFolderURL          = row.FOLDER;
-										// // Do this on 2nd pass
-										// //model.projectFolderName         = row.DESCRIPTION;
-										model.projectFolderDatePosted   = Date(row.DATE_POSTED);
-										// // Do this on 2nd pass
-										// model.projectFolderAuthor       = row.WHO_CREATED;
-										model.documentAuthor     = row.WHO_CREATED;
-										model.documentFolderName = row.FOLDER;
-										model.documentFileName   = row.FILE_NAME;
-										model.documentFileURL    = URLPrefix + row.DOCUMENT_POINTER;//.replace(/\\/g,"/");
-										model.documentFileSize   = row.FILE_SIZE;
-										model.documentFileFormat = row.FILE_TYPE;
-										model.documentAuthor 	 = row.WHO_CREATED;
-										model.oldData 			 = JSON.stringify({DATE_RECEIVED: row.DATE_RECEIVED,
-																				  ARCS_ORCS_FILE_NUMBER: row.ARCS_ORCS_FILE_NUMBER,
-																				  WHEN_CREATED: row.WHEN_CREATED,
-																				  WHO_UPDATED: row.WHO_UPDATED,
-																				  WHEN_UPDATED: row.WHEN_UPDATED});
+									res.write(",");
+									res.write(JSON.stringify({documentEPICId:parseInt(row.DOCUMENT_ID)}));
+									res.flush();
+									model.documentEPICProjectId 	= parseInt(row.PROJECT_ID);
+									model.documentEPICId            = parseInt(row.DOCUMENT_ID);
+									model.projectFolderType         = row.PST_DESCRIPTION;
+									model.projectFolderSubType      = row.DTP_DESCRIPTION;
+									model.projectFolderName 		= row.FOLDER;
+									// This could be auto-generated based on what we know now.
+									model.projectFolderURL          = row.FOLDER;
+									model.projectFolderDatePosted   = Date(row.DATE_POSTED);
+									// // Do this on 2nd pass
+									// model.projectFolderAuthor       = row.WHO_CREATED;
+									model.documentAuthor     = row.WHO_CREATED;
+									model.documentFileName   = row.FILE_NAME;
+									model.documentFileURL    = URLPrefix + row.DOCUMENT_POINTER;
+									model.documentFileSize   = row.FILE_SIZE;
+									model.documentFileFormat = row.FILE_TYPE;
+									model.documentAuthor 	 = row.WHO_CREATED;
+									model.oldData 			 = JSON.stringify({DATE_RECEIVED: row.DATE_RECEIVED,
+																			  ARCS_ORCS_FILE_NUMBER: row.ARCS_ORCS_FILE_NUMBER,
+																			  WHEN_CREATED: row.WHEN_CREATED,
+																			  WHO_UPDATED: row.WHO_UPDATED,
+																			  WHEN_UPDATED: row.WHEN_UPDATED});
 
-										model.save().then(function () {
-											// console.log("SAVED:",model.documentEPICId);
-											// We should do this post-process
-											// Project.findOne({epicProjectID: parseInt(row.PROJECT_ID)}).then(function(p) {
-											//  if (p) {
-											//      model.project = p;
-											//      model.save();
-											//  }
-											// });
-											// Am I done processing?
-											// console.log("INDEX:",index);
-											if (index === length-1) {
-												res.write("]");
-												res.end();
-											}
-										});
+									model.save().then(function () {
+										// console.log("INDEX:",index);
+										if (index === length-1) {
+											res.write("]");
+											res.end();
+										}
+									});
 								};
 								if (doc === null) {
 									// Create new
