@@ -85,7 +85,7 @@ angular.module('users').config(['$stateProvider',
 						return ProjectModel.lookup ();
 					}
 				},
-				controller: function ($scope, $state, $stateParams, activities, projects, NgTableParams) {
+				controller: function ($scope, $state, $stateParams, activities, projects, NgTableParams, _) {
 					_.each(activities, function(item) {
 						if (projects[item.project]) {
 							item.project = projects[item.project].name;

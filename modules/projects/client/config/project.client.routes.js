@@ -76,7 +76,7 @@ angular.module('project').config (
 				return ProjectModel.getProjectIntakeQuestions();
 			}
 		}
-	})
+	});
 }]);
 
 
