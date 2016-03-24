@@ -1,29 +1,29 @@
-'use strict';
+// 'use strict';
 
-angular.module('project')
-	.directive('tmplEaoProject', directiveEAOProject)
+// angular.module('project')
+// 	.directive('tmplEaoProject', directiveEAOProject)
 
 	
-	.directive('modalProjectEdit', directiveModalProjectEdit)
-	.directive('modalProjectEditPlanSchedule', directiveModalProjectEditPlanSchedule)
-	.directive('modalProjectContacts', directiveModalProjectContacts);
+// 	.directive('modalProjectEdit', directiveModalProjectEdit)
+// 	.directive('modalProjectEditPlanSchedule', directiveModalProjectEditPlanSchedule)
+// 	.directive('modalProjectContacts', directiveModalProjectContacts);
 
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: EAO Project Main
 //
 // -----------------------------------------------------------------------------------
-directiveEAOProject.$inject = [];
-/* @ngInject */
-function directiveEAOProject() {
-	var directive = {
-		restrict: 'E',
-		templateUrl: 'modules/projects/client/views/project-eao.html',
-		controller: 'controllerEAOProject',
-		controllerAs: 'vm'
-	};
-	return directive;
-}
+// directiveEAOProject.$inject = [];
+// /* @ngInject */
+// function directiveEAOProject() {
+// 	var directive = {
+// 		restrict: 'E',
+// 		templateUrl: 'modules/projects/client/views/project-eao.html',
+// 		controller: 'controllerEAOProject',
+// 		controllerAs: 'vm'
+// 	};
+// 	return directive;
+// }
 
 
 // -----------------------------------------------------------------------------------
@@ -31,34 +31,34 @@ function directiveEAOProject() {
 // DIRECTIVE: Modal Edit Project
 //
 // -----------------------------------------------------------------------------------
-directiveModalProjectEdit.$inject = ['$modal'];
-/* @ngInject */
-function directiveModalProjectEdit($modal) {
-	var directive = {
-		restrict:'A',
-		scope : {
-			project: '='
-		},
-		link : function(scope, element, attrs) {
-			element.on('click', function() {
-				var modalMilestoneView = $modal.open({
-					animation: true,
-					templateUrl: 'modules/projects/client/views/project-partials/modal-edit-project.html',
-					controller: 'controllerModalProjectEdit',
-					controllerAs: 'projectEdit',
-					resolve: {
-						rProject: function () {
-							return scope.project;
-						}
-					},
-					size: 'lg'
-				});
-				modalMilestoneView.result.then(function () {}, function () {});
-			});
-		}
-	};
-	return directive;
-}    
+// directiveModalProjectEdit.$inject = ['$modal'];
+// /* @ngInject */
+// function directiveModalProjectEdit($modal) {
+// 	var directive = {
+// 		restrict:'A',
+// 		scope : {
+// 			project: '='
+// 		},
+// 		link : function(scope, element, attrs) {
+// 			element.on('click', function() {
+// 				var modalMilestoneView = $modal.open({
+// 					animation: true,
+// 					templateUrl: 'modules/projects/client/views/project-partials/modal-edit-project.html',
+// 					controller: 'controllerModalProjectEdit',
+// 					controllerAs: 'projectEdit',
+// 					resolve: {
+// 						rProject: function () {
+// 							return scope.project;
+// 						}
+// 					},
+// 					size: 'lg'
+// 				});
+// 				modalMilestoneView.result.then(function () {}, function () {});
+// 			});
+// 		}
+// 	};
+// 	return directive;
+// }    
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Modal Edit Project Phases
@@ -97,64 +97,64 @@ function directiveModalProjectEdit($modal) {
 // DIRECTIVE: Modal Edit Project Phases
 //
 // -----------------------------------------------------------------------------------
-directiveModalProjectEditPlanSchedule.$inject = ['$modal'];
-/* @ngInject */
-function directiveModalProjectEditPlanSchedule($modal) {
-	var directive = {
-		restrict:'A',
-		scope : {
-			project: '='
-		},
-		link : function(scope, element, attrs) {
-			element.on('click', function() {
-				var modalDocView = $modal.open({
-					animation: true,
-					templateUrl: 'modules/projects/client/views/project-partials/modal-edit-plan-schedule.html',
-					controller: 'controllerModalProjectEditPlanSchedule',
-					controllerAs: 'pesched',
-					resolve: {
-						rProject: function () {
-							return scope.project;
-						}
-					},
-					size: 'lg'
-				});
-				modalDocView.result.then(function () {}, function () {});
-			});
-		}
-	};
-	return directive;
-}
-// -----------------------------------------------------------------------------------
+// directiveModalProjectEditPlanSchedule.$inject = ['$modal'];
+// /* @ngInject */
+// function directiveModalProjectEditPlanSchedule($modal) {
+// 	var directive = {
+// 		restrict:'A',
+// 		scope : {
+// 			project: '='
+// 		},
+// 		link : function(scope, element, attrs) {
+// 			element.on('click', function() {
+// 				var modalDocView = $modal.open({
+// 					animation: true,
+// 					templateUrl: 'modules/projects/client/views/project-partials/modal-edit-plan-schedule.html',
+// 					controller: 'controllerModalProjectEditPlanSchedule',
+// 					controllerAs: 'pesched',
+// 					resolve: {
+// 						rProject: function () {
+// 							return scope.project;
+// 						}
+// 					},
+// 					size: 'lg'
+// 				});
+// 				modalDocView.result.then(function () {}, function () {});
+// 			});
+// 		}
+// 	};
+// 	return directive;
+// }
+// // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Modal Edit Project Team
 //
 // -----------------------------------------------------------------------------------
-directiveModalProjectContacts.$inject = ['$modal'];
-/* @ngInject */
-function directiveModalProjectContacts($modal) {
-	var directive = {
-		restrict:'A',
-		scope : {
-			project: '='
-		},
-		link : function(scope, element, attrs) {
-			element.on('click', function() {
-				var modalDocView = $modal.open({
-					animation: true,
-					templateUrl: 'modules/projects/client/views/project-partials/modal-project-contacts.html',
-					controller: 'controllerModalProjectContacts',
-					controllerAs: 'projectContacts',
-					resolve: {
-						rProject: function () {
-							return scope.project;
-						}
-					},
-					size: 'lg'
-				});
-				modalDocView.result.then(function () {}, function () {});
-			});
-		}
-	};
-	return directive;
-}
+// directiveModalProjectContacts.$inject = ['$modal'];
+// /* @ngInject */
+// function directiveModalProjectContacts($modal) {
+// 	var directive = {
+// 		restrict:'A',
+// 		scope : {
+// 			project: '='
+// 		},
+// 		link : function(scope, element, attrs) {
+// 			element.on('click', function() {
+// 				var modalDocView = $modal.open({
+// 					animation: true,
+// 					templateUrl: 'modules/projects/client/views/project-partials/modal-project-contacts.html',
+// 					controller: 'controllerModalProjectContacts',
+// 					controllerAs: 'projectContacts',
+// 					resolve: {
+// 						rProject: function () {
+// 							return scope.project;
+// 						}
+// 					},
+// 					size: 'lg'
+// 				});
+// 				modalDocView.result.then(function () {}, function () {});
+// 			});
+// 		}
+// 	};
+// 	return directive;
+// }

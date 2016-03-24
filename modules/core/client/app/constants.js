@@ -155,7 +155,7 @@ angular
 	}) // MEM, EAO
 	.factory('LOGO', function () {
 		var e = 'EAO';
-		if (window.location.href.indexOf ('mem.') >= 0 ) e = 'MEM'; e = 'MEM';
+		if (window.location.href.indexOf ('mem.') >= 0 ) e = 'MEM';
 		if (e === 'EAO') {
 			return 'modules/core/client/img/brand/eao-logo.png'; // MEM Logo
 		}
