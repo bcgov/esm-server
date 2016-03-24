@@ -2,24 +2,19 @@
 
 angular.module('project')
 	// General
-	.controller('controllerProject', controllerProject)
+	// .controller('controllerProject', controllerProject)
 	.controller('controllerModalProjectSchedule', controllerModalProjectSchedule)
 	.controller('controllerModalAddPhase', controllerModalAddPhase)
 	.controller('controllerModalAddActivity', controllerModalAddActivity)
 	.controller('controllerProjectVC', controllerProjectVC)
 	.controller('controllerProjectVCEntry', controllerProjectVCEntry)
-	.controller('controllerProjectTombstone', controllerProjectTombstone)
 	// .controller('controllerProjectTimeline', controllerProjectTimeline)
 	.controller('controllerProjectEntry', controllerProjectEntry)
 	.controller('controllerModalProjectImport', controllerModalProjectImport)
-	// .controller('controllerProjectProponent', controllerProjectProponent)
-	// .controller('controllerProjectBucketListing', controllerProjectBucketListing)
-	// .controller('controllerProjectResearch', controllerProjectResearch)
 
 	// .controller('controllerProjectNew', controllerProjectNew)
 	// .controller('controllerProjectEdit', controllerProjectEdit)
 	.controller('controllerProjectStreamSelect', controllerProjectStreamSelect)
-	.controller('controllerProjectInitiated', controllerProjectInitiated)
 	.controller('controllerProjectActivities', controllerProjectActivities);
 
 // -----------------------------------------------------------------------------------
@@ -27,30 +22,30 @@ angular.module('project')
 // CONTROLLER: Public Project Detail
 //
 // -----------------------------------------------------------------------------------
-controllerProject.$inject = ['$scope', '$rootScope', 'ProjectModel', '$stateParams', '_'];
-/* @ngInject */
-function controllerProject($scope, $rootScope, sProjectModel, $stateParams, _) {
-	var proj = this;
+// controllerProject.$inject = ['$scope', '$rootScope', 'ProjectModel', '$stateParams', '_'];
+// /* @ngInject */
+// function controllerProject($scope, $rootScope, ProjectModel, $stateParams, _) {
+// 	var proj = this;
 
-	proj.refresh = function() {
-		sProjectModel.getModel($stateParams.id).then( function(data) {
-			// console.log (data);
-			proj.project = data;
-			$scope.$apply();
-		}).catch( function(err) {
-			// console.log (err);
-			$scope.error = err;
-		});
-	};
+// 	proj.refresh = function() {
+// 		ProjectModel.getModel($stateParams.id).then( function(data) {
+// 			// console.log (data);
+// 			proj.project = data;
+// 			$scope.$apply();
+// 		}).catch( function(err) {
+// 			// console.log (err);
+// 			$scope.error = err;
+// 		});
+// 	};
 
-	var unbind = $rootScope.$on('refreshProject', function() {
-		proj.refresh();
-	});
-	$scope.$on('$destroy', unbind);
+// 	var unbind = $rootScope.$on('refreshProject', function() {
+// 		proj.refresh();
+// 	});
+// 	$scope.$on('$destroy', unbind);
 
-	proj.refresh();
+// 	proj.refresh();
 
-}
+// }
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Modal: View Project Schedule
@@ -58,13 +53,13 @@ function controllerProject($scope, $rootScope, sProjectModel, $stateParams, _) {
 // -----------------------------------------------------------------------------------
 controllerModalProjectSchedule.$inject = ['$modalInstance', 'ProjectModel', 'PhaseModel', '_', 'rProject'];
 /* @ngInject */
-function controllerModalProjectSchedule($modalInstance, sProjectModel, sPhaseModel, _, rProject) {
+function controllerModalProjectSchedule($modalInstance, ProjectModel, PhaseModel, _, rProject) {
 	var projSched = this;
 
-	sProjectModel.setModel(rProject);
-	projSched.project = sProjectModel.getCopy();
+	ProjectModel.setModel(rProject);
+	projSched.project = ProjectModel.getCopy();
 
-	sPhaseModel.phasesForProject(projSched.project._id).then( function(data) {
+	PhaseModel.phasesForProject(projSched.project._id).then( function(data) {
 		projSched.phases = data;
 	});
 
@@ -75,7 +70,7 @@ function controllerModalProjectSchedule($modalInstance, sProjectModel, sPhaseMod
 
 		if (projSched.newPhase) {
 			// console.log('setphase');
-			sProjectModel.setPhase( projSched.newPhase._id ).then( function(data) {
+			ProjectModel.setPhase( projSched.newPhase._id ).then( function(data) {
 				$modalInstance.close(data);
 				// console.log('closed');
 
@@ -94,7 +89,7 @@ function controllerModalProjectSchedule($modalInstance, sProjectModel, sPhaseMod
 // -----------------------------------------------------------------------------------
 controllerModalAddPhase.$inject = ['$modalInstance', 'PhaseBaseModel', '_', 'ProjectModel'];
 /* @ngInject */
-function controllerModalAddPhase($modalInstance, sPhaseBaseModel, _, sProjectModel) {
+function controllerModalAddPhase($modalInstance, sPhaseBaseModel, _, ProjectModel) {
 	var addPhase = this;
 
 	// get all possible base activities
@@ -106,7 +101,7 @@ function controllerModalAddPhase($modalInstance, sPhaseBaseModel, _, sProjectMod
 	addPhase.ok = function () {
 		if (addPhase.newBasePhase) {
 			// add the new activity to the base model.
-			sProjectModel.addPhase(addPhase.newBasePhase._id).then( function(data) {
+			ProjectModel.addPhase(addPhase.newBasePhase._id).then( function(data) {
 				$modalInstance.close(data);
 			});
 		} else {
@@ -121,13 +116,13 @@ function controllerModalAddPhase($modalInstance, sPhaseBaseModel, _, sProjectMod
 // -----------------------------------------------------------------------------------
 controllerModalAddMilestone.$inject = ['$modalInstance', 'PhaseModel', 'MilestoneBaseModel', '_', 'rPhase'];
 /* @ngInject */
-function controllerModalAddMilestone($modalInstance, sPhaseModel, sMilestoneBaseModel,  _, rPhase) {
+function controllerModalAddMilestone($modalInstance, PhaseModel, sMilestoneBaseModel,  _, rPhase) {
 	var addMile = this;
 
 	addMile.milestone = rPhase;
 
 	// set current (actual) milestone context
-	sPhaseModel.setModel(rPhase);
+	PhaseModel.setModel(rPhase);
 
 	// get all possible base activities
 	sMilestoneBaseModel.getCollection().then( function(data) {
@@ -138,7 +133,7 @@ function controllerModalAddMilestone($modalInstance, sPhaseModel, sMilestoneBase
 	addMile.ok = function () {
 		if (addMile.newBaseMilestone) {
 			// add the new activity to the base model.
-			sPhaseModel.addMilestone(addMile.newBaseMilestone._id).then( function(data) {
+			PhaseModel.addMilestone(addMile.newBaseMilestone._id).then( function(data) {
 				$modalInstance.close(data);
 			});
 		} else {
@@ -226,21 +221,7 @@ function controllerProjectVCEntry(rProjectVCEntry, _, $modalInstance) {
 	};
 	projectVCEntryModal.cancel = function () { $modalInstance.dismiss('cancel'); };
 }
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: Project Tombstone
-//
-// -----------------------------------------------------------------------------------
-controllerProjectTombstone.$inject = ['$scope', 'ProjectModel'];
-/* @ngInject */
-function controllerProjectTombstone($scope, ProjectModel) {
-	var projTomb = this;
 
-
-	$scope.$watch('project', function (newValue) {
-		if (newValue) projTomb.project = newValue;
-	});
-}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Timeline
@@ -262,7 +243,7 @@ function controllerProjectTombstone($scope, ProjectModel) {
 // -----------------------------------------------------------------------------------
 controllerModalProjectImport.$inject = ['Upload', '$modalInstance', '$timeout', '$scope', '$state', 'Project',  'ProjectModel', 'rProject', 'REGIONS', 'PROJECT_TYPES', '_', 'ENV'];
 /* @ngInject */
-function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, $state, sProject, sProjectModel, rProject, REGIONS, PROJECT_TYPES, _, ENV) {
+function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, $state, sProject, ProjectModel, rProject, REGIONS, PROJECT_TYPES, _, ENV) {
 	var projectImport = this;
 	$scope.environment = ENV;
 
@@ -341,6 +322,7 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Entry Tombstone
+// Used.
 //
 // -----------------------------------------------------------------------------------
 controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', 'project', 'REGIONS', 'PROJECT_TYPES', '_', 'intakeQuestions', 'UserModel', 'ProjectModel', 'OrganizationModel', 'Authentication'];
@@ -410,7 +392,12 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 
 
 
-	$scope.saveProject = function() {
+	$scope.saveProject = function(isValid) {
+		if (!isValid) {
+			$scope.$broadcast('show-errors-check-validity', 'projectForm');
+			return false;
+		}
+
 		UserModel.saveModel ()
 		.then (function (um) {
 			$scope.project.primaryContact = um._id;
@@ -430,7 +417,12 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 	};
 
 	// Submit the project for stream assignment.
-	$scope.submitProject = function() {
+	$scope.submitProject = function(isValid) {
+		if (!isValid) {
+			$scope.$broadcast('show-errors-check-validity', 'projectForm');
+			return false;
+		}
+
 		UserModel.saveModel ()
 		.then (function (um) {
 			$scope.project.primaryContact = um._id;
@@ -468,144 +460,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 // 		projectProponent.project = newValue;
 // 	});
 // }
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: Project Bucket Listing
-//
-// -----------------------------------------------------------------------------------
-// controllerProjectBucketListing.$inject = ['$scope', 'Project', '$filter'];
-// /* @ngInject */
-// function controllerProjectBucketListing($scope, Project, $filter) {
-// 	var projBuckets = this;
 
-// 	projBuckets.panelSort = [
-// 		{'field': 'name', 'name':'Name'},
-// 		{'field': 'type', 'name':'Type'},
-// 		{'field': 'progress', 'name':'Complete'}
-// 	];
-
-// 	$scope.$watch('filter', function(newValue) {
-// 		// wait for project and get related buckets
-// 		if (newValue === 'inprogress') {
-// 			projBuckets.bucketsFiltered = $filter('projectBucketNotComplete')(projBuckets.buckets);
-// 		} else {
-// 			projBuckets.bucketsFiltered = projBuckets.buckets;
-// 		}
-// 	});
-
-
-
-// 	$scope.$watch('project', function(newValue) {
-// 		// wait for project and get related buckets
-// 		projBuckets.buckets = newValue.buckets;
-// 		console.log(newValue);
-// 		projBuckets.bucketsFiltered = $filter('projectBucketNotComplete')(newValue.buckets);
-// 	});
-
-
-// }
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: Project Research
-//
-// -----------------------------------------------------------------------------------
-// controllerProjectResearch.$inject = ['$scope', 'Project', 'Utils'];
-// /* @ngInject */
-// function controllerProjectResearch($scope, Project, Utils) {
-// 	var pr = this;
-// 	pr.searchResults = {};
-
-// 	pr.workSpaceLayers = [];
-
-// 	pr.panelSort = [
-// 		{'field': 'name', 'name':'Name'},
-// 		{'field': 'type', 'name':'Type'},
-// 		{'field': 'progress', 'name':'Complete'}
-// 	];
-
-// 	pr.sharedLayers = Utils.getCommonLayers();
-// 	// Utils.getCommonLayers().then( function(res) {
-// 	// 	pr.sharedLayers = res.data;
-// 	// });
-
-// 	pr.researchFocus = Utils.getResearchFocus();
-
-
-// 	pr.performSearch = function() {
-// 		Utils.getResearchResults({'term': pr.search.focus}).then( function(res) {
-// 			pr.searchResults.records = res.data;
-// 			pr.searchResults.terms = pr.search.focus;
-// 		});
-// 	};
-
-// 	$scope.$watch('project', function(newValue) {
-// 		// wait for project and get related buckets
-// 		if (newValue) {
-// 			pr.buckets = newValue.buckets;
-// 		}
-
-// 		// Project.getProjectBuckets(newValue).then( function(res) {
-// 		// 	pr.buckets = res.data;
-// 		// });
-
-// 		// Project.getProjectLayers(newValue).then( function(res) {
-// 		// 	pr.projectLayers = res.data;
-// 		// 	pr.workSpaceLayers.push({"name":"Project", "layers": res.data});
-// 		// });
-
-// 		// Project.getProjectTags(newValue).then( function(res) {
-// 		// 	pr.projectTags = res.data;
-// 		// });
-
-// 		// Project.getProjectResearch(newValue).then( function(res) {
-// 		// 	pr.projectResearch = res.data;
-// 		// });
-
-// 		// Project.getProjectRelatedResearch(newValue).then( function(res) {
-// 		// 	pr.projectRelatedResearch = res.data;
-// 		// });
-
-// 	});
-
-
-// }
-
-
-
-
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: EAO Project New
-//
-// -----------------------------------------------------------------------------------
-// controllerProjectEdit.$inject = ['$state', 'Project', '_'];
-// /* @ngInject */
-// function controllerProjectEdit($state, Project, _) {
-// 	var projectEntry = this;
-
-
-// 	Project.getProject({id: $state.params.id}).then( function(res) {
-// 		projectEntry.project = res.data;
-// 	});
-
-// }
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: Initiated
-//
-// -----------------------------------------------------------------------------------
-controllerProjectInitiated.$inject = ['$scope', '$state'];
-/* @ngInject */
-function controllerProjectInitiated($scope, $state) {
-	var projectInitiated = this;
-
-	$scope.$watch('project', function(newValue) {
-		if (newValue) {
-			projectInitiated.project = newValue;
-		}
-	});
-
-}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Stream Selection
@@ -656,9 +511,9 @@ function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel
 // CONTROLLER: Project Activities
 //
 // -----------------------------------------------------------------------------------
-controllerProjectActivities.$inject = ['$scope', '$rootScope', 'Authentication', 'sActivity', '_', 'PhaseModel', 'MilestoneModel' ,'ActivityModel', '$cookies'];
+controllerProjectActivities.$inject = ['$scope', '$rootScope', 'Authentication', 'sActivity', '_', 'ProjectModel', 'PhaseModel', 'MilestoneModel' ,'ActivityModel', '$cookies'];
 /* @ngInject */
-function controllerProjectActivities($scope, $rootScope, sAuthentication, sActivity, _, sPhaseModel, sMilestoneModel ,sActivityModel, $cookies) {
+function controllerProjectActivities($scope, $rootScope, sAuthentication, sActivity, _, ProjectModel, PhaseModel, sMilestoneModel ,sActivityModel, $cookies) {
 	var projectActs = this;
 
 	projectActs.selectedPhaseId = $cookies.phase;
@@ -746,7 +601,7 @@ function controllerProjectActivities($scope, $rootScope, sAuthentication, sActiv
 		if (newValue) {
 			projectActs.project = newValue;
 
-			sPhaseModel.phasesForProject(newValue._id).then( function(data) {
+			PhaseModel.phasesForProject(newValue._id).then( function(data) {
 				projectActs.phases = data;
 			});
 		}

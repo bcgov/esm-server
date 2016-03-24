@@ -1,20 +1,20 @@
 <div class='panel-body'>
 	<div class='row'>
 		<div class='col-sm-3'>
-			<div><label class="control-label">Type</label><p>{{ projTomb.project.type }}</p></div>
-			<div><label class="control-label">Location</label><p>{{ projTomb.project.location }}</p></div>
-			<div><label class="control-label">Region</label><p>{{ projTomb.project.region | regionName }}</p></div>
+			<div><label class="control-label">Type</label><p>{{ project.type }}</p></div>
+			<div><label class="control-label">Location</label><p>{{ project.location }}</p></div>
+			<div><label class="control-label">Region</label><p>{{ project.region | regionName }}</p></div>
 		</div>
 		<div class='col-sm-3'>
-			<div><label class="control-label">Estimated Phase Completion</label><p>{{ projTomb.project.dateCurrentPhaseEstimatedEnd | amDateFormat:'MMM Do YYYY' }}</p></div>
-			<div><label class="control-label">Current Phase</label><p x-phase-colour x-phase="projTomb.project.currentPhase">{{ projTomb.project.currentPhase | phaseName:projTomb.project.phases }}</p></div>
-			<!-- <div><label class="control-label">Next Phase</label><p x-phase-colour x-phase="projTomb.project.nextPhase">{{ projTomb.project.nextPhase }}</p></div> -->
+			<div><label class="control-label">Estimated Phase Completion</label><p>{{ project.dateCurrentPhaseEstimatedEnd | amDateFormat:'MMM Do YYYY' }}</p></div>
+			<div><label class="control-label">Current Phase</label><p x-phase-colour x-phase="project.currentPhase">{{ project.currentPhase | phaseName:project.phases }}</p></div>
+			<!-- <div><label class="control-label">Next Phase</label><p x-phase-colour x-phase="project.nextPhase">{{ project.nextPhase }}</p></div> -->
 		</div>
 
 		<div class='col-sm-6'>
 			<div>
 				<label class="control-label">Description</label>
-				<pre ng-bind-html="projTomb.project.description"></pre>
+				<pre ng-bind-html="project.description"></pre>
 			</div>
 		</div>
 

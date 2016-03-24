@@ -1,17 +1,14 @@
 <section class="panel panel-default" ng-repeat="activity in recentActs" ng-class="{'watermark-chat': activity.type === 'Public Comment Period', 'watermark-news': activity.type === 'News'}">
-	<div class='panel-body news-headline clickable' ui-sref="p.detail({projectid: projectlookup[activity.project].code })">
+	<div class='panel-body news-headline clickable small' ui-sref="p.detail({projectid: projectlookup[activity.project].code })">
 		<h5>{{ activity.headline }}</h5>
-		<p class="small news-content">
-			{{ activity.content | maxWords:30:activity.showmore }}
-			<p ng-if="(activity.content | wordCount) > 30" class="small">
-				<a href ng-click="$event.stopPropagation(); activity.showmore = !activity.showmore">
-					<span ng-show="!activity.showmore"><em>More ({{ activity.content | wordCount }} words)</em></span>
-					<span ng-show="activity.showmore"><em>Less</em></span>
-				</a>
-			</p>
+		<p class="news-content">{{ activity.content | maxWords:30:activity.showmore }}</p>
+		<p ng-if="(activity.content | wordCount) > 30" class="news-more">
+			<a href ng-click="$event.stopPropagation(); activity.showmore = !activity.showmore">
+				<span ng-show="!activity.showmore"><em>More ({{ activity.content | wordCount }} words)</em></span>
+				<span ng-show="activity.showmore"><em>Less</em></span>
+			</a>
 		</p>
-		<p class="small">{{ activity.dateAdded | date }}</p>
-		<p class="small">{{ activity.type }}</p>
+		<p><em>{{ activity.dateAdded | date }} &bullet; {{ activity.type }}</em></p>
 	</div>
 </section>
 <section class="panel panel-default" ng-show="!recentActs || recentActs.length === 0">

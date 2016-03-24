@@ -61,28 +61,6 @@
                         <input class="form-control" type="number" ng-model="configDataElement.activeRecord.order">
                     </div>
 
-
-                    <div class="form-group">
-                        <a href
-                            class="control-label pull-right"
-                            x-modal-select-items
-                            x-all-items="configDataElement.data.tasks"
-                            x-single="false"
-                            x-parent-object="configDataElement.activeRecord"
-                            x-selected-items="configDataElement.activeRecord.tasks"
-                            x-item-name="Tasks for {{ configDataElement.activeRecord.name }}"
-                            x-callback="">Edit</a>
-                        <label class="control-label">Tasks for this Activity</label>
-
-
-                        <ul class="list-unstyled well well-sm">
-                            <li ng-show="configDataElement.activeRecord.tasks.length === 0">No Tasks selected</li>
-                            <li ng-repeat="task in configDataElement.activeRecord.tasks | orderBy:'order' track by $index"><em class="small text-success">task:</em>&nbsp;{{ task.name }}</li>
-                        </ul>
-
-
-                    </div>
-
                     <div class="form-group">
                         <a href modal-permission-matrix x-target-object="configDataElement.activeRecord">Permissions</a>
                     </div>

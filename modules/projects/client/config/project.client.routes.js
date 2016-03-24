@@ -76,60 +76,6 @@ angular.module('project').config (
 				return ProjectModel.getProjectIntakeQuestions();
 			}
 		}
-	})
-	// -------------------------------------------------------------------------
-	//
-	// project description
-	//
-	// -------------------------------------------------------------------------
-	.state('projectdescription', {
-		url: '/projectdescription/:project',
-		template: '<tmpl-project-description-edit></tmpl-project-description-edit>',
-		data: {
-			roles: ['admin', 'user']
-		}
-	})
-	.state('comments', {
-		url: '/comments/:project',
-		template: '<tmpl-comment-period-list></tmpl-comment-period-list>',
-		data: {
-			roles: ['admin', 'user']
-		}
-	})
-	.state('activity', {
-		url: '/project/:project/activity/:activity',
-		template: '<tmpl-activity></tmpl-activity>',
-		data: {
-			roles: ['admin', 'user']
-		}
-	})
-	.state('activities', {
-		url: '/activities',
-		templateUrl: 'modules/users/client/views/user-partials/user-activities.html',
-		resolve: {
-			activities: function(ActivityModel) {
-				return ActivityModel.userActivities (null, 'write');
-			},
-			projects: function(ProjectModel) {
-				return ProjectModel.lookup ();
-			}
-		},
-		controller: function ($scope, $state, $stateParams, activities, projects, NgTableParams) {
-			_.each(activities, function(item) {
-				if (projects[item.project]) {
-					item.project = projects[item.project].name;
-				}
-			});
-			$scope.tableParams = new NgTableParams ({count:50}, {dataset: activities});
-			// console.log($scope.tableParams);
-			$scope.getLinkUrl = function (state, params) {
-				// console.log (state, params);
-				return $state.href (state, params);
-			};
-		},
-		data: {
-			roles: ['admin', 'user']
-		}
 	});
 }]);
 

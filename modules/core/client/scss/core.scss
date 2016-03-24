@@ -69,9 +69,6 @@ $font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-s
 .panel-body.news-headline h5:first-child {
 	margin-bottom: 10px;
 }
-.panel-body.news-headline h5:first-sibling {
-	margin-top: 0;
-}
 .panel-body.news-headline h5 {
 	margin-bottom: 0;
 }
@@ -79,20 +76,18 @@ $font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-s
 .watermark-chat {
 	background-image: url('/modules/core/client/img/watermarks/eao-chat.png');
 	background-repeat: no-repeat;
-	background-position: 106% -7%;
+	background-position: 106% -10px;
 	background-size: 30%;
-	background-opacity: 50%;
 }
 .watermark-news {
 	background-image: url('/modules/core/client/img/watermarks/eao-news.png');
 	background-repeat: no-repeat;
-	background-position: 106% -7%;
+	background-position: 106% -10px;
 	background-size: 30%;
-	background-opacity: 50%;
 }
 
 .news-content {
-	/*white-space: pre-line;*/
+	white-space: pre-line;
 	margin-top: 0;
 }
 
