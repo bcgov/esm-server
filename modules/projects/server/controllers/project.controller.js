@@ -24,7 +24,7 @@ module.exports = DBModel.extend ({
 	name : 'Project',
 	plural : 'projects',
 	sort: {name:1},
-	populate: 'currentPhase',
+	populate: 'currentPhase phases',
 	bind: ['addPrimaryUser','addProponent'],
 	// -------------------------------------------------------------------------
 	//

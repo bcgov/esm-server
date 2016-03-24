@@ -161,7 +161,7 @@ a:hover,
 a:link,
 a:active,
 a:visited {
-	text-decoration: none;
+	text-decoration: none !important;
 }
 
 button:focus, a:focus {
@@ -201,6 +201,10 @@ td h4 {
 }
 th > .progress {
 	margin-bottom: 0;
+}
+
+.ng-table-filters th {
+	font-weight: 500;
 }
 
 pre {

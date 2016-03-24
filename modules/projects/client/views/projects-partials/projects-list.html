@@ -1,8 +1,8 @@
 <section class='panel panel-default'>
 	<div class="block-content no-lower-margin">
 		<a href class="pull-right btn btn-sm btn-link" ng-click="show_filter = !show_filter">
-			<span ng-show="show_filter">- Hide Search</span>
-			<span ng-show="!show_filter">+ Show Search</span>
+			<span ng-show="show_filter"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></span>
+			<span ng-show="!show_filter"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span></span>
 		</a>
 		<h3 ng-show="environment === 'EAO'">Environmental Assessments</h3>
 		<h3 ng-show="environment === 'MEM'">Mining Projects</h3>
