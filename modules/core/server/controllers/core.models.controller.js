@@ -53,7 +53,8 @@ var accessFields = {
 	submit: [ {type:String} ],
 	watch : [ {type:String} ],
 	roles : [ {type:String} ],
-	userPermissions : {}
+	userPermissions : {},
+	isPublished : {type:Boolean, default:false, index:true}
 };
 // -------------------------------------------------------------------------
 //
@@ -197,6 +198,23 @@ var modRoles = function (method, pObject) {
 		this.setRoles (pObject);
 	}
 };
+// -------------------------------------------------------------------------
+//
+// Shorthand for adding or removing the public role from an object
+//
+// -------------------------------------------------------------------------
+var publish = function (object) {
+	this.read = _.union (this.read, 'public');
+	this.isPublished = true;
+};
+var unpublish = function (object) {
+	_.remove (this.read, function (val) {
+		return _.indexOf ('public', val) !== -1;
+	});
+	this.isPublished = false;
+};
+
+
 
 // -------------------------------------------------------------------------
 //

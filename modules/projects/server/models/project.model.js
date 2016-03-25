@@ -11,6 +11,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__tracking            : true,
 	__status              : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Not Certified', 'Decommissioned'],
 	__codename            : 'unique',
+	duration              : { type:Number, default: 90 },
 	epicProjectID		  : { type:Number, default: 0, index:true},  // Used to relate ePIC imports
 	shortName             : { type:String, default: '' },
 	type                  : { type:String, default:'', index:true },

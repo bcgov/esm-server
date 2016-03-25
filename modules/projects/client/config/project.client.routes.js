@@ -5,27 +5,6 @@ angular.module('project').config (
 	function ($locationProvider, $stateProvider, $urlRouterProvider, _) {
 
 	$stateProvider
-	// -------------------------------------------------------------------------
-	//
-	// the project abstract, this contains the menu and a ui-view for loading
-	// child views. it also handles injecting the project
-	//
-	// -------------------------------------------------------------------------
-	// .state ('newproject', {
-	// 	url: '/newproject',
-	// 	abstract: false,
-	// 	template:'<p></p>',
-	// 	resolve: {
-	// 		project: function (ProjectModel, Authentication, _ ) {
-	// 				var code = Authentication.user.username + '-' + 'newproject' + '-' + _.random (0,1000);
-	// 				return ProjectModel.getNewWithCode (code);
-	// 		}
-	// 	},
-	// 	controller: function ($state, project) {
-	// 		console.log ('new project =' , project);
-	// 		$state.go ('p.edit', {projectid:project.code,project:project.code});
-	// 	}
-	// })
 	.state('p', {
 		url: '/p/:projectid',
 		abstract: true,

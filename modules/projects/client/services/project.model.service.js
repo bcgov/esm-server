@@ -169,9 +169,6 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 				}
 			];
 		},
-		getNewWithCode: function (code) {
-			return this.get ('/api/newcode/project/'+code);
-		}
 	});
 	return new ProjectClass ();
 });

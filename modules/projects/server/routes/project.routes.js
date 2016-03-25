@@ -6,7 +6,7 @@
 // =========================================================================
 var policy     = require ('../policies/project.policy');
 var Project    = require ('../controllers/project.controller');
-var helpers    = require ('../../../core/server/controllers/core.helpers.controller');
+var ProjectLoad= require ('../controllers/project.controller');
 var helpers    = require ('../../../core/server/controllers/core.helpers.controller');
 var _ 		= require('lodash');
 
@@ -94,13 +94,6 @@ module.exports = function (app) {
 			p.findOne ({code:req.params.projectcode}).then (helpers.success(res), helpers.failure(res));
 		});
 
-	app.route ('/api/newcode/project/:pcode').all (policy.isAllowed)
-		.get (function (req, res) {
-			var p = new Project (req.user);
-			p.getNewWithCode (req.params.pcode).then (helpers.success(res), helpers.failure(res));
-		});
-
-
 	app.route ('/api/').all (policy.isAllowed).get (function (req, res) {
 		var p = new Project (req.user);
 		p.list ().then (helpers.success(res), helpers.failure(res));
@@ -126,8 +119,7 @@ module.exports = function (app) {
 			var file = req.files.file;
 			if (file) {
 				// console.log("Received contact import file:",file);
-				var p = new Project (req.user);
-				p.loadProjects(file, req, res)
+				ProjectLoad (file, req, res)
 				.then (helpers.success(res), helpers.failure(res));
 			}
 		});
@@ -136,8 +128,7 @@ module.exports = function (app) {
 			var file = req.files.file;
 			if (file) {
 				// console.log("Received contact import file:",file);
-				var p = new Project (req.user);
-				p.loadProjects(file, req, res)
+				ProjectLoad (file, req, res)
 				.then (helpers.success(res), helpers.failure(res));
 			}
 		});
