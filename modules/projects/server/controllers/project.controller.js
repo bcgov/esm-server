@@ -17,6 +17,7 @@ var fs		   		   = require ('fs');
 var mongoose 		   = require ('mongoose');
 var Project    		   = require ('../controllers/project.controller');
 var Model    		   = mongoose.model ('Project');
+var Phase    		   = mongoose.model ('Phase');
 var Organization 	   = mongoose.model ('Organization');
 var CSVParse  		   = require ('csv-parse');
 
@@ -480,9 +481,22 @@ module.exports = DBModel.extend ({
 										model.roles = ['mem', 'public'];
 										model.read = ['public'];
 										model.submit = ['mem'];
-										model.phases = [];
 										model.type = "Mining";
-										model.currentPhase = model.phases[0];
+										Phase.findOne ({name:row.Status}, function (err, result) {
+											if (result) {
+												model.phases = result._id;
+												model.currentPhase = model.phases[0];
+											}
+										}).then(function (m) {
+											model.save().then(function () {
+												// Am I done processing?
+												// console.log("INDEX:",index);
+												if (index === length-1) {
+													// console.log("processed: ",projectProcessed);
+													resolve("{done: true, rowsProcessed: "+projectProcessed+"}");
+												}
+											});
+										});
 									} else { // eao
 										model.status = 'In Progress';
 										model.epicProjectID = id;
@@ -504,14 +518,14 @@ module.exports = DBModel.extend ({
 
 										model.type = row.projectType;
 										model.sector = row.sector;
-										model.phases = [];
-										model.currentPhase = model.phases[0];
-										// No phases yet from export document.
-										// _.each (phases, function (ph) {
-										// 	var phase = new Phase (ph);
-										// 	project.phases.push (phase._id);
-										// 	phase.save ();
-										// });
+										// model.phases = [];
+										// model.currentPhase = model.phases[0];
+										// // No phases yet from export document.
+										// // _.each (phases, function (ph) {
+										// // 	var phase = new Phase (ph);
+										// // 	project.phases.push (phase._id);
+										// // 	phase.save ();
+										// // });
 										if (row.eaActive) model.eaActive = row.eaActive;
 										if (row.CEAAInvolvement) model.CEAAInvolvement = row.CEAAInvolvement;
 										if (row.eaIssues) model.eaIssues = row.eaIssues;
@@ -527,19 +541,20 @@ module.exports = DBModel.extend ({
 										model.administrativeAssistant 	= row.administrativeAssistant;
 										model.CELead 					= row.CELead;
 										model.teamNotes 				= row.teamNotes;
-
+										model.phases = [];
+										model.currentPhase = model.phases[0];
 										model.roles = ['eao', 'public'];
 										model.read = ['public'];
 										model.submit = ['eao'];
+										model.save().then(function () {
+												// Am I done processing?
+												// console.log("INDEX:",index);
+												if (index === length-1) {
+													// console.log("processed: ",projectProcessed);
+													resolve("{done: true, rowsProcessed: "+projectProcessed+"}");
+												}
+											});
 									}
-									model.save().then(function () {
-										// Am I done processing?
-										// console.log("INDEX:",index);
-										if (index === length-1) {
-											// console.log("processed: ",projectProcessed);
-											resolve("{done: true, rowsProcessed: "+projectProcessed+"}");
-										}
-									});
 								};
 								if (doc === null) {
 									// Create new
