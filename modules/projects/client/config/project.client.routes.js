@@ -48,6 +48,7 @@ angular.module('project').config (
 		controller: function ($scope, $stateParams, project, ENV) {
 			$scope.project = project;
 			$scope.environment = ENV;
+			$scope.isNew = ($stateParams.projectid === 'new');
 		}
 	})
 	// -------------------------------------------------------------------------

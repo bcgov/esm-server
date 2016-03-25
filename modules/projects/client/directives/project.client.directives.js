@@ -222,6 +222,9 @@ function directiveProjectTombstone() {
 		templateUrl: 'modules/projects/client/views/project-partials/project-tombstone.html',
 		scope: {
 			project: '='
+		},
+		controller: function($scope, ENV) {
+			$scope.environment = 'MEM'; //ENV;
 		}
 	};
 	return directive;
