@@ -229,7 +229,7 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 				if (newValue) {
 					oPhases = newValue;
 					resize();
-				};
+				}
 			});
 
 		} // close link
