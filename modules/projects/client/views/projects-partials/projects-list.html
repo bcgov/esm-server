@@ -13,10 +13,11 @@
 			<td title="'Type'"     filter="{'type':'select'}" filter-data="projectList.types"    			sortable="'type'"   >{{o.type}}</td>
 			<td title="'Region'"   filter="{'region':'text'}"   			sortable="'region'" >{{o.region}}</td>
 			<td title="'Phase'"    filter="{'currentPhase.name':'text'}"   	sortable="'currentPhase.name'" >{{o.currentPhase.name}}</td>
-			<td title="'Status'"   filter="{'status':'select'}" filter-data="projectList.status"  			sortable="'status'" >{{o.status}}</td>
+			<td ng-if="environment === 'EAO'" title="'Status'"   filter="{'status':'select'}" filter-data="projectList.status"  			sortable="'status'" >{{o.status}}</td>
 		</tr>
 		<tr ng-show="!$data || !$data.length" class="text-center">
-			<td colspan="5">No results match your search.</td>
+			<td ng-if="environment === 'EAO'" colspan="5">No results match your search.</td>
+			<td ng-if="environment === 'MEM'" colspan="4">No results match your search.</td>
 		</tr>
 	</table>
 

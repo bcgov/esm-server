@@ -1,6 +1,6 @@
-<div class="container-fluid footer">
-  <div class="row" ng-if="footer.authentication.user">
-    <div class="col-xs-10">
+<div class="container-fluid footer" ng-cloak>
+  <div class="row">
+    <div ng-class="{'col-xs-12': !footer.side, 'col-xs-10': footer.side}">
       <div class="panel panel-default">
         <div class="panel-body small">
           <div class="pull-right">
@@ -8,25 +8,8 @@
             <a target="_new" href="http://www.gov.bc.ca/com/disclaimer.html" title="BC Government Warranty Disclaimer and Limitation of Liabilities Information">Disclaimer</a> |
             <a target="_new" href="http://www.gov.bc.ca/com/privacy.html" title="BC Government Privacy Information">Privacy</a> |
             <a target="_new" href="http://www.gov.bc.ca/com/accessibility.html" title="BC Government Accessibility Information">Accessibility</a> |
-            <a target="_new" ng-show="!footer.authentication.user" ui-sref="authentication.signin">Log In</a>
-            <a target="_new" ng-show="footer.authentication.user" href="/api/auth/signout" target="_self">Logout</a>           
-          </div>
-          Environmental Assessment Office, Victoria BC
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row" ng-if="!footer.authentication.user">
-    <div class="col-xs-12">
-      <div class="panel panel-default">
-        <div class="panel-body small">
-          <div class="pull-right">
-            <a target="_new" href="http://www.gov.bc.ca/com/copyright.html" title="BC Government Copyright Information">Copyright</a> |
-            <a target="_new" href="http://www.gov.bc.ca/com/disclaimer.html" title="BC Government Warranty Disclaimer and Limitation of Liabilities Information">Disclaimer</a> |
-            <a target="_new" href="http://www.gov.bc.ca/com/privacy.html" title="BC Government Privacy Information">Privacy</a> |
-            <a target="_new" href="http://www.gov.bc.ca/com/accessibility.html" title="BC Government Accessibility Information">Accessibility</a> |
-            <a target="_new" ng-show="!footer.authentication.user" ui-sref="authentication.signin">Log In</a>
-            <a target="_new" ng-show="footer.authentication.user" href="/api/auth/signout" target="_self">Logout</a>           
+            <a ng-show="!footer.authentication.user" ui-sref="authentication.signin">Log In</a>
+            <a ng-show="footer.authentication.user" href="/api/auth/signout" target="_self">Logout</a>           
           </div>
           Environmental Assessment Office, Victoria BC
         </div>

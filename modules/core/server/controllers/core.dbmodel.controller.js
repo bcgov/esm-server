@@ -10,7 +10,6 @@ var helpers  = require('./core.helpers.controller');
 var mongoose = require ('mongoose');
 var _ = require ('lodash');
 
-
 var DBModel = function (options) {
 	this.init (options);
 };
