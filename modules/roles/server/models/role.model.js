@@ -20,8 +20,6 @@ var RoleSchema  = new Schema ({
 	isSystem       : { type:Boolean, default:false, index:true },
 	users          : [{ type:'ObjectId', ref:'User' }],
 	projects       : [{ type:'ObjectId', ref:'Project' }],
-	phases         : [{ type:'ObjectId', ref:'Phase' }],
-	milestones     : [{ type:'ObjectId', ref:'Milestone' }],
 	activities     : [{ type:'ObjectId', ref:'Activity' }],
 	features       : [{ type:'ObjectId', ref:'Feature' }],
 	artifacts      : [{ type:'ObjectId', ref:'Artifact' }],
@@ -31,28 +29,28 @@ var RoleSchema  = new Schema ({
 	commentperiod  : [{ type:'ObjectId', ref:'CommentPeriod' }]
 });
 
-var setUnique = function (a, value) {
-	return _.union (a, [value]);
-};
-var setUniqueArray = function (a, addArray) {
-	return _.union (a, addArray);
-};
+// var setUnique = function (a, value) {
+// 	return _.union (a, [value]);
+// };
+// var setUniqueArray = function (a, addArray) {
+// 	return _.union (a, addArray);
+// };
 
-RoleSchema.methods.setUserRole = function (user) {
-	this.users = setUnique (this.users, user.toString ());
-};
+// RoleSchema.methods.setUserRole = function (user) {
+// 	this.users = setUnique (this.users, user.toString ());
+// };
 
-RoleSchema.methods.setUsersRole = function (users) {
-	this.users = setUniqueArray (this.users, users.map (function (u) { return u.toString();}));
-};
+// RoleSchema.methods.setUsersRole = function (users) {
+// 	this.users = setUniqueArray (this.users, users.map (function (u) { return u.toString();}));
+// };
 
-RoleSchema.methods.setObjectRole = function (object, objectId) {
-	this[object] = setUnique (this[object], objectId.toString ());
-};
+// RoleSchema.methods.setObjectRole = function (object, objectId) {
+// 	this[object] = setUnique (this[object], objectId.toString ());
+// };
 
-RoleSchema.methods.setObjectsRole = function (object, objectIds) {
-	this[object] = setUniqueArray (this[object], objectIds.map (function (u) { return u.toString();}));
-};
+// RoleSchema.methods.setObjectsRole = function (object, objectIds) {
+// 	this[object] = setUniqueArray (this[object], objectIds.map (function (u) { return u.toString();}));
+// };
 
 RoleSchema.methods.modObject = function (method, type, array) {
 	if (method === 'add') {

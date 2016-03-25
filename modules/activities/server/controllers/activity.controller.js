@@ -4,56 +4,228 @@
 // Controller for Activity
 //
 // =========================================================================
-var path      = require('path');
-var DBModel   = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var _                 = require ('lodash');
+var path              = require('path');
+var DBModel           = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var Roles             = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 var ActivityBaseClass = require ('./activitybase.controller');
-var _         = require ('lodash');
-var RoleController = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 
 
 module.exports = DBModel.extend ({
 	name : 'Activity',
 	plural: 'activities',
-	populate : 'tasks',
-	bind: ['start','complete'],
-	preprocessAdd: function (activity) {
-		var self = this;
-		return new Promise (function (resolve, reject) {
-			RoleController.addRolesToConfigObject (activity, 'activities', {
-				read   : ['project:eao:member', 'eao'],
-				submit : ['project:eao:admin']
-			})
-			.then (function () {
-				resolve (activity);
-			})
-			.catch (reject);
+	bind: ['start','complete','copyActivityBase','setInitalDates'],
+	// -------------------------------------------------------------------------
+	//
+	// just get a base activity, returns a promise
+	//
+	// -------------------------------------------------------------------------
+	getActivityBase: function (code) {
+		return (new ActivityBaseClass (this.user)).findOne ({code:code});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// copy a base activity into a new activity and return the promise of it
+	//
+	// -------------------------------------------------------------------------
+	copyActivityBase: function (base) {
+		return this.newDocument (base);
+	},
+	// -------------------------------------------------------------------------
+	//
+	// set dateStartedEst from duration, return activity
+	//
+	// -------------------------------------------------------------------------
+	setInitalDates: function (activity) {
+		activity.dateStartedEst   = Date.now ();
+		activity.dateCompletedEst = Date.now ();
+		activity.dateCompletedEst.setDate (activity.dateCompletedEst.getDate () + activity.duration);
+		if (activity.startOnCreate) {
+			activity.status           = 'In Progress';
+			activity.dateStarted      = Date.now ();
+		}
+		return activity;
+	},
+	// -------------------------------------------------------------------------
+	//
+	// copy milestone ancestry into activity and return activity
+	//
+	// -------------------------------------------------------------------------
+	setAncestry: function (activity, milestone) {
+		activity.milestone   = milestone._id;
+		activity.phase       = milestone.phase;
+		activity.phaseName   = milestone.phaseName;
+		activity.phaseCode   = milestone.phaseCode;
+		activity.project     = milestone.project;
+		activity.projectCode = milestone.projectCode;
+		activity.stream      = milestone.stream;
+		return activity;
+	},
+	// -------------------------------------------------------------------------
+	//
+	// build a permission set from the default eao and proponent roles for the
+	// project indicated by the projectCode copied earlier from the milestone
+	// return the promise from the role machine (this also saves the activity
+	// and resolves to the list of activities passed in, all saved)
+	//
+	// -------------------------------------------------------------------------
+	setDefaultRoles: function (activity, base) {
+		var permissions = {
+			read:[],
+			write:[],
+			submit:[],
+			watch:[]
+		};
+		_.each (base.default_eao_read   , function (code) {
+			permissions.read.push (Roles.generateCode (activity.projectCode, 'eao', code));
+		});
+		_.each (base.default_eao_write  , function (code) {
+			permissions.write.push (Roles.generateCode (activity.projectCode, 'eao', code));
+		});
+		_.each (base.default_eao_submit , function (code) {
+			permissions.submit.push (Roles.generateCode (activity.projectCode, 'eao', code));
+		});
+		_.each (base.default_eao_watch  , function (code) {
+			permissions.watch.push (Roles.generateCode (activity.projectCode, 'eao', code));
+		});
+		_.each (base.default_pro_read   , function (code) {
+			permissions.read.push (Roles.generateCode (activity.projectCode, 'pro', code));
+		});
+		_.each (base.default_pro_write  , function (code) {
+			permissions.write.push (Roles.generateCode (activity.projectCode, 'pro', code));
+		});
+		_.each (base.default_pro_submit , function (code) {
+			permissions.submit.push (Roles.generateCode (activity.projectCode, 'pro', code));
+		});
+		_.each (base.default_pro_watch  , function (code) {
+			permissions.watch.push (Roles.generateCode (activity.projectCode, 'pro', code));
+		});
+		return Roles.objectRoles ({
+			method      : 'set',
+			objects     : [activity],
+			type        : 'activities',
+			permissions : permissions
 		});
 	},
 	// -------------------------------------------------------------------------
 	//
-	// start or complete activity
+	// start an activity
 	//
 	// -------------------------------------------------------------------------
-	startActivity: function (oldDoc, newDoc) {
-		newDoc.status = 'In Progress';
-		return this.update (oldDoc, newDoc);
-	},
 	start: function (activity) {
 		activity.status           = 'In Progress';
 		activity.dateStarted      = Date.now ();
 		activity.dateCompletedEst = Date.now ();
-		activity.setDate (activity.dateCompletedEst.getDate () + activity.duration);
+		activity.dateCompletedEst.setDate (activity.dateCompletedEst.getDate () + activity.duration);
 		return this.findAndUpdate (activity);
 	},
-	completeActivity: function (oldDoc, newDoc) {
-		newDoc.status = 'Completed';
-		return this.update (oldDoc, newDoc);
-	},
+	// -------------------------------------------------------------------------
+	//
+	// complete an activity
+	//
+	// -------------------------------------------------------------------------
 	complete: function (activity) {
 		activity.status        = 'Completed';
+		activity.completed     = true;
+		activity.completedBy   = this.user._id;
 		activity.dateCompleted = Date.now ();
 		return this.findAndUpdate (activity);
 	},
+	// -------------------------------------------------------------------------
+	//
+	// override an activity
+	//
+	// -------------------------------------------------------------------------
+	override: function (activity, reason) {
+		activity.status         = 'Not Required';
+		activity.overrideReason = reason;
+		activity.overridden     = true;
+		activity.completed      = true;
+		activity.completedBy    = this.user._id;
+		activity.dateCompleted  = Date.now ();
+		return this.findAndUpdate (activity);
+	},
+	// -------------------------------------------------------------------------
+	//
+	// Using the functions above, make a new activity from a base code and
+	// attach it to the passed in milestone and the milestone ancestry
+	//
+	// -------------------------------------------------------------------------
+	fromBase: function (code, milestone) {
+		var self = this;
+		var base;
+		var baseId;
+		var activity;
+		return new Promise (function (resolve, reject) {
+			//
+			// get the base
+			//
+			self.getActivityBase (code)
+			//
+			// copy its id and such before we lose it, then copy the entire thing
+			//
+			.then (function (m) {
+				base = m;
+				baseId = m._id;
+				return self.copyActivityBase (base);
+			})
+			//
+			// set the base id and then initial dates
+			//
+			.then (function (m) {
+				activity = m;
+				activity.activityBase = baseId;
+				return self.setInitalDates (activity);
+			})
+			//
+			// copy over stuff from the milestone
+			//
+			.then (function (m) {
+				return self.setAncestry (m, milestone);
+			})
+			//
+			// set up all the default roles, creates them if need be
+			//
+			.then (function (m) {
+				return self.setDefaultRoles (m, base);
+			})
+			//
+			// the model was saved during the roles step so we just
+			// have to resolve it here
+			//
+			.then (function (models) {
+				return (models[0]);
+			})
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// get activities for a given context of access and project
+	//
+	// -------------------------------------------------------------------------
+	userActivities: function (projectCode, access) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			var q = (projectCode) ? {projectCode:projectCode} : {} ;
+			var p = (access === 'write') ? self.listwrite (q) : self.list (q);
+			p.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// activities for a milestone
+	//
+	// -------------------------------------------------------------------------
+	activitiesForMilestone: function (id) {
+		var p = this.list ({milestone:id});
+		return new Promise (function (resolve, reject) {
+			p.then (resolve, reject);
+		});
+	}
+});
+
+/*
 	// -------------------------------------------------------------------------
 	//
 	// when making a activity from a base it will always be in order to attach
@@ -95,41 +267,4 @@ module.exports = DBModel.extend ({
 			self.saveDocument (model).then (resolve, reject);
 		});
 	},
-	getActivityBase: function (code) {
-		return (new ActivityBaseClass (this.user)).findOne ({code:code});
-	},
-	copyActivityBase: function (base) {
-		return this.newDocument (base);
-	},
-	setInitalDates: function (activity) {
-		activity.dateStartedEst = Date.now ();
-		return activity;
-	},
-	setInitialRoles: function (activity, roles) {
-
-	},
-	// -------------------------------------------------------------------------
-	//
-	// get activities for a given context of access and project
-	//
-	// -------------------------------------------------------------------------
-	userActivities: function (projectCode, access) {
-		var self = this;
-		return new Promise (function (resolve, reject) {
-			var q = (projectCode) ? {projectCode:projectCode} : {} ;
-			var p = (access === 'write') ? self.listwrite (q) : self.list (q);
-			p.then (resolve, reject);
-		});
-	},
-	// -------------------------------------------------------------------------
-	//
-	// activities for a milestone
-	//
-	// -------------------------------------------------------------------------
-	activitiesForMilestone: function (id) {
-		var p = this.list ({milestone:id});
-		return new Promise (function (resolve, reject) {
-			p.then (resolve, reject);
-		});
-	}
-});
+*/

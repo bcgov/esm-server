@@ -4,12 +4,12 @@
 // Controller for Milestone
 //
 // =========================================================================
-var path     = require('path');
-var DBModel  = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
-var ActivityClass = require (path.resolve('./modules/activities/server/controllers/activity.controller'));
-var ActivityBaseClass = require (path.resolve('./modules/activities/server/controllers/activitybase.controller'));
-var _ = require ('lodash');
-var RoleController = require (path.resolve('./modules/roles/server/controllers/role.controller'));
+var _                  = require ('lodash');
+var path               = require('path');
+var DBModel            = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var ActivityClass      = require (path.resolve('./modules/activities/server/controllers/activity.controller'));
+var MilestoneBaseClass = require ('./milestonebase.controller');
+var Roles              = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 
 
 
@@ -17,19 +17,273 @@ module.exports = DBModel.extend ({
 	name : 'Milestone',
 	plural : 'milestones',
 	populate: 'activities',
-	preprocessAdd: function (milestone) {
+	bind: ['completeActivities','overrideActivities'],
+	// -------------------------------------------------------------------------
+	//
+	// just get a base milestone, returns a promise
+	//
+	// -------------------------------------------------------------------------
+	getMilestoneBase: function (code) {
+		return (new MilestoneBaseClass (this.user)).findOne ({code:code});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// copy a base milestone into a new milestone and return the promise of it
+	//
+	// -------------------------------------------------------------------------
+	copyMilestoneBase: function (base) {
+		return this.newDocument (base);
+	},
+	// -------------------------------------------------------------------------
+	//
+	// set dateStartedEst from duration, return milestone
+	//
+	// -------------------------------------------------------------------------
+	setInitalDates: function (milestone) {
+		milestone.dateStartedEst   = Date.now ();
+		milestone.dateCompletedEst = Date.now ();
+		milestone.dateCompletedEst.setDate (milestone.dateCompletedEst.getDate () + milestone.duration);
+		if (milestone.startOnCreate) {
+			milestone.status      = 'In Progress';
+			milestone.dateStarted = Date.now ();
+		}
+		return milestone;
+	},
+	// -------------------------------------------------------------------------
+	//
+	// copy milestone ancestry into milestone and return milestone
+	//
+	// -------------------------------------------------------------------------
+	setAncestry: function (milestone, phase) {
+		milestone.phase       = phase._id;
+		milestone.phaseName   = phase.name;
+		milestone.phaseCode   = phase.code;
+		milestone.project     = phase.project;
+		milestone.projectCode = phase.projectCode;
+		milestone.stream      = phase.stream;
+		return milestone;
+	},
+	// -------------------------------------------------------------------------
+	//
+	// Using the functions above, make a new milestone from a base code and
+	// attach it to the passed in milestone and the milestone ancestry
+	//
+	// -------------------------------------------------------------------------
+	fromBase: function (code, phase) {
 		var self = this;
+		var base;
+		var baseId;
+		var milestone;
+		var activityCodes;
 		return new Promise (function (resolve, reject) {
-			RoleController.addRolesToConfigObject (milestone, 'milestones', {
-				read   : ['project:eao:member', 'eao'],
-				submit : ['project:eao:admin']
+			//
+			// get the base
+			//
+			self.getMilestoneBase (code)
+			//
+			// copy its id and such before we lose it, then copy the entire thing
+			//
+			.then (function (m) {
+				base          = m;
+				baseId        = m._id;
+				activityCodes = _.clone (m.activities);
+				return self.copyMilestoneBase (base);
 			})
-			.then (function () {
-				resolve (milestone);
+			//
+			// set the base id and then initial dates
+			//
+			.then (function (m) {
+				milestone = m;
+				milestone.milestoneBase = baseId;
+				return self.setInitalDates (milestone);
 			})
-			.catch (reject);
+			//
+			// copy over stuff from the phase
+			//
+			.then (function (m) {
+				return self.setAncestry (m, phase);
+			})
+			//
+			// adds each activity, inefficient, but there will not be a lot
+			// so not too much of an issue
+			//
+			.then (function (m) {
+				return Promise.all (activityCodes, function (code) {
+					return self.addActivity (m, code);
+				});
+			})
+			//
+			// the model was saved during the roles step so we just
+			// have to resolve it here
+			//
+			.then (function (models) {
+				return (milestone);
+			})
+			.then (resolve, reject);
 		});
 	},
+	// -------------------------------------------------------------------------
+	//
+	// add an activity to this milestone (from a base code)
+	// optionally merge in a set of permissions once complete
+	//
+	// -------------------------------------------------------------------------
+	addActivity : function (milestone, basecode, permissions) {
+		var self = this;
+		var Activity = new ActivityClass (self.user);
+		return new Promise (function (resolve, reject) {
+			//
+			// get the new activity
+			//
+			Activity.fromBase (basecode, milestone)
+			//
+			// merge in the permissions (resolves to list of activities)
+			// or, if no permissions to set, return array with new activity
+			//
+			.then (function (activity) {
+				if (permissions && !_.isEmpty (permissions)) {
+					return Roles.objectRoles ({
+						method      : 'add',
+						objects     : [activity],
+						type        : 'activities',
+						permissions : permissions
+					});
+				}
+				else {
+					return [activity];
+				}
+			})
+			.then (function (activities) {
+				milestone.activities.push (activities[0]._id);
+				return milestone;
+			})
+			.then (self.saveDocument)
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// start a milestone
+	//
+	// -------------------------------------------------------------------------
+	start: function (milestone) {
+		milestone.status           = 'In Progress';
+		milestone.dateStarted      = Date.now ();
+		milestone.dateCompletedEst = Date.now ();
+		milestone.dateCompletedEst.setDate (milestone.dateCompletedEst.getDate () + milestone.duration);
+		return this.findAndUpdate (milestone);
+	},
+	// -------------------------------------------------------------------------
+	//
+	// complete a milestone. this marks underlying activities as complete, we
+	// may rather want to mark them as overridden.
+	//
+	// -------------------------------------------------------------------------
+	complete: function (milestone) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			milestone.status        = 'Completed';
+			milestone.completed     = true;
+			milestone.completedBy   = this.user._id;
+			milestone.dateCompleted = Date.now ();
+			self.completeActivities (milestone)
+			.then (self.findAndUpdate)
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// override a milestone, we assume that the reason was already entered
+	//
+	// -------------------------------------------------------------------------
+	override: function (milestone, reason) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			milestone.status         = 'Not Required';
+			milestone.overrideReason = reason;
+			milestone.overridden     = true;
+			milestone.completed      = true;
+			milestone.completedBy    = this.user._id;
+			milestone.dateCompleted  = Date.now ();
+			self.overrideActivities (milestone)
+			.then (self.findAndUpdate)
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// mark all outstanding underlying activities as complete
+	//
+	// -------------------------------------------------------------------------
+	completeActivities: function (milestone) {
+		var self = this;
+		return Promise.all (milestone.activities, function (activity) {
+			var Activity = new ActivityClass (self.user);
+			if (activity.completed) return activity;
+			else return Activity.complete (activity);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// mark all outstanding underlying activities as overridden
+	//
+	// -------------------------------------------------------------------------
+	overrideActivities: function (milestone) {
+		var self = this;
+		return Promise.all (milestone.activities, function (activity) {
+			var Activity = new ActivityClass (self.user);
+			if (activity.completed) return activity;
+			else return Activity.override (activity, milestone.overrideReason);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// return a promise of filling all activities out into proper activity
+	// models. this is what populate does, except that populate is not
+	// recursive, so this sort of allows us to cheat up the hierarchy
+	//
+	// -------------------------------------------------------------------------
+	getMilestoneWithActivities : function (milestone) {
+		var self = this;
+		var Activity = new ActivityClass (self.user);
+		return new Promise (function (resolve, reject) {
+			milestone = milestone.toObject ();
+			var a = milestone.activities.map (function (id) {
+				return Activity.findById (id);
+			});
+			Promise.all (a).then (function (models) {
+				milestone.activities = models;
+				return milestone;
+			})
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// get milestones for a given context of access and project
+	//
+	// -------------------------------------------------------------------------
+	userMilestones: function (projectCode, access) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			var q = (projectCode) ? {projectCode:projectCode} : {} ;
+			var p = (access === 'write') ? self.listwrite (q) : self.list (q);
+			p.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// milestones for a phase that this user can read
+	//
+	// -------------------------------------------------------------------------
+	milestonesForPhase: function (id) {
+		var p = this.list ({phase:id});
+		return new Promise (function (resolve, reject) {
+			p.then (resolve, reject);
+		});
+	}
+});
+/*
 	// -------------------------------------------------------------------------
 	//
 	// when making a milestone from a base it will always be in order to attach
@@ -101,103 +355,4 @@ module.exports = DBModel.extend ({
 			.then (resolve, reject);
 		});
 	},
-	// -------------------------------------------------------------------------
-	//
-	// add an activity to this milestone (from a base)
-	//
-	// -------------------------------------------------------------------------
-	addActivityFromBaseCode : function (milestone, activitybasecode, roles) {
-		var self = this;
-		var ActivityBase = new ActivityBaseClass (self.user);
-		return new Promise (function (resolve, reject) {
-			ActivityBase.findOne ({code:activitybasecode})
-			.then (function (activitybase) {
-				// console.log ('found activity base for', activitybasecode);
-				// console.log ('activitybase id = ', activitybase._id);
-				// console.log ('activitybase = ', activitybase);
-				return self.addActivityFromBase (milestone, activitybase, roles);
-			})
-			.then (resolve, reject);
-		});
-	},
-	// -------------------------------------------------------------------------
-	//
-	// add an activity to this milestone (from a base)
-	//
-	// -------------------------------------------------------------------------
-	addActivityFromBase : function (milestone, activitybase, roles) {
-		var self = this;
-		var Activity = new ActivityClass (self.user);
-		return new Promise (function (resolve, reject) {
-			Activity.makeActivityFromBase (
-				activitybase,
-				milestone.stream,
-				milestone.project,
-				milestone.projectCode,
-				milestone.phase,
-				milestone._id,
-				roles
-			)
-			.then (function (newactivity) {
-				milestone.activities.push (newactivity._id);
-				return milestone;
-			})
-			.then (self.saveDocument)
-			.then (resolve, reject);
-		});
-	},
-	// -------------------------------------------------------------------------
-	//
-	// add an activity from base,
-	//
-	// -------------------------------------------------------------------------
-	addActivity: function (input) {
-
-	},
-	// -------------------------------------------------------------------------
-	//
-	// return a promise of filling all activities out into proper activity
-	// models. this is what populate does, except that populate is not
-	// recursive, so this sort of allows us to cheat up the hierarchy
-	//
-	// -------------------------------------------------------------------------
-	getMilestoneWithActivities : function (milestone) {
-		var self = this;
-		var Activity = new ActivityClass (self.user);
-		return new Promise (function (resolve, reject) {
-			milestone = milestone.toObject ();
-			var a = milestone.activities.map (function (id) {
-				return Activity.findById (id);
-			});
-			Promise.all (a).then (function (models) {
-				milestone.activities = models;
-				return milestone;
-			})
-			.then (resolve, reject);
-		});
-	},
-	// -------------------------------------------------------------------------
-	//
-	// get milestones for a given context of access and project
-	//
-	// -------------------------------------------------------------------------
-	userMilestones: function (projectCode, access) {
-		var self = this;
-		return new Promise (function (resolve, reject) {
-			var q = (projectCode) ? {projectCode:projectCode} : {} ;
-			var p = (access === 'write') ? self.listwrite (q) : self.list (q);
-			p.then (resolve, reject);
-		});
-	},
-	// -------------------------------------------------------------------------
-	//
-	// milestones for a phase that this user can read
-	//
-	// -------------------------------------------------------------------------
-	milestonesForPhase: function (id) {
-		var p = this.list ({phase:id});
-		return new Promise (function (resolve, reject) {
-			p.then (resolve, reject);
-		});
-	}
-});
+*/

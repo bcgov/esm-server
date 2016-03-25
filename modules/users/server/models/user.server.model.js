@@ -61,13 +61,13 @@ newMethods.authenticate = function (password) {
 	return this.password === this.hashPassword(password);
 };
 
-newMethods.setUserRole = function (role) {
-	this.roles.push (role);
-	this.roles = _.uniq (this.roles);
-};
-newMethods.setUserRoles = function (roles) {
-	this.roles = roles;
-};
+// newMethods.setUserRole = function (role) {
+// 	this.roles.push (role);
+// 	this.roles = _.uniq (this.roles);
+// };
+// newMethods.setUserRoles = function (roles) {
+// 	this.roles = roles;
+// };
 
 var modRoles = function (method, rolearray) {
 	if (method === 'add') {

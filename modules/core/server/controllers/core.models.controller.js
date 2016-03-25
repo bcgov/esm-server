@@ -102,50 +102,51 @@ var userHasPermission = function (user, permission) {
 	userRoles.push ('public');
 	return this.hasPermission (userRoles, permission);
 };
-// -------------------------------------------------------------------------
-//
-// replace all project:role names with the proper ones using the project code
-//
-// -------------------------------------------------------------------------
-var fixRoles = function (projectCode) {
-	var repl = projectCode + ':';
-	this.read = this.read.map (function (role) { return role.replace ('project:', repl); });
-	this.write = this.write.map (function (role) { return role.replace ('project:', repl); });
-	this.submit = this.submit.map (function (role) { return role.replace ('project:', repl); });
-	this.watch = this.watch.map (function (role) { return role.replace ('project:', repl); });
-	this.roles = this.allRoles ();
-};
-// -------------------------------------------------------------------------
-//
-// same as above but returns the fixed array
-//
-// -------------------------------------------------------------------------
-var fixRoleArray = function (projectCode, roleArray) {
-	return roleArray.map (function (role) { return role.replace ('project:', projectCode+':'); });
-};
-// -------------------------------------------------------------------------
-//
-// three for the price of one!
-//
-// -------------------------------------------------------------------------
-var mergeRoles = function (projectCode, pObject) {
-	var self = this;
-	_.each (pObject, function (p, i) {
-		self[i] = _.union (self[i], p.map (function (role) {
-			return role.replace ('project:', projectCode+':');
-		}));
-	});
-	this.roles = this.allRoles ();
-};
-var setFixRoles = function (projectCode, pObject) {
-	var self = this;
-	_.each (pObject, function (p, i) {
-		self[i] = p.map (function (role) {
-			return role.replace ('project:', projectCode+':');
-		});
-	});
-	this.roles = this.allRoles ();
-};
+// // -------------------------------------------------------------------------
+// //
+// // replace all project:role names with the proper ones using the project code
+// //
+// // -------------------------------------------------------------------------
+// var fixRoles = function (projectCode) {
+// 	var repl = projectCode + ':';
+// 	this.read = this.read.map (function (role) { return role.replace ('project:', repl); });
+// 	this.write = this.write.map (function (role) { return role.replace ('project:', repl); });
+// 	this.submit = this.submit.map (function (role) { return role.replace ('project:', repl); });
+// 	this.watch = this.watch.map (function (role) { return role.replace ('project:', repl); });
+// 	this.roles = this.allRoles ();
+// };
+// // -------------------------------------------------------------------------
+// //
+// // same as above but returns the fixed array
+// //
+// // -------------------------------------------------------------------------
+// var fixRoleArray = function (projectCode, roleArray) {
+// 	return roleArray.map (function (role) { return role.replace ('project:', projectCode+':'); });
+// };
+// // -------------------------------------------------------------------------
+// //
+// // three for the price of one!
+// //
+// // -------------------------------------------------------------------------
+// var mergeRoles = function (projectCode, pObject) {
+// 	var self = this;
+// 	_.each (pObject, function (p, i) {
+// 		self[i] = _.union (self[i], p.map (function (role) {
+// 			return role.replace ('project:', projectCode+':');
+// 		}));
+// 	});
+// 	this.roles = this.allRoles ();
+// };
+// var setFixRoles = function (projectCode, pObject) {
+// 	var self = this;
+// 	_.each (pObject, function (p, i) {
+// 		self[i] = p.map (function (role) {
+// 			return role.replace ('project:', projectCode+':');
+// 		});
+// 	});
+// 	this.roles = this.allRoles ();
+// };
+
 // -------------------------------------------------------------------------
 //
 // same as merge, but without the replace as it is done elsewhere
@@ -259,13 +260,14 @@ var generateSchema = function (definition, indexes) {
 		schema.methods.userHasPermission = userHasPermission;
 		schema.methods.hasPermission     = hasPermission;
 		schema.methods.permissions       = permissions;
-		schema.methods.fixRoles          = fixRoles;
-		schema.methods.fixRoleArray      = fixRoleArray;
-		schema.methods.mergeRoles        = mergeRoles;
-		schema.methods.addRoles          = addRoles;
+		// schema.methods.fixRoles          = fixRoles;
+		// schema.methods.fixRoleArray      = fixRoleArray;
+		// schema.methods.mergeRoles        = mergeRoles;
+		// schema.methods.addRoles          = addRoles;
 		schema.methods.roleSet           = roleSet;
 		schema.methods.allRoles          = allRoles;
-		schema.methods.setRoles          = setRoles;
+		// schema.methods.setRoles          = setRoles;
+		schema.methods.modRoles = modRoles;
 		schema.index ({read:1});
 		schema.index ({write:1});
 		schema.index ({submit:1});

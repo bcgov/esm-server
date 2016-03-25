@@ -6,9 +6,17 @@
 // =========================================================================
 module.exports = require ('../../../core/server/controllers/core.models.controller')
 .generateModel ('PhaseBase', {
-	__access     : true,
 	__codename  : true,
-	priorPhase  : { type: 'ObjectId', ref:'PhaseBase' },
-	milestones  : [ {type: 'ObjectId', ref:'MilestoneBase'} ],
+	//
+	// milestones as codes
+	//
+	milestones  : [ {type:String} ],
+	//
+	// default days this phase is set to take
+	//
+	duration       : { type:Number, default:90 },
+	//
+	// just for display purposes. useless
+	//
 	order	  : { type: Number, default:0 }
 });
