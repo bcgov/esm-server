@@ -8,9 +8,19 @@ angular.module('core')
 // Controller Footer
 //
 // -----------------------------------------------------------------------------------
-controllerFooter.$inject = ['Authentication'];
+controllerFooter.$inject = ['Authentication', '$rootScope'];
 /* @ngInject */
-function controllerFooter(Authentication) {
+function controllerFooter(Authentication, $rootScope) {
 	var footer = this;
 	footer.authentication = Authentication;
+
+	footer.side = true;
+
+	$rootScope.$on('$stateChangeSuccess', 
+	function(event, toState, toParams, fromState, fromParams){ 
+	// sidebar if user is logged in or on a project page.
+	    footer.side = !!Authentication.user || toState.name.match(/^p\./i);	
+	});
+
+	
 }

@@ -6,170 +6,231 @@
 
 
 
-
-
-
-
-
-
-
-
-
-angular.module('projects')
-	.directive('tmplScheduleChart', directiveScheduleChart);
+angular.module('project')
+	.directive('tmplScheduleTimeline', directiveScheduleTimeline);
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Public Project Schedule
 //
 // -----------------------------------------------------------------------------------
-directiveScheduleChart.$inject = ['d3', '$window'];
+directiveScheduleTimeline.$inject = ['d3', '$window', '_', 'moment'];
 /* @ngInject */
-function directiveScheduleChart(d3, $window) {
+function directiveScheduleTimeline(d3, $window, _, moment) {
 	var directive = {
 		restrict: 'E', // the directive can be invoked only by using <my-directive> tag in the template
 		replace: true,
-		template: '<div class="svg-div-root"></div>',
+		scope : {
+			phases: '='
+		},
+		template: '<div class="svg-div-timeline block-content"></div>',
 		link: function (scope, element, attrs) {
 
-			var bTodayMarker = true;
-			var _DEBUG = false;
-			var _NumberOfMonths = 5;
-			var _NumberOfPreceedingMonths = 1;
-			var _MonthLen = 31;   // # days per month
-			var _DayScale = 1;    // Width of each day in pixels
-			var _BarHeight = 7;
+			var oPhaseDetail, oPhaseStart, oPhaseEnd, posPhaseStart, posPhaseEnd, posToday, barHeight, oPhases;
 
-			var color = d3.scale.category20c();
+			var resize =  function() {
 
-			var msOneDay=1000*60*60*24;	 // Value of 1 day in milliseconds
-			var dDateToday = new Date(); // Fetch todays -1 month date for comparison
-			dDateToday.setDate(dDateToday.getDate() - (_NumberOfPreceedingMonths * _MonthLen));
-			var _DrawPhase = false;
+				// get just the start dates.
+				var startDates = _.map(oPhases, function(item) {
+					return moment( new Date(item.dateStart) );
+				});
 
-			var minVal = 0;
+				// get just the end dates.
+				var endDates = _.map(oPhases, function(item) {
+					return moment( new Date(item.dateEnd) );
+				});
 
-			var rngMaxDate = new Date();
-			rngMaxDate.setDate(rngMaxDate.getDate() + ((_NumberOfMonths - _NumberOfPreceedingMonths) * _MonthLen));
-			var maxVal = (rngMaxDate - dDateToday)/msOneDay;
+				// find the max and min dates for the outermost boudaries
+				var startDate = moment(_.min(startDates));
+				var endDate = moment(_.max(endDates));
 
-			var sDateStart = new Date();
-			var sDateEnd = new Date();
+				// get measurements of the paretn
+				var box = angular.element(element);
+				var grw = box[0].parentNode;
+				var bw = grw.offsetWidth;
+				var bh = 100;
 
-			var svgCont = d3.select(element[0]).append("svg")
-				.attr("preserveAspectRatio", "xMinYMin meet")
-				.attr("viewBox", "0 0 "+((Math.abs(minVal)+Math.abs(maxVal))*_DayScale)+" "+_BarHeight);
+				// map the date scale to the page scale.
+				var dateScale = d3.scale.linear()
+					.domain([startDate.format('x'),endDate.format('x')])
+					.range([30,bw-30]);
 
-			svgCont.append("rect")
-				.attr("x", 0)
-				.attr("y", 0)
-				.attr("width",((Math.abs(minVal)+Math.abs(maxVal))*_DayScale))
-				.attr("height",_BarHeight)
-				.attr("class","svg-background")
-			;
+				// if there is already one of these, delete it.  Used for the refresh.
+				if (d3.select("svg")) d3.select("svg").remove();
+			
 
-			if(bTodayMarker){
+				var svgCont = d3.select(element[0]).append("svg").attr("viewBox", "0 0 "+bw+" "+bh);
+
+				svgCont.append("rect")
+					.attr("x", 0)
+					.attr("y", 0)
+					.attr("width",bw)
+					.attr("height",bh)
+					.style("fill", "#ffffff")
+				;
+
+				svgCont.append("rect")
+					.attr("x", 30)
+					.attr("y", 2)
+					.attr("width",bw-60)
+					.attr("height",28)
+					.style("fill", "#f4f4f4")
+				;
+
+				svgCont.append("line") 
+					.attr("x1", 30)
+					.attr("y1", 30) 
+					.attr("x2", bw-30)
+					.attr("y2", 30)
+					.style('stroke-width', '0.5px')
+					.style('stroke', '#000000')
+					.attr("class", "svg-line")
+				;
+
+				
+
+				for (var i = 0; i < oPhases.length; i++) {
+					oPhaseDetail = oPhases[i];
+
+					oPhaseStart = moment(new Date(oPhaseDetail.dateStart));
+					oPhaseEnd = moment(new Date(oPhaseDetail.dateEnd));
+
+					posPhaseStart = dateScale( oPhaseStart.format('x') );
+					posPhaseEnd = dateScale( oPhaseEnd.format('x') );
+		
+					barHeight = 30-(28*((oPhaseDetail.progress)/100));
+
+					svgCont.append("rect") 
+						.attr("x", posPhaseStart)
+						.attr("y", barHeight)
+						.attr("width", posPhaseEnd - posPhaseStart)
+						.attr("height", (28*((oPhaseDetail.progress)/100)))
+						.style("fill", function() { return (oPhaseDetail.progress === 100) ? "#5cb85c" : "#f0ad4e"; })
+						.attr("title", oPhaseDetail.name)
+					;
+
+					svgCont.append("line") 
+						.attr("x1", posPhaseStart) 
+						.attr("y1", 2) 
+						.attr("x2", posPhaseStart) 
+						.attr("y2", 100) 
+						.style('stroke-width', '0.5px')
+						.style('stroke', '#111111')
+					;
+
+					svgCont.append("line") 
+						.attr("x1", posPhaseStart) 
+						.attr("y1", barHeight) 
+						.attr("x2", posPhaseEnd) 
+						.attr("y2", barHeight) 
+						.style('stroke-width', '0.5px')
+						.style('stroke', '#111111')
+					;
+
+					svgCont.append("line") 
+						.attr("x1", posPhaseEnd) 
+						.attr("y1", barHeight) 
+						.attr("x2", posPhaseEnd) 
+						.attr("y2", 100) 
+						.style('stroke-width', '0.5px')
+						.style('stroke', '#111111')
+					;
+
+
+					// Draw Phase Bar Title
+					svgCont.append("text")
+						.attr("class","svg-phase-text")
+						.attr("x", posPhaseStart)
+						.attr("y", 40)
+						.attr("dx", "5px")		// Offset Horizontal position
+						.attr("dy", "7px")		// Offset vertical position
+						.attr("lengthAdjust", "spacingAndGlyphs")	// Scale text (not just spacing)
+						.text(oPhaseDetail.name) 		// Phase Name / Description
+					;
+
+					// Draw start date
+					svgCont.append("text")
+						.attr("class","small")
+						.attr("x", posPhaseStart)
+						.attr("y", 40)
+						.attr("dx", "5px")
+						.attr("dy", "22px")
+						.attr("lengthAdjust", "spacingAndGlyphs")
+						.text(oPhaseStart.format("YYYY MMM DD"))
+						.attr('title', 'End Date')
+					;
+
+					// Draw start date
+					svgCont.append("text")
+						.attr("class","small")
+						.attr("x", posPhaseStart)
+						.attr("y", 40)
+						.attr("dx", "5px")
+						.attr("dy", "37px")
+						.attr("lengthAdjust", "spacingAndGlyphs")
+						.text(oPhaseEnd.format("YYYY MMM DD"))
+						.attr('title', 'End Date')
+					;
+
+					// Draw start date
+					svgCont.append("text")
+						.attr("class","small")
+						.attr("x", posPhaseStart)
+						.attr("y", 40)
+						.attr("dx", "5px")
+						.attr("dy", "52px")
+						.attr("lengthAdjust", "spacingAndGlyphs")
+						.text(oPhaseDetail.progress + '%')
+						.attr('title', 'Percent Completion')
+					;										
+
+				}
+
+
+				// get today's position
+				posToday = Math.floor(dateScale( moment().format('x') ));
 				// Draw todays date marker
 				// Center Line of Todays date marker
-				svgCont.append("line")
-					.attr("x1", _MonthLen * _DayScale)
-					.attr("y1", 0)
-					.attr("x2", _MonthLen * _DayScale)
-					.attr("y2", _BarHeight)
-					.attr("class", "projectToday-line")
+				svgCont.append("line") 
+					.attr("x1", posToday) 
+					.attr("y1", 0) 
+					.attr("x2", posToday) 
+					.attr("y2", 32) 
+					.style('stroke-width', '3px')
+					.style('stroke', '#337ab7')
 				;
-			}
 
+				// Left edge line of Todays date marker
+				svgCont.append("line") 
+					.attr("x1", posToday - 3) 
+					.attr("y1", 0) 
+					.attr("x2", posToday - 3) 
+					.attr("y2", 32) 
+					.style('stroke-width', '1px')
+					.style('stroke', '#dddddd')	
+					.attr('title', 'Today')
+				;
 
-			var oPhases = [
-				{
-					"dateStart": "Sun, 013 Mar 2015 19:22:10 -0700",
-					"dateEnd": "Mon, 07 Mar 2016 19:22:10 -0700",
-					"name": "Initiation"
-				},
-				{
-					"dateStart": "Fri, 14 Aug 2015 19:22:10 -0700",
-					"dateEnd": "Sat, 12 Dec 2015 19:22:10 -0700",
-					"name": "Planning"
-				},
-				{
-					"dateStart": "Sat, 16 Apr 2016 19:22:10 -0700",
-					"dateEnd": "Tue, 17 May 2016 19:22:10 -0700",
-					"name": "Closing"
+				// Right edge line of Todays date marker
+				svgCont.append("line") 
+					.attr("x1", posToday + 3) 
+					.attr("y1", 0) 
+					.attr("x2", posToday + 3) 
+					.attr("y2", 32) 
+					.style('stroke-width', '1px')
+					.style('stroke', '#dddddd')
+				;
+
+			};
+
+			// bind the resize to the window
+			d3.select(window).on(('resize.' + attrs.id), resize);
+			
+			scope.$watch('phases', function(newValue) {
+				if (newValue) {
+					oPhases = newValue;
+					resize();
 				}
-			];
-			var oPhaseDetail;
-			var sPhaseName;
-
-
-			for (var i = 0; i < oPhases.length; i++) {
-				_DrawPhase = false;
-				oPhaseDetail = oPhases[i];
-				sPhaseName = oPhaseDetail.name;
-				sDateStart = new Date(oPhaseDetail.dateStart);
-				sDateEnd = new Date(oPhaseDetail.dateEnd);
-
-				var sDiff = (sDateStart-dDateToday)/msOneDay;
-				var eDiff = (sDateEnd-dDateToday)/msOneDay;
-
-				var x1;
-				var x2;
-
-				// Is the date within the bounds of the display?
-				if ((sDiff >= minVal && sDiff <= maxVal) && (eDiff >= minVal && eDiff <= maxVal)){
-					// Entire phase fits within the display bar, draw it all
-					x1 = sDiff *_DayScale; // phase start
-					x2 = (eDiff - sDiff) * _DayScale; // phase end
-					_DrawPhase = true;
-					if (_DEBUG){
-						// console.log("	Draw Phase (all) "+x1+" "+x2 );
-					}
-				} else if (sDiff >= minVal && sDiff <= maxVal){
-					// Only the start of the phase fits within the display bar
-					x1 = sDiff * _DayScale; // phase start
-					x2 = (maxVal-sDiff) * _DayScale; // phase end
-					_DrawPhase = true;
-					if (_DEBUG){
-						// console.log("	Draw Phase (start): "+x1+" "+x2 );
-					}
-				} else if (eDiff >= minVal && eDiff <= maxVal){
-					x1=minVal;
-					x2=eDiff * _DayScale;
-					_DrawPhase = true;
-					if (_DEBUG){
-						// console.log("	Draw Phase (end):  "+eDiff+" >= "+minVal+" && "+eDiff+" <= "+maxVal+")");
-					}
-				} else {
-					if (_DEBUG){
-						// console.log("	Do NOT Draw Phase");
-					}
-				}
-				if(_DrawPhase){
-					svgCont.append("rect")
-						.attr("x", x1)
-						.attr("y", 0)
-						.attr("width", x2)
-						.attr("height",_BarHeight)
-						.attr("fill", function() { return color(i+1); })
-						.attr("stroke", function() { return color(i); })
-						.attr("stroke-width", "0.5px")
-					;
-					// Draw Phase Title
-					svgCont.append("text")
-						.style("font-size", function() {return (_BarHeight/3); })
-						.attr("x", x1)
-						.attr("y", function() {return (_BarHeight/2); })
-						.attr("dx", "2px") 	// Offset Horizontal position
-						.attr("lengthAdjust", "spacingAndGlyphs") 	// Scale text (not just spacing)
-						.style("text-anchor", "left")
-						.text(sPhaseName) 	// Phase Name / Description
-						.attr("fill", '#000000')
-					;
-
-				}
-			}
-
-
-
+			});
 
 		} // close link
 	};

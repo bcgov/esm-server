@@ -161,7 +161,7 @@ a:hover,
 a:link,
 a:active,
 a:visited {
-	text-decoration: none;
+	text-decoration: none !important;
 }
 
 button:focus, a:focus {
@@ -203,6 +203,12 @@ th > .progress {
 	margin-bottom: 0;
 }
 
+.ng-table-filters th {
+	font-weight: 500;
+}
+.ng-table th {
+	text-align: left;
+}
 pre {
 	padding: 0;
 	margin: 0;
@@ -1133,6 +1139,11 @@ h2.page-title {
 .list-array-item {
 	margin-bottom: 3px;
 	padding: 3px 5px;
+}
+
+
+.svg-div-timeline {
+	padding: 15px;
 }
 
 /*

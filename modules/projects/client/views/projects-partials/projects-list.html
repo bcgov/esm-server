@@ -1,14 +1,23 @@
 <section class='panel panel-default'>
-	<div class="block-content">
-		<h3>Environmental Assessments</h3>
+	<div class="block-content no-lower-margin">
+		<a href class="pull-right btn btn-sm btn-link" ng-click="show_filter = !show_filter">
+			<span ng-show="show_filter"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></span>
+			<span ng-show="!show_filter"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span></span>
+		</a>
+		<h3 ng-show="environment === 'EAO'">Environmental Assessments</h3>
+		<h3 ng-show="environment === 'MEM'">Mining Projects</h3>
 	</div>
-	<table ng-table="projectList.tableParams" class="table table-condensed table-striped">
+	<table x-show-filter="show_filter" ng-table="projectList.tableParams" class="table table-condensed table-striped">
 		<tr ng-repeat="o in $data" class='clickable' ui-sref="p.detail({projectid: o.code})">
 			<td title="'Name'"     filter="{'name':'text'}"     			sortable="'name'"   >{{o.name}}</td>
 			<td title="'Type'"     filter="{'type':'select'}" filter-data="projectList.types"    			sortable="'type'"   >{{o.type}}</td>
 			<td title="'Region'"   filter="{'region':'text'}"   			sortable="'region'" >{{o.region}}</td>
 			<td title="'Phase'"    filter="{'currentPhase.name':'text'}"   	sortable="'currentPhase.name'" >{{o.currentPhase.name}}</td>
-			<td title="'Status'"   filter="{'status':'select'}" filter-data="projectList.status"  			sortable="'status'" >{{o.status}}</td>
+			<td ng-if="environment === 'EAO'" title="'Status'"   filter="{'status':'select'}" filter-data="projectList.status"  			sortable="'status'" >{{o.status}}</td>
+		</tr>
+		<tr ng-show="!$data || !$data.length" class="text-center">
+			<td ng-if="environment === 'EAO'" colspan="5">No results match your search.</td>
+			<td ng-if="environment === 'MEM'" colspan="4">No results match your search.</td>
 		</tr>
 	</table>
 

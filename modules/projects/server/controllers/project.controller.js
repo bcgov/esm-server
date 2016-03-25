@@ -4,131 +4,29 @@
 // Controller for projects
 //
 // =========================================================================
-var path                = require ('path');
-var DBModel             = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
-var UserClass           = require (path.resolve('./modules/users/server/controllers/admin.server.controller'));
-var PhaseClass          = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
-var PhaseBaseClass      = require (path.resolve('./modules/phases/server/controllers/phasebase.controller'));
-var OrganizationClass   = require (path.resolve('./modules/organizations/server/controllers/organization.controller'));
-var StreamClass         = require (path.resolve('./modules/streams/server/controllers/stream.controller'));
+var path               = require ('path');
+var DBModel            = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var UserClass          = require (path.resolve('./modules/users/server/controllers/admin.server.controller'));
+var PhaseClass         = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
+var OrganizationClass  = require (path.resolve('./modules/organizations/server/controllers/organization.controller'));
+var PhaseBaseClass     = require (path.resolve('./modules/phases/server/controllers/phasebase.controller'));
 var RecentActivityClass = require (path.resolve('./modules/recent-activity/server/controllers/recent-activity.controller'));
-var Roles               = require (path.resolve('./modules/roles/server/controllers/role.controller'));
-var _                   = require ('lodash');
-var fs                  = require ('fs');
-var mongoose            = require ('mongoose');
-var Project             = require ('../controllers/project.controller');
-var Model               = mongoose.model ('Project');
-var Organization        = mongoose.model ('Organization');
-var CSVParse            = require ('csv-parse');
+var RoleController     = require (path.resolve('./modules/roles/server/controllers/role.controller'));
+var _                  = require ('lodash');
+var fs		   		   = require ('fs');
+var mongoose 		   = require ('mongoose');
+var Project    		   = require ('../controllers/project.controller');
+var Model    		   = mongoose.model ('Project');
+var Phase    		   = mongoose.model ('Phase');
+var Organization 	   = mongoose.model ('Organization');
+var CSVParse  		   = require ('csv-parse');
 
 module.exports = DBModel.extend ({
 	name : 'Project',
 	plural : 'projects',
 	sort: {name:1},
-	populate: 'currentPhase',
+	populate: 'currentPhase phases',
 	bind: ['addPrimaryUser','addProponent'],
-	// -------------------------------------------------------------------------
-	//
-	// get the stream itself
-	//
-	// -------------------------------------------------------------------------
-	getStream: function (code) {
-		return (new StreamClass (this.user)).findOne ({code:code});
-	},
-	// -------------------------------------------------------------------------
-	//
-	// build a permission set from the default eao and proponent roles for the
-	// project indicated by the projectCode copied earlier from the milestone
-	// return the promise from the role machine (this also saves the activity
-	// and resolves to the list of activities passed in, all saved)
-	//
-	// -------------------------------------------------------------------------
-	setDefaultRoles: function (project, base) {
-		var permissions = {
-			read:[],
-			write:[],
-			submit:[],
-			watch:[]
-		};
-		_.each (base.default_eao_read   , function (code) {
-			permissions.read.push (Roles.generateCode (project.projectCode, 'eao', code));
-		});
-		_.each (base.default_eao_write  , function (code) {
-			permissions.write.push (Roles.generateCode (project.projectCode, 'eao', code));
-		});
-		_.each (base.default_eao_submit , function (code) {
-			permissions.submit.push (Roles.generateCode (project.projectCode, 'eao', code));
-		});
-		_.each (base.default_eao_watch  , function (code) {
-			permissions.watch.push (Roles.generateCode (project.projectCode, 'eao', code));
-		});
-		_.each (base.default_pro_read   , function (code) {
-			permissions.read.push (Roles.generateCode (project.projectCode, 'pro', code));
-		});
-		_.each (base.default_pro_write  , function (code) {
-			permissions.write.push (Roles.generateCode (project.projectCode, 'pro', code));
-		});
-		_.each (base.default_pro_submit , function (code) {
-			permissions.submit.push (Roles.generateCode (project.projectCode, 'pro', code));
-		});
-		_.each (base.default_pro_watch  , function (code) {
-			permissions.watch.push (Roles.generateCode (project.projectCode, 'pro', code));
-		});
-		return Roles.objectRoles ({
-			method      : 'add',
-			objects     : [project],
-			type        : 'projects',
-			permissions : permissions
-		});
-	},
-	// -------------------------------------------------------------------------
-	//
-	// add a stream to a project. The project must already exist
-	//
-	// -------------------------------------------------------------------------
-	fromStream: function (code, project) {
-		var self = this;
-		var stream;
-		var phaseCodes;
-		return new Promise (function (resolve, reject) {
-			self.getStream (code)
-			.then (function (stream) {
-				project.stream = stream._id;
-				phaseCodes     = _.clone (stream.phases);
-				return self.setDefaultRoles (project, stream);
-			})
-			.then (function () {
-				return Promise.all (phaseCodes, function (code) {
-					return self.addPhase (project, code);
-				});
-			})
-			.then (function () {
-				return project;
-			})
-			.then (resolve, reject);
-		});
-	},
-	// -------------------------------------------------------------------------
-	//
-	// Add a phase to the project from a code
-	//
-	// -------------------------------------------------------------------------
-	addPhase : function (project, basecode) {
-		var self = this;
-		var Phase = new PhaseClass (self.user);
-		return new Promise (function (resolve, reject) {
-			//
-			// get the new milestone
-			//
-			Phase.fromBase (basecode, project)
-			.then (function (phase) {
-				project.phases.push (phase._id);
-				return project;
-			})
-			.then (self.saveDocument)
-			.then (resolve, reject);
-		});
-	},
 	// -------------------------------------------------------------------------
 	//
 	// Before adding a project this is what must happen:
@@ -190,7 +88,7 @@ module.exports = DBModel.extend ({
 				//
 				//
 				// console.log ('Step2. assign default roles.');
-				return Roles.setObjectRoles (self, project, {
+				return RoleController.setObjectRoles (self, project, {
 					read   : [projectProponentMember],
 					submit : [projectProponentAdmin, projectAdminRole]
 				});
@@ -202,7 +100,7 @@ module.exports = DBModel.extend ({
 				// console.log ('Step3. assign admin role to user.');
 				// console.log ('project is now ', project);
 				var userRole = (self.user.orgCode !== 'eao' && self.user.orgCode === project.orgCode) ? projectProponentAdmin : projectAdminRole;
-				return Roles.addUserRole (self.user, userRole);
+				return RoleController.addUserRole (self.user, userRole);
 			})
 			//
 			// update this model's user roles
@@ -226,7 +124,52 @@ module.exports = DBModel.extend ({
 					return m;
 				});
 			})
+			// .then (self.addPrimaryUser)
+			// .then (self.addProponent)
 			.then (resolve, reject);
+		});
+	},
+	// preprocessUpdate: function (project) {
+	// 	// var self = this;
+	// 	// return self.addPrimaryUser (project)
+	// 	// .then (self.addProponent);
+	// },
+	addPrimaryUser: function (project) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			var p = null;
+			if (project.primaryContact && !_.isEmpty (project.primaryContact)) {
+				var User = new UserClass (self.user);
+				if (project.primaryContact._id) {
+					p = User.findAndUpdate (project.primaryContact);
+				} else {
+					p = User.newFromObject (project.primaryContact);
+				}
+			}
+			p.then (function (rec) {
+				project.primaryContact = rec._id;
+				resolve (project);
+			})
+			.catch (reject);
+		});
+	},
+	addProponent: function (project) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			var p = null;
+			if (project.proponent && !_.isEmpty (project.proponent)) {
+				var User = new OrganizationClass (self.user);
+				if (project.proponent._id) {
+					p = User.findAndUpdate (project.proponent);
+				} else {
+					p = User.newFromObject (project.proponent);
+				}
+			}
+			p.then (function (rec) {
+				project.proponent = rec._id;
+				resolve (project);
+			})
+			.catch (reject);
 		});
 	},
 	// -------------------------------------------------------------------------
@@ -255,7 +198,7 @@ module.exports = DBModel.extend ({
 			// through the project admin role and the sector lead role
 			// (we dont wait on the promise here, just trust it)
 			//
-			Roles.mergeObjectRoles (project, {
+			RoleController.mergeObjectRoles (project, {
 				submit : [project.adminRole, project.sectorRole]
 			});
 			(new RecentActivityClass (self.user)).create ({
@@ -301,7 +244,7 @@ module.exports = DBModel.extend ({
 			var projectAdminRole = project.code + ':eao:admin';
 			var projectMemberRole = project.code + ':eao:member';
 			// console.log ('about to add user role '+projectAdminRole + ' to user ',self.user);
-			return Roles.addUserRole (self.user, projectAdminRole)
+			return RoleController.addUserRole (self.user, projectAdminRole)
 			.then (function () {
 				//
 				// reset the user in this object with its new permissions
@@ -345,7 +288,7 @@ module.exports = DBModel.extend ({
 				// now add the stream roles both ways and also make the
 				// project public
 				//
-				Roles.addRolesToConfigObject (p, 'projects', project.roleSet());
+				RoleController.addRolesToConfigObject (p, 'projects', project.roleSet());
 				return project;
 			})
 			// .then (function () {
@@ -355,7 +298,7 @@ module.exports = DBModel.extend ({
 			// 	// perform the upcoming save
 			// 	//
 			// 	console.log ('about to add user role '+project.code + ':eao:admin to user ',self.user);
-			// 	return Roles.addUserRole (self.user, project.code + ':eao:admin');
+			// 	return RoleController.addUserRole (self.user, project.code + ':eao:admin');
 			// })
 			.then (function (p) {
 				// console.log ("save me!");
@@ -538,9 +481,22 @@ module.exports = DBModel.extend ({
 										model.roles = ['mem', 'public'];
 										model.read = ['public'];
 										model.submit = ['mem'];
-										model.phases = [];
 										model.type = "Mining";
-										model.currentPhase = model.phases[0];
+										Phase.findOne ({name:row.Status}, function (err, result) {
+											if (result) {
+												model.phases = result._id;
+												model.currentPhase = model.phases[0];
+											}
+										}).then(function (m) {
+											model.save().then(function () {
+												// Am I done processing?
+												// console.log("INDEX:",index);
+												if (index === length-1) {
+													// console.log("processed: ",projectProcessed);
+													resolve("{done: true, rowsProcessed: "+projectProcessed+"}");
+												}
+											});
+										});
 									} else { // eao
 										model.status = 'In Progress';
 										model.epicProjectID = id;
@@ -562,14 +518,14 @@ module.exports = DBModel.extend ({
 
 										model.type = row.projectType;
 										model.sector = row.sector;
-										model.phases = [];
-										model.currentPhase = model.phases[0];
-										// No phases yet from export document.
-										// _.each (phases, function (ph) {
-										// 	var phase = new Phase (ph);
-										// 	project.phases.push (phase._id);
-										// 	phase.save ();
-										// });
+										// model.phases = [];
+										// model.currentPhase = model.phases[0];
+										// // No phases yet from export document.
+										// // _.each (phases, function (ph) {
+										// // 	var phase = new Phase (ph);
+										// // 	project.phases.push (phase._id);
+										// // 	phase.save ();
+										// // });
 										if (row.eaActive) model.eaActive = row.eaActive;
 										if (row.CEAAInvolvement) model.CEAAInvolvement = row.CEAAInvolvement;
 										if (row.eaIssues) model.eaIssues = row.eaIssues;
@@ -585,19 +541,20 @@ module.exports = DBModel.extend ({
 										model.administrativeAssistant 	= row.administrativeAssistant;
 										model.CELead 					= row.CELead;
 										model.teamNotes 				= row.teamNotes;
-
+										model.phases = [];
+										model.currentPhase = model.phases[0];
 										model.roles = ['eao', 'public'];
 										model.read = ['public'];
 										model.submit = ['eao'];
+										model.save().then(function () {
+												// Am I done processing?
+												// console.log("INDEX:",index);
+												if (index === length-1) {
+													// console.log("processed: ",projectProcessed);
+													resolve("{done: true, rowsProcessed: "+projectProcessed+"}");
+												}
+											});
 									}
-									model.save().then(function () {
-										// Am I done processing?
-										// console.log("INDEX:",index);
-										if (index === length-1) {
-											// console.log("processed: ",projectProcessed);
-											resolve("{done: true, rowsProcessed: "+projectProcessed+"}");
-										}
-									});
 								};
 								if (doc === null) {
 									// Create new
@@ -616,49 +573,3 @@ module.exports = DBModel.extend ({
 		});
 	}
 });
-
-/*
-	// // preprocessUpdate: function (project) {
-	// // 	// var self = this;
-	// // 	// return self.addPrimaryUser (project)
-	// // 	// .then (self.addProponent);
-	// // },
-	// addPrimaryUser: function (project) {
-	// 	var self = this;
-	// 	return new Promise (function (resolve, reject) {
-	// 		var p = null;
-	// 		if (project.primaryContact && !_.isEmpty (project.primaryContact)) {
-	// 			var User = new UserClass (self.user);
-	// 			if (project.primaryContact._id) {
-	// 				p = User.findAndUpdate (project.primaryContact);
-	// 			} else {
-	// 				p = User.newFromObject (project.primaryContact);
-	// 			}
-	// 		}
-	// 		p.then (function (rec) {
-	// 			project.primaryContact = rec._id;
-	// 			resolve (project);
-	// 		})
-	// 		.catch (reject);
-	// 	});
-	// },
-	// addProponent: function (project) {
-	// 	var self = this;
-	// 	return new Promise (function (resolve, reject) {
-	// 		var p = null;
-	// 		if (project.proponent && !_.isEmpty (project.proponent)) {
-	// 			var User = new OrganizationClass (self.user);
-	// 			if (project.proponent._id) {
-	// 				p = User.findAndUpdate (project.proponent);
-	// 			} else {
-	// 				p = User.newFromObject (project.proponent);
-	// 			}
-	// 		}
-	// 		p.then (function (rec) {
-	// 			project.proponent = rec._id;
-	// 			resolve (project);
-	// 		})
-	// 		.catch (reject);
-	// 	});
-	// },
-*/

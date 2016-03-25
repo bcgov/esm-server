@@ -9,6 +9,13 @@
 		ng-if="('project' | shouldDisplayPanel:'tombstone':project.status)">
 	</tmpl-project-tombstone>
 
+	<tmpl-schedule-timeline
+		class="anchor-section"
+		id="anchor-timeline"
+		x-phases="project.phases"
+		ng-if="environment === 'EAO'">
+	</tmpl-schedule-timeline>
+
 	<tmpl-project-initiated
 		class="anchor-section"
 		id="anchor-initiated"
