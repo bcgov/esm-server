@@ -224,7 +224,7 @@ function directiveProjectTombstone() {
 			project: '='
 		},
 		controller: function($scope, ENV) {
-			$scope.environment = 'MEM'; //ENV;
+			$scope.environment = ENV;
 		}
 	};
 	return directive;
