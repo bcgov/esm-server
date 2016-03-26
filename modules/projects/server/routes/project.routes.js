@@ -7,7 +7,6 @@
 var policy     = require ('../policies/project.policy');
 var Project    = require ('../controllers/project.controller');
 var helpers    = require ('../../../core/server/controllers/core.helpers.controller');
-var helpers    = require ('../../../core/server/controllers/core.helpers.controller');
 var _ 		= require('lodash');
 
 module.exports = function (app) {

@@ -432,9 +432,8 @@ module.exports = DBModel.extend ({
 									// console.log("MODEL:",model);
 
 									// Always do this
-									model.name 			= row.ProjectName.replace(/\//g,'-');
-									console.log("model.name:",model.name);
-									model.code 			= model.name.toLowerCase ().replace (' ', '-').substr (0, model.name.length+1);
+									model.name 			= row.ProjectName;
+									model.code 			= model.name.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, model.name.length+1);
 									var addOrChangeProp = function(prop) {
 										// Sometimes mem Props are NULL
 										// console.log(row.Proponent);

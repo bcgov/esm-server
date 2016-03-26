@@ -98,15 +98,23 @@ exports.getDocumentVersionsAndReturn = getDocumentVersionsAndReturn;
 //
 // getDocumentsForProject
 //
+
+
+
+
 // -------------------------------------------------------------------------
 var getDocumentsForProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
-		resolve (Model.find({   project                 : req.params.project,
-								documentIsInReview      : req.headers.reviewdocsonly,
-								documentIsLatestVersion : true
-							}).exec());
-		// TODO: Make this find only documents that have been fully reviewed
-		// Or create a new seleciton criteria for reviewable documents
+		Model.find({
+			project: req.params.projectid,
+			documentIsLatestVersion: true,
+			$or: [
+				{existsdocumentIsInReview: req.headers.reviewdocsonly || false},
+				{existsdocumentIsInReview: {$exists: false }}
+			]		
+		}).exec(function (err, docs) {
+			if (!err) resolve(docs);
+		});
 	});
 };
 // -------------------------------------------------------------------------
@@ -138,10 +146,14 @@ var getDocumentTypesForProject = function (req, res) {
 		// console.log("getDocumentTypesForProject: Project ID:",req.params.projectid);
 		// When a document has an assigned projectID, grab it.
 		// NB: This will be true after a document has been reviewed by someone perhaps.
-		Model.find({project: req.params.projectid,
-					documentIsInReview: req.headers.reviewdocsonly,
-					documentIsLatestVersion: true})
-			 .populate('projectID').exec( function (err, records) {
+		Model.find({
+			project: req.params.projectid,
+			documentIsLatestVersion: true,
+			$or: [
+				{existsdocumentIsInReview: req.headers.reviewdocsonly || false},
+				{existsdocumentIsInReview: {$exists: false }}
+			]})
+			.populate('projectID').exec( function (err, records) {
 			if (err) {
 				// console.log("getDocumentTypesForProject failed to find anything",err);
 			} else {
@@ -201,17 +213,23 @@ var getDocumentTypesForProject = function (req, res) {
 					ts.forEach(function(tsKey) {
 						var depth1 = tsKey.projectFolderType;
 						// console.log(depth1);
-						flattendList.push({'label': depth1, 'depth': 1, 'reference': 'projectFolderType'});
-						tsKey.projectFolderSubTypeObjects.forEach(function(subObjects) {
-							var depth2 = subObjects.projectFolderSubType;
-						//  // console.log(depth2);
-							flattendList.push({'label': depth2, 'depth': 2, 'reference': 'projectFolderSubType'});
-							subObjects.projectFolderNames.forEach(function(labels) {
-								var depth3 = labels;
-								// console.log(depth3);
-								flattendList.push({'label': depth3, 'depth': 3, 'reference': 'projectFolderName'});
+						if (depth1 && depth1 !== '') {						
+							flattendList.push({'label': tsKey.projectFolderType, 'depth': 1, 'reference': 'projectFolderType', 'lineage':{'projectFolderType':depth1} });
+							tsKey.projectFolderSubTypeObjects.forEach(function(subObjects) {
+								var depth2 = subObjects.projectFolderSubType;
+							//  // console.log(depth2);
+								if (depth2 && depth2 !== '') {
+									flattendList.push({'label': depth2, 'depth': 2, 'reference': 'projectFolderSubType', 'lineage':{'projectFolderType':depth1, 'projectFolderSubType':depth2} });
+									subObjects.projectFolderNames.forEach(function(labels) {
+										var depth3 = labels;
+										// console.log(depth3);
+										if (depth3 && depth3 !== '') {
+											flattendList.push({'label': depth3, 'depth': 3, 'reference': 'projectFolderName', 'lineage':{'projectFolderType':depth1, 'projectFolderSubType':depth2, 'projectFolderName':depth3 } });
+										}
+									});
+								}
 							});
-						});
+						}
 					});
 					// console.log(flattendList);
 					resolve (flattendList);

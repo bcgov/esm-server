@@ -140,7 +140,8 @@ function directiveDocumentsBrowser() {
         controllerAs: 'docBrowser',
         scope: {
             project: '=',
-            allowLink: '@'
+            allowLink: '@',
+            approvals: '@'
         }
     };
 
@@ -163,6 +164,7 @@ function directiveDocumentsApprovals() {
         controllerAs: 'docBrowser',
         scope: {
             project: '=',
+            approvals: '@'
         }
     };
 

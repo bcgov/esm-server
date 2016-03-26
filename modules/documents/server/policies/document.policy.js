@@ -13,7 +13,7 @@ exports.invokeRolesPolicies = function () {
 
 	helpers.setPathPermissions (acl, [
         [ '', 'user', '/api/documentlist'    ],
-        [ '', 'user', '/api/documents/:project'    ],
+        [ '', 'user', '/api/documents/:projectid'    ],
         [ '', 'user', '/api/documents/versions/:documentid'    ],
         [ '', 'user', '/api/documents/folderNames/:projectid'    ],
         [ '', 'user', '/api/documents/approveAndDownload/:document'    ],
