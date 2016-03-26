@@ -46,6 +46,9 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 			};
 		}
 	});
+
+	$rootScope.$on("$stateChangeError", console.log.bind(console));
+
 });
 
 //Then define the init function for starting up the application
