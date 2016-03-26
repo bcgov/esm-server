@@ -432,7 +432,8 @@ module.exports = DBModel.extend ({
 									// console.log("MODEL:",model);
 
 									// Always do this
-									model.name	= row.ProjectName;
+									model.name 			= row.ProjectName.replace(/\//g,'-');
+									console.log("model.name:",model.name);
 									model.code 			= model.name.toLowerCase ().replace (' ', '-').substr (0, model.name.length+1);
 									var addOrChangeProp = function(prop) {
 										// Sometimes mem Props are NULL
@@ -441,7 +442,7 @@ module.exports = DBModel.extend ({
 											row.Proponent = "N/A";
 											prop.code = model.code;
 										} else {
-											prop.code = row.Proponent.toLowerCase().match(/\b(\w)/g).join('');
+											prop.code = row.Proponent.toLowerCase().replace(/\//g,'-').match(/\b(\w)/g).join('');
 										}
 										prop.name 		= row.Proponent;
 										prop.company	= row.Proponent;
