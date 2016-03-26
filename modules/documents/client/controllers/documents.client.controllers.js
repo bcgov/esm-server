@@ -287,23 +287,24 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 	//
 	// -----------------------------------------------------------------------------------
 	docBrowser.refresh = function() {
+		console.log(docBrowser.project._id);
 		Document.getProjectDocuments(docBrowser.project._id, false).then( function(res) {
 			// console.log('refresh documents');
 			docBrowser.documentFiles	= res.data;
 			// console.log(res.data);
 		});
-		Document.getProjectDocumentTypes(docBrowser.project._id, false).then( function(res) {
-			docBrowser.docTypes	= res.data;
-			// console.log(res.data);
-		});
+		// Document.getProjectDocumentTypes(docBrowser.project._id, false).then( function(res) {
+		// 	docBrowser.docTypes	= res.data;
+		// 	// console.log(res.data);
+		// });
 		Document.getProjectDocuments(docBrowser.project._id, true).then( function(res) {
 			docBrowser.rdocumentFiles	= res.data;
 			// console.log(res.data);
 		});
-		Document.getProjectDocumentTypes(docBrowser.project._id, true).then( function(res) {
-			docBrowser.rdocTypes	= res.data;
-			// console.log(res.data);
-		});
+		// Document.getProjectDocumentTypes(docBrowser.project._id, true).then( function(res) {
+		// 	docBrowser.rdocTypes	= res.data;
+		// 	// console.log(res.data);
+		// });
 	};
 
 	var unbind = $rootScope.$on('refreshDocumentList', function() {
@@ -338,15 +339,6 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 	// -----------------------------------------------------------------------------------
 	$scope.$watch('project', function(newValue) {
 		docBrowser.project = newValue;
-
-		Document.getProjectDocuments(newValue._id, true).then( function(res) {
-			docBrowser.rdocumentFiles	= res.data;
-			// console.log(res.data);
-		});
-		Document.getProjectDocumentTypes(newValue._id, true).then( function(res) {
-			docBrowser.rdocTypes	= res.data;
-			// console.log(res.data);
-		});
 		docBrowser.refresh();
 	});
 	// -----------------------------------------------------------------------------------

@@ -117,11 +117,10 @@ var getDocumentsForProject = function (req, res) {
 var getDocumentsForProjectAndReturn = function (req, res) {
 	getDocumentsForProject (req, res)
 	.then (function (model) {
-		//console.log (model);
 		helpers.sendData (res, model);
 	})
 	.catch (function (err) {
-		//console.log (err);
+		console.log (err);
 		helpers.sendError (res, err);
 	});
 };

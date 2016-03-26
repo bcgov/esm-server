@@ -193,41 +193,44 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 					;										
 
 				}
-
-
+				
 				// get today's position
-				posToday = Math.floor(dateScale( moment().format('x') ));
-				// Draw todays date marker
-				// Center Line of Todays date marker
-				svgCont.append("line") 
-					.attr("x1", posToday) 
-					.attr("y1", 0) 
-					.attr("x2", posToday) 
-					.attr("y2", 32) 
-					.style('stroke-width', '3px')
-					.style('stroke', '#337ab7')
-				;
+				posToday = Math.floor( dateScale( moment().format('x') ));
 
-				// Left edge line of Todays date marker
-				svgCont.append("line") 
-					.attr("x1", posToday - 3) 
-					.attr("y1", 0) 
-					.attr("x2", posToday - 3) 
-					.attr("y2", 32) 
-					.style('stroke-width', '1px')
-					.style('stroke', '#dddddd')	
-					.attr('title', 'Today')
-				;
+				if (posToday) {
 
-				// Right edge line of Todays date marker
-				svgCont.append("line") 
-					.attr("x1", posToday + 3) 
-					.attr("y1", 0) 
-					.attr("x2", posToday + 3) 
-					.attr("y2", 32) 
-					.style('stroke-width', '1px')
-					.style('stroke', '#dddddd')
-				;
+					// Draw todays date marker
+					// Center Line of Todays date marker
+					svgCont.append("line") 
+						.attr("x1", posToday) 
+						.attr("y1", 0) 
+						.attr("x2", posToday) 
+						.attr("y2", 32) 
+						.style('stroke-width', '3px')
+						.style('stroke', '#337ab7')
+					;
+
+					// Left edge line of Todays date marker
+					svgCont.append("line") 
+						.attr("x1", posToday - 3) 
+						.attr("y1", 0) 
+						.attr("x2", posToday - 3) 
+						.attr("y2", 32) 
+						.style('stroke-width', '1px')
+						.style('stroke', '#dddddd')	
+						.attr('title', 'Today')
+					;
+
+					// Right edge line of Todays date marker
+					svgCont.append("line") 
+						.attr("x1", posToday + 3) 
+						.attr("y1", 0) 
+						.attr("x2", posToday + 3) 
+						.attr("y2", 32) 
+						.style('stroke-width', '1px')
+						.style('stroke', '#dddddd')
+					;
+				}
 
 			};
 
