@@ -22,56 +22,125 @@ module.exports = DBModel.extend ({
 	},
 	// -------------------------------------------------------------------------
 	//
-	// make a new srtifact from a given type.
-	// this will make the new srtifact and put it in the first stage and the
+	// make a new artifact from a given type.
+	// this will make the new artifact and put it in the first stage and the
 	// first version as supplied in the type model
-	// if it is of type tempalte, then the most current version of the template
+	// if it is of type template, then the most current version of the template
 	// that matches the type will be used
 	//
 	// -------------------------------------------------------------------------
 	newFromType: function (type, project) {
 		var types = new ArtifactType (this.user);
 		var template = new Template (this.user);
-		var p = types.findOne ({type:type});
 		var self = this;
 		var artifactType;
+		var artifact;
+		var prefix = 'Add Artifact Error: ';
 		return new Promise (function (resolve, reject) {
-			var newArtifact = {
-				typeName : type,
-				name     : type,
-				project  : project._id,
-				phase    : project.currentPhase._id,
-			};
-			p.then (function (atype) {
-				if (!_.isEmpty (atype)) {
-					artifactType = atype;
-					newArtifact.type = atype._id;
-					newArtifact.version = atype.versions[0];
-					newArtifact.stage = atype.stages[0].name;
-					// console.log ("\n\n");
-					// console.log ('atype.isTemplate = ',atype.isTemplate);
-					if (atype.isTemplate) {
-						// console.log ('documentType:'+type+':');
-						return template.findFirst ({documentType:type},null,{versionNumber: -1})
-						.then (function (t) {
-							// console.log ('template = ', t[0]);
-							newArtifact.template = t[0]._id;
-							newArtifact.isTemplate = true;
-							return self.newDocument (newArtifact);
-						});
-					} else return self.newDocument (newArtifact);
-				}
-				else return null;
+			//
+			// first off, lets check and make sure that we have everything we need
+			// in order to continue
+			//
+			// console.log ('project: ',JSON.stringify (project, null, 4));
+			if (!project) return reject (new Error (prefix+'missing project'));
+			if (!project.currentPhase) return reject (new Error (prefix+'missing current phase'));
+			//
+			// default a new artifact
+			//
+			self.newDocument ().then (function (a) {
+				artifact = a;
+				return types.findOne ({type:type});
 			})
-			.then (self.saveDocument)
+			//
+			// check that we have an artifact type
+			//
+			.then (function (atype) {
+				if (!atype) return reject (new Error (prefix+'cannot locate artifact type'));
+				else {
+					artifactType = atype;
+					// console.log ('getting template');
+					if (artifactType.isTemplate) return template.findFirst ({documentType:type},null,{versionNumber: -1});
+				}
+			})
+			//
+			// if template, check that have it as well
+			//
+			.then (function (t) {
+				// console.log ('setting tempalte');
+				if (artifactType.isTemplate && !t) return reject (prefix+'cannot find template');
+				else {
+					artifact.template   = t[0];
+					artifact.isTemplate = true;
+					return artifact;
+				}
+			})
+			//
+			// now set up and save the new artifact
+			//
+			.then (function () {
+				artifact.typeName = type;
+				artifact.name     = type;
+				artifact.project  = project._id;
+				artifact.phase    = project.currentPhase._id;
+				artifact.type     = artifactType;
+				artifact.version  = artifactType.version;
+				artifact.stage    = artifactType.stages[0].name;
+				return self.saveDocument (artifact);
+			})
+			//
+			// now add the milestone associated with this artifact
+			//
 			.then (function (m) {
 				var p = new PhaseClass (self.user);
 				// console.log ('adding a new milestone to the project for this artifact, type = ', artifactType.milestone);
 				// console.log ('projecty.currentphase = ', project.currentPhase);
-				p.addMilestoneFromCode (project.currentPhase, artifactType.milestone);
+				p.addMilestone (project.currentPhase, artifactType.milestone);
 				return m;
 			})
 			.then (resolve, reject);
+
+
+
+
+			// console.log ('got this far');
+			// var newArtifact = {
+			// 	typeName : type,
+			// 	name     : type,
+			// 	project  : project._id,
+			// 	phase    : project.currentPhase._id,
+			// };
+			// console.log ('got this far too');
+			// p.then (function (atype) {
+			// 	console.log (JSON.stringify (atype, null, 4));
+			// 	if (!_.isEmpty (atype)) {
+			// 		artifactType = atype;
+			// 		newArtifact.type = atype._id;
+			// 		newArtifact.version = atype.versions[0];
+			// 		newArtifact.stage = atype.stages[0].name;
+			// 		// console.log ("\n\n");
+			// 		console.log ('atype.isTemplate = ',atype.isTemplate);
+			// 		if (atype.isTemplate) {
+			// 			// console.log ('documentType:'+type+':');
+			// 			return template.findFirst ({documentType:type},null,{versionNumber: -1})
+			// 			.then (function (t) {
+			// 				console.log ('template = ', t[0]);
+			// 				newArtifact.template = t[0]._id;
+			// 				newArtifact.isTemplate = true;
+			// 				return self.newDocument (newArtifact);
+			// 			});
+			// 		} else return self.newDocument (newArtifact);
+			// 	}
+			// 	else return null;
+			// })
+			// .then (self.saveDocument)
+			// .then (function (m) {
+			// 	var p = new PhaseClass (self.user);
+			// 	console.log ('adding a new milestone to the project for this artifact, type = ', artifactType.milestone);
+			// 	console.log ('projecty.currentphase = ', project.currentPhase);
+			// 	p.addMilestone (project.currentPhase, artifactType.milestone);
+			// 	return m;
+			// })
+			// .then (resolve, reject);
 		});
 	},
 	// -------------------------------------------------------------------------
