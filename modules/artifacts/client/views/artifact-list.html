@@ -1,7 +1,11 @@
 <div class="row">
 	<div class="col-sm-6 col-sm-offset-6 text-right form-inline">
 		<div class="form-group">
-			<button class="btn btn-xs btn-link" ng-click="s.showfilter=!s.showfilter"><span ng-show="!s.showfilter">Show</span><span ng-show="s.showfilter">Hide</span> Filter</button>
+
+			<a href class="pull-right btn btn-sm btn-link" ng-click="s.showfilter = !s.showfilter">
+				<span ng-show="s.showfilter"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></span>
+				<span ng-show="!s.showfilter"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span></span>
+			</a>
 		</div>
 		<div class="dropdown form-group" ng-if="!s.public">
 			<div class="input-group input-sm" data-toggle="dropdown">

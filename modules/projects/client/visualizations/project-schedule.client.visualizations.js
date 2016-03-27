@@ -27,22 +27,22 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 
 			var oPhaseDetail, oPhaseStart, oPhaseEnd, posPhaseStart, posPhaseEnd, posToday, barHeight, oPhases;
 
+			// get just the start dates.
+			var startDates = _.map(oPhases, function(item) {
+				return moment( new Date(item.dateStart) );
+			});
+
+			// get just the end dates.
+			var endDates = _.map(oPhases, function(item) {
+				return moment( new Date(item.dateEnd) );
+			});
+
+			// find the max and min dates for the outermost boudaries
+			var startDate = moment(_.min(startDates));
+			var endDate = moment(_.max(endDates));
+
+			//
 			var resize =  function() {
-
-				// get just the start dates.
-				var startDates = _.map(oPhases, function(item) {
-					return moment( new Date(item.dateStart) );
-				});
-
-				// get just the end dates.
-				var endDates = _.map(oPhases, function(item) {
-					return moment( new Date(item.dateEnd) );
-				});
-
-				// find the max and min dates for the outermost boudaries
-				var startDate = moment(_.min(startDates));
-				var endDate = moment(_.max(endDates));
-
 				// get measurements of the paretn
 				var box = angular.element(element);
 				var grw = box[0].parentNode;
@@ -55,11 +55,14 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 					.range([30,bw-30]);
 
 				// if there is already one of these, delete it.  Used for the refresh.
-				if (d3.select("svg")) d3.select("svg").remove();
-			
+				if (d3.select(element[0]).select("svg")) {
+					d3.select(element[0]).select("svg").remove();
+				}
 
+				// create the new chart object.
 				var svgCont = d3.select(element[0]).append("svg").attr("viewBox", "0 0 "+bw+" "+bh);
 
+				// background
 				svgCont.append("rect")
 					.attr("x", 0)
 					.attr("y", 0)
@@ -68,6 +71,7 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 					.style("fill", "#ffffff")
 				;
 
+				// graph background colour
 				svgCont.append("rect")
 					.attr("x", 30)
 					.attr("y", 2)
@@ -76,6 +80,7 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 					.style("fill", "#f4f4f4")
 				;
 
+				// origin line
 				svgCont.append("line") 
 					.attr("x1", 30)
 					.attr("y1", 30) 
@@ -87,9 +92,13 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 				;
 
 				
-
+				// draw each phase
 				for (var i = 0; i < oPhases.length; i++) {
 					oPhaseDetail = oPhases[i];
+
+					if (!oPhaseDetail.dateStart) {
+						continue;
+					}
 
 					oPhaseStart = moment(new Date(oPhaseDetail.dateStart));
 					oPhaseEnd = moment(new Date(oPhaseDetail.dateEnd));
@@ -184,41 +193,44 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 					;										
 
 				}
-
-
+				
 				// get today's position
-				posToday = Math.floor(dateScale( moment().format('x') ));
-				// Draw todays date marker
-				// Center Line of Todays date marker
-				svgCont.append("line") 
-					.attr("x1", posToday) 
-					.attr("y1", 0) 
-					.attr("x2", posToday) 
-					.attr("y2", 32) 
-					.style('stroke-width', '3px')
-					.style('stroke', '#337ab7')
-				;
+				posToday = Math.floor( dateScale( moment().format('x') ));
 
-				// Left edge line of Todays date marker
-				svgCont.append("line") 
-					.attr("x1", posToday - 3) 
-					.attr("y1", 0) 
-					.attr("x2", posToday - 3) 
-					.attr("y2", 32) 
-					.style('stroke-width', '1px')
-					.style('stroke', '#dddddd')	
-					.attr('title', 'Today')
-				;
+				if (posToday) {
 
-				// Right edge line of Todays date marker
-				svgCont.append("line") 
-					.attr("x1", posToday + 3) 
-					.attr("y1", 0) 
-					.attr("x2", posToday + 3) 
-					.attr("y2", 32) 
-					.style('stroke-width', '1px')
-					.style('stroke', '#dddddd')
-				;
+					// Draw todays date marker
+					// Center Line of Todays date marker
+					svgCont.append("line") 
+						.attr("x1", posToday) 
+						.attr("y1", 0) 
+						.attr("x2", posToday) 
+						.attr("y2", 32) 
+						.style('stroke-width', '3px')
+						.style('stroke', '#337ab7')
+					;
+
+					// Left edge line of Todays date marker
+					svgCont.append("line") 
+						.attr("x1", posToday - 3) 
+						.attr("y1", 0) 
+						.attr("x2", posToday - 3) 
+						.attr("y2", 32) 
+						.style('stroke-width', '1px')
+						.style('stroke', '#dddddd')	
+						.attr('title', 'Today')
+					;
+
+					// Right edge line of Todays date marker
+					svgCont.append("line") 
+						.attr("x1", posToday + 3) 
+						.attr("y1", 0) 
+						.attr("x2", posToday + 3) 
+						.attr("y2", 32) 
+						.style('stroke-width', '1px')
+						.style('stroke', '#dddddd')
+					;
+				}
 
 			};
 

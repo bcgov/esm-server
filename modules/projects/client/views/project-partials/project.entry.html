@@ -4,7 +4,8 @@
 
 <div class="row">
 	<div class="col-sm-12 text-right">
-		<button class="btn btn-xs btn-link" ui-sref="p.detail">Cancel</button>
+		<button class="btn btn-xs btn-link" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
+		<button class="btn btn-xs btn-link" ng-if="isNew" ui-sref="projects">Cancel</button>		
 		<button class="btn btn-xs btn-link" href type="submit">Save</button>
 		<button class="btn btn-xs btn-link" href ng-click="submitProject(projectForm.$valid)" ng-if="project.status === 'Initiated'">Submit Project</button>
 	</div>
@@ -23,7 +24,7 @@
 		<div ng-show="form.curTab === 'Project Information'">
 
 			<div class="row">
-				<div class="col-sm-6">
+				<div class="col-sm-8">
 					<div class="form-group" x-show-errors>
 						<label for="title" class="control-label">Project Name</label>
 						<input id="title" name="name" type="text" class="form-control input-sm" ng-model="project.name" required>
@@ -32,7 +33,7 @@
 							</div>
 					</div>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<div class="form-group" x-show-errors>
 						<label for="shortName" class="control-label">Short Name (25 Characters Max)</label>
 						<input id="shortName"
@@ -47,17 +48,6 @@
 							</div>
 					</div>
 				</div>
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="code" class="control-label">Code</label>
-						<input id="code"
-							maxlength="25"
-							type="text"
-							ng-disabled="true"
-							class="form-control input-sm"
-							ng-model="project.code">
-					</div>
-				</div>
 			</div>
 
 			<div class="row">
@@ -68,6 +58,55 @@
 					</div>
 				</div>
 			</div>
+
+
+			<div class="row" ng-if="environment === 'MEM'">
+				<div class="col-sm-3">
+					<div class="form-group" x-show-errors>
+						<label for="permitid" class="control-label">Permit Number</label>
+						<input id="permitid" name="permitid" type="text" class="form-control input-sm" ng-model="project.memPermitID">
+							<div ng-messages="projectForm.permitid.$error" role="alert">
+								<p class="help-block error-text" ng-message="required">Permit Number is required.</p>
+							</div>
+					</div>
+				</div>
+
+				<div class="col-sm-3">
+					<div class="form-group" x-show-errors>
+						<label for="commodity" class="control-label">Commodity / IES</label>
+						<input id="commodity" name="commodity" type="text" class="form-control input-sm" ng-model="project.commodity">
+							<div ng-messages="projectForm.commodity.$error" role="alert">
+								<p class="help-block error-text" ng-message="required">Commodity is required.</p>
+							</div>
+					</div>
+				</div>
+
+				<div class="col-sm-3">
+					<div class="form-group" x-show-errors>
+						<label for="ownership" class="control-label">Ownership</label>
+						<input id="ownership" name="ownership" type="text" class="form-control input-sm" ng-model="project.ownership">
+							<div ng-messages="projectForm.ownership.$error" role="alert">
+								<p class="help-block error-text" ng-message="required">Ownership is required.</p>
+							</div>
+					</div>
+				</div>
+
+				<div class="col-sm-3">
+					<div class="form-group" x-show-errors>
+						<label for="tailingsImpoundments" class="control-label">Tailings Impoundments</label>
+						<input id="tailingsImpoundments" name="tailingsImpoundments" type="text" class="form-control input-sm" ng-model="project.tailingsImpoundments">
+							<div ng-messages="projectForm.tailingsImpoundments.$error" role="alert">
+								<p class="help-block error-text" ng-message="required">Tailings Impoundments is required.</p>
+							</div>
+					</div>
+				</div>
+
+			</div>
+
+
+
+
+
 
 			<div class="row">
 				<div class="col-sm-6">
@@ -197,7 +236,8 @@
 				<div class="form-control-static">{{ project.dateUpdated | amDateFormat:'MMM Do, YYYY hh:mm a' }}</div>
 			</div>
 			<div class="col-sm-6 text-right">
-				<button class="btn btn-default" ui-sref="p.detail">Cancel</button>
+				<button class="btn btn-default" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
+				<button class="btn btn-default" ng-if="isNew" ui-sref="projects">Cancel</button>	
 				<button class="btn btn-default" type="submit">Save</button>
 				<button class="btn btn-default" ng-click="submitProject(projectForm.$valid)" ng-if="project.status === 'Initiated'">Submit Project</button>
 			</div>

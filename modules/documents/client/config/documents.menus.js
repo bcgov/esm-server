@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module('recent-activity').run(['Menus',
+angular.module('documents').run(['Menus',
 	function (Menus) {
 		Menus.addMenuItem('projectMenu', {
 			title: 'Documents',
-			state: 'projectdocuments',
+			state: 'p.documents',
 			roles: ['user']
 		});
 	}

@@ -15,10 +15,10 @@
 
 				<ul class="small list-unstyled list-documents">
 					<li
-						ng-click="docBrowser.filterList(row.reference, row.label)"
+						ng-click="docBrowser.filterList(row)"
 						class="row-folder clickable row-folder-depth-{{ row.depth }}"
 						ng-repeat="row in docBrowser.docTypes"
-						ng-class="{'active btn-primary': filterDocs[row.reference] === row.label}">
+						ng-class="{'active btn-primary': docBrowser.filterDocsSelected(row)}">
 						<span class="glyphicon glyphicon-play arrow"></span>
 						{{ row.label }}
 					<li>
@@ -32,7 +32,7 @@
 					<li
 						class="row-document clickable"
 						ng-click="docBrowser.filterSummary(doc)"
-						ng-repeat="doc in docBrowser.documentFiles | filter : filterDocs : true"
+						ng-repeat="doc in docBrowser.documentFiles | filter:filterLinage:true"
 						ng-class="{'active btn-primary': filterSummary._id === doc._id}">
 						<span class="glyphicon glyphicon-play arrow"></span>
 						<span class="glyphicon glyphicon-file"></span>&nbsp;{{ doc.internalOriginalName | removeExtension }}

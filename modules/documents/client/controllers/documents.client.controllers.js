@@ -266,12 +266,13 @@ function controllerDocumentList($scope, sAuthentication) {
 // CONTROLLER: Document List
 //
 // -----------------------------------------------------------------------------------
-controllerDocumentBrowser.$inject = ['$scope', 'Document', '$rootScope', 'Authentication', 'ENV'];
+controllerDocumentBrowser.$inject = ['$scope', 'Document', '$rootScope', 'Authentication', 'ENV', '_'];
 /* @ngInject */
-function controllerDocumentBrowser($scope, Document, $rootScope, Authentication, ENV) {
+function controllerDocumentBrowser($scope, Document, $rootScope, Authentication, ENV, _) {
 	var docBrowser = this;
 
 	$scope.environment = ENV;
+
 
 	docBrowser.documentFiles	= undefined;
 	docBrowser.docTypes			= undefined;
@@ -287,22 +288,11 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 	//
 	// -----------------------------------------------------------------------------------
 	docBrowser.refresh = function() {
-		Document.getProjectDocuments(docBrowser.project._id, false).then( function(res) {
-			// console.log('refresh documents');
+		Document.getProjectDocuments(docBrowser.project._id, $scope.approvals).then( function(res) {
 			docBrowser.documentFiles	= res.data;
-			// console.log(res.data);
 		});
-		Document.getProjectDocumentTypes(docBrowser.project._id, false).then( function(res) {
+		Document.getProjectDocumentTypes(docBrowser.project._id, $scope.approvals).then( function(res) {
 			docBrowser.docTypes	= res.data;
-			// console.log(res.data);
-		});
-		Document.getProjectDocuments(docBrowser.project._id, true).then( function(res) {
-			docBrowser.rdocumentFiles	= res.data;
-			// console.log(res.data);
-		});
-		Document.getProjectDocumentTypes(docBrowser.project._id, true).then( function(res) {
-			docBrowser.rdocTypes	= res.data;
-			// console.log(res.data);
 		});
 	};
 
@@ -338,15 +328,6 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 	// -----------------------------------------------------------------------------------
 	$scope.$watch('project', function(newValue) {
 		docBrowser.project = newValue;
-
-		Document.getProjectDocuments(newValue._id, true).then( function(res) {
-			docBrowser.rdocumentFiles	= res.data;
-			// console.log(res.data);
-		});
-		Document.getProjectDocumentTypes(newValue._id, true).then( function(res) {
-			docBrowser.rdocTypes	= res.data;
-			// console.log(res.data);
-		});
 		docBrowser.refresh();
 	});
 	// -----------------------------------------------------------------------------------
@@ -354,16 +335,32 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 	// BROWSER: Filtering
 	//
 	// -----------------------------------------------------------------------------------
-	docBrowser.filterList = function(searchField, newValue) {
+	docBrowser.filterList = function(selection) {
 		$scope.filterSummary = undefined;
 		$scope.filterDocs = {};
-		$scope.filterDocs[searchField] = newValue;
+		$scope.filterLinage = {};
+		$scope.filterDocs[selection.reference] = selection.label;
+		$scope.filterLinage = selection.lineage;
 	};
 	// Filter for review files
-	docBrowser.rfilterList = function(searchField, newValue) {
+	docBrowser.rfilterList = function(selection) {
+		$scope.rfilterSummary = undefined;
 		$scope.rfilterDocs = {};
-		$scope.rfilterDocs[searchField] = newValue;
+		$scope.rfilterDocs[selection.reference] = selection.label;
+		$scope.rfilterLinage = {};
+		$scope.rfilterLinage = selection.lineage;
 	};
+	
+	docBrowser.filterDocsSelected = function(row) {
+		if (!$scope.filterDocs) {
+			return false;
+		}
+		if ( $scope.filterLinage === row.lineage ) {
+			return true;
+		}
+		return false;
+	};
+
 	docBrowser.filterSummary = function(doc) {
 		$scope.bytes = {};
 		$scope.filterSummary = doc;

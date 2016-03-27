@@ -1,6 +1,6 @@
 <section class='panel panel-default'>
 	<div class="block-content">
-		<h3>Environmental Assessments</h3>
+		<h3>Relative Schedule</h3>
 	</div>
 	<table class="table table-condensed table-striped">
 		<thead>
@@ -18,10 +18,10 @@
 
 			<tr ng-repeat="project in projects" class='clickable' ui-sref="p.detail({projectid: project.code})">
 				<td ng-if="project.status === 'In Progress'">{{ project.name }}</td>
-				<td ng-if="project.status === 'In Progress'">{{ project.phase.name }}</td>
+				<td ng-if="project.status === 'In Progress'">{{ project.currentPhase.name }}</td>
 				<td ng-if="project.status === 'In Progress'" colspan="5" class="schedule-control-cell">
 				<!-- show schedule widget -->
-					<tmpl-schedule-chart></tmpl-schedule-chart>
+					<tmpl-schedule-chart x-project="project" x-phases="allPhases" id="{{ project.code }}"></tmpl-schedule-chart>
 				</td>
 
 				<td ng-if="project.status === 'Certified' || project.status === 'Decomissioned'">{{ project.name }}</td>
