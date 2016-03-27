@@ -65,7 +65,7 @@ var checkIntegration = function (name, override) {
 // configurations
 //
 // -------------------------------------------------------------------------
-checkIntegration ('newconfigs').then (function () {
+checkIntegration ('newconfigs2').then (function () {
 	require('../seed-data/newconfigs')(true);
 });
 

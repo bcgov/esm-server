@@ -7,251 +7,202 @@ var Stream        = mongoose.model('Stream');
 var PhaseBase     = mongoose.model('PhaseBase');
 var MilestoneBase = mongoose.model('MilestoneBase');
 var ActivityBase  = mongoose.model('ActivityBase');
+var Prom = require('promise');
 
 var baseObjects = {
-	activities: [
-		{
-		    "description" : "Announce Project",
-		    "name" : "Announce Project",
-		    "code" : "announce-project",
-		    "tasks" : [],
-		    "processCode" : "announce-project"
-		 },
-		{
-		    "description" : "Approve AIR",
-		    "name" : "Approve AIR",
-		    "code" : "approve-air",
-		    "tasks" : [],
-		    "processCode" : "approve-air"
-		},
-		{
-		    "description" : "Draft AIR",
-		    "name" : "Draft AIR",
-		    "code" : "draft-air",
-		    "tasks" : [],
-		    "processCode" : "draft-air"
-		},
-		{
-		    "description" : "Engage Working Group",
-		    "name" : "Engage Working Group",
-		    "code" : "engage-working-group",
-		    "tasks" : [],
-		    "processCode" : "engage-working-group"
-		},
-		{
-		    "description" : "Engage Working Group Configuration",
-		    "name" : "Engage Working Group Configuration",
-		    "code" : "engage-working-group-configuration",
-		    "tasks" : [],
-		    "processCode" : "engage-working-group-configuration"
-		},
-		{
-		    "description" : "Federal Substitution",
-		    "name" : "Federal Substitution",
-		    "code" : "federal-substitution",
-		    "tasks" : [],
-		    "processCode" : "federal-substitution"
-		},
-		{
-		    "description" : "First Nations Consultation Analysis",
-		    "name" : "First Nations Consultation Analysis",
-		    "code" : "first-nations-consultation-analysis",
-		    "tasks" : [],
-		    "processCode" : "fn-consultation-analysis",
-		},
-		{
-		    "description" : "Populate Application (Workgroup)",
-		    "name" : "Populate Application (Workgroup)",
-		    "code" : "populate-application",
-		    "tasks" : [],
-		    "processCode" : "populate-application-wg"
-		},
-		{
-		    "description" : "Populate Application (EAO)",
-		    "name" : "Populate Application (EAO)",
-		    "code" : "populate-application-eao",
-		    "tasks" : [],
-		    "processCode" : "populate-application-eao"
-		},
-		{
-		    "description" : "Section 10(1)c",
-		    "name" : "Section 10(1)c",
-		    "code" : "section-10-1-c",
-		    "tasks" : [],
-		    "processCode" : "section-101-c"
-		},
-		{
-		    "description" : "Section 11",
-		    "name" : "Section 11",
-		    "code" : "section-11",
-		    "tasks" : [],
-		    "processCode" : "section-11"
-		},
-		{
-		    "description" : "Decision",
-		    "name" : "Decision",
-		    "code" : "decision",
-		    "tasks" : [],
-		    "processCode" : "decision"
-		}
-	],
-	"milestones": [
-		{
-			"description": "Accept Draft Project Description",
-			"name": "Accept Draft Project Description",
-			"code": "accept-draft-project-desc",
-		},
-		{
-			"description": "Project Space Initiated",
-			"name": "Project Space Initiated",
-			"code": "project-space-initiated",
-		},
-		{
-			"description": "Project Description",
-			"name": "Project Description",
-			"code": "project-desc",
-		},
-		{
-			"description": "Section 10.1.c",
-			"name": "Section 10.1.c",
-			"code": "section101c",
-		},
-		{
-			"description": "Strength of Claim",
-			"name": "Strength of Claim",
-			"code": "strength-of-claim",
-		},
-		{
-			"description": "Section 11",
-			"name": "Section 11",
-			"code": "section11",
-		},
-		{
-			"description": "Value Component Document",
-			"name": "Value Component Document",
-			"code": "value-component-doc",
-		},
-		{
-			"description": "Draft AIR",
-			"name": "Draft AIR",
-			"code": "draft-air",
-		},
-		{
-			"description": "AIR",
-			"name": "AIR",
-			"code": "air",
-		},
-		{
-			"description": "Draft Application",
-			"name": "Draft Application",
-			"code": "draft-application",
-		},
-		{
-			"description": "Evaluation Decision",
-			"name": "Evaluation Decision",
-			"code": "evaluation-decision",
-		},
-		{
-			"description": "Application",
-			"name": "Application",
-			"code": "application",
-		},
-		{
-			"description": "Referral Package Sign-off",
-			"name": "Referral Package Sign-off",
-			"code": "referral-package-sign-off",
-		},
-		{
-			"description": "Ministers' Decision",
-			"name": "Ministers' Decision",
-			"code": "ministers-decision",
-		},
-		{
-			"description": "Substantially Started",
-			"name": "Substantially Started",
-			"code": "substantially-started",
-		}
-	],
+	activities: [{
+		code: 'edit',
+		name: 'Edit Artifact',
+		description: 'Edit Artifact',
+		state: 'p.artifact.edit'
+	},{
+		code: 'review',
+		name: 'Review Artifact',
+		description: 'Review Artifact',
+		state: 'p.artifact.review'
+	},{
+		code: 'approve',
+		name: 'Approve Artifact',
+		description: 'Approve Artifact',
+		state: 'p.artifact.approve'
+	},{
+		code: 'executive',
+		name: 'Executive Approve Artifact',
+		description: 'Executive Approve Artifact',
+		state: 'p.artifact.executive'
+	},{
+		code: 'publish',
+		name: 'Publish Artifact',
+		description: 'Publish Artifact',
+		state: 'p.artifact.publish'
+	},{
+		code: 'notify',
+		name: 'Notify Artifact',
+		description: 'Notify Artifact',
+		state: 'p.artifact.notify'
+	}],
+	"milestones": [{
+	    code: 'project-description',
+	    name: 'Project Description',
+	    description: 'Project Description',
+	    artifactType: 'Project Description'
+	},{
+	    code: 'section-10-1-a-order',
+	    name: 'Section 10(1)(a) Order',
+	    description: 'Section 10(1)(a) Order',
+	    artifactType: 'Section 10(1)(a) Order'
+	},{
+	    code: 'section-10-1-b-order',
+	    name: 'Section 10(1)(b) Order',
+	    description: 'Section 10(1)(b) Order',
+	    artifactType: 'Section 10(1)(b) Order'
+	},{
+	    code: 'section-10-1-c-order',
+	    name: 'Section 10(1)(c) Order',
+	    description: 'Section 10(1)(c) Order',
+	    artifactType: 'Section 10(1)(c) Order'
+	},{
+	    code: 'section-11-order',
+	    name: 'Section 11 Order',
+	    description: 'Section 11 Order',
+	    artifactType: 'Section 11 Order'
+	},{
+	    code: 'section-7-3-order',
+	    name: 'Section 7(3) Order',
+	    description: 'Section 7(3) Order',
+	    artifactType: 'Section 7(3) Order'
+	},{
+	    code: 'valued-component',
+	    name: 'Valued Component',
+	    description: 'Valued Component',
+	    artifactType: 'Valued Component'
+	},{
+		code: 'schedule-a',
+		name: 'Schedule A',
+		description: 'Schedule A',
+		artifactType: 'Schedule A'
+	}],
 	"phases": [
 		{
 			"description": "Pre-Submission",
 			"name": "Pre-submission",
-			"code": "presubmission",
+			"code": "pre-submission",
 		},
 		{
-			"description": "Pre-Application preparation",
+			"description": "Pre-Application Preparation",
 			"name": "Pre-EA",
-			"code": "preea",
+			"code": "pre-ea",
 		},
 		{
 			"description": "Pre-Application",
 			"name": "Pre-Application",
-			"code": "preap",
+			"code": "pre-application",
 		},
 		{
 			"description": "EAO Evaluation",
 			"name": "Evaluation",
-			"code": "eval",
+			"code": "evaluation",
 		},
 		{
 			"description": "EAO Review",
 			"name": "Review",
-			"code": "rev",
+			"code": "review",
 		},
 		{
 			"description": "Decision",
 			"name": "Decision",
-			"code": "dec",
+			"code": "decision",
 		},
 		{
 			"description": "Post Certification Processes",
 			"name": "Post-Certification",
-			"code": "post",
+			"code": "post-certification",
 		}
 	],
+	streams: [{
+	code: '10-1-c',
+	name: '10-1-c',
+	description: 'This is the set of phases most commonly assigned to an assessment',
+	phases: [
+		"pre-submission",
+		"pre-ea",
+		"pre-application",
+		"evaluation",
+		"review",
+		"decision",
+		"post-certification"
+	]
+
+	}]
 };
 var basePermissions = {
-	read   : ['project:eao:member'],
-	write  : ['project:eao:working-group'],
-	submit : ['project:eao:admin'],
-	watch  : ['project:eao:admin'],
+	"default_pro_watch": ['admin'],
+	"default_pro_submit": ['admin'],
+	"default_pro_write": ['editor'],
+	"default_pro_read": ['member'],
+	"default_eao_watch": ['admin'],
+	"default_eao_submit": ['admin'],
+	"default_eao_write": ['editor'],
+	"default_eao_read": ['member']
 };
 var emptyStream = {
-	code: 'stream-test-alpha',
-	name: 'Test Stream Alpha',
-	description: 'A test stream that has every possible child object.  To be used for testing project browsing',
-	roles: ['project:eao:admin', 'project:eao:working-group', 'project:eao:member'],
-	read: ['project:eao:working-group', 'project:eao:member'],
-	submit: ['project:eao:admin']
+	code: '10-1-c',
+	name: '10-1-c',
+	description: 'This is the set of phases most commonly assigned to an assessment',
+	phases: [
+		"pre-submission",
+		"pre-ea",
+		"pre-application",
+		"evaluation",
+		"review",
+		"decision",
+		"post-certification"
+	]
 };
 
 module.exports = function (clear) {
+	return new Prom (function (resolve, reject) {
 	console.log ('Running configuration seeding');
+	var p;
 	if (clear) {
 		console.log ('\t removing existing configuration objects');
-		Stream.remove ({}).exec();
-		PhaseBase.remove ({}).exec();
-		MilestoneBase.remove ({}).exec();
-		ActivityBase.remove ({}).exec();
+		p = Stream.remove ({}).exec()
+		.then (PhaseBase.remove ({}).exec())
+		.then (MilestoneBase.remove ({}).exec())
+		.then (ActivityBase.remove ({}).exec());
+	} else {
+		p = Prom.resolve();
 	}
-	console.log ('\t adding phases');
-	_.each (baseObjects.phases, function (o) {
-		var m = new PhaseBase (_.extend ({},o,basePermissions));
-		m.save ();
+	p.then (function () {
+		console.log ('\t adding phases');
+		return Prom.all (baseObjects.phases.map (function (o) {
+			var m = new PhaseBase (_.extend ({},o,basePermissions));
+			return m.save ();
+		}));
+	})
+	.then (function () {
+		console.log ('\t adding milestones');
+		return Prom.all (baseObjects.milestones.map (function (o) {
+			var m = new MilestoneBase (_.extend ({},o,basePermissions));
+			return m.save ();
+		}));
+	})
+	.then (function () {
+		console.log ('\t adding activities');
+		return Prom.all (baseObjects.activities.map (function (o) {
+			var m = new ActivityBase (_.extend ({},o,basePermissions));
+			return m.save ();
+		}));
+	})
+	.then (function () {
+		console.log ('\t adding streams');
+		return Prom.all (baseObjects.streams.map (function (o) {
+			var m = new Stream (_.extend ({},o,basePermissions));
+			return m.save ();
+		}));
+	})
+	.then (resolve, reject);
 	});
-	console.log ('\t adding milestones');
-	_.each (baseObjects.milestones, function (o) {
-		var m = new MilestoneBase (_.extend ({},o,basePermissions));
-		m.save ();
-	});
-	console.log ('\t adding activities');
-	_.each (baseObjects.activities, function (o) {
-		var m = new ActivityBase (_.extend ({},o,basePermissions));
-		m.save ();
-	});
-	console.log ('\t adding test stream');
-	var s = new Stream (_.extend ({},emptyStream,basePermissions));
-	s.save ();
 };
 
 

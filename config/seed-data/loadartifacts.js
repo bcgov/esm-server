@@ -2,7 +2,6 @@
 var _ = require ('lodash');
 var mongoose      = require('mongoose');
 var ArtifactType         = mongoose.model('ArtifactType');
-var ActivityBase         = mongoose.model('ActivityBase');
 var MilestoneBase         = mongoose.model('MilestoneBase');
 var Template         = mongoose.model('Template');
 var list     = require ('./artifactslist');
@@ -15,24 +14,25 @@ module.exports = function () {
 	//
 	var total = 0;
 	var count = 0;
-	promise.all (list.activitybases.map (function (activity) {
-		console.log ('removing activity base ',activity.code);
-		return ActivityBase.remove ({code:activity.code});
-	}))
-	.then (function () {
-		return promise.all (list.activitybases.map (function (activity) {
-			console.log ('adding activity base ',activity.code);
-			var a = new ActivityBase (activity);
-			return a.save ();
-		}));
-	})
-	.then (function () {
-		return promise.all (list.milestonebases.map (function (milestone) {
-			console.log ('adding milestone base ',milestone.code);
-			var a = new MilestoneBase (milestone);
-			return a.save ();
-		}));
-	})
+	// promise.all (list.activitybases.map (function (activity) {
+	// 	console.log ('removing activity base ',activity.code);
+	// 	return ActivityBase.remove ({code:activity.code});
+	// }))
+	// .then (function () {
+	// 	return promise.all (list.activitybases.map (function (activity) {
+	// 		console.log ('adding activity base ',activity.code);
+	// 		var a = new ActivityBase (activity);
+	// 		return a.save ();
+	// 	}));
+	// })
+	// .then (function () {
+	// 	return promise.all (list.milestonebases.map (function (milestone) {
+	// 		console.log ('adding milestone base ',milestone.code);
+	// 		var a = new MilestoneBase (milestone);
+	// 		return a.save ();
+	// 	}));
+	// })
+	promise.resolve ()
 	.then (function () {
 		return mongoose.connection.collections.artifacttypes.drop();
 	})
