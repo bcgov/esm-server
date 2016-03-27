@@ -29,7 +29,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	copyActivityBase: function (base) {
-		return this.newDocument (base);
+		return this.copy (base);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -102,7 +102,7 @@ module.exports = DBModel.extend ({
 		});
 		return Roles.objectRoles ({
 			method      : 'set',
-			objects     : [activity],
+			objects     : activity,
 			type        : 'activities',
 			permissions : permissions
 		});
@@ -156,15 +156,23 @@ module.exports = DBModel.extend ({
 		var base;
 		var baseId;
 		var activity;
+		//
+		// allow anyone to make a new activity, this is needed as they
+		// get created for all sorts of things automatically and it would
+		// be a nightmare trying to limit both creation and usage
+		//
+		this.setForce (true);
 		return new Promise (function (resolve, reject) {
 			//
 			// get the base
 			//
+			// console.log ('Activity From Base:'+code+' Step 1');
 			self.getActivityBase (code)
 			//
 			// copy its id and such before we lose it, then copy the entire thing
 			//
 			.then (function (m) {
+				// console.log ('Activity From Base:'+code+' Step 2');
 				base = m;
 				baseId = m._id;
 				return self.copyActivityBase (base);
@@ -173,6 +181,7 @@ module.exports = DBModel.extend ({
 			// set the base id and then initial dates
 			//
 			.then (function (m) {
+				// console.log ('Activity From Base:'+code+' Step 3');
 				activity = m;
 				activity.activityBase = baseId;
 				return self.setInitalDates (activity);
@@ -181,20 +190,25 @@ module.exports = DBModel.extend ({
 			// copy over stuff from the milestone
 			//
 			.then (function (m) {
+				// console.log ('Activity From Base:'+code+' Step 4');
 				return self.setAncestry (m, milestone);
 			})
 			//
 			// set up all the default roles, creates them if need be
 			//
 			.then (function (m) {
+				// console.log ('Activity From Base:'+code+' Step 5');
+				// console.log ('setting roles');
 				return self.setDefaultRoles (m, base);
 			})
 			//
 			// the model was saved during the roles step so we just
 			// have to resolve it here
 			//
-			.then (function (models) {
-				return (models[0]);
+			.then (function (model) {
+				// console.log ('Activity From Base:'+code+' Step 6');
+				// console.log ('all done setting roles, and the activity was saved during that');
+				return (model);
 			})
 			.then (resolve, reject);
 		});

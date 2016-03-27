@@ -4,11 +4,11 @@
 // Routes for Projects
 //
 // =========================================================================
-var policy     = require ('../policies/project.policy');
-var Project    = require ('../controllers/project.controller');
-var ProjectLoad= require ('../controllers/project.controller');
-var helpers    = require ('../../../core/server/controllers/core.helpers.controller');
-var _ 		= require('lodash');
+var policy      = require ('../policies/project.policy');
+var Project     = require ('../controllers/project.controller');
+var projectLoad = require ('../controllers/project.controller');
+var helpers     = require ('../../../core/server/controllers/core.helpers.controller');
+var _           = require ('lodash');
 
 module.exports = function (app) {
 	helpers.setCRUDRoutes (app, 'project', Project, policy);
@@ -119,7 +119,7 @@ module.exports = function (app) {
 			var file = req.files.file;
 			if (file) {
 				// console.log("Received contact import file:",file);
-				ProjectLoad (file, req, res)
+				projectLoad (file, req, res)
 				.then (helpers.success(res), helpers.failure(res));
 			}
 		});
@@ -128,7 +128,7 @@ module.exports = function (app) {
 			var file = req.files.file;
 			if (file) {
 				// console.log("Received contact import file:",file);
-				ProjectLoad (file, req, res)
+				projectLoad (file, req, res)
 				.then (helpers.success(res), helpers.failure(res));
 			}
 		});

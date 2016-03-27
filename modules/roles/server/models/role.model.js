@@ -53,17 +53,21 @@ var RoleSchema  = new Schema ({
 // };
 
 RoleSchema.methods.modObject = function (method, type, array) {
+	console.log ('role.modobject', method, type, array);
+	var inputarray = array.map (function (id) {return id.toString();});
+	var typearray = this[type].map (function (id) {return id.toString();});
 	if (method === 'add') {
-		this[type] = _.union (this[type], array);
+		typearray = _.union (typearray, inputarray);
 	}
 	else if (method === 'remove') {
-		_.remove (this[type], function (id) {
-			return _.indexOf (array, id) !== -1;
+		_.remove (typearray, function (id) {
+			return _.indexOf (inputarray, id) !== -1;
 		});
 	}
 	else {
-		this[type] = _.union ([], array);
+		typearray = _.union ([], inputarray);
 	}
+	this[type] = typearray;
 };
 
 RoleSchema.methods.generateCode = function () {

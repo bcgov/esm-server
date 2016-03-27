@@ -69,7 +69,7 @@ newMethods.authenticate = function (password) {
 // 	this.roles = roles;
 // };
 
-var modRoles = function (method, rolearray) {
+newMethods.modRoles = function (method, rolearray) {
 	if (method === 'add') {
 		this.roles = _.union (this.roles, rolearray);
 	}
@@ -107,8 +107,6 @@ newStatics.findUniqueUsername = function (username, suffix, callback) {
 
 module.exports = require ('../../../core/server/controllers/core.models.controller').generateModel('User', {
 	__audit     : true,
-	__access    : true,
-	__tracking  : true,
 
 	firstName: 	{ type: String, trim: true, default: '', validate: [validateLocalStrategyProperty, 'Please fill in your first name'] },
 	middleName: 	{ type: String, trim: true, default: null },

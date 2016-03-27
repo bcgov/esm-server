@@ -108,7 +108,9 @@ var generateCode = function (projectCode, orgCode, roleCode) {
 	if (projectCode) a.push (projectCode);
 	if (orgCode) a.push (orgCode);
 	if (roleCode) a.push (roleCode);
-	return a.join (':');
+	var r = a.join (':');
+	// console.log ('generated role code: ', r);
+	return r;
 };
 // -------------------------------------------------------------------------
 //
@@ -124,25 +126,31 @@ var generateCode = function (projectCode, orgCode, roleCode) {
 //
 // -------------------------------------------------------------------------
 var userRoles = function (data) {
+	console.log ('++ setting out user roles');
+	var userArray = _.isArray (data.users) ? data.users : [data.users];
+	var roleArray = _.isArray (data.roles) ? data.roles : [data.roles];
 	return new Promise (function (resolve, reject) {
 		//
 		// get all the roles
 		//
-		Promise.all (data.roles, function (code) {
+		Promise.all (roleArray.map (function (code) {
+			console.log ('looking for or creating role '+code);
 			return findRole (code);
-		})
+		}))
 		.then (function (rolesarray) {
 			//
 			// make an array of just user ids and add all of them
 			// to each role using the correct method
 			//
-			var idArray = data.users.map (function (u) {
+			var idArray = userArray.map (function (u) {
+				console.log ('getting the id for user ', u.username);
 				return u._id.toString ();
 			});
-			return Promise.all (rolesarray, function (role) {
+			return Promise.all (rolesarray.map (function (role) {
+				console.log ('setting user id array in role ', role.code, role._id);
 				role.modObject (data.method, 'users', idArray);
 				return role.save ();
-			});
+			}));
 		})
 		.then (function (rolesalldone) {
 			//
@@ -150,10 +158,14 @@ var userRoles = function (data) {
 			// have all the user schema docs, so let's plow
 			// through those and do the same
 			//
-			return Promise.all (data.users, function (user) {
-				user.modRoles (data.method, data.roles);
+			return Promise.all (userArray.map (function (user) {
+				console.log ('setting roles for user ', user.username, roleArray);
+				user.modRoles (data.method, roleArray);
 				return user.save ();
-			});
+			}));
+		})
+		.then (function () {
+			return data.users;
 		})
 		.then (resolve, reject);
 	});
@@ -180,29 +192,36 @@ var userRoles = function (data) {
 //
 // -------------------------------------------------------------------------
 var objectRoles = function (data) {
+	var objectArray = _.isArray (data.objects) ? data.objects : [data.objects];
+	var ocode = objectArray[0].code;
+	// console.log ('++ setting out object roles for '+ocode);
 	return new Promise (function (resolve, reject) {
 		//
 		// flatten out the roles into a discreet list
 		//
 		var allRoles = _.union (data.permissions.read, data.permissions.write, data.permissions.submit, data.permissions.watch);
+		// console.log (allRoles);
 		//
 		// get all the roles
 		//
-		Promise.all (allRoles, function (code) {
+		Promise.all (allRoles.map (function (code) {
+			// console.log ('looking for or creating role '+code);
 			return findRole (code);
-		})
+		}))
 		.then (function (rolesarray) {
 			//
 			// make an array of just object ids and add all of them
 			// to each role using the correct method
 			//
-			var idArray = data.objects.map (function (u) {
+			var idArray = objectArray.map (function (u) {
+				// console.log ('getting the id for object ', u.code);
 				return u._id.toString ();
 			});
-			return Promise.all (rolesarray, function (role) {
+			return Promise.all (rolesarray.map (function (role) {
+				// console.log ('setting '+data.type+' array in role ', role.code, role._id);
 				role.modObject (data.method, data.type, idArray);
 				return role.save ();
-			});
+			}));
 		})
 		.then (function (rolesalldone) {
 			//
@@ -210,10 +229,15 @@ var objectRoles = function (data) {
 			// have all the object schema docs, so let's plow
 			// through those and do the same, but add the permissions
 			//
-			return Promise.all (data.objects, function (object) {
+			return Promise.all (objectArray.map (function (object) {
+				// console.log ('setting roles for object ', object.code, data.permissions);
 				object.modRoles (data.method, data.permissions);
+				// console.log ('now saving object', object.code, object._id);
 				return object.save ();
-			});
+			}));
+		})
+		.then (function () {
+			return data.objects;
 		})
 		.then (resolve, reject);
 	});
@@ -236,6 +260,7 @@ module.exports = {
 	//
 	objectRoles:objectRoles,
 	userRoles:userRoles,
+	generateCode:generateCode
 };
 
 	// addUserRole : addUserRole,

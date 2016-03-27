@@ -80,7 +80,9 @@ _.extend (DBModel.prototype, {
 		this.writeQuery = {};
 		this.resetAccess = false;
 		this.setUser (user);
+		this.force = false;
 	},
+	setForce: function (value) { this.force = value; },
 	// -------------------------------------------------------------------------
 	//
 	// set the base query to be used for all methods, this applies filtering
@@ -285,7 +287,7 @@ _.extend (DBModel.prototype, {
 		// console.log ('in saveDocument with doc ',doc);
 		// console.log ('in saveDocument with roles ',self.roles);
 		return new Promise (function (resolve, reject) {
-			if (self.useRoles && !doc.userHasPermission (self.user, 'write')) {
+			if (!self.force && self.useRoles && !doc.userHasPermission (self.user, 'write')) {
 				return reject (new Error ('Write operation not permitted for this '+self.name+' object'));
 			}
 			if (self.useAudit) doc.setAuditFields (self.user);

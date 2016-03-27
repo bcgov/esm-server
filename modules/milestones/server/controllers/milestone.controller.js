@@ -32,7 +32,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	copyMilestoneBase: function (base) {
-		return this.newDocument (base);
+		return this.copy (base);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -86,6 +86,7 @@ module.exports = DBModel.extend ({
 			.then (function (m) {
 				base          = m;
 				baseId        = m._id;
+				// console.log (m.activities);
 				activityCodes = _.clone (m.activities);
 				return self.copyMilestoneBase (base);
 			})
@@ -95,6 +96,7 @@ module.exports = DBModel.extend ({
 			.then (function (m) {
 				milestone = m;
 				milestone.milestoneBase = baseId;
+				milestone.activities = [];
 				return self.setInitalDates (milestone);
 			})
 			//
@@ -108,16 +110,26 @@ module.exports = DBModel.extend ({
 			// so not too much of an issue
 			//
 			.then (function (m) {
-				return Promise.all (activityCodes, function (code) {
-					return self.addActivity (m, code);
-				});
+				// console.log ("++ new milestone with id:", m._id);
+				// console.log ("now adding activities from base ", activityCodes);
+				//
+				// This little bit of magic forces the synchronous executiuon of
+				// async functions as promises, so a sync version of all.
+				//
+				return activityCodes.reduce (function (current, code) {
+					return current.then (function () {
+						// console.log ('++ add activity ', code);
+						return self.addActivity (m, code);
+					});
+				}, Promise.resolve());
 			})
 			//
 			// the model was saved during the roles step so we just
 			// have to resolve it here
 			//
 			.then (function (models) {
-				return (milestone);
+				// console.log ("Yay! the add activity promise array resolved to ", models);
+				return self.saveDocument (milestone);
 			})
 			.then (resolve, reject);
 		});
@@ -138,26 +150,26 @@ module.exports = DBModel.extend ({
 			Activity.fromBase (basecode, milestone)
 			//
 			// merge in the permissions (resolves to list of activities)
-			// or, if no permissions to set, return array with new activity
+			// or, if no permissions to set, return the activity
 			//
 			.then (function (activity) {
 				if (permissions && !_.isEmpty (permissions)) {
+					console.log ('Adding permissions');
 					return Roles.objectRoles ({
 						method      : 'add',
-						objects     : [activity],
+						objects     : activity,
 						type        : 'activities',
 						permissions : permissions
 					});
 				}
 				else {
-					return [activity];
+					return activity;
 				}
 			})
-			.then (function (activities) {
-				milestone.activities.push (activities[0]._id);
-				return milestone;
+			.then (function (activity) {
+				milestone.activities.push (activity);
+				return self.saveDocument (milestone);
 			})
-			.then (self.saveDocument)
 			.then (resolve, reject);
 		});
 	},
@@ -184,7 +196,7 @@ module.exports = DBModel.extend ({
 		return new Promise (function (resolve, reject) {
 			milestone.status        = 'Completed';
 			milestone.completed     = true;
-			milestone.completedBy   = this.user._id;
+			milestone.completedBy   = self.user._id;
 			milestone.dateCompleted = Date.now ();
 			self.completeActivities (milestone)
 			.then (self.findAndUpdate)
@@ -216,12 +228,13 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	completeActivities: function (milestone) {
+		console.log ('completing activities',milestone.activities);
 		var self = this;
-		return Promise.all (milestone.activities, function (activity) {
+		return Promise.all (milestone.activities.map (function (activity) {
 			var Activity = new ActivityClass (self.user);
 			if (activity.completed) return activity;
 			else return Activity.complete (activity);
-		});
+		}));
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -230,11 +243,11 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	overrideActivities: function (milestone) {
 		var self = this;
-		return Promise.all (milestone.activities, function (activity) {
+		return Promise.all (milestone.activities.map (function (activity) {
 			var Activity = new ActivityClass (self.user);
 			if (activity.completed) return activity;
 			else return Activity.override (activity, milestone.overrideReason);
-		});
+		}));
 	},
 	// -------------------------------------------------------------------------
 	//

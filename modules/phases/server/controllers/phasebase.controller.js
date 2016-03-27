@@ -11,7 +11,6 @@ var DBModel  = require (path.resolve('./modules/core/server/controllers/core.dbm
 module.exports = DBModel.extend ({
 	name     : 'PhaseBase',
 	plural   : 'phasebases',
-	populate : 'milestones',
 });
 
 

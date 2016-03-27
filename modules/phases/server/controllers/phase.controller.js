@@ -14,6 +14,7 @@ var Roles          = require (path.resolve('./modules/roles/server/controllers/r
 module.exports = DBModel.extend ({
 	name : 'Phase',
 	plural : 'phases',
+	bind: ['complete'],
 	// -------------------------------------------------------------------------
 	//
 	// just get a base phase, returns a promise
@@ -28,7 +29,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	copyPhaseBase: function (base) {
-		return this.newDocument (base);
+		return this.copy (base);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -52,7 +53,7 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	setAncestry: function (phase, project) {
 		phase.project     = project._id;
-		phase.projectCode = project.projectCode;
+		phase.projectCode = project.code;
 		phase.stream      = project.stream;
 		return phase;
 	},
@@ -77,15 +78,18 @@ module.exports = DBModel.extend ({
 			// copy its id and such before we lose it, then copy the entire thing
 			//
 			.then (function (m) {
+				console.log ('found the base');
 				base          = m;
 				baseId        = m._id;
 				milestoneCodes = _.clone (m.milestones);
+				m.milestones = [];
 				return self.copyPhaseBase (base);
 			})
 			//
 			// set the base id and then initial dates
 			//
 			.then (function (m) {
+				console.log ('copied the base into new phase with id ', m._id, m.milestones);
 				phase = m;
 				phase.phaseBase = baseId;
 				return self.setInitalDates (phase);
@@ -101,9 +105,17 @@ module.exports = DBModel.extend ({
 			// so not too much of an issue
 			//
 			.then (function (m) {
-				return Promise.all (milestoneCodes, function (code) {
-					return self.addMilestone (m, code);
-				});
+				console.log ('all set to add milestones');
+				//
+				// This little bit of magic forces the synchronous executiuon of
+				// async functions as promises, so a sync version of all.
+				//
+				return milestoneCodes.reduce (function (current, code) {
+					return current.then (function () {
+						// console.log ('++ add activity ', code);
+						return self.addMilestone (m, code);
+					});
+				}, Promise.resolve());
 			})
 			//
 			// the model was saved during the roles step so we just
@@ -160,7 +172,7 @@ module.exports = DBModel.extend ({
 		return new Promise (function (resolve, reject) {
 			phase.status        = 'Completed';
 			phase.completed     = true;
-			phase.completedBy   = this.user._id;
+			phase.completedBy   = self.user._id;
 			phase.dateCompleted = Date.now ();
 			self.completeMilestones (phase)
 			.then (self.findAndUpdate)
@@ -192,12 +204,13 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	completeMilestones: function (phase) {
+		console.log ('completing milestones');
 		var self = this;
-		return Promise.all (phase.milestones, function (milestone) {
+		return Promise.all (phase.milestones.map (function (milestone) {
 			var Milestone = new MilestoneClass (self.user);
 			if (milestone.completed) return milestone;
 			else return Milestone.complete (milestone);
-		});
+		}));
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -206,11 +219,11 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	overrideMilestones: function (phase) {
 		var self = this;
-		return Promise.all (phase.milestones, function (milestone) {
+		return Promise.all (phase.milestones.map (function (milestone) {
 			var Milestone = new MilestoneClass (self.user);
 			if (milestone.completed) return milestone;
 			else return Milestone.override (milestone, phase.overrideReason);
-		});
+		}));
 	},
 
 

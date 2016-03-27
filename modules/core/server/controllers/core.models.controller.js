@@ -281,11 +281,15 @@ var generateSchema = function (definition, indexes) {
 		// schema.methods.fixRoles          = fixRoles;
 		// schema.methods.fixRoleArray      = fixRoleArray;
 		// schema.methods.mergeRoles        = mergeRoles;
-		// schema.methods.addRoles          = addRoles;
 		schema.methods.roleSet           = roleSet;
 		schema.methods.allRoles          = allRoles;
-		// schema.methods.setRoles          = setRoles;
-		schema.methods.modRoles = modRoles;
+
+		schema.methods.addRoles    = addRoles;
+		schema.methods.setRoles    = setRoles;
+		schema.methods.removeRoles = removeRoles;
+		schema.methods.modRoles    = modRoles;
+		schema.methods.publish     = publish;
+		schema.methods.unpublish   = unpublish;
 		schema.index ({read:1});
 		schema.index ({write:1});
 		schema.index ({submit:1});

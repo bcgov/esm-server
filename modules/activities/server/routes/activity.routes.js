@@ -82,5 +82,19 @@ module.exports = function (app) {
 			p.userActivities (req.Project.code, 'write')
 			.then (helpers.success(res), helpers.failure(res));
 		});
+// //test-activity 56f53c787eb8ce680e26baf8
+// //test-milestone 56f53d837eb8ce680e26baf9
+// 	app.route ('/api/test/activities').get (function (req, res) {
+// 		var path      = require('path');
+// 		var Milestone = require (path.resolve('./modules/milestones/server/controllers/milestone.controller'));
+// 		var a = new Activity (req.user);
+// 		var m = new Milestone (req.user);
+// 		a.findById ('56f596aafb46ba8b1214e5f4')
+// 		.then (function (activity) {
+// 			console.log ('found activity', activity);
+// 			return a.override (activity, 'this is crappy');
+// 		})
+// 		.then (helpers.success(res), helpers.failure(res));
+// 	});
 };
 

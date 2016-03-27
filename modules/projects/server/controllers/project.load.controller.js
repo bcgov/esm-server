@@ -4,6 +4,7 @@ var fs                  = require ('fs');
 var mongoose            = require ('mongoose');
 var Project             = require ('../controllers/project.controller');
 var Model               = mongoose.model ('Project');
+var Phase               = mongoose.model ('Phase');
 var Organization        = mongoose.model ('Organization');
 var CSVParse            = require ('csv-parse');
 
