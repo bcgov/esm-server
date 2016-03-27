@@ -58,8 +58,8 @@ module.exports = function(file, req, res) {
 								// console.log("MODEL:",model);
 
 								// Always do this
-								model.name	= row.ProjectName;
-								model.code 			= model.name.toLowerCase ().replace (' ', '-').substr (0, model.name.length+1);
+								model.name			= row.ProjectName;
+								model.code 			= model.name.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, model.name.length+1);
 								var addOrChangeProp = function(prop) {
 									// Sometimes mem Props are NULL
 									// console.log(row.Proponent);
@@ -67,7 +67,7 @@ module.exports = function(file, req, res) {
 										row.Proponent = "N/A";
 										prop.code = model.code;
 									} else {
-										prop.code = row.Proponent.toLowerCase().match(/\b(\w)/g).join('');
+										prop.code = row.Proponent.toLowerCase().replace(/\//g,'-').match(/\b(\w)/g).join('');
 									}
 									prop.name 		= row.Proponent;
 									prop.company	= row.Proponent;

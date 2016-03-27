@@ -6,7 +6,7 @@
 // =========================================================================
 var policy      = require ('../policies/project.policy');
 var Project     = require ('../controllers/project.controller');
-var projectLoad = require ('../controllers/project.controller');
+var projectLoad = require ('../controllers/project.load.controller');
 var helpers     = require ('../../../core/server/controllers/core.helpers.controller');
 var _           = require ('lodash');
 
