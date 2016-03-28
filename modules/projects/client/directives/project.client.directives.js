@@ -69,9 +69,9 @@ function directiveModalProjectSchedule($modal) {
 // DIRECTIVE: Modal Add Phase to Project
 //
 // -----------------------------------------------------------------------------------
-directiveModalAddPhaseToProject.$inject = ['$modal', '$rootScope'];
+directiveModalAddPhaseToProject.$inject = ['$modal', '$rootScope', 'PhaseBaseModel', 'ProjectModel'];
 /* @ngInject */
-function directiveModalAddPhaseToProject($modal, $rootScope) {
+function directiveModalAddPhaseToProject($modal, $rootScope, PhaseBaseModel, ProjectModel) {
 	var directive = {
 		restrict:'A',
 		scope: {
@@ -83,15 +83,16 @@ function directiveModalAddPhaseToProject($modal, $rootScope) {
 					animation: true,
 					templateUrl: 'modules/projects/client/views/project-partials/modal-add-phase.html',
 					controller: 'controllerModalAddPhase',
-					controllerAs: 'addPhase',
+					size: 'sm',
 					resolve: {
-						rProject: function() {
-							return scope.project;
+						phases: function() {
+							return PhaseBaseModel.getCollection();
 						}
-					},
-					size: 'sm'
+					}
 				});
 				modalAddPhase.result.then(function (data) {
+					ProjectModel.setModel(scope.project);
+					ProjectModel.addPhase(data._id).then( function() {});
 				}, function () {});
 			});
 		}
@@ -295,7 +296,6 @@ function directiveProjectActivities() {
 		restrict: 'E',
 		templateUrl: 'modules/projects/client/views/project-partials/project-activities.html',
 		controller: 'controllerProjectActivities',
-		controllerAs: 'projectActs',
 		scope: {
 			project: '='
 		}

@@ -40,7 +40,6 @@ angular.module('project').config (
 		url: '/detail',
 		templateUrl: 'modules/projects/client/views/project-partials/project.detail.html',
 		controller: function ($scope, project) {
-			console.log ('project = ', project);
 			$scope.project = project;
 		}
 	})

@@ -3,9 +3,14 @@
 angular.module('roles').run(['Menus',
 	function (Menus) {
 		Menus.addMenuItem('projectMenu', {
-			title: 'Roles',
-			state: 'p.roles.list',
+			title: 'Project Roles',
+			state: 'p.roles',
 			roles: ['user']
 		});
+		Menus.addMenuItem('systemMenu', {
+			title: 'System Roles',
+			state: 'admin.roles.list',
+			roles: ['user']
+		});		
 	}
 ]);

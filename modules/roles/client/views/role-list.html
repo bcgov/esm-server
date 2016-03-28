@@ -1,0 +1,32 @@
+<h1 class="page-title no-lower-margin">System Roles</h1>
+
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="admin.roles.create()">+ Add New System Role</a>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-12">
+		<section class="panel panel-default">
+			<table ng-table="tableParams" class="table table-condensed table-striped table-hover">
+				<tr ng-repeat="o in $data" ui-sref="admin.roles.detail({roleCode:o.code})" class="clickable">
+					<td data-title="'Role'"  filter="{'code':'text'}"   sortable="'code'">{{o.code}}</td>
+					<td data-title="'Organization Code'"  filter="{'orgCode':'text'}"   sortable="'orgCode'">{{o.orgCode}}</td>
+					<td data-title="'Role Code'"  filter="{'roleCode':'text'}"   sortable="'roleCode'">{{o.roleCode}}</td>
+					<td width="1%" class="text-right">
+						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="admin.roles.edit({roleCode:o.code})">
+							<i class="glyphicon glyphicon-pencil"></i>
+						</a>
+					</td>
+				</tr>
+				<tr ng-if="!$data || $data.length === 0">
+					<td colspan="4">
+						No records found.
+					</td>
+				</tr>
+			</table>
+		</section>
+	</div>
+
+</div>

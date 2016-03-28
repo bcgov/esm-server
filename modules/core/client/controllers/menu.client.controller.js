@@ -57,7 +57,6 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope,
 				angular.element(link).addClass('ng-hide');
 			}
 		});
-		console.log(id, showParent);
 		return showParent;
 	};
 

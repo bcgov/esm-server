@@ -34,6 +34,7 @@ module.exports = function (app) {
 			.then (helpers.success(res), helpers.failure(res));
 		})
 		.get (function (req, res) {
+			console.log(req.params.role);
 			controller.getRole (req.params.role)
 			.then (helpers.success(res), helpers.failure(res));
 		});

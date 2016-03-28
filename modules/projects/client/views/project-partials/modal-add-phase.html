@@ -3,23 +3,22 @@
 </div>
 
 <div class="modal-body">
-
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="activ" class="control-label">Select Phase</label>
-					<select id="activ" ng-model='addPhase.newBasePhase' class="form-control input-sm" ng-options="phase as phase.name for phase in addPhase.phases | orderBy:'order'"></select>
-				</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="form-group">
+				<label for="activ" class="control-label">Select Phase</label>
+				<select id="activ" ng-model='newBasePhase' class="form-control input-sm" ng-options="phase as phase.name for phase in phases | orderBy:'order'"></select>
 			</div>
 		</div>
+	</div>
 
 </div> <!-- /modalbody -->
 
 
 <div class="modal-footer">
 	<div>
-		<a class="btn btn-default" href ng-click="addPhase.cancel()">Cancel</a>
-		<a class="btn btn-default" href ng-click="addPhase.ok()">Save</a>
+		<a class="btn btn-default" href ng-click="cancel()">Cancel</a>
+		<a class="btn btn-default" href ng-click="ok()">Save</a>
 	</div>
 </div>
 

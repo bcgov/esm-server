@@ -1426,8 +1426,8 @@ table thead tr.ng-table-filters {
 	background-color: rgba(0,0,0,0.15);
 	color: #ffffff;
 	text-align: center;
-	left: 15px;
-	right: 15px;	
+	left: 0;
+	right: 0;	
 }
 .show-news:hover,
 .show-news:active,
@@ -1439,6 +1439,8 @@ table thead tr.ng-table-filters {
 .activity-list-med .show-news {
 	position: absolute;
 	bottom: 0;
+	left: 15px;
+	right: 15px;	
 }
 
 div.dropdown-menu {

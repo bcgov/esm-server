@@ -76,7 +76,6 @@
 
 					<ul class="list-unstyled" ng-show="menu.authentication.user">
 						<li><a ui-sref="p.workinggroup.list">Working Group</a></li>
-						<li><a ui-sref="p.role.list">Project Roles</a></li>
 					</ul>
 				</div>
 			</div>
@@ -113,9 +112,6 @@
 					</li>
 					<li ng-if="menu.isAdmin">
 						<a ui-sref="admin.user.list">Users</a>
-					</li>
-					<li ng-if="menu.isAdmin">
-						<a ui-sref="admin.user.list">System Roles</a>
 					</li>
 		 			<li ng-if="menu.isAdmin">
 						<a ui-sref="admin.template.list">Templates</a>
