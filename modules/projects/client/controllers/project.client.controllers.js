@@ -59,9 +59,7 @@ function controllerModalProjectSchedule($modalInstance, ProjectModel, PhaseModel
 	ProjectModel.setModel(rProject);
 	projSched.project = ProjectModel.getCopy();
 
-	PhaseModel.phasesForProject(projSched.project._id).then( function(data) {
-		projSched.phases = data;
-	});
+	projSched.phases = rProject.phases;
 
 	projSched.cancel = function () { $modalInstance.dismiss('cancel'); };
 	projSched.ok = function () {

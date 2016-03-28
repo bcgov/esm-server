@@ -2,7 +2,7 @@
 	<h3 class="modal-title">Project Schedule</h3>
 </div>
 
-<table class='table table-condensed'>	
+<table class='table table-condensed'>
 	<thead>
 		<tr class="small">
 			<th width="28%">Phases</th>
@@ -17,19 +17,19 @@
 		<tr ng-repeat="phase in projSched.phases track by $index" ng-class="{'bg-success': phase === projSched.project.currentPhase}">
 			<td><p class="form-control-static">{{ phase.name }}</p></td>
 			<td class='text-center'>
-				<p class="form-control-static">{{ phase.dateStartEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="phase.dateStartEst" ng-if="!phase.dateStart">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
+				<p class="form-control-static">{{ phase.dateStartedEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="phase.dateStartedEst" ng-if="!phase.dateStarted">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
 			</td>
 			<td class='text-center'>
-				<p class="form-control-static">{{ phase.dateEndEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="phase.dateEndEst" ng-if="!phase.dateEnd">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
+				<p class="form-control-static">{{ phase.dateCompletedEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="phase.dateCompletedEst" ng-if="!phase.dateCompleted">&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a></p>
 			</div>
-			<td class='text-center'><p class="form-control-static">{{ phase.dateStart | amDateFormat:'MMM Do YYYY' }}</p></td>
-			<td class='text-center'><p class="form-control-static">{{ phase.dateEnd | amDateFormat:'MMM Do YYYY' }}</p></td>
+			<td class='text-center'><p class="form-control-static">{{ phase.dateStarted | amDateFormat:'MMM Do YYYY' }}</p></td>
+			<td class='text-center'><p class="form-control-static">{{ phase.dateCompleted | amDateFormat:'MMM Do YYYY' }}</p></td>
 		</tr>
 
 		<tr ng-if="!projSched.project.phases">
 			<td colspan="6" class="text-center">This project has no phases.  Please contact the system administrator to structure the project.</td>
 		</tr>
-	
+
 	</tbody>
 </table>
 

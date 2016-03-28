@@ -400,7 +400,7 @@ module.exports = DBModel.extend ({
 						p.dateCompletedEst.setDate (p.dateCompletedEst.getDate () + p.duration);
 						console.log ("future phase: ", p.dateStartedEst, p.dateCompletedEst, p.name);
 						lastEndDate = new Date(p.dateCompletedEst);
-						Phase.saveDocument (p);
+						Phase.findAndUpdate (p);
 						return p.duration;
 					}
 				})
