@@ -16,16 +16,24 @@
 		</ul>
 	</div>
 
+	<!-- Common on all pages Not Logged In -->
+	<div ng-show="!menu.authentication.user">
+		<ul class="list-unstyled">
+			<li><a ui-sref="projects" href>All Projects</a></li>
+		</ul>
+	</div>
+	
 
-
-	<div ng-if="menu.context === 'projects' || menu.context === 'mylist'">
+	<div ng-if="menu.context === 'projects' || menu.context === 'mylist'" ng-show="menu.pageAnchors('anchor-group-projects')" id="anchor-group-projects">
 		<hr>
 		<ul class="list-unstyled">
-			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-map')" href="#anchor-map">Map</a></li>
-			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-list')" href="#anchor-list">List</a></li>
-			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-recent')" href="#anchor-recent">Recent Activity</a></li>
-			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-schedule')" href="#anchor-schedule">Schedule</a></li>
+			<li><a du-smooth-scroll  href="#anchor-map">Map</a></li>
+			<li><a du-smooth-scroll  href="#anchor-list">List</a></li>
+			<li><a du-smooth-scroll  href="#anchor-recent">Recent News</a></li>
+			<li><a du-smooth-scroll  href="#anchor-schedule">Schedule</a></li>
 		</ul>
+	</div>
+	<div ng-if="menu.context === 'projects' || menu.context === 'mylist'">
 		<ul class="list-unstyled" ng-show="menu.projectsMenu.shouldRender(menu.authentication.user);">
 			<li ng-repeat="item in menu.projectsMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
@@ -37,17 +45,19 @@
 
 
 
-	<div ng-if="menu.context === 'project' || menu.context === 'activity'">
-		<ul class="list-unstyled" ng-show="!menu.authentication.user">
-			<li><a ui-sref="projects" href>All Projects</a></li>
-		</ul>
+	<div ng-if="menu.context === 'project' || menu.context === 'activity'" ng-show="menu.pageAnchors('anchor-group-project')" id="anchor-group-project">
 		<hr>
 		<ul class="list-unstyled">
-			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-tombstone')"		href="#anchor-tombstone">Overview</a></li>
-			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-publiccomments')"	href="#anchor-publiccomments">Public Comments</a></li>
-			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-documents')"		href="#anchor-documents">Documents</a></li>
-			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-map')"				href="#anchor-map">Map</a></li>
+			<li><a du-smooth-scroll 	href="#anchor-tombstone">Overview</a></li>
+			<li><a du-smooth-scroll 	href="#anchor-timeline">Timeline</a></li>
+			<li><a du-smooth-scroll 	href="#anchor-publiccomments">Public Comments</a></li>
+			<li><a du-smooth-scroll 	href="#anchor-artifacts">Artifacts</a></li>
+			<li><a du-smooth-scroll 	href="#anchor-activities">Activities</a></li>
+			<li><a du-smooth-scroll 	href="#anchor-documents">Documents</a></li>
+			<li><a du-smooth-scroll 	href="#anchor-map">Map</a></li>
 		</ul>
+	</div>
+	<div ng-if="menu.context === 'project' || menu.context === 'activity'">
 		<div ng-if="menu.authentication.user">
 			<hr>
 			<div class="dropdown">

@@ -8,9 +8,9 @@ angular.module('core')
 // Controller menu
 //
 // -----------------------------------------------------------------------------------
-controllerSystemMenu.$inject = ['$scope', '$state', 'Authentication', 'Menus', '$rootScope'];
+controllerSystemMenu.$inject = ['$scope', '$state', 'Authentication', 'Menus', '$rootScope', '_'];
 /* @ngInject */
-function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope) {
+function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope, _) {
 	var menu = this;
 
 	// Expose view variables
@@ -41,9 +41,30 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope)
    	});
 
 
+	menu.pageAnchors = function(id) {
+		// get all links in the container.
+		if (!id) {
+			return;
+		}
+		var showParent = false;
+		var links = document.querySelectorAll ('#' + id + ' a');
+		_.each(links, function(link) {
+			if (menu.showMenu( angular.element(link).attr('href') )) {
+				// just need one to show the parent.
+				showParent = true;
+				angular.element(link).removeClass('ng-hide');
+			} else {
+				angular.element(link).addClass('ng-hide');
+			}
+		});
+		console.log(id, showParent);
+		return showParent;
+	};
+
+
    	menu.showMenu = function(id) {
    		if (id) {
-	   		return (angular.element (document.querySelector ('#' + id)).length > 0);
+	   		return (angular.element (document.querySelector (id)).length > 0);
 	   	} else {
 	   		return false;
 	   	}
@@ -53,12 +74,6 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope)
 	menu.systemMenu   = Menus.getMenu ('systemMenu');
 	menu.projectsMenu = Menus.getMenu ('projectsMenu');
 	menu.projectMenu  = Menus.getMenu ('projectMenu');
-
-
-		// menu.showSystem       = true;
-		// memu.showContacts     = true;
-		// menu.showProject      = true;
-		// menu.showProjectAdmin = true;
 
 
 
