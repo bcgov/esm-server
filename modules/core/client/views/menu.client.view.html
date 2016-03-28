@@ -1,194 +1,121 @@
 <section id="menu-side" class="menu-side" style="position: fixed;">
 
+	<!-- Common on all pages Logged In -->
+	<div ng-show="menu.authentication.user">
+		<ul class="list-unstyled">
+			<li><a ui-sref="projects" href>All Projects</a></li>
+			<li><a href ui-sref="projects.schedule">Schedule</a></li>
+		</ul>
+		<hr>
+		<ul class="list-unstyled">
+			<li><a href ui-sref="activities">My List</a></li>
+		</ul>
+		<hr>
+		<ul class="list-unstyled">
+			<li><a ui-sref="p.edit({projectid:'new'})">Add Project</a></li>
+		</ul>
+	</div>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-	<div ng-if="menu.context === 'projects'">
-
-		<div ng-show="menu.authentication.user">
-			<ul class="list-unstyled">
-				<li><a href ui-sref="activities">My List</a></li>
-				<li><a href ui-sref="projects.schedule">Schedule</a></li>
-			</ul>
-			<hr>
-		</div>
-
+	<div ng-if="menu.context === 'projects' || menu.context === 'mylist'">
+		<hr>
 		<ul class="list-unstyled">
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-map')" href="#anchor-map">Map</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-list')" href="#anchor-list">List</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-recent')" href="#anchor-recent">Recent Activity</a></li>
+			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-schedule')" href="#anchor-schedule">Schedule</a></li>
 		</ul>
 		<ul class="list-unstyled" ng-show="menu.projectsMenu.shouldRender(menu.authentication.user);">
 			<li ng-repeat="item in menu.projectsMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
 		</ul>
-
-		<ul class="list-unstyled" ng-show="menu.authentication.user">
-			<li><a ui-sref="p.edit({projectid:'new'})">Add Project</a></li>
-			<li ng-if="menu.isAdmin"><a x-modal-project-import href x-project="menu.import">Import</a></li>
-		</ul>
 	</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	<div ng-if="menu.context === 'mylist'">
-
-		<div>
-			<ul class="list-unstyled" >
-				<li><a ui-sref="projects" href>All Projects</a></li>
-				<li><a href ui-sref="projects.schedule">Schedule</a></li>
-			</ul>
-			<hr>
-		</div>
-
-		<ul class="list-unstyled" ng-show="menu.projectsMenu.shouldRender(menu.authentication.user);">
-			<li ng-repeat="item in menu.projectsMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
-				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
-			</li>
-		</ul>
-		<ul class="list-unstyled" ng-show="menu.authentication.user">
-			<li><a ui-sref="p.edit({projectid: 'new'})">Add Project</a></li>
-		</ul>
-	</div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 
 
 	<div ng-if="menu.context === 'project' || menu.context === 'activity'">
-
-		<ul class="list-unstyled">
+		<ul class="list-unstyled" ng-show="!menu.authentication.user">
 			<li><a ui-sref="projects" href>All Projects</a></li>
-			<li><a href ui-sref="projects.schedule">Schedule</a></li>
-			<li><a ui-sref="p.detail({projectid: menu.project.code})" href>{{ menu.project.name }}</a></li>
-			<li><a ng-click="menu.goToPrevious()" href>Back</a></li>
 		</ul>
-		<div ng-show="menu.authentication.user">
-			<hr>
-			<ul class="list-unstyled">
-				<li><a href ui-sref="activities">My List</a></li>
-			</ul>
-		</div>
-
-	 	<hr>
-		<label class="control-label">{{ menu.project.name }}</label>
+		<hr>
 		<ul class="list-unstyled">
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-tombstone')"		href="#anchor-tombstone">Overview</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-publiccomments')"	href="#anchor-publiccomments">Public Comments</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-documents')"		href="#anchor-documents">Documents</a></li>
 			<li><a du-smooth-scroll ng-if="menu.showMenu('anchor-map')"				href="#anchor-map">Map</a></li>
 		</ul>
-		<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user)">
-			<li ng-repeat="item in menu.projectMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
-				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
-			</li>
-		</ul>
-		<ul class="list-unstyled" ng-show="menu.authentication.user">
-			<li><a ui-sref="p.edit({projectid: menu.project.code})">Edit Project</a></li>
-			<li><a x-modal-project-schedule href x-project="menu.project">Edit Schedule</a></li>
-			<li><a x-modal-users-by-roles href x-source-object="menu.project">Edit Project Users</a></li>
-		</ul>
-
-		<ul class="list-unstyled" ng-show="menu.authentication.user">
-			<li><a ui-sref="p.workinggroup.list">Working Group</a></li>
-			<li><a ui-sref="p.role.list">Project Roles</a></li>
-		</ul>
-	</div>
-
-
-
-
-	<div ng-if="menu.context === 'configuration' || menu.context === 'settings'">
-
-		<ul class="list-unstyled">
-			<li><a ui-sref="projects" href>All Projects</a></li>
-			<li><a href ui-sref="projects.schedule">Schedule</a></li>
-			<li><a ng-click="menu.goToPrevious()" href>Back</a></li>
-		</ul>
-		<div ng-show="menu.authentication.user">
+		<div ng-if="menu.authentication.user">
 			<hr>
-			<ul class="list-unstyled">
-				<li><a href ui-sref="activities">My List</a></li>
-			</ul>
-		</div>
+			<div class="dropdown">
+				<a href ng-click="$event.preventDefault();" class="dropdown-toggle" id="dropdownProjectMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="Manage {{ menu.project.name }} Data">Project Data <span class="caret"></span></a>
+				<div class="dropdown-menu" aria-labelledby="dropdownProjectMenu">
+					<ul class="list-unstyled"  ng-show="menu.authentication.user">
+						<li><a ui-sref="p.edit({projectid: menu.project.code})">Edit Project</a></li>
+						<li><a x-modal-project-schedule href x-project="menu.project">Edit Schedule</a></li>
+						<li><a x-modal-users-by-roles href x-source-object="menu.project">Edit Project Users</a></li>
+					</ul>
+					<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user)">
+						<li ng-repeat="item in menu.projectMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
+							<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
+						</li>
+					</ul>
 
+					<ul class="list-unstyled" ng-show="menu.authentication.user">
+						<li><a ui-sref="p.workinggroup.list">Working Group</a></li>
+						<li><a ui-sref="p.role.list">Project Roles</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
 	</div>
+
+
+
 
 
 	<div ng-show="menu.systemMenu.shouldRender(menu.authentication.user);">
 		<hr>
-		<label class="control-label">System</label>
-		<ul class="list-unstyled">
-			<li ng-repeat="item in menu.systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
-				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
-			</li>
-		</ul>
-		<ul class="list-unstyled" ng-if="menu.context === 'configuration'">
-			<li ng-if="menu.isAdmin">
-				<a ui-sref="admin.condition.list">Conditions</a>
-			</li>
-			<li ng-if="menu.isAdmin">
-				<a ui-sref="admin.topic.list">Topics</a>
-			</li>
-			<li ng-if="menu.isAdmin">
-				<a ui-sref="admin.legal.list">Legal Opinions</a>
-			</li>
-			<li ng-if="menu.isAdmin">
-				<a ui-sref="admin.contact.list">Contacts</a>
-			</li>
-			<li ng-if="menu.isAdmin">
-				<a ui-sref="admin.org.list">Organizations</a>
-			</li>
-			<li ng-if="menu.isAdmin">
-				<a ui-sref="admin.user.list">Users</a>
-			</li>
-			<li ng-if="menu.isAdmin">
-				<a ui-sref="admin.user.list">System Roles</a>
-			</li>
- 			<li ng-if="menu.isAdmin">
-				<a ui-sref="admin.template.list">Templates</a>
-			</li>
-		</ul>
+		<div class="dropdown">
+			<a href ng-click="$event.preventDefault();" class="dropdown-toggle" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="System Configuration">System <span class="caret"></span></a>
+			<div class="dropdown-menu" aria-labelledby="dropdownSystemMenu">
+				<ul class="list-unstyled">
+					<li ng-repeat="item in menu.systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
+						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
+					</li>
+					<li ng-if="menu.isAdmin">
+						<a ui-sref="admin.condition.list">Conditions</a>
+					</li>
+					<li ng-if="menu.isAdmin">
+						<a ui-sref="admin.topic.list">Topics</a>
+					</li>
+					<li ng-if="menu.isAdmin">
+						<a ui-sref="admin.legal.list">Legal Opinions</a>
+					</li>
+					<li ng-if="menu.isAdmin">
+						<a ui-sref="admin.contact.list">Contacts</a>
+					</li>
+					<li ng-if="menu.isAdmin">
+						<a ui-sref="admin.org.list">Organizations</a>
+					</li>
+					<li ng-if="menu.isAdmin">
+						<a ui-sref="admin.user.list">Users</a>
+					</li>
+					<li ng-if="menu.isAdmin">
+						<a ui-sref="admin.user.list">System Roles</a>
+					</li>
+		 			<li ng-if="menu.isAdmin">
+						<a ui-sref="admin.template.list">Templates</a>
+					</li>
+					<li ng-if="menu.isAdmin">
+						<a x-modal-project-import href x-project="menu.import">Import</a>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</div>
 
 	<div ng-show="menu.authentication.user">

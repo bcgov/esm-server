@@ -1415,6 +1415,34 @@ table thead tr.ng-table-filters {
 }
 
 .activity-list-med {
-	max-height: 540px;
-	overflow-y: auto;
+	height: 542px;
+	overflow: hidden;
+}
+
+.show-news {
+	position: relative;
+	padding: 10px 0;
+	display: block;
+	position: absolute;
+	background-color: rgba(0,0,0,0.15);
+	color: #ffffff;
+	text-align: center;
+	left: 15px;
+	right: 15px;	
+}
+.show-news:hover,
+.show-news:active,
+.show-news:link,
+.show-news:visited {
+	color: #ffffff;
+}
+
+.activity-list-med .show-news {
+	position: absolute;
+	bottom: 0;
+}
+
+
+div.dropdown-menu {
+	padding: 12px;
 }
