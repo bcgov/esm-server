@@ -124,7 +124,6 @@ var baseObjects = {
 	name: '10-1-c',
 	description: 'This is the set of phases most commonly assigned to an assessment',
 	phases: [
-		"pre-submission",
 		"pre-ea",
 		"pre-application",
 		"evaluation",
@@ -144,20 +143,6 @@ var basePermissions = {
 	"default_eao_submit": ['admin'],
 	"default_eao_write": ['editor'],
 	"default_eao_read": ['member']
-};
-var emptyStream = {
-	code: '10-1-c',
-	name: '10-1-c',
-	description: 'This is the set of phases most commonly assigned to an assessment',
-	phases: [
-		"pre-submission",
-		"pre-ea",
-		"pre-application",
-		"evaluation",
-		"review",
-		"decision",
-		"post-certification"
-	]
 };
 
 module.exports = function (clear) {

@@ -39,13 +39,22 @@ module.exports = DBModel.extend ({
 	// set dateStartedEst from duration, return milestone
 	//
 	// -------------------------------------------------------------------------
-	setInitalDates: function (milestone) {
-		milestone.dateStartedEst   = Date.now ();
-		milestone.dateCompletedEst = Date.now ();
+	setInitalDates: function (milestone, phase) {
+		//
+		// set the initial estimated start date to either now, or the
+		// start date of the phase if it is in the future
+		//
+		milestone.dateStartedEst   = new Date ();
+		var phaseDate = (phase.dateStarted) ? new Date (phase.dateStarted) : new Date (phase.dateStartedEst);
+		milestone.dateStartedEst = (phaseDate > milestone.dateStartedEst) ? phaseDate : milestone.dateStartedEst;
+		//
+		// set the estimated completed using the duration
+		//
+		milestone.dateCompletedEst = new Date (milestone.dateStartedEst);
 		milestone.dateCompletedEst.setDate (milestone.dateCompletedEst.getDate () + milestone.duration);
 		if (milestone.startOnCreate) {
 			milestone.status      = 'In Progress';
-			milestone.dateStarted = Date.now ();
+			milestone.dateStarted = new Date ();
 		}
 		return milestone;
 	},
@@ -61,6 +70,7 @@ module.exports = DBModel.extend ({
 		milestone.project     = phase.project;
 		milestone.projectCode = phase.projectCode;
 		milestone.stream      = phase.stream;
+		milestone.order       = phase.milestones.length + 1;
 		return milestone;
 	},
 	// -------------------------------------------------------------------------
@@ -97,7 +107,7 @@ module.exports = DBModel.extend ({
 				milestone = m;
 				milestone.milestoneBase = baseId;
 				milestone.activities = [];
-				return self.setInitalDates (milestone);
+				return self.setInitalDates (milestone, phase);
 			})
 			//
 			// copy over stuff from the phase
@@ -180,8 +190,8 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	start: function (milestone) {
 		milestone.status           = 'In Progress';
-		milestone.dateStarted      = Date.now ();
-		milestone.dateCompletedEst = Date.now ();
+		milestone.dateStarted      = new Date ();
+		milestone.dateCompletedEst = new Date ();
 		milestone.dateCompletedEst.setDate (milestone.dateCompletedEst.getDate () + milestone.duration);
 		return this.findAndUpdate (milestone);
 	},
@@ -197,7 +207,7 @@ module.exports = DBModel.extend ({
 			milestone.status        = 'Completed';
 			milestone.completed     = true;
 			milestone.completedBy   = self.user._id;
-			milestone.dateCompleted = Date.now ();
+			milestone.dateCompleted = new Date ();
 			self.completeActivities (milestone)
 			.then (self.findAndUpdate)
 			.then (resolve, reject);
@@ -216,7 +226,7 @@ module.exports = DBModel.extend ({
 			milestone.overridden     = true;
 			milestone.completed      = true;
 			milestone.completedBy    = this.user._id;
-			milestone.dateCompleted  = Date.now ();
+			milestone.dateCompleted  = new Date ();
 			self.overrideActivities (milestone)
 			.then (self.findAndUpdate)
 			.then (resolve, reject);

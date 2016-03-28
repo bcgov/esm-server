@@ -22,6 +22,17 @@ module.exports = DBModel.extend ({
 	sort: {name:1},
 	populate: 'currentPhase phases',
 	// bind: ['addPrimaryUser','addProponent'],
+	init: function () {
+		this.recent = new RecentActivityClass (this.user);
+	},
+	postMessage: function (obj) {
+		this.recent.create (_.extend ({
+			headline: 'news headline',
+			content: 'news content',
+			project: 'project_id',
+			type: 'News'
+		}, obj));
+	},
 	// -------------------------------------------------------------------------
 	//
 	// Before adding a project this is what must happen:
@@ -67,6 +78,8 @@ module.exports = DBModel.extend ({
 				//
 				// set the project admin roles
 				//
+				project.eaoMember = Roles.generateCode (projectCode, 'eao', 'member');
+				project.proMember = Roles.generateCode (projectCode, 'pro', 'member');
 				project.adminRole = projectAdminRole;
 				project.proponentAdminRole = projectProponentAdmin;
 				//
@@ -119,9 +132,24 @@ module.exports = DBModel.extend ({
 				// console.log ('Step5. add the first basic phase, pre-stream, pre-submission');
 				return self.addPhase (project, 'pre-submission')
 				.then (function (m) {
-					m.currentPhase = m.phases[0];
-					m.currentPhaseCode = m.phases[0].name;
-					return m;
+					var Phase = new PhaseClass (self.user);
+					if (m.phases[0].name) {
+						console.log ('new phase = ', m.phases[0].code, m.phases[0].name, m.phases[0]._id);
+						m.currentPhase = m.phases[0];
+						m.currentPhaseCode = m.phases[0].code;
+						m.currentPhaseName = m.phases[0].name;
+						Phase.start (m.currentPhase);
+						return m;
+					} else {
+						return Phase.findById (m.phases[0])
+						.then (function (p) {
+							m.currentPhase = p._id;
+							m.currentPhaseCode = p.code;
+							m.currentPhaseName = p.name;
+							Phase.start (p);
+							return m;
+						});
+					}
 				});
 			})
 			.then (resolve, reject);
@@ -195,12 +223,13 @@ module.exports = DBModel.extend ({
 			//
 			Phase.fromBase (basecode, project)
 			.then (function (phase) {
+				console.log ('new phase', phase.name, phase._id);
 				project.phases.push (phase);
 				return project;
 			})
 			.then (self.saveDocument)
 			.then (function (pro) {
-				// console.log ('pro.phases:', JSON.stringify (pro.phases, null, 4));
+				console.log ('pro.phases:', JSON.stringify (pro.phases, null, 4));
 				return pro;
 			})
 			.then (resolve, reject);
@@ -226,24 +255,25 @@ module.exports = DBModel.extend ({
 			} else {
 				project.sectorRole = 'sector-lead-mining';
 			}
-			//
-			// add the project to the roles and the roles to the project
-			// this is where the project first becomes visible to EAO
-			// through the project admin role and the sector lead role
-			// (we dont wait on the promise here, just trust it)
-			//
-			Roles.objectRoles ({
-				method      : 'add',
-				objects     : project,
-				type        : 'projects',
-				permissions : {submit : [project.adminRole, project.sectorRole]}
+			self.saveDocument (project).then (function () {
+				//
+				// add the project to the roles and the roles to the project
+				// this is where the project first becomes visible to EAO
+				// through the project admin role and the sector lead role
+				// (we dont wait on the promise here, just trust it)
+				//
+				return Roles.objectRoles ({
+					method      : 'add',
+					objects     : project,
+					type        : 'projects',
+					permissions : {submit : [project.adminRole, project.sectorRole]}
+				});
 			})
 			.then (function () {
-				(new RecentActivityClass (self.user)).create ({
+				self.postMessage ({
 					headline: 'Submitted for Approval: '+project.name,
 					content: project.name+' has been submitted for approval to the Environmental Assessment process.\n'+project.description,
-					project: project._id,
-					type: 'News'
+					project: project._id
 				});
 				return project;
 			})
@@ -326,22 +356,65 @@ module.exports = DBModel.extend ({
 				// set the status to in progress and set the start date on the project itself
 				//
 				proj.status           = 'In Progress';
-				proj.dateStarted      = Date.now ();
-				proj.dateStartedEst   = Date.now ();
-				proj.dateCompletedEst = Date.now ();
+				proj.dateStarted      = new Date ();
+				proj.dateStartedEst   = new Date ();
+				proj.dateCompletedEst = new Date ();
 				//
 				// now we have to go through all the phases and get all of their durations
 				//
-				proj.duration = proj.phases.map (function (p) {return p.duration;}).reduce (function (p, n) {return p + n;});
+				var Phase = new PhaseClass (self.user);
+				var now = new Date ();
+				var lastEndDate = now;
+				proj.duration = proj.phases.map (function (p) {
+					console.log (p.name);
+					//
+					// if the phase is already over just set the last end date
+					//
+					if (p.completed) {
+						lastEndDate = new Date (p.dateCompleted);
+						console.log ("completed phase: ", p.dateStarted, p.dateCompleted);
+						return p.duration;
+					}
+					//
+					// if the phase is started already (current)
+					//
+					else if (p.dateStarted) {
+						lastEndDate = new Date (p.dateCompletedEst);
+						console.log ("started phase: ", p.dateStarted, p.dateCompletedEst);
+						return p.duration;
+					}
+					//
+					// phase is already set to start some time in the future
+					//
+					else if (new Date (p.dateStartedEst) > now) {
+						lastEndDate = new Date (p.dateCompletedEst);
+						console.log ("not started yet phase: ", p.dateStartedEst, p.dateCompletedEst);
+						return p.duration;
+					}
+					//
+					// all others
+					//
+					else {
+						p.dateStartedEst = new Date (lastEndDate);
+						p.dateCompletedEst = new Date (p.dateStartedEst);
+						p.dateCompletedEst.setDate (p.dateCompletedEst.getDate () + p.duration);
+						console.log ("future phase: ", p.dateStartedEst, p.dateCompletedEst, p.name);
+						lastEndDate = new Date(p.dateCompletedEst);
+						Phase.saveDocument (p);
+						return p.duration;
+					}
+				})
+				.reduce (function (p, n) {return p + n;});
 				proj.dateCompletedEst.setDate (proj.dateCompletedEst.getDate () + proj.duration);
 				if (!proj.currentPhase) {
 					proj.currentPhase = proj.phases[0];
-					proj.currentPhaseCode = proj.phases[0].name;
+					proj.currentPhaseCode = proj.phases[0].code;
+					proj.currentPhaseName = proj.phases[0].name;
 				}
 				//
 				// add a news item
 				//
-				(new RecentActivityClass (self.user)).create ({
+				self.postMessage ({
 					headline: 'Accepted: '+proj.name,
 					content: proj.name+' has been accepted for an Environmental Assessment\n'+proj.description,
 					project: proj._id,
@@ -362,16 +435,56 @@ module.exports = DBModel.extend ({
 	},
 	// -------------------------------------------------------------------------
 	//
-	// set current phase
+	// complete the current phase (does not start the next, just completes the
+	// current but leaves it as the current phase)
 	//
 	// -------------------------------------------------------------------------
-	setPhase : function (project, phase) {
+	completeCurrentPhase: function (project) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			project.currentPhase = phase;
-			// console.log('setcurrentphase', project, phase);
-			self.saveAndReturn(project)
-			.then (resolve, reject);
+			if (!project.currentPhase) resolve (project);
+			else {
+				var Phase = new PhaseClass (self.user);
+				Phase.complete (project.currentPhase)
+				.then (function () {
+					resolve (project);
+				})
+				.catch (reject);
+			}
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// start the next phase (if the current phase is not completed then complete
+	// it first)
+	//
+	// -------------------------------------------------------------------------
+	startNextPhase : function (project) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			if (!project.currentPhase) resolve (project);
+			else {
+				var Phase = new PhaseClass (self.user);
+				//
+				// this is a no-op if the phase is already completed so its ok
+				//
+				Phase.complete (project.currentPhase)
+				.then (function () {
+					//
+					// now find the next phase by index, the order is the
+					// index + 1, so next is order
+					//
+					var nextIndex = project.currentPhase.order;
+					project.currentPhase     = project.phases[nextIndex];
+					project.currentPhaseCode = project.phases[nextIndex].code;
+					project.currentPhaseName = project.phases[nextIndex].name;
+					return Phase.start (project.currentPhase);
+				})
+				.then (function () {
+					return self.saveAndReturn (project);
+				})
+				.catch (reject);
+			}
 		});
 	},
 	// -------------------------------------------------------------------------
@@ -381,7 +494,18 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	publish: function (project, value) {
 		var self = this;
-		if (value) project.publish ();
+		if (value) {
+			//
+			// add a news item
+			//
+			self.postMessage ({
+				headline: 'New Assessment: '+project.name,
+				content: 'New Environmental Assessment: '+project.name+'\n'+project.description,
+				project: project._id,
+				type: 'News'
+			});
+			project.publish ();
+		}
 		else project.unpublish ();
 		return this.saveAndReturn (project);
 	},

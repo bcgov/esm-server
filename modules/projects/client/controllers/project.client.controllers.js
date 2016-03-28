@@ -434,10 +434,12 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 		})
 		// ProjectModel.submit ()
 		.then (function (data) {
-			$state.transitionTo('p.detail', {projectid: data.code}, {
-	  			reload: true, inherit: false, notify: true
-	  		});
-			// $state.go('p.detail', {projectid: data.code});
+			// $state.transitionTo('p.detail', {projectid: data.code}, {
+	  // 			reload: true, inherit: false, notify: true
+	  // 		});
+	  		console.log ('new status = ', data.status);
+	  		$scope.project = _.extend($scope.project, data);
+			$state.go('p.detail', {projectid: $scope.project.code});
 		})
 		.catch (function (err) {
 			console.error ('error = ', err, 'message = ', err.data.message);
@@ -499,6 +501,7 @@ function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel
 				ProjectModel.setModel ($scope.project);
 				ProjectModel.setStream(projectStreamSelect.newStreamId).then( function(resStream) {
 					projectStreamSelect.project = _.assign(resStream);
+					$scope.project = resStream;
 					$state.go('p.detail', {'projectid':projectStreamSelect.project.code}, {reload: true});
 				});
 			// });

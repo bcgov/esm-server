@@ -11,7 +11,7 @@ var mongoose = require ('mongoose');
 var _ = require ('lodash');
 
 var DBModel = function (options) {
-	this.init (options);
+	this._init (options);
 };
 DBModel.extend = helpers.extend;
 
@@ -32,7 +32,7 @@ _.extend (DBModel.prototype, {
 	// initialize
 	//
 	// -------------------------------------------------------------------------
-	init : function (user) {
+	_init : function (user) {
 		// this.opts = _.extend ({}, {
 		// 	populate   : '',
 		// 	sort       : '',
@@ -81,7 +81,9 @@ _.extend (DBModel.prototype, {
 		this.resetAccess = false;
 		this.setUser (user);
 		this.force = false;
+		this.init ();
 	},
+	init: function () {},
 	setForce: function (value) { this.force = value; },
 	// -------------------------------------------------------------------------
 	//

@@ -37,12 +37,12 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	setInitalDates: function (activity) {
-		activity.dateStartedEst   = Date.now ();
-		activity.dateCompletedEst = Date.now ();
+		activity.dateStartedEst   = new Date ();
+		activity.dateCompletedEst = new Date ();
 		activity.dateCompletedEst.setDate (activity.dateCompletedEst.getDate () + activity.duration);
 		if (activity.startOnCreate) {
 			activity.status           = 'In Progress';
-			activity.dateStarted      = Date.now ();
+			activity.dateStarted      = new Date ();
 		}
 		return activity;
 	},
@@ -59,6 +59,7 @@ module.exports = DBModel.extend ({
 		activity.project     = milestone.project;
 		activity.projectCode = milestone.projectCode;
 		activity.stream      = milestone.stream;
+		activity.order       = milestone.activities.length + 1;
 		return activity;
 	},
 	// -------------------------------------------------------------------------
@@ -114,8 +115,8 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	start: function (activity) {
 		activity.status           = 'In Progress';
-		activity.dateStarted      = Date.now ();
-		activity.dateCompletedEst = Date.now ();
+		activity.dateStarted      = new Date ();
+		activity.dateCompletedEst = new Date ();
 		activity.dateCompletedEst.setDate (activity.dateCompletedEst.getDate () + activity.duration);
 		return this.findAndUpdate (activity);
 	},
@@ -128,7 +129,7 @@ module.exports = DBModel.extend ({
 		activity.status        = 'Completed';
 		activity.completed     = true;
 		activity.completedBy   = this.user._id;
-		activity.dateCompleted = Date.now ();
+		activity.dateCompleted = new Date ();
 		return this.findAndUpdate (activity);
 	},
 	// -------------------------------------------------------------------------
@@ -142,7 +143,7 @@ module.exports = DBModel.extend ({
 		activity.overridden     = true;
 		activity.completed      = true;
 		activity.completedBy    = this.user._id;
-		activity.dateCompleted  = Date.now ();
+		activity.dateCompleted  = new Date ();
 		return this.findAndUpdate (activity);
 	},
 	// -------------------------------------------------------------------------

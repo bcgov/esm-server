@@ -38,6 +38,8 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	//
 	// these are here as helpers for assigning things throughout the system
 	//
+	eaoMember             : { type:String, default: '' },
+	proMember             : { type:String, default: '' },
 	adminRole             : { type:String, default: '' },
 	proponentAdminRole    : { type:String, default: '' },
 	sectorRole            : { type:String, default: '' },
@@ -67,6 +69,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	//
 	currentPhase       : { type:'ObjectId', ref:'Phase', index:true },
 	currentPhaseCode   : { type: String, default:'' },
+	currentPhaseName   : { type: String, default:'' },
 	overallProgress    : { type: Number, default:0 },
 	lat                : { type: Number, default:0 },
 	lon                : { type: Number, default:0 },

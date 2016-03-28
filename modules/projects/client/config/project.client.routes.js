@@ -11,6 +11,7 @@ angular.module('project').config (
 		templateUrl: 'modules/projects/client/views/project.abstract.html',
 		resolve: {
 			project: function ($stateParams, ProjectModel) {
+				console.log ('loading project');
 				if ($stateParams.projectid === 'new') {
 					return ProjectModel.getNew ();
 				} else {
@@ -39,6 +40,7 @@ angular.module('project').config (
 		url: '/detail',
 		templateUrl: 'modules/projects/client/views/project-partials/project.detail.html',
 		controller: function ($scope, project) {
+			console.log ('project = ', project);
 			$scope.project = project;
 		}
 	})

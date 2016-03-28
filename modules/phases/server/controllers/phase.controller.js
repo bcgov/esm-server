@@ -37,12 +37,12 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	setInitalDates: function (phase) {
-		phase.dateStartedEst   = Date.now ();
-		phase.dateCompletedEst = Date.now ();
+		phase.dateStartedEst   = new Date ();
+		phase.dateCompletedEst =  new Date ();
 		phase.dateCompletedEst.setDate (phase.dateCompletedEst.getDate () + phase.duration);
 		if (phase.startOnCreate) {
 			phase.status      = 'In Progress';
-			phase.dateStarted = Date.now ();
+			phase.dateStarted = new Date ();
 		}
 		return phase;
 	},
@@ -55,6 +55,7 @@ module.exports = DBModel.extend ({
 		phase.project     = project._id;
 		phase.projectCode = project.code;
 		phase.stream      = project.stream;
+		phase.order       = project.phases.length + 1;
 		return phase;
 	},
 	// -------------------------------------------------------------------------
@@ -125,8 +126,7 @@ module.exports = DBModel.extend ({
 	},
 	// -------------------------------------------------------------------------
 	//
-	// add an milestone to this phase (from a base code)
-	// optionally merge in a set of permissions once complete
+	// add a milestone to this phase (from a base code)
 	//
 	// -------------------------------------------------------------------------
 	addMilestone : function (phase, basecode) {
@@ -152,9 +152,10 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	start: function (phase) {
 		phase.status           = 'In Progress';
-		phase.dateStarted      = Date.now ();
-		phase.dateCompletedEst = Date.now ();
+		phase.dateStarted      = new Date ();
+		phase.dateCompletedEst = new Date (phase.dateStarted);
 		phase.dateCompletedEst.setDate (phase.dateCompletedEst.getDate () + phase.duration);
+		console.log ('starting pahse', phase._id, phase.name);
 		return this.findAndUpdate (phase);
 	},
 	// -------------------------------------------------------------------------
@@ -166,13 +167,17 @@ module.exports = DBModel.extend ({
 	complete: function (phase) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			phase.status        = 'Completed';
-			phase.completed     = true;
-			phase.completedBy   = self.user._id;
-			phase.dateCompleted = Date.now ();
-			self.completeMilestones (phase)
-			.then (self.findAndUpdate)
-			.then (resolve, reject);
+			if (!phase.completed) {
+				phase.status        = 'Completed';
+				phase.completed     = true;
+				phase.completedBy   = self.user._id;
+				phase.dateCompleted = new Date ();
+				self.completeMilestones (phase)
+				.then (self.findAndUpdate)
+				.then (resolve, reject);
+			} else {
+				resolve (phase);
+			}
 		});
 	},
 	// -------------------------------------------------------------------------
@@ -188,7 +193,7 @@ module.exports = DBModel.extend ({
 			phase.overridden     = true;
 			phase.completed      = true;
 			phase.completedBy    = this.user._id;
-			phase.dateCompleted  = Date.now ();
+			phase.dateCompleted  = new Date ();
 			self.overrideMilestones (phase)
 			.then (self.findAndUpdate)
 			.then (resolve, reject);
