@@ -39,7 +39,8 @@
 				</tr>
 				<tr ng-if="!$data || $data.length === 0">
 					<td colspan="5">
-						To add an artifact, select from the list above and click the Add button.
+						<span ng-if="!s.public">To add an artifact, select from the list above and click the Add button.</span>
+						<span ng-if="s.public">There are no artifacts available at this time.</span>
 					</td>
 				</tr>			    
 			</table>
