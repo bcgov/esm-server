@@ -200,7 +200,7 @@ function directiveWindowHeight($window) {
 					'h': window.innerHeight
 				};
 			}, function (newValue, oldValue) {
-				box.css({'min-height': ((parseInt(newValue.h)-76) * .70) + 'px'});
+				box.css({'min-height': ((parseInt(newValue.h)-76) * 0.70) + 'px'});
 			}, true);
 
 			w.bind('resize', function () {
