@@ -120,6 +120,7 @@ module.exports = DBModel.extend ({
 				return self.addPhase (project, 'pre-submission')
 				.then (function (m) {
 					m.currentPhase = m.phases[0];
+					m.currentPhaseCode = m.phases[0].name;
 					return m;
 				});
 			})
@@ -198,6 +199,10 @@ module.exports = DBModel.extend ({
 				return project;
 			})
 			.then (self.saveDocument)
+			.then (function (pro) {
+				// console.log ('pro.phases:', JSON.stringify (pro.phases, null, 4));
+				return pro;
+			})
 			.then (resolve, reject);
 		});
 	},
@@ -275,7 +280,7 @@ module.exports = DBModel.extend ({
 		var self      = this;
 		return new Promise (function (resolve, reject) {
 			var nPhases = project.phases.length;
-			console.log ('the project has '+nPhases+' phases');
+			// console.log ('the project has '+nPhases+' phases');
 			project.stream = stream._id;
 			//
 			// we MUST add the admin role to the current user or they cannot
@@ -304,7 +309,7 @@ module.exports = DBModel.extend ({
 				//
 				return stream.phases.reduce (function (current, code) {
 					return current.then (function () {
-						console.log ('++ add phase ', code);
+						// console.log ('++ add phase ', code);
 						return self.addPhase (project, code);
 					});
 				}, Promise.resolve());
@@ -313,37 +318,45 @@ module.exports = DBModel.extend ({
 				// }));
 			})
 			// then do some work on the project itself and save it
-			.then (function (result) {
+			.then (function (proj) {
 				// console.log ('now fix up the project');
-				// console.log ('result ', JSON.stringify(result, null, 4));
+				// console.log ('proj.phases ', JSON.stringify(proj.phases, null, 4));
 				// console.log ('current project ', JSON.stringify(project, null, 4));
 				//
 				// set the status to in progress and set the start date on the project itself
 				//
-				project.status           = 'In Progress';
-				project.dateStarted      = Date.now ();
-				project.dateStartedEst   = Date.now ();
-				project.dateCompletedEst = Date.now ();
+				proj.status           = 'In Progress';
+				proj.dateStarted      = Date.now ();
+				proj.dateStartedEst   = Date.now ();
+				proj.dateCompletedEst = Date.now ();
 				//
 				// now we have to go through all the phases and get all of their durations
 				//
-				project.duration = project.phases.map (function (p) {return p.duration;}).reduce (function (p, n) {return p + n;});
-				project.dateCompletedEst.setDate (project.dateCompletedEst.getDate () + project.duration);
+				proj.duration = proj.phases.map (function (p) {return p.duration;}).reduce (function (p, n) {return p + n;});
+				proj.dateCompletedEst.setDate (proj.dateCompletedEst.getDate () + proj.duration);
+				if (!proj.currentPhase) {
+					proj.currentPhase = proj.phases[0];
+					proj.currentPhaseCode = proj.phases[0].name;
+				}
 				//
 				// add a news item
 				//
 				(new RecentActivityClass (self.user)).create ({
-					headline: 'Accepted: '+project.name,
-					content: project.name+' has been accepted for an Environmental Assessment\n'+project.description,
-					project: project._id,
+					headline: 'Accepted: '+proj.name,
+					content: proj.name+' has been accepted for an Environmental Assessment\n'+proj.description,
+					project: proj._id,
 					type: 'News'
 				});
 				//
 				// save
 				//
-				return self.saveAndReturn (project);
+				return self.saveAndReturn (proj);
 			})
 			// then leave
+			.then (function (pro) {
+				// console.log ('pro.phases:', JSON.stringify (pro.phases, null, 4));
+				return pro;
+			})
 			.then (resolve, reject);
 		});
 	},

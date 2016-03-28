@@ -261,6 +261,16 @@ _.extend (DBModel.prototype, {
 			}
 		});
 	},
+	findFirstOne : function (query, fields, sort) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findFirst (query, fields, sort).then (function (a) {
+				if (a && a.length > 0) return a[0];
+				else return null;
+			})
+			.catch (resolve, reject);
+		});
+	},
 	findAndUpdate : function (obj) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
@@ -516,6 +526,23 @@ _.extend (DBModel.prototype, {
 			self.findMany (q, f)
 			.then (self.permissions)
 			.then (self.decorateAll)
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// GET *
+	//
+	// -------------------------------------------------------------------------
+	one : function (q, f) {
+		q = q || {};
+		q = _.extend ({}, this.baseQ, q);
+		f = f || {};
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findOne (q, f)
+			.then (self.permissions)
+			.then (self.decorate)
 			.then (resolve, reject);
 		});
 	},

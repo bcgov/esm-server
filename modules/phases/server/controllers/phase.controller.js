@@ -117,12 +117,8 @@ module.exports = DBModel.extend ({
 					});
 				}, Promise.resolve());
 			})
-			//
-			// the model was saved during the roles step so we just
-			// have to resolve it here
-			//
-			.then (function (models) {
-				return (phase);
+			.then (function () {
+				return self.saveDocument (phase);
 			})
 			.then (resolve, reject);
 		});

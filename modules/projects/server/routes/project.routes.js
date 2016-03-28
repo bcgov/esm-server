@@ -6,7 +6,7 @@
 // =========================================================================
 var policy      = require ('../policies/project.policy');
 var Project     = require ('../controllers/project.controller');
-var projectLoad = require ('../controllers/project.controller');
+var projectLoad = require ('../controllers/project.load.controller');
 var helpers     = require ('../../../core/server/controllers/core.helpers.controller');
 var _           = require ('lodash');
 
@@ -91,7 +91,7 @@ module.exports = function (app) {
 	app.route ('/api/project/bycode/:projectcode').all (policy.isAllowed)
 		.get (function (req, res) {
 			var p = new Project (req.user);
-			p.findOne ({code:req.params.projectcode}).then (helpers.success(res), helpers.failure(res));
+			p.one ({code:req.params.projectcode}).then (helpers.success(res), helpers.failure(res));
 		});
 
 	app.route ('/api/').all (policy.isAllowed).get (function (req, res) {
