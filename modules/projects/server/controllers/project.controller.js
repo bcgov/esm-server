@@ -219,7 +219,7 @@ module.exports = DBModel.extend ({
 		var Phase = new PhaseClass (self.user);
 		return new Promise (function (resolve, reject) {
 			//
-			// get the new milestone
+			// get the new phase
 			//
 			Phase.fromBase (basecode, project)
 			.then (function (phase) {

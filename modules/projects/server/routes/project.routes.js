@@ -26,11 +26,11 @@ module.exports = function (app) {
 	//
 	// add a phase to a project (from base phase)
 	//
-	app.route ('/api/project/:project/add/phase/:phasebase')
+	app.route ('/api/project/:project/add/phase/:phasebasecode')
 		.all (policy.isAllowed)
 		.put (function (req,res) {
 			var p = new Project (req.user);
-			p.addPhase (req.Project, req.PhaseBase)
+			p.addPhase (req.Project, req.params.phasebasecode)
 			.then (helpers.success(res), helpers.failure(res));
 		});
 	//

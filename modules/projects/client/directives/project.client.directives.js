@@ -92,7 +92,7 @@ function directiveModalAddPhaseToProject($modal, $rootScope, PhaseBaseModel, Pro
 				});
 				modalAddPhase.result.then(function (data) {
 					ProjectModel.setModel(scope.project);
-					ProjectModel.addPhase(data._id).then( function() {});
+					ProjectModel.addPhase(data.code).then( function() {});
 				}, function () {});
 			});
 		}
