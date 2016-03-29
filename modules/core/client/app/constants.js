@@ -34,7 +34,13 @@ angular
 			'omnieca': 'Omineca',
 			'peace': 'Peace',
 			'skeena': 'Skeena',
-			'vancouverisland': 'Vancouver Island'
+			'vancouverisland': 'Vancouver Island',
+			'south central (kamloops office)': 'South Central (Kamloops Office)',
+			'southeast (cranbrook office)': 'Southeast (Cranbrook Office)',
+			'northwest (smithers office)': 'Northwest (Smithers Office)',
+			'central-northeast (prince george office)': 'Central-Northeast (Prince George Office)',
+			'southwest (victoria office)': 'Southwest (Victoria Office)',
+			'southeast (cranbrook)': 'Southeast (Cranbrook)'
 		}
 	)
 	.constant('COMPANY_TYPES',

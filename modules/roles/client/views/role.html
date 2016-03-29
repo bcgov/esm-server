@@ -1,1 +1,36 @@
-{{ roles }}
+<div class="row">
+		<div class="col-sm-6 col-md-4" ng-repeat="(role, users) in roles | orderBy">
+			<div class="thumbnail">
+				<div class="caption">
+					<label class="control-label">{{ role }}</label>
+					<ul class="list-unstyled">
+						<li x-modal-user-contact-info x-user="user" ng-repeat="user in users" class="clickable">{{ user.name | json }}</li>
+					</ul>
+					<label class="control-label text-right"><a x-modal-select-users href>Manage Users</a></label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="alert alert-warning fadeIn" ng-show="error" >{{ error }}</div>
+	<div class="row">
+		<div class="col-sm-12 text-right form-inline">
+
+			<button class="btn btn-default"
+				ng-show="!addRoleMode"
+				ng-click="addRoleMode = true">Add Role</button>
+
+			<div class="form-group" ng-show="addRoleMode">
+
+				<select class="form-control" ng-model="newOrg" ng-options="item as item for item in userOrgs"></select>
+
+				<input class="form-control"					
+					type="text"
+					ng-model="newRole"
+					placeholder="Role Name">
+
+				<button class="btn btn-default" ng-click="saveNewRole()">Save</button>
+				<button class="btn btn-default" ng-click="newRole = undefined; addRoleMode = false;">Cancel</button>				
+			</div>
+
+		</div>
+	</div>

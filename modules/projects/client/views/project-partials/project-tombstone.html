@@ -24,16 +24,16 @@
 
 		<div class='col-sm-3'>
 			<div><label class="control-label">Permit Number</label><p>{{ project.memPermitID }}</p></div>
-			<div><label class="control-label">Proponent / Operator</label><p>{{ project.proponent.name }}</p></div>
-			<div><label class="control-label">Ownership</label><p>{{ project.ownership }}</p></div>
+			<div><label class="control-label">Proponent / Operator</label><p>{{ project.proponent.name || '-' }}</p></div>
+			<div><label class="control-label">Ownership</label><p>{{ project.ownership || '-' }}</p></div>
 			<div><label class="control-label">Latitude</label><p>{{ project.lat }}</p></div>
 			<div><label class="control-label">Longitude</label><p>{{ project.lon }}</p></div>
 		</div>
 		<div class='col-sm-3'>
 			<div><label class="control-label">Phase</label><p>{{ project.currentPhase.name }}</p></div>
-			<div><label class="control-label">Commodity / IES</label><p>{{ project.commodity }}</p></div>
+			<div><label class="control-label">Commodity / IES</label><p>{{ project.commodity || '-'}}</p></div>
 			<div><label class="control-label">Region</label><p>{{ project.region | regionName }}</p></div>
-			<div><label class="control-label">Tailing Impoundments</label><p>{{ project.tailingsImpoundments }}</p></div>
+			<div><label class="control-label">Tailing Impoundments</label><p>{{ project.tailingsImpoundments || '-' }}</p></div>
 		</div>
 		<div class='col-sm-6'>
 			<div>

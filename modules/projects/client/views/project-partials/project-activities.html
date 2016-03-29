@@ -6,32 +6,55 @@
 		<div class="row">
 			<div class="col-sm-4">
 
-                   <a href
-                       class="control-label pull-right"
-                       x-modal-add-phase-to-project
-                       x-project="project">Add Phase</a>
+				<a href
+					class="control-label pull-right"
+					ng-click="showNewPhase = !showNewPhase">Add Phase</a>
 
 				<label class="control-label">Phases</label>
+
+				<div ng-show="showNewPhase" class="well well-sm">
+					<div class="form-group">
+						<label for="npAct" class="control-label">Select Phase</label>
+						<select id="npAct" ng-model='newBasePhase' class="form-control" ng-options="newPhase as newPhase.name for newPhase in allPhases | orderBy:'order'"></select>     
+					</div>
+					<div class="text-right">
+						<button class="btn btn-sm btn-default" ng-click="newBasePhase = undefined; showNewPhase = false;" type="button">Cancel</button>
+						<button class="btn btn-sm btn-default" ng-click="addNewPhase()" type="button">Add</button>
+					</div>
+				</div>
+
 				<ul class="list-unstyled task-list">
-					<li ng-repeat="phase in phases | orderBy:'order'">
-						<button class="btn btn-block btn-sm btn-default" ng-class="{'btn-primary': selectedPhase._id === phase._id}" ng-click="selectPhase(phase)">{{ phase.name }}</button>
+					<li ng-repeat="phase in project.phases | orderBy:'order'">
+						<button class="btn btn-block btn-sm btn-default" ng-class="{'btn-primary': selectedPhase === phase._id}" ng-click="selectPhase(phase)">{{ phase.name }}</button>
 					</li>
-					<li ng-if="!phases || phases.length === 0">
+					<li ng-if="!project.phases || project.phases.length === 0">
 						No Phases defined.
 					</li>
 				</ul>
 
 			</div>
 			<div class="col-sm-4">
-                   <a href
-                       class="control-label pull-right"
-                       x-modal-add-milestone-to-phase
-                       x-phase="selectedPhase"
-                       ng-show="selectedPhase">Add Milestone</a>
+
+				<a href
+					ng-show="selectedPhase"
+					class="control-label pull-right"
+					ng-click="showNewMilestone = !showNewMilestone">Add Milestone</a>
 
 				<label class="control-label">Milestones</label>
+
+				<div ng-show="showNewMilestone" class="well well-sm">
+					<div class="form-group">
+						<label for="nmAct" class="control-label">Select Milestone</label>
+						<select id="nmAct" ng-model='newBaseMilestone' class="form-control" ng-options="newMilestone as newMilestone.name for newMilestone in allMilestones | orderBy:'order'"></select>     
+					</div>
+					<div class="text-right">
+						<button class="btn btn-sm btn-default" ng-click="newBaseMilestone = undefined; showNewMilestone = false;" type="button">Cancel</button>
+						<button class="btn btn-sm btn-default" ng-click="addNewMilestone()" type="button">Add</button>
+					</div>
+				</div>
+
 				<ul class="list-unstyled task-list">
-					<li ng-repeat="milestone in milestones | orderBy:'order'">
+					<li ng-repeat="milestone in selectedPhase.milestones | orderBy:'order'">
 						<button class="btn btn-block btn-sm btn-default" ng-class="{'btn-primary': selectedMilestone._id === milestone._id}" ng-click="selectMilestone(milestone)">{{ milestone.name }}</button>
 					</li>
 					<li ng-if="!milestones || milestones.length === 0">
@@ -41,22 +64,34 @@
 			
 			</div>
 			<div class="col-sm-4">
-                        <a href
-                            class="control-label pull-right"
-                            x-modal-add-activity
-                            x-milestone="selectedMilestone"
-                            ng-show="selectedMilestone">Add Activity</a>
+
+				<a href
+					ng-show="selectedMilestone"
+					class="control-label pull-right"
+					ng-click="showNewActivity = !showNewActivity">Add Activity</a>
 
 				<label class="control-label">Activities</label>
+
+				<div ng-show="showNewActivity" class="well well-sm">
+					<div class="form-group">
+						<label for="nmAct" class="control-label">Select Activity</label>
+						<select id="nmAct" ng-model='newBaseActivity' class="form-control" ng-options="newActivity as newActivity.name for newActivity in allActivities | orderBy:'order'"></select>     
+					</div>
+					<div class="text-right">
+						<button class="btn btn-sm btn-default" ng-click="newBaseActivity = undefined; showNewActivity = false;" type="button">Cancel</button>
+						<button class="btn btn-sm btn-default" ng-click="addNewActivity()" type="button">Add</button>
+					</div>
+				</div>
+
 				<ul class="list-unstyled task-list">
-					<li ng-repeat="activity in activities | orderBy:'order'">
-						<button class="btn btn-block btn-sm btn-default" ui-sref="activity({project: project._id, activity: activity._id})">{{ activity.name }}</button>
+					<li ng-repeat="activity in selectedMilestone.activities | orderBy:'order'">
+						<button class="btn btn-block btn-sm btn-default" ng-class="{'btn-primary': selectedActivity._id === activity._id}" ng-click="selectActivity(activity)">{{ activity.name }}</button>
 					</li>
-					<li ng-if="!activities || activities.length === 0">
+					<li ng-if="!selectedMilestone.activities || selectedMilestone.activities.length === 0">
 						No Activities defined.
 					</li>
 				</ul>
-
+			
 			</div>
 
 		</div>

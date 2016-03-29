@@ -114,6 +114,21 @@ module.exports = function (app) {
 			.then (helpers.success(res), helpers.failure(res));
 		});
 
+	app.route ('/api/projects/regions')
+		.all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Project (req.user);
+			p.list ({},{region: 1})
+			.then ( function(res) {
+				var obj = {};
+				_.each( res, function(item) {
+					obj[item.region] = item.region;
+				});
+				return obj;
+			})
+			.then (helpers.success(res), helpers.failure(res));
+		});
+
 	app.route ('/api/projects/import/eao').all (policy.isAllowed)
 		.post (function (req, res) {
 			var file = req.files.file;
