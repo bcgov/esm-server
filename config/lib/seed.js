@@ -97,6 +97,13 @@ checkIntegration ('loadartifacts99').then (function () {
 	require('../seed-data/loadartifacts')();
 });
 
+if (process.env.SEED_MEM === 'true')
+{
+	checkIntegration ('loadmem').then (function () {
+		require('../seed-data/loadmem')();
+	});
+}
+
 // =========================================================================
 //
 // THings in this section are split into production and non-production
