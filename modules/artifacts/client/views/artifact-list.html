@@ -24,7 +24,7 @@
 					<td data-title="'Type'"    filter="{'typeName':'text'}"     sortable="'typeName'"    >{{o.typeName}}</td>
 					<td data-title="'Version'" filter="{'version':'text'}"   	class="text-center" sortable="'version'"  >{{o.version}}</td>
 					<td data-title="'Stage'"   filter="{'stage':'text'}"    	class="text-center" sortable="'stage'"   >{{o.stage}}</td>
-					<td data-title="'Published'" sortable="'published'"><i ng-if="o.published" class="glyphicon glyphicon-pencil"></i></td>
+					<td data-title="'Published'" sortable="'published'"><i ng-if="o.published" class="glyphicon glyphicon-ok"></i></td>
 					<td width="1%" class="text-right">
 			        		<span ng-if="o.userPermissions.write && !o.published">
 				        	<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.artifact.edit({artifactId:o._id})">
@@ -38,7 +38,7 @@
 						<span ng-if="!s.public">To add an artifact, select from the list above and click the Add button.</span>
 						<span ng-if="s.public">There are no artifacts available at this time.</span>
 					</td>
-				</tr>			    
+				</tr>
 			</table>
 		</section>
 	</div>
