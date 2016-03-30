@@ -1,20 +1,5 @@
 'use strict';
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 angular.module('projects')
 	.directive('tmplScheduleChart', directiveScheduleChart);
 // -----------------------------------------------------------------------------------
@@ -38,7 +23,9 @@ function directiveScheduleChart(d3, $window, _, moment) {
 			var oPhaseDetail, oPhaseStart, oPhaseEnd, posPhaseStart, posPhaseEnd, startOK, endOK, allPhases;
 			var _DrawPhase, _DrawStart, _DrawEnd, _DrawComplete, posWinStart, posWinEnd;
 
-			var colourScale = d3.scale.category20c().domain(scope.phases);
+			var colourScale = d3.scale.ordinal()
+				.domain(scope.phases)
+				.range(['#0096E5','#0098DB','#009BD1','#009EC7','#00A1BD','#00A4B3','#00A7A9','#00AA9F','#00AD95','#00B08B','#00B381','#00B677','#00B96D','#00BC63','#00BF59']); //d3.scale.category20c().domain(scope.phases);
 
 			var oPhases = [];
 			var bTodayMarker = true;
@@ -57,6 +44,7 @@ function directiveScheduleChart(d3, $window, _, moment) {
 
 
 				// map the date scale to the page scale.
+				// do it when the refresh happens.
 				var dateScale = d3.scale.linear()
 					.domain([dateWinStart, dateWinEnd])
 					.range([0,bw]);
@@ -88,13 +76,13 @@ function directiveScheduleChart(d3, $window, _, moment) {
 
 					oPhaseDetail = oPhases[i];
 
-					if (!oPhaseDetail.dateStart) {
+					if (!oPhaseDetail.dateStarted && !oPhaseDetail.dateStartedEst) {
 						continue;
 					}
 
 					// get the current phase actual dates, use for comparisson
-					oPhaseStart = moment(new Date(oPhaseDetail.dateStart));
-					oPhaseEnd = moment(new Date(oPhaseDetail.dateEnd));
+					oPhaseStart = moment(new Date((oPhaseDetail.dateStarted || oPhaseDetail.dateStartedEst) ));
+					oPhaseEnd = moment(new Date((oPhaseDetail.dateEnd || oPhaseDetail.dateCompletedEst) ));
 
 					// get the unix date for mapping to the dateScale.
 					posPhaseStart = dateScale( oPhaseStart.format('x') );
@@ -156,7 +144,7 @@ function directiveScheduleChart(d3, $window, _, moment) {
 						.attr("y", 0)
 						.attr("width", 3)
 						.attr("height", bh)
-						.attr("fill", "#ffffff")
+						.attr("fill", "rgba(255,255,255,0.7)")
 						.style("stroke-width", "0.5px")
 						.style("stroke", "#000000")
 					;
@@ -172,7 +160,6 @@ function directiveScheduleChart(d3, $window, _, moment) {
 			scope.$watch('project', function(newValue) {
 				if (newValue) {
 					oPhases = newValue.phases;
-
 					resize();
 				}
 			});

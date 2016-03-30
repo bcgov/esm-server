@@ -138,6 +138,7 @@ module.exports = DBModel.extend ({
 			//
 			Milestone.fromBase (basecode, phase)
 			.then (function (milestone) {
+				console.log ('adding milestone with id '+milestone._id+' to phase '+phase._id);
 				phase.milestones.push (milestone._id);
 				return phase;
 			})

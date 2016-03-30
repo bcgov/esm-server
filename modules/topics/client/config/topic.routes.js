@@ -4,7 +4,7 @@
 // topic routes (under admin)
 //
 // =========================================================================
-angular.module('core').config(['$stateProvider', function ($stateProvider) {
+angular.module('topics').config(['$stateProvider', function ($stateProvider) {
 	$stateProvider
 	// -------------------------------------------------------------------------
 	//

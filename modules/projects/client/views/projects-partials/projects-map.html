@@ -24,7 +24,7 @@
 				</div>
 				<select ng-model="filterType" class="form-control input-sm" ng-options="v as v for v in projectList.types"><option value="">All</option></select>
 				<select ng-model="filterStatus" class="form-control input-sm" ng-options="v as v for v in projectList.status"><option value="">All</option></select>
-				<select ng-model="filterRegion" class="form-control input-sm" ng-options="v as v for v in projectList.regions"><option value="">All</option></select>
+				<select ng-model="filterRegion" class="form-control input-sm" ng-options="v as (v | regionName) for v in projectList.regions"><option value="">All</option></select>
 				<button class="btn btn-link btn-sm" ng-click="filterType = undefined; filterStatus = undefined; filterRegion=undefined;">Show All</button>
 
 			</div>

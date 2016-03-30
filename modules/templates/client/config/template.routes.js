@@ -4,7 +4,7 @@
 // template routes (under admin)
 //
 // =========================================================================
-angular.module('core').config(['$stateProvider', function ($stateProvider) {
+angular.module('templates').config(['$stateProvider', function ($stateProvider) {
 	// -------------------------------------------------------------------------
 	//
 	// A shared controller for add/edit

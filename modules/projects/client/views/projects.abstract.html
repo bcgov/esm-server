@@ -18,20 +18,15 @@
 		</div>
 
 		<div class="row">
-			<div class="col-sm-4" ng-class="{'activity-list-med': !show_news}">
-				<tmpl-recent-activity id="anchor-recent"></tmpl-recent-activity>
-				<a href class="btn show-news" ng-click="show_news = !show_news">
-					<span ng-show="!show_news">Show All News</span>
-					<span ng-show="show_news">Minimize News</span>
-				</a>
-
+			<div class="col-sm-4" ng-class="{'activity-list-med': !form.expandnews}" ng-init="form.expandnews = false">
+				<tmpl-recent-activity id="anchor-recent" x-form="form"></tmpl-recent-activity>
 			</div>
 			<div class="col-sm-8">
 				<tmpl-projects-map id="anchor-map" x-projects='projects'></tmpl-projects-map>
-				<tmpl-projects-list2 id="anchor-list" x-projects='projects' ng-if="show_news"></tmpl-projects-list2>
+				<tmpl-projects-list2 id="anchor-list" x-projects='projects' ng-if="form.expandnews"></tmpl-projects-list2>
 			</div>
 		</div>
-		<div class="row" ng-if="!show_news">
+		<div class="row" ng-if="!form.expandnews">
 			<div class="col-sm-12">
 				<tmpl-projects-list2 id="anchor-list" x-projects='projects'></tmpl-projects-list2>
 			</div>

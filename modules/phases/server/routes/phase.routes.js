@@ -25,21 +25,21 @@ module.exports = function (app) {
 	//
 	// phase base
 	//
-	app.route ('/api/phasebase/:phasebase/add/milestone/:milestonebase')
+	app.route ('/api/phasebase/:phasebase/add/milestone/:milestonebasecode')
 		.all (policy.isAllowed)
 		.put (function (req,res) {
 			var p = new PhaseBase (req.user);
-			p.addMilestoneToPhase (req.PhaseBase, req.MilestoneBase)
+			p.addMilestoneToPhase (req.PhaseBase, req.params.milestonebasecode)
 			.then (helpers.success(res), helpers.failure(res));
 		});
 	//
 	// add a milestone to a phase from a base
 	//
-	app.route ('/api/phase/:phase/add/milestone/:milestonebase')
+	app.route ('/api/phase/:phase/add/milestone/:milestonebasecode')
 		.all (policy.isAllowed)
 		.put (function (req,res) {
 			var p = new Phase (req.user);
-			p.addMilestoneFromBase (req.Phase, req.MilestoneBase)
+			p.addMilestone (req.Phase, req.params.milestonebasecode)
 			.then (helpers.success(res), helpers.failure(res));
 		});
 	//

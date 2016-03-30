@@ -25,10 +25,17 @@ angular.module('project').config (
 				return project.proponentAdminRole;
 			}
 		},
-		controller: function ($scope, $stateParams, project, ENV) {
+		controller: function ($scope, $stateParams, project, ENV, $rootScope, ProjectModel) {
 			$scope.project = project;
 			$scope.environment = ENV;
 			$scope.isNew = ($stateParams.projectid === 'new');
+
+			var unbind = $rootScope.$on('refreshProject', function() {
+				console.log('refreshProject', $stateParams.projectid);
+				$scope.project = angular.copy( ProjectModel.byCode ($stateParams.projectid) );
+			});
+			$scope.$on('$destroy',unbind);
+
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -41,6 +48,7 @@ angular.module('project').config (
 		templateUrl: 'modules/projects/client/views/project-partials/project.detail.html',
 		controller: function ($scope, project) {
 			$scope.project = project;
+			$scope.$apply ();
 		}
 	})
 	// -------------------------------------------------------------------------

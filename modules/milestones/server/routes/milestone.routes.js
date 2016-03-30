@@ -25,25 +25,25 @@ module.exports = function (app) {
 	//
 	// milestone base
 	//
-	app.route ('/api/milestonebase/:milestonebase/add/activity/:activitybase')
+	app.route ('/api/milestonebase/:milestonebase/add/activity/:activitybasecode')
 		.all (policy.isAllowed)
 		.put (function (req,res) {
 			var p = new MilestoneBase (req.user);
-			p.addActivityToMilestone (req.MilestoneBase, req.ActivityBase)
+			p.addActivityToMilestone (req.MilestoneBase, req.params.activitybasecode)
 			.then (helpers.success(res), helpers.failure(res));
 		});
 	//
 	// add activity base to real milestone
 	//
-	app.route ('/api/milestone/:milestone/add/activity/:activitybase')
+	app.route ('/api/milestone/:milestone/add/activity/:activitybasecode')
 		.all (policy.isAllowed)
 		.put (function (req,res) {
 			var p = new Milestone (req.user);
-			p.addActivityFromBase (req.Milestone, req.ActivityBase)
+			p.addActivity (req.Milestone, req.params.activitybasecode)
 			.then (helpers.success(res), helpers.failure(res));
 		});
 	//
-	// get a milestonewith all of its activities filled out
+	// get a milestone with all of its activities filled out
 	//
 	app.route ('/api/milestone/:milestone/with/activites')
 		.all (policy.isAllowed)

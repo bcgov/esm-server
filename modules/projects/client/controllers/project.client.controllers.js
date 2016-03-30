@@ -2,165 +2,42 @@
 
 angular.module('project')
 	// General
-	// .controller('controllerProject', controllerProject)
 	.controller('controllerModalProjectSchedule', controllerModalProjectSchedule)
-	.controller('controllerModalAddPhase', controllerModalAddPhase)
-	.controller('controllerModalAddActivity', controllerModalAddActivity)
+
 	.controller('controllerProjectVC', controllerProjectVC)
 	.controller('controllerProjectVCEntry', controllerProjectVCEntry)
-	// .controller('controllerProjectTimeline', controllerProjectTimeline)
+
 	.controller('controllerProjectEntry', controllerProjectEntry)
 	.controller('controllerModalProjectImport', controllerModalProjectImport)
 
-	// .controller('controllerProjectNew', controllerProjectNew)
-	// .controller('controllerProjectEdit', controllerProjectEdit)
 	.controller('controllerProjectStreamSelect', controllerProjectStreamSelect)
 	.controller('controllerProjectActivities', controllerProjectActivities);
 
 // -----------------------------------------------------------------------------------
 //
-// CONTROLLER: Public Project Detail
-//
-// -----------------------------------------------------------------------------------
-// controllerProject.$inject = ['$scope', '$rootScope', 'ProjectModel', '$stateParams', '_'];
-// /* @ngInject */
-// function controllerProject($scope, $rootScope, ProjectModel, $stateParams, _) {
-// 	var proj = this;
-
-// 	proj.refresh = function() {
-// 		ProjectModel.getModel($stateParams.id).then( function(data) {
-// 			// console.log (data);
-// 			proj.project = data;
-// 			$scope.$apply();
-// 		}).catch( function(err) {
-// 			// console.log (err);
-// 			$scope.error = err;
-// 		});
-// 	};
-
-// 	var unbind = $rootScope.$on('refreshProject', function() {
-// 		proj.refresh();
-// 	});
-// 	$scope.$on('$destroy', unbind);
-
-// 	proj.refresh();
-
-// }
-// -----------------------------------------------------------------------------------
-//
 // CONTROLLER: Modal: View Project Schedule
 //
 // -----------------------------------------------------------------------------------
-controllerModalProjectSchedule.$inject = ['$modalInstance', 'ProjectModel', 'PhaseModel', '_', 'rProject'];
+controllerModalProjectSchedule.$inject = ['$modalInstance', 'PhaseModel', '_', 'rProject'];
 /* @ngInject */
-function controllerModalProjectSchedule($modalInstance, ProjectModel, PhaseModel, _, rProject) {
+function controllerModalProjectSchedule($modalInstance,  PhaseModel, _, rProject) {
 	var projSched = this;
 
-	ProjectModel.setModel(rProject);
-	projSched.project = ProjectModel.getCopy();
-
+	var savedOriginal = angular.copy(rProject.phases);
 	projSched.phases = rProject.phases;
 
 	projSched.cancel = function () { $modalInstance.dismiss('cancel'); };
 	projSched.ok = function () {
-
-		// console.log(projSched.newPhase);
-
-		if (projSched.newPhase) {
-			// console.log('setphase');
-			ProjectModel.setPhase( projSched.newPhase._id ).then( function(data) {
-				$modalInstance.close(data);
-				// console.log('closed');
-
+		// save each phase.
+		_.each(projSched.phases, function(item) {
+			PhaseModel.setModel(item);
+			PhaseModel.saveModel().then( function(res) {
+				console.log('saved');
 			}).catch( function(err) {
 				$modalInstance.dismiss('cancel');
 			});
-		} else {
-			$modalInstance.close();
-		}
-	};
-}
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: Modal: Add Activity
-//
-// -----------------------------------------------------------------------------------
-controllerModalAddPhase.$inject = ['$modalInstance', '$scope', 'phases'];
-/* @ngInject */
-function controllerModalAddPhase($modalInstance, $scope, phases) {
-	$scope.phases = phases;
-
-	$scope.cancel = function () { $modalInstance.dismiss('cancel'); };
-	$scope.ok = function () {
-		if ($scope.newBasePhase) {
-			$modalInstance.close($scope.newBasePhase);
-		} else {
-			$modalInstance.dismiss('cancel');
-		}
-	};
-}
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: Modal: Add Milestone
-//
-// -----------------------------------------------------------------------------------
-controllerModalAddMilestone.$inject = ['$modalInstance', 'PhaseModel', 'MilestoneBaseModel', '_', 'rPhase'];
-/* @ngInject */
-function controllerModalAddMilestone($modalInstance, PhaseModel, sMilestoneBaseModel,  _, rPhase) {
-	var addMile = this;
-
-	addMile.milestone = rPhase;
-
-	// set current (actual) milestone context
-	PhaseModel.setModel(rPhase);
-
-	// get all possible base activities
-	sMilestoneBaseModel.getCollection().then( function(data) {
-		addMile.milestones = data;
-	});
-
-	addMile.cancel = function () { $modalInstance.dismiss('cancel'); };
-	addMile.ok = function () {
-		if (addMile.newBaseMilestone) {
-			// add the new activity to the base model.
-			PhaseModel.addMilestone(addMile.newBaseMilestone._id).then( function(data) {
-				$modalInstance.close(data);
-			});
-		} else {
-			$modalInstance.close();
-		}
-	};
-}
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: Modal: Add Activity
-//
-// -----------------------------------------------------------------------------------
-controllerModalAddActivity.$inject = ['$modalInstance', 'MilestoneModel', 'ActivityBaseModel', '_', 'rMilestone'];
-/* @ngInject */
-function controllerModalAddActivity($modalInstance, sMilestoneModel, sActivityBaseModel,  _, rMilestone) {
-	var addAct = this;
-
-	addAct.milestone = rMilestone;
-
-	// set current (actual) milestone context
-	sMilestoneModel.setModel(rMilestone);
-
-	// get all possible base activities
-	sActivityBaseModel.getCollection().then( function(data) {
-		addAct.activities = data;
-	});
-
-	addAct.cancel = function () { $modalInstance.dismiss('cancel'); };
-	addAct.ok = function () {
-		if (addAct.newBaseActivity) {
-			// add the new activity to the base model.
-			sMilestoneModel.addActivity(addAct.newBaseActivity._id).then( function(data) {
-				$modalInstance.close(data);
-			});
-		} else {
-			$modalInstance.close();
-		}
+		});
+		$modalInstance.close();
 	};
 }
 // -----------------------------------------------------------------------------------
@@ -211,21 +88,6 @@ function controllerProjectVCEntry(rProjectVCEntry, _, $modalInstance) {
 	};
 	projectVCEntryModal.cancel = function () { $modalInstance.dismiss('cancel'); };
 }
-
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: Project Timeline
-//
-// -----------------------------------------------------------------------------------
-// controllerProjectTimeline.$inject = ['$scope'];
-// /* @ngInject */
-// function controllerProjectTimeline($scope) {
-// 	var ptime = this;
-
-// 	$scope.$watch('project', function(newValue) {
-// 		ptime.project = newValue;
-// 	});
-// }
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Entry Tombstone
@@ -491,7 +353,7 @@ function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel
 				ProjectModel.setModel ($scope.project);
 				ProjectModel.setStream(projectStreamSelect.newStreamId).then( function(resStream) {
 					projectStreamSelect.project = _.assign(resStream);
-					$scope.project = resStream;
+					//$scope.project = resStream;
 					$state.go('p.detail', {'projectid':projectStreamSelect.project.code}, {reload: true});
 				});
 			// });
@@ -504,93 +366,176 @@ function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel
 // CONTROLLER: Project Activities
 //
 // -----------------------------------------------------------------------------------
-controllerProjectActivities.$inject = ['$scope', '$rootScope', 'Authentication', 'sActivity', '_', 'ProjectModel', 'PhaseModel', 'MilestoneModel' ,'ActivityModel', '$cookies'];
+controllerProjectActivities.$inject = [
+	'$scope',
+	'$rootScope',
+	'sActivity',
+	'_',
+	'ProjectModel',
+	'PhaseModel',
+	'PhaseBaseModel',
+	'MilestoneBaseModel',
+	'MilestoneModel',
+	'ActivityModel',
+	'ActivityBaseModel',
+	'$cookies'];
+
 /* @ngInject */
-function controllerProjectActivities($scope, $rootScope, sAuthentication, sActivity, _, ProjectModel, PhaseModel, sMilestoneModel ,sActivityModel, $cookies) {
+function controllerProjectActivities(
+	$scope,
+	$rootScope,
+	sActivity,
+	_,
+	ProjectModel,
+	PhaseModel,
+	PhaseBaseModel,
+	MilestoneBaseModel,
+	MilestoneModel,
+	ActivityModel,
+	ActivityBaseModel,
+	$cookies
+	) {
 
-	PhaseModel.phasesForProject($scope.project._id).then( function(data) {
-		$scope.phases = data;
-	});
-
+	// get any cookie values and preselect the phase and milestone.
 	$scope.selectedPhaseId = $cookies.phase;
 	$scope.selectedMilestoneId = $cookies.milestone;
 
+	// Set the project to current model, just in case it already wasn't.
+	ProjectModel.setModel($scope.project);
+	// -----------------------------------------------------------------------------------
+	//
+	// Add Phase
+	//
+	// -----------------------------------------------------------------------------------
+	PhaseBaseModel.getCollection().then( function(data) {
+		$scope.allPhases = data;
+	});
+
+	$scope.addNewPhase = function() {
+		if($scope.newBasePhase) {
+			ProjectModel.addPhase($scope.newBasePhase.code).then( function(data) {
+				$scope.project = angular.copy(data);
+				$scope.showNewPhase = false;
+				$scope.$apply();
+			});
+		}
+	};
 
 	$scope.selectPhase = function(phase) {
 		if (phase) {
-			$scope.selectedPhase = phase;
+			PhaseModel.setModel(phase);
+			$scope.selectedPhase = phase._id;
+
 			if ($cookies.phase !== phase._id) {
 				$cookies.phase = phase._id;
 				// the phase has changed, reset the structures down the chain.
 				$cookies.milestone = undefined;
-				$scope.milestones = undefined;
+				$cookies.activity = undefined;
+				$scope.milestones = phase.milestones;
 				$scope.activities = undefined;
 				$scope.selectedMilestone = undefined;
 			}
-			sMilestoneModel.milestonesForPhase(phase._id).then( function(data) {
-				$scope.milestones = data;
-				// if there is also a milestone, select that when the milestones have loaded.
+		}
+	};
+	// -----------------------------------------------------------------------------------
+	//
+	// Add Milestone
+	//
+	// -----------------------------------------------------------------------------------
+	MilestoneBaseModel.getCollection().then( function(data) {
+		$scope.allMilestones = data;
+	});
+
+	$scope.addNewMilestone = function() {
+		if($scope.newBaseMilestone) {
+			PhaseModel.addMilestone($scope.newBaseMilestone.code).then( function(data) {
+				$scope.project = angular.copy(data);
+				$scope.showNewMilestone = false;
 				$scope.$apply();
 			});
 		}
 	};
-
 
 	$scope.selectMilestone = function(milestone) {
 		if (milestone) {
+			MilestoneModel.setModel(milestone);
 			$scope.selectedMilestone = milestone;
 			if ($cookies.milestone !== milestone._id) {
 				$cookies.milestone = milestone._id;
+				$cookies.activity = undefined;
 				// the phase has changed, reset the structures down the chain.
-				$scope.activities = undefined;
+				$scope.activities = milestone.activities;
+				$scope.selectedActivity = undefined;
 			}
-			$cookies.milestone = milestone._id;
-			sActivityModel.activitiesForMilestone(milestone._id).then( function(data) {
-				$scope.activities = data;
+		}
+	};
+	// -----------------------------------------------------------------------------------
+	//
+	// Add Activity
+	//
+	// -----------------------------------------------------------------------------------
+	ActivityBaseModel.getCollection().then( function(data) {
+		$scope.allActivities = data;
+	});
+
+	$scope.addNewActivity = function() {
+		if($scope.newBaseActivity) {
+			MilestoneModel.addActivity($scope.newBaseActivity.code).then( function(data) {
+				$scope.project = angular.copy(data);
+				$scope.showNewActivity = false;
 				$scope.$apply();
 			});
 		}
 	};
 
-	var unbind = $rootScope.$on('refreshActivitiesForMilestone', function(event, data) {
-		// console.log(data.milestone);
-		$scope.selectMilestone(data.milestone);
-	});
-	$scope.$on('$destroy',unbind);
+	$scope.selectActivity = function(activity) {
+		if (activity) {
+			ActivityModel.setModel(activity);
+			$scope.selectedActivity = activity;
+			if ($cookies.Activity !== activity._id) {
+				$cookies.activity = activity._id;
+			}
+		}
+	};
+	// var unbind = $rootScope.$on('refreshActivitiesForMilestone', function(event, data) {
+	// 	// console.log(data.milestone);
+	// 	$scope.selectMilestone(data.milestone);
+	// });
+	// $scope.$on('$destroy',unbind);
 
 
 	// wait until the list of phases loads.
 	// if one is set in the cookie, select it.
 	// this is triggered from the project load below.
-	$scope.$watch(function () {
-		return $scope.phases;
-	},function(newValue){
-		// if there is a preset, find and select it.
-		if ($scope.selectedPhaseId && newValue) {
-			_.each( newValue, function(phase) {
-				if (phase._id === $scope.selectedPhaseId) {
-					$scope.selectPhase( phase );
-				}
-			});
-		}
-	});
+	// $scope.$watch(function () {
+	// 	return $scope.project.phases;
+	// },function(newValue){
+	// 	// if there is a preset, find and select it.
+	// 	if ($scope.selectedPhaseId && newValue) {
+	// 		_.each( newValue, function(phase) {
+	// 			if (phase._id === $scope.selectedPhaseId) {
+	// 				$scope.selectPhase( phase );
+	// 			}
+	// 		});
+	// 	}
+	// });
 
 
-	// select a milestone if there is one.
-	$scope.$watch(function () {
-		return $scope.milestones;
-	},function(newValue){
-		// console.log('mile', newValue);
-		// if there is a preset, select it.
-		if ($scope.selectedMilestoneId && newValue) {
-			_.each( newValue, function(milestone) {
-				if (milestone._id === $scope.selectedMilestoneId) {
-					$scope.selectMilestone( milestone );
-				}
-			});
-		}
+	// // select a milestone if there is one.
+	// $scope.$watch(function () {
+	// 	return $scope.milestones;
+	// },function(newValue){
+	// 	// console.log('mile', newValue);
+	// 	// if there is a preset, select it.
+	// 	if ($scope.selectedMilestoneId && newValue) {
+	// 		_.each( newValue, function(milestone) {
+	// 			if (milestone._id === $scope.selectedMilestoneId) {
+	// 				$scope.selectMilestone( milestone );
+	// 			}
+	// 		});
+	// 	}
 
-	});
+	// });
 
 
 

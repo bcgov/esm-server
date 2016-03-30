@@ -11,7 +11,8 @@
 						<a ng-show="!footer.authentication.user" ui-sref="authentication.signin">Log In</a>
 						<a ng-show="footer.authentication.user" href="/api/auth/signout" target="_self">Logout</a>           
 					</div>
-					Environmental Assessment Office, Victoria BC
+					<span ng-if="footer.environment === 'EAO'">Environmental Assessment Office, Victoria BC</span>
+					<span ng-if="footer.environment === 'MEM'">Ministry of Energy and Mines, Province of British Columbia</span>					
 				</div>
 			</div>
 		</div>

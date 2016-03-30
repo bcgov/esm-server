@@ -9,6 +9,7 @@ web:
   environment:
   - VIRTUAL_PORT=${ESM_HOST_PORT}
   - VIRTUAL_HOST=${ESM_VIRTUAL_HOST}
+  - SEED_MEM=${SEED_MEM}
 
 db:
   image: mongo

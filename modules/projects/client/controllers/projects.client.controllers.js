@@ -2,50 +2,9 @@
 
 angular.module('projects')
 	// General
-	.controller('controllerProjects', controllerProjects)
 	.controller('controllerProjectsList', controllerProjectsList)
 	.controller('controllerProjectsList2', controllerProjectsList2)
 	.controller('controllerProjectsSearch', controllerProjectsSearch);
-
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: Public Projects Main
-//
-// -----------------------------------------------------------------------------------
-controllerProjects.$inject = ['$scope', '$state', '$rootScope', 'ProjectModel', 'PROJECT_TYPES', 'Authentication'];
-/* @ngInject */
-function controllerProjects($scope, $state, $rootScope, sProjectModel, PROJECT_TYPES, Authentication) {
-	var projects = this;
-
-	projects.types = PROJECT_TYPES;
-
-	projects.authentication = Authentication;
-
-	projects.refresh = function() {
-		sProjectModel.getCollection().then( function(data) {
-			projects.projects = data;
-			$scope.$apply ();
-		}).catch( function(err) {
-			$scope.error = err;
-		});
-	};
-
-	var unbind = $rootScope.$on('refreshProjectsList', function() {
-		projects.refresh();
-	});
-	$scope.$on('$destroy', unbind);
-
-	projects.refresh();
-
-
-	// sorting
-	projects.panelSort = [
-		{'field': 'name', 'name':'Name'},
-		{'field': 'status', 'name':'Status'},
-		{'field': 'dateUpdated', 'name':'Date Updated'},
-		{'field': 'dateCreate', 'name':'Date Created'}
-	];
-}
 
 // -----------------------------------------------------------------------------------
 //

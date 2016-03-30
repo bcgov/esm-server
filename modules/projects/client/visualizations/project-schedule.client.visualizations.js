@@ -28,13 +28,13 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 			var oPhaseDetail, oPhaseStart, oPhaseEnd, posPhaseStart, posPhaseEnd, posToday, barHeight, oPhases;
 
 			// get just the start dates.
-			var startDates = _.map(oPhases, function(item) {
-				return moment( new Date(item.dateStarted) );
+			var startDates = _.map(scope.phases, function(item) {
+				return moment( new Date( (item.dateStarted || item.dateStartedEst) ));
 			});
 
 			// get just the end dates.
-			var endDates = _.map(oPhases, function(item) {
-				return moment( new Date(item.dateCompleted) );
+			var endDates = _.map(scope.phases, function(item) {
+				return moment( new Date( (item.dateCompleted || item.dateCompletedEst) ));
 			});
 
 			// find the max and min dates for the outermost boudaries
@@ -46,7 +46,7 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 				// get measurements of the paretn
 				var box = angular.element(element);
 				var grw = box[0].parentNode;
-				var bw = grw.offsetWidth;
+				var bw = grw.offsetWidth || 300;
 				var bh = 100;
 
 				// map the date scale to the page scale.
@@ -96,12 +96,12 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 				for (var i = 0; i < oPhases.length; i++) {
 					oPhaseDetail = oPhases[i];
 
-					if (!oPhaseDetail.dateStarted) {
+					if (!oPhaseDetail.dateStarted && !oPhaseDetail.dateStartedEst) {
 						continue;
 					}
 
-					oPhaseStart = moment(new Date(oPhaseDetail.dateStarted));
-					oPhaseEnd = moment(new Date(oPhaseDetail.dateCompleted));
+					oPhaseStart = moment(new Date((oPhaseDetail.dateStarted || oPhaseDetail.dateStartedEst )));
+					oPhaseEnd = moment(new Date((oPhaseDetail.dateCompleted || oPhaseDetail.dateCompletedEst )));
 
 					posPhaseStart = dateScale( oPhaseStart.format('x') );
 					posPhaseEnd = dateScale( oPhaseEnd.format('x') );
@@ -115,6 +115,14 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 						.attr("height", (28*((oPhaseDetail.progress)/100)))
 						.style("fill", function() { return (oPhaseDetail.progress === 100) ? "#5cb85c" : "#f0ad4e"; })
 						.attr("title", oPhaseDetail.name)
+					;
+
+					svgCont.append("rect")
+						.attr("x", posPhaseStart)
+						.attr("y", 31)
+						.attr("width", posPhaseEnd - posPhaseStart)
+						.attr("height", 69)
+						.style("fill", "rgba(255,255,255,0.65)")
 					;
 
 					svgCont.append("line")
@@ -147,47 +155,43 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 
 					// Draw Phase Bar Title
 					svgCont.append("text")
-						.attr("class","svg-phase-text")
 						.attr("x", posPhaseStart)
 						.attr("y", 40)
 						.attr("dx", "5px")		// Offset Horizontal position
 						.attr("dy", "7px")		// Offset vertical position
-						.attr("lengthAdjust", "spacingAndGlyphs")	// Scale text (not just spacing)
+						.style("font-size", "10px")
 						.text(oPhaseDetail.name) 		// Phase Name / Description
 					;
 
 					// Draw start date
 					svgCont.append("text")
-						.attr("class","small")
 						.attr("x", posPhaseStart)
 						.attr("y", 40)
 						.attr("dx", "5px")
 						.attr("dy", "22px")
-						.attr("lengthAdjust", "spacingAndGlyphs")
+						.style("font-size", "9px")
 						.text(oPhaseStart.format("YYYY MMM DD"))
 						.attr('title', 'End Date')
 					;
 
 					// Draw start date
 					svgCont.append("text")
-						.attr("class","small")
 						.attr("x", posPhaseStart)
 						.attr("y", 40)
 						.attr("dx", "5px")
 						.attr("dy", "37px")
-						.attr("lengthAdjust", "spacingAndGlyphs")
+						.style("font-size", "9px")
 						.text(oPhaseEnd.format("YYYY MMM DD"))
 						.attr('title', 'End Date')
 					;
 
 					// Draw start date
 					svgCont.append("text")
-						.attr("class","small")
 						.attr("x", posPhaseStart)
 						.attr("y", 40)
 						.attr("dx", "5px")
 						.attr("dy", "52px")
-						.attr("lengthAdjust", "spacingAndGlyphs")
+						.style("font-size", "9px")
 						.text(oPhaseDetail.progress + '%')
 						.attr('title', 'Percent Completion')
 					;
