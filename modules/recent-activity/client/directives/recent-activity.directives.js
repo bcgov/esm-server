@@ -11,6 +11,9 @@ angular.module ('recent-activity')
 	return {
 		restrict: 'E',
 		templateUrl: 'modules/recent-activity/client/views/recent-activity.html',
+		scope: {
+			form: '='
+		},
 		controller: function($scope, RecentActivityModel, ProjectModel) {
 			RecentActivityModel.getRecentActivityActive().then( function(res) {
 				$scope.recentActs = res;

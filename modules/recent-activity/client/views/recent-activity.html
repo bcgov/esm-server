@@ -17,3 +17,7 @@
 		<p>Please check back here for recent activity notices.</p>
 	</div>
 </section>
+<a href class="btn show-news" ng-show="recentActs && recentActs.length !== 0" ng-click="form.expandnews = !form.expandnews">
+	<span ng-show="!form.expandnews">Show All News</span>
+	<span ng-show="form.expandnews">Minimize News</span>
+</a>

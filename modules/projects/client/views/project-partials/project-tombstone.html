@@ -31,7 +31,7 @@
 		</div>
 		<div class='col-sm-3'>
 			<div><label class="control-label">Phase</label><p>{{ project.currentPhase.name }}</p></div>
-			<div><label class="control-label">Commodity / IES</label><p>{{ project.commodity || '-'}}</p></div>
+			<div><label class="control-label">Commodity / IES</label><p>{{ (project.commodity || '-') | titleCase }}</p></div>
 			<div><label class="control-label">Region</label><p>{{ project.region | regionName }}</p></div>
 			<div><label class="control-label">Tailing Impoundments</label><p>{{ project.tailingsImpoundments || '-' }}</p></div>
 		</div>

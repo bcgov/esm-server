@@ -2,50 +2,17 @@
 
 angular.module('project')
 	// General
-	// .controller('controllerProject', controllerProject)
 	.controller('controllerModalProjectSchedule', controllerModalProjectSchedule)
-
 
 	.controller('controllerProjectVC', controllerProjectVC)
 	.controller('controllerProjectVCEntry', controllerProjectVCEntry)
-	// .controller('controllerProjectTimeline', controllerProjectTimeline)
+
 	.controller('controllerProjectEntry', controllerProjectEntry)
 	.controller('controllerModalProjectImport', controllerModalProjectImport)
 
-	// .controller('controllerProjectNew', controllerProjectNew)
-	// .controller('controllerProjectEdit', controllerProjectEdit)
 	.controller('controllerProjectStreamSelect', controllerProjectStreamSelect)
 	.controller('controllerProjectActivities', controllerProjectActivities);
 
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: Public Project Detail
-//
-// -----------------------------------------------------------------------------------
-// controllerProject.$inject = ['$scope', '$rootScope', 'ProjectModel', '$stateParams', '_'];
-// /* @ngInject */
-// function controllerProject($scope, $rootScope, ProjectModel, $stateParams, _) {
-// 	var proj = this;
-
-// 	proj.refresh = function() {
-// 		ProjectModel.getModel($stateParams.id).then( function(data) {
-// 			// console.log (data);
-// 			proj.project = data;
-// 			$scope.$apply();
-// 		}).catch( function(err) {
-// 			// console.log (err);
-// 			$scope.error = err;
-// 		});
-// 	};
-
-// 	var unbind = $rootScope.$on('refreshProject', function() {
-// 		proj.refresh();
-// 	});
-// 	$scope.$on('$destroy', unbind);
-
-// 	proj.refresh();
-
-// }
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Modal: View Project Schedule
@@ -121,21 +88,6 @@ function controllerProjectVCEntry(rProjectVCEntry, _, $modalInstance) {
 	};
 	projectVCEntryModal.cancel = function () { $modalInstance.dismiss('cancel'); };
 }
-
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: Project Timeline
-//
-// -----------------------------------------------------------------------------------
-// controllerProjectTimeline.$inject = ['$scope'];
-// /* @ngInject */
-// function controllerProjectTimeline($scope) {
-// 	var ptime = this;
-
-// 	$scope.$watch('project', function(newValue) {
-// 		ptime.project = newValue;
-// 	});
-// }
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Entry Tombstone

@@ -10,4 +10,11 @@ var helpers      = require ('../../../core/server/controllers/core.helpers.contr
 
 module.exports = function (app) {
 	helpers.setCRUDRoutes (app, 'organization', Organization, policy);
+	
+	app.route ('/api/org/for/project/:projectid').all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Organization (req.user);
+			p.getForProject (req.params.projectid)
+			.then (helpers.success(res), helpers.failure(res));
+	});
 };

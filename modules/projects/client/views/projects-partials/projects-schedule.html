@@ -20,7 +20,7 @@
 				<td ng-if="project.status === 'In Progress'">{{ project.name }}</td>
 				<td ng-if="project.status === 'In Progress'">{{ project.currentPhase.name }}</td>
 				<td ng-if="project.status === 'In Progress'" colspan="5" class="schedule-control-cell">
-				<!-- show schedule widget -->
+					<!-- show schedule widget -->
 					<tmpl-schedule-chart x-project="project" x-phases="allPhases" id="{{ project.code }}"></tmpl-schedule-chart>
 				</td>
 
@@ -33,9 +33,10 @@
 				<td ng-if="project.status === 'Initiated' || project.status === 'Submitted'" colspan="5">{{ project.status }}</td>
 			</tr>
 
-			<tr ng-if="projectList.projects.length === 0">
+			<tr ng-if="projects.length === 0">
 				<td colspan="5">No projects match your filter criteria.</td>
 			</tr>
+
 		</tbody>
 	</table>
 

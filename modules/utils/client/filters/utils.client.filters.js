@@ -227,4 +227,3 @@ filterChunk.$inject = ['_'];
 function filterChunk(_) {
 	return _.memoize(_.chunk);
 }
-
