@@ -61,7 +61,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 $scope.org.code = $filter('kebab')($scope.org.name);
                 var p = (which === 'add') ? OrganizationModel.add ($scope.org) : OrganizationModel.save ($scope.org);
                 p.then (function (model) {
-                    $state.transitionTo('admin.org.list', {}, {
+                    $state.transitionTo('admin.organization.list', {}, {
                         reload: true, inherit: false, notify: true
                     });
                 })
@@ -96,7 +96,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 $scope.org.code = $filter('kebab')($scope.org.name);
                 var p = (which === 'add') ? OrganizationModel.add ($scope.org) : OrganizationModel.save ($scope.org);
                 p.then (function (model) {
-                    $state.transitionTo('admin.org.list', {}, {
+                    $state.transitionTo('admin.organization.list', {}, {
                         reload: true, inherit: false, notify: true
                     });
                 })
@@ -125,6 +125,125 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
             $scope.org = org;
         }
     })
+
+    // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+    //
+    // -------------------------------------------------------------------------
+    // USERS
+    // -------------------------------------------------------------------------
+    //
+    // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------    
+    .state('admin.organization.user', {
+        abstract:true,
+        url: '/:orgId/user',
+        template: '<ui-view></ui-view>',
+        resolve: {
+            org: function ($stateParams, OrganizationModel) {
+                return OrganizationModel.getModel ($stateParams.orgId);
+            }
+        },        
+    }) 
+    // -------------------------------------------------------------------------
+    //
+    // user create state
+    //
+    // -------------------------------------------------------------------------
+    .state('admin.organization.user.create', {
+        url: '/create',
+        templateUrl: 'modules/organizations/client/views/organization-user-edit.html',
+        resolve: {
+            user: function (UserModel) {
+                return UserModel.getNew ();
+            }
+        },
+        controller: function ($scope, $state, org, orgs, user, UserModel, $filter, PROVINCES, SALUTATIONS) {
+            $scope.user = user;
+            $scope.org = org;
+            $scope.user.org = org._id;
+            $scope.user.orgName = org.name;
+            $scope.orgs = orgs;
+            $scope.provs = PROVINCES;
+            $scope.salutations = SALUTATIONS; 
+
+            $scope.calculateName = function() {
+                $scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ');
+            };
+
+            var which = 'add';
+            $scope.save = function (isValid) {
+                if (!$scope.user.username || $scope.user.username === '') {
+                    $scope.user.username = $filter('kebab')( $scope.user.displayName );
+                }                
+                if (!isValid) {
+                    $scope.$broadcast('show-errors-check-validity', 'userForm');
+                    return false;
+                }
+                $scope.user.code = $filter('kebab')($scope.user.name);
+                var p = (which === 'add') ? UserModel.add ($scope.user) : UserModel.save ($scope.user);
+                p.then (function (model) {
+                    $state.transitionTo('admin.organization.detail', {orgId: org._id}, {
+                        reload: true, inherit: false, notify: true
+                    });
+                })
+                .catch (function (err) {
+                    console.error (err);
+                    alert (err);
+                });
+            };
+        }
+    })
+    // -------------------------------------------------------------------------
+    //
+    // this is the edit state
+    //
+    // -------------------------------------------------------------------------
+    .state('admin.organization.user.edit', {
+        url: '/:userId/edit',
+        templateUrl: 'modules/organizations/client/views/organization-user-edit.html',
+        resolve: {
+            user: function ($stateParams, UserModel) {
+                return UserModel.getModel ($stateParams.userId);
+            }
+        },
+        controller: function ($scope, $state, org, user, UserModel, $filter, PROVINCES) {
+            $scope.user = user;
+            $scope.org = org;
+            $scope.provs = PROVINCES;
+            var which = 'edit';
+
+            $scope.calculateName = function() {
+                $scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ');
+            };
+
+            $scope.save = function (isValid) {
+                if (!$scope.user.username || $scope.user.username === '') {
+                    $scope.user.username = $filter('kebab')( $scope.user.displayName );
+                }                
+                if (!isValid) {
+                    $scope.$broadcast('show-errors-check-validity', 'userForm');
+                    return false;
+                }
+                $scope.user.code = $filter('kebab')($scope.user.name);
+                var p = (which === 'add') ? UserModel.add ($scope.user) : UserModel.save ($scope.user);
+                p.then (function (model) {
+                    $state.transitionTo('admin.organization.detail', {orgId: org._id}, {
+                        reload: true, inherit: false, notify: true
+                    });
+                })
+                .catch (function (err) {
+                    console.error (err);
+                    alert (err);
+                });
+            };
+        }
+    })
+
+
+
+
+
 
     ;
 

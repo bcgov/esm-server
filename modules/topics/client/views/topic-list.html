@@ -24,6 +24,9 @@
 						<i class="glyphicon glyphicon-pencil"></i>
 						</a>
 					</td>
+					<tr ng-show="!$data || !$data.length" class="text-center">
+						<td colspan="5">No records found.</td>
+					</tr>					
 				</tr>
 			</table>
 		</section>

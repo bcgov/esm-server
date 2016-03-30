@@ -62,14 +62,24 @@ function controllerProjectsSearch($scope, $state, Authentication, sProjectModel,
 // CONTROLLER: Projects
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsList.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC', '_'];
+controllerProjectsList.$inject = ['$scope', '$state', 'Authentication', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC', '_'];
 /* @ngInject */
-function controllerProjectsList($scope, $state, Authentication, sProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC, _) {
+function controllerProjectsList($scope, $state, Authentication, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC, _) {
 	var projectList = this;
+
+	// NgMap.getMap().then(function(map) {
+	// 	projectList.map = map;
+	// });
 
 	projectList.types = PROJECT_TYPES;
 	projectList.regions = REGIONS;
 	projectList.status = PROJECT_STATUS_PUBLIC;
+
+	// projectList.showMarker = function(evt, markerId) {
+	// 	projectList.mark = _.find(projectList.projects, '_id', markerId);
+	// 	console.log(projectList.mark);
+	// 	projectList.map.showInfoWindow('info-map-win', this);
+ // 	};
 
 	projectList.auth = Authentication;
 
@@ -82,7 +92,6 @@ function controllerProjectsList($scope, $state, Authentication, sProjectModel, $
 			projectList.types = projs.pluck('type').unique().value();
 		}
 	});
-
 }
 // -----------------------------------------------------------------------------------
 //

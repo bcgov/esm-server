@@ -174,11 +174,16 @@
 
 			<div class="row">
 				<div class="col-sm-6">
-					<div class="checkbox">
-						<label>
-							<input type="checkbox" ng-model="project.isTermsAgreed">
-							I agree to the terms and conditions.
-						</label>
+					<div class="form-group" x-show-errors>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" ng-model="project.isTermsAgreed" id="terms" name="terms" required>
+								I agree to the terms and conditions.
+							</label>
+								<div ng-messages="projectForm.terms.$error" role="alert">
+									<p class="help-block error-text" ng-message="required">You must accept the terms and conditions to continue.</p>
+								</div>
+						</div>
 					</div>
 				</div>
 
