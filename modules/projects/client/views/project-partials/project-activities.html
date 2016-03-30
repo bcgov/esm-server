@@ -25,7 +25,7 @@
 
 				<ul class="list-unstyled task-list">
 					<li ng-repeat="phase in project.phases | orderBy:'order'">
-						<button class="btn btn-block btn-sm btn-default" ng-class="{'btn-primary': selectedPhase === phase._id}" ng-click="selectPhase(phase)">{{ phase.name }}</button>
+						<button class="btn btn-block btn-sm btn-default" ng-class="{'btn-primary': selectedPhase._id === phase._id}" ng-click="selectPhase(phase)">{{ phase.name }}</button>
 					</li>
 					<li ng-if="!project.phases || project.phases.length === 0">
 						No Phases defined.
