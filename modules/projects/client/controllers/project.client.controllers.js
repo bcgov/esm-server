@@ -414,7 +414,7 @@ function controllerProjectActivities(
 	$scope.addNewPhase = function() {
 		if($scope.newBasePhase) {
 			ProjectModel.addPhase($scope.newBasePhase.code).then( function(data) {
-				$scope.project = angular.copy(data);
+				$scope.project.phases = angular.copy(data.phases);
 				$scope.showNewPhase = false;
 				$scope.$apply();
 			});
@@ -449,9 +449,8 @@ function controllerProjectActivities(
 	$scope.addNewMilestone = function() {
 		if($scope.newBaseMilestone) {
 			PhaseModel.addMilestone($scope.newBaseMilestone.code).then( function(data) {
-				$scope.project = angular.copy(data);
+				$scope.selectedPhase.milestones = angular.copy(data.milestones);
 				$scope.showNewMilestone = false;
-				$scope.$apply();
 			});
 		}
 	};
@@ -481,7 +480,7 @@ function controllerProjectActivities(
 	$scope.addNewActivity = function() {
 		if($scope.newBaseActivity) {
 			MilestoneModel.addActivity($scope.newBaseActivity.code).then( function(data) {
-				$scope.project = angular.copy(data);
+				$scope.selectedMilestone.activities = angular.copy(data.activities);
 				$scope.showNewActivity = false;
 				$scope.$apply();
 			});

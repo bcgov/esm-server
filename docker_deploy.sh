@@ -2,6 +2,7 @@
 
 environment_name=""
 image_name=""
+environment_variables=""
 
 if [ "$#" -lt 2 ]; then
     echo "Please specify an environment name as the first argument and an image to deploy as the second command-line argument."
@@ -10,7 +11,15 @@ else
     environment_name=$1
     image_name=$2
 
+    app_variant=$(echo $environment_name | cut -f1 -d-)
+    promotion_level=$(echo $environment_name| cut -f2 -d-)
+
     echo "Starting deployment for environment $environment_name with image $image_name ..."
+    echo "Variant is '$app_variant' and promotion level is '$promotion_level' ..."
+
+    if [ ${app_variant} = "mem" ]; then
+        environment_variables="-e MEM=true -e SEED_MEM=true"
+    fi
 fi
 
 proxy="false"
@@ -51,8 +60,8 @@ fi;
 
 if  [ "$proxy" = "true" ]; then
     echo "Running with proxy."
-    docker run -p $proxyPort:3000 -v /data/$environment_name/uploads:/uploads -d --restart=always --link webapp-proxy:webapp-proxy --link mongo-$environment_name:db_1 --name app-$environment_name  $proxyParams -l appname=$environment_name $image_name
+    docker run -p $proxyPort:3000 -v /data/$environment_name/uploads:/uploads -d --restart=always --link webapp-proxy:webapp-proxy --link mongo-$environment_name:db_1 --name app-$environment_name  $proxyParams $environment_variables -l appname=$environment_name $image_name
 else
     echo "Running without proxy."
-    docker run -p $proxyPort:3000 -v /data/$environment_name/esm-uploads:/uploads -d --restart=always --link mongo-$environment_name:db_1 --name app-$environment_name -l appname=$environment_name $image_name
+    docker run -p $proxyPort:3000 -v /data/$environment_name/esm-uploads:/uploads -d --restart=always --link mongo-$environment_name:db_1 --name app-$environment_name -l appname=$environment_name $environment_variables $image_name
 fi
