@@ -3,7 +3,7 @@
 if (process.env.MEM === 'true') {
   module.exports = {
     app: {
-      title: 'Ministry of Energy and Mines',
+      title: 'BC Mine Information',
       description: 'Government of British Columbia Energy and Mines Project System',
       keywords: 'energy mines bc government',
       googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
