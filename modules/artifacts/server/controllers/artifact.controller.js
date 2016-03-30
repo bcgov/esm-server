@@ -69,8 +69,8 @@ module.exports = DBModel.extend ({
 				// console.log ('setting tempalte');
 				if (artifactType.isTemplate && !t) return reject (prefix+'cannot find template');
 				else {
-					artifact.template   = t[0];
-					artifact.isTemplate = true;
+					artifact.template   = (artifactType.isTemplate) ? t[0] : null;
+					artifact.isTemplate = artifactType.isTemplate;
 					return artifact;
 				}
 			})

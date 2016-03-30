@@ -48,6 +48,7 @@ angular.module('project').config (
 		templateUrl: 'modules/projects/client/views/project-partials/project.detail.html',
 		controller: function ($scope, project) {
 			$scope.project = project;
+			// $scope.$apply ();
 		}
 	})
 	// -------------------------------------------------------------------------
