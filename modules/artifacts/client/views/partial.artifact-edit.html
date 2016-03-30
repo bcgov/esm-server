@@ -9,29 +9,33 @@
 
 
 <div ng-if="!artifact.isTemplate">
+<div class="row">
 	<!--
 
 		This section gets displayed if the content is a document
 
 	 -->
-	<div class="col-sm-2 doc-action-col">
-		<a
-			href="/api/document/{{ filterSummary._id }}/fetch"
-			target="_blank" title="Download">
-				<span class="glyphicon glyphicon-download"></span>
-		</a>
-
-		<a
-			ng-if="docBrowser.allowLink"
-			href
-			ng-click="docBrowser.toggleDocumentLink( filterSummary )"
-			title="Link">
-				<span class="glyphicon glyphicon-link"></span>
-		</a>
-
+	<div class="col-sm-3">
+		<h4>Main Document</h4>
+		<div ng-if="artifact.document">
+		[ no document uploaded yet ]
+		</div>
+		<div ng-if="!artifact.document">
+			<span class="glyphicon glyphicon-file"></span> {{artifact.type.type}} - {{artifact.version}}
+		</div>
+		<div>
+		<small><a href ng-click="docBrowser.toggleDocumentLink( filterSummary )"title="Link">
+			<span class="glyphicon glyphicon-link"></span>  Link or Upload Document </a>
+		</small>
+		<br/>
+		<small ng-if="artifact.document"><a href="/api/document/{{ artifact.document._id }}/fetch"target="_blank" title="Download">
+			<span class="glyphicon glyphicon-download"></span> Download Document</a>
+		</small>
+		</div>
 	</div>
 	<div>
 		<h4>Supporting Documents</h4>
 		[[ this is where a list of upporting documents will go ]]
 	</div>
+</div>
 </div>
