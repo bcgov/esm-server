@@ -128,7 +128,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 
 	//contactName : { type:String, default: '' }, REPLACED WITH DISPLAYNAME
 	//code: 		{type:String, default: ''}, REPLACED WITH USERNAME
-	org: 		{ type:'ObjectId', ref:'Org', default:null, index:true },
+	org: 		{ type:'ObjectId', ref:'Organization', default:null, index:true },
 	orgName: 		{ type:String, default: '' },
 	personId: 	{ type:Number, default: null }, // From ePIC
 	title: 		{ type:String, default: '' },

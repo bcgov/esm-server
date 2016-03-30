@@ -353,7 +353,7 @@ function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel
 				ProjectModel.setModel ($scope.project);
 				ProjectModel.setStream(projectStreamSelect.newStreamId).then( function(resStream) {
 					projectStreamSelect.project = _.assign(resStream);
-					$scope.project = resStream;
+					//$scope.project = resStream;
 					$state.go('p.detail', {'projectid':projectStreamSelect.project.code}, {reload: true});
 				});
 			// });
@@ -386,7 +386,7 @@ function controllerProjectActivities(
 	$rootScope,
 	sActivity,
 	_,
-	ProjectModel, 
+	ProjectModel,
 	PhaseModel,
 	PhaseBaseModel,
 	MilestoneBaseModel,
@@ -448,7 +448,7 @@ function controllerProjectActivities(
 
 	$scope.addNewMilestone = function() {
 		if($scope.newBaseMilestone) {
-			PhaseModel.addMilestone($scope.newBaseMilestone._id).then( function(data) {
+			PhaseModel.addMilestone($scope.newBaseMilestone.code).then( function(data) {
 				$scope.project = angular.copy(data);
 				$scope.showNewMilestone = false;
 				$scope.$apply();
@@ -480,7 +480,7 @@ function controllerProjectActivities(
 
 	$scope.addNewActivity = function() {
 		if($scope.newBaseActivity) {
-			MilestoneModel.addActivity($scope.newBaseActivity._id).then( function(data) {
+			MilestoneModel.addActivity($scope.newBaseActivity.code).then( function(data) {
 				$scope.project = angular.copy(data);
 				$scope.showNewActivity = false;
 				$scope.$apply();
