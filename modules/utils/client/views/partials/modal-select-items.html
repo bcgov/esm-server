@@ -1,9 +1,11 @@
 <div class="modal-header">
 	<div class="pull-right form-inline">
 		<div class="form-group">
-			<input ng-model="selectItems.filter" type="text" class="input-sm form-control" placeholder="Filter">
-			<button class="btn btn-default btn-xs" type="button" ng-click="selectItems.cancel()">Cancel</button>
-			<button class="btn btn-default btn-xs" type="button" ng-click="selectItems.ok()">Save</button>			
+			<!--<input ng-model="selectItems.filter" type="text" class="input-sm form-control" placeholder="Filter">-->			
+			<!--<button class="btn btn-default btn-xs" type="button" ng-click="selectItems.cancel()">Cancel</button>-->
+			<!--<button class="btn btn-default btn-xs" type="button" ng-click="selectItems.ok()">Save</button>-->	
+			<button class="btn btn-xs btn-link" ng-click="selectItems.cancel()">Cancel</button>
+			<button class="btn btn-xs btn-link" ng-click="selectItems.ok()">Save</button>		
 		</div>
 	</div>
 	<h3 class="modal-title">Select {{ selectItems.itemName }}</h3>
@@ -52,6 +54,6 @@
 
 </div>
 <div class="modal-footer">
-	<button class="btn btn-warning" type="button" ng-click="selectItems.cancel()">Cancel</button>
-	<button class="btn btn-primary" type="button" ng-click="selectItems.ok()">Save</button>
+	<button class="btn btn-default" type="button" ng-click="selectItems.cancel()">Cancel</button>
+	<button class="btn btn-default" type="button" ng-click="selectItems.ok()">Save</button>
 </div>

@@ -21,6 +21,10 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	default_pro_read   : [ {type:String} ],
 	default_pro_write  : [ {type:String} ],
 	default_pro_submit : [ {type:String} ],
-	default_pro_watch  : [ {type:String} ]
+	default_pro_watch  : [ {type:String} ],
+	//
+	// the order that this should appear in lists
+	//
+	order         : { type:Number, default:0 }
 });
 
