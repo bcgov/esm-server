@@ -8,12 +8,12 @@ angular.module('core')
 // Controller Footer
 //
 // -----------------------------------------------------------------------------------
-controllerFooter.$inject = ['Authentication', '$rootScope'];
+controllerFooter.$inject = ['Authentication', '$rootScope', 'ENV'];
 /* @ngInject */
-function controllerFooter(Authentication, $rootScope) {
+function controllerFooter(Authentication, $rootScope, ENV) {
 	var footer = this;
 	footer.authentication = Authentication;
-
+	footer.environment = ENV;
 	footer.side = true;
 
 	$rootScope.$on('$stateChangeSuccess', 
