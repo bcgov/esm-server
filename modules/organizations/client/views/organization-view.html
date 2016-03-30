@@ -2,8 +2,12 @@
 	Add / Edit Organization
 </h1>
 
-<div class="row">
+<div class="row" ng-init="expandOrgView = false">
 	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" href ng-click="expandOrgView = !expandOrgView">
+			<span ng-show="expandOrgView">Reduce Organization Detail</span>
+			<span ng-show="!expandOrgView">Expand Organization Detail</span>
+		</a>
 		<a class="btn btn-xs btn-link" ui-sref="admin.organization.list">Cancel</a>
 		<a class="btn btn-xs btn-link" ui-sref="admin.organization.edit({orgId: org._id})">Edit</a>
 	</div>
@@ -12,7 +16,7 @@
 <div class="panel panel-default">
 	<div class="panel-body">
 
-		<div class="row">
+		<div class="row" >
 			<div class="col-sm-8">
 				<div class="form-group">
 					<label for="name" class="control-label">Name</label>
@@ -27,7 +31,7 @@
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row" ng-show="expandOrgView">
 			<div class="col-sm-8">
 				<div class="form-group">
 					<label for="companyDba" class="control-label">Doing Business As</label>
@@ -42,7 +46,7 @@
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row" ng-show="expandOrgView">
 			<div class="col-sm-8">
 				<div class="form-group">
 					<label for="companyLegal" class="control-label">Company Legal</label>
@@ -58,7 +62,7 @@
 		</div>
 
 			
-		<div class="well well-sm">
+		<div class="well well-sm" ng-show="expandOrgView">
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
@@ -102,7 +106,7 @@
 			</div>
 		</div>
 		
-		<hr>
+		<hr ng-show="expandOrgView">
 		
 		<div class="text-right">
 			<a class="btn btn-default" ui-sref="admin.organization.list">Cancel</a>
@@ -113,3 +117,28 @@
 </div>
 
 
+<h1 class="page-title no-lower-margin">
+	{{ org.name }} Users
+</h1>
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="admin.organization.user.create({orgId: org._id})">+ Add New User</a>
+		<show-filter x-toggle-filter="toggleFilter"></show-filter>
+	</div>
+</div>
+<section class="panel panel-default">
+	
+	<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-striped table-hover">
+		<tr ng-repeat="o in $data" class='clickable' ui-sref="admin.organization.user.edit({orgId: org._id, userId: o._id})">
+			<td data-title="'Name'"  filter="{'name':'text'}"   sortable="'name'">{{o.name}}</td>
+			<td data-title="'Username'"  filter="{'username':'text'}"   sortable="'username'">{{o.username}}</td>
+			<td data-title="'Email'" filter="{'email':'text'}"    sortable="'email'" >{{o.email}}</td>
+			<td width="1%" class="text-right">
+				<i class="glyphicon glyphicon-pencil"></i>
+			</td>			
+		</tr>
+		<tr ng-show="!$data || !$data.length" class="text-center">
+			<td colspan="4">No records found.</td>
+		</tr>
+	</table>
+</section>

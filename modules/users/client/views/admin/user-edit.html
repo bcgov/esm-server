@@ -96,6 +96,50 @@
 
 		<hr/>
 
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="address1" class="control-label">Address (Line 1)</label>
+					<input id="address1" type="text" class="form-control input-sm" ng-model="user.address1">
+				</div>
+			</div>    
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="address2" class="control-label">Address (Line 2)</label>
+					<input id="address2" type="text" class="form-control input-sm" ng-model="user.address2">
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="city" class="control-label">City</label>
+					<input id="city" type="text" class="form-control input-sm" ng-model="user.city">
+				</div>
+			</div>    
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="province" class="control-label">Province</label>
+					<input id="province" type="text" class="form-control input-sm" ng-model="user.province">
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="country" class="control-label">Country</label>
+					<input id="country" type="text" class="form-control input-sm" ng-model="user.country">
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="postalCode" class="control-label">Postal Code</label>
+					<input id="postalCode" type="text" class="form-control input-sm" ng-model="user.postalCode">
+				</div>
+			</div>
+		</div>
+		<hr>
+
 		<div class="row">
 			<div class="col-sm-4">
 				<div class="form-group">
@@ -117,55 +161,12 @@
 			</div>
 		</div>
 
-		<div class="well well-sm">
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label for="address1" class="control-label">Address (Line 1)</label>
-						<input id="address1" type="text" class="form-control input-sm" ng-model="user.address1">
-					</div>
-				</div>    
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label for="address2" class="control-label">Address (Line 2)</label>
-						<input id="address2" type="text" class="form-control input-sm" ng-model="user.address2">
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="city" class="control-label">City</label>
-						<input id="city" type="text" class="form-control input-sm" ng-model="user.city">
-					</div>
-				</div>    
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="province" class="control-label">Province</label>
-						<input id="province" type="text" class="form-control input-sm" ng-model="user.province">
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="country" class="control-label">Country</label>
-						<input id="country" type="text" class="form-control input-sm" ng-model="user.country">
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="postalCode" class="control-label">Postal Code</label>
-						<input id="postalCode" type="text" class="form-control input-sm" ng-model="user.postalCode">
-					</div>
-				</div>
-			</div>
-		</div>
 		<hr>
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
 					<label for="notes" class="control-label">Notes</label>
-					<textarea id="notes" class="form-control" ng-model="user.notes"></textarea>
+					<textarea id="notes" rows="6" class="form-control" ng-model="user.notes"></textarea>
 				</div>
 			</div>
 		</div>

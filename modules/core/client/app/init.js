@@ -38,6 +38,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 
 	// Record previous state
 	$rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+		document.body.scrollTop = document.documentElement.scrollTop = 0;
 		if (!fromState.data || !fromState.data.ignoreState) {
 			$state.previous = {
 				state: fromState,
@@ -45,9 +46,10 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 				href: $state.href(fromState, fromParams)
 			};
 		}
+
 	});
 
-	$rootScope.$on("$stateChangeError", console.log.bind(console));
+	$rootScope.$on('$stateChangeError', console.log.bind(console));
 
 });
 

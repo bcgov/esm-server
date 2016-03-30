@@ -110,9 +110,9 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 
 					svgCont.append("rect")
 						.attr("x", posPhaseStart)
-						.attr("y", barHeight)
-						.attr("width", posPhaseEnd - posPhaseStart)
-						.attr("height", (28*((oPhaseDetail.progress)/100)))
+						.attr("y", 2)
+						.attr("width", (posPhaseEnd - posPhaseStart) * ((oPhaseDetail.progress)/100) ) 
+						.attr("height",28)
 						.style("fill", function() { return (oPhaseDetail.progress === 100) ? "#5cb85c" : "#f0ad4e"; })
 						.attr("title", oPhaseDetail.name)
 					;

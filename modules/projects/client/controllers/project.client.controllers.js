@@ -424,7 +424,7 @@ function controllerProjectActivities(
 	$scope.selectPhase = function(phase) {
 		if (phase) {
 			PhaseModel.setModel(phase);
-			$scope.selectedPhase = phase._id;
+			$scope.selectedPhase = phase;
 
 			if ($cookies.phase !== phase._id) {
 				$cookies.phase = phase._id;
