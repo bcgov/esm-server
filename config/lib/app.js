@@ -47,8 +47,8 @@ module.exports.start = function start(callback) {
       if (process.env.NODE_ENV === 'secure') {
         console.log(chalk.green('HTTPs:\t\t\t\ton'));
       }
-      if (process.env.SEED_MEM === 'true') {
-        console.log(chalk.green('Seed MEM Environment:\t\ttrue'));
+      if (process.env.MEM === 'true') {
+        console.log(chalk.green('MEM Environment:\t\ttrue'));
       }
       console.log('--');
 
