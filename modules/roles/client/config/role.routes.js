@@ -10,7 +10,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 	//
 	// this is the abstract, top level view for project roles.
 	//
-	// -------------------------------------------------------------------------	
+	// -------------------------------------------------------------------------
 	.state('p.roles', {
 		url: '/roles',
 		templateUrl: 'modules/roles/client/views/role.html',
@@ -31,6 +31,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.roles', {
+		data: {roles: ['admin','eao']},
 		abstract:true,
 		url: '/roles',
 		template: '<ui-view></ui-view>'
@@ -48,7 +49,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 			systemRoles: function ($stateParams, RoleModel) {
 				return RoleModel.getSystemRoles ();
 			}
-		},		
+		},
 		controller: function ($scope, NgTableParams, systemRoles) {
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: systemRoles});
 		}
@@ -60,20 +61,25 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.roles.create', {
+		data: {roles: ['admin','edit-sys-roles']},
 		url: '/create',
 		templateUrl: 'modules/roles/client/views/role-edit.html',
 		resolve: {
 			role: function (RoleModel) {
 				return RoleModel.getNew ();
-			}					
+			}
 		},
 		controller: function ($scope, $state, role, RoleModel, $filter) {
 			$scope.role = role;
-			$scope.role.isSystem = true;
 			var which = 'add';
-			$scope.save = function () {
+			$scope.save = function (isValid) {
 				$scope.role.code = $scope.role.roleCode;
-				var p = (which === 'add') ? RoleModel.add ($scope.role) : RoleModel.save ($scope.role);
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'roleForm');
+					return false;
+				}
+
+				var p = (which === 'add') ? RoleModel.add ($scope.roles) : RoleModel.save ($scope.role);
 				p.then (function (model) {
 					$state.transitionTo('admin.roles.list', {}, {
 			  			reload: true, inherit: false, notify: true
@@ -81,7 +87,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 				})
 				.catch (function (err) {
 					console.error (err);
-					alert (err.message);
+					alert (err);
 				});
 			};
 		}
@@ -92,18 +98,24 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.roles.edit', {
+		data: {roles: ['admin','edit-sys-roles']},
 		url: '/:roleCode/edit',
 		templateUrl: 'modules/roles/client/views/role-edit.html',
 		resolve: {
 			role: function ($stateParams, RoleModel) {
 				return RoleModel.getModel ($stateParams.roleCode);
-			}					
+			}
 		},
 		controller: function ($scope, $state, role, RoleModel, $filter) {
 			$scope.role = role;
 			var which = 'edit';
-			$scope.save = function () {
+			$scope.save = function (isValid) {
 				$scope.role.code = $scope.role.roleCode;
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'roleForm');
+					return false;
+				}
+				
 				var p = (which === 'add') ? RoleModel.add ($scope.role) : RoleModel.save ($scope.role);
 				p.then (function (model) {
 					$state.transitionTo('admin.roles.list', {}, {
@@ -112,7 +124,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 				})
 				.catch (function (err) {
 					console.error (err);
-					alert (err.message);
+					alert (err);
 				});
 			};
 		}

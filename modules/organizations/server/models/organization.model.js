@@ -7,7 +7,6 @@
 module.exports = require ('../../../core/server/controllers/core.models.controller')
 .generateModel ('Organization', {
 	__audit       : true,
-	__access      : true,
 	__codename    : 'unique',
 	company       : { type: String, default:'' },
 	website       : { type: String, default:'' },
