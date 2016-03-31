@@ -5,7 +5,7 @@ angular.module('conditions').run(['Menus',
 		Menus.addMenuItem('systemMenu', {
 			title: 'Conditions',
 			state: 'admin.condition.list',
-			roles: ['admin']
+			roles: ['eao','admin']
 		});
 	}
 ]);

@@ -5,7 +5,7 @@ angular.module('topics').run(['Menus',
 		Menus.addMenuItem('systemMenu', {
 			title: 'Topics',
 			state: 'admin.topic.list',
-			roles: ['admin']
+			roles: ['admin','eao']
 		});
 	}
 ]);

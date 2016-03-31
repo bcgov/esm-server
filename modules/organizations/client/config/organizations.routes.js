@@ -13,6 +13,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     //
     // -------------------------------------------------------------------------
     .state('admin.organization', {
+        data: {roles: ['admin','eao']},
         abstract:true,
         url: '/organization',
         template: '<ui-view></ui-view>',
@@ -20,7 +21,10 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
             orgs: function ($stateParams, OrganizationModel) {
                 return OrganizationModel.getCollection ();
             }
-        }
+        },
+        // onEnter: function (MenuControl, orgs) {
+        //     MenuControl.routeAccess ('organization');
+        // }
     })
     // -------------------------------------------------------------------------
     //
@@ -29,12 +33,13 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     //
     // -------------------------------------------------------------------------
     .state('admin.organization.list', {
+        // data: {roles: ['admin','eao']},
         url: '/list',
         templateUrl: 'modules/organizations/client/views/organization-list.html',
         controller: function ($scope, NgTableParams, orgs) {
             $scope.orgs = orgs;
             $scope.tableParams = new NgTableParams ({count:10}, {dataset: orgs});
-        }
+        },
     })
     // -------------------------------------------------------------------------
     //
@@ -43,6 +48,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     //
     // -------------------------------------------------------------------------
     .state('admin.organization.create', {
+        data: {roles: ['admin','edit-organizations']},
         url: '/create',
         templateUrl: 'modules/organizations/client/views/organization-edit.html',
         resolve: {
@@ -70,7 +76,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                     alert (err);
                 });
             };
-        }
+        },
     })
     // -------------------------------------------------------------------------
     //
@@ -78,6 +84,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     //
     // -------------------------------------------------------------------------
     .state('admin.organization.edit', {
+        data: {roles: ['admin','edit-organizations']},
         url: '/:orgId/edit',
         templateUrl: 'modules/organizations/client/views/organization-edit.html',
         resolve: {
@@ -144,6 +151,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     // -------------------------------------------------------------------------
     // -------------------------------------------------------------------------
     .state('admin.organization.user', {
+        data: {roles: ['admin','eao']},
         abstract:true,
         url: '/:orgId/user',
         template: '<ui-view></ui-view>',
@@ -159,6 +167,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     //
     // -------------------------------------------------------------------------
     .state('admin.organization.user.create', {
+        data: {roles: ['admin','edit-users']},
         url: '/create',
         templateUrl: 'modules/organizations/client/views/organization-user-edit.html',
         resolve: {
@@ -208,6 +217,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     //
     // -------------------------------------------------------------------------
     .state('admin.organization.user.edit', {
+        data: {roles: ['admin','edit-users']},
         url: '/:userId/edit',
         templateUrl: 'modules/organizations/client/views/organization-user-edit.html',
         resolve: {

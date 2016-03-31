@@ -59,6 +59,7 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.template', {
+		data: {roles: ['admin','edit-templates']},
 		abstract:true,
 		url: '/template',
 		template: '<ui-view></ui-view>',

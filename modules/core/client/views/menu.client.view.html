@@ -11,10 +11,10 @@
 			<li><a href ui-sref="activities">My List</a></li>
 		</ul>
 		<hr>
-		<ul class="list-unstyled">
+<!-- 		<ul class="list-unstyled">
 			<li><a ui-sref="p.edit({projectid:'new'})">Add Project</a></li>
 		</ul>
-	</div>
+ -->	</div>
 
 	<!-- Common on all pages Not Logged In -->
 	<div ng-show="!menu.authentication.user">
@@ -22,7 +22,7 @@
 			<li><a ui-sref="projects" href>All Projects</a></li>
 		</ul>
 	</div>
-	
+
 
 	<div ng-if="(menu.context === 'projects' || menu.context === 'mylist') && menu.pageAnchors('anchor-group-projects')" id="anchor-group-projects">
 		<hr>
