@@ -93,7 +93,7 @@ angular.module('conditions').config(['$stateProvider', function ($stateProvider)
 				})
 				.catch (function (err) {
 					console.error (err);
-					alert (err);
+					alert (err.message);
 				});
 			};
 		}
@@ -137,7 +137,7 @@ angular.module('conditions').config(['$stateProvider', function ($stateProvider)
 				})
 				.catch (function (err) {
 					console.error (err);
-					alert (err);
+					alert (err.message);
 				});
 			};
 		}

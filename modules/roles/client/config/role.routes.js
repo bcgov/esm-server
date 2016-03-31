@@ -69,9 +69,11 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 		},
 		controller: function ($scope, $state, role, RoleModel, $filter) {
 			$scope.role = role;
+			$scope.role.isSystem = true;
 			var which = 'add';
 			$scope.save = function () {
-				var p = (which === 'add') ? RoleModel.add ($scope.roles) : RoleModel.save ($scope.role);
+				$scope.role.code = $scope.role.roleCode;
+				var p = (which === 'add') ? RoleModel.add ($scope.role) : RoleModel.save ($scope.role);
 				p.then (function (model) {
 					$state.transitionTo('admin.roles.list', {}, {
 			  			reload: true, inherit: false, notify: true
@@ -79,7 +81,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 				})
 				.catch (function (err) {
 					console.error (err);
-					alert (err);
+					alert (err.message);
 				});
 			};
 		}
@@ -101,6 +103,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 			$scope.role = role;
 			var which = 'edit';
 			$scope.save = function () {
+				$scope.role.code = $scope.role.roleCode;
 				var p = (which === 'add') ? RoleModel.add ($scope.role) : RoleModel.save ($scope.role);
 				p.then (function (model) {
 					$state.transitionTo('admin.roles.list', {}, {
@@ -109,7 +112,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 				})
 				.catch (function (err) {
 					console.error (err);
-					alert (err);
+					alert (err.message);
 				});
 			};
 		}

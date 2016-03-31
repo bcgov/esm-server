@@ -47,10 +47,23 @@ function directiveSelectArray() {
      	restrict:'E',
      	scope : {
 			sourceArray: '=',
-			selectedArray: '='
+			selectedArray: '=',
+			keyString: '@',
+			valueString: '@'
 		},
 		templateUrl: 'modules/utils/client/views/partials/select-array.html',
-		controller: 'controllerSelectArray'
+		controller: function($scope, _) {
+			$scope._ = _;
+
+			$scope.toggleArrayItem = function(newItem) {
+				if( _.contains($scope.selectedArray, newItem) ) {
+					// remove
+					_.pull($scope.selectedArray, newItem);
+				} else {
+					$scope.selectedArray.push(newItem);
+				}
+			};
+		}
     };
     return directive;
 }
@@ -67,7 +80,9 @@ function directiveDisplayArray() {
      	restrict:'E',
      	scope : {
 			sourceArray: '=',
-			selectedArray: '='
+			selectedArray: '=',
+			keyString: '@',
+			valueString: '@'
 		},
 		templateUrl: 'modules/utils/client/views/partials/display-array.html',
 		controller: function($scope, _) {

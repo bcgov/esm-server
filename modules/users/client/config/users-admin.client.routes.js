@@ -69,7 +69,7 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 				})
 				.catch (function (err) {
 					console.error (err);
-					alert (err);
+					alert (err.message);
 				});
 			};
 		}
@@ -118,7 +118,7 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 				})
 				.catch (function (err) {
 					console.error (err);
-					alert (err);
+					alert (err.message);
 				});
 			};
 		}
