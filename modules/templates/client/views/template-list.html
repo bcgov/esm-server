@@ -32,6 +32,11 @@
 						<i class="glyphicon glyphicon-play"></i>
 						</a></td>
 				</tr>
+				<tr ng-if="!$data || $data.length === 0">
+					<td colspan="5">
+						No records found.
+					</td>
+				</tr>
 			</table>
 		</section>
 	</div>
