@@ -41,9 +41,14 @@ angular.module('topics').config(['$stateProvider', function ($stateProvider) {
 		url: '/list',
 		templateUrl: 'modules/topics/client/views/topic-list.html',
 		controller: function ($scope, NgTableParams, topics, pillars, types) {
-			$scope.types = types;
+			$scope.types = types; //Doesn't hold any values
 			$scope.pillars = pillars;
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: topics});
+			$scope.getTypes = function () 
+			{
+				//Hardcoding these values as done on the edit screen
+				return [{ id: 'Valued Component', title: 'Valued Component'}, { id: 'Pathway Component', title: 'Pathway Component'}];
+			};
 		}
 	})
 	// -------------------------------------------------------------------------
