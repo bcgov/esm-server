@@ -83,10 +83,14 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
         resolve: {
             org: function ($stateParams, OrganizationModel) {
                 return OrganizationModel.getModel ($stateParams.orgId);
+            },
+            users: function (org, OrganizationModel) {
+                return OrganizationModel.getUsers (org._id);
             }
         },
-        controller: function ($scope, $state, org, OrganizationModel, $filter) {
+        controller: function ($scope, $state, NgTableParams, org, users, OrganizationModel, $filter) {
             $scope.org = org;
+            $scope.tableParams = new NgTableParams ({count:10}, {dataset: users});
             var which = 'edit';
             $scope.save = function (isValid) {
                 if (!isValid) {
@@ -119,10 +123,14 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
         resolve: {
             org: function ($stateParams, OrganizationModel) {
                 return OrganizationModel.getModel ($stateParams.orgId);
+            },
+            users: function (org, OrganizationModel) {
+                return OrganizationModel.getUsers (org._id);
             }
         },
-        controller: function ($scope, org) {
+        controller: function ($scope, NgTableParams, org, users) {
             $scope.org = org;
+            $scope.tableParams = new NgTableParams ({count:10}, {dataset: users});
         }
     })
 
@@ -134,7 +142,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     // -------------------------------------------------------------------------
     //
     // -------------------------------------------------------------------------
-    // -------------------------------------------------------------------------    
+    // -------------------------------------------------------------------------
     .state('admin.organization.user', {
         abstract:true,
         url: '/:orgId/user',
@@ -143,8 +151,8 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
             org: function ($stateParams, OrganizationModel) {
                 return OrganizationModel.getModel ($stateParams.orgId);
             }
-        },        
-    }) 
+        },
+    })
     // -------------------------------------------------------------------------
     //
     // user create state
@@ -165,7 +173,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
             $scope.user.orgName = org.name;
             $scope.orgs = orgs;
             $scope.provs = PROVINCES;
-            $scope.salutations = SALUTATIONS; 
+            $scope.salutations = SALUTATIONS;
 
             $scope.calculateName = function() {
                 $scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ');
@@ -175,7 +183,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
             $scope.save = function (isValid) {
                 if (!$scope.user.username || $scope.user.username === '') {
                     $scope.user.username = $filter('kebab')( $scope.user.displayName );
-                }                
+                }
                 if (!isValid) {
                     $scope.$broadcast('show-errors-check-validity', 'userForm');
                     return false;
@@ -220,7 +228,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
             $scope.save = function (isValid) {
                 if (!$scope.user.username || $scope.user.username === '') {
                     $scope.user.username = $filter('kebab')( $scope.user.displayName );
-                }                
+                }
                 if (!isValid) {
                     $scope.$broadcast('show-errors-check-validity', 'userForm');
                     return false;
@@ -264,7 +272,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
 //                 data: {
 //                     roles: ['user', 'admin']
 //                 }
-//             })        
+//             })
 //             .state('organization.list', {
 //                 url: '/list',
 //                 templateUrl: 'modules/organizations/client/views/list-organizations.client.view.html',

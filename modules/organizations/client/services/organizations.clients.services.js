@@ -10,7 +10,10 @@ angular.module('organizations').factory ('OrganizationModel', function (ModelBas
 	// have all the basic crud stuff built in
 	//
 	var OrganizationModel = ModelBase.extend ({
-		urlName : 'organization'
+		urlName : 'organization',
+		getUsers: function (organizationId) {
+			return this.get ('/api/users/for/org/'+organizationId);
+		}
 	});
 	return new OrganizationModel ();
 });
