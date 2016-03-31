@@ -2,10 +2,12 @@
 	Add / Edit System Roles
 </h1>
 
+<form name="roleForm" ng-submit="save(roleForm.$valid)" novalidate>
+
 <div class="row">
 	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="admin.roles.list">Cancel</a>
-		<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+		<button class="btn btn-xs btn-link" ui-sref="admin.roles.list">Cancel</button>
+		<button class="btn btn-xs btn-link" href type="submit">Save</button>
 	</div>
 </div>
 
@@ -13,9 +15,12 @@
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-sm-3">
-				<div class="form-group">
+				<div class="form-group" x-show-errors>
 					<label for="code" class="control-label">Code</label>
-					<input id="code" name="code" type="text" class="form-control input-sm" ng-model="role.code">
+					<input id="code" name="code" type="text" class="form-control input-sm" ng-model="role.code" required>
+						<div ng-messages="roleForm.code.$error" role="alert">
+							<p class="help-block error-text" ng-message="required">Code is required.</p>
+						</div>
 				</div>
 			</div>
 		
@@ -62,11 +67,12 @@
 		<hr>
 		
 		<div class="text-right">
-			<a class="btn btn-default" ui-sref="admin.roles.list">Cancel</a>
-			<a class="btn btn-default" href ng-click="save()">Save</a>
+			<button class="btn btn-default" ui-sref="admin.roles.list">Cancel</button>
+			<button class="btn btn-default" type="submit">Save</button>
 		</div>
 
 	</div>
 </div>
 
+</form>
 

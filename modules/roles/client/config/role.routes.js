@@ -72,7 +72,12 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 		controller: function ($scope, $state, role, RoleModel, $filter) {
 			$scope.role = role;
 			var which = 'add';
-			$scope.save = function () {
+			$scope.save = function (isValid) {
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'roleForm');
+					return false;
+				}
+
 				var p = (which === 'add') ? RoleModel.add ($scope.roles) : RoleModel.save ($scope.role);
 				p.then (function (model) {
 					$state.transitionTo('admin.roles.list', {}, {
@@ -103,7 +108,12 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 		controller: function ($scope, $state, role, RoleModel, $filter) {
 			$scope.role = role;
 			var which = 'edit';
-			$scope.save = function () {
+			$scope.save = function (isValid) {
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'roleForm');
+					return false;
+				}
+				
 				var p = (which === 'add') ? RoleModel.add ($scope.role) : RoleModel.save ($scope.role);
 				p.then (function (model) {
 					$state.transitionTo('admin.roles.list', {}, {
