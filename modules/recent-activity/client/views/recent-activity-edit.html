@@ -2,10 +2,12 @@
 	Add / Edit Recent Activity
 </h1>
 
+<form name="recentActivityForm" ng-submit="save(recentActivityForm.$valid)" novalidate>
+
 <div class="row">
 	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="admin.recentactivity.list">Cancel</a>
-		<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+		<button class="btn btn-xs btn-link" ui-sref="admin.recentactivity.list">Cancel</button>
+		<button class="btn btn-xs btn-link" href type="submit">Save</button>
 	</div>
 </div>
 
@@ -13,17 +15,23 @@
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="form-group">
+				<div class="form-group" x-show-errors>
 					<label for="headline" class="control-label">Headline</label>
-					<input id="headline" name="headline" type="text" class="form-control input-sm" ng-model="recentActivity.headline">
+					<input id="headline" name="headline" type="text" class="form-control input-sm" ng-model="recentActivity.headline" required>
+						<div ng-messages="recentActivityForm.headline.$error" role="alert">
+							<p class="help-block error-text" ng-message="required">Headline is required.</p>
+						</div>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="form-group">
+				<div class="form-group" x-show-errors>
 					<label for="content" class="control-label">Content</label>
-					<textarea id="content" rows="6" name="content" class="form-control input-sm" ng-model="recentActivity.content"></textarea>
+					<textarea id="content" rows="6" name="content" class="form-control input-sm" ng-model="recentActivity.content" required></textarea>
+						<div ng-messages="recentActivityForm.content.$error" role="alert">
+							<p class="help-block error-text" ng-message="required">Content is required.</p>
+						</div>
 				</div>
 			</div>
 		</div>
@@ -59,16 +67,20 @@
 				</div>
 			</div>
 			<div class="col-sm-3">
-				<div class="form-group">
+				<div class="form-group" x-show-errors>
 					<label for="type" class="control-label">Type</label>
 					<select id="type"
 						name="type"
 						class="form-control input-sm"
 						ng-model="recentActivity.type"
+						required
 						>
 						<option>Public Comment Period</option>
 						<option>News</option>
 					</select>
+						<div ng-messages="recentActivityForm.type.$error" role="alert">
+							<p class="help-block error-text" ng-message="required">Type is required.</p>
+						</div>
 				</div>
 			</div>
 			<div class="col-sm-2">
@@ -100,11 +112,12 @@
 		<hr>
 		
 		<div class="text-right">
-			<a class="btn btn-default" ui-sref="admin.recentactivity.list">Cancel</a>
-			<a class="btn btn-default" href ng-click="save()">Save</a>
+			<button class="btn btn-default" ui-sref="admin.recentactivity.list">Cancel</button>
+			<button class="btn btn-default" type="submit">Save</button>
 		</div>
 
 	</div>
 </div>
 
+</form>
 

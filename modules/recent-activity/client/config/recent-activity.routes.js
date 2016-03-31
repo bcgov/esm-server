@@ -55,7 +55,12 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 		controller: function ($scope, $state, recentActivity, RecentActivityModel, $filter) {
 			$scope.recentActivity = recentActivity;
 			var which = 'add';
-			$scope.save = function () {
+			$scope.save = function (isValid) {
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'recentActivityForm');
+					return false;
+				}
+
 				var p = (which === 'add') ? RecentActivityModel.add ($scope.recentActivity) : RecentActivityModel.save ($scope.recentActivity);
 				p.then (function (model) {
 					$state.transitionTo('admin.recentactivity.list', {}, {
@@ -85,7 +90,12 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 		controller: function ($scope, $state, recentActivity, RecentActivityModel, $filter) {
 			$scope.recentActivity = recentActivity;
 			var which = 'edit';
-			$scope.save = function () {
+			$scope.save = function (isValid) {
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'recentActivityForm');
+					return false;
+				}
+
 				var p = (which === 'add') ? RecentActivityModel.add ($scope.recentActivity) : RecentActivityModel.save ($scope.recentActivity);
 				p.then (function (model) {
 					$state.transitionTo('admin.recentactivity.list', {}, {
