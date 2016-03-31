@@ -12,6 +12,7 @@ module.exports = {
         'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css'
       ],
       js: [
+        'public/lib/es6-shim/es6-shim.min.js',
         'public/lib/angular/angular.js',
         'public/lib/angular-resource/angular-resource.js',
         'public/lib/angular-animate/angular-animate.js',
@@ -35,8 +36,8 @@ module.exports = {
         'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
         // these were in the applicaiton js area before
         'public/lib/ngmap/build/scripts/ng-map.js',
-		'public/moment-timezone-data.js',
-		'public/readable-range.js'
+        'public/moment-timezone-data.js',
+        'public/readable-range.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },
