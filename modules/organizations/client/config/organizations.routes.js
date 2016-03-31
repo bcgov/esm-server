@@ -218,10 +218,14 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 return UserModel.getModel ($stateParams.userId);
             }
         },
-        controller: function ($scope, $state, org, user, UserModel, $filter, PROVINCES) {
+        controller: function ($scope, $state, org, orgs, user, UserModel, $filter, PROVINCES, SALUTATIONS) {
             $scope.user = user;
             $scope.org = org;
+            $scope.user.org = org._id;
+            $scope.user.orgName = org.name;
+            $scope.orgs = orgs;
             $scope.provs = PROVINCES;
+            $scope.salutations = SALUTATIONS;
             var which = 'edit';
 
             $scope.calculateName = function() {
@@ -250,7 +254,24 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
             };
         }
     })
-
+    // -------------------------------------------------------------------------
+    //
+    // this is the 'view' state
+    //
+    // -------------------------------------------------------------------------
+    .state('admin.organization.user.detail', {
+        url: '/:userId',
+        templateUrl: 'modules/organizations/client/views/organization-user-view.html',
+        resolve: {
+            user: function ($stateParams, UserModel) {
+                return UserModel.getModel ($stateParams.userId);
+            }
+        },
+        controller: function ($scope, org, user) {
+            $scope.user = user;
+            $scope.org = org;
+        }
+    })
 
 
 
