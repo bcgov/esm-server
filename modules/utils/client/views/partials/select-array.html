@@ -1,8 +1,8 @@
 <ul class="list-unstyled task-list">
 	<li ng-repeat="item in sourceArray track by $index">
 		<button class="btn btn-xs btn-block"
-			ng-class="{'btn-success': _.indexOf(selectedArray, item.id) > -1}"
-			ng-click="toggleArrayItem(item.id)"
-			type="button">{{ item.title }}</button>
+			ng-class="{'btn-success': _.indexOf(selectedArray, item[keyString]) > -1}"
+			ng-click="toggleArrayItem(item[keyString])"
+			type="button">{{ item[valueString] }}</button>
 	</li>
 </ul>

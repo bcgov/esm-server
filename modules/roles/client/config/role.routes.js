@@ -73,6 +73,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 			$scope.role = role;
 			var which = 'add';
 			$scope.save = function (isValid) {
+				$scope.role.code = $scope.role.roleCode;
 				if (!isValid) {
 					$scope.$broadcast('show-errors-check-validity', 'roleForm');
 					return false;
@@ -109,6 +110,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 			$scope.role = role;
 			var which = 'edit';
 			$scope.save = function (isValid) {
+				$scope.role.code = $scope.role.roleCode;
 				if (!isValid) {
 					$scope.$broadcast('show-errors-check-validity', 'roleForm');
 					return false;
