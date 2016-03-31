@@ -168,7 +168,7 @@ angular.module('core').service('Menus', [
 
     //Adding the system menu
     this.addMenu('systemMenu', {
-      roles: ['admin']
+      roles: ['eao', 'admin']
     });
 
     //Adding the projects menu

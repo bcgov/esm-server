@@ -10,7 +10,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 	//
 	// this is the abstract, top level view for project roles.
 	//
-	// -------------------------------------------------------------------------	
+	// -------------------------------------------------------------------------
 	.state('p.roles', {
 		url: '/roles',
 		templateUrl: 'modules/roles/client/views/role.html',
@@ -31,6 +31,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.roles', {
+		data: {roles: ['admin','eao']},
 		abstract:true,
 		url: '/roles',
 		template: '<ui-view></ui-view>'
@@ -48,7 +49,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 			systemRoles: function ($stateParams, RoleModel) {
 				return RoleModel.getSystemRoles ();
 			}
-		},		
+		},
 		controller: function ($scope, NgTableParams, systemRoles) {
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: systemRoles});
 		}
@@ -60,12 +61,13 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.roles.create', {
+		data: {roles: ['admin','edit-sys-roles']},
 		url: '/create',
 		templateUrl: 'modules/roles/client/views/role-edit.html',
 		resolve: {
 			role: function (RoleModel) {
 				return RoleModel.getNew ();
-			}					
+			}
 		},
 		controller: function ($scope, $state, role, RoleModel, $filter) {
 			$scope.role = role;
@@ -90,12 +92,13 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.roles.edit', {
+		data: {roles: ['admin','edit-sys-roles']},
 		url: '/:roleCode/edit',
 		templateUrl: 'modules/roles/client/views/role-edit.html',
 		resolve: {
 			role: function ($stateParams, RoleModel) {
 				return RoleModel.getModel ($stateParams.roleCode);
-			}					
+			}
 		},
 		controller: function ($scope, $state, role, RoleModel, $filter) {
 			$scope.role = role;

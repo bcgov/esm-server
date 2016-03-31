@@ -5,7 +5,7 @@ angular.module('templates').run(['Menus',
 		Menus.addMenuItem('systemMenu', {
 			title: 'Templates',
 			state: 'admin.template.list',
-			roles: ['admin']
+			roles: ['admin','edit-templates']
 		});
 	}
 ]);
