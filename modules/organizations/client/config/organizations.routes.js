@@ -20,6 +20,9 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
             orgs: function ($stateParams, OrganizationModel) {
                 return OrganizationModel.getCollection ();
             }
+        },
+        onEnter: function (MenuControl, orgs) {
+            MenuControl.routeAccess ('organization');
         }
     })
     // -------------------------------------------------------------------------
@@ -34,7 +37,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
         controller: function ($scope, NgTableParams, orgs) {
             $scope.orgs = orgs;
             $scope.tableParams = new NgTableParams ({count:10}, {dataset: orgs});
-        }
+        },
     })
     // -------------------------------------------------------------------------
     //

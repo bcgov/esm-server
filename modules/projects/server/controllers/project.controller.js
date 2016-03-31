@@ -250,11 +250,9 @@ module.exports = DBModel.extend ({
 			//
 			// select the right sector lead role
 			//
-			if (project.type === 'lng') {
-				project.sectorRole = 'sector-lead-lng';
-			} else {
-				project.sectorRole = 'sector-lead-mining';
-			}
+			project.sectorRole = project.type.toLowerCase ();
+			project.sectorRole = project.sectorRole.replace (/\W/g,'-');
+			project.sectorRole = project.sectorRole.replace (/-+/,'-');
 			self.saveDocument (project).then (function () {
 				//
 				// add the project to the roles and the roles to the project

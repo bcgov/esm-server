@@ -69,6 +69,15 @@ checkIntegration ('newconfigs2').then (function () {
 	require('../seed-data/newconfigs')(true);
 });
 
+// -------------------------------------------------------------------------
+//
+// configurations
+//
+// -------------------------------------------------------------------------
+checkIntegration ('sysroles').then (function () {
+	require('../seed-data/loadroles')();
+});
+
 
 // -------------------------------------------------------------------------
 //
