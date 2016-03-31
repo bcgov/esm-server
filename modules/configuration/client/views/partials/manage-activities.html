@@ -32,48 +32,63 @@
 
                 <div ng-show="configDataElement.activeRecord">
 
-                    <div class="form-group">
-                        <label class="control-label">Name</label>
-                        <input class="form-control" type="text" ng-model="configDataElement.activeRecord.name" x-kebab-this x-source="configDataElement.activeRecord.name" x-destination="configDataElement.activeRecord.code">
-                    </div>
+                    <form name="activitiesForm" ng-submit="configDataElement.saveRecord(activitiesForm.$valid)" novalidate>
 
-
-                    <div class="form-group">
-                        <label class="control-label">Code</label>
-                        <input class="form-control" type="text" ng-model="configDataElement.activeRecord.code">
-                    </div>
-
-
-                    <div class="form-group">
-                        <label class="control-label">Description</label>
-                        <textarea class="form-control" ng-model="configDataElement.activeRecord.description">{{ configDataElement.activeRecord.description }}</textarea>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label class="control-label">Process Code</label>
-                        <select class="form-control" ng-model="configDataElement.activeRecord.processCode" ng-options="(item | kebab) as item for item in configDataElement.processCodes">
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label">Order</label>
-                        <input class="form-control" type="number" ng-model="configDataElement.activeRecord.order">
-                    </div>
-
-                    <div class="form-group">
-                        <a href modal-permission-matrix x-target-object="configDataElement.activeRecord">Permissions</a>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-sm-6">
-                            <button class="btn btn-primary" ng-click="configDataElement.saveRecord()">Save</button>
-                            <button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>
+                        <div class="form-group" x-show-errors>
+                            <label class="control-label">Name</label>
+                            <input name="name" class="form-control" type="text" ng-model="configDataElement.activeRecord.name" x-kebab-this x-source="configDataElement.activeRecord.name" x-destination="configDataElement.activeRecord.code" required>
+                                <div ng-messages="activitiesForm.name.$error" role="alert">
+                                    <p class="help-block error-text" ng-message="required">Name is required.</p>
+                                </div>
                         </div>
-                        <div class="form-group col-sm-6 text-right" ng-show="!configDataElement.activeRecordNew">
-                            <button class="btn btn-danger" ng-click="configDataElement.deleteRecord()">Delete</button>
+
+
+                        <div class="form-group" x-show-errors>
+                            <label class="control-label">Code</label>
+                            <input name="code" class="form-control" type="text" ng-model="configDataElement.activeRecord.code" required>
+                                <div ng-messages="activitiesForm.code.$error" role="alert">
+                                    <p class="help-block error-text" ng-message="required">Code is required.</p>
+                                </div>
                         </div>
-                    </div>
+
+
+                        <div class="form-group">
+                            <label class="control-label">Description</label>
+                            <textarea class="form-control" ng-model="configDataElement.activeRecord.description">{{ configDataElement.activeRecord.description }}</textarea>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="control-label">Process Code</label>
+                            <select class="form-control" ng-model="configDataElement.activeRecord.processCode" ng-options="(item | kebab) as item for item in configDataElement.processCodes">
+                            </select>
+                        </div>
+
+                        <div class="form-group" x-show-errors>
+                            <label class="control-label">Order</label>
+                            <input name="order" class="form-control" type="number" ng-model="configDataElement.activeRecord.order" required>
+                                <div ng-messages="activitiesForm.order.$error" role="alert">
+                                    <p class="help-block error-text" ng-message="required">Order is required.</p>
+                                </div>
+                        </div>
+
+                        <div class="form-group">
+                            <a href modal-permission-matrix x-target-object="configDataElement.activeRecord">Permissions</a>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <button class="btn btn-danger" ng-click="configDataElement.deleteRecord()" ng-show="!configDataElement.activeRecordNew">Delete</button>
+                            </div>
+                            <div class="form-group col-sm-6 text-right">
+                                <button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>
+                                <button class="btn btn-default" type="submit">Save</button>                           
+                            </div>
+                        </div>
+
+                    </form>
 
                 </div>
             </div>

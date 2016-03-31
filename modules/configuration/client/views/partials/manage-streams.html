@@ -30,52 +30,63 @@
 
 				<div ng-show="configDataElement.activeRecord">
 
-					<div class="row">
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label class="control-label">Name</label>
-								<input class="form-control" type="text" ng-model="configDataElement.activeRecord.name" x-kebab-this x-source="configDataElement.activeRecord.name" x-destination="configDataElement.activeRecord.code">
-							</div>
-						</div>
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label class="control-label">Code</label>
-								<input class="form-control" type="text" ng-model="configDataElement.activeRecord.code">
-							</div>
-						</div>
-					</div>
+					<form name="streamsForm" ng-submit="configDataElement.saveRecord(streamsForm.$valid)" novalidate>
 
-					<div class="row">
-						<div class="col-sm-12">
-							<div class="form-group">
-								<label class="control-label">Description</label>
-								<textarea class="form-control" ng-model="configDataElement.activeRecord.description"></textarea>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group" x-show-errors>
+									<label class="control-label">Name</label>
+									<input name="name" class="form-control" type="text" ng-model="configDataElement.activeRecord.name" x-kebab-this x-source="configDataElement.activeRecord.name" x-destination="configDataElement.activeRecord.code" required>
+										<div ng-messages="streamsForm.name.$error" role="alert">
+		                                    <p class="help-block error-text" ng-message="required">Name is required.</p>
+		                                </div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group" x-show-errors>
+									<label class="control-label">Code</label>
+									<input name="code" class="form-control" type="text" ng-model="configDataElement.activeRecord.code" required>
+										<div ng-messages="streamsForm.code.$error" role="alert">
+		                                    <p class="help-block error-text" ng-message="required">Code is required.</p>
+		                                </div>
+								</div>
 							</div>
 						</div>
-					</div>
 
-	                    <div class="form-group">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label class="control-label">Description</label>
+									<textarea class="form-control" ng-model="configDataElement.activeRecord.description"></textarea>
+								</div>
+							</div>
+						</div>
+
+	                    <div class="form-group" x-show-errors>
 	                        <label class="control-label">Order</label>
-	                        <input class="form-control" type="number" ng-model="configDataElement.activeRecord.order">
+	                        <input name="order" class="form-control" type="number" ng-model="configDataElement.activeRecord.order" required>
+	                        	<div ng-messages="streamsForm.order.$error" role="alert">
+                                    <p class="help-block error-text" ng-message="required">Order is required.</p>
+                                </div>
 	                    </div>
 
-					<div class="form-group">
-						<a href
-							class="control-label pull-right"
-							x-modal-select-items
-							x-all-items="configDataElement.data.phases"
-							x-single="false"
-							x-parent-object="configDataElement.activeRecord"
-							x-selected-items="configDataElement.activeRecord.phases"
-							x-item-name="Phases for {{ configDataElement.activeRecord.name }}"
-							x-callback="">Edit</a>
-						<label class="control-label">Phases for this Stream</label>
+						<div class="form-group">
+							<a href
+								class="control-label pull-right"
+								x-modal-select-items
+								x-all-items="configDataElement.data.phases"
+								x-single="false"
+								x-parent-object="configDataElement.activeRecord"
+								x-selected-items="configDataElement.activeRecord.phases"
+								x-item-name="Phases for {{ configDataElement.activeRecord.name }}"
+								x-callback="">Edit</a>
+							<label class="control-label">Phases for this Stream</label>
 
 
-						<ul class="list-unstyled well well-sm">
-							<li ng-show="configDataElement.activeRecord.phases.length === 0">No Phases selected</li>
-							<li ng-repeat="phase in configDataElement.activeRecord.phases | orderBy:'order' track by $index"><em class="small text-success">phase:</em>&nbsp;{{ phase.name }}</li>
-						</ul>
+							<ul class="list-unstyled well well-sm">
+								<li ng-show="configDataElement.activeRecord.phases.length === 0">No Phases selected</li>
+								<li ng-repeat="phase in configDataElement.activeRecord.phases | orderBy:'order' track by $index"><em class="small text-success">phase:</em>&nbsp;{{ phase.name }}</li>
+							</ul>
 
 	                    </div>
 
@@ -83,16 +94,19 @@
 	                        <a href modal-permission-matrix x-target-object="configDataElement.activeRecord">Permissions</a>
 	                    </div>
 
-					<div class="row">
-						<div class="form-group col-sm-6">
-							<button class="btn btn-primary" ng-click="configDataElement.saveRecord()">Save</button>
-							<button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>
-						</div>
-						<div class="form-group col-sm-6 text-right" ng-show="!configDataElement.activeRecordNew">
-							<button class="btn btn-danger" ng-click="configDataElement.deleteRecord()">Delete</button>
-						</div>
-					</div>
+						<hr>
 
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <button class="btn btn-danger" ng-click="configDataElement.deleteRecord()" ng-show="!configDataElement.activeRecordNew">Delete</button>
+                            </div>
+                            <div class="form-group col-sm-6 text-right">
+                                <button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>
+                                <button class="btn btn-default" type="submit">Save</button>                           
+                            </div>
+                        </div>
+
+					</form>
 
 				</div>
 			</div>

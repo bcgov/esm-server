@@ -183,8 +183,7 @@ function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBa
 
 
     // ----- Save existing record -----
-    configDataElement.saveRecord = function() {
-
+    configDataElement.saveRecord = function(isValid) {
         if(configDataElement.child) {
             var objIds = [];
             _.each(configDataElement.activeRecord[ configDataElement.child ], function(item) {
@@ -195,6 +194,11 @@ function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBa
 
         switch(configDataElement.context) {
             case 'stream':
+                if (!isValid) {
+                    $scope.$broadcast('show-errors-check-validity', 'streamsForm');
+                    return false;
+                }
+
                 sStreamModel.saveCopy(configDataElement.activeRecord).then( function(data) {
                     $scope.$emit('refreshConfig');
                 }).catch( function(err) {
@@ -202,6 +206,11 @@ function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBa
                 });
                 break;
             case 'phase':
+                if (!isValid) {
+                    $scope.$broadcast('show-errors-check-validity', 'phasesForm');
+                    return false;
+                }
+
                 sPhaseBaseModel.saveCopy(configDataElement.activeRecord).then( function(data) {
                     $scope.$emit('refreshConfig');
                 }).catch( function(err) {
@@ -209,6 +218,11 @@ function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBa
                 });
                 break;
             case 'milestone':
+                if (!isValid) {
+                    $scope.$broadcast('show-errors-check-validity', 'milestonesForm');
+                    return false;
+                }
+
                 sMilestoneBaseModel.saveCopy(configDataElement.activeRecord).then( function(data) {
                     $scope.$emit('refreshConfig');
                 }).catch( function(err) {
@@ -216,6 +230,11 @@ function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBa
                 });
                 break;
             case 'activity':
+                if (!isValid) {
+                    $scope.$broadcast('show-errors-check-validity', 'activitiesForm');
+                    return false;
+                }
+
                 sActivityBaseModel.saveCopy(configDataElement.activeRecord).then( function(data) {
                     $scope.$emit('refreshConfig');
                 }).catch( function(err) {
@@ -300,6 +319,21 @@ function controllerConfigManageElement($scope, ProcessCodes, $filter, _, sTaskBa
         configDataElement.activeRecordOriginal = undefined;
         configDataElement.activeRecord = undefined;
         configDataElement.activeRecordNew = false;
+
+        switch(configDataElement.context) {
+            case 'activity':
+                $scope.$broadcast('show-errors-reset', 'activitiesForm');
+                break;
+            case 'milestone':
+                $scope.$broadcast('show-errors-reset', 'milestonesForm');
+                break;
+            case 'phase':
+                $scope.$broadcast('show-errors-reset', 'phasesForm');
+                break;
+            case 'stream':
+                $scope.$broadcast('show-errors-reset', 'streamsForm');
+                break;
+        }
     };
 
 }

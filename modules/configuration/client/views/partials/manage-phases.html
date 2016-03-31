@@ -34,71 +34,86 @@
 
                 <div ng-show="configDataElement.activeRecord">
 
-                    <div class="form-group">
-                        <label class="control-label">Name</label>
-                        <input class="form-control" type="text" ng-model="configDataElement.activeRecord.name" x-kebab-this x-source="configDataElement.activeRecord.name" x-destination="configDataElement.activeRecord.code">
-                    </div>
+                    <form name="phasesForm" ng-submit="configDataElement.saveRecord(phasesForm.$valid)" novalidate>
 
-
-                    <div class="form-group">
-                        <label class="control-label">Code</label>
-                        <input class="form-control" type="text" ng-model="configDataElement.activeRecord.code">
-                    </div>
-
-
-                    <div class="form-group">
-                        <label class="control-label">Description</label>
-                        <textarea class="form-control" ng-model="configDataElement.activeRecord.description"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label">Default Status</label>
-                        <input class="form-control" type="text" ng-model="configDataElement.activeRecord.status">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label">Mandatory Duration (days)</label>
-                        <input class="form-control" type="number" ng-model="configDataElement.activeRecord.mandatoryDurationDays">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label">Order</label>
-                        <input class="form-control" type="number" ng-model="configDataElement.activeRecord.order">
-                    </div>
-
-                    <div class="form-group">
-                        <a href
-                            class="control-label pull-right"
-                            x-modal-select-items
-                            x-all-items="configDataElement.data.milestones"
-                            x-single="false"
-                            x-parent-object="configDataElement.activeRecord"
-                            x-selected-items="configDataElement.activeRecord.milestones"
-                            x-item-name="Milestones for {{ configDataElement.activeRecord.name }}"
-                            x-callback="">Edit</a>
-                        <label class="control-label">Milestones for this Phase</label>
-
-
-                        <ul class="list-unstyled well well-sm">
-                            <li ng-show="configDataElement.activeRecord.milestones.length === 0">No Milestones selected</li>
-                            <li ng-repeat="milestone in configDataElement.activeRecord.milestones | orderBy:'order' track by $index"><em class="small text-success">milestone:</em>&nbsp;{{ milestone.name }}</li>
-                        </ul>
-
-                    </div>
-
-                    <div class="form-group">
-                        <a href modal-permission-matrix x-target-object="configDataElement.activeRecord">Permissions</a>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-sm-6">
-                            <button class="btn btn-primary" ng-click="configDataElement.saveRecord()">Save</button>
-                            <button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>
+                        <div class="form-group" x-show-errors>
+                            <label class="control-label">Name</label>
+                            <input name="name" class="form-control" type="text" ng-model="configDataElement.activeRecord.name" x-kebab-this x-source="configDataElement.activeRecord.name" x-destination="configDataElement.activeRecord.code" required>
+                                <div ng-messages="phasesForm.name.$error" role="alert">
+                                    <p class="help-block error-text" ng-message="required">Name is required.</p>
+                                </div>
                         </div>
-                        <div class="form-group col-sm-6 text-right" ng-show="!configDataElement.activeRecordNew">
-                            <button class="btn btn-danger" ng-click="configDataElement.deleteRecord()">Delete</button>
+
+
+                        <div class="form-group" x-show-errors>
+                            <label class="control-label">Code</label>
+                            <input name="code" class="form-control" type="text" ng-model="configDataElement.activeRecord.code" required>
+                                <div ng-messages="phasesForm.code.$error" role="alert">
+                                    <p class="help-block error-text" ng-message="required">Code is required.</p>
+                                </div>
                         </div>
-                    </div>
+
+
+                        <div class="form-group">
+                            <label class="control-label">Description</label>
+                            <textarea class="form-control" ng-model="configDataElement.activeRecord.description"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Default Status</label>
+                            <input class="form-control" type="text" ng-model="configDataElement.activeRecord.status">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Mandatory Duration (days)</label>
+                            <input class="form-control" type="number" ng-model="configDataElement.activeRecord.mandatoryDurationDays">
+                        </div>
+
+                        <div class="form-group" x-show-errors>
+                            <label class="control-label">Order</label>
+                            <input name="order" class="form-control" type="number" ng-model="configDataElement.activeRecord.order" required>
+                                <div ng-messages="phasesForm.order.$error" role="alert">
+                                    <p class="help-block error-text" ng-message="required">Order is required.</p>
+                                </div>
+                        </div>
+
+                        <div class="form-group">
+                            <a href
+                                class="control-label pull-right"
+                                x-modal-select-items
+                                x-all-items="configDataElement.data.milestones"
+                                x-single="false"
+                                x-parent-object="configDataElement.activeRecord"
+                                x-selected-items="configDataElement.activeRecord.milestones"
+                                x-item-name="Milestones for {{ configDataElement.activeRecord.name }}"
+                                x-callback="">Edit</a>
+                            <label class="control-label">Milestones for this Phase</label>
+
+
+                            <ul class="list-unstyled well well-sm">
+                                <li ng-show="configDataElement.activeRecord.milestones.length === 0">No Milestones selected</li>
+                                <li ng-repeat="milestone in configDataElement.activeRecord.milestones | orderBy:'order' track by $index"><em class="small text-success">milestone:</em>&nbsp;{{ milestone.name }}</li>
+                            </ul>
+
+                        </div>
+
+                        <div class="form-group">
+                            <a href modal-permission-matrix x-target-object="configDataElement.activeRecord">Permissions</a>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <button class="btn btn-danger" ng-click="configDataElement.deleteRecord()" ng-show="!configDataElement.activeRecordNew">Delete</button>
+                            </div>
+                            <div class="form-group col-sm-6 text-right">
+                                <button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>
+                                <button class="btn btn-default" type="submit">Save</button>                           
+                            </div>
+                        </div>
+
+                    </form>
 
                 </div>
             </div>
