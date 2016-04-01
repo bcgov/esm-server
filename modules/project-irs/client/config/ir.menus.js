@@ -1,11 +1,10 @@
 'use strict';
 
-angular.module('irs').run(['Menus',
-	function (Menus) {
+angular.module('irs').run(['Menus', 'MenuControl', function (Menus, MenuControl) {
 		Menus.addMenuItem('projectMenu', {
 			title: 'Inspection Reports',
 			state: 'p.ir.list',
-			roles: ['user']
+			roles: MenuControl.menuRoles ('', 'eao', 'edit-inspections')
 		});
 	}
 ]);

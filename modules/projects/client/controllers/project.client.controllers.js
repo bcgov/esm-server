@@ -196,7 +196,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 				}
 			})
 			.catch (function (err) {
-				console.error ('Error getting organization:', err.data.message);
+				console.error ('Error getting organization:');
 			});
 		} else {
 			OrganizationModel.getNew ().then (function (neworg) {
@@ -220,7 +220,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 			}
 		})
 		.catch (function (err) {
-			console.error ('Error getting user record:', err.data.message);
+			console.error ('Error getting user record:');
 		});
 	} else {
 		UserModel.getModel ($scope.project.primaryContact)
@@ -264,7 +264,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 			$state.go('p.detail', {projectid: data.code});
 		})
 		.catch (function (err) {
-			console.error ('error = ', err, 'message = ', err.data.message);
+			console.error ('error = ', err);
 		});
 	};
 
@@ -294,7 +294,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 			$state.go('p.detail', {projectid: $scope.project.code});
 		})
 		.catch (function (err) {
-			console.error ('error = ', err, 'message = ', err.data.message);
+			console.error ('error = ', err);
 		});
 	};
 }

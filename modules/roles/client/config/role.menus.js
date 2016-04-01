@@ -1,16 +1,15 @@
 'use strict';
 
-angular.module('roles').run(['Menus',
-	function (Menus) {
+angular.module('roles').run(['Menus', 'MenuControl', function (Menus, MenuControl) {
 		Menus.addMenuItem('projectMenu', {
 			title: 'Project Roles',
 			state: 'p.roles',
-			roles: ['user']
+			roles: MenuControl.menuRoles ('', 'any', 'edit-roles')
 		});
 		Menus.addMenuItem('systemMenu', {
 			title: 'System Roles',
 			state: 'admin.roles.list',
-			roles: ['user']
-		});		
+			roles: ['admin','edit-sys-roles']
+		});
 	}
 ]);

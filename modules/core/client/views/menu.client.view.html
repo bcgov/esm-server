@@ -4,7 +4,7 @@
 	<div ng-show="menu.authentication.user">
 		<ul class="list-unstyled">
 			<li><a ui-sref="projects" href>All Projects</a></li>
-			<li><a href ui-sref="projects.schedule">Schedule</a></li>
+			<!-- <li><a href ui-sref="projects.schedule">Schedule</a></li> -->
 		</ul>
 		<hr>
 		<ul class="list-unstyled">
@@ -65,16 +65,15 @@
 			<a href ng-click="$event.preventDefault();" class="dropdown-toggle" id="dropdownProjectMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="Manage {{ menu.project.name }} Data">Project Data <span class="caret"></span></a>
 			<div class="dropdown-menu" aria-labelledby="dropdownProjectMenu">
 				<ul class="list-unstyled"  ng-show="menu.authentication.user">
-					<li><a ui-sref="p.edit({projectid: menu.project.code})">Edit Project</a></li>
-					<li><a x-modal-project-schedule href x-project="menu.project">Edit Schedule</a></li>
+					<!-- <li><a ui-sref="p.edit({projectid: menu.project.code})">Edit Project</a></li> -->
+					<li ng-if="menu.isEAO"><a x-modal-project-schedule href x-project="menu.project">Edit Schedule</a></li>
 					<li><a x-modal-users-by-roles href x-source-object="menu.project">Edit Project Users</a></li>
 				</ul>
-				<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user)">
-					<li ng-repeat="item in menu.projectMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
+				<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user, menu.project.code)">
+					<li ng-repeat="item in menu.projectMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project.code);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 					</li>
 				</ul>
-
 				<ul class="list-unstyled" ng-show="menu.authentication.user">
 					<li><a ui-sref="p.workinggroup.list">Working Group</a></li>
 				</ul>

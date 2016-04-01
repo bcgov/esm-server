@@ -26,7 +26,11 @@ angular.module('complaints').config(['$stateProvider', function ($stateProvider)
 			vcs: function(VcModel, project) {
 				return VcModel.forProject(project._id);
 			}
-		}
+		},
+        onEnter: function (MenuControl, project) {
+            MenuControl.routeAccess (project.code, 'eao','edit-complaints');
+        }
+
 	})
 	// -------------------------------------------------------------------------
 	//

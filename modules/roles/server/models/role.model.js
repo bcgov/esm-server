@@ -15,7 +15,7 @@ var _ = require ('lodash');
 var RoleSchema  = new Schema ({
 	code           : { type:String, default:'code', index:true, unique:true },
 	projectCode    : { type:String, default:'', index:true },
-	orgCode        : { type:String, default:'eao', enum:['eao', 'proponent'], index:true },
+	orgCode        : { type:String, default:'eao', enum:['eao', 'pro'], index:true },
 	roleCode       : { type:String, default:'' },
 	isSystem       : { type:Boolean, default:false, index:true },
 	users          : [{ type:'ObjectId', ref:'User' }],

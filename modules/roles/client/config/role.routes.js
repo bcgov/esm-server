@@ -21,7 +21,10 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 		},
 		controller: function($scope, roles) {
 			$scope.roles = roles;
-		}
+		},
+        onEnter: function (MenuControl, project) {
+            MenuControl.routeAccess (project.code, 'any','edit-roles');
+        }
 	})
 
 	// -------------------------------------------------------------------------

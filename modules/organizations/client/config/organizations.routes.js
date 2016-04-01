@@ -21,10 +21,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
             orgs: function ($stateParams, OrganizationModel) {
                 return OrganizationModel.getCollection ();
             }
-        },
-        // onEnter: function (MenuControl, orgs) {
-        //     MenuControl.routeAccess ('organization');
-        // }
+        }
     })
     // -------------------------------------------------------------------------
     //

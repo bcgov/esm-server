@@ -10,16 +10,22 @@ angular.module('core').service('Menus', [
     this.menus = {};
 
     // A private function for rendering decision
-    var shouldRender = function (user) {
-      if (!!~this.roles.indexOf('*')) {
+    var shouldRender = function (user, projectcode) {
+      var checkroles = this.roles;
+      if (projectcode) {
+        checkroles = this.roles.map (function (r) {
+          return (r.substr(0,1) === ':') ? projectcode+r : r;
+        });
+      }
+      if (!!~checkroles.indexOf('*')) {
         return true;
       } else {
         if(!user) {
           return false;
         }
         for (var userRoleIndex in user.roles) {
-          for (var roleIndex in this.roles) {
-            if (this.roles[roleIndex] === user.roles[userRoleIndex]) {
+          for (var roleIndex in checkroles) {
+            if (checkroles[roleIndex] === user.roles[userRoleIndex]) {
               return true;
             }
           }

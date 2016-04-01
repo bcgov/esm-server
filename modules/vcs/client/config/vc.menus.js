@@ -1,11 +1,10 @@
 'use strict';
 
-angular.module('recent-activity').run(['Menus',
-	function (Menus) {
+angular.module('recent-activity').run(['Menus', 'MenuControl', function (Menus, MenuControl) {
 		Menus.addMenuItem('projectMenu', {
 			title: 'Value Components',
 			state: 'p.vc.list',
-			roles: ['user']
+			roles: MenuControl.menuRoles ('', 'any', 'edit-vcs')
 		});
 	}
 ]);

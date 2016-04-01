@@ -1,11 +1,10 @@
 'use strict';
 
-angular.module('project').run(['Menus',
-	function (Menus) {
-		// Menus.addMenuItem('projectMenu', {
-		// 	title: 'Activities',
-		// 	state: 'activities',
-		// 	roles: ['user', 'admin']
-		// });
+angular.module('project').run(['Menus', 'MenuControl', function (Menus, MenuControl) {
+		Menus.addMenuItem('projectMenu', {
+			title: 'Edit Project',
+			state: 'p.edit',
+			roles: MenuControl.menuRoles ('', 'eao', 'edit-project')
+		});
 	}
 ]);
