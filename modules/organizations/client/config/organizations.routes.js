@@ -70,7 +70,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 })
                 .catch (function (err) {
                     console.error (err);
-                    alert (err);
+                    alert (err.message);
                 });
             };
         },
@@ -110,7 +110,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 })
                 .catch (function (err) {
                     console.error (err);
-                    alert (err);
+                    alert (err.message);
                 });
             };
         }
@@ -155,6 +155,9 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
         resolve: {
             org: function ($stateParams, OrganizationModel) {
                 return OrganizationModel.getModel ($stateParams.orgId);
+            },
+            roles: function (RoleModel) {
+                return RoleModel.getSystemRoles ();
             }
         },
     })
@@ -172,8 +175,9 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 return UserModel.getNew ();
             }
         },
-        controller: function ($scope, $state, org, orgs, user, UserModel, $filter, PROVINCES, SALUTATIONS) {
+        controller: function ($scope, $state, org, orgs, user, roles, UserModel, $filter, PROVINCES, SALUTATIONS) {
             $scope.user = user;
+            $scope.roles = roles;
             $scope.org = org;
             $scope.user.org = org._id;
             $scope.user.orgName = org.name;
@@ -203,7 +207,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 })
                 .catch (function (err) {
                     console.error (err);
-                    alert (err);
+                    alert (err.message);
                 });
             };
         }
@@ -222,8 +226,9 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 return UserModel.getModel ($stateParams.userId);
             }
         },
-        controller: function ($scope, $state, org, orgs, user, UserModel, $filter, PROVINCES, SALUTATIONS) {
+        controller: function ($scope, $state, org, orgs, user, roles, UserModel, $filter, PROVINCES, SALUTATIONS) {
             $scope.user = user;
+            $scope.roles = roles;
             $scope.org = org;
             $scope.user.org = org._id;
             $scope.user.orgName = org.name;
@@ -253,7 +258,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 })
                 .catch (function (err) {
                     console.error (err);
-                    alert (err);
+                    alert (err.message);
                 });
             };
         }
@@ -271,9 +276,10 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 return UserModel.getModel ($stateParams.userId);
             }
         },
-        controller: function ($scope, org, user) {
+        controller: function ($scope, org, user, roles) {
             $scope.user = user;
             $scope.org = org;
+            $scope.roles = roles;
         }
     })
 

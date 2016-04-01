@@ -67,46 +67,46 @@
 		</div>
 
 
-		<div class="well well-sm">
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label for="address1" class="control-label">Address (Line 1)</label>
-						<p class="form-control-static">{{ user.address1 }}</p>
-					</div>
-				</div>    
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label for="address2" class="control-label">Address (Line 2)</label>
-						<p class="form-control-static">{{ user.address2 }}</p>
-					</div>
+		<hr>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="address1" class="control-label">Address (Line 1)</label>
+					<p class="form-control-static">{{ user.address1 }}</p>
+				</div>
+			</div>    
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="address2" class="control-label">Address (Line 2)</label>
+					<p class="form-control-static">{{ user.address2 }}</p>
 				</div>
 			</div>
+		</div>
 
-			<div class="row">
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="city" class="control-label">City</label>
-						<p class="form-control-static">{{ user.city }}</p>
-					</div>
-				</div>    
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="province" class="control-label">Province</label>
-						<p class="form-control-static">{{ user.province }}</p>
-					</div>
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="city" class="control-label">City</label>
+					<p class="form-control-static">{{ user.city }}</p>
 				</div>
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="country" class="control-label">Country</label>
-						<p class="form-control-static">{{ user.country }}</p>
-					</div>
+			</div>    
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="province" class="control-label">Province</label>
+					<p class="form-control-static">{{ user.province }}</p>
 				</div>
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="postalCode" class="control-label">Postal Code</label>
-						<p class="form-control-static">{{ user.postalCode }}</p>
-					</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="country" class="control-label">Country</label>
+					<p class="form-control-static">{{ user.country }}</p>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="postalCode" class="control-label">Postal Code</label>
+					<p class="form-control-static">{{ user.postalCode }}</p>
 				</div>
 			</div>
 		</div>
@@ -129,7 +129,7 @@
 					<label for="title" class="control-label">Title</label>
 					<p class="form-control-static">{{ user.title }}</p>
 				</div>
-			</div>      
+			</div>
 		</div>
 
 
@@ -141,6 +141,31 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="notes" class="control-label">Notes</label>
+						<p class="form-control-static">{{ user.notes }}</p>
+					</div>
+				</div>
+
+				<div class="col-sm-3">
+					<label for="complaint" class="control-label">System Roles</label>
+					<display-array x-source-array="roles" x-selected-array='user.roles' x-key-string="code" x-value-string="code"></display-array>
+
+				</div>
+
+
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="notes" class="control-label">Contact Preferences</label>
+						<p class="form-control-static" ng-if="user.viaEmail"> via Email</p>
+						<p class="form-control-static" ng-if="user.viaMail"> via Mail</p>
+					</div>
+				</div>
+
+			</div>
 
 		<hr>
 

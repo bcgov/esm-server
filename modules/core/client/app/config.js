@@ -13,7 +13,7 @@ var ApplicationConfiguration = (function () {
   	'ui.utils',
   	'ui.tinymce',
   	'angularFileUpload',
-    'ngMap',
+    'uiGmapgoogle-maps',
     'ngTable',
     'ad3',
     'angularMoment',

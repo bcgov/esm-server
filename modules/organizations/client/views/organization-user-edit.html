@@ -164,12 +164,44 @@
 			<hr>
 
 			<div class="row">
-				<div class="col-sm-12">
+				<div class="col-sm-6">
 					<div class="form-group">
 						<label for="notes" class="control-label">Notes</label>
 						<textarea id="notes" rows="6" class="form-control" ng-model="user.notes"></textarea>
 					</div>
 				</div>
+
+				<div class="col-sm-3">
+					<label for="complaint" class="control-label">Roles</label>
+					<select-array x-source-array="roles" x-selected-array='user.roles' x-key-string="code" x-value-string="code"></select-array>
+
+				</div>
+
+
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="notes" class="control-label">Contact Preferences</label>
+						<div class="checkbox">
+							<label>
+								<input id="viaEmail" name="viaEmail" type="checkbox" ng-model="user.viaEmail"> via Email
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+								<input id="viaMail" name="viaMail" type="checkbox" ng-model="user.viaMail"> via Mail
+							</label>
+						</div>						
+					</div>
+					<div class="form-group">
+						<label for="notes" class="control-label">Signup Invitation</label>
+						<div class="checkbox">
+							<label>
+								<input id="sendInvitation" name="sendInvitation" type="checkbox" ng-model="sendInvitation"> Send Invitation / Password Reset on Save
+							</label>
+						</div>
+					</div>					
+				</div>
+
 			</div>
 
 			<hr>

@@ -13,7 +13,7 @@ angular.module('projects')
 // -----------------------------------------------------------------------------------
 controllerProjectsSearch.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC', 'PhaseBaseModel'];
 /* @ngInject */
-function controllerProjectsSearch($scope, $state, Authentication, sProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC, sPhaseBaseModel) {
+function controllerProjectsSearch($scope, $state, Authentication, ProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC, sPhaseBaseModel) {
 	var projectsSearch = this;
 
 	sPhaseBaseModel.getCollection().then( function(data) {
@@ -47,7 +47,7 @@ function controllerProjectsSearch($scope, $state, Authentication, sProjectModel,
 			query.keywords = {'$in': projectsSearch.search.keywords.split(' ') };
 		}
 		// console.log(query);
-		sProjectModel.getQuery (query).then( function(data) {
+		ProjectModel.getQuery (query).then( function(data) {
 			projectsSearch.projects = [];
 			projectsSearch.foundSet = true;
 		}).catch( function(err) {
@@ -62,24 +62,78 @@ function controllerProjectsSearch($scope, $state, Authentication, sProjectModel,
 // CONTROLLER: Projects
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsList.$inject = ['$scope', '$state', 'Authentication', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC', '_'];
+controllerProjectsList.$inject = ['$scope', 'Authentication', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC', '_', 'uiGmapGoogleMapApi', '$filter'];
 /* @ngInject */
-function controllerProjectsList($scope, $state, Authentication, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC, _) {
+function controllerProjectsList($scope, Authentication, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC, _, uiGmapGoogleMapApi, $filter) {
 	var projectList = this;
 
-	// NgMap.getMap().then(function(map) {
-	// 	projectList.map = map;
-	// });
+	// The "then" callback function provides the google.maps object.
+	uiGmapGoogleMapApi.then(function(maps) {
+		projectList.map = {
+			center: {
+				latitude: 54.726668,
+				longitude: -127.647621
+			},
+			zoom: 5,
+			options: {
+				scrollwheel: false,
+				minZoom: 4
+			},
+			markers: projectList.projectsFiltered, // array of models to display
+			markersEvents: {
+				click: function(marker, eventName, model) {
+					projectList.map.window.model = model;
+					projectList.map.window.show = true;
+				}
+			},
+			window: {
+				marker: {},
+				show: false,
+				closeClick: function() {
+					this.show = false;
+				},
+				options: {
+					// offset to fit the custom icon
+    					pixelOffset: new maps.Size(0, -35, 'px', 'px')
+				} // define when map is ready
+			}
+		};
+	});
+
+
+	projectList.showInfoWindow = function(marker, event, model) {
+		$scope.infoWin = model;
+		$scope.infoWin.show = true;
+	};
+
+
+	$scope.$watchGroup(['filterType', 'filterStatus', 'filterRegion'], function(newValues){
+		var filterObj = {};
+		// type
+		if (newValues[0]) {
+			filterObj.type = newValues[0];
+		}
+		// type
+		if (newValues[1]) {
+			filterObj.status = newValues[1];
+		}
+		// type
+		if (newValues[2]) {
+			filterObj.region = newValues[2];
+		}
+
+		projectList.projectsFiltered = $filter("filter")(projectList.projects, filterObj);
+     	if (!projectList.projectsFiltered){
+     		return;
+		}
+   });
+
+
 
 	projectList.types = PROJECT_TYPES;
 	projectList.regions = REGIONS;
 	projectList.status = PROJECT_STATUS_PUBLIC;
 
-	// projectList.showMarker = function(evt, markerId) {
-	// 	projectList.mark = _.find(projectList.projects, '_id', markerId);
-	// 	console.log(projectList.mark);
-	// 	projectList.map.showInfoWindow('info-map-win', this);
- // 	};
 
 	projectList.auth = Authentication;
 
@@ -87,6 +141,13 @@ function controllerProjectsList($scope, $state, Authentication, $rootScope, PROJ
 		if (newValue) {
 			projectList.projects = newValue;
 			var projs = _(projectList.projects).chain().flatten();
+			// add a pos for the map display
+			projectList.projects = _.map(projectList.projects, function(item) {
+				item.latitude = item.lat;
+				item.longitude = item.lon;
+				return item;
+			});
+
 			projectList.regions = projs.pluck('region').unique().value();
 			projectList.status = projs.pluck('status').unique().value();
 			projectList.types = projs.pluck('type').unique().value();
@@ -98,9 +159,9 @@ function controllerProjectsList($scope, $state, Authentication, $rootScope, PROJ
 // CONTROLLER: Projects List 2
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsList2.$inject = ['$scope', 'NgTableParams', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_ARRAY', 'ENV'];
+controllerProjectsList2.$inject = ['$scope', 'NgTableParams', 'Authentication', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_ARRAY', 'ENV'];
 /* @ngInject */
-function controllerProjectsList2($scope, NgTableParams, $state, Authentication, sProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_ARRAY, ENV) {
+function controllerProjectsList2($scope, NgTableParams, Authentication, PROJECT_TYPES, REGIONS, PROJECT_STATUS_ARRAY, ENV) {
 	var projectList = this;
 
 	$scope.environment = ENV;
@@ -131,7 +192,7 @@ function controllerProjectsList2($scope, NgTableParams, $state, Authentication, 
 // -----------------------------------------------------------------------------------
 // controllerUserActivities.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', 'ActivityModel', '$rootScope', '_'];
 // /* @ngInject */
-// function controllerUserActivities($scope, $state, Authentication, sProjectModel, sActivityModel, $rootScope, _) {
+// function controllerUserActivities($scope, $state, Authentication, ProjectModel, sActivityModel, $rootScope, _) {
 // 	var userActs = this;
 // 	userActs.projectNames = {};
 
@@ -144,7 +205,7 @@ function controllerProjectsList2($scope, NgTableParams, $state, Authentication, 
 // 		});
 // 	};
 
-// 	sProjectModel.getCollection().then( function(data) {
+// 	ProjectModel.getCollection().then( function(data) {
 // 		userActs.projects = data;
 
 // 		// reference the ID and the name.

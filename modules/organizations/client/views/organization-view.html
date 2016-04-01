@@ -31,38 +31,39 @@
 			</div>
 		</div>
 
-		<div class="row" ng-show="expandOrgView">
-			<div class="col-sm-8">
-				<div class="form-group">
-					<label for="companyDba" class="control-label">Doing Business As</label>
-					<p class="form-control-static">{{ org.companyDba }}</p>
+		<div ng-show="expandOrgView">
+			<div class="row">
+				<div class="col-sm-8">
+					<div class="form-group">
+						<label for="companyDba" class="control-label">Doing Business As</label>
+						<p class="form-control-static">{{ org.companyDba }}</p>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label for="registeredIn" class="control-label">Registered In</label>
+						<p class="form-control-static">{{ org.registeredIn }}</p>
+					</div>
 				</div>
 			</div>
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label for="registeredIn" class="control-label">Registered In</label>
-					<p class="form-control-static">{{ org.registeredIn }}</p>
-				</div>
-			</div>
-		</div>
 
-		<div class="row" ng-show="expandOrgView">
-			<div class="col-sm-8">
-				<div class="form-group">
-					<label for="companyLegal" class="control-label">Company Legal</label>
-					<p class="form-control-static">{{ org.companyLegal }}</p>
+			<div class="row">
+				<div class="col-sm-8">
+					<div class="form-group">
+						<label for="companyLegal" class="control-label">Company Legal</label>
+						<p class="form-control-static">{{ org.companyLegal }}</p>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label for="companyType" class="control-label">Company Type</label>
+						<p class="form-control-static">{{ org.companyType }}</p>
+					</div>
 				</div>
 			</div>
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label for="companyType" class="control-label">Company Type</label>
-					<p class="form-control-static">{{ org.companyType }}</p>
-				</div>
-			</div>
-		</div>
 
-			
-		<div class="well well-sm" ng-show="expandOrgView">
+			<hr>
+
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
@@ -104,9 +105,12 @@
 					</div>
 				</div>
 			</div>
+
+			<hr>
+
 		</div>
 		
-		<hr ng-show="expandOrgView">
+		
 		
 		<div class="text-right">
 			<a class="btn btn-default" ui-sref="admin.organization.list">Cancel</a>

@@ -8,28 +8,45 @@ angular.module('maps')
 // CONTROLLER: Maps
 //
 // -----------------------------------------------------------------------------------
-controllerMap.$inject = ['$scope', 'Authentication'];
+controllerMap.$inject = ['$scope', 'Authentication', 'uiGmapGoogleMapApi', '$filter'];
 /* @ngInject */
-function controllerMap($scope, Authentication) {
+function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter) {
 	var mpl = this;
-	
+	mpl.project = [];
 	mpl.layers = {};
-	
-	mpl.pointCenter = '54.726668, -127.647621'; // middle of BC
 
-	mpl.auth = Authentication;
+	// The "then" callback function provides the google.maps object.
+	uiGmapGoogleMapApi.then(function(maps) {
+		mpl.map = {
+			center: {
+				latitude: mpl.project[0].lat,
+				longitude: mpl.project[0].lon
+			},
+			zoom: 5,
+			options: {
+				scrollwheel: false,
+				minZoom: 4
+			},
+			markers: mpl.projectFiltered // array of models to display
+		};
+	});
 
-	$scope.$watch('project', function (newValue) {
-		if (newValue && newValue.lat && newValue.lon) {
-			mpl.point = (newValue.lat + ',' + newValue.lon);
+	$scope.$watch('showPoint', function(newValue){
+		if (newValue) {
+			mpl.projectFiltered = mpl.project;
 		} else {
-			mpl.point = mpl.pointCenter;
+			mpl.projectFiltered = [];
 		}
 	});
 
-	$scope.$watch('layers', function (newValue) {
+	$scope.$watch('project', function(newValue) {
 		if (newValue) {
-			mpl.layers[newValue.name] = newValue.layers;
+			newValue.latitude = newValue.lat;
+			newValue.longitude = newValue.lon;
+
+			mpl.project = [newValue];
+
+			$scope.showPoint = true;
 		}
 	});
 }

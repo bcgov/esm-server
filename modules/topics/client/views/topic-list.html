@@ -15,10 +15,10 @@
 
 			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-hover table-striped">
 				<tr ng-repeat="o in $data" ui-sref="admin.topic.detail({topicId:o._id})" class="clickable">
-					<td title="'Pillar'"  sortable="'pillar'"  filter="{'pillar':'select'}" filter-data="pillars" >{{o.pillar}}</td>
-					<td title="'Name'"    sortable="'name'"    filter="{'name':'text'}"                           >{{o.name}}</td>
-					<td title="'Type'"    sortable="'type'"    filter="{'type':'select'}"   filter-data="types"   >{{o.type}}</td>
-					<td title="'Parent'"  sortable="'parent'"  filter="{'parent':'text'}"                         >{{o.parent}}</td>
+					<td data-title="'Pillar'"  sortable="'pillar'"  filter="{'pillar':'select'}" filter-data="pillars" 		>{{o.pillar}}</td>
+					<td data-title="'Name'"    sortable="'name'"    filter="{'name':'text'}"                           		>{{o.name}}</td>
+					<td data-title="'Type'"    sortable="'type'"    filter="{'type':'select'}"   filter-data="getTypes()"   >{{o.type}}</td>
+					<td data-title="'Parent'"  sortable="'parent'"  filter="{'parent':'text'}"                         		>{{o.parent}}</td>
 					<td width="1%" class="text-right">
 						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="admin.topic.edit({topicId:o._id})">
 						<i class="glyphicon glyphicon-pencil"></i>

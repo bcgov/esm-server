@@ -4,6 +4,9 @@ module.exports = {
   client: {
     lib: {
       css: [
+		'//fonts.googleapis.com/css?family=Oswald',
+		'//fonts.googleapis.com/css?family=Nunito',
+		'//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400',
         'public/lib/bootstrap/dist/css/bootstrap.css',
         'public/lib/bootstrap/dist/css/bootstrap-theme.css',
         // these were in the application css are before
@@ -35,6 +38,8 @@ module.exports = {
         'public/lib/angular-toastr/dist/angular-toastr.tpls.js',
         'public/lib/angular-bootstrap-confirm/dist/angular-bootstrap-confirm.min.js',
         'public/lib/lodash/lodash.min.js',
+        'public/lib/angular-simple-logger/dist/angular-simple-logger.js',
+        'public/lib/angular-google-maps/dist/angular-google-maps.min.js',        
         'public/lib/d3/d3.min.js',
         'public/lib/angularD3/dist/angularD3.js',
         // cc : ngtable
@@ -48,7 +53,7 @@ module.exports = {
 	    'public/lib/angular-scroll/angular-scroll.min.js',
 	    'public/lib/angular-cookies/angular-cookies.min.js',
         // these were in the application js area before
-        'public/lib/ngmap/build/scripts/ng-map.js',
+
 	    'public/moment-timezone-data.js',
 	    'public/readable-range.js'
       ],
