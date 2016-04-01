@@ -116,7 +116,6 @@ function controllerProjectBucketListing($scope, Project, $filter) {
 	$scope.$watch('project', function(newValue) {
 		// wait for project and get related buckets
 		projBuckets.buckets = newValue.buckets;
-		console.log(newValue);
 		projBuckets.bucketsFiltered = $filter('projectBucketNotComplete')(newValue.buckets);
 	});
 

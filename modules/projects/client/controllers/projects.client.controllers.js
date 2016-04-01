@@ -27,7 +27,6 @@ function controllerProjectsFilterBar($scope, $state, Projects, $filter, PROJECT_
 	});
 
 	fbc.updateFilter = function() {
-		console.log('filter', fbc.filter, fbc.data );
 		if(fbc.filter.$ === '') {
 			delete fbc.filter.$;
 		}
@@ -35,7 +34,6 @@ function controllerProjectsFilterBar($scope, $state, Projects, $filter, PROJECT_
 			fbc.filter = null;
 		}
 
-		console.log('filter', fbc.filter);
 		fbc.data.projects = $filter('filter')(fbc.data.projects, fbc.filter);
 	};
 

@@ -455,7 +455,6 @@ function directiveModalSelectUsers($modal) {
         	project: '='
         },
 		link : function(scope, element, attrs) {
-			console.log('here', scope.users);
 			element.on('click', function() {
 				var modalUsersView = $modal.open({
 					animation: true,

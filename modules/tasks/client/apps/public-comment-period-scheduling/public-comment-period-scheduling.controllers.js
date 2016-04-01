@@ -75,7 +75,6 @@ function controllerTaskPublicCommentPeriodScheduling($scope, $rootScope, moment,
 		}
 		if (saveProject) {
 			Project.saveProject(taskPubComSched.project).then( function(res) {
-				console.log( 'saved', res.data );
 			});
 		}
 

@@ -151,7 +151,6 @@ controllerDocumentList.$inject = ['$scope'];
 /* @ngInject */
 function controllerDocumentList($scope) {
 	var docList = this;
-	console.log($scope.documents);
 
 	$scope.$watch('documents', function(newValue) {
 		docList.filterDocuments = newValue;

@@ -124,7 +124,6 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 		// see if there's any more comments in this category, if so stay, otherwise go to unvetted and get a new one.
 		_.each(taskPubComVet.data.comments, function(comment) {
 			if ((comment.eaoStatus === taskPubComVet.filter) && !taskPubComVet.activeComment) {
-				console.log(comment.eaoStatus, taskPubComVet.filter);
 				taskPubComVet.activeComment = comment;
 				taskPubComVet.workingStatus = comment.eaoStatus;
 			}
@@ -184,7 +183,6 @@ function controllerTaskPublicCommentVetting($scope, $rootScope, _, PublicComment
 	taskPubComVet.completeTask = function() {
 		// validate
 		// when ok, broadcast
-		console.log('complete', taskPubComVet.item);
 		taskPubComVet.item.value = 'Complete';
 		$rootScope.$broadcast('resolveItem', {itemId: taskPubComVet.itemId});
 	};

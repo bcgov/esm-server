@@ -108,11 +108,6 @@
 					<kml-layer url="{{ vm.host }}/map_layers/Ajax_2016Jan7data_Footprint_25Buffer_filled.kml"></kml-layer>
 				</map>
 			</div>
-			
-			<div class='panel-body' ng-show="vm.commentsByDateVis">
-				<label class="control-label">Comment Volume by Date</label>
-				<tmpl-public-project-comments-circle-chart ng-if="vm.commentsByDateVis" x-refresh="vm.refreshVisualization" x-data="vm.commentsByDateVis" id="publicCommentsByDate"></tmpl-public-project-comments-circle-chart>
-			</div>
 
 		</div>
 	</div>

@@ -61,7 +61,6 @@ function controllerConfigStream($rootScope, $scope, Configuration, _) {
 
 
     function reloadStreamPostSetup() {
-        console.log('loaded post before',  angular.copy(configStream.tree));
 
         configStream.tree = {};
         configStream.tree.milestonesByPhase = {};
@@ -134,7 +133,6 @@ function controllerConfigStream($rootScope, $scope, Configuration, _) {
             }
         });
 
-        console.log('loaded', configStream.tree);
     }
 
 
@@ -175,7 +173,6 @@ function controllerConfigStream($rootScope, $scope, Configuration, _) {
     configStream.addPhases = function(newItems) {
         // add a holder for each milestone and activity
         var i = newItems.length;
-        console.log('stream', newItems);
         _.each(newItems, function(phase) {
             i--;
             if( !_.some( configStream.activeRecord.phases, {'_id': phase._id}) ) {
@@ -243,7 +240,6 @@ function controllerConfigStream($rootScope, $scope, Configuration, _) {
     // add the new requirements to the stream buckets.
     configStream.requirementsToBucket = function(newItems, originalItems, bucket) {
         var i = newItems.length;
-        console.log('rtb', newItems, originalItems, bucket);
         _.each( newItems, function(newItem) {
             i--;
             if ( !_.some(configStream.tree.requirementsByBucket[bucket._id], {'_id': newItem._id})) {
@@ -258,7 +254,6 @@ function controllerConfigStream($rootScope, $scope, Configuration, _) {
     configStream.requirementsToMilestone = function(newItems, originalItems, milestone) {
         var i = newItems.length;
         _.each( newItems, function(newItem) {
-            console.log('mile', milestone);
             i--;
             if ( !_.some(configStream.tree.requirementsByMilestone[milestone._id], {'_id': newItem._id})) {
                 Configuration.addRequirementToMilestone(milestone._id, newItem._id).then( function() {
@@ -289,7 +284,6 @@ function controllerConfigManageElement($scope, Configuration, ProcessCodes, $fil
     $scope.$watch('config', function(newValue) {
         if (newValue) {
             configDataElement.data = newValue;
-            console.log('data', configDataElement.data);
         }
     });
 
@@ -304,11 +298,9 @@ function controllerConfigManageElement($scope, Configuration, ProcessCodes, $fil
     configDataElement.newRecord = function() {
         configDataElement.activeRecordNew = true;
 
-        console.log('config', configDataElement.context);
 
         Configuration.newConfigItem(configDataElement.context).then( function(res) {
             configDataElement.activeRecord = res.data;
-            console.log(res.data);
         });
 
     };
@@ -364,7 +356,6 @@ function controllerConfigManageElement($scope, Configuration, ProcessCodes, $fil
         Configuration.getStream(configDataElement.activeRecord).then( function(res) {
             configDataElement.activeRecord = _.assign(res.data, configDataElement.activeRecord);
             configDataElement.activeRecord.configureStream = true;
-            console.log('full stream to configure', configDataElement.activeRecord);
         });
     };
 

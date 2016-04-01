@@ -20,7 +20,6 @@ function controllerClassifyPublicComment($scope, $rootScope, _, sPublicComments,
 	pubComClass.filterScopeValueComponents = true;
 	pubComClass.filterScopeTopics = true;
 
-	console.log($scope.single);
 	pubComClass.singleMode = $scope.single;
 
 	pubComClass.data = {comments: []};

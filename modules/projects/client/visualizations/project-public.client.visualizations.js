@@ -46,8 +46,6 @@ function directivePublicProjectCommentsCircleChart(d3, $window) {
 				.size([diameter, diameter])
 				.padding(1.5);
 
-				console.log('elem', element);
-
 			var svg = d3.select('#' + attrs.id).append("svg")
 				.attr('id', 'svg' + attrs.id)
 				.attr("viewBox","0 0 500 500")

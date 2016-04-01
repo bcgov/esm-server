@@ -51,7 +51,6 @@ function controllerTaskTopics($scope, $rootScope, Task, $q, ProcessCodes, Config
 	taskTopics.saveTask = function() {
 		// structure the data to save.
 		//ValueComponents.saveTask();
-		console.log('save ValueComponents.controllers.js');
 	};
 
 	

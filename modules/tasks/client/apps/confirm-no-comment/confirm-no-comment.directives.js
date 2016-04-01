@@ -18,9 +18,6 @@ function directiveTaskConfirmNoComment() {
         scope: {
         	anchor: '@',
         	item: '='
-        },
-        link: function(scope, element, attrs) {
-            console.log('in item', scope.item);
         }
     };
     return directive;

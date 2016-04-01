@@ -154,7 +154,6 @@ function controllerEAOActivityProcesses($scope, $rootScope) {
 
 	$scope.$watch('tasks', function(newValue) {
 		if (newValue) {
-			console.log('process task', newValue);
 			actProcs.tasks = newValue;
 		}
 	});

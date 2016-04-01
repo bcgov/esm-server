@@ -90,7 +90,6 @@ function controllerTaskNotifications($scope, $rootScope, Task, sTaskNotification
 	taskNotifications.saveTask = function() {
 		// structure the data to save.
 		//sTaskNotification.saveTask();
-		console.log('save notifications.controllers.js');
 	};
 
 	// taskNotification.completeTask = function() {

@@ -196,7 +196,6 @@ function controllerModalProjectEditPlanSchedule($modalInstance, rProject, Projec
 	pesched.ok = function () { 
 		// saving so write the new data.
 		_.each(pesched.project.milestones, function(milestone) {
-			console.log('this', milestone);
 			if (milestone.changed) {
 				Project.updateMilestone(milestone);
 			}
