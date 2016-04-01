@@ -13,7 +13,7 @@
 			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-striped table-hover">
 				<tr ng-repeat="o in $data" ui-sref="admin.organization.detail({orgId:o._id})" class="clickable">
 					<td data-title="'Name'"  filter="{'name':'text'}"   sortable="'name'">{{o.name}}</td>
-					<td data-title="'DBA'"  filter="{'companyDba':'text'}"   sortable="'companyDba'">{{o.companyDba}}</td>					
+					<td data-title="'DBA'"  filter="{'company':'text'}"   sortable="'company'">{{o.company}}</td>					
 					<td data-title="'Location'" filter="{'registeredIn':'text'}"    sortable="'registeredIn'" >{{o.registeredIn}}</td>
 					<td width="1%" class="text-right">
 						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="admin.organization.edit({orgId:o._id})">
