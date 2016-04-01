@@ -41,5 +41,8 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	// this will be a key that gets matched in the ui, just in case the
 	// ui states change over time and the front and back get out of sync
 	//
-	state         : { type:String, default:'' }
+	state         : { type:String, default:'' },
+
+	processCode		: { type:String, default:'' }
+	
 });

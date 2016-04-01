@@ -17,7 +17,7 @@
                     <td>{{ phase.name }}</td>
                     <td>{{ phase.description }}</td>
                     <td>{{ phase.status }}</td>
-                    <td>{{ phase.mandatoryDurationDays }}</td>
+                    <td>{{ phase.duration }}</td>
                     <td class="text-center">{{ phase.order }}</td>
                 </tr>
                 <tr ng-if="configDataElement.data.phases.length === 0">
@@ -64,9 +64,12 @@
                             <input class="form-control" type="text" ng-model="configDataElement.activeRecord.status">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" x-show-errors>
                             <label class="control-label">Mandatory Duration (days)</label>
-                            <input class="form-control" type="number" ng-model="configDataElement.activeRecord.mandatoryDurationDays">
+                            <input name="duration" class="form-control" type="number" ng-model="configDataElement.activeRecord.duration" required>
+                                <div ng-messages="phasesForm.duration.$error" role="alert">
+                                    <p class="help-block error-text" ng-message="required">Mandatory Duration is required.</p>
+                                </div>
                         </div>
 
                         <div class="form-group" x-show-errors>

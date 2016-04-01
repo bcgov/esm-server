@@ -18,5 +18,9 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	//
 	// just for display purposes. useless
 	//
-	order	  : { type: Number, default:0 }
+	order	  : { type: Number, default:0 },
+
+	description		: { type:String, default:'' },
+
+	status		: { type:String, default:'' }
 });
