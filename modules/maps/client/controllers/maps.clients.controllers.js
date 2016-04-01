@@ -33,7 +33,7 @@ function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter) {
 
 	$scope.$watch('showPoint', function(newValue){
 		if (newValue) {
-			mpl.projectFiltered = mpl.project;
+			mpl.projectFiltered = [mpl.project];
 		} else {
 			mpl.projectFiltered = [];
 		}
