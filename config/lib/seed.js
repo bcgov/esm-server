@@ -106,6 +106,15 @@ checkIntegration ('loadartifacts99').then (function () {
 	require('../seed-data/loadartifacts')();
 });
 
+// -------------------------------------------------------------------------
+//
+// default project roles
+//
+// -------------------------------------------------------------------------
+checkIntegration ('defaultprojectroles').then (function () {
+	require('../seed-data/loadprojectroles')();
+});
+
 if (process.env.SEED_MEM === 'true')
 {
 	checkIntegration ('loadmem').then (function () {
