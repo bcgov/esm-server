@@ -4,26 +4,35 @@
 
 	<div class='container-fluid'>
 		<div class='row'>
-			<div class='col-md-9 col-no-padding' ng-init="mpl.showPoint = true">
-				<map center="{{ mpl.point }}" zoom="5" style='height: 500px' map-type-id="ROADMAP" min-zoom="5" max-zoom="10" disable-default-u-i="true">
-					
-					<marker id="marker_point" position="{{ mpl.point }}" ng-if="mpl.showPoint"></marker>
-					<!-- <kml-layer url="https://ajax.projects.eao.gov.bc.ca:443/map_layers/Ajax_2016Jan7data_Footprint_25Buffer_filled.kml" ng-if="mpl.showKML"></kml-layer> -->
-				</map>
+			<div class='col-md-9 col-no-padding'>
+
+				<ui-gmap-google-map id='project-map'
+								center='mpl.map.center'
+								zoom='mpl.map.zoom'
+								refresh='1'
+								options='mpl.map.options'>
+
+					<ui-gmap-markers
+						models="mpl.projectFiltered"
+						idKey="'_id'"
+						coords="'self'">
+					</ui-gmap-markers>
+
+				</ui-gmap-google-map>
 
 			</div>
 			<div class='col-md-3 col-top-padding'>
 				<label class="control-label">Project Layers</label>
 				<div class="well well-sm">
 					<ul class="list-unstyled task-list">
-						<li><button class="btn btn-block btn-sm btn-layer" ng-class="{'btn-success': mpl.showPoint}" ng-click="mpl.showPoint = !mpl.showPoint">Primary Point</button></li>
+						<li><button class="btn btn-block btn-sm btn-layer" ng-class="{'btn-success': showPoint}" ng-click="showPoint = !showPoint">Primary Point</button></li>
 						<!-- <li><button class="btn btn-block btn-sm btn-layer" ng-class="{'btn-success': mpl.showKML}" ng-click="mpl.showKML = !mpl.showKML">Boundary</button></li> -->
 						<li ng-repeat="layer in mpl.projectLayers">
 							<button class="btn btn-block btn-sm btn-layer" ng-class="{'btn-success': mpl.formProjectLayers[layer._id]}" ng-click="mpl.formProjectLayers[layer._id] = !mpl.formProjectLayers[layer._id]">{{ layer.name }}</button>
 						</li>
 					</ul>
 				</div>
-<!-- 				<label class="control-label">Shared Layers</label>
+<!-- 			<label class="control-label">Shared Layers</label>
 				<div class="well well-sm">
 					<ul class="list-unstyled task-list">
 						<li ng-repeat="layer in mpl.sharedLayers">
