@@ -90,6 +90,7 @@ module.exports = function(file, req, res) {
 									}
 								});
 								model.region 	  = row.Region.toLowerCase ().replace(' region','');
+								// console.log("region:",model.region);
 								model.description = row.description;
 
 								if (row.lat) model.lat = parseFloat(row.lat);
@@ -124,7 +125,9 @@ module.exports = function(file, req, res) {
 										});
 									});
 								} else { // eao
+									// TODO: FIX
 									model.status = 'In Progress';
+									var pstatus = model.status;
 									model.epicProjectID = id;
 
 									if (row.locSpatial) model.locSpatial 	 = row.locSpatial;
@@ -144,14 +147,6 @@ module.exports = function(file, req, res) {
 
 									model.type = row.projectType;
 									model.sector = row.sector;
-									// model.phases = [];
-									// model.currentPhase = model.phases[0];
-									// // No phases yet from export document.
-									// // _.each (phases, function (ph) {
-									// // 	var phase = new Phase (ph);
-									// // 	project.phases.push (phase._id);
-									// // 	phase.save ();
-									// // });
 									if (row.eaActive) model.eaActive = row.eaActive;
 									if (row.CEAAInvolvement) model.CEAAInvolvement = row.CEAAInvolvement;
 									if (row.eaIssues) model.eaIssues = row.eaIssues;
@@ -168,11 +163,17 @@ module.exports = function(file, req, res) {
 									model.CELead 					= row.CELead;
 									model.teamNotes 				= row.teamNotes;
 									model.phases = [];
-									model.currentPhase = model.phases[0];
 									model.roles = ['eao', 'public'];
 									model.read = ['public'];
 									model.submit = ['eao'];
-									model.save().then(function () {
+									var pname = ((row.currentPhaseTypeActivity === "") ? "not set":row.currentPhaseTypeActivity);
+									var pdesc = ((row.currentPhaseTypeActivity === "") ? "not set":row.currentPhaseTypeActivity);
+									var pcode = pname.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, model.name.length+1);
+									var phase = new Phase ({read: ['public'], submit: ['eao'], status : pstatus, code : pcode, name : pname, description : pdesc});
+									model.phases.push (phase._id);
+									phase.save().then(function() {
+										model.currentPhase = model.phases[0];
+										model.save().then(function () {
 											// Am I done processing?
 											// console.log("INDEX:",index);
 											if (index === length-1) {
@@ -180,6 +181,7 @@ module.exports = function(file, req, res) {
 												resolve("{done: true, rowsProcessed: "+projectProcessed+"}");
 											}
 										});
+									});
 								}
 							};
 							if (doc === null) {
