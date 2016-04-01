@@ -150,7 +150,7 @@
 								<li>
 									<div class="btn-group btn-group-sm">
 										<button class="btn btn-default" ng-click="vm.form.view = 'bydate'"	ng-class="{'btn-primary': vm.form.view === 'bydate'}">By Date</button>
-										<button class="btn btn-default" ng-click="vm.form.view = 'bytopic'"	ng-class="{'btn-primary': vm.form.view === 'bytopic'}">By Topic</button>
+										<!-- <button class="btn btn-default" ng-click="vm.form.view = 'bytopic'"	ng-class="{'btn-primary': vm.form.view === 'bytopic'}">By Topic</button> -->
 										<button class="btn btn-default" ng-click="vm.form.view = 'bychart'"	ng-if="vm.commentsByTopicVis" ng-class="{'btn-primary': vm.form.view === 'bychart'}">By Topic Chart</button>
 									</div>
 
@@ -174,7 +174,7 @@
 				</div>
 
 
-				<div ng-repeat="(heading, topic) in vm.commentsByTopicKeys | orderBy:'name' | filter:vm.filterBucketGroup track by $index" class="concern-list" ng-show="vm.form.view === 'bytopic' && vm.comments.length > 0" ng-init="toggleTopicComment[item._id] = false">
+				<!-- <div ng-repeat="(heading, topic) in vm.commentsByTopicKeys | orderBy:'name' | filter:vm.filterBucketGroup track by $index" class="concern-list" ng-show="vm.form.view === 'bytopic' && vm.comments.length > 0" ng-init="toggleTopicComment[item._id] = false">
 					<h3 ng-click='form[heading] = !form[heading]' class="clickable concern-heading">
 						{{ heading }}<div class="pull-right small"><span ng-if="!form[heading]">Click to view.</span> Number of comments tagged: {{ (vm.commentsByTopic[heading] | filter:vm.filterKeyword).length || 0 }} of {{ vm.comments.length || 0 }} </div>
 					</h3>
@@ -223,18 +223,18 @@
 							No comments match these keywords.
 						</div>
 					</div>
-				</div>
+				</div> -->
 
-				<div ng-show="!vm.commentsByTopic && vm.form.view === 'bytopic'">
+<!-- 				<div ng-show="!vm.commentsByTopic && vm.form.view === 'bytopic'">
 					<div class="panel-body">
 						No comments have been classified by topic yet.  Please check back later.
 					</div>
-				</div>
+				</div> -->
 
 
 				<div ng-show="vm.form.view === 'bydate' && vm.comments.length > 0">
 					<div class="panel-body">
-						<div class="row comment-list" ng-repeat-start="item in commentsFiltered = (vm.comments | advancedFilter:vm.filterKeyword) | orderBy:'dateAdded':true track by item._id" ng-init="toggleDateComment[item._id] = false">
+						<div class="row comment-list" ng-repeat-start="item in commentsFiltered = (vm.comments | advancedFilter:vm.filterKeyword) | orderBy:'dateAdded':true track by item._id">
 
 							<div class="col-sm-9">
 								<pre class="form-group">{{ item.comment | maxWords:80:toggleDateComment[item._id] }}</pre>
