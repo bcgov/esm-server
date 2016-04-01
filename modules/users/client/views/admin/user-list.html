@@ -3,15 +3,16 @@
 <div class="row">
 	<div class="col-sm-12 text-right">
 		<a class="btn btn-xs btn-link" ui-sref="admin.user.create()">+ Add New User</a>
+		<show-filter x-toggle-filter="toggleFilter"></show-filter>
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-sm-12">
 		<section class="panel panel-default">
-			<table ng-table="tableParams" class="table table-condensed table-striped table-hover">
+			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-striped table-hover">
 				<tr ng-repeat="o in $data" ui-sref="admin.user.detail({userId:o._id})" class="clickable">
-					<td data-title="'Name'"  filter="{'contactName':'text'}"   sortable="'contactName'"  filter-data="ptypes" >{{o.displayName}}</td>
+					<td data-title="'Name'"  filter="{'displayName':'text'}"   sortable="'displayName'"  filter-data="ptypes" >{{o.displayName}}</td>
 					<td data-title="'Username'"  filter="{'username':'text'}"   sortable="'username'"  filter-data="ptypes" >{{o.username}}</td>					
 					<td data-title="'Organization'" filter="{'orgName':'text'}"    sortable="'orgName'" >{{o.orgName}}</td>
 					<td class="text-center" data-title="'Phone'"   filter="{'phoneNumber':'text'}"  sortable="'phoneNumber'" >{{o.phoneNumber}}</td>
@@ -20,6 +21,11 @@
 						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="admin.user.edit({userId:o._id})">
 							<i class="glyphicon glyphicon-pencil"></i>
 						</a>
+					</td>
+				</tr>
+				<tr ng-if="!$data || $data.length === 0">
+					<td colspan="6">
+						No records found.
 					</td>
 				</tr>
 			</table>
