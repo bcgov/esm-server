@@ -174,13 +174,13 @@
 				</div>
 
 
-				<div ng-repeat="(heading, topic) in vm.commentsByTopicKeys | orderBy:'name' | filter:vm.filterBucketGroup" class="concern-list" ng-show="vm.form.view === 'bytopic' && vm.comments.length > 0" ng-init="toggleTopicComment[item._id] = false">
+				<div ng-repeat="(heading, topic) in vm.commentsByTopicKeys | orderBy:'name' | filter:vm.filterBucketGroup track by $index" class="concern-list" ng-show="vm.form.view === 'bytopic' && vm.comments.length > 0" ng-init="toggleTopicComment[item._id] = false">
 					<h3 ng-click='form[heading] = !form[heading]' class="clickable concern-heading">
 						{{ heading }}<div class="pull-right small"><span ng-if="!form[heading]">Click to view.</span> Number of comments tagged: {{ (vm.commentsByTopic[heading] | filter:vm.filterKeyword).length || 0 }} of {{ vm.comments.length || 0 }} </div>
 					</h3>
 					<hr ng-if='!form[heading]'>
 					<div class="" ng-show='form[heading]'>
-							<div class="row comment-list" ng-repeat-start="item in vm.commentsByTopic[heading] | advancedFilter:vm.filterKeyword | orderBy:'dateAdded':true track by $index">
+							<div class="row comment-list" ng-repeat-start="item in vm.commentsByTopic[heading] | advancedFilter:vm.filterKeyword | orderBy:'dateAdded':true track by item._id">
 								<div class="col-sm-9">
 									<pre class="form-group">{{ item.comment | maxWords:80:toggleTopicComment[item._id] }}</pre>
 									<p ng-if="(item.comment | wordCount) > 80">
@@ -197,7 +197,7 @@
 									<p ng-if="item.location && item.displayName">Location: {{ item.location }}</p>								
 									<p>{{ item.dateAdded | amDateFormat:'MMM Do, YYYY h:mm a'}}</p>
 									<ul class="list-unstyled document-vetting small">
-										<li ng-repeat="doc in item.documents">
+										<li ng-repeat="doc in item.documents track by doc._id">
 											<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus == 'Published'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
 										</li>
 									</ul>
@@ -205,7 +205,7 @@
 									<div class="form-group" ng-show="item.buckets.length > 0">
 										<label class="control-label">Related Topics</label>
 										<ul class="small">
-											<li ng-repeat="bucket in item.buckets">{{ bucket.name }}</li>
+											<li ng-repeat="bucket in item.buckets track by bucket._id">{{ bucket.name }}</li>
 										</ul>
 									</div>
 
@@ -234,7 +234,7 @@
 
 				<div ng-show="vm.form.view === 'bydate' && vm.comments.length > 0">
 					<div class="panel-body">
-						<div class="row comment-list" ng-repeat-start="item in commentsFiltered = (vm.comments | advancedFilter:vm.filterKeyword) | orderBy:'dateAdded':true" ng-init="toggleDateComment[item._id] = false">
+						<div class="row comment-list" ng-repeat-start="item in commentsFiltered = (vm.comments | advancedFilter:vm.filterKeyword) | orderBy:'dateAdded':true track by item._id" ng-init="toggleDateComment[item._id] = false">
 
 							<div class="col-sm-9">
 								<pre class="form-group">{{ item.comment | maxWords:80:toggleDateComment[item._id] }}</pre>
@@ -251,7 +251,7 @@
 								<p ng-if="item.location && item.displayName">Location: {{ item.location }}</p>
 								<p>{{ item.dateAdded | amDateFormat:'MMM Do, YYYY h:mm a'}}</p>
 								<ul class="list-unstyled document-vetting small">
-									<li ng-repeat="doc in item.documents">
+									<li ng-repeat="doc in item.documents track by doc._id">
 										<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus === 'Published'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
 									</li>
 								</ul>
@@ -259,7 +259,7 @@
 								<div class="form-group" ng-show="item.buckets.length > 0">
 									<label class="control-label">Related Topics</label>
 									<ul class="small">
-										<li ng-repeat="bucket in item.buckets">{{ bucket.name }}</li>
+										<li ng-repeat="bucket in item.buckets track by bucket._id">{{ bucket.name }}</li>
 									</ul>
 								</div>
 
