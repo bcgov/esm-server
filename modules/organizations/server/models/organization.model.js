@@ -19,6 +19,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	city          : { type: String, default:'' },
 	province      : { type: String, default:'' },
 	postal        : { type: String, default:'' },
+	country       : { type: String, default:'' },
 	users         : [
 		{ type:'ObjectId', ref:'User' }
 	]
