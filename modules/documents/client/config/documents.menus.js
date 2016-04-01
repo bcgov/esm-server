@@ -1,11 +1,10 @@
 'use strict';
 
-angular.module('documents').run(['Menus',
-	function (Menus) {
+angular.module('documents').run(['Menus', 'MenuControl', function (Menus, MenuControl) {
 		Menus.addMenuItem('projectMenu', {
 			title: 'Documents',
 			state: 'p.documents',
-			roles: ['user']
+			roles: MenuControl.menuRoles ('', 'any', 'edit-documents')
 		});
 	}
 ]);

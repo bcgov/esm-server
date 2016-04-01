@@ -25,7 +25,11 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				// console.log ('project id = ', project._id);
 				return OrderModel.forProject (project._id);
 			},
-		}
+		},
+        onEnter: function (MenuControl, project) {
+            MenuControl.routeAccess (project.code, 'eao','edit-orders');
+        }
+
 	})
 	// -------------------------------------------------------------------------
 	//

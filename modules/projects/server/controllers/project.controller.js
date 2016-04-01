@@ -15,6 +15,23 @@ var RecentActivityClass = require (path.resolve('./modules/recent-activity/serve
 var Roles               = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 var _                   = require ('lodash');
 var util = require('util');
+var defaultProjectRoles = [
+	':pro:edit-project',
+	':eao:edit-schedule',
+	':eao:edit-documents',
+	':pro:edit-documents',
+	':eao:edit-comment-periods',
+	':eao:edit-complaints',
+	':eao:edit-conditions',
+	':eao:edit-inspections',
+	':eao:edit-vcs',
+	':pro:edit-vcs',
+	':eao:edit-roles',
+	':pro:edit-roles',
+	':eao:edit-wg',
+	':eao:member',
+	':pro:member'
+];
 
 module.exports = DBModel.extend ({
 	name : 'Project',
@@ -88,8 +105,10 @@ module.exports = DBModel.extend ({
 				if (!project.orgCode) project.orgCode = self.user.orgCode;
 				//
 				// add the project to the roles and the roles to the project
-				// we absolutely set them at this point.
+				// we absolutely set them at this point. aslo add all the default functional
+				// roles
 				//
+				var defaultRoles = defaultProjectRoles.map (function (r) {return projectCode+r; });
 				//
 				// console.log ('Step2. assign default roles.');
 				return Roles.objectRoles ({
@@ -97,7 +116,7 @@ module.exports = DBModel.extend ({
 					objects: project,
 					type: 'projects',
 					permissions: {
-						read   : [projectProponentMember],
+						read   : defaultRoles,
 						submit : [projectProponentAdmin, projectAdminRole]
 					}
 				});

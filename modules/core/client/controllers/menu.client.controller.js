@@ -18,6 +18,7 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope,
    	menu.authentication = Authentication;
 
    	menu.isAdmin = (Authentication.user && Authentication.user.roles.indexOf ('admin') !== -1);
+   	menu.isEAO = (Authentication.user && !!~Authentication.user.roles.indexOf ($scope.project.code+':eao:member'));
    	menu.isProjectAdmin = false;
    	menu.isProponentAdmin = false;
 

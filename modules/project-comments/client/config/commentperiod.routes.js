@@ -23,7 +23,11 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			periods: function ($stateParams, CommentPeriodModel, project) {
 				return CommentPeriodModel.getPeriodsForProject (project._id);
 			},
-		}
+		},
+        onEnter: function (MenuControl, project) {
+            MenuControl.routeAccess (project.code, 'eao','edit-comment-periods');
+        }
+
 	})
 	// -------------------------------------------------------------------------
 	//

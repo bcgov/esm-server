@@ -1,11 +1,10 @@
 'use strict';
 
-angular.module('comment').run(['Menus',
-	function (Menus) {
+angular.module('comment').run(['Menus', 'MenuControl', function (Menus, MenuControl) {
 		Menus.addMenuItem('projectMenu', {
 			title: 'Comment Periods',
 			state: 'p.commentperiod.list',
-			roles: ['user']
+			roles: MenuControl.menuRoles ('', 'eao', 'edit-comment-periods')
 		});
 	}
 ]);

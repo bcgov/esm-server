@@ -27,8 +27,7 @@ angular.module('core').service ('MenuControl', ['Authentication', '$state', '$ht
 	this.menuAccess = function (method, project) {
 		return this.getRolesForMethod (method, project);
 	};
-	this.routeAccess = function (method, project) {
-		var roles = this.getRolesForMethod (method, project);
+	this.canAccess = function (roles) {
 		var allowed = false;
 		roles.forEach(function (role) {
 			if (Authentication.user.roles !== undefined && Authentication.user.roles.indexOf(role) !== -1) {
@@ -43,5 +42,28 @@ angular.module('core').service ('MenuControl', ['Authentication', '$state', '$ht
 				$state.go('authentication.signin');
 			}
 		}
+	};
+	this.menuRoles = function (project, org, method) {
+		var roles;
+		if (org === 'any') {
+			roles = [
+				'admin',
+				project+':eao:'+method,
+				project+':pro:'+method,
+				project+':eao:admin',
+				project+':pro:admin'
+			];
+		}
+		else {
+			roles = [
+				'admin',
+				project+':'+org+':'+method,
+				project+':'+org+':admin'
+			];
+		}
+		return roles;
+	};
+	this.routeAccess = function (project, org, method) {
+		this.canAccess (this.menuRoles (project, org, method));
 	};
 }]);

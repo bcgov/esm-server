@@ -64,7 +64,10 @@ angular.module('project').config (
 			intakeQuestions: function(ProjectModel) {
 				return ProjectModel.getProjectIntakeQuestions();
 			}
-		}
+		},
+        onEnter: function (MenuControl, project) {
+            MenuControl.routeAccess (project.code, 'pro','edit-project');
+        }
 	});
 }]);
 

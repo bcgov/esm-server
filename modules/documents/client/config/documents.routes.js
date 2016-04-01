@@ -11,7 +11,11 @@ angular.module('documents').config(['$stateProvider', function ($stateProvider) 
 		},
 		controller: function($scope, project) {
 			$scope.project = project;
-		}
+		},
+        onEnter: function (MenuControl, project) {
+            MenuControl.routeAccess (project.code, 'any','edit-documents');
+        }
+
 	});
 
 }]);

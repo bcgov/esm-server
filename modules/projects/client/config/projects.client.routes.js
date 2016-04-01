@@ -30,13 +30,14 @@ angular.module('projects').config (
 	//
 	// -------------------------------------------------------------------------
 	.state('projects.schedule', {
+		data: {roles: ['admin','eao']},
 		url: 'schedule',
 		templateUrl: 'modules/projects/client/views/projects-partials/projects-schedule.html',
 		controller: function ($scope, projects) {
 			$scope.projects = projects;
 			$scope.allPhases = _.sortBy(_.unique(_.flatten(_.map(projects, function(proj) {
 				return _.map(proj.phases, 'name');
-			}))));			
+			}))));
 		}
 	});
 }]);

@@ -25,7 +25,11 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 				// console.log ('project id = ', project._id);
 				return ProjectConditionModel.getConditionsForProject (project._id);
 			},
-		}
+		},
+        onEnter: function (MenuControl, project) {
+            MenuControl.routeAccess (project.code, 'eao','edit-conditions');
+        }
+
 	})
 	// -------------------------------------------------------------------------
 	//
