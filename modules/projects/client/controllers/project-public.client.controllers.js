@@ -31,7 +31,7 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 		vm.project = res.data;
 		vm.bucketGroups = _.unique(_.pluck(vm.project.buckets, 'group'));
 
-		Project.getPublicCommentsPublishedLimit (res.data._id, 5, 0).then (function (response) {
+		Project.getPublicCommentsPublishedLimit (res.data._id, 20, 0).then (function (response) {
 
 				vm.comments = response.data;
 

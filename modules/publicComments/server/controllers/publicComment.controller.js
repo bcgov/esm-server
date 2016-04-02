@@ -98,7 +98,53 @@ var getBucketsForComment = function (commentId) {
 		});
 	});
 };
+// -------------------------------------------------------------------------
+//
+// get all buckets for a comment
+//
+// -------------------------------------------------------------------------
+var getBucketsForComment2 = function (commentId) {
+	return new Promise (function (resolve, reject) {
+		BucketComment.find ({publicComment: commentId}).populate('bucket', '_id name group').exec(function (err, models) {
+			if (err) return reject (err);
+			else {
+				// console.log (models);
+				var ret = [];
+				_.each (models, function (m) {
+					ret.push (m.bucket);
+				});
+				resolve (ret);
+			}
+		});
+	});
+};
 
+// -------------------------------------------------------------------------
+//
+// given a comment, add its children
+//
+// -------------------------------------------------------------------------
+var decorateComment2 = function (comment) {
+	return new Promise (function (resolve, reject) {
+		if (!comment) return resolve ({});
+		comment = comment.toObject ();
+		// console.log (comment);
+		getDocumentsForComment (comment._id)
+		.then (function (a) {
+			comment.documents = a;
+			return getBucketsForComment2 (comment._id);
+		})
+		.then (function (a) {
+			comment.buckets = a;
+			return getTopicsForComment (comment._id);
+		})
+		.then (function (a) {
+			comment.topics = a;
+			resolve (comment);
+		})
+		.catch (reject);
+	});
+};
 // -------------------------------------------------------------------------
 //
 // given a comment, add its children
@@ -210,6 +256,18 @@ var queryModelsDecorate = function (query, limit) {
 		.catch (reject);
 	});
 };
+var queryModelsDecorate2 = function (query, limit) {
+	return new Promise (function (resolve, reject) {
+		queryModels (query, limit)
+		.then (function (models) {
+			var parray = models.map (function (model) {
+				return decorateComment2 (model);
+			});
+			Promise.all (parray).then (resolve, reject);
+		})
+		.catch (reject);
+	});
+};
 
 // -------------------------------------------------------------------------
 //
@@ -226,7 +284,7 @@ var getByProjectByStatus = function (projectId, status, limit) {
 		project 		: projectId,
 		eaoStatus		: status
 	};
-	return queryModelsDecorate (query, limit);
+	return queryModelsDecorate2 (query, limit);
 	// return new Promise (function (resolve, reject) {
 	// 	queryModels (query, limit)
 	// 	.then (function (models) {
