@@ -229,6 +229,7 @@ function serviceProject($http) {
 		getNewPublicComment: getNewPublicComment,
 		addPublicComment: addPublicComment,
 		getPublicCommentsPublished: getPublicCommentsPublished,
+		getPublicCommentsPublishedLimit: getPublicCommentsPublishedLimit,
 		getPublicCommentsUnpublished: getPublicCommentsUnpublished,
 		getPublicCommentsUnpublishedLimit: getPublicCommentsUnpublishedLimit,
 

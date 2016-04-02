@@ -101,7 +101,7 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 						vm.commentsByTopicVis = null;
 					}
 
-					vm.comments = res.data;
+					vm.comments = allmodels;
 					// trigger the d3 to draw.
 					if (vm.comments.length > 0) {
 						vm.refreshVisualization = 1;
