@@ -10,7 +10,9 @@
 	</tmpl-project-tombstone>
 
 	<tmpl-schedule-timeline
-		class="anchor-section"
+		ng-click="managePhases()"
+		class="anchor-section clickable"
+		title="Click to manage phases"
 		id="anchor-timeline"
 		x-phases="project.phases"
 		ng-if="environment === 'EAO'">
@@ -46,6 +48,7 @@
 		ng-if="('project'| shouldDisplayPanel:'public-comments':project.status) && project.dateCommentsOpen && environment === 'EAO'">
 	</tmpl-public-comment-display>
 
+<!-- 
 	<tmpl-project-activities
 		class="anchor-section"
 		id="anchor-activities"
@@ -53,6 +56,7 @@
 		ng-if="('project'| shouldDisplayPanel:'activities':project.status) && environment === 'EAO'">
 	</tmpl-project-activities>
 
+ -->
 	<tmpl-documents-browser
 		class="anchor-section"
 		id="anchor-documents"
@@ -69,16 +73,5 @@
 		ng-if="('project'| shouldDisplayPanel:'map':project.status)">
 	</tmpl-map>
 
-	<!-- <tmpl-project-bucket-listing
-		class="anchor-section"
-		x-project="project"
-		x-filter="artifactView">
-	</tmpl-project-bucket-listing>
-
-	<tmpl-project-research
-		class="anchor-section"
-		x-project="project"
-		ng-if="('project'| shouldDisplayPanel:'public-comments':project.status)">
-	</tmpl-project-research> -->
 
 </section>

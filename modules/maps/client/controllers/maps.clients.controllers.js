@@ -12,16 +12,15 @@ controllerMap.$inject = ['$scope', 'Authentication', 'uiGmapGoogleMapApi', '$fil
 /* @ngInject */
 function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter) {
 	var mpl = this;
-	mpl.project = [];
+	$scope.showPoint = false;
+	mpl.center = {latitude: 54.726668, longitude: -127.647621};
 	mpl.layers = {};
+	mpl.markers = [];
 
 	// The "then" callback function provides the google.maps object.
 	uiGmapGoogleMapApi.then(function(maps) {
 		mpl.map = {
-			center: {
-				latitude: mpl.project[0].lat,
-				longitude: mpl.project[0].lon
-			},
+			center: mpl.center,
 			zoom: 5,
 			options: {
 				scrollwheel: false,
@@ -33,7 +32,7 @@ function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter) {
 
 	$scope.$watch('showPoint', function(newValue){
 		if (newValue) {
-			mpl.projectFiltered = [mpl.project];
+			mpl.projectFiltered = mpl.markers;
 		} else {
 			mpl.projectFiltered = [];
 		}
@@ -41,10 +40,17 @@ function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter) {
 
 	$scope.$watch('project', function(newValue) {
 		if (newValue) {
-			newValue.latitude = newValue.lat;
-			newValue.longitude = newValue.lon;
 
-			mpl.project = [newValue];
+			mpl.center = {
+				latitude: newValue.lat,
+				longitude: newValue.lon
+			};
+
+			mpl.markers.push({
+				id: newValue._id,
+				latitude: newValue.lat,
+				longitude: newValue.lon
+			});
 
 			$scope.showPoint = true;
 		}

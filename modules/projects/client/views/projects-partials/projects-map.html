@@ -16,7 +16,6 @@
 			ng-cloak>
 		</ui-gmap-window>
 
-
 		<ui-gmap-markers
 			models="projectList.projectsFiltered"
 			idKey="'_id'"
@@ -29,15 +28,10 @@
 
 	<div class="row map-filter">
 		<div class="col-sm-12">
-			<div class="form-inline text-right">
+			<div class="form-inline">
 				<div class="form-group form-group-sm">
-					<span class="form-control-static">Projects Found: {{ projectList.projectsFiltered.length || 0}}&nbsp;&nbsp;</span>
+					<span class="form-control-static">Projects Found: {{ projectList.projectsFiltered.length || 0}}</span>
 				</div>
-				<select ng-model="filterType" class="form-control input-sm" ng-options="v as v for v in projectList.types"><option value="">All</option></select>
-				<select ng-model="filterStatus" class="form-control input-sm" ng-options="v as v for v in projectList.status"><option value="">All</option></select>
-				<select ng-model="filterRegion" class="form-control input-sm" ng-options="v as (v | regionName) for v in projectList.regions"><option value="">All</option></select>
-				<button class="btn btn-link btn-sm" ng-click="filterType = undefined; filterStatus = undefined; filterRegion=undefined;">Show All</button>
-
 			</div>
 		</div>
 	</div>

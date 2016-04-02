@@ -32,32 +32,28 @@
 				<tmpl-recent-activity id="anchor-recent" x-form="form"></tmpl-recent-activity>
 			</div>
 			<div class="col-sm-8">
-				<tmpl-projects-map id="anchor-map" x-projects='projects'></tmpl-projects-map>
-				<tmpl-projects-list2 id="anchor-list" x-projects='projects' ng-if="form.expandnews"></tmpl-projects-list2>
+				<tmpl-projects-map
+					id="anchor-map"
+					x-projects='projects'>
+				</tmpl-projects-map>
+
+				<tmpl-projects-list2
+					id="anchor-list"
+					x-projects='projects'
+					ng-if="form.expandnews">
+				</tmpl-projects-list2>
+
 			</div>
 		</div>
 		<div class="row" ng-if="!form.expandnews">
 			<div class="col-sm-12">
-				<tmpl-projects-list2 id="anchor-list" x-projects='projects'></tmpl-projects-list2>
+				<tmpl-projects-list2
+					id="anchor-list"
+					x-projects='projects'>
+				</tmpl-projects-list2>
 			</div>
 		</div>
-
-<!-- 	<div class="row">
-			<div class="col-sm-4 activity-list-med">
-				<tmpl-recent-activity id="anchor-recent"></tmpl-recent-activity>
-				<span ng-click="show_news = !show_news">Show News</span>
-			</div>
-			<div class="col-sm-8">
-				<tmpl-projects-map id="anchor-map" x-projects='projects'></tmpl-projects-map>					
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<tmpl-projects-list2 id="anchor-list" x-projects='projects'></tmpl-projects-list2>
-			</div>
-		</div> -->
-
-
+{{ filterObj }}
 	</ui-view>		
 	<div class='col-sm-2' ng-if="authentication.user">
 		<tmpl-system-menu x-menu-context="'projects'"></tmpl-system-menu>

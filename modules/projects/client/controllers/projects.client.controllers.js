@@ -46,7 +46,7 @@ function controllerProjectsSearch($scope, $state, Authentication, ProjectModel, 
 		if (projectsSearch.search.keywords) {
 			query.keywords = {'$in': projectsSearch.search.keywords.split(' ') };
 		}
-		// console.log(query);
+
 		ProjectModel.getQuery (query).then( function(data) {
 			projectsSearch.projects = [];
 			projectsSearch.foundSet = true;
@@ -62,9 +62,9 @@ function controllerProjectsSearch($scope, $state, Authentication, ProjectModel, 
 // CONTROLLER: Projects
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsList.$inject = ['$scope', 'Authentication', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC', '_', 'uiGmapGoogleMapApi', '$filter'];
+controllerProjectsList.$inject = ['$scope', 'Authentication', '_', 'uiGmapGoogleMapApi', '$filter'];
 /* @ngInject */
-function controllerProjectsList($scope, Authentication, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC, _, uiGmapGoogleMapApi, $filter) {
+function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $filter) {
 	var projectList = this;
 
 	// The "then" callback function provides the google.maps object.
@@ -107,32 +107,20 @@ function controllerProjectsList($scope, Authentication, PROJECT_TYPES, REGIONS, 
 	};
 
 
-	$scope.$watchGroup(['filterType', 'filterStatus', 'filterRegion'], function(newValues){
-		var filterObj = {};
-		// type
-		if (newValues[0]) {
-			filterObj.type = newValues[0];
+	$scope.$parent.$watch('filterObj', function(newValue) {
+		if (!_.isEmpty(newValue)) {
+			projectList.projectsFiltered = $filter("filter")(projectList.projects, newValue);
 		}
-		// type
-		if (newValues[1]) {
-			filterObj.status = newValues[1];
-		}
-		// type
-		if (newValues[2]) {
-			filterObj.region = newValues[2];
-		}
+	}, true);
 
-		projectList.projectsFiltered = $filter("filter")(projectList.projects, filterObj);
-     	if (!projectList.projectsFiltered){
-     		return;
-		}
-   });
-
-
-
-	projectList.types = PROJECT_TYPES;
-	projectList.regions = REGIONS;
-	projectList.status = PROJECT_STATUS_PUBLIC;
+	projectList.clearFilter = function() {
+		$scope.$parent.filterObj = undefined;
+		console.log($scope.$parent.filterObj);
+	};
+	
+	// projectList.types = PROJECT_TYPES;
+	// projectList.regions = REGIONS;
+	// projectList.status = PROJECT_STATUS_PUBLIC;
 
 
 	projectList.auth = Authentication;
@@ -140,17 +128,7 @@ function controllerProjectsList($scope, Authentication, PROJECT_TYPES, REGIONS, 
 	$scope.$watch('projects', function(newValue) {
 		if (newValue) {
 			projectList.projects = newValue;
-			var projs = _(projectList.projects).chain().flatten();
-			// add a pos for the map display
-			projectList.projects = _.map(projectList.projects, function(item) {
-				item.latitude = item.lat;
-				item.longitude = item.lon;
-				return item;
-			});
-
-			projectList.regions = projs.pluck('region').unique().value();
-			projectList.status = projs.pluck('status').unique().value();
-			projectList.types = projs.pluck('type').unique().value();
+			projectList.projectsFiltered = $filter("filter")(newValue, $scope.$parent.filterObj);
 		}
 	});
 }
@@ -159,27 +137,40 @@ function controllerProjectsList($scope, Authentication, PROJECT_TYPES, REGIONS, 
 // CONTROLLER: Projects List 2
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsList2.$inject = ['$scope', 'NgTableParams', 'Authentication', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_ARRAY', 'ENV'];
+controllerProjectsList2.$inject = ['$scope', 'NgTableParams', 'Authentication', '_', 'ENV', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC', '$filter'];
 /* @ngInject */
-function controllerProjectsList2($scope, NgTableParams, Authentication, PROJECT_TYPES, REGIONS, PROJECT_STATUS_ARRAY, ENV) {
+function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC, $filter) {
 	var projectList = this;
 
 	$scope.environment = ENV;
 
-	projectList.types = PROJECT_TYPES.map (function (e) {
-		return {id:e,title:e};
-	});
-	projectList.regions = REGIONS;
-	projectList.status = PROJECT_STATUS_ARRAY.map (function (e) {
-		return {id:e,title:e};
-	});
-
 	projectList.auth = Authentication;
+
+	projectList.regionArray = [];
+	projectList.statusArray = []; 
+	projectList.typeArray = [];
 
 	$scope.$watch('projects', function(newValue) {
 		if (newValue) {
-			projectList.tableParams = new NgTableParams ({count: 10}, {dataset: newValue});
-			// projectList.projects = newValue;
+			// add a pos for the map display
+			projectList.projects = _.map(newValue, function(item) {
+				item.latitude = item.lat;
+				item.longitude = item.lon;
+				return item;
+			});
+
+			var projs = _(angular.copy(newValue)).chain().flatten();
+			projs.pluck('region').unique().value().map( function(item) {
+				projectList.regionArray.push({id: item, title: $filter('regionName')(item)});
+			});
+			projs.pluck('status').unique().value().map( function(item) {
+				projectList.statusArray.push({id: item, title: item});
+			});
+			projs.pluck('type').unique().value().map( function(item) {
+				projectList.typeArray.push({id: item, title: item});
+			});
+
+			projectList.tableParams = new NgTableParams ({count: 10, filter: $scope.$parent.filterObj}, {dataset: newValue});
 		}
 	});
 

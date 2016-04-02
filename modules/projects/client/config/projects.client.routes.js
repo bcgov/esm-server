@@ -22,6 +22,7 @@ angular.module('projects').config (
 			$scope.projects = projects;
 			$scope.environment = ENV;
 			$scope.authentication = Authentication;
+			$scope.filterObj = {};
 		}
 	})
 	// -------------------------------------------------------------------------

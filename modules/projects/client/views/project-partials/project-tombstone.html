@@ -3,12 +3,12 @@
 	<div class='row' ng-if="environment === 'EAO'">
 		<div class='col-sm-3'>
 			<div><label class="control-label">Type</label><p>{{ project.type }}</p></div>
-			<div><label class="control-label">Location</label><p>{{ project.location }}</p></div>
+			<div ng-if="project.location"><label class="control-label">Location</label><p>{{ project.location }}</p></div>
 			<div><label class="control-label">Region</label><p>{{ project.region | regionName }}</p></div>
 		</div>
 		<div class='col-sm-3'>
-			<div><label class="control-label">Estimated Phase Completion</label><p>{{ project.dateCurrentPhaseEstimatedEnd | amDateFormat:'MMM Do YYYY' }}</p></div>
-			<div><label class="control-label">Current Phase</label><p x-phase-colour x-phase="project.currentPhase">{{ project.currentPhase | phaseName:project.phases }}</p></div>
+			<div><label class="control-label">Estimated Phase Completion</label><p>{{ (project.currentPhase.dateEndedEst | amDateFormat:'MMM Do YYYY') || 'N/A' }}</p></div>
+			<div><label class="control-label">Current Phase</label><p>{{ project.currentPhase.name | titleCase }}</p></div>
 			<!-- <div><label class="control-label">Next Phase</label><p x-phase-colour x-phase="project.nextPhase">{{ project.nextPhase }}</p></div> -->
 		</div>
 
