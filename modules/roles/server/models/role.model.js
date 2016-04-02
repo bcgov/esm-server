@@ -27,7 +27,7 @@ Role.count ({}, function (err, count) {
 			{name:'Team Lead', code:'teamlead' , description:'Team Lead'},
 			{name:'Minister' , code:'minister' , description:'Minister' }
 		], function (err) {
-			console.log ('insertion of base role data OK');
+			// console.log ('insertion of base role data OK');
 		});
 	}
 });

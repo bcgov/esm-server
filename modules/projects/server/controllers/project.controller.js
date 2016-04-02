@@ -388,7 +388,7 @@ exports.setStream = function (req, res) {
 			fillProject (req.Project, helpers.queryResponse (res));
 		})
 		.then (null, function (err) {
-			console.log ('errors abound!');
+			// console.log ('errors abound!');
 			helpers.sendError (res, err);
 		});
 	});

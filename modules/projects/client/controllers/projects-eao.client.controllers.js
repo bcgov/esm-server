@@ -15,19 +15,19 @@ function controllerEAOProjects($scope, $state, Projects, _) {
 
 	vm.projects = [];
 	vm.filter = {};
-	
+
 	// get projects
 	Projects.getProjects().then( function(res) {
 		vm.projects = res.data;
-		console.log(res.data);
+		// console.log(res.data);
 	});
 
 	// panel sort maps fields to names, when clicked the associated table sorts accordingly
 	vm.panelSort = [
 		{'field': 'name', 'name':'Name'},
-		{'field': 'status', 'name':'Status'},	
+		{'field': 'status', 'name':'Status'},
 		{'field': 'dateUpdated', 'name':'Date Updated'},
 		{'field': 'dateCreate', 'name':'Date Created'}
 	];
 
-}        
+}
