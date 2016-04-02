@@ -10,7 +10,7 @@ angular.module('project')
 serviceProject.$inject = ['$http'];
 /* @ngInject */
 function serviceProject($http) {
-	
+
 	var getNewProject = function(req) {
 		return $http({method:'GET',url: '/api/new/project/'});
 	};
@@ -87,7 +87,7 @@ function serviceProject($http) {
 				"code":"operatingjobs",
 				"content":"Operating Jobs (Person years)",
 				"type":"smalltext"
-			}	
+			}
 		];
 	};
 
@@ -141,7 +141,7 @@ function serviceProject($http) {
 		return $http({method:'POST',url: '/api/publiccomment', data: req});
 	};
 
-	
+
 	var getPublicCommentsPublished = function(projectId) {
 		return $http({method:'GET',url: '/api/publiccomment/project/' + projectId + '/published'});
 	};
@@ -152,6 +152,10 @@ function serviceProject($http) {
 
 	var getPublicCommentsUnpublishedLimit = function(projectId, limit, offset) {
 		return $http({method:'GET',url: '/api/publiccomment/project/' + projectId + '/unpublished/limit/' + limit + '/offset/' + offset});
+	};
+
+	var getPublicCommentsPublishedLimit = function(projectId, limit, offset) {
+		return $http({method:'GET',url: '/api/publiccomment/project/' + projectId + '/published/limit/' + limit + '/offset/' + offset});
 	};
 
 
@@ -197,7 +201,7 @@ function serviceProject($http) {
 	var getPublicCommentClassifyStart = function(req) {
 		return $http({method:'GET',url: '/api/publiccomment/project/' + req._id + '/classify/start'});
 	};
-	
+
 	var getPublicCommentClassifyClaim = function(req) {
 		return $http({method:'GET',url: '/api/publiccomment/project/' + req._id + '/classify/claim'});
 	};

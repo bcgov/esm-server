@@ -18,7 +18,7 @@
 					<span class="small" ng-if="(vm.project.description | wordCount) > 5">
 						<a href ng-click="toggleProject.desc = !toggleProject.desc">
 							<span ng-show="!toggleProject.desc"><em>More ({{ vm.project.description | wordCount }} words)</em></span>
-							<span ng-show="toggleProject.desc"><em>Less</em></span>										
+							<span ng-show="toggleProject.desc"><em>Less</em></span>
 						</a>
 					</span>
 					</p>
@@ -85,7 +85,7 @@
 
 			<div>
 				<h3 class="panel-sub-title panel-body">Application Appendices</h3>
-			</div>			
+			</div>
 
 			<div class='panel-body'>
 				<ul class="small list-unstyled list-documents">
@@ -95,7 +95,7 @@
 
 			<div>
 				<h3 class="panel-sub-title panel-body">All Other Documents</h3>
-			</div>			
+			</div>
 
 			<div class='panel-body'>
 				<ul class="small list-unstyled list-documents">
@@ -149,9 +149,9 @@
 							<ul class="nav navbar-nav navbar-form navbar-left">
 								<li>
 									<div class="btn-group btn-group-sm">
-										<button class="btn btn-default" ng-click="vm.form.view = 'bydate'"	ng-class="{'btn-primary': vm.form.view === 'bydate'}">By Date</button>
-										<!-- <button class="btn btn-default" ng-click="vm.form.view = 'bytopic'"	ng-class="{'btn-primary': vm.form.view === 'bytopic'}">By Topic</button> -->
-										<button class="btn btn-default" ng-click="vm.form.view = 'bychart'"	ng-if="vm.commentsByTopicVis" ng-class="{'btn-primary': vm.form.view === 'bychart'}">By Topic Chart</button>
+										<button ng-if="vm.readyByDate"  class="btn btn-default" ng-click="vm.form.view = 'bydate'"	ng-class="{'btn-primary': vm.form.view === 'bydate'}">By Date</button>
+										<button ng-if="vm.readyByTopic" class="btn btn-default" ng-click="vm.form.view = 'bytopic'"	ng-class="{'btn-primary': vm.form.view === 'bytopic'}">By Topic</button>
+										<button ng-if="vm.readyByChart" class="btn btn-default" ng-click="vm.form.view = 'bychart'"	ng-if="vm.commentsByTopicVis" ng-class="{'btn-primary': vm.form.view === 'bychart'}">By Topic Chart</button>
 									</div>
 
 								</li>
@@ -194,14 +194,14 @@
 
 								<div class="col-sm-3">
 									<p ng-if="item.author && item.displayName">Name: {{ item.author }}</p>
-									<p ng-if="item.location && item.displayName">Location: {{ item.location }}</p>								
+									<p ng-if="item.location && item.displayName">Location: {{ item.location }}</p>
 									<p>{{ item.dateAdded | amDateFormat:'MMM Do, YYYY h:mm a'}}</p>
 									<ul class="list-unstyled document-vetting small">
 										<li ng-repeat="doc in item.documents track by doc._id">
 											<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus == 'Published'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
 										</li>
 									</ul>
-	
+
 									<div class="form-group" ng-show="item.buckets.length > 0">
 										<label class="control-label">Related Topics</label>
 										<ul class="small">
@@ -276,7 +276,7 @@
 					</div>
 				</div>
 
-			
+
 
 				<div class="" ng-show="vm.form.view === 'bychart' && vm.comments.length > 0">
 					<div class="panel-body">
@@ -287,7 +287,7 @@
 
 				<div ng-show="vm.comments.length === 0">
 					<hr>
-					There are no comments on this project.						
+					There are no comments on this project.
 				</div>
 
 			</div>
