@@ -21,7 +21,7 @@ module.exports = function (app) {
 	});
 	app.route ('/api/users/for/org/:orgid').all (policy.isAllowed)
 		.get (function (req, res) {
-			console.log ('org id passed was ', req.params.orgid);
+			// console.log ('org id passed was ', req.params.orgid);
 			(new User (req.user)).findMany ({org:req.params.orgid})
 			.then (helpers.success(res), helpers.failure(res));
 	});

@@ -32,7 +32,7 @@ function controllerModalProjectSchedule($modalInstance,  PhaseModel, _, rProject
 		_.each(projSched.phases, function(item) {
 			PhaseModel.setModel(item);
 			PhaseModel.saveModel().then( function(res) {
-				console.log('saved');
+				// console.log('saved');
 			}).catch( function(err) {
 				$modalInstance.dismiss('cancel');
 			});
@@ -289,7 +289,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 			// $state.transitionTo('p.detail', {projectid: data.code}, {
 	  // 			reload: true, inherit: false, notify: true
 	  // 		});
-	  		console.log ('new status = ', data.status);
+	  		// console.log ('new status = ', data.status);
 	  		$scope.project = _.extend($scope.project, data);
 			$state.go('p.detail', {projectid: $scope.project.code});
 		})

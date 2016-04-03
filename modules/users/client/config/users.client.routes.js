@@ -92,14 +92,15 @@ angular.module('users').config(['$stateProvider',
 						}
 					});
 					$scope.tableParams = new NgTableParams ({count:50}, {dataset: activities});
-					
+
 					$scope.getLinkUrl = function (state, params) {
-						return $state.href (state, params);
+						$state.go(state, params);
+						// return $state.href (state, params);
 					};
 				},
 				data: {
 					roles: ['admin', 'user']
 				}
-			});      
+			});
 	}
 ]);

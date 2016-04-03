@@ -147,7 +147,7 @@ exports.loadUsers = function(file, req, res) {
         // Skip this many rows
         var length = Object.keys(output).length;
         var rowsProcessed = 0;
-        console.log("length",length);
+        // console.log("length",length);
         Object.keys(output).forEach(function(key, index) {
           if (index > 0) {
             var row = output[key];
@@ -186,7 +186,7 @@ exports.loadUsers = function(file, req, res) {
                   // Am I done processing?
                   // console.log("INDEX:",index);
                   if (index === length-1) {
-                    console.log("rowsProcessed: ",rowsProcessed);
+                    // console.log("rowsProcessed: ",rowsProcessed);
                     //resolve("{done: true, rowsProcessed: "+rowsProcessed+"}");
                     res.write("]");
                     res.end();
@@ -245,7 +245,7 @@ exports.loadGroupUsers = function(file, req, res) {
                   // Am I done processing?
                   // console.log("INDEX:",index);
                   if (index === length-1) {
-                    console.log("rowsProcessed: ",rowsProcessed);
+                    // console.log("rowsProcessed: ",rowsProcessed);
                     res.write("]");
                     res.end();
                     //resolve("{done: true, rowsProcessed: "+rowsProcessed+"}");

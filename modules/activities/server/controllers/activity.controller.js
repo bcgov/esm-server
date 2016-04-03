@@ -168,7 +168,7 @@ module.exports = DBModel.extend ({
 			//
 			// get the base
 			//
-			console.log ('Activity From Base:'+code+' Step 1');
+			// console.log ('Activity From Base:'+code+' Step 1');
 			self.getActivityBase (code)
 			//
 			// copy its id and such before we lose it, then copy the entire thing
@@ -200,8 +200,8 @@ module.exports = DBModel.extend ({
 			//
 			.then (function (m) {
 				activity.data = data ? data : {};
-				activity.data.projectid = activity.project;
-				console.log ('Activity From Base:'+code+' Step 5');
+				activity.data.projectid = activity.projectCode;
+				// console.log ('Activity From Base:'+code+' Step 5');
 				// console.log ('setting roles');
 				return self.setDefaultRoles (m, base);
 			})
@@ -210,7 +210,7 @@ module.exports = DBModel.extend ({
 			// have to resolve it here
 			//
 			.then (function (model) {
-				console.log ('new activity created: ', JSON.stringify(model,null,4));
+				// console.log ('new activity created: ', JSON.stringify(model,null,4));
 				milestone.activities.push (model._id);
 				milestone.save ();
 				// console.log ('Activity From Base:'+code+' Step 6');

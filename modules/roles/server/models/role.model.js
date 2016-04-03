@@ -53,7 +53,7 @@ var RoleSchema  = new Schema ({
 // };
 
 RoleSchema.methods.modObject = function (method, type, array) {
-	console.log ('role.modobject', method, type, array);
+	// console.log ('role.modobject', method, type, array);
 	var inputarray = array.map (function (id) {return id.toString();});
 	var typearray = this[type].map (function (id) {return id.toString();});
 	if (method === 'add') {

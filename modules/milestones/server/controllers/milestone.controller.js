@@ -166,7 +166,7 @@ module.exports = DBModel.extend ({
 			//
 			.then (function (activity) {
 				if (permissions && !_.isEmpty (permissions)) {
-					console.log ('Adding permissions');
+					// console.log ('Adding permissions');
 					return Roles.objectRoles ({
 						method      : 'add',
 						objects     : activity,
@@ -249,7 +249,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	completeActivities: function (milestone) {
-		console.log ('completing activities',milestone.activities);
+		// console.log ('completing activities',milestone.activities);
 		var self = this;
 		return Promise.all (milestone.activities.map (function (activity) {
 			var Activity = new ActivityClass (self.user);

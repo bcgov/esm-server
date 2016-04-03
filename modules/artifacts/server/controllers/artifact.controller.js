@@ -279,14 +279,14 @@ module.exports = DBModel.extend ({
 			// this stage
 			//
 			p.then (function (model) {
-				console.log ('document saved, now add the activity ', model.milestone, next.activity);
+				// console.log ('document saved, now add the activity ', model.milestone, next.activity);
 				if (model.milestone && next.activity) {
 					var ativity;
 					var m = new MilestoneClass (self.user);
 					var a = new ActivityClass (self.user);
 					return m.findById (model.milestone)
 					.then (function (milestone) {
-						console.log ('found the milestone, now adding attivity');
+						// console.log ('found the milestone, now adding attivity');
 						//
 						// this is where we should/would set special permisions, but they
 						// really should be on the default base activity (which this does do)
