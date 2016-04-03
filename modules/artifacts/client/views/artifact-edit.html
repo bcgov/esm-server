@@ -1,5 +1,5 @@
 <h1 class="page-title no-lower-margin">
-	Edit {{artifact.type.type}} ({{artifact.version}}) for {{ project.name }}
+	Edit {{artifact.name}} ({{artifact.version}}) for {{ project.name }}
 </h1>
 
 <div class="row top-nav-lower-margin">
@@ -8,7 +8,7 @@
 			<a class="btn btn-sm btn-link" ui-sref="p.detail">Cancel</a>
 			<a class="btn btn-sm btn-link" ng-click="save()">Save</a>
 			<a class="btn btn-sm btn-link" ng-click="saveas()">Save As</a>
-			<select ng-model="version" class="input-sm" ng-options="v as v for v in artifact.type.versions"></select>
+			<select ng-model="version" class="input-sm" ng-options="v as v for v in artifact.artifactType.versions"></select>
 			<a class="btn btn-sm btn-link" ng-click="submit()">Submit for {{buttons.next}}</a>
 		</div>
 	</div>
@@ -26,7 +26,7 @@
 			<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
 			<a class="btn btn-default" ng-click="save()">Save</a>
 			<a class="btn btn-default" ng-click="saveas()">Save As</a>
-			<select ng-model="version" class="form-control" ng-options="v as v for v in artifact.type.versions"></select>
+			<select ng-model="version" class="form-control" ng-options="v as v for v in artifact.artifactType.versions"></select>
 			<a class="btn btn-default" ng-click="submit()">Submit for {{buttons.next}}</a>
 		</div>
 	</div>

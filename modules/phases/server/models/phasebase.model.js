@@ -21,6 +21,4 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	order	  : { type: Number, default:0 },
 
 	description		: { type:String, default:'' },
-
-	status		: { type:String, default:'' }
 });

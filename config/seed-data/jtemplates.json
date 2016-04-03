@@ -616,7 +616,8 @@
       }
     ],
     "versionNumber": 18,
-    "documentType": "Valued Component"
+    "documentType": "Valued Component",
+    "code": "valued-component"
   },
   {
     "sections": [
@@ -949,7 +950,8 @@
       }
     ],
     "versionNumber": 1,
-    "documentType": "Section 10(1)(b) Order"
+    "documentType": "Section 10(1)(b) Order",
+    "code": "section-10-1-b-order"
   },
   {
     "sections": [
@@ -1042,7 +1044,8 @@
       }
     ],
     "versionNumber": 1,
-    "documentType": "Section 7(3) Order"
+    "documentType": "Section 7(3) Order",
+    "code": "section-7-3-order"
   },
   {
     "sections": [
@@ -1450,7 +1453,8 @@
       }
     ],
     "versionNumber": 13,
-    "documentType": "Project Description"
+    "documentType": "Project Description",
+    "code": "project-description"
   },
   {
     "sections": [
@@ -1543,7 +1547,8 @@
       }
     ],
     "versionNumber": 1,
-    "documentType": "Section 10(1)(a) Order"
+    "documentType": "Section 10(1)(a) Order",
+    "code": "section-10-1-a-order"
   },
   {
     "sections": [
@@ -1736,7 +1741,8 @@
       }
     ],
     "versionNumber": 3,
-    "documentType": "Section 11 Order"
+    "documentType": "Section 11 Order",
+    "code": "section-11-order"
   },
   {
     "sections": [
@@ -1854,7 +1860,8 @@
       }
     ],
     "versionNumber": 4,
-    "documentType": "Section 10(1)(c) Order"
+    "documentType": "Section 10(1)(c) Order",
+    "code": "section-10-1-c-order"
   },
   {
     "sections": [
@@ -2206,7 +2213,8 @@
       }
     ],
     "versionNumber": 11,
-    "documentType": "Schedule A"
+    "documentType": "Schedule A",
+    "code": "schedule-a"
 
   }
 ]

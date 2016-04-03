@@ -86,7 +86,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			// console.log ('project  = ', project);
 			var method = properMethod (artifact.stage);
 			if (method !== 'edit') $state.go ('p.artifact.'+method);
-			$scope.buttons = getPrevNextStage (artifact.stage, artifact.type.stages);
+			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
 			$scope.artifact = artifact;
 			$scope.project = project;
 			if (_.isEmpty (artifact.templateData)) artifact.templateData = {};
@@ -160,7 +160,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
-			$scope.buttons = getPrevNextStage (artifact.stage, artifact.type.stages);
+			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
@@ -192,7 +192,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
-			$scope.buttons = getPrevNextStage (artifact.stage, artifact.type.stages);
+			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
@@ -224,7 +224,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
-			$scope.buttons = getPrevNextStage (artifact.stage, artifact.type.stages);
+			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
@@ -256,7 +256,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
-			$scope.buttons = getPrevNextStage (artifact.stage, artifact.type.stages);
+			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
@@ -288,7 +288,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
-			$scope.buttons = getPrevNextStage (artifact.stage, artifact.type.stages);
+			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {

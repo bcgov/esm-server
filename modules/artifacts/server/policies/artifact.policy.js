@@ -10,6 +10,7 @@ var helpers  = require (require('path').resolve('./modules/core/server/controlle
 
 exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'artifact');
+	helpers.setCRUDPermissions (acl, 'artifacttype');
 	helpers.setPathPermissions (acl, [
 		[ '', 'user', '/api/artifact/for/project/:projectid'],
 		[ '', 'user', '/api/artifact/project/:project/from/type/:documenttype'],

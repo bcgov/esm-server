@@ -138,6 +138,8 @@ module.exports = DBModel.extend ({
 			// have to resolve it here
 			//
 			.then (function (models) {
+				phase.milestones.push (milestone._id);
+				phase.save ();
 				// console.log ("Yay! the add activity promise array resolved to ", models);
 				return self.saveDocument (milestone);
 			})
@@ -182,6 +184,15 @@ module.exports = DBModel.extend ({
 			})
 			.then (resolve, reject);
 		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// add an an already created activity to the milestone
+	//
+	// -------------------------------------------------------------------------
+	pushActivity : function (milestone, activity) {
+		milestone.activities.push (activity);
+		return this.saveDocument (milestone);
 	},
 	// -------------------------------------------------------------------------
 	//

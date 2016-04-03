@@ -43,6 +43,8 @@ module.exports = DBModel.extend ({
 		if (phase.startOnCreate) {
 			phase.status      = 'In Progress';
 			phase.dateStarted = new Date ();
+		} else {
+			phase.status = 'Not Started';
 		}
 		return phase;
 	},
@@ -90,6 +92,7 @@ module.exports = DBModel.extend ({
 			// set the base id and then initial dates
 			//
 			.then (function (m) {
+				console.log ('after copy', JSON.stringify (m, null, 4));
 				console.log ('copied the base into new phase with id ', m._id, m.milestones);
 				phase = m;
 				phase.phaseBase = baseId;
@@ -99,6 +102,7 @@ module.exports = DBModel.extend ({
 			// copy over stuff from the project
 			//
 			.then (function (m) {
+				console.log ('after setting dates', JSON.stringify (phase, null, 4));
 				return self.setAncestry (m, project);
 			})
 			//
@@ -119,7 +123,12 @@ module.exports = DBModel.extend ({
 				}, Promise.resolve());
 			})
 			.then (function () {
+				console.log ('saving the phase', JSON.stringify (phase, null, 4));
 				return self.saveDocument (phase);
+			})
+			.then (function (r) {
+				console.log ('saved the phase');
+				return r;
 			})
 			.then (resolve, reject);
 		});

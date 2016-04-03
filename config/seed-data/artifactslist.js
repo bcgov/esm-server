@@ -1,7 +1,8 @@
 
 var artifacttypes = [{
-    type: 'Valued Component',
+    name: 'Valued Component',
     multiple: true,
+    code: 'valued-component',
     milestone: 'valued-component',
     versions : [
         'Submission',
@@ -11,7 +12,8 @@ var artifacttypes = [{
         'Final (AIR)'
     ]
 },{
-    type: 'Project Description',
+    name: 'Project Description',
+    code: 'project-description',
     milestone: 'project-description',
     multiple: false,
     versions : [
@@ -26,48 +28,54 @@ var artifacttypes = [{
         'Certified (Schedule A)'
     ]
 },{
-    type: 'Section 10(1)(a) Order',
+    name: 'Section 10(1)(a) Order',
     milestone: 'section-10-1-a-order',
+    code: 'section-10-1-a-order',
     multiple: false,
     versions : [
         'Draft',
         'Final'
     ]
 },{
-    type: 'Section 10(1)(b) Order',
+    name: 'Section 10(1)(b) Order',
     milestone: 'section-10-1-b-order',
+    code: 'section-10-1-b-order',
     multiple: false,
     versions : [
         'Draft',
         'Final'
     ]
 },{
-    type: 'Section 10(1)(c) Order',
+    name: 'Section 10(1)(c) Order',
     milestone: 'section-10-1-c-order',
+    code: 'section-10-1-c-order',
     multiple: false,
     versions : [
         'Draft',
         'Final'
     ]
 },{
-    type: 'Section 7(3) Order',
+    name: 'Section 7(3) Order',
     milestone: 'section-7-3-order',
+    code: 'section-7-3-order',
     multiple: false,
     versions : [
         'Draft',
         'Final'
     ]
 },{
-    type: 'Section 11 Order',
+    name: 'Section 11 Order',
     milestone: 'section-11-order',
+    code: 'section-11-order',
     multiple: false,
     versions : [
         'Draft',
         'Final'
     ]
 },{
-    type: 'Schedule A',
+    name: 'Schedule A',
     milestone: 'schedule-a',
+    code: 'schedule-a',
     multiple: false,
     versions : [
         'Draft',

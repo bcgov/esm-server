@@ -25,12 +25,12 @@ module.exports = DBModel.extend ({
 		var self = this;
 		// console.log (self.name);
 		return new Promise (function (resolve, reject) {
-			self.findMany ({multiple:true},{type:1})
-			.then (function (result) {
-				return result.map (function (e) {
-					return e.type;
-				});
-			})
+			self.findMany ({multiple:true},{code:1,name:1})
+			// .then (function (result) {
+			// 	return result.map (function (e) {
+			// 		return e.type;
+			// 	});
+			// })
 			.then (resolve, reject);
 		});
 	},
@@ -43,12 +43,12 @@ module.exports = DBModel.extend ({
 		var self = this;
 		// console.log (self.name);
 		return new Promise (function (resolve, reject) {
-			self.findMany ({multiple:false},{type:1})
-			.then (function (result) {
-				return result.map (function (e) {
-					return e.type;
-				});
-			})
+			self.findMany ({multiple:false},{code:1,name:1})
+			// .then (function (result) {
+			// 	return result.map (function (e) {
+			// 		return e.type;
+			// 	});
+			// })
 			.then (resolve, reject);
 		});
 	}

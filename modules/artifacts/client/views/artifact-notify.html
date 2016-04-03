@@ -1,5 +1,5 @@
 <h1 class="page-title">
-	Notify Contacts of {{artifact.type.type}} for {{ project.name }}
+	Notify Contacts of {{artifact.name}} for {{ project.name }}
 </h1>
 
 <div class="text-right">
@@ -98,7 +98,7 @@
 							</ul>
 						</div>
 					</div>
-				</div>	
+				</div>
 			</div>
 		</div>
 		<hr>
@@ -112,7 +112,7 @@
 			<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
 			<a class="btn btn-default" href ng-click="taskNotifications.saveProcess()">Save</a>
 			<a class="btn btn-primary" href ng-show="form.curTab === 'Content'" ng-click="form.curTab = 'Schedule'">Next</a>
-			<a class="btn btn-primary" href ng-show="form.curTab === 'Schedule'" ng-click="form.curTab = 'Recipients'">Next</a>	
+			<a class="btn btn-primary" href ng-show="form.curTab === 'Schedule'" ng-click="form.curTab = 'Recipients'">Next</a>
 			<a class="btn btn-success" href ng=click="submit()" ng-show="form.curTab === 'Recipients' && taskNotifications.taskData.status === 'pending' && taskNotifications.taskData.dateQueued">Add to Queue</a>
 		</div>
 	</div>

@@ -9,16 +9,17 @@ var DBModel            = require (path.resolve('./modules/core/server/controller
 var Template            = require (path.resolve('./modules/templates/server/controllers/template.controller'));
 var ArtifactType      = require ('./artifact.type.controller');
 var MilestoneClass     = require (path.resolve('./modules/milestones/server/controllers/milestone.controller'));
+var ActivityClass     = require (path.resolve('./modules/activities/server/controllers/activity.controller'));
 var PhaseClass     = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
 var _                  = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'Artifact',
 	plural : 'artifacts',
-	populate : 'type template',
+	populate : 'artifactType template',
 	bind: ['getCurrentTypes'],
 	getForProject: function (projectid) {
-		return this.list ({project:projectid},{typeName:1, version:1, stage:1, published:1, userPermissions:1});
+		return this.list ({project:projectid},{name:1, version:1, stage:1, published:1, userPermissions:1});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -29,7 +30,7 @@ module.exports = DBModel.extend ({
 	// that matches the type will be used
 	//
 	// -------------------------------------------------------------------------
-	newFromType: function (type, project) {
+	newFromType: function (code, project) {
 		var types = new ArtifactType (this.user);
 		var template = new Template (this.user);
 		var self = this;
@@ -49,7 +50,7 @@ module.exports = DBModel.extend ({
 			//
 			self.newDocument ().then (function (a) {
 				artifact = a;
-				return types.findOne ({type:type});
+				return types.findOne ({code:code});
 			})
 			//
 			// check that we have an artifact type
@@ -59,15 +60,24 @@ module.exports = DBModel.extend ({
 				else {
 					artifactType = atype;
 					// console.log ('getting template');
-					if (artifactType.isTemplate) return template.findFirst ({documentType:type},null,{versionNumber: -1});
+					//
+					// if this is a template artifact get the latest version of the template
+					//
+					if (artifactType.isTemplate) return template.findFirst ({code:code},null,{versionNumber: -1});
 				}
 			})
 			//
 			// if template, check that have it as well
 			//
 			.then (function (t) {
-				// console.log ('setting tempalte');
+				// console.log ('setting template');
+				//
+				// if its a template, but the template was not found then fail
+				//
 				if (artifactType.isTemplate && !t) return reject (prefix+'cannot find template');
+				//
+				// otherwise set the template if required and retun the artifact for next step
+				//
 				else {
 					artifact.template   = (artifactType.isTemplate) ? t[0] : null;
 					artifact.isTemplate = artifactType.isTemplate;
@@ -75,27 +85,25 @@ module.exports = DBModel.extend ({
 				}
 			})
 			//
-			// now set up and save the new artifact
-			//
-			.then (function () {
-				artifact.typeName = type;
-				artifact.name     = type;
-				artifact.project  = project._id;
-				artifact.phase    = project.currentPhase._id;
-				artifact.type     = artifactType;
-				artifact.version  = artifactType.version;
-				artifact.stage    = artifactType.stages[0].name;
-				return self.saveDocument (artifact);
-			})
-			//
 			// now add the milestone associated with this artifact
 			//
 			.then (function (m) {
-				var p = new PhaseClass (self.user);
-				// console.log ('adding a new milestone to the project for this artifact, type = ', artifactType.milestone);
-				// console.log ('projecty.currentphase = ', project.currentPhase);
-				p.addMilestone (project.currentPhase, artifactType.milestone);
-				return m;
+				var p = new MilestoneClass (self.user);
+				return p.fromBase (artifactType.milestone, project.currentPhase);
+			})
+			//
+			// now set up and save the new artifact
+			//
+			.then (function (milestone) {
+				artifact.milestone = milestone._id;
+				artifact.typeCode = artifactType.code;
+				artifact.name     = artifactType.name;
+				artifact.project  = project._id;
+				artifact.phase    = project.currentPhase._id;
+				artifact.artifactType     = artifactType;
+				artifact.version  = artifactType.versions[0];
+				artifact.stage    = artifactType.stages[0].name;
+				return self.saveDocument (artifact);
 			})
 			.then (resolve, reject);
 
@@ -167,22 +175,27 @@ module.exports = DBModel.extend ({
 			.then (function (result) {
 				// console.log (result);
 				if (result) multiples = result;
-				// console.log ('multiples = ', multiples);
+				// console.log ('multiples = ', JSON.stringify(multiples,null,4));
 			})
 			.then (Types.getNonMultiples)
 			.then (function (result) {
 				// console.log (result);
 				if (result) nonmultiples = result;
-				// console.log ('non-multiples = ', nonmultiples);
+				// console.log ('non-multiples = ', JSON.stringify(nonmultiples,null,4));
 				return projectId;
 			})
 			.then (self.getCurrentTypes)
-			.then (function (result) {
+			.then (function (currenttypes) {
 				var allowed = [];
-				if (result) {
-					allowed = _.difference (nonmultiples, result);
+				if (currenttypes) {
+					_.each (nonmultiples, function (val) {
+						if (!~currenttypes.indexOf (val.code)) {
+							allowed.push (val);
+						}
+					});
 				}
-				return _.union (multiples, allowed);
+				// console.log ('nallowed = ', JSON.stringify(allowed,null,4));
+				return allowed;
 			})
 			.then (resolve, reject);
 		});
@@ -196,10 +209,10 @@ module.exports = DBModel.extend ({
 		// console.log ('getCurrentTypes for ', projectId);
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			self.findMany ({project:projectId},{typeName:1})
+			self.findMany ({project:projectId},{typeCode:1})
 			.then (function (result) {
 				return result.map (function (e) {
-					return e.typeName;
+					return e.typeCode;
 				});
 			})
 			.then (resolve, reject);
@@ -208,19 +221,20 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	//
 	// these save the passed in document and then progress it to the next stage
+	// doc is a json object while oldDoc is a proper mongoose schema
 	//
 	// -------------------------------------------------------------------------
 	nextStage: function (doc, oldDoc) {
-		var stage = _.find (doc.type.stages, function (s) { return s.name === doc.stage; });
+		var stage = _.find (doc.artifactType.stages, function (s) { return s.name === doc.stage; });
 		if (stage.next) {
-			var next  = _.find (doc.type.stages, function (s) { return s.name === stage.next; });
+			var next  = _.find (doc.artifactType.stages, function (s) { return s.name === stage.next; });
 			return this.newStage (doc, oldDoc, next);
 		}
 	},
 	prevStage: function (doc, oldDoc) {
-		var stage = _.find (doc.type.stages, function (s) { return s.name === doc.stage; });
+		var stage = _.find (doc.artifactType.stages, function (s) { return s.name === doc.stage; });
 		if (stage.prev) {
-			var prev  = _.find (doc.type.stages, function (s) { return s.name === stage.prev; });
+			var prev  = _.find (doc.artifactType.stages, function (s) { return s.name === stage.prev; });
 			return this.newStage (doc, oldDoc, prev);
 		}
 	},
@@ -249,6 +263,11 @@ module.exports = DBModel.extend ({
 			});
 		}
 		//
+		// if this is a publish step, then publish the artifact
+		//
+		doc.read = _.union (doc.read, 'public');
+		doc.isPublished = true;
+		//
 		// save the document
 		//
 		// console.log ('about to attempt to save saveDocument', doc);
@@ -260,12 +279,19 @@ module.exports = DBModel.extend ({
 			// this stage
 			//
 			p.then (function (model) {
-				// console.log ('document saved, now add the activity');
+				console.log ('document saved, now add the activity ', model.milestone, next.activity);
 				if (model.milestone && next.activity) {
+					var ativity;
 					var m = new MilestoneClass (self.user);
+					var a = new ActivityClass (self.user);
 					return m.findById (model.milestone)
 					.then (function (milestone) {
-						return m.addActivityFromBaseCode (milestone, next.activity);
+						console.log ('found the milestone, now adding attivity');
+						//
+						// this is where we should/would set special permisions, but they
+						// really should be on the default base activity (which this does do)
+						//
+						return a.fromBase (next.activity, milestone, {artifactId:model._id});
 					})
 					.then (function () {
 						return model;
@@ -288,12 +314,13 @@ module.exports = DBModel.extend ({
 			self.model.aggregate ([
 			    { "$sort": { "versionNumber": -1 } },
 			    { "$group": {
-			        "_id": "$type",
-			        "id": {"$first": "$_id"},
-			        "documentType": {"$first": "$type"},
-			        "versionNumber": { "$first": "$versionNumber" },
-			        "dateUpdated": { "$first": "$dateUpdated" },
-			        "stage"       : { "$first": "$stage"}
+					"_id"           : "$typeCode",
+					"id"            : {"$first": "$_id"},
+					"name"          : {"$first": "$name"},
+					"documentType"  : {"$first": "$typeCode"},
+					"versionNumber" : { "$first": "$versionNumber" },
+					"dateUpdated"   : { "$first": "$dateUpdated" },
+					"stage"         : { "$first": "$stage"}
 			    }}
 			], function (err, result) {
 				if (err) return reject (err);

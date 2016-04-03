@@ -150,9 +150,10 @@ module.exports = DBModel.extend ({
 	//
 	// Using the functions above, make a new activity from a base code and
 	// attach it to the passed in milestone and the milestone ancestry
+	// if data is present, then attach that as well
 	//
 	// -------------------------------------------------------------------------
-	fromBase: function (code, milestone) {
+	fromBase: function (code, milestone, data) {
 		var self = this;
 		var base;
 		var baseId;
@@ -167,7 +168,7 @@ module.exports = DBModel.extend ({
 			//
 			// get the base
 			//
-			// console.log ('Activity From Base:'+code+' Step 1');
+			console.log ('Activity From Base:'+code+' Step 1');
 			self.getActivityBase (code)
 			//
 			// copy its id and such before we lose it, then copy the entire thing
@@ -198,7 +199,9 @@ module.exports = DBModel.extend ({
 			// set up all the default roles, creates them if need be
 			//
 			.then (function (m) {
-				// console.log ('Activity From Base:'+code+' Step 5');
+				activity.data = data ? data : {};
+				activity.data.projectid = activity.project;
+				console.log ('Activity From Base:'+code+' Step 5');
 				// console.log ('setting roles');
 				return self.setDefaultRoles (m, base);
 			})
@@ -207,6 +210,9 @@ module.exports = DBModel.extend ({
 			// have to resolve it here
 			//
 			.then (function (model) {
+				console.log ('new activity created: ', JSON.stringify(model,null,4));
+				milestone.activities.push (model._id);
+				milestone.save ();
 				// console.log ('Activity From Base:'+code+' Step 6');
 				// console.log ('all done setting roles, and the activity was saved during that');
 				return (model);
@@ -223,6 +229,8 @@ module.exports = DBModel.extend ({
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			var q = (projectCode) ? {projectCode:projectCode} : {} ;
+			// q.dateCompletedEst = { "$lt": new Date () };
+			// console.log ('q = ', JSON.stringify(q,null,4));
 			var p = (access === 'write') ? self.listwrite (q) : self.list (q);
 			p.then (resolve, reject);
 		});

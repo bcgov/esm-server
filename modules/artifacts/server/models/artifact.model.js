@@ -17,8 +17,8 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	//
 	// what type of artifcat is this? i.e. project description, etc
 	//
-	type            : { type:'ObjectId', ref:'ArtifactType', index:true },
-	typeName        : { type:String, default:'',  index:true},
+	artifactType            : { type:'ObjectId', ref:'ArtifactType', index:true },
+	typeCode        : { type:String, default:'',  index:true},
 	//
 	// a name for this artifact that is unique in the project and will be used
 	// to group all the various versions of this artifact together over time
