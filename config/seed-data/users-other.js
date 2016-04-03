@@ -27,6 +27,8 @@ module.exports = function () {
 			//
 			if (!user.roles) user.roles = [];
 			user.roles.push ('user');
+			if (orgCode === 'eao') user.roles.push ('eao');
+			else user.roles.push ('proponent');
 			//
 			// set username if not set
 			//
