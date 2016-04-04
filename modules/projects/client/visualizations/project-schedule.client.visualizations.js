@@ -13,9 +13,9 @@ angular.module('project')
 // DIRECTIVE: Public Project Schedule
 //
 // -----------------------------------------------------------------------------------
-directiveScheduleTimeline.$inject = ['d3', '$window', '_', 'moment'];
+directiveScheduleTimeline.$inject = ['d3', '$window', '_', 'moment', 'Authentication'];
 /* @ngInject */
-function directiveScheduleTimeline(d3, $window, _, moment) {
+function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 	var directive = {
 		restrict: 'E', // the directive can be invoked only by using <my-directive> tag in the template
 		replace: true,
@@ -26,6 +26,10 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 		link: function (scope, element, attrs) {
 
 			var oPhaseDetail, oPhaseStart, oPhaseEnd, posPhaseStart, posPhaseEnd, posToday, barHeight, oPhases;
+
+			var colourScale = d3.scale.ordinal()
+				.domain(scope.phases)
+				.range(['#0096E5','#0098DB','#009BD1','#009EC7','#00A1BD','#00A4B3','#00A7A9','#00AA9F','#00AD95','#00B08B','#00B381','#00B677','#00B96D','#00BC63','#00BF59']);
 
 			// get just the start dates.
 			var startDates = _.map(scope.phases, function(item) {
@@ -80,16 +84,7 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 					.style("fill", "#f4f4f4")
 				;
 
-				// origin line
-				svgCont.append("line")
-					.attr("x1", 30)
-					.attr("y1", 30)
-					.attr("x2", bw-30)
-					.attr("y2", 30)
-					.style('stroke-width', '0.5px')
-					.style('stroke', '#000000')
-					.attr("class", "svg-line")
-				;
+
 
 
 				// draw each phase
@@ -108,15 +103,29 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 
 					barHeight = 30-(28*((oPhaseDetail.progress)/100));
 
-					svgCont.append("rect")
-						.attr("x", posPhaseStart)
-						.attr("y", 2)
-						.attr("width", (posPhaseEnd - posPhaseStart) * ((oPhaseDetail.progress)/100) ) 
-						.attr("height",28)
-						.style("fill", function() { return (oPhaseDetail.progress === 100) ? "#5cb85c" : "#f0ad4e"; })
-						.attr("title", oPhaseDetail.name)
-					;
+					// progress fill.
+					if(Authentication.user) {
+						svgCont.append("rect")
+							.attr("x", posPhaseStart)
+							.attr("y", 2)
+							.attr("width", (posPhaseEnd - posPhaseStart) * ((oPhaseDetail.progress)/100) ) 
+							.attr("height",28)
+							.style("fill", function() { return (oPhaseDetail.progress === 100) ? "#5cb85c" : "#f0ad4e"; })
+							.attr("title", oPhaseDetail.name)
+						;
+					} else {
+						// no progress view, just show a complete block
+						svgCont.append("rect")
+							.attr("x", posPhaseStart)
+							.attr("y", 2)
+							.attr("width", posPhaseEnd)
+							.attr("height",28)
+							.style("fill", function() { return colourScale( oPhaseDetail.name ); })
+							.attr("title", oPhaseDetail.name)
+						;
+					}
 
+					// transparent white to blend overlapping text.
 					svgCont.append("rect")
 						.attr("x", posPhaseStart)
 						.attr("y", 31)
@@ -125,6 +134,7 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 						.style("fill", "rgba(255,255,255,0.65)")
 					;
 
+					// phase start post.
 					svgCont.append("line")
 						.attr("x1", posPhaseStart)
 						.attr("y1", 2)
@@ -134,18 +144,21 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 						.style('stroke', '#111111')
 					;
 
+					// top of the bar.
 					svgCont.append("line")
 						.attr("x1", posPhaseStart)
-						.attr("y1", barHeight)
+						.attr("y1", 2)
 						.attr("x2", posPhaseEnd)
-						.attr("y2", barHeight)
+						.attr("y2", 2)
 						.style('stroke-width', '0.5px')
 						.style('stroke', '#111111')
 					;
 
+					// end marker for the phase
+
 					svgCont.append("line")
 						.attr("x1", posPhaseEnd)
-						.attr("y1", barHeight)
+						.attr("y1", 2)
 						.attr("x2", posPhaseEnd)
 						.attr("y2", 100)
 						.style('stroke-width', '0.5px')
@@ -197,6 +210,18 @@ function directiveScheduleTimeline(d3, $window, _, moment) {
 					;
 
 				}
+
+				// origin line
+				svgCont.append("line")
+					.attr("x1", 30)
+					.attr("y1", 30)
+					.attr("x2", bw-30)
+					.attr("y2", 30)
+					.style('stroke-width', '0.5px')
+					.style('stroke', '#000000')
+					.attr("class", "svg-line")
+				;
+
 
 				// get today's position
 				posToday = Math.floor( dateScale( moment().format('x') ));
