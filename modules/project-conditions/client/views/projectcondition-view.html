@@ -1,13 +1,82 @@
-<h1 class="page-title">
-	Condition for {{ project.name }}
+<h1 class="page-title no-lower-margin">
+	{{project.name}}: Condition
 </h1>
 
-<div class="block-content">
-	<div class="panel-body">
-		Condition Details Go Here
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="p.projectcondition.list">Cancel</a>
+		<a class="btn btn-xs btn-link" ui-sref="p.projectcondition.edit({conditionId:condition._id})">Edit</a>
 	</div>
 </div>
-<div>
-	<a class="btn btn-default" ui-sref="p.projectcondition.list">Cancel</a>
-	<a class="btn btn-success" ui-sref="p.projectcondition.edit({conditionId:condition._id})">Edit</a>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="name" class="control-label">Name</label>
+					<div id="name" name="name" class="form-control-static" ng-bind-html="condition.name"></div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="subject" class="control-label">Subject</label>
+					<div class="form-control-static" ng-bind-html="condition.subject"></div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="sector" class="control-label">Sector</label>
+					<div class="form-control-static" ng-bind-html="condition.sector"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label for="shortDesc" class="control-label">Condition</label>
+					<div class="form-control-static" ng-bind-html="condition.description"></div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label for="shortDesc" class="control-label">Report Requirements</label>
+					<div class="form-control-static" ng-bind-html="condition.reportRequirements"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="pillar" class="control-label">Pillars</label>
+					<div class="well well-sm">
+						<display-array x-source-array="pillars" x-selected-array="condition.pillars" x-key-string="id" x-value-string="title"></display-array>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="stage" class="control-label">Applicable Stages</label>
+					<div class="well well-sm">
+						<display-array x-source-array="stages" x-selected-array="condition.stages" x-key-string="id" x-value-string="title"></display-array>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="text-right">
+			<a class="btn btn-default" ui-sref="p.projectcondition.list">Cancel</a>
+			<a class="btn btn-default" ui-sref="p.projectcondition.edit({conditionId:condition._id})">Edit</a>
+		</div>
+
+	</div>
 </div>
+
