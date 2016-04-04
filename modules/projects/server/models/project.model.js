@@ -78,13 +78,17 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 
 	// OLD DATA
 	responsibleEPD          : { type: String, default: '' },
-	projectLead           	: { type: String, default: '' },
-	EAOCAARTRepresentative  : { type: String, default: '' },
-	projectOfficer          : { type: String, default: '' },
+	responsibleEPDPhone		: { type: String, default: '' },
+	responsibleEPDEmail     : { type: String, default: '' },
+	projectLead          	: { type: String, default: '' },
+	projectLeadPhone        : { type: String, default: '' },
+	projectLeadEmail        : { type: String, default: '' },
 	projectAnalyst          : { type: String, default: '' },
 	projectAssistant        : { type: String, default: '' },
 	administrativeAssistant : { type: String, default: '' },
 	CELead           		: { type: String, default: '' },
+	CELeadPhone           	: { type: String, default: '' },
+	CELeadEmail           	: { type: String, default: '' },
 	teamNotes           	: { type: String, default: '' },
 
 	// Migrated epic data wanting to be made available
