@@ -68,18 +68,18 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 			});
 		},
 		completePhase: function (project) {
-			if (this.model._id != project) this.setModel (project);
+			if (this.model._id !== project) this.setModel (project);
 			return this.modPhase ('complete');
 		},
 		nextPhase: function (project) {
-			if (this.model._id != project) this.setModel (project);
+			if (this.model._id !== project) this.setModel (project);
 			// var i = 0;
 			// while (project.currentPhase._id !== project.phases[i]._id) i++ ;
 			// return this.modPhase (project.phases[++i]._id, 'start');
 			return this.modPhase ('start');
 		},
 		publishProject: function (project) {
-			if (this.model._id != project) this.setModel (project);
+			if (this.model._id !== project) this.setModel (project);
 			return this.publish (true);
 		},
 		// -------------------------------------------------------------------------

@@ -23,7 +23,7 @@ angular.module('irs').config(['$stateProvider', function ($stateProvider) {
 			irs: function ($stateParams, IrModel, project) {
 				// console.log ('ir abstract resolving irs');
 				// console.log ('project id = ', project._id);
-				return IrModel.getIRsForProject (project._id);
+				return IrModel.forProject (project._id);
 			},
 		},
         onEnter: function (MenuControl, project) {
