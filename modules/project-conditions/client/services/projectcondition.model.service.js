@@ -12,7 +12,10 @@ angular.module('projectconditions').factory ('ProjectConditionModel', function (
 	// have all the basic crud stuff built in
 	//
 	var Class = ModelBase.extend ({
-		urlName : 'projectcondition'
+		urlName : 'projectcondition',
+		forProject: function (projectid) {
+			return this.get ('/api/projectcondition/for/project/'+projectid);
+		},
 	});
 	return new Class ();
 });

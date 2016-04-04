@@ -18,14 +18,13 @@
 module.exports = require ('../../../core/server/controllers/core.models.controller')
 .generateModel ('ProjectCondition', {
 	__audit            : true,
-	__access           : true,
-	__tracking         : true,
+	// __access           : true, ????
 	__codename         : 'unique',
-	sector             : { type:String, default:'Mining', enum:['Mining', 'Energy', 'Transportation', 'Water Management', 'Industrial', 'Waste Management', 'Waste Disposal', 'Food Processing', 'Tourist Destination']},
-	stage              : {type:String, enum:['Pre-Construction', 'Construction', 'Operations', 'Decommissioning'], default:'Operations' },
+	project            : {type:'ObjectId', ref:'Project', default:null},
+	subject            : {type:String, default: ''},
 	reportRequirements : {type:String, default: ''},
-	type               : {type:String, enum:['FN Accommodation', 'Severe'], default:'Severe' },
-	pillar             : {type:String, default: ''},
-	topics             : [{type:String}]
+	sector             : { type:String, default:'Mining', enum:['Mining', 'Energy', 'Transportation', 'Water Management', 'Industrial', 'Waste Management', 'Waste Disposal', 'Food Processing', 'Tourist Destination', 'Other']},
+	stages             : [{type:String, enum:['Pre-Construction', 'Construction', 'Operations', 'Decommissioning']}],
+	pillars             : [{type:String, enum:['Environment', 'Economic', 'Social', 'Heritage', 'Health']}]
 });
 
