@@ -32,6 +32,12 @@
 		ng-if="environment === 'EAO'">
 	</tmpl-schedule-timeline>
 
+	<tmpl-enforcement-browser
+		class="anchor-section"
+		id="anchor-enforcement"
+		x-project="project"
+		ng-if="project.status === 'Post Certification' && 0">
+	</tmpl-enforcement-browser>
 
 	<tmpl-project-initiated
 		class="anchor-section"

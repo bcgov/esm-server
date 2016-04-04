@@ -1,0 +1,48 @@
+<section class="block-content">
+	<h3>Enforcement</h3>
+	<div class='container-fluid'>
+		<div class='row'>
+			<div class='col-sm-4 col-browser-subtitles'>
+				<label class="control-label">Inspection Reports</label>
+			</div>
+			<div class='col-sm-4 col-browser-subtitles'>
+				<label class="control-label">Conditions</label>
+			</div>
+			<div class='col-sm-4 col-browser-subtitles'>
+				<label class="control-label">Enforcement Actions</label>
+			</div>				
+		</div>
+	</div>
+	<div class='container-fluid'>
+		<div class='row'>
+			<div class='col-sm-4 col-no-padding vertical-scroll col-border-right'>
+				<ul class="small list-unstyled list-documents">
+					<li
+						ng-click="enfBrowser.filterList(row)"
+						class="row-folder clickable"
+						ng-repeat="row in enfBrowser.inspReports"
+						ng-class="{'active btn-primary': enfBrowser.filterReport(row)}">
+						<span class="glyphicon glyphicon-play arrow"></span>
+						{{ row.name }}
+					<li>
+				</ul>
+
+			</div>
+			<div class='col-sm-8 col-no-padding vertical-scroll'>
+				
+				<ul class="small list-unstyled list-documents list-indent-left">
+
+					<li
+						class="row-document clickable"
+						ng-repeat="cond in enfBrowser.conditions"
+						ng-class="{'active btn-primary': filterSummary._id === cond._id}">
+						{{ cond.name }}
+					</li>
+				</ul>
+
+			</div>
+			
+		</div>
+	</div>
+
+</section>
