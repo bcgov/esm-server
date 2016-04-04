@@ -1,36 +1,43 @@
 <div class="row">
-		<div class="col-sm-6 col-md-4" ng-repeat="(role, users) in roles | orderBy">
-			<div class="thumbnail">
-				<div class="caption">
-					<label class="control-label">{{ role }}</label>
-					<ul class="list-unstyled">
-						<li x-modal-user-contact-info x-user="user" ng-repeat="user in users" class="clickable">{{ user.name | json }}</li>
-					</ul>
-					<label class="control-label text-right"><a x-modal-select-users href>Manage Users</a></label>
-				</div>
+	<div class="col-sm-6 col-md-4" ng-repeat="(role, users) in roles track by $index | orderBy">
+		<div class="thumbnail">
+			<div class="caption">
+				<label class="control-label">{{ role }}</label>
+				<ul class="list-unstyled task-list">
+					<li x-modal-user-contact-info x-user="user" ng-repeat="user in users track by $index" class="clickable">{{ user.displayName }}</li>
+				</ul>
+				<label class="control-label text-right">
+				<a href x-modal-select-users
+					x-callback="assignUsersToRole"
+					x-users="users"
+					x-project="project"
+					x-parent="{type: 'role', reference: role}"
+					>Manage Users</a>
+				</label>
 			</div>
 		</div>
 	</div>
-	<div class="alert alert-warning fadeIn" ng-show="error" >{{ error }}</div>
-	<div class="row">
-		<div class="col-sm-12 text-right form-inline">
+</div>
+<div class="alert alert-warning fadeIn" ng-show="error" >{{ error }}</div>
+<div class="row">
+	<div class="col-sm-12 text-right form-inline">
 
-			<button class="btn btn-default"
-				ng-show="!addRoleMode"
-				ng-click="addRoleMode = true">Add Role</button>
+		<button class="btn btn-default"
+			ng-show="!addRoleMode"
+			ng-click="addRoleMode = true">Add Role</button>
 
-			<div class="form-group" ng-show="addRoleMode">
+		<div class="form-group" ng-show="addRoleMode">
 
-				<select class="form-control" ng-model="newOrg" ng-options="item as item for item in userOrgs"></select>
+			<select class="form-control" ng-model="newOrg" ng-options="item as item for item in userOrgs"></select>
 
-				<input class="form-control"					
-					type="text"
-					ng-model="newRole"
-					placeholder="Role Name">
+			<input class="form-control"					
+				type="text"
+				ng-model="newRole"
+				placeholder="Role Name">
 
-				<button class="btn btn-default" ng-click="saveNewRole()">Save</button>
-				<button class="btn btn-default" ng-click="newRole = undefined; addRoleMode = false;">Cancel</button>				
-			</div>
-
+			<button class="btn btn-default" ng-click="saveNewRole()">Save</button>
+			<button class="btn btn-default" ng-click="newRole = undefined; addRoleMode = false;">Cancel</button>				
 		</div>
+
 	</div>
+</div>

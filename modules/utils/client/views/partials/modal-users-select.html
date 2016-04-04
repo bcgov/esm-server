@@ -7,26 +7,33 @@
 		<div class="col-sm-6">
 			<label class="control-label">Contacts</label>
 			<p>
-				<select class="form-control input-sm" ng-model="utilUsers.form.filteredUsers">
+				<select class="form-control input-sm" ng-change="utilUsers.selectSource()" ng-model="utilUsers.form.selectedSource">
 					<optgroup label="Project Team Members" ng-if="utilUsers.config.allowTeam">
 						<option value>All</option>
 						<option ng-repeat="role in utilUsers.roles" value="{{ role }}">{{ role }}</option>
 					</optgroup>
-					<optgroup label="External">
-						<option value="search">Search...</option>
-					</optgroup>
 					<optgroup label="Custom">
 						<option value="add">Add...</option>
+					</optgroup>
+					<optgroup label="Organizations">
+						<option ng-repeat="org in utilUsers.orgs" value="org:{{ org._id }}">{{ org.name }}</option>
 					</optgroup>
 				</select>
 			</p>
 			<div class="well well-sm">
-				<ul class="list-unstyled task-list" ng-show="utilUsers.form.filteredUsers !== 'search' && utilUsers.form.filteredUsers !== 'add' && utilUsers.config.allowTeam">
-					<li ng-repeat="user in usersFiltered = (utilUsers.users | filter:{role: (utilUsers.form.filteredUsers || undefined)})">
-						<button class="btn btn-block btn-sm btn-layer" ng-click="utilUsers.addUserToSelected(user)" x-dynamic-class-when="utilUsers.inSelected(user)" x-dynamic-class="btn-primary">{{ user.name }} <em class="small">{{ user.role }}</em></button>
+				<ul class="list-unstyled task-list"
+					ng-show="utilUsers.form.filteredUsers !== 'search' &&
+					utilUsers.form.filteredUsers !== 'add' &&
+					utilUsers.config.allowTeam">
+					
+					<li ng-repeat="user in utilUsers.users | orderBy:'displayName'">
+						<button class="btn btn-block btn-sm btn-layer" ng-click="utilUsers.addUserToSelected(user)" x-dynamic-class-when="utilUsers.inSelected(user)" x-dynamic-class="btn-primary">{{ user.displayName }} <em class="small">{{ user.email }}</em></button>
 					</li>
-					<li ng-if="usersFiltered.length === 0" class="small">
-						No users match {{ utilUsers.form.filtered }}
+					<li ng-if="(!utilUsers.users || utilUsers.users.length === 0) && utilUsers.form.selectedSource" class="small">
+						No users are available for the selected source.
+					</li>
+					<li ng-if="!utilUsers.form.selectedSource" class="small">
+						Select a source from the above to view the associated users.
 					</li>
 				</ul>
 
@@ -47,13 +54,12 @@
 					<hr/>
 					<ul class="list-unstyled task-list">
 						<li ng-repeat="user in utilUsers.searchResults">
-							<button class="btn btn-block btn-sm btn-layer" ng-click="utilUsers.addUserToSelected(user)" x-dynamic-class-when="utilUsers.inSelected(user)" x-dynamic-class="btn-primary">{{ user.name }} <em class="small">{{ user.email }}</em></button>
+							<button class="btn btn-block btn-sm btn-layer" ng-click="utilUsers.addUserToSelected(user)" x-dynamic-class-when="utilUsers.inSelected(user)" x-dynamic-class="btn-primary">{{ user.displayName }} <em class="small">{{ user.email }}</em></button>
 						</li>
 						<li ng-if="usersFiltered.length === 0" class="small">
 							No users found.
 						</li>
 					</ul>
-
 				</div>
 
 				<!-- Add an ad-hoc user -->
@@ -120,10 +126,10 @@
 			<div class="well well-sm">
 				<ul class="list-unstyled task-list">
 					<li ng-repeat="user in selectedFiltered = (utilUsers.selected | filter:{role: (utilUsers.form.filteredSelected || undefined)})">
-						<button class="btn btn-block btn-sm btn-layer" ng-click="utilUsers.removeUserFromSelected(user)">{{ user.name }} <em class="small">{{ user.role || user.email }}</em></button>
+						<button class="btn btn-block btn-sm btn-layer" ng-click="utilUsers.removeUserFromSelected(user)">{{ user.displayName }} <em class="small">{{ user.email }}</em></button>
 					</li>
-					<li class='no-lower-padding' ng-if="selectedFiltered.length === 0" class="small">
-						Select users on the left.
+					<li class="no-lower-padding small" ng-if="selectedFiltered.length === 0">
+						Select users from the left column to add them to this group.
 					</li>
 				</ul>
 			</div>

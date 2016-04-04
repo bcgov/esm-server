@@ -3,6 +3,8 @@
 angular.module('utils')
     .directive('selectArray', directiveSelectArray)
     .directive('displayArray', directiveDisplayArray)
+    .directive('modalSelectUsers', directiveModalSelectUsers)
+
 
     .directive('tmplQuickLinks', directiveQuickLinks)
     .directive('kebabThis', directiveKebabThis)
@@ -21,7 +23,6 @@ angular.module('utils')
     .directive('dateField', directiveDateField)
     .directive('rolesSelect', directiveRolesSelect)
     .directive('usersSelect', directiveUsersSelect)
-    .directive('modalSelectUsers', directiveModalSelectUsers)
     .directive('modalRecipientList', directiveModalRecipientList)
     .directive('tmplRequirementChecklist', directiveRequirementChecklist)
     .directive('tmplRequirementTally', directiveRequirementTally)
@@ -530,12 +531,14 @@ function directiveDateField(moment) {
 directiveModalSelectUsers.$inject = ['$modal'];
 /* @ngInject */
 function directiveModalSelectUsers($modal) {
-    var directive = {
-        restrict:'A',
-        scope : {
-        	users: '=',
-        	project: '='
-        },
+	var directive = {
+		restrict:'A',
+		scope : {
+			users: '=',
+			parent: '=', // OBJECT with type: (role, project), reference: role or project code or id
+			project: '=',
+			callback: '='
+		},
 		link : function(scope, element, attrs) {
 			// console.log('here', scope.users);
 			element.on('click', function() {
@@ -546,21 +549,33 @@ function directiveModalSelectUsers($modal) {
 					controllerAs: 'utilUsers',
 					size: 'lg',
 					resolve: {
-						rUsers: function() {
+						users: function() {
+							// users already on the project
 							return scope.users || [];
 						},
-						rProject: function() {
+						orgs: function(OrganizationModel) {
+							// accessible organizations
+							return OrganizationModel.getCollection();
+						},
+						project: function() {
+							// the project
 							return scope.project || {};
 						},
-						rConfig: function() {
-							return {allowChoice: true, allowTeam: false};
+						parent: function() {
+							return scope.parent || {};
+						},
+						config: function() {
+							// config options
+							return {allowChoice: true, allowTeam: true};
 						}
 					}
 				});
 				modalUsersView.result.then(function (newItems) {
-					if (!scope.users) scope.users = [];
-
-					scope.users = newItems;
+					// if there is a callback, do it.
+					// return the complete user list and the parent to associate it to.
+					if (scope.callback) {
+						scope.callback(newItems, scope.parent);
+					}
 				}, function () {});
 			});
 		}
