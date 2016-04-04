@@ -18,6 +18,8 @@ exports.invokeRolesPolicies = function () {
 		[ '', 'user', '/api/project/:project/unpublish'    ],
 		[ '', 'user', '/api/project/:project/submit'    ],
 		[ '', 'user', '/api/project/:project/set/stream/:stream'    ],
+		[ '', 'user', '/api/project/:project/complete/current/phase'    ],
+		[ '', 'user', '/api/project/:project/start/next/phase'    ],
 		[ '', 'user', '/api/projects/lookup']
 	]);
 };
