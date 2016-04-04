@@ -6,18 +6,18 @@
 
 			<div class="panel-header">
 				<h1 class="panel-title">
-					{{ vm.project.name }}<br/>Public Comment Period
+					{{ ::vm.project.name }}<br/>Public Comment Period
 				</h1>
 			</div>
 
 			<div class='panel-body'>
 
-				<div><label class="control-label">Location</label><p>{{ vm.project.location }}</p></div>
+				<div><label class="control-label">Location</label><p>{{ ::vm.project.location }}</p></div>
 				<div ng-init="toggleProject.desc = (false)"><label class="control-label">Description</label>
-					<p>{{ vm.project.description | maxWords:5:toggleProject.desc }}<br/>
+					<p>{{ ::vm.project.description | maxWords:5:toggleProject.desc }}<br/>
 					<span class="small" ng-if="(vm.project.description | wordCount) > 5">
 						<a href ng-click="toggleProject.desc = !toggleProject.desc">
-							<span ng-show="!toggleProject.desc"><em>More ({{ vm.project.description | wordCount }} words)</em></span>
+							<span ng-show="!toggleProject.desc"><em>More ({{ ::vm.project.description | wordCount }} words)</em></span>
 							<span ng-show="toggleProject.desc"><em>Less</em></span>
 						</a>
 					</span>
@@ -27,7 +27,7 @@
 				<div ng-if="(vm.project.dateCommentsOpen && vm.project.dateCommentsClosed)">
 					<label class="control-label">Public Comment Period</label>
 					<p>
-						{{ vm.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}} to {{ vm.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY' }}
+						{{ ::vm.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}} to {{ ::vm.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY' }}
 						<span ng-if="(vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)"><br/><strong><em>Open Now</em></strong></span>
 					</p>
 				</div>
@@ -141,7 +141,7 @@
 
 				</div>
 
-				<div ng-if="::vm.comments.length !== 0 && (vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)">
+				<div ng-if="vm.comments.length !== 0 && (vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)">
 
 					<nav class="navbar navbar-default navbar-sm" ng-init="vm.form.view = 'bydate'" ng-if="vm.comments.length !== 0">
 						<div class="container-fluid">
@@ -176,16 +176,16 @@
 
 				<div ng-repeat="(heading, topic) in ::vm.commentsByTopicKeys | orderBy:'name' | filter:vm.filterBucketGroup track by $index" class="concern-list" ng-show="vm.form.view === 'bytopic' && vm.comments.length > 0" ng-init="toggleTopicComment[item._id] = false">
 					<h3 ng-click='form[heading] = !form[heading]' class="clickable concern-heading">
-						{{ ::heading }}<div class="pull-right small"><span ng-if="!form[heading]">Click to view.</span> Number of comments tagged: {{ (vm.commentsByTopic[heading] | filter:vm.filterKeyword).length || 0 }} of {{ vm.comments.length || 0 }} </div>
+						{{ heading }}<div class="pull-right small"><span ng-if="!form[heading]">Click to view.</span> Number of comments tagged: {{ (vm.commentsByTopic[heading] | filter:vm.filterKeyword).length || 0 }} of {{ vm.comments.length || 0 }} </div>
 					</h3>
 					<hr ng-if='!form[heading]'>
 					<div class="" ng-show='form[heading]'>
 						<div class="row comment-list" ng-repeat-start="item in ::vm.commentsByTopic[heading] | advancedFilter:vm.filterKeyword | orderBy:'dateAdded':true track by item._id">
 							<div class="col-sm-9">
-								<pre class="form-group">{{ ::item.comment | maxWords:80:toggleTopicComment[item._id] }}</pre>
+								<pre class="form-group">{{ item.comment | maxWords:80:toggleTopicComment[item._id] }}</pre>
 								<p ng-if="(item.comment | wordCount) > 80">
 									<a href ng-click="toggleTopicComment[item._id] = !toggleTopicComment[item._id]">
-										<span ng-show="!toggleTopicComment[item._id]"><em>More ({{ ::item.comment | wordCount }} words)</em></span>
+										<span ng-show="!toggleTopicComment[item._id]"><em>More ({{ item.comment | wordCount }} words)</em></span>
 										<span ng-show="toggleTopicComment[item._id]"><em>Less</em></span>
 									</a>
 								</p>
@@ -193,19 +193,19 @@
 
 
 							<div class="col-sm-3">
-								<p ng-if="item.author && item.displayName">Name: {{ ::item.author }}</p>
-								<p ng-if="item.location && item.displayName">Location: {{ ::item.location }}</p>
-								<p>{{ ::item.dateAdded | amDateFormat:'MMM Do, YYYY h:mm a'}}</p>
+								<p ng-if="item.author && item.displayName">Name: {{ item.author }}</p>
+								<p ng-if="item.location && item.displayName">Location: {{ item.location }}</p>
+								<p>{{ item.dateAdded | amDateFormat:'MMM Do, YYYY h:mm a'}}</p>
 								<ul class="list-unstyled document-vetting small">
 									<li ng-repeat="doc in ::item.documents track by doc._id">
-										<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus == 'Published'"><span class="glyphicon glyphicon-file"></span> {{ ::doc.name }}</a>
+										<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus == 'Published'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
 									</li>
 								</ul>
 
-								<div class="form-group" ng-show="::item.buckets.length > 0">
+								<div class="form-group" ng-show="item.buckets.length > 0">
 									<label class="control-label">Related Topics</label>
 									<ul class="small">
-										<li ng-repeat="bucket in ::item.buckets track by bucket._id">{{ ::bucket.name }}</li>
+										<li ng-repeat="bucket in ::item.buckets track by bucket._id">{{ bucket.name }}</li>
 									</ul>
 								</div>
 
@@ -234,32 +234,32 @@
 
 				<div ng-show="vm.form.view === 'bydate' && vm.comments.length > 0">
 					<div class="panel-body">
-						<div class="row comment-list" ng-repeat-start="item in commentsFiltered = (vm.comments | advancedFilter:vm.filterKeyword) | orderBy:'dateAdded':true track by item._id">
+						<div class="row comment-list" ng-repeat-start="item in ::commentsFiltered = (vm.comments | advancedFilter:vm.filterKeyword) | orderBy:'dateAdded':true track by item._id">
 
 							<div class="col-sm-9">
-								<pre class="form-group">{{ ::item.comment | maxWords:80:toggleDateComment[item._id] }}</pre>
+								<pre class="form-group">{{ item.comment | maxWords:80:toggleDateComment[item._id] }}</pre>
 								<p ng-if="(item.comment | wordCount) > 80">
 									<a href  ng-click="toggleDateComment[item._id] = !toggleDateComment[item._id]">
-										<span ng-show="!toggleDateComment[item._id]"><em>More ({{ ::item.comment | wordCount }} words)</em></span>
+										<span ng-show="!toggleDateComment[item._id]"><em>More ({{ item.comment | wordCount }} words)</em></span>
 										<span ng-show="toggleDateComment[item._id]"><em>Less</em></span>
 									</a>
 								</p>
 							</div>
 
 							<div class="col-sm-3">
-								<p ng-if="item.author && item.displayName">Name: {{ ::item.author }}</p>
-								<p ng-if="item.location && item.displayName">Location: {{ ::item.location }}</p>
-								<p>{{ ::item.dateAdded | amDateFormat:'MMM Do, YYYY h:mm a'}}</p>
+								<p ng-if="item.author && item.displayName">Name: {{ item.author }}</p>
+								<p ng-if="item.location && item.displayName">Location: {{ item.location }}</p>
+								<p>{{ item.dateAdded | amDateFormat:'MMM Do, YYYY h:mm a'}}</p>
 								<ul class="list-unstyled document-vetting small">
-									<li ng-repeat="doc in item.documents track by doc._id">
-										<a href="/api/commentdocument/{{ ::doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus === 'Published'"><span class="glyphicon glyphicon-file"></span> {{ ::doc.name }}</a>
+									<li ng-repeat="doc in ::item.documents track by doc._id">
+										<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus === 'Published'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
 									</li>
 								</ul>
 
 								<div class="form-group" ng-show="item.buckets.length > 0">
 									<label class="control-label">Related Topics</label>
 									<ul class="small">
-										<li ng-repeat="bucket in item.buckets track by bucket._id">{{ ::bucket.name }}</li>
+										<li ng-repeat="bucket in ::item.buckets track by bucket._id">{{ bucket.name }}</li>
 									</ul>
 								</div>
 
