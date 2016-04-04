@@ -30,6 +30,8 @@ angular.module('project').config (
 			$scope.environment = ENV;
 			$scope.isNew = ($stateParams.projectid === 'new');
 
+			ProjectModel.setModel(project);
+
 			var unbind = $rootScope.$on('refreshProject', function() {
 				// console.log('refreshProject', $stateParams.projectid);
 				$scope.project = angular.copy( ProjectModel.byCode ($stateParams.projectid) );
@@ -51,21 +53,21 @@ angular.module('project').config (
 			
 			// complete the current phase.
 			$scope.completePhase = function() {
-				ProjectModel.completePhase( $scope.project ).then( function(res) {
+				ProjectModel.completePhase( project ).then( function(res) {
 					$scope.project = res;
 				});
 			};
 
 			// complete the current phase.
 			$scope.startNextPhase = function() {
-				ProjectModel.nextPhase( $scope.project ).then( function(res) {
+				ProjectModel.nextPhase( project ).then( function(res) {
 					$scope.project = res;
 				});
 			};
 
 			// complete the current phase.
 			$scope.publishProject = function() {
-				ProjectModel.publishProject( $scope.project ).then( function(res) {
+				ProjectModel.publishProject( project ).then( function(res) {
 					$scope.project = res;
 				});
 			};			
