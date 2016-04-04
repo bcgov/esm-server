@@ -116,7 +116,7 @@
 
 		<div class="alert alert-info text-center" ng-if="vm.project.dateCommentsOpen | isInTheFuture">
 			<div>
-				<p>Public Comment Period Scheduled for <strong>{{ vm.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}}</strong> to <strong>{{ vm.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY'}}</strong></p>
+				<p>Public Comment Period Scheduled for <strong>{{ ::vm.project.dateCommentsOpen | amDateFormat:'MMM Do, YYYY'}}</strong> to <strong>{{ ::vm.project.dateCommentsClosed | amDateFormat:'MMM Do, YYYY'}}</strong></p>
 				<countdown-clock x-end="vm.project.dateCommentsOpen"></countdown-clock>
 			</div>
 		</div>
@@ -163,7 +163,7 @@
 									<form class="navbar-form" role="filter1">
 										<div class="form-group">
 											<label class="control-label">Keyword Search</label>
-											<input ng-model="vm.filterKeyword" type="text" class="form-control" placeholder="">
+											<input ng-model="vm.filterKeyword" ng-model-options="{ updateOn: 'blur' }" type="text" class="form-control" placeholder="">
 										</div>
 									</form>
 								</li>
@@ -205,7 +205,7 @@
 								<div class="form-group" ng-show="item.buckets.length > 0">
 									<label class="control-label">Related Topics</label>
 									<ul class="small">
-										<li ng-repeat="bucket in ::item.buckets track by bucket._id">{{ bucket.name }}</li>
+										<li ng-repeat="bucket in ::item.buckets track by $index">{{ bucket.name }}</li>
 									</ul>
 								</div>
 
@@ -259,7 +259,7 @@
 								<div class="form-group" ng-show="item.buckets.length > 0">
 									<label class="control-label">Related Topics</label>
 									<ul class="small">
-										<li ng-repeat="bucket in ::item.buckets track by bucket._id">{{ bucket.name }}</li>
+										<li ng-repeat="bucket in ::item.buckets track by $index">{{ bucket.name }}</li>
 									</ul>
 								</div>
 
