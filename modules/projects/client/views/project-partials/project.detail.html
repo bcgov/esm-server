@@ -10,13 +10,12 @@
 	</tmpl-project-tombstone>
 
 	<tmpl-schedule-timeline
-		ng-click="managePhases()"
-		class="anchor-section clickable"
-		title="Click to manage phases"
+		class="anchor-section"
 		id="anchor-timeline"
 		x-phases="project.phases"
 		ng-if="environment === 'EAO'">
 	</tmpl-schedule-timeline>
+
 
 	<tmpl-project-initiated
 		class="anchor-section"

@@ -38,7 +38,9 @@ $font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-s
   display: none !important;
 }
 
-
+.clear-left {
+	clear: left;
+}
 /* Remove border to delete the 1px line */
 .navbar-fixed-top {
 	border: 0;
