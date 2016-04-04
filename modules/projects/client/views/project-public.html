@@ -181,8 +181,9 @@
 					<hr ng-if='!form[heading]'>
 					<div class="" ng-show='form[heading]'>
 						<div class="row comment-list" ng-repeat-start="item in vm.commentsByTopic[heading] | advancedFilter:vm.filterKeyword | orderBy:'dateAdded':true track by item._id">
-							<div class="col-sm-9">
-								<pre class="form-group">{{ ::item.comment | maxWords:80:toggleTopicComment[item._id] }}</pre>
+							<div class="col-sm-9" ng-init="toggleTopicComment[item._id] = false">
+								<pre ng-show="!toggleTopicComment[item._id]" class="form-group">{{ ::item.comment | maxWords:80:false }}</pre>
+								<pre ng-show="toggleTopicComment[item._id]" class="form-group">{{ ::item.comment }}</pre>
 								<p ng-if="(item.comment | wordCount) > 80">
 									<a href ng-click="toggleTopicComment[item._id] = !toggleTopicComment[item._id]">
 										<span ng-show="!toggleTopicComment[item._id]"><em>More ({{ ::item.comment | wordCount }} words)</em></span>
@@ -236,11 +237,12 @@
 					<div class="panel-body">
 						<div class="row comment-list" ng-repeat-start="item in commentsFiltered = (vm.comments | advancedFilter:vm.filterKeyword) | orderBy:'dateAdded':true track by item._id">
 
-							<div class="col-sm-9">
-								<pre class="form-group">{{ ::item.comment | maxWords:80:toggleDateComment[item._id] }}</pre>
+							<div class="col-sm-9" ng-init="toggleDateComment[item._id] = false">
+								<pre ng-show="!toggleDateComment[item._id]" class="form-group">{{ ::item.comment | maxWords:80:false }}</pre>
+								<pre ng-show="toggleDateComment[item._id]" class="form-group ng-hide ">{{ ::item.comment }}</pre>								
 								<p ng-if="(item.comment | wordCount) > 80">
 									<a href  ng-click="toggleDateComment[item._id] = !toggleDateComment[item._id]">
-										<span ng-show="!toggleDateComment[item._id]"><em>More ({{ item.comment | wordCount }} words)</em></span>
+										<span ng-show="!toggleDateComment[item._id]"><em>More ({{ ::item.comment | wordCount }} words)</em></span>
 										<span ng-show="toggleDateComment[item._id]"><em>Less</em></span>
 									</a>
 								</p>
