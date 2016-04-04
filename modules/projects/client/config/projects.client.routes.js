@@ -15,7 +15,7 @@ angular.module('projects').config (
 		templateUrl: 'modules/projects/client/views/projects.abstract.html',
 		resolve: {
 			projects: function ($stateParams, ProjectModel) {
-				return ProjectModel.getCollection ();
+				return ProjectModel.published ();
 			}
 		},
 		controller: function ($scope, $stateParams, projects, ENV, Authentication) {

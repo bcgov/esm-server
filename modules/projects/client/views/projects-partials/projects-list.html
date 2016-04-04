@@ -1,8 +1,8 @@
 <section class='panel panel-default'>
 	<div class="block-content no-lower-margin">
 		<show-filter x-toggle-filter="toggleFilter" class="pull-right"></show-filter>
-		<h3 ng-show="environment === 'EAO'">Environmental Assessments</h3>
-		<h3 ng-show="environment === 'MEM'">Mining Projects</h3>
+		<h3 ng-show="environment === 'EAO' && title !== 'no'">Environmental Assessments</h3>
+		<h3 ng-show="environment === 'MEM' && title !== 'no'">Mining Projects</h3>
 	</div>
 	<table x-show-filter="toggleFilter" ng-table="projectList.tableParams" class="table table-condensed table-striped">
 		<tr ng-repeat="o in $data" class='clickable' ui-sref="p.detail({projectid: o.code})">
@@ -18,14 +18,14 @@
 				sortable="'memPermitID'">
 				{{o.memPermitID}}
 			</td>
-			
+
 			<td data-title="'Type'"
 				filter="{type:'select'}"
 				filter-data="projectList.typeArray"
 				sortable="'type'">
 				{{o.type}}
 			</td>
-			
+
 			<td data-title="'Region'"
 				filter="{region:'select'}"
 				filter-data="projectList.regionArray"
@@ -52,6 +52,5 @@
 			<td ng-if="environment === 'MEM'" colspan="4">No results match your search.</td>
 		</tr>
 	</table>
-{{ projectList.statusArray }}
 </section>
 

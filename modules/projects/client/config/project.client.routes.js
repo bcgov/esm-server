@@ -65,8 +65,13 @@ angular.module('project').config (
 				return ProjectModel.getProjectIntakeQuestions();
 			}
 		},
-        onEnter: function (MenuControl, project) {
-            MenuControl.routeAccess (project.code, 'pro','edit-project');
+        onEnter: function (MenuControl, project, $stateParams) {
+        	if ($stateParams.projectid === 'new') {
+        		MenuControl.routeAccess ('', '','proponent');
+        	}
+        	else {
+            	MenuControl.routeAccess (project.code, 'pro','edit-project');
+        	}
         }
 	});
 }]);

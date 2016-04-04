@@ -15,6 +15,9 @@ angular.module('users').factory ('UserModel', function (ModelBase, _) {
 		forProject: function (projectid) {
 			return this.get ('/api/user/for/project/' + projectid);
 		},
+		me: function () {
+			return this.get ('/api/users/me');
+		}
 	});
 	return new Class ();
 });

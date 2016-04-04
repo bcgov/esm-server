@@ -17,6 +17,7 @@ angular.module('core').service('Menus', [
           return (r.substr(0,1) === ':') ? projectcode+r : r;
         });
       }
+      // console.log (checkroles);
       if (!!~checkroles.indexOf('*')) {
         return true;
       } else {

@@ -169,8 +169,16 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 			projs.pluck('type').unique().value().map( function(item) {
 				projectList.typeArray.push({id: item, title: item});
 			});
-
-			projectList.tableParams = new NgTableParams ({count: 10, filter: $scope.$parent.filterObj}, {dataset: newValue});
+			if ($scope.$parent.filterObj) {
+				projectList.tableParams = new NgTableParams ({
+					count: 10,
+					filter: $scope.$parent.filterObj
+				}, {dataset: newValue});
+			} else {
+				projectList.tableParams = new NgTableParams ({
+					count: 10,
+				}, {dataset: newValue});
+			}
 		}
 	});
 

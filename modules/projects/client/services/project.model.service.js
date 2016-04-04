@@ -28,6 +28,12 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 		lookup : function () {
 			return this.get ('/api/projects/lookup');
 		},
+		published: function () {
+			return this.get ('/api/projects/published');
+		},
+		mine: function () {
+			return this.get ('/api/projects/mine');
+		},
 		// -------------------------------------------------------------------------
 		//
 		// set a stream into a project, this copies over ALL base objects and makes

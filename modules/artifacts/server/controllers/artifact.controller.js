@@ -11,6 +11,7 @@ var ArtifactType      = require ('./artifact.type.controller');
 var MilestoneClass     = require (path.resolve('./modules/milestones/server/controllers/milestone.controller'));
 var ActivityClass     = require (path.resolve('./modules/activities/server/controllers/activity.controller'));
 var PhaseClass     = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
+var Roles               = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 var _                  = require ('lodash');
 
 module.exports = DBModel.extend ({
@@ -106,49 +107,6 @@ module.exports = DBModel.extend ({
 				return self.saveDocument (artifact);
 			})
 			.then (resolve, reject);
-
-
-
-
-			// console.log ('got this far');
-			// var newArtifact = {
-			// 	typeName : type,
-			// 	name     : type,
-			// 	project  : project._id,
-			// 	phase    : project.currentPhase._id,
-			// };
-			// console.log ('got this far too');
-			// p.then (function (atype) {
-			// 	console.log (JSON.stringify (atype, null, 4));
-			// 	if (!_.isEmpty (atype)) {
-			// 		artifactType = atype;
-			// 		newArtifact.type = atype._id;
-			// 		newArtifact.version = atype.versions[0];
-			// 		newArtifact.stage = atype.stages[0].name;
-			// 		// console.log ("\n\n");
-			// 		console.log ('atype.isTemplate = ',atype.isTemplate);
-			// 		if (atype.isTemplate) {
-			// 			// console.log ('documentType:'+type+':');
-			// 			return template.findFirst ({documentType:type},null,{versionNumber: -1})
-			// 			.then (function (t) {
-			// 				console.log ('template = ', t[0]);
-			// 				newArtifact.template = t[0]._id;
-			// 				newArtifact.isTemplate = true;
-			// 				return self.newDocument (newArtifact);
-			// 			});
-			// 		} else return self.newDocument (newArtifact);
-			// 	}
-			// 	else return null;
-			// })
-			// .then (self.saveDocument)
-			// .then (function (m) {
-			// 	var p = new PhaseClass (self.user);
-			// 	console.log ('adding a new milestone to the project for this artifact, type = ', artifactType.milestone);
-			// 	console.log ('projecty.currentphase = ', project.currentPhase);
-			// 	p.addMilestone (project.currentPhase, artifactType.milestone);
-			// 	return m;
-			// })
-			// .then (resolve, reject);
 		});
 	},
 	// -------------------------------------------------------------------------

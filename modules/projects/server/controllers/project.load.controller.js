@@ -31,7 +31,7 @@ module.exports = function(file, req, res) {
 			// console.log("FILE DATA:",data);
 			var colArray = "";
 			if (projectType === "eao") {
-				colArray = ['id','ProjectName','Proponent','Region','description','locSpatial','locDescription','provincialED','federalED','investment','projectCreateDate','projectDescriptionLivingData','projectNotes','projectURL','investmentNotes','lat','long','constructionjobs','constructionjobsNotes','operatingjobs','operatingjobsNotes','projectType','sector','currentPhaseTypeActivity','eaActive','CEAAInvolvement','eaIssues','eaNotes','responsibleEPD','projectLead','EAOCAARTRepresentative','projectOfficer','projectAnalyst','projectAssistant','administrativeAssistant','CELead','teamNotes'];
+				colArray = ['id','Stream','ProjectName','Proponent','Region','description','locSpatial','locDescription','provincialED','federalED','investment','projectCreateDate','projectDescriptionLivingData','projectNotes','projectURL','investmentNotes','lat','long','constructionjobs','constructionjobsNotes','operatingjobs','operatingjobsNotes','projectType','sector','currentPhaseTypeActivity','eaActive','CEAAInvolvement','eaIssues','eaNotes','responsibleEPD','phoneEPD','emailEPD','projectLead','projectLeadPhone','projectLeadEmail','projectAnalyst','projectAssistant','administrativeAssistant','CELead','CELeadPhone','CELeadEmail','teamNotes'];
 			} else {
 				colArray = ['id','ProjectName','Proponent','Ownership','lat','long','Status','Commodity','Region','TailingsImpoundments','description'];
 			}
@@ -52,11 +52,11 @@ module.exports = function(file, req, res) {
 						var query = {epicProjectID: id};
 						if (projectType === "mem") {
 							query = {memPermitID: row.id};
+						} else {
+							query = {epicProjectID: parseInt(row.id)};
 						}
 						Model.findOne(query, function (err, doc) {
 							var addOrChangeModel = function(model) {
-								// console.log("MODEL:",model);
-
 								// Always do this
 								model.name			= row.ProjectName;
 								model.code 			= model.name.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, model.name.length+1);
@@ -153,14 +153,19 @@ module.exports = function(file, req, res) {
 									if (row.eaNotes) model.eaNotes = row.eaNotes;
 
 									// The rest comes in as old data for now
+									// model.stream 					= row.Stream;
 									model.responsibleEPD 			= row.responsibleEPD;
+									model.responsibleEPDPhone		= row.phoneEPD;
+									model.responsibleEPDEmail 		= row.emailEPD;
 									model.projectLead 				= row.projectLead;
-									model.EAOCAARTRepresentative 	= row.EAOCAARTRepresentative;
-									model.projectOfficer 			= row.projectOfficer;
+									model.projectLeadPhone			= row.projectLeadPhone;
+									model.projectLeadEmail 			= row.projectLeadEmail;
 									model.projectAnalyst 			= row.projectAnalyst;
 									model.projectAssistant 			= row.projectAssistant;
 									model.administrativeAssistant 	= row.administrativeAssistant;
 									model.CELead 					= row.CELead;
+									model.CELeadPhone				= row.CELeadPhone;
+									model.CELeadEmail				= row.CELeadEmail;
 									model.teamNotes 				= row.teamNotes;
 									model.phases = [];
 									model.roles = ['eao', 'public'];

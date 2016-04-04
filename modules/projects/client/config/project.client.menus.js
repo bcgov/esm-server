@@ -4,7 +4,7 @@ angular.module('project').run(['Menus', 'MenuControl', function (Menus, MenuCont
 		Menus.addMenuItem('projectMenu', {
 			title: 'Edit Project',
 			state: 'p.edit',
-			roles: MenuControl.menuRoles ('', 'eao', 'edit-project')
+			roles: MenuControl.menuRoles ('', 'pro', 'edit-project')
 		});
 	}
 ]);

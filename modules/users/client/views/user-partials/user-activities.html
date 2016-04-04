@@ -1,9 +1,55 @@
 <section id="project-view" class="row">
 
 	<div class='col-sm-10'>
-		<h1 class="page-title no-lower-margin">
-			All Activities
+		<h1 class="page-title">
+			My Projects and Activities
 		</h1>
+		<div class="row">
+			<div class="col-sm-12">
+				<section class="panel panel-default">
+				<!-- <tmpl-projects-list2 x-title="'no'" x-projects='projects'> </tmpl-projects-list2> -->
+	<table ng-table="projectParams" class="table table-condensed table-striped">
+		<tr ng-repeat="o in $data" class='clickable' ui-sref="p.detail({projectid: o.code})">
+			<td data-title="'Name'"
+				sortable="'name'">
+				{{o.name}}
+			</td>
+
+			<td ng-if="environment === 'MEM'"
+				title="'data-Permit'"
+				sortable="'memPermitID'">
+				{{o.memPermitID}}
+			</td>
+
+			<td data-title="'Type'"
+				sortable="'type'">
+				{{o.type}}
+			</td>
+
+			<td data-title="'Region'"
+				sortable="'region'">
+				{{o.region | regionName}}
+			</td>
+
+			<td data-title="'Phase'"
+				sortable="'currentPhase.name'" >
+				{{o.currentPhase.name}}
+			</td>
+
+			<td ng-if="environment === 'EAO'"
+				data-title="'Status'"
+				sortable="'status'">
+				{{o.status}}
+			</td>
+		</tr>
+		<tr ng-show="!$data || !$data.length" class="text-center">
+			<td ng-if="environment === 'EAO'" colspan="5">No results match your search.</td>
+			<td ng-if="environment === 'MEM'" colspan="4">No results match your search.</td>
+		</tr>
+	</table>
+				</section>
+			</div>
+		</div>
 		<div class="row ng-scope">
 			<div class="col-sm-12 text-right">
 				<a href class="btn btn-xs btn-link" ng-click="show_filter = !show_filter">
