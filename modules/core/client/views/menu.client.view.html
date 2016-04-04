@@ -92,14 +92,11 @@
 						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 					</li>
 				</ul>
-				<ul class="list-unstyled">
-					<li ng-if="menu.isAdmin">
+				<ul class="list-unstyled" ng-if="menu.isAdmin">
+					<li>
 						<a ui-sref="admin.legal.list">Legal Opinions</a>
 					</li>
-					<li ng-if="menu.isAdmin">
-						<a ui-sref="admin.user.list">Users</a>
-					</li>
-					<li ng-if="menu.isAdmin">
+					<li>
 						<a x-modal-project-import href x-project="menu.import">Import</a>
 					</li>
 				</ul>

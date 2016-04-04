@@ -19,12 +19,27 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 				return RoleModel.getUsersInRolesInProject (project._id);
 			}
 		},
-		controller: function($scope, roles) {
+		controller: function($scope, roles, project, _, RoleModel) {
 			$scope.roles = roles;
+			$scope.project = project;
+			// callback when assigning users to roles
+			$scope.assignUsersToRole = function(users, parent) {
+				console.log(users, parent);
+				var userIds = _.map(users, function(user) {
+					return user._id;
+				});
+				if (userIds) {
+					RoleModel.setRoleUsers(parent.reference, userIds).then( function(data) {
+						RoleModel.getUsersForRole(parent.reference).then( function(data) {
+							$scope.roles[parent.reference] = data;
+						});
+					});
+				}
+			};
 		},
-        onEnter: function (MenuControl, project) {
-            MenuControl.routeAccess (project.code, 'any','edit-roles');
-        }
+		onEnter: function (MenuControl, project) {
+			MenuControl.routeAccess (project.code, 'any','edit-roles');
+		}
 	})
 
 	// -------------------------------------------------------------------------

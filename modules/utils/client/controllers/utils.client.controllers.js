@@ -190,7 +190,9 @@ function controllerUsersSelect($scope, $modal) {
 				}
 			}
 		});
-		modalUsersView.result.then(function () {}, function () {});
+		modalUsersView.result.then(function (users) {
+			console.log('callback', $scope.callback, users);
+		}, function () {});
 	};
 
 }
@@ -199,29 +201,37 @@ function controllerUsersSelect($scope, $modal) {
 // CONTROLLER: Roles Select
 //
 // -----------------------------------------------------------------------------------    
-controllerModalUsersSelect.$inject = ['$scope', 'rUsers', 'rProject', 'rConfig', '$modalInstance', 'Project', 'Utils', '_'];
+controllerModalUsersSelect.$inject = ['$scope', 'users', 'orgs', 'project', 'config', '$modalInstance', 'Utils', 'OrganizationModel', '_'];
 /* @ngInject */
-function controllerModalUsersSelect($scope, rUsers, rProject, rConfig, $modalInstance, Project, Utils, _) {
+function controllerModalUsersSelect($scope, users, orgs, project, config, $modalInstance, Utils, OrganizationModel, _) {
 	var utilUsers = this;
 
 	$scope._ = _;
 
 	utilUsers.form = {filtered:null};
 
-	Utils.getRoles().then( function(res) {
-		utilUsers.roles = res.data;
-	});
-
 	// collection of users.
-	utilUsers.users = rProject.team; // all possible users
-	utilUsers.selected = rUsers || []; // selected users
-
+	utilUsers.users = project.team; // all possible users
+	utilUsers.selected = users || []; // selected users
+	utilUsers.orgs = orgs;
 	// remove a user from the selected list.
 	utilUsers.removeUserFromSelected = function(user) {
 		if( _.contains(utilUsers.selected, user) ) {
 			// remove
 			_.remove(utilUsers.selected, function(item) {
 				return item === user;
+			});
+		}
+	};
+
+	// change the dropdown source, get the users that corresponds to the source.
+	utilUsers.selectSource = function() {
+		var usrc = utilUsers.form.selectedSource.split(':');
+		// org selected, get the users for that org.
+		if (usrc[0] === 'org') {
+			OrganizationModel.getUsers (usrc[1]).then( function(data) {
+				utilUsers.users = data;
+				$scope.$apply();
 			});
 		}
 	};
@@ -233,16 +243,14 @@ function controllerModalUsersSelect($scope, rUsers, rProject, rConfig, $modalIns
 		}
 	};
 
-	// setup new users
-	if (!rConfig) {
-		utilUsers.config = {allowChoice: false, allowTeam:true, viaEmail:true};
-	} else {
-		utilUsers.config = rConfig;
-	}
+	utilUsers.config = config || {allowChoice: false, allowTeam:true, viaEmail:true};
+
 	// default to add if there's no team to select.
 	if (!utilUsers.config.allowTeam) {
 		utilUsers.form.filteredUsers = 'add';
 	}
+
+	// new contact
 	utilUsers.newUser = {};
 	utilUsers.newUser.viaEmail = angular.copy(utilUsers.config.viaEmail) || false;
 	utilUsers.newUser.viaMail = angular.copy(utilUsers.config.viaMail) || false;
