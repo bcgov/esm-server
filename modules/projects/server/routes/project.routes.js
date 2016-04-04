@@ -99,6 +99,15 @@ module.exports = function (app) {
 		p.list ().then (helpers.success(res), helpers.failure(res));
 	});
 
+	app.route ('/api/projects/published').get (function (req, res) {
+		(new Project(req.user)).published ().then (helpers.success(res), helpers.failure(res));
+	});
+
+	app.route ('/api/projects/mine').get (function (req, res) {
+		(new Project(req.user)).mine ().then (helpers.success(res), helpers.failure(res));
+	});
+
+
 	app.route ('/api/projects/lookup')
 		.all (policy.isAllowed)
 		.get (function (req, res) {

@@ -6,27 +6,6 @@
 //
 // =========================================================================
 angular.module('core').service ('MenuControl', ['Authentication', '$state', '$http', '_', function (Authentication, $state, $http, _) {
-	this.getRolesForMethod = function (method, project) {
-		// var url = project? '/api/permissions/project/'+project : '/api/permissions/global';
-		// return new Promise (function (resolve, reject) {
-		// 	$http ({method:'GET', url:'/api/feature/permissions/' })
-		// 	.then (function (res) {
-		// 		resolve (res.data);
-		// 	}).catch (function (res) {
-		// 		reject (res.data);
-		// 	});
-		// });
-
-		var ret = [];
-		if (method === 'organization') ret = ['admin'];
-		if (method === 'bob') ret = ['sally'];
-		else ret = ['user'];
-		// console.log ('can access being called now with ', method, 'returning', ret);
-		return ret;
-	};
-	this.menuAccess = function (method, project) {
-		return this.getRolesForMethod (method, project);
-	};
 	this.canAccess = function (roles) {
 		var allowed = false;
 		roles.forEach(function (role) {
@@ -48,19 +27,26 @@ angular.module('core').service ('MenuControl', ['Authentication', '$state', '$ht
 		if (org === 'any') {
 			roles = [
 				'admin',
-				project+':eao:'+method,
-				project+':pro:'+method,
+				[project, 'eao', method].join(':'),
+				[project, 'pro', method].join(':'),
 				project+':eao:admin',
 				project+':pro:admin'
+			];
+		}
+		else if (org === '' && project === '') {
+			roles = [
+				'admin',
+				method
 			];
 		}
 		else {
 			roles = [
 				'admin',
-				project+':'+org+':'+method,
-				project+':'+org+':admin'
+				[project, org, method].join(':'),
+				[project, org, 'admin'].join(':')
 			];
 		}
+		// console.log ('roles:', roles);
 		return roles;
 	};
 	this.routeAccess = function (project, org, method) {

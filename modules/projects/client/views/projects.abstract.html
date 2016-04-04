@@ -1,4 +1,4 @@
-<section id="projects-view" class="row">		
+<section id="projects-view" class="row">
 	<ui-view ng-class="{'col-sm-10': authentication.user, 'col-sm-12': !authentication.user}">
 
 		<div class="panel panel-default" ng-show="environment === 'MEM' && !authentication.user">
@@ -53,8 +53,7 @@
 				</tmpl-projects-list2>
 			</div>
 		</div>
-{{ filterObj }}
-	</ui-view>		
+	</ui-view>
 	<div class='col-sm-2' ng-if="authentication.user">
 		<tmpl-system-menu x-menu-context="'projects'"></tmpl-system-menu>
 	</div>

@@ -204,12 +204,15 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 			});
 		}
 	} else {
-		OrganizationModel.getModel ($scope.project.proponent).then (function (org) {
-			$scope.project.proponent = org;
-		});
+		if (!_.isObject ($scope.project.proponent)) {
+			OrganizationModel.getModel ($scope.project.proponent).then (function (org) {
+				$scope.project.proponent = org;
+			});
+		}
 	}
 	if (!$scope.project.primaryContact || _.isEmpty ($scope.project.primaryContact)) {
-		UserModel.getModel (Authentication.user._id)
+		// UserModel.getModel (Authentication.user._id)
+		UserModel.me (Authentication.user._id)
 		.then (function (userrecord) {
 			if (userrecord) {
 				$scope.project.primaryContact = userrecord;
@@ -223,10 +226,12 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 			console.error ('Error getting user record:');
 		});
 	} else {
-		UserModel.getModel ($scope.project.primaryContact)
-		.then (function (userrecord) {
-			$scope.project.primaryContact = userrecord;
-		});
+		if (!_.isObject ($scope.project.primaryContact)) {
+			UserModel.me ($scope.project.primaryContact)
+			.then (function (userrecord) {
+				$scope.project.primaryContact = userrecord;
+			});
+		}
 	}
 
 
@@ -250,7 +255,8 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 			return false;
 		}
 
-		UserModel.saveModel ()
+		// UserModel.saveModel ()
+		Promise.resolve (Authentication.user)
 		.then (function (um) {
 			$scope.project.primaryContact = um._id;
 			return OrganizationModel.saveModel ();
@@ -275,7 +281,8 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 			return false;
 		}
 
-		UserModel.saveModel ()
+		// UserModel.saveModel ()
+		Promise.resolve (Authentication.user)
 		.then (function (um) {
 			$scope.project.primaryContact = um._id;
 			return OrganizationModel.saveModel ();

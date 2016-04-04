@@ -37,7 +37,7 @@ module.exports = DBModel.extend ({
 	name : 'Project',
 	plural : 'projects',
 	sort: {name:1},
-	populate: 'currentPhase phases phases.milestones phases.milestones.activities proponent',
+	populate: 'currentPhase phases phases.milestones phases.milestones.activities proponent primaryContact',
 	// bind: ['addPrimaryUser','addProponent'],
 	init: function () {
 		this.recent = new RecentActivityClass (this.user);
@@ -525,6 +525,33 @@ module.exports = DBModel.extend ({
 		}
 		else project.unpublish ();
 		return this.saveAndReturn (project);
+	},
+	// -------------------------------------------------------------------------
+	//
+	// only published projects, minimal get
+	//
+	// -------------------------------------------------------------------------
+	published: function () {
+		return this.model.find ({
+			isPublished: true
+		},{
+			_id: 1, code: 1, name: 1, region: 1, status: 1, currentPhase: 1
+		})
+		.sort ({
+			name: 1
+		})
+		.populate (
+			'currentPhase', 'name'
+		)
+		.exec ();
+	},
+	// -------------------------------------------------------------------------
+	//
+	// just what I can write to
+	//
+	// -------------------------------------------------------------------------
+	mine: function () {
+		return this.listwrite ();
 	},
 
 

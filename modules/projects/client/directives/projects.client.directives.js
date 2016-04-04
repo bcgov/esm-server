@@ -41,7 +41,8 @@ function directiveProjectsList2 () {
 		controller: 'controllerProjectsList2',
 		controllerAs: 'projectList',
 		scope: {
-			projects: '='
+			projects: '=',
+			title: '='
 		}
 	};
 	return directive;
