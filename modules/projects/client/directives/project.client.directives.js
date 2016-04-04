@@ -99,8 +99,29 @@ function directiveProjectTombstone() {
 		scope: {
 			project: '='
 		},
-		controller: function($scope, ENV) {
+		controller: function($scope, ENV, ProjectModel) {
 			$scope.environment = ENV;
+
+			// complete the current phase.
+			$scope.completePhase = function() {
+				ProjectModel.completePhase( $scope.project ).then( function(res) {
+					$scope.project = res;
+				});
+			};
+
+			// complete the current phase.
+			$scope.startNextPhase = function() {
+				ProjectModel.nextPhase( $scope.project ).then( function(res) {
+					$scope.project = res;
+				});
+			};
+
+			// complete the current phase.
+			$scope.publishProject = function() {
+				ProjectModel.publishProject( $scope.project ).then( function(res) {
+					$scope.project = res;
+				});
+			};
 		}
 	};
 	return directive;

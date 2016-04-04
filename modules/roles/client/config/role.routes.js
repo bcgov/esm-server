@@ -23,15 +23,17 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 			$scope.roles = roles;
 			$scope.project = project;
 			// callback when assigning users to roles
+			// called by to the modal select users directive in utils
+			// provided as an attribute on the form.
 			$scope.assignUsersToRole = function(users, parent) {
-				console.log(users, parent);
 				var userIds = _.map(users, function(user) {
 					return user._id;
 				});
 				if (userIds) {
 					RoleModel.setRoleUsers(parent.reference, userIds).then( function(data) {
 						RoleModel.getUsersForRole(parent.reference).then( function(data) {
-							$scope.roles[parent.reference] = data;
+							$scope.roles[data.code] = data.users;
+							$scope.$apply();
 						});
 					});
 				}

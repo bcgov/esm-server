@@ -25,7 +25,7 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 		template: '<div class="svg-div-timeline block-content"></div>',
 		link: function (scope, element, attrs) {
 
-			var oPhaseDetail, oPhaseStart, oPhaseEnd, posPhaseStart, posPhaseEnd, posToday, barHeight, oPhases;
+			var oPhaseDetail, oPhaseStart, oPhaseEnd, posPhaseStart, posPhaseEnd, posToday, oPhases;
 
 			var colourScale = d3.scale.ordinal()
 				.domain(scope.phases)
@@ -85,7 +85,8 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 				;
 
 
-
+				// get today's position
+				posToday = Math.floor( dateScale( moment().format('x') ));
 
 				// draw each phase
 				for (var i = 0; i < oPhases.length; i++) {
@@ -101,8 +102,6 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 					posPhaseStart = dateScale( oPhaseStart.format('x') );
 					posPhaseEnd = dateScale( oPhaseEnd.format('x') );
 
-					barHeight = 30-(28*((oPhaseDetail.progress)/100));
-
 					// progress fill.
 					if(Authentication.user) {
 						svgCont.append("rect")
@@ -110,7 +109,12 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 							.attr("y", 2)
 							.attr("width", (posPhaseEnd - posPhaseStart) * ((oPhaseDetail.progress)/100) ) 
 							.attr("height",28)
-							.style("fill", function() { return (oPhaseDetail.progress === 100) ? "#5cb85c" : "#f0ad4e"; })
+							.style("fill", function() { 
+								if ( posToday > posPhaseStart ) {
+									return (oPhaseDetail.progress === 100) ? "#5cb85c" : "#f0ad4e";
+								}
+								return colourScale( oPhaseDetail.name );
+							})
 							.attr("title", oPhaseDetail.name)
 						;
 					} else {
@@ -118,7 +122,7 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 						svgCont.append("rect")
 							.attr("x", posPhaseStart)
 							.attr("y", 2)
-							.attr("width", posPhaseEnd)
+							.attr("width", (posPhaseEnd - posPhaseStart))
 							.attr("height",28)
 							.style("fill", function() { return colourScale( oPhaseDetail.name ); })
 							.attr("title", oPhaseDetail.name)
@@ -223,8 +227,7 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 				;
 
 
-				// get today's position
-				posToday = Math.floor( dateScale( moment().format('x') ));
+				
 
 				if (posToday) {
 
