@@ -46,9 +46,29 @@ angular.module('project').config (
 	.state('p.detail', {
 		url: '/detail',
 		templateUrl: 'modules/projects/client/views/project-partials/project.detail.html',
-		controller: function ($scope, project) {
+		controller: function ($scope, project, ProjectModel) {
 			$scope.project = project;
-			// $scope.$apply ();
+			
+			// complete the current phase.
+			$scope.completePhase = function() {
+				ProjectModel.completePhase( $scope.project ).then( function(res) {
+					$scope.project = res;
+				});
+			};
+
+			// complete the current phase.
+			$scope.startNextPhase = function() {
+				ProjectModel.nextPhase( $scope.project ).then( function(res) {
+					$scope.project = res;
+				});
+			};
+
+			// complete the current phase.
+			$scope.publishProject = function() {
+				ProjectModel.publishProject( $scope.project ).then( function(res) {
+					$scope.project = res;
+				});
+			};			
 		}
 	})
 	// -------------------------------------------------------------------------
