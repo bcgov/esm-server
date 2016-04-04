@@ -22,7 +22,7 @@
 	<div class="modal-body" ng-if="publicComment.step === 2">
 		<div class="form-group" show-errors>
 			<label for="publiccomment" class="control-label">Your Comment</label>
-			<textarea id="publiccomment" name="publiccomment" class="form-control" rows="6" ng-model="publicComment.data.comment" required></textarea>
+			<textarea id="publiccomment" name="publiccomment" class="form-control" rows="6" ng-model="publicComment.data.comment" ng-model-options="{ updateOn: 'blur' }" required></textarea>
 			
 			<div ng-messages="publicCommentForm.publiccomment.$error" role="alert">
 				<p class="help-block error-text small" ng-message="required"><em>A comment is required.</em></p>
@@ -32,7 +32,7 @@
 		<div class="row">
 			<div class="form-group col-sm-6" show-errors>
 				<label for="name" class="control-label">Your Name</label>
-				<input type="input" id="name" name="name" class="form-control" ng-model="publicComment.data.author"/>
+				<input type="input" id="name" name="name" class="form-control" ng-model="publicComment.data.author" ng-model-options="{ updateOn: 'blur' }" />
 
 				<div ng-messages="publicCommentForm.name.$error" role="alert">
 					<p class="help-block error-text small" ng-message="required"><em>Your Name is required.</em></p>
@@ -41,7 +41,7 @@
 			</div>
 			<div class="form-group col-sm-6" show-errors>
 				<label for="location" class="control-label">Your Location</label>
-				<input type="input" id="location" name="location" class="form-control" ng-model="publicComment.data.location"/>
+				<input type="input" id="location" name="location" class="form-control" ng-model="publicComment.data.location" ng-model-options="{ updateOn: 'blur' }"/>
 
 				<div ng-messages="publicCommentForm.location.$error" role="alert">
 					<p class="help-block error-text small" ng-message="required"><em>Your Location is required.</em></p>
