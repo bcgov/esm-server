@@ -275,6 +275,7 @@ _.extend (DBModel.prototype, {
 	},
 	findAndUpdate : function (obj) {
 		var self = this;
+		console.log (JSON.stringify (obj, null, 4));
 		return new Promise (function (resolve, reject) {
 			self.model.findOne ({_id:obj._id}, function (err, doc) {
 				// console.log (doc);

@@ -12,7 +12,7 @@
 
 		<a class="btn btn-xs btn-link"
 			ng-click="publishProject()"
-			ng-if="!project.isPublished">Publish Project</a>
+			ng-if="!project.isPublished"> | Publish Project</a>
 	</div>
 </div>
 
@@ -63,7 +63,7 @@
 		ng-if="('project'| shouldDisplayPanel:'public-comments':project.status) && project.dateCommentsOpen && environment === 'EAO'">
 	</tmpl-public-comment-display>
 
-<!-- 
+<!--
 	<tmpl-project-activities
 		class="anchor-section"
 		id="anchor-activities"

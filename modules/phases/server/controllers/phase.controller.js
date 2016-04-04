@@ -178,12 +178,13 @@ module.exports = DBModel.extend ({
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			if (!phase.completed) {
-				phase.status        = 'Completed';
+				phase.status        = 'Complete';
 				phase.completed     = true;
 				phase.completedBy   = self.user._id;
 				phase.dateCompleted = new Date ();
+				phase.progress = 100;
 				self.completeMilestones (phase)
-				.then (self.findAndUpdate)
+				.then (function () {return self.findAndUpdate (phase);})
 				.then (resolve, reject);
 			} else {
 				resolve (phase);
@@ -217,11 +218,17 @@ module.exports = DBModel.extend ({
 	completeMilestones: function (phase) {
 		// console.log ('completing milestones');
 		var self = this;
-		return Promise.all (phase.milestones.map (function (milestone) {
-			var Milestone = new MilestoneClass (self.user);
-			if (milestone.completed) return milestone;
-			else return Milestone.complete (milestone);
-		}));
+		console.log (JSON.stringify (phase, null, 4));
+		var Milestone = new MilestoneClass (self.user);
+		return Promise.all (phase.milestones.map (function (milestoneId) {
+			return Milestone.findById (milestoneId);
+		}))
+		.then (function (result) {
+			return Promise.all (result.map (function (milestone) {
+				if (milestone.completed) return milestone;
+				else return Milestone.complete (milestone);
+			}));
+		});
 	},
 	// -------------------------------------------------------------------------
 	//

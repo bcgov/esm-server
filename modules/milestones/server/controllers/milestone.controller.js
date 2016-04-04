@@ -215,12 +215,14 @@ module.exports = DBModel.extend ({
 	complete: function (milestone) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			milestone.status        = 'Completed';
+			milestone.status        = 'Complete';
 			milestone.completed     = true;
 			milestone.completedBy   = self.user._id;
 			milestone.dateCompleted = new Date ();
 			self.completeActivities (milestone)
-			.then (self.findAndUpdate)
+			.then (function () {
+				return self.findAndUpdate (milestone);
+			})
 			.then (resolve, reject);
 		});
 	},
@@ -251,6 +253,7 @@ module.exports = DBModel.extend ({
 	completeActivities: function (milestone) {
 		// console.log ('completing activities',milestone.activities);
 		var self = this;
+		console.log (JSON.stringify (milestone, null, 4));
 		return Promise.all (milestone.activities.map (function (activity) {
 			var Activity = new ActivityClass (self.user);
 			if (activity.completed) return activity;
