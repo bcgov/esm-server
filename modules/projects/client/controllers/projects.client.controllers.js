@@ -115,9 +115,9 @@ function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $
 
 	projectList.clearFilter = function() {
 		$scope.$parent.filterObj = undefined;
-		console.log($scope.$parent.filterObj);
+		// console.log($scope.$parent.filterObj);
 	};
-	
+
 	// projectList.types = PROJECT_TYPES;
 	// projectList.regions = REGIONS;
 	// projectList.status = PROJECT_STATUS_PUBLIC;
@@ -147,7 +147,7 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 	projectList.auth = Authentication;
 
 	projectList.regionArray = [];
-	projectList.statusArray = []; 
+	projectList.statusArray = [];
 	projectList.typeArray = [];
 
 	$scope.$watch('projects', function(newValue) {

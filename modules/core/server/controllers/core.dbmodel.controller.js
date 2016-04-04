@@ -556,9 +556,12 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	listwrite : function (q) {
 		q = q || {};
+		if (_.has (this.model.schema.paths, 'dateCompleted')) {
+			q.dateCompleted = { "$eq": null };
+		}
 		this.setAccessOnce ('write');
 		q = _.extend ({}, this.baseQ, q);
-		// console.log ('q = ', q);
+		// console.log ('q = ', JSON.stringify(q,null,4));
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			self.findMany (q)

@@ -21,7 +21,7 @@
 		[ no document uploaded yet ]
 		</div>
 		<div ng-if="!artifact.document">
-			<span class="glyphicon glyphicon-file"></span> {{artifact.type.type}} - {{artifact.version}}
+			<span class="glyphicon glyphicon-file"></span> {{artifact.name}} - {{artifact.version}}
 		</div>
 		<div>
 		<small ng-if="artifact.document"><a href="/api/document/{{ artifact.document._id }}/fetch"target="_blank" title="Download">

@@ -11,7 +11,7 @@ angular.module('project').config (
 		templateUrl: 'modules/projects/client/views/project.abstract.html',
 		resolve: {
 			project: function ($stateParams, ProjectModel) {
-				console.log ('loading project');
+				// console.log ('loading project');
 				if ($stateParams.projectid === 'new') {
 					return ProjectModel.getNew ();
 				} else {
@@ -31,7 +31,7 @@ angular.module('project').config (
 			$scope.isNew = ($stateParams.projectid === 'new');
 
 			var unbind = $rootScope.$on('refreshProject', function() {
-				console.log('refreshProject', $stateParams.projectid);
+				// console.log('refreshProject', $stateParams.projectid);
 				$scope.project = angular.copy( ProjectModel.byCode ($stateParams.projectid) );
 			});
 			$scope.$on('$destroy',unbind);

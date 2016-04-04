@@ -7,7 +7,7 @@
                     <th width="20%">Code</th>
                     <th width="20%">Name</th>
                     <th width="20%">Description</th>
-                    <th width="20%">Default Status</th>                
+                    <!-- <th width="20%">Default Status</th>                 -->
                     <th width="10%">Mandatory Duration (days)</th>
                     <th width="10%" class="text-center">Order</th>
                 </thead>
@@ -16,7 +16,7 @@
                     <td>{{ phase.code }}</td>
                     <td>{{ phase.name }}</td>
                     <td>{{ phase.description }}</td>
-                    <td>{{ phase.status }}</td>
+                    <!-- <td>{{ phase.status }}</td> -->
                     <td>{{ phase.duration }}</td>
                     <td class="text-center">{{ phase.order }}</td>
                 </tr>
@@ -59,11 +59,11 @@
                             <textarea class="form-control" ng-model="configDataElement.activeRecord.description"></textarea>
                         </div>
 
-                        <div class="form-group">
+<!--                         <div class="form-group">
                             <label class="control-label">Default Status</label>
                             <input class="form-control" type="text" ng-model="configDataElement.activeRecord.status">
                         </div>
-
+ -->
                         <div class="form-group" x-show-errors>
                             <label class="control-label">Mandatory Duration (days)</label>
                             <input name="duration" class="form-control" type="number" ng-model="configDataElement.activeRecord.duration" required>
@@ -112,7 +112,7 @@
                             </div>
                             <div class="form-group col-sm-6 text-right">
                                 <button class="btn btn-default" ng-click="configDataElement.cancelRecord()">Cancel</button>
-                                <button class="btn btn-default" type="submit">Save</button>                           
+                                <button class="btn btn-default" type="submit">Save</button>
                             </div>
                         </div>
 

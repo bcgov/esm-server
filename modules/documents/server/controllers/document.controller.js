@@ -111,7 +111,7 @@ var getDocumentsForProject = function (req, res) {
 			$or: [
 				{existsdocumentIsInReview: req.headers.reviewdocsonly || false},
 				{existsdocumentIsInReview: {$exists: false }}
-			]		
+			]
 		}).exec(function (err, docs) {
 			if (!err) resolve(docs);
 		});
@@ -128,7 +128,7 @@ var getDocumentsForProjectAndReturn = function (req, res) {
 		helpers.sendData (res, model);
 	})
 	.catch (function (err) {
-		console.log (err);
+		// console.log (err);
 		helpers.sendError (res, err);
 	});
 };
@@ -213,7 +213,7 @@ var getDocumentTypesForProject = function (req, res) {
 					ts.forEach(function(tsKey) {
 						var depth1 = tsKey.projectFolderType;
 						// console.log(depth1);
-						if (depth1 && depth1 !== '') {						
+						if (depth1 && depth1 !== '') {
 							flattendList.push({'label': tsKey.projectFolderType, 'depth': 1, 'reference': 'projectFolderType', 'lineage':{'projectFolderType':depth1} });
 							tsKey.projectFolderSubTypeObjects.forEach(function(subObjects) {
 								var depth2 = subObjects.projectFolderSubType;
@@ -838,7 +838,7 @@ var mapDocumentsToProjects = function (req, res) {
 		Model.find({}, function(err, docs) {
 			if (docs) {
 				var length = docs.length;
-				console.log("length:",length);
+				// console.log("length:",length);
 				//res.writeHead(200, {'Content-Type': 'text/plain'});
 				res.write('[0');
 				// console.log("length",length);

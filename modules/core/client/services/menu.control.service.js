@@ -21,7 +21,7 @@ angular.module('core').service ('MenuControl', ['Authentication', '$state', '$ht
 		if (method === 'organization') ret = ['admin'];
 		if (method === 'bob') ret = ['sally'];
 		else ret = ['user'];
-		console.log ('can access being called now with ', method, 'returning', ret);
+		// console.log ('can access being called now with ', method, 'returning', ret);
 		return ret;
 	};
 	this.menuAccess = function (method, project) {

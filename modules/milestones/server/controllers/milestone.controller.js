@@ -138,6 +138,8 @@ module.exports = DBModel.extend ({
 			// have to resolve it here
 			//
 			.then (function (models) {
+				phase.milestones.push (milestone._id);
+				phase.save ();
 				// console.log ("Yay! the add activity promise array resolved to ", models);
 				return self.saveDocument (milestone);
 			})
@@ -164,7 +166,7 @@ module.exports = DBModel.extend ({
 			//
 			.then (function (activity) {
 				if (permissions && !_.isEmpty (permissions)) {
-					console.log ('Adding permissions');
+					// console.log ('Adding permissions');
 					return Roles.objectRoles ({
 						method      : 'add',
 						objects     : activity,
@@ -182,6 +184,15 @@ module.exports = DBModel.extend ({
 			})
 			.then (resolve, reject);
 		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// add an an already created activity to the milestone
+	//
+	// -------------------------------------------------------------------------
+	pushActivity : function (milestone, activity) {
+		milestone.activities.push (activity);
+		return this.saveDocument (milestone);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -238,7 +249,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	completeActivities: function (milestone) {
-		console.log ('completing activities',milestone.activities);
+		// console.log ('completing activities',milestone.activities);
 		var self = this;
 		return Promise.all (milestone.activities.map (function (activity) {
 			var Activity = new ActivityClass (self.user);

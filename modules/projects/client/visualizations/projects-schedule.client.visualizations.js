@@ -33,7 +33,7 @@ function directiveScheduleChart(d3, $window, _, moment) {
 			var _NumberOfPreceedingMonths = 1;
 
 			var dateWinStart = moment().subtract(_NumberOfPreceedingMonths, 'M').format('x'); // Fetch todays -1 month date for comparison
-			
+
 			var dateWinEnd = moment().add((_NumberOfMonths-_NumberOfPreceedingMonths), 'M').format('x'); // Fetch the last date.
 
 			var resize =  function() {
@@ -82,7 +82,7 @@ function directiveScheduleChart(d3, $window, _, moment) {
 
 					// get the current phase actual dates, use for comparisson
 					oPhaseStart = moment(new Date((oPhaseDetail.dateStarted || oPhaseDetail.dateStartedEst) ));
-					oPhaseEnd = moment(new Date((oPhaseDetail.dateEnd || oPhaseDetail.dateCompletedEst) ));
+					oPhaseEnd = moment(new Date((oPhaseDetail.dateCompleted || oPhaseDetail.dateCompletedEst) ));
 
 					// get the unix date for mapping to the dateScale.
 					posPhaseStart = dateScale( oPhaseStart.format('x') );

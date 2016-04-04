@@ -44,7 +44,7 @@ angular.module('topics').config(['$stateProvider', function ($stateProvider) {
 			$scope.types = types; //Doesn't hold any values
 			$scope.pillars = pillars;
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: topics});
-			$scope.getTypes = function () 
+			$scope.getTypes = function ()
 			{
 				//Hardcoding these values as done on the edit screen
 				return [{ id: 'Valued Component', title: 'Valued Component'}, { id: 'Pathway Component', title: 'Pathway Component'}];
@@ -137,7 +137,7 @@ angular.module('topics').config(['$stateProvider', function ($stateProvider) {
 					return false;
 				}
 				$scope.topic.code = codeFromTitle ($scope.topic.name);
-				console.log('parent topic = ', $scope.topic.parent);
+				// console.log('parent topic = ', $scope.topic.parent);
 				var p = (which === 'add') ? TopicModel.add ($scope.topic) : TopicModel.save ($scope.topic);
 				p.then (function (model) {
 					$state.transitionTo('admin.topic.list', {}, {

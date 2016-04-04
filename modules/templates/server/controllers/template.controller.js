@@ -69,11 +69,11 @@ module.exports = DBModel.extend ({
 			self.model.aggregate ([
 			    { "$sort": { "versionNumber": -1 } },
 			    { "$group": {
-			        "_id": "$documentType",
-			        "id": {"$first": "$_id"},
-			        "documentType": {"$first": "$documentType"},
-			        "versionNumber": { "$first": "$versionNumber" },
-			        "dateUpdated": { "$first": "$dateUpdated" }
+					"_id"           : "$documentType",
+					"id"            : {"$first": "$_id"},
+					"documentType"  : {"$first": "$documentType"},
+					"versionNumber" : { "$first": "$versionNumber" },
+					"dateUpdated"   : { "$first": "$dateUpdated" }
 			    }}
 			], function (err, result) {
 				if (err) return reject (err);

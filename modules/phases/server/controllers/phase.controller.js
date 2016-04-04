@@ -43,6 +43,8 @@ module.exports = DBModel.extend ({
 		if (phase.startOnCreate) {
 			phase.status      = 'In Progress';
 			phase.dateStarted = new Date ();
+		} else {
+			phase.status = 'Not Started';
 		}
 		return phase;
 	},
@@ -79,7 +81,7 @@ module.exports = DBModel.extend ({
 			// copy its id and such before we lose it, then copy the entire thing
 			//
 			.then (function (m) {
-				console.log ('found the base');
+				// console.log ('found the base');
 				base          = m;
 				baseId        = m._id;
 				milestoneCodes = _.clone (m.milestones);
@@ -90,7 +92,8 @@ module.exports = DBModel.extend ({
 			// set the base id and then initial dates
 			//
 			.then (function (m) {
-				console.log ('copied the base into new phase with id ', m._id, m.milestones);
+				// console.log ('after copy', JSON.stringify (m, null, 4));
+				// console.log ('copied the base into new phase with id ', m._id, m.milestones);
 				phase = m;
 				phase.phaseBase = baseId;
 				return self.setInitalDates (phase);
@@ -99,6 +102,7 @@ module.exports = DBModel.extend ({
 			// copy over stuff from the project
 			//
 			.then (function (m) {
+				// console.log ('after setting dates', JSON.stringify (phase, null, 4));
 				return self.setAncestry (m, project);
 			})
 			//
@@ -106,7 +110,7 @@ module.exports = DBModel.extend ({
 			// so not too much of an issue
 			//
 			.then (function (m) {
-				console.log ('all set to add milestones');
+				// console.log ('all set to add milestones');
 				//
 				// This little bit of magic forces the synchronous executiuon of
 				// async functions as promises, so a sync version of all.
@@ -119,7 +123,12 @@ module.exports = DBModel.extend ({
 				}, Promise.resolve());
 			})
 			.then (function () {
+				// console.log ('saving the phase', JSON.stringify (phase, null, 4));
 				return self.saveDocument (phase);
+			})
+			.then (function (r) {
+				// console.log ('saved the phase');
+				return r;
 			})
 			.then (resolve, reject);
 		});
@@ -138,7 +147,7 @@ module.exports = DBModel.extend ({
 			//
 			Milestone.fromBase (basecode, phase)
 			.then (function (milestone) {
-				console.log ('adding milestone with id '+milestone._id+' to phase '+phase._id);
+				// console.log ('adding milestone with id '+milestone._id+' to phase '+phase._id);
 				phase.milestones.push (milestone._id);
 				return phase;
 			})
@@ -156,7 +165,7 @@ module.exports = DBModel.extend ({
 		phase.dateStarted      = new Date ();
 		phase.dateCompletedEst = new Date (phase.dateStarted);
 		phase.dateCompletedEst.setDate (phase.dateCompletedEst.getDate () + phase.duration);
-		console.log ('starting pahse', phase._id, phase.name);
+		// console.log ('starting pahse', phase._id, phase.name);
 		return this.findAndUpdate (phase);
 	},
 	// -------------------------------------------------------------------------
@@ -206,7 +215,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	completeMilestones: function (phase) {
-		console.log ('completing milestones');
+		// console.log ('completing milestones');
 		var self = this;
 		return Promise.all (phase.milestones.map (function (milestone) {
 			var Milestone = new MilestoneClass (self.user);

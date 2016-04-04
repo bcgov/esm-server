@@ -18,13 +18,14 @@ angular.module('artifacts')
 		controller: function ($scope, NgTableParams, Authentication) {
 			var s = this;
 			s.public = (!Authentication.user);
-			this.selectType = function (type) {
-				this.addtype = type;
+			this.selectType = function (typeobject) {
+				this.addtype = typeobject;
+				this.addTypeName = typeobject.name;
 			};
 			this.addType = function () {
 				if (s.addtype) {
 					// console.log ('adding new artifact of type '+s.addtype);
-					ArtifactModel.newFromType (s.addtype, $scope.project._id)
+					ArtifactModel.newFromType (s.addtype.code, $scope.project._id)
 					.then (function () {
 						s.init ();
 					});
@@ -38,7 +39,8 @@ angular.module('artifacts')
 				});
 				ArtifactModel.availableTypes ($scope.project._id).then (function (c) {
 					s.availableTypes = c;
-					s.addtype = "";
+					s.addtype = null;
+					s.addTypeName = "";
 					$scope.$apply ();
 				});
 			};

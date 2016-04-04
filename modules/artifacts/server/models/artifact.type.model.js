@@ -8,7 +8,9 @@
 var mongoose = require ('mongoose');
 
 module.exports = mongoose.model ('ArtifactType', new mongoose.Schema ({
-	type            : { type:String, default:'' , unique:true },
+	code            : { type:String, default:'' , unique:true },
+	name            : { type:String, default:''},
+	initiator       : { type:String, default:'EAO', enum:['EAO','Proponent'] },
 	isTemplate      : { type:Boolean, default:true },
 	isDocument      : { type:Boolean, default:false },
 	multiple        : { type:Boolean, default:false },

@@ -126,7 +126,7 @@ var generateCode = function (projectCode, orgCode, roleCode) {
 //
 // -------------------------------------------------------------------------
 var userRoles = function (data) {
-	console.log ('++ setting out user roles');
+	// console.log ('++ setting out user roles');
 	var userArray = _.isArray (data.users) ? data.users : [data.users];
 	var roleArray = _.isArray (data.roles) ? data.roles : [data.roles];
 	return new Promise (function (resolve, reject) {
@@ -134,7 +134,7 @@ var userRoles = function (data) {
 		// get all the roles
 		//
 		Promise.all (roleArray.map (function (code) {
-			console.log ('looking for or creating role '+code);
+			// console.log ('looking for or creating role '+code);
 			return findRole (code);
 		}))
 		.then (function (rolesarray) {
@@ -143,11 +143,11 @@ var userRoles = function (data) {
 			// to each role using the correct method
 			//
 			var idArray = userArray.map (function (u) {
-				console.log ('getting the id for user ', u.username);
+				// console.log ('getting the id for user ', u.username);
 				return u._id.toString ();
 			});
 			return Promise.all (rolesarray.map (function (role) {
-				console.log ('setting user id array in role ', role.code, role._id);
+				// console.log ('setting user id array in role ', role.code, role._id);
 				role.modObject (data.method, 'users', idArray);
 				return role.save ();
 			}));
@@ -159,7 +159,7 @@ var userRoles = function (data) {
 			// through those and do the same
 			//
 			return Promise.all (userArray.map (function (user) {
-				console.log ('setting roles for user ', user.username, roleArray);
+				// console.log ('setting roles for user ', user.username, roleArray);
 				user.modRoles (data.method, roleArray);
 				return user.save ();
 			}));

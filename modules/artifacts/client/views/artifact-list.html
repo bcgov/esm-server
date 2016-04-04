@@ -5,13 +5,13 @@
 		</div>
 		<div class="dropdown form-group" ng-if="!s.public">
 			<div class="input-group input-sm" data-toggle="dropdown">
-				<input class="entryInput form-control input-sm" id="query" name="query" type="text" placeholder="select an artifact type" ng-model="s.addtype"></input>
+				<input class="entryInput form-control input-sm" id="query" name="query" type="text" placeholder="select an artifact type" ng-model="s.addtype.name"></input>
 				<span class="input-group-btn">
 					<button ng-disabled="!s.addtype" ng-click="$event.stopPropagation();s.addType()" class="btn btn-default btn-sm btn-primary" type="button">Add</button>
 				</span>
 			</div>
 			<ul class="dropdown-menu" role="menu" aria-labelledby="query">
-				<li class="clickable" ng-click="s.selectType(type)" ng-repeat="type in s.availableTypes"> &nbsp; {{type}}</li>
+				<li class="clickable" ng-click="s.selectType(type)" ng-repeat="type in s.availableTypes"> &nbsp; {{type.name}}</li>
 			</ul>
 		</div>
 	</div>
@@ -21,7 +21,7 @@
 		<section class="panel panel-default">
 			<table ng-table="s.tableParams" x-show-filter="toggleFilter" class="table table-condensed table-hover	table-striped">
 				<tr ng-repeat="o in $data" ui-sref="p.artifact.view({artifactId:o._id})" class="clickable">
-					<td data-title="'Type'"    filter="{'typeName':'text'}"     sortable="'typeName'"    >{{o.typeName}}</td>
+					<td data-title="'Name'"    filter="{'name':'text'}"     sortable="'name'"    >{{o.name}}</td>
 					<td data-title="'Version'" filter="{'version':'text'}"   	class="text-center" sortable="'version'"  >{{o.version}}</td>
 					<td data-title="'Stage'"   filter="{'stage':'text'}"    	class="text-center" sortable="'stage'"   >{{o.stage}}</td>
 					<td data-title="'Published'" sortable="'published'"><i ng-if="o.published" class="glyphicon glyphicon-ok"></i></td>

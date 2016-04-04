@@ -153,7 +153,7 @@ module.exports = DBModel.extend ({
 				.then (function (m) {
 					var Phase = new PhaseClass (self.user);
 					if (m.phases[0].name) {
-						console.log ('new phase = ', m.phases[0].code, m.phases[0].name, m.phases[0]._id);
+						// console.log ('new phase = ', m.phases[0].code, m.phases[0].name, m.phases[0]._id);
 						m.currentPhase = m.phases[0];
 						m.currentPhaseCode = m.phases[0].code;
 						m.currentPhaseName = m.phases[0].name;
@@ -242,13 +242,13 @@ module.exports = DBModel.extend ({
 			//
 			Phase.fromBase (basecode, project)
 			.then (function (phase) {
-				console.log ('new phase', phase.name, phase._id);
+				// console.log ('new phase', phase.name, phase._id);
 				project.phases.push (phase);
 				return project;
 			})
 			.then (self.saveDocument)
 			.then (function (pro) {
-				console.log ('pro.phases:', JSON.stringify (pro.phases, null, 4));
+				// console.log ('pro.phases:', JSON.stringify (pro.phases, null, 4));
 				return pro;
 			})
 			.then (resolve, reject);
@@ -383,13 +383,13 @@ module.exports = DBModel.extend ({
 				var now = new Date ();
 				var lastEndDate = now;
 				proj.duration = proj.phases.map (function (p) {
-					console.log (p.name);
+					// console.log (p.name);
 					//
 					// if the phase is already over just set the last end date
 					//
 					if (p.completed) {
 						lastEndDate = new Date (p.dateCompleted);
-						console.log ("completed phase: ", p.dateStarted, p.dateCompleted);
+						// console.log ("completed phase: ", p.dateStarted, p.dateCompleted);
 						return p.duration;
 					}
 					//
@@ -397,7 +397,7 @@ module.exports = DBModel.extend ({
 					//
 					else if (p.dateStarted) {
 						lastEndDate = new Date (p.dateCompletedEst);
-						console.log ("started phase: ", p.dateStarted, p.dateCompletedEst);
+						// console.log ("started phase: ", p.dateStarted, p.dateCompletedEst);
 						return p.duration;
 					}
 					//
@@ -405,7 +405,7 @@ module.exports = DBModel.extend ({
 					//
 					else if (new Date (p.dateStartedEst) > now) {
 						lastEndDate = new Date (p.dateCompletedEst);
-						console.log ("not started yet phase: ", p.dateStartedEst, p.dateCompletedEst);
+						// console.log ("not started yet phase: ", p.dateStartedEst, p.dateCompletedEst);
 						return p.duration;
 					}
 					//
@@ -415,7 +415,7 @@ module.exports = DBModel.extend ({
 						p.dateStartedEst = new Date (lastEndDate);
 						p.dateCompletedEst = new Date (p.dateStartedEst);
 						p.dateCompletedEst.setDate (p.dateCompletedEst.getDate () + p.duration);
-						console.log ("future phase: ", p.dateStartedEst, p.dateCompletedEst, p.name);
+						// console.log ("future phase: ", p.dateStartedEst, p.dateCompletedEst, p.name);
 						lastEndDate = new Date(p.dateCompletedEst);
 						Phase.findAndUpdate (p);
 						return p.duration;

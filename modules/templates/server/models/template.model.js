@@ -1,7 +1,7 @@
 'use strict';
 // =========================================================================
 //
-// Model for order templates
+// Model for templates
 //
 // =========================================================================
 var mongoose = require ('mongoose');
@@ -25,11 +25,22 @@ var templateSection = new mongoose.Schema ({
 	meta     : [ templateMeta ]
 });
 
+// =========================================================================
+//
+// A template can be for many purposes, but primarily for artifacts. If
+// it is an artifact type then we link the artifact type record here as well
+// so that they can be linked at the time that an actual instance of the
+// artifact is created
+//
+// =========================================================================
 module.exports = require ('../../../core/server/controllers/core.models.controller')
 .generateModel ('Template', {
 	__audit       : true,
-	documentType  : { type:String, default: '' , index:true},
+	code          : { type:String, default: '', unique:true},
+	documentType  : { type:String, default: '', index:true},
 	versionNumber : { type:Number, default:0, index:true },
-	sections      : [ templateSection ]
+	sections      : [ templateSection ],
+	templateType  : { type:String, default:'Artifact', enum:['Artifact','Notification Letter','Notification Email']},
+	artifact      : { type:'ObjectId', ref:'ArtifactType', default:null , index:true}
 });
 
