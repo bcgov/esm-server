@@ -1,0 +1,19 @@
+{
+  "name": "documentimporter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dcv.js",
+  "dependencies": {
+    "fs": "^0.0.2",
+    "https": "^1.0.0",
+    "mongodb": "^2.1.14",
+    "path": "^0.12.7",
+    "request": "^2.70.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

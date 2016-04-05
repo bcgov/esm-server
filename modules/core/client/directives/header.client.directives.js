@@ -26,7 +26,7 @@ function directiveHeader() {
 				
 				main.toggleClass('col-sm-12 col-sm-10');
 				foot.toggleClass('col-sm-12 col-sm-10');
-				side.toggleClass('col-sm-2 ng-hide');				
+				side.toggleClass('col-sm-2 col-0');				
 				
 			};
 		}
