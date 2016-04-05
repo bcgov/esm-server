@@ -221,7 +221,7 @@ function directiveArtifactEditHeight($window) {
 					'h': window.innerHeight
 				};
 			}, function (newValue, oldValue) {
-				box.css({'min-height': (parseInt(newValue.h)-355) + 'px', 'min-height': (parseInt(newValue.h)-355) + 'px'});
+				box.css({'min-height': (parseInt(newValue.h)-355) + 'px', 'max-height': (parseInt(newValue.h)-355) + 'px'});
 			}, true);
 
 			w.bind('resize', function () {
