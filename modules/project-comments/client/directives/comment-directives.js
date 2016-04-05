@@ -62,7 +62,7 @@ function directiveWGComments() {
 			];
 
 			$scope.selectUser = function(user) {
-				console.log(user);
+	// console.log(user);
 				$scope.selectedUser = user;
 			};
 

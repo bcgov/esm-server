@@ -21,6 +21,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		else if (stage === 'Executive Approval') return 'executive';
 		else if (stage === 'Publishing') return 'publish';
 		else if (stage === 'Notification') return 'notify';
+		else if (stage === 'Comment Period') return 'comment';
+		else if (stage === 'Public Comment Period') return 'public-comment';
 	};
 
 
@@ -147,6 +149,16 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		templateUrl: 'modules/artifacts/client/views/artifact-view.html',
 		controller: function ($scope, $state, artifact, project, ArtifactModel) {
 			// console.log ('artifact = ', artifact);
+			$scope.artifact = artifact;
+			$scope.project = project;
+		}
+	})
+	.state('p.artifact.comment', {
+		url: '/comment',
+		templateUrl: 'modules/artifacts/client/views/artifact-comment.html',
+		controller: function ($scope, $state, artifact, project, ArtifactModel) {
+			var method = properMethod (artifact.stage);
+			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
 		}

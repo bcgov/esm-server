@@ -15,42 +15,34 @@
 		<div class="row">
 			<div class="col-sm-3">
 				<div class="form-group">
-					<label class="control-label">Content for Review</label>
-					<select ng-model="period.contentType" class="form-control" ng-options="doc[0] as doc[0].name for doc in period.currentDocuments">
+					<label class="control-label">Comment Period Type</label>
+					<select ng-model="period.periodType" class="form-control">
+						<option selected>Working Group</option>
+						<option>Public</option>
 					</select>
 				</div>
 				<div class="form-group">
-					<label class="control-label">Working Group Session Open</label>
-
-					<div class="input-group">
-						<input type="text"
-							class="form-control text-center"
-							ng-model="period.dateOpen"
-							ng-disabled="1"/>
-						<div x-modal-date-picker
-							x-selected-date="period.dateStarted"
-							class="input-group-addon btn-default">
-						<i class="glyphicon glyphicon-calendar"></i></div>
-					</div>
-
+					<label class="control-label">Artifact for Review</label>
+					<select ng-model="period.artifact" class="form-control" ng-options="artifact as artifact.name for artifact in artifacts">
+					</select>
 				</div>
 				<div class="form-group">
-					<label class="control-label">Working Group Session Close</label>
+					<label class="control-label">Comment Period Open</label>
 
 					<div class="input-group">
-						<input type="text"
-							class="form-control text-center"
-							ng-model="period.dateClose"
-							ng-disabled="1"/>
-						<div x-modal-date-picker
-							x-selected-date="period.dateCompleted"
-							class="input-group-addon btn-default">
-						<i class="glyphicon glyphicon-calendar"></i></div>
+						<p class="form-control-static">{{ period.dateStarted | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="period.dateStarted" >&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a>&nbsp; &nbsp;</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">Comment Period Close</label>
+
+					<div class="input-group">
+						<p class="form-control-static">{{ period.dateCompleted | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="period.dateCompleted" >&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a>&nbsp; &nbsp;</p>
 					</div>
 
 				</div>
 			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-3" ng-if="period.periodType==='Working Group'">
 				<label class="control-label">Select Applicable Roles</label>
 				<div class="well well-sm">
 					<ul class="list-unstyled task-list">
@@ -62,6 +54,14 @@
 					</ul>
 				</div>
 			</div>
+			<div class="col-sm-3" ng-if="period.periodType==='Public'">
+				<label class="control-label">Select Applicable Roles</label>
+				<div class="well well-sm">
+					<ul class="list-unstyled task-list">
+						<li>public</li>
+					</ul>
+				</div>
+			</div>
 			<div class="col-sm-6">
 				<label class="control-label">Instructions to Working Group</label>
 				<textarea rows="6" ng-model="period.instructions" class="form-control"></textarea>
@@ -70,7 +70,7 @@
 		</div>
 
 		<hr>
-		
+
 		<div class="text-right">
 			<a class="btn btn-default" ui-sref="p.commentperiod.list">Cancel</a>
 			<a class="btn btn-default" href ng-click="save()">Save</a>

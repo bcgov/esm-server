@@ -3,7 +3,7 @@
 angular.module('utils')
 
     .controller('controllerQuickLinks', controllerQuickLinks)
-    .controller('controllerRecentActivity', controllerRecentActivity)   
+    .controller('controllerRecentActivity', controllerRecentActivity)
     .controller('controllerPanelSort', controllerPanelSort)
     .controller('controllerModalResearchDetail', controllerModalResearchDetail)
     .controller('controllerRolesSelect', controllerRolesSelect)
@@ -14,7 +14,7 @@ angular.module('utils')
     .controller('controllerModalUserContactInfo', controllerModalUserContactInfo)
     .controller('controllerModalSelectItems', controllerModalSelectItems)
     .controller('controllerModalDatePicker', controllerModalDatePicker);
-   
+
 
 
 
@@ -46,7 +46,7 @@ function controllerRecentActivity(Utils, Authentication) {
 	var raPanel = this;
 	//
 	raPanel.auth = Authentication;
-	//	
+	//
 	Utils.getRecentActivity().then( function(res) {
 		raPanel.recentActivity = res.data.slice(0,4);
 	});
@@ -58,27 +58,27 @@ function controllerRecentActivity(Utils, Authentication) {
 // -----------------------------------------------------------------------------------
 controllerPanelSort.$inject = ['$scope', '$filter'];
 /* @ngInject */
-function controllerPanelSort($scope, $filter) { 
+function controllerPanelSort($scope, $filter) {
 	var panelSort = this;
 	var orderBy = $filter('orderBy');
-	
+
 	panelSort.fields = $scope.fields;
-	
+
 	panelSort.column = '';
 	panelSort.direction = '-';
 	panelSort.field = '';
-	
+
 	panelSort.sort = function(field) {
 		if (field === panelSort.column) {
 			if (panelSort.direction === '-') {
 				panelSort.direction = '+';
 			} else {
-				panelSort.direction = '-';				
+				panelSort.direction = '-';
 			}
 // 				if (panelSort.direction === '') {
 // 					panelSort.direction = '-';
 // 				} else if (panelSort.direction === '-') {
-// 					panelSort.direction = '+';				
+// 					panelSort.direction = '+';
 // 				} else if (panelSort.direction === '+') {
 // 					panelSort.direction = '';
 // 				}
@@ -93,17 +93,17 @@ function controllerPanelSort($scope, $filter) {
 		}
 		$scope.data = orderBy($scope.data, panelSort.field, false);
 	};
-}	
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Research Detail
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 controllerModalResearchDetail.$inject = ['$scope', 'Utils', '$modalInstance'];
 /* @ngInject */
 function controllerModalResearchDetail($scope, Utils, $modalInstance) {
 	var rd = this;
-	
+
 	$scope.$watchGroup(['seed', 'term'], function(newValue) {
 		if (newValue[0] && newValue[1]) {
 			rd.term = newValue[1];
@@ -115,12 +115,12 @@ function controllerModalResearchDetail($scope, Utils, $modalInstance) {
 	});
 
 	rd.cancel = function () { $modalInstance.dismiss('cancel'); };
-}     
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Roles Select
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 controllerRolesSelect.$inject = ['$scope', 'Utils', '_'];
 /* @ngInject */
 function controllerRolesSelect($scope, Utils, _) {
@@ -139,7 +139,7 @@ function controllerRolesSelect($scope, Utils, _) {
 		utilRolesSelect.roles = res.data;
 	});
 
-	// 
+	//
 	utilRolesSelect.toggleAccess = function(role) {
 		if( _.contains(utilRolesSelect.access, role) ) {
 			// remove
@@ -155,7 +155,7 @@ function controllerRolesSelect($scope, Utils, _) {
 //
 // CONTROLLER: Users Select
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 controllerUsersSelect.$inject = ['$scope', '$modal'];
 /* @ngInject */
 function controllerUsersSelect($scope, $modal) {
@@ -191,7 +191,7 @@ function controllerUsersSelect($scope, $modal) {
 			}
 		});
 		modalUsersView.result.then(function (users) {
-			console.log('callback', $scope.callback, users);
+	// console.log('callback', $scope.callback, users);
 		}, function () {});
 	};
 
@@ -200,7 +200,7 @@ function controllerUsersSelect($scope, $modal) {
 //
 // CONTROLLER: Roles Select
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 controllerModalUsersSelect.$inject = ['$scope', 'users', 'orgs', 'project', 'config', '$modalInstance', 'Utils', 'OrganizationModel', '_'];
 /* @ngInject */
 function controllerModalUsersSelect($scope, users, orgs, project, config, $modalInstance, Utils, OrganizationModel, _) {
@@ -255,7 +255,7 @@ function controllerModalUsersSelect($scope, users, orgs, project, config, $modal
 	utilUsers.newUser.viaEmail = angular.copy(utilUsers.config.viaEmail) || false;
 	utilUsers.newUser.viaMail = angular.copy(utilUsers.config.viaMail) || false;
 
-	// add a new 
+	// add a new
 	utilUsers.addNewUser = function() {
 		// TODO: validate user record.
 		utilUsers.selected.push( angular.copy(utilUsers.userNew) );
@@ -287,7 +287,7 @@ function controllerModalUsersSelect($scope, users, orgs, project, config, $modal
 // -----------------------------------------------------------------------------------
 controllerRequirementCalculation.$inject = ['$scope', '_'];
 /* @ngInject */
-function controllerRequirementCalculation($scope, _) { 
+function controllerRequirementCalculation($scope, _) {
 	var reqChecklist = this;
 	reqChecklist.reqs = [];
 
@@ -325,7 +325,7 @@ function controllerRequirementCalculation($scope, _) {
 // -----------------------------------------------------------------------------------
 controllerModalRecipientList.$inject = ['$modalInstance', 'rUsers', '_'];
 /* @ngInject */
-function controllerModalRecipientList($modalInstance, rUsers, _) { 
+function controllerModalRecipientList($modalInstance, rUsers, _) {
 	var utilRecipientList = this;
 
 	// put all the users into a string and display in a textarea
@@ -345,7 +345,7 @@ function controllerModalRecipientList($modalInstance, rUsers, _) {
 // -----------------------------------------------------------------------------------
 controllerModalUserContactInfo.$inject = ['$modalInstance', 'user'];
 /* @ngInject */
-function controllerModalUserContactInfo($modalInstance, user) { 
+function controllerModalUserContactInfo($modalInstance, user) {
 	var utilUserContactInfo = this;
 
 	utilUserContactInfo.user = user;
@@ -359,7 +359,7 @@ function controllerModalUserContactInfo($modalInstance, user) {
 // -----------------------------------------------------------------------------------
 controllerModalSelectItems.$inject = ['$modalInstance', 'rAllItems', 'rSelectedItems', 'rItemName', 'rSingle', 'rUnique', '_'];
 /* @ngInject */
-function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, rItemName, rSingle, rUnique, _) { 
+function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, rItemName, rSingle, rUnique, _) {
 	var selectItems = this;
 
 	// constrain selection to just one.  Directive needs to have x-single=true
@@ -374,7 +374,7 @@ function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, r
 			_.each( rAllItems, function(obj) {
 				if (!_.some(selectItems.selectedItems, _.matchesProperty('code', obj.code))) {
 					selectItems.itemList.push(obj);
-				}	
+				}
 			});
 		}
 	};
@@ -444,7 +444,7 @@ function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, r
 	//
 	//
 	//
-	selectItems.ok = function () { 
+	selectItems.ok = function () {
 		// saving so pass back new data and a reference to the destination
 		$modalInstance.close(selectItems.selectedItems, rSelectedItems);
 	};
@@ -456,7 +456,7 @@ function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, r
 // -----------------------------------------------------------------------------------
 controllerModalDatePicker.$inject = ['$modalInstance', 'rChosenDate', 'moment'];
 /* @ngInject */
-function controllerModalDatePicker($modalInstance, rChosenDate, moment) { 
+function controllerModalDatePicker($modalInstance, rChosenDate, moment) {
 	var modalDatePick = this;
 
 	modalDatePick.chosenDate = rChosenDate || moment();

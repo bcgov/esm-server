@@ -1,33 +1,43 @@
-<h1 class="page-title no-lower-margin">Comment Periods for {{ project.name }}</h1>
+<h1 class="page-title no-lower-margin">{{ project.name }}: Comment Periods</h1>
 
 <div class="row">
 	<div class="col-sm-12 text-right">
 		<a class="btn btn-xs btn-link" ui-sref="p.commentperiod.create()">+ Add New Comment Period</a>
+		<show-filter x-toggle-filter="toggleFilter"></show-filter>
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-sm-12">
 		<section class="panel panel-default">
-			<table ng-table="tableParams" show-filter="true" class="table table-condensed table-bordered table-striped">
+			<table ng-table="tableParams" show-filter="toggleFilter" class="table table-condensed table-bordered table-striped">
 			    <tr ng-repeat="p in $data" ui-sref="p.commentperiod.detail({periodId:p._id})">
+			        <td title="'Type'" filter="{ periodType: 'text'}" sortable="'periodType'">
+			            {{p.periodType}}
+			        </td>
 			        <td title="'Phase'" filter="{ phaseName: 'text'}" sortable="'phaseName'">
 			            {{p.phaseName}}
 			        </td>
-			        <td title="'Target'" filter="{ targetType: 'text'}" sortable="'targetType'">
-			            {{p.targetType}}
+			        <td title="'Artifact'" filter="{ artifactName: 'text'}" sortable="'artifactName'">
+			            {{p.artifactName}}
 			        </td>
-			        <td title="'Version'" filter="{ targetVersion: 'text'}" sortable="'targetVersion'">
-			            {{p.targetVersion}}
+			        <td title="'Version'" filter="{ artifactVersion: 'text'}" sortable="'artifactVersion'">
+			            {{p.artifactVersion}}
 			        </td>
-			        <td title="'Roles'" >
-			            {{p.roles.join(', ')}}
+			        <td title="'Starts'" sortable="'dateStarted'">
+			            {{ p.dateStarted | date }}
+			        </td>
+			        <td title="'Completes'" sortable="'dateCompleted'">
+			            {{ p.dateCompleted | date }}
+			        </td>
+			        <td title="'Vetted'" >
+			            <i ng-if="p.isVetted" class="glyphicon glyphicon-ok"></i>
 			        </td>
 			        <td title="'Resolved'" >
-			            {{p.resolved}}
+			            <i ng-if="p.isResolved" class="glyphicon glyphicon-ok"></i>
 			        </td>
 			        <td title="'Published'" >
-			            {{p.published}}
+			            <i ng-if="p.isPublished" class="glyphicon glyphicon-ok"></i>
 			        </td>
 			        <td width="1%" class="text-right">
 			        	<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.commentperiod.edit({periodId:p._id})">
@@ -36,10 +46,10 @@
 			        </td>
 			    </tr>
 				<tr ng-if="!$data || $data.length === 0">
-					<td colspan="7">
+					<td colspan="10">
 						No records found.
 					</td>
-				</tr>			    
+				</tr>
 			</table>
 		</section>
 	</div>

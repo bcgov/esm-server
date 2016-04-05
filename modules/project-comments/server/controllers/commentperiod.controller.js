@@ -6,30 +6,67 @@
 // =========================================================================
 var path       = require('path');
 var DBModel    = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
-var PhaseModel = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
+var PhaseClass = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
+var ActivityClass = require (path.resolve('./modules/activities/server/controllers/activity.controller'));
+var MilestoneClass = require (path.resolve('./modules/milestones/server/controllers/milestone.controller'));
+var ArtifactClass = require (path.resolve('./modules/artifacts/server/controllers/artifact.controller'));
 var _          = require ('lodash');
 
 module.exports = DBModel.extend ({
 	name : 'CommentPeriod',
 	plural : 'commentperiods',
-	postprocessAdd: function (period) {
+	preprocessAdd: function (period) {
 		var self=this;
 		var p;
-		if (period.type === 'Public') {
-			//
-			// add the base milestone for public comments
-			//
-			p = PhaseModel.addMilestoneFromCode (period.phase, 'public-comment', {write:period.roles});
-		}
-		else if (period.type === 'Working Group') {
-			//
-			// add the base milestone for working group comments
-			//
-			p = PhaseModel.addMilestoneFromCode (period.phase, 'working-group-comment', {write:period.roles});
-		}
-		return new Promise (function (resolve, reject) {
-			if (p) p.then (function () { resolve (period); }).catch(reject);
-			else resolve (period);
+		var phaseModel = new PhaseClass (this.user);
+		var artifactModel = new ArtifactClass (this.user);
+		var activityModel = new ActivityClass (this.user);
+		var milestoneModel = new MilestoneClass (this.user);
+		var projectCode;
+		return Promise.resolve ()
+		.then (function () {
+			return phaseModel.findById (period.phase);
+		})
+		.then (function (phase) {
+			if (period.periodType === 'Public') {
+				//
+				// add the base milestone for public comments
+				//
+				return phaseModel.addMilestone (phase, 'public-comment-period', {write:period.roles});
+			}
+			else if (period.periodType === 'Working Group') {
+				//
+				// add the base milestone for working group comments
+				//
+				return phaseModel.addMilestone (phase, 'comment-period', {write:period.roles});
+			}
+		})
+		.then (function (phase) {
+			// console.log ('phase: ',JSON.stringify (phase,null,4));
+			var milestone = _.last (phase.milestones);
+			projectCode = phase.projectCode;
+			return milestoneModel.findById (milestone);
+		})
+		.then (function (milestone) {
+			return activityModel.findById (milestone.activities[0]);
+		})
+		.then (function (activity) {
+			activity.data = {
+				projectid : projectCode,
+				artifactId : period.artifact
+			};
+			return activityModel.saveDocument (activity);
+		})
+		.then (function () {
+			return artifactModel.findById (period.artifact);
+		})
+		.then (function (artifact) {
+			artifact.heldStage = artifact.stage;
+			artifact.stage = (period.periodType === 'Public')? 'Public Comment Period' : 'Comment Period';
+			return artifactModel.saveDocument (artifact);
+		})
+		.then (function () {
+			return period;
 		});
 	},
 	// -------------------------------------------------------------------------

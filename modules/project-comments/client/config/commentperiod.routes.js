@@ -21,8 +21,11 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 		template: '<ui-view></ui-view>',
 		resolve: {
 			periods: function ($stateParams, CommentPeriodModel, project) {
-				return CommentPeriodModel.getPeriodsForProject (project._id);
+				return CommentPeriodModel.forProject (project._id);
 			},
+			artifacts: function (project, ArtifactModel) {
+				return ArtifactModel.forProject (project._id);
+			}
 		},
         onEnter: function (MenuControl, project) {
             MenuControl.routeAccess (project.code, 'eao','edit-comment-periods');
@@ -57,10 +60,18 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				return CommentPeriodModel.getNew ();
 			}
 		},
-		controller: function ($scope, $state, project, period, CommentPeriodModel) {
+		controller: function ($scope, $state, project, period, CommentPeriodModel, artifacts) {
 			$scope.period = period;
 			$scope.project = project;
+			$scope.artifacts = artifacts;
 			$scope.save = function () {
+				period.project               = project._id;
+				period.phase                 = project.currentPhase;
+				period.phaseName             = project.currentPhase.name;
+				period.artifactName          = period.artifact.name;
+				period.artifactVersion       = period.artifact.version;
+				period.artifactVersionNumber = period.artifact.versionNumber;
+				period.artifactTypeCode      = period.artifact.typeCode;
 				CommentPeriodModel.add ($scope.period)
 				.then (function (model) {
 					$state.transitionTo('p.commentperiod.list', {projectid:project.code}, {

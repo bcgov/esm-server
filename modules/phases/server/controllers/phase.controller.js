@@ -218,7 +218,7 @@ module.exports = DBModel.extend ({
 	completeMilestones: function (phase) {
 		// console.log ('completing milestones');
 		var self = this;
-		console.log (JSON.stringify (phase, null, 4));
+	// console.log (JSON.stringify (phase, null, 4));
 		var Milestone = new MilestoneClass (self.user);
 		return Promise.all (phase.milestones.map (function (milestoneId) {
 			return Milestone.findById (milestoneId);

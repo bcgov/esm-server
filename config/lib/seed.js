@@ -68,6 +68,9 @@ var checkIntegration = function (name, override) {
 checkIntegration ('newconfigs2').then (function () {
 	require('../seed-data/newconfigs')(true);
 });
+checkIntegration ('commentconfigs').then (function () {
+	require('../seed-data/commenting-configs')(true);
+});
 
 // -------------------------------------------------------------------------
 //

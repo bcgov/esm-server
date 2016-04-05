@@ -19,6 +19,8 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	//
 	artifactType            : { type:'ObjectId', ref:'ArtifactType', index:true },
 	typeCode        : { type:String, default:'',  index:true},
+	subTypeCode        : { type:String, default:'',  index:true},
+	subTypeName        : { type:String, default:''},
 	//
 	// a name for this artifact that is unique in the project and will be used
 	// to group all the various versions of this artifact together over time
@@ -29,6 +31,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	// is the current version number? We will only edit the most current version
 	//
 	stage   : { type:String, default:'' },
+	heldStage   : { type:String, default:'' },
 	version : { type:String, default:'' },
 	versionNumber : { type:Number, default:0, index:true },
 	published : { type:Boolean, default:false, index:true },
