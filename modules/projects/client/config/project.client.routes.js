@@ -98,11 +98,11 @@ angular.module('project').config (
 		url: '/edit',
 		templateUrl: 'modules/projects/client/views/project-partials/project.entry.html',
 		controller: 'controllerProjectEntry',
-		resolve: {
-			intakeQuestions: function(ProjectModel) {
-				return ProjectModel.getProjectIntakeQuestions();
-			}
-		},
+		// resolve: {
+		// 	intakeQuestions: function(ProjectModel) {
+		// 		return ProjectModel.getProjectIntakeQuestions();
+		// 	}
+		// },
         onEnter: function (MenuControl, project, $stateParams) {
         	if ($stateParams.projectid === 'new') {
         		MenuControl.routeAccess ('', '','proponent');
@@ -111,7 +111,20 @@ angular.module('project').config (
             	MenuControl.routeAccess (project.code, 'pro','edit-project');
         	}
         }
-	});
+	})
+	// -------------------------------------------------------------------------
+	//
+	// the decision package mockup
+	//
+	// -------------------------------------------------------------------------
+	.state('p.decision', {
+		url: '/decision',
+		templateUrl: 'modules/projects/client/views/project-partials/project.decision.html',
+		controller: function ($scope, $state, project, ProjectModel) {
+
+        }
+	})
+	;
 }]);
 
 

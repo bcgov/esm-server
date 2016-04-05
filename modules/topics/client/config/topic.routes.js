@@ -85,7 +85,7 @@ angular.module('topics').config(['$stateProvider', function ($stateProvider) {
 				})
 				.catch (function (err) {
 					console.error (err);
-					alert (err.message);
+					// alert (err.message);
 				});
 			};
 			$scope.selectTopic = function () {
@@ -146,7 +146,7 @@ angular.module('topics').config(['$stateProvider', function ($stateProvider) {
 				})
 				.catch (function (err) {
 					console.error (err);
-					alert (err.message);
+					// alert (err.message);
 				});
 			};
 			$scope.selectTopic = function () {

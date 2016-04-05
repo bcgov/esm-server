@@ -46,7 +46,7 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 			})
 			.catch (function (err) {
 				console.error (err);
-				alert (err.message);
+				// alert (err.message);
 			});
 		};
 	};
@@ -136,7 +136,7 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 			// 	})
 			// 	.catch (function (err) {
 			// 		console.error (err);
-			// 		alert (err.message);
+			// 		// alert (err.message);
 			// 	});
 			// };
 		}

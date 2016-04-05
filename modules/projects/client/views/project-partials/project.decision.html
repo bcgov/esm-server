@@ -1,0 +1,152 @@
+<h1 class="page-title ng-binding ng-scope">
+	Comment On Section 11 Order (Draft) for Chris New Project
+</h1>
+
+<div class="text-right ng-scope">
+	<a class="btn btn-link btn-xs" ui-sref="p.detail" href="/p/cc-project/detail">Cancel</a>
+</div>
+
+<!-- ngInclude: 'modules/artifacts/client/views/partial.artifact-view.html' --><div ng-include="'modules/artifacts/client/views/partial.artifact-view.html'" class="ng-scope"><!-- ngIf: artifact.isTemplate --><div ng-if="artifact.isTemplate" class="ng-scope">
+	<!--
+
+		This section gets displayed if the content is a template
+
+	 -->
+	<tmpl-template-render x-template="artifact.template" x-mode="view" x-project="project" x-document="artifact.templateData" class="ng-isolate-scope"><div class="panel panel-default ng-scope"><div class="panel-body no-vertical-padding ng-scope" du-scroll-container="templateContainer"><div class="row block-section"><div class="col-sm-3 col-no-padding vertical-scroll col-border-right"><ul class="small list-unstyled list-documents"><!-- ngRepeat: section in allsections --><li class="row-folder clickable ng-scope" du-scrollspy="header" ng-repeat="section in allsections"><a href="#header" x-offset="10" du-smooth-scroll="" class="ng-binding">Header</a></li><!-- end ngRepeat: section in allsections --><li class="row-folder clickable ng-scope" du-scrollspy="whereasStatic1" ng-repeat="section in allsections"><a href="#whereasStatic1" x-offset="10" du-smooth-scroll="" class="ng-binding">Whereas Static 1</a></li><!-- end ngRepeat: section in allsections --><li class="row-folder clickable ng-scope" du-scrollspy="whereasOptional" ng-repeat="section in allsections"><a href="#whereasOptional" x-offset="10" du-smooth-scroll="" class="ng-binding">Whereas Optional</a></li><!-- end ngRepeat: section in allsections --><li class="row-folder clickable ng-scope" du-scrollspy="whereasStatic2" ng-repeat="section in allsections"><a href="#whereasStatic2" x-offset="10" du-smooth-scroll="" class="ng-binding">Whereas Static 2</a></li><!-- end ngRepeat: section in allsections --><li class="row-folder clickable ng-scope" du-scrollspy="therefore" ng-repeat="section in allsections"><a href="#therefore" x-offset="10" du-smooth-scroll="" class="ng-binding">Therefore</a></li><!-- end ngRepeat: section in allsections --><li class="row-folder clickable ng-scope" du-scrollspy="signature" ng-repeat="section in allsections"><a href="#signature" x-offset="10" du-smooth-scroll="" class="ng-binding">Signature</a></li><!-- end ngRepeat: section in allsections --><li class="row-folder clickable ng-scope" du-scrollspy="enclosures" ng-repeat="section in allsections"><a href="#enclosures" x-offset="10" du-smooth-scroll="" class="ng-binding">Enclosures</a></li><!-- end ngRepeat: section in allsections --></ul></div><div class="col-sm-9 vertical-scroll-padded" id="templateContainer"><div class="template"><a name="header"></a><div class="letter-head">
+    <p>
+      IN THE MATTER OF THE ENVIRONMENTAL ASSESSMENT ACT S.B.C. 2002, c.43<br>(ACT)
+    </p>
+    <p>
+      AND
+    </p>
+    <p class="ng-binding">
+      AN ENVIRONMENTAL ASSESSMENT OF THE<br>--XXX-- PROJECT
+    </p>
+    <p>
+      <u>ORDER UNDER SECTION 11</u>
+    </p>
+  </div><a name="whereasStatic1"></a><div class="letter-section">
+    <p>
+      <b>WHEREAS:</b>
+    </p>
+    <ol type="A">
+      <li>
+        <p class="ng-binding">
+          --XXX-- (Proponent) proposes to develop --Xlkjasldkj lkjasd XX-- project near
+          --XXX-- (proposed Project);
+        </p>
+      </li>
+      <li>
+        <p class="ng-binding">
+          The proposed Project constitutes a reviewable project, pursuant to Part --X-- of the
+          Reviewable Projects Regulation (B.C. Reg. 370/02), because --describe threshold--;
+        </p>
+      </li><a name="whereasOptional"></a><li>
+        <p>
+          </p><div ng-bind-html="document.whereasOptional.environmentalAssessment" class="ng-binding">--Environmental Assessment--</div>
+        <p></p>
+      </li><a name="whereasStatic2"></a><li>
+        <p>
+          The Executive Director has delegated to the undersigned, certain powers and functions
+          under the Act, including the power to issue Orders under section 11 of the Act; and
+        </p>
+      </li>
+      <li>
+        <p class="ng-binding">
+          On --date--, --name-- issued an Order under --section 10(1)(c) or section 6(2)-- of the Act,
+          stating that the proposed Project requires an environmental assessment certificate
+          and that the Proponent may not proceed with the proposed Project without an assessment.
+
+        </p>
+      </li>
+    </ol>
+    <div class="note-box-lrg">
+      Note: Recitals are non-binding and it is recommended that no additional recitals are included
+      except for the above basic contextual statements.
+    </div>
+  </div><a name="therefore"></a><div class="letter-section">
+    <p>
+      <b>NOW THEREFORE:</b>
+    </p>
+    <p class="ng-binding">
+      Pursuant to section 11 of the Act, I order that the environmental assessment of the proposed
+      Project be conducted according to the scope, procedures and methods set out in Schedules A
+      --B, C, and D, as required-- to this Order.
+    </p>
+  </div><a name="signature"></a><div class="letter-footer">
+    <p class="ng-binding">
+      __________________________________<br>--First Name Last Name--<br>--Executive Project Director / Project Assessment Manager--
+    </p>
+    <p class="ng-binding">
+      Dated ________________, 20--XX--
+    </p><a name="enclosures"></a>Enclosure(s):
+    <div class="custom-list-no-space">
+      Schedule A
+    </div>
+<!-- ngRepeat: _v in document.enclosures --><!-- ngIf: 0 -->
+<div class="custom-list-no-space ng-binding ng-scope">
+      --Add other schedules as necessary--
+    </div>
+<!-- ngIf: 0 --><!-- end ngRepeat: _v in document.enclosures -->
+</div></div></div></div></div></div></tmpl-template-render>
+</div><!-- end ngIf: artifact.isTemplate -->
+
+
+<!-- ngIf: !artifact.isTemplate -->
+</div>
+
+<div class="panel panel-default ng-scope">
+	<div class="panel-body">
+		<tmpl-wg-comments><section class="panel panel-default block-content">
+	<div class="block-content">
+		<h3>Working Group Comments</h3>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-4 col-browser-subtitles">
+					<label class="control-label">Working Group Members</label>
+				</div>
+				<div class="col-sm-8 col-browser-subtitles list-indent-left">
+					<label class="control-label">Comment</label>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-4 col-no-padding vertical-scroll col-border-right">
+					<ul class="small list-unstyled list-documents">
+						<!-- ngRepeat: member in wgMembers --><li ng-click="selectUser(member)" class="row-folder clickable ng-binding ng-scope" ng-repeat="member in wgMembers" ng-class="{'active btn-primary': isSelectedUser(member), 'bg-success': member.status === 'Responded' }" title="Pending">
+							Ted Striker <!-- ngIf: member.hasUnvetted --><em class="small pull-right ng-scope" ng-if="member.hasUnvetted">Unvetted Comment</em><!-- end ngIf: member.hasUnvetted -->
+						</li><!-- end ngRepeat: member in wgMembers --><li ng-click="selectUser(member)" class="row-folder clickable ng-binding ng-scope bg-success" ng-repeat="member in wgMembers" ng-class="{'active btn-primary': isSelectedUser(member), 'bg-success': member.status === 'Responded' }" title="Responded">
+							Orlando Jones <!-- ngIf: member.hasUnvetted -->
+						</li><!-- end ngRepeat: member in wgMembers --><li ng-click="selectUser(member)" class="row-folder clickable ng-binding ng-scope bg-success" ng-repeat="member in wgMembers" ng-class="{'active btn-primary': isSelectedUser(member), 'bg-success': member.status === 'Responded' }" title="Responded">
+							Steve Steverson <!-- ngIf: member.hasUnvetted -->
+						</li><!-- end ngRepeat: member in wgMembers -->
+					</ul>
+
+				</div>
+				<div class="col-sm-8 col-no-padding vertical-scroll">
+
+					<ul class="small list-unstyled list-documents list-indent-left">
+
+						<!-- ngRepeat: comment in selectedUser.comments -->
+					</ul>
+
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+</section>
+</tmpl-wg-comments>
+	</div>
+</div>
+
+<!-- ngInclude: 'modules/artifacts/client/views/partial.artifact-notes.html' --><div ng-include="'modules/artifacts/client/views/partial.artifact-notes.html'" class="ng-scope"><!-- ngIf: artifact.reviewNotes.length -->
+<!-- ngIf: artifact.approvalNotes.length --></div>
+
+<!-- ngInclude: 'modules/artifacts/client/views/partial.artifact-comments.html' --><div ng-include="'modules/artifacts/client/views/partial.artifact-comments.html'" class="ng-scope"><!-- ngIf: artifact.commmentPeriods.length -->
+<!-- ngRepeat: period in artifact.commmentPeriods -->
+<!-- ngIf: artifact.commmentPeriods.length -->
+<!-- ngRepeat: period in artifact.commmentPeriods -->
+</div>

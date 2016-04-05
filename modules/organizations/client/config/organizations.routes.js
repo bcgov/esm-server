@@ -70,7 +70,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 })
                 .catch (function (err) {
                     console.error (err);
-                    alert (err.message);
+                    // alert (err.message);
                 });
             };
         },
@@ -110,7 +110,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 })
                 .catch (function (err) {
                     console.error (err);
-                    alert (err.message);
+                    // alert (err.message);
                 });
             };
         }
@@ -207,7 +207,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 })
                 .catch (function (err) {
                     console.error (err);
-                    alert (err.message);
+                    // alert (err.message);
                 });
             };
         }
@@ -258,7 +258,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 })
                 .catch (function (err) {
                     console.error (err);
-                    alert (err.message);
+                    // alert (err.message);
                 });
             };
         }
