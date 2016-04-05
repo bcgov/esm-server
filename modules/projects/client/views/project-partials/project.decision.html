@@ -1,157 +1,308 @@
 <h1 class="page-title ng-binding ng-scope">
-	Decison Package for {{ project.name }}
+Decison Package for {{ project.name }}
 </h1>
-
 <div class="text-right ng-scope">
 	<a class="btn btn-link btn-xs" ui-sref="p.detail" href="/p/cc-project/detail">Cancel</a>
 </div>
 
-<!-- ngInclude: 'modules/artifacts/client/views/partial.artifact-view.html' -->
-
-<div class="ng-scope">
-	<!--
-
-		This section gets displayed if the content is a template
-
-	 -->
-
 <div class="panel panel-default ng-scope">
-<div class="panel-body no-vertical-padding ng-scope" du-scroll-container="templateContainer">
-<div class="row block-section">
-<div class="col-sm-3 col-no-padding vertical-scroll col-border-right">
+	<div class="panel-body no-vertical-padding ng-scope">
+		<div class="row block-section">
+			<div class="col-sm-2 col-no-padding col-border-right">
+				<ul class="small list-unstyled list-documents">
+					<li class="row-folder clickable ng-scope" >
+						<a href="#qw" x-offset="10"  class="ng-binding">Recommendations of the ADM</a>
+					</li>
+					<li class="row-folder clickable ng-scope" >
+						<a href="#we" x-offset="10"  class="ng-binding">Project Assessment Report</a>
+					</li>
+					<li class="row-folder clickable ng-scope" >
+						<a href="#er" x-offset="10"  class="ng-binding">Draft Certificate</a>
+					</li>
+					<li class="row-folder clickable ng-scope" >
+						<a href="#rt" x-offset="10"  class="ng-binding">Table of Conditions (Schedule A)</a>
+					</li>
+					<li class="row-folder clickable ng-scope" >
+						<a href="#ty" x-offset="10"  class="ng-binding">Project Description (Schedule B)</a>
+					</li>
+					<li class="row-folder clickable ng-scope" >
+						<a href="#yu" x-offset="10"  class="ng-binding">Application Package</a>
+					</li>
+				</ul>
 
-<ul class="small list-unstyled list-documents">
-
-<li class="row-folder clickable ng-scope" du-scrollspy="header">
-<a href="#header" x-offset="10" du-smooth-scroll="" class="ng-binding">Header</a>
-</li>
-
-<li class="row-folder clickable ng-scope" du-scrollspy="whereasStatic1">
-<a href="#whereasStatic1" x-offset="10" du-smooth-scroll="" class="ng-binding">Whereas Static 1</a>
-</li>
-
-<li class="row-folder clickable ng-scope" du-scrollspy="whereasOptional">
-<a href="#whereasOptional" x-offset="10" du-smooth-scroll="" class="ng-binding">Whereas Optional</a>
-</li>
-
-<li class="row-folder clickable ng-scope" du-scrollspy="whereasStatic2">
-<a href="#whereasStatic2" x-offset="10" du-smooth-scroll="" class="ng-binding">Whereas Static 2</a>
-</li>
-
-<li class="row-folder clickable ng-scope" du-scrollspy="therefore">
-<a href="#therefore" x-offset="10" du-smooth-scroll="" class="ng-binding">Therefore</a>
-</li>
-
-<li class="row-folder clickable ng-scope" du-scrollspy="signature">
-<a href="#signature" x-offset="10" du-smooth-scroll="" class="ng-binding">Signature</a>
-</li>
-
-<li class="row-folder clickable ng-scope" du-scrollspy="enclosures">
-<a href="#enclosures" x-offset="10" du-smooth-scroll="" class="ng-binding">Enclosures</a>
-</li>
-
-</ul>
-
-
-</div>
-<div class="col-sm-9 vertical-scroll-padded" id="templateContainer">
-<div class="template">
-<a name="header">
-</a>
-<div class="letter-head">
-    <p>
-      IN THE MATTER OF THE ENVIRONMENTAL ASSESSMENT ACT S.B.C. 2002, c.43<br>(ACT)
-    </p>
-    <p>
-      AND
-    </p>
-    <p class="ng-binding">
-      AN ENVIRONMENTAL ASSESSMENT OF THE<br>--XXX-- PROJECT
-    </p>
-    <p>
-      <u>ORDER UNDER SECTION 11</u>
-    </p>
-  </div><a name="whereasStatic1"></a><div class="letter-section">
-    <p>
-      <b>WHEREAS:</b>
-    </p>
-    <ol type="A">
-      <li>
-        <p class="ng-binding">
-          --XXX-- (Proponent) proposes to develop --Xlkjasldkj lkjasd XX-- project near
-          --XXX-- (proposed Project);
-        </p>
-      </li>
-      <li>
-        <p class="ng-binding">
-          The proposed Project constitutes a reviewable project, pursuant to Part --X-- of the
-          Reviewable Projects Regulation (B.C. Reg. 370/02), because --describe threshold--;
-        </p>
-      </li><a name="whereasOptional"></a><li>
-        <p>
-          </p><div ng-bind-html="document.whereasOptional.environmentalAssessment" class="ng-binding">--Environmental Assessment--</div>
-        <p></p>
-      </li><a name="whereasStatic2"></a><li>
-        <p>
-          The Executive Director has delegated to the undersigned, certain powers and functions
-          under the Act, including the power to issue Orders under section 11 of the Act; and
-        </p>
-      </li>
-      <li>
-        <p class="ng-binding">
-          On --date--, --name-- issued an Order under --section 10(1)(c) or section 6(2)-- of the Act,
-          stating that the proposed Project requires an environmental assessment certificate
-          and that the Proponent may not proceed with the proposed Project without an assessment.
-
-        </p>
-      </li>
-    </ol>
-    <div class="note-box-lrg">
-      Note: Recitals are non-binding and it is recommended that no additional recitals are included
-      except for the above basic contextual statements.
-    </div>
-  </div><a name="therefore"></a><div class="letter-section">
-    <p>
-      <b>NOW THEREFORE:</b>
-    </p>
-    <p class="ng-binding">
-      Pursuant to section 11 of the Act, I order that the environmental assessment of the proposed
-      Project be conducted according to the scope, procedures and methods set out in Schedules A
-      --B, C, and D, as required-- to this Order.
-    </p>
-  </div><a name="signature"></a><div class="letter-footer">
-    <p class="ng-binding">
-      __________________________________<br>--First Name Last Name--<br>--Executive Project Director / Project Assessment Manager--
-    </p>
-    <p class="ng-binding">
-      Dated ________________, 20--XX--
-    </p><a name="enclosures"></a>Enclosure(s):
-    <div class="custom-list-no-space">
-      Schedule A
-    </div>
-<!-- ngRepeat: _v in document.enclosures --><!-- ngIf: 0 -->
-<div class="custom-list-no-space ng-binding ng-scope">
-      --Add other schedules as necessary--
-    </div>
-<!-- ngIf: 0 --><!-- end ngRepeat: _v in document.enclosures -->
-</div></div></div></div></div></div>
-</div><!-- end ngIf: artifact.isTemplate -->
-
-
-<!-- ngIf: !artifact.isTemplate -->
-</div>
-
-<div class="panel panel-default ng-scope">
-	<div class="panel-body">
-
+			</div>
+			<div class="col-sm-10 ">
+			</div>
+		</div>
 	</div>
 </div>
 
-<!-- ngInclude: 'modules/artifacts/client/views/partial.artifact-notes.html' --><div ng-include="'modules/artifacts/client/views/partial.artifact-notes.html'" class="ng-scope"><!-- ngIf: artifact.reviewNotes.length -->
-<!-- ngIf: artifact.approvalNotes.length --></div>
 
-<!-- ngInclude: 'modules/artifacts/client/views/partial.artifact-comments.html' --><div ng-include="'modules/artifacts/client/views/partial.artifact-comments.html'" class="ng-scope"><!-- ngIf: artifact.commmentPeriods.length -->
-<!-- ngRepeat: period in artifact.commmentPeriods -->
-<!-- ngIf: artifact.commmentPeriods.length -->
-<!-- ngRepeat: period in artifact.commmentPeriods -->
+
+<div class="panel panel-default ng-scope">
+	<div class="panel-body no-vertical-padding ng-scope" du-scroll-container="templateContainer">
+		<div class="row block-section">
+			<div class="col-sm-2 col-no-padding vertical-scroll col-border-right">
+				<ul class="small list-unstyled list-documents">
+					<li class="row-folder clickable ng-scope" du-scrollspy="header">
+						<a href="#header" x-offset="10" du-smooth-scroll="" class="ng-binding">Summary</a>
+					</li>
+					<li class="row-folder clickable ng-scope" du-scrollspy="whereasStatic1">
+						<a href="#whereasStatic1" x-offset="10" du-smooth-scroll="" class="ng-binding">Reasons for the Ministers Decision</a>
+					</li>
+					<li class="row-folder clickable ng-scope" du-scrollspy="whereasOptional">
+						<a href="#whereasOptional" x-offset="10" du-smooth-scroll="" class="ng-binding">Whereas Optional</a>
+					</li>
+					<li class="row-folder clickable ng-scope" du-scrollspy="whereasStatic2">
+						<a href="#whereasStatic2" x-offset="10" du-smooth-scroll="" class="ng-binding">Whereas Static 2</a>
+					</li>
+					<li class="row-folder clickable ng-scope" du-scrollspy="therefore">
+						<a href="#therefore" x-offset="10" du-smooth-scroll="" class="ng-binding">Therefore</a>
+					</li>
+					<li class="row-folder clickable ng-scope" du-scrollspy="signature">
+						<a href="#signature" x-offset="10" du-smooth-scroll="" class="ng-binding">Signature</a>
+					</li>
+					<li class="row-folder clickable ng-scope" du-scrollspy="enclosures">
+						<a href="#enclosures" x-offset="10" du-smooth-scroll="" class="ng-binding">Enclosures</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-sm-10 vertical-scroll-padded" id="templateContainer">
+				<div class="template">
+					<a name="header">
+					</a>
+					<div class="letter-head">
+						<p>
+							IN THE MATTER OF THE ENVIRONMENTAL ASSESSMENT ACT S.B.C. 2002, c.43<br>(ACT)
+						</p>
+						<p>
+							AND
+						</p>
+						<p>
+							IN THE MATTER OF AN APPLICATION FOR AN ENVIRONMENTAL ASSESSMENT CERTIFICATE (APPLICATION)
+						</p>
+						<p>
+							BY
+						</p>
+						<p class="ng-binding">
+							--- Proponent -- <br>(Proponent)
+						</p>
+						<p>
+							FOR THE
+						</p>
+						<p class="ng-binding">
+							--- Project -- <br>(Project)
+						</p>
+					</div>
+					<a name="whereasStatic1">
+					</a>
+					<div class="letter-section">
+						<hr/>
+						<p class="text-center">
+							<b>Reasons for the Minister's Decision</b>
+						</p>
+						<hr/>
+
+<p>
+On October 26, 2015 pursuant to Section 17(3)(c) of the Act, we, the Minister of Environment and the Minister of Natural Gas Development (Ministers), issued an Environmental Assessment Certificate for the Project. This document sets out the reasons for that decision.
+</p>
+<p>
+<b>
+1 NATURE AND SCOPE OF THE DECISION
+</b>
+</p>
+<p>
+Section 17(3) of the Act sets out the parameters for our decision. We considered the Environmental Assessment Office’s (EAO) assessment and recommendations, including whether the Province had met its duty to consult and, as appropriate, accommodate Aboriginal groups with respect to potential impacts of the Project on Aboriginal Interests.1 We considered other matters we thought relevant to the public interest in making our decision on the Proponent’s application for an environmental assessment (EA) Certificate, including separate submissions from Squamish Nation and Tsleil-Waututh Nation and Squamish Nation’s separate review of the Project.
+</p>
+<p>
+<b>
+2 MINISTERS’ CONSIDERATIONS
+</b>
+</p>
+<p>
+<b>
+2.1 EAO’s Assessment
+</b>
+</p>
+<p>
+EAO, with advice from an advisory Working Group, reviewed the Application and described its findings in detail in the Assessment Report, and summarized the key findings in the Summary Assessment Report. Throughout the EA process, EAO worked closely with provincial and federal ministries and agencies, Aboriginal groups, and local governments to identify issues and seek ways to address these issues, including the EA Certificate conditions which were proposed to us.
+</p>
+<p>
+EAO advised us that it was satisfied that the EA Certificate conditions and Project design would prevent or reduce potential environmental, social, economic, heritage or health impacts of the Project such that no significant adverse effects are expected. We concur with this view.
+</p>
+<p>
+EAO advised that it was satisfied that the Crown’s duty to appropriately consult and accommodate Aboriginal groups had been discharged for the Project. We concur with this view.
+</p>
+<p>
+In addition to the provincial EA, the Project also triggered a federal EA. The federal EA was led by EAO as a substituted EA pursuant to the 2013 Memorandum of Understanding between the Canadian Environmental Assessment Agency (the Agency) and EAO on Substitution of Environmental Assessments.2 As such, EAO examined both federal and provincial requirements. A federal decision has not yet been issued and, if approved, will include binding conditions, pursuant to s. 53 of the Canadian Environmental Assessment Act, 2012.
+</p>
+<p>
+1 Asserted or established Aboriginal rights including title.
+</p>
+<p>
+2 http://www.eao.gov.bc.ca/pdf/EAO_CEAA_Substitution_MOU.pdf
+</p>
+<p>
+<b>
+2.2 Recommendations of the Executive Director
+</b>
+</p>
+<p>
+EAO’s Executive Director, having considered the Assessment Report and proposed conditions and design requirements, recommended that an EA Certificate be issued for the Project.
+</p>
+<p>
+<b>
+2.3 Key Considerations
+</b>
+</p>
+<p>
+EAO examined whether the Project would have adverse environmental, economic, social, heritage and health effects to a wide range of valued components, as well as the potential effects on valued components from accidents and malfunctions and changes to the environment. EAO identified any residual effects to valued components that are expected after the implementation of mitigation and whether these residual effects would be significant. If the Project was found to have a residual effect, EAO then examined the potential cumulative effects to that valued component. The complete assessment is in EAO’s Summary Assessment Report and Assessment Report, which we considered. Below is a summary of some of our key considerations.
+</p>
+<p>
+Brownfield Site
+</p>
+<p>
+EAO identified that the Project would be located on a brownfield site and where possible Project components would be located on previously disturbed areas. Additionally, the Proponent would conduct remediation and ecosystem restoration including removal of approximately 3,000 existing creosote-coated piles from the waterfront of the Project area and the creation of a green zone around Mill Creek. We note that, where suitable, this work would be carried out in partnership with community and Aboriginal groups.
+</p>
+<p>
+Marine Fish and Seawater Cooling
+</p>
+<p>
+EAO identified that the Project has the potential to harm marine fish, particularly Pacific herring, as larval and juvenile herring may become impinged or entrained at the seawater cooling marine intake. During the EA, we note that the Proponent provided rationale to support its conclusions that serious harm to fish would be unlikely, including studies and evidence supporting the vertical separation of larval Pacific herring and the location of the marine water intake. We also note that the material and studies were reviewed by the Working Group and by the Department of Fisheries and Oceans (DFO). DFO indicated that based on the location of the intake, herring spawning locations and anticipated larval movement, population-level impacts to herring would be unlikely and that sufficient information was provided to support the conclusions of the EA.
+</p>
+<p>
+We note that additional mitigation measures were proposed by the Proponent during the EA, which included a commitment to conduct further herring surveys and ongoing monitoring during the spawning season, as well as future planning for the Project area that would include enhancements to promote herring productivity. These key mitigation measures, which EAO included as legally binding conditions, would minimize the effect to
+</p>
+<p>
+marine fish. We also note that the seawater cooling system marine water intake would be designed to meet DFO best management practices for approach velocity and screen size, including locating the intake at a depth of greater than 25 m, 2 m above the seafloor.
+</p>
+<p>
+In the event that serious harm to fish cannot be avoided, the Proponent would be required to obtain a Fisheries Act authorization and to offset Project related serious harm. This would be determined following permitting applications and based on final engineering design and mitigation measures. Based on the available information, we understand that the effects to fish and fish habitat have been minimized to the extent practicable and that, at a conceptual level, options for offsetting impacts to fish habitat have been identified.
+</p>
+<p>
+We note that the EA Certificate conditions and certified project description, that are legally binding requirements under the Act, help ensure that impacts to fish and fish habitat are minimized and mitigated, while additional regulatory processes will ensure impacts are further mitigated and appropriately offset.
+</p>
+<p>
+Shipping Effects and Accidents and Malfunctions
+</p>
+<p>
+EAO’s assessment identified that key concerns were raised by the Working Group and the public related to the shipping of LNG in Howe Sound and the potential impacts to marine mammals from noise and direct strikes, and potential interference of LNG carriers with marine users, including impacts from vessel wake. Key concerns were also raised related to potential accidental LNG carrier collision or grounding resulting in a loss of containment and ignition of LNG.
+</p>
+<p>
+We note the commitments made by the Proponent to slow their LNG carriers and to ensure that each carrier would be accompanied by at least three escort tugs and guided by two BC Coast Pilots. A number of specific requirements are included in a marine mammal and marine transportation condition that is legally binding under the Act.
+</p>
+<p>
+We acknowledge that uncertainty regarding vessel wake remains a concern for some Aboriginal groups and members of the public. We are confident that the assessment approach was conservative and that the legally binding wake verification plan, including a requirement for adaptive management, will ensure that impacts of wake on marine users are adequately mitigated.
+</p>
+<p>
+We also note that in the unlikely event of a major accident or malfunction, actions would be initiated in accordance with the Proponent’s emergency response plan to protect human safety as a priority. Risks of collisions would be managed through a combination of industry standards, federal and provincial regulatory requirements and Project-specific mitigation. Further, we understand that the Proponent will be required to complete a detailed quantitative risk assessment during BC Oil and Gas Commission permitting and meet other requirements by Transport Canada related to marine shipping and safety. We are satisfied that accidents and malfunctions are unlikely to pose significant risk.
+</p>
+<p>
+Aboriginal Consultation
+</p>
+<p>
+EAO consulted deeply with two Aboriginal groups during the EA: Squamish Nation and Tsleil-Waututh Nation. EAO also consulted with Musqueam Nation, Cowichan Tribes First Nation, Halalt First Nation, Lake Cowichan First Nation, Lyackson First Nation, Penelakut Tribe, and Stz’uminus First Nation, as well as with the Métis Nation British Columbia on behalf of the federal government. EAO considered potential adverse effects of the Project on Aboriginal Interests and, as appropriate, made recommendations to mitigate or accommodate those effects.
+</p>
+<p>
+We are aware that Aboriginal groups were engaged in the EA process, working with EAO to seek to address potential impacts from the Project and to develop additional mitigations and design changes. We also note that the Proponent and Squamish Nation entered into an agreement that set out a process between the parties to discuss the potential effects of the Project on the asserted Squamish Nation Aboriginal Rights and Title. We acknowledge that Squamish Nation Council has reached a legally binding agreement with the Proponent.
+</p>
+<p>
+We are aware that as a result of Squamish Nation’s separate process, Squamish Nation identified a number of environmental issues of concern that may potentially affect their Aboriginal Interests. During the EA, Squamish Nation outlined 25 conditions to be met before the Project could be approved by Squamish Nation, 13 of which apply to Woodfibre LNG. Some of the key concerns identified by Squamish Nation through their proposed conditions included: seawater cooling, effects on fish and fish habitat, stream flow in Mill Creek, potential effects of noise on marine mammals, and risks related to accidents and malfunctions. We note that EAO has considered Squamish Nation’s conditions during the EA and in the EA Certificate conditions. In consideration of the mitigations and conditions proposed by EAO, as well as the Proponent’s demonstration of consultation with Squamish Nation and its commitment to ongoing engagement with Squamish Nation to formalize the Proponent’s obligations to satisfy Squamish Nation’s conditions, we are satisfied that Squamish Nation has been meaningfully consulted and accommodated on the potential effects of the Project.
+</p>
+<p>
+Following referral, we are aware that Squamish Nation’s conditions were subsequently agreed to by Squamish Nation and the Proponent. If there are any Project design changes proposed in the future as a result of the Proponent’s commitment to meet Squamish Nation’s conditions, we note that the Proponent would need to seek an amendment to the EA Certificate with EAO.
+</p>
+<p>
+Along with the referral material from EAO, we received separate submissions from Squamish Nation and Tsleil-Waututh Nation. We considered the comments and concerns raised in the submissions. Tsleil-Waututh Nation expressed a range of concerns with the material prepared by EAO, particularly regarding impacts due to shipping, wake effects, assessment of human health and cumulative effects within their traditional territory.
+</p>
+<p>
+Tsleil-Waututh Nation also proposed conditions that EAO considered during the EA and in the development of the EA Certificate conditions.
+</p>
+<p>
+Many of EAO’s legally binding conditions were informed by EAO’s consultation with, and consideration of comments from, Aboriginal groups. In addition, several conditions include aspects that are specific to Aboriginal groups, including:
+</p>
+<p>
+ Continued engagement with Aboriginal groups in the development and implementation of management and monitoring plans;
+</p>
+<p>
+ Designing and delivering programs to support Aboriginal employment and contracting opportunities, skills training and education; and
+</p>
+<p>
+ Provision of opportunities for members of Aboriginal groups to participate in monitoring activities.
+</p>
+<p>
+Some of the conditions and design aspects that address key issues of concern to Aboriginal groups include:
+</p>
+<p>
+ Development and implementation of an air quality mitigation and monitoring plan;
+</p>
+<p>
+ Development of a marine fish and fish habitat management and monitoring plan which would specify the measures to minimize and mitigate impacts to fish and fish habitat;
+</p>
+<p>
+ Development and implementation of a marine mammal management and monitoring plan during construction; and
+</p>
+<p>
+ Development and implementation of a wake verification plan.
+</p>
+<p>
+EAO has shared and will share information with other government agencies that was received from Aboriginal groups during the EA, including the submissions to Ministers, so that subsequent decisions can build upon the information gleaned during the EA. EAO will continue to work with permitting agencies and the Ministry of Aboriginal Relations and Reconciliation to support the effective implementation of EA Certificate conditions and ensure that subsequent permitting and other initiatives are informed by the consultation with Aboriginal groups that has already occurred. This will support a smooth, integrated transition through to permitting, should the Proponent proceed with the Project.
+</p>
+<p>
+We are satisfied that the Province has fulfilled its obligations for consultation and accommodation to Aboriginal groups.
+</p>
+<p>
+Public Consultation
+</p>
+<p>
+We are aware that many issues were raised by the public through the submitted public comments during pre-Application and Application Review and that these comments and the Proponent’s responses were considered and discussed further during the EA. We note that key issues raised by the public helped inform EAO’s assessment of Woodfibre LNG, including requests for supplemental technical information, the completion of EAO’s Assessment Report, and the development of EAO’s EA Certificate conditions.
+</p>
+<p>
+<b>
+2.4 Provincial and Community Benefits
+</b>
+</p>
+<p>
+We are aware that the Project would provide local, regional, and provincial benefits. The Proponent provided estimates that the Project’s capital cost would be $1.4 – 1.8 billion and that total construction expenditures would be approximately $620 million, of which approximately $341 million would be spent in BC.
+</p>
+<p>
+The Proponent estimated that during operations the Project would include $540 million in annual spending in BC and during operations, would include $21 million per year in municipal taxes, $80 million per year in provincial taxes, and $98 million per year in federal taxes.
+</p>
+<p>
+The Project is estimated to support up to 1,975 person years of employment during construction and up to 100 annual full time equivalent positions during operations. It would also generate important economic and social benefits for local and regional communities.
+</p>
+<p>
+Finally, the Project would be an important contribution to the BC Jobs Plan, supporting both the BC Natural Gas Strategy and the BC Liquefied Natural Gas Strategy.
+</p>
+<p>
+<b>
+3 CONCLUSION
+</b>
+</p>
+<p>
+After consideration of EAO’s assessment findings, the proposed Project design and recommended conditions of the proposed EA Certificate, the Recommendations of the Executive Director, and having regard to our responsibilities under the Act, we have issued an EA Certificate for the Project. The EA Certificate includes enforceable conditions and specifies the Project design parameters. These give us confidence to conclude that the Project will be constructed, operated and decommissioned in a way that no significant adverse effects are likely to occur.
+</p>
+<p>
+Honourable Mary Polak
+</p>
+<p>
+Minister of Environment
+</p>
+<p>
+______________________________
+</p>
+<p>
+Honourable Rich Coleman
+</p>
+<p>
+Minister of Natural Gas Development
+</p>
+<p>
+Signed this 26th day of October, 2015
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
