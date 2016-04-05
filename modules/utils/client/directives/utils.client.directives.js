@@ -660,9 +660,9 @@ function directiveRequirementTally() {
 // DIRECTIVE: Modal User List
 //
 // -----------------------------------------------------------------------------------
-directiveModalUserContactInfo.$inject = ['$modal'];
+directiveModalUserContactInfo.$inject = ['$modal', 'UserModel'];
 /* @ngInject */
-function directiveModalUserContactInfo($modal) {
+function directiveModalUserContactInfo($modal, UserModel) {
     var directive = {
         restrict:'A',
         scope : {
@@ -677,8 +677,8 @@ function directiveModalUserContactInfo($modal) {
 					controllerAs: 'utilUserContactInfo',
 					size: 'sm',
 					resolve: {
-						rUser: function() {
-							return scope.user || {};
+						user: function() {
+							return UserModel.getModel(scope.user._id);
 						}
 					}
 				});
