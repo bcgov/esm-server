@@ -153,7 +153,7 @@
 										<button ng-if="vm.readyByTopic" class="btn btn-default" ng-click="vm.form.view = 'bytopic'"	ng-class="{'btn-primary': vm.form.view === 'bytopic'}">By Topic</button>
 										<button ng-if="vm.readyByChart" class="btn btn-default" ng-click="vm.form.view = 'bychart'"	ng-if="vm.commentsByTopicVis" ng-class="{'btn-primary': vm.form.view === 'bychart'}">By Topic Chart</button>
 									</div>
-
+									<button ng-if="vm.enableGetMore" class="btn btn-sm btn-default" ng-click="vm.getAllComments()">Load All Comments</button>
 								</li>
 							</ul>
 
@@ -291,6 +291,8 @@
 					<hr>
 					There are no comments on this project.
 				</div>
+
+				<a href ng-if="vm.enableGetMore" class="btn-link btn btn-block text-center" ng-click="vm.getAllComments()">Latest 20 Comments showing.  Click here to load all Comments</a>
 
 			</div>
 		</div>
