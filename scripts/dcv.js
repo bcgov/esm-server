@@ -7,7 +7,7 @@ var fs 			= require('fs');
 var path 		= require('path');
 var request 	= require ('request');
 
-var documentConversion = function documentConversion(conn) {
+var documentConversion = function documentConversion(conn, limit) {
 	console.log("Running conversion...");
 	var MongoClient = require('mongodb').MongoClient;
 	// Connect to the default db if not set
@@ -18,13 +18,18 @@ var documentConversion = function documentConversion(conn) {
 		if(err) { return console.dir(err); }
 
 		var collection = db.collection('documents');
-		var val=0;
-		collection.find().toArray(function(err, items) {
-			var item = items[0];
-			items.forEach(function(item) {
-				// If the File URL is there, and it starts with http, it's needing
-				// migration
-				if (item.documentFileURL && item.documentFileURL.startsWith("http") === true) {
+		// console.log("LIMIT:",limit);
+		var options = {
+			"limit": parseInt(limit)
+		}
+		// Must !start with migrated, but with http://
+		var query = { documentFileURL: new RegExp('^http') };
+		collection.find(query, options).toArray(function(err, items) {
+			// console.log("err",err);
+			if (items) {
+				console.log("found items.. processing ",items.length);
+				var item = items[0];
+				items.forEach(function(item) {
 					var dataLength 	= 0;
 					var fname 		= path.basename(item.documentFileURL);
 					var uuid 		= require('node-uuid');
@@ -61,8 +66,10 @@ var documentConversion = function documentConversion(conn) {
 						console.log("Document id:" + item._id);
 						fs.unlink(stream);
 					});
-				}
-			});
+				});
+			} else {
+				console.log("No more items to process.");
+			}
 		});
 	});
 }
@@ -71,4 +78,4 @@ var documentConversion = function documentConversion(conn) {
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
 // Runs the conversion based on input if set, otherwise defaults to above constant
-documentConversion(process.env.MONGO_CONNECTION);
+documentConversion(process.env.MONGO_CONNECTION, process.env.LIMIT);
