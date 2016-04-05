@@ -10,7 +10,7 @@ var request 	= require ('request');
 var documentConversion = function documentConversion(conn) {
 	console.log("Running conversion...");
 	var MongoClient = require('mongodb').MongoClient;
-	// Connect to the default db if not set 
+	// Connect to the default db if not set
 	if (undefined === conn) {
 		conn = defaultConnectionString;
 	}
@@ -59,6 +59,7 @@ var documentConversion = function documentConversion(conn) {
 						console.log("****************");
 						console.log("Server error:",err);
 						console.log("Document id:" + item._id);
+						fs.unlink(stream);
 					});
 				}
 			});
