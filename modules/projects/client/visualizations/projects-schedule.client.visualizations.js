@@ -37,6 +37,7 @@ function directiveScheduleChart(d3, $window, _, moment) {
 			var dateWinEnd = moment().add((_NumberOfMonths-_NumberOfPreceedingMonths), 'M').format('x'); // Fetch the last date.
 
 			var resize =  function() {
+				if (!oPhases) return;
 				var box = angular.element(element);
 				var grw = box[0].parentNode;
 				var bw = grw.offsetWidth;
@@ -158,7 +159,7 @@ function directiveScheduleChart(d3, $window, _, moment) {
 			d3.select(window).on(('resize.' + attrs.id), resize);
 
 			scope.$watch('project', function(newValue) {
-				if (newValue) {
+				if (newValue && newValue.phases) {
 					oPhases = newValue.phases;
 					resize();
 				}
