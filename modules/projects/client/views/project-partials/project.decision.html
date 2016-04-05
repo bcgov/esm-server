@@ -1,18 +1,64 @@
 <h1 class="page-title ng-binding ng-scope">
-	Comment On Section 11 Order (Draft) for Chris New Project
+	Decison Package for {{ project.name }}
 </h1>
 
 <div class="text-right ng-scope">
 	<a class="btn btn-link btn-xs" ui-sref="p.detail" href="/p/cc-project/detail">Cancel</a>
 </div>
 
-<!-- ngInclude: 'modules/artifacts/client/views/partial.artifact-view.html' --><div ng-include="'modules/artifacts/client/views/partial.artifact-view.html'" class="ng-scope"><!-- ngIf: artifact.isTemplate --><div ng-if="artifact.isTemplate" class="ng-scope">
+<!-- ngInclude: 'modules/artifacts/client/views/partial.artifact-view.html' -->
+
+<div class="ng-scope">
 	<!--
 
 		This section gets displayed if the content is a template
 
 	 -->
-	<tmpl-template-render x-template="artifact.template" x-mode="view" x-project="project" x-document="artifact.templateData" class="ng-isolate-scope"><div class="panel panel-default ng-scope"><div class="panel-body no-vertical-padding ng-scope" du-scroll-container="templateContainer"><div class="row block-section"><div class="col-sm-3 col-no-padding vertical-scroll col-border-right"><ul class="small list-unstyled list-documents"><!-- ngRepeat: section in allsections --><li class="row-folder clickable ng-scope" du-scrollspy="header" ng-repeat="section in allsections"><a href="#header" x-offset="10" du-smooth-scroll="" class="ng-binding">Header</a></li><!-- end ngRepeat: section in allsections --><li class="row-folder clickable ng-scope" du-scrollspy="whereasStatic1" ng-repeat="section in allsections"><a href="#whereasStatic1" x-offset="10" du-smooth-scroll="" class="ng-binding">Whereas Static 1</a></li><!-- end ngRepeat: section in allsections --><li class="row-folder clickable ng-scope" du-scrollspy="whereasOptional" ng-repeat="section in allsections"><a href="#whereasOptional" x-offset="10" du-smooth-scroll="" class="ng-binding">Whereas Optional</a></li><!-- end ngRepeat: section in allsections --><li class="row-folder clickable ng-scope" du-scrollspy="whereasStatic2" ng-repeat="section in allsections"><a href="#whereasStatic2" x-offset="10" du-smooth-scroll="" class="ng-binding">Whereas Static 2</a></li><!-- end ngRepeat: section in allsections --><li class="row-folder clickable ng-scope" du-scrollspy="therefore" ng-repeat="section in allsections"><a href="#therefore" x-offset="10" du-smooth-scroll="" class="ng-binding">Therefore</a></li><!-- end ngRepeat: section in allsections --><li class="row-folder clickable ng-scope" du-scrollspy="signature" ng-repeat="section in allsections"><a href="#signature" x-offset="10" du-smooth-scroll="" class="ng-binding">Signature</a></li><!-- end ngRepeat: section in allsections --><li class="row-folder clickable ng-scope" du-scrollspy="enclosures" ng-repeat="section in allsections"><a href="#enclosures" x-offset="10" du-smooth-scroll="" class="ng-binding">Enclosures</a></li><!-- end ngRepeat: section in allsections --></ul></div><div class="col-sm-9 vertical-scroll-padded" id="templateContainer"><div class="template"><a name="header"></a><div class="letter-head">
+
+<div class="panel panel-default ng-scope">
+<div class="panel-body no-vertical-padding ng-scope" du-scroll-container="templateContainer">
+<div class="row block-section">
+<div class="col-sm-3 col-no-padding vertical-scroll col-border-right">
+
+<ul class="small list-unstyled list-documents">
+
+<li class="row-folder clickable ng-scope" du-scrollspy="header">
+<a href="#header" x-offset="10" du-smooth-scroll="" class="ng-binding">Header</a>
+</li>
+
+<li class="row-folder clickable ng-scope" du-scrollspy="whereasStatic1">
+<a href="#whereasStatic1" x-offset="10" du-smooth-scroll="" class="ng-binding">Whereas Static 1</a>
+</li>
+
+<li class="row-folder clickable ng-scope" du-scrollspy="whereasOptional">
+<a href="#whereasOptional" x-offset="10" du-smooth-scroll="" class="ng-binding">Whereas Optional</a>
+</li>
+
+<li class="row-folder clickable ng-scope" du-scrollspy="whereasStatic2">
+<a href="#whereasStatic2" x-offset="10" du-smooth-scroll="" class="ng-binding">Whereas Static 2</a>
+</li>
+
+<li class="row-folder clickable ng-scope" du-scrollspy="therefore">
+<a href="#therefore" x-offset="10" du-smooth-scroll="" class="ng-binding">Therefore</a>
+</li>
+
+<li class="row-folder clickable ng-scope" du-scrollspy="signature">
+<a href="#signature" x-offset="10" du-smooth-scroll="" class="ng-binding">Signature</a>
+</li>
+
+<li class="row-folder clickable ng-scope" du-scrollspy="enclosures">
+<a href="#enclosures" x-offset="10" du-smooth-scroll="" class="ng-binding">Enclosures</a>
+</li>
+
+</ul>
+
+
+</div>
+<div class="col-sm-9 vertical-scroll-padded" id="templateContainer">
+<div class="template">
+<a name="header">
+</a>
+<div class="letter-head">
     <p>
       IN THE MATTER OF THE ENVIRONMENTAL ASSESSMENT ACT S.B.C. 2002, c.43<br>(ACT)
     </p>
@@ -88,7 +134,7 @@
       --Add other schedules as necessary--
     </div>
 <!-- ngIf: 0 --><!-- end ngRepeat: _v in document.enclosures -->
-</div></div></div></div></div></div></tmpl-template-render>
+</div></div></div></div></div></div>
 </div><!-- end ngIf: artifact.isTemplate -->
 
 
@@ -97,48 +143,7 @@
 
 <div class="panel panel-default ng-scope">
 	<div class="panel-body">
-		<tmpl-wg-comments><section class="panel panel-default block-content">
-	<div class="block-content">
-		<h3>Working Group Comments</h3>
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-sm-4 col-browser-subtitles">
-					<label class="control-label">Working Group Members</label>
-				</div>
-				<div class="col-sm-8 col-browser-subtitles list-indent-left">
-					<label class="control-label">Comment</label>
-				</div>
-			</div>
-		</div>
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-sm-4 col-no-padding vertical-scroll col-border-right">
-					<ul class="small list-unstyled list-documents">
-						<!-- ngRepeat: member in wgMembers --><li ng-click="selectUser(member)" class="row-folder clickable ng-binding ng-scope" ng-repeat="member in wgMembers" ng-class="{'active btn-primary': isSelectedUser(member), 'bg-success': member.status === 'Responded' }" title="Pending">
-							Ted Striker <!-- ngIf: member.hasUnvetted --><em class="small pull-right ng-scope" ng-if="member.hasUnvetted">Unvetted Comment</em><!-- end ngIf: member.hasUnvetted -->
-						</li><!-- end ngRepeat: member in wgMembers --><li ng-click="selectUser(member)" class="row-folder clickable ng-binding ng-scope bg-success" ng-repeat="member in wgMembers" ng-class="{'active btn-primary': isSelectedUser(member), 'bg-success': member.status === 'Responded' }" title="Responded">
-							Orlando Jones <!-- ngIf: member.hasUnvetted -->
-						</li><!-- end ngRepeat: member in wgMembers --><li ng-click="selectUser(member)" class="row-folder clickable ng-binding ng-scope bg-success" ng-repeat="member in wgMembers" ng-class="{'active btn-primary': isSelectedUser(member), 'bg-success': member.status === 'Responded' }" title="Responded">
-							Steve Steverson <!-- ngIf: member.hasUnvetted -->
-						</li><!-- end ngRepeat: member in wgMembers -->
-					</ul>
 
-				</div>
-				<div class="col-sm-8 col-no-padding vertical-scroll">
-
-					<ul class="small list-unstyled list-documents list-indent-left">
-
-						<!-- ngRepeat: comment in selectedUser.comments -->
-					</ul>
-
-
-				</div>
-			</div>
-		</div>
-
-	</div>
-</section>
-</tmpl-wg-comments>
 	</div>
 </div>
 
