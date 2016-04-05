@@ -264,6 +264,11 @@ h3 .small .label {
 	padding-bottom: 0 !important;
 }
 
+.no-side-padding {
+	padding-left: 0;
+	padding-right: 0;
+}
+
 .vertical-scroll,
 .vertical-scroll-padded {
 	overflow-x: hidden;
@@ -315,12 +320,12 @@ ul.list-indent-left {
 }
 
 .col-browser-subtitles {
-	padding: 0 8px;
+	padding: 0 5px;
 	border-bottom: 1px solid $border-grey;
 }
 
-.col-browser-subtitles:first-child {
-	padding: 0 5px;
+.list-indent-left.col-browser-subtitles {
+	padding: 0 8px;
 }
 
 
@@ -348,6 +353,13 @@ ul.list-indent-left {
 	border-top: none
 }
 
+.list-documents li.row-enforcement {
+	padding: 0;
+}
+
+.row-enforcement .cell-condition  {
+	padding: 3px 5px;
+}
 
 .row-folder span.arrow,
 .row-document span.arrow {

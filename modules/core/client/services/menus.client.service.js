@@ -184,6 +184,11 @@ angular.module('core').service('Menus', [
     });
 
     //Adding the project menu
+    this.addMenu('projectTopMenu', {
+      roles: ['user', 'admin']
+    });
+
+    //Adding the project menu
     this.addMenu('projectMenu', {
       roles: ['user', 'admin']
     });

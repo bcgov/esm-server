@@ -16,6 +16,7 @@
 	</div>
 </div>
 
+
 <section class="panel panel-default">
 
 	<tmpl-project-tombstone
@@ -36,7 +37,7 @@
 		class="anchor-section"
 		id="anchor-enforcement"
 		x-project="project"
-		ng-if="project.status === 'Post Certification' && 0">
+		ng-if="project.status === 'Post Certification' || 1">
 	</tmpl-enforcement-browser>
 
 	<tmpl-project-initiated
