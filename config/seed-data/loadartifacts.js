@@ -37,14 +37,14 @@ module.exports = function () {
 		return mongoose.connection.collections.artifacttypes.drop();
 	})
 	.then (function () {
+		return mongoose.connection.collections.templates.drop();
+	})
+	.then (function () {
 		return promise.all (list.templates.map (function (template) {
 			console.log ('adding template ',template.documentType);
 			var a = new Template (template);
 			return a.save ();
 		}));
-	})
-	.then (function () {
-		return ArtifactType.remove ();
 	})
 	.then (function () {
 		return promise.all (list.artifacttypes.map (function (artifacttype) {

@@ -65,7 +65,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.save = function () {
 				OrderModel.add ($scope.order)
 				.then (function (model) {
-					$state.transitionTo('p.order.list', {project:project._id}, {
+					$state.transitionTo('p.order.list', {projectid:project.code}, {
 			  			reload: true, inherit: false, notify: true
 					});
 				})
@@ -99,7 +99,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				.then (function (model) {
 					// console.log ('order was saved',model);
 					// console.log ('now going to reload state');
-					$state.transitionTo('p.order.list', {project:project._id}, {
+					$state.transitionTo('p.order.list', {projectid:project.code}, {
 			  			reload: true, inherit: false, notify: true
 					});
 				})

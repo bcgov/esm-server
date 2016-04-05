@@ -64,7 +64,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.save = function () {
 				VcModel.add ($scope.vc)
 				.then (function (model) {
-					$state.transitionTo('p.vc.list', {project:project._id}, {
+					$state.transitionTo('p.vc.list', {projectid:project.code}, {
 			  			reload: true, inherit: false, notify: true
 					});
 				})
@@ -98,7 +98,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				.then (function (model) {
 					// console.log ('vc was saved',model);
 					// console.log ('now going to reload state');
-					$state.transitionTo('p.vc.list', {project:project._id}, {
+					$state.transitionTo('p.vc.list', {projectid:project.code}, {
 			  			reload: true, inherit: false, notify: true
 					});
 				})

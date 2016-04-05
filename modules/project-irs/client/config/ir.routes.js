@@ -62,7 +62,7 @@ angular.module('irs').config(['$stateProvider', function ($stateProvider) {
 			$scope.save = function () {
 				IrModel.add ($scope.ir)
 				.then (function (model) {
-					$state.transitionTo('p.ir.list', {project:project._id}, {
+					$state.transitionTo('p.ir.list', {projectid:project.code}, {
 			  			reload: true, inherit: false, notify: true
 					});
 				})
@@ -96,7 +96,7 @@ angular.module('irs').config(['$stateProvider', function ($stateProvider) {
 				.then (function (model) {
 					// console.log ('ir was saved',model);
 					// console.log ('now going to reload state');
-					$state.transitionTo('p.ir.list', {project:project._id}, {
+					$state.transitionTo('p.ir.list', {projectid:project.code}, {
 			  			reload: true, inherit: false, notify: true
 					});
 				})

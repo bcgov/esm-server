@@ -65,7 +65,7 @@
 						<tr ng-repeat="o in $data | orderBy:'order'"
 							ng-click="getLinkUrl(o.state, o.data)"
 							class="clickable">
-							<td data-title="'Project'"  filter="{'project':'text'}" sortable="'project'"><a ui-sref="p.detail({'projectid':o.projectCode})">{{ o.project }}</a></td>
+							<td data-title="'Project'"  filter="{'project':'text'}" sortable="'project'">{{ o.project }}</td>
 							<td data-title="'Name'" filter="{'name':'text'}"    sortable="'name'" >{{o.name}}</td>
 							<td data-title="'Estimated Start'" filter="{'dateStartedEst':'text'}"    sortable="'dateStartedEst'" >{{o.dateStartedEst | date}}</td>
 							<td data-title="'Started On'" filter="{'dateStarted':'text'}"    sortable="'dateStarted'" >{{o.dateStarted | date}}</td>

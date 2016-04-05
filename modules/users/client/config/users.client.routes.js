@@ -83,19 +83,22 @@ angular.module('users').config(['$stateProvider',
 					},
 					projects: function(ProjectModel) {
 						return ProjectModel.mine ();
+					},
+					lookup: function(ProjectModel) {
+						return ProjectModel.lookup ();
 					}
 				},
-				controller: function ($scope, $state, $stateParams, activities, projects, NgTableParams, _) {
-					console.log (projects);
-					console.log (activities);
+				controller: function ($scope, $state, $stateParams, lookup, activities, projects, NgTableParams, _) {
+					// console.log (projects);
+					// console.log (activities);
 
 					$scope.projects = projects;
 
 					$scope.projectParams = new NgTableParams ({count:50}, {dataset: projects});
 
 					_.each(activities, function(item) {
-						if (projects[item.project]) {
-							item.project = projects[item.project].name;
+						if (lookup[item.project]) {
+							item.project = lookup[item.project].name;
 						}
 					});
 					$scope.tableParams = new NgTableParams ({count:50}, {dataset: activities});

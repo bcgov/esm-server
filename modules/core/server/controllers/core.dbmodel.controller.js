@@ -555,7 +555,8 @@ _.extend (DBModel.prototype, {
 	// sense in some contexts, just those where we are using the access control
 	//
 	// -------------------------------------------------------------------------
-	listwrite : function (q) {
+	listwrite : function (q, f, p) {
+		if (p) this.populate = p;
 		q = q || {};
 		if (_.has (this.model.schema.paths, 'dateCompleted')) {
 			q.dateCompleted = { "$eq": null };
@@ -565,7 +566,7 @@ _.extend (DBModel.prototype, {
 		// console.log ('q = ', JSON.stringify(q,null,4));
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			self.findMany (q)
+			self.findMany (q, f)
 			.then (self.permissions)
 			.then (self.decorateAll)
 			.then (resolve, reject);

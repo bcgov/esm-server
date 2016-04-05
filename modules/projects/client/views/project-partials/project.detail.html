@@ -37,7 +37,7 @@
 		class="anchor-section"
 		id="anchor-enforcement"
 		x-project="project"
-		ng-if="project.status === 'Post Certification' || 1">
+		ng-if="project.currentPhase.code === 'post-certification'">
 	</tmpl-enforcement-browser>
 
 	<tmpl-project-initiated

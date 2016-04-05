@@ -63,7 +63,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			$scope.save = function () {
 				CommentPeriodModel.add ($scope.period)
 				.then (function (model) {
-					$state.transitionTo('p.commentperiod.list', {project:project._id}, {
+					$state.transitionTo('p.commentperiod.list', {projectid:project.code}, {
 			  			reload: true, inherit: false, notify: true
 					});
 				})
@@ -97,7 +97,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				.then (function (model) {
 					// console.log ('period was saved',model);
 					// console.log ('now going to reload state');
-					$state.transitionTo('p.commentperiod.list', {project:project._id}, {
+					$state.transitionTo('p.commentperiod.list', {projectid:project.code}, {
 			  			reload: true, inherit: false, notify: true
 					});
 				})
