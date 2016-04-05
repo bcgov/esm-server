@@ -13,9 +13,9 @@ function directiveHeader() {
 	var directive = {
 		restrict: 'E',
 		templateUrl: 'modules/core/client/views/header.client.view.html',
-		controller: function($scope, LOGO) {
+		controller: function($scope, LOGO, Authentication) {
 			$scope.logo = LOGO;
-
+			$scope.authentication = Authentication;
 			$scope.toggleSideMenu = function() {
 				
 				$scope.showSideMenu = !$scope.showSideMenu;
