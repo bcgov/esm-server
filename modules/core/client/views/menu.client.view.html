@@ -10,6 +10,9 @@
 		<ul class="list-unstyled">
 			<li><a href ui-sref="activities">My Projects</a></li>
 		</ul>
+		<ul class="list-unstyled">
+			<li><a href ui-sref="p.decision({projectid: menu.project.code})">Decision Package</a></li>
+		</ul>
 	</div>
 
 	<!-- Common on all pages Not Logged In -->
@@ -60,18 +63,18 @@
 		<hr>
 		<ul class="list-unstyled">
 			<li><a ui-sref="p.detail({projectid: menu.project.code})">Project Detail</a></li>
-		</ul>		
+		</ul>
 		<hr>
 		<div class="dropdown">
 			<a href ng-click="$event.preventDefault();" class="dropdown-toggle" id="dropdownProjectMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="Manage {{ menu.project.name }} Data">Project Data <span class="caret"></span></a>
 			<div class="dropdown-menu" aria-labelledby="dropdownProjectMenu">
 				<ul class="list-unstyled">
 					<li><a ui-sref="p.detail({projectid: menu.project.code})">Project Detail</a></li>
-				</ul>		
+				</ul>
 				<ul class="list-unstyled"  ng-show="menu.authentication.user">
 					<li ng-repeat="item in menu.projectTopMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project.code);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
-					</li>				
+					</li>
 					<li ng-if="menu.isEAO"><a x-modal-project-schedule href x-project="menu.project">Edit Schedule</a></li>
 					<li><a x-modal-users-by-roles href x-source-object="menu.project">Edit Project Users</a></li>
 				</ul>
