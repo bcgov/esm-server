@@ -567,12 +567,13 @@ function directiveModalSelectUsers($modal) {
 		restrict:'A',
 		scope : {
 			users: '=',
+			callback: '=',
 			parent: '=', // OBJECT with type: (role, project), reference: role or project code or id
-			project: '=',
-			callback: '='
+			project: '='
 		},
 		link : function(scope, element, attrs) {
 			// console.log('here', scope.users);
+			console.log('cb', scope);
 			element.on('click', function() {
 				var modalUsersView = $modal.open({
 					animation: true,
@@ -605,6 +606,7 @@ function directiveModalSelectUsers($modal) {
 				modalUsersView.result.then(function (newItems) {
 					// if there is a callback, do it.
 					// return the complete user list and the parent to associate it to.
+						console.log(newItems, scope.callback);
 					if (scope.callback) {
 						scope.callback(newItems, scope.parent);
 					}

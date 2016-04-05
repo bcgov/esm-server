@@ -42,6 +42,11 @@ function controllerProcessNotifications($scope, $rootScope, sProcessNotification
 		}
 	});
 
+	$scope.addRecipients = function(data, parent) {
+		console.log(data);
+		this.customRecipients = data;
+	};
+
 
 	// bind customRecipients to the watch.
 	$scope.$watch(angular.bind(this, function () {
@@ -61,23 +66,6 @@ function controllerProcessNotifications($scope, $rootScope, sProcessNotification
 		});
 	});
 
-	$scope.$watch('anchor', function(newValue) {
-		if (newValue) {
-			taskNotifications.taskAnchor = newValue;
-		}
-	});
-
-	$scope.$watch('task', function(newValue) {
-		// get item for title
-		if (newValue) {
-			taskNotifications.taskId = newValue._id;
-			taskNotifications.task = newValue;
-			// get task data or blank if no record exists.
-			// Process.getProcessData({'code':newValue.code, 'id':newValue._id}).then( function(res) {
-			// 	taskNotifications.taskData = res.data;
-			// });
-		}
-	});
 
 	sProcessNotifications.getTemplates().then( function(res) {
 		taskNotifications.templates = res.data;
@@ -86,18 +74,5 @@ function controllerProcessNotifications($scope, $rootScope, sProcessNotification
 	taskNotifications.setContent = function() {
 		taskNotifications.taskData.mailContent = taskNotifications.selectedTemplate.content;
 	};
-
-	taskNotifications.saveProcess = function() {
-		// structure the data to save.
-		//sProcessNotification.saveProcess();
-		// console.log('save notifications.controllers.js');
-	};
-
-	// taskNotification.completeProcess = function() {
-	// 	// validate
-	// 	// when ok, broadcast
-	// 	taskNotifications.item.value = 'Complete';
-	// 	$rootScope.$broadcast('resolveItem', {item: taskNotifications.itemId});
-	// }
 
 }

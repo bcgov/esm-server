@@ -547,6 +547,24 @@ th .progress-bar {
 	margin-bottom: 5px;
 }
 
+.tr-slide {
+    -webkit-transition: width 0.3s ease, margin 0.3s ease;
+    -moz-transition: width 0.3s ease, margin 0.3s ease;
+    -o-transition: width 0.3s ease, margin 0.3s ease;
+    transition: width 0.3s ease, margin 0.3s ease;
+}
+
+.col-0 {
+	width: 0;
+	margin-left: 0;
+}
+
+.menu-toggle {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+
 // -------------------------
 // PANELS...
 // -------------------------

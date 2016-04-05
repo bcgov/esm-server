@@ -1,12 +1,11 @@
 <section id="projects-view" class="row">
-	<ui-view ng-class="{'col-sm-10': authentication.user, 'col-sm-12': !authentication.user}">
+	<ui-view id="main-content-section" class="tr-slide" ng-class="{'col-sm-10': authentication.user, 'col-sm-12': !authentication.user}">
 
 		<div class="panel panel-default" ng-show="environment === 'MEM' && !authentication.user">
 			<div class="panel-heading">
 				<h3 class="panel-title">Public Project Listing</h3>
 			</div>
 			<div class='panel-body'>
-
 
 <p>The Ministry of Energy and Mines (MEM) is committed to making information on permitted mine sites in British Columbia more accessible to interested parties. MEM has collaborated with the BC Environmental Assessment Office (EAO) to develop a new platform and has to date posted the following information online:</p>
 
@@ -54,7 +53,7 @@
 			</div>
 		</div>
 	</ui-view>
-	<div class='col-sm-2' ng-if="authentication.user">
+	<div class='col-sm-2 tr-slide' id="main-side-section" ng-if="authentication.user">
 		<tmpl-system-menu x-menu-context="'projects'"></tmpl-system-menu>
 	</div>
 </section>
