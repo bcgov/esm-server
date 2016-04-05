@@ -343,12 +343,12 @@ function controllerModalRecipientList($modalInstance, rUsers, _) {
 // CONTROLLER: Modal: Show a list of user records and allow them to be copied
 //
 // -----------------------------------------------------------------------------------
-controllerModalUserContactInfo.$inject = ['$modalInstance', 'rUser'];
+controllerModalUserContactInfo.$inject = ['$modalInstance', 'user'];
 /* @ngInject */
-function controllerModalUserContactInfo($modalInstance, rUser) { 
+function controllerModalUserContactInfo($modalInstance, user) { 
 	var utilUserContactInfo = this;
 
-	utilUserContactInfo.user = rUser;
+	utilUserContactInfo.user = user;
 
 	utilUserContactInfo.cancel = function () { $modalInstance.dismiss('cancel'); };
 }

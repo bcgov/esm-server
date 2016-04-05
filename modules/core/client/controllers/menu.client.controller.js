@@ -72,9 +72,9 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope,
 	   	}
    	};
 
-	// Get the topbar menu
 	menu.systemMenu   = Menus.getMenu ('systemMenu');
 	menu.projectsMenu = Menus.getMenu ('projectsMenu');
+	menu.projectTopMenu  = Menus.getMenu ('projectTopMenu');
 	menu.projectMenu  = Menus.getMenu ('projectMenu');
 
 
