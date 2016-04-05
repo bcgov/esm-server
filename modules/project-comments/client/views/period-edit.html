@@ -46,12 +46,13 @@
 				<label class="control-label">Select Applicable Roles</label>
 				<div class="well well-sm">
 					<ul class="list-unstyled task-list">
-						<li ng-repeat="role in period.projectRoles">
+						<li>working-group</li>
+<!-- 						<li ng-repeat="role in period.projectRoles">
 							<button class="btn btn-block btn-sm btn-layer btn-default"
 								ng-click="processEngageWGConfig.chosenRoles[role] = !processEngageWGConfig.chosenRoles[role]"
 								ng-class="{'btn-success': processEngageWGConfig.chosenRoles[role]}">{{ role }}</button>
 						</li>
-					</ul>
+ -->					</ul>
 				</div>
 			</div>
 			<div class="col-sm-3" ng-if="period.periodType==='Public'">

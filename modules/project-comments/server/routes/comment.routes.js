@@ -20,6 +20,11 @@ module.exports = function (app) {
 	//
 	// resolve, publish, unpublish comment chains
 	//
+	app.route ('/api/commentperiod/for/project/:projectid').all (policy.isAllowed)
+		.get (function (req, res) {
+			(new CommentPeriod (req.user)).getForProject (req.params.projectid)
+			.then (helpers.success(res), helpers.failure(res));
+		});
 	app.route ('/api/publish/comment/:comment').all(policy.isAllowed)
 		.put (function (req, res) {
 			var p = new CommentModel (req.user);

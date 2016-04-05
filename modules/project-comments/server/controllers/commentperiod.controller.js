@@ -69,6 +69,9 @@ module.exports = DBModel.extend ({
 			return period;
 		});
 	},
+	getForProject: function (projectId) {
+		return this.findMany ({project:projectId});
+	},
 	// -------------------------------------------------------------------------
 	//
 	// resolve an ENTIRE period, all comment chains at once. returns the period
