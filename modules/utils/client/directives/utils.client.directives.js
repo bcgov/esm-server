@@ -11,6 +11,8 @@ angular.module('utils')
     .directive('modalDatePicker', directiveModalDatePicker)
     .directive('centerVertical', directiveCenterVertical)
     .directive('contentHeight', directiveContentHeight)
+    .directive('artifactEditHeight', directiveArtifactEditHeight)
+
     .directive('windowHeight', directiveWindowHeight)
     .directive('countdownClock',directiveCountdownClock)
     .directive('panelSort',directivePanelSort)
@@ -190,6 +192,36 @@ function directiveContentHeight($window) {
 				};
 			}, function (newValue, oldValue) {
 				box.css({'min-height': (parseInt(newValue.h)-133) + 'px'});
+			}, true);
+
+			w.bind('resize', function () {
+				scope.$apply();
+			});
+		}
+	};
+	return directive;
+}
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Make the content long enough to put the footer at the bottom
+//
+// -----------------------------------------------------------------------------------
+directiveArtifactEditHeight.$inject = ['$window'];
+/* @ngInject */
+function directiveArtifactEditHeight($window) {
+	var directive = {
+        restrict:'A',
+		link :  function (scope, element, attr) {
+
+			var w = angular.element($window);
+			var box = angular.element(element);
+
+			scope.$watch(function () {
+				return {
+					'h': window.innerHeight
+				};
+			}, function (newValue, oldValue) {
+				box.css({'min-height': (parseInt(newValue.h)-355) + 'px', 'min-height': (parseInt(newValue.h)-355) + 'px'});
 			}, true);
 
 			w.bind('resize', function () {
