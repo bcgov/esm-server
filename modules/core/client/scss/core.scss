@@ -38,7 +38,9 @@ $font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-s
   display: none !important;
 }
 
-
+.clear-left {
+	clear: left;
+}
 /* Remove border to delete the 1px line */
 .navbar-fixed-top {
 	border: 0;
@@ -262,6 +264,11 @@ h3 .small .label {
 	padding-bottom: 0 !important;
 }
 
+.no-side-padding {
+	padding-left: 0;
+	padding-right: 0;
+}
+
 .vertical-scroll,
 .vertical-scroll-padded {
 	overflow-x: hidden;
@@ -312,6 +319,20 @@ ul.list-indent-left {
 	border-right: 1px solid $border-grey;
 }
 
+.col-browser-subtitles {
+	padding: 0 5px;
+	border-bottom: 1px solid $border-grey;
+}
+
+.list-indent-left.col-browser-subtitles {
+	padding: 0 8px;
+}
+
+
+.col-browser-subtitles .control-label {
+	padding-bottom: 0;
+	margin: 2px 0 3px;
+}
 .list-documents li,
 .list-tasks li {
 	border-top: 1px solid $border-grey;
@@ -332,6 +353,13 @@ ul.list-indent-left {
 	border-top: none
 }
 
+.list-documents li.row-enforcement {
+	padding: 0;
+}
+
+.row-enforcement .cell-condition  {
+	padding: 3px 5px;
+}
 
 .row-folder span.arrow,
 .row-document span.arrow {

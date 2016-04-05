@@ -1,25 +1,35 @@
-<h1 class="page-title">
-	Project Conditions for {{ project.name }}
-</h1>
+<h1 class="page-title no-lower-margin">{{project.name}}: Condition Library</h1>
+
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="p.projectcondition.create()">+ Add New Condition</a>
+		<show-filter x-toggle-filter="toggleFilter"></show-filter>
+	</div>
+</div>
 
 <div class="row">
 	<div class="col-sm-12">
-		<a class="btn btn-default btn-sm"  ui-sref="o.projectcondition.create()"><i class="glyphicon glyphicon-plus"></i> Add New Condition</a>
 		<section class="panel panel-default">
-			<table ng-table="tableParams" show-filter="true" class="table table-condensed table-bordered table-striped">
-			    <tr ng-repeat="o in $data" ui-sref="o.projectcondition.detail({conditionId:o._id})">
-			        <td data-title="'Name'"   title:'Title'   filter="{'name':'text'}"       sortable="'name'"    >{{o.name}}</td>
-					<td data-title="'Type'"   title:'Type'    filter="{'type':'text'}"       sortable="'type'"    >{{o.type}}</td>
-					<td data-title="'Sector'" title:'Sector'  filter="{'sector':'select'}"   sortable="'sector'"  filter-data="data.ptypes" >{{o.sector}}</td>
-					<td data-title="'Stage'"  title:'Stage'   filter="{'stage':'select'}"    sortable="'stage'"   filter-data="data.stypes">{{o.stage}}</td>
-					<td data-title="'Pillar'" title:'Pillar'  filter="{'pillar':'select'}"   sortable="'pillar'"  filter-data="data.pillars">{{o.pillar}}</td>
-			        <td title="">
-			        	<a ng-click="$event.stopPropagation()" class="btn btn-default btn-xs" ui-sref="o.projectcondition.edit({conditionId:o._id})">
-			        	<i class="glyphicon glyphicon-pencil"></i>
-			        	</a>
-			        </td>
-			    </tr>
+			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-striped table-hover">
+				<tr ng-repeat="o in $data" ui-sref="p.projectcondition.detail({conditionId:o._id})" class="clickable">
+					<td data-title="'Sector'"  filter="{'sector':'select'}"   sortable="'sector'"  filter-data="ptypes" >{{o.sector}}</td>
+					<td data-title="'Name'"  filter="{'name':'text'}"   sortable="'name'" >{{o.name}}</td>
+					<td data-title="'Subject'" filter="{'subject':'text'}"    sortable="'subject'" >{{o.subject}}</td>
+					<td data-title="'Stages'"   filter="{'stages':'text'}"  sortable="'stages'" >{{o.stageString}}</td>
+					<td data-title="'Pillars'"  filter="{'pillars':'text'}" sortable="'pillars'"  >{{o.pillarString}}</td>
+					<td width="1%" class="text-right">
+						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.projectcondition.edit({conditionId:o._id})">
+						<i class="glyphicon glyphicon-pencil"></i>
+						</a>
+					</td>
+				</tr>
+				<tr ng-if="!$data || $data.length === 0">
+					<td colspan="6">
+						No records found.
+					</td>
+				</tr>
 			</table>
 		</section>
 	</div>
+
 </div>

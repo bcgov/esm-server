@@ -23,8 +23,23 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 			conditions: function ($stateParams, ProjectConditionModel, project) {
 				// console.log ('projectcondition abstract resolving conditions');
 				// console.log ('project id = ', project._id);
-				return ProjectConditionModel.getConditionsForProject (project._id);
+				return ProjectConditionModel.forProject (project._id);
 			},
+			pillars: function (PILLARS) {
+				return PILLARS.map (function (e) {
+					return {id:e,title:e};
+				});
+			},
+			projecttypes: function (PROJECT_TYPES) {
+				return PROJECT_TYPES.map (function (e) {
+					return {id:e,title:e};
+				});
+			},
+			stages: function (CE_STAGES) {
+				return CE_STAGES.map (function (e) {
+					return {id:e,title:e};
+				});
+			}
 		},
         onEnter: function (MenuControl, project) {
             MenuControl.routeAccess (project.code, 'eao','edit-conditions');
@@ -40,9 +55,13 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 	.state('p.projectcondition.list', {
 		url: '/list',
 		templateUrl: 'modules/project-conditions/client/views/projectcondition-list.html',
-		controller: function ($scope, NgTableParams, conditions, project) {
-			$scope.tableParams = new NgTableParams ({count:10}, {dataset: conditions});
+		controller: function ($scope, NgTableParams, conditions, project, pillars, projecttypes, stages) {
+			$scope.ptypes = projecttypes;
+			$scope.stypes = stages;
+			$scope.pillars = pillars;
 			$scope.project = project;
+			$scope.show_filter = false;
+			$scope.tableParams = new NgTableParams ({count:10}, {dataset: conditions});
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -59,13 +78,22 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 				return ProjectConditionModel.getNew ();
 			}
 		},
-		controller: function ($scope, $state, project, condition, ProjectConditionModel) {
+		controller: function ($scope, $state, project, condition, ProjectConditionModel, TopicModel, pillars, projecttypes, stages, codeFromTitle) {
+			condition.project = project._id;
 			$scope.condition = condition;
 			$scope.project = project;
-			$scope.save = function () {
+			$scope.sectors = projecttypes;
+			$scope.pillars = pillars;
+			$scope.stages  = stages;
+			$scope.save = function (isValid) {
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'conditionForm');
+					return false;
+				}
+				$scope.condition.code = codeFromTitle ($scope.condition.name);
 				ProjectConditionModel.add ($scope.condition)
 				.then (function (model) {
-					$state.transitionTo('p.projectcondition.list', {project:project._id}, {
+					$state.transitionTo('p.projectcondition.list', {projectid:project.code}, {
 			  			reload: true, inherit: false, notify: true
 					});
 				})
@@ -86,20 +114,24 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 		templateUrl: 'modules/project-conditions/client/views/projectcondition-edit.html',
 		resolve: {
 			condition: function ($stateParams, ProjectConditionModel) {
-				// console.log ('editing conditionId = ', $stateParams.conditionId);
 				return ProjectConditionModel.getModel ($stateParams.conditionId);
 			}
 		},
-		controller: function ($scope, $state, condition, project, ProjectConditionModel) {
-			// console.log ('condition = ', condition);
+		controller: function ($scope, $state, condition, project, ProjectConditionModel, TopicModel, pillars, projecttypes, stages, codeFromTitle) {
 			$scope.condition = condition;
 			$scope.project = project;
-			$scope.save = function () {
+			$scope.sectors = projecttypes;
+			$scope.pillars = pillars;
+			$scope.stages  = stages;
+			$scope.save = function (isValid) {
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'conditionForm');
+					return false;
+				}
+				$scope.condition.code = codeFromTitle ($scope.condition.name);
 				ProjectConditionModel.save ($scope.condition)
 				.then (function (model) {
-					// console.log ('condition was saved',model);
-					// console.log ('now going to reload state');
-					$state.transitionTo('p.projectcondition.list', {project:project._id}, {
+					$state.transitionTo('p.projectcondition.list', {projectid:project.code}, {
 			  			reload: true, inherit: false, notify: true
 					});
 				})
@@ -125,8 +157,10 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 				return ProjectConditionModel.getModel ($stateParams.conditionId);
 			}
 		},
-		controller: function ($scope, condition, project) {
-			// console.log ('condition = ', condition);
+		controller: function ($scope, condition, project, pillars, projecttypes, stages) {
+			$scope.sectors = projecttypes;
+			$scope.pillars = pillars;
+			$scope.stages  = stages;
 			$scope.condition = condition;
 			$scope.project = project;
 		}

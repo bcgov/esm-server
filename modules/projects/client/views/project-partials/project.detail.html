@@ -1,4 +1,21 @@
-<h1 class="page-title">{{ project.name }}</h1>
+<h1 class="page-title no-lower-margin">{{ project.name }}</h1>
+
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link"
+			ng-click="completePhase()"
+			ng-if="!project.currentPhase.completed">Complete Current Phase</a>
+
+		<a class="btn btn-xs btn-link"
+			ng-click="startNextPhase()"
+			ng-if="project.currentPhase.completed">Start Next Phase</a>
+
+		<a class="btn btn-xs btn-link"
+			ng-click="publishProject()"
+			ng-if="!project.isPublished"> | Publish Project</a>
+	</div>
+</div>
+
 
 <section class="panel panel-default">
 
@@ -10,13 +27,18 @@
 	</tmpl-project-tombstone>
 
 	<tmpl-schedule-timeline
-		ng-click="managePhases()"
-		class="anchor-section clickable"
-		title="Click to manage phases"
+		class="anchor-section"
 		id="anchor-timeline"
 		x-phases="project.phases"
 		ng-if="environment === 'EAO'">
 	</tmpl-schedule-timeline>
+
+	<tmpl-enforcement-browser
+		class="anchor-section"
+		id="anchor-enforcement"
+		x-project="project"
+		ng-if="project.status === 'Post Certification' || 1">
+	</tmpl-enforcement-browser>
 
 	<tmpl-project-initiated
 		class="anchor-section"
@@ -48,7 +70,7 @@
 		ng-if="('project'| shouldDisplayPanel:'public-comments':project.status) && project.dateCommentsOpen && environment === 'EAO'">
 	</tmpl-public-comment-display>
 
-<!-- 
+<!--
 	<tmpl-project-activities
 		class="anchor-section"
 		id="anchor-activities"

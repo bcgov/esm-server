@@ -126,7 +126,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	complete: function (activity) {
-		activity.status        = 'Completed';
+		activity.status        = 'Complete';
 		activity.completed     = true;
 		activity.completedBy   = this.user._id;
 		activity.dateCompleted = new Date ();

@@ -30,6 +30,8 @@ angular.module('project').config (
 			$scope.environment = ENV;
 			$scope.isNew = ($stateParams.projectid === 'new');
 
+			ProjectModel.setModel(project);
+
 			var unbind = $rootScope.$on('refreshProject', function() {
 				// console.log('refreshProject', $stateParams.projectid);
 				$scope.project = angular.copy( ProjectModel.byCode ($stateParams.projectid) );
@@ -46,9 +48,45 @@ angular.module('project').config (
 	.state('p.detail', {
 		url: '/detail',
 		templateUrl: 'modules/projects/client/views/project-partials/project.detail.html',
-		controller: function ($scope, project) {
+		controller: function ($scope, $state, project, ProjectModel, $window) {
 			$scope.project = project;
-			// $scope.$apply ();
+
+			// complete the current phase.
+			$scope.completePhase = function() {
+				ProjectModel.completePhase( project ).then( function(res) {
+					$scope.project = res;
+					$scope.$apply ();
+					$state.go($state.current, {}, {reload: true});
+					// $window.location.reload();
+					// $state.transitionTo('p.detail', {projectid:project.code}, {
+			  // 			reload: true, inherit: false, notify: true
+					// });
+				});
+			};
+
+			// complete the current phase.
+			$scope.startNextPhase = function() {
+				ProjectModel.nextPhase( project ).then( function(res) {
+					$scope.project = res;
+					$scope.$apply ();
+					$state.go($state.current, {}, {reload: true});
+					// $window.location.reload();
+					// $state.transitionTo('p.detail', {projectid:project.code}, {
+			  // 			reload: true, inherit: false, notify: true
+					// });
+				});
+			};
+
+			// complete the current phase.
+			$scope.publishProject = function() {
+				ProjectModel.publishProject( project ).then( function(res) {
+					$scope.project = res;
+					$state.go($state.current, {}, {reload: true});
+					// $state.transitionTo('p.detail', {projectid:project.code}, {
+			  // 			reload: true, inherit: false, notify: true
+					// });
+				});
+			};
 		}
 	})
 	// -------------------------------------------------------------------------

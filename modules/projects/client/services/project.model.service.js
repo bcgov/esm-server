@@ -67,16 +67,31 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 				}).catch (reject);
 			});
 		},
+		completePhase: function (project) {
+			if (this.model._id !== project) this.setModel (project);
+			return this.modPhase ('complete');
+		},
+		nextPhase: function (project) {
+			if (this.model._id !== project) this.setModel (project);
+			// var i = 0;
+			// while (project.currentPhase._id !== project.phases[i]._id) i++ ;
+			// return this.modPhase (project.phases[++i]._id, 'start');
+			return this.modPhase ('start');
+		},
+		publishProject: function (project) {
+			if (this.model._id !== project) this.setModel (project);
+			return this.publish (true);
+		},
 		// -------------------------------------------------------------------------
 		//
 		// start or stop a phase
 		//
 		// -------------------------------------------------------------------------
-		startPhase : function (phaseId, start) {
+		modPhase : function (method) {
 			var self = this;
 			var url ='/api/project/'+self.model._id;
-			url += start ? '/start/phase/' : '/stop/phase/';
-			url += phaseId;
+			if (method === 'complete') url += '/complete/current/phase';
+			else if (method === 'start') url += '/start/next/phase';
 			return new Promise (function (resolve, reject) {
 				self.put (url, self.model)
 				.then (function (res) {

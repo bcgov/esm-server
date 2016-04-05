@@ -660,9 +660,9 @@ function directiveRequirementTally() {
 // DIRECTIVE: Modal User List
 //
 // -----------------------------------------------------------------------------------
-directiveModalUserContactInfo.$inject = ['$modal'];
+directiveModalUserContactInfo.$inject = ['$modal', 'UserModel'];
 /* @ngInject */
-function directiveModalUserContactInfo($modal) {
+function directiveModalUserContactInfo($modal, UserModel) {
     var directive = {
         restrict:'A',
         scope : {
@@ -677,8 +677,8 @@ function directiveModalUserContactInfo($modal) {
 					controllerAs: 'utilUserContactInfo',
 					size: 'sm',
 					resolve: {
-						rUser: function() {
-							return scope.user || {};
+						user: function() {
+							return UserModel.getModel(scope.user._id);
 						}
 					}
 				});
@@ -880,7 +880,7 @@ function directiveShowFilter() {
      	scope : {
 			toggleFilter: '='
 		},
-		template: '<a href class="btn btn-sm btn-link" ng-click="toggleFilter = !toggleFilter"><span ng-show="toggleFilter"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></span><span ng-show="!toggleFilter"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span></span></a>',
+		template: '<a href class="btn btn-xs btn-link" ng-click="toggleFilter = !toggleFilter"><span ng-show="toggleFilter"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></span><span ng-show="!toggleFilter"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span></span></a>',
 		controller: function($scope) {
 			$scope.toggleFilter = false;
 		}

@@ -44,6 +44,22 @@ module.exports = function (app) {
 			.then (helpers.success(res), helpers.failure(res));
 		});
 	//
+	// set current phase
+	//
+	app.route ('/api/project/:project/complete/current/phase').all (policy.isAllowed)
+		.put (function (req,res) {
+			(new Project (req.user)).completeCurrentPhase (req.Project)
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	//
+	// set current phase
+	//
+	app.route ('/api/project/:project/start/next/phase').all (policy.isAllowed)
+		.put (function (req,res) {
+			(new Project (req.user)).startNextPhase (req.Project)
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	//
 	// get all projects in certain statuses
 	//
 	app.route ('/api/projects/with/status/:statustoken')

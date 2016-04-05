@@ -1,0 +1,54 @@
+<section class="panel panel-default block-content">
+	<div class="block-content">
+		<h3>Working Group Comments</h3>
+		<div class='container-fluid'>
+			<div class='row'>
+				<div class='col-sm-4 col-browser-subtitles'>
+					<label class="control-label">Working Group Members</label>
+				</div>
+				<div class='col-sm-8 col-browser-subtitles list-indent-left'>
+					<label class="control-label">Comment</label>
+				</div>			
+			</div>
+		</div>
+		<div class='container-fluid'>
+			<div class='row'>
+				<div class='col-sm-4 col-no-padding vertical-scroll col-border-right'>
+					<ul class="small list-unstyled list-documents">
+						<li
+							ng-click="selectUser(member)"
+							class="row-folder clickable"
+							ng-repeat="member in wgMembers"
+							ng-class="{'active btn-primary': isSelectedUser(member), 'bg-success': member.status === 'Responded' }"
+							title="{{ member.status }}">
+							{{ member.name }} <em class="small pull-right" ng-if="member.hasUnvetted">Unvetted Comment</em>
+						</li>
+					</ul>
+
+				</div>
+				<div class='col-sm-8 col-no-padding vertical-scroll'>
+
+					<ul class="small list-unstyled list-documents list-indent-left">
+
+						<li
+							class="row-document"
+							ng-repeat="comment in selectedUser.comments">
+
+							<div class="alert" ng-class="{'alert-success': comment.isVetted, 'alert-info': !comment.isVetted }">
+								<pre>{{ comment.comment }}</pre><br/>
+								<div class="text-right" ng-if="!comment.isVetted">
+									<button class="btn btn-sm btn-warning">Reject</button>
+									<button class="btn btn-sm btn-default">Approve</button>
+								</div>
+							</div>
+
+						</li>
+					</ul>
+
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+</section>
