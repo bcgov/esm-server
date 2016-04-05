@@ -2,11 +2,14 @@
 <nav class="navbar navbar-custom" style="height: 57px">
 	<div class="container-fluid">
 
-		<div class="col-sm-9">
+		<div class="col-sm-12" ng-init="showSideMenu = true">
+			<a class="menu-toggle" ng-click="toggleSideMenu()" ng-if="authentication.user">
+				<span class="glyphicon glyphicon-menu-hamburger"></span><span ng-show="!showSideMenu" class="glyphicon glyphicon-menu-left"></span><span ng-show="showSideMenu" class="glyphicon glyphicon-menu-right"></span>				
+			</a>
 			<div class="navbar-header">
 				<div class="navbar-brand"><a ui-sref="projects" href><img src="{{ logo }}" height="40" width="248"/></a></div>
 			</div>
 		</div>
-
+		
 	</div>
 </nav>

@@ -294,7 +294,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.notify', {
 		url: '/notify',
 		templateUrl: 'modules/artifacts/client/views/artifact-notify.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel) {
+		controller: function ($scope, $state, artifact, project, ArtifactModel, _) {
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
@@ -321,6 +321,32 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					// alert (err.message);
 				});
 			};
+			//
+			// notification specific functions
+			//
+			var separateRecipients = function(newRecipients) {
+				_.each(newRecipients, function(member) {
+					if (member.viaEmail) {
+						$scope.recipients.adhoc.viaEmail.push(member);
+					}
+					if (member.viaMail) {
+						$scope.recipients.adhoc.viaMail.push(member);
+						if (!_.include($scope.recipients.mailOut, member)) {
+							$scope.recipients.mailOut.push(member);
+						}
+					}
+				});
+			};
+			$scope.recipients = {adhoc: {viaEmail: [], viaMail: []}, mailOut: [] };
+	
+			//
+			// Add Recipients
+			$scope.addRecipients = function(data, parent) {
+				$scope.customRecipients = data;
+				separateRecipients(data);
+			};
+
+
 		}
 	})
 
