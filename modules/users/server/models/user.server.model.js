@@ -154,7 +154,11 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	viaEmail: 	{ type:Boolean, default: true },
 	viaMail: 		{ type:Boolean, default: false },
 
-	__preSave: preSave,
+  // Siteminder User Guid - smgov_userguid header
+  userGuid: { type: String, unique: true, lowercase: true, trim: true, default: '' },
+  // Siteminder User Type  - smgov_usertype header
+  userType: { type: String, unique: false, lowercase: true, trim: true, default: '' },
+  __preSave: preSave,
 	__methods: newMethods,
 	__statics: newStatics
 });

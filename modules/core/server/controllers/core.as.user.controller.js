@@ -9,7 +9,7 @@ var path = require('path'),
 var findUserByUsername = function (username, callback) {
     if (process.env.NODE_ENV !== 'production') {
         User.findOne({
-            username: username
+            username: username.toLowerCase()
         }).populate('org').exec(function (error, user) {
             if (error) {
                 return callback(new Error(error), null);

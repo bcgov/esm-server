@@ -5,7 +5,9 @@ module.exports = {
 			firstName   : 'admin',
 			lastName    : 'admin',
 			password    : 'admin',
-			roles       : ['admin']
+			roles       : ['admin'],
+      userGuid    : 'admin',
+      userType    : 'internal'
 		},
 		{
 			username    : 'eaouser',
