@@ -3,19 +3,19 @@
  * -------------------------------------------------------------------------- */
 
 /* ----- Colors ----- */
-$header-blue:				#141a41;
-$header-grey:				#666666;
-$navbar-blue:				#154681;
+$header-blue:		    #141a41;
+$header-grey:			#666666;
+$navbar-blue:			#154681;
 $brand-primary:			#337ab7;
 $brand-success:			#5cb85c;
-$brand-info:				#5bc0de;
+$brand-info:		    #5bc0de;
 $brand-warning:			#f0ad4e;
-$brand-danger:				#d9534f;
-$link-light:				#337ab7;
+$brand-danger:			#d9534f;
+$link-light:			#337ab7;
 $link-dark:				#23527c;
-$border-grey:				#dddddd;
+$border-grey:			#dddddd;
 $off-white:				#f4f4f4;
-$danger-text:				#a94442;
+$danger-text:			#a94442;
 
 // -------------------------
 // Bootstrap Overrides
@@ -1523,4 +1523,20 @@ table thead tr.ng-table-filters {
 
 div.dropdown-menu {
 	padding: 12px;
+}
+
+
+/* GRID CONTROLS
+------------------------------ */
+.button-bar {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+/* BUTTONS 
+------------------------------ */
+.btn {
+    .glyphicon + span {
+        margin-left: 0.5rem;
+    }
 }

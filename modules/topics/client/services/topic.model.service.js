@@ -15,6 +15,9 @@ angular.module('topics').factory ('TopicModel', function (ModelBase, _) {
 		urlName : 'topic',
 		getTopicsForPillar: function (pillar) {
 			return this.get ('/api/topics/for/pillar/'+pillar);
+		},
+		forProject: function (projectid) {
+			return this.get ('/api/topics/for/project/'+projectid);
 		}
 	});
 	return new Class ();

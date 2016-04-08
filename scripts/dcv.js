@@ -7,6 +7,8 @@ var fs 			= require('fs');
 var path 		= require('path');
 var request 	= require ('request');
 
+var NO_MORE_TO_PROCESS = 1;
+
 var documentConversion = function documentConversion(conn, limit) {
 	console.log("Running conversion...");
 	var MongoClient = require('mongodb').MongoClient;
@@ -28,7 +30,7 @@ var documentConversion = function documentConversion(conn, limit) {
 			// console.log("err",err);
 			if (items) {
 				var total = items.length;
-				if (total === 0) { console.log("no items to process"); process.exit(); }
+				if (total === 0) { console.log("no items to process"); process.exit(1); }
 				console.log("found items.. processing ",total);
 				var item = items[0];
 				var count = 0;
@@ -36,7 +38,7 @@ var documentConversion = function documentConversion(conn, limit) {
 					count++;
 					if (count == total) {
 						console.log("finished");
-						process.exit();
+						process.exit(total == limit ? 0 : 1);
 					}
 				}
 				if (item) {
@@ -82,7 +84,7 @@ var documentConversion = function documentConversion(conn, limit) {
 				}
 			} else {
 				console.log("No more items to process.");
-				process.exit();
+				process.exit(total == limit ? 0 : 1);
 			}
 		});
 	});
