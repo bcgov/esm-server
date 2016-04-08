@@ -48,6 +48,21 @@ angular.module ('vcs')
 	setData();
 }])
 
+.controller ('controllerAddTopicModal',
+	['$modalInstance', '$scope', '_', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS',
+	function ($modalInstance, $scope, _, codeFromTitle, VcModel, TopicModel, PILLARS) {
+
+		var self = this;
+
+		this.ok = function () {
+			$modalInstance.dismiss ('cancel');
+		};
+
+		this.cancel = function () {
+			// console.log ('cancel clicked');
+			$modalInstance.dismiss('cancel');
+		};
+}])
 
 // -------------------------------------------------------------------------
 //

@@ -39,9 +39,21 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	.state('p.vc.list', {
 		url: '/list',
 		templateUrl: 'modules/vcs/client/views/vc-list.html',
-		controller: function ($scope, NgTableParams, vcs, project) {
+		controller: function ($scope, NgTableParams, vcs, project, $modal) {
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: vcs});
 			$scope.project = project;
+
+			$scope.openAddTopic = function() {
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/topics/client/views/topic-modal-select.html',
+					controller: 'controllerAddTopicModal',
+					controllerAs: 'self',
+					scope: $scope,
+					size: 'lg'
+				});
+				modalDocView.result.then(function () {}, function () {});
+			};
 		}
 	})
 	// -------------------------------------------------------------------------
