@@ -53,6 +53,12 @@ angular.module ('vcs')
 	function ($modalInstance, $scope, _, codeFromTitle, VcModel, TopicModel, PILLARS) {
 
 		var self = this;
+		self.data = null;
+
+		TopicModel.getCollection().then( function (data) {
+			self.data = data;
+			$scope.$apply();
+		});
 
 		this.ok = function () {
 			$modalInstance.dismiss ('cancel');
