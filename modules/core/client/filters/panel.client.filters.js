@@ -15,13 +15,13 @@ function filterShouldDisplayPanel(Authentication, _) {
 	var vis = {
 		"project":{
 			"admin":{
-				"Initiated":["initiated", "documents"],
-				"Submitted":["stream", "edit", "documents", "doc-approvals"],
+				"Initiated":["initiated", "documents",  "map"],
+				"Submitted":["stream", "edit",  "map","documents", "doc-approvals"],
 				"In Progress":["tombstone", "map", "edit", "activities", "documents", "doc-approvals"]
 			},
 			"eao":{
-				"Initiated":["initiated", "documents"],
-				"Submitted":["stream", "edit", "documents", "doc-approvals"],
+				"Initiated":["initiated",  "map","documents"],
+				"Submitted":["stream", "edit",  "map","documents", "doc-approvals"],
 				"In Progress":["tombstone", "map", "edit", "activities", "documents", "doc-approvals"]
 			},
 			"guest":{

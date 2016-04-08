@@ -53,6 +53,8 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 				var bw = grw.offsetWidth || 300;
 				var bh = 100;
 
+				var phaseWidth = ((bw - 60) / oPhases.length);
+
 				// map the date scale to the page scale.
 				var dateScale = d3.scale.linear()
 					.domain([startDate.format('x'),endDate.format('x')])
@@ -92,15 +94,15 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 				for (var i = 0; i < oPhases.length; i++) {
 					oPhaseDetail = oPhases[i];
 
-					if (!oPhaseDetail.dateStarted && !oPhaseDetail.dateStartedEst) {
-						continue;
-					}
+					// if (!oPhaseDetail.dateStarted && !oPhaseDetail.dateStartedEst) {
+					// 	continue;
+					// }
 
 					oPhaseStart = moment(new Date((oPhaseDetail.dateStarted || oPhaseDetail.dateStartedEst )));
 					oPhaseEnd = moment(new Date((oPhaseDetail.dateCompleted || oPhaseDetail.dateCompletedEst )));
 
-					posPhaseStart = dateScale( oPhaseStart.format('x') );
-					posPhaseEnd = dateScale( oPhaseEnd.format('x') );
+					posPhaseStart = (phaseWidth * i) + 30; //dateScale( oPhaseStart.format('x') );
+					posPhaseEnd = (phaseWidth * (i + 1)) + 30; //dateScale( oPhaseEnd.format('x') );
 
 					// progress fill.
 					if(Authentication.user) {
@@ -110,7 +112,7 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 							.attr("width", (posPhaseEnd - posPhaseStart) * ((oPhaseDetail.progress)/100) ) 
 							.attr("height",28)
 							.style("fill", function() { 
-								if ( posToday > posPhaseStart ) {
+								if ( posToday >= posPhaseStart ) {
 									return (oPhaseDetail.progress === 100) ? "#5cb85c" : "#f0ad4e";
 								}
 								return colourScale( oPhaseDetail.name );
