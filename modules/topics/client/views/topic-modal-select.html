@@ -8,7 +8,7 @@
 		<section class="panel panel-default">
 			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-hover table-striped">
 				<tr ng-repeat="o in self.data">
-					<td class="select-col"><input type="checkbox" /></td>
+					<td class="select-col"><input type="checkbox" ng-click="self.toggleItem(o)"/></td>
 					<td data-title="'Pillar'"  sortable="'self.data.pillar'"  filter="{'pillar':'select'}" filter-data="">{{o.pillar}}</td>
 					<td data-title="'Name'"    sortable="'self.data.name'"    filter="{'name':'text'}"                           		>{{o.name}}</td>
 					<td data-title="'Type'"    sortable="'self.data.type'"    filter="{'type':'select'}"   filter-data="getTypes()"   >{{o.type}}</td>
