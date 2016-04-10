@@ -49,19 +49,40 @@ angular.module ('vcs')
 }])
 
 .controller ('controllerAddTopicModal',
-	['$modalInstance', '$scope', '_', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS',
-	function ($modalInstance, $scope, _, codeFromTitle, VcModel, TopicModel, PILLARS) {
+	['$modalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS',
+	function ($modalInstance, $scope, _, $stateParams, codeFromTitle, VcModel, TopicModel, PILLARS) {
 
 		var self = this;
 		self.data = null;
+		self.current = [];
+		self.currentObjs = [];
+		self.project = $stateParams.project;
 
 		TopicModel.getCollection().then( function (data) {
 			self.data = data;
 			$scope.$apply();
 		});
 
+		this.toggleItem = function (item) {
+			console.log("item:",item);
+			var idx = self.current.indexOf(item._id);
+			console.log(idx);
+			if (idx === -1) {
+				self.currentObjs.push(item);
+				self.current.push(item._id);
+			} else {
+				_.remove(self.currentObjs, {_id: item._id});
+				_.remove(self.current, function(n) {return n === item._id;});
+			}
+		};
+
 		this.ok = function () {
-			$modalInstance.dismiss ('cancel');
+			// console.log("data:",self.currentObjs[0]);
+			_.each( self.currentObjs, function(obj, idx) {
+				//docUpload.fileList.push(file);
+				console.log(obj);
+			});
+			$modalInstance.dismiss ('ok');
 		};
 
 		this.cancel = function () {
