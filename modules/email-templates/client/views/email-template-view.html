@@ -1,0 +1,42 @@
+<h1 class="page-title no-lower-margin">
+	Add / Edit Email Template
+</h1>
+
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="admin.emailtemplate.list">Cancel</a>
+		<a class="btn btn-xs btn-link" ui-sref="admin.emailtemplate.edit({emailtemplateId:emailtemplate._id})">Edit</a>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="headline" class="control-label">Name</label>
+					<p class="form-control-static">{{ emailtemplate.name }}</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label for="content" class="control-label">Content</label>
+					<pre class="form-control-static" ng-bind-html="emailtemplate.content"></pre>
+				</div>
+			</div>
+		</div>
+
+		<hr>
+		
+		<div class="text-right">
+			<a class="btn btn-default" ui-sref="admin.emailtemplate.list">Cancel</a>
+			<a class="btn btn-default" ui-sref="admin.emailtemplate.edit({emailtemplateId:emailtemplate._id})">Edit</a>
+		</div>
+
+	</div>
+</div>
+
+

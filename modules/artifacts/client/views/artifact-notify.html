@@ -20,15 +20,23 @@
 		<div ng-show="form.curTab === 'Content'">
 			<hr/>
 			<div class="row">
-				<div class="col-sm-12">
-					<div class="form-inline form-group">
-						<label class="control-label" for="template">Template</label>
-						<select type="text" id="template" class="form-control" ng-options="tmp as tmp.name for tmp in templates track by tmp.code" ng-change="setContent()" ng-model="selectedTemplate"></select>
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label class="control-label" for="template">Email Content Template</label>
+						<select type="text" id="template" class="form-control" ng-options="tmp as tmp.name group by tmp.group for tmp in emailTemplates track by tmp.code" ng-change="setContent()" ng-model="selectedTemplate"></select>
 					</div>
-					<textarea rows="10" ng-model="mailContent" class="form-control"></textarea>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<textarea rows="10" ng-model="mailContent" class="form-control"></textarea>
+					</div>
+				</div>
+			</div>
+
 		</div>
+
 
 
 		<div ng-show="form.curTab === 'Schedule'">
@@ -60,7 +68,6 @@
 			</div>
 		</div>
 
-
 		<div ng-show="form.curTab === 'Recipients'">
 		<hr/>
 			<!-- Recipients -->
@@ -69,8 +76,8 @@
 					<a href x-modal-select-users
 						x-callback="addRecipients"
 						x-unique="true"
-						x-users="recipients.adhoc"
-						x-project="project">Add Recipients</a> | <a href x-modal-recipient-list x-users="mailOut">Get Addresses</a>
+						x-users="customRecipients"
+						x-project="project">Add Recipients</a> | <a href x-modal-recipient-list x-users="recipients.mailOut">Get Addresses</a>
 				</div>
 			</div>
 			<div class="row" ng-repeat="(type, list) in recipients">
