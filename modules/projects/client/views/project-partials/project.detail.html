@@ -1,4 +1,5 @@
-<h1 class="page-title no-lower-margin">{{ project.name }}</h1>
+<h1 class="page-title"
+	ng-class="{'no-lower-margin': (environment === 'EAO' && authentication.user && project.isPublished)}">{{ project.name }}</h1>
 
 <div class="row" ng-if="environment === 'EAO' && authentication.user">
 	<div class="col-sm-12 text-right btn-link-separated-list">

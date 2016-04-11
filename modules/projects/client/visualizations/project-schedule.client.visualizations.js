@@ -65,6 +65,9 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 					d3.select(element[0]).select("svg").remove();
 				}
 
+				// get today's position
+				posToday = Math.floor( dateScale( moment().format('x') ));
+
 				// create the new chart object.
 				var svgCont = d3.select(element[0]).append("svg").attr("viewBox", "0 0 "+bw+" "+bh);
 
@@ -87,8 +90,17 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 				;
 
 
-				// get today's position
-				posToday = Math.floor( dateScale( moment().format('x') ));
+				// not logged in, show progress up to the today marker.
+				if(!Authentication.user) {
+					svgCont.append("rect")
+						.attr("x", 30)
+						.attr("y", 2)
+						.attr("width", (posToday - 30))
+						.attr("height",28)
+						.style("fill", function() { return "#5cb85c"; })
+					;
+				}
+
 
 				// draw each phase
 				for (var i = 0; i < oPhases.length; i++) {
@@ -117,16 +129,6 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 								}
 								return colourScale( oPhaseDetail.name );
 							})
-							.attr("title", oPhaseDetail.name)
-						;
-					} else {
-						// no progress view, just show a complete block
-						svgCont.append("rect")
-							.attr("x", posPhaseStart)
-							.attr("y", 2)
-							.attr("width", (posPhaseEnd - posPhaseStart))
-							.attr("height",28)
-							.style("fill", function() { return colourScale( oPhaseDetail.name ); })
 							.attr("title", oPhaseDetail.name)
 						;
 					}
