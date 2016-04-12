@@ -107,7 +107,6 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 			vm.comments = response.data;
 			vm.processComments();
 			vm.enableGetMore = false;
-			console.log ('running');
 		});
 	};
 	//
@@ -119,7 +118,6 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 		Project.getPublicCommentsPublishedLimit ($stateParams.id, 20, 0).then (function (response) {
 			vm.comments = response.data;
 			vm.getAllComments ();
-			console.log ('running');
 			// vm.processComments();
 			// vm.enableGetMore = true;
 		});
