@@ -15,5 +15,10 @@ module.exports = function (app) {
 			var o = new Topic (req.user);
 			o.findMany ({pillar:req.params.pillar}).then (helpers.success(res), helpers.failure(res));
 		});
+	app.route ('/api/topics/for/type/:type').all (policy.isAllowed)
+		.get (function (req, res) {
+			var o = new Topic (req.user);
+			o.findMany ({type:req.params.type}).then (helpers.success(res), helpers.failure(res));
+		});
 };
 

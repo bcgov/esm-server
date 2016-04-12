@@ -58,7 +58,7 @@ angular.module ('vcs')
 		self.currentObjs = [];
 		self.project = $stateParams.project;
 
-		TopicModel.getCollection().then( function (data) {
+		TopicModel.forType('Valued Component').then( function (data) {
 			self.data = data;
 			$scope.$apply();
 		});
