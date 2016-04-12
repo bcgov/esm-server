@@ -4,7 +4,7 @@
 			<div class="caption">
 				<label class="control-label">{{ ::role }}</label>
 				<ul class="list-unstyled task-list">
-					<li x-modal-user-contact-info x-user="user" ng-repeat="user in users track by $index" class="clickable">{{ user.displayName }}</li>
+					<li x-modal-user-contact-info x-user="user" ng-repeat="user in users track by $index" class="clickable">{{ user.displayName || user.username }}</li>
 				</ul>
 				<label class="control-label text-right">
 					<a href x-modal-select-users
@@ -31,13 +31,13 @@
 
 			<select ng-if="userOrgs" class="form-control" ng-model="newOrg" ng-options="item as item for item in userOrgs"></select>
 
-			<input class="form-control"					
+			<input class="form-control"
 				type="text"
 				ng-model="newRole"
 				placeholder="Role Name">
 
 			<button class="btn btn-default" ng-click="saveNewRole()">Save</button>
-			<button class="btn btn-default" ng-click="newRole = undefined; addRoleMode = false;">Cancel</button>				
+			<button class="btn btn-default" ng-click="newRole = undefined; addRoleMode = false;">Cancel</button>
 		</div>
 
 	</div>
