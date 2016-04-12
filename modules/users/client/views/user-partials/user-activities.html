@@ -16,7 +16,7 @@
             <h2>My Projects</h2>
             <div class="panel panel-default">
                 <table ng-table="projectParams" class="projects-table table table-condensed table-striped">
-                    <tr ng-repeat="o in $data" class='clickable' ui-sref="p.detail({projectid: o.code})">
+                    <tr ng-repeat="o in $data">
                         <td data-title="'Name'" sortable="'name'">
                             {{o.name}}
                         </td>
@@ -34,6 +34,9 @@
                         </td>
                         <td ng-if="environment === 'EAO'" data-title="'Status'" sortable="'status'">
                             {{o.status}}
+                        </td>
+                        <td>
+                            <a ui-sref="p.detail({projectid: o.code})">View Details</a>
                         </td>
                     </tr>
                     <tr ng-show="!$data || !$data.length" class="text-center">
