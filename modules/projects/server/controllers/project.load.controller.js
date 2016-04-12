@@ -171,6 +171,7 @@ module.exports = function(file, req, res) {
 									model.roles = ['eao', 'public'];
 									model.read = ['public'];
 									model.submit = ['eao'];
+									model.publish();
 									var pname = ((row.currentPhaseTypeActivity === "") ? "not set":row.currentPhaseTypeActivity);
 									var pdesc = ((row.currentPhaseTypeActivity === "") ? "not set":row.currentPhaseTypeActivity);
 									var pcode = pname.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, model.name.length+1);
