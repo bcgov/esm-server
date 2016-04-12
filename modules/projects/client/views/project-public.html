@@ -141,7 +141,7 @@
 
 				</div>
 
-				<div ng-if="vm.comments.length !== 0 && (vm.project.dateCommentsOpen | isInThePast) && (vm.project.dateCommentsClosed | isInTheFuture)">
+				<div ng-if="vm.comments.length !== 0 && (vm.project.dateCommentsOpen | isInThePast) ">
 
 					<nav class="navbar navbar-default navbar-sm" ng-init="vm.form.view = 'bydate'" ng-if="vm.comments.length !== 0">
 						<div class="container-fluid">
@@ -239,7 +239,7 @@
 
 							<div class="col-sm-9" ng-init="toggleDateComment[item._id] = false">
 								<pre ng-show="!toggleDateComment[item._id]" class="form-group">{{ ::item.comment | maxWords:80:false }}</pre>
-								<pre ng-show="toggleDateComment[item._id]" class="form-group ng-hide ">{{ ::item.comment }}</pre>								
+								<pre ng-show="toggleDateComment[item._id]" class="form-group ng-hide ">{{ ::item.comment }}</pre>
 								<p ng-if="(item.comment | wordCount) > 80">
 									<a href  ng-click="toggleDateComment[item._id] = !toggleDateComment[item._id]">
 										<span ng-show="!toggleDateComment[item._id]"><em>More ({{ ::item.comment | wordCount }} words)</em></span>
