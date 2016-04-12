@@ -78,11 +78,21 @@ angular.module ('vcs')
 
 		this.ok = function () {
 			// console.log("data:",self.currentObjs[0]);
+			console.log("length: ",self.currentObjs.length);
 			_.each( self.currentObjs, function(obj, idx) {
-				//docUpload.fileList.push(file);
-				console.log(obj);
+				// console.log("Adding " + obj.description + " to Valued Components");
+				VcModel.getNew().then(function (m) {
+					m.project = $scope.project;
+					// TODO: Should we be getting these names from the UI?
+					m.name = obj.name;
+					m.code = obj.code;
+					// console.log("saving:",m);
+					VcModel.saveCopy(m);
+					if (idx === self.currentObjs.length-1) {
+						$modalInstance.close ();
+					}
+				});
 			});
-			$modalInstance.dismiss ('ok');
 		};
 
 		this.cancel = function () {
