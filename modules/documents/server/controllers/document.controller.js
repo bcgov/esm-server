@@ -825,7 +825,7 @@ var loadDocuments = function(req, res) {
 														res.write("]");
 														res.end();
 													} else {
-														res.write(",");
+														//res.write(",");
 														res.flush();
 													}
 												});

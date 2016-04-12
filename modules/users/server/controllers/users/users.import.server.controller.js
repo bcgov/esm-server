@@ -151,7 +151,7 @@ exports.loadUsers = function(file, req, res) {
         Object.keys(output).forEach(function(key, index) {
           if (index > 0) {
             var row = output[key];
-            res.write(".");
+            //res.write(".");
             rowsProcessed++;
             User.findOne({personId: parseInt(row.PERSON_ID)}, function (err, doc) {
               var addOrChangeModel = function(model) {
@@ -180,9 +180,9 @@ exports.loadUsers = function(file, req, res) {
                 model.notes         = row.NOTES;
                 model.username      = model.email;
                 model.password      = crypto.randomBytes(8);
-                res.write(".");
+                //res.write(".");
                 model.save().then(function () {
-                  res.write(".");
+                  //res.write(".");
                   // Am I done processing?
                   // console.log("INDEX:",index);
                   if (index === length-1) {
@@ -223,7 +223,7 @@ exports.loadGroupUsers = function(file, req, res) {
       var colArray = ['GROUP_ID','NAME','CONTACT_GROUP_TYPE','PERSON_ID','PROJECT_ID'];
       var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
         // Skip this many rows
-        res.write(".");
+        //res.write(".");
         var length = Object.keys(output).length;
         var rowsProcessed = 0;
         // console.log("length",length);
@@ -240,7 +240,7 @@ exports.loadGroupUsers = function(file, req, res) {
                 model.groupType   = row.CONTACT_GROUP_TYPE;
                 model.personId    = parseInt(row.PERSON_ID);
                 model.epicProjectID  = parseInt(row.PROJECT_ID); // Save epic data just in case
-                res.write(".");
+                //res.write(".");
                 model.save().then(function () {
                   // Am I done processing?
                   // console.log("INDEX:",index);
