@@ -11,7 +11,7 @@ angular.module('project')
 // -----------------------------------------------------------------------------------
 controllerPublicProject.$inject = ['$modal', 'Project', '$stateParams', '_', 'moment', '$filter', '$location'];
 /* @ngInject */
-function controllerPublicProject($modal, Project, $stateParams, _, moment, $filter, $location) {
+function controllerPublicProject($modal, Project, $stateParams, _, moment, $filter, $location, Authentication) {
 	var vm = this;
 
 	vm.host = $location.protocol() + '://' + $location.host() + ($location.port() ? ':' + $location.port() : '');
@@ -25,6 +25,8 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 	vm.readyByTopic = false;
 	vm.readyByChart = false;
 
+	vm.isLoggedInUser = (Authentication.user && (!!~Authentication.user.roles.indexOf ('vetting') || !!~Authentication.user.roles.indexOf ('admin')));
+
 	vm.processComments = function() {
 		// get public comments and sort into date groups.
 		var dateCount = {};
@@ -32,7 +34,7 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 		var dateTitleNoSort = '';
 
 		vm.commentsByTopicVis = {name: 'byTopic', children:[]};
-		vm.refreshVisualization = 0;		
+		vm.refreshVisualization = 0;
 
 		// separate the comments for bubble visualization
 		_.each(vm.comments, function(item) {
