@@ -99,20 +99,7 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 		vm.readyByTopic = true;
 		vm.readyByChart = true;
 	};
-
-	//
-	// Get Project
-	Project.getProject({id: $stateParams.id}).then(function(res) {
-		vm.project = res.data;
-		vm.bucketGroups = _.unique(_.pluck(vm.project.buckets, 'group'));
-
-		Project.getPublicCommentsPublishedLimit ($stateParams.id, 20, 0).then (function (response) {
-			vm.comments = response.data;
-			vm.processComments();
-			vm.enableGetMore = true;
-		});
-	});
-
+	vm.enableGetMore = false;
 	//
 	// Get all comments by request
 	vm.getAllComments = function() {
@@ -122,6 +109,20 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 			vm.enableGetMore = false;
 		});
 	};
+	//
+	// Get Project
+	Project.getProject({id: $stateParams.id}).then(function(res) {
+		vm.project = res.data;
+		vm.bucketGroups = _.unique(_.pluck(vm.project.buckets, 'group'));
+
+		Project.getPublicCommentsPublishedLimit ($stateParams.id, 20, 0).then (function (response) {
+			vm.comments = response.data;
+			vm.getAllComments ();
+			// vm.processComments();
+			// vm.enableGetMore = true;
+		});
+	});
+
 
 }
 // -----------------------------------------------------------------------------------
