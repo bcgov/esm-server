@@ -1,0 +1,59 @@
+<h1 class="page-title no-lower-margin">
+	Add / Edit Email Template
+</h1>
+
+<form name="emailTemplateForm" ng-submit="save(emailTemplateForm.$valid)" novalidate>
+
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<button class="btn btn-xs btn-link" ui-sref="admin.emailtemplate.list">Cancel</button>
+		<button class="btn btn-xs btn-link" href type="submit">Save</button>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group" x-show-errors>
+					<label for="name" class="control-label">Name</label>
+					<input id="name" name="name" type="text" class="form-control input-sm" ng-model="emailtemplate.name" required>
+						<div ng-messages="emailtemplateForm.name.$error" role="alert">
+							<p class="help-block error-text" ng-message="required">Name is required.</p>
+						</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group" x-show-errors>
+					<label for="group" class="control-label">Group</label>
+					<input id="group" name="group" type="text" class="form-control input-sm" ng-model="emailtemplate.group" required>
+						<div ng-messages="emailtemplateForm.group.$error" role="alert">
+							<p class="help-block error-text" ng-message="required">Group is required.</p>
+						</div>
+				</div>
+			</div>			
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group" x-show-errors>
+					<label for="content" class="control-label">Content</label>
+					<textarea id="content" rows="6" name="content" class="form-control input-sm" ng-model="emailtemplate.content" required></textarea>
+						<div ng-messages="emailtemplateForm.content.$error" role="alert">
+							<p class="help-block error-text" ng-message="required">Content is required.</p>
+						</div>
+				</div>
+			</div>
+		</div>
+		
+		<hr>
+		
+		<div class="text-right">
+			<button class="btn btn-default" ui-sref="admin.emailtemplate.list">Cancel</button>
+			<button class="btn btn-default" type="submit">Save</button>
+		</div>
+
+	</div>
+</div>
+
+</form>
+

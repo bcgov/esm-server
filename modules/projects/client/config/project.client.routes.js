@@ -32,6 +32,8 @@ angular.module('project').config (
 
 			ProjectModel.setModel(project);
 
+			$scope.intakeQuestions = ProjectModel.getProjectIntakeQuestions();
+
 			var unbind = $rootScope.$on('refreshProject', function() {
 				// console.log('refreshProject', $stateParams.projectid);
 				$scope.project = angular.copy( ProjectModel.byCode ($stateParams.projectid) );

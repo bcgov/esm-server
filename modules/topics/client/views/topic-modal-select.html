@@ -4,17 +4,16 @@
 	<div class="modal-header">
 		<h3 class="modal-title">Add Topic(s)</h3>
 	</div>
-
 	<div class="modal-body">
 		<section class="panel panel-default">
 			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-hover table-striped">
-				<tr ng-repeat="o in $data" ui-sref="admin.topic.detail({topicId:o._id})" class="clickable">
-					<td class="select-col"><input type="checkbox" /></td>
-					<td data-title="'Pillar'"  sortable="'pillar'"  filter="{'pillar':'select'}" filter-data="pillars" 		>{{o.pillar}}</td>
-					<td data-title="'Name'"    sortable="'name'"    filter="{'name':'text'}"                           		>{{o.name}}</td>
-					<td data-title="'Type'"    sortable="'type'"    filter="{'type':'select'}"   filter-data="getTypes()"   >{{o.type}}</td>
-					<td data-title="'Parent'"  sortable="'parent'"  filter="{'parent':'text'}"                         		>{{o.parent}}</td>
-					<tr ng-show="!$data || !$data.length" class="text-center">
+				<tr ng-repeat="o in self.data">
+					<td class="select-col"><input type="checkbox" ng-click="self.toggleItem(o)"/></td>
+					<td data-title="'Pillar'"  sortable="'self.data.pillar'"  filter="{'pillar':'select'}" filter-data="">{{o.pillar}}</td>
+					<td data-title="'Name'"    sortable="'self.data.name'"    filter="{'name':'text'}"                           		>{{o.name}}</td>
+					<td data-title="'Type'"    sortable="'self.data.type'"    filter="{'type':'select'}"   filter-data="getTypes()"   >{{o.type}}</td>
+					<td data-title="'Parent'"  sortable="'self.data.parent'"  filter="{'parent':'text'}"                         		>{{o.parent}}</td>
+					<tr ng-show="!self.data || !self.data.length" class="text-center">
 						<td colspan="5">No Topics found.</td>
 					</tr>					
 				</tr>

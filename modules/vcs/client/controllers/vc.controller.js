@@ -11,7 +11,7 @@ angular.module ('vcs')
 	['$scope', '$rootScope', '$stateParams', 'VcModel', 'NgTableParams', 'PILLARS',
 	function ($scope, $rootScope, $stateParams, VcModel, NgTableParams, PILLARS) {
 
-	// console.log ('controllerVcList is running');
+	console.log ('controllerVcList is running');
 
 	var self = this;
 
@@ -49,13 +49,54 @@ angular.module ('vcs')
 }])
 
 .controller ('controllerAddTopicModal',
-	['$modalInstance', '$scope', '_', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS',
-	function ($modalInstance, $scope, _, codeFromTitle, VcModel, TopicModel, PILLARS) {
+	['$modalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS',
+	function ($modalInstance, $scope, _, $stateParams, codeFromTitle, VcModel, TopicModel, PILLARS) {
 
 		var self = this;
+		self.data = null;
+		self.current = [];
+		self.currentObjs = [];
+		self.project = $stateParams.project;
+
+		TopicModel.forType('Valued Component').then( function (data) {
+			self.data = data;
+			$scope.$apply();
+		});
+
+		this.toggleItem = function (item) {
+			// console.log("item:",item);
+			var idx = self.current.indexOf(item._id);
+			// console.log(idx);
+			if (idx === -1) {
+				self.currentObjs.push(item);
+				self.current.push(item._id);
+			} else {
+				_.remove(self.currentObjs, {_id: item._id});
+				_.remove(self.current, function(n) {return n === item._id;});
+			}
+		};
 
 		this.ok = function () {
-			$modalInstance.dismiss ('cancel');
+			// console.log("data:",self.currentObjs[0]);
+			var savedArray = [];
+			// console.log("length: ",self.currentObjs.length);
+			_.each( self.currentObjs, function(obj, idx) {
+				// console.log("Adding " + obj.description + " to Valued Components");
+				VcModel.getNew().then(function (m) {
+					m.project = $scope.project;
+					// TODO: Should we be getting these names from the UI?
+					m.name = obj.name;
+					m.code = codeFromTitle(obj.name);
+					// console.log("saving:",m);
+					VcModel.saveCopy(m).then(function (saved) {
+						savedArray.push(saved);
+						if (idx === self.currentObjs.length-1) {
+							// Return the collection back to the caller
+							$modalInstance.close(savedArray);
+						}
+					});
+				});
+			});
 		};
 
 		this.cancel = function () {

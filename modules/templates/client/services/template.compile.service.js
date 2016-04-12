@@ -25,16 +25,27 @@ angular.module('templates')
 		var repeatStart = '\n<div ng-if="0" ng-repeat-start="_v in document.sectionname"></div>\n';
 		var repeatEnd   = '\n<div ng-if="0" ng-repeat-end></div>\n';
 		var replaceVar = function (mode, template, modelname, field) {
+			var regex      = new RegExp ('\\{\\{ *' + field.name + ' *\\}\\}', 'g');
+			var ftype      = field.type.toLowerCase ();
+			var istext     = (ftype === 'text');
+			var isdocument = (ftype === 'document list');
+			var isview     = (mode.toLowerCase () === 'view');
+			var directive  = '';
+			// if (ftype !== 'auto')
+			//
+			// if this is an auto field do not mess with the name scope
+			//
+			// var dataname = (ftype === 'auto') ? 'document.'+field.name : modelname+'.'+field.name;
 			var dataname = modelname+'.'+field.name;
-			var regex    = new RegExp ('\\{\\{ *' + field.name + ' *\\}\\}', 'g');
-			var istext   = (field.type.toLowerCase () === 'text');
-			var isview   = (mode.toLowerCase () === 'view');
-			var directive = '';
+			if (ftype === 'auto') isview = true;
 			if (isview) {
 				if (istext) directive = '{{'+dataname+'}}';
+				else if (isdocument) directive = '<div x-content-document ng-model="'+dataname+'" title="\''+field.label+'\'" project="project" editable="false"></div>';
 				else directive = '<div ng-bind-html="'+dataname+'"></div>';
+
 			} else {
 				if (istext) directive = '<span x-content-inline ng-model="'+dataname+'"></span>';
+				else if (isdocument) directive = '<div x-content-document ng-model="'+dataname+'" title="\''+field.label+'\'" project="project" editable="true"></div>';
 				else directive = '<div x-content-html ng-model="'+dataname+'"></div>';
 			}
 			return template.replace (regex, directive);
@@ -71,9 +82,9 @@ angular.module('templates')
 			} else {
 				compiled += temp;
 			}
-			// console.log ('+++START: section='+section.name);
-			// console.log (compiled);
-			// console.log ('---END');
+			console.log ('+++START: section='+section.name);
+			console.log (compiled);
+			console.log ('---END');
 			t += compiled;
 		});
 		return t;
@@ -86,14 +97,25 @@ angular.module('templates')
 // edit view. it includes managing the optional sections and adding or
 // removing or moving multi-sections within the document
 //
+// Further, this class ensures that there is sufficient data to render the
+// template.  It also takes in the project data, and, if the document is
+// not yet published, it will insert the appropriate automatic variables
+// from the passed in project data. If no project data is passed in then
+// it will simply use the current values for those fields (assuming they
+// were already populated at last edit). The rules for saving are not the
+// concern of this class, it will always insert the curent value unless
+// no project data is provided
+//
 // =========================================================================
 .factory ('templateData', function (_) {
-	return function (template, input) {
-		var TemplateClass = function (template, inputData) {
-			this.sections = {};
-			this.document = {};
-			this.mindata  = {};
-			this.order    = [];
+	return function (template, input, project) {
+		var TemplateClass = function (template, inputData, projectData) {
+			this.sections    = {};
+			this.document    = {};
+			this.mindata     = {};
+			this.order       = [];
+			this.hasProject  = (!!projectData);
+			this.projectData = projectData || {};
 			this._init (template, inputData);
 		};
 		_.extend (TemplateClass.prototype, {
@@ -105,7 +127,7 @@ angular.module('templates')
 			_init: function (template, inputData) {
 				// console.log ('++inside init function of TemplateData');
 				// inputData        = inputData || {};
-				// console.log ('initializing with template:', template);
+				console.log ('initializing with template:', template);
 				// console.log ('initializing with inputData:', _.cloneDeep (inputData));
 				//
 				// first make a structure of all sections with
@@ -125,13 +147,38 @@ angular.module('templates')
 						fields   : [],
 						data     : {}
 					};
+					//
+					// go through each variable in the section and set the value of
+					// it based upon the default setting
+					//
 					_.each (s.meta, function (f) {
-						section.data[f.name] = f.default || '--'+f.label+'--';
+						//
+						// calculate the default value. its either the set one, the
+						// label, or an automatic value
+						//
+						var def;
+						switch (f.type) {
+							case 'Document List':
+								def = [];
+								break;
+							case 'Auto':
+								def = _.get (_this.projectData, def, '');
+								break;
+							default:
+								def = f.default || '[ '+f.label+' ]';
+						}
+						//
+						// set the section data for the field (default value calculated above)
+						//
+						section.data[f.name] = def;
+						//
+						// set the section field meta data
+						//
 						section.fields.push ({
 							name    : f.name,
 							label   : f.label,
 							type    : f.type,
-							default : f.default || '--'+f.label+'--'
+							default : def
 						});
 					});
 					_this.sections[s.name] = section;
@@ -141,7 +188,7 @@ angular.module('templates')
 				this.document = this.ensureData (inputData);
 				// console.log ('sections = ', this.sections);
 				// console.log ('this.mindata :', this.mindata);
-				// console.log ('this.document :', this.document);
+				console.log ('this.document :', this.document);
 			},
 			// -------------------------------------------------------------------------
 			//
@@ -216,7 +263,7 @@ angular.module('templates')
 				});
 			}
 		});
-		return new TemplateClass (template, input);
+		return new TemplateClass (template, input, project);
 	};
 })
 

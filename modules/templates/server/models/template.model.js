@@ -8,7 +8,7 @@ var mongoose = require ('mongoose');
 
 var templateMeta = new mongoose.Schema ({
 	name     : { type:String, default:'' },
-	type     : { type:String, default:'Text', enum:['Text', 'Html'] },
+	type     : { type:String, default:'Text', enum:['Text', 'Html', 'Auto', 'List', 'Artifact', 'Document List'] },
 	label    : { type:String, default:'' },
 	default  : { type:String, default:'' }
 });
@@ -36,7 +36,7 @@ var templateSection = new mongoose.Schema ({
 module.exports = require ('../../../core/server/controllers/core.models.controller')
 .generateModel ('Template', {
 	__audit       : true,
-	code          : { type:String, default: '', unique:true},
+	code          : { type:String, default: '', index:true},
 	documentType  : { type:String, default: '', index:true},
 	versionNumber : { type:Number, default:0, index:true },
 	sections      : [ templateSection ],

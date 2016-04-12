@@ -332,10 +332,9 @@ function controllerModalRecipientList($modalInstance, rUsers, _) {
 	utilRecipientList.users='';
 
 	_.each(rUsers, function(user, idx) {
-		utilRecipientList.users += '"' + user.name + '","' + user.address + '","' + user.city + '","' + user.province + '","' + user.postal + '"\n';
+		utilRecipientList.users += '"' + user.displayName + '","' + user.address1 + ' ' + user.address2 + '","' + user.city + '","' + user.province.toUpperCase() + '","' + user.postalCode + '"\n';
 	});
 
-	utilRecipientList.ok = function () { $modalInstance.close(); };
 	utilRecipientList.cancel = function () { $modalInstance.dismiss('cancel'); };
 }
 // -----------------------------------------------------------------------------------

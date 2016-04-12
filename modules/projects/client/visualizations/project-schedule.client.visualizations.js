@@ -53,6 +53,8 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 				var bw = grw.offsetWidth || 300;
 				var bh = 100;
 
+				var phaseWidth = ((bw - 60) / oPhases.length);
+
 				// map the date scale to the page scale.
 				var dateScale = d3.scale.linear()
 					.domain([startDate.format('x'),endDate.format('x')])
@@ -62,6 +64,9 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 				if (d3.select(element[0]).select("svg")) {
 					d3.select(element[0]).select("svg").remove();
 				}
+
+				// get today's position
+				posToday = Math.floor( dateScale( moment().format('x') ));
 
 				// create the new chart object.
 				var svgCont = d3.select(element[0]).append("svg").attr("viewBox", "0 0 "+bw+" "+bh);
@@ -85,22 +90,31 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 				;
 
 
-				// get today's position
-				posToday = Math.floor( dateScale( moment().format('x') ));
+				// not logged in, show progress up to the today marker.
+				if(!Authentication.user) {
+					svgCont.append("rect")
+						.attr("x", 30)
+						.attr("y", 2)
+						.attr("width", (posToday - 30))
+						.attr("height",28)
+						.style("fill", function() { return "#5cb85c"; })
+					;
+				}
+
 
 				// draw each phase
 				for (var i = 0; i < oPhases.length; i++) {
 					oPhaseDetail = oPhases[i];
 
-					if (!oPhaseDetail.dateStarted && !oPhaseDetail.dateStartedEst) {
-						continue;
-					}
+					// if (!oPhaseDetail.dateStarted && !oPhaseDetail.dateStartedEst) {
+					// 	continue;
+					// }
 
 					oPhaseStart = moment(new Date((oPhaseDetail.dateStarted || oPhaseDetail.dateStartedEst )));
 					oPhaseEnd = moment(new Date((oPhaseDetail.dateCompleted || oPhaseDetail.dateCompletedEst )));
 
-					posPhaseStart = dateScale( oPhaseStart.format('x') );
-					posPhaseEnd = dateScale( oPhaseEnd.format('x') );
+					posPhaseStart = (phaseWidth * i) + 30; //dateScale( oPhaseStart.format('x') );
+					posPhaseEnd = (phaseWidth * (i + 1)) + 30; //dateScale( oPhaseEnd.format('x') );
 
 					// progress fill.
 					if(Authentication.user) {
@@ -110,21 +124,11 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 							.attr("width", (posPhaseEnd - posPhaseStart) * ((oPhaseDetail.progress)/100) ) 
 							.attr("height",28)
 							.style("fill", function() { 
-								if ( posToday > posPhaseStart ) {
+								if ( posToday >= posPhaseStart ) {
 									return (oPhaseDetail.progress === 100) ? "#5cb85c" : "#f0ad4e";
 								}
 								return colourScale( oPhaseDetail.name );
 							})
-							.attr("title", oPhaseDetail.name)
-						;
-					} else {
-						// no progress view, just show a complete block
-						svgCont.append("rect")
-							.attr("x", posPhaseStart)
-							.attr("y", 2)
-							.attr("width", (posPhaseEnd - posPhaseStart))
-							.attr("height",28)
-							.style("fill", function() { return colourScale( oPhaseDetail.name ); })
 							.attr("title", oPhaseDetail.name)
 						;
 					}

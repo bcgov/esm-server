@@ -13,31 +13,31 @@
 		<div class="form-group" ng-init="toggleBlue = true">
 			<a href ng-click="toggleBlue = !toggleBlue">
 				<span ng-show="toggleBlue">Hide Outlines</span>
-				<span ng-show="!toggleBlue">Show Outlines</span>				
+				<span ng-show="!toggleBlue">Show Outlines</span>
 			</a>
 		</div>
-		
+
 		<div class="form-group" ng-if="allsections.length > 0"><hr>
 			<label class="control-label">Go To Section</label>
 			<ul class="task-list list-unstyled">
 				<li ng-repeat="section in allsections"><a du-smooth-scroll href="#{{ section.name }}">{{ section.label }}</a></li>
 			</ul>
 		</div>
-		
+
 		<div class="form-group" ng-if="repeatsections.length > 0"><hr>
 			<label class="control-label">Append New in Section</label>
 			<ul class="task-list list-unstyled">
 				<li ng-repeat="section in repeatsections"><a href ng-click="append(section.name)">{{ section.label }}</a></li>
 			</ul>
 		</div>
-		
+
 		<div class="form-group"><hr>
 			<label class="control-label">Data Set</label>
 			<pre class="small">{{dataset | json}}</pre>
 		</div>
 	</div>
 	<div class="col-sm-9">
-		<tmpl-template-render x-template="template" x-mode="edit" x-document="dataset"></tmpl-template-render>
+		<tmpl-template-render x-template="template" x-mode="edit" x-project="project" x-document="dataset"></tmpl-template-render>
 	</div>
 </div>
 

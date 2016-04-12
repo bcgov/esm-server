@@ -1,0 +1,24 @@
+<div class="document-block">
+	<div>
+		{{ ::title }}
+		<a ng-if="editable"href x-modal-document-link class="btn btn-xs btn-link" x-current="curVal" x-project="project">
+			+/- Link Documents
+		</a>
+	</div>
+	<div class="thumbnails document-icon-list clearfix">
+
+		<div class="thumbnail pull-left" ng-repeat="file in curVal">
+			<div class="caption text-center">
+				<a href>
+					<a href="/api/document/{{ file._id }}/fetch" target="_blank">
+					<span class="glyphicon glyphicon-file"></span>
+					<br>
+					<small>{{ file.internalOriginalName }}</a>{{ file.projectFolderType }} / {{ file.projectFolderSubType }} / {{ file.projectFolderName }}</small>
+					<small ng-if="file.v"><br/>v.{{ file.documentVersion }}</small>
+					<small>{{ file.dateUpdated | amDateFormat:'MMM Do'}}</small>
+					</a>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

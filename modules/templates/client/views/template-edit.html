@@ -139,9 +139,17 @@
 				<select id="type" ng-model="field.type" class="form-control">
 					<option>Text</option>
 					<option>Html</option>
+					<option>Auto</option>
+					<option>List</option>
+					<option>Artifact</option>
+					<option>Document List</option>
 				</select>
 			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-3" ng-if="field.type==='Text'||field.type==='Html'">
+				<label for="default" class="control-label">Default value</label>
+				<input id="default" type="text" class="form-control input-sm" ng-model="field.default">
+			</div>
+			<div class="col-sm-3" ng-if="field.type==='Auto'">
 				<label for="default" class="control-label">Default value</label>
 				<input id="default" type="text" class="form-control input-sm" ng-model="field.default">
 			</div>

@@ -177,9 +177,9 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 // Used.
 //
 // -----------------------------------------------------------------------------------
-controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', 'project', 'REGIONS', 'PROJECT_TYPES', '_', 'intakeQuestions', 'UserModel', 'ProjectModel', 'OrganizationModel', 'Authentication'];
+controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', 'project', 'REGIONS', 'PROJECT_TYPES', '_', 'UserModel', 'ProjectModel', 'OrganizationModel', 'Authentication'];
 /* @ngInject */
-function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS, PROJECT_TYPES, _, intakeQuestions, UserModel, ProjectModel, OrganizationModel, Authentication) {
+function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS, PROJECT_TYPES, _, UserModel, ProjectModel, OrganizationModel, Authentication) {
 
 	ProjectModel.setModel ($scope.project);
 
@@ -240,7 +240,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 	}
 
 	$scope.project = project;
-	$scope.questions = intakeQuestions;
+	$scope.questions = ProjectModel.getProjectIntakeQuestions();
 	$scope.regions = REGIONS;
 	$scope.types = PROJECT_TYPES;
 	$scope._ = _;

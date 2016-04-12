@@ -244,7 +244,7 @@ h3 .small {
 h3 .small .label {
 	font-weight: 500;
 }
- 
+
 
  .col-0 {
  	width: 0;
@@ -1501,11 +1501,12 @@ table thead tr.ng-table-filters {
 	position: relative;
 	padding: 10px 0;
 	display: block;
-	background-color: rgba(0,0,0,0.15);
+	background-color: rgba(0,0,0,0.30);
+	text-shadow: 0 0 20px #000000;
 	color: #ffffff;
 	text-align: center;
 	left: 0;
-	right: 0;	
+	right: 0;
 }
 .show-news:hover,
 .show-news:active,
@@ -1518,7 +1519,7 @@ table thead tr.ng-table-filters {
 	position: absolute;
 	bottom: 0;
 	left: 15px;
-	right: 15px;	
+	right: 15px;
 }
 
 div.dropdown-menu {
@@ -1533,10 +1534,156 @@ div.dropdown-menu {
     padding-bottom: 1.5rem;
 }
 
-/* BUTTONS 
+/* BUTTONS
 ------------------------------ */
 .btn {
     .glyphicon + span {
         margin-left: 0.5rem;
     }
+}
+
+
+/* PAGE LAYOUT
+------------------------------ */
+.view-title-container {
+    padding: 1.5rem;
+    padding-bottom: 1rem;
+
+    h1 {
+        margin: 0;
+        padding: 0;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #CCC;
+    }
+}
+
+.view-content {
+    section {
+        h2 {
+            display: block;
+            margin-top: 0;
+            font-size: 2rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}
+
+.flex-content {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    flex-flow: row nowrap;
+
+    .left-panel {
+        flex: 0 0 20rem;
+    }
+
+    .main-panel {
+        flex: 1 1 auto;
+    }
+
+    .right-panel {
+        flex: 0 0 35rem;
+        overflow-x: hidden;
+    }
+
+    .left-panel,
+    .main-panel,
+    .right-panel {
+        padding: 1.5rem;
+    }
+}
+
+
+/* PROJECTS TABLE
+------------------------------ */
+.projects-table {
+    table-layout: fixed;
+
+    td {
+        width: 25%;
+    }
+}
+
+/* ACTIVITIES LIST
+------------------------------ */
+.activities-container {
+    .nav-tabs {
+        > li {
+            width: 33.3333%;
+            padding: 0;
+            background: #EEE;
+
+            > a {
+                margin: 0;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                text-align: center;
+                white-space: nowrap;
+                font-size: 1.2rem;
+                border: none;
+                border-radius: 0;
+            }
+        }
+
+        > li:first-child > a {
+            border-top-left-radius: 6px;
+        }
+
+        > li:last-child > a {
+            border-top-right-radius: 6px;
+        }
+
+        > li.active {
+            > a,
+            > a:hover,
+            > a:focus {
+                border: none;
+            }
+        }
+    }
+}
+
+.activities-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    li {
+        padding: 1.5rem;
+        border-bottom: 1px solid #CCC;
+    }
+
+    li:last-child {
+        border-bottom: none;
+    }
+
+    h3 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 1.6rem;
+    }
+
+    .activity-info {
+        margin-bottom: 1.25rem;
+
+        small {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+    }
+}
+
+
+/* BADGES
+------------------------------ */
+.badge {
+    padding-bottom: 0.4rem;
+    border-radius: 0.4rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+.badge.success {
+    background: green;
 }

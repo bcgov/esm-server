@@ -20,15 +20,23 @@
 		<div ng-show="form.curTab === 'Content'">
 			<hr/>
 			<div class="row">
-				<div class="col-sm-12">
-					<div class="form-inline form-group">
-						<label class="control-label" for="template">Template</label>
-						<select type="text" id="template" class="form-control" ng-options="tmp as tmp.name for tmp in templates track by tmp.code" ng-change="setContent()" ng-model="selectedTemplate"></select>
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label class="control-label" for="template">Email Content Template</label>
+						<select type="text" id="template" class="form-control" ng-options="tmp as tmp.name group by tmp.group for tmp in emailTemplates track by tmp.code" ng-change="setContent()" ng-model="selectedTemplate"></select>
 					</div>
-					<textarea rows="10" ng-model="mailContent" class="form-control"></textarea>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<textarea rows="10" ng-model="mailContent" class="form-control"></textarea>
+					</div>
+				</div>
+			</div>
+
 		</div>
+
 
 
 		<div ng-show="form.curTab === 'Schedule'">
@@ -60,7 +68,6 @@
 			</div>
 		</div>
 
-
 		<div ng-show="form.curTab === 'Recipients'">
 		<hr/>
 			<!-- Recipients -->
@@ -70,17 +77,17 @@
 						x-callback="addRecipients"
 						x-unique="true"
 						x-users="customRecipients"
-						x-project="project">Add Recipients</a> | <a href x-modal-recipient-list x-users="mailOut">Get Addresses</a>
+						x-project="project">Add Recipients</a> | <a href x-modal-recipient-list x-users="recipients.mailOut">Get Addresses</a>
 				</div>
 			</div>
-			<div class="row" ng-repeat="(role, list) in recipients">
+			<div class="row" ng-repeat="(type, list) in recipients">
 				<div class="col-sm-6">
 					<div ng-if="list.viaEmail.length > 0">
-						<label class="control-label">{{ role }} By Email</label>
+						<label class="control-label">{{ type }} By Email</label>
 						<div class="well well-sm">
 							<ul class="list-unstyled no-lower-margin">
 								<li ng-repeat="user in list.viaEmail" ng-init="form.recipEmail = (form.recipEmail + 1)">
-									<a href x-modal-user-contact-info x-user="user">{{ user.name }} <em class="small">{{ user.role }}</em></a>
+									<a href x-modal-user-contact-info x-user="user">{{ user.displayName }} <em class="small">{{ user.email }}</em></a>
 								</li>
 							</ul>
 						</div>
@@ -88,11 +95,11 @@
 				</div>
 				<div class="col-sm-6">
 					<div ng-if="list.viaMail.length > 0">
-						<label class="control-label">{{ role }} By Traditional Mail</label>
+						<label class="control-label">{{ type }} By Traditional Mail</label>
 						<div class="well well-sm">
 							<ul class="list-unstyled no-lower-margin">
 								<li ng-repeat="user in list.viaMail" ng-init="form.recipMail = (form.recipMail + 1)">
-									<a href x-modal-user-contact-info x-user="user">{{ user.name }} <em class="small">{{ user.role }}</em></a>
+									<a href x-modal-user-contact-info x-user="user">{{ user.displayName }}</a>
 								</li>
 							</ul>
 						</div>
