@@ -1,91 +1,165 @@
 <section id="project-view" class="row">
 
-	<div class='col-sm-10'>
-		<h1 class="page-title">
-			My Projects and Activities
-		</h1>
-		<div class="row">
-			<div class="col-sm-12">
-				<section class="panel panel-default">
-				<!-- <tmpl-projects-list2 x-title="'no'" x-projects='projects'> </tmpl-projects-list2> -->
-	<table ng-table="projectParams" class="table table-condensed table-striped">
-		<tr ng-repeat="o in $data" class='clickable' ui-sref="p.detail({projectid: o.code})">
-			<td data-title="'Name'"
-				sortable="'name'">
-				{{o.name}}
-			</td>
-
-			<td ng-if="environment === 'MEM'"
-				title="'data-Permit'"
-				sortable="'memPermitID'">
-				{{o.memPermitID}}
-			</td>
-
-			<td data-title="'Type'"
-				sortable="'type'">
-				{{o.type}}
-			</td>
-
-			<td data-title="'Region'"
-				sortable="'region'">
-				{{o.region | regionName}}
-			</td>
-
-			<td data-title="'Phase'"
-				sortable="'currentPhase.name'" >
-				{{o.currentPhase.name}}
-			</td>
-
-			<td ng-if="environment === 'EAO'"
-				data-title="'Status'"
-				sortable="'status'">
-				{{o.status}}
-			</td>
-		</tr>
-		<tr ng-show="!$data || !$data.length" class="text-center">
-			<td ng-if="environment === 'EAO'" colspan="5">No results match your search.</td>
-			<td ng-if="environment === 'MEM'" colspan="4">No results match your search.</td>
-		</tr>
-	</table>
-				</section>
-			</div>
-		</div>
-		<div class="row ng-scope">
-			<div class="col-sm-12 text-right">
-				<a href class="btn btn-xs btn-link" ng-click="show_filter = !show_filter">
-					<span ng-show="show_filter"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></span>
-					<span ng-show="!show_filter"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span></span>
-				</a>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<section class="panel panel-default">
-					<table x-show-filter="show_filter" ng-table="tableParams" class="table table-condensed table-striped table-hover">
-						<tr ng-repeat="o in $data | orderBy:'order'"
-							ng-click="getLinkUrl(o.state, o.data)"
-							class="clickable">
-							<td data-title="'Project'"  filter="{'project':'text'}" sortable="'project'">{{ o.project }}</td>
-							<td data-title="'Name'" filter="{'name':'text'}"    sortable="'name'" >{{o.name}}</td>
-							<td data-title="'Estimated Start'" filter="{'dateStartedEst':'text'}"    sortable="'dateStartedEst'" >{{o.dateStartedEst | date}}</td>
-							<td data-title="'Started On'" filter="{'dateStarted':'text'}"    sortable="'dateStarted'" >{{o.dateStarted | date}}</td>
-							<td data-title="'Estimated Complete'" filter="{'dateCompletedEst':'text'}"    sortable="'dateCompletedEst'" >{{o.dateCompletedEst | date}}</td>
-							<!-- <td data-title="'Completed'" filter="{'dateCompleted':'text'}"    sortable="'dateCompleted'" >{{o.dateCompleted | date}}</td> -->
-						</tr>
-						<tr ng-if="!$data || $data.length === 0">
-							<td colspan="2">
-								No records found.
-							</td>
-						</tr>
-					</table>
-				</section>
-			</div>
-
-		</div>
-
-	</div> <!-- /col10 -->
-	<div class='col-sm-2'>
-		<tmpl-system-menu x-menu-context="'mylist'"></tmpl-system-menu>
-	</div>
+    <div class="view-title-container">
+        <h1>Dashboard</h1>
+    </div>
+    
+    <div class="view-content flex-content">
+        
+        <!-- SIDE NAVIGATION -->
+        <aside class="left-panel">
+            <tmpl-system-menu x-menu-context="'mylist'"></tmpl-system-menu>
+        </aside>
+        
+        <!-- PROJECTS LIST -->
+        <section class="main-panel">
+            <h2>My Projects</h2>
+            <div class="panel panel-default">
+                <table ng-table="projectParams" class="projects-table table table-condensed table-striped">
+                    <tr ng-repeat="o in $data" class='clickable' ui-sref="p.detail({projectid: o.code})">
+                        <td data-title="'Name'" sortable="'name'">
+                            {{o.name}}
+                        </td>
+                        <td ng-if="environment === 'MEM'" title="'data-Permit'" sortable="'memPermitID'">
+                            {{o.memPermitID}}
+                        </td>
+                        <td data-title="'Type'" sortable="'type'">
+                            {{o.type}}
+                        </td>
+                        <td data-title="'Region'" sortable="'region'">
+                            {{o.region | regionName}}
+                        </td>
+                        <td data-title="'Phase'" sortable="'currentPhase.name'" >
+                            {{o.currentPhase.name}}
+                        </td>
+                        <td ng-if="environment === 'EAO'" data-title="'Status'" sortable="'status'">
+                            {{o.status}}
+                        </td>
+                    </tr>
+                    <tr ng-show="!$data || !$data.length" class="text-center">
+                        <td ng-if="environment === 'EAO'" colspan="5">No results match your search.</td>
+                        <td ng-if="environment === 'MEM'" colspan="4">No results match your search.</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div>
+                
+            </div>
+        </section>
+        
+        <!-- ACTIVITIES LIST -->
+        <section class="right-panel activities-container">
+            <h2>My Activities<span class="hidden">&nbsp;&rsaquo; Project Title</span>&nbsp;<span>(*)</span></h2>
+            <div class="panel panel-default tab-container">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="all-activities">
+                        <a href="#active" aria-controls="active" role="tab" data-toggle="tab">Active (*)</a>
+                    </li>
+                    <li role="all-activities">
+                        <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Complete (*)</a>
+                    </li>
+                    <li class="active" role="all-activities">
+                        <a href="#all" aria-controls="all" role="tab" data-toggle="tab">All (*)</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane" id="active" role="tabpanel">
+                        <ul class="activities-list">
+                            <li>
+                                <h3>Activity</h3>
+                                <div class="activity-info">
+                                    <small>Project: <span>Project Name</span></small>
+                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
+                                    <small>End Date: <span>MM/DD/YYYY</span></small>
+                                </div>
+                                <span class="badge bg-primary">Active</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane" id="completed" role="tabpanel">
+                        <ul class="activities-list list-group">
+                            <li>
+                                <h3>Activity</h3>
+                                <div class="activity-info">
+                                    <small>Project: <span>Project Name</span></small>
+                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
+                                    <small>End Date: <span>MM/DD/YYYY</span></small>
+                                </div>
+                                <span class="badge success">Complete</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane active" id="all" role="tabpanel">
+                        <ul class="activities-list list-group">
+                            <li>
+                                <h3>Activity</h3>
+                                <div class="activity-info">
+                                    <small>Project: <span>Project Name</span></small>
+                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
+                                    <small>End Date: <span>MM/DD/YYYY</span></small>
+                                </div>
+                                <span class="badge bg-primary">To Do</span>
+                            </li>
+                            <li>
+                                <h3>Activity</h3>
+                                <div class="activity-info">
+                                    <small>Project: <span>Project Name</span></small>
+                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
+                                    <small>End Date: <span>MM/DD/YYYY</span></small>
+                                </div>
+                                <span class="badge success">Complete</span>
+                            </li><li>
+                                <h3>Activity</h3>
+                                <div class="activity-info">
+                                    <small>Project: <span>Project Name</span></small>
+                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
+                                    <small>End Date: <span>MM/DD/YYYY</span></small>
+                                </div>
+                                <span class="badge success">Complete</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="view-content hidden">
+            <div class="col-sm-10">
+                <div class="row ng-scope">
+                    <div class="col-sm-12 text-right">
+                        <a href class="btn btn-xs btn-link" ng-click="show_filter = !show_filter">
+                            <span ng-show="show_filter"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></span>
+                            <span ng-show="!show_filter"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <section class="panel panel-default">
+                            <table x-show-filter="show_filter" ng-table="tableParams" class="table table-condensed table-striped table-hover">
+                                <tr ng-repeat="o in $data | orderBy:'order'"
+                                    ng-click="getLinkUrl(o.state, o.data)"
+                                    class="clickable">
+                                    <td data-title="'Project'" filter="{'project':'text'}" sortable="'project'">{{ o.project }}</td>
+                                    <td data-title="'Name'" filter="{'name':'text'}"    sortable="'name'" >{{o.name}}</td>
+                                    <td data-title="'Estimated Start'" filter="{'dateStartedEst':'text'}"    sortable="'dateStartedEst'" >{{o.dateStartedEst | date}}</td>
+                                    <td data-title="'Started On'" filter="{'dateStarted':'text'}"    sortable="'dateStarted'" >{{o.dateStarted | date}}</td>
+                                    <td data-title="'Estimated Complete'" filter="{'dateCompletedEst':'text'}"    sortable="'dateCompletedEst'" >{{o.dateCompletedEst | date}}</td>
+                                    <!-- <td data-title="'Completed'" filter="{'dateCompleted':'text'}"    sortable="'dateCompleted'" >{{o.dateCompleted | date}}</td> -->
+                                </tr>
+                                <tr ng-if="!$data || $data.length === 0">
+                                    <td colspan="2">
+                                        No records found.
+                                    </td>
+                                </tr>
+                            </table>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </div>
 
 </section>
