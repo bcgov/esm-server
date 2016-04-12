@@ -813,12 +813,31 @@ var loadDocuments = function(req, res) {
 																			  WHO_UPDATED: row.WHO_UPDATED,
 																			  WHEN_UPDATED: row.WHEN_UPDATED});
 
-									model.save().then(function () {
+									model.save().then(function (m) {
 										// console.log("INDEX:",index);
-										if (index === length-1) {
-											res.write("]");
-											res.end();
-										}
+										Project.findOne({epicProjectID: m.documentEPICProjectId}, function (err, project) {
+											if (project) {
+												// console.log("found:",project.epicProjectID);
+												m.project = project;
+												m.save().then(function () {
+													// console.log("saved");
+													if (index === length-1) {
+														res.write("]");
+														res.end();
+													} else {
+														res.write(",");
+														res.flush();
+													}
+												});
+											} else {
+												setTimeout(function() {
+												  if (index === length-1) {
+													res.write("]");
+													res.end();
+												  }
+												}, 2000);
+											}
+										});
 									});
 								};
 								if (doc === null) {
