@@ -1,7 +1,7 @@
 <!-- Hiding this until we figure out the final structure -->
 <h1 class="page-title hidden" ng-class="{'no-lower-margin': (environment === 'EAO' && authentication.user && project.isPublished)}">{{ project.name }} DERPP</h1>
 
-<div class="row hidden" ng-if="environment === 'EAO' && authentication.user">
+<div class="pull-right" ng-if="environment === 'EAO' && authentication.user">
 	<div class="col-sm-12 text-right btn-link-separated-list">
 		<a class="btn btn-xs btn-link"
 			ng-click="completePhase()"
