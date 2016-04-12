@@ -136,7 +136,7 @@ angular.module ('templates')
 			var header = {
 				edit:'<div class="panel panel-default" ng-init="toggleBlue = true">'+
 					'<div class="panel-body no-vertical-padding" du-scroll-container="templateContainer"><div class="row block-section">'+
-					'<div class="col-sm-3 col-no-padding vertical-scroll col-border-right"  x-artifact-edit-height>'+
+					'<div class="col-sm-3 col-no-padding vertical-scroll col-border-right"  x-artifact-edit-height="200">'+
 					'<ul class="small list-unstyled list-documents">'+
 					'<li>'+
 					'<a href ng-click="toggleBlue = !toggleBlue">Toggle Outlines</a>'+
@@ -146,22 +146,23 @@ angular.module ('templates')
 					'<a href="#{{ section.name }}" du-smooth-scroll>{{ section.label }}</a></li>'+
 					'</ul>'+
 					'</div>'+
-					'<div class="col-sm-9 vertical-scroll-padded" x-artifact-edit-height id="templateContainer" ng-class="{\'edit-outlines\': toggleBlue}">',
+					'<div class="col-sm-9 vertical-scroll-padded" x-artifact-edit-height="200" id="templateContainer" ng-class="{\'edit-outlines\': toggleBlue}">'+
+					'',
 				view:
 					'<div class="panel panel-default">'+
 					'<div class="panel-body no-vertical-padding" du-scroll-container="templateContainer"><div class="row block-section">'+
-					'<div class="col-sm-3 col-no-padding vertical-scroll col-border-right" x-artifact-edit-height>'+
+					'<div class="col-sm-3 col-no-padding vertical-scroll col-border-right" x-artifact-edit-height="200">'+
 					'<ul class="small list-unstyled list-documents">'+
 					'<li class="row-folder clickable" du-scrollspy="{{ section.name }}" ng-repeat="section in allsections">'+
 					'<a href="#{{ section.name }}" x-offset=10 du-smooth-scroll>{{ section.label }}</a></li>'+
 					'</ul>'+
 					'</div>'+
-					'<div class="col-sm-9 vertical-scroll-padded" x-artifact-edit-height id="templateContainer">'
+					'<div class="col-sm-9 vertical-scroll-padded" x-artifact-edit-height="200" id="templateContainer">'
 			};
 
 			var footer = '</div></div></div></div>';
-			if (scope.project) scope.document._project = scope.project;
-			var tData = templateData (scope.template, scope.document);
+			// if (scope.project) scope.document._project = scope.project;
+			var tData = templateData (scope.template, scope.document, scope.project);
 			scope.allsections = tData.sectionList ();
 			// console.log (scope.allsections);
 			// scope.repeatsections = tData.repeatable ();

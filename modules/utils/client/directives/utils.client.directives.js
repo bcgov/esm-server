@@ -213,16 +213,27 @@ function directiveArtifactEditHeight($window) {
         restrict:'A',
 		link :  function (scope, element, attr) {
 
+			var size = attr.artifactEditHeight || 200;
+			var innerHeight = window.innerHeight;
 			var w = angular.element($window);
 			var box = angular.element(element);
+			console.log ("size is ", size);
 
 			scope.$watch(function () {
 				return {
 					'h': window.innerHeight
 				};
 			}, function (newValue, oldValue) {
-				box.css({'min-height': (parseInt(newValue.h)-355) + 'px', 'max-height': (parseInt(newValue.h)-355) + 'px'});
+				innerHeight = newValue.h;
+				box.css({'min-height': (parseInt(innerHeight)+size) + 'px', 'max-height': (parseInt(innerHeight)+size) + 'px'});
 			}, true);
+			scope.$watch (attr.artifactEditHeight, function (newValue, oldValue) {
+				console.log ("size changed");
+				size = newValue;
+				box.css({'min-height': (parseInt(innerHeight)+size) + 'px', 'max-height': (parseInt(innerHeight)+size) + 'px'});
+			}, true);
+
+
 
 			w.bind('resize', function () {
 				scope.$apply();

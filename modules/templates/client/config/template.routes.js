@@ -187,11 +187,15 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 		resolve: {
 			template: function ($stateParams, TemplateModel) {
 				return TemplateModel.getModel ($stateParams.templateId);
+			},
+			project: function (ProjectModel) {
+				return ProjectModel.byCode ('acme-mine-1');
 			}
 		},
-		controller: function ($scope, template, templateData, $location) {
+		controller: function ($scope, template, templateData, $location, project) {
 			$scope.template = template;
 			$scope.dataset = {};
+			$scope.project = project;
 			// console.log ('template', $scope.template);
 			// var tData = templateData (template);
 			// $scope.dataset = tData.document;
