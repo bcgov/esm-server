@@ -127,14 +127,21 @@
 			<div class="panel-body">
 				<div class="small form-group">
 
-					<h3>Submitting Your Comments: How It Works</h3>
-					<p>Comments submitted to the Environmental Assessment Office (EAO) will be published online.</p>
+					<h3 ng-if="(vm.project.dateCommentsClosed | isInThePast)">Public Comment Period is Now Closed</h3>
+					<p ng-if="(vm.project.dateCommentsClosed | isInThePast)">
+					The proposed Ajax Mine Project's public comment period regarding KGHM Ajax Mining Inc.'s application for an environmental assessment certificate has now closed. Thank you to all who participated in the public comment period. EAO will post the proponent's responses to the issues raised during this comment period.
+					</p>
+
+					<h3 ng-if="(vm.project.dateCommentsClosed | isInTheFuture)">Submitting Your Comments: How It Works</h3>
+					<div ng-if="(vm.project.dateCommentsClosed | isInTheFuture)">
+					<p >Comments submitted to the Environmental Assessment Office (EAO) will be published online.</p>
 					<p>EAO publishes all accepted comments within seven days of receipt. Comments are not accepted if - in EAO’s view - they are profane, abusive or do not relate to the matter being consulted upon as stated in our <a href="http://www.eao.gov.bc.ca/pdf/EAO_Policy_Public_Comment.pdf" target="_new">Public Comment Policy [PDF]</a>.</p>
 					<p ng-show="!legalMore"><a href ng-click="legalMore = true"><em>More...</em></a></p>
 					<p ng-show="legalMore">EAO forwards all posted comments to project proponents so that they can be duly considered during the project's Environmental Assessment (EA) process.</p>
 					<p ng-show="legalMore">You may provide your name and city/town when making a comment, but in order to have your name displayed with your comment you must select the 'Show my name and location on the public site' option.</p>
 					<p ng-show="legalMore">All hyperlinks in comments will be converted to plain text. All attachments must be in PDF format and limited to 5MB.</p>
 					<p ng-show="legalMore"><a href ng-click="legalMore = false"><em>Less</em></a></p>
+					</div>
 
 					<hr>
 					<p><em>Public comments received by EAO are published according to the date received.  Where relevant, comments may be categorized by one or more topic areas from the Application, either during or following the public comment period.  Categorized comments will appear by topic area below.</em></p>
