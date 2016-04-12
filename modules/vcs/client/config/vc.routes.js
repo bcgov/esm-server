@@ -39,7 +39,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	.state('p.vc.list', {
 		url: '/list',
 		templateUrl: 'modules/vcs/client/views/vc-list.html',
-		controller: function ($scope, NgTableParams, vcs, project, $modal) {
+		controller: function ($scope, NgTableParams, vcs, project, $modal, $state) {
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: vcs});
 			$scope.project = project;
 
@@ -52,7 +52,14 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					scope: $scope,
 					size: 'lg'
 				});
-				modalDocView.result.then(function () {}, function () {});
+				modalDocView.result.then(function (res) {
+					// console.log("res",res);
+					$state.transitionTo('p.vc.list', {projectid:project.code}, {
+			  			reload: true, inherit: false, notify: true
+					});
+				}, function () {
+					//console.log("err");
+				});
 			};
 		}
 	})

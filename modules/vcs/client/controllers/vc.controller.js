@@ -11,7 +11,7 @@ angular.module ('vcs')
 	['$scope', '$rootScope', '$stateParams', 'VcModel', 'NgTableParams', 'PILLARS',
 	function ($scope, $rootScope, $stateParams, VcModel, NgTableParams, PILLARS) {
 
-	// console.log ('controllerVcList is running');
+	console.log ('controllerVcList is running');
 
 	var self = this;
 
@@ -64,9 +64,9 @@ angular.module ('vcs')
 		});
 
 		this.toggleItem = function (item) {
-			console.log("item:",item);
+			// console.log("item:",item);
 			var idx = self.current.indexOf(item._id);
-			console.log(idx);
+			// console.log(idx);
 			if (idx === -1) {
 				self.currentObjs.push(item);
 				self.current.push(item._id);
@@ -78,7 +78,8 @@ angular.module ('vcs')
 
 		this.ok = function () {
 			// console.log("data:",self.currentObjs[0]);
-			console.log("length: ",self.currentObjs.length);
+			var savedArray = [];
+			// console.log("length: ",self.currentObjs.length);
 			_.each( self.currentObjs, function(obj, idx) {
 				// console.log("Adding " + obj.description + " to Valued Components");
 				VcModel.getNew().then(function (m) {
@@ -87,10 +88,13 @@ angular.module ('vcs')
 					m.name = obj.name;
 					m.code = obj.code;
 					// console.log("saving:",m);
-					VcModel.saveCopy(m);
-					if (idx === self.currentObjs.length-1) {
-						$modalInstance.close ();
-					}
+					VcModel.saveCopy(m).then(function (saved) {
+						savedArray.push(saved);
+						if (idx === self.currentObjs.length-1) {
+							// Return the collection back to the caller
+							$modalInstance.close(savedArray);
+						}
+					});
 				});
 			});
 		};
