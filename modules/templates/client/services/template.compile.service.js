@@ -25,11 +25,12 @@ angular.module('templates')
 		var repeatStart = '\n<div ng-if="0" ng-repeat-start="_v in document.sectionname"></div>\n';
 		var repeatEnd   = '\n<div ng-if="0" ng-repeat-end></div>\n';
 		var replaceVar = function (mode, template, modelname, field) {
-			var regex    = new RegExp ('\\{\\{ *' + field.name + ' *\\}\\}', 'g');
-			var ftype    = field.type.toLowerCase ();
-			var istext   = (ftype === 'text');
-			var isview   = (mode.toLowerCase () === 'view');
-			var directive = '';
+			var regex      = new RegExp ('\\{\\{ *' + field.name + ' *\\}\\}', 'g');
+			var ftype      = field.type.toLowerCase ();
+			var istext     = (ftype === 'text');
+			var isdocument = (ftype === 'document list');
+			var isview     = (mode.toLowerCase () === 'view');
+			var directive  = '';
 			// if (ftype !== 'auto')
 			//
 			// if this is an auto field do not mess with the name scope
@@ -39,9 +40,12 @@ angular.module('templates')
 			if (ftype === 'auto') isview = true;
 			if (isview) {
 				if (istext) directive = '{{'+dataname+'}}';
+				else if (isdocument) directive = '<div x-content-document ng-model="'+dataname+'" title="\''+field.label+'\'" project="project" editable="false"></div>';
 				else directive = '<div ng-bind-html="'+dataname+'"></div>';
+
 			} else {
 				if (istext) directive = '<span x-content-inline ng-model="'+dataname+'"></span>';
+				else if (isdocument) directive = '<div x-content-document ng-model="'+dataname+'" title="\''+field.label+'\'" project="project" editable="true"></div>';
 				else directive = '<div x-content-html ng-model="'+dataname+'"></div>';
 			}
 			return template.replace (regex, directive);
@@ -152,8 +156,17 @@ angular.module('templates')
 						// calculate the default value. its either the set one, the
 						// label, or an automatic value
 						//
-						var def = f.default || '[ '+f.label+' ]';
-						def = (f.type === 'Auto') ? _.get (_this.projectData, def, '') : def;
+						var def;
+						switch (f.type) {
+							case 'Document List':
+								def = [];
+								break;
+							case 'Auto':
+								def = _.get (_this.projectData, def, '');
+								break;
+							default:
+								def = f.default || '[ '+f.label+' ]';
+						}
 						//
 						// set the section data for the field (default value calculated above)
 						//

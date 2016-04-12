@@ -261,28 +261,28 @@ angular.module ('templates')
 		replace: true,
 		templateUrl: 'modules/templates/client/views/template-html-editor.html',
 		link: function(scope, element, attrs, ngModel) {
-			// if (!ngModel) return; // do nothing if no ng-model
-
-			// if (ngModel.$isEmpty(scope.curVal)) {
-			// 	scope.curVal = scope.default;
-			// }
-
 			scope.activeItem = false;
-
-			// scope.saveModel = function() {
-			// 	console.log('savemodel');
-			// 	scope.$evalAsync(read);
-			// };
-			// // Listen for change events to enable binding
-			// element.on('blur keyup change', function() {
-			// 	scope.$evalAsync(read);
-			// });
-			// read(); // initialize
-
-			// // Write data to the model
-			// function read() {
-			// 	ngModel.$setViewValue(scope.curVal);
-			// }
+		}
+	};
+}])
+// -------------------------------------------------------------------------
+//
+// directive to edit / view document field in template
+//
+// -------------------------------------------------------------------------
+.directive('contentDocument', ['$sce', function($sce) {
+	return {
+		restrict: 'A', // only activate on element attribute
+		require: '?ngModel', // get a hold of NgModelController
+		scope: {
+			curVal: '=ngModel',
+			editable: '=',
+			project: '=',
+			title: '='
+		},
+		replace: true,
+		templateUrl: 'modules/templates/client/views/template-document-editor.html',
+		link: function(scope, element, attrs, ngModel) {
 		}
 	};
 }])
