@@ -1492,6 +1492,25 @@ table thead tr.ng-table-filters {
   margin-bottom: 10px;
 }
 
+.template .normal {
+  font-weight:normal;
+}
+
+.template .thicker {
+  font-weight:bolder;
+}
+
+.template .sig-left {
+  float:left;
+  margin-right:60px;
+}
+
+.template .sig-right {
+  float:left;
+}
+
+/*------------------------------*/
+
 .activity-list-med {
 	height: 542px;
 	overflow: hidden;

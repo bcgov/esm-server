@@ -111,7 +111,8 @@ angular
 			'Application',
 			'Conditions List',
 			'Section 34 Order',
-			'Section 36 Order'
+			'Section 36 Order',
+			'Environmental Assessment Certificate'
 		]
 	)
 	.constant('COMMENT_REJECT',
