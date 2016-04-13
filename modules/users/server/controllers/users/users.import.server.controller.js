@@ -53,84 +53,6 @@ exports.update = function (req, res) {
 	}
 };
 
-exports.postproc = function(req, res) {
-	return new Promise (function (resolve, reject) {
-		User.find({}, function(err, docs) {
-			if (docs) {
-				var length = docs.length;
-				// console.log("length:",length);
-				res.writeHead(200, {'Content-Type': 'text/plain'});
-				res.write('[0');
-				// console.log("length",length);
-				docs.forEach(function (key, index) {
-					var person = key.personId;
-					// console.log("person:",person);
-					Organization.findOne({name: key.orgName}, function (err, org) { // Find an org and relate it
-							if (org) {
-								key.org = org;
-								key.save().then(function () {
-									// console.log("per:",person);
-									if (index === length-1) {
-										res.write("]");
-										res.end();
-									} else {
-										res.write(","+person);
-										res.flush();
-									}
-								});
-							} else {
-								setTimeout(function() {
-									if (index === length-1) {
-										res.write("]");
-										res.end();
-									}
-								}, 2000);
-							}
-						});
-				});
-			}
-		});
-	});
-};
-exports.postprocgroups = function(req, res) {
-	return new Promise (function (resolve, reject) {
-		GroupModel.find({}, function(err, docs) {
-			if (docs) {
-				var length = docs.length;
-				// console.log("length:",length);
-				res.writeHead(200, {'Content-Type': 'text/plain'});
-				res.write('[0');
-				// console.log("length",length);
-				docs.forEach(function (key, index) {
-					var epicProjectID = key.epicProjectID;
-					// console.log("person:",person);
-					Project.findOne({epicProjectID: epicProjectID}, function (err, project) { // Find an project and relate it
-							if (project) {
-								key.project = project;
-								key.save().then(function () {
-									// console.log("per:",person);
-									if (index === length-1) {
-										res.write("]");
-										res.end();
-									} else {
-										res.write(",");
-										res.flush();
-									}
-								});
-							} else {
-								setTimeout(function() {
-									if (index === length-1) {
-										res.write("]");
-										res.end();
-									}
-								}, 2000);
-							}
-						});
-				});
-			}
-		});
-	});
-};
 // Import a list of users
 exports.loadUsers = function(file, req, res) {
 	return new Promise (function (resolve, reject) {
@@ -147,7 +69,7 @@ exports.loadUsers = function(file, req, res) {
 				// Skip this many rows
 				var length = Object.keys(output).length;
 				var rowsProcessed = 0;
-				console.log("length",length);
+				// console.log("length",length);
 				Object.keys(output).forEach(function(key, index) {
 					if (index > 0) {
 						var row = output[key];
@@ -190,7 +112,7 @@ exports.loadUsers = function(file, req, res) {
 												// Am I done processing?
 												// console.log("INDEX:",index);
 												if (index === length-1) {
-													console.log("rowsProcessed: ",rowsProcessed);
+													// console.log("rowsProcessed: ",rowsProcessed);
 													//resolve("{done: true, rowsProcessed: "+rowsProcessed+"}");
 													res.write("]");
 													res.end();
@@ -198,7 +120,7 @@ exports.loadUsers = function(file, req, res) {
 										};
 										// If found the org, assign the org's id to this object
 										if (org) {
-											console.log("found the org");
+											// console.log("found the org");
 											user.org = org;
 											user.save().then(function () {
 												checkIfDone();

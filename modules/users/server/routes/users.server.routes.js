@@ -26,18 +26,6 @@ module.exports = function (app) {
            .then (helpers.success(res), helpers.failure(res));
     }
   });
-
-  app.route ('/api/users/postproc').all ()
-  .post (function (req, res) {
-      users.postproc(req, res)
-           .then (helpers.success(res), helpers.failure(res));
-  });
-  app.route ('/api/users/postprocgroups').all ()
-  .post (function (req, res) {
-      users.postprocgroups(req, res)
-           .then (helpers.success(res), helpers.failure(res));
-  });
-
   // Import logic
   app.route ('/api/groupusers/import').all ()
     .post (function (req, res) {
