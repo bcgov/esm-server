@@ -49,11 +49,11 @@ var resetForReprocessing = function resetForReprocessing(conn, limit) {
                         collection.update({_id: item._id}, {$set: item}, function () {
                             console.log(item._id + " was reset for re-importing");
                         });
-                    })
+                    });
                 }
             }
         });
-    })
+    });
 };
 
 var documentConversion = function documentConversion(conn, downloads_dir, limit) {
@@ -109,10 +109,11 @@ var documentConversion = function documentConversion(conn, downloads_dir, limit)
                 if (item) {
                     items.forEach(function (item) {
                         var downloadURL = item.documentFileURL;
+                        var projectID = item.project._id;
                         var dataLength = 0;
                         var uuid = require('node-uuid');
                         var generatedFilename = uuid.v1() + path.extname(downloadURL);
-                        var stream = downloads_dir + "/" + generatedFilename;
+                        var stream = downloads_dir + path.sep + projectID + path.sep + generatedFilename;
                         console.log("Writing to: ", stream);
                         var file = fs.createWriteStream(stream);
                         console.log("Attempting to migrate: ", item._id);
