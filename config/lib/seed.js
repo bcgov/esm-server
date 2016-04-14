@@ -105,8 +105,16 @@ checkIntegration ('loadconditions2').then (function () {
 // artifact types
 //
 // -------------------------------------------------------------------------
-checkIntegration ('loadartifacts37').then (function () {
-	require('../seed-data/loadartifacts')();
+// checkIntegration ('loadartifacts37').then (function () {
+// 	require('../seed-data/loadartifacts')();
+// });
+// -------------------------------------------------------------------------
+//
+// artifacts etc for decision packages
+//
+// -------------------------------------------------------------------------
+checkIntegration ('decisions2').then (function () {
+	require('../seed-data/decisions')();
 });
 
 // -------------------------------------------------------------------------

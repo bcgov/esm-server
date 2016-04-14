@@ -19,6 +19,7 @@ angular.module('templates')
 .factory ('templateCompile', function (_) {
 	return function (template, purpose) {
 		// console.log ('purpose = ', purpose);
+		if (!template) return;
 		var temp;
 		var compiled    = '';
 		var t           = '';
@@ -112,6 +113,7 @@ angular.module('templates')
 // =========================================================================
 .factory ('templateData', function (_) {
 	return function (template, input, project) {
+		if (!template) return;
 		var TemplateClass = function (template, inputData, projectData) {
 			this.sections    = {};
 			this.document    = {};
