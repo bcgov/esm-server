@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('documents')
-    .controller('controllerDocumentUploadGlobal', controllerDocumentUploadGlobal)
-    .controller('controllerDocumentLinkGlobal', controllerDocumentLinkGlobal)
-    .controller('controllerDocumentList', controllerDocumentList)
-    .controller('controllerDocumentBrowser', controllerDocumentBrowser)
+	.controller('controllerDocumentUploadGlobal', controllerDocumentUploadGlobal)
+	.controller('controllerDocumentLinkGlobal', controllerDocumentLinkGlobal)
+	.controller('controllerDocumentList', controllerDocumentList)
+	.controller('controllerDocumentBrowser', controllerDocumentBrowser)
 	.controller('controllerModalDocumentViewer', controllerModalDocumentViewer)
 	.controller('controllerModalDocumentUploadClassify', controllerModalDocumentUploadClassify)
 	.controller('controllerModalDocumentLink', controllerModalDocumentLink)
@@ -71,7 +71,8 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 		$scope.current = [];
 		_.each(docLink.linkFiles, function(item) {
 			// console.log('save', item);
-			$scope.current.push(item._id);
+			//$scope.current.push(item._id);
+			$scope.current.push(item);
 		});
 	});
 }
@@ -230,7 +231,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 			// there are no documents so say it's all done
 			$scope.$emit('documentUploadComplete');
 		}
-    };
+	};
 }
 // -----------------------------------------------------------------------------------
 //
@@ -350,7 +351,7 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 		$scope.rfilterLinage = {};
 		$scope.rfilterLinage = selection.lineage;
 	};
-	
+
 	docBrowser.filterDocsSelected = function(row) {
 		if (!$scope.filterDocs) {
 			return false;

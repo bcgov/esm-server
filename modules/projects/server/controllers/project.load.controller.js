@@ -175,18 +175,30 @@ module.exports = function(file, req, res) {
 									var pname = ((row.currentPhaseTypeActivity === "") ? "not set":row.currentPhaseTypeActivity);
 									var pdesc = ((row.currentPhaseTypeActivity === "") ? "not set":row.currentPhaseTypeActivity);
 									var pcode = pname.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, model.name.length+1);
-									var phase = new Phase ({read: ['public'], submit: ['eao'], status : pstatus, code : pcode, name : pname, description : pdesc});
-									model.phases.push (phase._id);
-									phase.save().then(function() {
-										model.currentPhase = model.phases[0];
-										model.save().then(function () {
-											// Am I done processing?
-											// console.log("INDEX:",index);
-											if (index === length-1) {
-												// console.log("processed: ",projectProcessed);
-												resolve("{done: true, rowsProcessed: "+projectProcessed+"}");
-											}
-										});
+									Phase.findOne({name: pname}, function (err, p) {
+										var saveProject = function (m) {
+											m.currentPhase = m.phases[0];
+											m.save().then(function () {
+												// Am I done processing?
+												// console.log("INDEX:",index);
+												if (index === length-1) {
+													// console.log("processed: ",projectProcessed);
+													resolve("{done: true, rowsProcessed: "+projectProcessed+"}");
+												}
+											});
+										};
+										if (p === null) {
+											p = new Phase ({read: ['public'], submit: ['eao'], status : pstatus, code : pcode, name : pname, description : pdesc});
+											model.phases.push (p._id);
+											// Save the new phase first, then save the project
+											p.save().then(function() {
+												saveProject(model);
+											});
+										} else {
+											// Found the phase, just attach to it
+											model.phases.push (p._id);
+											saveProject(model);
+										}
 									});
 								}
 							};

@@ -73,6 +73,26 @@ var artifacttypes = [{
         'Final'
     ]
 },{
+    name: 'CC Test Templated',
+    code: 'cc-test-template',
+    milestone: 'section-11-order',
+    multiple: false,
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
+    name: 'CC Test Document',
+    code: 'cc-test-document',
+    milestone: 'section-11-order',
+    isDocument:true,
+    isTemplate:false,
+    multiple: false,
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
     name: 'Schedule A',
     milestone: 'schedule-a',
     code: 'schedule-a',

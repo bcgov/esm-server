@@ -29,6 +29,7 @@ angular.module('templates')
 			var ftype      = field.type.toLowerCase ();
 			var istext     = (ftype === 'text');
 			var isdocument = (ftype === 'document list');
+			var isartifact = (ftype === 'artifact');
 			var isview     = (mode.toLowerCase () === 'view');
 			var directive  = '';
 			// if (ftype !== 'auto')
@@ -41,11 +42,13 @@ angular.module('templates')
 			if (isview) {
 				if (istext) directive = '{{'+dataname+'}}';
 				else if (isdocument) directive = '<div x-content-document ng-model="'+dataname+'" title="\''+field.label+'\'" project="project" editable="false"></div>';
+				else if (isartifact) directive = '<div x-content-artifact ng-model="'+dataname+'" title="\''+field.label+'\'" project="project" editable="false"></div>';
 				else directive = '<div ng-bind-html="'+dataname+'"></div>';
 
 			} else {
 				if (istext) directive = '<span x-content-inline ng-model="'+dataname+'"></span>';
 				else if (isdocument) directive = '<div x-content-document ng-model="'+dataname+'" title="\''+field.label+'\'" project="project" editable="true"></div>';
+				else if (isartifact) directive = '<div x-content-artifact ng-model="'+dataname+'" title="\''+field.label+'\'" project="project" editable="true"></div>';
 				else directive = '<div x-content-html ng-model="'+dataname+'"></div>';
 			}
 			return template.replace (regex, directive);
@@ -82,9 +85,9 @@ angular.module('templates')
 			} else {
 				compiled += temp;
 			}
-			console.log ('+++START: section='+section.name);
-			console.log (compiled);
-			console.log ('---END');
+			// console.log ('+++START: section='+section.name);
+			// console.log (compiled);
+			// console.log ('---END');
 			t += compiled;
 		});
 		return t;
@@ -127,7 +130,7 @@ angular.module('templates')
 			_init: function (template, inputData) {
 				// console.log ('++inside init function of TemplateData');
 				// inputData        = inputData || {};
-				console.log ('initializing with template:', template);
+				//console.log ('initializing with template:', template);
 				// console.log ('initializing with inputData:', _.cloneDeep (inputData));
 				//
 				// first make a structure of all sections with
@@ -158,6 +161,9 @@ angular.module('templates')
 						//
 						var def;
 						switch (f.type) {
+							case 'Artifact':
+								def = '';
+								break;
 							case 'Document List':
 								def = [];
 								break;
@@ -188,7 +194,7 @@ angular.module('templates')
 				this.document = this.ensureData (inputData);
 				// console.log ('sections = ', this.sections);
 				// console.log ('this.mindata :', this.mindata);
-				console.log ('this.document :', this.document);
+				//console.log ('this.document :', this.document);
 			},
 			// -------------------------------------------------------------------------
 			//

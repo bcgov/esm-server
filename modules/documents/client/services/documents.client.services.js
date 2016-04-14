@@ -209,6 +209,9 @@ function serviceDocument($http) {
         getProjectDocumentVersions: getProjectDocumentVersions,
         downloadAndApprove: downloadAndApprove,
         deleteDocument: deleteDocument,
-        getDocumentsInList: getDocumentsInList
+        getDocumentsInList: getDocumentsInList,
+        getDocument: function (id) {
+            return $http ({method:'GET', url:'/api/document/'+id});
+        }
 	};
 }

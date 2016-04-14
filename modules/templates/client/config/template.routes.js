@@ -67,8 +67,8 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 			templates: function ($stateParams, TemplateModel) {
 				return TemplateModel.currentTemplates ();
 			},
-			types: function (DOCUMENT_TEMPLATE_TYPES) {
-				return DOCUMENT_TEMPLATE_TYPES;
+			types: function (ArtifactTypeModel) {
+				return ArtifactTypeModel.templateTypes ();
 			}
 		}
 	})
@@ -213,18 +213,18 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 
 	})
 
-	.modalState ('documentlink', {
-		resolve: {
-			project: function (ProjectModel) {
-				return ProjectModel.byCode ('acme-mine-1');
-			}
-		},
-		controller: function (project) {
-			console.log ('yup, this is the project', project);
-		},
-		templateUrl: 'modules/documents/client/views/partials/modal-document-link.html',
-		size: 'lg'
-	})
+	// .modalState ('documentlink', {
+	// 	resolve: {
+	// 		project: function (ProjectModel) {
+	// 			return ProjectModel.byCode ('acme-mine-1');
+	// 		}
+	// 	},
+	// 	controller: function (project) {
+	// 		console.log ('yup, this is the project', project);
+	// 	},
+	// 	templateUrl: 'modules/documents/client/views/partials/modal-document-link.html',
+	// 	size: 'lg'
+	// })
 
 	;
 

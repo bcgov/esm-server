@@ -30,6 +30,11 @@ module.exports = function (app) {
 			p.availableTypes (req.params.projectid)
 			.then (helpers.success(res), helpers.failure(res));
 		});
+	app.route ('/api/artifacttype/template/types').all (policy.isAllowed)
+		.get (function (req, res) {
+			(new ArtifactType (req.user)).templateTypes (req.params.projectid)
+			.then (helpers.success(res), helpers.failure(res));
+		});
 	app.route ('/api/artifact/next/stage/:artifact').all (policy.isAllowed)
 		.put (function (req, res) {
 			var p = new Artifact (req.user);
