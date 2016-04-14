@@ -113,7 +113,7 @@ checkIntegration ('loadconditions2').then (function () {
 // artifacts etc for decision packages
 //
 // -------------------------------------------------------------------------
-checkIntegration ('decisions2').then (function () {
+checkIntegration ('decisions3').then (function () {
 	require('../seed-data/decisions')();
 });
 
