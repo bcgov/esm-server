@@ -1,49 +1,37 @@
 <div class="row">
-	<!--
-
-		This section gets displayed if the content is a document
-
-	 -->
-	<div class="col-sm-3" >
-		<h4>Main Artifact Document</h4>
-		<div ng-if="!artifact.document">
-			<div class="thumbnails document-icon-list clearfix">
-				<div class="thumbnail pull-left">
-					<div class="caption text-center">
-						<span class="glyphicon glyphicon-list-alt" style="color: LightSteelBlue"></span>
-						<br>
-						<small>
-							{{ artifact.name }}<br/>({{ artifact.version }} {{ artifact.stage }})<br/>
-							[ no document uploaded yet ]
-							<a href ng-if="editable" x-modal-document-link class="btn btn-xs btn-link pull-right" x-current="artifact.maindocument" x-project="project">
-								+ Upload Document
-							</a>
-						</small>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="panel panel-info"  ng-if="artifact.document">
-			<div class="thumbnails document-icon-list clearfix">
-				<div class="thumbnail pull-left">
-					<div class="caption text-center">
-						<a href="/api/document/{{ artifact.document._id }}/fetch" target="_blank">
-							<span class="glyphicon glyphicon-list-alt" style="color: LightSteelBlue"></span>
-							<br>
-							<small>
-								{{ artifact.document.internalOriginalName }} AS <br/>
-								{{ artifact.name }}<br/>({{ artifact.version }} {{ artifact.stage }})<br/>
-								<a href ng-if="editable" x-modal-document-link class="btn btn-xs btn-link pull-right" x-current="artifact.maindocument" x-project="project">
-									+ Upload Document
-								</a>
-							</small>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
+	
+    <div class="col-sm-12">
+        <h4>Main Artifact Document</h4>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="file-horiz"> 
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <div ng-if="!artifact.document">
+                        <small>
+                            {{ artifact.name }}<br/>({{ artifact.version }} {{ artifact.stage }})<br/>
+                            [ no document uploaded yet ]<br/>
+                            <a href ng-if="editable" x-modal-document-link class="btn btn-xs btn-link" x-current="curVal" x-project="project">
+                                + Upload Document
+                            </a>
+                        </small>
+                    </div>
+                    <div class="panel panel-info"  ng-if="artifact.document">
+                        <a href="/api/document/{{ file._id }}/fetch" target="_blank">
+                            <small>
+                                {{ artifact.name }}<br/>({{ artifact.version }} {{ artifact.stage }})<br/>
+                                [ no document uploaded yet ]<br/>
+                                <a href ng-if="editable" x-modal-document-link class="btn btn-xs btn-link" x-current="curVal" x-project="project">
+                                    + Upload Document
+                                </a>
+                            </small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 	</div>
-	<div class="col-sm-9">
+    
+	<div class="col-sm-12">
 		<div x-content-document ng-model="artifact.supportingDocuments" title="'Supporting Documents'" project="project" editable="editable"></div>
 	</div>
 </div>

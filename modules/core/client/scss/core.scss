@@ -1715,3 +1715,75 @@ div.dropdown-menu {
 .badge.success {
     background: green;
 }
+
+
+/* STOP-GAP STYLING
+   PRODUCT ARTIFACT DOCUMENT
+------------------------------ */
+.file-horiz {
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: row-nowrap;
+    
+    .glyphicon {
+        flex: 0 0 6rem;
+        font-size: 4rem;
+        color: lightblue;
+    }
+    
+    .file-info {
+        flex: 1 1 auto;
+    }
+    
+    .file-details {
+        flex: 1 1 auto;
+    }
+    
+    .file-actions {
+        flex: 0 0 auto;
+    } 
+}
+
+.file + .file {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #CCC;
+}
+
+.file-horiz.small {
+    .glyphicon {
+        flex: 0 0 2.5rem;
+        font-size: 1.8rem;
+    }
+    
+    h5 {
+        margin-bottom: 0.5rem;
+    }
+    
+    small {
+        display: block;
+    }
+}
+
+
+.document-block-header {
+    padding: 1rem 0;
+    
+    h4 {
+        margin: 0;
+    }
+}
+
+.file-expanded-details {
+    margin-top: 15px;
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-bottom: 0;
+    
+    .panel-default {
+        border: none;
+        border-top: 1px solid #CCC;
+        border-radius: none;
+    }
+    
+}
