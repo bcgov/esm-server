@@ -319,7 +319,6 @@ angular.module ('templates')
 			scope.expanded = false;
 			scope.loading  = false;
 			scope.loaded   = false;
-			scope.artifact = {_id:scope.curVal};
 			//
 			// watch the artifact to see if it has changed, if so, we have
 			// to load it up in full
@@ -329,21 +328,28 @@ angular.module ('templates')
 				//
 				// display the loading icon until loading done
 				//
-				scope.loading = true;
+				scope.loading = false;
 				scope.loaded  = false;
 				scope.curVal  = scope.artifact._id;
 				//
 				// load the full artifact and then swap out the display
 				//
 				ArtifactModel.getModel (newval).then (function (model) {
+					console.log (model);
 					scope.loading  = false;
 					scope.loaded   = true;
 					scope.artifact = model;
+					scope.$apply();
 				});
 			});
 			scope.expand = function () {
 				scope.expanded = !scope.expanded;
 			};
+
+
+			scope.artifact = {};
+			scope.artifact._id = scope.curVal;
+
 		}
 	};
 }])

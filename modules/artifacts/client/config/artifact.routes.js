@@ -309,16 +309,9 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		url: '/decision',
 		templateUrl: 'modules/artifacts/client/views/artifact-decision.html',
 		controller: function ($scope, $state, artifact, project, ArtifactModel) {
-			//
-			// hack
-			//
-			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
-			//
-			// end hack
-			//
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
-			if (method !== 'review') $state.go ('p.artifact.'+method);
+			if (method !== 'decision') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
