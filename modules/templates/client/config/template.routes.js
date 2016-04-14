@@ -67,8 +67,8 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 			templates: function ($stateParams, TemplateModel) {
 				return TemplateModel.currentTemplates ();
 			},
-			types: function (DOCUMENT_TEMPLATE_TYPES) {
-				return DOCUMENT_TEMPLATE_TYPES;
+			types: function (ArtifactTypeModel) {
+				return ArtifactTypeModel.templateTypes ();
 			}
 		}
 	})

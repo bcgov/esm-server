@@ -15,7 +15,7 @@
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="documentType" class="control-label">For Document Type</label>
-					<select ng-disabled="which=='edit'" id="documentType" ng-model='template.documentType' class="form-control input-sm" ng-options="type as type for type in types"></select>
+					<select ng-disabled="which=='edit'" id="documentType" ng-model='template.documentType' class="form-control input-sm" ng-options="type.code as type.name for type in types"></select>
 				</div>
 			</div>
 		</div>

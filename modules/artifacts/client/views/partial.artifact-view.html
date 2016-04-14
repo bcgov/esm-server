@@ -8,30 +8,6 @@
 </div>
 
 
-<div ng-if="!artifact.isTemplate">
-<div class="row">
-	<!--
-
-		This section gets displayed if the content is a document
-
-	 -->
-	<div class="col-sm-3">
-		<h4>Main Document</h4>
-		<div ng-if="artifact.document">
-		[ no document uploaded yet ]
-		</div>
-		<div ng-if="!artifact.document">
-			<span class="glyphicon glyphicon-file"></span> {{artifact.name}} - {{artifact.version}}
-		</div>
-		<div>
-		<small ng-if="artifact.document"><a href="/api/document/{{ artifact.document._id }}/fetch"target="_blank" title="Download">
-			<span class="glyphicon glyphicon-download"></span> Download Document</a>
-		</small>
-		</div>
-	</div>
-	<div>
-		<h4>Supporting Documents</h4>
-		[[ this is where a list of upporting documents will go ]]
-	</div>
-</div>
+<div ng-if="!artifact.isTemplate" ng-init="editable=false">
+<div ng-include="'modules/artifacts/client/views/partial.artifact.document.html'"></div>
 </div>

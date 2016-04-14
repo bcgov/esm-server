@@ -273,7 +273,7 @@ angular.module ('templates')
 // directive to edit / view document field in template
 //
 // -------------------------------------------------------------------------
-.directive ('contentDocument', [function() {
+.directive ('contentDocument', function (Document) {
 	return {
 		restrict: 'A', // only activate on element attribute
 		require: '?ngModel', // get a hold of NgModelController
@@ -286,9 +286,18 @@ angular.module ('templates')
 		replace: true,
 		templateUrl: 'modules/templates/client/views/template-document-editor.html',
 		link: function(scope, element, attrs, ngModel) {
+			scope.filelist = [];
+			scope.$watchCollection ('curVal', function (newvalue) {
+				console.log ('new value = ',newvalue);
+				console.log ('curVal value = ',scope.curVal);
+				Document.getDocumentsInList (newvalue).then (function (result) {
+					console.log (result.data);
+					scope.filelist = result.data;
+				});
+			});
 		}
 	};
-}])
+})
 // -------------------------------------------------------------------------
 //
 // directive to edit / view document field in template

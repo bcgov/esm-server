@@ -51,5 +51,13 @@ module.exports = DBModel.extend ({
 			// })
 			.then (resolve, reject);
 		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// get just the template types
+	//
+	// -------------------------------------------------------------------------
+	templateTypes: function () {
+		return this.findMany ({isTemplate:true},{code:1,name:1});
 	}
 });
