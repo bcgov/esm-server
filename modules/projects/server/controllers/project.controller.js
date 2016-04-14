@@ -70,6 +70,7 @@ module.exports = DBModel.extend ({
 		var projectProponentAdmin;
 		var projectProponentMember;
 		var sectorRole;
+    var projectInviteeRole;
 		//
 		// return a promise, we have lots of work to do
 		//
@@ -111,6 +112,13 @@ module.exports = DBModel.extend ({
 				var defaultRoles = defaultProjectRoles.map (function (r) {return projectCode+r; });
 				//
 				// console.log ('Step2. assign default roles.');
+
+        // add in the invitee role - just a collection of contacts that require invitations to the project
+        // could add in the defaults, but we will have logic for this specific role, so best to keep a specific helper.
+        projectInviteeRole     = Roles.generateCode (projectCode, 'eao', 'invitee');
+        project.inviteeRole = projectInviteeRole;
+        defaultRoles.push(projectInviteeRole);
+
 				return Roles.objectRoles ({
 					method: 'set',
 					objects: project,

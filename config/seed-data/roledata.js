@@ -8,6 +8,9 @@ module.exports = [{
 	code: 'admin',
 	isSystem: true
 },{
+  code: 'invitee',
+  isSystem: true
+},{
 	code: 'edit-conditions',
 	isSystem: true
 },{

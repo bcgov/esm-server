@@ -43,6 +43,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	adminRole             : { type:String, default: '' },
 	proponentAdminRole    : { type:String, default: '' },
 	sectorRole            : { type:String, default: '' },
+  inviteeRole           : { type:String, default: '' },
 	substitution          : { type:Boolean, default:false },
 	intake: {
 		affectedFirstNations  : { type:String, default:'' },
