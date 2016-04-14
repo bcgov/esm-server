@@ -23,6 +23,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		else if (stage === 'Notification') return 'notify';
 		else if (stage === 'Comment Period') return 'comment';
 		else if (stage === 'Public Comment Period') return 'public-comment';
+		else if (stage === 'Decision') return 'decision';
 	};
 
 
@@ -104,6 +105,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			if (_.isEmpty (artifact.templateData)) artifact.templateData = {};
 			$scope.version = artifact.version;
 			$scope.saveas = function () {
+				artifact.document = artifact.maindocument[0];
+				if (_.isEmpty (artifact.document)) artifact.document = null;
 				ArtifactModel.getNew ().then (function (newartifact) {
 					var a = ArtifactModel.getCopy ($scope.artifact);
 					a._id = newartifact._id;
@@ -120,6 +123,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			};
 			$scope.save = function () {
 				artifact.document = artifact.maindocument[0];
+				if (_.isEmpty (artifact.document)) artifact.document = null;
 				ArtifactModel.save ($scope.artifact)
 				.then (function (model) {
 					// console.log ('artifact was saved',model);
@@ -135,6 +139,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				});
 			};
 			$scope.submit = function () {
+				artifact.document = artifact.maindocument[0];
+				if (_.isEmpty (artifact.document)) artifact.document = null;
 				ArtifactModel.nextStage ($scope.artifact)
 				.then (function (model) {
 					$state.go ('p.detail', {projectid:project.code});
@@ -162,13 +168,6 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			// console.log ('artifact = ', artifact);
 			$scope.artifact = artifact;
 			$scope.project = project;
-			//
-			// hack
-			//
-			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
-			//
-			// end hack
-			//
 		}
 	})
 	.state('p.artifact.comment', {
@@ -179,26 +178,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
-			//
-			// hack
-			//
-			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
-			//
-			// end hack
-			//
 		}
 	})
 	.state('p.artifact.review', {
 		url: '/review',
 		templateUrl: 'modules/artifacts/client/views/artifact-review.html',
 		controller: function ($scope, $state, artifact, project, ArtifactModel) {
-			//
-			// hack
-			//
-			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
-			//
-			// end hack
-			//
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
