@@ -130,7 +130,7 @@ angular.module('templates')
 			_init: function (template, inputData) {
 				// console.log ('++inside init function of TemplateData');
 				// inputData        = inputData || {};
-				console.log ('initializing with template:', template);
+				//console.log ('initializing with template:', template);
 				// console.log ('initializing with inputData:', _.cloneDeep (inputData));
 				//
 				// first make a structure of all sections with
@@ -194,7 +194,7 @@ angular.module('templates')
 				this.document = this.ensureData (inputData);
 				// console.log ('sections = ', this.sections);
 				// console.log ('this.mindata :', this.mindata);
-				console.log ('this.document :', this.document);
+				//console.log ('this.document :', this.document);
 			},
 			// -------------------------------------------------------------------------
 			//

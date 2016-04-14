@@ -6,8 +6,11 @@
 	 -->
 	<tmpl-template-render x-template="artifact.template" x-mode="view" x-project="project" x-document="artifact.templateData"></tmpl-template-render>
 </div>
-
-
 <div ng-if="!artifact.isTemplate" ng-init="editable=false">
-<div ng-include="'modules/artifacts/client/views/partial.artifact.document.html'"></div>
+	<!--
+
+		This section gets displayed if the content is a document
+
+	 -->
+	<div ng-include="'modules/artifacts/client/views/partial.artifact.document.html'"></div>
 </div>

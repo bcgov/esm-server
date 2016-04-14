@@ -83,7 +83,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.edit', {
 		url: '/edit',
 		templateUrl: 'modules/artifacts/client/views/artifact-edit.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel) {
+		controller: function ($scope, $state, artifact, project, ArtifactModel, Document) {
 			// console.log ('artifact = ', artifact);
 			// console.log ('project  = ', project);
 			var method = properMethod (artifact.stage);
@@ -91,6 +91,16 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
 			$scope.artifact = artifact;
 			$scope.project = project;
+			$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+			$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			$scope.$watchCollection ('artifact.maindocument', function (newval) {
+				if (!newval || newval.length === 0) return;
+				//console.log ('new collection:', newval);
+				Document.getDocument (newval[0]).then (function (ret) {
+					$scope.artifact.document = ret.data;
+					//console.log ('doc is now', $scope.artifact.document);
+				});
+			});
 			if (_.isEmpty (artifact.templateData)) artifact.templateData = {};
 			$scope.version = artifact.version;
 			$scope.saveas = function () {
@@ -109,6 +119,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				});
 			};
 			$scope.save = function () {
+				artifact.document = artifact.maindocument[0];
 				ArtifactModel.save ($scope.artifact)
 				.then (function (model) {
 					// console.log ('artifact was saved',model);
@@ -151,6 +162,13 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			// console.log ('artifact = ', artifact);
 			$scope.artifact = artifact;
 			$scope.project = project;
+			//
+			// hack
+			//
+			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
+			//
+			// end hack
+			//
 		}
 	})
 	.state('p.artifact.comment', {
@@ -161,12 +179,26 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
 			$scope.project = project;
+			//
+			// hack
+			//
+			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
+			//
+			// end hack
+			//
 		}
 	})
 	.state('p.artifact.review', {
 		url: '/review',
 		templateUrl: 'modules/artifacts/client/views/artifact-review.html',
 		controller: function ($scope, $state, artifact, project, ArtifactModel) {
+			//
+			// hack
+			//
+			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
+			//
+			// end hack
+			//
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
@@ -199,6 +231,13 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		url: '/approve',
 		templateUrl: 'modules/artifacts/client/views/artifact-approve.html',
 		controller: function ($scope, $state, artifact, project, ArtifactModel) {
+			//
+			// hack
+			//
+			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
+			//
+			// end hack
+			//
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
@@ -231,6 +270,52 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		url: '/executive',
 		templateUrl: 'modules/artifacts/client/views/artifact-executive.html',
 		controller: function ($scope, $state, artifact, project, ArtifactModel) {
+			//
+			// hack
+			//
+			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
+			//
+			// end hack
+			//
+			// console.log ('artifact = ', artifact);
+			var method = properMethod (artifact.stage);
+			if (method !== 'review') $state.go ('p.artifact.'+method);
+			$scope.artifact = artifact;
+			$scope.project = project;
+			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+			$scope.reject = function () {
+				ArtifactModel.prevStage ($scope.artifact)
+				.then (function (model) {
+					$state.go ('p.detail', {projectid:project.code});
+				})
+				.catch (function (err) {
+					console.error (err);
+					// alert (err.message);
+				});
+			};
+			$scope.submit = function () {
+				ArtifactModel.nextStage ($scope.artifact)
+				.then (function (model) {
+					$state.go ('p.detail', {projectid:project.code});
+				})
+				.catch (function (err) {
+					console.error (err);
+					// alert (err.message);
+				});
+			};
+		}
+	})
+	.state('p.artifact.decision', {
+		url: '/decision',
+		templateUrl: 'modules/artifacts/client/views/artifact-decision.html',
+		controller: function ($scope, $state, artifact, project, ArtifactModel) {
+			//
+			// hack
+			//
+			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
+			//
+			// end hack
+			//
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
@@ -263,6 +348,13 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		url: '/publish',
 		templateUrl: 'modules/artifacts/client/views/artifact-publish.html',
 		controller: function ($scope, $state, artifact, project, ArtifactModel) {
+			//
+			// hack
+			//
+			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
+			//
+			// end hack
+			//
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
@@ -295,6 +387,13 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		url: '/notify',
 		templateUrl: 'modules/artifacts/client/views/artifact-notify.html',
 		controller: function ($scope, $state, artifact, project, ArtifactModel, EmailTemplateModel, _) {
+			//
+			// hack
+			//
+			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
+			//
+			// end hack
+			//
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
@@ -325,7 +424,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			// notification specific functions
 			//
 			EmailTemplateModel.getCollection().then( function(data) {
-	 			$scope.emailTemplates = data;			
+	 			$scope.emailTemplates = data;
 			});
 
 			var separateRecipients = function(newRecipients) {
@@ -348,7 +447,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			};
 
 			$scope.recipients = {adhoc: {viaEmail: [], viaMail: []}, mailOut: [] };
-	
+
 			//
 			// Add Recipients
 			$scope.addRecipients = function(data, parent) {

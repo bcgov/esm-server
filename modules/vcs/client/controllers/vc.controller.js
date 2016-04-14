@@ -11,7 +11,7 @@ angular.module ('vcs')
 	['$scope', '$rootScope', '$stateParams', 'VcModel', 'NgTableParams', 'PILLARS',
 	function ($scope, $rootScope, $stateParams, VcModel, NgTableParams, PILLARS) {
 
-	console.log ('controllerVcList is running');
+	//console.log ('controllerVcList is running');
 
 	var self = this;
 

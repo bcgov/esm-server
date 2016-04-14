@@ -288,10 +288,10 @@ angular.module ('templates')
 		link: function(scope, element, attrs, ngModel) {
 			scope.filelist = [];
 			scope.$watchCollection ('curVal', function (newvalue) {
-				console.log ('new value = ',newvalue);
-				console.log ('curVal value = ',scope.curVal);
+				//console.log ('new value = ',newvalue);
+				//console.log ('curVal value = ',scope.curVal);
 				Document.getDocumentsInList (newvalue).then (function (result) {
-					console.log (result.data);
+					//console.log (result.data);
 					scope.filelist = result.data;
 				});
 			});

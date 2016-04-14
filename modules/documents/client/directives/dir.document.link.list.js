@@ -27,10 +27,10 @@ angular.module ('templates')
 		replace: true,
 		templateUrl: 'modules/templates/documents/views/dir.document.link.list.html',
 		link: function(scope, element, attrs) {
-			console.log ("Running");
+			//console.log ("Running");
 			scope.$watch ('filelist', function () {
 				Document.getDocumentsInList (scope.list).then (function (result) {
-					console.log (result);
+					//console.log (result);
 				});
 				// scope.displaylist.length = 0;
 				// scope.list.map (function (e) {

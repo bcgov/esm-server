@@ -4,7 +4,7 @@
 		This section gets displayed if the content is a document
 
 	 -->
-	<div class="col-sm-3">
+	<div class="col-sm-3" >
 		<h4>Main Artifact Document</h4>
 		<div ng-if="!artifact.document">
 			<div class="thumbnails document-icon-list clearfix">
@@ -15,7 +15,7 @@
 						<small>
 							{{ artifact.name }}<br/>({{ artifact.version }} {{ artifact.stage }})<br/>
 							[ no document uploaded yet ]
-							<a href ng-if="editable" x-modal-document-link class="btn btn-xs btn-link pull-right" x-current="curVal" x-project="project">
+							<a href ng-if="editable" x-modal-document-link class="btn btn-xs btn-link pull-right" x-current="artifact.maindocument" x-project="project">
 								+ Upload Document
 							</a>
 						</small>
@@ -27,13 +27,13 @@
 			<div class="thumbnails document-icon-list clearfix">
 				<div class="thumbnail pull-left">
 					<div class="caption text-center">
-						<a href="/api/document/{{ file._id }}/fetch" target="_blank">
+						<a href="/api/document/{{ artifact.document._id }}/fetch" target="_blank">
 							<span class="glyphicon glyphicon-list-alt" style="color: LightSteelBlue"></span>
 							<br>
 							<small>
+								{{ artifact.document.internalOriginalName }} AS <br/>
 								{{ artifact.name }}<br/>({{ artifact.version }} {{ artifact.stage }})<br/>
-								[ no document uploaded yet ]
-								<a href ng-if="editable" x-modal-document-link class="btn btn-xs btn-link pull-right" x-current="curVal" x-project="project">
+								<a href ng-if="editable" x-modal-document-link class="btn btn-xs btn-link pull-right" x-current="artifact.maindocument" x-project="project">
 									+ Upload Document
 								</a>
 							</small>
