@@ -1,20 +1,20 @@
 'use strict';
 
 angular.module('documents')
-    .directive('tmplDocumentsUploadGeneral', directiveDocumentsUploadGeneral)
-    .directive('tmplDocumentsLink', directiveDocumentsLink)
-    .directive('tmplDocumentsUploadClassifyMem', directiveDocumentsUploadClassifyMem)
-    .directive('tmplDocumentsUploadClassify', directiveDocumentsUploadClassify)
-    .directive('tmplDocumentsList', directiveDocumentsList)
-    .directive('tmplDocumentsBrowser', directiveDocumentsBrowser)
-    .directive('tmplDocumentsApprovals', directiveDocumentsApprovals)
-    .directive('modalDocumentUploadReview', directiveModalDocumentUploadReview)
-    .directive('modalDocumentLink', directiveModalDocumentLink)
-    .directive('modalDocumentUploadClassifyMem', directiveModalDocumentUploadClassifyMem)
-    .directive('modalDocumentUploadClassify', directiveModalDocumentUploadClassify);
+	.directive('tmplDocumentsUploadGeneral', directiveDocumentsUploadGeneral)
+	.directive('tmplDocumentsLink', directiveDocumentsLink)
+	.directive('tmplDocumentsUploadClassifyMem', directiveDocumentsUploadClassifyMem)
+	.directive('tmplDocumentsUploadClassify', directiveDocumentsUploadClassify)
+	.directive('tmplDocumentsList', directiveDocumentsList)
+	.directive('tmplDocumentsBrowser', directiveDocumentsBrowser)
+	.directive('tmplDocumentsApprovals', directiveDocumentsApprovals)
+	.directive('modalDocumentUploadReview', directiveModalDocumentUploadReview)
+	.directive('modalDocumentLink', directiveModalDocumentLink)
+	.directive('modalDocumentUploadClassifyMem', directiveModalDocumentUploadClassifyMem)
+	.directive('modalDocumentUploadClassify', directiveModalDocumentUploadClassify);
 
-    // .directive('modalDocumentViewer', directiveModalDocumentViewer)
-    // .directive('modalDocumentBuckets', directiveModalDocumentBuckets);
+	// .directive('modalDocumentViewer', directiveModalDocumentViewer)
+	// .directive('modalDocumentBuckets', directiveModalDocumentBuckets);
 
 // -----------------------------------------------------------------------------------
 //
@@ -23,20 +23,20 @@ angular.module('documents')
 // -----------------------------------------------------------------------------------
 function directiveDocumentsUploadGeneral() {
 
-    var directive = {
-        restrict: 'E',
-        templateUrl: 'modules/documents/client/views/partials/document-upload-general.html',
-        scope: {
-            project: '=',
-            type: '@',
-            hideUploadButton: '=',
-            parentId: '='
-        },
-        controller: 'controllerDocumentUploadGlobal',
-        controllerAs: 'docUpload'
-    };
+	var directive = {
+		restrict: 'E',
+		templateUrl: 'modules/documents/client/views/partials/document-upload-general.html',
+		scope: {
+			project: '=',
+			type: '@',
+			hideUploadButton: '=',
+			parentId: '='
+		},
+		controller: 'controllerDocumentUploadGlobal',
+		controllerAs: 'docUpload'
+	};
 
-    return directive;
+	return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -44,20 +44,20 @@ function directiveDocumentsUploadGeneral() {
 //
 // -----------------------------------------------------------------------------------
 function directiveDocumentsLink() {
-    var directive = {
-        restrict: 'E',
-        templateUrl: 'modules/documents/client/views/partials/document-link.html',
-        scope: {
-            project: '=',
-            type: '@',  //project or comment
-            current: '=',
-            parentId: '=',
-        },
-        controller: 'controllerDocumentLinkGlobal',
-        controllerAs: 'docLink'
-    };
+	var directive = {
+		restrict: 'E',
+		templateUrl: 'modules/documents/client/views/partials/document-link.html',
+		scope: {
+			project: '=',
+			type: '@',  //project or comment
+			current: '=',
+			parentId: '=',
+		},
+		controller: 'controllerDocumentLinkGlobal',
+		controllerAs: 'docLink'
+	};
 
-    return directive;
+	return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -65,20 +65,20 @@ function directiveDocumentsLink() {
 //
 // -----------------------------------------------------------------------------------
 function directiveDocumentsUploadClassify() {
-    var directive = {
-        restrict: 'E',
-        templateUrl: 'modules/documents/client/views/partials/document-upload-classify.html',
-        scope: {
-            project: '=',
-            type: '@',  //project or comment
-            hideUploadButton: '=',
-            parentId: '='
-        },
-        controller: 'controllerDocumentUploadGlobal',
-        controllerAs: 'docUpload'
-    };
+	var directive = {
+		restrict: 'E',
+		templateUrl: 'modules/documents/client/views/partials/document-upload-classify.html',
+		scope: {
+			project: '=',
+			type: '@',  //project or comment
+			hideUploadButton: '=',
+			parentId: '='
+		},
+		controller: 'controllerDocumentUploadGlobal',
+		controllerAs: 'docUpload'
+	};
 
-    return directive;
+	return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -86,20 +86,20 @@ function directiveDocumentsUploadClassify() {
 //
 // -----------------------------------------------------------------------------------
 function directiveDocumentsUploadClassifyMem() {
-    var directive = {
-        restrict: 'E',
-        templateUrl: 'modules/documents/client/views/partials/document-upload-classify-mem.html',
-        scope: {
-            project: '=',
-            type: '@',  //project or comment
-            hideUploadButton: '=',
-            parentId: '='
-        },
-        controller: 'controllerDocumentUploadGlobal',
-        controllerAs: 'docUpload'
-    };
+	var directive = {
+		restrict: 'E',
+		templateUrl: 'modules/documents/client/views/partials/document-upload-classify-mem.html',
+		scope: {
+			project: '=',
+			type: '@',  //project or comment
+			hideUploadButton: '=',
+			parentId: '='
+		},
+		controller: 'controllerDocumentUploadGlobal',
+		controllerAs: 'docUpload'
+	};
 
-    return directive;
+	return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -108,20 +108,20 @@ function directiveDocumentsUploadClassifyMem() {
 // -----------------------------------------------------------------------------------
 function directiveDocumentsList() {
 
-    var directive = {
-        restrict: 'E',
-        templateUrl: 'modules/documents/client/views/partials/document-list.html',
-        controller: 'controllerDocumentList',
-        controllerAs: 'docList',
-        scope: {
-            documents: '=',
-            project: '=',
-            documentsObjs: '=',
-            allowEdit: '@'
-        }
-    };
+	var directive = {
+		restrict: 'E',
+		templateUrl: 'modules/documents/client/views/partials/document-list.html',
+		controller: 'controllerDocumentList',
+		controllerAs: 'docList',
+		scope: {
+			documents: '=',
+			project: '=',
+			documentsObjs: '=',
+			allowEdit: '@'
+		}
+	};
 
-    return directive;
+	return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -132,20 +132,20 @@ directiveDocumentsBrowser.$inject = ['$modal'];
 /* @ngInject */
 function directiveDocumentsBrowser() {
 
-    var directive = {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'modules/documents/client/views/partials/document-browser.html',
-        controller: 'controllerDocumentBrowser',
-        controllerAs: 'docBrowser',
-        scope: {
-            project: '=',
-            allowLink: '@',
-            approvals: '@'
-        }
-    };
+	var directive = {
+		restrict: 'E',
+		replace: true,
+		templateUrl: 'modules/documents/client/views/partials/document-browser.html',
+		controller: 'controllerDocumentBrowser',
+		controllerAs: 'docBrowser',
+		scope: {
+			project: '=',
+			allowLink: '@',
+			approvals: '@'
+		}
+	};
 
-    return directive;
+	return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -156,19 +156,19 @@ directiveDocumentsApprovals.$inject = ['$modal'];
 /* @ngInject */
 function directiveDocumentsApprovals() {
 
-    var directive = {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'modules/documents/client/views/partials/document-approvals.html',
-        controller: 'controllerDocumentBrowser',
-        controllerAs: 'docBrowser',
-        scope: {
-            project: '=',
-            approvals: '@'
-        }
-    };
+	var directive = {
+		restrict: 'E',
+		replace: true,
+		templateUrl: 'modules/documents/client/views/partials/document-approvals.html',
+		controller: 'controllerDocumentBrowser',
+		controllerAs: 'docBrowser',
+		scope: {
+			project: '=',
+			approvals: '@'
+		}
+	};
 
-    return directive;
+	return directive;
 }
 
 
@@ -180,22 +180,22 @@ function directiveDocumentsApprovals() {
 directiveModalDocumentViewer.$inject = ['$modal'];
 /* @ngInject */
 function directiveModalDocumentViewer($modal) {
-    var directive = {
-        restrict:'A',
-        link : function(scope, element, attrs) {
-            element.on('click', function() {
-                var modalDocView = $modal.open({
-                    animation: true,
-                    templateUrl: 'modules/documents/client/views/partials/modal_document_viewer.html',
-                    controller: 'controllerModalDocumentViewer',
-                    controllerAs: 'md',
-                    size: 'lg'
-                });
-                modalDocView.result.then(function () {}, function () {});
-            });
-        }
-    };
-    return directive;
+	var directive = {
+		restrict:'A',
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/documents/client/views/partials/modal_document_viewer.html',
+					controller: 'controllerModalDocumentViewer',
+					controllerAs: 'md',
+					size: 'lg'
+				});
+				modalDocView.result.then(function () {}, function () {});
+			});
+		}
+	};
+	return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -205,34 +205,34 @@ function directiveModalDocumentViewer($modal) {
 directiveModalDocumentLink.$inject = ['$modal', '$rootScope'];
 /* @ngInject */
 function directiveModalDocumentLink($modal, $rootScope) {
-    var directive = {
-        restrict:'A',
-        scope: {
-            project: '=',
-            current: '='
-        },
-        link : function(scope, element, attrs) {
-            element.on('click', function() {
-                // console.log("Docs Current: ",attrs.current);
-                var modalDocLink = $modal.open({
-                    animation: true,
-                    templateUrl: 'modules/documents/client/views/partials/modal-document-link.html',
-                    controller: 'controllerModalDocumentLink',
-                    controllerAs: 'docLinkModal',
-                    size: 'lg',
-                    resolve: {
-                        rProject: function() { return scope.project; },
-                        rCurrent: function() { return scope.current; }
-                    }
-                });
-                modalDocLink.result.then(function (data) {
-                    // console.log("New set of Documents:",data);
-                    $rootScope.$broadcast('refreshDocumentList');
-                }, function () {});
-            });
-        }
-    };
-    return directive;
+	var directive = {
+		restrict:'A',
+		scope: {
+			project: '=',
+			current: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				// console.log("Docs Current: ",attrs.current);
+				var modalDocLink = $modal.open({
+					animation: true,
+					templateUrl: 'modules/documents/client/views/partials/modal-document-link.html',
+					controller: 'controllerModalDocumentLink',
+					controllerAs: 'docLinkModal',
+					size: 'lg',
+					resolve: {
+						rProject: function() { return scope.project; },
+						rCurrent: function() { return scope.current; }
+					}
+				});
+				modalDocLink.result.then(function (data) {
+					// console.log("New set of Documents:",data);
+					$rootScope.$broadcast('refreshDocumentList');
+				}, function () {});
+			});
+		}
+	};
+	return directive;
 }   // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Upload in a modal
@@ -241,30 +241,30 @@ function directiveModalDocumentLink($modal, $rootScope) {
 directiveModalDocumentUploadClassify.$inject = ['$modal', '$rootScope'];
 /* @ngInject */
 function directiveModalDocumentUploadClassify($modal, $rootScope) {
-    var directive = {
-        restrict:'A',
-        scope: {
-            project: '='
-        },
-        link : function(scope, element, attrs) {
-            element.on('click', function() {
-                var modalDocUpload = $modal.open({
-                    animation: true,
-                    templateUrl: 'modules/documents/client/views/partials/modal-document-upload-classify.html',
-                    controller: 'controllerModalDocumentUploadClassify',
-                    controllerAs: 'docUploadModal',
-                    size: 'lg',
-                    resolve: {
-                        rProject: function() { return scope.project; }
-                    }
-                });
-                modalDocUpload.result.then(function (data) {
-                    $rootScope.$broadcast('refreshDocumentList');
-                }, function () {});
-            });
-        }
-    };
-    return directive;
+	var directive = {
+		restrict:'A',
+		scope: {
+			project: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalDocUpload = $modal.open({
+					animation: true,
+					templateUrl: 'modules/documents/client/views/partials/modal-document-upload-classify.html',
+					controller: 'controllerModalDocumentUploadClassify',
+					controllerAs: 'docUploadModal',
+					size: 'lg',
+					resolve: {
+						rProject: function() { return scope.project; }
+					}
+				});
+				modalDocUpload.result.then(function (data) {
+					$rootScope.$broadcast('refreshDocumentList');
+				}, function () {});
+			});
+		}
+	};
+	return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -274,30 +274,30 @@ function directiveModalDocumentUploadClassify($modal, $rootScope) {
 directiveModalDocumentUploadClassifyMem.$inject = ['$modal', '$rootScope'];
 /* @ngInject */
 function directiveModalDocumentUploadClassifyMem($modal, $rootScope) {
-    var directive = {
-        restrict:'A',
-        scope: {
-            project: '='
-        },
-        link : function(scope, element, attrs) {
-            element.on('click', function() {
-                var modalDocUpload = $modal.open({
-                    animation: true,
-                    templateUrl: 'modules/documents/client/views/partials/modal-document-upload-classify-mem.html',
-                    controller: 'controllerModalDocumentUploadClassify',
-                    controllerAs: 'docUploadModal',
-                    size: 'lg',
-                    resolve: {
-                        rProject: function() { return scope.project; }
-                    }
-                });
-                modalDocUpload.result.then(function (data) {
-                    $rootScope.$broadcast('refreshDocumentList');
-                }, function () {});
-            });
-        }
-    };
-    return directive;
+	var directive = {
+		restrict:'A',
+		scope: {
+			project: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalDocUpload = $modal.open({
+					animation: true,
+					templateUrl: 'modules/documents/client/views/partials/modal-document-upload-classify-mem.html',
+					controller: 'controllerModalDocumentUploadClassify',
+					controllerAs: 'docUploadModal',
+					size: 'lg',
+					resolve: {
+						rProject: function() { return scope.project; }
+					}
+				});
+				modalDocUpload.result.then(function (data) {
+					$rootScope.$broadcast('refreshDocumentList');
+				}, function () {});
+			});
+		}
+	};
+	return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -307,30 +307,30 @@ function directiveModalDocumentUploadClassifyMem($modal, $rootScope) {
 directiveModalDocumentUploadReview.$inject = ['$modal', '$rootScope'];
 /* @ngInject */
 function directiveModalDocumentUploadReview($modal, $rootScope) {
-    var directive = {
-        restrict:'A',
-        scope: {
-            project: '='
-        },
-        link : function(scope, element, attrs) {
-            element.on('click', function() {
-                var modalDocUpload = $modal.open({
-                    animation: true,
-                    templateUrl: 'modules/documents/client/views/partials/modal-document-upload-review.html',
-                    controller: 'controllerModalDocumentUploadReview',
-                    controllerAs: 'docUploadModalReview',
-                    size: 'lg',
-                    resolve: {
-                        rProject: function() { return scope.project; }
-                    }
-                });
-                modalDocUpload.result.then(function (data) {
-                    $rootScope.$broadcast('refreshDocumentList');
-                }, function () {});
-            });
-        }
-    };
-    return directive;
+	var directive = {
+		restrict:'A',
+		scope: {
+			project: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalDocUpload = $modal.open({
+					animation: true,
+					templateUrl: 'modules/documents/client/views/partials/modal-document-upload-review.html',
+					controller: 'controllerModalDocumentUploadReview',
+					controllerAs: 'docUploadModalReview',
+					size: 'lg',
+					resolve: {
+						rProject: function() { return scope.project; }
+					}
+				});
+				modalDocUpload.result.then(function (data) {
+					$rootScope.$broadcast('refreshDocumentList');
+				}, function () {});
+			});
+		}
+	};
+	return directive;
 }
 // // -----------------------------------------------------------------------------------
 // //

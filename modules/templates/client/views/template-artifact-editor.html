@@ -1,0 +1,84 @@
+<div class="document-block">
+	<div>
+		{{ ::title }}
+		<a ng-if="editable" href x-artifact-chooser class="btn btn-xs btn-link" x-artifact="artifact" x-project="project">
+			+/- Choose Artifact
+		</a>
+	</div>
+	<div ng-if="loading">
+		<div class="thumbnails document-icon-list clearfix">
+			<div class="thumbnail pull-left">
+				<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="color: #d9edf7"></span>
+			</div>
+		</div>
+	</div>
+	<div ng-if="loaded && !expanded">
+		<div class="panel panel-info">
+			<div class="pull-left">
+			<div class="document-icon-list clearfix">
+			<div class="pull-left">
+				<span class="glyphicon glyphicon-list-alt" style="color: #d9edf7"></span>
+			</div>
+			</div>
+			</div>
+			<div class="text-left pull-left">
+				{{ artifact.name }}<br/>({{ artifact.version }} / {{ artifact.stage }})<br/>
+			</div>
+			<div class="text-right">
+				<a href ng-click="expand()" class="btn btn-xs btn-link">- Expand</a>
+			</div>
+		</div>
+	</div>
+	<div ng-if="loaded && expanded">
+		<div ng-if="artifact.isTemplate">
+			<a href ng-click="expand()" class="btn btn-xs btn-link">- Collapse</a>
+			<tmpl-template-render x-template="artifact.template" x-mode="view" x-project="project" x-document="artifact.templateData"></tmpl-template-render>
+			<a href ng-click="expand()" class="btn btn-xs btn-link">- Collapse</a>
+		</div>
+	</div>
+	<div ng-if="!artifact.isTemplate">
+		<div class="row">
+			<!--
+
+				This section gets displayed if the content is a document
+
+			 -->
+			<div class="col-sm-3">
+				<h4>Main Document</h4>
+				<div ng-if="artifact.document">
+				[ no document uploaded yet ]
+				</div>
+				<div ng-if="!artifact.document">
+					<span class="glyphicon glyphicon-file"></span> {{artifact.name}} - {{artifact.version}}
+				</div>
+				<div>
+				<small><a href ng-click="docBrowser.toggleDocumentLink( filterSummary )"title="Link">
+					<span class="glyphicon glyphicon-link"></span>  Link or Upload Document </a>
+				</small>
+				<br/>
+				<small ng-if="artifact.document"><a href="/api/document/{{ artifact.document._id }}/fetch"target="_blank" title="Download">
+					<span class="glyphicon glyphicon-download"></span> Download Document</a>
+				</small>
+				</div>
+			</div>
+			<div>
+				<h4>Supporting Documents</h4>
+				<div class="thumbnails document-icon-list clearfix">
+					<div class="thumbnail pull-left" ng-repeat="file in curVal">
+						<div class="caption text-center">
+							<a href>
+								<a href="/api/document/{{ file._id }}/fetch" target="_blank">
+								<span class="glyphicon glyphicon-file"></span>
+								<br>
+								<small>{{ file.internalOriginalName }} {{ file.projectFolderType }} / {{ file.projectFolderSubType }} / {{ file.projectFolderName }}</small>
+								<small ng-if="file.v"><br/>v.{{ file.documentVersion }}</small>
+								<small>{{ file.dateUpdated | amDateFormat:'MMM Do'}}</small>
+								</a>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -577,9 +577,14 @@ th .progress-bar {
 .document-icon-list a .glyphicon {
 	font-size: 40px;
 }
-.document-icon-list .thumbnail {
-	margin: 3px;
+.document-icon-list .glyphicon {
+	font-size: 40px;
 }
+.document-icon-list .thumbnail {
+	margin: 2px;
+	width: 100px;
+}
+
 // -------------------------
 // PANELS...
 // -------------------------

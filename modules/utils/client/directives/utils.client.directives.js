@@ -217,7 +217,7 @@ function directiveArtifactEditHeight($window) {
 			var innerHeight = window.innerHeight;
 			var w = angular.element($window);
 			var box = angular.element(element);
-			console.log ("size is ", size);
+			// console.log ("size is ", size);
 
 			scope.$watch(function () {
 				return {
@@ -228,7 +228,7 @@ function directiveArtifactEditHeight($window) {
 				box.css({'min-height': (parseInt(innerHeight)+size) + 'px', 'max-height': (parseInt(innerHeight)+size) + 'px'});
 			}, true);
 			scope.$watch (attr.artifactEditHeight, function (newValue, oldValue) {
-				console.log ("size changed");
+				// console.log ("size changed");
 				size = newValue;
 				box.css({'min-height': (parseInt(innerHeight)+size) + 'px', 'max-height': (parseInt(innerHeight)+size) + 'px'});
 			}, true);

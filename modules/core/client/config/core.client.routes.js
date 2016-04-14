@@ -58,23 +58,23 @@ angular.module('core').config (
 
 	;
 
-	$stateProvider.modalState = function (name, opts) {
-		var modalInstance;
-		$stateProvider.state (name, {
-			url: opts.url,
-			resolve: opts.resolve || {},
-			onEnter: function ($modal, $state) {
-				modalInstance = $modal.open (opts);
-				modalInstance.result['finally'](function () {
-					modalInstance = null;
-					if ($state.$current.name === name) $state.go ('^');
-				});
-			},
-			onExit: function () {
-				if (modalInstance) modalInstance.close ();
-			}
-		});
-	};
+	// $stateProvider.modalState = function (name, opts) {
+	// 	var modalInstance;
+	// 	$stateProvider.state (name, {
+	// 		url: opts.url,
+	// 		resolve: opts.resolve || {},
+	// 		onEnter: function ($modal, $state) {
+	// 			modalInstance = $modal.open (opts);
+	// 			modalInstance.result['finally'](function () {
+	// 				modalInstance = null;
+	// 				if ($state.$current.name === name) $state.go ('^');
+	// 			});
+	// 		},
+	// 		onExit: function () {
+	// 			if (modalInstance) modalInstance.close ();
+	// 		}
+	// 	});
+	// };
 
 }]);
 

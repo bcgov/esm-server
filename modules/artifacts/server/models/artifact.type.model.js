@@ -20,11 +20,17 @@ module.exports = mongoose.model ('ArtifactType', new mongoose.Schema ({
 		next: { type:String },
 		prev: { type:String },
 		roles: {
-			read : [ {type:String} ],
-			write : [ {type:String} ],
-			submit : [ {type:String} ]
+			default_eao_read   : [ {type:String} ],
+			default_eao_write  : [ {type:String} ],
+			default_eao_submit : [ {type:String} ],
+			default_eao_watch  : [ {type:String} ],
+			default_pro_read   : [ {type:String} ],
+			default_pro_write  : [ {type:String} ],
+			default_pro_submit : [ {type:String} ],
+			default_pro_watch  : [ {type:String} ]
 		} ,
 		activity: { type:'String' }
 	}],
-	milestone       : { type:'String' }
+	milestone       : { type:'String' },
+	phase           : { type:'String' }
 }));

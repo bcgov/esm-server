@@ -48,7 +48,51 @@ angular.module('artifacts')
 		},
 		controllerAs: 's'
 	};
-
+})
+// -------------------------------------------------------------------------
+//
+// a modal directive with isolated scope for viewing and
+// interacting with a list of artifacts in order to choose one.
+// so, essentially an artifact chooser
+//
+// -------------------------------------------------------------------------
+.directive ('artifactChooser', function ($modal, ArtifactModel, _) {
+	return {
+		restrict: 'A',
+		scope: {
+			project: '=',
+			artifact: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function () {
+				$modal.open ({
+					animation: true,
+					templateUrl: 'modules/artifacts/client/views/artifact-chooser.html',
+					controllerAs: 's',
+					size: 'md',
+					resolve: {
+						artifacts: function (ArtifactModel) {
+							return ArtifactModel.forProject (scope.project._id);
+						}
+					},
+					controller: function ($scope, $modalInstance, artifacts) {
+						var s = this;
+						s.artifacts = artifacts;
+						s.selected = scope.artifact._id;
+						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
+						s.ok = function () { $modalInstance.close (s.selected); };
+					}
+				})
+				.result.then (function (data) {
+					if (!(scope.artifact._id && scope.artifact._id === data)) {
+						scope.artifact._id = data;
+						// console.log ('new artifact is', scope.artifact._id);
+					}
+				})
+				.catch (function (err) {});
+			});
+		}
+	};
 })
 
 ;

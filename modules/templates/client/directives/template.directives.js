@@ -95,9 +95,12 @@ angular.module ('templates')
 			template: '=',
 			document: '=',
 			project: '=',
-			mode:     '@'
+			mode:     '@',
+			sidewidth: '=?'
 		},
 		link: function (scope, element, attrs) {
+			var leftWidth = angular.isDefined(scope.sidewidth) ? scope.name : 2;
+			var rightWidth = 12 - leftWidth;
 			var usemode = scope.mode;
 			if (scope.mode === 'print') {
 				usemode = 'view';
@@ -136,7 +139,7 @@ angular.module ('templates')
 			var header = {
 				edit:'<div class="panel panel-default" ng-init="toggleBlue = true">'+
 					'<div class="panel-body no-vertical-padding" du-scroll-container="templateContainer"><div class="row block-section">'+
-					'<div class="col-sm-3 col-no-padding vertical-scroll col-border-right"  x-artifact-edit-height="200">'+
+					'<div class="col-sm-'+leftWidth+' col-no-padding vertical-scroll col-border-right"  x-artifact-edit-height="200">'+
 					'<ul class="small list-unstyled list-documents">'+
 					'<li>'+
 					'<a href ng-click="toggleBlue = !toggleBlue">Toggle Outlines</a>'+
@@ -146,18 +149,18 @@ angular.module ('templates')
 					'<a href="#{{ section.name }}" du-smooth-scroll>{{ section.label }}</a></li>'+
 					'</ul>'+
 					'</div>'+
-					'<div class="col-sm-9 vertical-scroll-padded" x-artifact-edit-height="200" id="templateContainer" ng-class="{\'edit-outlines\': toggleBlue}">'+
+					'<div class="col-sm-'+rightWidth+' vertical-scroll-padded" x-artifact-edit-height="200" id="templateContainer" ng-class="{\'edit-outlines\': toggleBlue}">'+
 					'',
 				view:
 					'<div class="panel panel-default">'+
 					'<div class="panel-body no-vertical-padding" du-scroll-container="templateContainer"><div class="row block-section">'+
-					'<div class="col-sm-3 col-no-padding vertical-scroll col-border-right" x-artifact-edit-height="200">'+
+					'<div class="col-sm-'+leftWidth+' col-no-padding vertical-scroll col-border-right" x-artifact-edit-height="200">'+
 					'<ul class="small list-unstyled list-documents">'+
 					'<li class="row-folder clickable" du-scrollspy="{{ section.name }}" ng-repeat="section in allsections">'+
 					'<a href="#{{ section.name }}" x-offset=10 du-smooth-scroll>{{ section.label }}</a></li>'+
 					'</ul>'+
 					'</div>'+
-					'<div class="col-sm-9 vertical-scroll-padded" x-artifact-edit-height="200" id="templateContainer">'
+					'<div class="col-sm-'+rightWidth+' vertical-scroll-padded" x-artifact-edit-height="200" id="templateContainer">'
 			};
 
 			var footer = '</div></div></div></div>';
@@ -250,7 +253,7 @@ angular.module ('templates')
 // directive to edit html field in template
 //
 // -------------------------------------------------------------------------
-.directive('contentHtml', ['$sce', function($sce) {
+.directive ('contentHtml', ['$sce', function($sce) {
 	return {
 		restrict: 'A', // only activate on element attribute
 		require: '?ngModel', // get a hold of NgModelController
@@ -260,7 +263,7 @@ angular.module ('templates')
 		},
 		replace: true,
 		templateUrl: 'modules/templates/client/views/template-html-editor.html',
-		link: function(scope, element, attrs, ngModel) {
+		link: function (scope, element, attrs, ngModel) {
 			scope.activeItem = false;
 		}
 	};
@@ -270,7 +273,7 @@ angular.module ('templates')
 // directive to edit / view document field in template
 //
 // -------------------------------------------------------------------------
-.directive('contentDocument', ['$sce', function($sce) {
+.directive ('contentDocument', [function() {
 	return {
 		restrict: 'A', // only activate on element attribute
 		require: '?ngModel', // get a hold of NgModelController
@@ -286,6 +289,56 @@ angular.module ('templates')
 		}
 	};
 }])
+// -------------------------------------------------------------------------
+//
+// directive to edit / view document field in template
+//
+// -------------------------------------------------------------------------
+.directive ('contentArtifact', [ 'ArtifactModel', function (ArtifactModel) {
+	return {
+		restrict : 'A', // only activate on element attribute
+		require  : '?ngModel', // get a hold of NgModelController
+		scope    : {
+			curVal   : '=ngModel',
+			editable : '=',
+			project  : '=',
+			title    : '='
+		},
+		replace     : true,
+		templateUrl : 'modules/templates/client/views/template-artifact-editor.html',
+		link : function (scope, element, attrs, NgModelController) {
+			scope.expanded = false;
+			scope.loading  = false;
+			scope.loaded   = false;
+			scope.artifact = {_id:scope.curVal};
+			//
+			// watch the artifact to see if it has changed, if so, we have
+			// to load it up in full
+			//
+			scope.$watch ('artifact._id', function (newval, oldval) {
+				if (!newval) return;
+				//
+				// display the loading icon until loading done
+				//
+				scope.loading = true;
+				scope.loaded  = false;
+				scope.curVal  = scope.artifact._id;
+				//
+				// load the full artifact and then swap out the display
+				//
+				ArtifactModel.getModel (newval).then (function (model) {
+					scope.loading  = false;
+					scope.loaded   = true;
+					scope.artifact = model;
+				});
+			});
+			scope.expand = function () {
+				scope.expanded = !scope.expanded;
+			};
+		}
+	};
+}])
+
 
 
 ;
