@@ -76,7 +76,21 @@ function controllerUsersByRoles($scope, rSourceObject, _, $modalInstance, sRoleM
 		}
 	};
 
-	usersByRoles.cancelRole = function() {
+  usersByRoles.assignUsersToRole = function(users, parent) {
+    var userIds = _.map(users, function(user) {
+      return user._id;
+    });
+    if (userIds) {
+      sRoleModel.setRoleUsers(parent.reference, userIds).then( function(data) {
+        sRoleModel.getUsersForRole(parent.reference).then( function(data) {
+          $scope.roles[data.code] = data.users;
+          $scope.$apply();
+        });
+      });
+    }
+  };
+
+  usersByRoles.cancelRole = function() {
 		usersByRoles.newRole = undefined;
 		usersByRoles.addRoleMode = false;
 		usersByRoles.error = undefined;

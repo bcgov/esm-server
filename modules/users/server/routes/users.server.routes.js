@@ -26,20 +26,8 @@ module.exports = function (app) {
            .then (helpers.success(res), helpers.failure(res));
     }
   });
-
-  app.route ('/api/users/postproc').all (policy.isAllowed)
-  .post (function (req, res) {
-      users.postproc(req, res)
-           .then (helpers.success(res), helpers.failure(res));
-  });
-  app.route ('/api/users/postprocgroups').all (policy.isAllowed)
-  .post (function (req, res) {
-      users.postprocgroups(req, res)
-           .then (helpers.success(res), helpers.failure(res));
-  });
-
   // Import logic
-  app.route ('/api/groupusers/import').all (policy.isAllowed)
+  app.route ('/api/groupusers/import').all ()
     .post (function (req, res) {
       var file = req.files.file;
       if (file) {

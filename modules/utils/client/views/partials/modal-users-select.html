@@ -25,9 +25,9 @@
 					ng-show="utilUsers.form.filteredUsers !== 'search' &&
 					utilUsers.form.filteredUsers !== 'add' &&
 					utilUsers.config.allowTeam">
-					
-					<li ng-repeat="user in utilUsers.users | orderBy:'displayName'">
-						<button class="btn btn-block btn-sm btn-layer" ng-click="utilUsers.addUserToSelected(user)" x-dynamic-class-when="utilUsers.inSelected(user)" x-dynamic-class="btn-primary">{{ user.displayName }} <em class="small">{{ user.email }}</em></button>
+
+					<li ng-repeat="user in utilUsers.users | orderBy:['displayName','username', 'email']">
+						<button class="btn btn-block btn-sm btn-layer" ng-click="utilUsers.addUserToSelected(user)" x-dynamic-class-when="utilUsers.inSelected(user)" x-dynamic-class="btn-primary">{{ user.displayName || user.username || user.email }} <em class="small">{{ user.email }}</em></button>
 					</li>
 					<li ng-if="(!utilUsers.users || utilUsers.users.length === 0) && utilUsers.form.selectedSource" class="small">
 						No users are available for the selected source.
@@ -40,7 +40,7 @@
 				<!-- Search External Sources -->
 				<div class="list-unstyled task-list" ng-show="utilUsers.form.filteredUsers === 'search'">
 					<div class="alert alert-danger small">
-						Warning: this user will only be added as an email receipient of this one alert. To add them permanently, assign them to a group.  
+						Warning: this user will only be added as an email receipient of this one alert. To add them permanently, assign them to a group.
 					</div>
 					<form class="form-search">
 						<div class="input-group">
@@ -54,7 +54,7 @@
 					<hr/>
 					<ul class="list-unstyled task-list">
 						<li ng-repeat="user in utilUsers.searchResults">
-							<button class="btn btn-block btn-sm btn-layer" ng-click="utilUsers.addUserToSelected(user)" x-dynamic-class-when="utilUsers.inSelected(user)" x-dynamic-class="btn-primary">{{ user.displayName }} <em class="small">{{ user.email }}</em></button>
+							<button class="btn btn-block btn-sm btn-layer" ng-click="utilUsers.addUserToSelected(user)" x-dynamic-class-when="utilUsers.inSelected(user)" x-dynamic-class="btn-primary">{{ user.displayName || user.username || user.email }} <em class="small">{{ user.email }}</em></button>
 						</li>
 						<li ng-if="usersFiltered.length === 0" class="small">
 							No users found.
@@ -71,7 +71,7 @@
 					<div class="form-group">
 						<label class="control-label">Email</label>
 						<input type="text" class="form-control" ng-model="utilUsers.userNew.email"/>
-					</div>	
+					</div>
 					<div class="form-group">
 						<label class="control-label">Address</label>
 						<input type="text" class="form-control" ng-model="utilUsers.userNew.address"/>
@@ -80,15 +80,15 @@
 						<div class="form-group col-sm-5">
 							<label class="control-label">City</label>
 							<input type="text" class="form-control" ng-model="utilUsers.userNew.city"/>
-						</div>	
+						</div>
 						<div class="form-group col-sm-3">
 							<label class="control-label">Province</label>
 							<input type="text" class="form-control" ng-model="utilUsers.userNew.province"/>
-						</div>	
+						</div>
 						<div class="form-group col-sm-4">
 							<label class="control-label">Postal</label>
 							<input type="text" class="form-control" ng-model="utilUsers.userNew.postal"/>
-						</div>	
+						</div>
 					</div>
 					<div class="checkbox">
 						<label for="receiveViaMail">
@@ -110,7 +110,7 @@
 					</div>
 					<div class="text-right">
 						<button class="btn btn-success" ng-click="utilUsers.addNewUser()">Add</button>
-					</div>					
+					</div>
 				</div>
 
 			</div>
@@ -126,14 +126,14 @@
 			<div class="well well-sm">
 				<ul class="list-unstyled task-list">
 					<li ng-repeat="user in selectedFiltered = (utilUsers.selected | filter:{role: (utilUsers.form.filteredSelected || undefined)})">
-						<button class="btn btn-block btn-sm btn-layer" ng-click="utilUsers.removeUserFromSelected(user)">{{ user.displayName }} <em class="small">{{ user.email }}</em></button>
+						<button class="btn btn-block btn-sm btn-layer" ng-click="utilUsers.removeUserFromSelected(user)">{{ user.displayName || user.username || user.email }} <em class="small">{{ user.email }}</em></button>
 					</li>
 					<li class="no-lower-padding small" ng-if="selectedFiltered.length === 0">
 						Select users from the left column to add them to this group.
 					</li>
 				</ul>
 			</div>
-		
+
 		</div>
 
 	</div>

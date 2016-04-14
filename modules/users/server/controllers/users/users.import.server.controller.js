@@ -4,273 +4,219 @@
  * Module dependencies.
  */
 var _             = require ('lodash'),
-    fs            = require ('fs'),
-    path          = require ('path'),
-    mongoose      = require ('mongoose'),
-    User          = mongoose.model('User'),
-    CSVParse      = require ('csv-parse'),
-    crypto        = require ('crypto'),
-    Project       = mongoose.model ('Project'),
-    GroupModel    = mongoose.model ('Group'),
-    Organization  = mongoose.model ('Organization'),
-    errorHandler  = require (path.resolve('./modules/core/server/controllers/errors.server.controller'));
+		fs            = require ('fs'),
+		path          = require ('path'),
+		mongoose      = require ('mongoose'),
+		User          = mongoose.model('User'),
+		CSVParse      = require ('csv-parse'),
+		crypto        = require ('crypto'),
+		Project       = mongoose.model ('Project'),
+		GroupModel    = mongoose.model ('Group'),
+		Organization  = mongoose.model ('Organization'),
+		errorHandler  = require (path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
  * Update user details
  */
 exports.update = function (req, res) {
-  // Init Variables
-  var user = req.user;
+	// Init Variables
+	var user = req.user;
 
-  // For security measurement we remove the roles from the req.body object
-  delete req.body.roles;
+	// For security measurement we remove the roles from the req.body object
+	delete req.body.roles;
 
-  if (user) {
-    // Merge existing user
-    user = _.extend(user, req.body);
-    user.updated = Date.now();
-    user.displayName = user.firstName + ' ' + user.lastName;
+	if (user) {
+		// Merge existing user
+		user = _.extend(user, req.body);
+		user.updated = Date.now();
+		user.displayName = user.firstName + ' ' + user.lastName;
 
-    user.save(function (err) {
-      if (err) {
-        return res.status(400).send({
-          message: errorHandler.getErrorMessage(err)
-        });
-      } else {
-        req.login(user, function (err) {
-          if (err) {
-            res.status(400).send(err);
-          } else {
-            res.json(user);
-          }
-        });
-      }
-    });
-  } else {
-    res.status(400).send({
-      message: 'User is not signed in'
-    });
-  }
+		user.save(function (err) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			} else {
+				req.login(user, function (err) {
+					if (err) {
+						res.status(400).send(err);
+					} else {
+						res.json(user);
+					}
+				});
+			}
+		});
+	} else {
+		res.status(400).send({
+			message: 'User is not signed in'
+		});
+	}
 };
 
-exports.postproc = function(req, res) {
-  return new Promise (function (resolve, reject) {
-    User.find({}, function(err, docs) {
-      if (docs) {
-        var length = docs.length;
-        // console.log("length:",length);
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.write('[0');
-        // console.log("length",length);
-        docs.forEach(function (key, index) {
-          var person = key.personId;
-          // console.log("person:",person);
-          Organization.findOne({name: key.orgName}, function (err, org) { // Find an org and relate it
-              if (org) {
-                key.org = org;
-                key.save().then(function () {
-                  // console.log("per:",person);
-                  if (index === length-1) {
-                    res.write("]");
-                    res.end();
-                  } else {
-                    res.write(","+person);
-                    res.flush();
-                  }
-                });
-              } else {
-                setTimeout(function() {
-                  if (index === length-1) {
-                    res.write("]");
-                    res.end();
-                  }
-                }, 2000);
-              }
-            });
-        });
-      }
-    });
-  });
-};
-exports.postprocgroups = function(req, res) {
-  return new Promise (function (resolve, reject) {
-    GroupModel.find({}, function(err, docs) {
-      if (docs) {
-        var length = docs.length;
-        // console.log("length:",length);
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.write('[0');
-        // console.log("length",length);
-        docs.forEach(function (key, index) {
-          var epicProjectID = key.epicProjectID;
-          // console.log("person:",person);
-          Project.findOne({epicProjectID: epicProjectID}, function (err, project) { // Find an project and relate it
-              if (project) {
-                key.project = project;
-                key.save().then(function () {
-                  // console.log("per:",person);
-                  if (index === length-1) {
-                    res.write("]");
-                    res.end();
-                  } else {
-                    res.write(",");
-                    res.flush();
-                  }
-                });
-              } else {
-                setTimeout(function() {
-                  if (index === length-1) {
-                    res.write("]");
-                    res.end();
-                  }
-                }, 2000);
-              }
-            });
-        });
-      }
-    });
-  });
-};
 // Import a list of users
 exports.loadUsers = function(file, req, res) {
-  return new Promise (function (resolve, reject) {
-    // Now parse and go through this thing.
-    fs.readFile(file.path, 'utf8', function(err, data) {
-      if (err) {
-        reject("{err: "+err);
-      }
-      res.writeHead(200, {'Content-Type': 'text/plain'});
-      res.write('[ { "jobid": 0 }');
-      // console.log("FILE DATA:",data);
-      var colArray = ['PERSON_ID','EAO_STAFF_FLAG','PROPONENT_FLAG','SALUTATION','FIRST_NAME','MIDDLE_NAME','LAST_NAME','TITLE','ORGANIZATION_NAME','DEPARTMENT','EMAIL_ADDRESS','PHONE_NUMBER','HOME_PHONE_NUMBER','FAX_NUMBER','CELL_PHONE_NUMBER','ADDRESS_LINE_1','ADDRESS_LINE_2','CITY','PROVINCE_STATE','COUNTRY','POSTAL_CODE','NOTES'];
-      var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
-        // Skip this many rows
-        var length = Object.keys(output).length;
-        var rowsProcessed = 0;
-        // console.log("length",length);
-        Object.keys(output).forEach(function(key, index) {
-          if (index > 0) {
-            var row = output[key];
-            //res.write(".");
-            rowsProcessed++;
-            User.findOne({personId: parseInt(row.PERSON_ID)}, function (err, doc) {
-              var addOrChangeModel = function(model) {
-                model.personId      = parseInt(row.PERSON_ID);
-                model.orgName       = row.ORGANIZATION_NAME;
-                model.title         = row.TITLE;
-                model.contactName   = row.FIRST_NAME + " " + row.LAST_NAME;
-                model.firstName     = row.FIRST_NAME;
-                model.middleName    = row.MIDDLE_NAME;
-                model.lastName      = row.LAST_NAME;
-                model.phoneNumber   = row.PHONE_NUMBER;
-                model.homePhoneNumber = row.HOME_PHONE_NUMBER;
-                model.email         = row.EMAIL_ADDRESS;
-                model.eaoStaffFlag  = Boolean(row.EAO_STAFF_FLAG);
-                model.proponentFlag = Boolean(row.PROPONENT_FLAG);
-                model.salutation    = row.SALUTATION;
-                model.department    = row.DEPARTMENT;
-                model.faxNumber     = row.FAX_NUMBER;
-                model.cellPhoneNumber = row.CELL_PHONE_NUMBER;
-                model.address1      = row.ADDRESS_LINE_1;
-                model.address2      = row.ADDRESS_LINE_2;
-                model.city          = row.CITY;
-                model.province      = row.PROVINCE_STATE;
-                model.country       = row.COUNTRY;
-                model.postalCode    = row.POSTAL_CODE;
-                model.notes         = row.NOTES;
-                model.username      = model.email;
-                model.password      = crypto.randomBytes(8);
-                //res.write(".");
-                model.save().then(function () {
-                  //res.write(".");
-                  // Am I done processing?
-                  // console.log("INDEX:",index);
-                  if (index === length-1) {
-                    // console.log("rowsProcessed: ",rowsProcessed);
-                    //resolve("{done: true, rowsProcessed: "+rowsProcessed+"}");
-                    res.write("]");
-                    res.end();
-                  }
-                });
-
-              };
-              if (doc === null) {
-                // Create new
-                var c = new User();
-                addOrChangeModel(c);
-              } else {
-                // Update:
-                addOrChangeModel(doc);
-              }
-            });
-          }
-        });
-      });
-    });
-  });
+	return new Promise (function (resolve, reject) {
+		// Now parse and go through this thing.
+		fs.readFile(file.path, 'utf8', function(err, data) {
+			if (err) {
+				reject("{err: "+err);
+			}
+			res.writeHead(200, {'Content-Type': 'text/plain'});
+			res.write('[ { "jobid": 0 }');
+			// console.log("FILE DATA:",data);
+			var colArray = ['PERSON_ID','EAO_STAFF_FLAG','PROPONENT_FLAG','SALUTATION','FIRST_NAME','MIDDLE_NAME','LAST_NAME','TITLE','ORGANIZATION_NAME','DEPARTMENT','EMAIL_ADDRESS','PHONE_NUMBER','HOME_PHONE_NUMBER','FAX_NUMBER','CELL_PHONE_NUMBER','ADDRESS_LINE_1','ADDRESS_LINE_2','CITY','PROVINCE_STATE','COUNTRY','POSTAL_CODE','NOTES'];
+			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
+				// Skip this many rows
+				var length = Object.keys(output).length;
+				var rowsProcessed = 0;
+				// console.log("length",length);
+				Object.keys(output).forEach(function(key, index) {
+					if (index > 0) {
+						var row = output[key];
+						res.write(".");
+						rowsProcessed++;
+						User.findOne({personId: parseInt(row.PERSON_ID)}, function (err, doc) {
+							var addOrChangeModel = function(model) {
+								model.personId      = parseInt(row.PERSON_ID);
+								model.orgName       = row.ORGANIZATION_NAME;
+								model.title         = row.TITLE;
+								model.contactName   = row.FIRST_NAME + " " + row.LAST_NAME;
+								model.firstName     = row.FIRST_NAME;
+								model.middleName    = row.MIDDLE_NAME;
+								model.lastName      = row.LAST_NAME;
+								model.phoneNumber   = row.PHONE_NUMBER;
+								model.homePhoneNumber = row.HOME_PHONE_NUMBER;
+								model.email         = row.EMAIL_ADDRESS;
+								model.eaoStaffFlag  = Boolean(row.EAO_STAFF_FLAG);
+								model.proponentFlag = Boolean(row.PROPONENT_FLAG);
+								model.salutation    = row.SALUTATION;
+								model.department    = row.DEPARTMENT;
+								model.faxNumber     = row.FAX_NUMBER;
+								model.cellPhoneNumber = row.CELL_PHONE_NUMBER;
+								model.address1      = row.ADDRESS_LINE_1;
+								model.address2      = row.ADDRESS_LINE_2;
+								model.city          = row.CITY;
+								model.province      = row.PROVINCE_STATE;
+								model.country       = row.COUNTRY;
+								model.postalCode    = row.POSTAL_CODE;
+								model.notes         = row.NOTES;
+								model.username      = model.email;
+								model.password      = crypto.randomBytes(8);
+								res.write(".");
+								model.save().then(function (user) {
+									// console.log("saving",user);
+									Organization.findOne({name: user.orgName}, function (err, org) { // Find an org and relate it
+										var checkIfDone = function() {
+											// console.log("checking if done");
+											res.write(".");
+												// Am I done processing?
+												// console.log("INDEX:",index);
+												if (index === length-1) {
+													// console.log("rowsProcessed: ",rowsProcessed);
+													//resolve("{done: true, rowsProcessed: "+rowsProcessed+"}");
+													res.write("]");
+													res.end();
+												}
+										};
+										// If found the org, assign the org's id to this object
+										if (org) {
+											// console.log("found the org");
+											user.org = org;
+											user.save().then(function () {
+												checkIfDone();
+											});
+										} else {
+											setTimeout(function() {
+												checkIfDone();
+											}, 2000);
+										}
+									});
+								});
+							};
+							if (doc === null) {
+								// Create new
+								var c = new User();
+								addOrChangeModel(c);
+							} else {
+								// Update:
+								addOrChangeModel(doc);
+							}
+						});
+					}
+				});
+			});
+		});
+	});
 };
 
 exports.loadGroupUsers = function(file, req, res) {
-  return new Promise (function (resolve, reject) {
-    // Now parse and go through this thing.
-    fs.readFile(file.path, 'utf8', function(err, data) {
-      if (err) {
-        reject("{err: "+err);
-      }
-      res.writeHead(200, {'Content-Type': 'text/plain'});
-      res.write('[ { "jobid": 0 }');
-      // console.log("FILE DATA:",data);
-      var colArray = ['GROUP_ID','NAME','CONTACT_GROUP_TYPE','PERSON_ID','PROJECT_ID'];
-      var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
-        // Skip this many rows
-        //res.write(".");
-        var length = Object.keys(output).length;
-        var rowsProcessed = 0;
-        // console.log("length",length);
-        Object.keys(output).forEach(function(key, index) {
-          if (index > 0) {
-            var row = output[key];
-            rowsProcessed++;
-            // console.log("rowData:",row);
-            GroupModel.findOne({groupId: parseInt(row.GROUP_ID), personId: parseInt(row.PERSON_ID)}, function (err, doc) {
-              var addOrChangeModel = function(model) {
-                // console.log("Nothing Found");
-                model.groupId     = parseInt(row.GROUP_ID);
-                model.groupName   = row.NAME;
-                model.groupType   = row.CONTACT_GROUP_TYPE;
-                model.personId    = parseInt(row.PERSON_ID);
-                model.epicProjectID  = parseInt(row.PROJECT_ID); // Save epic data just in case
-                //res.write(".");
-                model.save().then(function () {
-                  // Am I done processing?
-                  // console.log("INDEX:",index);
-                  if (index === length-1) {
-                    // console.log("rowsProcessed: ",rowsProcessed);
-                    res.write("]");
-                    res.end();
-                    //resolve("{done: true, rowsProcessed: "+rowsProcessed+"}");
-                  }
-                });
-                // Attempt to link up the project if it's loaded.
-                // Project.findOne({epicProjectID: parseInt(row.PROJECT_ID)}).then(function(p) {
-                //   if (p) {
-                //     model.project = p;
-                //     model.save();
-                //   }
-                // });
-              };
-              if (doc === null) {
-                // Create new
-                var g = new GroupModel ();
-                addOrChangeModel(g);
-              } else {
-                // Update:
-                addOrChangeModel(doc);
-              }
-            });
-          }
-        });
-      });
-    });
-  });
+	return new Promise (function (resolve, reject) {
+		// Now parse and go through this thing.
+		fs.readFile(file.path, 'utf8', function(err, data) {
+			if (err) {
+				reject("{err: "+err);
+			}
+			res.writeHead(200, {'Content-Type': 'text/plain'});
+			res.write('[ { "jobid": 0 }');
+			// console.log("FILE DATA:",data);
+			var colArray = ['GROUP_ID','NAME','CONTACT_GROUP_TYPE','PERSON_ID','PROJECT_ID'];
+			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
+				// Skip this many rows
+				//res.write(".");
+				var length = Object.keys(output).length;
+				var rowsProcessed = 0;
+				// console.log("length",length);
+				Object.keys(output).forEach(function(key, index) {
+					if (index > 0) {
+						var row = output[key];
+						rowsProcessed++;
+						// console.log("rowData:",row);
+						GroupModel.findOne({groupId: parseInt(row.GROUP_ID), personId: parseInt(row.PERSON_ID)}, function (err, doc) {
+							var addOrChangeModel = function(model) {
+								// console.log("Nothing Found");
+								model.groupId     = parseInt(row.GROUP_ID);
+								model.groupName   = row.NAME;
+								model.groupType   = row.CONTACT_GROUP_TYPE;
+								model.personId    = parseInt(row.PERSON_ID);
+								model.epicProjectID  = parseInt(row.PROJECT_ID); // Save epic data just in case
+								//res.write(".");
+								model.save().then(function (m) {
+									Project.findOne({epicProjectID: m.epicProjectID}, function (err, project) { // Find an project and relate it
+										if (project) {
+											m.project = project;
+											m.save().then(function () {
+												// console.log("per:",person);
+												if (index === length-1) {
+													res.write("]");
+													res.end();
+												} else {
+													res.write(",");
+													res.flush();
+												}
+											});
+										} else {
+											setTimeout(function() {
+												if (index === length-1) {
+													res.write("]");
+													res.end();
+												}
+											}, 2000);
+										}
+									});
+								});
+							};
+							if (doc === null) {
+								// Create new
+								var g = new GroupModel ();
+								addOrChangeModel(g);
+							} else {
+								// Update:
+								addOrChangeModel(doc);
+							}
+						});
+					}
+				});
+			});
+		});
+	});
 };

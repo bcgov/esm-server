@@ -8,7 +8,7 @@
         
         <!-- SIDE NAVIGATION -->
         <aside class="left-panel">
-            <tmpl-system-menu x-menu-context="'mylist'"></tmpl-system-menu>  
+            <tmpl-system-menu x-menu-context="'mylist'"></tmpl-system-menu>
         </aside>
         
         <!-- PROJECTS LIST -->
@@ -16,7 +16,7 @@
             <h2>My Projects</h2>
             <div class="panel panel-default">
                 <table ng-table="projectParams" class="projects-table table table-condensed table-striped">
-                    <tr ng-repeat="o in $data" class='clickable' ui-sref="p.detail({projectid: o.code})">
+                    <tr ng-repeat="o in $data">
                         <td data-title="'Name'" sortable="'name'">
                             {{o.name}}
                         </td>
@@ -35,6 +35,9 @@
                         <td ng-if="environment === 'EAO'" data-title="'Status'" sortable="'status'">
                             {{o.status}}
                         </td>
+                        <td>
+                            <a ui-sref="p.detail({projectid: o.code})">View Details</a>
+                        </td>
                     </tr>
                     <tr ng-show="!$data || !$data.length" class="text-center">
                         <td ng-if="environment === 'EAO'" colspan="5">No results match your search.</td>
@@ -50,7 +53,7 @@
         
         <!-- ACTIVITIES LIST -->
         <section class="right-panel activities-container">
-            <h2>My Activities <span>&rsaquo; Project Title</span>&nbsp;<span>(*)</span></h2>
+            <h2>My Activities<span class="hidden">&nbsp;&rsaquo; Project Title</span>&nbsp;<span>(*)</span></h2>
             <div class="panel panel-default tab-container">
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="all-activities">

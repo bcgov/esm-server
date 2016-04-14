@@ -1497,6 +1497,25 @@ table thead tr.ng-table-filters {
   margin-bottom: 10px;
 }
 
+.template .normal {
+  font-weight:normal;
+}
+
+.template .thicker {
+  font-weight:bolder;
+}
+
+.template .sig-left {
+  float:left;
+  margin-right:60px;
+}
+
+.template .sig-right {
+  float:left;
+}
+
+/*------------------------------*/
+
 .activity-list-med {
 	height: 542px;
 	overflow: hidden;
@@ -1580,23 +1599,25 @@ div.dropdown-menu {
     display: flex;
     flex-flow: row nowrap;
 
-    .left-panel {
-        flex: 0 0 20rem;
-    }
-
-    .main-panel {
-        flex: 1 1 auto;
-    }
-
-    .right-panel {
-        flex: 0 0 35rem;
-        overflow-x: hidden;
-    }
-
     .left-panel,
     .main-panel,
     .right-panel {
         padding: 1.5rem;
+    }
+
+    .left-panel {
+        flex: 0 0 18rem;
+    }
+
+    .main-panel {
+        padding-left: 0;
+        flex: 1 1 auto;
+    }
+
+    .right-panel {
+        padding-left: 0;
+        flex: 0 0 30rem;
+        overflow-x: hidden;
     }
 }
 
@@ -1605,11 +1626,13 @@ div.dropdown-menu {
 ------------------------------ */
 .projects-table {
     table-layout: fixed;
-
-    td {
-        width: 25%;
+ 
+    th:last-child {
+        width: 10rem;
+        text-align: right;
     }
 }
+
 
 /* ACTIVITIES LIST
 ------------------------------ */

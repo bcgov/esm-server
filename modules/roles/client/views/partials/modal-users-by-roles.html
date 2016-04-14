@@ -3,7 +3,7 @@
 </div>
 <div class="modal-body">
 
-	<div class="row">
+	<!-- div class="row">
 		<div class="col-sm-6 col-md-4" ng-repeat="role in usersByRoles.roles | orderBy">
 			<div class="thumbnail">
 				<div class="caption">
@@ -11,11 +11,37 @@
 					<ul class="list-unstyled">
 						<li x-modal-user-contact-info x-user="user" class="clickable">person</li>
 					</ul>
-					<label class="control-label text-right"><a x-modal-select-users href>Add / Edit</a></label>					
+					<label class="control-label text-right"><a x-modal-select-users
+                                                     x-callback="usersByRoles.assignUsersToRole"
+                                                     x-users="users"
+                                                     x-unique="true"
+                                                     x-project="project"
+                                                     x-parent="{type: 'role', reference: role}" href>Add / Edit</a></label>
 				</div>
 			</div>
 		</div>
-	</div>
+	</div -->
+  <div class="row">
+    <div class="col-sm-4" ng-repeat="(role, users) in usersByRoles.roles track by $index | orderBy" ng-class="{'clear-left': !($index % 3)}">
+      <div class="thumbnail">
+        <div class="caption">
+          <label class="control-label">{{ ::role }}</label>
+          <ul class="list-unstyled task-list">
+            <li x-modal-user-contact-info x-user="user" ng-repeat="user in users track by $index" class="clickable">{{ user.displayName || user.username }}</li>
+          </ul>
+          <label class="control-label text-right">
+            <a href x-modal-select-users
+               x-callback="usersByRoles.assignUsersToRole"
+               x-users="users"
+               x-unique="true"
+               x-project="project"
+               x-parent="{type: 'role', reference: role}"
+            >Manage Users</a>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
 	<div class="alert alert-warning fadeIn" ng-show="usersByRoles.error" >{{ usersByRoles.error }}</div>
 	<div class="row">
 		<div class="col-sm-12 text-right form-inline">
@@ -29,13 +55,13 @@
 				<select class="form-control" ng-model="usersByRoles.newOrg" ng-options="item as item for item in usersByRoles.userOrgs">
                     </select>
 
-				<input class="form-control"					
+				<input class="form-control"
 					type="text"
 					ng-model="usersByRoles.newRole"
 					placeholder="Role Name">
 
 				<button class="btn btn-default" ng-click="usersByRoles.saveNewRole()">Save</button>
-				<button class="btn btn-default" ng-click="usersByRoles.cancelRole()">Cancel</button>				
+				<button class="btn btn-default" ng-click="usersByRoles.cancelRole()">Cancel</button>
 			</div>
 
 		</div>

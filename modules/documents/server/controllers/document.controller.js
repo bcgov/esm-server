@@ -798,12 +798,7 @@ var loadDocuments = function(req, res) {
 									// model.projectFolderAuthor       = row.WHO_CREATED;
 									model.documentAuthor     = row.WHO_CREATED;
 									model.documentFileName   = row.FILE_NAME;
-
-									// Don't update unless the url was different/not found
-									var epicURL = URLPrefix + row.DOCUMENT_POINTER.replace(/\\/g,"/");
-									if (!model.documentFileURL || model.documentFileURL.indexOf(epicURL) === -1) {
-										model.documentFileURL = epicURL;
-									}
+									model.documentFileURL 	 = URLPrefix + row.DOCUMENT_POINTER.replace(/\\/g,"/");
 									model.documentFileSize   = row.FILE_SIZE;
 									model.documentFileFormat = row.FILE_TYPE;
 									model.documentAuthor 	 = row.WHO_CREATED;
