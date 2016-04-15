@@ -27,7 +27,7 @@ module.exports = function (app) {
     }
   });
   // Import logic
-  app.route ('/api/groupusers/import').all ()
+  app.route ('/api/groupusers/import').all (policy.isAllowed)
     .post (function (req, res) {
       var file = req.files.file;
       if (file) {
