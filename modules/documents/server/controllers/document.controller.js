@@ -696,35 +696,60 @@ var upload = function (req, res) {
 		// console.log('++headers');
 		// console.log(req.Project);
 		// console.log('--headers');
-		importDocumentAndReturn (new Model ({
-			// Metadata related to this specific document that has been uploaded.
-			// See the document.model.js for descriptions of the parameters to supply.
-			project                     : req.Project,
-			//projectID                     : req.Project._id,
-			projectFolderType           : req.headers.documenttype,//req.headers.projectfoldertype,
-			projectFolderSubType        : req.headers.documentsubtype,//req.headers.projectfoldersubtype,
-			projectFolderName           : req.headers.documentfoldername,
-			projectFolderURL            : file.path,//req.headers.projectfolderurl,
-			projectFolderDatePosted     : Date.now(),//req.headers.projectfolderdateposted,
-			// NB: In EPIC, projectFolders have authors, not the actual documents.
-			projectFolderAuthor         : req.headers.projectfolderauthor,
-			// These are the data as it was shown on the EPIC website.
-			documentAuthor      : req.headers.documentauthor,
-			documentFileName    : req.headers.documentfilename,
-			documentFileURL     : req.headers.documentfileurl,
-			documentFileSize    : req.headers.documentfilesize,
-			documentFileFormat  : req.headers.documentfileformat,
-			documentIsInReview  : req.headers.documentisinreview,
-			documentVersion     : 0,
-			// These are automatic as it actually is when it comes into our system
-			internalURL             : file.path,
-			internalOriginalName    : file.originalname,
-			internalName            : file.name,
-			internalMime            : file.mimetype,
-			internalExt             : file.extension,
-			internalSize            : file.size,
-			internalEncoding        : file.encoding
-		}), req, res);
+		var oldPath = file.path;
+		file.path = path.dirname(oldPath)+path.sep+req.Project.code+path.sep+path.basename(oldPath);
+
+		var doImport = function () {
+			importDocumentAndReturn (new Model ({
+				// Metadata related to this specific document that has been uploaded.
+				// See the document.model.js for descriptions of the parameters to supply.
+				project                     : req.Project,
+				//projectID                     : req.Project._id,
+				projectFolderType           : req.headers.documenttype,//req.headers.projectfoldertype,
+				projectFolderSubType        : req.headers.documentsubtype,//req.headers.projectfoldersubtype,
+				projectFolderName           : req.headers.documentfoldername,
+				projectFolderURL            : file.path,//req.headers.projectfolderurl,
+				projectFolderDatePosted     : Date.now(),//req.headers.projectfolderdateposted,
+				// NB: In EPIC, projectFolders have authors, not the actual documents.
+				projectFolderAuthor         : req.headers.projectfolderauthor,
+				// These are the data as it was shown on the EPIC website.
+				documentAuthor      : req.headers.documentauthor,
+				documentFileName    : req.headers.documentfilename,
+				documentFileURL     : req.headers.documentfileurl,
+				documentFileSize    : req.headers.documentfilesize,
+				documentFileFormat  : req.headers.documentfileformat,
+				documentIsInReview  : req.headers.documentisinreview,
+				documentVersion     : 0,
+				// These are automatic as it actually is when it comes into our system
+				internalURL             : file.path,
+				internalOriginalName    : file.originalname,
+				internalName            : file.name,
+				internalMime            : file.mimetype,
+				internalExt             : file.extension,
+				internalSize            : file.size,
+				internalEncoding        : file.encoding
+			}), req, res);
+		};
+		var renameThenImport = function() {
+			fs.rename(process.cwd() + path.sep + oldPath, process.cwd() + path.sep + file.path, function(err) {
+				if (err) {
+					// console.log("err:",err);
+					helpers.sendErrorMessage (res, "document.controller.upload: Couldn't move file");
+				}
+				// console.log("From: ",process.cwd() + path.sep + oldPath);
+				// console.log("To: ",process.cwd() + path.sep + file.path);
+				doImport();
+			});
+		};
+		fs.exists(path.dirname(oldPath)+path.sep+req.Project.code, function(exists) {
+			if (exists) {
+				renameThenImport();
+			} else {
+				fs.mkdir(process.cwd() + path.sep + path.dirname(oldPath)+path.sep+req.Project.code, function () {
+					renameThenImport();
+				});
+			}
+		});
 	} else {
 		helpers.sendErrorMessage (res, "document.controller.upload: No file found to upload");
 	}
