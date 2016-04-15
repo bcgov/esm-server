@@ -81,6 +81,8 @@ module.exports = function(file, req, res) {
 								sector 			: row.sector,
 								locSpatial 		: row.locSpatial,
 								location 		: row.locDescription,
+								lat 			: row.lat,
+								lon 			: row.long,
 								provElecDist 	: row.provincialED,
 								fedElecDist 	: row.federalED,
 								projectNotes 	: row.projectNotes,
