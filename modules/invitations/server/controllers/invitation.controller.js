@@ -34,40 +34,6 @@ var getProjectFromRole = function (role) {
   });
 };
 
-var findProject = function (req) {
-  var projectCode = req.query.p.toLowerCase();
-  return new Promise(function (fulfill, reject) {
-    Project.findOne({
-      code: projectCode
-    }).exec(function (error, p) {
-      if (error) {
-        reject(new Error(error));
-      } else if (!p) {
-        reject(new Error('findProject: Project not found for code "' + projectCode + '".'));
-      } else {
-        fulfill(p);
-      }
-    });
-  });
-};
-
-var findUser = function (req) {
-  var username = req.query.u.toLowerCase();
-  return new Promise(function (fulfill, reject) {
-    User.findOne({
-      username: username
-    }).populate('org').exec(function (error, u) {
-      if (error) {
-        reject(new Error(error));
-      } else if (!u) {
-        reject(new Error('findUser: User not found for username "' + username + '".'));
-      } else {
-        fulfill(u);
-      }
-    });
-  });
-};
-
 var getUsersByIds = function (ids) {
   return new Promise(function (fulfill, reject) {
     var userIdArray = _.isArray(ids) ? ids : [ids];
@@ -99,56 +65,6 @@ var getAllInvitations = function (project, users) {
   });
 };
 
-var doCreateInvitations = function (project, role, users, sender) {
-  var a = users.map(function (user) {
-    return new Promise(function (fulfill, reject) {
-
-      var invite = new Invitation();
-      invite.project = project;
-      invite.user = user;
-      invite.accepted = undefined;
-      invite.roles = [role];
-      invite.save(function (error, inv) {
-        if (error) {
-          reject(new Error('Could not save invitation.  ' + error.message));
-        } else if (!inv) {
-          reject(new Error('Could not save invite.'));
-        } else {
-          fulfill(inv);
-        }
-      });
-    });
-  });
-  return Promise.all(a);
-};
-
-var generateInvitation = function (currentUser, project, user, roleCodes) {
-
-  return new Promise(function (fulfill, reject) {
-
-    var orgCode = (currentUser && _.includes(currentUser.roles, 'eao')) ? 'eao' : 'pro';
-    var roleCodesArray = _.isArray(roleCodes) ? roleCodes : [roleCodes];
-    var rolesArray = [];
-    _.forEach(roleCodesArray, function (roleCode) {
-      rolesArray.push(Roles.generateCode(project.code, orgCode, roleCode));
-    });
-
-    var invite = new Invitation();
-    invite.project = project;
-    invite.user = user;
-    invite.accepted = undefined;
-    invite.roles = rolesArray;
-    invite.save(function (error, inv) {
-      if (error) {
-        reject(new Error('Could not save invitation.  ' + error.message));
-      } else if (!inv) {
-        reject(new Error('generateInvitation: Could not save invite.'));
-      } else {
-        fulfill(inv);
-      }
-    });
-  });
-};
 
 module.exports = DBModel.extend({
   name: 'Invitation',
@@ -292,74 +208,5 @@ module.exports = DBModel.extend({
     });
   }
 });
-
-module.exports.generate = function (req, res) {
-  // this is just so i can try out and test accepting an invite...
-  // this will not be in prod.
-  var project, user;
-  findProject(req)
-    .then(function (p) {
-      project = p;
-      return findUser(req);
-    })
-    .then(function (u) {
-      user = u;
-      return generateInvitation(req.user, project, user, req.query.r);
-    })
-    .then(function (inv) {
-      res.send(JSON.stringify({token: inv._id}));
-    })
-    .catch(function (err) {
-      console.error(chalk.red('Error: handleRsvp(): ' + err.message));
-      // should we do something differently here?
-      res.send(JSON.stringify(err));
-    });
-};
-
-module.exports.createInvitations = function (project, role, userIds, sender) {
-  // for each user - do they have the role? return them
-  // - do they have an unaccepted invitation for the project/role? - create an invite
-  return new Promise(function (fulfill, reject) {
-    var allUsers = [];
-    var roleUsers = [];
-    var nonRoleUsers = [];
-    var nonRoleUsersWithoutInvitation = [];
-    getUsersByIds(userIds)
-      .then(function (userlist) {
-
-        var partUsers = _.partition(userlist, function (u) {
-          return _.includes(u.roles, role.code);
-        });
-        allUsers = userlist;
-        roleUsers = partUsers[0];
-        nonRoleUsers = (_.size(partUsers) === 2) ? partUsers[1] : [];
-        return getAllInvitations(project, role.code, nonRoleUsers);
-      })
-      .then(function (invs) {
-        var allInvitations = _.flatten(invs);
-        // ok, any user that has an unnaccepted invite doesn't need a new one...
-        _.each(nonRoleUsers, function (u) {
-          var myInvitations = _.filter(allInvitations, function (i) {
-            return i.user.toString() === u._id.toString();
-          });
-          if (_.size(myInvitations) === 0) {
-            nonRoleUsersWithoutInvitation.push(u);
-          } else {
-
-            var myUnacceptedInvitations = _.filter(myInvitations, function (i) {
-              return i.accepted === undefined;
-            });
-            if (_.size(myUnacceptedInvitations) === 0) {
-              nonRoleUsersWithoutInvitation.push(u);
-            }
-          }
-        });
-        return doCreateInvitations(project, role.code, nonRoleUsersWithoutInvitation, sender);
-      })
-      .then(function () {
-        return fulfill(roleUsers);
-      });
-  });
-};
 
 
