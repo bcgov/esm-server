@@ -18,6 +18,7 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 
 	vm.commentsByDateKeys = [];
 	vm.commentsByTopicKeys = {};
+	vm.commentsByTopic = {};
 	//vm.commentsByDateVis = {name: 'byDate', children:[]};
 
 
@@ -36,8 +37,11 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 		vm.commentsByTopicVis = {name: 'byTopic', children:[]};
 		vm.refreshVisualization = 0;
 
+		var childrenIndex = {};
+
 		// separate the comments for bubble visualization
 		_.each(vm.comments, function(item) {
+			// console.log ('item = ', item);
 
 			// if (!vm.commentsByDate) vm.commentsByDate = {};
 
@@ -57,27 +61,46 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 			// add the comment to a bucket list for display.
 			_.each(item.buckets, function(bucket) {
 				if( bucket.name ) {
-					if (!vm.commentsByTopic) vm.commentsByTopic = {};
+					//
+					// add to comments by topic
+					//
 					if (!vm.commentsByTopic[bucket.name]) vm.commentsByTopic[bucket.name] = [];
 					vm.commentsByTopic[bucket.name].push(item);
-
+					//
 					// make a structure of keys to filter on key meta.
+					//
 					if (!vm.commentsByTopicKeys[bucket.name]) vm.commentsByTopicKeys[bucket.name] = {name:bucket.name, group:bucket.group};
 
-					// is the bucket already in the visualization?
-					var findBucket = _.find(vm.commentsByTopicVis.children, function(o) {
-						return o.name === bucket.name;
-					});
+					// // is the bucket already in the visualization?
+					// var findBucket = _.find(vm.commentsByTopicVis.children, function(o) {
+					// 	return o.name === bucket.name;
+					// });
 
-					if (!findBucket) {
-						vm.commentsByTopicVis.children.push({name: bucket.name, size: 1});
+					// if (!findBucket) {
+					// 	vm.commentsByTopicVis.children.push({name: bucket.name, size: 1});
+					// } else {
+					// 	findBucket.size++;
+					// }
+
+					//
+					// the above stuff was ridiculously inefficient so changing it up
+					//
+					// if the bucket is NOT yet in the index, then add it and set
+					// the size to 1. If it is there, then increment the size
+					//
+					if (!childrenIndex[bucket.name]) {
+						childrenIndex[bucket.name] = {name: bucket.name, size: 1};
+						vm.commentsByTopicVis.children.push(childrenIndex[bucket.name]);
 					} else {
-						findBucket.size++;
+						childrenIndex[bucket.name].size++;
 					}
+
 
 				}
 			});
 		});
+
+// console.log (vm.commentsByTopicVis);
 
 		// vm.commentsByDateKeys = _.unique(vm.commentsByDateKeys);
 
@@ -89,15 +112,16 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 		// 	vm.commentsByDateVis = null;
 		// }
 
-		if (Object.keys(vm.commentsByTopicVis.children).length < 30) {
-			vm.commentsByTopicVis = null;
-		}
+		// if (Object.keys(vm.commentsByTopicVis.children).length < 1) {
+		// 	vm.commentsByTopicVis = null;
+		// }
 		// trigger the d3 to draw.
 		if (vm.comments.length > 0) {
 			vm.refreshVisualization = 1;
 		}
 		vm.readyByTopic = true;
 		vm.readyByChart = true;
+		// console.log (vm.refreshVisualization, vm.comments.length);
 	};
 	vm.enableGetMore = false;
 	//

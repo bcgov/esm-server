@@ -158,7 +158,7 @@
 									<div class="btn-group btn-group-sm">
 										<button ng-if="vm.readyByDate"  class="btn btn-default" ng-click="vm.form.view = 'bydate'"	ng-class="{'btn-primary': vm.form.view === 'bydate'}">By Date</button>
 										<button ng-if="vm.readyByTopic" class="btn btn-default" ng-click="vm.form.view = 'bytopic'"	ng-class="{'btn-primary': vm.form.view === 'bytopic'}">By Topic</button>
-										<button ng-if="vm.readyByChart" class="btn btn-default" ng-click="vm.form.view = 'bychart'"	ng-if="vm.commentsByTopicVis" ng-class="{'btn-primary': vm.form.view === 'bychart'}">By Topic Chart</button>
+										<button ng-if="vm.readyByChart && vm.commentsByTopicVis" class="btn btn-default" ng-click="vm.form.view = 'bychart'" ng-class="{'btn-primary': vm.form.view === 'bychart'}">By Topic Chart</button>
 									</div>
 									<button ng-if="vm.enableGetMore" class="btn btn-sm btn-default" ng-click="vm.getAllComments()">Load All Comments</button>
 								</li>
@@ -290,7 +290,7 @@
 				<div class="" ng-show="vm.form.view === 'bychart' && vm.comments.length > 0">
 					<div class="panel-body">
 						<label class="control-label">Comment Volume by Topic</label>
-						<tmpl-public-project-comments-circle-chart ng-if="vm.commentsByTopicVis" x-refresh="vm.refreshVisualization" x-data="::vm.commentsByTopicVis" id="publicCommentsByTopic"></tmpl-public-project-comments-circle-chart>
+						<tmpl-public-project-comments-circle-chart x-refresh="vm.refreshVisualization" x-data="vm.commentsByTopicVis" id="publicCommentsByTopic"></tmpl-public-project-comments-circle-chart>
 					</div>
 				</div>
 
