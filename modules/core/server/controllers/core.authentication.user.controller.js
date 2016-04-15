@@ -191,8 +191,8 @@ exports.signIn = function (req, res) {
 
 exports.acceptInvitation = function (req, res) {
   var redirectPath = '/';
-  var siteMinder, user, invite;
-
+  /*
+  var siteMinder, user, invite;*
   parseSm(req)
     .then(function (sm) {
       siteMinder = sm;
@@ -233,6 +233,8 @@ exports.acceptInvitation = function (req, res) {
       // can we examine an error type and send off a different message?
       res.redirect(redirectPath);
     });
+   */
+  res.redirect(redirectPath);
 };
 
 
@@ -240,6 +242,7 @@ exports.acceptAllInvitations = function (req, res) {
 
   // in this case, we get a token for one invitation, but we want to accept all outstanding for the user associated to this invitation.
   var redirectPath = '/';
+  /*
   var siteMinder, user, invite;
 
   parseSm(req)
@@ -288,4 +291,5 @@ exports.acceptAllInvitations = function (req, res) {
       // can we examine an error type and send off a different message?
       res.redirect(redirectPath);
     });
+    */
 };
