@@ -51,28 +51,40 @@ module.exports = function(file, req, res) {
 							id = parseInt(row.id);
 						}
 						var newObj = null;
-						var newProponent = null;
+						var newProponent = {
+							name: row.Proponent
+						};
 						var query = {epicProjectID: id};
 						if (projectType === "mem") {
-							query = {memPermitID: row.id};
+							query = { memPermitID: row.id };
+							newObj = {
+								memPermitID			: row.id,
+								ownership 			: row.Ownership,
+								commodity 			: row.Commodity,
+								tailingsImpoundments: row.TailingsImpoundments,
+								roles 				: ['mem', 'public'],
+								read 				: ['public'],
+								submit 				: ['mem'],
+								type 				: "Mining"
+							};
 						} else {
 							query = { epicProjectID: parseInt(row.id) };
 							newObj = {
-								epicProjectID: id,
-								name: row.ProjectName,
-								shortName: row.ProjectName.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, row.ProjectName.length+1),
-								roles: ['eao', 'public'],
-								read: ['public'],
-								submit: ['eao'],
-								description: row.description,
-								region: row.Region.toLowerCase ().replace(' region',''),
-								sector: row.sector,
-								locSpatial: row.locSpatial,
-								location: row.locDescription,
-								provElecDist: row.provincialED,
-								fedElecDist: row.federalED,
-								projectNotes: row.projectNotes,
-								type: row.projectType,
+								epicProjectID 	: id,
+								name 			: row.ProjectName,
+								shortName 		: row.ProjectName.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, row.ProjectName.length+1),
+								roles 			: ['eao', 'public'],
+								read 			: ['public'],
+								submit 			: ['eao'],
+								description 	: row.description,
+								region 			: row.Region.toLowerCase ().replace(' region',''),
+								sector 			: row.sector,
+								locSpatial 		: row.locSpatial,
+								location 		: row.locDescription,
+								provElecDist 	: row.provincialED,
+								fedElecDist 	: row.federalED,
+								projectNotes 	: row.projectNotes,
+								type 			: row.projectType,
 								intake: {
 									constructionjobs 		: row.constructionjobs,
 									constructionjobsNotes 	: row.constructionjobsNotes,
@@ -98,9 +110,6 @@ module.exports = function(file, req, res) {
 								CELeadPhone				: row.CELeadPhone,
 								CELeadEmail				: row.CELeadEmail,
 								teamNotes 				: row.teamNotes
-							};
-							newProponent = {
-									name: row.Proponent
 							};
 						}
 						var checkCallback = function (idx, len) {
@@ -165,164 +174,6 @@ module.exports = function(file, req, res) {
 								});
 							}
 						});
-
-						// Model.findOne(query, function (err, doc) {
-						// 	var addOrChangeModel = function(model) {
-						// 		// Always do this
-						// 		model.name			= row.ProjectName;
-						// 		model.code 			= model.name.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, model.name.length+1);
-						// 		var addOrChangeProp = function(prop) {
-						// 			// Sometimes mem Props are NULL
-						// 			// console.log(row.Proponent);
-						// 			if (row.Proponent === "") {
-						// 				row.Proponent = "N/A";
-						// 				prop.code = model.code;
-						// 			} else {
-						// 				prop.code = row.Proponent.toLowerCase().replace(/\//g,'-').match(/\b(\w)/g).join('');
-						// 			}
-						// 			prop.name 		= row.Proponent;
-						// 			prop.company	= row.Proponent;
-						// 			prop.address1 	= "";
-						// 			prop.city 		= "";
-						// 			prop.province 	= "";
-						// 			prop.postal 	= "";
-						// 			prop.save().then(function (org) {
-						// 				model.proponent = org;
-						// 				model.save();
-						// 					// console.log("saved",org);
-						// 					// console.log("model",model);
-						// 				});
-						// 		};
-						// 		Organization.findOne ({name:row.Proponent}, function (err, result) {
-						// 			if (result) {
-						// 				addOrChangeProp(result);
-						// 			} else {
-						// 				addOrChangeProp(new Organization());
-						// 			}
-						// 		});
-						// 		model.region 	  = row.Region.toLowerCase ().replace(' region','');
-						// 		// console.log("region:",model.region);
-						// 		model.description = row.description;
-
-						// 		if (row.lat) model.lat = parseFloat(row.lat);
-						// 		// Force negative because of import data
-						// 		if (row.long) model.lon = -Math.abs(parseFloat(row.long));
-
-						// 		// eao/mem specific
-						// 		if (projectType === "mem") {
-						// 			model.status = 'In Progress';
-						// 			// model.status = row.status;
-						// 			model.memPermitID = row.id; // We'll take what it is
-						// 			model.ownership = row.Ownership;
-						// 			model.commodity = row.Commodity;
-						// 			model.tailingsImpoundments = row.TailingsImpoundments;
-						// 			model.roles = ['mem', 'public'];
-						// 			model.read = ['public'];
-						// 			model.submit = ['mem'];
-						// 			model.type = "Mining";
-						// 			Phase.findOne ({name:row.Status}, function (err, result) {
-						// 				if (result) {
-						// 					model.phases = result._id;
-						// 					model.currentPhase = model.phases[0];
-						// 				}
-						// 			}).then(function (m) {
-						// 				model.save().then(function () {
-						// 					// Am I done processing?
-						// 					// console.log("INDEX:",index);
-						// 					if (index === length-1) {
-						// 						// console.log("processed: ",projectProcessed);
-						// 						resolve("{done: true, rowsProcessed: "+projectProcessed+"}");
-						// 					}
-						// 				});
-						// 			});
-						// 		} else { // eao
-						// 			// TODO: FIX
-						// 			model.status = 'In Progress';
-						// 			var pstatus = model.status;
-						// 			model.epicProjectID = id;
-
-						// 			if (row.locSpatial) model.locSpatial 	 = row.locSpatial;
-						// 			if (row.locDescription) model.location 	 = row.locDescription;
-						// 			if (row.provincialED) model.provElecDist = row.provincialED;
-						// 			if (row.federalED) model.fedElecDist 	 = row.federalED;
-
-						// 			//projectCreateDate
-						// 			if (row.projectNotes) model.projectNotes = row.projectNotes;
-
-						// 			model.intake.constructionjobs 		= row.constructionjobs;
-						// 			model.intake.constructionjobsNotes 	= row.constructionjobsNotes;
-						// 			model.intake.operatingjobs 			= row.operatingjobs;
-						// 			model.intake.operatingjobsNotes 	= row.operatingjobsNotes;
-						// 			model.intake.investment 			= row.investment;
-						// 			model.intake.investmentNotes 		= row.investmentNotes;
-
-						// 			model.type = row.projectType;
-						// 			model.sector = row.sector;
-						// 			if (row.eaActive) model.eaActive = row.eaActive;
-						// 			if (row.CEAAInvolvement) model.CEAAInvolvement = row.CEAAInvolvement;
-						// 			if (row.eaIssues) model.eaIssues = row.eaIssues;
-						// 			if (row.eaNotes) model.eaNotes = row.eaNotes;
-
-						// 			// The rest comes in as old data for now
-						// 			// model.stream 					= row.Stream;
-						// 			model.responsibleEPD 			= row.responsibleEPD;
-						// 			model.responsibleEPDPhone		= row.phoneEPD;
-						// 			model.responsibleEPDEmail 		= row.emailEPD;
-						// 			model.projectLead 				= row.projectLead;
-						// 			model.projectLeadPhone			= row.projectLeadPhone;
-						// 			model.projectLeadEmail 			= row.projectLeadEmail;
-						// 			model.projectAnalyst 			= row.projectAnalyst;
-						// 			model.projectAssistant 			= row.projectAssistant;
-						// 			model.administrativeAssistant 	= row.administrativeAssistant;
-						// 			model.CELead 					= row.CELead;
-						// 			model.CELeadPhone				= row.CELeadPhone;
-						// 			model.CELeadEmail				= row.CELeadEmail;
-						// 			model.teamNotes 				= row.teamNotes;
-						// 			model.phases = [];
-						// 			model.roles = ['eao', 'public'];
-						// 			model.read = ['public'];
-						// 			model.submit = ['eao'];
-						// 			model.publish();
-						// 			var pname = ((row.currentPhaseTypeActivity === "") ? "not set":row.currentPhaseTypeActivity);
-						// 			var pdesc = ((row.currentPhaseTypeActivity === "") ? "not set":row.currentPhaseTypeActivity);
-						// 			var pcode = pname.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, model.name.length+1);
-						// 			Phase.findOne({name: pname}, function (err, p) {
-						// 				var saveProject = function (m) {
-						// 					m.currentPhase = m.phases[0];
-						// 					m.save().then(function () {
-						// 						// Am I done processing?
-						// 						// console.log("INDEX:",index);
-						// 						if (index === length-1) {
-						// 							// console.log("processed: ",projectProcessed);
-						// 							resolve("{done: true, rowsProcessed: "+projectProcessed+"}");
-						// 						}
-						// 					});
-						// 				};
-						// 				if (p === null) {
-						// 					p = new Phase ({read: ['public'], submit: ['eao'], status : pstatus, code : pcode, name : pname, description : pdesc});
-						// 					model.phases.push (p._id);
-						// 					// Save the new phase first, then save the project
-						// 					p.save().then(function() {
-						// 						saveProject(model);
-						// 					});
-						// 				} else {
-						// 					// Found the phase, just attach to it
-						// 					model.phases.push (p._id);
-						// 					saveProject(model);
-						// 				}
-						// 			});
-						// 		}
-						// 	};
-						// 	if (doc === null) {
-						// 		// Create new
-						// 		//var p = new Project (req.user);
-						// 		//p.new().then(addOrChangeModel);
-						// 		addOrChangeModel(new Model());
-						// 	} else {
-						// 		// Update:
-						// 		addOrChangeModel(doc);
-						// 	}
-						// });
 					}
 				}); // ObjectForKey
 			}); // CSV Parse
