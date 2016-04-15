@@ -44,23 +44,6 @@ module.exports = function (app) {
 			controller.getRole (req.params.role)
 			.then (helpers.success(res), helpers.failure(res));
 		});
-
-  app.route ('/api/role/:role/project/:project').all (policy.isAllowed)
-    .put (function (req, res) {
-      var role;
-      controller.getRole (req.params.role)
-        .then(function(r) {
-          role = r;
-          // call into Invitations controller, let it determine which users need an invitation and which users are to be added to the role...
-          return Invitation.createInvitations(req.Project, role, req.body.users, req.user);
-        })
-        .then (function (users) {
-          // this will add users to the role...
-          role.set ({users: users});
-          return role.save ();
-        })
-        .then (helpers.success(res), helpers.failure(res));
-    });	
   //
 	// get all users in a role
 	//

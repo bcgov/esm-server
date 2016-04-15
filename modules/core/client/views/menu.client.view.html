@@ -76,7 +76,6 @@
 						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 					</li>
 					<li ng-if="menu.isEAO"><a x-modal-project-schedule href x-project="menu.project">Edit Schedule</a></li>
-					<li><a x-modal-users-by-roles href x-source-object="menu.project">Edit Project Users</a></li>
 				</ul>
 				<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user, menu.project.code)">
 					<li ng-repeat="item in menu.projectMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project.code);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
