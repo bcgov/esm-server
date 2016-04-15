@@ -161,6 +161,8 @@ var userRoles = function (data) {
 			return Promise.all (userArray.map (function (user) {
 				// console.log ('setting roles for user ', user.username, roleArray);
 				user.modRoles (data.method, roleArray);
+        // need to set the roles as modified, weren't getting updated when items removed...
+        user.markModified('roles');
 				return user.save ();
 			}));
 		})
