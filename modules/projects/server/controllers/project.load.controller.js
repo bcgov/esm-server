@@ -4,6 +4,7 @@ var fs                  = require ('fs');
 var mongoose            = require ('mongoose');
 var Project             = require ('../controllers/project.controller');
 var OrganizationController = require ('../../../organizations/server/controllers/organization.controller');
+var PhaseController 	= require ('../../../phases/server/controllers/phase.controller');
 var Model               = mongoose.model ('Project');
 var Phase               = mongoose.model ('Phase');
 var Organization        = mongoose.model ('Organization');
@@ -36,6 +37,8 @@ module.exports = function(file, req, res) {
 			} else {
 				colArray = ['id','ProjectName','Proponent','Ownership','lat','long','Status','Commodity','Region','TailingsImpoundments','description'];
 			}
+			res.writeHead(200, {'Content-Type': 'text/plain'});
+			res.write('[ { "jobid": 0 }');
 			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 				// Skip this many rows
 				var length = Object.keys(output).length;
@@ -115,13 +118,30 @@ module.exports = function(file, req, res) {
 							};
 						}
 						var checkCallback = function (idx, len) {
+							res.write(",");
+							res.flush();
 							if (idx === len-1) {
 								// console.log("processed: ",projectProcessed);
-								resolve("{done: true, rowsProcessed: "+projectProcessed+"}");
+								res.write("]");
+								res.end();
+								// resolve("{done: true, rowsProcessed: "+projectProcessed+"}");
 							}
 						};
-						var addOrUpdateOrg = function (idx, len, proj) {
+						var setProjectPhase = function(idx, len, proj, p) {
+							// var phaseC = new PhaseController(req.user);
+							// console.log("phase:",proj);
+							// phaseC.fromBase("pre-ea", proj).then(function(phase) {
+								// console.log("phase:",phase);
+								// p.addPhase(proj, phase.code);
+								res.write(",");
+								res.flush();
+								checkCallback(idx, len);
+							// });
+						};
+						var addOrUpdateOrg = function (idx, len, proj, p) {
 							// console.log("adding/updating org");
+							res.write(",");
+							res.flush();
 							Organization.findOne ({name:newProponent.name}, function (err, result) {
 								if (result === null) {
 									// Create it
@@ -135,7 +155,7 @@ module.exports = function(file, req, res) {
 											proj.proponent = org;
 											proj.update(proj, newProponent).then(function(updatedDoc) {
 												// console.log("updated: ", updatedDoc);
-												checkCallback(index, length);
+												setProjectPhase(index, length, proj, p);
 											});
 										});
 									});
@@ -144,7 +164,7 @@ module.exports = function(file, req, res) {
 									proj.proponent = result;
 									proj.update(proj, newProponent).then(function(updatedDoc) {
 										// console.log("org updated: ", updatedDoc);
-										checkCallback(index, length);
+										setProjectPhase(index, length, proj, p);
 									});
 								}
 							});
@@ -163,7 +183,7 @@ module.exports = function(file, req, res) {
 										// Deal with phases and streams here:
 										// p.setStream 					= row.Stream;
 										// p.addPhase(project, base);
-										addOrUpdateOrg(index, length, proj);
+										addOrUpdateOrg(index, length, proj, p);
 									});
 								});
 							} else {
@@ -172,7 +192,7 @@ module.exports = function(file, req, res) {
 								p = new Project(req.user);
 								p.update(doc, newObj).then(function(updatedDoc) {
 									// console.log("updated: ", updatedDoc);
-									addOrUpdateOrg(index, length, updatedDoc);
+									addOrUpdateOrg(index, length, updatedDoc, p);
 								});
 							}
 						});
