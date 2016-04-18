@@ -33,17 +33,17 @@ module.exports = function(file, req, res) {
 			// console.log("FILE DATA:",data);
 			var colArray = "";
 			if (projectType === "eao") {
-				colArray = ['id','Stream','ProjectName','Proponent','Region','description','locSpatial','locDescription','provincialED','federalED','investment','projectCreateDate','projectDescriptionLivingData','projectNotes','projectURL','investmentNotes','lat','long','constructionjobs','constructionjobsNotes','operatingjobs','operatingjobsNotes','projectType','sector','currentPhaseTypeActivity','eaActive','CEAAInvolvement','eaIssues','eaNotes','responsibleEPD','phoneEPD','emailEPD','projectLead','projectLeadPhone','projectLeadEmail','projectAnalyst','projectAssistant','administrativeAssistant','CELead','CELeadPhone','CELeadEmail','teamNotes'];
+				colArray = ['id','Stream','ProjectName','Proponent','Region','description','locSpatial','locDescription','provincialED','federalED','investment','projectCreateDate','projectDescriptionLivingData','projectNotes','projectURL','investmentNotes','lat','long','constructionjobs','constructionjobsNotes','operatingjobs','operatingjobsNotes','projectType','sector','phase','currentPhaseTypeActivity','eaActive','CEAAInvolvement','eaIssues','eaNotes','responsibleEPD','phoneEPD','emailEPD','projectLead','projectLeadPhone','projectLeadEmail','projectAnalyst','projectAssistant','administrativeAssistant','CELead','CELeadPhone','CELeadEmail','teamNotes'];
 			} else {
 				colArray = ['id','ProjectName','Proponent','Ownership','lat','long','Status','Commodity','Region','TailingsImpoundments','description'];
 			}
 			res.writeHead(200, {'Content-Type': 'text/plain'});
-			res.write('[ { "jobid": 0 }');
+			res.write('[ ');
 			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 				// Skip this many rows
 				var length = Object.keys(output).length;
 				var projectProcessed = 0;
-				// console.log("length",length);
+				console.log("length",length);
 				Object.keys(output).forEach(function(key, index) {
 					if (index > 0) {
 						var row = output[key];
@@ -118,29 +118,36 @@ module.exports = function(file, req, res) {
 							};
 						}
 						var checkCallback = function (idx, len) {
-							res.write(",");
+							res.write(idx+",");
 							res.flush();
 							if (idx === len-1) {
 								// console.log("processed: ",projectProcessed);
-								res.write("]");
+								res.write("3]");
 								res.end();
 								// resolve("{done: true, rowsProcessed: "+projectProcessed+"}");
 							}
 						};
 						var setProjectPhase = function(idx, len, proj, p) {
-							// var phaseC = new PhaseController(req.user);
+							var phaseC = new PhaseController(req.user);
 							// console.log("phase:",proj);
-							// phaseC.fromBase("pre-ea", proj).then(function(phase) {
-								// console.log("phase:",phase);
-								// p.addPhase(proj, phase.code);
-								res.write(",");
-								res.flush();
-								checkCallback(idx, len);
-							// });
+							// Generate Code
+							// console.log("generating code for:",row.phase);
+							var phaseCode = row.phase.toLowerCase();
+							phaseCode = phaseCode.replace (/\W/g,'-');
+							// console.log("phase code gen:",phaseCode);
+							phaseC.fromBase(phaseCode, proj).then(function(phase) {
+								// console.log("phase:",phase.code);
+								p.addPhase(proj, phase.code).then(function (projAdded) {
+									// console.log("checkingcallback:",idx);
+									res.write("0,");
+									res.flush();
+									checkCallback(idx, len);
+								});
+							});
 						};
 						var addOrUpdateOrg = function (idx, len, proj, p) {
 							// console.log("adding/updating org");
-							res.write(",");
+							res.write("1,");
 							res.flush();
 							Organization.findOne ({name:newProponent.name}, function (err, result) {
 								if (result === null) {
