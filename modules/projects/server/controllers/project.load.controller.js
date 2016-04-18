@@ -33,7 +33,7 @@ module.exports = function(file, req, res) {
 			// console.log("FILE DATA:",data);
 			var colArray = "";
 			if (projectType === "eao") {
-				colArray = ['id','Stream','ProjectName','Proponent','Region','description','locSpatial','locDescription','provincialED','federalED','investment','projectCreateDate','projectDescriptionLivingData','projectNotes','projectURL','investmentNotes','lat','long','constructionjobs','constructionjobsNotes','operatingjobs','operatingjobsNotes','projectType','sector','phase','currentPhaseTypeActivity','eaActive','CEAAInvolvement','eaIssues','eaNotes','responsibleEPD','phoneEPD','emailEPD','projectLead','projectLeadPhone','projectLeadEmail','projectAnalyst','projectAssistant','administrativeAssistant','CELead','CELeadPhone','CELeadEmail','teamNotes'];
+				colArray = ['id','Stream','ProjectName','Proponent','Region','description','locSpatial','locDescription','provincialED','federalED','investment','projectCreateDate','projectDescriptionLivingData','projectNotes','projectURL','investmentNotes','lat','long','constructionjobs','constructionjobsNotes','operatingjobs','operatingjobsNotes','projectType','sector','phase','currentPhaseTypeActivity','eaActive','CEAAInvolvement','eaIssues','eaNotes','responsibleEPD','phoneEPD','emailEPD','projectLead','projectLeadPhone','projectLeadEmail','projectAnalyst','projectAssistant','administrativeAssistant','CELead','CELeadPhone','CELeadEmail','teamNotes', 'isPublished'];
 			} else {
 				colArray = ['id','ProjectName','Proponent','Ownership','lat','long','Status','Commodity','Region','TailingsImpoundments','description'];
 			}
@@ -186,11 +186,16 @@ module.exports = function(file, req, res) {
 									// console.log("obj:",obj);
 									p.create(obj).then(function (proj) {
 										// Project has been created, now to set things
-										p.publish(proj, true);
-										// Deal with phases and streams here:
-										// p.setStream 					= row.Stream;
-										// p.addPhase(project, base);
-										addOrUpdateOrg(index, length, proj, p);
+										if(row.isPublished === "TRUE") {
+											p.publish(proj, true).then(function () {
+												addOrUpdateOrg(index, length, proj, p);
+											});
+										} else {
+											// Deal with phases and streams here:
+											// p.setStream 					= row.Stream;
+											// p.addPhase(project, base);
+											addOrUpdateOrg(index, length, proj, p);
+										}
 									});
 								});
 							} else {
