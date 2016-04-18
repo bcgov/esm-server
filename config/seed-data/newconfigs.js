@@ -95,8 +95,8 @@ var baseObjects = {
 		},
 		{
 			"description": "Pre-Application",
-			"name": "Pre-Application",
-			"code": "pre-application",
+			"name": "Pre-App",
+			"code": "pre-app",
 		},
 		{
 			"description": "EAO Evaluation",
@@ -104,9 +104,9 @@ var baseObjects = {
 			"code": "evaluation",
 		},
 		{
-			"description": "EAO Review",
-			"name": "Review",
-			"code": "review",
+			"description": "Application Review",
+			"name": "Application Review",
+			"code": "application-review",
 		},
 		{
 			"description": "Decision",
@@ -117,6 +117,11 @@ var baseObjects = {
 			"description": "Post Certification Processes",
 			"name": "Post-Certification",
 			"code": "post-certification",
+		},
+		{
+			"description": "Completed",
+			"name": "Completed",
+			"code": "completed",
 		}
 	],
 	streams: [{
