@@ -168,10 +168,10 @@ angular
 	.factory('LOGO', function (ENV) {
 		// Use the env from above to determine the logo.
 		if (ENV === 'EAO') {
-			return 'modules/core/client/img/brand/eao-logo.png'; // MEM Logo
+			return 'modules/core/client/img/brand/eao-logo-inverted.png'; // MEM Logo
 		}
 		if (ENV === 'MEM') {
-			return 'modules/core/client/img/brand/mem-logo.png'; // EAO Logo
+			return 'modules/core/client/img/brand/mem-logo-inverted.png'; // EAO Logo
 		}
 	})
 	.constant('SALUTATIONS', ['Mr','Mrs','Miss','Ms','Dr','Capt','Prof','Rev','Other'])
