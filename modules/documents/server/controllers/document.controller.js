@@ -98,10 +98,6 @@ exports.getDocumentVersionsAndReturn = getDocumentVersionsAndReturn;
 //
 // getDocumentsForProject
 //
-
-
-
-
 // -------------------------------------------------------------------------
 var getDocumentsForProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
@@ -112,7 +108,9 @@ var getDocumentsForProject = function (req, res) {
 				{existsdocumentIsInReview: req.headers.reviewdocsonly || false},
 				{existsdocumentIsInReview: {$exists: false }}
 			]
-		}).exec(function (err, docs) {
+		})
+		.sort({internalOriginalName:1})
+		.exec(function (err, docs) {
 			if (!err) resolve(docs);
 		});
 	});
@@ -325,7 +323,7 @@ var getDocumentFolderNamesForProject = function (req, res) {
 			});
 	});
 };
-			 // -------------------------------------------------------------------------
+// -------------------------------------------------------------------------
 //
 // Get all the folder names for a project and return it via service
 //
