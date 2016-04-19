@@ -62,13 +62,15 @@ module.exports = function(file, req, res) {
 						p.newDocument(item)
 						.then(p.create)
 						.then(function (proj) {
-							// Project has been created, now to set things and resolve the project back
-							// to the caller.
-							if(item.isPublished === "TRUE") {
-								p.publish(proj, true).then(rs, rj);
-							} else {
-								rs(proj);
-							}
+							p.submit(proj).then(function (newP) {
+								// Project has been created, now to set things and resolve the project back
+								// to the caller.
+								if(item.isPublished === "TRUE") {
+									p.publish(newP, true).then(rs, rj);
+								} else {
+									rs(newP);
+								}
+							});
 						});
 					} else {
 						p.update(doc, item).then(rs, rj);
