@@ -1717,8 +1717,7 @@ div.dropdown-menu {
 }
 
 
-/* STOP-GAP STYLING
-   PRODUCT ARTIFACT DOCUMENT
+/* STOP-GAP STYLING PRODUCT ARTIFACT DOCUMENT
 ------------------------------ */
 .file-horiz {
     display: -webkit-flex;
@@ -1784,5 +1783,26 @@ div.dropdown-menu {
         border-top: 1px solid #CCC;
         border-radius: none;
     }
+}
 
+
+/* HEADER 
+------------------------------ */
+$corp-blue: #003366;
+$corp-gold: #e3a82b;
+
+.app-header {
+	margin-bottom: 2rem;
+	height: 6rem;
+	background-color: $corp-blue;
+	box-shadow: 0 0 0.5rem #666;
+	
+	.navbar-brand {
+		padding: 0 1.5rem;
+		
+		img {
+			margin-top: 0.6rem;
+			height: 4.5rem;
+		}
+	}
 }
