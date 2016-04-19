@@ -25,10 +25,64 @@ module.exports = function(file, req, res) {
 		var params = req.url.split("/");
 		var projectType = params[params.length-1]; // Last param is project type
 		// console.log("projectType:",params[params.length-1]);
+		var doPhaseWork = function(project, phase) {
+			// Add the phase to the project, and return this as it's going to be
+			// the last task in the chain.  This assumed the phase code being
+			// passed in is actually correct - ensure import data has the right name
+			// in order to generate the phase-code correctly.
+			return (new Project(req.user)).addPhase(project, phase.toLowerCase().replace (/\W+/g,'-'));
+		};
+		var doOrgWork = function(proponent, project) {
+			return new Promise(function(rs, rj) {
+				Organization.findOne ({name:proponent.name}, function (err, result) {
+					if (result === null) {
+						// Create it
+						var o = new OrganizationController(req.user);
+						o.newDocument(proponent)
+						.then ( o.create )
+						.then (function (org) {
+							// Assign the org to the project, and save it.  Resolve this request as
+							// being done.
+							project.proponent = org;
+							project.save().then(rs, rj);
+						});
+					} else {
+						// Same as above, but the update version.
+						project.proponent = result;
+						project.save().then(rs, rj);
+					}
+				});
+			});
+		};
+		var doProjectWork = function(item, query) {
+			return new Promise(function (rs, rj) {
+				Model.findOne(query, function (err, doc) {
+					var p = new Project(req.user);
+					if (doc === null) {
+						p.newDocument(item)
+						.then(p.create)
+						.then(function (proj) {
+							// Project has been created, now to set things and resolve the project back
+							// to the caller.
+							if(item.isPublished === "TRUE") {
+								p.publish(proj, true).then(rs, rj);
+							} else {
+								rs(proj);
+							}
+						});
+					} else {
+						p.update(doc, item).then(rs, rj);
+					}
+				});
+			});
+		};
 		// Now parse and go through this thing.
 		fs.readFile(file.path, 'utf8', function(err, data) {
 			if (err) {
-				reject("err:"+err);
+				//
+				// cc: added the return here otherwise the rest of this will execute regardless of the resolve
+				//
+				return reject("err:"+err);
 			}
 			// console.log("FILE DATA:",data);
 			var colArray = "";
@@ -37,18 +91,15 @@ module.exports = function(file, req, res) {
 			} else {
 				colArray = ['id','ProjectName','Proponent','Ownership','lat','long','Status','Commodity','Region','TailingsImpoundments','description'];
 			}
-			res.writeHead(200, {'Content-Type': 'text/plain'});
-			res.write('[ ');
 			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 				// Skip this many rows
 				var length = Object.keys(output).length;
 				var projectProcessed = 0;
-				console.log("length",length);
+				// console.log("length",length);
+				var promises = [];
 				Object.keys(output).forEach(function(key, index) {
 					if (index > 0) {
 						var row = output[key];
-						projectProcessed++;
-						// Hack for incoming table data
 						var id = 0;
 						if (!isNaN(row.id)) {
 							id = parseInt(row.id);
@@ -114,102 +165,36 @@ module.exports = function(file, req, res) {
 								CELead 					: row.CELead,
 								CELeadPhone				: row.CELeadPhone,
 								CELeadEmail				: row.CELeadEmail,
-								teamNotes 				: row.teamNotes
+								teamNotes				: row.teamNotes,
+								isPublished				: row.isPublished
 							};
 						}
-						var checkCallback = function (idx, len) {
-							res.write(idx+",");
-							res.flush();
-							if (idx === len-1) {
-								// console.log("processed: ",projectProcessed);
-								res.write("3]");
-								res.end();
-								// resolve("{done: true, rowsProcessed: "+projectProcessed+"}");
-							}
-						};
-						var setProjectPhase = function(idx, len, proj, p) {
-							var phaseC = new PhaseController(req.user);
-							// console.log("phase:",proj);
-							// Generate Code
-							// console.log("generating code for:",row.phase);
-							var phaseCode = row.phase.toLowerCase();
-							phaseCode = phaseCode.replace (/\W/g,'-');
-							// console.log("phase code gen:",phaseCode);
-							phaseC.fromBase(phaseCode, proj).then(function(phase) {
-								// console.log("phase:",phase.code);
-								p.addPhase(proj, phase.code).then(function (projAdded) {
-									// console.log("checkingcallback:",idx);
-									res.write("0,");
-									res.flush();
-									checkCallback(idx, len);
-								});
-							});
-						};
-						var addOrUpdateOrg = function (idx, len, proj, p) {
-							// console.log("adding/updating org");
-							res.write("1,");
-							res.flush();
-							Organization.findOne ({name:newProponent.name}, function (err, result) {
-								if (result === null) {
-									// Create it
-									var o = new OrganizationController(req.user);
-									o.newDocument(newProponent)
-									.then( function(obj) {
-										// console.log("org obj:",obj);
-										o.create(obj).then(function (org) {
-											// Organization has been created
-											// console.log("created org:",org);
-											proj.proponent = org;
-											proj.update(proj, newProponent).then(function(updatedDoc) {
-												// console.log("updated: ", updatedDoc);
-												setProjectPhase(index, length, proj, p);
-											});
-										});
-									});
-								} else {
-									// Add it to the project
-									proj.proponent = result;
-									proj.update(proj, newProponent).then(function(updatedDoc) {
-										// console.log("org updated: ", updatedDoc);
-										setProjectPhase(index, length, proj, p);
-									});
-								}
-							});
-						};
-						Model.findOne(query, function (err, doc) {
-							var p = null;
-							if (doc === null) {
-								// Create new
-								p = new Project(req.user);
-								p.newDocument(newObj)
-								.then( function(obj) {
-									// console.log("obj:",obj);
-									p.create(obj).then(function (proj) {
-										// Project has been created, now to set things
-										if(row.isPublished === "TRUE") {
-											p.publish(proj, true).then(function () {
-												addOrUpdateOrg(index, length, proj, p);
-											});
-										} else {
-											// Deal with phases and streams here:
-											// p.setStream 					= row.Stream;
-											// p.addPhase(project, base);
-											addOrUpdateOrg(index, length, proj, p);
-										}
-									});
-								});
-							} else {
-								// Update:
-								// console.log("updating");
-								p = new Project(req.user);
-								p.update(doc, newObj).then(function(updatedDoc) {
-									// console.log("updated: ", updatedDoc);
-									addOrUpdateOrg(index, length, updatedDoc, p);
-								});
-							}
-						});
+						promises.push({obj: newObj, query: query, proponent: newProponent, phase: row.phase});
 					}
-				}); // ObjectForKey
+				});
+
+				Promise.resolve ()
+				.then (function () {
+					return promises.reduce (function (current, item) {
+						return current.then (function () {
+							// console.log ('++ add phase ', code);
+							return doProjectWork(item.obj, item.query)
+							//
+							// Sequential reduction of work moving from the tail of the original promise
+							// array to the head, by returning a promise for the next 'then' clause each time
+							// until the final doPhaseWork completes.  Only then will this promise reduction 
+							// finally resolve for the .then of the original resolving Promise.resolve().
+							//
+							.then(function (project) {
+								return doOrgWork(item.proponent, project);
+							})
+							.then(function (org) {
+								return doPhaseWork(org, item.phase);
+							});
+						});
+					}, Promise.resolve());
+				})
+				.then (resolve, reject);
 			}); // CSV Parse
 		}); // Read File
 	});
