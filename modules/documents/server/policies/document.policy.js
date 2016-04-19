@@ -17,7 +17,8 @@ exports.invokeRolesPolicies = function () {
         [ 'guest', 'user', '/api/documents/versions/:documentid'    ],
         [ 'guest', 'user', '/api/documents/folderNames/:projectid'    ],
         [ '', 'user', '/api/documents/approveAndDownload/:document'    ],
-        [ 'guest', 'user', '/api/documents/types/:projectid'    ]
+        [ 'guest', 'user', '/api/documents/types/:projectid'    ],
+        [ 'guest', 'user', '/api/documents/memtypes/:projectid'    ]
 	]);
 
 };
