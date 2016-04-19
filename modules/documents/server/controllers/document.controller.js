@@ -101,6 +101,7 @@ exports.getDocumentVersionsAndReturn = getDocumentVersionsAndReturn;
 // -------------------------------------------------------------------------
 var getDocumentsForProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
+		console.log ('oh teah');
 		Model.find({
 			project: req.params.projectid,
 			documentIsLatestVersion: true,
@@ -109,7 +110,7 @@ var getDocumentsForProject = function (req, res) {
 				{existsdocumentIsInReview: {$exists: false }}
 			]
 		})
-		.sort({internalOriginalName:1})
+		.sort ({internalOriginalName : 1})
 		.exec(function (err, docs) {
 			if (!err) resolve(docs);
 		});
@@ -151,6 +152,7 @@ var getDocumentTypesForProject = function (req, res) {
 				{existsdocumentIsInReview: req.headers.reviewdocsonly || false},
 				{existsdocumentIsInReview: {$exists: false }}
 			]})
+			.sort ({projectFolderType : 1})
 			.populate('projectID').exec( function (err, records) {
 			if (err) {
 				// console.log("getDocumentTypesForProject failed to find anything",err);
@@ -309,6 +311,7 @@ var getDocumentFolderNamesForProject = function (req, res) {
 		// When a document has an assigned projectID, grab it.
 		// NB: This will be true after a document has been reviewed by someone perhaps.
 		Model.distinct("projectFolderName",{project: req.params.projectid})
+			.sort ({projectFolderName:1})
 			 .exec( function (err, records) {
 				if (err) {
 				// console.log("getDocumentFolderNamesForProject failed to find anything",err);
