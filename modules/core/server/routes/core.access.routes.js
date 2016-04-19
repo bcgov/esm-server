@@ -16,8 +16,8 @@ module.exports = function (app) {
 	//
 	app.route ('/api/db/modify').all(policy.isAllowed)
 		.post (controller.post)
-		.put (controller.post)
-		.delete (controller.post);
+		.put (controller.put)
+		.delete (controller.delete);
 
 
 
