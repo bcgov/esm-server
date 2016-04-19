@@ -12,7 +12,7 @@ exports.put = function (req, res) {
 	// update all models matching the query
 	//
 	model.find (query, function (err, documents) {
-		if (err) return helers.sendError (res, err);
+		if (err) return helpers.sendError (res, err);
 		else {
 			Promise.all (documents.map (function (document) {
 				document.set (data);

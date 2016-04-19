@@ -6,7 +6,7 @@
 // =========================================================================
 var controller = require ('../controllers/core.db.controller');
 var helpers    = require ('../controllers/core.helpers.controller');
-var policy     = require ('../policies/core/route/policy');
+var policy     = require ('../policies/core.route.policy');
 
 
 module.exports = function (app) {
