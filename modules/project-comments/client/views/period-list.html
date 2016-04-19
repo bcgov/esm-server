@@ -1,50 +1,56 @@
-<h1 class="page-title no-lower-margin">{{ project.name }}: Comment Periods</h1>
 
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="p.commentperiod.create()">+ Add New Comment Period</a>
-		<show-filter x-toggle-filter="toggleFilter"></show-filter>
+<div class="project-comment-period-view">
+
+	<div class="view-title-container">
+		<h1>{{ project.name }}&nbsp; &rsaquo; &nbsp;Comment Periods</h1>
 	</div>
-</div>
 
-<div class="row">
-	<div class="col-sm-12">
+	<div class="view-body-container">
+		<div class="button-bar clearfix">
+			<a class="btn btn-default btn-sm pull-left" ui-sref="p.commentperiod.create()">
+				<span class="glyphicon glyphicon-plus"></span>
+				<span>Add Comment Period</span>
+			</a>
+			<div class="pull-right">
+				<show-filter x-toggle-filter="toggleFilter"></show-filter>
+			</div>
+		</div>
 		<section class="panel panel-default">
 			<table ng-table="tableParams" show-filter="toggleFilter" class="table table-condensed table-bordered table-striped">
-			    <tr ng-repeat="p in $data" ui-sref="p.commentperiod.detail({periodId:p._id})">
-			        <td title="'Type'" filter="{ periodType: 'text'}" sortable="'periodType'">
-			            {{p.periodType}}
-			        </td>
-			        <td title="'Phase'" filter="{ phaseName: 'text'}" sortable="'phaseName'">
-			            {{p.phaseName}}
-			        </td>
-			        <td title="'Artifact'" filter="{ artifactName: 'text'}" sortable="'artifactName'">
-			            {{p.artifactName}}
-			        </td>
-			        <td title="'Version'" filter="{ artifactVersion: 'text'}" sortable="'artifactVersion'">
-			            {{p.artifactVersion}}
-			        </td>
-			        <td title="'Starts'" sortable="'dateStarted'">
-			            {{ p.dateStarted | date }}
-			        </td>
-			        <td title="'Completes'" sortable="'dateCompleted'">
-			            {{ p.dateCompleted | date }}
-			        </td>
-			        <td title="'Vetted'" >
-			            <i ng-if="p.isVetted" class="glyphicon glyphicon-ok"></i>
-			        </td>
-			        <td title="'Resolved'" >
-			            <i ng-if="p.isResolved" class="glyphicon glyphicon-ok"></i>
-			        </td>
-			        <td title="'Published'" >
-			            <i ng-if="p.isPublished" class="glyphicon glyphicon-ok"></i>
-			        </td>
-			        <td width="1%" class="text-right">
-			        	<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.commentperiod.edit({periodId:p._id})">
-			        	<i class="glyphicon glyphicon-pencil"></i>
-			        	</a>
-			        </td>
-			    </tr>
+				<tr ng-repeat="p in $data" ui-sref="p.commentperiod.detail({periodId:p._id})">
+					<td title="'Type'" filter="{ periodType: 'text'}" sortable="'periodType'">
+						{{p.periodType}}
+					</td>
+					<td title="'Phase'" filter="{ phaseName: 'text'}" sortable="'phaseName'">
+						{{p.phaseName}}
+					</td>
+					<td title="'Artifact'" filter="{ artifactName: 'text'}" sortable="'artifactName'">
+						{{p.artifactName}}
+					</td>
+					<td title="'Version'" filter="{ artifactVersion: 'text'}" sortable="'artifactVersion'">
+						{{p.artifactVersion}}
+					</td>
+					<td title="'Starts'" sortable="'dateStarted'">
+						{{ p.dateStarted | date }}
+					</td>
+					<td title="'Completes'" sortable="'dateCompleted'">
+						{{ p.dateCompleted | date }}
+					</td>
+					<td title="'Vetted'" >
+						<i ng-if="p.isVetted" class="glyphicon glyphicon-ok"></i>
+					</td>
+					<td title="'Resolved'" >
+						<i ng-if="p.isResolved" class="glyphicon glyphicon-ok"></i>
+					</td>
+					<td title="'Published'" >
+						<i ng-if="p.isPublished" class="glyphicon glyphicon-ok"></i>
+					</td>
+					<td>
+						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.commentperiod.edit({periodId:p._id})">
+						<i class="glyphicon glyphicon-pencil"></i>
+						</a>
+					</td>
+				</tr>
 				<tr ng-if="!$data || $data.length === 0">
 					<td colspan="10">
 						No records found.
@@ -53,4 +59,5 @@
 			</table>
 		</section>
 	</div>
+	
 </div>

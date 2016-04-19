@@ -1,17 +1,20 @@
-<section class="block-content">
-	<h3>
-	<a href class="small pull-right"
-		x-modal-document-upload-classify
-		x-project="docBrowser.project"
-		ng-if="(docBrowser.authentication.user) && environment === 'EAO'"> Upload <span class="glyphicon glyphicon-upload"></span> </a>
-	<a href class="small pull-right"
-		x-modal-document-upload-classify-mem
-		x-project="docBrowser.project"
-		ng-if="(docBrowser.authentication.user) && environment === 'MEM'"> Upload <span class="glyphicon glyphicon-upload"></span> </a>	
-	Documents</h3>
-	<div class='container-fluid'>
-		<div class='row'>
-			<div class='col-sm-4 col-no-padding vertical-scroll col-border-right'>
+<section class="document-browser-view">
+	<div class="panel panel-default">
+		<div class="panel-heading clearfix">
+			<h2 class="pull-left">Documents</h2>
+			<div class="panel-heading-actions pull-right">
+				<a href class="btn-link"
+					x-modal-document-upload-classify
+					x-project="docBrowser.project"
+					ng-if="(docBrowser.authentication.user) && environment === 'EAO'"><span class="glyphicon glyphicon-upload"></span>Upload</a>
+				<a href class="btn-link"
+					x-modal-document-upload-classify-mem
+					x-project="docBrowser.project"
+					ng-if="(docBrowser.authentication.user) && environment === 'MEM'"><span class="glyphicon glyphicon-upload"></span>Upload</a>	
+			</div>
+		</div>
+		<div class="panel-body">
+						<div class='col-sm-4 col-no-padding vertical-scroll col-border-right'>
 
 				<ul class="small list-unstyled list-documents">
 					<li
@@ -88,6 +91,7 @@
 
 			</div>
 		</div>
+		
 	</div>
 
 </section>

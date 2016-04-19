@@ -1,328 +1,315 @@
-<h1 class="page-title no-lower-margin">
-	Add / Edit Topic
-</h1>
+<div class="edit-inspection-report-view"></div>
 
-<form name="inspectionReportForm" ng-submit="save(inspectionReportForm.$valid)" novalidate>
-
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<button class="btn btn-xs btn-link" ui-sref="p.ir.list">Cancel</button>
-		<button class="btn btn-xs btn-link" href type="submit">Save</button>
+	<div class="view-title-container">
+		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Add/Edit Inspection Report</h1>
 	</div>
-</div>
 
-<div class="panel panel-default">
-	<div class="panel-body">
-		<div class="row">
+	<div class="view-body-container">
+		<form name="inspectionReportForm" ng-submit="save(inspectionReportForm.$valid)" novalidate>
 
-			<div class="col-sm-6">
-				<div class="form-group show-errors">
-					<label for="projectName" class="control-label">Project Name</label>
-					<input type="text" id="projectName" name="projectName" class="form-control input-sm" ng-model="report.projectName" required />
-					<div ng-messages="projectName.$error" role="alert"></div>
-			   </div>
-
-			   <div class="form-group show-errors">
-				  <label for="certificateNum" class="control-label">Certificate #</label>
-				  <input type="text" id="certificateNum" name="certificateNum" class="form-control input-sm" ng-model="report.certificateNum" required />
-				  <div ng-messages="certificateNum.$error" role="alert">
-				  </div>
-			   </div>
-
-			   <div class="form-group show-errors">
-				  <label for="certificateStatus" class="control-label">Certificate Status</label>
-				  <input type="text" id="certificateStatus" name="certificateStatus" class="form-control input-sm" ng-model="report.certificateStatus" required />
-				  <div ng-messages="certificateStatus.$error" role="alert">
-				  </div>
-			   </div>
-
-			   <div class="form-group show-errors">
-				  <label for="region" class="control-label">Region</label>
-				  <input type="text" id="region" name="region" class="form-control input-sm" ng-model="report.region" required />
-				  <div ng-messages="region.$error" role="alert">
-				  </div>
-			   </div>
-
-			   <div class="form-group show-errors">
-				  <label for="trigger" class="control-label">Trigger</label>
-				  <input type="text" id="trigger" name="trigger" class="form-control input-sm" ng-model="report.trigger" required />
-				  <div ng-messages="trigger.$error" role="alert">
-				  </div>
-			   </div>
-
-			   <div class="form-group show-errors">
-				  <label for="sector" class="control-label">Sector</label>
-				  <input type="text" id="sector" name="sector" class="form-control input-sm" ng-model="report.sector" required />
-				  <div ng-messages="sector.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-6">
-			   <div class="form-group show-errors">
-				  <label for="status" class="control-label">Inspection Report Status</label>
-				  <input type="text" id="status" name="status" class="form-control input-sm" ng-model="report.status" required />
-				  <div ng-messages="status.$error" role="alert">
-				  </div>
-			   </div>
-
-			   <div class="form-group show-errors">
-				  <label for="inspectionNum" class="control-label">Inspection #</label>
-				  <input type="text" id="inspectionNum" name="inspectionNum" class="form-control input-sm" ng-model="report.inspectionNum" required />
-				  <div ng-messages="inspectionNum.$error" role="alert">
-				  </div>
-			   </div>
-
-			   <div class="form-group show-errors">
-				  <label for="inspectionDate" class="control-label">Inspection Date</label>
-					<a x-modal-date-picker x-selected-date="report.inspectionDate" class="btn btn-default btn-sm">{{ report.inspectionDate | date }} <i class="glyphicon glyphicon-calendar"></i></a>
-				  <div ng-messages="inspectionDate.$error" role="alert">
-				  </div>
-			   </div>
-
-			   <div class="form-group show-errors">
-				  <label for="office" class="control-label">Office</label>
-				  <input type="text" id="office" name="office" class="form-control input-sm" ng-model="report.office" required />
-				  <div ng-messages="office.$error" role="alert">
-				  </div>
-			   </div>
-
-			   <div class="form-group show-errors">
-				  <label for="inspectors" class="control-label">Inspector Name(s)</label>
-				  <input type="text" id="inspectors" name="inspectors" class="form-control input-sm" ng-model="report.inspectors" required />
-				  <div ng-messages="inspectors.$error" role="alert">
-				  </div>
-			   </div>
-
-			   <div class="form-group show-errors">
-				  <label for="utm" class="control-label">UTM</label>
-				  <input type="text" id="utm" name="utm" class="form-control input-sm" ng-model="report.utm" required />
-				  <div ng-messages="utm.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <hr />
-
-		    <div class="col-sm-12">
-			   <div class="form-group show-errors">
-				  <label for="locationDescription" class="control-label">Location Description</label>
-				  <textarea type="text" id="locationDescription" name="locationDescription" class="form-control input-sm" ng-model="report.locationDescription" required ></textarea>
-				  <div ng-messages="locationDescription.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-4">
-			   <div class="form-group show-errors">
-				  <label for="nonCompliantIncidences" class="control-label">Incidences of Non-Compliance Observed</label>
-				  <input type="text" id="nonCompliantIncidences" name="nonCompliantIncidences" class="form-control input-sm" ng-model="report.nonCompliantIncidences" required />
-				  <div ng-messages="nonCompliantIncidences.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-4">
-			   <div class="form-group show-errors">
-				  <label for="nonComplianceDecisionMatrixLevel" class="control-label">Non-Compliance Decision Matrix Level</label>
-				  <input type="text" id="nonComplianceDecisionMatrixLevel" name="nonComplianceDecisionMatrixLevel" class="form-control input-sm" ng-model="report.nonComplianceDecisionMatrixLevel" required />
-				  <div ng-messages="nonComplianceDecisionMatrixLevel.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-4">
-			   <div class="form-group show-errors">
-				  <label for="nonComplianceDecisionMatrixCategory" class="control-label">Non-Compliance Decision Matrix Category</label>
-				  <input type="text" id="nonComplianceDecisionMatrixCategory" name="nonComplianceDecisionMatrixCategory" class="form-control input-sm" ng-model="report.nonComplianceDecisionMatrixCategory" required />
-				  <div ng-messages="nonComplianceDecisionMatrixCategory.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-12">
-			   <div class="form-group show-errors">
-				  <label for="inspectionSummary" class="control-label">Inspection Summary</label>
-				  <textarea type="text" id="inspectionSummary" name="inspectionSummary" class="form-control input-sm" ng-model="report.inspectionSummary" required ></textarea>
-				  <div ng-messages="inspectionSummary.$error" role="alert">
-				  </div>
-			   </div>
-
-			   <div class="form-group show-errors">
-				  <label for="certificateOrAct" class="control-label">Certificate or Act</label>
-				  <input type="text" id="certificateOrAct" name="certificateOrAct" class="form-control input-sm" ng-model="report.certificateOrAct" required />
-				  <div ng-messages="certificateOrAct.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-6">
-			   <div class="form-group show-errors">
-				  <label for="activity" class="control-label">Activity</label>
-				  <input type="text" id="activity" name="activity" class="form-control input-sm" ng-model="report.activity" required />
-				  <div ng-messages="activity.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-6">
-			   <div class="form-group show-errors">
-				  <label for="response" class="control-label">Response</label>
-				  <input type="text" id="response" name="response" class="form-control input-sm" ng-model="report.response" required />
-				  <div ng-messages="response.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-			<hr />
-
-
-		    <div class="col-sm-6">
-			   <div class="form-group show-errors">
-				  <label for="certificateHolderName" class="control-label">Certificate Holder's Name</label>
-				  <input type="text" id="certificateHolderName" name="certificateHolderName" class="form-control input-sm" ng-model="report.certificateHolderName" required />
-				  <div ng-messages="certificateHolderName.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-6">
-			   <div class="form-group show-errors">
-				  <label for="certificateHolderContacts" class="control-label">Certificate Holder Contacts</label>
-				  <input type="text" id="certificateHolderContacts" name="certificateHolderContacts" class="form-control input-sm" ng-model="report.certificateHolderContacts" required />
-				  <div ng-messages="certificateHolderContacts.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-12">
-			   <div class="form-group show-errors">
-				  <label for="inAttendance" class="control-label">In Attendance</label>
-				  <input type="text" id="inAttendance" name="inAttendance" class="form-control input-sm" ng-model="report.inAttendance" required />
-				  <div ng-messages="inAttendance.$error" role="alert">
-				  </div>
-			   </div>
-
-			   <div class="form-group show-errors">
-				  <label for="address1" class="control-label">Mailing Address (line 1)</label>
-				  <input type="text" id="address1" name="address1" class="form-control input-sm" ng-model="report.address1" required />
-				  <div ng-messages="address1.$error" role="alert">
-				  </div>
-			   </div>
-			   <div class="form-group show-errors">
-				  <label for="address1" class="control-label">Mailing Address (line2)</label>
-
-				  <input type="text" id="address2" name="address2" class="form-control input-sm" ng-model="report.address2" required />
-				  <div ng-messages="address2.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-4">
-			   <div class="form-group show-errors">
-				  <label for="city" class="control-label">City</label>
-				  <input type="text" id="city" name="city" class="form-control input-sm" ng-model="report.city" placeholder="City" required />
-				  <div ng-messages="city.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-4">
-			   <div class="form-group show-errors">
-				  <label for="postal" class="control-label">Postal Code</label>
-				  <input type="text" id="postal" name="postal" class="form-control input-sm" ng-model="report.postal" required />
-				  <div ng-messages="postal.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-4">
-			   <div class="form-group show-errors">
-				  <label for="province" class="control-label">Province</label>
-				  <select id="province" name="province" class="form-control input-sm" ng-model="report.province" ng-options="key as value for (key, value) in provs" required></select>
-				  <div ng-messages="province.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-4">
-			   <div class="form-group show-errors">
-				  <label for="phone" class="control-label">Phone</label>
-				  <input type="text" id="phone" name="phone" class="form-control input-sm" ng-model="report.phone" required />
-				  <div ng-messages="phone.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-4">
-			   <div class="form-group show-errors">
-				  <label for="fax" class="control-label">Fax</label>
-				  <input type="text" id="fax" name="fax" class="form-control input-sm" ng-model="report.fax" required />
-				  <div ng-messages="fax.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-4">
-
-			   <div class="form-group show-errors">
-				  <label for="contactEmail" class="control-label">Contact Email</label>
-				  <input type="text" id="contactEmail" name="contactEmail" class="form-control input-sm" ng-model="report.contactEmail" required />
-				  <div ng-messages="contactEmail.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		</div>
-
-		<hr />
-
-		<div class="row">
-		    <div class="col-sm-4">
-			   <div class="form-group show-errors">
-				  <label for="inspector" class="control-label">Inspection Conducted By</label>
-				  <input type="text" id="inspector" name="inspector" class="form-control input-sm" ng-model="report.inspector" required />
-				  <div ng-messages="inspector.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-4">
-			   <div class="form-group show-errors">
-				  <label for="signature" class="control-label">Signature</label>
-				  <input type="text" id="signature" name="signature" class="form-control input-sm" ng-model="report.signature" required />
-				  <div ng-messages="signature.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-4">
-			   <div class="form-group show-errors">
-				  <label for="dateSigned" class="control-label">Date Signed</label>
-					<a x-modal-date-picker x-selected-date="report.dateSigned" class="btn btn-default btn-sm">{{ report.dateSigned | date }} <i class="glyphicon glyphicon-calendar"></i></a>
-				
-				  <div ng-messages="dateSigned.$error" role="alert">
-				  </div>
-			   </div>
-		    </div>
-
-		    <div class="col-sm-12">
-				<div class="form-group show-errors">
-					<label for="enclosuresAndDescription" class="control-label">Location Description</label>
-					<textarea type="text" id="enclosuresAndDescription" name="enclosuresAndDescription" class="form-control input-sm" ng-model="report.enclosuresAndDescription" required ></textarea>
-					<div ng-messages="enclosuresAndDescription.$error" role="alert"></div>
-				</div>
-		    </div>
-
-		    <div class="col-sm-12">
-				<div class="form-group show-errors">
-					<label for="regulatoryConsideration" class="control-label">Regulatory Consideration</label>
-					<textarea type="text" id="regulatoryConsideration" name="regulatoryConsideration" class="form-control input-sm" ng-model="report.regulatoryConsideration" required ></textarea>
-					<div ng-messages="regulatoryConsideration.$error" role="alert"></div>
+			<div class="button-bar clearfix hidden">
+				<div class="pull-right">
+					<button class="btn btn-default btn-sm" ui-sref="p.ir.list">Cancel</button>
+					<button class="btn btn-default btn-sm" href type="submit">Save</button>
 				</div>
 			</div>
 
-			<hr>
+			<div class="row">
+
+				<div class="col-sm-6">
+					<div class="form-group show-errors">
+						<label for="projectName" class="control-label">Project Name</label>
+						<input type="text" id="projectName" name="projectName" class="form-control input-sm" ng-model="report.projectName" required />
+						<div ng-messages="projectName.$error" role="alert"></div>
+					</div>
+					<div class="form-group show-errors">
+						<label for="certificateNum" class="control-label">Certificate #</label>
+						<input type="text" id="certificateNum" name="certificateNum" class="form-control input-sm" ng-model="report.certificateNum" required />
+						<div ng-messages="certificateNum.$error" role="alert">
+						</div>
+					</div>
+					<div class="form-group show-errors">
+						<label for="certificateStatus" class="control-label">Certificate Status</label>
+						<input type="text" id="certificateStatus" name="certificateStatus" class="form-control input-sm" ng-model="report.certificateStatus" required />
+						<div ng-messages="certificateStatus.$error" role="alert">
+						</div>
+					</div>
+					<div class="form-group show-errors">
+						<label for="region" class="control-label">Region</label>
+						<input type="text" id="region" name="region" class="form-control input-sm" ng-model="report.region" required />
+						<div ng-messages="region.$error" role="alert">
+						</div>
+					</div>
+					<div class="form-group show-errors">
+						<label for="trigger" class="control-label">Trigger</label>
+						<input type="text" id="trigger" name="trigger" class="form-control input-sm" ng-model="report.trigger" required />
+						<div ng-messages="trigger.$error" role="alert">
+						</div>
+					</div>
+					<div class="form-group show-errors">
+						<label for="sector" class="control-label">Sector</label>
+						<input type="text" id="sector" name="sector" class="form-control input-sm" ng-model="report.sector" required />
+						<div ng-messages="sector.$error" role="alert">
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-6">
+					<div class="form-group show-errors">
+						<label for="status" class="control-label">Inspection Report Status</label>
+						<input type="text" id="status" name="status" class="form-control input-sm" ng-model="report.status" required />
+						<div ng-messages="status.$error" role="alert">
+						</div>
+					</div>
+					<div class="form-group show-errors">
+						<label for="inspectionNum" class="control-label">Inspection #</label>
+						<input type="text" id="inspectionNum" name="inspectionNum" class="form-control input-sm" ng-model="report.inspectionNum" required />
+						<div ng-messages="inspectionNum.$error" role="alert">
+						</div>
+					</div>
+					<div class="form-group show-errors">
+						<label for="inspectionDate" class="control-label">Inspection Date</label>
+							<a x-modal-date-picker x-selected-date="report.inspectionDate" class="btn btn-default btn-sm">{{ report.inspectionDate | date }} <i class="glyphicon glyphicon-calendar"></i></a>
+						<div ng-messages="inspectionDate.$error" role="alert">
+						</div>
+					</div>
+					<div class="form-group show-errors">
+						<label for="office" class="control-label">Office</label>
+						<input type="text" id="office" name="office" class="form-control input-sm" ng-model="report.office" required />
+						<div ng-messages="office.$error" role="alert">
+						</div>
+					</div>
+					<div class="form-group show-errors">
+						<label for="inspectors" class="control-label">Inspector Name(s)</label>
+						<input type="text" id="inspectors" name="inspectors" class="form-control input-sm" ng-model="report.inspectors" required />
+						<div ng-messages="inspectors.$error" role="alert">
+						</div>
+					</div>
+					<div class="form-group show-errors">
+						<label for="utm" class="control-label">UTM</label>
+						<input type="text" id="utm" name="utm" class="form-control input-sm" ng-model="report.utm" required />
+						<div ng-messages="utm.$error" role="alert">
+						</div>
+					</div>
+				</div>
+
+				<hr />
+
+				<div class="col-sm-12">
+					<div class="form-group show-errors">
+						<label for="locationDescription" class="control-label">Location Description</label>
+						<textarea type="text" id="locationDescription" name="locationDescription" class="form-control input-sm" ng-model="report.locationDescription" required ></textarea>
+						<div ng-messages="locationDescription.$error" role="alert">
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4">
+					<div class="form-group show-errors">
+						<label for="nonCompliantIncidences" class="control-label">Incidences of Non-Compliance Observed</label>
+						<input type="text" id="nonCompliantIncidences" name="nonCompliantIncidences" class="form-control input-sm" ng-model="report.nonCompliantIncidences" required />
+						<div ng-messages="nonCompliantIncidences.$error" role="alert">
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4">
+					<div class="form-group show-errors">
+						<label for="nonComplianceDecisionMatrixLevel" class="control-label">Non-Compliance Decision Matrix Level</label>
+						<input type="text" id="nonComplianceDecisionMatrixLevel" name="nonComplianceDecisionMatrixLevel" class="form-control input-sm" ng-model="report.nonComplianceDecisionMatrixLevel" required />
+						<div ng-messages="nonComplianceDecisionMatrixLevel.$error" role="alert">
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4">
+					<div class="form-group show-errors">
+						<label for="nonComplianceDecisionMatrixCategory" class="control-label">Non-Compliance Decision Matrix Category</label>
+						<input type="text" id="nonComplianceDecisionMatrixCategory" name="nonComplianceDecisionMatrixCategory" class="form-control input-sm" ng-model="report.nonComplianceDecisionMatrixCategory" required />
+						<div ng-messages="nonComplianceDecisionMatrixCategory.$error" role="alert">
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-12">
+					<div class="form-group show-errors">
+						<label for="inspectionSummary" class="control-label">Inspection Summary</label>
+						<textarea type="text" id="inspectionSummary" name="inspectionSummary" class="form-control input-sm" ng-model="report.inspectionSummary" required ></textarea>
+						<div ng-messages="inspectionSummary.$error" role="alert">
+						</div>
+					</div>
+					<div class="form-group show-errors">
+						<label for="certificateOrAct" class="control-label">Certificate or Act</label>
+						<input type="text" id="certificateOrAct" name="certificateOrAct" class="form-control input-sm" ng-model="report.certificateOrAct" required />
+						<div ng-messages="certificateOrAct.$error" role="alert">
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-6">
+					<div class="form-group show-errors">
+						<label for="activity" class="control-label">Activity</label>
+						<input type="text" id="activity" name="activity" class="form-control input-sm" ng-model="report.activity" required />
+						<div ng-messages="activity.$error" role="alert">
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-6">
+					<div class="form-group show-errors">
+						<label for="response" class="control-label">Response</label>
+						<input type="text" id="response" name="response" class="form-control input-sm" ng-model="report.response" required />
+						<div ng-messages="response.$error" role="alert">
+						</div>
+					</div>
+				</div>
+
+				<hr />
+
+				<div class="col-sm-6">
+					<div class="form-group show-errors">
+						<label for="certificateHolderName" class="control-label">Certificate Holder's Name</label>
+						<input type="text" id="certificateHolderName" name="certificateHolderName" class="form-control input-sm" ng-model="report.certificateHolderName" required />
+						<div ng-messages="certificateHolderName.$error" role="alert">
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-6">
+					<div class="form-group show-errors">
+						<label for="certificateHolderContacts" class="control-label">Certificate Holder Contacts</label>
+						<input type="text" id="certificateHolderContacts" name="certificateHolderContacts" class="form-control input-sm" ng-model="report.certificateHolderContacts" required />
+						<div ng-messages="certificateHolderContacts.$error" role="alert"></div>
+					</div>
+				</div>
+
+				<div class="col-sm-12">
+					<div class="form-group show-errors">
+						<label for="inAttendance" class="control-label">In Attendance</label>
+						<input type="text" id="inAttendance" name="inAttendance" class="form-control input-sm" ng-model="report.inAttendance" required />
+						<div ng-messages="inAttendance.$error" role="alert">
+						</div>
+					</div>
+					<div class="form-group show-errors">
+						<label for="address1" class="control-label">Mailing Address (line 1)</label>
+						<input type="text" id="address1" name="address1" class="form-control input-sm" ng-model="report.address1" required />
+						<div ng-messages="address1.$error" role="alert">
+						</div>
+					</div>
+					<div class="form-group show-errors">
+						<label for="address1" class="control-label">Mailing Address (line2)</label>
+
+						<input type="text" id="address2" name="address2" class="form-control input-sm" ng-model="report.address2" required />
+						<div ng-messages="address2.$error" role="alert">
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4">
+					<div class="form-group show-errors">
+						<label for="city" class="control-label">City</label>
+						<input type="text" id="city" name="city" class="form-control input-sm" ng-model="report.city" placeholder="City" required />
+						<div ng-messages="city.$error" role="alert">
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4">
+					<div class="form-group show-errors">
+						<label for="postal" class="control-label">Postal Code</label>
+						<input type="text" id="postal" name="postal" class="form-control input-sm" ng-model="report.postal" required />
+						<div ng-messages="postal.$error" role="alert">
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4">
+					<div class="form-group show-errors">
+						<label for="province" class="control-label">Province</label>
+						<select id="province" name="province" class="form-control input-sm" ng-model="report.province" ng-options="key as value for (key, value) in provs" required></select>
+						<div ng-messages="province.$error" role="alert">
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4">
+					<div class="form-group show-errors">
+						<label for="phone" class="control-label">Phone</label>
+						<input type="text" id="phone" name="phone" class="form-control input-sm" ng-model="report.phone" required />
+						<div ng-messages="phone.$error" role="alert">
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4">
+					<div class="form-group show-errors">
+						<label for="fax" class="control-label">Fax</label>
+						<input type="text" id="fax" name="fax" class="form-control input-sm" ng-model="report.fax" required />
+						<div ng-messages="fax.$error" role="alert">
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4">
+					<div class="form-group show-errors">
+						<label for="contactEmail" class="control-label">Contact Email</label>
+						<input type="text" id="contactEmail" name="contactEmail" class="form-control input-sm" ng-model="report.contactEmail" required />
+						<div ng-messages="contactEmail.$error" role="alert">
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<hr />
+
+			<div class="row">
+				<div class="col-sm-4">
+				<div class="form-group show-errors">
+					<label for="inspector" class="control-label">Inspection Conducted By</label>
+					<input type="text" id="inspector" name="inspector" class="form-control input-sm" ng-model="report.inspector" required />
+					<div ng-messages="inspector.$error" role="alert">
+					</div>
+				</div>
+				</div>
+
+				<div class="col-sm-4">
+				<div class="form-group show-errors">
+					<label for="signature" class="control-label">Signature</label>
+					<input type="text" id="signature" name="signature" class="form-control input-sm" ng-model="report.signature" required />
+					<div ng-messages="signature.$error" role="alert">
+					</div>
+				</div>
+				</div>
+
+				<div class="col-sm-4">
+				<div class="form-group show-errors">
+					<label for="dateSigned" class="control-label">Date Signed</label>
+						<a x-modal-date-picker x-selected-date="report.dateSigned" class="btn btn-default btn-sm">{{ report.dateSigned | date }} <i class="glyphicon glyphicon-calendar"></i></a>
+					
+					<div ng-messages="dateSigned.$error" role="alert">
+					</div>
+				</div>
+				</div>
+
+				<div class="col-sm-12">
+					<div class="form-group show-errors">
+						<label for="enclosuresAndDescription" class="control-label">Location Description</label>
+						<textarea type="text" id="enclosuresAndDescription" name="enclosuresAndDescription" class="form-control input-sm" ng-model="report.enclosuresAndDescription" required ></textarea>
+						<div ng-messages="enclosuresAndDescription.$error" role="alert"></div>
+					</div>
+				</div>
+
+				<div class="col-sm-12">
+					<div class="form-group show-errors">
+						<label for="regulatoryConsideration" class="control-label">Regulatory Consideration</label>
+						<textarea type="text" id="regulatoryConsideration" name="regulatoryConsideration" class="form-control input-sm" ng-model="report.regulatoryConsideration" required ></textarea>
+						<div ng-messages="regulatoryConsideration.$error" role="alert"></div>
+					</div>
+				</div>
+			</div>
+			
+			<hr />
 
 			<div class="row">
 				<div class="col-sm-12 text-right">
@@ -330,10 +317,9 @@
 					<button class="btn btn-default" type="submit">Save</button>
 				</div>
 			</div>
-
-		</div>
+			
+		</form>
 	</div>
+	
 </div>
-
-</form>
 

@@ -21,6 +21,24 @@ $danger-text:			#a94442;
 // Bootstrap Overrides
 // -------------------------
 
+
+/* TYPOGRAPHY - NEW */
+@font-face {
+	font-family: 'Myriad-Pro';
+	src: url('../fonts/MyriadWebPro.ttf');
+}
+
+html {
+	min-height: 100%;
+	background: #FFF;
+}
+
+body {
+	min-height: 100%;
+	font-family: Myriad-Pro, Calibri, Arial, sans serif !important;
+	font-size: 1.4rem;
+}
+
 /* ----- Typography ----- */
 $font-family-heading: 'Nunito', sans-serif;
 $font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
@@ -176,27 +194,12 @@ button:focus, a:focus {
 	outline: 0 !important;
 }
 
-html {
-
-	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#606c88+0,fcfcfc+0,f2f2f2+100 */
-	background: #606c88; /* Old browsers */
-	background: -moz-linear-gradient(top,  #606c88 0%, #fcfcfc 0%, #f2f2f2 100%); /* FF3.6-15 */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#606c88), color-stop(0%,#fcfcfc), color-stop(100%,#f2f2f2)); /* Chrome4-9,Safari4-5 */
-	background: -webkit-linear-gradient(top,  #606c88 0%,#fcfcfc 0%,#f2f2f2 100%); /* Chrome10-25,Safari5.1-6 */
-	background: -o-linear-gradient(top,  #606c88 0%,#fcfcfc 0%,#f2f2f2 100%); /* Opera 11.10-11.50 */
-	background: -ms-linear-gradient(top,  #606c88 0%,#fcfcfc 0%,#f2f2f2 100%); /* IE10 preview */
-	background: linear-gradient(to bottom,  #606c88 0%,#fcfcfc 0%,#f2f2f2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#f2f2f2',GradientType=0 ); /* IE6-9 */
-
-}
-
 a:hover {
 	text-decoration: none;
 }
 
 h1,h2,h3,h4,h5,h6 {
-	font-weight: 400;
-	font-family: $font-family-heading;
+	font-weight: normal;
 	letter-spacing: -0.01em;
 }
 
@@ -1072,22 +1075,8 @@ h2.page-title {
 	font-size: 1em;
 	margin: 0 2px 0;
 }
-
-
 .navbar-nav > li > a {padding-top:10px !important; padding-bottom:10px !important;}
-.navbar {min-height:40px !important}
 
-// -------------------------
-// FOOTER...
-// -------------------------
-
-.footer .panel {
-	margin-bottom: 0;
-}
-
-.footer {
-	margin-bottom: 10px;
-}
 
 
 .edit-outlines .text-block {
@@ -1224,27 +1213,16 @@ h2.page-title {
 	padding: 3px 5px;
 }
 
-
-.svg-div-timeline {
-	padding: 15px;
-}
-
 /*
 // --------------------------
 // ng-table and form styles
 // --------------------------
 */
 
-table thead tr.ng-table-sort-header {
-}
-
 .ng-table-pager {
 	border-top: 1px solid $border-grey;
 	padding: 15px;
 	overflow: auto;
-}
-table thead tr.ng-table-filters {
-	background-color: $border-grey;
 }
 
 /*
@@ -1551,11 +1529,14 @@ div.dropdown-menu {
 }
 
 
-/* GRID CONTROLS
+/* BUTTON BAR
 ------------------------------ */
 .button-bar {
-    padding-top: 1.5rem;
     padding-bottom: 1.5rem;
+	
+	.btn {
+		text-transform: uppercase;
+	}
 }
 
 /* BUTTONS
@@ -1567,51 +1548,47 @@ div.dropdown-menu {
 }
 
 
+
 /* PAGE LAYOUT
 ------------------------------ */
 .view-title-container {
-    padding: 1.5rem;
-    padding-bottom: 1rem;
+	padding: 2rem 2.5rem;
+	background: #FFF;
+	border-bottom: 1px solid #EEE;
 
     h1 {
         margin: 0;
         padding: 0;
-        padding-bottom: 1.5rem;
-        border-bottom: 1px solid #CCC;
+		font-size: 3rem;
+		font-weight: bold;
     }
+}
+
+.view-title-container.no-border {
+	padding-bottom: 0;
+	border: none;
 }
 
 .view-content {
-    section {
-        h2 {
-            display: block;
-            margin-top: 0;
-            font-size: 2rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-    }
-}
-
-.flex-content {
     display: -webkit-flex; /* Safari */
     display: flex;
     flex-flow: row nowrap;
 
-    .left-panel,
-    .main-panel,
     .right-panel {
         padding: 1.5rem;
     }
 
     .left-panel {
         flex: 0 0 18rem;
+		background: #f7f7f7;
     }
 
     .main-panel {
-        padding-left: 0;
         flex: 1 1 auto;
+		
+		.view-body-container {
+			padding: 2rem 2.5rem;
+		}
     }
 
     .right-panel {
@@ -1619,18 +1596,22 @@ div.dropdown-menu {
         flex: 0 0 30rem;
         overflow-x: hidden;
     }
+	
+	section:last-child {
+		margin-bottom: 0;
+	}
 }
 
-
-/* PROJECTS TABLE
------------------------------- */
-.projects-table {
-    table-layout: fixed;
-
-    th:last-child {
-        width: 10rem;
-        text-align: right;
-    }
+section {
+	h2 {
+		display: block;
+		margin-top: 0;
+		font-size: 1.6rem;
+		font-weight: bold;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 }
 
 
@@ -1653,14 +1634,6 @@ div.dropdown-menu {
                 border: none;
                 border-radius: 0;
             }
-        }
-
-        > li:first-child > a {
-            border-top-left-radius: 6px;
-        }
-
-        > li:last-child > a {
-            border-top-right-radius: 6px;
         }
 
         > li.active {
@@ -1711,13 +1684,39 @@ div.dropdown-menu {
     border-radius: 0.4rem;
     font-size: 1rem;
     text-transform: uppercase;
+	padding: 0.5rem 1rem 0.4rem 1rem;
+	font-size: 1.2rem;
+	font-weight: normal;
 }
 .badge.success {
     background: green;
 }
 
 
-/* STOP-GAP STYLING PRODUCT ARTIFACT DOCUMENT
+/* PANEL OVERRIDES 
+------------------------------ */ 
+.panel-default {
+	border: 1px solid #DDD;
+	box-shadow: none;
+	
+	> .panel-heading {
+		padding: 1rem;
+		border: none;
+		background-image: none;
+		background-color: #EEE;
+	}
+	
+	h2 {
+		margin: 0;
+		display: block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+}
+
+
+/* STOP-GAP STYLING
+   PRODUCT ARTIFACT DOCUMENT
 ------------------------------ */
 .file-horiz {
     display: -webkit-flex;
@@ -1783,6 +1782,22 @@ div.dropdown-menu {
         border-top: 1px solid #CCC;
         border-radius: none;
     }
+
+}
+
+
+/* APPLICATION LAYOUT
+------------------------------ */
+tmpl-header {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 999;
+}
+
+.app-main {
+	padding-top: 6rem;
+	padding-bottom: 4rem;
 }
 
 
@@ -1790,12 +1805,20 @@ div.dropdown-menu {
 ------------------------------ */
 $corp-blue: #003366;
 $corp-gold: #e3a82b;
+$header-height: 6rem;
+
 
 .app-header {
-	margin-bottom: 2rem;
-	height: 6rem;
+	position: relative;
+	margin-bottom: 0;
+	height: $header-height;
 	background-color: $corp-blue;
 	box-shadow: 0 0 0.5rem #666;
+	
+	.navbar {
+		height: $header-height;
+		margin: 0;
+	}
 	
 	.navbar-brand {
 		padding: 0 1.5rem;
@@ -1804,5 +1827,279 @@ $corp-gold: #e3a82b;
 			margin-top: 0.6rem;
 			height: 4.5rem;
 		}
+	}
+}
+
+
+/* FOOTER
+------------------------------ */
+.app-footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	padding: 1rem 2rem;
+	font-size: 1.2rem;
+	background: #FFF;
+	border-top: 1px solid #CCC;
+	z-index: 999;
+}
+
+
+/* SIDE NAVIGATION
+------------------------------ */
+$sidenav-width: 18rem;
+
+.sidenav {
+	position: fixed;
+	top: 6rem;
+	bottom: 0;
+	width: $sidenav-width;
+	padding-top: 1.5rem;
+	padding-bottom: 1.5rem;
+	background: #EEE;
+	
+	ul {
+		margin: 0;
+	}
+	
+	a {
+		display: block;
+		padding: 0.4rem 2rem;
+	}
+	
+	hr {
+		margin: 1rem 1.5rem;
+		border-color: #DDD;
+	}
+	
+	.dropdown-menu {
+		margin-left: 1rem;
+	}
+	
+	.dropdown-menu a {
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+	}
+	
+	.user-info {
+		margin-left: 1.5rem;
+		margin-right: 1.5rem;
+	}
+}
+
+
+/* TABLES
+------------------------------ */
+.table {
+	table-layout: fixed;
+	
+	th {
+		font-size: 1.2rem;
+		border-bottom: none !important;
+	}
+	
+	th, td {
+		padding: 0.75rem 1rem !important;
+		text-align: left;
+		-ms-word-break: break-all;
+		word-break: break-all;
+	}
+}
+
+
+/* CONDITIONS VIEW
+------------------------------ */
+.project-conditions-view {
+	.table {
+		th:last-child {
+			width: 6rem;
+			text-align: right;
+		}
+	}
+}
+
+
+/* COMMENT PERIOD VIEW
+------------------------------ */
+.project-comment-period-view {
+	.table {
+		th:last-child {
+			width: 6rem;
+			text-align: right;
+		}
+	}
+}
+
+
+/* COMPLAINTS VIEW
+------------------------------ */
+.complaints-view {
+	.table {
+		th:last-child {
+			width: 6rem;
+			text-align: right;
+		}
+	}
+}
+
+
+/* DASHBOARD VIEW
+------------------------------ */
+.dashboard {
+	.panel-default {
+		margin-bottom: 0;
+	}
+	
+	.view-body-container {
+		display: flex;
+		flex-flow: row nowrap;
+		
+		.project-list {
+			flex: 1 1 auto;
+		}	
+		
+		.right-panel {
+			margin-left: 2.5rem;
+			padding: 0;
+		}
+		
+		.activities-list {
+			flex: 0 1 24rem;
+		}
+	}
+}
+
+.projects-table {	
+    table-layout: fixed;
+
+    th:last-child {
+        width: 10rem;
+        text-align: right;
+    }
+}
+
+
+/* PROJECT DETAILS VIEW
+------------------------------ */
+.project-details {
+	section {
+		margin: 2rem 0;
+	}
+}
+
+section.project-info {
+	margin-top: 0;
+	margin-bottom: 2rem;
+	
+	.panel-body {
+		padding: 1.5rem 2rem;
+	}
+	
+	.badge.review {
+		background-color: forestgreen;
+	}
+}
+
+
+.project-phases {
+	.panel-body {
+		padding: 3rem 0;
+	}
+}
+
+.project-artifacts {
+	.panel {
+		margin-bottom: 0;
+	}
+	
+	table {
+		table-layout: fixed;
+		
+		th {
+			border-bottom: none !important;
+		}
+		
+		th, td {
+			padding: 0.75rem 1rem !important;
+			text-align: left;
+		}
+		
+		td:last-child {
+			width: 10rem;
+			text-align: right;
+		}
+	}
+}
+
+.project-map {
+	.panel {
+		margin-bottom: 0;
+	}
+}
+
+.detail-row {
+	margin: 1rem 0;
+	
+	label, span.value {
+		display: block;
+	}
+	
+	label {
+		margin-bottom: 0;
+		font-weight: 600;
+	}
+	
+	em {
+		color: #999;
+	}
+}
+
+.detail-row:first-child {
+	margin-top: 0;
+}
+
+@media (min-width: 1024px) {
+	.detail-row {
+		margin: 0;
+		display: table-row;
+		
+		label, span.value {
+			display: table-cell;
+			vertical-align: top;
+			padding: 0.3rem 0;
+		}
+		
+		label {
+			padding-right: 2rem;
+			text-align: left;
+			white-space: nowrap;
+		}
+	}
+}
+
+.mem-details {
+	.detail-row label {
+		min-width: 14rem;
+	}
+	
+	 .description {
+		margin-top: 1.5rem;
+	}
+}
+
+
+/* DOCUMENT BROWSER VIEW
+------------------------------ */
+.document-browser-view {
+	.panel-body {
+		padding: 0;
+	}
+	
+	.panel-heading-actions .glyphicon {
+		margin-top: -4px;
+		margin-right: 0.5rem;
+		font-size: 1.8rem;
+		vertical-align: middle;
 	}
 }

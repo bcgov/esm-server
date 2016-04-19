@@ -1,4 +1,4 @@
-<section id="menu-side" class="menu-side" style="position: fixed;">
+<section id="menu-side" class="sidenav">
 
 	<!-- Common on all pages Logged In -->
 	<div ng-show="menu.authentication.user">
@@ -9,9 +9,6 @@
 		<hr>
 		<ul class="list-unstyled">
 			<li><a href ui-sref="activities">My Projects</a></li>
-		</ul>
-		<ul class="list-unstyled">
-			<li><a href ui-sref="p.decision({projectid: menu.project.code})">Decision Package</a></li>
 		</ul>
 	</div>
 
@@ -114,12 +111,13 @@
 
 	<div ng-show="menu.authentication.user">
 		<hr>
-		<label class="control-label">Welcome, {{ menu.authentication.user.displayName }}</label>
+		<label class="user-info control-label">Welcome, {{ menu.authentication.user.displayName }}</label>
 		<ul class="list-unstyled">
 			<li><a href ui-sref="settings.profile">Profile</a></li>
 			<li><a href="/api/auth/signout" target="_self">Logout</a></li>
 	  	</ul>
 	</div>
+	
 </div>
 <!--
 <div class="container" ng-controller="HeaderController">

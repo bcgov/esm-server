@@ -38,13 +38,13 @@
 </head>
 
 <body class="ng-cloak" x-scroll>
-  <tmpl-header></tmpl-header>
-  <section class="content">
-    <section class="container-fluid"  x-content-height>
-    {% block content %}{% endblock %}
-    </section>
-  </section>
-  <tmpl-footer></tmpl-footer>
+  <div class="app-container">
+    <tmpl-header></tmpl-header>
+    <div class="app-main">
+      {% block content %}{% endblock %}
+    </div>
+    <tmpl-footer></tmpl-footer>
+  </div>
 
   <!--Embedding The User Object-->
   <script type="text/javascript">
