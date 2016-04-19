@@ -231,7 +231,7 @@ exports.userCan = function (user, permission, thing) {
 // -------------------------------------------------------------------------
 exports.isAllowed = function (acl, dbg) {
   return function (req, res, next) {
-    var roles = (req.user) ? req.user.roles : ['user'];
+    var roles = (req.user) ? req.user.roles : ['guest'];
     //
     // if the user is an admin just let it through,
     //
@@ -245,6 +245,7 @@ exports.isAllowed = function (acl, dbg) {
           // Access granted! Invoke next middleware
           return next();
         } else {
+          // console.log ('\n ++ the user was denied '+req.route.path+' '+req.method.toLowerCase()+'\n');
           return res.status(403).json({
             message: 'User is not authorized'
           });
@@ -378,8 +379,8 @@ exports.setCRUDPermissions = function (acl, base) {
 exports.setPathPermissions = function (acl, list) {
   var userlist  = list.map (function (v) { if (v[1]) return v[2]; });
   var guestlist = list.map (function (v) { if (v[0]) return v[2]; });
-  console.log ('userlist:',userlist);
-  console.log ('guestlist:',guestlist);
+  // console.log ('userlist:',userlist);
+  // console.log ('guestlist:',guestlist);
   if (userlist.length) acl.allow ('user', userlist, '*');
   if (guestlist.length) acl.allow ('guest', guestlist, 'get');
 };
