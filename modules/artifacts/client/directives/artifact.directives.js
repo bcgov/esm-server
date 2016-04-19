@@ -37,12 +37,14 @@ angular.module('artifacts')
 					// console.log ("artifacts = ", c);
 					$scope.$apply ();
 				});
-				ArtifactModel.availableTypes ($scope.project._id).then (function (c) {
-					s.availableTypes = c;
-					s.addtype = null;
-					s.addTypeName = "";
-					$scope.$apply ();
-				});
+				if (!s.public) {
+					ArtifactModel.availableTypes ($scope.project._id).then (function (c) {
+						s.availableTypes = c;
+						s.addtype = null;
+						s.addTypeName = "";
+						$scope.$apply ();
+					});
+				}
 			};
 			this.init ();
 		},
