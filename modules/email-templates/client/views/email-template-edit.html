@@ -31,8 +31,19 @@
 							<p class="help-block error-text" ng-message="required">Group is required.</p>
 						</div>
 				</div>
-			</div>			
+			</div>
 		</div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group" x-show-errors>
+          <label for="subject" class="control-label">Subject</label>
+          <input id="subject" name="subject" type="text" class="form-control input-sm" ng-model="emailtemplate.subject" required>
+          <div ng-messages="emailtemplateForm.subject.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Subject is required.</p>
+          </div>
+        </div>
+      </div>
+    </div>
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group" x-show-errors>
@@ -44,9 +55,9 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<hr>
-		
+
 		<div class="text-right">
 			<button class="btn btn-default" ui-sref="admin.emailtemplate.list">Cancel</button>
 			<button class="btn btn-default" type="submit">Save</button>
