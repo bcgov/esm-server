@@ -30,7 +30,15 @@ module.exports = function(file, req, res) {
 			// the last task in the chain.  This assumed the phase code being
 			// passed in is actually correct - ensure import data has the right name
 			// in order to generate the phase-code correctly.
-			return (new Project(req.user)).addPhase(project, phase.toLowerCase().replace (/\W+/g,'-'));
+			return new Promise(function (rs,rj) {
+				(new Project(req.user)).addPhase(project, phase.toLowerCase().replace (/\W+/g,'-'))
+				.then(function (project) {
+					// Hacky - but necessary right now.  Remove the first phase by obliterating it!
+					project.phases = project.phases[1];
+					project.currentPhase = project.phases[0];
+					project.save().then(rs,rj);
+				});
+			})
 		};
 		var doOrgWork = function(proponent, project) {
 			return new Promise(function(rs, rj) {
@@ -44,11 +52,13 @@ module.exports = function(file, req, res) {
 							// Assign the org to the project, and save it.  Resolve this request as
 							// being done.
 							project.proponent = org;
+							project.status = "In Progress";
 							project.save().then(rs, rj);
 						});
 					} else {
 						// Same as above, but the update version.
 						project.proponent = result;
+						project.status = "In Progress";
 						project.save().then(rs, rj);
 					}
 				});
