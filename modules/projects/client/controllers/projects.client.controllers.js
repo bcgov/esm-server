@@ -96,6 +96,23 @@ function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $
 					// offset to fit the custom icon
     					pixelOffset: new maps.Size(0, -35, 'px', 'px')
 				} // define when map is ready
+			},
+			clusterOptions: {
+				calculator : function(markers, numStyles) {
+					var changeAt = 500;
+					var index = 0;
+					var count = markers.length;
+					var dv = count;
+					while (dv !== 0) {
+						dv = parseInt(dv / changeAt, 10);
+						index++;
+					}
+					index = Math.min(index, numStyles);
+					return {
+						text: count,
+						index: index
+					};
+				}
 			}
 		};
 	});
