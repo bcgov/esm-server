@@ -14,66 +14,65 @@ function controllerProcessInvitations($scope, $rootScope, sProcessInvitations, $
 
 	var taskInvitations = this;
 
-  taskInvitations.mailOut = [];
-  taskInvitations.taskData = {'status': 'pending', 'content': undefined};
+  taskInvitations.project = $scope.project;
 
-	// watch project
-	$scope.$watch('project', function(newValue) {
-		if (newValue) {
-      taskInvitations.project = newValue;
+  taskInvitations.templates = [];
 
-      taskInvitations.recipients = {};
-			// get recipients sorted to groups
+  taskInvitations.taskData = {'subject': undefined, 'content': undefined};
 
-			_.each(newValue.team, function(member, idx1){
-				_.each(member.systemRole, function(role, idx2){
-					if (!taskInvitations.recipients[role.role]) taskInvitations.recipients[role.role] = {viaEmail: [], viaMail: []};
-					if (member.viaEmail) {
-            taskInvitations.recipients[role.role].viaEmail.push(member);
-					}
-					if (member.viaMail) {
-            taskInvitations.recipients[role.role].viaMail.push(member);
-            taskInvitations.mailOut.push(member);
-					}
-				});
-			});
+  taskInvitations.users = [];
+  taskInvitations.selected = [];
 
-      taskInvitations.taskData = {'status': 'pending'};
-
-		}
-	});
-
-	$scope.addRecipients = function(data, parent) {
-		console.log(data);
-		this.customRecipients = data;
-	};
+  // maybe we will have more invitation roles...
+  taskInvitations.roles = [$scope.project.inviteeRole];
+  taskInvitations.selectedRole = $scope.project.inviteeRole;
 
 
-	// bind customRecipients to the watch.
-	$scope.$watch(angular.bind(this, function () {
-		return this.customRecipients;
-	}), function (newValue) {
-		_.each(newValue, function(member, idx1){
-			if (!taskInvitations.recipients.adhoc) taskInvitations.recipients.adhoc = {viaEmail: [], viaMail: []};
-			if (member.viaEmail) {
-        taskInvitations.recipients.adhoc.viaEmail.push(member);
-			}
-			if (member.viaMail) {
-        taskInvitations.recipients.adhoc.viaMail.push(member);
-				if (!_.include(taskInvitations.mailOut, member)) {
-          taskInvitations.mailOut.push(member);
-				}
-			}
-		});
-	});
-
-
-	sProcessInvitations.getTemplates().then( function(res) {
+	sProcessInvitations.getTemplates().then(function(res) {
     taskInvitations.templates = res.data;
 	});
 
 	taskInvitations.setContent = function() {
+    taskInvitations.taskData.subject = taskInvitations.selectedTemplate.subject;
     taskInvitations.taskData.content = taskInvitations.selectedTemplate.content;
 	};
+  
+  taskInvitations.setUsers = function() {
+    sProcessInvitations.getUsersForRole(taskInvitations.selectedRole).then(function(res) {
+      taskInvitations.users = (res.data) ? res.data.users :[];
+      taskInvitations.selected = [];
+    });   
+  };
+
+  var doMoveUser = function(src, dest, user) {
+    if( _.contains(src, user) ) {
+      _.remove(src, function(item) {
+        return item === user;
+      });
+
+      if(!_.includes(dest, user)) {
+        dest.push(user);
+      }
+    }
+  };
+
+  taskInvitations.inSelected = function(user) {
+    return _.includes(taskInvitations.selected, user);
+  };
+
+  taskInvitations.inUsers = function(user) {
+    return _.includes(taskInvitations.users, user);
+  };
+
+  taskInvitations.moveUser = function(user) {
+    var src = taskInvitations.inUsers(user) ? taskInvitations.users : taskInvitations.selected;
+    var dest = taskInvitations.inUsers(user) ? taskInvitations.selected : taskInvitations.users;
+
+    doMoveUser(src, dest, user);
+  };
+
+  // get the selected roles users on load.
+  this.setUsers();
+
 
 }
