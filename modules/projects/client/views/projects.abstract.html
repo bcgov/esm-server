@@ -1,7 +1,7 @@
 <section id="projects-view" class="row">
 	<ui-view id="main-content-section" class="tr-slide" ng-class="{'col-sm-10': authentication.user, 'col-sm-12': !authentication.user}">
 
-		<div class="panel panel-default" ng-show="environment === 'MEM' && !authentication.user">
+		<div class="panel panel-default" ng-if="false" ng-show="environment === 'MEM' && !authentication.user">
 			<div class="panel-heading">
 				<h3 class="panel-title">Public Project Listing</h3>
 			</div>
