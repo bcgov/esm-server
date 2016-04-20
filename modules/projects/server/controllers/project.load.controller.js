@@ -38,7 +38,7 @@ module.exports = function(file, req, res) {
 					project.currentPhase = project.phases[0];
 					project.save().then(rs,rj);
 				});
-			})
+			});
 		};
 		var doOrgWork = function(proponent, project) {
 			return new Promise(function(rs, rj) {
