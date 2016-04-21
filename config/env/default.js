@@ -37,7 +37,8 @@ if (process.env.MEM === 'true') {
       title: 'EAO Project Space',
       description: 'Government of British Columbia Environmental Assessment Office Project System',
       keywords: 'environmental assessment office bc government',
-      googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
+      googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID',
+      url: ''// TODO: replace this with real value per environment...
     },
     port: process.env.PORT || 3000,
     templateEngine: 'swig',

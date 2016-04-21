@@ -29,7 +29,7 @@ var getUsersForRole = function (code) {
 	// console.log (code);
 	return new Promise (function (resolve, reject) {
 		Role.findOne ({ code: code },{users:1, code:1})
-		.populate('users', 'username displayName _id')
+		.populate('users', 'username displayName _id email')
 		.exec()
 		.then (resolve, reject);
 	});

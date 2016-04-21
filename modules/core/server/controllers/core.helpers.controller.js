@@ -291,6 +291,12 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which) {
       var o = new DBClass (req.user);
       o.list (req.data)
       .then (success(res), failure(res));
+    })
+    .get(function(req, res) {
+      var o = new DBClass (req.user);
+      var q = JSON.parse(JSON.stringify(req.query));
+      o.list(q)
+        .then(success(res), failure(res));
     });
   if (r.getall) app.route ('/api/'+basename).all (policy.isAllowed)
     .get  (function (req, res) {

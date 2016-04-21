@@ -6,9 +6,11 @@
 // =========================================================================
 var path = require('path');
 var DBModel = require(path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var Roles = require(path.resolve('./modules/roles/server/controllers/role.controller'));
+var email = require(path.resolve('./modules/core/server/controllers/email.server.controller'));
 
-var _ = require('lodash');
-var chalk = require('chalk'),
+var _ = require('lodash'),
+  config = require(path.resolve('./config/config')),
   mongoose = require('mongoose'),
   Project = mongoose.model('Project'),
   User = mongoose.model('User'),
@@ -16,22 +18,24 @@ var chalk = require('chalk'),
   Role = mongoose.model('Role');
 
 
-var Roles = require(path.resolve('./modules/roles/server/controllers/role.controller'));
-
-var getProjectFromRole = function (role) {
+var getProject = function(id) {
   return new Promise(function (fulfill, reject) {
     Project.findOne({
-      _id: role.projects[0]
+      _id: id
     }).exec(function (error, p) {
       if (error) {
         reject(new Error(error));
       } else if (!p) {
-        reject(new Error('Project not found for role "' + role.code + '".'));
+        reject(new Error('Project not found.'));
       } else {
         fulfill(p);
       }
     });
   });
+};
+
+var getProjectFromRole = function (role) {
+  return getProject(role.projects[0]);
 };
 
 var getUsersByIds = function (ids) {
@@ -205,6 +209,59 @@ module.exports = DBModel.extend({
               });
           });
       }
+    });
+  },
+  
+  sendInvitations: function(req) {
+    var invitationData = req.body;
+    var currentUser = req.user;
+    
+    return new Promise(function(fulfill, reject) {
+      // load project
+      // load users
+      // find project invitations for users
+      // create package for emailer....
+      // subject, content, from user, array of template data (to user, to user invitation, project meta data)
+      var project;
+      var users;
+      var invitations;
+
+      return getProject(invitationData.projectId)
+        .then(function(p) {
+          project = p;
+          return getUsersByIds(invitationData.userIds);
+        })
+        .then(function(u) {
+          users = u;
+          return getAllInvitations(project, users);
+        })
+        .then(function(inv) {
+          invitations = inv;
+          var templateData = [];
+          _.each(users, function(u) {
+            var invitation = _.find(invitations, function (i) {
+              return i.user.toString() === u._id.toString();
+            });
+            if (invitation !== undefined) {
+              templateData.push({
+                appTitle: config.app.title,
+                appDescription: config.app.description,
+                toUserId: u._id.toString(),
+                toDisplayName: u.displayName || u.username || u.email,
+                toEmail: u.email,
+                invitationUrl: config.app.url.replace(/\/$/, "") + '/authentication/accept/' + invitation._id.toString(),
+                projectName: project.name,
+                projectTitle: project.name,
+                projectCode: project.code
+              });
+            }
+          });
+          return email.populateAndSend(invitationData.subject, invitationData.content, templateData, currentUser);
+        })
+        .then (function(data){
+          // ok, examine the returned data, mark each user with success of not...
+          return fulfill(data);
+        });
     });
   }
 });
