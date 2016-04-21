@@ -17,8 +17,7 @@ function directiveProcessInvitations() {
         controllerAs: 'taskInvitations',
         scope: {
         	anchor: '@',
-        	task: '=',
-            project: '='
+          project: '='
         }
     };
     return directive;

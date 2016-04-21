@@ -13,7 +13,11 @@ function serviceProcessInvitations($http) {
 	var getTemplates = function(req) {
 		return $http({method:'GET',url: '/api/emailtemplate'});
 	};
+  var getUsersForRole = function(role) {
+    return $http({method: 'GET', url: '/api/users/in/role/'+role});
+  };
 	return {
-		getTemplates: getTemplates
+		getTemplates: getTemplates,
+    getUsersForRole: getUsersForRole
 	};
 }
