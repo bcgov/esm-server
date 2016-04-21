@@ -126,6 +126,15 @@ checkIntegration ('defaultprojectroles').then (function () {
 	require('../seed-data/loadprojectroles')();
 });
 
+// -------------------------------------------------------------------------
+//
+// default project roles
+//
+// -------------------------------------------------------------------------
+checkIntegration ('emailtemplates').then (function () {
+  require('../seed-data/loademailtemplates')();
+});
+
 if (process.env.SEED_MEM === 'true')
 {
 	checkIntegration ('loadmem').then (function () {
