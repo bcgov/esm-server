@@ -34,6 +34,9 @@ function controllerProjectsSearch($scope, $state, Authentication, ProjectModel, 
 	projectsSearch.performSearch = function() {
 		var query = {};
 
+		if (projectsSearch.search.Permit)  {
+			query.memPermitID = projectsSearch.search.Permit;
+		}
 		if (projectsSearch.search.type)  {
 			query.type = projectsSearch.search.type;
 		}
