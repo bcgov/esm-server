@@ -2091,6 +2091,13 @@ section.project-info {
 
 /* DOCUMENT BROWSER VIEW
 ------------------------------ */
+.documents-view {
+	.view-title-container {
+		padding-bottom: 0;
+		border: none;
+	}
+}
+
 .document-browser-view {
 	.panel-body {
 		padding: 0;

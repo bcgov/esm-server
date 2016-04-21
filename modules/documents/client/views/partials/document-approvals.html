@@ -1,11 +1,16 @@
-<section class="block-content">
-	<h3><a href class="small pull-right" x-modal-document-upload-review x-project="docBrowser.project" ng-if="docBrowser.authentication.user">Upload <span class="glyphicon glyphicon-upload"></span> </a>
-		Documents in Review</h3>
-
-	<div class='container-fluid'>
-		<div class='row'>
+<section class="document-browser-view">
+	<div class="panel panel-default">
+		<div class="panel-heading clearfix">
+			<h2 class="pull-left">Documents in Review</h2>
+			<div class="panel-heading-actions pull-right">
+				<a href class="btn-link"
+					x-modal-document-upload-review
+					x-project="docBrowser.project"
+					ng-if="docBrowser.authentication.user"><span class="glyphicon glyphicon-upload"></span>Upload</a>	
+			</div>
+		</div>
+		<div class="panel-body">
 			<div class='col-sm-4 col-no-padding vertical-scroll col-border-right'>
-
 				<ul class="small list-unstyled list-documents">
 					<li
 						class="row-folder row-folder-depth-{{ row.depth }}"
@@ -15,22 +20,17 @@
 						<a href ng-click="docBrowser.rfilterList(row.reference, row.label)">{{ row.label }}</a>
 					<li>
 				</ul>
-
 			</div>
 			<div class='col-sm-4 col-no-padding vertical-scroll col-border-right'>
-			
 				<ul class="small list-unstyled list-documents list-indent-left">
-
 					<li ng-repeat="doc in docBrowser.rdocumentFiles | filter : rfilterDocs : true">
 						<a ng-click="docBrowser.rDoc=doc" href="">
 							<span class="glyphicon glyphicon-file"></span>{{ doc.internalOriginalName | removeExtension }}
 						</a>
 					</li>
 				</ul>
-
 			</div>
 			<div class='col-sm-4 col-no-padding vertical-scroll' ng-class="{'bg-muted': !docBrowser.rDoc}">
-
 				<ul class="small list-unstyled list-documents list-indent-left" ng-show="docBrowser.rDoc">
 					<li>
 						<h3>
@@ -50,5 +50,6 @@
 				</ul>
 			</div>
 		</div>
+			
 	</div>
 </section>

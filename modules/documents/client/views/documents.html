@@ -1,18 +1,14 @@
-
-<div class="view-title-container">
-	<h1>{{ project.name }}&nbsp; &rsaquo; &nbsp;Documents</h1>
-</div>
-
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="p.detail({projectid: project.code })">Project Detail</a>
+<div class="documents-view">
+	<div class="view-title-container">
+		<h1>{{ project.name }}&nbsp; &rsaquo; &nbsp;Documents</h1>
 	</div>
-</div>
-
-<div class="row">
-	<div class="col-sm-12">
-		<section class="panel panel-default">
-
+	<div class="view-body-container">
+		<div class="row hidden">
+			<div class="col-sm-12 text-right">
+				<a class="btn btn-xs btn-link" ui-sref="p.detail({projectid: project.code })">Project Detail</a>
+			</div>
+		</div>
+		<div class="row">
 			<tmpl-documents-browser
 				class="anchor-section"
 				id="anchor-documents"
@@ -26,7 +22,7 @@
 				x-approvals="true"
 				x-project="project">
 			</tmpl-documents-approvals>
-
-		</section>
+		</div>
 	</div>
+	
 </div>
