@@ -1,103 +1,190 @@
-<!-- Hiding this until we figure out the final structure -->
-<h1 class="page-title hidden" ng-class="{'no-lower-margin': (environment === 'EAO' && authentication.user && project.isPublished)}">{{ project.name }} DERPP</h1>
+<div class="project-details">
 
-<div class="pull-right" ng-if="environment === 'EAO' && authentication.user">
-	<div class="col-sm-12 text-right btn-link-separated-list">
-		<a class="btn btn-xs btn-link"
-			ng-click="completePhase()"
-			ng-if="!project.currentPhase.completed">Complete Current Phase</a>
-
-		<a class="btn btn-xs btn-link"
-			ng-click="startNextPhase()"
-			ng-if="project.currentPhase.completed">Start Next Phase</a>
-
-		<small ng-if="!project.isPublished"> / </small>
-
-		<a class="btn btn-xs btn-link"
-			ng-click="publishProject()"
-			ng-if="!project.isPublished">Publish Project</a>
+	<div class="view-title-container">
+		<h1>{{ project.name }}</h1>
 	</div>
-</div>
 
-<h2>Project Details</h2>
+	<div class="pull-right hidden" ng-if="environment === 'EAO' && authentication.user">
+		<div class="col-sm-12 text-right btn-link-separated-list">
+			<a class="btn btn-xs btn-link"
+				ng-click="completePhase()"
+				ng-if="!project.currentPhase.completed">Complete Current Phase</a>
 
-<section class="panel panel-default">
+			<a class="btn btn-xs btn-link"
+				ng-click="startNextPhase()"
+				ng-if="project.currentPhase.completed">Start Next Phase</a>
+
+			<small ng-if="!project.isPublished"> / </small>
+
+			<a class="btn btn-xs btn-link"
+				ng-click="publishProject()"
+				ng-if="!project.isPublished">Publish Project</a>
+		</div>
+	</div>
     
-	<tmpl-project-tombstone
-		class="anchor-section"
-		id="anchor-tombstone"
-		x-project="project"
-		ng-if="('project' | shouldDisplayPanel:'tombstone':project.status)">
-	</tmpl-project-tombstone>
+	<div class="view-body-container">
+		
+		<!-- PROJECT INFO -->
+		<section class="project-info" ng-if="('project' | shouldDisplayPanel:'tombstone':project.status)">
+			<tmpl-project-tombstone
+				id="anchor-tombstone"
+				x-project="project">
+			</tmpl-project-tombstone>
+		</section>
 
-	<tmpl-schedule-timeline
-		class="anchor-section"
-		id="anchor-timeline"
-		x-phases="project.phases"
-		ng-if="environment === 'EAO'">
-	</tmpl-schedule-timeline>
-
-	<tmpl-enforcement-browser
-		class="anchor-section"
-		id="anchor-enforcement"
-		x-project="project"
-		ng-if="project.currentPhase.code === 'post-certification'">
-	</tmpl-enforcement-browser>
-
-	<tmpl-project-initiated
-		class="anchor-section"
-		id="anchor-initiated"
-		x-project="project"
-		ng-if="('project'| shouldDisplayPanel:'initiated':project.status) && environment === 'EAO'">
-	</tmpl-project-initiated>
-
-	<tmpl-project-stream-select
-		class="anchor-section"
-		id="anchor-stream"
-		x-project="project"
-		ng-if="('project'| shouldDisplayPanel:'stream':project.status) && environment === 'EAO'">
-	</tmpl-project-stream-select>
-
-	<div class="anchor-section" id="anchor-artifacts" ng-if="environment === 'EAO'">
-		<section class="block-content">
-			<h3>Project Artifacts</h3>
-			<div class="panel-body">
-				<tmpl-artifact-list x-project="project"></tmpl-artifact-list>
+		<!-- PROJECT PHASES -->
+		<section class="project-phases" ng-if="environment === 'EAO'">
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2>Project Phases</h2></div>
+				<div class="panel-body">
+					<tmpl-schedule-timeline
+						class="anchor-section"
+						id="anchor-timeline"
+						x-phases="project.phases">
+					</tmpl-schedule-timeline>
+				</div>
 			</div>
 		</section>
+
+		<tmpl-enforcement-browser
+			class="anchor-section"
+			id="anchor-enforcement"
+			x-project="project"
+			ng-if="project.currentPhase.code === 'post-certification'">
+		</tmpl-enforcement-browser>
+
+		<tmpl-project-initiated
+			class="anchor-section"
+			id="anchor-initiated"
+			x-project="project"
+			ng-if="('project'| shouldDisplayPanel:'initiated':project.status) && environment === 'EAO'">
+		</tmpl-project-initiated>
+
+		<tmpl-project-stream-select
+			class="anchor-section"
+			id="anchor-stream"
+			x-project="project"
+			ng-if="('project'| shouldDisplayPanel:'stream':project.status) && environment === 'EAO'">
+		</tmpl-project-stream-select>
+
+		<section class="project-artifacts" ng-if="environment === 'EAO'">
+			<div id="anchor-artifacts">
+				<div class="panel panel-default">
+					<div class="panel-heading"><h2>Project Artifacts</h2></div>
+					<tmpl-artifact-list x-project="project"></tmpl-artifact-list>
+				</div>
+			</div>
+		</section>
+
+		<tmpl-public-comment-display
+			class="anchor-section"
+			id="anchor-publiccomments"
+			x-project="project"
+			ng-if="('project'| shouldDisplayPanel:'public-comments':project.status) && project.dateCommentsOpen && environment === 'EAO'">
+		</tmpl-public-comment-display>
+
+		<!--
+		<tmpl-project-activities
+			class="anchor-section"
+			id="anchor-activities"
+			x-project="project"
+			ng-if="('project'| shouldDisplayPanel:'activities':project.status) && environment === 'EAO'">
+		</tmpl-project-activities>
+		-->
+		
+		<tmpl-documents-browser
+			class="anchor-section"
+			id="anchor-documents"
+			x-project="project"
+			x-approvals="false"
+			ng-if="('project'| shouldDisplayPanel:'documents':project.status) && environment === 'MEM'">
+		</tmpl-documents-browser>
+
+		<!-- PROJECT MAP -->
+		<section class="project-map">
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2>Project Map</h2></div>
+				<tmpl-map
+					id="anchor-map"
+					x-project="project"
+					ng-if="('project'| shouldDisplayPanel:'map':project.status)">
+				</tmpl-map>
+			</div>
+		</section>
+	
 	</div>
+	
+	<!-- ACTIVITIES LIST -->
+        <section class="right-panel activities-container hidden" ng-if="authentication.user">
+            <h2>My Activities<span>(*)</span></h2>
+            <div class="panel panel-default tab-container">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="todo" role="all-activities">
+                        <a href="#active" aria-controls="active" role="tab" data-toggle="tab">Active (*)</a>
+                    </li>
+                    <li class="completed" role="all-activities">
+                        <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Complete (*)</a>
+                    </li>
+                    <li class="all active" role="all-activities">
+                        <a href="#all" aria-controls="all" role="tab" data-toggle="tab">All (*)</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane" id="active" role="tabpanel">
+                        <ul class="activities-list">
+                            <li>
+                                <h3>Activity</h3>
+                                <div class="activity-info">
+                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
+                                    <small>End Date: <span>MM/DD/YYYY</span></small>
+                                </div>
+                                <span class="badge bg-primary">Active</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane" id="completed" role="tabpanel">
+                        <ul class="activities-list list-group">
+                            <li>
+                                <h3>Activity</h3>
+                                <div class="activity-info">
+                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
+                                    <small>End Date: <span>MM/DD/YYYY</span></small>
+                                </div>
+                                <span class="badge success">Complete</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane active" id="all" role="tabpanel">
+                        <ul class="activities-list list-group">
+                            <li>
+                                <h3>Activity</h3>
+                                <div class="activity-info">
+                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
+                                    <small>End Date: <span>MM/DD/YYYY</span></small>
+                                </div>
+                                <span class="badge bg-primary">To Do</span>
+                            </li>
+                            <li>
+                                <h3>Activity</h3>
+                                <div class="activity-info">
+                                    <small>Project: <span>Project Name</span></small>
+                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
+                                    <small>End Date: <span>MM/DD/YYYY</span></small>
+                                </div>
+                                <span class="badge success">Complete</span>
+                            </li><li>
+                                <h3>Activity</h3>
+                                <div class="activity-info">
+                                    <small>Project: <span>Project Name</span></small>
+                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
+                                    <small>End Date: <span>MM/DD/YYYY</span></small>
+                                </div>
+                                <span class="badge success">Complete</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-	<tmpl-public-comment-display
-		class="anchor-section"
-		id="anchor-publiccomments"
-		x-project="project"
-		ng-if="('project'| shouldDisplayPanel:'public-comments':project.status) && project.dateCommentsOpen && environment === 'EAO'">
-	</tmpl-public-comment-display>
-
-<!--
-	<tmpl-project-activities
-		class="anchor-section"
-		id="anchor-activities"
-		x-project="project"
-		ng-if="('project'| shouldDisplayPanel:'activities':project.status) && environment === 'EAO'">
-	</tmpl-project-activities>
-
- -->
-	<tmpl-documents-browser
-		class="anchor-section"
-		id="anchor-documents"
-		x-project="project"
-		x-approvals="false"
-		ng-if="('project'| shouldDisplayPanel:'documents':project.status) && environment === 'MEM'">
-	</tmpl-documents-browser>
-
-
-	<tmpl-map
-		class="anchor-section"
-		id="anchor-map"
-		x-project="project"
-		ng-if="('project'| shouldDisplayPanel:'map':project.status)">
-	</tmpl-map>
-
-
-</section>
+</div>

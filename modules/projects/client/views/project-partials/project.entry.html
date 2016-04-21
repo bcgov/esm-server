@@ -1,17 +1,23 @@
-<h1 class="page-title">{{ project.name }}</h1>
+<div class="edit-project-details-view">
 
-<form name="projectForm" ng-submit="saveProject(projectForm.$valid)" novalidate>
-
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<button class="btn btn-xs btn-link" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
-		<button class="btn btn-xs btn-link" ng-if="isNew" ui-sref="projects">Cancel</button>		
-		<button class="btn btn-xs btn-link" href type="submit">Save</button>
-		<button class="btn btn-xs btn-link" href ng-click="submitProject(projectForm.$valid)" ng-if="project.status === 'Initiated'">Submit Project</button>
+	<div class="view-title-container">
+		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Add/Edit Project</h1>
 	</div>
-</div>
 
-<section class="panel panel-default">
+	<div class="view-body-container"></div>
+	
+		<form name="projectForm" ng-submit="saveProject(projectForm.$valid)" novalidate>
+
+			<div class="row">
+				<div class="col-sm-12 text-right">
+					<button class="btn btn-xs btn-link" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
+					<button class="btn btn-xs btn-link" ng-if="isNew" ui-sref="projects">Cancel</button>		
+					<button class="btn btn-xs btn-link" href type="submit">Save</button>
+					<button class="btn btn-xs btn-link" href ng-click="submitProject(projectForm.$valid)" ng-if="project.status === 'Initiated'">Submit Project</button>
+				</div>
+			</div>
+
+			<section class="panel panel-default">
 
 	<div class="panel-body">
 
