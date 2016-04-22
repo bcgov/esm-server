@@ -163,7 +163,7 @@ angular
 		if (	window.location.href.indexOf('mem.') >= 0 ||
 			window.location.href.indexOf('mem-') >= 0 ||
 			window.location.href.indexOf('mines.') >= 0 ) return 'MEM';
-		else return 'MEM';
+		else return 'EAO';
 	})
 	.factory('LOGO', function (ENV) {
 		// Use the env from above to determine the logo.

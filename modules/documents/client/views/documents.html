@@ -8,21 +8,19 @@
 				<a class="btn btn-xs btn-link" ui-sref="p.detail({projectid: project.code })">Project Detail</a>
 			</div>
 		</div>
-		<div class="row">
-			<tmpl-documents-browser
-				class="anchor-section"
-				id="anchor-documents"
-				x-approvals="false"
-				x-project="project">
-			</tmpl-documents-browser>
+		<tmpl-documents-browser
+			class="anchor-section"
+			id="anchor-documents"
+			x-approvals="false"
+			x-project="project">
+		</tmpl-documents-browser>
 
-			<tmpl-documents-approvals
-				class="anchor-section"
-				id="anchor-document-approvals"
-				x-approvals="true"
-				x-project="project">
-			</tmpl-documents-approvals>
-		</div>
+		<tmpl-documents-approvals
+			class="anchor-section"
+			id="anchor-document-approvals"
+			x-approvals="true"
+			x-project="project">
+		</tmpl-documents-approvals>
 	</div>
 	
 </div>
