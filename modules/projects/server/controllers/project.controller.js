@@ -118,7 +118,11 @@ module.exports = DBModel.extend ({
 				projectInviteeRole     = Roles.generateCode (projectCode, 'eao', 'invitee');
 				project.inviteeRole = projectInviteeRole;
 				defaultRoles.push(projectInviteeRole);
-
+				// Push any roles passed in.
+				for (var i=0;i<project.roles.length;i++){
+					// console.log("Adding passed in role: ",project.roles[i]);
+					defaultRoles.push(project.roles[i]);
+				}
 				return Roles.objectRoles ({
 					method: 'set',
 					objects: project,
