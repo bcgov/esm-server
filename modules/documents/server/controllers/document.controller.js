@@ -311,7 +311,6 @@ var getDocumentFolderNamesForProject = function (req, res) {
 		// When a document has an assigned projectID, grab it.
 		// NB: This will be true after a document has been reviewed by someone perhaps.
 		Model.distinct("projectFolderName",{project: req.params.projectid})
-			.sort ({projectFolderName:1})
 			 .exec( function (err, records) {
 				if (err) {
 				// console.log("getDocumentFolderNamesForProject failed to find anything",err);

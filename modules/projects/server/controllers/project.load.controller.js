@@ -101,7 +101,7 @@ module.exports = function(file, req, res) {
 			if (projectType === "eao") {
 				colArray = ['id','Stream','ProjectName','Proponent','Region','description','locSpatial','locDescription','provincialED','federalED','investment','projectCreateDate','projectDescriptionLivingData','projectNotes','projectURL','investmentNotes','lat','long','constructionjobs','constructionjobsNotes','operatingjobs','operatingjobsNotes','projectType','sector','phase','currentPhaseTypeActivity','eaActive','CEAAInvolvement','eaIssues','eaNotes','responsibleEPD','phoneEPD','emailEPD','projectLead','projectLeadPhone','projectLeadEmail','projectAnalyst','projectAssistant','administrativeAssistant','CELead','CELeadPhone','CELeadEmail','teamNotes', 'isPublished'];
 			} else {
-				colArray = ['id','ProjectName','Proponent','Ownership','lat','long','Status','Commodity','Region','TailingsImpoundments','description'];
+				colArray = ['id','ProjectName','Proponent','Ownership','type', 'lat','long','Status','Commodity','Region','TailingsImpoundments','description'];
 			}
 			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 				// Skip this many rows
@@ -131,7 +131,7 @@ module.exports = function(file, req, res) {
 								roles 				: ['mem', 'public'],
 								read 				: ['public'],
 								submit 				: ['mem'],
-								type 				: "Mining"
+								type 				: row.type
 							};
 						} else {
 							query = { epicProjectID: parseInt(row.id) };
@@ -161,10 +161,10 @@ module.exports = function(file, req, res) {
 									investment 				: row.investment,
 									investmentNotes 		: row.investmentNotes
 								},
-								eaActive: row.eaActive,
-								CEAAInvolvement: row.CEAAInvolvement,
-								eaIssues: row.eaIssues,
-								eaNotes: row.eaNotes,
+								eaActive 				: row.eaActive,
+								CEAAInvolvement 		: row.CEAAInvolvement,
+								eaIssues 				: row.eaIssues,
+								eaNotes 				: row.eaNotes,
 								responsibleEPD 			: row.responsibleEPD,
 								responsibleEPDPhone		: row.phoneEPD,
 								responsibleEPDEmail 	: row.emailEPD,
