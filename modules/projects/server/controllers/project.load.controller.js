@@ -178,7 +178,8 @@ module.exports = function(file, req, res) {
 								CELeadPhone				: row.CELeadPhone,
 								CELeadEmail				: row.CELeadEmail,
 								teamNotes				: row.teamNotes,
-								isPublished				: row.isPublished
+								isPublished				: row.isPublished,
+								epicStream 				: row.Stream
 							};
 						}
 						promises.push({obj: newObj, query: query, proponent: newProponent, phase: row.phase});

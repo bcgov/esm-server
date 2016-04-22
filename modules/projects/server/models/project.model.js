@@ -103,5 +103,6 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	ownership            : { type: String, default: '' },
 	memPermitID          : { type:String, default: '', index:true},  // Used to relate mem permitID on import
 	commodity            : { type: String, default: '' },
-	tailingsImpoundments : { type: String, default: '' }
+	tailingsImpoundments : { type: String, default: '' },
+	epicStream 			 : { type: String, default: '' }
 });
