@@ -193,6 +193,12 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 		if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
 			angular.forEach( docUpload.fileList, function(file) {
 				// Quick hack to pass objects
+				if (ENV === 'EAO') {
+					// In EAO, we let them only choose from predefined types.
+					// Move the choice to the model we use.
+					docUpload.typeName = docUpload.type.name;
+					docUpload.subTypeName = docUpload.subType.name;
+				}
 				if (undefined === docUpload.typeName) docUpload.typeName = "Not Specified";
 				if (undefined === docUpload.subTypeName) docUpload.subTypeName = "Not Specified";
 				if (undefined === docUpload.folderName) docUpload.folderName = "Not Specified";
