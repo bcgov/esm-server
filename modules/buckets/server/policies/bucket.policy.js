@@ -10,6 +10,7 @@ var helpers  = require (require('path').resolve('./modules/core/server/controlle
 
 exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'bucket');
+	helpers.setCRUDPermissions (acl, 'bucketcomment');
 	helpers.setPathPermissions (acl, [
 		[ 'guest', 'user', '/api/base/bucket']
 	]);

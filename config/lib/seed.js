@@ -5,6 +5,7 @@ var mongoose = require('mongoose'),
   crypto       = require('crypto'),
   _            = require('lodash'),
   configs      = require('./configs.json'),
+  fixComments  = require('./fixcomments'),
   User         = mongoose.model('User'),
   Activity     = mongoose.model('Activity'),
   Phase        = mongoose.model('Phase'),
@@ -185,7 +186,7 @@ Integration.findOne ({module:'ajax3'}).exec()
   if (!row) {
 
     doConfigs ();
-	
+
 	// Project.find({name: 'Ajax Mine Project'}).remove (function () {
 	Project.remove ({}, function () {
 	var i = new Integration ({module:'ajax3'});
@@ -223,6 +224,15 @@ Integration.findOne ({module:'configs'}).exec()
 .then (function (row) {
   if (!row) {
     doConfigs ();
+  }
+});
+
+Integration.findOne ({module:'fixcomments'}).exec()
+.then (function (row) {
+  if (!row) {
+    fixComments ();
+    var i = new Integration ({module:'fixcomments'});
+  i.save ();
   }
 });
 
