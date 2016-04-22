@@ -82,6 +82,13 @@ angular.element(document).ready(function () {
 		}
 	}
 
+  // make sure we don't have any issues in ie getting the location.origin...
+  if (!window.location.origin) {
+    window.location.origin = window.location.protocol + "//"
+      + window.location.hostname
+      + (window.location.port ? ':' + window.location.port : '');
+  }
+
 	//Then init the app
 	angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
 });

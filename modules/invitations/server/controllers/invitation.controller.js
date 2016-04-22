@@ -249,7 +249,7 @@ module.exports = DBModel.extend({
                 toUserId: u._id.toString(),
                 toDisplayName: u.displayName || u.username || u.email,
                 toEmail: u.email,
-                invitationUrl: config.app.url.replace(/\/$/, "") + '/authentication/accept/' + invitation._id.toString(),
+                invitationUrl: invitationData.url.replace(/\/$/, "") + '/authentication/accept/' + invitation._id.toString(),
                 projectName: project.name,
                 projectTitle: project.name,
                 projectCode: project.code

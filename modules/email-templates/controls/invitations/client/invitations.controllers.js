@@ -77,6 +77,7 @@ function controllerProcessInvitations($scope, $rootScope, sProcessInvitations, $
         return s._id.toString();
       });
       var data = {
+        url: window.location.origin,
         subject: taskInvitations.taskData.subject,
         content: taskInvitations.taskData.content,
         projectId: taskInvitations.project._id.toString(),
