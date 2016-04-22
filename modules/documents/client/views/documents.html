@@ -1,29 +1,26 @@
-<h1 class="page-title  no-lower-margin">Project Documents</h1>
-
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="p.detail({projectid: project.code })">Project Detail</a>
+<div class="documents-view">
+	<div class="view-title-container">
+		<h1>{{ project.name }}&nbsp; &rsaquo; &nbsp;Documents</h1>
 	</div>
-</div>
+	<div class="view-body-container">
+		<div class="row hidden">
+			<div class="col-sm-12 text-right">
+				<a class="btn btn-xs btn-link" ui-sref="p.detail({projectid: project.code })">Project Detail</a>
+			</div>
+		</div>
+		<tmpl-documents-browser
+			class="anchor-section"
+			id="anchor-documents"
+			x-approvals="false"
+			x-project="project">
+		</tmpl-documents-browser>
 
-<div class="row">
-	<div class="col-sm-12">
-		<section class="panel panel-default">
-
-			<tmpl-documents-browser
-				class="anchor-section"
-				id="anchor-documents"
-				x-approvals="false"
-				x-project="project">
-			</tmpl-documents-browser>
-
-			<tmpl-documents-approvals
-				class="anchor-section"
-				id="anchor-document-approvals"
-				x-approvals="true"
-				x-project="project">
-			</tmpl-documents-approvals>
-
-		</section>
+		<tmpl-documents-approvals
+			class="anchor-section"
+			id="anchor-document-approvals"
+			x-approvals="true"
+			x-project="project">
+		</tmpl-documents-approvals>
 	</div>
+	
 </div>

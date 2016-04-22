@@ -1,17 +1,18 @@
-<h1 class="page-title no-lower-margin">
-	Add / Edit Comment Period for {{ project.name }}
-</h1>
+<div class="edit-project-comment-period-view">
 
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="p.commentperiod.list">Cancel</a>
-		<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+	<div class="view-title-container">
+		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Add/Edit Comment Period</h1>
 	</div>
-</div>
 
-<div class="panel panel-default">
-	<div class="panel-body">
-		<!-- START/END DATE -->
+	<div class="hidden">
+		<div class="col-sm-12 text-right">
+			<a class="btn btn-xs btn-link" ui-sref="p.commentperiod.list">Cancel</a>
+			<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+		</div>
+	</div>
+	
+	<div class="view-body-container">
+		
 		<div class="row">
 			<div class="col-sm-3">
 				<div class="form-group">
@@ -35,11 +36,9 @@
 				</div>
 				<div class="form-group">
 					<label class="control-label">Comment Period Close</label>
-
 					<div class="input-group">
 						<p class="form-control-static">{{ period.dateCompleted | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="period.dateCompleted" >&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a>&nbsp; &nbsp;</p>
 					</div>
-
 				</div>
 			</div>
 			<div class="col-sm-3" ng-if="period.periodType==='Working Group'">
@@ -47,12 +46,15 @@
 				<div class="well well-sm">
 					<ul class="list-unstyled task-list">
 						<li>working-group</li>
-<!-- 						<li ng-repeat="role in period.projectRoles">
+						<!-- 						
+						<li ng-repeat="role in period.projectRoles">
 							<button class="btn btn-block btn-sm btn-layer btn-default"
 								ng-click="processEngageWGConfig.chosenRoles[role] = !processEngageWGConfig.chosenRoles[role]"
-								ng-class="{'btn-success': processEngageWGConfig.chosenRoles[role]}">{{ role }}</button>
+								ng-class="{'btn-success': processEngageWGConfig.chosenRoles[role]}">{{ role }}
+							</button>
 						</li>
- -->					</ul>
+						-->
+					</ul>
 				</div>
 			</div>
 			<div class="col-sm-3" ng-if="period.periodType==='Public'">
@@ -76,7 +78,6 @@
 			<a class="btn btn-default" ui-sref="p.commentperiod.list">Cancel</a>
 			<a class="btn btn-default" href ng-click="save()">Save</a>
 		</div>
-
 	</div>
 </div>
 

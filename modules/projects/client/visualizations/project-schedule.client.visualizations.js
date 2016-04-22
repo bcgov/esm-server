@@ -22,7 +22,7 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 		scope : {
 			phases: '='
 		},
-		template: '<div class="svg-div-timeline block-content"></div>',
+		template: '<div class="svg-div-timeline"></div>',
 		link: function (scope, element, attrs) {
 
 			var oPhaseDetail, oPhaseStart, oPhaseEnd, posPhaseStart, posPhaseEnd, posToday, oPhases;

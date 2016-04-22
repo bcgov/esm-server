@@ -70,6 +70,39 @@ function controllerProcessInvitations($scope, $rootScope, sProcessInvitations, $
 
     doMoveUser(src, dest, user);
   };
+  
+  taskInvitations.sendInvitations = function() {
+    if (taskInvitations.canSend()) {
+      var userIds = taskInvitations.selected.map(function (s) {
+        return s._id.toString();
+      });
+      var data = {
+        subject: taskInvitations.taskData.subject,
+        content: taskInvitations.taskData.content,
+        projectId: taskInvitations.project._id.toString(),
+        userIds: userIds
+      };
+
+      sProcessInvitations.sendInvitations(data).then(function (res) {
+        // res.data will return an array of:
+        //email: user.email
+        //userId: user._id
+        //messageId: returned from SMTP server, id of message sent
+        //accepted: true/false, true if delivered
+        //rejected: true/false, true if rejected (invalid email address).
+        //
+        // not sure how to best to raise this and show it...
+        // TODO: match userIds for accepted and rejected, show message on screen
+        //console.log(res);
+      });
+    }
+  };
+
+  taskInvitations.canSend = function() {
+    return _.size(taskInvitations.selected) > 0 &&
+      !_.isEmpty(taskInvitations.taskData.subject) &&
+      !_.isEmpty(taskInvitations.taskData.content);
+  };
 
   // get the selected roles users on load.
   this.setUsers();

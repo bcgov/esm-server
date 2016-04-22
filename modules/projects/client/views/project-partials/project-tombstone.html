@@ -1,48 +1,67 @@
-<div class='panel-body'>
 
-	<div class='row' ng-if="environment === 'EAO'">
-		<div class='col-sm-3'>
-			<div><label class="control-label">Type</label><p>{{ ::project.type }}</p></div>
-			<div ng-if="project.location"><label class="control-label">Location</label><p>{{ ::project.location }}</p></div>
-			<div><label class="control-label">Region</label><p>{{ ::project.region | regionName }}</p></div>
-		</div>
-		<div class='col-sm-3'>
-			<div><label class="control-label">Estimated Phase Completion</label><p>{{ (project.currentPhase.dateCompletedEst | amDateFormat:'MMM Do YYYY') || 'N/A' }}</p></div>
-			<div><label class="control-label">Current Phase</label><p>{{ ::project.currentPhase.name | titleCase }}</p></div>
-			<!-- <div><label class="control-label">Next Phase</label><p x-phase-colour x-phase="project.nextPhase">{{ project.nextPhase }}</p></div> -->
-		</div>
+<div ng-if="environment === 'EAO'">
+	<div class="detail-row">
+		<label>Location:</label>
+		<span class="value">{{ ::project.location }}&nbsp;<span ng-show="project.region">{{ ::project.region | regionName }} Region)</span></span>
+	</div>
+	<div class="detail-row">
+		<label>Type:</label>
+		<span class="value">{{ ::project.type }}</span>
+	</div>
+	<div class="detail-row">
+		<label>Phase:</label>
+		<span class="value">
+			<span class="badge" ng-class="{'review': project.currentPhaseName == 'Review'}" title="Phase: {{::project.currentPhase.name}}">{{ ::project.currentPhase.name | titleCase }}</span>
+			&nbsp;(Estimated Phase Completion: {{ (project.currentPhase.dateCompletedEst | amDateFormat:'MMM Do YYYY') || 'N/A' }})</span>
+	</div>
+	<div class="detail-row" ng-show="::project.description">
+		<label>Description:</label>
+		<span class="value">{{ ::project.description }}</span>
+	</div>
+</div>
 
-		<div class='col-sm-6'>
-			<div>
-				<label class="control-label">Description</label>
-				<pre ng-bind-html="project.description"></pre>
-			</div>
+<div class="mem-details row" ng-if="environment === 'MEM'">
+
+	<div class='col-md-4'>
+		<div class="detail-row">
+			<label>Permit Number:</label>
+			<span class="value">{{ ::project.memPermitID }}</span>
+		</div>
+		<div class="detail-row">
+			<label>Phase:</label>
+			<span class="value">{{ ::project.currentPhase.name }}</span>
+		</div>
+		<div class="detail-row">
+			<label>Region:</label>
+			<span class="value">{{ ::project.region | regionName }}</span>
+		</div>
+		<div class="detail-row">
+			<label>Lat/Long:</label>
+			<span class="value">{{ ::project.lat }}, {{ ::project.lon }}</span>
 		</div>
 	</div>
-
-	<div class='row' ng-if="environment === 'MEM'">
-
-		<div class='col-sm-3'>
-			<div><label class="control-label">Permit Number</label><p>{{ ::project.memPermitID }}</p></div>
-			<div><label class="control-label">Proponent / Operator</label><p>{{ ::project.proponent.name || '-' }}</p></div>
-			<div><label class="control-label">Ownership</label><p>{{ project.ownership || '-' }}</p></div>
-			<div><label class="control-label">Latitude</label><p>{{ ::project.lat }}</p></div>
-			<div><label class="control-label">Longitude</label><p>{{ ::project.lon }}</p></div>
+	<div class="col-md-8">
+		<div class="detail-row">
+			<label>Proponent/Operator:</label>
+			<span class="value">{{ ::project.proponent.name || '-' }}</span>
 		</div>
-		<div class='col-sm-3'>
-			<div><label class="control-label">Phase</label><p>{{ ::project.currentPhase.name }}</p></div>
-			<div><label class="control-label">Commodity/ies</label><p>{{ (project.commodity || '-') | titleCase }}</p></div>
-			<div><label class="control-label">Region</label><p>{{ ::project.region | regionName }}</p></div>
-			<div><label class="control-label">Tailings Impoundments</label><p>{{ ::project.tailingsImpoundments || '-' }}</p></div>
+		<div class="detail-row">
+			<label>Ownership:</label>
+			<span class="value">{{ project.ownership || '-' }}</span>
 		</div>
-		<div class='col-sm-6'>
-			<div>
-				<label class="control-label">Description</label>
-				<pre ng-bind-html="project.description"></pre>
-			</div>
+		<div class="detail-row">
+			<label>Commodity(ies):</label>
+			<span class="value">{{ (project.commodity || '-') | titleCase }}</span>
+		</div>
+		<div class="detail-row">
+			<label>Tailings Impoundments:</label>
+			<span class="value">{{ ::project.tailingsImpoundments || '-' }}</span>
 		</div>
 	</div>
-
-
-
-</div><!--  /project-info-large -->
+	<div class="col-md-12 description">
+		<div class="detail-row">
+			<label>Description:</label>
+			<pre ng-bind-html="project.description"></pre>
+		</div>
+	</div>
+</div>

@@ -147,6 +147,44 @@ var doSendTemplate = function(template, data, fromUser, toUser) {
   });
 };
 
+
+var doPopulateAndSend = function(subject, content, data, fromUser, toUser) {
+  return new Promise(function(fulfill, reject) {
+    var mailOptions = {
+      to: recipient(toUser)
+    };
+
+    var templateData;
+    if (typeof data === 'string') {
+      templateData = JSON.parse(data);
+    } else {
+      templateData = data;
+    }
+
+    templateData = _.assign(templateData, {
+      fromEmail: fromUser.email,
+      fromDisplayName: fromUser.displayName
+    });
+
+    var emailSender = transporter.templateSender({
+      subject: subject,
+      text: content,
+      html: content
+    }, {
+      from: config.mailer.from,
+    });
+
+    emailSender(mailOptions, templateData, function (error, info) {
+      if (error) {
+        reject(new Error(error.toString()));
+      } else {
+        fulfill({userId: toUser._id.toString(), email: toUser.email, accepted: _.includes(info.accepted, recipient(toUser)), rejected: _.includes(info.rejected, recipient(toUser)), messageId: info.messageId });
+      }
+    });
+
+  });
+};
+
 var sendEmail = function(subject, body, from, to) {
   var sender, recipients;
 
@@ -184,6 +222,33 @@ var sendTemplate = function(template, data, from, to) {
     });
 };
 
+var populateAndSend = function(subject, content, data, from) {
+  var sender, recipients;
+
+  // data is an array of template data, which includes the userId of the recipient.
+
+  var to = data.map(function(r) {
+    return r.toUserId;
+  });
+
+  return fetchUsers(from)
+    .then(function(f) {
+      sender = f[0];
+      return fetchUsers(to);
+    })
+    .then(function(r) {
+      recipients = r;
+      var a = recipients.map(function(to) {
+        // get the data row that matches the recipient
+        var d = _.find(data, function(r) { return r.toUserId.toString() === to._id.toString(); });
+        return doPopulateAndSend(subject, content, d, sender, to);
+      });
+
+      return Promise.all(a);
+    });
+
+};
+
 //
 // var email = require(path.resolve('./modules/core/server/controllers/email.server.controller'));
 //
@@ -216,5 +281,6 @@ var sendTemplate = function(template, data, from, to) {
 //
 module.exports = {
   sendEmail    : sendEmail,
-  sendTemplate : sendTemplate
+  sendTemplate : sendTemplate,
+  populateAndSend: populateAndSend
 };

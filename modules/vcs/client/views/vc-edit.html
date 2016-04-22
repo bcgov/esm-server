@@ -1,16 +1,16 @@
-<h1 class="page-title no-lower-margin">
-	Add / Edit Value Component
-</h1>
+<div class="edit-valued-component-view"></div>
 
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="p.vc.list">Cancel</a>
-		<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+	<div class="view-title-container">
+		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Add/Edit Value Component</h1>
 	</div>
-</div>
 
-<div class="panel panel-default">
-	<div class="panel-body">
+	<div class="view-body-container">
+		<div class="row">
+			<div class="col-sm-12 text-right hidden">
+				<a class="btn btn-xs btn-link" ui-sref="p.vc.list">Cancel</a>
+				<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-sm-9">
 				<div class="form-group">
@@ -25,7 +25,6 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
@@ -42,7 +41,6 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group">
@@ -50,7 +48,6 @@
 					<select ng-change="d.selectTopic(pillar)" id="pillar" ng-model='d.vc.pillar' class="form-control input-sm" ng-options="pillar as pillar for pillar in d.pillars"></select>
 				</div>
 			</div>
-
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="stage" class="control-label">Project Stage</label>
@@ -67,16 +64,13 @@
 					</select>
 				</div>
 			</div>
-
 		</div>
-
 		<hr>
-
 		<div text-align="right">
 			<a class="btn btn-default" ui-sref="p.vc.list">Cancel</a>
 			<a class="btn btn-default" href ng-click="save()">Save</a>
 		</div>
-
 	</div>
+	
 </div>
 

@@ -1,3 +1,7 @@
+<div class="view-title-container">
+	<h1>{{ project.name }}&nbsp; &rsaquo; &nbsp;Project Roles</h1>
+</div>
+
 <div class="row">
 	<div class="col-sm-4" ng-repeat="(role, users) in roles track by $index | orderBy" ng-class="{'clear-left': !($index % 3)}">
 		<div class="thumbnail">

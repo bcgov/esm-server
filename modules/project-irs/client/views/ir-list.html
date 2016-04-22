@@ -1,22 +1,26 @@
-<h1 class="page-title no-lower-margin">
-	Inspection Reports for {{ project.name }}
-</h1>
-
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="p.ir.create()">+ Add New Inspection Report</a>
-		<show-filter x-toggle-filter="toggleFilter"></show-filter>
+<div class="inspection-report-view">
+	
+	<div class="view-title-container">
+		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Inspection Reports</h1>
 	</div>
-</div>
+	
+	<div class="view-body-container">
 
-<div class="row">
-	<div class="col-sm-12">
+		<div class="button-bar clearfix">
+			<a class="btn btn-default btn-sm pull-left" ui-sref="p.ir.create()">
+				<span class="glyphicon glyphicon-plus"></span>
+				<span>Add Inspection Report</span>
+			</a>
+			<div class="pull-right">
+				<show-filter x-toggle-filter="toggleFilter"></show-filter>
+			</div>
+		</div>
+		
 		<section class="panel panel-default">
-
 			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-hover table-striped">
 				<tr ng-repeat="o in $data" ui-sref="p.ir.detail({irId:o._id})" class="clickable">
 					<td data-title="'Name'"    sortable="'name'"    filter="{'name':'text'}"	>{{o.name}}</td>
-					<td width="1%" class="text-right">
+					<td>
 						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.ir.edit({irId:o._id})">
 						<i class="glyphicon glyphicon-pencil"></i>
 						</a>
@@ -27,5 +31,5 @@
 				</tr>
 			</table>
 		</section>
-	</div>
+		
 </div>

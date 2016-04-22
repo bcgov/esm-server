@@ -1,18 +1,13 @@
-<section id="project-view" class="row">
+<section id="project-view">
 
-    <div class="view-title-container">
-        <h1>{{ project.name }}</h1>
-    </div>
-
-
-    <div class="view-content flex-content">
+    <div class="view-content">
          <!-- SIDE NAVIGATION -->
          <aside class="left-panel" id="main-side-section" ng-if="authentication.user">
             <tmpl-system-menu x-menu-context="'project'" x-project="project"></tmpl-system-menu>
          </aside>
 
         <!-- PROJECTS DETAILS -->
-        <section class="main-panel" style="padding-left:1.5rem" ng-if="!authentication.user">
+        <section class="main-panel" ng-if="!authentication.user">
             <ui-view id="main-content-section"></ui-view>
         </section>
         <section class="main-panel" ng-if="authentication.user">
@@ -20,7 +15,7 @@
         </section>
 
         <!-- ACTIVITIES LIST -->
-        <section class="right-panel activities-container" ng-if="authentication.user">
+        <section class="right-panel activities-container hidden" ng-if="authentication.user">
             <h2>My Activities<span>(*)</span></h2>
             <div class="panel panel-default tab-container">
                 <ul class="nav nav-tabs" role="tablist">
