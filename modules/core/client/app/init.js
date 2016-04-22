@@ -14,7 +14,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 			key: 'AIzaSyCTbJdM2XHNQ6ybqPzyaT-242tIAgIbk8w',
 			v: '3.22',
 			libraries: 'weather,geometry,visualization'
-		});		
+		});
 	}
 ]);
 
@@ -84,9 +84,9 @@ angular.element(document).ready(function () {
 
   // make sure we don't have any issues in ie getting the location.origin...
   if (!window.location.origin) {
-    window.location.origin = window.location.protocol + "//"
-      + window.location.hostname
-      + (window.location.port ? ':' + window.location.port : '');
+    window.location.origin = window.location.protocol + "//" +
+      window.location.hostname +
+      (window.location.port ? ':' + window.location.port : '');
   }
 
 	//Then init the app
