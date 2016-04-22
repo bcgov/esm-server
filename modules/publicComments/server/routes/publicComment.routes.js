@@ -19,13 +19,13 @@ module.exports = function (app) {
 	// collection routes
 	//
 	app.route ('/api/publiccomment').all (policy.isAllowed)
-	//	.get  (controller.list)
+		.get  (controller.list)
 		.post (controller.create);
 	//
 	// model routes
 	//
 	app.route ('/api/publiccomment/:publiccomment').all (policy.isAllowed)
-		// .put    (controller.update)
+		.put    (controller.update)
 		.get    (controller.read);
 		// .delete (controller.delete);
 	app.route ('/api/new/publiccomment').all (policy.isAllowed)
@@ -58,7 +58,7 @@ module.exports = function (app) {
 
 	// release in progress
 	app.route ('/api/publiccomment/:publiccomment/release').all (policy.isAllowed)
-		.put (controller.releaseInProgress);		
+		.put (controller.releaseInProgress);
 	//
 	// save a copy
 	//

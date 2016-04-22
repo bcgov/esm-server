@@ -1,0 +1,86 @@
+<div class="modal-header">
+	<button class="btn btn-default btn-sm pull-right" type="button" ng-click="d.cancel()">Close</button>
+	<h3 class="modal-title">Comment Detail</h3>
+</div>
+
+<div class="modal-body" style="padding: 0">
+
+<div class="container-fluid">
+	<div class="row scrolling-fixed-box" style="padding: 10px;">
+
+		<div>
+			<pre>{{ d.comment.comment }}</pre>
+		</div>
+
+	</div>
+	<hr>
+	<div class="row">
+
+		<div class="col-sm-4">
+			<label class="control-label">
+				Pillars
+			</label>
+			<ul class="list-unstyled task-list">
+				<li ng-repeat="group in (d.pillars | orderBy) track by $index">
+					<button class="btn btn-block btn-sm btn-layer" >{{ group }}</button>
+				</li>
+
+				<!-- there are no buckets defined on the project -->
+				<li ng-if="(!d.pillars || d.pillars.length === 0)" class="small">
+					<span>There are no pillars identified for this comment.</span>
+				</li>
+
+			</ul>
+		</div>
+
+		<div class="col-sm-4">
+			<label class="control-label">
+				Topics
+			</label>
+			<ul class="list-unstyled task-list">
+
+				<li ng-repeat="bucket in (d.comment.buckets | orderBy:'name') track by $index">
+					<button class="btn btn-block btn-sm btn-layer">{{ bucket.name }}</button>
+				</li>
+
+				<!-- there are no buckets defined on the project -->
+				<li ng-if="d.comment.buckets.length === 0" class="small">
+					<span>There are no topics identified for this comment.</span>
+				</li>
+
+			</ul>
+		</div>
+
+		<div class="col-sm-4">
+			<label class="control-label">
+				Documents
+			</label>
+			<small>{{ d.comment.dateAdded | amDateFormat:'MMM Do, YYYY hh:mm a'}}</small><br/>
+			<p ng-if="d.comment.displayName && d.comment.author" class="small">{{ d.comment.author }}</p>
+			<p ng-if="d.comment.displayName && d.comment.location" class="small">{{ d.comment.location }}</p>
+
+			<ul class="list-unstyled document-vetting">
+				<li ng-repeat="doc in d.comment.documents">
+					<a href="/api/commentdocument/{{ doc._id }}/fetch" target="_blank" class="small" ng-if="doc.eaoStatus !== 'Rejected'"><span class="glyphicon glyphicon-file"></span> {{ doc.name }}</a>
+					<span class="small text-warning" ng-if="doc.eaoStatus === 'Rejected'"><i class="glyphicon glyphicon-file"></i> This document has not been shared as it does not meet the privacy policy rules.</span>
+				</li>
+				<li ng-if="d.comment.documents.length === 0" class="small">
+					<span>There are no documents identified for this comment.</span>
+				</li>
+			</ul>
+		</div>
+
+
+	</div>
+</div>
+
+
+
+
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-default" type="button" ng-click="d.cancel()">Close</button>
+</div>
+
+

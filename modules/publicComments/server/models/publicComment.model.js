@@ -24,7 +24,9 @@ var PublicCommentSchema  = new Schema ({
 	rejectedNotes	 : { type:String, default: '' },
 	rejectedReason	 : { type:String, default: '' },
 	updatedBy       : { type:'ObjectId', ref:'User', default:null },
-	dateUpdated     : { type: Date, default: Date.now }
+	dateUpdated     : { type: Date, default: Date.now },
+	documents : [{ type:'ObjectId', ref:'CommentDocument' }],
+	buckets : [{ type:'ObjectId', ref:'Bucket' }]
 });
 
 PublicCommentSchema.index ({eaoStatus:1});

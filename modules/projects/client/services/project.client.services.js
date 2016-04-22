@@ -18,6 +18,10 @@ function serviceProject($http) {
 	var getProject = function(req) {
 		return $http({method:'GET',url: '/api/project/' + req.id});
 	};
+	var getProjectFromId = function(id) {
+		console.log ('getting project', id);
+		return $http({method:'GET',url: '/api/project/' + id});
+	};
 
 	var addProject = function(req) {
 		return $http({method:'POST',url: '/api/project', data: req});

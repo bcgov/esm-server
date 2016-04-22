@@ -11,8 +11,8 @@ module.exports = function (app) {
 	//
 	// collection routes
 	//
-	// app.route ('/api/commentdocument').all (policy.isAllowed)
-		// .get  (controller.list)
+	app.route ('/api/commentdocument').all (policy.isAllowed)
+		.get  (controller.list);
 		// .post (controller.create);
 	//
 	// model routes

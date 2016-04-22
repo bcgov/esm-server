@@ -1,0 +1,96 @@
+<h1 class="page-title no-lower-margin">Public Comments for {{ project.name }}</h1>
+
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a class="btn btn-xs btn-link" ui-sref="admin.condition.create()">+ Add New Condition</a>
+		<show-filter x-toggle-filter="toggleFilter"></show-filter>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-12">
+		<section class="panel panel-default">
+			<table ng-table="tableParams" x-show-filter="true" class="table table-condensed table-striped table-hover">
+				<tr ng-repeat="o in $data" class="clickable">
+					<td width="50%"
+						data-title="'Comment'"
+						filter="{'comment':'text'}"
+						sortable="'comment'"
+					>
+								<pre ng-show="!toggleDateComment[o._id]" class="form-group">{{ o.comment | maxWords:80:false }}</pre>
+								<pre ng-show="toggleDateComment[o._id]" class="form-group ng-hide ">{{ o.comment }}</pre>
+								<p ng-if="(o.comment | wordCount) > 80">
+									<a href  ng-click="toggleDateComment[o._id] = !toggleDateComment[o._id]">
+										<span ng-show="!toggleDateComment[o._id]"><em>More ({{ o.comment | wordCount }} words)</em></span>
+										<span ng-show="toggleDateComment[o._id]"><em>Less</em></span>
+									</a>
+								</p>
+					</td>
+
+					<td width="10%" align="center"
+						x-view-comment-detail
+						x-comment='o'
+						x-project='project'
+						data-title="'Date'"
+						filter="{'dateAdded':'text'}"
+						sortable="'dateAdded'"
+					>
+						{{o.dateAdded | date : 'yyyy-MM-dd' : 'PST'}}
+					</td>
+
+					<td align="center"
+						data-title="'Author'"
+						filter="{'author':'text'}"
+						sortable="'author'"
+					>
+						{{o.author}}
+					</td>
+
+					<td align="center"
+						data-title="'Location'"
+						filter="{'location':'text'}"
+						sortable="'location'"
+					>
+						{{o.location}}
+					</td>
+
+					<td width="16%" align="center"
+						data-title="'Class'"
+						filter="{'classification':'text'}"
+						sortable="'classification'"
+					>
+						{{o.classification.join(' ')}}
+					</td>
+
+					<td width="2%" align="center"
+						data-title="'#C'"
+						filter="{'buckets.length':'text'}"
+						sortable="'buckets.length'"
+					>
+						{{o.buckets.length}}
+					</td>
+
+					<td width="2%" align="center"
+						data-title="'#D'"
+						filter="{'documents.length':'text'}"
+						sortable="'documents.length'"
+					>
+						{{o.documents.length}}
+					</td>
+
+<!-- 					<td width="1%" class="text-right">
+						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="admin.condition.edit({conditionId:o._id})">
+						<i class="glyphicon glyphicon-pencil"></i>
+						</a>
+					</td>
+ -->				</tr>
+				<tr ng-if="!$data || $data.length === 0">
+					<td colspan="6">
+						No records found.
+					</td>
+				</tr>
+			</table>
+		</section>
+	</div>
+
+</div>
