@@ -56,19 +56,53 @@ var getUsersByIds = function (ids) {
 };
 
 var getAllInvitations = function (project, users) {
-  return new Promise(function (fulfill, reject) {
-    Invitation.find({user: {$in: users}, project: project}).exec(function (err, invitations) {
-      if (err) {
-        reject(err);
-      } else if (!invitations) {
-        reject(new Error('Failed to load Invitations for users in project : "' + project.name + '".'));
-      } else {
-        fulfill(invitations);
-      }
-    });
-  });
+	return new Promise(function (fulfill, reject) {
+		Invitation.find({user: {$in: users}, project: project}).exec(function (err, invitations) {
+			if (err) {
+				reject(err);
+			} else if (!invitations) {
+				reject(new Error('Failed to load Invitations for users in project : "' + project.name + '".'));
+			} else {
+				fulfill(invitations);
+			}
+		});
+	});
 };
 
+
+var getInvitation = function (id) {
+	return new Promise(function (fulfill, reject) {
+		Invitation.findOne({_id: id.toString()}).populate('project').populate('user').exec(function (err, invitations) {
+			if (err) {
+				reject(err);
+			} else if (!invitations) {
+				reject(new Error('Failed to find Invitation'));
+			} else {
+				fulfill(invitations);
+			}
+		});
+	});
+};
+
+var acceptInvitation = function(invite) {
+	return new Promise(function(fulfill, reject) {
+		if (invite.accepted !== undefined) {
+			// already accepted, just carry on...
+			fulfill(invite);
+		} else {
+			invite.accepted = new Date();
+			invite.save(function (error, inv) {
+				if (error) {
+					reject(new Error(error));
+				} else if (!inv) {
+					reject(new Error('Invitation not accepted.'));
+				} else {
+					fulfill(inv);
+				}
+			});
+		}
+	});
+};
 
 module.exports = DBModel.extend({
   name: 'Invitation',
@@ -263,7 +297,42 @@ module.exports = DBModel.extend({
           return fulfill(data);
         });
     });
-  }
+  },
+
+	acceptInvitation: function(req) {
+		// find invitation
+		// remove user from that project's invitation role
+		// add the system user role
+		// may add in an idir role?
+		var invitation;
+		
+		return new Promise(function(fulfill, reject) {
+			return getInvitation(req.params.token)
+				.then(function(inv) {
+					invitation = inv;
+					return acceptInvitation(invitation);
+				})
+				.then(function(data) {
+					// since they have accepted, remove them from the project invitee role...
+					return Roles.userRoles({
+						method: 'remove',
+						users: invitation.user,
+						roles: [invitation.project.inviteeRole]
+					});				
+				})
+				.then(function(data) {
+					// make sure they are in the user role...
+					return Roles.userRoles({
+						method: 'add',
+						users: invitation.user,
+						roles: ['user']
+					});
+				})
+				.then(function(data) {
+					return fulfill(invitation);
+				});
+		});
+	}
 });
 
 
