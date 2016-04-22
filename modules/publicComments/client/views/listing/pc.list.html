@@ -5,7 +5,11 @@
 	<div class="col-sm-12">
 		<section class="panel panel-default">
 			<table ng-table="tableParams" x-show-filter="true" class="table table-condensed  table-hover">
-				<tr ng-repeat="o in $data" class="clickable">
+				<tr ng-repeat="o in $data" class="clickable"
+										x-view-comment-detail
+						x-comment='o'
+						x-project='project'
+>
 					<td width="50%"
 						data-title="'Comment'"
 						filter="{'comment':'text'}"
@@ -22,9 +26,6 @@
 					</td>
 
 					<td width="10%" align="center"
-						x-view-comment-detail
-						x-comment='o'
-						x-project='project'
 						data-title="'Date'"
 						filter="{'dateAdded':'text'}"
 						sortable="'dateAdded'"
