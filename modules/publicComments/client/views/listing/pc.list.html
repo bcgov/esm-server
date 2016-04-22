@@ -1,16 +1,10 @@
-<h1 class="page-title no-lower-margin">Public Comments for {{ project.name }}</h1>
+<h2 class="page-title">Public Comments for {{ project.name }}</h2>
 
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="admin.condition.create()">+ Add New Condition</a>
-		<show-filter x-toggle-filter="toggleFilter"></show-filter>
-	</div>
-</div>
 
 <div class="row">
 	<div class="col-sm-12">
 		<section class="panel panel-default">
-			<table ng-table="tableParams" x-show-filter="true" class="table table-condensed table-striped table-hover">
+			<table ng-table="tableParams" x-show-filter="true" class="table table-condensed  table-hover">
 				<tr ng-repeat="o in $data" class="clickable">
 					<td width="50%"
 						data-title="'Comment'"

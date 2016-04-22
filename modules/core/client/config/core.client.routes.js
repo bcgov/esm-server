@@ -128,7 +128,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		},
 		resolve: {
 			project: function ($stateParams, Project, $http) {
-				console.log ('project id = ', $stateParams.id);
+				// console.log ('project id = ', $stateParams.id);
 				return $http({method:'GET',url: '/api/project/' + $stateParams.id}).then (function (ret) {return ret.data;});
 				// return Project.getProjectFromId ($stateParams.id);//.then (function (ret) {return ret.data;});
 			}
