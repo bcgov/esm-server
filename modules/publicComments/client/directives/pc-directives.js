@@ -9,7 +9,7 @@ angular.module('publicComments')
 //
 // -------------------------------------------------------------------------
 
-.directive('viewCommentDetail', function ($modal) {
+.directive('viewCommentDetail', function ($modal, _) {
     return {
         restrict:'A',
         scope : {
@@ -30,7 +30,7 @@ angular.module('publicComments')
                     	d.comment = $scope.comment;
                     	d.pillars = _.unique(_.pluck(d.comment.buckets, 'group'));
                     	d.topics  = _.pluck(d.comment.buckets, 'name');
-                    	d.cancel = function () { $modalInstance.close (); }
+                    	d.cancel = function () { $modalInstance.close (); };
                     },
                 });
             });
