@@ -101,7 +101,6 @@ exports.getDocumentVersionsAndReturn = getDocumentVersionsAndReturn;
 // -------------------------------------------------------------------------
 var getDocumentsForProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
-		console.log ('oh teah');
 		Model.find({
 			project: req.params.projectid,
 			documentIsLatestVersion: true,
