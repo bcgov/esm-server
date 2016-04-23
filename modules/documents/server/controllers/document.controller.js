@@ -733,7 +733,7 @@ var upload = function (req, res) {
 			fs.rename(process.cwd() + path.sep + oldPath, process.cwd() + path.sep + file.path, function(err) {
 				if (err) {
 					// console.log("err:",err);
-					helpers.sendErrorMessage (res, "document.controller.upload: Couldn't move file");
+					helpers.sendErrorMessage (res, "document.controller.upload: Couldn't move file"+err);
 				}
 				console.log("From: ",process.cwd() + path.sep + oldPath);
 				console.log("To: ",process.cwd() + path.sep + file.path);
