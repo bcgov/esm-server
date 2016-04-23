@@ -686,12 +686,11 @@ exports.populateReviewDocuments = populateReviewDocuments;
 //
 // -------------------------------------------------------------------------
 var upload = function (req, res) {
-	console.log ('++uploading file:');
-	console.log (req.files);
-	console.log ('end of file');
+	// console.log ('++uploading file:');
+	// console.log (req.files);
+	// console.log ('end of file');
 	var file = req.files.file;
 	if (file) {
-		console.log (file);
 		// console.log('++headers');
 		// console.log(req.Project);
 		// console.log('--headers');
@@ -730,21 +729,22 @@ var upload = function (req, res) {
 			}), req, res);
 		};
 		var renameThenImport = function() {
-			fs.rename(process.cwd() + path.sep + oldPath, process.cwd() + path.sep + file.path, function(err) {
+			fs.rename(oldPath, file.path, function(err) {
 				if (err) {
 					// console.log("err:",err);
 					helpers.sendErrorMessage (res, "document.controller.upload: Couldn't move file"+err);
+				} else {
+					// console.log("From: ",uploadBasePath + path.sep + oldPath);
+					// console.log("To: ",uploadBasePath + path.sep + file.path);
+					doImport();
 				}
-				console.log("From: ",process.cwd() + path.sep + oldPath);
-				console.log("To: ",process.cwd() + path.sep + file.path);
-				doImport();
 			});
 		};
 		fs.exists(path.dirname(oldPath)+path.sep+req.Project.code, function(exists) {
 			if (exists) {
 				renameThenImport();
 			} else {
-				fs.mkdir(process.cwd() + path.sep + path.dirname(oldPath)+path.sep+req.Project.code, function () {
+				fs.mkdir(path.dirname(oldPath)+path.sep+req.Project.code, function () {
 					renameThenImport();
 				});
 			}
