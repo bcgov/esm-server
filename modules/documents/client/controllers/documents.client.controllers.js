@@ -217,7 +217,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 				file.upload.then(function (response) {
 					$timeout(function () {
 						file.result = response.data;
-						// console.log('file', response.data);
+						console.log('file', response.data);
 						// when the last file is finished, send complete event.
 						if (--docCount === 0) {
 							// emit to parent.
@@ -227,6 +227,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 				}, function (response) {
 					if (response.status > 0) {
 						docUpload.errorMsg = response.status + ': ' + response.data;
+						console.log("error:",docUpload.errorMsg);
 					} else {
 						_.remove($scope.files, file);
 					}
