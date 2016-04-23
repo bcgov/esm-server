@@ -686,12 +686,12 @@ exports.populateReviewDocuments = populateReviewDocuments;
 //
 // -------------------------------------------------------------------------
 var upload = function (req, res) {
-	// console.log ('++uploading file:');
-	// console.log (req.files);
-	// console.log ('end of file');
+	console.log ('++uploading file:');
+	console.log (req.files);
+	console.log ('end of file');
 	var file = req.files.file;
 	if (file) {
-		//console.log (file);
+		console.log (file);
 		// console.log('++headers');
 		// console.log(req.Project);
 		// console.log('--headers');
@@ -735,8 +735,8 @@ var upload = function (req, res) {
 					// console.log("err:",err);
 					helpers.sendErrorMessage (res, "document.controller.upload: Couldn't move file");
 				}
-				// console.log("From: ",process.cwd() + path.sep + oldPath);
-				// console.log("To: ",process.cwd() + path.sep + file.path);
+				console.log("From: ",process.cwd() + path.sep + oldPath);
+				console.log("To: ",process.cwd() + path.sep + file.path);
 				doImport();
 			});
 		};
