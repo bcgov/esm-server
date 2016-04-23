@@ -227,7 +227,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 				}, function (response) {
 					if (response.status > 0) {
 						docUpload.errorMsg = response.status + ': ' + response.data;
-						console.log("error:",docUpload.errorMsg);
+						console.log("error data:",response.data);
 					} else {
 						_.remove($scope.files, file);
 					}
