@@ -109,11 +109,11 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 			});
 			if (ENV === 'MEM') {
 				Document.getProjectDocumentMEMTypes(newValue._id, false).then( function(res) {
-					console.log("getProjectDocumentMEMTypes",res.data);
+					// console.log("getProjectDocumentMEMTypes",res.data);
 					docUpload.docTypes = res.data;
 				});
 				Document.getProjectDocumentSubTypes(newValue._id, false).then( function(res) {
-					console.log("getProjectDocumentSubTypes",res.data);
+					// console.log("getProjectDocumentSubTypes",res.data);
 					docUpload.docSubTypes = res.data;
 				});
 			}
@@ -187,14 +187,14 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 	// docUpload.log = '';
 
 	docUpload.upload = function (uploadingReviewDocs) {
-		console.log("uploadingReviewDocs",uploadingReviewDocs);
+		// console.log("uploadingReviewDocs",uploadingReviewDocs);
 		docUpload.inProgress = true;
 		var docCount = docUpload.fileList.length;
-		console.log('upload', docCount);
+		// console.log('upload', docCount);
 		if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
 			angular.forEach( docUpload.fileList, function(file) {
 				// Quick hack to pass objects
-				console.log("docUpload",docUpload);
+				// console.log("docUpload",docUpload);
 				if (ENV === 'EAO') {
 					// In EAO, we let them only choose from predefined types.
 					// Move the choice to the model we use.
@@ -217,7 +217,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 				file.upload.then(function (response) {
 					$timeout(function () {
 						file.result = response.data;
-						console.log('file', response.data);
+						// console.log('file', response.data);
 						// when the last file is finished, send complete event.
 						if (--docCount === 0) {
 							// emit to parent.
@@ -227,7 +227,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 				}, function (response) {
 					if (response.status > 0) {
 						docUpload.errorMsg = response.status + ': ' + response.data;
-						console.log("error data:",response.data);
+						// console.log("error data:",response.data);
 					} else {
 						_.remove($scope.files, file);
 					}
