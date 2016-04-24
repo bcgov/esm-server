@@ -73,6 +73,33 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			artifact: function ($stateParams, ArtifactModel) {
 				// console.log ('artifactId = ', $stateParams.artifactId);
 				return ArtifactModel.getModel ($stateParams.artifactId);
+			},
+			fix: function (artifact, ArtifactTypeModel) {
+				if (!artifact.artifactType) {
+					// console.log ('getting fix');
+					return ArtifactTypeModel.fromCode (artifact.typeCode);
+				}
+				else return Promise.resolve (false);
+			},
+			fix2: function (artifact, TemplateModel) {
+				if (!artifact.template) {
+					// console.log ('getting fix2');
+					return TemplateModel.fromCode (artifact.typeCode);
+				}
+				else return Promise.resolve (false);
+			},
+			apply: function (artifact, fix, fix2) {
+				return new Promise (function (resolve, reject) {
+					if (fix) {
+						// console.log ('applying fix', fix);
+						artifact.artifactType = fix;
+					}
+					if (fix2) {
+						// console.log ('applying fix2', fix2);
+						artifact.template = fix2;
+					}
+					resolve (true);
+				});
 			}
 		}
 	})
@@ -84,9 +111,10 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.edit', {
 		url: '/edit',
 		templateUrl: 'modules/artifacts/client/views/artifact-edit.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel, Document) {
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Document) {
 			// console.log ('artifact = ', artifact);
 			// console.log ('project  = ', project);
+			// artifact.artifactType = fix;
 			var method = properMethod (artifact.stage);
 			if (method !== 'edit') $state.go ('p.artifact.'+method);
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
@@ -164,8 +192,9 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.view', {
 		url: '/view',
 		templateUrl: 'modules/artifacts/client/views/artifact-view.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel) {
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
 			// console.log ('artifact = ', artifact);
+			// artifact.artifactType = fix;
 			$scope.artifact = artifact;
 			$scope.project = project;
 		}
@@ -173,7 +202,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.comment', {
 		url: '/comment',
 		templateUrl: 'modules/artifacts/client/views/artifact-comment.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel) {
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
+			// artifact.artifactType = fix;
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
@@ -183,7 +213,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.review', {
 		url: '/review',
 		templateUrl: 'modules/artifacts/client/views/artifact-review.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel) {
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
+			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
@@ -215,15 +246,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.approve', {
 		url: '/approve',
 		templateUrl: 'modules/artifacts/client/views/artifact-approve.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel) {
-			//
-			// hack
-			//
-			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
-			//
-			// end hack
-			//
-			// console.log ('artifact = ', artifact);
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
+			// artifact.artifactType = fix;
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
@@ -254,15 +278,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.executive', {
 		url: '/executive',
 		templateUrl: 'modules/artifacts/client/views/artifact-executive.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel) {
-			//
-			// hack
-			//
-			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
-			//
-			// end hack
-			//
-			// console.log ('artifact = ', artifact);
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
+			// artifact.artifactType = fix;
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
@@ -293,7 +310,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.decision', {
 		url: '/decision',
 		templateUrl: 'modules/artifacts/client/views/artifact-decision.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel) {
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
+			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
 			if (method !== 'decision') $state.go ('p.artifact.'+method);
@@ -325,14 +343,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.publish', {
 		url: '/publish',
 		templateUrl: 'modules/artifacts/client/views/artifact-publish.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel) {
-			//
-			// hack
-			//
-			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
-			//
-			// end hack
-			//
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
+			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
@@ -364,14 +376,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.notify', {
 		url: '/notify',
 		templateUrl: 'modules/artifacts/client/views/artifact-notify.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel, EmailTemplateModel, _) {
-			//
-			// hack
-			//
-			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
-			//
-			// end hack
-			//
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, EmailTemplateModel, _) {
+			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);

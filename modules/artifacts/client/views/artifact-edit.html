@@ -14,7 +14,9 @@
 	</div>
 </div>
 
-<div ng-include="'/modules/artifacts/client/views/partial.artifact-edit.html'"></div>
+<!-- <div ng-include="'/modules/artifacts/client/views/partial.artifact-edit.html'"></div> -->
+
+<tmpl-artifact-display x-mode="'edit'" x-artifact="artifact" x-project="project"></tmpl-artifact-display>
 
 <div ng-include="'/modules/artifacts/client/views/partial.artifact-notes.html'"></div>
 

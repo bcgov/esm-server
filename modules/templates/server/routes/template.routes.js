@@ -22,6 +22,12 @@ module.exports = function (app) {
 			p.getCurrentType (req.params.documenttype)
 			.then (helpers.success(res), helpers.failure(res));
 		});
+	app.route ('/api/template/for/code/:code').all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Template (req.user);
+			p.getCurrentCode (req.params.code)
+			.then (helpers.success(res), helpers.failure(res));
+		});
 	app.route ('/api/new/template/section').all (policy.isAllowed)
 		.get (function (req, res) {
 			var p = new Template (req.user);

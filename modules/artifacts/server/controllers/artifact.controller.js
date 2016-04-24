@@ -221,6 +221,16 @@ module.exports = DBModel.extend ({
 			});
 		}
 		//
+		// if there is a new decision note then push it
+		//
+		if (doc.decisionnote) {
+			doc.decisionNotes.push ({
+				username : this.user.username,
+				date : Date.now(),
+				note: doc.decisionnote
+			});
+		}
+		//
 		// if this is a publish step, then publish the artifact
 		//
 		doc.read = _.union (doc.read, 'public');

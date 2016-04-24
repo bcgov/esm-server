@@ -53,6 +53,23 @@ angular.module('artifacts')
 })
 // -------------------------------------------------------------------------
 //
+// this wraps up the complete display of an artifact, either a template or
+// a document type, in either edit or view mode for each
+//
+// -------------------------------------------------------------------------
+.directive ('tmplArtifactDisplay', function () {
+	return {
+		restrict: 'E',
+		templateUrl: 'modules/artifacts/client/views/artifact-display.html',
+		scope: {
+			project: '=',
+			artifact: '=',
+			mode: '='
+		}
+	};
+})
+// -------------------------------------------------------------------------
+//
 // a modal directive with isolated scope for viewing and
 // interacting with a list of artifacts in order to choose one.
 // so, essentially an artifact chooser

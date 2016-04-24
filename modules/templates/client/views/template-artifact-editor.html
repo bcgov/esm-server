@@ -36,7 +36,7 @@
                     </span>
                 </div>
                 <div class="file-expanded-details">
-                    <tmpl-template-render ng-if="artifact.isTemplate" x-template="artifact.template" x-mode="view" x-project="project" x-document="artifact.templateData"></tmpl-template-render>
+                    <tmpl-template-render ng-if="artifact.isTemplate" x-template="artifact.template" x-mode="'view'" x-project="project" x-document="artifact.templateData"></tmpl-template-render>
                     <div ng-if="!artifact.isTemplate">
                         <div ng-include="'modules/artifacts/client/views/partial.artifact.document.html'"></div>
                         <span class="file-actions">

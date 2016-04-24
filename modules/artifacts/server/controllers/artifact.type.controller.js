@@ -59,5 +59,13 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	templateTypes: function () {
 		return this.findMany ({isTemplate:true},{code:1,name:1});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// get from a code
+	//
+	// -------------------------------------------------------------------------
+	fromCode: function (code) {
+		return this.findOne ({code:code});
 	}
 });

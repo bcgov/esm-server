@@ -19,6 +19,9 @@ angular.module('templates').factory ('TemplateModel', function (ModelBase, _) {
 		forDocumentType: function (documentType) {
 			return this.get ('/api/template/for/document/'+documentType);
 		},
+		fromCode: function (code) {
+			return this.get ('/api/template/for/code/'+code);
+		},
 		newSection: function () {
 			return this.get ('/api/new/template/section');
 		},

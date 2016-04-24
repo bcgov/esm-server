@@ -6,7 +6,9 @@
 	<a class="btn btn-link btn-xs" ui-sref="p.detail">Cancel</a>
 </div>
 
-<div ng-include="'modules/artifacts/client/views/partial.artifact-view.html'"></div>
+<!-- <div ng-include="'modules/artifacts/client/views/partial.artifact-view.html'"></div> -->
+
+<tmpl-artifact-display x-mode="'view'" x-artifact="artifact" x-project="project"></tmpl-artifact-display>
 
 <div class="panel panel-default">
 	<div class="panel-body">

@@ -18,6 +18,7 @@ exports.invokeRolesPolicies = function () {
 		[ '', 'user', '/api/artifact/project/:projectid/available/types'],
 		[ '', 'user', '/api/artifact/next/stage/:artifact'],
 		[ '', 'user', '/api/artifact/prev/stage/:artifact'],
+		[ 'guest', 'user', '/api/artifacttype/code/:code'],
 	]);
 };
 

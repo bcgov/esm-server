@@ -79,12 +79,12 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 		note: { type:String, default:'' },
 		date: { type: Date , default:null }
 	}],
-	rejectionNotes: [{
+	approvalNotes: [{
 		username: { type:String, default:'' },
 		note: { type:String, default:'' },
 		date: { type: Date , default:null }
 	}],
-	approvalNotes: [{
+	decisionNotes: [{
 		username: { type:String, default:'' },
 		note: { type:String, default:'' },
 		date: { type: Date , default:null }
