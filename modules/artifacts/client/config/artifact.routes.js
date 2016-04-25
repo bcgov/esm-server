@@ -68,7 +68,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact', {
 		abstract:true,
 		url: '/artifact/:artifactId',
-		template: '<ui-view></ui-view>',
+		// template: '<ui-view "></ui-view>',
+		templateUrl: 'modules/artifacts/client/views/artifact-container.html',
 		resolve: {
 			artifact: function ($stateParams, ArtifactModel) {
 				// console.log ('artifactId = ', $stateParams.artifactId);
