@@ -6,10 +6,6 @@
 			<li><a ui-sref="projects" href>All Projects</a></li>
 			<!-- <li><a href ui-sref="projects.schedule">Schedule</a></li> -->
 		</ul>
-		<hr>
-		<ul class="list-unstyled">
-			<li><a href ui-sref="activities">My Dashboard</a></li>
-		</ul>
 	</div>
 
 	<!-- Common on all pages Not Logged In -->
@@ -85,39 +81,6 @@
 			</div>
 		</div>
 	</div>
-
-
-	<div ng-if="menu.systemMenu.shouldRender(menu.authentication.user);">
-		<hr>
-		<div class="dropdown">
-			<a href ng-click="$event.preventDefault();" class="dropdown-toggle" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="System Configuration">System <span class="caret"></span></a>
-			<div class="dropdown-menu" aria-labelledby="dropdownSystemMenu">
-				<ul class="list-unstyled">
-					<li ng-repeat="item in menu.systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
-						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
-					</li>
-				</ul>
-				<ul class="list-unstyled" ng-if="menu.isAdmin">
-					<li>
-						<a ui-sref="admin.legal.list">Legal Opinions</a>
-					</li>
-					<li>
-						<a x-modal-project-import href x-project="menu.import">Import</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-
-	<div ng-show="menu.authentication.user">
-		<hr>
-		<label class="user-info control-label">Welcome, {{ menu.authentication.user.displayName }}</label>
-		<ul class="list-unstyled">
-			<li><a href ui-sref="settings.profile">Profile</a></li>
-			<li><a href="/api/auth/signout" target="_self">Logout</a></li>
-	  	</ul>
-	</div>
-
 </div>
 <!--
 <div class="container" ng-controller="HeaderController">

@@ -1,10 +1,54 @@
 <div class="app-header">
 	<nav class="navbar">
 		<div class="navbar-header">
-			<div class="navbar-brand"><a ui-sref="projects" href><img src="{{ logo }}" /></a></div>
+			<div class="navbar-brand"><a ui-sref="projects" href><img src="{{header.logo}}" /></a></div>
 		</div>
+		<!-- My Dashboard -->
+		<div ng-show="header.authentication.user">
+			<ul>
+				<li><a href ui-sref="activities">My Dashboard</a></li>
+			</ul>
+		</div>
+		<!-- System Menu -->
+		<div ng-if="header.systemMenu.shouldRender(header.authentication.user);">
+			<div class="dropdown">
+				<a href ng-click="$event.preventDefault();" class="dropdown-toggle" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="System Configuration">System <span class="caret"></span></a>
+				<div class="dropdown-menu" aria-labelledby="dropdownSystemMenu">
+					<ul class="list-unstyled">
+						<li ng-repeat="item in header.systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(header.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
+							<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
+						</li>
+					</ul>
+					<ul class="list-unstyled" ng-if="header.isAdmin">
+						<li>
+							<a ui-sref="admin.legal.list">Legal Opinions</a>
+						</li>
+						<li>
+							<a x-modal-project-import href x-project="header.import">Import</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- Schdule -->
+		<div ng-if="(header.context === 'projects' || header.context === 'mylist') && header.pageAnchors('anchor-group-projects')" id="anchor-group-projects">
+			<ul class="list-unstyled">
+				<li><a du-smooth-scroll  href="#anchor-schedule">Schedule</a></li>
+			</ul>
+		</div>
+		<!-- Auth -->
+		<div ng-show="header.authentication.user">
+			<hr>
+			<label class="user-info control-label">{{ header.authentication.user.displayName }}</label>
+			<ul class="list-unstyled">
+				<li><a href ui-sref="settings.profile">Profile</a></li>
+				<li><a href="/api/auth/signout" target="_self">Logout</a></li>
+			</ul>
+		</div>
+		<a ng-show="!header.authentication.user" ui-sref="authentication.signin">Log In</a>
+
 		<div class="hidden" ng-init="showSideMenu = true">
-			<a class="menu-toggle" ng-click="toggleSideMenu()" ng-if="authentication.user">
+			<a class="menu-toggle" ng-click="header.toggleSideMenu()" ng-if="header.authentication.user">
 				<span class="glyphicon glyphicon-menu-hamburger"></span>
 				<span ng-show="!showSideMenu" class="glyphicon glyphicon-menu-left"></span>
 				<span ng-show="showSideMenu" class="glyphicon glyphicon-menu-right"></span>				
