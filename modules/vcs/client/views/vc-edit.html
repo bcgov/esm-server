@@ -1,7 +1,7 @@
 <div class="edit-valued-component-view"></div>
 
 	<div class="view-title-container">
-		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Add/Edit Value Component</h1>
+		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Add/Edit Valued Component</h1>
 	</div>
 
 	<div class="view-body-container">
@@ -15,7 +15,7 @@
 			<div class="col-sm-9">
 				<div class="form-group">
 					<label for="title" class="control-label">Valued Component Name</label>
-					<input id="title" type="text" class="form-control input-sm" ng-model="d.vc.name">
+					<input id="title" type="text" class="form-control input-sm" ng-model="vc.name">
 				</div>
 			</div>
 			<div class="col-sm-3">
@@ -29,7 +29,7 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<label for="shortDesc" class="control-label">Valued Component Description</label>
-					<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="d.vc.description" rows=6></textarea>
+					<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="vc.description" rows=6></textarea>
 				</div>
 			</div>
 		</div>
