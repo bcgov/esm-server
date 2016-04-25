@@ -19,7 +19,7 @@ function serviceProject($http) {
 		return $http({method:'GET',url: '/api/project/' + req.id});
 	};
 	var getProjectFromId = function(id) {
-		console.log ('getting project', id);
+		// console.log ('getting project', id);
 		return $http({method:'GET',url: '/api/project/' + id});
 	};
 

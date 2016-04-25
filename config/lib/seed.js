@@ -227,7 +227,7 @@ Integration.findOne ({module:'configs'}).exec()
   }
 });
 
-Integration.findOne ({module:'fixcomments'}).exec()
+Integration.findOne ({module:'fixcomments2'}).exec()
 .then (function (row) {
   if (!row) {
     fixComments ();

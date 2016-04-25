@@ -7,52 +7,129 @@ var mongoose        = require('mongoose'),
 	BucketComment   = mongoose.model('BucketComment'),
 	P               = require('promise');
 
+var comments = {};
+var commentarray = [];
 
-
-
-var replaceDocuments = function (docmodels) {
-	return P.all (docmodels.map (function (docmodel) {
-		var pcid = docmodel.publicComment;
-		var docid = docmodel._id;
-		console.log ('adding document '+docid+' to comment '+pcid);
-		return PublicComment.findOne({_id:pcid}).exec()
-		.then (function (pc) {
-			// if (!pc.documents) pc.documents = [];
-			pc.documents.push (docid);
-			return pc.save ();
-		});
-	}));
-};
-var replaceBuckets = function (bucketmodels) {
-	return P.all (bucketmodels.map (function (bucketmodel) {
-		var pcid = bucketmodel.publicComment;
-		var bid = bucketmodel.bucket;
-		console.log ('adding bucket '+bid+' to comment '+pcid);
-		return PublicComment.findOne({_id:pcid}).exec()
-		.then (function (pc) {
-			// if (!pc.buckets) pc.buckets = [];
-			pc.buckets.push (bid);
-			return pc.save ();
-		});
-	}));
-};
-
-
-
-
-module.exports = function () {
-
-	CommentDocument.find({}).exec()
-	.then (replaceDocuments)
-	.then (function () {
-		return BucketComment.find({}).exec();
-	})
-	.then (replaceBuckets)
-	.catch (function (e) {
-		console.log ('error ',e);
+// -------------------------------------------------------------------------
+//
+// get a stored or retrieved document
+//
+// -------------------------------------------------------------------------
+var getComment = function (id) {
+	return new P (function (resolve, reject) {
+		//
+		// if we have it, return it
+		//
+		if (comments[id]) {
+			return resolve (comments[id]);
+		}
+		//
+		// otherwise go get it
+		//
+		else {
+			PublicComment.findOne({_id:id}).exec()
+			.then (function (pc) {
+				//
+				// first time in clear out the documents and buckets
+				//
+				pc.documents = [];
+				pc.buckets = [];
+				//
+				// set up the array and the index and resolve
+				//
+				commentarray.push (pc);
+				comments[pc._id] = pc;
+				resolve (pc);
+			});
+		}
 	});
+};
 
+// -------------------------------------------------------------------------
+//
+// save with whatever housekeeping required
+//
+// -------------------------------------------------------------------------
+var saveComment = function (comment) {
+	comment.markModified ('documents');
+	comment.markModified ('buckets');
+	return comment.save();
+};
+var saveComments = function () {
+	return P.all (commentarray.map (function (comment) {
+		return saveComment (comment);
+	}));
+};
+// -------------------------------------------------------------------------
+//
+// get all documents (converts mongoose promise into a proper one)
+//
+// -------------------------------------------------------------------------
+var getDocuments = function () {
+	return new P (function (resolve, reject) {
+		CommentDocument.find({}).exec().then (resolve, reject);
+	});
+};
+// -------------------------------------------------------------------------
+//
+// get all buckets (converts mongoose promise into a proper one)
+//
+// -------------------------------------------------------------------------
+var getBuckets = function () {
+	return new P (function (resolve, reject) {
+		BucketComment.find({}).exec().then (resolve, reject);
+	});
+};
 
+// -------------------------------------------------------------------------
+//
+// go through the list of documents and add them to the comments
+//
+// -------------------------------------------------------------------------
+var replaceDocuments = function (documentModels) {
+	return P.all (documentModels.map (function (documentModel) {
+		var commentId  = documentModel.publicComment;
+		var documentId = documentModel._id;
+		// console.log ('adding document '+documentId+' to comment '+commentId);
+		return getComment (commentId)
+		.then (function (comment) {
+			comment.documents.push (documentId);
+		});
+	}));
+};
+
+// -------------------------------------------------------------------------
+//
+// go through the list of buckets and add them to the comments
+//
+// -------------------------------------------------------------------------
+var replaceBuckets = function (bucketModels) {
+	return P.all (bucketModels.map (function (bucketModel) {
+		var commentId = bucketModel.publicComment;
+		var bucketId = bucketModel.bucket;
+		// console.log ('adding bucket '+bucketId+' to comment '+commentId);
+		return getComment (commentId)
+		.then (function (pc) {
+			pc.buckets.push (bucketId);
+		});
+	}));
+};
+
+// -------------------------------------------------------------------------
+//
+// main
+//
+// -------------------------------------------------------------------------
+module.exports = function () {
+	return new P (function (resolve, reject) {
+		P.resolve ()
+		.then (getDocuments)
+		.then (replaceDocuments)
+		.then (getBuckets)
+		.then (replaceBuckets)
+		.then (saveComments)
+		.then (resolve, reject);
+	});
 };
 
 
