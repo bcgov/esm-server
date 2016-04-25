@@ -1,13 +1,58 @@
-<h1 class="page-title">
-	Complaint for {{ project.name }}
-</h1>
+<div class="edit-valued-component-view"></div>
 
-<div class="block-content">
-	<div class="panel-body">
-		Complaint Details Go Here
+	<div class="view-title-container">
+		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Valued Component</h1>
+	</div>
+
+	<div class="view-body-container">
+		<div class="row">
+			<div class="col-sm-9">
+				<div class="form-group">
+					<label for="title" class="control-label">Valued Component Name</label>
+					<div id="title" type="text">{{vc.name}}</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="sector" class="control-label">Project Sector</label>
+					<div id="title" type="text">{{vc.sector}}</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label for="shortDesc" class="control-label">Valued Component Description</label>
+					<div id="shortDesc" type="text" rows=6>{{vc.description}}</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label for="shortDesc" class="control-label">Report Requirements</label>
+					<div id="shortDesc" type="text" rows=6>{{vc.reportRequirements}}</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="pillar" class="control-label">Pillar</label>
+					<div id="pillar" >{{vc.pillar}}</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="stage" class="control-label">Project Stage</label>
+					<div id="pillar" >{{vc.stage}}</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div>
+			<a class="btn btn-default" ui-sref="p.vc.list">Back</a>
+		</div>
 	</div>
 </div>
-<div>
-	<a class="btn btn-default" ui-sref="p.vc.list">Cancel</a>
-	<a class="btn btn-success" ui-sref="p.vc.edit({vcId:vc._id})">Edit</a>
-</div>
+

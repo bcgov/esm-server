@@ -13,14 +13,15 @@
 <div class="panel panel-default">
 	<div class="panel-body">
 
-		<h3>Notes</h3>
+		<h3>Notes / Information Requests / Edits</h3>
 		<div class="form-group">
 			<textarea rows="10" class="form-control" ng-model="artifact.decisionnote"></textarea>
 		</div>
 		<div class="text-right">
 			<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
 			<a class="btn btn-danger" ng-click="reject()">Reject</a>
-			<a class="btn btn-success" ng-click="submit()">Approve {{artifact.name}}</a>
+			<a class="btn btn-warning" ng-click="info()">Request More Information</a>
+			<a class="btn btn-success" ng-click="submit()">Approve</a>
 		</div>
 	</div>
 </div>

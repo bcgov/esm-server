@@ -12,12 +12,13 @@
 // =========================================================================
 module.exports = require ('../../../core/server/controllers/core.models.controller')
 .generateModel ('Vc', {
-	__audit     : true,
-	__codename  : 'unique',
-	topiccode   : { type:String, default:'', index:true },
-	parent      : { type:String, default:'', index:true },
-	pillar      : { type:String, default:'Environment', enum:['Environment', 'Economic', 'Social', 'Heritage', 'Health'] },
-	project     : { type:'ObjectId', ref:'Project', default:null, index:true },
-	stage       : { type:String, enum:['Pre-Construction', 'Construction', 'Operations', 'Decommissioning'], default:'Operations' },
+	__audit				: true,
+	__codename			: 'unique',
+	topiccode			: { type:String, default:'', index:true },
+	parent				: { type:String, default:'', index:true },
+	reportRequirements	: { type:String, default:''},
+	pillar				: { type:String, default:'Environment', enum:['Environment', 'Economic', 'Social', 'Heritage', 'Health'] },
+	project				: { type:'ObjectId', ref:'Project', default:null, index:true },
+	stage				: { type:String, enum:['Pre-Construction', 'Construction', 'Operations', 'Decommissioning'], default:'Operations' },
 });
 

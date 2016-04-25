@@ -20,7 +20,7 @@ module.exports = DBModel.extend ({
 	populate : 'artifactType template document',
 	bind: ['getCurrentTypes'],
 	getForProject: function (projectid) {
-		return this.list ({project:projectid},{name:1, version:1, stage:1, published:1, userPermissions:1});
+		return this.list ({project:projectid},{name:1, version:1, stage:1, isPublished:1, userPermissions:1});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -233,12 +233,13 @@ module.exports = DBModel.extend ({
 		//
 		// if this is a publish step, then publish the artifact
 		//
-		doc.read = _.union (doc.read, 'public');
-		doc.isPublished = true;
+		// doc.read = _.union (doc.read, 'public');
+		// doc.isPublished = true;
 		//
 		// save the document
 		//
 		// console.log ('about to attempt to save saveDocument', doc);
+		if (_.isEmpty (doc.document)) doc.document = null;
 		var p = this.update (oldDoc, doc);
 		var self = this;
 		return new Promise (function (resolve, reject) {
@@ -314,5 +315,22 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	createMilestoneForArtifact: function (artifact) {
 
+	},
+	// -------------------------------------------------------------------------
+	//
+	// publish / unpublish
+	//
+	// -------------------------------------------------------------------------
+	publish: function (artifact) {
+		return new Promise (function (resolve, reject) {
+			artifact.publish ();
+			artifact.save ().then (resolve, reject);
+		});
+	},
+	unpublish: function (artifact) {
+		return new Promise (function (resolve, reject) {
+			artifact.unpublish ();
+			artifact.save ().then (resolve, reject);
+		});
 	}
 });

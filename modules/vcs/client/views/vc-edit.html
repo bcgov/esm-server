@@ -37,7 +37,7 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<label for="shortDesc" class="control-label">Report Requirements</label>
-					<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="d.vc.reportRequirements" rows=6></textarea>
+					<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="vc.reportRequirements" rows=6></textarea>
 				</div>
 			</div>
 		</div>
@@ -52,16 +52,6 @@
 				<div class="form-group">
 					<label for="stage" class="control-label">Project Stage</label>
 					<select id="stage" ng-model='d.vc.stage' class="form-control input-sm" ng-options="stage as stage for stage in d.stages"></select>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="topics" class="control-label">Topics</label>
-					<select multiple id="topics" ng-model='d.vc.topics' class="form-control input-sm">
-						<option ng-repeat="topic in d.topics" value="{{topic.code}}">{{topic.name}}</option>
-					</select>
 				</div>
 			</div>
 		</div>

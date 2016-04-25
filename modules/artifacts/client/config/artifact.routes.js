@@ -339,6 +339,16 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					// alert (err.message);
 				});
 			};
+			$scope.info = function () {
+				ArtifactModel.prevStage ($scope.artifact)
+				.then (function (model) {
+					$state.go ('p.detail', {projectid:project.code});
+				})
+				.catch (function (err) {
+					console.error (err);
+					// alert (err.message);
+				});
+			};
 		}
 	})
 	.state('p.artifact.publish', {
@@ -363,7 +373,10 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				});
 			};
 			$scope.submit = function () {
-				ArtifactModel.nextStage ($scope.artifact)
+				ArtifactModel.publish ($scope.artifact._id)
+				.then (function () {
+					return ArtifactModel.nextStage ($scope.artifact);
+				})
 				.then (function (model) {
 					$state.go ('p.detail', {projectid:project.code});
 				})
