@@ -1799,13 +1799,11 @@ tmpl-header {
 	padding-bottom: 4rem;
 }
 
-
 /* HEADER 
 ------------------------------ */
 $corp-blue: #003366;
 $corp-gold: #e3a82b;
 $header-height: 6rem;
-
 
 .app-header {
 	position: relative;
@@ -1819,13 +1817,49 @@ $header-height: 6rem;
 		margin: 0;
 	}
 	
+	.navbar-nav {
+		margin: 1rem;
+	}
+	
 	.navbar-brand {
-		padding: 0 1.5rem;
+		padding: 0 1rem;
 		
 		img {
 			margin-top: 0.6rem;
 			height: 4.5rem;
 		}
+	}
+	
+	.navbar-nav {
+		> li > a,
+		> li > a:hover,
+		> li > a:focus {
+			padding: 1rem 1.5rem;
+			color: #FFF;
+			border: none;
+			background: transparent;
+		}
+	}
+	
+	.nav {
+		> .open > a,
+		> .open > a:hover,
+		> .open > a:focus {
+			background: transparent;
+		}
+	}
+	
+	.dropdown-menu {
+		border-radius: 0;
+	}
+	
+	.vert-pipe {
+		border-left: 1px solid #FFF;
+		height: 2.5rem;
+		margin-top: 0.7rem;
+		opacity: 0.5;
+		margin-left: 1rem;
+		margin-right: 1rem;
 	}
 }
 
