@@ -934,7 +934,7 @@ var fetchd = function (req, res) {
 	} else {
 		helpers.streamFile (res,
 							req.Document.internalURL,
-							req.Document.internalName,
+							req.Document.internalOriginalName,
 							req.Document.internalMime);
 	}
 };
