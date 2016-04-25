@@ -339,6 +339,16 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					// alert (err.message);
 				});
 			};
+			$scope.info = function () {
+				ArtifactModel.prevStage ($scope.artifact)
+				.then (function (model) {
+					$state.go ('p.detail', {projectid:project.code});
+				})
+				.catch (function (err) {
+					console.error (err);
+					// alert (err.message);
+				});
+			};
 		}
 	})
 	.state('p.artifact.publish', {
