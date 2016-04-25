@@ -691,7 +691,6 @@ var upload = function (req, res) {
 	// console.log ('end of file');
 	var file = req.files.file;
 	if (file) {
-		//console.log (file);
 		// console.log('++headers');
 		// console.log(req.Project);
 		// console.log('--headers');
@@ -730,21 +729,22 @@ var upload = function (req, res) {
 			}), req, res);
 		};
 		var renameThenImport = function() {
-			fs.rename(process.cwd() + path.sep + oldPath, process.cwd() + path.sep + file.path, function(err) {
+			fs.rename(oldPath, file.path, function(err) {
 				if (err) {
 					// console.log("err:",err);
-					helpers.sendErrorMessage (res, "document.controller.upload: Couldn't move file");
+					helpers.sendErrorMessage (res, "document.controller.upload: Couldn't move file"+err);
+				} else {
+					// console.log("From: ",uploadBasePath + path.sep + oldPath);
+					// console.log("To: ",uploadBasePath + path.sep + file.path);
+					doImport();
 				}
-				// console.log("From: ",process.cwd() + path.sep + oldPath);
-				// console.log("To: ",process.cwd() + path.sep + file.path);
-				doImport();
 			});
 		};
 		fs.exists(path.dirname(oldPath)+path.sep+req.Project.code, function(exists) {
 			if (exists) {
 				renameThenImport();
 			} else {
-				fs.mkdir(process.cwd() + path.sep + path.dirname(oldPath)+path.sep+req.Project.code, function () {
+				fs.mkdir(path.dirname(oldPath)+path.sep+req.Project.code, function () {
 					renameThenImport();
 				});
 			}
@@ -934,7 +934,7 @@ var fetchd = function (req, res) {
 	} else {
 		helpers.streamFile (res,
 							req.Document.internalURL,
-							req.Document.internalName,
+							req.Document.internalOriginalName,
 							req.Document.internalMime);
 	}
 };

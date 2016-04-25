@@ -5,10 +5,8 @@
 <div class="view-body-container">
 	<div class="button-bar clearfix">
 		<div class="pull-left">
-			<button class="btn btn-default btn-sm" ui-sref="p.vc.create()">
-				<span class="glyphicon glyphicon-plus"></span><span>Add Value Component</span></button>
 			<button class="btn btn-default btn-sm" ui-sref="p.vc.list" ng-click="openAddTopic()">
-				<span class="glyphicon glyphicon-plus"></span><span>Add Topics</span>
+				<span class="glyphicon glyphicon-plus"></span><span>Add Valued Component</span>
 			</button>
 		</div>
 	</div>
@@ -21,6 +19,11 @@
 				<td data-title="'Sector'" title:'Sector'  filter="{'sector':'select'}"   sortable="'sector'"  filter-data="data.ptypes" >{{o.sector}}</td>
 				<td data-title="'Stage'"  title:'Stage'   filter="{'stage':'select'}"    sortable="'stage'"   filter-data="data.stypes">{{o.stage}}</td>
 				<td data-title="'Pillar'" title:'Pillar'  filter="{'pillar':'select'}"   sortable="'pillar'"  filter-data="data.pillars">{{o.pillar}}</td>
+				<td>
+					<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.vc.edit({vcId:o._id})">
+						<i class="glyphicon glyphicon-pencil"></i>
+					</a>
+				</td>
 			</tr>
 			<tr ng-if="!$data || $data.length === 0">
 				<td colspan="6">

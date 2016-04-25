@@ -95,7 +95,7 @@ angular.module ('templates')
 			template: '=',
 			document: '=',
 			project: '=',
-			mode:     '@',
+			mode:     '=',
 			sidewidth: '=?'
 		},
 		link: function (scope, element, attrs) {
@@ -335,7 +335,7 @@ angular.module ('templates')
 				// load the full artifact and then swap out the display
 				//
 				ArtifactModel.getModel (newval).then (function (model) {
-					console.log (model);
+					// console.log (model);
 					scope.loading  = false;
 					scope.loaded   = true;
 					scope.artifact = model;

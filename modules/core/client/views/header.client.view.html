@@ -1,8 +1,46 @@
 <div class="app-header">
 	<nav class="navbar">
 		<div class="navbar-header">
-			<div class="navbar-brand"><a ui-sref="projects" href><img src="{{ logo }}" /></a></div>
+			<div class="navbar-brand"><a ui-sref="projects" href><img src="{{logo}}" /></a></div>
 		</div>
+		<!-- My Dashboard -->
+		<div ng-show="authentication.user">
+			<ul>
+				<li><a href ui-sref="activities">My Dashboard</a></li>
+			</ul>
+		</div>
+		<!-- System Menu -->
+		<div ng-if="systemMenu.shouldRender(authentication.user);">
+			<div class="dropdown">
+				<a href ng-click="$event.preventDefault();" class="dropdown-toggle" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="System Configuration">System <span class="caret"></span></a>
+				<div class="dropdown-menu" aria-labelledby="dropdownSystemMenu">
+					<ul class="list-unstyled">
+						<li ng-repeat="item in systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
+							<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
+						</li>
+					</ul>
+					<ul class="list-unstyled" ng-if="isAdmin">
+						<li>
+							<a ui-sref="admin.legal.list">Legal Opinions</a>
+						</li>
+						<li>
+							<a x-modal-project-import href x-project="import">Import</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- Auth -->
+		<div ng-show="authentication.user">
+			<hr>
+			<label class="user-info control-label">{{ authentication.user.displayName }}</label>
+			<ul class="list-unstyled">
+				<li><a href ui-sref="settings.profile">Profile</a></li>
+				<li><a href="/api/auth/signout" target="_self">Logout</a></li>
+			</ul>
+		</div>
+		<a ng-show="!authentication.user" ui-sref="authentication.signin">Log In</a>
+
 		<div class="hidden" ng-init="showSideMenu = true">
 			<a class="menu-toggle" ng-click="toggleSideMenu()" ng-if="authentication.user">
 				<span class="glyphicon glyphicon-menu-hamburger"></span>

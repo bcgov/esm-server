@@ -106,7 +106,8 @@ module.exports = function (grunt) {
       options: {
         csslintrc: '.csslintrc',
         'outline-none': false,
-        'fallback-colors': false
+        'fallback-colors': false,
+        'bulletproof-font-face' : false
       },
       all: {
         src: defaultAssets.client.css

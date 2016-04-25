@@ -12,12 +12,15 @@ exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'artifact');
 	helpers.setCRUDPermissions (acl, 'artifacttype');
 	helpers.setPathPermissions (acl, [
+		[ '', 'user', '/api/publish/artifact/:artifact'   ],
+		[ '', 'user', '/api/unpublish/artifact/:artifact'   ],
 		[ '', 'user', '/api/artifacttype/template/types'],
 		[ 'guest', 'user', '/api/artifact/for/project/:projectid'],
 		[ '', 'user', '/api/artifact/project/:project/from/type/:documenttype'],
 		[ '', 'user', '/api/artifact/project/:projectid/available/types'],
 		[ '', 'user', '/api/artifact/next/stage/:artifact'],
 		[ '', 'user', '/api/artifact/prev/stage/:artifact'],
+		[ 'guest', 'user', '/api/artifacttype/code/:code'],
 	]);
 };
 

@@ -187,12 +187,14 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 	// docUpload.log = '';
 
 	docUpload.upload = function (uploadingReviewDocs) {
+		// console.log("uploadingReviewDocs",uploadingReviewDocs);
 		docUpload.inProgress = true;
 		var docCount = docUpload.fileList.length;
 		// console.log('upload', docCount);
 		if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
 			angular.forEach( docUpload.fileList, function(file) {
 				// Quick hack to pass objects
+				// console.log("docUpload",docUpload);
 				if (ENV === 'EAO') {
 					// In EAO, we let them only choose from predefined types.
 					// Move the choice to the model we use.
@@ -225,6 +227,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 				}, function (response) {
 					if (response.status > 0) {
 						docUpload.errorMsg = response.status + ': ' + response.data;
+						// console.log("error data:",response.data);
 					} else {
 						_.remove($scope.files, file);
 					}

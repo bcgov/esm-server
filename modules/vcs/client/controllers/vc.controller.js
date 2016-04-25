@@ -86,7 +86,7 @@ angular.module ('vcs')
 					m.project = $scope.project;
 					// TODO: Should we be getting these names from the UI?
 					m.name = obj.name;
-					m.code = codeFromTitle(obj.name);
+					m.code = codeFromTitle(obj.name+m.project.code);
 					// console.log("saving:",m);
 					VcModel.saveCopy(m).then(function (saved) {
 						savedArray.push(saved);

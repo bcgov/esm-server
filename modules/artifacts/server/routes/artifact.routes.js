@@ -47,6 +47,20 @@ module.exports = function (app) {
 			p.prevStage (req.body, req.Artifact)
 			.then (helpers.success(res), helpers.failure(res));
 		});
-
+	app.route ('/api/artifacttype/code/:code').all (policy.isAllowed)
+		.get (function (req, res) {
+			(new ArtifactType (req.user)).fromCode (req.params.code)
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	app.route ('/api/publish/artifact/:artifact').all(policy.isAllowed)
+		.put (function (req, res) {
+			(new Artifact (req.user)).publish (req.Artifact)
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	app.route ('/api/unpublish/artifact/:artifact').all(policy.isAllowed)
+		.put (function (req, res) {
+			(new Artifact (req.user)).unpublish (req.Artifact)
+			.then (helpers.success(res), helpers.failure(res));
+		});
 };
 

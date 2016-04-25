@@ -14,11 +14,15 @@ exports.put = function (req, res) {
 	model.find (query, function (err, documents) {
 		if (err) return helpers.sendError (res, err);
 		else {
-			Promise.all (documents.map (function (document) {
-				document.set (data);
-				return document.save ();
-			}))
-			.then (helpers.success(res), helpers.failure(res));
+			if (!data || _.isEmpty (data)) {
+				return helpers.sendData (res, documents);
+			} else {
+				Promise.all (documents.map (function (document) {
+					document.set (data);
+					return document.save ();
+				}))
+				.then (helpers.success(res), helpers.failure(res));
+			}
 		}
 	});
 };

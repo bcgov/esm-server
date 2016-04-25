@@ -34,7 +34,6 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	heldStage   : { type:String, default:'' },
 	version : { type:String, default:'' },
 	versionNumber : { type:Number, default:0, index:true },
-	published : { type:Boolean, default:false, index:true },
 	//
 	// the phase during which this was added or edited
 	// the milestone this artifact is attached to
@@ -79,12 +78,12 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 		note: { type:String, default:'' },
 		date: { type: Date , default:null }
 	}],
-	rejectionNotes: [{
+	approvalNotes: [{
 		username: { type:String, default:'' },
 		note: { type:String, default:'' },
 		date: { type: Date , default:null }
 	}],
-	approvalNotes: [{
+	decisionNotes: [{
 		username: { type:String, default:'' },
 		note: { type:String, default:'' },
 		date: { type: Date , default:null }

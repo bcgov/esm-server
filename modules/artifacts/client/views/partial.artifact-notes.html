@@ -15,4 +15,12 @@
 			<p><span class="small">{{ note.username }} &bullet; {{ note.date | amDateFormat:'dddd, MMMM Do YYYY hh:mm a' }}</span></p>
 		</div>
 	</div>
+</div><div class="panel panel-default" ng-if="artifact.decisionNotes.length">
+	<div class="panel-body">
+		<h3 >Decision Notes</h3>
+		<div class="block-content" ng-if="artifact.decisionNotes.length" ng-repeat="note in artifact.decisionNotes">
+			<pre>{{ note.note }}</pre>
+			<p><span class="small">{{ note.username }} &bullet; {{ note.date | amDateFormat:'dddd, MMMM Do YYYY hh:mm a' }}</span></p>
+		</div>
+	</div>
 </div>

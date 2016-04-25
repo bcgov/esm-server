@@ -109,7 +109,7 @@ var documentConversion = function documentConversion(conn, downloads_dir, limit)
                 if (item) {
                     items.forEach(function (item) {
                         var downloadURL = item.documentFileURL;
-                        var projectID = item.project._id;
+                        var projectID = item.project;
                         var dataLength = 0;
                         var uuid = require('node-uuid');
                         var generatedFilename = uuid.v1() + path.extname(downloadURL);

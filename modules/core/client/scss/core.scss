@@ -1682,7 +1682,6 @@ section {
 .badge {
     padding-bottom: 0.4rem;
     border-radius: 0.4rem;
-    font-size: 1rem;
     text-transform: uppercase;
 	padding: 0.5rem 1rem 0.4rem 1rem;
 	font-size: 1.2rem;
@@ -1902,7 +1901,6 @@ $sidenav-width: 18rem;
 	th, td {
 		padding: 0.75rem 1rem !important;
 		text-align: left;
-		-ms-word-break: break-all;
 		word-break: break-all;
 	}
 }
@@ -2061,7 +2059,6 @@ section.project-info {
 
 @media (min-width: 1024px) {
 	.detail-row {
-		margin: 0;
 		display: table-row;
 		
 		label, span.value {

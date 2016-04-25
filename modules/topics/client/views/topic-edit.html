@@ -1,5 +1,5 @@
 <h1 class="page-title no-lower-margin">
-	Add / Edit Topic
+	Add / Edit Valued Component
 </h1>
 
 <form name="topicForm" ng-submit="save(topicForm.$valid)" novalidate>
@@ -16,16 +16,16 @@
 		<div class="row">
 			<div class="col-sm-9">
 				<div class="form-group" x-show-errors>
-					<label for="title" class="control-label">Topic Name</label>
+					<label for="title" class="control-label">Name</label>
 					<input id="title" name="name" type="text" class="form-control" ng-model="topic.name" required>
 						<div ng-messages="topicForm.name.$error" role="alert">
-							<p class="help-block error-text" ng-message="required">Topic name is required.</p>
+							<p class="help-block error-text" ng-message="required">Valued Component name is required.</p>
 						</div>
 				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="form-group">
-					<label for="type" class="control-label">Topic Type</label>
+					<label for="type" class="control-label">Type</label>
 					<select id="type" ng-model='topic.type' class="form-control">
 						<option>Valued Component</option>
 						<option>Pathway Component</option>
@@ -37,7 +37,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
-					<label for="shortDesc" class="control-label">Topic Description</label>
+					<label for="shortDesc" class="control-label">Description</label>
 					<textarea id="shortDesc" type="text" class="form-control" ng-model="topic.description" rows=6></textarea>
 				</div>
 			</div>
@@ -57,7 +57,7 @@
 
 			<div class="col-sm-6">
 				<div class="form-group">
-					<label for="parent" class="control-label">Parent Topic</label>
+					<label for="parent" class="control-label">Parent Valued Component</label>
 					<select id="parent" ng-model='topic.parent' class="form-control" ng-options="topic.code as topic.name for topic in pillartopics"><option></option></select>
 				</div>
 			</div>
