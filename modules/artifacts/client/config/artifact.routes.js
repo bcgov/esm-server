@@ -363,7 +363,10 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				});
 			};
 			$scope.submit = function () {
-				ArtifactModel.nextStage ($scope.artifact)
+				ArtifactModel.publish ($scope.artifact._id)
+				.then (function () {
+					return ArtifactModel.nextStage ($scope.artifact);
+				})
 				.then (function (model) {
 					$state.go ('p.detail', {projectid:project.code});
 				})

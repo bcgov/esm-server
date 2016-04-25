@@ -206,12 +206,14 @@ var modRoles = function (method, pObject) {
 var publish = function (object) {
 	this.read = _.union (this.read, 'public');
 	this.isPublished = true;
+	this.markModified ('read');
 };
 var unpublish = function (object) {
 	_.remove (this.read, function (val) {
 		return _.indexOf ('public', val) !== -1;
 	});
 	this.isPublished = false;
+	this.markModified ('read');
 };
 
 

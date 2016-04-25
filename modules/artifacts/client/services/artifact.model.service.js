@@ -26,7 +26,10 @@ angular.module('artifacts').factory ('ArtifactModel', function (ModelBase, _) {
 		},
 		availableTypes: function (projectid) {
 			return this.get ('api/artifact/project/'+projectid+'/available/types');
-		}
+		},
+		publish: function (artifactid) {
+			return this.put ('/api/publish/artifact/'+artifactid);
+		},
 	});
 	return new Class ();
 });

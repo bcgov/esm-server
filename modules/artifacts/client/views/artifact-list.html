@@ -22,9 +22,9 @@
 		<td data-title="'Name'"    filter="{'name':'text'}"     sortable="'name'"    >{{o.name}}</td>
 		<td data-title="'Version'" filter="{'version':'text'}"   	class="text-center" sortable="'version'"  >{{o.version}}</td>
 		<td data-title="'Stage'"   filter="{'stage':'text'}"    	class="text-center" sortable="'stage'"   >{{o.stage}}</td>
-		<td data-title="'Published'" sortable="'published'"><i ng-if="o.isPublished" class="glyphicon glyphicon-ok"></i></td>
+		<td data-title="'Published'" sortable="'isPublished'"><i ng-if="o.isPublished" class="glyphicon glyphicon-ok"></i></td>
 		<td class="actions-col">
-			<span ng-if="o.userPermissions.write && !o.published">
+			<span ng-if="o.userPermissions.write"> <!-- && !o.isPublished"> -->
 				<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.artifact.edit({artifactId:o._id})">
 					<i class="glyphicon glyphicon-pencil"></i>
 				</a>
