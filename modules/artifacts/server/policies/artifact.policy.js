@@ -12,6 +12,8 @@ exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'artifact');
 	helpers.setCRUDPermissions (acl, 'artifacttype');
 	helpers.setPathPermissions (acl, [
+		[ '', 'user', '/api/publish/artifact/:artifact'   ],
+		[ '', 'user', '/api/unpublish/artifact/:artifact'   ],
 		[ '', 'user', '/api/artifacttype/template/types'],
 		[ 'guest', 'user', '/api/artifact/for/project/:projectid'],
 		[ '', 'user', '/api/artifact/project/:project/from/type/:documenttype'],
