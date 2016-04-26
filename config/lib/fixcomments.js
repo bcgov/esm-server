@@ -33,6 +33,7 @@ var getComment = function (id) {
 		else {
 			PublicComment.findOne({_id:id}).exec()
 			.then (function (pc) {
+				if (!pc) return resolve (null);
 				//
 				// first time in clear out the documents and buckets
 				//
@@ -44,6 +45,9 @@ var getComment = function (id) {
 				commentarray.push (pc);
 				comments[pc._id] = pc;
 				resolve (pc);
+			})
+			.catch (function (err) {
+				resolve (null);
 			});
 		}
 	});
@@ -110,7 +114,7 @@ var replaceDocuments = function (documentModels) {
 		// mylogger ('adding document '+documentId+' to comment '+commentId);
 		return getComment (commentId)
 		.then (function (comment) {
-			comment.documents.push (documentId);
+			if (comment) comment.documents.push (documentId);
 		});
 	}));
 };
@@ -127,7 +131,7 @@ var replaceBuckets = function (bucketModels) {
 		// mylogger ('adding bucket '+bucketId+' to comment '+commentId);
 		return getComment (commentId)
 		.then (function (pc) {
-			pc.buckets.push (bucketId);
+			if (pc) pc.buckets.push (bucketId);
 		});
 	}));
 };
