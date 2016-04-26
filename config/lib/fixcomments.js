@@ -9,6 +9,10 @@ var mongoose        = require('mongoose'),
 
 var comments = {};
 var commentarray = [];
+var log;
+
+var numBucketsAdded = 0;
+var numDocumentsAdded = 0;
 
 // -------------------------------------------------------------------------
 //
@@ -53,12 +57,25 @@ var getComment = function (id) {
 var saveComment = function (comment) {
 	comment.markModified ('documents');
 	comment.markModified ('buckets');
+	log ('------------\nsaving comment id '+comment._id);
+	log ("documents: "+JSON.stringify (comment.documents, null, 4));
+	log ("buckets: "+JSON.stringify (comment.buckets, null, 4));
 	return comment.save();
 };
-var saveComments = function () {
+var saveCommentsParallel = function () {
 	return P.all (commentarray.map (function (comment) {
 		return saveComment (comment);
 	}));
+};
+var saveCommentsSequential = function () {
+	//
+	// on first iteration previous is P.resolve ()
+	//
+	return commentarray.reduce (function (previousPromise, comment) {
+		return previousPromise.then (function () {
+			return saveComment (comment);
+		});
+	}, P.resolve ());
 };
 // -------------------------------------------------------------------------
 //
@@ -90,7 +107,7 @@ var replaceDocuments = function (documentModels) {
 	return P.all (documentModels.map (function (documentModel) {
 		var commentId  = documentModel.publicComment;
 		var documentId = documentModel._id;
-		// console.log ('adding document '+documentId+' to comment '+commentId);
+		log ('adding document '+documentId+' to comment '+commentId);
 		return getComment (commentId)
 		.then (function (comment) {
 			comment.documents.push (documentId);
@@ -107,7 +124,7 @@ var replaceBuckets = function (bucketModels) {
 	return P.all (bucketModels.map (function (bucketModel) {
 		var commentId = bucketModel.publicComment;
 		var bucketId = bucketModel.bucket;
-		// console.log ('adding bucket '+bucketId+' to comment '+commentId);
+		log ('adding bucket '+bucketId+' to comment '+commentId);
 		return getComment (commentId)
 		.then (function (pc) {
 			pc.buckets.push (bucketId);
@@ -120,14 +137,16 @@ var replaceBuckets = function (bucketModels) {
 // main
 //
 // -------------------------------------------------------------------------
-module.exports = function () {
+module.exports = function (f) {
+	log = f;
 	return new P (function (resolve, reject) {
 		P.resolve ()
 		.then (getDocuments)
 		.then (replaceDocuments)
 		.then (getBuckets)
 		.then (replaceBuckets)
-		.then (saveComments)
+		.then (saveCommentsSequential)
+		// .then (saveCommentsParallel)
 		.then (resolve, reject);
 	});
 };

@@ -68,6 +68,16 @@ var sendNotFound = function (res, message) {
 var sendData = function (res, model) {
 	res.json (model);
 };
+exports.success = function (res) {
+  return function (model) {
+    return sendData (res, model);
+  };
+};
+exports.failure = function (res) {
+  return function (err) {
+    return sendError (res, err);
+  };
+};
 
 var queryResponse = function (res) {
 	return function (err, model) {
