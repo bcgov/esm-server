@@ -30,7 +30,7 @@ console.log(chalk.bold.red('Warning:  Database seeding is turned on'));
 var writeFunction = function (iDocument) {
 	return function (data, stop) {
 		iDocument.output += ( data + "<br>\n" );
-		console.log (data);
+		// console.log (data);
 		if (stop) {
 			return iDocument.save ();
 		}

@@ -107,7 +107,7 @@ var replaceDocuments = function (documentModels) {
 	return P.all (documentModels.map (function (documentModel) {
 		var commentId  = documentModel.publicComment;
 		var documentId = documentModel._id;
-		log ('adding document '+documentId+' to comment '+commentId);
+		// log ('adding document '+documentId+' to comment '+commentId);
 		return getComment (commentId)
 		.then (function (comment) {
 			comment.documents.push (documentId);
@@ -124,7 +124,7 @@ var replaceBuckets = function (bucketModels) {
 	return P.all (bucketModels.map (function (bucketModel) {
 		var commentId = bucketModel.publicComment;
 		var bucketId = bucketModel.bucket;
-		log ('adding bucket '+bucketId+' to comment '+commentId);
+		// log ('adding bucket '+bucketId+' to comment '+commentId);
 		return getComment (commentId)
 		.then (function (pc) {
 			pc.buckets.push (bucketId);
@@ -146,6 +146,7 @@ module.exports = function (f) {
 		.then (getBuckets)
 		.then (replaceBuckets)
 		.then (saveCommentsSequential)
+		.then (function () { log ('', true ); })
 		// .then (saveCommentsParallel)
 		.then (resolve, reject);
 	});
