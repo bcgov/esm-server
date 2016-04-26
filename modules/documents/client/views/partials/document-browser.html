@@ -61,7 +61,7 @@
 								<p>Current Revision: <a href="/api/document/{{ filterSummary._id }}/fetch"
 														target="_blank">{{ filterSummary.documentVersion }} <span class="glyphicon glyphicon-download"></span></a></p>
 								<p>Latest Revision: {{ filterSummary.documentIsLatestVersion?'Yes':'No' }} </p>
-								<p>Delete Document: <a href ng-click="docBrowser.deleteDocument(filterSummary._id)"><span class="glyphicon glyphicon-remove"></span>
+								<p ng-if="(docBrowser.authentication.user)">Delete Document: <a href ng-click="docBrowser.deleteDocument(filterSummary._id)"><span class="glyphicon glyphicon-remove"></span>
 								</a>
 							</li>
 							<li>
