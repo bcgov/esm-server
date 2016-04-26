@@ -1,42 +1,38 @@
 
-
-	<div class='container-fluid'>
-		<div class='row'>
-			<div class='col-md-9 col-no-padding'>
-
-				<ui-gmap-google-map id='project-map'
-								center='mpl.map.center'
-								zoom='mpl.map.zoom'
-								refresh='1'
-								options='mpl.map.options'>
-
-					<ui-gmap-markers
-						models="mpl.projectFiltered"
-						coords="'self'">
-					</ui-gmap-markers>
-
-				</ui-gmap-google-map>
-
-			</div>
-			<div class='col-md-3 col-top-padding'>
-				<label class="control-label">Project Layers</label>
-				<div class="well well-sm">
-					<ul class="list-unstyled task-list">
-						<li><button class="btn btn-block btn-sm btn-layer" ng-class="{'btn-success': showPoint}" ng-click="showPoint = !showPoint">Primary Point</button></li>
-						<!-- <li><button class="btn btn-block btn-sm btn-layer" ng-class="{'btn-success': mpl.showKML}" ng-click="mpl.showKML = !mpl.showKML">Boundary</button></li> -->
-						<li ng-repeat="layer in mpl.projectLayers">
-							<button class="btn btn-block btn-sm btn-layer" ng-class="{'btn-success': mpl.formProjectLayers[layer._id]}" ng-click="mpl.formProjectLayers[layer._id] = !mpl.formProjectLayers[layer._id]">{{ layer.name }}</button>
-						</li>
-					</ul>
-				</div>
-<!-- 			<label class="control-label">Shared Layers</label>
-				<div class="well well-sm">
-					<ul class="list-unstyled task-list">
-						<li ng-repeat="layer in mpl.sharedLayers">
-							<button class="btn btn-block btn-sm btn-layer" ng-class="{'btn-success': mpl.formSharedLayers[layer._id]}" ng-click="mpl.formSharedLayers[layer._id] = !mpl.formSharedLayers[layer._id]">{{ layer.name }}</button>
-						</li>
-					</ul>
-				</div>
- -->			</div>
+<div class="map-layers-view">
+	
+	<ui-gmap-google-map id='project-map'
+		center='mpl.map.center'
+		zoom='mpl.map.zoom'
+		refresh='1'
+		options='mpl.map.options'>
+		<ui-gmap-markers
+			models="mpl.projectFiltered"
+			coords="'self'">
+		</ui-gmap-markers>
+	</ui-gmap-google-map>
+		
+	<!--
+	<div class="hidden col-md-3 col-top-padding">
+		<label class="control-label">Project Layers</label>
+		<div class="well well-sm">
+			<ul class="list-unstyled task-list">
+				<li><button class="btn btn-block btn-sm btn-layer" ng-class="{'btn-success': showPoint}" ng-click="showPoint = !showPoint">Primary Point</button></li>
+				<li><button class="btn btn-block btn-sm btn-layer" ng-class="{'btn-success': mpl.showKML}" ng-click="mpl.showKML = !mpl.showKML">Boundary</button></li>
+				<li ng-repeat="layer in mpl.projectLayers">
+					<button class="btn btn-block btn-sm btn-layer" ng-class="{'btn-success': mpl.formProjectLayers[layer._id]}" ng-click="mpl.formProjectLayers[layer._id] = !mpl.formProjectLayers[layer._id]">{{ layer.name }}</button>
+				</li>
+			</ul>
 		</div>
 	</div>
+	<label class="control-label">Shared Layers</label>
+	<div class="well well-sm">
+		<ul class="list-unstyled task-list">
+			<li ng-repeat="layer in mpl.sharedLayers">
+				<button class="btn btn-block btn-sm btn-layer" ng-class="{'btn-success': mpl.formSharedLayers[layer._id]}" ng-click="mpl.formSharedLayers[layer._id] = !mpl.formSharedLayers[layer._id]">{{ layer.name }}</button>
+			</li>
+		</ul>
+	</div>
+	-->
+			
+</div>
