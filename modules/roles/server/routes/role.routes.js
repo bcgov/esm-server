@@ -84,5 +84,13 @@ module.exports = function (app) {
 			controller.getSystemRoles ()
 			.then (helpers.success(res), helpers.failure(res));
 		});
+	//
+	// get system roles that this user can assign to other users...
+	//
+	app.route ('/api/system/roles/assignable').all (policy.isAllowed)
+		.get (function (req, res) {
+			controller.getSystemRolesForUserMaintenance (req)
+				.then (helpers.success(res), helpers.failure(res));
+		});
 };
 

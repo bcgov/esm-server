@@ -14,6 +14,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 .generateModel ('Vc', {
 	__audit				: true,
 	__codename			: 'unique',
+	title				: { type:String, default:'', index:true },
 	topiccode			: { type:String, default:'', index:true },
 	parent				: { type:String, default:'', index:true },
 	reportRequirements	: { type:String, default:''},
