@@ -1,7 +1,7 @@
 <section id="menu-side" class="sidenav">
 
 	<!-- Common on all pages Logged In -->
-	<div ng-show="menu.authentication.user">
+	<div class="hidden" ng-show="menu.authentication.user">
 		<ul class="list-unstyled">
 			<li><a ui-sref="projects" href>All Projects</a></li>
 			<!-- <li><a href ui-sref="projects.schedule">Schedule</a></li> -->
@@ -9,12 +9,11 @@
 	</div>
 
 	<!-- Common on all pages Not Logged In -->
-	<div ng-show="!menu.authentication.user">
+	<div class="hidden" ng-show="!menu.authentication.user">
 		<ul class="list-unstyled">
 			<li><a ui-sref="projects" href>All Projects</a></li>
 		</ul>
 	</div>
-
 
 	<div ng-if="(menu.context === 'projects' || menu.context === 'mylist') && menu.pageAnchors('anchor-group-projects')" id="anchor-group-projects">
 		<hr>
@@ -51,96 +50,35 @@
 		</ul>
 	</div>
 
-
 	<div ng-if="(menu.context === 'project' || menu.context === 'activity') && menu.authentication.user">
-		<hr>
+		
 		<ul class="list-unstyled">
 			<li><a ui-sref="p.detail({projectid: menu.project.code})">Project Detail</a></li>
 		</ul>
-		<hr>
-		<div class="dropdown">
-			<a href ng-click="$event.preventDefault();" class="dropdown-toggle" id="dropdownProjectMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="Manage {{ menu.project.name }} Data">Project Data <span class="caret"></span></a>
-			<div class="dropdown-menu" aria-labelledby="dropdownProjectMenu">
-				<ul class="list-unstyled">
-					<li><a ui-sref="p.detail({projectid: menu.project.code})">Project Detail</a></li>
-				</ul>
-				<ul class="list-unstyled"  ng-show="menu.authentication.user">
-					<li ng-repeat="item in menu.projectTopMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project.code);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
-						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
-					</li>
-					<li ng-if="menu.isEAO"><a x-modal-project-schedule href x-project="menu.project">Edit Schedule</a></li>
-				</ul>
-				<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user, menu.project.code)">
-					<li ng-repeat="item in menu.projectMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project.code);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
-						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
-					</li>
-				</ul>
-				<ul class="list-unstyled" ng-show="menu.authentication.user">
-					<li><a ui-sref="p.workinggroup.list">Working Group</a></li>
-				</ul>
-			</div>
-		</div>
+		
+		<ul class="list-unstyled" ng-show="menu.authentication.user">
+			<li ng-repeat="item in menu.projectTopMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project.code);"
+			    ng-class="{ 'active': $state.includes(item.state) }" class="{{item.class}}">
+				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
+			</li>
+			<li ng-if="menu.isEAO">
+				<a x-modal-project-schedule href x-project="menu.project">Project Schedule</a>
+			</li>
+		</ul>
+		
+		<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user, menu.project.code)">
+			<li ng-repeat="item in menu.projectMenu.items | orderBy: 'position'"
+			    ng-if="item.shouldRender(menu.authentication.user, menu.project.code);"
+					ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
+				  <a ui-sref="{{item.state}}" ng-bind="item.title"></a>
+			</li>
+		</ul>
+		
+		<ul class="list-unstyled" ng-show="menu.authentication.user">
+			<li><a ui-sref="p.workinggroup.list">Working Group</a></li>
+		</ul>
 	</div>
+	
 </div>
-<!--
-<div class="container" ng-controller="HeaderController">
-  <div class="navbar-header">
-	<button class="navbar-toggle" type="button" ng-click="toggleCollapsibleMenu()">
-	  <span class="sr-only">Toggle navigation</span>
-	  <span class="icon-bar"></span>
-	  <span class="icon-bar"></span>
-	  <span class="icon-bar"></span>
-	</button>
-	<a ui-sref="home" class="navbar-brand">MEAN.JS</a>
-  </div>
-  <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
-	<ul class="nav navbar-nav" ng-if="menu.shouldRender(authentication.user);">
-	  <li ng-repeat="item in menu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-switch="item.type" ng-class="{ active: $state.includes(item.state), dropdown: item.type === 'dropdown' }" class="{{item.class}}" dropdown="item.type === 'dropdown'">
-		<a ng-switch-when="dropdown" class="dropdown-toggle" dropdown-toggle role="button">{{::item.title}}&nbsp;<span class="caret"></span></a>
-		<ul ng-switch-when="dropdown" class="dropdown-menu">
-		  <li ng-repeat="subitem in item.items | orderBy: 'position'" ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="active">
-			<a ui-sref="{{subitem.state}}" ng-bind="subitem.title"></a>
-		  </li>
-		</ul>
-		<a ng-switch-default ui-sref="{{item.state}}" ng-bind="item.title"></a>
-	  </li>
-	</ul>
-	<ul class="nav navbar-nav navbar-right" ng-hide="authentication.user">
-	  <li ui-sref-active="active">
-		<a ui-sref="authentication.signup">Sign Up</a>
-	  </li>
-	  <li class="divider-vertical"></li>
-	  <li ui-sref-active="active">
-		<a ui-sref="authentication.signin">Sign In</a>
-	  </li>
-	</ul>
-	<ul class="nav navbar-nav navbar-right" ng-show="authentication.user">
-	  <li class="dropdown" dropdown>
-		<a class="dropdown-toggle user-header-dropdown-toggle" dropdown-toggle role="button">
-		  <img ng-src="{{authentication.user.profileImageURL}}" alt="{{authentication.user.displayName}}" class="header-profile-image" />
-		  <span ng-bind="authentication.user.displayName"></span> <b class="caret"></b>
-		</a>
-		<ul class="dropdown-menu" role="menu">
-		  <li ui-sref-active="active">
-			<a ui-sref="settings.profile">Edit Profile</a>
-		  </li>
-		  <li ui-sref-active="active">
-			<a ui-sref="settings.picture">Change Profile Picture</a>
-		  </li>
-		  <li ui-sref-active="active" ng-show="authentication.user.provider === 'local'">
-			<a ui-sref="settings.password">Change Password</a>
-		  </li>
-		  <li ui-sref-active="active">
-			<a ui-sref="settings.accounts">Manage Social Accounts</a>
-		  </li>
-		  <li class="divider"></li>
-		  <li>
-			<a href="/api/auth/signout" target="_self">Signout</a>
-		  </li>
-		</ul>
-	  </li>
-	</ul>
-  </nav>
-</div>
- -->
+
 

@@ -1819,18 +1819,22 @@ $header-height: 6rem;
 	
 	.navbar-nav {
 		margin: 1rem;
+		margin-right: 0;
 	}
 	
 	.navbar-brand {
+		margin-left: 0.5rem;
 		padding: 0 1rem;
 		
 		img {
-			margin-top: 0.6rem;
-			height: 4.5rem;
+			margin-top: 0.8rem;
+			height: 4rem;
 		}
 	}
 	
 	.navbar-nav {
+		float: right;
+		
 		> li > a,
 		> li > a:hover,
 		> li > a:focus {
@@ -1898,7 +1902,8 @@ $sidenav-width: 18rem;
 	
 	a {
 		display: block;
-		padding: 0.4rem 2rem;
+		padding: 0.6rem 2rem;
+		color: #666;
 	}
 	
 	hr {
@@ -2022,7 +2027,7 @@ $sidenav-width: 18rem;
 
 section.project-info {
 	margin-top: 0;
-	margin-bottom: 2rem;
+	margin-bottom: 3rem;
 	
 	.panel-body {
 		padding: 1.5rem 2rem;
