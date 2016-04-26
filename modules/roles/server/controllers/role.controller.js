@@ -71,6 +71,17 @@ var getProjectsWithRole = function (code) {
 var getSystemRoles = function () {
 	return Role.find ({isSystem: true}).exec();
 };
+var getSystemRolesForUserMaintenance = function(req) {
+	var user = req.user;
+	// is this person admin?
+	// if so, then return system roles that we can assign to a user...
+	if (_.includes(user.roles, 'admin')) {
+		// admin is probably the only useful assignable system role...
+		return Role.find ({isSystem: true, code:'admin'}).exec();
+	} else {
+		return [];
+	}
+};
 
 
 // =========================================================================
@@ -257,6 +268,7 @@ module.exports = {
 	getUsersInRolesInProject:getUsersInRolesInProject,
 	getProjectsWithRole:getProjectsWithRole,
 	getSystemRoles:getSystemRoles,
+	getSystemRolesForUserMaintenance: getSystemRolesForUserMaintenance,
 	//
 	// used by the back end to set and adjust roles in both directions
 	//

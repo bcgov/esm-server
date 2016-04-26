@@ -26,6 +26,12 @@ module.exports = {
 			lastName    : 'Energy',
 			roles       : ['sector:energy']
 		},
+		{
+			username    : '3',
+			firstName   : 'Jason',
+			lastName    : 'Sherman',
+			roles       : ['user','proponent','edit-organizations']
+		},
 	],
 	ajax : [
 		{
@@ -51,7 +57,7 @@ module.exports = {
 			username    : 'acmeuser',
 			firstName   : 'Acme',
 			lastName    : 'User'
-		},
+		}
 	]
 };
 

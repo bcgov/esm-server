@@ -11,7 +11,22 @@ var _         = require ('lodash');
 module.exports = DBModel.extend ({
 	name : 'User',
 	plural : 'users',
-	populate: 'org'
+	populate: 'org',
+	preprocessAdd: function (user) {
+		var self = this;
+		// who is creating the user?
+		// if eao is adding the user, then give them eao role
+		// else give them the proponent system role.
+		user.roles = user.roles || [];
+		if (_.includes(self.user.roles, 'eao')) {
+			user.roles.push('eao');	
+		} else {
+			user.roles.push('proponent');	
+		}
+		return new Promise(function(fulfill, reject) {
+			return fulfill(user);
+		});
+	},
 });
 
 
