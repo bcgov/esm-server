@@ -146,7 +146,7 @@ module.exports = function (f) {
 		.then (getBuckets)
 		.then (replaceBuckets)
 		.then (saveCommentsSequential)
-		.then (function () { mylogger ('', true ); })
+		// .then (function () { mylogger ('', true ); })
 		// .then (saveCommentsParallel)
 		.then (resolve, reject);
 	});

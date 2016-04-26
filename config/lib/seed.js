@@ -276,8 +276,14 @@ Integration.findOne ({module:'configs'}).exec()
 	}
 });
 
-checkIntegration ('fixcomments23').then (function (f) {
-	require('./fixcomments')(f);
+checkIntegration ('fixcomments24').then (function (f) {
+	require('./fixcomments')(f)
+	.then (function () {
+		f ('', true);
+	})
+	.catch (function (err) {
+		f (JSON.stringify (err, null, 4), true);
+	});
 });
 
 
