@@ -29,6 +29,20 @@ var FORCE = false;
 
 // -------------------------------------------------------------------------
 //
+// return a function that can be used by a sub program to write its output
+// into the integration record
+//
+// -------------------------------------------------------------------------
+var writeFunction = function (iDocument) {
+	return function (data, stop) {
+		iDocument.output += ( data + "<br>\n" );
+		if (stop) {
+			return iDocument.save ();
+		}
+	};
+};
+// -------------------------------------------------------------------------
+//
 // check if the integration was performed, can override
 //
 // -------------------------------------------------------------------------
@@ -37,7 +51,7 @@ var checkIntegration = function (name, override) {
 		if (!FORCE && override) return resolve (true);
 		Integration.findOne ({module:name}, function (err, row) {
 			if (err) {
-				console.log ('Error seeding '+name+' : ', err);
+				console.error ('Error seeding '+name+' : ', err);
 				reject (err);
 			}
 			else if (!FORCE && row) {
@@ -48,11 +62,17 @@ var checkIntegration = function (name, override) {
 				console.log ('seeding :' + name);
 				var i = new Integration ({module:name});
     			i.save ();
-    			resolve (true);
+    			//
+    			// resolve with the function that can write to Integration
+    			//
+    			resolve (writeFunction (i, name));
 			}
 		});
 	});
 };
+checkIntegration ('testme').then (function (f) {
+	require('../seed-data/test-integration')(f);
+});
 
 // =========================================================================
 //
