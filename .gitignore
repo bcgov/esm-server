@@ -78,3 +78,4 @@ mongod
 *.njsproj
 *.sln
 notes.txt
+/modules/.vscode/settings.json
