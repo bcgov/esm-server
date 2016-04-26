@@ -11,7 +11,10 @@ angular.module('inspectionReport').factory ('InspectionReportModel', function (M
     // have all the basic crud stuff built in
     //
     var InspectionReportClass = ModelBase.extend ({
-        urlName: 'inspectionreport'
+        urlName: 'inspectionreport',
+        forProject: function (projectid) {
+			return this.get ('/api/inspectionreport/for/project/'+projectid);
+		},
     });
 
     return new InspectionReportClass ();

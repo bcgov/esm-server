@@ -10,4 +10,10 @@ var helpers      = require ('../../../core/server/controllers/core.helpers.contr
 
 module.exports = function (app) {
 	helpers.setCRUDRoutes (app, 'inspectionreport', Inspectionreport, policy);
+	app.route ('/api/inspectionreport/for/project/:projectid').all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Inspectionreport (req.user);
+			p.getForProject (req.params.projectid)
+			.then (helpers.success(res), helpers.failure(res));
+		});
 };

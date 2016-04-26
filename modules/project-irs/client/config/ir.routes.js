@@ -24,9 +24,9 @@ angular.module('irs').config(['$stateProvider', function ($stateProvider) {
 				return IrModel.forProject (project._id);
 			},
 		},
-        onEnter: function (MenuControl, project) {
-            MenuControl.routeAccess (project.code, 'eao','edit-inspections');
-        }
+		onEnter: function (MenuControl, project) {
+			MenuControl.routeAccess (project.code, 'eao','edit-inspections');
+		}
 	})
 	// -------------------------------------------------------------------------
 	//
@@ -52,18 +52,38 @@ angular.module('irs').config(['$stateProvider', function ($stateProvider) {
 		url: '/create',
 		templateUrl: 'modules/project-irs/client/views/ir-edit.html',
 		resolve: {
-			ir: function (IrModel) {
-				return IrModel.getNew ();
+			ir: function (IrModel, project) {
+				return new Promise( function (resolve, reject) {
+					IrModel.getNew().then(function (obj) {
+						obj.project = project;
+						resolve(obj);
+					});
+				});
+			},
+			report: function (InspectionReportModel, project) {
+				return new Promise( function (resolve, reject) {
+					InspectionReportModel.getNew().then(function (obj) {
+						obj.projectName			= project.name;
+						obj.region				= project.region;
+						obj.lat					= project.lat;
+						obj.lon					= project.lon;
+						obj.sector				= project.sector;
+						obj.locationDescription = project.location;
+						// console.log("obj",obj);
+						resolve(obj);
+					});
+				});
 			}
 		},
-		controller: function ($scope, $state, project, ir, IrModel) {
+		controller: function ($scope, $state, project, ir, IrModel, report, InspectionReportModel) {
 			$scope.ir = ir;
+			$scope.report = report;
 			$scope.project = project;
 			$scope.save = function () {
 				IrModel.add ($scope.ir)
 				.then (function (model) {
 					$state.transitionTo('p.ir.list', {projectid:project.code}, {
-			  			reload: true, inherit: false, notify: true
+						reload: true, inherit: false, notify: true
 					});
 				})
 				.catch (function (err) {
@@ -97,7 +117,7 @@ angular.module('irs').config(['$stateProvider', function ($stateProvider) {
 					// console.log ('ir was saved',model);
 					// console.log ('now going to reload state');
 					$state.transitionTo('p.ir.list', {projectid:project.code}, {
-			  			reload: true, inherit: false, notify: true
+						reload: true, inherit: false, notify: true
 					});
 				})
 				.catch (function (err) {
