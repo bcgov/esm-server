@@ -113,7 +113,14 @@ var documentConversion = function documentConversion(conn, downloads_dir, limit)
                         var dataLength = 0;
                         var uuid = require('node-uuid');
                         var generatedFilename = uuid.v1() + path.extname(downloadURL);
-                        var stream = downloads_dir + path.sep + projectID + path.sep + generatedFilename;
+                        var projectDocumentsDirectory = downloads_dir + path.sep + projectID;
+                        var stream = projectDocumentsDirectory + path.sep + generatedFilename;
+
+                        if (!fs.existsSync(projectDocumentsDirectory)) {
+                            console.log("Downloads dir does not exist. Creating...", projectDocumentsDirectory);
+                            fs.mkdirSync(projectDocumentsDirectory);
+                        }
+
                         console.log("Writing to: ", stream);
                         var file = fs.createWriteStream(stream);
                         console.log("Attempting to migrate: ", item._id);

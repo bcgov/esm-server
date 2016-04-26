@@ -403,9 +403,11 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 			// console.log("downloaded and approved!");
 		});
 	};
-	docBrowser.rejectDocument = function(doc) {
+	docBrowser.deleteDocument = function(documentID) {
+		// console.log("deleting:",documentID);
 		// Delete it from the system.
-		Document.deleteDocument(doc._id).then( function(res) {
+		Document.deleteDocument(documentID).then( function(res) {
+			$scope.filterSummary = undefined;
 			$rootScope.$broadcast('refreshDocumentList');
 		});
 	};

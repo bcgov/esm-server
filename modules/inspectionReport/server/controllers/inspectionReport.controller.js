@@ -19,6 +19,9 @@ var TaskBaseClass = require (path.resolve('./modules/tasks/server/controllers/ta
 module.exports = DBModel.extend ({
 	name : 'Inspectionreport',
 	plural : 'inspectionreports',
-	populate : 'inspectionDetails'
+	populate : 'inspectionDetails',
+	getForProject: function (projectId) {
+		return this.findMany ({project:projectId});
+	},
 });
 
