@@ -4,7 +4,44 @@ angular
 	.module('user')
 	.directive('tmplQuicklinksThumbnails', directiveQuicklinksThumbnails)
 	.directive('tmplCompanyEntryForm', directiveCompanyEntryForm)
-	.directive('tmplUserEntryForm', directiveUserEntryForm);
+	.directive('tmplUserEntryForm', directiveUserEntryForm)
+	.directive('modalEditMyProfile', directiveEditMyProfile);
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: User Entry Form
+//
+// -----------------------------------------------------------------------------------
+directiveEditMyProfile.$inject = ['$modal', 'UserModel'];
+/* @ngInject */
+function directiveEditMyProfile($modal, UserModel) {
+	var directive = {
+		restrict:'A',
+		scope : {
+			project: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/users/client/views/settings/modal-edit-profile.client.view.html',
+					controller: 'controllerModalMyProfile',
+					controllerAs: 'myProfile',
+					resolve: {
+						user: function () {
+							return UserModel.me();
+						}
+					},
+					size: 'lg'
+				});
+				modalDocView.result.then(function (data) {
+					scope.user = data;
+				}, function () {});
+			});
+		}
+	};
+	return directive;
+}
+
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Modal Project Schedule

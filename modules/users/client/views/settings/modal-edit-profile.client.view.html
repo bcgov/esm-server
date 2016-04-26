@@ -1,0 +1,152 @@
+<div class="modal-header">
+  <h3 class="modal-title">Edit Profile</h3>
+</div>
+
+<form name="userForm" ng-submit="save(userForm.$valid)" novalidate>
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label for="salutation" class="control-label">Salutation</label>
+            <select class="form-control" ng-model="myProfile.user.salutation" ng-options="sal as sal for sal in myProfile.salutations"></select>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group" x-show-errors>
+            <label for="firstName" class="control-label">First Name</label>
+            <input id="firstName" name="firstName" ng-change="myProfile.calculateName()" type="text" class="form-control input-sm" ng-model="myProfile.user.firstName" required>
+            <div ng-messages="userForm.firstName.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">First name is required.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label for="middleName" class="control-label">Middle Name</label>
+            <input id="middleName" ng-change="myProfile.calculateName()" type="text" class="form-control input-sm" ng-model="myProfile.user.middleName">
+
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group" x-show-errors>
+            <label for="lastName" class="control-label">Last Name</label>
+            <input id="lastName" name="lastName" ng-change="myProfile.calculateName()" type="text" class="form-control input-sm" ng-model="myProfile.user.lastName" required>
+            <div ng-messages="userForm.lastName.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Last name is required.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-9">
+          <div class="form-group">
+            <label for="displayName" class="control-label">Full Name</label>
+            <input id="displayName" disabled=true type="text" class="form-control input-sm" ng-model="myProfile.user.displayName">
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group" x-show-errors>
+            <label for="username" class="control-label">Username</label>
+            <input id="username" disabled=true name="username" type="text" class="form-control input-sm" ng-model="myProfile.user.username" required>
+            <div ng-messages="userForm.username.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">User name is required.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label for="phoneNumber" class="control-label">Phone Number</label>
+            <input id="phoneNumber" type="text" class="form-control input-sm" ng-model="myProfile.user.phoneNumber">
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label for="faxNumber" class="control-label">Fax Number</label>
+            <input id="faxNumber" type="text" class="form-control input-sm" ng-model="myProfile.user.faxNumber">
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label for="cellPhoneNumber" class="control-label">Mobile Number</label>
+            <input id="cellPhoneNumber" type="text" class="form-control input-sm" ng-model="myProfile.user.cellPhoneNumber">
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group" x-show-errors>
+            <label for="email" class="control-label">Email</label>
+            <input id="email" name="email" type="text" class="form-control input-sm" ng-model="myProfile.user.email" required>
+            <div ng-messages="userForm.email.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Email is required.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr/>
+
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="address1" class="control-label">Address (Line 1)</label>
+            <input id="address1" type="text" class="form-control input-sm" ng-model="myProfile.user.address1">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="address2" class="control-label">Address (Line 2)</label>
+            <input id="address2" type="text" class="form-control input-sm" ng-model="myProfile.user.address2">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label for="city" class="control-label">City</label>
+            <input id="city" type="text" class="form-control input-sm" ng-model="myProfile.user.city">
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label for="province" class="control-label">Province</label>
+            <input id="province" type="text" class="form-control input-sm" ng-model="myProfile.user.province">
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label for="country" class="control-label">Country</label>
+            <input id="country" type="text" class="form-control input-sm" ng-model="myProfile.user.country">
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label for="postalCode" class="control-label">Postal Code</label>
+            <input id="postalCode" type="text" class="form-control input-sm" ng-model="myProfile.user.postalCode">
+          </div>
+        </div>
+      </div>
+      <hr>
+
+      <hr>
+      <div class="row">
+        <div class="col-sm-9">
+          <div class="form-group">
+            <label for="notes" class="control-label">Notes</label>
+            <textarea id="notes" rows="6" class="form-control" ng-model="myProfile.user.notes"></textarea>
+          </div>
+        </div>
+
+  </div> <!-- /panelbody -->
+
+</form>
+
+<div class="modal-footer">
+  <button class="btn btn-default" type="button" ng-click="myProfile.cancel()">Cancel</button>
+  <button class="btn btn-primary" type="button" ng-click="myProfile.ok()">Save</button>
+</div>
