@@ -84,16 +84,28 @@ angular.module ('vcs')
 				// console.log("Adding " + obj.description + " to Valued Components");
 				VcModel.getNew().then(function (m) {
 					m.project = $scope.project;
-					// TODO: Should we be getting these names from the UI?
 					m.name = obj.name;
-					m.code = codeFromTitle(obj.name+m.project.code);
-					// console.log("saving:",m);
-					VcModel.saveCopy(m).then(function (saved) {
-						savedArray.push(saved);
-						if (idx === self.currentObjs.length-1) {
-							// Return the collection back to the caller
-							$modalInstance.close(savedArray);
+					m.title = obj.name;
+					VcModel.query({project: $scope.project})
+					.then(function(data) {
+						// Take the end of the string, assume it's a number,
+						// and increment accordingly.
+						var suffix = "-1";
+						if (data) {
+							// get the last one and slice it
+							var existingCode = data[data.length-1].code.slice(-1);
+							existingCode++;
+							suffix = "-"+existingCode;
 						}
+						m.code = codeFromTitle(obj.name+"-"+m.project.code+suffix);
+						// console.log("saving:",m);
+						VcModel.saveCopy(m).then(function (saved) {
+							savedArray.push(saved);
+							if (idx === self.currentObjs.length-1) {
+								// Return the collection back to the caller
+								$modalInstance.close(savedArray);
+							}
+						});
 					});
 				});
 			});
