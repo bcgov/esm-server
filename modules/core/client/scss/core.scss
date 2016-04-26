@@ -37,6 +37,7 @@ body {
 	min-height: 100%;
 	font-family: Myriad-Pro, Calibri, Arial, sans serif !important;
 	font-size: 1.4rem;
+	-ms-overflow-style: scrollbar;
 }
 
 /* ----- Typography ----- */
@@ -1819,7 +1820,6 @@ $header-height: 6rem;
 	
 	.navbar-nav {
 		margin: 1rem;
-		margin-right: 0;
 	}
 	
 	.navbar-brand {
@@ -1863,6 +1863,10 @@ $header-height: 6rem;
 		margin-top: 0.7rem;
 		opacity: 0.5;
 		margin-left: 1rem;
+		margin-right: 1rem;
+	}
+	
+	.user-menu {
 		margin-right: 1rem;
 	}
 }
@@ -2144,5 +2148,14 @@ section.project-info {
 		margin-right: 0.5rem;
 		font-size: 1.8rem;
 		vertical-align: middle;
+	}
+}
+
+
+/* VALUED COMPONENTS LIST
+------------------------------ */
+.valued-components-view {
+	.actions-col {
+		width: 6rem;
 	}
 }

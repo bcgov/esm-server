@@ -34,7 +34,7 @@
 			<li ng-show="!authentication.user">
 				<a class="btn btn-link" ui-sref="authentication.signin">LOG IN</a>
 			</li>
-			<li class="dropdown" ng-show="authentication.user">
+			<li class="dropdown user-menu" ng-show="authentication.user">
 				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 					<span>{{ authentication.user.displayName }}</span>
 					<span class="caret"></span>
