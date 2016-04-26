@@ -38,7 +38,7 @@
 						filter="{'author':'text'}"
 						sortable="'author'"
 					>
-						{{o.author}}
+						<span ng-if="o.displayName">{{o.author}}</span>
 					</td>
 
 					<td align="center"
@@ -54,19 +54,19 @@
 						filter="{'classification':'text'}"
 						sortable="'classification'"
 					>
-						{{o.classification.join(' ')}}
+						{{o.classification.join(', ')}}
 					</td>
 
-					<td width="2%" align="center"
+<!-- 					<td width="4%" align="center"
 						data-title="'#C'"
 						filter="{'buckets.length':'text'}"
 						sortable="'buckets.length'"
 					>
 						{{o.buckets.length}}
 					</td>
-
-					<td width="2%" align="center"
-						data-title="'#D'"
+ -->
+					<td width="4%" align="center"
+						data-title="'Attachments'"
 						filter="{'documents.length':'text'}"
 						sortable="'documents.length'"
 					>
@@ -78,7 +78,8 @@
 						<i class="glyphicon glyphicon-pencil"></i>
 						</a>
 					</td>
- -->				</tr>
+ -->
+ 				</tr>
 				<tr ng-if="!$data || $data.length === 0">
 					<td colspan="6">
 						No records found.
