@@ -9,7 +9,7 @@ var mongoose        = require('mongoose'),
 
 var comments = {};
 var commentarray = [];
-var log;
+var mylogger;
 
 var numBucketsAdded = 0;
 var numDocumentsAdded = 0;
@@ -57,9 +57,9 @@ var getComment = function (id) {
 var saveComment = function (comment) {
 	comment.markModified ('documents');
 	comment.markModified ('buckets');
-	log ('------------\nsaving comment id '+comment._id);
-	log ("documents: "+JSON.stringify (comment.documents, null, 4));
-	log ("buckets: "+JSON.stringify (comment.buckets, null, 4));
+	mylogger ('------------\nsaving comment id '+comment._id);
+	mylogger ("documents: "+JSON.stringify (comment.documents, null, 4));
+	mylogger ("buckets: "+JSON.stringify (comment.buckets, null, 4));
 	return comment.save();
 };
 var saveCommentsParallel = function () {
@@ -107,7 +107,7 @@ var replaceDocuments = function (documentModels) {
 	return P.all (documentModels.map (function (documentModel) {
 		var commentId  = documentModel.publicComment;
 		var documentId = documentModel._id;
-		// log ('adding document '+documentId+' to comment '+commentId);
+		// mylogger ('adding document '+documentId+' to comment '+commentId);
 		return getComment (commentId)
 		.then (function (comment) {
 			comment.documents.push (documentId);
@@ -124,7 +124,7 @@ var replaceBuckets = function (bucketModels) {
 	return P.all (bucketModels.map (function (bucketModel) {
 		var commentId = bucketModel.publicComment;
 		var bucketId = bucketModel.bucket;
-		// log ('adding bucket '+bucketId+' to comment '+commentId);
+		// mylogger ('adding bucket '+bucketId+' to comment '+commentId);
 		return getComment (commentId)
 		.then (function (pc) {
 			pc.buckets.push (bucketId);
@@ -138,7 +138,7 @@ var replaceBuckets = function (bucketModels) {
 //
 // -------------------------------------------------------------------------
 module.exports = function (f) {
-	log = f;
+	mylogger = f;
 	return new P (function (resolve, reject) {
 		P.resolve ()
 		.then (getDocuments)
@@ -146,7 +146,7 @@ module.exports = function (f) {
 		.then (getBuckets)
 		.then (replaceBuckets)
 		.then (saveCommentsSequential)
-		.then (function () { log ('', true ); })
+		.then (function () { mylogger ('', true ); })
 		// .then (saveCommentsParallel)
 		.then (resolve, reject);
 	});
