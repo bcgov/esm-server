@@ -1,4 +1,7 @@
 #!/bin/bash
+
+npm install
+
 COUNTER=0
 while [  $COUNTER -lt 60000 ]; do
   echo Conversion loop count is $COUNTER
