@@ -41,7 +41,7 @@
 					<!-- END: MEM DESCRIPTION PANEL -->
 
 					<div class="row">
-						<div class="col-sm-4" ng-class="{'activity-list-med': !form.expandnews}" ng-init="form.expandnews = false">
+						<div class="col-sm-4" ng-init="form.expandnews = false">
 							<div class="panel panel-default recent-activity">
 								<div class="panel-heading"><h2>News & Announcements</h2></div>
 								<div class="panel-body">
@@ -54,16 +54,11 @@
 								id="anchor-map"
 								x-projects='projects'>
 							</tmpl-projects-map>
-							<tmpl-projects-list2
-								id="anchor-list"
-								x-projects='projects'
-								ng-if="form.expandnews">
-							</tmpl-projects-list2>
 						</div>
 					</div>
 					
 					<section>
-						<div class="row grid-view" ng-if="!form.expandnews">
+						<div class="row grid-view">
 							<div class="col-sm-12">
 								<tmpl-projects-list2
 									id="anchor-list"
