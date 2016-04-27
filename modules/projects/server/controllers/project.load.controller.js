@@ -43,7 +43,7 @@ module.exports = function(file, req, res) {
 							stopProcessing = true;
 							return p;
 						} else {
-							return (new Project(req.user)).addPhase(project, "pre-app");
+							return (new Project(req.user)).addPhase(p, "pre-app");
 						}
 					})
 					.then(function (p) {
@@ -51,7 +51,7 @@ module.exports = function(file, req, res) {
 							stopProcessing = true;
 							return p;
 						} else {
-							return (new Project(req.user)).addPhase(project, "evaluation");
+							return (new Project(req.user)).addPhase(p, "evaluation");
 						}
 					})
 					.then(function (p) {
@@ -59,7 +59,7 @@ module.exports = function(file, req, res) {
 							stopProcessing = true;
 							return p;
 						} else {
-							return (new Project(req.user)).addPhase(project, "application-review");
+							return (new Project(req.user)).addPhase(p, "application-review");
 						}
 					})
 					.then(function (p) {
@@ -67,7 +67,7 @@ module.exports = function(file, req, res) {
 							stopProcessing = true;
 							return p;
 						} else {
-							return (new Project(req.user)).addPhase(project, "decision");
+							return (new Project(req.user)).addPhase(p, "decision");
 						}
 					})
 					.then(function (p) {
@@ -75,14 +75,14 @@ module.exports = function(file, req, res) {
 							stopProcessing = true;
 							return p;
 						} else {
-							return (new Project(req.user)).addPhase(project, "post-certification");
+							return (new Project(req.user)).addPhase(p, "post-certification");
 						}
 					})
 					.then(function (p) {
 						if (stopProcessing || finalPhaseCode === "post-certification") {
 							return p;
 						} else {
-							return (new Project(req.user)).addPhase(project, "completed");
+							return (new Project(req.user)).addPhase(p, "completed");
 						}
 					})
 					.then(function (p) {
