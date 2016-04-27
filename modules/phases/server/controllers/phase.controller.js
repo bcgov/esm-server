@@ -203,7 +203,7 @@ module.exports = DBModel.extend ({
 			phase.overrideReason = reason;
 			phase.overridden     = true;
 			phase.completed      = true;
-			phase.completedBy    = this.user._id;
+			phase.completedBy    = self.user._id;
 			phase.dateCompleted  = new Date ();
 			self.overrideMilestones (phase)
 			.then (self.findAndUpdate)
