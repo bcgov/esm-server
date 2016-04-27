@@ -235,8 +235,9 @@ var queryModel = function (query) {
 // -------------------------------------------------------------------------
 var queryModels = function (query, limit) {
 	limit = limit || 0;
+	limit = parseInt (limit);
 	return new Promise (function (resolve, reject) {
-		Model.find (query).sort ({dateAdded:-1}).limit (limit).populate('buckets documents topics').exec().then(resolve,reject);
+		Model.find (query).sort ({dateAdded:-1}).limit (limit).populate('buckets documents').exec().then(resolve,reject);
 	});
 };
 // -------------------------------------------------------------------------
