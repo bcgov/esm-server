@@ -5,6 +5,7 @@ var mongoose        = require('mongoose'),
 	PublicComment   = mongoose.model('PublicComment'),
 	CommentDocument = mongoose.model('CommentDocument'),
 	BucketComment   = mongoose.model('BucketComment'),
+	Bucket          = mongoose.model('Bucket'),
 	P               = require('promise');
 
 var comments = {};
@@ -50,6 +51,13 @@ var getComment = function (id) {
 				resolve (null);
 			});
 		}
+	});
+};
+var bucketExists = function (id) {
+	return new P (function (resolve, reject) {
+		Bucket.count({_id: id}, function (err, count) {
+	    	resolve (count > 0) ;
+		});
 	});
 };
 
@@ -128,8 +136,11 @@ var replaceBuckets = function (bucketModels) {
 	return P.all (bucketModels.map (function (bucketModel) {
 		var commentId = bucketModel.publicComment;
 		var bucketId = bucketModel.bucket;
-		// mylogger ('adding bucket '+bucketId+' to comment '+commentId);
-		return getComment (commentId)
+		return bucketExists (bucketId)
+		.then (function (exists) {
+			if (exists) return getComment (commentId);
+			else return null;
+		})
 		.then (function (pc) {
 			if (pc) pc.buckets.push (bucketId);
 		});
