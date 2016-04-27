@@ -2,7 +2,7 @@
 	
 	<div class="view-content">
 		
-		<div class='left-panel' id="main-side-section" ng-if="authentication.user">
+		<div class="left-panel hidden" id="main-side-section" ng-if="authentication.user">
 			<tmpl-system-menu x-menu-context="'projects'"></tmpl-system-menu>
 		</div>
 		
@@ -10,7 +10,7 @@
 			
 			<!-- BEGIN: VIEW TITLE CONTAINER -->
 			<div class="view-title-container hidden">
-				<h1>Page Title Here?</h1>
+				<h1>Environmental Assessments</h1>
 			</div>
 			<!-- END: VIEW TITLE CONTAINER -->
 			
@@ -42,7 +42,12 @@
 
 					<div class="row">
 						<div class="col-sm-4" ng-class="{'activity-list-med': !form.expandnews}" ng-init="form.expandnews = false">
-							<tmpl-recent-activity id="anchor-recent" x-form="form"></tmpl-recent-activity>
+							<div class="panel panel-default recent-activity">
+								<div class="panel-heading"><h2>News & Announcements</h2></div>
+								<div class="panel-body">
+									<tmpl-recent-activity id="anchor-recent" x-form="form"></tmpl-recent-activity>
+								</div>
+							</div>
 						</div>
 						<div class="col-sm-8">
 							<tmpl-projects-map
@@ -57,14 +62,17 @@
 						</div>
 					</div>
 					
-					<div class="row" ng-if="!form.expandnews">
-						<div class="col-sm-12">
-							<tmpl-projects-list2
-								id="anchor-list"
-								x-projects='projects'>
-							</tmpl-projects-list2>
+					<section>
+						<div class="row grid-view" ng-if="!form.expandnews">
+							<div class="col-sm-12">
+								<tmpl-projects-list2
+									id="anchor-list"
+									x-projects="projects">
+								</tmpl-projects-list2>
+							</div>
 						</div>
-					</div>
+					</section>
+					
 				</ui-view>
 			</div>
 			<!-- END: VIEW BODY CONTAINER -->
