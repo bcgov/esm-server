@@ -126,6 +126,13 @@ angular.module('project').config (
 
         }
 	})
+	.state('p.schedule', {
+		url: '/schedule',
+		templateUrl: 'modules/projects/client/views/project-partials/project.schedule.html',
+		controller: function ($scope, $state, project, ProjectModel) {
+
+        }
+	})
 	;
 }]);
 

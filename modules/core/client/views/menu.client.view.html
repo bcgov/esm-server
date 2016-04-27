@@ -61,9 +61,9 @@
 			    ng-class="{ 'active': $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
-			<li ng-if="menu.isEAO">
+<!-- 			<li ng-if="menu.isEAO">
 				<a x-modal-project-schedule href x-project="menu.project">Project Schedule</a>
-			</li>
+			</li> -->
 		</ul>
 		
 		<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user, menu.project.code)">
