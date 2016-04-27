@@ -1,16 +1,16 @@
 <div class="app-header">
 	<nav class="navbar">
-		
+
 		<div class="navbar-header">
 			<div class="navbar-brand"><a ui-sref="projects" href><img src="{{logo}}" /></a></div>
 		</div>
-		
-		<ul class="nav navbar-nav navbar-right">
+
+		<ul class="nav navbar-nav">
 			<li ng-show="!authentication.user">
 				<li><a href ui-sref="projects">HOME</a>
 			</li>
 			<li ng-show="authentication.user">
-				<a href ui-sref="activities">MY DASHBOARD</a></li>
+				<a href ui-sref="activities">DASHBOARD</a></li>
 			</li>
 			<li class="dropdown" ng-if="systemMenu.shouldRender(authentication.user);">
 				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="System Configuration">
@@ -27,25 +27,26 @@
 						<a x-modal-project-import href x-project="import">Import</a>
 					</li>
 				</ul>
-			</li>>
+			</li>
 			<li>
 				<div class="vert-pipe"></div>
 			</li>
 			<li ng-show="!authentication.user">
 				<a class="btn btn-link" ui-sref="authentication.signin">LOG IN</a>
 			</li>
-			<li class="dropdown" ng-show="authentication.user">
+			<li class="dropdown user-menu" ng-show="authentication.user">
 				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 					<span>{{ authentication.user.displayName }}</span>
 					<span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu pull-right" aria-labelledby="userMenu">
-					<li><a href ui-sref="settings.profile">Edit Profile</a></li>
-					<li><a href="/api/auth/signout" target="_self">Logout</a></li>
-				</ul>	
+          <li><a x-modal-edit-my-profile href>Edit Profile</a></li>
+
+          <li><a href="/api/auth/signout" target="_self">Logout</a></li>
+				</ul>
 			</li>
 		</ul>
-		
-		
+
+
 	</nav>
 </div>

@@ -15,7 +15,41 @@ angular.module('users').config(['$stateProvider',
 			})
 			.state('settings.profile', {
 				url: '/profile',
-				templateUrl: 'modules/users/client/views/settings/edit-profile.client.view.html'
+				templateUrl: 'modules/users/client/views/settings/edit-profile.client.view.html',
+				resolve: {
+					user: function (UserModel) {
+						return UserModel.me ();
+					}
+				},
+				controller: function ($scope, $state, user, UserModel, $filter, SALUTATIONS) {
+					$scope.user = user;
+					$scope.salutations = SALUTATIONS;
+
+					var which = 'edit';
+					$scope.calculateName = function() {
+						$scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ');
+					};
+					
+					$scope.save = function (isValid) {
+						if (!$scope.user.username || $scope.user.username === '') {
+							$scope.user.username = $filter('kebab')( $scope.user.displayName );
+						}
+						if (!isValid) {
+							$scope.$broadcast('show-errors-check-validity', 'userForm');
+							return false;
+						}
+						var p = (which === 'add') ? UserModel.add ($scope.user) : UserModel.save ($scope.user);
+						p.then (function (model) {
+								$state.transitionTo('settings.profile', {}, {
+									reload: true, inherit: false, notify: true
+								});
+							})
+							.catch (function (err) {
+								console.error (err);
+								// alert (err.message);
+							});
+					};
+				}
 			})
 			.state('settings.password', {
 				url: '/password',

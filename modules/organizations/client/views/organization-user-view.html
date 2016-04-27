@@ -18,7 +18,7 @@
 					<label for="salutation" class="control-label">Salutation</label>
 					<p class="form-control-static">{{ user.salutation }}</p>
 				</div>
-			</div>    
+			</div>
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="firstName" class="control-label">First Name</label>
@@ -45,7 +45,7 @@
 					<label for="phoneNumber" class="control-label">Phone Number</label>
 					<p class="form-control-static">{{ user.phoneNumber }}</p>
 				</div>
-			</div>    
+			</div>
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="faxNumber" class="control-label">Fax Number</label>
@@ -75,7 +75,7 @@
 					<label for="address1" class="control-label">Address (Line 1)</label>
 					<p class="form-control-static">{{ user.address1 }}</p>
 				</div>
-			</div>    
+			</div>
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="address2" class="control-label">Address (Line 2)</label>
@@ -90,7 +90,7 @@
 					<label for="city" class="control-label">City</label>
 					<p class="form-control-static">{{ user.city }}</p>
 				</div>
-			</div>    
+			</div>
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="province" class="control-label">Province</label>
@@ -117,7 +117,7 @@
 					<label for="orgName" class="control-label">Organization</label>
 					<p class="form-control-static">{{ user.orgName }}</p>
 				</div>
-			</div>    
+			</div>
 			<div class="col-sm-4">
 				<div class="form-group">
 					<label for="department" class="control-label">Department</label>
@@ -151,13 +151,6 @@
 				</div>
 
 				<div class="col-sm-3">
-					<label for="complaint" class="control-label">System Roles</label>
-					<display-array x-source-array="roles" x-selected-array='user.roles' x-key-string="code" x-value-string="code"></display-array>
-
-				</div>
-
-
-				<div class="col-sm-3">
 					<div class="form-group">
 						<label for="notes" class="control-label">Contact Preferences</label>
 						<p class="form-control-static" ng-if="user.viaEmail"> via Email</p>
@@ -165,6 +158,12 @@
 					</div>
 				</div>
 
+
+      <div class="col-sm-3" ng-show="roles.length > 0">
+        <label for="complaint" class="control-label">Roles</label>
+        <select-array x-source-array="roles" x-selected-array='user.roles' x-key-string="code" x-value-string="code"></select-array>
+
+      </div>
 			</div>
 
 		<hr>

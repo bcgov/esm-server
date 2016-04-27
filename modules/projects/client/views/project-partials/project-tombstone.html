@@ -2,7 +2,7 @@
 <div ng-if="environment === 'EAO'">
 	<div class="detail-row">
 		<label>Location:</label>
-		<span class="value">{{ ::project.location }}&nbsp;<span ng-show="project.region">{{ ::project.region | regionName }} Region)</span></span>
+		<span class="value">{{ ::project.location }}&nbsp;<span ng-show="project.region">({{ ::project.region | regionName }} Region)</span></span>
 	</div>
 	<div class="detail-row">
 		<label>Type:</label>

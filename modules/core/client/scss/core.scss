@@ -37,6 +37,7 @@ body {
 	min-height: 100%;
 	font-family: Myriad-Pro, Calibri, Arial, sans serif !important;
 	font-size: 1.4rem;
+	-ms-overflow-style: scrollbar;
 }
 
 /* ----- Typography ----- */
@@ -1493,7 +1494,6 @@ h2.page-title {
 }
 
 /*------------------------------*/
-
 .activity-list-med {
 	height: 542px;
 	overflow: hidden;
@@ -1539,14 +1539,20 @@ div.dropdown-menu {
 	}
 }
 
+
 /* BUTTONS
 ------------------------------ */
 .btn {
+	.glyphicon {
+		font-size: 1.4rem;
+		vertical-align: middle;
+		margin-top: -4px;
+	}
+	
     .glyphicon + span {
         margin-left: 0.5rem;
     }
 }
-
 
 
 /* PAGE LAYOUT
@@ -1692,6 +1698,23 @@ section {
 }
 
 
+/* MODAL OVERRIDES
+------------------------------ */ 
+.modal-header,
+.modal-body,
+.modal-footer {
+	padding: 1rem 2rem;
+}
+
+.modal-footer {
+	padding: 1.5rem 2rem;
+	
+	.btn {
+		min-width: 8rem;
+	}
+}
+
+
 /* PANEL OVERRIDES 
 ------------------------------ */ 
 .panel-default {
@@ -1799,6 +1822,7 @@ tmpl-header {
 	padding-bottom: 4rem;
 }
 
+
 /* HEADER 
 ------------------------------ */
 $corp-blue: #003366;
@@ -1822,15 +1846,18 @@ $header-height: 6rem;
 	}
 	
 	.navbar-brand {
+		margin-left: 0.5rem;
 		padding: 0 1rem;
 		
 		img {
-			margin-top: 0.6rem;
-			height: 4.5rem;
+			margin-top: 0.8rem;
+			height: 4rem;
 		}
 	}
 	
 	.navbar-nav {
+		float: right;
+		
 		> li > a,
 		> li > a:hover,
 		> li > a:focus {
@@ -1859,6 +1886,10 @@ $header-height: 6rem;
 		margin-top: 0.7rem;
 		opacity: 0.5;
 		margin-left: 1rem;
+		margin-right: 1rem;
+	}
+	
+	.user-menu {
 		margin-right: 1rem;
 	}
 }
@@ -1898,7 +1929,8 @@ $sidenav-width: 18rem;
 	
 	a {
 		display: block;
-		padding: 0.4rem 2rem;
+		padding: 0.6rem 2rem;
+		color: #666;
 	}
 	
 	hr {
@@ -2022,7 +2054,7 @@ $sidenav-width: 18rem;
 
 section.project-info {
 	margin-top: 0;
-	margin-bottom: 2rem;
+	margin-bottom: 3rem;
 	
 	.panel-body {
 		padding: 1.5rem 2rem;
@@ -2139,5 +2171,14 @@ section.project-info {
 		margin-right: 0.5rem;
 		font-size: 1.8rem;
 		vertical-align: middle;
+	}
+}
+
+
+/* VALUED COMPONENTS LIST
+------------------------------ */
+.valued-components-view {
+	.actions-col {
+		width: 6rem;
 	}
 }
