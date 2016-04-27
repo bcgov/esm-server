@@ -4,12 +4,12 @@ angular.module('project')
 	// General
 	.controller('modalProjectSchedule', controllerModalProjectSchedule)
 	.controller('controllerProjectTombstone', controllerProjectTombstone)
-	.controller('controllerProjectTimeline', controllerProjectTimeline)        
+	.controller('controllerProjectTimeline', controllerProjectTimeline)
 	.controller('controllerProjectEntryTombstone', controllerProjectEntryTombstone)
-	.controller('controllerProjectProponent', controllerProjectProponent)        
+	.controller('controllerProjectProponent', controllerProjectProponent)
 	.controller('controllerProjectBucketListing', controllerProjectBucketListing)
 	.controller('controllerProjectResearch', controllerProjectResearch);
-	
+
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Modal: View Project Schedule
@@ -17,9 +17,9 @@ angular.module('project')
 // -----------------------------------------------------------------------------------
 controllerModalProjectSchedule.$inject = ['$modalInstance', 'rProject'];
 /* @ngInject */
-function controllerModalProjectSchedule($modalInstance, rProject) { 
+function controllerModalProjectSchedule($modalInstance, rProject) {
 	var ps = this;
-	
+
 	ps.project = rProject;
 
 	ps.cancel = function () { $modalInstance.dismiss('cancel'); };
@@ -28,69 +28,69 @@ function controllerModalProjectSchedule($modalInstance, rProject) {
 //
 // CONTROLLER: Project Tombstone
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 controllerProjectTombstone.$inject = ['$scope'];
 /* @ngInject */
 function controllerProjectTombstone($scope) {
 	var projTomb = this;
-	
+
 	$scope.$watch('project', function(newValue) {
-		projTomb.project = newValue;		
+		projTomb.project = newValue;
 	});
-}    
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Timeline
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 controllerProjectTimeline.$inject = ['$scope'];
 /* @ngInject */
 function controllerProjectTimeline($scope) {
 	var ptime = this;
-	
+
 	$scope.$watch('project', function(newValue) {
 		ptime.project = newValue;
 	});
-}    
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Entry Tombstone
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 controllerProjectEntryTombstone.$inject = ['$scope', 'Projects', 'REGIONS', 'PROJECT_TYPES'];
 /* @ngInject */
 function controllerProjectEntryTombstone($scope, Projects, REGIONS, PROJECT_TYPES) {
 	var projectEntryTS = this;
-	
+
 	projectEntryTS.regions = REGIONS;
 
 	$scope.$watch('project', function(newValue){
-		projectEntryTS.project = newValue; 	
+		projectEntryTS.project = newValue;
 	});
-	
+
 	projectEntryTS.types = PROJECT_TYPES;
 }
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Timeline
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 controllerProjectProponent.$inject = ['$scope', 'PROVINCES'];
 /* @ngInject */
 function controllerProjectProponent($scope, PROVINCES) {
 	var projectProponent = this;
-	
+
 	projectProponent.provs = PROVINCES;
 
 	$scope.$watch('project', function(newValue) {
-		projectProponent.project = newValue;		
+		projectProponent.project = newValue;
 	});
-}        
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Bucket Listing
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 controllerProjectBucketListing.$inject = ['$scope', 'Project', '$filter'];
 /* @ngInject */
 function controllerProjectBucketListing($scope, Project, $filter) {
@@ -114,26 +114,27 @@ function controllerProjectBucketListing($scope, Project, $filter) {
 
 
 	$scope.$watch('project', function(newValue) {
+		if (!newValue) return;
 		// wait for project and get related buckets
 		projBuckets.buckets = newValue.buckets;
 		projBuckets.bucketsFiltered = $filter('projectBucketNotComplete')(newValue.buckets);
 	});
 
 
-}              	
+}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Research
 //
-// -----------------------------------------------------------------------------------    
+// -----------------------------------------------------------------------------------
 controllerProjectResearch.$inject = ['$scope', 'Project', 'Utils'];
 /* @ngInject */
 function controllerProjectResearch($scope, Project, Utils) {
 	var pr = this;
 	pr.searchResults = {};
-	
+
 	pr.workSpaceLayers = [];
-	
+
 	pr.panelSort = [
 		{'field': 'name', 'name':'Name'},
 		{'field': 'type', 'name':'Type'},
@@ -146,7 +147,7 @@ function controllerProjectResearch($scope, Project, Utils) {
 	// });
 
 	pr.researchFocus = Utils.getResearchFocus();
-	
+
 
 	pr.performSearch = function() {
 		Utils.getResearchResults({'term': pr.search.focus}).then( function(res) {
@@ -160,7 +161,7 @@ function controllerProjectResearch($scope, Project, Utils) {
 		if (newValue) {
 			pr.buckets = newValue.buckets;
 		}
-					
+
 		// Project.getProjectBuckets(newValue).then( function(res) {
 		// 	pr.buckets = res.data;
 		// });
@@ -169,20 +170,20 @@ function controllerProjectResearch($scope, Project, Utils) {
 		// 	pr.projectLayers = res.data;
 		// 	pr.workSpaceLayers.push({"name":"Project", "layers": res.data});
 		// });
-		
+
 		// Project.getProjectTags(newValue).then( function(res) {
 		// 	pr.projectTags = res.data;
-		// });			
+		// });
 
 		// Project.getProjectResearch(newValue).then( function(res) {
 		// 	pr.projectResearch = res.data;
-		// });		
+		// });
 
 		// Project.getProjectRelatedResearch(newValue).then( function(res) {
 		// 	pr.projectRelatedResearch = res.data;
-		// });		
+		// });
 
 	});
 
 
-}              	
+}

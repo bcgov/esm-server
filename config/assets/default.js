@@ -9,6 +9,9 @@ module.exports = {
         // these were in the application css are before
         'public/lib/angular-toastr/dist/angular-toastr.css',
         'public/lib/angular-bootstrap/ui-bootstrap-csp.css',
+        // cc : ngtable
+        'public/assimilated/ng-table/dist/ng-table.min.css',
+        // cc: end ngtable
         'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css'
       ],
       js: [
@@ -37,6 +40,8 @@ module.exports = {
         // these were in the applicaiton js area before
         'public/lib/ngmap/build/scripts/ng-map.js',
         'public/moment-timezone-data.js',
+       // cc : ngtable
+        'public/assimilated/ng-table/dist/ng-table.js',
         'public/readable-range.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']

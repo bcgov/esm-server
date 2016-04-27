@@ -55,7 +55,9 @@ function directivePublicProjectCommentsCircleChart(d3, $window) {
 				.attr("class", "bubble");
 
 			scope.$watch('refresh', function(root) {
+				// console.log ('refresh changed to ', root);
 			  if (root && scope.data.children.length > 0) {
+			  	// console.log ('starting the visualization render');
 				var node = svg.selectAll(".node")
 					.data(bubble.nodes(classes(scope.data))
 					.filter(function(d) { return !d.children; }))

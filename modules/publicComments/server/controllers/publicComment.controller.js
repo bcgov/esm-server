@@ -225,7 +225,7 @@ var numberOfDeferredDocuments = function (comment) {
 // -------------------------------------------------------------------------
 var queryModel = function (query) {
 	return new Promise (function (resolve, reject) {
-		Model.findOne (query).sort ({dateAdded:-1}).exec().then(resolve,reject);
+		Model.findOne (query).sort ({dateAdded:-1}).populate('buckets documents topics').exec().then(resolve,reject);
 	});
 };
 // -------------------------------------------------------------------------
@@ -235,8 +235,9 @@ var queryModel = function (query) {
 // -------------------------------------------------------------------------
 var queryModels = function (query, limit) {
 	limit = limit || 0;
+	limit = parseInt (limit);
 	return new Promise (function (resolve, reject) {
-		Model.find (query).sort ({dateAdded:-1}).limit (limit).exec().then(resolve,reject);
+		Model.find (query).sort ({dateAdded:-1}).limit (limit).populate('buckets documents').exec().then(resolve,reject);
 	});
 };
 // -------------------------------------------------------------------------
@@ -246,26 +247,26 @@ var queryModels = function (query, limit) {
 // -------------------------------------------------------------------------
 var queryModelsDecorate = function (query, limit) {
 	return new Promise (function (resolve, reject) {
-		queryModels (query, limit)
-		.then (function (models) {
-			var parray = models.map (function (model) {
-				return decorateComment (model);
-			});
-			Promise.all (parray).then (resolve, reject);
-		})
-		.catch (reject);
+		queryModels (query, limit).then (resolve, reject);
+		// .then (function (models) {
+		// 	var parray = models.map (function (model) {
+		// 		return decorateComment (model);
+		// 	});
+		// 	Promise.all (parray).then (resolve, reject);
+		// })
+		// .catch (reject);
 	});
 };
 var queryModelsDecorate2 = function (query, limit) {
 	return new Promise (function (resolve, reject) {
-		queryModels (query, limit)
-		.then (function (models) {
-			var parray = models.map (function (model) {
-				return decorateComment2 (model);
-			});
-			Promise.all (parray).then (resolve, reject);
-		})
-		.catch (reject);
+		queryModels (query, limit).then (resolve, reject);
+		// .then (function (models) {
+		// 	var parray = models.map (function (model) {
+		// 		return decorateComment2 (model);
+		// 	});
+		// 	Promise.all (parray).then (resolve, reject);
+		// })
+		// .catch (reject);
 	});
 };
 

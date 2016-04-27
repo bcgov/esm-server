@@ -22,7 +22,7 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		template: '<tmpl-configuration></tmpl-configuration>',
 		data: {
 			roles: ['admin']
-		}		
+		}
 	})
 
 	.state('default', {
@@ -117,6 +117,21 @@ function configFunction($locationProvider, $stateProvider, $urlRouterProvider) {
 		template: '<tmpl-eao-project></tmpl-eao-project>',
 		data: {
 			roles: ['admin', 'user']
+		},
+	})
+	.state('eao.myproject', {
+		url: '/myproject/:id',
+		template: '<div ui-view></div>',
+		abstract:true,
+		data: {
+			roles: ['admin', 'user']
+		},
+		resolve: {
+			project: function ($stateParams, Project, $http) {
+				// console.log ('project id = ', $stateParams.id);
+				return $http({method:'GET',url: '/api/project/' + $stateParams.id}).then (function (ret) {return ret.data;});
+				// return Project.getProjectFromId ($stateParams.id);//.then (function (ret) {return ret.data;});
+			}
 		}
 	})
 	.state('eao.newproject', {

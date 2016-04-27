@@ -17,8 +17,8 @@
 						<div class='col-sm-4'>
 							<div><label class="control-label">Estimated Phase Completion</label><p>{{ projTomb.project.dateCurrentPhaseEstimatedEnd | amDateFormat:'MMM Do YYYY' }}</p></div>
 						</div>
-						
-					</div> 
+
+					</div>
 				</div><!-- /project-info-small -->
 
 				<div class='panel-body' ng-if="projTomb.tombstone">
@@ -52,17 +52,17 @@
 
 				<div class='panel-body'>
 					<div class='row project-small-tombstone'>
-					
+
 						<div class='col-sm-6'>
 							<label class="control-label">Overall Progress</label>
 							<tmpl-progress-bar x-percentage="projTomb.project.overallProgress || 0"></tmpl-progress-bar>
 						</div>
-		
+
 						<div class='col-sm-6'>
 							<label class="control-label">Phase Progress</label>
 							<tmpl-progress-bar x-percentage="projTomb.project.phases[projTomb.project.currentPhase].progress || 0"></tmpl-progress-bar>
-						</div>					
-					
+						</div>
+
 					</div>
 
 				</div>
@@ -74,25 +74,35 @@
 						<tr><td>Activities Not Started</td><td class="text-right">0</td></tr>
 						<tr><td>Documents</td><td class="text-right">0</td></tr>
 						<tr><td>Valid Comments</td><td class="text-right">0</td></tr>
-						<tr><td>Schedule Estimate Accuracy</td><td class="text-right">100%</td></tr>			
+						<tr><td>Schedule Estimate Accuracy</td><td class="text-right">100%</td></tr>
 					</tbody>
 				</table>
 
 			</div> <!-- /col3 performance indicators -->
 		</div>
-	
+
 		<div class="col-sm-3">
 			<div class='panel panel-default panel-project-summary panel-tombstone-menu'>
 
 				<div class='panel-body' ng-if="!projTomb.tombstone">
-					<p><a href x-modal-project-edit-plan-schedule 	x-project="projTomb.project"><span class='glyphicon glyphicon-calendar'></span> Manage Schedule</a></p>
+					<p>
+					<a href x-modal-project-edit-plan-schedule 	x-project="projTomb.project"><span class='glyphicon glyphicon-calendar'></span> Manage Schedule</a>
+					</p>
+					<p>
+					<a href ui-sref="eao.myproject.pcs.list({id:projTomb.project._id})"><span class='glyphicon glyphicon-calendar'></span>Public Comment Listing</a>
+					</p>
 					<a href x-modal-eao-access					x-user-is="admin"		x-project="projTomb.project"><span class='glyphicon glyphicon-user'></span> Manage Access</a>
 					<a href x-modal-proponent-access			x-user-is-not="admin"	x-project="projTomb.project"><span class='glyphicon glyphicon-user'></span> Manage Access</a>
 				</div>
 
 				<div class='panel-body' ng-if="projTomb.tombstone">
 
-					<p><a href x-modal-project-edit-plan-schedule 						x-project="projTomb.project"><span class='glyphicon glyphicon-calendar'></span> Manage Schedule</a></p>
+					<p>
+					<a href x-modal-project-edit-plan-schedule 						x-project="projTomb.project"><span class='glyphicon glyphicon-calendar'></span> Manage Schedule</a>
+					</p>
+					<p>
+					<a href ui-sref="eao.myproject.pcs.list({id:projTomb.project._id})"><span class='glyphicon glyphicon-calendar'></span>Public Comment Listing</a>
+					</p>
 					<p><a href x-modal-eao-access					x-user-is="admin"		x-project="projTomb.project"><span class='glyphicon glyphicon-user'></span> Manage Access</a></p>
 					<p><a href x-modal-proponent-access			x-user-is-not="admin"	x-project="projTomb.project"><span class='glyphicon glyphicon-user'></span> Manage Access</a></p>
 
@@ -109,7 +119,7 @@
 
 			</div>
 		</div> <!-- /col3 menu  -->
-	
+
 	</div>
 
 

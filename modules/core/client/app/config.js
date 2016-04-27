@@ -13,6 +13,7 @@ var ApplicationConfiguration = (function () {
   	'ui.utils',
   	'angularFileUpload',
     'ngMap',
+    'ngTable',
     'ad3',
     'angularMoment',
     'ui.bootstrap.datetimepicker',
