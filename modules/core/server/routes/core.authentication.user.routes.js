@@ -10,5 +10,6 @@ module.exports = function (app) {
   app.route('/authentication/signin').get(core.signIn);
   app.route('/authentication/accept/:token').get(core.acceptInvitation);
   app.route('/authentication/acceptall/:token').get(core.acceptAllInvitations);
+	app.route('/authentication/headers').get(core.logHeaders);
 
 };

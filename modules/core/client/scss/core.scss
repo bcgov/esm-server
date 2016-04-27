@@ -1533,10 +1533,6 @@ div.dropdown-menu {
 ------------------------------ */
 .button-bar {
     padding-bottom: 1.5rem;
-	
-	.btn {
-		text-transform: uppercase;
-	}
 }
 
 
@@ -1722,7 +1718,7 @@ section {
 	box-shadow: none;
 	
 	> .panel-heading {
-		padding: 1rem;
+		padding: 1.25rem 1rem;
 		border: none;
 		background-image: none;
 		background-color: #EEE;
@@ -1958,6 +1954,7 @@ $sidenav-width: 18rem;
 ------------------------------ */
 .table {
 	table-layout: fixed;
+	margin-bottom: 0;
 	
 	th {
 		font-size: 1.2rem;
@@ -2181,4 +2178,75 @@ section.project-info {
 	.actions-col {
 		width: 6rem;
 	}
+}
+
+
+/* ARTIFACT LIST VIEW
+------------------------------ */
+.artifact-list-view {
+	.button-bar {
+		padding: 1rem;
+		background: #FFF;
+		border-bottom: 1px solid #DDD;
+		
+		.input-group {
+			width: 30rem;
+		}
+	}
+}
+
+
+/* PUBLIC HOMEPAGE 
+------------------------------ */
+.public-home-view {
+	.view-title-container {
+		padding-bottom: 0;
+		border-bottom: 0;
+	}
+	
+	.recent-activity {
+		.panel-body {
+			height: 498px;
+			overflow-y: scroll;
+		}
+	}
+	
+	.grid-view {
+		margin-top: 1rem;
+		
+		.panel-heading h2 {
+			margin-top: 0.2rem;
+		}
+		
+		.panel-heading .pull-right {
+			margin-top: -8px;
+			margin-bottom: -6px;
+		}
+	}
+	
+}
+
+
+/* RECENT ACTIVITY VIEW
+------------------------------ */
+.recent-activity-view {
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+	
+	h4 {
+		font-size: 1.8rem;
+		font-weight: bold;
+		margin-top: 0;
+		margin-bottom: 1.25rem;
+	}
+	
+	p {
+		font-size: 1.2rem;
+		
+	}
+	
+	hr {
+		border-color: #CCC;
+	}
+	
 }

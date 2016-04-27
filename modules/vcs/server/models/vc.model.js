@@ -15,6 +15,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	__audit				: true,
 	__codename			: 'unique',
 	title				: { type:String, default:'', index:true },
+	type				: { type:String, default:'', index:true },
 	topiccode			: { type:String, default:'', index:true },
 	parent				: { type:String, default:'', index:true },
 	reportRequirements	: { type:String, default:''},
