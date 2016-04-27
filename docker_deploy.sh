@@ -39,7 +39,7 @@ fi;
 
 if  [ "$proxy" = "true" ]; then
     echo "Running with proxy."
-    docker run -p 3000:3000 -v /data/esm-uploads:/uploads -d --restart=always --link webapp-proxy:webapp-proxy --link mongo:db_1 --name esm-server-ajax  $proxyParams -l appname=esm-server-ajax $1
+    docker run --privileged=true -p 3000:3000 -v /data/esm-uploads:/uploads -d --restart=always --link webapp-proxy:webapp-proxy --link mongo:db_1 --name esm-server-ajax  $proxyParams -l appname=esm-server-ajax $1
 else
     echo "Running without proxy."
     docker run -p 3000:3000 -v /data/esm-uploads:/uploads -d --restart=always --link mongo:db_1 --name esm-server-ajax -l appname=esm-server-ajax $1
