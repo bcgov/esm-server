@@ -139,12 +139,12 @@ function controllerPublicProject($modal, Project, $stateParams, _, moment, $filt
 		vm.project = res.data;
 		vm.bucketGroups = _.unique(_.pluck(vm.project.buckets, 'group'));
 
-		// Project.getPublicCommentsPublishedLimit ($stateParams.id, 20, 0).then (function (response) {
-			// vm.comments = response.data;
+		Project.getPublicCommentsPublishedLimit ($stateParams.id, 20, 0).then (function (response) {
+			vm.comments = response.data;
 			vm.getAllComments ();
 			// vm.processComments();
 			// vm.enableGetMore = true;
-		// });
+		});
 	});
 
 
