@@ -53,9 +53,9 @@
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="pillar" class="control-label">Pillar</label>
-					<select ng-change="d.selectTopic(pillar)" id="pillar"
-					        ng-model='d.vc.pillar'
-							ng-options="pillar as pillar for pillar in d.pillars"
+					<select ng-change="selectTopic(pillar)" id="pillar"
+					        ng-model='vc.pillar'
+							ng-options="pillar as pillar for pillar in pillars"
 							class="form-control input-sm">
 					</select>
 				</div>

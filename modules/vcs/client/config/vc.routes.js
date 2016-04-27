@@ -108,10 +108,18 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				return VcModel.getModel ($stateParams.vcId);
 			}
 		},
-		controller: function ($scope, $state, vc, project, VcModel) {
+		controller: function ($scope, $state, vc, project, VcModel, PILLARS, TopicModel) {
 			// console.log ('vc = ', vc);
 			$scope.vc = vc;
 			$scope.project = project;
+			$scope.pillars = PILLARS;
+			$scope.selectTopic = function () {
+				var self = this;
+				TopicModel.getTopicsForPillar (this.vc.pillar).then (function (topics) {
+					self.topics = topics;
+					$scope.$apply();
+				});
+			};
 			$scope.save = function () {
 				VcModel.save ($scope.vc)
 				.then (function (model) {
