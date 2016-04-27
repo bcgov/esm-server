@@ -276,7 +276,7 @@ Integration.findOne ({module:'configs'}).exec()
 	}
 });
 
-checkIntegration ('fixcomments27', true).then (function (f) {
+checkIntegration ('fixcomments30', true).then (function (f) {
 	require('./fixcomments')(f)
 	.then (function () {
 		f ('++complete', true);
