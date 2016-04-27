@@ -63,7 +63,6 @@ module.exports = function(file, req, res) {
 						}
 					})
 					.then(function (p) {
-						console.log("FUCK:",finalPhaseCode);
 						if (stopProcessing || finalPhaseCode === "application-review") {
 							stopProcessing = true;
 							return p;
