@@ -90,7 +90,7 @@ module.exports = function(file, req, res) {
 						rs(p);
 					});
 				}
-			})
+			});
 		};
 		var doOrgWork = function(proponent, project) {
 			return new Promise(function(rs, rj) {
