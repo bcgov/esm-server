@@ -26,19 +26,71 @@ module.exports = function(file, req, res) {
 		var projectType = params[params.length-1]; // Last param is project type
 		// console.log("projectType:",params[params.length-1]);
 		var doPhaseWork = function(project, phase) {
+			var finalPhaseCode = phase.toLowerCase().replace (/\W+/g,'-');
+			var stopProcessing = false;
 			// Add the phase to the project, and return this as it's going to be
 			// the last task in the chain.  This assumed the phase code being
 			// passed in is actually correct - ensure import data has the right name
 			// in order to generate the phase-code correctly.
 			return new Promise(function (rs,rj) {
-				(new Project(req.user)).addPhase(project, phase.toLowerCase().replace (/\W+/g,'-'))
-				.then(function (project) {
-					// Hacky - but necessary right now.  Remove the first phase by obliterating it!
-					project.phases = project.phases[1];
-					project.currentPhase = project.phases[0];
-					project.save().then(rs,rj);
-				});
-			});
+				if (finalPhaseCode === "pre-submission") {
+					stopProcessing = true;
+					return project;
+				} else {
+					(new Project(req.user)).addPhase(project, "pre-ea")
+					.then(function (p) {
+						if (stopProcessing || finalPhaseCode === "pre-ea") {
+							stopProcessing = true;
+							return p;
+						} else {
+							return (new Project(req.user)).addPhase(project, "pre-app");
+						}
+					})
+					.then(function (p) {
+						if (stopProcessing || finalPhaseCode === "pre-app") {
+							stopProcessing = true;
+							return p;
+						} else {
+							return (new Project(req.user)).addPhase(project, "evaluation");
+						}
+					})
+					.then(function (p) {
+						if (stopProcessing || finalPhaseCode === "evaluation") {
+							stopProcessing = true;
+							return p;
+						} else {
+							return (new Project(req.user)).addPhase(project, "application-review");
+						}
+					})
+					.then(function (p) {
+						console.log("FUCK:",finalPhaseCode);
+						if (stopProcessing || finalPhaseCode === "application-review") {
+							stopProcessing = true;
+							return p;
+						} else {
+							return (new Project(req.user)).addPhase(project, "decision");
+						}
+					})
+					.then(function (p) {
+						if (stopProcessing || finalPhaseCode === "decision") {
+							stopProcessing = true;
+							return p;
+						} else {
+							return (new Project(req.user)).addPhase(project, "post-certification");
+						}
+					})
+					.then(function (p) {
+						if (stopProcessing || finalPhaseCode === "post-certification") {
+							return p;
+						} else {
+							return (new Project(req.user)).addPhase(project, "completed");
+						}
+					})
+					.then(function (p) {
+						rs(p);
+					});
+				}
+			})
 		};
 		var doOrgWork = function(proponent, project) {
 			return new Promise(function(rs, rj) {
