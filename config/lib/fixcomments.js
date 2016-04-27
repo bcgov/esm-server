@@ -34,18 +34,28 @@ var getComment = function (id) {
 		else {
 			PublicComment.findOne({_id:id}).exec()
 			.then (function (pc) {
-				if (!pc) return resolve (null);
-				//
-				// first time in clear out the documents and buckets
-				//
-				pc.documents = [];
-				pc.buckets = [];
-				//
-				// set up the array and the index and resolve
-				//
-				commentarray.push (pc);
-				comments[pc._id] = pc;
-				resolve (pc);
+				if (!pc) {
+					return resolve (null);
+				}
+				else {
+					var id = pc._id.toString ();
+					if (comments[id]) {
+						return resolve (comments[id]);
+					}
+					else {
+						//
+						// first time in clear out the documents and buckets
+						//
+						pc.documents = [];
+						pc.buckets   = [];
+						//
+						// set up the array and the index and resolve
+						//
+						commentarray.push (pc);
+						comments[id] = pc;
+						resolve (pc);
+					}
+				}
 			})
 			.catch (function (err) {
 				resolve (null);
