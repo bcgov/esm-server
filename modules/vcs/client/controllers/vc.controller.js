@@ -86,12 +86,13 @@ angular.module ('vcs')
 					m.project = $scope.project;
 					m.name = obj.name;
 					m.title = obj.name;
+					m.type = obj.type;
 					VcModel.query({project: $scope.project})
 					.then(function(data) {
 						// Take the end of the string, assume it's a number,
 						// and increment accordingly.
 						var suffix = "-1";
-						if (data) {
+						if (data && data.length > 0) {
 							// get the last one and slice it
 							var existingCode = data[data.length-1].code.slice(-1);
 							existingCode++;
