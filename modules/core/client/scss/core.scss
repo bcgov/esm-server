@@ -1533,10 +1533,6 @@ div.dropdown-menu {
 ------------------------------ */
 .button-bar {
     padding-bottom: 1.5rem;
-	
-	.btn {
-		text-transform: uppercase;
-	}
 }
 
 
@@ -2180,5 +2176,20 @@ section.project-info {
 .valued-components-view {
 	.actions-col {
 		width: 6rem;
+	}
+}
+
+
+/* ARTIFACT LIST VIEW
+------------------------------ */
+.artifact-list-view {
+	.button-bar {
+		padding: 1rem;
+		background: #FFF;
+		border-bottom: 1px solid #DDD;
+		
+		.input-group {
+			width: 30rem;
+		}
 	}
 }
