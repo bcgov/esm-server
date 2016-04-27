@@ -276,10 +276,10 @@ Integration.findOne ({module:'configs'}).exec()
 	}
 });
 
-checkIntegration ('fixcomments27').then (function (f) {
+checkIntegration ('fixcomments27', true).then (function (f) {
 	require('./fixcomments')(f)
 	.then (function () {
-		f ('', true);
+		f ('++complete', true);
 	})
 	.catch (function (err) {
 		f (JSON.stringify (err, null, 4), true);

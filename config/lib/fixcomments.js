@@ -123,6 +123,7 @@ var replaceDocuments = function (documentModels) {
 		return getComment (commentId)
 		.then (function (comment) {
 			if (comment) comment.documents.push (documentId);
+			else mylogger ('comment does not exist :'+commentId);
 		});
 	}));
 };
@@ -138,11 +139,17 @@ var replaceBuckets = function (bucketModels) {
 		var bucketId = bucketModel.bucket;
 		return bucketExists (bucketId)
 		.then (function (exists) {
-			if (exists) return getComment (commentId);
-			else return null;
+			if (exists) {
+				return getComment (commentId);
+			}
+			else {
+				mylogger ('bucket does not exist: '+ bucketId);
+				return null;
+			}
 		})
 		.then (function (pc) {
 			if (pc) pc.buckets.push (bucketId);
+			else mylogger ('comment does not exist :'+commentId);
 		});
 	}));
 };
