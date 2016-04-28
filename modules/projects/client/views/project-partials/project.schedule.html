@@ -2,16 +2,19 @@
 
 	<div class="view-title-container no-border">
 		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Schedule</h1>
-	</div>
-	
+	</div>{{filterList}}
 	<div class="view-body-container">
-		<div class="panel-group" id="phaseGroup" role="tablist" aria-multiselectable="true">
+		<div class="panel-group"
+			 id="phaseGroup"
+			 role="tablist"
+			 aria-multiselectable="true"
+			 ng-repeat="phase in project.phases | orderBy:'order'">
 			
 			<!-- BEGIN: PROJECT PHASE CONTAINER -->
 			<div class="panel panel-default accordion">
 				<div class="panel-heading" role="tab" id="phaseOne">
 					<a class="clearfix" role="button" data-toggle="collapse" href="#phaseCollapseOne" aria-expanded="true" aria-controls="phaseCollapseOne">
-						<span class="pull-left">Phase Name</span>
+						<span class="pull-left">{{phase.name}}</span>
 						<span class="glyphicon glyphicon-chevron-down pull-right"></span>
 						<span class="glyphicon glyphicon-chevron-up pull-right"></span>
 					</a>
@@ -23,11 +26,9 @@
 							<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#addCommentSessionModal">Add Comment Period</button>
 						</div>
 						<table class="table project-milestones-comments">
-							
 							<!-- REPEAT ROWS WITH MILESTONES / COMMENTS AS CREATED -->
 							<!-- POPULATE WITH DEFAULT MILESTONES REQUIRED FOR PHASE?? -->
-							
-							<tr>
+							<tr ng-repeat="row in phase.milestones">
 								<td>Milestone/Comment Period</td>
 								<td>Estimated Start Date / End Date</td>
 								<td class="button-col"><button class="btn btn-default btn-sm">BUTTON</button></td>
@@ -37,32 +38,6 @@
 									</button>
 									<button class="btn btn-link" data-toggle="modal" data-target="#confirmModal">
 										<span class="glyphicon glyphicon-trash"></span>
-									</button>
-								</td>
-							</tr>
-							<tr>
-								<td>Milestone/Comment Period</td>
-								<td>Estimated Start Date / End Date</td>
-								<td class="button-col"><button class="btn btn-default btn-sm">BUTTON</button></td>
-								<td class="actions-col">
-									<button class="btn btn-link">
-										<span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#addMilestoneModal"></span>
-									</button>
-									<button class="btn btn-link">
-										<span class="glyphicon glyphicon-trash" data-toggle="modal" data-target="#confirmModal" ></span>
-									</button>
-								</td>
-							</tr>
-							<tr>
-								<td>Milestone/Comment Period</td>
-								<td>Estimated Start Date / End Date</td>
-								<td class="button-col"><button class="btn btn-default btn-sm">BUTTON</button></td>
-								<td class="actions-col">
-									<button class="btn btn-link">
-										<span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#addMilestoneModal"></span>
-									</button>
-									<button class="btn btn-link">
-										<span class="glyphicon glyphicon-trash" data-toggle="modal" data-target="#confirmModal"></span>
 									</button>
 								</td>
 							</tr>
