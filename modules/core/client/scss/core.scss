@@ -2344,11 +2344,30 @@ section.project-info {
 .accordion {
 	.panel-heading {
 		padding: 0;
-	}
-	.panel-heading a {
-		display: block;
-		padding: 1.25rem;
-		font-weight: bold;
-		color: #000;
+		
+		a {
+			display: block;
+			padding: 1.25rem;
+			font-weight: bold;
+			color: #000;
+			
+			.glyphicon-chevron-down {
+				display: none;
+			}
+			
+			.glyphicon-chevron-up {
+				display: inline-block;
+			}
+		}
+		
+		a.collapsed {
+			.glyphicon-chevron-down {
+				display: inline-block;
+			}
+			
+			.glyphicon-chevron-up {
+				display: none;
+			}
+		}
 	}
 }
