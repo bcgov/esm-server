@@ -35,6 +35,9 @@ angular.module('roles').factory ('RoleModel', function (ModelBase, _) {
 		},
 		getSystemRoles: function () {
 			return this.get ('/api/system/roles/assignable');
+		},
+		setPermissions: function(data) {
+			return this.put('/api/permissions', data);
 		}
 	});
 	return new Class ();
