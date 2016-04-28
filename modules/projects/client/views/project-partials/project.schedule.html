@@ -1,6 +1,6 @@
 <div class="project-schedule-view">
 
-	<div class="view-title-container">
+	<div class="view-title-container no-border">
 		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Schedule</h1>
 	</div>
 	
@@ -24,15 +24,16 @@
 							
 							<!-- REPEAT ROWS WITH MILESTONES / COMMENTS AS CREATED -->
 							<!-- POPULATE WITH DEFAULT MILESTONES REQUIRED FOR PHASE?? -->
+							
 							<tr>
 								<td>Milestone/Comment Period</td>
 								<td>Estimated Start Date / End Date</td>
 								<td class="button-col"><button class="btn btn-default btn-sm">BUTTON</button></td>
 								<td class="actions-col">
 									<button class="btn btn-link">
-										<span class="glyphicon glyphicon-pencil"></span>
+										<span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#addMilestoneModal"></span>
 									</button>
-									<button class="btn btn-link">
+									<button class="btn btn-link" data-toggle="modal" data-target="#confirmModal">
 										<span class="glyphicon glyphicon-trash"></span>
 									</button>
 								</td>
@@ -43,10 +44,10 @@
 								<td class="button-col"><button class="btn btn-default btn-sm">BUTTON</button></td>
 								<td class="actions-col">
 									<button class="btn btn-link">
-										<span class="glyphicon glyphicon-pencil"></span>
+										<span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#addMilestoneModal"></span>
 									</button>
 									<button class="btn btn-link">
-										<span class="glyphicon glyphicon-trash"></span>
+										<span class="glyphicon glyphicon-trash" data-toggle="modal" data-target="#confirmModal" ></span>
 									</button>
 								</td>
 							</tr>
@@ -56,10 +57,10 @@
 								<td class="button-col"><button class="btn btn-default btn-sm">BUTTON</button></td>
 								<td class="actions-col">
 									<button class="btn btn-link">
-										<span class="glyphicon glyphicon-pencil"></span>
+										<span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#addMilestoneModal"></span>
 									</button>
 									<button class="btn btn-link">
-										<span class="glyphicon glyphicon-trash"></span>
+										<span class="glyphicon glyphicon-trash" data-toggle="modal" data-target="#confirmModal"></span>
 									</button>
 								</td>
 							</tr>
@@ -87,7 +88,7 @@
 				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h3 class="modal-title">Add Milestone</h3>
+				<h3 class="modal-title">Add/Edit Milestone</h3>
 			</div>
 			<div class="modal-body">
 				<div class="form-group">
@@ -96,7 +97,7 @@
 						<option selected="selected">---</option>
 					</select>
 				</div>
-				<div class="form-group">
+				<div class="form-group has-error" ng-class="{'has-error': validateForm}">
 					<label>Date Range / Effective Date?</label>
 					<div class="date-range-control clearfix">
 						<div class="date-range input-group pull-left">
@@ -105,7 +106,7 @@
 									<span class="glyphicon glyphicon-calendar"></span>
 								</button>
 							</span>
-							<input class="form-control" type="date" />
+							<input class="form-control" type="text" placeholder="mm/dd/yyyy" />
 						</div>
 						<div class="pull-left spacer">-</div>
 						<div class="date-range input-group pull-left">
@@ -114,14 +115,15 @@
 									<span class="glyphicon glyphicon-calendar"></span>
 								</button>
 							</span>
-							<input class="form-control" type="date" />
+							<input class="form-control" type="text" placeholder="mm/dd/yyyy" />
 						</div>
 					</div>
+					<div class="help-block">Invalid Date Range Message</div>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				<button type="button" class="btn btn-primary">Add Milestone</button>
+				<button type="button" class="btn btn-primary" disabled="disabled">Add Milestone</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
@@ -136,7 +138,7 @@
 				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h3 class="modal-title">Add Comment Session</h3>
+				<h3 class="modal-title">Add/Edit Comment Session</h3>
 			</div>
 			<div class="modal-body">
 				<div class="form-group">
@@ -159,8 +161,8 @@
 					<label>Comment Session Name</label>
 					<input type="text" class="form-control"/>
 				</div>
-				<div class="form-group">
-					<label>Date Range</label>
+				<div class="form-group has-error" ng-class="{'has-error': validateForm}">
+					<label>Start / End Dates</label>
 					<div class="date-range-control clearfix">
 						<div class="date-range input-group pull-left">
 							<span class="input-group-btn">
@@ -168,7 +170,7 @@
 									<span class="glyphicon glyphicon-calendar"></span>
 								</button>
 							</span>
-							<input class="form-control" type="date" />
+							<input class="form-control" placeholder="mm/dd/yyyy" />
 						</div>
 						<div class="pull-left spacer">-</div>
 						<div class="date-range input-group pull-left">
@@ -177,15 +179,38 @@
 									<span class="glyphicon glyphicon-calendar"></span>
 								</button>
 							</span>
-							<input class="form-control" type="date" />
+							<input class="form-control" placeholder="mm/dd/yyyy" />
 						</div>
 					</div>
+					<div class="help-block">Invalid Date Range Message</div>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				<button type="button" class="btn btn-primary">Add Comment Session</button>
+				<button type="button" class="btn btn-primary" disabled="disabled">Add Comment Session</button>
 			</div>
 		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog --
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- CONFIRMATION MODAL -->
+<div class="modal fade" id="confirmModal" role="dialog" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title">Action Confirmation</h3>
+			</div>
+			<div class="modal-body">
+				<p>Confirmation Message Here</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary" disabled="disabled">OK</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

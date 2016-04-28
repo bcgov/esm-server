@@ -2306,6 +2306,22 @@ section.project-info {
 	.form-group:last-child {
 		margin-bottom: 0;
 	}
+	
+	.help-block {
+		margin-top: 1rem;
+		margin-bottom: 0;
+	}
+	
+	.has-error {
+		.input-group-btn .btn {
+			border: 1px solid #a94442;
+			color: #a94442;
+		}
+		
+		input {
+			color: #a94442;
+		}
+	}
 }
 
 
@@ -2319,5 +2335,5 @@ section.project-info {
 }
 
 .input-group.date-range {
-	width: 10rem;
+	width: 16rem;
 }
