@@ -474,7 +474,10 @@ module.exports = DBModel.extend ({
 			if (!project.currentPhase) resolve (project);
 			else {
 				var Phase = new PhaseClass (self.user);
-				Phase.complete (project.currentPhase)
+				Phase.findById(project.currentPhase)
+				.then(function (phase) {
+					return Phase.complete (phase);
+				})
 				.then (function () {
 					resolve (project);
 				})
