@@ -253,12 +253,17 @@ module.exports = DBModel.extend ({
 	completeActivities: function (milestone) {
 		// console.log ('completing activities',milestone.activities);
 		var self = this;
-	// console.log (JSON.stringify (milestone, null, 4));
-		return Promise.all (milestone.activities.map (function (activity) {
-			var Activity = new ActivityClass (self.user);
-			if (activity.completed) return activity;
-			else return Activity.complete (activity);
-		}));
+		if (!milestone) {
+			// console.log("returning early from milestone");
+			return Promise.resolve(milestone);
+		} else {
+			// console.log (JSON.stringify (milestone, null, 4));
+			return Promise.all (milestone.activities.map (function (activity) {
+				var Activity = new ActivityClass (self.user);
+				if (activity.completed) return activity;
+				else return Activity.complete (activity);
+			}));
+		}
 	},
 	// -------------------------------------------------------------------------
 	//
