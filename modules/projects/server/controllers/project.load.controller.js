@@ -62,8 +62,8 @@ module.exports = function(file, req, res) {
 								pr.currentPhase     = pr.phases[1];
 								pr.currentPhaseCode = pr.phases[1].code;
 								pr.currentPhaseName = pr.phases[1].name;
-								return (new Project(req.user)).saveDocument(pr)
-							})
+								return (new Project(req.user)).saveDocument(pr);
+							});
 						} else {
 							return pr;
 						}
@@ -78,8 +78,8 @@ module.exports = function(file, req, res) {
 								pr.currentPhase     = pr.phases[2];
 								pr.currentPhaseCode = pr.phases[2].code;
 								pr.currentPhaseName = pr.phases[2].name;
-								return (new Project(req.user)).saveDocument(pr)
-							})
+								return (new Project(req.user)).saveDocument(pr);
+							});
 						} else {
 							return pr;
 						}
@@ -94,8 +94,8 @@ module.exports = function(file, req, res) {
 								pr.currentPhase     = pr.phases[3];
 								pr.currentPhaseCode = pr.phases[3].code;
 								pr.currentPhaseName = pr.phases[3].name;
-								return (new Project(req.user)).saveDocument(pr)
-							})
+								return (new Project(req.user)).saveDocument(pr);
+							});
 						} else {
 							return pr;
 						}
@@ -110,8 +110,8 @@ module.exports = function(file, req, res) {
 								pr.currentPhase     = pr.phases[4];
 								pr.currentPhaseCode = pr.phases[4].code;
 								pr.currentPhaseName = pr.phases[4].name;
-								return (new Project(req.user)).saveDocument(pr)
-							})
+								return (new Project(req.user)).saveDocument(pr);
+							});
 						} else {
 							return pr;
 						}
@@ -126,8 +126,8 @@ module.exports = function(file, req, res) {
 								pr.currentPhase     = pr.phases[5];
 								pr.currentPhaseCode = pr.phases[5].code;
 								pr.currentPhaseName = pr.phases[5].name;
-								return (new Project(req.user)).saveDocument(pr)
-							})
+								return (new Project(req.user)).saveDocument(pr);
+							});
 						} else {
 							return pr;
 						}
@@ -142,8 +142,8 @@ module.exports = function(file, req, res) {
 								pr.currentPhase     = pr.phases[6];
 								pr.currentPhaseCode = pr.phases[6].code;
 								pr.currentPhaseName = pr.phases[6].name;
-								return (new Project(req.user)).saveDocument(pr)
-							})
+								return (new Project(req.user)).saveDocument(pr);
+							});
 						} else {
 							return pr;
 						}
@@ -158,8 +158,8 @@ module.exports = function(file, req, res) {
 								pr.currentPhase     = pr.phases[7];
 								pr.currentPhaseCode = pr.phases[7].code;
 								pr.currentPhaseName = pr.phases[7].name;
-								return (new Project(req.user)).saveDocument(pr)
-							})
+								return (new Project(req.user)).saveDocument(pr);
+							});
 						} else {
 							return pr;
 						}
