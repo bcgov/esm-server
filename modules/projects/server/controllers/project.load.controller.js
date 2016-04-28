@@ -28,61 +28,140 @@ module.exports = function(file, req, res) {
 		var doPhaseWork = function(project, phase) {
 			var finalPhaseCode = phase.toLowerCase().replace (/\W+/g,'-');
 			var stopProcessing = false;
-			// Add the phase to the project, and return this as it's going to be
-			// the last task in the chain.  This assumed the phase code being
-			// passed in is actually correct - ensure import data has the right name
-			// in order to generate the phase-code correctly.
+			// This is a really horrible way to do this, but it's good enough for now.
 			return new Promise(function (rs,rj) {
 				if (finalPhaseCode === "pre-submission") {
-					stopProcessing = true;
 					return project;
 				} else {
 					(new Project(req.user)).addPhase(project, "pre-ea")
 					.then(function (p) {
-						if (stopProcessing || finalPhaseCode === "pre-ea") {
-							stopProcessing = true;
-							return p;
-						} else {
-							return (new Project(req.user)).addPhase(p, "pre-app");
-						}
+						return (new Project(req.user)).addPhase(p, "pre-app");
 					})
 					.then(function (p) {
-						if (stopProcessing || finalPhaseCode === "pre-app") {
-							stopProcessing = true;
-							return p;
-						} else {
-							return (new Project(req.user)).addPhase(p, "evaluation");
-						}
+						return (new Project(req.user)).addPhase(p, "evaluation");
 					})
 					.then(function (p) {
-						if (stopProcessing || finalPhaseCode === "evaluation") {
-							stopProcessing = true;
-							return p;
-						} else {
-							return (new Project(req.user)).addPhase(p, "application-review");
-						}
+						return (new Project(req.user)).addPhase(p, "application-review");
 					})
 					.then(function (p) {
-						if (stopProcessing || finalPhaseCode === "application-review") {
-							stopProcessing = true;
-							return p;
-						} else {
-							return (new Project(req.user)).addPhase(p, "decision");
-						}
+						return (new Project(req.user)).addPhase(p, "decision");
 					})
 					.then(function (p) {
-						if (stopProcessing || finalPhaseCode === "decision") {
-							stopProcessing = true;
-							return p;
-						} else {
-							return (new Project(req.user)).addPhase(p, "post-certification");
-						}
+						return (new Project(req.user)).addPhase(p, "post-certification");
 					})
 					.then(function (p) {
-						if (stopProcessing || finalPhaseCode === "post-certification") {
-							return p;
+						return (new Project(req.user)).addPhase(p, "completed");
+					})
+					.then(function (pr) {
+						if (!stopProcessing) {
+							if (finalPhaseCode === "pre-ea") stopProcessing = true;
+							// console.log("doing pre-ea");
+							return (new Project(req.user)).completeCurrentPhase(pr)
+							.then( function (pr) {
+								// Complete the phase and set next.
+								pr.currentPhase     = pr.phases[1];
+								pr.currentPhaseCode = pr.phases[1].code;
+								pr.currentPhaseName = pr.phases[1].name;
+								return (new Project(req.user)).saveDocument(pr);
+							});
 						} else {
-							return (new Project(req.user)).addPhase(p, "completed");
+							return pr;
+						}
+					})
+					.then(function (pr) {
+						if (!stopProcessing) {
+							if (finalPhaseCode === "pre-app") stopProcessing = true;
+							// console.log("doing pre-app");
+							return (new Project(req.user)).completeCurrentPhase(pr)
+							.then( function (pr) {
+								// Complete the phase and set next.
+								pr.currentPhase     = pr.phases[2];
+								pr.currentPhaseCode = pr.phases[2].code;
+								pr.currentPhaseName = pr.phases[2].name;
+								return (new Project(req.user)).saveDocument(pr);
+							});
+						} else {
+							return pr;
+						}
+					})
+					.then(function (pr) {
+						if (!stopProcessing) {
+							if (finalPhaseCode === "evaluation") stopProcessing = true;
+							// console.log("doing evaluation");
+							return (new Project(req.user)).completeCurrentPhase(pr)
+							.then( function (pr) {
+								// Complete the phase and set next.
+								pr.currentPhase     = pr.phases[3];
+								pr.currentPhaseCode = pr.phases[3].code;
+								pr.currentPhaseName = pr.phases[3].name;
+								return (new Project(req.user)).saveDocument(pr);
+							});
+						} else {
+							return pr;
+						}
+					})
+					.then(function (pr) {
+						if (!stopProcessing) {
+							if (finalPhaseCode === "application-review") stopProcessing = true;
+							// console.log("doing application-review");
+							return (new Project(req.user)).completeCurrentPhase(pr)
+							.then( function (pr) {
+								// Complete the phase and set next.
+								pr.currentPhase     = pr.phases[4];
+								pr.currentPhaseCode = pr.phases[4].code;
+								pr.currentPhaseName = pr.phases[4].name;
+								return (new Project(req.user)).saveDocument(pr);
+							});
+						} else {
+							return pr;
+						}
+					})
+					.then(function (pr) {
+						if (!stopProcessing) {
+							if (finalPhaseCode === "decision") stopProcessing = true;
+							// console.log("doing decision");
+							return (new Project(req.user)).completeCurrentPhase(pr)
+							.then( function (pr) {
+								// Complete the phase and set next.
+								pr.currentPhase     = pr.phases[5];
+								pr.currentPhaseCode = pr.phases[5].code;
+								pr.currentPhaseName = pr.phases[5].name;
+								return (new Project(req.user)).saveDocument(pr);
+							});
+						} else {
+							return pr;
+						}
+					})
+					.then(function (pr) {
+						if (!stopProcessing) {
+							if (finalPhaseCode === "post-certification") stopProcessing = true;
+							// console.log("doing post-certification");
+							return (new Project(req.user)).completeCurrentPhase(pr)
+							.then( function (pr) {
+								// Complete the phase and set next.
+								pr.currentPhase     = pr.phases[6];
+								pr.currentPhaseCode = pr.phases[6].code;
+								pr.currentPhaseName = pr.phases[6].name;
+								return (new Project(req.user)).saveDocument(pr);
+							});
+						} else {
+							return pr;
+						}
+					})
+					.then(function (pr) {
+						if (!stopProcessing) {
+							if (finalPhaseCode === "completed") stopProcessing = true;
+							// console.log("doing completed");
+							return (new Project(req.user)).completeCurrentPhase(pr)
+							.then( function (pr) {
+								// Complete the phase and set next.
+								pr.currentPhase     = pr.phases[7];
+								pr.currentPhaseCode = pr.phases[7].code;
+								pr.currentPhaseName = pr.phases[7].name;
+								return (new Project(req.user)).saveDocument(pr);
+							});
+						} else {
+							return pr;
 						}
 					})
 					.then(function (p) {
