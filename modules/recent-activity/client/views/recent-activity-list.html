@@ -1,14 +1,20 @@
-<h1 class="page-title no-lower-margin">Recent Activity / News Feed</h1>
+<div class="recent-activity-admin-view">
 
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="admin.recentactivity.create()">+ Add New Recent Activity Item</a>
-		<show-filter x-toggle-filter="toggleFilter"></show-filter>
+	<div class="view-title-container">
+		<h1>Recent Activity / News Feed</h1>
 	</div>
-</div>
 
-<div class="row">
-	<div class="col-sm-12">
+	<div class="view-body-container">
+		<div class="button-bar clearfix">
+			<a class="btn btn-default btn-sm pull-left" ui-sref="admin.recentactivity.create()">
+				<span class="glyphicon glyphicon-plus"></span>
+				<span>Add Recent Activity</span>
+			</a>
+			<div class="pull-right">
+				<show-filter x-toggle-filter="toggleFilter"></show-filter>
+			</div>
+		</div>
+
 		<section class="panel panel-default">
 			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-striped table-hover">
 				<tr ng-repeat="o in $data" ui-sref="admin.recentactivity.detail({recentActivityId:o._id})" class="clickable">
@@ -16,7 +22,7 @@
 					<td data-title="'Type'"  filter="{'type':'text'}"   sortable="'type'">{{o.type}}</td>					
 					<td data-title="'Date Added'" class="text-center" sortable="'dateAdded'" >{{o.dateAdded | date}}</td>
 					<td data-title="'Priority'" class="text-center" sortable="'priority'" >{{o.priority}}</td>
-					<td width="1%" class="text-right">
+					<td class="actions-col single-action" header-class="'actions-col single-action'">
 						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="admin.recentactivity.edit({recentActivityId:o._id})">
 							<i class="glyphicon glyphicon-pencil"></i>
 						</a>
@@ -29,6 +35,6 @@
 				</tr>
 			</table>
 		</section>
-	</div>
 
+	</div>
 </div>
