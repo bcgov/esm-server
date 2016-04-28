@@ -1,5 +1,79 @@
-<section class="block-content">
+<div class="project-schedule-view">
 
-	<h3>Project Schedule</h3>
+	<div class="view-title-container">
+		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Schedule</h1>
+	</div>
+	
+	<div class="view-body-container">
+		<div class="panel-group" id="phaseGroup" role="tablist" aria-multiselectable="true">
+			
+			<!-- BEGIN: PROJECT PHASE CONTAINER -->
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="phaseOne">
+					<a role="button" data-toggle="collapse" href="#phaseCollapseOne" aria-expanded="true" aria-controls="phaseCollapseOne">
+						Phase Name
+					</a>
+				</div>
+				<div id="phaseCollapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="phaseCollapseOne">
+					<div class="panel-body">
+						<div class="button-bar">
+							<button class="btn btn-default">Add Milestone</button>
+							<button class="btn btn-default">Add Comment Period</button>
+						</div>
+						<table class="table project-milestones-comments">
+							
+							<!-- REPEAT ROWS WITH MILESTONES / COMMENTS AS CREATED -->
+							<!-- POPULATE WITH DEFAULT MILESTONES REQUIRED FOR PHASE?? -->
+							<tr>
+								<td>Milestone/Comment Period</td>
+								<td>Estimated Start Date / End Date</td>
+								<td class="button-col"><button class="btn btn-default btn-sm">BUTTON</button></td>
+								<td class="actions-col">
+									<button class="btn btn-link">
+										<span class="glyphicon glyphicon-pencil"></span>
+									</button>
+									<button class="btn btn-link">
+										<span class="glyphicon  glyphicon-trash"></span>
+									</button>
+								</td>
+							</tr>
+							<tr>
+								<td>Milestone/Comment Period</td>
+								<td>Estimated Start Date / End Date</td>
+								<td class="button-col"><button class="btn btn-default btn-sm">BUTTON</button></td>
+								<td class="actions-col">
+									<button class="btn btn-link">
+										<span class="glyphicon glyphicon-pencil"></span>
+									</button>
+									<button class="btn btn-link">
+										<span class="glyphicon glyphicon-trash"></span>
+									</button>
+								</td>
+							</tr>
+							<tr>
+								<td>Milestone/Comment Period</td>
+								<td>Estimated Start Date / End Date</td>
+								<td class="button-col"><button class="btn btn-default btn-sm">BUTTON</button></td>
+								<td class="actions-col">
+									<button class="btn btn-link">
+										<span class="glyphicon glyphicon-pencil"></span>
+									</button>
+									<button class="btn btn-link">
+										<span class="glyphicon glyphicon-trash"></span>
+									</button>
+								</td>
+							</tr>
+						</table>
+						<div class="button-bar bottom">
+							<button class="btn btn-default" disabled="disabled">Phase Completed</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END: PROJECT PHASE CONTAINER -->
+			
+		</div>
+		
+	</div>
 
-</section>
+</div>

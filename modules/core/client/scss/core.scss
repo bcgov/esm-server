@@ -1535,6 +1535,11 @@ div.dropdown-menu {
     padding-bottom: 1.5rem;
 }
 
+.button-bar.bottom {
+	padding-top: 1.5rem;
+	padding-bottom: 0;
+}
+
 
 /* BUTTONS
 ------------------------------ */
@@ -2127,7 +2132,7 @@ section.project-info {
 		label, span.value {
 			display: table-cell;
 			vertical-align: top;
-			padding: 0.3rem 0;
+			padding: 0.5rem 0;
 		}
 		
 		label {
@@ -2248,5 +2253,32 @@ section.project-info {
 	hr {
 		border-color: #CCC;
 	}
+}
+
+
+/* PROJECT SCHEDULE VIEW
+------------------------------ */
+.project-schedule-view {	
+	.table {
+		border-bottom: 1px solid #DDD;
+		table-layout: fixed;
+	}
 	
+	td {
+		padding: 1rem !important;
+		vertical-align: middle !important;
+	}
+	
+	td.button-col {
+		text-align: right;
+	}
+	
+	td.actions-col {
+		width: 9rem;
+		text-align: center;
+		
+		.btn {
+			padding: 0.6rem;
+		}
+	}
 }
