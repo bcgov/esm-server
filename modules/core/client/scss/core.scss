@@ -2337,3 +2337,18 @@ section.project-info {
 .input-group.date-range {
 	width: 16rem;
 }
+
+
+/* ACCORDION CONTROL
+----------------------------- */
+.accordion {
+	.panel-heading {
+		padding: 0;
+	}
+	.panel-heading a {
+		display: block;
+		padding: 1.25rem;
+		font-weight: bold;
+		color: #000;
+	}
+}

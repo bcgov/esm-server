@@ -16,7 +16,6 @@
 	</div>
 
 	<div ng-if="(menu.context === 'projects' || menu.context === 'mylist') && menu.pageAnchors('anchor-group-projects')" id="anchor-group-projects">
-		<hr>
 		<ul class="list-unstyled">
 			<li><a du-smooth-scroll  href="#anchor-map">Map</a></li>
 			<li><a du-smooth-scroll  href="#anchor-list">List</a></li>
@@ -25,9 +24,8 @@
 		</ul>
 	</div>
 
-
 	<div ng-if="(menu.context === 'projects' || menu.context === 'mylist') && menu.projectsMenu.shouldRender(menu.authentication.user);">
-		<hr>
+
 		<ul class="list-unstyled">
 			<li ng-repeat="item in menu.projectsMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>

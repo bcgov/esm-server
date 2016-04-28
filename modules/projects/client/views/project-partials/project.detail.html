@@ -1,22 +1,16 @@
 <div class="project-details">
 
-	<div class="view-title-container">
-		<h1>{{ project.name }}</h1>
-	</div>
-
-	<div class="pull-right hidden" ng-if="environment === 'EAO' && authentication.user">
-		<div class="col-sm-12 text-right btn-link-separated-list">
-			<a class="btn btn-xs btn-link"
+	<div class="view-title-container clearfix">
+		<h1><span class="pull-left">{{ project.name }}</span></h1>
+		<div class="pull-right" ng-if="environment === 'EAO' && authentication.user">
+			<a class="btn btn-default btn-sm"
 				ng-click="completePhase()"
 				ng-if="!project.currentPhase.completed">Complete Current Phase</a>
-
-			<a class="btn btn-xs btn-link"
+			<a class="btn btn-default btn-sm"
 				ng-click="startNextPhase()"
 				ng-if="project.currentPhase.completed">Start Next Phase</a>
-
 			<small ng-if="!project.isPublished"> / </small>
-
-			<a class="btn btn-xs btn-link"
+			<a class="btn btn-success btn-sm"
 				ng-click="publishProject()"
 				ng-if="!project.isPublished">Publish Project</a>
 		</div>
