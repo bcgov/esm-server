@@ -9,7 +9,6 @@
 			<a class="btn btn-default btn-sm"
 				ng-click="startNextPhase()"
 				ng-if="project.currentPhase.completed">Start Next Phase</a>
-			<small ng-if="!project.isPublished"> / </small>
 			<a class="btn btn-success btn-sm"
 				ng-click="publishProject()"
 				ng-if="!project.isPublished">Publish Project</a>
