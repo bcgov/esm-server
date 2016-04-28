@@ -268,7 +268,8 @@ module.exports = function(file, req, res) {
 							newObj = {
 								epicProjectID 	: id,
 								name 			: row.ProjectName,
-								shortName 		: row.ProjectName.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, row.ProjectName.length+1),
+								//shortName 		: row.ProjectName.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, row.ProjectName.length+1),
+								shortName 		: row.projectURL,
 								roles 			: ['eao', 'public'],
 								read 			: ['public'],
 								submit 			: ['eao'],
