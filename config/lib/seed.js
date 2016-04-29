@@ -30,7 +30,7 @@ console.log(chalk.bold.red('Warning:  Database seeding is turned on'));
 var writeFunction = function (iDocument) {
 	return function (data, stop) {
 		iDocument.output += ( data + "<br>\n" );
-		// console.log (data);
+		console.log (data);
 		if (stop) {
 			return iDocument.save ();
 		}
@@ -278,6 +278,16 @@ Integration.findOne ({module:'configs'}).exec()
 
 checkIntegration ('fixcomments30').then (function (f) {
 	require('./fixcomments')(f)
+	.then (function () {
+		f ('++complete', true);
+	})
+	.catch (function (err) {
+		f (JSON.stringify (err, null, 4), true);
+	});
+});
+
+checkIntegration ('setPillarsTopics').then (function (f) {
+	require('./setPillarsTopics')(f)
 	.then (function () {
 		f ('++complete', true);
 	})

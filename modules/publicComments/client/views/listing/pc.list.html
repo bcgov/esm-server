@@ -49,12 +49,23 @@
 						{{o.location}}
 					</td>
 
-					<td width="16%" align="center"
-						data-title="'Class'"
-						filter="{'classification':'text'}"
-						sortable="'classification'"
+					<td width="16%" align="left"
+						data-title="'Pillars'"
+						filter="{'pillars':'text'}"
+						sortable="'pillars'"
 					>
-						{{o.classification.join(', ')}}
+						<ul>
+						<li ng-repeat="pillar in o.pillars">{{pillar}}</li>
+						</ul>
+					</td>
+					<td width="16%" align="left"
+						data-title="'Topics'"
+						filter="{'topics':'text'}"
+						sortable="'topics'"
+					>
+						<ul>
+						<li ng-repeat="topic in o.topics">{{topic}}</li>
+						</ul>
 					</td>
 
 <!-- 					<td width="4%" align="center"

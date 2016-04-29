@@ -11,6 +11,8 @@ var PublicCommentSchema  = new Schema ({
 	project         : { type:'ObjectId', ref:'Project', index:true, required:'Project is required' },
 	dateAdded       : { type: Date, default: Date.now },
 	classification  : [ String ],
+	pillars : [String],
+	topics: [String],
 	author          : { type:String, default:'' },
 	location		 : { type:String, default:'' },
 	displayName	 : { type:Boolean, default:false },
