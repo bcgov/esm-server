@@ -1,0 +1,13 @@
+[Unit]
+Description=NGINX Reverse Proxy
+Requires=docker.service
+After=docker.service
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+ExecStart=/usr/bin/docker run -d -p 80:80 -p 443:443 -v /var/run/docker.sock:/tmp/docker.sock:ro -v /usr/etc/ssl/certs:/etc/nginx/certs -v /etc/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro --name webapp-proxy jwilder/nginx-proxy
+ExecStop=/usr/bin/docker stop webapp-proxy ; /usr/bin/docker rm -f webapp-proxy
+
+[Install]
+WantedBy=multi-user.target
