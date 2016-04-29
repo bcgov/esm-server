@@ -278,9 +278,13 @@ _.extend (DBModel.prototype, {
 	// console.log (JSON.stringify (obj, null, 4));
 		return new Promise (function (resolve, reject) {
 			self.model.findOne ({_id:obj._id}, function (err, doc) {
-				// console.log (doc);
-				doc.set (obj);
-				doc.save ().then (resolve, reject);
+				// console.log ("DOC:",doc);
+				if (doc) {
+					doc.set (obj);
+					doc.save ().then (resolve, reject);
+				} else {
+					resolve(obj);
+				}
 			});
 		});
 	},

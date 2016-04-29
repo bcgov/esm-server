@@ -256,6 +256,16 @@ var objectRoles = function (data) {
 	});
 };
 
+var getObjects = function(req, objectType, objects) {
+	var objectArray = _.isArray (objects) ? objects : [objects];
+	var idArray = objectArray.map (function (u) {
+		return u._id.toString ();
+	});
+	
+	var factory = require(require('path').resolve('./modules/common/controllers/controller.factory'));
+	return factory.getMany(req, objectType, idArray);
+
+};
 
 module.exports = {
 	//
@@ -274,7 +284,8 @@ module.exports = {
 	//
 	objectRoles:objectRoles,
 	userRoles:userRoles,
-	generateCode:generateCode
+	generateCode:generateCode,
+	getObjects: getObjects
 };
 
 	// addUserRole : addUserRole,

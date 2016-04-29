@@ -26,18 +26,148 @@ module.exports = function(file, req, res) {
 		var projectType = params[params.length-1]; // Last param is project type
 		// console.log("projectType:",params[params.length-1]);
 		var doPhaseWork = function(project, phase) {
-			// Add the phase to the project, and return this as it's going to be
-			// the last task in the chain.  This assumed the phase code being
-			// passed in is actually correct - ensure import data has the right name
-			// in order to generate the phase-code correctly.
+			var finalPhaseCode = phase.toLowerCase().replace (/\W+/g,'-');
+			var stopProcessing = false;
+			// This is a really horrible way to do this, but it's good enough for now.
 			return new Promise(function (rs,rj) {
-				(new Project(req.user)).addPhase(project, phase.toLowerCase().replace (/\W+/g,'-'))
-				.then(function (project) {
-					// Hacky - but necessary right now.  Remove the first phase by obliterating it!
-					project.phases = project.phases[1];
-					project.currentPhase = project.phases[0];
-					project.save().then(rs,rj);
-				});
+				if (finalPhaseCode === "pre-submission") {
+					return project;
+				} else {
+					(new Project(req.user)).addPhase(project, "pre-ea")
+					.then(function (p) {
+						return (new Project(req.user)).addPhase(p, "pre-app");
+					})
+					.then(function (p) {
+						return (new Project(req.user)).addPhase(p, "evaluation");
+					})
+					.then(function (p) {
+						return (new Project(req.user)).addPhase(p, "application-review");
+					})
+					.then(function (p) {
+						return (new Project(req.user)).addPhase(p, "decision");
+					})
+					.then(function (p) {
+						return (new Project(req.user)).addPhase(p, "post-certification");
+					})
+					.then(function (p) {
+						return (new Project(req.user)).addPhase(p, "completed");
+					})
+					.then(function (pr) {
+						if (!stopProcessing) {
+							if (finalPhaseCode === "pre-ea") stopProcessing = true;
+							// console.log("doing pre-ea");
+							return (new Project(req.user)).completeCurrentPhase(pr)
+							.then( function (pr) {
+								// Complete the phase and set next.
+								pr.currentPhase     = pr.phases[1];
+								pr.currentPhaseCode = pr.phases[1].code;
+								pr.currentPhaseName = pr.phases[1].name;
+								return (new Project(req.user)).saveDocument(pr);
+							});
+						} else {
+							return pr;
+						}
+					})
+					.then(function (pr) {
+						if (!stopProcessing) {
+							if (finalPhaseCode === "pre-app") stopProcessing = true;
+							// console.log("doing pre-app");
+							return (new Project(req.user)).completeCurrentPhase(pr)
+							.then( function (pr) {
+								// Complete the phase and set next.
+								pr.currentPhase     = pr.phases[2];
+								pr.currentPhaseCode = pr.phases[2].code;
+								pr.currentPhaseName = pr.phases[2].name;
+								return (new Project(req.user)).saveDocument(pr);
+							});
+						} else {
+							return pr;
+						}
+					})
+					.then(function (pr) {
+						if (!stopProcessing) {
+							if (finalPhaseCode === "evaluation") stopProcessing = true;
+							// console.log("doing evaluation");
+							return (new Project(req.user)).completeCurrentPhase(pr)
+							.then( function (pr) {
+								// Complete the phase and set next.
+								pr.currentPhase     = pr.phases[3];
+								pr.currentPhaseCode = pr.phases[3].code;
+								pr.currentPhaseName = pr.phases[3].name;
+								return (new Project(req.user)).saveDocument(pr);
+							});
+						} else {
+							return pr;
+						}
+					})
+					.then(function (pr) {
+						if (!stopProcessing) {
+							if (finalPhaseCode === "application-review") stopProcessing = true;
+							// console.log("doing application-review");
+							return (new Project(req.user)).completeCurrentPhase(pr)
+							.then( function (pr) {
+								// Complete the phase and set next.
+								pr.currentPhase     = pr.phases[4];
+								pr.currentPhaseCode = pr.phases[4].code;
+								pr.currentPhaseName = pr.phases[4].name;
+								return (new Project(req.user)).saveDocument(pr);
+							});
+						} else {
+							return pr;
+						}
+					})
+					.then(function (pr) {
+						if (!stopProcessing) {
+							if (finalPhaseCode === "decision") stopProcessing = true;
+							// console.log("doing decision");
+							return (new Project(req.user)).completeCurrentPhase(pr)
+							.then( function (pr) {
+								// Complete the phase and set next.
+								pr.currentPhase     = pr.phases[5];
+								pr.currentPhaseCode = pr.phases[5].code;
+								pr.currentPhaseName = pr.phases[5].name;
+								return (new Project(req.user)).saveDocument(pr);
+							});
+						} else {
+							return pr;
+						}
+					})
+					.then(function (pr) {
+						if (!stopProcessing) {
+							if (finalPhaseCode === "post-certification") stopProcessing = true;
+							// console.log("doing post-certification");
+							return (new Project(req.user)).completeCurrentPhase(pr)
+							.then( function (pr) {
+								// Complete the phase and set next.
+								pr.currentPhase     = pr.phases[6];
+								pr.currentPhaseCode = pr.phases[6].code;
+								pr.currentPhaseName = pr.phases[6].name;
+								return (new Project(req.user)).saveDocument(pr);
+							});
+						} else {
+							return pr;
+						}
+					})
+					.then(function (pr) {
+						if (!stopProcessing) {
+							if (finalPhaseCode === "completed") stopProcessing = true;
+							// console.log("doing completed");
+							return (new Project(req.user)).completeCurrentPhase(pr)
+							.then( function (pr) {
+								// Complete the phase and set next.
+								pr.currentPhase     = pr.phases[7];
+								pr.currentPhaseCode = pr.phases[7].code;
+								pr.currentPhaseName = pr.phases[7].name;
+								return (new Project(req.user)).saveDocument(pr);
+							});
+						} else {
+							return pr;
+						}
+					})
+					.then(function (p) {
+						rs(p);
+					});
+				}
 			});
 		};
 		var doOrgWork = function(proponent, project) {
@@ -138,7 +268,8 @@ module.exports = function(file, req, res) {
 							newObj = {
 								epicProjectID 	: id,
 								name 			: row.ProjectName,
-								shortName 		: row.ProjectName.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, row.ProjectName.length+1),
+								//shortName 		: row.ProjectName.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, row.ProjectName.length+1),
+								shortName 		: row.projectURL,
 								roles 			: ['eao', 'public'],
 								read 			: ['public'],
 								submit 			: ['eao'],

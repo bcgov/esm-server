@@ -113,7 +113,7 @@ var documentConversion = function documentConversion(conn, downloads_dir, limit)
                         var dataLength = 0;
                         var uuid = require('node-uuid');
                         var generatedFilename = uuid.v1() + path.extname(downloadURL);
-                        var projectDocumentsDirectory = downloads_dir + path.sep + projectID;
+                        var projectDocumentsDirectory = downloads_dir + path.sep + item.documentEPICProjectId;
                         var stream = projectDocumentsDirectory + path.sep + generatedFilename;
 
                         if (!fs.existsSync(projectDocumentsDirectory)) {

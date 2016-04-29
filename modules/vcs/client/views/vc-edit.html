@@ -12,13 +12,13 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-9">
+			<div class="col-sm-12">
 				<div class="form-group">
 					<label for="title" class="control-label">Valued Component Name</label>
 					<input id="title" type="text" class="form-control input-sm" ng-model="vc.name" disabled="disabled">
 				</div>
 			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-3 hidden">
 				<div class="form-group">
 					<label for="sector" class="control-label">Project Sector</label>
 					<select id="sector" ng-model='d.vc.sector' class="form-control input-sm" ng-options="sector as sector for sector in d.sectors"></select>
@@ -26,7 +26,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-9">
+			<div class="col-sm-12">
 				<div class="form-group">
 					<label for="title" class="control-label">Valued Component Title</label>
 					<input id="title" type="text" class="form-control input-sm" ng-model="vc.title">
@@ -53,9 +53,9 @@
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="pillar" class="control-label">Pillar</label>
-					<select ng-change="d.selectTopic(pillar)" id="pillar"
-					        ng-model='d.vc.pillar'
-							ng-options="pillar as pillar for pillar in d.pillars"
+					<select ng-change="selectTopic(pillar)" id="pillar"
+					        ng-model='vc.pillar'
+							ng-options="pillar as pillar for pillar in pillars"
 							class="form-control input-sm">
 					</select>
 				</div>

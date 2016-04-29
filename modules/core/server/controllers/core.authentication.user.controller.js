@@ -334,3 +334,10 @@ exports.acceptAllInvitations = function (req, res) {
 	 });
 	 */
 };
+
+exports.logHeaders = function(req, res) {
+	console.log(JSON.stringify(req.headers));
+	
+	res.writeHead(200, {'Content-Type': 'text/plain'});
+	res.end(JSON.stringify(req.headers));
+};

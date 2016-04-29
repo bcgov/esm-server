@@ -1,0 +1,194 @@
+<div class="project-schedule-view">
+
+	<div class="view-title-container no-border">
+		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Schedule</h1>
+	</div>{{filterList}}
+	<div class="view-body-container">
+		<div class="panel-group"
+			 id="phaseGroup"
+			 role="tablist"
+			 aria-multiselectable="true"
+			 ng-repeat="phase in rPhases | orderBy:'order'">
+			
+			<!-- BEGIN: PROJECT PHASE CONTAINER -->
+			<div class="panel panel-default accordion">
+				<div class="panel-heading" role="tab" id="phaseOne">
+					<a class="clearfix" role="button" data-toggle="collapse" href="#phaseCollapseOne" aria-expanded="true" aria-controls="phaseCollapseOne">
+						<span class="pull-left">{{phase.name}}</span>
+						<span class="glyphicon glyphicon-chevron-down pull-right"></span>
+						<span class="glyphicon glyphicon-chevron-up pull-right"></span>
+					</a>
+				</div>
+				<div id="phaseCollapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="phaseCollapseOne">
+					<div class="panel-body">
+						<div class="button-bar">
+							<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#addMilestoneModal">Add Milestone</button>
+							<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#addCommentSessionModal">Add Comment Period</button>
+						</div>
+						<table class="table project-milestones-comments">
+							<!-- REPEAT ROWS WITH MILESTONES / COMMENTS AS CREATED -->
+							<!-- POPULATE WITH DEFAULT MILESTONES REQUIRED FOR PHASE?? -->
+							{{rPhases.milestones}}
+							<tr ng-repeat="row in phase.milestones">
+								<td>{{row}}</td>
+								<td>Estimated Start Date / End Date</td>
+								<td class="button-col"><button class="btn btn-default btn-sm">BUTTON</button></td>
+								<td class="actions-col">
+									<button class="btn btn-link">
+										<span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#addMilestoneModal"></span>
+									</button>
+									<button class="btn btn-link" data-toggle="modal" data-target="#confirmModal">
+										<span class="glyphicon glyphicon-trash"></span>
+									</button>
+								</td>
+							</tr>
+						</table>
+						<div class="button-bar bottom">
+							<button class="btn btn-default btn-sm" disabled="disabled">Phase Completed</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END: PROJECT PHASE CONTAINER -->
+			
+		</div>
+		
+	</div>
+
+</div>
+
+
+<!-- ADD MILESTONE MODAL -->
+<div class="modal fade" id="addMilestoneModal" role="dialog" tabindex="-1">
+	<div class="modal-dialog add-milestone-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title">Add/Edit Milestone</h3>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label>Select a Milestone</label>
+					<select class="form-control">
+						<option selected="selected">---</option>
+					</select>
+				</div>
+				<div class="form-group has-error" ng-class="{'has-error': validateForm}">
+					<label>Date Range / Effective Date?</label>
+					<div class="date-range-control clearfix">
+						<div class="date-range input-group pull-left">
+							<span class="input-group-btn">
+								<button class="btn btn-default">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</button>
+							</span>
+							<input class="form-control" type="text" placeholder="mm/dd/yyyy" />
+						</div>
+						<div class="pull-left spacer">-</div>
+						<div class="date-range input-group pull-left">
+							<span class="input-group-btn">
+								<button class="btn btn-default">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</button>
+							</span>
+							<input class="form-control" type="text" placeholder="mm/dd/yyyy" />
+						</div>
+					</div>
+					<div class="help-block">Invalid Date Range Message</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary" disabled="disabled">Add Milestone</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- ADD COMMENT SESSION MODAL -->
+<div class="modal fade" id="addCommentSessionModal" role="dialog" tabindex="-1">
+	<div class="modal-dialog add-comment-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title">Add/Edit Comment Session</h3>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label>Comment Session Role</label>
+					<div class="dropdown">
+						<button class="btn btn-default dropdown-toggle" id="commentSessionMenu" data-toggle="dropdown" aria-expanded="false">
+							Select Comment Session Role &nbsp;&nbsp;<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="commentSessionMenu">
+							<li>
+								<a href="#">Public Comment Session</a>
+							</li>
+							<li>
+								<a href="#">Working Group Comment Session</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="form-group">
+					<label>Comment Session Name</label>
+					<input type="text" class="form-control"/>
+				</div>
+				<div class="form-group has-error" ng-class="{'has-error': validateForm}">
+					<label>Start / End Dates</label>
+					<div class="date-range-control clearfix">
+						<div class="date-range input-group pull-left">
+							<span class="input-group-btn">
+								<button class="btn btn-default">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</button>
+							</span>
+							<input class="form-control" placeholder="mm/dd/yyyy" />
+						</div>
+						<div class="pull-left spacer">-</div>
+						<div class="date-range input-group pull-left">
+							<span class="input-group-btn">
+								<button class="btn btn-default">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</button>
+							</span>
+							<input class="form-control" placeholder="mm/dd/yyyy" />
+						</div>
+					</div>
+					<div class="help-block">Invalid Date Range Message</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary" disabled="disabled">Add Comment Session</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- CONFIRMATION MODAL -->
+<div class="modal fade" id="confirmModal" role="dialog" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title">Action Confirmation</h3>
+			</div>
+			<div class="modal-body">
+				<p>Confirmation Message Here</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary" disabled="disabled">OK</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

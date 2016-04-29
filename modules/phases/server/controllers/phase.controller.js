@@ -177,18 +177,25 @@ module.exports = DBModel.extend ({
 	complete: function (phase) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			if (!phase.completed) {
-				phase.status        = 'Complete';
-				phase.completed     = true;
-				phase.completedBy   = self.user._id;
-				phase.dateCompleted = new Date ();
-				phase.progress = 100;
-				self.completeMilestones (phase)
-				.then (function () {return self.findAndUpdate (phase);})
-				.then (resolve, reject);
-			} else {
-				resolve (phase);
-			}
+			self.findById(phase)
+			.then(function (phase) {
+				if (!phase.completed) {
+					phase.status        = 'Complete';
+					phase.completed     = true;
+					phase.completedBy   = self.user._id;
+					phase.dateCompleted = new Date ();
+					phase.progress = 100;
+					if (!phase.milestones) {
+						return self.findAndUpdate (phase).then (resolve, reject);
+					} else {
+						self.completeMilestones (phase)
+						.then (function () {return self.findAndUpdate (phase);})
+						.then (resolve, reject);
+					}
+				} else {
+					resolve (phase);
+				}
+			});
 		});
 	},
 	// -------------------------------------------------------------------------
@@ -203,7 +210,7 @@ module.exports = DBModel.extend ({
 			phase.overrideReason = reason;
 			phase.overridden     = true;
 			phase.completed      = true;
-			phase.completedBy    = this.user._id;
+			phase.completedBy    = self.user._id;
 			phase.dateCompleted  = new Date ();
 			self.overrideMilestones (phase)
 			.then (self.findAndUpdate)
@@ -216,19 +223,24 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	completeMilestones: function (phase) {
-		// console.log ('completing milestones');
-		var self = this;
-	// console.log (JSON.stringify (phase, null, 4));
-		var Milestone = new MilestoneClass (self.user);
-		return Promise.all (phase.milestones.map (function (milestoneId) {
-			return Milestone.findById (milestoneId);
-		}))
-		.then (function (result) {
-			return Promise.all (result.map (function (milestone) {
-				if (milestone.completed) return milestone;
-				else return Milestone.complete (milestone);
-			}));
-		});
+		// console.log ('completing milestones',phase.milestones);
+		if (!phase.milestones) {
+			// console.log("returning completeMilestones early");
+			return Promise.resolve(phase);
+		} else {
+			var self = this;
+		// console.log (JSON.stringify (phase, null, 4));
+			var Milestone = new MilestoneClass (self.user);
+			return Promise.all (phase.milestones.map (function (milestoneId) {
+				return Milestone.findById (milestoneId);
+			}))
+			.then (function (result) {
+				return Promise.all (result.map (function (milestone) {
+					if (milestone.completed) return milestone;
+					else return Milestone.complete (milestone);
+				}));
+			});
+		}
 	},
 	// -------------------------------------------------------------------------
 	//

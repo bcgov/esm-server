@@ -92,5 +92,15 @@ module.exports = function (app) {
 			controller.getSystemRolesForUserMaintenance (req)
 				.then (helpers.success(res), helpers.failure(res));
 		});
+
+	app.route ('/api/permissions').all (policy.isAllowed)
+		.put (function (req, res) {
+			controller.getObjects(req, req.body.type, req.body.objects)
+				.then(function(objs) {
+					req.body.objects = objs;
+					return controller.objectRoles(req.body);						
+				}).then (helpers.success(res), helpers.failure(res));
+		});
+
 };
 

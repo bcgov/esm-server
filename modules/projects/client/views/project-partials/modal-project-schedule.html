@@ -26,7 +26,7 @@
 			<td class='text-center'><p class="form-control-static">{{ phase.dateCompleted | amDateFormat:'MMM Do YYYY' }}</p></td>
 		</tr>
 
-		<tr ng-if="!projSched.project.phases">
+		<tr ng-if="!projSched.phases">
 			<td colspan="6" class="text-center">This project has no phases.  Please contact the system administrator to structure the project.</td>
 		</tr>
 

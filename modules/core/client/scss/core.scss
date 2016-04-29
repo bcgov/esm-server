@@ -65,10 +65,6 @@ $font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-s
 	border: 0;
 }
 
-.input-group .form-control {
-	height: auto;
-}
-
 .btn-list .btn {
 	margin: 0 2px 4px;
 	display: inline-block;
@@ -1533,10 +1529,11 @@ div.dropdown-menu {
 ------------------------------ */
 .button-bar {
     padding-bottom: 1.5rem;
-	
-	.btn {
-		text-transform: uppercase;
-	}
+}
+
+.button-bar.bottom {
+	padding-top: 1.5rem;
+	padding-bottom: 0;
 }
 
 
@@ -1557,7 +1554,11 @@ div.dropdown-menu {
 
 /* PAGE LAYOUT
 ------------------------------ */
+$left-panel-width: 17rem;
+
 .view-title-container {
+	display: -webkit-flex;
+	display: flex;
 	padding: 2rem 2.5rem;
 	background: #FFF;
 	border-bottom: 1px solid #EEE;
@@ -1565,9 +1566,21 @@ div.dropdown-menu {
     h1 {
         margin: 0;
         padding: 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 		font-size: 3rem;
 		font-weight: bold;
+		-webkit-flex: 0 0 auto;
+		-ms-flex: 0 0 auto;
+		flex: 1 1 auto;
     }
+	
+	.view-title-actions {
+		-webkit-flex: 0 0 auto;
+		-ms-flex: 0 0 auto;
+		flex: 0 0 auto;
+	}
 }
 
 .view-title-container.no-border {
@@ -1579,29 +1592,6 @@ div.dropdown-menu {
     display: -webkit-flex; /* Safari */
     display: flex;
     flex-flow: row nowrap;
-
-    .right-panel {
-        padding: 1.5rem;
-    }
-
-    .left-panel {
-        flex: 0 0 18rem;
-		background: #f7f7f7;
-    }
-
-    .main-panel {
-        flex: 1 1 auto;
-		
-		.view-body-container {
-			padding: 2rem 2.5rem;
-		}
-    }
-
-    .right-panel {
-        padding-left: 0;
-        flex: 0 0 30rem;
-        overflow-x: hidden;
-    }
 	
 	section:last-child {
 		margin-bottom: 0;
@@ -1701,9 +1691,20 @@ section {
 /* MODAL OVERRIDES
 ------------------------------ */ 
 .modal-header,
-.modal-body,
 .modal-footer {
-	padding: 1rem 2rem;
+	padding: 1.5rem 2rem;
+}
+
+.modal-header {
+	h3 {
+		font-weight: bold;
+	}
+	
+	.close {
+		margin-right: -1rem;
+		width: 3.4rem;
+		padding: 0.7rem;
+	}
 }
 
 .modal-footer {
@@ -1714,6 +1715,10 @@ section {
 	}
 }
 
+.modal-body {
+	padding: 2rem;
+}
+
 
 /* PANEL OVERRIDES 
 ------------------------------ */ 
@@ -1722,7 +1727,7 @@ section {
 	box-shadow: none;
 	
 	> .panel-heading {
-		padding: 1rem;
+		padding: 1.25rem 1rem;
 		border: none;
 		background-image: none;
 		background-color: #EEE;
@@ -1822,6 +1827,26 @@ tmpl-header {
 	padding-bottom: 4rem;
 }
 
+.left-panel {
+	flex: 0 0 $left-panel-width;
+	background: #f7f7f7;
+}
+
+.main-panel {
+	flex: 1 1 auto;
+	
+	.view-body-container {
+		padding: 2rem 2.5rem;
+	}
+}
+
+.right-panel {
+	padding: 1.5rem;
+	padding-left: 0;
+	flex: 0 0 30rem;
+	overflow-x: hidden;
+}
+
 
 /* HEADER 
 ------------------------------ */
@@ -1912,13 +1937,11 @@ $header-height: 6rem;
 
 /* SIDE NAVIGATION
 ------------------------------ */
-$sidenav-width: 18rem;
-
 .sidenav {
 	position: fixed;
 	top: 6rem;
 	bottom: 0;
-	width: $sidenav-width;
+	width: $left-panel-width;
 	padding-top: 1.5rem;
 	padding-bottom: 1.5rem;
 	background: #EEE;
@@ -1953,11 +1976,69 @@ $sidenav-width: 18rem;
 	}
 }
 
+/* BEGIN: UI COMPONENT STYLING
+------------------------------------------------------------ */
 
-/* TABLES
+/* DATE RANGE CONTROL
+------------------------------ */
+.date-range-control {
+	.spacer {
+		padding: 0 1rem;
+		line-height: 3.4rem;
+	}
+}
+
+.input-group.date-range {
+	width: 16rem;
+}
+
+/* ACCORDION CONTROL
+----------------------------- */
+.accordion {
+	.panel-heading {
+		padding: 0;
+		
+		a {
+			display: block;
+			padding: 1.25rem;
+			font-weight: bold;
+			color: #000;
+			
+			.glyphicon-chevron-down {
+				display: none;
+			}
+			
+			.glyphicon-chevron-up {
+				display: inline-block;
+			}
+		}
+		
+		a.collapsed {
+			.glyphicon-chevron-down {
+				display: inline-block;
+			}
+			
+			.glyphicon-chevron-up {
+				display: none;
+			}
+		}
+	}
+}
+
+/* SELECT TOPIC MODAL
+----------------------------- */
+.select-topic-modal {
+	.select-col {
+		width: 5rem;
+		text-align: center;
+	}
+}
+
+/* TABLE COMPONENT
 ------------------------------ */
 .table {
 	table-layout: fixed;
+	margin-bottom: 0;
 	
 	th {
 		font-size: 1.2rem;
@@ -1969,8 +2050,48 @@ $sidenav-width: 18rem;
 		text-align: left;
 		word-break: break-all;
 	}
+	
+	.actions-col {
+		text-align: center;
+		
+		a {
+			color: #000;
+		}
+	}
+	
+	.single-action {
+		width: 5rem;
+	}
 }
 
+.pagination {
+	margin: 0;
+}
+
+
+/* TAB CONTROL 
+------------------------------ */
+.nav-tabs {
+	> li > a {
+		font-weight: bold;
+		color: #999;
+	}
+}
+
+.nav-tabs {
+	> li.active > a,
+	> li.active > a:hover,
+	> li.active > a:focus {
+		color: #003366;
+	}
+}
+
+
+/* END: COMPONENTS
+------------------------------ */
+
+/* BEGIN: VIEW/PAGE-SPECIFIC STYLING
+------------------------------------------------------------ */
 
 /* CONDITIONS VIEW
 ------------------------------ */
@@ -1983,7 +2104,6 @@ $sidenav-width: 18rem;
 	}
 }
 
-
 /* COMMENT PERIOD VIEW
 ------------------------------ */
 .project-comment-period-view {
@@ -1995,7 +2115,6 @@ $sidenav-width: 18rem;
 	}
 }
 
-
 /* COMPLAINTS VIEW
 ------------------------------ */
 .complaints-view {
@@ -2006,7 +2125,6 @@ $sidenav-width: 18rem;
 		}
 	}
 }
-
 
 /* DASHBOARD VIEW
 ------------------------------ */
@@ -2042,7 +2160,6 @@ $sidenav-width: 18rem;
         text-align: right;
     }
 }
-
 
 /* PROJECT DETAILS VIEW
 ------------------------------ */
@@ -2130,7 +2247,7 @@ section.project-info {
 		label, span.value {
 			display: table-cell;
 			vertical-align: top;
-			padding: 0.3rem 0;
+			padding: 0.5rem 0;
 		}
 		
 		label {
@@ -2151,6 +2268,14 @@ section.project-info {
 	}
 }
 
+
+/* EDIT PROJECT VIEW
+------------------------------ */ 
+.edit-project-details-view {
+	.tab-content {
+		padding-top: 2.5rem;
+	}
+}
 
 /* DOCUMENT BROWSER VIEW
 ------------------------------ */
@@ -2174,11 +2299,133 @@ section.project-info {
 	}
 }
 
-
-/* VALUED COMPONENTS LIST
+/* VALUED COMPONENTS LIST VIEW
 ------------------------------ */
 .valued-components-view {
 	.actions-col {
 		width: 6rem;
+	}
+}
+
+/* ARTIFACT LIST VIEW
+------------------------------ */
+.artifact-list-view {
+	.button-bar {
+		padding: 1rem;
+		background: #FFF;
+		border-bottom: 1px solid #DDD;
+		
+		.input-group {
+			width: 30rem;
+		}
+	}
+}
+
+/* PUBLIC HOMEPAGE VIEW
+------------------------------ */
+.public-home-view {
+	.view-title-container {
+		padding-bottom: 0;
+		border-bottom: 0;
+	}
+	
+	.recent-activity {
+		.panel-body {
+			height: 498px;
+			overflow-y: scroll;
+		}
+	}
+	
+	.grid-view {
+		margin-top: 1rem;
+		
+		.panel-heading h2 {
+			margin-top: 0.2rem;
+		}
+		
+		.panel-heading .pull-right {
+			margin-top: -8px;
+			margin-bottom: -6px;
+		}
+	}
+	
+}
+
+/* RECENT ACTIVITY VIEW
+------------------------------ */
+.recent-activity-view {
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+	
+	h4 {
+		font-size: 1.8rem;
+		font-weight: bold;
+		margin-top: 0;
+		margin-bottom: 1.25rem;
+	}
+	
+	p {
+		font-size: 1.2rem;
+		
+	}
+	
+	hr {
+		border-color: #CCC;
+	}
+}
+
+/* PROJECT SCHEDULE VIEW
+------------------------------ */
+.project-schedule-view {	
+	.table {
+		border-bottom: 1px solid #DDD;
+		table-layout: fixed;
+	}
+	
+	td {
+		padding: 0.5rem 1rem !important;
+		vertical-align: middle !important;
+	}
+	
+	td.button-col {
+		text-align: right;
+	}
+	
+	td.actions-col {
+		width: 9rem;
+		text-align: center;
+		
+		.btn {
+			padding: 0.6rem;
+		}
+	}
+}
+
+/* MILESTONE/COMMENT SESSION MODAL VIEW
+------------------------------ */
+.add-milestone-dialog,
+.add-comment-dialog {
+	.form-group {
+		margin-bottom: 2rem;
+	}
+	
+	.form-group:last-child {
+		margin-bottom: 0;
+	}
+	
+	.help-block {
+		margin-top: 1rem;
+		margin-bottom: 0;
+	}
+	
+	.has-error {
+		.input-group-btn .btn {
+			border: 1px solid #a94442;
+			color: #a94442;
+		}
+		
+		input {
+			color: #a94442;
+		}
 	}
 }

@@ -1,0 +1,35 @@
+<div class="modal-header">
+  <h3 class="modal-title">Permissions</h3>
+</div>
+<div class="modal-body">
+  <table class="table table-condensed table-striped table-hover">
+    <thead>
+    <tr>
+      <th width="40%">Roles</th>
+      <th width="20%" ng-repeat="key in self.keys"  class="text-center">{{ key | titleCase }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="role in self.roles">
+      <td width="40%">{{ role }}</td>
+      <td width="20%"
+          ng-repeat="key in self.keys"
+          class="text-center"
+          ng-click="self.togglePermission(role, key)"
+          ng-class="{'success': (self.objectRoles.permissions|accessHasRole:role:key), 'info': (self.objectRoles.permissions|accessInferredRole:role:key)}">
+
+					<span ng-show="self.objectRoles.permissions|accessHasRole:role:key"
+                class="text-success glyphicon glyphicon-ok"></span>
+
+					<span ng-hide="self.objectRoles.permissions|accessHasRole:role:key"
+                class="text-danger glyphicon glyphicon-remove"></span>
+
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" ng-click="self.cancel()">Cancel</button>
+  <button class="btn btn-primary" ng-click="self.ok()">Ok</span></button>
+</div>

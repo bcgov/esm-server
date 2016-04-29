@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('project')
-	.directive('modalProjectSchedule', directiveModalProjectSchedule)
+	.directive('modalProjectSchedule', directiveProjectSchedule)
 	.directive('tmplProjectTombstone', directiveProjectTombstone)
 	.directive('modalProjectImport', directiveModalProjectImport)
 
@@ -14,32 +14,17 @@ angular.module('project')
 // DIRECTIVE: Modal Project Schedule
 //
 // -----------------------------------------------------------------------------------
-directiveModalProjectSchedule.$inject = ['$modal'];
+directiveProjectSchedule.$inject = ['$modal'];
 /* @ngInject */
-function directiveModalProjectSchedule($modal) {
+function directiveProjectSchedule($modal) {
 	var directive = {
-		restrict:'A',
-		scope : {
+		restrict: 'E',
+		templateUrl: 'modules/projects/client/views/project-partials/project-schedule.html',
+		scope: {
 			project: '='
 		},
-		link : function(scope, element, attrs) {
-			element.on('click', function() {
-				var modalDocView = $modal.open({
-					animation: true,
-					templateUrl: 'modules/projects/client/views/project-partials/modal-project-schedule.html',
-					controller: 'controllerModalProjectSchedule',
-					controllerAs: 'projSched',
-					resolve: {
-						rProject: function () {
-							return scope.project;
-						}
-					},
-					size: 'lg'
-				});
-				modalDocView.result.then(function (items) {
-					scope.project = items;
-				}, function () {});
-			});
+		controller: function($scope, ENV) {
+			$scope.environment = ENV;
 		}
 	};
 	return directive;
