@@ -8,7 +8,7 @@
 			 id="phaseGroup"
 			 role="tablist"
 			 aria-multiselectable="true"
-			 ng-repeat="phase in project.phases | orderBy:'order'">
+			 ng-repeat="phase in rPhases | orderBy:'order'">
 			
 			<!-- BEGIN: PROJECT PHASE CONTAINER -->
 			<div class="panel panel-default accordion">
@@ -28,8 +28,9 @@
 						<table class="table project-milestones-comments">
 							<!-- REPEAT ROWS WITH MILESTONES / COMMENTS AS CREATED -->
 							<!-- POPULATE WITH DEFAULT MILESTONES REQUIRED FOR PHASE?? -->
+							{{rPhases.milestones}}
 							<tr ng-repeat="row in phase.milestones">
-								<td>Milestone/Comment Period</td>
+								<td>{{row}}</td>
 								<td>Estimated Start Date / End Date</td>
 								<td class="button-col"><button class="btn btn-default btn-sm">BUTTON</button></td>
 								<td class="actions-col">

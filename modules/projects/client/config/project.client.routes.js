@@ -133,13 +133,14 @@ angular.module('project').config (
 			rMilestones: function (MilestoneModel, project) {
 				return MilestoneModel.userMilestones(project._id);
 			},
+			rPhases: function (PhaseModel, project) {
+				return PhaseModel.phasesForProject(project._id);
+			},
 		},
-		controller: function ($scope, $state, project, ProjectModel, rMilestones, MilestoneModel) {
+		controller: function ($scope, $state, project, ProjectModel, rMilestones, MilestoneModel, PhaseModel, rPhases) {
 			$scope.rMilestones = rMilestones;
-
-			$scope.filterList = function(selection) {
-				return MilestoneModel.milestonesForPhase(selection);
-			};
+			$scope.rPhases = rPhases;
+			console.log($scope.rPhases);
 		}
 	})
 	;
