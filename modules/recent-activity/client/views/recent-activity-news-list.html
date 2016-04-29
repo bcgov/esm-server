@@ -1,0 +1,22 @@
+<h1 class="page-title no-lower-margin">News Feed</h1>
+
+<div class="row">
+	<div class="col-sm-12">
+		<section class="panel panel-default">
+			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-striped table-hover">
+				<tr ng-repeat="o in $data" ui-sref="admin.recentactivity.detail({recentActivityId:o._id})" class="clickable">
+					<td data-title="'Headline'"  filter="{'name':'text'}"   sortable="'name'">{{o.headline}}</td>
+					<td data-title="'Type'"  filter="{'type':'text'}"   sortable="'type'">{{o.type}}</td>
+					<td data-title="'Date Added'" class="text-center" sortable="'dateAdded'" >{{o.dateAdded | date}}</td>
+					<td data-title="'Priority'" class="text-center" sortable="'priority'" >{{o.priority}}</td>
+				</tr>
+				<tr ng-if="!$data || $data.length === 0">
+					<td colspan="5">
+						No records found.
+					</td>
+				</tr>
+			</table>
+		</section>
+	</div>
+
+</div>

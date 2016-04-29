@@ -39,6 +39,18 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: recentActivity});
 		}
 	})
+	.state('news', {
+		url: '/news',
+		templateUrl: 'modules/recent-activity/client/views/recent-activity-news-list.html',
+		resolve: {
+			recentActivity: function ($stateParams, RecentActivityModel) {
+				return RecentActivityModel.getCollection ();
+			}
+		},
+		controller: function ($scope, NgTableParams, recentActivity) {
+			$scope.tableParams = new NgTableParams ({count:10}, {dataset: recentActivity});
+		}
+	})
 	// -------------------------------------------------------------------------
 	//
 	// this is the add, or create state. it is defined before the others so that
