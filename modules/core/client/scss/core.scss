@@ -1554,7 +1554,11 @@ div.dropdown-menu {
 
 /* PAGE LAYOUT
 ------------------------------ */
+$left-panel-width: 17rem;
+
 .view-title-container {
+	display: -webkit-flex;
+	display: flex;
 	padding: 2rem 2.5rem;
 	background: #FFF;
 	border-bottom: 1px solid #EEE;
@@ -1562,9 +1566,21 @@ div.dropdown-menu {
     h1 {
         margin: 0;
         padding: 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 		font-size: 3rem;
 		font-weight: bold;
+		-webkit-flex: 0 0 auto;
+		-ms-flex: 0 0 auto;
+		flex: 1 1 auto;
     }
+	
+	.view-title-actions {
+		-webkit-flex: 0 0 auto;
+		-ms-flex: 0 0 auto;
+		flex: 0 0 auto;
+	}
 }
 
 .view-title-container.no-border {
@@ -1576,29 +1592,6 @@ div.dropdown-menu {
     display: -webkit-flex; /* Safari */
     display: flex;
     flex-flow: row nowrap;
-
-    .right-panel {
-        padding: 1.5rem;
-    }
-
-    .left-panel {
-        flex: 0 0 18rem;
-		background: #f7f7f7;
-    }
-
-    .main-panel {
-        flex: 1 1 auto;
-		
-		.view-body-container {
-			padding: 2rem 2.5rem;
-		}
-    }
-
-    .right-panel {
-        padding-left: 0;
-        flex: 0 0 30rem;
-        overflow-x: hidden;
-    }
 	
 	section:last-child {
 		margin-bottom: 0;
@@ -1834,6 +1827,26 @@ tmpl-header {
 	padding-bottom: 4rem;
 }
 
+.left-panel {
+	flex: 0 0 $left-panel-width;
+	background: #f7f7f7;
+}
+
+.main-panel {
+	flex: 1 1 auto;
+	
+	.view-body-container {
+		padding: 2rem 2.5rem;
+	}
+}
+
+.right-panel {
+	padding: 1.5rem;
+	padding-left: 0;
+	flex: 0 0 30rem;
+	overflow-x: hidden;
+}
+
 
 /* HEADER 
 ------------------------------ */
@@ -1924,13 +1937,11 @@ $header-height: 6rem;
 
 /* SIDE NAVIGATION
 ------------------------------ */
-$sidenav-width: 18rem;
-
 .sidenav {
 	position: fixed;
 	top: 6rem;
 	bottom: 0;
-	width: $sidenav-width;
+	width: $left-panel-width;
 	padding-top: 1.5rem;
 	padding-bottom: 1.5rem;
 	background: #EEE;
@@ -1965,8 +1976,65 @@ $sidenav-width: 18rem;
 	}
 }
 
+/* BEGIN: UI COMPONENT STYLING
+------------------------------------------------------------ */
 
-/* TABLES
+/* DATE RANGE CONTROL
+------------------------------ */
+.date-range-control {
+	.spacer {
+		padding: 0 1rem;
+		line-height: 3.4rem;
+	}
+}
+
+.input-group.date-range {
+	width: 16rem;
+}
+
+/* ACCORDION CONTROL
+----------------------------- */
+.accordion {
+	.panel-heading {
+		padding: 0;
+		
+		a {
+			display: block;
+			padding: 1.25rem;
+			font-weight: bold;
+			color: #000;
+			
+			.glyphicon-chevron-down {
+				display: none;
+			}
+			
+			.glyphicon-chevron-up {
+				display: inline-block;
+			}
+		}
+		
+		a.collapsed {
+			.glyphicon-chevron-down {
+				display: inline-block;
+			}
+			
+			.glyphicon-chevron-up {
+				display: none;
+			}
+		}
+	}
+}
+
+/* SELECT TOPIC MODAL
+----------------------------- */
+.select-topic-modal {
+	.select-col {
+		width: 5rem;
+		text-align: center;
+	}
+}
+
+/* TABLE COMPONENT
 ------------------------------ */
 .table {
 	table-layout: fixed;
@@ -1982,8 +2050,48 @@ $sidenav-width: 18rem;
 		text-align: left;
 		word-break: break-all;
 	}
+	
+	.actions-col {
+		text-align: center;
+		
+		a {
+			color: #000;
+		}
+	}
+	
+	.single-action {
+		width: 5rem;
+	}
 }
 
+.pagination {
+	margin: 0;
+}
+
+
+/* TAB CONTROL 
+------------------------------ */
+.nav-tabs {
+	> li > a {
+		font-weight: bold;
+		color: #999;
+	}
+}
+
+.nav-tabs {
+	> li.active > a,
+	> li.active > a:hover,
+	> li.active > a:focus {
+		color: #003366;
+	}
+}
+
+
+/* END: COMPONENTS
+------------------------------ */
+
+/* BEGIN: VIEW/PAGE-SPECIFIC STYLING
+------------------------------------------------------------ */
 
 /* CONDITIONS VIEW
 ------------------------------ */
@@ -1996,7 +2104,6 @@ $sidenav-width: 18rem;
 	}
 }
 
-
 /* COMMENT PERIOD VIEW
 ------------------------------ */
 .project-comment-period-view {
@@ -2008,7 +2115,6 @@ $sidenav-width: 18rem;
 	}
 }
 
-
 /* COMPLAINTS VIEW
 ------------------------------ */
 .complaints-view {
@@ -2019,7 +2125,6 @@ $sidenav-width: 18rem;
 		}
 	}
 }
-
 
 /* DASHBOARD VIEW
 ------------------------------ */
@@ -2055,7 +2160,6 @@ $sidenav-width: 18rem;
         text-align: right;
     }
 }
-
 
 /* PROJECT DETAILS VIEW
 ------------------------------ */
@@ -2165,6 +2269,14 @@ section.project-info {
 }
 
 
+/* EDIT PROJECT VIEW
+------------------------------ */ 
+.edit-project-details-view {
+	.tab-content {
+		padding-top: 2.5rem;
+	}
+}
+
 /* DOCUMENT BROWSER VIEW
 ------------------------------ */
 .documents-view {
@@ -2187,15 +2299,13 @@ section.project-info {
 	}
 }
 
-
-/* VALUED COMPONENTS LIST
+/* VALUED COMPONENTS LIST VIEW
 ------------------------------ */
 .valued-components-view {
 	.actions-col {
 		width: 6rem;
 	}
 }
-
 
 /* ARTIFACT LIST VIEW
 ------------------------------ */
@@ -2211,8 +2321,7 @@ section.project-info {
 	}
 }
 
-
-/* PUBLIC HOMEPAGE 
+/* PUBLIC HOMEPAGE VIEW
 ------------------------------ */
 .public-home-view {
 	.view-title-container {
@@ -2242,7 +2351,6 @@ section.project-info {
 	
 }
 
-
 /* RECENT ACTIVITY VIEW
 ------------------------------ */
 .recent-activity-view {
@@ -2265,7 +2373,6 @@ section.project-info {
 		border-color: #CCC;
 	}
 }
-
 
 /* PROJECT SCHEDULE VIEW
 ------------------------------ */
@@ -2294,7 +2401,6 @@ section.project-info {
 	}
 }
 
-
 /* MILESTONE/COMMENT SESSION MODAL VIEW
 ------------------------------ */
 .add-milestone-dialog,
@@ -2306,18 +2412,20 @@ section.project-info {
 	.form-group:last-child {
 		margin-bottom: 0;
 	}
-}
-
-
-/* DATE RANGE CONTROL
------------------------------- */
-.date-range-control {
-	.spacer {
-		padding: 0 1rem;
-		line-height: 3.4rem;
+	
+	.help-block {
+		margin-top: 1rem;
+		margin-bottom: 0;
 	}
-}
-
-.input-group.date-range {
-	width: 10rem;
+	
+	.has-error {
+		.input-group-btn .btn {
+			border: 1px solid #a94442;
+			color: #a94442;
+		}
+		
+		input {
+			color: #a94442;
+		}
+	}
 }

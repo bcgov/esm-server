@@ -105,14 +105,14 @@ angular.module('project').config (
 		// 		return ProjectModel.getProjectIntakeQuestions();
 		// 	}
 		// },
-        onEnter: function (MenuControl, project, $stateParams) {
-        	if ($stateParams.projectid === 'new') {
-        		MenuControl.routeAccess ('', '','proponent');
-        	}
-        	else {
-            	MenuControl.routeAccess (project.code, 'pro','edit-project');
-        	}
-        }
+		onEnter: function (MenuControl, project, $stateParams) {
+			if ($stateParams.projectid === 'new') {
+				MenuControl.routeAccess ('', '','proponent');
+			}
+			else {
+				MenuControl.routeAccess (project.code, 'pro','edit-project');
+			}
+		}
 	})
 	// -------------------------------------------------------------------------
 	//
@@ -124,14 +124,24 @@ angular.module('project').config (
 		templateUrl: 'modules/projects/client/views/project-partials/project.decision.html',
 		controller: function ($scope, $state, project, ProjectModel) {
 
-        }
+		}
 	})
 	.state('p.schedule', {
 		url: '/schedule',
 		templateUrl: 'modules/projects/client/views/project-partials/project.schedule.html',
-		controller: function ($scope, $state, project, ProjectModel) {
-
-        }
+		resolve: {
+			rMilestones: function (MilestoneModel, project) {
+				return MilestoneModel.userMilestones(project._id);
+			},
+			rPhases: function (PhaseModel, project) {
+				return PhaseModel.phasesForProject(project._id);
+			},
+		},
+		controller: function ($scope, $state, project, ProjectModel, rMilestones, MilestoneModel, PhaseModel, rPhases) {
+			$scope.rMilestones = rMilestones;
+			$scope.rPhases = rPhases;
+			console.log($scope.rPhases);
+		}
 	})
 	;
 }]);
