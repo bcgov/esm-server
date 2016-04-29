@@ -925,7 +925,7 @@ function directiveShowFilter() {
      	scope : {
 			toggleFilter: '='
 		},
-		template: '<a href class="btn btn-default show-filter-btn" ng-click="toggleFilter = !toggleFilter">' +
+		template: '<a href class="btn btn-default btn-sm show-filter-btn" ng-click="toggleFilter = !toggleFilter">' +
 				  	  '<span ng-show="toggleFilter">' +
 					      '<span class="glyphicon glyphicon-search" aria-hidden="true"></span>' +
 				  	      '<span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>' +
