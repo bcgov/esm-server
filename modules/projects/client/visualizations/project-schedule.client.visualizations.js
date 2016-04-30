@@ -90,16 +90,16 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 				;
 
 
-				// not logged in, show progress up to the today marker.
-				if(!Authentication.user) {
-					svgCont.append("rect")
-						.attr("x", 30)
-						.attr("y", 2)
-						.attr("width", (posToday - 30))
-						.attr("height",28)
-						.style("fill", function() { return "#5cb85c"; })
-					;
-				}
+				// // not logged in, show progress up to the today marker.
+				// if(!Authentication.user) {
+				// 	svgCont.append("rect")
+				// 		.attr("x", 30)
+				// 		.attr("y", 2)
+				// 		.attr("width", (posToday - 30))
+				// 		.attr("height",28)
+				// 		.style("fill", function() { return "#5cb85c"; })
+				// 	;
+				// }
 
 
 				// draw each phase
@@ -124,10 +124,19 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 							.attr("width", (posPhaseEnd - posPhaseStart) * ((oPhaseDetail.progress)/100) ) 
 							.attr("height",28)
 							.style("fill", function() { 
-								if ( posToday >= posPhaseStart ) {
-									return (oPhaseDetail.progress === 100) ? "#5cb85c" : "#f0ad4e";
-								}
-								return colourScale( oPhaseDetail.name );
+								return (oPhaseDetail.progress === 100) ? "#5cb85c" : "#f0ad4e";
+							})
+							.attr("title", oPhaseDetail.name)
+						;
+					} else {
+						// Just show completed phases fill for now.
+						svgCont.append("rect")
+							.attr("x", posPhaseStart)
+							.attr("y", 2)
+							.attr("width", (posPhaseEnd - posPhaseStart) )
+							.attr("height",28)
+							.style("fill", function() {
+								return (oPhaseDetail.progress === 100) ? "#5cb85c" : "#ffffff";
 							})
 							.attr("title", oPhaseDetail.name)
 						;
@@ -233,40 +242,40 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 
 				
 
-				if (posToday) {
+				// if (posToday) {
 
-					// Draw todays date marker
-					// Center Line of Todays date marker
-					svgCont.append("line")
-						.attr("x1", posToday)
-						.attr("y1", 0)
-						.attr("x2", posToday)
-						.attr("y2", 32)
-						.style('stroke-width', '3px')
-						.style('stroke', '#337ab7')
-					;
+				// 	// Draw todays date marker
+				// 	// Center Line of Todays date marker
+				// 	svgCont.append("line")
+				// 		.attr("x1", posToday)
+				// 		.attr("y1", 0)
+				// 		.attr("x2", posToday)
+				// 		.attr("y2", 32)
+				// 		.style('stroke-width', '3px')
+				// 		.style('stroke', '#337ab7')
+				// 	;
 
-					// Left edge line of Todays date marker
-					svgCont.append("line")
-						.attr("x1", posToday - 3)
-						.attr("y1", 0)
-						.attr("x2", posToday - 3)
-						.attr("y2", 32)
-						.style('stroke-width', '1px')
-						.style('stroke', '#dddddd')
-						.attr('title', 'Today')
-					;
+				// 	// Left edge line of Todays date marker
+				// 	svgCont.append("line")
+				// 		.attr("x1", posToday - 3)
+				// 		.attr("y1", 0)
+				// 		.attr("x2", posToday - 3)
+				// 		.attr("y2", 32)
+				// 		.style('stroke-width', '1px')
+				// 		.style('stroke', '#dddddd')
+				// 		.attr('title', 'Today')
+				// 	;
 
-					// Right edge line of Todays date marker
-					svgCont.append("line")
-						.attr("x1", posToday + 3)
-						.attr("y1", 0)
-						.attr("x2", posToday + 3)
-						.attr("y2", 32)
-						.style('stroke-width', '1px')
-						.style('stroke', '#dddddd')
-					;
-				}
+				// 	// Right edge line of Todays date marker
+				// 	svgCont.append("line")
+				// 		.attr("x1", posToday + 3)
+				// 		.attr("y1", 0)
+				// 		.attr("x2", posToday + 3)
+				// 		.attr("y2", 32)
+				// 		.style('stroke-width', '1px')
+				// 		.style('stroke', '#dddddd')
+				// 	;
+				// }
 
 			};
 
