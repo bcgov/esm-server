@@ -66,30 +66,6 @@ var getMany = function(req, objecttype, objectids) {
 	});
 };
 
-var getController = function(req, objecttype, objectids) {
-	return new Promise(function(fulfill, reject) {
-		var ControllerClass = types[objecttype];
-		if (!ControllerClass) {
-			reject('Could not load controller class for ' + objecttype);
-		} else {
-			var obj = new ControllerClass(req.user);
-
-			if (!objectids) {
-				return fulfill(obj);
-			}
-
-			var objectidsArray = _.isArray (objectids) ? objectids : [objectids];
-			var q = {'_id': {$in: objectidsArray}};
-
-			obj.findMany({_id: {}})
-				.then(function(data) {
-					fulfill(data);
-				});
-		}
-	});
-};
-
-
 module.exports = {
 	getInstance: getInstance,
 	getOne: getOne,

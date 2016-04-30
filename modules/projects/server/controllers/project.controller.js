@@ -15,23 +15,6 @@ var RecentActivityClass = require (path.resolve('./modules/recent-activity/serve
 var Roles               = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 var _                   = require ('lodash');
 var util = require('util');
-var defaultProjectRoles = [
-	':pro:edit-project',
-	':eao:edit-schedule',
-	':eao:edit-documents',
-	':pro:edit-documents',
-	':eao:edit-comment-periods',
-	':eao:edit-complaints',
-	':eao:edit-conditions',
-	':eao:edit-inspections',
-	':eao:edit-vcs',
-	':pro:edit-vcs',
-	':eao:edit-roles',
-	':pro:edit-roles',
-	':eao:edit-wg',
-	':eao:member',
-	':pro:member'
-];
 
 module.exports = DBModel.extend ({
 	name : 'Project',
@@ -70,7 +53,6 @@ module.exports = DBModel.extend ({
 		var projectProponentAdmin;
 		var projectProponentMember;
 		var sectorRole;
-		var projectInviteeRole;
 		//
 		// return a promise, we have lots of work to do
 		//
@@ -90,56 +72,20 @@ module.exports = DBModel.extend ({
 			// sides of the fence
 			//
 			.then (function (projectCode) {
-				projectAdminRole       = Roles.generateCode (projectCode, 'eao', 'admin');
-				projectProponentAdmin  = Roles.generateCode (projectCode, 'pro', 'admin');
-				projectProponentMember = Roles.generateCode (projectCode, 'pro', 'member');
-				//
-				// set the project admin roles
-				//
-				project.eaoMember = Roles.generateCode (projectCode, 'eao', 'member');
-				project.proMember = Roles.generateCode (projectCode, 'pro', 'member');
-				project.adminRole = projectAdminRole;
-				project.proponentAdminRole = projectProponentAdmin;
 				//
 				// if the project hasn't an orgCode yet then copy in the user's
 				//
 				if (!project.orgCode) project.orgCode = self.user.orgCode;
-				//
-				// add the project to the roles and the roles to the project
-				// we absolutely set them at this point. aslo add all the default functional
-				// roles
-				//
-				var defaultRoles = defaultProjectRoles.map (function (r) {return projectCode+r; });
-				//
-				// console.log ('Step2. assign default roles.');
 
-				// add in the invitee role - just a collection of contacts that require invitations to the project
-				// could add in the defaults, but we will have logic for this specific role, so best to keep a specific helper.
-				projectInviteeRole     = Roles.generateCode (projectCode, 'eao', 'invitee');
-				project.inviteeRole = projectInviteeRole;
-				defaultRoles.push(projectInviteeRole);
-				// Push any roles passed in.
-				for (var i=0;i<project.roles.length;i++){
-					// console.log("Adding passed in role: ",project.roles[i]);
-					defaultRoles.push(project.roles[i]);
-				}
-				return Roles.objectRoles ({
-					method: 'set',
-					objects: project,
-					type: 'projects',
-					permissions: {
-						read   : defaultRoles,
-						submit : [projectProponentAdmin, projectAdminRole]
-					}
-				});
+				return self.initDefaultRoles(project);
 			})
 			//
 			// add the appropriate role to the user
 			//
-			.then (function () {
-				// console.log ('Step3. assign admin role to user.');
+			.then (function (objectRoles) {
+				//console.log ('Step3. assign admin role to user');
 				// console.log ('project is now ', project);
-				var userRole = (self.user.orgCode !== 'eao' && self.user.orgCode === project.orgCode) ? projectProponentAdmin : projectAdminRole;
+				var userRole = (self.user.orgCode !== 'eao' && self.user.orgCode === project.orgCode) ? project.proponentAdminRole : project.adminRole;
 				return Roles.userRoles ({
 					method: 'add',
 					users: self.user,
@@ -572,6 +518,76 @@ module.exports = DBModel.extend ({
 		}, 'currentPhase', 'name');
 	},
 
+	initDefaultRoles : function(project) {
+		//console.log('initDefaultRoles(' + project.code + ')');
+		var defaultRoles = [];
+
+		project.adminRole = project.code + ':eao:admin';
+		project.proponentAdminRole = project.code + ':pro:admin';
+		project.eaoInviteeRole = project.code + ':eao:invitee';
+		project.proponentInviteeRole = project.code + ':pro:invitee';
+		project.eaoMember = project.code + ':eao:member';
+		project.proMember = project.code + ':pro:member';
+		
+		defaultRoles.push(project.eaoMember);
+		defaultRoles.push(project.proMember);
+
+		var Roll = require('mongoose').model('Role');
+
+		return Roll.find({isSystem: true, isProjectDefault: true})
+			.then(function(rolez) {
+				//console.log('initDefaultRoles(' + project.code + ') adding system/project defaults ' + rolez.length);
+				
+				var a = _.map(rolez, function(role) {
+					return new Promise(function(fulfill, reject) {
+						Roles.findOrCreate(project.code, role.orgCode, role.roleCode, role.name, false, role.isFunctional)
+							.then(function(r) {
+								if (r.isFunctional) {
+									defaultRoles.push(r.code);
+								}
+								fulfill(r);
+							});
+					});
+				});
+				return Promise.all(a);
+			})
+		.then(function(data) {
+			//console.log('initDefaultRoles(' + project.code + ') added system/project defaults');
+
+			// handle passed in roles...
+			var a = _.map(project.roles, function(r) {
+				return new Promise(function(fulfill, reject) {
+					var codes = r.split(':');
+					if (codes.length === 3) {
+						Roles.findOrCreate(project.code, codes[1], codes[2], codes[2], false, true)
+							.then(function(r) {
+								fulfill(defaultRoles.push(r.code));
+							});
+					} else {
+						fulfill(defaultRoles.push(r));
+					}
+				});
+			});
+			return Promise.all(a);
+		})
+		.then(function(data) {
+			//console.log('initDefaultRoles(' + project.code + ') added passed in roles');
+			// add the roles to the project->role mapping...
+			return Roles.objectRoles ({
+				method: 'set',
+				objects: project,
+				type: 'projects',
+				permissions: {
+					read   : _.uniq(defaultRoles),
+					submit : [project.proponentAdminRole, project.adminRole]
+				}
+			});
+		})
+		.then(function(data) {
+			//console.log('initDefaultRoles(' + project.code + ') object roles set');
+			return data;
+		});
+	}
 
 });
 

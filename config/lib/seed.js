@@ -98,7 +98,7 @@ checkIntegration ('commentconfigs').then (function () {
 //
 // -------------------------------------------------------------------------
 checkIntegration ('sysroles').then (function () {
-	require('../seed-data/loadroles')();
+	require('../seed-data/loadroles').sysroles();
 });
 
 
@@ -202,6 +202,9 @@ else
 	});
 
 }
+checkIntegration ('sysroles2').then (function () {
+	require('../seed-data/loadroles').sysroles2();
+});
 
 // // check to see if the seed import executes
 // // insert ajax mine project
