@@ -20,9 +20,14 @@ var getRole = function (code) {
 		Role.findOne ({ code: code }).exec().then (resolve, reject);
 	});
 };
+
 var newRole = function (code) {
 	return new Promise (function (resolve, reject) {
-		resolve ( new Role ({ code: code }) );
+		var data = code.split(':');
+		var projectCode = (data.length === 3) ? data[0] : '';
+		var orgCode = (data.length === 3) ? data[1] : 'eao';
+		var roleCode = (data.length === 3) ? data[2] : '';
+		resolve ( new Role ({ code: code, projectCode: projectCode, orgCode: orgCode, roleCode: roleCode, name: roleCode || code }) );
 	});
 };
 var getUsersForRole = function (code) {
@@ -109,6 +114,8 @@ var findRole = function (code) {
 		.then (resolve, reject);
 	});
 };
+
+
 // -------------------------------------------------------------------------
 //
 // same logic as in the role schema
@@ -122,6 +129,26 @@ var generateCode = function (projectCode, orgCode, roleCode) {
 	var r = a.join (':');
 	// console.log ('generated role code: ', r);
 	return r;
+};
+
+
+var findOrCreate = function(projectCode, orgCode, roleCode, name, isSystem, isFunctional) {
+	var code = generateCode(projectCode, orgCode, roleCode);
+	var newRole = new Role ({ code: code, projectCode: projectCode, orgCode: orgCode, roleCode: roleCode, name: name, isSystem: isSystem, isFunctional: isFunctional});
+
+	return new Promise (function (resolve, reject) {
+		getRole (code)
+			.then (function (role) {
+				if (!role) {
+					return newRole.save();
+				}
+				else {
+					return role;
+				}
+			})
+			.then (resolve, reject);
+	});
+
 };
 // -------------------------------------------------------------------------
 //
@@ -177,6 +204,9 @@ var userRoles = function (data) {
 				return user.save ();
 			}));
 		})
+		.catch(function(err) {
+			console.error(err);
+		})
 		.then (function () {
 			return data.users;
 		})
@@ -231,10 +261,13 @@ var objectRoles = function (data) {
 				return u._id.toString ();
 			});
 			return Promise.all (rolesarray.map (function (role) {
-				// console.log ('setting '+data.type+' array in role ', role.code, role._id);
+				//console.log ('setting '+data.type+' array in role ', role.code, role._id);
 				role.modObject (data.method, data.type, idArray);
 				return role.save ();
 			}));
+		})
+		.catch(function(err) {
+			//console.error(objectArray[0].code, err);
 		})
 		.then (function (rolesalldone) {
 			//
@@ -243,7 +276,7 @@ var objectRoles = function (data) {
 			// through those and do the same, but add the permissions
 			//
 			return Promise.all (objectArray.map (function (object) {
-				// console.log ('setting roles for object ', object.code, data.permissions);
+				//console.log ('setting roles for object ', object.code, data.permissions);
 				object.modRoles (data.method, data.permissions);
 				// console.log ('now saving object', object.code, object._id);
 				return object.save ();
@@ -285,7 +318,8 @@ module.exports = {
 	objectRoles:objectRoles,
 	userRoles:userRoles,
 	generateCode:generateCode,
-	getObjects: getObjects
+	getObjects: getObjects,
+	findOrCreate: findOrCreate
 };
 
 	// addUserRole : addUserRole,
