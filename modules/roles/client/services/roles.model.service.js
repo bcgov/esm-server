@@ -24,8 +24,11 @@ angular.module('roles').factory ('RoleModel', function (ModelBase, _) {
 		getProjectsWithRole: function (rolecode) {
 			return this.get ('/api/projects/with/role/'+rolecode);
 		},
-		addSystemRole: function (rolecode) {
-			return this.add ({code:rolecode});
+		addSystemRole: function (role) {
+			return this.post ('/api/system/roles', role);
+		},
+		saveSystemRole: function (role) {
+			return this.put ('/api/system/roles/'+role.code, role);
 		},
 		addProjectRole: function (projectCode, orgCode, rolecode) {
 			return this.add ({code:projectCode+':'+orgCode+':'+rolecode});
@@ -34,7 +37,7 @@ angular.module('roles').factory ('RoleModel', function (ModelBase, _) {
 			return this.put ('/api/role/'+rolecode, {users:userIdArray});
 		},
 		getSystemRoles: function () {
-			return this.get ('/api/system/roles/assignable');
+			return this.get ('/api/system/roles');
 		},
 		setPermissions: function(data) {
 			return this.put('/api/permissions', data);

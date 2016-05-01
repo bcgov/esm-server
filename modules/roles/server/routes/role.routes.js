@@ -79,7 +79,30 @@ module.exports = function (app) {
 	//
 	// get system roles only
 	//
+	app.route ('/api/system/roles/:role').all (policy.isAllowed)
+		.put (function (req, res) {
+			controller.getRole(req.params.role)
+				.then (function (role) {
+					role.set (req.body);
+					return role.save ();
+				})
+				.then (helpers.success(res), helpers.failure(res));
+		})
+		.get (function (req, res) {
+			// console.log(req.params.role);
+			controller.getRole (req.params.role)
+				.then (helpers.success(res), helpers.failure(res));
+		});
+
 	app.route ('/api/system/roles').all (policy.isAllowed)
+		.post (function (req, res) {
+			controller.newRole()
+				.then(function (role) {
+					role.set(req.body);
+					return role.save();
+				})
+				.then(helpers.success(res), helpers.failure(res));
+		})
 		.get (function (req, res) {
 			controller.getSystemRoles ()
 			.then (helpers.success(res), helpers.failure(res));

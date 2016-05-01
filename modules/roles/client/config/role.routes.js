@@ -91,16 +91,20 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 		},
 		controller: function ($scope, $state, role, RoleModel, $filter) {
 			$scope.role = role;
-			var which = 'add';
+
+			$scope.isEdit = false;
+			$scope.role.isSystem = true;
+			$scope.role.code = undefined;
+			$scope.role.name = undefined;
+			$scope.role.orgCode = undefined;
+			
 			$scope.save = function (isValid) {
-				$scope.role.code = $scope.role.roleCode;
 				if (!isValid) {
 					$scope.$broadcast('show-errors-check-validity', 'roleForm');
 					return false;
 				}
 
-				var p = (which === 'add') ? RoleModel.add ($scope.roles) : RoleModel.save ($scope.role);
-				p.then (function (model) {
+				RoleModel.addSystemRole ($scope.role).then (function (model) {
 					$state.transitionTo('admin.roles.list', {}, {
 			  			reload: true, inherit: false, notify: true
 					});
@@ -128,16 +132,15 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 		},
 		controller: function ($scope, $state, role, RoleModel, $filter) {
 			$scope.role = role;
-			var which = 'edit';
+			$scope.isEdit = true;
 			$scope.save = function (isValid) {
-				$scope.role.code = $scope.role.roleCode;
 				if (!isValid) {
 					$scope.$broadcast('show-errors-check-validity', 'roleForm');
 					return false;
 				}
 				
-				var p = (which === 'add') ? RoleModel.add ($scope.role) : RoleModel.save ($scope.role);
-				p.then (function (model) {
+				RoleModel.saveSystemRole ($scope.role)
+					.then (function (model) {
 					$state.transitionTo('admin.roles.list', {}, {
 			  			reload: true, inherit: false, notify: true
 					});

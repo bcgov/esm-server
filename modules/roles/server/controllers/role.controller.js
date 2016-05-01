@@ -23,11 +23,20 @@ var getRole = function (code) {
 
 var newRole = function (code) {
 	return new Promise (function (resolve, reject) {
-		var data = code.split(':');
-		var projectCode = (data.length === 3) ? data[0] : '';
-		var orgCode = (data.length === 3) ? data[1] : 'eao';
-		var roleCode = (data.length === 3) ? data[2] : '';
-		resolve ( new Role ({ code: code, projectCode: projectCode, orgCode: orgCode, roleCode: roleCode, name: roleCode || code }) );
+		var projectCode, orgCode, roleCode;
+		if (!_.isEmpty(code)) {
+			var data = code.split(':');
+			projectCode = (data.length === 3) ? data[0] : '';
+			orgCode = (data.length === 3) ? data[1] : 'eao';
+			roleCode = (data.length === 3) ? data[2] : '';
+		}
+		resolve(new Role({
+			code: code,
+			projectCode: projectCode,
+			orgCode: orgCode,
+			roleCode: roleCode,
+			name: roleCode || code
+		}));
 	});
 };
 var getUsersForRole = function (code) {

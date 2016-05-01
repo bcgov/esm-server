@@ -11,14 +11,22 @@
 
 <div class="panel panel-default">
 	<div class="panel-body">
-		<div class="row">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="name" class="control-label">Name</label>
+          <p class="form-control-static">{{ role.name }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="code" class="control-label">Code</label>
 					<p class="form-control-static">{{ role.code }}</p>
 				</div>
 			</div>
-		
+
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="projectCode" class="control-label">Project Code</label>
@@ -40,7 +48,26 @@
 				</div>
 			</div>
 		</div>
-
+<div class="row">
+  <div class="col-sm-3">
+    <div class="form-group">
+      <label for="isSystem" class="control-label">Is System</label>
+      <p class="form-control-static">{{ role.isSystem }}</p>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="form-group">
+      <label for="isFunctional" class="control-label">Is Functional</label>
+      <p class="form-control-static">{{ role.isFunctional }}</p>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="form-group">
+      <label for="isProjectDefault" class="control-label">Is Project Default</label>
+      <p class="form-control-static">{{ role.isProjectDefault }}</p>
+    </div>
+  </div>
+</div>
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
@@ -64,9 +91,9 @@
 				</div>
 			</div>
 		</div>
-				
+
 		<hr>
-		
+
 		<div class="text-right">
 			<a class="btn btn-default" ui-sref="admin.roles.list">Cancel</a>
 			<a class="btn btn-default" ui-sref="admin.roles.edit({roleCode:role.code})">Edit</a>
