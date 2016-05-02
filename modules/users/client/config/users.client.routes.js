@@ -78,9 +78,18 @@ angular.module('users').config(['$stateProvider',
 					roles: ['user', 'admin']
 				}*/
 			})
+			// this state should go away entirely once we are fully behind siteminder and we have administrators...
 			.state('authentication.signin', {
-				url: '/signin?err',
+				url: '/local/signin',
 				template: '<tmpl-login></tmpl-login>'
+			})
+			// and this should become authentication.signin
+			.state('authentication.signin.siteminder', {
+				url: '/signin',
+				controller: function() {
+					// send them to the server, so that siteminder will authenticate, then send into our code to fully authorize.
+					window.location.href = window.location.origin + '/authentication/signin';
+				}
 			})
 			.state('password', {
 				abstract: true,

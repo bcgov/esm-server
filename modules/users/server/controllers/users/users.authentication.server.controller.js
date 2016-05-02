@@ -8,6 +8,7 @@ var path = require('path'),
   mongoose = require('mongoose'),
   passport = require('passport'),
   User = mongoose.model('User');
+var _ = require('lodash');
 
 // URLs for which user can't be redirected on signin
 var noReturnUrls = [
@@ -52,25 +53,79 @@ exports.signup = function (req, res) {
   });
 };
 
+
+var findUserByEmail = function (email) {
+	return new Promise(function (fulfill, reject) {
+		User.findOne({
+			email: email
+		}).populate('org roles').exec(function (error, user) {
+			if (error) {
+				reject(new Error(error));
+			} else if (!user) {
+				reject(new Error('findUserByEmail: User not found for email: ' + email));
+			} else {
+				fulfill(user);
+			}
+		});
+	});
+};
+
 /**
  * Signin after passport authentication
  */
 exports.signin = function (req, res, next) {
+
+	var signinAsOtherEmail;
+	if (req.body.username && req.body.username.indexOf('/') > -1) {
+		// split the username
+		var names = req.body.username.split('/');
+		req.body.username = names[0];
+		signinAsOtherEmail = names[1];
+	}
+
   passport.authenticate('local', function (err, user, info) {
     if (err || !user) {
       res.status(400).send(info);
     } else {
-      // Remove sensitive data before login
-      user.password = undefined;
-      user.salt = undefined;
 
-      req.login(user, function (err) {
-        if (err) {
-          res.status(400).send(err);
-        } else {
-          res.json(user);
-        }
-      });
+			 Promise.resolve(_.includes(user.roles, 'admin') && signinAsOtherEmail !== undefined)
+				.then(function(signInAsOther) {
+					if (!signInAsOther) {
+						return user;
+					} else {
+						return new Promise(function(fulfill, reject) {
+							findUserByEmail(signinAsOtherEmail)
+								.then(function (u) {
+									if (u) {
+										fulfill(u);
+									} else {
+										fulfill(user);
+									}
+								})
+								.catch(function (err) {
+									//console.error(err);
+									fulfill(user);
+								});
+						});
+					}
+				})
+				.then(function(u) {
+					// Remove sensitive data before login
+					u.password = undefined;
+					u.salt = undefined;
+
+					return req.login(u, function (err) {
+						if (err) {
+							res.status(400).send(u);
+						} else {
+							res.json(u);
+						}
+					});
+
+				})
+				.catch(function(err) {
+					res.status(400).send(err);
+				});
     }
   })(req, res, next);
 };
