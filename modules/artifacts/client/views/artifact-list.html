@@ -1,27 +1,29 @@
 <div class="artifact-list-view">
-
-	<div ng-if="!s.public">
-		<div class="button-bar clearfix">
-			<div class="dropdown pull-left" ng-if="!s.public">
-				<div class="input-group" data-toggle="dropdown">
-					<input class="entryInput form-control" id="query" name="query" type="text" placeholder="Select an Artifact Type" ng-model="s.addtype.name"></input>
-					<span class="input-group-btn">
-						<button ng-disabled="!s.addtype" ng-click="$event.stopPropagation();s.addType()" class="btn btn-default" type="button">Add</button>
-					</span>
+	
+	<div class="panel panel-default">
+		
+		<div class="panel-heading clearfix">
+			<h2 class="pull-left">Project Artifacts</h2>
+			<div ng-if="!s.public">
+				<div class="artifacts-list-actions pull-right clearfix">
+					<div class="artifacts-dropdown dropdown pull-left" ng-if="!s.public">
+						<div class="input-group" data-toggle="dropdown">
+							<input class="entryInput form-control input-sm" id="query" name="query" type="text" placeholder="Select an Artifact Type" ng-model="s.addtype.name"></input>
+							<span class="input-group-btn">
+								<button ng-disabled="!s.addtype" ng-click="$event.stopPropagation();s.addType()" class="btn btn-default btn-sm" type="button">Add Artifact</button>
+							</span>
+						</div>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="query">
+							<li ng-repeat="type in s.availableTypes">
+								<a ng-click="s.selectType(type)">{{type.name}}</a>
+							</li>
+						</ul>
+					</div>
+					<show-filter x-toggle-filter="toggleFilter"></show-filter>
 				</div>
-				<ul class="dropdown-menu" role="menu" aria-labelledby="query">
-					<li ng-repeat="type in s.availableTypes">
-						<a ng-click="s.selectType(type)">{{type.name}}</a>
-					</li>
-				</ul>
-			</div>
-			
-			<div class="pull-right">
-				<show-filter x-toggle-filter="toggleFilter"></show-filter>
 			</div>
 			
 		</div>
-	</div>
 
 	<table ng-table="s.tableParams" x-show-filter="toggleFilter" class="table table-condensed table-hover table-striped">
 		<tr ng-repeat="o in $data" ui-sref="p.artifact.view({artifactId:o._id})" class="clickable">
@@ -44,6 +46,7 @@
 			</td>
 		</tr>
 	</table>
+	</div>
 
 </div>
 

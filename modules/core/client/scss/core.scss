@@ -30,7 +30,7 @@ $danger-text:			#a94442;
 
 html {
 	min-height: 100%;
-	background: #FFF;
+	background: #F7F8FA;
 }
 
 body {
@@ -1560,16 +1560,13 @@ $left-panel-width: 17rem;
 	display: -webkit-flex;
 	display: flex;
 	padding: 2rem 2.5rem;
-	background: #FFF;
 	border-bottom: 1px solid #EEE;
+	min-width: 0;
 
     h1 {
         margin: 0;
         padding: 0;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		font-size: 3rem;
+		font-size: 2.8rem;
 		font-weight: bold;
 		-webkit-flex: 0 0 auto;
 		-ms-flex: 0 0 auto;
@@ -2273,7 +2270,10 @@ section.project-info {
 ------------------------------ */ 
 .edit-project-details-view {
 	.tab-content {
-		padding-top: 2.5rem;
+		padding: 2rem;
+		border: 1px solid #DDD;
+		border-top: none;
+		background: #FFF;
 	}
 }
 
@@ -2309,15 +2309,14 @@ section.project-info {
 
 /* ARTIFACT LIST VIEW
 ------------------------------ */
-.artifact-list-view {
-	.button-bar {
-		padding: 1rem;
-		background: #FFF;
-		border-bottom: 1px solid #DDD;
-		
-		.input-group {
-			width: 30rem;
-		}
+.artifact-list-view {	
+	.artifacts-dropdown {
+		margin-right: 2rem;
+		width: 30rem;
+	}
+	
+	.artifacts-list-actions {
+		margin: -0.7rem 0;
 	}
 }
 

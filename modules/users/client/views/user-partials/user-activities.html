@@ -1,15 +1,20 @@
 <div class="view-content dashboard" id="project-view">
 
     <!-- LEFT PANEL -->
-    <aside class="left-panel">
+    <aside class="left-panel hidden">
         <tmpl-system-menu x-menu-context="'mylist'"></tmpl-system-menu>
-    </aside>
+    </aside> 
 
     <!-- MAIN PANEL -->
     <div class="main-panel">
 
         <div class="view-title-container no-border">
             <h1>Dashboard</h1>
+            
+            <div class="view-title-actions">
+                <a ui-sref="p.edit({projectid:'new'})" class="btn btn-default btn-sm">Add New Project</a>
+            </div>
+            
         </div>
 
         <div class="view-body-container">
