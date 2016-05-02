@@ -1553,9 +1553,12 @@ div.dropdown-menu {
 $left-panel-width: 17rem;
 
 .view-title-container {
+	margin-left: 2.5rem;
+	margin-right: 2.5rem;
 	display: -webkit-flex;
 	display: flex;
-	padding: 2rem 2.5rem;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
 	border-bottom: 1px solid #EEE;
 	min-width: 0;
 
@@ -2064,8 +2067,9 @@ $header-height: 6rem;
 /* FORM CONTROLS
 ------------------------------ */
 .form-footer {
-	padding-top: 1.5rem;
-	border-top: 1px solid #CCC;
+	margin-top: 1rem;
+	padding-top: 2rem;
+	border-top: 1px solid #EEE;
 	
 	.btn {
 		min-width: 8rem;
@@ -2321,6 +2325,31 @@ section.project-info {
 		vertical-align: middle;
 	}
 }
+
+/* SYSTEM ROLES VIEW
+------------------------------ */
+.edit-system-role-view {
+	.checkbox-row {
+		margin-top: 1rem;
+	}
+	
+	.checkbox {
+		margin-right: 2rem;
+		
+		input {
+			margin-right: 0.5rem;
+			top: 2px;
+		}
+	}
+}
+
+.system-role-view {
+	.panel {
+		margin-top: 3rem;
+	}
+}
+
+
 
 /* VALUED COMPONENTS LIST VIEW
 ------------------------------ */
