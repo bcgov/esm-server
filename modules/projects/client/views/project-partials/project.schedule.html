@@ -26,12 +26,11 @@
 							<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#addCommentSessionModal">Add Comment Period</button>
 						</div>
 						<table class="table project-milestones-comments">
-							<!-- REPEAT ROWS WITH MILESTONES / COMMENTS AS CREATED -->
-							<!-- POPULATE WITH DEFAULT MILESTONES REQUIRED FOR PHASE?? -->
-							{{rPhases.milestones}}
 							<tr ng-repeat="row in phase.milestones">
-								<td>{{row}}</td>
-								<td>Estimated Start Date / End Date</td>
+								<td>{{row.name}}</td>
+								<td>{{row.dateStartedEst | date : format : timezone}} / {{row.dateCompletedEst | date : format : timezone}}</td>
+								<td>{{row.status}}</td>
+								<td>-Template Link-</td>
 								<td class="button-col"><button class="btn btn-default btn-sm">BUTTON</button></td>
 								<td class="actions-col">
 									<button class="btn btn-link">
