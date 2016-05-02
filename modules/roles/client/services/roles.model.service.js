@@ -24,12 +24,6 @@ angular.module('roles').factory ('RoleModel', function (ModelBase, _) {
 		getProjectsWithRole: function (rolecode) {
 			return this.get ('/api/projects/with/role/'+rolecode);
 		},
-		addSystemRole: function (role) {
-			return this.post ('/api/system/roles', role);
-		},
-		saveSystemRole: function (role) {
-			return this.put ('/api/system/roles/'+role.code, role);
-		},
 		addProjectRole: function (projectCode, orgCode, rolecode) {
 			return this.add ({code:projectCode+':'+orgCode+':'+rolecode});
 		},
@@ -38,6 +32,18 @@ angular.module('roles').factory ('RoleModel', function (ModelBase, _) {
 		},
 		getSystemRoles: function () {
 			return this.get ('/api/system/roles');
+		},
+		addSystemRole: function (role) {
+			return this.post ('/api/system/roles', role);
+		},
+		saveSystemRole: function (role) {
+			return this.put ('/api/system/roles/'+role.code, role);
+		},
+		getProjectFunctionalRoles: function(projectId) {
+			return this.get('/api/roles/full/project/'+projectId + '?isFunctional=true');
+		},
+		getSystemFunctionalRolesForProjects: function() {
+			return this.get('/api/system/roles?isFunctional=true&isProjectDefault=true');
 		},
 		setPermissions: function(data) {
 			return this.put('/api/permissions', data);

@@ -17,11 +17,14 @@ angular.module('roles')
 					scope: scope,
 					resolve: {
 						projectRoles: function(RoleModel) {
-							return RoleModel.getRolesInProject(scope.project._id);
+							return RoleModel.getProjectFunctionalRoles(scope.project._id);
+						},
+						systemRoles: function(RoleModel) {
+							return RoleModel.getSystemFunctionalRolesForProjects();
 						}
 					},
 					controllerAs: 'self',
-					controller: function ($scope, $filter, $modalInstance, _, projectRoles, RoleModel) {
+					controller: function ($scope, $filter, $modalInstance, _, projectRoles, systemRoles, RoleModel) {
 						var self = this;
 
 						self.objectRoles = {
@@ -37,7 +40,9 @@ angular.module('roles')
 									// what do we do here?
 									// TODO: show error or show success?
 									// we've got the updated target object back...
-									scope.targetObject = res;
+									if (res && _.size(res) === 1) {
+										scope.targetObject = res[0];
+									}
 									$modalInstance.dismiss('ok');
 								});
 						};
@@ -55,6 +60,15 @@ angular.module('roles')
 							}
 						};
 
+						this.getName = function(role) {
+							var r = _.find(projectRoles, function(o) { return o.code === role; });
+							if (r) {
+								return r.name;
+							}
+							r = _.find(systemRoles, function(o) { return (scope.project.code + o.code) === role; });
+							return r ? r.name : role;
+						};
+
 						this.init = function () {
 							self.keys = ['read', 'write', 'submit'];
 
@@ -62,8 +76,17 @@ angular.module('roles')
 								self.objectRoles.permissions[key] = self.objectRoles.objects[0][key];
 							});
 
-							// load up the roles... (should be all roles...)
-							self.roles = projectRoles;
+							// load up the roles... (should be all the functional roles for this project - only the codes!)
+							self.roles = _.map(projectRoles, function(r) {
+								return r.code;
+							});
+							// we may have lost some of the system default project roles due to clearing all assignments.
+							// so load those up so they can be re-added.
+							_.each(systemRoles, function(r) {
+								self.roles.push(scope.project.code + r.code);
+							});
+							// unique list...
+							self.roles = _.unique(self.roles);
 						};
 						this.init ();
 					},

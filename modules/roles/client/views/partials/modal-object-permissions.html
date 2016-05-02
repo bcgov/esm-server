@@ -11,7 +11,7 @@
     </thead>
     <tbody>
     <tr ng-repeat="role in self.roles">
-      <td width="40%">{{ role }}</td>
+      <td width="40%">{{ self.getName(role) }}</td>
       <td width="20%"
           ng-repeat="key in self.keys"
           class="text-center"

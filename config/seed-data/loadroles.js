@@ -66,27 +66,27 @@ module.exports.sysroles2 = function () {
 	var deadRolesArray = [];
 	var goodRolesArray = [];
 	var classArray = [Projects, Users, Activities, Features, Artifacts, Documents, Comments, PublicComments, CommentPeriods];
-  var adminUser;
+	var adminUser;
 	return promise.resolve(Role.find({}))
-		.then(function(roles) {
+		.then(function (roles) {
 			console.log('1 ------------------------------');
-			var a = _.map(roles, function(r) {
-				return new promise(function(fulfill, reject) {
+			var a = _.map(roles, function (r) {
+				return new promise(function (fulfill, reject) {
 					if (!goodRoleCode2(r.code)) {
 						//console.log('not a good code: ' + r.code);
 						fulfill(deadRolesArray.push(r.code));
 					} else {
 						fulfill(goodRolesArray.push(r.code));
 					}
-				});		
+				});
 			});
 			return promise.all(a);
 		})
-		.then(function(data) {
+		.then(function (data) {
 			console.log('2 ------------------------------');
 
-			var a = _.map(classArray, function(clazz) {
-				return new promise(function(fulfill, reject) {
+			var a = _.map(classArray, function (clazz) {
+				return new promise(function (fulfill, reject) {
 					var modified = 0;
 					var clazzname = clazz.modelName;
 					console.log('removing dead roles from ' + clazzname);
@@ -114,16 +114,16 @@ module.exports.sysroles2 = function () {
 			});
 			return promise.all(a);
 		})
-		.then(function(data) {
+		.then(function (data) {
 			console.log('3 ------------------------------');
 			return Role.remove({code: {$in: deadRolesArray}});
 		})
-		.then(function(removeResult) {
+		.then(function (removeResult) {
 			console.log('4 ------------------------------');
 			console.log('Removed: ' + removeResult.result.n);
-			
-			var f = function(role) {
-				return new promise(function(fulfill, reject) {
+
+			var f = function (role) {
+				return new promise(function (fulfill, reject) {
 					Role.find({code: role.code}, function (err, foundrole) {
 						//
 						// if it does not exist, then save the one we made
@@ -140,28 +140,28 @@ module.exports.sysroles2 = function () {
 					});
 				});
 			};
-			
-			var a = _.map(list2, function(role) {
+
+			var a = _.map(list2, function (role) {
 				if (role.code === 'mem') {
 					if (process.env.SEED_MEM === 'true') {
-						return new promise(function(fulfill, reject) {
+						return new promise(function (fulfill, reject) {
 							fulfill(f(role));
 						});
 					} else {
 						return promise.resolve();
 					}
-				}  else {
-					return new promise(function(fulfill, reject) {
+				} else {
+					return new promise(function (fulfill, reject) {
 						fulfill(f(role));
 					});
 				}
 			});
 			return promise.all(a);
 		})
-		.catch(function(err) {
+		.catch(function (err) {
 			console.log('err ------------------------------', err);
 		})
-		.then(function(data) {
+		.then(function (data) {
 			console.log('5 ------------------------------');
 			var rolez = [
 				{code: 'eao:member', name: 'EAO Member', roleCode: 'member', orgCode: 'eao'},
@@ -172,9 +172,9 @@ module.exports.sysroles2 = function () {
 				{code: 'pro:invitee', name: 'Proponent Invitee', roleCode: 'invitee', orgCode: 'pro'}
 
 			];
-			
-			var a = _.map(rolez, function(r) {
-				return new promise(function(fulfill, reject) {
+
+			var a = _.map(rolez, function (r) {
+				return new promise(function (fulfill, reject) {
 					var modified = 0;
 					console.log('updating existing role names');
 					Role.where()
@@ -200,15 +200,15 @@ module.exports.sysroles2 = function () {
 			});
 			return promise.all(a);
 		})
-		.then(function(data) {
+		.then(function (data) {
 			console.log('6 ------------------------------');
-			return Role.find ({projectCode: ''});
+			return Role.find({projectCode: ''});
 		})
-		.then(function(rolls) {
+		.then(function (rolls) {
 			console.log('7 ------------------------------');
-			var a = _.map (rolls, function (roll) {
-				return new promise(function(fulfill, reject) {
-					if(roll.code.indexOf(':') > -1) {
+			var a = _.map(rolls, function (roll) {
+				return new promise(function (fulfill, reject) {
+					if (roll.code.indexOf(':') > -1) {
 						var r = new Role(roll);
 						r.projectCode = roll.code.substring(0, roll.code.indexOf(':'));
 						fulfill(r.save());
@@ -220,34 +220,58 @@ module.exports.sysroles2 = function () {
 
 			return promise.all(a);
 		})
-		.then(function(data) {
+		.then(function (data) {
 			console.log('8 ------------------------------');
 			return Users.findOne({username: 'admin'})
-				.then(function(u) {
+				.then(function (u) {
 					adminUser = u;
 					adminUser.orgCode = 'eao';
 					return adminUser;
 				});
 		})
-		.then(function(user) {
+		.then(function (user) {
 			console.log('9 --------------------------', user.username);
 			return (new ProjectCtrl(user)).findMany({});
 		})
-		.then(function(projex) {
+		.then(function (projex) {
 			console.log('10--------------------------', projex.length);
 
-			var a = _.map(projex, function(proj) {
+			var a = _.map(projex, function (proj) {
 				return new promise(function (fulfill, reject) {
 					(new ProjectCtrl(adminUser)).initDefaultRoles(proj)
-						.then(function(a) {
+						.then(function (a) {
 							fulfill(a);
 						});
-					});
 				});
+			});
 			return promise.all(a);
 		})
-		.then(function(data) {
-			console.log('11---------------------');
+		.then(function (data) {
+			console.log('11-----------------------------');
+			// just clean out the old invitee role if it exists...
+			return new promise(function (fulfill, reject) {
+				Role.findOne({code: 'invitee'}, function (err, model) {
+					if (err) {
+						console.error('12.1:', err);
+						reject();
+					}
+					if (!model) {
+						fulfill(data);
+					} else {
+						model.remove(function (err) {
+							if (err) {
+								console.error('12.2:', err);
+								reject(err);
+							} else {
+								fulfill(data);
+							}
+						});
+					}
+				});
+			});
+		})
+		.then(function (data) {
+			console.log('12---------------------');
 			console.log('done with roles');
 		});
 

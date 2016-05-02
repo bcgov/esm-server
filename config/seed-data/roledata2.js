@@ -80,7 +80,7 @@ module.exports = [{
 	isFunctional: true,
 	isProjectDefault: true
 }, {
-	code: 'eao:project-team',
+	code: ':eao:project-team',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'project-team',
