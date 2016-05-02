@@ -1,7 +1,10 @@
-<h1 class="page-title no-lower-margin">News Feed</h1>
+<div class="news-announcements-view">
 
-<div class="row">
-	<div class="col-sm-12">
+	<div class="view-title-container no-border">
+		<h1>Recent News</h1>
+	</div>
+
+	<div class="view-body-container">
 		<section class="panel panel-default">
 			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-striped table-hover">
 				<tr ng-repeat="o in $data" ui-sref="admin.recentactivity.detail({recentActivityId:o._id})" class="clickable">

@@ -123,13 +123,9 @@ $font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-s
 label.control-label,
 a.control-label,
 .control-label a {
-	font-size: 85%;
-	font-weight: 500;
-	font-style: italic;
 	display: block;
 	padding: 0 0 2px;
 	margin: 0 0 2px;
-	color: #ababab;
 }
 
 a.control-label,
@@ -1595,6 +1591,10 @@ $left-panel-width: 17rem;
 	}
 }
 
+.view-body-container {
+	padding: 2rem 2.5rem;
+}
+
 section {
 	h2 {
 		display: block;
@@ -1831,10 +1831,6 @@ tmpl-header {
 
 .main-panel {
 	flex: 1 1 auto;
-	
-	.view-body-container {
-		padding: 2rem 2.5rem;
-	}
 }
 
 .right-panel {
@@ -2065,6 +2061,8 @@ $header-height: 6rem;
 	margin: 0;
 }
 
+/* FORM CONTROLS
+------------------------------ */
 
 /* TAB CONTROL 
 ------------------------------ */

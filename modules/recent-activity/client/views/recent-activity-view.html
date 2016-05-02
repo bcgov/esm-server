@@ -1,75 +1,74 @@
-<h1 class="page-title no-lower-margin">
-	Add / Edit Recent Activity
-</h1>
-
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="admin.recentactivity.list">Cancel</a>
-		<a class="btn btn-xs btn-link" ui-sref="admin.recentactivity.edit({recentActivityId:recentActivity._id})">Edit</a>
+<div class="news-announcements-edit-view">
+	
+	<div class="view-title-container no-border">
+		<h1>{{ recentActivity.headline }}</h1>
 	</div>
-</div>
+	
+	<div class="view-body-container">
 
-<div class="panel panel-default">
-	<div class="panel-body">
+		<div class="panel panel-default">
+			<div class="panel-body">
 
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="headline" class="control-label">Headline</label>
-					<p class="form-control-static">{{ recentActivity.headline }}</p>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label for="headline" class="control-label">Headline</label>
+							<p class="form-control-static">{{ recentActivity.headline }}</p>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="content" class="control-label">Content</label>
-					<p class="form-control-static">{{ recentActivity.content }}</p>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label for="content" class="control-label">Content</label>
+							<p class="form-control-static">{{ recentActivity.content }}</p>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
 
-		<div class="row">
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="dateAdded" class="control-label">Project</label>
-					<p class="form-control-static">{{ projects[recentActivity.project].name }}</p>
+				<div class="row">
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label for="dateAdded" class="control-label">Project</label>
+							<p class="form-control-static">{{ projects[recentActivity.project].name }}</p>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label for="dateAdded" class="control-label">Date Added</label>
+							<p class="form-control-static">{{ recentActivity.dateAdded }}</p>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label for="type" class="control-label">Type</label>
+							<p class="form-control-static">{{ recentActivity.type }}</p>
+						</div>
+					</div>			
+					<div class="col-sm-1">
+						<div class="form-group">
+							<label for="priority" class="control-label">Priority</label>
+							<p class="form-control-static">{{ recentActivity.priority }}</p>
+						</div>
+					</div>
+					<div class="col-sm-1">
+						<div class="form-group">
+							<label for="priority" class="control-label">Active</label>
+							<p class="form-control-static">{{ recentActivity.active }}</p>
+						</div>
+					</div>
 				</div>
+				
+				<hr>
+				
+				<div class="text-right">
+					<a class="btn btn-default btn-sm" ui-sref="admin.recentactivity.list">Cancel</a>
+					<a class="btn btn-default btn-sm" ui-sref="admin.recentactivity.edit({recentActivityId:recentActivity._id})">Edit</a>
+				</div>
+
 			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="dateAdded" class="control-label">Date Added</label>
-					<p class="form-control-static">{{ recentActivity.dateAdded }}</p>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="type" class="control-label">Type</label>
-					<p class="form-control-static">{{ recentActivity.type }}</p>
-				</div>
-			</div>			
-			<div class="col-sm-1">
-				<div class="form-group">
-					<label for="priority" class="control-label">Priority</label>
-					<p class="form-control-static">{{ recentActivity.priority }}</p>
-				</div>
-			</div>
-			<div class="col-sm-1">
-				<div class="form-group">
-					<label for="priority" class="control-label">Active</label>
-					<p class="form-control-static">{{ recentActivity.active }}</p>
-				</div>
-			</div>
-		</div>
-		
-		<hr>
-		
-		<div class="text-right">
-			<a class="btn btn-default" ui-sref="admin.recentactivity.list">Cancel</a>
-			<a class="btn btn-default" ui-sref="admin.recentactivity.edit({recentActivityId:recentActivity._id})">Edit</a>
 		</div>
 
 	</div>
+
 </div>
-
-
