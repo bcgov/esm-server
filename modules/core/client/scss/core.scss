@@ -1572,6 +1572,10 @@ $left-panel-width: 17rem;
 		flex: 1 1 auto;
     }
 	
+	.placeholder {
+		color: #ccc;
+	}
+	
 	.view-title-actions {
 		-webkit-flex: 0 0 auto;
 		-ms-flex: 0 0 auto;
@@ -2451,6 +2455,17 @@ section.project-info {
 		}
 	}
 }
+
+
+/* PERMISSIONS SETTINGS MODAL VIEW
+------------------------------ */
+.permissions-settings-table {
+	.permissions-col {
+		width: 8rem;
+		text-align: center;
+	}
+}
+
 
 /* MILESTONE/COMMENT SESSION MODAL VIEW
 ------------------------------ */
