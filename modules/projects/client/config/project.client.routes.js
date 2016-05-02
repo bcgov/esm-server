@@ -129,17 +129,40 @@ angular.module('project').config (
 	.state('p.schedule', {
 		url: '/schedule',
 		templateUrl: 'modules/projects/client/views/project-partials/project.schedule.html',
-		resolve: {
-			rMilestones: function (MilestoneModel, project) {
-				return MilestoneModel.userMilestones(project._id);
-			},
-			rPhases: function (PhaseModel, project) {
-				return PhaseModel.phasesForProject(project._id);
-			},
-		},
-		controller: function ($scope, $state, project, ProjectModel, rMilestones, MilestoneModel, PhaseModel, rPhases) {
-			$scope.rMilestones = rMilestones;
-			$scope.rPhases = rPhases;
+		controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope) {
+			var self = this;
+			self.rPhases = undefined;
+
+			self.refresh = function () {
+				// console.log("Refreshing");
+				PhaseModel.phasesForProject(project._id).then(function (res) {
+					// console.log("New set of phase data:",res);
+					$scope.rPhases = res;
+					$scope.$apply();
+				});
+			};
+			$scope.$watch('project', function(newValue) {
+				// console.log("watching project:",newValue);
+				self.project = newValue;
+				self.refresh();
+			});
+
+			// Handle the delete milestone
+			$scope.openModal = function (milestone) {
+				self.removeMilestone = milestone;
+			};
+			$scope.confirmRemoveMilestone = function () {
+				// console.log("Removing Milestone:",self.removeMilestone);
+				MilestoneModel.deleteMilestone(self.removeMilestone).then(
+					function(res) {
+						$rootScope.$broadcast('refreshPhases', res);
+					}
+				);
+			};
+			var unbind = $rootScope.$on('refreshPhases', function() {
+				self.refresh();
+			});
+			$scope.$on('$destroy', unbind);
 		}
 	})
 	;

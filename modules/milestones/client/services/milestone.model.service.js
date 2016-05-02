@@ -55,6 +55,17 @@ angular.module('project').factory ('MilestoneModel', function (ModelBase, _) {
 				})
 				.catch (reject);
 			});
+		},
+		deleteMilestone: function(id) {
+			var self = this;
+			return new Promise (function (resolve, reject) {
+				self.delete ('/api/milestone/'+id)
+				.then (function (res) {
+					self.collection = res;
+					resolve (res);
+				})
+				.catch (reject);
+			});
 		}
 	});
 	return new MilestoneClass ();
