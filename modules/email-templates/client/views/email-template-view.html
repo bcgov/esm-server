@@ -1,50 +1,60 @@
-<h1 class="page-title no-lower-margin">
-	Add / Edit Email Template
-</h1>
+<div class="edit-email-template-view">
 
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="admin.emailtemplate.list">Cancel</a>
-		<a class="btn btn-xs btn-link" ui-sref="admin.emailtemplate.edit({emailtemplateId:emailtemplate._id})">Edit</a>
+	<div class="view-title-container no-border">
+		<h1>Email Templates&nbsp; &rsaquo; &nbsp;{{ emailtemplate.name }}</h1>
 	</div>
-</div>
+	
+	<div class="view-body-container">
 
-<div class="panel panel-default">
-	<div class="panel-body">
-
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="name" class="control-label">Name</label>
-					<p class="form-control-static">{{ emailtemplate.name }}</p>
-				</div>
-			</div>
-		</div>
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="form-group">
-          <label for="subject" class="control-label">Subject</label>
-          <p class="form-control-static">{{ emailtemplate.subject }}</p>
-        </div>
-      </div>
-    </div>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="content" class="control-label">Content</label>
-					<pre class="form-control-static" ng-bind-html="emailtemplate.content"></pre>
-				</div>
+		<div class="row hidden">
+			<div class="col-sm-12 text-right">
+				<a class="btn btn-xs btn-link" ui-sref="admin.emailtemplate.list">Cancel</a>
+				<a class="btn btn-xs btn-link" ui-sref="admin.emailtemplate.edit({emailtemplateId:emailtemplate._id})">Edit</a>
 			</div>
 		</div>
 
-		<hr>
+		<div class="panel panel-default">
+			<div class="panel-body">
 
-		<div class="text-right">
-			<a class="btn btn-default" ui-sref="admin.emailtemplate.list">Cancel</a>
-			<a class="btn btn-default" ui-sref="admin.emailtemplate.edit({emailtemplateId:emailtemplate._id})">Edit</a>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="name" class="control-label">Name</label>
+							<p class="form-control-static">{{ emailtemplate.name }}</p>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label for="subject" class="control-label">Subject</label>
+							<p class="form-control-static">{{ emailtemplate.subject }}</p>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label for="content" class="control-label">Content</label>
+							<pre class="form-control-static" ng-bind-html="emailtemplate.content"></pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-footer no-border clearfix">
+					<div class="pull-right">
+						<a class="btn btn-default" ui-sref="admin.emailtemplate.list">Cancel</a>
+						<a class="btn btn-primary" ui-sref="admin.emailtemplate.edit({emailtemplateId:emailtemplate._id})">Edit</a>
+					</div>
+				</div>
+
+			</div>
 		</div>
-
+	
 	</div>
+
 </div>
 
 

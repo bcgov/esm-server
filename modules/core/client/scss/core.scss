@@ -2063,6 +2063,20 @@ $header-height: 6rem;
 
 /* FORM CONTROLS
 ------------------------------ */
+.form-footer {
+	padding-top: 1.5rem;
+	border-top: 1px solid #CCC;
+	
+	.btn {
+		min-width: 8rem;
+	}
+}
+
+.form-footer.no-border {
+	padding-top: 0;
+	border: none;
+}
+
 
 /* TAB CONTROL 
 ------------------------------ */
@@ -2098,6 +2112,17 @@ $header-height: 6rem;
 		}
 	}
 }
+
+
+/* CONDITIONS LIBRARY VIEW
+------------------------------ */
+.condition-view,
+.edit-condition-view {
+	.pick-list .well {
+		min-height: 17rem;
+	}
+}
+
 
 /* COMMENT PERIOD VIEW
 ------------------------------ */
