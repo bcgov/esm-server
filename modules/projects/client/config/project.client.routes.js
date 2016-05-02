@@ -140,7 +140,6 @@ angular.module('project').config (
 		controller: function ($scope, $state, project, ProjectModel, rMilestones, MilestoneModel, PhaseModel, rPhases) {
 			$scope.rMilestones = rMilestones;
 			$scope.rPhases = rPhases;
-			console.log($scope.rPhases);
 		}
 	})
 	;
