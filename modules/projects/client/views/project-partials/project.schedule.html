@@ -34,9 +34,15 @@
 								<td class="button-col"><button class="btn btn-default btn-sm">BUTTON</button></td>
 								<td class="actions-col">
 									<button class="btn btn-link">
-										<span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#addMilestoneModal"></span>
+										<span class="glyphicon glyphicon-pencil"
+											  data-toggle="modal"
+											  data-target="#addMilestoneModal"
+											  ng-click="selectedMilestone(row._id)"></span>
 									</button>
-									<button class="btn btn-link" data-toggle="modal" data-target="#confirmModal" ng-click="openModal(row._id)">
+									<button class="btn btn-link"
+											data-toggle="modal"
+											data-target="#confirmModal"
+											ng-click="selectedMilestone(row._id)">
 										<span class="glyphicon glyphicon-trash"></span>
 									</button>
 								</td>
@@ -179,7 +185,7 @@
 				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h3 class="modal-title">Action Confirmation</h3>
+				<h3 class="modal-title">Delete Milestone</h3>
 			</div>
 			<div class="modal-body">
 				<p>Are you sure you want to remove this milestone?</p>
