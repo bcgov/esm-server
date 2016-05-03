@@ -2071,6 +2071,12 @@ $header-height: 6rem;
 	}	
 }
 
+.table-hover {
+ 	> tbody > tr:hover {
+		 background-color: #f7f8fa;
+	}
+ }
+
 .pagination {
 	margin: 0;
 }
@@ -2414,7 +2420,48 @@ section.project-info {
 }
 
 
-/* NEWS VIEW
+/* NEWS FEED VIEW
+------------------------------ */
+.news-feed {
+	.panel-body {
+		padding: 0;
+	}
+	
+	.show-all-news-link {
+		display: block;
+		padding: 1rem;
+		font-weight: bold;
+	}
+}
+
+.news-feed-item {
+	padding: 1.5rem;
+	border-bottom: 1px solid #DDD;
+	
+	.news-title {
+		margin-bottom: 0.75rem;
+		font-size: 1.8rem;
+	}
+	
+	.news-date-type {
+		margin-bottom: 0.75rem;
+		font-size: 1.2rem;
+		color: #999;
+	}
+	
+	.news-content {
+		margin: 0;
+	}
+	
+	.show-more {
+		margin-top: 1rem;
+		font-size: 1.2rem;
+		font-weight: bold;
+	}
+}
+
+
+/* NEWS PAGE VIEW
 ------------------------------ */
 .news-admin-view,
 .news-public-view {
@@ -2453,13 +2500,12 @@ section.project-info {
 	
 	.news-title {
 		margin-bottom: 0.75rem;
-		font-size: 1.6rem;
+		font-size: 1.8rem;
 	}
 	
 	.news-content {
 		max-width: 70rem;
 		margin: 0;
-		color: #666;
 	}
 	
 	.show-more {
@@ -2474,10 +2520,6 @@ section.project-info {
 	.news-public-view {
 		th.type-col {
 			width: 25%;
-		}
-		
-		.news-title {
-			font-size: 2rem;
 		}
 	}
 }
@@ -2524,12 +2566,16 @@ section.project-info {
 /* PUBLIC HOMEPAGE VIEW
 ------------------------------ */
 .public-home-view {
+	.col-sm-4 {
+		padding-right: 0;
+	}
+	
 	.view-title-container {
 		padding-bottom: 0;
 		border-bottom: 0;
 	}
 	
-	.recent-activity {
+	.news-feed {
 		.panel-body {
 			height: 498px;
 			overflow-y: scroll;

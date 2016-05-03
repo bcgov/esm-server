@@ -6,7 +6,7 @@
 
 	<div class="view-body-container">
 		<section class="panel panel-default">
-			<table ng-table="tableParams" x-show-filter="toggleFilter" class="news-table table table-condensed table-striped table-hover">
+			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-striped table-hover">
 				
 				<!-- NEWS ROW ITEM TEMPLATE -->
 				<tr ng-repeat="o in $data">
@@ -18,7 +18,7 @@
 								<a href ng-click="toggleProject.desc = !toggleProject.desc">
 									<span ng-show="!toggleProject.desc">Show More ({{ o.content | wordCount }} words)<span class="caret"></span>
 									</span>
-									<span ng-show="toggleProject.desc">Show Less<span class="caret caret-up"></span>
+									<span ng-show="toggleProject.desc">Show Less <span class="caret caret-up"></span>
 									</span>
 								</a>
 							</div>
