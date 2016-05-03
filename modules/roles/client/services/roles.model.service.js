@@ -31,7 +31,7 @@ angular.module('roles').factory ('RoleModel', function (ModelBase, _) {
 			return this.put ('/api/role/'+rolecode, {users:userIdArray});
 		},
 		getSystemRoles: function () {
-			return this.get ('/api/system/roles');
+			return this.get ('/api/system/roles?isProjectDefault=false');
 		},
 		addSystemRole: function (role) {
 			return this.post ('/api/system/roles', role);
