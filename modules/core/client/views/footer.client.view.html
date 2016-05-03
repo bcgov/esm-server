@@ -10,8 +10,9 @@
 				<a target="_new" href="http://www.gov.bc.ca/com/privacy.html" title="BC Government Privacy Information">Privacy</a> |
 				<a target="_new" href="http://www.gov.bc.ca/com/accessibility.html" title="BC Government Accessibility Information">Accessibility</a> |
 				<a ng-show="!footer.authentication.user" ui-sref="authentication.signin">Log In</a>
-				<a ng-show="footer.authentication.user" href="/api/auth/signout" target="_self">Logout</a>
-			</div>
-		</div>
-	</div>
+        <!-- TODO: Siteminder! get the Siteminder logout url and set it here -->
+        <a ng-show="footer.authentication.user" href="/api/auth/signout" target="_self">Logout</a>
+    </div>
+</div>
+</div>
 </div>

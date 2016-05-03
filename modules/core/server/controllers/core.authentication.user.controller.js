@@ -22,11 +22,11 @@ var parseSm = function (req) {
 			userType = userType || req.params.usertype || req.query.smgov_usertype;
 		}
 
-		//if (userGuid) {
+		if (userGuid) {
 			fulfill({userGuid: userGuid, userType: userType});
-		//} else {
-			//  reject(new Error('parseSm: Could not find user information from Siteminder'));
-		//}
+		} else {
+			reject(new Error('parseSm: Could not find user information from Siteminder'));
+		}
 	});
 };
 
@@ -170,8 +170,10 @@ var loginUser = function (req, user) {
 
 exports.signIn = function (req, res) {
 	var redirectPath = '/';
+	var siteMinder;
 	parseSm(req)
 		.then(function (sm) {
+			siteMinder = sm;
 			console.log(chalk.green('parseSm(): ' + sm.userGuid));
 			return findUserByGuid(sm.userGuid);
 		})
@@ -186,6 +188,10 @@ exports.signIn = function (req, res) {
 		.catch(function (err) {
 			console.error(chalk.red('Error: signIn(): ' + err.message));
 			// should we do something differently here?
+			redirectPath = '/smerr';
+			if (siteMinder !== undefined && siteMinder.userType !== undefined ) {
+				redirectPath += '?t=' + siteMinder.userType;
+			}
 			res.redirect(redirectPath);
 		});
 };

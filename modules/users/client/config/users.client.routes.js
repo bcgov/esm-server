@@ -78,12 +78,12 @@ angular.module('users').config(['$stateProvider',
 					roles: ['user', 'admin']
 				}*/
 			})
-			// this state should go away entirely once we are fully behind siteminder and we have administrators...
-			.state('authentication.signin', {
+			// TODO: Siteminder! when Siteminder is in place and we have Admin users, remove this state
+		.state('authentication.signin', {
 				url: '/local/signin',
 				template: '<tmpl-login></tmpl-login>'
 			})
-			// and this should become authentication.signin
+		// TODO: Siteminder! when Siteminder is in place and we have Admin users, make this state = authentication.signin
 			.state('authentication.signin.siteminder', {
 				url: '/signin',
 				controller: function() {
