@@ -52,7 +52,9 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 				var grw = box[0].parentNode;
 				var bw = grw.offsetWidth || 300;
 				var bh = 100;
-
+				if(!Authentication.user) {
+					bh = 75;  // We won't include phase start/end for public.
+				}
 				var phaseWidth = ((bw - 60) / oPhases.length);
 
 				// map the date scale to the page scale.
@@ -193,37 +195,61 @@ function directiveScheduleTimeline(d3, $window, _, moment, Authentication) {
 						.text(oPhaseDetail.name) 		// Phase Name / Description
 					;
 
-					// Draw start date
-					svgCont.append("text")
-						.attr("x", posPhaseStart)
-						.attr("y", 40)
-						.attr("dx", "5px")
-						.attr("dy", "22px")
-						.style("font-size", "9px")
-						.text(oPhaseStart.format("YYYY MMM DD"))
-						.attr('title', 'End Date')
-					;
+					if(Authentication.user) {
+						// We will include phase start/end for non-public.
+						svgCont.append("text")
+							.attr("x", posPhaseStart)
+							.attr("y", 40)
+							.attr("dx", "5px")
+							.attr("dy", "22px")
+							.style("font-size", "9px")
+							.text(oPhaseStart.format("YYYY MMM DD"))
+							.attr('title', 'End Date')
+						;
 
-					// Draw start date
-					svgCont.append("text")
-						.attr("x", posPhaseStart)
-						.attr("y", 40)
-						.attr("dx", "5px")
-						.attr("dy", "37px")
-						.style("font-size", "9px")
-						.text(oPhaseEnd.format("YYYY MMM DD"))
-						.attr('title', 'End Date')
-					;
+						// Draw start date
+						svgCont.append("text")
+							.attr("x", posPhaseStart)
+							.attr("y", 40)
+							.attr("dx", "5px")
+							.attr("dy", "37px")
+							.style("font-size", "9px")
+							.text(oPhaseEnd.format("YYYY MMM DD"))
+							.attr('title', 'End Date')
+						;
+					}
 
-					// Draw start date
-					svgCont.append("text")
-						.attr("x", posPhaseStart)
-						.attr("y", 40)
-						.attr("dx", "5px")
-						.attr("dy", "52px")
-						.style("font-size", "9px")
-						.text(oPhaseDetail.progress + '%')
-						.attr('title', 'Percent Completion')
+					if(Authentication.user) {
+						// Draw start date
+						svgCont.append("text")
+							.attr("x", posPhaseStart)
+							.attr("y", 40)
+							.attr("dx", "5px")
+							.attr("dy", "52px")
+							.style("font-size", "9px")
+							.text(oPhaseDetail.progress + '%')
+							.attr('title', 'Percent Completion')
+						;
+					} else {
+						// Draw start date
+						svgCont.append("text")
+							.attr("x", posPhaseStart)
+							.attr("y", 40)
+							.attr("dx", "5px")
+							.attr("dy", "22px")
+							.style("font-size", "9px")
+							.text(oPhaseDetail.progress + '%')
+							.attr('title', 'Percent Completion')
+						;
+					}
+					// Draw the bottom line
+					svgCont.append("line")
+						.attr("x1", posPhaseStart)
+						.attr("y1", bh-1)
+						.attr("x2", posPhaseEnd)
+						.attr("y2", bh-1)
+						.style('stroke-width', '0.5px')
+						.style('stroke', '#111111')
 					;
 
 				}
