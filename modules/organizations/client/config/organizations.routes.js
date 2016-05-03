@@ -157,7 +157,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 return OrganizationModel.getModel ($stateParams.orgId);
             },
             roles: function (RoleModel) {
-                return RoleModel.getSystemRoles ();
+                return RoleModel.getSystemRoles ({isProjectDefault:false});
             }
         },
     })
