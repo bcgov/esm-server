@@ -806,7 +806,7 @@ var loadDocuments = function(req, res) {
 								} else {
 									// console.log("doc",doc);
 								}
-								var addOrChangeModel = function(model) {
+								var addOrChangeModel = function(model, skipURL) {
 									res.write(",");
 									res.write(JSON.stringify({documentEPICId:parseInt(row.DOCUMENT_ID)}));
 									res.flush();
@@ -822,7 +822,10 @@ var loadDocuments = function(req, res) {
 									// model.projectFolderAuthor       = row.WHO_CREATED;
 									model.documentAuthor     = row.WHO_CREATED;
 									model.documentFileName   = row.FILE_NAME;
-									model.documentFileURL 	 = URLPrefix + row.DOCUMENT_POINTER.replace(/\\/g,"/");
+									// Skip overwriting the URL on subsequent loads
+									if (!skipURL) {
+										model.documentFileURL 	 = URLPrefix + row.DOCUMENT_POINTER.replace(/\\/g,"/");
+									}
 									model.documentFileSize   = row.FILE_SIZE;
 									model.documentFileFormat = row.FILE_TYPE;
 									model.documentAuthor 	 = row.WHO_CREATED;
@@ -861,10 +864,10 @@ var loadDocuments = function(req, res) {
 								};
 								if (doc === null) {
 									// Create new
-									addOrChangeModel(new Model ());
+									addOrChangeModel(new Model (), false);
 								} else {
 									// Update:
-									addOrChangeModel(doc);
+									addOrChangeModel(doc, true);
 								}
 							});
 						}
