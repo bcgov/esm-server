@@ -148,12 +148,12 @@ angular.module('project').config (
 			});
 
 			// Handle the delete milestone
-			$scope.openModal = function (milestone) {
-				self.removeMilestone = milestone;
+			$scope.selectedMilestone = function (milestone) {
+				self.selMilestone = milestone;
 			};
 			$scope.confirmRemoveMilestone = function () {
-				// console.log("Removing Milestone:",self.removeMilestone);
-				MilestoneModel.deleteMilestone(self.removeMilestone).then(
+				// console.log("Removing Milestone:",self.selMilestone);
+				MilestoneModel.deleteMilestone(self.selMilestone).then(
 					function(res) {
 						$rootScope.$broadcast('refreshPhases', res);
 					}
