@@ -1979,19 +1979,6 @@ $header-height: 6rem;
 /* BEGIN: UI COMPONENT STYLING
 ------------------------------------------------------------ */
 
-/* DATE RANGE CONTROL
------------------------------- */
-.date-range-control {
-	.spacer {
-		padding: 0 1rem;
-		line-height: 3.4rem;
-	}
-}
-
-.input-group.date-range {
-	width: 16rem;
-}
-
 /* ACCORDION CONTROL
 ----------------------------- */
 .accordion {
@@ -2025,14 +2012,29 @@ $header-height: 6rem;
 	}
 }
 
-/* SELECT TOPIC MODAL
------------------------------ */
-.select-topic-modal {
-	.select-col {
-		width: 5rem;
-		text-align: center;
+
+/* DATE RANGE CONTROL
+------------------------------ */
+.date-range-control {
+	.spacer {
+		padding: 0 1rem;
+		line-height: 3.4rem;
 	}
 }
+
+.input-group.date-range {
+	width: 16rem;
+}
+
+
+/* DROPDOWN CARET
+------------------------------ */
+.caret-up {
+  -ms-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
 
 /* TABLE COMPONENT
 ------------------------------ */
@@ -2040,15 +2042,14 @@ $header-height: 6rem;
 	table-layout: fixed;
 	margin-bottom: 0;
 	
-	th {
+	> thead > tr > th {
 		font-size: 1.2rem;
-		border-bottom: none !important;
+		border-bottom: none;
 	}
 	
 	th, td {
-		padding: 0.75rem 1rem !important;
+		padding: 0.75rem 1rem;
 		text-align: left;
-		word-break: break-all;
 	}
 	
 	.actions-col {
@@ -2064,9 +2065,16 @@ $header-height: 6rem;
 	}
 }
 
+.table-striped {
+	> tbody > tr:nth-of-type(odd) {
+		background-color: #f7f8fa;
+	}	
+}
+
 .pagination {
 	margin: 0;
 }
+
 
 /* FORM CONTROLS
 ------------------------------ */
@@ -2354,7 +2362,6 @@ section.project-info {
 }
 
 
-
 /* VALUED COMPONENTS LIST VIEW
 ------------------------------ */
 .valued-components-view {
@@ -2373,96 +2380,6 @@ section.project-info {
 	
 	.artifacts-list-actions {
 		margin: -0.7rem 0;
-	}
-}
-
-/* PUBLIC HOMEPAGE VIEW
------------------------------- */
-.public-home-view {
-	.view-title-container {
-		padding-bottom: 0;
-		border-bottom: 0;
-	}
-	
-	.recent-activity {
-		.panel-body {
-			height: 498px;
-			overflow-y: scroll;
-		}
-	}
-	
-	.grid-view {
-		margin-top: 1rem;
-		
-		.panel-heading h2 {
-			margin-top: 0.2rem;
-		}
-		
-		.panel-heading .pull-right {
-			margin-top: -8px;
-			margin-bottom: -6px;
-		}
-	}
-	
-}
-
-/* RECENT ACTIVITY VIEW
------------------------------- */
-.recent-activity-view {
-	padding-top: 1rem;
-	padding-bottom: 1rem;
-	
-	h4 {
-		font-size: 1.8rem;
-		font-weight: bold;
-		margin-top: 0;
-		margin-bottom: 1.25rem;
-	}
-	
-	p {
-		font-size: 1.2rem;
-		
-	}
-	
-	hr {
-		border-color: #CCC;
-	}
-}
-
-/* PROJECT SCHEDULE VIEW
------------------------------- */
-.project-schedule-view {	
-	.table {
-		border-bottom: 1px solid #DDD;
-		table-layout: fixed;
-	}
-	
-	td {
-		padding: 0.5rem 1rem !important;
-		vertical-align: middle !important;
-	}
-	
-	td.button-col {
-		text-align: right;
-	}
-	
-	td.actions-col {
-		width: 9rem;
-		text-align: center;
-		
-		.btn {
-			padding: 0.6rem;
-		}
-	}
-}
-
-
-/* PERMISSIONS SETTINGS MODAL VIEW
------------------------------- */
-.permissions-settings-table {
-	.permissions-col {
-		width: 8rem;
-		text-align: center;
 	}
 }
 
@@ -2495,3 +2412,175 @@ section.project-info {
 		}
 	}
 }
+
+
+/* NEWS VIEW
+------------------------------ */
+.news-admin-view,
+.news-public-view {
+	.table {
+		table-layout: fixed;
+		
+		th {
+			padding: 0.75rem 1.5rem;
+		}
+		
+		td {
+			padding: 1.5rem;
+		}
+	}
+	
+	th.date-col,
+	td.date-col {
+		width: 11rem;
+	}
+	
+	th.type-col,
+	td.type-col {
+		width: 14rem;
+	}
+	
+	th.actions-col,
+	td.actions-col {
+		width: 5rem;
+		padding-left: 0;
+		padding-right: 0;
+		
+		.btn {
+			margin-top: -0.8rem;
+		}
+	}
+	
+	.news-title {
+		margin-bottom: 0.75rem;
+		font-size: 1.6rem;
+	}
+	
+	.news-content {
+		max-width: 70rem;
+		margin: 0;
+		color: #666;
+	}
+	
+	.show-more {
+		margin-top: 1rem;
+		font-size: 1.2rem;
+		font-weight: bold;
+	}
+}
+
+@media (min-width: 769px) {
+	.news-admin-view,
+	.news-public-view {
+		th.type-col {
+			width: 25%;
+		}
+		
+		.news-title {
+			font-size: 2rem;
+		}
+	}
+}
+
+
+/* PERMISSIONS SETTINGS VIEW
+------------------------------ */
+.permissions-settings-table {
+	.permissions-col {
+		width: 8rem;
+		text-align: center;
+	}
+}
+
+
+/* PROJECT SCHEDULE VIEW
+------------------------------ */
+.project-schedule-view {	
+	.table {
+		border-bottom: 1px solid #DDD;
+		table-layout: fixed;
+	}
+	
+	td {
+		padding: 0.5rem 1rem !important;
+		vertical-align: middle !important;
+	}
+	
+	td.button-col {
+		text-align: right;
+	}
+	
+	td.actions-col {
+		width: 9rem;
+		text-align: center;
+		
+		.btn {
+			padding: 0.6rem;
+		}
+	}
+}
+
+
+/* PUBLIC HOMEPAGE VIEW
+------------------------------ */
+.public-home-view {
+	.view-title-container {
+		padding-bottom: 0;
+		border-bottom: 0;
+	}
+	
+	.recent-activity {
+		.panel-body {
+			height: 498px;
+			overflow-y: scroll;
+		}
+	}
+	
+	.grid-view {
+		margin-top: 1rem;
+		
+		.panel-heading h2 {
+			margin-top: 0.2rem;
+		}
+		
+		.panel-heading .pull-right {
+			margin-top: -8px;
+			margin-bottom: -6px;
+		}
+	}
+}
+
+
+/* RECENT ACTIVITY VIEW
+------------------------------ */
+.recent-activity-view {
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+	
+	h4 {
+		font-size: 1.8rem;
+		font-weight: bold;
+		margin-top: 0;
+		margin-bottom: 1.25rem;
+	}
+	
+	p {
+		font-size: 1.2rem;
+		
+	}
+	
+	hr {
+		border-color: #CCC;
+	}
+}
+
+
+/* SELECT TOPIC MODAL VIEW
+----------------------------- */
+.select-topic-modal {
+	.select-col {
+		width: 5rem;
+		text-align: center;
+	}
+}
+
