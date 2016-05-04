@@ -2,7 +2,7 @@
 	
 	<section class="news-feed-item" ng-repeat="activity in recentActs">
 		<div class='news-headline clickable' ui-sref="p.detail({projectid: projectlookup[activity.project].code })">
-			<p class="news-date-type">{{ activity.dateAdded | date }} &nbsp;&bullet;&nbsp; {{ activity.type }}</p>
+			<p class="news-date-type">{{ activity.type }} &nbsp;|&nbsp; {{ activity.dateAdded | date }}</p>
 			<h2 class="news-title">{{ activity.headline }}</h2>
 			<p class="news-content">{{ activity.content | maxWords:20:activity.showmore }}</p>
 			<div class="show-more" ng-if="(activity.content | wordCount) > 20">
