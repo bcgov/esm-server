@@ -1,6 +1,6 @@
 <div class="news-announcements-edit-view">
 
-	<div class="view-title-container no-border">
+	<div class="view-title-container">
 		<h1>
 			<span>Add/Edit Recent News</span><span ng-show="recentActivity.headline">&nbsp; &rsaquo; &nbsp;{{ recentActivity.headline }}</span>
 		</h1>
@@ -91,8 +91,7 @@
 						<select id="priority"
 							name="priority"
 							class="form-control input-sm"
-							ng-model="recentActivity.priority"
-							>
+							ng-model="recentActivity.priority">
 							<option value="0">Critical</option>
 							<option value="1">Top</option>
 							<option value="2">Normal</option>
@@ -114,8 +113,8 @@
 					
 			<div class="form-footer clearfix">
 				<div class="pull-right">
-					<button class="btn btn-default btn-sm" ui-sref="admin.recentactivity.list">Cancel</button>
-					<button class="btn btn-primary btn-sm" type="submit">Save</button>
+					<button class="btn btn-default" ui-sref="admin.recentactivity.list">Cancel</button>
+					<button class="btn btn-primary" type="submit">Save</button>
 				</div>
 			</div>
 

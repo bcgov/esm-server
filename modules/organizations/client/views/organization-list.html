@@ -16,14 +16,14 @@
 		</div>
 
 		<section class="panel panel-default">
-			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-striped table-hover">
+			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-striped table-hover">
 				<tr ng-repeat="o in $data" ui-sref="admin.organization.detail({orgId:o._id})" class="clickable">
 					<td data-title="'Name'"  filter="{'name':'text'}"   sortable="'name'">{{o.name}}</td>
 					<td data-title="'DBA'"  filter="{'company':'text'}"   sortable="'company'">{{o.company}}</td>					
 					<td data-title="'Location'" filter="{'registeredIn':'text'}"    sortable="'registeredIn'" >{{o.registeredIn}}</td>
-					<td class="actions-col single-action" header-class="'actions-col single-action'">
-						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="admin.organization.edit({orgId:o._id})">
-							<i class="glyphicon glyphicon-pencil"></i>
+					<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+						<a class="btn btn-link btn-sm" title="Edit Organization" ng-click="$event.stopPropagation()" ui-sref="admin.organization.edit({orgId:o._id})">
+							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
 					</td>
 				</tr>

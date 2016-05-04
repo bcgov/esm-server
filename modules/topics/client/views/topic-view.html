@@ -1,16 +1,18 @@
-<h1 class="page-title no-lower-margin">
-	View Valued Components
-</h1>
+<div class="valued-component-view">
 
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="admin.topic.list">Cancel</a>
-		<a class="btn btn-xs btn-link" ui-sref="admin.topic.edit({topicId:topic._id})">Edit</a>
+	<div class="view-title-container">
+		<h1>Valued Components<span ng-show="topic.name">&nbsp; &rsaquo; &nbsp;{{ topic.name }}</span></h1>
 	</div>
-</div>
 
-<div class="panel panel-default">
-	<div class="panel-body">
+	<div class="view-body-container">
+		
+		<div class="row hidden">
+			<div class="col-sm-12 text-right">
+				<a class="btn btn-xs btn-link" ui-sref="admin.topic.list">Cancel</a>
+				<a class="btn btn-xs btn-link" ui-sref="admin.topic.edit({topicId:topic._id})">Edit</a>
+			</div>
+		</div>
+
 		<div class="row">
 			<div class="col-sm-9">
 				<div class="form-group">
@@ -25,7 +27,6 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
@@ -34,7 +35,6 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group">
@@ -51,12 +51,11 @@
 			</div>
 		</div>
 
-		<hr>
-
-		<div class="text-right">
-			<a class="btn btn-default" ui-sref="admin.topic.list">Cancel</a>
-			<a class="btn btn-default" ui-sref="admin.topic.edit({topicId:topic._id})">Edit</a>
+		<div class="form-footer clearfix">
+			<a class="back-btn btn btn-link pull-left" ui-sref="admin.topic.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Valued Components Library</a>
+			<a class="btn btn-default pull-right" ui-sref="admin.topic.edit({topicId:topic._id})">Edit</a>
 		</div>
+		
+	</div><!-- / VIEW BODY CONTAINER -->
 
-	</div>
 </div>

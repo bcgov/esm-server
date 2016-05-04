@@ -697,12 +697,6 @@ h3.panel-title {
 	margin-top: 1px;
 }
 
-.form-group .form-control-static {
-	box-shadow: inset 0 0 50px rgba(0,0,0,0.1);
-	border-radius: 3px;
-	padding-left: 5px;
-}
-
 .panel label + p,
 .panel label + ul {
 	margin-bottom: 15px;
@@ -1553,6 +1547,16 @@ div.dropdown-menu {
     }
 }
 
+.back-btn {
+	font-weight: bold;
+	
+	.glyphicon {
+		margin-left: -1rem;
+		margin-right: 0.5rem;
+		font-size: 1.5rem;
+	}
+}
+
 
 /* PAGE LAYOUT
 ------------------------------ */
@@ -2128,28 +2132,73 @@ form {
 	border: none;
 }
 
+.control-label {
+	font-weight: normal;
+}
+
 textarea {
 	resize: vertical;
+}
+
+.form-control-static {
+	padding-left: 0.8rem;
+	background: #EEE;
+	border: 1px solid #DDD;
+	border-radius: 4px;
+}
+
+.checkbox-row {
+	margin-top: 1rem;
+}
+
+.checkbox {
+	margin-right: 2rem;
+	
+	input {
+		margin-right: 0.5rem;
+		top: 2px;
+	}
 }
 
 
 /* TAB CONTROL 
 ------------------------------ */
 .nav-tabs {
-	> li > a {
-		font-weight: bold;
-		color: #999;
+	font-size: 1.6rem;
+	border-bottom: 4px solid #DDD;
+	
+	> li {
+		margin-bottom: -4px;
 	}
-}
-
-.nav-tabs {
+	
+	> li > a {
+		color: #999;
+		border-width: 0;
+		border-bottom: 4px solid #DDD;
+	}
+	
+	> li > a:hover {
+		background: transparent;
+	}
+	
 	> li.active > a,
 	> li.active > a:hover,
 	> li.active > a:focus {
+		font-weight: bold;
 		color: #003366;
+		border-width: 0;
+		border-bottom: 4px solid #003366;
+		background: transparent;
 	}
 }
 
+.tab-pane {
+	padding-top: 3rem;
+}
+
+
+/* UTILITIES
+------------------------------ */
 hr {
 	border-top: 1px solid #DDD;
 }
@@ -2387,24 +2436,9 @@ section.project-info {
 
 /* SYSTEM ROLES VIEW
 ------------------------------ */
-.edit-system-role-view {
-	.checkbox-row {
-		margin-top: 1rem;
-	}
-	
-	.checkbox {
-		margin-right: 2rem;
-		
-		input {
-			margin-right: 0.5rem;
-			top: 2px;
-		}
-	}
-}
-
 .system-role-view {
 	.panel {
-		margin-top: 3rem;
+		margin-top: 2rem;
 	}
 }
 
@@ -2522,12 +2556,10 @@ section.project-info {
 	
 	th.actions-col,
 	td.actions-col {
-		width: 5rem;
-		padding-left: 0;
-		padding-right: 0;
+		padding: 8px;
 		
 		.btn {
-			margin-top: -0.8rem;
+			margin-top: 0.6rem;
 		}
 	}
 	
