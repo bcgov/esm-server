@@ -13,37 +13,24 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 	// -------------------------------------------------------------------------
 	.state('p.roles', {
 		url: '/roles',
-		templateUrl: 'modules/roles/client/views/role.html',
-		resolve: {
-			roles: function (RoleModel, project) {
-				return RoleModel.getUsersInRolesInProject (project._id);
-			}
-		},
-		controller: function($scope, roles, project, _, RoleModel) {
-			$scope.roles = roles;
-			$scope.project = project;
-			// callback when assigning users to roles
-			// called by to the modal select users directive in utils
-			// provided as an attribute on the form.
-			$scope.assignUsersToRole = function(users, parent) {
-				var userIds = _.map(users, function(user) {
-					return user._id;
-				});
-				if (userIds) {
-					RoleModel.setRoleUsers(parent.reference, userIds).then( function(data) {
-						RoleModel.getUsersForRole(parent.reference).then( function(data) {
-							$scope.roles[data.code] = data.users;
-							$scope.$apply();
-						});
-					});
-				}
-			};
-		},
+		abstract: true,
+		template: '<ui-view></ui-view>',
 		onEnter: function (MenuControl, project) {
 			MenuControl.routeAccess (project.code, 'any','edit-roles');
 		}
 	})
-
+	.state('p.roles.list', {
+		url: '/list',
+		templateUrl: 'modules/roles/client/views/project-role-list.html',
+		resolve: {
+			projectRoles: function ($stateParams, RoleModel, project) {
+				return RoleModel.getProjectRoles (project._id);
+			}
+		},
+		controller: function ($scope, NgTableParams, projectRoles) {
+			$scope.tableParams = new NgTableParams ({count:10}, {dataset: projectRoles});
+		}
+	})
 	// -------------------------------------------------------------------------
 	//
 	// this is the abstract, top level view for system roles.
@@ -74,7 +61,129 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: systemRoles});
 		}
 	})
-	// -------------------------------------------------------------------------
+		.state('p.roles.create', {
+			//data: {roles: ['admin','edit-sys-roles']},
+			url: '/create',
+			templateUrl: 'modules/roles/client/views/project-role-edit.html',
+			resolve: {
+				role: function (RoleModel) {
+					return RoleModel.getNew ();
+				}
+			},
+			controller: function ($scope, $state, project, role, RoleModel, $filter) {
+				$scope.role = role;
+
+				$scope.isEdit = false;
+				$scope.role.isSystem = false;
+				$scope.role.isProjectDefault = false;
+				$scope.role.isFunctional = true;
+				$scope.role.name = undefined;
+				$scope.role.code = undefined;
+				$scope.role.name = undefined;
+				$scope.role.orgCode = project.orgCode;
+				$scope.role.projectCode = project.code;
+				
+				$scope.calculateCode = function() {
+					$scope.role.code = [$scope.role.projectCode,$scope.role.orgCode,$scope.role.roleCode ].join(':');
+				};
+
+				$scope.save = function (isValid) {
+					if (!isValid) {
+						$scope.$broadcast('show-errors-check-validity', 'roleForm');
+						return false;
+					}
+
+					$scope.role.projects.push(project._id.toString());
+
+					RoleModel.createProjectRole ($scope.role)
+						.then (function (model) {
+					 		return $state.go('p.roles.list');
+						})
+						.catch (function (err) {
+							console.error (err);
+							//alert (err);
+						});
+
+				};
+				$scope.calculateCode();
+			}
+		})
+		// -------------------------------------------------------------------------
+		//
+		// this is the edit state
+		//
+		// -------------------------------------------------------------------------
+		.state('p.roles.edit', {
+			//data: {roles: ['admin','edit-sys-roles']},
+			url: '/:roleCode/edit',
+			templateUrl: 'modules/roles/client/views/project-role-edit.html',
+			resolve: {
+				role: function ($stateParams, RoleModel) {
+					return RoleModel.getModel ($stateParams.roleCode);
+				},
+				roleUsers: function($stateParams, RoleModel) {
+					return RoleModel.getUsersForRole ($stateParams.roleCode);
+				}
+			},
+			controller: function ($scope, $state, NgTableParams, project, role, roleUsers, RoleModel) {
+				$scope.role = role;
+				$scope.users = roleUsers.users;
+				$scope.tableParams = new NgTableParams ({count:10}, {dataset: roleUsers.users});
+
+				$scope.isEdit = true;
+
+				$scope.calculateCode = function() {
+					$scope.role.code = [$scope.role.projectCode,$scope.role.orgCode,$scope.role.roleCode ].join(':');
+				};
+
+				$scope.assignUsersToRole = function(users, parent) {
+					$scope.tableParams.data = users;
+					$scope.tableParams.reload();
+				};
+
+				$scope.save = function (isValid) {
+					if (!isValid) {
+						$scope.$broadcast('show-errors-check-validity', 'roleForm');
+						return false;
+					}
+
+					// add the users table data to the role
+					// save the role
+					$scope.role.users = $scope.tableParams.data;
+					RoleModel.saveProjectRole ($scope.role)
+						.then (function (model) {
+							$state.go('p.roles.list');
+						})
+						.catch (function (err) {
+							console.error (err);
+							//alert (err);
+						});
+				};
+			}
+		})
+		// -------------------------------------------------------------------------
+		//
+		// this is the 'view' mode of a roles. here we are just simply
+		// looking at the information for this specific object
+		//
+		// -------------------------------------------------------------------------
+		.state('p.roles.detail', {
+			url: '/:roleCode',
+			templateUrl: 'modules/roles/client/views/project-role-view.html',
+			resolve: {
+				role: function ($stateParams, RoleModel) {
+					return RoleModel.getModel ($stateParams.roleCode);
+				},
+				roleUsers: function($stateParams, RoleModel) {
+					return RoleModel.getUsersForRole ($stateParams.roleCode);
+				}
+			},
+			controller: function ($scope, NgTableParams, role, roleUsers) {
+				$scope.role = role;
+				$scope.users = roleUsers.users;
+				$scope.tableParams = new NgTableParams ({count:10}, {dataset: roleUsers.users});
+			}
+		})	// -------------------------------------------------------------------------
 	//
 	// this is the add, or create state. it is defined before the others so that
 	// it does not conflict

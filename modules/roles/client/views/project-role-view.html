@@ -1,0 +1,108 @@
+<div class="project-role-view">
+
+	<div class="view-title-container">
+		<h1>Project Roles&nbsp; &rsaquo; &nbsp;{{ role.name }}</h1>
+	</div>
+
+	<div class="view-body-container">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="name" class="control-label">Role Name</label>
+          <p class="form-control-static">{{ role.name }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="code" class="control-label">Code</label>
+					<p class="form-control-static">{{ role.code }}</p>
+				</div>
+			</div>
+
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="projectCode" class="control-label">Project Code</label>
+					<p class="form-control-static">{{ role.projectCode }}</p>
+				</div>
+			</div>
+
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="orgCode" class="control-label">Organization Code</label>
+					<p class="form-control-static">{{ role.orgCode }}</p>
+				</div>
+			</div>
+
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="roleCode" class="control-label">Role Code</label>
+					<p class="form-control-static">{{ role.roleCode }}</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="isSystem" class="control-label">Is System</label>
+					<p class="form-control-static">{{ role.isSystem }}</p>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="isFunctional" class="control-label">Is Functional</label>
+					<p class="form-control-static">{{ role.isFunctional }}</p>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="isProjectDefault" class="control-label">Is Project Default</label>
+					<p class="form-control-static">{{ role.isProjectDefault }}</p>
+				</div>
+			</div>
+		</div>
+
+		<div>
+
+      <div class="button-bar clearfix">
+        <!--<a class="btn btn-default btn-sm pull-left" ui-sref="p.roles.create()">
+          <span class="glyphicon glyphicon-plus"></span>
+          <span>Add Users</span>
+        </a> -->
+        <div class="pull-right">
+          <show-filter x-toggle-filter="toggleFilter"></show-filter>
+        </div>
+      </div>
+      <section class="panel panel-default">
+        <table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-striped table-hover">
+          <tr ng-repeat="o in $data">
+            <td data-title="'Name'"  filter="{'name':'text'}" sortable="'name'">{{o.displayName}}</td>
+            <td data-title="'Organization'"  filter="{'orgCode':'text'}" sortable="'orgCode'">{{o.orgCode}}</td>
+            <td data-title="'Email'"  filter="{'email':'text'}" sortable="'email'">{{o.email}}</td>
+            <td class="actions-col single-action" header-class="'actions-col single-action'">
+            </td>
+          </tr>
+          <tr ng-if="!$data || $data.length === 0">
+            <td colspan="4">
+              No records found.
+            </td>
+          </tr>
+        </table>
+      </section>
+		</div>
+
+		<div class="form-footer no-border clearfix">
+				<a class="btn btn-default btn-sm pull-left" ui-sref="p.roles.list">&lsaquo;&nbsp; Back to Project Roles</a>
+				<a class="btn btn-default btn-sm pull-right" ui-sref="p.roles.edit({roleCode:role.code})">Edit</a>
+		</div>
+
+	</div>
+</div>
+
+</div>
+
+

@@ -9,6 +9,8 @@ var controller = require ('../controllers/role.controller');
 var path       = require('path');
 var helpers    = require (path.resolve('./modules/core/server/controllers/core.helpers.controller'));
 var Invitation = require (path.resolve('./modules/invitations/server/controllers/invitation.controller'));
+var Project = require (path.resolve('./modules/projects/server/controllers/project.controller'));
+var _ = require('lodash');
 
 module.exports = function (app) {
 	app.route ('/api/role').all (policy.isAllowed)
@@ -18,6 +20,19 @@ module.exports = function (app) {
 				role.set (req.body);
 				return role.save ();
 			})
+				.then(function(role) {
+					if (_.isEmpty(role.projectCode)) {
+						return role;
+					} else {
+						return new Promise(function(fulfill, reject) {
+							(new Project(req.user)).findOne({code:role.projectCode})
+								.then(function(p) {
+									var data = {method: 'add', type: 'projects', objects: p, permissions:{read:[role.code]}};
+									fulfill(controller.objectRoles(data));
+								});
+						});
+					}
+				})
 			.then (helpers.success(res), helpers.failure(res));
 		});
 	app.route ('/api/new/role').all (policy.isAllowed)
@@ -34,7 +49,7 @@ module.exports = function (app) {
           return (new Invitation(req.user)).handleInvitations(req, role, req.body.users);
         })
 			.then (function (data) {
-				data.role.set ({users: data.users});
+				data.role.set (req.body);
 				return data.role.save ();
 			})
 			.then (helpers.success(res), helpers.failure(res));

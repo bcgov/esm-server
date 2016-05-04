@@ -12,6 +12,12 @@ angular.module('roles').factory ('RoleModel', function (ModelBase, _) {
 	//
 	var Class = ModelBase.extend ({
 		urlName : 'role',
+		createProjectRole : function(role) {
+			return this.post('/api/role', role);
+		},
+		saveProjectRole : function(role) {
+			return this.put('/api/role/' + role.code, role);
+		},
 		getUsersForRole : function (rolecode) {
 			return this.get ('/api/users/in/role/'+rolecode);
 		},
@@ -38,6 +44,9 @@ angular.module('roles').factory ('RoleModel', function (ModelBase, _) {
 		},
 		saveSystemRole: function (role) {
 			return this.put ('/api/system/roles/'+role.code, role);
+		},
+		getProjectRoles: function(projectId) {
+			return this.get('/api/roles/full/project/'+projectId);
 		},
 		getProjectFunctionalRoles: function(projectId) {
 			return this.get('/api/roles/full/project/'+projectId + '?isFunctional=true');

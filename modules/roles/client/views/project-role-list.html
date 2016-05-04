@@ -1,0 +1,38 @@
+<div class="project-roles-view"></div>
+
+	<div class="view-title-container no-border">
+		<h1>Project Roles</h1>
+	</div>
+
+	<div class="view-body-container">
+		<div class="button-bar clearfix">
+			<a class="btn btn-default btn-sm pull-left" ui-sref="p.roles.create()">
+				<span class="glyphicon glyphicon-plus"></span>
+				<span>Add Project Role</span>
+			</a>
+			<div class="pull-right">
+				<show-filter x-toggle-filter="toggleFilter"></show-filter>
+			</div>
+		</div>
+		<section class="panel panel-default">
+			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-striped table-hover">
+				<tr ng-repeat="o in $data" ui-sref="p.roles.detail({roleCode:o.code})" class="clickable">
+          <td data-title="'Name'"  filter="{'name':'text'}"   sortable="'name'">{{o.name}}</td>
+          <td data-title="'User Count'"  sortable="'o.users.length'">{{o.users.length}}</td>
+          <td data-title="'Functional'"  filter="{'isFunctional':'text'}"   sortable="'isFunctional'">{{o.isFunctional}}</td>
+					<td class="actions-col single-action" header-class="'actions-col single-action'">
+						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.roles.edit({roleCode:o.code})">
+							<i class="glyphicon glyphicon-pencil"></i>
+						</a>
+					</td>
+				</tr>
+				<tr ng-if="!$data || $data.length === 0">
+					<td colspan="4">
+						No records found.
+					</td>
+				</tr>
+			</table>
+		</section>
+	</div>
+
+</div>
