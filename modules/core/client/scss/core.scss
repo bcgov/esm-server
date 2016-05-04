@@ -1559,7 +1559,7 @@ $left-panel-width: 17rem;
 	display: flex;
 	padding-top: 2rem;
 	padding-bottom: 2rem;
-	border-bottom: 1px solid #EEE;
+	border-bottom: 1px solid #DDD;
 	min-width: 0;
 
     h1 {
@@ -2053,15 +2053,27 @@ $header-height: 6rem;
 	}
 	
 	.actions-col {
-		text-align: center;
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+		text-align: right;
 		
-		a {
-			color: #000;
+		.btn {
+			padding-left: 8px;
+			padding-right: 8px;
+			transition: all linear 0.2s;
+		}
+		
+		.btn:hover {
+			background: #FFF;
 		}
 	}
 	
-	.single-action {
+	.action-x1 {
 		width: 5rem;
+	}
+	
+	.action-x2 {
+		width: 10rem;
 	}
 }
 
@@ -2073,7 +2085,7 @@ $header-height: 6rem;
 
 .table-hover {
  	> tbody > tr:hover {
-		 background-color: #f7f8fa;
+		 background-color: #EEE;
 	}
  }
 
@@ -2084,10 +2096,18 @@ $header-height: 6rem;
 
 /* FORM CONTROLS
 ------------------------------ */
+form {
+	section {
+		margin-bottom: 2rem;
+		padding-bottom: 1rem;
+		border-bottom: 1px solid #DDD;
+	}
+}
+
 .form-footer {
 	margin-top: 1rem;
 	padding-top: 2rem;
-	border-top: 1px solid #EEE;
+	border-top: 1px solid #DDD;
 	
 	.btn {
 		min-width: 8rem;
@@ -2095,8 +2115,13 @@ $header-height: 6rem;
 }
 
 .form-footer.no-border {
+	margin-top: 0;
 	padding-top: 0;
 	border: none;
+}
+
+textarea {
+	resize: vertical;
 }
 
 
@@ -2115,6 +2140,10 @@ $header-height: 6rem;
 	> li.active > a:focus {
 		color: #003366;
 	}
+}
+
+hr {
+	border-top: 1px solid #DDD;
 }
 
 
@@ -2140,8 +2169,12 @@ $header-height: 6rem;
 ------------------------------ */
 .condition-view,
 .edit-condition-view {
-	.pick-list .well {
+	.pick-list {
+		.form-group,
+		.well {
+		margin-bottom: 0;
 		min-height: 17rem;
+		}
 	}
 }
 
@@ -2367,14 +2400,6 @@ section.project-info {
 	}
 }
 
-
-/* VALUED COMPONENTS LIST VIEW
------------------------------- */
-.valued-components-view {
-	.actions-col {
-		width: 6rem;
-	}
-}
 
 /* ARTIFACT LIST VIEW
 ------------------------------ */

@@ -1,7 +1,7 @@
 <div class="edit-condition-view">
 
-	<div class="view-title-container no-border">
-		<h1>Add / Edit Condition</h1>
+	<div class="view-title-container">
+		<h1>Add/Edit Condition</h1>
 	</div>
 
 	<div class="view-body-container">
@@ -13,80 +13,75 @@
 					<button class="btn btn-xs btn-link" href type="submit">Save</button>
 				</div>
 			</div>
-
-			<div class="panel panel-default">
-				<div class="panel-body">
 					
-					<div class="row">
-						<div class="col-sm-4">
-							<div class="form-group" x-show-errors>
-								<label for="name" class="control-label">Name</label>
-								<input id="name" name="name" type="text" class="form-control input-sm" ng-model="condition.name" required>
-									<div ng-messages="conditionForm.name.$error" role="alert">
-										<p class="help-block error-text" ng-message="required">Name is required.</p>
-									</div>
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="form-group" x-show-errors>
+						<label for="name" class="control-label">Name</label>
+						<input id="name" name="name" type="text" class="form-control input-sm" ng-model="condition.name" required>
+							<div ng-messages="conditionForm.name.$error" role="alert">
+								<p class="help-block error-text" ng-message="required">Name is required.</p>
 							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="form-group">
-								<label for="subject" class="control-label">Subject</label>
-								<input id="subject" type="text" class="form-control input-sm" ng-model="condition.subject">
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="form-group">
-								<label for="sector" class="control-label">Sector</label>
-								<select id="sector" ng-model='condition.sector' class="form-control input-sm" ng-options="sector.id as sector.title for sector in sectors"></select>
-							</div>
-						</div>
 					</div>
-					
-					<div class="row">
-						<div class="col-sm-12">
-							<div class="form-group">
-								<label for="shortDesc" class="control-label">Condition</label>
-								<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="condition.description" rows=6></textarea>
-							</div>
-						</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label for="subject" class="control-label">Subject</label>
+						<input id="subject" type="text" class="form-control input-sm" ng-model="condition.subject">
 					</div>
-					
-					<div class="row">
-						<div class="col-sm-12">
-							<div class="form-group">
-								<label for="shortDesc" class="control-label">Report Requirements</label>
-								<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="condition.reportRequirements" rows=6></textarea>
-							</div>
-						</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label for="sector" class="control-label">Sector</label>
+						<select id="sector" ng-model='condition.sector' class="form-control input-sm" ng-options="sector.id as sector.title for sector in sectors"></select>
 					</div>
-					
-					<div class="row pick-list">
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label for="pillar" class="control-label">Pillars</label>
-								<div class="well well-sm">
-									<select-array x-source-array="pillars" x-selected-array="condition.pillars" x-key-string="id" x-value-string="title"></select-array>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label for="stage" class="control-label">Applicable Stages</label>
-								<div class="well well-sm">
-									<select-array x-source-array="stages" x-selected-array="condition.stages" x-key-string="id" x-value-string="title"></select-array>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div class="form-footer no-border clearfix">
-						<div class="pull-right">
-							<button class="btn btn-default" ui-sref="admin.condition.list">Cancel</button>
-							<button class="btn btn-primary" type="submit">Save</button>
-						</div>
-					</div>
-
 				</div>
 			</div>
+			
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<label for="shortDesc" class="control-label">Condition</label>
+						<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="condition.description" rows=6></textarea>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<label for="shortDesc" class="control-label">Report Requirements</label>
+						<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="condition.reportRequirements" rows=6></textarea>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row pick-list">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="pillar" class="control-label">Pillars</label>
+						<div class="well well-sm">
+							<select-array x-source-array="pillars" x-selected-array="condition.pillars" x-key-string="id" x-value-string="title"></select-array>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="stage" class="control-label">Applicable Stages</label>
+						<div class="well well-sm">
+							<select-array x-source-array="stages" x-selected-array="condition.stages" x-key-string="id" x-value-string="title"></select-array>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-footer no-border clearfix">
+				<div class="pull-right">
+					<button class="btn btn-default" ui-sref="admin.condition.list">Cancel</button>
+					<button class="btn btn-default" type="submit">Save</button>
+				</div>
+			</div>
+
 		</form>
 	</div><!-- / VIEW BODY CONTAINER -->
 	

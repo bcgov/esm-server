@@ -1,4 +1,5 @@
 <div class="valued-components-view">
+	
 	<div class="view-title-container">
 		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Valued Components</h1>
 	</div>
@@ -13,7 +14,7 @@
 		</div>
 		
 		<section class="panel panel-default">
-			<table ng-table="tableParams" show-filter="true" class="table table-condensed table-hover table-striped">
+			<table ng-table="tableParams" show-filter="true" class="table table-hover table-striped">
 				<tr ng-repeat="o in $data" ui-sref="p.vc.detail({vcId:o._id})">
 					<td data-title="'Name'"   title:'Title'   filter="{'name':'text'}"       sortable="'name'">{{o.name}}</td>
 					<td data-title="'Title'"  title:'Title2'  filter="{'title': 'text'}"     sortable="'title'">{{o.title}}</td>
