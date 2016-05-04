@@ -18,13 +18,10 @@ angular.module('roles')
 					resolve: {
 						projectRoles: function(RoleModel) {
 							return RoleModel.getProjectFunctionalRoles(scope.project._id);
-						},
-						systemRoles: function(RoleModel) {
-							return RoleModel.getSystemFunctionalRolesForProjects();
 						}
 					},
 					controllerAs: 'self',
-					controller: function ($scope, $filter, $modalInstance, _, projectRoles, systemRoles, RoleModel) {
+					controller: function ($scope, $filter, $modalInstance, _, projectRoles, RoleModel) {
 						var self = this;
 
 						self.objectRoles = {
@@ -65,8 +62,6 @@ angular.module('roles')
 							if (r) {
 								return r.name;
 							}
-							r = _.find(systemRoles, function(o) { return (scope.project.code + o.code) === role; });
-							return r ? r.name : role;
 						};
 
 						this.init = function () {
@@ -80,13 +75,6 @@ angular.module('roles')
 							self.roles = _.map(projectRoles, function(r) {
 								return r.code;
 							});
-							// we may have lost some of the system default project roles due to clearing all assignments.
-							// so load those up so they can be re-added.
-							_.each(systemRoles, function(r) {
-								self.roles.push(scope.project.code + r.code);
-							});
-							// unique list...
-							self.roles = _.unique(self.roles);
 						};
 						this.init ();
 					},

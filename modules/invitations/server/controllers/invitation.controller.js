@@ -134,10 +134,16 @@ module.exports = DBModel.extend({
     return self.findMany(q);
   },
 
-  handleInvitations: function (req, role, userIds) {
+  handleInvitations: function (req, role, users) {
     var self = this;
     return new Promise(function (fulfill, reject) {
       var allUserIds, assignedUserIds, addedUserIds, droppedUserIds, project, allUsers, existingInvitations;
+			
+			var userIds = _.map(users, function (u) {
+				return u._id.toString();
+			});
+			
+			var inviteeRoles = [];
 
       if (role.isSystem) {
         // system role, we don't worry about invitations then.
@@ -157,7 +163,16 @@ module.exports = DBModel.extend({
           })
           .then(function (result) {
             project = result;
-            return getAllInvitations(project, allUsers);
+						// figure out the invitation that this current user will assign people to
+						// which invitee role????
+						if (req.user.orgCode && req.user.orgCode === 'eao') {
+							inviteeRoles.push(project.eaoInviteeRole); // make this inviteeRoles[0] - the one we want to assign to
+							inviteeRoles.push(project.proponentInviteeRole);
+						} else {
+							inviteeRoles.push(project.proponentInviteeRole); // make this inviteeRoles[0] - the one we want to assign to
+							inviteeRoles.push(project.eaoInviteeRole); //
+						}
+						return getAllInvitations(project, allUsers);
           })
           .then(function (result) {
             existingInvitations = result;
@@ -190,18 +205,23 @@ module.exports = DBModel.extend({
             // if a dropped user has no other roles (or only the invitee role), then we need to drop remove their invite.
             var deleteInvitationsForUsers = [];
             _.each(droppedUsers, function (u) {
-              if ((role.code === project.inviteeRole) || ((_.size(u.roles) === 2 && _.includes(u.roles, project.inviteeRole)) || (_.size(u.roles) === 1))) {
-                deleteInvitationsForUsers.push(u);
-              }
+							var usersProjectRoles = _.filter(u.roles, function(r) {
+								return r.projectCode === project.code;
+							});
+							var usersNonInviteeRoles = _.without(usersProjectRoles, inviteeRoles[0],inviteeRoles[1]);
+							if (_.size(usersNonInviteeRoles) <=1 ) {
+								// only have this role, or invitation roles, so delete the invitations and this role
+								deleteInvitationsForUsers.push(u);
+							}
             });
 
             self.createProjectInvitations(project, createInvitationsForUsers)
               .then(function (data) {
-                if (role.code !== project.inviteeRole) {
+                if (!_.includes(inviteeRoles, role.code)) {
                   return Roles.userRoles({
                     method: 'add',
                     users: createInvitationsForUsers,
-                    roles: [project.inviteeRole]
+                    roles: [inviteeRoles[0]]
                   });
                 } else {
                   // we will be added to the invitee role by the role controller...
@@ -209,10 +229,11 @@ module.exports = DBModel.extend({
                 }
               })
               .then(function (data) {
+								// remove from both invitee roles, just in case...
                 return Roles.userRoles({
                   method: 'remove',
                   users: deleteInvitationsForUsers,
-                  roles: [project.inviteeRole]
+                  roles: [project.proponentInviteeRole,project.eaoInviteeRole]
                 });
               })
               .then(function (data) {
@@ -227,7 +248,7 @@ module.exports = DBModel.extend({
               })
               .then(function (data) {
                 // if we were dropped from the invitee role specifically, then we shouldn't be in any roles...
-                if (role.code === project.inviteeRole) {
+                if (role.code === project.proponentInviteeRole || role.code === project.eaoInviteeRole) {
                   // make sure that they never signed in...
                   var removeFromProjectUsers = _.filter(droppedUsers, function (u) {
                     return _.isEmpty(u.userGuid);
@@ -317,7 +338,7 @@ module.exports = DBModel.extend({
 					return Roles.userRoles({
 						method: 'remove',
 						users: invitation.user,
-						roles: [invitation.project.inviteeRole]
+						roles: [invitation.project.eaoInviteeRole, invitation.project.proponentInviteeRole]
 					});				
 				})
 				.then(function(data) {

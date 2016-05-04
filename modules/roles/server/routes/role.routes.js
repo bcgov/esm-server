@@ -49,7 +49,10 @@ module.exports = function (app) {
           return (new Invitation(req.user)).handleInvitations(req, role, req.body.users);
         })
 			.then (function (data) {
-				data.role.set (req.body);
+				// we've already added the users to roles in the invitations
+				// updating them here seems to cause problems, so don't bother, but update the rest.
+				var role = _.omit(req.body, ['users']);
+				data.role.set(role);
 				return data.role.save ();
 			})
 			.then (helpers.success(res), helpers.failure(res));
