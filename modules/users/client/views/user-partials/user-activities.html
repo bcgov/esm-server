@@ -70,7 +70,7 @@
                         <div class="col-sm-12">
                             <section class="panel panel-default">
                                 <table x-show-filter="show_filter" ng-table="tableParams" class="table table-condensed table-striped table-hover">
-                                    <tr ng-repeat="o in $data | orderBy:'order'"
+                                    <tr ng-repeat="o in $data | orderBy:'order' | unique:'data.artifactId'"
                                         ng-click="getLinkUrl(o.state, o.data)"
                                         class="clickable">
                                         <td data-title="'Project'" filter="{'project':'text'}" sortable="'project'">{{ o.project }}</td>
