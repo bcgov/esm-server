@@ -1,6 +1,6 @@
 <div class="email-templates-view">
 
-	<div class="view-title-container no-border">
+	<div class="view-title-container">
 		<h1>Email Templates</h1>
 	</div>
 
@@ -16,13 +16,13 @@
 		</div>
 		
 		<section class="panel panel-default">
-			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-striped table-hover">
+			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-striped table-hover">
 				<tr ng-repeat="o in $data" ui-sref="admin.emailtemplate.detail({emailtemplateId:o._id})" class="clickable">
 					<td data-title="'Name'"  filter="{'name':'text'}"   sortable="'name'">{{o.name}}</td>
 					<td data-title="'Group'"  filter="{'group':'text'}"   sortable="'group'">{{o.group}}</td>
-					<td class="actions-col" header-class="'actions-col single-action'">
-						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="admin.emailtemplate.edit({emailtemplateId:o._id})">
-							<i class="glyphicon glyphicon-pencil"></i>
+					<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+						<a class="btn btn-link btn-sm" ng-click="$event.stopPropagation()" ui-sref="admin.emailtemplate.edit({emailtemplateId:o._id})">
+							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
 					</td>
 				</tr>
