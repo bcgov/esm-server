@@ -131,18 +131,22 @@ angular.module('users').config(['$stateProvider',
 						return ProjectModel.lookup ();
 					}
 				},
-				controller: function ($scope, $state, $stateParams, lookup, activities, projects, NgTableParams, _) {
+				controller: function ($scope, $state, $stateParams, lookup, activities, projects, ArtifactModel, NgTableParams, _) {
 					// console.log (projects);
 					// console.log (activities);
 
-					$scope.projects = projects;
 
 					$scope.projectParams = new NgTableParams ({count:50}, {dataset: projects});
 
 					_.each(activities, function(item) {
+						console.log("item.data.artifactId:",item.data.artifactId);
 						if (lookup[item.project]) {
 							item.project = lookup[item.project].name;
 						}
+						ArtifactModel.lookup(item.data.artifactId).then( function (af) {
+							item.artifactname = af.name;
+							console.log("artifact name:",af.name);
+						});
 					});
 					$scope.tableParams = new NgTableParams ({count:50}, {dataset: activities});
 
