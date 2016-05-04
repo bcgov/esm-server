@@ -201,7 +201,7 @@ angular.module('project').config (
 													   "code": "substantially-started-decision"}
 													   ];
 						break;
-				};
+				}
 				$scope.rMilestonesForPhase.push({"name": "Project Withdrawn",
 												 "code": "project-withdrawn"});
 			};
