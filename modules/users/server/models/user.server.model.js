@@ -6,6 +6,8 @@
 var validator = require('validator');
 var crypto = require('crypto');
 var _ = require('lodash');
+var uid = require('uid-safe');
+
 /**
  * A Validation function for local strategy properties
  */
@@ -28,7 +30,6 @@ var validateLocalStrategyEmail = function (email) {
 };
 
 
-
 /**
  * Hook a pre save method to hash the password
  */
@@ -36,6 +37,10 @@ var preSave = function (next) {
 	if (this.password && this.isModified('password') && this.password.length >= 6) {
 		this.salt = crypto.randomBytes(16).toString('base64');
 		this.password = this.hashPassword(this.password);
+	}
+
+	if (this.userGuid === undefined || this.userGuid.trim() === '') {
+		this.userGuid = 'ESM-' + uid.sync(18);
 	}
 	next();
 };
@@ -155,7 +160,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	viaMail: 		{ type:Boolean, default: false },
 
   // Siteminder User Guid - smgov_userguid header
-  userGuid: { type: String, unique: true, lowercase: true, trim: true, default: '' },
+  userGuid: { type: String, unique: 'User GUID already exists', lowercase: true, trim: true  },
   // Siteminder User Type  - smgov_usertype header
   userType: { type: String, unique: false, lowercase: true, trim: true, default: '' },
   __preSave: preSave,
