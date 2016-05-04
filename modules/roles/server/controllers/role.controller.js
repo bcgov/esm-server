@@ -20,9 +20,23 @@ var getRole = function (code) {
 		Role.findOne ({ code: code }).exec().then (resolve, reject);
 	});
 };
+
 var newRole = function (code) {
 	return new Promise (function (resolve, reject) {
-		resolve ( new Role ({ code: code }) );
+		var projectCode, orgCode, roleCode;
+		if (!_.isEmpty(code)) {
+			var data = code.split(':');
+			projectCode = (data.length === 3) ? data[0] : '';
+			orgCode = (data.length === 3) ? data[1] : 'eao';
+			roleCode = (data.length === 3) ? data[2] : '';
+		}
+		resolve(new Role({
+			code: code,
+			projectCode: projectCode,
+			orgCode: orgCode,
+			roleCode: roleCode,
+			name: roleCode || code
+		}));
 	});
 };
 var getUsersForRole = function (code) {
@@ -68,19 +82,30 @@ var getProjectsWithRole = function (code) {
 		.then (resolve, reject);
 	});
 };
-var getSystemRoles = function () {
-	return Role.find ({isSystem: true}).exec();
-};
-var getSystemRolesForUserMaintenance = function(req) {
+var getSystemRoles = function (req) {
 	var user = req.user;
-	// is this person admin?
-	// if so, then return system roles that we can assign to a user...
-	if (_.includes(user.roles, 'admin')) {
-		// admin is probably the only useful assignable system role...
-		return Role.find ({isSystem: true, code:'admin'}).exec();
-	} else {
-		return [];
+	var q = {isSystem: true};
+	if (!_.isEmpty(req.query)) {
+		_.merge(q, JSON.parse(JSON.stringify(req.query)));
 	}
+	return Role.find (q).exec();
+};
+var getFullRolesForProject = function(req) {
+	var user = req.user;
+	var project = req.Project;
+	var roleCodes = project.roles;
+	var q = {code: {$in: roleCodes}};
+	if (!_.isEmpty(req.query)) {
+		_.merge(q, JSON.parse(JSON.stringify(req.query)));
+	}
+
+	return new Promise(function(fulfill, reject) {
+		Role.find(q)
+			.exec()
+			.then(function(roles) {
+				fulfill(roles);
+			});
+	});
 };
 
 
@@ -109,6 +134,8 @@ var findRole = function (code) {
 		.then (resolve, reject);
 	});
 };
+
+
 // -------------------------------------------------------------------------
 //
 // same logic as in the role schema
@@ -122,6 +149,26 @@ var generateCode = function (projectCode, orgCode, roleCode) {
 	var r = a.join (':');
 	// console.log ('generated role code: ', r);
 	return r;
+};
+
+
+var findOrCreate = function(projectCode, orgCode, roleCode, name, isSystem, isFunctional) {
+	var code = generateCode(projectCode, orgCode, roleCode);
+	var newRole = new Role ({ code: code, projectCode: projectCode, orgCode: orgCode, roleCode: roleCode, name: name, isSystem: isSystem, isFunctional: isFunctional});
+
+	return new Promise (function (resolve, reject) {
+		getRole (code)
+			.then (function (role) {
+				if (!role) {
+					return newRole.save();
+				}
+				else {
+					return role;
+				}
+			})
+			.then (resolve, reject);
+	});
+
 };
 // -------------------------------------------------------------------------
 //
@@ -177,6 +224,9 @@ var userRoles = function (data) {
 				return user.save ();
 			}));
 		})
+		.catch(function(err) {
+			console.error(err);
+		})
 		.then (function () {
 			return data.users;
 		})
@@ -231,10 +281,13 @@ var objectRoles = function (data) {
 				return u._id.toString ();
 			});
 			return Promise.all (rolesarray.map (function (role) {
-				// console.log ('setting '+data.type+' array in role ', role.code, role._id);
+				//console.log ('setting '+data.type+' array in role ', role.code, role._id);
 				role.modObject (data.method, data.type, idArray);
 				return role.save ();
 			}));
+		})
+		.catch(function(err) {
+			//console.error(objectArray[0].code, err);
 		})
 		.then (function (rolesalldone) {
 			//
@@ -243,7 +296,7 @@ var objectRoles = function (data) {
 			// through those and do the same, but add the permissions
 			//
 			return Promise.all (objectArray.map (function (object) {
-				// console.log ('setting roles for object ', object.code, data.permissions);
+				//console.log ('setting roles for object ', object.code, data.permissions);
 				object.modRoles (data.method, data.permissions);
 				// console.log ('now saving object', object.code, object._id);
 				return object.save ();
@@ -278,14 +331,15 @@ module.exports = {
 	getUsersInRolesInProject:getUsersInRolesInProject,
 	getProjectsWithRole:getProjectsWithRole,
 	getSystemRoles:getSystemRoles,
-	getSystemRolesForUserMaintenance: getSystemRolesForUserMaintenance,
+	getFullRolesForProject: getFullRolesForProject,
 	//
 	// used by the back end to set and adjust roles in both directions
 	//
 	objectRoles:objectRoles,
 	userRoles:userRoles,
 	generateCode:generateCode,
-	getObjects: getObjects
+	getObjects: getObjects,
+	findOrCreate: findOrCreate
 };
 
 	// addUserRole : addUserRole,

@@ -78,9 +78,18 @@ angular.module('users').config(['$stateProvider',
 					roles: ['user', 'admin']
 				}*/
 			})
-			.state('authentication.signin', {
-				url: '/signin?err',
+			// TODO: Siteminder! when Siteminder is in place and we have Admin users, remove this state
+		.state('authentication.signin', {
+				url: '/local/signin',
 				template: '<tmpl-login></tmpl-login>'
+			})
+		// TODO: Siteminder! when Siteminder is in place and we have Admin users, make this state = authentication.signin
+			.state('authentication.signin.siteminder', {
+				url: '/signin',
+				controller: function() {
+					// send them to the server, so that siteminder will authenticate, then send into our code to fully authorize.
+					window.location.href = window.location.origin + '/authentication/signin';
+				}
 			})
 			.state('password', {
 				abstract: true,

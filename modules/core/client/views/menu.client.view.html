@@ -49,11 +49,11 @@
 	</div>
 
 	<div ng-if="(menu.context === 'project' || menu.context === 'activity') && menu.authentication.user">
-		
+
 		<ul class="list-unstyled">
 			<li><a ui-sref="p.detail({projectid: menu.project.code})">Project Detail</a></li>
 		</ul>
-		
+
 		<ul class="list-unstyled" ng-show="menu.authentication.user">
 			<li ng-repeat="item in menu.projectTopMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project.code);"
 			    ng-class="{ 'active': $state.includes(item.state) }" class="{{item.class}}">
@@ -63,7 +63,7 @@
 				<a x-modal-project-schedule href x-project="menu.project">Project Schedule</a>
 			</li> -->
 		</ul>
-		
+
 		<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user, menu.project.code)">
 			<li ng-repeat="item in menu.projectMenu.items | orderBy: 'position'"
 			    ng-if="item.shouldRender(menu.authentication.user, menu.project.code);"
@@ -71,12 +71,18 @@
 				  <a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
 		</ul>
-		
+
 		<ul class="list-unstyled" ng-show="menu.authentication.user">
 			<li><a ui-sref="p.workinggroup.list">Working Group</a></li>
 		</ul>
-	</div>
-	
+
+    <ul class="list-unstyled" ng-show="menu.authentication.user">
+      <li>
+        <a x-modal-set-object-permissions href x-project="menu.project" x-target-object="menu.project" x-target-object-type="'projects'">Set Object Permissions</a>
+      </li>
+    </ul>
+  </div>
+
 </div>
 
 

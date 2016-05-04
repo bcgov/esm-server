@@ -30,7 +30,7 @@ $danger-text:			#a94442;
 
 html {
 	min-height: 100%;
-	background: #FFF;
+	background: #F7F8FA;
 }
 
 body {
@@ -123,13 +123,9 @@ $font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-s
 label.control-label,
 a.control-label,
 .control-label a {
-	font-size: 85%;
-	font-weight: 500;
-	font-style: italic;
 	display: block;
 	padding: 0 0 2px;
 	margin: 0 0 2px;
-	color: #ababab;
 }
 
 a.control-label,
@@ -1557,24 +1553,28 @@ div.dropdown-menu {
 $left-panel-width: 17rem;
 
 .view-title-container {
+	margin-left: 2.5rem;
+	margin-right: 2.5rem;
 	display: -webkit-flex;
 	display: flex;
-	padding: 2rem 2.5rem;
-	background: #FFF;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
 	border-bottom: 1px solid #EEE;
+	min-width: 0;
 
     h1 {
         margin: 0;
         padding: 0;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		font-size: 3rem;
+		font-size: 2.8rem;
 		font-weight: bold;
 		-webkit-flex: 0 0 auto;
 		-ms-flex: 0 0 auto;
 		flex: 1 1 auto;
     }
+	
+	.placeholder {
+		color: #ccc;
+	}
 	
 	.view-title-actions {
 		-webkit-flex: 0 0 auto;
@@ -1596,6 +1596,10 @@ $left-panel-width: 17rem;
 	section:last-child {
 		margin-bottom: 0;
 	}
+}
+
+.view-body-container {
+	padding: 2rem 2.5rem;
 }
 
 section {
@@ -1834,10 +1838,6 @@ tmpl-header {
 
 .main-panel {
 	flex: 1 1 auto;
-	
-	.view-body-container {
-		padding: 2rem 2.5rem;
-	}
 }
 
 .right-panel {
@@ -1979,19 +1979,6 @@ $header-height: 6rem;
 /* BEGIN: UI COMPONENT STYLING
 ------------------------------------------------------------ */
 
-/* DATE RANGE CONTROL
------------------------------- */
-.date-range-control {
-	.spacer {
-		padding: 0 1rem;
-		line-height: 3.4rem;
-	}
-}
-
-.input-group.date-range {
-	width: 16rem;
-}
-
 /* ACCORDION CONTROL
 ----------------------------- */
 .accordion {
@@ -2025,14 +2012,29 @@ $header-height: 6rem;
 	}
 }
 
-/* SELECT TOPIC MODAL
------------------------------ */
-.select-topic-modal {
-	.select-col {
-		width: 5rem;
-		text-align: center;
+
+/* DATE RANGE CONTROL
+------------------------------ */
+.date-range-control {
+	.spacer {
+		padding: 0 1rem;
+		line-height: 3.4rem;
 	}
 }
+
+.input-group.date-range {
+	width: 16rem;
+}
+
+
+/* DROPDOWN CARET
+------------------------------ */
+.caret-up {
+  -ms-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
 
 /* TABLE COMPONENT
 ------------------------------ */
@@ -2040,15 +2042,14 @@ $header-height: 6rem;
 	table-layout: fixed;
 	margin-bottom: 0;
 	
-	th {
+	> thead > tr > th {
 		font-size: 1.2rem;
-		border-bottom: none !important;
+		border-bottom: none;
 	}
 	
 	th, td {
-		padding: 0.75rem 1rem !important;
+		padding: 0.75rem 1rem;
 		text-align: left;
-		word-break: break-all;
 	}
 	
 	.actions-col {
@@ -2064,8 +2065,38 @@ $header-height: 6rem;
 	}
 }
 
+.table-striped {
+	> tbody > tr:nth-of-type(odd) {
+		background-color: #f7f8fa;
+	}	
+}
+
+.table-hover {
+ 	> tbody > tr:hover {
+		 background-color: #f7f8fa;
+	}
+ }
+
 .pagination {
 	margin: 0;
+}
+
+
+/* FORM CONTROLS
+------------------------------ */
+.form-footer {
+	margin-top: 1rem;
+	padding-top: 2rem;
+	border-top: 1px solid #EEE;
+	
+	.btn {
+		min-width: 8rem;
+	}
+}
+
+.form-footer.no-border {
+	padding-top: 0;
+	border: none;
 }
 
 
@@ -2103,6 +2134,17 @@ $header-height: 6rem;
 		}
 	}
 }
+
+
+/* CONDITIONS LIBRARY VIEW
+------------------------------ */
+.condition-view,
+.edit-condition-view {
+	.pick-list .well {
+		min-height: 17rem;
+	}
+}
+
 
 /* COMMENT PERIOD VIEW
 ------------------------------ */
@@ -2273,7 +2315,10 @@ section.project-info {
 ------------------------------ */ 
 .edit-project-details-view {
 	.tab-content {
-		padding-top: 2.5rem;
+		padding: 2rem;
+		border: 1px solid #DDD;
+		border-top: none;
+		background: #FFF;
 	}
 }
 
@@ -2299,6 +2344,30 @@ section.project-info {
 	}
 }
 
+/* SYSTEM ROLES VIEW
+------------------------------ */
+.edit-system-role-view {
+	.checkbox-row {
+		margin-top: 1rem;
+	}
+	
+	.checkbox {
+		margin-right: 2rem;
+		
+		input {
+			margin-right: 0.5rem;
+			top: 2px;
+		}
+	}
+}
+
+.system-role-view {
+	.panel {
+		margin-top: 3rem;
+	}
+}
+
+
 /* VALUED COMPONENTS LIST VIEW
 ------------------------------ */
 .valued-components-view {
@@ -2309,97 +2378,17 @@ section.project-info {
 
 /* ARTIFACT LIST VIEW
 ------------------------------ */
-.artifact-list-view {
-	.button-bar {
-		padding: 1rem;
-		background: #FFF;
-		border-bottom: 1px solid #DDD;
-		
-		.input-group {
-			width: 30rem;
-		}
+.artifact-list-view {	
+	.artifacts-dropdown {
+		margin-right: 2rem;
+		width: 30rem;
+	}
+	
+	.artifacts-list-actions {
+		margin: -0.7rem 0;
 	}
 }
 
-/* PUBLIC HOMEPAGE VIEW
------------------------------- */
-.public-home-view {
-	.view-title-container {
-		padding-bottom: 0;
-		border-bottom: 0;
-	}
-	
-	.recent-activity {
-		.panel-body {
-			height: 498px;
-			overflow-y: scroll;
-		}
-	}
-	
-	.grid-view {
-		margin-top: 1rem;
-		
-		.panel-heading h2 {
-			margin-top: 0.2rem;
-		}
-		
-		.panel-heading .pull-right {
-			margin-top: -8px;
-			margin-bottom: -6px;
-		}
-	}
-	
-}
-
-/* RECENT ACTIVITY VIEW
------------------------------- */
-.recent-activity-view {
-	padding-top: 1rem;
-	padding-bottom: 1rem;
-	
-	h4 {
-		font-size: 1.8rem;
-		font-weight: bold;
-		margin-top: 0;
-		margin-bottom: 1.25rem;
-	}
-	
-	p {
-		font-size: 1.2rem;
-		
-	}
-	
-	hr {
-		border-color: #CCC;
-	}
-}
-
-/* PROJECT SCHEDULE VIEW
------------------------------- */
-.project-schedule-view {	
-	.table {
-		border-bottom: 1px solid #DDD;
-		table-layout: fixed;
-	}
-	
-	td {
-		padding: 0.5rem 1rem !important;
-		vertical-align: middle !important;
-	}
-	
-	td.button-col {
-		text-align: right;
-	}
-	
-	td.actions-col {
-		width: 9rem;
-		text-align: center;
-		
-		.btn {
-			padding: 0.6rem;
-		}
-	}
-}
 
 /* MILESTONE/COMMENT SESSION MODAL VIEW
 ------------------------------ */
@@ -2429,3 +2418,215 @@ section.project-info {
 		}
 	}
 }
+
+
+/* NEWS FEED VIEW
+------------------------------ */
+.news-feed {
+	.panel-body {
+		padding: 0;
+	}
+	
+	.show-all-news-link {
+		display: block;
+		padding: 1rem;
+		font-weight: bold;
+	}
+}
+
+.news-feed-item {
+	padding: 1.5rem;
+	border-bottom: 1px solid #DDD;
+	
+	.news-title {
+		margin-bottom: 0.75rem;
+		font-size: 1.8rem;
+	}
+	
+	.news-date-type {
+		margin-bottom: 0.75rem;
+		font-size: 1.2rem;
+		color: #999;
+	}
+	
+	.news-content {
+		margin: 0;
+	}
+	
+	.show-more {
+		margin-top: 1rem;
+		font-size: 1.2rem;
+		font-weight: bold;
+	}
+}
+
+
+/* NEWS PAGE VIEW
+------------------------------ */
+.news-admin-view,
+.news-public-view {
+	.table {
+		table-layout: fixed;
+		
+		th {
+			padding: 0.75rem 1.5rem;
+		}
+		
+		td {
+			padding: 1.5rem;
+		}
+	}
+	
+	th.date-col,
+	td.date-col {
+		width: 11rem;
+	}
+	
+	th.type-col,
+	td.type-col {
+		width: 14rem;
+	}
+	
+	th.actions-col,
+	td.actions-col {
+		width: 5rem;
+		padding-left: 0;
+		padding-right: 0;
+		
+		.btn {
+			margin-top: -0.8rem;
+		}
+	}
+	
+	.news-title {
+		margin-bottom: 0.75rem;
+		font-size: 1.8rem;
+	}
+	
+	.news-content {
+		max-width: 70rem;
+		margin: 0;
+	}
+	
+	.show-more {
+		margin-top: 1rem;
+		font-size: 1.2rem;
+		font-weight: bold;
+	}
+}
+
+@media (min-width: 769px) {
+	.news-admin-view,
+	.news-public-view {
+		th.type-col {
+			width: 25%;
+		}
+	}
+}
+
+
+/* PERMISSIONS SETTINGS VIEW
+------------------------------ */
+.permissions-settings-table {
+	.permissions-col {
+		width: 8rem;
+		text-align: center;
+	}
+}
+
+
+/* PROJECT SCHEDULE VIEW
+------------------------------ */
+.project-schedule-view {	
+	.table {
+		border-bottom: 1px solid #DDD;
+		table-layout: fixed;
+	}
+	
+	td {
+		padding: 0.5rem 1rem !important;
+		vertical-align: middle !important;
+	}
+	
+	td.button-col {
+		text-align: right;
+	}
+	
+	td.actions-col {
+		width: 9rem;
+		text-align: center;
+		
+		.btn {
+			padding: 0.6rem;
+		}
+	}
+}
+
+
+/* PUBLIC HOMEPAGE VIEW
+------------------------------ */
+.public-home-view {
+	.col-sm-4 {
+		padding-right: 0;
+	}
+	
+	.view-title-container {
+		padding-bottom: 0;
+		border-bottom: 0;
+	}
+	
+	.news-feed {
+		.panel-body {
+			height: 498px;
+			overflow-y: scroll;
+		}
+	}
+	
+	.grid-view {
+		margin-top: 1rem;
+		
+		.panel-heading h2 {
+			margin-top: 0.2rem;
+		}
+		
+		.panel-heading .pull-right {
+			margin-top: -8px;
+			margin-bottom: -6px;
+		}
+	}
+}
+
+
+/* RECENT ACTIVITY VIEW
+------------------------------ */
+.recent-activity-view {
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+	
+	h4 {
+		font-size: 1.8rem;
+		font-weight: bold;
+		margin-top: 0;
+		margin-bottom: 1.25rem;
+	}
+	
+	p {
+		font-size: 1.2rem;
+		
+	}
+	
+	hr {
+		border-color: #CCC;
+	}
+}
+
+
+/* SELECT TOPIC MODAL VIEW
+----------------------------- */
+.select-topic-modal {
+	.select-col {
+		width: 5rem;
+		text-align: center;
+	}
+}
+

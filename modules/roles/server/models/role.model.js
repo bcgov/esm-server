@@ -14,10 +14,13 @@ var _ = require ('lodash');
 
 var RoleSchema  = new Schema ({
 	code           : { type:String, default:'code', index:true, unique:true },
+	name           : { type:String, default:'name', index:false, unique:false },
 	projectCode    : { type:String, default:'', index:true },
 	orgCode        : { type:String, default:'eao', enum:['eao', 'pro'], index:true },
 	roleCode       : { type:String, default:'' },
 	isSystem       : { type:Boolean, default:false, index:true },
+	isFunctional   : { type:Boolean, default:true, index:true },
+	isProjectDefault   : { type:Boolean, default:false, index:false },
 	users          : [{ type:'ObjectId', ref:'User' }],
 	projects       : [{ type:'ObjectId', ref:'Project' }],
 	activities     : [{ type:'ObjectId', ref:'Activity' }],

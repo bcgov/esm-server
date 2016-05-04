@@ -25,13 +25,7 @@ module.exports = {
 			firstName   : 'Eao',
 			lastName    : 'Energy',
 			roles       : ['sector:energy']
-		},
-		{
-			username    : '3',
-			firstName   : 'Jason',
-			lastName    : 'Sherman',
-			roles       : ['user','proponent','edit-organizations']
-		},
+		}
 	],
 	ajax : [
 		{

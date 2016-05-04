@@ -79,17 +79,38 @@ module.exports = function (app) {
 	//
 	// get system roles only
 	//
-	app.route ('/api/system/roles').all (policy.isAllowed)
+	app.route ('/api/system/roles/:role').all (policy.isAllowed)
+		.put (function (req, res) {
+			controller.getRole(req.params.role)
+				.then (function (role) {
+					role.set (req.body);
+					return role.save ();
+				})
+				.then (helpers.success(res), helpers.failure(res));
+		})
 		.get (function (req, res) {
-			controller.getSystemRoles ()
+			// console.log(req.params.role);
+			controller.getRole (req.params.role)
+				.then (helpers.success(res), helpers.failure(res));
+		});
+
+	app.route ('/api/system/roles').all (policy.isAllowed)
+		.post (function (req, res) {
+			controller.newRole()
+				.then(function (role) {
+					role.set(req.body);
+					return role.save();
+				})
+				.then(helpers.success(res), helpers.failure(res));
+		})
+		.get (function (req, res) {
+			controller.getSystemRoles (req)
 			.then (helpers.success(res), helpers.failure(res));
 		});
-	//
-	// get system roles that this user can assign to other users...
-	//
-	app.route ('/api/system/roles/assignable').all (policy.isAllowed)
+
+	app.route('/api/roles/full/project/:project').all (policy.isAllowed)
 		.get (function (req, res) {
-			controller.getSystemRolesForUserMaintenance (req)
+			controller.getFullRolesForProject (req)
 				.then (helpers.success(res), helpers.failure(res));
 		});
 
