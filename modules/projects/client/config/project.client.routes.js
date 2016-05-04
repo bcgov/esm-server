@@ -129,9 +129,11 @@ angular.module('project').config (
 	.state('p.schedule', {
 		url: '/schedule',
 		templateUrl: 'modules/projects/client/views/project-partials/project.schedule.html',
-		controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope) {
+		controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel) {
 			var self = this;
 			self.rPhases = undefined;
+			self.rSelPhase = undefined;
+			self.rMilestonesForPhase = undefined;
 
 			self.refresh = function () {
 				// console.log("Refreshing");
@@ -147,9 +149,92 @@ angular.module('project').config (
 				self.refresh();
 			});
 
+			$scope.popluatePhaseDropdown = function (phase) {
+				// console.log("populate phase on phase:",phase.code);
+				$scope.rSelPhase = phase;
+				$scope.rMilestonesForPhase = [];
+				switch(phase.code) {
+					case "pre-ea":
+						$scope.rMilestonesForPhase = [{"name": "Project Description Accepted",
+													   "code": "project-description-accepted"},
+													  {"name": "Substitution Decision",
+													   "code": "substitution-decision"},
+													  {"name": "Section 10(1)c Order",
+													   "code": "section-10-1-c-order"},
+													  ];
+						break;
+					case "pre-app":
+						$scope.rMilestonesForPhase = [{"name": "Section 11 Order",
+													   "code": "section-11-order"},
+													  {"name": "Assessment Fee - Installment 1",
+													   "code": "assessment-fee-installment-1"},
+													  {"name": "Draft AIR Accepted",
+													   "code": "draft-air-accepted"},
+													  {"name": "Pre-App PCP Initiated",
+													   "code": "pre-app-pcp-initiated"},
+													  {"name": "AIR Finalized and Approved",
+													   "code": "air-finalized-and-approved"},
+													  ];
+						break;
+					case "evaluation":
+						$scope.rMilestonesForPhase = [{"name": "Draft Application Submitted",
+													   "code": "draft-application-submitted"},
+													  {"name": "Assessment Fee - Installment 2",
+													   "code": "assessment-fee-installment-2"}
+													  ];
+						break;
+					case "application-review":
+						$scope.rMilestonesForPhase = [{"name": "Application Accepted",
+													   "code": "application-accepted"},
+													  {"name": "Review PCP Initiated",
+													   "code": "review-pcp-initiated"},
+													  ];
+						break;
+					case "decision":
+						$scope.rMilestonesForPhase = [{"name": "Minister's Decision Package Delivered",
+													   "code": "ministers-decision-package-delivered"}];
+						break;
+					case "post-certification":
+						$scope.rMilestonesForPhase = [{"name": "Certificate Issued - s.17",
+													   "code": "certificate-issued-s.17"},
+													  {"name": "Substantially Started Decision",
+													   "code": "substantially-started-decision"}
+													   ];
+						break;
+				};
+				$scope.rMilestonesForPhase.push({"name": "Project Withdrawn",
+												 "code": "project-withdrawn"});
+			};
+
+			// Handle the add milestone
+			$scope.addMilestone = function(selectedMilestone) {
+				// Just add a milestone, attach it to a specific phase - this is a generic
+				// schedule, which really doesn't follow the flow of anything.  It's just a
+				// Marker of sorts.  We will need to look this up when phases/milestones progress
+				// through the flow of the business in order to delete/reset these milestones.
+				// For now, this becomes a 'look ahead' schedule that staff can use to view
+				// the project 'plan'
+				MilestoneModel.add({
+					"code": selectedMilestone.code,
+					"name": selectedMilestone.name,
+					"phase": $scope.rSelPhase
+				})
+				.then(function (ms) {
+					$scope.rSelPhase.milestone = ms;
+					$scope.rSelPhase.milestones.push(ms);
+					PhaseModel.save($scope.rSelPhase);
+				});
+			};
 			// Handle the delete milestone
-			$scope.selectedMilestone = function (milestone) {
+			$scope.selectedMilestone = function (milestone, phase) {
+				// console.log("selected milestone: ", MilestoneModel);
+				// console.log("selected phase:", $scope.rSelPhase);
 				self.selMilestone = milestone;
+				MilestoneModel.get(milestone).then(function (res) {
+					console.log("Milestone with activities data:",res);
+					$scope.data = res;
+					$scope.$apply();
+				});
 			};
 			$scope.confirmRemoveMilestone = function () {
 				// console.log("Removing Milestone:",self.selMilestone);

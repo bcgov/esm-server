@@ -22,8 +22,8 @@
 				<div id="phaseCollapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="phaseCollapseOne">
 					<div class="panel-body">
 						<div class="button-bar">
-							<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#addMilestoneModal">Add Milestone</button>
-							<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#addCommentSessionModal">Add Comment Period</button>
+							<button ng-if="phase.code !== 'pre-submission'" ng-click="popluatePhaseDropdown(phase)" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addMilestoneModal">Add Milestone</button>
+							<button ng-if="phase.code !== 'pre-submission'" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addCommentSessionModal">Add Comment Period</button>
 						</div>
 						<table class="table project-milestones-comments">
 							<tr ng-repeat="row in phase.milestones">
@@ -37,12 +37,12 @@
 										<span class="glyphicon glyphicon-pencil"
 											  data-toggle="modal"
 											  data-target="#addMilestoneModal"
-											  ng-click="selectedMilestone(row._id)"></span>
+											  ng-click="selectedMilestone(row._id, phase)"></span>
 									</button>
 									<button class="btn btn-link"
 											data-toggle="modal"
 											data-target="#confirmModal"
-											ng-click="selectedMilestone(row._id)">
+											ng-click="selectedMilestone(row._id, phase)">
 										<span class="glyphicon glyphicon-trash"></span>
 									</button>
 								</td>
@@ -76,8 +76,10 @@
 			<div class="modal-body">
 				<div class="form-group">
 					<label>Select a Milestone</label>
-					<select class="form-control">
-						<option selected="selected">---</option>
+					<select class="form-control"
+							ng-model="selectedMilestoneType"
+							ng-options="milestone as milestone.name for milestone in rMilestonesForPhase">
+						<!-- <option ng-repeat="milestone in rMilestonesForPhase" value="{{ milestone.code }}">{{ milestone.name }}</option> -->
 					</select>
 				</div>
 				<div class="form-group has-error" ng-class="{'has-error': validateForm}">
@@ -106,7 +108,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				<button type="button" class="btn btn-primary" disabled="disabled">Add Milestone</button>
+				<button ng-click="addMilestone(selectedMilestoneType)" type="button" class="btn btn-primary" data-dismiss="modal">Add Milestone</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

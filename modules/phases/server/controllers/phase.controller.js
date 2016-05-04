@@ -15,7 +15,7 @@ module.exports = DBModel.extend ({
 	name : 'Phase',
 	plural : 'phases',
 	bind: ['complete'],
-	populate : 'milestones',
+	populate : 'milestones activities',
 	// -------------------------------------------------------------------------
 	//
 	// just get a base phase, returns a promise
