@@ -225,12 +225,26 @@ angular.module('project').config (
 					PhaseModel.save($scope.rSelPhase);
 				});
 			};
+			$scope.saveMilestone = function (data) {
+				data.dateStartedEst = $scope.dateStartedEst;
+				data.dateCompletedEst = $scope.dateCompletedEst;
+				MilestoneModel.save(data);
+			};
 			// Handle the delete milestone
 			$scope.selectedMilestone = function (milestone, phase) {
 				// console.log("selected milestone: ", MilestoneModel);
 				// console.log("selected phase:", $scope.rSelPhase);
 				self.selMilestone = milestone;
 				MilestoneModel.get(milestone).then(function (res) {
+					console.log("Milestone with activities data:",res);
+					$scope.data = res;
+					$scope.$apply();
+				});
+			};
+			$scope.editMilestone = function (milestone, phase) {
+				self.selMilestone = milestone;
+				// Hack until we put into the service
+				MilestoneModel.get('/api/milestone/'+milestone).then(function (res) {
 					console.log("Milestone with activities data:",res);
 					$scope.data = res;
 					$scope.$apply();

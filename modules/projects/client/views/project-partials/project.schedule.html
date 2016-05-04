@@ -36,8 +36,8 @@
 									<button class="btn btn-link">
 										<span class="glyphicon glyphicon-pencil"
 											  data-toggle="modal"
-											  data-target="#addMilestoneModal"
-											  ng-click="selectedMilestone(row._id, phase)"></span>
+											  data-target="#editMilestoneModal"
+											  ng-click="editMilestone(row._id, phase)"></span>
 									</button>
 									<button class="btn btn-link"
 											data-toggle="modal"
@@ -71,7 +71,7 @@
 				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h3 class="modal-title">Add/Edit Milestone</h3>
+				<h3 class="modal-title">Add Milestone</h3>
 			</div>
 			<div class="modal-body">
 				<div class="form-group">
@@ -113,7 +113,53 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
+<!-- EDIT MILESTONE -->
+<div class="modal fade" id="editMilestoneModal" role="dialog" tabindex="-1">
+	<div class="modal-dialog add-milestone-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title">Edit Milestone</h3>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label>Milestone:</label>
+					<div>{{data.name}}</div>
+				</div>
+				<div class="form-group has-error" ng-class="{'has-error': validateForm}">
+					<label>Date Range / Effective Date?</label>
+					<div class="date-range-control clearfix">
+						<div class="date-range input-group pull-left">
+							<span class="input-group-btn">
+								<button class="btn btn-default">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</button>
+							</span>
+							<!-- {{data.dateStarted}} -->
+							<input class="form-control" type="text" placeholder="mm/dd/yyyy" ng-model="dateStartedEst" />
+						</div>
+						<div class="pull-left spacer">-</div>
+						<div class="date-range input-group pull-left">
+							<span class="input-group-btn">
+								<button class="btn btn-default">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</button>
+							</span>
+							<input class="form-control" type="text" placeholder="mm/dd/yyyy" ng-model="dateCompletedEst"/>
+						</div>
+					</div>
+					<div class="help-block">Invalid Date Range Message</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button ng-click="saveMilestone(data)" type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <!-- ADD COMMENT SESSION MODAL -->
 <div class="modal fade" id="addCommentSessionModal" role="dialog" tabindex="-1">
