@@ -1,7 +1,7 @@
 <div class="project-roles-view"></div>
 
-	<div class="view-title-container no-border">
-		<h1>Project Roles</h1>
+	<div class="view-title-container">
+		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span><span>Project Roles</span</h1>
 	</div>
 
 	<div class="view-body-container">
@@ -15,14 +15,14 @@
 			</div>
 		</div>
 		<section class="panel panel-default">
-			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-striped table-hover">
+			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-striped table-hover">
 				<tr ng-repeat="o in $data" ui-sref="p.roles.detail({roleCode:o.code})" class="clickable">
-          <td data-title="'Name'"  filter="{'name':'text'}"   sortable="'name'">{{o.name}}</td>
-          <td data-title="'User Count'"  sortable="'o.users.length'">{{o.users.length}}</td>
-          <td data-title="'Functional'"  filter="{'isFunctional':'text'}"   sortable="'isFunctional'">{{o.isFunctional}}</td>
-					<td class="actions-col single-action" header-class="'actions-col single-action'">
-						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.roles.edit({roleCode:o.code})">
-							<i class="glyphicon glyphicon-pencil"></i>
+					<td data-title="'Name'"  filter="{'name':'text'}"   sortable="'name'">{{o.name}}</td>
+					<td data-title="'User Count'"  sortable="'o.users.length'">{{o.users.length}}</td>
+         			<td data-title="'Functional'"  filter="{'isFunctional':'text'}"   sortable="'isFunctional'">{{o.isFunctional}}</td>
+					<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+						<a class="btn btn-link btn-sm" title="Edit Project Role" ng-click="$event.stopPropagation()" ui-sref="p.roles.edit({roleCode:o.code})">
+							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
 					</td>
 				</tr>

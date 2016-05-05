@@ -1200,12 +1200,6 @@ h2.page-title {
 	fill: none;
 }
 
-
-.list-array-item {
-	margin-bottom: 3px;
-	padding: 3px 5px;
-}
-
 /*
 // --------------------------
 // ng-table and form styles
@@ -1702,6 +1696,25 @@ section {
 }
 
 
+/* LIST ARRAY
+------------------------------ */ 
+.list-array-item {
+	margin-bottom: 0.2rem;
+	padding: 0.5rem 1rem;
+	font-size: 1.4rem;
+	line-height: 1.5rem;
+	background: #DDD;
+}
+
+.list-array-item.bg-primary {
+	background: #337ab7;
+}
+
+.list-array-item:last-child {
+	margin-bottom: 0;
+}
+
+
 /* MODAL OVERRIDES
 ------------------------------ */ 
 .modal-header,
@@ -2065,14 +2078,13 @@ $header-height: 6rem;
 	}
 	
 	.actions-col {
-		padding-top: 0.5rem;
-		padding-bottom: 0.5rem;
+		padding-top: 0.35rem;
+		padding-bottom: 0.35rem;
 		text-align: right;
 		
 		.btn {
-			padding-left: 8px;
-			padding-right: 8px;
-			transition: all linear 0.2s;
+			padding-left: 0.8rem;
+			padding-right: 0.8rem;
 		}
 		
 		.btn:hover {
@@ -2141,7 +2153,7 @@ textarea {
 }
 
 .form-control-static {
-	padding-left: 0.8rem;
+	padding: 6px;
 	background: #EEE;
 	border: 1px solid #DDD;
 	border-radius: 4px;
@@ -2222,20 +2234,6 @@ hr {
 }
 
 
-/* CONDITIONS LIBRARY VIEW
------------------------------- */
-.condition-view,
-.edit-condition-view {
-	.pick-list {
-		.form-group,
-		.well {
-		margin-bottom: 0;
-		min-height: 17rem;
-		}
-	}
-}
-
-
 /* COMMENT PERIOD VIEW
 ------------------------------ */
 .project-comment-period-view {
@@ -2257,6 +2255,22 @@ hr {
 		}
 	}
 }
+
+
+/* CONDITION LIBRARY VIEWS
+------------------------------ */
+.condition-view {
+	.well {
+		min-height: 15.5rem;
+	}
+}
+
+.edit-condition-view {
+	textarea {
+		min-height: 8.25rem;
+	}
+}
+
 
 /* DASHBOARD VIEW
 ------------------------------ */
@@ -2671,3 +2685,17 @@ section.project-info {
 	}
 }
 
+
+/* VALUED COMPONENTS VIEW
+----------------------------- */
+.valued-component-view {
+	.textarea {
+		height: 8.5rem;
+	}
+}
+
+.edit-valued-component-view {
+	.textarea {
+		height: 8.5rem;
+	}
+}

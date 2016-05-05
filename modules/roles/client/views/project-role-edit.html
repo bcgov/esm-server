@@ -1,129 +1,127 @@
 <div class="project-role-view">
 
   <div class="view-title-container">
-    <h1>Project Roles&nbsp; &rsaquo; &nbsp;{{ role.name }}</h1>
+    <h1>Add/Edit Project Roles<span ng-show="role.name">&nbsp; &rsaquo; &nbsp;{{ role.name }}</span></h1>
   </div>
 
-  <form name="roleForm" novalidate>
   <div class="view-body-container">
-      <div class="row hidden">
-        <div class="col-sm-12 text-right">
-          <a class="btn btn-xs btn-link" ui-sref="p.roles.list">Cancel</a>
-          <a class="btn btn-xs btn-link" href ng-click="save(roleForm.$valid)">Save</a>
+    <form name="roleForm" novalidate>
+        <div class="row hidden">
+          <div class="col-sm-12 text-right">
+            <a class="btn btn-xs btn-link" ui-sref="p.roles.list">Cancel</a>
+            <a class="btn btn-xs btn-link" href ng-click="save(roleForm.$valid)">Save</a>
+          </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="form-group" x-show-errors>
-            <label for="roleName" class="control-label">Role Name</label>
-            <input id="roleName" name="roleName" type="text" class="form-control input-sm" ng-model="role.name" required>
-            <div ng-messages="roleForm.roleName.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">Role Name is required.</p>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group" x-show-errors>
+              <label for="roleName" class="control-label">Role Name</label>
+              <input id="roleName" name="roleName" type="text" class="form-control input-sm" ng-model="role.name" required>
+              <div ng-messages="roleForm.roleName.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Role Name is required.</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col-sm-8">
-          <div class="form-group" x-show-errors>
-            <label for="code" class="control-label">Code</label>
-            <input id="code" name="code" type="text" ng-readonly="true" class="form-control input-sm" ng-model="role.code">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="form-group" x-show-errors>
-            <label for="projectCode" class="control-label">Project Code</label>
-            <input id="projectCode" name="projectCode" type="text" ng-readonly="true" class="form-control input-sm" ng-model="role.projectCode" ng-change="calculateCode()">
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="form-group" x-show-errors>
-            <label for="org" class="control-label">Organization Code</label>
-            <input id="org" name="org" type="text" ng-readonly="isEdit" class="form-control input-sm" ng-model="role.orgCode" ng-change="calculateCode()" required>
-            <div ng-messages="roleForm.org.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">Organization Code is required.</p>
+        <div class="row">
+          <div class="col-sm-8">
+            <div class="form-group" x-show-errors>
+              <label for="code" class="control-label">Code</label>
+              <input id="code" name="code" type="text" ng-readonly="true" class="form-control input-sm" ng-model="role.code">
             </div>
           </div>
         </div>
-        <div class="col-sm-4">
-          <div class="form-group" x-show-errors>
-            <label for="roleCode" class="control-label">Role Code</label>
-            <input id="roleCode" name="roleCode" type="text" ng-readonly="isEdit" class="form-control input-sm" ng-model="role.roleCode" ng-change="calculateCode()" required>
-            <div ng-messages="roleForm.roleCode.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">Role Code is required.</p>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group" x-show-errors>
+              <label for="projectCode" class="control-label">Project Code</label>
+              <input id="projectCode" name="projectCode" type="text" ng-readonly="true" class="form-control input-sm" ng-model="role.projectCode" ng-change="calculateCode()">
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group" x-show-errors>
+              <label for="org" class="control-label">Organization Code</label>
+              <input id="org" name="org" type="text" ng-readonly="isEdit" class="form-control input-sm" ng-model="role.orgCode" ng-change="calculateCode()" required>
+              <div ng-messages="roleForm.org.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Organization Code is required.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group" x-show-errors>
+              <label for="roleCode" class="control-label">Role Code</label>
+              <input id="roleCode" name="roleCode" type="text" ng-readonly="isEdit" class="form-control input-sm" ng-model="role.roleCode" ng-change="calculateCode()" required>
+              <div ng-messages="roleForm.roleCode.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Role Code is required.</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="row checkbox-row">
-        <div class="col-md-12">
-          <label class="control-label">Role Options</label>
-          <div class="form-group form-inline">
-          <div class="checkbox" ng-hide="true">
-            <label for="isSystem">
-              <input id="isSystem" name="isSystem" type="checkbox" ng-model="role.isSystem">Is System
-            </label>
-          </div>
-          <div class="checkbox">
-            <label for="isFunctional">
-              <input id="isFunctional" name="isFunctional" type="checkbox" ng-model="role.isFunctional">Is Functional
-            </label>
-          </div>
-          <div class="checkbox" ng-hide="true">
-            <label for="isProjectDefault">
-              <input id="isProjectDefault" name="isProjectDefault" type="checkbox" ng-model="role.isProjectDefault">Is Project Default
-            </label>
-          </div>
+        <div class="row checkbox-row">
+          <div class="col-md-12">
+            <label class="control-label">Role Options</label>
+            <div class="form-group form-inline">
+            <div class="checkbox" ng-hide="true">
+              <label for="isSystem">
+                <input id="isSystem" name="isSystem" type="checkbox" ng-model="role.isSystem">Is System
+              </label>
+            </div>
+            <div class="checkbox">
+              <label for="isFunctional">
+                <input id="isFunctional" name="isFunctional" type="checkbox" ng-model="role.isFunctional">Is Functional
+              </label>
+            </div>
+            <div class="checkbox" ng-hide="true">
+              <label for="isProjectDefault">
+                <input id="isProjectDefault" name="isProjectDefault" type="checkbox" ng-model="role.isProjectDefault">Is Project Default
+              </label>
+            </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div ng-show="isEdit">
-        <div class="button-bar clearfix" ng-show="isEdit">
-          <a href x-modal-select-users
-             x-callback="assignUsersToRole"
-             x-users="users"
-             x-unique="true"
-             x-project="project"
-             x-parent="{type: 'role', reference: role}"
-          >Manage Users</a>
+        <div ng-show="isEdit">
+          <div class="button-bar clearfix" ng-show="isEdit">
+            <a href x-modal-select-users
+              x-callback="assignUsersToRole"
+              x-users="users"
+              x-unique="true"
+              x-project="project"
+              x-parent="{type: 'role', reference: role}">Manage Users</a>
+            <div class="pull-right">
+              <show-filter x-toggle-filter="toggleFilter"></show-filter>
+            </div>
+          </div>
+          <section class="panel panel-default">
+            <table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-striped table-hover">
+              <tr ng-repeat="o in $data">
+                <td data-title="'Name'"  filter="{'name':'text'}" sortable="'name'">{{o.displayName}}</td>
+                <td data-title="'Organization'"  filter="{'orgName':'text'}" sortable="'orgName'">{{o.orgName}}</td>
+                <td data-title="'Email'"  filter="{'email':'text'}" sortable="'email'">{{o.email}}</td>
+                <td class="actions-col single-action" header-class="'actions-col single-action'">
+                </td>
+              </tr>
+              <tr ng-if="!$data || $data.length === 0">
+                <td colspan="4">
+                  No records found.
+                </td>
+              </tr>
+            </table>
+          </section>
+        </div>
 
+        <div class="form-footer clearfix">
           <div class="pull-right">
-            <show-filter x-toggle-filter="toggleFilter"></show-filter>
+            <a class="btn btn-default" ui-sref="p.roles.list">Cancel</a>
+            <a class="btn btn-primary" href ng-click="save(roleForm.$valid)">Save</a>
           </div>
         </div>
-        <section class="panel panel-default">
-          <table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-striped table-hover">
-            <tr ng-repeat="o in $data">
-              <td data-title="'Name'"  filter="{'name':'text'}" sortable="'name'">{{o.displayName}}</td>
-              <td data-title="'Organization'"  filter="{'orgName':'text'}" sortable="'orgName'">{{o.orgName}}</td>
-              <td data-title="'Email'"  filter="{'email':'text'}" sortable="'email'">{{o.email}}</td>
-              <td class="actions-col single-action" header-class="'actions-col single-action'">
-              </td>
-            </tr>
-            <tr ng-if="!$data || $data.length === 0">
-              <td colspan="4">
-                No records found.
-              </td>
-            </tr>
-          </table>
-        </section>
-      </div>
 
-      <div class="form-footer clearfix">
-        <div class="pull-right">
-          <a class="btn btn-default btn-sm" ui-sref="p.roles.list">Cancel</a>
-          <a class="btn btn-primary btn-sm" href ng-click="save(roleForm.$valid)">Save</a>
-        </div>
-      </div>
-
-  </div>
-  </form>
-  </div>
+      </form>
+    </div>  
+ </div>
 
 
