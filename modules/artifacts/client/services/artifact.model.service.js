@@ -12,6 +12,9 @@ angular.module('artifacts').factory ('ArtifactModel', function (ModelBase, _) {
 	//
 	var Class = ModelBase.extend ({
 		urlName : 'artifact',
+		lookup: function (artifactid) {
+			return this.get ('/api/artifact/'+artifactid);
+		},
 		forProject: function (projectid) {
 			return this.get ('/api/artifact/for/project/'+projectid);
 		},
