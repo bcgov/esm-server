@@ -79,12 +79,12 @@ angular.module('users').config(['$stateProvider',
 				}*/
 			})
 			// TODO: Siteminder! when Siteminder is in place and we have Admin users, remove this state
-		.state('authentication.signin', {
+			.state('authentication.local', {
 				url: '/local/signin',
 				template: '<tmpl-login></tmpl-login>'
 			})
 		// TODO: Siteminder! when Siteminder is in place and we have Admin users, make this state = authentication.signin
-			.state('authentication.signin.siteminder', {
+			.state('authentication.signin', {
 				url: '/signin',
 				controller: function() {
 					// send them to the server, so that siteminder will authenticate, then send into our code to fully authorize.
@@ -131,18 +131,22 @@ angular.module('users').config(['$stateProvider',
 						return ProjectModel.lookup ();
 					}
 				},
-				controller: function ($scope, $state, $stateParams, lookup, activities, projects, NgTableParams, _) {
+				controller: function ($scope, $state, $stateParams, lookup, activities, projects, ArtifactModel, NgTableParams, _) {
 					// console.log (projects);
 					// console.log (activities);
 
-					$scope.projects = projects;
 
 					$scope.projectParams = new NgTableParams ({count:50}, {dataset: projects});
 
 					_.each(activities, function(item) {
+						console.log("item.data.artifactId:",item.data.artifactId);
 						if (lookup[item.project]) {
 							item.project = lookup[item.project].name;
 						}
+						ArtifactModel.lookup(item.data.artifactId).then( function (af) {
+							item.artifactname = af.name;
+							console.log("artifact name:",af.name);
+						});
 					});
 					$scope.tableParams = new NgTableParams ({count:50}, {dataset: activities});
 

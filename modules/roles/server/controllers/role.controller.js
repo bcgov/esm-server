@@ -43,7 +43,7 @@ var getUsersForRole = function (code) {
 	// console.log (code);
 	return new Promise (function (resolve, reject) {
 		Role.findOne ({ code: code },{users:1, code:1})
-		.populate('users', 'username displayName _id email')
+		.populate('users', 'org orgName username displayName _id email')
 		.exec()
 		.then (resolve, reject);
 	});
@@ -94,13 +94,14 @@ var getFullRolesForProject = function(req) {
 	var user = req.user;
 	var project = req.Project;
 	var roleCodes = project.roles;
-	var q = {code: {$in: roleCodes}};
+	var q = {projectCode: project.code};
 	if (!_.isEmpty(req.query)) {
 		_.merge(q, JSON.parse(JSON.stringify(req.query)));
 	}
 
 	return new Promise(function(fulfill, reject) {
 		Role.find(q)
+			.populate('users organization')
 			.exec()
 			.then(function(roles) {
 				fulfill(roles);

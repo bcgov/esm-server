@@ -81,7 +81,7 @@
         <table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-striped table-hover">
           <tr ng-repeat="o in $data">
             <td data-title="'Name'"  filter="{'name':'text'}" sortable="'name'">{{o.displayName}}</td>
-            <td data-title="'Organization'"  filter="{'orgCode':'text'}" sortable="'orgCode'">{{o.orgCode}}</td>
+            <td data-title="'Organization'"  filter="{'orgName':'text'}" sortable="'orgName'">{{o.orgName}}</td>
             <td data-title="'Email'"  filter="{'email':'text'}" sortable="'email'">{{o.email}}</td>
             <td class="actions-col single-action" header-class="'actions-col single-action'">
             </td>

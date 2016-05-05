@@ -70,14 +70,14 @@
                         <div class="col-sm-12">
                             <section class="panel panel-default">
                                 <table x-show-filter="show_filter" ng-table="tableParams" class="table table-condensed table-striped table-hover">
-                                    <tr ng-repeat="o in $data | orderBy:'order'"
+                                    <tr ng-repeat="o in $data | orderBy:'order' | unique:'data.artifactId'"
                                         ng-click="getLinkUrl(o.state, o.data)"
                                         class="clickable">
                                         <td data-title="'Project'" filter="{'project':'text'}" sortable="'project'">{{ o.project }}</td>
-                                        <td data-title="'Name'" filter="{'name':'text'}"    sortable="'name'" >{{o.name}}</td>
-                                        <td data-title="'Estimated Start'" filter="{'dateStartedEst':'text'}"    sortable="'dateStartedEst'" >{{o.dateStartedEst | date}}</td>
+                                        <td data-title="'Name'" filter="{'name':'text'}"    sortable="'name'" >{{o.artifactname}}</td>
+                                        <!-- <td data-title="'Estimated Start'" filter="{'dateStartedEst':'text'}"    sortable="'dateStartedEst'" >{{o.dateStartedEst | date}}</td>
                                         <td data-title="'Started On'" filter="{'dateStarted':'text'}"    sortable="'dateStarted'" >{{o.dateStarted | date}}</td>
-                                        <td data-title="'Estimated Complete'" filter="{'dateCompletedEst':'text'}"    sortable="'dateCompletedEst'" >{{o.dateCompletedEst | date}}</td>
+                                        <td data-title="'Estimated Complete'" filter="{'dateCompletedEst':'text'}"    sortable="'dateCompletedEst'" >{{o.dateCompletedEst | date}}</td> -->
                                         <!-- <td data-title="'Completed'" filter="{'dateCompleted':'text'}"    sortable="'dateCompleted'" >{{o.dateCompleted | date}}</td> -->
                                     </tr>
                                     <tr ng-if="!$data || $data.length === 0">

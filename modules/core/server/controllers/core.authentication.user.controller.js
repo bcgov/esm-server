@@ -137,7 +137,7 @@ var checkUsers = function (sm, user, inviteUser) {
 
 var updateUserFromSiteminder = function (sm, user) {
 	return new Promise(function (fulfill, reject) {
-		if (_.isEmpty(user.userGuid)) {
+		if (_.isEmpty(user.userGuid) || _.startsWith(user.userGuid, 'esm-')) {
 			// set the siteminder fields
 			user.userGuid = sm.userGuid;
 			user.userType = sm.userType;

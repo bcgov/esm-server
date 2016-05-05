@@ -129,12 +129,74 @@ angular.module('project').config (
 	.state('p.schedule', {
 		url: '/schedule',
 		templateUrl: 'modules/projects/client/views/project-partials/project.schedule.html',
-		controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel) {
+		controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel, $modal) {
 			var self = this;
 			self.rPhases = undefined;
 			self.rSelPhase = undefined;
 			self.rMilestonesForPhase = undefined;
 
+			$scope.openDeleteMilestone = function(id) {
+					var modalDocView = $modal.open({
+							animation: true,
+							templateUrl: 'modules/projects/client/views/project-partials/project.schedule.delete.modal.html',
+							controller: function ($modalInstance, MilestoneModel, $rootScope) {
+								this.ok = function () {
+									// Delete it
+									MilestoneModel.deleteMilestone(id).then(
+										function(res) {
+											$modalInstance.dismiss('ok');
+											$rootScope.$broadcast('refreshPhases', res);
+										}
+									);
+								};
+								this.cancel = function () {
+									$modalInstance.dismiss('cancel');
+								};
+							},
+							controllerAs: 'self',
+							scope: $scope,
+							size: 'lg'
+					});
+			};
+			$scope.ok = function (blah) {
+				console.log("here",blah);
+				MilestoneModel.save(blah).then(function (res) {
+					// $modalInstance.dismiss();
+				});
+			};
+			$scope.openEditMilestone = function(milestone) {
+					var modalDocView = $modal.open({
+							animation: true,
+							templateUrl: 'modules/projects/client/views/project-partials/project.schedule.milestone.edit.modal.html',
+							scope: $scope,
+							resolve: {
+								data: function (MilestoneModel) {
+									return MilestoneModel.get('/api/milestone/'+milestone);
+								}
+							},
+							controller: function ($modalInstance, MilestoneModel, data, $scope) {
+								var myData = this;
+								myData.data = data;
+								myData.cancel = function () {
+									$modalInstance.dismiss('cancel');
+								};
+								myData.ok = function () {
+									MilestoneModel.save(myData.data).then(function (res) {
+										// console.log('saved');
+										$modalInstance.close();
+									}).catch(function (err) {
+										$modalInstance.dismiss('cancel');
+									});
+								};
+							},
+							controllerAs: 'myData',
+							size: 'lg'
+					});
+					modalDocView.result.then(function (data) {
+						// Todo - update the item in the list
+						// scope.data = data;
+					}, function () {});
+			};
 			self.refresh = function () {
 				// console.log("Refreshing");
 				PhaseModel.phasesForProject(project._id).then(function (res) {
@@ -225,18 +287,13 @@ angular.module('project').config (
 					PhaseModel.save($scope.rSelPhase);
 				});
 			};
-			$scope.saveMilestone = function (data) {
-				data.dateStartedEst = $scope.dateStartedEst;
-				data.dateCompletedEst = $scope.dateCompletedEst;
-				MilestoneModel.save(data);
-			};
 			// Handle the delete milestone
 			$scope.selectedMilestone = function (milestone, phase) {
 				// console.log("selected milestone: ", MilestoneModel);
 				// console.log("selected phase:", $scope.rSelPhase);
 				self.selMilestone = milestone;
 				MilestoneModel.get(milestone).then(function (res) {
-					console.log("Milestone with activities data:",res);
+					// console.log("Milestone with activities data:",res);
 					$scope.data = res;
 					$scope.$apply();
 				});
@@ -245,18 +302,10 @@ angular.module('project').config (
 				self.selMilestone = milestone;
 				// Hack until we put into the service
 				MilestoneModel.get('/api/milestone/'+milestone).then(function (res) {
-					console.log("Milestone with activities data:",res);
+					// console.log("Milestone with activities data:",res);
 					$scope.data = res;
 					$scope.$apply();
 				});
-			};
-			$scope.confirmRemoveMilestone = function () {
-				// console.log("Removing Milestone:",self.selMilestone);
-				MilestoneModel.deleteMilestone(self.selMilestone).then(
-					function(res) {
-						$rootScope.$broadcast('refreshPhases', res);
-					}
-				);
 			};
 			var unbind = $rootScope.$on('refreshPhases', function() {
 				self.refresh();

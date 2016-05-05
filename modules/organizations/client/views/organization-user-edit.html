@@ -1,19 +1,21 @@
-<h1 class="page-title no-lower-margin">
-	Add / Edit User
-</h1>
-
-<form name="userForm" ng-submit="save(userForm.$valid)" novalidate>
-
-	<div class="row">
-		<div class="col-sm-12 text-right">
-			<button class="btn btn-xs btn-link" ui-sref="admin.organization.detail({orgId: org._id})">Cancel</button>
-			<button class="btn btn-xs btn-link" href type="submit">Save</button>
-		</div>
+<div class="edit-user-view">
+	
+	<div class="view-title-container">
+		<h1>Add/Edit User</h1>
 	</div>
+	
+	<div class="view-body-container">
 
-	<div class="panel panel-default">
-		<div class="panel-body">
+	<form name="userForm" ng-submit="save(userForm.$valid)" novalidate>
 
+		<div class="row hidden">
+			<div class="col-sm-12 text-right">
+				<button class="btn btn-xs btn-link" ui-sref="admin.organization.detail({orgId: org._id})">Cancel</button>
+				<button class="btn btn-xs btn-link" href type="submit">Save</button>
+			</div>
+		</div>
+		
+		<section>
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="form-group">
@@ -93,9 +95,22 @@
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<label for="notes" class="control-label">Contact Preferences</label>
+					<div class="form-group form-inline">
+						<div class="checkbox">
+							<label><input id="viaEmail" name="viaEmail" type="checkbox" ng-model="user.viaEmail">via Email</label>
+						</div>
+						<div class="checkbox">
+							<label><input id="viaMail" name="viaMail" type="checkbox" ng-model="user.viaMail">via Mail</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 
-			<hr/>
-
+		<section>
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
@@ -110,7 +125,6 @@
 					</div>
 				</div>
 			</div>
-
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="form-group">
@@ -137,9 +151,9 @@
 					</div>
 				</div>
 			</div>
-
-			<hr>
-
+		</section>
+		
+		<section>
 			<div class="row">
 				<div class="col-sm-4">
 					<div class="form-group">
@@ -160,9 +174,9 @@
 					</div>
 				</div>
 			</div>
+		</section>
 
-			<hr>
-
+		<section>
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
@@ -170,43 +184,24 @@
 						<textarea id="notes" rows="6" class="form-control" ng-model="user.notes"></textarea>
 					</div>
 				</div>
-
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="notes" class="control-label">Contact Preferences</label>
-						<div class="checkbox">
-							<label>
-								<input id="viaEmail" name="viaEmail" type="checkbox" ng-model="user.viaEmail"> via Email
-							</label>
-						</div>
-						<div class="checkbox">
-							<label>
-								<input id="viaMail" name="viaMail" type="checkbox" ng-model="user.viaMail"> via Mail
-							</label>
-						</div>
-					</div>
+				<div class="col-sm-3" ng-show="roles.length > 0">
+					<label for="complaint" class="control-label">Roles</label>
+					<select-array x-source-array="roles" x-selected-array='user.roles' x-key-string="code" x-value-string="name"></select-array>
 				</div>
-
-        <div class="col-sm-3" ng-show="roles.length > 0">
-          <label for="complaint" class="control-label">Roles</label>
-          <select-array x-source-array="roles" x-selected-array='user.roles' x-key-string="code" x-value-string="name"></select-array>
-
-        </div>
-
 			</div>
-
-			<hr>
-
-			<div class="row">
-				<div class="col-sm-12 text-right">
-					<button class="btn btn-default" ui-sref="admin.organization.detail({orgId: org._id})">Cancel</button>
-					<button class="btn btn-default" type="submit">Save</button>
-				</div>
+		</section>
+		
+		<div class="form-footer no-border clearfix">
+			<div class="pull-right">
+				<button class="btn btn-default" ui-sref="admin.organization.detail({orgId: org._id})">Cancel</button>
+				<button class="btn btn-primary" type="submit">Save</button>
 			</div>
 		</div>
 
-	</div> <!-- /panelbody -->
+	</form>
+	
+	</div><!-- / VIEW BODY CONTAINER -->
 
-</form>
+</div>
 
 

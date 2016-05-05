@@ -1,0 +1,35 @@
+<div class="modal-header">
+  <h3 class="modal-title">Edit Milestone</h3>
+</div>
+
+<form name="dataForm" ng-submit="save(dataForm.$valid)" novalidate>
+	<div class="modal-body">
+			<div class="form-group">
+				<div>Milestone: {{myData.data.name}}</div>
+			</div>
+			<div class="form-group has-error" ng-class="{'has-error': validateForm}">
+				<!-- <label>Date Range / Effective Date?</label> -->
+				<div class="date-range-control clearfix">
+					<div class="form-group">
+						<label class="control-label">Date Started Estimate</label>
+						<div class="input-group">
+								<p class="form-control-static">{{ myData.data.dateStartedEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="myData.data.dateStartedEst" >&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a>&nbsp; &nbsp;</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Date Completed Estimate</label>
+						<div class="input-group">
+								<p class="form-control-static">{{ myData.data.dateCompletedEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="myData.data.dateCompletedEst" >&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a>&nbsp; &nbsp;</p>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="help-block">Invalid Date Range Message</div> -->
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="modal-footer">
+  <button class="btn btn-default" type="button" ng-click="myData.cancel()">Cancel</button>
+  <button class="btn btn-primary" type="button" ng-click="myData.ok()">Save</button>
+</div>
