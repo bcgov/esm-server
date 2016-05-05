@@ -2,9 +2,9 @@
 
 	<form name="projectForm" ng-submit="saveProject(projectForm.$valid)" novalidate>
 
-		<div class="view-title-container no-border clearfix">
+		<div class="view-title-container clearfix">
 			<h1><span>Add/Edit Project</span><span ng-show="project.name">&nbsp; &rsaquo; &nbsp;{{ project.name }}</span></h1>
-			<div class="view-title-actions">
+			<div class="view-title-actions hidden">
 				<button class="btn btn-default btn-sm" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
 				<button class="btn btn-default btn-sm" ng-if="isNew" ui-sref="projects">Cancel</button>		
 				<button class="btn btn-default btn-sm" href type="submit">Save</button>
@@ -37,10 +37,10 @@
 						<div class="col-sm-8">
 							<div class="form-group" x-show-errors>
 								<label for="title" class="control-label">Project Name</label>
-								<input id="title" name="name" type="text" class="form-control input-sm" ng-model="project.name" required>
-									<div ng-messages="projectForm.name.$error" role="alert">
-										<p class="help-block error-text" ng-message="required">Project Name is required.</p>
-									</div>
+								<input id="title" name="name" type="text" class="form-control input-sm" ng-model="project.name" required />
+								<div ng-messages="projectForm.name.$error" role="alert">
+									<p class="help-block error-text" ng-message="required">Project Name is required.</p>
+								</div>
 							</div>
 						</div>
 						<div class="col-sm-4">
@@ -162,15 +162,12 @@
 					</div>
 					<div class="row">
 						<div class="col-sm-6">
-							<div class="form-group" x-show-errors>
+							<div class="form-group checkbox-row" x-show-errors>
 								<div class="checkbox">
-									<label>
-										<input type="checkbox" ng-model="project.isTermsAgreed" id="terms" name="terms" required>
-										I agree to the terms and conditions.
-									</label>
-										<div ng-messages="projectForm.terms.$error" role="alert">
-											<p class="help-block error-text" ng-message="required">You must accept the terms and conditions to continue.</p>
-										</div>
+									<label><input type="checkbox" ng-model="project.isTermsAgreed" id="terms" name="terms" required>I agree to the terms and conditions.</label>
+									<div ng-messages="projectForm.terms.$error" role="alert">
+										<p class="help-block error-text" ng-message="required">You must accept the terms and conditions to continue.</p>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -218,12 +215,12 @@
 				<p>You will be contacted shortly regarding the next steps.</p>
 			</div>
 
-			<div class="button-bar bottom clearfix">
+			<div class="form-footer clearfix">
 				<div class="pull-right">
-					<button class="btn btn-default btn-sm" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
-					<button class="btn btn-default btn-sm" ng-if="isNew" ui-sref="projects">Cancel</button>	
-					<button class="btn btn-default btn-sm" type="submit">Save</button>
-					<button class="btn btn-default btn-sm" ng-click="submitProject(projectForm.$valid)" ng-if="project.status === 'Initiated'">Submit Project</button>
+					<button class="btn btn-default" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
+					<button class="btn btn-default" ng-if="isNew" ui-sref="projects">Cancel</button>	
+					<button class="btn btn-primary" type="submit">Save</button>
+					<button class="btn btn-success" ng-click="submitProject(projectForm.$valid)" ng-if="project.status === 'Initiated'">Submit Project</button>
 				</div>
 			</div>
 		</div><!-- / VIEW BODY CONTAINER -->

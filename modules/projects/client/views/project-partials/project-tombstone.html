@@ -12,7 +12,8 @@
 		<label>Phase:</label>
 		<span class="value">
 			<span class="badge" ng-class="{'review': project.currentPhaseName == 'Review'}" title="Phase: {{::project.currentPhase.name}}">{{ ::project.currentPhase.name | titleCase }}</span>
-			&nbsp;(Estimated Phase Completion: {{ (project.currentPhase.dateCompletedEst | amDateFormat:'MMM Do YYYY') || 'N/A' }})</span>
+			<span class="hidden">(Estimated Phase Completion: {{ (project.currentPhase.dateCompletedEst | amDateFormat:'MMM Do YYYY') || 'N/A' }})</span>
+		</span>
 	</div>
 	<div class="detail-row" ng-show="::project.description">
 		<label>Description:</label>
