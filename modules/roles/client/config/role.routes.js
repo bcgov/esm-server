@@ -54,7 +54,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 		templateUrl: 'modules/roles/client/views/role-list.html',
 		resolve: {
 			systemRoles: function ($stateParams, RoleModel) {
-				return RoleModel.getSystemRoles ();
+				return RoleModel.getAllSystemRoles ();
 			}
 		},
 		controller: function ($scope, NgTableParams, systemRoles) {
