@@ -219,8 +219,8 @@ var userRoles = function (data) {
 			return Promise.all (userArray.map (function (user) {
 				// console.log ('setting roles for user ', user.username, roleArray);
 				user.modRoles (data.method, roleArray);
-        // need to set the roles as modified, weren't getting updated when items removed...
-        user.markModified('roles');
+				// need to set the roles as modified, weren't getting updated when items removed...
+				user.markModified('roles');
 				return user.save ();
 			}));
 		})
@@ -314,7 +314,7 @@ var getObjects = function(req, objectType, objects) {
 	var idArray = objectArray.map (function (u) {
 		return u._id.toString ();
 	});
-	
+
 	var factory = require(require('path').resolve('./modules/common/controllers/controller.factory'));
 	return factory.getMany(req, objectType, idArray);
 
