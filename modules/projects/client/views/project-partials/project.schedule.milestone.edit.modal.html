@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <h3 class="modal-title">Edit Milestone</h3>
+</div>
+
+<form name="dataForm" ng-submit="save(dataForm.$valid)" novalidate>
+	<div class="modal-body">
+			<div class="form-group">
+				<div>Milestone: {{myData.data.name}}</div>
+			</div>
+			<div class="form-group has-error" ng-class="{'has-error': validateForm}">
+				<label>Date Range / Effective Date?</label>
+				<div class="date-range-control clearfix">
+					<div class="date-range input-group pull-left">
+						<span class="input-group-btn">
+							<button class="btn btn-default">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</button>
+						</span>
+						<!-- {{data.dateStarted}} -->
+						<input class="form-control" type="text" placeholder="mm/dd/yyyy" ng-model="myData.data.dateStartedEst" />
+					</div>
+					<div class="pull-left spacer">-</div>
+					<div class="date-range input-group pull-left">
+						<span class="input-group-btn">
+							<button class="btn btn-default">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</button>
+						</span>
+						<input class="form-control" type="text" placeholder="mm/dd/yyyy" ng-model="myData.data.dateCompletedEst"/>
+					</div>
+				</div>
+				<div class="help-block">Invalid Date Range Message</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="modal-footer">
+  <button class="btn btn-default" type="button" ng-click="myData.cancel()">Cancel</button>
+  <button class="btn btn-primary" type="button" ng-click="myData.ok()">Save</button>
+</div>
