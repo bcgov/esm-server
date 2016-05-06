@@ -34,7 +34,7 @@
 	                        </small>
 	                    </div>
 	                    <div class="panel panel-info"  ng-if="artifact.document._id">
-	                        <a href="/api/document/{{ file._id }}/fetch" target="_blank">
+	                        <a href="/api/document/{{ artifact.document._id }}/fetch" target="_blank">
 	                            <small>
 	                            	{{ artifact.document.internalOriginalName }}<br/> AS <br/>
 	                                {{ artifact.name }} ({{ artifact.version }} {{ artifact.stage }})<br/>
