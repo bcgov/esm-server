@@ -1,4 +1,121 @@
 <section class="document-browser-view">
+	
+		<!-- PHASE DOCUMENTS -->
+		<div class="panel panel-default accordion hidden">
+            <div class="panel-heading" role="tab" id="phase1">
+                <a class="clearfix" role="button" data-toggle="collapse" href="#phase1Collapse" aria-expanded="true" aria-controls="phase1Collapse">
+                    <span class="glyphicon glyphicon-plus pull-left"></span>
+                    <span class="glyphicon glyphicon-minus pull-left"></span>
+                    <h2 class="pull-left">Phase Title</h2>
+                </a>
+            </div>
+            <div id="phase1Collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="ir1Collapse">
+                <div class="actions-table-container">
+					
+					<table ng-table="vm.tableParams" class="table table-striped document-browser" show-filter="false">
+						<tr class="hidden" ng-repeat="user in $data">
+							<td class="name-col" header-class="'name-col'" title="'Name'" filter="{ name: 'text'}" sortable="'name'">
+								{{user.name}}</td>
+							<td title="'Status'" filter="{ age: 'number'}" sortable="'status'">
+								{{user.age}}</td>
+							<td title="'Last Modified'" filter="{ age: 'number'}" sortable="'last-modified'">
+								{{user.age}}</td>
+							<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+								<a class="btn btn-link btn-sm" href="javascript:void();">
+									<span class="glyphicon glyphicon-option-horizontal"></span>
+								</a>
+							</td>
+						</tr>
+						<!-- PROTOTYPE ROWS -->
+						<tr>
+							<td class="name-col" header-class="'name-col'" title="'Name'" filter="{ name: 'text'}" sortable="'name'">
+								<span class="glyphicon glyphicon-folder-close"></span>Folder Name</td>
+							<td title="'Status'" filter="{ age: 'number'}" sortable="'status'">
+								Status</td>
+							<td title="'Last Modified'" filter="{ age: 'number'}" sortable="'last-modified'">
+								Last Modified</td>
+							<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+								<a class="btn btn-link btn-sm" href="javascript:void();">
+									<span class="glyphicon glyphicon-option-horizontal"></span>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td class="name-col" header-class="'name-col'" title="'Name'" filter="{ name: 'text'}" sortable="'name'">
+								<span class="glyphicon glyphicon-folder-close"></span>Folder Name</td>
+							<td title="'Status'" filter="{ age: 'number'}" sortable="'status'">
+								Status</td>
+							<td title="'Last Modified'" filter="{ age: 'number'}" sortable="'last-modified'">
+								Last Modified</td>
+							<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+								<a class="btn btn-link btn-sm" href="javascript:void();">
+									<span class="glyphicon glyphicon-option-horizontal"></span>
+								</a>
+							</td>
+						</tr>
+						<tr class="selected">
+							<td class="name-col" header-class="'name-col'" title="'Name'" filter="{ name: 'text'}" sortable="'name'">
+								<span class="glyphicon glyphicon-file"></span>File Name</td>
+							<td title="'Status'" filter="{ age: 'number'}" sortable="'status'">
+								Status</td>
+							<td title="'Last Modified'" filter="{ age: 'number'}" sortable="'last-modified'">
+								Last Modified</td>
+							<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+								<a class="btn btn-link btn-sm" href="javascript:void();">
+									<span class="glyphicon glyphicon-option-horizontal"></span>
+								</a>
+							</td>
+						</tr><!-- / PROTOTYPE ROWS -->
+					</table>
+					
+                    <table class="table table-striped hidden">
+                        <thead>
+                            <tr>
+                                <th class="name-col">Name</th>
+                                <th class="status-col">Status</th>
+								<th class="date-col">Last Modified</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="name-col">
+									<span class="glyphicon glyphicon-folder-close"></span>
+                                    <span>Folder Name</span>
+                                </td>
+                                <td class="status-col"></td>
+                                <td class="date-col">mm/dd/yyyy</td>
+                            </tr>
+							<tr>
+                                <td class="name-col">
+									<span class="glyphicon glyphicon-folder-close"></span>
+                                    <span>Folder Name</span>
+                                </td>
+                                <td class="status-col"></td>
+                                <td class="date-col">mm/dd/yyyy</td>
+                            </tr>
+							<tr>
+                                <td class="name-col">
+									<span class="glyphicon glyphicon-folder-close"></span>
+                                    <span>Folder Name</span>
+                                </td>
+                                <td class="status-col"></td>
+                                <td class="date-col">mm/dd/yyyy</td>
+                            </tr>
+							<tr>
+                                <td class="name-col">
+									<span class="glyphicon glyphicon-file"></span>
+                                    <span>File Name</span>
+                                </td>
+                                <td class="status-col"></td>
+                                <td class="date-col">mm/dd/yyyy</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div><!-- / PHASE DOCUMENTS -->
+	
+	
 	<div class="panel panel-default">
 		<div class="panel-heading clearfix">
 			<h2 class="pull-left">Documents</h2>
@@ -25,13 +142,14 @@
 						ng-class="{'active btn-primary': docBrowser.filterDocsSelected(row)}">
 						<span class="glyphicon glyphicon-play arrow"></span>
 						{{ row.label }}
+						
 					<li>
+					<li ng-repeat="doc in docBrowser.documentFiles | filter:filterLinage:true">{{ doc.internalOriginalName | removeExtension }}</li>
 				</ul>
 			</div>
 			
 			<div class='col-sm-4 col-no-padding vertical-scroll col-border-right'>
 				<ul class="small list-unstyled list-documents list-indent-left">
-
 					<li
 						class="row-document clickable"
 						ng-click="docBrowser.filterSummary(doc)"
@@ -43,7 +161,7 @@
 				</ul>
 			</div>
 			
-			<div class='col-sm-4 col-no-padding vertical-scroll' ng-class="{'bg-muted': !filterSummary}" >
+			<div class='col-sm-4 col-no-padding vertical-scroll hidden' ng-class="{'bg-muted': !filterSummary}" >
 				<div class="row" ng-show="filterSummary">
 					<div class="col-sm-10 doc-detail-col">
 						<ul class="small list-unstyled list-documents list-indent-left" >

@@ -21,6 +21,7 @@ $danger-text:			#a94442;
 // Bootstrap Overrides
 // -------------------------
 
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700,500);
 
 /* TYPOGRAPHY - NEW */
 @font-face {
@@ -35,14 +36,13 @@ html {
 
 body {
 	min-height: 100%;
-	font-family: Myriad-Pro, Calibri, Arial, sans serif !important;
 	font-size: 1.4rem;
 	-ms-overflow-style: scrollbar;
 }
 
 /* ----- Typography ----- */
-$font-family-heading: 'Nunito', sans-serif;
-$font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$font-family-heading: Myriad-Pro, Calibri, sans serif;
+$font-family-sans-serif: Myriad-Pro, Calibri, sans serif;
 
 .btn-primary,
 .btn-success,
@@ -1999,25 +1999,34 @@ $header-height: 6rem;
 		
 		a {
 			display: block;
-			padding: 1.25rem 1.5rem;
+			padding: 1rem 1.5rem;
 			font-weight: bold;
 			color: #000;
 			
-			.glyphicon-chevron-down {
+			h2 {
+				margin-top: 1px;
+			}
+			
+			.glyphicon {
+				margin-right: 1rem;
+				font-size: 1.5rem;
+			}
+			
+			.glyphicon-plus {
 				display: none;
 			}
 			
-			.glyphicon-chevron-up {
+			.glyphicon-minus {
 				display: inline-block;
 			}
 		}
 		
 		a.collapsed {
-			.glyphicon-chevron-down {
+			.glyphicon-plus {
 				display: inline-block;
 			}
 			
-			.glyphicon-chevron-up {
+			.glyphicon-minus {
 				display: none;
 			}
 		}
@@ -2062,14 +2071,14 @@ $header-height: 6rem;
 	}
 	
 	th, td {
-		padding: 0.75rem 1rem;
 		text-align: left;
 	}
 	
 	.actions-col {
-		padding-top: 0.35rem;
-		padding-bottom: 0.35rem;
-		text-align: right;
+		padding-top: 0;
+		padding-bottom: 0;
+		text-align: center;
+		vertical-align: middle;
 		
 		.btn {
 			padding-left: 0.8rem;
@@ -2082,7 +2091,7 @@ $header-height: 6rem;
 	}
 	
 	.action-x1 {
-		width: 5rem;
+		width: 6rem;
 	}
 	
 	.action-x2 {
@@ -2366,6 +2375,52 @@ hr {
         width: 10rem;
         text-align: right;
     }
+}
+
+/* DOCUMENTS VIEW 
+------------------------------ */
+.table.document-browser {
+	td {
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+	}
+	
+	td.actions-col {
+		padding-top: 0;
+		padding-bottom: 0;
+		vertical-align: middle;
+	}
+	
+	.name-col {
+		padding-left: 1.5rem;
+		
+		.glyphicon {
+			margin-top: -0.5rem;
+			margin-right: 1rem;
+			vertical-align: middle;
+		}
+	}
+}
+
+tr.selected {
+	background-color: #003366 !important;
+	color: #FFF;
+	
+	td {
+		border-top: 1px solid #003366 !important;
+	}
+}
+
+tr.row-depth-2 {
+	td:first-child {
+		padding-left: 4rem;
+	}
+}
+
+tr.row-depth-3 {
+	td:first-child {
+		padding-left: 6rem;
+	}
 }
 
 /* PROJECT DETAILS VIEW
