@@ -11,6 +11,12 @@ angular.module('project').run(['Menus', 'MenuControl', function (Menus, MenuCont
 			state: "p.schedule",
 			roles: MenuControl.menuRoles ('', 'pro', 'edit-project')
 		});
+		Menus.addMenuItem('projectTopMenu', {
+			title: 'Compliance Oversight',
+			state: "p.enforcements",
+			roles: MenuControl.menuRoles ('', 'pro', 'public')
+		});
+		
 		// Menus.addMenuItem('projectMenu', {
 		// 	title: 'Edit Project Schedule',
 		// 	state: 'p.edit',

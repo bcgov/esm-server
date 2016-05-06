@@ -52,7 +52,9 @@
 			ng-if="('project'| shouldDisplayPanel:'stream':project.status) && environment === 'EAO'">
 		</tmpl-project-stream-select>
 
-		<section class="project-artifacts" ng-if="environment === 'EAO' && authentication.user">
+		<!-- EXPOSING FOR DEMO PURPOSES ONLY -->
+		<!-- ng-if="environment === 'EAO' && authentication.user" -->
+		<section class="project-artifacts" ng-if="environment === 'EAO'">
 			<div id="anchor-artifacts">
 				<tmpl-artifact-list x-project="project"></tmpl-artifact-list>
 			</div>

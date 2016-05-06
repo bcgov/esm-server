@@ -116,6 +116,29 @@ angular.module('project').config (
 	})
 	// -------------------------------------------------------------------------
 	//
+	// COMPLIANCE AND ENFORCEMENTS
+	//
+	// -------------------------------------------------------------------------
+	.state('p.enforcements', {
+		url: '/enforcements',
+		templateUrl: 'modules/projects/client/views/project-partials/project.enforcements.html',
+		controller: 'controllerProjectEntry',
+		// resolve: {
+		// 	intakeQuestions: function(ProjectModel) {
+		// 		return ProjectModel.getProjectIntakeQuestions();
+		// 	}
+		// },
+		onEnter: function (MenuControl, project, $stateParams) {
+			if ($stateParams.projectid === 'new') {
+				MenuControl.routeAccess ('', '','proponent');
+			}
+			else {
+				MenuControl.routeAccess (project.code, 'pro','public');
+			}
+		}
+	})
+	// -------------------------------------------------------------------------
+	//
 	// the decision package mockup
 	//
 	// -------------------------------------------------------------------------
