@@ -81,9 +81,9 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 // CONTROLLER: Document Upload General
 //
 // -----------------------------------------------------------------------------------
-controllerDocumentUploadGlobal.$inject = ['$scope', 'Upload', '$timeout', 'Document', '_', 'ENV'];
+controllerDocumentUploadGlobal.$inject = ['$scope', 'Upload', '$timeout', 'Document', '_', 'ENV', 'ArtifactModel'];
 /* @ngInject */
-function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, ENV) {
+function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, ENV, ArtifactModel) {
 	var docUpload = this;
 	var parentId = null;
 
@@ -92,6 +92,8 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 	docUpload.inProgress = false;
 	docUpload.fileList = [];
 	docUpload.type = null;
+	docUpload.artifact = null;
+	docUpload.documentList = [];
 
 	$scope.$watch('hideUploadButton', function(newValue) {
 		if (newValue) {
@@ -217,10 +219,42 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 				file.upload.then(function (response) {
 					$timeout(function () {
 						file.result = response.data;
-						// console.log('file', response.data);
+						// Generate a bunch of documentID's that need to be handled.
+						docUpload.documentList.push(response.data._id);
 						// when the last file is finished, send complete event.
 						if (--docCount === 0) {
 							// emit to parent.
+							// Go through all the documents that have been uploaded and push them 
+							// into a new artifact
+							ArtifactModel.newFromType("memo-epd", docUpload.project._id).then(function (art) {
+								// console.log("created an artifact", art);
+								if (docUpload.fileList.length === 1) {
+									// There was only 1 file to upload, so this should be the main document
+									// console.log("saving main document");
+									art.document = docUpload.documentList[0];
+									ArtifactModel.saveModel(art).then (function (saved) {
+										// console.log("saved main document:", saved);
+									});
+								} else {
+									// Little bit of synchronous magic!
+									return docUpload.documentList.reduce (function (current, value, index) {
+										return current.then (function (data) {
+												// When we first enter, this is null.. since there was no previous
+												// element.
+												if (undefined === data) {
+													data = art;
+												}
+												// First doc is a main document, the rest are supporting.
+												if (index === 0 ) {
+													data.document = value;
+												} else {
+													data.supportingDocuments.push(value);
+												}
+												return ArtifactModel.saveModel(data);
+										});
+									}, Promise.resolve());
+								}
+							});
 							$scope.$emit('documentUploadComplete');
 						}
 					});
