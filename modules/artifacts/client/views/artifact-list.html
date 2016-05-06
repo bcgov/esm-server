@@ -8,9 +8,9 @@
 				<div class="artifacts-list-actions pull-right clearfix">
 					<div class="artifacts-dropdown dropdown pull-left" ng-if="!s.public">
 						<div class="input-group" data-toggle="dropdown">
-							<input class="entryInput form-control input-sm" id="query" name="query" type="text" placeholder="Select an Artifact Type" ng-model="s.addtype.name"></input>
+							<input class="entryInput form-control input-sm" id="query" name="query" type="text" placeholder="Select a Template Type" ng-model="s.addtype.name"></input>
 							<span class="input-group-btn">
-								<button ng-disabled="!s.addtype" ng-click="$event.stopPropagation();s.addType()" class="btn btn-default btn-sm" type="button">Add Artifact</button>
+								<button ng-disabled="!s.addtype" ng-click="$event.stopPropagation();s.addType()" class="btn btn-default btn-sm" type="button">Add Template</button>
 							</span>
 						</div>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="query">
