@@ -226,7 +226,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 							// emit to parent.
 							// Go through all the documents that have been uploaded and push them 
 							// into a new artifact
-							ArtifactModel.newFromType("memo-epd", docUpload.project._id).then(function (art) {
+							ArtifactModel.newFromType("documents", docUpload.project._id).then(function (art) {
 								// console.log("created an artifact", art);
 								if (docUpload.fileList.length === 1) {
 									// There was only 1 file to upload, so this should be the main document
