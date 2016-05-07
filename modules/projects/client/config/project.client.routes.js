@@ -107,10 +107,10 @@ angular.module('project').config (
 		// },
 		onEnter: function (MenuControl, project, $stateParams) {
 			if ($stateParams.projectid === 'new') {
-				MenuControl.routeAccess ('', '','proponent');
+				MenuControl.routeAccess ([{systemRoleCode: 'proponent'}]);
 			}
 			else {
-				MenuControl.routeAccess (project.code, 'pro','edit-project');
+				MenuControl.routeAccess ([{projectCode: project.code, orgCode: 'pro', roleCode: 'project-team'}]);
 			}
 		}
 	})
@@ -130,10 +130,10 @@ angular.module('project').config (
 		// },
 		onEnter: function (MenuControl, project, $stateParams) {
 			if ($stateParams.projectid === 'new') {
-				MenuControl.routeAccess ('', '','proponent');
+				MenuControl.routeAccessBuilder ('admin', '*', '*', '*');
 			}
 			else {
-				MenuControl.routeAccess (project.code, 'pro','public');
+				MenuControl.routeAccessBuilder (['admin', 'user', 'public']);
 			}
 		}
 	})

@@ -141,6 +141,11 @@ var updateUserFromSiteminder = function (sm, user) {
 			// set the siteminder fields
 			user.userGuid = sm.userGuid;
 			user.userType = sm.userType;
+
+			if (!_.includes(user.roles, 'user')) {
+				user.roles.push('user');
+			}
+
 			user.save(function (err, u) {
 				if (err) {
 					reject(new Error(err));

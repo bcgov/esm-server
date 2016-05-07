@@ -13,7 +13,7 @@ angular.module('documents').config(['$stateProvider', function ($stateProvider) 
 			$scope.project = project;
 		},
         onEnter: function (MenuControl, project) {
-            MenuControl.routeAccess (project.code, 'any','edit-documents');
+            MenuControl.routeAccessBuilder ('admin', project.code, '*', '*');
         }
 
 	});

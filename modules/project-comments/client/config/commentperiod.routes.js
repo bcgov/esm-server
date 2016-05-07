@@ -28,7 +28,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			}
 		},
         onEnter: function (MenuControl, project) {
-            MenuControl.routeAccess (project.code, 'eao','edit-comment-periods');
+					MenuControl.routeAccessBuilder ('admin', project.code, '*', '*');
         }
 
 	})

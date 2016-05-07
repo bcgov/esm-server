@@ -1,10 +1,10 @@
 <section id="menu-side" class="sidenav">
 
 	<!-- PUBLIC USERS (COMMON) -->
-	<div class="hidden" ng-show="!menu.authentication.user">
+	<div ng-show="!menu.authentication.user">
 		<ul class="list-unstyled">
-			<li><a ui-sref="details" href>Project Details</a></li>
-			<li><a ui-sref="enforcements" href>Compliance Oversight</a></li>
+			<li><a ui-sref="p.detail" href>Project Details</a></li>
+			<li><a ui-sref="p.enforcements" href>Compliance Oversight</a></li>
 		</ul>
 	</div><!-- / PUBLIC USERS (COMMON) -->
 
@@ -44,7 +44,7 @@
 		<ul class="list-unstyled">
 			<li><a ui-sref="p.detail({projectid: menu.project.code})">Project Detail</a></li>
 		</ul>
-		
+
 		<!-- PROJECT CLIENT MENUS (project.client.menus.js) -->
 		<ul class="list-unstyled" ng-show="menu.authentication.user">
 			<li ng-repeat="item in menu.projectTopMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project.code);"

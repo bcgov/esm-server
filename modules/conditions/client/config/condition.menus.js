@@ -1,11 +1,10 @@
 'use strict';
 
-angular.module('conditions').run(['Menus',
-	function (Menus) {
+angular.module('conditions').run(['Menus', 'MenuControl', function (Menus, MenuControl) {
 		Menus.addMenuItem('systemMenu', {
 			title: 'Conditions',
 			state: 'admin.condition.list',
-			roles: ['eao','admin']
+			roles: MenuControl.menuRolesBuilder(['eao','admin'])
 		});
 	}
 ]);

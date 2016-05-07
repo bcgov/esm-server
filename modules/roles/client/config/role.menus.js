@@ -4,12 +4,12 @@ angular.module('roles').run(['Menus', 'MenuControl', function (Menus, MenuContro
 		Menus.addMenuItem('projectMenu', {
 			title: 'Project Roles',
 			state: 'p.roles.list',
-			roles: MenuControl.menuRoles ('', 'any', 'edit-roles')
+			roles: MenuControl.menuRolesBuilder ('admin', '*', '*', '*')
 		});
 		Menus.addMenuItem('systemMenu', {
 			title: 'System Roles',
 			state: 'admin.roles.list',
-			roles: ['admin','edit-sys-roles']
+			roles: MenuControl.menuRolesBuilder(['admin'])
 		});
 	}
 ]);

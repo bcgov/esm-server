@@ -4,17 +4,17 @@ angular.module('project').run(['Menus', 'MenuControl', function (Menus, MenuCont
 		Menus.addMenuItem('projectTopMenu', {
 			title: 'Edit Project',
 			state: 'p.edit',
-			roles: MenuControl.menuRoles ('', 'pro', 'edit-project')
+			roles: MenuControl.menuRolesBuilder ('admin', '*', '*', '*')
 		});
 		Menus.addMenuItem('projectTopMenu', {
 			title: 'Schedule',
 			state: "p.schedule",
-			roles: MenuControl.menuRoles ('', 'pro', 'edit-project')
+			roles: MenuControl.menuRolesBuilder ('admin', '*', '*', '*')
 		});
 		Menus.addMenuItem('projectTopMenu', {
 			title: 'Compliance Oversight',
 			state: "p.enforcements",
-			roles: MenuControl.menuRoles ('', 'pro', 'public')
+			roles: MenuControl.menuRolesBuilder ('admin', '*', '*', '*')
 		});
 		
 		// Menus.addMenuItem('projectMenu', {

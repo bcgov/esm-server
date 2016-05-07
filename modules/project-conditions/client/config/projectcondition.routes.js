@@ -42,7 +42,7 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 			}
 		},
         onEnter: function (MenuControl, project) {
-            MenuControl.routeAccess (project.code, 'eao','edit-conditions');
+					MenuControl.routeAccessBuilder ('admin', project.code, '*', '*');
         }
 
 	})

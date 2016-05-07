@@ -16,7 +16,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 		abstract: true,
 		template: '<ui-view></ui-view>',
 		onEnter: function (MenuControl, project) {
-			MenuControl.routeAccess (project.code, 'any','edit-roles');
+			MenuControl.routeAccessBuilder ('admin', project.code, '*', '*');
 		}
 	})
 	.state('p.roles.list', {

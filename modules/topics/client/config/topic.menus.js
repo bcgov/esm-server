@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('topics').run(['Menus',
-	function (Menus) {
+angular.module('topics').run(['Menus','MenuControl',
+	function (Menus, MenuControl) {
 		Menus.addMenuItem('systemMenu', {
 			title: 'Valued Components',
 			state: 'admin.topic.list',
-			roles: ['admin','eao']
+			roles: MenuControl.menuRolesBuilder(['admin','eao'])
 		});
 	}
 ]);

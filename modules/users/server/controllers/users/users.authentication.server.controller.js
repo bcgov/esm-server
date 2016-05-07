@@ -58,7 +58,7 @@ var findUserByEmail = function (email) {
 	return new Promise(function (fulfill, reject) {
 		User.findOne({
 			email: email
-		}).populate('org roles').exec(function (error, user) {
+		}).populate('org').exec(function (error, user) {
 			if (error) {
 				reject(new Error(error));
 			} else if (!user) {
