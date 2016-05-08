@@ -31,9 +31,10 @@ angular.module('artifacts')
 					});
 				}
 			};
+			$scope.filters = { typeCode: '!documents' };
 			this.init = function () {
 				ArtifactModel.forProject ($scope.project._id).then (function (c) {
-					s.tableParams = new NgTableParams ({count:10}, {dataset: c});
+					s.tableParams = new NgTableParams ({count:10, filter: $scope.filters}, {dataset: c});
 					// console.log ("artifacts = ", c);
 					$scope.$apply ();
 				});

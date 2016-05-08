@@ -39,7 +39,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		url: '/artifactlist',
 		templateUrl: 'modules/artifacts/client/views/artifact-list.html',
 		controller: function ($scope, NgTableParams, artifacts, project) {
-			$scope.tableParams = new NgTableParams ({count:10}, {dataset: artifacts});
+			$scope.tableParams = new NgTableParams ({count:10, filter: $scope.filters}, {dataset: artifacts});
 			$scope.project = project;
 		}
 	})

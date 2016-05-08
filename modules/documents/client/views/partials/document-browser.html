@@ -1,122 +1,220 @@
 <section class="document-browser-view">
-	
-		<!-- PHASE DOCUMENTS -->
-		<div class="panel panel-default accordion hidden">
-            <div class="panel-heading" role="tab" id="phase1">
-                <a class="clearfix" role="button" data-toggle="collapse" href="#phase1Collapse" aria-expanded="true" aria-controls="phase1Collapse">
-                    <span class="glyphicon glyphicon-plus pull-left"></span>
-                    <span class="glyphicon glyphicon-minus pull-left"></span>
-                    <h2 class="pull-left">Phase Title</h2>
-                </a>
-            </div>
-            <div id="phase1Collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="ir1Collapse">
-                <div class="actions-table-container">
+	<div ng-table="docBrowser.phasesForProject">
+		<div ng-repeat="phase in $data">
+			<div class="panel panel-default accordion">
+				<div class="panel-heading" role="tab" id="{{phase._id}}">
+					<a class="clearfix"
+					   role="button"
+					   data-toggle="collapse"
+					   href="#{{phase._id}}Collapse"
+					   aria-expanded="true"
+					   aria-controls="{{phase._id}}">
+						<span class="glyphicon glyphicon-plus pull-left"></span>
+						<span class="glyphicon glyphicon-minus pull-left"></span>
+						<h2 class="pull-left">{{phase.name}}</h2>
+					</a>
+				</div>
+				<!-- <div id="{{phase._id}}Collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="{{phase._id}}Collapse">
+					<div class="actions-table-container">
+						<table ng-table="docBrowser.artifacts" class="table table-striped document-browser" show-filter="false">
+							<tr ng-repeat="artifact in $data"
+								ng-if="phase._id === artifact.phase"
+								ui-sref="p.artifact.view({artifactId:artifact._id})">
+								<td class="name-col" header-class="'name-col'" title="'Name'" filter="{ typeCode: 'text'}" sortable="'name'">
+									{{artifact.document.internalOriginalName}}</td>
+								<td title="'isPublished'" sortable="'status'">
+									{{artifact.isPublished}}</td>
+								<td title="'Last Modified'">
+									{{artifact.dateUpdated | date : format : timezone}}</td>
+								<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+									<a class="btn btn-link btn-sm" href="javascript:void();">
+										<span class="glyphicon glyphicon-option-horizontal"></span>
+									</a>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div> -->
+				<div id="{{phase._id}}Collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="{{phase._id}}Collapse">
+					<div class="actions-table-container">
+						<table ng-table="docBrowser.artifacts" class="table table-striped document-browser" show-filter="false">
+							<tr ng-repeat="artifact in $data"
+								ng-if="phase._id === artifact.phase">
+								<td class="name-col" header-class="'name-col'" title="'Name'" filter="{ depth: 'number'}" sortable="'name'">
+									{{artifact.name}}</td>
+								<td title="'isPublished'" sortable="'status'">
+									{{artifact.isPublished}}</td>
+								<td title="'Last Modified'">
+									{{artifact.dateUpdated | date : format : timezone}}</td>
+								<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+									<a ui-sref="p.artifact.view({artifactId:artifact._id})">
+										<span class="glyphicon glyphicon-option-horizontal"></span>
+									</a>
+									<a
+										ng-if="docBrowser.allowLink && artifact.supportingDocuments.length === 0"
+										href
+										ng-click="docBrowser.toggleDocumentLink( artifact.document )"
+										title="Link">
+											<span class="glyphicon glyphicon-link"></span>
+									</a>
+
+								</div>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <div class="panel panel-default accordion">
+			<div class="panel-heading" role="tab" id="phase1">
+				<a class="clearfix" role="button" data-toggle="collapse" href="#phase1Collapse" aria-expanded="true" aria-controls="phase1Collapse">
+					<span class="glyphicon glyphicon-plus pull-left"></span>
+					<span class="glyphicon glyphicon-minus pull-left"></span>
+					<h2 class="pull-left">{{phase.code}}</h2>
+				</a>
+			</div>
+			<div id="phase1Collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="ir1Collapse">
+				<div class="actions-table-container">
 					
-					<table ng-table="vm.tableParams" class="table table-striped document-browser" show-filter="false">
-						<tr class="hidden" ng-repeat="user in $data">
-							<td class="name-col" header-class="'name-col'" title="'Name'" filter="{ name: 'text'}" sortable="'name'">
-								{{user.name}}</td>
-							<td title="'Status'" filter="{ age: 'number'}" sortable="'status'">
-								{{user.age}}</td>
-							<td title="'Last Modified'" filter="{ age: 'number'}" sortable="'last-modified'">
-								{{user.age}}</td>
+					<table ng-table="docBrowser.artifacts" class="table table-striped document-browser" show-filter="false">
+						<tr ng-repeat="artifact in $data" ui-sref="p.artifact.view({artifactId:artifact._id})">
+							<td class="name-col" header-class="'name-col'" title="'Name'" filter="{ typeCode: 'text'}" sortable="'name'">
+								{{artifact.name}}</td>
+							<td title="'isPublished'" sortable="'status'">
+								{{artifact.isPublished}}</td>
+							<td title="'Last Modified'">
+								{{artifact.dateUpdated | date : format : timezone}}</td>
 							<td class="actions-col action-x1" header-class="'actions-col action-x1'">
 								<a class="btn btn-link btn-sm" href="javascript:void();">
 									<span class="glyphicon glyphicon-option-horizontal"></span>
 								</a>
 							</td>
 						</tr>
-						<!-- PROTOTYPE ROWS -->
-						<tr>
-							<td class="name-col" header-class="'name-col'" title="'Name'" filter="{ name: 'text'}" sortable="'name'">
-								<span class="glyphicon glyphicon-folder-close"></span>Folder Name</td>
-							<td title="'Status'" filter="{ age: 'number'}" sortable="'status'">
-								Status</td>
-							<td title="'Last Modified'" filter="{ age: 'number'}" sortable="'last-modified'">
-								Last Modified</td>
-							<td class="actions-col action-x1" header-class="'actions-col action-x1'">
-								<a class="btn btn-link btn-sm" href="javascript:void();">
-									<span class="glyphicon glyphicon-option-horizontal"></span>
-								</a>
-							</td>
-						</tr>
-						<tr>
-							<td class="name-col" header-class="'name-col'" title="'Name'" filter="{ name: 'text'}" sortable="'name'">
-								<span class="glyphicon glyphicon-folder-close"></span>Folder Name</td>
-							<td title="'Status'" filter="{ age: 'number'}" sortable="'status'">
-								Status</td>
-							<td title="'Last Modified'" filter="{ age: 'number'}" sortable="'last-modified'">
-								Last Modified</td>
-							<td class="actions-col action-x1" header-class="'actions-col action-x1'">
-								<a class="btn btn-link btn-sm" href="javascript:void();">
-									<span class="glyphicon glyphicon-option-horizontal"></span>
-								</a>
-							</td>
-						</tr>
-						<tr class="selected">
-							<td class="name-col" header-class="'name-col'" title="'Name'" filter="{ name: 'text'}" sortable="'name'">
-								<span class="glyphicon glyphicon-file"></span>File Name</td>
-							<td title="'Status'" filter="{ age: 'number'}" sortable="'status'">
-								Status</td>
-							<td title="'Last Modified'" filter="{ age: 'number'}" sortable="'last-modified'">
-								Last Modified</td>
-							<td class="actions-col action-x1" header-class="'actions-col action-x1'">
-								<a class="btn btn-link btn-sm" href="javascript:void();">
-									<span class="glyphicon glyphicon-option-horizontal"></span>
-								</a>
-							</td>
-						</tr><!-- / PROTOTYPE ROWS -->
 					</table>
 					
-                    <table class="table table-striped hidden">
-                        <thead>
-                            <tr>
-                                <th class="name-col">Name</th>
-                                <th class="status-col">Status</th>
+					<table class="table table-striped hidden">
+						<thead>
+							<tr>
+								<th class="name-col">Name</th>
+								<th class="status-col">Status</th>
 								<th class="date-col">Last Modified</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="name-col">
-									<span class="glyphicon glyphicon-folder-close"></span>
-                                    <span>Folder Name</span>
-                                </td>
-                                <td class="status-col"></td>
-                                <td class="date-col">mm/dd/yyyy</td>
-                            </tr>
+							</tr>
+						</thead>
+						<tbody>
 							<tr>
-                                <td class="name-col">
+								<td class="name-col">
 									<span class="glyphicon glyphicon-folder-close"></span>
-                                    <span>Folder Name</span>
-                                </td>
-                                <td class="status-col"></td>
-                                <td class="date-col">mm/dd/yyyy</td>
-                            </tr>
+									<span>Folder Name</span>
+								</td>
+								<td class="status-col"></td>
+								<td class="date-col">mm/dd/yyyy</td>
+							</tr>
 							<tr>
-                                <td class="name-col">
+								<td class="name-col">
 									<span class="glyphicon glyphicon-folder-close"></span>
-                                    <span>Folder Name</span>
-                                </td>
-                                <td class="status-col"></td>
-                                <td class="date-col">mm/dd/yyyy</td>
-                            </tr>
+									<span>Folder Name</span>
+								</td>
+								<td class="status-col"></td>
+								<td class="date-col">mm/dd/yyyy</td>
+							</tr>
 							<tr>
-                                <td class="name-col">
+								<td class="name-col">
+									<span class="glyphicon glyphicon-folder-close"></span>
+									<span>Folder Name</span>
+								</td>
+								<td class="status-col"></td>
+								<td class="date-col">mm/dd/yyyy</td>
+							</tr>
+							<tr>
+								<td class="name-col">
 									<span class="glyphicon glyphicon-file"></span>
-                                    <span>File Name</span>
-                                </td>
-                                <td class="status-col"></td>
-                                <td class="date-col">mm/dd/yyyy</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div><!-- / PHASE DOCUMENTS -->
-	
-	
-	<div class="panel panel-default">
+									<span>File Name</span>
+								</td>
+								<td class="status-col"></td>
+								<td class="date-col">mm/dd/yyyy</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div> -->
+		<!-- <div class="panel panel-default accordion">
+			<div class="panel-heading" role="tab" id="phase2">
+				<a class="clearfix" role="button" data-toggle="collapse" href="#phase2Collapse" aria-expanded="true" aria-controls="phase2Collapse">
+					<span class="glyphicon glyphicon-plus pull-left"></span>
+					<span class="glyphicon glyphicon-minus pull-left"></span>
+					<h2 class="pull-left">{{phase.code}}</h2>
+				</a>
+			</div>
+			<div id="phase2Collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="ir2Collapse">
+				<div class="actions-table-container">
+					
+					<table ng-table="docBrowser.artifacts" class="table table-striped document-browser" show-filter="false">
+						<tr ng-repeat="artifact in $data" ui-sref="p.artifact.view({artifactId:artifact._id})">
+							<td class="name-col" header-class="'name-col'" title="'Name'" filter="{ typeCode: 'text'}" sortable="'name'">
+								{{artifact.name}}</td>
+							<td title="'isPublished'" sortable="'status'">
+								{{artifact.isPublished}}</td>
+							<td title="'Last Modified'">
+								{{artifact.dateUpdated | date : format : timezone}}</td>
+							<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+								<a class="btn btn-link btn-sm" href="javascript:void();">
+									<span class="glyphicon glyphicon-option-horizontal"></span>
+								</a>
+							</td>
+						</tr>
+					</table>
+					
+					<table class="table table-striped hidden">
+						<thead>
+							<tr>
+								<th class="name-col">Name</th>
+								<th class="status-col">Status</th>
+								<th class="date-col">Last Modified</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="name-col">
+									<span class="glyphicon glyphicon-folder-close"></span>
+									<span>Folder Name</span>
+								</td>
+								<td class="status-col"></td>
+								<td class="date-col">mm/dd/yyyy</td>
+							</tr>
+							<tr>
+								<td class="name-col">
+									<span class="glyphicon glyphicon-folder-close"></span>
+									<span>Folder Name</span>
+								</td>
+								<td class="status-col"></td>
+								<td class="date-col">mm/dd/yyyy</td>
+							</tr>
+							<tr>
+								<td class="name-col">
+									<span class="glyphicon glyphicon-folder-close"></span>
+									<span>Folder Name</span>
+								</td>
+								<td class="status-col"></td>
+								<td class="date-col">mm/dd/yyyy</td>
+							</tr>
+							<tr>
+								<td class="name-col">
+									<span class="glyphicon glyphicon-file"></span>
+									<span>File Name</span>
+								</td>
+								<td class="status-col"></td>
+								<td class="date-col">mm/dd/yyyy</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div> -->
+		<!-- / PHASE DOCUMENTS -->
+
+		<div class="panel panel-default hidden">
 		<div class="panel-heading clearfix">
 			<h2 class="pull-left">Documents</h2>
 			<div class="panel-heading-actions pull-right">
@@ -131,7 +229,6 @@
 			</div>
 		</div>
 		<div class="panel-body">
-			
 			<div class='col-sm-4 col-no-padding vertical-scroll col-border-right'>
 				<ul class="small list-unstyled list-documents">
 					<li
@@ -161,7 +258,7 @@
 				</ul>
 			</div>
 			
-			<div class='col-sm-4 col-no-padding vertical-scroll hidden' ng-class="{'bg-muted': !filterSummary}" >
+			<div class='col-sm-4 col-no-padding vertical-scroll' ng-class="{'bg-muted': !filterSummary}" >
 				<div class="row" ng-show="filterSummary">
 					<div class="col-sm-10 doc-detail-col">
 						<ul class="small list-unstyled list-documents list-indent-left" >
@@ -211,5 +308,4 @@
 		</div>
 		
 	</div>
-
 </section>
