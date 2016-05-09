@@ -123,11 +123,17 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 				},
 				roleUsers: function($stateParams, RoleModel) {
 					return RoleModel.getUsersForRole ($stateParams.roleCode);
+				},
+				allUsers: function(RoleModel) {
+					return RoleModel.getAllUsers();
 				}
 			},
-			controller: function ($scope, $state, NgTableParams, project, role, roleUsers, RoleModel) {
+			controller: function ($scope, $state, NgTableParams, project, role, roleUsers, allUsers, RoleModel) {
 				$scope.role = role;
 				$scope.users = roleUsers.users;
+				
+				$scope.allUsers = allUsers;
+				
 				$scope.tableParams = new NgTableParams ({count:10}, {dataset: roleUsers.users});
 
 				$scope.isEdit = true;

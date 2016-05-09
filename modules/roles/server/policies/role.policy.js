@@ -17,7 +17,9 @@ exports.invokeRolesPolicies = function () {
 		[ '', 'user', '/api/users/in/role/:role'   ],
 		[ '', 'user', '/api/roles/project/:project'   ],
 		[ '', 'user', '/api/users/roles/project/:project'   ],
-		[ '', 'user', '/api/projects/with/role/:role'   ]
+		[ '', 'user', '/api/projects/with/role/:role'   ],
+		[ '', 'user', '/api/roles/full/project/:project'   ],
+
 	]);
 };
 
