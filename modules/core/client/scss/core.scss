@@ -2122,6 +2122,7 @@ $header-height: 6rem;
 /* FILE BROWSER
 ------------------------------ */
 $file-browser-height: 40rem;
+$file-actions-height: 5rem;
 
 .file-browser {
 	border-top: 1px solid #DDD;
@@ -2167,7 +2168,7 @@ $file-browser-height: 40rem;
 		height: $file-browser-height;
 		
 		.doc-info {
-			height: 35rem;
+			height: $file-browser-height - $file-actions-height;
 			padding: 1.5rem;
 			overflow-y: auto;
 			overflow-x: hidden;
@@ -2181,7 +2182,7 @@ $file-browser-height: 40rem;
 		}
 		
 		.doc-actions {
-			height: 5rem;
+			height: $file-actions-height;
 			padding: 1rem;
 			text-align: center;
 			border-top: 1px solid #DDD;
@@ -2319,7 +2320,6 @@ hr {
 ------------------------------ */
 .artifact-list-view {	
 	.artifacts-dropdown {
-		margin-right: 2rem;
 		width: 30rem;
 	}
 	
