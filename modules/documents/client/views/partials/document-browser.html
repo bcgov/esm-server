@@ -139,6 +139,20 @@
 						ng-hide="row.label === 'Not Specified'"
 						class="row-folder clickable row-folder-depth-{{ row.depth }}"
 						ng-repeat="row in docBrowser.docTypes"
+						ng-if="row.label === 'ARTIFACT'"
+						ng-class="{'active btn-primary': docBrowser.filterDocsSelected(row)}">
+						<span class="glyphicon glyphicon-play arrow"></span>
+						Recent
+					<li>
+				</ul>
+				Legacy Documents
+				<ul class="small list-unstyled list-documents">
+					<li
+						ng-click="docBrowser.filterList(row)"
+						ng-hide="row.label === 'Not Specified'"
+						class="row-folder clickable row-folder-depth-{{ row.depth }}"
+						ng-repeat="row in docBrowser.docTypes"
+						ng-if="row.label != 'ARTIFACT'"
 						ng-class="{'active btn-primary': docBrowser.filterDocsSelected(row)}">
 						<span class="glyphicon glyphicon-play arrow"></span>
 						{{ row.label }}

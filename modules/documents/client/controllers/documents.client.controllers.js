@@ -258,7 +258,8 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 					// Quick hack to pass objects
 					file.upload = Upload.upload({
 						url: docUpload.targetUrl,
-						file: file
+						file: file,
+						headers: { 'documenttype': 'ARTIFACT'}
 					});
 
 					file.upload.then(function (response) {
