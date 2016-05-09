@@ -202,6 +202,7 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 		}
 	});
 
+
 }
 
 // -----------------------------------------------------------------------------------

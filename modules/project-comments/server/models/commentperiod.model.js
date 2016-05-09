@@ -42,7 +42,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	// commenter roles, a list of roles that are allowed to post comments
 	// if this were a public period this would simply be 'public'
 	//
-	commenterRoles : [ String ]
+	commenterRoles : [ String ],
 	// -------------------------------------------------------------------------
 	//
 	// these are specific to working group comments
