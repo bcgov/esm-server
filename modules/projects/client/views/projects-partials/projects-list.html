@@ -8,7 +8,7 @@
 		</div>
 	</div>
 	
-	<table x-show-filter="toggleFilter" ng-table="projectList.tableParams" class="table table-condensed table-striped">
+	<table x-show-filter="toggleFilter" ng-table="projectList.tableParams" class="table table-striped">
 		<tr ng-repeat="o in $data" class='clickable' ui-sref="p.detail({projectid: o.code})">
 			<td data-title="'Name'"
 				filter="{'name':'text'}"
@@ -42,7 +42,8 @@
 				sortable="'currentPhase.name'" >
 				{{o.currentPhase.name}}
 			</td>
-
+			
+			<!--
 			<td ng-if="environment === 'EAO'"
 				data-title="'Status'"
 				filter="{status:'select'}"
@@ -50,6 +51,8 @@
 				sortable="'status'">
 				{{o.status}}
 			</td>
+			-->
+			
 		</tr>
 		
 		<tr ng-show="!$data || !$data.length" class="text-center">

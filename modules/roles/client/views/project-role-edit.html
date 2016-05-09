@@ -33,6 +33,7 @@
             </div>
           </div>
         </div>
+        
         <div class="row">
           <div class="col-sm-4">
             <div class="form-group" x-show-errors>
@@ -40,13 +41,13 @@
               <input id="projectCode" name="projectCode" type="text" ng-readonly="true" class="form-control input-sm" ng-model="role.projectCode" ng-change="calculateCode()">
             </div>
           </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="form-group" x-show-errors>
-            <label for="orgCode" class="control-label">Organization Code</label>
-            <input id="orgCode" name="orgCode" type="text" ng-readonly="isEdit" class="form-control input-sm" ng-model="role.orgCode" ng-change="calculateCode()" required>
-            <div ng-messages="roleForm.orgCode.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">Organization Code is required.</p>
+          <div class="col-sm-4">
+            <div class="form-group" x-show-errors>
+              <label for="orgCode" class="control-label">Organization Code</label>
+              <input id="orgCode" name="orgCode" type="text" ng-readonly="isEdit" class="form-control input-sm" ng-model="role.orgCode" ng-change="calculateCode()" required>
+              <div ng-messages="roleForm.orgCode.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Organization Code is required.</p>
+              </div>
             </div>
           </div>
           <div class="col-sm-4">
