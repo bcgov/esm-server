@@ -20,7 +20,7 @@ module.exports = DBModel.extend ({
 	populate : 'artifactType template document',
 	bind: ['getCurrentTypes'],
 	getForProject: function (projectid) {
-		return this.list ({project:projectid},{dateUpdated: 1, supportingDocuments: 1,phase:1, typeCode: 1, document: 1, name:1, version:1, stage:1, isPublished:1, userPermissions:1});
+		return this.list ({project:projectid},{name:1, version:1, stage:1, isPublished:1, userPermissions:1});
 	},
 	// -------------------------------------------------------------------------
 	//

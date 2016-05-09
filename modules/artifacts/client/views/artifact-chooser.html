@@ -3,22 +3,10 @@
 </div>
 <div class="modal-body">
 	<ul class="list-group">
-		<li ng-repeat="art in s.artifacts"
-            ng-if="art.typeCode === 'documents'"
-            ng-click="s.selected = art._id"
-            class="list-group-item clickable"
-            ng-class="{'active':(s.selected === art._id)}">
-        <span ng-if="art.published" class="label label-success pull-right">published</span>
-        {{ art.document.internalOriginalName }} ( {{ art.version }} )
-        </li>
-        <li ng-repeat="art in s.artifacts"
-            ng-if="art.typeCode !== 'documents'"
-            ng-click="s.selected = art._id"
-            class="list-group-item clickable"
-            ng-class="{'active':(s.selected === art._id)}">
-        <span ng-if="art.published" class="label label-success pull-right">published</span>
-        {{ art.name }} ( {{ art.version }} )
-        </li>
+		<li ng-repeat="art in s.artifacts" ng-click="s.selected = art._id" class="list-group-item clickable" ng-class="{'active':(s.selected === art._id)}">
+		<span ng-if="art.published" class="label label-success pull-right">published</span>
+		{{ art.name }} ( {{ art.version }} )
+		</li>
 	</ul>
 </div>
 <div class="modal-footer">

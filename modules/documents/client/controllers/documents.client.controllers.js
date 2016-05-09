@@ -310,12 +310,13 @@ function controllerDocumentList($scope, sAuthentication) {
 // CONTROLLER: Document List
 //
 // -----------------------------------------------------------------------------------
-controllerDocumentBrowser.$inject = ['$scope', 'Document', '$rootScope', 'Authentication', 'ENV', '_', 'NgTableParams', 'ArtifactModel', 'PhaseModel'];
+controllerDocumentBrowser.$inject = ['$scope', 'Document', '$rootScope', 'Authentication', 'ENV', '_'];
 /* @ngInject */
-function controllerDocumentBrowser($scope, Document, $rootScope, Authentication, ENV, _, NgTableParams, ArtifactModel, PhaseModel) {
+function controllerDocumentBrowser($scope, Document, $rootScope, Authentication, ENV, _) {
 	var docBrowser = this;
 
 	$scope.environment = ENV;
+
 
 	docBrowser.documentFiles	= undefined;
 	docBrowser.docTypes			= undefined;
@@ -325,9 +326,6 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 	docBrowser.rDoc 			= undefined;
 
 	docBrowser.authentication = Authentication;
-
-	docBrowser.phasesForProject = undefined;
-
 	// -----------------------------------------------------------------------------------
 	//
 	// BROWSER: A complete refresh of everything.
@@ -339,49 +337,6 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 		});
 		Document.getProjectDocumentTypes(docBrowser.project._id, $scope.approvals).then( function(res) {
 			docBrowser.docTypes	= res.data;
-		});
-		PhaseModel.phasesForProject(docBrowser.project._id)
-		.then (function (res) {
-			// console.log("phasesForProject:", res);
-			docBrowser.phasesForProject = new NgTableParams({count: res.length}, { dataset: res, counts: [] });
-		});
-
-		ArtifactModel.forProject(docBrowser.project._id)
-		.then( function(res) {
-			// get the collection that's documents only.
-			// console.log("artifactsForProject:",res);
-			var list = [];
-
-			// Go through each item and attach it's depth
-			angular.forEach( res, function(item) {
-				// console.log("item:",item.isTemplate);
-				// If it's a template, put it at level 1
-				if (item.typeCode === 'documents') {
-
-					// It's a regular document, add it to the appropriate level
-					// console.log("item:",item);
-					item.depth = 1;
-
-					// Figure out it's depth based on it's folderType/SubType/Name existence.
-					if (item.document) {
-						// Figure out where this thing should live.
-
-						if (item.document.projectFolderSubType !== "Not Specified")
-							item.depth++;
-						if (item.document.projectFolderName !== "Not Specified")
-							item.depth++;
-						if (item.supportingDocuments.length === 0)
-							item.name = item.document.internalOriginalName;
-					}
-					// console.log("pushing: ",item);
-					list.push(item);
-				}
-			});
-			return list;
-		})
-		.then( function (flattened) {
-			// console.log("FLAT:",flattened);
-			docBrowser.artifacts = new NgTableParams({count: flattened.length}, { dataset: flattened, counts: [] });
 		});
 	};
 
