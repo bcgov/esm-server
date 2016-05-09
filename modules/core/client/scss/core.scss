@@ -2114,6 +2114,98 @@ $header-height: 6rem;
 }
 
 
+/* FILE BROWSER
+------------------------------ */
+$file-browser-height: 40rem;
+
+.file-browser {
+	border-top: 1px solid #DDD;
+	
+	.col-sm-6, .col-md-4 {
+		padding: 0;
+	}
+	
+	.file-browser-category {
+		padding: 0.55rem 1rem;
+		font-weight: bold;
+		border-bottom: 1px solid #DDD;
+		background: #f7f8fa;
+	}
+	
+	.file-browser-list {
+		height: $file-browser-height;
+		overflow-y: auto;
+		overflow-x: hidden;
+		border-right: 1px solid #DDD;
+		
+		ul {
+			margin: 0;
+			padding: 0;
+			list-style-type: none;
+		}
+		
+		li {
+			padding: 0.5rem 1rem;
+			border-bottom: 1px solid #DDD;
+		}
+		
+		li:last-child {
+			border-bottom: none;
+		}
+	}
+	
+	.file-browser-list:last-child {
+		border-right: none;
+	}
+	
+	.file-browser-details {
+		height: $file-browser-height;
+		
+		.doc-info {
+			height: 35rem;
+			padding: 1.5rem;
+			overflow-y: auto;
+			overflow-x: hidden;
+			
+			h3 {
+				margin-top: 0.5rem;
+				margin-bottom: 2rem;
+				font-size: 2rem;
+				font-weight: bold;
+			}
+		}
+		
+		.doc-actions {
+			height: 5rem;
+			padding: 1rem;
+			text-align: center;
+			border-top: 1px solid #DDD;
+			background: #f7f8fa;
+		}	
+		
+		.value-list {
+			a {
+				margin-bottom: 1px;
+				display: block;
+				padding: 0.5rem 1rem;
+				font-size: 1.2rem;
+				font-weight: bold;
+				background: #EEE;
+			}
+			
+			a:hover {
+				color: #FFF;
+				background: #003366;
+			}
+			
+			a:last-child {
+				margin-bottom: 0;
+			}
+		}	
+	}
+}
+
+
 /* FORM CONTROLS
 ------------------------------ */
 form {
@@ -2214,7 +2306,6 @@ hr {
 
 /* END: COMPONENTS
 ------------------------------ */
-
 /* BEGIN: VIEW/PAGE-SPECIFIC STYLING
 ------------------------------------------------------------ */
 
@@ -2421,6 +2512,7 @@ tr.row-depth-3 {
 	}
 }
 
+
 /* PROJECT DETAILS VIEW
 ------------------------------ */
 .project-details {
@@ -2554,15 +2646,15 @@ section.project-info {
 }
 
 .document-browser-view {
-	.panel-body {
-		padding: 0;
+	.panel-heading {
+		.btn {
+			margin-top: -1rem;
+			margin-bottom: -1rem;
+		}
 	}
 	
-	.panel-heading-actions .glyphicon {
-		margin-top: -4px;
-		margin-right: 0.5rem;
-		font-size: 1.8rem;
-		vertical-align: middle;
+	.panel-body {
+		padding: 0;
 	}
 }
 
@@ -2795,7 +2887,7 @@ section.project-info {
 ----------------------------- */
 .valued-component-view {
 	.textarea {
-		height: 8.5rem;
+		min-height: 8.5rem;
 	}
 }
 
