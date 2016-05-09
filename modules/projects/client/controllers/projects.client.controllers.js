@@ -129,7 +129,45 @@ function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $
 
 	$scope.$parent.$watch('filterObj', function(newValue) {
 		if (!_.isEmpty(newValue)) {
-			projectList.projectsFiltered = $filter("filter")(projectList.projects, newValue);
+			projectList.projectsFiltered = $filter("filter")(projectList.projects, function (item) {
+				var notFound = false;
+				if ( !newValue['currentPhase.name']
+					|| (angular.lowercase(item.currentPhase.name).indexOf(angular.lowercase(newValue['currentPhase.name']))) > -1
+					|| item.currentPhase.name === "") {
+					// console.log("cur:",item.currentPhase.name);
+				} else {
+					notFound = true;
+				}
+				if ( !newValue['region']
+					|| (angular.lowercase(item.region).indexOf(angular.lowercase(newValue['region']))) > -1
+					|| item.region === "") {
+					// console.log("cur:",item.region);
+				} else {
+					notFound = true;
+				}
+				if ( !newValue['type']
+					|| (angular.lowercase(item.type).indexOf(angular.lowercase(newValue['type']))) > -1
+					|| item.type === "") {
+					// console.log("cur:",item.type);
+				} else {
+					notFound = true;
+				}
+				if ( !newValue['name']
+					|| (angular.lowercase(item.name).indexOf(angular.lowercase(newValue['name']))) > -1
+					|| item.name === "") {
+					// console.log("cur:",item.name);
+				} else {
+					notFound = true;
+				}
+				if ( !newValue['memPermitID']
+					|| (angular.lowercase(item.name).indexOf(angular.lowercase(newValue['memPermitID']))) > -1
+					|| item.memPermitID === "") {
+					// console.log("cur:",item.name);
+				} else {
+					notFound = true;
+				}
+				if (!notFound) return item;
+			});
 		}
 	}, true);
 
