@@ -2114,6 +2114,36 @@ $header-height: 6rem;
 }
 
 
+/* FILE BROWSER
+------------------------------ */
+.file-browser {
+	.col-sm-6, .col-md-4 {
+		padding: 0;
+	}
+	
+	.file-browser-list:first-child {
+		border-right: 1px solid #EEE;
+	}
+	
+}
+
+.file-browser-list {
+	min-height: 30rem;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	
+	li {
+		padding: 0.5rem;
+		border-bottom: 1px solid #EEE;
+	}
+	
+	li:last-child {
+		border-bottom: none;
+	}
+}
+
+
 /* FORM CONTROLS
 ------------------------------ */
 form {
@@ -2214,7 +2244,6 @@ hr {
 
 /* END: COMPONENTS
 ------------------------------ */
-
 /* BEGIN: VIEW/PAGE-SPECIFIC STYLING
 ------------------------------------------------------------ */
 
