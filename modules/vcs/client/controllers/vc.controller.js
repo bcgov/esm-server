@@ -49,8 +49,8 @@ angular.module ('vcs')
 }])
 
 .controller ('controllerAddTopicModal',
-	['$modalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS',
-	function ($modalInstance, $scope, _, $stateParams, codeFromTitle, VcModel, TopicModel, PILLARS) {
+	['$modalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS', 'ArtifactModel',
+	function ($modalInstance, $scope, _, $stateParams, codeFromTitle, VcModel, TopicModel, PILLARS, ArtifactModel) {
 
 		var self = this;
 		self.data = null;
@@ -100,12 +100,23 @@ angular.module ('vcs')
 						}
 						m.code = codeFromTitle(obj.name+"-"+m.project.code+suffix);
 						// console.log("saving:",m);
-						VcModel.saveCopy(m).then(function (saved) {
-							savedArray.push(saved);
-							if (idx === self.currentObjs.length-1) {
-								// Return the collection back to the caller
-								$modalInstance.close(savedArray);
-							}
+						VcModel.saveCopy(m)
+						.then(function (saved) {
+							console.log("creating artifact for valued-component");
+							ArtifactModel.newFromType('valued-component', $scope.project._id)
+							.then( function (art) {
+								art.name = obj.name;
+								return ArtifactModel.saveModel(art);
+							})
+							.then( function (art) {
+								console.log("created artifact of valued-component",art);
+								savedArray.push(saved);
+								if (idx === self.currentObjs.length-1) {
+									// Return the collection back to the caller
+									$modalInstance.close(savedArray);
+								}
+							})
+							;
 						});
 					});
 				});
