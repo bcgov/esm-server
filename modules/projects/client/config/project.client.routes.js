@@ -107,10 +107,10 @@ angular.module('project').config (
 		// },
 		onEnter: function (MenuControl, project, $stateParams) {
 			if ($stateParams.projectid === 'new') {
-				MenuControl.routeAccess ([{systemRoleCode: 'proponent'}]);
+				MenuControl.routeAccessBuilder(['admin', 'proponent'], '*', '*', '*');
 			}
 			else {
-				MenuControl.routeAccess ([{projectCode: project.code, orgCode: 'pro', roleCode: 'project-team'}]);
+				MenuControl.routeAccessBuilder(['admin', 'proponent'], project.code, '*', '*');
 			}
 		}
 	})

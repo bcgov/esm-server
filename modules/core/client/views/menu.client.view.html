@@ -5,6 +5,7 @@
 		<ul class="list-unstyled">
 			<li><a ui-sref="p.detail" href>Project Details</a></li>
 			<li><a ui-sref="p.enforcements" href>Compliance Oversight</a></li>
+      <li><a ui-sref="p.documents" href>Documents</a></li>
 		</ul>
 	</div><!-- / PUBLIC USERS (COMMON) -->
 
@@ -60,7 +61,7 @@
 				  <a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
 		</ul>
-
+    <!--
 		<ul class="list-unstyled" ng-show="menu.authentication.user">
 			<li>
 				<a ui-sref="p.workinggroup.list">Working Group</a>
@@ -69,8 +70,9 @@
 				<a x-modal-set-object-permissions href x-project="menu.project" x-target-object="menu.project" x-target-object-type="'projects'">Set Object Permissions</a>
 			</li>
 		</ul>
+		-->
   </div><!-- / PROJECT MENU - AUTHENTICATED -->
 
-</div>
+</section>
 
 

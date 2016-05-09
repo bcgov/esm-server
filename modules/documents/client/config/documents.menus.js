@@ -4,7 +4,7 @@ angular.module('documents').run(['Menus', 'MenuControl', function (Menus, MenuCo
 		Menus.addMenuItem('projectMenu', {
 			title: 'Documents',
 			state: 'p.documents',
-			roles: MenuControl.menuRolesBuilder ('admin', '*', '*', '*')
+			roles: MenuControl.menuRolesBuilder (['admin','user'], '*', '*', '*')
 		});
 	}
 ]);

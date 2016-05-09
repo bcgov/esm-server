@@ -31,7 +31,7 @@ angular.module('invitation').config(['$stateProvider', function ($stateProvider)
 			};
 		},
 		onEnter: function (MenuControl, project) {
-			MenuControl.routeAccess (project.code, 'any','edit-roles');
+			MenuControl.routeAccessBuilder ('admin', project.code, '*', '*');
 		}
 	})
 

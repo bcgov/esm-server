@@ -17,9 +17,9 @@ angular.module('core').service('Menus', ['MenuControl',
         return true;
       } else {
         if(!user) {
-          return false;
+          return MenuControl.publicAccess(checkroles);
         }
-        return MenuControl.userHasOne(checkroles);
+        return MenuControl.userHasOne(checkroles) || MenuControl.publicAccess(checkroles);
       }
 
       return false;

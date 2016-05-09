@@ -27,7 +27,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			},
 		},
         onEnter: function (MenuControl, project) {
-            MenuControl.routeAccess (project.code, 'any','edit-vcs');
+					MenuControl.routeAccessBuilder ('admin', project.code, '*', '*');
         }
 	})
 	// -------------------------------------------------------------------------

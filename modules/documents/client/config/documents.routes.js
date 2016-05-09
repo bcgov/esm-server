@@ -7,14 +7,14 @@ angular.module('documents').config(['$stateProvider', function ($stateProvider) 
 		url: '/documents',
 		templateUrl: 'modules/documents/client/views/documents.html',
 		data: {
-			roles: ['admin', 'user']
+			roles: ['admin', 'user', 'public']
 		},
 		controller: function($scope, project) {
 			$scope.project = project;
 		},
-        onEnter: function (MenuControl, project) {
-            MenuControl.routeAccessBuilder ('admin', project.code, '*', '*');
-        }
+		onEnter: function (MenuControl, project) {
+				MenuControl.routeAccessBuilder (['admin', 'user', 'public'], project.code, '*', '*');
+		}
 
 	});
 

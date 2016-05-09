@@ -14,7 +14,7 @@ angular.module('project').run(['Menus', 'MenuControl', function (Menus, MenuCont
 		Menus.addMenuItem('projectTopMenu', {
 			title: 'Compliance Oversight',
 			state: "p.enforcements",
-			roles: MenuControl.menuRolesBuilder ('admin', '*', '*', '*')
+			roles: MenuControl.menuRolesBuilder (['admin', 'user'], '*', '*', '*')
 		});
 		
 		// Menus.addMenuItem('projectMenu', {
