@@ -195,7 +195,7 @@ exports.signIn = function (req, res) {
 			// should we do something differently here?
 			redirectPath = '/smerr';
 			if (siteMinder !== undefined && siteMinder.userType !== undefined ) {
-				redirectPath += '?t=' + siteMinder.userType;
+				redirectPath += '?t=' + siteMinder.userType.toLowerCase();
 			}
 			res.redirect(redirectPath);
 		});
