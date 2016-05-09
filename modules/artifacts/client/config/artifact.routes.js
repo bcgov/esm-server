@@ -4,7 +4,7 @@
 // artifact routes
 //
 // =========================================================================
-angular.module('core').config(['$stateProvider','_', function ($stateProvider, _) {
+angular.module('core').config(['$stateProvider','_', function ($stateProvider, _, Authentication) {
 
 	var getPrevNextStage = function (stage, stages) {
 		var index = _.findIndex (stages, function (s) { return s.name === stage;});
@@ -209,7 +209,9 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.view', {
 		url: '/view',
 		templateUrl: 'modules/artifacts/client/views/artifact-view.html',
-		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Authentication) {
+			$scope.authentication = Authentication;
+
 			// console.log ('artifact = ', artifact);
 			// artifact.artifactType = fix;
 			$scope.artifact = artifact;
