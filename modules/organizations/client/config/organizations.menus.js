@@ -5,7 +5,7 @@ angular.module('organizations').run(['Menus','MenuControl',
 		Menus.addMenuItem('systemMenu', {
 			title: 'Organizations',
 			state: 'admin.organization.list',
-			roles: ['eao', 'admin']
+			roles: MenuControl.menuRolesBuilder (['admin','eao'])
 			// roles: ['sally']
 			// roles: MenuControl.menuAccess ('organization')
 		});

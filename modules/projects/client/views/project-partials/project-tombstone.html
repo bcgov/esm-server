@@ -1,27 +1,83 @@
 
-<div ng-if="environment === 'EAO'">
-	<div class="detail-row">
-		<label>Location:</label>
-		<span class="value">{{ ::project.location }}&nbsp;<span ng-show="project.region">({{ ::project.region | regionName }} Region)</span></span>
-	</div>
-	<div class="detail-row">
-		<label>Type:</label>
-		<span class="value">{{ ::project.type }}</span>
-	</div>
-	<div class="detail-row">
-		<label>Phase:</label>
-		<span class="value">
-			<span class="badge" ng-class="{'review': project.currentPhaseName == 'Review'}" title="Phase: {{::project.currentPhase.name}}">{{ ::project.currentPhase.name | titleCase }}</span>
-			&nbsp;(Estimated Phase Completion: {{ (project.currentPhase.dateCompletedEst | amDateFormat:'MMM Do YYYY') || 'N/A' }})</span>
-	</div>
-	<div class="detail-row" ng-show="::project.description">
-		<label>Description:</label>
+<!-- EAO PROJECT INFO -->
+<section ng-if="environment === 'EAO'">
+	<div class="detail-row project-desc" ng-show="project.description">
+		<label>Project Description</label>
 		<span class="value">{{ ::project.description }}</span>
 	</div>
-</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-4">
+			<div class="detail-row">
+				<label>Proponent</label>
+				<span class="value">{{ ::project.proponent.name }}</span>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-4">
+			<div class="detail-row">
+				<label>Location</label>
+				<span class="value">{{ ::project.location }}</span>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-4">
+			<div class="detail-row" ng-show="project.region">
+				<label>Region</label>
+				<span class="value"><span ng-show="project.region">{{ ::project.region | regionName }}</span></span>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-4">
+			<div class="detail-row">
+				<label>Type</label>
+				<span class="value">{{ ::project.type }}</span>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-4">
+			<div class="detail-row">
+				<label>Sector</label>
+				<span class="value">{{ ::project.sector }}</span>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-4">
+			<div class="detail-row" ng-show="project.CEAAInvolvement">
+				<label>CEAA Involvement</label>
+				<span class="value">{{ ::project.CEAAInvolvement }}</span>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-4">
+			<div class="detail-row">
+				<label>Project Lead</label>
+				<span class="value">
+					<span>{{ ::project.projectLead }}</span><br/>
+					<span>Phone:&nbsp;&nbsp;{{ ::project.projectLeadPhone }}</span><br/>
+					<span>Email:&nbsp;&nbsp;<a href="mailto:{{ ::project.projectLeadEmail }}">{{ ::project.projectLeadEmail }}</a></span>
+				</span>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-4">
+			<div class="detail-row">
+				<label>Executive Project Director</label>
+				<span class="value">
+					<span>{{ ::project.responsibleEPD }}</span><br/>
+					<span>Phone:&nbsp;&nbsp;{{ ::project.responsibleEPDPhone }}</span><br/>
+					<span>Email:&nbsp;&nbsp;<a href="mailto:{{ ::project.responsibleEPDEmail }}">{{ ::project.responsibleEPDEmail }}</a></span>
+				</span>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-4">
+			<div class="detail-row">
+				<label>Compliance & Enforcement Lead</label>
+				<span class="value">
+					<span>{{ ::project.CELead }}</span><br/>
+					<span>Phone:&nbsp;&nbsp;{{ ::project.CELeadPhone }}</span><br/>
+					<span>Email:&nbsp;&nbsp;<a href="mailto:{{ ::project.CELeadEmail }}">{{ ::project.CELeadEmail }}</a></span>
+				</span>
+			</div>
+		</div>
+	</div>		
+</section><!-- / EAO PROJECT INFO -->
 
 <div class="mem-details row" ng-if="environment === 'MEM'">
-
 	<div class='col-md-4'>
 		<div class="detail-row">
 			<label>Permit Number:</label>

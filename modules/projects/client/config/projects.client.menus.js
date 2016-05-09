@@ -1,16 +1,16 @@
 'use strict';
 
-angular.module('projects').run(['Menus',
-	function (Menus) {
+angular.module('projects').run(['Menus','MenuControl',
+	function (Menus, MenuControl) {
 		Menus.addMenuItem('projectsMenu', {
 			title: 'Add Project',
 			state: "p.edit({projectid:'new'})",
-			roles: ['proponent', 'admin']
+			roles: MenuControl.menuRolesBuilder(['admin','proponent'])
 		});
 		Menus.addMenuItem('projectsMenu', {
 			title: 'Schedule',
 			state: "projects.schedule",
-			roles: ['eao', 'admin']
+			roles: MenuControl.menuRolesBuilder(['admin','eao'])
 		});
 	}
 ]);

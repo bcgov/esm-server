@@ -33,6 +33,9 @@ angular.module('artifacts').factory ('ArtifactModel', function (ModelBase, _) {
 		publish: function (artifactid) {
 			return this.put ('/api/publish/artifact/'+artifactid);
 		},
+		remove: function (artifact) {
+			return this.delete ('/api/artifact/'+artifact._id);
+		},
 	});
 	return new Class ();
 });

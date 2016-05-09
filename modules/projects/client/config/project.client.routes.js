@@ -107,10 +107,33 @@ angular.module('project').config (
 		// },
 		onEnter: function (MenuControl, project, $stateParams) {
 			if ($stateParams.projectid === 'new') {
-				MenuControl.routeAccess ('', '','proponent');
+				MenuControl.routeAccessBuilder(['admin', 'proponent'], '*', '*', '*');
 			}
 			else {
-				MenuControl.routeAccess (project.code, 'pro','edit-project');
+				MenuControl.routeAccessBuilder(['admin', 'proponent'], project.code, '*', '*');
+			}
+		}
+	})
+	// -------------------------------------------------------------------------
+	//
+	// COMPLIANCE AND ENFORCEMENTS
+	//
+	// -------------------------------------------------------------------------
+	.state('p.enforcements', {
+		url: '/enforcements',
+		templateUrl: 'modules/projects/client/views/project-partials/project.enforcements.html',
+		controller: 'controllerProjectEntry',
+		// resolve: {
+		// 	intakeQuestions: function(ProjectModel) {
+		// 		return ProjectModel.getProjectIntakeQuestions();
+		// 	}
+		// },
+		onEnter: function (MenuControl, project, $stateParams) {
+			if ($stateParams.projectid === 'new') {
+				MenuControl.routeAccessBuilder ('admin', '*', '*', '*');
+			}
+			else {
+				MenuControl.routeAccessBuilder (['admin', 'user', 'public']);
 			}
 		}
 	})

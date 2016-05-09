@@ -2,6 +2,7 @@
 	<div class="view-title-container">
 		<h1>{{ project.name }}&nbsp; &rsaquo; &nbsp;Documents</h1>
 	</div>
+	
 	<div class="view-body-container">
 		<div class="row hidden">
 			<div class="col-sm-12 text-right">
@@ -16,7 +17,7 @@
 		</tmpl-documents-browser>
 
 		<tmpl-documents-approvals
-			class="anchor-section"
+			class="anchor-section hidden"
 			id="anchor-document-approvals"
 			x-approvals="true"
 			x-project="project">

@@ -345,6 +345,22 @@ var artifacttypes = [{
         activity: 'edit'
     }]
 },{
+    name: 'Documents',
+    multiple: false,
+    isTemplate: false,
+    isDocument: true,
+    code: 'documents',
+    milestone: 'documents',
+    versions : [
+        'Final'
+    ],
+    stages: [{
+        name: 'Edit',
+        next: '',
+        prev: '',
+        activity: 'edit'
+    }]
+},{
     name: 'Environmental Certificate',
     multiple: false,
     isTemplate: false,

@@ -25,7 +25,7 @@ angular.module('irs').config(['$stateProvider', function ($stateProvider) {
 			},
 		},
 		onEnter: function (MenuControl, project) {
-			MenuControl.routeAccess (project.code, 'eao','edit-inspections');
+			MenuControl.routeAccessBuilder ('admin', project.code, '*', '*');
 		}
 	})
 	// -------------------------------------------------------------------------

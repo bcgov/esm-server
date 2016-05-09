@@ -81,9 +81,9 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 // CONTROLLER: Document Upload General
 //
 // -----------------------------------------------------------------------------------
-controllerDocumentUploadGlobal.$inject = ['$scope', 'Upload', '$timeout', 'Document', '_', 'ENV'];
+controllerDocumentUploadGlobal.$inject = ['$scope', 'Upload', '$timeout', 'Document', '_', 'ENV', 'ArtifactModel'];
 /* @ngInject */
-function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, ENV) {
+function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, ENV, ArtifactModel) {
 	var docUpload = this;
 	var parentId = null;
 
@@ -92,6 +92,9 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 	docUpload.inProgress = false;
 	docUpload.fileList = [];
 	docUpload.type = null;
+	docUpload.artifact = null;
+	docUpload.artifacts = null;
+	docUpload.documentList = [];
 
 	$scope.$watch('hideUploadButton', function(newValue) {
 		if (newValue) {
@@ -103,10 +106,19 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 		if (newValue) {
 			docUpload.project = newValue;
 			docUpload.setTargetUrl();
-			Document.getProjectDocumentFolderNames(newValue._id).then( function(res) {
-				// console.log("getProjectDocumentFolderNames",res.data);
-				docUpload.docFolderNames	= res.data;
-			});
+			if (ENV === 'EAO') {
+				// get listing of artifacts to attach to.  TODO: filter?
+				ArtifactModel.forProject(newValue._id)
+				.then( function(res) {
+					console.log("res",res);
+					docUpload.artifacts = res;
+				});
+			} else {
+				Document.getProjectDocumentFolderNames(newValue._id).then( function(res) {
+					console.log("getProjectDocumentFolderNames",res.data);
+					docUpload.docFolderNames = res.data;
+				});
+			}
 			if (ENV === 'MEM') {
 				Document.getProjectDocumentMEMTypes(newValue._id, false).then( function(res) {
 					// console.log("getProjectDocumentMEMTypes",res.data);
@@ -187,58 +199,117 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 	// docUpload.log = '';
 
 	docUpload.upload = function (uploadingReviewDocs) {
-		// console.log("uploadingReviewDocs",uploadingReviewDocs);
-		docUpload.inProgress = true;
-		var docCount = docUpload.fileList.length;
-		// console.log('upload', docCount);
-		if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
-			angular.forEach( docUpload.fileList, function(file) {
-				// Quick hack to pass objects
-				// console.log("docUpload",docUpload);
-				if (ENV === 'EAO') {
-					// In EAO, we let them only choose from predefined types.
-					// Move the choice to the model we use.
-					docUpload.typeName = docUpload.type.name;
-					docUpload.subTypeName = docUpload.subType.name;
-				}
-				if (undefined === docUpload.typeName) docUpload.typeName = "Not Specified";
-				if (undefined === docUpload.subTypeName) docUpload.subTypeName = "Not Specified";
-				if (undefined === docUpload.folderName) docUpload.folderName = "Not Specified";
+		var docCount = null;
+		if (ENV === 'MEM') {
+			// console.log("uploadingReviewDocs",uploadingReviewDocs);
+			docUpload.inProgress = true;
+			docCount = docUpload.fileList.length;
+			// console.log('upload', docCount);
+			if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
+				angular.forEach( docUpload.fileList, function(file) {
+					// Quick hack to pass objects
+					// console.log("docUpload",docUpload);
+					if (undefined === docUpload.typeName) docUpload.typeName = "Not Specified";
+					if (undefined === docUpload.subTypeName) docUpload.subTypeName = "Not Specified";
+					if (undefined === docUpload.folderName) docUpload.folderName = "Not Specified";
 
-				file.upload = Upload.upload({
-					url: docUpload.targetUrl,
-					file: file,
-					headers: { 'documenttype': docUpload.typeName,
-							   'documentsubtype': docUpload.subTypeName,
-							   'documentfoldername': docUpload.folderName,
-							   'documentisinreview': uploadingReviewDocs}
-				});
-
-				file.upload.then(function (response) {
-					$timeout(function () {
-						file.result = response.data;
-						// console.log('file', response.data);
-						// when the last file is finished, send complete event.
-						if (--docCount === 0) {
-							// emit to parent.
-							$scope.$emit('documentUploadComplete');
-						}
+					file.upload = Upload.upload({
+						url: docUpload.targetUrl,
+						file: file,
+						headers: { 'documenttype': docUpload.typeName,
+								   'documentsubtype': docUpload.subTypeName,
+								   'documentfoldername': docUpload.folderName,
+								   'documentisinreview': uploadingReviewDocs}
 					});
-				}, function (response) {
-					if (response.status > 0) {
-						docUpload.errorMsg = response.status + ': ' + response.data;
-						// console.log("error data:",response.data);
-					} else {
-						_.remove($scope.files, file);
-					}
-				}, function (evt) {
-					file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-				});
-			});
 
+					file.upload.then(function (response) {
+						$timeout(function () {
+							file.result = response.data;
+							// when the last file is finished, send complete event.
+							if (--docCount === 0) {
+								// emit to parent.
+								$scope.$emit('documentUploadComplete');
+							}
+						});
+					}, function (response) {
+						if (response.status > 0) {
+							docUpload.errorMsg = response.status + ': ' + response.data;
+							// console.log("error data:",response.data);
+						} else {
+							_.remove($scope.files, file);
+						}
+					}, function (evt) {
+						file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+					});
+				});
+
+			} else {
+				// there are no documents so say it's all done
+				$scope.$emit('documentUploadComplete');
+			}
 		} else {
-			// there are no documents so say it's all done
-			$scope.$emit('documentUploadComplete');
+			// EAO ENV.
+			// console.log("uploadingReviewDocs",uploadingReviewDocs);
+			docUpload.inProgress = true;
+			docCount = docUpload.fileList.length;
+			// console.log('upload', docCount);
+			if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
+				angular.forEach( docUpload.fileList, function(file) {
+					// Quick hack to pass objects
+					file.upload = Upload.upload({
+						url: docUpload.targetUrl,
+						file: file,
+						headers: { 'documenttype': 'ARTIFACT'}
+					});
+
+					file.upload.then(function (response) {
+						$timeout(function () {
+							file.result = response.data;
+							// Generate a bunch of documentID's that need to be handled.
+							docUpload.documentList.push(response.data._id);
+							console.log("docUpload.documentList",docUpload.documentList);
+							// when the last file is finished, send complete event.
+							if (--docCount === 0) {
+								// emit to parent.
+								// Go through all the documents that have been uploaded and push them 
+								// into a new artifact
+								// console.log("selart:",docUpload.selectedArtifact._id);
+								ArtifactModel.lookup(docUpload.selectedArtifact._id)
+								.then( function (art) {
+									// Little bit of synchronous magic!
+									console.log("artifact Found:",art);
+									return docUpload.documentList.reduce (function (current, value, index) {
+										return current.then (function (data) {
+												// When we first enter, this is null.. since there was no previous
+												// element.
+												if (undefined === data) {
+													data = art;
+												}
+												// First doc is a main document, the rest are supporting.
+												data.supportingDocuments.push(value);
+												return ArtifactModel.saveModel(data);
+										});
+									}, Promise.resolve());
+								});
+								$scope.$emit('documentUploadComplete');
+							}
+						});
+					}, function (response) {
+						if (response.status > 0) {
+							docUpload.errorMsg = response.status + ': ' + response.data;
+							// console.log("error data:",response.data);
+						} else {
+							_.remove($scope.files, file);
+						}
+					}, function (evt) {
+						file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+					});
+				});
+
+			} else {
+				// there are no documents so say it's all done
+				$scope.$emit('documentUploadComplete');
+			}
 		}
 	};
 }
@@ -276,13 +347,12 @@ function controllerDocumentList($scope, sAuthentication) {
 // CONTROLLER: Document List
 //
 // -----------------------------------------------------------------------------------
-controllerDocumentBrowser.$inject = ['$scope', 'Document', '$rootScope', 'Authentication', 'ENV', '_'];
+controllerDocumentBrowser.$inject = ['$scope', 'Document', '$rootScope', 'Authentication', 'ENV', '_', 'NgTableParams', 'ArtifactModel', 'PhaseModel'];
 /* @ngInject */
-function controllerDocumentBrowser($scope, Document, $rootScope, Authentication, ENV, _) {
+function controllerDocumentBrowser($scope, Document, $rootScope, Authentication, ENV, _, NgTableParams, ArtifactModel, PhaseModel) {
 	var docBrowser = this;
 
 	$scope.environment = ENV;
-
 
 	docBrowser.documentFiles	= undefined;
 	docBrowser.docTypes			= undefined;
@@ -292,6 +362,9 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 	docBrowser.rDoc 			= undefined;
 
 	docBrowser.authentication = Authentication;
+
+	docBrowser.phasesForProject = undefined;
+
 	// -----------------------------------------------------------------------------------
 	//
 	// BROWSER: A complete refresh of everything.
@@ -304,6 +377,12 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 		Document.getProjectDocumentTypes(docBrowser.project._id, $scope.approvals).then( function(res) {
 			docBrowser.docTypes	= res.data;
 		});
+		PhaseModel.phasesForProject(docBrowser.project._id)
+		.then (function (res) {
+			// console.log("phasesForProject:", res);
+			docBrowser.phasesForProject = res;
+		});
+		
 	};
 
 	var unbind = $rootScope.$on('refreshDocumentList', function() {

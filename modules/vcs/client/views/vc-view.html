@@ -1,4 +1,4 @@
-<div class="edit-valued-component-view"></div>
+<div class="valued-component-view">
 
 	<div class="view-title-container">
 		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Valued Component</h1>
@@ -9,21 +9,21 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<label for="title" class="control-label">Valued Component Name</label>
-					<div id="title" type="text">{{vc.name}}</div>
+					<div class="form-control-static" id="title">{{vc.name}}</div>
 				</div>
 			</div>
 			<div class="col-sm-3 hidden">
 				<div class="form-group">
 					<label for="sector" class="control-label">Project Sector</label>
-					<div id="title" type="text">{{vc.sector}}</div>
+					<div class="form-control-static" id="title">{{vc.sector}}</div>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
-					<label for="shortDesc" class="control-label">Valued Component Description</label>
-					<div id="shortDesc" type="text" rows=6>{{vc.description}}</div>
+					<label for="shortDesc" class="control-label">Description</label>
+					<div class="form-control-static textarea" id="shortDesc">{{vc.description}}</div>
 				</div>
 			</div>
 		</div>
@@ -31,7 +31,7 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<label for="shortDesc" class="control-label">Report Requirements</label>
-					<div id="shortDesc" type="text" rows=6>{{vc.reportRequirements}}</div>
+					<div class="form-control-static textarea" id="shortDesc">{{vc.reportRequirements}}</div>
 				</div>
 			</div>
 		</div>
@@ -39,20 +39,22 @@
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="pillar" class="control-label">Pillar</label>
-					<div id="pillar" >{{vc.pillar}}</div>
+					<div class="form-control-static" id="pillar" >{{vc.pillar}}</div>
 				</div>
 			</div>
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="stage" class="control-label">Project Stage</label>
-					<div id="pillar" >{{vc.stage}}</div>
+					<div class="form-control-static" id="pillar">{{vc.stage}}</div>
 				</div>
 			</div>
 		</div>
-		<hr>
-		<div>
-			<a class="btn btn-default" ui-sref="p.vc.list">Back</a>
+		
+		<div class="form-footer clearfix">
+			<a class="back-btn btn btn-link pull-left" ui-sref="p.vc.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Valued Components</a>
+			<a class="btn btn-default pull-right" ng-click="$event.stopPropagation()" ui-sref="p.vc.edit({vcId:o._id})">Edit</a>
 		</div>
+		
 	</div>
+	
 </div>
-

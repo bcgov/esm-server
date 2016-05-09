@@ -1,10 +1,10 @@
 'use strict';
 
 //Menu service used for managing  menus
-angular.module('core').service('Menus', [
-  function () {
+angular.module('core').service('Menus', ['MenuControl',
+	function (MenuControl) {
     // Define a set of default roles
-    this.defaultRoles = ['user'];
+    this.defaultRoles = MenuControl.menuRolesBuilder ('user');
 
     // Define the menus object
     this.menus = {};
@@ -12,25 +12,14 @@ angular.module('core').service('Menus', [
     // A private function for rendering decision
     var shouldRender = function (user, projectcode) {
       var checkroles = this.roles;
-      if (projectcode) {
-        checkroles = this.roles.map (function (r) {
-          return (r.substr(0,1) === ':') ? projectcode+r : r;
-        });
-      }
-      // console.log (checkroles);
+			// console.log (checkroles);
       if (!!~checkroles.indexOf('*')) {
         return true;
       } else {
         if(!user) {
-          return false;
+          return MenuControl.publicAccess(checkroles);
         }
-        for (var userRoleIndex in user.roles) {
-          for (var roleIndex in checkroles) {
-            if (checkroles[roleIndex] === user.roles[userRoleIndex]) {
-              return true;
-            }
-          }
-        }
+        return MenuControl.userHasOne(checkroles) || MenuControl.publicAccess(checkroles);
       }
 
       return false;
@@ -175,22 +164,22 @@ angular.module('core').service('Menus', [
 
     //Adding the system menu
     this.addMenu('systemMenu', {
-      roles: ['eao', 'admin']
+      roles: MenuControl.menuRolesBuilder(['admin', 'eao'])
     });
 
     //Adding the projects menu
     this.addMenu('projectsMenu', {
-      roles: ['user', 'admin']
+      roles: MenuControl.menuRolesBuilder(['admin', 'user'])
     });
 
     //Adding the project menu
     this.addMenu('projectTopMenu', {
-      roles: ['user', 'admin']
+      roles: MenuControl.menuRolesBuilder(['admin', 'user'])
     });
 
     //Adding the project menu
     this.addMenu('projectMenu', {
-      roles: ['user', 'admin']
+      roles: MenuControl.menuRolesBuilder(['admin', 'user'])
     });
 
   }

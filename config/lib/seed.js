@@ -133,7 +133,7 @@ checkIntegration ('loadartifacts37').then (function () {
 // artifacts etc for decision packages
 //
 // -------------------------------------------------------------------------
-checkIntegration ('decisions3').then (function () {
+checkIntegration ('decisions4').then (function () {
 	require('../seed-data/decisions')();
 });
 

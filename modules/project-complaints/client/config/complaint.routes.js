@@ -28,7 +28,7 @@ angular.module('complaints').config(['$stateProvider', function ($stateProvider)
 			}
 		},
         onEnter: function (MenuControl, project) {
-            MenuControl.routeAccess (project.code, 'eao','edit-complaints');
+					MenuControl.routeAccessBuilder ('admin', project.code, '*', '*');
         }
 
 	})

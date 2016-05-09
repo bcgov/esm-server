@@ -13,7 +13,7 @@
 			</div>
 		</div>
 		
-		<section class="panel panel-default">
+		<div class="panel panel-default">
 			<table ng-table="tableParams" show-filter="true" class="table table-hover table-striped">
 				<tr ng-repeat="o in $data" ui-sref="p.vc.detail({vcId:o._id})">
 					<td data-title="'Name'"   title:'Title'   filter="{'name':'text'}"       sortable="'name'">{{o.name}}</td>
@@ -24,9 +24,9 @@
 					<td data-title="'Stage'"  title:'Stage'   filter="{'stage':'select'}"    sortable="'stage'"   filter-data="data.stypes">{{o.stage}}</td>
 					-->
 					<td data-title="'Pillar'" title:'Pillar'  filter="{'pillar':'select'}"   sortable="'pillar'"  filter-data="data.pillars">{{o.pillar}}</td>
-					<td class="actions-col" header-class="'actions-col'">
-						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.vc.edit({vcId:o._id})">
-							<i class="glyphicon glyphicon-pencil"></i>
+					<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+						<a class="btn btn-link btn-sm" title="Edit Valued Component" ng-click="$event.stopPropagation()" ui-sref="p.vc.edit({vcId:o._id})">
+							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
 					</td>
 				</tr>
@@ -36,7 +36,7 @@
 					</td>
 				</tr>			    
 			</table>
-		</section>
+		</div>
 
 	</div>
 </div>

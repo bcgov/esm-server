@@ -4,7 +4,7 @@
 // artifact routes
 //
 // =========================================================================
-angular.module('core').config(['$stateProvider','_', function ($stateProvider, _) {
+angular.module('core').config(['$stateProvider','_', function ($stateProvider, _, Authentication) {
 
 	var getPrevNextStage = function (stage, stages) {
 		var index = _.findIndex (stages, function (s) { return s.name === stage;});
@@ -112,7 +112,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.edit', {
 		url: '/edit',
 		templateUrl: 'modules/artifacts/client/views/artifact-edit.html',
-		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Document) {
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Document, MilestoneModel) {
 			// console.log ('artifact = ', artifact);
 			// console.log ('project  = ', project);
 			// artifact.artifactType = fix;
@@ -167,6 +167,22 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					// alert (err.message);
 				});
 			};
+			// Remove this artifact
+			$scope.remove = function () {
+				artifact.document = artifact.maindocument[0];
+				if (_.isEmpty (artifact.document)) artifact.document = null;
+				MilestoneModel.deleteMilestone($scope.artifact.milestone)
+				.then( function () {
+					ArtifactModel.remove ($scope.artifact)
+					.then (function (model) {
+						$state.go ('p.detail', {projectid:project.code});
+					});
+				})
+				.catch (function (err) {
+					console.error (err);
+					// // alert (err.message);
+				});
+			};
 			$scope.submit = function () {
 				artifact.document = artifact.maindocument[0];
 				if (_.isEmpty (artifact.document)) artifact.document = null;
@@ -193,7 +209,9 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.view', {
 		url: '/view',
 		templateUrl: 'modules/artifacts/client/views/artifact-view.html',
-		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Authentication) {
+			$scope.authentication = Authentication;
+
 			// console.log ('artifact = ', artifact);
 			// artifact.artifactType = fix;
 			$scope.artifact = artifact;

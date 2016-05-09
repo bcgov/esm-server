@@ -21,7 +21,6 @@ $danger-text:			#a94442;
 // Bootstrap Overrides
 // -------------------------
 
-
 /* TYPOGRAPHY - NEW */
 @font-face {
 	font-family: 'Myriad-Pro';
@@ -35,14 +34,13 @@ html {
 
 body {
 	min-height: 100%;
-	font-family: Myriad-Pro, Calibri, Arial, sans serif !important;
 	font-size: 1.4rem;
 	-ms-overflow-style: scrollbar;
 }
 
 /* ----- Typography ----- */
-$font-family-heading: 'Nunito', sans-serif;
-$font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$font-family-heading: Myriad-Pro, Calibri, sans serif;
+$font-family-sans-serif: Myriad-Pro, Calibri, sans serif;
 
 .btn-primary,
 .btn-success,
@@ -176,19 +174,8 @@ a.control-label:hover,
 	display: none !important;
 }
 
-a:hover,
-a:link,
-a:active,
-a:visited {
-	text-decoration: none !important;
-}
-
 button:focus, a:focus {
 	outline: 0 !important;
-}
-
-a:hover {
-	text-decoration: none;
 }
 
 h1,h2,h3,h4,h5,h6 {
@@ -1200,12 +1187,6 @@ h2.page-title {
 	fill: none;
 }
 
-
-.list-array-item {
-	margin-bottom: 3px;
-	padding: 3px 5px;
-}
-
 /*
 // --------------------------
 // ng-table and form styles
@@ -1612,19 +1593,6 @@ $left-panel-width: 17rem;
 	padding: 2rem 2.5rem;
 }
 
-section {
-	h2 {
-		display: block;
-		margin-top: 0;
-		font-size: 1.6rem;
-		font-weight: bold;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-}
-
-
 /* ACTIVITIES LIST
 ------------------------------ */
 .activities-container {
@@ -1687,6 +1655,17 @@ section {
 }
 
 
+/* ALERT (CUSTOM 
+------------------------------ */
+.alert-custom {
+	margin-bottom: 2.5rem;
+	padding: 1.5rem;
+	color: #FFF;
+	border-radius: 4px;
+	background: rgb(92, 184, 92);
+}
+
+
 /* BADGES
 ------------------------------ */
 .badge {
@@ -1699,6 +1678,25 @@ section {
 }
 .badge.success {
     background: green;
+}
+
+
+/* LIST ARRAY
+------------------------------ */ 
+.list-array-item {
+	margin-bottom: 0.2rem;
+	padding: 0.5rem 1rem;
+	font-size: 1.4rem;
+	line-height: 1.5rem;
+	background: #DDD;
+}
+
+.list-array-item.bg-primary {
+	background: #337ab7;
+}
+
+.list-array-item:last-child {
+	margin-bottom: 0;
 }
 
 
@@ -1745,12 +1743,19 @@ section {
 		border: none;
 		background-image: none;
 		background-color: #EEE;
+		
+		.btn {
+			margin-top: -1rem;
+			margin-bottom: -1rem;
+		}
 	}
 	
 	h2 {
 		margin: 0;
 		display: block;
 		overflow: hidden;
+		font-size: 1.6rem;
+		font-weight: bold;
 		text-overflow: ellipsis;
 	}
 }
@@ -1885,8 +1890,8 @@ $header-height: 6rem;
 		padding: 0 1rem;
 		
 		img {
-			margin-top: 0.8rem;
-			height: 4rem;
+			margin-top: 0.6rem;
+			height: 45px;
 		}
 	}
 	
@@ -1940,7 +1945,7 @@ $header-height: 6rem;
 	padding: 1rem 2rem;
 	font-size: 1.2rem;
 	background: #FFF;
-	border-top: 1px solid #CCC;
+	border-top: 1px solid #EEE;
 	z-index: 999;
 }
 
@@ -1997,25 +2002,34 @@ $header-height: 6rem;
 		
 		a {
 			display: block;
-			padding: 1.25rem;
+			padding: 1rem 1.5rem;
 			font-weight: bold;
 			color: #000;
 			
-			.glyphicon-chevron-down {
+			h2 {
+				margin-top: 1px;
+			}
+			
+			.glyphicon {
+				margin-right: 1rem;
+				font-size: 1.5rem;
+			}
+			
+			.glyphicon-plus {
 				display: none;
 			}
 			
-			.glyphicon-chevron-up {
+			.glyphicon-minus {
 				display: inline-block;
 			}
 		}
 		
 		a.collapsed {
-			.glyphicon-chevron-down {
+			.glyphicon-plus {
 				display: inline-block;
 			}
 			
-			.glyphicon-chevron-up {
+			.glyphicon-minus {
 				display: none;
 			}
 		}
@@ -2060,19 +2074,18 @@ $header-height: 6rem;
 	}
 	
 	th, td {
-		padding: 0.75rem 1rem;
 		text-align: left;
 	}
 	
 	.actions-col {
-		padding-top: 0.5rem;
-		padding-bottom: 0.5rem;
-		text-align: right;
+		padding-top: 0;
+		padding-bottom: 0;
+		text-align: center;
 		
 		.btn {
-			padding-left: 8px;
-			padding-right: 8px;
-			transition: all linear 0.2s;
+			margin-top: 0.32rem;
+			padding-left: 0.8rem;
+			padding-right: 0.8rem;
 		}
 		
 		.btn:hover {
@@ -2081,7 +2094,7 @@ $header-height: 6rem;
 	}
 	
 	.action-x1 {
-		width: 5rem;
+		width: 6rem;
 	}
 	
 	.action-x2 {
@@ -2103,6 +2116,98 @@ $header-height: 6rem;
 
 .pagination {
 	margin: 0;
+}
+
+
+/* FILE BROWSER
+------------------------------ */
+$file-browser-height: 40rem;
+
+.file-browser {
+	border-top: 1px solid #DDD;
+	
+	.col-sm-6, .col-md-4 {
+		padding: 0;
+	}
+	
+	.file-browser-category {
+		padding: 0.55rem 1rem;
+		font-weight: bold;
+		border-bottom: 1px solid #DDD;
+		background: #f7f8fa;
+	}
+	
+	.file-browser-list {
+		height: $file-browser-height;
+		overflow-y: auto;
+		overflow-x: hidden;
+		border-right: 1px solid #DDD;
+		
+		ul {
+			margin: 0;
+			padding: 0;
+			list-style-type: none;
+		}
+		
+		li {
+			padding: 0.5rem 1rem;
+			border-bottom: 1px solid #DDD;
+		}
+		
+		li:last-child {
+			border-bottom: none;
+		}
+	}
+	
+	.file-browser-list:last-child {
+		border-right: none;
+	}
+	
+	.file-browser-details {
+		height: $file-browser-height;
+		
+		.doc-info {
+			height: 35rem;
+			padding: 1.5rem;
+			overflow-y: auto;
+			overflow-x: hidden;
+			
+			h3 {
+				margin-top: 0.5rem;
+				margin-bottom: 2rem;
+				font-size: 2rem;
+				font-weight: bold;
+			}
+		}
+		
+		.doc-actions {
+			height: 5rem;
+			padding: 1rem;
+			text-align: center;
+			border-top: 1px solid #DDD;
+			background: #f7f8fa;
+		}	
+		
+		.value-list {
+			a {
+				margin-bottom: 1px;
+				display: block;
+				padding: 0.5rem 1rem;
+				font-size: 1.2rem;
+				font-weight: bold;
+				background: #EEE;
+			}
+			
+			a:hover {
+				color: #FFF;
+				background: #003366;
+			}
+			
+			a:last-child {
+				margin-bottom: 0;
+			}
+		}	
+	}
 }
 
 
@@ -2141,7 +2246,7 @@ textarea {
 }
 
 .form-control-static {
-	padding-left: 0.8rem;
+	padding: 6px;
 	background: #EEE;
 	border: 1px solid #DDD;
 	border-radius: 4px;
@@ -2206,9 +2311,32 @@ hr {
 
 /* END: COMPONENTS
 ------------------------------ */
-
 /* BEGIN: VIEW/PAGE-SPECIFIC STYLING
 ------------------------------------------------------------ */
+
+
+/* ARTIFACT VIEW
+------------------------------ */
+.artifact-list-view {	
+	.artifacts-dropdown {
+		margin-right: 2rem;
+		width: 30rem;
+	}
+	
+	.artifacts-list-actions {
+		margin: -0.7rem 0;
+	}
+}
+
+.edit-artifact-view {
+	.form-footer {
+		.form-control {
+			width: auto;
+			display: inline-block;
+		}
+	}
+}
+
 
 /* CONDITIONS VIEW
 ------------------------------ */
@@ -2217,20 +2345,6 @@ hr {
 		th:last-child {
 			width: 6rem;
 			text-align: right;
-		}
-	}
-}
-
-
-/* CONDITIONS LIBRARY VIEW
------------------------------- */
-.condition-view,
-.edit-condition-view {
-	.pick-list {
-		.form-group,
-		.well {
-		margin-bottom: 0;
-		min-height: 17rem;
 		}
 	}
 }
@@ -2257,6 +2371,79 @@ hr {
 		}
 	}
 }
+
+
+/* COMPLAINCE OVERSIGHT VIEW
+------------------------------ */
+.compliance-oversight-view {
+	.ir-cert-requirements {
+		padding: 2rem 1.5rem;
+		
+		h3 {
+			margin: 0;
+			font-size: 1.4rem;
+			font-weight: bold;
+		}
+		
+		ul {
+			margin: 0;
+			margin-top: 1.5rem;
+			padding: 0;
+			list-style-position: inside;
+			list-style-type: square;
+		}
+	}
+	.actions-table-container {
+		.table {
+			border-top: 1px solid #DDD;
+			
+			th, td {
+				padding: 1rem 1.5rem;
+			}
+		}
+		
+		.enforcement-col {	
+			.glyphicon {
+				font-size: 1.3rem;
+				vertical-align: middle;
+				margin-top: -5px;
+				margin-right: 1rem;
+			}
+		}
+		
+		.date-col {
+			width: 12rem;
+			text-align: right;
+		}
+		
+		.status-col {
+			width: 10rem;
+			
+			.label {
+				display: inline-block;
+				min-width: 8rem;
+				padding-top: 0.6rem;
+				text-transform: uppercase;
+			}
+		}
+	}
+}
+
+
+/* CONDITION LIBRARY VIEWS
+------------------------------ */
+.condition-view {
+	.well {
+		min-height: 15.5rem;
+	}
+}
+
+.edit-condition-view {
+	textarea {
+		min-height: 8.25rem;
+	}
+}
+
 
 /* DASHBOARD VIEW
 ------------------------------ */
@@ -2293,18 +2480,71 @@ hr {
     }
 }
 
+/* DOCUMENTS VIEW 
+------------------------------ */
+.table.document-browser {
+	td {
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+	}
+	
+	td.actions-col {
+		padding-top: 0;
+		padding-bottom: 0;
+		vertical-align: middle;
+	}
+	
+	.name-col {
+		padding-left: 1.5rem;
+		
+		.glyphicon {
+			margin-top: -0.5rem;
+			margin-right: 1rem;
+			vertical-align: middle;
+		}
+	}
+}
+
+tr.selected {
+	background-color: #003366 !important;
+	color: #FFF;
+	
+	td {
+		border-top: 1px solid #003366 !important;
+	}
+}
+
+tr.row-depth-2 {
+	td:first-child {
+		padding-left: 4rem;
+	}
+}
+
+tr.row-depth-3 {
+	td:first-child {
+		padding-left: 6rem;
+	}
+}
+
+
 /* PROJECT DETAILS VIEW
 ------------------------------ */
 .project-details {
 	section {
-		margin: 2rem 0;
+		margin-bottom: 2rem;
+	}
+	
+	section:last-child {
+		margin-bottom: 0;
+	}
+	
+	section.project-info {
+		margin-top: 0.5rem;
+		margin-bottom: 1.5rem;
 	}
 }
 
 section.project-info {
-	margin-top: 0;
-	margin-bottom: 3rem;
-	
 	.panel-body {
 		padding: 1.5rem 2rem;
 	}
@@ -2314,34 +2554,22 @@ section.project-info {
 	}
 }
 
-
 .project-phases {
 	.panel-body {
-		padding: 3rem 0;
+		padding-left: 0;
+		padding-right: 0;
+		overflow: hidden;
+		
+		.anchor-section {
+			margin-left: -15px;
+			margin-right: -15px;
+		}
 	}
 }
 
 .project-artifacts {
 	.panel {
 		margin-bottom: 0;
-	}
-	
-	table {
-		table-layout: fixed;
-		
-		th {
-			border-bottom: none !important;
-		}
-		
-		th, td {
-			padding: 0.75rem 1rem !important;
-			text-align: left;
-		}
-		
-		td:last-child {
-			width: 10rem;
-			text-align: right;
-		}
 	}
 }
 
@@ -2352,19 +2580,24 @@ section.project-info {
 }
 
 .detail-row {
-	margin: 1rem 0;
+	margin: 1.5rem 0;
 	
 	label, span.value {
 		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 	
 	label {
-		margin-bottom: 0;
+		min-width: 14rem;
+		margin-bottom: .2rem;
 		font-weight: 600;
+		text-shadow: 0 0 0 #FFF;
 	}
 	
-	em {
-		color: #999;
+	span.value {
+		color: #888;
 	}
 }
 
@@ -2372,21 +2605,10 @@ section.project-info {
 	margin-top: 0;
 }
 
-@media (min-width: 1024px) {
-	.detail-row {
-		display: table-row;
-		
-		label, span.value {
-			display: table-cell;
-			vertical-align: top;
-			padding: 0.5rem 0;
-		}
-		
-		label {
-			padding-right: 2rem;
-			text-align: left;
-			white-space: nowrap;
-		}
+.detail-row.project-desc {
+	span.value {
+		white-space: normal;
+		overflow: visible;
 	}
 }
 
@@ -2400,17 +2622,33 @@ section.project-info {
 	}
 }
 
+@media (min-width: 1024px) {
+	.mem-details .detail-row {
+		display: table-row;
+		
+		label, span.value {
+			display: table-cell;
+			vertical-align: top;
+			padding: 0.4rem 0;
+		}
+		
+		label {
+			padding-right: 2rem;
+			text-align: left;
+			white-space: nowrap;
+		}
+	}
+}
+
 
 /* EDIT PROJECT VIEW
 ------------------------------ */ 
 .edit-project-details-view {
 	.tab-content {
-		padding: 2rem;
-		border: 1px solid #DDD;
-		border-top: none;
-		background: #FFF;
+		padding-top: 3rem;
 	}
 }
+
 
 /* DOCUMENT BROWSER VIEW
 ------------------------------ */
@@ -2424,35 +2662,6 @@ section.project-info {
 .document-browser-view {
 	.panel-body {
 		padding: 0;
-	}
-	
-	.panel-heading-actions .glyphicon {
-		margin-top: -4px;
-		margin-right: 0.5rem;
-		font-size: 1.8rem;
-		vertical-align: middle;
-	}
-}
-
-/* SYSTEM ROLES VIEW
------------------------------- */
-.system-role-view {
-	.panel {
-		margin-top: 2rem;
-	}
-}
-
-
-/* ARTIFACT LIST VIEW
------------------------------- */
-.artifact-list-view {	
-	.artifacts-dropdown {
-		margin-right: 2rem;
-		width: 30rem;
-	}
-	
-	.artifacts-list-actions {
-		margin: -0.7rem 0;
 	}
 }
 
@@ -2653,11 +2862,6 @@ section.project-info {
 		.panel-heading h2 {
 			margin-top: 0.2rem;
 		}
-		
-		.panel-heading .pull-right {
-			margin-top: -8px;
-			margin-bottom: -6px;
-		}
 	}
 }
 
@@ -2671,3 +2875,26 @@ section.project-info {
 	}
 }
 
+
+/* SYSTEM ROLES VIEW
+------------------------------ */
+.system-role-view {
+	.panel {
+		margin-top: 2rem;
+	}
+}
+
+
+/* VALUED COMPONENTS VIEW
+----------------------------- */
+.valued-component-view {
+	.textarea {
+		min-height: 8.5rem;
+	}
+}
+
+.edit-valued-component-view {
+	.textarea {
+		height: 8.5rem;
+	}
+}

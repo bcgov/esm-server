@@ -10,6 +10,13 @@ var helpers  = require (require('path').resolve('./modules/core/server/controlle
 
 exports.invokeRolesPolicies = function () {
 	// empty means that ONLY admin can use these paths
+	helpers.setPathPermissions (acl, [
+		[ 'guest', 'user', '/api/new/user'   ]
+	]);
+
 };
 
 exports.isAllowed = helpers.isAllowed (acl);
+
+
+

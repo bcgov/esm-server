@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('templates').run(['Menus',
-	function (Menus) {
+angular.module('templates').run(['Menus','MenuControl',
+	function (Menus, MenuControl) {
 		Menus.addMenuItem('systemMenu', {
 			title: 'Templates',
 			state: 'admin.template.list',
-			roles: ['admin','edit-templates']
+			roles: MenuControl.menuRolesBuilder('admin', '*', '*', '*')
 		});
 	}
 ]);

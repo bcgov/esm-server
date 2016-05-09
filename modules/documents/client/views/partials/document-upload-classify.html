@@ -20,45 +20,18 @@
 	<table class="table table-condensed">
 		<thead>
 			<tr class="small" colspan="3">
-				<th>Type and Destination for New Documents</th>
+				<th>Destination for New Documents</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td width="33%" style="padding-top: 5px;">
-					<div class="form-group">
-						<label class="control-label">Phase</label>
-						<select class="form-control" ng-options="type as type.name group by (type.group | uppercase) for type in docUpload.docTypes track by type.code" ng-model="docUpload.type"></select>					
-					</div>
-				</td>
 				<td width="34%" style="padding-top: 5px;">
 					<div class="form-group">
-						<label class="control-label">Deliverable</label>
-						<select class="form-control" ng-options="stype as stype.name group by (stype.group | uppercase) for stype in docUpload.docSubTypes track by stype.code" ng-model="docUpload.subType"></select>					
+						<label class="control-label">Artifact</label>
+						<select class="form-control"
+								ng-options="stype as stype.name for stype in docUpload.artifacts"
+								ng-model="docUpload.selectedArtifact"></select>
 					</div>
-				</td>
-				<td width="33%" style="padding-top: 5px;">
-
-					<!-- there are no folders or a custom folder is requested -->
-					<div class="form-group ng-hide" ng-show="docUpload.docFolderNames.length === 0 || docUpload.customFolder">
-						<a href class="control-label pull-right" ng-click="docUpload.customFolder = !docUpload.customFolder">
-							<span>From Existing</span>
-						</a>
-
-						<label class="control-label">Document Category / Folder</label>
-						<input class="form-control ng-cloak" x-select-on-focus ng-model="docUpload.folderName" placeholder="New Folder Name">
-					</div>
-
-					<div class="form-group ng-hide" ng-show="docUpload.docFolderNames.length !== 0 && !docUpload.customFolder">
-						<a href class="control-label pull-right" ng-click="docUpload.customFolder = !docUpload.customFolder">
-							<span>New Folder</span>
-						</a>
-
-						<label class="control-label">Document Category / Folder</label>
-						<select class="form-control" ng-options="ftype for ftype in docUpload.docFolderNames | unique: 'projectFolderName'" ng-model="docUpload.folderName"></select>
-					</div>
-
-
 				</td>
 			</tr>
 		</tbody>

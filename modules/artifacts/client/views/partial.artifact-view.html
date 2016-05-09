@@ -1,11 +1,12 @@
+
 <div ng-if="artifact.isTemplate">
 	<!--
-
 		This section gets displayed if the content is a template
 
 	 -->
 	<tmpl-template-render x-template="artifact.template" x-mode="'view'" x-project="project" x-document="artifact.templateData"></tmpl-template-render>
 </div>
+
 <div ng-if="!artifact.isTemplate" ng-init="editable=false">
 	<!--
 

@@ -16,7 +16,7 @@ exports.invokeRolesPolicies = function () {
 		[ '', 'user', '/api/phase/:phase/add/milestone/:milestonebase'],
 		[ '', 'user', '/api/phase/in/project/:project'],
 		[ '', 'user', '/api/write/phase/in/project/:project'],
-		[ '', 'user', '/api/phase/for/project/:project']
+		[ 'guest', 'user', '/api/phase/for/project/:project']
 	]);
 };
 

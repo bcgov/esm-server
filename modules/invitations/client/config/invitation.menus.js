@@ -4,7 +4,7 @@ angular.module('invitation').run(['Menus', 'MenuControl', function (Menus, MenuC
 		Menus.addMenuItem('projectMenu', {
 			title: 'Project Invitations',
 			state: 'p.invitations',
-			roles: MenuControl.menuRoles ('', 'any', 'edit-roles')
+			roles: MenuControl.menuRolesBuilder ('admin', '*', '*', '*')
 		});
 	}
 ]);

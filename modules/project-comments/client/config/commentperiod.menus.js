@@ -4,7 +4,7 @@ angular.module('comment').run(['Menus', 'MenuControl', function (Menus, MenuCont
 		Menus.addMenuItem('projectMenu', {
 			title: 'Comment Periods',
 			state: 'p.commentperiod.list',
-			roles: MenuControl.menuRoles ('', 'eao', 'edit-comment-periods')
+			roles: MenuControl.menuRoles ('admin', '*', '*', '*')
 		});
 	}
 ]);
