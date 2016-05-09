@@ -220,7 +220,7 @@
 							<span class="value">{{ filterSummary.documentIsLatestVersion?'Yes':'No' }}</span>
 						</div>
 						
-						<div clas="detail-row" ng-hide="docVersion in docBrowser.docVersions.length == 0">
+						<div clas="detail-row">
 							<label>Revisions</label>
 							<span class="value value-list">
 								<a class="clearfix" href="{{ docVersion.documentFileURL }}" ng-repeat="docVersion in docBrowser.docVersions">

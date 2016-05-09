@@ -1743,6 +1743,11 @@ $left-panel-width: 17rem;
 		border: none;
 		background-image: none;
 		background-color: #EEE;
+		
+		.btn {
+			margin-top: -1rem;
+			margin-bottom: -1rem;
+		}
 	}
 	
 	h2 {
@@ -2310,7 +2315,7 @@ hr {
 ------------------------------------------------------------ */
 
 
-/* ARTIFACT LIST VIEW
+/* ARTIFACT VIEW
 ------------------------------ */
 .artifact-list-view {	
 	.artifacts-dropdown {
@@ -2320,6 +2325,15 @@ hr {
 	
 	.artifacts-list-actions {
 		margin: -0.7rem 0;
+	}
+}
+
+.edit-artifact-view {
+	.form-footer {
+		.form-control {
+			width: auto;
+			display: inline-block;
+		}
 	}
 }
 
@@ -2646,13 +2660,6 @@ section.project-info {
 }
 
 .document-browser-view {
-	.panel-heading {
-		.btn {
-			margin-top: -1rem;
-			margin-bottom: -1rem;
-		}
-	}
-	
 	.panel-body {
 		padding: 0;
 	}
@@ -2854,11 +2861,6 @@ section.project-info {
 		
 		.panel-heading h2 {
 			margin-top: 0.2rem;
-		}
-		
-		.panel-heading .pull-right {
-			margin-top: -8px;
-			margin-bottom: -6px;
 		}
 	}
 }
