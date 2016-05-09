@@ -2121,25 +2121,34 @@ $header-height: 6rem;
 		padding: 0;
 	}
 	
-	.file-browser-list:first-child {
-		border-right: 1px solid #EEE;
+	.file-browser-category {
+		padding: 0.5rem 1rem;
+		font-weight: bold;
+		background: #EEE;
 	}
 	
-}
-
-.file-browser-list {
-	min-height: 30rem;
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
-	
-	li {
-		padding: 0.5rem;
-		border-bottom: 1px solid #EEE;
+	.file-browser-list {
+		min-height: 30rem;
+		border-right: 1px solid #DDD;
+		
+		ul {
+			margin: 0;
+			padding: 0;
+			list-style-type: none;
+		}
+		
+		li {
+			padding: 0.5rem 1rem;
+			border-bottom: 1px solid #DDD;
+		}
+		
+		li:last-child {
+			border-bottom: none;
+		}
 	}
 	
-	li:last-child {
-		border-bottom: none;
+	.file-browser-list:last-child {
+		border-right: none;
 	}
 }
 
@@ -2824,7 +2833,7 @@ section.project-info {
 ----------------------------- */
 .valued-component-view {
 	.textarea {
-		height: 8.5rem;
+		min-height: 8.5rem;
 	}
 }
 
