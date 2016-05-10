@@ -2036,6 +2036,15 @@ $header-height: 6rem;
 	}
 }
 
+.breadcrumbs {
+	padding: 1.5rem 2.5rem;
+	padding-bottom: 0;
+}
+
+.breadcrumbs + .view-title-container {
+	padding-top: 1.5rem;
+}
+
 
 /* DATE RANGE CONTROL
 ------------------------------ */
@@ -2453,9 +2462,7 @@ hr {
 	}
 	
 	.view-body-container {
-		display: flex;
-		flex-flow: row nowrap;
-		
+
 		.project-list {
 			flex: 1 1 auto;
 		}	
