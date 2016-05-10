@@ -163,9 +163,9 @@ module.exports = DBModel.extend({
           })
           .then(function (result) {
             project = result;
-						// figure out the invitation that this current user will assign people to
-						// which invitee role????
-						if (req.user.orgCode && req.user.orgCode === 'eao') {
+						// what role are we adding this person to?
+						// if it is an EAO role, then use EAO invitee role for assignments...
+						if (role.orgCode && role.orgCode === 'eao') {
 							inviteeRoles.push(project.eaoInviteeRole); // make this inviteeRoles[0] - the one we want to assign to
 							inviteeRoles.push(project.proponentInviteeRole);
 						} else {

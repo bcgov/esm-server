@@ -59,6 +59,9 @@ angular.module('roles').factory ('RoleModel', function (ModelBase, _) {
 		},
 		setPermissions: function(data) {
 			return this.put('/api/permissions', data);
+		},
+		getAllUsers: function() {
+			return this.get ('/api/query/user');
 		}
 	});
 	return new Class ();
