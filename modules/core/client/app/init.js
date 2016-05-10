@@ -34,21 +34,21 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 					var projectPattern = '[a-zA-Z0-9\-]+';
 					var orgPattern = '(eao|pro)';
 
-					var pattern; //would match a system role by default...
+					var pattern, projCode, orgCode, roleCode; //would match a system role by default...
 					var parts = role.split(':');
 					switch(_.size(parts)) {
 						case 3:
 							// passed in a project : org : role code
-							var projCode = _.includes(allFilters, parts[0]) ? projectPattern : '(' + parts[0] + ')';
-							var orgCode = _.includes(allFilters, parts[1]) ? orgPattern : '(' + parts[1] + ')';
-							var roleCode = '(' + parts[2] + ')$';
+							projCode = _.includes(allFilters, parts[0]) ? projectPattern : '(' + parts[0] + ')';
+							orgCode = _.includes(allFilters, parts[1]) ? orgPattern : '(' + parts[1] + ')';
+							roleCode = '(' + parts[2] + ')$';
 							pattern  = new RegExp([projCode, orgCode, roleCode].join(':'), 'gi');
 							break;
 						case 2:
 							// passed in a org : role code
-							var projCode = projectPattern ;
-							var orgCode = _.includes(allFilters, parts[0]) ? orgPattern : '(' + parts[0] + ')';
-							var roleCode = '(' + parts[1] + ')$';
+							projCode = projectPattern ;
+							orgCode = _.includes(allFilters, parts[0]) ? orgPattern : '(' + parts[0] + ')';
+							roleCode = '(' + parts[1] + ')$';
 							pattern  = new RegExp([projCode, orgCode, roleCode].join(':'), 'gi');
 							break;
 						default:
