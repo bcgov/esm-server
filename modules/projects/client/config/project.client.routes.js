@@ -25,7 +25,7 @@ angular.module('project').config (
 				return project.proponentAdminRole;
 			}
 		},
-		controller: function ($scope, $stateParams, project, ENV, $rootScope, ProjectModel) {
+		controller: function ($scope, $stateParams, project, ENV, $rootScope, ProjectModel, Menus, MenuControl) {
 			$scope.project = project;
 			$scope.environment = ENV;
 			$scope.isNew = ($stateParams.projectid === 'new');
@@ -33,6 +33,80 @@ angular.module('project').config (
 			ProjectModel.setModel(project);
 
 			$scope.intakeQuestions = ProjectModel.getProjectIntakeQuestions();
+
+			//
+			// Clear out the project side menu... and add them on the fly
+			// we need the project context to properly show the menus, or else we get 403 on the routes...
+			//
+			Menus.removeMenuItem('projectTopMenu', 'p.edit');
+			Menus.removeMenuItem('projectTopMenu', 'p.schedule');
+			Menus.removeMenuItem('projectTopMenu', 'p.enforcements');
+
+			Menus.addMenuItem('projectTopMenu', {
+				title: 'Edit Project',
+				state: 'p.edit',
+				roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer', 'pro:admin', 'pro:member'])
+			});
+			Menus.addMenuItem('projectTopMenu', {
+				title: 'Schedule',
+				state: "p.schedule",
+				roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'minister-office', 'qa-officer', 'ce-lead', 'ce-officer', 'wg', 'ceaa', 'pro:admin', 'pro:member', 'sub'])
+			});
+			Menus.addMenuItem('projectTopMenu', {
+				title: 'Compliance Oversight',
+				state: "p.enforcements",
+				roles: MenuControl.menuRolesBuilder (['user'], project.code, '*', '*')
+			});
+
+			Menus.removeMenuItem('projectMenu', 'p.documents');
+			Menus.removeMenuItem('projectMenu', 'p.invitations');
+			Menus.removeMenuItem('projectMenu', 'p.commentperiod.list');
+			Menus.removeMenuItem('projectMenu', 'p.complaint.list');
+			Menus.removeMenuItem('projectMenu', 'p.projectcondition.list');
+			Menus.removeMenuItem('projectMenu', 'p.ir.list');
+			Menus.removeMenuItem('projectMenu', 'p.roles.list');
+			Menus.removeMenuItem('projectMenu', 'p.vc.list');
+
+			Menus.addMenuItem('projectMenu', {
+				title: 'Documents',
+				state: 'p.documents',
+				roles: MenuControl.menuRolesBuilder (['admin','user','public'], project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'pro:admin', 'pro:member', 'sub'])
+			});
+			Menus.addMenuItem('projectMenu', {
+				title: 'Project Invitations',
+				state: 'p.invitations',
+				roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['eao:admin', 'responsible-epd','project-admin', 'project-lead','project-intake', 'pro:admin', 'pro:member'])
+			});
+			Menus.addMenuItem('projectMenu', {
+				title: 'Comment Periods',
+				state: 'p.commentperiod.list',
+				roles: MenuControl.menuRoles ('admin', project.code, '*', '*')
+			});
+			Menus.addMenuItem('projectMenu', {
+				title: 'Complaints',
+				state: 'p.complaint.list',
+				roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['ce-lead', 'ce-officer'])
+			});
+			Menus.addMenuItem('projectMenu', {
+				title: 'Conditions',
+				state: 'p.projectcondition.list',
+				roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer'])
+			});
+			Menus.addMenuItem('projectMenu', {
+				title: 'Inspection Reports',
+				state: 'p.ir.list',
+				roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['ce-lead', 'ce-officer'])
+			});
+			Menus.addMenuItem('projectMenu', {
+				title: 'Project Roles',
+				state: 'p.roles.list',
+				roles: MenuControl.menuRolesBuilder (['admin'], project.code, '*', ['project-lead', 'project-intake', 'pro:admin', 'pro:member', 'sub'])
+			});
+			Menus.addMenuItem('projectMenu', {
+				title: 'Valued Components',
+				state: 'p.vc.list',
+				roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer', 'pro:admin', 'pro:member', 'sub'])
+			});
 
 			var unbind = $rootScope.$on('refreshProject', function() {
 				// console.log('refreshProject', $stateParams.projectid);

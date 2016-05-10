@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('project').run(['Menus', 'MenuControl', function (Menus, MenuControl) {
+angular.module('project').run(['Menus', 'MenuControl',
+	function (Menus, MenuControl) {
+/*
 		Menus.addMenuItem('projectTopMenu', {
 			title: 'Edit Project',
 			state: 'p.edit',
@@ -16,7 +18,7 @@ angular.module('project').run(['Menus', 'MenuControl', function (Menus, MenuCont
 			state: "p.enforcements",
 			roles: MenuControl.menuRolesBuilder (['user'], '*', '*', '*')
 		});
-		
+*/
 		// Menus.addMenuItem('projectMenu', {
 		// 	title: 'Edit Project Schedule',
 		// 	state: 'p.edit',
