@@ -4,7 +4,7 @@ angular.module('complaints').run(['Menus', 'MenuControl', function (Menus, MenuC
 		Menus.addMenuItem('projectMenu', {
 			title: 'Complaints',
 			state: 'p.complaint.list',
-			roles: MenuControl.menuRolesBuilder ('admin', '*', '*', '*')
+			roles: MenuControl.menuRolesBuilder (undefined, '*', '*', ['ce-lead', 'ce-officer'])
 		});
 	}
 ]);

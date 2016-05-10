@@ -45,7 +45,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     //
     // -------------------------------------------------------------------------
     .state('admin.organization.create', {
-        data: {roles: ['admin','edit-organizations']},
+        data: {roles: ['admin']},
         url: '/create',
         templateUrl: 'modules/organizations/client/views/organization-edit.html',
         resolve: {
@@ -81,7 +81,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     //
     // -------------------------------------------------------------------------
     .state('admin.organization.edit', {
-        data: {roles: ['admin','edit-organizations']},
+        data: {roles: ['admin']},
         url: '/:orgId/edit',
         templateUrl: 'modules/organizations/client/views/organization-edit.html',
         resolve: {
@@ -167,7 +167,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     //
     // -------------------------------------------------------------------------
     .state('admin.organization.user.create', {
-        data: {roles: ['admin','edit-users']},
+        data: {roles: ['admin']},
         url: '/create',
         templateUrl: 'modules/organizations/client/views/organization-user-edit.html',
         resolve: {
@@ -218,7 +218,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     //
     // -------------------------------------------------------------------------
     .state('admin.organization.user.edit', {
-        data: {roles: ['admin','edit-users']},
+        data: {roles: ['admin']},
         url: '/:userId/edit',
         templateUrl: 'modules/organizations/client/views/organization-user-edit.html',
         resolve: {

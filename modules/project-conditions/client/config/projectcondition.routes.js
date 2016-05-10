@@ -42,7 +42,7 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 			}
 		},
         onEnter: function (MenuControl, project) {
-					MenuControl.routeAccessBuilder ('admin', project.code, '*', '*');
+					MenuControl.routeAccessBuilder (undefined, project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer']);
         }
 
 	})

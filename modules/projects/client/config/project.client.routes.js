@@ -107,10 +107,10 @@ angular.module('project').config (
 		// },
 		onEnter: function (MenuControl, project, $stateParams) {
 			if ($stateParams.projectid === 'new') {
-				MenuControl.routeAccessBuilder(['admin', 'proponent'], '*', '*', '*');
+				MenuControl.routeAccessBuilder(undefined, '*', '*', ['responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer', 'pro:admin', 'pro:member']);
 			}
 			else {
-				MenuControl.routeAccessBuilder(['admin', 'proponent'], project.code, '*', '*');
+				MenuControl.routeAccessBuilder(undefined, project.code, '*', ['responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer', 'pro:admin', 'pro:member']);
 			}
 		}
 	})
@@ -130,7 +130,7 @@ angular.module('project').config (
 		// },
 		onEnter: function (MenuControl, project, $stateParams) {
 			if ($stateParams.projectid === 'new') {
-				MenuControl.routeAccessBuilder ('admin', '*', '*', '*');
+				MenuControl.routeAccessBuilder (undefined, '*', '*', ['ce-lead', 'ce-officer']);
 			}
 			else {
 				MenuControl.routeAccessBuilder (['admin', 'user', 'public']);

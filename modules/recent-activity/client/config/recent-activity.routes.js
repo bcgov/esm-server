@@ -58,7 +58,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.recentactivity.create', {
-		data: {roles: ['admin','edit-recent-activity']},
+		data: {roles: ['admin']},
 		url: '/create',
 		templateUrl: 'modules/recent-activity/client/views/recent-activity-edit.html',
 		resolve: {
@@ -94,7 +94,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.recentactivity.edit', {
-		data: {roles: ['admin','edit-recent-activity']},
+		data: {roles: ['admin']},
 		url: '/:recentActivityId/edit',
 		templateUrl: 'modules/recent-activity/client/views/recent-activity-edit.html',
 		resolve: {

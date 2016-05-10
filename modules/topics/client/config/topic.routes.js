@@ -58,7 +58,7 @@ angular.module('topics').config(['$stateProvider', function ($stateProvider) {
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.topic.create', {
-		data: {roles: ['admin','edit-topics']},
+		data: {roles: ['admin']},
 		url: '/create',
 		templateUrl: 'modules/topics/client/views/topic-edit.html',
 		resolve: {
@@ -118,7 +118,7 @@ angular.module('topics').config(['$stateProvider', function ($stateProvider) {
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.topic.edit', {
-		data: {roles: ['admin','edit-topics']},
+		data: {roles: ['admin']},
 		url: '/:topicId/edit',
 		templateUrl: 'modules/topics/client/views/topic-edit.html',
 		resolve: {

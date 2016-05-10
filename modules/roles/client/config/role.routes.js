@@ -16,7 +16,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 		abstract: true,
 		template: '<ui-view></ui-view>',
 		onEnter: function (MenuControl, project) {
-			MenuControl.routeAccessBuilder ('admin', project.code, '*', '*');
+			MenuControl.routeAccessBuilder (['admin'], project.code, '*', ['project-lead', 'project-intake', 'pro:admin', 'pro:member', 'sub']);
 		}
 	})
 	.state('p.roles.list', {
@@ -196,7 +196,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.roles.create', {
-		data: {roles: ['admin','edit-sys-roles']},
+		data: {roles: ['admin']},
 		url: '/create',
 		templateUrl: 'modules/roles/client/views/role-edit.html',
 		resolve: {
@@ -237,7 +237,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.roles.edit', {
-		data: {roles: ['admin','edit-sys-roles']},
+		data: {roles: ['admin']},
 		url: '/:roleCode/edit',
 		templateUrl: 'modules/roles/client/views/role-edit.html',
 		resolve: {

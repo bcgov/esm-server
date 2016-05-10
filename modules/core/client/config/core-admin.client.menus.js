@@ -6,5 +6,5 @@ angular.module('core.admin').run(['Menus', 'MenuControl', function (Menus, MenuC
 			state: 'configuration',
 			roles: MenuControl.menuRolesBuilder(['admin'])
 		});
-	}
+}
 ]);

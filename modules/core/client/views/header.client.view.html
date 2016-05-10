@@ -20,9 +20,10 @@
 					<li ng-repeat="item in systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 					</li>
-					<li ng-if="isAdmin">
-						<a ui-sref="admin.legal.list">Legal Opinions</a>
-					</li>
+          <!--
+          Move this modal to be secured through the core-admin.client.menus/routes
+          MenuControl.menuRolesBuilder(['admin'])
+          -->
 					<li ng-if="isAdmin">
 						<a x-modal-project-import href x-project="import">Import</a>
 					</li>
