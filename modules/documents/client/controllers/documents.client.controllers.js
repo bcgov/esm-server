@@ -375,7 +375,38 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 			docBrowser.documentFiles	= res.data;
 		});
 		Document.getProjectDocumentTypes(docBrowser.project._id, $scope.approvals).then( function(res) {
-			docBrowser.docTypes	= res.data;
+			if (ENV === 'MEM') {
+				// Now apply the re-sort of the flattened objects (inefficient way)
+				var list = [];
+				angular.forEach( res.data, function(item) {
+					if(item.order === 1) {
+						list.push(item);
+					}
+				});
+				angular.forEach( res.data, function(item) {
+					if(item.order === 2) {
+						list.push(item);
+					}
+				});
+				angular.forEach( res.data, function(item) {
+					if(item.order === 3) {
+						list.push(item);
+					}
+				});
+				angular.forEach( res.data, function(item) {
+					if(item.order === 4) {
+						list.push(item);
+					}
+				});
+				angular.forEach( res.data, function(item) {
+					if(item.order === 5) {
+						list.push(item);
+					}
+				});
+				docBrowser.docTypes	= list;
+			} else {
+				docBrowser.docTypes	= res.data;
+			}
 		});
 		PhaseModel.phasesForProject(docBrowser.project._id)
 		.then (function (res) {
