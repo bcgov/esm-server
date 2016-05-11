@@ -376,34 +376,9 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 		});
 		Document.getProjectDocumentTypes(docBrowser.project._id, $scope.approvals).then( function(res) {
 			if (ENV === 'MEM') {
-				// Now apply the re-sort of the flattened objects (inefficient way)
-				var list = [];
-				angular.forEach( res.data, function(item) {
-					if(item.order === 1) {
-						list.push(item);
-					}
-				});
-				angular.forEach( res.data, function(item) {
-					if(item.order === 2) {
-						list.push(item);
-					}
-				});
-				angular.forEach( res.data, function(item) {
-					if(item.order === 3) {
-						list.push(item);
-					}
-				});
-				angular.forEach( res.data, function(item) {
-					if(item.order === 4) {
-						list.push(item);
-					}
-				});
-				angular.forEach( res.data, function(item) {
-					if(item.order === 5) {
-						list.push(item);
-					}
-				});
-				docBrowser.docTypes	= list;
+				// console.log("list:",res.data)
+				var sorted = _.sortBy(res.data, "order");
+				docBrowser.docTypes	= sorted;
 			} else {
 				docBrowser.docTypes	= res.data;
 			}
