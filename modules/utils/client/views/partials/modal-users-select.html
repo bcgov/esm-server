@@ -16,7 +16,7 @@
 						<option value="add">Add...</option>
 					</optgroup>
 					<optgroup label="Organizations">
-						<option ng-repeat="org in utilUsers.orgs" value="org:{{ org._id }}">{{ org.name }}</option>
+						<option ng-repeat="org in utilUsers.orgs | orderBy:'name'" value="org:{{ org._id }}">{{ org.name }}</option>
 					</optgroup>
 				</select>
 			</p>
