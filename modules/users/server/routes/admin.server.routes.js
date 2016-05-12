@@ -9,6 +9,7 @@ var helpers = require('../../../core/server/controllers/core.helpers.controller'
 var RoleCtrl = require(require('path').resolve('./modules/roles/server/controllers/role.controller'));
 var _ = require('lodash');
 var User = require('mongoose').model('User');
+var Role = require('mongoose').model('Role');
 
 module.exports = function (app) {
 	helpers.setCRUDRoutes(app, 'user', UserCtrl, policy);
@@ -16,6 +17,8 @@ module.exports = function (app) {
 	// just create a new user if required... add them to the roles...
 	app.route('/api/onboardUser').all(policy.isAllowed)
 		.post(function (req, res) {
+			var _user;
+
 			(new UserCtrl(req.user)).findOne({email: req.body.email.toLowerCase()})
 				.then(function (user) {
 					if (!user) {
@@ -31,14 +34,28 @@ module.exports = function (app) {
 				//	console.error(err);
 				//})
 				.then(function (user) {
+					_user = user;
 					if (_.isEmpty(user.roles)) {
-						return user;
+						return [];
 					} else {
-						return new Promise(function (fulfill, reject) {
-							var data = {method: 'add', users: [user], roles: user.roles};
-							fulfill(RoleCtrl.userRoles(data));
+						return new Promise(function(fulfill, reject) {
+							Role.find({code: {$in: user.roles}, users : {$nin: [_user]}})
+								.populate('users')
+								.exec()
+								.then(function(roles) {
+									fulfill(roles);
+								});
 						});
 					}
+				})
+				.then(function(roles) {
+						var a = roles.map(function (role) {
+							return new Promise(function(fulfill, reject) {
+								role.users.push(_user);
+								fulfill(role.save());
+							});
+						});
+						return Promise.all(a);
 				})
 				.then(function (data) {
 					//console.log(data);
