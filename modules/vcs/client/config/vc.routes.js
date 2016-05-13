@@ -25,6 +25,11 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				// console.log ('project id = ', project._id);
 				return VcModel.forProject (project._id);
 			},
+			vcartifacts: function ($stateParams, VcModel, ArtifactModel, project) {
+				// console.log ('resolving artifact vc');
+				// console.log ('project id = ', project._id);
+				return ArtifactModel.forProjectGetType (project._id, "valued-component");
+			},
 		},
         onEnter: function (MenuControl, project) {
 					MenuControl.routeAccessBuilder (undefined, project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer','pro:admin', 'pro:member', 'sub']);
@@ -39,8 +44,8 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	.state('p.vc.list', {
 		url: '/list',
 		templateUrl: 'modules/vcs/client/views/vc-list.html',
-		controller: function ($scope, NgTableParams, vcs, project, $modal, $state) {
-			$scope.tableParams = new NgTableParams ({count:10}, {dataset: vcs});
+		controller: function ($scope, NgTableParams, vcs, vcartifacts, project, $modal, $state) {
+			$scope.tableParams = new NgTableParams ({count:10}, {dataset: vcartifacts});
 			$scope.project = project;
 
 			$scope.openAddTopic = function() {
