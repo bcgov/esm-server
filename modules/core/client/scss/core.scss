@@ -2128,6 +2128,32 @@ $header-height: 6rem;
 }
 
 
+/* FIELDSETS
+------------------------------ */
+fieldset {
+	margin-bottom: 2rem;
+}
+
+fieldset:last-child {
+	margin-bottom: 0;
+}
+
+legend {
+	padding-bottom: 0.5rem;
+	font-size: 1.8rem;
+	font-weight: bold;
+	text-transform: uppercase;
+	border-bottom: 1px solid #DDD;
+	
+	em {
+		font-size: 1.4rem;
+		font-weight: normal;
+		color: 
+		#999;
+	}
+}
+
+
 /* FILE BROWSER
 ------------------------------ */
 $file-browser-height: 40rem;
@@ -2223,11 +2249,48 @@ $file-actions-height: 5rem;
 
 /* FORM CONTROLS
 ------------------------------ */
+.control-label {
+	font-weight: normal;
+	color: #000;
+	text-shadow: 1px 1px 0 #FFF;
+	
+	em {
+		margin-left: 0.25rem;
+		font-size: 1.2rem;
+		font-weight: normal;
+		color: #999;
+	}
+}
+
+.has-error {
+	.control-label em {
+		color: #a94442;
+	}
+}
+
 form {
 	section {
 		margin-bottom: 2rem;
 		padding-bottom: 1rem;
 		border-bottom: 1px solid #DDD;
+	}
+	
+	.col-sm-6:nth-child(3n+3) {
+		clear: both;
+	}
+	
+	.help-block {
+		margin-top: 0.5rem;
+		margin-bottom: 0;
+		font-size: 1.2rem;
+	}
+}
+
+@media (min-width: 1024px) {
+	form {
+		.col-sm-6:nth-child(3n+3) {
+			clear: none;
+		}
 	}
 }
 
@@ -2247,16 +2310,12 @@ form {
 	border: none;
 }
 
-.control-label {
-	font-weight: normal;
-}
-
 textarea {
 	resize: vertical;
 }
 
 .form-control-static {
-	padding: 6px;
+	padding: 6px 8px;
 	background: #EEE;
 	border: 1px solid #DDD;
 	border-radius: 4px;
@@ -2682,11 +2741,6 @@ section.project-info {
 	}
 	
 	.form-group:last-child {
-		margin-bottom: 0;
-	}
-	
-	.help-block {
-		margin-top: 1rem;
 		margin-bottom: 0;
 	}
 	
