@@ -22,6 +22,16 @@ module.exports = DBModel.extend ({
 	getForProject: function (projectid) {
 		return this.list ({project:projectid},{name:1, version:1, stage:1, isPublished:1, userPermissions:1});
 	},
+	// If we want artifacts that do not equal a certain type
+	getForProjectFilterType: function (projectid, filterType) {
+		return this.list ({project:projectid, typeCode: { $ne: filterType }},
+						  {name:1, version:1, stage:1, isPublished:1, userPermissions:1});
+	},
+	// We want to specifically get these types
+	getForProjectType: function (projectid, type) {
+		return this.list ({project:projectid, typeCode: type },
+						  {name:1, version:1, stage:1, isPublished:1, userPermissions:1, valuedComponents: 1});
+	},
 	// -------------------------------------------------------------------------
 	//
 	// make a new artifact from a given type.
@@ -281,8 +291,8 @@ module.exports = DBModel.extend ({
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			self.model.aggregate ([
-			    { "$sort": { "versionNumber": -1 } },
-			    { "$group": {
+				{ "$sort": { "versionNumber": -1 } },
+				{ "$group": {
 					"_id"           : "$typeCode",
 					"id"            : {"$first": "$_id"},
 					"name"          : {"$first": "$name"},
@@ -290,7 +300,7 @@ module.exports = DBModel.extend ({
 					"versionNumber" : { "$first": "$versionNumber" },
 					"dateUpdated"   : { "$first": "$dateUpdated" },
 					"stage"         : { "$first": "$stage"}
-			    }}
+				}}
 			], function (err, result) {
 				if (err) return reject (err);
 				else resolve (result);

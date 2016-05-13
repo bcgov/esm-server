@@ -18,6 +18,18 @@ module.exports = function (app) {
 			p.getForProject (req.params.projectid)
 			.then (helpers.success(res), helpers.failure(res));
 		});
+	app.route ('/api/artifact/for/project/:projectid/not/:filtertype').all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Artifact (req.user);
+			p.getForProjectFilterType (req.params.projectid,req.params.filtertype)
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	app.route ('/api/artifact/for/project/:projectid/:type').all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Artifact (req.user);
+			p.getForProjectType (req.params.projectid,req.params.type)
+			.then (helpers.success(res), helpers.failure(res));
+		});
 	app.route ('/api/artifact/project/:project/from/type/:documenttype').all (policy.isAllowed)
 		.get (function (req, res) {
 			var p = new Artifact (req.user);

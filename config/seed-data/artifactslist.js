@@ -1,7 +1,7 @@
 
 var artifacttypes = [{
     name: 'Valued Component',
-    multiple: true,
+    multiple: false,
     code: 'valued-component',
     milestone: 'valued-component',
     versions : [

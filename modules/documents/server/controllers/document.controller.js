@@ -166,7 +166,7 @@ var getDocumentTypesForProject = function (req, res) {
 				{existsdocumentIsInReview: req.headers.reviewdocsonly || false},
 				{existsdocumentIsInReview: {$exists: false }}
 			]})
-			.sort ({projectFolderType : 1})
+			.sort ({projectFolderType : 1, projectFolderSubType: -1, projectFolderName: 1})
 			.populate('projectID').exec( function (err, records) {
 			if (err) {
 				// console.log("getDocumentTypesForProject failed to find anything",err);

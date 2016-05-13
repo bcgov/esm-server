@@ -134,7 +134,7 @@
 			
 			<!-- FOLDER HIERARCHY -->
 			<div class="col-sm-6 col-md-4 file-browser-list">
-				<ul>
+				<ul ng-if="environment === 'EAO'">
 					<li
 						ng-click="docBrowser.filterList(row)"
 						ng-hide="row.label === 'Not Specified'"

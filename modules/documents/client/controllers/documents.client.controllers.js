@@ -123,6 +123,8 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 				Document.getProjectDocumentMEMTypes(newValue._id, false).then( function(res) {
 					// console.log("getProjectDocumentMEMTypes",res.data);
 					docUpload.docTypes = res.data;
+					// First result is default
+					docUpload.typeName = docUpload.docTypes[0];
 				});
 				Document.getProjectDocumentSubTypes(newValue._id, false).then( function(res) {
 					// console.log("getProjectDocumentSubTypes",res.data);
