@@ -39,6 +39,11 @@ angular.module('artifacts')
 				// 	// console.log ("artifacts = ", c);
 				// 	$scope.$apply ();
 				// });
+				ArtifactModel.forProject($scope.project._id)
+				.then( function (c) {
+					s.tableParams = new NgTableParams ({count:10}, {dataset: c});
+					$scope.$apply();
+				});
 				if (!s.public) {
 					ArtifactModel.availableTypes ($scope.project._id).then (function (c) {
 						s.availableTypes = c;
