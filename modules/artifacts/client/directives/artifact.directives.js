@@ -34,15 +34,10 @@ angular.module('artifacts')
 			this.init = function () {
 				// In this view we don't want individual VC's to show up, instead they will
 				// show up in the VC page.
-				// ArtifactModel.forProjectFilterType ($scope.project._id, "valued-component").then (function (c) {
-				// 	s.tableParams = new NgTableParams ({count:10}, {dataset: c});
-				// 	// console.log ("artifacts = ", c);
-				// 	$scope.$apply ();
-				// });
-				ArtifactModel.forProject($scope.project._id)
-				.then( function (c) {
+				ArtifactModel.forProjectFilterType ($scope.project._id, "valued-component").then (function (c) {
 					s.tableParams = new NgTableParams ({count:10}, {dataset: c});
-					$scope.$apply();
+					// console.log ("artifacts = ", c);
+					$scope.$apply ();
 				});
 				if (!s.public) {
 					ArtifactModel.availableTypes ($scope.project._id).then (function (c) {
