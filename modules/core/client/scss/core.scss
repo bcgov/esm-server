@@ -1842,13 +1842,26 @@ tmpl-header {
 }
 
 .app-main {
-	padding-top: 6rem;
+	padding-top: 5rem;
 	padding-bottom: 4rem;
 }
 
+@media (min-width: 768px) {
+	.app-main {
+		padding-top: 6rem;
+	}	
+}
+
 .left-panel {
-	flex: 0 0 $left-panel-width;
+	display: none;
 	background: #f7f7f7;
+}
+
+@media (min-width: 1024px) {
+	.left-panel {
+		display: block;
+		flex: 0 0 $left-panel-width;
+	}
 }
 
 .main-panel {
@@ -1868,69 +1881,233 @@ tmpl-header {
 $corp-blue: #003366;
 $corp-gold: #e3a82b;
 $header-height: 6rem;
+$header-height-sm: 5rem;
 
 .app-header {
 	position: relative;
 	margin-bottom: 0;
-	height: $header-height;
+	height: $header-height-sm;
+	min-height: $header-height-sm;
 	background-color: $corp-blue;
 	box-shadow: 0 0 0.5rem #666;
 	
 	.navbar {
-		height: $header-height;
-		margin: 0;
+		border: none;
 	}
 	
-	.navbar-nav {
-		margin: 1rem;
+	.navbar-header {
+		float: left;
 	}
 	
 	.navbar-brand {
-		margin-left: 0.5rem;
-		padding: 0 1rem;
+		padding: 0.8rem 1rem;
+		height: $header-height-sm;
+		min-height: $header-height-sm;
 		
 		img {
-			margin-top: 0.6rem;
-			height: 45px;
+			margin-top: 0.3rem;
+			height: 25px;
 		}
 	}
 	
 	.navbar-nav {
+		margin: 0;
 		float: right;
 		
-		> li > a,
-		> li > a:hover,
-		> li > a:focus {
-			padding: 1rem 1.5rem;
+		> li {
+			width: 4rem;
+			display: inline-block;
+		}
+		
+		> li > a {
+			width: 4rem;
+			height: 4rem;
+			overflow: hidden;
+		}
+		
+		.glyphicon {
 			color: #FFF;
-			border: none;
-			background: transparent;
+			
+			+ span {
+				display: none;
+			}
+		}
+	}
+}
+
+
+@media (min-width: 480px ) {
+	.app-header {
+		.navbar-brand {
+			img {
+				margin-top: 0.1rem;
+				height: 30px;
+			}
+		}
+	}
+}
+
+
+@media (min-width: 768px) {
+	.app-header {
+		height: $header-height;
+		
+		.navbar {
+			height: $header-height;
+			margin: 0;
+		}
+		
+		.navbar-nav {
+			margin: 1rem;
+		}
+		
+		.navbar-brand {
+			margin-left: 0.5rem;
+			padding: 0 1rem;
+			
+			img {
+				margin-top: 0.6rem;
+				height: 45px;
+			}
+		}
+		
+		.navbar-nav {
+			float: right;
+			
+			> li > a,
+			> li > a:hover,
+			> li > a:focus {
+				padding: 1rem 1.5rem;
+				color: #FFF;
+				border: none;
+				background: transparent;
+			}
+		}
+		
+		.nav {
+			> .open > a,
+			> .open > a:hover,
+			> .open > a:focus {
+				background: transparent;
+			}
+		}
+		
+		.dropdown-menu {
+			border-radius: 0;
+		}
+		
+		.vert-pipe {
+			border-left: 1px solid #FFF;
+			height: 2.5rem;
+			margin-top: 0.7rem;
+			opacity: 0.5;
+			margin-left: 1rem;
+			margin-right: 1rem;
+		}
+		
+		.user-menu {
+			margin-right: 1rem;
+		}
+	}
+}
+
+
+/* CUSTOM NAV
+------------------------------ */
+.custom-nav {
+	float: right;
+	margin: 0.7rem 1rem;
+	margin-bottom: 0;
+	padding: 0;
+	list-style-type: none;
+	
+	li {
+		display: inline-block;
+		
+		a {
+			min-width: 3.75rem;
+			display: block;
+			padding: 0.75rem 0;
+			color: #FFF;
+			text-align: center;
+			text-decoration: none;
+			border-radius: 0.4rem;
 		}
 	}
 	
-	.nav {
-		> .open > a,
-		> .open > a:hover,
-		> .open > a:focus {
-			background: transparent;
+	.glyphicon {
+		+ span {
+			display: none;
 		}
 	}
 	
 	.dropdown-menu {
+		margin-top: 1.5rem;
+		border: none;
 		border-radius: 0;
+		background: #FFF;
+		
+		li {
+			display: block;
+			
+			a {
+				padding: 0.5rem 2rem;
+				color: #003366;
+				text-align: left;
+				border-radius: 0;
+			}
+		}
 	}
 	
-	.vert-pipe {
-		border-left: 1px solid #FFF;
-		height: 2.5rem;
-		margin-top: 0.7rem;
-		opacity: 0.5;
-		margin-left: 1rem;
-		margin-right: 1rem;
+	.open {
+		.dropdown-toggle {
+			background: #1c2b4f;
+			box-shadow: 0 0 1rem #11203a inset;
+		}
 	}
 	
-	.user-menu {
-		margin-right: 1rem;
+	.dashboard-item {
+		margin-right: 0.4rem;
+	}
+}
+
+@media (min-width: 768px) {
+	.custom-nav {
+		float: right;
+		margin: 0;
+		margin-top: 1rem;
+		padding: 0;
+		list-style-type: none;
+		
+		li {
+			display: inline-block;
+			
+			a {
+				display: block;
+				padding: 10px;
+				color: #FFF;
+				text-decoration: none;
+			}
+		}
+		
+		.glyphicon {
+			display: none;
+			
+			+ span {
+				display: inline;
+			}
+		}
+		
+		.dropdown-menu {
+			margin: 0;
+			border: none;
+			border-radius: 0;
+			background: #FFF;
+		}
+		
+		.dashboard-item {
+			margin-right: 0;
+		}
 	}
 }
 
@@ -2901,10 +3078,6 @@ section.project-info {
 /* PUBLIC HOMEPAGE VIEW
 ------------------------------ */
 .public-home-view {
-	.col-sm-4 {
-		padding-right: 0;
-	}
-	
 	.view-title-container {
 		padding-bottom: 0;
 		border-bottom: 0;
