@@ -111,11 +111,17 @@ angular.module ('vcs')
 							})
 							.then( function (art) {
 								console.log("created artifact of valued-component",art);
-								savedArray.push(saved);
-								if (idx === self.currentObjs.length-1) {
-									// Return the collection back to the caller
-									$modalInstance.close(savedArray);
-								}
+								// Save the reference that this VC relates to.  We will look to
+								// re-use this to build up the package of VC's later.
+								saved.artifact = art._id;
+								VcModel.saveModel(saved)
+								.then( function (obj) {
+									savedArray.push(saved);
+									if (idx === self.currentObjs.length-1) {
+										// Return the collection back to the caller
+										$modalInstance.close(savedArray);
+									}
+								});
 							})
 							;
 						});

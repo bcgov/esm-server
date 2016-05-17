@@ -7,7 +7,22 @@
 	 -->
 	<tmpl-template-render ng-if="artifact.isTemplate" x-template="artifact.template" x-mode="mode" x-project="project" x-document="artifact.templateData"></tmpl-template-render>
 </div>
-<div ng-if="!artifact.isTemplate" ng-init="editable=false">
+<div ng-if="artifact.isArtifactCollection" ng-init="editable=false">
+<div class="panel panel-default">
+	<div class="panel-heading clearfix">
+		<h2 class="pull-left">Valued Component Description</h2>
+		<div class="pull-right"></div>
+	</div>
+	<div class="panel-body">
+		<div class="file-horiz">
+			<span class="glyphicon glyphicon-list-alt"></span>
+			<!-- These need to be built out as an array of VC's attached to this artifact -->
+			{{ artifact.valuedComponents }}
+		</div>
+	</div>
+</div>
+</div>
+<div ng-if="!artifact.isTemplate && !artifact.isArtifactCollection" ng-init="editable=false">
 	<!--
 
 		This section gets displayed if the content is a document
@@ -15,40 +30,40 @@
 	 -->
 	<div class="row">
 
-	    <div class="col-sm-12">
+		<div class="col-sm-12">
 
 
-	        <div class="panel panel-default">
-	            <div class="panel-heading clearfix">
-	            	<h2 class="pull-left">Main Artifact Document</h2>
+			<div class="panel panel-default">
+				<div class="panel-heading clearfix">
+					<h2 class="pull-left">Main Artifact Document</h2>
 					<div class="pull-right"></div>
-	            </div>
-	            <div class="panel-body">
-	                <div class="file-horiz">
-	                    <span class="glyphicon glyphicon-list-alt"></span>
-	                    <div ng-if="!artifact.document._id">
-	                        <small>
-	                            [ no document uploaded yet ] <br/> FOR <br/>
-	                            {{ artifact.name }} ({{ artifact.version }} {{ artifact.stage }})<br/>
-	                            <a href ng-if="mode === 'edit'" x-modal-document-link class="btn btn-xs btn-link" x-current="artifact.maindocument" x-project="project">
-	                                + Upload Document
-	                            </a>
-	                        </small>
-	                    </div>
-	                    <div class="panel panel-info"  ng-if="artifact.document._id">
-	                        <a href="/api/document/{{ artifact.document._id }}/fetch" target="_blank">
-	                            <small>
-	                            	{{ artifact.document.internalOriginalName }}<br/> AS <br/>
-	                                {{ artifact.name }} ({{ artifact.version }} {{ artifact.stage }})<br/>
-	                                <a href ng-if="mode === 'edit'" x-modal-document-link class="btn btn-xs btn-link" x-current="artifact.maindocument" x-project="project">
-	                                    + Upload Document
-	                                </a>
-	                            </small>
-	                        </a>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
+				</div>
+				<div class="panel-body">
+					<div class="file-horiz">
+						<span class="glyphicon glyphicon-list-alt"></span>
+						<div ng-if="!artifact.document._id">
+							<small>
+								[ no document uploaded yet ] <br/> FOR <br/>
+								{{ artifact.name }} ({{ artifact.version }} {{ artifact.stage }})<br/>
+								<a href ng-if="mode === 'edit'" x-modal-document-link class="btn btn-xs btn-link" x-current="artifact.maindocument" x-project="project">
+									+ Upload Document
+								</a>
+							</small>
+						</div>
+						<div class="panel panel-info"  ng-if="artifact.document._id">
+							<a href="/api/document/{{ artifact.document._id }}/fetch" target="_blank">
+								<small>
+									{{ artifact.document.internalOriginalName }}<br/> AS <br/>
+									{{ artifact.name }} ({{ artifact.version }} {{ artifact.stage }})<br/>
+									<a href ng-if="mode === 'edit'" x-modal-document-link class="btn btn-xs btn-link" x-current="artifact.maindocument" x-project="project">
+										+ Upload Document
+									</a>
+								</small>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div class="col-sm-12">

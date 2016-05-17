@@ -41,6 +41,7 @@ angular.module('artifacts')
 				});
 				if (!s.public) {
 					ArtifactModel.availableTypes ($scope.project._id).then (function (c) {
+						// console.log("available types:",c);
 						s.availableTypes = c;
 						s.addtype = null;
 						s.addTypeName = "";

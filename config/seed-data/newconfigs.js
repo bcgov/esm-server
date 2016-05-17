@@ -77,6 +77,11 @@ var baseObjects = {
 	    description: 'Valued Component',
 	    artifactType: 'Valued Component'
 	},{
+	    code: 'valued-component-package',
+	    name: 'Valued Component Package',
+	    description: 'Valued Component Package',
+	    artifactType: 'Valued Component Package'
+	},{
 		code: 'schedule-a',
 		name: 'Schedule A',
 		description: 'Schedule A',

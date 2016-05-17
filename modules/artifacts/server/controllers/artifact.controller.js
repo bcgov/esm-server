@@ -92,6 +92,7 @@ module.exports = DBModel.extend ({
 				else {
 					artifact.template   = (artifactType.isTemplate) ? t[0] : null;
 					artifact.isTemplate = artifactType.isTemplate;
+					artifact.isArtifactCollection = artifactType.isArtifactCollection;
 					return artifact;
 				}
 			})
@@ -160,6 +161,10 @@ module.exports = DBModel.extend ({
 						if (!~currenttypes.indexOf (val.code)) {
 							allowed.push (val);
 						}
+					});
+					// Add in the multiples
+					_.each (multiples, function (item) {
+						allowed.push (item);
 					});
 				}
 				// console.log ('nallowed = ', JSON.stringify(allowed,null,4));
