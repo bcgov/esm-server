@@ -10,7 +10,7 @@ angular.module('projects').run(['Menus','MenuControl',
 		Menus.addMenuItem('projectsMenu', {
 			title: 'Schedule',
 			state: "projects.schedule",
-			roles: MenuControl.menuRolesBuilder(['admin','eao'])
+			roles: MenuControl.menuRolesBuilder(undefined,  '*', '*', ['responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'minister-office', 'qa-officer', 'ce-lead', 'ce-officer', 'wg', 'ceaa', 'pro:admin', 'pro:member', 'sub'])
 		});
 	}
 ]);

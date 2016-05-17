@@ -4,7 +4,7 @@ angular.module('conditions').run(['Menus', 'MenuControl', function (Menus, MenuC
 		Menus.addMenuItem('systemMenu', {
 			title: 'Conditions',
 			state: 'admin.condition.list',
-			roles: MenuControl.menuRolesBuilder(['eao','admin'])
+			roles: MenuControl.menuRolesBuilder(['admin', 'eao'], '*', '*', ['qa-officer', 'ce-lead', 'ce-officer'])
 		});
 	}
 ]);

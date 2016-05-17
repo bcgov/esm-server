@@ -1,7 +1,7 @@
 
 var artifacttypes = [{
     name: 'Valued Component',
-    multiple: true,
+    multiple: false,
     code: 'valued-component',
     milestone: 'valued-component',
     versions : [
@@ -11,6 +11,33 @@ var artifacttypes = [{
         'Final Draft (DAIR)',
         'Final (AIR)'
     ]
+},{
+    name: 'Valued Component Package',
+    multiple: false,
+    isTemplate: false,
+    isArtifactCollection: true,
+    isDocument: false,
+    code: 'valued-component-package',
+    milestone: 'valued-component-package',
+    versions : [
+        'Final'
+    ],
+    stages: [{
+        name: 'Edit',
+        next: 'Decision',
+        prev: '',
+        activity: 'edit'
+    },{
+        name: 'Decision',
+        next: 'Publishing',
+        prev: 'Edit',
+        activity: 'decision'
+    },{
+        name: 'Publishing',
+        next: '',
+        prev: 'Decision',
+        activity: 'publish'
+    }]
 },{
     name: 'Project Description',
     code: 'project-description',

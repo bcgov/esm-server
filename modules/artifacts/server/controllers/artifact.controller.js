@@ -22,6 +22,16 @@ module.exports = DBModel.extend ({
 	getForProject: function (projectid) {
 		return this.list ({project:projectid},{name:1, version:1, stage:1, isPublished:1, userPermissions:1});
 	},
+	// If we want artifacts that do not equal a certain type
+	getForProjectFilterType: function (projectid, filterType) {
+		return this.list ({project:projectid, typeCode: { $ne: filterType }},
+						  {name:1, version:1, stage:1, isPublished:1, userPermissions:1});
+	},
+	// We want to specifically get these types
+	getForProjectType: function (projectid, type) {
+		return this.list ({project:projectid, typeCode: type },
+						  {name:1, version:1, stage:1, isPublished:1, userPermissions:1, valuedComponents: 1});
+	},
 	// -------------------------------------------------------------------------
 	//
 	// make a new artifact from a given type.
@@ -82,6 +92,7 @@ module.exports = DBModel.extend ({
 				else {
 					artifact.template   = (artifactType.isTemplate) ? t[0] : null;
 					artifact.isTemplate = artifactType.isTemplate;
+					artifact.isArtifactCollection = artifactType.isArtifactCollection;
 					return artifact;
 				}
 			})
@@ -150,6 +161,10 @@ module.exports = DBModel.extend ({
 						if (!~currenttypes.indexOf (val.code)) {
 							allowed.push (val);
 						}
+					});
+					// Add in the multiples
+					_.each (multiples, function (item) {
+						allowed.push (item);
 					});
 				}
 				// console.log ('nallowed = ', JSON.stringify(allowed,null,4));
@@ -281,8 +296,8 @@ module.exports = DBModel.extend ({
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			self.model.aggregate ([
-			    { "$sort": { "versionNumber": -1 } },
-			    { "$group": {
+				{ "$sort": { "versionNumber": -1 } },
+				{ "$group": {
 					"_id"           : "$typeCode",
 					"id"            : {"$first": "$_id"},
 					"name"          : {"$first": "$name"},
@@ -290,7 +305,7 @@ module.exports = DBModel.extend ({
 					"versionNumber" : { "$first": "$versionNumber" },
 					"dateUpdated"   : { "$first": "$dateUpdated" },
 					"stage"         : { "$first": "$stage"}
-			    }}
+				}}
 			], function (err, result) {
 				if (err) return reject (err);
 				else resolve (result);

@@ -31,7 +31,7 @@ angular.module('projects').config (
 	//
 	// -------------------------------------------------------------------------
 	.state('projects.schedule', {
-		data: {roles: ['admin','eao']},
+		data: {roles: ['admin', '*:*:responsible-epd','*:*:project-admin', '*:*:project-lead','*:*:project-team','*:*:project-intake', '*:*:assistant-dm', '*:*:associate-dm', '*:*:minister-office', '*:*:qa-officer', '*:*:ce-lead', '*:*:ce-officer', '*:*:wg', '*:*:ceaa', '*:pro:admin', '*:pro:member', '*:*:sub']},
 		url: 'schedule',
 		templateUrl: 'modules/projects/client/views/projects-partials/projects-schedule.html',
 		controller: function ($scope, projects) {

@@ -15,7 +15,7 @@ angular.module('vcs').factory ('VcModel', function (ModelBase, _) {
 		urlName : 'vc',
 		forProject: function (projectid) {
 			return this.get ('/api/vc/for/project/'+projectid);
-		},
+		}
 	});
 	return new Class ();
 });

@@ -4,7 +4,7 @@ angular.module('email-template').run(['Menus', 'MenuControl', function (Menus, M
 		Menus.addMenuItem('systemMenu', {
 			title: 'Email Templates',
 			state: 'admin.emailtemplate.list',
-			roles: MenuControl.menuRolesBuilder(['admin','eao'])
+			roles: MenuControl.menuRolesBuilder(['admin'])
 		});
 	}
 ]);

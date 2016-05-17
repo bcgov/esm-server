@@ -5,7 +5,7 @@ angular.module('topics').run(['Menus','MenuControl',
 		Menus.addMenuItem('systemMenu', {
 			title: 'Valued Components',
 			state: 'admin.topic.list',
-			roles: MenuControl.menuRolesBuilder(['admin','eao'])
+			roles: MenuControl.menuRolesBuilder(['admin'])
 		});
 	}
 ]);

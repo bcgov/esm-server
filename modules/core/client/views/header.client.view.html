@@ -5,44 +5,54 @@
 			<div class="navbar-brand"><a ui-sref="projects" href><img src="{{logo}}" /></a></div>
 		</div>
 
-		<ul class="nav navbar-nav">
+		<ul class="custom-nav">
 			<li ng-show="!authentication.user">
-				<li><a href ui-sref="projects">HOME</a>
+				<a href ui-sref="projects">
+					<span class="glyphicon glyphicon-home"></span>
+					<span>HOME</span>
+				</a>
 			</li>
-			<li ng-show="authentication.user">
-				<a href ui-sref="activities">DASHBOARD</a></li>
+			<li class="dashboard-item" ng-show="authentication.user">
+				<a href ui-sref="activities">
+					<span class="glyphicon glyphicon-dashboard"></span>
+					<span>DASHBOARD</span>
+				</a>
 			</li>
 			<li class="dropdown" ng-if="systemMenu.shouldRender(authentication.user);">
 				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="System Configuration">
-					SYSTEM <span class="caret"></span>
+					<span class="glyphicon glyphicon-cog"></span>
+					<span>SYSTEM</span>
+					<span class="caret"></span>
 				</a>
-				<ul class="dropdown-menu" aria-labelledby="dropdownSystemMenu">
+				<ul class="dropdown-menu pull-right" aria-labelledby="dropdownSystemMenu">
 					<li ng-repeat="item in systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 					</li>
-					<li ng-if="isAdmin">
-						<a ui-sref="admin.legal.list">Legal Opinions</a>
-					</li>
+					<!--
+					Move this modal to be secured through the core-admin.client.menus/routes
+					MenuControl.menuRolesBuilder(['admin'])
+					-->
 					<li ng-if="isAdmin">
 						<a x-modal-project-import href x-project="import">Import</a>
 					</li>
 				</ul>
 			</li>
-			<li>
-				<div class="vert-pipe"></div>
-			</li>
 			<li ng-show="!authentication.user">
-				<a class="btn btn-link" ui-sref="authentication.signin">LOG IN</a>
+				<a ui-sref="authentication.signin">
+					<span class="glyphicon glyphicon-log-in"></span>
+					<span>LOG IN</span>
+				</a>
 			</li>
 			<li class="dropdown user-menu" ng-show="authentication.user">
 				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					<span class="glyphicon glyphicon-user"></span>
 					<span>{{ authentication.user.displayName }}</span>
 					<span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu pull-right" aria-labelledby="userMenu">
-          <li><a x-modal-edit-my-profile href>Edit Profile</a></li>
-          <!-- TODO: Siteminder! get the Siteminder logout url and set it here -->
-          <li><a href="/api/auth/signout" target="_self">Logout</a></li>
+					<li><a x-modal-edit-my-profile href>Edit Profile</a></li>
+					<!-- TODO: Siteminder! get the Siteminder logout url and set it here -->
+					<li><a href="/api/auth/signout" target="_self">Logout</a></li>
 				</ul>
 			</li>
 		</ul>

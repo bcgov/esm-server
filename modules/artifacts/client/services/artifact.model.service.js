@@ -18,6 +18,13 @@ angular.module('artifacts').factory ('ArtifactModel', function (ModelBase, _) {
 		forProject: function (projectid) {
 			return this.get ('/api/artifact/for/project/'+projectid);
 		},
+		// Don't return artifacts of type 'filtertype'
+		forProjectFilterType: function (projectid, filtertype) {
+			return this.get ('/api/artifact/for/project/'+projectid+'/not/'+filtertype);
+		},
+		forProjectGetType: function (projectid, type) {
+			return this.get ('/api/artifact/for/project/'+projectid+'/'+type);
+		},
 		newFromType: function (type, projectid) {
 			return this.get ('api/artifact/project/'+projectid+'/from/type/'+type);
 		},

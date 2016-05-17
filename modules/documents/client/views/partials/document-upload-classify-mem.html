@@ -26,22 +26,11 @@
 		<tbody>
 			<tr>
 				<td width="33%" style="padding-top: 5px;">
-					<div class="form-group ng-hide" ng-show="docUpload.docTypes.length === 0 || docUpload.customType">
-						<a href class="control-label pull-right" ng-click="docUpload.customType = !docUpload.customType">
-							<span>From Existing</span>
-						</a>
-
+					<div class="form-group">
 						<label class="control-label">Root Folder</label>
-						<input class="form-control ng-cloak" x-select-on-focus ng-model="docUpload.typeName" placeholder="New Folder Name">
-					</div>
-
-					<div class="form-group ng-hide" ng-show="docUpload.docTypes.length !== 0 && !docUpload.customType">
-						<a href class="control-label pull-right" ng-click="docUpload.customType = !docUpload.customType">
-							<span>New Folder</span>
-						</a>
-
-						<label class="control-label">Root Folder</label>
-						<select class="form-control" ng-options="ftype for ftype in docUpload.docTypes | unique: 'projectTypeName'" ng-model="docUpload.typeName"></select>
+						<select class="form-control"
+								ng-options="ftype for ftype in docUpload.docTypes"
+								ng-model="docUpload.typeName"></select>
 					</div>
 
 				</td>

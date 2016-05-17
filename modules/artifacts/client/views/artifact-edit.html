@@ -8,7 +8,6 @@
 			<div class="col-sm-12">
 				<div class="form-inline text-right">
 					<a class="btn btn-sm btn-link" ui-sref="p.detail">Cancel</a>
-					<a class="btn btn-sm btn-link" ng-click="remove()">Remove</a>
 					<a class="btn btn-sm btn-link" ng-click="save()">Save</a>
 					<a class="btn btn-sm btn-link" ng-click="saveas()">Save As</a>
 					<select ng-model="version" class="input-sm" ng-options="v as v for v in artifact.artifactType.versions"></select>
@@ -28,6 +27,7 @@
 		<div class="form-footer clearfix">
 			<div class="pull-right">
 				<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
+				<a class="btn btn-default" ng-click="remove()">Remove</a>
 				<a class="btn btn-default" ng-click="save()">Save</a>
 				<a class="btn btn-default" ng-click="saveas()">Save As</a>
 				<select class="form-control" ng-model="version" ng-options="v as v for v in artifact.artifactType.versions"></select>

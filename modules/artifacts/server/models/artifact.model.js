@@ -51,6 +51,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	// plus if there are documents attached to sections those are here too
 	//
 	isTemplate       : { type:Boolean, default:false },
+	isArtifactCollection       : { type:Boolean, default:false },
 	template         : { type:'ObjectId', ref:'Template', default:null },
 	templateData     : {},
 	sectionDocuments : [{

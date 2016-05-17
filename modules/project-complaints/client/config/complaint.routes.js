@@ -28,7 +28,7 @@ angular.module('complaints').config(['$stateProvider', function ($stateProvider)
 			}
 		},
         onEnter: function (MenuControl, project) {
-					MenuControl.routeAccessBuilder ('admin', project.code, '*', '*');
+					MenuControl.routeAccessBuilder (undefined, project.code, '*', ['ce-lead', 'ce-officer']);
         }
 
 	})

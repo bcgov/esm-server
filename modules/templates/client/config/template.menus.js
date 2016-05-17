@@ -5,7 +5,7 @@ angular.module('templates').run(['Menus','MenuControl',
 		Menus.addMenuItem('systemMenu', {
 			title: 'Templates',
 			state: 'admin.template.list',
-			roles: MenuControl.menuRolesBuilder('admin', '*', '*', '*')
+			roles: MenuControl.menuRolesBuilder(['admin'])
 		});
 	}
 ]);
