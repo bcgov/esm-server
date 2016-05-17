@@ -1457,98 +1457,110 @@
     "code": "project-description"
   },
   {
-    "sections": [
+    "sections":[
       {
         "meta": [
           {
-            "default": "",
-            "label": "PROJECT TITLE",
-            "type": "Text",
-            "name": "projectTitle"
+            "default":"",
+            "label":"PROJECT TITLE",
+            "type":"Text",
+            "name":"projectTitle"
           }
         ],
-        "footer": "",
-        "header": "",
-        "template": "<div class=\"letter-head\">\n    <p>\n      IN THE MATTER OF THE ENVIRONMENTAL ASSESSMENT ACT<br>S.B.C. 2002, c.43 (ACT)\n    </p>\n    <p>\n      AND\n    </p>\n    <p>\n      AN ENVIRONMENTAL ASSESSMENT OF THE<br>{{projectTitle}}<br>(PROPOSED PROJECT)\n    </p>\n    <br>\n    <p>\n      <u>ORDER UNDER SECTION 10(1)(a)</u>\n    </p>\n  </div>",
-        "isfooter": false,
-        "isheader": false,
-        "multiple": false,
-        "optional": false,
-        "label": "Header",
-        "name": "header"
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-head\">\n    <p>\n      IN THE MATTER OF THE ENVIRONMENTAL ASSESSMENT ACT<br>S.B.C. 2002, c.43 (ACT)\n    </p>\n    <p>\n      AND\n    </p>\n    <p>\n      AN ENVIRONMENTAL ASSESSMENT OF THE<br>{{projectTitle}}<br>(PROPOSED PROJECT)\n    </p>\n    <br>\n    <p>\n      <u>ORDER UNDER SECTION 10(1)(a)</u>\n    </p>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Header",
+        "name":"header"
       },
       {
         "meta": [
           {
-            "default": "",
-            "label": "Proponent Name",
-            "type": "Text",
-            "name": "proponentName"
+            "default":"",
+            "label":"Proponent Name",
+            "type":"Text",
+            "name":"proponentName"
           },
           {
-            "default": "",
-            "label": "Describe Project",
-            "type": "Text",
-            "name": "projectDescription"
+            "default":"",
+            "label":"Describe Project",
+            "type":"Text",
+            "name":"projectDescription"
           },
           {
-            "default": "",
-            "label": "#",
-            "type": "Text",
-            "name": "partNumber"
+            "default":"",
+            "label":"#",
+            "type":"Text",
+            "name":"partNumber"
           },
           {
-            "default": "",
-            "label": "Insert Threshold",
-            "type": "Text",
-            "name": "threshold"
+            "default":"",
+            "label":"Insert Threshold",
+            "type":"Text",
+            "name":"threshold"
           }
         ],
-        "footer": "",
-        "header": "",
-        "template": "<div class=\"letter-section\">\n    <p>\n      <b>WHEREAS:</b>\n    </p>\n    <ol type=\"A\">\n      <li>\n        <p>\n          {{proponentName}} (Proponent) proposes to {{projectDescription}}\n        </p>\n      </li>\n      <li>\n        <p>\n          The proposed Project constitutes a reviewable project pursuant to Part {{partNumber}} of the \n          Reviewable Projects Regulation (B.C. Reg. 370/02), since the proposed Project exceeds \n          {{threshold}}\n        </p>\n      </li>\n      <li>\n        <p>\n          Under section 10(1)(a) of the Act, the Executive Director is authorized to refer a proposed \n          Project to the Minister for a determination of the assessment’s scope, procedure and methods \n          under section 14 of the Act.\n        </p>        \n      </li>\n    </ol>\n  </div>",
-        "isfooter": false,
-        "isheader": false,
-        "multiple": false,
-        "optional": false,
-        "label": "Whereas",
-        "name": "whereas"
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-section\">\n    <p>\n      <b>WHEREAS:</b>\n    </p>\n    <ol type=\"A\">\n      <li>\n        <p>\n          {{proponentName}} (Proponent) proposes to {{projectDescription}}\n        </p>\n      </li>\n      <li>\n        <p>\n          The proposed Project constitutes a reviewable project pursuant to Part {{partNumber}} of the \n          Reviewable Projects Regulation (B.C. Reg. 370/02), since the proposed Project exceeds \n          {{threshold}}\n        </p>\n      </li>\n      <li>\n        <p>\n          Under section 10(1)(a) of the Act, the Executive Director is authorized to refer a proposed \n          Project to the Minister for a determination of the assessment’s scope, procedure and methods \n          under section 14 of the Act.\n        </p>        \n      </li>\n    </ol>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Whereas",
+        "name":"whereas"
       },
       {
-        "meta": [],
-        "footer": "",
-        "header": "",
-        "template": "<div class=\"letter-section\">\n    <p>\n      <b>NOW THEREFORE:</b>\n    </p>\n    <div class=\"custom-list\">\n      <p>\n        Pursuant to section 10(1)(a) of the Act, the Executive Director orders that the proposed \n        Project be referred to the Minister for a determination under section 14 of the Act.\n      </p>\n    </div>\n  </div>",
-        "isfooter": false,
-        "isheader": false,
-        "multiple": false,
-        "optional": false,
-        "label": "Therefore",
-        "name": "therefore"
+        "meta":[],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-section\">\n    <p>\n      <b>NOW THEREFORE:</b>\n    </p>\n    <div class=\"custom-list\">\n      <p>\n        Pursuant to section 10(1)(a) of the Act, the Executive Director orders that the proposed \n        Project be referred to the Minister for a determination under section 14 of the Act.\n      </p>\n    </div>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Therefore",
+        "name":"therefore"
       },
       {
         "meta": [
           {
-            "default": "",
-            "label": "XX",
-            "type": "Text",
-            "name": "currentYear"
+            "default":"",
+            "label":"XX",
+            "type":"Text",
+            "name":"currentYear"
+          },
+          {
+            "default":"",
+            "label":"Signature",
+            "type":"Text",
+            "name":"dmSignature"
+          },
+          {
+            "default":"",
+            "label":"Day Month",
+            "type":"Text",
+            "name":"signedDayMonth"
           }
         ],
-        "footer": "",
-        "header": "",
-        "template": "<div class=\"letter-footer\">\n    <p>\n      __________________________________<br>Doug Caul<br>Associate Deputy Minister and Executive\n      Director<br>Environmental Assessment Office\n    </p>\n    <p>\n      Dated ________________, 20{{currentYear}}\n    </p>\n  </div>",
-        "isfooter": false,
-        "isheader": false,
-        "multiple": false,
-        "optional": false,
-        "label": "Footer",
-        "name": "footer"
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-footer\">\n    <p>\n      Signed By: {{dmSignature}}<br>Associate Deputy Minister and Executive\n      Director<br>Environmental Assessment Office\n    </p>\n    <p>\n      Dated {{signedDayMonth}}, 20{{currentYear}}\n    </p>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Footer",
+        "name":"footer"
       }
     ],
-    "versionNumber": 1,
-    "documentType": "Section 10(1)(a) Order",
-    "code": "section-10-1-a-order"
+    "versionNumber":2,
+    "documentType":"Section 10(1)(a) Order",
+    "code":"section-10-1-a-order"
   },
   {
     "sections": [
@@ -2216,5 +2228,1031 @@
     "documentType": "Schedule A",
     "code": "schedule-a"
 
+  },
+  {
+    "sections": [
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"NAME OF PROPONENT",
+            "type":"Html",
+            "name":"proponentName"
+          },
+          {
+            "default":"",
+            "label":"NAME OF PROJECT",
+            "type":"Html",
+            "name":"projectName"
+          },
+          {
+            "default":"",
+            "label":"XXX-XX",
+            "type":"Html",
+            "name":"certificateNumber"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-head\">\n    <p>\n      In the matter of the<br><i>ENVIRONMENTAL ASSESSMENT ACT</i><br>S.B.C. 2002, c.43<br>(the Act)\n    </p>\n    <p class=\"normal\">\n      and\n    </p>\n    <p>\n      in the matter of an<br>Application<br>for an<br>Environmental Assessment Certificate<br>(Application)\n    </p>\n    <p class=\"normal\">\n      by\n    </p>\n    <p>\n      <span class=\"thicker\">{{proponentName}}</span><br>(Proponent)\n    </p>\n    <p class=\"normal\">\n      for the\n    </p>\n    <p class=\"thicker\">\n      {{projectName}}\n    </p>\n    <p class=\"thicker\">\n      ENVIRONMENTAL ASSESSMENT CERTIFICATE # {{certificateNumber}}\n    </p>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Header",
+        "name":"header"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"etc",
+            "type":"Text",
+            "name":"proponentDescription"
+          },
+          {
+            "default":"",
+            "label":"date",
+            "type":"Text",
+            "name":"orderDate"
+          },
+          {
+            "default":"",
+            "label":"date",
+            "type":"Text",
+            "name":"startDate"
+          },
+          {
+            "default":"",
+            "label":"date",
+            "type":"Text",
+            "name":"endDate"
+          },
+          {
+            "default":"",
+            "label":"date",
+            "type":"Text",
+            "name":"referredDate"
+          },
+          {
+            "default":"",
+            "label":"his/her",
+            "type":"Text",
+            "name":"execDirectorDesc"
+          },
+          {
+            "default":"",
+            "label":"the assessment report and the recommendations. Note to EAO staff: update as necessary to identify any information that was considered by the Ministers.",
+            "type":"Text",
+            "name":"assessRptAndRecommendations"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-section\">\n    <p>\n      <b>WHEREAS:</b>\n    </p>\n    <ol type=\"A\">\n      <li>\n        <p>\n          The Proponent proposes to construct {{proponentDescription}} the Project described in Schedule A \n          to this Certificate (the \"Project\");\n        </p>\n      </li>\n      <li>\n        <p>\n          On {{orderDate}}, a Project Lead of the Environmental Assessment Office issued an Order under \n          Section 10(1)(c) of the Act stating that an environmental assessment certificate was required \n          for the Project and that the Proponent could not proceed with the Project in the absence of an\n          assessment;\n        </p>\n      </li>\n      <li>\n        <p>\n          The assessment of the Application was conducted from {{startDate}} to {{endDate}}, and included\n          consultations with First Nations and the public respecting the Application;\n        </p>        \n      </li>\n      <li>\n        <p>\n          Compliance with this Certificate, including its conditions, will be monitored by the staff of the\n          Environmental Assessment Office, partner agencies and others who have been authorized to inspect \n          under the Act;\n        </p>        \n      </li>\n      <li>\n        <p>\n          On {{referredDate}}, pursuant to Section 17 of the Act, the Executive Director referred the \n          Application, the assessment report and {{execDirectorDesc}} recommendations to the undersigned; and,\n        </p>        \n      </li>\n      <li>\n        <p>\n          The undersigned have considered the Application, {{assessRptAndRecommendations}} of the Executive\n          Director.\n        </p>        \n      </li>\n    </ol>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Whereas",
+        "name":"whereAs"
+      },
+      {
+        "meta":[],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-section\">\n    <p>\n      <b>NOW THEREFORE:</b>\n    </p>\n    <p>\n      We issue this Environmental Assessment Certificate to the Proponent for the Project as described in \n      Schedule A, subject to the following conditions and the conditions set out in Schedule B. \n    </p>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Now Therefore",
+        "name":"nowTherefore"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Name of Minister",
+            "type":"Text",
+            "name":"ministerName1"
+          },
+          {
+            "default":"",
+            "label":"Name of Minister",
+            "type":"Text",
+            "name":"ministerName2"
+          },
+          {
+            "default":"",
+            "label":"Name of Responsible Ministry",
+            "type":"Text",
+            "name":"minsitryName"
+          },
+          {
+            "default":"",
+            "label":"Day",
+            "type":"Text",
+            "name":"currentDay"
+          },
+          {
+            "default":"",
+            "label":"Month",
+            "type":"Text",
+            "name":"currentMonth"
+          },
+          {
+            "default":"",
+            "label":"XX",
+            "type":"Text",
+            "name":"currentYear"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-footer\">\n    <div class=\"sig-left\">\n      <p>\n        Signed By: Honourable {{ministerName1}}<br><br>Minister of Environment\n      </p>\n    </div>\n    <div class=\"sig-right\">\n      <p>\n        Signed By: Honourable {{ministerName2}}<br><br>Minister of {{minsitryName}}\n      </p>\n    </div>\n    <div style=\"clear:both;\"></div>\n    <br>\n    <p>\n      Issued this {{currentDay}} day of {{currentMonth}}, 20{{currentYear}}\n    </p>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Signatures",
+        "name":"signatures"
+      }
+    ],
+    "versionNumber":1,
+    "documentType":"Environmental Assessment Certificate",
+    "code":"environmental-assessment-certificate"
+  },
+  {
+    "sections": [
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"EAC#",
+            "type":"Text",
+            "name":"eacNumber"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-head\">\n    <p>\n      IN THE MATTER OF THE ENVIRONMENTAL ASSESSMENT ACT S.B.C. 2002, c.43<br>\n      (the ACT)<br>\n      AND<br>\n      NON-COMPLIANCES<br>\n      WITH ENVIRONMENTAL ASSESSMENT CERTIFICATE {{eacNumber}}<br>\n      ORDER UNDER SECTION 34(1)\n    </p>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Header",
+        "name":"header"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Date",
+            "type":"Text",
+            "name":"certIssuedDate"
+          },
+          {
+            "default":"",
+            "label":"EAC#",
+            "type":"Text",
+            "name":"eacNumber"
+          },
+          {
+            "default":"",
+            "label":"name of Certificate Holder",
+            "type":"Text",
+            "name":"certHolder"
+          },
+          {
+            "default":"",
+            "label":"Project name",
+            "type":"Text",
+            "name":"projName"
+          },
+          {
+            "default":"",
+            "label":"Date",
+            "type":"Text",
+            "name":"inspectionDate"
+          },
+          {
+            "default":"",
+            "label":"his/her",
+            "type":"Text",
+            "name":"roleDesc"
+          },
+          {
+            "default":"",
+            "label":"Condition XX",
+            "type":"Text",
+            "name":"conditionNum"
+          },
+          {
+            "default":"",
+            "label":"Insert details of non-compliance",
+            "type":"Text",
+            "name":"nonCompDetails"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-section\">\n    <p>\n      <b>WHEREAS:</b>\n    </p>\n    <ol type=\"A\">\n      <li>\n        <p>\n          On {{certIssuedDate}}, Environmental Assessment (EA) Certificate {{eacNumber}} (Certificate) \n          was issued to {{certHolder}} (Certificate Holder) for the  {{projName}} Project (Project).\n        </p>\n      </li>\n      <li>\n        <p>\n          On {{inspectionDate}} in {{roleDesc}} role as EA Compliance Officer, the undersigned conducted \n          an inspection of the Project. Based on observations during that inspection and review of \n          information during the inspection, the undersigned has determined that the Certificate Holder \n          is not compliant with {{conditionNum}} of the Certificate due to {{nonCompDetails}}\n        </p>\n      </li>\n      <li>\n        <p>\n          Section 34 of the Act specifies that the Minister may order the Certificate Holder to carry \n          out measures to mitigate the effects of non-compliance.\n        </p>        \n      </li>\n      <li>\n        <p>\n          The undersigned has received written delegation of the Minister's powers under Section 34 of the Act.\n        </p>        \n      </li>\n    </ol>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Whereas",
+        "name":"whereAs"
+      },
+      {
+        "meta":[],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-section\">\n    <p>\n      <b>DEFINITIONS:</b>\n    </p>\n    <p>\n      In this Order,\n    </p>\n    <ol type=\"a\">",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Definitions Header",
+        "name":"definitionsHeader"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Term",
+            "type":"Text",
+            "name":"term"
+          },
+          {
+            "default":"",
+            "label":"Definition",
+            "type":"Text",
+            "name":"definition"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<li>\n        <p>\n          \"{{term}}\": {{definition}}\n        </p>        \n      </li>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":true,
+        "optional":false,
+        "label":"Definitions List",
+        "name":"definitionsList"
+      },
+      {
+        "meta":[],
+        "footer":"",
+        "header":"",
+        "template":"</ol>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Definitions Footer",
+        "name":"definitionsFooter"
+      },
+      {
+        "meta":[],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-section\">\n    <p>\n      <b>NOW THEREFORE:</b>\n    </p>\n    <p>\n      Pursuant to section 34(1) of the Act, I order that the Certificate Holder:\n    </p>\n    <ul>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Now Therefore Header",
+        "name":"nowTherefore"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Insert actions required by certificate holder including dates the action must be completed by and any reporting details. Some orders contain more than one action for the certificate holder.",
+            "type":"Html",
+            "name":"action"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<li>\n        <p>\n          {{action}}\n        </p>\n      </li>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":true,
+        "optional":false,
+        "label":"Now Therefore Actions List",
+        "name":"nowThereforeList"
+      },
+      {
+        "meta":[],
+        "footer":"",
+        "header":"",
+        "template":"</ul>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Now Therefore Header Footer",
+        "name":"nowThereforeFooter"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Officer Name",
+            "type":"Text",
+            "name":"officerName"
+          },
+          {
+            "default":"",
+            "label":"Day and Month",
+            "type":"Text",
+            "name":"signedDayMonth"
+          },
+          {
+            "default":"",
+            "label":"XX",
+            "type":"Text",
+            "name":"currentYear"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-footer\">\n    <p>\n      Signed By: {{officerName}}<br>\n      EA Compliance and Enforcement Officer<br>\n      Environmental Assessment Office\n    </p>\n    <br>\n    <p>\n      Dated {{signedDayMonth}}, 20{{currentYear}}\n    </p>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Signature",
+        "name":"signature"
+      }
+    ],
+    "versionNumber":1,
+    "documentType":"Section 34 Order",
+    "code":"section-34-order"
+  },
+  {
+    "sections": [
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"date",
+            "type":"Text",
+            "name":"agreementDate"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-head\">\n    <p>\n      COMPLIANCE AGREEMENT\n    </p>\n  </div>\n  <p>\n    THIS AGREEMENT is made as of {{agreementDate}}\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Header",
+        "name":"header"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Certificate Holder",
+            "type":"Text",
+            "name":"certHolder"
+          },
+          {
+            "default":"",
+            "label":"enter type of company, e.g. limited partnership, etc",
+            "type":"Text",
+            "name":"companyType"
+          },
+          {
+            "default":"",
+            "label":"enter corporate office address registered with BC online",
+            "type":"Text",
+            "name":"officeAddress"
+          },
+          {
+            "default":"",
+            "label":"enter general partner name, if applicable",
+            "type":"Text",
+            "name":"partnerName"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-section\">\n    <p>\n      <b>BETWEEN:</b>\n    </p>\n    <div class=\"custom-list\">\n      <p>\n        {{certHolder}}, a {{companyType}} formed under the laws of British Columbia, with an office at \n        {{officeAddress}}, represented by its general partner, {{partnerName}}.\n      </p>\n      <p>\n        (the \"Holder\")\n      </p>\n    </div>\n    <p>\n      <b>AND:</b>\n    </p>\n    <div class=\"custom-list\">\n      <p>\n        HER MAJESTY THE QUEEN IN RIGHT OF THE PROVINCE OF BRITISH COLUMBIA, represented by the Minister \n        of Environment, Parliament Buildings, Victoria, British Columbia VSV 1X4.  \n      </p>\n      <p>\n        (the \"Province\")\n      </p>\n    </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Between And",
+        "name":"betweenAnd"
+      },
+      {
+        "meta":[],
+        "footer":"",
+        "header":"",
+        "template":"<p>\n      <b>WHEREAS:</b>\n    </p>\n    <ol type=\"A\">\n      <li>\n        <p>\n          The Holder is the holder of the Certificate, an Environmental Assessment Certificate (EAC) \n          issued pursuant to Section 17 of the Environmental Assessment Act (the Act).\n        </p>\n      </li>\n      <li>\n        <p>\n          The Province has determined that the Holder has failed to comply fully with the terms and \n          conditions of the Certificate (such failures to comply are described in [enter schedule A or \n          B, as applicable]  and are collectively referred to herein as the \"Non·Compliances\").\n        </p>\n      </li>\n      <li>\n        <p>\n          Pursuant to Section 36 of the Act, if the minister responsible for the Act considers it \n          appropriate to do so, the minister may give the holder of an EAC an opportunity to make a \n          written compliance agreement with the minister, by which the holder undertakes to comply with \n          the environmental assessment certificate within the time and on the terms specified in the \n          agreement.\n        </p>\n      </li>\n      <li>\n        <p>\n          In response to the Non-Compliances and in an effort to ensure that the Holder takes appropriate \n          efforts to remedy such Issues, the Holder and the Province wish to enter into a compliance \n          agreement under Section 36 of the Act.\n        </p>\n      </li>\n    </ol>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Whereas",
+        "name":"whereAs"
+      },
+      {
+        "meta":[],
+        "footer":"",
+        "header":"",
+        "template":"<p>\n      <b>NOW THEREFORE:</b>\n    </p>\n    <div class=\"custom-list\">\n      <p>\n        In consideration of the premises and the covenants herein contained and other good and \n        valuable consideration, the receipt and sufficiency of which is hereby acknowledged by the \n        Parties, the Parties covenant and agree as follows:\n      </p>\n    </div>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Now Therefore",
+        "name":"nowTherefore"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Schedule A or B.",
+            "type":"Text",
+            "name":"scheduleAB"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-section\">\n    <div class=\"letter-head\">\n      <p>\n        ARTICLE 1 - INTERPRETATIONS\n      </p>\n    </div>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>1.1</b></td>\n          <td class=\"indent-med\">\n            DEFINITIONS\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      Words and phrases with initial capital letters used and not defined elsewhere in this Agreement \n      have the meanings given to them in {{scheduleAB}}\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>1.2</b></td>\n          <td class=\"indent-med\">\n            HEADINGS\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      The division of this Agreement into Articles and Sections and the use of headings are for convenience \n      or reference only and do not affect the construction or interpretation of this Agreement. The terms \n      \"hereof\", \"hereunder\" and similar expressions refer to this Agreement and not to any particular Article,\n      Section or other portion hereof. Unless something in the subject matter or context is inconsistent \n      therewith, references herein to Articles and Sections are to Articles and Sections of this Agreement.\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>1.3</b></td>\n          <td class=\"indent-med\">\n            EXTENDED MEANINGS\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      In this Agreement, words importing the singular number include the plural and vice versa, words \n      importing any gender include all genders and words importing persons include individuals, corporations,\n      limited and unlimited liability companies, general and limited partnership, associations, trusts,\n      unincorporated organizations, joint ventures, Governmental Authorities and First Nations. The term\n      \"including\" means \"including without limiting the generality of the foregoing\".\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>1.4</b></td>\n          <td class=\"indent-med\">\n            STATUTORY REFERENCES\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      In this Agreement, unless something in the subject matter or context is inconsistent therewith or \n      unless otherwise herein provided, a reference to any statute is to that statute as now enacted or as \n      the same may from time to time be amended, re-enacted or replaced and includes any regulations made\n      thereunder. Unless the context otherwise requires, all statutes referred to in this Agreement are \n      enactments of the Province of British Columbia.\n    </p>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Article 1 - Interpretations",
+        "name":"article1"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"PLAN NAME OR NAME OF ACTIVITY/FEATURE REQUIRING COMPLIANCE",
+            "type":"Text",
+            "name":"planName"
+          },
+          {
+            "default":"",
+            "label":"s",
+            "type":"Text",
+            "name":"pluralConditions"
+          },
+          {
+            "default":"",
+            "label":"enter condition #(s)",
+            "type":"Text",
+            "name":"conditionNums"
+          },
+          {
+            "default":"",
+            "label":"if multiple conditions are listed above then enter the name of the activity or feature here. For example this section could read \"Access Management Conditions\"",
+            "type":"Text",
+            "name":"activityName1"
+          },
+          {
+            "default":"",
+            "label":"name of the activity of feature here, e.g. \"Access Management Conditions\"",
+            "type":"Text",
+            "name":"activityName2"
+          },
+          {
+            "default":"",
+            "label":"include action required such as developing a plan or implementing specific actions",
+            "type":"Text",
+            "name":"reqAction"
+          },
+          {
+            "default":"",
+            "label":"Date that October 17, 2014",
+            "type":"Text",
+            "name":"actionDate"
+          },
+          {
+            "default":"",
+            "label":"list activities that the certificate holder must complete. This can include a list of any requirements for a plan that is required to be developed or an activity that must be implemented",
+            "type":"Text",
+            "name":"actsToComplete"
+          },
+          {
+            "default":"",
+            "label":"plan or activity to be implemented",
+            "type":"Text",
+            "name":"planImplemented"
+          },
+          {
+            "default":"",
+            "label":"plan name",
+            "type":"Text",
+            "name":"planName1"
+          },
+          {
+            "default":"",
+            "label":"plan name",
+            "type":"Text",
+            "name":"planName2"
+          },
+          {
+            "default":"",
+            "label":"plan name",
+            "type":"Text",
+            "name":"planName3"
+          },
+          {
+            "default":"",
+            "label":"XX",
+            "type":"Text",
+            "name":"numDays"
+          },
+          {
+            "default":"",
+            "label":"plan name",
+            "type":"Text",
+            "name":"planName4"
+          },
+          {
+            "default":"",
+            "label":"plan name",
+            "type":"Text",
+            "name":"planName5"
+          },
+          {
+            "default":"",
+            "label":"plan name",
+            "type":"Text",
+            "name":"planName6"
+          },
+          {
+            "default":"",
+            "label":"plan name",
+            "type":"Text",
+            "name":"planName7"
+          },
+          {
+            "default":"",
+            "label":"plan name",
+            "type":"Text",
+            "name":"planName8"
+          },
+          {
+            "default":"",
+            "label":"other regulatory agency",
+            "type":"Text",
+            "name":"othRegAgency1"
+          },
+          {
+            "default":"",
+            "label":"date",
+            "type":"Text",
+            "name":"submitDate"
+          },
+          {
+            "default":"",
+            "label":"XX",
+            "type":"Text",
+            "name":"agreementPeriod"
+          },
+          {
+            "default":"",
+            "label":"plan name",
+            "type":"Text",
+            "name":"planName9"
+          },
+          {
+            "default":"",
+            "label":"other regulatory agency",
+            "type":"Text",
+            "name":"othRegAgency2"
+          },
+          {
+            "default":"",
+            "label":"include concerns here. For example, \"locations of access concern\"",
+            "type":"Text",
+            "name":"concerns1"
+          },
+          {
+            "default":"",
+            "label":"other regulatory agency",
+            "type":"Text",
+            "name":"othRegAgency3"
+          },
+          {
+            "default":"",
+            "label":"include concerns. For example \"the ability of Third Parties to access such locations of access concern and to enable the Holder to develop site-specific access control plans for inclusion in the further updated Access Management Plan contemplated in Section 2.1(2)(b)\"",
+            "type":"Text",
+            "name":"concerns2"
+          },
+          {
+            "default":"",
+            "label":"plan name",
+            "type":"Text",
+            "name":"planName10"
+          },
+          {
+            "default":"",
+            "label":"other regulatory agency",
+            "type":"Text",
+            "name":"othRegAgency4"
+          },
+          {
+            "default":"",
+            "label":"onsite/administrative",
+            "type":"Text",
+            "name":"onsiteAdmin1"
+          },
+          {
+            "default":"",
+            "label":"list project phase",
+            "type":"Text",
+            "name":"projPhase1"
+          },
+          {
+            "default":"",
+            "label":"include the number of conditions",
+            "type":"Text",
+            "name":"numConditions"
+          },
+          {
+            "default":"",
+            "label":"list project phase",
+            "type":"Text",
+            "name":"projPhase2"
+          },
+          {
+            "default":"",
+            "label":"onsite/administrative",
+            "type":"Text",
+            "name":"onsiteAdmin2"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-section\">\n    <div class=\"letter-head\">\n      <p>\n        ARTICLE 2 - COMPLIANCE OBLIGATIONS\n      </p>\n    </div>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-sml\">\n          <td valign=\"top\"><b>2.1</b></td>\n          <td class=\"indent-med\">\n            {{planName}}\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <ol type=\"1\">\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(1)</td>\n            <td class=\"indent-med\">\n              The Province has concluded that the Holder has, or is reasonably likely to have, \n              failed to comply with condition{{pluralConditions}}: {{conditionNums}} of the Certificate (the \n              \"{{activityName1}} Conditions\").\n            </td>\n          </tr>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(2)</td>\n            <td class=\"indent-med\">\n              In order to be deemed to have remedied the Non-Compliances related to the {{activityName2}}, \n              the Holder must {{reqAction}} in accordance with the following:\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <ol type=\"a\">\n        <table>      \n          <tbody>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(a)</td>\n              <td class=\"indent-med\">\n                the Holder will, on or before {{actionDate}}:\n              </td>\n            </tr>\n          </tbody>\n        </table>\n        <ol type=\"I\">\n          <table>      \n            <tbody>\n              <tr class=\"spaceUnder-med\">\n                <td valign=\"top\">(I)</td>\n                <td class=\"indent-med\">\n                  {{actsToComplete}} (but to the extent that the Holder's obligations concerning the\n                  {{planImplemented}} and the Certificate conflict, the provisions of this Agreement \n                  shall prevail);\n                </td>\n              </tr>\n              <tr class=\"spaceUnder-med\">\n                <td valign=\"top\">(II)</td>\n                <td class=\"indent-med\">\n                  provide copies of such {{planName1}} to Interested Parties; and\n                </td>\n              </tr>\n              <tr class=\"spaceUnder-med\">\n                <td valign=\"top\">(III)</td>\n                <td class=\"indent-med\">\n                  indicate to such {{planName2}} Interested Parties that they are entitled to provide \n                  comments on such {{planName3}}, if any, to the Holder within {{numDays}} days of receiving \n                  a copy of such {{planName4}}; and\n                </td>\n              </tr>\n            </tbody>\n          </table>\n        </ol>\n        <table>      \n          <tbody>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(b)</td>\n              <td class=\"indent-med\">\n                the Holder will:\n              </td>\n            </tr>\n          </tbody>\n        </table>\n        <ol type=\"I\">\n          <table>      \n            <tbody>\n              <tr class=\"spaceUnder-med\">\n                <td valign=\"top\">(I)</td>\n                <td class=\"indent-med\">\n                  develop and draft a further updated {{planName5}}; and\n                </td>\n              </tr>\n              <tr class=\"spaceUnder-med\">\n                <td valign=\"top\">(II)</td>\n                <td class=\"indent-med\">\n                  prepare a written report or tracking table that:\n                </td>\n              </tr>\n            </tbody>\n          </table>\n          <ol type=\"A\">\n            <table>      \n              <tbody>\n                <tr class=\"spaceUnder-med\">\n                  <td valign=\"top\">(A)</td>\n                  <td class=\"indent-med\">\n                    details the comments received by the Holder from {{planName6}} Interested Parties \n                    pursuant to Section 2.1(2)(a)(llI); and\n                  </td>\n                </tr>\n                <tr class=\"spaceUnder-med\">\n                  <td valign=\"top\">(B)</td>\n                  <td class=\"indent-med\">\n                    for each such comment, describes the manner with which such comment was addressed in the\n                    further updated {{planName7}} or details the Holder's rationale for declining to address \n                    such comment in the further updated {{planName8}},\n                  </td>\n                </tr>\n              </tbody>\n            </table>\n          </ol>\n        </ol>\n      </ol>\n      <p>\n        and submit such plan and report or tracking table to the Environmental Assessment Office (EAO) \n        and {{othRegAgency1}} by {{submitDate}}.\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(3)</td>\n            <td class=\"indent-med\">\n              The Parties agree that, during the {{agreementPeriod}}-day period that commences upon receipt \n              of a copy of the updated {{planName9}} pursuant to Section 2.1(2)(a)(II), EAO and \n              {{othRegAgency2}} may, on behalf of the Province:\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <ol type=\"a\">\n        <table>      \n          <tbody>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(a)</td>\n              <td class=\"indent-med\">\n                identify and communicate {{concerns1}} associated with the Project to the Holder; and\n              </td>\n            </tr>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(b)</td>\n              <td class=\"indent-med\">\n                require the Holder to meet with EAO, {{othRegAgency3}} or both, to discuss potential \n                strategies to limit {{concerns2}}.\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </ol>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(4)</td>\n            <td class=\"indent-med\">\n              Notwithstanding the completion of the process contemplated in Section 2.1(2), the Holder \n              must develop, revise and implement the {{planName10}}, and any amendments thereto, to the\n              satisfaction of each of EAO and {{othRegAgency4}}.\n            </td>\n          </tr>\n        </tbody>\n      </table>\n    </ol>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-sml\">\n          <td valign=\"top\"><b>2.2</b></td>\n          <td class=\"indent-med\">\n            Continuing Inspection and Amendments\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <ol type=\"1\">\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(1)</td>\n            <td class=\"indent-med\">\n              as of the date of this Agreement, the EAO is continuing an {{onsiteAdmin1}} inspection \n              regarding the Holder's compliance with respect to {{projPhase1}} requirements set out in \n              the certificate;\n            </td>\n          </tr>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(2)</td>\n            <td class=\"indent-med\">\n              the Province requires additional Information from various parties in order to determine \n              whether the Holder is in compliance with {{numConditions}} conditions set out in the \n              Certificate that pertain to such {{projPhase2}} requirements;\n            </td>\n          </tr>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(3)</td>\n            <td class=\"indent-med\">\n              at any time and from time to lime, the Parties may agree to amend this Agreement in order \n              to address any Incidences of non-compliance with the Certificate that may be identified by \n              the EAO as a result of such {{onsiteAdmin2}} inspection; and\n            </td>\n          </tr>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(4)</td>\n            <td class=\"indent-med\">\n              for greater certainty, nothing in this Section 2.2(4) or other provisions of this Agreement \n              will:\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <ol type=\"I\">\n        <table>      \n          <tbody>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(I)</td>\n              <td class=\"indent-med\">\n                require the Province to agree to amend this Agreement; or\n              </td>\n            </tr>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(II)</td>\n              <td class=\"indent-med\">\n                prevent or restrict the Province, an associated Governmental Authority or any authorized\n                representative thereof from exercising any rights or powers afforded such Person under the \n                Act or other Applicable Laws,\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </ol>\n    </ol>\n    <p>\n      In order to address any incidences of non-compliance with the Certificate that may be identified by \n      EAO as a result of such administrative inspection.\n    </p>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Article 2- Compliance Obligations",
+        "name":"article2"
+      },
+      {
+        "meta":[],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-section\">\n    <div class=\"letter-head\">\n      <p>\n        ARTICLE 3 - COMPLIANCE AND APPLICABLE LAWS\n      </p>\n    </div>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-sml\">\n          <td valign=\"top\"><b>3.1</b></td>\n          <td class=\"indent-med\">\n            Compliance\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <ol type=\"1\">\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(1)</td>\n            <td class=\"indent-med\">\n              If the Holder complies fully with each of the terms and conditions of this Agreement, \n              the Province will not take additional enforcement action against the Holder with respect \n              to the Non-Compliances.\n            </td>\n          </tr>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(2)</td>\n            <td class=\"indent-med\">\n              If the Holder complies fully with each of the terms and conditions of this Agreement, \n              the Province will not take additional enforcement action against the Holder with respect \n              to the Non-Compliances.\n            </td>\n          </tr>\n        </tbody>\n      </table>\n    </ol>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-sml\">\n          <td valign=\"top\"><b>3.2</b></td>\n          <td class=\"indent-med\">\n            Remedies Preserved\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <ol type=\"1\">\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(1)</td>\n            <td class=\"indent-med\">\n              This Agreement, and the exercise of any rights or remedies by the Province hereunder, \n              do not affect the rights of the Province or any Governmental Authority to address any \n              breaches of or non-compliance with the Certificate, any Permit or Applicable Law which \n              are not specifically addressed by the terms and conditions of this Agreement.\n            </td>\n          </tr>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(2)</td>\n            <td class=\"indent-med\">\n              The Parties:\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <ol type=\"I\">\n        <table>      \n          <tbody>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(I)</td>\n              <td class=\"indent-med\">\n                acknowledge that additional information concerning the Non-Compliances or other matters \n                concerning the compliance by the Holder with the terms and conditions of the Certificate \n                may be disclosed to, be learned by or otherwise come to the attention of the Province or \n                an associated Governmental Authority after the date of this Agreement; and\n              </td>\n            </tr>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(II)</td>\n              <td class=\"indent-med\">\n                agree that nothing in this Agreement will prevent the Province, an associated Governmental\n                Authority or any authorized representative thereof from exercising any tights or powers \n                afforded such Person under the EAA or other Applicable Laws with respect to such additional\n                information.\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </ol>\n    </ol>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-sml\">\n          <td valign=\"top\"><b>3.3</b></td>\n          <td class=\"indent-med\">\n            Compliance with Applicable Laws\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <ol type=\"1\">\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(1)</td>\n            <td class=\"indent-med\">\n              The Holder agrees to undertake all actions pursuant to this Agreement In accordance \n              with the requirements of any and all Applicable Laws and applicable Permits.\n            </td>\n          </tr>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(2)</td>\n            <td class=\"indent-med\">\n              The Holder will obtain or cause its representatives to obtain all Permits necessary under \n              any and all Applicable Laws to carry out the Intent of this Agreement.\n            </td>\n          </tr>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(3)</td>\n            <td class=\"indent-med\">\n              Except as contemplated in Article 2, nothing in this Agreement:\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <ol type=\"I\">\n        <table>      \n          <tbody>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(I)</td>\n              <td class=\"indent-med\">\n                relieves the Holder from its obligation to comply with the Certificate, any and all \n                Permits or Applicable Laws in respect of the Project or otherwise; or\n              </td>\n            </tr>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(II)</td>\n              <td class=\"indent-med\">\n                shall constitute or be construed as a release from any claim, cause of action or demand in \n                law or equity for any liability thatI.he Holder may have arising out\n              </td>\n            </tr>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(III)</td>\n              <td class=\"indent-med\">\n                of, or relating In any way to, (i) any failure to obtain or comply with any Permit or comply \n                with Applicable Law or (ii) any other matter relating to the Project.\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </ol>\n    </ol>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Article 3 - Compliance and Applicable Laws",
+        "name":"article3"
+      },
+      {
+        "meta":[],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-section\">\n    <div class=\"letter-head\">\n      <p>\n        ARTICLE 4 – ACCESS TO BOOKS AND RECORDS AND SITE\n      </p>\n    </div>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>4.1</b></td>\n          <td class=\"indent-med\">\n            Site Access\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      Without derogating from the inspection power contemplated in Section 33 of the Act, the Holder will, \n      upon receiving a request from the Province, provide the Province with access to all Project-related \n      sites at reasonable times to enable the Province to determine whether the Holder has complied or is \n      complying with the terms and conditions of this Agreement.\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>4.2</b></td>\n          <td class=\"indent-med\">\n            Inspection of Books and Records\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      Without derogating from the Inspection power contemplated in Section 33 of the Act, the Holder will \n      make available to the Province and its authorized representatives all Books and Records reasonably \n      related to the subject matter of this Agreement forthwith upon any request by the Province from time \n      to time.\n    </p>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Article 4 - Access to Books and Records and Site",
+        "name":"article4"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"date",
+            "type":"Text",
+            "name":"determineDate"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-section\">\n    <div class=\"letter-head\">\n      <p>\n        ARTICLE 5 – TERM AND TERMINATION\n      </p>\n    </div>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-sml\">\n          <td valign=\"top\"><b>5.1</b></td>\n          <td class=\"indent-med\">\n            Term\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <ol type=\"1\">\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(1)</td>\n            <td class=\"indent-med\">\n              This Agreement will remain in full force and effect from the date first above written \n              until terminated in accordance with this Article 5.\n            </td>\n          </tr>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(2)</td>\n            <td class=\"indent-med\">\n              The Parties acknowledge that EAO intends to determine, on or prior to {{determineDate}}, whether \n              the Holder has resolved the Non-Compliance to the satisfaction of EAO. \n            </td>\n          </tr>\n        </tbody>\n      </table>\n    </ol>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>5.2</b></td>\n          <td class=\"indent-med\">\n            Termination\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      This Agreement may be terminated as follows:\n    </p>\n    <ol type=\"1\">\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(1)</td>\n            <td class=\"indent-med\">\n              by written agreement of the Holder and the Province,\n            </td>\n          </tr>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(2)</td>\n            <td class=\"indent-med\">\n              by the Province, if: \n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <ol type=\"a\">\n        <table>      \n          <tbody>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(a)</td>\n              <td class=\"indent-med\">\n                the Province provides 7 days written notice of any failure by the Holder to comply \n                fully with the terms and conditions of this Agreement; and\n              </td>\n            </tr>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(b)</td>\n              <td class=\"indent-med\">\n                at the conclusion of such 7-day period, the Province concludes, acting reasonably, \n                that the Holder failed to cure such failure within such 7-day period.\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </ol>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(3)</td>\n            <td class=\"indent-med\">\n              automatically, upon the cancellation or expiry of the Certificate.\n            </td>\n          </tr>\n        </tbody>\n      </table>\n    </ol>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>5.3</b></td>\n          <td class=\"indent-med\">\n            Effect of Termination\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      Each Party's right of termination under Section 5.2 is in addition to any other rights it may have under \n      this Agreement, Applicable Law (Including the Act) or otherwise, and the exercise of a right of \n      termination will not be an election of remedies. If this Agreement is terminated pursuant to Section \n      5.2, all further obligations of the Parties under this Agreement will terminate, except that the \n      obligations in Sections 6.14 and 6.15 will survive.\n    </p>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Article 5 - Term and Termination",
+        "name":"article5"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"insert corporate head  office address as listed  with BC Online",
+            "type":"Html",
+            "name":"corporateHeadOfficeAddress"
+          },
+          {
+            "default":"",
+            "label":"Main Project Contact",
+            "type":"Text",
+            "name":"mainProjContact"
+          },
+          {
+            "default":"",
+            "label":"fax number",
+            "type":"Text",
+            "name":"mainProjFax"
+          },
+          {
+            "default":"",
+            "label":"e-mail address",
+            "type":"Text",
+            "name":"mainProjEmail"
+          },
+          {
+            "default":"",
+            "label":"Insert address for local  office responsible for  administering the project",
+            "type":"Html",
+            "name":"localOfficeAddress"
+          },
+          {
+            "default":"",
+            "label":"EPD at EAO",
+            "type":"Text",
+            "name":"EPDAtEAO"
+          },
+          {
+            "default":"",
+            "label":"fax number",
+            "type":"Text",
+            "name":"EPDAtEAOFax"
+          },
+          {
+            "default":"",
+            "label":"EAO legal counsel",
+            "type":"Text",
+            "name":"EAOLglCounsel"
+          },
+          {
+            "default":"",
+            "label":"fax number",
+            "type":"Text",
+            "name":"EAOLglCounselFax"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-section\">\n    <div class=\"letter-head\">\n      <p>\n        ARTICLE 6 – General\n      </p>\n    </div>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>6.1</b></td>\n          <td class=\"indent-med\">\n            Further Assistance\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      Each of the Parties will from time to time execute and deliver all such further documents and \n      instruments and do all act and things as another Party may reasonably require to effectively carry \n      out or better evidence or perfect the full Intent and meaning of this Agreement.\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>6.2</b></td>\n          <td class=\"indent-med\">\n            Time of the Essence\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      Time is of the essence of this Agreement.\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>6.3</b></td>\n          <td class=\"indent-med\">\n            Public Release and Announcement\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      The Holder acknowledges that the Province and associated Governmental Authorities may make copies \n      of this Agreement available to Third Parties (including to the general public via one or more websites), \n      and the Holder hereby consents to: \n    </p>\n    <ol type=\"1\">\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(1)</td>\n            <td class=\"indent-med\">\n              any such disclosure of this Agreement; and\n            </td>\n          </tr>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(2)</td>\n            <td class=\"indent-med\">\n              the Province and associated Governmental Authorities \n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <ol type=\"a\">\n        <table>      \n          <tbody>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(a)</td>\n              <td class=\"indent-med\">\n                making public announcements or press releases in connection with the Parties entering \n                this Agreement; and \n              </td>\n            </tr>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(b)</td>\n              <td class=\"indent-med\">\n                discussing and communicating the existence and terms and conditions of this Agreement with \n                any Third Party.\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </ol>\n    </ol>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>6.4</b></td>\n          <td class=\"indent-med\">\n            Freedom of Information\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      The Holder acknowledges and agrees that the Province is subject to the provisions of the Freedom of\n      Information and Protection of Privacy Act (FOIPPA) and that this Agreement and any information regarding \n      this Agreement or the Holder may be disclosed or may be required to be disclosed under FOIPPA, under a \n      policy of any Governmental Authority or otherwise.\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>6.5</b></td>\n          <td class=\"indent-med\">\n            Benefit of the Agreement\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      This Agreement will ensure to the benefit of and be binding upon the respective heirs, executors,\n      administrators, other legal representatives, successors and permitted assigns of the Parties.\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>6.6</b></td>\n          <td class=\"indent-med\">\n            Entire Agreement\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      This Agreement and the Certificate collectively constitute the entire agreement between the Parties \n      with respect to the subject matter hereof and there are no representations, warranties, terms, \n      conditions, undertakings or collateral agreements, express, implied or statutory, between the Parties \n      with respect to such matters other than as expressly set forth herein.\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-sml\">\n          <td valign=\"top\"><b>6.7</b></td>\n          <td class=\"indent-med\">\n            Amendments and Waivers\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <ol type=\"1\">\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(1)</td>\n            <td class=\"indent-med\">\n              The Parties agree that the Manager of Compliance of EAO may, in her or his sole discretion, \n              extend one or more of the dates or periods contemplated in Article 2 by providing the Parties \n              with written notice of such extension(s) in accordance with Section 6.10 or to email addresses\n              provided by each Party to the Manager of Compliance of EAO. Upon the receipt of such notice by \n              both of the Parties this Agreement shall be deemed to have been amended accordingly. The Parties\n              agree that, in considering any request to extend a date or period contemplated In Article 2, the\n              Manager of Compliance of EAO may require the Holder to prepare and submit a reasonably detailed\n              written request that sets out the circumstances that led to the request for such extension.\n            </td>\n          </tr>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(2)</td>\n            <td class=\"indent-med\">\n              Except as contemplated in Section 6.7(1) no amendment to this Agreement will be valid or \n              binding unless set forth in writing and duly executed by both of the Parties. \n            </td>\n          </tr>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(3)</td>\n            <td class=\"indent-med\">\n              No waiver of any breach of any provision of this Agreement will be effective or binding unless \n              made in writing (by letter, email or otherwise) by the Party purporting to give the same and, \n              unless otherwise provided, will be limited to the specific breach waived. \n            </td>\n          </tr>\n        </tbody>\n      </table>\n    </ol>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>6.8</b></td>\n          <td class=\"indent-med\">\n            Severability\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      If any provision of this Agreement is determined to be illegal, invalid or unenforceable by an \n      arbitrator or any court of competent jurisdiction, that provision will be severed from this Agreement \n      and the remaining provisions will remain in full force and effect.\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>6.9</b></td>\n          <td class=\"indent-med\">\n            Assignment\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      The Holder may not assign any or all of its rights and obligations under this Agreement without the \n      prior written consent of the Province, which consent may be withheld by the Province in its sole \n      discretion. No change in ownership of the Project or any of the facilities or assets related thereto \n      will in any way alter the Holder's obligations under this Agreement, unless otherwise provided by \n      Applicable Law.\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>6.10</b></td>\n          <td class=\"indent-med\">\n            Notices\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      Any demand, direction, notice or other communication to be given in connection with this Agreement must \n      be given in writing and will be given by personal delivery, courier or by electronic means of \n      communication addressed to the recipients as follows:\n    </p>\n    <ul>\n      <p>\n        to the Holder:\n      </p>\n      <p>\n        {{corporateHeadOfficeAddress}}\n      </p>\n      <table>      \n        <tbody>\n          <tr>\n            <td valign=\"top\"><u>Attention:</u></td>\n            <td class=\"indent-med\">\n              {{mainProjContact}}\n            </td>\n          </tr>\n          <tr>\n            <td valign=\"top\">Fax No.:</td>\n            <td class=\"indent-med\">\n              {{mainProjFax}} \n            </td>\n          </tr>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">Email:</td>\n            <td class=\"indent-med\">\n              {{mainProjEmail}} \n            </td>\n          </tr>\n        </tbody>\n      </table>\n    </ul>\n    <div class=\"center\">\n      <p>\n        with a copy to (which copy will not constitute notice):\n      </p>\n    </div>\n    <ul>\n      <p>\n        {{localOfficeAddress}}\n      </p>\n      <table>      \n        <tbody>\n          <tr>\n            <td valign=\"top\"><u>Attention:</u></td>\n            <td class=\"indent-med\">\n              {{EPDAtEAO}}\n            </td>\n          </tr>\n          <tr>\n            <td valign=\"top\">Fax No.:</td>\n            <td class=\"indent-med\">\n              {{EPDAtEAOFax}} \n            </td>\n          </tr>\n        </tbody>\n      </table>\n    </ul>\n    <div class=\"center\">\n      <p>\n        with a copy to (which copy will not constitute notice):\n      </p>\n    </div>\n    <ul>\n      <p>\n        Legal Services Branch<br>\n        Ministry of Justice<br>\n        340 - 1675 Douglas Street<br>\n        Victoria, BC V8W 2G5\n      </p>\n      <table>      \n        <tbody>\n          <tr>\n            <td valign=\"top\"><u>Attention:</u></td>\n            <td class=\"indent-med\">\n              {{EAOLglCounsel}}\n            </td>\n          </tr>\n          <tr>\n            <td valign=\"top\">Fax No.:</td>\n            <td class=\"indent-med\">\n              {{EAOLglCounselFax}} \n            </td>\n          </tr>\n        </tbody>\n      </table>\n    </ul>\n    <p>\n      or to such other street address, individual or electronic communication number or address as may be\n      designated by notice given by a Party to the other Party. Any demand, notice or other communication \n      given by personal delivery or by courier will be conclusively deemed to have been given on the day \n      of actual delivery thereof and if given by electronic communication, on the day of transmittal thereof \n      if  given during the normal business hours of the recipient and on the Business Day during which such \n      normal business hours next occur if  not given during such hours on any day.\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>6.11</b></td>\n          <td class=\"indent-med\">\n            Remedies Cumulative\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      The rights and remedies of the Parties under this Agreement are cumulative and are in addition to, \n      and not in substitution for, any other rights and remedies available at law or in equity or otherwise. \n      No single or partial exercise by a Party of any right or remedy precludes or otherwise affects the \n      exercise of any other right or remedy to which that Party may be entitled.\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>6.12</b></td>\n          <td class=\"indent-med\">\n            No Third Party Beneficiaries\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      This agreement is solely for the benefit of:\n    </p>\n    <ol type=\"1\">\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(1)</td>\n            <td class=\"indent-med\">\n              the Holder, and its successors and permitted assigns, with respect to the obligations of \n              the Province under this Agreement; and\n            </td>\n          </tr>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(2)</td>\n            <td class=\"indent-med\">\n              the Province, and its successors and permitted assigns, with respect to the obligations of \n              the Holder under this Agreement,  \n            </td>\n          </tr>\n        </tbody>\n      </table>\n    </ol>\n    <p>\n      and this Agreement will not be deemed to confer upon or give to any other Person any claim or other \n      right or remedy.\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>6.13</b></td>\n          <td class=\"indent-med\">\n            Not a Partnership or Joint Venture\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      Nothing in this Agreement shall be deemed to constitute the Parties partners, joint venturers or \n      principal and agent.\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>6.14</b></td>\n          <td class=\"indent-med\">\n            Governing Law\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      This Agreement is governed by and will be construed in accordance with the laws of the Province of \n      British Columbia and the law of Canada applicable therein. \n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>6.15</b></td>\n          <td class=\"indent-med\">\n            Attornment\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      For the purpose of all legal proceedings this Agreement will be deemed to have been performed in the \n      Province of British Columbia and the courts of the Province of British Columbia will have jurisdiction \n      to entertain any action arising under this Agreement. Each of the Parties attorns to the non-exclusive\n      jurisdiction of the courts of the Province of British Columbia. \n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>6.16</b></td>\n          <td class=\"indent-med\">\n            Counterparts\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      This Agreement may be executed in any number of counterparts, each of which will be deemed to be an \n      original and all of which taken together will be deemed to constitute one and the same instrument. \n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"section-header-sml\">\n          <td valign=\"top\"><b>6.17</b></td>\n          <td class=\"indent-med\">\n            Electronic Execution\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      Delivery of an executed signature page to this Agreement by a Party by electronic transmission will be \n      as effective as delivery of a manually executed copy of this Agreement by such Party. \n    </p>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Article 6 - General",
+        "name":"article6"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Certificate Holder Name",
+            "type":"Text",
+            "name":"certHolderName"
+          },
+          {
+            "default":"",
+            "label":"Certificate holder general partner name",
+            "type":"Text",
+            "name":"certHolderGenPartnerName"
+          },
+          {
+            "default":"",
+            "label":"Authorized signatory",
+            "type":"Text",
+            "name":"authSignatory1"
+          },
+          {
+            "default":"",
+            "label":"Authorized signatory",
+            "type":"Text",
+            "name":"authSignatory2"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-footer\">\n    <p class=\"indent\">\n      IN WITNESS WHEREOF the Parties have executed this Agreement as of the date first above written.\n    </p>\n    <div class=\"right\">\n      <p class=\"bottom-spacing-med\">\n        {{certHolderName}},<br>\n        represented by its general partner,<br>\n        {{certHolderGenPartnerName}}\n      </p> \n      <p class=\"bottom-spacing-med\">\n        By: {{authSignatory1}}<br>\n        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Authorized signatory</i>\n      </p>\n      <p class=\"bottom-spacing-med\">\n        HER MAJESTY THE QUEEN IN RIGHT OF<br>\n        THE PROVINCE OF BRITISH<br>\n        COLUMBIA, as represented by the<br>\n        MINISTER OF ENVIRONMENT or the<br>\n        Minister's authorized representative\n      </p> \n      <p>\n        By: {{authSignatory2}}<br>\n        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Authorized signatory</i>\n      </p>\n    </div>\n    <div style=\"clear:both;\"></div>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Signatures",
+        "name":"signatures"
+      }
+    ],
+    "versionNumber":1,
+    "documentType":"Section 36 Order",
+    "code":"section-36-order"
+  },
+  {
+    "sections": [
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Date",
+            "type":"Text",
+            "name":"scheduleADate"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-head\">\n    <p>\n      SCHEDULE A<br>\n      NON-COMPLIANCES COMMUNICATION<br>\n      DATED {{scheduleADate}}\n    </p>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Header",
+        "name":"header"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"#",
+            "type":"Html",
+            "name":"pgNum"
+          },
+          {
+            "default":"",
+            "label":"EAC Condition",
+            "type":"Html",
+            "name":"EACCondition"
+          },
+          {
+            "default":"",
+            "label":"EAC Holder Comments",
+            "type":"Html",
+            "name":"EACComments"
+          },
+          {
+            "default":"",
+            "label":"Auditor Rational",
+            "type":"Html",
+            "name":"auditorRational"
+          },
+          {
+            "default":"",
+            "label":"EAO Comments",
+            "type":"Html",
+            "name":"EAOComments"
+          },
+          {
+            "default":"",
+            "label":"Final EAC Holders Self-compliance Details",
+            "type":"Html",
+            "name":"EACDetails"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-section\">\n    <div class=\"rTable\">\n      <div class=\"rTableRow\">\n        <div class=\"rTableHead first-cell\">{{pgNum}}</div> \n        <div class=\"rTableHead\">{{EACCondition}}</div>\n        <div class=\"rTableHead\">{{EACComments}}</div>\n        <div class=\"rTableHead\">{{auditorRational}}</div>\n        <div class=\"rTableHead\">{{EAOComments}}</div>\n        <div class=\"rTableHead\">{{EACDetails}}</div>\n      </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Table Header",
+        "name":"tableHeader"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"value",
+            "type":"Html",
+            "name":"pgNumInput"
+          },
+          {
+            "default":"",
+            "label":"value",
+            "type":"Html",
+            "name":"EACConditionInput"
+          },
+          {
+            "default":"",
+            "label":"value",
+            "type":"Html",
+            "name":"EACCommentsInput"
+          },
+          {
+            "default":"",
+            "label":"value",
+            "type":"Html",
+            "name":"auditorRationalInput"
+          },
+          {
+            "default":"",
+            "label":"value",
+            "type":"Html",
+            "name":"EAOCommentsInput"
+          },
+          {
+            "default":"",
+            "label":"value",
+            "type":"Html",
+            "name":"EACDetailsInput"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"rTableRow\">\n        <div class=\"rTableCell first-cell\">{{pgNumInput}}</div> \n        <div class=\"rTableCell\">{{EACConditionInput}}</div>\n        <div class=\"rTableCell\">{{EACCommentsInput}}</div>\n        <div class=\"rTableCell\">{{auditorRationalInput}}</div>\n        <div class=\"rTableCell\">{{EAOCommentsInput}}</div>\n        <div class=\"rTableCell\">{{EACDetailsInput}}</div>\n      </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":true,
+        "optional":false,
+        "label":"Table Content",
+        "name":"tableContent"
+      },
+      {
+        "meta":[],
+        "footer":"",
+        "header":"",
+        "template":"</div>\n    <div class=\"tbl-bottom\"></div>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Table Footer",
+        "name":"tableFooter"
+      }
+    ],
+    "versionNumber":1,
+    "documentType":"Section 36 Schedule A",
+    "code":"section-36-schedule-a"
+  },
+  {
+    "sections": [
+      {
+        "meta":[],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-head\">\n    <p>\n      SCHEDULE B<br>\n      DEFINITIONS\n    </p>\n  </div>\n  <p>\n    In this Agreement, unless something in the subject matter or context is inconsistent therewith:\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Header",
+        "name":"header"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"include definition",
+            "type":"Text",
+            "name":"ampDefinition"
+          },
+          {
+            "default":"",
+            "label":"EAC#",
+            "type":"Text",
+            "name":"EACNum"
+          },
+          {
+            "default":"",
+            "label":"date",
+            "type":"Text",
+            "name":"certDate"
+          },
+          {
+            "default":"",
+            "label":"include if applicable: as amended by Amendment [#] dated [date],",
+            "type":"Text",
+            "name":"certOpt1"
+          },
+          {
+            "default":"",
+            "label":"include if applicable: and as extended pursuant to an order pursuant to Section 18(4) of the EAA dated [date],",
+            "type":"Text",
+            "name":"certOpt2"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<ol type=\"1\">\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(1)</td>\n          <td class=\"indent-sml\">\n            <b>\"Agreement\"</b> means this agreement, including its recitals and schedules, as amended from time to time.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(2)</td>\n          <td class=\"indent-sml\">\n            <b>\"AMP Interested Parties\"</b> means {{ampDefinition}}\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(3)</td>\n          <td class=\"indent-sml\">\n            <b>\"Applicable Laws\"</b> means any applicable domestic or foreign law including any statute, subordinate \n            legislation or treaty and any applicable guideline, directive, rule, standard, requirement, policy, order, \n            judgement, injunction, award or degree of a Governmental Authority whether or not having the force of law.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(4)</td>\n          <td class=\"indent-sml\">\n            <b>\"Books and Records\"</b> means all books, records, data, modelling, studies, surveys, assessments, plans,\n            specifications, photos, correspondence, files and other information (whether in written, printed or electronic \n            form, or stored on computer discs or other data and software storage and media devices) in any form.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(5)</td>\n          <td class=\"indent-sml\">\n            <b>\"Business Day\"</b> means a day other than a Saturday, Sunday or statutory holiday in the Province of \n            British Columbia.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(6)</td>\n          <td class=\"indent-sml\">\n            <b>\"Certificate\"</b> means the environmental assessment certificate {{EACNum}} dated {{certDate}}, \n            {{certOpt1}}{{certOpt2}} and as amended from time to time.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(7)</td>\n          <td class=\"indent-sml\">\n            <b>\"The Act\"</b> means the <i>Environmental Assessment Act</i>.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(8)</td>\n          <td class=\"indent-sml\">\n            <b>\"EAO\"</b> means the Environment Assessment Office, an office of the Province continued under the Act.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(9)</td>\n          <td class=\"indent-sml\">\n            <b>\"First Nation\"</b> means a First Nation, tribal council or aboriginal group, and includes any person \n            or group asserting or otherwise claiming an aboriginal or treaty right, including aboriginal title, or \n            any other aboriginal interest, and any person or group representing, or purporting to represent, any of \n            the foregoing.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(10)</td>\n          <td class=\"indent-sml\">\n            <b>\"FLNR\"</b> means the Ministry of Forests, Lands and Natural Resource Operations of the Province of \n            British Columbia.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(11)</td>\n          <td class=\"indent-sml\">\n            <b>\"Governmental Authority\"</b> means any domestic or foreign legislative, executive, judicial or administrative \n            body or person having or purporting to have jurisdiction in the relevant circumstances.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(12)</td>\n          <td class=\"indent-sml\">\n            <b>\"Holder\"</b> has the meaning set out in the Recitals.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(13)</td>\n          <td class=\"indent-sml\">\n            <b>\"Non-Compliances\"</b> has the meaning set out in the Recitals.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(14)</td>\n          <td class=\"indent-sml\">\n            <b>\"Parties\"</b> means the Holder and the Province, and <b>\"Party\"</b> means any one of them.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(15)</td>\n          <td class=\"indent-sml\">\n            <b>\"Permits\"</b> means all permits, consents, waivers, licenses, sub-licenses, certificates, approvals,\n            authorizations, registrations, franchises, rights, privileges, certification, quotas and exemptions, or \n            any item with a similar effect, issued by any Person, including all pending renewals thereof or pending \n            applications therefor.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(16)</td>\n          <td class=\"indent-sml\">\n            <b>\"Person\"</b> means any natural person, corporation, limited liability company, general partnership, \n            limited partnership, proprietorship, joint venture, joint stock company, other business organization, trust, \n            society, union, association, Governmental Authority, First Nation or the Province.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(17)</td>\n          <td class=\"indent-sml\">\n            <b>\"Project\"</b> means the Pacific Trail Pipelines Project, as more particularly described in the Certificate.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(18)</td>\n          <td class=\"indent-sml\">\n            <b>\"Province\"</b> has the meaning set out in the Recitals.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(19)</td>\n          <td class=\"indent-sml\">\n            <b>\"Qualified Professional\"</b> means, in relation to a duty or function contemplated in this Agreement, an\n            individual who:\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <ol type=\"a\">\n      <table>\n        <tbody>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(a)</td>\n            <td class=\"indent-sml\">\n              is registered in Canada with a professional organization, is acting under that organization's code of ethics, \n              and is subject to disciplinary action by that organization; and\n            </td>\n          </tr>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(b)</td>\n            <td class=\"indent-sml\">\n              through suitable education, experience, accreditation and knowledge, may reasonably be relied on to provide \n              advice within his or her area of expertise, which area of expertise is applicable to the duty or function.\n            </td>\n          </tr>\n        </tbody>\n      </table>\n    </ol>\n    <table>\n      <tbody>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(20)</td>\n          <td class=\"indent-sml\">\n            <b>\"Section 11 Order\"</b> means the order issued in respect of the Project pursuant to Section 11 of the Act \n            on {{sect11Date}}.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(21)</td>\n          <td class=\"indent-sml\">\n            <b>\"Third Parties\"</b> means Persons other than the Holder or the Province.\n          </td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td valign=\"top\">(22)</td>\n          <td class=\"indent-sml\">\n            <b>\"To The Satisfaction Of\"</b> means:\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <ol type=\"a\">\n      <table>\n        <tbody>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(a)</td>\n            <td class=\"indent-sml\">\n              where used in relation to a document:\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <ol type=\"i\">\n        <table>\n          <tbody>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(i)</td>\n              <td class=\"indent-sml\">\n                that the Holder must provide a document to the Person referenced in the relevant provision of this Agreement;\n              </td>\n            </tr>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(ii)</td>\n              <td class=\"indent-sml\">\n                such Person may reject the document or require the Holder to make changes to the document, and in either \n                case, may require the Holder to resubmit a revised version of the document to such Person for review; and\n              </td>\n            </tr>\n            <tr class=\"spaceUnder-med\">\n              <td valign=\"top\">(iii)</td>\n              <td class=\"indent-sml\">\n                if such Person does not communicate the rejection of or requirement to revise such document to the Holder, \n                such Person shall be deemed to be satisfied with such document; and\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </ol>\n      <table>\n        <tbody>\n          <tr class=\"spaceUnder-med\">\n            <td valign=\"top\">(b)</td>\n            <td class=\"indent-sml\">\n              where used in all other contexts, to the satisfaction of the relevant Person, acting reasonably.\n            </td>\n          </tr>\n        </tbody>\n      </table>\n    </ol>\n  </ol>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Definition List",
+        "name":"definitionList"
+      }
+    ],
+    "versionNumber":3,
+    "documentType":"Section 36 Schedule B",
+    "code":"section-36-schedule-b"
   }
 ]
