@@ -374,7 +374,21 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 	// -----------------------------------------------------------------------------------
 	docBrowser.refresh = function() {
 		Document.getProjectDocuments(docBrowser.project._id, $scope.approvals).then( function(res) {
-			docBrowser.documentFiles	= res.data;
+			if (ENV === 'MEM') {
+				// Apply slightly different sort criteria on the client side.
+				// Do a substring date search on the internalOriginalName field.
+				var docs = [];
+				var re =/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
+				angular.forEach( res.data, function(item) {
+					var sortDate = re.exec(item.internalOriginalName);
+					if (sortDate)
+						item.sortDate = sortDate[0];
+					docs.push(item);
+				});
+				docBrowser.documentFiles = _.sortByOrder(docs, "sortDate", "desc");
+			} else {
+				docBrowser.documentFiles = res.data;
+			}
 		});
 		Document.getProjectDocumentTypes(docBrowser.project._id, $scope.approvals).then( function(res) {
 			if (ENV === 'MEM') {

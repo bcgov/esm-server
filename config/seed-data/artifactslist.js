@@ -128,6 +128,60 @@ var artifacttypes = [{
         'Draft',
         'Final'
     ]
+},{
+    name: 'Section 34 Order',
+    milestone: 'section-34-order',
+    code: 'section-34-order',
+    multiple: false,
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
+    name: 'Section 36 Order',
+    milestone: 'section-36-order',
+    code: 'section-36-order',
+    multiple: false,
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
+    name: 'Section 36 Schedule A',
+    milestone: 'section-36-schedule-a',
+    code: 'section-36-schedule-a',
+    multiple: false,
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
+    name: 'Section 36 Schedule B',
+    milestone: 'section-36-schedule-b',
+    code: 'section-36-schedule-b',
+    multiple: false,
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
+    name: 'Inspection Report',
+    milestone: 'inspection-report',
+    code: 'inspection-report',
+    multiple: true,
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
+    name: 'Environmental Assessment Certificate',
+    milestone: 'environmental-assessment-certificate',
+    code: 'environmental-assessment-certificate',
+    multiple: false,
+    versions : [
+        'Draft',
+        'Final'
+    ]
 }];
 var stages = [{
 		name: 'Edit',

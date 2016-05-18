@@ -1457,6 +1457,55 @@ h2.page-title {
   float:left;
 }
 
+.template tr.spaceUnder-med > td
+{
+  padding-bottom: 15px;
+}
+
+.template p.indent {
+  text-indent: 50px;
+}
+
+.template .right {
+  float:right;
+  margin-right:20px;
+}
+
+.template p.bottom-spacing-med
+{
+  margin-bottom: 70px;
+}
+
+.template table.reg-table 
+{
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.template table.reg-table tbody td
+{
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 5px;
+  vertical-align: top;
+}
+
+.template td.header 
+{
+  font-weight: bold;
+}
+
+.template .title-pg-in-txt-sml {
+  font-weight: bold; 
+  font-size: 20px; 
+  color: #336699;
+}
+
+.template .bottom-spacing-sml
+{
+  margin-bottom: 30px;
+}
+
 /*------------------------------*/
 .activity-list-med {
 	height: 542px;
