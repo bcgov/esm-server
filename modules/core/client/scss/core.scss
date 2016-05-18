@@ -17,6 +17,13 @@ $border-grey:			#dddddd;
 $off-white:				#f4f4f4;
 $danger-text:			#a94442;
 
+$danger-bg:				#d9534f;
+$danger-border:			#d43f3a;
+$info-bg:				#337ab7;
+$info-border:			#337ab7;
+$success-bg: 			#449d44;
+$success-border: 		#398439;
+
 // -------------------------
 // Bootstrap Overrides
 // -------------------------
@@ -1924,9 +1931,9 @@ tmpl-header {
 /* HEADER 
 ------------------------------ */
 $corp-blue: #003366;
-$corp-gold: #e3a82b;
-$header-height: 6rem;
-$header-height-sm: 5rem;
+$corp-gold: #fcba19;
+$header-height: 6.2rem;
+$header-height-sm: 5.2rem;
 
 .app-header {
 	position: relative;
@@ -1934,10 +1941,12 @@ $header-height-sm: 5rem;
 	height: $header-height-sm;
 	min-height: $header-height-sm;
 	background-color: $corp-blue;
+	border-bottom: 2px solid $corp-gold;
 	box-shadow: 0 0 0.5rem #666;
 	
 	.navbar {
 		border: none;
+		border-radius: 0;
 	}
 	
 	.navbar-header {
@@ -2166,9 +2175,14 @@ $header-height-sm: 5rem;
 	width: 100%;
 	padding: 1rem 2rem;
 	font-size: 1.2rem;
-	background: #FFF;
-	border-top: 1px solid #EEE;
+	color: #FFF;
+	background: $corp-blue;
+	border-top: 2px solid $corp-gold;
 	z-index: 999;
+	
+	a {
+		color: #FFF;
+	}
 }
 
 
@@ -2266,6 +2280,132 @@ $header-height-sm: 5rem;
 .breadcrumbs + .view-title-container {
 	padding-top: 1.5rem;
 }
+
+
+/* ALERTS
+------------------------------ */
+.alert-danger {
+	color: #FFF;
+	background: $danger-bg;
+	border: 1px solid $danger-border;
+}
+
+.alert-info {
+	color: #FFF;
+	background: $info-bg;
+	border: 1px solid $info-border;
+}
+
+.alert-success {
+	color: #FFF;
+	background: $success-bg;
+	border: 1px solid $success-border;
+}
+
+/* ATTACHMENTS 
+------------------------------ */
+.attachments {
+	.list-group-item {
+		position: relative;
+	}
+	
+	.file-name {
+		margin-right: 4rem;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	
+	.file-progress {
+		margin-top: 0.5rem;
+		margin-bottom: 0.5rem;
+		height: 1.3rem;
+	}
+	
+	.file-review {
+		margin-top: 0.5rem;
+		width: 100%;
+		
+		label {
+			margin-bottom: 0;
+			width: 50%;
+			font-weight: normal;
+		}
+		
+		.btn-danger,
+		.btn-success {
+			color: #000;
+			background: none;
+			border-color: #CCC;
+		}
+		
+		.btn-danger.active {
+			background: #d9534f;
+			border-color: #d43f3a;
+			color: #FFF;
+		}
+		
+		.btn-success.active {
+			background: #5cb85c;
+			border-color: #4cae4c;
+			color: #FFF;
+		}
+	}
+	
+	.file-action {
+		position: absolute;
+		top: 0.4rem;
+		right: 0.5rem;
+		border: none;
+	}
+}
+
+@media (min-width: 480px) {
+	.attachments {
+		.file-name {
+			margin-right: 15rem;
+		}
+		
+		.file-progress {
+			position: absolute;
+			top: 0.8rem;
+			right: 4.5rem;
+			width: 10rem;
+		}
+		
+		.file-review {
+			position: absolute;
+			top: 0.5rem;
+			right: 4.5rem;
+			width: 15rem;
+			margin-top: 0;
+		}
+		
+	}
+}
+
+.attachments-upload-target {
+	position: relative;
+	padding: 2rem;
+	text-align: center;
+	font-weight: normal;
+	color: #888;
+	border: 2px dashed #AAA;
+	border-radius: 4px;
+	background: #EEE;
+	
+	input {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		opacity: 0;
+		filter: alpha(opacity=0);
+	}
+}
+
 
 /* DATE RANGE CONTROL
 ------------------------------ */
@@ -2548,6 +2688,38 @@ textarea {
 
 .checkbox {
 	margin-right: 2rem;
+}
+
+
+/* PICK LIST
+------------------------------ */
+.pick-list {
+	display: block;
+	padding: 1px;
+	border-radius: 0;
+	
+	.btn {
+		margin: 1px;
+		font-weight: normal;
+		text-align: left;
+		border: none;
+		border-radius: 0;
+		box-shadow: none;
+	}
+	
+	label {
+		margin-bottom: 0;
+		font-size: 1.2rem;
+		font-weight: normal;
+		text-align: left;
+	}
+	
+	.active {
+		color: #FFF;
+		background: $success-bg;
+		border-color: $success-border;
+		box-shadow: none;
+	}
 }
 
 
@@ -2863,18 +3035,17 @@ section.project-info {
 .detail-row {
 	margin: 1.5rem 0;
 	
+	> label {
+		margin-bottom: .2rem;
+		font-weight: 600;
+		text-shadow: 0 0 0 #FFF;
+	}
+	
 	label, span.value {
 		display: block;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
-	}
-	
-	label {
-		min-width: 14rem;
-		margin-bottom: .2rem;
-		font-weight: 600;
-		text-shadow: 0 0 0 #FFF;
 	}
 	
 	span.value {
@@ -3333,72 +3504,11 @@ section.project-info {
 		font-size: 1.6rem;
 		font-weight: bold;
 	}
-}
-
-.attachments {
-	.list-group-item {
-		position: relative;
-	}
 	
-	.file-name {
-		margin-right: 4rem;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-	
-	.file-progress {
-		margin-top: 0.5rem;
-		margin-bottom: 0.5rem;
-		height: 1.3rem;
-	}
-	
-	.file-action {
-		position: absolute;
-		top: 0.4rem;
-		right: 0.5rem;
-		border: none;
-	}
-}
-
-@media (min-width: 480px) {
-	.attachments {
-		.file-name {
-			margin-right: 15rem;
-		}
-		
-		.file-progress {
-			position: absolute;
-			top: 0.8rem;
-			right: 4.5rem;
-			width: 10rem;
-		}
-	}
-}
-
-
-.attachments-upload-target {
-	position: relative;
-	padding: 2rem;
-	text-align: center;
-	color: #999;
-	border: 2px dashed #CCC;
-	border-radius: 4px;
-	background: #EEE;
-	
-	strong {
-		color: #000;
-	}
-	
-	input {
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		opacity: 0;
-		filter: alpha(opacity=0);
+	.pick-list {
+		margin-bottom: 0;
+		height: 20rem;
+		overflow-y: scroll;
 	}
 }
 

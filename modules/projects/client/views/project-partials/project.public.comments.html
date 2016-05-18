@@ -114,39 +114,151 @@
 				<h3 class="modal-title">Public Comment  &nbsp;&rsaquo;&nbsp; Anonymous</h3>
 			</div>
 			<div class="modal-body">
+                
+                <!-- STATUS ALERTS -->
+                <div class="eao-alerts">
+                    <div class="alert alert-danger hidden">
+                        Review period for this comment expires in <strong>1 Days</strong>
+                    </div>
+                    <div class="alert alert-info hidden">
+                        Review period for this comment expires in <strong>7 Days</strong>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info">
+                    No Pillars or Valued Components have been assigned to this comment.
+                </div>
+                
                 <section>
                     <label>Posted March 21, 2016</label>
                     <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
                 </section>
+                
+                <!-- PILLARS & VC'S -->
+                <section class="pillers-vc">  
+                    <!-- DISPLAY VALUES -->
+                    <div class="pillers-vc-display hidden">
+                        <div class="detail-row">
+                            <label>Pillars</label>
+                            <span class="value">Health, Environment, Heritage</span>
+                        </div>
+                        <div class="detail-row">
+                            <label>Valued Components</label>
+                            <span class="value">Air Quality, Water Quality, Regulatory Process, Rights & Titles</span>
+                        </div>
+                    </div><!-- / DISPLAY VALUES --> 
+                    <!-- PROPONENT ASSIGN -->
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="detail-row">
+                                <label>Assign Pillars</label>
+                                <div class="pick-list panel panel-default" data-toggle="buttons">
+                                    <label class="btn btn-default active">
+                                        <input type="checkbox" autocomplete="off">Pillar 1 
+                                    </label>
+                                    <label class="btn btn-default">
+                                        <input type="checkbox" autocomplete="off">Pillar 2
+                                    </label>
+                                    <label class="btn btn-default">
+                                        <input type="checkbox" autocomplete="off">Pillar 3
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="detail-row">
+                                <label>Assign Valued Components</label>
+                                <div class="pick-list panel panel-default" data-toggle="buttons">
+                                    <label class="btn btn-default active">
+                                        <input type="checkbox" autocomplete="off" checked>Valued Component 1
+                                    </label>
+                                    <label class="btn btn-default">
+                                        <input type="checkbox" autocomplete="off">Valued Component 2
+                                    </label>
+                                    <label class="btn btn-default">
+                                        <input type="checkbox" autocomplete="off">Valued Component 1
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- / PROPONENT ASSIGN -->
+                </section><!-- / PILLARS & VC'S -->
+                
+                <!-- ATTACHMENTS -->
                 <section>
-                    <div class="detail-row">
-                        <label>Pillars</label>
-                        <span class="value">Health, Environment, Heritage</span>
-                    </div>
-                    <div class="detail-row">
-                        <label>Valued Components</label>
-                        <span class="value">Air Quality, Water Quality, Regulatory Process, Rights & Titles</span>
-                    </div>
-                    <div class="detail-row">
-                    <label>Attachments</label>
+                    <!-- PUBLIC/PROPONENT -->
+                    <div class="detail-row hidden">
+                        <label>Attachments</label>
                         <div class="attachments list-group">
                             <a class="list-group-item">
-                                <span class="file-name">file-name-1.jpg</span>
+                                <div class="file-name">file-name-1.jpg</div>
                                 <button class="file-action btn btn-link">
                                     <span class="glyphicon glyphicon-download-alt"></span>
                                 </button> 
                             </a>
                             <a class="list-group-item">
-                                <span>file-name-1.jpg (20mb)</span><span class="glyphicon glyphicon-download-alt pull-right"></span> 
+                                <div class="file-name">file-name-1.jpg</div>
+                                <button class="file-action btn btn-link">
+                                    <span class="glyphicon glyphicon-download-alt"></span>
+                                </button>  
                             </a>
                         </div>
-                    </div>
-                </section>
+                    </div><!-- PUBLIC/PROPONENT -->
+                    <!-- EAO ONLY -->
+                    <div class="detail-row hidden">
+                        <label>Attachments</label>
+                        <ul class="attachments list-group">
+                            <li class="list-group-item clearfix">
+                                <div class="file-name">file-name-1.jpg</div>
+                                <div class="file-review btn-group" data-toggle="buttons">
+                                    <label class="btn btn-danger btn-sm">
+                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />REJECT
+                                    </label>
+                                    <label class="btn btn-success btn-sm">
+                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />ACCEPT
+                                    </label>
+                                </div>
+                                <button class="file-action btn btn-link">
+                                    <span class="glyphicon glyphicon-download-alt"></span>
+                                </button>
+                            </li>
+                            <li class="list-group-item clearfix">
+                                <div class="file-name">file-name-1.jpg</div>
+                                <div class="file-review btn-group" data-toggle="buttons">
+                                    <label class="btn btn-danger btn-sm">
+                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />REJECT
+                                    </label>
+                                    <label class="btn btn-success btn-sm">
+                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />ACCEPT
+                                    </label>
+                                </div>
+                                <button class="file-action btn btn-link">
+                                    <span class="glyphicon glyphicon-download-alt"></span>
+                                </button>
+                            </li>
+                            <li class="list-group-item clearfix">
+                                <div class="file-name">file-name-1.jpg</div>
+                                <div class="file-review btn-group" data-toggle="buttons">
+                                    <label class="btn btn-danger btn-sm">
+                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />REJECT
+                                    </label>
+                                    <label class="btn btn-success btn-sm">
+                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />ACCEPT
+                                    </label>
+                                </div>
+                                <button class="file-action btn btn-link">
+                                    <span class="glyphicon glyphicon-download-alt"></span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div><!-- EAO ONLY -->   
+                </section><!-- / ATTACHMENTS -->
+                
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left">&lsaquo; Previous</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Next &rsaquo;</button>
+                <button type="button" class="btn btn-danger" data-dismiss="close">Reject</button>
+                <button type="button" class="btn btn-default" data-dismiss="close">Defer</button>
+                <button type="button" class="btn btn-success" data-dismiss="close" disabled="disabled">Publish</button>
 			</div>
 		</div>
 	</div>
@@ -216,7 +328,7 @@
                                     </li>
                                     <li class="list-group-item clearfix">
                                         <div class="file-name">file-name-1-really-really-really-really-long-file-name.jpg</div>
-                                        <div class="file-progress progress">
+                                        <div class="file-progress progress hidden">
                                             <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
                                                 <span class="sr-only"></span>
                                             </div>
@@ -228,7 +340,7 @@
                                 </ul>
                                 <div class="attachments-upload-target">
                                     <input type="file" multiple accept=".jpg,.jpeg,.pdf" />
-                                    <div><strong>Drag and Drop</strong> or <strong>Click Here</strong> to attach files</div>
+                                    <div><strong>Drag & Drop</strong> or <strong>Click Here</strong> to Upload Attachments</div>
                                 </div>
                             </div>
                         </div>
