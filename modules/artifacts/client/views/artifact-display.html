@@ -5,23 +5,34 @@
 		This section gets displayed if the content is a template
 
 	 -->
+		<!-- When dealing specifically with valued components, we should show supporting documents -->
+	<div ng-if="artifact.typeCode === 'valued-component'">
+		<div x-content-document
+			 ng-model="artifact.supportingDocuments"
+			 title="'Supporting Documents'"
+			 project="project"
+			 editable="mode === 'edit'"></div>
+	</div>
 	<tmpl-template-render ng-if="artifact.isTemplate" x-template="artifact.template" x-mode="mode" x-project="project" x-document="artifact.templateData"></tmpl-template-render>
 </div>
+
+<!-- Displayed only for artifacts which are a collection of artifacts (VC's) -->
 <div ng-if="artifact.isArtifactCollection" ng-init="editable=false">
-<div class="panel panel-default">
-	<div class="panel-heading clearfix">
-		<h2 class="pull-left">Valued Component Description</h2>
-		<div class="pull-right"></div>
-	</div>
-	<div class="panel-body">
-		<div class="file-horiz">
-			<span class="glyphicon glyphicon-list-alt"></span>
-			<!-- These need to be built out as an array of VC's attached to this artifact -->
-			{{ artifact.valuedComponents }}
+	<div class="panel panel-default">
+		<div class="panel-heading clearfix">
+			<h2 class="pull-left">Valued Component Description</h2>
+			<div class="pull-right"></div>
+		</div>
+		<div class="panel-body">
+			<div class="file-horiz">
+				<span class="glyphicon glyphicon-list-alt"></span>
+				<!-- These need to be built out as an array of VC's attached to this artifact -->
+				{{ artifact.valuedComponents }}
+			</div>
 		</div>
 	</div>
 </div>
-</div>
+
 <div ng-if="!artifact.isTemplate && !artifact.isArtifactCollection" ng-init="editable=false">
 	<!--
 

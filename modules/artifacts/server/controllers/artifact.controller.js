@@ -100,6 +100,11 @@ module.exports = DBModel.extend ({
 			// now add the milestone associated with this artifact
 			//
 			.then (function (m) {
+				// console.log("artifact type:",artifactType);
+				// Don't add milestones for artifacts of type 'valued-component'
+				if (artifactType.code === 'valued-component') {
+					return null;
+				}
 				var p = new MilestoneClass (self.user);
 				return p.fromBase (artifactType.milestone, project.currentPhase);
 			})
@@ -107,7 +112,10 @@ module.exports = DBModel.extend ({
 			// now set up and save the new artifact
 			//
 			.then (function (milestone) {
-				artifact.milestone = milestone._id;
+				// Happens when we skip adding a milestone.
+				if (milestone) {
+					artifact.milestone = milestone._id;
+				}
 				artifact.typeCode = artifactType.code;
 				artifact.name     = artifactType.name;
 				artifact.project  = project._id;
