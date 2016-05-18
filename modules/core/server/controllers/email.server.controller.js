@@ -4,7 +4,8 @@ var _ = require ('lodash'),
   path = require('path'),
   config = require(path.resolve('./config/config')),
   nodemailer = require('nodemailer'),
-  transporter = nodemailer.createTransport(config.mailer.options);
+  transporter = nodemailer.createTransport(config.mailer.options),
+  chalk         = require('chalk');
 
 var mongoose = require('mongoose'),
   User = mongoose.model('User'),
