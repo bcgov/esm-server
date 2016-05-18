@@ -52,6 +52,13 @@ angular.module('project').config (
 				state: "p.schedule",
 				roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'minister-office', 'qa-officer', 'ce-lead', 'ce-officer', 'wg', 'ceaa', 'pro:admin', 'pro:member', 'sub'])
 			});
+			
+			Menus.addMenuItem('projectTopMenu', {
+				title: 'Public Comment Period',
+				state: "p.comments",
+				roles: MenuControl.menuRolesBuilder (['user'], project.code, '*', '*')
+			});
+			
 			Menus.addMenuItem('projectTopMenu', {
 				title: 'Compliance Oversight',
 				state: "p.enforcements",
@@ -211,6 +218,27 @@ angular.module('project').config (
 			}
 		}
 	})
+	
+	// -------------------------------------------------------------------------
+	//
+	// PUBLIC COMMENT PERIOD
+	//
+	// -------------------------------------------------------------------------
+	.state('p.comments', {
+		url: '/public-comment-period',
+		templateUrl: 'modules/projects/client/views/project-partials/project.public.comments.html',
+		controller: 'controllerProjectEntry',
+		onEnter: function (MenuControl, project, $stateParams) {
+			if ($stateParams.projectid === 'new') {
+				MenuControl.routeAccessBuilder (undefined, '*', '*', ['ce-lead', 'ce-officer']);
+			}
+			else {
+				MenuControl.routeAccessBuilder (['admin', 'user', 'public']);
+			}
+		}
+	})
+	
+	
 	// -------------------------------------------------------------------------
 	//
 	// the decision package mockup
