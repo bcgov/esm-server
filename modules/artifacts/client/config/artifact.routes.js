@@ -230,7 +230,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 						// console.log("vc:",vc);
 						// Temporarily apply artifactID so that when we click it we can modify the artifact
 						// and not the valued component object.s
-						vc.artifactID = inst._id;
+						vc.artifactInst = inst;
 						artifact.valuedComponentsAvailable.push(vc);
 						$scope.$apply();
 					});
