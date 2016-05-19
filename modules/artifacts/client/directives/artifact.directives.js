@@ -32,13 +32,16 @@ angular.module('artifacts')
 				}
 			};
 			this.init = function () {
-				ArtifactModel.forProject ($scope.project._id).then (function (c) {
+				// In this view we don't want individual VC's to show up, instead they will
+				// show up in the VC page.
+				ArtifactModel.forProjectFilterType ($scope.project._id, "valued-component").then (function (c) {
 					s.tableParams = new NgTableParams ({count:10}, {dataset: c});
 					// console.log ("artifacts = ", c);
 					$scope.$apply ();
 				});
 				if (!s.public) {
 					ArtifactModel.availableTypes ($scope.project._id).then (function (c) {
+						// console.log("available types:",c);
 						s.availableTypes = c;
 						s.addtype = null;
 						s.addTypeName = "";
@@ -113,5 +116,62 @@ angular.module('artifacts')
 		}
 	};
 })
-
+.directive ('artifactVc', function ($modal, ArtifactModel, _, VcModel) {
+	return {
+		restrict: 'A',
+		scope: {
+			project: '=',
+			artifact: '=',
+			current: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function () {
+				$modal.open ({
+					animation: true,
+					templateUrl: 'modules/artifacts/client/views/artifact-vc.html',
+					controllerAs: 's',
+					size: 'md',
+					resolve: {
+						artifacts: function (ArtifactModel) {
+							// console.log("resolving artifacts");
+							return ArtifactModel.forProjectGetType (scope.project._id, "valued-component");
+						}
+					},
+					controller: function ($scope, $modalInstance, artifacts) {
+						var s = this;
+						s.artifacts = artifacts;
+						// console.log("current:",scope.current);
+						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
+						s.ok = function () {
+							// Selected artifact is: 
+							// console.log("Selected:",s.selected);
+							$modalInstance.close (s.selected);
+						};
+					}
+				})
+				.result.then (function (data) {
+					// console.log("data:",data);  // References the selected VC to add to the VC package
+					if (scope.current.valuedComponents.indexOf(data) === -1) {
+						scope.current.valuedComponents.push(data);
+						var inst = null;
+						ArtifactModel.lookup(data)
+						.then( function (vcartifact) {
+							// console.log("artifactvc:",vcartifact);
+							inst = vcartifact;
+							return VcModel.lookup(vcartifact.valuedComponents[0]);
+						})
+						.then( function (vc) {
+							// console.log("vc:",vc);
+							// Temporarily apply artifactID so that when we click it we can modify the artifact
+							// and not the valued component object.s
+							vc.artifactInst = inst;
+							scope.current.valuedComponentsAvailable.push(vc);
+						});
+					}
+				})
+				.catch (function (err) {});
+			});
+		}
+	};
+})
 ;

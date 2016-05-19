@@ -8,7 +8,7 @@ module.exports = {
 		'//fonts.googleapis.com/css?family=Nunito',
 		'//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400',
         'public/lib/bootstrap/dist/css/bootstrap.css',
-        'public/lib/bootstrap/dist/css/bootstrap-theme.css',
+        //'public/lib/bootstrap/dist/css/bootstrap-theme.css',
         // these were in the application css are before
         'public/lib/angular-toastr/dist/angular-toastr.css',
         'public/lib/angular-bootstrap/ui-bootstrap-csp.css',

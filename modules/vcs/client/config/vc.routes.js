@@ -20,14 +20,18 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		url: '/vc',
 		template: '<ui-view></ui-view>',
 		resolve: {
-			vcs: function ($stateParams, VcModel, project) {
+			vcs: function ($stateParams, VcModel, ArtifactModel, project, ENV) {
 				// console.log ('vc abstract resolving vcs');
 				// console.log ('project id = ', project._id);
-				return VcModel.forProject (project._id);
-			},
+				if (ENV === 'EAO')
+					// In EAO, they are artifacts - nothing for MEM right now so leave it.
+					return ArtifactModel.forProjectGetType (project._id, "valued-component");
+				else
+					return VcModel.forProject (project._id);
+			}
 		},
         onEnter: function (MenuControl, project) {
-					MenuControl.routeAccessBuilder ('admin', project.code, '*', '*');
+					MenuControl.routeAccessBuilder (undefined, project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer','pro:admin', 'pro:member', 'sub']);
         }
 	})
 	// -------------------------------------------------------------------------

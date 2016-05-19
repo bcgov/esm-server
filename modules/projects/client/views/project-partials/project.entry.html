@@ -37,7 +37,13 @@
 						<div class="col-sm-8">
 							<div class="form-group" x-show-errors>
 								<label for="title" class="control-label">Project Name</label>
-								<input id="title" name="name" type="text" class="form-control input-sm" ng-model="project.name" required />
+								<input id="title"
+									   ng-change="onChangeProjectName()"
+									   name="name"
+									   type="text"
+									   class="form-control input-sm"
+									   ng-model="project.name"
+									   required />
 								<div ng-messages="projectForm.name.$error" role="alert">
 									<p class="help-block error-text" ng-message="required">Project Name is required.</p>
 								</div>
@@ -45,10 +51,10 @@
 						</div>
 						<div class="col-sm-4">
 							<div class="form-group" x-show-errors>
-								<label for="shortName" class="control-label">Short Name (25 Characters Max)</label>
+								<label for="shortName" class="control-label">Short Name</label>
 								<input id="shortName"
 									name="shortName"
-									maxlength="25"
+									ng-disabled=true
 									type="text"
 									class="form-control input-sm"
 									ng-model="project.shortName"

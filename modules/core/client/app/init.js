@@ -28,9 +28,41 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 				// toState.data.roles = MenuControl.canAccess (toState.data.roles);
 				var allowed = false;
 				toState.data.roles.forEach(function (role) {
-					if (Authentication.user.roles !== undefined && Authentication.user.roles.indexOf(role) !== -1) {
-						allowed = true;
-						return true;
+					// let's change role to a regexp pattern and compare that way.
+					//
+					var allFilters = ['any', 'all', '*'];
+					var projectPattern = '[a-zA-Z0-9\-]+';
+					var orgPattern = '(eao|pro)';
+
+					var pattern, projCode, orgCode, roleCode; //would match a system role by default...
+					var parts = role.split(':');
+					switch(_.size(parts)) {
+						case 3:
+							// passed in a project : org : role code
+							projCode = _.includes(allFilters, parts[0]) ? projectPattern : '(' + parts[0] + ')';
+							orgCode = _.includes(allFilters, parts[1]) ? orgPattern : '(' + parts[1] + ')';
+							roleCode = '(' + parts[2] + ')$';
+							pattern  = new RegExp([projCode, orgCode, roleCode].join(':'), 'gi');
+							break;
+						case 2:
+							// passed in a org : role code
+							projCode = projectPattern ;
+							orgCode = _.includes(allFilters, parts[0]) ? orgPattern : '(' + parts[0] + ')';
+							roleCode = '(' + parts[1] + ')$';
+							pattern  = new RegExp([projCode, orgCode, roleCode].join(':'), 'gi');
+							break;
+						default:
+							pattern = new RegExp('^' + role + '$');
+							break;
+					}
+					
+					if (Authentication.user.roles !== undefined) {
+						_.each(Authentication.user.roles, function(r) {
+							if (r.match(pattern)) {
+								allowed = true;
+								return true;
+							}
+						});
 					} else if (role === 'public') {
 						allowed = true;
 						return true;

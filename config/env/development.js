@@ -64,13 +64,9 @@ module.exports = {
     failedOnMissing: process.env.TOKEN_ON_MISSING || false
   },
   mailer: {
-    from: process.env.MAILER_FROM || '"EAO Project" <eao.project.2016@gmail.com>',
+    from: process.env.MAILER_FROM || '"EAO Project DEVELOPMENT System" <dev-noreply@projects.eao.gov.bc.ca>',
     options: {
-      service: process.env.MAILER_SERVICE_PROVIDER || 'gmail',
-      auth: {
-        user: process.env.MAILER_EMAIL_ID || 'eao.project.2016@gmail.com',
-        pass: process.env.MAILER_PASSWORD || '3a0pr0j3ct'
-      }
+      port: 1025
     }
   },
   livereload: true,

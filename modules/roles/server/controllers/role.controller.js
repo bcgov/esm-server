@@ -93,8 +93,38 @@ var getSystemRoles = function (req) {
 var getFullRolesForProject = function(req) {
 	var user = req.user;
 	var project = req.Project;
-	var roleCodes = project.roles;
-	var q = {projectCode: project.code};
+	var orgCodes = [];
+	var isEao = _.includes(req.user.roles, 'admin');
+	var isPro = _.includes(req.user.roles, 'admin');
+
+	// what org codes can this user get roles for?
+	if (!isEao) {
+		var eaoPattern = new RegExp('^(' + project.code + '):(eao):[a-zA-Z0-9\-]+', 'g');
+		_.each(req.user.roles, function(role) {
+					if (role.match(eaoPattern)) {
+						isEao = true;
+						return true;
+					}
+		});
+	}
+	if (!isPro) {
+		var proPattern = new RegExp('^(' + project.code + '):(pro):[a-zA-Z0-9\-]+', 'g');
+		_.each(req.user.roles, function(role) {
+			if (role.match(proPattern)) {
+				isPro = true;
+				return true;
+			}
+		});
+	}
+	if (isEao) {
+		orgCodes.push('eao');
+	}
+	if (isPro) {
+		orgCodes.push('pro');
+	}
+
+	var q = {projectCode: project.code, orgCode : {$in: orgCodes} };
+
 	if (!_.isEmpty(req.query)) {
 		_.merge(q, JSON.parse(JSON.stringify(req.query)));
 	}

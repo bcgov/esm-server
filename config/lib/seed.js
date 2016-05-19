@@ -125,7 +125,7 @@ checkIntegration ('loadconditions2').then (function () {
 // artifact types
 //
 // -------------------------------------------------------------------------
-checkIntegration ('loadartifacts37').then (function () {
+checkIntegration ('loadartifacts52').then (function () {
 	require('../seed-data/loadartifacts')();
 });
 // -------------------------------------------------------------------------
@@ -208,6 +208,10 @@ checkIntegration ('sysroles2').then (function () {
 
 checkIntegration ('sysroles2x1').then (function () {
 	require('../seed-data/loadroles').sysroles2();
+});
+
+checkIntegration ('sysroles3').then (function () {
+	require('../seed-data/loadroles').sysroles3();
 });
 
 // // check to see if the seed import executes

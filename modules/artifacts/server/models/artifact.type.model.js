@@ -12,6 +12,7 @@ module.exports = mongoose.model ('ArtifactType', new mongoose.Schema ({
 	name            : { type:String, default:''},
 	initiator       : { type:String, default:'EAO', enum:['EAO','Proponent'] },
 	isTemplate      : { type:Boolean, default:true },
+	isArtifactCollection : { type:Boolean, default: false },
 	isDocument      : { type:Boolean, default:false },
 	multiple        : { type:Boolean, default:false },
 	versions        : [{ type:String }],

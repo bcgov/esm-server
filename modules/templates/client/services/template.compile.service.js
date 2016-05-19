@@ -206,6 +206,9 @@ angular.module('templates')
 			//
 			// -------------------------------------------------------------------------
 			ensureData: function (document) {
+				// Safety Check
+				if (!document)
+					return document;
 				_.each (this.sections, function (section) {
 					// if (!section.optional) {
 						if (section.multiple) {

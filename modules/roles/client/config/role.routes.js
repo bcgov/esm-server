@@ -16,7 +16,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 		abstract: true,
 		template: '<ui-view></ui-view>',
 		onEnter: function (MenuControl, project) {
-			MenuControl.routeAccessBuilder ('admin', project.code, '*', '*');
+			MenuControl.routeAccessBuilder (['admin'], project.code, '*', ['project-lead', 'project-intake', 'pro:admin', 'pro:member', 'sub']);
 		}
 	})
 	.state('p.roles.list', {
@@ -123,11 +123,17 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 				},
 				roleUsers: function($stateParams, RoleModel) {
 					return RoleModel.getUsersForRole ($stateParams.roleCode);
+				},
+				allUsers: function(RoleModel) {
+					return RoleModel.getAllUsers();
 				}
 			},
-			controller: function ($scope, $state, NgTableParams, project, role, roleUsers, RoleModel) {
+			controller: function ($scope, $state, NgTableParams, project, role, roleUsers, allUsers, RoleModel) {
 				$scope.role = role;
 				$scope.users = roleUsers.users;
+				
+				$scope.allUsers = allUsers;
+				
 				$scope.tableParams = new NgTableParams ({count:10}, {dataset: roleUsers.users});
 
 				$scope.isEdit = true;
@@ -190,7 +196,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.roles.create', {
-		data: {roles: ['admin','edit-sys-roles']},
+		data: {roles: ['admin']},
 		url: '/create',
 		templateUrl: 'modules/roles/client/views/role-edit.html',
 		resolve: {
@@ -231,7 +237,7 @@ angular.module('roles').config(['$stateProvider', function ($stateProvider) {
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.roles.edit', {
-		data: {roles: ['admin','edit-sys-roles']},
+		data: {roles: ['admin']},
 		url: '/:roleCode/edit',
 		templateUrl: 'modules/roles/client/views/role-edit.html',
 		resolve: {

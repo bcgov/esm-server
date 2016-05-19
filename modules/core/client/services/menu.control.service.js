@@ -18,7 +18,15 @@ angular.module('core').service ('MenuControl', ['Authentication', '$state', '$ht
 		if (roleCodes) {
 			var rc = _.isArray(roleCodes) ? roleCodes : [roleCodes];
 			_.each(rc, function (c) {
-				allowedArray.push({projectCode: projectCode, orgCode: orgCode, roleCode: c});
+				
+				// little twist here...
+				// the roleCode may be (eao|pro):roleCode, so let's split that up
+				if (_.includes(c, ':')) {
+					var oc = c.split(':');
+					allowedArray.push({projectCode: projectCode, orgCode: oc[0], roleCode: oc[1]});
+				} else {
+					allowedArray.push({projectCode: projectCode, orgCode: orgCode, roleCode: c});
+				}
 			});
 		}
 		return allowedArray;
@@ -80,7 +88,7 @@ angular.module('core').service ('MenuControl', ['Authentication', '$state', '$ht
 
 		_.each(allowedArray, function(a) {
 			if (a.systemRoleCode) {
-				roles.push(new RegExp('^' + a.systemRoleCode + '$', 'g'));
+				roles.push(new RegExp('^' + a.systemRoleCode + '$', 'gi'));
 			} else {
 				// if nothing is set, don't bother...
 				if (a.projectCode || a.orgCode || a.roleCode) {
@@ -97,7 +105,7 @@ angular.module('core').service ('MenuControl', ['Authentication', '$state', '$ht
 							projectPattern = '^(' + a.projectCode + ')';
 						}
 						// we've specified an project, so include the project admin roles...
-						roles.push(new RegExp([projectPattern, orgPattern, 'admin$'].join(':'), 'g'));
+						roles.push(new RegExp([projectPattern, orgPattern, 'admin$'].join(':'), 'gi'));
 					}
 
 					if (a.orgCode) {
@@ -106,7 +114,7 @@ angular.module('core').service ('MenuControl', ['Authentication', '$state', '$ht
 							orgPattern = '(' + a.orgCode + ')';
 						}
 						// we've specified an org, so include the project admin roles...
-						roles.push(new RegExp([projectPattern, orgPattern, 'admin$'].join(':'), 'g'));
+						roles.push(new RegExp([projectPattern, orgPattern, 'admin$'].join(':'), 'gi'));
 					}
 
 					if (a.roleCode && (!_.includes(allFilters, a.roleCode))) {
@@ -114,7 +122,7 @@ angular.module('core').service ('MenuControl', ['Authentication', '$state', '$ht
 							rolePattern = a.roleCode + '$';
 					}
 
-					roles.push(new RegExp([projectPattern, orgPattern, rolePattern].join(':'), 'g'));
+					roles.push(new RegExp([projectPattern, orgPattern, rolePattern].join(':'), 'gi'));
 				}
 			}
 		});

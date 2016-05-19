@@ -17,6 +17,7 @@ var PublicComments = mongoose.model('PublicComment');
 var CommentPeriods = mongoose.model('CommentPeriod');
 var list2 = require('./roledata2');
 var ProjectCtrl = require(require('path').resolve('./modules/projects/server/controllers/project.controller'));
+var RoleCtrl = require(require('path').resolve('./modules/roles/server/controllers/role.controller'));
 
 module.exports.sysroles = function () {
 	promise.resolve()
@@ -272,6 +273,68 @@ module.exports.sysroles2 = function () {
 		})
 		.then(function (data) {
 			console.log('12---------------------');
+			console.log('done with roles');
+		});
+
+};
+
+module.exports.sysroles3 = function () {
+
+	var findUserRole = new promise(function (fulfill, reject) {
+		Role.find({code: 'user'}, function (err, foundrole) {
+			//
+			// if it does not exist, then save the one we made
+			//
+			if (!foundrole || _.isEmpty(foundrole)) {
+				var r = new Role({
+					code: 'user',
+					projectCode: undefined,
+					orgCode: 'eao',
+					roleCode: 'user',
+					name: 'User',
+					isSystem: true,
+					isFunctional: false,
+					isProjectDefault: false
+				});
+				console.log('adding: ' + r.code);
+				fulfill(r.save());
+			} else {
+				_.merge(foundrole[0],{
+					code: 'user',
+					projectCode: undefined,
+					orgCode: 'eao',
+					roleCode: 'user',
+					name: 'User',
+					isSystem: true,
+					isFunctional: false,
+					isProjectDefault: false
+				});
+				console.log('updating: ' + foundrole[0].code);
+				fulfill(foundrole[0].save());
+			}
+		});
+	});
+
+	return promise.resolve(findUserRole)
+		.then(function (role) {
+			console.log('found user role = ' + role.code);
+			return new promise(function (fulfill, reject) {
+				Users.find({roles: {$nin: [role.code]}}, function (err, data) {
+					if (err) {
+						reject();
+					}
+					if (!data) {
+						fulfill(data);
+					} else {
+						console.log('users without user role count = ' + _.size(data));
+						fulfill(RoleCtrl.userRoles({method: 'add', roles: ['user'], users: data }));
+					}
+				});
+			});
+		})
+		.then(function (users) {
+			//
+			console.log('updated users count = ' + _.size(users));
 			console.log('done with roles');
 		});
 

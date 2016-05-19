@@ -40,8 +40,8 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 			user: function (UserModel) {
 				return UserModel.getNew ();
 			},
-			orgs: function(OrgModel) {
-				return OrgModel.getCollection();
+			orgs: function(OrganizationModel) {
+				return OrganizationModel.getCollection();
 			}
 		},
 		controller: function ($scope, $state, user, orgs, UserModel, $filter, SALUTATIONS) {
@@ -86,8 +86,8 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 			user: function ($stateParams, UserModel) {
 				return UserModel.getModel ($stateParams.userId);
 			},
-			orgs: function(OrgModel) {
-				return OrgModel.getCollection();
+			orgs: function(OrganizationModel) {
+				return OrganizationModel.getCollection();
 			}
 		},
 		controller: function ($scope, $state, user, orgs, UserModel, $filter, SALUTATIONS) {

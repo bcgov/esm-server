@@ -8,7 +8,6 @@
 			<div class="col-sm-12">
 				<div class="form-inline text-right">
 					<a class="btn btn-sm btn-link" ui-sref="p.detail">Cancel</a>
-					<a class="btn btn-sm btn-link" ng-click="remove()">Remove</a>
 					<a class="btn btn-sm btn-link" ng-click="save()">Save</a>
 					<a class="btn btn-sm btn-link" ng-click="saveas()">Save As</a>
 					<select ng-model="version" class="input-sm" ng-options="v as v for v in artifact.artifactType.versions"></select>
@@ -19,6 +18,13 @@
 
 		<!-- <div ng-include="'/modules/artifacts/client/views/partial.artifact-edit.html'"></div> -->
 
+		<!-- If it's an artifact collection, lets show the 'add artifact to this artifact' UI. -->
+		<div ng-if="artifact.isArtifactCollection">
+			<a href x-artifact-vc x-current="artifact" x-project="project">
+            +/- Link Artifacts
+        	</a>
+		</div>
+
 		<tmpl-artifact-display x-mode="'edit'" x-artifact="artifact" x-project="project"></tmpl-artifact-display>
 
 		<div ng-include="'/modules/artifacts/client/views/partial.artifact-notes.html'"></div>
@@ -28,6 +34,7 @@
 		<div class="form-footer clearfix">
 			<div class="pull-right">
 				<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
+				<a class="btn btn-default" ng-click="remove()">Remove</a>
 				<a class="btn btn-default" ng-click="save()">Save</a>
 				<a class="btn btn-default" ng-click="saveas()">Save As</a>
 				<select class="form-control" ng-model="version" ng-options="v as v for v in artifact.artifactType.versions"></select>

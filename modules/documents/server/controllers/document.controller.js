@@ -139,6 +139,21 @@ exports.getDocumentsForProjectAndReturn = getDocumentsForProjectAndReturn;
 // getDocumentTypesForProject
 //
 // -------------------------------------------------------------------------
+var getSortOrderForType = function (folderName) {
+	// console.log("folderName:",folderName);
+	switch(folderName) {
+		case "Permit & Applications":
+			return 1;
+		case "Inspection Reports":
+			return 2;
+		case "Geotechnical Reports":
+			return 3;
+		case "Site Monitoring & Activities (including Reclamation)":
+			return 4;
+		default:
+			return 5;
+	}
+};
 var getDocumentTypesForProject = function (req, res) {
 	return new Promise (function (resolve, reject) {
 		// console.log("getDocumentTypesForProject: Project ID:",req.params.projectid);
@@ -151,7 +166,7 @@ var getDocumentTypesForProject = function (req, res) {
 				{existsdocumentIsInReview: req.headers.reviewdocsonly || false},
 				{existsdocumentIsInReview: {$exists: false }}
 			]})
-			.sort ({projectFolderType : 1})
+			.sort ({projectFolderType : 1, projectFolderSubType: -1, projectFolderName: 1})
 			.populate('projectID').exec( function (err, records) {
 			if (err) {
 				// console.log("getDocumentTypesForProject failed to find anything",err);
@@ -213,17 +228,19 @@ var getDocumentTypesForProject = function (req, res) {
 						var depth1 = tsKey.projectFolderType;
 						// console.log(depth1);
 						if (depth1 && depth1 !== '') {
-							flattendList.push({'label': tsKey.projectFolderType, 'depth': 1, 'reference': 'projectFolderType', 'lineage':{'projectFolderType':depth1} });
+							// Sorting the list - applies to MEM only.
+							var order = getSortOrderForType(tsKey.projectFolderType);
+							flattendList.push({'order': order, 'label': tsKey.projectFolderType,'depth': 1, 'reference': 'projectFolderType', 'lineage':{'projectFolderType':depth1} });
 							tsKey.projectFolderSubTypeObjects.forEach(function(subObjects) {
 								var depth2 = subObjects.projectFolderSubType;
 							//  // console.log(depth2);
 								if (depth2 && depth2 !== '') {
-									flattendList.push({'label': depth2, 'depth': 2, 'reference': 'projectFolderSubType', 'lineage':{'projectFolderType':depth1, 'projectFolderSubType':depth2} });
+									flattendList.push({'order': order, 'label': depth2, 'depth': 2, 'reference': 'projectFolderSubType', 'lineage':{'projectFolderType':depth1, 'projectFolderSubType':depth2} });
 									subObjects.projectFolderNames.forEach(function(labels) {
 										var depth3 = labels;
 										// console.log(depth3);
 										if (depth3 && depth3 !== '') {
-											flattendList.push({'label': depth3, 'depth': 3, 'reference': 'projectFolderName', 'lineage':{'projectFolderType':depth1, 'projectFolderSubType':depth2, 'projectFolderName':depth3 } });
+											flattendList.push({'order': order, 'label': depth3, 'depth': 3, 'reference': 'projectFolderName', 'lineage':{'projectFolderType':depth1, 'projectFolderSubType':depth2, 'projectFolderName':depth3 } });
 										}
 									});
 								}
@@ -399,19 +416,23 @@ var importDocument = function (doc, req) {
 				if (null === mo) {
 					// Don't do anything
 					// console.log("No existing documents found.  Inserting normally.");
+					doc.dateUpdated  = Date.now ();
+					doc.updatedBy    = (req.user) ? req.user._id : null;
+					doc.save ().then (resolve, reject);
 				} else {
 					// Bump version, this is new!
 					// console.log("Found existing document.  Making old version !latest.");
 					doc.documentVersion = mo.documentVersion + 1;
-					doc.save();
-					mo.documentIsLatestVersion = false;
-					mo.save();
+					doc.save()
+					.then(function (saved) {
+						// console.log("saved:",saved);
+						mo.documentIsLatestVersion = false;
+						mo.save()
+						.then(resolve, reject);
+					});
 				}
 			}
 		});
-		doc.dateUpdated  = Date.now ();
-		doc.updatedBy    = (req.user) ? req.user._id : null;
-		doc.save ().then (resolve, reject);
 	});
 };
 // -------------------------------------------------------------------------

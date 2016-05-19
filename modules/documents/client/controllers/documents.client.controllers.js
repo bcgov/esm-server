@@ -123,6 +123,8 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 				Document.getProjectDocumentMEMTypes(newValue._id, false).then( function(res) {
 					// console.log("getProjectDocumentMEMTypes",res.data);
 					docUpload.docTypes = res.data;
+					// First result is default
+					docUpload.typeName = docUpload.docTypes[0];
 				});
 				Document.getProjectDocumentSubTypes(newValue._id, false).then( function(res) {
 					// console.log("getProjectDocumentSubTypes",res.data);
@@ -372,10 +374,30 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 	// -----------------------------------------------------------------------------------
 	docBrowser.refresh = function() {
 		Document.getProjectDocuments(docBrowser.project._id, $scope.approvals).then( function(res) {
-			docBrowser.documentFiles	= res.data;
+			if (ENV === 'MEM') {
+				// Apply slightly different sort criteria on the client side.
+				// Do a substring date search on the internalOriginalName field.
+				var docs = [];
+				var re =/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
+				angular.forEach( res.data, function(item) {
+					var sortDate = re.exec(item.internalOriginalName);
+					if (sortDate)
+						item.sortDate = sortDate[0];
+					docs.push(item);
+				});
+				docBrowser.documentFiles = _.sortByOrder(docs, "sortDate", "desc");
+			} else {
+				docBrowser.documentFiles = res.data;
+			}
 		});
 		Document.getProjectDocumentTypes(docBrowser.project._id, $scope.approvals).then( function(res) {
-			docBrowser.docTypes	= res.data;
+			if (ENV === 'MEM') {
+				// console.log("list:",res.data)
+				var sorted = _.sortBy(res.data, "order");
+				docBrowser.docTypes	= sorted;
+			} else {
+				docBrowser.docTypes	= res.data;
+			}
 		});
 		PhaseModel.phasesForProject(docBrowser.project._id)
 		.then (function (res) {

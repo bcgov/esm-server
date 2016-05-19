@@ -152,9 +152,13 @@ function serviceDocument($http) {
                       headers: {'reviewDocsOnly': reviewDocsOnly} });
     };
     var getProjectDocumentMEMTypes = function(projectId, reviewDocsOnly) {
-        return $http({method:'GET',
-                      url: '/api/documents/memtypes/' + projectId,
-                      headers: {'reviewDocsOnly': reviewDocsOnly} });
+        return new Promise (function (resolve, reject) {
+            var obj = {data: ["Permit & Applications",
+                              "Inspection Reports",
+                              "Geotechnical Reports",
+                              "Site Monitoring & Activities (including Reclamation)"]};
+            resolve(obj);
+        });
     };
     var getProjectDocumentSubTypes = function(projectId, reviewDocsOnly) {
         return $http({method:'GET',

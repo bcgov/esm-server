@@ -1,7 +1,7 @@
 
 var artifacttypes = [{
     name: 'Valued Component',
-    multiple: true,
+    multiple: false,
     code: 'valued-component',
     milestone: 'valued-component',
     versions : [
@@ -11,6 +11,33 @@ var artifacttypes = [{
         'Final Draft (DAIR)',
         'Final (AIR)'
     ]
+},{
+    name: 'Valued Component Package',
+    multiple: false,
+    isTemplate: false,
+    isArtifactCollection: true,
+    isDocument: false,
+    code: 'valued-component-package',
+    milestone: 'valued-component-package',
+    versions : [
+        'Final'
+    ],
+    stages: [{
+        name: 'Edit',
+        next: 'Decision',
+        prev: '',
+        activity: 'edit'
+    },{
+        name: 'Decision',
+        next: 'Publishing',
+        prev: 'Edit',
+        activity: 'decision'
+    },{
+        name: 'Publishing',
+        next: '',
+        prev: 'Decision',
+        activity: 'publish'
+    }]
 },{
     name: 'Project Description',
     code: 'project-description',
@@ -96,6 +123,60 @@ var artifacttypes = [{
     name: 'Schedule A',
     milestone: 'schedule-a',
     code: 'schedule-a',
+    multiple: false,
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
+    name: 'Section 34 Order',
+    milestone: 'section-34-order',
+    code: 'section-34-order',
+    multiple: false,
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
+    name: 'Section 36 Order',
+    milestone: 'section-36-order',
+    code: 'section-36-order',
+    multiple: false,
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
+    name: 'Section 36 Schedule A',
+    milestone: 'section-36-schedule-a',
+    code: 'section-36-schedule-a',
+    multiple: false,
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
+    name: 'Section 36 Schedule B',
+    milestone: 'section-36-schedule-b',
+    code: 'section-36-schedule-b',
+    multiple: false,
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
+    name: 'Inspection Report',
+    milestone: 'inspection-report',
+    code: 'inspection-report',
+    multiple: true,
+    versions : [
+        'Draft',
+        'Final'
+    ]
+},{
+    name: 'Environmental Assessment Certificate',
+    milestone: 'environmental-assessment-certificate',
+    code: 'environmental-assessment-certificate',
     multiple: false,
     versions : [
         'Draft',

@@ -6,8 +6,6 @@ angular.module('organizations').run(['Menus','MenuControl',
 			title: 'Organizations',
 			state: 'admin.organization.list',
 			roles: MenuControl.menuRolesBuilder (['admin','eao'])
-			// roles: ['sally']
-			// roles: MenuControl.menuAccess ('organization')
 		});
 	}
 ]);
