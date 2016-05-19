@@ -106,7 +106,7 @@ angular.module ('vcs')
 							ArtifactModel.newFromType('valued-component', $scope.project._id)
 							.then( function (art) {
 								art.name = obj.name;
-								art.valuedComponents.push(m._id);
+								art.valuedComponents.push(m);
 								return ArtifactModel.saveModel(art);
 							})
 							.then( function (art) {

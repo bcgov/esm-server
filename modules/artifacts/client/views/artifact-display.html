@@ -25,9 +25,10 @@
 		</div>
 		<div class="panel-body">
 			<div class="file-horiz">
-				<span class="glyphicon glyphicon-list-alt"></span>
 				<!-- These need to be built out as an array of VC's attached to this artifact -->
-				{{ artifact.valuedComponents }}
+				<div class="panel panel-info" ng-repeat="o in artifact.valuedComponentsAvailable" ui-sref="p.artifact.view({artifactId:o.artifactID})" class="clickable">
+					<div>{{ o.name }}</div>
+				</div>
 			</div>
 		</div>
 	</div>

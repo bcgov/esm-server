@@ -17,7 +17,7 @@ var _                  = require ('lodash');
 module.exports = DBModel.extend ({
 	name : 'Artifact',
 	plural : 'artifacts',
-	populate : 'artifactType template document',
+	populate : 'artifactType template document Vc',
 	bind: ['getCurrentTypes'],
 	getForProject: function (projectid) {
 		return this.list ({project:projectid},{name:1, version:1, stage:1, isPublished:1, userPermissions:1});
@@ -30,7 +30,7 @@ module.exports = DBModel.extend ({
 	// We want to specifically get these types
 	getForProjectType: function (projectid, type) {
 		return this.list ({project:projectid, typeCode: type },
-						  {name:1, version:1, stage:1, isPublished:1, userPermissions:1, valuedComponents: 1});
+						  {name:1, version:1, stage:1, isPublished:1, userPermissions:1});
 	},
 	// -------------------------------------------------------------------------
 	//

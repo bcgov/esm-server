@@ -18,6 +18,13 @@
 
 		<!-- <div ng-include="'/modules/artifacts/client/views/partial.artifact-edit.html'"></div> -->
 
+		<!-- If it's an artifact collection, lets show the 'add artifact to this artifact' UI. -->
+		<div ng-if="artifact.isArtifactCollection">
+			<a href x-artifact-vc x-current="artifact" x-project="project">
+            +/- Link Artifacts
+        	</a>
+		</div>
+
 		<tmpl-artifact-display x-mode="'edit'" x-artifact="artifact" x-project="project"></tmpl-artifact-display>
 
 		<div ng-include="'/modules/artifacts/client/views/partial.artifact-notes.html'"></div>
