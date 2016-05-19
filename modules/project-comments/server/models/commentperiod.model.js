@@ -30,9 +30,9 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	//
 	// these three define the target of this period
 	//
-	artifact         : { type:'ObjectId', ref:'Artifact' },
-	artifactVersion  : { type:String, default: '' },
-	artifactVersionNumber  : { type:String, default:'',  index:true},
+	artifact              : { type:'ObjectId', ref:'Artifact' },
+	artifactVersion       : { type:String, default: '' },
+	artifactVersionNumber : { type:String, default:'',  index:true},
 	//
 	// these are surfaced for query optimization
 	//
@@ -64,11 +64,19 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	//
 	// these are specific to public comments
 	//
+	//
 	// -------------------------------------------------------------------------
-	publishedPercent : { type:Number, default:0.0 },
-	isVetted        : { type:Boolean, default:false },
-	vettedPercent : { type:Number, default:0.0 },
-	isClassified        : { type:Boolean, default:false },
+	//
+	// has teh entire set of comments been published ?
+	// note: isPublished is already present because of __access
+	//
+	publishedPercent  : { type:Number, default:0.0 },
+	//
+	// has entire set of comments
+	//
+	isVetted          : { type:Boolean, default:false },
+	vettedPercent     : { type:Number, default:0.0 },
+	isClassified      : { type:Boolean, default:false },
 	classifiedPercent : { type:Number, default:0.0 }
 },
 {
