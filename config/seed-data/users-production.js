@@ -11,6 +11,10 @@ module.exports = function () {
 	User.find({username: 'admin'}, function (err, users) {
 		if (users.length === 0) {
 			var password = crypto.randomBytes(64).toString('hex').slice(1, 8);
+			if (process.env.ADMINPW) {
+				// console.log("Overriding generated password: ",process.env.ADMINPW);
+				password = process.env.ADMINPW;
+			}
 			var user = new User ({
 				username    : 'admin',
 				password    : password,
@@ -27,7 +31,7 @@ module.exports = function () {
 				if (err) {
 					console.log('Failed to add local admin', err);
 				} else {
-					console.log(chalk.bold.red('Local admin added with password set to ' + password));
+					console.log(chalk.bold.red('Local admin added.'));
 					var role = new Role ({
 						code     : 'admin',
 						isSystem : true,
