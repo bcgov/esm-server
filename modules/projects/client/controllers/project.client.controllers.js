@@ -177,9 +177,9 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 // Used.
 //
 // -----------------------------------------------------------------------------------
-controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', 'project', 'REGIONS', 'PROJECT_TYPES', '_', 'UserModel', 'ProjectModel', 'OrganizationModel', 'Authentication'];
+controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', 'project', 'REGIONS', 'PROJECT_TYPES', '_', 'UserModel', 'ProjectModel', 'OrganizationModel', 'Authentication', 'codeFromTitle'];
 /* @ngInject */
-function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS, PROJECT_TYPES, _, UserModel, ProjectModel, OrganizationModel, Authentication) {
+function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS, PROJECT_TYPES, _, UserModel, ProjectModel, OrganizationModel, Authentication, codeFromTitle) {
 
 	ProjectModel.setModel ($scope.project);
 
@@ -272,6 +272,11 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 		.catch (function (err) {
 			console.error ('error = ', err);
 		});
+	};
+
+	$scope.onChangeProjectName = function () {
+		// Calculate the new shortname
+		project.shortName = codeFromTitle(project.name);
 	};
 
 	// Submit the project for stream assignment.
