@@ -17,7 +17,7 @@ var _                  = require ('lodash');
 module.exports = DBModel.extend ({
 	name : 'Artifact',
 	plural : 'artifacts',
-	populate : 'artifactType template document Vc',
+	populate : 'artifactType template document valuedComponents',
 	bind: ['getCurrentTypes'],
 	getForProject: function (projectid) {
 		return this.list ({project:projectid},{name:1, version:1, stage:1, isPublished:1, userPermissions:1});

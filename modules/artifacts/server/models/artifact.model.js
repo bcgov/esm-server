@@ -68,7 +68,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	// this artifact may be tagged with various vcs, these need to be copied
 	// forward through all iterations
 	//
-	valuedComponents : [{ type:'ObjectId', ref:'ValuedComponent'}],
+	valuedComponents : [{ type:'ObjectId', ref:'Vc'}],
 	//
 	// reviews, comments, public comments, acceptance / rejection comments
 	//
