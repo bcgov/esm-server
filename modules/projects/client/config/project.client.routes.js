@@ -40,7 +40,16 @@ angular.module('project').config (
 			//
 			Menus.removeMenuItem('projectTopMenu', 'p.edit');
 			Menus.removeMenuItem('projectTopMenu', 'p.schedule');
+			Menus.removeMenuItem('projectTopMenu', 'p.comments');
 			Menus.removeMenuItem('projectTopMenu', 'p.enforcements');
+			Menus.removeMenuItem('projectMenu', 'p.documents');
+			Menus.removeMenuItem('projectMenu', 'p.invitations');
+			Menus.removeMenuItem('projectMenu', 'p.commentperiod.list');
+			Menus.removeMenuItem('projectMenu', 'p.complaint.list');
+			Menus.removeMenuItem('projectMenu', 'p.projectcondition.list');
+			Menus.removeMenuItem('projectMenu', 'p.ir.list');
+			Menus.removeMenuItem('projectMenu', 'p.roles.list');
+			Menus.removeMenuItem('projectMenu', 'p.vc.list');
 
 			Menus.addMenuItem('projectTopMenu', {
 				title: 'Edit Project',
@@ -66,15 +75,6 @@ angular.module('project').config (
 					roles: MenuControl.menuRolesBuilder (['user'], project.code, '*', '*')
 				});
 			}
-
-			Menus.removeMenuItem('projectMenu', 'p.documents');
-			Menus.removeMenuItem('projectMenu', 'p.invitations');
-			Menus.removeMenuItem('projectMenu', 'p.commentperiod.list');
-			Menus.removeMenuItem('projectMenu', 'p.complaint.list');
-			Menus.removeMenuItem('projectMenu', 'p.projectcondition.list');
-			Menus.removeMenuItem('projectMenu', 'p.ir.list');
-			Menus.removeMenuItem('projectMenu', 'p.roles.list');
-			Menus.removeMenuItem('projectMenu', 'p.vc.list');
 
 			Menus.addMenuItem('projectMenu', {
 				title: 'Documents',
