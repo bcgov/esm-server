@@ -209,11 +209,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.view', {
 		url: '/view',
 		templateUrl: 'modules/artifacts/client/views/artifact-view.html',
-		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Authentication) {
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Authentication, VcModel) {
 			$scope.authentication = Authentication;
-
-			// console.log ('artifact = ', artifact);
-			// artifact.artifactType = fix;
 			$scope.artifact = artifact;
 			$scope.project = project;
 		}

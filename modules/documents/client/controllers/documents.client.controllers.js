@@ -626,8 +626,12 @@ filterRemoveExtension.$inject = [];
 function filterRemoveExtension() {
 	return function(input) {
 		if (input) {
-			var filename = input.split('.');
-			return filename[0];
+			// If there is no extension, just return the original.
+			var index = input.lastIndexOf(".");
+			if (index !== -1) {
+				var filename = input.substring(0, index);
+				return filename;
+			}
 		}
 		return input;
 	};

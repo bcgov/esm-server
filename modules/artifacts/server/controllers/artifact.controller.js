@@ -17,20 +17,20 @@ var _                  = require ('lodash');
 module.exports = DBModel.extend ({
 	name : 'Artifact',
 	plural : 'artifacts',
-	populate : 'artifactType template document',
+	populate : 'artifactType template document valuedComponents',
 	bind: ['getCurrentTypes'],
 	getForProject: function (projectid) {
-		return this.list ({project:projectid},{name:1, version:1, stage:1, isPublished:1, userPermissions:1});
+		return this.list ({project:projectid},{name:1, version:1, stage:1, isPublished:1, userPermissions:1, valuedComponents:1});
 	},
 	// If we want artifacts that do not equal a certain type
 	getForProjectFilterType: function (projectid, filterType) {
 		return this.list ({project:projectid, typeCode: { $ne: filterType }},
-						  {name:1, version:1, stage:1, isPublished:1, userPermissions:1});
+						  {name:1, version:1, stage:1, isPublished:1, userPermissions:1, valuedComponents:1});
 	},
 	// We want to specifically get these types
 	getForProjectType: function (projectid, type) {
 		return this.list ({project:projectid, typeCode: type },
-						  {name:1, version:1, stage:1, isPublished:1, userPermissions:1, valuedComponents: 1});
+						  {name:1, version:1, stage:1, isPublished:1, userPermissions:1, valuedComponents:1});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -100,6 +100,11 @@ module.exports = DBModel.extend ({
 			// now add the milestone associated with this artifact
 			//
 			.then (function (m) {
+				// console.log("artifact type:",artifactType);
+				// Don't add milestones for artifacts of type 'valued-component'
+				if (artifactType.code === 'valued-component') {
+					return null;
+				}
 				var p = new MilestoneClass (self.user);
 				return p.fromBase (artifactType.milestone, project.currentPhase);
 			})
@@ -107,7 +112,10 @@ module.exports = DBModel.extend ({
 			// now set up and save the new artifact
 			//
 			.then (function (milestone) {
-				artifact.milestone = milestone._id;
+				// Happens when we skip adding a milestone.
+				if (milestone) {
+					artifact.milestone = milestone._id;
+				}
 				artifact.typeCode = artifactType.code;
 				artifact.name     = artifactType.name;
 				artifact.project  = project._id;

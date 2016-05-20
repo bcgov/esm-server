@@ -142,7 +142,7 @@ exports.getDocumentsForProjectAndReturn = getDocumentsForProjectAndReturn;
 var getSortOrderForType = function (folderName) {
 	// console.log("folderName:",folderName);
 	switch(folderName) {
-		case "Permit & Applications":
+		case "Permits & Applications":
 			return 1;
 		case "Inspection Reports":
 			return 2;
@@ -416,19 +416,23 @@ var importDocument = function (doc, req) {
 				if (null === mo) {
 					// Don't do anything
 					// console.log("No existing documents found.  Inserting normally.");
+					doc.dateUpdated  = Date.now ();
+					doc.updatedBy    = (req.user) ? req.user._id : null;
+					doc.save ().then (resolve, reject);
 				} else {
 					// Bump version, this is new!
 					// console.log("Found existing document.  Making old version !latest.");
 					doc.documentVersion = mo.documentVersion + 1;
-					doc.save();
-					mo.documentIsLatestVersion = false;
-					mo.save();
+					doc.save()
+					.then(function (saved) {
+						// console.log("saved:",saved);
+						mo.documentIsLatestVersion = false;
+						mo.save()
+						.then(resolve, reject);
+					});
 				}
 			}
 		});
-		doc.dateUpdated  = Date.now ();
-		doc.updatedBy    = (req.user) ? req.user._id : null;
-		doc.save ().then (resolve, reject);
 	});
 };
 // -------------------------------------------------------------------------

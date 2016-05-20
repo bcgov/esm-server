@@ -117,6 +117,7 @@ var checkUsers = function (sm, user, inviteUser) {
 		}
 		else if (!user && inviteUser) {
 			if (!_.isEmpty(inviteUser.userGuid) && (sm.userGuid !== inviteUser.userGuid)) {
+				console.log(chalk.green("checkUsers()... inviteUser.userGuid: '" + inviteUser.userGuid + "' sm.userGuid: '" + sm.userGuid + "'"));
 				reject(new Error('Invitation user does not match Signed in user.'));
 			} else {
 				// carry on with the invitation's user, will need to set siteminder fields...

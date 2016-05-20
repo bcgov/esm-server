@@ -1,18 +1,18 @@
 <section id="projects-view" class="public-home-view">
-	
+
 	<div class="view-content">
-		
+
 		<div class="left-panel hidden" id="main-side-section" ng-if="authentication.user">
 			<tmpl-system-menu x-menu-context="'projects'"></tmpl-system-menu>
 		</div>
-		
+
 		<div class="main-panel">
-			
+
 			<!-- BEGIN: VIEW BODY CONTAINER -->
 			<div class="view-body-container">
-				
+
 				<ui-view id="main-content-section">
-					
+
 					<!-- BEGIN: MEM DECRIPTION PANEL -->
 					<div class="panel panel-default" ng-if="false" ng-show="environment === 'MEM' && !authentication.user">
 						<div class="panel-heading">
@@ -51,7 +51,7 @@
 							</tmpl-projects-map>
 						</div>
 					</div>
-					
+
 					<section>
 						<div class="row grid-view">
 							<div class="col-sm-12">
@@ -62,12 +62,12 @@
 							</div>
 						</div>
 					</section>
-					
+
 				</ui-view>
 			</div>
 			<!-- END: VIEW BODY CONTAINER -->
-			
+			<a href ng-click="downloadcsv()">this</a>
 		</div>
 	</div>
-	
+
 </section>

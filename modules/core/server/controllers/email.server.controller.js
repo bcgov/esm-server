@@ -4,7 +4,8 @@ var _ = require ('lodash'),
   path = require('path'),
   config = require(path.resolve('./config/config')),
   nodemailer = require('nodemailer'),
-  transporter = nodemailer.createTransport(config.mailer.options);
+  transporter = nodemailer.createTransport(config.mailer.options),
+  chalk         = require('chalk');
 
 var mongoose = require('mongoose'),
   User = mongoose.model('User'),
@@ -88,16 +89,20 @@ var recipient = function(user) {
 
 var doSendEmail = function(subject, body, fromUser, toUser) {
   return new Promise(function(fulfill, reject) {
-    var mailOptions = {
-      to: recipient(toUser),
+    var recipient = recipient(toUser);
+      var mailOptions = {
+      to: recipient,
       from: config.mailer.from,
       subject: subject,
       text: body,
       html: body
     };
 
+    console.log(chalk.bold.red('Sending email to recipient ' + recipient + ' using mailer options' + config.mailer.options));
+
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
+        console.log(chalk.bold.red('Failed to send email to recipient ' + recipient + ' using mailer options' + config.mailer.options));
         reject(new Error(error.toString()));
       } else {
         fulfill(info);

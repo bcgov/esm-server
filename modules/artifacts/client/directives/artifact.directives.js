@@ -116,5 +116,57 @@ angular.module('artifacts')
 		}
 	};
 })
-
+.directive ('artifactVc', function ($modal, ArtifactModel, _, VcModel) {
+	return {
+		restrict: 'A',
+		scope: {
+			project: '=',
+			artifact: '=',
+			current: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function () {
+				$modal.open ({
+					animation: true,
+					templateUrl: 'modules/artifacts/client/views/artifact-vc.html',
+					controllerAs: 's',
+					size: 'md',
+					resolve: {
+						artifacts: function (ArtifactModel) {
+							// console.log("resolving artifacts");
+							return ArtifactModel.forProjectGetType (scope.project._id, "valued-component");
+						}
+					},
+					controller: function ($scope, $modalInstance, artifacts) {
+						var s = this;
+						s.artifacts = artifacts;
+						// console.log("current:",scope.current);
+						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
+						s.ok = function () {
+							// Selected artifact is: 
+							// console.log("Selected:",s.selected);
+							$modalInstance.close (s.selected);
+						};
+					}
+				})
+				.result.then (function (data) {
+					// References the selected id of the VC artifact to add to the VC package
+					// console.log("vc id:",data);  
+					ArtifactModel.lookup(data)
+					.then( function (vcartifact) {
+						// console.log("artifactvc:",vcartifact);
+						var vc = vcartifact.valuedComponents[0];
+						var found = _.find(scope.current.valuedComponents, function (item) {
+							return item.artifact === data;
+						});
+						if (!found) {
+							scope.current.valuedComponents.push(vc);
+						}
+					});
+				})
+				.catch (function (err) {});
+			});
+		}
+	};
+})
 ;

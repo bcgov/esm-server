@@ -17,18 +17,15 @@ function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter) {
 	mpl.layers = {};
 	mpl.markers = [];
 
-	// The "then" callback function provides the google.maps object.
-	uiGmapGoogleMapApi.then(function(maps) {
-		mpl.map = {
-			center: mpl.center,
-			zoom: 5,
-			options: {
-				scrollwheel: false,
-				minZoom: 4
-			},
-			markers: mpl.projectFiltered // array of models to display
-		};
-	});
+	mpl.map = {
+		center: mpl.center,
+		zoom: 5,
+		options: {
+			scrollwheel: false,
+			minZoom: 4
+		},
+		markers: mpl.projectFiltered // array of models to display
+	};
 
 	$scope.$watch('showPoint', function(newValue){
 		if (newValue) {

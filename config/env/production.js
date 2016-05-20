@@ -65,7 +65,11 @@ module.exports = {
   mailer: {
     from: process.env.MAILER_FROM || '"BC Environmental Assessment Office" <noreply@projects.eao.gov.bc.ca>',
     options: {
-      host: 'apps.smtp.gov.bc.ca'
+      name: 'projects.eao.gov.bc.ca',
+      host: 'apps.smtp.gov.bc.ca',
+      tls: {
+        rejectUnauthorized: false
+      }
     }
   },
   seedDB: process.env.MONGO_SEED || true
