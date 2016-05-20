@@ -119,7 +119,7 @@ var checkUsers = function (sm, user, inviteUser) {
 			if (!_.isEmpty(inviteUser.userGuid) && (sm.userGuid !== inviteUser.userGuid)) {
 				console.log(chalk.green("checkUsers()... inviteUser.userGuid: '" + inviteUser.userGuid + "' sm.userGuid: '" + sm.userGuid + "'"));
 				// auto-assigned guid - we can carry on in this case...
-				if (inviteUser.userGuid.startsWith("esm-")) {
+				if (inviteUser.userGuid.lastIndexOf("esm-", 0) == 0) {
 					console.log(chalk.green("checkUsers()...detected auto-assigned userGuid...proceeding with SiteMinder account linking..."));
 					fulfill(inviteUser);
 				} else {
