@@ -120,9 +120,9 @@ var artifacttypes = [{
         'Final'
     ]
 },{
-    name: 'Schedule A',
-    milestone: 'schedule-a',
-    code: 'schedule-a',
+    name: 'Section 11 Schedule A',
+    milestone: 'section-11-schedule-a',
+    code: 'section-11-schedule-a',
     multiple: false,
     versions : [
         'Draft',
