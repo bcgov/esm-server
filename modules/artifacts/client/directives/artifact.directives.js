@@ -150,24 +150,19 @@ angular.module('artifacts')
 					}
 				})
 				.result.then (function (data) {
-					// console.log("data:",data);  // References the selected VC to add to the VC package
-					if (scope.current.valuedComponents.indexOf(data) === -1) {
-						scope.current.valuedComponents.push(data);
-						var inst = null;
-						ArtifactModel.lookup(data)
-						.then( function (vcartifact) {
-							// console.log("artifactvc:",vcartifact);
-							inst = vcartifact;
-							return VcModel.lookup(vcartifact.valuedComponents[0]);
-						})
-						.then( function (vc) {
-							// console.log("vc:",vc);
-							// Temporarily apply artifactID so that when we click it we can modify the artifact
-							// and not the valued component object.s
-							vc.artifactInst = inst;
-							scope.current.valuedComponentsAvailable.push(vc);
+					// References the selected id of the VC artifact to add to the VC package
+					// console.log("vc id:",data);  
+					ArtifactModel.lookup(data)
+					.then( function (vcartifact) {
+						// console.log("artifactvc:",vcartifact);
+						var vc = vcartifact.valuedComponents[0];
+						var found = _.find(scope.current.valuedComponents, function (item) {
+							return item.artifact === data;
 						});
-					}
+						if (!found) {
+							scope.current.valuedComponents.push(vc);
+						}
+					});
 				})
 				.catch (function (err) {});
 			});

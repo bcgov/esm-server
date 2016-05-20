@@ -211,32 +211,6 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		templateUrl: 'modules/artifacts/client/views/artifact-view.html',
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Authentication, VcModel) {
 			$scope.authentication = Authentication;
-
-			artifact.valuedComponentsAvailable = [];
-
-			// console.log ('artifact = ', artifact);
-			if (artifact.typeCode === 'valued-component-package') {
-				// console.log("we're showing a collection of artifacts",artifact);
-				// Get the list of valued component descriptions and populate
-				_.each(artifact.valuedComponents, function (id) {
-					var inst = null;
-					ArtifactModel.lookup(id)
-					.then( function (vcartifact) {
-						// console.log("artifactvc:",vcartifact);
-						inst = vcartifact;
-						return VcModel.lookup(vcartifact.valuedComponents[0]);
-					})
-					.then( function (vc) {
-						// console.log("vc:",vc);
-						// Temporarily apply artifactID so that when we click it we can modify the artifact
-						// and not the valued component object.s
-						vc.artifactInst = inst;
-						artifact.valuedComponentsAvailable.push(vc);
-						$scope.$apply();
-					});
-				});
-			}
-			// artifact.artifactType = fix;
 			$scope.artifact = artifact;
 			$scope.project = project;
 		}

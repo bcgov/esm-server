@@ -20,17 +20,17 @@ module.exports = DBModel.extend ({
 	populate : 'artifactType template document valuedComponents',
 	bind: ['getCurrentTypes'],
 	getForProject: function (projectid) {
-		return this.list ({project:projectid},{name:1, version:1, stage:1, isPublished:1, userPermissions:1});
+		return this.list ({project:projectid},{name:1, version:1, stage:1, isPublished:1, userPermissions:1, valuedComponents:1});
 	},
 	// If we want artifacts that do not equal a certain type
 	getForProjectFilterType: function (projectid, filterType) {
 		return this.list ({project:projectid, typeCode: { $ne: filterType }},
-						  {name:1, version:1, stage:1, isPublished:1, userPermissions:1});
+						  {name:1, version:1, stage:1, isPublished:1, userPermissions:1, valuedComponents:1});
 	},
 	// We want to specifically get these types
 	getForProjectType: function (projectid, type) {
 		return this.list ({project:projectid, typeCode: type },
-						  {name:1, version:1, stage:1, isPublished:1, userPermissions:1});
+						  {name:1, version:1, stage:1, isPublished:1, userPermissions:1, valuedComponents:1});
 	},
 	// -------------------------------------------------------------------------
 	//
