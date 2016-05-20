@@ -142,7 +142,7 @@ exports.getDocumentsForProjectAndReturn = getDocumentsForProjectAndReturn;
 var getSortOrderForType = function (folderName) {
 	// console.log("folderName:",folderName);
 	switch(folderName) {
-		case "Permit & Applications":
+		case "Permits & Applications":
 			return 1;
 		case "Inspection Reports":
 			return 2;

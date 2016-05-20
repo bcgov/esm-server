@@ -69,57 +69,52 @@ controllerProjectsList.$inject = ['$scope', 'Authentication', '_', 'uiGmapGoogle
 /* @ngInject */
 function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $filter) {
 	var projectList = this;
-
-	// The "then" callback function provides the google.maps object.
-	uiGmapGoogleMapApi.then(function(maps) {
-		projectList.map = {
-			center: {
-				latitude: 54.726668,
-				longitude: -127.647621
-			},
-			zoom: 5,
-			options: {
-				scrollwheel: false,
-				minZoom: 4
-			},
-			markers: projectList.projectsFiltered, // array of models to display
-			markersEvents: {
-				click: function(marker, eventName, model) {
-					projectList.map.window.model = model;
-					projectList.map.window.show = true;
-				}
-			},
-			window: {
-				marker: {},
-				show: false,
-				closeClick: function() {
-					this.show = false;
-				},
-				options: {
-					// offset to fit the custom icon
-    					pixelOffset: new maps.Size(0, -35, 'px', 'px')
-				} // define when map is ready
-			},
-			clusterOptions: {
-				calculator : function(markers, numStyles) {
-					var changeAt = 500;
-					var index = 0;
-					var count = markers.length;
-					var dv = count;
-					while (dv !== 0) {
-						dv = parseInt(dv / changeAt, 10);
-						index++;
-					}
-					index = Math.min(index, numStyles);
-					return {
-						text: count,
-						index: index
-					};
-				}
+	projectList.map = {
+		center: {
+			latitude: 54.726668,
+			longitude: -127.647621
+		},
+		zoom: 5,
+		options: {
+			scrollwheel: false,
+			minZoom: 4
+		},
+		markers: projectList.projectsFiltered, // array of models to display
+		markersEvents: {
+			click: function(marker, eventName, model) {
+				projectList.map.window.model = model;
+				projectList.map.window.show = true;
 			}
-		};
-	});
-
+		},
+		window: {
+			marker: {},
+			show: false,
+			closeClick: function() {
+				this.show = false;
+			},
+			options: {
+				// offset to fit the custom icon
+					// pixelOffset: new maps.Size(0, -35, 'px', 'px')
+			} // define when map is ready
+		},
+		clusterOptions: {
+			calculator : function(markers, numStyles) {
+				var changeAt = 500;
+				var index = 0;
+				var count = markers.length;
+				var dv = count;
+				while (dv !== 0) {
+					dv = parseInt(dv / changeAt, 10);
+					index++;
+				}
+				index = Math.min(index, numStyles);
+				return {
+					text: count,
+					index: index
+				};
+			}
+		}
+	};
 
 	projectList.showInfoWindow = function(marker, event, model) {
 		$scope.infoWin = model;

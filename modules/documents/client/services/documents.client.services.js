@@ -153,7 +153,7 @@ function serviceDocument($http) {
     };
     var getProjectDocumentMEMTypes = function(projectId, reviewDocsOnly) {
         return new Promise (function (resolve, reject) {
-            var obj = {data: ["Permit & Applications",
+            var obj = {data: ["Permits & Applications",
                               "Inspection Reports",
                               "Geotechnical Reports",
                               "Site Monitoring & Activities (including Reclamation)"]};
