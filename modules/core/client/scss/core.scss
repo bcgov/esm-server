@@ -42,6 +42,7 @@ html {
 body {
 	min-height: 100%;
 	font-size: 1.4rem;
+	color: #494949;
 	-ms-overflow-style: scrollbar;
 }
 
@@ -1549,43 +1550,6 @@ div.dropdown-menu {
 }
 
 
-/* BUTTON BAR
------------------------------- */
-.button-bar {
-    padding-bottom: 1.5rem;
-}
-
-.button-bar.bottom {
-	padding-top: 1.5rem;
-	padding-bottom: 0;
-}
-
-
-/* BUTTONS
------------------------------- */
-.btn {
-	.glyphicon {
-		font-size: 1.4rem;
-		vertical-align: middle;
-		margin-top: -4px;
-	}
-	
-    .glyphicon + span {
-        margin-left: 0.5rem;
-    }
-}
-
-.back-btn {
-	font-weight: bold;
-	
-	.glyphicon {
-		margin-left: -1rem;
-		margin-right: 0.5rem;
-		font-size: 1.5rem;
-	}
-}
-
-
 /* PAGE LAYOUT
 ------------------------------ */
 $left-panel-width: 17rem;
@@ -1703,116 +1667,6 @@ $left-panel-width: 17rem;
 }
 
 
-/* ALERT (CUSTOM) 
------------------------------- */
-.alert-custom {
-	margin-bottom: 2.5rem;
-	padding: 1.5rem;
-	color: #FFF;
-	border-radius: 4px;
-	background: rgb(92, 184, 92);
-}
-
-
-/* BADGES
------------------------------- */
-.badge {
-    padding-bottom: 0.4rem;
-    border-radius: 0.4rem;
-    text-transform: uppercase;
-	padding: 0.5rem 1rem 0.4rem 1rem;
-	font-size: 1.2rem;
-	font-weight: normal;
-}
-.badge.success {
-    background: green;
-}
-
-
-/* LIST ARRAY
------------------------------- */ 
-.list-array-item {
-	margin-bottom: 0.2rem;
-	padding: 0.5rem 1rem;
-	font-size: 1.4rem;
-	line-height: 1.5rem;
-	background: #DDD;
-}
-
-.list-array-item.bg-primary {
-	background: #337ab7;
-}
-
-.list-array-item:last-child {
-	margin-bottom: 0;
-}
-
-
-/* MODAL OVERRIDES
------------------------------- */ 
-$modal-body-bg: #f7f8fa;
-
-.modal-header,
-.modal-footer {
-	padding: 1.25rem 2rem;
-	border: none;
-}
-
-.modal-header {
-	h3 {
-		font-weight: bold;
-	}
-	
-	.close {
-		margin-right: -1rem;
-		width: 3.4rem;
-		padding: 0.7rem;
-	}
-}
-
-.modal-footer {
-	padding: 1.5rem 2rem;
-	
-	.btn {
-		min-width: 8rem;
-	}
-}
-
-.modal-body {
-	padding: 2rem;
-	background: $modal-body-bg;
-}
-
-
-/* PANEL OVERRIDES 
------------------------------- */ 
-.panel-default {
-	border: 1px solid #DDD;
-	box-shadow: none;
-	
-	> .panel-heading {
-		padding: 1.25rem 1rem;
-		border: none;
-		background-image: none;
-		background-color: #EEE;
-		
-		.btn {
-			margin-top: -1rem;
-			margin-bottom: -1rem;
-		}
-	}
-	
-	h2 {
-		margin: 0;
-		display: block;
-		overflow: hidden;
-		font-size: 1.6rem;
-		font-weight: bold;
-		text-overflow: ellipsis;
-	}
-}
-
-
 /* STOP-GAP STYLING
    PRODUCT ARTIFACT DOCUMENT
 ------------------------------ */
@@ -1861,7 +1715,6 @@ $modal-body-bg: #f7f8fa;
     }
 }
 
-
 .document-block-header {
     padding: 1rem 0;
 
@@ -1905,13 +1758,11 @@ tmpl-header {
 }
 
 .left-panel {
-	display: none;
 	background: #f7f7f7;
 }
 
 @media (min-width: 1024px) {
 	.left-panel {
-		display: block;
 		flex: 0 0 $left-panel-width;
 	}
 }
@@ -1942,7 +1793,7 @@ $header-height-sm: 5.2rem;
 	min-height: $header-height-sm;
 	background-color: $corp-blue;
 	border-bottom: 2px solid $corp-gold;
-	box-shadow: 0 0 0.5rem #666;
+	box-shadow: 0 0 0.2rem #999;
 	
 	.navbar {
 		border: none;
@@ -1989,7 +1840,6 @@ $header-height-sm: 5.2rem;
 	}
 }
 
-
 @media (min-width: 480px ) {
 	.app-header {
 		.navbar-brand {
@@ -2000,7 +1850,6 @@ $header-height-sm: 5.2rem;
 		}
 	}
 }
-
 
 @media (min-width: 768px) {
 	.app-header {
@@ -2227,9 +2076,9 @@ $header-height-sm: 5.2rem;
 	}
 }
 
+
 /* BEGIN: UI COMPONENT STYLING
 ------------------------------------------------------------ */
-
 /* ACCORDION CONTROL
 ----------------------------- */
 .accordion {
@@ -2284,6 +2133,18 @@ $header-height-sm: 5.2rem;
 
 /* ALERTS
 ------------------------------ */
+.alert {
+	h2 {
+		font-size: 2.2rem;
+		margin: 0;
+	}
+	
+	.btn {
+		font-size: 1.6rem;
+		font-weight: bold;
+	}
+}
+
 .alert-danger {
 	color: #FFF;
 	background: $danger-bg;
@@ -2299,8 +2160,9 @@ $header-height-sm: 5.2rem;
 .alert-success {
 	color: #FFF;
 	background: $success-bg;
-	border: 1px solid $success-border;
+	border: 0 solid $success-border;
 }
+
 
 /* ATTACHMENTS 
 ------------------------------ */
@@ -2404,6 +2266,58 @@ $header-height-sm: 5.2rem;
 		opacity: 0;
 		filter: alpha(opacity=0);
 	}
+}
+
+
+/* BADGES
+------------------------------ */
+.badge {
+    padding-bottom: 0.4rem;
+    border-radius: 0.4rem;
+    text-transform: uppercase;
+	padding: 0.5rem 1rem 0.4rem 1rem;
+	font-size: 1.2rem;
+	font-weight: normal;
+}
+.badge.success {
+    background: green;
+}
+
+
+/* BUTTONS
+------------------------------ */
+.btn {
+	.glyphicon {
+		font-size: 1.4rem;
+		vertical-align: middle;
+		margin-top: -4px;
+	}
+	
+    .glyphicon + span {
+        margin-left: 0.5rem;
+    }
+}
+
+.back-btn {
+	font-weight: bold;
+	
+	.glyphicon {
+		margin-left: -1rem;
+		margin-right: 0.5rem;
+		font-size: 1.5rem;
+	}
+}
+
+
+/* BUTTON BAR
+------------------------------ */
+.button-bar {
+    padding-bottom: 1.5rem;
+}
+
+.button-bar.bottom {
+	padding-top: 1.5rem;
+	padding-bottom: 0;
 }
 
 
@@ -2691,11 +2605,94 @@ textarea {
 }
 
 
+/* LIST ARRAY
+------------------------------ */ 
+.list-array-item {
+	margin-bottom: 0.2rem;
+	padding: 0.5rem 1rem;
+	font-size: 1.4rem;
+	line-height: 1.5rem;
+	background: #DDD;
+}
+
+.list-array-item.bg-primary {
+	background: #337ab7;
+}
+
+.list-array-item:last-child {
+	margin-bottom: 0;
+}
+
+
+/* MODAL OVERRIDES
+------------------------------ */ 
+$modal-body-bg: #f7f8fa;
+
+.modal-header,
+.modal-footer {
+	padding: 1.25rem 2rem;
+	border: none;
+}
+
+.modal-header {
+	h3 {
+		font-weight: bold;
+	}
+	
+	.close {
+		margin-right: -1rem;
+		width: 3.4rem;
+		padding: 0.7rem;
+	}
+}
+
+.modal-footer {
+	padding: 1.5rem 2rem;
+	
+	.btn {
+		min-width: 8rem;
+	}
+}
+
+.modal-body {
+	padding: 2rem;
+	background: $modal-body-bg;
+}
+
+
+/* PANEL OVERRIDES 
+------------------------------ */ 
+.panel-default {
+	border: 1px solid #DDD;
+	box-shadow: none;
+	
+	> .panel-heading {
+		padding: 1.25rem 1rem;
+		border: none;
+		background-image: none;
+		background-color: #EEE;
+		
+		.btn {
+			margin-top: -1rem;
+			margin-bottom: -1rem;
+		}
+	}
+	
+	h2 {
+		margin: 0;
+		display: block;
+		overflow: hidden;
+		font-size: 1.6rem;
+		font-weight: bold;
+		text-overflow: ellipsis;
+	}
+}
+
+
 /* PICK LIST
 ------------------------------ */
 .pick-list {
 	display: block;
-	padding: 1px;
 	border-radius: 0;
 	
 	.btn {
@@ -2765,12 +2762,12 @@ hr {
 	border-top: 1px solid #DDD;
 }
 
-
 /* END: COMPONENTS
------------------------------- */
-/* BEGIN: VIEW/PAGE-SPECIFIC STYLING
 ------------------------------------------------------------ */
 
+
+/* BEGIN: VIEW/PAGE-SPECIFIC STYLING
+------------------------------------------------------------ */
 /* ARTIFACT VIEW
 ------------------------------ */
 .artifact-list-view {	
@@ -2922,16 +2919,17 @@ hr {
 			flex: 0 1 24rem;
 		}
 	}
+	
+	.projects-table {	
+		table-layout: fixed;
+		
+		.actions-col {
+			width: 11rem;
+			text-align: right;
+		}
+	}
 }
 
-.projects-table {	
-    table-layout: fixed;
-
-    th:last-child {
-        width: 10rem;
-        text-align: right;
-    }
-}
 
 /* DOCUMENTS VIEW 
 ------------------------------ */
@@ -3533,6 +3531,22 @@ section.project-info {
 		
 		.panel-heading h2 {
 			margin-top: 0.2rem;
+		}
+	}
+	
+	.projects-table {
+		.name-col {
+			width: 40%;
+		}
+	}
+}
+
+@media (min-width: 1024px) {
+	.public-home-view {
+		.projects-table {
+			.name-col {
+				width: 50%;
+			}
 		}
 	}
 }

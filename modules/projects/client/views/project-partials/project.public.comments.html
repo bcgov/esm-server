@@ -1,15 +1,18 @@
 <div class="public-comment-period-view">
     
     <div class="view-title-container">
-        <h1>Public Comment Periods</h1>
+        <h1>{{project.name}} &nbsp;&rsaquo;&nbsp; Public Comment Periods</h1>
     </div>
     
     <div class="view-body-container">
         
-        <button data-toggle="modal" data-target="#submitCommentModal">Test Comment Modal</button>
+        <div class="alert alert-success clearfix">
+            <h2 class="pull-left">Public Comment Period is Now Open!</h2>
+            <button class="btn btn-success pull-right" data-toggle="modal" data-target="#submitCommentModal">Submit a Comment - Click Here</button>
+        </div>
         
         <!-- PROTOTYPE PUBLIC ROW TEMPLATES  -->
-        <table ng-table="tableParams" show-filter="true" class="table table-striped table-hover">			
+        <table ng-table="tableParams" show-filter="true" class="table table-striped table-hover hidden">			
             <tr class="comment-row" data-toggle="modal" data-target="#commentDetailModal">
                 <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Posted by'" filter="{'name':'text'}" sortable="'name'">
                     <h2 class="comment-title">Anonymous</h2>
@@ -55,7 +58,7 @@
         </table><!-- / PROTOTYPE PUBLIC ROW TEMPLATES  -->
         
         <!-- PROTOTYPE EAO STAFF ROW TEMPLATES  -->
-        <table ng-table="tableParams" show-filter="true" class="table table-striped table-hover hidden">			
+        <table ng-table="tableParams" show-filter="true" class="table table-striped table-hover">			
             <tr class="comment-row" data-toggle="modal" data-target="#commentDetailModal">
                 <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Posted by'" filter="{'name':'text'}" sortable="'name'">
                     <h2 class="comment-title">Anonymous</h2>
@@ -135,7 +138,7 @@
                 </section>
                 
                 <!-- PILLARS & VC'S -->
-                <section class="pillers-vc">  
+                <section class="pillers-vc hidden">  
                     <!-- DISPLAY VALUES -->
                     <div class="pillers-vc-display hidden">
                         <div class="detail-row">
@@ -149,7 +152,7 @@
                     </div><!-- / DISPLAY VALUES --> 
                     <!-- PROPONENT ASSIGN -->
                     <div class="row">
-                        <div class="col-sm-12 col-md-6">
+                        <div class="col-sm-6">
                             <div class="detail-row">
                                 <label>Assign Pillars</label>
                                 <div class="pick-list panel panel-default" data-toggle="buttons">
@@ -165,17 +168,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-6">
+                        <div class="col-sm-6">
                             <div class="detail-row">
                                 <label>Assign Valued Components</label>
                                 <div class="pick-list panel panel-default" data-toggle="buttons">
-                                    <label class="btn btn-default active">
-                                        <input type="checkbox" autocomplete="off" checked>Valued Component 1
+                                    <label class="btn btn-default" title="Really Really Really Really Really Really Long Valued Component Name">
+                                        <input type="checkbox" autocomplete="off" checked>Really Really Really Really Really Really Long Valued Component Name
                                     </label>
-                                    <label class="btn btn-default">
+                                    <label class="btn btn-default" title="Valued Component 2">
                                         <input type="checkbox" autocomplete="off">Valued Component 2
                                     </label>
-                                    <label class="btn btn-default">
+                                    <label class="btn btn-default" title="Valued Component 1">
                                         <input type="checkbox" autocomplete="off">Valued Component 1
                                     </label>
                                 </div>
@@ -205,7 +208,7 @@
                         </div>
                     </div><!-- PUBLIC/PROPONENT -->
                     <!-- EAO ONLY -->
-                    <div class="detail-row hidden">
+                    <div class="detail-row">
                         <label>Attachments</label>
                         <ul class="attachments list-group">
                             <li class="list-group-item clearfix">
