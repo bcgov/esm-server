@@ -37,7 +37,14 @@
 					</li>
 				</ul>
 			</li>
-			<li ng-show="!authentication.user">
+			<li>
+				<a href ui-sref="guidance">
+					<span class="glyphicon glyphicon-question-sign"></span>
+					<span>GUIDANCE</span>
+				</a>
+			</li>
+			
+			<li class="user-menu" ng-show="!authentication.user">
 				<a ui-sref="authentication.signin">
 					<span class="glyphicon glyphicon-log-in"></span>
 					<span>LOG IN</span>
