@@ -18,7 +18,7 @@
 					<span>DASHBOARD</span>
 				</a>
 			</li>
-			<li ng-if="ENV === 'EAO'" class="dropdown" ng-if="systemMenu.shouldRender(authentication.user);">
+			<li ng-if="ENV === 'EAO' && authentication.user" class="dropdown" ng-if="systemMenu.shouldRender(authentication.user);">
 				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="System Configuration">
 					<span class="glyphicon glyphicon-cog"></span>
 					<span>SYSTEM</span>
