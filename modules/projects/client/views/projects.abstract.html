@@ -36,7 +36,7 @@
 					<!-- END: MEM DESCRIPTION PANEL -->
 
 					<div class="row">
-						<div class="col-sm-4" ng-init="form.expandnews = false">
+						<div class="col-xs-12 col-sm-6 col-md-4" ng-init="form.expandnews = false">
 							<div class="panel panel-default news-feed">
 								<div class="panel-heading"><h2>News & Announcements</h2></div>
 								<div class="panel-body">
@@ -44,29 +44,26 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-sm-8">
-							<tmpl-projects-map
-								id="anchor-map"
-								x-projects='projects'>
-							</tmpl-projects-map>
+						<div class="col-xs-12 col-sm-6 col-md-8">
+							<tmpl-projects-map id="anchor-map" x-projects='projects'></tmpl-projects-map>
 						</div>
 					</div>
 
-					<section>
-						<div class="row grid-view">
-							<div class="col-sm-12">
-								<tmpl-projects-list2
-									id="anchor-list"
-									x-projects="projects">
-								</tmpl-projects-list2>
-							</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<tmpl-projects-list2
+								id="anchor-list"
+								x-projects="projects">
+							</tmpl-projects-list2>
 						</div>
-					</section>
+					</div>
 
 				</ui-view>
 			</div>
 			<!-- END: VIEW BODY CONTAINER -->
+			
 			<a href ng-click="downloadcsv()">this</a>
+			
 		</div>
 	</div>
 

@@ -873,15 +873,6 @@ h3.activity-title {
 	border-bottom: 1px solid #ddd;
 }
 
-.project-info-panel .location-map map {
-	height: 200px;
-}
-
-.angular-google-map-container {
-	height: 500px;
-	width: 100%;
-}
-
 .project-info-panel .progress {
 	margin-bottom: 10px;
 }
@@ -3520,8 +3511,19 @@ section.project-info {
 	}
 	
 	.news-feed {
+		height: 400px;
+		display: -webkit-flex;
+		display: flex;
+		flex-flow: column nowrap;
+		
+		.panel-heading {
+			-webkit-flex: 0 0 auto;
+			flex: 0 0 auto;
+		}
+		
 		.panel-body {
-			height: 498px;
+			-webkit-flex: 1 1 auto;
+			flex: 1 1 auto;
 			overflow-y: scroll;
 		}
 	}
@@ -3537,6 +3539,23 @@ section.project-info {
 	.projects-table {
 		.name-col {
 			width: 40%;
+		}
+	}
+	
+	.angular-google-map-container {
+		height: calc(400px - 2px);
+		width: 100%;
+	}
+}
+
+@media (min-height: 900px) {
+	.public-home-view {
+		.news-feed {
+			height: 500px;
+		}
+		
+		.angular-google-map-container {
+			height: calc(500px - 2px);
 		}
 	}
 }
