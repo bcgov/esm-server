@@ -1750,12 +1750,8 @@ tmpl-header {
 
 .left-panel {
 	background: #f7f7f7;
-}
-
-@media (min-width: 1024px) {
-	.left-panel {
-		flex: 0 0 $left-panel-width;
-	}
+	-webkit-flex: 0 0 $left-panel-width;
+	flex: 0 0 $left-panel-width;
 }
 
 .main-panel {
@@ -3136,6 +3132,10 @@ section.project-info {
 ------------------------------ */
 .news-feed {
 	.panel-body {
+		padding: 0;
+	}
+	
+	.panel-footer {
 		padding: 0;
 	}
 	
