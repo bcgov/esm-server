@@ -230,7 +230,7 @@ angular.module('project').config (
 	// -------------------------------------------------------------------------
 	.state('p.comments', {
 		url: '/public-comment-period',
-		templateUrl: 'modules/projects/client/views/project-partials/project.public.comments.html',
+		templateUrl: 'modules/publicComments/client/views/comments-public.html',
 		controller: 'controllerProjectEntry',
 		onEnter: function (MenuControl, project, $stateParams) {
 			if ($stateParams.projectid === 'new') {

@@ -2155,12 +2155,6 @@ $sidenav-color: $link-color;
 	border: 1px solid $danger-border;
 }
 
-.alert-info {
-	color: #FFF;
-	background: $info-bg;
-	border: 1px solid $info-border;
-}
-
 .alert-success {
 	color: #FFF;
 	background: $success-bg;
@@ -2309,6 +2303,12 @@ $sidenav-color: $link-color;
     .glyphicon + span {
         margin-left: 0.5rem;
     }
+}
+
+.btn-link,
+.btn-link:hover,
+.btn-link:focus {
+	color: $link-color;
 }
 
 .back-btn {
@@ -2712,6 +2712,8 @@ $modal-body-bg: #f7f8fa;
 
 /* PICK LIST
 ------------------------------ */
+$pick-list-active-item-bg: #2b5580;
+
 .pick-list {
 	display: block;
 	border-radius: 0;
@@ -2727,15 +2729,20 @@ $modal-body-bg: #f7f8fa;
 	
 	label {
 		margin-bottom: 0;
-		font-size: 1.2rem;
 		font-weight: normal;
 		text-align: left;
 	}
 	
-	.active {
+	label:active, label:focus {
 		color: #FFF;
-		background: $success-bg;
-		border-color: $success-border;
+		background: $pick-list-active-item-bg;
+		border-color: $pick-list-active-item-bg;
+	}
+	
+	.active, .active:hover, .active:focus {
+		color: #FFF;
+		background: $pick-list-active-item-bg;
+		border-color: $pick-list-active-item-bg;
 		box-shadow: none;
 	}
 }
@@ -2743,6 +2750,8 @@ $modal-body-bg: #f7f8fa;
 
 /* TAB CONTROL 
 ------------------------------ */
+$nav-tab-active: #1a5a96;
+
 .nav-tabs {
 	border-bottom: 4px solid #DDD;
 	
@@ -2751,6 +2760,7 @@ $modal-body-bg: #f7f8fa;
 	}
 	
 	> li > a {
+		font-size: 1.6rem;
 		color: #999;
 		border-width: 0;
 		border-bottom: 4px solid #DDD;
@@ -2764,9 +2774,9 @@ $modal-body-bg: #f7f8fa;
 	> li.active > a:hover,
 	> li.active > a:focus {
 		font-weight: bold;
-		color: #003366;
+		color: #1a5a96;
 		border-width: 0;
-		border-bottom: 4px solid #003366;
+		border-bottom: 4px solid #1a5a96;
 		background: transparent;
 	}
 }
@@ -3318,14 +3328,14 @@ section.project-info {
 	h2 {
 		margin: 0;
 		display: block;
-		padding: 1.35rem 2rem;
+		padding: 1.35rem 1.5rem;
 		font-size: 1.8rem;
 		color: #FFF;
 		background: #2b5580;
 	}
 	
 	.details {
-		padding: 2rem;
+		padding: 2rem 1.5rem;
 	}
 	
 	
@@ -3340,12 +3350,12 @@ section.project-info {
 	}
 	
 	ul {
-		margin-bottom: 2rem;
 		padding-left: 0;
 		list-style-type: none;
 	}
 	
 	.btn {
+		margin-top: 2.5rem;
 		padding: 0.7rem 1.5rem;
 		font-size: 1.6rem;
 		font-weight: bold;
@@ -3362,6 +3372,7 @@ section.project-info {
 	}
 	
 	.document-name {
+		font-size: 1.6rem;
 		font-weight: bold;
 	}
 }
@@ -3369,7 +3380,7 @@ section.project-info {
 .public-comment-period-view {
 	.comment-title {
 		margin: 0;
-		margin-bottom: 1.5rem;
+		margin-bottom: 1.25rem;
 		font-size: 1.8rem;
 		font-weight: bold;
 	}
@@ -3419,27 +3430,32 @@ section.project-info {
 	.public-comment-period-view {
 		td.attachment-col {
 			position: absolute;
-			top: 1.4rem;
-			right: 10.5rem
+			top: 0.9rem;
+			right: 9.5rem
 		}
 		
 		td.date-col {
 			position: absolute;
-			top: 2.1rem;
+			top: 1.75rem;
 			right: 2rem;
 			padding: 0;
+			font-size: 1.2rem;
 		}
 		
 		td.status-col {
 			position: absolute;
-			top: 1.8rem;
+			top: 1.4rem;
 			right: 2rem;
 			padding: 0;
 		}
 		
 		.eao-comment-table {
+			td.attachment-col {
+				right: 23rem;
+			}
+			
 			td.date-col {
-				right: 15rem;
+				right: 15.5rem;
 			}
 		}
 		
@@ -3474,7 +3490,7 @@ section.project-info {
 			tr {
 				position: relative;
 				display: block;
-				padding: 2rem 1rem;
+				padding: 1.5rem 0.5rem;
 				border-bottom: 1px solid #DDD;
 			}
 					
@@ -3485,10 +3501,6 @@ section.project-info {
 			> tbody > tr > td {
 				display: block;
 				border-top: none;
-			}
-			
-			.attachment-col {
-				display: none;
 			}
 			
 			td.comment-col {
@@ -3537,17 +3549,17 @@ section.project-info {
 			}
 			
 			> tbody > tr > td {
-				padding: 2rem 1rem;
+				padding: 2rem 0.5rem;
 			}
 			
 			thead > tr > th:first-child,
 			tbody > tr > td:first-child {
-				padding-left: 1rem
+				padding-left: 1.5rem;
 			}
 			
 			thead > tr > th:last-child,
 			tbody > tr > td:last-child {
-				padding-right: 1rem;
+				padding-right: 1.5rem;
 			}
 		}
 		.comment-col {
@@ -3591,7 +3603,7 @@ section.project-info {
 	}
 	
 	.pick-list {
-		margin-bottom: 0;
+		margin-bottom: 2rem;
 		height: 20rem;
 		overflow-y: scroll;
 	}
