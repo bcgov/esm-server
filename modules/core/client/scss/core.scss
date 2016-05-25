@@ -24,6 +24,11 @@ $info-border:			#337ab7;
 $success-bg: 			#449d44;
 $success-border: 		#398439;
 
+/* ANCHORS & LINKS
+------------------------------ */
+$link-color: #1a5a96;
+
+
 // -------------------------
 // Bootstrap Overrides
 // -------------------------
@@ -36,7 +41,7 @@ $success-border: 		#398439;
 
 html {
 	min-height: 100%;
-	background: #F7F8FA;
+	background: #F1f1f1;
 }
 
 body {
@@ -57,7 +62,6 @@ $font-family-sans-serif: Myriad-Pro, Calibri, sans serif;
 .btn-danger {
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, .2) !important;
 }
-
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
@@ -2015,15 +2019,26 @@ $header-height-sm: 5.2rem;
 	background: $corp-blue;
 	border-top: 2px solid $corp-gold;
 	z-index: 999;
+	-webkit-transition: bottom ease-out 0.2s;
+	-o-transition: bottom ease-out 0.2s;
+	-moz-transition: bottom ease-out 0.2s;
+	transition: bottom ease-out 0.2s;
 	
 	a {
 		color: #FFF;
 	}
 }
 
+.app-footer.show-footer {
+	bottom: 0;
+}
+
 
 /* SIDE NAVIGATION
 ------------------------------ */
+$sidenav-bg: #FFF;
+$sidenav-color: $link-color;
+
 .sidenav {
 	position: fixed;
 	top: 6rem;
@@ -2031,7 +2046,7 @@ $header-height-sm: 5.2rem;
 	width: $left-panel-width;
 	padding-top: 1.5rem;
 	padding-bottom: 1.5rem;
-	background: #EEE;
+	background: $sidenav-bg;
 	
 	ul {
 		margin: 0;
@@ -2040,7 +2055,7 @@ $header-height-sm: 5.2rem;
 	a {
 		display: block;
 		padding: 0.6rem 2rem;
-		color: #666;
+		color: $link-color;
 	}
 	
 	hr {
@@ -2068,10 +2083,12 @@ $header-height-sm: 5.2rem;
 ------------------------------------------------------------ */
 /* ACCORDION CONTROL
 ----------------------------- */
+.panel-default.accordion > .panel-heading {
+	padding: 0;
+}
+
 .accordion {
 	.panel-heading {
-		padding: 0;
-		
 		a {
 			display: block;
 			padding: 1rem 1.5rem;
@@ -2270,6 +2287,15 @@ $header-height-sm: 5.2rem;
     background: green;
 }
 
+.label {
+	display: inline-block;
+	height: 2rem;
+	padding: 0;
+	line-height: 2rem;
+	font-size: 1.2rem;
+	font-weight: normal;
+}
+
 
 /* BUTTONS
 ------------------------------ */
@@ -2342,6 +2368,14 @@ $header-height-sm: 5.2rem;
 	> thead > tr > th {
 		font-size: 1.2rem;
 		border-bottom: none;
+	}
+	
+	> thead > tr > th:first-child {
+		padding-left: 1rem;
+	}
+	
+	> thead > tr > th:last-child {
+		padding-right: 1rem;
 	}
 	
 	th, td {
@@ -2710,7 +2744,6 @@ $modal-body-bg: #f7f8fa;
 /* TAB CONTROL 
 ------------------------------ */
 .nav-tabs {
-	font-size: 1.6rem;
 	border-bottom: 4px solid #DDD;
 	
 	> li {
@@ -2739,7 +2772,7 @@ $modal-body-bg: #f7f8fa;
 }
 
 .tab-pane {
-	padding-top: 3rem;
+	padding-top: 1.5rem;
 }
 
 
@@ -2859,10 +2892,7 @@ hr {
 			width: 10rem;
 			
 			.label {
-				display: inline-block;
-				min-width: 8rem;
-				padding-top: 0.6rem;
-				text-transform: uppercase;
+				width: 100%;
 			}
 		}
 	}
@@ -3144,6 +3174,10 @@ section.project-info {
 		padding: 1rem;
 		font-weight: bold;
 	}
+	
+	.news-feed-item:last-child {
+		border-bottom: none;
+	}
 }
 
 .news-feed-item {
@@ -3275,16 +3309,67 @@ section.project-info {
 
 /* PUBLIC COMMENT PERIOD VIEW 
 ------------------------------ */
-.custom-alert {
-	padding: 1.5rem;
-	border-radius: 4px;
-	background: #17d161;
+.public-comment-alert {
+	margin-top: -2.1rem;
+	margin-bottom: 2rem;
+	background: #FFF;
+	border-radius: 0;
+	
+	h2 {
+		margin: 0;
+		display: block;
+		padding: 1.35rem 2rem;
+		font-size: 1.8rem;
+		color: #FFF;
+		background: #2b5580;
+	}
+	
+	.details {
+		padding: 2rem;
+	}
+	
+	
+	.start-end-date {
+		display: block;
+		margin-bottom: 2.2rem;
+	}
+	
+	p {
+		margin-bottom: 2rem;
+		font-size: 1.6rem;
+	}
+	
+	ul {
+		margin-bottom: 2rem;
+		padding-left: 0;
+		list-style-type: none;
+	}
+	
+	.btn {
+		padding: 0.7rem 1.5rem;
+		font-size: 1.6rem;
+		font-weight: bold;
+	}
+}
+
+.public-comment-period-document-links {
+	margin: -0.5rem 0;
+	
+	a {
+		display: inline-block;
+		margin-right: 1rem;
+		padding: 0.15rem;
+	}
+	
+	.document-name {
+		font-weight: bold;
+	}
 }
 
 .public-comment-period-view {
 	.comment-title {
 		margin: 0;
-		margin-bottom: 1rem;
+		margin-bottom: 1.5rem;
 		font-size: 1.8rem;
 		font-weight: bold;
 	}
@@ -3310,12 +3395,7 @@ section.project-info {
 		width: 12rem;
 		
 		.label {
-			display: block;
-			height: 2rem;
-			padding: 0;
-			line-height: 2rem;
-			font-size: 1.2rem;
-			font-weight: normal;
+			width: 100%;
 		}
 	}
 }
@@ -3352,10 +3432,17 @@ section.project-info {
 		
 		td.status-col {
 			position: absolute;
-			top: 2rem;
+			top: 1.8rem;
 			right: 2rem;
 			padding: 0;
 		}
+		
+		.eao-comment-table {
+			td.date-col {
+				right: 15rem;
+			}
+		}
+		
 	}
 }
 
@@ -3388,8 +3475,7 @@ section.project-info {
 				position: relative;
 				display: block;
 				padding: 2rem 1rem;
-				border: 1px solid #DDD;
-				border-top: none;
+				border-bottom: 1px solid #DDD;
 			}
 					
 			tr:last-child {
@@ -3452,6 +3538,16 @@ section.project-info {
 			
 			> tbody > tr > td {
 				padding: 2rem 1rem;
+			}
+			
+			thead > tr > th:first-child,
+			tbody > tr > td:first-child {
+				padding-left: 1rem
+			}
+			
+			thead > tr > th:last-child,
+			tbody > tr > td:last-child {
+				padding-right: 1rem;
 			}
 		}
 		.comment-col {
