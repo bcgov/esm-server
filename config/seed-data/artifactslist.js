@@ -13,7 +13,7 @@ var artifacttypes = [{
     ]
 },{
     name: 'Valued Component Package',
-    multiple: false,
+    multiple: true,
     isTemplate: false,
     isArtifactCollection: true,
     isDocument: false,
