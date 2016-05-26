@@ -75,6 +75,11 @@ var queryResponse = function (res) {
 	};
 };
 
+// -------------------------------------------------------------------------
+//
+// promise type success and fail
+//
+// -------------------------------------------------------------------------
 var success = function (res) {
 	return function (result) {
 		res.json (result);
@@ -91,7 +96,7 @@ exports.errorFunction = failure;
 exports.failure       = failure;
 exports.runPromise = function (res, p) {
 	p.then (success(res), failure(res));
-}
+};
 
 var getMimeTypeFromFileName = function (filename) {
 	switch ((/(\.\w*)$/.exec(filename))[1]) {
