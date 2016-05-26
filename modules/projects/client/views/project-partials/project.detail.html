@@ -9,12 +9,30 @@
     
 	<div class="view-body-container">
 		
+		<!-- PUBLIC COMMENT PERIOD NOTIFICATION -->
+		<div class="public-comment-alert hidden">
+            <h2>Public Comment Period is Now Open!</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <ul class="public-comment-period-document-links">
+                <li><a class="document-name" href="#">Application Information Requirements</a><a href="#">[ VIEW FILES ]</a></li>
+                <li><a class="document-name" href="#">Associated Documentation</a><a href="#">[ VIEW FILES ]</a></li>
+            </ul>
+            <button class="btn btn-success" data-toggle="modal" data-target="#submitCommentModal">
+                Click Here to Submit a Comment
+            </button>
+        </div><!-- / PUBLIC COMMENT PERIOD NOTIFICATION -->
+		
 		<!-- PROJECT INFO -->
 		<section class="project-info" ng-if="('project' | shouldDisplayPanel:'tombstone':project.status)">
-			<tmpl-project-tombstone
-				id="anchor-tombstone"
-				x-project="project">
-			</tmpl-project-tombstone>
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2>Project Details</h2></div>
+				<div class="panel-body">
+					<tmpl-project-tombstone
+						id="anchor-tombstone"
+						x-project="project">
+					</tmpl-project-tombstone>
+				</div>
+			</div>
 		</section>
 
 		<!-- PROJECT PHASES -->

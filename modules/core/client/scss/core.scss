@@ -2482,13 +2482,21 @@ $file-actions-height: 5rem;
 		}
 		
 		li {
-			padding: 0.5rem 1rem;
+			padding: 0.75rem 1rem 0.75rem 3rem;
 			border-bottom: 1px solid #DDD;
+			
+			.glyphicon {
+				position: absolute;
+				top: 0.75rem;
+				left: 1rem;
+			}
 		}
 		
 		li:last-child {
 			border-bottom: none;
 		}
+		
+		
 	}
 	
 	.file-browser-list:last-child {
@@ -3322,16 +3330,16 @@ section.project-info {
 .public-comment-alert {
 	margin-top: -2.1rem;
 	margin-bottom: 2rem;
+	padding: 2rem 1.5rem;
 	background: #FFF;
 	border-radius: 0;
 	
 	h2 {
 		margin: 0;
+		margin-bottom: 1.5rem;
 		display: block;
-		padding: 1.35rem 1.5rem;
-		font-size: 1.8rem;
-		color: #FFF;
-		background: #2b5580;
+		font-size: 2rem;
+		font-weight: bold;
 	}
 	
 	.details {
@@ -3346,7 +3354,6 @@ section.project-info {
 	
 	p {
 		margin-bottom: 2rem;
-		font-size: 1.6rem;
 	}
 	
 	ul {
@@ -3372,7 +3379,7 @@ section.project-info {
 	}
 	
 	.document-name {
-		font-size: 1.6rem;
+		font-size: 1.4rem;
 		font-weight: bold;
 	}
 }
@@ -3464,6 +3471,11 @@ section.project-info {
 
 @media (max-width: 1200px) {
 	.public-comment-period-view {
+		.public-comment-panel {
+			background: transparent;
+			border: none;
+		}
+		
 		.table {
 			table-layout: inherit;
 			
@@ -3480,10 +3492,15 @@ section.project-info {
 				}
 			
 				th {
+					margin-right: 0.5rem;
 					margin-bottom: 1rem;
+					padding-left: 1.5rem;
 					display: block;
 					float: left;
 					text-align: center;
+					background: #FFF;
+					border: 1px solid #DDD !important;
+					border-radius: 4px;
 				}
 			}
 			

@@ -142,7 +142,7 @@
 						ng-repeat="row in docBrowser.docTypes"
 						ng-if="row.label === 'ARTIFACT'"
 						ng-class="{'active btn-primary': docBrowser.filterDocsSelected(row)}">
-						<span class="glyphicon glyphicon-play arrow"></span>
+						<span class="glyphicon glyphicon-folder-close"></span>
 						Recent Documents
 					</li>
 				</ul>
@@ -154,7 +154,7 @@
 						ng-hide="row.label === 'Not Specified'"
 						ng-repeat="row in docBrowser.docTypes"
 						ng-if="row.label != 'ARTIFACT'">
-						<span class="glyphicon glyphicon-folder-close"></span>&nbsp;
+						<span class="glyphicon glyphicon-folder-close"></span>
 						<!-- <span class="glyphicon glyphicon-folder-open"></span> -->
 						{{ row.label }}
 					</li>
@@ -167,7 +167,7 @@
 					<li class="row-document clickable" ng-class="{'active btn-primary': filterSummary._id === doc._id}"
 						ng-click="docBrowser.filterSummary(doc)"
 						ng-repeat="doc in docBrowser.documentFiles | filter:filterLinage:true">
-						<span class="glyphicon glyphicon-file"></span>&nbsp;
+						<span class="glyphicon glyphicon-file"></span>
 						{{ doc.internalOriginalName | removeExtension }}
 					</li>
 				</ul>

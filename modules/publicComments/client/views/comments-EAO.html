@@ -246,7 +246,7 @@
 
 <!-- SUBMIT COMMENT MODAL  -->
 <div class="public-comment-modal modal fade" id="submitCommentModal" role="dialog" tabindex="-1">
-	<div class="modal-dialog lg">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
@@ -254,8 +254,10 @@
 				</button>
 				<h3 class="modal-title">Submit a Comment</h3>
 			</div>
-			<div class="modal-body">  
-                <form>
+            
+            <!-- COMMENT FORM -->
+            <form class="comment-form hidden">
+                <div class="modal-body">  
                     <fieldset>
                         <div class="row">
                             <div class="form-group col-sm-12 col-md-6">
@@ -295,7 +297,7 @@
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </button>
                                     </li>
-                                     <li class="list-group-item clearfix">
+                                        <li class="list-group-item clearfix">
                                         <div class="file-name">file-name-1-really-really-really-really-long-file-name.jpg</div>
                                         <div class="file-progress progress">
                                             <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
@@ -325,12 +327,38 @@
                             </div>
                         </div>
                     </fieldset>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Submit Comment</button>
+                </div>
+            </form><!-- / COMMENT FORM -->
+            
+            <!-- COMMENT STATUS -->
+            <div class="comment-submit-success hidden">
+                <div class="modal-body">
+                    <div class="alert alert-success">
+                        Your Comment was Received! Thank you for participating in the <strong>{{project.name}}</strong> Public Comment Period
+                    </div>
+                    <p>Public comments received by EAO are published according to the date received. Where relevant, comments may be categorized by one or more topic areas from the Application, either during or following the public comment period. Categorized comments will appear by topic area below.</p>
+                </div><!-- / COMMENT RECEIVED -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal">Submit Comment</button>
-			</div>
+            
+            <div class="comment-submit-error">
+                <div class="modal-body">
+                    <div class="alert alert-danger">
+                        Oops. Something went wrong here...
+                    </div>
+                    <p>We can't accept your comment at this time. Please try again later.</p>
+                </div><!-- / COMMENT RECEIVED -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+            
 		</div>
 	</div>
 </div><!-- / SUBMIT COMMENT MODAL -->
