@@ -117,6 +117,11 @@ angular.module('users').config(['$stateProvider',
 				url: '/:token',
 				templateUrl: 'modules/users/client/views/password/reset-password.client.view.html'
 			})
+			.state('guidance', {
+				url: '/guidance',
+				templateUrl: 'modules/guidance/client/views/guidance-main.html'
+			})
+			
 			.state('activities', {
 				url: '/activities',
 				templateUrl: 'modules/users/client/views/user-partials/user-activities.html',

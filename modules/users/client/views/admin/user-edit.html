@@ -152,7 +152,10 @@
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group">
 						<label for="orgName" class="control-label">Organization<em>Required</em></label>
-						<select class="form-control" ng-model="user.orgName" ng-sort="name" ng-options="org as org.name for org in orgs"></select>
+						<select class="form-control"
+								ng-model="user.org"
+								ng-sort="name"
+								ng-options="org as org.name for org in orgs track by org._id"></select>
 					</div>
 				</div>    
 				<div class="col-sm-6 col-md-3">

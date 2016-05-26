@@ -6,7 +6,7 @@
 		</div>
 
 		<ul class="custom-nav">
-			<li ng-show="!authentication.user">
+			<li>
 				<a href ui-sref="projects">
 					<span class="glyphicon glyphicon-home"></span>
 					<span>HOME</span>
@@ -18,7 +18,7 @@
 					<span>DASHBOARD</span>
 				</a>
 			</li>
-			<li ng-if="ENV === 'EAO'" class="dropdown" ng-if="systemMenu.shouldRender(authentication.user);">
+			<li ng-if="ENV === 'EAO' && authentication.user" class="dropdown" ng-if="systemMenu.shouldRender(authentication.user);">
 				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="System Configuration">
 					<span class="glyphicon glyphicon-cog"></span>
 					<span>SYSTEM</span>
@@ -37,7 +37,14 @@
 					</li>
 				</ul>
 			</li>
-			<li ng-show="!authentication.user">
+			<li>
+				<a href ui-sref="guidance">
+					<span class="glyphicon glyphicon-question-sign"></span>
+					<span>GUIDANCE</span>
+				</a>
+			</li>
+			
+			<li class="user-menu" ng-show="!authentication.user">
 				<a ui-sref="authentication.signin">
 					<span class="glyphicon glyphicon-log-in"></span>
 					<span>LOG IN</span>
