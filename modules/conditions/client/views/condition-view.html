@@ -72,7 +72,7 @@
 
 		<div class="form-footer clearfix">
 			<a class="back-btn btn btn-link pull-left" ui-sref="admin.condition.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Condition Library</a>
-			<a class="btn btn-default pull-right" ui-sref="admin.condition.edit({conditionId:condition._id})">Edit</a>
+			<a ng-if="showedit" class="btn btn-default pull-right" ui-sref="admin.condition.edit({conditionId:condition._id})">Edit</a>
 		</div>
 
 	</div><!-- / VIEW BODY CONTAINER -->
