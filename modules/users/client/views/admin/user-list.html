@@ -20,7 +20,7 @@
 					<tr ng-repeat="o in $data" ui-sref="admin.user.detail({userId:o._id})" class="clickable">
 						<td data-title="'Username'"  filter="{'username':'text'}"   sortable="'username'"  filter-data="ptypes" >{{o.username}}</td>
 						<td data-title="'Full Name'"  filter="{'displayName':'text'}"   sortable="'displayName'"  filter-data="ptypes" >{{o.displayName}}</td>				
-						<td data-title="'Organization'" filter="{'orgName':'text'}"    sortable="'orgName'" >{{o.orgName}}</td>
+						<td data-title="'Organization'" filter="{'orgName':'text'}"    sortable="'orgName'" >{{o.org.name}}</td>
 						<td class="text-center" data-title="'Phone'"   filter="{'phoneNumber':'text'}"  sortable="'phoneNumber'" >{{o.phoneNumber}}</td>
 						<td class="text-center" data-title="'Email'"  filter="{'email':'text'}" sortable="'email'"  >{{o.email}}</td>
 						<td class="actions-col action-x1" header-class="'actions-col action-x1'">
