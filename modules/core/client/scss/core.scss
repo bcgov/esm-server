@@ -2436,7 +2436,7 @@ fieldset:last-child {
 
 legend {
 	padding-bottom: 0.5rem;
-	font-size: 1.8rem;
+	font-size: 1.6rem;
 	font-weight: bold;
 	text-transform: uppercase;
 	border-bottom: 1px solid #DDD;
@@ -3084,6 +3084,10 @@ section.project-info {
 	span.value {
 		color: #888;
 	}
+	
+	span.value.wrap-text {
+		white-space:normal;
+	}
 }
 
 .detail-row:first-child {
@@ -3580,7 +3584,7 @@ section.project-info {
 			}
 		}
 		.comment-col {
-			width: 40%;
+			width: 35%;
 		}
 		
 		.vc-col {
@@ -3597,19 +3601,32 @@ section.project-info {
 	}
 }
 
-.public-comment-detail-modal {
-	p {
+.public-comment-modal {
+	section {
 		margin-bottom: 2rem;
+	}
+	
+	h4 {
+		margin-top: 0;
+		margin-bottom: 1.5rem;
+		font-size: 1.8rem;
+		font-weight: bold;
+	}
+	
+	p {
+		margin-bottom: 1.5rem;
 		line-height: 2.2rem;
+	}
+	
+	p:last-child {
+		margin-bottom: 0;
 	}
 	
 	.comment-info {
 		margin-bottom: 1.5rem;
-		font-size: 1.8rem;
 	}
 	
-	.detail-row:last-child,
-	.list-group {
+	.detail-row:last-child {
 		margin-bottom: 0;
 	}
 	
@@ -3620,9 +3637,21 @@ section.project-info {
 	}
 	
 	.pick-list {
-		margin-bottom: 2rem;
+		margin: 0;
 		height: 20rem;
 		overflow-y: scroll;
+	}
+	
+	.list-group {
+		margin-bottom: 0;
+	}
+	
+	.upload-attachments {
+		margin-bottom: 0;
+		
+		.attachments {
+			margin-bottom: 1.5rem;
+		}
 	}
 }
 

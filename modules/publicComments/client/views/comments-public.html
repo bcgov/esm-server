@@ -69,7 +69,7 @@
 </div>
 
 <!-- COMMENT DETAIL MODAL  -->
-<div class="public-comment-detail-modal modal fade" id="commentDetailModal" role="dialog" tabindex="-1">
+<div class="public-comment-modal modal fade" id="commentDetailModal" role="dialog" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -83,6 +83,18 @@
                 <section>
                     <label>Posted March 21, 2016</label>
                     <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
+                </section>
+                
+                <!-- PILLARS / VALUED COMPONENTS -->
+                <section>
+                    <div class="detail-row">
+                        <label>Pillar</label>
+                        <span class="value">Health, Environment, Heritage</span>
+                    </div>
+                    <div class="detail-row">
+                        <label>Valued Components</label>
+                        <span class="value">Air Quality, Water Quality, Regulatory Process, Rights & Titles</span>
+                    </div>
                 </section>
                 
                 <!-- ATTACHMENTS -->
@@ -124,8 +136,27 @@
 				</button>
 				<h3 class="modal-title">Submit a Comment</h3>
 			</div>
-			<div class="modal-body">  
-                <form>
+            
+            <!-- COMMENT FORM - STEP 1 -->
+            <form class="comment-form-1 hidden">
+                <div class="modal-body">
+                    <h4>Submitting Your Comments:  How it Works</h4>
+                    <p>Comments submitted to the Environmental Assessment Office (EAO) will be published online.</p>
+                    <p>EAO publishes all accepted comments within seven days of receipt. Comments are not accepted if - in EAO’s view - they are profane, abusive or do not relate to the matter being consulted upon as stated in our <a href="http://www.eao.gov.bc.ca/pdf/EAO_Policy_Public_Comment.pdf" target="_blank">Public Comment Policy [PDF]</a>.</p>
+                    <p>EAO forwards all posted comments to project proponents so that they can be duly considered during the project's Environmental Assessment (EA) process.</p>
+                    <p>You may provide your name and city/town when making a comment, but in order to have your name displayed with your comment you must select the 'Show my name and location on the public site' option.</p>
+                    <p>All hyperlinks in comments will be converted to plain text. All attachments must be in PDF format and limited to 5MB.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Continue</button>
+                </div>
+            </form>
+            <!-- / COMMENT FORM - STEP 1 -->
+            
+            <!-- COMMENT FORM - STEP 2 -->
+            <form class="comment-form">
+                <div class="modal-body">  
                     <fieldset>
                         <div class="row">
                             <div class="form-group col-sm-12 col-md-6">
@@ -151,7 +182,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-sm-12">
+                            <div class="upload-attachments form-group col-sm-12">
                                 <label class="control-label">Attachments</label>
                                 <ul class="attachments list-group">
                                     <li class="list-group-item clearfix">
@@ -165,7 +196,7 @@
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </button>
                                     </li>
-                                     <li class="list-group-item clearfix">
+                                        <li class="list-group-item clearfix">
                                         <div class="file-name">file-name-1-really-really-really-really-long-file-name.jpg</div>
                                         <div class="file-progress progress">
                                             <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
@@ -195,12 +226,37 @@
                             </div>
                         </div>
                     </fieldset>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Submit Comment</button>
+                </div>
+            </form><!-- / COMMENT FORM - STEP 2 -->
+            
+            <!-- COMMENT FORM - STEP 3 -->
+            <div class="comment-submit-success hidden">
+                <div class="modal-body">
+                    <h4>Thank you for your comment!</h4>
+                    <p>What happens next?</p>
+                    <p>EAO publishes all comments received within seven days of receipt, except comments that EAO deems to be inappropriate for publication. Comments may be considered inappropriate for publication if - in EAO’s view - they are profane, abusive or do not relate to the matter being consulted upon as stated in our <a href="http://www.eao.gov.bc.ca/pdf/EAO_Policy_Public_Comment.pdf" target="_blank">Public Comment Policy [PDF]</a>.</p>
+                </div><!-- / COMMENT RECEIVED -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal">Submit Comment</button>
-			</div>
+            
+            <div class="comment-submit-error hidden">
+                <div class="modal-body">
+                    <div class="alert alert-danger">
+                        Oops. Something went wrong here...
+                    </div>
+                    <p>We can't accept your comment at this time. Please try again later.</p>
+                </div><!-- / COMMENT RECEIVED -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                </div>
+            </div><!-- / COMMENT FORM - STEP 3 -->
+            
 		</div>
 	</div>
 </div><!-- / SUBMIT COMMENT MODAL -->

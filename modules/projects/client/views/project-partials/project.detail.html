@@ -24,15 +24,10 @@
 		
 		<!-- PROJECT INFO -->
 		<section class="project-info" ng-if="('project' | shouldDisplayPanel:'tombstone':project.status)">
-			<div class="panel panel-default">
-				<div class="panel-heading"><h2>Project Details</h2></div>
-				<div class="panel-body">
-					<tmpl-project-tombstone
-						id="anchor-tombstone"
-						x-project="project">
-					</tmpl-project-tombstone>
-				</div>
-			</div>
+			<tmpl-project-tombstone
+				id="anchor-tombstone"
+				x-project="project">
+			</tmpl-project-tombstone>
 		</section>
 
 		<!-- PROJECT PHASES -->
