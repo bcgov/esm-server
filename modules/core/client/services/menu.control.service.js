@@ -47,6 +47,26 @@ angular.module('core').service ('MenuControl', ['Authentication', '$state', '$ht
 		return hasOne;
 	};
 
+	this.renderWidget = function (item, project) {
+		switch (item) {
+			case 'document.upload':
+				var checkRoles = [];
+				checkRoles.push(project+":pro:admin");
+				checkRoles.push(project+":pro:member");
+				checkRoles.push(project+":pro:sub");
+				checkRoles.push(project+":eao:epd");
+				checkRoles.push(project+":eao:ce-lead");
+				checkRoles.push(project+":eao:ce-officer");
+				checkRoles.push(project+":eao:project-admin");
+				checkRoles.push(project+":eao:project-lead");
+				checkRoles.push(project+":eao:project-team");
+				return this.userHasOne(checkRoles);
+			case 'other':
+				return false;
+		}
+		return false;
+	};
+
 	this.publicAccess = function(roles) {
 		var isPublic = false;
 		_.each(roles, function(role) {
