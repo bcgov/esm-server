@@ -142,7 +142,7 @@ module.exports = DBModel.extend ({
 			artifact.read.push(project.code+":eao:ce-lead");
 			artifact.read.push(project.code+":eao:ce-officer");
 			artifact.read.push(project.code+":eao:sub");
-			artifact.write.push(project.code+":eao:admin");
+			artifact.read.push(project.code+":eao:admin");
 			artifact.write.push(project.code+":pro:admin");
 			artifact.write.push(project.code+":pro:member");
 			artifact.write.push(project.code+":eao:project-team");
