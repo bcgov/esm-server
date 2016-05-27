@@ -1,50 +1,52 @@
 
 <!-- EAO PROJECT INFO -->
 <section ng-if="environment === 'EAO'">
+
 	<div class="detail-row project-desc" ng-show="project.description">
 		<label>Project Description</label>
 		<span class="value">{{ ::project.description }}</span>
 	</div>
 	<div class="row">
-		<div class="col-sm-6 col-md-4">
+		<div class="col-sm-4 col-md-4">
 			<div class="detail-row">
 				<label>Proponent</label>
 				<span class="value">{{ ::project.proponent.name }}</span>
 			</div>
 		</div>
-		<div class="col-sm-6 col-md-4">
+		<div class="col-sm-4 col-md-4">
 			<div class="detail-row">
 				<label>Location</label>
 				<span class="value">{{ ::project.location }}</span>
 			</div>
 		</div>
-		<div class="col-sm-6 col-md-4">
+		<div class="col-sm-4 col-md-4">
 			<div class="detail-row" ng-show="project.region">
 				<label>Region</label>
 				<span class="value"><span ng-show="project.region">{{ ::project.region | regionName }}</span></span>
 			</div>
 		</div>
-		<div class="col-sm-6 col-md-4">
+		<div class="col-sm-4 col-md-4">
 			<div class="detail-row">
 				<label>Type</label>
 				<span class="value">{{ ::project.type }}</span>
 			</div>
 		</div>
-		<div class="col-sm-6 col-md-4">
+		<div class="col-sm-4 col-md-4">
 			<div class="detail-row">
 				<label>Sector</label>
 				<span class="value">{{ ::project.sector }}</span>
 			</div>
 		</div>
-		<div class="col-sm-6 col-md-4">
+		<div class="col-sm-4 col-md-4">
 			<div class="detail-row" ng-show="project.CEAAInvolvement">
 				<label>CEAA Involvement</label>
 				<span class="value">{{ ::project.CEAAInvolvement }}</span>
 			</div>
 		</div>
 	</div>
+	
 	<div class="row">
-		<div class="col-sm-6 col-md-4">
+		<div class="col-sm-4 col-md-4">
 			<div class="detail-row">
 				<label>Project Lead</label>
 				<span class="value">
@@ -54,7 +56,7 @@
 				</span>
 			</div>
 		</div>
-		<div class="col-sm-6 col-md-4">
+		<div class="col-sm-4 col-md-4">
 			<div class="detail-row">
 				<label>Executive Project Director</label>
 				<span class="value">
@@ -64,7 +66,7 @@
 				</span>
 			</div>
 		</div>
-		<div class="col-sm-6 col-md-4">
+		<div class="col-sm-4 col-md-4">
 			<div class="detail-row">
 				<label>Compliance & Enforcement Lead</label>
 				<span class="value">
@@ -74,7 +76,140 @@
 				</span>
 			</div>
 		</div>
-	</div>		
+	</div>
+	
+	<div class="hidden">
+		<!-- ADDITIONAL CONTACTS -->
+		<div class="col-sm-4 col-md-4">
+			<div class="detail-row">
+				<label>Project Analyst</label>
+				<span class="value">{{project.projectAnalyst}}</span>
+			</div>
+		</div>
+		<div class="col-sm-4 col-md-4">
+			<div class="detail-row">
+				<label>Project Assistant</label>
+				<span class="value">{{project.projectAssistant}}}</span>
+			</div>
+		</div>
+		<div class="col-sm-4 col-md-4">
+			<div class="detail-row">
+				<label>Administrative Assistant</label>
+				<span class="value">{{project.administrativeAssistant}}</span>
+			</div>
+		</div><!-- ADDITIONAL CONTACTS -->
+		
+		<!-- ELECTORAL DISTRICTS -->
+		<div class="row" ng-if="project.provElectDist || project.fedElectDist">
+			<div class="col-sm-6 col-md-4" ng-if="project.provElectDist">
+				<div class="detail-row">
+					<label>Provincial Electoral Districts</label>
+					<span class="value">{{project.provElectDist}}
+					</span>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-4" ng-if="project.fedElecDist">
+				<div class="detail-row">
+					<label>Federal Electoral Districts</label>
+					<span class="value">{{project.fedElectDist}}</span>
+				</div>
+			</div>
+		</div><!-- / ELECTORAL DISTRICTS -->
+		
+		<!-- CAPITAL INVESTMENT -->
+		<div class="row">
+			<div class="col-sm-4 col-md-4" ng-if="project.intake.investment">
+				<div class="detail-row">
+					<label>Capital Investment</label>
+					<span class="value">${{project.intake.investment | number:0}}</span>
+				</div>
+			</div>
+			<div class="col-sm-4 col-md-4" ng-if="project.intake.constructionjobs">
+				<div class="detail-row">
+					<label>Construction Jobs</label>
+					<span class="value">{{project.intake.constructionjobs}}</span>
+				</div>
+			</div>
+			<div class="col-sm-4 col-md-4" ng-if="project.intake.operationjobs">
+				<div class="detail-row">
+					<label>Operation Jobs</label>
+					<span class="value">{{project.intake.operationjobs}}</span>
+				</div>
+			</div>
+			<div class="col-sm-12 col-md-4" ng-show="project.intake.investmentNotes">
+				<div class="detail-row">
+					<label>Notes</label>
+					<span class="value wrap-text">{{project.intake.investmentNotes}}</span>
+				</div>
+			</div>
+		</div><!-- / CAPITAL INVESTMENT -->
+		
+		<!-- CONSTRUCTION & OPERATION JOBS -->
+		<div class="row" ng-if="project.intake.constructionjobs || project.intake.constructionjobsNotes || project.intake.constructionjobs || project.intake.constructionjobsNotes">
+			<div class="col-sm-6 col-md-8" ng-if="project.intake.constructionjobsNotes">
+				<div class="detail-row">
+					<label>Construction Notes</label>
+					<span class="value wrap-text">{{project.intake.constructionjobsNotes}}</span>
+				</div>
+			</div>
+			<div class="col-sm-12" ng-if="project.intake.operationjobsNotes">
+				<div class="detail-row">
+					<label>Operation Notes</label>
+					<span class="value wrap-text">{{project.intake.operationjobsNotes}}</span>
+				</div>
+			</div>
+		</div><!-- / CONSTRUCTION & OPERATION JOBS -->	
+		
+		<!-- PROJECT TEAM MEMBERS -->
+		<div class="rowidden hidden">
+			<div class="col-sm-6 col-md-4">
+				<div class="detail-row">
+					<label>Team Members</label>
+					<span class="value wrap-text">{{project.intake.constructionjobs}}</span>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-8">
+				<div class="detail-row">
+					<label>Notes</label>
+					<span class="value wrap-text">{{project.intake.constructionjobsNotes}}</span>
+				</div>
+			</div>
+		</div><!-- / TEAM MEMBERS -->
+		
+		<!-- PROJECT NOTES -->
+		<div class="row hidden">
+			<div class="col-sm-6 col-md-4">
+				<div class="detail-row">
+					<label>Additional Notes</label>
+					<span class="value wrap-text">{{project.projectNotes}}</span>
+				</div>
+			</div>
+		</div>
+		
+		<!-- EA DETAILS -->
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="detail-row">
+					<label>Environmental Assessment Status</label>
+					<span class="value">{{project.eaActive}}</span>
+				</div>
+			</div>
+			<div class="col-sm-12" ng-if="project.eaIssues">
+				<div class="detail-row">
+					<label>Assessment Issues</label>
+					<span class="value wrap-text">{{project.eaIssues}}</span>
+				</div>
+			</div>
+			<div class="col-sm-12" ng-if="project.eaNotes">
+				<div class="detail-row">
+					<label>Assessment Notes</label>
+					<span class="value wrap-text">{{project.eaNotes}}</span>
+				</div>
+			</div>
+		</div>
+		<!-- / EA DETAILS -->
+	</div>
+	
 </section><!-- / EAO PROJECT INFO -->
 
 <div class="mem-details row" ng-if="environment === 'MEM'">

@@ -47,8 +47,9 @@ angular.module('conditions').config(['$stateProvider', function ($stateProvider)
 	.state('admin.condition.list', {
 		url: '/list',
 		templateUrl: 'modules/conditions/client/views/condition-list.html',
-		controller: function ($scope, NgTableParams, conditions, pillars, projecttypes, stages) {
+		controller: function ($scope, NgTableParams, conditions, pillars, projecttypes, stages, MenuControl) {
 			$scope.ptypes = projecttypes;
+			$scope.showedit = MenuControl.userHasOne(['admin','qa-officer', 'ce-lead', 'ce-officer']);
 			$scope.stypes = stages;
 			$scope.pillars = pillars;
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: conditions});
@@ -159,8 +160,9 @@ angular.module('conditions').config(['$stateProvider', function ($stateProvider)
 				return ConditionModel.getModel ($stateParams.conditionId);
 			}
 		},
-		controller: function ($scope, condition, pillars, projecttypes, stages) {
+		controller: function ($scope, condition, pillars, projecttypes, stages, MenuControl) {
 			$scope.condition = condition;
+			$scope.showedit = MenuControl.userHasOne(['admin','qa-officer', 'ce-lead', 'ce-officer']);
 			$scope.sectors = projecttypes;
 			$scope.pillars = pillars;
 			$scope.stages  = stages;

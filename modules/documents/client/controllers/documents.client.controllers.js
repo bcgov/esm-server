@@ -110,7 +110,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 				// get listing of artifacts to attach to.  TODO: filter?
 				ArtifactModel.forProject(newValue._id)
 				.then( function(res) {
-					console.log("res",res);
+					// console.log("res",res);
 					docUpload.artifacts = res;
 				});
 			} else {
@@ -349,9 +349,9 @@ function controllerDocumentList($scope, sAuthentication) {
 // CONTROLLER: Document List
 //
 // -----------------------------------------------------------------------------------
-controllerDocumentBrowser.$inject = ['$scope', 'Document', '$rootScope', 'Authentication', 'ENV', '_', 'NgTableParams', 'ArtifactModel', 'PhaseModel'];
+controllerDocumentBrowser.$inject = ['MenuControl', '$scope', 'Document', '$rootScope', 'Authentication', 'ENV', '_', 'NgTableParams', 'ArtifactModel', 'PhaseModel'];
 /* @ngInject */
-function controllerDocumentBrowser($scope, Document, $rootScope, Authentication, ENV, _, NgTableParams, ArtifactModel, PhaseModel) {
+function controllerDocumentBrowser(MenuControl, $scope, Document, $rootScope, Authentication, ENV, _, NgTableParams, ArtifactModel, PhaseModel) {
 	var docBrowser = this;
 
 	$scope.environment = ENV;
@@ -367,6 +367,7 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 
 	docBrowser.phasesForProject = undefined;
 
+	docBrowser.mc = MenuControl;
 	// -----------------------------------------------------------------------------------
 	//
 	// BROWSER: A complete refresh of everything.

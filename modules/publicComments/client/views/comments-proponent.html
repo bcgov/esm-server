@@ -8,17 +8,14 @@
         
         <div class="public-comment-alert">
             <h2>Public Comment Period is Now Open!</h2>
-            <div class="details">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                <ul class="public-comment-period-document-links">
-                    <li><a class="document-name" href="#">Application Information Requirements</a><a href="#">[ VIEW FILES ]</a></li>
-                    <li><a class="document-name" href="#">Associated Documentation</a><a href="#">[ VIEW FILES ]</a></li>
-                </ul>
-            </div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <ul class="public-comment-period-document-links">
+                <li><a class="document-name" href="#">Application Information Requirements</a><a href="#">[ VIEW FILES ]</a></li>
+                <li><a class="document-name" href="#">Associated Documentation</a><a href="#">[ VIEW FILES ]</a></li>
+            </ul>
         </div>
         
-        
-        <!-- PROTOTYPE EAO STAFF ROW TEMPLATES  -->
+        <!-- PROTOTYPE TEMPLATES  -->
         <div>
             <ul class="tab-container nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#pendingReview" aria-controls="pendingReview" role="tab" data-toggle="tab">Unassigned (X)</a></li>
@@ -27,7 +24,7 @@
             <div class="tab-content">
                 <div class="tab-pane active" role="tabpanel" id="pendingReview">
                     
-                    <div class="panel panel-default">
+                    <div class="public-comment-panel panel panel-default">
                         <table ng-table="tableParams" show-filter="true" class="table table-striped table-hover">			
                             <tr class="comment-row" data-toggle="modal" data-target="#commentDetailModal">
                                 <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Posted by'" filter="{'name':'text'}" sortable="'name'">
@@ -39,7 +36,7 @@
                                 <td class="location-col no-mobile" header-class="'location-col no-mobile'" data-title="'Location'" filter="{'name':'text'}" sortable="'commentLocation'">Location</td>
                                 <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillar'" filter="{'pillar':'select'}" sortable="'commentPillar'">Unassigned</td>
                                 <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Component'" filter="{'commentVC':'select'}" sortable="'commentVC'">Unassigned</td>			
-                                <td class="attachment-col" header-class="'attachment-col'"><span class="glyphicon glyphicon-paperclip"></span></td>
+                                <td class="attachment-col" header-class="'attachment-col no-mobile'"><span class="glyphicon glyphicon-paperclip"></span></td>
                                 <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" filter="{'date':'text'}" sortable="'dateAdded'" >MM/DD/YYYY</td>
                             </tr>
                             <tr class="comment-row" data-toggle="modal" data-target="#commentDetailModal">
@@ -52,7 +49,7 @@
                                 <td class="location-col no-mobile" header-class="'location-col no-mobile'" data-title="'Location'" filter="{'name':'text'}" sortable="'commentLocation'">Location</td>
                                 <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillar'" filter="{'pillar':'select'}" sortable="'commentPillar'">Unassigned</td>
                                 <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Component'" filter="{'commentVC':'select'}" sortable="'commentVC'">Unassigned</td>			
-                                <td class="attachment-col" header-class="'attachment-col'"><span class="glyphicon glyphicon-paperclip"></span></td>
+                                <td class="attachment-col" header-class="'attachment-col no-mobile'"><span class="glyphicon glyphicon-paperclip"></span></td>
                                 <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" filter="{'date':'text'}" sortable="'dateAdded'" >MM/DD/YYYY</td>
                             </tr>
                             <tr class="comment-row" data-toggle="modal" data-target="#commentDetailModal">
@@ -65,11 +62,11 @@
                                 <td class="location-col no-mobile" header-class="'location-col no-mobile'" data-title="'Location'" filter="{'name':'text'}" sortable="'commentLocation'">Location</td>
                                 <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillar'" filter="{'pillar':'select'}" sortable="'commentPillar'">Unassigned</td>
                                 <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Component'" filter="{'commentVC':'select'}" sortable="'commentVC'">Unassigned</td>			
-                                <td class="attachment-col" header-class="'attachment-col'"></td>
+                                <td class="attachment-col" header-class="'attachment-col no-mobile'"></td>
                                 <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" filter="{'date':'text'}" sortable="'dateAdded'" >MM/DD/YYYY</td>
                             </tr> 
                             <tr ng-if="!$data || $data.length === 0">
-                                <td colspan="5">No records found.</td>
+                                <td colspan="6">No records found.</td>
                             </tr>
                         </table>
                     </div>
@@ -82,7 +79,7 @@
 </div>
 
 <!-- COMMENT DETAIL MODAL  -->
-<div class="public-comment-detail-modal modal fade" id="commentDetailModal" role="dialog" tabindex="-1">
+<div class="public-comment-modal modal fade" id="commentDetailModal" role="dialog" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -99,7 +96,7 @@
                 </div><!-- / STATUS ALERTS -->
                 
                 <!-- COMMENT DETAILS -->
-                <section>
+                <section class="comment-info">
                     <label>Posted March 21, 2016</label>
                     <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
                 </section><!-- / COMMENT DETAILS -->

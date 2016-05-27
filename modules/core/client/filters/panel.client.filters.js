@@ -16,12 +16,12 @@ function filterShouldDisplayPanel(Authentication, _) {
 		"project":{
 			"admin":{
 				"Initiated":["initiated", "documents",  "map"],
-				"Submitted":["stream", "edit",  "map","documents", "doc-approvals"],
+				"Submitted":["tombstone", "stream", "edit",  "map","documents", "doc-approvals"],
 				"In Progress":["tombstone", "map", "edit", "activities", "documents", "doc-approvals"]
 			},
 			"eao":{
 				"Initiated":["initiated",  "map","documents"],
-				"Submitted":["stream", "edit",  "map","documents", "doc-approvals"],
+				"Submitted":["tombstone", "stream", "edit",  "map","documents", "doc-approvals"],
 				"In Progress":["tombstone", "map", "edit", "activities", "documents", "doc-approvals"]
 			},
 			"guest":{
