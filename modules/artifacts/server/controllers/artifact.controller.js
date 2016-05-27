@@ -112,6 +112,7 @@ module.exports = DBModel.extend ({
 			// now set up and save the new artifact
 			//
 			.then (function (milestone) {
+				artifact = self.setDefaultRoles(artifact, project, artifactType.code);
 				// Happens when we skip adding a milestone.
 				if (milestone) {
 					artifact.milestone = milestone._id;
@@ -127,6 +128,28 @@ module.exports = DBModel.extend ({
 			})
 			.then (resolve, reject);
 		});
+	},
+	setDefaultRoles: function (artifact, project, type) {
+		// Set default read/write/submit permissions on artifacts based on their type.
+		if (type === 'valued-component') {
+			artifact.read.push(project.code+":eao:admin");
+			artifact.read.push(project.code+":eao:member");
+			artifact.read.push(project.code+":eao:project-intake");
+			artifact.read.push(project.code+":eao:assistant-dm");
+			artifact.read.push(project.code+":eao:associate-dmo");
+			artifact.read.push(project.code+":eao:minister");
+			artifact.read.push(project.code+":eao:qa-officer");
+			artifact.read.push(project.code+":eao:ce-lead");
+			artifact.read.push(project.code+":eao:ce-officer");
+			artifact.read.push(project.code+":eao:sub");
+			artifact.write.push(project.code+":eao:admin");
+			artifact.write.push(project.code+":pro:admin");
+			artifact.write.push(project.code+":pro:member");
+			artifact.write.push(project.code+":eao:project-team");
+			artifact.submit.push(project.code+":eao:epd");
+			artifact.submit.push(project.code+":eao:project-lead");
+		}
+		return artifact;
 	},
 	// -------------------------------------------------------------------------
 	//
