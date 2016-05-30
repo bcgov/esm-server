@@ -204,7 +204,7 @@ var modRoles = function (method, pObject) {
 //
 // -------------------------------------------------------------------------
 var publish = function (object) {
-	this.read = _.union (this.read, 'public');
+	this.read = _.union (this.read, ['public']);
 	this.isPublished = true;
 	this.markModified ('read');
 };
