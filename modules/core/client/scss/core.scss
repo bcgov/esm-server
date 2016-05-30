@@ -24,9 +24,14 @@ $info-border:			#337ab7;
 $success-bg: 			#449d44;
 $success-border: 		#398439;
 
-/* ANCHORS & LINKS
------------------------------- */
-$link-color: #1a5a96;
+
+$app-bg: 				#F1f1f1;
+$app-base-font-color: 	#494949;
+
+$link-color: 			#1a5a96;
+
+$panel-heading-bg: #FFF;
+$panel-heading-color: 	#494949;
 
 
 // -------------------------
@@ -41,13 +46,13 @@ $link-color: #1a5a96;
 
 html {
 	min-height: 100%;
-	background: #F1f1f1;
+	background: $app-bg;
 }
 
 body {
 	min-height: 100%;
 	font-size: 1.4rem;
-	color: #494949;
+	color: $app-base-font-color;
 	-ms-overflow-style: scrollbar;
 }
 
@@ -379,12 +384,6 @@ ul.list-indent-left {
 .row-folder.active span.arrow,
 .row-document.active span.arrow {
 	display: inline-block;
-}
-.row-folder-depth-2 {
-	padding-left: 15px !important;
-}
-.row-folder-depth-3 {
-	padding-left: 30px !important;
 }
 .bg-muted {
 	background-color: #f2f2f2;
@@ -2359,71 +2358,6 @@ $sidenav-color: $link-color;
 }
 
 
-/* TABLE COMPONENT
------------------------------- */
-.table {
-	table-layout: fixed;
-	margin-bottom: 0;
-	
-	> thead > tr > th {
-		font-size: 1.2rem;
-		border-bottom: none;
-	}
-	
-	> thead > tr > th:first-child {
-		padding-left: 1rem;
-	}
-	
-	> thead > tr > th:last-child {
-		padding-right: 1rem;
-	}
-	
-	th, td {
-		text-align: left;
-	}
-	
-	.actions-col {
-		padding-top: 0;
-		padding-bottom: 0;
-		text-align: center;
-		
-		.btn {
-			margin-top: 0.32rem;
-			padding-left: 0.8rem;
-			padding-right: 0.8rem;
-		}
-		
-		.btn:hover {
-			background: #FFF;
-		}
-	}
-	
-	.action-x1 {
-		width: 6rem;
-	}
-	
-	.action-x2 {
-		width: 10rem;
-	}
-}
-
-.table-striped {
-	> tbody > tr:nth-of-type(odd) {
-		background-color: #f7f8fa;
-	}	
-}
-
-.table-hover {
- 	> tbody > tr:hover {
-		 background-color: #EEE;
-	}
- }
-
-.pagination {
-	margin: 0;
-}
-
-
 /* FIELDSETS
 ------------------------------ */
 fieldset {
@@ -2454,26 +2388,31 @@ legend {
 ------------------------------ */
 $file-browser-height: 40rem;
 $file-actions-height: 5rem;
+$file-browser-item-active: #2b5580;
 
 .file-browser {
-	border-top: 1px solid #DDD;
-	
-	.col-sm-6, .col-md-4 {
+	.col-sm-6,
+ 	.col-md-4 {
 		padding: 0;
 	}
 	
 	.file-browser-category {
-		padding: 0.55rem 1rem;
+		padding: 0.75rem 1rem;
 		font-weight: bold;
-		border-bottom: 1px solid #DDD;
+		border-bottom: 1px solid #EEE;
 		background: #f7f8fa;
+	}
+	
+	.file-browser-category.active {
+		background: $file-browser-item-active;
+		border-bottom-color: $file-browser-item-active;
 	}
 	
 	.file-browser-list {
 		height: $file-browser-height;
 		overflow-y: auto;
 		overflow-x: hidden;
-		border-right: 1px solid #DDD;
+		border-right: 1px solid #EEE;
 		
 		ul {
 			margin: 0;
@@ -2482,21 +2421,45 @@ $file-actions-height: 5rem;
 		}
 		
 		li {
-			padding: 0.75rem 1rem 0.75rem 3rem;
-			border-bottom: 1px solid #DDD;
+			position: relative;
+			padding: 0.75rem 1rem;
+			border-bottom: 1px solid #EEE;
 			
 			.glyphicon {
 				position: absolute;
 				top: 0.75rem;
+			}
+		}
+		
+		li.row-folder-depth-1,
+		li.row-document {
+			padding-left: 3rem;
+			
+			.glyphicon {
 				left: 1rem;
 			}
 		}
 		
-		li:last-child {
-			border-bottom: none;
+		li.row-folder-depth-2 {
+			padding-left: 5rem;
+			
+			.glyphicon {
+				left: 3rem;
+			}
 		}
 		
+		li.row-folder-depth-3 {
+			padding-left: 7rem;
+			
+			.glyphicon {
+				left: 5;
+			}
+		}
 		
+		li.active {
+			background: $file-browser-item-active;
+			border-bottom-color: $file-browser-item-active;
+		}
 	}
 	
 	.file-browser-list:last-child {
@@ -2513,9 +2476,9 @@ $file-actions-height: 5rem;
 			overflow-x: hidden;
 			
 			h3 {
-				margin-top: 0.5rem;
-				margin-bottom: 2rem;
-				font-size: 2rem;
+				margin-top: 0;
+				margin-bottom: 1.5rem;
+				font-size: 1.8rem;
 				font-weight: bold;
 			}
 		}
@@ -2524,29 +2487,15 @@ $file-actions-height: 5rem;
 			height: $file-actions-height;
 			padding: 1rem;
 			text-align: center;
-			border-top: 1px solid #DDD;
+			border-top: 1px solid #EEE;
 			background: #f7f8fa;
 		}	
-		
-		.value-list {
-			a {
-				margin-bottom: 1px;
-				display: block;
-				padding: 0.5rem 1rem;
-				font-size: 1.2rem;
-				font-weight: bold;
-				background: #EEE;
-			}
 			
-			a:hover {
-				color: #FFF;
-				background: #003366;
-			}
-			
-			a:last-child {
-				margin-bottom: 0;
-			}
-		}	
+		.list-group-item {
+			padding: 0.5rem 0.8rem;
+			font-size: 1.2rem;
+			color: $link-color;
+		}
 	}
 }
 
@@ -2689,17 +2638,20 @@ $modal-body-bg: #f7f8fa;
 }
 
 
-/* PANEL OVERRIDES 
+/* PANEL 
 ------------------------------ */ 
 .panel-default {
-	border: 1px solid #DDD;
+	border: none;
+	border-radius: 0;
 	box-shadow: none;
 	
 	> .panel-heading {
 		padding: 1.25rem 1rem;
-		border: none;
+		color: $panel-heading-color;
+		border-color: #EEE;
+		border-radius: 0;
 		background-image: none;
-		background-color: #EEE;
+		background-color: $panel-heading-bg;
 		
 		.btn {
 			margin-top: -1rem;
@@ -2791,6 +2743,71 @@ $nav-tab-active: #1a5a96;
 
 .tab-pane {
 	padding-top: 1.5rem;
+}
+
+
+/* TABLE
+------------------------------ */
+.table {
+	table-layout: fixed;
+	margin-bottom: 0;
+	
+	> thead > tr > th {
+		font-size: 1.2rem;
+		border-bottom: none;
+	}
+	
+	> thead > tr > th:first-child {
+		padding-left: 1rem;
+	}
+	
+	> thead > tr > th:last-child {
+		padding-right: 1rem;
+	}
+	
+	th, td {
+		text-align: left;
+	}
+	
+	.actions-col {
+		padding-top: 0;
+		padding-bottom: 0;
+		text-align: center;
+		
+		.btn {
+			margin-top: 0.32rem;
+			padding-left: 0.8rem;
+			padding-right: 0.8rem;
+		}
+		
+		.btn:hover {
+			background: #FFF;
+		}
+	}
+	
+	.action-x1 {
+		width: 6rem;
+	}
+	
+	.action-x2 {
+		width: 10rem;
+	}
+}
+
+.table-striped {
+	> tbody > tr:nth-of-type(odd) {
+		background-color: #f7f8fa;
+	}	
+}
+
+.table-hover {
+ 	> tbody > tr:hover {
+		 background-color: #EEE;
+	}
+ }
+
+.pagination {
+	margin: 0;
 }
 
 
@@ -3067,6 +3084,7 @@ section.project-info {
 
 .detail-row {
 	margin: 1.5rem 0;
+	font-size: 1.2rem;
 	
 	> label {
 		margin-bottom: .2rem;
@@ -3112,6 +3130,10 @@ section.project-info {
 }
 
 @media (min-width: 1024px) {
+	.detail-row {
+		font-size: 1.4rem;
+	}
+	
 	.mem-details .detail-row {
 		display: table-row;
 		
