@@ -49,9 +49,6 @@ module.exports = function(file, req, res) {
 					.then(function (p) {
 						return (new Project(req.user)).addPhase(p, "post-certification");
 					})
-					.then(function (p) {
-						return (new Project(req.user)).addPhase(p, "completed");
-					})
 					.then(function (pr) {
 						if (!stopProcessing) {
 							if (finalPhaseCode === "pre-ea") stopProcessing = true;
