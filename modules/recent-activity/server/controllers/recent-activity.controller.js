@@ -22,7 +22,7 @@ module.exports = DBModel.extend ({
     getRecentActivityActive: function () {
         var p = Model.find ({active:true},
                             {},
-                            {}).limit(10); // Quick hack to limit the front page loads.
+                            {}).sort({dateUpdated: -1}).limit(10); // Quick hack to limit the front page loads.
         return new Promise (function (resolve, reject) {
             p.then(function (doc) {
                 var pcSort = _.partition(doc, { type: "Public Comment Period" });

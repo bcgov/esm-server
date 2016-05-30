@@ -20,7 +20,7 @@
 					<td data-title="'Version'" filter="{'version':'text'}"   	class="text-center" sortable="'version'"  >{{o.version}}</td>
 					<td data-title="'Stage'"   filter="{'stage':'text'}"    	class="text-center" sortable="'stage'"   >{{o.stage}}</td>
 					<td data-title="'Published'" sortable="'isPublished'"><i ng-if="o.isPublished" class="glyphicon glyphicon-ok"></i></td>
-					<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+					<td ng-if="mc.renderWidget('valued-component', project)" class="actions-col action-x1" header-class="'actions-col action-x1'">
 						<a class="btn btn-link btn-sm"
 						   title="Edit Valued Component"
 						   ng-click="$event.stopPropagation()"
