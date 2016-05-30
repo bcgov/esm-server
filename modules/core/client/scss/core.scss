@@ -24,21 +24,22 @@ $info-border:			#337ab7;
 $success-bg: 			#449d44;
 $success-border: 		#398439;
 
-
 $app-bg: 				#F1f1f1;
-$app-base-font-color: 	#494949;
+$app-base-color: 		#494949;
 
 $link-color: 			#1a5a96;
 
-$panel-heading-bg: #FFF;
+$modal-body-bg: 		#f7f8fa;
+$modal-header-bg: 		#FFF;
+$modal-footer-bg: 		#FFF;
+
+$panel-border-color: 	#DDD;
+$panel-heading-bg: 		#FFF;
 $panel-heading-color: 	#494949;
 
 
-// -------------------------
-// Bootstrap Overrides
-// -------------------------
-
-/* TYPOGRAPHY - NEW */
+/* GLOBAL
+------------------------------ */
 @font-face {
 	font-family: 'Myriad-Pro';
 	src: url('../fonts/MyriadWebPro.ttf');
@@ -52,21 +53,14 @@ html {
 body {
 	min-height: 100%;
 	font-size: 1.4rem;
-	color: $app-base-font-color;
+	color: $app-base-color;
 	-ms-overflow-style: scrollbar;
 }
+
 
 /* ----- Typography ----- */
 $font-family-heading: Myriad-Pro, Calibri, sans serif;
 $font-family-sans-serif: Myriad-Pro, Calibri, sans serif;
-
-.btn-primary,
-.btn-success,
-.btn-info,
-.btn-warning,
-.btn-danger {
-	text-shadow: 0 -1px 0 rgba(0, 0, 0, .2) !important;
-}
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
@@ -75,6 +69,7 @@ $font-family-sans-serif: Myriad-Pro, Calibri, sans serif;
 .clear-left {
 	clear: left;
 }
+
 /* Remove border to delete the 1px line */
 .navbar-fixed-top {
 	border: 0;
@@ -2604,8 +2599,6 @@ textarea {
 
 /* MODAL OVERRIDES
 ------------------------------ */ 
-$modal-body-bg: #f7f8fa;
-
 .modal-header,
 .modal-footer {
 	padding: 1.25rem 2rem;
@@ -2625,8 +2618,6 @@ $modal-body-bg: #f7f8fa;
 }
 
 .modal-footer {
-	padding: 1.5rem 2rem;
-	
 	.btn {
 		min-width: 8rem;
 	}
@@ -2648,7 +2639,7 @@ $modal-body-bg: #f7f8fa;
 	> .panel-heading {
 		padding: 1.25rem 1rem;
 		color: $panel-heading-color;
-		border-color: #EEE;
+		border-color: $panel-border-color;
 		border-radius: 0;
 		background-image: none;
 		background-color: $panel-heading-bg;
@@ -3218,15 +3209,11 @@ section.project-info {
 		padding: 1rem;
 		font-weight: bold;
 	}
-	
-	.news-feed-item:last-child {
-		border-bottom: none;
-	}
 }
 
 .news-feed-item {
 	padding: 1.5rem;
-	border-bottom: 1px solid #DDD;
+	border-top: 1px solid #DDD;
 	
 	.news-title {
 		margin-bottom: 0.75rem;
@@ -3248,6 +3235,10 @@ section.project-info {
 		font-size: 1.2rem;
 		font-weight: bold;
 	}
+}
+
+.news-feed-item:first-child {
+	border-top: none;
 }
 
 
