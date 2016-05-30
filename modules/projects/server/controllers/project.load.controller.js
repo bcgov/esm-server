@@ -145,22 +145,6 @@ module.exports = function(file, req, res) {
 							return pr;
 						}
 					})
-					.then(function (pr) {
-						if (!stopProcessing) {
-							if (finalPhaseCode === "completed") stopProcessing = true;
-							// console.log("doing completed");
-							return (new Project(req.user)).completeCurrentPhase(pr)
-							.then( function (pr) {
-								// Complete the phase and set next.
-								pr.currentPhase     = pr.phases[7];
-								pr.currentPhaseCode = pr.phases[7].code;
-								pr.currentPhaseName = pr.phases[7].name;
-								return (new Project(req.user)).saveDocument(pr);
-							});
-						} else {
-							return pr;
-						}
-					})
 					.then(function (p) {
 						rs(p);
 					});
