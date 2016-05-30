@@ -3353,9 +3353,22 @@ section.project-info {
 	
 	h2 {
 		margin: 0;
-		margin-bottom: 1.5rem;
+		margin-bottom: 0.5rem;
 		display: block;
-		font-size: 2rem;
+		font-size: 2.2rem;
+		font-weight: bold;
+	}
+	
+	h3 {
+		margin-top: 0;
+		margin-bottom: 1.75rem;
+		font-size: 1.6rem;
+		font-weight: bold;
+	}
+	
+	h4 {
+		margin-bottom: 0.75rem;
+		font-size: 1.6rem;
 		font-weight: bold;
 	}
 	
@@ -3363,26 +3376,30 @@ section.project-info {
 		padding: 2rem 1.5rem;
 	}
 	
-	
 	.start-end-date {
 		display: block;
 		margin-bottom: 2.2rem;
 	}
 	
 	p {
-		margin-bottom: 2rem;
+		margin-bottom: 1.5rem;
 	}
 	
 	ul {
-		padding-left: 0;
-		list-style-type: none;
+		margin: 0;
+		padding-left: 2.5rem;
+		list-style-type: square;
 	}
 	
 	.btn {
-		margin-top: 2.5rem;
+		margin-top: 2rem;
 		padding: 0.7rem 1.5rem;
 		font-size: 1.6rem;
 		font-weight: bold;
+	}
+	
+	.open-house-dates {
+		margin-top: 2.5rem;
 	}
 }
 
