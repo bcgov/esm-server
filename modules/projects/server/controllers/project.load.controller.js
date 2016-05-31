@@ -49,9 +49,6 @@ module.exports = function(file, req, res) {
 					.then(function (p) {
 						return (new Project(req.user)).addPhase(p, "post-certification");
 					})
-					.then(function (p) {
-						return (new Project(req.user)).addPhase(p, "completed");
-					})
 					.then(function (pr) {
 						if (!stopProcessing) {
 							if (finalPhaseCode === "pre-ea") stopProcessing = true;
@@ -142,22 +139,6 @@ module.exports = function(file, req, res) {
 								pr.currentPhase     = pr.phases[6];
 								pr.currentPhaseCode = pr.phases[6].code;
 								pr.currentPhaseName = pr.phases[6].name;
-								return (new Project(req.user)).saveDocument(pr);
-							});
-						} else {
-							return pr;
-						}
-					})
-					.then(function (pr) {
-						if (!stopProcessing) {
-							if (finalPhaseCode === "completed") stopProcessing = true;
-							// console.log("doing completed");
-							return (new Project(req.user)).completeCurrentPhase(pr)
-							.then( function (pr) {
-								// Complete the phase and set next.
-								pr.currentPhase     = pr.phases[7];
-								pr.currentPhaseCode = pr.phases[7].code;
-								pr.currentPhaseName = pr.phases[7].name;
 								return (new Project(req.user)).saveDocument(pr);
 							});
 						} else {
