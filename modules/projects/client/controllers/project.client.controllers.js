@@ -286,24 +286,22 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 			return false;
 		}
 
-		// UserModel.saveModel ()
-		Promise.resolve (Authentication.user)
-		.then (function (um) {
-			$scope.project.primaryContact = um._id;
-			return OrganizationModel.saveModel ();
-		})
-		.then (function (om) {
-			$scope.project.proponent = om._id;
-			return ProjectModel.submit ();
-		})
-		// ProjectModel.submit ()
+		ProjectModel.submit ()
 		.then (function (data) {
-			// $state.transitionTo('p.detail', {projectid: data.code}, {
-	  // 			reload: true, inherit: false, notify: true
-	  // 		});
-	  		// console.log ('new status = ', data.status);
 	  		$scope.project = _.extend($scope.project, data);
 			$state.go('p.detail', {projectid: $scope.project.code});
+		})
+		.then (function () {
+			Promise.resolve (Authentication.user)
+			.then (function (um) {
+				$scope.project.primaryContact = um._id;
+				return OrganizationModel.saveModel ();
+			});
+			// This really needs to change to do the new flow of proponent intake.
+			// .then (function (om) {
+			// 	$scope.project.proponent = om._id;
+			// 	return ProjectModel.save();
+			// });
 		})
 		.catch (function (err) {
 			console.error ('error = ', err);

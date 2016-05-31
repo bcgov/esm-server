@@ -3071,6 +3071,10 @@ section.project-info {
 	.panel {
 		margin-bottom: 0;
 	}
+	
+	.angular-google-map-container {
+		height: 400px;
+	}
 }
 
 .detail-row {
@@ -3096,6 +3100,20 @@ section.project-info {
 	
 	span.value.wrap-text {
 		white-space:normal;
+	}
+}
+
+.detail-row.horiz {
+	margin: 0;
+	
+	label, span.value {
+		margin: 0;
+		display: inline-block;
+		color: inherit;
+	}
+	
+	label {
+		margin-right: 1rem;
 	}
 }
 
@@ -3353,9 +3371,22 @@ section.project-info {
 	
 	h2 {
 		margin: 0;
-		margin-bottom: 1.5rem;
+		margin-bottom: 0.5rem;
 		display: block;
-		font-size: 2rem;
+		font-size: 2.2rem;
+		font-weight: bold;
+	}
+	
+	h3 {
+		margin-top: 0;
+		margin-bottom: 1.75rem;
+		font-size: 1.6rem;
+		font-weight: bold;
+	}
+	
+	h4 {
+		margin-bottom: 0.75rem;
+		font-size: 1.6rem;
 		font-weight: bold;
 	}
 	
@@ -3363,26 +3394,30 @@ section.project-info {
 		padding: 2rem 1.5rem;
 	}
 	
-	
 	.start-end-date {
 		display: block;
 		margin-bottom: 2.2rem;
 	}
 	
 	p {
-		margin-bottom: 2rem;
+		margin-bottom: 1.5rem;
 	}
 	
 	ul {
-		padding-left: 0;
-		list-style-type: none;
+		margin: 0;
+		padding-left: 2.5rem;
+		list-style-type: square;
 	}
 	
 	.btn {
-		margin-top: 2.5rem;
+		margin-top: 2rem;
 		padding: 0.7rem 1.5rem;
 		font-size: 1.6rem;
 		font-weight: bold;
+	}
+	
+	.open-house-dates {
+		margin-top: 2.5rem;
 	}
 }
 
@@ -3664,6 +3699,63 @@ section.project-info {
 		
 		.attachments {
 			margin-bottom: 1.5rem;
+		}
+	}
+	
+	.eao-alerts {
+		position: relative;
+		
+		label, .value {
+			color: inherit;
+		}
+		
+		label {
+			text-shadow: 1px 1px 0 transparent;
+		}
+		
+		.notes {
+			margin-bottom: 0;
+		}
+		
+		.date {
+			position: absolute;
+			top: 1.8rem;
+			right: 2rem;
+		}
+	}
+	
+	.eao-comment-notes {
+		strong {
+			display: block;
+			margin-bottom: 1rem;
+		}
+	}
+	
+	.comment-status-btns {
+		margin-top: 0.25rem;
+		
+		.btn {
+			min-width: 10rem;
+			padding-top: 0.8rem;
+		}
+		
+		.btn-danger,
+		.btn-success {
+			color: #000;
+			background: #FFF;
+			border-color: #CCC;
+		}
+		
+		.btn-danger.active {
+			background: #d9534f;
+			border-color: #d43f3a;
+			color: #FFF;
+		}
+		
+		.btn-success.active {
+			background: #5cb85c;
+			border-color: #4cae4c;
+			color: #FFF;
 		}
 	}
 }
