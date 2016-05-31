@@ -6,7 +6,7 @@
 	
 	<div class="view-body-container">
 		<div class="button-bar clearfix">
-			<a class="btn btn-default btn-sm" ui-sref="p.projectcondition.create()">
+			<a ng-if="showedit" class="btn btn-default btn-sm" ui-sref="p.projectcondition.create()">
 				<span class="glyphicon glyphicon-plus"></span>
 				<span>Add Condition</span>
 			</a>
@@ -22,7 +22,7 @@
 					<td data-title="'Subject'" filter="{'subject':'text'}"    sortable="'subject'" >{{o.subject}}</td>
 					<td data-title="'Stages'"   filter="{'stages':'text'}"  sortable="'stages'" >{{o.stageString}}</td>
 					<td data-title="'Pillars'"  filter="{'pillars':'text'}" sortable="'pillars'"  >{{o.pillarString}}</td>
-					<td>
+					<td ng-if="showedit" >
 						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.projectcondition.edit({conditionId:o._id})">
 							<i class="glyphicon glyphicon-pencil"></i>
 						</a>
