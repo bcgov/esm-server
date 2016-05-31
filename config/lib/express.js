@@ -71,7 +71,13 @@ module.exports.initMiddleware = function (app) {
   // Environment dependent middleware
   if (process.env.NODE_ENV === 'development') {
     // Enable logger (morgan)
-    app.use(morgan('dev'));
+    app.use(morgan('dev', {
+      skip: function (req, res) {
+        var isAPI = req.path.substr (0, 4) === '/api';
+        var isOK  = req.statusCode < 400;
+        return (!isAPI && isOK);
+      }
+    }));
 
     // Disable views cache
     app.set('view cache', false);
