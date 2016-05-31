@@ -3103,6 +3103,20 @@ section.project-info {
 	}
 }
 
+.detail-row.horiz {
+	margin: 0;
+	
+	label, span.value {
+		margin: 0;
+		display: inline-block;
+		color: inherit;
+	}
+	
+	label {
+		margin-right: 1rem;
+	}
+}
+
 .detail-row:first-child {
 	margin-top: 0;
 }
@@ -3685,6 +3699,63 @@ section.project-info {
 		
 		.attachments {
 			margin-bottom: 1.5rem;
+		}
+	}
+	
+	.eao-alerts {
+		position: relative;
+		
+		label, .value {
+			color: inherit;
+		}
+		
+		label {
+			text-shadow: 1px 1px 0 transparent;
+		}
+		
+		.notes {
+			margin-bottom: 0;
+		}
+		
+		.date {
+			position: absolute;
+			top: 1.8rem;
+			right: 2rem;
+		}
+	}
+	
+	.eao-comment-notes {
+		strong {
+			display: block;
+			margin-bottom: 1rem;
+		}
+	}
+	
+	.comment-status-btns {
+		margin-top: 0.25rem;
+		
+		.btn {
+			min-width: 10rem;
+			padding-top: 0.8rem;
+		}
+		
+		.btn-danger,
+		.btn-success {
+			color: #000;
+			background: #FFF;
+			border-color: #CCC;
+		}
+		
+		.btn-danger.active {
+			background: #d9534f;
+			border-color: #d43f3a;
+			color: #FFF;
+		}
+		
+		.btn-success.active {
+			background: #5cb85c;
+			border-color: #4cae4c;
+			color: #FFF;
 		}
 	}
 }
