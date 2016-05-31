@@ -1,9 +1,7 @@
 <div class="public-comment-period-view">
 
-    <div class="breadcrumbs">{{project.name}} &nbsp;&rsaquo;&nbsp; Public Comment Periods</div>
-
     <div class="view-title-container">
-        <h1>Public Comment Periods</h1>
+        <h1>{{project.name}} &nbsp;&rsaquo;&nbsp; Public Comment Periods</h1>
     </div>
 
     <div class="view-body-container">
@@ -28,200 +26,124 @@
             </div>
         </div>
 
-
+        <!-- PROTOTYPE PUBLIC ROW TEMPLATES  -->
+        <div class="public-comment-panel panel panel-default">
+            <table ng-table="tableParams" show-filter="true" class="table table-striped table-hover">
+                <tr class="comment-row" data-toggle="modal" data-target="#commentDetailModal">
+                    <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Posted by'" filter="{'name':'text'}" sortable="'name'">
+                        <h2 class="comment-title">Anonymous</h2>
+                        <div ng-init="toggleProject.desc = (false)">
+                            <p class="comment">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        </div>
+                    </td>
+                    <td class="location-col no-mobile" header-class="'location-col no-mobile'" data-title="'Location'" filter="{'name':'text'}" sortable="'commentLocation'">Location</td>
+                    <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillar'" filter="{'pillar':'select'}" sortable="'commentPillar'">Health, Environment, Heritage</td>
+                    <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Component'" filter="{'commentVC':'select'}" sortable="'commentVC'">Air Quality, Water Quality, Regulatory Process, Rights & Titles</td>
+                    <td class="attachment-col" header-class="'attachment-col no-mobile'"><span class="glyphicon glyphicon-paperclip"></span></td>
+                    <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" filter="{'date':'text'}" sortable="'dateAdded'" >MM/DD/YYYY</td>
+                </tr>
+                <tr class="comment-row" data-toggle="modal" data-target="#commentDetailModal">
+                    <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Headline'" filter="{'name':'text'}" sortable="'name'">
+                        <h2 class="comment-title">Anonymous</h2>
+                        <div ng-init="toggleProject.desc = (false)">
+                            <p class="comment">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        </div>
+                    </td>
+                    <td class="location-col no-mobile" header-class="'location-col no-mobile'" data-title="'Location'" filter="{'name':'text'}" sortable="'commentLocation'">Location</td>
+                    <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillar'" filter="{'pillar':'select'}" sortable="'commentPillar'">Health, Environment, Heritage</td>
+                    <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Component'" filter="{'commentVC':'select'}" sortable="'commentVC'">Air Quality, Water Quality, Regulatory Process, Rights & Titles</td>
+                    <td class="attachment-col" header-class="'attachment-col no-mobile'"><span class="glyphicon glyphicon-paperclip"></span></td>
+                    <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" filter="{'date':'text'}" sortable="'dateAdded'" >MM/DD/YYYY</td>
+                </tr>
+                <tr class="comment-row" data-toggle="modal" data-target="#commentDetailModal">
+                    <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Headline'" filter="{'name':'text'}" sortable="'name'">
+                        <h2 class="comment-title">Anonymous</h2>
+                        <div ng-init="toggleProject.desc = (false)">
+                            <p class="comment">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        </div>
+                    </td>
+                    <td class="location-col no-mobile" header-class="'location-col no-mobile'" data-title="'Location'" filter="{'name':'text'}" sortable="'commentLocation'">Location</td>
+                    <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillar'" filter="{'pillar':'select'}" sortable="'commentPillar'">Health, Environment, Heritage</td>
+                    <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Component'" filter="{'commentVC':'select'}" sortable="'commentVC'">Air Quality, Water Quality, Regulatory Process, Rights & Titles</td>
+                    <td class="attachment-col" header-class="'attachment-col no-mobile'"><span class="glyphicon glyphicon-paperclip"></span></td>
+                    <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" filter="{'date':'text'}" sortable="'dateAdded'" >MM/DD/YYYY</td>
+                </tr>
+                <tr ng-if="!$data || $data.length === 0">
+                    <td colspan="6">No records found.</td>
+                </tr>
+            </table>
+        </div><!-- / PROTOTYPE PUBLIC ROW TEMPLATES  -->
     </div>
 </div>
 
 <!-- COMMENT DETAIL MODAL  -->
 <div class="public-comment-modal modal fade" id="commentDetailModal" role="dialog" tabindex="-1">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<h3 class="modal-title">Public Comment  &nbsp;&rsaquo;&nbsp; Anonymous</h3>
-			</div>
-			<div class="modal-body">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title">Public Comment  &nbsp;&rsaquo;&nbsp; Anonymous</h3>
+            </div>
+            <div class="modal-body">
 
-                <!-- STATUS ALERTS -->
-                <div class="eao-alerts">
-                    <div class="alert alert-danger hidden">
-                        Review period for this comment expires in <strong>1 Days</strong>
-                    </div>
-                    <div class="alert alert-info hidden">
-                        Review period for this comment expires in <strong>7 Days</strong>
-                    </div>
-
-                    <!-- DEFER NOTES -->
-                    <div class="alert alert-info eao-comment-notes hidden">
-                        <div class="detail-row">
-                            <label>Deferred by:</label><span class="value">User Name</span>
-                        </div>
-                        <div class="notes detail-row">
-                            <span class="value wrap-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</span>
-                        </div>
-                        <div class="date">MM/DD/YYYY</div>
-                    </div>
-
-                    <!-- REJECTION NOTES -->
-                    <div class="alert alert-danger eao-comment-notes">
-                        <div class="detail-row">
-                            <label>Rejected by:</label><span class="value">User Name</span>
-                        </div>
-                        <div class="detail-row">
-                            <label>Reason for Rejection:</label><span class="value">Rejection Reason Here</span>
-                        </div>
-                        <div class="notes detail-row">
-                            <span class="value wrap-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</span>
-                        </div>
-                        <div class="date">MM/DD/YYYY</div>
-                    </div>
-
-                </div>
-
-                <section class="comment-info">
+                <section>
                     <label>Posted March 21, 2016</label>
                     <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
                 </section>
 
-                <!-- PILLARS & VC'S -->
-                <section class="pillers-vc">
-                    <!-- DISPLAY VALUES -->
-                    <div class="pillers-vc-display hidden">
-                        <div class="detail-row">
-                            <label>Pillars</label>
-                            <span class="value">Health, Environment, Heritage</span>
-                        </div>
-                        <div class="detail-row">
-                            <label>Valued Components</label>
-                            <span class="value">Air Quality, Water Quality, Regulatory Process, Rights & Titles</span>
-                        </div>
-                    </div><!-- / DISPLAY VALUES -->
-                    <!-- PROPONENT ASSIGN -->
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="detail-row">
-                                <label>Assign Pillars</label>
-                                <div class="pick-list panel panel-default" data-toggle="buttons">
-                                    <label class="btn btn-default active">
-                                        <input type="checkbox" autocomplete="off">Pillar 1
-                                    </label>
-                                    <label class="btn btn-default">
-                                        <input type="checkbox" autocomplete="off">Pillar 2
-                                    </label>
-                                    <label class="btn btn-default">
-                                        <input type="checkbox" autocomplete="off">Pillar 3
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="detail-row">
-                                <label>Assign Valued Components</label>
-                                <div class="pick-list panel panel-default" data-toggle="buttons">
-                                    <label class="btn btn-default" title="Really Really Really Really Really Really Long Valued Component Name">
-                                        <input type="checkbox" autocomplete="off" checked>Really Really Really Really Really Really Long Valued Component Name
-                                    </label>
-                                    <label class="btn btn-default" title="Valued Component 2">
-                                        <input type="checkbox" autocomplete="off">Valued Component 2
-                                    </label>
-                                    <label class="btn btn-default" title="Valued Component 1">
-                                        <input type="checkbox" autocomplete="off">Valued Component 1
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- / PROPONENT ASSIGN -->
-                </section><!-- / PILLARS & VC'S -->
+                <!-- PILLARS / VALUED COMPONENTS -->
+                <section>
+                    <div class="detail-row">
+                        <label>Pillar</label>
+                        <span class="value">Health, Environment, Heritage</span>
+                    </div>
+                    <div class="detail-row">
+                        <label>Valued Components</label>
+                        <span class="value">Air Quality, Water Quality, Regulatory Process, Rights & Titles</span>
+                    </div>
+                </section>
 
                 <!-- ATTACHMENTS -->
                 <section>
                     <div class="detail-row">
                         <label>Attachments</label>
-                        <ul class="attachments list-group">
-                            <li class="list-group-item clearfix">
+                        <div class="attachments list-group">
+                            <a class="list-group-item">
                                 <div class="file-name">file-name-1.jpg</div>
-                                <div class="file-review btn-group" data-toggle="buttons">
-                                    <label class="btn btn-danger btn-sm">
-                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
-                                    </label>
-                                    <label class="btn btn-success btn-sm">
-                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Accept
-                                    </label>
-                                </div>
                                 <button class="file-action btn btn-link">
                                     <span class="glyphicon glyphicon-download-alt"></span>
                                 </button>
-                            </li>
-                            <li class="list-group-item clearfix">
+                            </a>
+                            <a class="list-group-item">
                                 <div class="file-name">file-name-1.jpg</div>
-                                <div class="file-review btn-group" data-toggle="buttons">
-                                    <label class="btn btn-danger btn-sm">
-                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
-                                    </label>
-                                    <label class="btn btn-success btn-sm">
-                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Accept
-                                    </label>
-                                </div>
                                 <button class="file-action btn btn-link">
                                     <span class="glyphicon glyphicon-download-alt"></span>
                                 </button>
-                            </li>
-                            <li class="list-group-item clearfix">
-                                <div class="file-name">file-name-1.jpg</div>
-                                <div class="file-review btn-group" data-toggle="buttons">
-                                    <label class="btn btn-danger btn-sm">
-                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
-                                    </label>
-                                    <label class="btn btn-success btn-sm">
-                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Accept
-                                    </label>
-                                </div>
-                                <button class="file-action btn btn-link">
-                                    <span class="glyphicon glyphicon-download-alt"></span>
-                                </button>
-                            </li>
-                        </ul>
+                            </a>
+                        </div>
                     </div>
                 </section><!-- / ATTACHMENTS -->
 
-                <section>
-                    <div class="detail-row">
-                        <label>Set Comment Status</label>
-                        <div class="btn-group comment-status-btns" data-toggle="buttons">
-                            <label class="btn btn-default active">
-                                <input type="radio" name="commentStatus" id="deferComment" autocomplete="off" checked> Defer
-                            </label>
-                            <label class="btn btn-danger">
-                                <input type="radio" name="commentStatus" id="rejectComment" autocomplete="off"> Reject
-                            </label>
-                            <label class="btn btn-success">
-                                <input type="radio" name="commentStatus" id="publishComment" autocomplete="off"> Publish
-                            </label>
-                        </div>
-                    </div>
-                </section>
-
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="close">Cancel</button>
-                <button type="button" class="btn btn-success" data-dismiss="close" disabled="disabled">Update</button>
-			</div>
-		</div>
-	</div>
+                <button type="button" class="btn btn-default" data-dismiss="close">Close</button>
+            </div>
+        </div>
+    </div>
 </div><!-- / COMMENT DETAIL MODAL -->
 
 <!-- SUBMIT COMMENT MODAL  -->
 <div class="public-comment-modal modal fade" id="submitCommentModal" role="dialog" tabindex="-1">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<h3 class="modal-title">Submit a Comment</h3>
-			</div>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title">Submit a Comment</h3>
+            </div>
 
             <!-- COMMENT FORM - STEP 1 -->
             <form class="comment-form-1 hidden">
@@ -308,7 +230,6 @@
                                 <div class="attachments-upload-target">
                                     <input type="file" multiple accept=".jpg,.jpeg,.pdf" />
                                     <div><strong>Drag & Drop</strong> or <strong>Click Here</strong> to Upload Attachments</div>
-                                    <small><em>All attachments must be in PDF format and limited to 5MB.</em></small>
                                 </div>
                             </div>
                         </div>
@@ -344,7 +265,7 @@
                 </div>
             </div><!-- / COMMENT FORM - STEP 3 -->
 
-		</div>
-	</div>
+        </div>
+    </div>
 </div><!-- / SUBMIT COMMENT MODAL -->
 

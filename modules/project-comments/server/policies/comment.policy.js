@@ -17,6 +17,7 @@ exports.invokeRolesPolicies = function () {
 		[ '', 'user', '/api/resolve/comment/:comment'   ],
 		[ '', 'user', '/api/comments/type/:type/target/:targettype/:targetid'   ],
 		[ '', 'user', '/api/comments/ancestor/:commentId'   ],
+		[ 'guest', 'user', '/api/comments/period/:periodId'   ],
 		[ '', 'user', '/api/commentperiod/for/project/:projectId' ],
 	]);
 };

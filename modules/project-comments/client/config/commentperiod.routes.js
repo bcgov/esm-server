@@ -124,6 +124,8 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 	// this is the 'view' mode of a comment period. here we are just simply
 	// looking at the information for this specific object
 	//
+	// ** this is where we should go to the view of the comments
+	//
 	// -------------------------------------------------------------------------
 	.state('p.commentperiod.detail', {
 		url: '/:periodId',

@@ -25,7 +25,11 @@ angular.module('project').config (
 				return project.proponentAdminRole;
 			}
 		},
-		controller: function ($scope, $stateParams, project, ENV, $rootScope, ProjectModel, Menus, MenuControl) {
+		controller: function ($scope, $stateParams, project, ENV, $rootScope, ProjectModel, Menus, MenuControl, Authentication) {
+
+			console.log (Authentication.user);
+			console.log (Authentication.user.roles);
+
 			$scope.project = project;
 			$scope.environment = ENV;
 			$scope.isNew = ($stateParams.projectid === 'new');
@@ -90,7 +94,7 @@ angular.module('project').config (
 				Menus.addMenuItem('projectMenu', {
 					title: 'Comment Periods',
 					state: 'p.commentperiod.list',
-					roles: MenuControl.menuRoles ('admin', project.code, '*', '*')
+					roles: MenuControl.menuRoles (undefined, project.code, '*', '*')
 				});
 				Menus.addMenuItem('projectMenu', {
 					title: 'Complaints',
@@ -115,7 +119,7 @@ angular.module('project').config (
 				Menus.addMenuItem('projectMenu', {
 					title: 'Valued Components',
 					state: 'p.vc.list',
-					roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer', 'pro:admin', 'pro:member', 'sub'])
+					roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['admin', 'eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer', 'pro:admin', 'pro:member', 'sub'])
 				});
 			}
 
@@ -222,7 +226,7 @@ angular.module('project').config (
 			}
 		}
 	})
-	
+
 	// -------------------------------------------------------------------------
 	//
 	// PUBLIC COMMENT PERIOD
@@ -241,8 +245,8 @@ angular.module('project').config (
 			}
 		}
 	})
-	
-	
+
+
 	// -------------------------------------------------------------------------
 	//
 	// the decision package mockup

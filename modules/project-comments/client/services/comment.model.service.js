@@ -14,6 +14,20 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 		urlName : 'comment',
 		// -------------------------------------------------------------------------
 		//
+		// get all the comments for a comment period
+		//
+		// -------------------------------------------------------------------------
+		getCommentsForPeriod: function (periodId) {
+			return this.get ('/api/comments/period/'+periodId);
+		},
+		getEAOCommentsForPeriod: function (periodId) {
+			return this.get ('/api/comments/period/'+periodId);
+		},
+		getProponentCommentsForPeriod: function (periodId) {
+			return this.get ('/api/comments/period/'+periodId);
+		},
+		// -------------------------------------------------------------------------
+		//
 		// pass in the target type (Project Description, Document, AIR, etc)
 		// and its Id (all as taken from the period or wherever you came from)
 		// and the type of comments you are looking for (public, wg, ciaa, etc)

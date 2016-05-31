@@ -12,6 +12,15 @@ module.exports = DBModel.extend ({
 	name : 'Comment',
 	plural: 'comments',
 	populate : {path:'user', select:'_id displayName username orgCode'},
+	getCommentsForPeriod : function (periodId) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findMany ({
+				period : periodId,
+			})
+			.then (resolve, reject);
+		});
+	},
 	// -------------------------------------------------------------------------
 	//
 	// pass in the target type (Project Description, Document, AIR, etc)

@@ -4,6 +4,57 @@ angular.module ('comment')
 	.directive('tmplWgComments', directiveWGComments)
 // -------------------------------------------------------------------------
 //
+// list of public comments from the point of view of the public
+//
+// -------------------------------------------------------------------------
+.directive ('tmplPublicCommentList', function () {
+	return {
+		scope: {
+			period : '=',
+			project : '='
+		},
+		restrict: 'E',
+		templateUrl : 'modules/project-comments/client/views/public-comments/list.html',
+		controllerAs: 's',
+		controller: function ($scope, NgTableParams, Authentication, CommentModel) {
+			var s = this;
+			$scope.isPublic    = !Authentication.user.roles;
+			$scope.isEao       = (!$scope.isPublic && (!!~Authentication.user.roles.indexOf ($scope.project.code+':eao:member') || !!~Authentication.user.roles.indexOf ('admin')));
+			$scope.isProponent = (!$scope.isPublic && (!!~Authentication.user.roles.indexOf ($scope.project.code+':pro:member')));
+			$scope.canVet      = $scope.isEao;
+			$scope.canClassify = $scope.isProponent;
+			$scope.isPublic    = true;
+			$scope.isEao       = false;
+			$scope.isProponent = false;
+			if ($scope.isPublic) {
+				CommentModel.getCommentsForPeriod ($scope.period).then (function (collection) {
+					s.tableParams = new NgTableParams ({count:10}, {dataset:collection});
+					$scope.$apply ();
+				});
+			}
+			else if ($scope.isEao) {
+				CommentModel.getEAOCommentsForPeriod ($scope.period).then (function (result) {
+					s.totalPending  = result.totalPending;
+					s.totalDeferred = result.totalDeferred;
+					s.totalPublic   = result.totalPublic;
+					s.totalRejected = result.totalRejected;
+					s.tableParams   = new NgTableParams ({count:10}, {dataset:result.data});
+					$scope.$apply ();
+				});
+			}
+			else if ($scope.isProponent) {
+				CommentModel.getProponentCommentsForPeriod ($scope.period).then (function (result) {
+					s.totalAssigned   = result.totalAssigned;
+					s.totalUnassigned = result.totalUnassigned;
+					s.tableParams     = new NgTableParams ({count:10}, {dataset:result.data});
+					$scope.$apply ();
+				});
+			}
+		}
+	};
+})
+// -------------------------------------------------------------------------
+//
 // Comment Period List for a given project
 //
 // -------------------------------------------------------------------------
