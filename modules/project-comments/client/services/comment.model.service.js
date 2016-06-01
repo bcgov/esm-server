@@ -21,10 +21,10 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 			return this.get ('/api/comments/period/'+periodId);
 		},
 		getEAOCommentsForPeriod: function (periodId) {
-			return this.get ('/api/comments/period/'+periodId);
+			return this.get ('/api/eaocomments/period/'+periodId);
 		},
 		getProponentCommentsForPeriod: function (periodId) {
-			return this.get ('/api/comments/period/'+periodId);
+			return this.get ('/api/proponentcomments/period/'+periodId);
 		},
 		// -------------------------------------------------------------------------
 		//

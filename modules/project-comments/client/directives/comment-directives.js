@@ -7,7 +7,7 @@ angular.module ('comment')
 // list of public comments from the point of view of the public
 //
 // -------------------------------------------------------------------------
-.directive ('tmplPublicCommentList', function () {
+.directive ('tmplPublicCommentList', function ($modal) {
 	return {
 		scope: {
 			period : '=',
@@ -18,31 +18,39 @@ angular.module ('comment')
 		controllerAs: 's',
 		controller: function ($scope, NgTableParams, Authentication, CommentModel) {
 			var s = this;
-			$scope.isPublic    = !Authentication.user.roles;
-			$scope.isEao       = (!$scope.isPublic && (!!~Authentication.user.roles.indexOf ($scope.project.code+':eao:member') || !!~Authentication.user.roles.indexOf ('admin')));
-			$scope.isProponent = (!$scope.isPublic && (!!~Authentication.user.roles.indexOf ($scope.project.code+':pro:member')));
-			$scope.canVet      = $scope.isEao;
-			$scope.canClassify = $scope.isProponent;
-			$scope.isPublic    = true;
-			$scope.isEao       = false;
-			$scope.isProponent = false;
-			if ($scope.isPublic) {
+
+			var isPublic    = !Authentication.user.roles;
+			var isEao       = (!$scope.isPublic && (!!~Authentication.user.roles.indexOf ($scope.project.code+':eao:member') || !!~Authentication.user.roles.indexOf ('admin')));
+			var isProponent = (!$scope.isPublic && (!!~Authentication.user.roles.indexOf ($scope.project.code+':pro:member')));
+
+			var canVet      = $scope.isEao;
+			var canClassify = $scope.isProponent;
+
+			isPublic    = false;
+			isEao       = true;
+			isProponent = false;
+
+			s.isPublic    = isPublic   ;
+			s.isEao       = isEao      ;
+			s.isProponent = isProponent;
+
+			if (s.isPublic) {
 				CommentModel.getCommentsForPeriod ($scope.period._id).then (function (collection) {
 					s.tableParams = new NgTableParams ({count:10}, {dataset:collection});
 					$scope.$apply ();
 				});
 			}
-			else if ($scope.isEao) {
+			else if (s.isEao) {
 				CommentModel.getEAOCommentsForPeriod ($scope.period._id).then (function (result) {
 					s.totalPending  = result.totalPending;
 					s.totalDeferred = result.totalDeferred;
 					s.totalPublic   = result.totalPublic;
 					s.totalRejected = result.totalRejected;
-					s.tableParams   = new NgTableParams ({count:10}, {dataset:result.data});
+					s.tableParams   = new NgTableParams ({count:10, filter:{eaoStatus:'Unvetted'}}, {dataset:result.data});
 					$scope.$apply ();
 				});
 			}
-			else if ($scope.isProponent) {
+			else if (s.isProponent) {
 				CommentModel.getProponentCommentsForPeriod ($scope.period._id).then (function (result) {
 					s.totalAssigned   = result.totalAssigned;
 					s.totalUnassigned = result.totalUnassigned;
@@ -50,9 +58,53 @@ angular.module ('comment')
 					$scope.$apply ();
 				});
 			}
+			s.toggle = function (v) {
+				angular.extend(s.tableParams.filter(), {eaoStatus:v});
+			};
+			s.toggleP = function (v) {
+				angular.extend(s.tableParams.filter(), {proponentStatus:v});
+			};
+			//
+			// if the user clicks a row, open the detail modal
+			//
+			s.detail = function (comment) {
+				$modal.open ({
+					animation: true,
+					templateUrl: 'modules/project-comments/client/views/public-comments/detail.html',
+					controllerAs: 's',
+					size: 'md',
+					// resolve: {
+					// 	comment: function (CommentModel) {
+					// 		return comment;
+					// 	}
+					// },
+					controller: function ($scope, $modalInstance) {
+						$scope.isPublic    = isPublic   ;
+						$scope.isEao       = isEao      ;
+						$scope.isProponent = isProponent;
+
+						$scope.isPublic    = false   ;
+						$scope.isEao       = true      ;
+						$scope.isProponent = false;
+
+						$scope.comment     = comment;
+						$scope.cancel      = function () { $modalInstance.dismiss ('cancel'); };
+						$scope.ok          = function () { $modalInstance.close (comment); };
+					}
+				})
+				.result.then (function (data) {
+					console.log ('result:', data);
+				})
+				.catch (function (err) {});
+			};
 		}
 	};
 })
+// -------------------------------------------------------------------------
+//
+// add a public comment
+//
+// -------------------------------------------------------------------------
 .directive ('addPublicComment', function ($modal, CommentModel) {
 	return {
 		restrict: 'A',

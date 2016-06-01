@@ -17,8 +17,51 @@ module.exports = DBModel.extend ({
 		return new Promise (function (resolve, reject) {
 			self.findMany ({
 				period : periodId,
+				isPublished: true
 			})
 			.then (resolve, reject);
+		});
+	},
+	getEAOCommentsForPeriod : function (periodId) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findMany ({
+				period : periodId,
+			})
+			.then (function (data) {
+				var ret = {
+					totalPending  : 0,
+					totalDeferred : 0,
+					totalPublic   : 0,
+					totalRejected : 0,
+					data          : data
+				};
+				data.reduce (function (prev, next) {
+					ret.totalPending  += (next.eaoStatus === 'Unvetted' ? 1 : 0);
+					ret.totalDeferred += (next.eaoStatus === 'Deferred' ? 1 : 0);
+					ret.totalPublic   += (next.eaoStatus === 'Published' ? 1 : 0);
+					ret.totalRejected += (next.eaoStatus === 'Rejected' ? 1 : 0);
+				}, ret);
+				resolve (ret);
+			})
+			.catch (reject);
+		});
+	},
+	getProponentCommentsForPeriod : function (periodId) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.getCommentsForPeriod (periodId)
+			.then (function (data) {
+				var classified = data.reduce (function (prev, next) {
+					return prev + (next.proponentStatus === 'Classified' ? 1 : 0);
+				}, 0);
+				resolve ({
+					data: data,
+					totalAssigned : classified,
+					totalUnassigned : data.length - classified
+				});
+			})
+			.catch (reject);
 		});
 	},
 	// -------------------------------------------------------------------------

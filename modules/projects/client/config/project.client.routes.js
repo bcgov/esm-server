@@ -70,9 +70,9 @@ angular.module('project').config (
 					roles: MenuControl.menuRolesBuilder (['user'], project.code, '*', '*')
 				});
 				Menus.addMenuItem('projectTopMenu', {
-					title: 'Public Comment Period',
-					state: "p.comments",
-					roles: MenuControl.menuRolesBuilder (['user'], project.code, '*', '*')
+					title: 'Comment Periods',
+					state: "p.commentperiod.list",
+					roles: MenuControl.menuRolesBuilder (['admin','user','public'], project.code, '*', '*')
 				});
 			}
 
@@ -87,11 +87,11 @@ angular.module('project').config (
 					state: 'p.invitations',
 					roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['eao:admin', 'responsible-epd','project-admin', 'project-lead','project-intake', 'pro:admin', 'pro:member'])
 				});
-				Menus.addMenuItem('projectMenu', {
-					title: 'Comment Periods',
-					state: 'p.commentperiod.list',
-					roles: MenuControl.menuRoles ('admin', project.code, '*', '*')
-				});
+				// Menus.addMenuItem('projectMenu', {
+				// 	title: 'Comment Periods',
+				// 	state: 'p.commentperiod.list',
+				// 	roles: MenuControl.menuRoles ('admin', project.code, '*', '*')
+				// });
 				Menus.addMenuItem('projectMenu', {
 					title: 'Complaints',
 					state: 'p.complaint.list',
@@ -222,7 +222,7 @@ angular.module('project').config (
 			}
 		}
 	})
-	
+
 	// -------------------------------------------------------------------------
 	//
 	// PUBLIC COMMENT PERIOD
@@ -267,7 +267,7 @@ angular.module('project').config (
 			}
 		}
 	})
-	
+
 	// -------------------------------------------------------------------------
 	//
 	// the decision package mockup

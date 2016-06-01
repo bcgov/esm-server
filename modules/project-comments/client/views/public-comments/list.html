@@ -1,23 +1,23 @@
 <div >
     <div ng-if="s.isEao">
         <!-- PROTOTYPE EAO ROW TEMPLATES  -->
-        <ul class="tab-container nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#pendingReview" aria-controls="pendingReview" role="tab" data-toggle="tab">Pending Review (X)</a></li>
-            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Deferred (X)</a></li>
-            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Published (X)</a></li>
-            <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Rejected (X)</a></li>
+        <ul >
+            <li role="presentation" class="active"><a href ng-click="s.toggle('Unvetted')">Pending Review ({{s.totalPending}})</a></li>
+            <li role="presentation"><a href ng-click="s.toggle('Deferred')">Deferred ({{s.totalDeferred}})</a></li>
+            <li role="presentation"><a href ng-click="s.toggle('Published')">Published ({{s.totalPublic}})</a></li>
+            <li role="presentation"><a href ng-click="s.toggle('Rejected')">Rejected ({{s.totalRejected}})</a></li>
         </ul>
     </div>
     <div ng-if="s.isProponent">
         <!-- PROPONENT TEMPLATES  -->
-        <ul class="tab-container nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#pendingReview" aria-controls="pendingReview" role="tab" data-toggle="tab">Unassigned (X)</a></li>
-            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Assigned (X)</a></li>
+        <ul >
+            <li role="presentation" class="active"><a href ng-click="s.toggle('Unclassified')">Unassigned ({{s.totalUnassigned}})</a></li>
+            <li role="presentation"><a href ng-click="s.toggle('Classified')">Assigned ({{s.totalAssigned}})</a></li>
         </ul>
     </div>
             <div class="public-comment-panel panel panel-default">
                 <table ng-table="s.tableParams" show-filter="true" class="eao-comment-table table table-striped table-hover">
-                    <tr class="comment-row" ng-repeat="o in $data" ui-sref="p.artifact.view({artifactId:o.artifact})">
+                    <tr class="comment-row" ng-repeat="o in $data" ng-click="s.detail(o)">
                         <td
                             class="comment-col"
                             header-class="'comment-col no-mobile'"
@@ -47,21 +47,23 @@
                             filter="{'pillars':'text'}"
                             sortable="'pillars'"
                         >
-                            <ul>
-                            <li ng-repeat="pillar in o.pillars">{{pillar}}</li>
+                            {{ o.pillars.join (', ') }}
+<!--                             <ul>
+                            <li ng-repeat="pillar in o.pillars">{{::pillar}}</li>
                             </ul>
-                        </td>
+ -->                        </td>
                         <td
                             class="vc-col"
                             header-class="'pillar-col'"
                             data-title="'Valued Components'"
-                            filter="{'vcs':'text'}"
-                            sortable="'vcs'"
+                            filter="{'topics':'text'}"
+                            sortable="'topics'"
                         >
-                            <ul>
-                            <li ng-repeat="vc in o.vcs">{{vc}}</li>
+                            {{ o.topics.join (', ') }}
+ <!--                            <ul>
+                            <li ng-repeat="vc in o.topics">{{::vc}}</li>
                             </ul>
-                        </td>
+ -->                        </td>
                         <td
                             class="attachment-col"
                             header-class="'attachment-col no-mobile'"

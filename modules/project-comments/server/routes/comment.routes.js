@@ -71,6 +71,16 @@ module.exports = function (app) {
 			(new CommentModel (req.user)).getCommentsForPeriod (req.params.periodId)
 			.then (helpers.success(res), helpers.failure(res));
 		});
+	app.route ('/api/eaocomments/period/:periodId').all(policy.isAllowed)
+		.get (function (req, res) {
+			(new CommentModel (req.user)).getEAOCommentsForPeriod (req.params.periodId)
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	app.route ('/api/proponentcomments/period/:periodId').all(policy.isAllowed)
+		.get (function (req, res) {
+			(new CommentModel (req.user)).getProponentCommentsForPeriod (req.params.periodId)
+			.then (helpers.success(res), helpers.failure(res));
+		});
 
 	// =========================================================================
 	//
