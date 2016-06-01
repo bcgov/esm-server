@@ -139,6 +139,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			$scope.period   = period;
 			$scope.project  = project;
 			$scope.artifact = period.artifact;
+			console.log ($scope.artifact);
 		}
 	})
 
