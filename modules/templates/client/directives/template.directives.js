@@ -99,6 +99,8 @@ angular.module ('templates')
 			sidewidth: '=?'
 		},
 		link: function (scope, element, attrs) {
+			// console.log ('render template = ', scope.template);
+			// console.log ('render document = ', scope.document);
 			var leftWidth = angular.isDefined(scope.sidewidth) ? scope.name : 2;
 			var rightWidth = 12 - leftWidth;
 			var usemode = scope.mode;
