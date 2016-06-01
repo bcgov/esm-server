@@ -19,6 +19,22 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 		abstract:true,
 		url: '/projectcondition',
 		template: '<ui-view></ui-view>',
+		data: {
+			roles: ['*:eao:member',
+				   '*:eao:responsible-epd',
+				   '*:eao:project-admin',
+				   '*:eao:project-lead',
+				   '*:eao:project-team',
+				   '*:eao:minister',
+				   '*:eao:ministers-office',
+				   '*:eao:assistant-dm',
+				   '*:eao:assistant-dmo',
+				   '*:eao:associate-dm',
+				   '*:eao:associate-dmo',
+				   '*:eao:qa-officer',
+				   '*:eao:ce-lead',
+				   '*:eao:ce-officer']
+		},
 		resolve: {
 			conditions: function ($stateParams, ProjectConditionModel, project) {
 				// console.log ('projectcondition abstract resolving conditions');
@@ -41,9 +57,22 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 				});
 			}
 		},
-        onEnter: function (MenuControl, project) {
-			MenuControl.routeAccessBuilder (undefined, project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer']);
-        }
+		onEnter: function (MenuControl, project) {
+			MenuControl.routeAccessBuilder (undefined, project.code, '*', ['member',
+																		   'responsible-epd',
+																		   'project-admin',
+																		   'project-lead',
+																		   'project-team',
+																		   'minister',
+																		   'ministers-office',
+																		   'assistant-dm',
+																		   'assistant-dmo',
+																		   'associate-dm',
+																		   'associate-dmo',
+																		   'qa-officer',
+																		   'ce-lead',
+																		   'ce-officer']);
+		}
 
 	})
 	// -------------------------------------------------------------------------
@@ -57,7 +86,13 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 		templateUrl: 'modules/project-conditions/client/views/projectcondition-list.html',
 		controller: function ($scope, NgTableParams, conditions, project, pillars, projecttypes, stages, MenuControl) {
 			$scope.ptypes = projecttypes;
-			$scope.showedit = MenuControl.userHasOne(['eao:admin', 'responsible-epd', 'project-lead', 'project-team', 'project-intake','ce-lead', 'ce-officer']);
+			$scope.showedit = MenuControl.userHasOne([	project.code+':eao:responsible-epd',
+														project.code+':eao:project-admin',
+														project.code+':eao:project-lead',
+														project.code+':eao:project-team',
+														project.code+':eao:qa-officer',
+														project.code+':eao:ce-lead',
+														project.code+':eao:ce-officer']);
 			$scope.stypes = stages;
 			$scope.pillars = pillars;
 			$scope.project = project;
@@ -79,9 +114,15 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 				return ProjectConditionModel.getNew ();
 			}
 		},
-        onEnter: function (MenuControl, project) {
-			MenuControl.routeAccessBuilder (undefined, project.code, '*', ['eao:admin', 'qa-officer', 'responsible-epd', 'project-lead', 'project-team', 'project-intake','ce-lead', 'ce-officer']);
-        },
+		onEnter: function (MenuControl, project) {
+			MenuControl.routeAccessBuilder (undefined, project.code, 'eao', ['responsible-epd',
+																		'project-admin',
+																		'project-lead',
+																		'project-team',
+																		'qa-officer',
+																		'ce-lead',
+																		'ce-officer']);
+		},
 		controller: function ($scope, $state, project, condition, ProjectConditionModel, TopicModel, pillars, projecttypes, stages, codeFromTitle) {
 			condition.project = project._id;
 			$scope.condition = condition;
@@ -98,7 +139,7 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 				ProjectConditionModel.add ($scope.condition)
 				.then (function (model) {
 					$state.transitionTo('p.projectcondition.list', {projectid:project.code}, {
-			  			reload: true, inherit: false, notify: true
+						reload: true, inherit: false, notify: true
 					});
 				})
 				.catch (function (err) {
@@ -121,9 +162,15 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 				return ProjectConditionModel.getModel ($stateParams.conditionId);
 			}
 		},
-        onEnter: function (MenuControl, project) {
-			MenuControl.routeAccessBuilder (undefined, project.code, '*', ['eao:admin', 'qa-officer', 'responsible-epd', 'project-lead', 'project-team', 'project-intake','ce-lead', 'ce-officer']);
-        },
+		onEnter: function (MenuControl, project) {
+			MenuControl.routeAccessBuilder (undefined, project.code, 'eao', ['responsible-epd',
+																		'project-admin',
+																		'project-lead',
+																		'project-team',
+																		'qa-officer',
+																		'ce-lead',
+																		'ce-officer']);
+		},
 		controller: function ($scope, $state, condition, project, ProjectConditionModel, TopicModel, pillars, projecttypes, stages, codeFromTitle) {
 			$scope.condition = condition;
 			$scope.project = project;
@@ -139,7 +186,7 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 				ProjectConditionModel.save ($scope.condition)
 				.then (function (model) {
 					$state.transitionTo('p.projectcondition.list', {projectid:project.code}, {
-			  			reload: true, inherit: false, notify: true
+						reload: true, inherit: false, notify: true
 					});
 				})
 				.catch (function (err) {
@@ -166,7 +213,13 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 		},
 		controller: function ($scope, condition, project, pillars, projecttypes, stages, MenuControl) {
 			$scope.sectors = projecttypes;
-			$scope.showedit = MenuControl.userHasOne(['admin','qa-officer', 'ce-lead', 'ce-officer']);
+			$scope.showedit = MenuControl.userHasOne([	project.code+':eao:responsible-epd',
+														project.code+':eao:project-admin',
+														project.code+':eao:project-lead',
+														project.code+':eao:project-team',
+														project.code+':eao:qa-officer',
+														project.code+':eao:ce-lead',
+														project.code+':eao:ce-officer']);
 			$scope.pillars = pillars;
 			$scope.stages  = stages;
 			$scope.condition = condition;
