@@ -1,0 +1,89 @@
+<div >
+    <div ng-if="s.isEao">
+        <!-- PROTOTYPE EAO ROW TEMPLATES  -->
+        <ul >
+            <li role="presentation" class="active"><a href ng-click="s.toggle('Unvetted')">Pending Review ({{s.totalPending}})</a></li>
+            <li role="presentation"><a href ng-click="s.toggle('Deferred')">Deferred ({{s.totalDeferred}})</a></li>
+            <li role="presentation"><a href ng-click="s.toggle('Published')">Published ({{s.totalPublic}})</a></li>
+            <li role="presentation"><a href ng-click="s.toggle('Rejected')">Rejected ({{s.totalRejected}})</a></li>
+        </ul>
+    </div>
+    <div ng-if="s.isProponent">
+        <!-- PROPONENT TEMPLATES  -->
+        <ul >
+            <li role="presentation" class="active"><a href ng-click="s.toggle('Unclassified')">Unassigned ({{s.totalUnassigned}})</a></li>
+            <li role="presentation"><a href ng-click="s.toggle('Classified')">Assigned ({{s.totalAssigned}})</a></li>
+        </ul>
+    </div>
+            <div class="public-comment-panel panel panel-default">
+                <table ng-table="s.tableParams" show-filter="true" class="eao-comment-table table table-striped table-hover">
+                    <tr class="comment-row" ng-repeat="o in $data" ng-click="s.detail(o)">
+                        <td
+                            class="comment-col"
+                            header-class="'comment-col no-mobile'"
+                            data-title="'Posted by'"
+                            filter="{'comment':'text'}"
+                            sortable="'comment'"
+                        >
+                            <h2 ng-if="::o.isAnonymous" class="comment-title">Anonymous</h2>
+                            <h2 ng-if="::!o.isAnonymous" class="comment-title">{{ ::o.author }}</h2>
+                            <div ng-init="toggleProject.desc = (false)">
+                                <p class="comment">{{ ::o.comment }}</p>
+                            </div>
+                        </td>
+                        <td
+                            class="location-col no-mobile"
+                            header-class="'location-col no-mobile'"
+                            data-title="'Location'"
+                            filter="{'location':'text'}"
+                            sortable="'location'"
+                        >
+                            {{ ::o.location }}
+                        </td>
+                        <td
+                            class="pillar-col"
+                            header-class="'pillar-col no-mobile'"
+                            data-title="'Pillars'"
+                            filter="{'pillars':'text'}"
+                            sortable="'pillars'"
+                        >
+                            {{ o.pillars.join (', ') }}
+<!--                             <ul>
+                            <li ng-repeat="pillar in o.pillars">{{::pillar}}</li>
+                            </ul>
+ -->                        </td>
+                        <td
+                            class="vc-col"
+                            header-class="'pillar-col'"
+                            data-title="'Valued Components'"
+                            filter="{'topics':'text'}"
+                            sortable="'topics'"
+                        >
+                            {{ o.topics.join (', ') }}
+ <!--                            <ul>
+                            <li ng-repeat="vc in o.topics">{{::vc}}</li>
+                            </ul>
+ -->                        </td>
+                        <td
+                            class="attachment-col"
+                            header-class="'attachment-col no-mobile'"
+                        >
+                            <span class="glyphicon glyphicon-paperclip" ng-if="o.documents.length > 0"></span>
+                        </td>
+                        <td
+                            class="date-col"
+                            header-class="'date-col'"
+                            data-title="'Date Posted'"
+                            filter="{'dateAdded':'text'}"
+                            sortable="'dateAdded'"
+                        >
+                            {{o.dateAdded | date : 'yyyy-MM-dd' : 'PST'}}
+                        </td>
+                    </tr>
+                    <tr ng-if="!$data || $data.length === 0">
+                        <td colspan="7">No records found.</td>
+                    </tr>
+                </table>
+            </div>
+    <!-- / EAO ROW TEMPLATES  -->
+</div>

@@ -61,6 +61,27 @@ module.exports = function (app) {
 			p.getCommentsForTarget (req.params.targettype, req.params.targetid, req.params.type)
 			.then (helpers.success(res), helpers.failure(res));
 		});
+	// -------------------------------------------------------------------------
+	//
+	// get all comments for a period
+	//
+	// -------------------------------------------------------------------------
+	app.route ('/api/comments/period/:periodId').all(policy.isAllowed)
+		.get (function (req, res) {
+			(new CommentModel (req.user)).getCommentsForPeriod (req.params.periodId)
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	app.route ('/api/eaocomments/period/:periodId').all(policy.isAllowed)
+		.get (function (req, res) {
+			(new CommentModel (req.user)).getEAOCommentsForPeriod (req.params.periodId)
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	app.route ('/api/proponentcomments/period/:periodId').all(policy.isAllowed)
+		.get (function (req, res) {
+			(new CommentModel (req.user)).getProponentCommentsForPeriod (req.params.periodId)
+			.then (helpers.success(res), helpers.failure(res));
+		});
+
 	// =========================================================================
 	//
 	// special routes for comment periods

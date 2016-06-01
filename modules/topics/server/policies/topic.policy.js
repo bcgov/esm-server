@@ -11,7 +11,8 @@ var helpers  = require (require('path').resolve('./modules/core/server/controlle
 exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'topic');
 	helpers.setPathPermissions (acl, [
-		[ '', 'user', '/api/topics/for/pillar/:pillar'   ]
+		[ '', 'user', '/api/topics/for/pillar/:pillar'   ],
+		[ '', 'user', '/api/topics/for/type/:type'   ]
 	]);
 };
 

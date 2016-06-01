@@ -120,7 +120,7 @@
 						
 				<div class="form-footer clearfix">
 					<a class="btn btn-default pull-left hidden" ui-sref="admin.organization.list">Cancel</a>
-					<a class="btn btn-default pull-right" ui-sref="admin.organization.edit({orgId: org._id})">Edit Details</a>
+					<a ng-if="showedit" class="btn btn-default pull-right" ui-sref="admin.organization.edit({orgId: org._id})">Edit Details</a>
 				</div>
 			</div><!-- / DETAILS TAB CONTENT -->
 			

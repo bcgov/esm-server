@@ -230,7 +230,7 @@ module.exports = DBModel.extend ({
 			project.sectorRole = project.type.toLowerCase ();
 			project.sectorRole = project.sectorRole.replace (/\W/g,'-');
 			project.sectorRole = project.sectorRole.replace (/-+/,'-');
-			self.saveDocument (project).then (function () {
+			self.saveDocument (project).then (function (p) {
 				//
 				// add the project to the roles and the roles to the project
 				// this is where the project first becomes visible to EAO
@@ -239,23 +239,19 @@ module.exports = DBModel.extend ({
 				//
 				return Roles.objectRoles ({
 					method      : 'add',
-					objects     : project,
+					objects     : p,
 					type        : 'projects',
-					permissions : {submit : [project.adminRole, project.sectorRole]}
+					permissions : {submit : [p.adminRole, p.sectorRole]}
 				});
 			})
-			.then (function () {
+			.then (function (pp) {
 				self.postMessage ({
-					headline: 'Submitted for Approval: '+project.name,
-					content: project.name+' has been submitted for approval to the Environmental Assessment process.\n'+project.description,
-					project: project._id
+					headline: 'Submitted for Approval: '+pp.name,
+					content: pp.name+' has been submitted for approval to the Environmental Assessment process.\n'+pp.description,
+					project: pp._id
 				});
-				return project;
+				return pp;
 			})
-			//
-			// save changes
-			//
-			.then (self.saveAndReturn)
 			.then (resolve, reject);
 		});
 	},

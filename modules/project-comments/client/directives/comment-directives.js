@@ -4,6 +4,159 @@ angular.module ('comment')
 	.directive('tmplWgComments', directiveWGComments)
 // -------------------------------------------------------------------------
 //
+// list of public comments from the point of view of the public
+//
+// -------------------------------------------------------------------------
+.directive ('tmplPublicCommentList', function ($modal) {
+	return {
+		scope: {
+			period : '=',
+			project : '='
+		},
+		restrict: 'E',
+		templateUrl : 'modules/project-comments/client/views/public-comments/list.html',
+		controllerAs: 's',
+		controller: function ($scope, NgTableParams, Authentication, CommentModel) {
+			var s = this;
+
+			var isPublic    = !Authentication.user.roles;
+			var isEao       = (!$scope.isPublic && (!!~Authentication.user.roles.indexOf ($scope.project.code+':eao:member') || !!~Authentication.user.roles.indexOf ('admin')));
+			var isProponent = (!$scope.isPublic && (!!~Authentication.user.roles.indexOf ($scope.project.code+':pro:member')));
+
+			var canVet      = $scope.isEao;
+			var canClassify = $scope.isProponent;
+
+			isPublic    = false;
+			isEao       = true;
+			isProponent = false;
+
+			s.isPublic    = isPublic   ;
+			s.isEao       = isEao      ;
+			s.isProponent = isProponent;
+
+			if (s.isPublic) {
+				CommentModel.getCommentsForPeriod ($scope.period._id).then (function (collection) {
+					s.tableParams = new NgTableParams ({count:10}, {dataset:collection});
+					$scope.$apply ();
+				});
+			}
+			else if (s.isEao) {
+				CommentModel.getEAOCommentsForPeriod ($scope.period._id).then (function (result) {
+					s.totalPending  = result.totalPending;
+					s.totalDeferred = result.totalDeferred;
+					s.totalPublic   = result.totalPublic;
+					s.totalRejected = result.totalRejected;
+					s.tableParams   = new NgTableParams ({count:10, filter:{eaoStatus:'Unvetted'}}, {dataset:result.data});
+					$scope.$apply ();
+				});
+			}
+			else if (s.isProponent) {
+				CommentModel.getProponentCommentsForPeriod ($scope.period._id).then (function (result) {
+					s.totalAssigned   = result.totalAssigned;
+					s.totalUnassigned = result.totalUnassigned;
+					s.tableParams     = new NgTableParams ({count:10}, {dataset:result.data});
+					$scope.$apply ();
+				});
+			}
+			s.toggle = function (v) {
+				angular.extend(s.tableParams.filter(), {eaoStatus:v});
+			};
+			s.toggleP = function (v) {
+				angular.extend(s.tableParams.filter(), {proponentStatus:v});
+			};
+			//
+			// if the user clicks a row, open the detail modal
+			//
+			s.detail = function (comment) {
+				$modal.open ({
+					animation: true,
+					templateUrl: 'modules/project-comments/client/views/public-comments/detail.html',
+					controllerAs: 's',
+					size: 'md',
+					// resolve: {
+					// 	comment: function (CommentModel) {
+					// 		return comment;
+					// 	}
+					// },
+					controller: function ($scope, $modalInstance) {
+						$scope.isPublic    = isPublic   ;
+						$scope.isEao       = isEao      ;
+						$scope.isProponent = isProponent;
+
+						$scope.isPublic    = false   ;
+						$scope.isEao       = true      ;
+						$scope.isProponent = false;
+
+						$scope.comment     = comment;
+						$scope.cancel      = function () { $modalInstance.dismiss ('cancel'); };
+						$scope.ok          = function () { $modalInstance.close (comment); };
+					}
+				})
+				.result.then (function (data) {
+					console.log ('result:', data);
+				})
+				.catch (function (err) {});
+			};
+		}
+	};
+})
+// -------------------------------------------------------------------------
+//
+// add a public comment
+//
+// -------------------------------------------------------------------------
+.directive ('addPublicComment', function ($modal, CommentModel) {
+	return {
+		restrict: 'A',
+		scope: {
+			project: '=',
+			period : '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function () {
+				$modal.open ({
+					animation: true,
+					templateUrl: 'modules/project-comments/client/views/public-comments/add.html',
+					controllerAs: 's',
+					size: 'md',
+					resolve: {
+						comment: function (CommentModel) {
+							return CommentModel.getNew ();
+						}
+					},
+					controller: function ($scope, $modalInstance, comment) {
+						var s     = this;
+						s.step    = 1;
+						s.comment = comment;
+						comment.period = scope.period;
+						comment.project = scope.project;
+						comment.makeVisible = false;
+						s.cancel  = function () { $modalInstance.dismiss ('cancel'); };
+						s.next    = function () { s.step++; };
+						s.ok      = function () { $modalInstance.close (s.comment); };
+						s.submit  = function () {
+							comment.isAnonymous = !comment.makeVisible;
+							CommentModel.add (s.comment)
+							.then (function (comment) {
+								s.step = 3;
+								$scope.$apply ();
+							})
+							.catch (function (err) {
+								s.step = 4;
+								$scope.$apply ();
+							});
+						};
+					}
+				})
+				.result.then (function (data) {
+				})
+				.catch (function (err) {});
+			});
+		}
+	};
+})
+// -------------------------------------------------------------------------
+//
 // Comment Period List for a given project
 //
 // -------------------------------------------------------------------------

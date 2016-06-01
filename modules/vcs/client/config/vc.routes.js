@@ -31,7 +31,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			}
 		},
         onEnter: function (MenuControl, project) {
-					MenuControl.routeAccessBuilder (undefined, project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer','pro:admin', 'pro:member', 'sub']);
+			MenuControl.routeAccessBuilder (undefined, project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer','pro:admin', 'pro:member', 'sub']);
         }
 	})
 	// -------------------------------------------------------------------------
@@ -43,10 +43,10 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	.state('p.vc.list', {
 		url: '/list',
 		templateUrl: 'modules/vcs/client/views/vc-list.html',
-		controller: function ($scope, NgTableParams, vcs, project, $modal, $state) {
+		controller: function ($scope, NgTableParams, vcs, project, $modal, $state, MenuControl) {
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: vcs});
 			$scope.project = project;
-
+			$scope.mc = MenuControl;
 			$scope.openAddTopic = function() {
 				var modalDocView = $modal.open({
 					animation: true,

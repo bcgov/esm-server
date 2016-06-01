@@ -74,7 +74,7 @@
 
 		<div class="text-right">
 			<a class="btn btn-default" ui-sref="p.projectcondition.list">Cancel</a>
-			<a class="btn btn-default" ui-sref="p.projectcondition.edit({conditionId:condition._id})">Edit</a>
+			<a ng-if="showedit" class="btn btn-default" ui-sref="p.projectcondition.edit({conditionId:condition._id})">Edit</a>
 		</div>
 
 	</div>

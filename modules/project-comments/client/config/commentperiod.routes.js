@@ -124,20 +124,21 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 	// this is the 'view' mode of a comment period. here we are just simply
 	// looking at the information for this specific object
 	//
+	// ** this is where we should go to the view of the comments
+	//
 	// -------------------------------------------------------------------------
 	.state('p.commentperiod.detail', {
 		url: '/:periodId',
 		templateUrl: 'modules/project-comments/client/views/period-view.html',
 		resolve: {
 			period: function ($stateParams, CommentPeriodModel) {
-				// console.log ('periodId = ', $stateParams.periodId);
 				return CommentPeriodModel.getModel ($stateParams.periodId);
 			}
 		},
 		controller: function ($scope, period, project) {
-			// console.log ('period = ', period);
-			$scope.period = period;
-			$scope.project = project;
+			$scope.period   = period;
+			$scope.project  = project;
+			$scope.artifact = period.artifact;
 		}
 	})
 

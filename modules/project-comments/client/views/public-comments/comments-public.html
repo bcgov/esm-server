@@ -1,11 +1,11 @@
 <div class="public-comment-period-view">
-    
+
     <div class="view-title-container">
         <h1>{{project.name}} &nbsp;&rsaquo;&nbsp; Public Comment Periods</h1>
     </div>
-    
+
     <div class="view-body-container">
-        
+
         <div class="public-comment-alert">
             <h2>Public Comment Period is Now Open!</h2>
             <h3><strong>June 1</strong> - <strong>July 15, 2016</strong></h3>
@@ -25,10 +25,10 @@
                 </ul>
             </div>
         </div>
-        
+
         <!-- PROTOTYPE PUBLIC ROW TEMPLATES  -->
         <div class="public-comment-panel panel panel-default">
-            <table ng-table="tableParams" show-filter="true" class="table table-striped table-hover">			
+            <table ng-table="tableParams" show-filter="true" class="table table-striped table-hover">
                 <tr class="comment-row" data-toggle="modal" data-target="#commentDetailModal">
                     <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Posted by'" filter="{'name':'text'}" sortable="'name'">
                         <h2 class="comment-title">Anonymous</h2>
@@ -38,7 +38,7 @@
                     </td>
                     <td class="location-col no-mobile" header-class="'location-col no-mobile'" data-title="'Location'" filter="{'name':'text'}" sortable="'commentLocation'">Location</td>
                     <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillar'" filter="{'pillar':'select'}" sortable="'commentPillar'">Health, Environment, Heritage</td>
-                    <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Component'" filter="{'commentVC':'select'}" sortable="'commentVC'">Air Quality, Water Quality, Regulatory Process, Rights & Titles</td>			
+                    <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Component'" filter="{'commentVC':'select'}" sortable="'commentVC'">Air Quality, Water Quality, Regulatory Process, Rights & Titles</td>
                     <td class="attachment-col" header-class="'attachment-col no-mobile'"><span class="glyphicon glyphicon-paperclip"></span></td>
                     <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" filter="{'date':'text'}" sortable="'dateAdded'" >MM/DD/YYYY</td>
                 </tr>
@@ -48,10 +48,10 @@
                         <div ng-init="toggleProject.desc = (false)">
                             <p class="comment">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                         </div>
-                    </td>	
+                    </td>
                     <td class="location-col no-mobile" header-class="'location-col no-mobile'" data-title="'Location'" filter="{'name':'text'}" sortable="'commentLocation'">Location</td>
                     <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillar'" filter="{'pillar':'select'}" sortable="'commentPillar'">Health, Environment, Heritage</td>
-                    <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Component'" filter="{'commentVC':'select'}" sortable="'commentVC'">Air Quality, Water Quality, Regulatory Process, Rights & Titles</td>			
+                    <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Component'" filter="{'commentVC':'select'}" sortable="'commentVC'">Air Quality, Water Quality, Regulatory Process, Rights & Titles</td>
                     <td class="attachment-col" header-class="'attachment-col no-mobile'"><span class="glyphicon glyphicon-paperclip"></span></td>
                     <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" filter="{'date':'text'}" sortable="'dateAdded'" >MM/DD/YYYY</td>
                 </tr>
@@ -61,38 +61,38 @@
                         <div ng-init="toggleProject.desc = (false)">
                             <p class="comment">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                         </div>
-                    </td>	
+                    </td>
                     <td class="location-col no-mobile" header-class="'location-col no-mobile'" data-title="'Location'" filter="{'name':'text'}" sortable="'commentLocation'">Location</td>
                     <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillar'" filter="{'pillar':'select'}" sortable="'commentPillar'">Health, Environment, Heritage</td>
-                    <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Component'" filter="{'commentVC':'select'}" sortable="'commentVC'">Air Quality, Water Quality, Regulatory Process, Rights & Titles</td>			
+                    <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Component'" filter="{'commentVC':'select'}" sortable="'commentVC'">Air Quality, Water Quality, Regulatory Process, Rights & Titles</td>
                     <td class="attachment-col" header-class="'attachment-col no-mobile'"><span class="glyphicon glyphicon-paperclip"></span></td>
                     <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" filter="{'date':'text'}" sortable="'dateAdded'" >MM/DD/YYYY</td>
-                </tr> 
+                </tr>
                 <tr ng-if="!$data || $data.length === 0">
                     <td colspan="6">No records found.</td>
                 </tr>
             </table>
-        </div><!-- / PROTOTYPE PUBLIC ROW TEMPLATES  --> 
+        </div><!-- / PROTOTYPE PUBLIC ROW TEMPLATES  -->
     </div>
 </div>
 
 <!-- COMMENT DETAIL MODAL  -->
 <div class="public-comment-modal modal fade" id="commentDetailModal" role="dialog" tabindex="-1">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<h3 class="modal-title">Public Comment  &nbsp;&rsaquo;&nbsp; Anonymous</h3>
-			</div>
-			<div class="modal-body">
-     
-                <section class="comment-info">
-                    <label class="control-label">Posted March 21, 2016</label>
-                    <p class="value wrap-text">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title">Public Comment  &nbsp;&rsaquo;&nbsp; Anonymous</h3>
+            </div>
+            <div class="modal-body">
+
+                <section>
+                    <label>Posted March 21, 2016</label>
+                    <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
                 </section>
-                
+
                 <!-- PILLARS / VALUED COMPONENTS -->
                 <section>
                     <div class="detail-row">
@@ -104,45 +104,47 @@
                         <span class="value">Air Quality, Water Quality, Regulatory Process, Rights & Titles</span>
                     </div>
                 </section>
-                
+
                 <!-- ATTACHMENTS -->
                 <section>
-                    <label class="control-label">Attachments</label>
-                    <div class="attachments list-group">
-                        <a class="list-group-item">
-                            <div class="file-name">file-name-1.jpg</div>
-                            <button class="file-action btn btn-link">
-                                <span class="glyphicon glyphicon-download-alt"></span>
-                            </button> 
-                        </a>
-                        <a class="list-group-item">
-                            <div class="file-name">file-name-1.jpg</div>
-                            <button class="file-action btn btn-link">
-                                <span class="glyphicon glyphicon-download-alt"></span>
-                            </button>  
-                        </a>
+                    <div class="detail-row">
+                        <label>Attachments</label>
+                        <div class="attachments list-group">
+                            <a class="list-group-item">
+                                <div class="file-name">file-name-1.jpg</div>
+                                <button class="file-action btn btn-link">
+                                    <span class="glyphicon glyphicon-download-alt"></span>
+                                </button>
+                            </a>
+                            <a class="list-group-item">
+                                <div class="file-name">file-name-1.jpg</div>
+                                <button class="file-action btn btn-link">
+                                    <span class="glyphicon glyphicon-download-alt"></span>
+                                </button>
+                            </a>
+                        </div>
                     </div>
                 </section><!-- / ATTACHMENTS -->
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="close">Close</button>
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
 </div><!-- / COMMENT DETAIL MODAL -->
 
 <!-- SUBMIT COMMENT MODAL  -->
 <div class="public-comment-modal modal fade" id="submitCommentModal" role="dialog" tabindex="-1">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<h3 class="modal-title">Submit a Comment</h3>
-			</div>
-            
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title">Submit a Comment</h3>
+            </div>
+
             <!-- COMMENT FORM - STEP 1 -->
             <form class="comment-form-1 hidden">
                 <div class="modal-body">
@@ -159,10 +161,10 @@
                 </div>
             </form>
             <!-- / COMMENT FORM - STEP 1 -->
-            
+
             <!-- COMMENT FORM - STEP 2 -->
             <form class="comment-form">
-                <div class="modal-body">  
+                <div class="modal-body">
                     <fieldset>
                         <div class="row">
                             <div class="form-group col-sm-12 col-md-6">
@@ -228,7 +230,6 @@
                                 <div class="attachments-upload-target">
                                     <input type="file" multiple accept=".jpg,.jpeg,.pdf" />
                                     <div><strong>Drag & Drop</strong> or <strong>Click Here</strong> to Upload Attachments</div>
-                                    <small><em>All attachments must be in PDF format and limited to 5MB.</em></small>
                                 </div>
                             </div>
                         </div>
@@ -239,7 +240,7 @@
                     <button type="button" class="btn btn-success" data-dismiss="modal">Submit Comment</button>
                 </div>
             </form><!-- / COMMENT FORM - STEP 2 -->
-            
+
             <!-- COMMENT FORM - STEP 3 -->
             <div class="comment-submit-success hidden">
                 <div class="modal-body">
@@ -251,7 +252,7 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
                 </div>
             </div>
-            
+
             <div class="comment-submit-error hidden">
                 <div class="modal-body">
                     <div class="alert alert-danger">
@@ -263,8 +264,8 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
                 </div>
             </div><!-- / COMMENT FORM - STEP 3 -->
-            
-		</div>
-	</div>
+
+        </div>
+    </div>
 </div><!-- / SUBMIT COMMENT MODAL -->
 

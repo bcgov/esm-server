@@ -1,0 +1,191 @@
+<div class="modal-header">
+	<button type="button" class="btn btn-default close" aria-label="Close" ng-click="cancel()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+    <h3 ng-if="::comment.isAnonymous" class="modal-title">Public Comment  &nbsp;&rsaquo;&nbsp; Anonymous</h3>
+    <h3 ng-if="::!comment.isAnonymous" class="modal-title">Public Comment  &nbsp;&rsaquo;&nbsp; {{ ::comment.author }}</h3>
+</div>
+<div class="modal-body">
+<div>
+<input type="checkbox" ng-model="isPublic">Public</input><br/>
+<input type="checkbox" ng-model="isEao">EAO</input><br/>
+<input type="checkbox" ng-model="isProponent">Proponent</input>
+</div>
+    <section class="eao-alerts" ng-if="isEao">
+        <div class="alert alert-info eao-comment-notes " ng-if="comment.eaoNotes">
+	        <!--  NOTES -->
+            <div class="row">
+                <span class="col-sm-12 value wrap-text">{{ comment.eaoNotes }}</span>
+            </div>
+            <!--  / NOTES -->
+        </div>
+
+        <div class="alert alert-danger eao-comment-notes " ng-if="comment.rejectedReason || comment.rejectedNotes">
+	        <!-- REJECTION NOTES -->
+            <div class="row">
+                <label>Rejected</label>
+            </div>
+            <div class="row">
+                <label>Reason:</label><span class="value">{{ comment.rejectedReason }}</span>
+            </div>
+            <div class="row">
+                <span class="col-sm-12 value wrap-text">{{ comment.rejectedNotes }}</span>
+            </div>
+            <!-- / REJECTION NOTES -->
+        </div>
+    </section>
+
+
+    <section class="comment-info">
+        <label class="control-label">Posted {{comment.dateAdded | date}}</label>
+        <p class="value wrap-text">{{ ::comment.comment }}</p>
+    </section>
+
+    <section class="pillers-vc" ng-if="isProponent">
+	   <!-- PILLARS & VC'S -->
+        <div class="row">
+            <div class="col-sm-6">
+                <label class="control-label">Assign Pillars</label>
+                <div class="pick-list panel panel-default" data-toggle="buttons">
+                    <label class="btn btn-default">
+                        <input type="checkbox" autocomplete="off">Pillar 1
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="checkbox" autocomplete="off">Pillar 2
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="checkbox" autocomplete="off">Pillar 3
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label class="control-label">Assign Valued Components</label>
+                <div class="pick-list panel panel-default" data-toggle="buttons">
+                    <label class="btn btn-default" title="Really Really Really Really Really Really Long Valued Component Name">
+                        <input type="checkbox" autocomplete="off" checked>Really Really Really Really Really Really Long Valued Component Name
+                    </label>
+                    <label class="btn btn-default" title="Valued Component 2">
+                        <input type="checkbox" autocomplete="off">Valued Component 2
+                    </label>
+                    <label class="btn btn-default" title="Valued Component 1">
+                        <input type="checkbox" autocomplete="off">Valued Component 1
+                    </label>
+                </div>
+            </div>
+        </div>
+        <!-- / PILLARS & VC'S -->
+    </section>
+
+    <section ng-if="!isProponent">
+	    <!-- PILLARS / VALUED COMPONENTS -->
+        <div class="detail-row">
+            <label>Pillar</label>
+            <span class="value">{{ comment.pillars.join (', ') }}</span>
+        </div>
+        <div class="detail-row">
+            <label>Valued Components</label>
+            <span class="value">{{ comment.topics.join (', ') }}</span>
+        </div>
+    </section>
+
+    <!-- ATTACHMENTS -->
+    <section ng-if="isPublic || isProponent">
+        <label class="control-label">Attachments</label>
+        <div class="attachments list-group">
+            <a class="list-group-item">
+                <div class="file-name">file-name-1.jpg</div>
+                <button class="file-action btn btn-link">
+                    <span class="glyphicon glyphicon-download-alt"></span>
+                </button>
+            </a>
+            <a class="list-group-item">
+                <div class="file-name">file-name-1.jpg</div>
+                <button class="file-action btn btn-link">
+                    <span class="glyphicon glyphicon-download-alt"></span>
+                </button>
+            </a>
+        </div>
+    </section><!-- / ATTACHMENTS -->
+
+    <!-- ATTACHMENTS -->
+    <section ng-if="isEao">
+        <label class="control-label">Attachments</label>
+        <ul class="attachments list-group">
+            <li class="list-group-item clearfix">
+                <div class="file-name">file-name-1.jpg</div>
+                <div class="file-review btn-group" data-toggle="buttons">
+                    <label class="btn btn-danger btn-sm">
+                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
+                    </label>
+                    <label class="btn btn-success btn-sm">
+                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Accept
+                    </label>
+                </div>
+                <button class="file-action btn btn-link">
+                    <span class="glyphicon glyphicon-download-alt"></span>
+                </button>
+            </li>
+            <li class="list-group-item clearfix">
+                <div class="file-name">file-name-1.jpg</div>
+                <div class="file-review btn-group" data-toggle="buttons">
+                    <label class="btn btn-danger btn-sm">
+                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
+                    </label>
+                    <label class="btn btn-success btn-sm">
+                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Accept
+                    </label>
+                </div>
+                <button class="file-action btn btn-link">
+                    <span class="glyphicon glyphicon-download-alt"></span>
+                </button>
+            </li>
+            <li class="list-group-item clearfix">
+                <div class="file-name">file-name-1.jpg</div>
+                <div class="file-review btn-group" data-toggle="buttons">
+                    <label class="btn btn-danger btn-sm">
+                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
+                    </label>
+                    <label class="btn btn-success btn-sm">
+                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Accept
+                    </label>
+                </div>
+                <button class="file-action btn btn-link">
+                    <span class="glyphicon glyphicon-download-alt"></span>
+                </button>
+            </li>
+        </ul>
+    </section><!-- / ATTACHMENTS -->
+
+    <!-- SET COMMENT STATUS -->
+    <section ng-if="isEao">
+        <label class="control-label">Set Comment Status</label>
+        <div class="btn-group comment-status-btns" data-toggle="buttons">
+            <label class="btn btn-default">
+                <input type="radio" ng-model="comment.eaoStatus" value="Deferred" name="commentStatus" id="deferComment" > Defer
+            </label>
+            <label class="btn btn-danger">
+                <input type="radio" ng-model="comment.eaoStatus" value="Rejected" name="commentStatus" id="rejectComment" > Reject
+            </label>
+            <label class="btn btn-success">
+                <input type="radio" ng-model="comment.eaoStatus" value="Published" name="commentStatus" id="publishComment" > Publish
+            </label>
+            <br/>{{ comment.eaoStatus }}
+        </div>
+        <div class="row">
+            <label>Notes</label>
+            <textarea ng-model="comment.eaoNotes"></textarea>
+        </div>
+        <div class="row" ng-if="comment.eaoStatus === 'Rejected'">
+            <label>Rejection Reason</label>
+            <input type="text" ng-model="comment.rejectedReason"></input>
+            <label>Rejection Notes</label>
+            <textarea ng-model="comment.rejectedNotes"></textarea>
+        </div>
+    </section><!-- / SET COMMENT STATUS -->
+
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancel()">Close</button>
+    <button type="button" class="btn btn-success" ng-click="ok(comment)" ng-if="!isPublic">Update</button>
+</div>

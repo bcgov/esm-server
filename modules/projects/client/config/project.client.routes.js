@@ -70,9 +70,9 @@ angular.module('project').config (
 					roles: MenuControl.menuRolesBuilder (['user'], project.code, '*', '*')
 				});
 				Menus.addMenuItem('projectTopMenu', {
-					title: 'Public Comment Period',
-					state: "p.comments",
-					roles: MenuControl.menuRolesBuilder (['user'], project.code, '*', '*')
+					title: 'Comment Periods',
+					state: "p.commentperiod.list",
+					roles: MenuControl.menuRolesBuilder (['admin','user','public'], project.code, '*', '*')
 				});
 			}
 
@@ -87,11 +87,11 @@ angular.module('project').config (
 					state: 'p.invitations',
 					roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['eao:admin', 'responsible-epd','project-admin', 'project-lead','project-intake', 'pro:admin', 'pro:member'])
 				});
-				Menus.addMenuItem('projectMenu', {
-					title: 'Comment Periods',
-					state: 'p.commentperiod.list',
-					roles: MenuControl.menuRoles ('admin', project.code, '*', '*')
-				});
+				// Menus.addMenuItem('projectMenu', {
+				// 	title: 'Comment Periods',
+				// 	state: 'p.commentperiod.list',
+				// 	roles: MenuControl.menuRoles ('admin', project.code, '*', '*')
+				// });
 				Menus.addMenuItem('projectMenu', {
 					title: 'Complaints',
 					state: 'p.complaint.list',
@@ -100,7 +100,21 @@ angular.module('project').config (
 				Menus.addMenuItem('projectMenu', {
 					title: 'Conditions',
 					state: 'p.projectcondition.list',
-					roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer'])
+					roles: MenuControl.menuRolesBuilder ([undefined], project.code, 'eao', ['admin',
+																						'member',
+																						'assistant-dm',
+																						'assistant-dmo',
+																						'associate-dm',
+																						'associate-dmo',
+																						'minister',
+																						'ministers-office',
+																						'responsible-epd',
+																						'project-admin',
+																						'project-lead',
+																						'project-team',
+																						'qa-officer',
+																						'ce-lead',
+																						'ce-officer'])
 				});
 				Menus.addMenuItem('projectMenu', {
 					title: 'Inspection Reports',
@@ -222,7 +236,7 @@ angular.module('project').config (
 			}
 		}
 	})
-	
+
 	// -------------------------------------------------------------------------
 	//
 	// PUBLIC COMMENT PERIOD
@@ -241,8 +255,33 @@ angular.module('project').config (
 			}
 		}
 	})
-	
-	
+	.state('p.eaocomments', {
+		url: '/eao-comment-period',
+		templateUrl: 'modules/publicComments/client/views/comments-eao.html',
+		controller: 'controllerProjectEntry',
+		onEnter: function (MenuControl, project, $stateParams) {
+			if ($stateParams.projectid === 'new') {
+				MenuControl.routeAccessBuilder (undefined, '*', '*', ['ce-lead', 'ce-officer']);
+			}
+			else {
+				MenuControl.routeAccessBuilder (['admin', 'user', 'public']);
+			}
+		}
+	})
+	.state('p.proponentcomments', {
+		url: '/proponent-comment-period',
+		templateUrl: 'modules/publicComments/client/views/comments-proponent.html',
+		controller: 'controllerProjectEntry',
+		onEnter: function (MenuControl, project, $stateParams) {
+			if ($stateParams.projectid === 'new') {
+				MenuControl.routeAccessBuilder (undefined, '*', '*', ['ce-lead', 'ce-officer']);
+			}
+			else {
+				MenuControl.routeAccessBuilder (['admin', 'user', 'public']);
+			}
+		}
+	})
+
 	// -------------------------------------------------------------------------
 	//
 	// the decision package mockup
