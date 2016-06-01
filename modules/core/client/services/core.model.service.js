@@ -207,7 +207,6 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 			return new Promise (function (resolve, reject) {
 				$http ({method:method, url:url, data:data })
 				.then (function (res) {
-					console.log (res);
 					resolve (res.data);
 				}).catch (function (res) {
 					reject (res.data);
