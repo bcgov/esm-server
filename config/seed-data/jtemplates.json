@@ -616,8 +616,1429 @@
       }
     ],
     "versionNumber": 18,
-    "documentType": "Valued Component",
-    "code": "valued-component"
+    "documentType": "Valued Component Old",
+    "code": "valued-component-old"
+  },
+  {
+    "sections": [
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Project Title",
+            "type":"Text",
+            "name":"projectTitle"
+          },
+          {
+            "default":"",
+            "label":"Proponent",
+            "type":"Text",
+            "name":"proponent"
+          },
+          {
+            "default":"",
+            "label":"Date",
+            "type":"Text",
+            "name":"date"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"title-pg\">\n    <div class=\"title-pg-txt-lrg\">\n      Application Information Requirements\n    </div>    \n    <span class=\"title-pg-in-txt-lrg\">\n      <i>{{projectTitle}}</i>\n    </span>\n    <div class=\"title-pg-space title-pg-txt-med\">\n      Proposed by:\n    </div>\n    <span class=\"title-pg-in-txt-med\">\n      {{proponent}}\n    </span>\n    <div class=\"title-pg-space title-pg-in-txt-med\">\n      {{date}}\n    </div>\n    <span class=\"title-pg-txt-sml\">\n      <i>Pursuant to the Environmental Assessment Act, S.B.C. 2002, c.43</i>\n    </span>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Title Page",
+        "name":"titlePg"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"overviewText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n    <tbody>\n      <tr class=\"spaceUnder section-header-lrg\">\n        <td valign=\"top\"><b>1.0</b></td>\n        <td class=\"indent-med\">\n          Overview of Proposed Project Proponent Description\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  <p>\n    {{overviewText}}\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"1.0 - Overview of Proposed Project Proponent Description",
+        "name":"overview"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"descriptionText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<ol>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">1.1</td>\n          <td class=\"indent-med\">\n            Description of Proposed Project\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{descriptionText}}\n    </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"1.1 - Description of Proposed Project",
+        "name":"descOfProposedProj"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"authText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">1.2</td>\n          <td class=\"indent-med\">\n            Applicable Authorizations\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{authText}}\n    </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"1.2 - Applicable Authorizations",
+        "name":"applicableAuthorizations"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"projDesignText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">1.3</td>\n          <td class=\"indent-med\">\n            Project Design and/or Alternative Means of Carrying out the Project\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{projDesignText}}\n    </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,"label":"1.3 - Project Design and/or Alternative Means of Carrying out the Project",
+        "name":"projDesign"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"alternativesText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">1.4</td>\n          <td class=\"indent-med\">\n            Alternatives to the Proposed Project\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{alternativesText}}\n    </p>\n  </ol>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"1.4 - Alternatives to the Proposed Project",
+        "name":"altsToProposedProj"
+      },
+      {
+
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"eapText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n    <tbody>\n      <tr class=\"spaceUnder section-header-lrg\">\n        <td valign=\"top\"><b>2.0</b></td>\n        <td class=\"indent-med\">\n          Environmental Assessment Process\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  <p>\n    {{eapText}}\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"2.0 - Environmental Assessment Process",
+        "name":"environAssessmentProcess"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"provEAProcessText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<ol>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">2.1</td>\n          <td class=\"indent-med\">\n            Provincial EA Process\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{provEAProcessText}}\n    </p>\n  </ol>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"2.1 - Provincial EA Process",
+        "name":"provEAProcess"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"assessmentText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n    <tbody>\n      <tr class=\"spaceUnder section-header-lrg\">\n        <td valign=\"top\"><b>3.0</b></td>\n        <td class=\"indent-med\">\n          Assessment Methodology\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  <p>\n    {{assessmentText}}\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"3.0 - Assessment Methodology",
+        "name":"assessmentMeth"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"issuesScopingText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<ol>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">3.1</td>\n          <td class=\"indent-med\">\n            Issues Scoping and Selection of Valued Components\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{issuesScopingText}}\n    </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"3.1 - Issues Scoping and Selection of Valued Components",
+        "name":"issueScopeAndVC"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"assessmentBoundariesText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">3.2</td>\n          <td class=\"indent-med\">\n            Assessment Boundaries\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{assessmentBoundariesText}}\n    </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"3.2 - Assessment Boundaries",
+        "name":"assessBoundaries"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"statbText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<ol>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">3.2.1</td>\n            <td class=\"indent-med\">\n              Spatial, Temporal, Administrative and Technical Boundaries\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{statbText}}\n      </p>\n    </ol>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"3.2.1 - Spatial, Temporal, Administrative and Technical Boundaries",
+        "name":"otherBoundaries"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"existingConditionsText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">3.3</td>\n          <td class=\"indent-med\">\n            Existing Conditions\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{existingConditionsText}}\n    </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"3.3 - Existing Conditions",
+        "name":"existingConditions"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"potentialEffectsText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">3.4</td>\n          <td class=\"indent-med\">\n            Potential Effects\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{potentialEffectsText}}\n    </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"3.4 - Potential Effects",
+        "name":"potentialEffects"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"mitigationMeasuresText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">3.5</td>\n          <td class=\"indent-med\">\n            Mitigation Measures\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{mitigationMeasuresText}}\n    </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"3.5 - Mitigation Measures",
+        "name":"mitigationMeasures"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"charOfResEffectsText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">3.6</td>\n          <td class=\"indent-med\">\n            Characterization of Residual Effects\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{charOfResEffectsText}}\n    </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"3.6 - Characterization of Residual Effects",
+        "name":"charOfResEffects"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"likelihoodText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">3.7</td>\n          <td class=\"indent-med\">\n            Likelihood\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{likelihoodText}}\n    </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"3.7 - Likelihood",
+        "name":"likelihood"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"pdsText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">3.8</td>\n          <td class=\"indent-med\">\n            Proponent’s Determination of Significance\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{pdsText}}\n    </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"3.8 - Proponent’s Determination of Significance",
+        "name":"propDeterOfSignificance"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"confidenceRiskText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">3.9</td>\n          <td class=\"indent-med\">\n            Confidence and Risk\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{confidenceRiskText}}\n    </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"3.9 - Confidence and Risk",
+        "name":"confidenceRisk"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"ceaText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">3.10</td>\n          <td class=\"indent-med\">\n            Cumulative Effects Assessment\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{ceaText}}\n    </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"3.10 - Cumulative Effects Assessment",
+        "name":"cumulativeEffAssess"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"projActsText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<ol>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">3.10.1</td>\n            <td class=\"indent-med\">\n              Identifying Past, Present or Reasonably Foreseeable Projects and/or Activities\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{projActsText}}\n      </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"3.10.1 - Identifying Past, Present or Reasonably Foreseeable Projects and/or Activities",
+        "name":"forseeableProjsAndActs"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"cceaText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">3.10.2</td>\n            <td class=\"indent-med\">\n              Conducting a Cumulative Effects Assessment\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{cceaText}}\n      </p>\n    </ol>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"3.10.2 - Conducting a Cumulative Effects Assessment",
+        "name":"condCumulativeEffAssess"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"followupStrategyText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">3.11</td>\n          <td class=\"indent-med\">\n            Follow-up Strategy\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{followupStrategyText}}\n    </p>\n  </ol>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"3.11 - Follow-up Strategy",
+        "name":"followupStrategy"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"environmentalEAText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n    <tbody>\n      <tr class=\"spaceUnder section-header-lrg\">\n        <td valign=\"top\"><b>4.0</b></td>\n        <td class=\"indent-med\">\n          Environmental Effects Assessment\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  <p>\n    {{environmentalEAText}}\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"4.0 - Environmental Effects Assessment",
+        "name":"environmentalEA"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"X.X",
+            "type":"Text",
+            "name":"item1"
+          },
+          {
+            "default":"",
+            "label":"Enter Heading",
+            "type":"Text",
+            "name":"environmentalEASectionHeading"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"environmentalEASectionText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem1"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"contextAndBoundariesText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem2"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"existingConditionsText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem3"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"potentialEffectsText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem4"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"mitigationMeasuresText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem5"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"resEffectsText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem6"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"cumEffectsText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem7"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"followupStrategyText"
+          }
+        ],
+        "footer":"</ol>",
+        "header":"<ol>",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">{{item1}}</td>\n          <td class=\"indent-med\">\n            {{environmentalEASectionHeading}}\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{environmentalEASectionText}}\n    </p>\n    <ol>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem1}}</td>\n            <td class=\"indent-med\">\n              Context and Boundaries\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{contextAndBoundariesText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem2}}</td>\n            <td class=\"indent-med\">\n              Existing Conditions\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{existingConditionsText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem3}}</td>\n            <td class=\"indent-med\">\n              Potential Effects\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{potentialEffectsText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem4}}</td>\n            <td class=\"indent-med\">\n              Mitigation Measures\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{mitigationMeasuresText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem5}}</td>\n            <td class=\"indent-med\">\n              Residual Effects and their Significance\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{resEffectsText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem6}}</td>\n            <td class=\"indent-med\">\n              Cumulative Effects and their Significance\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{cumEffectsText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem7}}</td>\n            <td class=\"indent-med\">\n              Follow-up Strategy\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{followupStrategyText}}\n      </p>\n    </ol>",
+        "isfooter":true,
+        "isheader":true,
+        "multiple":true,
+        "optional":false,
+        "label":"4.0 - Environmental Effects Assessment List",
+        "name":"environmentalEASections"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"socioEAText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n    <tbody>\n      <tr class=\"spaceUnder section-header-lrg\">\n        <td valign=\"top\"><b>5.0</b></td>\n        <td class=\"indent-med\">\n          Socio-economic Effects Assessment\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  <p>\n    {{socioEAText}}\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"5.0 - Socio-economic Effects Assessment",
+        "name":"socioEconomicEA"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"X.X",
+            "type":"Text",
+            "name":"item1"
+          },
+          {
+            "default":"",
+            "label":"Enter Heading",
+            "type":"Text",
+            "name":"socioEASectionHeading"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"socioEASectionText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem1"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"contextAndBoundariesText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem2"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"existingConditionsText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem3"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"potentialEffectsText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem4"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"mitigationMeasuresText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem5"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"resEffectsText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem6"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"cumEffectsText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem7"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"followupStrategyText"
+          }
+        ],
+        "footer":"</ol>",
+        "header":"<ol>",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">{{item1}}</td>\n          <td class=\"indent-med\">\n            {{socioEASectionHeading}}\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{socioEASectionText}}\n    </p>\n    <ol>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem1}}</td>\n            <td class=\"indent-med\">\n              Context and Boundaries\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{contextAndBoundariesText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem2}}</td>\n            <td class=\"indent-med\">\n              Existing Conditions\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{existingConditionsText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem3}}</td>\n            <td class=\"indent-med\">\n              Potential Effects\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{potentialEffectsText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem4}}</td>\n            <td class=\"indent-med\">\n              Mitigation Measures\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{mitigationMeasuresText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem5}}</td>\n            <td class=\"indent-med\">\n              Residual Effects and their Significance\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{resEffectsText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem6}}</td>\n            <td class=\"indent-med\">\n              Cumulative Effects and their Significance\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{cumEffectsText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem7}}</td>\n            <td class=\"indent-med\">\n              Follow-up Strategy\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{followupStrategyText}}\n      </p>\n    </ol>",
+        "isfooter":true,
+        "isheader":true,
+        "multiple":true,
+        "optional":false,
+        "label":"5.0 - Socio-economic Effects Assessment List",
+        "name":"socioEconomicEASections"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"heritageEAText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n    <tbody>\n      <tr class=\"spaceUnder section-header-lrg\">\n        <td valign=\"top\"><b>6.0</b></td>\n        <td class=\"indent-med\">\n          Heritage Effects Assessment\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  <p>\n    {{heritageEAText}}\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"6.0 - Heritage Effects Assessment",
+        "name":"heritageEA"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"X.X",
+            "type":"Text",
+            "name":"item1"
+          },
+          {
+            "default":"",
+            "label":"Enter Heading",
+            "type":"Text",
+            "name":"heritageEASectionHeading"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"heritageEASectionText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem1"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"contextAndBoundariesText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem2"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"existingConditionsText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem3"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"potentialEffectsText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem4"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"mitigationMeasuresText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem5"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"resEffectsText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem6"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"cumEffectsText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem7"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"followupStrategyText"
+          }
+        ],
+        "footer":"</ol>",
+        "header":"<ol>",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">{{item1}}</td>\n          <td class=\"indent-med\">\n            {{heritageEASectionHeading}}\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{heritageEASectionText}}\n    </p>\n    <ol>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem1}}</td>\n            <td class=\"indent-med\">\n              Context and Boundaries\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{contextAndBoundariesText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem2}}</td>\n            <td class=\"indent-med\">\n              Existing Conditions\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{existingConditionsText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem3}}</td>\n            <td class=\"indent-med\">\n              Potential Effects\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{potentialEffectsText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem4}}</td>\n            <td class=\"indent-med\">\n              Mitigation Measures\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{mitigationMeasuresText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem5}}</td>\n            <td class=\"indent-med\">\n              Residual Effects and their Significance\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{resEffectsText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem6}}</td>\n            <td class=\"indent-med\">\n              Cumulative Effects and their Significance\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{cumEffectsText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem7}}</td>\n            <td class=\"indent-med\">\n              Follow-up Strategy\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{followupStrategyText}}\n      </p>\n    </ol>",
+        "isfooter":true,
+        "isheader":true,
+        "multiple":true,
+        "optional":false,
+        "label":"6.0 - Heritage Effects Assessment List",
+        "name":"heritageEASections"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"healthEAText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n    <tbody>\n      <tr class=\"spaceUnder section-header-lrg\">\n        <td valign=\"top\"><b>7.0</b></td>\n        <td class=\"indent-med\">\n          Health Effects Assessment\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  <p>\n    {{healthEAText}}\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"7.0 - Health Effects Assessment",
+        "name":"healthEA"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"X.X",
+            "type":"Text",
+            "name":"item1"
+          },
+          {
+            "default":"",
+            "label":"Enter Heading",
+            "type":"Text",
+            "name":"healthEASectionHeading"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"healthEASectionText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem1"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"contextAndBoundariesText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem2"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"existingConditionsText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem3"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"potentialEffectsText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem4"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"mitigationMeasuresText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem5"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"resEffectsText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem6"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"cumEffectsText"
+          },
+          {
+            "default":"",
+            "label":"X.X.X",
+            "type":"Text",
+            "name":"subItem7"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"followupStrategyText"
+          }
+        ],
+        "footer":"",
+        "header":"<ol>",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">{{item1}}</td>\n          <td class=\"indent-med\">\n            {{healthEASectionHeading}}\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{healthEASectionText}}\n    </p>\n    <ol>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem1}}</td>\n            <td class=\"indent-med\">\n              Context and Boundaries\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{contextAndBoundariesText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem2}}</td>\n            <td class=\"indent-med\">\n              Existing Conditions\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{existingConditionsText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem3}}</td>\n            <td class=\"indent-med\">\n              Potential Effects\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{potentialEffectsText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem4}}</td>\n            <td class=\"indent-med\">\n              Mitigation Measures\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{mitigationMeasuresText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem5}}</td>\n            <td class=\"indent-med\">\n              Residual Effects and their Significance\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{resEffectsText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem6}}</td>\n            <td class=\"indent-med\">\n              Cumulative Effects and their Significance\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{cumEffectsText}}\n      </p>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">{{subItem7}}</td>\n            <td class=\"indent-med\">\n              Follow-up Strategy\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{followupStrategyText}}\n      </p>\n    </ol>",
+        "isfooter":true,
+        "isheader":true,
+        "multiple":true,
+        "optional":false,
+        "label":"7.0 - Health Effects Assessment List",
+        "name":"healthEASections"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"X.X",
+            "type":"Text",
+            "name":"item2"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"healthIAText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">{{item2}}</td>\n          <td class=\"indent-med\">\n            Health Impact Assessment\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{healthIAText}}\n    </p>\n  </ol>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"7.0 - Health Effects Assessment: Health Impact Assessment",
+        "name":"healthIA"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"accidentsMalfunctionsText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n    <tbody>\n      <tr class=\"spaceUnder section-header-lrg\">\n        <td valign=\"top\"><b>8.0</b></td>\n        <td class=\"indent-med\">\n          Accidents and Malfunctions\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  <p>\n    {{accidentsMalfunctionsText}}\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"8.0 - Accidents and Malfunctions",
+        "name":"accidentsMalfunctions"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"effectsEnvironmentText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n    <tbody>\n      <tr class=\"spaceUnder section-header-lrg\">\n        <td valign=\"top\"><b>9.0</b></td>\n        <td class=\"indent-med\">\n          Effects of the Environment on the Project\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  <p>\n    {{effectsEnvironmentText}}\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"9.0 - Effects of the Environment on the Project",
+        "name":"effectsEnvironProj"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"aboriginalConsultText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n    <tbody>\n      <tr class=\"spaceUnder section-header-lrg\">\n        <td valign=\"top\"><b>10.0</b></td>\n        <td class=\"indent-med\">\n          Aboriginal Consultation\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  <p>\n    {{aboriginalConsultText}}\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"10.0 - Aboriginal Consultation",
+        "name":"aboriginalConsultation"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"aboriginalInterestsText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<ol>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">10.1</td>\n          <td class=\"indent-med\">\n            Aboriginal Interests\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{aboriginalInterestsText}}\n    </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"10.1 - Aboriginal Interests",
+        "name":"aboriginalInterests"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"backInfoText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<ol>\n      <table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">10.1.1</td>\n            <td class=\"indent-med\">\n              Background Information\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{backInfoText}}\n      </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"10.1.1 - Background Information",
+        "name":"backInfo"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"consultActsText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">10.1.2</td>\n            <td class=\"indent-med\">\n              Consultation Activities\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{consultActsText}}\n      </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"10.1.2 - Consultation Activities",
+        "name":"consultActivities"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"aboriginalIntsAssessText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n        <tbody>\n          <tr class=\"spaceUnder section-header-sml\">\n            <td valign=\"top\">10.1.3</td>\n            <td class=\"indent-med\">\n              Aboriginal Interests Assessment\n            </td>\n          </tr>\n        </tbody>\n      </table>\n      <p>\n        {{aboriginalIntsAssessText}}\n      </p>\n    </ol>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"10.1.3 - Aboriginal Interests Assessment",
+        "name":"aboriginalInterestsAssess"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"otherMattersText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">10.2</td>\n          <td class=\"indent-med\">\n            Other Matters of Concern to Aboriginal Groups\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{otherMattersText}}\n    </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"10.2 - Other Matters of Concern to Aboriginal Groups",
+        "name":"otherMatters"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"issueSummaryText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">10.3</td>\n          <td class=\"indent-med\">\n            Issue Summary Table\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{issueSummaryText}}\n    </p>\n  </ol>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"10.3 - Issue Summary Table",
+        "name":"issueSummaryTbl"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"publicConsultText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n    <tbody>\n      <tr class=\"spaceUnder section-header-lrg\">\n        <td valign=\"top\"><b>11.0</b></td>\n        <td class=\"indent-med\">\n          Public Consultation\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  <p>\n    {{publicConsultText}}\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"11.0 - Public Consultation",
+        "name":"publicConsultation"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"managementPlansText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n    <tbody>\n      <tr class=\"spaceUnder section-header-lrg\">\n        <td valign=\"top\"><b>12.0</b></td>\n        <td class=\"indent-med\">\n          Management Plans\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  <p>\n    {{managementPlansText}}\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"12.0 - Management Plans",
+        "name":"mgmtPlan"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"monitoringFollowupProgsText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n    <tbody>\n      <tr class=\"spaceUnder section-header-lrg\">\n        <td valign=\"top\"><b>13.0</b></td>\n        <td class=\"indent-med\">\n          Monitoring &amp; Follow-up Programs\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  <p>\n    {{monitoringFollowupProgsText}}\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"13.0 - Monitoring and Follow-up Programs",
+        "name":"monitorFollowupProgs"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"conclusionsText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n    <tbody>\n      <tr class=\"spaceUnder section-header-lrg\">\n        <td valign=\"top\"><b>14.0</b></td>\n        <td class=\"indent-med\">\n          Conclusions\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  <p>\n    {{conclusionsText}}\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"14.0 - Conclusions",
+        "name":"conclusions"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"residualEffectsText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<ol>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">14.1</td>\n          <td class=\"indent-med\">\n            Summary of Residual Effects\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{residualEffectsText}}\n    </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"14.1 - Summary of Residual Effects",
+        "name":"summResEffects"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"mitigationMeasuresText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">14.2</td>\n          <td class=\"indent-med\">\n            Summary of Mitigation Measures\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{mitigationMeasuresText}}\n    </p>\n  </ol>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"14.2 - Summary of Mitigation Measures",
+        "name":"summMitMeasures"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"referenceMaterialText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n    <tbody>\n      <tr class=\"spaceUnder section-header-lrg\">\n        <td valign=\"top\"><b>15.0</b></td>\n        <td class=\"indent-med\">\n          Reference Material\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  <p>\n    {{referenceMaterialText}}\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"15.0 - Reference Material",
+        "name":"referenceMaterial"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"appendicesText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<table>      \n    <tbody>\n      <tr class=\"spaceUnder section-header-lrg\">\n        <td valign=\"top\"><b>16.0</b></td>\n        <td class=\"indent-med\">\n          Appendices\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  <p>\n    {{appendicesText}}\n  </p>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"16.0 - Appendices",
+        "name":"appendices"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"table1Text"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"table2Text"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"table3Text"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"table4Text"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"section-header-lrg\">\n    <p>\n      List of Tables\n    </p>\n  </div>\n  <ol>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">Table 1:</td>\n          <td class=\"indent-med\">\n            Example Table of Concordance between AIR and Application\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{table1Text}}\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">Table 2:</td>\n          <td class=\"indent-med\">\n            Authorization Table\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{table2Text}}\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\" style=\"width:71px;\">Table 3:</td>\n          <td class=\"indent-med\">\n            Summary Table of the Results of Aboriginal Consultation related to Aboriginal Interests/Other \n            Matters of Concern to Aboriginal Groups\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{table3Text}}\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">Table 4:</td>\n          <td class=\"indent-med\">\n            Summary of Proposed Mitigation Measures\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{table4Text}}\n    </p>\n  </ol>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"List of Tables",
+        "name":"listOfTbls"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"fig1Text"
+          },
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"fig2Text"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"section-header-lrg\">\n    <p>\n      List of Figures\n    </p>\n  </div>\n  <ol>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">Figure 1:</td>\n          <td class=\"indent-med\">\n            Summary of Methodological Steps\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{fig1Text}}\n    </p>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">Figure 2:</td>\n          <td class=\"indent-med\">\n            Steps to Determine Residual Project &amp; Cumulative Effects\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{fig2Text}}\n    </p>\n  </ol>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"List of Figures",
+        "name":"listOfFigs"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
+            "label":"Enter Text",
+            "type":"Html",
+            "name":"appendixAText"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"section-header-lrg\">\n    <p>\n      List of Appendices\n    </p>\n  </div>\n  <ol>\n    <table>      \n      <tbody>\n        <tr class=\"spaceUnder section-header-med\">\n          <td valign=\"top\">Appendix A:</td>\n          <td class=\"indent-med\">\n            Assessment Area Figures\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <p>\n      {{appendixAText}}\n    </p>\n  </ol>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"List of Appendices",
+        "name":"listOfAppendices"
+      }
+    ],
+    "versionNumber":13,
+    "documentType":"Valued Component",
+    "code":"valued-component"
   },
   {
     "sections": [
