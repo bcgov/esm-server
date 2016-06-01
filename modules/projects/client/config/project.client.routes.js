@@ -230,6 +230,32 @@ angular.module('project').config (
 	// -------------------------------------------------------------------------
 	.state('p.comments', {
 		url: '/public-comment-period',
+		templateUrl: 'modules/publicComments/client/views/comments-public.html',
+		controller: 'controllerProjectEntry',
+		onEnter: function (MenuControl, project, $stateParams) {
+			if ($stateParams.projectid === 'new') {
+				MenuControl.routeAccessBuilder (undefined, '*', '*', ['ce-lead', 'ce-officer']);
+			}
+			else {
+				MenuControl.routeAccessBuilder (['admin', 'user', 'public']);
+			}
+		}
+	})
+	.state('p.eaocomments', {
+		url: '/eao-comment-period',
+		templateUrl: 'modules/publicComments/client/views/comments-eao.html',
+		controller: 'controllerProjectEntry',
+		onEnter: function (MenuControl, project, $stateParams) {
+			if ($stateParams.projectid === 'new') {
+				MenuControl.routeAccessBuilder (undefined, '*', '*', ['ce-lead', 'ce-officer']);
+			}
+			else {
+				MenuControl.routeAccessBuilder (['admin', 'user', 'public']);
+			}
+		}
+	})
+	.state('p.proponentcomments', {
+		url: '/proponent-comment-period',
 		templateUrl: 'modules/publicComments/client/views/comments-proponent.html',
 		controller: 'controllerProjectEntry',
 		onEnter: function (MenuControl, project, $stateParams) {

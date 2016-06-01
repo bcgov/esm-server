@@ -1740,7 +1740,7 @@ tmpl-header {
 	padding-bottom: 4rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
 	.app-main {
 		padding-top: 6rem;
 	}	
@@ -1836,7 +1836,7 @@ $header-height-sm: 5.2rem;
 	}
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
 	.app-header {
 		height: $header-height;
 		
@@ -1959,7 +1959,7 @@ $header-height-sm: 5.2rem;
 	}
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
 	.custom-nav {
 		float: right;
 		margin: 0;
@@ -2212,6 +2212,10 @@ $sidenav-color: $link-color;
 		right: 0.5rem;
 		border: none;
 	}
+	
+	+ .attachments-upload-target {
+		margin-top: 1.5rem;
+	}
 }
 
 @media (min-width: 480px) {
@@ -2234,7 +2238,6 @@ $sidenav-color: $link-color;
 			width: 15rem;
 			margin-top: 0;
 		}
-		
 	}
 }
 
