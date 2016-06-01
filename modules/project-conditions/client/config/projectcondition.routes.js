@@ -20,20 +20,20 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 		url: '/projectcondition',
 		template: '<ui-view></ui-view>',
 		data: {
-			roles: ['eao:member',
-				   'eao:responsible-epd',
-				   'eao:project-admin',
-				   'eao:project-lead',
-				   'eao:project-team',
-				   'eao:minister',
-				   'eao:ministers-office',
-				   'eao:assistant-dm',
-				   'eao:assistant-dmo',
-				   'eao:associate-dm',
-				   'eao:associate-dmo',
-				   'eao:qa-officer',
-				   'eao:ce-lead',
-				   'eao:ce-officer']
+			roles: ['*:eao:member',
+				   '*:eao:responsible-epd',
+				   '*:eao:project-admin',
+				   '*:eao:project-lead',
+				   '*:eao:project-team',
+				   '*:eao:minister',
+				   '*:eao:ministers-office',
+				   '*:eao:assistant-dm',
+				   '*:eao:assistant-dmo',
+				   '*:eao:associate-dm',
+				   '*:eao:associate-dmo',
+				   '*:eao:qa-officer',
+				   '*:eao:ce-lead',
+				   '*:eao:ce-officer']
 		},
 		resolve: {
 			conditions: function ($stateParams, ProjectConditionModel, project) {
@@ -58,7 +58,7 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 			}
 		},
 		onEnter: function (MenuControl, project) {
-			MenuControl.routeAccessBuilder (undefined, project.code, 'eao', ['member',
+			MenuControl.routeAccessBuilder (undefined, project.code, '*', ['member',
 																		   'responsible-epd',
 																		   'project-admin',
 																		   'project-lead',
@@ -86,13 +86,13 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 		templateUrl: 'modules/project-conditions/client/views/projectcondition-list.html',
 		controller: function ($scope, NgTableParams, conditions, project, pillars, projecttypes, stages, MenuControl) {
 			$scope.ptypes = projecttypes;
-			$scope.showedit = MenuControl.userHasOne([	'eao:responsible-epd',
-														'eao:project-admin',
-														'eao:project-lead',
-														'eao:project-team',
-														'eao:qa-officer',
-														'eao:ce-lead',
-														'eao:ce-officer']);
+			$scope.showedit = MenuControl.userHasOne([	project.code+':eao:responsible-epd',
+														project.code+':eao:project-admin',
+														project.code+':eao:project-lead',
+														project.code+':eao:project-team',
+														project.code+':eao:qa-officer',
+														project.code+':eao:ce-lead',
+														project.code+':eao:ce-officer']);
 			$scope.stypes = stages;
 			$scope.pillars = pillars;
 			$scope.project = project;
@@ -213,13 +213,13 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 		},
 		controller: function ($scope, condition, project, pillars, projecttypes, stages, MenuControl) {
 			$scope.sectors = projecttypes;
-			$scope.showedit = MenuControl.userHasOne([	'eao:responsible-epd',
-														'eao:project-admin',
-														'eao:project-lead',
-														'eao:project-team',
-														'eao:qa-officer',
-														'eao:ce-lead',
-														'eao:ce-officer']);
+			$scope.showedit = MenuControl.userHasOne([	project.code+':eao:responsible-epd',
+														project.code+':eao:project-admin',
+														project.code+':eao:project-lead',
+														project.code+':eao:project-team',
+														project.code+':eao:qa-officer',
+														project.code+':eao:ce-lead',
+														project.code+':eao:ce-officer']);
 			$scope.pillars = pillars;
 			$scope.stages  = stages;
 			$scope.condition = condition;
