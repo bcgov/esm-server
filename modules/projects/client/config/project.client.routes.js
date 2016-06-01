@@ -27,9 +27,6 @@ angular.module('project').config (
 		},
 		controller: function ($scope, $stateParams, project, ENV, $rootScope, ProjectModel, Menus, MenuControl, Authentication) {
 
-			console.log (Authentication.user);
-			console.log (Authentication.user.roles);
-
 			$scope.project = project;
 			$scope.environment = ENV;
 			$scope.isNew = ($stateParams.projectid === 'new');
