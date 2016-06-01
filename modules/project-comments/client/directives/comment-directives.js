@@ -82,7 +82,8 @@ angular.module ('comment')
 					animation: true,
 					templateUrl: 'modules/project-comments/client/views/public-comments/detail.html',
 					controllerAs: 's',
-					size: 'md',
+					size: 'lg',
+					windowClass: 'public-comment-modal',
 					controller: function ($scope, $modalInstance) {
 						$scope.isPublic    = isPublic   ;
 						$scope.isEao       = isEao      ;

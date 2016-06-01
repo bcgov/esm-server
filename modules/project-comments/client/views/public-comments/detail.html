@@ -15,7 +15,7 @@
         <div class="alert alert-info eao-comment-notes " ng-if="comment.eaoNotes">
 
             <!--  NOTES -->
-            <div class="row">
+            <div class="row" ng-if="comment.eaoStatus === 'Deferred'">
                 <span class="col-sm-12 value wrap-text">{{comment.eaoNotes}}</span>
             </div>
             <!--  / NOTES -->
@@ -160,12 +160,27 @@
     <!-- SET COMMENT STATUS -->
     <section ng-if="isEao">
         <label class="control-label">Set Comment Status</label>
-        <div class="btn-group comment-status-btns" data-toggle="buttons">
+        <ul class="comment-status-btns nav nav-pills" role="pills">
+
+
             <!-- NEED TO SET ACTIVE CLASS WHEN CLICKED -->
-            <button class="btn btn-default" ng-click="comment.eaoStatus='Deferred'" ng-class="{'active':comment.eaoStatus === 'Deferred'}">Deferred</button>
-            <button class="btn btn-default" ng-click="comment.eaoStatus='Rejected'" ng-class="{'active':comment.eaoStatus === 'Rejected'}">Rejected</button>
-            <button class="btn btn-default" ng-click="comment.eaoStatus='Published'" ng-class="{'active':comment.eaoStatus === 'Published'}">Published</button>
-        </div>
+            <li role="presentation"><button class="btn btn-default" role="pill" data-toggle="pill" ng-click="comment.eaoStatus='Deferred'" ng-class="{'active':comment.eaoStatus === 'Deferred'}">Defer</button></li>
+            <li role="presentation"><button class="btn btn-default" role="pill" data-toggle="pill" ng-click="comment.eaoStatus='Rejected'" ng-class="{'active':comment.eaoStatus === 'Rejected'}">Reject</button></li>
+            <li role="presentation"><button class="btn btn-default" role="pill" data-toggle="pill" ng-click="comment.eaoStatus='Published'" ng-class="{'active':comment.eaoStatus === 'Published'}">Publish</button></li>
+
+            <!-- OLD FUNCTIONALITY - TO BE REMOVED -->
+            <div class="hidden">
+                <label class="btn btn-default">
+                    <input type="radio" ng-model="comment.eaoStatus" value="Deferred" name="commentStatus" id="deferComment" > Defer
+                </label>
+                <label class="btn btn-danger">
+                    <input type="radio" ng-model="comment.eaoStatus" value="Rejected" name="commentStatus" id="rejectComment" > Reject
+                </label>
+                <label class="btn btn-success">
+                    <input type="radio" ng-model="comment.eaoStatus" value="Published" name="commentStatus" id="publishComment" > Publish
+                </label>
+            </div><!-- OLD FUNCTIONALITY - TO BE REMOVED -->
+        </ul>
 
         <div class="row">
             <label>Notes</label>
@@ -178,6 +193,7 @@
             <label>Rejection Notes</label>
             <textarea ng-model="comment.rejectedNotes"></textarea>
         </div>
+
     </section><!-- / SET COMMENT STATUS -->
 
 </div>
