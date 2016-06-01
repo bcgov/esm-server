@@ -133,13 +133,22 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 		resolve: {
 			period: function ($stateParams, CommentPeriodModel) {
 				return CommentPeriodModel.getModel ($stateParams.periodId);
+			},
+			artifact: function (period, ArtifactModel) {
+				return ArtifactModel.getModel (period.artifact._id);
 			}
 		},
-		controller: function ($scope, period, project) {
+		controller: function ($scope, period, project, artifact) {
+			var today       = new Date ();
+			var start       = new Date (period.dateStarted);
+			var end         = new Date (period.dateCompleted);
+			var isopen      = start < today && today < end;
+			$scope.isOpen   = isopen;
+			$scope.isBefore = (start > today);
 			$scope.period   = period;
 			$scope.project  = project;
-			$scope.artifact = period.artifact;
-			console.log ($scope.artifact);
+			$scope.artifact = artifact;
+			console.log (artifact);
 		}
 	})
 

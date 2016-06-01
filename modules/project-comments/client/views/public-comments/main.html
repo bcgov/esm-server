@@ -7,13 +7,15 @@
     <div class="view-body-container">
 
         <div class="public-comment-alert">
-            <h2>Public Comment Period is Now Open!</h2>
-            <h3><strong>June 1</strong> - <strong>July 15, 2016</strong></h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            <tmpl-artifact-display x-mode="'view'" x-artifact="artifact" x-project="project"></tmpl-artifact-display>
+            <h2 ng-if="isBefore">Public Comment Period Not Yet Started</h2>
+            <h2 ng-if="isOpen">Public Comment Period is Now Open!</h2>
+            <h2 ng-if="isClosed">Public Comment Period is Now Closed</h2>
+            <h3><strong>{{ period.dateStarted | date }}</strong> - <strong>{{ period.dateCompleted | date }}</strong></h3>
+            <p ng-if="!isClosed">{{ period.instructions }}</p>
+            <p ng-if="isClosed">These are the closing remarks</p>
+
             <ul class="public-comment-period-document-links">
-                <li><a class="document-name" href="#">Application Information Requirements</a><a href="#">[ VIEW FILES ]</a></li>
-                <li><a class="document-name" href="#">Associated Documentation</a><a href="#">[ VIEW FILES ]</a></li>
+                <li><a class="document-name" data-toggle="modal" data-target="#detailModal">{{ artifact.name }}</a></li>
             </ul>
             <button class="btn btn-success" x-add-public-comment x-project="project" x-period="period">
                 Click Here to Submit a Comment
@@ -32,4 +34,22 @@
 
     </div>
 
+</div>
+<div class="public-comment-modal modal fade" id="detailModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title">{{ artifact.name }}</h3>
+            </div>
+            <div class="modal-body">
+                <tmpl-artifact-display x-mode="'view'" x-artifact="artifact" x-project="project"></tmpl-artifact-display>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>
