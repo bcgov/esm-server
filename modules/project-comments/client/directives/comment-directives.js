@@ -72,7 +72,8 @@ angular.module ('comment')
 					animation: true,
 					templateUrl: 'modules/project-comments/client/views/public-comments/detail.html',
 					controllerAs: 's',
-					size: 'md',
+					size: 'lg',
+					windowClass: 'public-comment-modal',
 					// resolve: {
 					// 	comment: function (CommentModel) {
 					// 		return comment;
@@ -118,7 +119,8 @@ angular.module ('comment')
 					animation: true,
 					templateUrl: 'modules/project-comments/client/views/public-comments/add.html',
 					controllerAs: 's',
-					size: 'md',
+					size: 'lg',
+					windowClass: 'public-comment-modal',
 					resolve: {
 						comment: function (CommentModel) {
 							return CommentModel.getNew ();
@@ -186,6 +188,7 @@ angular.module ('comment')
 					controllerAs: 'p',
 					scope: scope,
 					size: 'lg',
+					windowClass: 'public-comment-modal',
 					resolve: {
 						rProject: function() { return scope.project; },
 						rPeriod: function() { return scope.period; }

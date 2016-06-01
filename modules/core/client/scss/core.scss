@@ -19,8 +19,8 @@ $danger-text:			#a94442;
 
 $danger-bg:				#d9534f;
 $danger-border:			#d43f3a;
-$info-bg:				#337ab7;
-$info-border:			#337ab7;
+$info-bg:				#5bc0de;
+$info-border:			#5bc0de;
 $success-bg: 			#449d44;
 $success-border: 		#398439;
 
@@ -2143,6 +2143,12 @@ $sidenav-color: $link-color;
 	}
 }
 
+.alert-info {
+	color: #FFF;
+	background: $info-bg;
+	border: 1px solid $info-border;
+}
+
 .alert-danger {
 	color: #FFF;
 	background: $danger-bg;
@@ -2666,12 +2672,13 @@ textarea {
 
 /* PICK LIST
 ------------------------------ */
-$pick-list-active-item-bg: #2b5580;
+$pick-list-active-item-bg: #5cb85c;
 
 .pick-list {
 	display: block;
 	padding: 1px;
-	border-radius: 0;
+	border: 1px solid #DDD;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 	
 	.btn {
 		display: block;

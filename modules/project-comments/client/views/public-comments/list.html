@@ -1,11 +1,11 @@
 <div >
     <div ng-if="s.isEao">
         <!-- PROTOTYPE EAO ROW TEMPLATES  -->
-        <ul >
-            <li role="presentation" class="active"><a href ng-click="s.toggle('Unvetted')">Pending Review ({{s.totalPending}})</a></li>
-            <li role="presentation"><a href ng-click="s.toggle('Deferred')">Deferred ({{s.totalDeferred}})</a></li>
-            <li role="presentation"><a href ng-click="s.toggle('Published')">Published ({{s.totalPublic}})</a></li>
-            <li role="presentation"><a href ng-click="s.toggle('Rejected')">Rejected ({{s.totalRejected}})</a></li>
+        <ul class="tab-container nav nav-tabs" role="tablist">
+            <li role="presentation"><a href ng-click="s.toggle('Unvetted')"  role="tab" data-toggle="tab">Pending Review ({{s.totalPending}})</a></li>
+            <li role="presentation"><a href ng-click="s.toggle('Deferred')"  role="tab" data-toggle="tab">Deferred ({{s.totalDeferred}})</a></li>
+            <li role="presentation"><a href ng-click="s.toggle('Published')" role="tab" data-toggle="tab">Published ({{s.totalPublic}})</a></li>
+            <li role="presentation"><a href ng-click="s.toggle('Rejected')"  role="tab" data-toggle="tab">Rejected ({{s.totalRejected}})</a></li>
         </ul>
     </div>
     <div ng-if="s.isProponent">
@@ -28,7 +28,7 @@
                             <h2 ng-if="::o.isAnonymous" class="comment-title">Anonymous</h2>
                             <h2 ng-if="::!o.isAnonymous" class="comment-title">{{ ::o.author }}</h2>
                             <div ng-init="toggleProject.desc = (false)">
-                                <p class="comment">{{ ::o.comment }}</p>
+                                <p class="comment">{{ ::o.comment | limitTo: 200 }}{{ ::o.comment.length > 200? '...' : ''}}</p>
                             </div>
                         </td>
                         <td

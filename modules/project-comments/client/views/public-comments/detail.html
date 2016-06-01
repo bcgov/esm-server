@@ -15,7 +15,7 @@
         <div class="alert alert-info eao-comment-notes " ng-if="comment.eaoNotes">
 	        
             <!--  NOTES -->
-            <div class="row">
+            <div class="row" ng-if="comment.eaoStatus === 'Deferred'">
                 <span class="col-sm-12 value wrap-text">{{comment.eaoNotes}}</span>
             </div>
             <!--  / NOTES -->
@@ -160,16 +160,12 @@
     <!-- SET COMMENT STATUS -->
     <section ng-if="isEao">
         <label class="control-label">Set Comment Status</label>
-        <div class="btn-group comment-status-btns" data-toggle="buttons">
+        <ul class="comment-status-btns nav nav-pills" role="pills">
            
             <!-- NEED TO SET ACTIVE CLASS WHEN CLICKED -->
-            <button class="btn btn-default">Defer</button>
-            <button class="btn btn-default">Reject</button>
-            <button class="btn btn-default">Publish</button>
-            
-            <div>
-                {{comment.eaoStatus}}
-            </div>
+            <li role="presentation"><button class="btn btn-default" role="pill" data-toggle="pill">Defer</button></li>
+            <li role="presentation"><button class="btn btn-default" role="pill" data-toggle="pill">Reject</button></li>
+            <li role="presentation"><button class="btn btn-default" role="pill" data-toggle="tab">Publish</button></li>
             
             <!-- OLD FUNCTIONALITY - TO BE REMOVED -->
             <div class="hidden">
@@ -183,7 +179,7 @@
                     <input type="radio" ng-model="comment.eaoStatus" value="Published" name="commentStatus" id="publishComment" > Publish
                 </label>
             </div><!-- OLD FUNCTIONALITY - TO BE REMOVED -->
-        </div>
+        </ul>
         
         <div class="row" ng-if="comment.eaoStatus === 'Deferred'">
             <label>Notes</label>
@@ -196,6 +192,7 @@
             <label>Rejection Notes</label>
             <textarea ng-model="comment.rejectedNotes"></textarea>
         </div>
+        
     </section><!-- / SET COMMENT STATUS -->
 
 </div>
