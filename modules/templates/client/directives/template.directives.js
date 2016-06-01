@@ -216,7 +216,7 @@ angular.module ('templates')
 
 			// Specify how UI should be updated
 			ngModel.$render = function() {
-            	element.html($sce.getTrustedHtml(ngModel.$viewValue));
+				element.html($sce.getTrustedHtml(ngModel.$viewValue));
 			};
 
 			// Listen for change events to enable binding
@@ -265,6 +265,18 @@ angular.module ('templates')
 		templateUrl: 'modules/templates/client/views/template-html-editor.html',
 		link: function (scope, element, attrs, ngModel) {
 			scope.activeItem = false;
+		},
+		controller: function($scope) {
+			$scope.tinymceOptions = {
+		        resize: true,
+		        width: '100%',  // I *think* its a number and not '400' string
+		        height: 100,
+		        menubar:'',
+		        elementpath: false,
+		        plugins: 'textcolor',
+		        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor'
+
+		    };
 		}
 	};
 }])
