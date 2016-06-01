@@ -1,9 +1,7 @@
 <div class="public-comment-period-view">
     
-    <div class="breadcrumbs">{{project.name}} &nbsp;&rsaquo;&nbsp; Public Comment Periods</div>
-    
     <div class="view-title-container">
-        <h1>Public Comment Periods</h1>
+        <h1>{{project.name}} &nbsp;&rsaquo;&nbsp; Public Comment Periods</h1>
     </div>
     
     <div class="view-body-container">
@@ -108,7 +106,7 @@
 			<div class="modal-body">
                 
                 <!-- STATUS ALERTS -->
-                <div class="eao-alerts">
+                <section class="eao-alerts">
                     <div class="alert alert-danger hidden">
                         Review period for this comment expires in <strong>1 Days</strong>
                     </div>
@@ -117,154 +115,146 @@
                     </div>
                     
                     <!-- DEFER NOTES -->
-                    <div class="alert alert-info eao-comment-notes hidden">
-                        <div class="detail-row">
-                            <label>Deferred by:</label><span class="value">User Name</span>
+                    <div class="alert alert-info eao-comment-notes">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="detail-row horiz">
+                                    <label>Deferred by:</label><span class="value">User Name</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 clearfix">
+                                <span class="pull-right">MM/DD/YYYY</span>
+                            </div>
                         </div>
-                        <div class="notes detail-row">
-                            <span class="value wrap-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</span>
+                        <div class="row">
+                            <span class="col-sm-12 value wrap-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</span>
                         </div>
-                        <div class="date">MM/DD/YYYY</div>
-                    </div>
+                    </div><!-- / DEFER NOTES -->
                     
                     <!-- REJECTION NOTES -->
-                    <div class="alert alert-danger eao-comment-notes">
-                        <div class="detail-row">
-                            <label>Rejected by:</label><span class="value">User Name</span>
+                    <div class="alert alert-danger eao-comment-notes hidden">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="detail-row horiz">
+                                    <label>Rejected by:</label><span class="value">User Name</span>
+                                </div>
+                                <div class="detail-row horiz">
+                                    <label>Reason:</label><span class="value">Rejection Reason Here</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 clearfix">
+                                <span class="pull-right">MM/DD/YYYY</span>
+                            </div>
                         </div>
-                        <div class="detail-row">
-                            <label>Reason for Rejection:</label><span class="value">Rejection Reason Here</span>
+                        <div class="row">
+                            <span class="col-sm-12 value wrap-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</span>
                         </div>
-                        <div class="notes detail-row">
-                            <span class="value wrap-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</span>
-                        </div>
-                        <div class="date">MM/DD/YYYY</div>
-                    </div>
-                    
-                </div>
+                    </div><!-- / REJECTION NOTES -->
+                </section>
                 
                 <section class="comment-info">
-                    <label>Posted March 21, 2016</label>
-                    <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
+                    <label class="control-label">Posted March 21, 2016</label>
+                    <p class="value wrap-text">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
                 </section>
                 
                 <!-- PILLARS & VC'S -->
                 <section class="pillers-vc">  
-                    <!-- DISPLAY VALUES -->
-                    <div class="pillers-vc-display hidden">
-                        <div class="detail-row">
-                            <label>Pillars</label>
-                            <span class="value">Health, Environment, Heritage</span>
-                        </div>
-                        <div class="detail-row">
-                            <label>Valued Components</label>
-                            <span class="value">Air Quality, Water Quality, Regulatory Process, Rights & Titles</span>
-                        </div>
-                    </div><!-- / DISPLAY VALUES --> 
-                    <!-- PROPONENT ASSIGN -->
                     <div class="row">
                         <div class="col-sm-6">
-                            <div class="detail-row">
-                                <label>Assign Pillars</label>
-                                <div class="pick-list panel panel-default" data-toggle="buttons">
-                                    <label class="btn btn-default active">
-                                        <input type="checkbox" autocomplete="off">Pillar 1 
-                                    </label>
-                                    <label class="btn btn-default">
-                                        <input type="checkbox" autocomplete="off">Pillar 2
-                                    </label>
-                                    <label class="btn btn-default">
-                                        <input type="checkbox" autocomplete="off">Pillar 3
-                                    </label>
-                                </div>
+                            <label class="control-label">Assign Pillars</label>
+                            <div class="pick-list panel panel-default" data-toggle="buttons">
+                                <label class="btn btn-default active">
+                                    <input type="checkbox" autocomplete="off">Pillar 1 
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="checkbox" autocomplete="off">Pillar 2
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="checkbox" autocomplete="off">Pillar 3
+                                </label>
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="detail-row">
-                                <label>Assign Valued Components</label>
-                                <div class="pick-list panel panel-default" data-toggle="buttons">
-                                    <label class="btn btn-default" title="Really Really Really Really Really Really Long Valued Component Name">
-                                        <input type="checkbox" autocomplete="off" checked>Really Really Really Really Really Really Long Valued Component Name
-                                    </label>
-                                    <label class="btn btn-default" title="Valued Component 2">
-                                        <input type="checkbox" autocomplete="off">Valued Component 2
-                                    </label>
-                                    <label class="btn btn-default" title="Valued Component 1">
-                                        <input type="checkbox" autocomplete="off">Valued Component 1
-                                    </label>
-                                </div>
+                            <label class="control-label">Assign Valued Components</label>
+                            <div class="pick-list panel panel-default" data-toggle="buttons">
+                                <label class="btn btn-default" title="Really Really Really Really Really Really Long Valued Component Name">
+                                    <input type="checkbox" autocomplete="off" checked>Really Really Really Really Really Really Long Valued Component Name
+                                </label>
+                                <label class="btn btn-default" title="Valued Component 2">
+                                    <input type="checkbox" autocomplete="off">Valued Component 2
+                                </label>
+                                <label class="btn btn-default" title="Valued Component 1">
+                                    <input type="checkbox" autocomplete="off">Valued Component 1
+                                </label>
                             </div>
                         </div>
-                    </div><!-- / PROPONENT ASSIGN -->
+                    </div>
                 </section><!-- / PILLARS & VC'S -->
                 
                 <!-- ATTACHMENTS -->
                 <section>
-                    <div class="detail-row">
-                        <label>Attachments</label>
-                        <ul class="attachments list-group">
-                            <li class="list-group-item clearfix">
-                                <div class="file-name">file-name-1.jpg</div>
-                                <div class="file-review btn-group" data-toggle="buttons">
-                                    <label class="btn btn-danger btn-sm">
-                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
-                                    </label>
-                                    <label class="btn btn-success btn-sm">
-                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Accept
-                                    </label>
-                                </div>
-                                <button class="file-action btn btn-link">
-                                    <span class="glyphicon glyphicon-download-alt"></span>
-                                </button>
-                            </li>
-                            <li class="list-group-item clearfix">
-                                <div class="file-name">file-name-1.jpg</div>
-                                <div class="file-review btn-group" data-toggle="buttons">
-                                    <label class="btn btn-danger btn-sm">
-                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
-                                    </label>
-                                    <label class="btn btn-success btn-sm">
-                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Accept
-                                    </label>
-                                </div>
-                                <button class="file-action btn btn-link">
-                                    <span class="glyphicon glyphicon-download-alt"></span>
-                                </button>
-                            </li>
-                            <li class="list-group-item clearfix">
-                                <div class="file-name">file-name-1.jpg</div>
-                                <div class="file-review btn-group" data-toggle="buttons">
-                                    <label class="btn btn-danger btn-sm">
-                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
-                                    </label>
-                                    <label class="btn btn-success btn-sm">
-                                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Accept
-                                    </label>
-                                </div>
-                                <button class="file-action btn btn-link">
-                                    <span class="glyphicon glyphicon-download-alt"></span>
-                                </button>
-                            </li>
-                        </ul>
-                    </div> 
+                    <label class="control-label">Attachments</label>
+                    <ul class="attachments list-group">
+                        <li class="list-group-item clearfix">
+                            <div class="file-name">file-name-1.jpg</div>
+                            <div class="file-review btn-group" data-toggle="buttons">
+                                <label class="btn btn-danger btn-sm">
+                                    <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
+                                </label>
+                                <label class="btn btn-success btn-sm">
+                                    <input type="radio" name="options" id="option1" autocomplete="off" checked />Accept
+                                </label>
+                            </div>
+                            <button class="file-action btn btn-link">
+                                <span class="glyphicon glyphicon-download-alt"></span>
+                            </button>
+                        </li>
+                        <li class="list-group-item clearfix">
+                            <div class="file-name">file-name-1.jpg</div>
+                            <div class="file-review btn-group" data-toggle="buttons">
+                                <label class="btn btn-danger btn-sm">
+                                    <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
+                                </label>
+                                <label class="btn btn-success btn-sm">
+                                    <input type="radio" name="options" id="option1" autocomplete="off" checked />Accept
+                                </label>
+                            </div>
+                            <button class="file-action btn btn-link">
+                                <span class="glyphicon glyphicon-download-alt"></span>
+                            </button>
+                        </li>
+                        <li class="list-group-item clearfix">
+                            <div class="file-name">file-name-1.jpg</div>
+                            <div class="file-review btn-group" data-toggle="buttons">
+                                <label class="btn btn-danger btn-sm">
+                                    <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
+                                </label>
+                                <label class="btn btn-success btn-sm">
+                                    <input type="radio" name="options" id="option1" autocomplete="off" checked />Accept
+                                </label>
+                            </div>
+                            <button class="file-action btn btn-link">
+                                <span class="glyphicon glyphicon-download-alt"></span>
+                            </button>
+                        </li>
+                    </ul>
                 </section><!-- / ATTACHMENTS -->
                 
+                <!-- SET COMMENT STATUS -->
                 <section>
-                    <div class="detail-row">
-                        <label>Set Comment Status</label>
-                        <div class="btn-group comment-status-btns" data-toggle="buttons">
-                            <label class="btn btn-default active">
-                                <input type="radio" name="commentStatus" id="deferComment" autocomplete="off" checked> Defer
-                            </label>
-                            <label class="btn btn-danger">
-                                <input type="radio" name="commentStatus" id="rejectComment" autocomplete="off"> Reject
-                            </label>
-                            <label class="btn btn-success">
-                                <input type="radio" name="commentStatus" id="publishComment" autocomplete="off"> Publish
-                            </label>
-                        </div>
+                    <label class="control-label">Set Comment Status</label>
+                    <div class="btn-group comment-status-btns" data-toggle="buttons">
+                        <label class="btn btn-default active">
+                            <input type="radio" name="commentStatus" id="deferComment" autocomplete="off" checked> Defer
+                        </label>
+                        <label class="btn btn-danger">
+                            <input type="radio" name="commentStatus" id="rejectComment" autocomplete="off"> Reject
+                        </label>
+                        <label class="btn btn-success">
+                            <input type="radio" name="commentStatus" id="publishComment" autocomplete="off"> Publish
+                        </label>
                     </div>
-                </section>
+                </section><!-- / SET COMMENT STATUS -->
                 
             </div>
             <div class="modal-footer">
