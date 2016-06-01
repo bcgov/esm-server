@@ -132,14 +132,13 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 		templateUrl: 'modules/project-comments/client/views/period-view.html',
 		resolve: {
 			period: function ($stateParams, CommentPeriodModel) {
-				// console.log ('periodId = ', $stateParams.periodId);
 				return CommentPeriodModel.getModel ($stateParams.periodId);
 			}
 		},
 		controller: function ($scope, period, project) {
-			// console.log ('period = ', period);
-			$scope.period = period;
-			$scope.project = project;
+			$scope.period   = period;
+			$scope.project  = project;
+			$scope.artifact = period.artifact;
 		}
 	})
 
