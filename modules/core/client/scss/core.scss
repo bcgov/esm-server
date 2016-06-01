@@ -29,7 +29,7 @@ $app-base-color: 		#494949;
 
 $link-color: 			#1a5a96;
 
-$modal-body-bg: 		#f7f8fa;
+$modal-body-bg: 		#f1f1f1;
 $modal-header-bg: 		#FFF;
 $modal-footer-bg: 		#FFF;
 
@@ -1740,7 +1740,7 @@ tmpl-header {
 	padding-bottom: 4rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
 	.app-main {
 		padding-top: 6rem;
 	}	
@@ -1836,7 +1836,7 @@ $header-height-sm: 5.2rem;
 	}
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
 	.app-header {
 		height: $header-height;
 		
@@ -1959,7 +1959,7 @@ $header-height-sm: 5.2rem;
 	}
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
 	.custom-nav {
 		float: right;
 		margin: 0;
@@ -2212,6 +2212,10 @@ $sidenav-color: $link-color;
 		right: 0.5rem;
 		border: none;
 	}
+	
+	+ .attachments-upload-target {
+		margin-top: 1.5rem;
+	}
 }
 
 @media (min-width: 480px) {
@@ -2234,7 +2238,6 @@ $sidenav-color: $link-color;
 			width: 15rem;
 			margin-top: 0;
 		}
-		
 	}
 }
 
@@ -2667,15 +2670,19 @@ $pick-list-active-item-bg: #2b5580;
 
 .pick-list {
 	display: block;
+	padding: 1px;
 	border-radius: 0;
 	
 	.btn {
+		display: block;
 		margin: 1px;
 		font-weight: normal;
 		text-align: left;
 		border: none;
 		border-radius: 0;
 		box-shadow: none;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 	
 	label {
@@ -3036,6 +3043,10 @@ tr.row-depth-3 {
 		margin-top: 0.5rem;
 		margin-bottom: 1.5rem;
 	}
+	
+	.detail-row:first-child {
+		margin-top: 0;
+	}
 }
 
 section.project-info {
@@ -3081,17 +3092,18 @@ section.project-info {
 	margin: 1.5rem 0;
 	font-size: 1.2rem;
 	
-	> label {
-		margin-bottom: .2rem;
-		font-weight: 600;
-		text-shadow: 0 0 0 #FFF;
-	}
-	
-	label, span.value {
+	label,
+	span.value {
 		display: block;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+	
+	> label {
+		margin-bottom: .2rem;
+		font-weight: 600;
+		text-shadow: 0 0 0 #FFF;
 	}
 	
 	span.value {
@@ -3104,21 +3116,17 @@ section.project-info {
 }
 
 .detail-row.horiz {
-	margin: 0;
-	
-	label, span.value {
+	label,
+	span.value {
 		margin: 0;
 		display: inline-block;
 		color: inherit;
+		vertical-align: middle;
 	}
 	
-	label {
+	> label {
 		margin-right: 1rem;
 	}
-}
-
-.detail-row:first-child {
-	margin-top: 0;
 }
 
 .detail-row.project-desc {
@@ -3650,62 +3658,38 @@ section.project-info {
 }
 
 .public-comment-modal {
-	section {
-		margin-bottom: 2rem;
-	}
-	
-	h4 {
-		margin-top: 0;
-		margin-bottom: 1.5rem;
-		font-size: 1.8rem;
+	.control-label {
 		font-weight: bold;
 	}
 	
 	p {
-		margin-bottom: 1.5rem;
+		margin-bottom: 0;
 		line-height: 2.2rem;
 	}
 	
-	p:last-child {
+	.list-group,
+	.pick-list,
+	.upload-attachments {
 		margin-bottom: 0;
-	}
-	
-	.comment-info {
-		margin-bottom: 1.5rem;
-	}
-	
-	.detail-row:last-child {
-		margin-bottom: 0;
-	}
-	
-	section h3 {
-		margin-bottom: 0.75rem;
-		font-size: 1.6rem;
-		font-weight: bold;
 	}
 	
 	.pick-list {
-		margin: 0;
-		height: 20rem;
-		overflow-y: scroll;
+		height: 15rem;
 	}
 	
-	.list-group {
-		margin-bottom: 0;
-	}
-	
-	.upload-attachments {
-		margin-bottom: 0;
+	section {
+		margin-bottom: 2.5rem;
 		
-		.attachments {
-			margin-bottom: 1.5rem;
+		h3 {
+			margin-bottom: 0.75rem;
+			font-size: 1.6rem;
+			font-weight: bold;
 		}
 	}
 	
-	.eao-alerts {
-		position: relative;
-		
-		label, .value {
+	.eao-comment-notes {
+		label,
+		.value {
 			color: inherit;
 		}
 		
@@ -3713,21 +3697,8 @@ section.project-info {
 			text-shadow: 1px 1px 0 transparent;
 		}
 		
-		.notes {
-			margin-bottom: 0;
-		}
-		
-		.date {
-			position: absolute;
-			top: 1.8rem;
-			right: 2rem;
-		}
-	}
-	
-	.eao-comment-notes {
-		strong {
-			display: block;
-			margin-bottom: 1rem;
+		.detail-row:first-child {
+			margin-top: 0;
 		}
 	}
 	

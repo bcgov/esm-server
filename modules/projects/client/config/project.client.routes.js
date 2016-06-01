@@ -25,8 +25,7 @@ angular.module('project').config (
 				return project.proponentAdminRole;
 			}
 		},
-		controller: function ($scope, $stateParams, project, ENV, $rootScope, ProjectModel, Menus, MenuControl, Authentication) {
-
+		controller: function ($scope, $stateParams, project, ENV, $rootScope, ProjectModel, Menus, MenuControl) {
 			$scope.project = project;
 			$scope.environment = ENV;
 			$scope.isNew = ($stateParams.projectid === 'new');
@@ -91,7 +90,7 @@ angular.module('project').config (
 				Menus.addMenuItem('projectMenu', {
 					title: 'Comment Periods',
 					state: 'p.commentperiod.list',
-					roles: MenuControl.menuRoles (undefined, project.code, '*', '*')
+					roles: MenuControl.menuRoles ('admin', project.code, '*', '*')
 				});
 				Menus.addMenuItem('projectMenu', {
 					title: 'Complaints',
@@ -116,7 +115,7 @@ angular.module('project').config (
 				Menus.addMenuItem('projectMenu', {
 					title: 'Valued Components',
 					state: 'p.vc.list',
-					roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['admin', 'eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer', 'pro:admin', 'pro:member', 'sub'])
+					roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer', 'pro:admin', 'pro:member', 'sub'])
 				});
 			}
 
@@ -223,7 +222,7 @@ angular.module('project').config (
 			}
 		}
 	})
-
+	
 	// -------------------------------------------------------------------------
 	//
 	// PUBLIC COMMENT PERIOD
@@ -242,8 +241,33 @@ angular.module('project').config (
 			}
 		}
 	})
-
-
+	.state('p.eaocomments', {
+		url: '/eao-comment-period',
+		templateUrl: 'modules/publicComments/client/views/comments-eao.html',
+		controller: 'controllerProjectEntry',
+		onEnter: function (MenuControl, project, $stateParams) {
+			if ($stateParams.projectid === 'new') {
+				MenuControl.routeAccessBuilder (undefined, '*', '*', ['ce-lead', 'ce-officer']);
+			}
+			else {
+				MenuControl.routeAccessBuilder (['admin', 'user', 'public']);
+			}
+		}
+	})
+	.state('p.proponentcomments', {
+		url: '/proponent-comment-period',
+		templateUrl: 'modules/publicComments/client/views/comments-proponent.html',
+		controller: 'controllerProjectEntry',
+		onEnter: function (MenuControl, project, $stateParams) {
+			if ($stateParams.projectid === 'new') {
+				MenuControl.routeAccessBuilder (undefined, '*', '*', ['ce-lead', 'ce-officer']);
+			}
+			else {
+				MenuControl.routeAccessBuilder (['admin', 'user', 'public']);
+			}
+		}
+	})
+	
 	// -------------------------------------------------------------------------
 	//
 	// the decision package mockup
