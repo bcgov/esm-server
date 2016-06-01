@@ -124,6 +124,13 @@ angular.module('core').service ('MenuControl', ['Authentication', '$state', '$ht
 
 					var projectPattern = '[a-zA-Z0-9\-]+';
 					var orgPattern = '(eao|pro)';
+
+					// Ensure the orgPattern default limits to the orgCode as we follow through.
+					if (a.orgCode !== '*') {
+						// console.log("setting orgCode:",a.orgCode);
+						orgPattern = a.orgCode;
+					}
+
 					var rolePattern = '[a-zA-Z0-9\-]+';
 
 					if (a.projectCode) {

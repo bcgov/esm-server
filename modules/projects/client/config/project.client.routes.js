@@ -100,7 +100,21 @@ angular.module('project').config (
 				Menus.addMenuItem('projectMenu', {
 					title: 'Conditions',
 					state: 'p.projectcondition.list',
-					roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer'])
+					roles: MenuControl.menuRolesBuilder ([undefined], project.code, 'eao', ['admin',
+																						'member',
+																						'assistant-dm',
+																						'assistant-dmo',
+																						'associate-dm',
+																						'associate-dmo',
+																						'minister',
+																						'ministers-office',
+																						'responsible-epd',
+																						'project-admin',
+																						'project-lead',
+																						'project-team',
+																						'qa-officer',
+																						'ce-lead',
+																						'ce-officer'])
 				});
 				Menus.addMenuItem('projectMenu', {
 					title: 'Inspection Reports',
