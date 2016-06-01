@@ -7,7 +7,7 @@ angular.module ('comment')
 // list of public comments from the point of view of the public
 //
 // -------------------------------------------------------------------------
-.directive ('tmplPublicCommentList', function ($modal) {
+.directive ('tmplPublicCommentList', function ($modal, _) {
 	return {
 		scope: {
 			period : '=',
@@ -34,13 +34,13 @@ angular.module ('comment')
 			s.isEao       = isEao      ;
 			s.isProponent = isProponent;
 
-			if (s.isPublic) {
-				CommentModel.getCommentsForPeriod ($scope.period._id).then (function (collection) {
-					s.tableParams = new NgTableParams ({count:10}, {dataset:collection});
-					$scope.$apply ();
-				});
-			}
-			else if (s.isEao) {
+			s.toggle = function (v) {
+				angular.extend(s.tableParams.filter(), {eaoStatus:v});
+			};
+			s.toggleP = function (v) {
+				angular.extend(s.tableParams.filter(), {proponentStatus:v});
+			};
+			s.refreshEao = function () {
 				CommentModel.getEAOCommentsForPeriod ($scope.period._id).then (function (result) {
 					s.totalPending  = result.totalPending;
 					s.totalDeferred = result.totalDeferred;
@@ -49,35 +49,40 @@ angular.module ('comment')
 					s.tableParams   = new NgTableParams ({count:10, filter:{eaoStatus:'Unvetted'}}, {dataset:result.data});
 					$scope.$apply ();
 				});
-			}
-			else if (s.isProponent) {
+			};
+			s.refreshPublic = function () {
+				CommentModel.getCommentsForPeriod ($scope.period._id).then (function (collection) {
+					s.tableParams = new NgTableParams ({count:10}, {dataset:collection});
+					$scope.$apply ();
+				});
+			};
+			s.refreshProponent = function () {
 				CommentModel.getProponentCommentsForPeriod ($scope.period._id).then (function (result) {
 					s.totalAssigned   = result.totalAssigned;
 					s.totalUnassigned = result.totalUnassigned;
 					s.tableParams     = new NgTableParams ({count:10}, {dataset:result.data});
 					$scope.$apply ();
 				});
-			}
-			s.toggle = function (v) {
-				angular.extend(s.tableParams.filter(), {eaoStatus:v});
-			};
-			s.toggleP = function (v) {
-				angular.extend(s.tableParams.filter(), {proponentStatus:v});
 			};
 			//
 			// if the user clicks a row, open the detail modal
 			//
 			s.detail = function (comment) {
+				var old = {
+					status  : comment.eaoStatus,
+					pStatus : comment.proponentStatus,
+					topics  : comment.topics.map (function (e) { return e; }),
+					vcs     : comment.valuedComponents.map (function (e) { return e; }),
+					pillars : comment.pillars.map (function (e) { return e; }),
+					notes   : comment.eaoNotes,
+					rnotes  : comment.rejectedNotes,
+					rreas   : comment.rejectedReason
+				};
 				$modal.open ({
 					animation: true,
 					templateUrl: 'modules/project-comments/client/views/public-comments/detail.html',
 					controllerAs: 's',
 					size: 'md',
-					// resolve: {
-					// 	comment: function (CommentModel) {
-					// 		return comment;
-					// 	}
-					// },
 					controller: function ($scope, $modalInstance) {
 						$scope.isPublic    = isPublic   ;
 						$scope.isEao       = isEao      ;
@@ -94,9 +99,27 @@ angular.module ('comment')
 				})
 				.result.then (function (data) {
 					console.log ('result:', data);
+					CommentModel.save (data)
+					.then (function (result) {
+						if (isEao) {
+							s.refreshEao ();
+						}
+						else if (isProponent) {
+							s.refreshProponent ();
+						}
+					});
 				})
 				.catch (function (err) {});
 			};
+			if (s.isPublic) {
+				s.refreshPublic ();
+			}
+			else if (s.isEao) {
+				s.refreshEao ();
+			}
+			else if (s.isProponent) {
+				s.refreshProponent ();
+			}
 		}
 	};
 })
