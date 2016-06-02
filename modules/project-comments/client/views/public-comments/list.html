@@ -28,7 +28,7 @@
                             <h2 ng-if="::o.isAnonymous" class="comment-title">Anonymous</h2>
                             <h2 ng-if="::!o.isAnonymous" class="comment-title">{{ ::o.author }}</h2>
                             <div ng-init="toggleProject.desc = (false)">
-                                <p class="comment">{{ ::o.comment }}</p>
+                                <p class="comment">{{ ::o.comment | maxWords: 20 }}</p>
                             </div>
                         </td>
                         <td
