@@ -7,7 +7,7 @@ angular.module ('comment')
 // list of public comments from the point of view of the public
 //
 // -------------------------------------------------------------------------
-.directive ('tmplPublicCommentList', function ($modal) {
+.directive ('tmplPublicCommentList', function ($modal, _) {
 	return {
 		scope: {
 			period : '=',
@@ -26,66 +26,76 @@ angular.module ('comment')
 			var canVet      = $scope.isEao;
 			var canClassify = $scope.isProponent;
 
-			isPublic    = false;
-			isEao       = true;
-			isProponent = false;
+			var project = $scope.project;
+
+			// isPublic    = false;
+			// isEao       = true;
+			// isProponent = false;
 
 			s.isPublic    = isPublic   ;
 			s.isEao       = isEao      ;
 			s.isProponent = isProponent;
 
-			if (s.isPublic) {
-				CommentModel.getCommentsForPeriod ($scope.period._id).then (function (collection) {
-					s.tableParams = new NgTableParams ({count:10}, {dataset:collection});
-					$scope.$apply ();
-				});
-			}
-			else if (s.isEao) {
+			var currentFilter;
+
+			s.toggle = function (v) {
+				currentFilter = v;
+				angular.extend(s.tableParams.filter(), {eaoStatus:v});
+			};
+			s.toggleP = function (v) {
+				currentFilter = v;
+				angular.extend(s.tableParams.filter(), {proponentStatus:v});
+			};
+			s.refreshEao = function () {
 				CommentModel.getEAOCommentsForPeriod ($scope.period._id).then (function (result) {
 					s.totalPending  = result.totalPending;
 					s.totalDeferred = result.totalDeferred;
 					s.totalPublic   = result.totalPublic;
 					s.totalRejected = result.totalRejected;
-					s.tableParams   = new NgTableParams ({count:10, filter:{eaoStatus:'Unvetted'}}, {dataset:result.data});
+					s.tableParams   = new NgTableParams ({count:10, filter:{eaoStatus:currentFilter}}, {dataset:result.data});
 					$scope.$apply ();
 				});
-			}
-			else if (s.isProponent) {
+			};
+			s.refreshPublic = function () {
+				CommentModel.getCommentsForPeriod ($scope.period._id).then (function (collection) {
+					s.tableParams = new NgTableParams ({count:50}, {dataset:collection});
+					$scope.$apply ();
+				});
+			};
+			s.refreshProponent = function () {
 				CommentModel.getProponentCommentsForPeriod ($scope.period._id).then (function (result) {
 					s.totalAssigned   = result.totalAssigned;
 					s.totalUnassigned = result.totalUnassigned;
-					s.tableParams     = new NgTableParams ({count:10}, {dataset:result.data});
+					s.tableParams     = new NgTableParams ({count:50, filter:{proponentStatus:currentFilter}}, {dataset:result.data});
 					$scope.$apply ();
 				});
-			}
-			s.toggle = function (v) {
-				angular.extend(s.tableParams.filter(), {eaoStatus:v});
-			};
-			s.toggleP = function (v) {
-				angular.extend(s.tableParams.filter(), {proponentStatus:v});
 			};
 			//
 			// if the user clicks a row, open the detail modal
 			//
 			s.detail = function (comment) {
+				var old = {
+					status  : comment.eaoStatus,
+					pStatus : comment.proponentStatus,
+					topics  : comment.topics.map (function (e) { return e; }),
+					vcs     : comment.valuedComponents.map (function (e) { return e; }),
+					pillars : comment.pillars.map (function (e) { return e; }),
+					notes   : comment.eaoNotes,
+					rnotes  : comment.rejectedNotes,
+					rreas   : comment.rejectedReason
+				};
 				$modal.open ({
 					animation: true,
 					templateUrl: 'modules/project-comments/client/views/public-comments/detail.html',
 					controllerAs: 's',
-					size: 'md',
-					// resolve: {
-					// 	comment: function (CommentModel) {
-					// 		return comment;
-					// 	}
-					// },
+					size: 'lg',
+					windowClass: 'public-comment-modal',
 					controller: function ($scope, $modalInstance) {
 						$scope.isPublic    = isPublic   ;
 						$scope.isEao       = isEao      ;
 						$scope.isProponent = isProponent;
 
-						$scope.isPublic    = false   ;
-						$scope.isEao       = true      ;
-						$scope.isProponent = false;
+						$scope.project     = project;
 
 						$scope.comment     = comment;
 						$scope.cancel      = function () { $modalInstance.dismiss ('cancel'); };
@@ -94,9 +104,30 @@ angular.module ('comment')
 				})
 				.result.then (function (data) {
 					console.log ('result:', data);
+					data.proponentStatus = (data.pillars.length > 0) ? 'Classified' : 'Unclassified';
+					CommentModel.save (data)
+					.then (function (result) {
+						if (isEao) {
+							s.refreshEao ();
+						}
+						else if (isProponent) {
+							s.refreshProponent ();
+						}
+					});
 				})
 				.catch (function (err) {});
 			};
+			if (s.isPublic) {
+				s.refreshPublic ();
+			}
+			else if (s.isEao) {
+				currentFilter = 'Unvetted';
+				s.refreshEao ();
+			}
+			else if (s.isProponent) {
+				currentFilter = 'Unclassified';
+				s.refreshProponent ();
+			}
 		}
 	};
 })
@@ -118,7 +149,8 @@ angular.module ('comment')
 					animation: true,
 					templateUrl: 'modules/project-comments/client/views/public-comments/add.html',
 					controllerAs: 's',
-					size: 'md',
+					size: 'lg',
+					windowClass: 'public-comment-modal',
 					resolve: {
 						comment: function (CommentModel) {
 							return CommentModel.getNew ();

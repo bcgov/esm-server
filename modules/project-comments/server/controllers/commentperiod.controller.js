@@ -33,6 +33,7 @@ module.exports = DBModel.extend ({
 				//
 				// add the base milestone for public comments
 				//
+				period.publish ();
 				return phaseModel.addMilestone (phase, 'public-comment-period', {write:period.commenterRoles});
 			}
 			else if (period.periodType === 'Working Group') {
@@ -64,6 +65,7 @@ module.exports = DBModel.extend ({
 		.then (function (artifact) {
 			artifact.heldStage = artifact.stage;
 			artifact.stage = (period.periodType === 'Public')? 'Public Comment Period' : 'Comment Period';
+			if (period.periodType === 'Public') artifact.publish ();
 			return artifactModel.saveDocument (artifact);
 		})
 		.then (function () {

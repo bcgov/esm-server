@@ -6,22 +6,26 @@
     <h3 ng-if="::!comment.isAnonymous" class="modal-title">Public Comment  &nbsp;&rsaquo;&nbsp; {{ ::comment.author }}</h3>
 </div>
 <div class="modal-body">
-<div>
-<input type="checkbox" ng-model="isPublic">Public</input><br/>
-<input type="checkbox" ng-model="isEao">EAO</input><br/>
-<input type="checkbox" ng-model="isProponent">Proponent</input>
-</div>
-    <section class="eao-alerts" ng-if="isEao">
-        <div class="alert alert-info eao-comment-notes " ng-if="comment.eaoNotes">
-	        <!--  NOTES -->
-            <div class="row">
-                <span class="col-sm-12 value wrap-text">{{ comment.eaoNotes }}</span>
+    
+    <!-- <div>
+    <input type="checkbox" ng-model="isPublic">Public</input><br/>
+    <input type="checkbox" ng-model="isEao">EAO</input><br/>
+    <input type="checkbox" ng-model="isProponent">Proponent</input>
+    </div>
+    -->
+    
+    <!-- COMMENT NOTE ALERTS -->
+ 	<section class="eao-alerts hidden" ng-if="isEao">
+       
+       <!-- DEFERRAL NOTES -->
+       <div class="alert alert-info eao-comment-notes " ng-if="comment.eaoNotes">
+            <div class="row" ng-if="comment.eaoStatus === 'Deferred'">
+                <span class="col-sm-12 value wrap-text">{{comment.eaoNotes}}</span>
             </div>
-            <!--  / NOTES -->
-        </div>
-
+        </div><!-- / DEFERRAL NOTES -->
+        
+        <!-- REJECTION NOTES -->
         <div class="alert alert-danger eao-comment-notes " ng-if="comment.rejectedReason || comment.rejectedNotes">
-	        <!-- REJECTION NOTES -->
             <div class="row">
                 <label>Rejected</label>
             </div>
@@ -31,62 +35,41 @@
             <div class="row">
                 <span class="col-sm-12 value wrap-text">{{ comment.rejectedNotes }}</span>
             </div>
-            <!-- / REJECTION NOTES -->
-        </div>
-    </section>
+        </div><!-- / REJECTION NOTES -->
+        
+    </section><!-- / COMMENT NOTE ALERTS -->
 
-
+    <!-- COMMENT INFO -->
     <section class="comment-info">
         <label class="control-label">Posted {{comment.dateAdded | date}}</label>
         <p class="value wrap-text">{{ ::comment.comment }}</p>
-    </section>
+    </section><!-- / COMMENT INFO -->
 
+	<!-- ASSIGN PILLARS & VC'S -->    
     <section class="pillers-vc" ng-if="isProponent">
-	   <!-- PILLARS & VC'S -->
-        <div class="row">
-            <div class="col-sm-6">
-                <label class="control-label">Assign Pillars</label>
-                <div class="pick-list panel panel-default" data-toggle="buttons">
-                    <label class="btn btn-default">
-                        <input type="checkbox" autocomplete="off">Pillar 1
-                    </label>
-                    <label class="btn btn-default">
-                        <input type="checkbox" autocomplete="off">Pillar 2
-                    </label>
-                    <label class="btn btn-default">
-                        <input type="checkbox" autocomplete="off">Pillar 3
-                    </label>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <label class="control-label">Assign Valued Components</label>
-                <div class="pick-list panel panel-default" data-toggle="buttons">
-                    <label class="btn btn-default" title="Really Really Really Really Really Really Long Valued Component Name">
-                        <input type="checkbox" autocomplete="off" checked>Really Really Really Really Really Really Long Valued Component Name
-                    </label>
-                    <label class="btn btn-default" title="Valued Component 2">
-                        <input type="checkbox" autocomplete="off">Valued Component 2
-                    </label>
-                    <label class="btn btn-default" title="Valued Component 1">
-                        <input type="checkbox" autocomplete="off">Valued Component 1
-                    </label>
-                </div>
-            </div>
-        </div>
-        <!-- / PILLARS & VC'S -->
-    </section>
+    	<button
+    		x-vc-chooser
+    		x-project="project"
+    		x-current="comment.valuedComponents"
+    		x-topics="comment.topics"
+    		x-pillars="comment.pillars"
+    		class="btn btn-success"
+    	>
+    	Assign Valued Components
+    	</button>
+    </section><!-- / ASSIGN PILLARS & VC'S -->
 
-    <section ng-if="!isProponent">
-	    <!-- PILLARS / VALUED COMPONENTS -->
+	<!-- PILLARS & VC'S -->
+    <section ng-if="isPublic">
         <div class="detail-row">
-            <label>Pillar</label>
-            <span class="value">{{ comment.pillars.join (', ') }}</span>
+            <label>Pillars</label>
+            <span class="value">{{ comment.pillars.join (', &nbsp;') }}</span>
         </div>
         <div class="detail-row">
             <label>Valued Components</label>
-            <span class="value">{{ comment.topics.join (', ') }}</span>
+            <span class="value">{{ comment.topics.join (', &nbsp;') }}</span>
         </div>
-    </section>
+    </section><!-- / PILLARS & VC'S -->
 
     <!-- ATTACHMENTS -->
     <section ng-if="isPublic || isProponent">
@@ -107,9 +90,9 @@
         </div>
     </section><!-- / ATTACHMENTS -->
 
-    <!-- ATTACHMENTS -->
+    <!-- REVIEW ATTACHMENTS -->
     <section ng-if="isEao">
-        <label class="control-label">Attachments</label>
+        <label class="control-label">Review Attachments</label>
         <ul class="attachments list-group">
             <li class="list-group-item clearfix">
                 <div class="file-name">file-name-1.jpg</div>
@@ -154,35 +137,39 @@
                 </button>
             </li>
         </ul>
-    </section><!-- / ATTACHMENTS -->
+    </section><!-- / REVIEW ATTACHMENTS -->
 
     <!-- SET COMMENT STATUS -->
-    <section ng-if="isEao">
-        <label class="control-label">Set Comment Status</label>
-        <div class="btn-group comment-status-btns" data-toggle="buttons">
-            <label class="btn btn-default">
-                <input type="radio" ng-model="comment.eaoStatus" value="Deferred" name="commentStatus" id="deferComment" > Defer
-            </label>
-            <label class="btn btn-danger">
-                <input type="radio" ng-model="comment.eaoStatus" value="Rejected" name="commentStatus" id="rejectComment" > Reject
-            </label>
-            <label class="btn btn-success">
-                <input type="radio" ng-model="comment.eaoStatus" value="Published" name="commentStatus" id="publishComment" > Publish
-            </label>
-            <br/>{{ comment.eaoStatus }}
+    <section class="comment-status" ng-if="isEao">       
+        <div class="form-group">
+            <label class="control-label">Set Comment Status</label>
+            <div class="comment-status-btns btn-group">
+                <button class="btn btn-default" ng-click="comment.eaoStatus='Deferred'" ng-class="{'active':comment.eaoStatus === 'Deferred'}">
+                    Deferr
+                </button>
+                <button class="btn btn-danger" ng-click="comment.eaoStatus='Rejected'" ng-class="{'active':comment.eaoStatus === 'Rejected'}">
+                    Reject
+                </button>
+                <button class="btn btn-success" ng-click="comment.eaoStatus='Published'" ng-class="{'active':comment.eaoStatus === 'Published'}">
+                    Publish
+                </button>
+            </ul>
         </div>
-        <div class="row">
-            <label>Notes</label>
-            <textarea ng-model="comment.eaoNotes"></textarea>
+        <div class="comment-deferral-note form-group" ng-if="comment.eaoStatus === 'Deferred'">
+            <label class="control-label">Deferral Notes<em>Required</em></label>
+            <textarea class="form-control" ng-model="comment.eaoNotes"></textarea>
         </div>
-        <div class="row" ng-if="comment.eaoStatus === 'Rejected'">
-            <label>Rejection Reason</label>
-            <input type="text" ng-model="comment.rejectedReason"></input>
-            <label>Rejection Notes</label>
-            <textarea ng-model="comment.rejectedNotes"></textarea>
+        <div class="comment-rejection-note" ng-if="comment.eaoStatus === 'Rejected'">
+            <div class="form-group">
+                <label class="control-label">Reason for Rejection<em>Required</em></label>
+                <input class="form-control" type="text" ng-model="comment.rejectedReason"></input>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Rejection Notes<em>Required</em></label>
+                <textarea class="form-control" ng-model="comment.rejectedNotes"></textarea>
+            </div>
         </div>
     </section><!-- / SET COMMENT STATUS -->
-
 
 </div>
 <div class="modal-footer">
