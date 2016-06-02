@@ -12,6 +12,9 @@ exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'comment');
 	helpers.setCRUDPermissions (acl, 'commentperiod');
 	helpers.setPathPermissions (acl, [
+		[ 'guest', 'user', '/api/comment/'   ],
+		[ 'guest', 'user', '/api/comment/:comment'   ],
+		[ 'guest', 'user', '/api/new/comment'   ],
 		[ '', 'user', '/api/publish/comment/:comment'   ],
 		[ '', 'user', '/api/unpublish/comment/:comment'   ],
 		[ '', 'user', '/api/resolve/comment/:comment'   ],
@@ -20,7 +23,7 @@ exports.invokeRolesPolicies = function () {
 		[ 'guest', 'user', '/api/comments/period/:periodId'   ],
 		[ '', 'user', '/api/eaocomments/period/:periodId'   ],
 		[ '', 'user', '/api/proponentcomments/period/:periodId'   ],
-		[ '', 'user', '/api/commentperiod/for/project/:projectId' ],
+		[ 'guest', 'user', '/api/commentperiod/for/project/:projectid' ],
 	]);
 };
 
