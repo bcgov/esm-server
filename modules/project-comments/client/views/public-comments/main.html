@@ -7,22 +7,16 @@
     <div class="view-body-container">
 
         <div class="public-comment-alert">
-            <h2>
-                Public Comment Period is
+            <h2>Public Comment Period is
                 <span ng-if="isBefore">Scheduled</span>
-                <span ng-if="isOpen"  >Now Open</span>
+                <span ng-if="isOpen">Now Open</span>
                 <span ng-if="isClosed">Now Closed</span>
             </h2>
-
             <h3><strong>{{ period.dateStarted | date }}</strong> - <strong>{{ period.dateCompleted | date }}</strong></h3>
 
-            <p ng-if="!isClosed">
-                {{ period.instructions }}
-            </p>
+            <p ng-if="!isClosed">{{ period.instructions }}</p>
 
-            <p ng-if="isClosed">
-                These are the closing remarks
-            </p>
+            <p ng-if="isClosed">These are the closing remarks</p>
 
             <ul class="public-comment-period-document-links">
                 <li><a class="document-name" x-artifact-display-modal x-mode="'view'" x-artifact="artifact" x-project="project">{{ artifact.name }}</a></li>
@@ -31,6 +25,7 @@
             <button class="btn btn-success" x-add-public-comment x-project="project" x-period="period">
                 Click Here to Submit a Comment
             </button>
+            
             <div class="open-house-dates">
                 <h4>Open House Dates</h4>
                 <ul>
@@ -39,10 +34,6 @@
                 </ul>
             </div>
         </div>
-
-
         <tmpl-public-comment-list x-period="period" x-project="project"></tmpl-public-comment-list>
-
     </div>
-
 </div>

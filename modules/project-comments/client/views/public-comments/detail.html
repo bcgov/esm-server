@@ -7,37 +7,36 @@
 </div>
 <div class="modal-body">
     
-    <!-- <div>
-    <input type="checkbox" ng-model="isPublic">Public</input><br/>
-    <input type="checkbox" ng-model="isEao">EAO</input><br/>
-    <input type="checkbox" ng-model="isProponent">Proponent</input>
+    <div>
+        <input type="checkbox" ng-model="isPublic">Public</input><br/>
+        <input type="checkbox" ng-model="isEao">EAO</input><br/>
+        <input type="checkbox" ng-model="isProponent">Proponent</input>
     </div>
-    -->
     
     <!-- COMMENT NOTE ALERTS -->
- 	<section class="eao-alerts hidden" ng-if="isEao">
+ 	<div class="eao-alerts" ng-if="isEao">
        
-       <!-- DEFERRAL NOTES -->
-       <div class="alert alert-info eao-comment-notes " ng-if="comment.eaoNotes">
-            <div class="row" ng-if="comment.eaoStatus === 'Deferred'">
-                <span class="col-sm-12 value wrap-text">{{comment.eaoNotes}}</span>
+        <!-- DEFERRAL NOTES -->
+        <div class="alert alert-info eao-comment-notes" ng-if="comment.eaoStatus === 'Deferred' && comment.eaoNotes">
+            <div class="detail-row horiz">
+                <label>Reason for Deferral</label>
+                <span class="value wrap-text">{{comment.eaoNotes}}</span>
             </div>
         </div><!-- / DEFERRAL NOTES -->
         
         <!-- REJECTION NOTES -->
-        <div class="alert alert-danger eao-comment-notes " ng-if="comment.rejectedReason || comment.rejectedNotes">
-            <div class="row">
-                <label>Rejected</label>
+        <div class="alert alert-danger eao-comment-notes" ng-if="comment.eaoStatus === 'Rejected'">
+            <div class="detail-row" ng-if="comment.rejectedReason">
+                <label>Reason for Rejection</label>
+                <span class="value wrap-text">{{ comment.rejectedReason }}</span>
             </div>
-            <div class="row">
-                <label>Reason:</label><span class="value">{{ comment.rejectedReason }}</span>
-            </div>
-            <div class="row">
-                <span class="col-sm-12 value wrap-text">{{ comment.rejectedNotes }}</span>
+            <div class="detail-row" ng-if="comment.rejectedNotes">
+                <label>Notes</label>
+                <span class="value wrap-text">{{ comment.rejectedNotes }}</span>
             </div>
         </div><!-- / REJECTION NOTES -->
         
-    </section><!-- / COMMENT NOTE ALERTS -->
+    </div><!-- / COMMENT NOTE ALERTS -->
 
     <!-- COMMENT INFO -->
     <section class="comment-info">
@@ -53,9 +52,8 @@
     		x-current="comment.valuedComponents"
     		x-topics="comment.topics"
     		x-pillars="comment.pillars"
-    		class="btn btn-success"
-    	>
-    	Assign Valued Components
+    		class="btn btn-success">
+    	    Assign Valued Components
     	</button>
     </section><!-- / ASSIGN PILLARS & VC'S -->
 
@@ -145,7 +143,7 @@
             <label class="control-label">Set Comment Status</label>
             <div class="comment-status-btns btn-group">
                 <button class="btn btn-default" ng-click="comment.eaoStatus='Deferred'" ng-class="{'active':comment.eaoStatus === 'Deferred'}">
-                    Deferr
+                    Defer
                 </button>
                 <button class="btn btn-danger" ng-click="comment.eaoStatus='Rejected'" ng-class="{'active':comment.eaoStatus === 'Rejected'}">
                     Reject
@@ -157,7 +155,7 @@
         </div>
         <div class="comment-status-note form-group" ng-if="comment.eaoStatus === 'Deferred'">
             <label class="control-label">Deferral Notes<em>Required</em></label>
-            <textarea class="form-control" ng-model="comment.eaoNotes"></textarea>
+            <textarea class="form-control" ng-model="comment.eaoNotes" rows="4"></textarea>
         </div>
         <div class="comment-status-note" ng-if="comment.eaoStatus === 'Rejected'">
             <div class="form-group">
@@ -166,7 +164,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Rejection Notes<em>Required</em></label>
-                <textarea class="form-control" ng-model="comment.rejectedNotes"></textarea>
+                <textarea class="form-control" ng-model="comment.rejectedNotes" rows="4"></textarea>
             </div>
         </div>
     </section><!-- / SET COMMENT STATUS -->
