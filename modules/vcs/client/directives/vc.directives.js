@@ -106,13 +106,13 @@ angular.module ('vcs')
 						};
 						s.dealwith = function (id) {
 							var i = s.selected.indexOf (id);
-							if (i != -1) {
+							if (i !== -1) {
 								s.selected.splice (i, 1);
 							}
 							else {
 								s.selected.push (id);
 							}
-						}
+						};
 					}
 				})
 				.result.then (function (data) {
