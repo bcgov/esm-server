@@ -209,9 +209,8 @@ var publish = function (object) {
 	this.markModified ('read');
 };
 var unpublish = function (object) {
-	_.remove (this.read, function (val) {
-		return _.indexOf ('public', val) !== -1;
-	});
+	var i = this.read.indexOf ('public');
+	if (i !== -1) this.read.splice (i, 1);
 	this.isPublished = false;
 	this.markModified ('read');
 };

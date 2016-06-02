@@ -73,6 +73,37 @@ angular.module('artifacts')
 })
 // -------------------------------------------------------------------------
 //
+// this wraps up the complete display of an artifact, either a template or
+// a document type, in either edit or view mode for each
+//
+// -------------------------------------------------------------------------
+.directive ('artifactDisplayModal', function ($modal) {
+	return {
+		restrict    : 'A',
+		scope       : {
+			project  : '=',
+			artifact : '=',
+			mode     : '='
+		},
+		link : function (scope, element, attrs) {
+			element.on('click', function () {
+				$modal.open ({
+					animation   : true,
+					templateUrl : 'modules/artifacts/client/views/artifact-display-modal.html',
+					size        : 'lg',
+					controller  : function ($scope, $modalInstance) {
+						$scope.project  = scope.project;
+						$scope.artifact = scope.artifact;
+						$scope.mode     = scope.mode;
+						$scope.cancel   = function () { $modalInstance.dismiss ('cancel'); };
+					}
+				});
+			});
+		}
+	};
+})
+// -------------------------------------------------------------------------
+//
 // a modal directive with isolated scope for viewing and
 // interacting with a list of artifacts in order to choose one.
 // so, essentially an artifact chooser
@@ -143,7 +174,7 @@ angular.module('artifacts')
 						// console.log("current:",scope.current);
 						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
 						s.ok = function () {
-							// Selected artifact is: 
+							// Selected artifact is:
 							// console.log("Selected:",s.selected);
 							$modalInstance.close (s.selected);
 						};
@@ -151,7 +182,7 @@ angular.module('artifacts')
 				})
 				.result.then (function (data) {
 					// References the selected id of the VC artifact to add to the VC package
-					// console.log("vc id:",data);  
+					// console.log("vc id:",data);
 					ArtifactModel.lookup(data)
 					.then( function (vcartifact) {
 						// console.log("artifactvc:",vcartifact);
