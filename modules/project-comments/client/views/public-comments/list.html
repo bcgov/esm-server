@@ -1,18 +1,18 @@
 <div >
     <div ng-if="s.isEao">
         <!-- PROTOTYPE EAO ROW TEMPLATES  -->
-        <ul class="tab-container nav nav-tabs">
-            <li role="presentation" class="active"><a href ng-click="s.toggle('Unvetted')">Pending Review ({{s.totalPending}})</a></li>
-            <li role="presentation"><a href ng-click="s.toggle('Deferred')">Deferred ({{s.totalDeferred}})</a></li>
-            <li role="presentation"><a href ng-click="s.toggle('Published')">Published ({{s.totalPublic}})</a></li>
-            <li role="presentation"><a href ng-click="s.toggle('Rejected')">Rejected ({{s.totalRejected}})</a></li>
-        </ul>
+        <ul class="tab-container nav nav-tabs" role="tablist">
+           <li role="presentation" class="active"><a href ng-click="s.toggle('Unvetted')"  role="tab" data-toggle="tab">Pending Review ({{s.totalPending}})</a></li>
+           <li role="presentation"><a href ng-click="s.toggle('Deferred')"  role="tab" data-toggle="tab">Deferred ({{s.totalDeferred}})</a></li>
+           <li role="presentation"><a href ng-click="s.toggle('Published')" role="tab" data-toggle="tab">Published ({{s.totalPublic}})</a></li>
+           <li role="presentation"><a href ng-click="s.toggle('Rejected')"  role="tab" data-toggle="tab">Rejected ({{s.totalRejected}})</a></li>
+       </ul>
     </div>
     <div ng-if="s.isProponent">
         <!-- PROPONENT TEMPLATES  -->
-        <ul class="tab-container nav nav-tabs">
-            <li role="presentation" class="active"><a href ng-click="s.toggleP('Unclassified')">Unassigned ({{s.totalUnassigned}})</a></li>
-            <li role="presentation"><a href ng-click="s.toggleP('Classified')">Assigned ({{s.totalAssigned}})</a></li>
+        <ul class="tab-container nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href role="tab" data-toggle="tab" ng-click="s.toggleP('Unclassified')">Unassigned ({{s.totalUnassigned}})</a></li>
+            <li role="presentation"><a href role="tab" data-toggle="tab" ng-click="s.toggleP('Classified')">Assigned ({{s.totalAssigned}})</a></li>
         </ul>
     </div>
             <div class="public-comment-panel panel panel-default">

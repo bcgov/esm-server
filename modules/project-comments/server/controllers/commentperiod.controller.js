@@ -33,6 +33,7 @@ module.exports = DBModel.extend ({
 				//
 				// add the base milestone for public comments
 				//
+				period.publish ();
 				return phaseModel.addMilestone (phase, 'public-comment-period', {write:period.commenterRoles});
 			}
 			else if (period.periodType === 'Working Group') {

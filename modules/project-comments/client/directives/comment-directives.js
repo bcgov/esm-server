@@ -29,17 +29,21 @@ angular.module ('comment')
 			var project = $scope.project;
 
 			isPublic    = false;
-			isEao       = false;
-			isProponent = true;
+			isEao       = true;
+			isProponent = false;
 
 			s.isPublic    = isPublic   ;
 			s.isEao       = isEao      ;
 			s.isProponent = isProponent;
 
+			var currentFilter;
+
 			s.toggle = function (v) {
+				currentFilter = v;
 				angular.extend(s.tableParams.filter(), {eaoStatus:v});
 			};
 			s.toggleP = function (v) {
+				currentFilter = v;
 				angular.extend(s.tableParams.filter(), {proponentStatus:v});
 			};
 			s.refreshEao = function () {
@@ -48,13 +52,13 @@ angular.module ('comment')
 					s.totalDeferred = result.totalDeferred;
 					s.totalPublic   = result.totalPublic;
 					s.totalRejected = result.totalRejected;
-					s.tableParams   = new NgTableParams ({count:10, filter:{eaoStatus:'Unvetted'}}, {dataset:result.data});
+					s.tableParams   = new NgTableParams ({count:10, filter:{eaoStatus:currentFilter}}, {dataset:result.data});
 					$scope.$apply ();
 				});
 			};
 			s.refreshPublic = function () {
 				CommentModel.getCommentsForPeriod ($scope.period._id).then (function (collection) {
-					s.tableParams = new NgTableParams ({count:10}, {dataset:collection});
+					s.tableParams = new NgTableParams ({count:50}, {dataset:collection});
 					$scope.$apply ();
 				});
 			};
@@ -62,7 +66,7 @@ angular.module ('comment')
 				CommentModel.getProponentCommentsForPeriod ($scope.period._id).then (function (result) {
 					s.totalAssigned   = result.totalAssigned;
 					s.totalUnassigned = result.totalUnassigned;
-					s.tableParams     = new NgTableParams ({count:10, filter:{proponentStatus:'Unclassified'}}, {dataset:result.data});
+					s.tableParams     = new NgTableParams ({count:50, filter:{proponentStatus:currentFilter}}, {dataset:result.data});
 					$scope.$apply ();
 				});
 			};
@@ -93,10 +97,6 @@ angular.module ('comment')
 
 						$scope.project     = project;
 
-						$scope.isPublic    = false   ;
-						$scope.isEao       = true      ;
-						$scope.isProponent = false;
-
 						$scope.comment     = comment;
 						$scope.cancel      = function () { $modalInstance.dismiss ('cancel'); };
 						$scope.ok          = function () { $modalInstance.close (comment); };
@@ -121,9 +121,11 @@ angular.module ('comment')
 				s.refreshPublic ();
 			}
 			else if (s.isEao) {
+				currentFilter = 'Unvetted';
 				s.refreshEao ();
 			}
 			else if (s.isProponent) {
+				currentFilter = 'Unclassified';
 				s.refreshProponent ();
 			}
 		}

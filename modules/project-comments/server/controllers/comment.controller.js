@@ -12,6 +12,20 @@ module.exports = DBModel.extend ({
 	name : 'Comment',
 	plural: 'comments',
 	populate : {path:'user', select:'_id displayName username orgCode'},
+	preprocessUpdate: function (doc) {
+		return new Promise (function (resolve, reject) {
+			if (doc.valuedComponents.length === 0) {
+				doc.proponentStatus = 'Unclassified';
+			}
+			if (doc.eaoStatus === 'Published') {
+				doc.publish ();
+			} else {
+				doc.unpublish ();
+			}
+			resolve (doc);
+
+		});
+	},
 	getCommentsForPeriod : function (periodId) {
 		var self = this;
 		return new Promise (function (resolve, reject) {

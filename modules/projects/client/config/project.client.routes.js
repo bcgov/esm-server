@@ -72,14 +72,14 @@ angular.module('project').config (
 				Menus.addMenuItem('projectTopMenu', {
 					title: 'Comment Periods',
 					state: "p.commentperiod.list",
-					roles: MenuControl.menuRolesBuilder (['admin','user','public'], project.code, '*', '*')
+					roles: ['admin','user','public'] //MenuControl.menuRolesBuilder (['admin','user','public'], project.code, '*', '*')
 				});
 			}
 
 			Menus.addMenuItem('projectMenu', {
 				title: 'Documents',
 				state: 'p.documents',
-				roles: MenuControl.menuRolesBuilder (['admin','user','public'], project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'pro:admin', 'pro:member', 'sub'])
+				roles:  MenuControl.menuRolesBuilder (['admin','user','public'], project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'pro:admin', 'pro:member', 'sub'])
 			});
 			if (ENV === 'EAO') {
 				Menus.addMenuItem('projectMenu', {
