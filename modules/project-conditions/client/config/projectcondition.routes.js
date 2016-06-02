@@ -21,6 +21,7 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 		template: '<ui-view></ui-view>',
 		data: {
 			roles: ['*:eao:member',
+					'*:eao:admin',
 				   '*:eao:responsible-epd',
 				   '*:eao:project-admin',
 				   '*:eao:project-lead',
@@ -58,20 +59,21 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 			}
 		},
 		onEnter: function (MenuControl, project) {
-			MenuControl.routeAccessBuilder (undefined, project.code, '*', ['member',
-																		   'responsible-epd',
-																		   'project-admin',
-																		   'project-lead',
-																		   'project-team',
-																		   'minister',
-																		   'ministers-office',
-																		   'assistant-dm',
-																		   'assistant-dmo',
-																		   'associate-dm',
-																		   'associate-dmo',
-																		   'qa-officer',
-																		   'ce-lead',
-																		   'ce-officer']);
+			MenuControl.routeAccessBuilder (undefined, project.code, 'eao', ['member',
+																			'admin',
+																			'responsible-epd',
+																			'project-admin',
+																			'project-lead',
+																			'project-team',
+																			'minister',
+																			'ministers-office',
+																			'assistant-dm',
+																			'assistant-dmo',
+																			'associate-dm',
+																			'associate-dmo',
+																			'qa-officer',
+																			'ce-lead',
+																			'ce-officer']);
 		}
 
 	})
