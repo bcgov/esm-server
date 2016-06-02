@@ -155,11 +155,11 @@
                 </button>
             </ul>
         </div>
-        <div class="comment-deferral-note form-group" ng-if="comment.eaoStatus === 'Deferred'">
+        <div class="comment-status-note form-group" ng-if="comment.eaoStatus === 'Deferred'">
             <label class="control-label">Deferral Notes<em>Required</em></label>
             <textarea class="form-control" ng-model="comment.eaoNotes"></textarea>
         </div>
-        <div class="comment-rejection-note" ng-if="comment.eaoStatus === 'Rejected'">
+        <div class="comment-status-note" ng-if="comment.eaoStatus === 'Rejected'">
             <div class="form-group">
                 <label class="control-label">Reason for Rejection<em>Required</em></label>
                 <input class="form-control" type="text" ng-model="comment.rejectedReason"></input>

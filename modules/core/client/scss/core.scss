@@ -2298,7 +2298,7 @@ $sidenav-color: $link-color;
 ------------------------------ */
 .btn {
 	.glyphicon {
-		margin-top: 1px;
+		margin-top: 3px;
 		font-size: 1.2rem;
 		vertical-align: top;
 	}
@@ -2592,6 +2592,10 @@ textarea {
 
 .checkbox {
 	margin-right: 2rem;
+	
+	input {
+		margin-top: 2px;
+	}
 }
 
 
@@ -3673,8 +3677,26 @@ section.project-info {
 }
 
 .public-comment-modal {
-	.control-label {
+	.form-group {
+		margin-bottom: 2rem;
+	}
+	
+	.control-label,
+	.comment-opt-in label {
 		font-weight: bold;
+		text-shadow: 0 0 1px #FFF;
+	}
+	
+	.comment-opt-in {
+		margin-top: 0.5rem;
+		margin-bottom: 0;
+		
+		+ .help-block {
+			margin-top: 0.25rem;
+			font-size: 1.3rem;
+			color: #999;
+			text-shadow: 0 0 1px #FFF;
+		}
 	}
 	
 	h4 {
@@ -3739,8 +3761,6 @@ section.project-info {
 	}
 	
 	.comment-status-btns {
-		margin-bottom: 2rem;
-		
 		.btn {
 			min-width: 10rem;
 			padding-top: 0.8rem;
@@ -3764,6 +3784,10 @@ section.project-info {
 			border-color: #4cae4c;
 			color: #FFF;
 		}
+	}
+	
+	.comment-status-note {
+		margin-top: 2rem;
 	}
 }
 

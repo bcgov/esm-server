@@ -33,25 +33,26 @@
                 </div>
                 <div class="form-group col-sm-12 col-md-6">
                     <label class="control-label">Location<em>Optional</em></label>
-                    <input ng-model="s.comment.location" class="form-control" placeholder="IE: City, Province" type="text" />
+                    <input ng-model="s.comment.location" class="form-control" placeholder="IE: City, Province, etc." type="text" />
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-12">
-                    <div class="checkbox">
+                    <div class="checkbox comment-opt-in">
                         <label><input ng-model="s.comment.makeVisible" type="checkbox" />Make my name and location visible to public.</label>
                     </div>
+                    <div class="help-block">All comments are submitted anonymously by default. Checking this option will display your name and location (if entered) on the public site.</div>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-12">
-                    <label class="control-label">Comment</label>
+                    <label class="control-label">Your Comment</label>
                     <textarea ng-model="s.comment.comment" class="form-control" rows="10"></textarea>
                 </div>
             </div>
             <div class="row">
                 <div class="upload-attachments form-group col-sm-12">
-                    <label class="control-label">Attachments</label>
+                    <label class="control-label">Upload Attachments</label>
                     <ul class="attachments list-group">
                         <li class="list-group-item clearfix">
                             <div class="file-name">file-name-1.jpg</div>
@@ -90,6 +91,7 @@
                     <div class="attachments-upload-target">
                         <input type="file" multiple accept=".jpg,.jpeg,.pdf" />
                         <div><strong>Drag & Drop</strong> or <strong>Click Here</strong> to Upload Attachments</div>
+                        <small><em>All attachments must be in PDF format and limited to 5MB.</em></small>
                     </div>
                 </div>
             </div>
