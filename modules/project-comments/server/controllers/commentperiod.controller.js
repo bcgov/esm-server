@@ -65,6 +65,7 @@ module.exports = DBModel.extend ({
 		.then (function (artifact) {
 			artifact.heldStage = artifact.stage;
 			artifact.stage = (period.periodType === 'Public')? 'Public Comment Period' : 'Comment Period';
+			if (period.periodType === 'Public') artifact.publish ();
 			return artifactModel.saveDocument (artifact);
 		})
 		.then (function () {

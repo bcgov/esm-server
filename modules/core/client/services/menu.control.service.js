@@ -18,7 +18,7 @@ angular.module('core').service ('MenuControl', ['Authentication', '$state', '$ht
 		if (roleCodes) {
 			var rc = _.isArray(roleCodes) ? roleCodes : [roleCodes];
 			_.each(rc, function (c) {
-				
+
 				// little twist here...
 				// the roleCode may be (eao|pro):roleCode, so let's split that up
 				if (_.includes(c, ':')) {
@@ -87,7 +87,7 @@ angular.module('core').service ('MenuControl', ['Authentication', '$state', '$ht
 
 	this.canAccess = function (roles) {
 		var allowed = this.userHasOne(roles) || this.publicAccess(roles);
-
+// console.log (allowed, roles);
 		if (!allowed) {
 			if (Authentication.user !== undefined && typeof Authentication.user === 'object') {
 				$state.go('forbidden');

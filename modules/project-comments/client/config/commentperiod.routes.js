@@ -27,9 +27,9 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				return ArtifactModel.forProject (project._id);
 			}
 		},
-        onEnter: function (MenuControl, project) {
-					MenuControl.routeAccessBuilder ('admin', project.code, '*', '*');
-        }
+   //      onEnter: function (MenuControl, project) {
+			// MenuControl.routeAccessBuilder (['admin','user','public'], project.code, '*', '*');
+   //      }
 
 	})
 	// -------------------------------------------------------------------------
