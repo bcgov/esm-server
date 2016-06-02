@@ -2298,14 +2298,22 @@ $sidenav-color: $link-color;
 ------------------------------ */
 .btn {
 	.glyphicon {
+		margin-top: 1px;
+		font-size: 1.2rem;
+		vertical-align: top;
+	}
+		
+    .glyphicon + span {
+        margin-left: 0.5rem;
+    }
+}
+
+.btn-sm {
+	.glyphicon {
 		font-size: 1.4rem;
 		vertical-align: middle;
 		margin-top: -4px;
 	}
-	
-    .glyphicon + span {
-        margin-left: 0.5rem;
-    }
 }
 
 .btn-link,
@@ -2608,13 +2616,10 @@ textarea {
 
 /* MODAL OVERRIDES
 ------------------------------ */ 
-.modal-header,
-.modal-footer {
+.modal-header {
 	padding: 1.25rem 2rem;
 	border: none;
-}
-
-.modal-header {
+	
 	h3 {
 		font-weight: bold;
 	}
@@ -2627,6 +2632,9 @@ textarea {
 }
 
 .modal-footer {
+	padding: 1.5rem 2rem;
+	border: none;
+	
 	.btn {
 		min-width: 8rem;
 	}
@@ -3699,6 +3707,10 @@ section.project-info {
 		}
 	}
 	
+	section:last-child {
+		margin-bottom: 0;
+	}
+	
 	.comment-info {
 		p {
 			margin: 0;
@@ -3720,8 +3732,14 @@ section.project-info {
 		}
 	}
 	
+	.comment-status {
+		.form-group:last-child {
+			margin-bottom: 0;
+		}
+	}
+	
 	.comment-status-btns {
-		margin-top: 0.25rem;
+		margin-bottom: 2rem;
 		
 		.btn {
 			min-width: 10rem;

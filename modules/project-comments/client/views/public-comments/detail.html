@@ -60,7 +60,7 @@
     </section><!-- / ASSIGN PILLARS & VC'S -->
 
 	<!-- PILLARS & VC'S -->
-    <section ng-if="isPublic || isEao">
+    <section ng-if="isPublic">
         <div class="detail-row">
             <label>Pillars</label>
             <span class="value">{{ comment.pillars.join (', &nbsp;') }}</span>
@@ -90,9 +90,9 @@
         </div>
     </section><!-- / ATTACHMENTS -->
 
-    <!-- UPLOAD ATTACHMENTS -->
+    <!-- REVIEW ATTACHMENTS -->
     <section ng-if="isEao">
-        <label class="control-label">Attachments</label>
+        <label class="control-label">Review Attachments</label>
         <ul class="attachments list-group">
             <li class="list-group-item clearfix">
                 <div class="file-name">file-name-1.jpg</div>
@@ -137,37 +137,35 @@
                 </button>
             </li>
         </ul>
-    </section><!-- / UPLOAD ATTACHMENTS -->
+    </section><!-- / REVIEW ATTACHMENTS -->
 
     <!-- SET COMMENT STATUS -->
-    <section ng-if="isEao">       
+    <section class="comment-status" ng-if="isEao">       
         <div class="form-group">
             <label class="control-label">Set Comment Status</label>
-            <ul class="comment-status-btns nav nav-pills" role="pills">
-                <li role="presentation">
-                    <button class="btn btn-default" role="pill" data-toggle="pill" ng-click="comment.eaoStatus='Deferred'" ng-class="{'active':comment.eaoStatus === 'Deferred'}">Defer</button>
-                </li>
-                <li role="presentation">
-                    <button class="btn btn-default" role="pill" data-toggle="pill" ng-click="comment.eaoStatus='Rejected'" ng-class="{'active':comment.eaoStatus === 'Rejected'}">Reject</button>
-                </li>
-                <li role="presentation">
-                    <button class="btn btn-default" role="pill" data-toggle="pill" ng-click="comment.eaoStatus='Published'" ng-class="{'active':comment.eaoStatus === 'Published'}">Publish</button>
-                </li>
+            <div class="comment-status-btns btn-group">
+                <button class="btn btn-default" ng-click="comment.eaoStatus='Deferred'" ng-class="{'active':comment.eaoStatus === 'Deferred'}">
+                    Deferr
+                </button>
+                <button class="btn btn-danger" ng-click="comment.eaoStatus='Rejected'" ng-class="{'active':comment.eaoStatus === 'Rejected'}">
+                    Reject
+                </button>
+                <button class="btn btn-success" ng-click="comment.eaoStatus='Published'" ng-class="{'active':comment.eaoStatus === 'Published'}">
+                    Publish
+                </button>
             </ul>
         </div>
-        <div class="comment-deferral-note" ng-if="comment.eaoStatus === 'Deferred'">
-            <div class="form-group">
-                <label class="control-label">Reason for Deferring Comment<em>Required</em></label>
-                <textarea class="form-control" ng-model="comment.eaoNotes"></textarea>
-            </div>
+        <div class="comment-deferral-note form-group" ng-if="comment.eaoStatus === 'Deferred'">
+            <label class="control-label">Deferral Notes<em>Required</em></label>
+            <textarea class="form-control" ng-model="comment.eaoNotes"></textarea>
         </div>
         <div class="comment-rejection-note" ng-if="comment.eaoStatus === 'Rejected'">
             <div class="form-group">
-                <label class="control-label">Reason for Rejecting Comment<em>Required</em></label>
+                <label class="control-label">Reason for Rejection<em>Required</em></label>
                 <input class="form-control" type="text" ng-model="comment.rejectedReason"></input>
             </div>
             <div class="form-group">
-                <label class="control-label">Notes<em>Required</em></label>
+                <label class="control-label">Rejection Notes<em>Required</em></label>
                 <textarea class="form-control" ng-model="comment.rejectedNotes"></textarea>
             </div>
         </div>
