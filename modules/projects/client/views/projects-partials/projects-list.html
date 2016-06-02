@@ -22,7 +22,11 @@
 			<td header-class="'region-col'" data-title="'Region'" filter="{region:'select'}" filter-data="projectList.regionArray" sortable="'region'">
 				{{o.region | regionName}}
 			</td>
-			<td header-class="'phase-col'" data-title="'Phase'" filter="{'currentPhase.name':'text'}"sortable="'currentPhase.name'" >
+			<td header-class="'phase-col'"
+				data-title="'Phase'"
+				filter="{'currentPhase.name':'select'}"
+				filter-data="projectList.phaseArray"
+				sortable="'currentPhase.name'" >
 				{{o.currentPhase.name}}
 			</td>
 			<!--

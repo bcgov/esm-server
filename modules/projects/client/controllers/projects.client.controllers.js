@@ -192,6 +192,7 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 	projectList.regionArray = [];
 	projectList.statusArray = [];
 	projectList.typeArray = [];
+	projectList.phaseArray = [];
 
 	$scope.$watch('projects', function(newValue) {
 		if (newValue) {
@@ -211,6 +212,9 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 			});
 			projs.pluck('type').unique().value().map( function(item) {
 				projectList.typeArray.push({id: item, title: item});
+			});
+			projs.pluck('currentPhase.name').unique().value().map( function(item) {
+				projectList.phaseArray.push({id: item, title: item});
 			});
 			if ($scope.$parent.filterObj) {
 				projectList.tableParams = new NgTableParams ({
