@@ -44,7 +44,16 @@
 
     <section class="pillers-vc" ng-if="isProponent">
 	   <!-- PILLARS & VC'S -->
-        <div class="row">
+    	<button
+    		x-vc-chooser
+    		x-project="project"
+    		x-current="comment.valuedComponents"
+    		x-topics="comment.topics"
+    		x-pillars="comment.pillars"
+    	>
+    	Edit Valued Components
+    	</button>
+ <!--        <div class="row">
             <div class="col-sm-6">
                 <label class="control-label">Assign Pillars</label>
                 <div class="pick-list panel panel-default" data-toggle="buttons">
@@ -74,18 +83,18 @@
                 </div>
             </div>
         </div>
-        <!-- / PILLARS & VC'S -->
+ -->        <!-- / PILLARS & VC'S -->
     </section>
 
-    <section ng-if="!isProponent">
+    <section>
 	    <!-- PILLARS / VALUED COMPONENTS -->
         <div class="detail-row">
             <label>Pillar</label>
-            <span class="value">{{ comment.pillars.join (', ') }}</span>
+            <span class="value">{{ comment.pillars.join (', &nbsp;') }}</span>
         </div>
         <div class="detail-row">
             <label>Valued Components</label>
-            <span class="value">{{ comment.topics.join (', ') }}</span>
+            <span class="value">{{ comment.topics.join (', &nbsp;') }}</span>
         </div>
     </section>
 

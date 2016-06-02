@@ -26,9 +26,11 @@ angular.module ('comment')
 			var canVet      = $scope.isEao;
 			var canClassify = $scope.isProponent;
 
+			var project = $scope.project;
+
 			isPublic    = false;
-			isEao       = true;
-			isProponent = false;
+			isEao       = false;
+			isProponent = true;
 
 			s.isPublic    = isPublic   ;
 			s.isEao       = isEao      ;
@@ -60,7 +62,7 @@ angular.module ('comment')
 				CommentModel.getProponentCommentsForPeriod ($scope.period._id).then (function (result) {
 					s.totalAssigned   = result.totalAssigned;
 					s.totalUnassigned = result.totalUnassigned;
-					s.tableParams     = new NgTableParams ({count:10}, {dataset:result.data});
+					s.tableParams     = new NgTableParams ({count:10, filter:{proponentStatus:'Unclassified'}}, {dataset:result.data});
 					$scope.$apply ();
 				});
 			};
@@ -89,6 +91,8 @@ angular.module ('comment')
 						$scope.isEao       = isEao      ;
 						$scope.isProponent = isProponent;
 
+						$scope.project     = project;
+
 						$scope.isPublic    = false   ;
 						$scope.isEao       = true      ;
 						$scope.isProponent = false;
@@ -100,6 +104,7 @@ angular.module ('comment')
 				})
 				.result.then (function (data) {
 					console.log ('result:', data);
+					data.proponentStatus = (data.pillars.length > 0) ? 'Classified' : 'Unclassified';
 					CommentModel.save (data)
 					.then (function (result) {
 						if (isEao) {
