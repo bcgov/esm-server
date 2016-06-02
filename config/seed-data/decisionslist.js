@@ -34,10 +34,40 @@ var milestones = [{
     description: 'Valued Component',
     artifactType: 'Valued Component'
 },{
-    code: 'schedule-a',
-    name: 'Schedule A',
-    description: 'Schedule A',
-    artifactType: 'Schedule A'
+    code: 'section-11-schedule-a',
+    name: 'Section 11 Schedule A',
+    description: 'Section 11 Schedule A',
+    artifactType: 'Section 11 Schedule A'
+},{
+    code: 'section-34-order',
+    name: 'Section 34 Order',
+    description: 'Section 34 Order',
+    artifactType: 'Section 34 Order'
+},{
+    code: 'section-36-order',
+    name: 'Section 36 Order',
+    description: 'Section 36 Order',
+    artifactType: 'Section 36 Order'
+},{
+    code: 'section-36-schedule-a',
+    name: 'Section 36 Schedule A',
+    description: 'Section 36 Schedule A',
+    artifactType: 'Section 36 Schedule A'
+},{
+    code: 'section-36-schedule-b',
+    name: 'Section 36 Schedule B',
+    description: 'Section 36 Schedule B',
+    artifactType: 'Section 36 Schedule B'
+},{
+    code: 'inspection-report',
+    name: 'Inspection Report',
+    description: 'Inspection Report',
+    artifactType: 'Inspection Report'
+},{
+    code: 'environmental-assessment-certificate',
+    name: 'Environmental Assessment Certificate',
+    description: 'Environmental Assessment Certificate',
+    artifactType: 'Environmental Assessment Certificate'
 }];
 
 var activities = [{

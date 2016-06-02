@@ -85,7 +85,7 @@ checkIntegration ('testme').then (function (f) {
 // configurations
 //
 // -------------------------------------------------------------------------
-checkIntegration ('newconfigs2').then (function () {
+checkIntegration ('newconfigs3').then (function () {
 	require('../seed-data/newconfigs')(true);
 });
 checkIntegration ('commentconfigs').then (function () {
@@ -133,7 +133,7 @@ checkIntegration ('loadartifacts56').then (function () {
 // artifacts etc for decision packages
 //
 // -------------------------------------------------------------------------
-checkIntegration ('decisions4').then (function () {
+checkIntegration ('decisions5').then (function () {
 	require('../seed-data/decisions')();
 });
 
