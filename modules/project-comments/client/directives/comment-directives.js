@@ -10,7 +10,7 @@ angular.module ('comment')
 .directive ('tmplPublicCommentList', function ($modal, _) {
 	return {
 		scope: {
-			period : '=',
+			period  : '=',
 			project : '='
 		},
 		restrict: 'E',
@@ -28,9 +28,9 @@ angular.module ('comment')
 
 			var project = $scope.project;
 
-			isPublic    = false;
-			isEao       = true;
-			isProponent = false;
+			// isPublic    = false;
+			// isEao       = true;
+			// isProponent = false;
 
 			s.isPublic    = isPublic   ;
 			s.isEao       = isEao      ;

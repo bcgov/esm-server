@@ -7,11 +7,35 @@
 var path     = require('path');
 var DBModel   = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
 var _         = require ('lodash');
+var Roles = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 
 module.exports = DBModel.extend ({
 	name : 'Comment',
 	plural: 'comments',
 	populate : {path:'user', select:'_id displayName username orgCode'},
+	// -------------------------------------------------------------------------
+	//
+	// since public users may be saving comments we should temprarily allow
+	// them permision to do so
+	//
+	// -------------------------------------------------------------------------
+	preprocessAdd: function (doc) {
+		this.setForce (true);
+		console.log (doc.project);
+		return new Promise (function (resolve, reject) {
+			Roles.objectRoles ({
+				method      : 'set',
+				objects     : doc,
+				type        : 'comments',
+				permissions : {
+					read: [],
+					write: [Roles.generateCode (doc.project.code, 'eao', 'member'), Roles.generateCode (doc.project.code, 'pro', 'member')],
+					submit: []
+				}
+			})
+			.then (resolve, reject);
+		});
+	},
 	preprocessUpdate: function (doc) {
 		return new Promise (function (resolve, reject) {
 			if (doc.valuedComponents.length === 0) {
