@@ -6,59 +6,59 @@
     <h3 ng-if="::!comment.isAnonymous" class="modal-title">Public Comment  &nbsp;&rsaquo;&nbsp; {{ ::comment.author }}</h3>
 </div>
 <div class="modal-body">
-<!-- <div>
-<input type="checkbox" ng-model="isPublic">Public</input><br/>
-<input type="checkbox" ng-model="isEao">EAO</input><br/>
-<input type="checkbox" ng-model="isProponent">Proponent</input>
-</div>
- -->
- 	<section class="eao-alerts" ng-if="isEao">
-        <div class="alert alert-info eao-comment-notes " ng-if="comment.eaoNotes">
-
-            <!--  NOTES -->
-            <div class="row" ng-if="comment.eaoStatus === 'Deferred'">
-                <span class="col-sm-12 value wrap-text">{{comment.eaoNotes}}</span>
+    
+    <div>
+        <input type="checkbox" ng-model="isPublic">Public</input><br/>
+        <input type="checkbox" ng-model="isEao">EAO</input><br/>
+        <input type="checkbox" ng-model="isProponent">Proponent</input>
+    </div>
+    
+    <!-- COMMENT NOTE ALERTS -->
+ 	<div class="eao-alerts" ng-if="isEao">
+       
+        <!-- DEFERRAL NOTES -->
+        <div class="alert alert-info eao-comment-notes" ng-if="comment.eaoStatus === 'Deferred' && comment.eaoNotes">
+            <div class="detail-row horiz">
+                <label>Reason for Deferral</label>
+                <span class="value wrap-text">{{comment.eaoNotes}}</span>
             </div>
-            <!--  / NOTES -->
-        </div>
-
-        <div class="alert alert-danger eao-comment-notes " ng-if="comment.rejectedReason || comment.rejectedNotes">
-	        <!-- REJECTION NOTES -->
-            <div class="row">
-                <label>Rejected</label>
+        </div><!-- / DEFERRAL NOTES -->
+        
+        <!-- REJECTION NOTES -->
+        <div class="alert alert-danger eao-comment-notes" ng-if="comment.eaoStatus === 'Rejected'">
+            <div class="detail-row" ng-if="comment.rejectedReason">
+                <label>Reason for Rejection</label>
+                <span class="value wrap-text">{{ comment.rejectedReason }}</span>
             </div>
-            <div class="row">
-                <label>Reason:</label><span class="value">{{ comment.rejectedReason }}</span>
+            <div class="detail-row" ng-if="comment.rejectedNotes">
+                <label>Notes</label>
+                <span class="value wrap-text">{{ comment.rejectedNotes }}</span>
             </div>
-            <div class="row">
-                <span class="col-sm-12 value wrap-text">{{ comment.rejectedNotes }}</span>
-            </div>
-            <!-- / REJECTION NOTES -->
-        </div>
-    </section>
+        </div><!-- / REJECTION NOTES -->
+        
+    </div><!-- / COMMENT NOTE ALERTS -->
 
-
+    <!-- COMMENT INFO -->
     <section class="comment-info">
         <label class="control-label">Posted {{comment.dateAdded | date}}</label>
         <p class="value wrap-text">{{ ::comment.comment }}</p>
-    </section>
+    </section><!-- / COMMENT INFO -->
 
+	<!-- ASSIGN PILLARS & VC'S -->    
     <section class="pillers-vc" ng-if="isProponent">
-	   <!-- PILLARS & VC'S -->
     	<button
     		x-vc-chooser
     		x-project="project"
     		x-current="comment.valuedComponents"
     		x-topics="comment.topics"
     		x-pillars="comment.pillars"
-    		class="btn btn-success"
-    	>
-    	Assign Valued Components
+    		class="btn btn-success">
+    	    Assign Valued Components
     	</button>
-    </section>
+    </section><!-- / ASSIGN PILLARS & VC'S -->
 
-    <section>
-	    <!-- PILLARS / VALUED COMPONENTS -->
+	<!-- PILLARS & VC'S -->
+    <section ng-if="isPublic">
         <div class="detail-row">
             <label>Pillars</label>
             <span class="value">{{ comment.pillars.join (', &nbsp;') }}</span>
@@ -67,7 +67,7 @@
             <label>Valued Components</label>
             <span class="value">{{ comment.topics.join (', &nbsp;') }}</span>
         </div>
-    </section>
+    </section><!-- / PILLARS & VC'S -->
 
     <!-- ATTACHMENTS -->
     <section ng-if="isPublic || isProponent">
@@ -88,9 +88,9 @@
         </div>
     </section><!-- / ATTACHMENTS -->
 
-    <!-- ATTACHMENTS -->
+    <!-- REVIEW ATTACHMENTS -->
     <section ng-if="isEao">
-        <label class="control-label">Attachments</label>
+        <label class="control-label">Review Attachments</label>
         <ul class="attachments list-group">
             <li class="list-group-item clearfix">
                 <div class="file-name">file-name-1.jpg</div>
@@ -135,45 +135,38 @@
                 </button>
             </li>
         </ul>
-    </section><!-- / ATTACHMENTS -->
+    </section><!-- / REVIEW ATTACHMENTS -->
 
     <!-- SET COMMENT STATUS -->
-    <section ng-if="isEao">
-        <label class="control-label">Set Comment Status</label>
-        <ul class="comment-status-btns nav nav-pills" role="pills">
-
-
-            <!-- NEED TO SET ACTIVE CLASS WHEN CLICKED -->
-            <li role="presentation"><button class="btn btn-default" role="pill" data-toggle="pill" ng-click="comment.eaoStatus='Deferred'" ng-class="{'active':comment.eaoStatus === 'Deferred'}">Defer</button></li>
-            <li role="presentation"><button class="btn btn-default" role="pill" data-toggle="pill" ng-click="comment.eaoStatus='Rejected'" ng-class="{'active':comment.eaoStatus === 'Rejected'}">Reject</button></li>
-            <li role="presentation"><button class="btn btn-default" role="pill" data-toggle="pill" ng-click="comment.eaoStatus='Published'" ng-class="{'active':comment.eaoStatus === 'Published'}">Publish</button></li>
-
-            <!-- OLD FUNCTIONALITY - TO BE REMOVED -->
-            <div class="hidden">
-                <label class="btn btn-default">
-                    <input type="radio" ng-model="comment.eaoStatus" value="Deferred" name="commentStatus" id="deferComment" > Defer
-                </label>
-                <label class="btn btn-danger">
-                    <input type="radio" ng-model="comment.eaoStatus" value="Rejected" name="commentStatus" id="rejectComment" > Reject
-                </label>
-                <label class="btn btn-success">
-                    <input type="radio" ng-model="comment.eaoStatus" value="Published" name="commentStatus" id="publishComment" > Publish
-                </label>
-            </div><!-- OLD FUNCTIONALITY - TO BE REMOVED -->
-        </ul>
-
-        <div class="row">
-            <label>Notes</label>
-            <textarea ng-model="comment.eaoNotes"></textarea>
+    <section class="comment-status" ng-if="isEao">       
+        <div class="form-group">
+            <label class="control-label">Set Comment Status</label>
+            <div class="comment-status-btns btn-group">
+                <button class="btn btn-default" ng-click="comment.eaoStatus='Deferred'" ng-class="{'active':comment.eaoStatus === 'Deferred'}">
+                    Defer
+                </button>
+                <button class="btn btn-danger" ng-click="comment.eaoStatus='Rejected'" ng-class="{'active':comment.eaoStatus === 'Rejected'}">
+                    Reject
+                </button>
+                <button class="btn btn-success" ng-click="comment.eaoStatus='Published'" ng-class="{'active':comment.eaoStatus === 'Published'}">
+                    Publish
+                </button>
+            </ul>
         </div>
-
-        <div class="row" ng-if="comment.eaoStatus === 'Rejected'">
-            <label>Rejection Reason</label>
-            <input type="text" ng-model="comment.rejectedReason"></input>
-            <label>Rejection Notes</label>
-            <textarea ng-model="comment.rejectedNotes"></textarea>
+        <div class="comment-status-note form-group" ng-if="comment.eaoStatus === 'Deferred'">
+            <label class="control-label">Deferral Notes<em>Required</em></label>
+            <textarea class="form-control" ng-model="comment.eaoNotes" rows="4"></textarea>
         </div>
-
+        <div class="comment-status-note" ng-if="comment.eaoStatus === 'Rejected'">
+            <div class="form-group">
+                <label class="control-label">Reason for Rejection<em>Required</em></label>
+                <input class="form-control" type="text" ng-model="comment.rejectedReason"></input>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Rejection Notes<em>Required</em></label>
+                <textarea class="form-control" ng-model="comment.rejectedNotes" rows="4"></textarea>
+            </div>
+        </div>
     </section><!-- / SET COMMENT STATUS -->
 
 </div>

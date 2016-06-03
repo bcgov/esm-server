@@ -3677,6 +3677,20 @@ section.project-info {
 }
 
 .public-comment-modal {
+	h4 {
+		margin-top: 1rem;
+		font-weight: bold;
+	}
+	
+	p {
+		margin: 1.5rem 0;
+		line-height: 2rem;
+		
+		a {
+			text-decoration: underline;
+		}
+	}
+	
 	.form-group {
 		margin-bottom: 2rem;
 	}
@@ -3699,14 +3713,25 @@ section.project-info {
 		}
 	}
 	
-	h4 {
-		margin-top: 1rem;
-		font-weight: bold;
-	}
-	
-	p {
-		margin: 1.5rem 0;
-		line-height: 2rem;
+	.eao-comment-notes {
+		margin-bottom: 2.5rem;
+		
+		label,
+		.value {
+			color: inherit;
+		}
+		
+		label {
+			text-shadow: 1px 1px 0 transparent;
+		}
+		
+		.detail-row:first-child {
+			margin-top: 0;
+		}
+		
+		.detail-row:last-child {
+			margin-bottom: 0;
+		}
 	}
 	
 	.list-group,
@@ -3720,7 +3745,7 @@ section.project-info {
 	}
 	
 	section {
-		margin-bottom: 2.5rem;
+		margin-bottom: 2rem;
 		
 		h3 {
 			margin-bottom: 0.75rem;
@@ -3736,21 +3761,6 @@ section.project-info {
 	.comment-info {
 		p {
 			margin: 0;
-		}
-	}
-	
-	.eao-comment-notes {
-		label,
-		.value {
-			color: inherit;
-		}
-		
-		label {
-			text-shadow: 1px 1px 0 transparent;
-		}
-		
-		.detail-row:first-child {
-			margin-top: 0;
 		}
 	}
 	
