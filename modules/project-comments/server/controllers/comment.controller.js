@@ -21,7 +21,7 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	preprocessAdd: function (doc) {
 		this.setForce (true);
-		console.log (doc.project);
+		// console.log (doc.project);
 		return new Promise (function (resolve, reject) {
 			Roles.objectRoles ({
 				method      : 'set',
