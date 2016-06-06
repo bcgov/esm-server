@@ -123,7 +123,7 @@
 				<a href class="btn btn-default btn-sm"
 					x-modal-document-upload-classify
 					x-project="docBrowser.project"
-					ng-if="docBrowser.mc.renderWidget('document.upload', docBrowser.project) && environment === 'EAO'"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;&nbsp;Upload</a>
+					ng-if="docBrowser.project.userPermissions.write && environment === 'EAO'"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;&nbsp;Upload</a>
 				<a href class="btn btn-default btn-sm"
 					x-modal-document-upload-classify-mem
 					x-project="docBrowser.project"
