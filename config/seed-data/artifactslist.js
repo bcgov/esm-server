@@ -100,15 +100,15 @@ var artifacttypes = [{
         'Final'
     ]
 },{
-    name: 'CC Test Templated',
-    code: 'cc-test-template',
-    milestone: 'section-11-order',
-    multiple: false,
-    versions : [
-        'Draft',
-        'Final'
-    ]
-},{
+     name: 'Section 11 Schedule A',
+     milestone: 'section-11-schedule-a',
+     code: 'section-11-schedule-a',
+     multiple: false,
+     versions : [
+         'Draft',
+         'Final'
+     ]
+ },{
     name: 'Section 34 Order',
     milestone: 'section-34-order',
     code: 'section-34-order',
