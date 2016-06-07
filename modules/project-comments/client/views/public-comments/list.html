@@ -1,54 +1,57 @@
-<div>
-    <div ng-if="s.isEao">
-        <!-- PROTOTYPE EAO ROW TEMPLATES  -->
-        <ul class="tab-container nav nav-tabs" role="tablist">
-           <li role="presentation" class="active"><a href ng-click="s.toggle('Unvetted')"  role="tab" data-toggle="tab">Pending Review ({{s.totalPending}})</a></li>
-           <li role="presentation"><a href ng-click="s.toggle('Deferred')"  role="tab" data-toggle="tab">Deferred ({{s.totalDeferred}})</a></li>
-           <li role="presentation"><a href ng-click="s.toggle('Published')" role="tab" data-toggle="tab">Published ({{s.totalPublic}})</a></li>
-           <li role="presentation"><a href ng-click="s.toggle('Rejected')"  role="tab" data-toggle="tab">Rejected ({{s.totalRejected}})</a></li>
-       </ul>
+
+<!-- EAO COMMENT CATEGORIES (TABS) -->
+<div ng-if="s.isEao">
+    <!-- PROTOTYPE EAO ROW TEMPLATES  -->
+    <ul class="tab-container nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href ng-click="s.toggle('Unvetted')" role="tab" data-toggle="tab">Pending Review ({{s.totalPending}})</a></li>
+        <li role="presentation"><a href ng-click="s.toggle('Deferred')"  role="tab" data-toggle="tab">Deferred ({{s.totalDeferred}})</a></li>
+        <li role="presentation"><a href ng-click="s.toggle('Published')" role="tab" data-toggle="tab">Published ({{s.totalPublic}})</a></li>
+        <li role="presentation"><a href ng-click="s.toggle('Rejected')"  role="tab" data-toggle="tab">Rejected ({{s.totalRejected}})</a></li>
+    </ul>
+</div><!-- / EAO COMMENT CATEGORIES (TABS) -->
+
+<!-- PROPONENT CATEGORIES (TABS) -->
+<div ng-if="s.isProponent">
+    <ul class="tab-container nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href role="tab" data-toggle="tab" ng-click="s.toggleP('Unclassified')">Unassigned ({{s.totalUnassigned}})</a></li>
+        <li role="presentation"><a href role="tab" data-toggle="tab" ng-click="s.toggleP('Classified')">Assigned ({{s.totalAssigned}})</a></li>
+    </ul>
+</div><!-- / PROPONENT CATEGORIES (TABS) -->
+
+<!-- COMMENT TABLE -->
+<div class="tab-pane">
+    <div class="public-comment-panel panel panel-default">
+        <table ng-table="s.tableParams" show-filter="true" class="eao-comment-table table table-striped table-hover">
+            <tr class="comment-row" ng-repeat="o in $data" ng-click="s.detail(o)">
+                <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Posted by'" filter="{'comment':'text'}" sortable="'comment'">
+                    <h2 ng-if="::o.isAnonymous" class="comment-title">Anonymous</h2>
+                    <h2 ng-if="::!o.isAnonymous" class="comment-title">{{ ::o.author }}</h2>
+                    <div ng-init="toggleProject.desc = (false)">
+                        <p class="comment">{{ ::o.comment | maxWords: 20 }}</p>
+                    </div>
+                </td>
+                <td class="location-col no-mobile" header-class="'location-col no-mobile'" data-title="'Location'" filter="{'location':'text'}" sortable="'location'">
+                    {{ ::o.location }}
+                </td>
+                <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillars'" filter="{'pillars':'text'}" sortable="'pillars'">
+                    {{ o.pillars.join(',') }}
+                    <!-- <ul><li ng-repeat="pillar in o.pillars">{{::pillar}}</li></ul> -->
+                </td>
+                <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Components'" filter="{'topics':'text'}" sortable="'topics'">
+                    {{ o.topics.join(',') }}
+                    <!-- <ul><li ng-repeat="vc in o.topics">{{::vc}}</li></ul> -->
+                </td>
+                <td class="attachment-col" header-class="'attachment-col no-mobile'">
+                    <span class="glyphicon glyphicon-paperclip" ng-if="o.documents.length > 0"></span>
+                </td>
+                <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" filter="{'dateAdded':'text'}" sortable="'dateAdded'">
+                    {{o.dateAdded | date}}
+                </td>
+            </tr>
+            <tr class="no-records" ng-if="!$data || $data.length === 0">
+                <td colspan="6">No records found.</td>
+            </tr>
+        </table>
+        
     </div>
-    <div ng-if="s.isProponent">
-        <!-- PROPONENT TEMPLATES  -->
-        <ul class="tab-container nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href role="tab" data-toggle="tab" ng-click="s.toggleP('Unclassified')">Unassigned ({{s.totalUnassigned}})</a></li>
-            <li role="presentation"><a href role="tab" data-toggle="tab" ng-click="s.toggleP('Classified')">Assigned ({{s.totalAssigned}})</a></li>
-        </ul>
-    </div>
-    <div class="tab-pane">
-        <div class="public-comment-panel panel panel-default">
-            <table ng-table="s.tableParams" show-filter="true" class="eao-comment-table table table-striped table-hover">
-                <tr class="comment-row" ng-repeat="o in $data" ng-click="s.detail(o)">
-                    <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Posted by'" filter="{'comment':'text'}" sortable="'comment'">
-                        <h2 ng-if="::o.isAnonymous" class="comment-title">Anonymous</h2>
-                        <h2 ng-if="::!o.isAnonymous" class="comment-title">{{ ::o.author }}</h2>
-                        <div ng-init="toggleProject.desc = (false)">
-                            <p class="comment">{{ ::o.comment | maxWords: 20 }}</p>
-                        </div>
-                    </td>
-                    <td class="location-col no-mobile" header-class="'location-col no-mobile'" data-title="'Location'" filter="{'location':'text'}" sortable="'location'">
-                        {{ ::o.location }}
-                    </td>
-                    <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillars'" filter="{'pillars':'text'}" sortable="'pillars'">
-                        {{ o.pillars.join (', ') }}
-                        <!-- <ul><li ng-repeat="pillar in o.pillars">{{::pillar}}</li></ul> -->
-                    </td>
-                    <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Components'" filter="{'topics':'text'}" sortable="'topics'">
-                        {{ o.topics.join (', ') }}
-                        <!-- <ul><li ng-repeat="vc in o.topics">{{::vc}}</li></ul> -->
-                    </td>
-                    <td class="attachment-col" header-class="'attachment-col no-mobile'">
-                        <span class="glyphicon glyphicon-paperclip" ng-if="o.documents.length > 0"></span>
-                    </td>
-                    <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" filter="{'dateAdded':'text'}" sortable="'dateAdded'">
-                        {{o.dateAdded | date}}
-                    </td>
-                </tr>
-                <tr class="no-records" ng-if="!$data || $data.length === 0">
-                    <td>No records found.</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <!-- / EAO ROW TEMPLATES  -->
-</div>
+</div><!-- / COMMENT TABLE  -->
