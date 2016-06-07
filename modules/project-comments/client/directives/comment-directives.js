@@ -10,7 +10,7 @@ angular.module ('comment')
 .directive ('tmplPublicCommentList', function ($modal, _) {
 	return {
 		scope: {
-			period : '=',
+			period  : '=',
 			project : '='
 		},
 		restrict: 'E',

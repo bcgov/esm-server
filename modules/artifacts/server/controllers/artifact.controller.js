@@ -131,6 +131,7 @@ module.exports = DBModel.extend ({
 	},
 	setDefaultRoles: function (artifact, project, type) {
 		// Set default read/write/submit permissions on artifacts based on their type.
+		// console.log("setting default roles for: ", type);
 		if (type === 'valued-component') {
 			artifact.read.push(project.code+":eao:admin");
 			artifact.read.push(project.code+":eao:member");
@@ -148,6 +149,37 @@ module.exports = DBModel.extend ({
 			artifact.write.push(project.code+":eao:project-team");
 			artifact.submit.push(project.code+":eao:epd");
 			artifact.submit.push(project.code+":eao:project-lead");
+		} else if (type.startsWith('section-10')) {
+			artifact.read.push(project.code+":eao:project-team");
+			artifact.write.push(project.code+":eao:epd");
+			artifact.write.push(project.code+":eao:project-lead");
+		} else if (type.startsWith('section-6') || type.startsWith('section-7') || type.startsWith('section-11') || type.startsWith('section-34') || type.startsWith('section-36')) {
+			artifact.write.push(project.code+":eao:ce-lead");
+			artifact.write.push(project.code+":eao:ce-officer");
+		} else if (type === 'application') {
+			artifact.write.push(project.code+":pro:admin");
+			artifact.write.push(project.code+":pro:member");
+			artifact.write.push(project.code+":pro:sub");
+			artifact.write.push(project.code+":eao:epd");
+			artifact.write.push(project.code+":eao:project-lead");
+			artifact.write.push(project.code+":eao:project-team");
+		} else if (type === 'decision-package') {
+			artifact.write.push(project.code+":eao:epd");
+			artifact.read.push(project.code+":eao:project-lead");
+			artifact.read.push(project.code+":eao:project-team");
+		} else if (type === 'referral-package') {
+			artifact.write.push(project.code+":eao:epd");
+			artifact.read.push(project.code+":eao:project-lead");
+			artifact.read.push(project.code+":eao:project-team");
+		} else if (type === 'environmental-assessment-certificate' || type === 'certificate') {
+			artifact.write.push(project.code+":eao:epd");
+			artifact.write.push(project.code+":eao:project-lead");
+			artifact.read.push(project.code+":eao:project-team");
+			artifact.read.push(project.code+":eao:ce-lead");
+			artifact.read.push(project.code+":eao:ce-officer");
+		} else if (type === 'inspection-report') {
+			artifact.write.push(project.code+":eao:ce-lead");
+			artifact.write.push(project.code+":eao:ce-officer");
 		}
 		return artifact;
 	},

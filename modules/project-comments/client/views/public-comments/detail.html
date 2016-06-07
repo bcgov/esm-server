@@ -6,14 +6,14 @@
     <h3 ng-if="::!comment.isAnonymous" class="modal-title">Public Comment  &nbsp;&rsaquo;&nbsp; {{ ::comment.author }}</h3>
 </div>
 <div class="modal-body">
-    
+
     <div>
         <input type="checkbox" ng-model="isPublic">Public</input><input type="checkbox" ng-model="isEao">EAO</input><input type="checkbox" ng-model="isProponent">Proponent</input>
     </div>
-    
+
     <!-- COMMENT NOTE ALERTS -->
  	<div class="eao-alerts" ng-if="isEao">
-       
+
         <!-- DEFERRAL NOTES -->
         <div class="alert alert-info eao-comment-notes" ng-if="comment.eaoStatus === 'Deferred' && comment.eaoNotes">
             <div class="detail-row horiz">
@@ -21,7 +21,7 @@
                 <span class="value wrap-text">{{comment.eaoNotes}}</span>
             </div>
         </div><!-- / DEFERRAL NOTES -->
-        
+
         <!-- REJECTION NOTES -->
         <div class="alert alert-danger eao-comment-notes" ng-if="comment.eaoStatus === 'Rejected'">
             <div class="detail-row" ng-if="comment.rejectedReason">
@@ -33,7 +33,7 @@
                 <span class="value wrap-text">{{ comment.rejectedNotes }}</span>
             </div>
         </div><!-- / REJECTION NOTES -->
-        
+
     </div><!-- / COMMENT NOTE ALERTS -->
 
     <!-- COMMENT INFO -->
@@ -47,7 +47,7 @@
         <pre class="value wrap-text">{{ ::comment.comment }}</pre>
     </section><!-- / COMMENT INFO -->
 
-	<!-- ASSIGN PILLARS & VC'S -->    
+	<!-- ASSIGN PILLARS & VC'S -->
     <section class="pillers-vc" ng-if="isProponent">
     	<button
     		x-vc-chooser
@@ -61,7 +61,7 @@
     </section><!-- / ASSIGN PILLARS & VC'S -->
 
 	<!-- PILLARS & VC'S -->
-    <section ng-if="isPublic">
+    <section ng-if="comment.pillars.length > 0">
         <div class="detail-row">
             <label>Pillars</label>
             <span class="value">{{ comment.pillars.join (', ') }}</span>
@@ -141,7 +141,7 @@
     </section><!-- / REVIEW ATTACHMENTS -->
 
     <!-- SET COMMENT STATUS -->
-    <section class="comment-status" ng-if="isEao">       
+    <section class="comment-status" ng-if="isEao">
         <div class="form-group">
             <label class="control-label">Set Comment Status</label>
             <div class="comment-status-btns btn-group">

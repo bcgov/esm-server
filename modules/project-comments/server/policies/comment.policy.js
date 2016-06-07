@@ -12,7 +12,7 @@ exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'comment');
 	helpers.setCRUDPermissions (acl, 'commentperiod');
 	helpers.setPathPermissions (acl, [
-		[ 'guest', 'user', '/api/comment/'   ],
+		[ 'guest', 'user', '/api/comment'   ],
 		[ 'guest', 'user', '/api/comment/:comment'   ],
 		[ 'guest', 'user', '/api/new/comment'   ],
 		[ '', 'user', '/api/publish/comment/:comment'   ],
