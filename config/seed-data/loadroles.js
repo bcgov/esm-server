@@ -13,7 +13,7 @@ var Features = mongoose.model('Feature');
 var Artifacts = mongoose.model('Artifact');
 var Documents = mongoose.model('Document');
 var Comments = mongoose.model('Comment');
-var PublicComments = mongoose.model('PublicComment');
+// var PublicComments = mongoose.model('PublicComment');
 var CommentPeriods = mongoose.model('CommentPeriod');
 var list2 = require('./roledata2');
 var ProjectCtrl = require(require('path').resolve('./modules/projects/server/controllers/project.controller'));
@@ -66,7 +66,7 @@ module.exports.sysroles2 = function () {
 	// then add/update the new data...
 	var deadRolesArray = [];
 	var goodRolesArray = [];
-	var classArray = [Projects, Users, Activities, Features, Artifacts, Documents, Comments, PublicComments, CommentPeriods];
+	var classArray = [Projects, Users, Activities, Features, Artifacts, Documents, Comments, /*PublicComments,*/ CommentPeriods];
 	var adminUser;
 	return promise.resolve(Role.find({}))
 		.then(function (roles) {
