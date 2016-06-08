@@ -168,7 +168,7 @@ angular
 	.factory('LOGO', function (ENV) {
 		// Use the env from above to determine the logo.
 		if (ENV === 'EAO') {
-			return 'modules/core/client/img/brand/eao-logo-inverted.png'; // MEM Logo
+			return 'modules/core/client/img/brand/bc_logo_transparent.png'; // BC Logo
 		}
 		if (ENV === 'MEM') {
 			return 'modules/core/client/img/brand/mem-logo-inverted.png'; // EAO Logo

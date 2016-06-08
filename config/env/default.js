@@ -59,7 +59,7 @@ if (process.env.MEM === 'true') {
     // for obsecurity reasons
     sessionKey: 'sessionId',
     sessionCollection: 'sessions',
-    logo: 'modules/core/client/img/brand/eao-logo.png',
+    logo: 'modules/core/client/img/brand/bc_logo_transparent.png',
     favicon: 'modules/core/client/img/brand/favicon.ico'
   };
 }
