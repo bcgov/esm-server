@@ -58,7 +58,8 @@ angular.module ('vcs')
 		self.currentObjs = [];
 		self.project = $stateParams.project;
 
-		TopicModel.forType('Valued Component').then( function (data) {
+		// Show all VC types, either pathway or valued components
+		TopicModel.getCollection().then( function (data) {
 			self.data = data;
 			$scope.$apply();
 		});
