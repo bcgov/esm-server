@@ -27,7 +27,7 @@ angular.module ('vcs')
 		scope: {
 			collection: '=',
 			vc: '=',
-			mode: '@'
+			mode: '='
 		},
 		link : function (scope, element, attrs) {
 			// console.log('editVcModal is running');

@@ -27,14 +27,18 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 	docLink.ids = [];
 
 	docLink.changeItem = function (docObj) {
-		var idx = $scope.current.indexOf(docObj._id);
-		// console.log(idx);
-		if (idx === -1) {
-			docLink.linkFiles.push(docObj);
-			$scope.current.push(docObj._id);
-		} else {
-			_.remove(docLink.linkFiles, {_id: docObj._id});
-			_.remove($scope.current, function(n) {return n === docObj._id;});
+		console.log("changeItem:", $scope.current);
+		console.log("docObj:", docObj);
+		if ($scope.current) {
+			var idx = $scope.current.indexOf(docObj._id);
+			// console.log(idx);
+			if (idx === -1) {
+				docLink.linkFiles.push(docObj);
+				$scope.current.push(docObj._id);
+			} else {
+				_.remove(docLink.linkFiles, {_id: docObj._id});
+				_.remove($scope.current, function(n) {return n === docObj._id;});
+			}
 		}
 	};
 
@@ -45,6 +49,7 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 	$scope.$watch('current', function(newValue) {
 		// Bring in existing values.
 		if (newValue) {
+			console.log("current:", newValue);
 			// get the objects from the array.
 			Document.getDocumentsInList (newValue).then( function(res) {
 				docLink.linkFiles = res.data;
