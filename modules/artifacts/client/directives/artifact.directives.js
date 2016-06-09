@@ -126,7 +126,7 @@ angular.module('artifacts')
 						return ArtifactModel.lookup($scope.artifact._id);
 					})
 					.then ( function (art) {
-						console.log("art: ", art);
+						// console.log("art: ", art);
 						// Update the name of the artifact appropriately
 						art.name = $scope.vc.title;
 						return ArtifactModel.saveModel(art);

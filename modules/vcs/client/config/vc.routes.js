@@ -116,7 +116,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			}
 		},
 		controller: function ($scope, $state, vc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _) {
-			console.log ('vc = ', vc);
+			// console.log ('vc = ', vc);
 			$scope.vc = vc;
 			$scope.vc.artifact = art;
 			$scope.vc.artifact.document = ($scope.vc.artifact.document) ? $scope.vc.artifact.document : {};
@@ -138,7 +138,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					return VcModel.save ($scope.vc);
 				})
 				.then (function (model) {
-					console.log ('vc was saved',model);
+					// console.log ('vc was saved',model);
 					// console.log ('now going to reload state');
 					$state.transitionTo('p.vc.list', {projectid:project.code}, {
 			  			reload: true, inherit: false, notify: true
