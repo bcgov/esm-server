@@ -4,24 +4,17 @@
 	</div>
 
 	<div class="view-body-container">
-		<div class="row top-nav-lower-margin hidden">
-			<div class="col-sm-12">
-				<div class="form-inline text-right">
-					<a class="btn btn-sm btn-link" ui-sref="p.detail">Cancel</a>
-					<a class="btn btn-sm btn-link" ng-click="save()">Save</a>
-					<a class="btn btn-sm btn-link" ng-click="saveas()">Save As</a>
-					<select ng-model="version" class="input-sm" ng-options="v as v for v in artifact.artifactType.versions"></select>
-					<a class="btn btn-sm btn-link" ng-click="submit()">Submit for {{buttons.next}}</a>
-				</div>
-			</div>
-		</div>
-
-		<!-- <div ng-include="'/modules/artifacts/client/views/partial.artifact-edit.html'"></div> -->
 
 		<!-- If it's an artifact collection, lets show the 'add artifact to this artifact' UI. -->
 		<div ng-if="artifact.isArtifactCollection">
 				<div class="row top-nav-lower-margin ">
-					<div class="col-sm-12">
+					<div class="col-sm-4 col-md-4">
+						<div class="form-group">
+							<label for="pillar" class="control-label">Name</label>
+							<input id="pillar" name="pillar" ng-model='artifact.name' class="form-control input-sm" required>
+						</div>
+					</div>
+					<div class="col-sm-12 form-group">
 						<div class="btn btn-default">
 							<div x-artifact-vc x-current="artifact" x-project="project">
 							+/- Link Artifacts
