@@ -149,11 +149,11 @@ module.exports = DBModel.extend ({
 			artifact.write.push(project.code+":eao:project-team");
 			artifact.submit.push(project.code+":eao:epd");
 			artifact.submit.push(project.code+":eao:project-lead");
-		} else if (type.startsWith('section-10')) {
+		} else if (_.startsWith(type, 'section-10')) {
 			artifact.read.push(project.code+":eao:project-team");
 			artifact.write.push(project.code+":eao:epd");
 			artifact.write.push(project.code+":eao:project-lead");
-		} else if (type.startsWith('section-6') || type.startsWith('section-7') || type.startsWith('section-11') || type.startsWith('section-34') || type.startsWith('section-36')) {
+		} else if (_.startsWith(type,'section-6') || _.startsWith(type,'section-7') || _.startsWith(type,'section-11') || _.startsWith(type,'section-34') || _.startsWith(type,'section-36')) {
 			artifact.write.push(project.code+":eao:ce-lead");
 			artifact.write.push(project.code+":eao:ce-officer");
 		} else if (type === 'application') {
