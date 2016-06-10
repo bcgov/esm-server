@@ -59,8 +59,8 @@ body {
 
 
 /* ----- Typography ----- */
-$font-family-heading: Myriad-Pro, Calibri, sans serif;
-$font-family-sans-serif: Myriad-Pro, Calibri, sans serif;
+$font-family-heading: Myriad-Pro, Calibri, Arial, sans serif;
+$font-family-sans-serif: Myriad-Pro, Calibri, Arial, sans serif;
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
@@ -1854,8 +1854,8 @@ $header-height-sm: 5.2rem;
 			padding: 0 1rem;
 			
 			img {
-				margin-top: 0.6rem;
-				height: 45px;
+				margin-top: 0.9rem;
+				height: 41px;
 			}
 		}
 		
@@ -2008,7 +2008,7 @@ $header-height-sm: 5.2rem;
 	left: 0;
 	width: 100%;
 	padding: 1rem 2rem;
-	font-size: 1.2rem;
+	font-size: 13px;
 	color: #FFF;
 	background: $corp-blue;
 	border-top: 2px solid $corp-gold;

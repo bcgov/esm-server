@@ -10,11 +10,11 @@
 						<div class="input-group" data-toggle="dropdown">
 							<input class="entryInput form-control input-sm" id="query" name="query" type="text" placeholder="Select a Template Type" ng-model="s.addtype.name"></input>
 							<span class="input-group-btn">
-								<button ng-disabled="!s.addtype" ng-click="$event.stopPropagation();s.addType()" class="btn btn-default btn-sm" type="button">Add Template</button>
+								<button ng-disabled="!s.addtype" ng-click="$event.stopPropagation();s.addType()" class="btn btn-default btn-sm" type="button">Add Item</button>
 							</span>
 						</div>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="query">
-							<li ng-repeat="type in s.availableTypes">
+							<li ng-repeat="type in s.availableTypes | orderBy:'name'">
 								<a ng-click="s.selectType(type)">{{type.name}}</a>
 							</li>
 						</ul>

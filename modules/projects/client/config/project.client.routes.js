@@ -69,7 +69,7 @@ angular.module('project').config (
 					state: "p.enforcements",
 					roles: MenuControl.menuRolesBuilder (['user'], project.code, '*', '*')
 				});
-				Menus.addMenuItem('projectTopMenu', {
+				Menus.addMenuItem('projectMenu', {
 					title: 'Comment Periods',
 					state: "p.commentperiod.list",
 					roles: ['admin','user','public'] //MenuControl.menuRolesBuilder (['admin','user','public'], project.code, '*', '*')

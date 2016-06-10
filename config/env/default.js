@@ -29,7 +29,7 @@ if (process.env.MEM === 'true') {
     sessionKey: 'sessionId',
     sessionCollection: 'sessions',
     logo: 'modules/core/client/img/brand/mem-logo.png',
-    favicon: 'modules/core/client/img/brand/favicon.png'
+    favicon: 'modules/core/client/img/brand/favicon.ico'
   };
 } else {
   module.exports = {
@@ -59,8 +59,8 @@ if (process.env.MEM === 'true') {
     // for obsecurity reasons
     sessionKey: 'sessionId',
     sessionCollection: 'sessions',
-    logo: 'modules/core/client/img/brand/eao-logo.png',
-    favicon: 'modules/core/client/img/brand/favicon.png'
+    logo: 'modules/core/client/img/brand/bc_logo_transparent.png',
+    favicon: 'modules/core/client/img/brand/favicon.ico'
   };
 }
 

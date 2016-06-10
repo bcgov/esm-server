@@ -27,7 +27,7 @@ angular.module ('vcs')
 		scope: {
 			collection: '=',
 			vc: '=',
-			mode: '@'
+			mode: '='
 		},
 		link : function (scope, element, attrs) {
 			// console.log('editVcModal is running');
@@ -65,8 +65,6 @@ angular.module ('vcs')
 			topics: '='
 		},
 		link : function(scope, element, attrs) {
-			console.log ('scope.project',scope.project);
-			console.log ('scope.current',scope.current);
 			element.on('click', function () {
 				$modal.open ({
 					animation: true,
@@ -98,10 +96,10 @@ angular.module ('vcs')
 							});
 							scope.pillars.splice (0, 0, _.keys (pills));
 							scope.topics.splice (0, 0, tops);
-							console.log ('selected = ', tops);
-							console.log ('selected = ', pills);
-							console.log ('selected = ', scope.pillars);
-							console.log ('selected = ', scope.topics);
+							// console.log ('selected = ', tops);
+							// console.log ('selected = ', pills);
+							// console.log ('selected = ', scope.pillars);
+							// console.log ('selected = ', scope.topics);
 							$modalInstance.close (s.selected);
 						};
 						s.dealwith = function (id) {
@@ -116,7 +114,7 @@ angular.module ('vcs')
 					}
 				})
 				.result.then (function (data) {
-					console.log ('selected = ', data);
+					// console.log ('selected = ', data);
 				})
 				.catch (function (err) {});
 			});

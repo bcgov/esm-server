@@ -16,7 +16,7 @@
 		<div class="form-footer clearfix">
 			<div class="pull-right">
 				<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
-				<a ng-if="mc.renderWidget(artifact.typeCode, project)"
+				<a ng-if="artifact.userPermissions.write"
 				   class="btn btn-default"
 				   ui-sref="p.artifact.edit({artifactId:artifact._id})">Edit</a>
 			</div>
