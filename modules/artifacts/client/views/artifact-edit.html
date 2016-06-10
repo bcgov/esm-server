@@ -20,9 +20,15 @@
 
 		<!-- If it's an artifact collection, lets show the 'add artifact to this artifact' UI. -->
 		<div ng-if="artifact.isArtifactCollection">
-			<a href x-artifact-vc x-current="artifact" x-project="project">
-            +/- Link Artifacts
-        	</a>
+				<div class="row top-nav-lower-margin ">
+					<div class="col-sm-12">
+						<div class="btn btn-default">
+							<div x-artifact-vc x-current="artifact" x-project="project">
+							+/- Link Artifacts
+							</div>
+						</div>
+					</div>
+			</div>
 		</div>
 
 		<tmpl-artifact-display x-mode="'edit'" x-artifact="artifact" x-project="project"></tmpl-artifact-display>
