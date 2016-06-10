@@ -376,9 +376,9 @@ var artifacttypes = [{
     }]
 },{
     name: 'Documents',
-    multiple: false,
+    multiple: true,
     isTemplate: false,
-    isDocument: true,
+    isDocument: false,
     code: 'documents',
     milestone: 'documents',
     versions : [
