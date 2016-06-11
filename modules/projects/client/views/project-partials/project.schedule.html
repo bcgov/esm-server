@@ -73,6 +73,7 @@
 					<label>Select a Milestone</label>
 					<select class="form-control"
 							ng-model="selectedMilestoneType"
+							ng-init="selectedMilestoneType = rMilestonesForPhase[0]"
 							ng-options="milestone as milestone.name for milestone in rMilestonesForPhase">
 						<!-- <option ng-repeat="milestone in rMilestonesForPhase" value="{{ milestone.code }}">{{ milestone.name }}</option> -->
 					</select>
@@ -81,21 +82,15 @@
 					<label>Date Range / Effective Date?</label>
 					<div class="date-range-control clearfix">
 						<div class="date-range input-group pull-left">
-							<span class="input-group-btn">
-								<button class="btn btn-default">
-									<span class="glyphicon glyphicon-calendar"></span>
-								</button>
-							</span>
-							<input class="form-control" type="text" placeholder="mm/dd/yyyy" />
+							<div class="input-group">
+								<p class="form-control-static">{{ dateStarted | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="dateStarted" >&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a>&nbsp; &nbsp;</p>
+							</div>
 						</div>
 						<div class="pull-left spacer">-</div>
 						<div class="date-range input-group pull-left">
-							<span class="input-group-btn">
-								<button class="btn btn-default">
-									<span class="glyphicon glyphicon-calendar"></span>
-								</button>
-							</span>
-							<input class="form-control" type="text" placeholder="mm/dd/yyyy" />
+							<div class="input-group">
+								<p class="form-control-static">{{ dateCompleted | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="dateCompleted" >&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a>&nbsp; &nbsp;</p>
+							</div>
 						</div>
 					</div>
 					<div class="help-block">Invalid Date Range Message</div>
@@ -103,7 +98,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				<button ng-click="addMilestone(selectedMilestoneType)" type="button" class="btn btn-primary" data-dismiss="modal">Add Milestone</button>
+				<button ng-click="addMilestone(selectedMilestoneType, dateStarted, dateCompleted)" type="button" class="btn btn-primary" data-dismiss="modal">Add Milestone</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

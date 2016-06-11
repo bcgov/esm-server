@@ -434,10 +434,11 @@ angular.module('project').config (
 				}
 				$scope.rMilestonesForPhase.push({"name": "Project Withdrawn",
 												 "code": "project-withdrawn"});
+				$scope.defaultOption = $scope.rMilestonesForPhase[0];
 			};
 
 			// Handle the add milestone
-			$scope.addMilestone = function(selectedMilestone) {
+			$scope.addMilestone = function(selectedMilestone, dateStarted, dateCompleted) {
 				// Just add a milestone, attach it to a specific phase - this is a generic
 				// schedule, which really doesn't follow the flow of anything.  It's just a
 				// Marker of sorts.  We will need to look this up when phases/milestones progress
@@ -447,7 +448,9 @@ angular.module('project').config (
 				MilestoneModel.add({
 					"code": selectedMilestone.code,
 					"name": selectedMilestone.name,
-					"phase": $scope.rSelPhase
+					"phase": $scope.rSelPhase,
+					"dateStartedEst": dateStarted,
+					"dateCompletedEst": dateCompleted
 				})
 				.then(function (ms) {
 					$scope.rSelPhase.milestone = ms;
