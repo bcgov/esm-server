@@ -26,12 +26,26 @@
 							<button ng-if="phase.code !== 'pre-submission'" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addCommentSessionModal">Add Comment Period</button>
 						</div>
 						<table class="table project-milestones-comments">
+								<td>Name</td>
+								<td>Estimate</td>
+								<td>Actual</td>
+								<td>Status</td>
+								<td></td>
+								<td></td>
 							<tr ng-repeat="row in phase.milestones">
 								<td>{{row.name}}</td>
 								<td>{{row.dateStartedEst | date : format : timezone}} / {{row.dateCompletedEst | date : format : timezone}}</td>
+								<td>{{row.dateStarted | date : format : timezone}} / {{row.dateCompleted | date : format : timezone}}</td>
 								<td>{{row.status}}</td>
-								<!-- <td>-Template Link-</td> -->
-								<td class="button-col"><button class="btn btn-default btn-sm">BUTTON</button></td>
+								<!-- <td>-Template Link-</tdf> -->
+								<td class="button-col">
+									<button class="btn btn-default btn-sm"
+											ng-if="row.status === 'Not Started'"
+											ng-click="startMilestone(row._id)">Start Milestone</button>
+									<button class="btn label-success btn-default btn-sm"
+											ng-if="row.status === 'In Progress'"
+											ng-click="completeMilestone(row._id)">Complete Milestone</button>
+								</td>
 								<td class="actions-col">
 									<button class="btn btn-link">
 										<span class="glyphicon glyphicon-pencil"
@@ -81,19 +95,18 @@
 				<div class="form-group has-error" ng-class="{'has-error': validateForm}">
 					<label>Date Range / Effective Date?</label>
 					<div class="date-range-control clearfix">
-						<div class="date-range input-group pull-left">
+						<div class="date-range pull-left">
 							<div class="input-group">
-								<p class="form-control-static">{{ dateStarted | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="dateStarted" >&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a>&nbsp; &nbsp;</p>
+								<p x-modal-date-picker x-selected-date="dateStarted" class="btn form-control-static">{{ dateStarted | amDateFormat:'MMM Do YYYY' }} &nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i>&nbsp; &nbsp;</p>
 							</div>
 						</div>
 						<div class="pull-left spacer">-</div>
-						<div class="date-range input-group pull-left">
+						<div class="date-range pull-left">
 							<div class="input-group">
-								<p class="form-control-static">{{ dateCompleted | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="dateCompleted" >&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a>&nbsp; &nbsp;</p>
+								<p x-modal-date-picker x-selected-date="dateCompleted" class="btn form-control-static">{{ dateCompleted | amDateFormat:'MMM Do YYYY' }} &nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i>&nbsp; &nbsp;</p>
 							</div>
 						</div>
 					</div>
-					<div class="help-block">Invalid Date Range Message</div>
 				</div>
 			</div>
 			<div class="modal-footer">

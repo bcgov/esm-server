@@ -11,6 +11,9 @@ angular.module('project').factory ('MilestoneModel', function (ModelBase, _) {
 	//
 	var MilestoneClass = ModelBase.extend ({
 		urlName : 'milestone',
+		lookup: function (milestoneid) {
+			return this.get ('/api/milestone/'+milestoneid);
+		},
 		// -------------------------------------------------------------------------
 		//
 		// add an activity from base to a milestone
@@ -51,6 +54,26 @@ angular.module('project').factory ('MilestoneModel', function (ModelBase, _) {
 				self.get ('/api/milestone/for/phase/'+id)
 				.then (function (res) {
 					self.collection = res;
+					resolve (res);
+				})
+				.catch (reject);
+			});
+		},
+		startMilestone: function(id) {
+			var self = this;
+			return new Promise (function (resolve, reject) {
+				self.put ('/api/milestone/start/'+id)
+				.then (function (res) {
+					resolve (res);
+				})
+				.catch (reject);
+			});
+		},
+		completeMilestone: function(id) {
+			var self = this;
+			return new Promise (function (resolve, reject) {
+				self.put ('/api/milestone/complete/'+id)
+				.then (function (res) {
 					resolve (res);
 				})
 				.catch (reject);

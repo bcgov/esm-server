@@ -326,9 +326,20 @@ angular.module('project').config (
 							size: 'lg'
 					});
 			};
-			$scope.ok = function (blah) {
-				console.log("here",blah);
-				MilestoneModel.save(blah).then(function (res) {
+			$scope.completeMilestone = function (milestoneId) {
+				MilestoneModel.completeMilestone(milestoneId)
+				.then(function (obj) {
+					$rootScope.$broadcast('refreshPhases', obj);
+				});
+			};
+			$scope.startMilestone = function (milestoneId) {
+				MilestoneModel.startMilestone(milestoneId)
+				.then(function (obj) {
+					$rootScope.$broadcast('refreshPhases', obj);
+				});
+			};
+			$scope.ok = function (obj) {
+				MilestoneModel.save(obj).then(function (res) {
 					// $modalInstance.dismiss();
 				});
 			};
@@ -350,7 +361,7 @@ angular.module('project').config (
 								};
 								myData.ok = function () {
 									MilestoneModel.save(myData.data).then(function (res) {
-										// console.log('saved');
+										$rootScope.$broadcast('refreshPhases', res);
 										$modalInstance.close();
 									}).catch(function (err) {
 										$modalInstance.dismiss('cancel');
