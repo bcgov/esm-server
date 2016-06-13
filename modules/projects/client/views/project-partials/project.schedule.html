@@ -22,8 +22,25 @@
 				<div id="phaseCollapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="phaseCollapseOne">
 					<div class="panel-body">
 						<div class="button-bar">
-							<button ng-if="phase.code !== 'pre-submission'" ng-click="popluatePhaseDropdown(phase)" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addMilestoneModal">Add Milestone</button>
-							<button ng-if="phase.code !== 'pre-submission'" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addCommentSessionModal">Add Comment Period</button>
+							<button ng-if="phase.code !== 'pre-submission'"
+									ng-click="popluatePhaseDropdown(phase)"
+									class="btn btn-default btn-sm"
+									data-toggle="modal"
+									data-target="#addMilestoneModal">Add Milestone</button>
+							<button ng-if="phase.code !== 'pre-submission'"
+									class="btn btn-default btn-sm"
+									data-toggle="modal"
+									data-target="#addCommentSessionModal">Add Comment Period</button>
+							<button class="btn btn-default btn-sm pull-right"
+									ng-click="completeCurrentPhase(project)"
+									ng-if="canCompletePhase(phase)"
+									data-toggle="modal"
+									data-target="#completePhaseModal">Complete Phase</button>
+							<button class="btn btn-default btn-sm pull-right"
+									ng-click="startNextPhase(project)"
+									ng-if="isNextPhase(phase._id)"
+									data-toggle="modal"
+									data-target="#completePhaseModal">Start Phase</button>
 						</div>
 						<table class="table project-milestones-comments">
 								<td>Name</td>

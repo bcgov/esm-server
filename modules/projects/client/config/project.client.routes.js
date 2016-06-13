@@ -390,6 +390,46 @@ angular.module('project').config (
 				self.refresh();
 			});
 
+			$scope.isNextPhase = function (id) {
+				var index = -1;
+				_.each(self.project.phases, function(data, idx) {
+				   if (_.isEqual(data._id, self.project.currentPhase._id)) {
+				      index = idx;
+				      return;
+				   }
+				});
+				// Double check if this is the last phase for errors
+				if (index+1 >= self.project.phases.length)
+					return false;
+				if (self.project.phases[index+1]._id === id)
+					return true;
+			};
+
+			$scope.startNextPhase = function (project) {
+				ProjectModel.nextPhase(self.project)
+				.then( function (res) {
+					$scope.project = res;
+					$scope.$apply();
+				});
+			};
+
+			$scope.canCompletePhase = function (phase) {
+				if (phase.code === $scope.project.currentPhase.code && !$scope.project.currentPhase.completed) {
+					return true;
+				} else {
+					return false;
+				}
+			};
+
+			$scope.completeCurrentPhase = function (project) {
+				// Complete this particular phase
+				ProjectModel.completePhase(self.project)
+				.then( function (res) {
+					$scope.project = res;
+					$scope.$apply ();
+				});
+			};
+
 			$scope.popluatePhaseDropdown = function (phase) {
 				// console.log("populate phase on phase:",phase.code);
 				$scope.rSelPhase = phase;
