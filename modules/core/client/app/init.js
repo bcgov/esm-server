@@ -18,10 +18,20 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 	}
 ]);
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, _, MenuControl) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, _, MenuControl, $cookies) {
 
 	// Check authentication before changing state
 	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+		//
+		// if changing to this route indicates a change of context (from a security
+		// point of view) set teh context cookie. Otherwise set it to application
+		//
+		var context = 'application';
+		if (toState.context) {
+			var c = (_.isFunction (toState.context)) ? toState.context () : toState.context;
+			context = toParams[c] || 'application';
+		}
+		$cookies.context = context;
 		if (toState.data && toState.data.roles) {
 			if (_.isFunction (toState.data.roles)) toState.data.roles = toState.data.roles ();
 			if (toState.data.roles.length > 0) {
@@ -55,7 +65,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 							pattern = new RegExp('^' + role + '$');
 							break;
 					}
-					
+
 					if (Authentication.user.roles !== undefined) {
 						_.each(Authentication.user.roles, function(r) {
 							if (r.match(pattern)) {

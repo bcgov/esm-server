@@ -10,7 +10,7 @@ var mongoose   = require ('mongoose');
 var Role       = mongoose.model ('_Role');
 var Permission = mongoose.model ('_Permission');
 var _          = require ('lodash');
-var helpers    = require ('../controllers/core.helpers.controller');
+var helpers    = require ('../controllers/cc.routes.controller');
 var runPromise = helpers.runPromise;
 
 var defaultResource = 'application';
@@ -46,9 +46,14 @@ var expandPermissions = function (p) {
 	});
 	return ps;
 };
-var pluckRoles = function (a) {
+var pluckAppRoles = function (a) {
 	return _.uniq (a.map (function (r) {
 		return r.context + ':' + r.role;
+	}));
+};
+var pluckRoles = function (a) {
+	return _.uniq (a.map (function (r) {
+		return r.role;
 	}));
 };
 var pivotRoles = function (a) {
@@ -418,6 +423,57 @@ var getUserRoles = function (p) {
 		return Promise.resolve ([]);
 	}
 };
+exports.getUserRoles = getUserRoles;
+// -------------------------------------------------------------------------
+//
+// get the user roles for the passed in context as well as the parent
+// context
+//
+// -------------------------------------------------------------------------
+var getAllUserRoles = function (p) {
+	console.log (p.user);
+	return new Promise (function (resolve, reject) {
+		if (!p.user) {
+			//
+			// no one, just public
+			//
+			resolve (['public']);
+		}
+		else if (p.context === defaultResource) {
+			findRoles ({
+				context : p.context,
+				user    : p.user
+			})
+			.then (pluckAppRoles)
+			.then (resolve, reject);
+		}
+		else {
+			//
+			// get this context as well as the parent (application)
+			//
+			var appRoles;
+			findRoles ({
+				context : defaultResource,
+				user    : p.user
+			})
+			.then (pluckAppRoles)
+			.then (function (a) {
+				appRoles = a;
+				return findRoles ({
+					context : p.context,
+					user    : p.user
+				});
+			})
+			.then (pluckRoles)
+			.then (function (a) {
+				return a.concat (appRoles);
+			})
+			.then (resolve, reject);
+		}
+	});
+};
+exports.getAllUserRoles = getAllUserRoles;
+
 // -------------------------------------------------------------------------
 //
 // more complicated, get the entire set of permissions a user has on a
@@ -427,34 +483,14 @@ var getUserRoles = function (p) {
 var userPermissions = function (p) {
 	console.log (p.user);
 	return new Promise (function (resolve, reject) {
-		var roles;
-		if (!p.user) {
-			//
-			// no one, just public
-			//
-			roles = Promise.resolve (['public']);
-		}
-		else {
-			//
-			// get this context as well as the parent (application)
-			//
-			roles = findRoles ({
-				// $or: [
-				// 	{context:defaultResource},
-				// 	{context:p.context}
-				// ],
-				context: {$in : [defaultResource, p.context]},
-				user:p.user
-			})
-			.then (pluckRoles);
-		}
 		//
 		// now that we have the set of roles for the user within this
 		// context, we can apply those to the set of permissions for
 		// the resource in question
 		//
-		roles
+		getAllUserRoles (p)
 		.then (function (roleSet) {
+			console.log ('roleSet = ', roleSet);
 			return findPermissions ({
 				resource : p.resource,
 				role : {$in : roleSet}
@@ -464,6 +500,7 @@ var userPermissions = function (p) {
 		.then (resolve, reject);
 	});
 };
+exports.userPermissions = userPermissions;
 
 exports.routes = {
 	addPermission : function (req, res) {

@@ -148,6 +148,7 @@ angular.module('project').config (
 	// -------------------------------------------------------------------------
 	.state('p.detail', {
 		url: '/detail',
+		context: 'projectid',
 		templateUrl: 'modules/projects/client/views/project-partials/project.detail.html',
 		controller: function ($scope, $state, project, ProjectModel, $window) {
 			$scope.project = project;
