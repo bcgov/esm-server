@@ -12,11 +12,11 @@ var access   = require ('./cc.access.controller');
 
 var emptyPromise = function (t) {return new Promise (function (r, e) { r (t); }); };
 
-var DBModel = function (options) {
-	console.log (options.user);
-	console.log (options.context);
-	console.log (options.userRoles);
-	this._init (options);
+var DBModel = function (req) {
+	console.log (req.user);
+	console.log (req.context);
+	console.log (req.userRoles);
+	this._init (req);
 };
 DBModel.extend = require ('./cc.extend.controller');
 
@@ -38,10 +38,11 @@ _.extend (DBModel.prototype, {
 	// initialize
 	//
 	// -------------------------------------------------------------------------
-	_init : function (options) {
-		this.user       = options.user;
-		this.context    = options.context   || 'application';
-		this.userRoles  = options.userRoles || [];
+	_init : function (req) {
+		this.req        = req;
+		this.user       = req.user;
+		this.context    = req.context   || 'application';
+		this.userRoles  = req.userRoles || [];
 		console.log ('new ', this.name);
 		console.log ('this.user      = ', this.user     );
 		console.log ('this.context   = ', this.context  );
@@ -141,6 +142,7 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	setUser : function (user) {
 		this.user = user || {roles:[]};
+		this.isAdmin = !!~user.roles.indexOf ('admin');
 		this.setRoles (user);
 		this.setAccess ('read');
 	},
@@ -159,6 +161,9 @@ _.extend (DBModel.prototype, {
 		// console.log ('setting access ONCE ',val);
 		this.resetAccess = true;
 		this.setAccess (val);
+	},
+	hasPermission : function (userRoles, targetRoles) {
+		return (this.isAdmin || (_.intersection (userRoles, targetRoles).length > 0));
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -185,7 +190,7 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			// console.log ('q = ',q);
+			console.log ('q = ',q);
 			self.model.findOne (q)
 			.populate (self.populate)
 			.select (fields)
@@ -282,7 +287,7 @@ _.extend (DBModel.prototype, {
 		// console.log ('in saveDocument with doc ',doc);
 		// console.log ('in saveDocument with roles ',self.roles);
 		return new Promise (function (resolve, reject) {
-			if (!self.force && self.useRoles && !doc.userHasPermission (self.user, 'write')) {
+			if (!self.force && self.useRoles && !self.hasPermission (self.userRoles, doc.write)) {
 				return reject (new Error ('Write operation not permitted for this '+self.name+' object'));
 			}
 			if (self.useAudit) doc.setAuditFields (self.user);

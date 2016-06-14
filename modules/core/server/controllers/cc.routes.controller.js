@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require ('lodash');
+var access = require ('./cc.access.controller');
 
 /**
  * Get unique error field name
@@ -123,6 +124,76 @@ exports.streamFile = function (res, file, name, mime) {
 // exports.queryResponse    = queryResponse;
 // exports.getErrorMessage  = getErrorMessage;
 
+exports.setModelOld = function (Dbclass) {
+	return function (req, res, next) {
+		req.Model = new Dbclass (req);
+		next ();
+	};
+};
+var setSessionContext = function (req) {
+	return new Promise (function (resolve, reject) {
+		//
+		// new session context
+		//
+		if (!req.session.context) {
+			req.session.context = 'you aint my buddy guy';
+		}
+		var opts = {
+			user      : req.user,
+			userRoles : req.session.userRoles,
+			context   : req.session.context
+		};
+		console.log ('existing user context = ', opts);
+		if (req.cookies.context) {
+			console.log ('-- received context', req.cookies.context);
+			//
+			// new context: initialize user roles for this
+			// context and set a flag accordingly
+			//
+			if (req.session.context !== req.cookies.context) {
+				console.log ('-- context changed from', req.session.context, ' to ', req.cookies.context);
+				req.session.context = req.cookies.context;
+				access.getAllUserRoles ({
+					context : req.session.context,
+					user    : req.user ? req.user.username : null
+				})
+				.then (function (roles) {
+					req.session.userRoles = roles;
+					console.log ('-- new user roles = ', req.session.userRoles);
+					opts.userRoles = req.session.userRoles ;
+					opts.context   = req.session.context   ;
+					resolve (opts);
+				});
+			}
+			else {
+				console.log ('-- context unchanged, using existing');
+				resolve (opts);
+			}
+		}
+		else {
+			console.log ('-- no context passed in, using old');
+			resolve (opts);
+		}
+	});
+};
+var setModel = function (Dbclass) {
+	return function (req, res, next) {
+		console.log ('++++++++ this route is running');
+		setSessionContext (req)
+		.then (function (opts) {
+			req.Model = new Dbclass (opts);
+			next ();
+		});
+	};
+};
+exports.setModel = setModel;
+var runModel = function (f) {
+	return function (req, res, next) {
+		return runPromise (res, f (req.Model, req));
+	};
+};
+exports.runModel = runModel;
+
 // -------------------------------------------------------------------------
 //
 // a standard way of setting crud routes.
@@ -140,7 +211,10 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which) {
 	// middleware to auto-fetch parameter
 	//
 	app.param (basename, function (req, res, next, id) {
-		(new DBClass (req)).findById(id)
+		setSessionContext (req)
+		.then (function (opts) {
+			return (new DBClass (opts)).findById (id);
+		})
 		.then (function (model) {
 			if (!model) return sendNotFound (res, DBClass.prototype.name+' not found');
 			req[DBClass.prototype.name] = model;
@@ -153,59 +227,63 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which) {
 	//
 	// collection routes
 	//
-	if (r.query) app.route ('/api/query/'+basename).all (policy ({all:'user',get:'guest'}))
-		.put (function (req, res) {
-			runPromise (res, (new DBClass (req)).list (req.data));
-		})
-		.get(function(req, res) {
+	if (r.query) app.route ('/api/query/'+basename)
+		.all (policy ({all:'user',get:'guest'}))
+		.all (setModel (DBClass))
+		.put (runModel (function (model, req) {
+			return model.list (req.data);
+		}))
+		.get(runModel (function (model, req) {
 			var q = JSON.parse(JSON.stringify(req.query));
-			runPromise (res, (new DBClass (req)).list(q));
-		});
-	if (r.getall) app.route ('/api/'+basename).all (policy ({all:'user',get:'guest'}))
-		.get  (function (req, res) {
+			return model.list(q);
+		}));
+	if (r.getall) app.route ('/api/'+basename)
+		.all (policy ({all:'user',get:'guest'}))
+		.all (setModel (DBClass))
+		.get  (runModel (function (model, req) {
 			console.log ('++++++++ getall route is running');
-			runPromise (res, (new DBClass (req)).list ());
-		});
-	if (r.getall) app.route ('/api/write/'+basename).all (policy ({all:'user'}))
-		.get  (function (req, res) {
-			runPromise (res, (new DBClass (req)).listwrite ());
-		});
-	if (r.post) app.route ('/api/'+basename).all (policy ({all:'user',get:'guest'}))
-		.post (function (req, res) {
-			runPromise (res, (new DBClass (req)).create (req.body));
-		});
+			return model.list ();
+		}));
+	if (r.getall) app.route ('/api/write/'+basename)
+		.all (policy ({all:'user'}))
+		.all (setModel (DBClass))
+		.get  (runModel (function (model, req) {
+			return model.listwrite ();
+		}));
+	if (r.post) app.route ('/api/'+basename)
+		.all (policy ({all:'user',get:'guest'}))
+		.all (setModel (DBClass))
+		.post (runModel (function (model, req) {
+			return model.create (req.body);
+		}));
 	//
 	// model routes
 	//
-	if (r.get) app.route ('/api/'+basename+'/:'+basename).all (policy ({all:'user',get:'guest'}))
-		.get    (function (req, res) {
-			runPromise (res, (new DBClass (req)).read(req[DBClass.prototype.name]));
-		});
-	if (r.put) app.route ('/api/'+basename+'/:'+basename).all (policy ({all:'user',get:'guest'}))
-		.put    (function (req, res) {
-			runPromise (res, (new DBClass (req)).update(req[DBClass.prototype.name], req.body));
-		});
-	if (r.delete) app.route ('/api/'+basename+'/:'+basename).all (policy ({all:'user',get:'guest'}))
-		.delete (function (req, res) {
-			runPromise (res, (new DBClass (req)).delete(req[DBClass.prototype.name]));
-		});
-	if (r.new) app.route ('/api/new/'+basename).all (policy ({all:'user',get:'guest'}))
-		.get (function (req, res) {
-			runPromise (res, (new DBClass (req)).new());
-		});
+	if (r.get) app.route ('/api/'+basename+'/:'+basename)
+		.all (policy ({all:'user',get:'guest'}))
+		.all (setModel (DBClass))
+		.get    (runModel (function (model, req) {
+			return model.read(req[DBClass.prototype.name]);
+		}));
+	if (r.put) app.route ('/api/'+basename+'/:'+basename)
+		.all (policy ({all:'user',get:'guest'}))
+		.all (setModel (DBClass))
+		.put    (runModel (function (model, req) {
+			return model.update(req[DBClass.prototype.name], req.body);
+		}));
+	if (r.delete) app.route ('/api/'+basename+'/:'+basename)
+		.all (policy ({all:'user',get:'guest'}))
+		.all (setModel (DBClass))
+		.delete (runModel (function (model, req) {
+			return model.delete(req[DBClass.prototype.name]);
+		}));
+	if (r.new) app.route ('/api/new/'+basename)
+		.all (policy ({all:'user',get:'guest'}))
+		.all (setModel (DBClass))
+		.get (runModel (function (model, req) {
+			return model.new();
+		}));
 
-};
-
-exports.setModel = function (Dbclass) {
-	return function (req, res, next) {
-		req.Model = new Dbclass (req);
-		next ();
-	};
-};
-exports.runModel = function (f) {
-	return function (req, res, next) {
-		return runPromise (res, f (req.Model, req));
-	};
 };
 
 

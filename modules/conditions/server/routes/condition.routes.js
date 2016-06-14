@@ -17,8 +17,6 @@ module.exports = function (app) {
 		.all (policy ('guest'))
 		.all (routes.setModel (Condition))
 		.post (routes.runModel (function (model, req) {
-			console.log (req.context);
-			console.log (req.userRoles);
 			return model.nothing (req.body);
 		}));
 };

@@ -431,7 +431,7 @@ exports.getUserRoles = getUserRoles;
 //
 // -------------------------------------------------------------------------
 var getAllUserRoles = function (p) {
-	console.log (p.user);
+	console.log ('getting all user roles for user context: ',p);
 	return new Promise (function (resolve, reject) {
 		if (!p.user) {
 			//
