@@ -18,10 +18,27 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 	}
 ]);
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, _, MenuControl) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, _, MenuControl, $cookies) {
 
 	// Check authentication before changing state
 	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+		//
+		// if changing to this route indicates a change of context (from a security
+		// point of view) set the context cookie. Otherwise set it to application
+		//
+		console.log ('---- checking context in UI-route ----');
+		var context = 'application';
+		if (toState.context) {
+			console.log ('found context as ',toState.context);
+			var c = (_.isFunction (toState.context)) ? toState.context () : toState.context;
+			context = toParams[c] || 'application';
+			console.log ('setting context as ',context);
+		}
+		console.log ('setting cookie context as ',context);
+		$cookies.context = context;
+		//
+		// CCTBD : examine and likely remove this in lieu of new context based access
+		//
 		if (toState.data && toState.data.roles) {
 			if (_.isFunction (toState.data.roles)) toState.data.roles = toState.data.roles ();
 			if (toState.data.roles.length > 0) {
@@ -55,7 +72,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 							pattern = new RegExp('^' + role + '$');
 							break;
 					}
-					
+
 					if (Authentication.user.roles !== undefined) {
 						_.each(Authentication.user.roles, function(r) {
 							if (r.match(pattern)) {

@@ -49,10 +49,12 @@
 				</div>
 			</div>
 		</div>
+		<tmpl-artifact-display x-mode="'view'" x-artifact="vc.artifact" x-project="project"></tmpl-artifact-display>
+	</div>
 		
 		<div class="form-footer clearfix">
 			<a class="back-btn btn btn-link pull-left" ui-sref="p.vc.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Valued Components</a>
-			<a class="btn btn-default pull-right" ng-click="$event.stopPropagation()" ui-sref="p.vc.edit({vcId:o._id})">Edit</a>
+			<a class="btn btn-default pull-right" ng-click="$event.stopPropagation()" x-mode="'edit'" ui-sref="p.vc.edit({vcId:vc._id})">Edit</a>
 		</div>
 		
 	</div>

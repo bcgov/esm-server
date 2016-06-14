@@ -27,14 +27,16 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 	docLink.ids = [];
 
 	docLink.changeItem = function (docObj) {
-		var idx = $scope.current.indexOf(docObj._id);
-		// console.log(idx);
-		if (idx === -1) {
-			docLink.linkFiles.push(docObj);
-			$scope.current.push(docObj._id);
-		} else {
-			_.remove(docLink.linkFiles, {_id: docObj._id});
-			_.remove($scope.current, function(n) {return n === docObj._id;});
+		if ($scope.current) {
+			var idx = $scope.current.indexOf(docObj._id);
+			// console.log(idx);
+			if (idx === -1) {
+				docLink.linkFiles.push(docObj);
+				$scope.current.push(docObj._id);
+			} else {
+				_.remove(docLink.linkFiles, {_id: docObj._id});
+				_.remove($scope.current, function(n) {return n === docObj._id;});
+			}
 		}
 	};
 
@@ -115,7 +117,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 				});
 			} else {
 				Document.getProjectDocumentFolderNames(newValue._id).then( function(res) {
-					console.log("getProjectDocumentFolderNames",res.data);
+					// console.log("getProjectDocumentFolderNames",res.data);
 					docUpload.docFolderNames = res.data;
 				});
 			}
@@ -269,7 +271,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 							file.result = response.data;
 							// Generate a bunch of documentID's that need to be handled.
 							docUpload.documentList.push(response.data._id);
-							console.log("docUpload.documentList",docUpload.documentList);
+							// console.log("docUpload.documentList",docUpload.documentList);
 							// when the last file is finished, send complete event.
 							if (--docCount === 0) {
 								// emit to parent.
@@ -279,7 +281,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 								ArtifactModel.lookup(docUpload.selectedArtifact._id)
 								.then( function (art) {
 									// Little bit of synchronous magic!
-									console.log("artifact Found:",art);
+									// console.log("artifact Found:",art);
 									return docUpload.documentList.reduce (function (current, value, index) {
 										return current.then (function (data) {
 												// When we first enter, this is null.. since there was no previous

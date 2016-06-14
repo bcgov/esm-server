@@ -68,6 +68,74 @@ angular.module('artifacts')
 			project: '=',
 			artifact: '=',
 			mode: '='
+		},
+		controller: function ($scope, ArtifactModel, VcModel, _) {
+			$scope.removeVCArtifact = function (obj) {
+				// We've been asked to remove this VC artifact from the VC artifact collection
+				var mainArtifact = obj.mainArtifact;
+				var vcArtifact = obj.vcArtifact;
+				// Remove it from the main
+				ArtifactModel.lookup(mainArtifact)
+				.then( function (item) {
+					var index = _.findIndex(item.valuedComponents, function(o) {
+					    return vcArtifact === o._id;
+					});
+					if (index !== -1) {
+						// Remove it from the main
+						// console.log("index:", index);
+						item.valuedComponents.splice(index, 1);
+						$scope.artifact = item;
+						$scope.$apply();
+					}
+				});
+			};
+		}
+	};
+})
+.directive ('tmplArtifactVcList', function () {
+	return {
+		restrict: 'E',
+		templateUrl: 'modules/artifacts/client/views/artifact-display-vc-list.html',
+		scope: {
+			project: '=',
+			artifact: '=',
+			mode: '='
+		}
+	};
+})
+.directive ('tmplArtifactVcEdit', function () {
+	return {
+		restrict: 'E',
+		templateUrl: 'modules/artifacts/client/views/artifact-display-vc-edit.html',
+		scope: {
+			project: '=',
+			artifact: '=',
+			mode: '='
+		},
+		controller: function ($scope, $state, VcModel, ArtifactModel) {
+			// Set the other fields to the VC model
+			VcModel.lookup($scope.artifact.valuedComponents[0]._id)
+			.then( function (vc) {
+				$scope.vc = vc;
+				$scope.$apply();
+			});
+			$scope.save = function () {
+				if ($scope.artifact) {
+					VcModel.saveModel($scope.vc)
+					.then ( function (vc) {
+						return ArtifactModel.lookup($scope.artifact._id);
+					})
+					.then ( function (art) {
+						// console.log("art: ", art);
+						// Update the name of the artifact appropriately
+						art.name = $scope.vc.title;
+						return ArtifactModel.saveModel(art);
+					})
+					.then( function () {
+						$state.go ('p.vc.list', {reload: true});
+					});
+				}
+			};
 		}
 	};
 })

@@ -114,6 +114,11 @@ module.exports.initMiddleware = function (app) {
   //   });
   //   next();
   // });
+  //
+  // cc: middleware to deal with context
+  //
+
+
 
 };
 
@@ -227,6 +232,7 @@ module.exports.initErrorRoutes = function (app) {
     // Redirect to error page
     res.redirect('/server-error');
   });
+
 };
 
 /**
@@ -279,6 +285,7 @@ module.exports.init = function (db) {
 
   // Configure Socket.io
   app = this.configureSocketIO(app, db);
+
 
   return app;
 };

@@ -18,6 +18,7 @@ angular.module('complaints').config(['$stateProvider', function ($stateProvider)
 	.state('p.complaint', {
 		abstract:true,
 		url: '/complaint',
+		context: 'projectid',
 		template: '<ui-view></ui-view>',
 		resolve: {
 			complaints: function ($stateParams, ComplaintModel, project) {
@@ -27,9 +28,9 @@ angular.module('complaints').config(['$stateProvider', function ($stateProvider)
 				return VcModel.forProject(project._id);
 			}
 		},
-        onEnter: function (MenuControl, project) {
-					MenuControl.routeAccessBuilder (undefined, project.code, '*', ['ce-lead', 'ce-officer']);
-        }
+     //    onEnter: function (MenuControl, project) {
+					// MenuControl.routeAccessBuilder (undefined, project.code, '*', ['ce-lead', 'ce-officer']);
+     //    }
 
 	})
 	// -------------------------------------------------------------------------
@@ -131,6 +132,7 @@ angular.module('complaints').config(['$stateProvider', function ($stateProvider)
 	// -------------------------------------------------------------------------
 	.state('p.complaint.detail', {
 		url: '/:complaintId',
+		context: 'projectid',
 		templateUrl: 'modules/project-complaints/client/views/complaint-view.html',
 		resolve: {
 			complaint: function ($stateParams, ComplaintModel) {

@@ -15,6 +15,7 @@ angular.module('conditions').config(['$stateProvider', function ($stateProvider)
 	.state('admin.condition', {
 		data: {roles: ['admin','eao']},
 		abstract:true,
+		context: 'application',
 		url: '/condition',
 		template: '<ui-view></ui-view>',
 		resolve: {

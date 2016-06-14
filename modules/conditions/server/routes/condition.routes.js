@@ -4,11 +4,20 @@
 // Routes for conditions
 //
 // =========================================================================
-var policy  = require ('../policies/condition.policy');
 var Condition  = require ('../controllers/condition.controller');
-var helpers = require ('../../../core/server/controllers/core.helpers.controller');
+var routes = require ('../../../core/server/controllers/cc.routes.controller');
+var policy = require ('../../../core/server/controllers/cc.policy.controller');
 
 module.exports = function (app) {
-	helpers.setCRUDRoutes (app, 'condition', Condition, policy);
+	routes.setCRUDRoutes (app, 'condition', Condition, policy);
+	//
+	// set a project up from a stream
+	//
+	app.route ('/api/test/condition/route')
+		.all (policy ('guest'))
+		.all (routes.setModel (Condition))
+		.post (routes.runModel (function (model, req) {
+			return model.nothing (req.body);
+		}));
 };
 

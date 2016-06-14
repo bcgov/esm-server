@@ -6,6 +6,13 @@
 // =========================================================================
 module.exports = require ('../../../core/server/controllers/core.models.controller')
 .generateModel ('Project', {
+	__context             : {
+		defaultRoles: ['eao-admin','proponent-admin'],
+	},
+	__permissions: [
+		'viewSchedule',
+		'editSchedule'
+	],
 	__audit               : true,
 	__access              : true,
 	__tracking            : true,

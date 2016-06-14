@@ -237,6 +237,9 @@ exports.userCan = function (user, permission, thing) {
 // permissions
 //
 // -------------------------------------------------------------------------
+var returnOk = function (ok, res, next) {
+	return ok ? next () : res.status(403).json ({ message: 'User is not authorized' });
+};
 exports.isAllowed = function (acl, dbg) {
 	return function (req, res, next) {
 		var roles = (req.user) ? req.user.roles : ['guest'];
@@ -249,19 +252,31 @@ exports.isAllowed = function (acl, dbg) {
 				// An authorization error occurred.
 				return res.status(500).send('Unexpected authorization error');
 			} else {
-				if (isAllowed) {
-					// Access granted! Invoke next middleware
-					return next();
-				} else {
-					// console.log ('\n ++ the user was denied '+req.route.path+' '+req.method.toLowerCase()+'\n');
-					return res.status(403).json({
-						message: 'User is not authorized'
-					});
-				}
+				return returnOk (isAllowed, res, next);
+				// if (isAllowed) {
+				// 	// Access granted! Invoke next middleware
+				// 	return next();
+				// } else {
+				// 	// console.log ('\n ++ the user was denied '+req.route.path+' '+req.method.toLowerCase()+'\n');
+				// 	return res.status(403).json({
+				// 		message: 'User is not authorized'
+				// 	});
+				// }
 			}
 		});
 	};
 };
+
+exports.isAuthenticated = function (req, res, next) {
+	return returnOk (!!req.user, res, next);
+};
+exports.isAdmin = function (req, res, next) {
+	return returnOk ((!!req.user && _.indexOf (req.user.roles, 'admin')), res, next);
+};
+exports.isPublic = function (req, res, next) {
+	return next ();
+};
+
 
 // -------------------------------------------------------------------------
 //

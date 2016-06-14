@@ -5,7 +5,7 @@
 //
 // =========================================================================
 var path     = require('path');
-var DBModel   = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var DBModel   = require (path.resolve('./modules/core/server/controllers/cc.dbmodel.controller'));
 var _         = require ('lodash');
 
 module.exports = DBModel.extend ({
@@ -36,6 +36,11 @@ module.exports = DBModel.extend ({
 		model.stageString = model.stages.join (', ');
 		model.pillarString = model.pillars.join (', ');
 		return model;
+	},
+	nothing: function (someinput) {
+		return new Promise (function (resolve, reject) {
+			resolve ({ok:true});
+		});
 	}
 });
 

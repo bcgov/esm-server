@@ -421,7 +421,8 @@ module.exports = DBModel.extend ({
 					return Phase.complete (phase);
 				})
 				.then (function () {
-					resolve (project);
+					// This is where we should re-get the project and resolve/return it back
+					resolve (self.findOne({_id: project._id}));
 				})
 				.catch (reject);
 			}

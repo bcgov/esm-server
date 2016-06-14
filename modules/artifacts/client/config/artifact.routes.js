@@ -128,7 +128,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
 			$scope.$watchCollection ('artifact.maindocument', function (newval) {
 				if (!newval || newval.length === 0) return;
-				//console.log ('new collection:', newval);
+				//console.log ('nedw collection:', newval);
 				Document.getDocument (newval[0]).then (function (ret) {
 					$scope.artifact.document = ret.data;
 					//console.log ('doc is now', $scope.artifact.document);
