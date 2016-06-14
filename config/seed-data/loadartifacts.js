@@ -48,7 +48,12 @@ module.exports = function () {
 	})
 	.then (function () {
 		return promise.all (list.artifacttypes.map (function (artifacttype) {
-			artifacttype.isTemplate = true;
+			// Dont' force the template seed if it's false
+			if (artifacttype.hasOwnProperty("isTemplate")) {
+				artifacttype.isTemplate = artifacttype.isTemplate;
+			} else {
+				artifacttype.isTemplate = true;
+			}
 			artifacttype.stages = list.stages;
 			var a = new ArtifactType (artifacttype);
 			return a.save ();

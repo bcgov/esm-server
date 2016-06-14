@@ -327,9 +327,20 @@ angular.module('project').config (
 							size: 'lg'
 					});
 			};
-			$scope.ok = function (blah) {
-				console.log("here",blah);
-				MilestoneModel.save(blah).then(function (res) {
+			$scope.completeMilestone = function (milestoneId) {
+				MilestoneModel.completeMilestone(milestoneId)
+				.then(function (obj) {
+					$rootScope.$broadcast('refreshPhases', obj);
+				});
+			};
+			$scope.startMilestone = function (milestoneId) {
+				MilestoneModel.startMilestone(milestoneId)
+				.then(function (obj) {
+					$rootScope.$broadcast('refreshPhases', obj);
+				});
+			};
+			$scope.ok = function (obj) {
+				MilestoneModel.save(obj).then(function (res) {
 					// $modalInstance.dismiss();
 				});
 			};
@@ -351,7 +362,7 @@ angular.module('project').config (
 								};
 								myData.ok = function () {
 									MilestoneModel.save(myData.data).then(function (res) {
-										// console.log('saved');
+										$rootScope.$broadcast('refreshPhases', res);
 										$modalInstance.close();
 									}).catch(function (err) {
 										$modalInstance.dismiss('cancel');
@@ -379,6 +390,46 @@ angular.module('project').config (
 				self.project = newValue;
 				self.refresh();
 			});
+
+			$scope.isNextPhase = function (id) {
+				var index = -1;
+				_.each(self.project.phases, function(data, idx) {
+				   if (_.isEqual(data._id, self.project.currentPhase._id)) {
+				      index = idx;
+				      return;
+				   }
+				});
+				// Double check if this is the last phase for errors
+				if (index+1 >= self.project.phases.length)
+					return false;
+				if (self.project.phases[index+1]._id === id)
+					return true;
+			};
+
+			$scope.startNextPhase = function (project) {
+				ProjectModel.nextPhase(self.project)
+				.then( function (res) {
+					$scope.project = res;
+					$scope.$apply();
+				});
+			};
+
+			$scope.canCompletePhase = function (phase) {
+				if (phase.code === $scope.project.currentPhase.code && !$scope.project.currentPhase.completed) {
+					return true;
+				} else {
+					return false;
+				}
+			};
+
+			$scope.completeCurrentPhase = function (project) {
+				// Complete this particular phase
+				ProjectModel.completePhase(self.project)
+				.then( function (res) {
+					$scope.project = res;
+					$scope.$apply ();
+				});
+			};
 
 			$scope.popluatePhaseDropdown = function (phase) {
 				// console.log("populate phase on phase:",phase.code);
@@ -435,10 +486,11 @@ angular.module('project').config (
 				}
 				$scope.rMilestonesForPhase.push({"name": "Project Withdrawn",
 												 "code": "project-withdrawn"});
+				$scope.defaultOption = $scope.rMilestonesForPhase[0];
 			};
 
 			// Handle the add milestone
-			$scope.addMilestone = function(selectedMilestone) {
+			$scope.addMilestone = function(selectedMilestone, dateStarted, dateCompleted) {
 				// Just add a milestone, attach it to a specific phase - this is a generic
 				// schedule, which really doesn't follow the flow of anything.  It's just a
 				// Marker of sorts.  We will need to look this up when phases/milestones progress
@@ -448,7 +500,9 @@ angular.module('project').config (
 				MilestoneModel.add({
 					"code": selectedMilestone.code,
 					"name": selectedMilestone.name,
-					"phase": $scope.rSelPhase
+					"phase": $scope.rSelPhase,
+					"dateStartedEst": dateStarted,
+					"dateCompletedEst": dateCompleted
 				})
 				.then(function (ms) {
 					$scope.rSelPhase.milestone = ms;

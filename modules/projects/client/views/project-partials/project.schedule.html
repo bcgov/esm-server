@@ -22,16 +22,47 @@
 				<div id="phaseCollapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="phaseCollapseOne">
 					<div class="panel-body">
 						<div class="button-bar">
-							<button ng-if="phase.code !== 'pre-submission'" ng-click="popluatePhaseDropdown(phase)" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addMilestoneModal">Add Milestone</button>
-							<button ng-if="phase.code !== 'pre-submission'" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addCommentSessionModal">Add Comment Period</button>
+							<button ng-if="phase.code !== 'pre-submission'"
+									ng-click="popluatePhaseDropdown(phase)"
+									class="btn btn-default btn-sm"
+									data-toggle="modal"
+									data-target="#addMilestoneModal">Add Milestone</button>
+							<button ng-if="phase.code !== 'pre-submission'"
+									class="btn btn-default btn-sm"
+									data-toggle="modal"
+									data-target="#addCommentSessionModal">Add Comment Period</button>
+							<button class="btn btn-default btn-sm pull-right"
+									ng-click="completeCurrentPhase(project)"
+									ng-if="canCompletePhase(phase)"
+									data-toggle="modal"
+									data-target="#completePhaseModal">Complete Phase</button>
+							<button class="btn btn-default btn-sm pull-right"
+									ng-click="startNextPhase(project)"
+									ng-if="isNextPhase(phase._id)"
+									data-toggle="modal"
+									data-target="#completePhaseModal">Start Phase</button>
 						</div>
 						<table class="table project-milestones-comments">
+								<td>Name</td>
+								<td>Estimate</td>
+								<td>Actual</td>
+								<td>Status</td>
+								<td></td>
+								<td></td>
 							<tr ng-repeat="row in phase.milestones">
 								<td>{{row.name}}</td>
 								<td>{{row.dateStartedEst | date : format : timezone}} / {{row.dateCompletedEst | date : format : timezone}}</td>
+								<td>{{row.dateStarted | date : format : timezone}} / {{row.dateCompleted | date : format : timezone}}</td>
 								<td>{{row.status}}</td>
-								<!-- <td>-Template Link-</td> -->
-								<td class="button-col"><button class="btn btn-default btn-sm">BUTTON</button></td>
+								<!-- <td>-Template Link-</tdf> -->
+								<td class="button-col">
+									<button class="btn btn-default btn-sm"
+											ng-if="row.status === 'Not Started'"
+											ng-click="startMilestone(row._id)">Start Milestone</button>
+									<button class="btn label-success btn-default btn-sm"
+											ng-if="row.status === 'In Progress'"
+											ng-click="completeMilestone(row._id)">Complete Milestone</button>
+								</td>
 								<td class="actions-col">
 									<button class="btn btn-link">
 										<span class="glyphicon glyphicon-pencil"
@@ -73,6 +104,7 @@
 					<label>Select a Milestone</label>
 					<select class="form-control"
 							ng-model="selectedMilestoneType"
+							ng-init="selectedMilestoneType = rMilestonesForPhase[0]"
 							ng-options="milestone as milestone.name for milestone in rMilestonesForPhase">
 						<!-- <option ng-repeat="milestone in rMilestonesForPhase" value="{{ milestone.code }}">{{ milestone.name }}</option> -->
 					</select>
@@ -80,30 +112,23 @@
 				<div class="form-group has-error" ng-class="{'has-error': validateForm}">
 					<label>Date Range / Effective Date?</label>
 					<div class="date-range-control clearfix">
-						<div class="date-range input-group pull-left">
-							<span class="input-group-btn">
-								<button class="btn btn-default">
-									<span class="glyphicon glyphicon-calendar"></span>
-								</button>
-							</span>
-							<input class="form-control" type="text" placeholder="mm/dd/yyyy" />
+						<div class="date-range pull-left">
+							<div class="input-group">
+								<p x-modal-date-picker x-selected-date="dateStarted" class="btn form-control-static">{{ dateStarted | amDateFormat:'MMM Do YYYY' }} &nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i>&nbsp; &nbsp;</p>
+							</div>
 						</div>
 						<div class="pull-left spacer">-</div>
-						<div class="date-range input-group pull-left">
-							<span class="input-group-btn">
-								<button class="btn btn-default">
-									<span class="glyphicon glyphicon-calendar"></span>
-								</button>
-							</span>
-							<input class="form-control" type="text" placeholder="mm/dd/yyyy" />
+						<div class="date-range pull-left">
+							<div class="input-group">
+								<p x-modal-date-picker x-selected-date="dateCompleted" class="btn form-control-static">{{ dateCompleted | amDateFormat:'MMM Do YYYY' }} &nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i>&nbsp; &nbsp;</p>
+							</div>
 						</div>
 					</div>
-					<div class="help-block">Invalid Date Range Message</div>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				<button ng-click="addMilestone(selectedMilestoneType)" type="button" class="btn btn-primary" data-dismiss="modal">Add Milestone</button>
+				<button ng-click="addMilestone(selectedMilestoneType, dateStarted, dateCompleted)" type="button" class="btn btn-primary" data-dismiss="modal">Add Milestone</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

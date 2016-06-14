@@ -63,6 +63,32 @@ module.exports = function (app) {
 			.then (helpers.success(res), helpers.failure(res));
 		});
 	//
+	// start a specific milestone
+	//
+	app.route ('/api/milestone/complete/:milestoneid')
+		.all (policy.isAllowed)
+		.put (function (req, res) {
+			var m = new Milestone (req.user);
+			m.findById (req.params.milestoneid)
+			.then (function (milestone) {
+				return m.complete (milestone);
+			})
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	//
+	// complete a specific milestone
+	//
+	app.route ('/api/milestone/start/:milestoneid')
+		.all (policy.isAllowed)
+		.put (function (req, res) {
+			var m = new Milestone (req.user);
+			m.findById (req.params.milestoneid)
+			.then (function (milestone) {
+				return m.start (milestone);
+			})
+			.then (helpers.success(res), helpers.failure(res));
+		});
+	//
 	// all milestones for this project that the user can write
 	//
 	app.route ('/api/write/milestone/in/project/:project')
