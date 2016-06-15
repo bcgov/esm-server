@@ -706,7 +706,7 @@ angular.module('project').config (
 							"code": "project-withdrawn"
 						});
 				}
-				$scope.defaultOption = $scope.rMilestonesForPhase[0];
+				$scope.selectedMilestoneType = $scope.rMilestonesForPhase[0];
 			};
 
 			// Handle the add milestone
