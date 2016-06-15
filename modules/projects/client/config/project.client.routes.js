@@ -706,7 +706,25 @@ angular.module('project').config (
 							"code": "project-withdrawn"
 						});
 				}
+				// Always add free-text version
+				$scope.rMilestonesForPhase.push(
+					{
+						"name": "Custom Milestone",
+						"code": "custom-milestone"
+					});
 				$scope.selectedMilestoneType = $scope.rMilestonesForPhase[0];
+			};
+
+			$scope.selectedAMilestone = function(item) {
+				if (item) {
+					if (item.code === 'custom-milestone') {
+						// Disable the free-text
+						$scope.showCustom = true;
+					} else {
+						// Enable the free-text
+						$scope.showCustom = false;
+					}
+				}
 			};
 
 			// Handle the add milestone
@@ -717,6 +735,12 @@ angular.module('project').config (
 				// through the flow of the business in order to delete/reset these milestones.
 				// For now, this becomes a 'look ahead' schedule that staff can use to view
 				// the project 'plan'
+
+				// If they add a custom milestone, override the code and name here.
+				if (selectedMilestone.code === 'custom-milestone') {
+					selectedMilestone.code = $scope.customMilestoneText;
+					selectedMilestone.name = $scope.customMilestoneText;
+				}
 				MilestoneModel.add({
 					"code": selectedMilestone.code,
 					"name": selectedMilestone.name,

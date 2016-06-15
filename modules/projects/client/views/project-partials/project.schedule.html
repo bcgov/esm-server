@@ -104,9 +104,14 @@
 					<label>Select a Milestone</label>
 					<select class="form-control"
 							ng-model="selectedMilestoneType"
-							ng-options="milestone as milestone.name for milestone in rMilestonesForPhase">
+							ng-options="milestone as milestone.name for milestone in rMilestonesForPhase"
+							ng-selected="selectedAMilestone(selectedMilestoneType)">
 						<!-- <option ng-repeat="milestone in rMilestonesForPhase" value="{{ milestone.code }}">{{ milestone.name }}</option> -->
 					</select>
+				</div>
+				<div ng-show="showCustom" class="form-group">
+					<label class="control-label">Custom Milestone</label>
+					<input type="text" class="form-control" ng-model="customMilestoneText"/>
 				</div>
 				<div class="form-group has-error" ng-class="{'has-error': validateForm}">
 					<label>Date Range / Effective Date?</label>
