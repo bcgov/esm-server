@@ -411,6 +411,7 @@ angular.module('project').config (
 				.then( function (res) {
 					$scope.project = res;
 					$scope.$apply();
+					$rootScope.$broadcast('refreshPhases', res);
 				});
 			};
 
@@ -428,6 +429,7 @@ angular.module('project').config (
 				.then( function (res) {
 					$scope.project = res;
 					$scope.$apply ();
+					$rootScope.$broadcast('refreshPhases', res);
 				});
 			};
 
@@ -725,6 +727,19 @@ angular.module('project').config (
 						$scope.showCustom = false;
 					}
 				}
+			};
+
+			// User clicked on edit phase - store this.
+			$scope.selectPhaseForEdit = function (phase) {
+				$scope.selectedPhase = phase;
+			};
+
+			// Edit the phase data
+			$scope.savePhaseDetail = function () {
+				PhaseModel.save($scope.selectedPhase)
+				.then( function (obj) {
+					$rootScope.$broadcast('refreshPhases', obj);
+				});
 			};
 
 			// Handle the add milestone
