@@ -483,17 +483,64 @@ angular.module('project').config (
 													}];
 						break;
 					case "pre-app":
-						$scope.rMilestonesForPhase = [{"name": "Section 11 Order",
-													   "code": "section-11-order"},
-													  {"name": "Assessment Fee - Installment 1",
-													   "code": "assessment-fee-installment-1"},
-													  {"name": "Draft AIR Accepted",
-													   "code": "draft-air-accepted"},
-													  {"name": "Pre-App PCP Initiated",
-													   "code": "pre-app-pcp-initiated"},
-													  {"name": "AIR Finalized and Approved",
-													   "code": "air-finalized-and-approved"},
-													  ];
+						$scope.rMilestonesForPhase = [{
+										"name": "Section 11 Order",
+										"code": "section-11-order"
+									},{
+										"code": 'section-15-order',
+										"name": 'Section 15 Order - s.14 variance'
+									},{
+										"code": 'section-14-order',
+										"name": 'Section 14 Order'
+									},{
+										"code": 'section-13-order',
+										"name": 'Section 13 Order - s.11 variance'
+									}, {
+										"name": "Assessment Fee - Installment 1",
+										"code": "assessment-fee-installment-1"
+									}, {
+										"name": "Draft AIR Accepted",
+										"code": "draft-air-accepted"
+									}, {
+										"name": "Pre-App PCP Initiated",
+										"code": "pre-app-pcp-initiated"
+									}, {
+										"name": "AIR Finalized and Approved",
+										"code": "air-finalized-and-approved"
+									}, {
+										"code": 'assessment-suspension',
+										"name": 'Assessment Suspension - s.30.1'
+									}, {
+										"code": 'section-31-1-order',
+										"name": 'Section 31(1) Order - Vary the Assessment Process'
+									}, {
+										"code": 'section-34-1-order',
+										"name": 'Section 34(1) Order - Cease or Remedy Activity'
+									},{
+										"code": 'assessment-suspension',
+										"name": 'Assessment Suspension - s.30.1',
+									},{
+										"code": 'project-termination',
+										"name": 'Project Termination - s.24.3',
+									},{
+										"code": 'vc-finalized-and-approved',
+										"name": 'VC Finalized and Approved',
+									},{
+										"code": 'pre-app-pcp-completed',
+										"name": 'Pre-App PCP Completed',
+									},{
+										"code": 'pre-app-open-house-completed',
+										"name": 'Pre-App Open House Completed',
+									},{
+										"code": 'draft-vc-ready-for-commenting',
+										"name": 'Draft VC Ready for Commenting',
+									},{
+										"code": 'working-group-formed',
+										"name": 'Working Group Formed',
+									},{
+										"code": 'announce-project',
+										"name": 'Announce Project',
+									}];
 						break;
 					case "evaluation":
 						$scope.rMilestonesForPhase = [{"name": "Draft Application Submitted",

@@ -87,6 +87,21 @@ var baseObjects = {
 		description: 'Section 10(1)(c) Order',
 		artifactType: 'Section 10(1)(c) Order'
 	},{
+		code: 'section-15-order',
+		name: 'Section 15 Order - s.14 variance',
+		description: 'Section 15 Order - s.14 variance',
+		artifactType: 'Section 15 Order - s.14 variance'
+	},{
+		code: 'section-14-order',
+		name: 'Section 14 Order',
+		description: 'Section 14 Order',
+		artifactType: 'Section 14 Order'
+	},{
+		code: 'section-13-order',
+		name: 'Section 13 Order - s.11 variance',
+		description: 'Section 13 Order - s.11 variance',
+		artifactType: 'Section 13 Order - s.11 variance'
+	},{
 		code: 'section-11-order',
 		name: 'Section 11 Order',
 		description: 'Section 11 Order',
@@ -151,6 +166,46 @@ var baseObjects = {
 		name: 'Environmental Assessment Certificate',
 		description: 'Environmental Assessment Certificate',
 		artifactType: 'Environmental Assessment Certificate'
+	},{
+		code: 'assessment-suspension',
+		name: 'Assessment Suspension - s.30.1',
+		description: 'Assessment Suspension - s.30.1',
+		artifactType: 'Assessment Suspension - s.30.1'
+	},{
+		code: 'project-termination',
+		name: 'Project Termination - s.24.3',
+		description: 'Project Termination - s.24.3',
+		artifactType: 'Project Termination - s.24.3'
+	},{
+		code: 'vc-finalized-and-approved',
+		name: 'VC Finalized and Approved',
+		description: 'VC Finalized and Approved',
+		artifactType: 'VC Finalized and Approved'
+	},{
+		code: 'pre-app-pcp-completed',
+		name: 'Pre-App PCP Completed',
+		description: 'Pre-App PCP Completed',
+		artifactType: 'Pre-App PCP Completed'
+	},{
+		code: 'pre-app-open-house-completed',
+		name: 'Pre-App Open House Completed',
+		description: 'Pre-App Open House Completed',
+		artifactType: 'Pre-App Open House Completed'
+	},{
+		code: 'draft-vc-ready-for-commenting',
+		name: 'Draft VC Ready for Commenting',
+		description: 'Draft VC Ready for Commenting',
+		artifactType: 'Draft VC Ready for Commenting'
+	},{
+		code: 'working-group-formed',
+		name: 'Working Group Formed',
+		description: 'Working Group Formed',
+		artifactType: 'Working Group Formed'
+	},{
+		code: 'announce-project',
+		name: 'Announce Project',
+		description: 'Announce Project',
+		artifactType: 'Announce Project'
 	}],
 	"phases": [
 		{
