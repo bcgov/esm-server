@@ -42,45 +42,95 @@ var baseObjects = {
 		state: 'p.artifact.notify'
 	}],
 	"milestones": [{
-	    code: 'project-description',
-	    name: 'Project Description',
-	    description: 'Project Description',
-	    artifactType: 'Project Description'
+		code: 'new-project-initiated',
+		name: 'New Project Initiated',
+		description: 'New Project Initiated',
+		artifactType: 'New Project Initiated'
 	},{
-	    code: 'section-10-1-a-order',
-	    name: 'Section 10(1)(a) Order',
-	    description: 'Section 10(1)(a) Order',
-	    artifactType: 'Section 10(1)(a) Order'
+		code: 'project-deemed-reviewable',
+		name: 'Project Deemed Reviewable',
+		description: 'Project Deemed Reviewable',
+		artifactType: 'Project Deemed Reviewable'
 	},{
-	    code: 'section-10-1-b-order',
-	    name: 'Section 10(1)(b) Order',
-	    description: 'Section 10(1)(b) Order',
-	    artifactType: 'Section 10(1)(b) Order'
+		code: 'draft-project-description-submitted',
+		name: 'Draft Project Description Submitted',
+		description: 'Draft Project Description Submitted',
+		artifactType: 'Draft Project Description Submitted'
 	},{
-	    code: 'section-10-1-c-order',
-	    name: 'Section 10(1)(c) Order',
-	    description: 'Section 10(1)(c) Order',
-	    artifactType: 'Section 10(1)(c) Order'
+		code: 'project-description',
+		name: 'Project Description',
+		description: 'Project Description',
+		artifactType: 'Project Description'
 	},{
-	    code: 'section-11-order',
-	    name: 'Section 11 Order',
-	    description: 'Section 11 Order',
-	    artifactType: 'Section 11 Order'
+		code: 'public-comment-period-on-project-description',
+		name: 'Public Comment Period on Project Description',
+		description: 'Public Comment Period on Project Description',
+		artifactType: 'Public Comment Period on Project Description'
 	},{
-	    code: 'section-7-3-order',
-	    name: 'Section 7(3) Order',
-	    description: 'Section 7(3) Order',
-	    artifactType: 'Section 7(3) Order'
+		code: 'section-10-1-a-order',
+		name: 'Section 10(1)(a) Order',
+		description: 'Section 10(1)(a) Order',
+		artifactType: 'Section 10(1)(a) Order'
 	},{
-	    code: 'valued-component',
-	    name: 'Valued Component',
-	    description: 'Valued Component',
-	    artifactType: 'Valued Component'
+		code: 'section-10-1-b-order',
+		name: 'Section 10(1)(b) Order',
+		description: 'Section 10(1)(b) Order',
+		artifactType: 'Section 10(1)(b) Order'
 	},{
-	    code: 'valued-component-package',
-	    name: 'Valued Component Package',
-	    description: 'Valued Component Package',
-	    artifactType: 'Valued Component Package'
+		code: 'section-10-1-b-fee',
+		name: 'Section 10(1)(b) Fee',
+		description: 'Section 10(1)(b) Fee',
+		artifactType: 'Section 10(1)(b) Fee'
+	},{
+		code: 'section-10-1-c-order',
+		name: 'Section 10(1)(c) Order',
+		description: 'Section 10(1)(c) Order',
+		artifactType: 'Section 10(1)(c) Order'
+	},{
+		code: 'section-15-order',
+		name: 'Section 15 Order - s.14 variance',
+		description: 'Section 15 Order - s.14 variance',
+		artifactType: 'Section 15 Order - s.14 variance'
+	},{
+		code: 'section-14-order',
+		name: 'Section 14 Order',
+		description: 'Section 14 Order',
+		artifactType: 'Section 14 Order'
+	},{
+		code: 'section-13-order',
+		name: 'Section 13 Order - s.11 variance',
+		description: 'Section 13 Order - s.11 variance',
+		artifactType: 'Section 13 Order - s.11 variance'
+	},{
+		code: 'section-11-order',
+		name: 'Section 11 Order',
+		description: 'Section 11 Order',
+		artifactType: 'Section 11 Order'
+	},{
+		code: 'section-7-3-order',
+		name: 'Section 7(3) Order',
+		description: 'Section 7(3) Order',
+		artifactType: 'Section 7(3) Order'
+	},{
+		code: 'section-6-order',
+		name: 'Section 6 Order',
+		description: 'Section 6 Order',
+		artifactType: 'Section 6 Order'
+	},{
+		code: 'section-31-1-order',
+		name: 'Section 31(1) Order - Vary the Assessment Process',
+		description: 'Section 31 Order - Vary the Assessment Process',
+		artifactType: 'Section 31 Order - Vary the Assessment Process'
+	},{
+		code: 'valued-component',
+		name: 'Valued Component',
+		description: 'Valued Component',
+		artifactType: 'Valued Component'
+	},{
+		code: 'valued-component-package',
+		name: 'Valued Component Package',
+		description: 'Valued Component Package',
+		artifactType: 'Valued Component Package'
 	},{
 		code: 'section-11-schedule-a',
 		name: 'Section 11 Schedule A',
@@ -88,9 +138,9 @@ var baseObjects = {
 		artifactType: 'Section 11 Schedule A'
 	},{
 		code: 'section-34-order',
-		name: 'Section 34 Order',
-		description: 'Section 34 Order',
-		artifactType: 'Section 34 Order'
+		name: 'Section 34 Order - Cease or Remedy Activity',
+		description: 'Section 34 Order - Cease or Remedy Activity',
+		artifactType: 'Section 34 Order - Cease or Remedy Activity'
 	},{
 		code: 'section-36-order',
 		name: 'Section 36 Order',
@@ -116,6 +166,121 @@ var baseObjects = {
 		name: 'Environmental Assessment Certificate',
 		description: 'Environmental Assessment Certificate',
 		artifactType: 'Environmental Assessment Certificate'
+	},{
+		code: 'assessment-suspension',
+		name: 'Assessment Suspension - s.30.1',
+		description: 'Assessment Suspension - s.30.1',
+		artifactType: 'Assessment Suspension - s.30.1'
+	},{
+		code: 'project-termination',
+		name: 'Project Termination - s.24.3',
+		description: 'Project Termination - s.24.3',
+		artifactType: 'Project Termination - s.24.3'
+	},{
+		code: 'vc-finalized-and-approved',
+		name: 'VC Finalized and Approved',
+		description: 'VC Finalized and Approved',
+		artifactType: 'VC Finalized and Approved'
+	},{
+		code: 'pre-app-pcp-completed',
+		name: 'Pre-App PCP Completed',
+		description: 'Pre-App PCP Completed',
+		artifactType: 'Pre-App PCP Completed'
+	},{
+		code: 'pre-app-open-house-completed',
+		name: 'Pre-App Open House Completed',
+		description: 'Pre-App Open House Completed',
+		artifactType: 'Pre-App Open House Completed'
+	},{
+		code: 'application-review-pcp-completed',
+		name: 'Review PCP Completed',
+		description: 'Review PCP Completed',
+		artifactType: 'Review PCP Completed'
+	},{
+		code: 'application-review-open-house-completed',
+		name: 'Review Open House Completed',
+		description: 'Review Open House Completed',
+		artifactType: 'Review Open House Completed'
+	},{
+		code: 'draft-vc-ready-for-commenting',
+		name: 'Draft VC Ready for Commenting',
+		description: 'Draft VC Ready for Commenting',
+		artifactType: 'Draft VC Ready for Commenting'
+	},{
+		code: 'working-group-formed',
+		name: 'Working Group Formed',
+		description: 'Working Group Formed',
+		artifactType: 'Working Group Formed'
+	},{
+		code: 'announce-project',
+		name: 'Announce Project',
+		description: 'Announce Project',
+		artifactType: 'Announce Project'
+	},{
+		code: 'time-limit-extension-s-24-4',
+		name: 'Time Limit Extension - s.24.4',
+		description: 'Time Limit Extension - s.24.4',
+		artifactType: 'Time Limit Extension - s.24.4'
+	},{
+		code: 'time-limit-suspension-s-24-2',
+		name: 'Time Limit Suspension - s.24.2',
+		description: 'Time Limit Suspension - s.24.2',
+		artifactType: 'Time Limit Suspension - s.24.2'
+	},{
+		code: 'time-limit-extension-s-30-2',
+		name: 'Time Limit Extension - s.30.2',
+		description: 'Time Limit Extension - s.30.2',
+		artifactType: 'Time Limit Extension - s.30.2'
+	},{
+		code: 'ea-certificate-extension',
+		name: 'EA Certificate Extension',
+		description: 'EA Certificate Extension',
+		artifactType: 'EA Certificate Extension'
+	},{
+		code: 'ea-certificate-extension-fee',
+		name: 'EA Certificate Extension Fee',
+		description: 'EA Certificate Extension Fee',
+		artifactType: 'EA Certificate Extension Fee'
+	},{
+		code: 'ea-certificate-amendment',
+		name: 'EA Certificate Amendment',
+		description: 'EA Certificate Amendment',
+		artifactType: 'EA Certificate Amendment'
+	},{
+		code: 'ea-certificate-amendment-fee',
+		name: 'EA Certificate Amendment Fee',
+		description: 'EA Certificate Amendment Fee',
+		artifactType: 'EA Certificate Amendment Fee'
+	},{
+		code: 'ea-certificate-amendment-pcp-initiated',
+		name: 'EA Certificate Amendment PCP Initiated',
+		description: 'EA Certificate Amendment PCP Initiated',
+		artifactType: 'EA Certificate Amendment PCP Initiated'
+	},{
+		code: 'ea-certificate-amendment-open-house-completed',
+		name: 'EA Certificate Amendment Open House Completed',
+		description: 'EA Certificate Amendment Open House Completed',
+		artifactType: 'EA Certificate Amendment Open House Completed'
+	},{
+		code: 'ea-certificate-amendment-pcp-completed',
+		name: 'EA Certificate Amendment PCP Completed',
+		description: 'EA Certificate Amendment PCP Completed',
+		artifactType: 'EA Certificate Amendment PCP Completed'
+	},{
+		code: 'ea-certificate-cancellation-s-37-1',
+		name: 'EA Certificate Cancellation - s.37.1',
+		description: 'EA Certificate Cancellation - s.37.1',
+		artifactType: 'EA Certificate Cancellation - s.37.1'
+	},{
+		code: 'ea-certificate-expired-s-18-5',
+		name: 'EA Certificate Expired - s.18.5',
+		description: 'EA Certificate Expired - s.18.5',
+		artifactType: 'EA Certificate Expired - s.18.5'
+	},{
+		code: 'ea-certificate-suspension-s-37-1',
+		name: 'EA Certificate Suspension - s.37.1',
+		description: 'EA Certificate Suspension - s.37.1',
+		artifactType: 'EA Certificate Suspension - s.37.1'
 	}],
 	"phases": [
 		{
