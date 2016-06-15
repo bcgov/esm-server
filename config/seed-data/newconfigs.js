@@ -192,6 +192,16 @@ var baseObjects = {
 		description: 'Pre-App Open House Completed',
 		artifactType: 'Pre-App Open House Completed'
 	},{
+		code: 'application-review-pcp-completed',
+		name: 'Review PCP Completed',
+		description: 'Review PCP Completed',
+		artifactType: 'Review PCP Completed'
+	},{
+		code: 'application-review-open-house-completed',
+		name: 'Review Open House Completed',
+		description: 'Review Open House Completed',
+		artifactType: 'Review Open House Completed'
+	},{
 		code: 'draft-vc-ready-for-commenting',
 		name: 'Draft VC Ready for Commenting',
 		description: 'Draft VC Ready for Commenting',
@@ -206,6 +216,71 @@ var baseObjects = {
 		name: 'Announce Project',
 		description: 'Announce Project',
 		artifactType: 'Announce Project'
+	},{
+		code: 'time-limit-extension-s-24-4',
+		name: 'Time Limit Extension - s.24.4',
+		description: 'Time Limit Extension - s.24.4',
+		artifactType: 'Time Limit Extension - s.24.4'
+	},{
+		code: 'time-limit-suspension-s-24-2',
+		name: 'Time Limit Suspension - s.24.2',
+		description: 'Time Limit Suspension - s.24.2',
+		artifactType: 'Time Limit Suspension - s.24.2'
+	},{
+		code: 'time-limit-extension-s-30-2',
+		name: 'Time Limit Extension - s.30.2',
+		description: 'Time Limit Extension - s.30.2',
+		artifactType: 'Time Limit Extension - s.30.2'
+	},{
+		code: 'ea-certificate-extension',
+		name: 'EA Certificate Extension',
+		description: 'EA Certificate Extension',
+		artifactType: 'EA Certificate Extension'
+	},{
+		code: 'ea-certificate-extension-fee',
+		name: 'EA Certificate Extension Fee',
+		description: 'EA Certificate Extension Fee',
+		artifactType: 'EA Certificate Extension Fee'
+	},{
+		code: 'ea-certificate-amendment',
+		name: 'EA Certificate Amendment',
+		description: 'EA Certificate Amendment',
+		artifactType: 'EA Certificate Amendment'
+	},{
+		code: 'ea-certificate-amendment-fee',
+		name: 'EA Certificate Amendment Fee',
+		description: 'EA Certificate Amendment Fee',
+		artifactType: 'EA Certificate Amendment Fee'
+	},{
+		code: 'ea-certificate-amendment-pcp-initiated',
+		name: 'EA Certificate Amendment PCP Initiated',
+		description: 'EA Certificate Amendment PCP Initiated',
+		artifactType: 'EA Certificate Amendment PCP Initiated'
+	},{
+		code: 'ea-certificate-amendment-open-house-completed',
+		name: 'EA Certificate Amendment Open House Completed',
+		description: 'EA Certificate Amendment Open House Completed',
+		artifactType: 'EA Certificate Amendment Open House Completed'
+	},{
+		code: 'ea-certificate-amendment-pcp-completed',
+		name: 'EA Certificate Amendment PCP Completed',
+		description: 'EA Certificate Amendment PCP Completed',
+		artifactType: 'EA Certificate Amendment PCP Completed'
+	},{
+		code: 'ea-certificate-cancellation-s-37-1',
+		name: 'EA Certificate Cancellation - s.37.1',
+		description: 'EA Certificate Cancellation - s.37.1',
+		artifactType: 'EA Certificate Cancellation - s.37.1'
+	},{
+		code: 'ea-certificate-expired-s-18-5',
+		name: 'EA Certificate Expired - s.18.5',
+		description: 'EA Certificate Expired - s.18.5',
+		artifactType: 'EA Certificate Expired - s.18.5'
+	},{
+		code: 'ea-certificate-suspension-s-37-1',
+		name: 'EA Certificate Suspension - s.37.1',
+		description: 'EA Certificate Suspension - s.37.1',
+		artifactType: 'EA Certificate Suspension - s.37.1'
 	}],
 	"phases": [
 		{
