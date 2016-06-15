@@ -77,6 +77,14 @@ var expandRoles = function (p) {
 	});
 	return ps;
 };
+var addPublicRole = function (a) {
+	a.push ('public');
+	return a;
+};
+var addAllRole = function (a) {
+	a.push ('*');
+	return a;
+};
 
 // -------------------------------------------------------------------------
 //
@@ -100,7 +108,7 @@ var findRoles = function (q) {
 // -------------------------------------------------------------------------
 var createPermission = function (p) {
 	return new Promise (function (resolve, reject) {
-		console.log ('creating new permission', p);
+		// console.log ('creating new permission', p);
 		(new Permission (p)).save ().then (resolve, reject);
 	});
 };
@@ -144,6 +152,7 @@ var addPermissions = function (p) {
 		return addPermission (v);
 	}));
 };
+exports.addPermissions = addPermissions;
 // -------------------------------------------------------------------------
 //
 // remove a role from a permission for a resource
@@ -172,6 +181,19 @@ var deletePermissions = function (p) {
 		return deletePermission (v);
 	}));
 };
+exports.deletePermissions = deletePermissions;
+var deleteAllPermissions = function (p) {
+	//
+	// given a specific resource, delete all but the definitions
+	//
+	return new Promise (function (resolve, reject) {
+		Permission.remove ({
+			resource : p.resource,
+			role     : { $ne : null }
+		}).exec ().then (resolve, reject);
+	});
+};
+exports.deleteAllPermissions = deleteAllPermissions;
 // -------------------------------------------------------------------------
 //
 // Add a permission definition
@@ -241,6 +263,7 @@ var getPermissionList = function (o) {
 		.then (resolve, reject);
 	});
 };
+exports.getPermissionList = getPermissionList;
 // -------------------------------------------------------------------------
 //
 // get a list of all the permissions for a resource and all the roles
@@ -291,6 +314,7 @@ var addRoles = function (p) {
 		return addRole (v);
 	}));
 };
+exports.addRoles = addRoles;
 // -------------------------------------------------------------------------
 //
 // remove a user from a role for a context
@@ -415,7 +439,7 @@ var getRoleUsers = function (o) {
 //
 // -------------------------------------------------------------------------
 var getUserRoles = function (p) {
-	console.log (p.user);
+	// console.log (p.user);
 	if (p.user) {
 		return getRolesForContext (p).then (pluckRoles);
 	}
@@ -431,28 +455,31 @@ exports.getUserRoles = getUserRoles;
 //
 // -------------------------------------------------------------------------
 var getAllUserRoles = function (p) {
-	console.log ('getting all user roles for user context: ',p);
+	// console.log ('getting all user roles for user context: ',p);
 	return new Promise (function (resolve, reject) {
+		var listPromise;
 		if (!p.user) {
 			//
 			// no one, just public
 			//
-			resolve (['public']);
+			listPromise = Promise.resolve ([])
+			.then (addPublicRole);
 		}
 		else if (p.context === defaultResource) {
-			findRoles ({
+			listPromise = findRoles ({
 				context : p.context,
 				user    : p.user
 			})
 			.then (pluckAppRoles)
-			.then (resolve, reject);
+			.then (addPublicRole)
+			.then (addAllRole);
 		}
 		else {
 			//
 			// get this context as well as the parent (application)
 			//
 			var appRoles;
-			findRoles ({
+			listPromise = findRoles ({
 				context : defaultResource,
 				user    : p.user
 			})
@@ -468,8 +495,10 @@ var getAllUserRoles = function (p) {
 			.then (function (a) {
 				return a.concat (appRoles);
 			})
-			.then (resolve, reject);
+			.then (addPublicRole)
+			.then (addAllRole);
 		}
+		listPromise.then (resolve, reject);
 	});
 };
 exports.getAllUserRoles = getAllUserRoles;
@@ -481,7 +510,7 @@ exports.getAllUserRoles = getAllUserRoles;
 //
 // -------------------------------------------------------------------------
 var userPermissions = function (p) {
-	console.log (p.user);
+	// console.log (p.user);
 	return new Promise (function (resolve, reject) {
 		//
 		// now that we have the set of roles for the user within this
@@ -490,10 +519,13 @@ var userPermissions = function (p) {
 		//
 		getAllUserRoles (p)
 		.then (function (roleSet) {
+			//
+			// add the splat because of course
+			//
 			console.log ('roleSet = ', roleSet);
 			return findPermissions ({
 				resource : p.resource,
-				role : {$in : roleSet}
+				role     : {$in : roleSet}
 			});
 		})
 		.then (pluckPermissions)

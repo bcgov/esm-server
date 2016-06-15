@@ -37,8 +37,15 @@ module.exports = DBModel.extend ({
 		model.pillarString = model.pillars.join (', ');
 		return model;
 	},
-	nothing: function (someinput) {
+	nothing: function (condition) {
+		var self = this;
 		return new Promise (function (resolve, reject) {
+			console.log (condition);
+			self.addModelPermissions (condition, {
+				write: ['application:buddy'],
+				delete: ['application:buddy'],
+				modifyDescription: ['application:buddy']
+			});
 			resolve ({ok:true});
 		});
 	}

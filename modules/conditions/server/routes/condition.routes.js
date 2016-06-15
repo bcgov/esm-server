@@ -13,11 +13,11 @@ module.exports = function (app) {
 	//
 	// set a project up from a stream
 	//
-	app.route ('/api/test/condition/route')
+	app.route ('/api/test/condition/route/:condition')
 		.all (policy ('guest'))
 		.all (routes.setModel (Condition))
-		.post (routes.runModel (function (model, req) {
-			return model.nothing (req.body);
+		.get (routes.runModel (function (model, req) {
+			return model.nothing (req.Condition);
 		}));
 };
 

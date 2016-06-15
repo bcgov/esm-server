@@ -7,12 +7,13 @@ angular.module('users')
 // CONTROLLER: Authentication
 //
 // -----------------------------------------------------------------------------------
-controllerAuthentication.$inject = ['$scope', '$state', '$http', '$location', '$window', 'Authentication'];
+controllerAuthentication.$inject = ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'Application'];
 /* @ngInject */
-function controllerAuthentication($scope, $state, $http, $location, $window, Authentication) {
+function controllerAuthentication($scope, $state, $http, $location, $window, Authentication, Application) {
   var loginPanel = this;
 
   loginPanel.authentication = Authentication;
+  loginPanel.application = Application;
 
   // Get an eventual error defined in the URL query string:
   loginPanel.error = $location.search().err;
@@ -34,6 +35,10 @@ function controllerAuthentication($scope, $state, $http, $location, $window, Aut
     $http.post('/api/auth/signup', loginPanel.credentials).success(function (response) {
       // If successful we assign the response to the global user model
       loginPanel.authentication.user = response;
+      $http.get ('api/access/permissions/context/application/resource/application').success (function (response) {
+        loginPanel.application.userCan = {};
+        response.map (function (v) { loginPanel.application.userCan[v] = true; });
+      });
       // And redirect to the previous or home page
       $state.go($state.previous.state.name || 'projects', $state.previous.params);
     }).error(function (response) {
@@ -51,6 +56,10 @@ function controllerAuthentication($scope, $state, $http, $location, $window, Aut
     $http.post('/api/auth/signin', loginPanel.credentials).success(function (response) {
       // If successful we assign the response to the global user model
       loginPanel.authentication.user = response;
+      $http.get ('api/access/permissions/context/application/resource/application').success (function (response) {
+        loginPanel.application.userCan = {};
+        response.map (function (v) { loginPanel.application.userCan[v] = true; });
+      });
       // And redirect to the previous or home page
       $state.go('projects');
     }).error(function (response) {
