@@ -437,13 +437,50 @@ angular.module('project').config (
 				$scope.rMilestonesForPhase = [];
 				switch(phase.code) {
 					case "pre-ea":
-						$scope.rMilestonesForPhase = [{"name": "Project Description Accepted",
-													   "code": "project-description-accepted"},
-													  {"name": "Substitution Decision",
-													   "code": "substitution-decision"},
-													  {"name": "Section 10(1)c Order",
-													   "code": "section-10-1-c-order"},
-													  ];
+						$scope.rMilestonesForPhase = [
+													{
+														"code": 'new-project-initiated',
+														"name": 'New Project Initiated'
+													}, {
+														"code": 'project-deemed-reviewable',
+														"name": 'Project Deemed Reviewable'
+													}, {
+														"code": 'draft-project-description-submitted',
+														"name": 'Draft Project Description Submitted'
+													}, {
+														"code": 'public-comment-period-on-project-description',
+														"name": 'Public Comment Period on Project Description',
+													}, {
+														"name": "Draft Project Description Accepted",
+														"code": "draft-project-description-accepted"
+													}, {
+														"name": "Substitution Decision",
+														"code": "substitution-decision"
+													}, {
+														"code": 'section-6-order',
+														"name": 'Section 6 Order'
+													}, {
+														"code": 'section-7-3-order',
+														"name": 'Section 7(3) Order'
+													}, {
+														"code": 'section-10-1-a-order',
+														"name": 'Section 10(1)(a) Order'
+													}, {
+														"code": 'section-10-1-b-order',
+														"name": 'Section 10(1)(b) Order'
+													}, {
+														"code": 'section-10-1-b-fee',
+														"name": 'Section 10(1)(b) Fee'
+													}, {
+														"name": "Section 10(1)c Order",
+														"code": "section-10-1-c-order"
+													}, {
+														"code": 'section-31-1-order',
+														"name": 'Section 31(1) Order - Vary the Assessment Process'
+													}, {
+														"code": 'section-34-1-order',
+														"name": 'Section 34(1) Order - Cease or Remedy Activity'
+													}];
 						break;
 					case "pre-app":
 						$scope.rMilestonesForPhase = [{"name": "Section 11 Order",

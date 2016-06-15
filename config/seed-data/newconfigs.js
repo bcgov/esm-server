@@ -42,45 +42,80 @@ var baseObjects = {
 		state: 'p.artifact.notify'
 	}],
 	"milestones": [{
-	    code: 'project-description',
-	    name: 'Project Description',
-	    description: 'Project Description',
-	    artifactType: 'Project Description'
+		code: 'new-project-initiated',
+		name: 'New Project Initiated',
+		description: 'New Project Initiated',
+		artifactType: 'New Project Initiated'
 	},{
-	    code: 'section-10-1-a-order',
-	    name: 'Section 10(1)(a) Order',
-	    description: 'Section 10(1)(a) Order',
-	    artifactType: 'Section 10(1)(a) Order'
+		code: 'project-deemed-reviewable',
+		name: 'Project Deemed Reviewable',
+		description: 'Project Deemed Reviewable',
+		artifactType: 'Project Deemed Reviewable'
 	},{
-	    code: 'section-10-1-b-order',
-	    name: 'Section 10(1)(b) Order',
-	    description: 'Section 10(1)(b) Order',
-	    artifactType: 'Section 10(1)(b) Order'
+		code: 'draft-project-description-submitted',
+		name: 'Draft Project Description Submitted',
+		description: 'Draft Project Description Submitted',
+		artifactType: 'Draft Project Description Submitted'
 	},{
-	    code: 'section-10-1-c-order',
-	    name: 'Section 10(1)(c) Order',
-	    description: 'Section 10(1)(c) Order',
-	    artifactType: 'Section 10(1)(c) Order'
+		code: 'project-description',
+		name: 'Project Description',
+		description: 'Project Description',
+		artifactType: 'Project Description'
 	},{
-	    code: 'section-11-order',
-	    name: 'Section 11 Order',
-	    description: 'Section 11 Order',
-	    artifactType: 'Section 11 Order'
+		code: 'public-comment-period-on-project-description',
+		name: 'Public Comment Period on Project Description',
+		description: 'Public Comment Period on Project Description',
+		artifactType: 'Public Comment Period on Project Description'
 	},{
-	    code: 'section-7-3-order',
-	    name: 'Section 7(3) Order',
-	    description: 'Section 7(3) Order',
-	    artifactType: 'Section 7(3) Order'
+		code: 'section-10-1-a-order',
+		name: 'Section 10(1)(a) Order',
+		description: 'Section 10(1)(a) Order',
+		artifactType: 'Section 10(1)(a) Order'
 	},{
-	    code: 'valued-component',
-	    name: 'Valued Component',
-	    description: 'Valued Component',
-	    artifactType: 'Valued Component'
+		code: 'section-10-1-b-order',
+		name: 'Section 10(1)(b) Order',
+		description: 'Section 10(1)(b) Order',
+		artifactType: 'Section 10(1)(b) Order'
 	},{
-	    code: 'valued-component-package',
-	    name: 'Valued Component Package',
-	    description: 'Valued Component Package',
-	    artifactType: 'Valued Component Package'
+		code: 'section-10-1-b-fee',
+		name: 'Section 10(1)(b) Fee',
+		description: 'Section 10(1)(b) Fee',
+		artifactType: 'Section 10(1)(b) Fee'
+	},{
+		code: 'section-10-1-c-order',
+		name: 'Section 10(1)(c) Order',
+		description: 'Section 10(1)(c) Order',
+		artifactType: 'Section 10(1)(c) Order'
+	},{
+		code: 'section-11-order',
+		name: 'Section 11 Order',
+		description: 'Section 11 Order',
+		artifactType: 'Section 11 Order'
+	},{
+		code: 'section-7-3-order',
+		name: 'Section 7(3) Order',
+		description: 'Section 7(3) Order',
+		artifactType: 'Section 7(3) Order'
+	},{
+		code: 'section-6-order',
+		name: 'Section 6 Order',
+		description: 'Section 6 Order',
+		artifactType: 'Section 6 Order'
+	},{
+		code: 'section-31-1-order',
+		name: 'Section 31(1) Order - Vary the Assessment Process',
+		description: 'Section 31 Order - Vary the Assessment Process',
+		artifactType: 'Section 31 Order - Vary the Assessment Process'
+	},{
+		code: 'valued-component',
+		name: 'Valued Component',
+		description: 'Valued Component',
+		artifactType: 'Valued Component'
+	},{
+		code: 'valued-component-package',
+		name: 'Valued Component Package',
+		description: 'Valued Component Package',
+		artifactType: 'Valued Component Package'
 	},{
 		code: 'section-11-schedule-a',
 		name: 'Section 11 Schedule A',
@@ -88,9 +123,9 @@ var baseObjects = {
 		artifactType: 'Section 11 Schedule A'
 	},{
 		code: 'section-34-order',
-		name: 'Section 34 Order',
-		description: 'Section 34 Order',
-		artifactType: 'Section 34 Order'
+		name: 'Section 34 Order - Cease or Remedy Activity',
+		description: 'Section 34 Order - Cease or Remedy Activity',
+		artifactType: 'Section 34 Order - Cease or Remedy Activity'
 	},{
 		code: 'section-36-order',
 		name: 'Section 36 Order',
