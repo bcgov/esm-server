@@ -2,8 +2,15 @@
 
 	<div class="view-title-container no-border">
 		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Schedule</h1>
-	</div>{{filterList}}
+	</div>
 	<div class="view-body-container">
+		<div class="button-bar clearfix">
+			<div class="pull-left">
+				<button class="btn btn-default btn-sm" ng-click="addNextPhase()">
+					<span class="glyphicon glyphicon-plus"></span><span>Add Phase</span>
+				</button>
+			</div>
+		</div>
 		<div class="panel-group"
 			 id="phaseGroup"
 			 role="tablist"

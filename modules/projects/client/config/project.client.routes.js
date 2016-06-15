@@ -298,7 +298,7 @@ angular.module('project').config (
 	.state('p.schedule', {
 		url: '/schedule',
 		templateUrl: 'modules/projects/client/views/project-partials/project.schedule.html',
-		controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel, $modal) {
+		controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel, $modal, PhaseBaseModel) {
 			var self = this;
 			self.rPhases = undefined;
 			self.rSelPhase = undefined;
@@ -421,6 +421,18 @@ angular.module('project').config (
 				} else {
 					return false;
 				}
+			};
+
+			$scope.addNextPhase = function () {
+				// Find out the current phase, add the one after that.
+				PhaseBaseModel.getCollection().then( function(data) {
+					var nextPhase = data[$scope.project.phases.length];
+					ProjectModel.addPhase(nextPhase.code).then( function(data) {
+						$scope.project.phases = angular.copy(data.phases);
+						$rootScope.$broadcast('refreshPhases', $scope.project.phases);
+						$scope.$apply();
+					});
+				});
 			};
 
 			$scope.completeCurrentPhase = function (project) {
