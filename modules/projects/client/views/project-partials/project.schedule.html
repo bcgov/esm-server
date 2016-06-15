@@ -13,13 +13,13 @@
 			<!-- BEGIN: PROJECT PHASE CONTAINER -->
 			<div class="panel panel-default accordion">
 				<div class="panel-heading" role="tab" id="phaseOne">
-					<a class="clearfix" role="button" data-toggle="collapse" href="#phaseCollapseOne" aria-expanded="true" aria-controls="phaseCollapseOne">
+					<a class="clearfix" role="button" data-toggle="collapse" href="#{{phase.name}}" aria-expanded="true" aria-controls="{{phase.name}}">
 						<span class="glyphicon glyphicon-plus pull-left"></span>
                     	<span class="glyphicon glyphicon-minus pull-left"></span>
 						<span class="pull-left">{{phase.name}}</span>
 					</a>
 				</div>
-				<div id="phaseCollapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="phaseCollapseOne">
+				<div id="{{phase.name}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="{{phase.name}}">
 					<div class="panel-body">
 						<div class="button-bar">
 							<button ng-if="phase.code !== 'pre-submission'"
