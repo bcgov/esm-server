@@ -437,56 +437,276 @@ angular.module('project').config (
 				$scope.rMilestonesForPhase = [];
 				switch(phase.code) {
 					case "pre-ea":
-						$scope.rMilestonesForPhase = [{"name": "Project Description Accepted",
-													   "code": "project-description-accepted"},
-													  {"name": "Substitution Decision",
-													   "code": "substitution-decision"},
-													  {"name": "Section 10(1)c Order",
-													   "code": "section-10-1-c-order"},
-													  ];
+						$scope.rMilestonesForPhase = [
+							{
+								"code": 'new-project-initiated',
+								"name": 'New Project Initiated'
+							}, {
+								"code": 'project-deemed-reviewable',
+								"name": 'Project Deemed Reviewable'
+							}, {
+								"code": 'draft-project-description-submitted',
+								"name": 'Draft Project Description Submitted'
+							}, {
+								"code": 'public-comment-period-on-project-description',
+								"name": 'Public Comment Period on Project Description',
+							}, {
+								"name": "Draft Project Description Accepted",
+								"code": "draft-project-description-accepted"
+							}, {
+								"name": "Substitution Decision",
+								"code": "substitution-decision"
+							}, {
+								"code": 'section-6-order',
+								"name": 'Section 6 Order'
+							}, {
+								"code": 'section-7-3-order',
+								"name": 'Section 7(3) Order'
+							}, {
+								"code": 'section-10-1-a-order',
+								"name": 'Section 10(1)(a) Order'
+							}, {
+								"code": 'section-10-1-b-order',
+								"name": 'Section 10(1)(b) Order'
+							}, {
+								"code": 'section-10-1-b-fee',
+								"name": 'Section 10(1)(b) Fee'
+							}, {
+								"name": "Section 10(1)c Order",
+								"code": "section-10-1-c-order"
+							}, {
+								"code": 'section-31-1-order',
+								"name": 'Section 31(1) Order - Vary the Assessment Process'
+							}, {
+								"code": 'section-34-1-order',
+								"name": 'Section 34(1) Order - Cease or Remedy Activity'
+							}];
 						break;
 					case "pre-app":
-						$scope.rMilestonesForPhase = [{"name": "Section 11 Order",
-													   "code": "section-11-order"},
-													  {"name": "Assessment Fee - Installment 1",
-													   "code": "assessment-fee-installment-1"},
-													  {"name": "Draft AIR Accepted",
-													   "code": "draft-air-accepted"},
-													  {"name": "Pre-App PCP Initiated",
-													   "code": "pre-app-pcp-initiated"},
-													  {"name": "AIR Finalized and Approved",
-													   "code": "air-finalized-and-approved"},
-													  ];
+						$scope.rMilestonesForPhase = [{
+										"name": "Section 11 Order",
+										"code": "section-11-order"
+									},{
+										"code": 'section-15-order',
+										"name": 'Section 15 Order - s.14 variance'
+									},{
+										"code": 'section-14-order',
+										"name": 'Section 14 Order'
+									},{
+										"code": 'section-13-order',
+										"name": 'Section 13 Order - s.11 variance'
+									}, {
+										"name": "Assessment Fee - Installment 1",
+										"code": "assessment-fee-installment-1"
+									}, {
+										"name": "Draft AIR Accepted",
+										"code": "draft-air-accepted"
+									}, {
+										"name": "Pre-App PCP Initiated",
+										"code": "pre-app-pcp-initiated"
+									}, {
+										"name": "AIR Finalized and Approved",
+										"code": "air-finalized-and-approved"
+									}, {
+										"code": 'assessment-suspension',
+										"name": 'Assessment Suspension - s.30.1'
+									}, {
+										"code": 'section-31-1-order',
+										"name": 'Section 31(1) Order - Vary the Assessment Process'
+									}, {
+										"code": 'section-34-1-order',
+										"name": 'Section 34(1) Order - Cease or Remedy Activity'
+									},{
+										"code": 'assessment-suspension',
+										"name": 'Assessment Suspension - s.30.1',
+									},{
+										"code": 'project-termination',
+										"name": 'Project Termination - s.24.3',
+									},{
+										"code": 'vc-finalized-and-approved',
+										"name": 'VC Finalized and Approved',
+									},{
+										"code": 'pre-app-pcp-completed',
+										"name": 'Pre-App PCP Completed',
+									},{
+										"code": 'pre-app-open-house-completed',
+										"name": 'Pre-App Open House Completed',
+									},{
+										"code": 'draft-vc-ready-for-commenting',
+										"name": 'Draft VC Ready for Commenting',
+									},{
+										"code": 'working-group-formed',
+										"name": 'Working Group Formed',
+									},{
+										"code": 'announce-project',
+										"name": 'Announce Project',
+									}];
 						break;
 					case "evaluation":
-						$scope.rMilestonesForPhase = [{"name": "Draft Application Submitted",
-													   "code": "draft-application-submitted"},
-													  {"name": "Assessment Fee - Installment 2",
-													   "code": "assessment-fee-installment-2"}
-													  ];
+						$scope.rMilestonesForPhase = [
+							{
+								"name": "Draft Application Submitted",
+								"code": "draft-application-submitted"
+							}, {
+								"name": "Assessment Fee - Installment 2",
+								"code": "assessment-fee-installment-2"
+							}, {
+								"code": 'section-13-order',
+								"name": 'Section 13 Order - s.11 variance'
+							}, {
+								"code": 'section-15-order',
+								"name": 'Section 15 Order - s.14 variance'
+							}, {
+								"code": 'project-termination',
+								"name": 'Project Termination - s.24.3',
+							}, {
+								"code": 'section-31-1-order',
+								"name": 'Section 31(1) Order - Vary the Assessment Process'
+							}, {
+								"code": 'section-34-1-order',
+								"name": 'Section 34(1) Order - Cease or Remedy Activity'
+							},  {
+								"code": 'assessment-suspension',
+								"name": 'Assessment Suspension - s.30.1',
+							}, {
+								"code": 'time-limit-extension-s-24-4',
+								"name": 'Time Limit Extension - s.24.4',
+							}, {
+								"code": 'time-limit-suspension-s-24-2',
+								"name": 'Time Limit Suspension - s.24.2',
+							}, {
+								"code": 'time-limit-suspension-s-30-2',
+								"name": 'Time Limit Suspension - s.30.2',
+							}];
 						break;
 					case "application-review":
-						$scope.rMilestonesForPhase = [{"name": "Application Accepted",
-													   "code": "application-accepted"},
-													  {"name": "Review PCP Initiated",
-													   "code": "review-pcp-initiated"},
-													  ];
+						$scope.rMilestonesForPhase = [
+							{
+								"name": "Application Accepted",
+								"code": "application-accepted"
+							}, {
+								"name": "Review PCP Initiated",
+								"code": "review-pcp-initiated"
+							}, {
+								"code": 'application-review-pcp-completed',
+								"name": 'Review PCP Completed',
+							}, {
+								"code": 'application-review-open-house-completed',
+								"name": 'Review Open House Completed',
+							}, {
+								"code": 'section-13-order',
+								"name": 'Section 13 Order - s.11 variance'
+							}, {
+								"code": 'section-15-order',
+								"name": 'Section 15 Order - s.14 variance'
+							}, {
+								"code": 'project-termination',
+								"name": 'Project Termination - s.24.3',
+							}, {
+								"code": 'section-31-1-order',
+								"name": 'Section 31(1) Order - Vary the Assessment Process'
+							}, {
+								"code": 'section-34-1-order',
+								"name": 'Section 34(1) Order - Cease or Remedy Activity'
+							},  {
+								"code": 'assessment-suspension',
+								"name": 'Assessment Suspension - s.30.1',
+							}, {
+								"code": 'time-limit-extension-s-24-4',
+								"name": 'Time Limit Extension - s.24.4',
+							}, {
+								"code": 'time-limit-suspension-s-24-2',
+								"name": 'Time Limit Suspension - s.24.2',
+							}, {
+								"code": 'time-limit-suspension-s-30-2',
+								"name": 'Time Limit Suspension - s.30.2',
+							}
+						  ];
 						break;
 					case "decision":
-						$scope.rMilestonesForPhase = [{"name": "Minister's Decision Package Delivered",
-													   "code": "ministers-decision-package-delivered"}];
+						$scope.rMilestonesForPhase = [
+							{
+								"name": "Minister's Decision Package Delivered",
+								"code": "ministers-decision-package-delivered"
+							}, {
+								"code": 'project-termination',
+								"name": 'Project Termination - s.24.3',
+							}, {
+								"code": 'section-31-1-order',
+								"name": 'Section 31(1) Order - Vary the Assessment Process'
+							}, {
+								"code": 'section-34-1-order',
+								"name": 'Section 34(1) Order - Cease or Remedy Activity'
+							},  {
+								"code": 'assessment-suspension',
+								"name": 'Assessment Suspension - s.30.1',
+							}, {
+								"code": 'time-limit-extension-s-24-4',
+								"name": 'Time Limit Extension - s.24.4',
+							}, {
+								"code": 'time-limit-suspension-s-24-2',
+								"name": 'Time Limit Suspension - s.24.2',
+							}, {
+								"code": 'time-limit-suspension-s-30-2',
+								"name": 'Time Limit Suspension - s.30.2',
+							}];
 						break;
 					case "post-certification":
-						$scope.rMilestonesForPhase = [{"name": "Certificate Issued - s.17",
-													   "code": "certificate-issued-s.17"},
-													  {"name": "Substantially Started Decision",
-													   "code": "substantially-started-decision"}
-													   ];
+						$scope.rMilestonesForPhase = [
+						{
+							"name": "Certificate Issued - s.17",
+							"code": "certificate-issued-s.17"
+						}, {
+							"name": "Substantially Started Decision",
+							"code": "substantially-started-decision"
+						}, {
+							"code": 'section-31-1-order',
+							"name": 'Section 31(1) Order - Vary the Assessment Process'
+						}, {
+							"code": 'section-34-1-order',
+							"name": 'Section 34(1) Order - Cease or Remedy Activity'
+						},{
+							"code": 'ea-certificate-extension',
+							"name": 'EA Certificate Extension',
+						},{
+							"code": 'ea-certificate-extension-fee',
+							"name": 'EA Certificate Extension Fee',
+						},{
+							"code": 'ea-certificate-amendment',
+							"name": 'EA Certificate Amendment',
+						},{
+							"code": 'ea-certificate-amendment-fee',
+							"name": 'EA Certificate Amendment Fee',
+						},{
+							"code": 'ea-certificate-amendment-pcp-initiated',
+							"name": 'EA Certificate Amendment PCP Initiated',
+						},{
+							"code": 'ea-certificate-amendment-open-house-completed',
+							"name": 'EA Certificate Amendment Open House Completed',
+						},{
+							"code": 'ea-certificate-amendment-pcp-completed',
+							"name": 'EA Certificate Amendment PCP Completed',
+						},{
+							"code": 'ea-certificate-cancellation-s-37-1',
+							"name": 'EA Certificate Cancellation - s.37.1',
+						},{
+							"code": 'ea-certificate-expired-s-18-5',
+							"name": 'EA Certificate Expired - s.18.5',
+						},{
+							"code": 'ea-certificate-suspension-s-37-1',
+							"name": 'EA Certificate Suspension - s.37.1',
+						}];
 						break;
 				}
-				$scope.rMilestonesForPhase.push({"name": "Project Withdrawn",
-												 "code": "project-withdrawn"});
-				$scope.defaultOption = $scope.rMilestonesForPhase[0];
+				// Add this to everything except:
+				if (phase.code !== 'post-certification') {
+					$scope.rMilestonesForPhase.push(
+						{
+							"name": "Project Withdrawn",
+							"code": "project-withdrawn"
+						});
+				}
+				$scope.selectedMilestoneType = $scope.rMilestonesForPhase[0];
 			};
 
 			// Handle the add milestone
@@ -507,7 +727,11 @@ angular.module('project').config (
 				.then(function (ms) {
 					$scope.rSelPhase.milestone = ms;
 					$scope.rSelPhase.milestones.push(ms);
-					PhaseModel.save($scope.rSelPhase);
+					PhaseModel.save($scope.rSelPhase)
+					.then( function (newPhase) {
+						// console.log("newphase:", newPhase);
+						$rootScope.$broadcast('refreshPhases', newPhase);
+					});
 				});
 			};
 			// Handle the delete milestone
