@@ -48,7 +48,8 @@ angular.module('conditions').config(['$stateProvider', function ($stateProvider)
 	.state('admin.condition.list', {
 		url: '/list',
 		templateUrl: 'modules/conditions/client/views/condition-list.html',
-		controller: function ($scope, NgTableParams, conditions, pillars, projecttypes, stages, MenuControl) {
+		controller: function ($scope, NgTableParams, conditions, pillars, projecttypes, stages, MenuControl, Application) {
+			// console.log ('app.usercan = ',Application.userCan);
 			$scope.ptypes = projecttypes;
 			$scope.showedit = MenuControl.userHasOne(['admin','qa-officer', 'ce-lead', 'ce-officer']);
 			$scope.stypes = stages;
