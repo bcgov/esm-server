@@ -727,7 +727,11 @@ angular.module('project').config (
 				.then(function (ms) {
 					$scope.rSelPhase.milestone = ms;
 					$scope.rSelPhase.milestones.push(ms);
-					PhaseModel.save($scope.rSelPhase);
+					PhaseModel.save($scope.rSelPhase)
+					.then( function (newPhase) {
+						// console.log("newphase:", newPhase);
+						$rootScope.$broadcast('refreshPhases', newPhase);
+					});
 				});
 			};
 			// Handle the delete milestone
