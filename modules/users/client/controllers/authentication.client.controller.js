@@ -35,10 +35,6 @@ function controllerAuthentication($scope, $state, $http, $location, $window, Aut
     $http.post('/api/auth/signup', loginPanel.credentials).success(function (response) {
       // If successful we assign the response to the global user model
       loginPanel.authentication.user = response;
-      $http.get ('api/access/permissions/context/application/resource/application').success (function (response) {
-        loginPanel.application.userCan = {};
-        response.map (function (v) { loginPanel.application.userCan[v] = true; });
-      });
       // And redirect to the previous or home page
       $state.go($state.previous.state.name || 'projects', $state.previous.params);
     }).error(function (response) {
@@ -56,10 +52,6 @@ function controllerAuthentication($scope, $state, $http, $location, $window, Aut
     $http.post('/api/auth/signin', loginPanel.credentials).success(function (response) {
       // If successful we assign the response to the global user model
       loginPanel.authentication.user = response;
-      $http.get ('api/access/permissions/context/application/resource/application').success (function (response) {
-        loginPanel.application.userCan = {};
-        response.map (function (v) { loginPanel.application.userCan[v] = true; });
-      });
       // And redirect to the previous or home page
       $state.go('projects');
     }).error(function (response) {
