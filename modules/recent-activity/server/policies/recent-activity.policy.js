@@ -12,7 +12,8 @@ exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'recentActivity');
 	helpers.setPathPermissions (acl, [
 		[ 'guest', 'user', '/api/recentactivity/active/list'],
-		[ 'guest', 'user', '/api/recentactivity/active/rss']
+		[ 'guest', 'user', '/api/recentactivity/active/rss'],
+		[ 'guest', 'user', '/api/recentactivity/get/rss/:projectcode']
 	]);	
 };
 
