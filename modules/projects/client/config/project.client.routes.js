@@ -298,7 +298,7 @@ angular.module('project').config (
 	.state('p.schedule', {
 		url: '/schedule',
 		templateUrl: 'modules/projects/client/views/project-partials/project.schedule.html',
-		controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel, $modal) {
+		controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel, $modal, PhaseBaseModel) {
 			var self = this;
 			self.rPhases = undefined;
 			self.rSelPhase = undefined;
@@ -411,6 +411,7 @@ angular.module('project').config (
 				.then( function (res) {
 					$scope.project = res;
 					$scope.$apply();
+					$rootScope.$broadcast('refreshPhases', res);
 				});
 			};
 
@@ -422,12 +423,25 @@ angular.module('project').config (
 				}
 			};
 
+			$scope.addNextPhase = function () {
+				// Find out the current phase, add the one after that.
+				PhaseBaseModel.getCollection().then( function(data) {
+					var nextPhase = data[$scope.project.phases.length];
+					ProjectModel.addPhase(nextPhase.code).then( function(data) {
+						$scope.project.phases = angular.copy(data.phases);
+						$rootScope.$broadcast('refreshPhases', $scope.project.phases);
+						$scope.$apply();
+					});
+				});
+			};
+
 			$scope.completeCurrentPhase = function (project) {
 				// Complete this particular phase
 				ProjectModel.completePhase(self.project)
 				.then( function (res) {
 					$scope.project = res;
 					$scope.$apply ();
+					$rootScope.$broadcast('refreshPhases', res);
 				});
 			};
 
@@ -706,7 +720,38 @@ angular.module('project').config (
 							"code": "project-withdrawn"
 						});
 				}
+				// Always add free-text version
+				$scope.rMilestonesForPhase.push(
+					{
+						"name": "Custom Milestone",
+						"code": "custom-milestone"
+					});
 				$scope.selectedMilestoneType = $scope.rMilestonesForPhase[0];
+			};
+
+			$scope.selectedAMilestone = function(item) {
+				if (item) {
+					if (item.code === 'custom-milestone') {
+						// Disable the free-text
+						$scope.showCustom = true;
+					} else {
+						// Enable the free-text
+						$scope.showCustom = false;
+					}
+				}
+			};
+
+			// User clicked on edit phase - store this.
+			$scope.selectPhaseForEdit = function (phase) {
+				$scope.selectedPhase = phase;
+			};
+
+			// Edit the phase data
+			$scope.savePhaseDetail = function () {
+				PhaseModel.save($scope.selectedPhase)
+				.then( function (obj) {
+					$rootScope.$broadcast('refreshPhases', obj);
+				});
 			};
 
 			// Handle the add milestone
@@ -717,6 +762,12 @@ angular.module('project').config (
 				// through the flow of the business in order to delete/reset these milestones.
 				// For now, this becomes a 'look ahead' schedule that staff can use to view
 				// the project 'plan'
+
+				// If they add a custom milestone, override the code and name here.
+				if (selectedMilestone.code === 'custom-milestone') {
+					selectedMilestone.code = $scope.customMilestoneText;
+					selectedMilestone.name = $scope.customMilestoneText;
+				}
 				MilestoneModel.add({
 					"code": selectedMilestone.code,
 					"name": selectedMilestone.name,

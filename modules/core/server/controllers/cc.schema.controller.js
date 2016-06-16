@@ -104,9 +104,21 @@ var decorate = {
 		definition.delete      = [ {type:String} ];
 		definition.isPublished = {type:Boolean, default:false, index:true};
 		//
-		// this gets populated each time a record is pulled singally
+		// this gets populated each time a record is pulled singley
+		// the main definition though is just the entire set false
 		//
-		definition.userCan     = {};
+		// TBD : if there is a requirement to search form these values
+		// then they choudl each be made into indexes as well in the same
+		// way that read, write, delete are
+		//
+		definition.userCan     = {
+			read : { type:Boolean, default:false },
+			write: { type:Boolean, default:false },
+			delete: { type:Boolean, default:false }
+		};
+		_.each (v, function (pname) {
+			definition.userCan[pname] = { type:Boolean, default:false };
+		});
 		definition.methods__.publish = function () {
 			this.read = _.union (this.read, ['public']);
 			this.isPublished = true;
@@ -118,18 +130,34 @@ var decorate = {
 			this.isPublished = false;
 			this.markModified ('read');
 		};
-		// definition.methods__.decoratePermissions = function (context, user) {
-		// 	var self = this;
-		// 	var ps = access.userPermissions ({
-		// 		context  : context,
-		// 		user     : user.username,
-		// 		resource : this._id
-		// 	});
-		// 	self.userCan = {};
-		// 	ps.map (function (perm) {
-		// 		self.userCan[perm] = true;
-		// 	});
-		// };
+		definition.methods__.addRoles = function (pObject) {
+			var self = this;
+			_.each (pObject, function (p, i) {
+				self[i] = _.union (self[i], p);
+			});
+			this.markModified ('read');
+			this.markModified ('write');
+			this.markModified ('delete');
+		};
+		definition.methods__.removeRoles = function (pObject) {
+			var self = this;
+			_.each (pObject, function (p, i) {
+				_.remove (self[i], function (val) {
+					return _.indexOf (p, val) !== -1;
+				});
+			});
+			this.markModified ('read');
+			this.markModified ('write');
+			this.markModified ('delete');
+		};
+		definition.methods__.setRoles = function (pObject) {
+			this.read   = pObject.read   || [] ;
+			this.write  = pObject.write  || [] ;
+			this.delete = pObject.delete || [] ;
+			this.markModified ('read');
+			this.markModified ('write');
+			this.markModified ('delete');
+		};
 		definition.indexes__.push ({ read: 1 });
 		definition.indexes__.push ({ write: 1 });
 		definition.indexes__.push ({ delete: 1 });

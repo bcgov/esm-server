@@ -11,7 +11,8 @@ var helpers  = require (require('path').resolve('./modules/core/server/controlle
 exports.invokeRolesPolicies = function () {
 	helpers.setCRUDPermissions (acl, 'recentActivity');
 	helpers.setPathPermissions (acl, [
-		[ 'guest', 'user', '/api/recentactivity/active/list']
+		[ 'guest', 'user', '/api/recentactivity/active/list'],
+		[ 'guest', 'user', '/api/recentactivity/active/rss']
 	]);	
 };
 

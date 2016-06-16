@@ -124,12 +124,15 @@ exports.streamFile = function (res, file, name, mime) {
 // exports.queryResponse    = queryResponse;
 // exports.getErrorMessage  = getErrorMessage;
 
-exports.setModelOld = function (Dbclass) {
-	return function (req, res, next) {
-		req.Model = new Dbclass (req);
-		next ();
-	};
-};
+// -------------------------------------------------------------------------
+//
+// this deals with all the mess of setting the context, user, roles, etc in
+// the session and thereby avoids having to constantly retrive them
+// Basically, if the context changes, retrieve the user's contextual roles
+// and place them in the session.  Otherwise, just get the current ones
+// from the sesion and resolve with those
+//
+// -------------------------------------------------------------------------
 var setSessionContext = function (req) {
 	return new Promise (function (resolve, reject) {
 		//
@@ -176,6 +179,14 @@ var setSessionContext = function (req) {
 		}
 	});
 };
+// -------------------------------------------------------------------------
+//
+// this takes in a dbmodel class and makes it new and sets it on the request
+// just like any good middleware would. it ensures that the contextual
+// session stuff happens and passes all the correct stuff into the new
+// model so that the user has the correct security context
+//
+// -------------------------------------------------------------------------
 var setModel = function (Dbclass) {
 	return function (req, res, next) {
 		console.log ('++++++++ this route is running');
@@ -187,6 +198,15 @@ var setModel = function (Dbclass) {
 	};
 };
 exports.setModel = setModel;
+// -------------------------------------------------------------------------
+//
+// this is a nice shorthard for working with the dbmodel set on the request
+// it simply takes the result of whatever function is passed into it and
+// runs it as a promise.
+// the function called must have the signature:
+// function (model, request) { return promise; }
+//
+// -------------------------------------------------------------------------
 var runModel = function (f) {
 	return function (req, res, next) {
 		return runPromise (res, f (req.Model, req));
@@ -199,8 +219,9 @@ exports.runModel = runModel;
 // a standard way of setting crud routes.
 // basename is the uri token: /api/basename/:basename
 // DBClass is the database model as extended from DBModel
-// policy is the policy of course
-// which denotes which routes to open, if not specified it defaults to all
+// policy is the policy of course (the simplified one)
+//
+// if only certain routes are to be opened, specify them in the which array
 //
 // -------------------------------------------------------------------------
 exports.setCRUDRoutes = function (app, basename, DBClass, policy, which) {
@@ -283,7 +304,6 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which) {
 		.get (runModel (function (model, req) {
 			return model.new();
 		}));
-
 };
 
 
