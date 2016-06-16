@@ -30,7 +30,10 @@
 
   <!-- Fav Icon -->
   <link href="{{url}}{{favicon}}" rel="shortcut icon" type="image/x-icon">
-
+  <link href="http://localhost:3000/api/recentactivity/active/rss"
+        rel="alternate"
+        type="application/rss+xml"
+        title="News & Announcements for the Environmental Assessment Office" />
 
   <!-- Application CSS Files -->
   {% for cssFile in cssFiles %}<link rel="stylesheet" href="{{cssFile}}">{% endfor %}
