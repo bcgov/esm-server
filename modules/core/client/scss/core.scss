@@ -240,29 +240,14 @@ h3 .small .label {
 	font-weight: 500;
 }
 
-section {
-	h2 {
-		margin-top: 0.5rem;
-		margin-bottom: 1.5rem;
-		font-size: 2.4rem;
-		text-decoration: 0 0 1px #FFF;
-	}
-
-	h3 {
-		font-size: 1.8rem;
-	}
-
-	a {
-		text-decoration: underline;
-	}
-}
-
 
  .col-0 {
  	width: 0;
  	margin: 0;
  	overflow: hidden;
  }
+
+ 
 // -------------------------
 // HELPER CLASSES...
 // -------------------------
@@ -2612,6 +2597,71 @@ textarea {
 	
 	input {
 		margin-top: 2px;
+	}
+}
+
+
+/* INFOBLOCKS 
+------------------------------ */
+.info-block {
+	margin-bottom: 2rem;
+	padding: 1.5rem 2rem;
+	background: #FFF;
+	box-shadow: 0 0 4px #CCC;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	h2 {
+		margin-top: 0.5rem;
+		margin-bottom: 1.5rem;
+		font-size: 2rem;
+		font-weight: bold;
+		text-decoration: 0 0 1px #FFF;
+	}
+
+	h3 {
+		font-size: 1.6rem;
+	}
+
+	p, ol, ul {
+		margin: 1.5rem 0;
+		font-size: 1.4rem;	
+		line-height: 2rem;
+	}
+
+	ol, ul {
+		padding-left: 3rem;
+	}
+
+	li {
+		padding-left: 0.5rem;
+	}
+
+	.content-link {
+		text-decoration: underline;
+	}
+}
+
+@media (min-width: 768px) {
+	.info-block {
+		padding: 2rem 2.5rem;
+
+		h2 {
+			margin-bottom: 1.5rem;
+			font-size: 2.2rem;
+		}
+
+		h3 {
+			font-size: 1.8rem;
+		}
+
+		p, ol, ul {
+			margin: 1.5rem 0;
+			font-size: 1.6rem;	
+			line-height: 2.2rem;
+		}
 	}
 }
 
