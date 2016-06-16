@@ -240,6 +240,23 @@ h3 .small .label {
 	font-weight: 500;
 }
 
+section {
+	h2 {
+		margin-top: 0.5rem;
+		margin-bottom: 1.5rem;
+		font-size: 2.4rem;
+		text-decoration: 0 0 1px #FFF;
+	}
+
+	h3 {
+		font-size: 1.8rem;
+	}
+
+	a {
+		text-decoration: underline;
+	}
+}
+
 
  .col-0 {
  	width: 0;

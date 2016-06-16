@@ -121,6 +121,10 @@ angular.module('users').config(['$stateProvider',
 				url: '/guidance',
 				templateUrl: 'modules/guidance/client/views/guidance-main.html'
 			})
+			.state('contact', {
+				url: '/contact',
+				templateUrl: 'modules/guidance/client/views/contact.html'
+			})
 			
 			.state('activities', {
 				url: '/activities',
