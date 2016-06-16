@@ -23,15 +23,15 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			vcs: function ($stateParams, VcModel, ArtifactModel, project, ENV) {
 				// console.log ('vc abstract resolving vcs');
 				// console.log ('project id = ', project._id);
-				if (ENV === 'EAO')
-					// In EAO, they are artifacts - nothing for MEM right now so leave it.
-					return ArtifactModel.forProjectGetType (project._id, "valued-component");
-				else
+				// if (ENV === 'EAO')
+				// 	// In EAO, they are artifacts - nothing for MEM right now so leave it.
+				// 	return ArtifactModel.forProjectGetType (project._id, "valued-component");
+				// else
 					return VcModel.forProject (project._id);
 			}
 		},
         onEnter: function (MenuControl, project) {
-					MenuControl.routeAccessBuilder (undefined, project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer','pro:admin', 'pro:member', 'sub']);
+			MenuControl.routeAccessBuilder (undefined, project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer','pro:admin', 'pro:member', 'sub']);
         }
 	})
 	// -------------------------------------------------------------------------
@@ -43,10 +43,10 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	.state('p.vc.list', {
 		url: '/list',
 		templateUrl: 'modules/vcs/client/views/vc-list.html',
-		controller: function ($scope, NgTableParams, vcs, project, $modal, $state) {
+		controller: function ($scope, NgTableParams, vcs, project, $modal, $state, MenuControl) {
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: vcs});
 			$scope.project = project;
-
+			$scope.mc = MenuControl;
 			$scope.openAddTopic = function() {
 				var modalDocView = $modal.open({
 					animation: true,
@@ -108,13 +108,19 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		templateUrl: 'modules/vcs/client/views/vc-edit.html',
 		resolve: {
 			vc: function ($stateParams, VcModel) {
-				// console.log ('editing vcId = ', $stateParams.vcId);
+				console.log ('editing vcId = ', $stateParams.vcId);
 				return VcModel.getModel ($stateParams.vcId);
+			},
+			art: function ($stateParams, ArtifactModel, vc) {
+				return ArtifactModel.lookup(vc.artifact);
 			}
 		},
-		controller: function ($scope, $state, vc, project, VcModel, PILLARS, TopicModel) {
+		controller: function ($scope, $state, vc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _) {
 			// console.log ('vc = ', vc);
 			$scope.vc = vc;
+			$scope.vc.artifact = art;
+			$scope.vc.artifact.document = ($scope.vc.artifact.document) ? $scope.vc.artifact.document : {};
+			$scope.vc.artifact.maindocument = $scope.vc.artifact.document._id ? [$scope.vc.artifact.document._id] : [];
 			$scope.project = project;
 			$scope.pillars = PILLARS;
 			$scope.selectTopic = function () {
@@ -125,7 +131,12 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				});
 			};
 			$scope.save = function () {
-				VcModel.save ($scope.vc)
+				vc.artifact.document = vc.artifact.maindocument[0];
+				if (_.isEmpty (vc.artifact.document)) vc.artifact.document = null;
+				ArtifactModel.save($scope.vc.artifact)
+				.then (function () {
+					return VcModel.save ($scope.vc);
+				})
 				.then (function (model) {
 					// console.log ('vc was saved',model);
 					// console.log ('now going to reload state');
@@ -153,11 +164,15 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			vc: function ($stateParams, VcModel) {
 				// console.log ('vcId = ', $stateParams.vcId);
 				return VcModel.getModel ($stateParams.vcId);
+			},
+			art: function ($stateParams, ArtifactModel, vc) {
+				return ArtifactModel.lookup(vc.artifact);
 			}
 		},
-		controller: function ($scope, vc, project) {
+		controller: function ($scope, vc, project, art) {
 			// console.log ('vc = ', vc);
 			$scope.vc = vc;
+			$scope.vc.artifact = art;
 			$scope.project = project;
 		}
 	})

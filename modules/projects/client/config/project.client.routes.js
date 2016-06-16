@@ -69,17 +69,17 @@ angular.module('project').config (
 					state: "p.enforcements",
 					roles: MenuControl.menuRolesBuilder (['user'], project.code, '*', '*')
 				});
-				Menus.addMenuItem('projectTopMenu', {
-					title: 'Public Comment Period',
-					state: "p.comments",
-					roles: MenuControl.menuRolesBuilder (['user'], project.code, '*', '*')
+				Menus.addMenuItem('projectMenu', {
+					title: 'Comment Periods',
+					state: "p.commentperiod.list",
+					roles: ['admin','user','public'] //MenuControl.menuRolesBuilder (['admin','user','public'], project.code, '*', '*')
 				});
 			}
 
 			Menus.addMenuItem('projectMenu', {
 				title: 'Documents',
 				state: 'p.documents',
-				roles: MenuControl.menuRolesBuilder (['admin','user','public'], project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'pro:admin', 'pro:member', 'sub'])
+				roles:  MenuControl.menuRolesBuilder (['admin','user','public'], project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'pro:admin', 'pro:member', 'sub'])
 			});
 			if (ENV === 'EAO') {
 				Menus.addMenuItem('projectMenu', {
@@ -87,11 +87,11 @@ angular.module('project').config (
 					state: 'p.invitations',
 					roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['eao:admin', 'responsible-epd','project-admin', 'project-lead','project-intake', 'pro:admin', 'pro:member'])
 				});
-				Menus.addMenuItem('projectMenu', {
-					title: 'Comment Periods',
-					state: 'p.commentperiod.list',
-					roles: MenuControl.menuRoles ('admin', project.code, '*', '*')
-				});
+				// Menus.addMenuItem('projectMenu', {
+				// 	title: 'Comment Periods',
+				// 	state: 'p.commentperiod.list',
+				// 	roles: MenuControl.menuRoles ('admin', project.code, '*', '*')
+				// });
 				Menus.addMenuItem('projectMenu', {
 					title: 'Complaints',
 					state: 'p.complaint.list',
@@ -100,7 +100,21 @@ angular.module('project').config (
 				Menus.addMenuItem('projectMenu', {
 					title: 'Conditions',
 					state: 'p.projectcondition.list',
-					roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer'])
+					roles: MenuControl.menuRolesBuilder ([undefined], project.code, 'eao', ['admin',
+																						'member',
+																						'assistant-dm',
+																						'assistant-dmo',
+																						'associate-dm',
+																						'associate-dmo',
+																						'minister',
+																						'ministers-office',
+																						'responsible-epd',
+																						'project-admin',
+																						'project-lead',
+																						'project-team',
+																						'qa-officer',
+																						'ce-lead',
+																						'ce-officer'])
 				});
 				Menus.addMenuItem('projectMenu', {
 					title: 'Inspection Reports',
@@ -134,6 +148,7 @@ angular.module('project').config (
 	// -------------------------------------------------------------------------
 	.state('p.detail', {
 		url: '/detail',
+		context: 'projectid',
 		templateUrl: 'modules/projects/client/views/project-partials/project.detail.html',
 		controller: function ($scope, $state, project, ProjectModel, $window) {
 			$scope.project = project;
@@ -222,7 +237,7 @@ angular.module('project').config (
 			}
 		}
 	})
-	
+
 	// -------------------------------------------------------------------------
 	//
 	// PUBLIC COMMENT PERIOD
@@ -230,7 +245,7 @@ angular.module('project').config (
 	// -------------------------------------------------------------------------
 	.state('p.comments', {
 		url: '/public-comment-period',
-		templateUrl: 'modules/projects/client/views/project-partials/project.public.comments.html',
+		templateUrl: 'modules/publicComments/client/views/comments-public.html',
 		controller: 'controllerProjectEntry',
 		onEnter: function (MenuControl, project, $stateParams) {
 			if ($stateParams.projectid === 'new') {
@@ -241,8 +256,33 @@ angular.module('project').config (
 			}
 		}
 	})
-	
-	
+	.state('p.eaocomments', {
+		url: '/eao-comment-period',
+		templateUrl: 'modules/publicComments/client/views/comments-eao.html',
+		controller: 'controllerProjectEntry',
+		onEnter: function (MenuControl, project, $stateParams) {
+			if ($stateParams.projectid === 'new') {
+				MenuControl.routeAccessBuilder (undefined, '*', '*', ['ce-lead', 'ce-officer']);
+			}
+			else {
+				MenuControl.routeAccessBuilder (['admin', 'user', 'public']);
+			}
+		}
+	})
+	.state('p.proponentcomments', {
+		url: '/proponent-comment-period',
+		templateUrl: 'modules/publicComments/client/views/comments-proponent.html',
+		controller: 'controllerProjectEntry',
+		onEnter: function (MenuControl, project, $stateParams) {
+			if ($stateParams.projectid === 'new') {
+				MenuControl.routeAccessBuilder (undefined, '*', '*', ['ce-lead', 'ce-officer']);
+			}
+			else {
+				MenuControl.routeAccessBuilder (['admin', 'user', 'public']);
+			}
+		}
+	})
+
 	// -------------------------------------------------------------------------
 	//
 	// the decision package mockup
@@ -258,7 +298,7 @@ angular.module('project').config (
 	.state('p.schedule', {
 		url: '/schedule',
 		templateUrl: 'modules/projects/client/views/project-partials/project.schedule.html',
-		controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel, $modal) {
+		controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel, $modal, PhaseBaseModel) {
 			var self = this;
 			self.rPhases = undefined;
 			self.rSelPhase = undefined;
@@ -287,9 +327,20 @@ angular.module('project').config (
 							size: 'lg'
 					});
 			};
-			$scope.ok = function (blah) {
-				console.log("here",blah);
-				MilestoneModel.save(blah).then(function (res) {
+			$scope.completeMilestone = function (milestoneId) {
+				MilestoneModel.completeMilestone(milestoneId)
+				.then(function (obj) {
+					$rootScope.$broadcast('refreshPhases', obj);
+				});
+			};
+			$scope.startMilestone = function (milestoneId) {
+				MilestoneModel.startMilestone(milestoneId)
+				.then(function (obj) {
+					$rootScope.$broadcast('refreshPhases', obj);
+				});
+			};
+			$scope.ok = function (obj) {
+				MilestoneModel.save(obj).then(function (res) {
 					// $modalInstance.dismiss();
 				});
 			};
@@ -311,7 +362,7 @@ angular.module('project').config (
 								};
 								myData.ok = function () {
 									MilestoneModel.save(myData.data).then(function (res) {
-										// console.log('saved');
+										$rootScope.$broadcast('refreshPhases', res);
 										$modalInstance.close();
 									}).catch(function (err) {
 										$modalInstance.dismiss('cancel');
@@ -340,80 +391,398 @@ angular.module('project').config (
 				self.refresh();
 			});
 
+			$scope.isNextPhase = function (id) {
+				var index = -1;
+				_.each(self.project.phases, function(data, idx) {
+				   if (_.isEqual(data._id, self.project.currentPhase._id)) {
+				      index = idx;
+				      return;
+				   }
+				});
+				// Double check if this is the last phase for errors
+				if (index+1 >= self.project.phases.length)
+					return false;
+				if (self.project.phases[index+1]._id === id)
+					return true;
+			};
+
+			$scope.startNextPhase = function (project) {
+				ProjectModel.nextPhase(self.project)
+				.then( function (res) {
+					$scope.project = res;
+					$scope.$apply();
+					$rootScope.$broadcast('refreshPhases', res);
+				});
+			};
+
+			$scope.canCompletePhase = function (phase) {
+				if (phase.code === $scope.project.currentPhase.code && !$scope.project.currentPhase.completed) {
+					return true;
+				} else {
+					return false;
+				}
+			};
+
+			$scope.addNextPhase = function () {
+				// Find out the current phase, add the one after that.
+				PhaseBaseModel.getCollection().then( function(data) {
+					var nextPhase = data[$scope.project.phases.length];
+					ProjectModel.addPhase(nextPhase.code).then( function(data) {
+						$scope.project.phases = angular.copy(data.phases);
+						$rootScope.$broadcast('refreshPhases', $scope.project.phases);
+						$scope.$apply();
+					});
+				});
+			};
+
+			$scope.completeCurrentPhase = function (project) {
+				// Complete this particular phase
+				ProjectModel.completePhase(self.project)
+				.then( function (res) {
+					$scope.project = res;
+					$scope.$apply ();
+					$rootScope.$broadcast('refreshPhases', res);
+				});
+			};
+
 			$scope.popluatePhaseDropdown = function (phase) {
 				// console.log("populate phase on phase:",phase.code);
 				$scope.rSelPhase = phase;
 				$scope.rMilestonesForPhase = [];
 				switch(phase.code) {
 					case "pre-ea":
-						$scope.rMilestonesForPhase = [{"name": "Project Description Accepted",
-													   "code": "project-description-accepted"},
-													  {"name": "Substitution Decision",
-													   "code": "substitution-decision"},
-													  {"name": "Section 10(1)c Order",
-													   "code": "section-10-1-c-order"},
-													  ];
+						$scope.rMilestonesForPhase = [
+							{
+								"code": 'new-project-initiated',
+								"name": 'New Project Initiated'
+							}, {
+								"code": 'project-deemed-reviewable',
+								"name": 'Project Deemed Reviewable'
+							}, {
+								"code": 'draft-project-description-submitted',
+								"name": 'Draft Project Description Submitted'
+							}, {
+								"code": 'public-comment-period-on-project-description',
+								"name": 'Public Comment Period on Project Description',
+							}, {
+								"name": "Draft Project Description Accepted",
+								"code": "draft-project-description-accepted"
+							}, {
+								"name": "Substitution Decision",
+								"code": "substitution-decision"
+							}, {
+								"code": 'section-6-order',
+								"name": 'Section 6 Order'
+							}, {
+								"code": 'section-7-3-order',
+								"name": 'Section 7(3) Order'
+							}, {
+								"code": 'section-10-1-a-order',
+								"name": 'Section 10(1)(a) Order'
+							}, {
+								"code": 'section-10-1-b-order',
+								"name": 'Section 10(1)(b) Order'
+							}, {
+								"code": 'section-10-1-b-fee',
+								"name": 'Section 10(1)(b) Fee'
+							}, {
+								"name": "Section 10(1)c Order",
+								"code": "section-10-1-c-order"
+							}, {
+								"code": 'section-31-1-order',
+								"name": 'Section 31(1) Order - Vary the Assessment Process'
+							}, {
+								"code": 'section-34-1-order',
+								"name": 'Section 34(1) Order - Cease or Remedy Activity'
+							}];
 						break;
 					case "pre-app":
-						$scope.rMilestonesForPhase = [{"name": "Section 11 Order",
-													   "code": "section-11-order"},
-													  {"name": "Assessment Fee - Installment 1",
-													   "code": "assessment-fee-installment-1"},
-													  {"name": "Draft AIR Accepted",
-													   "code": "draft-air-accepted"},
-													  {"name": "Pre-App PCP Initiated",
-													   "code": "pre-app-pcp-initiated"},
-													  {"name": "AIR Finalized and Approved",
-													   "code": "air-finalized-and-approved"},
-													  ];
+						$scope.rMilestonesForPhase = [{
+										"name": "Section 11 Order",
+										"code": "section-11-order"
+									},{
+										"code": 'section-15-order',
+										"name": 'Section 15 Order - s.14 variance'
+									},{
+										"code": 'section-14-order',
+										"name": 'Section 14 Order'
+									},{
+										"code": 'section-13-order',
+										"name": 'Section 13 Order - s.11 variance'
+									}, {
+										"name": "Assessment Fee - Installment 1",
+										"code": "assessment-fee-installment-1"
+									}, {
+										"name": "Draft AIR Accepted",
+										"code": "draft-air-accepted"
+									}, {
+										"name": "Pre-App PCP Initiated",
+										"code": "pre-app-pcp-initiated"
+									}, {
+										"name": "AIR Finalized and Approved",
+										"code": "air-finalized-and-approved"
+									}, {
+										"code": 'assessment-suspension',
+										"name": 'Assessment Suspension - s.30.1'
+									}, {
+										"code": 'section-31-1-order',
+										"name": 'Section 31(1) Order - Vary the Assessment Process'
+									}, {
+										"code": 'section-34-1-order',
+										"name": 'Section 34(1) Order - Cease or Remedy Activity'
+									},{
+										"code": 'assessment-suspension',
+										"name": 'Assessment Suspension - s.30.1',
+									},{
+										"code": 'project-termination',
+										"name": 'Project Termination - s.24.3',
+									},{
+										"code": 'vc-finalized-and-approved',
+										"name": 'VC Finalized and Approved',
+									},{
+										"code": 'pre-app-pcp-completed',
+										"name": 'Pre-App PCP Completed',
+									},{
+										"code": 'pre-app-open-house-completed',
+										"name": 'Pre-App Open House Completed',
+									},{
+										"code": 'draft-vc-ready-for-commenting',
+										"name": 'Draft VC Ready for Commenting',
+									},{
+										"code": 'working-group-formed',
+										"name": 'Working Group Formed',
+									},{
+										"code": 'announce-project',
+										"name": 'Announce Project',
+									}];
 						break;
 					case "evaluation":
-						$scope.rMilestonesForPhase = [{"name": "Draft Application Submitted",
-													   "code": "draft-application-submitted"},
-													  {"name": "Assessment Fee - Installment 2",
-													   "code": "assessment-fee-installment-2"}
-													  ];
+						$scope.rMilestonesForPhase = [
+							{
+								"name": "Draft Application Submitted",
+								"code": "draft-application-submitted"
+							}, {
+								"name": "Assessment Fee - Installment 2",
+								"code": "assessment-fee-installment-2"
+							}, {
+								"code": 'section-13-order',
+								"name": 'Section 13 Order - s.11 variance'
+							}, {
+								"code": 'section-15-order',
+								"name": 'Section 15 Order - s.14 variance'
+							}, {
+								"code": 'project-termination',
+								"name": 'Project Termination - s.24.3',
+							}, {
+								"code": 'section-31-1-order',
+								"name": 'Section 31(1) Order - Vary the Assessment Process'
+							}, {
+								"code": 'section-34-1-order',
+								"name": 'Section 34(1) Order - Cease or Remedy Activity'
+							},  {
+								"code": 'assessment-suspension',
+								"name": 'Assessment Suspension - s.30.1',
+							}, {
+								"code": 'time-limit-extension-s-24-4',
+								"name": 'Time Limit Extension - s.24.4',
+							}, {
+								"code": 'time-limit-suspension-s-24-2',
+								"name": 'Time Limit Suspension - s.24.2',
+							}, {
+								"code": 'time-limit-suspension-s-30-2',
+								"name": 'Time Limit Suspension - s.30.2',
+							}];
 						break;
 					case "application-review":
-						$scope.rMilestonesForPhase = [{"name": "Application Accepted",
-													   "code": "application-accepted"},
-													  {"name": "Review PCP Initiated",
-													   "code": "review-pcp-initiated"},
-													  ];
+						$scope.rMilestonesForPhase = [
+							{
+								"name": "Application Accepted",
+								"code": "application-accepted"
+							}, {
+								"name": "Review PCP Initiated",
+								"code": "review-pcp-initiated"
+							}, {
+								"code": 'application-review-pcp-completed',
+								"name": 'Review PCP Completed',
+							}, {
+								"code": 'application-review-open-house-completed',
+								"name": 'Review Open House Completed',
+							}, {
+								"code": 'section-13-order',
+								"name": 'Section 13 Order - s.11 variance'
+							}, {
+								"code": 'section-15-order',
+								"name": 'Section 15 Order - s.14 variance'
+							}, {
+								"code": 'project-termination',
+								"name": 'Project Termination - s.24.3',
+							}, {
+								"code": 'section-31-1-order',
+								"name": 'Section 31(1) Order - Vary the Assessment Process'
+							}, {
+								"code": 'section-34-1-order',
+								"name": 'Section 34(1) Order - Cease or Remedy Activity'
+							},  {
+								"code": 'assessment-suspension',
+								"name": 'Assessment Suspension - s.30.1',
+							}, {
+								"code": 'time-limit-extension-s-24-4',
+								"name": 'Time Limit Extension - s.24.4',
+							}, {
+								"code": 'time-limit-suspension-s-24-2',
+								"name": 'Time Limit Suspension - s.24.2',
+							}, {
+								"code": 'time-limit-suspension-s-30-2',
+								"name": 'Time Limit Suspension - s.30.2',
+							}
+						  ];
 						break;
 					case "decision":
-						$scope.rMilestonesForPhase = [{"name": "Minister's Decision Package Delivered",
-													   "code": "ministers-decision-package-delivered"}];
+						$scope.rMilestonesForPhase = [
+							{
+								"name": "Minister's Decision Package Delivered",
+								"code": "ministers-decision-package-delivered"
+							}, {
+								"code": 'project-termination',
+								"name": 'Project Termination - s.24.3',
+							}, {
+								"code": 'section-31-1-order',
+								"name": 'Section 31(1) Order - Vary the Assessment Process'
+							}, {
+								"code": 'section-34-1-order',
+								"name": 'Section 34(1) Order - Cease or Remedy Activity'
+							},  {
+								"code": 'assessment-suspension',
+								"name": 'Assessment Suspension - s.30.1',
+							}, {
+								"code": 'time-limit-extension-s-24-4',
+								"name": 'Time Limit Extension - s.24.4',
+							}, {
+								"code": 'time-limit-suspension-s-24-2',
+								"name": 'Time Limit Suspension - s.24.2',
+							}, {
+								"code": 'time-limit-suspension-s-30-2',
+								"name": 'Time Limit Suspension - s.30.2',
+							}];
 						break;
 					case "post-certification":
-						$scope.rMilestonesForPhase = [{"name": "Certificate Issued - s.17",
-													   "code": "certificate-issued-s.17"},
-													  {"name": "Substantially Started Decision",
-													   "code": "substantially-started-decision"}
-													   ];
+						$scope.rMilestonesForPhase = [
+						{
+							"name": "Certificate Issued - s.17",
+							"code": "certificate-issued-s.17"
+						}, {
+							"name": "Substantially Started Decision",
+							"code": "substantially-started-decision"
+						}, {
+							"code": 'section-31-1-order',
+							"name": 'Section 31(1) Order - Vary the Assessment Process'
+						}, {
+							"code": 'section-34-1-order',
+							"name": 'Section 34(1) Order - Cease or Remedy Activity'
+						},{
+							"code": 'ea-certificate-extension',
+							"name": 'EA Certificate Extension',
+						},{
+							"code": 'ea-certificate-extension-fee',
+							"name": 'EA Certificate Extension Fee',
+						},{
+							"code": 'ea-certificate-amendment',
+							"name": 'EA Certificate Amendment',
+						},{
+							"code": 'ea-certificate-amendment-fee',
+							"name": 'EA Certificate Amendment Fee',
+						},{
+							"code": 'ea-certificate-amendment-pcp-initiated',
+							"name": 'EA Certificate Amendment PCP Initiated',
+						},{
+							"code": 'ea-certificate-amendment-open-house-completed',
+							"name": 'EA Certificate Amendment Open House Completed',
+						},{
+							"code": 'ea-certificate-amendment-pcp-completed',
+							"name": 'EA Certificate Amendment PCP Completed',
+						},{
+							"code": 'ea-certificate-cancellation-s-37-1',
+							"name": 'EA Certificate Cancellation - s.37.1',
+						},{
+							"code": 'ea-certificate-expired-s-18-5',
+							"name": 'EA Certificate Expired - s.18.5',
+						},{
+							"code": 'ea-certificate-suspension-s-37-1',
+							"name": 'EA Certificate Suspension - s.37.1',
+						}];
 						break;
 				}
-				$scope.rMilestonesForPhase.push({"name": "Project Withdrawn",
-												 "code": "project-withdrawn"});
+				// Add this to everything except:
+				if (phase.code !== 'post-certification') {
+					$scope.rMilestonesForPhase.push(
+						{
+							"name": "Project Withdrawn",
+							"code": "project-withdrawn"
+						});
+				}
+				// Always add free-text version
+				$scope.rMilestonesForPhase.push(
+					{
+						"name": "Custom Milestone",
+						"code": "custom-milestone"
+					});
+				$scope.selectedMilestoneType = $scope.rMilestonesForPhase[0];
+			};
+
+			$scope.selectedAMilestone = function(item) {
+				if (item) {
+					if (item.code === 'custom-milestone') {
+						// Disable the free-text
+						$scope.showCustom = true;
+					} else {
+						// Enable the free-text
+						$scope.showCustom = false;
+					}
+				}
+			};
+
+			// User clicked on edit phase - store this.
+			$scope.selectPhaseForEdit = function (phase) {
+				$scope.selectedPhase = phase;
+			};
+
+			// Edit the phase data
+			$scope.savePhaseDetail = function () {
+				PhaseModel.save($scope.selectedPhase)
+				.then( function (obj) {
+					$rootScope.$broadcast('refreshPhases', obj);
+				});
 			};
 
 			// Handle the add milestone
-			$scope.addMilestone = function(selectedMilestone) {
+			$scope.addMilestone = function(selectedMilestone, dateStarted, dateCompleted) {
 				// Just add a milestone, attach it to a specific phase - this is a generic
 				// schedule, which really doesn't follow the flow of anything.  It's just a
 				// Marker of sorts.  We will need to look this up when phases/milestones progress
 				// through the flow of the business in order to delete/reset these milestones.
 				// For now, this becomes a 'look ahead' schedule that staff can use to view
 				// the project 'plan'
+
+				// If they add a custom milestone, override the code and name here.
+				if (selectedMilestone.code === 'custom-milestone') {
+					selectedMilestone.code = $scope.customMilestoneText;
+					selectedMilestone.name = $scope.customMilestoneText;
+				}
 				MilestoneModel.add({
 					"code": selectedMilestone.code,
 					"name": selectedMilestone.name,
-					"phase": $scope.rSelPhase
+					"phase": $scope.rSelPhase,
+					"dateStartedEst": dateStarted,
+					"dateCompletedEst": dateCompleted
 				})
 				.then(function (ms) {
 					$scope.rSelPhase.milestone = ms;
 					$scope.rSelPhase.milestones.push(ms);
-					PhaseModel.save($scope.rSelPhase);
+					PhaseModel.save($scope.rSelPhase)
+					.then( function (newPhase) {
+						// console.log("newphase:", newPhase);
+						$rootScope.$broadcast('refreshPhases', newPhase);
+					});
 				});
 			};
 			// Handle the delete milestone

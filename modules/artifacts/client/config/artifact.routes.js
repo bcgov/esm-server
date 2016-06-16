@@ -4,7 +4,7 @@
 // artifact routes
 //
 // =========================================================================
-angular.module('core').config(['$stateProvider','_', function ($stateProvider, _, Authentication) {
+angular.module('core').config(['$stateProvider','_', function ($stateProvider, _, Authentication, MenuControl) {
 
 	var getPrevNextStage = function (stage, stages) {
 		var index = _.findIndex (stages, function (s) { return s.name === stage;});
@@ -112,6 +112,9 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.edit', {
 		url: '/edit',
 		templateUrl: 'modules/artifacts/client/views/artifact-edit.html',
+		data: {
+			// roles: ['*:eao:epd','*:eao:project-admin','*:eao:project-lead','*:eao:project-team']
+		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Document, MilestoneModel) {
 			// console.log ('artifact = ', artifact);
 			// console.log ('project  = ', project);
@@ -125,7 +128,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
 			$scope.$watchCollection ('artifact.maindocument', function (newval) {
 				if (!newval || newval.length === 0) return;
-				//console.log ('new collection:', newval);
+				//console.log ('nedw collection:', newval);
 				Document.getDocument (newval[0]).then (function (ret) {
 					$scope.artifact.document = ret.data;
 					//console.log ('doc is now', $scope.artifact.document);
@@ -209,10 +212,11 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.view', {
 		url: '/view',
 		templateUrl: 'modules/artifacts/client/views/artifact-view.html',
-		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Authentication, VcModel) {
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Authentication, VcModel, MenuControl) {
 			$scope.authentication = Authentication;
 			$scope.artifact = artifact;
 			$scope.project = project;
+			$scope.mc = MenuControl;
 		}
 	})
 	.state('p.artifact.comment', {

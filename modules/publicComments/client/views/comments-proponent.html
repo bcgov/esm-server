@@ -1,0 +1,176 @@
+<div class="public-comment-period-view">
+    
+    <div class="view-title-container">
+        <h1>{{project.name}} &nbsp;&rsaquo;&nbsp; Public Comment Periods</h1>
+    </div>
+    
+    <div class="view-body-container">
+        
+        <div class="public-comment-alert">
+            <h2>Public Comment Period is Now Open!</h2>
+            <h3><strong>June 1</strong> - <strong>July 15, 2016</strong></h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <ul class="public-comment-period-document-links">
+                <li><a class="document-name" href="#">Application Information Requirements</a><a href="#">[ VIEW FILES ]</a></li>
+                <li><a class="document-name" href="#">Associated Documentation</a><a href="#">[ VIEW FILES ]</a></li>
+            </ul>
+            <div class="open-house-dates">
+                <h4>Open House Dates</h4>
+                <ul>
+                    <li>June 15th, 2016 at Some Location</li>
+                    <li>July 10th, 2016 at Some Location</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- PROTOTYPE TEMPLATES  -->
+        <div>
+            <ul class="tab-container nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#pendingReview" aria-controls="pendingReview" role="tab" data-toggle="tab">Unassigned (X)</a></li>
+                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Assigned (X)</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" role="tabpanel" id="pendingReview">
+                    
+                    <div class="public-comment-panel panel panel-default">
+                        <table ng-table="tableParams" show-filter="true" class="table table-striped table-hover">			
+                            <tr class="comment-row" data-toggle="modal" data-target="#commentDetailModal">
+                                <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Posted by'" filter="{'name':'text'}" sortable="'name'">
+                                    <h2 class="comment-title">Anonymous</h2>
+                                    <div ng-init="toggleProject.desc = (false)">
+                                        <p class="comment">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                    </div>
+                                </td>
+                                <td class="location-col no-mobile" header-class="'location-col no-mobile'" data-title="'Location'" filter="{'name':'text'}" sortable="'commentLocation'">Location</td>
+                                <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillar'" filter="{'pillar':'select'}" sortable="'commentPillar'">Unassigned</td>
+                                <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Component'" filter="{'commentVC':'select'}" sortable="'commentVC'">Unassigned</td>			
+                                <td class="attachment-col" header-class="'attachment-col no-mobile'"><span class="glyphicon glyphicon-paperclip"></span></td>
+                                <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" filter="{'date':'text'}" sortable="'dateAdded'" >MM/DD/YYYY</td>
+                            </tr>
+                            <tr class="comment-row" data-toggle="modal" data-target="#commentDetailModal">
+                                <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Headline'" filter="{'name':'text'}" sortable="'name'">
+                                    <h2 class="comment-title">Anonymous</h2>
+                                    <div ng-init="toggleProject.desc = (false)">
+                                        <p class="comment">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                    </div>
+                                </td>	
+                                <td class="location-col no-mobile" header-class="'location-col no-mobile'" data-title="'Location'" filter="{'name':'text'}" sortable="'commentLocation'">Location</td>
+                                <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillar'" filter="{'pillar':'select'}" sortable="'commentPillar'">Unassigned</td>
+                                <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Component'" filter="{'commentVC':'select'}" sortable="'commentVC'">Unassigned</td>			
+                                <td class="attachment-col" header-class="'attachment-col no-mobile'"><span class="glyphicon glyphicon-paperclip"></span></td>
+                                <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" filter="{'date':'text'}" sortable="'dateAdded'" >MM/DD/YYYY</td>
+                            </tr>
+                            <tr class="comment-row" data-toggle="modal" data-target="#commentDetailModal">
+                                <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Headline'" filter="{'name':'text'}" sortable="'name'">
+                                    <h2 class="comment-title">Anonymous</h2>
+                                    <div ng-init="toggleProject.desc = (false)">
+                                        <p class="comment">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                    </div>
+                                </td>	
+                                <td class="location-col no-mobile" header-class="'location-col no-mobile'" data-title="'Location'" filter="{'name':'text'}" sortable="'commentLocation'">Location</td>
+                                <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillar'" filter="{'pillar':'select'}" sortable="'commentPillar'">Unassigned</td>
+                                <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Component'" filter="{'commentVC':'select'}" sortable="'commentVC'">Unassigned</td>			
+                                <td class="attachment-col" header-class="'attachment-col no-mobile'"></td>
+                                <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" filter="{'date':'text'}" sortable="'dateAdded'" >MM/DD/YYYY</td>
+                            </tr> 
+                            <tr ng-if="!$data || $data.length === 0">
+                                <td colspan="6">No records found.</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- / PROTOTYPE EAO STAFF ROW TEMPLATES  -->
+        
+    </div>
+    
+</div>
+
+<!-- COMMENT DETAIL MODAL  -->
+<div class="public-comment-modal modal fade" id="commentDetailModal" role="dialog" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title">Public Comment  &nbsp;&rsaquo;&nbsp; Anonymous</h3>
+			</div>
+			<div class="modal-body">
+                
+                <!-- STATUS ALERTS -->
+                <section class="comment-alerts">
+                    <div class="alert alert-info">
+                        <strong>No Pillars or Valued Components have been assigned to this comment.</strong>
+                    </div>
+                </section>
+                
+                <section class="comment-info">
+                    <label class="control-label">Posted March 21, 2016</label>
+                    <p class="value wrap-text">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
+                </section>
+                
+                <!-- PILLARS & VC'S -->
+                <section class="pillers-vc">  
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label class="control-label">Assign Pillars</label>
+                            <div class="pick-list panel panel-default" data-toggle="buttons">
+                                <label class="btn btn-default">
+                                    <input type="checkbox" autocomplete="off">Pillar 1 
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="checkbox" autocomplete="off">Pillar 2
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="checkbox" autocomplete="off">Pillar 3
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="control-label">Assign Valued Components</label>
+                            <div class="pick-list panel panel-default" data-toggle="buttons">
+                                <label class="btn btn-default" title="Really Really Really Really Really Really Long Valued Component Name">
+                                    <input type="checkbox" autocomplete="off" checked>Really Really Really Really Really Really Long Valued Component Name
+                                </label>
+                                <label class="btn btn-default" title="Valued Component 2">
+                                    <input type="checkbox" autocomplete="off">Valued Component 2
+                                </label>
+                                <label class="btn btn-default" title="Valued Component 1">
+                                    <input type="checkbox" autocomplete="off">Valued Component 1
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section><!-- / PILLARS & VC'S -->
+                
+                <!-- ATTACHMENTS -->
+                <section>
+                    <label class="control-label">Attachments</label>
+                    <div class="attachments list-group">
+                        <a class="list-group-item">
+                            <div class="file-name">file-name-1.jpg</div>
+                            <button class="file-action btn btn-link">
+                                <span class="glyphicon glyphicon-download-alt"></span>
+                            </button> 
+                        </a>
+                        <a class="list-group-item">
+                            <div class="file-name">file-name-1.jpg</div>
+                            <button class="file-action btn btn-link">
+                                <span class="glyphicon glyphicon-download-alt"></span>
+                            </button>  
+                        </a>
+                    </div>
+                </section><!-- / ATTACHMENTS -->
+                
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="close">Cancel</button>
+                <button type="button" class="btn btn-success" data-dismiss="close" disabled="disabled">Update</button>
+			</div>
+		</div>
+	</div>
+</div><!-- / COMMENT DETAIL MODAL -->
+

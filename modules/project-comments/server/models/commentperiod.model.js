@@ -13,7 +13,11 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	// a user had a link to a specific comment, they could still follow that
 	//
 	__audit          : true, // who did what when
-	__access         : true, // who can mess with this and how
+	__access: true,
+	// __access         : {
+	// 	canVetComments
+	// 	canClassifyComments
+	// }, // who can mess with this and how
 	__tracking       : true, // start and stop dates
 	periodType       : { type:String, default:'Working Group', enum:['Working Group', 'Public']},
 	//

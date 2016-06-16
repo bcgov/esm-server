@@ -23,5 +23,6 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	project				: { type:'ObjectId', ref:'Project', default:null, index:true },
 	stage				: { type:String, enum:['Pre-Construction', 'Construction', 'Operations', 'Decommissioning'], default:'Operations' },
 	artifact 			: { type:'ObjectId', ref:'Artifact'},
+	status 				: { type:String, default:''},
 });
 

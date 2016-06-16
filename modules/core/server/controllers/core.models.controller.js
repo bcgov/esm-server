@@ -3,6 +3,7 @@
 var mongoose     = require ('mongoose');
 var _ = require ('lodash');
 
+var defaultContextRolePermissions = ['createRoles','readRoles','updateRoles','deleteRoles'];
 // -------------------------------------------------------------------------
 //
 // things to do with setting access fields
@@ -204,14 +205,13 @@ var modRoles = function (method, pObject) {
 //
 // -------------------------------------------------------------------------
 var publish = function (object) {
-	this.read = _.union (this.read, 'public');
+	this.read = _.union (this.read, ['public']);
 	this.isPublished = true;
 	this.markModified ('read');
 };
 var unpublish = function (object) {
-	_.remove (this.read, function (val) {
-		return _.indexOf ('public', val) !== -1;
-	});
+	var i = this.read.indexOf ('public');
+	if (i !== -1) this.read.splice (i, 1);
 	this.isPublished = false;
 	this.markModified ('read');
 };
@@ -229,22 +229,29 @@ var unpublish = function (object) {
 //
 // -------------------------------------------------------------------------
 var generateSchema = function (definition, indexes) {
-	var audit = definition.__audit || false;
-	var access = definition.__access || false;
+	var audit    = definition.__audit    || false;
+	var access   = definition.__access   || false;
 	var tracking = definition.__tracking || false;
-	var status = definition.__status || false;
+	var status   = definition.__status   || false;
 	var codename = definition.__codename || false;
-	var statics = definition.__statics || false;
-	var methods = definition.__methods || false;
-	var preSave = definition.__preSave || false;
-	delete definition.__audit;
-	delete definition.__access;
-	delete definition.__tracking;
-	delete definition.__status;
-	delete definition.__codename;
-	delete definition.__statics;
-	delete definition.__methods;
-	delete definition.__preSave;
+	var statics  = definition.__statics  || false;
+	var methods  = definition.__methods  || false;
+	var preSave  = definition.__preSave  || false;
+	var context  = definition.__context  || false;
+	_.each (definition, function (v, k) {
+		if (k.substr(0,2) === '__') {
+			delete definition[k];
+		}
+	});
+	// delete definition.__audit;
+	// delete definition.__access;
+	// delete definition.__tracking;
+	// delete definition.__status;
+	// delete definition.__codename;
+	// delete definition.__statics;
+	// delete definition.__methods;
+	// delete definition.__preSave;
+	// delete definition.__context;
 
 	if (audit) definition = _.extend (definition, auditFields);
 	if (access) definition = _.extend (definition, accessFields);

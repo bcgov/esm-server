@@ -15,6 +15,7 @@ var _          = require ('lodash');
 module.exports = DBModel.extend ({
 	name : 'CommentPeriod',
 	plural : 'commentperiods',
+	populate: 'artifact',
 	preprocessAdd: function (period) {
 		var self=this;
 		var p;
@@ -32,13 +33,14 @@ module.exports = DBModel.extend ({
 				//
 				// add the base milestone for public comments
 				//
-				return phaseModel.addMilestone (phase, 'public-comment-period', {write:period.roles});
+				period.publish ();
+				return phaseModel.addMilestone (phase, 'public-comment-period', {write:period.commenterRoles});
 			}
 			else if (period.periodType === 'Working Group') {
 				//
 				// add the base milestone for working group comments
 				//
-				return phaseModel.addMilestone (phase, 'comment-period', {write:period.roles});
+				return phaseModel.addMilestone (phase, 'comment-period', {write:period.commenterRoles});
 			}
 		})
 		.then (function (phase) {
@@ -63,12 +65,18 @@ module.exports = DBModel.extend ({
 		.then (function (artifact) {
 			artifact.heldStage = artifact.stage;
 			artifact.stage = (period.periodType === 'Public')? 'Public Comment Period' : 'Comment Period';
+			if (period.periodType === 'Public') artifact.publish ();
 			return artifactModel.saveDocument (artifact);
 		})
 		.then (function () {
 			return period;
 		});
 	},
+	// -------------------------------------------------------------------------
+	//
+	// get all comment periods for a project
+	//
+	// -------------------------------------------------------------------------
 	getForProject: function (projectId) {
 		return this.findMany ({project:projectId});
 	},
@@ -103,19 +111,19 @@ module.exports = DBModel.extend ({
 		var update;
 		if (value) {
 			update = {
-				published: true,
+				isPublished: true,
 				$addToSet: {read: 'public'}
 			};
 		} else {
 			update = {
-				published: false,
+				isPublished: false,
 				$pull: {read: 'public'}
 			};
 		}
 		return new Promise (function (resolve, reject) {
 			Comment.update (query, update, {multi: true}).exec()
 			.then (function () {
-				commentPeriod.set ({ published: value });
+				commentPeriod.set ({ isPublished: value });
 				return self.saveDocument (commentPeriod);
 			})
 			.then (resolve, reject);

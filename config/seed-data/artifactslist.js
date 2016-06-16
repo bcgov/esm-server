@@ -1,6 +1,7 @@
 
 var artifacttypes = [{
     name: 'Valued Component',
+    isTemplate: false,
     multiple: false,
     code: 'valued-component',
     milestone: 'valued-component',
@@ -13,7 +14,7 @@ var artifacttypes = [{
     ]
 },{
     name: 'Valued Component Package',
-    multiple: false,
+    multiple: true,
     isTemplate: false,
     isArtifactCollection: true,
     isDocument: false,
@@ -100,35 +101,15 @@ var artifacttypes = [{
         'Final'
     ]
 },{
-    name: 'CC Test Templated',
-    code: 'cc-test-template',
-    milestone: 'section-11-order',
-    multiple: false,
-    versions : [
-        'Draft',
-        'Final'
-    ]
-},{
-    name: 'CC Test Document',
-    code: 'cc-test-document',
-    milestone: 'section-11-order',
-    isDocument:true,
-    isTemplate:false,
-    multiple: false,
-    versions : [
-        'Draft',
-        'Final'
-    ]
-},{
-    name: 'Section 11 Schedule A',
-    milestone: 'section-11-schedule-a',
-    code: 'section-11-schedule-a',
-    multiple: false,
-    versions : [
-        'Draft',
-        'Final'
-    ]
-},{
+     name: 'Section 11 Schedule A',
+     milestone: 'section-11-schedule-a',
+     code: 'section-11-schedule-a',
+     multiple: false,
+     versions : [
+         'Draft',
+         'Final'
+     ]
+ },{
     name: 'Section 34 Order',
     milestone: 'section-34-order',
     code: 'section-34-order',

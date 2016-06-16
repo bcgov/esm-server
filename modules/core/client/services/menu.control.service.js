@@ -18,7 +18,7 @@ angular.module('core').service ('MenuControl', ['Authentication', '$state', '$ht
 		if (roleCodes) {
 			var rc = _.isArray(roleCodes) ? roleCodes : [roleCodes];
 			_.each(rc, function (c) {
-				
+
 				// little twist here...
 				// the roleCode may be (eao|pro):roleCode, so let's split that up
 				if (_.includes(c, ':')) {
@@ -60,7 +60,7 @@ angular.module('core').service ('MenuControl', ['Authentication', '$state', '$ht
 
 	this.canAccess = function (roles) {
 		var allowed = this.userHasOne(roles) || this.publicAccess(roles);
-
+// console.log (allowed, roles);
 		if (!allowed) {
 			if (Authentication.user !== undefined && typeof Authentication.user === 'object') {
 				$state.go('forbidden');
@@ -97,6 +97,13 @@ angular.module('core').service ('MenuControl', ['Authentication', '$state', '$ht
 
 					var projectPattern = '[a-zA-Z0-9\-]+';
 					var orgPattern = '(eao|pro)';
+
+					// Ensure the orgPattern default limits to the orgCode as we follow through.
+					if (a.orgCode !== '*') {
+						// console.log("setting orgCode:",a.orgCode);
+						orgPattern = a.orgCode;
+					}
+
 					var rolePattern = '[a-zA-Z0-9\-]+';
 
 					if (a.projectCode) {

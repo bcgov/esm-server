@@ -123,7 +123,7 @@
 				<a href class="btn btn-default btn-sm"
 					x-modal-document-upload-classify
 					x-project="docBrowser.project"
-					ng-if="(docBrowser.authentication.user) && environment === 'EAO'"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;&nbsp;Upload</a>
+					ng-if="docBrowser.project.userPermissions.write && environment === 'EAO'"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;&nbsp;Upload</a>
 				<a href class="btn btn-default btn-sm"
 					x-modal-document-upload-classify-mem
 					x-project="docBrowser.project"
@@ -135,27 +135,23 @@
 			<!-- FOLDER HIERARCHY -->
 			<div class="col-sm-6 col-md-4 file-browser-list">
 				<ul ng-if="environment === 'EAO'">
-					<li
+					<li class="file-browser-category clickable"
+						ng-class="{'active btn-primary': docBrowser.filterDocsSelected(row)}"
 						ng-click="docBrowser.filterList(row)"
 						ng-hide="row.label === 'Not Specified'"
-						class="row-folder clickable row-folder-depth-{{ row.depth }}"
 						ng-repeat="row in docBrowser.docTypes"
-						ng-if="row.label === 'ARTIFACT'"
-						ng-class="{'active btn-primary': docBrowser.filterDocsSelected(row)}">
-						<span class="glyphicon glyphicon-play arrow"></span>
+						ng-if="row.label === 'ARTIFACT'">
 						Recent Documents
 					</li>
 				</ul>
-				<div ng-if="environment === 'EAO'"
-					 class="file-browser-category">Legacy Documents</div>
+				<div class="file-browser-category" ng-if="environment === 'EAO'">Legacy Documents</div>
 				<ul>
 					<li class="row-folder clickable row-folder-depth-{{ row.depth }}" ng-class="{'active btn-primary': docBrowser.filterDocsSelected(row)}"
 						ng-click="docBrowser.filterList(row)"
 						ng-hide="row.label === 'Not Specified'"
 						ng-repeat="row in docBrowser.docTypes"
 						ng-if="row.label != 'ARTIFACT'">
-						<span class="glyphicon glyphicon-folder-close"></span>&nbsp;
-						<!-- <span class="glyphicon glyphicon-folder-open"></span> -->
+						<span class="glyphicon glyphicon-folder-close"></span>
 						{{ row.label }}
 					</li>
 				</ul>
@@ -167,20 +163,20 @@
 					<li class="row-document clickable" ng-class="{'active btn-primary': filterSummary._id === doc._id}"
 						ng-click="docBrowser.filterSummary(doc)"
 						ng-repeat="doc in docBrowser.documentFiles | filter:filterLinage:true">
-						<span class="glyphicon glyphicon-file"></span>&nbsp;
+						<span class="glyphicon glyphicon-file"></span>
 						{{ doc.internalOriginalName | removeExtension }}
 					</li>
 				</ul>
 			</div><!-- DOCUMENTS LIST -->
 			
 			<!-- DOCUMENT DETAILS -->
-			<div class="col-sm-12 col-md-4 file-browser-details" ng-class="{'bg-muted': !filterSummary}" >
+			<div class="col-sm-12 col-md-4 file-browser-details">
 				<div ng-show="filterSummary">
 					<!-- DOCUMENT INFO -->
 					<div class="doc-info">
 						<h3>{{ filterSummary.internalOriginalName | removeExtension }}</h3>
 						<div class="detail-row">
-							<label>System File Title</label>
+							<label>System File Name</label>
 							<span class="value">{{ filterSummary.internalName }}</span>
 						</div>
 						<div class="detail-row">
@@ -208,12 +204,12 @@
 						
 						<div class="detail-row">
 							<label>Current Revision</label>
-							<span class="value value-list">
-								<a class="clearfix" href="/api/document/{{ filterSummary._id }}/fetch" target="_self">
+							<div class="list-group">
+								<a class="list-group-item clearfix" href="/api/document/{{ filterSummary._id }}/fetch" target="_self">
 									<span class="pull-left">Revision {{ filterSummary.documentVersion }}</span>
 									<span class="glyphicon glyphicon-download-alt pull-right"></span>
 								</a>
-							</span>
+							</div>
 						</div>
 						
 						<div class="detail-row">
@@ -223,7 +219,7 @@
 						
 						<div clas="detail-row">
 							<label>Revisions</label>
-							<span class="value value-list">
+							<span class="attachments">
 								<a class="clearfix" href="{{ docVersion.documentFileURL }}" ng-repeat="docVersion in docBrowser.docVersions">
 									<span class="pull-left">Revision {{ docVersion.documentVersion }}&nbsp;&nbsp;-&nbsp;&nbsp;{{ docVersion.dateUpdated | date : format : timezone}}</span>
 									<span class="glyphicon glyphicon-download-alt pull-right"></span></a>

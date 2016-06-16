@@ -1,9 +1,7 @@
 'use strict';
 // =========================================================================
 //
-// Model for bucket requirements
-//
-// this links a bucket to all of its requirements
+// Model for integrations
 //
 // =========================================================================
 var mongoose     = require ('mongoose');

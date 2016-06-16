@@ -43,6 +43,8 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	// valuedComponents
 	//
 	valuedComponents : [{ type:'ObjectId', ref:'Vc' }],
+	pillars          : [String],
+	topics           : [String],
 	// -------------------------------------------------------------------------
 	//
 	// for public comments

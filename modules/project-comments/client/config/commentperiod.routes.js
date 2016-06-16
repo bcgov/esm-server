@@ -27,9 +27,9 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				return ArtifactModel.forProject (project._id);
 			}
 		},
-        onEnter: function (MenuControl, project) {
-					MenuControl.routeAccessBuilder ('admin', project.code, '*', '*');
-        }
+   //      onEnter: function (MenuControl, project) {
+			// MenuControl.routeAccessBuilder (['admin','user','public'], project.code, '*', '*');
+   //      }
 
 	})
 	// -------------------------------------------------------------------------
@@ -124,20 +124,31 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 	// this is the 'view' mode of a comment period. here we are just simply
 	// looking at the information for this specific object
 	//
+	// ** this is where we should go to the view of the comments
+	//
 	// -------------------------------------------------------------------------
 	.state('p.commentperiod.detail', {
 		url: '/:periodId',
 		templateUrl: 'modules/project-comments/client/views/period-view.html',
 		resolve: {
 			period: function ($stateParams, CommentPeriodModel) {
-				// console.log ('periodId = ', $stateParams.periodId);
 				return CommentPeriodModel.getModel ($stateParams.periodId);
+			},
+			artifact: function (period, ArtifactModel) {
+				return ArtifactModel.getModel (period.artifact._id);
 			}
 		},
-		controller: function ($scope, period, project) {
-			// console.log ('period = ', period);
-			$scope.period = period;
-			$scope.project = project;
+		controller: function ($scope, period, project, artifact) {
+			var today       = new Date ();
+			var start       = new Date (period.dateStarted);
+			var end         = new Date (period.dateCompleted);
+			var isopen      = start < today && today < end;
+			$scope.isOpen   = isopen;
+			$scope.isBefore = (start > today);
+			$scope.period   = period;
+			$scope.project  = project;
+			$scope.artifact = artifact;
+			console.log (artifact);
 		}
 	})
 

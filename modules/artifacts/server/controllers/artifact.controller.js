@@ -112,6 +112,7 @@ module.exports = DBModel.extend ({
 			// now set up and save the new artifact
 			//
 			.then (function (milestone) {
+				artifact = self.setDefaultRoles(artifact, project, artifactType.code);
 				// Happens when we skip adding a milestone.
 				if (milestone) {
 					artifact.milestone = milestone._id;
@@ -127,6 +128,60 @@ module.exports = DBModel.extend ({
 			})
 			.then (resolve, reject);
 		});
+	},
+	setDefaultRoles: function (artifact, project, type) {
+		// Set default read/write/submit permissions on artifacts based on their type.
+		// console.log("setting default roles for: ", type);
+		if (type === 'valued-component') {
+			artifact.read.push(project.code+":eao:admin");
+			artifact.read.push(project.code+":eao:member");
+			artifact.read.push(project.code+":eao:project-intake");
+			artifact.read.push(project.code+":eao:assistant-dm");
+			artifact.read.push(project.code+":eao:associate-dmo");
+			artifact.read.push(project.code+":eao:minister");
+			artifact.read.push(project.code+":eao:qa-officer");
+			artifact.read.push(project.code+":eao:ce-lead");
+			artifact.read.push(project.code+":eao:ce-officer");
+			artifact.read.push(project.code+":eao:sub");
+			artifact.read.push(project.code+":eao:admin");
+			artifact.write.push(project.code+":pro:admin");
+			artifact.write.push(project.code+":pro:member");
+			artifact.write.push(project.code+":eao:project-team");
+			artifact.submit.push(project.code+":eao:epd");
+			artifact.submit.push(project.code+":eao:project-lead");
+		} else if (_.startsWith(type, 'section-10')) {
+			artifact.read.push(project.code+":eao:project-team");
+			artifact.write.push(project.code+":eao:epd");
+			artifact.write.push(project.code+":eao:project-lead");
+		} else if (_.startsWith(type,'section-6') || _.startsWith(type,'section-7') || _.startsWith(type,'section-11') || _.startsWith(type,'section-34') || _.startsWith(type,'section-36')) {
+			artifact.write.push(project.code+":eao:ce-lead");
+			artifact.write.push(project.code+":eao:ce-officer");
+		} else if (type === 'application') {
+			artifact.write.push(project.code+":pro:admin");
+			artifact.write.push(project.code+":pro:member");
+			artifact.write.push(project.code+":pro:sub");
+			artifact.write.push(project.code+":eao:epd");
+			artifact.write.push(project.code+":eao:project-lead");
+			artifact.write.push(project.code+":eao:project-team");
+		} else if (type === 'decision-package') {
+			artifact.write.push(project.code+":eao:epd");
+			artifact.read.push(project.code+":eao:project-lead");
+			artifact.read.push(project.code+":eao:project-team");
+		} else if (type === 'referral-package') {
+			artifact.write.push(project.code+":eao:epd");
+			artifact.read.push(project.code+":eao:project-lead");
+			artifact.read.push(project.code+":eao:project-team");
+		} else if (type === 'environmental-assessment-certificate' || type === 'certificate') {
+			artifact.write.push(project.code+":eao:epd");
+			artifact.write.push(project.code+":eao:project-lead");
+			artifact.read.push(project.code+":eao:project-team");
+			artifact.read.push(project.code+":eao:ce-lead");
+			artifact.read.push(project.code+":eao:ce-officer");
+		} else if (type === 'inspection-report') {
+			artifact.write.push(project.code+":eao:ce-lead");
+			artifact.write.push(project.code+":eao:ce-officer");
+		}
+		return artifact;
 	},
 	// -------------------------------------------------------------------------
 	//

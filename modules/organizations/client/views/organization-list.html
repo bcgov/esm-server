@@ -21,7 +21,7 @@
 					<td data-title="'Name'"  filter="{'name':'text'}"   sortable="'name'">{{o.name}}</td>
 					<td data-title="'DBA'"  filter="{'company':'text'}"   sortable="'company'">{{o.company}}</td>					
 					<td data-title="'Location'" filter="{'registeredIn':'text'}"    sortable="'registeredIn'" >{{o.registeredIn}}</td>
-					<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+					<td ng-if="showedit" class="actions-col action-x1" header-class="'actions-col action-x1'">
 						<a class="btn btn-link btn-sm" title="Edit Organization" ng-click="$event.stopPropagation()" ui-sref="admin.organization.edit({orgId:o._id})">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
