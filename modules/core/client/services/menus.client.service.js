@@ -1,7 +1,7 @@
 'use strict';
 
 //Menu service used for managing  menus
-angular.module('core').service('Menus', ['MenuControl',
+angular.module('core').service('OMenus', ['MenuControl',
 	function (MenuControl) {
     // Define a set of default roles
     this.defaultRoles = MenuControl.menuRolesBuilder ('user');

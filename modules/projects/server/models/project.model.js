@@ -4,17 +4,33 @@
 // Model for Project
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('Project', {
-	__context             : {
-		defaultRoles: ['eao-admin','proponent-admin'],
-	},
-	__permissions: [
-		'viewSchedule',
-		'editSchedule'
-	],
+module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+('Project', {
 	__audit               : true,
-	__access              : true,
+	__access              : [
+		'viewSchedule',
+		'editSchedule',
+		'listEnforcements',
+		'createEnforcement',
+		'listCommentPeriods',
+		'createCommentPeriod',
+		'listDocuments',
+		'uploadDocument',
+		'listProjectInvitations',
+		'createProjectInvitation',
+		'listProjectComplaints',
+		'createProjectComplaint',
+		'listProjectConditions',
+		'createProjectCondition',
+		'listInspectionReports',
+		'createInspectionReport',
+		'listProjectRoles',
+		'createProjectRole',
+		'listValuedComponents',
+		'createValuedComponent',
+		'listArtifacts',
+		'createArtifact'
+	],
 	__tracking            : true,
 	__status              : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Not Certified', 'Decommissioned'],
 	__codename            : 'unique',

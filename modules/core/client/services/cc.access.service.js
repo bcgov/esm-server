@@ -23,10 +23,30 @@ angular.module('core')
 // the current context
 //
 // -------------------------------------------------------------------------
-.factory('Application', function ($window) {
+.factory('Application', function ($window, $http) {
 	$window.application = {
 		context: 'application',
-		userCan: {}
+		user: 0,
+		userCan: {},
+		//
+		// if the user has changed, reload their permissions
+		//
+		reload : function (currentUser) {
+			return new Promise (function (resolve, reject) {
+				if ($window.application.user !== currentUser) {
+					$http.get ('api/access/permissions/context/application/resource/application').success (function (response) {
+						$window.application.userCan = {};
+						response.map (function (v) { $window.application.userCan[v] = true; });
+						$window.application.user = currentUser;
+						resolve ();
+					})
+					.error (reject);
+				}
+				else {
+					resolve ();
+				}
+			});
+		}
 	};
 	return $window.application;
 })

@@ -18,83 +18,57 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 	}
 ]);
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, _, MenuControl, $cookies) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, _, MenuControl, $cookies, Application) {
 
 	// Check authentication before changing state
 	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
 		//
-		// if changing to this route indicates a change of context (from a security
-		// point of view) set the context cookie. Otherwise set it to application
+		// for some states just go, no pre-processing
 		//
-		console.log ('---- checking context in UI-route ----');
-		var context = 'application';
-		if (toState.context) {
-			console.log ('found context as ',toState.context);
-			var c = (_.isFunction (toState.context)) ? toState.context () : toState.context;
-			context = toParams[c] || 'application';
-			console.log ('setting context as ',context);
+		if (!!~['authentication.signin','forbidden'].indexOf (toState.name)) {
+			return true;
 		}
-		console.log ('setting cookie context as ',context);
-		$cookies.context = context;
-		//
-		// CCTBD : examine and likely remove this in lieu of new context based access
-		//
-		if (toState.data && toState.data.roles) {
-			if (_.isFunction (toState.data.roles)) toState.data.roles = toState.data.roles ();
-			if (toState.data.roles.length > 0) {
-				// toState.data.roles = MenuControl.canAccess (toState.data.roles);
-				var allowed = false;
-				toState.data.roles.forEach(function (role) {
-					// let's change role to a regexp pattern and compare that way.
-					//
-					var allFilters = ['any', 'all', '*'];
-					var projectPattern = '[a-zA-Z0-9\-]+';
-					var orgPattern = '(eao|pro)';
-
-					var pattern, projCode, orgCode, roleCode; //would match a system role by default...
-					var parts = role.split(':');
-					switch(_.size(parts)) {
-						case 3:
-							// passed in a project : org : role code
-							projCode = _.includes(allFilters, parts[0]) ? projectPattern : '(' + parts[0] + ')';
-							orgCode = _.includes(allFilters, parts[1]) ? orgPattern : '(' + parts[1] + ')';
-							roleCode = '(' + parts[2] + ')$';
-							pattern  = new RegExp([projCode, orgCode, roleCode].join(':'), 'gi');
-							break;
-						case 2:
-							// passed in a org : role code
-							projCode = projectPattern ;
-							orgCode = _.includes(allFilters, parts[0]) ? orgPattern : '(' + parts[0] + ')';
-							roleCode = '(' + parts[1] + ')$';
-							pattern  = new RegExp([projCode, orgCode, roleCode].join(':'), 'gi');
-							break;
-						default:
-							pattern = new RegExp('^' + role + '$');
-							break;
-					}
-
-					if (Authentication.user.roles !== undefined) {
-						_.each(Authentication.user.roles, function(r) {
-							if (r.match(pattern)) {
-								allowed = true;
-								return true;
-							}
-						});
-					} else if (role === 'public') {
-						allowed = true;
-						return true;
-					}
-				});
-
-				if (!allowed) {
-					event.preventDefault();
-					if (Authentication.user !== undefined && typeof Authentication.user === 'object') {
-						$state.go('forbidden');
-					} else {
-						$state.go('authentication.signin');
-					}
-				}
+		else {
+			//
+			// if changing to this route indicates a change of context (from a security
+			// point of view) set the context cookie. Otherwise set it to application
+			//
+			$cookies.context = 'application';
+			if (toState.context) {
+				//
+				// the context is the name of the psrameter on the ui-route, we fetch that
+				// value from the route url using toParams
+				//
+				var c = (_.isFunction (toState.context)) ? toState.context () : toState.context;
+				$cookies.context = toParams[c] || 'application';
 			}
+			//
+			// now check to see if we need to reload the application
+			//
+			Application.reload (Authentication.user ? Authentication.user._id : 0)
+			.then (function () {
+				console.log ('Applicaiton.userCan = ', Application.userCan);
+				return true;
+				//
+				// CC: this is where to apply route level security if we decide to
+				//
+				// if the user fails, then if they are logged in send them to forbidden
+				// otherwise send them to signin
+				//
+				// if (!allowed) {
+				// 	event.preventDefault();
+				// 	if (Authentication.user !== undefined && typeof Authentication.user === 'object') {
+				// 		$state.go('forbidden');
+				// 	} else {
+				// 		$state.go('authentication.signin');
+				// 	}
+				//  return false;
+				// }
+			})
+			.catch (function () {
+				alert ('Error setting application object');
+				return true;
+			});
 		}
 	});
 

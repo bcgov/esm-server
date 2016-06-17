@@ -1,75 +1,85 @@
-<div class="panel-body">
-  <ul class="nav nav-pills nav-justified" ng-init="form.curTab = 'Content'">
-    <li role="presentation" ng-class="{'active':form.curTab === 'Content'}"><a href ng-click="form.curTab = 'Content'">Content</a>
-    </li>
-    <li role="presentation" ng-class="{'active':form.curTab === 'Recipients'}"><a href
-                                                                                  ng-click="form.curTab = 'Recipients'">Recipients</a>
-    </li>
-  </ul>
-  <div ng-show="form.curTab === 'Content'">
-    <hr/>
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="form-inline form-group">
-          <label class="control-label" for="template">Template</label>
-          <select type="text" id="template" class="form-control"
-                  ng-options="tmp as tmp.name for tmp in taskInvitations.templates track by tmp.code"
-                  ng-change="taskInvitations.setContent()" ng-model="taskInvitations.selectedTemplate"></select>
-          <div>
-            <label for="subject" class="control-label">Subject</label>
-            <input id="subject" name="subject" type="text" class="form-control"
-                   ng-model="taskInvitations.taskData.subject"/>
-          </div>
-        </div>
-        <textarea ui-tinymce rows="10" ng-model="taskInvitations.taskData.content" class="form-control"></textarea>
-      </div>
-    </div>
+<div class="project-invitations-view">
 
+  <div class="view-title-container">
+    <h1>Project Invitations&nbsp; &rsaquo; &nbsp;{{ project.name }}</h1>
   </div>
-  <div ng-show="form.curTab === 'Recipients'">
-    <hr/>
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="form-inline form-group">
-          <label class="control-label" for="role">Role</label>
-          <select type="text" id="role" class="form-control"
-                  ng-options="r as r for r in taskInvitations.roles"
-                  ng-change="taskInvitations.setUsers()" ng-model="taskInvitations.selectedRole"></select>
-          <div>
+
+  <div class="view-body-container">
+
+    <!-- TABS -->
+    <ul class="nav nav-tabs" ng-init="form.curTab = 'Content'">
+      <li role="presentation" ng-class="{'active':form.curTab === 'Content'}">
+        <a href ng-click="form.curTab = 'Content'">Content</a>
+      </li>
+      <li role="presentation" ng-class="{'active':form.curTab === 'Recipients'}">
+        <a href ng-click="form.curTab = 'Recipients'">Recipients</a>
+      </li>
+    </ul><!-- / TABS -->
+
+    <!-- INVITATION CONTENT -->
+    <div class="tab-pane" ng-show="form.curTab === 'Content'">
+      <div>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label class="control-label" for="template">Select Template</label>
+            <select type="text" id="template" class="form-control" ng-options="tmp as tmp.name for tmp in taskInvitations.templates track by tmp.code" ng-change="taskInvitations.setContent()" ng-model="taskInvitations.selectedTemplate"></select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="subject" class="control-label">Subject</label>
+          <input id="subject" name="subject" type="text" class="form-control" ng-model="taskInvitations.taskData.subject"/>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Message</label>
+          <textarea ui-tinymce rows="10" ng-model="taskInvitations.taskData.content"></textarea>
+        </div>
+      </div>
+    </div><!-- / INVITATION CONTENT -->
+
+    <!-- RECIPIENTS -->
+    <div class="tab-pane" ng-show="form.curTab === 'Recipients'">
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label class="control-label" for="role">Select Role</label>
+          <select class="form-control" id="role" ng-options="r as r for r in taskInvitations.roles" ng-change="taskInvitations.setUsers()" ng-model="taskInvitations.selectedRole"></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="well well-sm">
+              <ul class="list-unstyled task-list">
+                <li ng-repeat="user in taskInvitations.users | orderBy:['displayName','username', 'email']">
+                  <button class="btn btn-block btn-sm btn-layer" ng-click="taskInvitations.moveUser(user)">{{ user.displayName || user.username || user.email }} <em class="small">{{ user.email }}</em></button>
+                </li>
+                <li ng-if="taskInvitations.users.length === 0">No users in role, or all in Recipients list.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="well well-sm">
+              <ul class="list-unstyled task-list">
+                <li ng-repeat="user in taskInvitations.selected | orderBy:['displayName','username', 'email']">
+                  <button class="btn btn-block btn-sm btn-layer" ng-click="taskInvitations.moveUser(user)">{{ user.displayName || user.username || user.email }} <em class="small">{{ user.email }}</em></button>
+                </li>
+                <li class="no-lower-padding" ng-if="taskInvitations.selected.length === 0">Select users from left column to add to Recipients list.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6">
-      <div class="well well-sm">
-        <ul class="list-unstyled task-list">
-          <li ng-repeat="user in taskInvitations.users | orderBy:['displayName','username', 'email']">
-            <button class="btn btn-block btn-sm btn-layer" ng-click="taskInvitations.moveUser(user)">{{ user.displayName || user.username || user.email }} <em class="small">{{ user.email }}</em></button>
-          </li>
-          <li ng-if="taskInvitations.users.length === 0" class="small">
-            No users in role, or all in Recipients list.
-          </li>
-        </ul>
+
+    </div><!-- / RECIPIENTS -->
+
+    <!-- FORM FOOTER -->
+    <div class="form-footer no-border clearfix">
+      <a class="btn btn-primary" href ng-show="form.curTab === 'Recipients'" ng-click="form.curTab = 'Content'">Previous</a>
+      <div class="pull-right">
+        <a class="btn btn-primary" href ng-show="form.curTab === 'Content'" ng-click="form.curTab = 'Recipients'">Next</a>
+        <a class="btn btn-default" href ng-show="taskInvitations.canSend()" ng-click="taskInvitations.sendInvitations()">Send</a>
       </div>
-    </div>
-      <div class="col-sm-6">
-        <div class="well well-sm">
-          <ul class="list-unstyled task-list">
-            <li ng-repeat="user in taskInvitations.selected | orderBy:['displayName','username', 'email']">
-              <button class="btn btn-block btn-sm btn-layer" ng-click="taskInvitations.moveUser(user)">{{ user.displayName || user.username || user.email }} <em class="small">{{ user.email }}</em></button>
-            </li>
-            <li class="no-lower-padding small" ng-if="taskInvitations.selected.length === 0">
-              Select users from left column to add to Recipients list.
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <hr>
-  <div class="text-right">
-    <a class="btn btn-default" href ng-show="taskInvitations.canSend()" ng-click="taskInvitations.sendInvitations()">Send</a>
-    <a class="btn btn-primary" href ng-show="form.curTab === 'Content'" ng-click="form.curTab = 'Recipients'">Next</a>
-  </div>
-</div>
+    </div><!-- / FORM FOOTER -->
+
+  </div><!-- / VIEW BODY CONTAINER -->
+
+<div>
