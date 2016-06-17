@@ -1,6 +1,4 @@
-
 <div class="map-layers-view">
-	
 	<ui-gmap-google-map id='project-map'
 		center='mpl.map.center'
 		zoom='mpl.map.zoom'
@@ -10,8 +8,25 @@
 			models="mpl.projectFiltered"
 			coords="'self'">
 		</ui-gmap-markers>
+		<ui-gmap-layer	ng-repeat="layer in mpl.KMLLayers"
+						type="KmlLayer"
+						options="layer"
+						show="layer.show"></ui-gmap-layer>
 	</ui-gmap-google-map>
-		
+	<div>&nbsp;</div>
+	<div ng-if="mpl.KMLLayers.length > 0" >
+		<label class="control-label"> Layers</label>
+		<div class="well well-sm">
+			<ul class="list-unstyled task-list">
+				<li ng-repeat="layer in mpl.KMLLayers">
+					<button ng-init="layer.show=true"
+							class="btn btn-block btn-sm btn-layer"
+							ng-class="{'btn-success': layer.show}"
+							ng-click="layer.show = !layer.show">{{ layer.label }}</button>
+				</li>
+			</ul>
+		</div>
+	</div>
 	<!--
 	<div class="hidden col-md-3 col-top-padding">
 		<label class="control-label">Project Layers</label>

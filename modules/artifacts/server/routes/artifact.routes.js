@@ -12,6 +12,12 @@ var helpers      = require ('../../../core/server/controllers/core.helpers.contr
 module.exports = function (app) {
 	helpers.setCRUDRoutes (app, 'artifact', Artifact, policy);
 	helpers.setCRUDRoutes (app, 'artifacttype', Artifact, policy);
+	app.route ('/api/artifact/kml/for/project/:projectid').all (policy.isAllowed)
+		.get (function (req, res) {
+			var p = new Artifact (req.user);
+			p.getForProjectKML (req.params.projectid)
+			.then (helpers.success(res), helpers.failure(res));
+		});
 	app.route ('/api/artifact/for/project/:projectid').all (policy.isAllowed)
 		.get (function (req, res) {
 			var p = new Artifact (req.user);
