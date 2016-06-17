@@ -755,13 +755,19 @@ angular.module('project').config (
 			};
 
 			// Handle the add milestone
-			$scope.addMilestone = function(selectedMilestone, dateStarted, dateCompleted) {
+			$scope.addMilestone = function(selectedMilestone, dateStarted, dateCompleted, duration) {
 				// Just add a milestone, attach it to a specific phase - this is a generic
 				// schedule, which really doesn't follow the flow of anything.  It's just a
 				// Marker of sorts.  We will need to look this up when phases/milestones progress
 				// through the flow of the business in order to delete/reset these milestones.
 				// For now, this becomes a 'look ahead' schedule that staff can use to view
 				// the project 'plan'
+
+				var oneDay = (1000 * 60 * 60 * 24);
+				var numberOfDays = 90;
+				if (dateCompleted && dateStarted) {
+					numberOfDays = Math.floor((dateCompleted - dateStarted) / oneDay);
+				}
 
 				// If they add a custom milestone, override the code and name here.
 				if (selectedMilestone.code === 'custom-milestone') {
@@ -773,7 +779,8 @@ angular.module('project').config (
 					"name": selectedMilestone.name,
 					"phase": $scope.rSelPhase,
 					"dateStartedEst": dateStarted,
-					"dateCompletedEst": dateCompleted
+					"dateCompletedEst": dateCompleted,
+					"duration": numberOfDays
 				})
 				.then(function (ms) {
 					$scope.rSelPhase.milestone = ms;
