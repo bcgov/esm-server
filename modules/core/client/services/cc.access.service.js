@@ -28,6 +28,9 @@ angular.module('core')
 		context: 'application',
 		user: 0,
 		userCan: {},
+		//
+		// if the user has changed, reload their permissions
+		//
 		reload : function (currentUser) {
 			return new Promise (function (resolve, reject) {
 				if ($window.application.user !== currentUser) {

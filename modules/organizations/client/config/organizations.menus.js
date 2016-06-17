@@ -2,10 +2,10 @@
 
 angular.module('organizations').run(['Menus','MenuControl',
 	function (Menus, MenuControl) {
-		Menus.addMenuItem('systemMenu', {
-			title: 'Organizations',
-			state: 'admin.organization.list',
-			roles: MenuControl.menuRolesBuilder (['admin','eao'])
-		});
+		// Menus.addMenuItem('systemMenu', {
+		// 	title: 'Organizations',
+		// 	state: 'admin.organization.list',
+		// 	roles: MenuControl.menuRolesBuilder (['admin','eao'])
+		// });
 	}
 ]);

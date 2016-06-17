@@ -47,6 +47,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 			//
 			Application.reload (Authentication.user ? Authentication.user._id : 0)
 			.then (function () {
+				console.log ('Applicaiton.userCan = ', Application.userCan);
 				return true;
 				//
 				// CC: this is where to apply route level security if we decide to
