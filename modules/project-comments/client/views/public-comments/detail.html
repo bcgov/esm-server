@@ -8,9 +8,7 @@
 <div class="modal-body">
 
     <div>
-        <input type="checkbox" ng-model="isPublic">Public</input><br/>
-        <input type="checkbox" ng-model="isEao">EAO</input><br/>
-        <input type="checkbox" ng-model="isProponent">Proponent</input>
+        <input type="checkbox" ng-model="isPublic">Public</input><input type="checkbox" ng-model="isEao">EAO</input><input type="checkbox" ng-model="isProponent">Proponent</input>
     </div>
 
     <!-- COMMENT NOTE ALERTS -->
@@ -40,8 +38,13 @@
 
     <!-- COMMENT INFO -->
     <section class="comment-info">
-        <label class="control-label">Posted {{comment.dateAdded | date}}</label>
-        <p class="value wrap-text">{{ ::comment.comment }}</p>
+        <div class="detail-row">
+            <label>Submitted by {{ ::comment.author }}</label>
+            <span class="value">
+                {{comment.dateAdded | amDateFormat:'MMMM Do-YYYY'}} near {{ ::comment.location }}
+            </span>
+        </div>
+        <pre class="value wrap-text">{{ ::comment.comment }}</pre>
     </section><!-- / COMMENT INFO -->
 
 	<!-- ASSIGN PILLARS & VC'S -->
@@ -61,11 +64,11 @@
     <section ng-if="comment.pillars.length > 0">
         <div class="detail-row">
             <label>Pillars</label>
-            <span class="value">{{ comment.pillars.join (', &nbsp;') }}</span>
+            <span class="value">{{ comment.pillars.join (', ') }}</span>
         </div>
         <div class="detail-row">
             <label>Valued Components</label>
-            <span class="value">{{ comment.topics.join (', &nbsp;') }}</span>
+            <span class="value">{{ comment.topics.join (', ') }}</span>
         </div>
     </section><!-- / PILLARS & VC'S -->
 

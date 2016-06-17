@@ -16,6 +16,7 @@ exports.invokeRolesPolicies = function () {
 		[ '', 'user', '/api/unpublish/artifact/:artifact'   ],
 		[ '', 'user', '/api/artifacttype/template/types'],
 		[ 'guest', 'user', '/api/artifact/for/project/:projectid'],
+		[ 'guest', 'user', '/api/artifact/kml/for/project/:projectid'],
 		[ 'guest', 'user', '/api/artifact/for/project/:projectid/not/:filtertype'],
 		[ 'guest', 'user', '/api/artifact/for/project/:projectid/:type'],
 		[ '', 'user', '/api/artifact/project/:project/from/type/:documenttype'],

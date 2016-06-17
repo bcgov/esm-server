@@ -6,11 +6,11 @@ module.exports = {
   },
   port: process.env.PORT || 3000,
   db: {
-    uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.MONGODB_SERVICE_HOST || process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/esm',
+    uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.MONGODB_SERVICE_HOST || process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/' + (process.env.MONGODB_DATABASE || 'esm'),
     acluri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.MONGODB_SERVICE_HOST || process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/esm-acl',
     options: {
-      user: '',
-      pass: ''
+      user: process.env.MONGODB_USER || '',
+      pass: process.env.MONGODB_PASSWORD || ''
     },
     // Enable mongoose debug module
     debug: process.env.MONGODB_DEBUG || false

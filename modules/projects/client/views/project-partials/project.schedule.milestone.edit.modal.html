@@ -22,6 +22,18 @@
 								<p class="form-control-static">{{ myData.data.dateCompletedEst | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="myData.data.dateCompletedEst" >&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a>&nbsp; &nbsp;</p>
 						</div>
 					</div>
+					<div class="form-group">
+						<label class="control-label">Date Started Actual</label>
+						<div class="input-group">
+								<p class="form-control-static">{{ myData.data.dateStarted | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="myData.data.dateStarted" >&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a>&nbsp; &nbsp;</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Date Completed Actual</label>
+						<div class="input-group">
+								<p class="form-control-static">{{ myData.data.dateCompleted | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="myData.data.dateCompleted" >&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a>&nbsp; &nbsp;</p>
+						</div>
+					</div>
 				</div>
 				<!-- <div class="help-block">Invalid Date Range Message</div> -->
 			</div>

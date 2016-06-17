@@ -246,6 +246,8 @@ h3 .small .label {
  	margin: 0;
  	overflow: hidden;
  }
+
+ 
 // -------------------------
 // HELPER CLASSES...
 // -------------------------
@@ -2599,6 +2601,71 @@ textarea {
 }
 
 
+/* INFOBLOCKS 
+------------------------------ */
+.info-block {
+	margin-bottom: 2rem;
+	padding: 1.5rem 2rem;
+	background: #FFF;
+	box-shadow: 0 0 4px #CCC;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	h2 {
+		margin-top: 0.5rem;
+		margin-bottom: 1.5rem;
+		font-size: 2rem;
+		font-weight: bold;
+		text-decoration: 0 0 1px #FFF;
+	}
+
+	h3 {
+		font-size: 1.6rem;
+	}
+
+	p, ol, ul {
+		margin: 1.5rem 0;
+		font-size: 1.4rem;	
+		line-height: 2rem;
+	}
+
+	ol, ul {
+		padding-left: 3rem;
+	}
+
+	li {
+		padding-left: 0.5rem;
+	}
+
+	.content-link {
+		text-decoration: underline;
+	}
+}
+
+@media (min-width: 768px) {
+	.info-block {
+		padding: 2rem 2.5rem;
+
+		h2 {
+			margin-bottom: 1.5rem;
+			font-size: 2.2rem;
+		}
+
+		h3 {
+			font-size: 1.8rem;
+		}
+
+		p, ol, ul {
+			margin: 1.5rem 0;
+			font-size: 1.6rem;	
+			line-height: 2.2rem;
+		}
+	}
+}
+
+
 /* LIST ARRAY
 ------------------------------ */ 
 .list-array-item {
@@ -3466,8 +3533,8 @@ section.project-info {
 .public-comment-period-view {
 	.comment-title {
 		margin: 0;
-		margin-bottom: 1.25rem;
-		font-size: 1.8rem;
+		margin-bottom: 0.75rem;
+		font-size: 1.6rem;
 		font-weight: bold;
 	}
 	
@@ -3522,10 +3589,11 @@ section.project-info {
 		
 		td.date-col {
 			position: absolute;
-			top: 1.75rem;
+			top: 1.4rem;
 			right: 2rem;
 			padding: 0;
 			font-size: 1.2rem;
+			font-weight: bold;
 		}
 		
 		td.status-col {
@@ -3541,7 +3609,7 @@ section.project-info {
 			}
 			
 			td.date-col {
-				right: 15.5rem;
+				right: 2rem;
 			}
 		}
 		
@@ -3590,7 +3658,7 @@ section.project-info {
 				border-bottom: 1px solid #DDD;
 			}
 					
-			tr:last-child {
+			thead tr:last-child {
 				display: none;
 			}
 			
@@ -3601,11 +3669,14 @@ section.project-info {
 			
 			td.comment-col {
 				padding-top: 0;
+				padding-bottom: 0.5rem;
 			}
 		
 			td.pillar-col,
 			td.vc-col {
-				padding-top: .5rem;
+				padding-top: 0.5rem;
+				padding-bottom: 0.5rem;
+				font-size: 1.2rem;
 				color: #888;
 			}
 			
@@ -3613,20 +3684,20 @@ section.project-info {
 				padding-bottom: 0;
 			}
 			
-			td.pillar-col:before {
-				content: "Pillars";
+			td.pillar-col:before,
+			td.vc-col:before {
 				display: block;
-				font-size: 1.4rem;
+				font-size: 1.2rem;
 				font-weight: bold;
 				color: #000;
 			}
 			
+			td.pillar-col:before {
+				content: "Pillars";
+			}
+			
 			td.vc-col:before {
 				content: "Valued Components";
-				display: block;
-				font-size: 1.4rem;
-				font-weight: bold;
-				color: #000;
 			}
 		}
 	}
@@ -3759,8 +3830,12 @@ section.project-info {
 	}
 	
 	.comment-info {
-		p {
-			margin: 0;
+		pre {
+			max-height: 30rem;
+			padding: 1.5rem;
+			background-color: #FFF;
+			border: 1px solid #DDD;
+			overflow-y: auto;
 		}
 	}
 	
@@ -3870,6 +3945,19 @@ section.project-info {
 	}
 }
 
+
+/* PROJECT INVITATIONS 
+----------------------------- */
+.project-invitations-view {
+	.tab-pane {
+		padding-top: 3rem;
+	}
+	
+	.well {
+		margin-bottom: 0;
+		min-height: 39.5rem;
+	}
+}
 
 /* SELECT TOPIC MODAL VIEW
 ----------------------------- */
