@@ -214,6 +214,10 @@ checkIntegration ('sysroles3').then (function () {
 	require('../seed-data/loadroles').sysroles3();
 });
 
+checkIntegration ('app').then (function () {
+	require('../seed-data/application').sysroles3();
+});
+
 // // check to see if the seed import executes
 // // insert ajax mine project
 // Integration.findOne ({module:'ajax3'}).exec()

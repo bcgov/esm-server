@@ -192,6 +192,7 @@ var setModel = function (Dbclass) {
 		console.log ('++++++++ this route is running');
 		setSessionContext (req)
 		.then (function (opts) {
+			console.log ('in setModel, setting model with options ', opts);
 			req.Model = new Dbclass (opts);
 			next ();
 		});
