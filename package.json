@@ -15,7 +15,7 @@
   },
   "scripts": {
     "test": "grunt test",
-    "postinstall": "git config --global url.'https://'.insteadOf git:// && bower install --config.interactive=false --allow-root && grunt buildprod"
+    "postinstall": "sudo yum install -y ruby && gem install sass && git config --global url.'https://'.insteadOf git:// && bower install --config.interactive=false --allow-root && grunt buildprod"
   },
   "dependencies": {
     "acl": "~0.4.4",
