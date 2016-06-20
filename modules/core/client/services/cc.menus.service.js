@@ -32,10 +32,10 @@ angular.module('core').service('Menus', ['Application',
 	//
 	// -------------------------------------------------------------------------
 	var shouldRender = function (user, project) {
-			console.log ('shouldRender : title  :', this.title);
-			console.log ('shouldRender : user   :', user);
-			console.log ('shouldRender : project:', project);
-			console.log ('shouldRender : perms  :', this.permissions);
+			// console.log ('shouldRender : title  :', this.title);
+			// console.log ('shouldRender : user   :', user);
+			// console.log ('shouldRender : project:', project);
+			// console.log ('shouldRender : perms  :', this.permissions);
 		return this.permissions.map (function (p) {
 
 			return checkPermission ({

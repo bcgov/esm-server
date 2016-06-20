@@ -93,6 +93,7 @@ var addAllRole = function (a) {
 // -------------------------------------------------------------------------
 var findPermissions = function (q) {
 	return new Promise (function (resolve, reject) {
+		console.log ('-- findPermissions : ', q);
 		Permission.find (q).then (resolve, reject);
 	});
 };
@@ -440,11 +441,16 @@ var getRoleUsers = function (o) {
 // -------------------------------------------------------------------------
 var getUserRoles = function (p) {
 	// console.log (p.user);
+	var decorator = (p.context === defaultResource) ?  pluckAppRoles : pluckRoles;
 	if (p.user) {
-		return getRolesForContext (p).then (pluckRoles);
+		return getRolesForContext (p)
+		.then (decorator)
+		.then (addPublicRole)
+		.then (addAllRole);
 	}
 	else {
-		return Promise.resolve ([]);
+		return Promise.resolve ([])
+		.then (addPublicRole);
 	}
 };
 exports.getUserRoles = getUserRoles;
@@ -459,6 +465,7 @@ var getAllUserRoles = function (p) {
 	return new Promise (function (resolve, reject) {
 		var listPromise;
 		if (!p.user) {
+			console.log ('public only');
 			//
 			// no one, just public
 			//
@@ -466,6 +473,7 @@ var getAllUserRoles = function (p) {
 			.then (addPublicRole);
 		}
 		else if (p.context === defaultResource) {
+			console.log ('public and all');
 			listPromise = findRoles ({
 				context : p.context,
 				user    : p.user
@@ -475,6 +483,7 @@ var getAllUserRoles = function (p) {
 			.then (addAllRole);
 		}
 		else {
+			console.log ('public  and all');
 			//
 			// get this context as well as the parent (application)
 			//
@@ -599,6 +608,12 @@ exports.routes = {
 
 	getUserRoles : function (req, res) {
 		return runPromise (res, getUserRoles ({
+			user    : req.params.username || (req.user ? req.user.username : undefined),
+			context : req.params.context
+		}));
+	},
+	getAllUserRoles : function (req, res) {
+		return runPromise (res, getAllUserRoles ({
 			user    : req.params.username || (req.user ? req.user.username : undefined),
 			context : req.params.context
 		}));

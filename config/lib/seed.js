@@ -214,8 +214,8 @@ checkIntegration ('sysroles3').then (function () {
 	require('../seed-data/loadroles').sysroles3();
 });
 
-checkIntegration ('app').then (function () {
-	require('../seed-data/application').sysroles3();
+checkIntegration ('app1').then (function () {
+	require('../seed-data/application')();
 });
 
 // // check to see if the seed import executes

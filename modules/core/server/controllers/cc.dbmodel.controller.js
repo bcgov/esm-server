@@ -42,6 +42,7 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	_init : function (opts) {
+		console.log ('dbmodel._init:', opts);
 		this.opts       = opts;
 		this.user       = opts.user;
 		this.context    = opts.context   || 'application';
@@ -148,7 +149,7 @@ _.extend (DBModel.prototype, {
 		// user object
 		//
 		this.user = opts.user || {roles:[]};
-		var roles = opts.user.roles ? opts.user.roles : [];
+		var roles = this.user.roles ? this.user.roles : [];
 		//
 		// set whether or not we are admin to make things easier later
 		//
@@ -159,11 +160,6 @@ _.extend (DBModel.prototype, {
 		//
 		this.roles = roles.concat (opts.userRoles);
 		//
-		// always add in the public role as this is universal
-		//
-		this.roles.push ('public');
-		console.log ("this.roles = ", this.roles);
-		//
 		// set up the read, write, delete filters so we dont have to keep doing it
 		//
 		this.filter = {
@@ -171,6 +167,9 @@ _.extend (DBModel.prototype, {
 			'write'  : { write  : { $in : this.roles } },
 			'delete' : { delete : { $in : this.roles } }
 		};
+		//
+		// the default access level is set to 'read'
+		//
 		this.setAccess ('read');
 	},
 	// -------------------------------------------------------------------------
@@ -192,7 +191,14 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	setAccess: function (val) {
+		//
+		// get the correct access query from the filter set built earlier
+		//
 		var accessQuery = this.filter[val];
+		//
+		// if a base query is defined as a function, call it, or clone it
+		// if it is not defined it will just come back null
+		//
 		this.baseQ = (_.isFunction (this.baseQuery)) ? this.baseQuery.call (this) : _.cloneDeep (this.baseQuery);
 		//
 		// for an admin we don't apply access control, so only continue
@@ -202,14 +208,23 @@ _.extend (DBModel.prototype, {
 		if (this.useRoles && !this.isAdmin) {
 			_.extend (this.baseQ, accessQuery);
 		}
-		// console.log ('my roles are:', this.roles);
-		// console.log ('base query is:', this.baseQ);
 	},
+	// -------------------------------------------------------------------------
+	//
+	// this temporarilly sets a new access level (read or write or delete)
+	// it will cause that access clause to be merged with whatever query is
+	// happens next, then it will be reset back to read
+	//
+	// -------------------------------------------------------------------------
 	setAccessOnce: function (val) {
-		// console.log ('setting access ONCE ',val);
 		this.resetAccess = true;
 		this.setAccess (val);
 	},
+	// -------------------------------------------------------------------------
+	//
+	// this is a nice shorthand for use when checking for existance of roles
+	//
+	// -------------------------------------------------------------------------
 	hasPermission : function (userRoles, targetRoles) {
 		return (this.isAdmin || (_.intersection (userRoles, targetRoles).length > 0));
 	},
@@ -233,12 +248,13 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	findOne : function (query, fields) {
+		// console.log ('dbmodel.findOne:', query, fields);
 		var self = this;
 		query = query || {};
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			console.log ('q = ',q);
+			// console.log ('q = ',q);
 			self.model.findOne (q)
 			.populate (self.populate)
 			.select (fields)
@@ -256,6 +272,7 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	findMany : function (query, fields) {
+		// console.log ('dbmodel.findMany:', query, fields);
 		var self = this;
 		query = query || {};
 		return new Promise (function (resolve, reject) {
@@ -404,18 +421,19 @@ _.extend (DBModel.prototype, {
 		// 	});
 		//
 		return new Promise (function (resolve, reject) {
-			self.isAdmin = true;
 			if (self.isAdmin) {
-				_.each (model._doc.userCan, function (val, key) {
+				_.each (model.allPermissions (), function (val, key) {
 					model.userCan[key] = true;
 				});
 				resolve (model);
 			}
 			else {
+				console.log ('+_+ this model id : ', model._id);
+				console.log ('+_+ this model code : ', model.code);
 				access.userPermissions ({
 					context  : self.context,
 					user     : self.user.username,
-					resource : model._id
+					resource : model.code
 				})
 				.then (function (ps) {
 					console.log ('ps', ps);
@@ -467,7 +485,7 @@ _.extend (DBModel.prototype, {
 		model.delete = [];
 		var self = this;
 		return access.deleteAllPermissions ({
-			resource: model._id
+			resource: model.code
 		})
 		.then (function () {
 			return self.addModelPermissions (model, definition);
@@ -477,7 +495,7 @@ _.extend (DBModel.prototype, {
 		//
 		// this merges new permissions into the old
 		//
-		var resource = model._id;
+		var resource = model.code;
 		model.addRoles ({
 			read   : definition.read,
 			write  : definition.write,
@@ -505,7 +523,7 @@ _.extend (DBModel.prototype, {
 		var promiseArray = [model.save ()];
 		_.each (definition, function (roles, permission) {
 			promiseArray.push (access.deletePermissions ({
-				resource    : model._id,
+				resource    : model.code,
 				permissions : [ permission ],
 				roles       : roles
 			}));

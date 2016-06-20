@@ -9,8 +9,13 @@ module.exports = require ((require('path'))
 	.extend ({
 	name : 'Application',
 	plural : 'applications',
+	decorateCollection: true,
 	getTheOne: function () {
-		return this.findFirst ({});
+		console.log ('get the first applicaiton model');
+		return this.list ()
+		.then (function (arr) {
+			return arr[0];
+		});
 	}
 });
 

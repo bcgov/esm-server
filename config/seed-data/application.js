@@ -8,7 +8,9 @@ module.exports = function () {
 	return new Prom (function (resolve, reject) {
 		console.log ('Running application seeding');
 		var a = new Application ({
-			read: ['public', '*']
+			code        : 'application',
+			read        : ['public', '*'],
+			isPublished : true
 		});
 		a.save ().then (resolve, reject);
 	});

@@ -135,6 +135,7 @@ exports.streamFile = function (res, file, name, mime) {
 // -------------------------------------------------------------------------
 var setSessionContext = function (req) {
 	return new Promise (function (resolve, reject) {
+		console.log ('++ setSessionContext : Start');
 		//
 		// new session context
 		//
@@ -146,35 +147,34 @@ var setSessionContext = function (req) {
 			userRoles : req.session.userRoles,
 			context   : req.session.context
 		};
-		console.log ('existing user context = ', opts);
 		if (req.cookies.context) {
-			console.log ('-- received context', req.cookies.context);
 			//
 			// new context: initialize user roles for this
 			// context and set a flag accordingly
 			//
 			if (req.session.context !== req.cookies.context) {
-				console.log ('-- context changed from', req.session.context, ' to ', req.cookies.context);
+				console.log ('++ setSessionContext : context changed from', req.session.context, ' to ', req.cookies.context);
 				req.session.context = req.cookies.context;
+				console.log ('++ setSessionContext : collect new contextual user roles');
 				access.getAllUserRoles ({
 					context : req.session.context,
 					user    : req.user ? req.user.username : null
 				})
 				.then (function (roles) {
 					req.session.userRoles = roles;
-					console.log ('-- new user roles = ', req.session.userRoles);
+					console.log ('++ setSessionContext : new user roles = ', req.session.userRoles);
 					opts.userRoles = req.session.userRoles ;
 					opts.context   = req.session.context   ;
 					resolve (opts);
 				});
 			}
 			else {
-				console.log ('-- context unchanged, using existing');
+				console.log ('++ setSessionContext : context unchanged, using existing');
 				resolve (opts);
 			}
 		}
 		else {
-			console.log ('-- no context passed in, using old');
+			console.log ('++ setSessionContext : no context passed in, using existing');
 			resolve (opts);
 		}
 	});
@@ -189,10 +189,8 @@ var setSessionContext = function (req) {
 // -------------------------------------------------------------------------
 var setModel = function (Dbclass) {
 	return function (req, res, next) {
-		console.log ('++++++++ this route is running');
 		setSessionContext (req)
 		.then (function (opts) {
-			console.log ('in setModel, setting model with options ', opts);
 			req.Model = new Dbclass (opts);
 			next ();
 		});

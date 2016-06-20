@@ -119,6 +119,10 @@ var decorate = {
 		_.each (v, function (pname) {
 			definition.userCan[pname] = { type:Boolean, default:false };
 		});
+		var allPermissions = v.concat (['read','write','delete']);
+		definition.methods__.allPermissions = function () {
+			return allPermissions;
+		};
 		definition.methods__.publish = function () {
 			this.read = _.union (this.read, ['public']);
 			this.isPublished = true;

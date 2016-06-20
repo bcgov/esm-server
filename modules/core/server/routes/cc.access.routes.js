@@ -60,9 +60,13 @@ module.exports = function (app) {
 
 	app.route ('/api/access/userroles/context/:context')
 		.get (access.routes.getUserRoles);
-
 	app.route ('/api/access/userroles/context/:context/user/:username')
 		.get (access.routes.getUserRoles);
+
+	app.route ('/api/access/alluserroles/context/:context')
+		.get (access.routes.getAllUserRoles);
+	app.route ('/api/access/alluserroles/context/:context/user/:username')
+		.get (access.routes.getAllUserRoles);
 
 
 	app.route ('/api/access/permissions/context/:context/resource/:resource')
@@ -70,7 +74,7 @@ module.exports = function (app) {
 	app.route ('/api/access/permissions/context/:context/resource/:resource/user/:username')
 		.get (access.routes.userPermissions);
 
-	app.route ('/api/application/single')
+	app.route ('/api/application')
 		.all (routes.setModel (App))
 		.get (routes.runModel (function (model, req) {
 			console.log ('about to run get the one');

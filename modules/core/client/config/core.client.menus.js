@@ -6,10 +6,7 @@
 // a permision, or set of permissions, assigned to them
 //
 // =========================================================================
-
 angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
-
-
 	// -------------------------------------------------------------------------
 	//
 	// System Menu
