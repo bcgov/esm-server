@@ -14,9 +14,8 @@
     "npm": ">=1.4.28"
   },
   "scripts": {
-    "start": "grunt",
     "test": "grunt test",
-    "postinstall": "bower install --config.interactive=false --allow-root"
+    "postinstall": "git config --global url.'https://'.insteadOf git:// && bower install --config.interactive=false --allow-root && grunt buildprod"
   },
   "dependencies": {
     "acl": "~0.4.4",
