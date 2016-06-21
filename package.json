@@ -57,7 +57,7 @@
     "passport-paypal-openidconnect": "^0.1.1",
     "passport-twitter": "^1.0.2",
     "passport-unique-token": "^0.1.4",
-    "phantomjs-prebuilt": "2.1",
+    "phantomjs": "1.9.20",
     "promise": "^7.1.1",
     "rss": "^1.2.1",
     "serve-favicon": "^2.3.0",
