@@ -4,10 +4,10 @@
 // Model for Activity
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('Activity', {
+module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+('Activity', {
 	__audit        : true,
-	__access       : true,
+	__access       : [],
 	__tracking     : true,
 	__status       : ['Not Started', 'Not Required', 'In Progress', 'Complete'],
 	__codename     : true,

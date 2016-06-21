@@ -12,6 +12,9 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	// System Menu
 	//
 	// -------------------------------------------------------------------------
+	Menus.addMenu('systemMenu', {
+		permissions: ['application.viewSystemMenu']
+	});
 	Menus.addMenuItem('systemMenu', {
 		title: 'Conditions',
 		state: 'admin.condition.list',
@@ -62,6 +65,9 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	// Projects Menu
 	//
 	// -------------------------------------------------------------------------
+	Menus.addMenu('projectsMenu', {
+		permissions: ['application.viewProjectsMenu']
+	});
 	Menus.addMenuItem('projectsMenu', {
 		title: 'Add Project',
 		state: "p.edit({projectid:'new'})",
@@ -77,10 +83,13 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	// Add Project Top Menu Items
 	//
 	// -------------------------------------------------------------------------
+	Menus.addMenu('projectTopMenu', {
+		permissions: ['application.viewProjectTopMenu']
+	});
 	Menus.addMenuItem('projectTopMenu', {
 		title: 'Edit Project',
 		state: 'p.edit',
-		permissions: ['project.edit']
+		permissions: ['context.edit']
 	});
 
 	// Specific to EAO.
@@ -88,17 +97,17 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 		Menus.addMenuItem('projectTopMenu', {
 			title: 'Schedule',
 			state: "p.schedule",
-			permissions: ['project.viewSchedule']
+			permissions: ['context.viewSchedule']
 		});
 		Menus.addMenuItem('projectTopMenu', {
 			title: 'Compliance Oversight',
 			state: "p.enforcements",
-			permissions: ['project.listEnforcements']
+			permissions: ['context.listEnforcements']
 		});
-		Menus.addMenuItem('projectMenu', {
+		Menus.addMenuItem('projectTopMenu', {
 			title: 'Comment Periods',
 			state: "p.commentperiod.list",
-			permissions: ['project.listCommentPeriods']
+			permissions: ['context.listCommentPeriods']
 		});
 	}
 
@@ -107,41 +116,44 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	// Add Project Menu Items
 	//
 	// -------------------------------------------------------------------------
+	Menus.addMenu('projectMenu', {
+		permissions: ['application.viewProjectMenu']
+	});
 	Menus.addMenuItem('projectMenu', {
 		title: 'Documents',
 		state: 'p.documents',
-		permissions: ['project.listDocuments']
+		permissions: ['context.listDocuments']
 	});
 	if (ENV === 'EAO') {
 		Menus.addMenuItem('projectMenu', {
 			title: 'Project Invitations',
 			state: 'p.invitations',
-			permissions: ['project.listProjectInvitations']
+			permissions: ['context.listProjectInvitations']
 		});
 		Menus.addMenuItem('projectMenu', {
 			title: 'Complaints',
 			state: 'p.complaint.list',
-			permissions: ['project.listProjectComplaints']
+			permissions: ['context.listProjectComplaints']
 		});
 		Menus.addMenuItem('projectMenu', {
 			title: 'Conditions',
 			state: 'p.projectcondition.list',
-			permissions: ['project.listProjectConditions']
+			permissions: ['context.listProjectConditions']
 		});
 		Menus.addMenuItem('projectMenu', {
 			title: 'Inspection Reports',
 			state: 'p.ir.list',
-			permissions: ['project.listInspectionReports']
+			permissions: ['context.listInspectionReports']
 		});
 		Menus.addMenuItem('projectMenu', {
 			title: 'Project Roles',
 			state: 'p.roles.list',
-			permissions: ['project.listProjectRoles']
+			permissions: ['context.listProjectRoles']
 		});
 		Menus.addMenuItem('projectMenu', {
 			title: 'Valued Components',
 			state: 'p.vc.list',
-			permissions: ['project.listValuedComponents']
+			permissions: ['context.listValuedComponents']
 		});
 	}
 

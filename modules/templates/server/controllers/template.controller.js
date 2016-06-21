@@ -5,7 +5,7 @@
 //
 // =========================================================================
 var path     = require('path');
-var DBModel   = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var DBModel   = require (path.resolve('./modules/core/server/controllers/cc.dbmodel.controller'));
 var _         = require ('lodash');
 
 module.exports = DBModel.extend ({
@@ -103,7 +103,7 @@ module.exports = DBModel.extend ({
 //
 // =========================================================================
 var path     = require('path');
-var DBModel  = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var DBModel  = require (path.resolve('./modules/core/server/controllers/cc.dbmodel.controller'));
 
 
 module.exports = DBModel.extend ({

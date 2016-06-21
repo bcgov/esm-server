@@ -5,14 +5,14 @@
 //
 // =========================================================================
 var path                = require ('path');
-var DBModel             = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var DBModel             = require (path.resolve('./modules/core/server/controllers/cc.dbmodel.controller'));
 var UserClass           = require (path.resolve('./modules/users/server/controllers/admin.server.controller'));
 var PhaseClass          = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
 var PhaseBaseClass      = require (path.resolve('./modules/phases/server/controllers/phasebase.controller'));
 var OrganizationClass   = require (path.resolve('./modules/organizations/server/controllers/organization.controller'));
 var StreamClass         = require (path.resolve('./modules/streams/server/controllers/stream.controller'));
 var RecentActivityClass = require (path.resolve('./modules/recent-activity/server/controllers/recent-activity.controller'));
-var Roles               = require (path.resolve('./modules/roles/server/controllers/role.controller'));
+// var Roles               = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 var _                   = require ('lodash');
 var util = require('util');
 
@@ -86,11 +86,15 @@ module.exports = DBModel.extend ({
 				//console.log ('Step3. assign admin role to user');
 				// console.log ('project is now ', project);
 				var userRole = (self.user.orgCode !== 'eao' && self.user.orgCode === project.orgCode) ? project.proponentAdminRole : project.adminRole;
-				return Roles.userRoles ({
-					method: 'add',
-					users: self.user,
-					roles: userRole
-				});
+				//
+				// TBD ROLES
+				//
+				return Promise.resolve ();
+				// return Roles.userRoles ({
+				// 	method: 'add',
+				// 	users: self.user,
+				// 	roles: userRole
+				// });
 			})
 			//
 			// update this model's user roles
@@ -149,42 +153,46 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	setDefaultRoles: function (project, base) {
-		var permissions = {
-			read:[],
-			write:[],
-			submit:[],
-			watch:[]
-		};
-		_.each (base.default_eao_read   , function (code) {
-			permissions.read.push (Roles.generateCode (project.code, 'eao', code));
-		});
-		_.each (base.default_eao_write  , function (code) {
-			permissions.write.push (Roles.generateCode (project.code, 'eao', code));
-		});
-		_.each (base.default_eao_submit , function (code) {
-			permissions.submit.push (Roles.generateCode (project.code, 'eao', code));
-		});
-		_.each (base.default_eao_watch  , function (code) {
-			permissions.watch.push (Roles.generateCode (project.code, 'eao', code));
-		});
-		_.each (base.default_pro_read   , function (code) {
-			permissions.read.push (Roles.generateCode (project.code, 'pro', code));
-		});
-		_.each (base.default_pro_write  , function (code) {
-			permissions.write.push (Roles.generateCode (project.code, 'pro', code));
-		});
-		_.each (base.default_pro_submit , function (code) {
-			permissions.submit.push (Roles.generateCode (project.code, 'pro', code));
-		});
-		_.each (base.default_pro_watch  , function (code) {
-			permissions.watch.push (Roles.generateCode (project.code, 'pro', code));
-		});
-		return Roles.objectRoles ({
-			method      : 'add',
-			objects     : project,
-			type        : 'projects',
-			permissions : permissions
-		});
+		//
+		// TBD ROLES
+		//
+		return project;
+		// var permissions = {
+		// 	read:[],
+		// 	write:[],
+		// 	submit:[],
+		// 	watch:[]
+		// };
+		// _.each (base.default_eao_read   , function (code) {
+		// 	permissions.read.push (Roles.generateCode (project.code, 'eao', code));
+		// });
+		// _.each (base.default_eao_write  , function (code) {
+		// 	permissions.write.push (Roles.generateCode (project.code, 'eao', code));
+		// });
+		// _.each (base.default_eao_submit , function (code) {
+		// 	permissions.submit.push (Roles.generateCode (project.code, 'eao', code));
+		// });
+		// _.each (base.default_eao_watch  , function (code) {
+		// 	permissions.watch.push (Roles.generateCode (project.code, 'eao', code));
+		// });
+		// _.each (base.default_pro_read   , function (code) {
+		// 	permissions.read.push (Roles.generateCode (project.code, 'pro', code));
+		// });
+		// _.each (base.default_pro_write  , function (code) {
+		// 	permissions.write.push (Roles.generateCode (project.code, 'pro', code));
+		// });
+		// _.each (base.default_pro_submit , function (code) {
+		// 	permissions.submit.push (Roles.generateCode (project.code, 'pro', code));
+		// });
+		// _.each (base.default_pro_watch  , function (code) {
+		// 	permissions.watch.push (Roles.generateCode (project.code, 'pro', code));
+		// });
+		// return Roles.objectRoles ({
+		// 	method      : 'add',
+		// 	objects     : project,
+		// 	type        : 'projects',
+		// 	permissions : permissions
+		// });
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -237,12 +245,16 @@ module.exports = DBModel.extend ({
 				// through the project admin role and the sector lead role
 				// (we dont wait on the promise here, just trust it)
 				//
-				return Roles.objectRoles ({
-					method      : 'add',
-					objects     : p,
-					type        : 'projects',
-					permissions : {submit : [p.adminRole, p.sectorRole]}
-				});
+				//
+				// TBD ROLES
+				//
+				return p;
+				// return Roles.objectRoles ({
+				// 	method      : 'add',
+				// 	objects     : p,
+				// 	type        : 'projects',
+				// 	permissions : {submit : [p.adminRole, p.sectorRole]}
+				// });
 			})
 			.then (function (pp) {
 				self.postMessage ({
@@ -287,11 +299,15 @@ module.exports = DBModel.extend ({
 			// we MUST add the admin role to the current user or they cannot
 			// perform the upcoming save
 			//
-			Roles.userRoles ({
-				method: 'add',
-				users: self.user,
-				roles: project.adminRole
-			})
+			//
+			// TBD ROLES
+			//
+			Promise.resolve ()
+			// Roles.userRoles ({
+			// 	method: 'add',
+			// 	users: self.user,
+			// 	roles: project.adminRole
+			// })
 			.then (function () {
 				//
 				// reset the user in this object with its new permissions
@@ -525,65 +541,70 @@ module.exports = DBModel.extend ({
 		project.proponentInviteeRole = project.code + ':pro:invitee';
 		project.eaoMember = project.code + ':eao:member';
 		project.proMember = project.code + ':pro:member';
-		
+
 		defaultRoles.push(project.eaoMember);
 		defaultRoles.push(project.proMember);
 
-		var Roll = require('mongoose').model('Role');
+		//
+		// TBD ROLES
+		//
+		return Promise.resolve (defaultRoles);
 
-		return Roll.find({isSystem: true, isProjectDefault: true})
-			.then(function(rolez) {
-				//console.log('initDefaultRoles(' + project.code + ') adding system/project defaults ' + rolez.length);
-				
-				var a = _.map(rolez, function(role) {
-					return new Promise(function(fulfill, reject) {
-						Roles.findOrCreate(project.code, role.orgCode, role.roleCode, role.name, false, role.isFunctional)
-							.then(function(r) {
-								if (r.isFunctional) {
-									defaultRoles.push(r.code);
-								}
-								fulfill(r);
-							});
-					});
-				});
-				return Promise.all(a);
-			})
-		.then(function(data) {
-			//console.log('initDefaultRoles(' + project.code + ') added system/project defaults');
+		// var Roll = require('mongoose').model('Role');
 
-			// handle passed in roles...
-			var a = _.map(project.roles, function(r) {
-				return new Promise(function(fulfill, reject) {
-					var codes = r.split(':');
-					if (codes.length === 3) {
-						Roles.findOrCreate(project.code, codes[1], codes[2], codes[2], false, true)
-							.then(function(r) {
-								fulfill(defaultRoles.push(r.code));
-							});
-					} else {
-						fulfill(defaultRoles.push(r));
-					}
-				});
-			});
-			return Promise.all(a);
-		})
-		.then(function(data) {
-			//console.log('initDefaultRoles(' + project.code + ') added passed in roles');
-			// add the roles to the project->role mapping...
-			return Roles.objectRoles ({
-				method: 'set',
-				objects: project,
-				type: 'projects',
-				permissions: {
-					read   : _.uniq(defaultRoles),
-					submit : [project.proponentAdminRole, project.adminRole]
-				}
-			});
-		})
-		.then(function(data) {
-			//console.log('initDefaultRoles(' + project.code + ') object roles set');
-			return data;
-		});
+		// return Roll.find({isSystem: true, isProjectDefault: true})
+		// 	.then(function(rolez) {
+		// 		//console.log('initDefaultRoles(' + project.code + ') adding system/project defaults ' + rolez.length);
+
+		// 		var a = _.map(rolez, function(role) {
+		// 			return new Promise(function(fulfill, reject) {
+		// 				Roles.findOrCreate(project.code, role.orgCode, role.roleCode, role.name, false, role.isFunctional)
+		// 					.then(function(r) {
+		// 						if (r.isFunctional) {
+		// 							defaultRoles.push(r.code);
+		// 						}
+		// 						fulfill(r);
+		// 					});
+		// 			});
+		// 		});
+		// 		return Promise.all(a);
+		// 	})
+		// .then(function(data) {
+		// 	//console.log('initDefaultRoles(' + project.code + ') added system/project defaults');
+
+		// 	// handle passed in roles...
+		// 	var a = _.map(project.roles, function(r) {
+		// 		return new Promise(function(fulfill, reject) {
+		// 			var codes = r.split(':');
+		// 			if (codes.length === 3) {
+		// 				Roles.findOrCreate(project.code, codes[1], codes[2], codes[2], false, true)
+		// 					.then(function(r) {
+		// 						fulfill(defaultRoles.push(r.code));
+		// 					});
+		// 			} else {
+		// 				fulfill(defaultRoles.push(r));
+		// 			}
+		// 		});
+		// 	});
+		// 	return Promise.all(a);
+		// })
+		// .then(function(data) {
+		// 	//console.log('initDefaultRoles(' + project.code + ') added passed in roles');
+		// 	// add the roles to the project->role mapping...
+		// 	return Roles.objectRoles ({
+		// 		method: 'set',
+		// 		objects: project,
+		// 		type: 'projects',
+		// 		permissions: {
+		// 			read   : _.uniq(defaultRoles),
+		// 			submit : [project.proponentAdminRole, project.adminRole]
+		// 		}
+		// 	});
+		// })
+		// .then(function(data) {
+		// 	//console.log('initDefaultRoles(' + project.code + ') object roles set');
+		// 	return data;
+		// });
 	}
 
 });

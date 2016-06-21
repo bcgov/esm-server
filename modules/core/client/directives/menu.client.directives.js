@@ -4,7 +4,7 @@ angular.module('core')
 	.directive('tmplSystemMenu', directiveSystemMenu);
 // -----------------------------------------------------------------------------------
 //
-// DIRECTIVE: Activity Listing
+// DIRECTIVE: System Menu
 //
 // -----------------------------------------------------------------------------------
 directiveSystemMenu.$inject = ['$window'];
@@ -30,7 +30,7 @@ function directiveSystemMenu($window) {
 			});
 		}
 
-		
+
 	};
 	return directive;
 }

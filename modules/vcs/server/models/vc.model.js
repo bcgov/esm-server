@@ -10,8 +10,8 @@
 // mark vcs in all other parts of the system
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('Vc', {
+module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+('Vc', {
 	__audit				: true,
 	__codename			: 'unique',
 	title				: { type:String, default:'', index:true },

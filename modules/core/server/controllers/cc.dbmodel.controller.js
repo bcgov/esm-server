@@ -171,6 +171,8 @@ _.extend (DBModel.prototype, {
 		// the default access level is set to 'read'
 		//
 		this.setAccess ('read');
+		console.log ('dbmodel: roles', this.roles);
+		console.log ('dbmodel: isAdmin', this.isAdmin);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -422,21 +424,18 @@ _.extend (DBModel.prototype, {
 		//
 		return new Promise (function (resolve, reject) {
 			if (self.isAdmin) {
-				_.each (model.allPermissions (), function (val, key) {
+				_.each (model.allPermissions (), function (key) {
 					model.userCan[key] = true;
 				});
 				resolve (model);
 			}
 			else {
-				console.log ('+_+ this model id : ', model._id);
-				console.log ('+_+ this model code : ', model.code);
 				access.userPermissions ({
 					context  : self.context,
 					user     : self.user.username,
 					resource : model.code
 				})
 				.then (function (ps) {
-					console.log ('ps', ps);
 					ps.map (function (perm) {
 						model.userCan[perm] = true;
 					});
@@ -456,12 +455,12 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	decoratePermission : function (models) {
 		var self = this;
-		console.log ('roles', self.roles);
+		console.log ('decoratePermission roles', self.roles);
+		console.log ('decoratePermission isAdmin', self.isAdmin);
 		if (_.isArray (models)) {
 			return self.decorateCollection ? (Promise.all (models.map (self.addPermissions))) : models;
 		} else {
 			return new Promise (function (resolve, reject) {
-				// console.log ('decorating single with permissions');
 				resolve (self.addPermissions (models));
 			});
 		}
@@ -678,7 +677,6 @@ _.extend (DBModel.prototype, {
 		q = _.extend ({}, this.baseQ, q);
 		f = f || {};
 		var self = this;
-		console.log ('got here man');
 		return new Promise (function (resolve, reject) {
 			self.findMany (q, f)
 			.then (self.permissions)

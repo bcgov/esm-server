@@ -19,9 +19,9 @@
 		</ul>
 	</div>
 
-	<div ng-if="(menu.context === 'projects' || menu.context === 'mylist') && menu.projectsMenu.shouldRender(menu.authentication.user);">
+	<div ng-if="(menu.context === 'projects' || menu.context === 'mylist') && menu.projectsMenu.shouldRender(menu.authentication.user, menu.project);">
 		<ul class="list-unstyle">
-			<li ng-repeat="item in menu.projectsMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
+			<li ng-repeat="item in menu.projectsMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
 		</ul>
@@ -49,15 +49,15 @@
 
 		<!-- PROJECT CLIENT MENUS (project.client.menus.js) -->
 		<ul class="list-unstyled" ng-show="menu.authentication.user">
-			<li ng-repeat="item in menu.projectTopMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project.code);"
+			<li ng-repeat="item in menu.projectTopMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project);"
 			    ng-class="{ 'active': $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
 		</ul><!-- / PROJECT CLIENT MENUS -->
 
-		<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user, menu.project.code)">
+		<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user, menu.project)">
 			<li ng-repeat="item in menu.projectMenu.items | orderBy: 'position'"
-			    ng-if="item.shouldRender(menu.authentication.user, menu.project.code);"
+			    ng-if="item.shouldRender(menu.authentication.user, menu.project);"
 					ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				  <a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
