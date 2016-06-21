@@ -3,25 +3,28 @@
 /**
  * Module dependencies.
  */
-var policy = require('../policies/admin.server.policy');
+var routes = require ('../../../core/server/controllers/cc.routes.controller');
+var policy = require ('../../../core/server/controllers/cc.policy.controller');
+
 var UserCtrl = require('../controllers/admin.server.controller');
-var helpers = require('../../../core/server/controllers/core.helpers.controller');
 // var RoleCtrl = require(require('path').resolve('./modules/roles/server/controllers/role.controller'));
 var _ = require('lodash');
 var User = require('mongoose').model('User');
 // var Role = require('mongoose').model('Role');
 
 module.exports = function (app) {
-	helpers.setCRUDRoutes(app, 'user', UserCtrl, policy);
+	routes.setCRUDRoutes(app, 'user', UserCtrl, policy);
 
 	// just create a new user if required... add them to the roles...
-	app.route('/api/onboardUser').all(policy.isAllowed)
-		.post(function (req, res) {
+	app.route('/api/onboardUser')
+		.all (policy ('user'))
+		.all (routes.setModel (UserCtrl, 'userCtl'))
+		.post (function (req, res) {
 			//
 			// TBD ROLES
 			// this all has to be rewritten
 			//
-			Promise.then.resolve ({}).then(helpers.success(res), helpers.failure(res));
+			Promise.then.resolve ({}).then(routes.success(res), routes.failure(res));
 			// var _user;
 
 			// (new UserCtrl(req.user)).findOne({email: req.body.email.toLowerCase()})
@@ -66,6 +69,6 @@ module.exports = function (app) {
 			// 		//console.log(data);
 			// 		return data;
 			// 	})
-			// 	.then(helpers.success(res), helpers.failure(res));
+			// 	.then(routes.success(res), routes.failure(res));
 		});
 };

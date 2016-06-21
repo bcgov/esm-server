@@ -4,35 +4,35 @@
 // Routes for orgs
 //
 // =========================================================================
-var policy = require('../policies/recent-activity.policy');
 var RecentActivity = require('../controllers/recent-activity.controller');
 var Project = require(require('path').resolve('./modules/projects/server/controllers/project.controller'));
-var helpers = require('../../../core/server/controllers/core.helpers.controller');
 var _ = require('lodash');
+var routes = require ('../../../core/server/controllers/cc.routes.controller');
+var policy = require ('../../../core/server/controllers/cc.policy.controller');
 
 module.exports = function(app) {
-	helpers.setCRUDRoutes(app, 'recentActivity', RecentActivity, policy);
+	routes.setCRUDRoutes(app, 'recentActivity', RecentActivity, policy);
 
 	//
 	// all active activities
 	//
 	app.route('/api/recentactivity/active/list')
-		.all(policy.isAllowed)
-		.get(function(req, res) {
-			var p = new RecentActivity();
-			p.getRecentActivityActive()
-				.then(helpers.success(res), helpers.failure(res));
-		});
+		.all (policy ('guest'))
+		.get (routes.setAndRun (RecentActivity, function (model, req) {
+			return model.getRecentActivityActive ();
+		}));
 	app.route('/api/recentactivity/active/rss')
-		.all(policy.isAllowed)
-		.get(function(req, res) {
+		.all (policy ('guest'))
+		.all (routes.setModel (Project, 'prj'))
+		.all (routes.setModel (RecentActivity, 'rac'))
+		.get (function(req, res) {
 			var myHost = req.protocol + '://' + req.get('host');
 			var myURL = myHost + req.originalUrl;
 			var projects = [];
-			var prj = new Project(req.user);
+			var prj = req.prj;
 			prj.list()
 				.then(function(projectObjects) {
-				var p = new RecentActivity();
+				var p = req.rac;
 				p.getRecentActivityActive()
 					.then(function(data) {
 						var RSS = require('rss');
@@ -79,18 +79,20 @@ module.exports = function(app) {
 				});
 		});
 	app.route('/api/recentactivity/get/rss/:projectcode')
-		.all(policy.isAllowed)
-		.get(function(req, res) {
+		.all (policy ('guest'))
+		.all (routes.setModel (Project, 'prj'))
+		.all (routes.setModel (RecentActivity, 'rac'))
+		.get (function(req, res) {
 			var code = req.params.projectcode;
 			var myHost = req.protocol + '://' + req.get('host');
 			var myURL = myHost + req.originalUrl;
 			var projects = [];
-			var prj = new Project(req.user);
+			var prj = req.prj;
 			prj.list({code: code})
 			.then(function (projectObjects) {
 				if (projectObjects.length > 0) {
 					var theProject = projectObjects[0];
-					var p = new RecentActivity();
+					var p = req.rac;
 					p.getRecentActivityByProjectId(theProject._id)
 					.then(function(data) {
 						var RSS = require('rss');

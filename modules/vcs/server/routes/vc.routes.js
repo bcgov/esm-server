@@ -4,17 +4,15 @@
 // Routes for vcs
 //
 // =========================================================================
-var policy  = require ('../policies/vc.policy');
 var Vc  = require ('../controllers/vc.controller');
-var helpers = require ('../../../core/server/controllers/core.helpers.controller');
+var routes = require ('../../../core/server/controllers/cc.routes.controller');
+var policy = require ('../../../core/server/controllers/cc.policy.controller');
 
 module.exports = function (app) {
-	helpers.setCRUDRoutes (app, 'vc', Vc, policy);
-	app.route ('/api/vc/for/project/:projectid').all (policy.isAllowed)
-		.get (function (req, res) {
-			var p = new Vc (req.user);
-			p.getForProject (req.params.projectid)
-			.then (helpers.success(res), helpers.failure(res));
-		});
+	routes.setCRUDRoutes (app, 'vc', Vc, policy);
+	app.route ('/api/vc/for/project/:projectid').all (policy ('guest'))
+		.get (routes.setAndRun (Vc, function (model, req) {
+			return model.getForProject (req.params.projectid);
+		}));
 };
 

@@ -14,7 +14,7 @@ module.exports = function (app) {
 	app.route ('/api/sendinvitations')
 	.all (policy ('user'))
 	.put (routes.setAndRun (Invitation, function (model, req) {
-		model.sendInvitations(req);
+		return model.sendInvitations(req);
 	}));
 
 };

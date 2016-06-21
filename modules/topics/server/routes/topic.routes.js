@@ -4,21 +4,19 @@
 // Routes for topics
 //
 // =========================================================================
-var policy  = require ('../policies/topic.policy');
 var Topic  = require ('../controllers/topic.controller');
-var helpers = require ('../../../core/server/controllers/core.helpers.controller');
+var routes = require ('../../../core/server/controllers/cc.routes.controller');
+var policy = require ('../../../core/server/controllers/cc.policy.controller');
 
 module.exports = function (app) {
-	helpers.setCRUDRoutes (app, 'topic', Topic, policy);
-	app.route ('/api/topics/for/pillar/:pillar').all (policy.isAllowed)
-		.get (function (req, res) {
-			var o = new Topic (req.user);
-			o.findMany ({pillar:req.params.pillar}).then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/topics/for/type/:type').all (policy.isAllowed)
-		.get (function (req, res) {
-			var o = new Topic (req.user);
-			o.findMany ({type:req.params.type}).then (helpers.success(res), helpers.failure(res));
-		});
+	routes.setCRUDRoutes (app, 'topic', Topic, policy);
+	app.route ('/api/topics/for/pillar/:pillar').all (policy ('guest'))
+		.get (routes.setAndRun (Topic, function (model, req) {
+			return model.findMany ({pillar:req.params.pillar});
+		}));
+	app.route ('/api/topics/for/type/:type').all (policy ('guest'))
+		.get (routes.setAndRun (Topic, function (model, req) {
+			return model.findMany ({type:req.params.type});
+		}));
 };
 
