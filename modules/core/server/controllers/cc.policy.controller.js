@@ -2,7 +2,7 @@
 // =========================================================================
 //
 // a very much simplified policy implementation.
-// user can be either public, authenticated, or admin. thats all
+// user can be either guest, user, or admin. thats all
 // all the reset of security is handled through object level permissions
 //
 // =========================================================================

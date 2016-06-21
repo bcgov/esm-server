@@ -4,81 +4,71 @@
 // Routes for artifacts
 //
 // =========================================================================
-var policy       = require ('../policies/artifact.policy');
 var Artifact     = require ('../controllers/artifact.controller');
 var ArtifactType = require ('../controllers/artifact.type.controller');
-var helpers      = require ('../../../core/server/controllers/core.helpers.controller');
+var routes = require ('../../../core/server/controllers/cc.routes.controller');
+var policy = require ('../../../core/server/controllers/cc.policy.controller');
 
 module.exports = function (app) {
-	helpers.setCRUDRoutes (app, 'artifact', Artifact, policy);
-	helpers.setCRUDRoutes (app, 'artifacttype', Artifact, policy);
-	app.route ('/api/artifact/kml/for/project/:projectid').all (policy.isAllowed)
-		.get (function (req, res) {
-			var p = new Artifact (req.user);
-			p.getForProjectKML (req.params.projectid)
-			.then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/artifact/for/project/:projectid').all (policy.isAllowed)
-		.get (function (req, res) {
-			var p = new Artifact (req.user);
-			p.getForProject (req.params.projectid)
-			.then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/artifact/for/project/:projectid/not/:filtertype').all (policy.isAllowed)
-		.get (function (req, res) {
-			var p = new Artifact (req.user);
-			p.getForProjectFilterType (req.params.projectid,req.params.filtertype)
-			.then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/artifact/for/project/:projectid/:type').all (policy.isAllowed)
-		.get (function (req, res) {
-			var p = new Artifact (req.user);
-			p.getForProjectType (req.params.projectid,req.params.type)
-			.then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/artifact/project/:project/from/type/:documenttype').all (policy.isAllowed)
-		.get (function (req, res) {
-			var p = new Artifact (req.user);
-			p.newFromType (req.params.documenttype, req.Project)
-			.then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/artifact/project/:projectid/available/types').all (policy.isAllowed)
-		.get (function (req, res) {
-			var p = new Artifact (req.user);
-			p.availableTypes (req.params.projectid)
-			.then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/artifacttype/template/types').all (policy.isAllowed)
-		.get (function (req, res) {
-			(new ArtifactType (req.user)).templateTypes (req.params.projectid)
-			.then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/artifact/next/stage/:artifact').all (policy.isAllowed)
-		.put (function (req, res) {
-			var p = new Artifact (req.user);
-			p.nextStage (req.body, req.Artifact)
-			.then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/artifact/prev/stage/:artifact').all (policy.isAllowed)
-		.put (function (req, res) {
-			var p = new Artifact (req.user);
-			p.prevStage (req.body, req.Artifact)
-			.then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/artifacttype/code/:code').all (policy.isAllowed)
-		.get (function (req, res) {
-			(new ArtifactType (req.user)).fromCode (req.params.code)
-			.then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/publish/artifact/:artifact').all(policy.isAllowed)
-		.put (function (req, res) {
-			(new Artifact (req.user)).publish (req.Artifact)
-			.then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/unpublish/artifact/:artifact').all(policy.isAllowed)
-		.put (function (req, res) {
-			(new Artifact (req.user)).unpublish (req.Artifact)
-			.then (helpers.success(res), helpers.failure(res));
-		});
+	routes.setCRUDRoutes (app, 'artifact', Artifact, policy);
+	routes.setCRUDRoutes (app, 'artifacttype', Artifact, policy);
+	app.route ('/api/artifact/kml/for/project/:projectid')
+		.all (policy ('guest'))
+		.get (routes.setAndRun (Artifact, function (model, req) {
+			return model.getForProjectKML (req.params.projectid);
+		}));
+	app.route ('/api/artifact/for/project/:projectid')
+		.all (policy ('guest'))
+		.get (routes.setAndRun (Artifact, function (model, req) {
+			return model.getForProject (req.params.projectid);
+		}));
+	app.route ('/api/artifact/for/project/:projectid/not/:filtertype')
+		.all (policy ('guest'))
+		.get (routes.setAndRun (Artifact, function (model, req) {
+			return model.getForProjectFilterType (req.params.projectid,req.params.filtertype);
+		}));
+	app.route ('/api/artifact/for/project/:projectid/:type')
+		.all (policy ('guest'))
+		.get (routes.setAndRun (Artifact, function (model, req) {
+			return model.getForProjectType (req.params.projectid,req.params.type);
+		}));
+	app.route ('/api/artifact/project/:project/from/type/:documenttype')
+		.all (policy ('user'))
+		.get (routes.setAndRun (Artifact, function (model, req) {
+			return model.newFromType (req.params.documenttype, req.Project);
+		}));
+	app.route ('/api/artifact/project/:projectid/available/types')
+		.all (policy ('user'))
+		.get (routes.setAndRun (Artifact, function (model, req) {
+			return model.availableTypes (req.params.projectid);
+		}));
+	app.route ('/api/artifacttype/template/types')
+		.all (policy ('user'))
+		.get (routes.setAndRun (ArtifactType, function (model, req) {
+			return model.templateTypes (req.params.projectid);
+		}));
+	app.route ('/api/artifact/next/stage/:artifact')
+		.all (policy ('user'))
+		.put (routes.setAndRun (Artifact, function (model, req) {
+			return model.nextStage (req.body, req.Artifact);
+		}));
+	app.route ('/api/artifact/prev/stage/:artifact')
+		.all (policy ('user'))
+		.put (routes.setAndRun (Artifact, function (model, req) {
+			return model.prevStage (req.body, req.Artifact);
+		}));
+	app.route ('/api/artifacttype/code/:code')
+		.all (policy ('guest'))
+		.get (routes.setAndRun (ArtifactType, function (model, req) {
+			return model.fromCode (req.params.code);
+		}));
+	app.route ('/api/publish/artifact/:artifact').all(policy ('user'))
+		.put (routes.setAndRun (Artifact, function (model, req) {
+			return model.publish (req.Artifact);
+		}));
+	app.route ('/api/unpublish/artifact/:artifact').all(policy ('user'))
+		.put (routes.setAndRun (Artifact, function (model, req) {
+			return model.unpublish (req.Artifact);
+		}));
 };
 

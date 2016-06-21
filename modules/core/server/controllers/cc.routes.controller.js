@@ -216,6 +216,23 @@ exports.runModel = runModel;
 
 // -------------------------------------------------------------------------
 //
+// this does a combo of the previous two. it takes the dbmodel and the
+// function to call at the same time and does both jobs. It does NOT decorate
+// the request however.
+//
+// -------------------------------------------------------------------------
+var setAndRun = function (Dbclass, f) {
+	return function (req, res, next) {
+		setSessionContext (req)
+		.then (function (opts) {
+			runPromise (res, f (new Dbclass (opts), req));
+		});
+	};
+};
+exports.setAndRun = setAndRun;
+
+// -------------------------------------------------------------------------
+//
 // a standard way of setting crud routes.
 // basename is the uri token: /api/basename/:basename
 // DBClass is the database model as extended from DBModel
