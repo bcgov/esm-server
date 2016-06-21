@@ -26,6 +26,7 @@ angular.module('project').config (
 			}
 		},
 		controller: function ($scope, $stateParams, project, ENV, $rootScope, ProjectModel, Menus, MenuControl) {
+			console.log ('project permissions:', project.userCan);
 			$scope.project = project;
 			$scope.environment = ENV;
 			$scope.isNew = ($stateParams.projectid === 'new');
