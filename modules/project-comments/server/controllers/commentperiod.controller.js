@@ -5,7 +5,7 @@
 //
 // =========================================================================
 var path       = require('path');
-var DBModel    = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var DBModel    = require (path.resolve('./modules/core/server/controllers/cc.dbmodel.controller'));
 var PhaseClass = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
 var ActivityClass = require (path.resolve('./modules/activities/server/controllers/activity.controller'));
 var MilestoneClass = require (path.resolve('./modules/milestones/server/controllers/milestone.controller'));

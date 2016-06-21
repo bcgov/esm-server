@@ -5,13 +5,13 @@
 //
 // =========================================================================
 var path               = require('path');
-var DBModel            = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var DBModel            = require (path.resolve('./modules/core/server/controllers/cc.dbmodel.controller'));
 var Template            = require (path.resolve('./modules/templates/server/controllers/template.controller'));
 var ArtifactType      = require ('./artifact.type.controller');
 var MilestoneClass     = require (path.resolve('./modules/milestones/server/controllers/milestone.controller'));
 var ActivityClass     = require (path.resolve('./modules/activities/server/controllers/activity.controller'));
 var PhaseClass     = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
-var Roles               = require (path.resolve('./modules/roles/server/controllers/role.controller'));
+// var Roles               = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 var _                  = require ('lodash');
 
 module.exports = DBModel.extend ({

@@ -4,8 +4,8 @@
 // Model for orgs
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('RecentActivity', {
+module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+('RecentActivity', {
 	__audit  : true,
 	headline : { type: String, default:'' },
 	content  : { type: String, default:'' },

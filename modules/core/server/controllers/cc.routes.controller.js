@@ -187,11 +187,12 @@ var setSessionContext = function (req) {
 // model so that the user has the correct security context
 //
 // -------------------------------------------------------------------------
-var setModel = function (Dbclass) {
+var setModel = function (Dbclass, name) {
+	name = name || 'Model';
 	return function (req, res, next) {
 		setSessionContext (req)
 		.then (function (opts) {
-			req.Model = new Dbclass (opts);
+			req[name] = new Dbclass (opts);
 			next ();
 		});
 	};

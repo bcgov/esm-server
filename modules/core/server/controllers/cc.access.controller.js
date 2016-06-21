@@ -85,7 +85,11 @@ var addAllRole = function (a) {
 	a.push ('*');
 	return a;
 };
-
+var ensureArray = function (val) {
+	if (!val) return [];
+	else if (_.isArray (val)) return val;
+	else return [val];
+};
 // -------------------------------------------------------------------------
 //
 // wrap the find in a proper promise for both types. Always returns an array
@@ -147,8 +151,8 @@ var addPermission = function (p) {
 	});
 };
 var addPermissions = function (p) {
-	p.permissions = p.permissions || [];
-	p.roles = p.roles || [];
+	p.permissions = ensureArray (p.permissions);
+	p.roles = ensureArray (p.roles);
 	return Promise.all (expandPermissions(p).map (function (v) {
 		return addPermission (v);
 	}));
@@ -176,8 +180,8 @@ var deletePermission = function (p) {
 	});
 };
 var deletePermissions = function (p) {
-	p.permissions = p.permissions || [];
-	p.roles = p.roles || [];
+	p.permissions = ensureArray (p.permissions);
+	p.roles = ensureArray (p.roles);
 	return Promise.all (expandPermissions(p).map (function (v) {
 		return deletePermission (v);
 	}));
@@ -205,7 +209,7 @@ var addPermissionDefinition = function (p) {
 	return addPermission (p);
 };
 var addPermissionDefinitions = function (o) {
-	o.permissions = o.permissions || [];
+	o.permissions = ensureArray (o.permissions);
 	return Promise.all (o.permissions.map (function (permission) {
 		return addPermission ({
 			resource   : o.resource,
@@ -224,7 +228,7 @@ var deletePermissionDefinition = function (p) {
 	return deletePermission (p);
 };
 var deletePermissionDefinitions = function (o) {
-	o.permissions = o.permissions || [];
+	o.permissions = ensureArray (o.permissions);
 	return Promise.all (o.permissions.map (function (permission) {
 		return deletePermission ({
 			resource   : o.resource,
@@ -309,8 +313,8 @@ var addRole = function (p) {
 	});
 };
 var addRoles = function (p) {
-	p.roles = p.roles || [];
-	p.users = p.users || [];
+	p.roles = ensureArray (p.roles);
+	p.users = ensureArray (p.users);
 	return Promise.all (expandRoles(p).map (function (v) {
 		return addRole (v);
 	}));
@@ -338,8 +342,8 @@ var deleteRole = function (p) {
 	});
 };
 var deleteRoles = function (p) {
-	p.roles = p.roles || [];
-	p.users = p.users || [];
+	p.roles = ensureArray (p.roles);
+	p.users = ensureArray (p.users);
 	return Promise.all (expandRoles(p).map (function (v) {
 		return deleteRole (v);
 	}));
@@ -354,7 +358,7 @@ var addRoleDefinition = function (p) {
 	return addRole (p);
 };
 var addRoleDefinitions = function (o) {
-	o.roles = o.roles || [];
+	o.roles = ensureArray (o.roles);
 	return Promise.all (o.roles.map (function (role) {
 		return addRole ({
 			context   : o.context,
@@ -373,7 +377,7 @@ var deleteRoleDefinition = function (p) {
 	return deleteRole (p);
 };
 var deleteRoleDefinitions = function (o) {
-	o.roles = o.roles || [];
+	o.roles = ensureArray (o.roles);
 	return Promise.all (o.roles.map (function (role) {
 		return deleteRole ({
 			context   : o.context,

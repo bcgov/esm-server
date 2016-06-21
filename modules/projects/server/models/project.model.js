@@ -29,7 +29,9 @@ module.exports = require ('../../../core/server/controllers/cc.schema.controller
 		'listValuedComponents',
 		'createValuedComponent',
 		'listArtifacts',
-		'createArtifact'
+		'createArtifact',
+		'publish',
+		'unPublish'
 	],
 	__tracking            : true,
 	__status              : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Not Certified', 'Decommissioned'],

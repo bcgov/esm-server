@@ -6,8 +6,8 @@
 // =========================================================================
 var _                 = require ('lodash');
 var path              = require('path');
-var DBModel           = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
-var Roles             = require (path.resolve('./modules/roles/server/controllers/role.controller'));
+var DBModel           = require (path.resolve('./modules/core/server/controllers/cc.dbmodel.controller'));
+// var Roles             = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 var ActivityBaseClass = require ('./activitybase.controller');
 
 
@@ -71,42 +71,47 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	setDefaultRoles: function (activity, base) {
-		var permissions = {
-			read:[],
-			write:[],
-			submit:[],
-			watch:[]
-		};
-		_.each (base.default_eao_read   , function (code) {
-			permissions.read.push (Roles.generateCode (activity.projectCode, 'eao', code));
-		});
-		_.each (base.default_eao_write  , function (code) {
-			permissions.write.push (Roles.generateCode (activity.projectCode, 'eao', code));
-		});
-		_.each (base.default_eao_submit , function (code) {
-			permissions.submit.push (Roles.generateCode (activity.projectCode, 'eao', code));
-		});
-		_.each (base.default_eao_watch  , function (code) {
-			permissions.watch.push (Roles.generateCode (activity.projectCode, 'eao', code));
-		});
-		_.each (base.default_pro_read   , function (code) {
-			permissions.read.push (Roles.generateCode (activity.projectCode, 'pro', code));
-		});
-		_.each (base.default_pro_write  , function (code) {
-			permissions.write.push (Roles.generateCode (activity.projectCode, 'pro', code));
-		});
-		_.each (base.default_pro_submit , function (code) {
-			permissions.submit.push (Roles.generateCode (activity.projectCode, 'pro', code));
-		});
-		_.each (base.default_pro_watch  , function (code) {
-			permissions.watch.push (Roles.generateCode (activity.projectCode, 'pro', code));
-		});
-		return Roles.objectRoles ({
-			method      : 'set',
-			objects     : activity,
-			type        : 'activities',
-			permissions : permissions
-		});
+		return activity;
+		//
+		// TBD ROLES
+		//
+
+		// var permissions = {
+		// 	read:[],
+		// 	write:[],
+		// 	submit:[],
+		// 	watch:[]
+		// };
+		// _.each (base.default_eao_read   , function (code) {
+		// 	permissions.read.push (Roles.generateCode (activity.projectCode, 'eao', code));
+		// });
+		// _.each (base.default_eao_write  , function (code) {
+		// 	permissions.write.push (Roles.generateCode (activity.projectCode, 'eao', code));
+		// });
+		// _.each (base.default_eao_submit , function (code) {
+		// 	permissions.submit.push (Roles.generateCode (activity.projectCode, 'eao', code));
+		// });
+		// _.each (base.default_eao_watch  , function (code) {
+		// 	permissions.watch.push (Roles.generateCode (activity.projectCode, 'eao', code));
+		// });
+		// _.each (base.default_pro_read   , function (code) {
+		// 	permissions.read.push (Roles.generateCode (activity.projectCode, 'pro', code));
+		// });
+		// _.each (base.default_pro_write  , function (code) {
+		// 	permissions.write.push (Roles.generateCode (activity.projectCode, 'pro', code));
+		// });
+		// _.each (base.default_pro_submit , function (code) {
+		// 	permissions.submit.push (Roles.generateCode (activity.projectCode, 'pro', code));
+		// });
+		// _.each (base.default_pro_watch  , function (code) {
+		// 	permissions.watch.push (Roles.generateCode (activity.projectCode, 'pro', code));
+		// });
+		// return Roles.objectRoles ({
+		// 	method      : 'set',
+		// 	objects     : activity,
+		// 	type        : 'activities',
+		// 	permissions : permissions
+		// });
 	},
 	// -------------------------------------------------------------------------
 	//

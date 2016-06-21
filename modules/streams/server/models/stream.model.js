@@ -4,8 +4,8 @@
 // Model for streams
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('Stream', {
+module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+('Stream', {
 	__codename  : 'unique',
 	//
 	// the list of phases, by code since they are abstract

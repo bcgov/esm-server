@@ -110,60 +110,55 @@ newStatics.findUniqueUsername = function (username, suffix, callback) {
 	});
 };
 
-module.exports = require ('../../../core/server/controllers/core.models.controller').generateModel('User', {
-	__audit     : true,
-
-	firstName: 	{ type: String, trim: true, default: '', validate: [validateLocalStrategyProperty, 'Please fill in your first name'] },
-	middleName: 	{ type: String, trim: true, default: null },
-	lastName: 	{ type: String, trim: true, default: '', validate: [validateLocalStrategyProperty, 'Please fill in your last name'] },
-	displayName: 	{ type: String, trim: true },
-	email: 		{ type: String, unique: true, lowercase: true, trim: true, default: '', validate: [validateLocalStrategyEmail, 'Please fill a valid email address'] },
-	username: 	{ type: String, unique: 'Username already exists', required: 'Please fill in a username', lowercase: true, trim: true	},
-	password: 	{ type: String, default: '', validate: [validateLocalStrategyPassword, 'Password should be longer'] },
-	salt: 		{ type: String },
-	provider: 	{ type: String },
-	providerData: 	{},
-	additionalProvidersData: {},
-	roles: 		[{type: String}],
-	updated: 		{ type: Date },
-	created: 		{ type: Date, default: Date.now },
+module.exports = require ('../../../core/server/controllers/cc.schema.controller')('User', {
+	__audit                 : true,
+	firstName               : { type: String, trim: true, default: '', validate: [validateLocalStrategyProperty, 'Please fill in your first name'] },
+	middleName              : { type: String, trim: true, default: null },
+	lastName                : { type: String, trim: true, default: '', validate: [validateLocalStrategyProperty, 'Please fill in your last name'] },
+	displayName             : { type: String, trim: true },
+	email                   : { type: String, unique: true, lowercase: true, trim: true, default: '', validate: [validateLocalStrategyEmail, 'Please fill a valid email address'] },
+	username                : { type: String, unique: 'Username already exists', required: 'Please fill in a username', lowercase: true, trim: true	},
+	password                : { type: String, default: '', validate: [validateLocalStrategyPassword, 'Password should be longer'] },
+	salt                    : { type: String },
+	provider                : { type: String },
+	providerData            : {},
+	additionalProvidersData : {},
+	roles                   : [{ type: String}],
+	updated                 : { type: Date },
+	created                 : { type: Date, default: Date.now },
 	/* For reset password */
-	resetPasswordToken: { type: String },
-	resetPasswordExpires: { type: Date },
-
-	//contactName : { type:String, default: '' }, REPLACED WITH DISPLAYNAME
-	//code: 		{type:String, default: ''}, REPLACED WITH USERNAME
-	org: 		{ type:'ObjectId', ref:'Organization', default:null, index:true },
-	orgName: 		{ type:String, default: '' },
-	personId: 	{ type:Number, default: null }, // From ePIC
-	title: 		{ type:String, default: '' },
-	homePhoneNumber : { type:String, default: '' },
-	phoneNumber: 	{ type:String, default: '' },
-
-	// if groupId == null, then this is a person (hack)
-	eaoStaffFlag: 	{ type:Boolean, default: false },
-	proponentFlag: { type:Boolean, default: false },
-	salutation  : 	{ type:String, default: '' },
-	department  : 	{ type:String, default: '' },
-	faxNumber   : 	{ type:String, default: '' },
-	cellPhoneNumber : { type:String, default: '' },
-	address1    : 	{ type:String, default: '' },
-	address2    : 	{ type:String, default: '' },
-	city        : 	{ type:String, default: '' },
-	province    : 	{ type:String, default: '' },
-	country     : 	{ type:String, default: '' },
-	postalCode  : 	{ type:String, default: '' },
-	notes       : 	{ type:String, default: '' },
-
-	// contact newMethods
-	viaEmail: 	{ type:Boolean, default: true },
-	viaMail: 		{ type:Boolean, default: false },
-
-  // Siteminder User Guid - smgov_userguid header
-  userGuid: { type: String, unique: 'User GUID already exists', lowercase: true, trim: true  },
-  // Siteminder User Type  - smgov_usertype header
-  userType: { type: String, unique: false, lowercase: true, trim: true, default: '' },
-  __preSave: preSave,
-	__methods: newMethods,
-	__statics: newStatics
+ 	resetPasswordToken      : { type: String },
+	resetPasswordExpires    : { type: Date },
+	//contactName           : { type:String, default: '' }, REPLACED WITH DISPLAYNAME
+	//code                  : type:String, default: ''}, REPLACED WITH USERNAME
+	org                     : { type:'ObjectId', ref:'Organization', default:null, index:true },
+	orgName                 : { type:String, default: '' },
+	personId                : { type:Number, default: null }, // From ePIC
+	title                   : { type:String, default: '' },
+	homePhoneNumber         : { type:String, default: '' },
+	phoneNumber             : { type:String, default: '' },
+	// if groupId            = null, then this is a person (hack)
+	eaoStaffFlag            : { type:Boolean, default: false },
+	proponentFlag           : { type:Boolean, default: false },
+	salutation              : { type:String, default: '' },
+	department              : { type:String, default: '' },
+	faxNumber               : { type:String, default: '' },
+	cellPhoneNumber         : { type:String, default: '' },
+	address1                : { type:String, default: '' },
+	address2                : { type:String, default: '' },
+	city                    : { type:String, default: '' },
+	province                : { type:String, default: '' },
+	country                 : { type:String, default: '' },
+	postalCode              : { type:String, default: '' },
+	notes                   : { type:String, default: '' },
+	// contact
+	viaEmail                : { type:Boolean, default: true },
+	viaMail                 : { type:Boolean, default: false },
+	// Siteminder User Guid - smgov_userguid header
+	userGuid                : { type: String, unique: 'User GUID already exists', lowercase: true, trim: true  },
+	// Siteminder User Type   - smgov_usertype header
+	userType                : { type: String, unique: false, lowercase: true, trim: true, default: '' },
+	presave__               : preSave,
+	methods__               : newMethods,
+	statics__               : newStatics
 });

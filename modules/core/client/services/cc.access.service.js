@@ -35,11 +35,9 @@ angular.module('core')
 			return new Promise (function (resolve, reject) {
 				if ($window.application.user !== currentUser) {
 					$http.get ('api/application').success (function (response) {
-						console.log (response);
-						$window.application.userCan = {};
-						response.userCan.map (function (v) { $window.application.userCan[v] = true; });
+						$window.application.userCan = response.userCan;
 						$window.application.user = currentUser;
-						resolve ();
+						console.log ($window.application.userCan);
 					})
 					.error (reject);
 				}

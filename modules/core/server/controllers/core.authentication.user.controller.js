@@ -5,9 +5,9 @@ var _ = require('lodash'),
 	chalk = require('chalk'),
 	mongoose = require('mongoose'),
 	User = mongoose.model('User'),
-	Invitation = mongoose.model('Invitation'),
-	Role = mongoose.model('Role'),
-	Roles = require(path.resolve('./modules/roles/server/controllers/role.controller'));
+	Invitation = mongoose.model('Invitation');
+	// Role = mongoose.model('Role'),
+	// Roles = require(path.resolve('./modules/roles/server/controllers/role.controller'));
 
 var Invitation = require(path.resolve('./modules/invitations/server/controllers/invitation.controller'));
 
@@ -101,10 +101,14 @@ var acceptInvitation = function (invite) {
 
 var handleInvitation = function (user, invite) {
 	if (invite.accepted === undefined) {
-		return Roles.userRoles({method: 'add', users: user, roles: invite.roles})
-			.then(function () {
-				return acceptInvitation(invite);
-			});
+		//
+		// TBD ROLES
+		//
+		return Promise.resolve ();
+		// return Roles.userRoles({method: 'add', users: user, roles: invite.roles})
+		// 	.then(function () {
+		// 		return acceptInvitation(invite);
+		// 	});
 	} else {
 		return Promise.resolve(invite);
 	}
@@ -355,7 +359,7 @@ exports.acceptAllInvitations = function (req, res) {
 
 exports.logHeaders = function(req, res) {
 	console.log(JSON.stringify(req.headers));
-	
+
 	res.writeHead(200, {'Content-Type': 'text/plain'});
 	res.end(JSON.stringify(req.headers));
 };

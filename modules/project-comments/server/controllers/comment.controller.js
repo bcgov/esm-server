@@ -5,9 +5,9 @@
 //
 // =========================================================================
 var path     = require('path');
-var DBModel   = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var DBModel   = require (path.resolve('./modules/core/server/controllers/cc.dbmodel.controller'));
 var _         = require ('lodash');
-var Roles = require (path.resolve('./modules/roles/server/controllers/role.controller'));
+// var Roles = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 
 module.exports = DBModel.extend ({
 	name : 'Comment',
@@ -23,17 +23,21 @@ module.exports = DBModel.extend ({
 		this.setForce (true);
 		// console.log (doc.project);
 		return new Promise (function (resolve, reject) {
-			Roles.objectRoles ({
-				method      : 'set',
-				objects     : doc,
-				type        : 'comments',
-				permissions : {
-					read: [],
-					write: [Roles.generateCode (doc.project.code, 'eao', 'member'), Roles.generateCode (doc.project.code, 'pro', 'member')],
-					submit: []
-				}
-			})
-			.then (resolve, reject);
+			//
+			// TBD ROLES
+			//
+			// Roles.objectRoles ({
+			// 	method      : 'set',
+			// 	objects     : doc,
+			// 	type        : 'comments',
+			// 	permissions : {
+			// 		read: [],
+			// 		write: [Roles.generateCode (doc.project.code, 'eao', 'member'), Roles.generateCode (doc.project.code, 'pro', 'member')],
+			// 		submit: []
+			// 	}
+			// })
+			// .then (resolve, reject);
+			resolve (doc);
 		});
 	},
 	preprocessUpdate: function (doc) {

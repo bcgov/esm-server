@@ -5,7 +5,7 @@
 //
 // =========================================================================
 var path        = require('path');
-var DBModel     = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var DBModel     = require (path.resolve('./modules/core/server/controllers/cc.dbmodel.controller'));
 var _           = require ('lodash');
 var mongoose    = require ('mongoose');
 var Model       = mongoose.model ('RecentActivity');
@@ -16,7 +16,7 @@ module.exports = DBModel.extend ({
 	plural : 'recentactivities',
 	// -------------------------------------------------------------------------
 	//
-	// get activities which are active, sorted by Public Comment period, then 
+	// get activities which are active, sorted by Public Comment period, then
 	// subsorted on type
 	//
 	// -------------------------------------------------------------------------

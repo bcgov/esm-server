@@ -10,8 +10,12 @@ module.exports = require ((require('path'))
 	name : 'Application',
 	plural : 'applications',
 	decorateCollection: true,
+	// -------------------------------------------------------------------------
+	//
+	// get the one and only application object from the database
+	//
+	// -------------------------------------------------------------------------
 	getTheOne: function () {
-		console.log ('get the first applicaiton model');
 		return this.list ()
 		.then (function (arr) {
 			return arr[0];

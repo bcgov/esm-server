@@ -4,8 +4,8 @@
 // model for ProjectType
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('Artifact', {
+module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+('Artifact', {
 	//
 	// who did what when
 	//
@@ -13,7 +13,18 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	//
 	// who has access to this thing
 	//
-	__access              : true,
+	__access              : [
+		'review',
+		'approve',
+		'executiveApprove',
+		'sendForReview',
+		'sendForApproval',
+		'sendForExecutiveApproval',
+		'sendForDecision',
+		'publish',
+		'unPublish',
+		'reject'
+	],
 	//
 	// what type of artifcat is this? i.e. project description, etc
 	//
