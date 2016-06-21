@@ -40,6 +40,7 @@
 							<div class="panel panel-default news-feed">
 								<div class="panel-heading"><h2>News & Announcements</h2></div>
 								<div class="panel-body">
+								<tmpl-permissions-gear x-context="Application" x-object="Application"></tmpl-permissions-gear>
 									<tmpl-recent-activity id="anchor-recent" x-form="form"></tmpl-recent-activity>
 								</div>
 								<div class="panel-footer">
@@ -64,7 +65,7 @@
 				</ui-view>
 			</div>
 			<!-- END: VIEW BODY CONTAINER -->
-			
+
 		</div>
 	</div>
 

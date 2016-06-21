@@ -5,6 +5,7 @@
 //
 // =========================================================================
 module.exports = require ('../controllers/cc.schema.controller')('Application', {
+	_id: {type:String, default:'application'},
 	code: {type:String, default:'applicaiton'},
 	__access : [
 		'viewConfiguration',

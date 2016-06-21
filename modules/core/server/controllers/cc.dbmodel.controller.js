@@ -42,7 +42,7 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	_init : function (opts) {
-		console.log ('dbmodel._init:', opts);
+		// console.log ('dbmodel._init:', opts);
 		this.opts       = opts;
 		this.user       = opts.user;
 		this.context    = opts.context   || 'application';
@@ -171,8 +171,8 @@ _.extend (DBModel.prototype, {
 		// the default access level is set to 'read'
 		//
 		this.setAccess ('read');
-		console.log ('dbmodel: roles', this.roles);
-		console.log ('dbmodel: isAdmin', this.isAdmin);
+		// console.log ('dbmodel: roles', this.roles);
+		// console.log ('dbmodel: isAdmin', this.isAdmin);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -299,7 +299,7 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			console.log ('q = ',q);
+			// console.log ('q = ',q);
 			self.model.find (q)
 			.sort (sort)
 			.limit (1)
@@ -433,7 +433,7 @@ _.extend (DBModel.prototype, {
 				access.userPermissions ({
 					context  : self.context,
 					user     : self.user.username,
-					resource : model.code
+					resource : model._id
 				})
 				.then (function (ps) {
 					ps.map (function (perm) {
@@ -455,8 +455,8 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	decoratePermission : function (models) {
 		var self = this;
-		console.log ('decoratePermission roles', self.roles);
-		console.log ('decoratePermission isAdmin', self.isAdmin);
+		// console.log ('decoratePermission roles', self.roles);
+		// console.log ('decoratePermission isAdmin', self.isAdmin);
 		if (_.isArray (models)) {
 			return self.decorateCollection ? (Promise.all (models.map (self.addPermissions))) : models;
 		} else {
@@ -484,7 +484,7 @@ _.extend (DBModel.prototype, {
 		model.delete = [];
 		var self = this;
 		return access.deleteAllPermissions ({
-			resource: model.code
+			resource: model._id
 		})
 		.then (function () {
 			return self.addModelPermissions (model, definition);
@@ -494,7 +494,7 @@ _.extend (DBModel.prototype, {
 		//
 		// this merges new permissions into the old
 		//
-		var resource = model.code;
+		var resource = model._id;
 		model.addRoles ({
 			read   : definition.read,
 			write  : definition.write,
@@ -522,7 +522,7 @@ _.extend (DBModel.prototype, {
 		var promiseArray = [model.save ()];
 		_.each (definition, function (roles, permission) {
 			promiseArray.push (access.deletePermissions ({
-				resource    : model.code,
+				resource    : model._id,
 				permissions : [ permission ],
 				roles       : roles
 			}));

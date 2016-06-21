@@ -408,18 +408,19 @@ var getRolesForContext = function (o) {
 //
 // -------------------------------------------------------------------------
 var getRoleList = function (o) {
+	var decorator = (o.context === defaultResource) ?  pluckAppRoles : pluckRoles;
 	return new Promise (function (resolve, reject) {
 		getRolesForContext ({
 			context   : o.context,
 			user       : null
 		})
-		.then (pluckRoles)
+		.then (decorator)
 		.then (resolve, reject);
 	});
 };
 // -------------------------------------------------------------------------
 //
-// get a list of all the roles for a context and all the roles
+// get a list of all the roles for a context and all the users
 // attached to them
 //
 // -------------------------------------------------------------------------

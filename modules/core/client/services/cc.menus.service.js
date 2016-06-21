@@ -45,9 +45,9 @@ angular.module('core').service('Menus', ['Application',
 		var shouldRender = function (user, context) {
 			var applicationPermissions = (Application && Application.userCan) ? Application.userCan : {};
 			var contextPermissions     = (context && context.userCan) ? context.userCan : {};
-			console.log ('applicationPermissions:',applicationPermissions);
-			console.log ('contextPermissions:',contextPermissions);
-			console.log ('this.permissions:',this.permissions);
+			// console.log ('applicationPermissions:',applicationPermissions);
+			// console.log ('contextPermissions:',contextPermissions);
+			// console.log ('this.permissions:',this.permissions);
 			return this.permissions.map (function (p) {
 				return checkPermission ({
 					permission  : p,
