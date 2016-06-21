@@ -4,18 +4,18 @@
 // Routes for invitations
 //
 // =========================================================================
-var policy  = require ('../policies/invitation.policy');
 var Invitation  = require ('../controllers/invitation.controller');
-var helpers = require ('../../../core/server/controllers/core.helpers.controller');
+var routes = require ('../../../core/server/controllers/cc.routes.controller');
+var policy = require ('../../../core/server/controllers/cc.policy.controller');
 
 module.exports = function (app) {
-	helpers.setCRUDRoutes (app, 'invitation', Invitation, policy);
+	routes.setCRUDRoutes (app, 'invitation', Invitation, policy);
 
-  app.route ('/api/sendinvitations').all (policy.isAllowed)
-    .put (function (req, res) {
-      (new Invitation (req.user)).sendInvitations(req)
-        .then (helpers.success(res), helpers.failure(res));
-    });
+	app.route ('/api/sendinvitations')
+	.all (policy ('user'))
+	.put (routes.setAndRun (Invitation, function (model, req) {
+		model.sendInvitations(req);
+	}));
 
 };
 
