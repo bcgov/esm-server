@@ -29,6 +29,10 @@
 					<li ng-repeat="item in systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 					</li>
+          <!-- 2016-06-23 jsherman
+            removing Compliance Oversight from the Projects LHS menu, moving it here as a placeholder, need to figure out where it really belongs.
+          -->
+          <li ng-if="ENV === 'EAO'"><a ui-sref="p.enforcements" href>Compliance Oversight</a></li>
 					<!--
 					Move this modal to be secured through the core-admin.client.menus/routes
 					MenuControl.menuRolesBuilder(['admin'])
