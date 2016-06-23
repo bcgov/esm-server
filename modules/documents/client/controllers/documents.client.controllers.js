@@ -394,13 +394,19 @@ function controllerDocumentBrowser(MenuControl, $scope, Document, $rootScope, Au
 			}
 		});
 		Document.getProjectDocumentTypes(docBrowser.project._id, $scope.approvals).then( function(res) {
+			var dts = [];
 			if (ENV === 'MEM') {
 				// console.log("list:",res.data)
 				var sorted = _.sortBy(res.data, "order");
-				docBrowser.docTypes	= sorted;
+				dts	= sorted;
 			} else {
-				docBrowser.docTypes	= res.data;
+				dts	= res.data;
 			}
+			angular.forEach(dts, function(item) {
+				item.state = 'close';
+				item.render = item.depth == 1;
+			});
+			docBrowser.docTypes = dts;
 		});
 		PhaseModel.phasesForProject(docBrowser.project._id)
 		.then (function (res) {
@@ -449,12 +455,67 @@ function controllerDocumentBrowser(MenuControl, $scope, Document, $rootScope, Au
 	// BROWSER: Filtering
 	//
 	// -----------------------------------------------------------------------------------
+	function onFolderSelect(selection) {
+
+		// all items in the selection's Project Folder Type (root folder)...
+		var selectedProjectFolderType = _.filter(docBrowser.docTypes, function (item) {
+			return item.lineage.projectFolderType == selection.lineage.projectFolderType;
+		});
+
+		var otherProjectFolderTypes = _.filter(docBrowser.docTypes, function (item) {
+			return item.lineage.projectFolderType != selection.lineage.projectFolderType;
+		});
+
+		// only the items we care about...
+		// selected level 1 will include all level 2, but no level 3
+		// selected level 2 will have level 1 and itself and it's children, no sibling level 2 or their children
+		var selectedTree = _.filter(docBrowser.docTypes, function (item) {
+			if (selection.depth == 1) {
+				return item.depth < 3 && item.lineage.projectFolderType == selection.lineage.projectFolderType;
+			} else {
+				return (item.depth == 1 && item.lineage.projectFolderType == selection.lineage.projectFolderType) ||
+					(item.depth > 1 && item.lineage.projectFolderType == selection.lineage.projectFolderType && item.lineage.projectFolderSubType == selection.lineage.projectFolderSubType);
+			}
+		});
+
+		if (selection.state == 'open') {
+			// open to close
+			_.forEach(selectedProjectFolderType, function(item) {
+				item.render = item.depth <= selection.depth;
+				item.state = 'close';
+			});
+			_.forEach(selectedTree, function(item) {
+				item.render = item.depth <= selection.depth;
+				item.state = (item.depth < selection.depth) ? 'open' : 'close';
+			});
+			selection.state = 'close';
+			selection.render = true;
+		} else {
+			// close to open
+			_.forEach(selectedProjectFolderType, function(item) {
+				item.render = selection.depth < 3 ? item.depth <= selection.depth : item.depth < selection.depth;
+				item.state = 'close';
+			});
+			_.forEach(selectedTree, function(item) {
+				item.render = item.depth <= selection.depth + 1;
+				item.state = (item.depth < selection.depth) ? 'open' : 'close';
+			});
+			selection.state = 'open';
+			selection.render = true;
+		}
+		_.forEach(otherProjectFolderTypes, function(item) {
+			item.state = 'close';
+			item.render = item.depth == 1;
+		});
+	};
+
 	docBrowser.filterList = function(selection) {
 		$scope.filterSummary = undefined;
 		$scope.filterDocs = {};
 		$scope.filterLinage = {};
 		$scope.filterDocs[selection.reference] = selection.label;
 		$scope.filterLinage = selection.lineage;
+		onFolderSelect(selection);
 	};
 	// Filter for review files
 	docBrowser.rfilterList = function(selection) {
