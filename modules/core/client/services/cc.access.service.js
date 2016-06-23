@@ -26,6 +26,18 @@ angular.module('core')
 			return new Promise (function (resolve, reject) {
 				resolve ([]);
 			});
+		},
+		permissionRoleIndex: function (resourceId) {
+			return this.get ('/api/access/permissionroleindex/resource/'+resourceId);
+		},
+		roleUserIndex: function (contextId) {
+			return this.get ('/api/access/roleuserindex/context/'+contextId);
+		},
+		setPermissionRoleIndex: function (resourceId, index) {
+			return this.put ('/api/access/permissionroleindex/resource/'+resourceId, index);
+		},
+		setRoleUserIndex: function (contextId, index) {
+			return this.put ('/api/access/roleuserindex/context/'+contextId, index);
 		}
 	});
 	return new AccessClass ();

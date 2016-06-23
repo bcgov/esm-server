@@ -35,6 +35,9 @@ module.exports = function (app) {
 	app.route ('/api/access/permissionroles/resource/:resource')
 		.get (access.routes.getPermissionRoles);
 
+	app.route ('/api/access/permissionroleindex/resource/:resource')
+		.get (access.routes.getPermissionRoleIndex)
+		.put (access.routes.setPermissionRoleIndex);
 
 	app.route ('/api/access/role')
 		.post (access.routes.addRole)
@@ -57,6 +60,10 @@ module.exports = function (app) {
 
 	app.route ('/api/access/roleusers/context/:context')
 		.get (access.routes.getRoleUsers);
+
+	app.route ('/api/access/roleuserindex/context/:context')
+		.get (access.routes.getRoleUserIndex)
+		.put (access.routes.setRoleUserIndex);
 
 	app.route ('/api/access/userroles/context/:context')
 		.get (access.routes.getUserRoles);
@@ -88,5 +95,10 @@ module.exports = function (app) {
 		.post (dbcontroller.post)
 		.put (dbcontroller.put)
 		.delete (dbcontroller.delete);
+
+	app.route ('/api/access/conversion')
+		.all (policy ('admin'))
+		.get (access.routes.allusers)
+		.put (access.routes.convertusers);
 };
 

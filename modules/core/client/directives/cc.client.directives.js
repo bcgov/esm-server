@@ -32,29 +32,59 @@ angular.module('core')
 						roleUsers: function (AccessModel) {
 							return AccessModel.roleUsers (scope.context._id);
 						},
-						permissionRoles: function (AccessModel) {
-							return AccessModel.permissionRoles (scope.object._id);
+						permissionRoleIndex: function (AccessModel) {
+							return AccessModel.permissionRoleIndex (scope.object._id);
 						}
 					},
-					controller: function ($scope, $modalInstance, allRoles, roleUsers, permissionRoles) {
-						var allPermissions = _.keys (scope.object.userCan);
-						console.log ('permissionRoles', permissionRoles);
-						console.log ('allRoles', allRoles);
-						console.log ('roleUsers', roleUsers);
-						console.log ('allPermissions', allPermissions);
+					controller: function ($scope, $modalInstance, allRoles, roleUsers, permissionRoleIndex) {
 						var s = this;
-						s.permissionRoles = permissionRoles;
+						var setPermissionRole = function (system, permission, role, value) {
+							if (!system.permission[permission]) system.permission[permission] = {};
+							if (!system.role[role]) system.role[role] = {};
+							system.permission[permission][role] = value;
+							system.role[role][permission] = value;
+						};
+						//
+						// all the base data
+						//
+						s.permissionRoleIndex = permissionRoleIndex;
 						s.allRoles        = allRoles;
 						s.roleUsers       = roleUsers;
-						s.allPermissions  = allPermissions;
+						s.allPermissions  = _.keys (scope.object.userCan);
+						s.allRoles = s.allRoles.concat (['public', '*']);
+						console.log ('permissionRoleIndex', permissionRoleIndex);
+						console.log ('allRoles', allRoles);
+						console.log ('roleUsers', roleUsers);
+						console.log ('allPermissions', s.allPermissions);
+						//
+						// expose the inputs
+						//
 						s.context         = scope.context;
 						s.object          = scope.object;
 						s.name            = scope.object.name || scope.object.code || scope.object._id;
+						//
+						// these deal with setting the roles by permission
+						//
+						s.permissionView  = true;
+						s.currentPermission = s.allPermissions[0] || '';
+						s.clickRole = function (permission, role, value) {
+							setPermissionRole (s.permissionRoleIndex, permission, role, value);
+						};
+						//
+						// these deal with setting the permissions by role
+						//
+						s.currentRole = s.allRoles[0] || '';
+						s.clickPermission = function (permission, role, value) {
+							setPermissionRole (s.permissionRoleIndex, permission, role, value);
+						};
 						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
-						s.ok = function () { $modalInstance.close (s.selected); };
+						s.ok = function () {
+							$modalInstance.close ({resource:s.object._id, data:s.permissionRoleIndex});
+						};
 					}
 				})
 				.result.then (function (data) {
+					AccessModel.setPermissionRoleIndex (data.resource, data.data);
 				})
 				.catch (function (err) {});
 			});
@@ -68,6 +98,93 @@ angular.module('core')
 		scope: {
 			context: '=',
 			object: '='
+		}
+	};
+})
+// -------------------------------------------------------------------------
+//
+// a modal directive with isolated scope for viewing and
+// interacting with a list of roles and users for a given context
+//
+// -------------------------------------------------------------------------
+.directive ('roleUsersModal', function ($modal, Authentication, Application, AccessModel, _) {
+	return {
+		restrict: 'A',
+		scope: {
+			context: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function () {
+				$modal.open ({
+					animation: true,
+					templateUrl: 'modules/core/client/views/role-users-modal.html',
+					controllerAs: 's',
+					size: 'md',
+					resolve: {
+						allRoles: function (AccessModel) {
+							return AccessModel.allRoles (scope.context._id);
+						},
+						userRoleIndex: function (AccessModel) {
+							return AccessModel.roleUserIndex (scope.context._id);
+						}
+					},
+					controller: function ($scope, $modalInstance, allRoles, userRoleIndex) {
+						var s = this;
+						var setUserRole = function (system, user, role, value) {
+							if (!system.user[user]) system.user[user] = {};
+							if (!system.role[role]) system.role[role] = {};
+							system.user[user][role] = value;
+							system.role[role][user] = value;
+						};
+						//
+						// all the base data
+						//
+						s.userRoleIndex = userRoleIndex;
+						s.allRoles      = allRoles;
+						s.allUsers      = _.keys (userRoleIndex.user);
+						console.log ('userRoleIndex', userRoleIndex);
+						console.log ('allRoles', allRoles);
+						console.log ('allUsers', s.allUsers);
+						//
+						// expose the inputs
+						//
+						s.context         = scope.context;
+						s.name            = scope.context.name || scope.context.code || scope.context._id;
+						//
+						// these deal with setting the roles by user
+						//
+						s.userView  = true;
+						s.currentUser = s.allUsers[0] || '';
+						s.clickRole = function (user, role, value) {
+							setUserRole (s.userRoleIndex, user, role, value);
+						};
+						//
+						// these deal with setting the users by role
+						//
+						s.currentRole = s.allRoles[0] || '';
+						s.clickUser = function (user, role, value) {
+							setUserRole (s.userRoleIndex, user, role, value);
+						};
+						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
+						s.ok = function () {
+							$modalInstance.close ({context:s.context._id, data:s.userRoleIndex});
+						};
+					}
+				})
+				.result.then (function (data) {
+					AccessModel.setRoleUserIndex (data.context, data.data);
+				})
+				.catch (function (err) {});
+			});
+		}
+	};
+})
+.directive ('tmplRolesGear', function () {
+	return {
+		restrict: 'E',
+		templateUrl: 'modules/core/client/views/role-users-gear.html',
+		scope: {
+			context: '='
 		}
 	};
 })

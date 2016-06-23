@@ -1,0 +1,56 @@
+<div class="modal-header">
+	<h3 class="modal-title">Roles for {{s.name}}</h3>
+</div>
+<div class="modal-body">
+	<ul class="tab-container nav nav-tabs" role="tablist">
+		<li role="presentation" class="active"><a href ng-click="s.userView = !s.userView"  role="tab" data-toggle="tab">User View</a></li>
+		<li role="presentation"><a href ng-click="s.userView = !s.userView"  role="tab" data-toggle="tab">Role View</a></li>
+	</ul>
+	<div class="tab-pane" ng-show="s.userView">
+		<div class="panel panel-default">
+			<div class="form-group">
+				<label for="user" class="control-label">User</label>
+				<select id="user" ng-model="s.currentUser" class="form-control input-sm" ng-options="p as p for p in s.allUsers"></select>
+			</div>
+			<ul>
+				<li ng-repeat="role in s.allRoles">
+
+					<div class="checkbox control-with-label">
+						<label for="multiple">
+							<input type="checkbox"
+							ng-change="s.clickRole(s.currentUser, role, s.userRoleIndex.user[s.currentUser][role])"
+							ng-model="s.userRoleIndex.user[s.currentUser][role]" >
+							{{ role }}
+							</input>
+						</label>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="tab-pane" ng-show="!s.userView">
+		<div class="panel panel-default">
+			<div class="form-group">
+				<label for="role" class="control-label">Role</label>
+				<select id="role" ng-model="s.currentRole" class="form-control input-sm" ng-options="p as p for p in s.allRoles"></select>
+			</div>
+			<ul>
+				<li ng-repeat="user in s.allUsers">
+
+					<div class="checkbox control-with-label">
+						<label for="multiple">
+							<input type="checkbox"
+							ng-change="s.clickUser(user, s.currentRole, s.userRoleIndex.role[s.currentRole][user])"
+							ng-model="s.userRoleIndex.role[s.currentRole][user]" >
+							{{ user }}
+							</input>
+						</label>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="s.ok()">OK</button>
+</div>

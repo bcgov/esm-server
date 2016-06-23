@@ -58,7 +58,7 @@ angular.module('core').service('Menus', ['Application',
 			}).reduce (function (prev, current) {
 				return (prev || current);
 			});
-			console.log ('checking for :', this.title, result);
+			// console.log ('checking for :', this.title, result);
 			return result;
 		};
 		// -------------------------------------------------------------------------

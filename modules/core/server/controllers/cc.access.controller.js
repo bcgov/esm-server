@@ -33,6 +33,16 @@ var pivotPermissions = function (a) {
 	});
 	return ret;
 };
+var indexPermissionRoles = function (a) {
+	var ret = {role:{},permission:{}};
+	a.map (function (row) {
+		if (!ret.permission[row.permission]) ret.permission[row.permission] = {};
+		if (!ret.role[row.role]) ret.role[row.role] = {};
+		ret.permission[row.permission][row.role] = true;
+		ret.role[row.role][row.permission] = true;
+	});
+	return ret;
+};
 var expandPermissions = function (p) {
 	var ps = [];
 	_.each (p.permissions, function (permission) {
@@ -46,21 +56,32 @@ var expandPermissions = function (p) {
 	});
 	return ps;
 };
-var pluckAppRoles = function (a) {
-	return _.uniq (a.map (function (r) {
-		return r.context + ':' + r.role;
-	}));
-};
 var pluckRoles = function (a) {
 	return _.uniq (a.map (function (r) {
 		return r.role;
 	}));
+};
+var pluckAppRoles = function (a) {
+	return pluckRoles (a);
+	// return _.uniq (a.map (function (r) {
+	// 	return r.context + ':' + r.role;
+	// }));
 };
 var pivotRoles = function (a) {
 	var ret = {};
 	a.map (function (p) {
 		if (!ret[p.role]) ret[p.role] = [];
 		if (p.user !== null) ret[p.role].push (p.user);
+	});
+	return ret;
+};
+var indexRoleUsers = function (a) {
+	var ret = {role:{},user:{}};
+	a.map (function (row) {
+		if (!ret.user[row.user]) ret.user[row.user] = {};
+		if (!ret.role[row.role]) ret.role[row.role] = {};
+		ret.user[row.user][row.role] = true;
+		ret.role[row.role][row.user] = true;
 	});
 	return ret;
 };
@@ -284,6 +305,55 @@ var getPermissionRoles = function (o) {
 		.then (resolve, reject);
 	});
 };
+// -------------------------------------------------------------------------
+//
+// get the index of permissions to roles, both ways, for a resource
+//
+// -------------------------------------------------------------------------
+var getPermissionRoleIndex = function (o) {
+	return new Promise (function (resolve, reject) {
+		getPermissionsForResource ({
+			resource   : o.resource,
+			role     : { $ne : null }
+		})
+		.then (indexPermissionRoles)
+		.then (resolve, reject);
+	});
+};
+exports.getPermissionRoleIndex = getPermissionRoleIndex;
+// -------------------------------------------------------------------------
+//
+// update the table from a supplied indec set. If the value is true, then
+// set to true, if false, then delete
+//
+// -------------------------------------------------------------------------
+var setPermissionRoleIndex = function (resource, index) {
+	return new Promise (function (resolve, reject) {
+		var promiseArray = [];
+		_.each (index.permission, function (roles, permission) {
+			_.each (roles, function (value, role) {
+				if (value) {
+					promiseArray.push (addPermission ({
+						resource   : resource,
+						permission : permission,
+						role       : role
+					}));
+				}
+				else {
+					promiseArray.push (deletePermission ({
+						resource   : resource,
+						permission : permission,
+						role       : role
+					}));
+				}
+			});
+		});
+		Promise.all (promiseArray)
+		.then (function () { return {ok:true};})
+		.then (resolve, reject);
+	});
+};
+exports.setPermissionRoleIndex = setPermissionRoleIndex;
 // =========================================================================
 //
 // ROLES
@@ -303,6 +373,9 @@ var addRole = function (p) {
 			reject ({ message: 'no context defined in addRole' });
 		}
 		else {
+			if (p.context === defaultContext && p.context.lastIndexOf(defaultContext, 0) !== 0) {
+				p.role = defaultContext+':'+p.role;
+			}
 			findRoles (p)
 			.then (function (r) {
 				// console.log ('returned r', r);
@@ -433,7 +506,54 @@ var getRoleUsers = function (o) {
 		.then (resolve, reject);
 	});
 };
-
+// -------------------------------------------------------------------------
+//
+// get the index of users to roles, both ways, for a context
+//
+// -------------------------------------------------------------------------
+var getRoleUserIndex = function (o) {
+	return new Promise (function (resolve, reject) {
+		getRolesForContext ({
+			context   : o.context,
+			user     : { $ne : null }
+		})
+		.then (indexRoleUsers)
+		.then (resolve, reject);
+	});
+};
+exports.getRoleUserIndex = getRoleUserIndex;
+// -------------------------------------------------------------------------
+//
+// get the index of users to roles, both ways, for a context
+//
+// -------------------------------------------------------------------------
+var setRoleUserIndex = function (context, index) {
+	return new Promise (function (resolve, reject) {
+		var promiseArray = [];
+		_.each (index.user, function (roles, user) {
+			_.each (roles, function (value, role) {
+				if (value) {
+					promiseArray.push (addRole ({
+						context : context,
+						user    : user,
+						role    : role
+					}));
+				}
+				else {
+					promiseArray.push (deleteRole ({
+						context : context,
+						user    : user,
+						role    : role
+					}));
+				}
+			});
+		});
+		Promise.all (promiseArray)
+		.then (function () { return {ok:true};})
+		.then (resolve, reject);
+	});
+};
+exports.setRoleUserIndex = setRoleUserIndex;
 // =========================================================================
 //
 // Working stuff
@@ -579,6 +699,12 @@ exports.routes = {
 	getPermissionRoles : function (req, res) {
 		return runPromise (res, getPermissionRoles ({resource:req.params.resource}));
 	},
+	getPermissionRoleIndex : function (req, res) {
+		return runPromise (res, getPermissionRoleIndex ({resource:req.params.resource}));
+	},
+	setPermissionRoleIndex : function (req, res) {
+		return runPromise (res, setPermissionRoleIndex (req.params.resource, req.body));
+	},
 
 	addRole : function (req, res) {
 		return runPromise (res, addRole (req.body));
@@ -610,6 +736,12 @@ exports.routes = {
 	getRoleUsers : function (req, res) {
 		return runPromise (res, getRoleUsers ({context:req.params.context}));
 	},
+	getRoleUserIndex : function (req, res) {
+		return runPromise (res, getRoleUserIndex ({context:req.params.context}));
+	},
+	setRoleUserIndex : function (req, res) {
+		return runPromise (res, setRoleUserIndex (req.params.context, req.body));
+	},
 
 	getUserRoles : function (req, res) {
 		return runPromise (res, getUserRoles ({
@@ -630,5 +762,54 @@ exports.routes = {
 			resource : req.params.resource,
 			context  : req.params.context
 		}));
+	},
+
+	allusers: function (req, res) {
+		var User = mongoose.model ('User');
+		return runPromise (res, Promise.resolve(User.find ({}).exec ()));
+	},
+	convertusers: function (req, res) {
+		var User = mongoose.model ('User');
+		var bigolpromise = new Promise (function (resolve, reject) {
+			User.find ({}).exec ()
+			.then (function (users) {
+				var map = [];
+				var part;
+				var project;
+				var role;
+				_.each (users, function (user) {
+					var p = {};
+					map.push (p);
+					p._id = user._id;
+					p.username = user.username;
+					p.oldroles = user.roles;
+					p.newroles = [];
+					p.addroles = [];
+					_.each (p.oldroles, function (oldrole) {
+						if (oldrole === 'admin') {
+							p.newroles.push ('admin');
+						}
+						else if (oldrole === 'eao') {
+							p.addroles.push ('application:eao');
+						}
+						else if (oldrole.match (/:eao:/)) {
+							part = oldrole.split (':eao:');
+							project = part[0];
+							role = 'eao-'+part[1];
+							p.addroles.push (project+':'+role);
+						}
+						else if (oldrole.match (/:pro:/)) {
+							part = oldrole.split (':eao:');
+							project = part[0];
+							role = 'pro-'+part[1];
+							p.addroles.push (project+':'+role);
+						}
+					});
+				});
+				return map;
+			})
+			.then (resolve, reject);
+		});
+		return runPromise (res, bigolpromise);
 	},
 };

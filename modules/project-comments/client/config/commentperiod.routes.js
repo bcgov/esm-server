@@ -19,6 +19,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 		abstract:true,
 		url: '/commentperiod',
 		template: '<ui-view></ui-view>',
+		context: 'projectid',
 		resolve: {
 			periods: function ($stateParams, CommentPeriodModel, project) {
 				return CommentPeriodModel.forProject (project._id);
@@ -40,6 +41,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 	// -------------------------------------------------------------------------
 	.state('p.commentperiod.list', {
 		url: '/list',
+		context: 'projectid',
 		templateUrl: 'modules/project-comments/client/views/period-list.html',
 		controller: function ($scope, NgTableParams, periods, project) {
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: periods});
@@ -54,6 +56,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 	// -------------------------------------------------------------------------
 	.state('p.commentperiod.create', {
 		url: '/create',
+		context: 'projectid',
 		templateUrl: 'modules/project-comments/client/views/period-edit.html',
 		resolve: {
 			period: function (CommentPeriodModel) {
@@ -92,6 +95,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 	// -------------------------------------------------------------------------
 	.state('p.commentperiod.edit', {
 		url: '/:periodId/edit',
+		context: 'projectid',
 		templateUrl: 'modules/project-comments/client/views/period-edit.html',
 		resolve: {
 			period: function ($stateParams, CommentPeriodModel) {
@@ -129,6 +133,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 	// -------------------------------------------------------------------------
 	.state('p.commentperiod.detail', {
 		url: '/:periodId',
+		context: 'projectid',
 		templateUrl: 'modules/project-comments/client/views/period-view.html',
 		resolve: {
 			period: function ($stateParams, CommentPeriodModel) {

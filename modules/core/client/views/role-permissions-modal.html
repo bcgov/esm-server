@@ -2,16 +2,54 @@
 	<h3 class="modal-title">Permissions for {{s.name}}</h3>
 </div>
 <div class="modal-body">
-	<ul>
-		<li ng-repeat="permission in s.allPermissions">
-		{{ permission }}
+	<ul class="tab-container nav nav-tabs" role="tablist">
+		<li role="presentation" class="active"><a href ng-click="s.permissionView = !s.permissionView"  role="tab" data-toggle="tab">Permission View</a></li>
+		<li role="presentation"><a href ng-click="s.permissionView = !s.permissionView"  role="tab" data-toggle="tab">Role View</a></li>
+	</ul>
+	<div class="tab-pane" ng-show="s.permissionView">
+		<div class="panel panel-default">
+			<div class="form-group">
+				<label for="permission" class="control-label">Permission</label>
+				<select id="permission" ng-model="s.currentPermission" class="form-control input-sm" ng-options="p as p for p in s.allPermissions"></select>
+			</div>
 			<ul>
-				<li ng-repeat="role in s.permissionRoles[permission]">
-					{{ role }}
+				<li ng-repeat="role in s.allRoles">
+
+					<div class="checkbox control-with-label">
+						<label for="multiple">
+							<input type="checkbox"
+							ng-change="s.clickRole(s.currentPermission, role, s.permissionRoleIndex.permission[s.currentPermission][role])"
+							ng-model="s.permissionRoleIndex.permission[s.currentPermission][role]" >
+							{{ role }}
+							</input>
+						</label>
+					</div>
 				</li>
 			</ul>
-		</li>
-	</ul>
+		</div>
+	</div>
+	<div class="tab-pane" ng-show="!s.permissionView">
+		<div class="panel panel-default">
+			<div class="form-group">
+				<label for="role" class="control-label">Role</label>
+				<select id="role" ng-model="s.currentRole" class="form-control input-sm" ng-options="p as p for p in s.allRoles"></select>
+			</div>
+			<ul>
+				<li ng-repeat="permission in s.allPermissions">
+
+					<div class="checkbox control-with-label">
+						<label for="multiple">
+							<input type="checkbox"
+							ng-change="s.clickPermission(permission, s.currentRole, s.permissionRoleIndex.role[s.currentRole][permission])"
+							ng-model="s.permissionRoleIndex.role[s.currentRole][permission]" >
+							{{ permission }}
+							</input>
+						</label>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
 </div>
 <div class="modal-footer">
 	<button class="btn btn-primary" ng-click="s.ok()">OK</button>

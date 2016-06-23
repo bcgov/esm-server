@@ -35,7 +35,7 @@ module.exports = function (def) {
 		} else {
 			type = def;
 		}
-		console.log (type);
+		// console.log (type);
 		//
 		// if guest is ok, then everyone is welcome
 		//
@@ -52,7 +52,8 @@ module.exports = function (def) {
 		// otherwise this is admin only
 		//
 		else if (type === 'admin') {
-			return returnOk ((!!req.user && _.indexOf (req.user.roles, 'admin')), res, next);
+			// console.log ('req.user.roles');
+			return returnOk ((!!req.user && !!~req.user.roles.indexOf ('admin')), res, next);
 		}
 		else {
 			return returnOk (false, res, next);
