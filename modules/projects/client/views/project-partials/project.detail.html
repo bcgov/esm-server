@@ -6,9 +6,9 @@
 			<a class="btn btn-success btn-sm" ng-click="publishProject()" ng-if="!project.isPublished">Publish Project</a>
 		</div>
 	</div>
-    
+
 	<div class="view-body-container">
-		
+
 		<!-- PUBLIC COMMENT PERIOD NOTIFICATION -->
 		<div class="public-comment-alert hidden">
             <h2>Public Comment Period is Now Open!</h2>
@@ -21,7 +21,7 @@
                 Click Here to Submit a Comment
             </button>
         </div><!-- / PUBLIC COMMENT PERIOD NOTIFICATION -->
-		
+
 		<!-- PROJECT INFO -->
 		<section class="project-info" ng-if="('project' | shouldDisplayPanel:'tombstone':project.status)">
 			<tmpl-project-tombstone
@@ -44,12 +44,17 @@
 			</div>
 		</section>
 
+    <!--
+    2016-06-23 jsherman
+      Lena S asked for this section to be removed, so hide it for now.
+
 		<tmpl-enforcement-browser
 			class="anchor-section"
 			id="anchor-enforcement"
 			x-project="project"
 			ng-if="project.currentPhase.code === 'post-certification'">
 		</tmpl-enforcement-browser>
+    -->
 
 		<tmpl-project-initiated
 			class="anchor-section"
@@ -88,7 +93,7 @@
 			ng-if="('project'| shouldDisplayPanel:'activities':project.status) && environment === 'EAO'">
 		</tmpl-project-activities>
 		-->
-		
+
 		<tmpl-documents-browser
 			class="anchor-section"
 			id="anchor-documents"
@@ -107,9 +112,9 @@
 				</tmpl-map>
 			</div>
 		</section>
-	
+
 	</div>
-	
+
 	<!-- ACTIVITIES LIST -->
         <section class="right-panel activities-container hidden" ng-if="authentication.user">
             <h2>My Activities<span>(*)</span></h2>
