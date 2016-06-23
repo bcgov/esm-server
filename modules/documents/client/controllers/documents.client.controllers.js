@@ -404,7 +404,7 @@ function controllerDocumentBrowser(MenuControl, $scope, Document, $rootScope, Au
 			}
 			angular.forEach(dts, function(item) {
 				item.state = 'close';
-				item.render = item.depth == 1;
+				item.render = item.depth === 1;
 			});
 			docBrowser.docTypes = dts;
 		});
@@ -459,26 +459,26 @@ function controllerDocumentBrowser(MenuControl, $scope, Document, $rootScope, Au
 
 		// all items in the selection's Project Folder Type (root folder)...
 		var selectedProjectFolderType = _.filter(docBrowser.docTypes, function (item) {
-			return item.lineage.projectFolderType == selection.lineage.projectFolderType;
+			return item.lineage.projectFolderType === selection.lineage.projectFolderType;
 		});
 
 		var otherProjectFolderTypes = _.filter(docBrowser.docTypes, function (item) {
-			return item.lineage.projectFolderType != selection.lineage.projectFolderType;
+			return item.lineage.projectFolderType !== selection.lineage.projectFolderType;
 		});
 
 		// only the items we care about...
 		// selected level 1 will include all level 2, but no level 3
 		// selected level 2 will have level 1 and itself and it's children, no sibling level 2 or their children
 		var selectedTree = _.filter(docBrowser.docTypes, function (item) {
-			if (selection.depth == 1) {
-				return item.depth < 3 && item.lineage.projectFolderType == selection.lineage.projectFolderType;
+			if (selection.depth === 1) {
+				return item.depth < 3 && item.lineage.projectFolderType === selection.lineage.projectFolderType;
 			} else {
-				return (item.depth == 1 && item.lineage.projectFolderType == selection.lineage.projectFolderType) ||
-					(item.depth > 1 && item.lineage.projectFolderType == selection.lineage.projectFolderType && item.lineage.projectFolderSubType == selection.lineage.projectFolderSubType);
+				return (item.depth === 1 && item.lineage.projectFolderType === selection.lineage.projectFolderType) ||
+					(item.depth > 1 && item.lineage.projectFolderType === selection.lineage.projectFolderType && item.lineage.projectFolderSubType === selection.lineage.projectFolderSubType);
 			}
 		});
 
-		if (selection.state == 'open') {
+		if (selection.state === 'open') {
 			// open to close
 			_.forEach(selectedProjectFolderType, function(item) {
 				item.render = item.depth <= selection.depth;
@@ -505,9 +505,9 @@ function controllerDocumentBrowser(MenuControl, $scope, Document, $rootScope, Au
 		}
 		_.forEach(otherProjectFolderTypes, function(item) {
 			item.state = 'close';
-			item.render = item.depth == 1;
+			item.render = item.depth === 1;
 		});
-	};
+	}
 
 	docBrowser.filterList = function(selection) {
 		$scope.filterSummary = undefined;
