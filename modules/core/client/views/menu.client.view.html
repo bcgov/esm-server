@@ -74,6 +74,10 @@
 		</ul>
 		-->
   </div><!-- / PROJECT MENU - AUTHENTICATED -->
+<div ng-if="menu.authentication.user">
+	<tmpl-permissions-gear x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
+	<tmpl-roles-gear x-context="menu.project"></tmpl-roles-gear>
+</div>
 
 </section>
 
