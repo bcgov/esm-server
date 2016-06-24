@@ -5,49 +5,52 @@
 // is accessed through the front end
 //
 // =========================================================================
-angular.module('artifacts').factory ('ArtifactModel', function (ModelBase, _) {
+angular.module('artifacts').factory('ArtifactModel', function (ModelBase, _) {
 	//
 	// build the model by extending the base model. the base model will
 	// have all the basic crud stuff built in
 	//
-	var Class = ModelBase.extend ({
-		urlName : 'artifact',
+	var Class = ModelBase.extend({
+		urlName: 'artifact',
 		lookup: function (artifactid) {
-			return this.get ('/api/artifact/'+artifactid);
+			return this.get('/api/artifact/' + artifactid);
 		},
 		forProject: function (projectid) {
-			return this.get ('/api/artifact/for/project/'+projectid);
+			return this.get('/api/artifact/for/project/' + projectid);
 		},
 		forProjectKML: function (projectid) {
-			return this.get ('/api/artifact/kml/for/project/'+projectid);
+			return this.get('/api/artifact/kml/for/project/' + projectid);
 		},
 		// Don't return artifacts of type 'filtertype'
-		forProjectFilterType: function (projectid, filtertype) {
-			return this.get ('/api/artifact/for/project/'+projectid+'/not/'+filtertype);
+		forProjectFilterType: function (projectid, filtertype, q) {
+			if (q)
+				return this.get('/api/artifact/for/project/' + projectid + '/not/' + filtertype + '?' + q);
+			
+			return this.get('/api/artifact/for/project/' + projectid + '/not/' + filtertype);
 		},
 		forProjectGetType: function (projectid, type) {
-			return this.get ('/api/artifact/for/project/'+projectid+'/'+type);
+			return this.get('/api/artifact/for/project/' + projectid + '/' + type);
 		},
 		newFromType: function (type, projectid) {
-			return this.get ('api/artifact/project/'+projectid+'/from/type/'+type);
+			return this.get('api/artifact/project/' + projectid + '/from/type/' + type);
 		},
 		nextStage: function (artifact) {
-			return this.put ('api/artifact/next/stage/'+artifact._id, artifact);
+			return this.put('api/artifact/next/stage/' + artifact._id, artifact);
 		},
 		prevStage: function (artifact) {
-			return this.put ('api/artifact/prev/stage/'+artifact._id, artifact);
+			return this.put('api/artifact/prev/stage/' + artifact._id, artifact);
 		},
 		availableTypes: function (projectid) {
-			return this.get ('api/artifact/project/'+projectid+'/available/types');
+			return this.get('api/artifact/project/' + projectid + '/available/types');
 		},
 		publish: function (artifactid) {
-			return this.put ('/api/publish/artifact/'+artifactid);
+			return this.put('/api/publish/artifact/' + artifactid);
 		},
 		remove: function (artifact) {
-			return this.delete ('/api/artifact/'+artifact._id);
+			return this.delete('/api/artifact/' + artifact._id);
 		},
 	});
-	return new Class ();
+	return new Class();
 });
 
 

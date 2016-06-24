@@ -108,7 +108,8 @@ var DocumentSchema  = new Schema ({
     internalExt                    : { type:String, default:'' },
     internalSize                   : { type:Number, default:0 },
     internalEncoding               : { type:String, default:'' },
-    oldData                        : { type:String, default:'' }
+    oldData                        : { type:String, default:'' },
+	  order                          : { type: Number, default: 0} // this will be used to sort supporting documents in artifacts, the order will be arbitrary and determined by the user.
 
 });
 var mDocument = mongoose.model ('Document', DocumentSchema);
