@@ -101,6 +101,8 @@ module.exports = require ('../../../core/server/controllers/cc.schema.controller
 		date: { type: Date , default:null }
 	}],
 
+	author : { type: String, default: null, enum : [null, 'Other', 'Public', 'Aboriginal Group', 'Proponent', 'EAO', 'Federal Government', 'Working Group', 'Local Government', 'CEAA']},
+	shortDescription : { type: String, default: null }
 },
 {
 	type : 1

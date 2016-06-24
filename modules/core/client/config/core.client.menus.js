@@ -99,11 +99,13 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 			state: "p.schedule",
 			permissions: ['context.viewSchedule']
 		});
+		/*
 		Menus.addMenuItem('projectTopMenu', {
 			title: 'Compliance Oversight',
 			state: "p.enforcements",
 			permissions: ['context.listEnforcements']
 		});
+		*/
 		Menus.addMenuItem('projectTopMenu', {
 			title: 'Comment Periods',
 			state: "p.commentperiod.list",

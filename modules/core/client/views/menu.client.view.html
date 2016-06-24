@@ -1,16 +1,16 @@
 <section id="menu-side" class="sidenav">
 
 	<!-- PUBLIC USERS (COMMON) -->
-	<div>
+	<div ng-show="!menu.authentication.user">
 		<ul class="list-unstyled">
 			<li><a ui-sref="p.detail" href>Project Details</a></li>
-			<li ng-if="ENV === 'EAO'"><a ui-sref="p.enforcements" href>Compliance Oversight</a></li>
-			<li><a ui-sref="p.documents" href>Documents</a></li>
-			<li><a ui-sref="p.commentperiod.list" href>Public Comment Periods</a></li>
+			  <!-- <li ng-if="ENV === 'EAO'"><a ui-sref="p.enforcements" href>Compliance Oversight</a></li> -->
+     		<li><a ui-sref="p.documents" href>Documents</a></li>
+     		<li><a ui-sref="p.commentperiod.list" href>Public Comment Periods</a></li>
 		</ul>
 	</div><!-- / PUBLIC USERS (COMMON) -->
 
-	<div ng-if="false && (menu.context === 'projects' || menu.context === 'mylist') && menu.pageAnchors('anchor-group-projects')" id="anchor-group-projects">
+	<div ng-if="(menu.context === 'projects' || menu.context === 'mylist') && menu.pageAnchors('anchor-group-projects')" id="anchor-group-projects">
 		<ul class="list-unstyled">
 			<li><a du-smooth-scroll  href="#anchor-map">Map</a></li>
 			<li><a du-smooth-scroll  href="#anchor-list">List</a></li>
@@ -50,19 +50,20 @@
 		<!-- PROJECT CLIENT MENUS (project.client.menus.js) -->
 		<ul class="list-unstyled" ng-show="menu.authentication.user">
 			<li ng-repeat="item in menu.projectTopMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project);"
-				ng-class="{ 'active': $state.includes(item.state) }" class="{{item.class}}">
+			    ng-class="{ 'active': $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
 		</ul><!-- / PROJECT CLIENT MENUS -->
 
-		<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user, menu.project)">
+		<!-- <ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user, menu.project)"> -->
+		<ul class="list-unstyled">
 			<li ng-repeat="item in menu.projectMenu.items | orderBy: 'position'"
-				ng-if="item.shouldRender(menu.authentication.user, menu.project);"
+			    ng-if="item.shouldRender(menu.authentication.user, menu.project);"
 					ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				  <a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
 		</ul>
-	<!--
+    <!--
 		<ul class="list-unstyled" ng-show="menu.authentication.user">
 			<li>
 				<a ui-sref="p.workinggroup.list">Working Group</a>
@@ -73,11 +74,7 @@
 		</ul>
 		-->
   </div><!-- / PROJECT MENU - AUTHENTICATED -->
-  <div ng-if="(menu.context === 'project' || menu.context === 'activity') && menu.authentication.user">
-	<tmpl-permissions-gear x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
-	<tmpl-roles-gear x-context="menu.project" ></tmpl-roles-gear>
 
-  </div>
 </section>
 
 
