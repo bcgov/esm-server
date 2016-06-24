@@ -118,7 +118,6 @@ var ensureArray = function (val) {
 // -------------------------------------------------------------------------
 var findPermissions = function (q) {
 	return new Promise (function (resolve, reject) {
-		console.log ('-- findPermissions : ', q);
 		Permission.find (q).then (resolve, reject);
 	});
 };
@@ -395,6 +394,29 @@ var addRoles = function (p) {
 exports.addRoles = addRoles;
 // -------------------------------------------------------------------------
 //
+// only add the role if it not already there, return true or false for this
+// this is meant only for definitions, so where user == null
+//
+// -------------------------------------------------------------------------
+var addRoleIfUnique = function (p) {
+	p.user = null;
+	if (p.context === defaultContext && p.context.lastIndexOf(defaultContext, 0) !== 0) {
+		p.role = defaultContext+':'+p.role;
+	}
+	return new Promise (function (resolve, reject) {
+		findRoles (p)
+		.then (function (r) {
+			return !r.length ? createRole (p) : false;
+		})
+		.then (function (r) {
+			return (!r) ? {ok:false} : {ok:true};
+		})
+		.then (resolve, reject);
+	});
+};
+exports.addRoleIfUnique = addRoleIfUnique;
+// -------------------------------------------------------------------------
+//
 // remove a user from a role for a context
 //
 // -------------------------------------------------------------------------
@@ -435,10 +457,16 @@ var addRoleDefinitions = function (o) {
 	return Promise.all (o.roles.map (function (role) {
 		return addRole ({
 			context   : o.context,
-			role : role,
-			user       : null
+			role      : role,
+			user      : null,
+			owner     : o.owner
 		});
 	}));
+};
+var ensureAddRole = function (p) {
+	return addRole (p).then (function () {
+		return addRoleDefinition (p);
+	});
 };
 // -------------------------------------------------------------------------
 //
@@ -742,6 +770,9 @@ exports.routes = {
 	setRoleUserIndex : function (req, res) {
 		return runPromise (res, setRoleUserIndex (req.params.context, req.body));
 	},
+	addRoleIfUnique : function (req, res) {
+		return runPromise (res, addRoleIfUnique (req.body));
+	},
 
 	getUserRoles : function (req, res) {
 		return runPromise (res, getUserRoles ({
@@ -764,52 +795,153 @@ exports.routes = {
 		}));
 	},
 
+	// -------------------------------------------------------------------------
+	//
+	// examine all the user accounts
+	//
+	// -------------------------------------------------------------------------
 	allusers: function (req, res) {
 		var User = mongoose.model ('User');
 		return runPromise (res, Promise.resolve(User.find ({}).exec ()));
 	},
 	convertusers: function (req, res) {
-		var User = mongoose.model ('User');
-		var bigolpromise = new Promise (function (resolve, reject) {
-			User.find ({}).exec ()
-			.then (function (users) {
-				var map = [];
-				var part;
-				var project;
-				var role;
-				_.each (users, function (user) {
-					var p = {};
-					map.push (p);
-					p._id = user._id;
-					p.username = user.username;
-					p.oldroles = user.roles;
-					p.newroles = [];
-					p.addroles = [];
-					_.each (p.oldroles, function (oldrole) {
-						if (oldrole === 'admin') {
-							p.newroles.push ('admin');
-						}
-						else if (oldrole === 'eao') {
-							p.addroles.push ('application:eao');
-						}
-						else if (oldrole.match (/:eao:/)) {
-							part = oldrole.split (':eao:');
-							project = part[0];
-							role = 'eao-'+part[1];
-							p.addroles.push (project+':'+role);
-						}
-						else if (oldrole.match (/:pro:/)) {
-							part = oldrole.split (':eao:');
-							project = part[0];
-							role = 'pro-'+part[1];
-							p.addroles.push (project+':'+role);
-						}
+		var User    = mongoose.model ('User');
+		var Defaults = mongoose.model ('_Defaults');
+		var Project = mongoose.model ('Project');
+		var parray  = [];
+		var defaultProjectRoles;
+		var masterPromise = new Promise (function (resolve, reject) {
+			//
+			// add default application roles and permissions
+			//
+			Defaults.findOne ({
+				resource : 'application',
+				level    : 'global',
+				type     : 'rolePermissions',
+			})
+			.exec ()
+			.then (function (defaultSpec) {
+				_.each (defaultSpec.defaults, function (roles, owner) {
+					_.each (roles, function (perms, role) {
+						parray.push (addRoleDefinition ({
+							context : 'application',
+							owner : owner,
+							role : role
+						}));
+						_.each (perms, function (permission) {
+							parray.push (addPermission ({
+								resource : 'application',
+								owner : owner,
+								role : role,
+								permission: permission
+							}));
+						});
 					});
 				});
-				return map;
+				return Defaults.findOne ({
+					resource : 'project',
+					level    : 'global',
+					type     : 'rolePermissions',
+				}).exec ();
+			})
+			//
+			// now get default project roles and permissions
+			//
+			.then (function (defaultProjectRoleSpec) {
+				defaultProjectRoles = defaultProjectRoleSpec;
+				return User.find ({}).exec ();
+			})
+			.then (function (users) {
+				var part;
+				var definitions = {};
+				_.each (users, function (user) {
+					user.oldroles = (user.roles.length > 0) ? user.roles : user.oldroles;
+					user.roles    = [];
+					_.each (user.oldroles, function (oldrole) {
+						var p = {};
+						if (oldrole === 'admin') {
+							user.roles    = ['admin'];
+						}
+						else {
+							if (oldrole === 'eao') {
+								parray.push (addRole ({
+									context : 'application',
+									role    : 'eao',
+									user    : user.username,
+									owner   : 'application:sysadmin'
+								}));
+							}
+							else if (oldrole === 'proponent') {
+								parray.push (addRole ({
+									context : 'application',
+									role   : 'proponent',
+									user    : user.username,
+									owner   : 'application:sysadmin'
+								}));
+							}
+							else if (oldrole.match (/:eao:/)) {
+								part    = oldrole.split (':eao:');
+								parray.push (addRole ({
+									context : part[0],
+									role   : 'eao-'+part[1],
+									user    : user.username
+								}));
+							}
+							else if (oldrole.match (/:pro:/)) {
+								part    = oldrole.split (':pro:');
+								parray.push (addRole ({
+									context :  part[0],
+									role   : 'pro-'+part[1],
+									user    : user.username
+								}));
+							}
+						}
+						parray.push (user.save ());
+					});
+				});
+				return Promise.all (parray);
+			})
+			.then (function () {
+				return Project.find ({}).exec ()
+				.then (function (projects) {
+					var parray = [];
+					var definitions = {};
+					_.each (projects, function (project) {
+						//
+						// add all the default project roles and permissions
+						//
+						_.each (defaultProjectRoles.defaults, function (roles, owner) {
+							_.each (roles, function (perms, role) {
+								parray.push (addRoleDefinition ({
+									context : project.code,
+									owner : owner,
+									role : role
+								}));
+								_.each (perms, function (permission) {
+									parray.push (addPermission ({
+										resource : project._id,
+										owner : owner,
+										role : role,
+										permission: permission
+									}));
+								});
+							});
+						});
+						project.roles = [];
+						project.setRoles ({
+							read   : ['eao-admin', 'pro-admin', 'eao-member', 'pro-member'],
+							write  : ['eao-admin', 'pro-admin'],
+							delete : ['eao-admin', 'pro-admin'],
+						});
+						parray.push (project.save());
+					});
+				});
+			})
+			.then (function () {
+				return Promise.all (parray);
 			})
 			.then (resolve, reject);
 		});
-		return runPromise (res, bigolpromise);
+		return runPromise (res, masterPromise);
 	},
 };

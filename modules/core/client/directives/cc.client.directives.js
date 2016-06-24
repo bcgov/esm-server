@@ -27,10 +27,10 @@ angular.module('core')
 					size: 'md',
 					resolve: {
 						allRoles: function (AccessModel) {
-							return AccessModel.allRoles (scope.context._id);
+							return AccessModel.allRoles (scope.context.code);
 						},
 						roleUsers: function (AccessModel) {
-							return AccessModel.roleUsers (scope.context._id);
+							return AccessModel.roleUsers (scope.context.code);
 						},
 						permissionRoleIndex: function (AccessModel) {
 							return AccessModel.permissionRoleIndex (scope.object._id);
@@ -111,7 +111,8 @@ angular.module('core')
 	return {
 		restrict: 'A',
 		scope: {
-			context: '='
+			context: '=',
+			role: '='
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function () {
@@ -122,10 +123,10 @@ angular.module('core')
 					size: 'md',
 					resolve: {
 						allRoles: function (AccessModel) {
-							return AccessModel.allRoles (scope.context._id);
+							return AccessModel.allRoles (scope.context.code);
 						},
 						userRoleIndex: function (AccessModel) {
-							return AccessModel.roleUserIndex (scope.context._id);
+							return AccessModel.roleUserIndex (scope.context.code);
 						}
 					},
 					controller: function ($scope, $modalInstance, allRoles, userRoleIndex) {
@@ -142,6 +143,13 @@ angular.module('core')
 						s.userRoleIndex = userRoleIndex;
 						s.allRoles      = allRoles;
 						s.allUsers      = _.keys (userRoleIndex.user);
+						//
+						// TBD: This needs to be set according to the current user.
+						// if its the admin, then default to eao-member, if not, then
+						// see if this user is an eao-admin or a pro-admin, then
+						// default to either eao-member or pro-member
+						//
+						s.defaultRole   = 'eao-member';
 						console.log ('userRoleIndex', userRoleIndex);
 						console.log ('allRoles', allRoles);
 						console.log ('allUsers', s.allUsers);
@@ -149,7 +157,7 @@ angular.module('core')
 						// expose the inputs
 						//
 						s.context         = scope.context;
-						s.name            = scope.context.name || scope.context.code || scope.context._id;
+						s.name            = scope.context.name || scope.context.code || scope.context.code;
 						//
 						// these deal with setting the roles by user
 						//
@@ -167,7 +175,7 @@ angular.module('core')
 						};
 						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
 						s.ok = function () {
-							$modalInstance.close ({context:s.context._id, data:s.userRoleIndex});
+							$modalInstance.close ({context:s.context.code, data:s.userRoleIndex});
 						};
 					}
 				})
@@ -183,6 +191,140 @@ angular.module('core')
 	return {
 		restrict: 'E',
 		templateUrl: 'modules/core/client/views/role-users-gear.html',
+		scope: {
+			context: '=',
+			role: '='
+		}
+	};
+})
+// -------------------------------------------------------------------------
+//
+// A simple modal and its little icon thingsy for adding roles to a context
+//
+// -------------------------------------------------------------------------
+.directive ('addUserToContextModal', function ($modal, Authentication, Application, AccessModel, UserModel, _) {
+	return {
+		restrict: 'A',
+		scope: {
+			context: '=',
+			role: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function () {
+				$modal.open ({
+					animation: true,
+					templateUrl: 'modules/core/client/views/add-user-context-modal.html',
+					controllerAs: 's',
+					size: 'md',
+					resolve: {
+						allUsers: function (UserModel) {
+							return UserModel.allUsers ();
+						}
+					},
+					controller: function ($scope, $modalInstance, allUsers) {
+						var s = this;
+						//
+						// all the base data
+						//
+						s.defaultRole = scope.role;
+						s.context     = scope.context;
+						s.name        = scope.context.name || scope.context.code || scope.context.code;
+						s.allUsers    = allUsers;
+						s.currentUser = '';
+						console.log ('defaultRole:', s.defaultRole);
+						console.log ('allusers:', s.allUsers);
+						//
+						// expose the inputs
+						//
+						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
+						s.ok = function () {
+							console.log ('new user is ', s.currentUser);
+							console.log ('default role is ', s.defaultRole);
+							console.log ('context is  ', s.context.code);
+							AccessModel.addRoleUser ({
+								context : s.context.code,
+								role    : s.defaultRole,
+								user    : s.currentUser
+							})
+							.then ($modalInstance.close ());
+						};
+					}
+				})
+				.result.then (function () {})
+				.catch (function (err) {});
+			});
+		}
+	};
+})
+.directive ('tmplAddUserToContext', function () {
+	return {
+		restrict: 'E',
+		templateUrl: 'modules/core/client/views/add-user-context-gear.html',
+		scope: {
+			context: '=',
+			role: '='
+		}
+	};
+})
+
+// -------------------------------------------------------------------------
+//
+// A simple modal and its little icon thingsy for adding roles to a context
+//
+// -------------------------------------------------------------------------
+.directive ('roleNewModal', function ($modal, Authentication, Application, AccessModel, _) {
+	return {
+		restrict: 'A',
+		scope: {
+			context: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function () {
+				$modal.open ({
+					animation: true,
+					templateUrl: 'modules/core/client/views/role-new-modal.html',
+					controllerAs: 's',
+					size: 'md',
+					controller: function ($scope, $modalInstance) {
+						var s = this;
+						//
+						// all the base data
+						//
+						s.newRole = '';
+						s.isOK = true;
+						//
+						// expose the inputs
+						//
+						s.context         = scope.context;
+						s.name            = scope.context.name || scope.context.code || scope.context.code;
+						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
+						s.ok = function () {
+							if (s.newRole === '') return $modalInstance.dismiss ('cancel');
+							else {
+								AccessModel.addRoleIfUnique (s.context.code, s.newRole)
+								.then (function (isOk) {
+									if (isOk) {
+										$modalInstance.close ();
+									}
+									else {
+										s.isOK = false;
+										$scope.$apply ();
+									}
+								});
+							}
+						};
+					}
+				})
+				.result.then (function () {})
+				.catch (function (err) {});
+			});
+		}
+	};
+})
+.directive ('tmplRoleNew', function () {
+	return {
+		restrict: 'E',
+		templateUrl: 'modules/core/client/views/role-new-gear.html',
 		scope: {
 			context: '='
 		}

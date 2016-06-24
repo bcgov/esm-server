@@ -1,5 +1,6 @@
 <div class="modal-header">
 	<h3 class="modal-title">Permissions for {{s.name}}</h3>
+	<tmpl-role-new context="s.context"></tmpl-role-new>
 </div>
 <div class="modal-body">
 	<ul class="tab-container nav nav-tabs" role="tablist">
@@ -12,8 +13,8 @@
 				<label for="permission" class="control-label">Permission</label>
 				<select id="permission" ng-model="s.currentPermission" class="form-control input-sm" ng-options="p as p for p in s.allPermissions"></select>
 			</div>
-			<ul>
-				<li ng-repeat="role in s.allRoles">
+			<ul class="list-unstyled">
+				<li  ng-repeat="role in s.allRoles">
 
 					<div class="checkbox control-with-label">
 						<label for="multiple">
@@ -34,7 +35,7 @@
 				<label for="role" class="control-label">Role</label>
 				<select id="role" ng-model="s.currentRole" class="form-control input-sm" ng-options="p as p for p in s.allRoles"></select>
 			</div>
-			<ul>
+			<ul class="list-unstyled">
 				<li ng-repeat="permission in s.allPermissions">
 
 					<div class="checkbox control-with-label">
@@ -52,5 +53,6 @@
 	</div>
 </div>
 <div class="modal-footer">
+	<button class="btn btn-default" ng-click="s.cancel()">Cancel</button>
 	<button class="btn btn-primary" ng-click="s.ok()">OK</button>
 </div>

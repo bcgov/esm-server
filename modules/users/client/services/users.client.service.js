@@ -17,6 +17,9 @@ angular.module('users').factory ('UserModel', function (ModelBase, _) {
 		},
 		me: function () {
 			return this.get ('/api/users/me');
+		},
+		allUsers: function () {
+			return this.get ('/api/user');
 		}
 	});
 	return new Class ();

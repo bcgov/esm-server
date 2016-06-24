@@ -1,5 +1,7 @@
 <div class="modal-header">
 	<h3 class="modal-title">Roles for {{s.name}}</h3>
+	<tmpl-role-new context="s.context"></tmpl-role-new>
+	<tmpl-add-user-to-context context="s.context" role="s.defaultRole" ng-if="s.context.code !== 'application'"></tmpl-add-user-to-context>
 </div>
 <div class="modal-body">
 	<ul class="tab-container nav nav-tabs" role="tablist">
@@ -52,5 +54,6 @@
 	</div>
 </div>
 <div class="modal-footer">
+	<button class="btn btn-default" ng-click="s.cancel()">Cancel</button>
 	<button class="btn btn-primary" ng-click="s.ok()">OK</button>
 </div>

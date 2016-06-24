@@ -218,6 +218,10 @@ checkIntegration ('app1').then (function () {
 	require('../seed-data/application')();
 });
 
+checkIntegration ('defaults4').then (function () {
+	require('../seed-data/defaults')();
+});
+
 // // check to see if the seed import executes
 // // insert ajax mine project
 // Integration.findOne ({module:'ajax3'}).exec()

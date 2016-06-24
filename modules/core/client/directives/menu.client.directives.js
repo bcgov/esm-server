@@ -22,6 +22,7 @@ angular.module('core')
 			menu.$state = $state;
 		   	menu.authentication = Authentication;
 
+		   	console.log ('Authentication.user',Authentication.user);
 		   	menu.isAdmin = (Authentication.user && Authentication.user.roles.indexOf ('admin') !== -1);
 		   	if ($scope.project) {
 		   		menu.isEAO = (Authentication.user && (!!~Authentication.user.roles.indexOf ($scope.project.code+':eao:member') || !!~Authentication.user.roles.indexOf ('admin')));

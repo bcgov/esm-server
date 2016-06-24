@@ -28,7 +28,8 @@ var Schema       = mongoose.Schema;
 mongoose.model ('_Role', new Schema ({
 	context : { type:String, index:true, required:true },
 	role    : { type:String, index:true, required:true },
-	user    : { type:String, index:true }
+	user    : { type:String, index:true },
+	owner   : { type:String, index:true }
 }));
 
 // -------------------------------------------------------------------------

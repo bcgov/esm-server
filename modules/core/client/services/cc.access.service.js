@@ -38,6 +38,18 @@ angular.module('core')
 		},
 		setRoleUserIndex: function (contextId, index) {
 			return this.put ('/api/access/roleuserindex/context/'+contextId, index);
+		},
+		addRoleIfUnique: function (contextId, role) {
+			return this.put ('/api/access/addroleifunique/context/'+contextId, {
+				context : contextId,
+				role    : role
+			})
+			.then (function (result) {
+				return result.ok;
+			});
+		},
+		addRoleUser: function (opts) {
+			return this.post ('/api/access/role', opts);
 		}
 	});
 	return new AccessClass ();

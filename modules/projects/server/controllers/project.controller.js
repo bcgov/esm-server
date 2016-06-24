@@ -156,6 +156,11 @@ module.exports = DBModel.extend ({
 		//
 		// TBD ROLES
 		//
+		project.setRoles ({
+			read   : ['eao-admin', 'pro-admin', 'eao-member', 'pro-member'],
+			write  : ['eao-admin', 'pro-admin'],
+			delete : ['eao-admin', 'pro-admin'],
+		});
 		return project;
 		// var permissions = {
 		// 	read:[],

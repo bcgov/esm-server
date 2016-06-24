@@ -120,6 +120,12 @@ var decorate = {
 			definition.userCan[pname] = { type:Boolean, default:false };
 		});
 		var allPermissions = v.concat (['read','write','delete']);
+		var modPObject = function (id, pObject) {
+			pObject.read   = (pObject.read)   ? pObject.read.map   (function (r) {return id+':'+r;}) : [];
+			pObject.write  = (pObject.write)  ? pObject.write.map  (function (r) {return id+':'+r;}) : [];
+			pObject.delete = (pObject.delete) ? pObject.delete.map (function (r) {return id+':'+r;}) : [];
+			return pObject;
+		};
 		definition.methods__.allPermissions = function () {
 			return allPermissions;
 		};
@@ -136,6 +142,7 @@ var decorate = {
 		};
 		definition.methods__.addRoles = function (pObject) {
 			var self = this;
+			pObject = modPObject (this._id, pObject);
 			_.each (pObject, function (p, i) {
 				self[i] = _.union (self[i], p);
 			});
@@ -145,6 +152,7 @@ var decorate = {
 		};
 		definition.methods__.removeRoles = function (pObject) {
 			var self = this;
+			pObject = modPObject (this._id, pObject);
 			_.each (pObject, function (p, i) {
 				_.remove (self[i], function (val) {
 					return _.indexOf (p, val) !== -1;
@@ -155,9 +163,10 @@ var decorate = {
 			this.markModified ('delete');
 		};
 		definition.methods__.setRoles = function (pObject) {
-			this.read   = pObject.read   || [] ;
-			this.write  = pObject.write  || [] ;
-			this.delete = pObject.delete || [] ;
+			pObject = modPObject (this._id, pObject);
+			this.read = pObject.read;
+			this.write = pObject.write;
+			this.delete = pObject.delete;
 			this.markModified ('read');
 			this.markModified ('write');
 			this.markModified ('delete');

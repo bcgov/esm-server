@@ -21,11 +21,12 @@ module.exports = require ('../controllers/cc.schema.controller')('Application', 
 		'createCondition',
 		'createEmailTemplate',
 		'createOrganization',
-		'createNew',
+		'createNews',
 		'createRole',
 		'createTemplate',
 		'createTopic',
-		'createUser'
+		'createUser',
+		'createProject'
 	]
 });
 

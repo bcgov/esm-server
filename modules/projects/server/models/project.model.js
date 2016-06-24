@@ -31,7 +31,9 @@ module.exports = require ('../../../core/server/controllers/cc.schema.controller
 		'listArtifacts',
 		'createArtifact',
 		'publish',
-		'unPublish'
+		'unPublish',
+		'listUsers',
+		'viewEAOTombstone',
 	],
 	__tracking            : true,
 	__status              : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Not Certified', 'Decommissioned'],

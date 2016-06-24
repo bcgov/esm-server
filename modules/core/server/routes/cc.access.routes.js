@@ -81,6 +81,9 @@ module.exports = function (app) {
 	app.route ('/api/access/permissions/context/:context/resource/:resource/user/:username')
 		.get (access.routes.userPermissions);
 
+	app.route ('/api/access/addroleifunique/context/:context')
+		.put (access.routes.addRoleIfUnique);
+
 	app.route ('/api/application')
 		.all (routes.setModel (App))
 		.get (routes.runModel (function (model, req) {

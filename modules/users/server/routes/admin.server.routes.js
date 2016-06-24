@@ -13,7 +13,7 @@ var User = require('mongoose').model('User');
 // var Role = require('mongoose').model('Role');
 
 module.exports = function (app) {
-	routes.setCRUDRoutes(app, 'user', UserCtrl, policy);
+	routes.setCRUDRoutes(app, 'user', UserCtrl, policy, null, {all:'user',get:'user'});
 
 	// just create a new user if required... add them to the roles...
 	app.route('/api/onboardUser')

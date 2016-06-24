@@ -66,7 +66,7 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	//
 	// -------------------------------------------------------------------------
 	Menus.addMenu('projectsMenu', {
-		permissions: ['application.viewProjectsMenu']
+		permissions: ['application.createProject','application.viewSchedule']
 	});
 	Menus.addMenuItem('projectsMenu', {
 		title: 'Add Project',
@@ -84,12 +84,12 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	//
 	// -------------------------------------------------------------------------
 	Menus.addMenu('projectTopMenu', {
-		permissions: ['application.viewProjectTopMenu']
+		permissions: ['context.editProject','context.viewSchedule','context.listEnforcements','context.listCommentPeriods']
 	});
 	Menus.addMenuItem('projectTopMenu', {
 		title: 'Edit Project',
 		state: 'p.edit',
-		permissions: ['context.edit']
+		permissions: ['context.editProject']
 	});
 
 	// Specific to EAO.
@@ -117,7 +117,7 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	//
 	// -------------------------------------------------------------------------
 	Menus.addMenu('projectMenu', {
-		permissions: ['application.viewProjectMenu']
+		permissions: ['context.listDocuments','context.listValuedComponents','context.listProjectRoles','context.listInspectionReports','context.listProjectConditions','context.listProjectComplaints','context.listProjectInvitations']
 	});
 	Menus.addMenuItem('projectMenu', {
 		title: 'Documents',

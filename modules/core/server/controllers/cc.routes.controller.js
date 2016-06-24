@@ -241,10 +241,11 @@ exports.setAndRun = setAndRun;
 // if only certain routes are to be opened, specify them in the which array
 //
 // -------------------------------------------------------------------------
-exports.setCRUDRoutes = function (app, basename, DBClass, policy, which) {
+exports.setCRUDRoutes = function (app, basename, DBClass, policy, which, policymap) {
 	var r = {};
 	which = which || ['getall', 'get', 'post', 'put', 'delete', 'new', 'query'];
 	which.map (function (p) { r[p]=true; });
+	policymap = policymap || {all:'user',get:'guest'};
 	//
 	// middleware to auto-fetch parameter
 	//
@@ -266,7 +267,7 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which) {
 	// collection routes
 	//
 	if (r.query) app.route ('/api/query/'+basename)
-		.all (policy ({all:'user',get:'guest'}))
+		.all (policy (policymap))
 		.put (setAndRun (DBClass, function (model, req) {
 			return model.list (req.data);
 		}))
@@ -275,7 +276,7 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which) {
 			return model.list(q);
 		}));
 	if (r.getall) app.route ('/api/'+basename)
-		.all (policy ({all:'user',get:'guest'}))
+		.all (policy (policymap))
 		.get  (setAndRun (DBClass, function (model, req) {
 			return model.list ();
 		}));
@@ -285,7 +286,7 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which) {
 			return model.listwrite ();
 		}));
 	if (r.post) app.route ('/api/'+basename)
-		.all (policy ({all:'user',get:'guest'}))
+		.all (policy (policymap))
 		.post (setAndRun (DBClass, function (model, req) {
 			return model.create (req.body);
 		}));
@@ -293,22 +294,22 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which) {
 	// model routes
 	//
 	if (r.get) app.route ('/api/'+basename+'/:'+basename)
-		.all (policy ({all:'user',get:'guest'}))
+		.all (policy (policymap))
 		.get    (setAndRun (DBClass, function (model, req) {
 			return model.read(req[DBClass.prototype.name]);
 		}));
 	if (r.put) app.route ('/api/'+basename+'/:'+basename)
-		.all (policy ({all:'user',get:'guest'}))
+		.all (policy (policymap))
 		.put    (setAndRun (DBClass, function (model, req) {
 			return model.update(req[DBClass.prototype.name], req.body);
 		}));
 	if (r.delete) app.route ('/api/'+basename+'/:'+basename)
-		.all (policy ({all:'user',get:'guest'}))
+		.all (policy (policymap))
 		.delete (setAndRun (DBClass, function (model, req) {
 			return model.delete(req[DBClass.prototype.name]);
 		}));
 	if (r.new) app.route ('/api/new/'+basename)
-		.all (policy ({all:'user',get:'guest'}))
+		.all (policy (policymap))
 		.get (setAndRun (DBClass, function (model, req) {
 			return model.new();
 		}));
