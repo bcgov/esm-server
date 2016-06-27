@@ -135,7 +135,7 @@ exports.streamFile = function (res, file, name, mime) {
 // -------------------------------------------------------------------------
 var setSessionContext = function (req) {
 	return new Promise (function (resolve, reject) {
-		console.log ('++ setSessionContext : Start');
+		// console.log ('++ setSessionContext : Start');
 		//
 		// new session context
 		//
@@ -153,28 +153,28 @@ var setSessionContext = function (req) {
 			// context and set a flag accordingly
 			//
 			if (req.session.context !== req.cookies.context) {
-				console.log ('++ setSessionContext : context changed from', req.session.context, ' to ', req.cookies.context);
+				// console.log ('++ setSessionContext : context changed from', req.session.context, ' to ', req.cookies.context);
 				req.session.context = req.cookies.context;
-				console.log ('++ setSessionContext : collect new contextual user roles');
+				// console.log ('++ setSessionContext : collect new contextual user roles');
 				access.getAllUserRoles ({
 					context : req.session.context,
 					user    : req.user ? req.user.username : null
 				})
 				.then (function (roles) {
 					req.session.userRoles = roles;
-					console.log ('++ setSessionContext : new user roles = ', req.session.userRoles);
+					// console.log ('++ setSessionContext : new user roles = ', req.session.userRoles);
 					opts.userRoles = req.session.userRoles ;
 					opts.context   = req.session.context   ;
 					resolve (opts);
 				});
 			}
 			else {
-				console.log ('++ setSessionContext : context unchanged, using existing');
+				// console.log ('++ setSessionContext : context unchanged, using existing');
 				resolve (opts);
 			}
 		}
 		else {
-			console.log ('++ setSessionContext : no context passed in, using existing');
+			// console.log ('++ setSessionContext : no context passed in, using existing');
 			resolve (opts);
 		}
 	});

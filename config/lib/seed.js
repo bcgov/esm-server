@@ -88,7 +88,7 @@ checkIntegration ('testme').then (function (f) {
 checkIntegration ('newconfigs3').then (function () {
 	require('../seed-data/newconfigs')(true);
 });
-checkIntegration ('commentconfigs').then (function () {
+checkIntegration ('commentconfigs1').then (function () {
 	require('../seed-data/commenting-configs')(true);
 });
 

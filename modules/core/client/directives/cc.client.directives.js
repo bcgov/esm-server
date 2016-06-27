@@ -330,6 +330,61 @@ angular.module('core')
 		}
 	};
 })
+// -------------------------------------------------------------------------
+//
+// a modal role chooser (multiple)
+//
+// -------------------------------------------------------------------------
+.directive ('roleChooser', function ($modal, AccessModel, _) {
+	return {
+		restrict: 'A',
+		scope: {
+			context: '=',
+			current: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function () {
+				$modal.open ({
+					animation: true,
+					templateUrl: 'modules/core/client/views/role-chooser.html',
+					controllerAs: 's',
+					size: 'md',
+					resolve: {
+						allRoles: function (AccessModel) {
+							return AccessModel.allRoles (scope.context.code);
+						}
+					},
+					controller: function ($scope, $modalInstance, allRoles) {
+						var s = this;
+						s.selected = scope.current;
+						s.allRoles = allRoles;
+						var index = allRoles.reduce (function (prev, next) {
+							prev[next] = next;
+							return prev;
+						}, {});
+						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
+						s.ok = function () {
+							$modalInstance.close (s.selected);
+						};
+						s.dealwith = function (id) {
+							var i = s.selected.indexOf (id);
+							if (i !== -1) {
+								s.selected.splice (i, 1);
+							}
+							else {
+								s.selected.push (id);
+							}
+						};
+					}
+				})
+				.result.then (function (data) {
+					// console.log ('selected = ', data);
+				})
+				.catch (function (err) {});
+			});
+		}
+	};
+})
 
 ;
 

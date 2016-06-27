@@ -24,7 +24,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	getMilestoneBase: function (code) {
-		return (new MilestoneBaseClass (this.user)).findOne ({code:code});
+		return (new MilestoneBaseClass (this.opts)).findOne ({code:code});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -89,14 +89,15 @@ module.exports = DBModel.extend ({
 			//
 			// get the base
 			//
+			console.log ('get base from code : ', code);
 			self.getMilestoneBase (code)
 			//
 			// copy its id and such before we lose it, then copy the entire thing
 			//
 			.then (function (m) {
+				console.log (m.activities);
 				base          = m;
 				baseId        = m._id;
-				// console.log (m.activities);
 				activityCodes = _.clone (m.activities);
 				return self.copyMilestoneBase (base);
 			})
@@ -120,8 +121,8 @@ module.exports = DBModel.extend ({
 			// so not too much of an issue
 			//
 			.then (function (m) {
-				// console.log ("++ new milestone with id:", m._id);
-				// console.log ("now adding activities from base ", activityCodes);
+				console.log ("++ new milestone with id:", m._id);
+				console.log ("now adding activities from base ", activityCodes);
 				//
 				// This little bit of magic forces the synchronous executiuon of
 				// async functions as promises, so a sync version of all.
@@ -138,9 +139,9 @@ module.exports = DBModel.extend ({
 			// have to resolve it here
 			//
 			.then (function (models) {
+				console.log ("Yay! the add activity promise array resolved to ", models);
 				phase.milestones.push (milestone._id);
 				phase.save ();
-				// console.log ("Yay! the add activity promise array resolved to ", models);
 				return self.saveDocument (milestone);
 			})
 			.then (resolve, reject);
@@ -154,7 +155,7 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	addActivity : function (milestone, basecode, permissions) {
 		var self = this;
-		var Activity = new ActivityClass (self.user);
+		var Activity = new ActivityClass (self.opts);
 		return new Promise (function (resolve, reject) {
 			//
 			// get the new activity
@@ -263,7 +264,7 @@ module.exports = DBModel.extend ({
 		} else {
 			// console.log (JSON.stringify (milestone, null, 4));
 			return Promise.all (milestone.activities.map (function (activity) {
-				var Activity = new ActivityClass (self.user);
+				var Activity = new ActivityClass (self.opts);
 				if (activity.completed) return activity;
 				else return Activity.complete (activity);
 			}));
@@ -277,7 +278,7 @@ module.exports = DBModel.extend ({
 	overrideActivities: function (milestone) {
 		var self = this;
 		return Promise.all (milestone.activities.map (function (activity) {
-			var Activity = new ActivityClass (self.user);
+			var Activity = new ActivityClass (self.opts);
 			if (activity.completed) return activity;
 			else return Activity.override (activity, milestone.overrideReason);
 		}));
@@ -291,7 +292,7 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	getMilestoneWithActivities : function (milestone) {
 		var self = this;
-		var Activity = new ActivityClass (self.user);
+		var Activity = new ActivityClass (self.opts);
 		return new Promise (function (resolve, reject) {
 			milestone = milestone.toObject ();
 			var a = milestone.activities.map (function (id) {
@@ -345,8 +346,8 @@ module.exports = DBModel.extend ({
 	makeMilestoneFromBase : function (base, streamid, projectid, projectcode, phaseid, roles) {
 		var self = this;
 		// console.log ('in miolestone', base);
-		var Activity = new ActivityClass (this.user);
-		var ActivityBase = new ActivityBaseClass (this.user);
+		var Activity = new ActivityClass (this.opts);
+		var ActivityBase = new ActivityBaseClass (this.opts);
 
 		return new Promise (function (resolve, reject) {
 			var baseid = base._id;

@@ -147,11 +147,11 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 			state: 'p.ir.list',
 			permissions: ['context.listInspectionReports']
 		});
-		Menus.addMenuItem('projectMenu', {
-			title: 'Project Roles',
-			state: 'p.roles.list',
-			permissions: ['context.listProjectRoles']
-		});
+		// Menus.addMenuItem('projectMenu', {
+		// 	title: 'Project Roles',
+		// 	state: 'p.roles.list',
+		// 	permissions: ['context.listProjectRoles']
+		// });
 		Menus.addMenuItem('projectMenu', {
 			title: 'Valued Components',
 			state: 'p.vc.list',

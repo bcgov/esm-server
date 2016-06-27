@@ -22,7 +22,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	getPhaseBase: function (code) {
-		return (new PhaseBaseClass (this.user)).findOne ({code:code});
+		return (new PhaseBaseClass (this.opts)).findOne ({code:code});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -141,14 +141,16 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	addMilestone : function (phase, basecode) {
 		var self = this;
-		var Milestone = new MilestoneClass (self.user);
+		console.log ('addmilestone 1 ');
+		var Milestone = new MilestoneClass (self.opts);
+		console.log ('addmilestone 12 ');
 		return new Promise (function (resolve, reject) {
 			//
 			// get the new milestone
 			//
 			Milestone.fromBase (basecode, phase)
 			.then (function (milestone) {
-				// console.log ('adding milestone with id '+milestone._id+' to phase '+phase._id);
+				console.log ('adding milestone with id '+milestone._id+' to phase '+phase._id);
 				phase.milestones.push (milestone._id);
 				return phase;
 			})
@@ -231,7 +233,7 @@ module.exports = DBModel.extend ({
 		} else {
 			var self = this;
 		// console.log (JSON.stringify (phase, null, 4));
-			var Milestone = new MilestoneClass (self.user);
+			var Milestone = new MilestoneClass (self.opts);
 			return Promise.all (phase.milestones.map (function (milestoneId) {
 				return Milestone.findById (milestoneId);
 			}))
@@ -251,7 +253,7 @@ module.exports = DBModel.extend ({
 	overrideMilestones: function (phase) {
 		var self = this;
 		return Promise.all (phase.milestones.map (function (milestone) {
-			var Milestone = new MilestoneClass (self.user);
+			var Milestone = new MilestoneClass (self.opts);
 			if (milestone.completed) return milestone;
 			else return Milestone.override (milestone, phase.overrideReason);
 		}));
@@ -302,7 +304,7 @@ module.exports = DBModel.extend ({
 	// // -------------------------------------------------------------------------
 	// addMilestoneFromBase : function (phase, milestonebase, roles) {
 	// 	var self = this;
-	// 	var Milestone = new MilestoneClass (this.user);
+	// 	var Milestone = new MilestoneClass (this.opts);
 	// 	return new Promise (function (resolve, reject) {
 	// 		Milestone.makeMilestoneFromBase (
 	// 			milestonebase,
@@ -328,7 +330,7 @@ module.exports = DBModel.extend ({
 	// addMilestoneFromCode : function (phase, milestoneCode, roles) {
 	// 	var self = this;
 	// 	return new Promise (function (resolve, reject) {
-	// 		var PhaseBase = new PhaseBaseClass (self.user);
+	// 		var PhaseBase = new PhaseBaseClass (self.opts);
 	// 		PhaseBase.findOne ({
 	// 			code: milestoneCode
 	// 		})
@@ -353,8 +355,8 @@ module.exports = DBModel.extend ({
 	// // -------------------------------------------------------------------------
 	// makePhaseFromBase : function (base, streamid, projectid, projectcode, roles) {
 	// 	var self = this;
-	// 	var Milestone = new MilestoneClass (this.user);
-	// 	var MilestoneBase = new MilestoneBaseClass (this.user);
+	// 	var Milestone = new MilestoneClass (this.opts);
+	// 	var MilestoneBase = new MilestoneBaseClass (this.opts);
 	// 	return new Promise (function (resolve, reject) {
 	// 		var baseid = base._id;
 	// 		var newobjectid;

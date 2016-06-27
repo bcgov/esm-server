@@ -4,10 +4,10 @@
 // Model for comments
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('Comment', {
+module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+('Comment', {
 	__audit    : true,  // who did what and when
-	__access   : true,  // who gets what sort of access to this comment
+	__access   : [],  // who gets what sort of access to this comment
 	//
 	// this comes along just for ease of querying
 	//

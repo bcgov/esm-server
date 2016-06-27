@@ -12,11 +12,11 @@ module.exports = function (app) {
 	routes.setCRUDRoutes (app, 'topic', Topic, policy);
 	app.route ('/api/topics/for/pillar/:pillar').all (policy ('guest'))
 		.get (routes.setAndRun (Topic, function (model, req) {
-			return model.findMany ({pillar:req.params.pillar});
+			return model.list ({pillar:req.params.pillar});
 		}));
 	app.route ('/api/topics/for/type/:type').all (policy ('guest'))
 		.get (routes.setAndRun (Topic, function (model, req) {
-			return model.findMany ({type:req.params.type});
+			return model.list ({type:req.params.type});
 		}));
 };
 

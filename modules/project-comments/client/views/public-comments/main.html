@@ -22,10 +22,10 @@
                 <li><a class="document-name" x-artifact-display-modal x-mode="'view'" x-artifact="artifact" x-project="project">{{ artifact.name }}</a></li>
             </ul>
 
-            <button class="btn btn-success" x-add-public-comment x-project="project" x-period="period">
+            <button ng-if="isOpen && period.userCan.addComment" class="btn btn-success" x-add-public-comment x-project="project" x-period="period">
                 Click Here to Submit a Comment
             </button>
-            
+
             <div class="open-house-dates">
                 <h4>Open House Dates</h4>
                 <ul>

@@ -10,14 +10,14 @@
 			<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
 		</div>
 	</div>
-	
+
 	<div class="view-body-container">
-		
+
 		<div class="row">
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label class="control-label">Comment Period Type</label>
-					<select ng-model="period.periodType" class="form-control">
+					<select ng-change="changeType()" ng-model="period.periodType" class="form-control">
 						<option selected>Working Group</option>
 						<option>Public</option>
 					</select>
@@ -41,28 +41,55 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-3" ng-if="period.periodType==='Working Group'">
-				<label class="control-label">Select Applicable Roles</label>
+			<div class="col-sm-3">
+				<label class="control-label">Roles</label>
 				<div class="well well-sm">
-					<ul class="list-unstyled task-list">
-						<li>working-group</li>
-						<!-- 						
-						<li ng-repeat="role in period.projectRoles">
-							<button class="btn btn-block btn-sm btn-layer btn-default"
-								ng-click="processEngageWGConfig.chosenRoles[role] = !processEngageWGConfig.chosenRoles[role]"
-								ng-class="{'btn-success': processEngageWGConfig.chosenRoles[role]}">{{ role }}
-							</button>
-						</li>
-						-->
-					</ul>
-				</div>
-			</div>
-			<div class="col-sm-3" ng-if="period.periodType==='Public'">
-				<label class="control-label">Select Applicable Roles</label>
-				<div class="well well-sm">
-					<ul class="list-unstyled task-list">
-						<li>public</li>
-					</ul>
+					<div ng-if="period.periodType !== 'Public'">
+						<b>Can Comment:</b><br/>
+				    	<a class="btn btn-link btn-xs"  ng-if="period.periodType !== 'Public'"
+				    		x-role-chooser
+				    		x-context="project"
+				    		x-current="period.commenterRoles"
+				    		class="btn btn-success">
+				    	    <i class="glyphicon glyphicon-plus"></i>/
+				    	    <i class="glyphicon glyphicon-minus"></i>
+				    	</a>
+						<ul>
+							<li ng-repeat="role in period.commenterRoles">{{ role }}</li>
+						</ul>
+				    </div>
+					<div ng-if="period.periodType ==='Public'">
+						<b>Can Comment:</b><br/>
+						<ul>
+							<li ng-repeat="role in period.commenterRoles">{{ role }}</li>
+						</ul>
+					</div>
+					<div ng-if="period.userCan.setPermissions">
+						<b>Can Vet:</b><br/>
+				    	<a class="btn btn-link btn-xs"
+				    		x-role-chooser
+				    		x-context="project"
+				    		x-current="period.vettingRoles"
+				    		class="btn btn-success">
+				    	    <i class="glyphicon glyphicon-plus"></i>/
+				    	    <i class="glyphicon glyphicon-minus"></i>
+				    	</a>
+						<ul>
+							<li ng-repeat="role in period.vettingRoles">{{ role }}</li>
+						</ul>
+						<b>Can Classify:</b><br/>
+				    	<a class="btn btn-link btn-xs"
+				    		x-role-chooser
+				    		x-context="project"
+				    		x-current="period.classificationRoles"
+				    		class="btn btn-success">
+				    	    <i class="glyphicon glyphicon-plus"></i>/
+				    	    <i class="glyphicon glyphicon-minus"></i>
+				    	</a>
+						<ul>
+							<li ng-repeat="role in period.classificationRoles">{{ role }}</li>
+						</ul>
+			    	</div>
 				</div>
 			</div>
 			<div class="col-sm-6">

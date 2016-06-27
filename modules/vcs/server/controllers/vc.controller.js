@@ -12,7 +12,7 @@ module.exports = DBModel.extend ({
 	name : 'Vc',
 	plural : 'vcs',
 	getForProject: function (projectId) {
-		return this.findMany ({project:projectId});
+		return this.list ({project:projectId});
 	},
 });
 

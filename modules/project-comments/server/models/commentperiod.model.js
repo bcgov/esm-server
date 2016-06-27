@@ -4,8 +4,8 @@
 // Model for comments
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('CommentPeriod', {
+module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+('CommentPeriod', {
 	//
 	// for access, if the period is NOT published, then there should be no way
 	// to get to a list of comments. it is possible for comments to be published,
@@ -13,11 +13,13 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	// a user had a link to a specific comment, they could still follow that
 	//
 	__audit          : true, // who did what when
-	__access: true,
-	// __access         : {
-	// 	canVetComments
-	// 	canClassifyComments
-	// }, // who can mess with this and how
+	__access: [
+		'vetComments',
+		'classifyComments',
+		'listComments',
+		'addComment',
+		'setPermissions'
+	],
 	__tracking       : true, // start and stop dates
 	periodType       : { type:String, default:'Working Group', enum:['Working Group', 'Public']},
 	//
@@ -46,7 +48,7 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	// commenter roles, a list of roles that are allowed to post comments
 	// if this were a public period this would simply be 'public'
 	//
-	commenterRoles : [ String ],
+	commenterRoles : [ {type:String} ],
 	// -------------------------------------------------------------------------
 	//
 	// these are specific to working group comments
@@ -70,8 +72,10 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	//
 	//
 	// -------------------------------------------------------------------------
+	vettingRoles : [ {type:String} ],
+	classificationRoles : [ {type:String} ],
 	//
-	// has teh entire set of comments been published ?
+	// has the entire set of comments been published ?
 	// note: isPublished is already present because of __access
 	//
 	publishedPercent  : { type:Number, default:0.0 },
@@ -81,11 +85,10 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	isVetted          : { type:Boolean, default:false },
 	vettedPercent     : { type:Number, default:0.0 },
 	isClassified      : { type:Boolean, default:false },
-	classifiedPercent : { type:Number, default:0.0 }
-},
-{
-	commenterRoles: 1
-}
-);
+	classifiedPercent : { type:Number, default:0.0 },
+	indexes__ : [{
+		commenterRoles: 1
+	}]
+});
 
 

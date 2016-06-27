@@ -21,7 +21,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	getActivityBase: function (code) {
-		return (new ActivityBaseClass (this.user)).findOne ({code:code});
+		return (new ActivityBaseClass (this.opts)).findOne ({code:code});
 	},
 	// -------------------------------------------------------------------------
 	//

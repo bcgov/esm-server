@@ -12,7 +12,7 @@ module.exports = DBModel.extend ({
 	name : 'ProjectCondition',
 	plural : 'projectconditions',
 	getForProject: function (projectId) {
-		return this.findMany ({project:projectId});
+		return this.list ({project:projectId});
 	},
 });
 

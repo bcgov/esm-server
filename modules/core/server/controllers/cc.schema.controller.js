@@ -214,6 +214,10 @@ var genSchema = function (name, definition) {
 	var i = definition.indexes__;
 	var s = definition.statics__;
 	var p = definition.presave__;
+	definition.methods__ = null;
+	definition.indexes__ = null;
+	definition.statics__ = null;
+	definition.presave__ = null;
 	delete definition.methods__;
 	delete definition.indexes__;
 	delete definition.statics__;

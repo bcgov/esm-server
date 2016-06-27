@@ -85,8 +85,8 @@ module.exports = DBModel.extend({
 	//
 	// -------------------------------------------------------------------------
 	newFromType: function (code, project) {
-		var types = new ArtifactType(this.user);
-		var template = new Template(this.user);
+		var types = new ArtifactType(this.opts);
+		var template = new Template(this.opts);
 		var self = this;
 		var artifactType;
 		var artifact;
@@ -148,7 +148,7 @@ module.exports = DBModel.extend({
 				if (artifactType.code === 'valued-component') {
 					return null;
 				}
-				var p = new MilestoneClass(self.user);
+				var p = new MilestoneClass(self.opts);
 				return p.fromBase(artifactType.milestone, project.currentPhase);
 			})
 			//
@@ -242,7 +242,7 @@ module.exports = DBModel.extend({
 		// get the disjoint of the latter two and add those to the list of available
 		//
 		var self = this;
-		var Types = new ArtifactType(self.user);
+		var Types = new ArtifactType(self.opts);
 		var multiples = [];
 		var nonmultiples = [];
 		return new Promise(function (resolve, reject) {
@@ -380,8 +380,8 @@ module.exports = DBModel.extend({
 				// console.log ('document saved, now add the activity ', model.milestone, next.activity);
 				if (model.milestone && next.activity) {
 					var ativity;
-					var m = new MilestoneClass(self.user);
-					var a = new ActivityClass(self.user);
+					var m = new MilestoneClass(self.opts);
+					var a = new ActivityClass(self.opts);
 					return m.findById(model.milestone)
 					.then(function (milestone) {
 						// console.log ('found the milestone, now adding attivity');

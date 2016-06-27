@@ -43,6 +43,10 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	_init : function (opts) {
 		// console.log ('dbmodel._init:', opts);
+		if (!opts.context) {
+			console.error ('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Invalid options passed to dbmodel '+this.name);
+			throw (new Error ('Invalid options passed to dbmodel '+this.name));
+		}
 		this.opts       = opts;
 		this.user       = opts.user;
 		this.context    = opts.context   || 'application';

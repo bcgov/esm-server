@@ -21,7 +21,7 @@ module.exports = DBModel.extend ({
 	plural : 'inspectionreports',
 	populate : 'inspectionDetails',
 	getForProject: function (projectId) {
-		return this.findMany ({project:projectId});
+		return this.list ({project:projectId});
 	},
 });
 

@@ -21,6 +21,6 @@ module.exports = function (app) {
 	app.route ('/api/users/for/org/:orgid')
 		.all (policy ('user'))
 		.get (routes.setAndRun (User , function (model, req) {
-			return model.findMany ({org:req.params.orgid});
+			return model.list ({org:req.params.orgid});
 		}));
 };

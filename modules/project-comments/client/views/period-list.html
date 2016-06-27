@@ -7,7 +7,7 @@
 
 	<div class="view-body-container">
 		<div class="button-bar clearfix">
-			<a class="btn btn-default btn-sm pull-left" ui-sref="p.commentperiod.create()">
+			<a ng-if="project.userCan.createCommentPeriod" class="btn btn-default btn-sm pull-left" ui-sref="p.commentperiod.create()">
 				<span class="glyphicon glyphicon-plus"></span>
 				<span>Add Comment Period</span>
 			</a>
@@ -46,7 +46,7 @@
 						<i ng-if="p.isPublished" class="glyphicon glyphicon-ok"></i>
 					</td>
 					<td>
-						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.commentperiod.edit({periodId:p._id})">
+						<a ng-if="p.userCan.write" ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.commentperiod.edit({periodId:p._id})">
 						<i class="glyphicon glyphicon-pencil"></i>
 						</a>
 					</td>
@@ -59,5 +59,5 @@
 			</table>
 		</section>
 	</div>
-	
+
 </div>
