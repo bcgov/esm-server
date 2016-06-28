@@ -1,19 +1,16 @@
 <div class="modal-header">
-	<h3 class="modal-title">Define New Role for {{s.name}}</h3>
+	<button class="btn btn-default close" ng-click="s.cancel()"><span aria-hidden="true">×</span></button>
+	<h3 class="modal-title">New Role &nbsp;&rsaquo;&nbsp; {{s.name}}</h3>
 </div>
+
 <div class="modal-body">
-	<div class="panel panel-default">
-       <div class="alert alert-danger eao-comment-notes" ng-if="!s.isOK">
-            <div class="detail-row horiz">
-                <span class="value wrap-text">That role is already in use, please try another.</span>
-            </div>
-        </div><!-- / DEFERRAL NOTES -->
-		<div class="form-group">
-			<label for="r" class="control-label">Role</label>
-			<input id="r" ng-model="s.newRole" class="form-control input-sm" type="text"/>
-		</div>
+	<div class="alert alert-danger eao-comment-notes" ng-if="!s.isOK">
+		<span class="value wrap-text">That Role Name is already in use, please try another.</span>
 	</div>
+	<label for="r" class="control-label">Role Name</label>
+	<input class="form-control" id="r" ng-model="s.newRole" type="text"/>
 </div>
+
 <div class="modal-footer">
 	<button class="btn btn-default" ng-click="s.cancel()">Cancel</button>
 	<button class="btn btn-primary" ng-click="s.ok()">OK</button>
