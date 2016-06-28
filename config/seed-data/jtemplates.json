@@ -4932,5 +4932,133 @@
     "versionNumber":7,
     "documentType":"Inspection Report",
     "code":"inspection-report"
+  },
+  {
+	"updatedBy" : null,
+	"addedBy" : null,
+	"dateUpdated" : null,
+	"dateAdded" : null,
+	"artifact" : null,
+	"templateType" : "Artifact",
+	"sections" : [
+	  {
+		"meta" : [
+		  {
+			"default" : "",
+			"label" : "Memo to the Minister from the Associate Deputy Minister",
+			"type" : "Artifact",
+			"name" : "a"
+		  }
+		],
+		"footer" : "",
+		"header" : "",
+		"template" : "{{a}}",
+		"isfooter" : false,
+		"isheader" : false,
+		"multiple" : false,
+		"optional" : false,
+		"label" : "Memo to the Minister from the Associate Deputy Minister",
+		"name" : "memo1"
+	  },
+	  {
+		"meta" : [
+		  {
+			"default" : "",
+			"label" : "Recommendations of the Executive Director",
+			"type" : "Artifact",
+			"name" : "b"
+		  }
+		],
+		"footer" : "",
+		"header" : "",
+		"template" : "{{b}}",
+		"isfooter" : false,
+		"isheader" : false,
+		"multiple" : false,
+		"optional" : false,
+		"label" : "Recommendations of the Executive Director",
+		"name" : "memo2"
+	  },
+	  {
+		"meta" : [
+		  {
+			"default" : "",
+			"label" : "Environmental Certificate",
+			"type" : "Artifact",
+			"name" : "c"
+		  }
+		],
+		"footer" : "",
+		"header" : "",
+		"template" : "{{c}}",
+		"isfooter" : false,
+		"isheader" : false,
+		"multiple" : false,
+		"optional" : false,
+		"label" : "Environmental Certificate",
+		"name" : "memo3"
+	  },
+	  {
+		"meta" : [
+		  {
+			"default" : "",
+			"label" : "Schedule A: Certified Project Description",
+			"type" : "Artifact",
+			"name" : "d"
+		  }
+		],
+		"footer" : "",
+		"header" : "",
+		"template" : "{{d}}",
+		"isfooter" : false,
+		"isheader" : false,
+		"multiple" : false,
+		"optional" : false,
+		"label" : "Schedule A: Certified Project Description",
+		"name" : "pd"
+	  },
+	  {
+		"meta" : [
+		  {
+			"default" : "",
+			"label" : "Schedule B: Table of Conditions",
+			"type" : "Artifact",
+			"name" : "e"
+		  }
+		],
+		"footer" : "",
+		"header" : "",
+		"template" : "{{e}}",
+		"isfooter" : false,
+		"isheader" : false,
+		"multiple" : false,
+		"optional" : false,
+		"label" : "Schedule B: Table of Conditions",
+		"name" : "conds"
+	  },
+	  {
+		"meta" : [
+		  {
+			"default" : "",
+			"label" : "Application",
+			"type" : "Artifact",
+			"name" : "f"
+		  }
+		],
+		"footer" : "",
+		"header" : "",
+		"template" : "{{f}}",
+		"isfooter" : false,
+		"isheader" : false,
+		"multiple" : false,
+		"optional" : false,
+		"label" : "Application",
+		"name" : "app"
+	  }
+	],
+	"versionNumber" : 1,
+	"documentType" : "Referral Package",
+	"code" : "referral-package"
   }
+
 ]
