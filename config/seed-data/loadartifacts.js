@@ -90,7 +90,7 @@ module.exports = function () {
 											reject(err);
 										} else {
 											//console.log('saved ' + arttype.code);
-											fulfill(arttype)
+											fulfill(arttype);
 										}
 									});
 
