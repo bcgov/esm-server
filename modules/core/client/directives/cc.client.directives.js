@@ -27,7 +27,8 @@ angular.module('core')
 					animation: true,
 					templateUrl: 'modules/core/client/views/role-permissions-modal.html',
 					controllerAs: 's',
-					size: 'md',
+					windowClass: 'permissions-modal',
+					size: 'lg',
 					resolve: {
 						allRoles: function (AccessModel) {
 							return AccessModel.allRoles (scope.context.code);
@@ -123,7 +124,8 @@ angular.module('core')
 					animation: true,
 					templateUrl: 'modules/core/client/views/role-users-modal.html',
 					controllerAs: 's',
-					size: 'md',
+					windowClass: 'permissions-modal',
+					size: 'lg',
 					resolve: {
 						allRoles: function (AccessModel) {
 							return AccessModel.allRoles (scope.context.code);

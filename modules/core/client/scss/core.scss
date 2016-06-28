@@ -2693,6 +2693,9 @@ textarea {
 	
 	h3 {
 		font-weight: bold;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 	
 	.close {
@@ -3425,6 +3428,63 @@ section.project-info {
 	}
 }
 
+.permissions-modal {
+	.select-permission {
+		margin-top: 1rem;
+		margin-bottom: 2.5rem;
+	}
+
+	.panel {
+		margin-bottom: 0;
+		max-height: 40rem;
+		overflow-y: auto;
+		border: 1px solid #CCC;
+	}
+
+	.list-group {
+		.checkbox {
+			margin: 0;
+		}
+
+		.list-group-item {
+			padding: 0;
+		}
+
+		.list-group-item:hover {
+			background-color: #EEE;
+		}
+
+		label {
+			padding-top: 1rem;
+			padding-bottom: 1rem;
+			padding-left: 3.5rem;
+			display: block;
+		}
+	}
+
+	.btn-link {
+		font-weight: bold;
+	}
+
+	.new-role-btn {
+		margin-top: -0.4rem;
+		margin-bottom: -0.4rem;
+	}
+}
+
+.flex-row {
+	display: -webkit-flex;
+	display: flex;
+	-ms-flex-flow: row nowrap;
+	flex-flow: row nowrap;
+
+	label,
+	.form-control
+	.btn {
+		flex: 1 1 auto;
+	}
+}
+
 
 /* PROJECT SCHEDULE VIEW
 ------------------------------ */
@@ -3944,6 +4004,8 @@ section.project-info {
 		}
 	}
 }
+
+
 
 
 /* PROJECT INVITATIONS 
