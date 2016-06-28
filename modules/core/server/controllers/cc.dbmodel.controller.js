@@ -279,8 +279,9 @@ _.extend (DBModel.prototype, {
 	// returns a promise, takes optional query, sort and populate
 	//
 	// -------------------------------------------------------------------------
-	findMany : function (query, fields) {
+	findMany : function (query, fields, sortby) {
 		// console.log ('dbmodel.findMany:', query, fields);
+		var sort = sortby || this.sort;
 		var self = this;
 		query = query || {};
 		return new Promise (function (resolve, reject) {
@@ -288,7 +289,7 @@ _.extend (DBModel.prototype, {
 			var q = _.extend ({}, self.baseQ, query);
 			// console.log ('q.$or = ',q.$or[0].read);
 			self.model.find (q)
-			.sort (self.sort)
+			.sort (sort)
 			.populate (self.populate)
 			.select (fields)
 			.exec ()
@@ -683,13 +684,13 @@ _.extend (DBModel.prototype, {
 	// GET *
 	//
 	// -------------------------------------------------------------------------
-	list : function (q, f) {
+	list : function (q, f, s) {
 		q = q || {};
 		q = _.extend ({}, this.baseQ, q);
 		f = f || {};
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			self.findMany (q, f)
+			self.findMany (q, f, s)
 			.then (self.permissions)
 			.then (self.decorateAll)
 			.then (resolve, reject);

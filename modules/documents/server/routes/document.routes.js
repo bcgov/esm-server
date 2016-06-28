@@ -17,10 +17,10 @@ module.exports = function (app) {
 	});
 	//
 	// collection routes
-	//
-	app.route ('/api/documents')//.all (policy ('guest'))
-		.get  (controller.list);
-		//.post (controller.create);
+	// cc: converted
+	// app.route ('/api/documents')//.all (policy ('guest'))
+	// 	.get  (controller.list);
+	// 	//.post (controller.create);
 
 	// Import via CSV
 	app.route ('/api/documents/import').all (policy ('guest'))
@@ -28,15 +28,16 @@ module.exports = function (app) {
 
 	app.route ('/api/documents/:documentid/relate/:projectid/').all (policy ('guest'))
 		.post (controller.mapDocumentToProject);
+	// cc: converted
+	// app.route ('/api/documents/:projectid').all (policy ('guest'))
+	// 	.get  (controller.getDocumentsForProjectAndReturn);
+	// cc: converted
+	// app.route ('/api/documents/types/:projectid').all (policy ('guest'))
+	// 	.get  (controller.getDocumentTypesForProjectAndReturn);
 
-	app.route ('/api/documents/:projectid').all (policy ('guest'))
-		.get  (controller.getDocumentsForProjectAndReturn);
-
-	app.route ('/api/documents/types/:projectid').all (policy ('guest'))
-		.get  (controller.getDocumentTypesForProjectAndReturn);
 	app.route ('/api/documents/memtypes/:projectid').all (policy ('guest'))
 		.get  (controller.getDocumentTypesForProjectMEMAndReturn);
-
+	// cc: converted
 	app.route ('/api/documents/subtypes/:projectid').all (policy ('guest'))
 		.get  (controller.getDocumentSubTypesForProjectAndReturn);
 
