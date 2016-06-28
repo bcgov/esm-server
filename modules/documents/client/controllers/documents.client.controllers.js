@@ -275,7 +275,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 							// when the last file is finished, send complete event.
 							if (--docCount === 0) {
 								// emit to parent.
-								// Go through all the documents that have been uploaded and push them 
+								// Go through all the documents that have been uploaded and push them
 								// into a new artifact
 								// console.log("selart:",docUpload.selectedArtifact._id);
 								ArtifactModel.lookup(docUpload.selectedArtifact._id)
@@ -351,9 +351,9 @@ function controllerDocumentList($scope, sAuthentication) {
 // CONTROLLER: Document List
 //
 // -----------------------------------------------------------------------------------
-controllerDocumentBrowser.$inject = ['MenuControl', '$scope', 'Document', '$rootScope', 'Authentication', 'ENV', '_', 'NgTableParams', 'ArtifactModel', 'PhaseModel'];
+controllerDocumentBrowser.$inject = ['$scope', 'Document', '$rootScope', 'Authentication', 'ENV', '_', 'NgTableParams', 'ArtifactModel', 'PhaseModel'];
 /* @ngInject */
-function controllerDocumentBrowser(MenuControl, $scope, Document, $rootScope, Authentication, ENV, _, NgTableParams, ArtifactModel, PhaseModel) {
+function controllerDocumentBrowser($scope, Document, $rootScope, Authentication, ENV, _, NgTableParams, ArtifactModel, PhaseModel) {
 	var docBrowser = this;
 
 	$scope.environment = ENV;
@@ -369,7 +369,6 @@ function controllerDocumentBrowser(MenuControl, $scope, Document, $rootScope, Au
 
 	docBrowser.phasesForProject = undefined;
 
-	docBrowser.mc = MenuControl;
 	// -----------------------------------------------------------------------------------
 	//
 	// BROWSER: A complete refresh of everything.
@@ -413,7 +412,7 @@ function controllerDocumentBrowser(MenuControl, $scope, Document, $rootScope, Au
 			// console.log("phasesForProject:", res);
 			docBrowser.phasesForProject = res;
 		});
-		
+
 	};
 
 	var unbind = $rootScope.$on('refreshDocumentList', function() {

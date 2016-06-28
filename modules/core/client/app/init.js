@@ -18,7 +18,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 	}
 ]);
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, _, MenuControl, $cookies, Application) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, _, $cookies, Application) {
 
 	// Check authentication before changing state
 	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
@@ -42,12 +42,22 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 				var c = (_.isFunction (toState.context)) ? toState.context () : toState.context;
 				$cookies.context = toParams[c] || 'application';
 			}
+			else if (toState.name.substr (0, 2) === 'p.' || toState.name === 'p') {
+				//
+				// the context is the projectid
+				//
+				$cookies.context = toParams.projectid || 'application';
+			}
+			// console.log ('toState.name:', toState.name);
+			// console.log ('toState.context:', toState.context);
+			// console.log ('toParams:', toParams);
+			// console.log ('context:', $cookies.context);
 			//
 			// now check to see if we need to reload the application
 			//
 			Application.reload (Authentication.user ? Authentication.user._id : 0)
 			.then (function () {
-				console.log ('Applicaiton.userCan = ', Application.userCan);
+				console.log ('Application.userCan = ', Application.userCan);
 				return true;
 				//
 				// CC: this is where to apply route level security if we decide to

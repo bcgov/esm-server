@@ -429,7 +429,8 @@ _.extend (DBModel.prototype, {
 		// 	});
 
 		return new Promise (function (resolve, reject) {
-			if (self.isAdmin) {
+			if (!model) resolve (model);
+			else if (self.isAdmin) {
 				_.each (model.allPermissions (), function (key) {
 					model.userCan[key] = true;
 				});

@@ -20,7 +20,7 @@
 	</div>
 
 	<div ng-if="(menu.context === 'projects' || menu.context === 'mylist') && menu.projectsMenu.shouldRender(menu.authentication.user, menu.project);">
-		<ul class="list-unstyle">
+		<ul class="list-unstyled">
 			<li ng-repeat="item in menu.projectsMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>

@@ -13,18 +13,26 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	//
 	// -------------------------------------------------------------------------
 	Menus.addMenu('systemMenu', {
-		permissions: ['application.viewSystemMenu']
+		permissions: [
+		'application.listConditions',
+		'application.listEmailTemplates',
+		'application.listOrganizations',
+		'application.listNews',
+		'application.listTemplates',
+		'application.listTopics',
+		'application.listUsers'
+		]
 	});
 	Menus.addMenuItem('systemMenu', {
 		title: 'Conditions',
 		state: 'admin.condition.list',
 		permissions: ['application.listConditions']
 	});
-	Menus.addMenuItem('systemMenu', {
-		title: 'Configuration',
-		state: 'configuration',
-		permissions: ['application.viewConfiguration']
-	});
+	// Menus.addMenuItem('systemMenu', {
+	// 	title: 'Configuration',
+	// 	state: 'configuration',
+	// 	permissions: ['application.viewConfiguration']
+	// });
 	Menus.addMenuItem('systemMenu', {
 		title: 'Email Templates',
 		state: 'admin.emailtemplate.list',
@@ -40,11 +48,11 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 		state: 'admin.recentactivity.list',
 		permissions: ['application.listNews']
 	});
-	Menus.addMenuItem('systemMenu', {
-		title: 'System Roles',
-		state: 'admin.roles.list',
-		permissions: ['application.listRoles']
-	});
+	// Menus.addMenuItem('systemMenu', {
+	// 	title: 'System Roles',
+	// 	state: 'admin.roles.list',
+	// 	permissions: ['application.listRoles']
+	// });
 	Menus.addMenuItem('systemMenu', {
 		title: 'Templates',
 		state: 'admin.template.list',
@@ -119,7 +127,15 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	//
 	// -------------------------------------------------------------------------
 	Menus.addMenu('projectMenu', {
-		permissions: ['context.listDocuments','context.listValuedComponents','context.listProjectRoles','context.listInspectionReports','context.listProjectConditions','context.listProjectComplaints','context.listProjectInvitations']
+		permissions: [
+			'context.listDocuments',
+			'context.listValuedComponents',
+			'context.listProjectRoles',
+			'context.listInspectionReports',
+			'context.listProjectConditions',
+			'context.listProjectComplaints',
+			'context.listProjectInvitations'
+		]
 	});
 	Menus.addMenuItem('projectMenu', {
 		title: 'Documents',

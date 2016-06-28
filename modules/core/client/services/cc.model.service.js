@@ -5,7 +5,7 @@
 // client, just to avoid retyping everything over and over again
 //
 // =========================================================================
-angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (log, $http, _) {
+angular.module('core').factory ('ModelBase', ['$http', '_', function ($http, _) {
 	var ModelBase = function (o) {
 		this.model      = null; // the current loaded model
 		this.collection = null; // the current loaded collection

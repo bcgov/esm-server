@@ -57,25 +57,7 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 					return {id:e,title:e};
 				});
 			}
-		},
-		onEnter: function (MenuControl, project) {
-			MenuControl.routeAccessBuilder (undefined, project.code, 'eao', ['member',
-																			'admin',
-																			'responsible-epd',
-																			'project-admin',
-																			'project-lead',
-																			'project-team',
-																			'minister',
-																			'ministers-office',
-																			'assistant-dm',
-																			'assistant-dmo',
-																			'associate-dm',
-																			'associate-dmo',
-																			'qa-officer',
-																			'ce-lead',
-																			'ce-officer']);
 		}
-
 	})
 	// -------------------------------------------------------------------------
 	//
@@ -86,15 +68,8 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 	.state('p.projectcondition.list', {
 		url: '/list',
 		templateUrl: 'modules/project-conditions/client/views/projectcondition-list.html',
-		controller: function ($scope, NgTableParams, conditions, project, pillars, projecttypes, stages, MenuControl) {
+		controller: function ($scope, NgTableParams, conditions, project, pillars, projecttypes, stages) {
 			$scope.ptypes = projecttypes;
-			$scope.showedit = MenuControl.userHasOne([	project.code+':eao:responsible-epd',
-														project.code+':eao:project-admin',
-														project.code+':eao:project-lead',
-														project.code+':eao:project-team',
-														project.code+':eao:qa-officer',
-														project.code+':eao:ce-lead',
-														project.code+':eao:ce-officer']);
 			$scope.stypes = stages;
 			$scope.pillars = pillars;
 			$scope.project = project;
@@ -115,15 +90,6 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 			condition: function (ProjectConditionModel) {
 				return ProjectConditionModel.getNew ();
 			}
-		},
-		onEnter: function (MenuControl, project) {
-			MenuControl.routeAccessBuilder (undefined, project.code, 'eao', ['responsible-epd',
-																		'project-admin',
-																		'project-lead',
-																		'project-team',
-																		'qa-officer',
-																		'ce-lead',
-																		'ce-officer']);
 		},
 		controller: function ($scope, $state, project, condition, ProjectConditionModel, TopicModel, pillars, projecttypes, stages, codeFromTitle) {
 			condition.project = project._id;
@@ -163,15 +129,6 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 			condition: function ($stateParams, ProjectConditionModel) {
 				return ProjectConditionModel.getModel ($stateParams.conditionId);
 			}
-		},
-		onEnter: function (MenuControl, project) {
-			MenuControl.routeAccessBuilder (undefined, project.code, 'eao', ['responsible-epd',
-																		'project-admin',
-																		'project-lead',
-																		'project-team',
-																		'qa-officer',
-																		'ce-lead',
-																		'ce-officer']);
 		},
 		controller: function ($scope, $state, condition, project, ProjectConditionModel, TopicModel, pillars, projecttypes, stages, codeFromTitle) {
 			$scope.condition = condition;
@@ -213,15 +170,8 @@ angular.module('projectconditions').config(['$stateProvider', function ($statePr
 				return ProjectConditionModel.getModel ($stateParams.conditionId);
 			}
 		},
-		controller: function ($scope, condition, project, pillars, projecttypes, stages, MenuControl) {
+		controller: function ($scope, condition, project, pillars, projecttypes, stages) {
 			$scope.sectors = projecttypes;
-			$scope.showedit = MenuControl.userHasOne([	project.code+':eao:responsible-epd',
-														project.code+':eao:project-admin',
-														project.code+':eao:project-lead',
-														project.code+':eao:project-team',
-														project.code+':eao:qa-officer',
-														project.code+':eao:ce-lead',
-														project.code+':eao:ce-officer']);
 			$scope.pillars = pillars;
 			$scope.stages  = stages;
 			$scope.condition = condition;

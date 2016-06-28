@@ -29,9 +29,6 @@ angular.module('invitation').config(['$stateProvider', function ($stateProvider)
 					// blah
 				}
 			};
-		},
-		onEnter: function (MenuControl, project) {
-			MenuControl.routeAccessBuilder (undefined, project.code, '*', ['eao:admin', 'responsible-epd','project-admin', 'project-lead','project-intake', 'pro:admin', 'pro:member']);
 		}
 	})
 
