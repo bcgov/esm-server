@@ -75,6 +75,13 @@ module.exports = require ('../../../core/server/controllers/cc.schema.controller
 	vettingRoles : [ {type:String} ],
 	classificationRoles : [ {type:String} ],
 	//
+	// a space for holding open house info
+	//
+	openHouses : [{
+		eventDate   : {type:Date, default:null},
+		description : {type:String, default:''}
+	}],
+	//
 	// has the entire set of comments been published ?
 	// note: isPublished is already present because of __access
 	//

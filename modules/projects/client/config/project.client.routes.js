@@ -116,27 +116,6 @@ angular.module('project').config (
 
 	// -------------------------------------------------------------------------
 	//
-	// PUBLIC COMMENT PERIOD
-	//
-	// -------------------------------------------------------------------------
-	.state('p.comments', {
-		url: '/public-comment-period',
-		templateUrl: 'modules/publicComments/client/views/comments-public.html',
-		controller: 'controllerProjectEntry',
-	})
-	.state('p.eaocomments', {
-		url: '/eao-comment-period',
-		templateUrl: 'modules/publicComments/client/views/comments-eao.html',
-		controller: 'controllerProjectEntry',
-	})
-	.state('p.proponentcomments', {
-		url: '/proponent-comment-period',
-		templateUrl: 'modules/publicComments/client/views/comments-proponent.html',
-		controller: 'controllerProjectEntry',
-	})
-
-	// -------------------------------------------------------------------------
-	//
 	// the decision package mockup
 	//
 	// -------------------------------------------------------------------------
