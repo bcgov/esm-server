@@ -243,7 +243,9 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	findById : function (id) {
-		return this.findOne ({_id : id});
+		return this.findOne ({_id : id})
+			.then (this.permissions)
+			.then (this.decorate);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -425,7 +427,7 @@ _.extend (DBModel.prototype, {
 		// 		user     : self.user.username,
 		// 		resource : model._id
 		// 	});
-		//
+
 		return new Promise (function (resolve, reject) {
 			if (self.isAdmin) {
 				_.each (model.allPermissions (), function (key) {
@@ -434,12 +436,16 @@ _.extend (DBModel.prototype, {
 				resolve (model);
 			}
 			else {
+				_.each (model.allPermissions (), function (key) {
+					model.userCan[key] = false;
+				});
 				access.userPermissions ({
 					context  : self.context,
 					user     : self.user.username,
 					resource : model._id
 				})
 				.then (function (ps) {
+					// console.log ('ps', ps);
 					ps.map (function (perm) {
 						model.userCan[perm] = true;
 					});

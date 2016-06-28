@@ -5,6 +5,7 @@
 //
 // =========================================================================
 var path       = require('path');
+var Access     = require (path.resolve('./modules/core/server/controllers/cc.access.controller'));
 var DBModel    = require (path.resolve('./modules/core/server/controllers/cc.dbmodel.controller'));
 var PhaseClass = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
 var ActivityClass = require (path.resolve('./modules/activities/server/controllers/activity.controller'));
@@ -16,12 +17,13 @@ module.exports = DBModel.extend ({
 	name : 'CommentPeriod',
 	plural : 'commentperiods',
 	populate: 'artifact',
-	bind: ['setArtifactStage', 'addActivities'],
+	bind: ['setArtifactStage', 'addActivities', 'setRolesPermissions'],
 	preprocessAdd: function (period) {
 		var self=this;
 		return Promise.resolve (period)
 		.then (self.setArtifactStage)
-		.then (self.addActivities);
+		.then (self.addActivities)
+		.then (self.setRolesPermissions);
 		// var p;
 		// var phaseModel = new PhaseClass (this.opts);
 		// var artifactModel = new ArtifactClass (this.opts);
@@ -102,6 +104,35 @@ module.exports = DBModel.extend ({
 	addActivities: function (period) {
 		return new Promise (function (resolve, reject) {
 			resolve (period);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// set the read / write / etc roles based on the input
+	//
+	// -------------------------------------------------------------------------
+	setRolesPermissions: function (period) {
+		var allroles = period.commenterRoles.concat (
+			period.classificationRoles,
+			period.vettingRoles,
+			'eao-admin',
+			'pro-admin'
+		);
+		// console.log (JSON.stringify (period, null, 4));
+		return Access.setObjectPermissionRoles ({
+			resource: period,
+			permissions: {
+				vetComments      : period.vettingRoles,
+				classifyComments : period.classificationRoles,
+				listComments     : period.commenterRoles,
+				addComment       : period.commenterRoles,
+				setPermissions   : ['eao-admin', 'pro-admin'],
+				read             : allroles,
+				write            : ['eao-admin'],
+				delete           : ['eao-admin'],
+			}
+		}).then (function () {
+			return period;
 		});
 	},
 	// -------------------------------------------------------------------------

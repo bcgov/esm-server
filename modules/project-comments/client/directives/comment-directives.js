@@ -17,62 +17,72 @@ angular.module ('comment')
 		templateUrl : 'modules/project-comments/client/views/public-comments/list.html',
 		controllerAs: 's',
 		controller: function ($scope, NgTableParams, Authentication, CommentModel) {
-			var s = this;
-
-			var isPublic    = !Authentication.user.roles;
-			var isEao       = (!$scope.isPublic && (!!~Authentication.user.roles.indexOf ($scope.project.code+':eao:member') || !!~Authentication.user.roles.indexOf ('admin')));
-			var isProponent = (!$scope.isPublic && (!!~Authentication.user.roles.indexOf ($scope.project.code+':pro:member')));
-
-			var canVet      = $scope.isEao;
-			var canClassify = $scope.isProponent;
-
-			var project = $scope.project;
-
-			// isPublic    = false;
-			// isEao       = true;
-			// isProponent = false;
-
-			s.isPublic    = isPublic   ;
-			s.isEao       = isEao      ;
-			s.isProponent = isProponent;
+			var s       = this;
+			var project = s.project = $scope.project;
+			var period  = s.period  = $scope.period;
 
 			var currentFilter;
 
+			// -------------------------------------------------------------------------
+			//
+			// these toggle things
+			//
+			// -------------------------------------------------------------------------
 			s.toggle = function (v) {
-				currentFilter = v;
-				angular.extend(s.tableParams.filter(), {eaoStatus:v});
+				currentFilter = {eaoStatus:v};
+				if (v === 'Classified' || v === 'Unclassified') currentFilter = {proponentStatus:v};
+				angular.extend(s.tableParams.filter(), currentFilter);
 			};
 			s.toggleP = function (v) {
-				currentFilter = v;
-				angular.extend(s.tableParams.filter(), {proponentStatus:v});
+				currentFilter = {proponentStatus:v};
+				angular.extend(s.tableParams.filter(), currentFilter);
 			};
+			// -------------------------------------------------------------------------
+			//
+			// refresh eao data, this is pretty much everything
+			//
+			// -------------------------------------------------------------------------
 			s.refreshEao = function () {
 				CommentModel.getEAOCommentsForPeriod ($scope.period._id).then (function (result) {
 					s.totalPending  = result.totalPending;
 					s.totalDeferred = result.totalDeferred;
 					s.totalPublic   = result.totalPublic;
 					s.totalRejected = result.totalRejected;
-					s.tableParams   = new NgTableParams ({count:10, filter:{eaoStatus:currentFilter}}, {dataset:result.data});
+					s.totalAssigned   = result.totalAssigned;
+					s.totalUnassigned = result.totalUnassigned;
+					s.tableParams   = new NgTableParams ({count:10, filter:currentFilter}, {dataset:result.data});
 					$scope.$apply ();
 				});
 			};
+			// -------------------------------------------------------------------------
+			//
+			// refresh only public data
+			//
+			// -------------------------------------------------------------------------
 			s.refreshPublic = function () {
 				CommentModel.getCommentsForPeriod ($scope.period._id).then (function (collection) {
 					s.tableParams = new NgTableParams ({count:50}, {dataset:collection});
 					$scope.$apply ();
 				});
 			};
+			// -------------------------------------------------------------------------
+			//
+			// refresh only classification data
+			//
+			// -------------------------------------------------------------------------
 			s.refreshProponent = function () {
 				CommentModel.getProponentCommentsForPeriod ($scope.period._id).then (function (result) {
 					s.totalAssigned   = result.totalAssigned;
 					s.totalUnassigned = result.totalUnassigned;
-					s.tableParams     = new NgTableParams ({count:50, filter:{proponentStatus:currentFilter}}, {dataset:result.data});
+					s.tableParams     = new NgTableParams ({count:50, filter:currentFilter}, {dataset:result.data});
 					$scope.$apply ();
 				});
 			};
+			// -------------------------------------------------------------------------
 			//
 			// if the user clicks a row, open the detail modal
 			//
+			// -------------------------------------------------------------------------
 			s.detail = function (comment) {
 				var old = {
 					status  : comment.eaoStatus,
@@ -91,12 +101,8 @@ angular.module ('comment')
 					size: 'lg',
 					windowClass: 'public-comment-modal',
 					controller: function ($scope, $modalInstance) {
-						$scope.isPublic    = isPublic   ;
-						$scope.isEao       = isEao      ;
-						$scope.isProponent = isProponent;
-
+						$scope.period      = period;
 						$scope.project     = project;
-
 						$scope.comment     = comment;
 						$scope.cancel      = function () { $modalInstance.dismiss ('cancel'); };
 						$scope.ok          = function () { $modalInstance.close (comment); };
@@ -107,26 +113,26 @@ angular.module ('comment')
 					data.proponentStatus = (data.pillars.length > 0) ? 'Classified' : 'Unclassified';
 					CommentModel.save (data)
 					.then (function (result) {
-						if (isEao) {
+						if (period.userCan.vetComments) {
 							s.refreshEao ();
 						}
-						else if (isProponent) {
+						else if (period.userCan.classifyComments) {
 							s.refreshProponent ();
 						}
 					});
 				})
 				.catch (function (err) {});
 			};
-			if (s.isPublic) {
-				s.refreshPublic ();
-			}
-			else if (s.isEao) {
-				currentFilter = 'Unvetted';
+			if (period.userCan.vetComments) {
+				currentFilter = {eaoStatus:'Unvetted'};
 				s.refreshEao ();
 			}
-			else if (s.isProponent) {
-				currentFilter = 'Unclassified';
+			else if (period.userCan.classifyComments) {
+				currentFilter = {proponentStatus:'Unclassified'};
 				s.refreshProponent ();
+			}
+			else {
+				s.refreshPublic ();
 			}
 		}
 	};

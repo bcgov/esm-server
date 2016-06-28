@@ -5,7 +5,9 @@
 //
 // =========================================================================
 var path     = require('path');
-var DBModel   = require (path.resolve('./modules/core/server/controllers/cc.dbmodel.controller'));
+var Access    = require (path.resolve ('./modules/core/server/controllers/cc.access.controller'));
+var Period    = require ('./commentperiod.controller');
+var DBModel   = require (path.resolve ('./modules/core/server/controllers/cc.dbmodel.controller'));
 var _         = require ('lodash');
 // var Roles = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 
@@ -19,39 +21,82 @@ module.exports = DBModel.extend ({
 	// them permision to do so
 	//
 	// -------------------------------------------------------------------------
-	preprocessAdd: function (doc) {
-		this.setForce (true);
-		// console.log (doc.project);
+	preprocessAdd: function (comment) {
+		// this.setForce (true);
+		var commentPeriod = new Period (this.opts);
 		return new Promise (function (resolve, reject) {
 			//
-			// TBD ROLES
+			// get the period info
 			//
-			// Roles.objectRoles ({
-			// 	method      : 'set',
-			// 	objects     : doc,
-			// 	type        : 'comments',
-			// 	permissions : {
-			// 		read: [],
-			// 		write: [Roles.generateCode (doc.project.code, 'eao', 'member'), Roles.generateCode (doc.project.code, 'pro', 'member')],
-			// 		submit: []
-			// 	}
-			// })
-			// .then (resolve, reject);
-			resolve (doc);
+			commentPeriod.findById (comment.period)
+			.then (function (period) {
+				//
+				// ROLES
+				//
+				return Access.setObjectPermissionRoles ({
+					resource: comment,
+					permissions: {
+						read             : period.vettingRoles,
+						delete           : ['eao-admin'],
+						write            : period.commenterRoles.concat (
+							period.classificationRoles,
+							period.vettingRoles,
+							'eao-admin',
+							'pro-admin'
+						),
+					}
+				});
+			})
+			.then (function () {
+				return comment;
+			})
+			.then (resolve, reject);
 		});
 	},
-	preprocessUpdate: function (doc) {
+	preprocessUpdate: function (comment) {
+		var commentPeriod = new Period (this.opts);
+		if (comment.valuedComponents.length === 0) {
+			comment.proponentStatus = 'Unclassified';
+		}
 		return new Promise (function (resolve, reject) {
-			if (doc.valuedComponents.length === 0) {
-				doc.proponentStatus = 'Unclassified';
-			}
-			if (doc.eaoStatus === 'Published') {
-				doc.publish ();
-			} else {
-				doc.unpublish ();
-			}
-			resolve (doc);
-
+			//
+			// get the period
+			//
+			commentPeriod.findById (comment.period)
+			//
+			// set published or unpublished with correct roles
+			//
+			.then (function (period) {
+				if (comment.eaoStatus === 'Published') {
+					//
+					// ROLES, public read
+					//
+					comment.publish ();
+					// console.log ('published comment: ', JSON.stringify (comment, null, 4));
+					return Access.setObjectPermissionRoles ({
+						resource: comment,
+						permissions: {
+							read             : ['public']
+						}
+					});
+				} else {
+					//
+					// ROLES, only vetting can read
+					//
+					comment.unpublish ();
+					// console.log ('unpublished comment: ', JSON.stringify (comment, null, 4));
+					return Access.setObjectPermissionRoles ({
+						resource: comment,
+						permissions: {
+							read             : period.vettingRoles
+						}
+					});
+				}
+			})
+			.then (function () {
+				return comment;
+			})
+			.then (resolve, reject);
 		});
 	},
 	getCommentsForPeriod : function (periodId) {
@@ -76,6 +121,8 @@ module.exports = DBModel.extend ({
 					totalDeferred : 0,
 					totalPublic   : 0,
 					totalRejected : 0,
+					totalAssigned : 0,
+					totalUnassigned : 0,
 					data          : data
 				};
 				data.reduce (function (prev, next) {
@@ -83,6 +130,8 @@ module.exports = DBModel.extend ({
 					ret.totalDeferred += (next.eaoStatus === 'Deferred' ? 1 : 0);
 					ret.totalPublic   += (next.eaoStatus === 'Published' ? 1 : 0);
 					ret.totalRejected += (next.eaoStatus === 'Rejected' ? 1 : 0);
+					ret.totalAssigned += (next.proponentStatus === 'Classified' ? 1 : 0);
+					ret.totalUnassigned += (next.proponentStatus !== 'Classified' ? 1 : 0);
 				}, ret);
 				resolve (ret);
 			})

@@ -4,8 +4,8 @@
 // Model for Milestone
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('Milestone', {
+module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+('Milestone', {
 	__audit       : true,
 	__tracking    : true,
 	__status      : ['Not Started', 'Not Required', 'In Progress', 'Complete'],

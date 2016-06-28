@@ -121,9 +121,12 @@ var decorate = {
 		});
 		var allPermissions = v.concat (['read','write','delete']);
 		var modPObject = function (id, pObject) {
-			pObject.read   = (pObject.read)   ? pObject.read.map   (function (r) {return id+':'+r;}) : [];
-			pObject.write  = (pObject.write)  ? pObject.write.map  (function (r) {return id+':'+r;}) : [];
-			pObject.delete = (pObject.delete) ? pObject.delete.map (function (r) {return id+':'+r;}) : [];
+			pObject.read   = (pObject.read)   ? pObject.read   : [];
+			pObject.write  = (pObject.write)  ? pObject.write  : [];
+			pObject.delete = (pObject.delete) ? pObject.delete : [];
+			// pObject.read   = (pObject.read)   ? pObject.read.map   (function (r) {return (r === 'public') ? r : id+':'+r;}) : [];
+			// pObject.write  = (pObject.write)  ? pObject.write.map  (function (r) {return (r === 'public') ? r : id+':'+r;}) : [];
+			// pObject.delete = (pObject.delete) ? pObject.delete.map (function (r) {return (r === 'public') ? r : id+':'+r;}) : [];
 			return pObject;
 		};
 		definition.methods__.allPermissions = function () {

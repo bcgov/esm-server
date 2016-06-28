@@ -15,8 +15,7 @@
 
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('ProjectCondition', {
+module.exports = require ('../../../core/server/controllers/cc.schema.controller')('ProjectCondition', {
 	__audit            : true,
 	// __access           : true, ????
 	__codename         : 'unique',

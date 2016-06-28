@@ -4,6 +4,11 @@
 // this controller deals with all functions relating to roles and permissions
 // over all objects in the system
 //
+// internally the two most important things are adding permissions to an object
+// and adding users to roles and creating roles
+//
+//
+//
 // =========================================================================
 
 var mongoose   = require ('mongoose');
@@ -221,6 +226,73 @@ var deleteAllPermissions = function (p) {
 exports.deleteAllPermissions = deleteAllPermissions;
 // -------------------------------------------------------------------------
 //
+// force a set of roles for a permission on a resource
+//
+// -------------------------------------------------------------------------
+var setPermissionRoles = function (p) {
+	return new Promise (function (resolve, reject) {
+		//
+		// remove all roles from this permission
+		//
+		Permission.remove ({
+			resource   : p.resource,
+			permission : p.permision,
+			role       : { $ne : null },
+		}).exec ()
+		.then (function () {
+			return addPermissions ({
+				resource : p .resource,
+				permissions : [p.permission],
+				roles : p.roles
+			});
+		})
+		.then (resolve, reject);
+	});
+};
+exports.setPermissionRoles = setPermissionRoles;
+// -------------------------------------------------------------------------
+//
+// set permissions on Object
+//
+// this takes a model in that HAS to be the result of the schema
+// pre-processer. it will SET all supplied permissions, ignoring any missing
+// ones. if any are the special read / write / delete ones, then it also
+// applies those to the model listing type of permission that is used by
+// dbmodel for purposes of filtering on collections
+//
+// in this input, p, the resource parameter is the actual resource model
+// p : {
+// 	resource: <model>
+// 	permissions : {
+// 		<permission>: [<roles>]
+// 	}
+// }
+// -------------------------------------------------------------------------
+var setObjectPermissionRoles = function (p) {
+	var promisesPromises = [];
+	// console.log (JSON.stringify (p.resource, null, 4));
+	_.each (p.permissions, function (roles, permission) {
+		promisesPromises.push (setPermissionRoles ({
+			resource   : p.resource._id,
+			permission : permission,
+			roles      : roles
+		}));
+	});
+	return Promise.all (promisesPromises).then (function () {
+		//
+		// this has to be done last becuase it prepends the role
+		// with the context for listing
+		//
+		p.permissions.read = p.permissions.read || p.resource.read;
+		p.permissions.write = p.permissions.write || p.resource.write;
+		p.permissions.delete = p.permissions.delete || p.resource.delete;
+		p.resource.setRoles (p.permissions);
+		return p;
+	});
+};
+exports.setObjectPermissionRoles = setObjectPermissionRoles;
+// -------------------------------------------------------------------------
+//
 // Add a permission definition
 //
 // -------------------------------------------------------------------------
@@ -322,7 +394,7 @@ var getPermissionRoleIndex = function (o) {
 exports.getPermissionRoleIndex = getPermissionRoleIndex;
 // -------------------------------------------------------------------------
 //
-// update the table from a supplied indec set. If the value is true, then
+// update the table from a supplied index set. If the value is true, then
 // set to true, if false, then delete
 //
 // -------------------------------------------------------------------------
@@ -618,7 +690,7 @@ var getAllUserRoles = function (p) {
 	return new Promise (function (resolve, reject) {
 		var listPromise;
 		if (!p.user) {
-			console.log ('public only');
+			// console.log ('public only');
 			//
 			// no one, just public
 			//
@@ -626,7 +698,7 @@ var getAllUserRoles = function (p) {
 			.then (addPublicRole);
 		}
 		else if (p.context === defaultResource) {
-			console.log ('public and all');
+			// console.log ('public and all');
 			listPromise = findRoles ({
 				context : p.context,
 				user    : p.user
@@ -636,7 +708,7 @@ var getAllUserRoles = function (p) {
 			.then (addAllRole);
 		}
 		else {
-			console.log ('public  and all');
+			// console.log ('public  and all');
 			//
 			// get this context as well as the parent (application)
 			//
@@ -684,7 +756,7 @@ var userPermissions = function (p) {
 			//
 			// add the splat because of course
 			//
-			console.log ('roleSet = ', roleSet);
+			// console.log ('roleSet = ', roleSet);
 			return findPermissions ({
 				resource : p.resource,
 				role     : {$in : roleSet}

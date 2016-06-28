@@ -162,6 +162,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			}
 		},
 		controller: function ($scope, period, project, artifact) {
+			console.log ('period user can: ', period.userCan);
 			var today       = new Date ();
 			var start       = new Date (period.dateStarted);
 			var end         = new Date (period.dateCompleted);
@@ -172,7 +173,6 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			$scope.period   = period;
 			$scope.project  = project;
 			$scope.artifact = artifact;
-			console.log (artifact);
 		}
 	})
 

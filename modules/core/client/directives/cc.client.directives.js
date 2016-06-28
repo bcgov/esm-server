@@ -52,10 +52,10 @@ angular.module('core')
 						s.roleUsers       = roleUsers;
 						s.allPermissions  = _.keys (scope.object.userCan);
 						s.allRoles = s.allRoles.concat (['public', '*']);
-						console.log ('permissionRoleIndex', permissionRoleIndex);
-						console.log ('allRoles', allRoles);
-						console.log ('roleUsers', roleUsers);
-						console.log ('allPermissions', s.allPermissions);
+						// console.log ('permissionRoleIndex', permissionRoleIndex);
+						// console.log ('allRoles', allRoles);
+						// console.log ('roleUsers', roleUsers);
+						// console.log ('allPermissions', s.allPermissions);
 						//
 						// expose the inputs
 						//
@@ -150,9 +150,9 @@ angular.module('core')
 						// default to either eao-member or pro-member
 						//
 						s.defaultRole   = 'eao-member';
-						console.log ('userRoleIndex', userRoleIndex);
-						console.log ('allRoles', allRoles);
-						console.log ('allUsers', s.allUsers);
+						// console.log ('userRoleIndex', userRoleIndex);
+						// console.log ('allRoles', allRoles);
+						// console.log ('allUsers', s.allUsers);
 						//
 						// expose the inputs
 						//
@@ -231,16 +231,16 @@ angular.module('core')
 						s.name        = scope.context.name || scope.context.code || scope.context.code;
 						s.allUsers    = allUsers;
 						s.currentUser = '';
-						console.log ('defaultRole:', s.defaultRole);
-						console.log ('allusers:', s.allUsers);
+						// console.log ('defaultRole:', s.defaultRole);
+						// console.log ('allusers:', s.allUsers);
 						//
 						// expose the inputs
 						//
 						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
 						s.ok = function () {
-							console.log ('new user is ', s.currentUser);
-							console.log ('default role is ', s.defaultRole);
-							console.log ('context is  ', s.context.code);
+							// console.log ('new user is ', s.currentUser);
+							// console.log ('default role is ', s.defaultRole);
+							// console.log ('context is  ', s.context.code);
 							AccessModel.addRoleUser ({
 								context : s.context.code,
 								role    : s.defaultRole,
