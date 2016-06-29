@@ -1,9 +1,12 @@
 <div class="project-schedule-view">
 
-	<div class="view-title-container no-border">
+	<div class="view-title-container">
 		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Schedule</h1>
+		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
 	</div>
+
 	<div class="view-body-container">
+		
 		<div class="button-bar clearfix">
 			<div class="pull-left">
 				<button class="btn btn-default btn-sm" ng-click="addNextPhase()">
@@ -11,22 +14,20 @@
 				</button>
 			</div>
 		</div>
-		<div class="panel-group"
-			 id="phaseGroup"
-			 role="tablist"
-			 aria-multiselectable="true"
-			 ng-repeat="phase in rPhases | orderBy:'order'">
+
+		<div class="panel-group" id="phaseGroup" role="tablist" aria-multiselectable="true" ng-repeat="phase in rPhases | orderBy:'order'">
 			
 			<!-- BEGIN: PROJECT PHASE CONTAINER -->
 			<div class="panel panel-default accordion">
 				<div class="panel-heading" role="tab" id="phaseOne">
-
 					<a class="clearfix" role="button" data-toggle="collapse" href="#{{phase.name}}" aria-expanded="true" aria-controls="{{phase.name}}">
-						<span class="glyphicon glyphicon-plus pull-left"></span>
-                    	<span class="glyphicon glyphicon-minus pull-left"></span>
+						<!-- <span class="glyphicon glyphicon-plus pull-left"></span>
+                    	<span class="glyphicon glyphicon-minus pull-left"></span> -->
 						<span class="pull-left">{{phase.name}}</span>
-						<span class="pull-right">&nbsp;Estimated: {{phase.dateStartedEst | date : format : timezone}} / {{phase.dateCompletedEst | date : format : timezone}}</span>
-						<span class="pull-right">&nbsp;Actual: {{phase.dateStarted | date : format : timezone}} / {{phase.dateCompleted | date : format : timezone}}</span>
+						<span class="pull-right phase-dates">
+							<span ng-show="phase.dateStarted && phase.dateCompleted">Actual: {{phase.dateStarted | date : format : timezone}} / {{phase.dateCompleted | date : format : timezone}}</span>
+							<span>Estimated: {{phase.dateStartedEst | date : format : timezone}} / {{phase.dateCompletedEst | date : format : timezone}}</span>
+						</span>
 					</a>
 				</div>
 				<div id="{{phase.name}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="{{phase.name}}">
@@ -41,12 +42,12 @@
 									class="btn btn-default btn-sm hidden"
 									data-toggle="modal"
 									data-target="#addCommentSessionModal">Add Comment Period</button>
-							<button class="btn btn-default btn-sm pull-right"
+							<button class="btn btn-success btn-sm pull-right"
 									ng-click="completeCurrentPhase(project)"
 									ng-if="canCompletePhase(phase)"
 									data-toggle="modal"
 									data-target="#completePhaseModal">Complete Phase</button>
-							<button class="btn btn-default btn-sm pull-right"
+							<button class="btn btn-success btn-sm pull-right"
 									ng-click="startNextPhase(project)"
 									ng-if="isNextPhase(phase._id)"
 									data-toggle="modal"
@@ -61,28 +62,30 @@
 								<button class="btn btn-default btn-sm" disabled="disabled">Phase Completed</button>
 							</div>
 						</div>
-						<table class="table project-milestones-comments">
-								<td>Name</td>
-								<td>Estimate</td>
-								<td>Actual</td>
-								<td>Status</td>
-								<td></td>
-								<td></td>
+						<table class="table table-striped project-milestones-comments">
+							<thead>
+								<th>Name</th>
+								<th>Estimate</th>
+								<th>Actual</th>
+								<th>Status</th>
+								<th></th>
+								<th class="actions-col action-x2"></th>
+							</thead>
 							<tr ng-repeat="row in phase.milestones">
 								<td>{{row.name}}</td>
 								<td>{{row.dateStartedEst | date : format : timezone}} / {{row.dateCompletedEst | date : format : timezone}}</td>
 								<td>{{row.dateStarted | date : format : timezone}} / {{row.dateCompleted | date : format : timezone}}</td>
-								<td>{{row.status}}</td>
+								<td><span class="label label-primary">{{row.status}}</span></td>
 								<!-- <td>-Template Link-</tdf> -->
-								<td class="button-col">
-									<button class="btn btn-default btn-sm"
+								<td>
+									<button class="btn btn-success btn-sm"
 											ng-if="row.status === 'Not Started'"
 											ng-click="startMilestone(row._id)">Start Milestone</button>
-									<button class="btn label-success btn-default btn-sm"
+									<button class="btn btn-success btn-default btn-sm"
 											ng-if="row.status === 'In Progress'"
 											ng-click="completeMilestone(row._id)">Complete Milestone</button>
 								</td>
-								<td class="actions-col">
+								<td class="actions-col x2">
 									<button class="btn btn-link">
 										<span class="glyphicon glyphicon-pencil"
 											  ng-click="openEditMilestone(row._id)"></span>

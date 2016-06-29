@@ -2,6 +2,7 @@
 	
 	<div class="view-title-container">
 		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Valued Components</h1>
+		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
 	</div>
 
 	<div class="view-body-container">
@@ -21,13 +22,11 @@
 					<td data-title="'Version'" filter="{'version':'text'}"   	class="text-center" sortable="'version'"  >{{o.version}}</td>
 					<td data-title="'Stage'"   filter="{'stage':'text'}"    	class="text-center" sortable="'stage'"   >{{o.stage}}</td>
 					<td data-title="'Published'" sortable="'isPublished'"><i ng-if="o.isPublished" class="glyphicon glyphicon-ok"></i></td>
-					<td class="actions-col action-x1" header-class="'actions-col action-x1'">
-						<a ng-if="o.userPermissions.write" class="btn btn-link btn-sm"
-						   title="Edit Valued Component"
-						   ng-click="$event.stopPropagation()"
-						   ui-sref="p.vc.edit({vcId:o._id})">
+					<td class="actions-col action-x2" header-class="'actions-col action-x2'">
+						<a class="btn btn-link btn-sm" ng-if="o.userPermissions.write" title="Edit Valued Component" ng-click="$event.stopPropagation()" ui-sref="p.vc.edit({vcId:o._id})">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
+						<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
 					</td>
 				</tr>
 				<tr ng-if="!$data || $data.length === 0">
