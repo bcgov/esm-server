@@ -159,17 +159,32 @@ module.exports = DBModel.extend ({
 	},
 	// -------------------------------------------------------------------------
 	//
-	// return a flattened array of all subtypes, not unique
+	// return an array of all subtypes
 	//
 	// -------------------------------------------------------------------------
 	getDocumentSubTypesForProject : function (projectid) {
+		return this.distinct ('projectFolderSubType', { project: projectid });
+	},
+	// -------------------------------------------------------------------------
+	//
+	// return an array of all folder names
+	//
+	// -------------------------------------------------------------------------
+	getDocumentFolderNamesForProject : function (projectid) {
+		return this.distinct ('projectFolderName', { project: projectid });
+	},
+	// -------------------------------------------------------------------------
+	//
+	// Get all the versions of a document
+	//
+	// -------------------------------------------------------------------------
+	getDocumentVersions : function (doc) {
 		return this.list ({
-				project: projectid
-			},{
-				projectFolderSubType: 1
-		})
-		.then (function (docs) {
-			return _.pluck (docs, 'projectFolderSubType');
+			_id                  : { $ne: doc._id },
+			projectFolderType    : doc.projectFolderType,
+			projectFolderSubType : doc.projectFolderSubType,
+			projectFolderName    : doc.projectFolderName,
+			internalOriginalName : doc.internalOriginalName
 		});
 	},
 });

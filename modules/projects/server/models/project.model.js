@@ -9,7 +9,7 @@ module.exports = require ('../../../core/server/controllers/cc.schema.controller
 	__audit               : true,
 	__access              : [
 		'viewSchedule',
-		'editSchedule',
+		//'editSchedule',
 		'listEnforcements',
 		'createEnforcement',
 		'listCommentPeriods',
@@ -24,8 +24,6 @@ module.exports = require ('../../../core/server/controllers/cc.schema.controller
 		'createProjectCondition',
 		'listInspectionReports',
 		'createInspectionReport',
-		'listProjectRoles',
-		'createProjectRole',
 		'listValuedComponents',
 		'createValuedComponent',
 		'listArtifacts',
@@ -34,6 +32,10 @@ module.exports = require ('../../../core/server/controllers/cc.schema.controller
 		'unPublish',
 		'listUsers',
 		'viewEAOTombstone',
+		'manageRoles',
+		'managePermissions',
+		'createRole',
+		'addUsersToContext'
 	],
 	__tracking            : true,
 	__status              : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Not Certified', 'Decommissioned'],

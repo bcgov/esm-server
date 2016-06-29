@@ -50,6 +50,12 @@
 					<li ng-if="application.userCan.import">
 						<a x-modal-project-import href x-project="import">Import</a>
 					</li>
+					<li ng-if="application.userCan.managePermissions">
+						<a x-role-permissions-modal x-context="application" x-object="application" >System Permissions</a>
+					</li>
+					<li ng-if="application.userCan.manageRoles">
+						<a x-role-users-modal x-context="application">System Roles</a>
+					</li>
 				</ul>
 			</li>
 			<li>

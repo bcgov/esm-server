@@ -63,21 +63,15 @@
 				  <a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
 		</ul>
-    <!--
-		<ul class="list-unstyled" ng-show="menu.authentication.user">
-			<li>
-				<a ui-sref="p.workinggroup.list">Working Group</a>
+ 		<ul class="list-unstyled" ng-show="menu.authentication.user">
+			<li ng-if="menu.project.userCan.managePermissions">
+				<a x-role-permissions-modal x-context="menu.project" x-object="menu.project">Project Permissions</a>
 			</li>
-			<li>
-				<a x-modal-set-object-permissions href x-project="menu.project" x-target-object="menu.project" x-target-object-type="'projects'">Set Object Permissions</a>
+			<li ng-if="menu.project.userCan.manageRoles">
+				<a x-role-users-modal x-context="menu.project">Project Roles</a>
 			</li>
 		</ul>
-		-->
   </div><!-- / PROJECT MENU - AUTHENTICATED -->
-<div ng-if="menu.authentication.user">
-	<tmpl-permissions-gear x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
-	<tmpl-roles-gear x-context="menu.project"></tmpl-roles-gear>
-</div>
 
 </section>
 

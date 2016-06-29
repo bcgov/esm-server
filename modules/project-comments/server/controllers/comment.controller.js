@@ -23,6 +23,7 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	preprocessAdd: function (comment) {
 		// this.setForce (true);
+		var self = this;
 		var commentPeriod = new Period (this.opts);
 		return new Promise (function (resolve, reject) {
 			//
@@ -33,19 +34,29 @@ module.exports = DBModel.extend ({
 				//
 				// ROLES
 				//
-				return Access.setObjectPermissionRoles ({
-					resource: comment,
-					permissions: {
-						read             : period.vettingRoles,
-						delete           : ['eao-admin'],
-						write            : period.commenterRoles.concat (
-							period.classificationRoles,
-							period.vettingRoles,
-							'eao-admin',
-							'pro-admin'
-						),
-					}
+				return self.setModelPermissions ({
+					read             : period.vettingRoles,
+					delete           : ['eao-admin'],
+					write            : period.commenterRoles.concat (
+						period.classificationRoles,
+						period.vettingRoles,
+						'eao-admin',
+						'pro-admin'
+					),
 				});
+				// return Access.setObjectPermissionRoles ({
+				// 	resource: comment,
+				// 	permissions: {
+				// 		read             : period.vettingRoles,
+				// 		delete           : ['eao-admin'],
+				// 		write            : period.commenterRoles.concat (
+				// 			period.classificationRoles,
+				// 			period.vettingRoles,
+				// 			'eao-admin',
+				// 			'pro-admin'
+				// 		),
+				// 	}
+				// });
 			})
 			.then (function () {
 				return comment;
@@ -54,6 +65,7 @@ module.exports = DBModel.extend ({
 		});
 	},
 	preprocessUpdate: function (comment) {
+		var self = this;
 		var commentPeriod = new Period (this.opts);
 		if (comment.valuedComponents.length === 0) {
 			comment.proponentStatus = 'Unclassified';
@@ -72,25 +84,31 @@ module.exports = DBModel.extend ({
 					// ROLES, public read
 					//
 					comment.publish ();
-					// console.log ('published comment: ', JSON.stringify (comment, null, 4));
-					return Access.setObjectPermissionRoles ({
-						resource: comment,
-						permissions: {
-							read             : ['public']
-						}
+					return self.setModelPermissions ({
+						read  : ['public']
 					});
+					// console.log ('published comment: ', JSON.stringify (comment, null, 4));
+					// return Access.setObjectPermissionRoles ({
+					// 	resource: comment,
+					// 	permissions: {
+					// 		read             : ['public']
+					// 	}
+					// });
 				} else {
 					//
 					// ROLES, only vetting can read
 					//
 					comment.unpublish ();
-					// console.log ('unpublished comment: ', JSON.stringify (comment, null, 4));
-					return Access.setObjectPermissionRoles ({
-						resource: comment,
-						permissions: {
-							read             : period.vettingRoles
-						}
+					return self.setModelPermissions ({
+						read  : period.vettingRoles
 					});
+					// console.log ('unpublished comment: ', JSON.stringify (comment, null, 4));
+					// return Access.setObjectPermissionRoles ({
+					// 	resource: comment,
+					// 	permissions: {
+					// 		read             : period.vettingRoles
+					// 	}
+					// });
 				}
 			})
 			.then (function () {

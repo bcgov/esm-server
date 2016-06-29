@@ -226,6 +226,12 @@ var genSchema = function (name, definition) {
 	delete definition.statics__;
 	delete definition.presave__;
 	//
+	// let every model know its schema name in the real world, this is bound
+	// to come in handy somewhere, likely with permission setting since the
+	// ids are unbound from their model types
+	//
+	definition._schemaName = {type:String, default:name};
+	//
 	// create the schema
 	//
 	var schema = new mongoose.Schema (definition);

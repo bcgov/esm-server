@@ -52,6 +52,8 @@ angular.module('core')
 						// all the base data
 						//
 						s.permissionRoleIndex = permissionRoleIndex;
+						s.permissionRoleIndex.schemaName = scope.object._schemaName;
+						console.log ('index:',s.permissionRoleIndex);
 						s.allRoles        = allRoles;
 						s.roleUsers       = roleUsers;
 						s.allPermissions  = _.keys (scope.object.userCan);

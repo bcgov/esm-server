@@ -119,19 +119,29 @@ module.exports = DBModel.extend ({
 			'pro-admin'
 		);
 		// console.log (JSON.stringify (period, null, 4));
-		return Access.setObjectPermissionRoles ({
-			resource: period,
-			permissions: {
-				vetComments      : period.vettingRoles,
-				classifyComments : period.classificationRoles,
-				listComments     : period.commenterRoles,
-				addComment       : period.commenterRoles,
-				setPermissions   : ['eao-admin', 'pro-admin'],
-				read             : allroles,
-				write            : ['eao-admin'],
-				delete           : ['eao-admin'],
-			}
-		}).then (function () {
+		return this.setModelPermissions ({
+			vetComments      : period.vettingRoles,
+			classifyComments : period.classificationRoles,
+			listComments     : period.commenterRoles,
+			addComment       : period.commenterRoles,
+			setPermissions   : ['eao-admin', 'pro-admin'],
+			read             : allroles,
+			write            : ['eao-admin'],
+			delete           : ['eao-admin'],
+			// return Access.setObjectPermissionRoles ({
+			// resource: period,
+			// permissions: {
+			// 	vetComments      : period.vettingRoles,
+			// 	classifyComments : period.classificationRoles,
+			// 	listComments     : period.commenterRoles,
+			// 	addComment       : period.commenterRoles,
+			// 	setPermissions   : ['eao-admin', 'pro-admin'],
+			// 	read             : allroles,
+			// 	write            : ['eao-admin'],
+			// 	delete           : ['eao-admin'],
+			// }
+		})
+		.then (function () {
 			return period;
 		});
 	},

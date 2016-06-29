@@ -399,8 +399,10 @@ exports.getPermissionRoleIndex = getPermissionRoleIndex;
 //
 // -------------------------------------------------------------------------
 var setPermissionRoleIndex = function (resource, index) {
+	console.log ('here');
 	return new Promise (function (resolve, reject) {
 		var promiseArray = [];
+		var modelroles = {read:[],write:[],delete:[]};
 		_.each (index.permission, function (roles, permission) {
 			_.each (roles, function (value, role) {
 				if (value) {
@@ -409,6 +411,7 @@ var setPermissionRoleIndex = function (resource, index) {
 						permission : permission,
 						role       : role
 					}));
+					if (modelroles[permission]) modelroles[permission].push (role);
 				}
 				else {
 					promiseArray.push (deletePermission ({
@@ -420,6 +423,15 @@ var setPermissionRoleIndex = function (resource, index) {
 			});
 		});
 		Promise.all (promiseArray)
+		.then (function () {
+			//
+			// now set the read / write / delete on the resource
+			// the schema name would be passed down in the index
+			//
+			var m = mongoose.model (index.schemaName);
+			console.log ('updating ', index.schemaName, resource, JSON.stringify (modelroles));
+			return m.update ({_id:resource}, modelroles).exec ();
+		})
 		.then (function () { return {ok:true};})
 		.then (resolve, reject);
 	});
