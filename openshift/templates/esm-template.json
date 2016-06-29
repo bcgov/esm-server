@@ -17,7 +17,7 @@
       "kind": "PersistentVolumeClaim",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${DATABASE_SERVICE_NAME}"
+        "name": "${DATABASE_SERVICE_NAME}data"
       },
       "spec": {
         "accessModes": [
@@ -391,7 +391,7 @@
               {
                 "name": "${DATABASE_SERVICE_NAME}-data",
                 "persistentVolumeClaim": {
-                  "claimName": "${DATABASE_SERVICE_NAME}"
+                  "claimName": "${DATABASE_SERVICE_NAME}data"
                 }
               }
             ]
