@@ -10,7 +10,7 @@ var routes = require ('../../../core/server/controllers/cc.routes.controller');
 var policy = require ('../../../core/server/controllers/cc.policy.controller');
 
 module.exports = function (app) {
-	app.route ('/api/documents/postproc/mapdocumentstoprojects').all (policy ('guest'))
+	app.route ('/api/documents/postproc/mapdocumentstoprojects').all (policy ('guest')) //etl
   		.get (function (req, res) {
 			controller.mapDocumentsToProjects(req, res)
 			.then (routes.success(res), routes.failure(res));
@@ -23,10 +23,10 @@ module.exports = function (app) {
 	// 	//.post (controller.create);
 
 	// Import via CSV
-	app.route ('/api/documents/import').all (policy ('guest'))
+	app.route ('/api/documents/import').all (policy ('guest')) //etl
 		.post (controller.loadDocuments);
 
-	app.route ('/api/documents/:documentid/relate/:projectid/').all (policy ('guest'))
+	app.route ('/api/documents/:documentid/relate/:projectid/').all (policy ('guest')) // etl
 		.post (controller.mapDocumentToProject);
 	// cc: converted
 	// app.route ('/api/documents/:projectid').all (policy ('guest'))
@@ -34,9 +34,9 @@ module.exports = function (app) {
 	// cc: converted
 	// app.route ('/api/documents/types/:projectid').all (policy ('guest'))
 	// 	.get  (controller.getDocumentTypesForProjectAndReturn);
-
-	app.route ('/api/documents/memtypes/:projectid').all (policy ('guest'))
-		.get  (controller.getDocumentTypesForProjectMEMAndReturn);
+	// cc: converted
+	// app.route ('/api/documents/memtypes/:projectid').all (policy ('guest'))
+	// 	.get  (controller.getDocumentTypesForProjectMEMAndReturn);
 	// cc: converted
 	// app.route ('/api/documents/subtypes/:projectid').all (policy ('guest'))
 	// 	.get  (controller.getDocumentSubTypesForProjectAndReturn);
@@ -47,36 +47,36 @@ module.exports = function (app) {
 	// app.route ('/api/documents/versions/:documentid').all (policy ('guest'))
 	// 	.get  (controller.getDocumentVersionsAndReturn);
 
-	app.route ('/api/documents/approveAndDownload/:document').all (policy ('user'))
-		.put  (controller.approveAndDownload);
-	//
+	// app.route ('/api/documents/approveAndDownload/:document').all (policy ('user')) // nope
+	// 	.put  (controller.approveAndDownload);
+	// //
 	// model routes
 	//
-	app.route ('/api/document/:document').all (policy ('guest'))
-		.get    (controller.read)
-		.put    (controller.update)
-		.delete (controller.delete);
+	// app.route ('/api/document/:document').all (policy ('guest'))
+	// 	.get    (controller.read)
+	// 	.put    (controller.update)
+	// 	.delete (controller.delete);
 
 	// Find a document Folder (scrapeAndSearch)
-	app.route ('/api/scrapeAndSearch').all (policy ('guest'))
-		.get (controller.scrapeAndSearch);
+	// app.route ('/api/scrapeAndSearch').all (policy ('guest'))
+	// 	.get (controller.scrapeAndSearch);
 
-	// Find a specific document (populateReviewDocuments)
-	app.route ('/api/populateReviewDocuments').all (policy ('guest'))
-		.get (controller.populateReviewDocuments);
+	// // Find a specific document (populateReviewDocuments)
+	// app.route ('/api/populateReviewDocuments').all (policy ('guest'))
+	// 	.get (controller.populateReviewDocuments);
 
 	//
 	// upload a document
 	//
-	app.route ('/api/document/:project/upload').all (policy ('guest'))
-		.post (controller.upload);
+	// app.route ('/api/odocument/:project/upload').all (policy ('guest'))
+	// 	.post (controller.upload);
 
-	// Fetch doc
-	app.route ('/api/document/:document/fetch').all (policy ('guest'))
-		.get (controller.fetchd);
-
-	app.route ('/api/documentlist').all (policy ('guest'))
-		.put (controller.getlist);
+	// // Fetch doc
+	// app.route ('/api/document/:document/fetch').all (policy ('guest'))
+	// 	.get (controller.fetchd);
+	// cc: converted
+	// app.route ('/api/olddocumentlist').all (policy ('guest'))
+	// 	.put (controller.getlist);
 	//
 	// middleware to auto-fetch parameter
 	// cc: converted

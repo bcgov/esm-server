@@ -274,6 +274,17 @@ _.extend (DBModel.prototype, {
 			}
 		});
 	},
+	exists : function (query) {
+		var self = this;
+		query = query || {};
+		var q = _.extend ({}, this.baseQ, query);
+		return new Promise (function (resolve, reject) {
+			self.model.findOne (q, function (err, m) {
+				if (!_.isEmpty(m)) resolve (true);
+				else resolve (false);
+			});
+		});
+	},
 	// -------------------------------------------------------------------------
 	//
 	// returns a promise, takes optional query, sort and populate

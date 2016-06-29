@@ -2,6 +2,8 @@
 
 var _ = require ('lodash');
 var access = require ('./cc.access.controller');
+var fs = require ('fs');
+var path = require('path');
 
 /**
  * Get unique error field name
@@ -45,6 +47,9 @@ var getErrorMessage = function (err) {
 	}
 	else if (err.message) {
 		message = err.message;
+	}
+	else {
+		message = err;
 	}
 
 	return message;
@@ -105,24 +110,51 @@ exports.getMimeTypeFromFileName = function (filename) {
 	}
 };
 
-exports.streamFile = function (res, file, name, mime) {
-	var fs   = require('fs');
-	fs.exists (file, function (yes) {
+exports.streamFile = function (res, opts) {
+	var fs = require('fs');
+	fs.exists (opts.file, function (yes) {
 		if (!yes) sendNotFound (res);
 		else {
-			res.setHeader ('Content-Type', mime);
-			res.setHeader ("Content-Disposition", 'attachment; filename='+name);
-			fs.createReadStream (file).pipe (res);
+			res.setHeader ('Content-Type', opts.mime);
+			res.setHeader ("Content-Disposition", 'attachment; filename='+opts.name);
+			fs.createReadStream (opts.file).pipe (res);
 		}
 	});
 };
-
-// exports.sendError        = sendError;
-// exports.sendErrorMessage = sendErrorMessage;
-// exports.sendNotFound     = sendNotFound;
-// exports.sendData         = sendData;
-// exports.queryResponse    = queryResponse;
-// exports.getErrorMessage  = getErrorMessage;
+var directoryExists = function (dir) {
+	return new Promise (function (resolve, reject) {
+		fs.exists (dir, function (v) {resolve (v);});
+	});
+};
+var createDirectory = function (dir) {
+	return new Promise (function (resolve, reject) {
+		fs.mkdir (dir, function () {resolve (dir);});
+	});
+};
+var ensureDirectory = function (dir) {
+	return directoryExists (dir)
+	.then (function (yes) {
+		if (!yes) return createDirectory (dir);
+		else return dir;
+	});
+};
+var mv = function (o, n) {
+	return new Promise (function (resolve, reject) {
+		fs.rename (o, n, function (err) {
+			if (err) return reject (err);
+			resolve (n);
+		});
+	});
+};
+exports.moveFile = function (opts, callback) {
+	var oldDirectory = path.dirname (opts.oldPath);
+	var newDirectory = oldDirectory + path.sep + opts.projectCode;
+	var newPath      = newDirectory + path.sep + path.basename (opts.oldPath);
+	return ensureDirectory (newDirectory)
+	.then (function () {
+		return mv (opts.oldPath, newPath);
+	});
+};
 
 // -------------------------------------------------------------------------
 //

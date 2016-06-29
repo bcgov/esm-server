@@ -11,11 +11,10 @@ var routes = require ('../../../core/server/controllers/cc.routes.controller');
 var policy = require ('../../../core/server/controllers/cc.policy.controller');
 
 module.exports = function (app) {
-	routes.setCRUDRoutes (app, 'document', DocumentClass, policy, ['get','put','new'], {all:'guest',get:'guest'});
 	//
-	// getAllDocuments
+	// get put new delete
 	//
-
+	routes.setCRUDRoutes (app, 'document', DocumentClass, policy, ['get','put','new', 'delete'], {all:'guest',get:'guest'});
 	//
 	// getAllDocuments                 : '/api/documents'
 	//
@@ -29,7 +28,7 @@ module.exports = function (app) {
 	//
 	app.route ('/api/documents/:projectid')
 		.all (policy ('guest'))
-		.get (routes.setAndRun (DocumentClass, function (model,req) {
+		.get (routes.setAndRun (DocumentClass, function (model, req) {
 			return model.getDocumentsForProject (req.params.projectid, req.headers.reviewdocsonly);
 		}));
 	//
@@ -37,7 +36,7 @@ module.exports = function (app) {
 	//
 	app.route ('/api/documents/types/:projectid')
 		.all (policy ('guest'))
-		.get (routes.setAndRun (DocumentClass, function (model,req) {
+		.get (routes.setAndRun (DocumentClass, function (model, req) {
 			return model.getDocumentTypesForProject (req.params.projectid, req.headers.reviewdocsonly);
 		}));
 	//
@@ -45,7 +44,7 @@ module.exports = function (app) {
 	//
 	app.route ('/api/documents/subtypes/:projectid')
 		.all (policy ('guest'))
-		.get (routes.setAndRun (DocumentClass, function (model,req) {
+		.get (routes.setAndRun (DocumentClass, function (model, req) {
 			return model.getDocumentSubTypesForProject (req.params.projectid);
 		}));
 	//
@@ -53,102 +52,95 @@ module.exports = function (app) {
 	//
 	app.route ('/api/documents/folderNames/:projectid')
 		.all (policy ('guest'))
-		.get (routes.setAndRun (DocumentClass, function (model,req) {
+		.get (routes.setAndRun (DocumentClass, function (model, req) {
 			return model.getDocumentFolderNamesForProject (req.params.projectid);
+		}));
+	//
+	// getProjectDocumentFolderNames (for MEM)   : '/api/documents/memtypes/' + projectId
+	//
+	app.route ('/api/documents/memtypes/:projectid')
+		.all (policy ('guest'))
+		.get (routes.setAndRun (DocumentClass, function (model, req) {
+			return model.getDocumentTypesForProjectMEM (req.params.projectid);
 		}));
 	//
 	// getProjectDocumentVersions      : '/api/documents/versions/' + projectId
 	//
 	app.route ('/api/documents/versions/:document')
 		.all (policy ('guest'))
-		.get (routes.setAndRun (DocumentClass, function (model,req) {
+		.get (routes.setAndRun (DocumentClass, function (model, req) {
 			return model.getDocumentVersions (req.Document);
 		}));
-	// //
-	// //downloadAndApprove              : '/api/documents/approveAndDownload/' + documentObj
-	// //
-	// app.route ()
-	// 	.all (policy ('guest'))
-	// 	.get (routes.setAndRun (DocumentClass, function (model,req) {
-	// 		return modelfunction ();
-	// 	}));
-	// //
-	// //deleteDocument                  : '/api/document/' + document
-	// //
-	// app.route ()
-	// 	.all (policy ('guest'))
-	// 	.get (routes.setAndRun (DocumentClass, function (model,req) {
-	// 		return modelfunction ();
-	// 	}));
-	// //
-	// //getDocumentsInList              : '/api/documentlist', data:documentList
-	// //
-	// app.route ()
-	// 	.all (policy ('guest'))
-	// 	.get (routes.setAndRun (DocumentClass, function (model,req) {
-	// 		return modelfunction ();
-	// 	}));
-
-
-	// // Import via CSV
-	// app.route ('/api/documents/import').all (policy ('guest'))
-	// 	.post (controller.loadDocuments);
-
-	// app.route ('/api/documents/:documentid/relate/:projectid/').all (policy ('guest'))
-	// 	.post (controller.mapDocumentToProject);
-
-	// app.route ('/api/documents/:projectid').all (policy ('guest'))
-	// 	.get  (controller.getDocumentsForProjectAndReturn);
-
-	// app.route ('/api/documents/types/:projectid').all (policy ('guest'))
-	// 	.get  (controller.getDocumentTypesForProjectAndReturn);
-	// app.route ('/api/documents/memtypes/:projectid').all (policy ('guest'))
-	// 	.get  (controller.getDocumentTypesForProjectMEMAndReturn);
-
-	// app.route ('/api/documents/subtypes/:projectid').all (policy ('guest'))
-	// 	.get  (controller.getDocumentSubTypesForProjectAndReturn);
-
-	// app.route ('/api/documents/folderNames/:projectid').all (policy ('guest'))
-	// 	.get  (controller.getDocumentFolderNamesForProjectAndReturn);
-
-	// app.route ('/api/documents/versions/:documentid').all (policy ('guest'))
-	// 	.get  (controller.getDocumentVersionsAndReturn);
-
-	// app.route ('/api/documents/approveAndDownload/:document').all (policy ('user'))
-	// 	.put  (controller.approveAndDownload);
-	// //
-	// // model routes
-	// //
-	// app.route ('/api/document/:document').all (policy ('guest'))
-	// 	.get    (controller.read)
-	// 	.put    (controller.update)
-	// 	.delete (controller.delete);
-
-	// // Find a document Folder (scrapeAndSearch)
-	// app.route ('/api/scrapeAndSearch').all (policy ('guest'))
-	// 	.get (controller.scrapeAndSearch);
-
-	// // Find a specific document (populateReviewDocuments)
-	// app.route ('/api/populateReviewDocuments').all (policy ('guest'))
-	// 	.get (controller.populateReviewDocuments);
-
-	// //
-	// // upload a document
-	// //
-	// app.route ('/api/document/:project/upload').all (policy ('guest'))
-	// 	.post (controller.upload);
-
-	// // Fetch doc
-	// app.route ('/api/document/:document/fetch').all (policy ('guest'))
-	// 	.get (controller.fetchd);
-
-	// app.route ('/api/documentlist').all (policy ('guest'))
-	// 	.put (controller.getlist);
-	// //
-	// // middleware to auto-fetch parameter
-	// //
-	// app.param ('document', controller.getObject);
-	// //app.param ('documentId', controller.getId);
-
+	//
+	// getDocumentsInList              : '/api/documentlist', data:documentList
+	//
+	app.route ('/api/documentlist')
+		.all (policy ('guest'))
+		.put (routes.setAndRun (DocumentClass, function (model, req) {
+			return model.getList (req.body);
+		}));
+	//
+	// fetch a document (download multipart stream)
+	//
+	app.route ('/api/document/:document/fetch')
+		.all (policy ('guest'))
+		.get (function (req, res) {
+			if (req.Document.internalURL.match (/^(http|ftp)/)) {
+				res.redirect (req.Document.internalURL);
+			} else {
+				routes.streamFile (res, {
+					file : req.Document.internalURL,
+					name : req.Document.internalOriginalName,
+					mime : req.Document.internalMime
+				});
+			}
+		});
+	//
+	// upload document
+	//
+	app.route ('/api/document/:project/upload').all (policy ('guest'))
+		.post (routes.setAndRun (DocumentClass, function (model, req) {
+			return new Promise (function (resolve, reject) {
+				var file = req.files.file;
+				if (file) {
+					routes.moveFile (file.path)
+					.then (function (newFilePath) {
+						return model.create ({
+							// Metadata related to this specific document that has been uploaded.
+							// See the document.model.js for descriptions of the parameters to supply.
+							project                 : req.Project,
+							//projectID             : req.Project._id,
+							projectFolderType       : req.headers.documenttype,//req.headers.projectfoldertype,
+							projectFolderSubType    : req.headers.documentsubtype,//req.headers.projectfoldersubtype,
+							projectFolderName       : req.headers.documentfoldername,
+							projectFolderURL        : newFilePath,//req.headers.projectfolderurl,
+							projectFolderDatePosted : Date.now(),//req.headers.projectfolderdateposted,
+							// NB                   : In EPIC, projectFolders have authors, not the actual documents.
+							projectFolderAuthor     : req.headers.projectfolderauthor,
+							// These are the data as it was shown on the EPIC website.
+							documentAuthor          : req.headers.documentauthor,
+							documentFileName        : req.headers.documentfilename,
+							documentFileURL         : req.headers.documentfileurl,
+							documentFileSize        : req.headers.documentfilesize,
+							documentFileFormat      : req.headers.documentfileformat,
+							documentIsInReview      : req.headers.documentisinreview,
+							documentVersion         : 0,
+							// These are automatic as it actually is when it comes into our system
+							internalURL             : newFilePath,
+							internalOriginalName    : file.originalname,
+							internalName            : file.name,
+							internalMime            : file.mimetype,
+							internalExt             : file.extension,
+							internalSize            : file.size,
+							internalEncoding        : file.encoding
+						});
+					})
+					.then (resolve, reject);
+				}
+				else {
+					reject ("no file to upload");
+				}
+			});
+		}));
 };
 
