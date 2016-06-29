@@ -2,6 +2,7 @@
 
 	<div class="view-title-container">
 		<h1>Email Templates</h1>
+		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
 	</div>
 
 	<div class="view-body-container">
@@ -20,14 +21,15 @@
 				<tr ng-repeat="o in $data" ui-sref="admin.emailtemplate.detail({emailtemplateId:o._id})" class="clickable">
 					<td data-title="'Name'"  filter="{'name':'text'}"   sortable="'name'">{{o.name}}</td>
 					<td data-title="'Group'"  filter="{'group':'text'}"   sortable="'group'">{{o.group}}</td>
-					<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+					<td class="actions-col action-x2" header-class="'actions-col action-x2'">
 						<a class="btn btn-link btn-sm" ng-click="$event.stopPropagation()" ui-sref="admin.emailtemplate.edit({emailtemplateId:o._id})">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
+						<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
 					</td>
 				</tr>
 				<tr ng-if="!$data || $data.length === 0">
-					<td colspan="2">
+					<td colspan="3">
 						No records found.
 					</td>
 				</tr>

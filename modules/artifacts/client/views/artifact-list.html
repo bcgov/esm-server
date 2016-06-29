@@ -26,7 +26,7 @@
     </div>
 
     <!-- TABLE -->
-    <table class="table table-hover" ng-table="s.tableParams" x-show-filter="s.showFilter">
+    <table class="table table-hover" ng-table="s.tableParams" show-filter="true">
         <tr ng-repeat="o in $data" ui-sref="p.artifact.view({artifactId:o._id})" class="clickable">
             <td class="artifact-name-col" header-class="'artifact-name-col'" data-title="'Name'" filter="{'name':'text'}" sortable="'name'">{{o.name}}</td>
             <td data-title="'Version'" filter="{'version':'text'}" class="text-center" sortable="'version'">{{o.version}}</td>

@@ -2844,6 +2844,7 @@ $nav-tab-active: #1a5a96;
 	> thead > tr > th {
 		font-size: 1.2rem;
 		border-bottom: none;
+		background: #f7f8fa;
 	}
 	
 	> thead > tr > th:first-child,
@@ -2877,7 +2878,7 @@ $nav-tab-active: #1a5a96;
 	}
 	
 	.action-x2 {
-		width: 9.5rem;
+		width: 8.5rem;
 	}
 }
 
@@ -3416,6 +3417,43 @@ section.project-info {
 		th.type-col {
 			width: 25%;
 		}
+	}
+}
+
+
+/* MAP
+------------------------------ */
+.map-info-popup {
+	max-width: 30rem;
+	min-height: 10rem;
+	font-size: 1.4rem;
+	font-family: $font-family-sans-serif;
+
+	h3 {
+		margin-top: 0.5rem;
+		margin-bottom: 1rem;
+		font-size: 2rem;
+		font-weight: bold;
+	}
+
+	.project-desc,
+	.public-comment-btn {
+		margin-bottom: 1.5rem;
+	}
+
+	.project-type {
+		display: inline-block;
+		margin-bottom: 1rem;
+	}
+
+	.project-link {
+		display: inline-block;
+		font-size: 1.2rem;
+		font-weight: bold;
+	}
+
+	.public-comment-btn {
+		padding-top: 8px;
 	}
 }
 
