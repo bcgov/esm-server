@@ -11,6 +11,7 @@ var routes = require ('../../../core/server/controllers/cc.routes.controller');
 var policy = require ('../../../core/server/controllers/cc.policy.controller');
 
 module.exports = function (app) {
+	routes.setCRUDRoutes (app, 'document', DocumentClass, policy, ['get','put','new'], {all:'guest',get:'guest'});
 	//
 	// getAllDocuments
 	//
@@ -47,22 +48,22 @@ module.exports = function (app) {
 		.get (routes.setAndRun (DocumentClass, function (model,req) {
 			return model.getDocumentSubTypesForProject (req.params.projectid);
 		}));
-	// //
-	// //getProjectDocumentFolderNames   : '/api/documents/folderNames/' + projectId
-	// //
-	// app.route ()
-	// 	.all (policy ('guest'))
-	// 	.get (routes.setAndRun (DocumentClass, function (model,req) {
-	// 		return modelfunction ();
-	// 	}));
-	// //
-	// //getProjectDocumentVersions      : '/api/documents/versions/' + projectId
-	// //
-	// app.route ()
-	// 	.all (policy ('guest'))
-	// 	.get (routes.setAndRun (DocumentClass, function (model,req) {
-	// 		return modelfunction ();
-	// 	}));
+	//
+	// getProjectDocumentFolderNames   : '/api/documents/folderNames/' + projectId
+	//
+	app.route ('/api/documents/folderNames/:projectid')
+		.all (policy ('guest'))
+		.get (routes.setAndRun (DocumentClass, function (model,req) {
+			return model.getDocumentFolderNamesForProject (req.params.projectid);
+		}));
+	//
+	// getProjectDocumentVersions      : '/api/documents/versions/' + projectId
+	//
+	app.route ('/api/documents/versions/:document')
+		.all (policy ('guest'))
+		.get (routes.setAndRun (DocumentClass, function (model,req) {
+			return model.getDocumentVersions (req.Document);
+		}));
 	// //
 	// //downloadAndApprove              : '/api/documents/approveAndDownload/' + documentObj
 	// //

@@ -6,7 +6,7 @@
 	<div class="view-body-container">
 		<div class="button-bar clearfix">
 			<div class="pull-left">
-				<button class="btn btn-default btn-sm" ng-click="addNextPhase()">
+				<button ng-if="project.userCan.editSchedule" class="btn btn-default btn-sm" ng-click="addNextPhase()">
 					<span class="glyphicon glyphicon-plus"></span><span>Add Phase</span>
 				</button>
 			</div>
@@ -16,7 +16,7 @@
 			 role="tablist"
 			 aria-multiselectable="true"
 			 ng-repeat="phase in rPhases | orderBy:'order'">
-			
+
 			<!-- BEGIN: PROJECT PHASE CONTAINER -->
 			<div class="panel panel-default accordion">
 				<div class="panel-heading" role="tab" id="phaseOne">
@@ -31,7 +31,7 @@
 				</div>
 				<div id="{{phase.name}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="{{phase.name}}">
 					<div class="panel-body">
-						<div class="button-bar">
+						<div ng-if="project.userCan.editSchedule" class="button-bar">
 							<button ng-if="phase.code !== 'pre-submission'"
 									ng-click="popluatePhaseDropdown(phase)"
 									class="btn btn-default btn-sm"
@@ -74,7 +74,7 @@
 								<td>{{row.dateStarted | date : format : timezone}} / {{row.dateCompleted | date : format : timezone}}</td>
 								<td>{{row.status}}</td>
 								<!-- <td>-Template Link-</tdf> -->
-								<td class="button-col">
+								<td class="button-col"ng-if="project.userCan.editSchedule" >
 									<button class="btn btn-default btn-sm"
 											ng-if="row.status === 'Not Started'"
 											ng-click="startMilestone(row._id)">Start Milestone</button>
@@ -82,7 +82,7 @@
 											ng-if="row.status === 'In Progress'"
 											ng-click="completeMilestone(row._id)">Complete Milestone</button>
 								</td>
-								<td class="actions-col">
+								<td class="actions-col"ng-if="project.userCan.editSchedule" >
 									<button class="btn btn-link">
 										<span class="glyphicon glyphicon-pencil"
 											  ng-click="openEditMilestone(row._id)"></span>
@@ -97,9 +97,9 @@
 				</div>
 			</div>
 			<!-- END: PROJECT PHASE CONTAINER -->
-			
+
 		</div>
-		
+
 	</div>
 
 </div>

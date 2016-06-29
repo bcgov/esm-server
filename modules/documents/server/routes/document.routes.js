@@ -38,14 +38,14 @@ module.exports = function (app) {
 	app.route ('/api/documents/memtypes/:projectid').all (policy ('guest'))
 		.get  (controller.getDocumentTypesForProjectMEMAndReturn);
 	// cc: converted
-	app.route ('/api/documents/subtypes/:projectid').all (policy ('guest'))
-		.get  (controller.getDocumentSubTypesForProjectAndReturn);
+	// app.route ('/api/documents/subtypes/:projectid').all (policy ('guest'))
+	// 	.get  (controller.getDocumentSubTypesForProjectAndReturn);
+	// cc: converted
+	// app.route ('/api/documents/folderNames/:projectid').all (policy ('guest'))
+	// 	.get  (controller.getDocumentFolderNamesForProjectAndReturn);
 
-	app.route ('/api/documents/folderNames/:projectid').all (policy ('guest'))
-		.get  (controller.getDocumentFolderNamesForProjectAndReturn);
-
-	app.route ('/api/documents/versions/:documentid').all (policy ('guest'))
-		.get  (controller.getDocumentVersionsAndReturn);
+	// app.route ('/api/documents/versions/:documentid').all (policy ('guest'))
+	// 	.get  (controller.getDocumentVersionsAndReturn);
 
 	app.route ('/api/documents/approveAndDownload/:document').all (policy ('user'))
 		.put  (controller.approveAndDownload);
@@ -79,8 +79,8 @@ module.exports = function (app) {
 		.put (controller.getlist);
 	//
 	// middleware to auto-fetch parameter
-	//
-	app.param ('document', controller.getObject);
+	// cc: converted
+	// app.param ('document', controller.getObject);
 	//app.param ('documentId', controller.getId);
 
 };

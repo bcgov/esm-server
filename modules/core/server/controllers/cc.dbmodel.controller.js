@@ -330,6 +330,17 @@ _.extend (DBModel.prototype, {
 			.catch (resolve, reject);
 		});
 	},
+	distinct : function (field, query) {
+		var self = this;
+		query = query || {};
+		return new Promise (function (resolve, reject) {
+			if (self.err) return reject (self.err);
+			var q = _.extend ({}, self.baseQ, query);
+			self.model.distinct (field, q)
+			.exec ()
+			.then (resolve, reject);
+		});
+	},
 	findAndUpdate : function (obj) {
 		var self = this;
 	// console.log (JSON.stringify (obj, null, 4));

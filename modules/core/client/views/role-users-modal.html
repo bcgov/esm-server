@@ -4,7 +4,7 @@
 </div>
 
 <div class="modal-body">
-	
+
 	<!-- TABS -->
 	<ul class="tab-container nav nav-tabs" role="tablist">
 		<li role="presentation" class="active"><a href ng-click="s.userView = !s.userView"  role="tab" data-toggle="tab">By User</a></li>
@@ -17,12 +17,12 @@
 			<label>Select User</label>
 			<div class="flex-row">
 				<select class="form-control" id="user" ng-model="s.currentUser" ng-options="p as p for p in s.allUsers | orderBy"></select>
-				<tmpl-add-user-to-context context="s.context" role="s.defaultRole" ng-if="s.context.code !== 'application'"></tmpl-add-user-to-context>
+				<tmpl-add-user-to-context context="s.context" role="s.defaultRole"></tmpl-add-user-to-context>
 			</div>
 		</div>
 		<div class="flex-row">
 			<label>Manage Roles for User</label>
-			<tmpl-role-new context="s.context" class="new-role-btn"></tmpl-role-new>
+			<tmpl-role-new context="s.context" class="new-role-btn" ng-if="s.context.userCan.createRole"></tmpl-role-new>
 		</div>
 		<div class="panel panel-default">
 			<ul class="list-group">
@@ -47,7 +47,7 @@
 			<label for="role">Select Role</label>
 			<div class="flex-row">
 				<select class="form-control" id="role" ng-model="s.currentRole" ng-options="p as p for p in s.allRoles | orderBy"></select>
-				<tmpl-role-new context="s.context"></tmpl-role-new>
+				<tmpl-role-new context="s.context" ng-if="s.context.userCan.createRole"></tmpl-role-new>
 			</div>
 		</div>
 		<div class="flex-row">
