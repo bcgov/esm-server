@@ -26,11 +26,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			artifacts: function (project, ArtifactModel) {
 				return ArtifactModel.forProject (project._id);
 			}
-		},
-   //      onEnter: function (MenuControl, project) {
-			// MenuControl.routeAccessBuilder (['admin','user','public'], project.code, '*', '*');
-   //      }
-
+		}
 	})
 	// -------------------------------------------------------------------------
 	//
@@ -42,6 +38,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 		url: '/list',
 		templateUrl: 'modules/project-comments/client/views/period-list.html',
 		controller: function ($scope, NgTableParams, periods, project) {
+			console.log ('periods = ', periods);
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: periods});
 			$scope.project = project;
 		}
@@ -64,6 +61,13 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			$scope.period = period;
 			$scope.project = project;
 			$scope.artifacts = artifacts;
+			$scope.changeType = function () {
+				if (period.periodType === 'Public') {
+					period.commenterRoles = ['public'];
+				} else {
+					period.commenterRoles = [];
+				}
+			};
 			$scope.save = function () {
 				period.project               = project._id;
 				period.phase                 = project.currentPhase;
@@ -82,7 +86,9 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 					console.error (err);
 					// alert (err.message);
 				});
+
 			};
+			$scope.changeType ();
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -100,9 +106,16 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			}
 		},
 		controller: function ($scope, $state, period, project, CommentPeriodModel) {
-			// console.log ('period = ', period);
+			console.log ('period = ', period);
 			$scope.period = period;
 			$scope.project = project;
+			$scope.changeType = function () {
+				if (period.periodType === 'Public') {
+					period.commenterRoles = ['public'];
+				} else {
+					period.commenterRoles = [];
+				}
+			};
 			$scope.save = function () {
 				CommentPeriodModel.save ($scope.period)
 				.then (function (model) {
@@ -117,6 +130,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 					// alert (err.message);
 				});
 			};
+			$scope.changeType ();
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -139,16 +153,17 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			}
 		},
 		controller: function ($scope, period, project, artifact) {
+			console.log ('period user can: ', period.userCan);
 			var today       = new Date ();
 			var start       = new Date (period.dateStarted);
 			var end         = new Date (period.dateCompleted);
 			var isopen      = start < today && today < end;
 			$scope.isOpen   = isopen;
 			$scope.isBefore = (start > today);
+			$scope.isClosed = (end < today);
 			$scope.period   = period;
 			$scope.project  = project;
 			$scope.artifact = artifact;
-			console.log (artifact);
 		}
 	})
 

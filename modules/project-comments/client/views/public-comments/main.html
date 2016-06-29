@@ -22,15 +22,18 @@
                 <li><a class="document-name" x-artifact-display-modal x-mode="'view'" x-artifact="artifact" x-project="project">{{ artifact.name }}</a></li>
             </ul>
 
-            <button class="btn btn-success" x-add-public-comment x-project="project" x-period="period">
+            <button ng-if="isOpen && period.userCan.addComment" class="btn btn-success" x-add-public-comment x-project="project" x-period="period">
                 Click Here to Submit a Comment
             </button>
-            
+
             <div class="open-house-dates">
                 <h4>Open House Dates</h4>
-                <ul>
-                    <li>June 15th, 2016 at Some Location</li>
-                    <li>July 10th, 2016 at Some Location</li>
+                <ul class="list-unstyled">
+                    <li ng-repeat="h in period.openHouses">
+                        <b>{{ h.eventDate | amDateFormat:'MMM Do YYYY' }}</b>
+                        <br/>
+                        <pre class="col-xs-offset-1">{{ h.description }}</pre>
+                    </li>
                 </ul>
             </div>
         </div>

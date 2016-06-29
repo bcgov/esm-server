@@ -33,9 +33,8 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
         // data: {roles: ['admin','eao']},
         url: '/list',
         templateUrl: 'modules/organizations/client/views/organization-list.html',
-        controller: function ($scope, NgTableParams, orgs, MenuControl) {
+        controller: function ($scope, NgTableParams, orgs) {
             $scope.orgs = orgs;
-            $scope.showedit = MenuControl.userHasOne(['admin']);
             $scope.tableParams = new NgTableParams ({count:10}, {dataset: orgs});
         },
     })
@@ -133,8 +132,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 return OrganizationModel.getUsers (org._id);
             }
         },
-        controller: function ($scope, NgTableParams, org, users, MenuControl) {
-            $scope.showedit = MenuControl.userHasOne(['admin']);
+        controller: function ($scope, NgTableParams, org, users) {
             $scope.org = org;
             $scope.tableParams = new NgTableParams ({count:10}, {dataset: users});
         }

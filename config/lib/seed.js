@@ -88,7 +88,7 @@ checkIntegration ('testme').then (function (f) {
 checkIntegration ('newconfigs3').then (function () {
 	require('../seed-data/newconfigs')(true);
 });
-checkIntegration ('commentconfigs').then (function () {
+checkIntegration ('commentconfigs1').then (function () {
 	require('../seed-data/commenting-configs')(true);
 });
 
@@ -125,7 +125,7 @@ checkIntegration ('loadconditions2').then (function () {
 // artifact types
 //
 // -------------------------------------------------------------------------
-checkIntegration ('loadartifacts56').then (function () {
+checkIntegration ('loadartifacts62').then (function () {
 	require('../seed-data/loadartifacts')();
 });
 // -------------------------------------------------------------------------
@@ -216,6 +216,10 @@ checkIntegration ('sysroles3').then (function () {
 
 checkIntegration ('app1').then (function () {
 	require('../seed-data/application')();
+});
+
+checkIntegration ('defaults4').then (function () {
+	require('../seed-data/defaults')();
 });
 
 // // check to see if the seed import executes

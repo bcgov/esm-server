@@ -5,8 +5,10 @@
 //
 // =========================================================================
 module.exports = require ('../controllers/cc.schema.controller')('Application', {
+	_id: {type:String, default:'application'},
 	code: {type:String, default:'applicaiton'},
 	__access : [
+		'import',
 		'viewConfiguration',
 		'viewSchedule',
 		'listConditions',
@@ -20,11 +22,14 @@ module.exports = require ('../controllers/cc.schema.controller')('Application', 
 		'createCondition',
 		'createEmailTemplate',
 		'createOrganization',
-		'createNew',
-		'createRole',
+		'createNews',
 		'createTemplate',
 		'createTopic',
-		'createUser'
+		'createUser',
+		'createProject',
+		'manageRoles',
+		'managePermissions',
+		'createRole'
 	]
 });
 

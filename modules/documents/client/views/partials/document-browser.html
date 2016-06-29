@@ -1,5 +1,5 @@
 <section class="document-browser-view">
-	
+
 		<!-- PHASE DOCUMENTS -->
 		<div class="panel panel-default accordion hidden">
             <div class="panel-heading" role="tab" id="phase1">
@@ -11,7 +11,7 @@
             </div>
             <div id="phase1Collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="ir1Collapse">
                 <div class="actions-table-container">
-					
+
 					<table ng-table="vm.tableParams" class="table table-striped document-browser" show-filter="false">
 						<tr class="hidden" ng-repeat="user in $data">
 							<td class="name-col" header-class="'name-col'" title="'Name'" filter="{ name: 'text'}" sortable="'name'">
@@ -67,7 +67,7 @@
 							</td>
 						</tr><!-- / PROTOTYPE ROWS -->
 					</table>
-					
+
                     <table class="table table-striped hidden">
                         <thead>
                             <tr>
@@ -114,8 +114,8 @@
                 </div>
             </div>
         </div><!-- / PHASE DOCUMENTS -->
-	
-	
+
+
 	<div class="panel panel-default">
 		<div class="panel-heading clearfix">
 			<h2 class="pull-left">Documents</h2>
@@ -127,11 +127,11 @@
 				<a href class="btn btn-default btn-sm"
 					x-modal-document-upload-classify-mem
 					x-project="docBrowser.project"
-					ng-if="(docBrowser.authentication.user) && environment === 'MEM'"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;&nbsp;Upload</a>	
+					ng-if="(docBrowser.authentication.user) && environment === 'MEM'"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;&nbsp;Upload</a>
 			</div>
 		</div>
 		<div class="file-browser clearfix">
-			
+
 			<!-- FOLDER HIERARCHY -->
 			<div class="col-sm-6 col-md-4 file-browser-list">
 				<ul ng-if="environment === 'EAO'">
@@ -148,18 +148,18 @@
 				<ul>
 					<li class="row-folder clickable row-folder-depth-{{ row.depth }}" ng-class="{'active btn-primary': docBrowser.filterDocsSelected(row)}"
 						ng-click="docBrowser.filterList(row)"
-						ng-hide="row.label === 'Not Specified'"
+						ng-hide="row.label === 'Not Specified' || !row.render"
 						ng-repeat="row in docBrowser.docTypes"
 						ng-if="row.label != 'ARTIFACT'">
-						<span class="glyphicon glyphicon-folder-close"></span>
+						<span class="glyphicon glyphicon-folder-{{row.state}}"></span>
 						{{ row.label }}
 					</li>
 				</ul>
 			</div><!-- / FOLDER HIERARCHY -->
-			
+
 			<!-- DOCUMENT LIST -->
 			<div class="col-sm-6 col-md-4 file-browser-list">
-				<ul> 
+				<ul>
 					<li class="row-document clickable" ng-class="{'active btn-primary': filterSummary._id === doc._id}"
 						ng-click="docBrowser.filterSummary(doc)"
 						ng-repeat="doc in docBrowser.documentFiles | filter:filterLinage:true">
@@ -168,7 +168,7 @@
 					</li>
 				</ul>
 			</div><!-- DOCUMENTS LIST -->
-			
+
 			<!-- DOCUMENT DETAILS -->
 			<div class="col-sm-12 col-md-4 file-browser-details">
 				<div ng-show="filterSummary">
@@ -195,13 +195,13 @@
 							<label>In Review</label>
 							<span class="value">{{ filterSummary.documentIsInReview?'Yes':'No' }}</span>
 						</div>
-						
+
 						<!-- NB: Project folders are authors in EPIC:  We override this behavior here -->
 						<div ng-show="filterSummary.documentAuthor" class="detail-row">
 							<label>Author</label>
 							<span class="value">{{ filterSummary.documentAuthor }}</span>
 						</div>
-						
+
 						<div class="detail-row">
 							<label>Current Revision</label>
 							<div class="list-group">
@@ -211,12 +211,12 @@
 								</a>
 							</div>
 						</div>
-						
+
 						<div class="detail-row">
 							<label>Latest Revision:</label>
 							<span class="value">{{ filterSummary.documentIsLatestVersion?'Yes':'No' }}</span>
 						</div>
-						
+
 						<div clas="detail-row">
 							<label>Revisions</label>
 							<span class="attachments">
@@ -226,7 +226,7 @@
 							</span>
 						</div>
 					</div><!-- / DOCUMENT INFO -->
-					
+
 					<!-- DOCUMENT ACTIONS -->
 					<div class="doc-actions">
 						<a class="btn btn-default btn-sm" href="/api/document/{{ filterSummary._id }}/fetch" target="_self" title="Download">
@@ -243,7 +243,7 @@
 
 			</div><!-- / DOCUMENT DETAILS -->
 		</div>
-		
+
 	</div>
 
 </section>

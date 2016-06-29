@@ -15,8 +15,7 @@ module.exports = function (app) {
 	//
 	app.route ('/api/test/condition/route/:condition')
 		.all (policy ('guest'))
-		.all (routes.setModel (Condition))
-		.get (routes.runModel (function (model, req) {
+		.get (routes.setAndRun (Condition, function (model, req) {
 			return model.nothing (req.Condition);
 		}));
 };

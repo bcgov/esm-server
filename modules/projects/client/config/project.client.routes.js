@@ -25,7 +25,8 @@ angular.module('project').config (
 				return project.proponentAdminRole;
 			}
 		},
-		controller: function ($scope, $stateParams, project, ENV, $rootScope, ProjectModel, Menus, MenuControl) {
+		controller: function ($scope, $stateParams, project, ENV, $rootScope, ProjectModel, Menus) {
+			console.log ('project permissions:', project.userCan);
 			$scope.project = project;
 			$scope.environment = ENV;
 			$scope.isNew = ($stateParams.projectid === 'new');
@@ -34,104 +35,6 @@ angular.module('project').config (
 
 			$scope.intakeQuestions = ProjectModel.getProjectIntakeQuestions();
 
-			// //
-			// // Clear out the project side menu... and add them on the fly
-			// // we need the project context to properly show the menus, or else we get 403 on the routes...
-			// //
-			// Menus.removeMenuItem('projectTopMenu', 'p.edit');
-			// Menus.removeMenuItem('projectTopMenu', 'p.schedule');
-			// Menus.removeMenuItem('projectTopMenu', 'p.comments');
-			// Menus.removeMenuItem('projectTopMenu', 'p.enforcements');
-			// Menus.removeMenuItem('projectMenu', 'p.documents');
-			// Menus.removeMenuItem('projectMenu', 'p.invitations');
-			// Menus.removeMenuItem('projectMenu', 'p.commentperiod.list');
-			// Menus.removeMenuItem('projectMenu', 'p.complaint.list');
-			// Menus.removeMenuItem('projectMenu', 'p.projectcondition.list');
-			// Menus.removeMenuItem('projectMenu', 'p.ir.list');
-			// Menus.removeMenuItem('projectMenu', 'p.roles.list');
-			// Menus.removeMenuItem('projectMenu', 'p.vc.list');
-
-			// Menus.addMenuItem('projectTopMenu', {
-			// 	title: 'Edit Project',
-			// 	state: 'p.edit',
-			// 	roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer', 'pro:admin', 'pro:member'])
-			// });
-
-			// // Specific to EAO.
-			// if (ENV === 'EAO') {
-			// 	Menus.addMenuItem('projectTopMenu', {
-			// 		title: 'Schedule',
-			// 		state: "p.schedule",
-			// 		roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'minister-office', 'qa-officer', 'ce-lead', 'ce-officer', 'wg', 'ceaa', 'pro:admin', 'pro:member', 'sub'])
-			// 	});
-			// 	Menus.addMenuItem('projectTopMenu', {
-			// 		title: 'Compliance Oversight',
-			// 		state: "p.enforcements",
-			// 		roles: MenuControl.menuRolesBuilder (['user'], project.code, '*', '*')
-			// 	});
-			// 	Menus.addMenuItem('projectMenu', {
-			// 		title: 'Comment Periods',
-			// 		state: "p.commentperiod.list",
-			// 		roles: ['admin','user','public'] //MenuControl.menuRolesBuilder (['admin','user','public'], project.code, '*', '*')
-			// 	});
-			// }
-
-			// Menus.addMenuItem('projectMenu', {
-			// 	title: 'Documents',
-			// 	state: 'p.documents',
-			// 	roles:  MenuControl.menuRolesBuilder (['admin','user','public'], project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'pro:admin', 'pro:member', 'sub'])
-			// });
-			// if (ENV === 'EAO') {
-			// 	Menus.addMenuItem('projectMenu', {
-			// 		title: 'Project Invitations',
-			// 		state: 'p.invitations',
-			// 		roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['eao:admin', 'responsible-epd','project-admin', 'project-lead','project-intake', 'pro:admin', 'pro:member'])
-			// 	});
-			// 	// Menus.addMenuItem('projectMenu', {
-			// 	// 	title: 'Comment Periods',
-			// 	// 	state: 'p.commentperiod.list',
-			// 	// 	roles: MenuControl.menuRoles ('admin', project.code, '*', '*')
-			// 	// });
-			// 	Menus.addMenuItem('projectMenu', {
-			// 		title: 'Complaints',
-			// 		state: 'p.complaint.list',
-			// 		roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['ce-lead', 'ce-officer'])
-			// 	});
-			// 	Menus.addMenuItem('projectMenu', {
-			// 		title: 'Conditions',
-			// 		state: 'p.projectcondition.list',
-			// 		roles: MenuControl.menuRolesBuilder ([undefined], project.code, 'eao', ['admin',
-			// 																			'member',
-			// 																			'assistant-dm',
-			// 																			'assistant-dmo',
-			// 																			'associate-dm',
-			// 																			'associate-dmo',
-			// 																			'minister',
-			// 																			'ministers-office',
-			// 																			'responsible-epd',
-			// 																			'project-admin',
-			// 																			'project-lead',
-			// 																			'project-team',
-			// 																			'qa-officer',
-			// 																			'ce-lead',
-			// 																			'ce-officer'])
-			// 	});
-			// 	Menus.addMenuItem('projectMenu', {
-			// 		title: 'Inspection Reports',
-			// 		state: 'p.ir.list',
-			// 		roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['ce-lead', 'ce-officer'])
-			// 	});
-			// 	Menus.addMenuItem('projectMenu', {
-			// 		title: 'Project Roles',
-			// 		state: 'p.roles.list',
-			// 		roles: MenuControl.menuRolesBuilder (['admin'], project.code, '*', ['project-lead', 'project-intake', 'pro:admin', 'pro:member', 'sub'])
-			// 	});
-			// 	Menus.addMenuItem('projectMenu', {
-			// 		title: 'Valued Components',
-			// 		state: 'p.vc.list',
-			// 		roles: MenuControl.menuRolesBuilder (undefined, project.code, '*', ['eao:admin', 'eao:member', 'responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer', 'pro:admin', 'pro:member', 'sub'])
-			// 	});
-			// }
 
 			var unbind = $rootScope.$on('refreshProject', function() {
 				// console.log('refreshProject', $stateParams.projectid);
@@ -148,7 +51,6 @@ angular.module('project').config (
 	// -------------------------------------------------------------------------
 	.state('p.detail', {
 		url: '/detail',
-		context: 'projectid',
 		templateUrl: 'modules/projects/client/views/project-partials/project.detail.html',
 		controller: function ($scope, $state, project, ProjectModel, $window) {
 			$scope.project = project;
@@ -200,19 +102,6 @@ angular.module('project').config (
 		url: '/edit',
 		templateUrl: 'modules/projects/client/views/project-partials/project.entry.html',
 		controller: 'controllerProjectEntry',
-		// resolve: {
-		// 	intakeQuestions: function(ProjectModel) {
-		// 		return ProjectModel.getProjectIntakeQuestions();
-		// 	}
-		// },
-		onEnter: function (MenuControl, project, $stateParams) {
-			if ($stateParams.projectid === 'new') {
-				MenuControl.routeAccessBuilder(undefined, '*', '*', ['responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer', 'pro:admin', 'pro:member']);
-			}
-			else {
-				MenuControl.routeAccessBuilder(undefined, project.code, '*', ['responsible-epd','project-admin', 'project-lead','project-team','project-intake', 'assistant-dm', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer', 'pro:admin', 'pro:member']);
-			}
-		}
 	})
 	// -------------------------------------------------------------------------
 	//
@@ -223,64 +112,6 @@ angular.module('project').config (
 		url: '/enforcements',
 		templateUrl: 'modules/projects/client/views/project-partials/project.enforcements.html',
 		controller: 'controllerProjectEntry',
-		// resolve: {
-		// 	intakeQuestions: function(ProjectModel) {
-		// 		return ProjectModel.getProjectIntakeQuestions();
-		// 	}
-		// },
-		onEnter: function (MenuControl, project, $stateParams) {
-			if ($stateParams.projectid === 'new') {
-				MenuControl.routeAccessBuilder (undefined, '*', '*', ['ce-lead', 'ce-officer']);
-			}
-			else {
-				MenuControl.routeAccessBuilder (['admin', 'user', 'public']);
-			}
-		}
-	})
-
-	// -------------------------------------------------------------------------
-	//
-	// PUBLIC COMMENT PERIOD
-	//
-	// -------------------------------------------------------------------------
-	.state('p.comments', {
-		url: '/public-comment-period',
-		templateUrl: 'modules/publicComments/client/views/comments-public.html',
-		controller: 'controllerProjectEntry',
-		onEnter: function (MenuControl, project, $stateParams) {
-			if ($stateParams.projectid === 'new') {
-				MenuControl.routeAccessBuilder (undefined, '*', '*', ['ce-lead', 'ce-officer']);
-			}
-			else {
-				MenuControl.routeAccessBuilder (['admin', 'user', 'public']);
-			}
-		}
-	})
-	.state('p.eaocomments', {
-		url: '/eao-comment-period',
-		templateUrl: 'modules/publicComments/client/views/comments-eao.html',
-		controller: 'controllerProjectEntry',
-		onEnter: function (MenuControl, project, $stateParams) {
-			if ($stateParams.projectid === 'new') {
-				MenuControl.routeAccessBuilder (undefined, '*', '*', ['ce-lead', 'ce-officer']);
-			}
-			else {
-				MenuControl.routeAccessBuilder (['admin', 'user', 'public']);
-			}
-		}
-	})
-	.state('p.proponentcomments', {
-		url: '/proponent-comment-period',
-		templateUrl: 'modules/publicComments/client/views/comments-proponent.html',
-		controller: 'controllerProjectEntry',
-		onEnter: function (MenuControl, project, $stateParams) {
-			if ($stateParams.projectid === 'new') {
-				MenuControl.routeAccessBuilder (undefined, '*', '*', ['ce-lead', 'ce-officer']);
-			}
-			else {
-				MenuControl.routeAccessBuilder (['admin', 'user', 'public']);
-			}
-		}
 	})
 
 	// -------------------------------------------------------------------------

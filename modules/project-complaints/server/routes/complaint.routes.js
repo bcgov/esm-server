@@ -15,8 +15,7 @@ module.exports = function (app) {
 	//
 	app.route ('/api/complaint/for/project/:projectid')
 		.all (policy ('user'))
-		.all (routes.setModel (Complaint))
-		.get (routes.runModel (function (model, req) {
+		.all (routes.setAndRun (Complaint, function (model, req) {
 			return model.getForProject (req.params.projectid);
 		}));
 };

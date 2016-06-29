@@ -23,7 +23,7 @@ module.exports = DBModel.extend ({
 	populate: 'currentPhase phases phases.milestones phases.milestones.activities proponent primaryContact',
 	// bind: ['addPrimaryUser','addProponent'],
 	init: function () {
-		this.recent = new RecentActivityClass (this.user);
+		this.recent = new RecentActivityClass (this.opts);
 	},
 	postMessage: function (obj) {
 		this.recent.create (_.extend ({
@@ -113,7 +113,7 @@ module.exports = DBModel.extend ({
 				// console.log ('Step5. add the first basic phase, pre-stream, pre-submission');
 				return self.addPhase (project, 'pre-submission')
 				.then (function (m) {
-					var Phase = new PhaseClass (self.user);
+					var Phase = new PhaseClass (self.opts);
 					if (m.phases[0].name) {
 						// console.log ('new phase = ', m.phases[0].code, m.phases[0].name, m.phases[0]._id);
 						m.currentPhase = m.phases[0];
@@ -142,7 +142,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	getStream: function (code) {
-		return (new StreamClass (this.user)).findOne ({code:code});
+		return (new StreamClass (this.opts)).findOne ({code:code});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -156,6 +156,11 @@ module.exports = DBModel.extend ({
 		//
 		// TBD ROLES
 		//
+		project.setRoles ({
+			read   : ['eao-admin', 'pro-admin', 'eao-member', 'pro-member'],
+			write  : ['eao-admin', 'pro-admin'],
+			delete : ['eao-admin', 'pro-admin'],
+		});
 		return project;
 		// var permissions = {
 		// 	read:[],
@@ -201,7 +206,7 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	addPhase : function (project, basecode) {
 		var self = this;
-		var Phase = new PhaseClass (self.user);
+		var Phase = new PhaseClass (self.opts);
 		return new Promise (function (resolve, reject) {
 			//
 			// get the new phase
@@ -349,7 +354,7 @@ module.exports = DBModel.extend ({
 				//
 				// now we have to go through all the phases and get all of their durations
 				//
-				var Phase = new PhaseClass (self.user);
+				var Phase = new PhaseClass (self.opts);
 				var now = new Date ();
 				var lastEndDate = now;
 				proj.duration = proj.phases.map (function (p) {
@@ -431,7 +436,7 @@ module.exports = DBModel.extend ({
 		return new Promise (function (resolve, reject) {
 			if (!project.currentPhase) resolve (project);
 			else {
-				var Phase = new PhaseClass (self.user);
+				var Phase = new PhaseClass (self.opts);
 				Phase.findById(project.currentPhase)
 				.then(function (phase) {
 					return Phase.complete (phase);
@@ -455,7 +460,7 @@ module.exports = DBModel.extend ({
 		return new Promise (function (resolve, reject) {
 			if (!project.currentPhase) resolve (project);
 			else {
-				var Phase = new PhaseClass (self.user);
+				var Phase = new PhaseClass (self.opts);
 				//
 				// this is a no-op if the phase is already completed so its ok
 				//
@@ -620,7 +625,7 @@ module.exports = DBModel.extend ({
 	// 	return new Promise (function (resolve, reject) {
 	// 		var p = null;
 	// 		if (project.primaryContact && !_.isEmpty (project.primaryContact)) {
-	// 			var User = new UserClass (self.user);
+	// 			var User = new UserClass (self.opts);
 	// 			if (project.primaryContact._id) {
 	// 				p = User.findAndUpdate (project.primaryContact);
 	// 			} else {
@@ -639,7 +644,7 @@ module.exports = DBModel.extend ({
 	// 	return new Promise (function (resolve, reject) {
 	// 		var p = null;
 	// 		if (project.proponent && !_.isEmpty (project.proponent)) {
-	// 			var User = new OrganizationClass (self.user);
+	// 			var User = new OrganizationClass (self.opts);
 	// 			if (project.proponent._id) {
 	// 				p = User.findAndUpdate (project.proponent);
 	// 			} else {
@@ -663,7 +668,7 @@ module.exports = DBModel.extend ({
 	// addPhase : function (project, phasebase, roles) {
 	// 	var self = this;
 	// 	return new Promise (function (resolve, reject) {
-	// 		var phase = new PhaseClass (self.user);
+	// 		var phase = new PhaseClass (self.opts);
 	// 		phase.makePhaseFromBase (phasebase, project.stream, project._id, project.code, roles)
 	// 		.then (function (model) {
 	// 			project.phases.push (model._id);
@@ -678,7 +683,7 @@ module.exports = DBModel.extend ({
 	// addPhaseFromCode : function (project, phasecode, roles) {
 	// 	var self = this;
 	// 	return new Promise (function (resolve, reject) {
-	// 		var PhaseBase = new PhaseBaseClass (self.user);
+	// 		var PhaseBase = new PhaseBaseClass (self.opts);
 	// 		PhaseBase.findOne ({
 	// 			code: phasecode
 	// 		})

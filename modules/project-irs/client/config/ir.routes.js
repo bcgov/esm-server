@@ -23,9 +23,6 @@ angular.module('irs').config(['$stateProvider', function ($stateProvider) {
 			irs: function ($stateParams, IrModel, project) {
 				return IrModel.forProject (project._id);
 			},
-		},
-		onEnter: function (MenuControl, project) {
-			MenuControl.routeAccessBuilder (undefined, project.code, '*', ['ce-lead', 'ce-officer']);
 		}
 	})
 	// -------------------------------------------------------------------------

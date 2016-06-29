@@ -43,12 +43,13 @@ angular.module('core').service('Menus', ['Application',
 		//
 		// -------------------------------------------------------------------------
 		var shouldRender = function (user, context) {
+
 			var applicationPermissions = (Application && Application.userCan) ? Application.userCan : {};
 			var contextPermissions     = (context && context.userCan) ? context.userCan : {};
-			console.log ('applicationPermissions:',applicationPermissions);
-			console.log ('contextPermissions:',contextPermissions);
-			console.log ('this.permissions:',this.permissions);
-			return this.permissions.map (function (p) {
+			// console.log ('applicationPermissions:',applicationPermissions);
+			// console.log ('contextPermissions:',contextPermissions);
+			// console.log ('this.permissions:',this.permissions);
+			var result = this.permissions.map (function (p) {
 				return checkPermission ({
 					permission  : p,
 					application : applicationPermissions,
@@ -57,6 +58,8 @@ angular.module('core').service('Menus', ['Application',
 			}).reduce (function (prev, current) {
 				return (prev || current);
 			});
+			// console.log ('checking for :', this.title, result);
+			return result;
 		};
 		// -------------------------------------------------------------------------
 		//

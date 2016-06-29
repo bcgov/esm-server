@@ -124,6 +124,7 @@ module.exports = require ('../../../core/server/controllers/cc.schema.controller
 	providerData            : {},
 	additionalProvidersData : {},
 	roles                   : [{ type: String}],
+	oldroles                : [{ type: String}],
 	updated                 : { type: Date },
 	created                 : { type: Date, default: Date.now },
 	/* For reset password */

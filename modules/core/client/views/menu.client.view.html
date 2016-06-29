@@ -4,7 +4,7 @@
 	<div ng-show="!menu.authentication.user">
 		<ul class="list-unstyled">
 			<li><a ui-sref="p.detail" href>Project Details</a></li>
-			<li ng-if="ENV === 'EAO'"><a ui-sref="p.enforcements" href>Compliance Oversight</a></li>
+			  <!-- <li ng-if="ENV === 'EAO'"><a ui-sref="p.enforcements" href>Compliance Oversight</a></li> -->
      		<li><a ui-sref="p.documents" href>Documents</a></li>
      		<li><a ui-sref="p.commentperiod.list" href>Public Comment Periods</a></li>
 		</ul>
@@ -20,7 +20,7 @@
 	</div>
 
 	<div ng-if="(menu.context === 'projects' || menu.context === 'mylist') && menu.projectsMenu.shouldRender(menu.authentication.user, menu.project);">
-		<ul class="list-unstyle">
+		<ul class="list-unstyled">
 			<li ng-repeat="item in menu.projectsMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
@@ -55,23 +55,22 @@
 			</li>
 		</ul><!-- / PROJECT CLIENT MENUS -->
 
-		<ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user, menu.project)">
+		<!-- <ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user, menu.project)"> -->
+		<ul class="list-unstyled">
 			<li ng-repeat="item in menu.projectMenu.items | orderBy: 'position'"
 			    ng-if="item.shouldRender(menu.authentication.user, menu.project);"
 					ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 				  <a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 			</li>
 		</ul>
-    <!--
-		<ul class="list-unstyled" ng-show="menu.authentication.user">
-			<li>
-				<a ui-sref="p.workinggroup.list">Working Group</a>
+ 		<ul class="list-unstyled" ng-show="menu.authentication.user">
+			<li ng-if="menu.project.userCan.managePermissions">
+				<a x-role-permissions-modal x-context="menu.project" x-object="menu.project">Project Permissions</a>
 			</li>
-			<li>
-				<a x-modal-set-object-permissions href x-project="menu.project" x-target-object="menu.project" x-target-object-type="'projects'">Set Object Permissions</a>
+			<li ng-if="menu.project.userCan.manageRoles">
+				<a x-role-users-modal x-context="menu.project">Project Roles</a>
 			</li>
 		</ul>
-		-->
   </div><!-- / PROJECT MENU - AUTHENTICATED -->
 
 </section>

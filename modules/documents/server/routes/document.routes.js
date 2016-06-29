@@ -4,82 +4,83 @@
 // Routes for documents
 //
 // =========================================================================
-var policy     = require ('../policies/document.policy');
 var controller = require ('../controllers/document.controller');
 var Project    = require ('../../../projects/server/controllers/project.controller');
-var helpers    = require ('../../../core/server/controllers/core.helpers.controller');
+var routes = require ('../../../core/server/controllers/cc.routes.controller');
+var policy = require ('../../../core/server/controllers/cc.policy.controller');
 
 module.exports = function (app) {
-	app.route ('/api/documents/postproc/mapdocumentstoprojects').all (policy.isAllowed)
+	app.route ('/api/documents/postproc/mapdocumentstoprojects').all (policy ('guest'))
   		.get (function (req, res) {
 			controller.mapDocumentsToProjects(req, res)
-			.then (helpers.success(res), helpers.failure(res));
+			.then (routes.success(res), routes.failure(res));
 	});
 	//
 	// collection routes
-	//
-	app.route ('/api/documents')//.all (policy.isAllowed)
-		.get  (controller.list);
-		//.post (controller.create);
+	// cc: converted
+	// app.route ('/api/documents')//.all (policy ('guest'))
+	// 	.get  (controller.list);
+	// 	//.post (controller.create);
 
 	// Import via CSV
-	app.route ('/api/documents/import').all (policy.isAllowed)
+	app.route ('/api/documents/import').all (policy ('guest'))
 		.post (controller.loadDocuments);
 
-	app.route ('/api/documents/:documentid/relate/:projectid/').all (policy.isAllowed)
+	app.route ('/api/documents/:documentid/relate/:projectid/').all (policy ('guest'))
 		.post (controller.mapDocumentToProject);
+	// cc: converted
+	// app.route ('/api/documents/:projectid').all (policy ('guest'))
+	// 	.get  (controller.getDocumentsForProjectAndReturn);
+	// cc: converted
+	// app.route ('/api/documents/types/:projectid').all (policy ('guest'))
+	// 	.get  (controller.getDocumentTypesForProjectAndReturn);
 
-	app.route ('/api/documents/:projectid').all (policy.isAllowed)
-		.get  (controller.getDocumentsForProjectAndReturn);
-
-	app.route ('/api/documents/types/:projectid').all (policy.isAllowed)
-		.get  (controller.getDocumentTypesForProjectAndReturn);
-	app.route ('/api/documents/memtypes/:projectid').all (policy.isAllowed)
+	app.route ('/api/documents/memtypes/:projectid').all (policy ('guest'))
 		.get  (controller.getDocumentTypesForProjectMEMAndReturn);
+	// cc: converted
+	// app.route ('/api/documents/subtypes/:projectid').all (policy ('guest'))
+	// 	.get  (controller.getDocumentSubTypesForProjectAndReturn);
+	// cc: converted
+	// app.route ('/api/documents/folderNames/:projectid').all (policy ('guest'))
+	// 	.get  (controller.getDocumentFolderNamesForProjectAndReturn);
 
-	app.route ('/api/documents/subtypes/:projectid').all (policy.isAllowed)
-		.get  (controller.getDocumentSubTypesForProjectAndReturn);
+	// app.route ('/api/documents/versions/:documentid').all (policy ('guest'))
+	// 	.get  (controller.getDocumentVersionsAndReturn);
 
-	app.route ('/api/documents/folderNames/:projectid').all (policy.isAllowed)
-		.get  (controller.getDocumentFolderNamesForProjectAndReturn);
-
-	app.route ('/api/documents/versions/:documentid').all (policy.isAllowed)
-		.get  (controller.getDocumentVersionsAndReturn);
-
-	app.route ('/api/documents/approveAndDownload/:document').all (policy.isAllowed)
+	app.route ('/api/documents/approveAndDownload/:document').all (policy ('user'))
 		.put  (controller.approveAndDownload);
 	//
 	// model routes
 	//
-	app.route ('/api/document/:document').all (policy.isAllowed)
+	app.route ('/api/document/:document').all (policy ('guest'))
 		.get    (controller.read)
 		.put    (controller.update)
 		.delete (controller.delete);
 
 	// Find a document Folder (scrapeAndSearch)
-	app.route ('/api/scrapeAndSearch').all (policy.isAllowed)
+	app.route ('/api/scrapeAndSearch').all (policy ('guest'))
 		.get (controller.scrapeAndSearch);
 
 	// Find a specific document (populateReviewDocuments)
-	app.route ('/api/populateReviewDocuments').all (policy.isAllowed)
+	app.route ('/api/populateReviewDocuments').all (policy ('guest'))
 		.get (controller.populateReviewDocuments);
 
 	//
 	// upload a document
 	//
-	app.route ('/api/document/:project/upload').all (policy.isAllowed)
+	app.route ('/api/document/:project/upload').all (policy ('guest'))
 		.post (controller.upload);
 
 	// Fetch doc
-	app.route ('/api/document/:document/fetch').all (policy.isAllowed)
+	app.route ('/api/document/:document/fetch').all (policy ('guest'))
 		.get (controller.fetchd);
 
-	app.route ('/api/documentlist').all (policy.isAllowed)
+	app.route ('/api/documentlist').all (policy ('guest'))
 		.put (controller.getlist);
 	//
 	// middleware to auto-fetch parameter
-	//
-	app.param ('document', controller.getObject);
+	// cc: converted
+	// app.param ('document', controller.getObject);
 	//app.param ('documentId', controller.getId);
 
 };

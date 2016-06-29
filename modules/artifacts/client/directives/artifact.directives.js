@@ -8,16 +8,22 @@ angular.module('artifacts')
 // interacting with a list of artifacts
 //
 // -------------------------------------------------------------------------
-.directive ('tmplArtifactList', function ($state, ArtifactModel) {
+.directive('tmplArtifactList', function ($state, ArtifactModel) {
 	return {
 		restrict: 'E',
 		templateUrl: 'modules/artifacts/client/views/artifact-list.html',
 		scope: {
-			project: '='
+			project: '=',
+			published: '='
 		},
 		controller: function ($scope, NgTableParams, Authentication) {
 			var s = this;
 			s.public = (!Authentication.user);
+			s.published = $scope.published;
+			s.caption = s.published ? "Published Content" : "In Progress Content";
+			s.allowAddItem = !(s.public || s.published);
+			s.showFilter = false;
+			s.noDataMessage = "There are is no in progress content at this time.";
 			this.selectType = function (typeobject) {
 				this.addtype = typeobject;
 				this.addTypeName = typeobject.name;
@@ -25,31 +31,41 @@ angular.module('artifacts')
 			this.addType = function () {
 				if (s.addtype) {
 					// console.log ('adding new artifact of type '+s.addtype);
-					ArtifactModel.newFromType (s.addtype.code, $scope.project._id)
-					.then (function () {
-						s.init ();
+					ArtifactModel.newFromType(s.addtype.code, $scope.project._id)
+					.then(function () {
+						s.init();
 					});
 				}
 			};
 			this.init = function () {
 				// In this view we don't want individual VC's to show up, instead they will
 				// show up in the VC page.
-				ArtifactModel.forProjectFilterType ($scope.project._id, "valued-component").then (function (c) {
-					s.tableParams = new NgTableParams ({count:10}, {dataset: c});
+				ArtifactModel.forProjectFilterType($scope.project._id, "valued-component", "isPublished=" + $scope.published)
+				.then(function (c) {
+					s.tableParams = new NgTableParams({count: 10}, {dataset: c});
 					// console.log ("artifacts = ", c);
-					$scope.$apply ();
+					s.showFilter = c && c.length > 0;
+					// no content message...
+					if (!c || c.length === 0) {
+						if (s.published) {
+							s.noDataMessage = "There are is no published content at this time.";
+						} else {
+							s.noDataMessage = (s.public) ? "There are is no in progress content at this time." : "To add an artifact, select from the list above and click the Add button.";
+						}
+					}
+					$scope.$apply();
 				});
 				if (!s.public) {
-					ArtifactModel.availableTypes ($scope.project._id).then (function (c) {
+					ArtifactModel.availableTypes($scope.project._id).then(function (c) {
 						// console.log("available types:",c);
 						s.availableTypes = c;
 						s.addtype = null;
 						s.addTypeName = "";
-						$scope.$apply ();
+						$scope.$apply();
 					});
 				}
 			};
-			this.init ();
+			this.init();
 		},
 		controllerAs: 's'
 	};
@@ -60,7 +76,7 @@ angular.module('artifacts')
 // a document type, in either edit or view mode for each
 //
 // -------------------------------------------------------------------------
-.directive ('tmplArtifactDisplay', function () {
+.directive('tmplArtifactDisplay', function () {
 	return {
 		restrict: 'E',
 		templateUrl: 'modules/artifacts/client/views/artifact-display.html',
@@ -76,9 +92,9 @@ angular.module('artifacts')
 				var vcArtifact = obj.vcArtifact;
 				// Remove it from the main
 				ArtifactModel.lookup(mainArtifact)
-				.then( function (item) {
-					var index = _.findIndex(item.valuedComponents, function(o) {
-					    return vcArtifact === o._id;
+				.then(function (item) {
+					var index = _.findIndex(item.valuedComponents, function (o) {
+						return vcArtifact === o._id;
 					});
 					if (index !== -1) {
 						// Remove it from the main
@@ -92,7 +108,7 @@ angular.module('artifacts')
 		}
 	};
 })
-.directive ('tmplArtifactVcList', function () {
+.directive('tmplArtifactVcList', function () {
 	return {
 		restrict: 'E',
 		templateUrl: 'modules/artifacts/client/views/artifact-display-vc-list.html',
@@ -103,7 +119,7 @@ angular.module('artifacts')
 		}
 	};
 })
-.directive ('tmplArtifactVcEdit', function () {
+.directive('tmplArtifactVcEdit', function () {
 	return {
 		restrict: 'E',
 		templateUrl: 'modules/artifacts/client/views/artifact-display-vc-edit.html',
@@ -115,24 +131,24 @@ angular.module('artifacts')
 		controller: function ($scope, $state, VcModel, ArtifactModel) {
 			// Set the other fields to the VC model
 			VcModel.lookup($scope.artifact.valuedComponents[0]._id)
-			.then( function (vc) {
+			.then(function (vc) {
 				$scope.vc = vc;
 				$scope.$apply();
 			});
 			$scope.save = function () {
 				if ($scope.artifact) {
 					VcModel.saveModel($scope.vc)
-					.then ( function (vc) {
+					.then(function (vc) {
 						return ArtifactModel.lookup($scope.artifact._id);
 					})
-					.then ( function (art) {
+					.then(function (art) {
 						// console.log("art: ", art);
 						// Update the name of the artifact appropriately
 						art.name = $scope.vc.title;
 						return ArtifactModel.saveModel(art);
 					})
-					.then( function () {
-						$state.go ('p.vc.list', {reload: true});
+					.then(function () {
+						$state.go('p.vc.list', {reload: true});
 					});
 				}
 			};
@@ -145,25 +161,27 @@ angular.module('artifacts')
 // a document type, in either edit or view mode for each
 //
 // -------------------------------------------------------------------------
-.directive ('artifactDisplayModal', function ($modal) {
+.directive('artifactDisplayModal', function ($modal) {
 	return {
-		restrict    : 'A',
-		scope       : {
-			project  : '=',
-			artifact : '=',
-			mode     : '='
+		restrict: 'A',
+		scope: {
+			project: '=',
+			artifact: '=',
+			mode: '='
 		},
-		link : function (scope, element, attrs) {
+		link: function (scope, element, attrs) {
 			element.on('click', function () {
-				$modal.open ({
-					animation   : true,
-					templateUrl : 'modules/artifacts/client/views/artifact-display-modal.html',
-					size        : 'lg',
-					controller  : function ($scope, $modalInstance) {
-						$scope.project  = scope.project;
+				$modal.open({
+					animation: true,
+					templateUrl: 'modules/artifacts/client/views/artifact-display-modal.html',
+					size: 'lg',
+					controller: function ($scope, $modalInstance) {
+						$scope.project = scope.project;
 						$scope.artifact = scope.artifact;
-						$scope.mode     = scope.mode;
-						$scope.cancel   = function () { $modalInstance.dismiss ('cancel'); };
+						$scope.mode = scope.mode;
+						$scope.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
 					}
 				});
 			});
@@ -177,45 +195,50 @@ angular.module('artifacts')
 // so, essentially an artifact chooser
 //
 // -------------------------------------------------------------------------
-.directive ('artifactChooser', function ($modal, ArtifactModel, _) {
+.directive('artifactChooser', function ($modal, ArtifactModel, _) {
 	return {
 		restrict: 'A',
 		scope: {
 			project: '=',
 			artifact: '='
 		},
-		link : function(scope, element, attrs) {
+		link: function (scope, element, attrs) {
 			element.on('click', function () {
-				$modal.open ({
+				$modal.open({
 					animation: true,
 					templateUrl: 'modules/artifacts/client/views/artifact-chooser.html',
 					controllerAs: 's',
 					size: 'md',
 					resolve: {
 						artifacts: function (ArtifactModel) {
-							return ArtifactModel.forProject (scope.project._id);
+							return ArtifactModel.forProject(scope.project._id);
 						}
 					},
 					controller: function ($scope, $modalInstance, artifacts) {
 						var s = this;
 						s.artifacts = artifacts;
 						s.selected = scope.artifact._id;
-						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
-						s.ok = function () { $modalInstance.close (s.selected); };
+						s.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+						s.ok = function () {
+							$modalInstance.close(s.selected);
+						};
 					}
 				})
-				.result.then (function (data) {
+				.result.then(function (data) {
 					if (!(scope.artifact._id && scope.artifact._id === data)) {
 						scope.artifact._id = data;
 						// console.log ('new artifact is', scope.artifact._id);
 					}
 				})
-				.catch (function (err) {});
+				.catch(function (err) {
+				});
 			});
 		}
 	};
 })
-.directive ('artifactVc', function ($modal, ArtifactModel, _, VcModel) {
+.directive('artifactVc', function ($modal, ArtifactModel, _, VcModel) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -223,9 +246,9 @@ angular.module('artifacts')
 			artifact: '=',
 			current: '='
 		},
-		link : function(scope, element, attrs) {
+		link: function (scope, element, attrs) {
 			element.on('click', function () {
-				$modal.open ({
+				$modal.open({
 					animation: true,
 					templateUrl: 'modules/artifacts/client/views/artifact-vc.html',
 					controllerAs: 's',
@@ -233,26 +256,28 @@ angular.module('artifacts')
 					resolve: {
 						artifacts: function (ArtifactModel) {
 							// console.log("resolving artifacts");
-							return ArtifactModel.forProjectGetType (scope.project._id, "valued-component");
+							return ArtifactModel.forProjectGetType(scope.project._id, "valued-component");
 						}
 					},
 					controller: function ($scope, $modalInstance, artifacts) {
 						var s = this;
 						s.artifacts = artifacts;
 						// console.log("current:",scope.current);
-						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
+						s.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
 						s.ok = function () {
 							// Selected artifact is:
 							// console.log("Selected:",s.selected);
-							$modalInstance.close (s.selected);
+							$modalInstance.close(s.selected);
 						};
 					}
 				})
-				.result.then (function (data) {
+				.result.then(function (data) {
 					// References the selected id of the VC artifact to add to the VC package
 					// console.log("vc id:",data);
 					ArtifactModel.lookup(data)
-					.then( function (vcartifact) {
+					.then(function (vcartifact) {
 						// console.log("artifactvc:",vcartifact);
 						var vc = vcartifact.valuedComponents[0];
 						var found = _.find(scope.current.valuedComponents, function (item) {
@@ -263,7 +288,8 @@ angular.module('artifacts')
 						}
 					});
 				})
-				.catch (function (err) {});
+				.catch(function (err) {
+				});
 			});
 		}
 	};

@@ -13,7 +13,44 @@ angular.module('core')
 .factory ('AccessModel', function (ModelBase, _) {
 	var AccessClass = ModelBase.extend ({
 		urlName : 'access',
-
+		allRoles: function (contextId) {
+			return this.get ('/api/access/rolelist/context/'+contextId);
+		},
+		roleUsers: function (contextId) {
+			return this.get ('/api/access/roleusers/context/'+contextId);
+		},
+		permissionRoles: function (resourceId) {
+			return this.get ('/api/access/permissionroles/resource/'+resourceId);
+		},
+		getRolesAndPermissionsForResource: function (opts) {
+			return new Promise (function (resolve, reject) {
+				resolve ([]);
+			});
+		},
+		permissionRoleIndex: function (resourceId) {
+			return this.get ('/api/access/permissionroleindex/resource/'+resourceId);
+		},
+		roleUserIndex: function (contextId) {
+			return this.get ('/api/access/roleuserindex/context/'+contextId);
+		},
+		setPermissionRoleIndex: function (resourceId, index) {
+			return this.put ('/api/access/permissionroleindex/resource/'+resourceId, index);
+		},
+		setRoleUserIndex: function (contextId, index) {
+			return this.put ('/api/access/roleuserindex/context/'+contextId, index);
+		},
+		addRoleIfUnique: function (contextId, role) {
+			return this.put ('/api/access/addroleifunique/context/'+contextId, {
+				context : contextId,
+				role    : role
+			})
+			.then (function (result) {
+				return result.ok;
+			});
+		},
+		addRoleUser: function (opts) {
+			return this.post ('/api/access/role', opts);
+		}
 	});
 	return new AccessClass ();
 })
@@ -26,6 +63,7 @@ angular.module('core')
 .factory('Application', function ($window, $http) {
 	$window.application = {
 		context: 'application',
+		code: 'application',
 		user: 0,
 		userCan: {},
 		//
@@ -36,8 +74,9 @@ angular.module('core')
 				if ($window.application.user !== currentUser) {
 					$http.get ('api/application').success (function (response) {
 						$window.application.userCan = response.userCan;
+						$window.application._id = 'application';
 						$window.application.user = currentUser;
-						console.log ($window.application.userCan);
+						console.log ($window.application);
 					})
 					.error (reject);
 				}

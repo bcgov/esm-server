@@ -13,18 +13,26 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	//
 	// -------------------------------------------------------------------------
 	Menus.addMenu('systemMenu', {
-		permissions: ['application.viewSystemMenu']
+		permissions: [
+		'application.listConditions',
+		'application.listEmailTemplates',
+		'application.listOrganizations',
+		'application.listNews',
+		'application.listTemplates',
+		'application.listTopics',
+		'application.listUsers'
+		]
 	});
 	Menus.addMenuItem('systemMenu', {
 		title: 'Conditions',
 		state: 'admin.condition.list',
 		permissions: ['application.listConditions']
 	});
-	Menus.addMenuItem('systemMenu', {
-		title: 'Configuration',
-		state: 'configuration',
-		permissions: ['application.viewConfiguration']
-	});
+	// Menus.addMenuItem('systemMenu', {
+	// 	title: 'Configuration',
+	// 	state: 'configuration',
+	// 	permissions: ['application.viewConfiguration']
+	// });
 	Menus.addMenuItem('systemMenu', {
 		title: 'Email Templates',
 		state: 'admin.emailtemplate.list',
@@ -40,11 +48,11 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 		state: 'admin.recentactivity.list',
 		permissions: ['application.listNews']
 	});
-	Menus.addMenuItem('systemMenu', {
-		title: 'System Roles',
-		state: 'admin.roles.list',
-		permissions: ['application.listRoles']
-	});
+	// Menus.addMenuItem('systemMenu', {
+	// 	title: 'System Roles',
+	// 	state: 'admin.roles.list',
+	// 	permissions: ['application.listRoles']
+	// });
 	Menus.addMenuItem('systemMenu', {
 		title: 'Templates',
 		state: 'admin.template.list',
@@ -66,7 +74,7 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	//
 	// -------------------------------------------------------------------------
 	Menus.addMenu('projectsMenu', {
-		permissions: ['application.viewProjectsMenu']
+		permissions: ['application.createProject','application.viewSchedule']
 	});
 	Menus.addMenuItem('projectsMenu', {
 		title: 'Add Project',
@@ -84,12 +92,12 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	//
 	// -------------------------------------------------------------------------
 	Menus.addMenu('projectTopMenu', {
-		permissions: ['application.viewProjectTopMenu']
+		permissions: ['context.editProject','context.viewSchedule','context.listEnforcements','context.listCommentPeriods']
 	});
 	Menus.addMenuItem('projectTopMenu', {
 		title: 'Edit Project',
 		state: 'p.edit',
-		permissions: ['context.edit']
+		permissions: ['context.editProject']
 	});
 
 	// Specific to EAO.
@@ -99,11 +107,13 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 			state: "p.schedule",
 			permissions: ['context.viewSchedule']
 		});
+		/*
 		Menus.addMenuItem('projectTopMenu', {
 			title: 'Compliance Oversight',
 			state: "p.enforcements",
 			permissions: ['context.listEnforcements']
 		});
+		*/
 		Menus.addMenuItem('projectTopMenu', {
 			title: 'Comment Periods',
 			state: "p.commentperiod.list",
@@ -117,7 +127,15 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	//
 	// -------------------------------------------------------------------------
 	Menus.addMenu('projectMenu', {
-		permissions: ['application.viewProjectMenu']
+		permissions: [
+			'context.listDocuments',
+			'context.listValuedComponents',
+			'context.listProjectRoles',
+			'context.listInspectionReports',
+			'context.listProjectConditions',
+			'context.listProjectComplaints',
+			'context.listProjectInvitations'
+		]
 	});
 	Menus.addMenuItem('projectMenu', {
 		title: 'Documents',
@@ -145,11 +163,11 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 			state: 'p.ir.list',
 			permissions: ['context.listInspectionReports']
 		});
-		Menus.addMenuItem('projectMenu', {
-			title: 'Project Roles',
-			state: 'p.roles.list',
-			permissions: ['context.listProjectRoles']
-		});
+		// Menus.addMenuItem('projectMenu', {
+		// 	title: 'Project Roles',
+		// 	state: 'p.roles.list',
+		// 	permissions: ['context.listProjectRoles']
+		// });
 		Menus.addMenuItem('projectMenu', {
 			title: 'Valued Components',
 			state: 'p.vc.list',

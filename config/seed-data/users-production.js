@@ -1,7 +1,7 @@
 'use strict';
 var mongoose = require ('mongoose');
 var User = mongoose.model ('User');
-var Role = mongoose.model ('Role');
+// var Role = mongoose.model ('Role');
 var chalk         = require('chalk');
 var crypto        = require('crypto');
 
@@ -35,12 +35,15 @@ module.exports = function () {
 					console.log('Failed to add local admin', err);
 				} else {
 					console.log(chalk.bold.red('Local admin added' + pwoutput));
-					var role = new Role ({
-						code     : 'admin',
-						isSystem : true,
-						users    : [model._id]
-					});
-					role.save ();
+					//
+					// TBD ROLES
+					//
+					// var role = new Role ({
+					// 	code     : 'admin',
+					// 	isSystem : true,
+					// 	users    : [model._id]
+					// });
+					// role.save ();
 				}
 			});
 		} else {

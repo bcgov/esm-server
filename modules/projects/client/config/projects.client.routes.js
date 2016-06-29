@@ -18,10 +18,11 @@ angular.module('projects').config (
 				return ProjectModel.published ();
 			}
 		},
-		controller: function ($scope, $stateParams, projects, ENV, Authentication) {
+		controller: function ($scope, $stateParams, projects, ENV, Authentication, Application) {
 			$scope.projects = projects;
 			$scope.environment = ENV;
 			$scope.authentication = Authentication;
+			$scope.Application = Application;
 			$scope.filterObj = {};
 		}
 	})

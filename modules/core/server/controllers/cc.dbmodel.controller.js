@@ -42,7 +42,11 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	_init : function (opts) {
-		console.log ('dbmodel._init:', opts);
+		// console.log ('dbmodel._init:', opts);
+		if (!opts.context) {
+			console.error ('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Invalid options passed to dbmodel '+this.name);
+			throw (new Error ('Invalid options passed to dbmodel '+this.name));
+		}
 		this.opts       = opts;
 		this.user       = opts.user;
 		this.context    = opts.context   || 'application';
@@ -171,8 +175,8 @@ _.extend (DBModel.prototype, {
 		// the default access level is set to 'read'
 		//
 		this.setAccess ('read');
-		console.log ('dbmodel: roles', this.roles);
-		console.log ('dbmodel: isAdmin', this.isAdmin);
+		// console.log ('dbmodel: roles', this.roles);
+		// console.log ('dbmodel: isAdmin', this.isAdmin);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -239,7 +243,9 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	findById : function (id) {
-		return this.findOne ({_id : id});
+		return this.findOne ({_id : id})
+			.then (this.permissions)
+			.then (this.decorate);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -273,8 +279,9 @@ _.extend (DBModel.prototype, {
 	// returns a promise, takes optional query, sort and populate
 	//
 	// -------------------------------------------------------------------------
-	findMany : function (query, fields) {
+	findMany : function (query, fields, sortby) {
 		// console.log ('dbmodel.findMany:', query, fields);
+		var sort = sortby || this.sort;
 		var self = this;
 		query = query || {};
 		return new Promise (function (resolve, reject) {
@@ -282,7 +289,7 @@ _.extend (DBModel.prototype, {
 			var q = _.extend ({}, self.baseQ, query);
 			// console.log ('q.$or = ',q.$or[0].read);
 			self.model.find (q)
-			.sort (self.sort)
+			.sort (sort)
 			.populate (self.populate)
 			.select (fields)
 			.exec ()
@@ -299,7 +306,7 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			console.log ('q = ',q);
+			// console.log ('q = ',q);
 			self.model.find (q)
 			.sort (sort)
 			.limit (1)
@@ -321,6 +328,17 @@ _.extend (DBModel.prototype, {
 				else return null;
 			})
 			.catch (resolve, reject);
+		});
+	},
+	distinct : function (field, query) {
+		var self = this;
+		query = query || {};
+		return new Promise (function (resolve, reject) {
+			if (self.err) return reject (self.err);
+			var q = _.extend ({}, self.baseQ, query);
+			self.model.distinct (field, q)
+			.exec ()
+			.then (resolve, reject);
 		});
 	},
 	findAndUpdate : function (obj) {
@@ -421,21 +439,26 @@ _.extend (DBModel.prototype, {
 		// 		user     : self.user.username,
 		// 		resource : model._id
 		// 	});
-		//
+
 		return new Promise (function (resolve, reject) {
-			if (self.isAdmin) {
+			if (!model) resolve (model);
+			else if (self.isAdmin) {
 				_.each (model.allPermissions (), function (key) {
 					model.userCan[key] = true;
 				});
 				resolve (model);
 			}
 			else {
+				_.each (model.allPermissions (), function (key) {
+					model.userCan[key] = false;
+				});
 				access.userPermissions ({
 					context  : self.context,
 					user     : self.user.username,
-					resource : model.code
+					resource : model._id
 				})
 				.then (function (ps) {
+					// console.log ('ps', ps);
 					ps.map (function (perm) {
 						model.userCan[perm] = true;
 					});
@@ -455,8 +478,8 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	decoratePermission : function (models) {
 		var self = this;
-		console.log ('decoratePermission roles', self.roles);
-		console.log ('decoratePermission isAdmin', self.isAdmin);
+		// console.log ('decoratePermission roles', self.roles);
+		// console.log ('decoratePermission isAdmin', self.isAdmin);
 		if (_.isArray (models)) {
 			return self.decorateCollection ? (Promise.all (models.map (self.addPermissions))) : models;
 		} else {
@@ -484,7 +507,7 @@ _.extend (DBModel.prototype, {
 		model.delete = [];
 		var self = this;
 		return access.deleteAllPermissions ({
-			resource: model.code
+			resource: model._id
 		})
 		.then (function () {
 			return self.addModelPermissions (model, definition);
@@ -494,7 +517,7 @@ _.extend (DBModel.prototype, {
 		//
 		// this merges new permissions into the old
 		//
-		var resource = model.code;
+		var resource = model._id;
 		model.addRoles ({
 			read   : definition.read,
 			write  : definition.write,
@@ -522,7 +545,7 @@ _.extend (DBModel.prototype, {
 		var promiseArray = [model.save ()];
 		_.each (definition, function (roles, permission) {
 			promiseArray.push (access.deletePermissions ({
-				resource    : model.code,
+				resource    : model._id,
 				permissions : [ permission ],
 				roles       : roles
 			}));
@@ -672,13 +695,13 @@ _.extend (DBModel.prototype, {
 	// GET *
 	//
 	// -------------------------------------------------------------------------
-	list : function (q, f) {
+	list : function (q, f, s) {
 		q = q || {};
 		q = _.extend ({}, this.baseQ, q);
 		f = f || {};
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			self.findMany (q, f)
+			self.findMany (q, f, s)
 			.then (self.permissions)
 			.then (self.decorateAll)
 			.then (resolve, reject);

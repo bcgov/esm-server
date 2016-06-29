@@ -5,6 +5,17 @@
 			<div class="navbar-brand"><a ui-sref="projects" href><img src="{{logo}}" alt="Government of B.C." title="Government of B.C."></a></div>
 		</div>
 
+		<span ng-if="false">
+		<!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+		NAVBAR MENU RENDER
+
+		This is where the navigation navbar renders, this is mostly application context content
+		and things that are present throughout a session like user profile, logout, admin functions
+		and that sort of thing
+
+		\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+		</span>
 		<ul class="custom-nav">
 			<li>
 				<a href ui-sref="projects">
@@ -18,7 +29,7 @@
 					<span>DASHBOARD</span>
 				</a>
 			</li>
-			<li ng-if="ENV === 'EAO' && authentication.user" class="dropdown" ng-if="systemMenu.shouldRender(authentication.user);">
+			<li ng-if="ENV === 'EAO' && systemMenu.shouldRender(authentication.user)" class="dropdown">
 				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="System Configuration">
 					<span class="glyphicon glyphicon-cog"></span>
 					<span>SYSTEM</span>
@@ -28,12 +39,22 @@
 					<li ng-repeat="item in systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 					</li>
-					<!--
-					Move this modal to be secured through the core-admin.client.menus/routes
-					MenuControl.menuRolesBuilder(['admin'])
+					<!-- 2016-06-23 jsherman
+					removing Compliance Oversight from the Projects LHS menu, moving it here as a placeholder, need to figure out where it really belongs.
+					CC: can't go here as it is out of context and the route will fail
+					<li ng-if="ENV === 'EAO'"><a ui-sref="p.enforcements" href>Compliance Oversight</a></li>
 					-->
-					<li ng-if="isAdmin">
+					<!--
+					Move this modal to be secured through the admin menus
+					-->
+					<li ng-if="application.userCan.import">
 						<a x-modal-project-import href x-project="import">Import</a>
+					</li>
+					<li ng-if="application.userCan.managePermissions">
+						<a x-role-permissions-modal x-context="application" x-object="application" >System Permissions</a>
+					</li>
+					<li ng-if="application.userCan.manageRoles">
+						<a x-role-users-modal x-context="application">System Roles</a>
 					</li>
 				</ul>
 			</li>

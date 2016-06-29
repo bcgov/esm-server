@@ -135,7 +135,7 @@ exports.streamFile = function (res, file, name, mime) {
 // -------------------------------------------------------------------------
 var setSessionContext = function (req) {
 	return new Promise (function (resolve, reject) {
-		console.log ('++ setSessionContext : Start');
+		// console.log ('++ setSessionContext : Start');
 		//
 		// new session context
 		//
@@ -153,28 +153,28 @@ var setSessionContext = function (req) {
 			// context and set a flag accordingly
 			//
 			if (req.session.context !== req.cookies.context) {
-				console.log ('++ setSessionContext : context changed from', req.session.context, ' to ', req.cookies.context);
+				// console.log ('++ setSessionContext : context changed from', req.session.context, ' to ', req.cookies.context);
 				req.session.context = req.cookies.context;
-				console.log ('++ setSessionContext : collect new contextual user roles');
+				// console.log ('++ setSessionContext : collect new contextual user roles');
 				access.getAllUserRoles ({
 					context : req.session.context,
 					user    : req.user ? req.user.username : null
 				})
 				.then (function (roles) {
 					req.session.userRoles = roles;
-					console.log ('++ setSessionContext : new user roles = ', req.session.userRoles);
+					// console.log ('++ setSessionContext : new user roles = ', req.session.userRoles);
 					opts.userRoles = req.session.userRoles ;
 					opts.context   = req.session.context   ;
 					resolve (opts);
 				});
 			}
 			else {
-				console.log ('++ setSessionContext : context unchanged, using existing');
+				// console.log ('++ setSessionContext : context unchanged, using existing');
 				resolve (opts);
 			}
 		}
 		else {
-			console.log ('++ setSessionContext : no context passed in, using existing');
+			// console.log ('++ setSessionContext : no context passed in, using existing');
 			resolve (opts);
 		}
 	});
@@ -216,6 +216,23 @@ exports.runModel = runModel;
 
 // -------------------------------------------------------------------------
 //
+// this does a combo of the previous two. it takes the dbmodel and the
+// function to call at the same time and does both jobs. It does NOT decorate
+// the request however.
+//
+// -------------------------------------------------------------------------
+var setAndRun = function (Dbclass, f) {
+	return function (req, res, next) {
+		setSessionContext (req)
+		.then (function (opts) {
+			runPromise (res, f (new Dbclass (opts), req));
+		});
+	};
+};
+exports.setAndRun = setAndRun;
+
+// -------------------------------------------------------------------------
+//
 // a standard way of setting crud routes.
 // basename is the uri token: /api/basename/:basename
 // DBClass is the database model as extended from DBModel
@@ -224,10 +241,11 @@ exports.runModel = runModel;
 // if only certain routes are to be opened, specify them in the which array
 //
 // -------------------------------------------------------------------------
-exports.setCRUDRoutes = function (app, basename, DBClass, policy, which) {
+exports.setCRUDRoutes = function (app, basename, DBClass, policy, which, policymap) {
 	var r = {};
 	which = which || ['getall', 'get', 'post', 'put', 'delete', 'new', 'query'];
 	which.map (function (p) { r[p]=true; });
+	policymap = policymap || {all:'user',get:'guest'};
 	//
 	// middleware to auto-fetch parameter
 	//
@@ -249,59 +267,50 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which) {
 	// collection routes
 	//
 	if (r.query) app.route ('/api/query/'+basename)
-		.all (policy ({all:'user',get:'guest'}))
-		.all (setModel (DBClass))
-		.put (runModel (function (model, req) {
+		.all (policy (policymap))
+		.put (setAndRun (DBClass, function (model, req) {
 			return model.list (req.data);
 		}))
-		.get(runModel (function (model, req) {
+		.get (setAndRun (DBClass, function (model, req) {
 			var q = JSON.parse(JSON.stringify(req.query));
 			return model.list(q);
 		}));
 	if (r.getall) app.route ('/api/'+basename)
-		.all (policy ({all:'user',get:'guest'}))
-		.all (setModel (DBClass))
-		.get  (runModel (function (model, req) {
-			console.log ('++++++++ getall route is running');
+		.all (policy (policymap))
+		.get  (setAndRun (DBClass, function (model, req) {
 			return model.list ();
 		}));
 	if (r.getall) app.route ('/api/write/'+basename)
 		.all (policy ({all:'user'}))
-		.all (setModel (DBClass))
-		.get  (runModel (function (model, req) {
+		.get  (setAndRun (DBClass, function (model, req) {
 			return model.listwrite ();
 		}));
 	if (r.post) app.route ('/api/'+basename)
-		.all (policy ({all:'user',get:'guest'}))
-		.all (setModel (DBClass))
-		.post (runModel (function (model, req) {
+		.all (policy (policymap))
+		.post (setAndRun (DBClass, function (model, req) {
 			return model.create (req.body);
 		}));
 	//
 	// model routes
 	//
 	if (r.get) app.route ('/api/'+basename+'/:'+basename)
-		.all (policy ({all:'user',get:'guest'}))
-		.all (setModel (DBClass))
-		.get    (runModel (function (model, req) {
+		.all (policy (policymap))
+		.get    (setAndRun (DBClass, function (model, req) {
 			return model.read(req[DBClass.prototype.name]);
 		}));
 	if (r.put) app.route ('/api/'+basename+'/:'+basename)
-		.all (policy ({all:'user',get:'guest'}))
-		.all (setModel (DBClass))
-		.put    (runModel (function (model, req) {
+		.all (policy (policymap))
+		.put    (setAndRun (DBClass, function (model, req) {
 			return model.update(req[DBClass.prototype.name], req.body);
 		}));
 	if (r.delete) app.route ('/api/'+basename+'/:'+basename)
-		.all (policy ({all:'user',get:'guest'}))
-		.all (setModel (DBClass))
-		.delete (runModel (function (model, req) {
+		.all (policy (policymap))
+		.delete (setAndRun (DBClass, function (model, req) {
 			return model.delete(req[DBClass.prototype.name]);
 		}));
 	if (r.new) app.route ('/api/new/'+basename)
-		.all (policy ({all:'user',get:'guest'}))
-		.all (setModel (DBClass))
-		.get (runModel (function (model, req) {
+		.all (policy (policymap))
+		.get (setAndRun (DBClass, function (model, req) {
 			return model.new();
 		}));
 };

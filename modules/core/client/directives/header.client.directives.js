@@ -13,7 +13,7 @@ angular.module('core')
 		controller  : function ($scope, LOGO, Authentication, Menus, _, ENV, Application) {
 			console.log ('Application =',Application);
 			$scope.logo               = LOGO;
-			$scope.Application        = Application;
+			$scope.application        = Application;
 			$scope.authentication     = Authentication;
 			$scope.ENV                = ENV;
 			$scope.systemMenu         = Menus.getMenu ('systemMenu');
