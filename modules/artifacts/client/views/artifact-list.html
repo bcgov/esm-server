@@ -1,62 +1,53 @@
 <div class="artifact-list-view">
-
   <div class="panel panel-default">
 
     <div class="panel-heading clearfix">
-      <h2 class="pull-left">{{s.caption}}</h2>
-      <div ng-if="!s.public">
-        <div class="artifacts-list-actions pull-right clearfix">
-          <div class="artifacts-dropdown dropdown pull-left" ng-if="s.allowAddItem">
-            <div class="input-group" data-toggle="dropdown">
-              <input class="entryInput form-control input-sm" id="query" name="query" type="text"
-                     placeholder="Select a Template Type" ng-model="s.addtype.name"></input>
-							<span class="input-group-btn">
-								<button ng-disabled="!s.addtype" ng-click="$event.stopPropagation();s.addType()"
-                        class="btn btn-default btn-sm" type="button">Add Item</button>
-							</span>
-            </div>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="query">
-              <li ng-repeat="type in s.availableTypes | orderBy:'name'">
-                <a ng-click="s.selectType(type)">{{type.name}}</a>
-              </li>
-            </ul>
-          </div>
+        <h2>{{s.caption}}</h2>
+        <tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
+
+        <!-- ARTIFACT MENU -->
+        <div class="hidden" ng-if="!s.public">
+            <div class="artifacts-list-actions pull-right clearfix">
+                <div class="artifacts-dropdown dropdown pull-left" ng-if="s.allowAddItem">
+                    <div class="input-group" data-toggle="dropdown">
+                        <input class="entryInput form-control input-sm" id="query" name="query" type="text" placeholder="Select a Template Type" ng-model="s.addtype.name"></input>
+                        <span class="input-group-btn">
+						    <button class="btn btn-default btn-sm" type="button" ng-disabled="!s.addtype" ng-click="$event.stopPropagation();s.addType()">Add Item</button>
+						</span>
+                    </div>
+                </div>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="query">
+                    <li ng-repeat="type in s.availableTypes | orderBy:'name'">
+                        <a ng-click="s.selectType(type)">{{type.name}}</a>
+                    </li>
+                </ul>
+            </div><!-- / ARTIFACT MENU -->
         </div>
-
-      </div>
-
     </div>
 
-    <table ng-table="s.tableParams" x-show-filter="s.showFilter" class="table table-hover table-striped">
-      <tr ng-repeat="o in $data" ui-sref="p.artifact.view({artifactId:o._id})" class="clickable">
-        <td data-title="'Name'" filter="{'name':'text'}" sortable="'name'">{{o.name}}</td>
-        <td data-title="'Version'" filter="{'version':'text'}" class="text-center" sortable="'version'">{{o.version}}
-        </td>
-        <td data-title="'Stage'" filter="{'stage':'text'}" class="text-center" sortable="'stage'">{{o.stage}}</td>
-        <td data-title="'Desc.'" filter="{'shortDescription':'text'}" class="text-center" sortable="'shortDescription'">
-          {{o.shortDescription}}
-        </td>
-        <td data-title="'Updated'" class="text-center" filter="{'dateUpdated':'text'}" sortable="'dateUpdated'">{{
-          o.dateUpdated | date : format : timezone }}
-        </td>
-        <td data-title="'By'" class="text-center" filter="{'updatedBy.username':'text'}"
-            sortable="'updatedBy.username'">{{o.updatedBy.username}}
-        </td>
-        <td class="actions-col action-x1" header-class="'actions-col action-x1'">
-					<span ng-if="o.userPermissions.write"> <!-- && !o.isPublished"> -->
-						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-sm"
-               ui-sref="p.artifact.edit({artifactId:o._id})">
-							<span class="glyphicon glyphicon-pencil"></span>
-						</a>
-					</span>
-        </td>
-      </tr>
-      <tr ng-if="!$data || $data.length === 0">
-        <td colspan="7">
-          <span>{{s.noDataMessage}}</span>
-        </td>
-      </tr>
-    </table>
-  </div>
-</div>
+    <!-- TABLE -->
+    <table class="table table-hover" ng-table="s.tableParams" x-show-filter="s.showFilter">
+        <tr ng-repeat="o in $data" ui-sref="p.artifact.view({artifactId:o._id})" class="clickable">
+            <td class="artifact-name-col" header-class="'artifact-name-col'" data-title="'Name'" filter="{'name':'text'}" sortable="'name'">{{o.name}}</td>
+            <td data-title="'Version'" filter="{'version':'text'}" class="text-center" sortable="'version'">{{o.version}}</td>
+            <td data-title="'Stage'" filter="{'stage':'text'}" class="text-center" sortable="'stage'">{{o.stage}}</td>
+            <!-- <td data-title="'Desc.'" filter="{'shortDescription':'text'}" class="text-center" sortable="'shortDescription'">{{o.shortDescription}}</td> -->
+            <td data-title="'Last Update'" class="text-center" filter="{'dateUpdated':'text'}" sortable="'dateUpdated'">{{ o.dateUpdated | date : format : timezone }}</td>
+            <td data-title="'Updated By'" class="text-center" filter="{'updatedBy.username':'text'}" sortable="'updatedBy.username'">{{o.updatedBy.username}}</td>
+            <td class="actions-col action-x2" header-class="'actions-col action-x2'">
+                <a class="btn btn-link btn-sm" ng-if="o.userPermissions.write" ng-click="$event.stopPropagation()" ui-sref="p.artifact.edit({artifactId:o._id})">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+                <tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
+            </td>
+        </tr>
+        <tr ng-if="!$data || $data.length === 0">
+            <td colspan="6">
+                <span>{{s.noDataMessage}}</span>
+            </td>
+        </tr>
+    </table><!-- / TABLE -->
 
+  </div>
+
+</div>

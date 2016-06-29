@@ -2737,7 +2737,7 @@ textarea {
 
 		.permission-btn {
 			position: absolute;
-			top: 0.7rem;
+			top: 0.6rem;
 			right: 0.5rem;
 		}
 	}
@@ -2848,20 +2848,16 @@ $nav-tab-active: #1a5a96;
 	
 	> thead > tr > th:first-child,
 	> tbody > tr > td:first-child {
-		padding-left: 1rem;
-	}
-	
-	> thead > tr > th:last-child,
-	> tbody > tr > td:last-child {
-		padding-right: 1rem;
+		padding-left: 1.5rem;
 	}
 	
 	th, td {
 		text-align: left;
 	}
 	
-	.actions-col {
+	td.actions-col {
 		padding-top: 0;
+		padding-right: 0.5rem;
 		padding-bottom: 0;
 		text-align: right;
 		
@@ -2924,6 +2920,11 @@ hr {
 	.artifacts-list-actions {
 		margin: -0.7rem 0;
 	}
+
+	.artifact-name-col {
+		width: 40%;
+	}
+
 }
 
 .edit-artifact-view {
@@ -4006,11 +4007,13 @@ section.project-info {
 }
 
 
-
-
 /* PROJECT INVITATIONS 
 ----------------------------- */
 .project-invitations-view {
+	.view-body-container {
+		padding-top: 1rem;
+	}
+	
 	.tab-pane {
 		padding-top: 3rem;
 	}
