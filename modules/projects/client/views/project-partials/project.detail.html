@@ -1,10 +1,11 @@
 <div class="project-details">
 
-  <div class="view-title-container clearfix">
+  <div class="view-title-container no-border clearfix">
     <h1><span class="pull-left">{{ project.name }}</span></h1>
     <div class="pull-right" ng-if="environment === 'EAO' && authentication.user">
       <a class="btn btn-success btn-sm" ng-click="publishProject()" ng-if="!project.isPublished">Publish Project</a>
     </div>
+    <tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
   </div>
 
   <div class="view-body-container">
@@ -27,10 +28,12 @@
 
     <!-- PROJECT INFO -->
     <section class="project-info" ng-if="('project' | shouldDisplayPanel:'tombstone':project.status)">
-      <tmpl-project-tombstone
-        id="anchor-tombstone"
-        x-project="project">
-      </tmpl-project-tombstone>
+      <div class="panel panel-default">
+        <tmpl-project-tombstone
+          id="anchor-tombstone"
+          x-project="project">
+        </tmpl-project-tombstone>
+      </div>
     </section>
 
     <!-- PROJECT PHASES -->

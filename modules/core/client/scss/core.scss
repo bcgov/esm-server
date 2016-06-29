@@ -2725,19 +2725,20 @@ textarea {
 .panel-default {
 	border: none;
 	border-radius: 0;
-	box-shadow: none;
 	
 	> .panel-heading {
-		padding: 1.25rem 1rem;
+		position: relative;
+		padding: 1.25rem 1.5rem;
 		color: $panel-heading-color;
 		border-color: $panel-border-color;
 		border-radius: 0;
 		background-image: none;
 		background-color: $panel-heading-bg;
-		
-		.btn {
-			margin-top: -1rem;
-			margin-bottom: -1rem;
+
+		.permission-btn {
+			position: absolute;
+			top: 0.6rem;
+			right: 0.5rem;
 		}
 	}
 	
@@ -2745,9 +2746,10 @@ textarea {
 		margin: 0;
 		display: block;
 		overflow: hidden;
-		font-size: 1.6rem;
+		font-size: 1.4rem;
 		font-weight: bold;
 		text-overflow: ellipsis;
+		text-transform: uppercase;
 	}
 }
 
@@ -2844,22 +2846,20 @@ $nav-tab-active: #1a5a96;
 		border-bottom: none;
 	}
 	
-	> thead > tr > th:first-child {
-		padding-left: 1rem;
-	}
-	
-	> thead > tr > th:last-child {
-		padding-right: 1rem;
+	> thead > tr > th:first-child,
+	> tbody > tr > td:first-child {
+		padding-left: 1.5rem;
 	}
 	
 	th, td {
 		text-align: left;
 	}
 	
-	.actions-col {
+	td.actions-col {
 		padding-top: 0;
+		padding-right: 0.5rem;
 		padding-bottom: 0;
-		text-align: center;
+		text-align: right;
 		
 		.btn {
 			margin-top: 0.32rem;
@@ -2877,7 +2877,7 @@ $nav-tab-active: #1a5a96;
 	}
 	
 	.action-x2 {
-		width: 10rem;
+		width: 9.5rem;
 	}
 }
 
@@ -2920,6 +2920,11 @@ hr {
 	.artifacts-list-actions {
 		margin: -0.7rem 0;
 	}
+
+	.artifact-name-col {
+		width: 40%;
+	}
+
 }
 
 .edit-artifact-view {
@@ -3139,10 +3144,6 @@ tr.row-depth-3 {
 }
 
 section.project-info {
-	.panel-body {
-		padding: 1.5rem 2rem;
-	}
-	
 	.badge.review {
 		background-color: forestgreen;
 	}
@@ -4006,11 +4007,13 @@ section.project-info {
 }
 
 
-
-
 /* PROJECT INVITATIONS 
 ----------------------------- */
 .project-invitations-view {
+	.view-body-container {
+		padding-top: 1rem;
+	}
+	
 	.tab-pane {
 		padding-top: 3rem;
 	}

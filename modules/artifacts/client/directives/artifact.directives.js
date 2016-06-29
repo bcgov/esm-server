@@ -23,7 +23,7 @@ angular.module('artifacts')
 			s.caption = s.published ? "Published Content" : "In Progress Content";
 			s.allowAddItem = !(s.public || s.published);
 			s.showFilter = false;
-			s.noDataMessage = "There are is no in progress content at this time.";
+			s.noDataMessage = "There is no in progress content at this time.";
 			this.selectType = function (typeobject) {
 				this.addtype = typeobject;
 				this.addTypeName = typeobject.name;
