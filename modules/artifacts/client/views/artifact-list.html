@@ -3,7 +3,7 @@
 
     <div class="panel-heading clearfix">
         <h2>{{s.caption}}</h2>
-        <tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
+        <tmpl-permissions-gear class="permission-btn" x-context="s.project" x-object="s.project" x-permissions="listArtifacts"></tmpl-permissions-gear>
 
         <!-- ARTIFACT MENU -->
         <div class="hidden" ng-if="!s.public">
@@ -38,7 +38,7 @@
                 <a class="btn btn-link btn-sm" ng-if="o.userPermissions.write" ng-click="$event.stopPropagation()" ui-sref="p.artifact.edit({artifactId:o._id})">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
-                <tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
+                <tmpl-permissions-gear class="permission-btn" x-context="s.project" x-object="o"></tmpl-permissions-gear>
             </td>
         </tr>
         <tr ng-if="!$data || $data.length === 0">

@@ -5,7 +5,7 @@
     <div class="pull-right" ng-if="environment === 'EAO' && authentication.user">
       <a class="btn btn-success btn-sm" ng-click="publishProject()" ng-if="!project.isPublished">Publish Project</a>
     </div>
-    <tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
+    <tmpl-permissions-gear class="permission-btn" x-context="project" x-object="project"></tmpl-permissions-gear>
   </div>
 
   <div class="view-body-container">

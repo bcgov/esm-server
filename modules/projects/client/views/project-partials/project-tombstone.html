@@ -3,14 +3,14 @@
 <div class="panel panel-default" ng-if="environment === 'EAO'">
 	<div class="panel-heading clearfix">
 		<h2 class="pull-left">Details</h2>
-		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
+		<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="project"></tmpl-permissions-gear>
 	</div>
 	<div class="panel-body">
 		<div class="detail-row project-desc" ng-show="project.description">
 			<label>Project Description</label>
 			<span class="value">{{ ::project.description }}</span>
 		</div>
-		
+
 		<div class="row">
 			<div class="col-sm-4 col-md-4">
 				<div class="detail-row">
@@ -49,7 +49,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="row">
 			<div class="col-sm-4 col-md-4">
 				<div class="detail-row">
@@ -82,7 +82,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="hidden">
 			<!-- ADDITIONAL CONTACTS -->
 			<div class="col-sm-4 col-md-4">
@@ -103,7 +103,7 @@
 					<span class="value">{{project.administrativeAssistant}}</span>
 				</div>
 			</div><!-- ADDITIONAL CONTACTS -->
-			
+
 			<!-- ELECTORAL DISTRICTS -->
 			<div class="row" ng-if="project.provElectDist || project.fedElectDist">
 				<div class="col-sm-6 col-md-4" ng-if="project.provElectDist">
@@ -120,7 +120,7 @@
 					</div>
 				</div>
 			</div><!-- / ELECTORAL DISTRICTS -->
-			
+
 			<!-- CAPITAL INVESTMENT -->
 			<div class="row">
 				<div class="col-sm-4 col-md-4" ng-if="project.intake.investment">
@@ -148,7 +148,7 @@
 					</div>
 				</div>
 			</div><!-- / CAPITAL INVESTMENT -->
-			
+
 			<!-- CONSTRUCTION & OPERATION JOBS -->
 			<div class="row" ng-if="project.intake.constructionjobs || project.intake.constructionjobsNotes || project.intake.constructionjobs || project.intake.constructionjobsNotes">
 				<div class="col-sm-6 col-md-8" ng-if="project.intake.constructionjobsNotes">
@@ -163,8 +163,8 @@
 						<span class="value wrap-text">{{project.intake.operationjobsNotes}}</span>
 					</div>
 				</div>
-			</div><!-- / CONSTRUCTION & OPERATION JOBS -->	
-			
+			</div><!-- / CONSTRUCTION & OPERATION JOBS -->
+
 			<!-- PROJECT TEAM MEMBERS -->
 			<div class="rowidden hidden">
 				<div class="col-sm-6 col-md-4">
@@ -180,7 +180,7 @@
 					</div>
 				</div>
 			</div><!-- / TEAM MEMBERS -->
-			
+
 			<!-- PROJECT NOTES -->
 			<div class="row hidden">
 				<div class="col-sm-6 col-md-4">
@@ -190,7 +190,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<!-- EA DETAILS -->
 			<div class="row">
 				<div class="col-sm-12">
