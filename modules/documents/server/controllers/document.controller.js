@@ -296,6 +296,7 @@ var getDocumentTypesForProjectMEM = function (req, res) {
 	return new Promise (function (resolve, reject) {
 		var projectID = req.params.projectid;
 			Model.find({project: projectID},{projectFolderType: 1}).then(function (doc) {
+				console.log (doc);
 				var data = _.map(doc, function (foo) {
 					return foo.projectFolderType;
 				});
@@ -304,6 +305,7 @@ var getDocumentTypesForProjectMEM = function (req, res) {
 		});
 };
 var getDocumentTypesForProjectMEMAndReturn = function (req, res) {
+	console.log ('jhaskldjhaklsjhdasd');
 	getDocumentTypesForProjectMEM (req, req)
 	.then (function (model) {
 		//console.log (model);

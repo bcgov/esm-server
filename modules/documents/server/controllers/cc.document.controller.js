@@ -13,12 +13,34 @@ module.exports = DBModel.extend ({
 	plural : 'documents',
 	// -------------------------------------------------------------------------
 	//
-	// because the historical conditions all are numbered, we used code for the
-	// number. increment on post
+	// this is what happens before hte new document is saved, any last minute
+	// mods are performed here
 	//
 	// -------------------------------------------------------------------------
-	preprocessAdd: function (document) {
-		return document;
+	preprocessAdd: function (doc) {
+		//
+		// check if there is an existing matching document
+		//
+		return this.findOne ({
+			documentIsLatestVersion: true,
+			projectFolderType       : doc.projectFolderType,
+			projectFolderSubType    : doc.projectFolderSubType,
+			projectFolderName       : doc.projectFolderName,
+			internalOriginalName    : doc.internalOriginalName
+		})
+		.then (function (m) {
+			//
+			// if there is then save this one as the new proper version
+			// and set the older one to not latest
+			//
+			if (m) {
+				doc.documentVersion = m.documentVersion + 1;
+				doc.documentIsLatestVersion = true;
+				m.documentIsLatestVersion = false;
+				m.save ();
+			}
+			return doc;
+		});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -175,6 +197,14 @@ module.exports = DBModel.extend ({
 	},
 	// -------------------------------------------------------------------------
 	//
+	// an array of all folder types
+	//
+	// -------------------------------------------------------------------------
+	getDocumentTypesForProjectMEM : function (projectid) {
+		return this.distinct ('projectFolderType', { project: projectid });
+	},
+	// -------------------------------------------------------------------------
+	//
 	// Get all the versions of a document
 	//
 	// -------------------------------------------------------------------------
@@ -187,5 +217,14 @@ module.exports = DBModel.extend ({
 			internalOriginalName : doc.internalOriginalName
 		});
 	},
+	// -------------------------------------------------------------------------
+	//
+	// get all documents from a supplied list
+	//
+	// -------------------------------------------------------------------------
+	getList : function (list) {
+		return this.list ({_id : {$in : list }});
+	}
+
 });
 
