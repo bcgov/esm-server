@@ -1,12 +1,12 @@
 <div class="news-admin-view">
 
 	<div class="view-title-container">
-		<h1>News & Announcements</h1>  
-		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
+		<h1>News & Announcements</h1>
+		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project" x-permissions=""></tmpl-permissions-gear>
 	</div>
 
 	<div class="view-body-container">
-		
+
 		<div class="button-bar clearfix">
 			<a class="btn btn-default btn-sm pull-left" ui-sref="admin.recentactivity.create()">
 				<span class="glyphicon glyphicon-plus"></span>
@@ -19,7 +19,7 @@
 
 		<section class="panel panel-default">
 			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-striped table-hover">
-				
+
 				<!-- NEWS ROW ITEM TEMPLATE -->
 				<tr ng-repeat="o in $data">
 					<td data-title="'Headline'" filter="{'name':'text'}" sortable="'name'">
@@ -34,22 +34,22 @@
 							</div>
 						</div>
 					</td>
-					<td class="type-col" header-class="'type-col'" data-title="'Category'" filter="{'type':'text'}" sortable="'type'">{{o.type}}</td>					
+					<td class="type-col" header-class="'type-col'" data-title="'Category'" filter="{'type':'text'}" sortable="'type'">{{o.type}}</td>
 					<td class="date-col" header-class="'date-col'" data-title="'Date Added'" sortable="'dateAdded'" >{{o.dateAdded | date}}</td>
-					
+
 					<!-- <td data-title="'Priority'" class="text-center" sortable="'priority'" >{{o.priority}}</td> -->
-					
+
 					<td class="actions-col action-x1" header-class="'actions-col action-x1'">
 						<a class="btn btn-link btn-sm" title="Edit News Item" ng-click="$event.stopPropagation()" ui-sref="admin.recentactivity.edit({recentActivityId:o._id})">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
 					</td>
 				</tr><!-- / NEWS ROW ITEM TEMPLATE -->
-				
+
 				<tr ng-if="!$data || $data.length === 0">
 					<td colspan="4">No records found.</td>
 				</tr>
-				
+
 			</table>
 		</section>
 
