@@ -1,10 +1,10 @@
 <div class="view-title-container">
 	<h1>Users & Contacts</h1>
-	<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
+	<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project" x-permissions=""></tmpl-permissions-gear>
 </div>
 
 <div class="view-body-container">
-	
+
 	<div class="button-bar">
 		<a class="btn btn-default btn-sm" ui-sref="admin.user.create()">
 			<span class="glyphicon glyphicon-plus"></span><span>Add New User</span>
@@ -20,7 +20,7 @@
 				<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-striped table-hover">
 					<tr ng-repeat="o in $data" ui-sref="admin.user.detail({userId:o._id})" class="clickable">
 						<td data-title="'Username'"  filter="{'username':'text'}"   sortable="'username'"  filter-data="ptypes" >{{o.username}}</td>
-						<td data-title="'Full Name'"  filter="{'displayName':'text'}"   sortable="'displayName'"  filter-data="ptypes" >{{o.displayName}}</td>				
+						<td data-title="'Full Name'"  filter="{'displayName':'text'}"   sortable="'displayName'"  filter-data="ptypes" >{{o.displayName}}</td>
 						<td data-title="'Organization'" filter="{'orgName':'text'}"    sortable="'orgName'" >{{o.org.name}}</td>
 						<td class="text-center" data-title="'Phone'"   filter="{'phoneNumber':'text'}"  sortable="'phoneNumber'" >{{o.phoneNumber}}</td>
 						<td class="text-center" data-title="'Email'"  filter="{'email':'text'}" sortable="'email'"  >{{o.email}}</td>

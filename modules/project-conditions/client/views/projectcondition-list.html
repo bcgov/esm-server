@@ -2,9 +2,9 @@
 
 	<div class="view-title-container">
 		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Conditions</h1>
-		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
+		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project" x-permissions=""></tmpl-permissions-gear>
 	</div>
-	
+
 	<div class="view-body-container">
 		<div class="button-bar clearfix">
 			<a ng-if="showedit" class="btn btn-default btn-sm" ui-sref="p.projectcondition.create()">
@@ -27,7 +27,7 @@
 						<a class="btn btn-link btn-sm" ng-if="showedit" ng-click="$event.stopPropagation()" ui-sref="p.projectcondition.edit({conditionId:o._id})">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
-						<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
+						<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="o"></tmpl-permissions-gear>
 					</td>
 				</tr>
 				<tr ng-if="!$data || $data.length === 0">
@@ -38,5 +38,5 @@
 			</table>
 		</section>
 	</div>
-	
+
 </div>

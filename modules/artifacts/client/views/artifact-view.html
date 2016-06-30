@@ -1,10 +1,10 @@
 <div class="artifact-view">
-	
+
 	<div class="view-title-container">
 		<h1>{{ project.name }}&nbsp; &rsaquo; &nbsp;{{artifact.name}}</h1>
-		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
+		<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="artifact"></tmpl-permissions-gear>
 	</div>
-	
+
 	<div class="view-body-container">
 		<div class="text-right hidden">
 			<a class="btn btn-link btn-xs" ui-sref="p.detail">Cancel</a>

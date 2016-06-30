@@ -509,9 +509,10 @@ _.extend (DBModel.prototype, {
 	// }
 	// //
 	// -------------------------------------------------------------------------
-	setModelPermissions : function (model, definition) {
+	setAllModelPermissions : function (model, definition) {
 		//
-		// this sets permissions exactly as specified
+		// this sets ALL permissions. If the permission is not included then
+		// it is essentially deleted
 		//
 		model.read   = [];
 		model.write  = [];
@@ -521,7 +522,34 @@ _.extend (DBModel.prototype, {
 			resource: model._id
 		})
 		.then (function () {
+			//
+			// everything is empty, now add
+			//
 			return self.addModelPermissions (model, definition);
+		});
+	},
+	setModelPermissions : function (model, definition) {
+		//
+		// this sets only the passed in permissions and leaves the other ones alone
+		//
+		var promisesPromises = [];
+		_.each (definition, function (roles, permission) {
+			promisesPromises.push (access.setPermissionRoles ({
+				resource   : model._id,
+				permission : permission,
+				roles      : roles
+			}));
+		});
+		return Promise.all (promisesPromises).then (function () {
+			//
+			// this has to be done last becuase it prepends the role
+			// with the context for listing
+			//
+			definition.read   = definition.read || model.read;
+			definition.write  = definition.write || model.write;
+			definition.delete = definition.delete || model.delete;
+			model.setRoles (definition);
+			return definition;
 		});
 	},
 	addModelPermissions : function (model, definition) {

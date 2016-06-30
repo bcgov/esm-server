@@ -3,7 +3,7 @@
 <div class="project-complaints-view">
 	<div class="view-title-container">
 		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Complaints</h1>
-		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
+		<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="menu.project" x-permissions=""></tmpl-permissions-gear>
 	</div>
 	<div class="view-body-container">
 		<div class="button-bar">
@@ -21,14 +21,14 @@
 						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-sm" ui-sref="p.complaint.edit({complaintId:o._id})">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
-						<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
+						<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="o"></tmpl-permissions-gear>
 					</td>
 				</tr>
 				<tr ng-if="!$data || $data.length === 0">
 					<td colspan="3">
 						No records found.
 					</td>
-				</tr>			    
+				</tr>
 			</table>
 		</section>
 	</div>
