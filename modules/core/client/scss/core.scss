@@ -2725,6 +2725,7 @@ textarea {
 .panel-default {
 	border: none;
 	border-radius: 0;
+	box-shadow: 0 0 4px #CCC;
 	
 	> .panel-heading {
 		position: relative;
@@ -2735,21 +2736,21 @@ textarea {
 		background-image: none;
 		background-color: $panel-heading-bg;
 
+		h2 {
+			margin: 0;
+			display: block;
+			overflow: hidden;
+			font-size: 1.6rem;
+			font-weight: bold;
+			text-overflow: ellipsis;
+			text-transform: uppercase;
+		}
+
 		.permission-btn {
 			position: absolute;
 			top: 0.6rem;
 			right: 0.5rem;
 		}
-	}
-	
-	h2 {
-		margin: 0;
-		display: block;
-		overflow: hidden;
-		font-size: 1.4rem;
-		font-weight: bold;
-		text-overflow: ellipsis;
-		text-transform: uppercase;
 	}
 }
 
@@ -3259,6 +3260,19 @@ section.project-info {
 	}
 }
 
+.project-tombstone {
+	.panel-body {
+		padding-bottom: 0;
+	}
+
+	hr {
+		margin-top: 0;
+		margin-right: 1.5rem;
+		margin-bottom: 1.5rem;
+		margin-left: 1.5rem;
+	}
+}
+
 
 /* EDIT PROJECT VIEW
 ------------------------------ */ 
@@ -3333,8 +3347,10 @@ section.project-info {
 	border-top: 1px solid #DDD;
 	
 	.news-title {
+		margin-top: 0;
 		margin-bottom: 0.75rem;
 		font-size: 1.8rem;
+		font-weight: bold;
 	}
 	
 	.news-date-type {
@@ -3395,8 +3411,10 @@ section.project-info {
 	}
 	
 	.news-title {
+		margin-top: 0;
 		margin-bottom: 0.75rem;
 		font-size: 1.8rem;
+		font-weight: bold;
 	}
 	
 	.news-content {
@@ -3769,6 +3787,7 @@ section.project-info {
 			td.comment-col {
 				padding-top: 0;
 				padding-bottom: 0.5rem;
+				padding-left: 1rem;
 			}
 		
 			td.pillar-col,
@@ -3929,6 +3948,10 @@ section.project-info {
 	}
 	
 	.comment-info {
+		.detail-row {
+			margin-top: 0;
+		}
+
 		pre {
 			max-height: 30rem;
 			padding: 1.5rem;
@@ -4061,6 +4084,7 @@ section.project-info {
 		min-height: 39.5rem;
 	}
 }
+
 
 /* SELECT TOPIC MODAL VIEW
 ----------------------------- */

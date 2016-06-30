@@ -75,20 +75,25 @@ function directiveModalProjectImport($modal, $state, $rootScope, sProjectModel) 
 // DIRECTIVE: Project Tombstone Horizontal
 //
 // -----------------------------------------------------------------------------------
-directiveProjectTombstone.$inject = [];
+directiveProjectTombstone.$inject = ['Authentication'];
 /* @ngInject */
-function directiveProjectTombstone() {
-	var directive = {
-		restrict: 'E',
-		templateUrl: 'modules/projects/client/views/project-partials/project-tombstone.html',
-		scope: {
-			project: '='
-		},
-		controller: function($scope, ENV) {
-			$scope.environment = ENV;
-		}
-	};
-	return directive;
+function directiveProjectTombstone(Authentication) {
+    var directive = {
+        restrict: 'E',
+        templateUrl: 'modules/projects/client/views/project-partials/project-tombstone.html',
+        scope: {
+            project: '='
+        },
+        controller: function($scope, ENV, Authentication) {
+            var c = this;
+            $scope.environment = ENV;
+            c.isEao = (Authentication.user && Authentication.user.roles.indexOf('eao') > -1);
+			c.isUser = (Authentication.user);
+        },
+		
+        controllerAs: 'c'
+    };
+    return directive;
 }
 // -----------------------------------------------------------------------------------
 //
