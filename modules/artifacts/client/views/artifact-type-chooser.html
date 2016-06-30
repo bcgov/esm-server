@@ -1,0 +1,37 @@
+
+<div class="select-topic-modal">
+
+  <div class="modal-header">
+    <h3 class="modal-title">Artifact Types</h3>
+  </div>
+  <div class="modal-body">
+    <section class="panel panel-default">
+      <table ng-table="chooser.tableParams" show-filter="true" class="table table-hover table-striped">
+        <tr ng-repeat="o in $data">
+          <td class="select-col" header-class="'select-col'"><input type="checkbox" ng-click="chooser.toggleItem(o)"/></td>
+          <td data-title="'Name'"    filter="{'name':'text'}" sortable="'name'" >{{o.name}}</td>
+          <td header-class="'phase-col'"
+              data-title="'Phase'"
+              filter="{'phase':'select'}"
+              filter-data="chooser.phaseArray"
+              sortable="'phase'" >
+            {{o.phaseName}}
+          </td>
+        </tr>
+        <tr ng-if="!$data || $data.length === 0">
+          <td colspan="6">
+            No records found.
+          </td>
+        </tr>
+      </table>
+    </section>
+  </div>
+
+  <div class="modal-footer">
+    <div>
+      <button class="btn btn-default" href ng-click="chooser.cancel()">Cancel</button>
+      <button class="btn btn-default" href ng-click="chooser.ok()">Ok</button>
+    </div>
+  </div>
+
+</div>

@@ -8,7 +8,7 @@ angular.module('artifacts')
 // interacting with a list of artifacts
 //
 // -------------------------------------------------------------------------
-.directive('tmplArtifactList', function ($state, ArtifactModel) {
+.directive('tmplArtifactList', function ($state, $modal, ArtifactModel) {
 	return {
 		restrict: 'E',
 		templateUrl: 'modules/artifacts/client/views/artifact-list.html',
@@ -16,7 +16,7 @@ angular.module('artifacts')
 			project: '=',
 			published: '='
 		},
-		controller: function ($scope, NgTableParams, Authentication) {
+		controller: function ($scope, NgTableParams, Authentication, _) {
 			var s = this;
 			s.public = (!Authentication.user);
 			s.published = $scope.published;
@@ -24,20 +24,122 @@ angular.module('artifacts')
 			s.allowAddItem = !(s.public || s.published);
 			s.showFilter = false;
 			s.noDataMessage = "There is no in progress content at this time.";
-			this.selectType = function (typeobject) {
-				this.addtype = typeobject;
-				this.addTypeName = typeobject.name;
+
+
+			// filter lists...
+			s.versionArray = [];
+			s.stageArray = [];
+			
+
+			s.openAddTypes = function () {
+				
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/artifacts/client/views/artifact-type-chooser.html',
+					resolve: {
+						artifactTypes: function () {
+							//console.log($scope.project);
+							return [];
+						},
+						phases: function () {
+							return [];
+						}
+					},
+					controller: function ($modalInstance, $scope, NgTableParams, Authentication, PhaseBaseModel, _, $stateParams, ArtifactModel, artifactTypes, phases) {
+						var chooser = this;
+						chooser.current = [];
+						chooser.currentObjs = [];
+
+						chooser.phaseArray = [];
+
+
+						chooser.ok = function () {
+							var savedArray = [];
+							// console.log("length: ",self.currentObjs.length);
+							_.each(chooser.currentObjs, function (obj, idx) {
+								savedArray.push(obj);
+								if (idx === chooser.currentObjs.length - 1) {
+									// Return the collection back to the caller
+									$modalInstance.close(savedArray);
+								}
+							});
+						};
+						chooser.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+
+						chooser.toggleItem = function (item) {
+							// console.log("item:",item);
+							var idx = chooser.current.indexOf(item._id);
+							// console.log(idx);
+							if (idx === -1) {
+								chooser.currentObjs.push(item);
+								chooser.current.push(item._id);
+							} else {
+								_.remove(chooser.currentObjs, {_id: item._id});
+								_.remove(chooser.current, function (n) {
+									return n === item._id;
+								});
+							}
+						};
+
+						chooser.init = function () {
+
+							PhaseBaseModel.all()
+							.then(function (p) {
+								chooser.phaseArray.push({id: '*', title: 'Any Phase'}); // identify and sort items without a particular phase defined...
+
+								_.forEach(p, function (item) {
+									chooser.phaseArray.push({id: item.code, title: item.name});
+								});
+							});
+
+							ArtifactModel.availableTypes($scope.project._id)
+							.then(function (c) {
+
+								_.forEach(c, function (item) {
+									if (item.phase === '') {
+										item.phase = '*'; // identify and sort items without a particular phase defined...
+									}
+									// add in a user readable phase name
+									var p = _.find(chooser.phaseArray, function (o) {
+										return o.id === item.phase;
+									});
+									item.phaseName = (p) ? p.title : '';
+								});
+
+								chooser.tableParams = new NgTableParams({
+									count: 10,
+									sorting: {name: 'asc', phase: 'asc'}
+								}, {dataset: c});
+
+							});
+						};
+
+						chooser.init();
+					},
+					controllerAs: 'chooser',
+					scope: $scope,
+					size: 'lg'
+				});
+				
+				modalDocView.result.then(function (res) {
+					if (res && res.length > 0) {
+						var a = _.map(res, function (o) {
+							return ArtifactModel.newFromType(o.code, $scope.project._id);
+						});
+
+						Promise.all(a).then(function () {
+							// tell the parent controller to init (refresh it's data/state)...
+							s.init();
+						});
+					}
+				}, function () {
+					//console.log("err");
+				});
 			};
-			this.addType = function () {
-				if (s.addtype) {
-					// console.log ('adding new artifact of type '+s.addtype);
-					ArtifactModel.newFromType(s.addtype.code, $scope.project._id)
-					.then(function () {
-						s.init();
-					});
-				}
-			};
-			this.init = function () {
+			
+			s.init = function () {
 				// In this view we don't want individual VC's to show up, instead they will
 				// show up in the VC page.
 				ArtifactModel.forProjectFilterType($scope.project._id, "valued-component", "isPublished=" + $scope.published)
@@ -53,19 +155,22 @@ angular.module('artifacts')
 							s.noDataMessage = (s.public) ? "There are is no in progress content at this time." : "To add an artifact, select from the list above and click the Add button.";
 						}
 					}
+					if (s.showFilter) {
+						// build out the filter arrays...
+						var recs = _(angular.copy(c)).chain().flatten();
+						recs.pluck('version').unique().value().map(function (item) {
+							s.versionArray.push({id: item, title: item});
+						});
+						recs.pluck('stage').unique().value().map(function (item) {
+							s.stageArray.push({id: item, title: item});
+						});
+					}
 					$scope.$apply();
 				});
-				if (!s.public) {
-					ArtifactModel.availableTypes($scope.project._id).then(function (c) {
-						// console.log("available types:",c);
-						s.availableTypes = c;
-						s.addtype = null;
-						s.addTypeName = "";
-						$scope.$apply();
-					});
-				}
+
 			};
-			this.init();
+
+			s.init();
 		},
 		controllerAs: 's'
 	};
