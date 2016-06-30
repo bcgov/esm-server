@@ -103,7 +103,8 @@ module.exports = function (app) {
 			return new Promise (function (resolve, reject) {
 				var file = req.files.file;
 				if (file) {
-					routes.moveFile (file.path)
+					var opts = { oldPath: file.path, projectCode: req.Project.code};
+					routes.moveFile (opts)
 					.then (function (newFilePath) {
 						return model.create ({
 							// Metadata related to this specific document that has been uploaded.
