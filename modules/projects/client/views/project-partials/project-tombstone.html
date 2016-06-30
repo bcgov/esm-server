@@ -116,7 +116,7 @@
 				<div class="col-sm-6 col-md-4" ng-if="project.provElectDist">
 					<div class="detail-row">
 						<label>Provincial Electoral Districts</label>
-						<span class="value">{{project.provElecDist}}
+						 <span class="value">{{project.provElecDist}}
 						</span>
 					</div>
 				</div>
@@ -171,15 +171,15 @@
 						<span class="value wrap-text">{{project.intake.operatingjobsNotes}}</span>
 					</div>
 				</div><!-- / OPERATION JOBS -->
-			</div>
 
-			<!-- TEAM MEMBERS -->
-			<div class="col-sm-12" ng-if="c.isEao && project.intake.constructionjobsNotes">
-				<div class="detail-row">
-					<label>Team Notes</label>
-					<span class="value wrap-text">{{project.teamNotes}}</span>
-				</div>
-			</div><!-- / TEAM MEMBERS -->
+				<!-- TEAM MEMBERS -->
+				<div class="col-sm-12" ng-if="c.isEao && project.intake.constructionjobsNotes">
+					<div class="detail-row">
+						<label>Team Notes</label>
+						<span class="value wrap-text">{{project.teamNotes}}</span>
+					</div>
+				</div><!-- / TEAM MEMBERS -->
+			</div>
 
 		</div><!-- / AUTHENTICATED USER INFO -->
 		
