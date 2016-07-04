@@ -7,7 +7,7 @@
     </div>
 
     <!-- TABLE -->
-    <div class="button-bar">
+    <div class="button-bar" ng-if="s.allowAddItem">
       <button class="btn btn-default btn-sm " type="button" ng-click="$event.stopPropagation();s.openAddTypes()">
         <span class="glyphicon glyphicon-plus"></span><span>Add Content</span></button>
     </div>
