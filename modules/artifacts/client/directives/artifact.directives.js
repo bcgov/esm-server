@@ -110,7 +110,7 @@ angular.module('artifacts')
 
 								chooser.tableParams = new NgTableParams({
 									count: 10,
-									sorting: {name: 'asc', phase: 'asc'}
+									sorting: {name: 'asc'}
 								}, {dataset: c});
 
 							});

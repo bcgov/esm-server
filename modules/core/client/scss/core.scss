@@ -13,7 +13,7 @@ $brand-warning:			#f0ad4e;
 $brand-danger:			#d9534f;
 $link-light:			#337ab7;
 $link-dark:				#23527c;
-$border-grey:			#dddddd;
+$border-grey:			#EEE;
 $off-white:				#f4f4f4;
 $danger-text:			#a94442;
 
@@ -732,10 +732,6 @@ h3.panel-title {
 	content: "\0020\25BC";
 }
 
-.panel-heading .label {
-	font-size: 12px;
-}
-
 .panel {
 	position: relative;
 }
@@ -1177,17 +1173,6 @@ h2.page-title {
 	fill: none;
 }
 
-/*
-// --------------------------
-// ng-table and form styles
-// --------------------------
-*/
-
-.ng-table-pager {
-	border-top: 1px solid $border-grey;
-	padding: 15px;
-	overflow: auto;
-}
 
 /*
 // -------------------
@@ -2096,25 +2081,27 @@ $sidenav-color: $link-color;
 			}
 			
 			.glyphicon {
+				margin-top: 0.2rem;
 				margin-right: 1rem;
-				font-size: 1.5rem;
+				margin-left: -0.2rem;
+				font-size: 1rem;
 			}
 			
-			.glyphicon-plus {
+			.glyphicon-triangle-right {
 				display: none;
 			}
 			
-			.glyphicon-minus {
+			.glyphicon-triangle-bottom {
 				display: inline-block;
 			}
 		}
 		
 		a.collapsed {
-			.glyphicon-plus {
+			.glyphicon-triangle-right {
 				display: inline-block;
 			}
 			
-			.glyphicon-minus {
+			.glyphicon-triangle-bottom {
 				display: none;
 			}
 		}
@@ -2289,10 +2276,13 @@ $sidenav-color: $link-color;
 .label {
 	display: inline-block;
 	height: 2rem;
-	padding: 0;
+	padding-top: 0.08rem;
+	padding-right: 1rem;
+	padding-left: 1rem;
 	line-height: 2rem;
 	font-size: 1.2rem;
 	font-weight: normal;
+	text-transform: uppercase;
 }
 
 
@@ -2838,14 +2828,19 @@ $nav-tab-active: #1a5a96;
 
 /* TABLE
 ------------------------------ */
+$table-bg: #FFF;
+$table-head-bg: #F7F8FA;
+$table-footer-bg: #FFF;
+
 .table {
+	margin: 0;
 	table-layout: fixed;
-	margin-bottom: 0;
+	background: $table-bg;
 	
 	> thead > tr > th {
 		font-size: 1.2rem;
 		border-bottom: none;
-		background: #f7f8fa;
+		background: $table-head-bg;
 	}
 	
 	> thead > tr > th:first-child,
@@ -2895,6 +2890,14 @@ $nav-tab-active: #1a5a96;
 	}
  }
 
+ .ng-table-pager {
+	padding: 1.5rem;
+	padding-bottom: 1rem;
+	background: $table-footer-bg;
+	border-top: 1px solid #DDD;
+	overflow: auto;
+}
+
 .pagination {
 	margin: 0;
 }
@@ -2915,6 +2918,10 @@ hr {
 /* ARTIFACT VIEW
 ------------------------------ */
 .artifact-list-view {	
+	.button-bar {
+		padding: 1.5rem;
+	}
+	
 	.artifacts-dropdown {
 		width: 30rem;
 	}
@@ -2934,6 +2941,22 @@ hr {
 		.form-control {
 			width: auto;
 			display: inline-block;
+		}
+	}
+}
+
+.artifact-chooser-table {
+	> tbody > tr > td:first-child {
+		padding-left: 4rem;
+	}
+	
+	.name-col {
+		position: relative;
+
+		input {
+			position: absolute;
+			margin-top: 0.3rem;
+			left: 1.5rem;
 		}
 	}
 }
@@ -3545,28 +3568,45 @@ section.project-info {
 
 /* PROJECT SCHEDULE VIEW
 ------------------------------ */
-.project-schedule-view {	
+.project-schedule-view {
 	.table {
-		border-bottom: 1px solid #DDD;
-		table-layout: fixed;
+		font-size: 1.2rem;
 	}
-	
-	td {
-		padding: 0.5rem 1rem !important;
-		vertical-align: middle !important;
-	}
-	
-	td.button-col {
-		text-align: right;
-	}
-	
+
 	td.actions-col {
-		width: 9rem;
-		text-align: center;
-		
 		.btn {
-			padding: 0.6rem;
+			margin-top: 0.8rem;
 		}
+	}
+
+	.date-col {
+		width: 16rem;
+		text-transform: uppercase;
+
+		label {
+			margin: 0;
+			min-width: 4rem;
+			display: inline-block;
+		}
+
+		span {
+			min-width: 7rem;
+			display: inline-block;
+			text-align: right;
+		}
+	}
+
+	.phase-action-col {
+		width: 15rem;
+
+		.btn {
+			display: block;
+			width: 100%;
+		}
+	}
+
+	.status-col {
+		width: 11rem;
 	}
 }
 
