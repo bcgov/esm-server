@@ -7,6 +7,8 @@
 var path     = require('path');
 var DBModel   = require (path.resolve('./modules/core/server/controllers/cc.dbmodel.controller'));
 var _         = require ('lodash');
+var CSVParse 	= require ('csv-parse');
+var Project    = require (path.resolve('./modules/projects/server/controllers/project.controller'));
 
 module.exports = DBModel.extend ({
 	name : 'Document',
@@ -224,7 +226,104 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	getList : function (list) {
 		return this.list ({_id : {$in : list }});
-	}
+	},
+	// Importing from CSV
+	loadDocuments : function(file, req, res) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			// console.log("loading documents", file);
+			if (file) {
+				// Now parse and go through this thing.
+				var fs = require('fs');
+				fs.readFile(file.path, 'utf8', function(err, data) {
+					if (err) {
+						reject("err:"+err);
+					}
+					// res.writeHead(200, {'Content-Type': 'text/plain'});
+					// res.write('[ { "jobid": 0 }');
+					var colArray = ['PROJECT_ID','DOCUMENT_ID','PST_DESCRIPTION','DTP_DESCRIPTION','SECTION_NUMBER','FOLDER','FILE_NAME','DOCUMENT_POINTER','FILE_TYPE','FILE_SIZE','DATE_POSTED','DATE_RECEIVED','ARCS_ORCS_FILE_NUMBER','WHO_CREATED','WHEN_CREATED','WHO_UPDATED','WHEN_UPDATED'];
+					var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
+						// Skip this many rows
+						var URLPrefix = "https://a100.gov.bc.ca/appsdata/epic/documents/";
+						var length = Object.keys(output).length;
+						var rowsProcessed = 0;
+						// console.log("length",length);
+						Object.keys(output).forEach(function(key, index) {
+							if (index > 0) {
+								var row = output[key];
+								// console.log("row:",row);
+								rowsProcessed++;
+								self.model.findOne({documentEPICId: parseInt(row.DOCUMENT_ID)}, function (err, doc) {
+									if (err) {
+										// console.log("err",err);
+									} else {
+										// console.log("doc",doc);
+									}
+									var addOrChangeModel = function(model, skipURL) {
+										// res.write(",");
+										// res.write(JSON.stringify({documentEPICId:parseInt(row.DOCUMENT_ID)}));
+										// res.flush();
+										model.documentEPICProjectId 	= parseInt(row.PROJECT_ID);
+										model.documentEPICId            = parseInt(row.DOCUMENT_ID);
+										model.projectFolderType         = row.PST_DESCRIPTION;
+										model.projectFolderSubType      = row.DTP_DESCRIPTION;
+										model.projectFolderName 		= row.FOLDER;
+										// This could be auto-generated based on what we know now.
+										model.projectFolderURL          = row.FOLDER;
+										model.projectFolderDatePosted   = Date(row.DATE_POSTED);
+										// // Do this on 2nd pass
+										// model.projectFolderAuthor       = row.WHO_CREATED;
+										model.documentAuthor     = row.WHO_CREATED;
+										model.documentFileName   = row.FILE_NAME;
+										// Skip overwriting the URL on subsequent loads
+										if (!skipURL) {
+											model.documentFileURL 	 = URLPrefix + row.DOCUMENT_POINTER.replace(/\\/g,"/");
+										}
+										model.documentFileSize   = row.FILE_SIZE;
+										model.documentFileFormat = row.FILE_TYPE;
+										model.documentAuthor 	 = row.WHO_CREATED;
+										model.oldData 			 = JSON.stringify({DATE_RECEIVED: row.DATE_RECEIVED,
+																				  ARCS_ORCS_FILE_NUMBER: row.ARCS_ORCS_FILE_NUMBER,
+																				  WHEN_CREATED: row.WHEN_CREATED,
+																				  WHO_UPDATED: row.WHO_UPDATED,
+																				  WHEN_UPDATED: row.WHEN_UPDATED});
 
+										model.save().then(function (m) {
+											// console.log("INDEX:",index);
+											var p = new Project(self.opts);
+											var q  = {epicProjectID: m.documentEPICProjectId};
+											p.findOne(q)
+											.then( function (project) {
+												console.log("project:", project);
+												if (project) {
+													console.log("found:",project.epicProjectID);
+													m.project = project;
+													m.save().then(function () {
+														console.log("saved");
+														if (index === length-1) {
+															resolve();
+														}
+													});
+												}
+											});
+										});
+									};
+									if (doc === null) {
+										// Create new
+										var mongoose = require ('mongoose');
+										var Model    = mongoose.model ('Document');
+										addOrChangeModel(new Model (), false);
+									} else {
+										// Update:
+										addOrChangeModel(doc, true);
+									}
+								});
+							}
+						});
+					});
+				});
+			}
+		});
+	}
 });
 
