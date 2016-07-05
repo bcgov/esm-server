@@ -642,7 +642,7 @@ _.extend (DBModel.prototype, {
 			var permissions ;
 			self.getModelPermissionDefaults ()
 			.then (function (defaultObject) {
-				console.log (JSON.stringify (defaultObject, null, 4));
+				console.log ("applyModelPermissionDefaults: ", JSON.stringify (defaultObject, null, 4));
 				resource    = model._id;
 				parray      = [];
 				definitions = {};
