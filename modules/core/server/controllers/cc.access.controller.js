@@ -116,6 +116,11 @@ var ensureArray = function (val) {
 	else if (_.isArray (val)) return val;
 	else return [val];
 };
+var complete = function (reject, funct) {
+	return function (err) {
+		reject (new Error ('dbmodel.'+funct+': '+err.message));
+	};
+};
 // -------------------------------------------------------------------------
 //
 // wrap the find in a proper promise for both types. Always returns an array
@@ -123,12 +128,12 @@ var ensureArray = function (val) {
 // -------------------------------------------------------------------------
 var findPermissions = function (q) {
 	return new Promise (function (resolve, reject) {
-		Permission.find (q).then (resolve, reject);
+		Permission.find (q).then (resolve, complete (reject, 'findPermissions'));
 	});
 };
 var findRoles = function (q) {
 	return new Promise (function (resolve, reject) {
-		Role.find (q).then (resolve, reject);
+		Role.find (q).then (resolve, complete (reject, 'findRoles'));
 	});
 };
 // -------------------------------------------------------------------------
@@ -139,12 +144,12 @@ var findRoles = function (q) {
 var createPermission = function (p) {
 	return new Promise (function (resolve, reject) {
 		// console.log ('creating new permission', p);
-		(new Permission (p)).save ().then (resolve, reject);
+		(new Permission (p)).save ().then (resolve, complete (reject, 'createPermission'));
 	});
 };
 var createRole = function (p) {
 	return new Promise (function (resolve, reject) {
-		(new Role (p)).save ().then (resolve, reject);
+		(new Role (p)).save ().then (resolve, complete (reject, 'createRole'));
 	});
 };
 // =========================================================================
@@ -171,7 +176,7 @@ var addPermission = function (p) {
 				// console.log ('returned r', r);
 				return !r.length ? createPermission (p) : '';
 			})
-			.then (resolve, reject);
+			.then (resolve, complete (reject, 'addPermission'));
 		}
 	});
 };
@@ -201,7 +206,7 @@ var deletePermission = function (p) {
 			reject ({message:'no role defined in deletePermission'});
 		}
 		else {
-			Permission.remove (p).exec ().then (resolve, reject);
+			Permission.remove (p).exec ().then (resolve, complete (reject, 'deletePermission'));
 		}
 	});
 };
@@ -221,7 +226,7 @@ var deleteAllPermissions = function (p) {
 		Permission.remove ({
 			resource : p.resource,
 			role     : { $ne : null }
-		}).exec ().then (resolve, reject);
+		}).exec ().then (resolve, complete (reject, 'deleteAllPermissions'));
 	});
 };
 exports.deleteAllPermissions = deleteAllPermissions;
@@ -247,7 +252,7 @@ var setPermissionRoles = function (p) {
 				roles : p.roles
 			});
 		})
-		.then (resolve, reject);
+		.then (resolve, complete (reject, 'setPermissionRoles'));
 	});
 };
 exports.setPermissionRoles = setPermissionRoles;
@@ -342,7 +347,7 @@ var getPermissionsForResource = function (o) {
 		}
 		else {
 			findPermissions (o)
-			.then (resolve, reject);
+			.then (resolve, complete (reject, 'getPermissionsForResource'));
 		}
 	});
 };
@@ -358,7 +363,7 @@ var getPermissionList = function (o) {
 			role       : null
 		})
 		.then (pluckPermissions)
-		.then (resolve, reject);
+		.then (resolve, complete (reject, 'getPermissionList'));
 	});
 };
 exports.getPermissionList = getPermissionList;
@@ -374,7 +379,7 @@ var getPermissionRoles = function (o) {
 			resource   : o.resource
 		})
 		.then (pivotPermissions)
-		.then (resolve, reject);
+		.then (resolve, complete (reject, 'getPermissionRoles'));
 	});
 };
 // -------------------------------------------------------------------------
@@ -389,7 +394,7 @@ var getPermissionRoleIndex = function (o) {
 			role     : { $ne : null }
 		})
 		.then (indexPermissionRoles)
-		.then (resolve, reject);
+		.then (resolve, complete (reject, 'getPermissionRoleIndex'));
 	});
 };
 exports.getPermissionRoleIndex = getPermissionRoleIndex;
@@ -434,7 +439,7 @@ var setPermissionRoleIndex = function (resource, index) {
 			return m.update ({_id:resource}, modelroles).exec ();
 		})
 		.then (function () { return {ok:true};})
-		.then (resolve, reject);
+		.then (resolve, complete (reject, 'setPermissionRoleIndex'));
 	});
 };
 exports.setPermissionRoleIndex = setPermissionRoleIndex;
@@ -465,7 +470,7 @@ var addRole = function (p) {
 				// console.log ('returned r', r);
 				return !r.length ? createRole (p) : '';
 			})
-			.then (resolve, reject);
+			.then (resolve, complete (reject, 'addRole'));
 		}
 	});
 };
@@ -496,7 +501,7 @@ var addRoleIfUnique = function (p) {
 		.then (function (r) {
 			return (!r) ? {ok:false} : {ok:true};
 		})
-		.then (resolve, reject);
+		.then (resolve, complete (reject, 'addRoleIfUnique'));
 	});
 };
 exports.addRoleIfUnique = addRoleIfUnique;
@@ -517,7 +522,7 @@ var deleteRole = function (p) {
 			reject ({message:'no user defined in deleteRole'});
 		}
 		else {
-			Role.remove (p).exec ().then (resolve, reject);
+			Role.remove (p).exec ().then (resolve, complete (reject, 'deleteRole'));
 		}
 	});
 };
@@ -540,6 +545,9 @@ var addRoleDefinition = function (p) {
 exports.addRoleDefinition = addRoleDefinition;
 var addRoleDefinitions = function (o) {
 	o.roles = ensureArray (o.roles);
+	console.log (o.context);
+	console.log (o.owner);
+	console.log (o.roles);
 	return Promise.all (o.roles.map (function (role) {
 		return addRole ({
 			context   : o.context,
@@ -549,6 +557,7 @@ var addRoleDefinitions = function (o) {
 		});
 	}));
 };
+exports.addRoleDefinitions = addRoleDefinitions;
 var ensureAddRole = function (p) {
 	return addRole (p).then (function () {
 		return addRoleDefinition (p);
@@ -585,7 +594,7 @@ var getRolesForContext = function (o) {
 		}
 		else {
 			findRoles (o)
-			.then (resolve, reject);
+			.then (resolve, complete (reject, 'getRolesForContext'));
 		}
 	});
 };
@@ -602,7 +611,7 @@ var getRoleList = function (o) {
 			user       : null
 		})
 		.then (decorator)
-		.then (resolve, reject);
+		.then (resolve, complete (reject, 'getRoleList'));
 	});
 };
 // -------------------------------------------------------------------------
@@ -617,7 +626,7 @@ var getRoleUsers = function (o) {
 			context   : o.context
 		})
 		.then (pivotRoles)
-		.then (resolve, reject);
+		.then (resolve, complete (reject, 'getRoleUsers'));
 	});
 };
 // -------------------------------------------------------------------------
@@ -632,7 +641,7 @@ var getRoleUserIndex = function (o) {
 			user     : { $ne : null }
 		})
 		.then (indexRoleUsers)
-		.then (resolve, reject);
+		.then (resolve, complete (reject, 'getRoleUserIndex'));
 	});
 };
 exports.getRoleUserIndex = getRoleUserIndex;
@@ -664,7 +673,7 @@ var setRoleUserIndex = function (context, index) {
 		});
 		Promise.all (promiseArray)
 		.then (function () { return {ok:true};})
-		.then (resolve, reject);
+		.then (resolve, complete (reject, 'setRoleUserIndex'));
 	});
 };
 exports.setRoleUserIndex = setRoleUserIndex;
@@ -746,7 +755,7 @@ var getAllUserRoles = function (p) {
 			.then (addPublicRole)
 			.then (addAllRole);
 		}
-		listPromise.then (resolve, reject);
+		listPromise.then (resolve, complete (reject, 'getAllUserRoles'));
 	});
 };
 exports.getAllUserRoles = getAllUserRoles;
@@ -777,7 +786,7 @@ var userPermissions = function (p) {
 			});
 		})
 		.then (pluckPermissions)
-		.then (resolve, reject);
+		.then (resolve, complete (reject, 'userPermissions'));
 	});
 };
 exports.userPermissions = userPermissions;
@@ -1026,7 +1035,7 @@ exports.routes = {
 			.then (function () {
 				return Promise.all (parray);
 			})
-			.then (resolve, reject);
+			.then (resolve, complete (reject, 'convertusers'));
 		});
 		return runPromise (res, masterPromise);
 	},
