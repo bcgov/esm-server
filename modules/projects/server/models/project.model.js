@@ -9,7 +9,7 @@ module.exports = require ('../../../core/server/controllers/cc.schema.controller
 	__audit               : true,
 	__access              : [
 		'viewSchedule',
-		//'editSchedule',
+		'editSchedule',
 		'listEnforcements',
 		'createEnforcement',
 		'listCommentPeriods',

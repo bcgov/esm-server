@@ -15,6 +15,12 @@ module.exports = function (app) {
 	// get put new delete
 	//
 	routes.setCRUDRoutes (app, 'document', DocumentClass, policy, ['get','put','new', 'delete'], {all:'guest',get:'guest'});
+	// Import via CSV
+	app.route ('/api/documents/import')
+		.all (policy ('guest'))
+		.post ( routes.setAndRun (DocumentClass, function (model, request) {
+				return model.loadDocuments(request.files.file, request);
+			}));
 	//
 	// getAllDocuments                 : '/api/documents'
 	//
@@ -103,7 +109,8 @@ module.exports = function (app) {
 			return new Promise (function (resolve, reject) {
 				var file = req.files.file;
 				if (file) {
-					routes.moveFile (file.path)
+					var opts = { oldPath: file.path, projectCode: req.Project.code};
+					routes.moveFile (opts)
 					.then (function (newFilePath) {
 						return model.create ({
 							// Metadata related to this specific document that has been uploaded.

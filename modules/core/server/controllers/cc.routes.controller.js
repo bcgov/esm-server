@@ -211,6 +211,7 @@ var setSessionContext = function (req) {
 		}
 	});
 };
+exports.setSessionContext = setSessionContext;
 // -------------------------------------------------------------------------
 //
 // this takes in a dbmodel class and makes it new and sets it on the request

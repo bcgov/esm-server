@@ -103,7 +103,7 @@ module.exports = DBModel.extend ({
 			//
 			.then (function () {
 				// console.log ('Step4. set query access roles in the dbmodel object');
-				self.setRoles (self.user);
+				project.setRoles (self.user);
 				return project;
 			})
 			//
@@ -317,7 +317,7 @@ module.exports = DBModel.extend ({
 				//
 				// reset the user in this object with its new permissions
 				//
-				self.setRoles (self.user);
+				project.setRoles (self.user);
 				//
 				// add the default roles from the stream
 				//

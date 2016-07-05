@@ -13,7 +13,7 @@ $brand-warning:			#f0ad4e;
 $brand-danger:			#d9534f;
 $link-light:			#337ab7;
 $link-dark:				#23527c;
-$border-grey:			#dddddd;
+$border-grey:			#EEE;
 $off-white:				#f4f4f4;
 $danger-text:			#a94442;
 
@@ -732,10 +732,6 @@ h3.panel-title {
 	content: "\0020\25BC";
 }
 
-.panel-heading .label {
-	font-size: 12px;
-}
-
 .panel {
 	position: relative;
 }
@@ -1177,17 +1173,6 @@ h2.page-title {
 	fill: none;
 }
 
-/*
-// --------------------------
-// ng-table and form styles
-// --------------------------
-*/
-
-.ng-table-pager {
-	border-top: 1px solid $border-grey;
-	padding: 15px;
-	overflow: auto;
-}
 
 /*
 // -------------------
@@ -2096,25 +2081,27 @@ $sidenav-color: $link-color;
 			}
 			
 			.glyphicon {
+				margin-top: 0.2rem;
 				margin-right: 1rem;
-				font-size: 1.5rem;
+				margin-left: -0.2rem;
+				font-size: 1rem;
 			}
 			
-			.glyphicon-plus {
+			.glyphicon-triangle-right {
 				display: none;
 			}
 			
-			.glyphicon-minus {
+			.glyphicon-triangle-bottom {
 				display: inline-block;
 			}
 		}
 		
 		a.collapsed {
-			.glyphicon-plus {
+			.glyphicon-triangle-right {
 				display: inline-block;
 			}
 			
-			.glyphicon-minus {
+			.glyphicon-triangle-bottom {
 				display: none;
 			}
 		}
@@ -2289,10 +2276,13 @@ $sidenav-color: $link-color;
 .label {
 	display: inline-block;
 	height: 2rem;
-	padding: 0;
+	padding-top: 0.08rem;
+	padding-right: 1rem;
+	padding-left: 1rem;
 	line-height: 2rem;
 	font-size: 1.2rem;
 	font-weight: normal;
+	text-transform: uppercase;
 }
 
 
@@ -2725,6 +2715,7 @@ textarea {
 .panel-default {
 	border: none;
 	border-radius: 0;
+	box-shadow: 0 0 4px #CCC;
 	
 	> .panel-heading {
 		position: relative;
@@ -2735,21 +2726,21 @@ textarea {
 		background-image: none;
 		background-color: $panel-heading-bg;
 
+		h2 {
+			margin: 0;
+			display: block;
+			overflow: hidden;
+			font-size: 1.6rem;
+			font-weight: bold;
+			text-overflow: ellipsis;
+			text-transform: uppercase;
+		}
+
 		.permission-btn {
 			position: absolute;
 			top: 0.6rem;
 			right: 0.5rem;
 		}
-	}
-	
-	h2 {
-		margin: 0;
-		display: block;
-		overflow: hidden;
-		font-size: 1.4rem;
-		font-weight: bold;
-		text-overflow: ellipsis;
-		text-transform: uppercase;
 	}
 }
 
@@ -2837,14 +2828,19 @@ $nav-tab-active: #1a5a96;
 
 /* TABLE
 ------------------------------ */
+$table-bg: #FFF;
+$table-head-bg: #F7F8FA;
+$table-footer-bg: #FFF;
+
 .table {
+	margin: 0;
 	table-layout: fixed;
-	margin-bottom: 0;
+	background: $table-bg;
 	
 	> thead > tr > th {
 		font-size: 1.2rem;
 		border-bottom: none;
-		background: #f7f8fa;
+		background: $table-head-bg;
 	}
 	
 	> thead > tr > th:first-child,
@@ -2894,6 +2890,14 @@ $nav-tab-active: #1a5a96;
 	}
  }
 
+ .ng-table-pager {
+	padding: 1.5rem;
+	padding-bottom: 1rem;
+	background: $table-footer-bg;
+	border-top: 1px solid #DDD;
+	overflow: auto;
+}
+
 .pagination {
 	margin: 0;
 }
@@ -2914,6 +2918,10 @@ hr {
 /* ARTIFACT VIEW
 ------------------------------ */
 .artifact-list-view {	
+	.button-bar {
+		padding: 1.5rem;
+	}
+	
 	.artifacts-dropdown {
 		width: 30rem;
 	}
@@ -2933,6 +2941,22 @@ hr {
 		.form-control {
 			width: auto;
 			display: inline-block;
+		}
+	}
+}
+
+.artifact-chooser-table {
+	> tbody > tr > td:first-child {
+		padding-left: 4rem;
+	}
+	
+	.name-col {
+		position: relative;
+
+		input {
+			position: absolute;
+			margin-top: 0.3rem;
+			left: 1.5rem;
 		}
 	}
 }
@@ -3259,6 +3283,19 @@ section.project-info {
 	}
 }
 
+.project-tombstone {
+	.panel-body {
+		padding-bottom: 0;
+	}
+
+	hr {
+		margin-top: 0;
+		margin-right: 1.5rem;
+		margin-bottom: 1.5rem;
+		margin-left: 1.5rem;
+	}
+}
+
 
 /* EDIT PROJECT VIEW
 ------------------------------ */ 
@@ -3333,8 +3370,10 @@ section.project-info {
 	border-top: 1px solid #DDD;
 	
 	.news-title {
+		margin-top: 0;
 		margin-bottom: 0.75rem;
 		font-size: 1.8rem;
+		font-weight: bold;
 	}
 	
 	.news-date-type {
@@ -3395,8 +3434,10 @@ section.project-info {
 	}
 	
 	.news-title {
+		margin-top: 0;
 		margin-bottom: 0.75rem;
 		font-size: 1.8rem;
+		font-weight: bold;
 	}
 	
 	.news-content {
@@ -3527,28 +3568,45 @@ section.project-info {
 
 /* PROJECT SCHEDULE VIEW
 ------------------------------ */
-.project-schedule-view {	
+.project-schedule-view {
 	.table {
-		border-bottom: 1px solid #DDD;
-		table-layout: fixed;
+		font-size: 1.2rem;
 	}
-	
-	td {
-		padding: 0.5rem 1rem !important;
-		vertical-align: middle !important;
-	}
-	
-	td.button-col {
-		text-align: right;
-	}
-	
+
 	td.actions-col {
-		width: 9rem;
-		text-align: center;
-		
 		.btn {
-			padding: 0.6rem;
+			margin-top: 0.8rem;
 		}
+	}
+
+	.date-col {
+		width: 16rem;
+		text-transform: uppercase;
+
+		label {
+			margin: 0;
+			min-width: 4rem;
+			display: inline-block;
+		}
+
+		span {
+			min-width: 7rem;
+			display: inline-block;
+			text-align: right;
+		}
+	}
+
+	.phase-action-col {
+		width: 15rem;
+
+		.btn {
+			display: block;
+			width: 100%;
+		}
+	}
+
+	.status-col {
+		width: 11rem;
 	}
 }
 
@@ -3769,6 +3827,7 @@ section.project-info {
 			td.comment-col {
 				padding-top: 0;
 				padding-bottom: 0.5rem;
+				padding-left: 1rem;
 			}
 		
 			td.pillar-col,
@@ -3929,6 +3988,10 @@ section.project-info {
 	}
 	
 	.comment-info {
+		.detail-row {
+			margin-top: 0;
+		}
+
 		pre {
 			max-height: 30rem;
 			padding: 1.5rem;
@@ -4061,6 +4124,7 @@ section.project-info {
 		min-height: 39.5rem;
 	}
 }
+
 
 /* SELECT TOPIC MODAL VIEW
 ----------------------------- */

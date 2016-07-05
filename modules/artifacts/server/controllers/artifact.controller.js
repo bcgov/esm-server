@@ -148,6 +148,11 @@ module.exports = DBModel.extend({
 				if (artifactType.code === 'valued-component') {
 					return null;
 				}
+
+				// not sure if this is right or we need more data on the templates...
+				if (_.isEmpty(artifactType.milestone))
+					return null;
+
 				var p = new MilestoneClass(self.opts);
 				return p.fromBase(artifactType.milestone, project.currentPhase);
 			})
@@ -190,8 +195,8 @@ module.exports = DBModel.extend({
 			artifact.write.push(project.code + ":pro:admin");
 			artifact.write.push(project.code + ":pro:member");
 			artifact.write.push(project.code + ":eao:project-team");
-			artifact.submit.push(project.code + ":eao:epd");
-			artifact.submit.push(project.code + ":eao:project-lead");
+			//artifact.submit.push(project.code + ":eao:epd");
+			//artifact.submit.push(project.code + ":eao:project-lead");
 		} else if (_.startsWith(type, 'section-10')) {
 			artifact.read.push(project.code + ":eao:project-team");
 			artifact.write.push(project.code + ":eao:epd");
