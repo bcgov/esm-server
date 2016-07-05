@@ -91,11 +91,13 @@ var success = function (res) {
 		res.json (result);
 	};
 };
+exports.success = success;
 var failure = function (res) {
 	return function (err) {
 		sendErrorMessage (res, getErrorMessage (err));
 	};
 };
+exports.failure = failure;
 var runPromise = function (res, p) {
 	p.then (success(res), failure(res));
 };
@@ -211,6 +213,7 @@ var setSessionContext = function (req) {
 		}
 	});
 };
+exports.setSessionContext = setSessionContext;
 // -------------------------------------------------------------------------
 //
 // this takes in a dbmodel class and makes it new and sets it on the request

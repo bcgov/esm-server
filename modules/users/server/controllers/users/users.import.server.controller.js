@@ -61,8 +61,8 @@ exports.loadUsers = function(file, req, res) {
 			if (err) {
 				reject("{err: "+err);
 			}
-			res.writeHead(200, {'Content-Type': 'text/plain'});
-			res.write('[ { "jobid": 0 }');
+			// res.writeHead(200, {'Content-Type': 'text/plain'});
+			// res.write('[ { "jobid": 0 }');
 			// console.log("FILE DATA:",data);
 			var colArray = ['PERSON_ID','EAO_STAFF_FLAG','PROPONENT_FLAG','SALUTATION','FIRST_NAME','MIDDLE_NAME','LAST_NAME','TITLE','ORGANIZATION_NAME','DEPARTMENT','EMAIL_ADDRESS','PHONE_NUMBER','HOME_PHONE_NUMBER','FAX_NUMBER','CELL_PHONE_NUMBER','ADDRESS_LINE_1','ADDRESS_LINE_2','CITY','PROVINCE_STATE','COUNTRY','POSTAL_CODE','NOTES'];
 			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
@@ -73,14 +73,14 @@ exports.loadUsers = function(file, req, res) {
 				Object.keys(output).forEach(function(key, index) {
 					if (index > 0) {
 						var row = output[key];
-						res.write(".");
+						// res.write(".");
 						rowsProcessed++;
 						User.findOne({personId: parseInt(row.PERSON_ID)}, function (err, doc) {
 							var addOrChangeModel = function(model) {
 								model.personId      = parseInt(row.PERSON_ID);
 								model.orgName       = row.ORGANIZATION_NAME;
 								model.title         = row.TITLE;
-                model.displayName   = row.FIRST_NAME + " " + row.LAST_NAME;
+                				model.displayName   = row.FIRST_NAME + " " + row.LAST_NAME;
 								model.firstName     = row.FIRST_NAME;
 								model.middleName    = row.MIDDLE_NAME;
 								model.lastName      = row.LAST_NAME;
@@ -102,20 +102,20 @@ exports.loadUsers = function(file, req, res) {
 								model.notes         = row.NOTES;
 								model.username      = model.email;
 								model.password      = crypto.randomBytes(8);
-								res.write(".");
+								// res.write(".");
 								model.save().then(function (user) {
 									// console.log("saving",user);
 									Organization.findOne({name: user.orgName}, function (err, org) { // Find an org and relate it
 										var checkIfDone = function() {
 											// console.log("checking if done");
-											res.write(".");
+											// res.write(".");
 												// Am I done processing?
 												// console.log("INDEX:",index);
 												if (index === length-1) {
 													// console.log("rowsProcessed: ",rowsProcessed);
-													//resolve("{done: true, rowsProcessed: "+rowsProcessed+"}");
-													res.write("]");
-													res.end();
+													resolve("{done: true, rowsProcessed: "+rowsProcessed+"}");
+													// res.write("]");
+													// res.end();
 												}
 										};
 										// If found the org, assign the org's id to this object

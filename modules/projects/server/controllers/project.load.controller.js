@@ -10,8 +10,6 @@ var Phase               = mongoose.model ('Phase');
 var Organization        = mongoose.model ('Organization');
 var CSVParse            = require ('csv-parse');
 
-
-
 // -------------------------------------------------------------------------
 //
 // This does a whole complicated mess of crap in loading up projects, should
@@ -20,7 +18,7 @@ var CSVParse            = require ('csv-parse');
 // here for now.
 //
 // -------------------------------------------------------------------------
-module.exports = function(file, req, res) {
+module.exports = function(file, req, res, opts) {
 	return new Promise (function (resolve, reject) {
 		var params = req.url.split("/");
 		var projectType = params[params.length-1]; // Last param is project type
@@ -33,33 +31,33 @@ module.exports = function(file, req, res) {
 				if (finalPhaseCode === "pre-submission") {
 					return project;
 				} else {
-					(new Project(req.user)).addPhase(project, "pre-ea")
+					(new Project(opts)).addPhase(project, "pre-ea")
 					.then(function (p) {
-						return (new Project(req.user)).addPhase(p, "pre-app");
+						return (new Project(opts)).addPhase(p, "pre-app");
 					})
 					.then(function (p) {
-						return (new Project(req.user)).addPhase(p, "evaluation");
+						return (new Project(opts)).addPhase(p, "evaluation");
 					})
 					.then(function (p) {
-						return (new Project(req.user)).addPhase(p, "application-review");
+						return (new Project(opts)).addPhase(p, "application-review");
 					})
 					.then(function (p) {
-						return (new Project(req.user)).addPhase(p, "decision");
+						return (new Project(opts)).addPhase(p, "decision");
 					})
 					.then(function (p) {
-						return (new Project(req.user)).addPhase(p, "post-certification");
+						return (new Project(opts)).addPhase(p, "post-certification");
 					})
 					.then(function (pr) {
 						if (!stopProcessing) {
 							if (finalPhaseCode === "pre-ea") stopProcessing = true;
 							// console.log("doing pre-ea");
-							return (new Project(req.user)).completeCurrentPhase(pr)
+							return (new Project(opts)).completeCurrentPhase(pr)
 							.then( function (pr) {
 								// Complete the phase and set next.
 								pr.currentPhase     = pr.phases[1];
 								pr.currentPhaseCode = pr.phases[1].code;
 								pr.currentPhaseName = pr.phases[1].name;
-								return (new Project(req.user)).saveDocument(pr);
+								return (new Project(opts)).saveDocument(pr);
 							});
 						} else {
 							return pr;
@@ -69,13 +67,13 @@ module.exports = function(file, req, res) {
 						if (!stopProcessing) {
 							if (finalPhaseCode === "pre-app") stopProcessing = true;
 							// console.log("doing pre-app");
-							return (new Project(req.user)).completeCurrentPhase(pr)
+							return (new Project(opts)).completeCurrentPhase(pr)
 							.then( function (pr) {
 								// Complete the phase and set next.
 								pr.currentPhase     = pr.phases[2];
 								pr.currentPhaseCode = pr.phases[2].code;
 								pr.currentPhaseName = pr.phases[2].name;
-								return (new Project(req.user)).saveDocument(pr);
+								return (new Project(opts)).saveDocument(pr);
 							});
 						} else {
 							return pr;
@@ -85,13 +83,13 @@ module.exports = function(file, req, res) {
 						if (!stopProcessing) {
 							if (finalPhaseCode === "evaluation") stopProcessing = true;
 							// console.log("doing evaluation");
-							return (new Project(req.user)).completeCurrentPhase(pr)
+							return (new Project(opts)).completeCurrentPhase(pr)
 							.then( function (pr) {
 								// Complete the phase and set next.
 								pr.currentPhase     = pr.phases[3];
 								pr.currentPhaseCode = pr.phases[3].code;
 								pr.currentPhaseName = pr.phases[3].name;
-								return (new Project(req.user)).saveDocument(pr);
+								return (new Project(opts)).saveDocument(pr);
 							});
 						} else {
 							return pr;
@@ -101,13 +99,13 @@ module.exports = function(file, req, res) {
 						if (!stopProcessing) {
 							if (finalPhaseCode === "application-review") stopProcessing = true;
 							// console.log("doing application-review");
-							return (new Project(req.user)).completeCurrentPhase(pr)
+							return (new Project(opts)).completeCurrentPhase(pr)
 							.then( function (pr) {
 								// Complete the phase and set next.
 								pr.currentPhase     = pr.phases[4];
 								pr.currentPhaseCode = pr.phases[4].code;
 								pr.currentPhaseName = pr.phases[4].name;
-								return (new Project(req.user)).saveDocument(pr);
+								return (new Project(opts)).saveDocument(pr);
 							});
 						} else {
 							return pr;
@@ -117,13 +115,13 @@ module.exports = function(file, req, res) {
 						if (!stopProcessing) {
 							if (finalPhaseCode === "decision") stopProcessing = true;
 							// console.log("doing decision");
-							return (new Project(req.user)).completeCurrentPhase(pr)
+							return (new Project(opts)).completeCurrentPhase(pr)
 							.then( function (pr) {
 								// Complete the phase and set next.
 								pr.currentPhase     = pr.phases[5];
 								pr.currentPhaseCode = pr.phases[5].code;
 								pr.currentPhaseName = pr.phases[5].name;
-								return (new Project(req.user)).saveDocument(pr);
+								return (new Project(opts)).saveDocument(pr);
 							});
 						} else {
 							return pr;
@@ -133,13 +131,13 @@ module.exports = function(file, req, res) {
 						if (!stopProcessing) {
 							if (finalPhaseCode === "post-certification") stopProcessing = true;
 							// console.log("doing post-certification");
-							return (new Project(req.user)).completeCurrentPhase(pr)
+							return (new Project(opts)).completeCurrentPhase(pr)
 							.then( function (pr) {
 								// Complete the phase and set next.
 								pr.currentPhase     = pr.phases[6];
 								pr.currentPhaseCode = pr.phases[6].code;
 								pr.currentPhaseName = pr.phases[6].name;
-								return (new Project(req.user)).saveDocument(pr);
+								return (new Project(opts)).saveDocument(pr);
 							});
 						} else {
 							return pr;
@@ -156,7 +154,7 @@ module.exports = function(file, req, res) {
 				Organization.findOne ({name:proponent.name}, function (err, result) {
 					if (result === null) {
 						// Create it
-						var o = new OrganizationController(req.user);
+						var o = new OrganizationController(opts);
 						o.newDocument(proponent)
 						.then ( o.create )
 						.then (function (org) {
@@ -164,13 +162,15 @@ module.exports = function(file, req, res) {
 							// being done.
 							project.proponent = org;
 							project.status = "In Progress";
-							project.save().then(rs, rj);
+							project.save()
+							.then(rs, rj);
 						});
 					} else {
 						// Same as above, but the update version.
 						project.proponent = result;
 						project.status = "In Progress";
-						project.save().then(rs, rj);
+						project.save()
+						.then(rs, rj);
 					}
 				});
 			});
@@ -178,7 +178,7 @@ module.exports = function(file, req, res) {
 		var doProjectWork = function(item, query) {
 			return new Promise(function (rs, rj) {
 				Model.findOne(query, function (err, doc) {
-					var p = new Project(req.user);
+					var p = new Project(opts);
 					if (doc === null) {
 						p.newDocument(item)
 						.then(p.create)
@@ -187,14 +187,16 @@ module.exports = function(file, req, res) {
 								// Project has been created, now to set things and resolve the project back
 								// to the caller.
 								if(item.isPublished === "TRUE") {
-									p.publish(newP, true).then(rs, rj);
+									p.publish(newP, true)
+									.then(rs, rj);
 								} else {
 									rs(newP);
 								}
 							});
 						});
 					} else {
-						p.update(doc, item).then(rs, rj);
+						p.update(doc, item)
+						.then(rs, rj);
 					}
 				});
 			});
@@ -302,7 +304,6 @@ module.exports = function(file, req, res) {
 				.then (function () {
 					return promises.reduce (function (current, item) {
 						return current.then (function () {
-							// console.log ('++ add phase ', code);
 							return doProjectWork(item.obj, item.query)
 							//
 							// Sequential reduction of work moving from the tail of the original promise

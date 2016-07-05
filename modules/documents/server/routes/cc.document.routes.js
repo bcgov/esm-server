@@ -15,6 +15,12 @@ module.exports = function (app) {
 	// get put new delete
 	//
 	routes.setCRUDRoutes (app, 'document', DocumentClass, policy, ['get','put','new', 'delete'], {all:'guest',get:'guest'});
+	// Import via CSV
+	app.route ('/api/documents/import')
+		.all (policy ('guest'))
+		.post ( routes.setAndRun (DocumentClass, function (model, request) {
+				return model.loadDocuments(request.files.file, request);
+			}));
 	//
 	// getAllDocuments                 : '/api/documents'
 	//
