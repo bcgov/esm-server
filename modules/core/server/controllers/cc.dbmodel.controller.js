@@ -593,6 +593,83 @@ _.extend (DBModel.prototype, {
 	},
 	// -------------------------------------------------------------------------
 	//
+	// get all the default role permissions for this object if they do, in fact
+	// exist. The format is { owner : { role : [ permisions ]}
+	//
+	// -------------------------------------------------------------------------
+	getModelPermissionDefaults : function () {
+		var self = this;
+		var Defaults = this.mongoose.model ('_Defaults');
+		return new Promise (function (resolve, reject) {
+			Defaults.findOne ({
+				resource : self.name.toLowerCase (),
+				level    : 'global',
+				type     : 'rolePermissions',
+			})
+			.exec ()
+			.then (resolve, reject);
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// take a permission defaults object and apply it to this thing, whatever
+	// it is. There is a standard for this format:
+	// {
+	// 	roles: {
+	// 		owner : [roles]
+	// 	},
+	// 	permissions: {
+	// 		permision: [roles]
+	// 	}
+	// }
+	//
+	// -------------------------------------------------------------------------
+	applyModelPermissionDefaults : function (model, defaultObject) {
+		//
+		// default to application
+		// if this is a project, then use its id
+		// otherwise if it has a project, use its project._id
+		// or if not populated use the project field itself
+		//
+		var context     = 'application';
+		if (defaultObject.context === 'project') {
+			if (this.name.toLowerCase () === 'project') {
+				context = model._id;
+			} else if (model.project) {
+				context = model.project._id ? model.project._id : model.project;
+			}
+		}
+		var resource    = model._id;
+		var parray      = [];
+		var definitions = {};
+		var defaults    = defaultObject.defaults;
+		var ownerroles  = deafults.roles;
+		var permissions = defaults.permissions;
+		//
+		// this part deals with only the roles, it ensures that they are all actually
+		// set up properly on the given context
+		//
+		_.each (ownerroles, function (roles, owner) {
+			_.each (roles, function (perms, role) {
+				parray.push (access.addRoleDefinition ({
+					context : context,
+					owner   : owner,
+					role    : role
+				}));
+			});
+		});
+				_.each (permissions, function (permission, roles) {
+					parray.push (access.addPermissions ({
+						resource    : resource,
+						roles       : roles,
+						permissions : permission
+					}));
+				});
+			});
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
 	// make a new copy from a passed in object
 	//
 	// -------------------------------------------------------------------------

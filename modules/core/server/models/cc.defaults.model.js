@@ -19,6 +19,7 @@ var Schema       = mongoose.Schema;
 //
 // -------------------------------------------------------------------------
 mongoose.model ('_Defaults', new Schema ({
+	context  : { type:String, index:true, required:true },  // eg: 'project'
 	resource : { type:String, index:true, required:true },  // eg: 'project'
 	level    : { type:String, index:true, required:true, default:'global' },  // eg: 'global' or maybe a userid for a user's preferences
 	type     : { type:String, index:true, required:true }, // eg: 'roles' or 'user prefs' or whatever

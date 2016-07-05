@@ -53,6 +53,7 @@ module.exports = function () {
 			'listUsers'
 		];
 		promiseArray.push ((new Defaults ({
+			context  : 'project',
 			resource : 'project',
 			level    : 'global',
 			type     : 'rolePermissions',
@@ -141,6 +142,7 @@ module.exports = function () {
 		];
 
 		promiseArray.push ((new Defaults ({
+			context  : 'application',
 			resource : 'application',
 			level    : 'global',
 			type     : 'rolePermissions',

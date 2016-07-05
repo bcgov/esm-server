@@ -182,6 +182,7 @@ var addPermissions = function (p) {
 		return addPermission (v);
 	}));
 };
+exports.addPermission = addPermission;
 exports.addPermissions = addPermissions;
 // -------------------------------------------------------------------------
 //
@@ -280,7 +281,7 @@ var setObjectPermissionRoles = function (p) {
 	});
 	return Promise.all (promisesPromises).then (function () {
 		//
-		// this has to be done last becuase it prepends the role
+		// this has to be done last because it prepends the role
 		// with the context for listing
 		//
 		p.permissions.read = p.permissions.read || p.resource.read;
@@ -536,6 +537,7 @@ var addRoleDefinition = function (p) {
 	p.user = null;
 	return addRole (p);
 };
+exports.addRoleDefinition = addRoleDefinition;
 var addRoleDefinitions = function (o) {
 	o.roles = ensureArray (o.roles);
 	return Promise.all (o.roles.map (function (role) {
