@@ -630,6 +630,7 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	applyModelPermissionDefaults : function (model, defaultObject) {
+		if (!this.useRoles) return Promise.resolve (model);
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			var context     ;
