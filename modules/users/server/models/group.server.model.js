@@ -6,8 +6,6 @@
 // =========================================================================
 module.exports = require ('../../../core/server/controllers/cc.schema.controller')
 ('Group', {
-	__access     : [],
-	__codename  : false,
 	groupId     : { type:Number, default: 0 }, // From ePIC
 	groupName 	: { type:String, default: '' },
 	groupType 	: { type:String, default: '' },

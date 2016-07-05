@@ -11,7 +11,7 @@ var _             = require ('lodash'),
 		CSVParse      = require ('csv-parse'),
 		crypto        = require ('crypto'),
 		Project       = mongoose.model ('Project'),
-		GroupModel    = mongoose.model ('Group'),
+		Group    	  = mongoose.model ('Group'),
 		Organization  = mongoose.model ('Organization'),
 		errorHandler  = require (path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
@@ -61,8 +61,6 @@ exports.loadUsers = function(file, req, res) {
 			if (err) {
 				reject("{err: "+err);
 			}
-			// res.writeHead(200, {'Content-Type': 'text/plain'});
-			// res.write('[ { "jobid": 0 }');
 			// console.log("FILE DATA:",data);
 			var colArray = ['PERSON_ID','EAO_STAFF_FLAG','PROPONENT_FLAG','SALUTATION','FIRST_NAME','MIDDLE_NAME','LAST_NAME','TITLE','ORGANIZATION_NAME','DEPARTMENT','EMAIL_ADDRESS','PHONE_NUMBER','HOME_PHONE_NUMBER','FAX_NUMBER','CELL_PHONE_NUMBER','ADDRESS_LINE_1','ADDRESS_LINE_2','CITY','PROVINCE_STATE','COUNTRY','POSTAL_CODE','NOTES'];
 			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
@@ -73,9 +71,9 @@ exports.loadUsers = function(file, req, res) {
 				Object.keys(output).forEach(function(key, index) {
 					if (index > 0) {
 						var row = output[key];
-						// res.write(".");
 						rowsProcessed++;
-						User.findOne({personId: parseInt(row.PERSON_ID)}, function (err, doc) {
+						User.findOne({personId: parseInt(row.PERSON_ID)})
+						.then (function (doc) {
 							var addOrChangeModel = function(model) {
 								model.personId      = parseInt(row.PERSON_ID);
 								model.orgName       = row.ORGANIZATION_NAME;
@@ -102,35 +100,24 @@ exports.loadUsers = function(file, req, res) {
 								model.notes         = row.NOTES;
 								model.username      = model.email;
 								model.password      = crypto.randomBytes(8);
-								// res.write(".");
-								model.save().then(function (user) {
+								model.save()
+								.then(function (user) {
 									// console.log("saving",user);
-									Organization.findOne({name: user.orgName}, function (err, org) { // Find an org and relate it
-										var checkIfDone = function() {
-											// console.log("checking if done");
-											// res.write(".");
-												// Am I done processing?
-												// console.log("INDEX:",index);
-												if (index === length-1) {
-													// console.log("rowsProcessed: ",rowsProcessed);
-													resolve("{done: true, rowsProcessed: "+rowsProcessed+"}");
-													// res.write("]");
-													// res.end();
-												}
-										};
-										// If found the org, assign the org's id to this object
-										if (org) {
-											// console.log("found the org");
-											user.org = org;
-											user.save().then(function () {
-												checkIfDone();
-											});
-										} else {
-											setTimeout(function() {
-												checkIfDone();
-											}, 2000);
-										}
-									});
+									return Organization.findOne({name: user.orgName});
+								})
+								.then( function (org) {
+									if (org) {
+										// console.log("found the org");
+										model.org = org;
+										return model.save();
+									} else {
+										return null;
+									}
+								}).then( function () {
+									if (index === length-1) {
+										// console.log("rowsProcessed: ",rowsProcessed);
+										resolve("{done: true, rowsProcessed: "+rowsProcessed+"}");
+									}
 								});
 							};
 							if (doc === null) {
@@ -156,13 +143,10 @@ exports.loadGroupUsers = function(file, req, res) {
 			if (err) {
 				reject("{err: "+err);
 			}
-			res.writeHead(200, {'Content-Type': 'text/plain'});
-			res.write('[ { "jobid": 0 }');
 			// console.log("FILE DATA:",data);
 			var colArray = ['GROUP_ID','NAME','CONTACT_GROUP_TYPE','PERSON_ID','PROJECT_ID'];
 			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 				// Skip this many rows
-				//res.write(".");
 				var length = Object.keys(output).length;
 				var rowsProcessed = 0;
 				// console.log("length",length);
@@ -171,43 +155,37 @@ exports.loadGroupUsers = function(file, req, res) {
 						var row = output[key];
 						rowsProcessed++;
 						// console.log("rowData:",row);
-						GroupModel.findOne({groupId: parseInt(row.GROUP_ID), personId: parseInt(row.PERSON_ID)}, function (err, doc) {
+						Group.findOne({groupId: parseInt(row.GROUP_ID), personId: parseInt(row.PERSON_ID)})
+						.then( function (doc) {
 							var addOrChangeModel = function(model) {
-								// console.log("Nothing Found");
 								model.groupId     = parseInt(row.GROUP_ID);
 								model.groupName   = row.NAME;
 								model.groupType   = row.CONTACT_GROUP_TYPE;
 								model.personId    = parseInt(row.PERSON_ID);
 								model.epicProjectID  = parseInt(row.PROJECT_ID); // Save epic data just in case
-								//res.write(".");
-								model.save().then(function (m) {
-									Project.findOne({epicProjectID: m.epicProjectID}, function (err, project) { // Find an project and relate it
-										if (project) {
-											m.project = project;
-											m.save().then(function () {
-												// console.log("per:",person);
-												if (index === length-1) {
-													res.write("]");
-													res.end();
-												} else {
-													res.write(",");
-													res.flush();
-												}
-											});
-										} else {
-											setTimeout(function() {
-												if (index === length-1) {
-													res.write("]");
-													res.end();
-												}
-											}, 2000);
+								model.save()
+								.then(function (m) {
+									return Project.findOne({epicProjectID: m.epicProjectID});
+								})
+								.then (function (project) { // Find an project and relate it
+									// console.log("project:", project);
+									if (project) {
+										model.project = project;
+										return model.save();
+									}
+								})
+								.then(function () {
+									setTimeout(function() {
+										if (index === length-1) {
+											// console.log("resolving");
+											resolve();
 										}
-									});
+									}, 2000);
 								});
 							};
 							if (doc === null) {
 								// Create new
-								var g = new GroupModel ();
+								var g = new Group ();
 								addOrChangeModel(g);
 							} else {
 								// Update:
