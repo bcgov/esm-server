@@ -91,11 +91,13 @@ var success = function (res) {
 		res.json (result);
 	};
 };
+exports.success = success;
 var failure = function (res) {
 	return function (err) {
 		sendErrorMessage (res, getErrorMessage (err));
 	};
 };
+exports.failure = failure;
 var runPromise = function (res, p) {
 	p.then (success(res), failure(res));
 };
