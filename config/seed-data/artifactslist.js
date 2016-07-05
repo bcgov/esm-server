@@ -41,7 +41,7 @@ var artifacttypes = [{
 	}],
 	phase: ''
 }, {
-	name: 'Project Description',
+	name: 'Project Description Template',
 	code: 'project-description',
 	milestone: 'project-description',
 	multiple: false,
@@ -58,7 +58,7 @@ var artifacttypes = [{
 	],
 	phase: ''
 }, {
-	name: 'Section 10(1)(a) Order',
+	name: 'Section 10(1)(a) Order Template',
 	milestone: 'section-10-1-a-order',
 	code: 'section-10-1-a-order',
 	multiple: false,
@@ -68,7 +68,7 @@ var artifacttypes = [{
 	],
 	phase: ''
 }, {
-	name: 'Section 10(1)(b) Order',
+	name: 'Section 10(1)(b) Order Template',
 	milestone: 'section-10-1-b-order',
 	code: 'section-10-1-b-order',
 	multiple: false,
@@ -78,7 +78,7 @@ var artifacttypes = [{
 	],
 	phase: ''
 }, {
-	name: 'Section 10(1)(c) Order',
+	name: 'Section 10(1)(c) Order Template',
 	milestone: 'section-10-1-c-order',
 	code: 'section-10-1-c-order',
 	multiple: false,
@@ -88,7 +88,7 @@ var artifacttypes = [{
 	],
 	phase: ''
 }, {
-	name: 'Section 7(3) Order',
+	name: 'Section 7(3) Order Template',
 	milestone: 'section-7-3-order',
 	code: 'section-7-3-order',
 	multiple: false,
@@ -98,7 +98,7 @@ var artifacttypes = [{
 	],
 	phase: ''
 }, {
-	name: 'Section 11 Order',
+	name: 'Section 11 Order Template',
 	milestone: 'section-11-order',
 	code: 'section-11-order',
 	multiple: false,
@@ -108,7 +108,7 @@ var artifacttypes = [{
 	],
 	phase: ''
 }, {
-	name: 'Section 11 Schedule A',
+	name: 'Section 11 Schedule A Template',
 	milestone: 'section-11-schedule-a',
 	code: 'section-11-schedule-a',
 	multiple: false,
@@ -118,7 +118,7 @@ var artifacttypes = [{
 	],
 	phase: ''
 }, {
-	name: 'Section 34 Order',
+	name: 'Section 34 Order Template',
 	milestone: 'section-34-order',
 	code: 'section-34-order',
 	multiple: false,
@@ -128,7 +128,7 @@ var artifacttypes = [{
 	],
 	phase: ''
 }, {
-	name: 'Section 36 Order',
+	name: 'Section 36 Order Template',
 	milestone: 'section-36-order',
 	code: 'section-36-order',
 	multiple: false,
@@ -138,7 +138,7 @@ var artifacttypes = [{
 	],
 	phase: ''
 }, {
-	name: 'Section 36 Schedule A',
+	name: 'Section 36 Schedule A Template',
 	milestone: 'section-36-schedule-a',
 	code: 'section-36-schedule-a',
 	multiple: false,
@@ -148,7 +148,7 @@ var artifacttypes = [{
 	],
 	phase: ''
 }, {
-	name: 'Section 36 Schedule B',
+	name: 'Section 36 Schedule B Template',
 	milestone: 'section-36-schedule-b',
 	code: 'section-36-schedule-b',
 	multiple: false,
@@ -158,7 +158,7 @@ var artifacttypes = [{
 	],
 	phase: ''
 }, {
-	name: 'Inspection Report',
+	name: 'Inspection Report Template',
 	milestone: 'inspection-report',
 	code: 'inspection-report',
 	multiple: true,
@@ -168,7 +168,7 @@ var artifacttypes = [{
 	],
 	phase: ''
 }, {
-	name: 'Environmental Assessment Certificate',
+	name: 'Environmental Assessment Certificate Template',
 	milestone: 'environmental-assessment-certificate',
 	code: 'environmental-assessment-certificate',
 	multiple: false,
