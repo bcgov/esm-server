@@ -11,16 +11,17 @@
 //
 // =========================================================================
 
-var mongoose   = require ('mongoose');
-var Role       = mongoose.model ('_Role');
-var Permission = mongoose.model ('_Permission');
-var _          = require ('lodash');
-var helpers    = require ('../controllers/cc.routes.controller');
+var mongoose = require('mongoose');
+var Role = mongoose.model('_Role');
+var Permission = mongoose.model('_Permission');
+var _ = require('lodash');
+var helpers = require('../controllers/cc.routes.controller');
 var runPromise = helpers.runPromise;
 
 var defaultResource = 'application';
-var defaultContext  = 'application';
-var defaultRole     = 'public';
+var defaultContext = 'application';
+var defaultRole = 'public';
+var User = mongoose.model('User');
 
 // -------------------------------------------------------------------------
 //
@@ -28,19 +29,19 @@ var defaultRole     = 'public';
 //
 // -------------------------------------------------------------------------
 var pluckPermissions = function (a) {
-	return _.uniq (_.pluck (a, 'permission'));
+	return _.uniq(_.pluck(a, 'permission'));
 };
 var pivotPermissions = function (a) {
 	var ret = {};
-	a.map (function (p) {
+	a.map(function (p) {
 		if (!ret[p.permission]) ret[p.permission] = [];
-		if (p.role !== null) ret[p.permission].push (p.role);
+		if (p.role !== null) ret[p.permission].push(p.role);
 	});
 	return ret;
 };
 var indexPermissionRoles = function (a) {
-	var ret = {role:{},permission:{}};
-	a.map (function (row) {
+	var ret = {role: {}, permission: {}};
+	a.map(function (row) {
 		if (!ret.permission[row.permission]) ret.permission[row.permission] = {};
 		if (!ret.role[row.role]) ret.role[row.role] = {};
 		ret.permission[row.permission][row.role] = true;
@@ -50,39 +51,39 @@ var indexPermissionRoles = function (a) {
 };
 var expandPermissions = function (p) {
 	var ps = [];
-	_.each (p.permissions, function (permission) {
-		_.each (p.roles, function (role) {
-			ps.push ({
-				resource   : p.resource,
-				permission : permission,
-				role       : role
+	_.each(p.permissions, function (permission) {
+		_.each(p.roles, function (role) {
+			ps.push({
+				resource: p.resource,
+				permission: permission,
+				role: role
 			});
 		});
 	});
 	return ps;
 };
 var pluckRoles = function (a) {
-	return _.uniq (a.map (function (r) {
+	return _.uniq(a.map(function (r) {
 		return r.role;
 	}));
 };
 var pluckAppRoles = function (a) {
-	return pluckRoles (a);
+	return pluckRoles(a);
 	// return _.uniq (a.map (function (r) {
 	// 	return r.context + ':' + r.role;
 	// }));
 };
 var pivotRoles = function (a) {
 	var ret = {};
-	a.map (function (p) {
+	a.map(function (p) {
 		if (!ret[p.role]) ret[p.role] = [];
-		if (p.user !== null) ret[p.role].push (p.user);
+		if (p.user !== null) ret[p.role].push(p.user);
 	});
 	return ret;
 };
 var indexRoleUsers = function (a) {
-	var ret = {role:{},user:{}};
-	a.map (function (row) {
+	var ret = {role: {}, user: {}};
+	a.map(function (row) {
 		if (!ret.user[row.user]) ret.user[row.user] = {};
 		if (!ret.role[row.role]) ret.role[row.role] = {};
 		ret.user[row.user][row.role] = true;
@@ -92,28 +93,28 @@ var indexRoleUsers = function (a) {
 };
 var expandRoles = function (p) {
 	var ps = [];
-	_.each (p.roles, function (role) {
-		_.each (p.users, function (user) {
-			ps.push ({
-				context : p.context,
-				role    : role,
-				user    : user
+	_.each(p.roles, function (role) {
+		_.each(p.users, function (user) {
+			ps.push({
+				context: p.context,
+				role: role,
+				user: user
 			});
 		});
 	});
 	return ps;
 };
 var addPublicRole = function (a) {
-	a.push ('public');
+	a.push('public');
 	return a;
 };
 var addAllRole = function (a) {
-	a.push ('*');
+	a.push('*');
 	return a;
 };
 var ensureArray = function (val) {
 	if (!val) return [];
-	else if (_.isArray (val)) return val;
+	else if (_.isArray(val)) return val;
 	else return [val];
 };
 // -------------------------------------------------------------------------
@@ -122,13 +123,13 @@ var ensureArray = function (val) {
 //
 // -------------------------------------------------------------------------
 var findPermissions = function (q) {
-	return new Promise (function (resolve, reject) {
-		Permission.find (q).then (resolve, reject);
+	return new Promise(function (resolve, reject) {
+		Permission.find(q).then(resolve, reject);
 	});
 };
 var findRoles = function (q) {
-	return new Promise (function (resolve, reject) {
-		Role.find (q).then (resolve, reject);
+	return new Promise(function (resolve, reject) {
+		Role.find(q).then(resolve, reject);
 	});
 };
 // -------------------------------------------------------------------------
@@ -137,14 +138,14 @@ var findRoles = function (q) {
 //
 // -------------------------------------------------------------------------
 var createPermission = function (p) {
-	return new Promise (function (resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		// console.log ('creating new permission', p);
-		(new Permission (p)).save ().then (resolve, reject);
+		(new Permission(p)).save().then(resolve, reject);
 	});
 };
 var createRole = function (p) {
-	return new Promise (function (resolve, reject) {
-		(new Role (p)).save ().then (resolve, reject);
+	return new Promise(function (resolve, reject) {
+		(new Role(p)).save().then(resolve, reject);
 	});
 };
 // =========================================================================
@@ -158,28 +159,28 @@ var createRole = function (p) {
 //
 // -------------------------------------------------------------------------
 var addPermission = function (p) {
-	return new Promise (function (resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		if (!p.permission) {
-			reject ({ message: 'no permission defined in addPermission' });
+			reject({message: 'no permission defined in addPermission'});
 		}
 		else if (!p.resource) {
-			reject ({ message: 'no resource defined in addPermission' });
+			reject({message: 'no resource defined in addPermission'});
 		}
 		else {
-			findPermissions (p)
-			.then (function (r) {
+			findPermissions(p)
+			.then(function (r) {
 				// console.log ('returned r', r);
-				return !r.length ? createPermission (p) : '';
+				return !r.length ? createPermission(p) : '';
 			})
-			.then (resolve, reject);
+			.then(resolve, reject);
 		}
 	});
 };
 var addPermissions = function (p) {
-	p.permissions = ensureArray (p.permissions);
-	p.roles = ensureArray (p.roles);
-	return Promise.all (expandPermissions(p).map (function (v) {
-		return addPermission (v);
+	p.permissions = ensureArray(p.permissions);
+	p.roles = ensureArray(p.roles);
+	return Promise.all(expandPermissions(p).map(function (v) {
+		return addPermission(v);
 	}));
 };
 exports.addPermission = addPermission;
@@ -190,26 +191,26 @@ exports.addPermissions = addPermissions;
 //
 // -------------------------------------------------------------------------
 var deletePermission = function (p) {
-	return new Promise (function (resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		if (!p.resource) {
-			reject ({message:'no resource defined in deletePermission'});
+			reject({message: 'no resource defined in deletePermission'});
 		}
 		else if (!p.permission) {
-			reject ({message:'no permission defined in deletePermission'});
+			reject({message: 'no permission defined in deletePermission'});
 		}
 		else if (typeof p.role === 'undefined') {
-			reject ({message:'no role defined in deletePermission'});
+			reject({message: 'no role defined in deletePermission'});
 		}
 		else {
-			Permission.remove (p).exec ().then (resolve, reject);
+			Permission.remove(p).exec().then(resolve, reject);
 		}
 	});
 };
 var deletePermissions = function (p) {
-	p.permissions = ensureArray (p.permissions);
-	p.roles = ensureArray (p.roles);
-	return Promise.all (expandPermissions(p).map (function (v) {
-		return deletePermission (v);
+	p.permissions = ensureArray(p.permissions);
+	p.roles = ensureArray(p.roles);
+	return Promise.all(expandPermissions(p).map(function (v) {
+		return deletePermission(v);
 	}));
 };
 exports.deletePermissions = deletePermissions;
@@ -217,11 +218,11 @@ var deleteAllPermissions = function (p) {
 	//
 	// given a specific resource, delete all but the definitions
 	//
-	return new Promise (function (resolve, reject) {
-		Permission.remove ({
-			resource : p.resource,
-			role     : { $ne : null }
-		}).exec ().then (resolve, reject);
+	return new Promise(function (resolve, reject) {
+		Permission.remove({
+			resource: p.resource,
+			role: {$ne: null}
+		}).exec().then(resolve, reject);
 	});
 };
 exports.deleteAllPermissions = deleteAllPermissions;
@@ -231,23 +232,23 @@ exports.deleteAllPermissions = deleteAllPermissions;
 //
 // -------------------------------------------------------------------------
 var setPermissionRoles = function (p) {
-	return new Promise (function (resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		//
 		// remove all roles from this permission
 		//
-		Permission.remove ({
-			resource   : p.resource,
-			permission : p.permision,
-			role       : { $ne : null },
-		}).exec ()
-		.then (function () {
-			return addPermissions ({
-				resource : p .resource,
-				permissions : [p.permission],
-				roles : p.roles
+		Permission.remove({
+			resource: p.resource,
+			permission: p.permision,
+			role: {$ne: null},
+		}).exec()
+		.then(function () {
+			return addPermissions({
+				resource: p.resource,
+				permissions: [p.permission],
+				roles: p.roles
 			});
 		})
-		.then (resolve, reject);
+		.then(resolve, reject);
 	});
 };
 exports.setPermissionRoles = setPermissionRoles;
@@ -272,14 +273,14 @@ exports.setPermissionRoles = setPermissionRoles;
 var setObjectPermissionRoles = function (p) {
 	var promisesPromises = [];
 	// console.log (JSON.stringify (p.resource, null, 4));
-	_.each (p.permissions, function (roles, permission) {
-		promisesPromises.push (setPermissionRoles ({
-			resource   : p.resource._id,
-			permission : permission,
-			roles      : roles
+	_.each(p.permissions, function (roles, permission) {
+		promisesPromises.push(setPermissionRoles({
+			resource: p.resource._id,
+			permission: permission,
+			roles: roles
 		}));
 	});
-	return Promise.all (promisesPromises).then (function () {
+	return Promise.all(promisesPromises).then(function () {
 		//
 		// this has to be done last because it prepends the role
 		// with the context for listing
@@ -287,7 +288,7 @@ var setObjectPermissionRoles = function (p) {
 		p.permissions.read = p.permissions.read || p.resource.read;
 		p.permissions.write = p.permissions.write || p.resource.write;
 		p.permissions.delete = p.permissions.delete || p.resource.delete;
-		p.resource.setRoles (p.permissions);
+		p.resource.setRoles(p.permissions);
 		return p;
 	});
 };
@@ -299,15 +300,15 @@ exports.setObjectPermissionRoles = setObjectPermissionRoles;
 // -------------------------------------------------------------------------
 var addPermissionDefinition = function (p) {
 	p.role = null;
-	return addPermission (p);
+	return addPermission(p);
 };
 var addPermissionDefinitions = function (o) {
-	o.permissions = ensureArray (o.permissions);
-	return Promise.all (o.permissions.map (function (permission) {
-		return addPermission ({
-			resource   : o.resource,
-			permission : permission,
-			role       : null
+	o.permissions = ensureArray(o.permissions);
+	return Promise.all(o.permissions.map(function (permission) {
+		return addPermission({
+			resource: o.resource,
+			permission: permission,
+			role: null
 		});
 	}));
 };
@@ -318,15 +319,15 @@ var addPermissionDefinitions = function (o) {
 // -------------------------------------------------------------------------
 var deletePermissionDefinition = function (p) {
 	p.role = null;
-	return deletePermission (p);
+	return deletePermission(p);
 };
 var deletePermissionDefinitions = function (o) {
-	o.permissions = ensureArray (o.permissions);
-	return Promise.all (o.permissions.map (function (permission) {
-		return deletePermission ({
-			resource   : o.resource,
-			permission : permission,
-			role       : null
+	o.permissions = ensureArray(o.permissions);
+	return Promise.all(o.permissions.map(function (permission) {
+		return deletePermission({
+			resource: o.resource,
+			permission: permission,
+			role: null
 		});
 	}));
 };
@@ -336,13 +337,13 @@ var deletePermissionDefinitions = function (o) {
 //
 // -------------------------------------------------------------------------
 var getPermissionsForResource = function (o) {
-	return new Promise (function (resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		if (!o.resource) {
-			reject ({message:'no resource defined in getPermissionsForResource'});
+			reject({message: 'no resource defined in getPermissionsForResource'});
 		}
 		else {
-			findPermissions (o)
-			.then (resolve, reject);
+			findPermissions(o)
+			.then(resolve, reject);
 		}
 	});
 };
@@ -352,13 +353,13 @@ var getPermissionsForResource = function (o) {
 //
 // -------------------------------------------------------------------------
 var getPermissionList = function (o) {
-	return new Promise (function (resolve, reject) {
-		getPermissionsForResource ({
-			resource   : o.resource,
-			role       : null
+	return new Promise(function (resolve, reject) {
+		getPermissionsForResource({
+			resource: o.resource,
+			role: null
 		})
-		.then (pluckPermissions)
-		.then (resolve, reject);
+		.then(pluckPermissions)
+		.then(resolve, reject);
 	});
 };
 exports.getPermissionList = getPermissionList;
@@ -369,12 +370,12 @@ exports.getPermissionList = getPermissionList;
 //
 // -------------------------------------------------------------------------
 var getPermissionRoles = function (o) {
-	return new Promise (function (resolve, reject) {
-		getPermissionsForResource ({
-			resource   : o.resource
+	return new Promise(function (resolve, reject) {
+		getPermissionsForResource({
+			resource: o.resource
 		})
-		.then (pivotPermissions)
-		.then (resolve, reject);
+		.then(pivotPermissions)
+		.then(resolve, reject);
 	});
 };
 // -------------------------------------------------------------------------
@@ -383,13 +384,13 @@ var getPermissionRoles = function (o) {
 //
 // -------------------------------------------------------------------------
 var getPermissionRoleIndex = function (o) {
-	return new Promise (function (resolve, reject) {
-		getPermissionsForResource ({
-			resource   : o.resource,
-			role     : { $ne : null }
+	return new Promise(function (resolve, reject) {
+		getPermissionsForResource({
+			resource: o.resource,
+			role: {$ne: null}
 		})
-		.then (indexPermissionRoles)
-		.then (resolve, reject);
+		.then(indexPermissionRoles)
+		.then(resolve, reject);
 	});
 };
 exports.getPermissionRoleIndex = getPermissionRoleIndex;
@@ -400,41 +401,43 @@ exports.getPermissionRoleIndex = getPermissionRoleIndex;
 //
 // -------------------------------------------------------------------------
 var setPermissionRoleIndex = function (resource, index) {
-	console.log ('here');
-	return new Promise (function (resolve, reject) {
+	console.log('here');
+	return new Promise(function (resolve, reject) {
 		var promiseArray = [];
-		var modelroles = {read:[],write:[],delete:[]};
-		_.each (index.permission, function (roles, permission) {
-			_.each (roles, function (value, role) {
+		var modelroles = {read: [], write: [], delete: []};
+		_.each(index.permission, function (roles, permission) {
+			_.each(roles, function (value, role) {
 				if (value) {
-					promiseArray.push (addPermission ({
-						resource   : resource,
-						permission : permission,
-						role       : role
+					promiseArray.push(addPermission({
+						resource: resource,
+						permission: permission,
+						role: role
 					}));
-					if (modelroles[permission]) modelroles[permission].push (role);
+					if (modelroles[permission]) modelroles[permission].push(role);
 				}
 				else {
-					promiseArray.push (deletePermission ({
-						resource   : resource,
-						permission : permission,
-						role       : role
+					promiseArray.push(deletePermission({
+						resource: resource,
+						permission: permission,
+						role: role
 					}));
 				}
 			});
 		});
-		Promise.all (promiseArray)
-		.then (function () {
+		Promise.all(promiseArray)
+		.then(function () {
 			//
 			// now set the read / write / delete on the resource
 			// the schema name would be passed down in the index
 			//
-			var m = mongoose.model (index.schemaName);
-			console.log ('updating ', index.schemaName, resource, JSON.stringify (modelroles));
-			return m.update ({_id:resource}, modelroles).exec ();
+			var m = mongoose.model(index.schemaName);
+			console.log('updating ', index.schemaName, resource, JSON.stringify(modelroles));
+			return m.update({_id: resource}, modelroles).exec();
 		})
-		.then (function () { return {ok:true};})
-		.then (resolve, reject);
+		.then(function () {
+			return {ok: true};
+		})
+		.then(resolve, reject);
 	});
 };
 exports.setPermissionRoleIndex = setPermissionRoleIndex;
@@ -449,31 +452,31 @@ exports.setPermissionRoleIndex = setPermissionRoleIndex;
 //
 // -------------------------------------------------------------------------
 var addRole = function (p) {
-	return new Promise (function (resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		if (!p.role) {
-			reject ({ message: 'no role defined in addRole' });
+			reject({message: 'no role defined in addRole'});
 		}
 		else if (!p.context) {
-			reject ({ message: 'no context defined in addRole' });
+			reject({message: 'no context defined in addRole'});
 		}
 		else {
 			if (p.context === defaultContext && p.context.lastIndexOf(defaultContext, 0) !== 0) {
-				p.role = defaultContext+':'+p.role;
+				p.role = defaultContext + ':' + p.role;
 			}
-			findRoles (p)
-			.then (function (r) {
+			findRoles(p)
+			.then(function (r) {
 				// console.log ('returned r', r);
-				return !r.length ? createRole (p) : '';
+				return !r.length ? createRole(p) : '';
 			})
-			.then (resolve, reject);
+			.then(resolve, reject);
 		}
 	});
 };
 var addRoles = function (p) {
-	p.roles = ensureArray (p.roles);
-	p.users = ensureArray (p.users);
-	return Promise.all (expandRoles(p).map (function (v) {
-		return addRole (v);
+	p.roles = ensureArray(p.roles);
+	p.users = ensureArray(p.users);
+	return Promise.all(expandRoles(p).map(function (v) {
+		return addRole(v);
 	}));
 };
 exports.addRoles = addRoles;
@@ -486,17 +489,17 @@ exports.addRoles = addRoles;
 var addRoleIfUnique = function (p) {
 	p.user = null;
 	if (p.context === defaultContext && p.context.lastIndexOf(defaultContext, 0) !== 0) {
-		p.role = defaultContext+':'+p.role;
+		p.role = defaultContext + ':' + p.role;
 	}
-	return new Promise (function (resolve, reject) {
-		findRoles (p)
-		.then (function (r) {
-			return !r.length ? createRole (p) : false;
+	return new Promise(function (resolve, reject) {
+		findRoles(p)
+		.then(function (r) {
+			return !r.length ? createRole(p) : false;
 		})
-		.then (function (r) {
-			return (!r) ? {ok:false} : {ok:true};
+		.then(function (r) {
+			return (!r) ? {ok: false} : {ok: true};
 		})
-		.then (resolve, reject);
+		.then(resolve, reject);
 	});
 };
 exports.addRoleIfUnique = addRoleIfUnique;
@@ -506,26 +509,26 @@ exports.addRoleIfUnique = addRoleIfUnique;
 //
 // -------------------------------------------------------------------------
 var deleteRole = function (p) {
-	return new Promise (function (resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		if (!p.context) {
-			reject ({message:'no context defined in deleteRole'});
+			reject({message: 'no context defined in deleteRole'});
 		}
 		else if (!p.role) {
-			reject ({message:'no role defined in deleteRole'});
+			reject({message: 'no role defined in deleteRole'});
 		}
 		else if (typeof p.user === 'undefined') {
-			reject ({message:'no user defined in deleteRole'});
+			reject({message: 'no user defined in deleteRole'});
 		}
 		else {
-			Role.remove (p).exec ().then (resolve, reject);
+			Role.remove(p).exec().then(resolve, reject);
 		}
 	});
 };
 var deleteRoles = function (p) {
-	p.roles = ensureArray (p.roles);
-	p.users = ensureArray (p.users);
-	return Promise.all (expandRoles(p).map (function (v) {
-		return deleteRole (v);
+	p.roles = ensureArray(p.roles);
+	p.users = ensureArray(p.users);
+	return Promise.all(expandRoles(p).map(function (v) {
+		return deleteRole(v);
 	}));
 };
 // -------------------------------------------------------------------------
@@ -535,23 +538,23 @@ var deleteRoles = function (p) {
 // -------------------------------------------------------------------------
 var addRoleDefinition = function (p) {
 	p.user = null;
-	return addRole (p);
+	return addRole(p);
 };
 exports.addRoleDefinition = addRoleDefinition;
 var addRoleDefinitions = function (o) {
-	o.roles = ensureArray (o.roles);
-	return Promise.all (o.roles.map (function (role) {
-		return addRole ({
-			context   : o.context,
-			role      : role,
-			user      : null,
-			owner     : o.owner
+	o.roles = ensureArray(o.roles);
+	return Promise.all(o.roles.map(function (role) {
+		return addRole({
+			context: o.context,
+			role: role,
+			user: null,
+			owner: o.owner
 		});
 	}));
 };
 var ensureAddRole = function (p) {
-	return addRole (p).then (function () {
-		return addRoleDefinition (p);
+	return addRole(p).then(function () {
+		return addRoleDefinition(p);
 	});
 };
 // -------------------------------------------------------------------------
@@ -561,15 +564,15 @@ var ensureAddRole = function (p) {
 // -------------------------------------------------------------------------
 var deleteRoleDefinition = function (p) {
 	p.user = null;
-	return deleteRole (p);
+	return deleteRole(p);
 };
 var deleteRoleDefinitions = function (o) {
-	o.roles = ensureArray (o.roles);
-	return Promise.all (o.roles.map (function (role) {
-		return deleteRole ({
-			context   : o.context,
-			role : role,
-			user       : null
+	o.roles = ensureArray(o.roles);
+	return Promise.all(o.roles.map(function (role) {
+		return deleteRole({
+			context: o.context,
+			role: role,
+			user: null
 		});
 	}));
 };
@@ -579,13 +582,13 @@ var deleteRoleDefinitions = function (o) {
 //
 // -------------------------------------------------------------------------
 var getRolesForContext = function (o) {
-	return new Promise (function (resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		if (!o.context) {
-			reject ({message:'no context defined in getRolesForContext'});
+			reject({message: 'no context defined in getRolesForContext'});
 		}
 		else {
-			findRoles (o)
-			.then (resolve, reject);
+			findRoles(o)
+			.then(resolve, reject);
 		}
 	});
 };
@@ -595,14 +598,14 @@ var getRolesForContext = function (o) {
 //
 // -------------------------------------------------------------------------
 var getRoleList = function (o) {
-	var decorator = (o.context === defaultResource) ?  pluckAppRoles : pluckRoles;
-	return new Promise (function (resolve, reject) {
-		getRolesForContext ({
-			context   : o.context,
-			user       : null
+	var decorator = (o.context === defaultResource) ? pluckAppRoles : pluckRoles;
+	return new Promise(function (resolve, reject) {
+		getRolesForContext({
+			context: o.context,
+			user: null
 		})
-		.then (decorator)
-		.then (resolve, reject);
+		.then(decorator)
+		.then(resolve, reject);
 	});
 };
 // -------------------------------------------------------------------------
@@ -612,12 +615,12 @@ var getRoleList = function (o) {
 //
 // -------------------------------------------------------------------------
 var getRoleUsers = function (o) {
-	return new Promise (function (resolve, reject) {
-		getRolesForContext ({
-			context   : o.context
+	return new Promise(function (resolve, reject) {
+		getRolesForContext({
+			context: o.context
 		})
-		.then (pivotRoles)
-		.then (resolve, reject);
+		.then(pivotRoles)
+		.then(resolve, reject);
 	});
 };
 // -------------------------------------------------------------------------
@@ -626,13 +629,13 @@ var getRoleUsers = function (o) {
 //
 // -------------------------------------------------------------------------
 var getRoleUserIndex = function (o) {
-	return new Promise (function (resolve, reject) {
-		getRolesForContext ({
-			context   : o.context,
-			user     : { $ne : null }
+	return new Promise(function (resolve, reject) {
+		getRolesForContext({
+			context: o.context,
+			user: {$ne: null}
 		})
-		.then (indexRoleUsers)
-		.then (resolve, reject);
+		.then(indexRoleUsers)
+		.then(resolve, reject);
 	});
 };
 exports.getRoleUserIndex = getRoleUserIndex;
@@ -642,29 +645,31 @@ exports.getRoleUserIndex = getRoleUserIndex;
 //
 // -------------------------------------------------------------------------
 var setRoleUserIndex = function (context, index) {
-	return new Promise (function (resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		var promiseArray = [];
-		_.each (index.user, function (roles, user) {
-			_.each (roles, function (value, role) {
+		_.each(index.user, function (roles, user) {
+			_.each(roles, function (value, role) {
 				if (value) {
-					promiseArray.push (addRole ({
-						context : context,
-						user    : user,
-						role    : role
+					promiseArray.push(addRole({
+						context: context,
+						user: user,
+						role: role
 					}));
 				}
 				else {
-					promiseArray.push (deleteRole ({
-						context : context,
-						user    : user,
-						role    : role
+					promiseArray.push(deleteRole({
+						context: context,
+						user: user,
+						role: role
 					}));
 				}
 			});
 		});
-		Promise.all (promiseArray)
-		.then (function () { return {ok:true};})
-		.then (resolve, reject);
+		Promise.all(promiseArray)
+		.then(function () {
+			return {ok: true};
+		})
+		.then(resolve, reject);
 	});
 };
 exports.setRoleUserIndex = setRoleUserIndex;
@@ -680,16 +685,16 @@ exports.setRoleUserIndex = setRoleUserIndex;
 // -------------------------------------------------------------------------
 var getUserRoles = function (p) {
 	// console.log (p.user);
-	var decorator = (p.context === defaultResource) ?  pluckAppRoles : pluckRoles;
+	var decorator = (p.context === defaultResource) ? pluckAppRoles : pluckRoles;
 	if (p.user) {
-		return getRolesForContext (p)
-		.then (decorator)
-		.then (addPublicRole)
-		.then (addAllRole);
+		return getRolesForContext(p)
+		.then(decorator)
+		.then(addPublicRole)
+		.then(addAllRole);
 	}
 	else {
-		return Promise.resolve ([])
-		.then (addPublicRole);
+		return Promise.resolve([])
+		.then(addPublicRole);
 	}
 };
 exports.getUserRoles = getUserRoles;
@@ -701,25 +706,25 @@ exports.getUserRoles = getUserRoles;
 // -------------------------------------------------------------------------
 var getAllUserRoles = function (p) {
 	// console.log ('getting all user roles for user context: ',p);
-	return new Promise (function (resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		var listPromise;
 		if (!p.user) {
 			// console.log ('public only');
 			//
 			// no one, just public
 			//
-			listPromise = Promise.resolve ([])
-			.then (addPublicRole);
+			listPromise = Promise.resolve([])
+			.then(addPublicRole);
 		}
 		else if (p.context === defaultResource) {
 			// console.log ('public and all');
-			listPromise = findRoles ({
-				context : p.context,
-				user    : p.user
+			listPromise = findRoles({
+				context: p.context,
+				user: p.user
 			})
-			.then (pluckAppRoles)
-			.then (addPublicRole)
-			.then (addAllRole);
+			.then(pluckAppRoles)
+			.then(addPublicRole)
+			.then(addAllRole);
 		}
 		else {
 			// console.log ('public  and all');
@@ -727,26 +732,26 @@ var getAllUserRoles = function (p) {
 			// get this context as well as the parent (application)
 			//
 			var appRoles;
-			listPromise = findRoles ({
-				context : defaultResource,
-				user    : p.user
+			listPromise = findRoles({
+				context: defaultResource,
+				user: p.user
 			})
-			.then (pluckAppRoles)
-			.then (function (a) {
+			.then(pluckAppRoles)
+			.then(function (a) {
 				appRoles = a;
-				return findRoles ({
-					context : p.context,
-					user    : p.user
+				return findRoles({
+					context: p.context,
+					user: p.user
 				});
 			})
-			.then (pluckRoles)
-			.then (function (a) {
-				return a.concat (appRoles);
+			.then(pluckRoles)
+			.then(function (a) {
+				return a.concat(appRoles);
 			})
-			.then (addPublicRole)
-			.then (addAllRole);
+			.then(addPublicRole)
+			.then(addAllRole);
 		}
-		listPromise.then (resolve, reject);
+		listPromise.then(resolve, reject);
 	});
 };
 exports.getAllUserRoles = getAllUserRoles;
@@ -759,275 +764,275 @@ exports.getAllUserRoles = getAllUserRoles;
 // -------------------------------------------------------------------------
 var userPermissions = function (p) {
 	// console.log (p.user);
-	return new Promise (function (resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		//
 		// now that we have the set of roles for the user within this
 		// context, we can apply those to the set of permissions for
 		// the resource in question
 		//
-		getAllUserRoles (p)
-		.then (function (roleSet) {
+		getAllUserRoles(p)
+		.then(function (roleSet) {
 			//
 			// add the splat because of course
 			//
 			// console.log ('roleSet = ', roleSet);
-			return findPermissions ({
-				resource : p.resource,
-				role     : {$in : roleSet}
+			return findPermissions({
+				resource: p.resource,
+				role: {$in: roleSet}
 			});
 		})
-		.then (pluckPermissions)
-		.then (resolve, reject);
+		.then(pluckPermissions)
+		.then(resolve, reject);
 	});
 };
 exports.userPermissions = userPermissions;
 
 exports.routes = {
-	addPermission : function (req, res) {
-		return runPromise (res, addPermission (req.body));
+	addPermission: function (req, res) {
+		return runPromise(res, addPermission(req.body));
 	},
-	addPermissions : function (req, res) {
-		return runPromise (res, addPermissions (req.body));
+	addPermissions: function (req, res) {
+		return runPromise(res, addPermissions(req.body));
 	},
-	deletePermission : function (req, res) {
-		return runPromise (res, deletePermission (req.body));
+	deletePermission: function (req, res) {
+		return runPromise(res, deletePermission(req.body));
 	},
-	deletePermissions : function (req, res) {
-		return runPromise (res, deletePermissions (req.body));
+	deletePermissions: function (req, res) {
+		return runPromise(res, deletePermissions(req.body));
 	},
-	addPermissionDefinition : function (req, res) {
-		return runPromise (res, addPermissionDefinition (req.body));
+	addPermissionDefinition: function (req, res) {
+		return runPromise(res, addPermissionDefinition(req.body));
 	},
-	addPermissionDefinitions : function (req, res) {
-		return runPromise (res, addPermissionDefinitions (req.body));
+	addPermissionDefinitions: function (req, res) {
+		return runPromise(res, addPermissionDefinitions(req.body));
 	},
-	deletePermissionDefinition : function (req, res) {
-		return runPromise (res, deletePermissionDefinition (req.body));
+	deletePermissionDefinition: function (req, res) {
+		return runPromise(res, deletePermissionDefinition(req.body));
 	},
-	deletePermissionDefinitions : function (req, res) {
-		return runPromise (res, deletePermissionDefinitions (req.body));
+	deletePermissionDefinitions: function (req, res) {
+		return runPromise(res, deletePermissionDefinitions(req.body));
 	},
-	getPermissionList : function (req, res) {
-		return runPromise (res, getPermissionList ({resource:req.params.resource}));
+	getPermissionList: function (req, res) {
+		return runPromise(res, getPermissionList({resource: req.params.resource}));
 	},
-	getPermissionRoles : function (req, res) {
-		return runPromise (res, getPermissionRoles ({resource:req.params.resource}));
+	getPermissionRoles: function (req, res) {
+		return runPromise(res, getPermissionRoles({resource: req.params.resource}));
 	},
-	getPermissionRoleIndex : function (req, res) {
-		return runPromise (res, getPermissionRoleIndex ({resource:req.params.resource}));
+	getPermissionRoleIndex: function (req, res) {
+		return runPromise(res, getPermissionRoleIndex({resource: req.params.resource}));
 	},
-	setPermissionRoleIndex : function (req, res) {
-		return runPromise (res, setPermissionRoleIndex (req.params.resource, req.body));
+	setPermissionRoleIndex: function (req, res) {
+		return runPromise(res, setPermissionRoleIndex(req.params.resource, req.body));
 	},
-
-	addRole : function (req, res) {
-		return runPromise (res, addRole (req.body));
+	
+	addRole: function (req, res) {
+		return runPromise(res, addRole(req.body));
 	},
-	addRoles : function (req, res) {
-		return runPromise (res, addRoles (req.body));
+	addRoles: function (req, res) {
+		return runPromise(res, addRoles(req.body));
 	},
-	deleteRole : function (req, res) {
-		return runPromise (res, deleteRole (req.body));
+	deleteRole: function (req, res) {
+		return runPromise(res, deleteRole(req.body));
 	},
-	deleteRoles : function (req, res) {
-		return runPromise (res, deleteRoles (req.body));
+	deleteRoles: function (req, res) {
+		return runPromise(res, deleteRoles(req.body));
 	},
-	addRoleDefinition : function (req, res) {
-		return runPromise (res, addRoleDefinition (req.body));
+	addRoleDefinition: function (req, res) {
+		return runPromise(res, addRoleDefinition(req.body));
 	},
-	addRoleDefinitions : function (req, res) {
-		return runPromise (res, addRoleDefinitions (req.body));
+	addRoleDefinitions: function (req, res) {
+		return runPromise(res, addRoleDefinitions(req.body));
 	},
-	deleteRoleDefinition : function (req, res) {
-		return runPromise (res, deleteRoleDefinition (req.body));
+	deleteRoleDefinition: function (req, res) {
+		return runPromise(res, deleteRoleDefinition(req.body));
 	},
-	deleteRoleDefinitions : function (req, res) {
-		return runPromise (res, deleteRoleDefinitions (req.body));
+	deleteRoleDefinitions: function (req, res) {
+		return runPromise(res, deleteRoleDefinitions(req.body));
 	},
-	getRoleList : function (req, res) {
-		return runPromise (res, getRoleList ({context:req.params.context}));
+	getRoleList: function (req, res) {
+		return runPromise(res, getRoleList({context: req.params.context}));
 	},
-	getRoleUsers : function (req, res) {
-		return runPromise (res, getRoleUsers ({context:req.params.context}));
+	getRoleUsers: function (req, res) {
+		return runPromise(res, getRoleUsers({context: req.params.context}));
 	},
-	getRoleUserIndex : function (req, res) {
-		return runPromise (res, getRoleUserIndex ({context:req.params.context}));
+	getRoleUserIndex: function (req, res) {
+		return runPromise(res, getRoleUserIndex({context: req.params.context}));
 	},
-	setRoleUserIndex : function (req, res) {
-		return runPromise (res, setRoleUserIndex (req.params.context, req.body));
+	setRoleUserIndex: function (req, res) {
+		return runPromise(res, setRoleUserIndex(req.params.context, req.body));
 	},
-	addRoleIfUnique : function (req, res) {
-		return runPromise (res, addRoleIfUnique (req.body));
+	addRoleIfUnique: function (req, res) {
+		return runPromise(res, addRoleIfUnique(req.body));
 	},
-
-	getUserRoles : function (req, res) {
-		return runPromise (res, getUserRoles ({
-			user    : req.params.username || (req.user ? req.user.username : undefined),
-			context : req.params.context
+	
+	getUserRoles: function (req, res) {
+		return runPromise(res, getUserRoles({
+			user: req.params.username || (req.user ? req.user.username : undefined),
+			context: req.params.context
 		}));
 	},
-	getAllUserRoles : function (req, res) {
-		return runPromise (res, getAllUserRoles ({
-			user    : req.params.username || (req.user ? req.user.username : undefined),
-			context : req.params.context
+	getAllUserRoles: function (req, res) {
+		return runPromise(res, getAllUserRoles({
+			user: req.params.username || (req.user ? req.user.username : undefined),
+			context: req.params.context
 		}));
 	},
-
-	userPermissions : function (req, res) {
-		return runPromise (res, userPermissions ({
-			user     : req.params.username || (req.user ? req.user.username : undefined) ,
-			resource : req.params.resource,
-			context  : req.params.context
+	
+	userPermissions: function (req, res) {
+		return runPromise(res, userPermissions({
+			user: req.params.username || (req.user ? req.user.username : undefined),
+			resource: req.params.resource,
+			context: req.params.context
 		}));
 	},
-
+	
 	// -------------------------------------------------------------------------
 	//
 	// examine all the user accounts
 	//
 	// -------------------------------------------------------------------------
 	allusers: function (req, res) {
-		var User = mongoose.model ('User');
-		return runPromise (res, Promise.resolve(User.find ({}).exec ()));
+		var User = mongoose.model('User');
+		return runPromise(res, Promise.resolve(User.find({}).exec()));
 	},
 	convertusers: function (req, res) {
-		var User    = mongoose.model ('User');
-		var Defaults = mongoose.model ('_Defaults');
-		var Project = mongoose.model ('Project');
-		var parray  = [];
+		var User = mongoose.model('User');
+		var Defaults = mongoose.model('_Defaults');
+		var Project = mongoose.model('Project');
+		var parray = [];
 		var defaultProjectRoles;
-		var masterPromise = new Promise (function (resolve, reject) {
+		var masterPromise = new Promise(function (resolve, reject) {
 			//
 			// add default application roles and permissions
 			//
-			Defaults.findOne ({
-				resource : 'application',
-				level    : 'global',
-				type     : 'rolePermissions',
+			Defaults.findOne({
+				resource: 'application',
+				level: 'global',
+				type: 'rolePermissions',
 			})
-			.exec ()
-			.then (function (defaultSpec) {
-				_.each (defaultSpec.defaults, function (roles, owner) {
-					_.each (roles, function (perms, role) {
-						parray.push (addRoleDefinition ({
-							context : 'application',
-							owner : owner,
-							role : role
+			.exec()
+			.then(function (defaultSpec) {
+				_.each(defaultSpec.defaults, function (roles, owner) {
+					_.each(roles, function (perms, role) {
+						parray.push(addRoleDefinition({
+							context: 'application',
+							owner: owner,
+							role: role
 						}));
-						_.each (perms, function (permission) {
-							parray.push (addPermission ({
-								resource : 'application',
-								owner : owner,
-								role : role,
+						_.each(perms, function (permission) {
+							parray.push(addPermission({
+								resource: 'application',
+								owner: owner,
+								role: role,
 								permission: permission
 							}));
 						});
 					});
 				});
-				return Defaults.findOne ({
-					resource : 'project',
-					level    : 'global',
-					type     : 'rolePermissions',
-				}).exec ();
+				return Defaults.findOne({
+					resource: 'project',
+					level: 'global',
+					type: 'rolePermissions',
+				}).exec();
 			})
 			//
 			// now get default project roles and permissions
 			//
-			.then (function (defaultProjectRoleSpec) {
+			.then(function (defaultProjectRoleSpec) {
 				defaultProjectRoles = defaultProjectRoleSpec;
-				return User.find ({}).exec ();
+				return User.find({}).exec();
 			})
-			.then (function (users) {
+			.then(function (users) {
 				var part;
 				var definitions = {};
-				_.each (users, function (user) {
+				_.each(users, function (user) {
 					user.oldroles = (user.roles.length > 0) ? user.roles : user.oldroles;
-					user.roles    = [];
-					_.each (user.oldroles, function (oldrole) {
+					user.roles = [];
+					_.each(user.oldroles, function (oldrole) {
 						var p = {};
 						if (oldrole === 'admin') {
-							user.roles    = ['admin'];
+							user.roles = ['admin'];
 						}
 						else {
 							if (oldrole === 'eao') {
-								parray.push (addRole ({
-									context : 'application',
-									role    : 'eao',
-									user    : user.username,
-									owner   : 'application:sysadmin'
+								parray.push(addRole({
+									context: 'application',
+									role: 'eao',
+									user: user.username,
+									owner: 'application:sysadmin'
 								}));
 							}
 							else if (oldrole === 'proponent') {
-								parray.push (addRole ({
-									context : 'application',
-									role   : 'proponent',
-									user    : user.username,
-									owner   : 'application:sysadmin'
+								parray.push(addRole({
+									context: 'application',
+									role: 'proponent',
+									user: user.username,
+									owner: 'application:sysadmin'
 								}));
 							}
-							else if (oldrole.match (/:eao:/)) {
-								part    = oldrole.split (':eao:');
-								parray.push (addRole ({
-									context : part[0],
-									role   : 'eao-'+part[1],
-									user    : user.username
+							else if (oldrole.match(/:eao:/)) {
+								part = oldrole.split(':eao:');
+								parray.push(addRole({
+									context: part[0],
+									role: 'eao-' + part[1],
+									user: user.username
 								}));
 							}
-							else if (oldrole.match (/:pro:/)) {
-								part    = oldrole.split (':pro:');
-								parray.push (addRole ({
-									context :  part[0],
-									role   : 'pro-'+part[1],
-									user    : user.username
+							else if (oldrole.match(/:pro:/)) {
+								part = oldrole.split(':pro:');
+								parray.push(addRole({
+									context: part[0],
+									role: 'pro-' + part[1],
+									user: user.username
 								}));
 							}
 						}
-						parray.push (user.save ());
+						parray.push(user.save());
 					});
 				});
-				return Promise.all (parray);
+				return Promise.all(parray);
 			})
-			.then (function () {
-				return Project.find ({}).exec ()
-				.then (function (projects) {
+			.then(function () {
+				return Project.find({}).exec()
+				.then(function (projects) {
 					var parray = [];
 					var definitions = {};
-					_.each (projects, function (project) {
+					_.each(projects, function (project) {
 						//
 						// add all the default project roles and permissions
 						//
-						_.each (defaultProjectRoles.defaults, function (roles, owner) {
-							_.each (roles, function (perms, role) {
-								parray.push (addRoleDefinition ({
-									context : project.code,
-									owner : owner,
-									role : role
+						_.each(defaultProjectRoles.defaults, function (roles, owner) {
+							_.each(roles, function (perms, role) {
+								parray.push(addRoleDefinition({
+									context: project.code,
+									owner: owner,
+									role: role
 								}));
-								_.each (perms, function (permission) {
-									parray.push (addPermission ({
-										resource : project._id,
-										owner : owner,
-										role : role,
+								_.each(perms, function (permission) {
+									parray.push(addPermission({
+										resource: project._id,
+										owner: owner,
+										role: role,
 										permission: permission
 									}));
 								});
 							});
 						});
 						project.roles = [];
-						project.setRoles ({
-							read   : ['eao-admin', 'pro-admin', 'eao-member', 'pro-member'],
-							write  : ['eao-admin', 'pro-admin'],
-							delete : ['eao-admin', 'pro-admin'],
+						project.setRoles({
+							read: ['eao-admin', 'pro-admin', 'eao-member', 'pro-member'],
+							write: ['eao-admin', 'pro-admin'],
+							delete: ['eao-admin', 'pro-admin'],
 						});
-						parray.push (project.save());
+						parray.push(project.save());
 					});
 				});
 			})
-			.then (function () {
-				return Promise.all (parray);
+			.then(function () {
+				return Promise.all(parray);
 			})
-			.then (resolve, reject);
+			.then(resolve, reject);
 		});
-		return runPromise (res, masterPromise);
+		return runPromise(res, masterPromise);
 	},
 };
