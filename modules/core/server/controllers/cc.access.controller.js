@@ -242,12 +242,12 @@ var setPermissionRoles = function (p) {
 		//
 		Permission.remove ({
 			resource   : p.resource,
-			permission : p.permision,
+			permission : p.permission,
 			role       : { $ne : null },
 		}).exec ()
 		.then (function () {
 			return addPermissions ({
-				resource : p .resource,
+				resource : p.resource,
 				permissions : [p.permission],
 				roles : p.roles
 			});
