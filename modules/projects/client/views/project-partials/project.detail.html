@@ -78,7 +78,7 @@
 
     <!-- EXPOSING FOR DEMO PURPOSES ONLY -->
     <!-- ng-if="environment === 'EAO' && authentication.user" -->
-    <section class="project-artifacts" ng-if="environment === 'EAO'">
+    <section class="project-artifacts" ng-if="environment === 'EAO' && authentication.user">
       <div id="anchor-artifacts">
         <tmpl-artifact-list x-project="project" x-published="false"></tmpl-artifact-list>
       </div>

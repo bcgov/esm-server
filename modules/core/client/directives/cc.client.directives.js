@@ -126,7 +126,17 @@ angular.module('core')
 		scope: {
 			context: '=',
 			object: '='
-		}
+		},
+		controller: function($scope, Authentication, _) {
+			var permCtrl = this;
+			permCtrl.showGear = !_.isEmpty(Authentication.user);
+			if ($scope.context) {
+				// not sure if this is correct, but go with it for now.
+				// do we need to check against the object?
+				permCtrl.showGear = permCtrl.showGear && $scope.context.userCan.managePermissions;
+			}
+		},
+		controllerAs: 'permCtrl'
 	};
 })
 // -------------------------------------------------------------------------
@@ -157,7 +167,11 @@ angular.module('core')
 						var allRoles, roleUsers, userRoleIndex;
 						
 						$scope.$on('NEW_ROLE_ADDED', function (e, data) {
-							s.init(data.roleName, s.userView);
+							s.init(data.roleName, s.currentUser, s.userView);
+						});
+						
+						$scope.$on('NEW_USER_ADDED_TO_CONTEXT', function (e, data) {
+							s.init(s.currentRole, data.user, s.userView);
 						});
 						
 						var setUserRole = function (system, user, role, value) {
@@ -180,7 +194,7 @@ angular.module('core')
 							$modalInstance.close({context: s.context.code, data: s.userRoleIndex});
 						};
 						
-						s.init = function (currentRoleName, showUserView) {
+						s.init = function (currentRoleName, currentUserName, showUserView) {
 							console.log('roleUsersModal.init... start');
 							AccessModel.allRoles(scope.context.code)
 							.then(function (ar) {
@@ -215,7 +229,7 @@ angular.module('core')
 								// these deal with setting the roles by user
 								//
 								s.userView = showUserView;
-								s.currentUser = s.allUsers[0] || '';
+								s.currentUser = (currentUserName) ? currentUserName: (s.allUsers[0] || '');
 								
 								//
 								// these deal with setting the users by role
@@ -225,7 +239,7 @@ angular.module('core')
 							});
 						};
 						
-						s.init(undefined, true);
+						s.init(undefined, undefined, true);
 					}
 				})
 				.result.then(function (data) {
@@ -271,7 +285,7 @@ angular.module('core')
 							return UserModel.allUsers();
 						}
 					},
-					controller: function ($scope, $modalInstance, allUsers) {
+					controller: function ($rootScope, $scope, $modalInstance, allUsers) {
 						var s = this;
 						//
 						// all the base data
@@ -293,6 +307,7 @@ angular.module('core')
 							// console.log ('new user is ', s.currentUser);
 							// console.log ('default role is ', s.defaultRole);
 							// console.log ('context is  ', s.context.code);
+							$rootScope.$broadcast('NEW_USER_ADDED_TO_CONTEXT', {user: s.currentUser});
 							AccessModel.addRoleUser({
 								context: s.context.code,
 								role: s.defaultRole,

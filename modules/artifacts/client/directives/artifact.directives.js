@@ -29,6 +29,8 @@ angular.module('artifacts')
 			// filter lists...
 			s.versionArray = [];
 			s.stageArray = [];
+
+			s.project = $scope.project;
 			
 
 			s.openAddTypes = function () {
