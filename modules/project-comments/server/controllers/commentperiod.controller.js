@@ -118,8 +118,8 @@ module.exports = DBModel.extend ({
 			'eao-admin',
 			'pro-admin'
 		);
-		// console.log (JSON.stringify (period, null, 4));
-		return this.setModelPermissions ({
+		// console.log ("setRolesPermissions: ", JSON.stringify (period, null, 4));
+		var dataObj = {
 			vetComments      : period.vettingRoles,
 			classifyComments : period.classificationRoles,
 			listComments     : period.commenterRoles,
@@ -140,7 +140,8 @@ module.exports = DBModel.extend ({
 			// 	write            : ['eao-admin'],
 			// 	delete           : ['eao-admin'],
 			// }
-		})
+		};
+		return this.setModelPermissions (period, dataObj)
 		.then (function () {
 			return period;
 		});

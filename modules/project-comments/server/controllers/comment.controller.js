@@ -34,7 +34,7 @@ module.exports = DBModel.extend ({
 				//
 				// ROLES
 				//
-				return self.setModelPermissions ({
+				return self.setModelPermissions (comment, {
 					read             : period.vettingRoles,
 					delete           : ['eao-admin'],
 					write            : period.commenterRoles.concat (
@@ -84,7 +84,7 @@ module.exports = DBModel.extend ({
 					// ROLES, public read
 					//
 					comment.publish ();
-					return self.setModelPermissions ({
+					return self.setModelPermissions (comment, {
 						read  : ['public']
 					});
 					// console.log ('published comment: ', JSON.stringify (comment, null, 4));
@@ -99,7 +99,7 @@ module.exports = DBModel.extend ({
 					// ROLES, only vetting can read
 					//
 					comment.unpublish ();
-					return self.setModelPermissions ({
+					return self.setModelPermissions (comment, {
 						read  : period.vettingRoles
 					});
 					// console.log ('unpublished comment: ', JSON.stringify (comment, null, 4));
