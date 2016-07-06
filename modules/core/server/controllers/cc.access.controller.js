@@ -405,7 +405,6 @@ exports.getPermissionRoleIndex = getPermissionRoleIndex;
 //
 // -------------------------------------------------------------------------
 var setPermissionRoleIndex = function (resource, index) {
-	console.log ('here');
 	return new Promise (function (resolve, reject) {
 		var promiseArray = [];
 		var modelroles = {read:[],write:[],delete:[]};
@@ -545,9 +544,9 @@ var addRoleDefinition = function (p) {
 exports.addRoleDefinition = addRoleDefinition;
 var addRoleDefinitions = function (o) {
 	o.roles = ensureArray (o.roles);
-	console.log (o.context);
-	console.log (o.owner);
-	console.log (o.roles);
+	// console.log (o.context);
+	// console.log (o.owner);
+	// console.log (o.roles);
 	return Promise.all (o.roles.map (function (role) {
 		return addRole ({
 			context   : o.context,
