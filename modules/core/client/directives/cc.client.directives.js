@@ -126,7 +126,17 @@ angular.module('core')
 		scope: {
 			context: '=',
 			object: '='
-		}
+		},
+		controller: function($scope, Authentication, _) {
+			var permCtrl = this;
+			permCtrl.showGear = !_.isEmpty(Authentication.user);
+			if ($scope.context) {
+				// not sure if this is correct, but go with it for now.
+				// do we need to check against the object?
+				permCtrl.showGear = permCtrl.showGear && $scope.context.userCan.managePermissions;
+			}
+		},
+		controllerAs: 'permCtrl'
 	};
 })
 // -------------------------------------------------------------------------
