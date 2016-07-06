@@ -533,6 +533,10 @@ _.extend (DBModel.prototype, {
 		});
 	},
 	setModelPermissions : function (model, definition) {
+		if (!definition) {
+			// console.log("returning early");
+			return Promise.resolve(null);
+		}
 		//
 		// this sets only the passed in permissions and leaves the other ones alone
 		//
@@ -552,6 +556,7 @@ _.extend (DBModel.prototype, {
 			definition.read   = definition.read || model.read;
 			definition.write  = definition.write || model.write;
 			definition.delete = definition.delete || model.delete;
+			// console.log("setRoles:", definition);
 			model.setRoles (definition);
 			return definition;
 		});
@@ -605,6 +610,7 @@ _.extend (DBModel.prototype, {
 		var self = this;
 		var Defaults = this.mongoose.model ('_Defaults');
 		return new Promise (function (resolve, reject) {
+			// console.log("getModelPermissionDefaults!!:", self.name.toLowerCase());
 			Defaults.findOne ({
 				resource : self.name.toLowerCase (),
 				level    : 'global',
@@ -642,7 +648,7 @@ _.extend (DBModel.prototype, {
 			var permissions ;
 			self.getModelPermissionDefaults ()
 			.then (function (defaultObject) {
-				console.log ("applyModelPermissionDefaults: ", JSON.stringify (defaultObject, null, 4));
+				// console.log("defaultObject:",defaultObject);
 				resource    = model._id;
 				parray      = [];
 				definitions = {};
@@ -663,7 +669,9 @@ _.extend (DBModel.prototype, {
 						return model.project.code;
 					} else if (model.project) {
 						return self.mongoose.model ('Project').findOne ({_id:model.project}).exec ()
-						.then (function (m) { return m.code; });
+						.then (function (m) {
+							return m.code;
+						});
 					} else {
 						return 'application';
 					}
@@ -689,7 +697,9 @@ _.extend (DBModel.prototype, {
 				parray.push (self.setModelPermissions (model, permissions));
 				return Promise.all (parray);
 			})
-			.then (function () { return model; })
+			.then (function () {
+				return model;
+			})
 			.then (resolve, self.complete (reject, 'applyModelPermissionDefaults'));
 		});
 	},
