@@ -123,6 +123,7 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 
 	$scope.$on('importUploadStart', function(event) {
 		projectImport.upload();
+		$modalInstance.dismiss();
 	});
 
 	projectImport.ok = function () {
