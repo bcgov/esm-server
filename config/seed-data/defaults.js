@@ -75,6 +75,48 @@ module.exports = function () {
 			}
 		})).save ());
 		//
+		// default document permissions
+		//
+		promiseArray.push ((new Defaults ({
+			context  : 'project',
+			resource : 'commentperiod',
+			level    : 'global',
+			type     : 'default-permissions',
+			defaults : {
+				roles: {
+					'eao-admin':['eao-admin', 'eao-member', 'eao-invitee', 'epd', 'intake', 'lead', 'team', 'assistant-dm', 'assistant-dm-office', 'associate-dm', 'associate-dmo', 'minister', 'minister-office', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'local-gov', 'working-group', 'technical-working-group'],
+					'pro-admin':['pro-admin', 'pro-member', 'pro-subconsultant', 'pro-invitee']
+				},
+				permissions: {
+					'createCommentPeriod'     : ['eao-admin'                                         ],
+					'publish'                 : ['eao-admin'                                         ],
+					'unPublish'               : ['eao-admin'                                         ],
+					'listCommentPeriods'      : ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
+				}
+			}
+		})).save ());
+		//
+		// default document permissions
+		//
+		promiseArray.push ((new Defaults ({
+			context  : 'project',
+			resource : 'comment',
+			level    : 'global',
+			type     : 'default-permissions',
+			defaults : {
+				roles: {
+					'eao-admin':['eao-admin', 'eao-member', 'eao-invitee', 'epd', 'intake', 'lead', 'team', 'assistant-dm', 'assistant-dm-office', 'associate-dm', 'associate-dmo', 'minister', 'minister-office', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'local-gov', 'working-group', 'technical-working-group'],
+					'pro-admin':['pro-admin', 'pro-member', 'pro-subconsultant', 'pro-invitee']
+				},
+				permissions: {
+					'createCommentPeriod'     : ['eao-admin'                                         ],
+					'publish'                 : ['eao-admin'                                         ],
+					'unPublish'               : ['eao-admin'                                         ],
+					'listCommentPeriods'      : ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
+				}
+			}
+		})).save ());
+		//
 		// default application permissions
 		//
 		promiseArray.push ((new Defaults ({
