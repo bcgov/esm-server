@@ -130,14 +130,28 @@
 
 			<div class="row" ng-if="project.intake.investment">
 				<hr>
-				<!-- CAPITAL INVESTMENT -->
+
 				<div class="col-sm-4 col-md-4">
 					<div class="detail-row">
 						<label>Capital Investment</label>
 						<span class="value">${{project.intake.investment | number:0}}</span>
 					</div>
 				</div>
-				<div class="col-sm-12 col-md-4" ng-if="c.isEao && project.intake.investmentNotes">
+				<div class="col-sm-4 col-md-4" ng-if="project.intake.constructionjobs">
+					<div class="detail-row">
+						<label>Construction Jobs</label>
+						<span class="value">{{project.intake.constructionjobs}}</span>
+					</div>
+				</div>
+				<div class="col-sm-4 col-md-4" ng-if="project.intake.operatingjobs">
+					<div class="detail-row">
+						<label>Operation Jobs</label>
+						<span class="value">{{project.intake.operatingjobs}}</span>
+					</div>
+				</div>
+
+				<!-- CAPITAL INVESTMENT -->
+				<div class="col-sm-12" ng-if="c.isEao && project.intake.investmentNotes">
 					<div class="detail-row">
 						<label>Capital Investment Notes</label>
 						<span class="value wrap-text">{{project.intake.investmentNotes}}</span>
@@ -145,13 +159,7 @@
 				</div><!-- / CAPITAL INVESTMENT -->
 
 				<!-- CONSTRUCTION JOBS -->
-				<div class="col-sm-4 col-md-4" ng-if="project.intake.constructionjobs">
-					<div class="detail-row">
-						<label>Construction Jobs</label>
-						<span class="value">{{project.intake.constructionjobs}}</span>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-8" ng-if="c.isEao && project.intake.constructionjobsNotes">
+				<div class="col-sm-12" ng-if="c.isEao && project.intake.constructionjobsNotes">
 					<div class="detail-row">
 						<label>Construction Jobs Notes</label>
 						<span class="value wrap-text">{{project.intake.constructionjobsNotes}}</span>
@@ -159,12 +167,6 @@
 				</div><!-- / CONSTRUCTION JOBS -->
 
 				<!-- OPERATION JOBS -->
-				<div class="col-sm-4 col-md-4" ng-if="project.intake.operatingjobs">
-					<div class="detail-row">
-						<label>Operation Jobs</label>
-						<span class="value">{{project.intake.operatingjobs}}</span>
-					</div>
-				</div>
 				<div class="col-sm-12" ng-if="c.isEao && project.intake.operatingjobsNotes">
 					<div class="detail-row">
 						<label>Operation Job Notes</label>
@@ -173,7 +175,7 @@
 				</div><!-- / OPERATION JOBS -->
 
 				<!-- TEAM MEMBERS -->
-				<div class="col-sm-12" ng-if="c.isEao && project.intake.constructionjobsNotes">
+				<div class="col-sm-12" ng-if="c.isEao && project.teamNotes">
 					<div class="detail-row">
 						<label>Team Notes</label>
 						<span class="value wrap-text">{{project.teamNotes}}</span>
@@ -185,6 +187,8 @@
 		
 		<!-- EAO ONLY INFO -->
 		<div class="row" ng-if="c.isEao">
+			<hr>
+
 			<!-- PROJECT NOTES -->
 			<div ng-if="project.projectNotes">
 				<div class="col-sm-6 col-md-4">

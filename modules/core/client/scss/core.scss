@@ -3613,77 +3613,91 @@ section.project-info {
 
 /* PUBLIC COMMENT PERIOD VIEW 
 ------------------------------ */
-.public-comment-alert {
-	margin-top: -2.1rem;
-	margin-bottom: 2rem;
-	padding: 2rem 1.5rem;
-	background: #FFF;
-	border-radius: 0;
-	
+.pcp-alert {
+	padding: 2rem;
+	background: #2b5580;
+	color: #FFF;
+
 	h2 {
-		margin: 0;
-		margin-bottom: 0.5rem;
-		display: block;
-		font-size: 2.2rem;
-		font-weight: bold;
-	}
-	
-	h3 {
 		margin-top: 0;
-		margin-bottom: 1.75rem;
+		margin-bottom: 0.25rem;
+		font-size: 2.4rem;
+		font-weight: normal;
+	}
+
+	.pcp-dates {
 		font-size: 1.6rem;
-		font-weight: bold;
 	}
-	
-	h4 {
-		margin-bottom: 0.75rem;
+
+	.submit-comment-btn {
+		padding: 1.25rem 2rem;
 		font-size: 1.6rem;
-		font-weight: bold;
-	}
-	
-	.details {
-		padding: 2rem 1.5rem;
-	}
-	
-	.start-end-date {
-		display: block;
-		margin-bottom: 2.2rem;
-	}
-	
-	p {
-		margin-bottom: 1.5rem;
-	}
-	
-	ul {
-		margin: 0;
-		padding-left: 2.5rem;
-		list-style-type: square;
-	}
-	
-	.btn {
-		margin-top: 2rem;
-		padding: 0.7rem 1.5rem;
-		font-size: 1.6rem;
-		font-weight: bold;
-	}
-	
-	.open-house-dates {
-		margin-top: 2.5rem;
+		color: #FFF;
+		background: transparent;
+		border: 1px solid #FFF;
+		&:hover { background: transparent; }
 	}
 }
 
-.public-comment-period-document-links {
-	margin: -0.5rem 0;
-	
-	a {
-		display: inline-block;
-		margin-right: 1rem;
-		padding: 0.15rem;
-	}
-	
-	.document-name {
-		font-size: 1.4rem;
+.pcp-details {
+	padding: 2rem;
+	background: #FFF;
+
+	h4 {
+		margin-top: 0;
+		margin-bottom: 1rem;
+		font-size: 1.6rem;
 		font-weight: bold;
+	}
+
+	pre {
+		color: #888;
+	}
+
+	.pcp-desc {
+		margin-bottom: 1.5rem;
+	}
+
+	section {
+		margin-bottom: 2.5rem;
+		&:last-child { margin-bottom: 0; }
+	}
+}
+
+.pcp-package-links,
+.pcp-open-house-list {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.pcp-package-links {
+	a {
+		display: block;
+		padding: 1rem 1.5rem;
+		font-weight: bold;
+		background: #f1f1f2;
+		cursor: pointer;
+
+		.glyphicon {
+			margin-top: -0.4rem;
+			margin-right: 1rem;
+			font-size: 1.8rem;
+			vertical-align: middle;
+		}
+	}
+}
+
+.pcp-open-house-list {
+	li {
+		padding: 1rem 0;
+		border-top: 1px solid #DDD;
+
+		pre {
+			display: block;
+		}
+		
+		&:last-child { padding-bottom: 0; }
 	}
 }
 
