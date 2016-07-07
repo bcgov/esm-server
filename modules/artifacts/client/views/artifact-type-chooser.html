@@ -6,7 +6,7 @@
     </div>
 
     <div class="modal-body">
-        <label>Select one or more an Artifact(s)</label>
+        <label>Select one or more Content Type(s)</label>
         <table ng-table="chooser.tableParams" show-filter="true" class="table table-hover artifact-chooser-table">
             <tr ng-repeat="o in $data">
                 <td class="name-col" data-title="'Name'" filter="{'name':'text'}" sortable="'name'"><input type="checkbox" ng-click="chooser.toggleItem(o)" /> {{o.name}}</td>
