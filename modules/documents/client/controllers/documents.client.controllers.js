@@ -308,11 +308,14 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 														data.additionalDocuments.push(value);
 													break;
 												}
-												return ArtifactModel.saveModel(data);
+												ArtifactModel.saveModel(data)
+												.then( function() {
+													$scope.$emit('documentUploadCompleteF');
+													return Promise.resolve();
+												});
 										});
 									}, Promise.resolve());
 								});
-								$scope.$emit('documentUploadComplete');
 							}
 						});
 					}, function (response) {
@@ -638,7 +641,7 @@ function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject,
 	var docUploadModal = this;
 
 	// Document upload complete so close and continue.
-	$scope.$on('documentUploadComplete', function() {
+	$scope.$on('documentUploadCompleteF', function() {
 		$rootScope.$broadcast('cleanup');
 		$modalInstance.close();
 	});

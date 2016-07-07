@@ -146,18 +146,12 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				});
 			};
 			$scope.$on('cleanup', function () {
-				// This is a hack to get the dialog to close and reload the correct artifacts
-				// when automatically saving the the uploaded item to the specific
-				// internal/additional/supporting/main documents.  We switch to the
-				// detail page after mongo has completed some work.
-				setTimeout(function () {
-					$state.transitionTo('p.vc.detail', {
-							projectid:$scope.project.code,
-							vcId: $scope.vc._id
-						}, {
-						reload: true, inherit: false, notify: true
-					});
-				}, 500);
+				$state.go('p.vc.detail', {
+						projectid:$scope.project.code,
+						vcId: $scope.vc._id
+					}, {
+					reload: true, inherit: false, notify: true
+				});
 			});
 		}
 	})
