@@ -21,7 +21,7 @@
         <div class="public-comment-panel panel panel-default">
             <table ng-table="s.tableParams" show-filter="true" class="eao-comment-table table table-striped table-hover">
                 <tr class="comment-row" ng-repeat="o in $data" ng-click="s.detail(o)">
-                    <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Posted by'" filter="{'comment':'text'}" sortable="'comment'">
+                    <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Posted by / Comment'" filter="{'comment':'text'}" sortable="'comment'">
                         <h2 ng-if="::o.isAnonymous" class="comment-title">Anonymous</h2>
                         <h2 ng-if="::!o.isAnonymous" class="comment-title">{{ ::o.author }}</h2>
                         <div ng-init="toggleProject.desc = (false)">
@@ -42,8 +42,8 @@
                     <td class="attachment-col" header-class="'attachment-col no-mobile'">
                         <span class="glyphicon glyphicon-paperclip" ng-if="o.documents.length > 0"></span>
                     </td>
-                    <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" filter="{'dateAdded':'text'}" sortable="'dateAdded'">
-                        {{o.dateAdded | date}}
+                    <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" sortable="'dateAdded'">
+                        {{o.dateAdded | date : format : timezone}}
                     </td>
                 </tr>
                 <tr class="no-records" ng-if="!$data || $data.length === 0">

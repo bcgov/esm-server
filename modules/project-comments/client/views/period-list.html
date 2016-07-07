@@ -31,10 +31,10 @@
 						{{p.artifactVersion}}
 					</td>
 					<td title="'Starts'" sortable="'dateStarted'">
-						{{ p.dateStarted | date }}
+						{{ p.dateStarted | date : format : timezone }}
 					</td>
 					<td title="'Completes'" sortable="'dateCompleted'">
-						{{ p.dateCompleted | date }}
+						{{ p.dateCompleted | date : format : timezone }}
 					</td>
 					<td title="'Vetted'" >
 						<i ng-if="p.isVetted" class="glyphicon glyphicon-ok"></i>
