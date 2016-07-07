@@ -19,12 +19,17 @@ angular.module ('comment')
 		restrict: 'E',
 		templateUrl : 'modules/project-comments/client/views/public-comments/list.html',
 		controllerAs: 's',
-		controller: function ($scope, NgTableParams, Authentication, CommentModel) {
+		controller: function ($rootScope, $scope, NgTableParams, Authentication, CommentModel) {
 			var s       = this;
 			var project = s.project = $scope.project;
 			var period  = s.period  = $scope.period;
 
 			var currentFilter;
+
+			$scope.$on('NEW_PUBLIC_COMMENT_ADDED', function (e, data) {
+				console.log('comment: ' + data.comment);
+				s.refreshEao();
+			});
 
 			// -------------------------------------------------------------------------
 			//
@@ -165,7 +170,7 @@ angular.module ('comment')
 							return CommentModel.getNew ();
 						}
 					},
-					controller: function ($scope, $modalInstance, comment) {
+					controller: function ($rootScope, $scope, $modalInstance, comment) {
 						var s     = this;
 						s.step    = 1;
 						s.comment = comment;
@@ -181,6 +186,7 @@ angular.module ('comment')
 							.then (function (comment) {
 								s.step = 3;
 								$scope.$apply ();
+								$rootScope.$broadcast('NEW_PUBLIC_COMMENT_ADDED', {comment: comment});
 							})
 							.catch (function (err) {
 								s.step = 4;

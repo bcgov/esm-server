@@ -99,7 +99,9 @@ angular.module('artifacts')
 							ArtifactModel.availableTypes($scope.project._id)
 							.then(function (c) {
 
-								_.forEach(c, function (item) {
+								var filteredDataset = _.filter(c, function(o) { return 'valued-component' !== o.code; });
+
+								_.forEach(filteredDataset, function (item) {
 									if (item.phase === '') {
 										item.phase = '*'; // identify and sort items without a particular phase defined...
 									}
@@ -110,10 +112,7 @@ angular.module('artifacts')
 									item.phaseName = (p) ? p.title : '';
 								});
 
-								chooser.tableParams = new NgTableParams({
-									count: 10,
-									sorting: {name: 'asc'}
-								}, {dataset: c});
+								chooser.tableParams = new NgTableParams({ count: 10, sorting: {name: 'asc'} }, {dataset: filteredDataset});
 
 							});
 						};

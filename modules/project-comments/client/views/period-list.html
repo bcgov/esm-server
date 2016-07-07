@@ -18,23 +18,23 @@
 		<section class="panel panel-default">
 			<table ng-table="tableParams" show-filter="toggleFilter" class="table table-striped table-hover">
 				<tr ng-repeat="p in $data" ui-sref="p.commentperiod.detail({periodId:p._id})">
-					<td title="'Type'" filter="{ periodType: 'text'}" sortable="'periodType'">
+					<td title="'Type'" filter="{'periodType':'select'}" filter-data="s.typeArray" sortable="'periodType'">
 						{{p.periodType}}
 					</td>
-					<td title="'Phase'" filter="{ phaseName: 'text'}" sortable="'phaseName'">
+					<td title="'Phase'" filter="{ phaseName: 'select'}" filter-data="s.phaseArray" sortable="'phaseName'">
 						{{p.phaseName}}
 					</td>
-					<td title="'Artifact'" filter="{ artifactName: 'text'}" sortable="'artifactName'">
+					<td title="'Artifact'" filter="{ artifactName: 'select'}" filter-data="s.artifactArray" sortable="'artifactName'">
 						{{p.artifactName}}
 					</td>
-					<td title="'Version'" filter="{ artifactVersion: 'text'}" sortable="'artifactVersion'">
+					<td title="'Version'" filter="{ artifactVersion: 'select'}" filter-data="s.versionArray" sortable="'artifactVersion'">
 						{{p.artifactVersion}}
 					</td>
 					<td title="'Starts'" sortable="'dateStarted'">
-						{{ p.dateStarted | date }}
+						{{ p.dateStarted | date : format : timezone }}
 					</td>
 					<td title="'Completes'" sortable="'dateCompleted'">
-						{{ p.dateCompleted | date }}
+						{{ p.dateCompleted | date : format : timezone }}
 					</td>
 					<td title="'Vetted'" >
 						<i ng-if="p.isVetted" class="glyphicon glyphicon-ok"></i>
