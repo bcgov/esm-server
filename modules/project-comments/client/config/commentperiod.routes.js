@@ -37,11 +37,35 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 	.state('p.commentperiod.list', {
 		url: '/list',
 		templateUrl: 'modules/project-comments/client/views/period-list.html',
-		controller: function ($scope, NgTableParams, periods, project) {
+		controller: function ($scope, NgTableParams, periods, project, _) {
+			var s = this;
 			console.log ('periods = ', periods);
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: periods});
 			$scope.project = project;
-		}
+
+			// filter lists...
+			s.typeArray = [];
+			s.phaseArray = [];
+			s.artifactArray = [];
+			s.versionArray = [];
+
+			// build out the filter arrays...
+			var recs = _(angular.copy(periods)).chain().flatten();
+			recs.pluck('periodType').unique().value().map(function (item) {
+				s.typeArray.push({id: item, title: item});
+			});
+			recs.pluck('phaseName').unique().value().map(function (item) {
+				s.phaseArray.push({id: item, title: item});
+			});
+			recs.pluck('artifactName').unique().value().map(function (item) {
+				s.artifactArray.push({id: item, title: item});
+			});
+			recs.pluck('artifactVersion').unique().value().map(function (item) {
+				s.versionArray.push({id: item, title: item});
+			});
+
+		},
+		controllerAs: 's'
 	})
 	// -------------------------------------------------------------------------
 	//
