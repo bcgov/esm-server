@@ -37,6 +37,8 @@ $panel-border-color: 	#DDD;
 $panel-heading-bg: 		#FFF;
 $panel-heading-color: 	#494949;
 
+$corp-gold: #fcba19;
+
 
 /* GLOBAL
 ------------------------------ */
@@ -2828,7 +2830,8 @@ $nav-tab-active: #1a5a96;
 
 /* TABLE
 ------------------------------ */
-$table-bg: #FFF;
+$table-bg: transparent;
+$table-row-bg: #FFF;
 $table-head-bg: #F7F8FA;
 $table-footer-bg: #FFF;
 
@@ -2846,6 +2849,10 @@ $table-footer-bg: #FFF;
 	> thead > tr > th:first-child,
 	> tbody > tr > td:first-child {
 		padding-left: 1.5rem;
+	}
+
+	tr {
+		background: $table-row-bg;
 	}
 	
 	th, td {
@@ -3620,7 +3627,7 @@ section.project-info {
 
 	h2 {
 		margin-top: 0;
-		margin-bottom: 0.25rem;
+		margin-bottom: 0;
 		font-size: 2.4rem;
 		font-weight: normal;
 	}
@@ -3629,13 +3636,45 @@ section.project-info {
 		font-size: 1.6rem;
 	}
 
+	.pcp-comment-btn-container {
+		margin: 0 auto;
+		padding-top: 1.75rem;
+		clear: both;
+	}
+
 	.submit-comment-btn {
-		padding: 1.25rem 2rem;
+		width: 100%;
+		padding: 1rem 2rem;
 		font-size: 1.6rem;
 		color: #FFF;
 		background: transparent;
 		border: 1px solid #FFF;
-		&:hover { background: transparent; }
+		&:hover { 
+			background: $corp-blue;
+		}
+	}
+
+	.toggle {
+		margin-top: 1rem;
+		padding-top: 1rem;
+		font-size: 1.2rem;
+		text-transform: uppercase;
+		border-top: 1px solid #FFF;
+		clear: both;
+	}
+}
+
+@media (min-width: 1024px) {
+	.pcp-alert {
+		.pcp-comment-btn-container {
+			padding-top: 0;
+			float: right;
+			clear: none;
+		}
+
+		.submit-comment-btn {
+			width: auto;
+		}
 	}
 }
 
@@ -3674,10 +3713,13 @@ section.project-info {
 .pcp-package-links {
 	a {
 		display: block;
-		padding: 1rem 1.5rem;
-		font-weight: bold;
+		padding: 1rem;
+		text-decoration: none;
 		background: #f1f1f2;
+		border: 1px solid #f1f1f2;
 		cursor: pointer;
+
+		&:hover { border: 1px solid #DDD;}
 
 		.glyphicon {
 			margin-top: -0.4rem;
@@ -3698,6 +3740,17 @@ section.project-info {
 		}
 		
 		&:last-child { padding-bottom: 0; }
+	}
+}
+
+.pcp-pillar-vc-list {
+	label {
+		display: block;
+		margin-bottom: 0;
+	}
+	
+	.value {
+		color: #888;
 	}
 }
 
@@ -3826,7 +3879,7 @@ section.project-info {
 				position: relative;
 				display: block;
 				padding: 1.5rem 0.5rem;
-				border-bottom: 1px solid #DDD;
+				border-top: 1px solid #DDD;
 			}
 					
 			thead tr:last-child {
@@ -3846,29 +3899,27 @@ section.project-info {
 		
 			td.pillar-col,
 			td.vc-col {
-				padding-top: 0.5rem;
-				padding-bottom: 0.5rem;
+				padding-top: 0;
+				padding-bottom: 0;
+				padding-left: 1rem;
 				font-size: 1.2rem;
 				color: #888;
 			}
 			
-			td.vc-col {
-				padding-bottom: 0;
-			}
-			
-			td.pillar-col:before,
-			td.vc-col:before {
+			span.pillar:before,
+			span.vc:before {
+				margin-top: 0.5rem;
 				display: block;
 				font-size: 1.2rem;
 				font-weight: bold;
 				color: #000;
 			}
 			
-			td.pillar-col:before {
+			span.pillar:before {
 				content: "Pillars";
 			}
 			
-			td.vc-col:before {
+			span.vc:before {
 				content: "Valued Components";
 			}
 		}
@@ -3982,6 +4033,11 @@ section.project-info {
 	.upload-attachments {
 		margin-bottom: 0;
 	}
+
+	.list-group-item {
+		padding: 1rem;
+	}
+
 	
 	.pick-list {
 		height: 15rem;
@@ -4006,13 +4062,6 @@ section.project-info {
 			margin-top: 0;
 		}
 
-		pre {
-			max-height: 30rem;
-			padding: 1.5rem;
-			background-color: #FFF;
-			border: 1px solid #DDD;
-			overflow-y: auto;
-		}
 	}
 	
 	.comment-status {
@@ -4024,7 +4073,8 @@ section.project-info {
 	.comment-status-btns {
 		.btn {
 			min-width: 10rem;
-			padding-top: 0.8rem;
+			padding-top: 0.7rem;
+			text-transform: uppercase;
 		}
 		
 		.btn-danger,

@@ -8,7 +8,7 @@
 <div class="modal-body">
 
     <!-- COMMENT NOTE ALERTS -->
- 	<div class="eao-alerts" ng-if="period.userCan.vetComments">
+ 	<div class="hidden eao-alerts" ng-if="period.userCan.vetComments">
 
         <!-- DEFERRAL NOTES -->
         <div class="alert alert-info eao-comment-notes" ng-if="comment.eaoStatus === 'Deferred' && comment.eaoNotes">
@@ -43,31 +43,6 @@
         <pre class="value wrap-text">{{ ::comment.comment }}</pre>
     </section><!-- / COMMENT INFO -->
 
-	<!-- ASSIGN PILLARS & VC'S -->
-    <section class="pillers-vc" ng-if="period.userCan.classifyComments">
-    	<button
-    		x-vc-chooser
-    		x-project="project"
-    		x-current="comment.valuedComponents"
-    		x-topics="comment.topics"
-    		x-pillars="comment.pillars"
-    		class="btn btn-success">
-    	    Assign Valued Components
-    	</button>
-    </section><!-- / ASSIGN PILLARS & VC'S -->
-
-	<!-- PILLARS & VC'S -->
-    <section ng-if="comment.pillars.length > 0">
-        <div class="detail-row">
-            <label>Pillars</label>
-            <span class="value">{{ comment.pillars.join (', ') }}</span>
-        </div>
-        <div class="detail-row">
-            <label>Valued Components</label>
-            <span class="value">{{ comment.topics.join (', ') }}</span>
-        </div>
-    </section><!-- / PILLARS & VC'S -->
-
     <!-- ATTACHMENTS -->
     <section ng-if="!period.userCan.vetComments">
         <label class="control-label">Attachments</label>
@@ -89,7 +64,7 @@
 
     <!-- REVIEW ATTACHMENTS -->
     <section ng-if="period.userCan.vetComments">
-        <label class="control-label">Review Attachments</label>
+        <label class="control-label">Attachments</label>
         <ul class="attachments list-group">
             <li class="list-group-item clearfix">
                 <div class="file-name">file-name-1.jpg</div>
@@ -136,18 +111,82 @@
         </ul>
     </section><!-- / REVIEW ATTACHMENTS -->
 
+    <!-- ASSIGN PILLARS & VC'S -->
+    <section class="pillers-vc" ng-if="period.userCan.classifyComments">
+        <label>Valued Components</label>
+
+        <div class="pcp-pillar-vc-list list-group">
+            <div class="list-group-item clearfix">
+                <div class="pull-left">
+                    <label>Pillars</label>
+                    <span class="value">{{ comment.pillars.join (', ') }}</span>
+                </div>
+                <div class="pull-right">
+                    <button class="pull-right btn btn-default btn-sm"
+                        x-vc-chooser
+                        x-project="project"
+                        x-current="comment.valuedComponents"
+                        x-topics="comment.topics"
+                        x-pillars="comment.pillars">ASSIGN
+                    </button>
+                </div>
+            </div>
+            <div class="list-group-item clearfix">
+                <div class="pull-left">
+                    <label>Valued Components</label>
+                    <span class="value">{{ comment.topics.join (', ') }}</span>
+                </div>
+                <div class="pull-right">
+                    <button class="pull-right btn btn-default btn-sm"
+                        x-vc-chooser
+                        x-project="project"
+                        x-current="comment.valuedComponents"
+                        x-topics="comment.topics"
+                        x-pillars="comment.pillars">ASSIGN
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="hidden" ng-if="comment.valuedComponents.length > 0">
+            <div class="detail-row">
+                <label>Pillars</label>
+                <span class="value">{{ comment.pillars.join (', ') }}</span>
+                <button class="pull-right btn btn-default btn-sm"
+                    x-vc-chooser
+                    x-project="project"
+                    x-current="comment.valuedComponents"
+                    x-topics="comment.topics"
+                    x-pillars="comment.pillars">ASSIGN
+                </button>
+            </div>
+            <div class="detail-row">
+                <label>Valued Components</label>
+                <span class="value">{{ comment.topics.join (', ') }}</span>
+                <button class="btn btn-default btn-sm"
+                    x-vc-chooser
+                    x-project="project"
+                    x-current="comment.valuedComponents"
+                    x-topics="comment.topics"
+                    x-pillars="comment.pillars">ASSIGN
+                </button>
+            </div>
+        </div>
+    </section><!-- / ASSIGN PILLARS & VC'S -->
+
+
     <!-- SET COMMENT STATUS -->
     <section class="comment-status" ng-if="period.userCan.vetComments">
         <div class="form-group">
             <label class="control-label">Set Comment Status</label>
             <div class="comment-status-btns btn-group">
-                <button class="btn btn-default" ng-click="comment.eaoStatus='Deferred'" ng-class="{'active':comment.eaoStatus === 'Deferred'}">
+                <button class="btn btn-default btn-sm" ng-click="comment.eaoStatus='Deferred'" ng-class="{'active':comment.eaoStatus === 'Deferred'}">
                     Defer
                 </button>
-                <button class="btn btn-danger" ng-click="comment.eaoStatus='Rejected'" ng-class="{'active':comment.eaoStatus === 'Rejected'}">
+                <button class="btn btn-danger btn-sm" ng-click="comment.eaoStatus='Rejected'" ng-class="{'active':comment.eaoStatus === 'Rejected'}">
                     Reject
                 </button>
-                <button class="btn btn-success" ng-click="comment.eaoStatus='Published'" ng-class="{'active':comment.eaoStatus === 'Published'}">
+                <button class="btn btn-success btn-sm" ng-click="comment.eaoStatus='Published'" ng-class="{'active':comment.eaoStatus === 'Published'}">
                     Publish
                 </button>
             </ul>

@@ -10,11 +10,13 @@
             
             <div class="pcp-alert clearfix">
                 <div class="pull-left">
-                    <h2>Public Comment Period is <span ng-if="isBefore">Scheduled</span><span ng-if="isOpen">Now Open</span><span ng-if="isClosed">Now Closed</span></h2>
+                    <h2>Public Comment Period is <span ng-if="isBefore">Scheduled</span><span ng-if="isOpen">Now Open</span><span ng-if="isClosed">Now Closed</span>.</h2>
                     <span class="pcp-dates">{{ period.dateStarted | amDateFormat:'MMMM Do YYYY' }} &nbsp;-&nbsp; {{ period.dateCompleted | amDateFormat:'MMMM Do YYYY' }}</span>
                 </div>
-                <div class="pull-right">
-                    <button class="btn submit-comment-btn" ng-if="isOpen && period.userCan.addComment" x-add-public-comment x-project="project" x-period="period">Click Here to Submit a Comment</button>
+                <div class="pcp-comment-btn-container">
+                    <button class="btn submit-comment-btn" ng-if="isOpen && period.userCan.addComment" x-add-public-comment x-project="project" x-period="period">
+                        Click Here to Submit a Comment
+                    </button>
                 </div>
             </div>
 

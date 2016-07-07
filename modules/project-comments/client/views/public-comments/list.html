@@ -18,8 +18,8 @@
         </ul>
     </div>
     <div class="tab-pane">
-        <div class="public-comment-panel panel panel-default">
-            <table ng-table="s.tableParams" show-filter="true" class="eao-comment-table table table-striped table-hover">
+        <div class="public-comment-panel">
+            <table ng-table="s.tableParams" show-filter="true" class="eao-comment-table table table-hover">
                 <tr class="comment-row" ng-repeat="o in $data" ng-click="s.detail(o)">
                     <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Posted by'" filter="{'comment':'text'}" sortable="'comment'">
                         <h2 ng-if="::o.isAnonymous" class="comment-title">Anonymous</h2>
@@ -32,11 +32,11 @@
                         {{ ::o.location }}
                     </td>
                     <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillars'" filter="{'pillars':'text'}" sortable="'pillars'">
-                        {{ o.pillars.join (', ') }}
+                        <span class="pillar" ng-if="o.valuedComponents.length > 0">{{ o.pillars.join (', ') }}</span>
                         <!-- <ul><li ng-repeat="pillar in o.pillars">{{::pillar}}</li></ul> -->
                     </td>
                     <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Components'" filter="{'topics':'text'}" sortable="'topics'">
-                        {{ o.topics.join (', ') }}
+                        <span class="vc" ng-if="o.valuedComponents.length > 0">{{ o.topics.join (', ') }}</span>
                         <!-- <ul><li ng-repeat="vc in o.topics">{{::vc}}</li></ul> -->
                     </td>
                     <td class="attachment-col" header-class="'attachment-col no-mobile'">
