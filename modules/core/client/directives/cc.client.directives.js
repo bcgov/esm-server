@@ -65,7 +65,7 @@ angular.module('core')
 						
 						s.init = function (roleName, showPermissionView) {
 							console.log('rolePermissionsModal.init... start');
-							AccessModel.allRoles(scope.context.code)
+							AccessModel.allRoles(scope.context._id)
 							.then(function (ar) {
 								allRoles = ar;
 								console.log('rolePermissionsModal.init... allRoles');
@@ -196,7 +196,7 @@ angular.module('core')
 						
 						s.init = function (currentRoleName, currentUserName, showUserView) {
 							console.log('roleUsersModal.init... start');
-							AccessModel.allRoles(scope.context.code)
+							AccessModel.allRoles(scope.context._id)
 							.then(function (ar) {
 								allRoles = ar;
 								console.log('roleUsersModal.init... allRoles');
