@@ -165,8 +165,8 @@ module.exports = DBModel.extend ({
 							names[name] = true;
 							list.push ({
 								order     : order,
-								label     : subtype,
-								depth     : 2,
+								label     : name,
+								depth     : 3,
 								reference : 'projectFolderName',
 								lineage   : {
 									projectFolderName    : name,

@@ -11,6 +11,24 @@ serviceDocument.$inject = ['$http'];
 /* @ngInject */
 function serviceDocument($http) {
 
+    var getArtifactLocations = function () {
+        return [{
+                    "code":"main",
+                    "name":"Main Artifact Document",
+                },
+                {
+                    "code":"supporting",
+                    "name":"Supporting Documents",
+                },
+                {
+                    "code":"internal",
+                    "name":"Internal Documents",
+                },
+                {
+                    "code":"additional",
+                    "name":"Additional Documents",
+                }];
+    };
     var getDocumentTypes = function() {
         return [
             {
@@ -203,7 +221,8 @@ function serviceDocument($http) {
 
 	return {
         getDocumentTypes: getDocumentTypes,
-		getDocumentSubTypes: getDocumentSubTypes,
+        getDocumentSubTypes: getDocumentSubTypes,
+		getArtifactLocations: getArtifactLocations,
         getAllDocuments: getAllDocuments,
         getProjectDocuments: getProjectDocuments,
         getProjectDocumentTypes: getProjectDocumentTypes,

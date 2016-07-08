@@ -173,6 +173,9 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 	if (ENV === 'EAO') {
 		docUpload.docTypes = Document.getDocumentTypes();
 		docUpload.docSubTypes = Document.getDocumentSubTypes();
+
+		// Artifact Location
+		docUpload.docLocations = Document.getArtifactLocations();
 	}
 
 	// allow the upload to be triggered from an external button.
@@ -289,13 +292,30 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 												if (undefined === data) {
 													data = art;
 												}
-												// First doc is a main document, the rest are supporting.
-												data.supportingDocuments.push(value);
-												return ArtifactModel.saveModel(data);
+												// Decide where to put this
+												// console.log("docUpload.selectedDocLocation:", docUpload.selectedDocLocation);
+												switch (docUpload.selectedDocLocation.code) {
+													case "main":
+														data.document = value;
+													break;
+													case "supporting":
+														data.supportingDocuments.push(value);
+													break;
+													case "internal":
+														data.internalDocuments.push(value);
+													break;
+													case "additional":
+														data.additionalDocuments.push(value);
+													break;
+												}
+												ArtifactModel.saveModel(data)
+												.then( function() {
+													$scope.$emit('documentUploadCompleteF');
+													return Promise.resolve();
+												});
 										});
 									}, Promise.resolve());
 								});
-								$scope.$emit('documentUploadComplete');
 							}
 						});
 					}, function (response) {
@@ -419,7 +439,6 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 		docBrowser.refresh();
 	});
 	$scope.$on('$destroy', unbind);
-
 	// -----------------------------------------------------------------------------------
 	//
 	// BROWSER: If in link mode, add the current document to the link list, or remove.
@@ -597,6 +616,11 @@ function controllerModalDocumentLink($modalInstance, $scope, rProject, rCurrent,
 		//_.remove(docLink.documents, function(n) {return n === f._id; });
 	};
 
+	// Close this cascaded modal
+	$scope.$on('cleanup', function () {
+		$modalInstance.close();
+	});
+
 	docLink.ok = function (items) {
 		// console.log(items);
 		$modalInstance.close();
@@ -611,13 +635,14 @@ function controllerModalDocumentLink($modalInstance, $scope, rProject, rCurrent,
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentUploadClassify.$inject = ['$modalInstance', '$scope', 'rProject'];
+controllerModalDocumentUploadClassify.$inject = ['$modalInstance', '$scope', 'rProject', '$rootScope'];
 /* @ngInject */
-function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject) {
+function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject, $rootScope) {
 	var docUploadModal = this;
 
 	// Document upload complete so close and continue.
-	$scope.$on('documentUploadComplete', function() {
+	$scope.$on('documentUploadCompleteF', function() {
+		$rootScope.$broadcast('cleanup');
 		$modalInstance.close();
 	});
 

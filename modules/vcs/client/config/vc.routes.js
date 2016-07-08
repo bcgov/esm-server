@@ -145,6 +145,14 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					// alert (err.message);
 				});
 			};
+			$scope.$on('cleanup', function () {
+				$state.go('p.vc.detail', {
+						projectid:$scope.project.code,
+						vcId: $scope.vc._id
+					}, {
+					reload: true, inherit: false, notify: true
+				});
+			});
 		}
 	})
 	// -------------------------------------------------------------------------
