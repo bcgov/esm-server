@@ -34,6 +34,17 @@
 					</div>
 				</td>
 			</tr>
+			<tr>
+				<td width="34%" style="padding-top: 5px;">
+					<div class="form-group">
+						<label class="control-label">Type</label>
+						<select class="form-control"
+								ng-init="docUpload.selectedDocLocation = docUpload.docLocations[0]"
+								ng-options="docLocation as docLocation.name for docLocation in docUpload.docLocations"
+								ng-model="docUpload.selectedDocLocation"></select>
+					</div>
+				</td>
+			</tr>
 		</tbody>
 	</table>
 

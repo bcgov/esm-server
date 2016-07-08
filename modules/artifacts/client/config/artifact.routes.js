@@ -201,6 +201,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					// // alert (err.message);
 				});
 			};
+			$scope.$on('cleanup', function () {
+				$state.go ('p.artifact.view', {
+					projectid:project.code,
+					artifact: $scope.artifact
+				});
+			});
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -212,6 +218,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.view', {
 		url: '/view',
 		templateUrl: 'modules/artifacts/client/views/artifact-view.html',
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// console.log ('artifactId = ', $stateParams.artifactId);
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			},
+		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Authentication, VcModel) {
 			$scope.authentication = Authentication;
 			$scope.artifact = artifact;
