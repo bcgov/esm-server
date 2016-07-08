@@ -21,7 +21,7 @@
 					<a class="clearfix" role="button" data-toggle="collapse" data-parent="#projectPhases" href="#{{phase.code}}" aria-expanded="true" aria-controls="{{phase.code}}">
 						<span class="glyphicon glyphicon-triangle-right pull-left"></span>
 						<span class="glyphicon glyphicon-triangle-bottom pull-left"></span>
-						<span class="pull-left">{{phase.name}} {{phase.status}}</span>
+						<span class="pull-left">{{phase.name}}</span>
 						<span class="label label-success pull-right" ng-if="phase.status === 'Complete'">Completed &nbsp;-&nbsp; {{phase.dateCompleted | amDateFormat:'MMM DD, YYYY'}}</span>
 						<span class="pull-right hidden">&nbsp;Estimated: {{phase.dateStartedEst | date : format : timezone}} / {{phase.dateCompletedEst | date : format : timezone}}</span>
 						<span class="pull-right hidden">&nbsp;Actual: {{phase.dateStarted | date : format : timezone}} / {{phase.dateCompleted | date : format : timezone}}</span>
