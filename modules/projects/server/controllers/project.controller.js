@@ -12,8 +12,8 @@ var PhaseBaseClass      = require (path.resolve('./modules/phases/server/control
 var OrganizationClass   = require (path.resolve('./modules/organizations/server/controllers/organization.controller'));
 var StreamClass         = require (path.resolve('./modules/streams/server/controllers/stream.controller'));
 var RecentActivityClass = require (path.resolve('./modules/recent-activity/server/controllers/recent-activity.controller'));
-// var Roles               = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 var _                   = require ('lodash');
+var Role        				= require ('mongoose').model ('_Role');
 var util = require('util');
 
 module.exports = DBModel.extend ({
@@ -530,14 +530,46 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	mine: function () {
-		return this.listwrite ({},
-		{
-			_id: 1, code: 1, name: 1, region: 1, status: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1
-		}, 'currentPhase', 'name');
+		var self = this;
+
+		var findMyRoles = function (username) {
+			return new Promise(function (fulfill, reject) {
+				Role.find({
+					user: username
+				}).exec(function (error, data) {
+					if (error) {
+						reject(new Error(error));
+					} else if (!data) {
+						reject(new Error('findMyRoles: Roles not found for username: ' + username));
+					} else {
+						fulfill(data);
+					}
+				});
+			});
+		};
+
+		var getMyProjects = function(roles) {
+			var projectCodes = _.uniq(_.pluck (roles, 'context'));
+			var q = {
+				code: { "$in": projectCodes },
+				dateCompleted: { "$eq": null }
+			};
+			return self.listforaccess ('i do not want to limit my access', q, { _id: 1, code: 1, name: 1, region: 1, status: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1 }, 'currentPhase', 'name');
+		};
+
+		return findMyRoles(self.user.username)
+			.then(function(roles) {
+				//console.log("roles = " + JSON.stringify(roles, null, 4));
+				return getMyProjects(roles);
+			})
+			.then(function(projects) {
+				//console.log("projects = " + JSON.stringify(projects, null, 4));
+				return projects;
+			});
 	},
 
 	initDefaultRoles : function(project) {
-		//console.log('initDefaultRoles(' + project.code + ')');
+		console.log('initDefaultRoles(' + project.code + ')');
 		var defaultRoles = [];
 
 		project.adminRole = project.code + ':eao:admin';
