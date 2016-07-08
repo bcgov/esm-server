@@ -21,8 +21,8 @@
 						<span class="glyphicon glyphicon-triangle-right pull-left"></span>
 						<span class="glyphicon glyphicon-triangle-bottom pull-left"></span>
 						<span class="pull-left">{{phase.name}}</span>
-						<span class="pull-right">&nbsp;Estimated: {{phase.dateStartedEst | date : format : timezone}} / {{phase.dateCompletedEst | date : format : timezone}}</span>
-						<span class="pull-right">&nbsp;Actual: {{phase.dateStarted | date : format : timezone}} / {{phase.dateCompleted | date : format : timezone}}</span>
+						<span class="pull-right hidden">&nbsp;Estimated: {{phase.dateStartedEst | date : format : timezone}} / {{phase.dateCompletedEst | date : format : timezone}}</span>
+						<span class="pull-right hidden">&nbsp;Actual: {{phase.dateStarted | date : format : timezone}} / {{phase.dateCompleted | date : format : timezone}}</span>
 					</a>
 				</div>
 				<div id="{{phase.code}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="{{phase.code}}">
@@ -73,7 +73,7 @@
 										<td>{{row.name}}</td>
 										<td class="date-col">
 											<div><label>Start:</label><span>{{row.dateStartedEst | date : format : timezone}}</span></div>
-											<div><label>End</label><span>{{row.dateCompletedEst | date : format : timezone}}</span></div>
+											<div><label>End:</label><span>{{row.dateCompletedEst | date : format : timezone}}</span></div>
 										</td>
 										<td class="date-col">
 											<div><label>Start:</label><span>{{row.dateStarted | date : format : timezone}}</span></div>
