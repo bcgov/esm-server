@@ -2314,8 +2314,8 @@ $sidenav-color: $link-color;
 }
 
 .btn {
-	&:active { -webkit-box-shadow: none; box-shadow: none; }
-	&.active { -webkit-box-shadow: none; box-shadow: none; }
+	&:active { box-shadow: none; }
+	&.active { box-shadow: none; }
 }
 
 
@@ -3619,6 +3619,8 @@ section.project-info {
 	}
 
 	td.actions-col {
+		text-align: center;
+
 		.btn {
 			margin-top: 0.8rem;
 		}
