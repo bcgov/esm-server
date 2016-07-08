@@ -26,7 +26,7 @@ angular.module('project').config (
 			}
 		},
 		controller: function ($scope, $stateParams, project, ENV, $rootScope, ProjectModel, Menus) {
-			console.log ('project permissions:', project.userCan);
+			//console.log ('project permissions:', project.userCan);
 			$scope.project = project;
 			$scope.environment = ENV;
 			$scope.isNew = ($stateParams.projectid === 'new');
@@ -616,11 +616,11 @@ angular.module('project').config (
 				.then(function (ms) {
 					$scope.rSelPhase.milestone = ms;
 					$scope.rSelPhase.milestones.push(ms);
-					PhaseModel.save($scope.rSelPhase)
-					.then( function (newPhase) {
-						// console.log("newphase:", newPhase);
-						$rootScope.$broadcast('refreshPhases', newPhase);
-					});
+					return PhaseModel.save($scope.rSelPhase);
+				})
+				.then( function (phase) {
+					// console.log("newphase:", phase);
+					$rootScope.$broadcast('refreshPhases');
 				});
 			};
 			// Handle the delete milestone
