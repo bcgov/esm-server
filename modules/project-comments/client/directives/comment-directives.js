@@ -92,30 +92,25 @@ angular.module ('comment')
 			//
 			// -------------------------------------------------------------------------
 			s.detail = function (comment) {
-				var old = {
-					status  : comment.eaoStatus,
-					pStatus : comment.proponentStatus,
-					topics  : comment.topics.map (function (e) { return e; }),
-					vcs     : comment.valuedComponents.map (function (e) { return e; }),
-					pillars : comment.pillars.map (function (e) { return e; }),
-					notes   : comment.eaoNotes,
-					rnotes  : comment.rejectedNotes,
-					rreas   : comment.rejectedReason
-				};
 				$modal.open ({
 					animation: true,
 					templateUrl: 'modules/project-comments/client/views/public-comments/detail.html',
 					controllerAs: 's',
 					size: 'lg',
 					windowClass: 'public-comment-modal',
-					controller: function ($scope, $modalInstance) {
+					resolve: {
+						vcs: function (VcModel) {
+							return VcModel.forProject(project._id);
+						}
+					},
+					controller: function ($scope, $modalInstance, vcs) {
 						$scope.period      = period;
 						$scope.project     = project;
 						$scope.comment     = comment;
 						$scope.cancel      = function () { $modalInstance.dismiss ('cancel'); };
 						$scope.ok          = function () { $modalInstance.close (comment); };
 						$scope.pillars     = comment.pillars.map (function (e) { return e; });
-						$scope.vcs         = comment.valuedComponents.map (function (e) { return e; });
+						$scope.vcs 		   = vcs;
 					}
 				})
 				.result.then (function (data) {

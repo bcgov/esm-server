@@ -3588,7 +3588,7 @@ section.project-info {
 	}
 
 	.date-col {
-		width: 16rem;
+		width: 15rem;
 		font-size: 1.2rem;
 
 		label {
@@ -3619,6 +3619,7 @@ section.project-info {
 	}
 
 	td.actions-col {
+		padding-left: 0;
 		text-align: center;
 
 		.btn {

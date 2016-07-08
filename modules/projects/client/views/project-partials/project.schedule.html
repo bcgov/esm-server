@@ -21,6 +21,7 @@
 						<span class="glyphicon glyphicon-triangle-right pull-left"></span>
 						<span class="glyphicon glyphicon-triangle-bottom pull-left"></span>
 						<span class="pull-left">{{phase.name}}</span>
+						<span class="label label-success pull-right hidden" ng-if="phase.status === 'Complete'">Completed</span>
 						<span class="pull-right hidden">&nbsp;Estimated: {{phase.dateStartedEst | date : format : timezone}} / {{phase.dateCompletedEst | date : format : timezone}}</span>
 						<span class="pull-right hidden">&nbsp;Actual: {{phase.dateStarted | date : format : timezone}} / {{phase.dateCompleted | date : format : timezone}}</span>
 					</a>
@@ -47,7 +48,7 @@
 									ng-if="isNextPhase(phase._id)"
 									data-toggle="modal"
 									data-target="#completePhaseModal">Start Phase</button>
-							<div class="pull-right">
+							<div class="pull-right hidden">
 								<button class="btn btn-default btn-sm"
 									ng-click="selectPhaseForEdit(phase)"
 									data-toggle="modal"
@@ -58,7 +59,7 @@
 							</div>
 						</div>
 						<div class="phase-schedule">
-							<table class="table">
+							<table class="table table-striped">
 								<thead>
 									<tr>
 										<th class="name-col">Name</th>
