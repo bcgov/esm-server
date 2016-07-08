@@ -890,13 +890,25 @@ _.extend (DBModel.prototype, {
 		}
 		this.setAccessOnce ('write');
 		q = _.extend ({}, this.baseQ, q);
-		// console.log ('q = ', JSON.stringify(q,null,4));
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			self.findMany (q, f)
-			.then (self.permissions)
-			.then (self.decorateAll)
-			.then (resolve, self.complete (reject, 'listwrite'));
+				.then (self.permissions)
+				.then (self.decorateAll)
+				.then (resolve, self.complete (reject, 'listwrite'));
+		});
+	},
+	listforaccess : function (access, q, f, p) {
+		if (p) this.populate = p;
+		q = q || {};
+		this.setAccessOnce (access);
+		q = _.extend ({}, this.baseQ, q);
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findMany (q, f)
+				.then (self.permissions)
+				.then (self.decorateAll)
+				.then (resolve, self.complete (reject, 'listforaccess'));
 		});
 	},
 	// -------------------------------------------------------------------------
@@ -906,6 +918,7 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	complete : function (reject, funct) {
 		return function (err) {
+			console.log('dbmodel.'+funct+': '+err.message);
 			reject (new Error ('dbmodel.'+funct+': '+err.message));
 		};
 	}
