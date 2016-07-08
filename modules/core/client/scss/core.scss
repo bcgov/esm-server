@@ -2156,8 +2156,14 @@ $sidenav-color: $link-color;
 /* ATTACHMENTS 
 ------------------------------ */
 .attachments {
-	.list-group-item {
-		position: relative;
+	.file-name {
+		-webkit-flex: 1 1 auto;
+		flex: 1 1 auto;
+	}
+
+	.file-actions {
+		-webkit-flex: 0 0 auto;
+		flex: 0 0 auto;
 	}
 	
 	.file-name {
@@ -2174,13 +2180,12 @@ $sidenav-color: $link-color;
 	}
 	
 	.file-review {
-		margin-top: 0.5rem;
-		width: 100%;
-		
 		label {
 			margin-bottom: 0;
 			width: 50%;
+			min-width: 8rem;
 			font-weight: normal;
+			text-transform: uppercase;
 		}
 		
 		.btn-danger,
@@ -2203,38 +2208,8 @@ $sidenav-color: $link-color;
 		}
 	}
 	
-	.file-action {
-		position: absolute;
-		top: 0.4rem;
-		right: 0.5rem;
-		border: none;
-	}
-	
 	+ .attachments-upload-target {
 		margin-top: 1.5rem;
-	}
-}
-
-@media (min-width: 480px) {
-	.attachments {
-		.file-name {
-			margin-right: 15rem;
-		}
-		
-		.file-progress {
-			position: absolute;
-			top: 0.8rem;
-			right: 4.5rem;
-			width: 10rem;
-		}
-		
-		.file-review {
-			position: absolute;
-			top: 0.5rem;
-			right: 4.5rem;
-			width: 15rem;
-			margin-top: 0;
-		}
 	}
 }
 
@@ -2304,9 +2279,9 @@ $sidenav-color: $link-color;
 
 .btn-sm {
 	.glyphicon {
-		font-size: 1.4rem;
+		font-size: 1.2rem;
 		vertical-align: middle;
-		margin-top: -4px;
+		margin-top: -5px;
 	}
 }
 
@@ -2324,6 +2299,19 @@ $sidenav-color: $link-color;
 		margin-right: 0.5rem;
 		font-size: 1.5rem;
 	}
+}
+
+.btn-primary {
+	padding-top: 0.7rem;
+	background: $corp-blue;
+	&:hover  { background: $corp-blue; }
+	&:active { background: $corp-blue; }
+	&:focus  { background: $corp-blue; }
+}
+
+.btn {
+	&:active { -webkit-box-shadow: none; box-shadow: none; }
+	&.active { -webkit-box-shadow: none; box-shadow: none; }
 }
 
 
@@ -2702,7 +2690,7 @@ textarea {
 	border: none;
 	
 	.btn {
-		min-width: 8rem;
+		min-width: 10rem;
 	}
 }
 
@@ -2915,6 +2903,13 @@ $table-footer-bg: #FFF;
 hr {
 	border-top: 1px solid #DDD;
 }
+
+.flex-list-item-row {
+	display: -webkit-flex;
+	display: flex;
+	flex-flow: row nowrap;
+}
+
 
 /* END: COMPONENTS
 ------------------------------------------------------------ */
@@ -3576,24 +3571,27 @@ section.project-info {
 /* PROJECT SCHEDULE VIEW
 ------------------------------ */
 .project-schedule-view {
+	.panel-body {
+		padding-bottom: 0;
+	}
+	
 	.table {
-		font-size: 1.2rem;
+		table-layout: fixed;
 	}
 
-	td.actions-col {
-		.btn {
-			margin-top: 0.8rem;
-		}
+	td {
+		padding: 1rem;
 	}
 
 	.date-col {
 		width: 16rem;
-		text-transform: uppercase;
+		font-size: 1.2rem;
 
 		label {
 			margin: 0;
 			min-width: 4rem;
 			display: inline-block;
+			text-transform: uppercase;
 		}
 
 		span {
@@ -3615,6 +3613,18 @@ section.project-info {
 	.status-col {
 		width: 11rem;
 	}
+
+	td.actions-col {
+		.btn {
+			margin-top: 0.8rem;
+		}
+	}
+}
+
+.phase-schedule {
+	margin-left: -1.5rem;
+	margin-right: -1.5rem;
+	margin-bottom: 0;
 }
 
 
@@ -3744,6 +3754,25 @@ section.project-info {
 }
 
 .pcp-pillar-vc-list {
+	.vc-details {
+		-webkit-flex: 1 1 auto;
+		flex: 1 1 auto;
+
+		span {
+			font-style: italic;
+		}
+
+		.pillars {
+			display: block;
+			margin-bottom: 0.5rem;
+		}
+	}
+
+	.vc-actions {
+		-webkit-flex: 0 0 auto;
+		flex: 0 0 auto;	
+	}
+
 	label {
 		display: block;
 		margin-bottom: 0;
@@ -4037,7 +4066,6 @@ section.project-info {
 	.list-group-item {
 		padding: 1rem;
 	}
-
 	
 	.pick-list {
 		height: 15rem;
@@ -4073,7 +4101,6 @@ section.project-info {
 	.comment-status-btns {
 		.btn {
 			min-width: 10rem;
-			padding-top: 0.7rem;
 			text-transform: uppercase;
 		}
 		

@@ -114,6 +114,8 @@ angular.module ('comment')
 						$scope.comment     = comment;
 						$scope.cancel      = function () { $modalInstance.dismiss ('cancel'); };
 						$scope.ok          = function () { $modalInstance.close (comment); };
+						$scope.pillars     = comment.pillars.map (function (e) { return e; });
+						$scope.vcs         = comment.valuedComponents.map (function (e) { return e; });
 					}
 				})
 				.result.then (function (data) {

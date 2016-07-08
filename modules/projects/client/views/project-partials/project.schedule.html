@@ -12,32 +12,27 @@
 				</button>
 			</div>
 		</div>
-		<div class="panel-group"
-			 id="phaseGroup"
-			 role="tablist"
-			 aria-multiselectable="true"
-			 ng-repeat="phase in rPhases | orderBy:'order'">
 
+		<div class="panel-group">
 			<!-- BEGIN: PROJECT PHASE CONTAINER -->
-			<div class="panel panel-default accordion">
+			<div class="panel panel-default accordion" id="phaseGroup" role="tablist" aria-multiselectable="true"  ng-repeat="phase in rPhases | orderBy:'order'">
 				<div class="panel-heading" role="tab" id="phaseOne">
-
-					<a class="clearfix" role="button" data-toggle="collapse" href="#{{phase.name}}" aria-expanded="true" aria-controls="{{phase.name}}">
-						<span class="glyphicon glyphicon-plus pull-left"></span>
-                    	<span class="glyphicon glyphicon-minus pull-left"></span>
+					<a class="clearfix" role="button" data-toggle="collapse" href="#{{phase.code}}" aria-expanded="true" aria-controls="{{phase.code}}">
+						<span class="glyphicon glyphicon-triangle-right pull-left"></span>
+						<span class="glyphicon glyphicon-triangle-bottom pull-left"></span>
 						<span class="pull-left">{{phase.name}}</span>
 						<span class="pull-right">&nbsp;Estimated: {{phase.dateStartedEst | date : format : timezone}} / {{phase.dateCompletedEst | date : format : timezone}}</span>
 						<span class="pull-right">&nbsp;Actual: {{phase.dateStarted | date : format : timezone}} / {{phase.dateCompleted | date : format : timezone}}</span>
 					</a>
 				</div>
-				<div id="{{phase.name}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="{{phase.name}}">
+				<div id="{{phase.code}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="{{phase.code}}">
 					<div class="panel-body">
-						<div ng-if="project.userCan.editSchedule" class="button-bar">
+						<div ng-if="project.userCan.editSchedule" class="button-bar clearfix">
 							<button ng-if="phase.code !== 'pre-submission'"
 									ng-click="popluatePhaseDropdown(phase)"
 									class="btn btn-default btn-sm"
 									data-toggle="modal"
-									data-target="#addMilestoneModal">Add Milestone</button>
+									data-target="#addMilestoneModal"><span class="glyphicon glyphicon-plus"></span><span>Add Milestone</span></button>
 							<button ng-if="phase.code !== 'pre-submission'"
 									class="btn btn-default btn-sm hidden"
 									data-toggle="modal"
@@ -62,45 +57,60 @@
 								<button class="btn btn-default btn-sm" disabled="disabled">Phase Completed</button>
 							</div>
 						</div>
-						<table class="table project-milestones-comments">
-								<td>Name</td>
-								<td>Estimate</td>
-								<td>Actual</td>
-								<td>Status</td>
-								<td></td>
-								<td></td>
-							<tr ng-repeat="row in phase.milestones">
-								<td>{{row.name}}</td>
-								<td>{{row.dateStartedEst | date : format : timezone}} / {{row.dateCompletedEst | date : format : timezone}}</td>
-								<td>{{row.dateStarted | date : format : timezone}} / {{row.dateCompleted | date : format : timezone}}</td>
-								<td>{{row.status}}</td>
-								<!-- <td>-Template Link-</tdf> -->
-								<td class="button-col"ng-if="project.userCan.editSchedule" >
-									<button class="btn btn-default btn-sm"
-											ng-if="row.status === 'Not Started'"
-											ng-click="startMilestone(row._id)">Start Milestone</button>
-									<button class="btn label-success btn-default btn-sm"
-											ng-if="row.status === 'In Progress'"
-											ng-click="completeMilestone(row._id)">Complete Milestone</button>
-								</td>
-								<td class="actions-col"ng-if="project.userCan.editSchedule" >
-									<button class="btn btn-link">
-										<span class="glyphicon glyphicon-pencil"
-											  ng-click="openEditMilestone(row._id)"></span>
-									</button>
-									<button class="btn btn-link" ng-click="openDeleteMilestone(row._id)">
-										<span class="glyphicon glyphicon-trash"></span>
-									</button>
-								</td>
-							</tr>
-						</table>
+						<div class="phase-schedule">
+							<table class="table">
+								<thead>
+									<tr>
+										<th class="name-col">Name</th>
+										<th class="date-col">Estimate Dates</th>
+										<th class="date-col">Actual Dates</th>
+										<th class="phase-action-col"></th>
+										<th class="actions-col action-x2"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="row in phase.milestones">
+										<td>{{row.name}}</td>
+										<td class="date-col">
+											<div><label>Start:</label><span>{{row.dateStartedEst | date : format : timezone}}</span></div>
+											<div><label>End</label><span>{{row.dateCompletedEst | date : format : timezone}}</span></div>
+										</td>
+										<td class="date-col">
+											<div><label>Start:</label><span>{{row.dateStarted | date : format : timezone}}</span></div>
+											<div><label>End:</label><span>{{row.dateCompleted | date : format : timezone}}</span></div>
+										</td>
+										<!-- <td>-Template Link-</tdf> -->
+										<td class="phase-action-col">
+											<div ng-if="project.userCan.editSchedule">
+												<button class="btn btn-default btn-sm"
+														ng-if="row.status === 'Not Started'"
+														ng-click="startMilestone(row._id)">Start Milestone</button>
+												<button class="btn btn-success btn-default btn-sm"
+														ng-if="row.status === 'In Progress'"
+														ng-click="completeMilestone(row._id)">Complete Milestone</button>
+											</div>
+										</td>
+										<td class="actions-col action-x2" ng-if="project.userCan.editSchedule">
+											<button class="btn btn-link btn-sm">
+												<span class="glyphicon glyphicon-pencil"
+														ng-click="openEditMilestone(row._id)"></span>
+											</button>
+											<button class="btn btn-link btn-sm" ng-click="openDeleteMilestone(row._id)">
+												<span class="glyphicon glyphicon-remove"></span>
+											</button>
+										</td>
+									</tr>
+									<tr ng-if="phase.milestones.length == 0">
+										<td colspan="5">No Milestones Scheduled for this Phase</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
 			<!-- END: PROJECT PHASE CONTAINER -->
-
 		</div>
-
 	</div>
 
 </div>

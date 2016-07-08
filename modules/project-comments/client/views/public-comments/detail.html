@@ -43,6 +43,20 @@
         <pre class="value wrap-text">{{ ::comment.comment }}</pre>
     </section><!-- / COMMENT INFO -->
 
+    <section class="pillar-vcs">
+        <button class="pull-right btn btn-default btn-sm" ng-if="period.userCan.classifyComments"
+            x-vc-chooser
+            x-project="project"
+            x-current="comment.valuedComponents"
+            x-topics="comment.topics"
+            x-pillars="comment.pillars">Assign Valued Components
+        </button>
+        <div>
+            <span class="label label-success" ng-repeat="pillar in pillars">{{pillar}}</span>
+            <span class="label label-default" ng-repeat="vc in vcs">{{vc}}</span>
+        </div>
+    </section>
+
     <!-- ATTACHMENTS -->
     <section ng-if="!period.userCan.vetComments">
         <label class="control-label">Attachments</label>
@@ -66,113 +80,56 @@
     <section ng-if="period.userCan.vetComments">
         <label class="control-label">Attachments</label>
         <ul class="attachments list-group">
-            <li class="list-group-item clearfix">
+            <li class="list-group-item flex-list-item-row clearfix">
                 <div class="file-name">file-name-1.jpg</div>
-                <div class="file-review btn-group" data-toggle="buttons">
-                    <label class="btn btn-danger btn-sm">
-                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
-                    </label>
-                    <label class="btn btn-success btn-sm">
-                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Accept
-                    </label>
+                <div class="file-actions">
+                    <div class="file-review btn-group" data-toggle="buttons">
+                        <label class="btn btn-danger btn-sm">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
+                        </label>
+                        <label class="btn btn-success btn-sm">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked />Publish
+                        </label>
+                    </div>
+                    <button class="btn btn-link btn-sm">
+                        <span class="glyphicon glyphicon-download-alt"></span>
+                    </button>
                 </div>
-                <button class="file-action btn btn-link">
-                    <span class="glyphicon glyphicon-download-alt"></span>
-                </button>
             </li>
-            <li class="list-group-item clearfix">
+            <li class="list-group-item flex-list-item-row clearfix">
                 <div class="file-name">file-name-1.jpg</div>
-                <div class="file-review btn-group" data-toggle="buttons">
-                    <label class="btn btn-danger btn-sm">
-                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
-                    </label>
-                    <label class="btn btn-success btn-sm">
-                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Accept
-                    </label>
+                <div class="file-actions">
+                    <div class="file-review btn-group" data-toggle="buttons">
+                        <label class="btn btn-danger btn-sm">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
+                        </label>
+                        <label class="btn btn-success btn-sm">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked />Publish
+                        </label>
+                    </div>
+                    <button class="btn btn-link btn-sm">
+                        <span class="glyphicon glyphicon-download-alt"></span>
+                    </button>
                 </div>
-                <button class="file-action btn btn-link">
-                    <span class="glyphicon glyphicon-download-alt"></span>
-                </button>
             </li>
-            <li class="list-group-item clearfix">
+            <li class="list-group-item flex-list-item-row clearfix">
                 <div class="file-name">file-name-1.jpg</div>
-                <div class="file-review btn-group" data-toggle="buttons">
-                    <label class="btn btn-danger btn-sm">
-                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
-                    </label>
-                    <label class="btn btn-success btn-sm">
-                        <input type="radio" name="options" id="option1" autocomplete="off" checked />Accept
-                    </label>
+                <div class="file-actions">
+                    <div class="file-review btn-group" data-toggle="buttons">
+                        <label class="btn btn-danger btn-sm">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
+                        </label>
+                        <label class="btn btn-success btn-sm">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked />Publish
+                        </label>
+                    </div>
+                    <button class="btn btn-link btn-sm">
+                        <span class="glyphicon glyphicon-download-alt"></span>
+                    </button>
                 </div>
-                <button class="file-action btn btn-link">
-                    <span class="glyphicon glyphicon-download-alt"></span>
-                </button>
             </li>
         </ul>
     </section><!-- / REVIEW ATTACHMENTS -->
-
-    <!-- ASSIGN PILLARS & VC'S -->
-    <section class="pillers-vc" ng-if="period.userCan.classifyComments">
-        <label>Valued Components</label>
-
-        <div class="pcp-pillar-vc-list list-group">
-            <div class="list-group-item clearfix">
-                <div class="pull-left">
-                    <label>Pillars</label>
-                    <span class="value">{{ comment.pillars.join (', ') }}</span>
-                </div>
-                <div class="pull-right">
-                    <button class="pull-right btn btn-default btn-sm"
-                        x-vc-chooser
-                        x-project="project"
-                        x-current="comment.valuedComponents"
-                        x-topics="comment.topics"
-                        x-pillars="comment.pillars">ASSIGN
-                    </button>
-                </div>
-            </div>
-            <div class="list-group-item clearfix">
-                <div class="pull-left">
-                    <label>Valued Components</label>
-                    <span class="value">{{ comment.topics.join (', ') }}</span>
-                </div>
-                <div class="pull-right">
-                    <button class="pull-right btn btn-default btn-sm"
-                        x-vc-chooser
-                        x-project="project"
-                        x-current="comment.valuedComponents"
-                        x-topics="comment.topics"
-                        x-pillars="comment.pillars">ASSIGN
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="hidden" ng-if="comment.valuedComponents.length > 0">
-            <div class="detail-row">
-                <label>Pillars</label>
-                <span class="value">{{ comment.pillars.join (', ') }}</span>
-                <button class="pull-right btn btn-default btn-sm"
-                    x-vc-chooser
-                    x-project="project"
-                    x-current="comment.valuedComponents"
-                    x-topics="comment.topics"
-                    x-pillars="comment.pillars">ASSIGN
-                </button>
-            </div>
-            <div class="detail-row">
-                <label>Valued Components</label>
-                <span class="value">{{ comment.topics.join (', ') }}</span>
-                <button class="btn btn-default btn-sm"
-                    x-vc-chooser
-                    x-project="project"
-                    x-current="comment.valuedComponents"
-                    x-topics="comment.topics"
-                    x-pillars="comment.pillars">ASSIGN
-                </button>
-            </div>
-        </div>
-    </section><!-- / ASSIGN PILLARS & VC'S -->
 
 
     <!-- SET COMMENT STATUS -->
@@ -209,6 +166,6 @@
 
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="cancel()">Close</button>
-    <button type="button" class="btn btn-success" ng-click="ok(comment)" ng-if="!isPublic">Update</button>
+    <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+    <button type="button" class="btn btn-primary" ng-click="ok(comment)" ng-if="!isPublic">Update</button>
 </div>
