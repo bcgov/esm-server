@@ -98,19 +98,14 @@ angular.module ('comment')
 					controllerAs: 's',
 					size: 'lg',
 					windowClass: 'public-comment-modal',
-					resolve: {
-						vcs: function (VcModel) {
-							return VcModel.forProject(project._id);
-						}
-					},
-					controller: function ($scope, $modalInstance, vcs) {
+					controller: function ($scope, $modalInstance) {
 						$scope.period      = period;
 						$scope.project     = project;
 						$scope.comment     = comment;
 						$scope.cancel      = function () { $modalInstance.dismiss ('cancel'); };
 						$scope.ok          = function () { $modalInstance.close (comment); };
 						$scope.pillars     = comment.pillars.map (function (e) { return e; });
-						$scope.vcs 		   = vcs;
+						$scope.vcs 		   = comment.valuedComponents.map (function (e) { return e.name; });
 					}
 				})
 				.result.then (function (data) {
