@@ -44,7 +44,7 @@
     </section><!-- / COMMENT INFO -->
 
     <section class="pillar-vcs">
-        <button class="pull-right btn btn-default btn-sm" ng-if="period.userCan.classifyComments"
+        <button class="btn btn-default btn-sm" ng-if="period.userCan.classifyComments"
             x-vc-chooser
             x-project="project"
             x-current="comment.valuedComponents"
@@ -53,7 +53,7 @@
         </button>
         <div>
             <span class="label label-success" ng-repeat="pillar in pillars">{{pillar}}</span>
-            <span class="label label-default" ng-repeat="vc in vcs">{{vc}}</span>
+            <span class="label label-default" ng-repeat="vc in vcs">{{Vc.name}}</span>
         </div>
     </section>
 
