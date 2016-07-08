@@ -44,6 +44,9 @@
     </section><!-- / COMMENT INFO -->
 
     <section class="pillar-vcs">
+        <div class="tag-list">
+            <span class="label label-primary" ng-repeat="pillar in comment.pillars">{{pillar}}</span><span class="label label-default" ng-repeat="vc in comment.valuedComponents">{{vc}}</span>
+        </div>
         <button class="btn btn-default btn-sm" ng-if="period.userCan.classifyComments"
             x-vc-chooser
             x-project="project"
@@ -51,10 +54,6 @@
             x-topics="comment.topics"
             x-pillars="comment.pillars">Assign Valued Components
         </button>
-        <div>
-            <span class="label label-success" ng-repeat="pillar in comment.pillars">{{pillar}}</span>
-            <span class="label label-default" ng-repeat="vc in comment.valuedComponents">{{vc}}</span>
-        </div>
     </section>
 
     <!-- ATTACHMENTS -->
