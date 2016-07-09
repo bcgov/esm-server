@@ -390,6 +390,9 @@ angular.module('project').config (
 					case "evaluation":
 						$scope.rMilestonesForPhase = [
 							{
+								"name": "Application Evaluation",
+								"code": "application-evaluation"
+							}, {
 								"name": "Draft Application Submitted",
 								"code": "draft-application-submitted"
 							}, {
@@ -433,6 +436,9 @@ angular.module('project').config (
 								"name": "Review PCP Initiated",
 								"code": "review-pcp-initiated"
 							}, {
+								"name": "Referral Package",
+								"code": "referral-package"
+							}, {
 								"code": 'application-review-pcp-completed',
 								"name": 'Review PCP Completed',
 							}, {
@@ -471,6 +477,9 @@ angular.module('project').config (
 					case "decision":
 						$scope.rMilestonesForPhase = [
 							{
+								"name": "Minister's Decision",
+								"code": "ministers-decision"
+							}, {
 								"name": "Minister's Decision Package Delivered",
 								"code": "ministers-decision-package-delivered"
 							}, {
