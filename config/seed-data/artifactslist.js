@@ -42,9 +42,26 @@ var artifacttypes = [{
 	phase: ''
 }, {
 	name: 'Project Description Template',
-	code: 'project-description',
-	milestone: 'project-description',
+	code: 'project-description-template',
+	milestone: 'project-description-template',
 	multiple: false,
+	versions: [
+		'Submission',
+		'Draft',
+		'Final',
+		'Draft for Draft AIR',
+		'Final for Draft AIR',
+		'Draft for AIR',
+		'Final for AIR',
+		'Draft for Application',
+		'Certified (Schedule A)'
+	],
+	phase: ''
+}, {
+	name: 'Project Description',
+	multiple: false,
+	isTemplate: false,
+	code: 'project-description',
 	versions: [
 		'Submission',
 		'Draft',
