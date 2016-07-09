@@ -296,8 +296,8 @@ angular.module('project').config (
 								"code": 'public-comment-period-on-project-description',
 								"name": 'Public Comment Period on Project Description',
 							}, {
-								"name": "Draft Project Description Accepted",
-								"code": "draft-project-description-accepted"
+								"name": "Project Description Accepted",
+								"code": "project-description-accepted"
 							}, {
 								"name": "Substitution Decision",
 								"code": "substitution-decision"
