@@ -107,11 +107,11 @@ module.exports = DBModel.extend ({
 				return project;
 			})
 			//
-			// add a pre submission phase
+			// add a pre submission phase (intake)
 			//
 			.then (function () {
-				// console.log ('Step5. add the first basic phase, pre-stream, pre-submission');
-				return self.addPhase (project, 'pre-submission')
+				// console.log ('Step5. add the first basic phase, pre-stream, intake');
+				return self.addPhase (project, 'intake')
 				.then (function (m) {
 					var Phase = new PhaseClass (self.opts);
 					if (m.phases[0].name) {

@@ -284,9 +284,9 @@ var baseObjects = {
 	}],
 	"phases": [
 		{
-			"description": "Pre-Submission",
-			"name": "Pre-submission",
-			"code": "pre-submission",
+			"description": "Intake",
+			"name": "Intake",
+			"code": "intake",
 		},
 		{
 			"description": "Pre-Application Preparation",

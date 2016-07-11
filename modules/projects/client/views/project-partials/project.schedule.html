@@ -14,7 +14,7 @@
 		</div>
 
 		<div class="panel-group" id="projectPhases" role="tablist" aria-multiselectable="false">
-			
+
 			<!-- BEGIN: PROJECT PHASE CONTAINER -->
 			<div class="panel panel-default accordion" id="phaseGroup" ng-repeat="phase in rPhases | orderBy:'order'">
 				<div class="panel-heading" role="tab">
@@ -32,12 +32,12 @@
 						<div ng-if="project.userCan.editSchedule" class="button-bar clearfix">
 							<div class="pull-left">
 								<button class="btn btn-default btn-sm"
-										ng-if="phase.code !== 'pre-submission'"
+										ng-if="phase.code !== 'intake'"
 										ng-click="popluatePhaseDropdown(phase)"
 										data-toggle="modal"
 										data-target="#addMilestoneModal"><span class="glyphicon glyphicon-plus"></span><span>Add Milestone</span></button>
 								<button class="btn btn-default btn-sm hidden"
-										ng-if="phase.code !== 'pre-submission'"
+										ng-if="phase.code !== 'intake'"
 										data-toggle="modal"
 										data-target="#addCommentSessionModal">Add Comment Period</button>
 							</div>

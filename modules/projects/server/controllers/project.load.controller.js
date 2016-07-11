@@ -28,7 +28,7 @@ module.exports = function(file, req, res, opts) {
 			var stopProcessing = false;
 			// This is a really horrible way to do this, but it's good enough for now.
 			return new Promise(function (rs,rj) {
-				if (finalPhaseCode === "pre-submission") {
+				if (finalPhaseCode === "intake") {
 					return project;
 				} else {
 					(new Project(opts)).addPhase(project, "pre-ea")
