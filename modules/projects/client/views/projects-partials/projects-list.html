@@ -29,15 +29,13 @@
 				sortable="'currentPhase.name'" >
 				{{o.currentPhase.name}}
 			</td>
-			<!--
 			<td ng-if="environment === 'EAO'"
-				data-title="'Status'"
-				filter="{status:'select'}"
-				filter-data="projectList.statusArray"
-				sortable="'status'">
-				{{o.status}}
+				data-title="'Decision'"
+				filter="{eacDecision:'select'}"
+				filter-data="projectList.eacDecisionArray"
+				sortable="'eacDecision'">
+				{{o.eacDecision}}
 			</td>
-			-->	
 		</tr>
 		
 		<tr ng-show="!$data || !$data.length" class="text-center">

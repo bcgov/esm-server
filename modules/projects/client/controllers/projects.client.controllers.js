@@ -11,9 +11,9 @@ angular.module('projects')
 // CONTROLLER: Projects
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsSearch.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC', 'PhaseBaseModel'];
+controllerProjectsSearch.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_DECISION', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC', 'PhaseBaseModel'];
 /* @ngInject */
-function controllerProjectsSearch($scope, $state, Authentication, ProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC, sPhaseBaseModel) {
+function controllerProjectsSearch($scope, $state, Authentication, ProjectModel, $rootScope, PROJECT_DECISION, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC, sPhaseBaseModel) {
 	var projectsSearch = this;
 
 	sPhaseBaseModel.getCollection().then( function(data) {
@@ -22,6 +22,7 @@ function controllerProjectsSearch($scope, $state, Authentication, ProjectModel, 
 	projectsSearch.types = PROJECT_TYPES;
 	projectsSearch.regions = REGIONS;
 	projectsSearch.status = PROJECT_STATUS_PUBLIC;
+	projectsSearch.eacDecision = PROJECT_DECISION;
 
 	projectsSearch.foundSet = false;
 	projectsSearch.projects = [];
@@ -45,6 +46,9 @@ function controllerProjectsSearch($scope, $state, Authentication, ProjectModel, 
 		}
 		if (projectsSearch.search.status)  {
 			query.status = projectsSearch.search.status;
+		}
+		if (projectsSearch.search.eacDecision)  {
+			query.eacDecision = projectsSearch.search.eacDecision;
 		}
 		if (projectsSearch.search.keywords) {
 			query.keywords = {'$in': projectsSearch.search.keywords.split(' ') };
@@ -151,6 +155,11 @@ function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $
 				} else {
 					notFound = true;
 				}
+				if ( !newValue.eacDecision || (angular.lowercase(item.eacDecision).indexOf(angular.lowercase(newValue.eacDecision))) > -1 || item.eacDecision === "") {
+					// console.log("cur:",item.eacDecision);
+				} else {
+					notFound = true;
+				}
 				if (!notFound) return item;
 			});
 		}
@@ -191,6 +200,7 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 
 	projectList.regionArray = [];
 	projectList.statusArray = [];
+	projectList.eacDecisionArray = [];
 	projectList.typeArray = [];
 	projectList.phaseArray = [];
 
@@ -209,6 +219,9 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 			});
 			projs.pluck('status').unique().value().map( function(item) {
 				projectList.statusArray.push({id: item, title: item});
+			});
+			projs.pluck('eacDecision').unique().value().map( function (item) {
+				projectList.eacDecisionArray.push({id: item, title: item});
 			});
 			projs.pluck('type').unique().value().map( function(item) {
 				projectList.typeArray.push({id: item, title: item});
