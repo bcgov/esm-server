@@ -181,19 +181,20 @@ module.exports = function(file, req, res, opts) {
 					var p = new Project(opts);
 					if (doc === null) {
 						p.newDocument(item)
-						.then(p.create)
+						.then(function (newProj) {
+							return p.create(newProj);
+						})
 						.then(function (proj) {
-							p.submit(proj).then(function (newP) {
-								// Project has been created, now to set things and resolve the project back
-								// to the caller.
-								if(item.isPublished === "TRUE") {
-									p.publish(newP, true)
-									.then(rs, rj);
-								} else {
-									rs(newP);
-								}
-							});
-						});
+							return p.submit(proj);
+						})
+						.then( function (obj) {
+							if(item.isPublished) {
+								return p.publish(obj, true);
+							} else {
+								return obj;
+							}
+						})
+						.then(rs, rj);
 					} else {
 						p.update(doc, item)
 						.then(rs, rj);
