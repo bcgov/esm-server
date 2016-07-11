@@ -257,7 +257,7 @@ module.exports = function(file, req, res, opts) {
 								//shortName 		: row.ProjectName.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, row.ProjectName.length+1),
 								shortName 		: row.projectURL,
 								eacDecision 	: row.EACDecision,
-								CEAALink 		: row.CEAALink,
+								CEAALink 		: (row.CEAALink === 'NA' ? "" : row.CEAALink),
 								roles 			: ['eao', 'public'],
 								read 			: ['public'],
 								submit 			: ['eao'],
