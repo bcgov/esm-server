@@ -109,63 +109,32 @@ angular.module ('templates')
 			}
 			var template = templateCompile (scope.template, usemode);
 			var wrapperClass= 'template';
-			// var header = {
-			// 	edit : '<div class="row">'+
-			// 		'<div class="col-sm-6">'+
-			// 		'<div class="form-group">'+
-			// 		'<label for="gg" class="control-label">Go to Section</label>'+
-			// 		'<select ng-change="goto(gosection)" id="gg" ng-model="gosection" class="form-control" ng-options="section.name as section.label for section in allsections"></select>'+
-			// 		'</div>'+
-			// 		'</div>'+
-			// 		'<div class="col-sm-6">'+
-			// 		'<div class="form-group">'+
-			// 		'<label for="hh" class="control-label">Append New in Section</label>'+
-			// 		'<select ng-change="append(newsection)" id="hh" ng-model="newsection" class="form-control" ng-options="section.name as section.label for section in repeatsections"></select>'+
-			// 		'</div>'+
-			// 		'</div>'+
-			// 		'</div>',
-			// 	view : '<div class="row">'+
-			// 		'<div class="col-sm-6">'+
-			// 		'<div class="form-group">'+
-			// 		'<label for="gg" class="control-label">Go to Section</label>'+
-			// 		'<select ng-change="goto(gosection)" id="gg" ng-model="gosection" class="form-control" ng-options="section.name as section.label for section in allsections"></select>'+
-			// 		'</div>'+
-			// 		'</div>'+
-			// 		'<div class="col-sm-6">&nbsp;</div>'+
-			// 		'</div>'
-			// };
-
-
-
 
 			var header = {
-				edit:'<div class="panel panel-default" ng-init="toggleBlue = true">'+
-					'<div class="panel-body no-vertical-padding" du-scroll-container="templateContainer"><div class="row block-section">'+
-					'<div class="col-sm-'+leftWidth+' col-no-padding vertical-scroll col-border-right"  x-artifact-edit-height="200">'+
-					'<ul class="small list-unstyled list-documents">'+
-					'<li>'+
-					'<a href ng-click="toggleBlue = !toggleBlue">Toggle Outlines</a>'+
-					'</li>'+
-					'<li class="row-folder clickable" du-scrollspy="{{ section.name }}" ng-repeat="section in allsections">'+
-					'<a href ng-if="section.repeatable" ng-click="append(section.name)" class="pull-right">+ Append New</a>'+
-					'<a href="#{{ section.name }}" du-smooth-scroll>{{ section.label }}</a></li>'+
-					'</ul>'+
-					'</div>'+
-					'<div class="col-sm-'+rightWidth+' vertical-scroll-padded" x-artifact-edit-height="200" id="templateContainer" ng-class="{\'edit-outlines\': toggleBlue}">'+
+				edit:'<div class="panel panel-default" du-scroll-container="templateContainer">'+
+						'<div class="template-nav">'+
+							'<ul class="list-unstyled list-documents">'+
+								'<li class="row-folder clickable" du-scrollspy="{{ name }}" ng-repeat="section in allsections">'+
+									'<a href="#{{ section.name }}" du-smooth-scroll>{{ section.label }}</a>'+
+									'<button class="btn btn-link btn-xs" ng-if="section.repeatable" ng-click="append(section.name)">+ Append New</button>'+
+								'</li>'+
+							'</ul>'+
+						'</div>'+
+						'<div class="template vertical-scroll-padded" id="templateContainer"'+
 					'',
 				view:
-					'<div class="panel panel-default">'+
-					'<div class="panel-body no-vertical-padding" du-scroll-container="templateContainer"><div class="row block-section">'+
-					'<div class="col-sm-'+leftWidth+' col-no-padding vertical-scroll col-border-right" x-artifact-edit-height="200">'+
-					'<ul class="small list-unstyled list-documents">'+
-					'<li class="row-folder clickable" du-scrollspy="{{ section.name }}" ng-repeat="section in allsections">'+
-					'<a href="#{{ section.name }}" x-offset=10 du-smooth-scroll>{{ section.label }}</a></li>'+
-					'</ul>'+
-					'</div>'+
-					'<div class="col-sm-'+rightWidth+' vertical-scroll-padded" x-artifact-edit-height="200" id="templateContainer">'
+					'<div class="panel panel-default" du-scroll-container="templateContainer">'+
+						'<div class="template-nav">'+
+							'<ul class="list-unstyled list-documents">'+
+								'<li class="row-folder clickable" du-scrollspy="{{ section.name }}" ng-repeat="section in allsections">'+
+									'<a href="#{{ section.name }}" x-offset=10 du-smooth-scroll>{{ section.label }}</a>'+
+								'</li>'+
+							'</ul>'+
+						'</div>'+
+						'<div class="template vertical-scroll-padded" id="templateContainer">'
 			};
 
-			var footer = '</div></div></div></div>';
+			var footer = '</div></div>';
 			// if (scope.project) scope.document._project = scope.project;
 			var tData = templateData (scope.template, scope.document, scope.project);
 			scope.allsections = tData.sectionList ();

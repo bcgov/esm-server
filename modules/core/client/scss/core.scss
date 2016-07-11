@@ -978,7 +978,6 @@ body {
 		padding-top: 80px;
 }
 
-
 .navbar-custom .navbar-nav > li > a {
 	color: $navbar-blue;
 }
@@ -1042,32 +1041,6 @@ h2.page-title {
 	margin: 0 2px 0;
 }
 .navbar-nav > li > a {padding-top:10px !important; padding-bottom:10px !important;}
-
-
-
-.edit-outlines .text-block {
-	border: 2px dotted $brand-info;
-	padding: 3px;
-	border-radius: 8px;
-	cursor: pointer;
-	background-color: transparent;
-}
-.edit-outlines .text-block-success {
-	border: 2px dotted $brand-success;
-	background-color: transparent;
-	padding-left: 5px;
-	padding-right: 5px;
-}
-.text-block > p:last-child {
-	margin-bottom: 0;
-}
-
-.edit-outlines .text-block:focus,
-.edit-outlines .text-block-focus {
-	border: 2px dashed $brand-info;
-	outline: none !important;
-	background-color: #d9edf7;
-}
 
 .doc-detail-col {
 	border-right: 1px solid $border-grey;
@@ -1187,8 +1160,8 @@ h2.page-title {
 */
 
 .template {
-  background-color: #ffffff;
-  padding:10px;
+  padding: 2rem;
+  background: #FFF;
 }
 
 .template h1,
@@ -4268,6 +4241,135 @@ section.project-info {
 }
 
 
+/* TEMPLATES VIEW
+------------------------------ */
+.template-view {
+	.data-set-col {
+		display: none;
+	}
+}
+
+.template-container {
+	.panel {
+		position: fixed;
+		top: 18.5rem;
+		left: 2.5rem;
+		right: 2.5rem;
+		bottom: 5rem;
+		display: -webkit-flex;
+		display: flex;
+		padding: 0;
+		overflow: hidden;
+	}
+
+	.template-nav {
+		-webkit-flex: 0 0 20rem;
+		flex: 0 0 24rem;
+		border-right: 1px solid #DDD;
+		padding-left: 0.8rem;
+		padding-right: 0.8rem;
+		overflow-y: auto;
+
+
+		a {
+			padding-top: 0.5rem;
+			padding-bottom: 0.5rem;
+			font-weight: bold;
+		}
+
+		.btn {
+			margin-top: -0.5rem;
+			text-transform: uppercase;
+		}
+	}
+
+	.template.vertical-scroll-padded {
+		-webkit-flex: 1 1 auto;
+		flex: 1 1 auto;
+		max-height: inherit;
+	}
+}
+
+.edit-outlines {
+	.text-block {
+		padding: 0.2rem;
+		background: transparent;
+		border: 2px dotted $brand-info;
+		border-radius: 0.5rem;
+		cursor: pointer;
+	}
+
+	.text-block-success {
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+		background: transparent;
+		border: 2px dotted $brand-success;
+	}
+
+	.text-block:focus,
+	.text-block-focus {
+		outline: none !important;
+		background-color: #d9edf7;
+	}
+}
+
+.text-block > p:last-child {
+	margin-bottom: 0;
+}
+
+@media (min-width: 1024px) {
+	.template-container {
+		.panel {
+			top: 19.5rem;
+		}
+	}
+}
+
+
+@media print {
+	.app-header,
+	.app-footer {
+		display: none;
+		border: none;
+	}
+	.app-main {
+		padding-top: 2rem;
+	}
+
+	.template-view {
+		.button-bar {
+			display: none;
+		}
+	}
+	
+	.template-container  {
+		.template-nav {
+			display: none;
+		}
+
+		.panel {
+			position: relative;;
+			top: 0;
+			left: 2.5rem;
+			right: 2.5rem;
+			bottom: 0;
+			padding: 0;
+		}
+
+		.vertical-scroll-padded {
+			max-height: initial;
+		}
+
+		.template {
+			display: block;
+			padding: 0;
+			max-width: 80rem; /* IE fun */
+			overflow: visible;
+		}
+	}
+}
+
+
 /* VALUED COMPONENTS VIEW
 ----------------------------- */
 .valued-component-view {
@@ -4281,3 +4383,4 @@ section.project-info {
 		height: 8.5rem;
 	}
 }
+
