@@ -49,6 +49,18 @@
 					<span class="value">{{ ::project.CEAAInvolvement }}</span>
 				</div>
 			</div>
+			<div class="col-sm-4 col-md-4">
+				<div class="detail-row" ng-show="project.eacDecision">
+					<label>EAC Decision</label>
+					<span class="value">{{ ::project.eacDecision }}</span>
+				</div>
+			</div>
+			<div class="col-sm-4 col-md-4" ng-if="project.CEAALink">
+				<div class="detail-row">
+					<label>CEAALink</label>
+					<span class="value">{{project.CEAALink}}</span>
+				</div>
+			</div>
 		</div>
 
 		<!--- CONTACTS -->

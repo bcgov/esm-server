@@ -213,7 +213,7 @@ module.exports = function(file, req, res, opts) {
 			// console.log("FILE DATA:",data);
 			var colArray = "";
 			if (projectType === "eao") {
-				colArray = ['id','Stream','ProjectName','Proponent','Region','description','locSpatial','locDescription','provincialED','federalED','investment','projectCreateDate','projectDescriptionLivingData','projectNotes','projectURL','investmentNotes','lat','long','constructionjobs','constructionjobsNotes','operatingjobs','operatingjobsNotes','projectType','sector','phase','currentPhaseTypeActivity','eaActive','CEAAInvolvement','eaIssues','eaNotes','responsibleEPD','phoneEPD','emailEPD','projectLead','projectLeadPhone','projectLeadEmail','projectAnalyst','projectAssistant','administrativeAssistant','CELead','CELeadPhone','CELeadEmail','teamNotes', 'isPublished'];
+				colArray = ['id','Stream','ProjectName','Proponent', 'DBA', 'Region','description','locSpatial','locDescription','provincialED','federalED','investment','projectCreateDate','projectDescriptionLivingData','projectNotes','projectURL','investmentNotes','lat','long','constructionjobs','constructionjobsNotes','operatingjobs','operatingjobsNotes','projectType','sector','phase','EACDecision', 'currentPhaseTypeActivity','eaActive', 'CEAAInvolvement','CEAALink', 'eaIssues','eaNotes','responsibleEPD','phoneEPD','emailEPD','projectLead','projectLeadPhone','projectLeadEmail','projectAnalyst','projectAssistant','administrativeAssistant','CELead','CELeadPhone','CELeadEmail','teamNotes', 'isPublished'];
 			} else {
 				colArray = ['id','ProjectName','Proponent','Ownership','type', 'lat','long','Status','Commodity','Region','TailingsImpoundments','description'];
 			}
@@ -248,12 +248,16 @@ module.exports = function(file, req, res, opts) {
 								type 				: row.type
 							};
 						} else {
+							newProponent.company = row.DBA;
+
 							query = { epicProjectID: parseInt(row.id) };
 							newObj = {
 								epicProjectID 	: id,
 								name 			: row.ProjectName,
 								//shortName 		: row.ProjectName.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, row.ProjectName.length+1),
 								shortName 		: row.projectURL,
+								eacDecision 	: row.EACDecision,
+								CEAALink 		: row.CEAALink,
 								roles 			: ['eao', 'public'],
 								read 			: ['public'],
 								submit 			: ['eao'],
