@@ -3750,10 +3750,13 @@ section.project-info {
 	}
 }
 
-.pillar-vcs {
-	.tag-list + .btn {
-		margin-top: 1rem;
-	}
+.tag-list {
+	font-style: italic;
+	color: #888;
+}
+
+.tag-list + .btn {
+	margin-top: 0.5rem;
 }
 
 .pcp-pillar-vc-list {

@@ -65,10 +65,10 @@
 		</ul>
  		<ul class="list-unstyled" ng-show="menu.authentication.user">
 			<li ng-if="menu.project.userCan.managePermissions">
-				<a x-role-permissions-modal x-context="menu.project" x-object="menu.project">Project Permissions</a>
+				<a href x-role-permissions-modal x-context="menu.project" x-object="menu.project">Project Permissions</a>
 			</li>
 			<li ng-if="menu.project.userCan.manageRoles">
-				<a x-role-users-modal x-context="menu.project">Project Roles</a>
+				<a href x-role-users-modal x-context="menu.project">Project Roles</a>
 			</li>
 		</ul>
   </div><!-- / PROJECT MENU - AUTHENTICATED -->

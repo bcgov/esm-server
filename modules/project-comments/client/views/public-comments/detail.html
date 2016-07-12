@@ -35,9 +35,9 @@
     <!-- COMMENT INFO -->
     <section class="comment-info">
         <div class="detail-row">
-            <label>Submitted by {{ ::comment.author }}</label>
+            <label>Posted by {{ ::comment.author }}</label>
             <span class="value">
-                {{comment.dateAdded | amDateFormat:'MMMM Do-YYYY'}} near {{ ::comment.location }}
+                {{comment.dateAdded | amDateFormat:'MMMM Do, YYYY'}} &nbsp;<span ng-if="comment.location"> | {{ ::comment.location }}</span>
             </span>
         </div>
         <pre class="value wrap-text">{{ ::comment.comment }}</pre>
@@ -45,7 +45,13 @@
 
     <section class="pillar-vcs">
         <div class="tag-list">
-            <span class="label label-primary" ng-repeat="pillar in comment.pillars">{{pillar}}</span><span class="label label-default" ng-repeat="vc in comment.valuedComponents">{{vc}}</span>
+            <span>{{comment.pillars.join (', ')}},</span>&nbsp;<span>{{comment.topics.join (', ')}}</span>
+            
+            <!--
+            <span class="label label-primary" ng-repeat="pillar in comment.pillars">{{pillar}}</span>
+            <span class="label label-default" ng-repeat="vc in comment.valuedComponents">{{vc}}</span>
+            -->
+
         </div>
         <button class="btn btn-default btn-sm" ng-if="period.userCan.classifyComments"
             x-vc-chooser

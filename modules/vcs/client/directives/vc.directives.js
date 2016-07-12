@@ -95,7 +95,7 @@ angular.module ('vcs')
 								return index[e].name;
 							});
 							scope.pillars.splice (0, 0, _.keys (pills));
-							scope.topics.splice (0, 0, tops);
+							scope.topics.splice (0, 0, tops.join(', '));
 							// console.log ('selected = ', tops);
 							// console.log ('selected = ', pills);
 							// console.log ('selected = ', scope.pillars);

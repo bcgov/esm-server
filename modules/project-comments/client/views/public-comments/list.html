@@ -32,15 +32,11 @@
                         {{ ::o.location }}
                     </td>
                     <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillars'" filter="{'pillars':'text'}" sortable="'pillars'">
-                        <span class="pillar" ng-if="o.valuedComponents.length > 0">
-                            <span class="label label-success" ng-repeat="pillar in pillars">{{pillar}}</span>
-                        </span>
+                        <span class="tag-list">{{o.pillars.join (', ')}}</span>
                         <!-- <ul><li ng-repeat="pillar in o.pillars">{{::pillar}}</li></ul> -->
                     </td>
                     <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Components'" filter="{'topics':'text'}" sortable="'topics'">
-                        <span class="vc" ng-if="o.valuedComponents.length > 0">
-                            <span class="label label-default" ng-repeat="vc in vcs">{{vc.name}}</span>
-                        </span>
+                        <span class="tag-list">{{o.topics.join (', ')}}</span>
                         <!-- <ul><li ng-repeat="vc in o.topics">{{::vc}}</li></ul> -->
                     </td>
                     <td class="attachment-col" header-class="'attachment-col no-mobile'">
