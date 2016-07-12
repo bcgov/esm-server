@@ -177,6 +177,20 @@ module.exports = DBModel.extend ({
 						}
 					}
 				}
+				else if ('ARTIFACT' === type) {
+					if (!types[type]) {
+						types[type] = { subTypes : {} };
+						list.push ({
+							order     : order,
+							label     : type,
+							depth     : 1,
+							reference : 'projectFolderType',
+							lineage   : {
+								projectFolderType : type
+							}
+						});
+					}
+				}
 			}); // end of each records
 			return list;
 		});

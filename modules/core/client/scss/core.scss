@@ -2132,9 +2132,36 @@ $sidenav-color: $link-color;
 /* ATTACHMENTS 
 ------------------------------ */
 .attachments {
+	.list-group {
+		margin-top: 1.5rem;
+	}
+
+	.list-group-item {
+		display: -webkit-flex;
+		display: flex;
+		flex-flow: row nowrap;
+		padding: 0;
+	}
+
+	.file-icon {
+		-webkit-flex: 0 0 auto;
+		flex: 0 0 auto;
+		padding-left: 1rem;
+		font-size: 1.8rem;
+
+		.glyphicon {
+			margin-top: 0.75rem;
+		}
+	}
+
 	.file-name {
 		-webkit-flex: 1 1 auto;
 		flex: 1 1 auto;
+		padding: 1rem;
+		padding-left: 0.75rem;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.file-actions {
@@ -2142,17 +2169,14 @@ $sidenav-color: $link-color;
 		flex: 0 0 auto;
 	}
 	
-	.file-name {
-		margin-right: 4rem;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-	
 	.file-progress {
-		margin-top: 0.5rem;
-		margin-bottom: 0.5rem;
-		height: 1.3rem;
+		-webkit-flex: 0 0 14rem;
+		flex: 0 0 14rem;
+		padding: 1rem;
+
+		.progress {
+			margin: 0;
+		}
 	}
 	
 	.file-review {
@@ -2194,10 +2218,20 @@ $sidenav-color: $link-color;
 	padding: 2rem;
 	text-align: center;
 	font-weight: normal;
-	color: #888;
+	text-shadow: 1px 1px 0 #FFF;
 	border: 2px dashed #AAA;
 	border-radius: 4px;
-	background: #EEE;
+	background: #F7F8FA;
+
+	.instructions {
+		font-size: 1.8rem;
+	}
+
+	.requirements {
+		font-size: 1.2rem;
+		font-style: italic;
+		color: #888;
+	}
 	
 	input {
 		position: absolute;
@@ -2472,8 +2506,6 @@ $file-browser-item-active: #2b5580;
 /* FORM CONTROLS
 ------------------------------ */
 .control-label {
-	font-weight: normal;
-	color: #000;
 	text-shadow: 1px 1px 0 #FFF;
 	
 	em {
@@ -3706,16 +3738,12 @@ section.project-info {
 	h4 {
 		margin-top: 0;
 		margin-bottom: 1rem;
-		font-size: 1.6rem;
+		font-size: 1.4rem;
 		font-weight: bold;
 	}
 
 	pre {
 		color: #888;
-	}
-
-	.pcp-desc {
-		margin-bottom: 1.5rem;
 	}
 
 	section {
@@ -3734,7 +3762,7 @@ section.project-info {
 .pcp-package-links {
 	a {
 		display: block;
-		padding: 1rem;
+		padding: 0.8rem 1rem;
 		text-decoration: none;
 		background: #f1f1f2;
 		border: 1px solid #f1f1f2;
@@ -4383,6 +4411,23 @@ section.project-info {
 			max-width: 80rem; /* IE fun */
 			overflow: visible;
 		}
+	}
+}
+
+/* UPLOAD DOCUMENTS VIEW
+----------------------------- */
+.upload-documents-view {
+	position: relative;
+
+	.loader-overlay {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background: red;
+		opacity: 0.5;
+		z-index: 999;
 	}
 }
 
