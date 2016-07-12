@@ -72,7 +72,7 @@ exports.loadUsers = function(file, req, res, opts) {
 				Object.keys(output).forEach(function(key, index) {
 					if (index > 0) {
 						var row = output[key];
-						row.EMAIL_ADDRESS = row.EMAIL_ADDRESS.trim();
+						row.EMAIL_ADDRESS = row.EMAIL_ADDRESS ? row.EMAIL_ADDRESS.trim() : "";
 						var newObj = {
 							personId      : parseInt(row.PERSON_ID),
 							orgName       : row.ORGANIZATION_NAME,
@@ -83,7 +83,7 @@ exports.loadUsers = function(file, req, res, opts) {
 							lastName      : row.LAST_NAME,
 							phoneNumber   : row.PHONE_NUMBER,
 							homePhoneNumber : row.HOME_PHONE_NUMBER,
-							email         : row.EMAIL_ADDRESS !== "" ? row.EMAIL_ADDRESS : "none@specified.com",
+							email         : row.EMAIL_ADDRESS !== "" ? row.EMAIL_ADDRESS : "none@specified.com"+row.FIRST_NAME +"."+ row.LAST_NAME +"."+ row.ORGANIZATION_NAME,
 							eaoStaffFlag  : Boolean(row.EAO_STAFF_FLAG),
 							proponentFlag : Boolean(row.PROPONENT_FLAG),
 							salutation    : row.SALUTATION,
@@ -142,10 +142,10 @@ exports.loadUsers = function(file, req, res, opts) {
 								var o = new User(user);
 								o.save()
 								.then(function (obj) {
-									// console.log("created:", obj); Babkirk, Novagas
+									// console.log("created:", obj);
 									rs(obj);
 								}, function (err) {
-									console.log("err:", err);
+									// console.log("err:", err);
 									rj(err);
 								});
 							} else {
