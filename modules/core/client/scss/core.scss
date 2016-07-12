@@ -2039,8 +2039,6 @@ $sidenav-color: $link-color;
 }
 
 
-/* BEGIN: UI COMPONENT STYLING
------------------------------------------------------------- */
 /* ACCORDION CONTROL
 ----------------------------- */
 .panel-default.accordion > .panel-heading {
@@ -2618,6 +2616,22 @@ textarea {
 			margin: 1.5rem 0;
 			font-size: 1.6rem;	
 			line-height: 2.2rem;
+		}
+	}
+}
+
+/* LIST (SELECTABLE)
+------------------------------ */
+.check-list {
+	.list-group-item {
+		padding-left: 3.5rem;
+		cursor: pointer;
+
+		input {
+			position: absolute;
+			left: 1.5rem;
+			top: 1.2rem;
+			margin: 0;
 		}
 	}
 }
@@ -3755,10 +3769,6 @@ section.project-info {
 	color: #888;
 }
 
-.tag-list + .btn {
-	margin-top: 0.5rem;
-}
-
 .pcp-pillar-vc-list {
 	.vc-details {
 		-webkit-flex: 1 1 auto;
@@ -4107,8 +4117,8 @@ section.project-info {
 	.comment-status-btns {
 		.btn {
 			min-width: 10rem;
-			padding-top: 0.8rem;
-			padding-bottom: 0.8rem;
+			padding-top: 0.7rem;
+			padding-bottom: 0.7rem;
 			text-transform: uppercase;
 		}
 		
@@ -4134,6 +4144,10 @@ section.project-info {
 	
 	.comment-status-note {
 		margin-top: 2rem;
+	}
+
+	.pillar-vcs {
+		margin-bottom: 2.5rem;
 	}
 }
 
@@ -4387,3 +4401,8 @@ section.project-info {
 	}
 }
 
+.vc-chooser-view {
+	.list-group {
+		margin-bottom: 0;
+	}
+}

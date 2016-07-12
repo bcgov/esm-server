@@ -45,7 +45,7 @@
 
     <section class="pillar-vcs">
         <div class="tag-list">
-            <span>{{comment.pillars.join (', ')}},</span>&nbsp;<span>{{comment.topics.join (', ')}}</span>
+            <span>{{comment.pillars.join (', ')}} </span><span ng-if="comment.topics">{{comment.topics.join (', ')}}</span>
             
             <!--
             <span class="label label-primary" ng-repeat="pillar in comment.pillars">{{pillar}}</span>

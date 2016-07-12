@@ -71,6 +71,7 @@ angular.module ('vcs')
 					templateUrl: 'modules/vcs/client/views/vc-chooser.html',
 					controllerAs: 's',
 					size: 'md',
+					windowClass: 'vc-chooser-view',
 					resolve: {
 						vcs: function (VcModel) {
 							return VcModel.forProject (scope.project._id);
