@@ -22,8 +22,10 @@ module.exports = function (app) {
 		var file = req.files.file;
 		if (file) {
 			// console.log("Received users import file:",file);
-			users.loadUsers(file, req, res)
-					 .then (routes.success(res), routes.failure(res));
+			routes.setSessionContext(req)
+			.then( function (opts) {
+				return users.loadUsers(file, req, res, opts);
+			}).then (routes.success(res), routes.failure(res));
 		}
 	});
 	// Import logic
