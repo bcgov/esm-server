@@ -76,6 +76,17 @@ angular.module('core')
 								return AccessModel.permissionRoleIndex(scope.object._id);
 							}).then(function (rp) {
 								console.log('rolePermissionsModal.init... permissionRoleIndex');
+								// when a project is published, public needs read permissions.
+								// this isn't stored, so we need to add it...
+								// such a garbage hack...
+								if (scope.object.isPublished && !_.contains(scope.object.read, 'public')) {
+									if (!_.has(rp.permission, 'read') && !_.has(rp.permission, 'read.public')) {
+										_.set(rp.permission, 'read.public', true);
+									}
+									if (!_.has(rp.role, 'public') && !_.has(rp.role, 'public.read')) {
+										_.set(rp.role, 'public.read', true);
+									}
+								}
 								permissionRoleIndex = rp;
 								s.permissionRoleIndex = permissionRoleIndex;
 								s.permissionRoleIndex.schemaName = scope.object._schemaName;
