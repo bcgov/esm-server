@@ -207,7 +207,7 @@ exports.loadUsers = function(file, req, res, opts) {
 	});
 };
 
-exports.loadGroupUsers = function(file, req, res) {
+exports.loadGroupUsers = function(file, req, res, opts) {
 	return new Promise (function (resolve, reject) {
 		// Now parse and go through this thing.
 		fs.readFile(file.path, 'utf8', function(err, data) {
@@ -219,52 +219,69 @@ exports.loadGroupUsers = function(file, req, res) {
 			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 				// Skip this many rows
 				var length = Object.keys(output).length;
-				var rowsProcessed = 0;
+				var promises = [];
 				// console.log("length",length);
 				Object.keys(output).forEach(function(key, index) {
 					if (index > 0) {
 						var row = output[key];
-						rowsProcessed++;
-						// console.log("rowData:",row);
-						Group.findOne({groupId: parseInt(row.GROUP_ID), personId: parseInt(row.PERSON_ID)})
-						.then( function (doc) {
-							var addOrChangeModel = function(model) {
-								model.groupId     = parseInt(row.GROUP_ID);
-								model.groupName   = row.NAME;
-								model.groupType   = row.CONTACT_GROUP_TYPE;
-								model.personId    = parseInt(row.PERSON_ID);
-								model.epicProjectID  = parseInt(row.PROJECT_ID); // Save epic data just in case
-								model.save()
-								.then(function (m) {
-									return Project.findOne({epicProjectID: m.epicProjectID});
-								})
-								.then (function (project) { // Find an project and relate it
-									// console.log("project:", project);
-									if (project) {
-										model.project = project;
-										return model.save();
-									}
-								})
-								.then(function () {
-									setTimeout(function() {
-										if (index === length-1) {
-											// console.log("resolving");
-											resolve();
-										}
-									}, 2000);
-								});
-							};
-							if (doc === null) {
-								// Create new
-								var g = new Group ();
-								addOrChangeModel(g);
-							} else {
-								// Update:
-								addOrChangeModel(doc);
-							}
-						});
+						var newObj = {
+							groupId     : parseInt(row.GROUP_ID),
+							groupName   : row.NAME,
+							groupType   : row.CONTACT_GROUP_TYPE,
+							personId    : parseInt(row.PERSON_ID),
+							epicProjectID  : parseInt(row.PROJECT_ID) // Save epic data just in case
+						};
+						promises.push(newObj);
 					}
 				});
+
+				var doGroupUserWork = function(item) {
+					return new Promise(function(rs, rj) {
+						// console.log("item:", item);
+						Group.findOne({groupId: parseInt(item.groupId), personId: parseInt(item.personId)}, function (err, result) {
+							if (result === null) {
+								// console.log("Creating group:", item.groupId);
+								// Create it
+								var o = new Group(item);
+								o.save()
+								.then (rs, rj);
+							} else {
+								// console.log("found the group:", result.groupName);
+								rs(result);
+							}
+						});
+					});
+				};
+
+				var doGroupProjectWork = function(item) {
+					return new Promise(function(rs, rj) {
+						// console.log("itemg finding:", item.epicProjectID);
+						Project.findOne({epicProjectID: item.epicProjectID}, function (err, result) {
+							if (result !== null) {
+								// console.log("project:", result);
+								item.project = result;
+								item.save()
+								.then(rs,rj);
+							} else {
+								// console.log("didn't find anything");
+								rs(null);
+							}
+						});
+					});
+				};
+
+				Promise.resolve ()
+				.then (function () {
+					return promises.reduce (function (current, item) {
+						return current.then (function () {
+							return doGroupUserWork(item)
+							.then( function (group) {
+								return doGroupProjectWork(group);
+							});
+						});
+					}, Promise.resolve());
+				})
+				.then (resolve, reject);
 			});
 		});
 	});
