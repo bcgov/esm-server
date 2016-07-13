@@ -33,9 +33,11 @@ module.exports = function (app) {
 		.post (function (req, res) {
 			var file = req.files.file;
 			if (file) {
-				// console.log("Received contact import file:",file);
-				users.loadGroupUsers(file, req, res)
-						 .then (routes.success(res), routes.failure(res));
+				// console.log("Received groupusers import file:",file);
+				routes.setSessionContext(req)
+				.then( function (opts) {
+					return users.loadGroupUsers(file, req, res, opts);
+				}).then (routes.success(res), routes.failure(res));
 			}
 		});
 	// Finish by binding the user middleware
