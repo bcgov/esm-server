@@ -1,9 +1,10 @@
 
-<div class="panel panel-default">
+
+<div class="document-panel panel panel-default">
     <div class="panel-heading clearfix">
-        <h2 class="pull-left">{{ ::title }}</h2>
-        <a class="btn btn-default btn-sm pull-right" ng-if="editable" href x-modal-document-link x-current="curVal" x-project="project">
-            +/- Link Documents
+        <h2>{{ ::title }}</h2>
+        <a class="link-file-btn btn btn-primary btn-sm" ng-if="editable" href x-modal-document-link x-current="curVal" x-project="project">
+            <span class="glyphicon glyphicon-link"></span><span>Link Document<span>
         </a>
     </div>
     <div class="attachments">
@@ -18,12 +19,12 @@
                 <span class="file-name clearfix">
                     <span>{{ file.internalOriginalName }}</span>
                     <span class="file-details">
-                        <span class="directory">
+                        <span class="directory hidden">
                             <small ng-if="file.projectFolderType">{{ file.projectFolderType }}</small>
                             <small ng-if="file.projectFolderSubType"> / {{ file.projectFolderSubType }}</small>
                             <small ng-if="file.projectFolderSubType"> / {{ file.projectFolderName }}</small>
                         </span>
-                        <small> &nbsp;|&nbsp; V.{{ file.documentVersion }}</small>
+                        <small>V.{{ file.documentVersion }}</small>
                         <small> &nbsp;|&nbsp; {{ file.dateUpdated | amDateFormat:'MMMM Do YYYY'}}</small>
                     </span>
                 </span>
