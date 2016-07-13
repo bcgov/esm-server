@@ -9,6 +9,8 @@ var DBModel   = require (path.resolve('./modules/core/server/controllers/cc.dbmo
 var _         = require ('lodash');
 var CSVParse 	= require ('csv-parse');
 var Project    = require (path.resolve('./modules/projects/server/controllers/project.controller'));
+var mongoose 	= require ('mongoose');
+var DocumentModel 	= mongoose.model ('Document');
 
 module.exports = DBModel.extend ({
 	name : 'Document',
@@ -260,80 +262,98 @@ module.exports = DBModel.extend ({
 						// Skip this many rows
 						var URLPrefix = "https://a100.gov.bc.ca/appsdata/epic/documents/";
 						var length = Object.keys(output).length;
-						var rowsProcessed = 0;
+						var promises = [];
+
 						// console.log("length",length);
+
 						Object.keys(output).forEach(function(key, index) {
 							if (index > 0) {
 								var row = output[key];
 								// console.log("row:",row);
-								rowsProcessed++;
-								self.model.findOne({documentEPICId: parseInt(row.DOCUMENT_ID)}, function (err, doc) {
-									if (err) {
-										// console.log("err",err);
-									} else {
-										// console.log("doc",doc);
-									}
-									var addOrChangeModel = function(model, skipURL) {
-										// res.write(",");
-										// res.write(JSON.stringify({documentEPICId:parseInt(row.DOCUMENT_ID)}));
-										// res.flush();
-										model.documentEPICProjectId 	= parseInt(row.PROJECT_ID);
-										model.documentEPICId            = parseInt(row.DOCUMENT_ID);
-										model.projectFolderType         = row.PST_DESCRIPTION;
-										model.projectFolderSubType      = row.DTP_DESCRIPTION;
-										model.projectFolderName 		= row.FOLDER;
-										// This could be auto-generated based on what we know now.
-										model.projectFolderURL          = row.FOLDER;
-										model.projectFolderDatePosted   = Date(row.DATE_POSTED);
-										// // Do this on 2nd pass
-										// model.projectFolderAuthor       = row.WHO_CREATED;
-										model.documentAuthor     = row.WHO_CREATED;
-										model.documentFileName   = row.FILE_NAME;
-										// Skip overwriting the URL on subsequent loads
-										if (!skipURL) {
-											model.documentFileURL 	 = URLPrefix + row.DOCUMENT_POINTER.replace(/\\/g,"/");
-										}
-										model.documentFileSize   = row.FILE_SIZE;
-										model.documentFileFormat = row.FILE_TYPE;
-										model.documentAuthor 	 = row.WHO_CREATED;
-										model.oldData 			 = JSON.stringify({DATE_RECEIVED: row.DATE_RECEIVED,
-																				  ARCS_ORCS_FILE_NUMBER: row.ARCS_ORCS_FILE_NUMBER,
-																				  WHEN_CREATED: row.WHEN_CREATED,
-																				  WHO_UPDATED: row.WHO_UPDATED,
-																				  WHEN_UPDATED: row.WHEN_UPDATED});
 
-										model.save().then(function (m) {
-											// console.log("INDEX:",index);
-											var p = new Project(self.opts);
-											var q  = {epicProjectID: m.documentEPICProjectId};
-											p.findOne(q)
-											.then( function (project) {
-												console.log("project:", project);
-												if (project) {
-													console.log("found:",project.epicProjectID);
-													m.project = project;
-													m.save().then(function () {
-														console.log("saved");
-														if (index === length-1) {
-															resolve();
-														}
-													});
-												}
-											});
-										});
-									};
-									if (doc === null) {
-										// Create new
-										var mongoose = require ('mongoose');
-										var Model    = mongoose.model ('Document');
-										addOrChangeModel(new Model (), false);
-									} else {
-										// Update:
-										addOrChangeModel(doc, true);
-									}
-								});
+								var newObj = {
+									documentEPICProjectId 	: parseInt(row.PROJECT_ID),
+									documentEPICId 			: parseInt(row.DOCUMENT_ID),
+									projectFolderType 		: row.PST_DESCRIPTION,
+									projectFolderSubType 	: row.DTP_DESCRIPTION,
+									projectFolderName       : row.FOLDER,
+									read: ["public"],
+									// This could be auto-generated based on what we know now.
+									projectFolderURL 		: row.FOLDER,
+									projectFolderDatePosted : Date(row.DATE_POSTED),
+									// // Do this on 2nd pass
+									// model.projectFolderAuthor       : row.WHO_CREATED;
+									documentFileName 		: row.FILE_NAME,
+									documentFileURL 		: URLPrefix + row.DOCUMENT_POINTER.replace(/\\/g,"/"),
+									documentFileSize 	: row.FILE_SIZE,
+									documentFileFormat 	: row.FILE_TYPE,
+									documentAuthor 		: row.WHO_CREATED,
+									oldData 			: JSON.stringify({DATE_RECEIVED: row.DATE_RECEIVED,
+																			  ARCS_ORCS_FILE_NUMBER: row.ARCS_ORCS_FILE_NUMBER,
+																			  WHEN_CREATED: row.WHEN_CREATED,
+																			  WHO_UPDATED: row.WHO_UPDATED,
+																			  WHEN_UPDATED: row.WHEN_UPDATED})
+								};
+								// console.log("pushing:", newObj);
+								promises.push(newObj);
 							}
 						});
+
+						var doDocumentLoadWork = function(item) {
+							return new Promise(function(rs, rj) {
+								// console.log("item:", item);
+								DocumentModel.findOne ({documentEPICId: item.documentEPICId}, function (err, result) {
+									if (result === null) {
+										// console.log("Creating document:", item.documentEPICId);
+										// Create it
+										var o = new DocumentModel(item);
+										o.save()
+										.then(function (obj) {
+											// console.log("created:", obj);
+											rs(obj);
+										}, function (err) {
+											console.log("err:", err);
+											rj(err);
+										});
+									} else {
+										// console.log("found the document - doing nothing:", result.documentEPICId);
+										rs(result);
+									}
+								});
+							});
+						};
+
+						var doProjectAssociationWork = function (document) {
+							return new Promise(function (rs,rj) {
+								var p = new Project(self.opts);
+								var q  = {epicProjectID: document.documentEPICProjectId};
+								p.findOne(q)
+								.then( function (project) {
+									// console.log("project:", project);
+									if (project) {
+										// console.log("found:",project.epicProjectID);
+										document.project = project;
+										return document.save();
+									} else {
+										return document;
+									}
+								})
+								.then(rs, rj);
+							});
+						};
+
+						Promise.resolve ()
+						.then (function () {
+							return promises.reduce (function (current, item) {
+								return current.then (function () {
+									return doDocumentLoadWork(item)
+									.then(function (document) {
+										return doProjectAssociationWork(document);
+									});
+								});
+							}, Promise.resolve());
+						})
+						.then (resolve, reject);
 					});
 				});
 			}
