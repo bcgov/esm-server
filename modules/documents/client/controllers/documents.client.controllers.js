@@ -25,6 +25,9 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 	docLink.current = [];
 
 	docLink.ids = [];
+	
+	docLink.docLocationCode = $scope.docLocationCode;
+	docLink.artifact = $scope.artifact;
 
 	docLink.changeItem = function (docObj) {
 		if ($scope.current) {
@@ -114,6 +117,11 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 				.then( function(res) {
 					// console.log("res",res);
 					docUpload.artifacts = res;
+					if (!_.isEmpty($scope.artifact)) {
+						docUpload.selectedArtifact = _.find(docUpload.artifacts, function (o) {
+							return o._id === $scope.artifact._id;
+						});
+					}
 				});
 			} else {
 				Document.getProjectDocumentFolderNames(newValue._id).then( function(res) {
@@ -176,7 +184,10 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 
 		// Artifact Location
 		docUpload.docLocations = Document.getArtifactLocations();
+		// try and set the default in the pick list....
+		docUpload.selectedDocLocation = _.find(docUpload.docLocations, function(o) { return o.code === $scope.docLocationCode; } ) || docUpload.docLocations[0];
 	}
+
 
 	// allow the upload to be triggered from an external button.
 	// this should be called and then documentUploadComplete should be listened for.
@@ -388,6 +399,8 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 	docBrowser.authentication = Authentication;
 
 	docBrowser.phasesForProject = undefined;
+	docBrowser.docLocationCode= $scope.docLocationCode;
+	docBrowser.artifact = $scope.artifact;
 
 	// -----------------------------------------------------------------------------------
 	//
@@ -600,15 +613,17 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentLink.$inject = ['$modalInstance', '$scope', 'rProject', 'rCurrent', '_'];
+controllerModalDocumentLink.$inject = ['$modalInstance', '$scope', 'rProject', 'rCurrent', 'rDocLocationCode', 'rArtifact', '_'];
 /* @ngInject */
-function controllerModalDocumentLink($modalInstance, $scope, rProject, rCurrent, _) {
+function controllerModalDocumentLink($modalInstance, $scope, rProject, rCurrent, rDocLocationCode, rArtifact, _) {
 	var docLink = this;
 	docLink.linkFiles = [];
 	docLink.project = rProject;
 	docLink.current = rCurrent;
 
 	docLink.savedCurrent = angular.copy(rCurrent);
+	docLink.docLocationCode = rDocLocationCode;
+	docLink.artifact = rArtifact;
 
 	docLink.unlinkFile = function(f) {
 		// console.log(f);
@@ -635,9 +650,9 @@ function controllerModalDocumentLink($modalInstance, $scope, rProject, rCurrent,
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentUploadClassify.$inject = ['$modalInstance', '$scope', 'rProject', '$rootScope'];
+controllerModalDocumentUploadClassify.$inject = ['$modalInstance', '$scope', 'rProject', 'rDocLocationCode', 'rArtifact', '$rootScope'];
 /* @ngInject */
-function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject, $rootScope) {
+function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject, rDocLocationCode, rArtifact, $rootScope) {
 	var docUploadModal = this;
 
 	// Document upload complete so close and continue.
@@ -647,6 +662,8 @@ function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject,
 	});
 
 	docUploadModal.project = rProject;
+	docUploadModal.docLocationCode = rDocLocationCode;
+	docUploadModal.artifact = rArtifact;
 
 	docUploadModal.ok = function () {
 		$scope.$broadcast('documentUploadStart', false);

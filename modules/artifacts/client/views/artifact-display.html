@@ -12,9 +12,11 @@
                     x-modal-document-link
                     x-current="artifact.maindocument"
                     x-project="project"
+                    x-doc-location-code="'main'"
+                    x-artifact="artifact"
                     href><span class="glyphicon glyphicon-link"></span><span>Link Document<span></a>
             </div>
-            
+
             <div class="attachments">
                 <div class="list-group no-border">
                     <div class="list-group-item" ng-if="!artifact.document._id">
@@ -48,7 +50,7 @@
                     <small>[ no document uploaded yet ] <br/> FOR <br/> {{ artifact.name }} ({{ artifact.version }} {{ artifact.stage }})<br/>
                         <a href ng-if="mode === 'edit'"
                             x-modal-document-link class="btn btn-xs btn-link"
-                            x-current="artifact.maindocument" 
+                            x-current="artifact.maindocument"
                             x-project="project">+ Upload Document</a>
                     </small>
                 </div>
@@ -58,7 +60,10 @@
                         {{ artifact.document.internalOriginalName }}<br/> AS <br/>
                         {{ artifact.name }} ({{ artifact.version }} {{ artifact.stage }})<br/>
                         <a href ng-if="mode === 'edit'" x-modal-document-link class="btn btn-xs btn-link"
-                            x-current="artifact.maindocument" x-project="project">
+                            x-current="artifact.maindocument"
+                            x-doc-location-code="'main'"
+                            x-artifact="artifact"
+                            x-project="project">
                             + Upload Document
                         </a>
                         </small>
@@ -71,16 +76,16 @@
     <!-- / MAIN DOCUMENT -->
 
     <!-- SUPPORTING, ADDITIONAL, INTERNAL DOCUMENTS -->
-    <section>
-        <div x-content-document ng-model="artifact.supportingDocuments" title="'Supporting Documents'" project="project" editable="mode === 'edit'"></div>
-    </section>
-    <section>
-        <div x-content-document ng-model="artifact.additionalDocuments" title="'Additional Documents'" project="project" editable="mode === 'edit'"></div>
-    </section>
-    <section>
-        <div x-content-document ng-model="artifact.internalDocuments" title="'Internal Documents'" project="project" editable="mode === 'edit'"></div>
-    </section>
-    <!-- / SUPPORTING, ADDITIONAL, INTERNAL DOCUMENTS -->
+  <section>
+    <div x-content-document ng-model="artifact.supportingDocuments" title="'Supporting Documents'" project="project" artifact="artifact" doc-location-code="supporting" editable="mode === 'edit'"></div>
+  </section>
+  <section>
+    <div x-content-document ng-model="artifact.additionalDocuments" title="'Additional Documents'" project="project" artifact="artifact" doc-location-code="additional" editable="mode === 'edit'"></div>
+  </section>
+  <section>
+    <div x-content-document ng-model="artifact.internalDocuments" title="'Internal Documents'" project="project" artifact="artifact" doc-location-code="internal" editable="mode === 'edit'"></div>
+  </section>
+  <!-- / SUPPORTING, ADDITIONAL, INTERNAL DOCUMENTS -->
 
 </div>
 </div>
@@ -94,15 +99,15 @@
         </div>
 
         <div class="col-sm-12">
-            <div x-content-document ng-model="artifact.supportingDocuments" title="'Supporting Documents'" project="project" editable="mode === 'edit'"></div>
+            <div x-content-document ng-model="artifact.supportingDocuments" title="'Supporting Documents'" project="project" artifact="artifact" doc-location-code="supporting" editable="mode === 'edit'"></div>
         </div>
 
         <div class="col-sm-12">
-            <div x-content-document ng-model="artifact.additionalDocuments" title="'Additional Documents'" project="project" editable="mode === 'edit'"></div>
+            <div x-content-document ng-model="artifact.additionalDocuments" title="'Additional Documents'" project="project" artifact="artifact" doc-location-code="additional" editable="mode === 'edit'"></div>
         </div>
 
         <div class="col-sm-12">
-            <div x-content-document ng-model="artifact.internalDocuments" title="'Internal Documents'" project="project" editable="mode === 'edit'"></div>
+            <div x-content-document ng-model="artifact.internalDocuments" title="'Internal Documents'" project="project" artifact="artifact" doc-location-code="internal" editable="mode === 'edit'"></div>
         </div>
     </div>
 

@@ -28,9 +28,11 @@ function directiveDocumentsUploadGeneral() {
 		templateUrl: 'modules/documents/client/views/partials/document-upload-general.html',
 		scope: {
 			project: '=',
+			artifact: '=',
 			type: '@',
 			hideUploadButton: '=',
-			parentId: '='
+			parentId: '=',
+			docLocationCode: '='
 		},
 		controller: 'controllerDocumentUploadGlobal',
 		controllerAs: 'docUpload'
@@ -49,9 +51,11 @@ function directiveDocumentsLink() {
 		templateUrl: 'modules/documents/client/views/partials/document-link.html',
 		scope: {
 			project: '=',
+			artifact: '=',
 			type: '@',  //project or comment
 			current: '=',
 			parentId: '=',
+			docLocationCode: '='
 		},
 		controller: 'controllerDocumentLinkGlobal',
 		controllerAs: 'docLink'
@@ -70,9 +74,11 @@ function directiveDocumentsUploadClassify() {
 		templateUrl: 'modules/documents/client/views/partials/document-upload-classify.html',
 		scope: {
 			project: '=',
+			artifact: '=',
 			type: '@',  //project or comment
 			hideUploadButton: '=',
-			parentId: '='
+			parentId: '=',
+			docLocationCode: '='
 		},
 		controller: 'controllerDocumentUploadGlobal',
 		controllerAs: 'docUpload'
@@ -91,9 +97,11 @@ function directiveDocumentsUploadClassifyMem() {
 		templateUrl: 'modules/documents/client/views/partials/document-upload-classify-mem.html',
 		scope: {
 			project: '=',
+			artifact: '=',
 			type: '@',  //project or comment
 			hideUploadButton: '=',
-			parentId: '='
+			parentId: '=',
+			docLocationCode: '='
 		},
 		controller: 'controllerDocumentUploadGlobal',
 		controllerAs: 'docUpload'
@@ -140,8 +148,10 @@ function directiveDocumentsBrowser() {
 		controllerAs: 'docBrowser',
 		scope: {
 			project: '=',
+			artifact: '=',
 			allowLink: '@',
-			approvals: '@'
+			approvals: '@',
+			docLocationCode: '@'
 		}
 	};
 
@@ -209,7 +219,9 @@ function directiveModalDocumentLink($modal, $rootScope) {
 		restrict:'A',
 		scope: {
 			project: '=',
-			current: '='
+			artifact: '=',
+			current: '=',
+			docLocationCode: '='
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
@@ -222,7 +234,13 @@ function directiveModalDocumentLink($modal, $rootScope) {
 					size: 'lg',
 					resolve: {
 						rProject: function() { return scope.project; },
-						rCurrent: function() { return scope.current; }
+						rArtifact: function() {
+							return scope.artifact;
+						},
+						rCurrent: function() { return scope.current; },
+						rDocLocationCode: function() { 
+							return scope.docLocationCode; 
+						}
 					}
 				});
 				modalDocLink.result.then(function (data) {
@@ -244,7 +262,9 @@ function directiveModalDocumentUploadClassify($modal, $rootScope) {
 	var directive = {
 		restrict:'A',
 		scope: {
-			project: '='
+			project: '=',
+			artifact: '=',
+			docLocationCode: '='
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
@@ -255,7 +275,13 @@ function directiveModalDocumentUploadClassify($modal, $rootScope) {
 					controllerAs: 'docUploadModal',
 					size: 'lg',
 					resolve: {
-						rProject: function() { return scope.project; }
+						rProject: function() { return scope.project; },
+						rArtifact: function() { 
+							return scope.artifact; 
+						},
+						rDocLocationCode: function() {
+							return scope.docLocationCode;
+						}
 					}
 				});
 				modalDocUpload.result.then(function (data) {

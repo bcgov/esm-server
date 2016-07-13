@@ -264,7 +264,9 @@ angular.module ('templates')
 			curVal: '=ngModel',
 			editable: '=',
 			project: '=',
-			title: '='
+			artifact: '=',
+			title: '=',
+			docLocationCode: '@'
 		},
 		replace: true,
 		templateUrl: 'modules/templates/client/views/template-document-editor.html',
