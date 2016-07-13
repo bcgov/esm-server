@@ -1,128 +1,145 @@
 <div ng-if="!artifact.isTemplate && !artifact.isArtifactCollection" ng-init="editable=false">
-  <!--
 
-		This section gets displayed if the content is a document:  Individual VC's are now part of this.
+    <!-- This section gets displayed if the content is a document: Individual VC's are now part of this. -->
 
-	 -->
-  <div class="row">
-
-    <div class="col-sm-12">
-      <div class="panel panel-default">
-        <div class="panel-heading clearfix">
-          <h2 class="pull-left">Main Document</h2>
-          <div class="pull-right"></div>
-        </div>
-        <div class="panel-body">
-          <div class="file-horiz">
-            <span class="glyphicon glyphicon-list-alt"></span>
-            <div ng-if="!artifact.document._id">
-              <small>
-                [ no document uploaded yet ] <br/> FOR <br/>
-                {{ artifact.name }} ({{ artifact.version }} {{ artifact.stage }})<br/>
-                <a href ng-if="mode === 'edit'" x-modal-document-link class="btn btn-xs btn-link"
-                   x-current="artifact.maindocument" x-project="project">
-                  + Upload Document
-                </a>
-              </small>
+    <!-- MAIN DOCUMENT -->
+    <section>
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <h2 class="pull-left">Main Document</h2>
+                <a class="btn btn-default btn-sm pull-right"
+                    ng-if="mode === 'edit'"
+                    x-modal-document-link
+                    x-current="artifact.maindocument"
+                    x-project="project"
+                    href>+/- Link Document</a>
             </div>
-            <div class="panel panel-info" ng-if="artifact.document._id">
-              <a href="/api/document/{{ artifact.document._id }}/fetch" target="_blank">
-                <small>
-                  {{ artifact.document.internalOriginalName }}<br/> AS <br/>
-                  {{ artifact.name }} ({{ artifact.version }} {{ artifact.stage }})<br/>
-                  <a href ng-if="mode === 'edit'" x-modal-document-link class="btn btn-xs btn-link"
-                     x-current="artifact.maindocument" x-project="project">
-                    + Upload Document
-                  </a>
-                </small>
-              </a>
+            
+            <div class="attachments">
+                <div class="list-group no-border">
+                    <div class="list-group-item" ng-if="!artifact.document._id">
+                        <span class="file-name no-files">
+                            <span ng-if="!artifact.document._id">No file available for {{ artifact.name }} ({{ artifact.version }} {{ artifact.stage }})</span>
+                        </span>
+                    </div>
+                    <a class="list-group-item" ng-if="artifact.document._id" href="/api/document/{{ artifact.document._id }}/fetch" target="_blank" title="Download file">
+                        <span class="file-icon">
+                            <span class="glyphicon glyphicon-list-alt"></span>
+                        </span>
+                        <span class="file-name">
+                            <span ng-if="artifact.document._id">{{ artifact.document.internalOriginalName }}</span>
+                            <span class="file-details">
+                                <small>V.{{ artifact.document.documentVersion }}</small>
+                                <small> &nbsp;|&nbsp; {{ artifact.document.dateUpdated | amDateFormat:'MMMM Do YYYY'}}</small>
+                            </span>
+                        </span>
+                        <span class="file-actions">
+                             <button class="btn btn-link">
+                                <span class="glyphicon glyphicon-download-alt"></span>
+                             </button>
+                        </span>
+                    </a>
+                </div>
             </div>
-          </div>
+
+            <div class="file-horiz hidden">
+                <span class="glyphicon glyphicon-list-alt"></span>
+                <div ng-if="!artifact.document._id">
+                    <small>[ no document uploaded yet ] <br/> FOR <br/> {{ artifact.name }} ({{ artifact.version }} {{ artifact.stage }})<br/>
+                        <a href ng-if="mode === 'edit'"
+                            x-modal-document-link class="btn btn-xs btn-link"
+                            x-current="artifact.maindocument" 
+                            x-project="project">+ Upload Document</a>
+                    </small>
+                </div>
+                <div class="panel panel-info" ng-if="artifact.document._id">
+                    <a href="/api/document/{{ artifact.document._id }}/fetch" target="_blank">
+                    <small>
+                        {{ artifact.document.internalOriginalName }}<br/> AS <br/>
+                        {{ artifact.name }} ({{ artifact.version }} {{ artifact.stage }})<br/>
+                        <a href ng-if="mode === 'edit'" x-modal-document-link class="btn btn-xs btn-link"
+                            x-current="artifact.maindocument" x-project="project">
+                            + Upload Document
+                        </a>
+                        </small>
+                    </a>
+                </div>
+            </div>
+
         </div>
-      </div>
-    </div>
+    </section>
+    <!-- / MAIN DOCUMENT -->
 
-    <div class="col-sm-12">
-      <div x-content-document ng-model="artifact.supportingDocuments" title="'Supporting Documents'" project="project"
-           editable="mode === 'edit'"></div>
-    </div>
+    <!-- SUPPORTING, ADDITIONAL, INTERNAL DOCUMENTS -->
+    <section>
+        <div x-content-document ng-model="artifact.supportingDocuments" title="'Supporting Documents'" project="project" editable="mode === 'edit'"></div>
+    </section>
+    <section>
+        <div x-content-document ng-model="artifact.additionalDocuments" title="'Additional Documents'" project="project" editable="mode === 'edit'"></div>
+    </section>
+    <section>
+        <div x-content-document ng-model="artifact.internalDocuments" title="'Internal Documents'" project="project" editable="mode === 'edit'"></div>
+    </section>
+    <!-- / SUPPORTING, ADDITIONAL, INTERNAL DOCUMENTS -->
 
-    <div class="col-sm-12">
-      <div x-content-document ng-model="artifact.additionalDocuments" title="'Additional Documents'" project="project"
-           editable="mode === 'edit'"></div>
-    </div>
-
-    <div class="col-sm-12">
-      <div x-content-document ng-model="artifact.internalDocuments" title="'Internal Documents'" project="project"
-           editable="mode === 'edit'"></div>
-    </div>
-  </div>
+</div>
 </div>
 
 <div ng-if="artifact.isTemplate">
-  <!--
+    <!--
 
 		This section gets displayed if the content is a template
 
 	 -->
-  <div class="row">
+    <div class="row">
 
-    <div class="col-sm-12">
-      <tmpl-template-render ng-if="artifact.isTemplate" x-template="artifact.template" x-mode="mode" x-project="project"
-                            x-document="artifact.templateData"></tmpl-template-render>
+        <div class="col-sm-12">
+            <tmpl-template-render ng-if="artifact.isTemplate" x-template="artifact.template" x-mode="mode" x-project="project" x-document="artifact.templateData"></tmpl-template-render>
+        </div>
+
+        <div class="col-sm-12">
+            <div x-content-document ng-model="artifact.supportingDocuments" title="'Supporting Documents'" project="project" editable="mode === 'edit'"></div>
+        </div>
+
+        <div class="col-sm-12">
+            <div x-content-document ng-model="artifact.additionalDocuments" title="'Additional Documents'" project="project" editable="mode === 'edit'"></div>
+        </div>
+
+        <div class="col-sm-12">
+            <div x-content-document ng-model="artifact.internalDocuments" title="'Internal Documents'" project="project" editable="mode === 'edit'"></div>
+        </div>
     </div>
 
-    <div class="col-sm-12">
-      <div x-content-document ng-model="artifact.supportingDocuments" title="'Supporting Documents'" project="project"
-           editable="mode === 'edit'"></div>
-    </div>
-
-    <div class="col-sm-12">
-      <div x-content-document ng-model="artifact.additionalDocuments" title="'Additional Documents'" project="project"
-           editable="mode === 'edit'"></div>
-    </div>
-
-    <div class="col-sm-12">
-      <div x-content-document ng-model="artifact.internalDocuments" title="'Internal Documents'" project="project"
-           editable="mode === 'edit'"></div>
-    </div>
-  </div>
-
-  <!-- Displayed only for artifacts which are a collection of artifacts (VC's) -->
-  <div ng-if="artifact.isArtifactCollection" ng-init="editable=false">
-    <div class="panel panel-default">
-      <div class="panel-heading clearfix">
-        <h2 class="pull-left">Valued Component Description</h2>
-        <div class="pull-right"></div>
-      </div>
-      <div class="panel panel-default">
-        <!-- These need to be built out as an array of VC's attached to this artifact -->
-        <table ng-table="tableParams" show-filter="false" class="table table-hover table-striped">
-          <tr ng-repeat="o in artifact.valuedComponents" ui-sref="p.vc.detail({vcId:o._id})">
-            <td data-title="'Name'" filter="{'name':'text'}" sortable="'name'">{{o.title}}</td>
-            <td data-title="'Version'" filter="{'version':'text'}" class="text-center" sortable="'version'">
-              {{o.version}}
-            </td>
-            <td data-title="'Stage'" filter="{'stage':'text'}" class="text-center" sortable="'stage'">{{o.stage}}</td>
-            <td data-title="'Published'" sortable="'isPublished'"><i ng-if="o.isPublished"
-                                                                     class="glyphicon glyphicon-ok"></i></td>
-            <td class="actions-col action-x1" header-class="'actions-col action-x1'">
-              <a class="btn btn-link btn-sm"
-                 title="Edit Valued Component"
-                 ng-click="$event.stopPropagation()"
-                 ui-sref="p.vc.edit({vcId:o._id})">
-                <span class="glyphicon glyphicon-pencil"></span>
-              </a>
-            </td>
-            <!-- <td ng-if="mode === 'edit'" class="actions-col action-x1" header-class="'actions-col action-x1'">
+    <!-- Displayed only for artifacts which are a collection of artifacts (VC's) -->
+    <div ng-if="artifact.isArtifactCollection" ng-init="editable=false">
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <h2 class="pull-left">Valued Component Description</h2>
+                <div class="pull-right"></div>
+            </div>
+            <div class="panel panel-default">
+                <!-- These need to be built out as an array of VC's attached to this artifact -->
+                <table ng-table="tableParams" show-filter="false" class="table table-hover table-striped">
+                    <tr ng-repeat="o in artifact.valuedComponents" ui-sref="p.vc.detail({vcId:o._id})">
+                        <td data-title="'Name'" filter="{'name':'text'}" sortable="'name'">{{o.title}}</td>
+                        <td data-title="'Version'" filter="{'version':'text'}" class="text-center" sortable="'version'">
+                            {{o.version}}
+                        </td>
+                        <td data-title="'Stage'" filter="{'stage':'text'}" class="text-center" sortable="'stage'">{{o.stage}}</td>
+                        <td data-title="'Published'" sortable="'isPublished'"><i ng-if="o.isPublished" class="glyphicon glyphicon-ok"></i></td>
+                        <td class="actions-col action-x1" header-class="'actions-col action-x1'">
+                            <a class="btn btn-link btn-sm" title="Edit Valued Component" ng-click="$event.stopPropagation()" ui-sref="p.vc.edit({vcId:o._id})">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                        </td>
+                        <!-- <td ng-if="mode === 'edit'" class="actions-col action-x1" header-class="'actions-col action-x1'">
 						  <a class="btn btn-link btn-sm"
 							 title="Edit Valued Component"
 							 ng-click="$event.stopPropagation();removeVCArtifact({mainArtifact: artifact._id, vcArtifact:o._id});">
 							  <span class="glyphicon glyphicon-trash"></span>
 						  </a>
 					  </td> -->
-          </tr>
-        </table>
-      </div>
-    </div>
-
+                    </tr>
+                </table>
+            </div>
+        </div>

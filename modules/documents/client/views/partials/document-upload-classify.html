@@ -52,6 +52,7 @@
 	<div class="form-group">
 		<label class="control-label">Document Type<em>Required</em></label>
 		<select class="form-control" 
+				ng-init="docUpload.selectedDocLocation = docUpload.docLocations[0]"
 				ng-options="docLocation as docLocation.name for docLocation in docUpload.docLocations"
 				ng-model="docUpload.selectedDocLocation"></select>
 	</div><!-- / REQUIRED FIELDS -->

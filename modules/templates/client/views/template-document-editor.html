@@ -1,3 +1,4 @@
+
 <div class="panel panel-default">
     <div class="panel-heading clearfix">
         <h2 class="pull-left">{{ ::title }}</h2>
@@ -5,19 +6,33 @@
             +/- Link Documents
         </a>
     </div>
-    <div class="panel-body">
-        <div class="thumbnails document-icon-list clearfix">
-            <div class="file" ng-repeat="file in filelist">
-                <a class="file-horiz small" href="/api/document/{{ file._id }}/fetch" target="_blank">
-                    <span class="glyphicon glyphicon-file"></span>
-                    <span class="file-details">
-                        <h5>{{ file.internalOriginalName }}</h5>
-                        <small>{{ file.projectFolderType }} / {{ file.projectFolderSubType }} / {{ file.projectFolderName }}</small>
-                        <small ng-if="file.v">v.{{ file.documentVersion }}</small>
-                        <small>{{ file.dateUpdated | amDateFormat:'MMM Do'}}</small>
-                    </span>
-                </a>
+    <div class="attachments">
+        <div class="list-group no-border"> 
+            <div class="list-group-item" ng-if="filelist.length == 0">
+                <span class="file-name no-files">No files available.</span>
             </div>
+            <a class="list-group-item" ng-repeat="file in filelist" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download file">
+                <span class="file-icon">
+                    <span class="glyphicon glyphicon-file"></span>
+                </span>
+                <span class="file-name clearfix">
+                    <span>{{ file.internalOriginalName }}</span>
+                    <span class="file-details">
+                        <span class="directory">
+                            <small ng-if="file.projectFolderType">{{ file.projectFolderType }}</small>
+                            <small ng-if="file.projectFolderSubType"> / {{ file.projectFolderSubType }}</small>
+                            <small ng-if="file.projectFolderSubType"> / {{ file.projectFolderName }}</small>
+                        </span>
+                        <small> &nbsp;|&nbsp; V.{{ file.documentVersion }}</small>
+                        <small> &nbsp;|&nbsp; {{ file.dateUpdated | amDateFormat:'MMMM Do YYYY'}}</small>
+                    </span>
+                </span>
+                <span class="file-actions">
+                    <button class="btn btn-link">
+                        <span class="glyphicon glyphicon-download-alt"></span>
+                    </button>
+                </span>
+            </a>
         </div>
     </div>
 </div>

@@ -39,6 +39,9 @@ $panel-heading-color: 	#494949;
 
 $corp-gold: #fcba19;
 
+$font-color-grey: #888;
+$font-color-disabled: #CCC;
+
 
 /* GLOBAL
 ------------------------------ */
@@ -2132,10 +2135,6 @@ $sidenav-color: $link-color;
 /* ATTACHMENTS 
 ------------------------------ */
 .attachments {
-	.list-group {
-		margin-top: 1.5rem;
-	}
-
 	.list-group-item {
 		display: -webkit-flex;
 		display: flex;
@@ -2146,11 +2145,11 @@ $sidenav-color: $link-color;
 	.file-icon {
 		-webkit-flex: 0 0 auto;
 		flex: 0 0 auto;
-		padding-left: 1rem;
+		padding-left: 1.5rem;
 		font-size: 1.8rem;
 
 		.glyphicon {
-			margin-top: 0.75rem;
+			margin-top: 0.8rem;
 		}
 	}
 
@@ -2158,7 +2157,7 @@ $sidenav-color: $link-color;
 		-webkit-flex: 1 1 auto;
 		flex: 1 1 auto;
 		padding: 1rem;
-		padding-left: 0.75rem;
+		padding-left: 1.5rem;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -2167,6 +2166,10 @@ $sidenav-color: $link-color;
 	.file-actions {
 		-webkit-flex: 0 0 auto;
 		flex: 0 0 auto;
+
+		.btn {
+			margin-top: 0.2rem;
+		}
 	}
 	
 	.file-progress {
@@ -2211,6 +2214,11 @@ $sidenav-color: $link-color;
 	+ .attachments-upload-target {
 		margin-top: 1.5rem;
 	}
+
+	.file-details {
+		display: block;
+		color: #888;
+	}
 }
 
 .attachments-upload-target {
@@ -2221,7 +2229,6 @@ $sidenav-color: $link-color;
 	text-shadow: 1px 1px 0 #FFF;
 	border: 2px dashed #AAA;
 	border-radius: 4px;
-	background: #F7F8FA;
 
 	.instructions {
 		font-size: 1.8rem;
@@ -2242,6 +2249,14 @@ $sidenav-color: $link-color;
 		width: 100%;
 		opacity: 0;
 		filter: alpha(opacity=0);
+	}
+}
+
+@media (min-width: 1024px) {
+	.attachments {
+		.file-details {
+			float: right;
+		}
 	}
 }
 
@@ -2669,6 +2684,29 @@ textarea {
 }
 
 
+/* LIST GROUP
+------------------------------ */
+.list-group {
+	&.no-border {
+		.list-group-item {
+			border-left: none;
+			border-right: none;
+		}
+
+		.list-group-item:first-child {
+			border-top: none;
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
+		}
+		.list-group-item:last-child {
+			border-bottom: none;
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+	}
+}
+
+
 /* LIST ARRAY
 ------------------------------ */ 
 .list-array-item {
@@ -2940,12 +2978,6 @@ hr {
 }
 
 
-/* END: COMPONENTS
------------------------------------------------------------- */
-
-
-/* BEGIN: VIEW/PAGE-SPECIFIC STYLING
------------------------------------------------------------- */
 /* ARTIFACT VIEW
 ------------------------------ */
 .artifact-list-view {	
@@ -4414,10 +4446,24 @@ section.project-info {
 	}
 }
 
+
+/* TEMPLATE DOCUMENT EDITOR VIEW
+----------------------------- */
+.attachments {
+	.list-group {
+		margin: 0;
+	}
+}
+
+
 /* UPLOAD DOCUMENTS VIEW
 ----------------------------- */
 .upload-documents-view {
 	position: relative;
+
+	.list-group {
+		margin-top: 1.5rem;
+	}
 
 	.loader-overlay {
 		position: absolute;
