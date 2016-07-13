@@ -716,7 +716,7 @@ function filterRemoveExtension() {
 		if (input) {
 			// If there is no extension, just return the original.
 			var index = input.lastIndexOf(".");
-			if (index !== -1) {
+			if (index !== -1 && (index >= input.length-5)) {
 				var filename = input.substring(0, index);
 				return filename;
 			}
