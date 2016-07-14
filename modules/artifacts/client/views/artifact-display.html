@@ -2,24 +2,26 @@
 
     <!-- This section gets displayed if the content is a document: Individual VC's are now part of this. -->
 
-    <!-- MAIN DOCUMENT -->
+    <!-- MAIN DOCUMENT PANEL -->
     <section>
-        <div class="panel panel-default">
+        <div class="document-panel panel panel-default">
             <div class="panel-heading clearfix">
-                <h2 class="pull-left">Main Document</h2>
-                <a class="btn btn-default btn-sm pull-right"
+                <h2>Main Document</h2>
+                <a class="link-file-btn btn btn-primary btn-sm"
                     ng-if="mode === 'edit'"
                     x-modal-document-link
                     x-current="artifact.maindocument"
                     x-project="project"
-                    href>+/- Link Document</a>
+                    x-doc-location-code="'main'"
+                    x-artifact="artifact"
+                    href><span class="glyphicon glyphicon-link"></span><span>Link Document<span></a>
             </div>
-            
+
             <div class="attachments">
                 <div class="list-group no-border">
                     <div class="list-group-item" ng-if="!artifact.document._id">
                         <span class="file-name no-files">
-                            <span ng-if="!artifact.document._id">No file available for {{ artifact.name }} ({{ artifact.version }} {{ artifact.stage }})</span>
+                            <span ng-if="!artifact.document._id">No file available.</span>
                         </span>
                     </div>
                     <a class="list-group-item" ng-if="artifact.document._id" href="/api/document/{{ artifact.document._id }}/fetch" target="_blank" title="Download file">
@@ -48,7 +50,7 @@
                     <small>[ no document uploaded yet ] <br/> FOR <br/> {{ artifact.name }} ({{ artifact.version }} {{ artifact.stage }})<br/>
                         <a href ng-if="mode === 'edit'"
                             x-modal-document-link class="btn btn-xs btn-link"
-                            x-current="artifact.maindocument" 
+                            x-current="artifact.maindocument"
                             x-project="project">+ Upload Document</a>
                     </small>
                 </div>
@@ -58,7 +60,10 @@
                         {{ artifact.document.internalOriginalName }}<br/> AS <br/>
                         {{ artifact.name }} ({{ artifact.version }} {{ artifact.stage }})<br/>
                         <a href ng-if="mode === 'edit'" x-modal-document-link class="btn btn-xs btn-link"
-                            x-current="artifact.maindocument" x-project="project">
+                            x-current="artifact.maindocument"
+                            x-doc-location-code="'main'"
+                            x-artifact="artifact"
+                            x-project="project">
                             + Upload Document
                         </a>
                         </small>
@@ -71,26 +76,22 @@
     <!-- / MAIN DOCUMENT -->
 
     <!-- SUPPORTING, ADDITIONAL, INTERNAL DOCUMENTS -->
-    <section>
-        <div x-content-document ng-model="artifact.supportingDocuments" title="'Supporting Documents'" project="project" editable="mode === 'edit'"></div>
-    </section>
-    <section>
-        <div x-content-document ng-model="artifact.additionalDocuments" title="'Additional Documents'" project="project" editable="mode === 'edit'"></div>
-    </section>
-    <section>
-        <div x-content-document ng-model="artifact.internalDocuments" title="'Internal Documents'" project="project" editable="mode === 'edit'"></div>
-    </section>
-    <!-- / SUPPORTING, ADDITIONAL, INTERNAL DOCUMENTS -->
+  <section>
+    <div x-content-document ng-model="artifact.supportingDocuments" title="'Supporting Documents'" project="project" artifact="artifact" doc-location-code="supporting" editable="mode === 'edit'"></div>
+  </section>
+  <section>
+    <div x-content-document ng-model="artifact.additionalDocuments" title="'Additional Documents'" project="project" artifact="artifact" doc-location-code="additional" editable="mode === 'edit'"></div>
+  </section>
+  <section>
+    <div x-content-document ng-model="artifact.internalDocuments" title="'Internal Documents'" project="project" artifact="artifact" doc-location-code="internal" editable="mode === 'edit'"></div>
+  </section>
+  <!-- / SUPPORTING, ADDITIONAL, INTERNAL DOCUMENTS -->
 
 </div>
 </div>
 
 <div ng-if="artifact.isTemplate">
-    <!--
-
-		This section gets displayed if the content is a template
-
-	 -->
+    <!-- This section gets displayed if the content is a template -->
     <div class="row">
 
         <div class="col-sm-12">
@@ -98,15 +99,15 @@
         </div>
 
         <div class="col-sm-12">
-            <div x-content-document ng-model="artifact.supportingDocuments" title="'Supporting Documents'" project="project" editable="mode === 'edit'"></div>
+            <div x-content-document ng-model="artifact.supportingDocuments" title="'Supporting Documents'" project="project" artifact="artifact" doc-location-code="supporting" editable="mode === 'edit'"></div>
         </div>
 
         <div class="col-sm-12">
-            <div x-content-document ng-model="artifact.additionalDocuments" title="'Additional Documents'" project="project" editable="mode === 'edit'"></div>
+            <div x-content-document ng-model="artifact.additionalDocuments" title="'Additional Documents'" project="project" artifact="artifact" doc-location-code="additional" editable="mode === 'edit'"></div>
         </div>
 
         <div class="col-sm-12">
-            <div x-content-document ng-model="artifact.internalDocuments" title="'Internal Documents'" project="project" editable="mode === 'edit'"></div>
+            <div x-content-document ng-model="artifact.internalDocuments" title="'Internal Documents'" project="project" artifact="artifact" doc-location-code="internal" editable="mode === 'edit'"></div>
         </div>
     </div>
 

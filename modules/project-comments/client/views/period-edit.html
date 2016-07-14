@@ -14,33 +14,84 @@
 	<div class="view-body-container">
 
 		<div class="row">
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label class="control-label">Comment Period Type</label>
-					<select ng-change="changeType()" ng-model="period.periodType" class="form-control">
-						<option selected>Working Group</option>
-						<option>Public</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Content for Review</label>
-					<select ng-model="period.artifact" class="form-control" ng-options="artifact as artifact.name for artifact in artifacts">
-					</select>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Comment Period Open</label>
-
-					<div class="input-group">
-						<p class="form-control-static">{{ period.dateStarted | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="period.dateStarted" >&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a>&nbsp; &nbsp;</p>
+			<div class="col-md-4 col-xl-3 form-group">
+				<label class="control-label">Comment Period Type</label>
+				<select ng-change="changeType()" ng-model="period.periodType" class="form-control">
+					<option selected>Working Group</option>
+					<option>Public</option>
+				</select>
+			</div>
+			<div class="col-md-4 col-xl-3 form-group">
+				<label class="control-label">Content for Review</label>
+				<select ng-model="period.artifact" class="form-control" ng-options="artifact as artifact.name for artifact in artifacts"></select>
+			</div>
+			<div class="col-md-4 col-xl-3 form-group">
+				<label class="control-label">Start / End Dates</label>
+				<div class="form-inline">
+					<div class="form-control date-picker" x-modal-date-picker x-selected-date="period.dateStarted">
+						<span ng-if="!period.dateStarted">Start Date</span>
+						{{ period.dateStarted | amDateFormat:'MMMM DD, YYYY' }}
+						<span class="glyphicon glyphicon-calendar"></span>
 					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Comment Period Close</label>
-					<div class="input-group">
-						<p class="form-control-static">{{ period.dateCompleted | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="period.dateCompleted" >&nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i></a>&nbsp; &nbsp;</p>
+					<span> &nbsp; - &nbsp; </span>
+					<div class="form-control date-picker" x-modal-date-picker x-selected-date="period.dateCompleted">
+						<span ng-if="!period.dateCompleted">End Date</span>
+						{{ period.dateCompleted | amDateFormat:'MMMM DD, YYYY' }} 
+						<span class="glyphicon glyphicon-calendar"></span>
 					</div>
 				</div>
 			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label">Description</label>
+			<textarea rows="6" ng-model="period.instructions" class="form-control" spellcheck="false"></textarea>
+		</div>
+
+		<div class="row hidden">
+			<label class="control-label">Open Houses &nbsp; <a x-edit-open-house x-period="period" x-mode="add"><i class="glyphicon glyphicon-plus"></i></a></label>
+			<ul class="list-unstyled">
+				<li ng-repeat="h in period.openHouses">
+					<b>{{ h.eventDate | amDateFormat:'MMM Do YYYY' }}</b>
+					&nbsp; <a x-edit-open-house x-period="period" x-mode="edit" x-openhouse="h"><i class="glyphicon glyphicon-pencil"></i></a>
+					&nbsp; <a x-edit-open-house x-period="period" x-mode="delete" x-index="$index"><i class="glyphicon glyphicon-trash"></i></a>
+					<br/>
+					<pre class="col-xs-offset-1">{{ h.description }}</pre>
+				</li>
+			</ul>
+		</div>
+
+		<div class="form-group open-house">
+			
+			<div class="flex-row">
+				<label class="control-label">Open House Dates<em>Optional</em></label>
+				<button class="btn btn-link btn-sm" x-edit-open-house x-period="period" x-mode="add">+ Add Open House</button>
+			</div>
+			
+			<div class="attachments">
+				<ul class="list-group">
+					<li class="list-group-item" ng-if="period.openHouses.length == 0">
+						<span  class="file-name">No Open Houses for this Comment Period.</span>
+					</li>
+					<li class="list-group-item" ng-repeat="h in period.openHouses">
+						<div class="file-name">
+							<strong class="open-house-date">{{ h.eventDate | amDateFormat:'MMMM Do, YYYY' }}</strong>
+							<pre class="open-house-desc">{{ h.description }}</pre>
+						</div>
+						<div class="file-actions">
+							<button class="btn btn-link" x-edit-open-house x-period="period" x-mode="edit" x-openhouse="h">
+								<span class="glyphicon glyphicon-pencil"></span>
+							</button>
+							<button class="btn btn-link" x-edit-open-house x-period="period" x-mode="delete" x-index="$index">
+								<span class="glyphicon glyphicon-trash"></span>
+							</button>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="row hidden">
 			<div class="col-sm-3">
 				<label class="control-label">Roles</label>
 				<div class="well well-sm">
@@ -92,33 +143,16 @@
 			    	</div>
 				</div>
 			</div>
-			<div class="col-sm-6">
-				<div class="row">
-				<label class="control-label">Instructions to Commenters</label>
-				<textarea rows="6" ng-model="period.instructions" class="form-control"></textarea>
-				</div>
-				<div class="row">
-				<label class="control-label">Open Houses &nbsp; <a x-edit-open-house x-period="period" x-mode="add"><i class="glyphicon glyphicon-plus"></i></a></label>
-				<ul class="list-unstyled">
-					<li ng-repeat="h in period.openHouses">
-						<b>{{ h.eventDate | amDateFormat:'MMM Do YYYY' }}</b>
-						&nbsp; <a x-edit-open-house x-period="period" x-mode="edit" x-openhouse="h"><i class="glyphicon glyphicon-pencil"></i></a>
-						&nbsp; <a x-edit-open-house x-period="period" x-mode="delete" x-index="$index"><i class="glyphicon glyphicon-trash"></i></a>
-						<br/>
-						<pre class="col-xs-offset-1">{{ h.description }}</pre>
-					</li>
-				</ul>
-				</div>
+			
+		</div>
+
+		<div class="form-footer no-border">
+			<div class="pull-right">
+				<a class="btn btn-default" ui-sref="p.commentperiod.list">Cancel</a>
+				<a class="btn btn-primary" href ng-click="save()">Save</a>
 			</div>
-
 		</div>
 
-		<hr>
-
-		<div class="text-right">
-			<a class="btn btn-default" ui-sref="p.commentperiod.list">Cancel</a>
-			<a class="btn btn-default" href ng-click="save()">Save</a>
-		</div>
 	</div>
 </div>
 

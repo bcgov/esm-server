@@ -2166,9 +2166,11 @@ $sidenav-color: $link-color;
 	.file-actions {
 		-webkit-flex: 0 0 auto;
 		flex: 0 0 auto;
+		padding-right: 0.5rem;
 
 		.btn {
 			margin-top: 0.2rem;
+			padding: 0.6rem 1rem;
 		}
 	}
 	
@@ -2348,6 +2350,29 @@ $sidenav-color: $link-color;
 .button-bar.bottom {
 	padding-top: 1.5rem;
 	padding-bottom: 0;
+}
+
+
+/* DATE PICKER
+Implementing this as a stop-gap solution to a proper control.
+------------------------------ */
+.date-picker {
+	position: relative;
+	padding-top: 0.8rem;
+	padding-right: 4rem;
+	font-size: 1.3rem;
+	text-transform: uppercase;
+
+	strong {
+		margin-right: 1.5rem;
+	}
+
+	.glyphicon {
+		position: absolute;
+		top: 0.8rem;
+		right: 1rem;
+		font-size: 1.6rem;
+	}
 }
 
 
@@ -2795,6 +2820,24 @@ textarea {
 	}
 }
 
+.panel-heading {
+	&.has-btns {
+		display: -webkit-flex;
+		display: flex;
+		padding: 0;
+		
+		h2 {
+			flex: 1 1 auto;
+			padding: 1.25rem 1.5rem;
+		}
+
+		.actions {
+			flex: 0 0 auto;
+			padding: 0.6rem;
+		}
+	}
+}
+
 
 /* PICK LIST
 ------------------------------ */
@@ -3206,6 +3249,17 @@ tr.row-depth-2 {
 tr.row-depth-3 {
 	td:first-child {
 		padding-left: 6rem;
+	}
+}
+
+
+/* DOCUMENT PANELS (MAIN, SUPPORTING, ADDITIONAL, INTERNAL)
+------------------------------ */
+.document-panel {
+	.link-file-btn {
+		position: absolute;
+		top: 0.55rem;
+		right: 0.55rem;
 	}
 }
 
@@ -3625,6 +3679,10 @@ section.project-info {
 	.form-control
 	.btn {
 		flex: 1 1 auto;
+	}
+
+	label {
+		margin-bottom: 0;
 	}
 }
 
@@ -4208,6 +4266,23 @@ section.project-info {
 
 	.pillar-vcs {
 		margin-bottom: 2.5rem;
+	}
+}
+
+.open-house {
+	margin-top: -0.5rem;
+
+	label {
+		padding: 0.5rem 0;
+	}
+
+	.open-house-date {
+		display: block;
+		margin-bottom: 0.2rem;
+	}
+
+	.open-house-desc {
+		color: $font-color-grey;
 	}
 }
 

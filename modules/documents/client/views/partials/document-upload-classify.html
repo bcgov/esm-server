@@ -1,4 +1,3 @@
-
 <div class="upload-documents-view">
 
 	<!-- UPLOAD -->
@@ -44,15 +43,14 @@
 	<!-- REQUIRED FIELDS -->
 	<div class="form-group">
 		<label class="control-label">Select Related Content<em>Required</em></label>
-		<select class="form-control" 
-				ng-options="stype as stype.name for stype in docUpload.artifacts" 
+		<select class="form-control"
+				ng-options="stype as stype.name for stype in docUpload.artifacts"
 				ng-model="docUpload.selectedArtifact"></select>
 	</div>
 
 	<div class="form-group">
 		<label class="control-label">Document Type<em>Required</em></label>
-		<select class="form-control" 
-				ng-init="docUpload.selectedDocLocation = docUpload.docLocations[0]"
+		<select class="form-control"
 				ng-options="docLocation as docLocation.name for docLocation in docUpload.docLocations"
 				ng-model="docUpload.selectedDocLocation"></select>
 	</div><!-- / REQUIRED FIELDS -->
