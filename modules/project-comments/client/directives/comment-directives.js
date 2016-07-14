@@ -28,7 +28,11 @@ angular.module ('comment')
 
 			$scope.$on('NEW_PUBLIC_COMMENT_ADDED', function (e, data) {
 				console.log('comment: ' + data.comment);
-				s.refreshEao();
+
+				// We shouldn't do this if we're public.
+				if (period.userCan.vetComments) {
+					s.refreshEao ();
+				}
 			});
 
 			// -------------------------------------------------------------------------
