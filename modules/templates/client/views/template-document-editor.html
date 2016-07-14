@@ -9,14 +9,14 @@
     </div>
     <div class="attachments">
         <div class="list-group no-border">
-            <div class="list-group-item" ng-if="filelist.length == 0">
-                <span class="file-name no-files">No files available.</span>
+            <div class="list-group-item flex-row" ng-if="filelist.length == 0">
+                <span class="title">No files available.</span>
             </div>
-            <a class="list-group-item" ng-repeat="file in filelist" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download file">
-                <span class="file-icon">
+            <a class="list-group-item flex-row" ng-repeat="file in filelist" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download file">
+                <span class="icon">
                     <span class="glyphicon glyphicon-file"></span>
                 </span>
-                <span class="file-name clearfix">
+                <span class="title">
                     <span>{{ file.internalOriginalName }}</span>
                     <span class="file-details">
                         <span class="directory hidden">
@@ -28,7 +28,7 @@
                         <small> &nbsp;|&nbsp; {{ file.dateUpdated | amDateFormat:'MMMM Do YYYY'}}</small>
                     </span>
                 </span>
-                <span class="file-actions">
+                <span class="actions">
                     <button class="btn btn-link">
                         <span class="glyphicon glyphicon-download-alt"></span>
                     </button>

@@ -37,7 +37,7 @@
         <div class="detail-row">
             <label>Posted by {{ ::comment.author }}</label>
             <span class="value">
-                {{comment.dateAdded | amDateFormat:'MMMM Do, YYYY'}} &nbsp;<span ng-if="comment.location"> | {{ ::comment.location }}</span>
+                {{comment.dateAdded | amDateFormat:'MMMM Do, YYYY'}} <span ng-if="comment.location"> &nbsp;|&nbsp; {{ ::comment.location }}</span>
             </span>
         </div>
         <pre class="value wrap-text">{{ ::comment.comment }}</pre>
@@ -65,18 +65,28 @@
     <!-- ATTACHMENTS -->
     <section ng-if="!period.userCan.vetComments">
         <label class="control-label">Attachments</label>
-        <div class="attachments list-group">
-            <a class="list-group-item">
-                <div class="file-name">file-name-1.jpg</div>
-                <button class="file-action btn btn-link">
-                    <span class="glyphicon glyphicon-download-alt"></span>
-                </button>
+        <div class="list-group">
+            <a class="list-group-item flex-row">
+                <div class="icon">
+                    <span class="glyphicon glyphicon-file"></span>
+                </div>
+                <div class="title">file-name-1.jpg</div>
+                <div class="actions">
+                    <button class="btn btn-link" title="Download file">
+                        <span class="glyphicon glyphicon-download-alt"></span>
+                    </button>
+                </div>
             </a>
-            <a class="list-group-item">
-                <div class="file-name">file-name-1.jpg</div>
-                <button class="file-action btn btn-link">
-                    <span class="glyphicon glyphicon-download-alt"></span>
-                </button>
+            <a class="list-group-item flex-row">
+                <div class="icon">
+                    <span class="glyphicon glyphicon-file"></span>
+                </div>
+                <div class="title">file-name-1.jpg</div>
+                <div class="actions">
+                    <button class="btn btn-link" title="Download file">
+                        <span class="glyphicon glyphicon-download-alt"></span>
+                    </button>
+                </div>
             </a>
         </div>
     </section><!-- / ATTACHMENTS -->
@@ -84,11 +94,14 @@
     <!-- REVIEW ATTACHMENTS -->
     <section ng-if="period.userCan.vetComments">
         <label class="control-label">Attachments</label>
-        <ul class="attachments list-group">
-            <li class="list-group-item flex-list-item-row clearfix">
-                <div class="file-name">file-name-1.jpg</div>
-                <div class="file-actions">
-                    <div class="file-review btn-group" data-toggle="buttons">
+        <ul class="list-group">
+            <li class="list-group-item flex-row">
+                <div class="icon">
+                    <span class="glyphicon glyphicon-file"></span>
+                </div>
+                <div class="title">file-name-1.jpg</div>
+                <div class="actions">
+                    <div class="review-file btn-group" data-toggle="buttons">
                         <label class="btn btn-danger btn-sm">
                             <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
                         </label>
@@ -96,31 +109,18 @@
                             <input type="radio" name="options" id="option1" autocomplete="off" checked />Publish
                         </label>
                     </div>
-                    <button class="btn btn-link btn-sm">
+                    <button class="btn btn-link">
                         <span class="glyphicon glyphicon-download-alt"></span>
                     </button>
                 </div>
             </li>
-            <li class="list-group-item flex-list-item-row clearfix">
-                <div class="file-name">file-name-1.jpg</div>
-                <div class="file-actions">
-                    <div class="file-review btn-group" data-toggle="buttons">
-                        <label class="btn btn-danger btn-sm">
-                            <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
-                        </label>
-                        <label class="btn btn-success btn-sm">
-                            <input type="radio" name="options" id="option1" autocomplete="off" checked />Publish
-                        </label>
-                    </div>
-                    <button class="btn btn-link btn-sm">
-                        <span class="glyphicon glyphicon-download-alt"></span>
-                    </button>
+            <li class="list-group-item flex-row">
+                <div class="icon">
+                    <span class="glyphicon glyphicon-file"></span>
                 </div>
-            </li>
-            <li class="list-group-item flex-list-item-row clearfix">
-                <div class="file-name">file-name-1.jpg</div>
-                <div class="file-actions">
-                    <div class="file-review btn-group" data-toggle="buttons">
+                <div class="title">file-name-1.jpg</div>
+                <div class="actions clearfix">
+                    <div class="review-file btn-group" data-toggle="buttons">
                         <label class="btn btn-danger btn-sm">
                             <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
                         </label>
@@ -128,7 +128,7 @@
                             <input type="radio" name="options" id="option1" autocomplete="off" checked />Publish
                         </label>
                     </div>
-                    <button class="btn btn-link btn-sm">
+                    <button class="btn btn-link">
                         <span class="glyphicon glyphicon-download-alt"></span>
                     </button>
                 </div>
@@ -142,7 +142,7 @@
         <div class="form-group">
             <label class="control-label">Set Comment Status</label>
             <div class="comment-status-btns btn-group">
-                <button class="btn btn-default btn-sm" ng-click="comment.eaoStatus='Deferred'" ng-class="{'active':comment.eaoStatus === 'Deferred'}">
+                <button class="btn btn-warning btn-sm" ng-click="comment.eaoStatus='Deferred'" ng-class="{'active':comment.eaoStatus === 'Deferred'}">
                     Defer
                 </button>
                 <button class="btn btn-danger btn-sm" ng-click="comment.eaoStatus='Rejected'" ng-class="{'active':comment.eaoStatus === 'Rejected'}">
@@ -172,5 +172,5 @@
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
-    <button type="button" class="btn btn-primary" ng-click="ok(comment)" ng-if="!isPublic">Update</button>
+    <button type="button" class="btn btn-success" ng-click="ok(comment)" ng-if="!isPublic">Update</button>
 </div>

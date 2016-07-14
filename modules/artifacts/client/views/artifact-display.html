@@ -17,58 +17,29 @@
                     href><span class="glyphicon glyphicon-link"></span><span>Link Document<span></a>
             </div>
 
-            <div class="attachments">
-                <div class="list-group no-border">
-                    <div class="list-group-item" ng-if="!artifact.document._id">
-                        <span class="file-name no-files">
-                            <span ng-if="!artifact.document._id">No file available.</span>
-                        </span>
-                    </div>
-                    <a class="list-group-item" ng-if="artifact.document._id" href="/api/document/{{ artifact.document._id }}/fetch" target="_blank" title="Download file">
-                        <span class="file-icon">
-                            <span class="glyphicon glyphicon-list-alt"></span>
-                        </span>
-                        <span class="file-name">
-                            <span ng-if="artifact.document._id">{{ artifact.document.internalOriginalName }}</span>
-                            <span class="file-details">
-                                <small>V.{{ artifact.document.documentVersion }}</small>
-                                <small> &nbsp;|&nbsp; {{ artifact.document.dateUpdated | amDateFormat:'MMMM Do YYYY'}}</small>
-                            </span>
-                        </span>
-                        <span class="file-actions">
-                             <button class="btn btn-link">
-                                <span class="glyphicon glyphicon-download-alt"></span>
-                             </button>
-                        </span>
-                    </a>
+            <div class="list-group no-border">
+                <div class="list-group-item flex-row" ng-if="!artifact.document._id">
+                    <span class="title">
+                        <span ng-if="!artifact.document._id">No file available.</span>
+                    </span>
                 </div>
-            </div>
-
-            <div class="file-horiz hidden">
-                <span class="glyphicon glyphicon-list-alt"></span>
-                <div ng-if="!artifact.document._id">
-                    <small>[ no document uploaded yet ] <br/> FOR <br/> {{ artifact.name }} ({{ artifact.version }} {{ artifact.stage }})<br/>
-                        <a href ng-if="mode === 'edit'"
-                            x-modal-document-link class="btn btn-xs btn-link"
-                            x-current="artifact.maindocument"
-                            x-project="project">+ Upload Document</a>
-                    </small>
-                </div>
-                <div class="panel panel-info" ng-if="artifact.document._id">
-                    <a href="/api/document/{{ artifact.document._id }}/fetch" target="_blank">
-                    <small>
-                        {{ artifact.document.internalOriginalName }}<br/> AS <br/>
-                        {{ artifact.name }} ({{ artifact.version }} {{ artifact.stage }})<br/>
-                        <a href ng-if="mode === 'edit'" x-modal-document-link class="btn btn-xs btn-link"
-                            x-current="artifact.maindocument"
-                            x-doc-location-code="'main'"
-                            x-artifact="artifact"
-                            x-project="project">
-                            + Upload Document
-                        </a>
-                        </small>
-                    </a>
-                </div>
+                <a class="list-group-item flex-row" ng-if="artifact.document._id" href="/api/document/{{ artifact.document._id }}/fetch" target="_blank" title="Download file">
+                    <span class="icon">
+                        <span class="glyphicon glyphicon-list-alt"></span>
+                    </span>
+                    <span class="title">
+                        <span ng-if="artifact.document._id">{{ artifact.document.internalOriginalName }}</span>
+                        <span class="file-details">
+                            <small>V.{{ artifact.document.documentVersion }}</small>
+                            <small> &nbsp;|&nbsp; {{ artifact.document.dateUpdated | amDateFormat:'MMMM Do YYYY'}}</small>
+                        </span>
+                    </span>
+                    <span class="actions">
+                        <button class="btn btn-link">
+                            <span class="glyphicon glyphicon-download-alt"></span>
+                        </button>
+                    </span>
+                </a>
             </div>
 
         </div>

@@ -1,14 +1,14 @@
 <div class="upload-documents-view">
 
 	<!-- UPLOAD -->
-	<div class="form-group attachments">
+	<div class="form-group">
 		<label>Select Files for Upload</label>
 
 		<div class="alert alert-danger" ngf-no-file-drop >
 			File Drag and Drop is not supported for this browser.
 		</div>
 
-		<div class="attachments-upload-target">
+		<div class="upload-target">
 			<div ngf-drop ngf-select ng-model="files"
 				ngf-drag-over-class="dragover"
 				ngf-multiple="true"
@@ -19,22 +19,24 @@
 			</div>
 		</div>
 
-		<div class="list-group hover">
-			<li class="list-group-item" ng-class="{'danger': f.$error}" ng-repeat="f in docUpload.fileList">
-				<div class="file-icon">
+		<div class="list-group">
+			<li class="list-group-item flex-row" ng-class="{'danger': f.$error}" ng-repeat="f in docUpload.fileList">
+				<div class="icon">
 					<span class="glyphicon glyphicon-file"></span>
 				</div>
-				<div class="file-name">{{f.name}} {{f.$error}} {{f.$errorParam}}</div>
-				<div class="file-progress" ng-if="!f.$error && f.progress">
-					<div class="progress">
-						<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">
-							<span class="sr-only">{{ f.progress }}</span>
+				<div class="title">{{f.name}} {{f.$error}} {{f.$errorParam}}</div>
+				<div class="actions">
+					<div class="file-progress" ng-if="!f.$error && f.progress">
+						<div class="progress">
+							<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">
+								<span class="sr-only">{{ f.progress }}</span>
+							</div>
 						</div>
 					</div>
+					<button class="btn btn-link" ng-if="!f.$error && !f.progress" ng-click="docUpload.removeFile(f)" title="Remove File">
+						<span class="glyphicon glyphicon-remove"></span>
+					</button>
 				</div>
-				<button class="file-actions btn btn-link" ng-if="!f.$error && !f.progress" ng-click="docUpload.removeFile(f)" title="Remove File">
-					<span class="glyphicon glyphicon-remove"></span>
-				</button>
 			</li>
 		</div>
 

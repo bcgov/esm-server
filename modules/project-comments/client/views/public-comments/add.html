@@ -39,7 +39,7 @@
 			<div class="row">
 				<div class="form-group col-sm-12">
 					<div class="checkbox comment-opt-in">
-						<label><input ng-model="s.comment.makeVisible" type="checkbox" />Make my name and location visible to public.</label>
+						<label><input ng-model="s.comment.makeVisible" type="checkbox" />Make my Name visible to public.</label>
 					</div>
 					<div class="help-block">All comments are submitted anonymously by default. Checking this option will display your name and location (if entered) on the public site.</div>
 				</div>
@@ -47,20 +47,32 @@
 			<div class="row">
 				<div class="form-group col-sm-12">
 					<label class="control-label">Your Comment</label>
-					<textarea id="content" rows="10" name="content" class="form-control" ng-model="s.comment.comment" required></textarea>
+					<textarea id="content" rows="10" name="content" class="form-control" ng-model="s.comment.comment"></textarea>
 				</div>
 			</div>
 			<div class="row">
 				<div class="upload-attachments form-group col-sm-12">
 					<label class="control-label">Upload Attachments</label>
-					<ul class="attachments list-group">
-						<li class="list-group-item"
+					<div class="upload-target">
+						<div ngf-drop ngf-select ng-model="s.comment.files"
+							ngf-drag-over-class="dragover"
+							ngf-multiple="true"
+							ngf-allow-dir="true"
+							accept="application/pdf"
+							ngf-max-total-size="5MB">
+							<div class="instructions"><strong>Drag and Drop Files Here</strong> or <strong>Select Files</strong></div>
+							<div class="requirements">Attachments must be in PDF format and limited to 5MB.</div>
+						</div>
+					</div>
+					<ul class="list-group">
+						<li class="list-group-item flex-row"
 							ng-class="{'danger': f.$error}"
 							ng-repeat="f in s.comment.fileList">
-								<div class="file-icon">
-									<span class="glyphicon glyphicon-file"></span>
-								</div>
-								<div class="file-name">{{f.name}} {{f.$error}} {{f.$errorParam}}</div>
+							<div class="icon">
+								<span class="glyphicon glyphicon-file"></span>
+							</div>
+							<div class="title">{{f.name}} {{f.$error}} {{f.$errorParam}}</div>
+							<div class="actions">
 								<div class="file-progress" ng-if="!f.$error && f.progress">
 									<div class="progress">
 										<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">
@@ -68,22 +80,12 @@
 										</div>
 									</div>
 								</div>
-								<button class="file-actions btn btn-link" ng-if="!f.$error && !f.progress" ng-click="s.comment.removeFile(f)" title="Remove File">
+								<button class="btn btn-link" ng-if="!f.$error && !f.progress" ng-click="s.comment.removeFile(f)" title="Remove File">
 									<span class="glyphicon glyphicon-remove"></span>
 								</button>
+							</div>
 						</li>
 					</ul>
-					<div class="attachments-upload-target">
-						<div ngf-drop ngf-select ng-model="s.comment.files"
-							ngf-drag-over-class="dragover"
-							ngf-multiple="true"
-							ngf-allow-dir="true"
-							accept="application/pdf"
-							ngf-max-total-size="5MB">
-							<div><strong>Drag & Drop</strong> or <strong>Click Here</strong> to Upload Attachments</div>
-							<small><em>All attachments must be in PDF format and limited to 5MB.</em></small>
-						</div>
-					</div>
 				</div>
 			</div>
 		</fieldset>

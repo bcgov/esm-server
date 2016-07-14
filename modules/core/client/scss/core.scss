@@ -2184,81 +2184,8 @@ $sidenav-color: $link-color;
 		}
 	}
 	
-	.file-review {
-		label {
-			margin-bottom: 0;
-			width: 50%;
-			min-width: 8rem;
-			font-weight: normal;
-			text-transform: uppercase;
-		}
-		
-		.btn-danger,
-		.btn-success {
-			color: #000;
-			background: none;
-			border-color: #CCC;
-		}
-		
-		.btn-danger.active {
-			background: #d9534f;
-			border-color: #d43f3a;
-			color: #FFF;
-		}
-		
-		.btn-success.active {
-			background: #5cb85c;
-			border-color: #4cae4c;
-			color: #FFF;
-		}
-	}
-	
 	+ .attachments-upload-target {
 		margin-top: 1.5rem;
-	}
-
-	.file-details {
-		display: block;
-		color: #888;
-	}
-}
-
-.attachments-upload-target {
-	position: relative;
-	padding: 2rem;
-	text-align: center;
-	font-weight: normal;
-	text-shadow: 1px 1px 0 #FFF;
-	border: 2px dashed #AAA;
-	border-radius: 4px;
-
-	.instructions {
-		font-size: 1.8rem;
-	}
-
-	.requirements {
-		font-size: 1.2rem;
-		font-style: italic;
-		color: #888;
-	}
-	
-	input {
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		opacity: 0;
-		filter: alpha(opacity=0);
-	}
-}
-
-@media (min-width: 1024px) {
-	.attachments {
-		.file-details {
-			float: right;
-		}
 	}
 }
 
@@ -2543,6 +2470,38 @@ $file-browser-item-active: #2b5580;
 }
 
 
+/* REVIEW FILES
+------------------------------ */
+.review-file {
+	label {
+		margin-bottom: 0;
+		width: 50%;
+		min-width: 7rem;
+		font-weight: normal;
+		text-transform: uppercase;
+	}
+	
+	.btn-danger,
+	.btn-success {
+		color: #999;
+		background: none;
+		border-color: #ccc;
+	}
+	
+	.btn-danger.active {
+		background: #d9534f;
+		border-color: #d43f3a;
+		color: #FFF;
+	}
+	
+	.btn-success.active {
+		background: #5cb85c;
+		border-color: #4cae4c;
+		color: #FFF;
+	}
+}
+
+
 /* FORM CONTROLS
 ------------------------------ */
 .control-label {
@@ -2589,7 +2548,7 @@ form {
 }
 
 .form-footer {
-	margin-top: 1rem;
+	margin-top: 2rem;
 	padding-top: 2rem;
 	border-top: 1px solid #DDD;
 	
@@ -2727,6 +2686,56 @@ textarea {
 			border-bottom: none;
 			border-bottom-left-radius: 0;
 			border-bottom-right-radius: 0;
+		}
+	}
+}
+
+.list-group-item {
+	&.flex-row {
+		padding: 0;
+
+		.icon {
+			flex: 0 0 auto;
+			padding-left: 1.25rem;
+
+			.glyphicon {
+				margin-top: 0.8rem;
+				font-size: 1.8rem;
+			}
+
+			+ .title {
+				padding-left: 0.75rem;
+			}
+		}
+
+		.title {
+			flex: 1 1 auto;
+			padding: 1rem 1.5rem;
+
+			.details {
+				display: block;
+				color: #888;
+			}
+		}
+
+		.actions {
+			flex: 0 0 auto;
+			padding-right: 0.5rem;
+
+			.btn {
+				margin-top: 0.3rem;
+				padding-right: 0;
+				padding-left: 0;
+				width: 3.4rem;
+			}
+		}
+	}
+}
+
+@media (min-width: 1024px) {
+	.list-group {
+		.file-details {
+			float: right;
 		}
 	}
 }
@@ -3006,6 +3015,45 @@ $table-footer-bg: #FFF;
 		margin-right: 0.5rem;
 	}
 }
+
+
+/* UPLOAD TARGET
+------------------------------ */
+.upload-target {
+	position: relative;
+	padding: 2rem;
+	text-align: center;
+	font-weight: normal;
+	text-shadow: 1px 1px 0 #FFF;
+	border: 2px dashed #AAA;
+	border-radius: 4px;
+
+	.instructions {
+		font-size: 1.8rem;
+	}
+
+	.requirements {
+		font-size: 1.2rem;
+		font-style: italic;
+		color: #888;
+	}
+	
+	input {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		opacity: 0;
+		filter: alpha(opacity=0);
+	}
+
+	+ .list-group {
+		margin-top: 1rem;
+	}
+}
+
 
 
 /* UTILITIES
@@ -4196,10 +4244,6 @@ section.project-info {
 	.upload-attachments {
 		margin-bottom: 0;
 	}
-
-	.list-group-item {
-		padding: 1rem;
-	}
 	
 	.pick-list {
 		height: 15rem;
@@ -4234,19 +4278,26 @@ section.project-info {
 	
 	.comment-status-btns {
 		.btn {
-			min-width: 10rem;
+			min-width: 8rem;
 			padding-top: 0.7rem;
 			padding-bottom: 0.7rem;
 			text-transform: uppercase;
 		}
 		
+		.btn-warning,
 		.btn-danger,
 		.btn-success {
-			color: #000;
+			color: #999;
 			background: #FFF;
 			border-color: #CCC;
 		}
 		
+		.btn-warning.active {
+			background: #f0ad4e;
+			border-color: #eea236;
+			color: #FFF;
+		}
+
 		.btn-danger.active {
 			background: #d9534f;
 			border-color: #d43f3a;

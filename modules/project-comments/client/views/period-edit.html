@@ -13,12 +13,22 @@
 
 	<div class="view-body-container">
 
+		<!-- TABS -->
+		<ul class="nav nav-tabs hidden" ng-init="form.curTab = 'Content'">
+			<li role="presentation" ng-class="{'active':form.curTab === 'Content'}">
+				<a href ng-click="form.curTab = 'Content'">Details</a>
+			</li>
+			<li role="presentation" ng-class="{'active':form.curTab === 'Recipients'}">
+				<a href ng-click="form.curTab = 'Recipients'">Roles & Permissions</a>
+			</li>
+		</ul><!-- / TABS -->
+
 		<div class="row">
 			<div class="col-md-4 col-xl-3 form-group">
 				<label class="control-label">Comment Period Type</label>
 				<select ng-change="changeType()" ng-model="period.periodType" class="form-control">
-					<option selected>Working Group</option>
-					<option>Public</option>
+					<option ng-selected="selected">Public</option>
+					<option>Working Group</option>
 				</select>
 			</div>
 			<div class="col-md-4 col-xl-3 form-group">
@@ -62,33 +72,33 @@
 		</div>
 
 		<div class="form-group open-house">
-			
 			<div class="flex-row">
 				<label class="control-label">Open House Dates<em>Optional</em></label>
 				<button class="btn btn-link btn-sm" x-edit-open-house x-period="period" x-mode="add">+ Add Open House</button>
 			</div>
-			
-			<div class="attachments">
-				<ul class="list-group">
-					<li class="list-group-item" ng-if="period.openHouses.length == 0">
-						<span  class="file-name">No Open Houses for this Comment Period.</span>
-					</li>
-					<li class="list-group-item" ng-repeat="h in period.openHouses">
-						<div class="file-name">
-							<strong class="open-house-date">{{ h.eventDate | amDateFormat:'MMMM Do, YYYY' }}</strong>
-							<pre class="open-house-desc">{{ h.description }}</pre>
-						</div>
-						<div class="file-actions">
-							<button class="btn btn-link" x-edit-open-house x-period="period" x-mode="edit" x-openhouse="h">
-								<span class="glyphicon glyphicon-pencil"></span>
-							</button>
-							<button class="btn btn-link" x-edit-open-house x-period="period" x-mode="delete" x-index="$index">
-								<span class="glyphicon glyphicon-trash"></span>
-							</button>
-						</div>
-					</li>
-				</ul>
-			</div>
+			<ul class="list-group">
+				<li class="list-group-item flex-row" ng-if="period.openHouses.length == 0">
+					<span class="list-group-item-name">No Open Houses for this Comment Period.</span>
+				</li>
+				<li class="list-group-item flex-row" ng-repeat="h in period.openHouses">
+					<div class="list-group-item-name">
+						<strong class="open-house-date">{{ h.eventDate | amDateFormat:'MMMM Do, YYYY' }}</strong>
+						<pre class="open-house-desc">{{ h.description }}</pre>
+					</div>
+					<div class="list-group-item-actions">
+						<button class="btn btn-link" x-edit-open-house x-period="period" x-mode="edit" x-openhouse="h">
+							<span class="glyphicon glyphicon-pencil"></span>
+						</button>
+						<button class="btn btn-link" x-edit-open-house x-period="period" x-mode="delete" x-index="$index">
+							<span class="glyphicon glyphicon-trash"></span>
+						</button>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<div class="form-group hidden">
+			<label class="control-label">Roles & Permissions</label>
 		</div>
 
 		<div class="row hidden">
@@ -146,7 +156,7 @@
 			
 		</div>
 
-		<div class="form-footer no-border">
+		<div class="form-footer clearfix">
 			<div class="pull-right">
 				<a class="btn btn-default" ui-sref="p.commentperiod.list">Cancel</a>
 				<a class="btn btn-primary" href ng-click="save()">Save</a>
