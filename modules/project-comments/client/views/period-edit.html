@@ -17,8 +17,8 @@
 			<div class="col-md-4 col-xl-3 form-group">
 				<label class="control-label">Comment Period Type</label>
 				<select ng-change="changeType()" ng-model="period.periodType" class="form-control">
-					<option selected>Working Group</option>
-					<option>Public</option>
+          <option>Public</option>
+					<option>Working Group</option>
 				</select>
 			</div>
 			<div class="col-md-4 col-xl-3 form-group">
@@ -36,7 +36,7 @@
 					<span> &nbsp; - &nbsp; </span>
 					<div class="form-control date-picker" x-modal-date-picker x-selected-date="period.dateCompleted">
 						<span ng-if="!period.dateCompleted">End Date</span>
-						{{ period.dateCompleted | amDateFormat:'MMMM DD, YYYY' }} 
+						{{ period.dateCompleted | amDateFormat:'MMMM DD, YYYY' }}
 						<span class="glyphicon glyphicon-calendar"></span>
 					</div>
 				</div>
@@ -62,12 +62,12 @@
 		</div>
 
 		<div class="form-group open-house">
-			
+
 			<div class="flex-row">
 				<label class="control-label">Open House Dates<em>Optional</em></label>
 				<button class="btn btn-link btn-sm" x-edit-open-house x-period="period" x-mode="add">+ Add Open House</button>
 			</div>
-			
+
 			<div class="attachments">
 				<ul class="list-group">
 					<li class="list-group-item" ng-if="period.openHouses.length == 0">
@@ -143,7 +143,7 @@
 			    	</div>
 				</div>
 			</div>
-			
+
 		</div>
 
 		<div class="form-footer no-border">
