@@ -132,6 +132,7 @@ module.exports = function (app) {
 							documentFileFormat      : req.headers.documentfileformat,
 							documentIsInReview      : req.headers.documentisinreview,
 							documentVersion         : 0,
+							documentSource			: req.headers.source,
 							// These are automatic as it actually is when it comes into our system
 							internalURL             : newFilePath,
 							internalOriginalName    : file.originalname,

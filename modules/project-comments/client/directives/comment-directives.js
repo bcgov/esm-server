@@ -142,7 +142,7 @@ angular.module ('comment')
 // add a public comment
 //
 // -------------------------------------------------------------------------
-.directive ('addPublicComment', function ($modal, CommentModel) {
+.directive ('addPublicComment', function ($modal, CommentModel, Upload, $timeout, _) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -163,22 +163,77 @@ angular.module ('comment')
 						}
 					},
 					controller: function ($rootScope, $scope, $modalInstance, comment) {
+						// console.log("Adding a comment.");
 						var s     = this;
 						s.step    = 1;
 						s.comment = comment;
 						comment.period = scope.period;
 						comment.project = scope.project;
+						comment.files = scope.files;
 						comment.makeVisible = false;
+						s.comment.fileList = [];
+						$scope.$watch('s.comment.files', function (newValue) {
+							if (newValue) {
+								s.comment.inProgress = false;
+								_.each( newValue, function(file, idx) {
+									s.comment.fileList.push(file);
+								});
+							}
+						});
+
 						s.cancel  = function () { $modalInstance.dismiss ('cancel'); };
 						s.next    = function () { s.step++; };
 						s.ok      = function () { $modalInstance.close (s.comment); };
 						s.submit  = function () {
+							// console.log("files:", s.comment.fileList);
+							s.comment.inProgress = false;
 							comment.isAnonymous = !comment.makeVisible;
+							var docCount = s.comment.fileList.length;
+							var uploadedDocs = [];
+
 							CommentModel.add (s.comment)
 							.then (function (comment) {
 								s.step = 3;
 								$scope.$apply ();
 								$rootScope.$broadcast('NEW_PUBLIC_COMMENT_ADDED', {comment: comment});
+								return null;
+							})
+							.then( function() {
+								// Upload docs
+								angular.forEach( s.comment.fileList, function(file) {
+									// Quick hack to pass objects
+									file.upload = Upload.upload({
+										url: '/api/document/' + comment.project._id + '/upload',
+										file: file,
+										headers: { 'source': 'COMMENT'}
+									});
+
+									file.upload.then(function (response) {
+										$timeout(function () {
+											file.result = response.data;
+											uploadedDocs.push(response.data._id);
+											// when the last file is finished, send complete event.
+											if (--docCount === 0) {
+												CommentModel.lookup(s.comment._id)
+												.then( function (cm) {
+													_.each( uploadedDocs, function(d) {
+														cm.documents.push(d);
+													});
+													CommentModel.saveModel(cm);
+												});
+											}
+										});
+									}, function (response) {
+										if (response.status > 0) {
+											// docUpload.errorMsg = response.status + ': ' + response.data;
+											console.log("error data:",response.data);
+										} else {
+											_.remove($scope.s.comment.files, file);
+										}
+									}, function (evt) {
+										file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+									});
+								});
 							})
 							.catch (function (err) {
 								s.step = 4;

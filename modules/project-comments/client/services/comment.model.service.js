@@ -12,7 +12,9 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 	//
 	var Class = ModelBase.extend ({
 		urlName : 'comment',
-		// -------------------------------------------------------------------------
+		lookup: function (commentID) {
+			return this.get('/api/comment/' + commentID);
+		},// -------------------------------------------------------------------------
 		//
 		// get all the comments for a comment period
 		//

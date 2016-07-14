@@ -163,6 +163,7 @@
 				<ul>
 					<li class="row-document clickable" ng-class="{'active btn-primary': filterSummary._id === doc._id}"
 						ng-click="docBrowser.filterSummary(doc)"
+						ng-hide="doc.documentSource === 'COMMENT'"
 						ng-repeat="doc in docBrowser.documentFiles | filter:filterLinage:true">
 						<span class="glyphicon glyphicon-file"></span>
 						{{ doc.internalOriginalName | removeExtension }}

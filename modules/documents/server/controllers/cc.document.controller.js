@@ -22,6 +22,12 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	preprocessAdd: function (doc) {
+		// ****
+		// This process is disabled if it's a comment document - there are no versions
+		// ****
+		if (doc.documentSource === 'COMMENT') {
+			return doc;
+		}
 		//
 		// check if there is an existing matching document
 		//
