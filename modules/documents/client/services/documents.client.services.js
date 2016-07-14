@@ -13,9 +13,13 @@ function serviceDocument($http) {
 
     var getArtifactLocations = function () {
         return [{
-                    "code":"main",
-                    "name":"Main Content Document",
+                    "code": "",
+                    "name": "",
                 },
+								{
+										"code":"main",
+										"name":"Main Content Document",
+								},
                 {
                     "code":"supporting",
                     "name":"Supporting Documents",
@@ -222,7 +226,7 @@ function serviceDocument($http) {
 	return {
         getDocumentTypes: getDocumentTypes,
         getDocumentSubTypes: getDocumentSubTypes,
-		getArtifactLocations: getArtifactLocations,
+				getArtifactLocations: getArtifactLocations,
         getAllDocuments: getAllDocuments,
         getProjectDocuments: getProjectDocuments,
         getProjectDocumentTypes: getProjectDocumentTypes,
