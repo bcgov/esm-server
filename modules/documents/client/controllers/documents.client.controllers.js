@@ -100,6 +100,9 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 	docUpload.artifact = null;
 	docUpload.artifacts = null;
 	docUpload.documentList = [];
+	
+	docUpload.allowArtifactSelect = true;
+	docUpload.allowDocLocationSelect = true;
 
 	$scope.$watch('hideUploadButton', function(newValue) {
 		if (newValue) {
@@ -121,6 +124,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 						docUpload.selectedArtifact = _.find(docUpload.artifacts, function (o) {
 							return o._id === $scope.artifact._id;
 						});
+						docUpload.allowArtifactSelect = _.isEmpty(docUpload.selectedArtifact);
 					}
 				});
 			} else {
@@ -185,7 +189,9 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 		// Artifact Location
 		docUpload.docLocations = Document.getArtifactLocations();
 		// try and set the default in the pick list....
-		docUpload.selectedDocLocation = _.find(docUpload.docLocations, function(o) { return o.code === $scope.docLocationCode; } ) || docUpload.docLocations[0];
+		var foundDocLocation = _.find(docUpload.docLocations, function(o) { return o.code === $scope.docLocationCode; } );
+		docUpload.selectedDocLocation =  foundDocLocation || docUpload.docLocations[0];
+		docUpload.allowDocLocationSelect = _.isEmpty(foundDocLocation);
 	}
 
 
