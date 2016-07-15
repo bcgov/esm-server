@@ -148,7 +148,15 @@ angular.module ('comment')
 				.result.then (function (data) {
 					console.log ('result:', data);
 					data.proponentStatus = (data.pillars.length > 0) ? 'Classified' : 'Unclassified';
-					CommentModel.save (data)
+					Promise.resolve()
+					.then(function() {
+						return data.documents.reduce(function (current, value, index) {
+								return CommentModel.updateDocument(value);
+							}, Promise.resolve())	;
+					})
+					.then(function(result) {
+						return CommentModel.save (data);
+					})
 					.then (function (result) {
 						if (period.userCan.vetComments) {
 							s.refreshEao ();
