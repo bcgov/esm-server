@@ -102,6 +102,57 @@ module.exports = function (app) {
 			}
 		});
 	//
+	// upload comment document:  We do this to force the model as opposed to trusting the
+	// 'headers' from an untrustworthy client.
+	//
+	app.route ('/api/commentdocument/:project/upload')
+	.all (policy ('guest'))
+		.post (routes.setAndRun (DocumentClass, function (model, req) {
+			return new Promise (function (resolve, reject) {
+				var file = req.files.file;
+				if (file) {
+					var opts = { oldPath: file.path, projectCode: req.Project.code};
+					routes.moveFile (opts)
+					.then (function (newFilePath) {
+						return model.create ({
+							// Metadata related to this specific document that has been uploaded.
+							// See the document.model.js for descriptions of the parameters to supply.
+							project                 : req.Project,
+							//projectID             : req.Project._id,
+							projectFolderType       : req.headers.documenttype,//req.headers.projectfoldertype,
+							projectFolderSubType    : req.headers.documentsubtype,//req.headers.projectfoldersubtype,
+							projectFolderName       : req.headers.documentfoldername,
+							projectFolderURL        : newFilePath,//req.headers.projectfolderurl,
+							projectFolderDatePosted : Date.now(),//req.headers.projectfolderdateposted,
+							// NB                   : In EPIC, projectFolders have authors, not the actual documents.
+							projectFolderAuthor     : req.headers.projectfolderauthor,
+							// These are the data as it was shown on the EPIC website.
+							documentAuthor          : req.headers.documentauthor,
+							documentFileName        : req.headers.documentfilename,
+							documentFileURL         : req.headers.documentfileurl,
+							documentFileSize        : req.headers.documentfilesize,
+							documentFileFormat      : req.headers.documentfileformat,
+							documentIsInReview      : req.headers.documentisinreview,
+							documentVersion         : 0,
+							documentSource			: 'COMMENT',
+							// These are automatic as it actually is when it comes into our system
+							internalURL             : newFilePath,
+							internalOriginalName    : file.originalname,
+							internalName            : file.name,
+							internalMime            : file.mimetype,
+							internalExt             : file.extension,
+							internalSize            : file.size,
+							internalEncoding        : file.encoding
+						});
+					})
+					.then (resolve, reject);
+				}
+				else {
+					reject ("no file to upload");
+				}
+			});
+		}));
+	//
 	// upload document
 	//
 	app.route ('/api/document/:project/upload').all (policy ('guest'))
@@ -132,7 +183,6 @@ module.exports = function (app) {
 							documentFileFormat      : req.headers.documentfileformat,
 							documentIsInReview      : req.headers.documentisinreview,
 							documentVersion         : 0,
-							documentSource			: req.headers.source,
 							// These are automatic as it actually is when it comes into our system
 							internalURL             : newFilePath,
 							internalOriginalName    : file.originalname,

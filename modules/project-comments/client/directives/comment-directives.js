@@ -28,7 +28,11 @@ angular.module ('comment')
 
 			$scope.$on('NEW_PUBLIC_COMMENT_ADDED', function (e, data) {
 				console.log('comment: ' + data.comment);
-				s.refreshEao();
+
+				// We shouldn't do this if we're public.
+				if (period.userCan.vetComments) {
+					s.refreshEao ();
+				}
 			});
 
 			// -------------------------------------------------------------------------
@@ -204,12 +208,12 @@ angular.module ('comment')
 						comment.project = scope.project;
 						comment.files = scope.files;
 						comment.makeVisible = false;
-						s.comment.fileList = [];
+						s.fileList = [];
 						$scope.$watch('s.comment.files', function (newValue) {
 							if (newValue) {
 								s.comment.inProgress = false;
 								_.each( newValue, function(file, idx) {
-									s.comment.fileList.push(file);
+									s.fileList.push(file);
 								});
 							}
 						});
@@ -218,27 +222,32 @@ angular.module ('comment')
 						s.next    = function () { s.step++; };
 						s.ok      = function () { $modalInstance.close (s.comment); };
 						s.submit  = function () {
-							// console.log("files:", s.comment.fileList);
+							// console.log("files:", s.fileList);
 							s.comment.inProgress = false;
 							comment.isAnonymous = !comment.makeVisible;
-							var docCount = s.comment.fileList.length;
-							var uploadedDocs = [];
+							var docCount = s.fileList.length;
 
-							CommentModel.add (s.comment)
-							.then (function (comment) {
-								s.step = 3;
-								$scope.$apply ();
-								$rootScope.$broadcast('NEW_PUBLIC_COMMENT_ADDED', {comment: comment});
-								return null;
-							})
-							.then( function() {
+							if (docCount === 0 ) {
+								// We don't need to do anything but add the comment.
+								 CommentModel.add (s.comment)
+								.then (function (comment) {
+									s.step = 3;
+									$scope.$apply ();
+									$rootScope.$broadcast('NEW_PUBLIC_COMMENT_ADDED', {comment: comment});
+									return null;
+								})
+								.catch (function (err) {
+									s.step = 4;
+									$scope.$apply ();
+								});
+							} else {
+								var uploadedDocs = [];
 								// Upload docs
-								angular.forEach( s.comment.fileList, function(file) {
+								angular.forEach( s.fileList, function(file) {
 									// Quick hack to pass objects
 									file.upload = Upload.upload({
-										url: '/api/document/' + comment.project._id + '/upload',
-										file: file,
-										headers: { 'source': 'COMMENT'}
+										url: '/api/commentdocument/' + comment.project._id + '/upload',
+										file: file
 									});
 
 									file.upload.then(function (response) {
@@ -247,12 +256,20 @@ angular.module ('comment')
 											uploadedDocs.push(response.data._id);
 											// when the last file is finished, send complete event.
 											if (--docCount === 0) {
-												CommentModel.lookup(s.comment._id)
-												.then( function (cm) {
-													_.each( uploadedDocs, function(d) {
-														cm.documents.push(d);
-													});
-													CommentModel.saveModel(cm);
+												_.each( uploadedDocs, function(d) {
+													s.comment.documents.push(d);
+												});
+												// Reset this as we don't need it.
+												s.fileList = null;
+												CommentModel.add (s.comment)
+												.then (function (comment) {
+													s.step = 3;
+													$scope.$apply ();
+													$rootScope.$broadcast('NEW_PUBLIC_COMMENT_ADDED', {comment: comment});
+												})
+												.catch (function (err) {
+													s.step = 4;
+													$scope.$apply ();
 												});
 											}
 										});
@@ -267,11 +284,7 @@ angular.module ('comment')
 										file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
 									});
 								});
-							})
-							.catch (function (err) {
-								s.step = 4;
-								$scope.$apply ();
-							});
+							}
 						};
 					}
 				})
