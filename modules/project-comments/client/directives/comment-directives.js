@@ -98,15 +98,48 @@ angular.module ('comment')
 					controllerAs: 's',
 					size: 'lg',
 					windowClass: 'public-comment-modal',
-					controller: function ($scope, $modalInstance) {
+					resolve: {
+						fullComment: function() {
+							return CommentModel.lookup(comment._id, true);
+						}
+					},
+					controller: function ($scope, $modalInstance, fullComment) {
+						var self = this;
 						$scope.period      = period;
 						$scope.project     = project;
-						$scope.comment     = comment;
+						$scope.comment     = fullComment;
 						$scope.cancel      = function () { $modalInstance.dismiss ('cancel'); };
-						$scope.ok          = function () { $modalInstance.close (comment); };
-						$scope.pillars     = comment.pillars.map (function (e) { return e; });
-						$scope.vcs 		   = comment.valuedComponents.map (function (e) { return e.name; });
-					}
+						$scope.ok          = function () {
+							if ('Rejected' === $scope.comment.eaoStatus) {
+								_.each($scope.comment.documents, function(d) {
+									d.eaoStatus = 'Rejected';
+								});
+							}
+							$modalInstance.close ($scope.comment);
+						};
+						$scope.pillars     = fullComment.pillars.map (function (e) { return e; });
+						$scope.vcs 		   = fullComment.valuedComponents.map (function (e) { return e.name; });
+						
+						self.statusChange = function(status) {
+							$scope.comment.eaoStatus = status;
+							if ('Published' === status) {
+								// ?
+							} else if ('Rejected' === status) {
+								_.each($scope.comment.documents, function(d) {
+									d.eaoStatus = 'Rejected';
+								});
+							}
+						}
+						
+						self.fileStatusChange = function(status, file) {
+							// do not allow a change to Published if it is Rejected and comment is rejected
+							if ('Published' === status && $scope.comment.eaoStatus === 'Rejected') {
+								// don't allow this change...
+							} else {
+								file.eaoStatus = status;
+							}
+						}
+					},
 				})
 				.result.then (function (data) {
 					console.log ('result:', data);

@@ -46,7 +46,7 @@
     <section class="pillar-vcs">
         <div class="tag-list">
             <span>{{comment.pillars.join (', ')}} </span><span ng-if="comment.topics">{{comment.topics.join (', ')}}</span>
-            
+
             <!--
             <span class="label label-primary" ng-repeat="pillar in comment.pillars">{{pillar}}</span>
             <span class="label label-default" ng-repeat="vc in comment.valuedComponents">{{vc}}</span>
@@ -66,26 +66,15 @@
     <section ng-if="!period.userCan.vetComments">
         <label class="control-label">Attachments</label>
         <div class="list-group">
-            <a class="list-group-item flex-row">
+            <a ng-repeat='file in comment.documents' class="list-group-item flex-row">
                 <div class="icon">
                     <span class="glyphicon glyphicon-file"></span>
                 </div>
-                <div class="title">file-name-1.jpg</div>
+                <div class="title">{{ file.internalOriginalName }}</div>
                 <div class="actions">
-                    <button class="btn btn-link" title="Download file">
-                        <span class="glyphicon glyphicon-download-alt"></span>
-                    </button>
-                </div>
-            </a>
-            <a class="list-group-item flex-row">
-                <div class="icon">
-                    <span class="glyphicon glyphicon-file"></span>
-                </div>
-                <div class="title">file-name-1.jpg</div>
-                <div class="actions">
-                    <button class="btn btn-link" title="Download file">
-                        <span class="glyphicon glyphicon-download-alt"></span>
-                    </button>
+                  <a class="btn btn-link" ng-if="file._id" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download file">
+                    <span class="glyphicon glyphicon-download-alt"></span>
+                  </a>
                 </div>
             </a>
         </div>
@@ -95,42 +84,23 @@
     <section ng-if="period.userCan.vetComments">
         <label class="control-label">Attachments</label>
         <ul class="list-group">
-            <li class="list-group-item flex-row">
-                <div class="icon">
+            <li ng-repeat='file in comment.documents' class="list-group-item flex-row">
+              <div class="icon">
                     <span class="glyphicon glyphicon-file"></span>
                 </div>
-                <div class="title">file-name-1.jpg</div>
+                <div class="title">{{ file.internalOriginalName }}</div>
                 <div class="actions">
-                    <div class="review-file btn-group" data-toggle="buttons">
-                        <label class="btn btn-danger btn-sm">
-                            <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
-                        </label>
-                        <label class="btn btn-success btn-sm">
-                            <input type="radio" name="options" id="option1" autocomplete="off" checked />Publish
-                        </label>
+                    <div class="review-file comment-status-btns btn-group">
+                      <button class="btn btn-danger btn-sm" ng-click="s.fileStatusChange('Rejected', file)" ng-class="{'active':file.eaoStatus === 'Rejected'}">
+                        Reject
+                      </button>
+                      <button class="btn btn-success btn-sm" ng-click="s.fileStatusChange('Published', file)" ng-class="{'active':file.eaoStatus === 'Published'}">
+                        Publish
+                      </button>
                     </div>
-                    <button class="btn btn-link">
+                    <a class="btn btn-link" ng-if="file._id" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download file">
                         <span class="glyphicon glyphicon-download-alt"></span>
-                    </button>
-                </div>
-            </li>
-            <li class="list-group-item flex-row">
-                <div class="icon">
-                    <span class="glyphicon glyphicon-file"></span>
-                </div>
-                <div class="title">file-name-1.jpg</div>
-                <div class="actions clearfix">
-                    <div class="review-file btn-group" data-toggle="buttons">
-                        <label class="btn btn-danger btn-sm">
-                            <input type="radio" name="options" id="option1" autocomplete="off" checked />Reject
-                        </label>
-                        <label class="btn btn-success btn-sm">
-                            <input type="radio" name="options" id="option1" autocomplete="off" checked />Publish
-                        </label>
-                    </div>
-                    <button class="btn btn-link">
-                        <span class="glyphicon glyphicon-download-alt"></span>
-                    </button>
+                    </a>
                 </div>
             </li>
         </ul>
@@ -142,13 +112,13 @@
         <div class="form-group">
             <label class="control-label">Set Comment Status</label>
             <div class="comment-status-btns btn-group">
-                <button class="btn btn-warning btn-sm" ng-click="comment.eaoStatus='Deferred'" ng-class="{'active':comment.eaoStatus === 'Deferred'}">
+                <button class="btn btn-warning btn-sm" ng-click="s.statusChange('Deferred')" ng-class="{'active':comment.eaoStatus === 'Deferred'}">
                     Defer
                 </button>
-                <button class="btn btn-danger btn-sm" ng-click="comment.eaoStatus='Rejected'" ng-class="{'active':comment.eaoStatus === 'Rejected'}">
+                <button class="btn btn-danger btn-sm" ng-click="s.statusChange('Rejected')" ng-class="{'active':comment.eaoStatus === 'Rejected'}">
                     Reject
                 </button>
-                <button class="btn btn-success btn-sm" ng-click="comment.eaoStatus='Published'" ng-class="{'active':comment.eaoStatus === 'Published'}">
+                <button class="btn btn-success btn-sm" ng-click="s.statusChange('Published')" ng-class="{'active':comment.eaoStatus === 'Published'}">
                     Publish
                 </button>
             </ul>
@@ -160,12 +130,16 @@
         <div class="comment-status-note" ng-if="comment.eaoStatus === 'Rejected'">
             <div class="form-group">
                 <label class="control-label">Reason for Rejection<em>Required</em></label>
-                <input class="form-control" type="text" ng-model="comment.rejectedReason"></input>
+                <input class="form-control" type="text" ng-model="comment.rejectedReason" />
             </div>
             <div class="form-group">
                 <label class="control-label">Rejection Notes<em>Required</em></label>
                 <textarea class="form-control" ng-model="comment.rejectedNotes" rows="4"></textarea>
             </div>
+        </div>
+        <div class="comment-status-note form-group" ng-if="comment.eaoStatus === 'Published'">
+          <label class="control-label">Publish Notes</label>
+          <textarea class="form-control" ng-model="comment.publishedNotes" rows="4"></textarea>
         </div>
     </section><!-- / SET COMMENT STATUS -->
 

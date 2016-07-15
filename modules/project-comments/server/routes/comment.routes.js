@@ -88,6 +88,10 @@ module.exports = function (app) {
 		.put (routes.setAndRun (CommentPeriod, function (model, req) {
 			return model.resolveCommentPeriod (req.CommentPeriod.ancestor, false);
 		}));
-
+	
+	app.route ('/api/comment/:commentId/forEdit').all(policy ('user'))
+	.get (routes.setAndRun (CommentModel, function (model, req) {
+		return model.getCommentForEdit(req.params.commentId);
+	}));
 };
 

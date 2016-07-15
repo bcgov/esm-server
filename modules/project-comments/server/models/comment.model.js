@@ -69,6 +69,7 @@ module.exports = require ('../../../core/server/controllers/cc.schema.controller
 	eaoNotes       : { type:String, default: '' },
 	rejectedNotes  : { type:String, default: '' },
 	rejectedReason : { type:String, default: '' },
+	publishedNotes : { type:String, default: '' },
 	//
 	// the proponent work flow, classified or not with notes
 	//

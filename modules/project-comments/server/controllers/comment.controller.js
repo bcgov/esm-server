@@ -246,6 +246,13 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	getCommentChain: function (ancestorId) {
 		return this.findMany ({ ancestor: ancestorId });
+	},
+	getCommentForEdit: function(id) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.one({_id : id}, {}, [{ path:'user', select:'_id displayName username orgCode'}, {path:'documents'}, {path: 'valuedComponents'}])
+			.then (resolve, reject);
+		});
 	}
 });
 
