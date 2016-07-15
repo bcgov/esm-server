@@ -864,7 +864,8 @@ _.extend (DBModel.prototype, {
 	// GET *
 	//
 	// -------------------------------------------------------------------------
-	one : function (q, f) {
+	one : function (q, f, p) {
+		if (p) this.populate = p;
 		q = q || {};
 		q = _.extend ({}, this.baseQ, q);
 		f = f || {};

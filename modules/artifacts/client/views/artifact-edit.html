@@ -1,45 +1,43 @@
 <div class="edit-artifact-view">
+
 	<div class="view-title-container">
-		<h1>Edit Content &nbsp; &rsaquo; &nbsp; {{artifact.name}}</h1>
+		<h1>Edit Content &nbsp;&rsaquo;&nbsp; {{artifact.name}}</h1>
 	</div>
 
 	<div class="view-body-container">
-		<div class="row top-nav-lower-margin ">
-			<div class="col-sm-4 col-md-4">
-				<div class="form-group">
-					<label for="name" class="control-label">Name</label>
-					<input id="name" name="name" ng-model='artifact.name' class="form-control input-sm" required>
-				</div>
-			</div>
+		<div class="form-group">
+			<label class="control-label">Content Name</label>
+			<input class="form-control" id="name" ng-model='artifact.name' required>
 		</div>
 
 		<!-- If it's an artifact collection, lets show the 'add artifact to this artifact' UI. -->
 		<div ng-if="artifact.isArtifactCollection">
-				<div class="row top-nav-lower-margin ">
-					<div class="col-sm-12 form-group">
-						<div class="btn btn-default">
-							<div x-artifact-vc x-current="artifact" x-project="project">
-							+/- Link Artifacts
-							</div>
+			<div class="row top-nav-lower-margin ">
+				<div class="col-sm-12 form-group">
+					<div class="btn btn-default">
+						<div x-artifact-vc x-current="artifact" x-project="project">
+						+/- Link Artifacts
 						</div>
 					</div>
+				</div>
 			</div>
 		</div>
 
 		<tmpl-artifact-display x-mode="'edit'" x-artifact="artifact" x-project="project"></tmpl-artifact-display>
 
 		<div ng-include="'/modules/artifacts/client/views/partial.artifact-notes.html'"></div>
-
 		<div ng-include="'/modules/artifacts/client/views/partial.artifact-comments.html'"></div>
 
-		<div class="form-footer clearfix">
+		<div class="form-footer no-border clearfix">
+			<a class="back-btn btn btn-link pull-left" ui-sref="p.detail"><span class="glyphicon glyphicon-chevron-left"></span>Back to Product Details</a>
 			<div class="pull-right">
-				<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
 				<a class="btn btn-default" ng-click="remove()">Remove</a>
 				<a class="btn btn-default" ng-click="save()">Save</a>
-				<a class="btn btn-default" ng-click="saveas()">Save As</a>
-				<select class="form-control" ng-model="version" ng-options="v as v for v in artifact.artifactType.versions"></select>
-				<a class="btn btn-default" ng-click="submit()">Submit for {{buttons.next}}</a>
+				<div class="btn-group">
+					<a class="btn btn-default" ng-click="saveas()">Save As</a>
+					<select class="form-control" ng-model="version" ng-options="v as v for v in artifact.artifactType.versions"></select>
+				</div>
+				<a class="btn btn-success" ng-click="submit()">Submit for {{buttons.next}}</a>
 			</div>
 		</div>
 

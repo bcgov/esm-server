@@ -1,9 +1,11 @@
 
 <!-- EAO PROJECT TOMBSTONE -->
 <div class="panel panel-default project-tombstone" ng-if="environment === 'EAO'">
-	<div class="panel-heading clearfix">
-		<h2 class="pull-left">Details</h2>
-		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
+	<div class="panel-heading flex-row">
+		<h2>Details</h2>
+		<div class="actions">
+			<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
+		</div>
 	</div>
 	<div class="panel-body">
 		

@@ -245,7 +245,6 @@ h3 .small .label {
 	font-weight: 500;
 }
 
-
  .col-0 {
  	width: 0;
  	margin: 0;
@@ -1163,7 +1162,7 @@ h2.page-title {
 */
 
 .template {
-  padding: 2rem;
+  padding: 1rem;
   background: #FFF;
 }
 
@@ -2053,9 +2052,8 @@ $sidenav-color: $link-color;
 		a {
 			display: block;
 			padding: 1rem 1.5rem;
-			font-size: 1.6rem;
+			font-size: 1.4rem;
 			font-weight: bold;
-			color: #000;
 			
 			h2 {
 				margin-top: 1px;
@@ -2249,6 +2247,7 @@ $sidenav-color: $link-color;
 	font-weight: bold;
 	
 	.glyphicon {
+		margin-top: 0;
 		margin-left: -1rem;
 		margin-right: 0.5rem;
 		font-size: 1.5rem;
@@ -2795,7 +2794,7 @@ textarea {
 }
 
 
-/* PANEL 
+/* PANELS
 ------------------------------ */ 
 .panel-default {
 	border: none;
@@ -2815,34 +2814,37 @@ textarea {
 			margin: 0;
 			display: block;
 			overflow: hidden;
-			font-size: 1.6rem;
+			font-size: 1.4rem;
 			font-weight: bold;
 			text-overflow: ellipsis;
 			text-transform: uppercase;
-		}
-
-		.permission-btn {
-			position: absolute;
-			top: 0.6rem;
-			right: 0.5rem;
 		}
 	}
 }
 
 .panel-heading {
-	&.has-btns {
+	&.flex-row {
 		display: -webkit-flex;
 		display: flex;
 		padding: 0;
 		
 		h2 {
+			-webkit-flex: 1 1 auto;
 			flex: 1 1 auto;
 			padding: 1.25rem 1.5rem;
 		}
 
 		.actions {
+			-webkit-flex: 1 1 auto;
 			flex: 0 0 auto;
-			padding: 0.6rem;
+
+			.btn {
+				margin-top: 0.5rem;
+				margin-right: 0.5rem;
+				margin-left: -0.25rem;
+				font-weight: bold;
+				border-color: transparent;
+			}
 		}
 	}
 }
@@ -4446,6 +4448,11 @@ section.project-info {
 
 /* TEMPLATES VIEW
 ------------------------------ */
+tmpl-artifact-display,
+tmpl-template-render {
+	display: block;
+}
+
 .template-view {
 	.data-set-col {
 		display: none;
@@ -4453,43 +4460,68 @@ section.project-info {
 }
 
 .template-container {
-	.panel {
-		position: fixed;
-		top: 18.5rem;
-		left: 2.5rem;
-		right: 2.5rem;
-		bottom: 5rem;
-		display: -webkit-flex;
-		display: flex;
-		padding: 0;
-		overflow: hidden;
+	display: -webkit-flex;
+	display: flex;
+	padding: 0;
+}
+
+.template-nav {
+	-webkit-flex: 0 0 20rem;
+	flex: 0 0 20rem;
+	padding-left: 0.8rem;
+	padding-right: 0.8rem;
+	border-right: 1px solid #DDD;
+	background: #f7f8fa;
+
+	.list-group-item {
+		padding: 0.5rem 0;
+		background: transparent;
+
+		a {
+			padding-top: 0.4rem;
+			padding-bottom: 0.4rem;
+			font-size: 1.2rem;
+		}
+
+		&.active {
+			background: transparent;
+			border-color: #DDD;
+
+			a {
+				font-weight: bold;
+			}
+		}
+	}
+
+	.btn {
+		margin-top: -0.5rem;
+		text-transform: uppercase;
+	}
+}
+
+@media screen {
+	.template {
+		-webkit-flex: 1 1 1rem;
+		flex: 1 1 1rem;
+		min-width: 0;
+		height: 40rem;
+		overflow-y: auto;
+	}
+}
+
+@media print {
+	tmpl-header,
+	tmpl-footer,
+	.left-panel {
+		display: none;
 	}
 
 	.template-nav {
-		-webkit-flex: 0 0 20rem;
-		flex: 0 0 24rem;
-		border-right: 1px solid #DDD;
-		padding-left: 0.8rem;
-		padding-right: 0.8rem;
-		overflow-y: auto;
-
-
-		a {
-			padding-top: 0.5rem;
-			padding-bottom: 0.5rem;
-			font-weight: bold;
-		}
-
-		.btn {
-			margin-top: -0.5rem;
-			text-transform: uppercase;
-		}
+		display: none;
 	}
 
-	.template.vertical-scroll-padded {
-		-webkit-flex: 1 1 auto;
-		flex: 1 1 auto;
-		max-height: inherit;
+	.template {
+		width: 80rem;
 	}
 }
 
@@ -4518,58 +4550,6 @@ section.project-info {
 
 .text-block > p:last-child {
 	margin-bottom: 0;
-}
-
-@media (min-width: 1024px) {
-	.template-container {
-		.panel {
-			top: 19.5rem;
-		}
-	}
-}
-
-
-@media print {
-	.app-header,
-	.app-footer {
-		display: none;
-		border: none;
-	}
-	.app-main {
-		padding-top: 2rem;
-	}
-
-	.template-view {
-		.button-bar {
-			display: none;
-		}
-	}
-	
-	.template-container  {
-		.template-nav {
-			display: none;
-		}
-
-		.panel {
-			position: relative;;
-			top: 0;
-			left: 2.5rem;
-			right: 2.5rem;
-			bottom: 0;
-			padding: 0;
-		}
-
-		.vertical-scroll-padded {
-			max-height: initial;
-		}
-
-		.template {
-			display: block;
-			padding: 0;
-			max-width: 80rem; /* IE fun */
-			overflow: visible;
-		}
-	}
 }
 
 

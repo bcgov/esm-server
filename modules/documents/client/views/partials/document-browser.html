@@ -117,23 +117,23 @@
 
 
 	<div class="panel panel-default">
-		<div class="panel-heading clearfix">
-			<h2 class="pull-left">Documents</h2>
-			<tmpl-permissions-gear class="permission-btn" x-context="docBrowser.project" x-object="docBrowser.project" x-permissions=""></tmpl-permissions-gear>
-			<div class="panel-heading-actions pull-right">
+		<div class="panel-heading flex-row">
+			<h2>Documents</h2>
+			<div class="actions">
 				<a href class="btn btn-default btn-sm"
 					x-modal-document-upload-classify
 					x-project="docBrowser.project"
-           x-artifact="docBrowser.artifact"
-           x-doc-location-code="docBrowser.docLocationCode"
-					ng-if="docBrowser.project.userCan.uploadDocument && environment === 'EAO'"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;&nbsp;Upload</a>
+           			x-artifact="docBrowser.artifact"
+           			x-doc-location-code="docBrowser.docLocationCode"
+					ng-if="docBrowser.project.userCan.uploadDocument && environment === 'EAO'"><span class="glyphicon glyphicon-arrow-up"></span><span>Upload Documents</span></a>
 				<a href class="btn btn-default btn-sm"
 					x-modal-document-upload-classify-mem
 					x-project="docBrowser.project"
-           x-artifact="docBrowser.artifact"
-           x-doc-location-code="docBrowser.docLocationCode"
-					ng-if="(docBrowser.authentication.user) && environment === 'MEM'"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;&nbsp;Upload</a>
-			</div>
+           			x-artifact="docBrowser.artifact"
+           			x-doc-location-code="docBrowser.docLocationCode"
+					ng-if="(docBrowser.authentication.user) && environment === 'MEM'"><span class="glyphicon glyphicon-arrow-up"></span><span>Upload Documents</span></a>
+				<tmpl-permissions-gear class="permission-btn" x-context="docBrowser.project" x-object="docBrowser.project" x-permissions=""></tmpl-permissions-gear>
+			</div>		
 		</div>
 		<div class="file-browser clearfix">
 

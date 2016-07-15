@@ -1,11 +1,18 @@
 
 
 <div class="document-panel panel panel-default">
-    <div class="panel-heading clearfix">
-        <h2>{{ ::title }}</h2>
-        <a class="link-file-btn btn btn-primary btn-sm" ng-if="editable" href x-modal-document-link x-current="curVal" x-project="project" x-doc-location-code="docLocationCode" x-artifact="artifact">
-            <span class="glyphicon glyphicon-link"></span><span>Link Document<span>
-        </a>
+    <div class="panel-heading flex-row">
+        <h2>{{::title}}</h2>
+        <div class="actions">
+            <button class="btn btn-default btn-sm" title="Link Document" 
+                ng-if="editable"
+                x-modal-document-link x-current="curVal" 
+                x-project="project" 
+                x-doc-location-code="docLocationCode" 
+                x-artifact="artifact">
+                <span class="glyphicon glyphicon-link"></span><span>Link Document<span>
+            </button>
+        </div>
     </div>
     <div class="attachments">
         <div class="list-group no-border">

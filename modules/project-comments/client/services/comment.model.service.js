@@ -120,6 +120,9 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 		// -------------------------------------------------------------------------
 		getCommentChain: function (ancestorId) {
 			return this.get ('/api/comments/ancestor/'+ancestorId);
+		},
+		updateDocument: function(doc) {
+			return this.put('/api/document/' + doc._id, doc);
 		}
 	});
 	return new Class ();

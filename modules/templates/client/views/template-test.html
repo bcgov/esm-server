@@ -10,7 +10,7 @@
 
 	<div class="view-body-container">
 		
-		<div class="button-bar" ng-init="toggleBlue = true">
+		<div class="button-bar hidden" ng-init="toggleBlue = true">
 			<button class="btn btn-default btn-sm" ng-click="toggleBlue = !toggleBlue">
 				<span ng-show="toggleBlue">Hide Outlines</span>
 				<span ng-show="!toggleBlue">Show Outlines</span>
@@ -21,7 +21,7 @@
 			</button>
 		</div>
 
-		<div class="template-container" ng-class="{'edit-outlines': toggleBlue}">
+		<div ng-class="{'edit-outlines': toggleBlue}">
 			
 			<div class="data-set-col">
 				<div class="form-group" ng-if="allsections.length > 0"><hr>
@@ -42,7 +42,22 @@
 				</div>
 			</div>
 
-			<tmpl-template-render x-template="template" x-mode="'edit'" x-project="project" x-document="dataset"></tmpl-template-render>
+			<div class="panel panel-default">
+				<div class="panel-heading flex-row">
+					<h2>Template</h2>
+					<div class="actions" ng-init="toggleBlue = true">
+						<button class="btn btn-default btn-sm" ng-click="toggleBlue = !toggleBlue">
+							<span ng-show="toggleBlue">Hide Outlines</span>
+							<span ng-show="!toggleBlue">Show Outlines</span>
+						</button>
+						<button class="btn btn-default btn-sm" onclick="window.print()">
+							<span class="glyphicon glyphicon-print"></span>
+							<span>Print Document</span>
+						</button>
+					</div>
+				</div>
+				<tmpl-template-render x-template="template" x-mode="'edit'" x-project="project" x-document="dataset"></tmpl-template-render>
+			</div>
 
 		</div>
 

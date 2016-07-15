@@ -111,27 +111,26 @@ angular.module ('templates')
 			var wrapperClass= 'template';
 
 			var header = {
-				edit:'<div class="panel panel-default" du-scroll-container="templateContainer">'+
+				edit:'<div class="template-container" du-scroll-container="templateContainer">'+
 						'<div class="template-nav">'+
-							'<ul class="list-unstyled list-documents">'+
-								'<li class="row-folder clickable" du-scrollspy="{{ name }}" ng-repeat="section in allsections">'+
+							'<div class="list-group no-border">'+
+								'<li class="list-group-item" du-scrollspy="{{ name }}" du-smooth-scroll ng-repeat="section in allsections">'+
 									'<a href="#{{ section.name }}" du-smooth-scroll>{{ section.label }}</a>'+
 									'<button class="btn btn-link btn-xs" ng-if="section.repeatable" ng-click="append(section.name)">+ Append New</button>'+
 								'</li>'+
-							'</ul>'+
+							'</div>'+
 						'</div>'+
-						'<div class="template vertical-scroll-padded" id="templateContainer"'+
-					'',
+						'<div class="template" id="templateContainer"',
 				view:
-					'<div class="panel panel-default" du-scroll-container="templateContainer">'+
+					'<div class="template-container" du-scroll-container="templateContainer">'+
 						'<div class="template-nav">'+
-							'<ul class="list-unstyled list-documents">'+
-								'<li class="row-folder clickable" du-scrollspy="{{ section.name }}" ng-repeat="section in allsections">'+
+							'<ul class="list-group no-border">'+
+								'<li class="list-group-item" du-scrollspy="{{ section.name }}" ng-repeat="section in allsections">'+
 									'<a href="#{{ section.name }}" x-offset=10 du-smooth-scroll>{{ section.label }}</a>'+
 								'</li>'+
 							'</ul>'+
 						'</div>'+
-						'<div class="template vertical-scroll-padded" id="templateContainer">'
+						'<div class="template" id="templateContainer">'
 			};
 
 			var footer = '</div></div>';
@@ -156,7 +155,7 @@ angular.module ('templates')
 				// console.log ('tdata    = ',tData.document);
 			};
 
-			template = header[usemode]+'<div class="'+wrapperClass+'">'+template+'</div>'+footer;
+			template = header[usemode]+''+template+''+footer;
 			// console.log ('template = ', template);
 			element.html (template);
 			$compile (element.contents())(scope);

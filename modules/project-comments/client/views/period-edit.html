@@ -78,14 +78,14 @@
 			</div>
 			<ul class="list-group">
 				<li class="list-group-item flex-row" ng-if="period.openHouses.length == 0">
-					<span class="list-group-item-name">No Open Houses for this Comment Period.</span>
+					<span class="title">No Open Houses for this Comment Period.</span>
 				</li>
 				<li class="list-group-item flex-row" ng-repeat="h in period.openHouses">
-					<div class="list-group-item-name">
+					<div class="title">
 						<strong class="open-house-date">{{ h.eventDate | amDateFormat:'MMMM Do, YYYY' }}</strong>
 						<pre class="open-house-desc">{{ h.description }}</pre>
 					</div>
-					<div class="list-group-item-actions">
+					<div class="actions">
 						<button class="btn btn-link" x-edit-open-house x-period="period" x-mode="edit" x-openhouse="h">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</button>
