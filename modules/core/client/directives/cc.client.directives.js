@@ -79,7 +79,7 @@ angular.module('core')
 								// when a project is published, public needs read permissions.
 								// this isn't stored, so we need to add it...
 								// such a garbage hack...
-								if (scope.object.isPublished && !_.contains(scope.object.read, 'public')) {
+								if (scope.object.isPublished) {
 									if (!_.has(rp.permission, 'read') && !_.has(rp.permission, 'read.public')) {
 										_.set(rp.permission, 'read.public', true);
 									}
