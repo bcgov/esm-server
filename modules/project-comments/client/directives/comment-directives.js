@@ -133,7 +133,7 @@ angular.module ('comment')
 									d.eaoStatus = 'Rejected';
 								});
 							}
-						}
+						};
 						
 						self.fileStatusChange = function(status, file) {
 							// do not allow a change to Published if it is Rejected and comment is rejected
@@ -142,7 +142,7 @@ angular.module ('comment')
 							} else {
 								file.eaoStatus = status;
 							}
-						}
+						};
 					},
 				})
 				.result.then (function (data) {
