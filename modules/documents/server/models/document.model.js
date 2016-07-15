@@ -135,6 +135,6 @@ module.exports = genSchema ('Document', {
 	internalEncoding        : { type:String, default:'' },
 	oldData                 : { type:String, default:'' },
 	order                   : { type: Number, default: 0}, // this will be used to sort supporting documents in artifacts, the order will be arbitrary and determined by the user.
-	eaoStatus               : { type:String, default:'', enum:['Unvetted', 'Rejected', 'Deferred', 'Accepted', 'Published', 'Spam'] } // for use with Public Comment Attachments...
+	eaoStatus               : { type:String, default:'', enum:['', 'Unvetted', 'Rejected', 'Deferred', 'Accepted', 'Published', 'Spam'] } // for use with Public Comment Attachments...
 	
 });
