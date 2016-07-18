@@ -128,13 +128,6 @@ angular.module ('comment')
 						
 						self.statusChange = function(status) {
 							$scope.comment.eaoStatus = status;
-							if ('Published' === status) {
-								// ?
-							} else if ('Rejected' === status) {
-								_.each($scope.comment.documents, function(d) {
-									d.eaoStatus = 'Rejected';
-								});
-							}
 						};
 						
 						self.fileStatusChange = function(status, file) {
