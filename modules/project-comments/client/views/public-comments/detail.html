@@ -8,7 +8,7 @@
 <div class="modal-body">
 
     <!-- COMMENT NOTE ALERTS -->
- 	<div class="hidden eao-alerts" ng-if="period.userCan.vetComments">
+ 	<div class="eao-alerts" ng-if="period.userCan.vetComments">
 
         <!-- DEFERRAL NOTES -->
         <div class="alert alert-info eao-comment-notes" ng-if="comment.eaoStatus === 'Deferred' && comment.eaoNotes">
@@ -29,6 +29,14 @@
                 <span class="value wrap-text">{{ comment.rejectedNotes }}</span>
             </div>
         </div><!-- / REJECTION NOTES -->
+
+      <!-- REJECTION NOTES -->
+      <div class="alert alert-success eao-comment-notes" ng-if="comment.eaoStatus === 'Published'">
+        <div class="detail-row horiz">
+          <label>Publish Notes</label>
+          <span class="value wrap-text">{{comment.publishedNotes}}</span>
+        </div>
+      </div><!-- / REJECTION NOTES -->
 
     </div><!-- / COMMENT NOTE ALERTS -->
 
