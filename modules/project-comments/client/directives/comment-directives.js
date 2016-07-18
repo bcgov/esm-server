@@ -225,7 +225,9 @@ angular.module ('comment')
 								});
 							}
 						});
-
+						s.comment.removeFile = function(f) {
+							_.remove(s.fileList, f);
+						};
 						s.cancel  = function () { $modalInstance.dismiss ('cancel'); };
 						s.next    = function () { s.step++; };
 						s.ok      = function () { $modalInstance.close (s.comment); };
@@ -267,8 +269,6 @@ angular.module ('comment')
 												_.each( uploadedDocs, function(d) {
 													s.comment.documents.push(d);
 												});
-												// Reset this as we don't need it.
-												s.fileList = null;
 												CommentModel.add (s.comment)
 												.then (function (comment) {
 													s.step = 3;
