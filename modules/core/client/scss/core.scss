@@ -40,6 +40,9 @@ $btn-focus-border-color: 	#5475a7;
 /* Header */
 $header-focus-border-color: #5475a7;
 
+/* Layout */
+$left-panel-width:			20rem;
+
 /* Modal */
 $modal-body-bg: 			#f1f1f1;
 $modal-header-bg: 			#FFF;
@@ -49,6 +52,16 @@ $modal-footer-bg: 			#FFF;
 $panel-border-color: 		#DDD;
 $panel-heading-bg: 			#FFF;
 $panel-heading-color: 		#494949;
+
+/* Tab Navigation */
+$nav-tab-active-color:			#1a5a96;
+$nav-tab-inactive-color:		#999;
+$nav-tab-active-border-color: 	#1a5a96;
+$nav-tab-inactive-border-color: #DDD;
+
+/* Upload Target */
+$upload-target-focus-bg:			#FFF;
+$upload-target-focus-border-color:	#5475a7;
 
 /* Utility Themes */
 $danger-bg:				 	#d9534f;
@@ -471,10 +484,6 @@ h3.firstHeading {
 	text-align: center;
 	padding: 25px;
 	margin-bottom: 15px;
-}
-
-.dragover {
-	border: 3px dotted #449d44;
 }
 
 a.return-link {
@@ -1480,8 +1489,6 @@ h2.page-title {
 
 /* PAGE LAYOUT
 ------------------------------ */
-$left-panel-width: 17rem;
-
 .view-title-container {
 	margin-left: 2.5rem;
 	margin-right: 2.5rem;
@@ -1529,7 +1536,7 @@ $left-panel-width: 17rem;
 }
 
 .view-body-container {
-	padding: 2rem 2.5rem;
+	padding: 1.5rem 2.5rem;
 }
 
 
@@ -2032,6 +2039,10 @@ $sidenav-color: $link-color;
 				}
 			}
 		}
+
+		> li + li {
+			margin: 0;
+		}
 	}
 
 	h4 {
@@ -2235,9 +2246,8 @@ $sidenav-color: $link-color;
 .btn {
 	font-weight: bold;
 
-	&:focus {
-		border-color: $btn-focus-border-color;
-	}
+	&:active { box-shadow: none; }
+	&.active { box-shadow: none; }
 
 	.glyphicon {
 		margin-top: 2px;
@@ -2250,11 +2260,10 @@ $sidenav-color: $link-color;
     }
 }
 
-.btn-sm {
-	.glyphicon {
-		font-size: 1.2rem;
-		vertical-align: middle;
-		margin-top: -5px;
+.btn-link,
+.btn-default {
+	&:focus {
+		border-color: $btn-focus-border-color;
 	}
 }
 
@@ -2262,6 +2271,14 @@ $sidenav-color: $link-color;
 	&:hover,
 	&:focus {
 		color: $link-color;
+	}
+}
+
+.btn-sm {
+	.glyphicon {
+		font-size: 1.2rem;
+		vertical-align: middle;
+		margin-top: -5px;
 	}
 }
 
@@ -2283,10 +2300,6 @@ $sidenav-color: $link-color;
 	&:focus  { background: $corp-blue; }
 }
 
-.btn {
-	&:active { box-shadow: none; }
-	&.active { box-shadow: none; }
-}
 
 
 /* BUTTON BAR
@@ -2870,6 +2883,10 @@ textarea {
 				margin-left: -0.25rem;
 				font-weight: bold;
 				border-color: transparent;
+
+				&:focus {
+					border-color: $btn-focus-border-color;
+				}
 			}
 		}
 	}
@@ -2928,27 +2945,35 @@ $nav-tab-active: #1a5a96;
 	
 	> li {
 		margin-bottom: -4px;
+
+		> a {
+			font-size: 1.6rem;
+			color: $nav-tab-inactive-color;
+			border: none;
+			border-bottom: 4px solid $nav-tab-inactive-border-color;
+
+			&:hover {
+				background: transparent;
+			}
+		}
 	}
-	
-	> li > a {
-		font-size: 1.6rem;
-		color: #999;
-		border-width: 0;
-		border-bottom: 4px solid #DDD;
-	}
-	
-	> li > a:hover {
-		background: transparent;
-	}
-	
-	> li.active > a,
-	> li.active > a:hover,
-	> li.active > a:focus {
-		font-weight: bold;
-		color: #1a5a96;
-		border-width: 0;
-		border-bottom: 4px solid #1a5a96;
-		background: transparent;
+
+	> li.active {
+		> a {
+			font-weight: bold;
+			color: $nav-tab-active-color;
+			background: transparent;
+			border: none;
+			border-bottom: 4px solid $nav-tab-active-border-color;
+		}
+
+		> a:hover,
+		> a:focus {
+			color: #1a5a96;
+			background: transparent;
+			border: none;
+			border-bottom: 4px solid $nav-tab-active-border-color;
+		}
 	}
 }
 
@@ -3016,7 +3041,6 @@ $table-footer-bg: #F7F8FA;
 			margin-top: 0.32rem;
 			padding-left: 0.8rem;
 			padding-right: 0.8rem;
-			background: transparent;
 			border-color: transparent;
 
 			&:focus {
@@ -3099,8 +3123,17 @@ $table-footer-bg: #F7F8FA;
 	+ .list-group {
 		margin-top: 1rem;
 	}
-}
 
+	&:focus {
+		background: $upload-target-focus-bg;
+		border-color: $upload-target-focus-border-color;
+	}
+
+	&.dragover {
+		background: $upload-target-focus-bg;
+		border-color: $upload-target-focus-border-color;
+	}
+}
 
 
 /* UTILITIES

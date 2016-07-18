@@ -53,16 +53,14 @@
 			<div class="row">
 				<div class="upload-attachments form-group col-sm-12">
 					<label class="control-label">Upload Attachments</label>
-					<div class="upload-target">
-						<div ngf-drop ngf-select ng-model="s.comment.files"
-							ngf-drag-over-class="dragover"
-							ngf-multiple="true"
-							ngf-allow-dir="true"
-							accept="application/pdf"
-							ngf-max-total-size="5MB">
-							<div class="instructions"><strong>Drag and Drop Files Here</strong> or <strong>Select Files</strong></div>
-							<div class="requirements">Attachments must be in PDF format and limited to 5MB.</div>
-						</div>
+					<div class="upload-target" ngf-drop ngf-select ng-model="s.comment.files"
+						ngf-drag-over-class="dragover"
+						ngf-multiple="true"
+						ngf-allow-dir="true"
+						accept="application/pdf"
+						ngf-max-total-size="5MB">
+						<div class="instructions"><strong>Drag and Drop Files Here</strong> or <strong>Select Files</strong></div>
+						<div class="requirements">Attachments must be in PDF format and limited to 5MB.</div>
 					</div>
 					<ul class="list-group">
 						<li class="list-group-item flex-row"
