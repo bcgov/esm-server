@@ -17,19 +17,19 @@
 		\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
 		</span>
 		<ul class="custom-nav">
-			<li>
+			<li class="custom-nav-item">
 				<a href ui-sref="projects">
 					<span class="glyphicon glyphicon-home"></span>
 					<span>HOME</span>
 				</a>
 			</li>
-			<li ng-if="ENV === 'EAO'" class="dashboard-item" ng-show="authentication.user">
+			<li class="custom-nav-item" ng-if="ENV === 'EAO'" ng-show="authentication.user">
 				<a href ui-sref="activities">
 					<span class="glyphicon glyphicon-dashboard"></span>
 					<span>DASHBOARD</span>
 				</a>
 			</li>
-			<li ng-if="ENV === 'EAO' && systemMenu.shouldRender(authentication.user)" class="dropdown">
+			<li class="custom-nav-item dropdown" ng-if="ENV === 'EAO' && systemMenu.shouldRender(authentication.user)">
 				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="System Configuration">
 					<span class="glyphicon glyphicon-cog"></span>
 					<span>SYSTEM</span>
@@ -48,30 +48,30 @@
 					Move this modal to be secured through the admin menus
 					-->
 					<li ng-if="application.userCan.import">
-						<a x-modal-project-import href x-project="import">Import</a>
-					</li>
-					<li ng-if="application.userCan.managePermissions">
-						<a x-role-permissions-modal x-context="application" x-object="application" >System Permissions</a>
+						<a href x-modal-project-import x-project="import">Import</a>
 					</li>
 					<li ng-if="application.userCan.manageRoles">
-						<a x-role-users-modal x-context="application">System Roles</a>
+						<a href x-role-users-modal x-context="application">Edit System Roles</a>
+					</li>
+					<li ng-if="application.userCan.managePermissions">
+						<a href x-role-permissions-modal x-context="application" x-object="application" >Edit System Permissions</a>
 					</li>
 				</ul>
 			</li>
-			<li>
+			<li class="custom-nav-item">
 				<a href ui-sref="guidance">
 					<span class="glyphicon glyphicon-question-sign"></span>
 					<span>GUIDANCE</span>
 				</a>
 			</li>
 
-			<li class="user-menu" ng-show="!authentication.user">
+			<li class="custom-nav-item user-menu" ng-show="!authentication.user">
 				<a ui-sref="authentication.signin">
 					<span class="glyphicon glyphicon-log-in"></span>
 					<span>LOG IN</span>
 				</a>
 			</li>
-			<li class="dropdown user-menu" ng-show="authentication.user">
+			<li class="custom-nav-item user-menu dropdown" ng-show="authentication.user">
 				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 					<span class="glyphicon glyphicon-user"></span>
 					<span>{{ authentication.user.displayName }}</span>

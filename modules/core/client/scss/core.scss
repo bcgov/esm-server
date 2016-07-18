@@ -976,48 +976,6 @@ body {
 	font-family: $font-family-sans-serif;
 }
 
-.has-navigation {
-		padding-top: 80px;
-}
-
-.navbar-custom .navbar-nav > li > a {
-	color: $navbar-blue;
-}
-.navbar-custom .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {
-	color: $navbar-blue;
-	background-color:transparent;
-}
-.navbar-custom .navbar-brand {
-	color: $navbar-blue;
-	padding: 10px 15px;
-}
-.nav > li.navbar-user {
-	padding: 10px 0;
-}
-.nav > li.navbar-user > a {
-	padding: 0 !important;
-	margin: 0 !important;
-	display: inline-block;
-}
-.nav > li.navbar-user > a:hover {
-	background-color: transparent;
-}
-.nav > li.navbar-user-icon {
-	font-size: 40px;
-	padding: 10px 10px;
-	line-height: 40px;
-}
-
-.navbar-custom {
-	background-color: #ffffff;
-	color:#154681;
-	border-radius:0;
-	box-shadow: 3px 3px 20px rgba(0,0,0,0.5);
-}
-
-nav {
-	cursor: default;
-}
 .navbar-sm .form-control {
 	height: 30px;
 	padding: 5px 10px;
@@ -1030,6 +988,7 @@ nav {
 	margin-top: 14px;
 	margin-bottom: 14px;
 }
+
 h1.page-title {
 	padding: 0;
 	color: $header-grey;
@@ -1502,10 +1461,6 @@ h2.page-title {
 	right: 15px;
 }
 
-div.dropdown-menu {
-	padding: 12px;
-}
-
 
 /* PAGE LAYOUT
 ------------------------------ */
@@ -1715,12 +1670,12 @@ tmpl-header {
 }
 
 .left-panel {
-	background: #f7f7f7;
 	-webkit-flex: 0 0 $left-panel-width;
 	flex: 0 0 $left-panel-width;
 }
 
 .main-panel {
+	-webkit-flex: 0 0 auto;
 	flex: 1 1 auto;
 }
 
@@ -1738,6 +1693,7 @@ $corp-blue: #003366;
 $corp-gold: #fcba19;
 $header-height: 6.2rem;
 $header-height-sm: 5.2rem;
+$header-nav-focus-border-color: #5475a7;
 
 .app-header {
 	position: relative;
@@ -1758,12 +1714,23 @@ $header-height-sm: 5.2rem;
 	}
 	
 	.navbar-brand {
-		padding: 0.8rem 1rem;
+		padding: 0;
 		height: $header-height-sm;
 		min-height: $header-height-sm;
+
+		a {
+			margin-top: 0.3rem;
+			margin-left: 1rem;
+			padding: 0.5rem;		
+			display: inline-block;
+			border: 1px solid transparent;
+
+			&:focus {
+				border: 1px solid $header-nav-focus-border-color;
+			}
+		}
 		
 		img {
-			margin-top: 0.3rem;
 			height: 25px;
 		}
 	}
@@ -1797,7 +1764,6 @@ $header-height-sm: 5.2rem;
 	.app-header {
 		.navbar-brand {
 			img {
-				margin-top: 0.1rem;
 				height: 30px;
 			}
 		}
@@ -1817,12 +1783,8 @@ $header-height-sm: 5.2rem;
 			margin: 1rem;
 		}
 		
-		.navbar-brand {
-			margin-left: 0.5rem;
-			padding: 0 1rem;
-			
+		.navbar-brand {		
 			img {
-				margin-top: 0.9rem;
 				height: 41px;
 			}
 		}
@@ -1872,33 +1834,41 @@ $header-height-sm: 5.2rem;
 ------------------------------ */
 .custom-nav {
 	float: right;
-	margin: 0.7rem 1rem;
+	margin-top: 0.7rem;
+	margin-right: 1rem;
+	margin-left: 1rem;
 	margin-bottom: 0;
 	padding: 0;
 	list-style-type: none;
 	
-	li {
+	.custom-nav-item {
 		display: inline-block;
 		
 		a {
-			min-width: 3.75rem;
 			display: block;
+			min-width: 3.75rem;
 			padding: 0.75rem 0;
 			color: #FFF;
 			text-align: center;
 			text-decoration: none;
+			border: 1px solid transparent;
 			border-radius: 0.4rem;
+
+			&:focus {
+				border: 1px solid $header-nav-focus-border-color;
+			}
 		}
-	}
-	
-	.glyphicon {
-		+ span {
-			display: none;
+
+		.glyphicon {
+			+ span {
+				display: none;
+			}
 		}
 	}
 	
 	.dropdown-menu {
 		margin-top: 1.5rem;
+		padding: 0;
 		border: none;
 		border-radius: 0;
 		background: #FFF;
@@ -1907,10 +1877,26 @@ $header-height-sm: 5.2rem;
 			display: block;
 			
 			a {
-				padding: 0.5rem 2rem;
+				padding: 0.7rem 1.5rem;
+				font-size: 1.3rem;
 				color: #003366;
 				text-align: left;
+				border: 1px solid transparent;
 				border-radius: 0;
+
+				&:focus {
+					text-shadow: 1px 1px #FFF;
+					border: 1px solid transparent;
+				}
+			}
+
+			.glyphicon {
+				display: table-cell;
+
+				+ span {
+					display: table-cell;
+					padding-left: 1rem;
+				}
 			}
 		}
 	}
@@ -1930,27 +1916,27 @@ $header-height-sm: 5.2rem;
 @media (min-width: 900px) {
 	.custom-nav {
 		float: right;
-		margin: 0;
-		margin-top: 1rem;
-		padding: 0;
-		list-style-type: none;
+		margin-top: 1.3rem;
+		margin-right: 1rem;
+		margin-left: 1rem;
+		margin-bottom: 0;
 		
-		li {
+		.custom-nav-item {
 			display: inline-block;
 			
 			a {
 				display: block;
-				padding: 10px;
+				padding: 0.75rem;
 				color: #FFF;
 				text-decoration: none;
 			}
-		}
-		
-		.glyphicon {
-			display: none;
-			
-			+ span {
-				display: inline;
+
+			.glyphicon {
+				display: none;
+				
+				+ span {
+					display: inline;
+				}
 			}
 		}
 		
@@ -2003,40 +1989,51 @@ $sidenav-color: $link-color;
 
 .sidenav {
 	position: fixed;
-	top: 6rem;
+	top: 5.5rem;
 	bottom: 0;
 	width: $left-panel-width;
 	padding-top: 1.5rem;
 	padding-bottom: 1.5rem;
 	background: $sidenav-bg;
-	
-	ul {
-		margin: 0;
+
+	.nav-pills {
+		a {
+			padding: 0.7rem 1.5rem;
+			font-size: 1.3rem;
+			color: $link-color;
+			border: 1px solid transparent;
+			border-radius: 0;
+
+			&:focus {
+				text-shadow: 1px 1px 0 #FFF;
+			}
+
+			.glyphicon {
+				top: 0.3rem;
+				display: table-cell;
+				margin-right: 0.7rem;
+				font-size: 1.6rem;
+
+				+ span {
+					display: table-cell;
+					padding-left: 0.7rem;
+				}
+			}
+		}
 	}
-	
-	a {
-		display: block;
-		padding: 0.6rem 2rem;
-		color: $link-color;
-	}
-	
-	hr {
-		margin: 1rem 1.5rem;
-		border-color: #DDD;
-	}
-	
-	.dropdown-menu {
-		margin-left: 1rem;
-	}
-	
-	.dropdown-menu a {
-		padding-left: 0.5rem;
-		padding-right: 0.5rem;
-	}
-	
-	.user-info {
+
+	h4 {
 		margin-left: 1.5rem;
 		margin-right: 1.5rem;
+		padding-top: 1rem;
+		font-size: 1.3rem;
+		font-weight: bold;
+		color: $link-color;
+		text-transform: uppercase;
+	}
+
+	hr {
+		margin: 0.7rem 1.5rem;
 	}
 }
 
@@ -2807,7 +2804,7 @@ textarea {
 .panel-default {
 	border: none;
 	border-radius: 0;
-	box-shadow: 0 0 4px #CCC;
+	box-shadow: none;
 	
 	> .panel-heading {
 		position: relative;
