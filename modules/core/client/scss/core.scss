@@ -17,30 +17,46 @@ $border-grey:			#EEE;
 $off-white:				#f4f4f4;
 $danger-text:			#a94442;
 
-$danger-bg:				#d9534f;
-$danger-border:			#d43f3a;
-$info-bg:				#5bc0de;
-$info-border:			#5bc0de;
-$success-bg: 			#449d44;
-$success-border: 		#398439;
 
-$app-bg: 				#F1f1f1;
-$app-base-color: 		#494949;
+/* THEME
+------------------------------ */
+$link-color: 				#1a5a96;
 
-$link-color: 			#1a5a96;
+/* Application */
+$app-bg: 					#F1f1f1;
+$app-base-color: 			#494949;
 
-$modal-body-bg: 		#f1f1f1;
-$modal-header-bg: 		#FFF;
-$modal-footer-bg: 		#FFF;
+/* Coporate Colors */
+$corp-blue: 				#003366;
+$corp-gold: 				#fcba19;
 
-$panel-border-color: 	#DDD;
-$panel-heading-bg: 		#FFF;
-$panel-heading-color: 	#494949;
+/* Fonts */
+$font-color-grey: 			#888;
+$font-color-disabled: 		#CCC;
 
-$corp-gold: #fcba19;
+/* Buttons */
+$btn-focus-border-color: 	#5475a7;
 
-$font-color-grey: #888;
-$font-color-disabled: #CCC;
+/* Header */
+$header-focus-border-color: #5475a7;
+
+/* Modal */
+$modal-body-bg: 			#f1f1f1;
+$modal-header-bg: 			#FFF;
+$modal-footer-bg: 			#FFF;
+
+/* Panel */
+$panel-border-color: 		#DDD;
+$panel-heading-bg: 			#FFF;
+$panel-heading-color: 		#494949;
+
+/* Utility Themes */
+$danger-bg:				 	#d9534f;
+$danger-border:				#d43f3a;
+$info-bg:					#5bc0de;
+$info-border:				#5bc0de;
+$success-bg: 				#449d44;
+$success-border: 			#398439;
 
 
 /* GLOBAL
@@ -1689,11 +1705,8 @@ tmpl-header {
 
 /* HEADER 
 ------------------------------ */
-$corp-blue: #003366;
-$corp-gold: #fcba19;
 $header-height: 6.2rem;
 $header-height-sm: 5.2rem;
-$header-nav-focus-border-color: #5475a7;
 
 .app-header {
 	position: relative;
@@ -1726,7 +1739,7 @@ $header-nav-focus-border-color: #5475a7;
 			border: 1px solid transparent;
 
 			&:focus {
-				border: 1px solid $header-nav-focus-border-color;
+				border: 1px solid $header-focus-border-color;
 			}
 		}
 		
@@ -1855,7 +1868,7 @@ $header-nav-focus-border-color: #5475a7;
 			border-radius: 0.4rem;
 
 			&:focus {
-				border: 1px solid $header-nav-focus-border-color;
+				border: 1px solid $header-focus-border-color;
 			}
 		}
 
@@ -1989,11 +2002,11 @@ $sidenav-color: $link-color;
 
 .sidenav {
 	position: fixed;
-	top: 5.5rem;
+	top: 5rem;
 	bottom: 0;
 	width: $left-panel-width;
-	padding-top: 1.5rem;
-	padding-bottom: 1.5rem;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
 	background: $sidenav-bg;
 
 	.nav-pills {
@@ -2011,7 +2024,6 @@ $sidenav-color: $link-color;
 			.glyphicon {
 				top: 0.3rem;
 				display: table-cell;
-				margin-right: 0.7rem;
 				font-size: 1.6rem;
 
 				+ span {
@@ -2034,6 +2046,12 @@ $sidenav-color: $link-color;
 
 	hr {
 		margin: 0.7rem 1.5rem;
+	}
+}
+
+@media (min-width: 900px) {
+	.sidenav {
+		top: 6.2rem;
 	}
 }
 
@@ -2216,9 +2234,11 @@ $sidenav-color: $link-color;
 ------------------------------ */
 .btn {
 	font-weight: bold;
-}
 
-.btn {
+	&:focus {
+		border-color: $btn-focus-border-color;
+	}
+
 	.glyphicon {
 		margin-top: 2px;
 		font-size: 1.4rem;
@@ -2238,10 +2258,11 @@ $sidenav-color: $link-color;
 	}
 }
 
-.btn-link,
-.btn-link:hover,
-.btn-link:focus {
-	color: $link-color;
+.btn-link {
+	&:hover,
+	&:focus {
+		color: $link-color;
+	}
 }
 
 .back-btn {
@@ -2998,9 +3019,8 @@ $table-footer-bg: #F7F8FA;
 			background: transparent;
 			border-color: transparent;
 
-			&:hover,
 			&:focus {
-				background: #FFF;
+				border-color: $btn-focus-border-color;
 			}
 		}
 	}
