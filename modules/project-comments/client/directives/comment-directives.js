@@ -103,15 +103,17 @@ angular.module ('comment')
 					size: 'lg',
 					windowClass: 'public-comment-modal',
 					resolve: {
-						fullComment: function() {
-							return CommentModel.lookup(comment._id, true);
+						docs: function() {
+							return CommentModel.getDocuments(comment._id);
 						}
 					},
-					controller: function ($scope, $modalInstance, fullComment) {
+					controller: function ($scope, $modalInstance, docs) {
 						var self = this;
-						$scope.period      = period;
-						$scope.project     = project;
-						$scope.comment     = fullComment;
+						$scope.period      				= period;
+						$scope.project     				= project;
+						$scope.comment     				= comment;
+						$scope.comment.documents 	= docs;
+
 						$scope.cancel      = function () { $modalInstance.dismiss ('cancel'); };
 						$scope.ok          = function () {
 							if ('Rejected' === $scope.comment.eaoStatus) {
@@ -121,8 +123,8 @@ angular.module ('comment')
 							}
 							$modalInstance.close ($scope.comment);
 						};
-						$scope.pillars     = fullComment.pillars.map (function (e) { return e; });
-						$scope.vcs 		   = fullComment.valuedComponents.map (function (e) { return e.name; });
+						$scope.pillars     	= $scope.comment.pillars.map (function (e) { return e; });
+						$scope.vcs 		   		= $scope.comment.valuedComponents.map (function (e) { return e.name; });
 						
 						self.statusChange = function(status) {
 							$scope.comment.eaoStatus = status;

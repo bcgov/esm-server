@@ -10,6 +10,7 @@ var Period    = require ('./commentperiod.controller');
 var DBModel   = require (path.resolve ('./modules/core/server/controllers/cc.dbmodel.controller'));
 var _         = require ('lodash');
 // var Roles = require (path.resolve('./modules/roles/server/controllers/role.controller'));
+var DocumentClass  = require (path.resolve('./modules/documents/server/controllers/cc.document.controller'));
 
 module.exports = DBModel.extend ({
 	name : 'Comment',
@@ -247,11 +248,16 @@ module.exports = DBModel.extend ({
 	getCommentChain: function (ancestorId) {
 		return this.findMany ({ ancestor: ancestorId });
 	},
-	getCommentForEdit: function(id) {
+	getCommentDocuments: function(id) {
 		var self = this;
+		var doc = new DocumentClass (this.opts);
 		return new Promise (function (resolve, reject) {
-			self.one({_id : id}, {}, [{ path:'user', select:'_id displayName username orgCode'}, {path:'documents'}, {path: 'valuedComponents'}])
-			.then (resolve, reject);
+			self.one({_id : id})
+				.then(function(c) {
+					var q = {'_id': { '$in' : c.documents} };
+					return doc.list(q);
+				})
+				.then (resolve, reject);
 		});
 	}
 });
