@@ -125,13 +125,13 @@
 					x-project="docBrowser.project"
            			x-artifact="docBrowser.artifact"
            			x-doc-location-code="docBrowser.docLocationCode"
-					ng-if="docBrowser.project.userCan.uploadDocument && environment === 'EAO'"><span class="glyphicon glyphicon-arrow-up"></span><span>Upload Documents</span></a>
+					ng-if="docBrowser.project.userCan.uploadDocument && environment === 'EAO'"><span class="glyphicon glyphicon-open"></span><span>Upload Documents</span></a>
 				<a href class="btn btn-default btn-sm"
 					x-modal-document-upload-classify-mem
 					x-project="docBrowser.project"
            			x-artifact="docBrowser.artifact"
            			x-doc-location-code="docBrowser.docLocationCode"
-					ng-if="(docBrowser.authentication.user) && environment === 'MEM'"><span class="glyphicon glyphicon-arrow-up"></span><span>Upload Documents</span></a>
+					ng-if="(docBrowser.authentication.user) && environment === 'MEM'"><span class="glyphicon glyphicon-open"></span><span>Upload Documents</span></a>
 				<tmpl-permissions-gear class="permission-btn" x-context="docBrowser.project" x-object="docBrowser.project" x-permissions=""></tmpl-permissions-gear>
 			</div>		
 		</div>
@@ -235,14 +235,14 @@
 
 					<!-- DOCUMENT ACTIONS -->
 					<div class="doc-actions">
-						<a class="btn btn-default btn-sm" href="/api/document/{{ filterSummary._id }}/fetch" target="_self" title="Download">
-							<span class="glyphicon glyphicon-download-alt"></span> Download
+						<a class="btn btn-default btn-sm" href="/api/document/{{ filterSummary._id }}/fetch" target="_self" title="Download Document">
+							<span class="glyphicon glyphicon-download-alt"></span><span>Download</span>
 						</a>
-						<a class="btn btn-default btn-sm" ng-if="docBrowser.allowLink" href ng-click="docBrowser.toggleDocumentLink( filterSummary )" title="Link">
-							<span class="glyphicon glyphicon-link"></span> Link
+						<a class="btn btn-default btn-sm" ng-if="docBrowser.allowLink" href ng-click="docBrowser.toggleDocumentLink( filterSummary )" title="Link Document">
+							<span class="glyphicon glyphicon-link"></span><span>Link</span>
 						</a>
 						<a class="btn btn-default btn-sm" href ng-click="docBrowser.deleteDocument(filterSummary._id)" ng-if="(docBrowser.authentication.user)" title="Delete Document">
-							<span class="glyphicon glyphicon-remove"></span> Remove
+							<span class="glyphicon glyphicon-trash"></span><span>Remove</span>
 						</a>
 					</div><!-- / DOCUMENT ACTIONS -->
 				</div>

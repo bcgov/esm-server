@@ -2218,9 +2218,13 @@ $sidenav-color: $link-color;
 /* BUTTONS
 ------------------------------ */
 .btn {
+	font-weight: bold;
+}
+
+.btn {
 	.glyphicon {
-		margin-top: 3px;
-		font-size: 1.2rem;
+		margin-top: 2px;
+		font-size: 1.4rem;
 		vertical-align: top;
 	}
 		
@@ -2553,6 +2557,10 @@ form {
 	
 	.btn {
 		min-width: 8rem;
+	}
+
+	.btn + .btn {
+		margin-left: 0.5rem;
 	}
 }
 
@@ -2927,7 +2935,7 @@ $nav-tab-active: #1a5a96;
 }
 
 .tab-pane {
-	padding-top: 1.5rem;
+	padding-top: 2.5rem;
 }
 
 
@@ -2936,17 +2944,35 @@ $nav-tab-active: #1a5a96;
 $table-bg: transparent;
 $table-row-bg: #FFF;
 $table-head-bg: #F7F8FA;
-$table-footer-bg: #FFF;
+$table-filter-bg: #FFF;
+$table-footer-bg: #F7F8FA;
 
 .table {
 	margin: 0;
 	table-layout: fixed;
 	background: $table-bg;
-	
-	> thead > tr > th {
-		font-size: 1.2rem;
-		border-bottom: none;
-		background: $table-head-bg;
+
+	.ng-table-sort-header {
+		th {
+			padding-top: 1rem;
+			padding-bottom: 1rem;
+			font-size: 1.2rem;
+			background: $table-head-bg;
+			border-bottom: none;
+		}
+	}
+
+	.ng-table-filters {
+		background: $table-filter-bg;
+
+		th {
+			border-bottom: none;
+			font-size: 1.4rem;
+		}
+
+		.input-sm {
+			font-size: 1.4rem;
+		}
 	}
 	
 	> thead > tr > th:first-child,
@@ -2972,10 +2998,13 @@ $table-footer-bg: #FFF;
 			margin-top: 0.32rem;
 			padding-left: 0.8rem;
 			padding-right: 0.8rem;
-		}
-		
-		.btn:hover {
-			background: #FFF;
+			background: transparent;
+			border-color: transparent;
+
+			&:hover,
+			&:focus {
+				background: #FFF;
+			}
 		}
 	}
 	
@@ -3001,8 +3030,7 @@ $table-footer-bg: #FFF;
  }
 
  .ng-table-pager {
-	padding: 1.5rem;
-	padding-bottom: 1rem;
+	padding: 1rem 1.5rem;
 	background: $table-footer-bg;
 	border-top: 1px solid #DDD;
 	overflow: auto;
@@ -3683,7 +3711,7 @@ section.project-info {
 
 	.panel {
 		margin-bottom: 0;
-		max-height: 40rem;
+		height: 30rem;
 		overflow-y: auto;
 		border: 1px solid #CCC;
 	}
@@ -3813,6 +3841,14 @@ section.project-info {
 
 /* PUBLIC COMMENT PERIOD VIEW 
 ------------------------------ */
+.pcp-table {
+	table-layout: fixed;
+
+	.pcp-count {
+		width: 10rem;
+	}
+}
+
 .pcp-alert {
 	padding: 2rem;
 	background: #2b5580;
@@ -4480,7 +4516,7 @@ tmpl-template-render {
 		a {
 			padding-top: 0.4rem;
 			padding-bottom: 0.4rem;
-			font-size: 1.2rem;
+			font-size: 1.3rem;
 		}
 
 		&.active {
@@ -4494,7 +4530,8 @@ tmpl-template-render {
 	}
 
 	.btn {
-		margin-top: -0.5rem;
+		margin-top: -0.25rem;
+		font-weight: normal;
 		text-transform: uppercase;
 	}
 }

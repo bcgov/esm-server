@@ -2,22 +2,19 @@
 
 	<div class="view-title-container">
 		<h1>{{ project.name }}&nbsp; &rsaquo; &nbsp;Comment Periods</h1>
-<!-- 		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project" x-permissions=""></tmpl-permissions-gear> -->
 	</div>
 
 	<div class="view-body-container">
 		<div class="button-bar clearfix">
-			<a ng-if="project.userCan.createCommentPeriod" class="btn btn-default btn-sm pull-left" ui-sref="p.commentperiod.create()">
+			<a class="btn btn-default btn-sm" ng-if="project.userCan.createCommentPeriod" ui-sref="p.commentperiod.create()" title="Add Comment Period">
 				<span class="glyphicon glyphicon-plus"></span>
 				<span>Add Comment Period</span>
 			</a>
-			<div class="pull-right">
-				<show-filter x-toggle-filter="toggleFilter"></show-filter>
-			</div>
+			<show-filter x-toggle-filter="toggleFilter"></show-filter>
 		</div>
 		<section class="panel panel-default">
-			<table ng-table="tableParams" show-filter="toggleFilter" class="table table-striped table-hover">
-				<tr ng-repeat="p in $data" ui-sref="p.commentperiod.detail({periodId:p._id})">
+			<table class="pcp-table table table-hover" ng-table="tableParams" show-filter="toggleFilter">
+				<tr class="clickable" ng-repeat="p in $data" ui-sref="p.commentperiod.detail({periodId:p._id})">
 					<td title="'Type'" filter="{'periodType':'select'}" filter-data="s.typeArray" sortable="'periodType'">
 						{{p.periodType}}
 					</td>
@@ -36,18 +33,21 @@
 					<td title="'Completes'" sortable="'dateCompleted'">
 						{{ p.dateCompleted | date : format : timezone }}
 					</td>
-					<td title="'Vetted'" >
+					<td class="pcp-count" header-class="'pcp-count'" title="'Vetted'" >
 						<i ng-if="p.isVetted" class="glyphicon glyphicon-ok"></i>
 					</td>
-					<td title="'Resolved'" >
+					<td class="pcp-count" header-class="'pcp-count'" title="'Resolved'" >
 						<i ng-if="p.isResolved" class="glyphicon glyphicon-ok"></i>
 					</td>
-					<td title="'Published'" >
+					<td class="pcp-count" header-class="'pcp-count'" title="'Published'" >
 						<i ng-if="p.isPublished" class="glyphicon glyphicon-ok"></i>
 					</td>
 					<td class="actions-col action-x1" header-class="'actions-col action-x1'">
-						<a class="btn btn-link btn-sm" ng-click="$event.stopPropagation()" ng-if="p.userCan.write" ui-sref="p.commentperiod.edit({periodId:p._id})">
-							<span class="glyphicon glyphicon-pencil"></span>
+						<a class="btn btn-link btn-sm" 
+							ng-click="$event.stopPropagation()" 
+							ng-if="p.userCan.write" 
+							ui-sref="p.commentperiod.edit({periodId:p._id})">
+							<span class="glyphicon glyphicon-pencil"></span>			
 						</a>
 					</td>
 				</tr>

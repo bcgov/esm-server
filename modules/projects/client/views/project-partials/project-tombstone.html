@@ -27,8 +27,8 @@
 					<span class="value">{{ ::project.location }}</span>
 				</div>
 			</div>
-			<div class="col-sm-4 col-md-4">
-				<div class="detail-row" ng-show="project.region">
+			<div class="col-sm-4 col-md-4" ng-if="project.region">
+				<div class="detail-row">
 					<label>Region</label>
 					<span class="value"><span ng-show="project.region">{{ ::project.region | regionName }}</span></span>
 				</div>
@@ -45,14 +45,14 @@
 					<span class="value">{{ ::project.sector }}</span>
 				</div>
 			</div>
-			<div class="col-sm-4 col-md-4">
-				<div class="detail-row" ng-show="project.eacDecision">
+			<div class="col-sm-4 col-md-4" ng-if="project.eacDecision">
+				<div class="detail-row">
 					<label>EAC Decision</label>
 					<span class="value">{{ ::project.eacDecision }}</span>
 				</div>
 			</div>
-			<div class="col-sm-4 col-md-4">
-				<div class="detail-row" ng-show="project.CEAAInvolvement">
+			<div class="col-sm-4 col-md-4" ng-hide="project.CEAAInvolvement == 'None'">
+				<div class="detail-row">
 					<label>CEAA Involvement</label>
 					<span class="value">{{ ::project.CEAAInvolvement }}</span>
 				</div>
