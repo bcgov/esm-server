@@ -12,10 +12,7 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 	//
 	var Class = ModelBase.extend ({
 		urlName : 'comment',
-		lookup: function (commentID, forEdit) {
-			if (forEdit)
-				return this.get('/api/comment/' + commentID + '/forEdit');
-			
+		lookup: function (commentID) {
 			return this.get('/api/comment/' + commentID);
 		},
 		// -------------------------------------------------------------------------
@@ -120,6 +117,9 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 		// -------------------------------------------------------------------------
 		getCommentChain: function (ancestorId) {
 			return this.get ('/api/comments/ancestor/'+ancestorId);
+		},
+		getDocuments: function(commentId) {
+			return this.get('/api/comment/' + commentId +'/documents');
 		},
 		updateDocument: function(doc) {
 			return this.put('/api/document/' + doc._id, doc);
