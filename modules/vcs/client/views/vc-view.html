@@ -24,7 +24,7 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<label for="shortDesc" class="control-label">Description</label>
-					<div class="form-control-static textarea" id="shortDesc">{{vc.description}}</div>
+					<pre class="form-control-static" id="shortDesc" ng-bind-html="vc.description"></pre>
 				</div>
 			</div>
 		</div>
