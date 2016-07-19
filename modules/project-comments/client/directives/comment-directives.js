@@ -120,7 +120,7 @@ angular.module ('comment')
 							// we've changed the status from the default.
 							if (self.comment.eaoStatus === 'Deferred' && !_.isEmpty(self.comment.eaoNotes)) {
 								self.alertType = 'alert-warning';
-								self.alertNotesLabel = 'Reason for Deferral';
+								self.alertNotesLabel = 'Comment Deferred';
 								self.alertNotes = self.comment.eaoNotes;
 							} else if (self.comment.eaoStatus === 'Published' && !_.isEmpty(self.comment.publishedNotes)) {
 								self.alertType = 'alert-success';
@@ -128,7 +128,7 @@ angular.module ('comment')
 								self.alertNotes = self.comment.publishedNotes;
 							} else if (self.comment.eaoStatus === 'Rejected' && !_.isEmpty(self.comment.rejectedNotes)) {
 								self.alertType = 'alert-danger';
-								self.alertNotesLabel = 'Notes';
+								self.alertNotesLabel = 'Comment Rejected';
 								self.alertReasonLabel = 'Reason for Rejection';
 								self.alertReason = self.comment.rejectedReason;
 								self.alertNotes = self.comment.rejectedNotes;

@@ -10,13 +10,14 @@
     <!-- COMMENT NOTE ALERTS -->
  	<div class="eao-alerts" ng-if="s.showAlert">
         <div class="alert {{ s.alertType }} eao-comment-notes">
-            <div class="detail-row" ng-if="s.alertReason">
-                <label>{{ s.alertReasonLabel }}</label>
-                <span class="value wrap-text">{{ s.alertReason }}</span>
+            <div class="clearfix">
+                <span class="title pull-left"><strong>{{ s.alertNotesLabel }}</strong></span>
+                <span class="pull-right">{{s.comment.dateUpdated | amDateFormat:'MMMM Do, YYYY'}}</span>
             </div>
-            <div class="detail-row" ng-if="s.alertNotes">
-                <label>{{ s.alertNotesLabel }}</label>
-                <span class="value wrap-text">{{ s.alertNotes }}</span>
+            <div class="details">
+                <span ng-if="!s.alertNotes">No details available.</span>
+                <span ng-if="s.alertNotes">{{ s.alertNotes }}</span>
+                <span ng-if="s.alertNotes">{{ s.alertReason }}</span>
             </div>
         </div>
     </div><!-- / COMMENT NOTE ALERTS -->
