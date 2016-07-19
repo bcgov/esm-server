@@ -384,7 +384,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.publish', {
 		url: '/publish',
 		templateUrl: 'modules/artifacts/client/views/artifact-publish.html',
-		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Document) {
 			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
@@ -403,6 +403,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				});
 			};
 			$scope.submit = function () {
+				console.log("publishing artifact and supporting documents:", $scope.artifact.document);
+				Document.publish($scope.artifact.additionalDocuments[0]);
 				ArtifactModel.publish ($scope.artifact._id)
 				.then (function () {
 					return ArtifactModel.nextStage ($scope.artifact);
