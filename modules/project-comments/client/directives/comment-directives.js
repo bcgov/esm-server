@@ -109,23 +109,46 @@ angular.module ('comment')
 					},
 					controller: function ($scope, $modalInstance, docs) {
 						var self = this;
-						$scope.period      				= period;
-						$scope.project     				= project;
-						$scope.comment     				= comment;
-						$scope.comment.documents 	= docs;
 
-						$scope.cancel      = function () { $modalInstance.dismiss ('cancel'); };
-						$scope.ok          = function () { $modalInstance.close ($scope.comment); };
-						$scope.pillars     	= $scope.comment.pillars.map (function (e) { return e; });
-						$scope.vcs 		   		= $scope.comment.valuedComponents.map (function (e) { return e.name; });
+						self.period      				= period;
+						self.project     				= project;
+						self.comment     				= angular.copy(comment);
+						self.comment.documents 	= angular.copy(docs);
+
+						self.showAlert = false;
+						if (self.period.userCan.vetComments && self.comment.eaoStatus !== 'Unvetted') {
+							// we've changed the status from the default.
+							if (self.comment.eaoStatus === 'Deferred' && !_.isEmpty(self.comment.eaoNotes)) {
+								self.alertType = 'alert-warning';
+								self.alertNotesLabel = 'Reason for Deferral';
+								self.alertNotes = self.comment.eaoNotes;
+							} else if (self.comment.eaoStatus === 'Published' && !_.isEmpty(self.comment.publishedNotes)) {
+								self.alertType = 'alert-success';
+								self.alertNotesLabel = 'Publish Notes';
+								self.alertNotes = self.comment.publishedNotes;
+							} else if (self.comment.eaoStatus === 'Rejected' && !_.isEmpty(self.comment.rejectedNotes)) {
+								self.alertType = 'alert-danger';
+								self.alertNotesLabel = 'Notes';
+								self.alertReasonLabel = 'Reason for Rejection';
+								self.alertReason = self.comment.rejectedReason;
+								self.alertNotes = self.comment.rejectedNotes;
+							}
+							self.showAlert = !_.isEmpty(self.alertType);
+						}
+
+
+						self.cancel      = function () { $modalInstance.dismiss ('cancel'); };
+						self.ok          = function () { $modalInstance.close (self.comment); };
+						self.pillars     	= self.comment.pillars.map (function (e) { return e; });
+						self.vcs 		   		= self.comment.valuedComponents.map (function (e) { return e.name; });
 						
 						self.statusChange = function(status) {
-							$scope.comment.eaoStatus = status;
+							self.comment.eaoStatus = status;
 						};
 						
 						self.fileStatusChange = function(status, file) {
 							// do not allow a change to Published if it is Rejected and comment is rejected
-							if ('Published' === status && $scope.comment.eaoStatus === 'Rejected') {
+							if ('Published' === status && self.comment.eaoStatus === 'Rejected') {
 								// don't allow this change...
 							} else {
 								file.eaoStatus = status;
