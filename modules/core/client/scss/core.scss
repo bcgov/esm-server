@@ -53,6 +53,7 @@ $modal-footer-bg: 			#FFF;
 $panel-border-color: 		#DDD;
 $panel-heading-bg: 			#FFF;
 $panel-heading-color: 		#494949;
+$panel-footer-bg: 			#FFF;
 
 /* Tab Navigation */
 $nav-tab-active-color:			#1a5a96;
@@ -71,6 +72,8 @@ $info-bg:					#5bc0de;
 $info-border:				#5bc0de;
 $success-bg: 				#449d44;
 $success-border: 			#398439;
+$warning-bg:				#f0ad4e;
+$warning-border:			#eea236;
 
 
 /* GLOBAL
@@ -1491,7 +1494,7 @@ h2.page-title {
 /* PAGE LAYOUT
 ------------------------------ */
 .view-title-container {
-	padding: 2rem;
+	padding: 1.75rem 2rem;
 	display: -webkit-flex;
 	display: flex;
 	background: #f7f8fa;
@@ -1758,6 +1761,7 @@ $header-height-sm: 5.2rem;
 			margin-left: 1rem;
 			padding: 0.5rem;		
 			display: inline-block;
+			color: #FFF;
 			border: 1px solid transparent;
 
 			&:focus {
@@ -1766,7 +1770,13 @@ $header-height-sm: 5.2rem;
 		}
 		
 		img {
+			display: inline-block;
 			height: 25px;
+		}
+
+		.app-title {
+			display: inline-block;
+			font-weight: bold;
 		}
 	}
 	
@@ -1801,6 +1811,13 @@ $header-height-sm: 5.2rem;
 			img {
 				height: 30px;
 			}
+
+			.app-title {
+				margin-left: 1.5rem;
+				padding-top: 0.2rem;
+				padding-left: 1.75rem;
+				border-left: 1px solid #FFF;
+			}
 		}
 	}
 }
@@ -1820,7 +1837,7 @@ $header-height-sm: 5.2rem;
 		
 		.navbar-brand {		
 			img {
-				height: 41px;
+				height: 35px;
 			}
 		}
 		
@@ -2170,6 +2187,12 @@ $sidenav-color: $link-color;
 	color: #FFF;
 	background: $success-bg;
 	border: 0 solid $success-border;
+}
+
+.alert-warning {
+	color: #FFF;
+	background: $warning-bg;
+	border: 1px solid $warning-border;
 }
 
 
@@ -2870,6 +2893,10 @@ textarea {
 
 .panel-body {
 	padding: 2rem;
+}
+
+.panel-footer {
+	background: $panel-footer-bg;
 }
 
 
