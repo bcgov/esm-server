@@ -54,26 +54,8 @@
         </button>
     </section>
 
-    <!-- ATTACHMENTS -->
-    <section ng-if="!s.period.userCan.vetComments && s.comment.documents.length > 0">
-        <label class="control-label">Attachments</label>
-        <div class="list-group">
-            <a  class="list-group-item flex-row" ng-repeat="file in s.comment.documents">
-                <div class="icon">
-                    <span class="glyphicon glyphicon-file"></span>
-                </div>
-                <div class="title">{{ file.internalOriginalName }}</div>
-                <div class="actions">
-                  <a class="btn btn-link" ng-if="file._id" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download file">
-                    <span class="glyphicon glyphicon-download-alt"></span>
-                  </a>
-                </div>
-            </a>
-        </div>
-    </section><!-- / ATTACHMENTS -->
-
-    <!-- REVIEW ATTACHMENTS -->
-    <section ng-if="s.period.userCan.vetComments && s.comment.documents.length > 0">
+   <!-- ATTACHMENTS -->
+    <section ng-if="s.comment.documents.length > 0">
         <label class="control-label">Attachments</label>
         <ul class="list-group">
             <li class="list-group-item flex-row" ng-repeat="file in s.comment.documents">
@@ -82,7 +64,7 @@
                 </div>
                 <div class="title">{{ file.internalOriginalName }}</div>
                 <div class="actions">
-                    <div class="review-file comment-status-btns btn-group">
+                    <div ng-if="s.period.userCan.vetComments" class="review-file comment-status-btns btn-group">
                       <button type="button" class="btn btn-danger btn-sm" ng-click="s.fileStatusChange('Rejected', file)" ng-class="{'active':file.eaoStatus === 'Rejected'}">
                         Reject
                       </button>
@@ -96,7 +78,7 @@
                 </div>
             </li>
         </ul>
-    </section><!-- / REVIEW ATTACHMENTS -->
+    </section><!-- / ATTACHMENTS -->
 
 
     <!-- SET COMMENT STATUS -->
