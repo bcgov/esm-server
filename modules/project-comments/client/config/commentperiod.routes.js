@@ -81,10 +81,11 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				return CommentPeriodModel.getNew ();
 			}
 		},
-		controller: function ($scope, $state, project, period, CommentPeriodModel, artifacts) {
+		controller: function ($scope, $state, project, period, CommentPeriodModel, artifacts, _) {
 			$scope.period = period;
 			$scope.project = project;
-			$scope.artifacts = artifacts;
+			// only allowing public comments to be created for now, so limit these to published artifacts only.
+			$scope.artifacts = _.filter(artifacts, function(o) { return o.isPublished; });
 			$scope.changeType = function () {
 				if (period.periodType === 'Public') {
 					period.commenterRoles = ['public'];
@@ -130,9 +131,13 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			}
 		},
 		controller: function ($scope, $state, period, project, CommentPeriodModel) {
-			console.log ('period = ', period);
+			// only public comments for now...
+			period.periodType = 'Public';
+			period.commenterRoles = ['public'];
+
 			$scope.period = period;
 			$scope.project = project;
+
 			$scope.changeType = function () {
 				if (period.periodType === 'Public') {
 					period.commenterRoles = ['public'];
@@ -140,6 +145,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 					period.commenterRoles = [];
 				}
 			};
+
 			$scope.save = function () {
 				CommentPeriodModel.save ($scope.period)
 				.then (function (model) {
