@@ -15,7 +15,7 @@
 
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')('ProjectCondition', {
+module.exports = require ('../../../core/server/controllers/core.schema.controller')('ProjectCondition', {
 	__audit            : true,
 	// __access           : true, ????
 	__codename         : 'unique',

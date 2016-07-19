@@ -6,9 +6,9 @@
 // Does not use the normal crud routes, mostly special sauce
 //
 // =========================================================================
-var DocumentClass  = require ('../controllers/cc.document.controller');
-var routes = require ('../../../core/server/controllers/cc.routes.controller');
-var policy = require ('../../../core/server/controllers/cc.policy.controller');
+var DocumentClass  = require ('../controllers/core.document.controller');
+var routes = require ('../../../core/server/controllers/core.routes.controller');
+var policy = require ('../../../core/server/controllers/core.policy.controller');
 
 module.exports = function (app) {
 	//

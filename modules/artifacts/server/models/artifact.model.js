@@ -4,7 +4,7 @@
 // model for ProjectType
 //
 // =========================================================================
-module.exports = require('../../../core/server/controllers/cc.schema.controller')
+module.exports = require('../../../core/server/controllers/core.schema.controller')
 ('Artifact', {
 		//
 		// who did what when

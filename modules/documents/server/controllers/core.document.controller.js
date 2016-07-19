@@ -5,7 +5,7 @@
 //
 // =========================================================================
 var path     = require('path');
-var DBModel   = require (path.resolve('./modules/core/server/controllers/cc.dbmodel.controller'));
+var DBModel   = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
 var _         = require ('lodash');
 var CSVParse 	= require ('csv-parse');
 var Project    = require (path.resolve('./modules/projects/server/controllers/project.controller'));

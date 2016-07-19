@@ -5,7 +5,7 @@
 //
 // =========================================================================
 var path = require('path');
-var DBModel = require(path.resolve('./modules/core/server/controllers/cc.dbmodel.controller'));
+var DBModel = require(path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
 var Template = require(path.resolve('./modules/templates/server/controllers/template.controller'));
 var ArtifactType = require('./artifact.type.controller');
 var MilestoneClass = require(path.resolve('./modules/milestones/server/controllers/milestone.controller'));

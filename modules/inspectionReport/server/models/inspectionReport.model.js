@@ -4,7 +4,7 @@
 // Model for tasks
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('Inspectionreport', {
 	__audit       : true,
 	__access      : [],

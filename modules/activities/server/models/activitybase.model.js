@@ -7,7 +7,7 @@
 // can occur multiple times under any number of milestones
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('ActivityBase', {
 	//
 	// unique code. name, and description

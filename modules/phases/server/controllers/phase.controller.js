@@ -6,7 +6,7 @@
 // =========================================================================
 var _              = require ('lodash');
 var path           = require('path');
-var DBModel        = require (path.resolve('./modules/core/server/controllers/cc.dbmodel.controller'));
+var DBModel        = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
 var MilestoneClass = require (path.resolve('./modules/milestones/server/controllers/milestone.controller'));
 var PhaseBaseClass = require ('./phasebase.controller');
 // var Roles          = require (path.resolve('./modules/roles/server/controllers/role.controller'));

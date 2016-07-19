@@ -5,12 +5,12 @@
 //
 // =========================================================================
 var path     = require('path');
-var Access    = require (path.resolve ('./modules/core/server/controllers/cc.access.controller'));
+var Access    = require (path.resolve ('./modules/core/server/controllers/core.access.controller'));
 var Period    = require ('./commentperiod.controller');
-var DBModel   = require (path.resolve ('./modules/core/server/controllers/cc.dbmodel.controller'));
+var DBModel   = require (path.resolve ('./modules/core/server/controllers/core.dbmodel.controller'));
 var _         = require ('lodash');
 // var Roles = require (path.resolve('./modules/roles/server/controllers/role.controller'));
-var DocumentClass  = require (path.resolve('./modules/documents/server/controllers/cc.document.controller'));
+var DocumentClass  = require (path.resolve('./modules/documents/server/controllers/core.document.controller'));
 
 module.exports = DBModel.extend ({
 	name : 'Comment',

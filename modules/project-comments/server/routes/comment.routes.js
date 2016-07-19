@@ -6,8 +6,8 @@
 // =========================================================================
 var CommentModel  = require ('../controllers/comment.controller');
 var CommentPeriod  = require ('../controllers/commentperiod.controller');
-var routes = require ('../../../core/server/controllers/cc.routes.controller');
-var policy = require ('../../../core/server/controllers/cc.policy.controller');
+var routes = require ('../../../core/server/controllers/core.routes.controller');
+var policy = require ('../../../core/server/controllers/core.policy.controller');
 
 module.exports = function (app) {
 	routes.setCRUDRoutes (app, 'comment', CommentModel, policy, null, {all:'guest',get:'guest'});

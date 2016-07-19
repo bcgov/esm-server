@@ -4,7 +4,7 @@
 // Model for topics
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('Topic', {
 	__codename : 'unique',
 	parent     : { type:String, default:'', index:true },

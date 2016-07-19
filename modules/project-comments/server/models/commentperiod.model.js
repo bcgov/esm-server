@@ -4,7 +4,7 @@
 // Model for comments
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('CommentPeriod', {
 	//
 	// for access, if the period is NOT published, then there should be no way

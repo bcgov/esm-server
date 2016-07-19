@@ -11,7 +11,7 @@ var validateSubject = function(subject) {
   return !_.isEmpty(subject);
 };
 
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('EmailTemplate', {
 	__audit    : true,
 	__codename : true,

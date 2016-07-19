@@ -82,7 +82,7 @@
 // CC: converted to new schema pre-processor
 //
 // =========================================================================
-var genSchema = require ('../../../core/server/controllers/cc.schema.controller');
+var genSchema = require ('../../../core/server/controllers/core.schema.controller');
 
 genSchema ('TypesSchema', {
 	projectFolderType           : { type:String, default:'' },

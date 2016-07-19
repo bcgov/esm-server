@@ -10,7 +10,7 @@
 // mark vcs in all other parts of the system
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('Vc', {
 	__audit				: true,
 	__codename			: 'unique',

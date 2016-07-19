@@ -5,7 +5,7 @@
 //
 // =========================================================================
 module.exports = require ((require('path'))
-	.resolve('./modules/core/server/controllers/cc.dbmodel.controller'))
+	.resolve('./modules/core/server/controllers/core.dbmodel.controller'))
 	.extend ({
 	name : 'Application',
 	plural : 'applications',

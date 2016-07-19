@@ -15,7 +15,7 @@ var mongoose   = require ('mongoose');
 var Role       = mongoose.model ('_Role');
 var Permission = mongoose.model ('_Permission');
 var _          = require ('lodash');
-var helpers    = require ('../controllers/cc.routes.controller');
+var helpers    = require ('../controllers/core.routes.controller');
 var runPromise = helpers.runPromise;
 
 var defaultResource = 'application';

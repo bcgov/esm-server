@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require ('lodash');
-var access = require ('./cc.access.controller');
+var access = require ('./core.access.controller');
 var fs = require ('fs');
 var path = require('path');
 

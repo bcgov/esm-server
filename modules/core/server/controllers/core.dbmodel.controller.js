@@ -8,7 +8,7 @@
 // =========================================================================
 var mongoose = require ('mongoose');
 var _        = require ('lodash');
-var access   = require ('./cc.access.controller');
+var access   = require ('./core.access.controller');
 
 var emptyPromise = function (t) {return new Promise (function (r, e) { r (t); }); };
 
@@ -20,7 +20,7 @@ var emptyPromise = function (t) {return new Promise (function (r, e) { r (t); })
 var DBModel = function (opts) {
 	this._init (opts);
 };
-DBModel.extend = require ('./cc.extend.controller');
+DBModel.extend = require ('./core.extend.controller');
 
 _.extend (DBModel.prototype, {
 	//

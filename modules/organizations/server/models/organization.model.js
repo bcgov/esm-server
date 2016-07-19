@@ -4,7 +4,7 @@
 // Model for tasks
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')('Organization', {
+module.exports = require ('../../../core/server/controllers/core.schema.controller')('Organization', {
 	__audit       : true,
 	__codename    : 'unique',
 	company       : { type: String, default:'' },

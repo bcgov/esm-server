@@ -33,7 +33,7 @@ var templateSection = new mongoose.Schema ({
 // artifact is created
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('Template', {
 	__audit       : true,
 	code          : { type:String, default: '', index:true},

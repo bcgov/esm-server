@@ -5,11 +5,11 @@
 //
 // =========================================================================
 var dbcontroller = require('../controllers/core.db.controller');
-var App = require('../controllers/cc.application.controller');
-var access = require('../controllers/cc.access.controller');
+var App = require('../controllers/core.application.controller');
+var access = require('../controllers/core.access.controller');
 
-var routes = require('../../../core/server/controllers/cc.routes.controller');
-var policy = require('../../../core/server/controllers/cc.policy.controller');
+var routes = require('../../../core/server/controllers/core.routes.controller');
+var policy = require('../../../core/server/controllers/core.policy.controller');
 
 
 module.exports = function (app) {

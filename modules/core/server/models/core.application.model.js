@@ -4,7 +4,7 @@
 // Model for application object, just a one-off
 //
 // =========================================================================
-module.exports = require('../controllers/cc.schema.controller')('Application', {
+module.exports = require('../controllers/core.schema.controller')('Application', {
 	_id: {type: String, default: 'application'},
 	code: {type: String, default: 'application'},
 	__access: [

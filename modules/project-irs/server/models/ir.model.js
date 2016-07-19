@@ -4,7 +4,7 @@
 // Model for irs
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')('Ir', {
+module.exports = require ('../../../core/server/controllers/core.schema.controller')('Ir', {
 	__audit     : true,
 	__access    : [],
 	__tracking  : true,

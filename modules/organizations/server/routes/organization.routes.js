@@ -7,8 +7,8 @@
 var path                = require ('path');
 var User         = require (path.resolve('./modules/users/server/controllers/admin.server.controller'));
 var Organization = require ('../controllers/organization.controller');
-var routes = require ('../../../core/server/controllers/cc.routes.controller');
-var policy = require ('../../../core/server/controllers/cc.policy.controller');
+var routes = require ('../../../core/server/controllers/core.routes.controller');
+var policy = require ('../../../core/server/controllers/core.policy.controller');
 
 module.exports = function (app) {
 	routes.setCRUDRoutes (app, 'organization', Organization, policy);

@@ -6,8 +6,8 @@
 // =========================================================================
 var PhaseBase = require ('../controllers/phasebase.controller');
 var Phase     = require ('../controllers/phase.controller');
-var routes = require ('../../../core/server/controllers/cc.routes.controller');
-var policy = require ('../../../core/server/controllers/cc.policy.controller');
+var routes = require ('../../../core/server/controllers/core.routes.controller');
+var policy = require ('../../../core/server/controllers/core.policy.controller');
 
 module.exports = function (app) {
 	routes.setCRUDRoutes (app, 'phasebase', PhaseBase, policy);
