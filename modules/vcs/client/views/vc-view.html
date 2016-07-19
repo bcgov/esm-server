@@ -1,8 +1,10 @@
 <div class="valued-component-view">
 
-	<div class="view-title-container">
+	<div class="view-title-container flex-row">
 		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Valued Component</h1>
-		<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="vc"></tmpl-permissions-gear>
+		<div class="actions">
+			<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="vc"></tmpl-permissions-gear>
+		</div>
 	</div>
 
 	<div class="view-body-container">

@@ -8,15 +8,15 @@
 			File Drag and Drop is not supported for this browser.
 		</div>
 
-		<div class="upload-target">
-			<div ngf-drop ngf-select ng-model="files"
-				ngf-drag-over-class="dragover"
-				ngf-multiple="true"
-				ngf-allow-dir="true"
-				ngf-max-total-size="1MB">
-				<div class="instructions"><strong>Drag and Drop Files Here</strong> or <strong>Select Files</strong></div>
-				<div class="requirements">Total upload size limited to 300MB.</div>
-			</div>
+		<div class="upload-target" title="Drag and Drop Files here or Select Files. Attachments must be in PDF format and limited to 5 megabytes."
+			ngf-drop ngf-select 
+			ng-model="files"
+			ngf-drag-over-class="dragover"
+			ngf-multiple="true"
+			ngf-allow-dir="true"
+			ngf-max-total-size="1MB">
+			<div class="instructions"><strong>Drag and Drop Files Here</strong> or <strong>Select Files</strong></div>
+			<div class="requirements">Total upload size limited to 300MB.</div>
 		</div>
 
 		<div class="list-group">
