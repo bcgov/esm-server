@@ -115,14 +115,7 @@ angular.module ('comment')
 						$scope.comment.documents 	= docs;
 
 						$scope.cancel      = function () { $modalInstance.dismiss ('cancel'); };
-						$scope.ok          = function () {
-							if ('Rejected' === $scope.comment.eaoStatus) {
-								_.each($scope.comment.documents, function(d) {
-									d.eaoStatus = 'Rejected';
-								});
-							}
-							$modalInstance.close ($scope.comment);
-						};
+						$scope.ok          = function () { $modalInstance.close ($scope.comment); };
 						$scope.pillars     	= $scope.comment.pillars.map (function (e) { return e; });
 						$scope.vcs 		   		= $scope.comment.valuedComponents.map (function (e) { return e.name; });
 						
