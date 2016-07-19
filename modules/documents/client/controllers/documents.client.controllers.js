@@ -51,8 +51,9 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 		// Bring in existing values.
 		if (newValue) {
 			// get the objects from the array.
-			Document.getDocumentsInList (newValue).then( function(res) {
-				docLink.linkFiles = res.data;
+			Document.getDocumentsInList (newValue)
+			.then( function(res) {
+				docLink.linkFiles = res;
 			});
 		}
 	});
@@ -404,7 +405,6 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 
 	docBrowser.authentication = Authentication;
 
-	docBrowser.phasesForProject = undefined;
 	docBrowser.docLocationCode= $scope.docLocationCode;
 	docBrowser.artifact = $scope.artifact;
 
@@ -414,13 +414,14 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 	//
 	// -----------------------------------------------------------------------------------
 	docBrowser.refresh = function() {
-		Document.getProjectDocuments(docBrowser.project._id, $scope.approvals).then( function(res) {
+		Document.getProjectDocuments(docBrowser.project._id, $scope.approvals)
+		.then( function(res) {
 			if (ENV === 'MEM') {
 				// Apply slightly different sort criteria on the client side.
 				// Do a substring date search on the internalOriginalName field.
 				var docs = [];
 				var re =/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
-				angular.forEach( res.data, function(item) {
+				angular.forEach( res, function(item) {
 					var sortDate = re.exec(item.internalOriginalName);
 					if (sortDate)
 						item.sortDate = sortDate[0];
@@ -428,17 +429,18 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 				});
 				docBrowser.documentFiles = _.sortByOrder(docs, "sortDate", "desc");
 			} else {
-				docBrowser.documentFiles = res.data;
+				docBrowser.documentFiles = res;
 			}
 		});
-		Document.getProjectDocumentTypes(docBrowser.project._id, $scope.approvals).then( function(res) {
+		Document.getProjectDocumentTypes(docBrowser.project._id, $scope.approvals)
+		.then( function(res) {
 			var dts = [];
 			if (ENV === 'MEM') {
 				// console.log("list:",res.data)
-				var sorted = _.sortBy(res.data, "order");
+				var sorted = _.sortBy(res, "order");
 				dts	= sorted;
 			} else {
-				dts	= res.data;
+				dts	= res;
 			}
 			angular.forEach(dts, function(item) {
 				item.state = 'close';
@@ -446,12 +448,6 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 			});
 			docBrowser.docTypes = dts;
 		});
-		PhaseModel.phasesForProject(docBrowser.project._id)
-		.then (function (res) {
-			// console.log("phasesForProject:", res);
-			docBrowser.phasesForProject = res;
-		});
-
 	};
 
 	var unbind = $rootScope.$on('refreshDocumentList', function() {
@@ -578,8 +574,8 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 		$scope.filterSummary = doc;
 		$scope.filterSummary.MBytes = (doc.internalSize / Math.pow(1024, Math.floor(2))).toFixed(2);
 		Document.getProjectDocumentVersions(doc._id).then( function(res) {
-			docBrowser.docVersions	= res.data;
-			//console.log(res.data);
+			docBrowser.docVersions	= res;
+			$scope.$apply();
 		});
 	};
 	docBrowser.rfilterSummary = function(doc) {
@@ -589,12 +585,12 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 											doc.projectFolderSubType,
 											doc.projectFolderName,
 											doc.documentFileName).then( function(res) {
-			docBrowser.docVersions	= res.data;
+			docBrowser.docVersions	= res;
 			// Fix for if a version was uploaded while we hovered overtop last
 			if (docBrowser.docVersions[docBrowser.docVersions.length-1].documentVersion >= $scope.rfilterSummary.documentVersion) {
 				// console.log("Your data is stale!  Refresh the page");
 			}
-			// console.log(res.data);
+			$scope.$apply();
 		});
 	};
 	docBrowser.downloadAndApprove = function(doc) {

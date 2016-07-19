@@ -269,14 +269,16 @@ angular.module ('templates')
 		},
 		replace: true,
 		templateUrl: 'modules/templates/client/views/template-document-editor.html',
-		link: function(scope, element, attrs, ngModel) {
+		link: function(scope, element, attrs, ngModel, filelist) {
 			scope.filelist = [];
 			scope.$watchCollection ('curVal', function (newvalue) {
-				//console.log ('new value = ',newvalue);
-				//console.log ('curVal value = ',scope.curVal);
-				Document.getDocumentsInList (newvalue).then (function (result) {
-					//console.log (result.data);
-					scope.filelist = result.data;
+				// console.log ('new value = ',newvalue);
+				// console.log ('curVal value = ',scope.curVal);
+				Document.getDocumentsInList (newvalue)
+				.then (function (result) {
+					// console.log("result", result);
+					scope.filelist = result;
+					scope.$apply();
 				});
 			});
 		}

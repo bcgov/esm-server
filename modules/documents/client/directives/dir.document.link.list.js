@@ -29,9 +29,9 @@ angular.module ('templates')
 		link: function(scope, element, attrs) {
 			//console.log ("Running");
 			scope.$watch ('filelist', function () {
-				Document.getDocumentsInList (scope.list).then (function (result) {
-					//console.log (result);
-				});
+				// Document.getDocumentsInList (scope.list).then (function (result) {
+				// 	//console.log (result);
+				// });
 				// scope.displaylist.length = 0;
 				// scope.list.map (function (e) {
 				// 	scope.displaylist.push

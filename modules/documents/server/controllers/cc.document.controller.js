@@ -249,6 +249,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	getList : function (list) {
+		console.log("backend list:", list);
 		return this.list ({_id : {$in : list }});
 	},
 	// Importing from CSV

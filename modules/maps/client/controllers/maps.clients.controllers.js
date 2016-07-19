@@ -76,8 +76,8 @@ function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter, _, A
 							.then( function (res) {
 								// ML: This is silly.  When documents convert to the proper DBModel,
 								// this needs to change.
-								var doc = res.data;
-								if (doc.internalExt === 'kml') {
+								var doc = res;
+								if (doc && doc.internalExt === 'kml') {
 									// console.log("pushing supporting doc:", doc);
 									mpl.KMLLayers.push({
 										url: window.location.protocol + "//" + window.location.host + "/api/document/" + doc._id + "/fetch",
