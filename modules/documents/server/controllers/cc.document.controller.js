@@ -249,7 +249,6 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	getList : function (list) {
-		console.log("backend list:", list);
 		return this.list ({_id : {$in : list }});
 	},
 	// for documents associated with a comment
