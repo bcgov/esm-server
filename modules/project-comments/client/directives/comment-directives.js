@@ -118,15 +118,15 @@ angular.module ('comment')
 						self.showAlert = false;
 						if (self.period.userCan.vetComments && self.comment.eaoStatus !== 'Unvetted') {
 							// we've changed the status from the default.
-							if (self.comment.eaoStatus === 'Deferred' && !_.isEmpty(self.comment.eaoNotes)) {
+							if (self.comment.eaoStatus === 'Deferred') {
 								self.alertType = 'alert-warning';
 								self.alertNotesLabel = 'Comment Deferred';
 								self.alertNotes = self.comment.eaoNotes;
-							} else if (self.comment.eaoStatus === 'Published' && !_.isEmpty(self.comment.publishedNotes)) {
+							} else if (self.comment.eaoStatus === 'Published') {
 								self.alertType = 'alert-success';
 								self.alertNotesLabel = 'Publish Notes';
 								self.alertNotes = self.comment.publishedNotes;
-							} else if (self.comment.eaoStatus === 'Rejected' && !_.isEmpty(self.comment.rejectedNotes)) {
+							} else if (self.comment.eaoStatus === 'Rejected') {
 								self.alertType = 'alert-danger';
 								self.alertNotesLabel = 'Comment Rejected';
 								self.alertReasonLabel = 'Reason for Rejection';
@@ -154,6 +154,14 @@ angular.module ('comment')
 								file.eaoStatus = status;
 							}
 						};
+
+						self.submitForm = function(isValid) {
+							// check to make sure the form is completely valid
+							if (isValid) {
+								$modalInstance.close (self.comment);
+							}
+						};
+
 					},
 				})
 				.result.then (function (data) {

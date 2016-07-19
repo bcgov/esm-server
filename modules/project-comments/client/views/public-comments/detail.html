@@ -1,3 +1,5 @@
+<form name="commentForm" ng-submit="s.submitForm(commentForm.$valid)" novalidate>
+
 <div class="modal-header">
 	<button type="button" class="btn btn-default close" aria-label="Close" ng-click="s.cancel()">
 		<span aria-hidden="true">&times;</span>
@@ -17,7 +19,7 @@
             <div class="details">
                 <span ng-if="!s.alertNotes">No details available.</span>
                 <span ng-if="s.alertNotes">{{ s.alertNotes }}</span>
-                <span ng-if="s.alertNotes">{{ s.alertReason }}</span>
+                <span ng-if="s.alertReason">{{ s.alertReason }}</span>
             </div>
         </div>
     </div><!-- / COMMENT NOTE ALERTS -->
@@ -43,7 +45,7 @@
             -->
 
         </div>
-        <button class="btn btn-default btn-sm" ng-if="s.period.userCan.classifyComments"
+        <button type="button" class="btn btn-default btn-sm" ng-if="s.period.userCan.classifyComments"
             x-vc-chooser
             x-project="s.project"
             x-current="s.comment.valuedComponents"
@@ -81,10 +83,10 @@
                 <div class="title">{{ file.internalOriginalName }}</div>
                 <div class="actions">
                     <div class="review-file comment-status-btns btn-group">
-                      <button class="btn btn-danger btn-sm" ng-click="s.fileStatusChange('Rejected', file)" ng-class="{'active':file.eaoStatus === 'Rejected'}">
+                      <button type="button" class="btn btn-danger btn-sm" ng-click="s.fileStatusChange('Rejected', file)" ng-class="{'active':file.eaoStatus === 'Rejected'}">
                         Reject
                       </button>
-                      <button class="btn btn-success btn-sm" ng-click="s.fileStatusChange('Published', file)" ng-class="{'active':file.eaoStatus === 'Published'}">
+                      <button type="button" class="btn btn-success btn-sm" ng-click="s.fileStatusChange('Published', file)" ng-class="{'active':file.eaoStatus === 'Published'}">
                         Publish
                       </button>
                     </div>
@@ -102,39 +104,41 @@
         <div class="form-group">
             <label class="control-label">Set Comment Status</label>
             <div class="comment-status-btns btn-group">
-                <button class="btn btn-warning btn-sm" ng-click="s.statusChange('Deferred')" ng-class="{'active':s.comment.eaoStatus === 'Deferred'}">
+                <button type="button" class="btn btn-warning btn-sm" ng-click="s.statusChange('Deferred')" ng-class="{'active':s.comment.eaoStatus === 'Deferred'}">
                     Defer
                 </button>
-                <button class="btn btn-danger btn-sm" ng-click="s.statusChange('Rejected')" ng-class="{'active':s.comment.eaoStatus === 'Rejected'}">
+                <button type="button" class="btn btn-danger btn-sm" ng-click="s.statusChange('Rejected')" ng-class="{'active':s.comment.eaoStatus === 'Rejected'}">
                     Reject
                 </button>
-                <button class="btn btn-success btn-sm" ng-click="s.statusChange('Published')" ng-class="{'active':s.comment.eaoStatus === 'Published'}">
+                <button type="button" class="btn btn-success btn-sm" ng-click="s.statusChange('Published')" ng-class="{'active':s.comment.eaoStatus === 'Published'}">
                     Publish
                 </button>
             </ul>
         </div>
-        <div class="comment-status-note form-group" ng-if="s.comment.eaoStatus === 'Deferred'">
+        <div class="comment-status-note form-group" ng-class="{ 'has-error' : commentForm.eaoNotes.$invalid }" ng-if="s.comment.eaoStatus === 'Deferred'">
             <label class="control-label">Deferral Notes<em>Required</em></label>
-            <textarea class="form-control" ng-model="s.comment.eaoNotes" rows="4"></textarea>
+            <textarea class="form-control" name="eaoNotes" ng-model="s.comment.eaoNotes" rows="4" ng-required="s.comment.eaoStatus === 'Deferred'" ></textarea>
         </div>
         <div class="comment-status-note" ng-if="s.comment.eaoStatus === 'Rejected'">
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : commentForm.rejectedReason.$invalid }">
                 <label class="control-label">Reason for Rejection<em>Required</em></label>
-                <input class="form-control" type="text" ng-model="s.comment.rejectedReason" />
+                <input class="form-control" name="rejectedReason" type="text" ng-model="s.comment.rejectedReason" ng-required="s.comment.eaoStatus === 'Rejected'" />
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : commentForm.rejectedNotes.$invalid }">
                 <label class="control-label">Rejection Notes<em>Required</em></label>
-                <textarea class="form-control" ng-model="s.comment.rejectedNotes" rows="4"></textarea>
+                <textarea class="form-control" name="rejectedNotes" ng-model="s.comment.rejectedNotes" ng-required="s.comment.eaoStatus === 'Rejected'" rows="4"></textarea>
             </div>
         </div>
-        <div class="comment-status-note form-group" ng-if="s.comment.eaoStatus === 'Published'">
+        <div class="comment-status-note form-group" ng-class="{ 'has-error' : commentForm.publishedNotes.$invalid }" ng-if="s.comment.eaoStatus === 'Published'">
           <label class="control-label">Publish Notes</label>
-          <textarea class="form-control" ng-model="s.comment.publishedNotes" rows="4"></textarea>
+          <textarea class="form-control" name="publishedNotes" ng-model="s.comment.publishedNotes" ng-required="false" rows="4"></textarea>
         </div>
     </section><!-- / SET COMMENT STATUS -->
 
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-default" ng-click="s.cancel()">Cancel</button>
-    <button type="button" class="btn btn-success" ng-click="s.ok(s.comment)" ng-if="!isPublic">Update</button>
+    <button type="submit" class="btn btn-success" ng-if="!isPublic" ng-disabled="!commentForm.$valid || s.comment.eaoStatus === 'Unvetted'">Update</button>
 </div>
+
+</form>
