@@ -16,7 +16,7 @@ module.exports = DBModel.extend ({
 	name : 'Comment',
 	plural: 'comments',
 	// populate : [{ path:'user', select:'_id displayName username orgCode'}, {path: 'valuedComponents', select: 'name'}],
-	populate : [{ path:'user', select:'_id displayName username orgCode'}],
+	populate : [{ path:'user', select:'_id displayName username orgCode'},{ path:'updatedBy', select:'_id displayName username orgCode'}],
 	// -------------------------------------------------------------------------
 	//
 	// since public users may be saving comments we should temprarily allow
@@ -69,6 +69,10 @@ module.exports = DBModel.extend ({
 	preprocessUpdate: function (comment) {
 		var self = this;
 		var commentPeriod = new Period (this.opts);
+		var documentClass = new DocumentClass(this.opts);
+
+		var thePeriod;
+
 		if (comment.valuedComponents.length === 0) {
 			comment.proponentStatus = 'Unclassified';
 		}
@@ -81,6 +85,7 @@ module.exports = DBModel.extend ({
 			// set published or unpublished with correct roles
 			//
 			.then (function (period) {
+				thePeriod = period;
 				if (comment.eaoStatus === 'Published') {
 					//
 					// ROLES, public read
@@ -112,6 +117,32 @@ module.exports = DBModel.extend ({
 					// 	}
 					// });
 				}
+			})
+			.then(function(commentPermissions) {
+				// get all the associated documents and update their publish permissions as required.
+				return new Promise(function(resolve, reject) {
+					documentClass.getList(comment.documents)
+						.then(function (data) {
+							resolve({commentPermissions: commentPermissions, docs: data});
+						});
+				});
+			})
+			.then(function(data) {
+				var commentPermissions = data.commentPermissions;
+				var docs = data.docs;
+				return docs.reduce(function (current, doc, index) {
+					if ('Rejected' === comment.eaoStatus) {
+						// just ensure that all documents are rejected if the comment is rejected...
+						doc.eaoStatus = 'Rejected';
+					}
+
+					if ('Published' !== doc.eaoStatus) {
+						// if the comment is published, but this document has been rejected, we don't want this document set to public read
+						commentPermissions.read = thePeriod.vettingRoles;
+					}
+					// publish or unpublish the doc, and set the doc's permissions...
+					return documentClass.publishForComment(doc, ('Published' === comment.eaoStatus &&  'Published' === doc.eaoStatus), commentPermissions);
+				}, Promise.resolve())	;
 			})
 			.then (function () {
 				return comment;
@@ -254,8 +285,7 @@ module.exports = DBModel.extend ({
 		return new Promise (function (resolve, reject) {
 			self.one({_id : id})
 				.then(function(c) {
-					var q = {'_id': { '$in' : c.documents} };
-					return doc.list(q);
+					return doc.getList(c.documents);
 				})
 				.then (resolve, reject);
 		});

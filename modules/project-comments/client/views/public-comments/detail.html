@@ -1,59 +1,40 @@
 <div class="modal-header">
-	<button type="button" class="btn btn-default close" aria-label="Close" ng-click="cancel()">
+	<button type="button" class="btn btn-default close" aria-label="Close" ng-click="s.cancel()">
 		<span aria-hidden="true">&times;</span>
 	</button>
-    <h3 ng-if="::comment.isAnonymous" class="modal-title">Public Comment  &nbsp;&rsaquo;&nbsp; Anonymous</h3>
-    <h3 ng-if="::!comment.isAnonymous" class="modal-title">Public Comment  &nbsp;&rsaquo;&nbsp; {{ ::comment.author }}</h3>
+    <h3 ng-if="::s.comment.isAnonymous" class="modal-title">Public Comment  &nbsp;&rsaquo;&nbsp; Anonymous</h3>
+    <h3 ng-if="::!s.comment.isAnonymous" class="modal-title">Public Comment  &nbsp;&rsaquo;&nbsp; {{ ::s.comment.author }}</h3>
 </div>
 <div class="modal-body">
 
     <!-- COMMENT NOTE ALERTS -->
- 	<div class="eao-alerts" ng-if="period.userCan.vetComments">
-
-        <!-- DEFERRAL NOTES -->
-        <div class="alert alert-info eao-comment-notes" ng-if="comment.eaoStatus === 'Deferred' && comment.eaoNotes">
-            <div class="detail-row horiz">
-                <label>Reason for Deferral</label>
-                <span class="value wrap-text">{{comment.eaoNotes}}</span>
+ 	<div class="eao-alerts" ng-if="s.showAlert">
+        <div class="alert {{ s.alertType }} eao-comment-notes">
+            <div class="detail-row" ng-if="s.alertReason">
+                <label>{{ s.alertReasonLabel }}</label>
+                <span class="value wrap-text">{{ s.alertReason }}</span>
             </div>
-        </div><!-- / DEFERRAL NOTES -->
-
-        <!-- REJECTION NOTES -->
-        <div class="alert alert-danger eao-comment-notes" ng-if="comment.eaoStatus === 'Rejected'">
-            <div class="detail-row" ng-if="comment.rejectedReason">
-                <label>Reason for Rejection</label>
-                <span class="value wrap-text">{{ comment.rejectedReason }}</span>
+            <div class="detail-row" ng-if="s.alertNotes">
+                <label>{{ s.alertNotesLabel }}</label>
+                <span class="value wrap-text">{{ s.alertNotes }}</span>
             </div>
-            <div class="detail-row" ng-if="comment.rejectedNotes">
-                <label>Notes</label>
-                <span class="value wrap-text">{{ comment.rejectedNotes }}</span>
-            </div>
-        </div><!-- / REJECTION NOTES -->
-
-      <!-- REJECTION NOTES -->
-      <div class="alert alert-success eao-comment-notes" ng-if="comment.eaoStatus === 'Published'">
-        <div class="detail-row horiz">
-          <label>Publish Notes</label>
-          <span class="value wrap-text">{{comment.publishedNotes}}</span>
         </div>
-      </div><!-- / REJECTION NOTES -->
-
     </div><!-- / COMMENT NOTE ALERTS -->
 
     <!-- COMMENT INFO -->
     <section class="comment-info">
         <div class="detail-row">
-            <label>Posted by {{ ::comment.author }}</label>
+            <label>Posted by {{ ::s.comment.author }}</label>
             <span class="value">
-                {{comment.dateAdded | amDateFormat:'MMMM Do, YYYY'}} <span ng-if="comment.location"> &nbsp;|&nbsp; {{ ::comment.location }}</span>
+                {{s.comment.dateAdded | amDateFormat:'MMMM Do, YYYY'}} <span ng-if="s.comment.location"> &nbsp;|&nbsp; {{ ::s.comment.location }}</span>
             </span>
         </div>
-        <pre class="value wrap-text">{{ ::comment.comment }}</pre>
+        <pre class="value wrap-text">{{ ::s.comment.comment }}</pre>
     </section><!-- / COMMENT INFO -->
 
     <section class="pillar-vcs">
         <div class="tag-list">
-            <span>{{comment.pillars.join (', ')}} </span><span ng-if="comment.topics">{{comment.topics.join (', ')}}</span>
+            <span>{{s.comment.pillars.join (', ')}} </span><span ng-if="s.comment.topics">{{s.comment.topics.join (', ')}}</span>
 
             <!--
             <span class="label label-primary" ng-repeat="pillar in comment.pillars">{{pillar}}</span>
@@ -61,20 +42,20 @@
             -->
 
         </div>
-        <button class="btn btn-default btn-sm" ng-if="period.userCan.classifyComments"
+        <button class="btn btn-default btn-sm" ng-if="s.period.userCan.classifyComments"
             x-vc-chooser
-            x-project="project"
-            x-current="comment.valuedComponents"
-            x-topics="comment.topics"
-            x-pillars="comment.pillars">Assign Valued Components
+            x-project="s.project"
+            x-current="s.comment.valuedComponents"
+            x-topics="s.comment.topics"
+            x-pillars="s.comment.pillars">Assign Valued Components
         </button>
     </section>
 
     <!-- ATTACHMENTS -->
-    <section ng-if="!period.userCan.vetComments">
+    <section ng-if="!s.period.userCan.vetComments && s.comment.documents.length > 0">
         <label class="control-label">Attachments</label>
         <div class="list-group">
-            <a ng-repeat='file in comment.documents' class="list-group-item flex-row">
+            <a  class="list-group-item flex-row" ng-repeat="file in s.comment.documents">
                 <div class="icon">
                     <span class="glyphicon glyphicon-file"></span>
                 </div>
@@ -89,10 +70,10 @@
     </section><!-- / ATTACHMENTS -->
 
     <!-- REVIEW ATTACHMENTS -->
-    <section ng-if="period.userCan.vetComments">
+    <section ng-if="s.period.userCan.vetComments && s.comment.documents.length > 0">
         <label class="control-label">Attachments</label>
         <ul class="list-group">
-            <li ng-repeat='file in comment.documents' class="list-group-item flex-row">
+            <li class="list-group-item flex-row" ng-repeat="file in s.comment.documents">
               <div class="icon">
                     <span class="glyphicon glyphicon-file"></span>
                 </div>
@@ -116,43 +97,43 @@
 
 
     <!-- SET COMMENT STATUS -->
-    <section class="comment-status" ng-if="period.userCan.vetComments">
+    <section class="comment-status" ng-if="s.period.userCan.vetComments">
         <div class="form-group">
             <label class="control-label">Set Comment Status</label>
             <div class="comment-status-btns btn-group">
-                <button class="btn btn-warning btn-sm" ng-click="s.statusChange('Deferred')" ng-class="{'active':comment.eaoStatus === 'Deferred'}">
+                <button class="btn btn-warning btn-sm" ng-click="s.statusChange('Deferred')" ng-class="{'active':s.comment.eaoStatus === 'Deferred'}">
                     Defer
                 </button>
-                <button class="btn btn-danger btn-sm" ng-click="s.statusChange('Rejected')" ng-class="{'active':comment.eaoStatus === 'Rejected'}">
+                <button class="btn btn-danger btn-sm" ng-click="s.statusChange('Rejected')" ng-class="{'active':s.comment.eaoStatus === 'Rejected'}">
                     Reject
                 </button>
-                <button class="btn btn-success btn-sm" ng-click="s.statusChange('Published')" ng-class="{'active':comment.eaoStatus === 'Published'}">
+                <button class="btn btn-success btn-sm" ng-click="s.statusChange('Published')" ng-class="{'active':s.comment.eaoStatus === 'Published'}">
                     Publish
                 </button>
             </ul>
         </div>
-        <div class="comment-status-note form-group" ng-if="comment.eaoStatus === 'Deferred'">
+        <div class="comment-status-note form-group" ng-if="s.comment.eaoStatus === 'Deferred'">
             <label class="control-label">Deferral Notes<em>Required</em></label>
-            <textarea class="form-control" ng-model="comment.eaoNotes" rows="4"></textarea>
+            <textarea class="form-control" ng-model="s.comment.eaoNotes" rows="4"></textarea>
         </div>
-        <div class="comment-status-note" ng-if="comment.eaoStatus === 'Rejected'">
+        <div class="comment-status-note" ng-if="s.comment.eaoStatus === 'Rejected'">
             <div class="form-group">
                 <label class="control-label">Reason for Rejection<em>Required</em></label>
-                <input class="form-control" type="text" ng-model="comment.rejectedReason" />
+                <input class="form-control" type="text" ng-model="s.comment.rejectedReason" />
             </div>
             <div class="form-group">
                 <label class="control-label">Rejection Notes<em>Required</em></label>
-                <textarea class="form-control" ng-model="comment.rejectedNotes" rows="4"></textarea>
+                <textarea class="form-control" ng-model="s.comment.rejectedNotes" rows="4"></textarea>
             </div>
         </div>
-        <div class="comment-status-note form-group" ng-if="comment.eaoStatus === 'Published'">
+        <div class="comment-status-note form-group" ng-if="s.comment.eaoStatus === 'Published'">
           <label class="control-label">Publish Notes</label>
-          <textarea class="form-control" ng-model="comment.publishedNotes" rows="4"></textarea>
+          <textarea class="form-control" ng-model="s.comment.publishedNotes" rows="4"></textarea>
         </div>
     </section><!-- / SET COMMENT STATUS -->
 
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
-    <button type="button" class="btn btn-success" ng-click="ok(comment)" ng-if="!isPublic">Update</button>
+    <button type="button" class="btn btn-default" ng-click="s.cancel()">Cancel</button>
+    <button type="button" class="btn btn-success" ng-click="s.ok(s.comment)" ng-if="!isPublic">Update</button>
 </div>

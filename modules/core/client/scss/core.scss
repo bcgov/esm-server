@@ -35,13 +35,14 @@ $font-color-grey: 			#888;
 $font-color-disabled: 		#CCC;
 
 /* Buttons */
+$btn-focus-bg-color: 		#FFF;
 $btn-focus-border-color: 	#5475a7;
 
 /* Header */
 $header-focus-border-color: #5475a7;
 
 /* Layout */
-$left-panel-width:			20rem;
+$left-panel-width:			17rem;
 
 /* Modal */
 $modal-body-bg: 			#f1f1f1;
@@ -1490,33 +1491,47 @@ h2.page-title {
 /* PAGE LAYOUT
 ------------------------------ */
 .view-title-container {
-	margin-left: 2.5rem;
-	margin-right: 2.5rem;
+	padding: 2rem;
 	display: -webkit-flex;
 	display: flex;
-	padding-top: 2rem;
-	padding-bottom: 2rem;
-	border-bottom: 1px solid #DDD;
+	background: #f7f8fa;
+	border-bottom: 1px solid #EEE;
 	min-width: 0;
 
     h1 {
         margin: 0;
-        padding: 0;
-		font-size: 2.8rem;
+        padding-top: 0.2rem;
+		font-size: 2.5rem;
 		font-weight: bold;
-		-webkit-flex: 0 0 auto;
-		-ms-flex: 0 0 auto;
-		flex: 1 1 auto;
     }
-	
-	.placeholder {
-		color: #ccc;
-	}
-	
-	.view-title-actions {
-		-webkit-flex: 0 0 auto;
-		-ms-flex: 0 0 auto;
-		flex: 0 0 auto;
+
+	&.flex-row {
+		h1 {
+			-webkit-flex: 1 1 auto;
+			-ms-flex: 1 1 auto;
+			flex: 1 1 auto;
+		}
+
+		.actions {
+			-webkit-flex: 0 0 auto;
+			-ms-flex: 0 0 auto;
+			flex: 0 0 auto;
+
+			.btn {
+				background: transparent;
+				border: 1px solid transparent;
+
+				&:hover,
+				&:focus {
+					background: #FFF;
+					border-color: $btn-focus-border-color;
+				}
+			}
+
+			.glyphicon {
+				font-size: 1.4rem;
+			}
+		}
 	}
 }
 
@@ -1536,7 +1551,7 @@ h2.page-title {
 }
 
 .view-body-container {
-	padding: 1.5rem 2.5rem;
+	padding: 2rem;
 }
 
 
@@ -2015,6 +2030,8 @@ $sidenav-color: $link-color;
 	padding-top: 1rem;
 	padding-bottom: 1rem;
 	background: $sidenav-bg;
+	-webkit-box-shadow: 0 0 0.4rem #CCC;
+	box-shadow: 0 0 0.4rem #CCC;
 
 	.nav-pills {
 		a {
@@ -2153,64 +2170,6 @@ $sidenav-color: $link-color;
 	color: #FFF;
 	background: $success-bg;
 	border: 0 solid $success-border;
-}
-
-
-/* ATTACHMENTS 
------------------------------- */
-.attachments {
-	.list-group-item {
-		display: -webkit-flex;
-		display: flex;
-		flex-flow: row nowrap;
-		padding: 0;
-	}
-
-	.file-icon {
-		-webkit-flex: 0 0 auto;
-		flex: 0 0 auto;
-		padding-left: 1.5rem;
-		font-size: 1.8rem;
-
-		.glyphicon {
-			margin-top: 0.8rem;
-		}
-	}
-
-	.file-name {
-		-webkit-flex: 1 1 auto;
-		flex: 1 1 auto;
-		padding: 1rem;
-		padding-left: 1.5rem;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-
-	.file-actions {
-		-webkit-flex: 0 0 auto;
-		flex: 0 0 auto;
-		padding-right: 0.5rem;
-
-		.btn {
-			margin-top: 0.2rem;
-			padding: 0.6rem 1rem;
-		}
-	}
-	
-	.file-progress {
-		-webkit-flex: 0 0 14rem;
-		flex: 0 0 14rem;
-		padding: 1rem;
-
-		.progress {
-			margin: 0;
-		}
-	}
-	
-	+ .attachments-upload-target {
-		margin-top: 1.5rem;
-	}
 }
 
 
@@ -2762,9 +2721,26 @@ textarea {
 
 			.btn {
 				margin-top: 0.3rem;
-				padding-right: 0;
-				padding-left: 0;
-				width: 3.4rem;
+				min-width: 3.4rem;
+				min-height: 3.4rem;
+				background: transparent;
+				border-color: transparent;
+
+				&:hover,
+				&:focus {
+					background: $btn-focus-bg-color;
+					border-color: $btn-focus-border-color;
+				}
+			}
+
+			.file-progress {
+				margin-top: 0.9rem;
+				margin-right: 0.5rem;
+				width: 14rem;
+
+				.progress {
+					margin: 0;
+				}
 			}
 		}
 	}
@@ -2837,7 +2813,6 @@ textarea {
 ------------------------------ */ 
 .panel-default {
 	border: none;
-	border-radius: 0;
 	box-shadow: none;
 	
 	> .panel-heading {
@@ -2845,7 +2820,6 @@ textarea {
 		padding: 1.25rem 1.5rem;
 		color: $panel-heading-color;
 		border-color: $panel-border-color;
-		border-radius: 0;
 		background-image: none;
 		background-color: $panel-heading-bg;
 
@@ -2853,10 +2827,9 @@ textarea {
 			margin: 0;
 			display: block;
 			overflow: hidden;
-			font-size: 1.4rem;
+			font-size: 1.8rem;
 			font-weight: bold;
 			text-overflow: ellipsis;
-			text-transform: uppercase;
 		}
 	}
 }
@@ -2878,18 +2851,25 @@ textarea {
 			flex: 0 0 auto;
 
 			.btn {
-				margin-top: 0.5rem;
-				margin-right: 0.5rem;
+				margin-top: 0.7rem;
+				margin-right: 0.7rem;
 				margin-left: -0.25rem;
 				font-weight: bold;
+				background: transparent;
 				border-color: transparent;
 
+				&:hover,
 				&:focus {
+					background: $btn-focus-bg-color;
 					border-color: $btn-focus-border-color;
 				}
 			}
 		}
 	}
+}
+
+.panel-body {
+	padding: 2rem;
 }
 
 
@@ -3041,16 +3021,19 @@ $table-footer-bg: #F7F8FA;
 			margin-top: 0.32rem;
 			padding-left: 0.8rem;
 			padding-right: 0.8rem;
+			background: transparent;
 			border-color: transparent;
 
+			&:hover,
 			&:focus {
+				background: $btn-focus-bg-color;
 				border-color: $btn-focus-border-color;
 			}
 		}
 	}
 	
 	.action-x1 {
-		width: 6rem;
+		width: 4.5rem;
 	}
 	
 	.action-x2 {
@@ -3124,6 +3107,7 @@ $table-footer-bg: #F7F8FA;
 		margin-top: 1rem;
 	}
 
+	&:hover,
 	&:focus {
 		background: $upload-target-focus-bg;
 		border-color: $upload-target-focus-border-color;
@@ -3207,17 +3191,6 @@ hr {
 	}
 }
 
-
-/* COMMENT PERIOD VIEW
------------------------------- */
-.project-comment-period-view {
-	.table {
-		th:last-child {
-			width: 6rem;
-			text-align: right;
-		}
-	}
-}
 
 /* COMPLAINTS VIEW
 ------------------------------ */
@@ -3403,11 +3376,6 @@ tr.row-depth-3 {
 		margin-bottom: 0;
 	}
 	
-	section.project-info {
-		margin-top: 0.5rem;
-		margin-bottom: 1.5rem;
-	}
-	
 	.detail-row:first-child {
 		margin-top: 0;
 	}
@@ -3534,9 +3502,9 @@ section.project-info {
 	}
 
 	hr {
-		margin-top: 0;
+		margin-top: 0.5rem;
 		margin-right: 1.5rem;
-		margin-bottom: 1.5rem;
+		margin-bottom: 2rem;
 		margin-left: 1.5rem;
 	}
 }
@@ -3958,13 +3926,13 @@ section.project-info {
 }
 
 .pcp-details {
-	padding: 2rem;
+	padding: 2.5rem 2rem;
 	background: #FFF;
 
 	h4 {
 		margin-top: 0;
 		margin-bottom: 1rem;
-		font-size: 1.4rem;
+		font-size: 1.6rem;
 		font-weight: bold;
 	}
 
@@ -3985,23 +3953,13 @@ section.project-info {
 	list-style-type: none;
 }
 
-.pcp-package-links {
-	a {
-		display: block;
-		padding: 0.8rem 1rem;
-		text-decoration: none;
-		background: #f1f1f2;
-		border: 1px solid #f1f1f2;
-		cursor: pointer;
+.pcp-related-docs {
+	.list-group {
+		margin-bottom: 0;
+	}
 
-		&:hover { border: 1px solid #DDD;}
-
-		.glyphicon {
-			margin-top: -0.4rem;
-			margin-right: 1rem;
-			font-size: 1.8rem;
-			vertical-align: middle;
-		}
+	.list-group-item {
+		background: #F7F8FA;
 	}
 }
 
@@ -4364,7 +4322,8 @@ section.project-info {
 		}
 	}
 	
-	.comment-status-btns {
+	.comment-status-btns,
+	.actions .comment-status-btns {
 		.btn {
 			min-width: 8rem;
 			padding-top: 0.7rem;
