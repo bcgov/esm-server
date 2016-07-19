@@ -53,6 +53,7 @@ $modal-footer-bg: 			#FFF;
 $panel-border-color: 		#DDD;
 $panel-heading-bg: 			#FFF;
 $panel-heading-color: 		#494949;
+$panel-footer-bg: 			#FFF;
 
 /* Tab Navigation */
 $nav-tab-active-color:			#1a5a96;
@@ -71,6 +72,8 @@ $info-bg:					#5bc0de;
 $info-border:				#5bc0de;
 $success-bg: 				#449d44;
 $success-border: 			#398439;
+$warning-bg:				#f0ad4e;
+$warning-border:			#eea236;
 
 
 /* GLOBAL
@@ -1491,7 +1494,7 @@ h2.page-title {
 /* PAGE LAYOUT
 ------------------------------ */
 .view-title-container {
-	padding: 2rem;
+	padding: 1.75rem 2rem;
 	display: -webkit-flex;
 	display: flex;
 	background: #f7f8fa;
@@ -1754,19 +1757,34 @@ $header-height-sm: 5.2rem;
 		min-height: $header-height-sm;
 
 		a {
-			margin-top: 0.3rem;
+			margin-top: 0.4rem;
 			margin-left: 1rem;
 			padding: 0.5rem;		
 			display: inline-block;
+			color: #FFF;
+			text-decoration: none;	
 			border: 1px solid transparent;
 
 			&:focus {
 				border: 1px solid $header-focus-border-color;
 			}
 		}
-		
-		img {
+	
+		.app-brand-img,
+		.app-title {
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		.app-brand-img {
 			height: 25px;
+		}
+
+		.app-title {
+			padding-top: 0.6rem;
+			margin-left: 1.5rem;
+			font-size: 1.4rem;
+			font-weight: bold;
 		}
 	}
 	
@@ -1798,8 +1816,16 @@ $header-height-sm: 5.2rem;
 @media (min-width: 480px ) {
 	.app-header {
 		.navbar-brand {
-			img {
+			a {
+				margin-top: 0.2rem;
+			}
+
+			.app-brand-img {
 				height: 30px;
+			}
+
+			.app-title {
+				padding-top: 0.4rem;
 			}
 		}
 	}
@@ -1818,9 +1844,20 @@ $header-height-sm: 5.2rem;
 			margin: 1rem;
 		}
 		
-		.navbar-brand {		
-			img {
-				height: 41px;
+		.navbar-brand {
+			a {
+				margin-top: 0.4rem;
+			}
+
+			.app-brand-img {
+				height: 35px;
+			}
+
+			.app-title {
+				padding-top: 0.6rem;
+				margin-left: 1.5rem;
+				font-size: 1.4rem;
+				font-weight: bold;
 			}
 		}
 		
@@ -1883,6 +1920,7 @@ $header-height-sm: 5.2rem;
 			display: block;
 			min-width: 3.75rem;
 			padding: 0.75rem 0;
+			font-size: 1.3rem;
 			color: #FFF;
 			text-align: center;
 			text-decoration: none;
@@ -2172,6 +2210,12 @@ $sidenav-color: $link-color;
 	border: 0 solid $success-border;
 }
 
+.alert-warning {
+	color: #FFF;
+	background: $warning-bg;
+	border: 1px solid $warning-border;
+}
+
 
 /* BADGES
 ------------------------------ */
@@ -2235,9 +2279,9 @@ $sidenav-color: $link-color;
 
 .btn-sm {
 	.glyphicon {
+		margin-top: -5px;
 		font-size: 1.2rem;
 		vertical-align: middle;
-		margin-top: -5px;
 	}
 }
 
@@ -2870,6 +2914,10 @@ textarea {
 
 .panel-body {
 	padding: 2rem;
+}
+
+.panel-footer {
+	background: $panel-footer-bg;
 }
 
 
@@ -3521,13 +3569,6 @@ section.project-info {
 
 /* DOCUMENT BROWSER VIEW
 ------------------------------ */
-.documents-view {
-	.view-title-container {
-		padding-bottom: 0;
-		border: none;
-	}
-}
-
 .document-browser-view {
 	.panel-body {
 		padding: 0;
