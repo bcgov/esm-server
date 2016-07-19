@@ -19,7 +19,7 @@ angular.module ('comment')
 		restrict: 'E',
 		templateUrl : 'modules/project-comments/client/views/public-comments/list.html',
 		controllerAs: 's',
-		controller: function ($rootScope, $scope, NgTableParams, Authentication, CommentModel) {
+		controller: function ($rootScope, $scope, NgTableParams, Authentication, CommentModel, UserModel) {
 			var s       = this;
 			var project = s.project = $scope.project;
 			var period  = s.period  = $scope.period;

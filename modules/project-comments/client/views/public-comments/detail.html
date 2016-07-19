@@ -14,7 +14,7 @@
         <div class="alert {{ s.alertType }} eao-comment-notes">
             <div class="clearfix">
                 <span class="title pull-left"><strong>{{ s.alertNotesLabel }}</strong></span>
-                <span class="pull-right">{{s.comment.dateUpdated | amDateFormat:'MMMM Do, YYYY'}}</span>
+                <span class="pull-right">{{s.comment.dateUpdated | amDateFormat:'MMMM Do, YYYY'}} by {{ s.comment.updatedBy.displayName }}</span>
             </div>
             <div class="details">
                 <span ng-if="!s.alertNotes">No details available.</span>
