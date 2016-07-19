@@ -1,6 +1,6 @@
 <div class="public-comment-period-view">
 
-    <div class="view-title-container">
+    <div class="view-title-container no-border">
         <h1>{{project.name}} &nbsp;&rsaquo;&nbsp; Public Comment Period</h1>
     </div>
 
@@ -31,13 +31,17 @@
                 <!-- RELATED DOCUMENTS -->
                 <section>
                     <h4>Related Documents</h4>
-                    <ul class="pcp-package-links">
-                        <li>
-                            <a x-artifact-display-modal x-mode="'view'" x-artifact="artifact" x-project="project">
-                                <span class="glyphicon glyphicon-list-alt"></span>{{ artifact.name }}
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="list-group">
+                        <a class="list-group-item flex-row" x-artifact-display-modal x-mode="'view'" x-artifact="artifact" x-project="project">
+                            <div class="icon">
+                              <span class="glyphicon glyphicon-list-alt"></span> 
+                            </div>
+                            <div class="title">{{ artifact.name }}</div>
+                            <div class="actions">
+                                <button class="btn btn-link">View Details &nbsp;&rsaquo;</button>
+                            </div>
+                        </a>
+                    </div>
                 </section><!-- / RELATED DOCUMENTS -->
                 <!-- OPEN HOUSE -->
                 <section ng-if="period.openHouses.length > 0">

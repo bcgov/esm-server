@@ -1536,7 +1536,7 @@ h2.page-title {
 }
 
 .view-body-container {
-	padding: 1.5rem 2.5rem;
+	padding: 2rem 2.5rem;
 }
 
 
@@ -2762,9 +2762,13 @@ textarea {
 
 			.btn {
 				margin-top: 0.3rem;
-				padding-right: 0;
-				padding-left: 0;
-				width: 3.4rem;
+				min-width: 3.4rem;
+				min-height: 3.4rem;
+				border-color: transparent;
+
+				&:focus {
+					border-color: $btn-focus-border-color;
+				}
 			}
 		}
 	}
@@ -3050,7 +3054,7 @@ $table-footer-bg: #F7F8FA;
 	}
 	
 	.action-x1 {
-		width: 6rem;
+		width: 4.5rem;
 	}
 	
 	.action-x2 {
@@ -3207,17 +3211,6 @@ hr {
 	}
 }
 
-
-/* COMMENT PERIOD VIEW
------------------------------- */
-.project-comment-period-view {
-	.table {
-		th:last-child {
-			width: 6rem;
-			text-align: right;
-		}
-	}
-}
 
 /* COMPLAINTS VIEW
 ------------------------------ */
@@ -4364,7 +4357,8 @@ section.project-info {
 		}
 	}
 	
-	.comment-status-btns {
+	.comment-status-btns,
+	.actions .comment-status-btns {
 		.btn {
 			min-width: 8rem;
 			padding-top: 0.7rem;

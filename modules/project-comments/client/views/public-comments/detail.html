@@ -11,7 +11,7 @@
  	<div class="eao-alerts" ng-if="period.userCan.vetComments">
 
         <!-- DEFERRAL NOTES -->
-        <div class="alert alert-info eao-comment-notes" ng-if="comment.eaoStatus === 'Deferred' && comment.eaoNotes">
+        <div class="alert alert-info eao-comment-notes" ng-if="comment.eaoStatus == 'Deferred'">
             <div class="detail-row horiz">
                 <label>Reason for Deferral</label>
                 <span class="value wrap-text">{{comment.eaoNotes}}</span>
@@ -19,12 +19,12 @@
         </div><!-- / DEFERRAL NOTES -->
 
         <!-- REJECTION NOTES -->
-        <div class="alert alert-danger eao-comment-notes" ng-if="comment.eaoStatus === 'Rejected'">
+        <div class="alert alert-danger eao-comment-notes" ng-if="comment.eaoStatus == 'Rejected'">
             <div class="detail-row" ng-if="comment.rejectedReason">
                 <label>Reason for Rejection</label>
                 <span class="value wrap-text">{{ comment.rejectedReason }}</span>
             </div>
-            <div class="detail-row" ng-if="comment.rejectedNotes">
+            <div class="detail-row">
                 <label>Notes</label>
                 <span class="value wrap-text">{{ comment.rejectedNotes }}</span>
             </div>
@@ -71,16 +71,16 @@
     </section>
 
     <!-- ATTACHMENTS -->
-    <section ng-if="!period.userCan.vetComments">
+    <section ng-if="!period.userCan.vetComments && comment.documents.length > 0">
         <label class="control-label">Attachments</label>
         <div class="list-group">
-            <a ng-repeat='file in comment.documents' class="list-group-item flex-row">
+            <a  class="list-group-item flex-row" ng-repeat="file in comment.documents">
                 <div class="icon">
                     <span class="glyphicon glyphicon-file"></span>
                 </div>
                 <div class="title">{{ file.internalOriginalName }}</div>
                 <div class="actions">
-                  <a class="btn btn-link" ng-if="file._id" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download file">
+                  <a class="btn btn-default btn-sm" ng-if="file._id" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download file">
                     <span class="glyphicon glyphicon-download-alt"></span>
                   </a>
                 </div>
@@ -89,10 +89,10 @@
     </section><!-- / ATTACHMENTS -->
 
     <!-- REVIEW ATTACHMENTS -->
-    <section ng-if="period.userCan.vetComments">
+    <section ng-if="period.userCan.vetComments && comment.documents.length > 0">
         <label class="control-label">Attachments</label>
         <ul class="list-group">
-            <li ng-repeat='file in comment.documents' class="list-group-item flex-row">
+            <li class="list-group-item flex-row" ng-repeat="file in comment.documents">
               <div class="icon">
                     <span class="glyphicon glyphicon-file"></span>
                 </div>
@@ -106,7 +106,7 @@
                         Publish
                       </button>
                     </div>
-                    <a class="btn btn-link" ng-if="file._id" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download file">
+                    <a class="btn btn-default" ng-if="file._id" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download file">
                         <span class="glyphicon glyphicon-download-alt"></span>
                     </a>
                 </div>
