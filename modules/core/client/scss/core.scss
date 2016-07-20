@@ -4056,7 +4056,6 @@ section.project-info {
 .public-comment-period-view {
 	.comment-title {
 		margin: 0;
-		margin-bottom: 0.75rem;
 		font-size: 1.6rem;
 		font-weight: bold;
 	}
@@ -4070,7 +4069,8 @@ section.project-info {
 	}
 	
 	.comment {
-		margin: 0;	
+		margin-top: 0.7rem;
+		margin-bottom: 0;
 	}
 	
 	.attachment-col {
@@ -4106,7 +4106,7 @@ section.project-info {
 	.public-comment-period-view {
 		td.attachment-col {
 			position: absolute;
-			top: 0.9rem;
+			top: 0.6rem;
 			right: 9.5rem
 		}
 		
@@ -4128,7 +4128,7 @@ section.project-info {
 		
 		.eao-comment-table {
 			td.attachment-col {
-				right: 23rem;
+				right: 9.5rem;
 			}
 			
 			td.date-col {

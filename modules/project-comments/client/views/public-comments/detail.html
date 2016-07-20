@@ -25,12 +25,12 @@
     <section>
         <div class="comment-author-info">
             <span class="author"><strong>Posted by {{ ::s.comment.author }}</strong></span>
-            <span class="pull-right label {{ s.alertType }}">{{ s.alertNotesLabel }} &nbsp;-&nbsp; by {{ s.comment.updatedBy.displayName }}</span>
+            <span class="pull-right label {{ s.alertType }}" ng-if="s.alertType">{{ s.alertNotesLabel }} &nbsp;-&nbsp; by {{ s.comment.updatedBy.displayName }}</span>
             <span class="date">
                 {{s.comment.dateAdded | amDateFormat:'MMMM Do, YYYY'}} <span ng-if="s.comment.location"> &nbsp;|&nbsp; {{ ::s.comment.location }}</span>
             </span>
         </div>
-        <div class="comment-body panel panel-default">
+        <div class="comment-body panel panel-default" ng-if="s.comment.comment">
             <pre>{{ ::s.comment.comment }}</pre>
         </div>
     </section><!-- / COMMENT INFO -->
