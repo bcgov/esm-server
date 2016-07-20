@@ -9,7 +9,8 @@ angular.module('documents')
 	.controller('controllerModalDocumentUploadClassify', controllerModalDocumentUploadClassify)
 	.controller('controllerModalDocumentLink', controllerModalDocumentLink)
 	.controller('controllerModalDocumentUploadReview', controllerModalDocumentUploadReview)
-	.filter('removeExtension', filterRemoveExtension);
+	.filter('removeExtension', filterRemoveExtension)
+	.filter('displayFriendlyCode', filterDisplayFriendlyLocationCode);
 
 // -----------------------------------------------------------------------------------
 //
@@ -744,5 +745,26 @@ function filterRemoveExtension() {
 	};
 }
 
-
+filterDisplayFriendlyLocationCode.$inject = [];
+/* @ngInject */
+function filterDisplayFriendlyLocationCode() {
+	return function(input) {
+		var label = "";
+		switch (input) {
+			case 'main':
+				label = "Main Document";
+			break;
+			case 'supporting':
+				label = "Supporting Documents";
+			break;
+			case 'additional':
+				label = "Additional Documents";
+			break;
+			case 'internal':
+				label = "Internal Documents";
+			break;
+		}
+		return label;
+	};
+}
 
