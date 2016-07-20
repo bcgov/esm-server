@@ -10,32 +10,30 @@
 <div class="modal-body">
 
     <!-- COMMENT NOTE ALERTS -->
- 	<div class="eao-alerts" ng-if="s.showAlert">
-        <div class="alert {{ s.alertType }} eao-comment-notes">
-            <div class="clearfix">
-                <span class="title pull-left"><strong>{{ s.alertNotesLabel }}</strong></span>
-                <span class="pull-right">{{s.comment.dateUpdated | amDateFormat:'MMMM Do, YYYY'}} by {{ s.comment.updatedBy.displayName }}</span>
-            </div>
-            <div class="details">
-                <span ng-if="!s.alertNotes">No details available.</span>
-                <span ng-if="s.alertNotes">{{ s.alertNotes }}</span>
-                <span ng-if="s.alertReason">{{ s.alertReason }}</span>
-            </div>
+    <div class="comment-alert alert {{ s.alertType }}" ng-if="s.showAlert">
+        <div class="alert-author-info">
+            <span class="author"><strong>{{ s.alertNotesLabel }} by {{ s.comment.updatedBy.displayName }}</strong></span>
+            <span class="date">{{s.comment.dateUpdated | amDateFormat:'MMMM Do, YYYY'}}</span>
+        </div>
+        <div class="alert-notes">
+            <span ng-if="!s.alertNotes">No details available.</span>
+            <span ng-if="s.alertNotes">{{ s.alertNotes }}</span>
+            <span ng-if="s.alertReason">{{ s.alertReason }}</span>
         </div>
     </div><!-- / COMMENT NOTE ALERTS -->
 
     <!-- COMMENT INFO -->
-    <section class="comment-info">
-        <div class="detail-row">
-            <label>Posted by {{ ::s.comment.author }}</label>
-            <span class="value">
+    <section>
+        <div class="comment-author-info">
+            <span class="author"><strong>Posted by {{ ::s.comment.author }}</strong></span>
+            <span class="date">
                 {{s.comment.dateAdded | amDateFormat:'MMMM Do, YYYY'}} <span ng-if="s.comment.location"> &nbsp;|&nbsp; {{ ::s.comment.location }}</span>
             </span>
         </div>
-        <pre class="value wrap-text">{{ ::s.comment.comment }}</pre>
+        <pre class="comment-body">{{ ::s.comment.comment }}</pre>
     </section><!-- / COMMENT INFO -->
 
-    <section class="pillar-vcs">
+    <section class="pillar-vcs hidden">
         <div class="tag-list">
             <span>{{s.comment.pillars.join (', ')}} </span><span ng-if="s.comment.topics">{{s.comment.topics.join (', ')}}</span>
 
@@ -54,25 +52,27 @@
         </button>
     </section>
 
-   <!-- ATTACHMENTS -->
+    <!-- ATTACHMENTS -->
     <section ng-if="s.comment.documents.length > 0">
-        <label class="control-label">Attachments</label>
-        <ul class="list-group">
+        <label class="control-label"><span ng-if="s.period.userCan.vetComments">Review </span>Attachments</label>
+        <ul class="comment-attachments list-group">
             <li class="list-group-item flex-row" ng-repeat="file in s.comment.documents">
               <div class="icon">
                     <span class="glyphicon glyphicon-file"></span>
                 </div>
                 <div class="title">{{ file.internalOriginalName }}</div>
+                <div class="comment-review-btns" ng-if="s.period.userCan.vetComments">
+                    <button class="reject-btn btn btn-default btn-sm" type="button" title="Reject attachment"
+                        ng-class="{'active':file.eaoStatus === 'Rejected'}" 
+                        ng-click="s.fileStatusChange('Rejected', file)">Reject
+                    </button>
+                    <button class="publish-btn btn btn-default btn-sm" type="button" title="Publish attachment"
+                        ng-class="{'active':file.eaoStatus === 'Published'}"
+                        ng-click="s.fileStatusChange('Published', file)">Publish
+                    </button>
+                </div>
                 <div class="actions">
-                    <div ng-if="s.period.userCan.vetComments" class="review-file comment-status-btns btn-group">
-                      <button type="button" class="btn btn-danger btn-sm" ng-click="s.fileStatusChange('Rejected', file)" ng-class="{'active':file.eaoStatus === 'Rejected'}">
-                        Reject
-                      </button>
-                      <button type="button" class="btn btn-success btn-sm" ng-click="s.fileStatusChange('Published', file)" ng-class="{'active':file.eaoStatus === 'Published'}">
-                        Publish
-                      </button>
-                    </div>
-                    <a class="btn btn-link" ng-if="file._id" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download file">
+                    <a class="btn btn-default btn-sm" ng-if="file._id" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download file">
                         <span class="glyphicon glyphicon-download-alt"></span>
                     </a>
                 </div>
@@ -80,25 +80,27 @@
         </ul>
     </section><!-- / ATTACHMENTS -->
 
-
     <!-- SET COMMENT STATUS -->
-    <section class="comment-status" ng-if="s.period.userCan.vetComments">
+    <section class="eao-comment-review" ng-if="s.period.userCan.vetComments">
         <div class="form-group">
-            <label class="control-label">Set Comment Status</label>
-            <div class="comment-status-btns btn-group">
-                <button type="button" class="btn btn-warning btn-sm" ng-click="s.statusChange('Deferred')" ng-class="{'active':s.comment.eaoStatus === 'Deferred'}">
-                    Defer
+            <label class="control-label">Comment State</label>
+            <div class="comment-review-btns">
+                <button class="defer-btn btn btn-default" type="button" title="Defer comment"
+                    ng-class="{'active':s.comment.eaoStatus === 'Deferred'}" 
+                    ng-click="s.statusChange('Deferred')">Defer
                 </button>
-                <button type="button" class="btn btn-danger btn-sm" ng-click="s.statusChange('Rejected')" ng-class="{'active':s.comment.eaoStatus === 'Rejected'}">
-                    Reject
+                <button class="reject-btn btn btn-default" type="button" title="Reject comment"
+                    ng-class="{'active':s.comment.eaoStatus === 'Rejected'}" 
+                    ng-click="s.statusChange('Rejected')">Reject
                 </button>
-                <button type="button" class="btn btn-success btn-sm" ng-click="s.statusChange('Published')" ng-class="{'active':s.comment.eaoStatus === 'Published'}">
-                    Publish
+                <button class="publish-btn btn btn-default" type="button" title="Publish comment"
+                    ng-class="{'active':s.comment.eaoStatus === 'Published'}" 
+                    ng-click="s.statusChange('Published')">Publish
                 </button>
-            </ul>
+            </div>
         </div>
         <div class="comment-status-note form-group" ng-class="{ 'has-error' : commentForm.eaoNotes.$invalid }" ng-if="s.comment.eaoStatus === 'Deferred'">
-            <label class="control-label">Deferral Notes<em>Required</em></label>
+            <label class="control-label">Deferral Note<em>Required</em></label>
             <textarea class="form-control" name="eaoNotes" ng-model="s.comment.eaoNotes" rows="4" ng-required="s.comment.eaoStatus === 'Deferred'" ></textarea>
         </div>
         <div class="comment-status-note" ng-if="s.comment.eaoStatus === 'Rejected'">
@@ -107,12 +109,12 @@
                 <input class="form-control" name="rejectedReason" type="text" ng-model="s.comment.rejectedReason" ng-required="s.comment.eaoStatus === 'Rejected'" />
             </div>
             <div class="form-group" ng-class="{ 'has-error' : commentForm.rejectedNotes.$invalid }">
-                <label class="control-label">Rejection Notes<em>Required</em></label>
+                <label class="control-label">Rejection Note<em>Required</em></label>
                 <textarea class="form-control" name="rejectedNotes" ng-model="s.comment.rejectedNotes" ng-required="s.comment.eaoStatus === 'Rejected'" rows="4"></textarea>
             </div>
         </div>
         <div class="comment-status-note form-group" ng-class="{ 'has-error' : commentForm.publishedNotes.$invalid }" ng-if="s.comment.eaoStatus === 'Published'">
-          <label class="control-label">Publish Notes</label>
+          <label class="control-label">Notes<em>Optional</em></label>
           <textarea class="form-control" name="publishedNotes" ng-model="s.comment.publishedNotes" ng-required="false" rows="4"></textarea>
         </div>
     </section><!-- / SET COMMENT STATUS -->

@@ -119,16 +119,16 @@ angular.module ('comment')
 						if (self.period.userCan.vetComments && self.comment.eaoStatus !== 'Unvetted') {
 							// we've changed the status from the default.
 							if (self.comment.eaoStatus === 'Deferred') {
-								self.alertType = 'alert-warning';
-								self.alertNotesLabel = 'Comment Deferred';
+								self.alertType = 'alert-info';
+								self.alertNotesLabel = 'Deferred';
 								self.alertNotes = self.comment.eaoNotes;
 							} else if (self.comment.eaoStatus === 'Published') {
 								self.alertType = 'alert-success';
-								self.alertNotesLabel = 'Publish Notes';
+								self.alertNotesLabel = 'Published';
 								self.alertNotes = self.comment.publishedNotes;
 							} else if (self.comment.eaoStatus === 'Rejected') {
 								self.alertType = 'alert-danger';
-								self.alertNotesLabel = 'Comment Rejected';
+								self.alertNotesLabel = 'Rejected';
 								self.alertReasonLabel = 'Reason for Rejection';
 								self.alertReason = self.comment.rejectedReason;
 								self.alertNotes = self.comment.rejectedNotes;

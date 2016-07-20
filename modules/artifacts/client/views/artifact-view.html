@@ -1,7 +1,9 @@
 
-<div class="view-title-container no-border">
+<div class="view-title-container flex-row">
 	<h1>{{artifact.name}}</h1>
-	<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="artifact"></tmpl-permissions-gear>
+	<div class="actions">
+		<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="artifact"></tmpl-permissions-gear>
+	</div>
 </div>
 
 <div class="view-body-container">
@@ -16,4 +18,5 @@
 			<a class="btn btn-default" ng-if="artifact.userCan.write" ui-sref="p.artifact.edit({artifactId:artifact._id})">Edit</a>
 		</div>
 	</div>
+	
 </div>

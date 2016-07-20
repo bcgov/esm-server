@@ -70,8 +70,8 @@ $danger-bg:				 	#d9534f;
 $danger-border:				#d43f3a;
 $info-bg:					#5bc0de;
 $info-border:				#5bc0de;
-$success-bg: 				#449d44;
-$success-border: 			#398439;
+$success-bg: 				#5cb85c;
+$success-border: 			#4cae4c;
 $warning-bg:				#f0ad4e;
 $warning-border:			#eea236;
 
@@ -1494,7 +1494,7 @@ h2.page-title {
 /* PAGE LAYOUT
 ------------------------------ */
 .view-title-container {
-	padding: 1.75rem 2rem;
+	padding: 1.7rem 2rem;
 	display: -webkit-flex;
 	display: flex;
 	background: #f7f8fa;
@@ -1520,7 +1520,7 @@ h2.page-title {
 			-ms-flex: 0 0 auto;
 			flex: 0 0 auto;
 
-			.btn {
+			.btn-default {
 				background: transparent;
 				border: 1px solid transparent;
 
@@ -2253,14 +2253,13 @@ $sidenav-color: $link-color;
 	&.active { box-shadow: none; }
 
 	.glyphicon {
-		margin-top: 2px;
-		font-size: 1.4rem;
-		vertical-align: top;
+		top: 1px;
+		font-size: 1.2rem;
+
+		+ span {
+			margin-left: 0.7rem;
+		}
 	}
-		
-    .glyphicon + span {
-        margin-left: 0.5rem;
-    }
 }
 
 .btn-link,
@@ -2279,9 +2278,11 @@ $sidenav-color: $link-color;
 
 .btn-sm {
 	.glyphicon {
-		margin-top: -5px;
-		font-size: 1.2rem;
-		vertical-align: middle;
+		top: 2px;
+
+		+ span {
+			margin-left: 0.7rem;
+		}
 	}
 }
 
@@ -2763,10 +2764,10 @@ textarea {
 			flex: 0 0 auto;
 			padding-right: 0.5rem;
 
-			.btn {
-				margin-top: 0.3rem;
-				min-width: 3.4rem;
-				min-height: 3.4rem;
+			.btn-default {
+				margin-top: 0.5rem;
+				min-width: 3rem;
+				min-height: 3rem;
 				background: transparent;
 				border-color: transparent;
 
@@ -2856,7 +2857,7 @@ textarea {
 /* PANELS
 ------------------------------ */ 
 .panel-default {
-	border: none;
+	border: 1px solid #DDD;
 	box-shadow: none;
 	
 	> .panel-heading {
@@ -4269,21 +4270,6 @@ section.project-info {
 }
 
 .public-comment-modal {
-	.alert {
-		margin: -2rem;
-		margin-bottom: 2.5rem;
-		padding: 1.5rem 2rem;
-		border-radius: 0;
-
-		.title {
-			font-size: 1.8rem;
-		}
-
-		.details {
-			margin-top: 1rem;
-		}
-	}
-	
 	h4 {
 		margin-top: 1rem;
 		font-weight: bold;
@@ -4297,9 +4283,15 @@ section.project-info {
 			text-decoration: underline;
 		}
 	}
-	
-	.form-group {
-		margin-bottom: 2rem;
+
+	section {
+		margin-bottom: 2.5rem;
+		padding-bottom: 0;
+		border: none;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
 	}
 	
 	.control-label,
@@ -4319,107 +4311,85 @@ section.project-info {
 			text-shadow: 0 0 1px #FFF;
 		}
 	}
-	
-	.eao-comment-notes {
-		margin-bottom: 2.5rem;
-		
-		label,
-		.value {
-			color: inherit;
+
+	.comment-review-btns {
+		-webkit-flex: 0 0 auto;
+		flex: 0 0 auto;
+
+		.defer-btn,
+		.publish-btn,
+		.reject-btn {
+			text-shadow: 1px 1px 0 #FFF;
+
+			&.active {
+				color: #FFF;
+				text-shadow: none;
+			}
 		}
-		
-		label {
-			text-shadow: 1px 1px 0 transparent;
+
+		.defer-btn {
+			&.active {
+				background: $info-bg;
+				border-color: $info-border;
+			}
 		}
-		
-		.detail-row:first-child {
-			margin-top: 0;
+
+		.publish-btn {
+			&.active {
+				background: $success-bg;
+				border-color: $success-border;
+			}
 		}
-		
-		.detail-row:last-child {
-			margin-bottom: 0;
+
+		.reject-btn {
+			&.active {
+				background: $danger-bg;
+				border-color: $danger-border;
+			}
 		}
 	}
-	
-	.list-group,
-	.pick-list,
-	.upload-attachments {
-		margin-bottom: 0;
+
+	.alert-author-info,
+	.comment-author-info {
+		margin-bottom: 1rem;
+
+		.date {
+			display: block;
+		}
 	}
-	
-	.pick-list {
-		height: 15rem;
+
+	.comment-attachments {
+		.comment-review-btns {
+			-webkit-flex: 0 0 auto;
+			flex: 0 0 auto;
+			padding-right: 0.5rem;
+
+			.btn {
+				margin-top: 0.5rem;
+				min-width: 7rem;
+			}
+		}
 	}
-	
-	section {
+
+	.comment-alert {
 		margin-bottom: 2rem;
-		
-		h3 {
-			margin-bottom: 0.75rem;
-			font-size: 1.6rem;
-			font-weight: bold;
-		}
-	}
-	
-	section:last-child {
-		margin-bottom: 0;
-	}
-	
-	.comment-info {
-		.detail-row {
-			margin-top: 0;
-		}
-
-	}
-	
-	.comment-status {
-		.form-group:last-child {
-			margin-bottom: 0;
-		}
-	}
-	
-	.comment-status-btns,
-	.actions .comment-status-btns {
-		.btn {
-			min-width: 8rem;
-			padding-top: 0.7rem;
-			padding-bottom: 0.7rem;
-			text-transform: uppercase;
-		}
-		
-		.btn-warning,
-		.btn-danger,
-		.btn-success {
-			color: #999;
-			background: #FFF;
-			border-color: #CCC;
-		}
-		
-		.btn-warning.active {
-			background: #f0ad4e;
-			border-color: #eea236;
-			color: #FFF;
-		}
-
-		.btn-danger.active {
-			background: #d9534f;
-			border-color: #d43f3a;
-			color: #FFF;
-		}
-		
-		.btn-success.active {
-			background: #5cb85c;
-			border-color: #4cae4c;
-			color: #FFF;
-		}
-	}
-	
-	.comment-status-note {
-		margin-top: 2rem;
 	}
 
-	.pillar-vcs {
-		margin-bottom: 2.5rem;
+	.eao-comment-review {
+		.form-group {
+			margin-bottom: 2.5rem;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		.comment-review-btns {
+			.btn {
+				min-width: 10rem;
+				padding-top: 0.7rem;
+			}
+		}
 	}
 }
 
