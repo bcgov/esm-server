@@ -266,6 +266,9 @@ module.exports = DBModel.extend ({
 			});
 	},
 	publish: function(doc) {
+		if (!doc)
+			return Promise.resolve();
+		
 		return new Promise(function (resolve, reject) {
 				doc.publish();
 				doc.save()
@@ -276,6 +279,9 @@ module.exports = DBModel.extend ({
 		});
 	},
 	unpublish: function(doc) {
+		if (!doc)
+			return Promise.resolve();
+		
 		return new Promise(function (resolve, reject) {
 			doc.unpublish();
 			doc.save()
