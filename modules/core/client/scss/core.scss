@@ -4349,13 +4349,23 @@ section.project-info {
 		}
 	}
 
-	.alert-author-info,
 	.comment-author-info {
 		margin-bottom: 1rem;
 
+		.author {
+			font-size: 1.6rem;
+		}
+
 		.date {
 			display: block;
+			color: $font-color-grey;
 		}
+	}
+
+	.comment-body {
+		max-height: 50rem;
+		padding: 1.5rem;
+		overflow-y: auto;
 	}
 
 	.comment-attachments {
@@ -4373,6 +4383,7 @@ section.project-info {
 
 	.comment-alert {
 		margin-bottom: 2rem;
+		display: none;
 	}
 
 	.eao-comment-review {
