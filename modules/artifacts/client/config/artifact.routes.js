@@ -130,7 +130,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				if (!newval || newval.length === 0) return;
 				//console.log ('nedw collection:', newval);
 				Document.getDocument (newval[0]).then (function (ret) {
-					$scope.artifact.document = ret.data;
+					$scope.artifact.document = ret;
 					//console.log ('doc is now', $scope.artifact.document);
 				});
 			});
