@@ -110,10 +110,13 @@ angular.module ('comment')
 					controller: function ($scope, $modalInstance, docs) {
 						var self = this;
 
+
 						self.period      				= period;
 						self.project     				= project;
 						self.comment     				= angular.copy(comment);
 						self.comment.documents 	= angular.copy(docs);
+
+						self.canUpdate = (self.period.userCan.classifyComments || self.period.userCan.vetComments);
 
 						self.showAlert = false;
 						if (self.period.userCan.vetComments && self.comment.eaoStatus !== 'Unvetted') {
