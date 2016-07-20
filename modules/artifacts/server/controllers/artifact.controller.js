@@ -13,6 +13,7 @@ var ActivityClass = require(path.resolve('./modules/activities/server/controller
 var PhaseClass = require(path.resolve('./modules/phases/server/controllers/phase.controller'));
 // var Roles               = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 var _ = require('lodash');
+var DocumentClass  = require (path.resolve('./modules/documents/server/controllers/core.document.controller'));
 
 module.exports = DBModel.extend({
 	name: 'Artifact',
@@ -458,15 +459,109 @@ module.exports = DBModel.extend({
 	//
 	// -------------------------------------------------------------------------
 	publish: function (artifact) {
+		var documentClass = new DocumentClass(this.opts);
 		return new Promise(function (resolve, reject) {
 			artifact.publish();
-			artifact.save().then(resolve, reject);
+			artifact.save()
+				.then(function () {
+					// publish document, additionalDocuments, supportingDocuments
+					//console.log('documentClass.publish(artifact.document): ' + JSON.stringify(artifact.document, null, 4));
+					return documentClass.publish(artifact.document);
+				})
+				.then(function () {
+					return documentClass.getList(artifact.additionalDocuments);
+				})
+				.then(function (list) {
+					//console.log('documentClass.publishList(artifact.additionalDocuments): ' + JSON.stringify(list, null, 4));
+					var a = _.forEach(list, function (d) {
+						return new Promise(function (resolve, reject) {
+							resolve(documentClass.publish(d));
+						});
+					});
+					return Promise.all(a);
+				})
+				.then(function () {
+					return documentClass.getList(artifact.supportingDocuments);
+				})
+				.then(function (list) {
+					//console.log('documentClass.publishList(artifact.supportingDocuments): ' + JSON.stringify(list, null, 4));
+					var a = _.forEach(list, function (d) {
+						return new Promise(function (resolve, reject) {
+							resolve(documentClass.publish(d));
+						});
+					});
+					return Promise.all(a);
+				})
+				.then(function () {
+					return documentClass.getList(artifact.internalDocuments);
+				})
+				.then(function (list) {
+					//console.log('documentClass.unpublishList(artifact.internalDocuments): ' + JSON.stringify(list, null, 4));
+					var a = _.forEach(list, function (d) {
+						return new Promise(function (resolve, reject) {
+							resolve(documentClass.unpublish(d));
+						});
+					});
+					return Promise.all(a);
+				})
+				.then(function () {
+					console.log('< save()');
+					return artifact;
+				})
+				.then(resolve, reject);
 		});
 	},
 	unpublish: function (artifact) {
+		var documentClass = new DocumentClass(this.opts);
 		return new Promise(function (resolve, reject) {
 			artifact.unpublish();
-			artifact.save().then(resolve, reject);
+			artifact.save()
+				.then(function () {
+					// publish document, additionalDocuments, supportingDocuments
+					//console.log('documentClass.unpublish(artifact.document): ' + JSON.stringify(artifact.document, null, 4));
+					return documentClass.unpublish(artifact.document);
+				})
+				.then(function () {
+					return documentClass.getList(artifact.additionalDocuments);
+				})
+				.then(function (list) {
+					//console.log('documentClass.unpublishList(artifact.additionalDocuments): ' + JSON.stringify(list, null, 4));
+					var a = _.forEach(list, function (d) {
+						return new Promise(function (resolve, reject) {
+							resolve(documentClass.unpublish(d));
+						});
+					});
+					return Promise.all(a);
+				})
+				.then(function () {
+					return documentClass.getList(artifact.supportingDocuments);
+				})
+				.then(function (list) {
+					//console.log('documentClass.unpublishList(artifact.supportingDocuments): ' + JSON.stringify(list, null, 4));
+					var a = _.forEach(list, function (d) {
+						return new Promise(function (resolve, reject) {
+							resolve(documentClass.unpublish(d));
+						});
+					});
+					return Promise.all(a);
+				})
+				.then(function () {
+					return documentClass.getList(artifact.internalDocuments);
+				})
+				.then(function (list) {
+					//console.log('documentClass.unpublishList(artifact.internalDocuments): ' + JSON.stringify(list, null, 4));
+					var a = _.forEach(list, function (d) {
+						return new Promise(function (resolve, reject) {
+							resolve(documentClass.unpublish(d));
+						});
+					});
+					return Promise.all(a);
+				})
+				.then(function () {
+					console.log('< save()');
+					return artifact;
+				})
+				.then(resolve, reject);
 		});
 	}
 });
