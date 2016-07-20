@@ -3,6 +3,6 @@
 	<h3>{{ parameter.name }}</h3>
 	<span class="project-type"><strong>Type:</strong> &nbsp;{{ parameter.type }}</span>
 	<pre class="project-desc" ng-if="parameter.description">{{ parameter.description | maxWords: 24 }}</pre>
-	<a class="btn btn-success public-comment-btn" href>Public Commenting Open - Click Here</a> 
+	<a ng-if="parameter.isOpen" href="p/{{parameter.code}}/commentperiod/{{parameter.period._id}}" class="btn btn-success public-comment-btn">Public Commenting Open - Click Here</a> 
 	<a class="project-link" ui-sref="p.detail({projectid: parameter.code })">View Project Details</a>	
 </div>
