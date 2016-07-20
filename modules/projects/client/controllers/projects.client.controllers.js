@@ -69,9 +69,9 @@ function controllerProjectsSearch($scope, $state, Authentication, ProjectModel, 
 // CONTROLLER: Projects
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsList.$inject = ['$scope', 'Authentication', '_', 'uiGmapGoogleMapApi', '$filter'];
+controllerProjectsList.$inject = ['$scope', 'Authentication', '_', 'uiGmapGoogleMapApi', '$filter', 'CommentPeriodModel'];
 /* @ngInject */
-function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $filter) {
+function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $filter, CommentPeriodModel) {
 	var projectList = this;
 	projectList.map = {
 		center: {
@@ -86,6 +86,21 @@ function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $
 		markers: projectList.projectsFiltered, // array of models to display
 		markersEvents: {
 			click: function(marker, eventName, model) {
+				// Is there an open comment period?
+				CommentPeriodModel.forProject(model._id)
+				.then( function (periods) {
+					var isOpen = false;
+					_.each(periods, function (period) {
+						var today 	= new Date ();
+						var start 	= new Date (period.dateStarted);
+						var end 	= new Date (period.dateCompleted);
+						var open 	= start < today && today < end;
+						if (open) {
+							model.isOpen = true;
+							model.period = period;
+						}
+					});
+				});
 				projectList.map.window.model = model;
 				projectList.map.window.show = true;
 			}
