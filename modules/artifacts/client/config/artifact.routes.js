@@ -404,10 +404,11 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			};
 			$scope.submit = function () {
 				console.log("publishing artifact and supporting documents:", $scope.artifact.document);
-				Document.publish($scope.artifact.additionalDocuments[0]);
+				//Document.publish($scope.artifact.additionalDocuments[0]);
 				ArtifactModel.publish ($scope.artifact._id)
-				.then (function () {
-					return ArtifactModel.nextStage ($scope.artifact);
+				.then (function (res) {
+					$scope.artifact = res;
+					return ArtifactModel.nextStage (res);
 				})
 				.then (function (model) {
 					$state.go ('p.detail', {projectid:project.code});
