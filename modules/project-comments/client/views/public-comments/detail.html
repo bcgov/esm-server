@@ -117,8 +117,8 @@
 
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="s.cancel()">Cancel</button>
-    <button type="submit" class="btn btn-success" ng-if="!isPublic" ng-disabled="!commentForm.$valid || s.comment.eaoStatus === 'Unvetted'">Update</button>
+    <button type="button" class="btn btn-default" ng-click="s.cancel()">{{ s.canUpdate ? 'Cancel' : 'Close' }}</button>
+    <button type="submit" class="btn btn-success" ng-if="s.canUpdate" ng-disabled="!commentForm.$valid || s.comment.eaoStatus === 'Unvetted'">Update</button>
 </div>
 
 </form>
