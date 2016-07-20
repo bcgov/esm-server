@@ -89,7 +89,7 @@ module.exports = function (app) {
 			return model.resolveCommentPeriod (req.CommentPeriod.ancestor, false);
 		}));
 	
-	app.route ('/api/comment/:commentId/documents').all(policy ('user'))
+	app.route ('/api/comment/:commentId/documents').all(policy ('guest'))
 	.get (routes.setAndRun (CommentModel, function (model, req) {
 		return model.getCommentDocuments(req.params.commentId);
 	}));
