@@ -224,17 +224,9 @@ a.control-label:hover,
 	display: none !important;
 }
 
-button:focus, a:focus {
-	outline: 0 !important;
-}
-
 h1,h2,h3,h4,h5,h6 {
 	font-weight: normal;
 	letter-spacing: -0.01em;
-}
-
-p.small {
-	margin: 0 0 0;
 }
 
 td h4 {
@@ -244,12 +236,6 @@ th > .progress {
 	margin-bottom: 0;
 }
 
-.ng-table-filters th {
-	font-weight: 500;
-}
-.ng-table th {
-	text-align: left;
-}
 pre {
 	padding: 0;
 	margin: 0;
@@ -1521,18 +1507,11 @@ h2.page-title {
 			flex: 0 0 auto;
 
 			.btn-default {
-				background: transparent;
-				border: 1px solid transparent;
-
 				&:hover,
 				&:focus {
 					background: #FFF;
 					border-color: $btn-focus-border-color;
 				}
-			}
-
-			.glyphicon {
-				font-size: 1.4rem;
 			}
 		}
 	}
@@ -2540,6 +2519,14 @@ $file-browser-item-active: #2b5580;
 }
 
 
+/* RICH TEXT EDITOR
+------------------------------ */
+.form-group .mce-panel {
+	background-color: #FFF;
+
+}
+
+
 /* FORM CONTROLS
 ------------------------------ */
 .control-label {
@@ -2872,7 +2859,7 @@ textarea {
 			margin: 0;
 			display: block;
 			overflow: hidden;
-			font-size: 1.8rem;
+			font-size: 1.6rem;
 			font-weight: bold;
 			text-overflow: ellipsis;
 		}
@@ -2976,7 +2963,9 @@ $nav-tab-active: #1a5a96;
 		margin-bottom: -4px;
 
 		> a {
+			padding: 0.5rem 1.5rem;
 			font-size: 1.6rem;
+			font-weight: bold;
 			color: $nav-tab-inactive-color;
 			border: none;
 			border-bottom: 4px solid $nav-tab-inactive-border-color;
@@ -3466,7 +3455,7 @@ section.project-info {
 }
 
 .detail-row {
-	margin: 1.5rem 0;
+	margin-bottom: 1.5rem;
 	font-size: 1.2rem;
 	
 	label,
@@ -3489,6 +3478,19 @@ section.project-info {
 	
 	span.value.wrap-text {
 		white-space:normal;
+	}
+
+	pre {
+		line-height: 0;
+
+		p {
+			line-height: 2rem;
+			color: #888;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
 	}
 }
 
@@ -4353,7 +4355,7 @@ section.project-info {
 		margin-bottom: 1rem;
 
 		.author {
-			font-size: 1.6rem;
+			font-size: 1.4rem;
 		}
 
 		.date {
@@ -4669,15 +4671,9 @@ tmpl-template-render {
 
 /* VALUED COMPONENTS VIEW
 ----------------------------- */
-.valued-component-view {
-	.textarea {
-		min-height: 8.5rem;
-	}
-}
-
 .edit-valued-component-view {
-	.textarea {
-		height: 8.5rem;
+	.form-group {
+		margin-bottom: 2rem;
 	}
 }
 

@@ -1,58 +1,99 @@
 <div class="valued-component-view">
 
 	<div class="view-title-container flex-row">
-		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Valued Component</h1>
+		<h1>Valued Component &nbsp;&rsaquo;&nbsp; {{vc.title}}</h1>
 		<div class="actions">
+			<button class="btn btn-default btn-sm"
+				ng-click="$event.stopPropagation()" 
+				x-mode="'edit'" 
+				ui-sref="p.vc.edit({vcId:vc._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span>
+			</button>
 			<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="vc"></tmpl-permissions-gear>
 		</div>
 	</div>
 
 	<div class="view-body-container">
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="title" class="control-label">Valued Component Name</label>
-					<div class="form-control-static" id="title">{{vc.name}}</div>
+
+		<div class="vc-details">
+			<div class="row">
+				<div class="col-md-4 detail-row">
+					<label>Title</label>
+					<span class="value">{{vc.title}}</span>
+				</div>
+				<div class="col-md-4 detail-row">
+					<label>Pillar</label>
+					<span class="value">{{vc.pillar}}</span>
+				</div>
+				<div class="col-md-4 detail-row">
+					<label>Name</label>
+					<span class="value">{{vc.name}}</span>
 				</div>
 			</div>
-			<div class="col-sm-3 hidden">
-				<div class="form-group">
-					<label for="sector" class="control-label">Project Sector</label>
-					<div class="form-control-static" id="title">{{vc.sector}}</div>
+			<div class="row" ng-if="vc.description">
+				<div class="col-sm-12 detail-row">
+					<label>Description</label>
+					<pre class="value wrap-text" id="shortDesc" ng-bind-html="vc.description"></pre>
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="shortDesc" class="control-label">Description</label>
-					<pre class="form-control-static" id="shortDesc" ng-bind-html="vc.description"></pre>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="shortDesc" class="control-label">Report Requirements</label>
-					<div class="form-control-static textarea" id="shortDesc">{{vc.reportRequirements}}</div>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="pillar" class="control-label">Pillar</label>
-					<div class="form-control-static" id="pillar" >{{vc.pillar}}</div>
-				</div>
-			</div>
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="stage" class="control-label">Project Stage</label>
-					<div class="form-control-static" id="pillar">{{vc.stage}}</div>
+
+			<div class="row" ng-if="vc.reportRequirements">
+				<div class="col-sm-12 detail-row">
+					<label>Report Requirements</label>
+					<span class="value wrap-text">{{vc.reportRequirements}}</span>
 				</div>
 			</div>
 		</div>
-		<tmpl-artifact-display x-mode="'view'" x-artifact="vc.artifact" x-project="project"></tmpl-artifact-display>
+
+		<div class="hidden">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<label for="title" class="control-label">Valued Component Name</label>
+						<div class="form-control-static" id="title">{{vc.name}}</div>
+					</div>
+				</div>
+				<div class="col-sm-3 hidden">
+					<div class="form-group">
+						<label for="sector" class="control-label">Project Sector</label>
+						<div class="form-control-static" id="title">{{vc.sector}}</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<label for="shortDesc" class="control-label">Description</label>
+						<pre class="form-control-static" id="shortDesc" ng-bind-html="vc.description"></pre>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<label for="shortDesc" class="control-label">Report Requirements</label>
+						<div class="form-control-static textarea" id="shortDesc">{{vc.reportRequirements}}</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="pillar" class="control-label">Pillar</label>
+						<div class="form-control-static" id="pillar" >{{vc.pillar}}</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="stage" class="control-label">Project Stage</label>
+						<div class="form-control-static" id="pillar">{{vc.stage}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div>
+			<tmpl-artifact-display x-mode="'view'" x-artifact="vc.artifact" x-project="project"></tmpl-artifact-display>
+		</div>
 
 		<div class="form-footer clearfix">
 			<a class="back-btn btn btn-link pull-left" ui-sref="p.vc.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Valued Components</a>
