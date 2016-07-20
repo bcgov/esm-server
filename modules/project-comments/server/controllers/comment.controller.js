@@ -26,44 +26,54 @@ module.exports = DBModel.extend ({
 	preprocessAdd: function (comment) {
 		// this.setForce (true);
 		var self = this;
-		var commentPeriod = new Period (this.opts);
-		return new Promise (function (resolve, reject) {
+		var commentPeriod = new Period(this.opts);
+		var documentClass = new DocumentClass(this.opts);
+		return new Promise(function (resolve, reject) {
 			//
 			// get the period info
 			//
-			commentPeriod.findById (comment.period)
-			.then (function (period) {
-				//
-				// ROLES
-				//
-				return self.setModelPermissions (comment, {
-					read             : period.vettingRoles,
-					delete           : ['eao-admin'],
-					write            : period.commenterRoles.concat (
-						period.classificationRoles,
-						period.vettingRoles,
-						'eao-admin',
-						'pro-admin'
-					),
-				});
-				// return Access.setObjectPermissionRoles ({
-				// 	resource: comment,
-				// 	permissions: {
-				// 		read             : period.vettingRoles,
-				// 		delete           : ['eao-admin'],
-				// 		write            : period.commenterRoles.concat (
-				// 			period.classificationRoles,
-				// 			period.vettingRoles,
-				// 			'eao-admin',
-				// 			'pro-admin'
-				// 		),
-				// 	}
-				// });
-			})
-			.then (function () {
-				return comment;
-			})
-			.then (resolve, reject);
+			commentPeriod.findById(comment.period)
+				.then(function (period) {
+					//
+					// ROLES
+					//
+					return self.setModelPermissions(comment, {
+						read: period.vettingRoles,
+						delete: ['eao-admin'],
+						write: period.commenterRoles.concat(
+							period.classificationRoles,
+							period.vettingRoles,
+							'eao-admin',
+							'pro-admin'
+						),
+					});
+				})
+				.then(function (commentPermissions) {
+					// get all the associated documents and update their permissions as required.
+					return new Promise(function (resolve, reject) {
+						documentClass.getList(comment.documents)
+							.then(function (data) {
+								resolve({commentPermissions: commentPermissions, docs: data});
+							});
+					});
+				})
+				.then(function (data) {
+					var commentPermissions = data.commentPermissions;
+					var docs = data.docs;
+					return docs.reduce(function (current, doc, index) {
+						// not publishing, but changing the permissions to match the comment
+						return new Promise(function (resolve, reject) {
+							documentClass.setModelPermissions(doc, commentPermissions)
+								.then(function () {
+									return doc.save();
+								}).then(resolve, reject);
+						});
+					}, Promise.resolve());
+				})
+				.then(function () {
+					return comment;
+				})
+				.then(resolve, reject);
 		});
 	},
 	preprocessUpdate: function (comment) {
