@@ -4,8 +4,7 @@
 	<button type="button" class="btn btn-default close" aria-label="Close" ng-click="s.cancel()">
 		<span aria-hidden="true">&times;</span>
 	</button>
-    <h3 ng-if="::s.comment.isAnonymous" class="modal-title">Public Comment  &nbsp;&rsaquo;&nbsp; Anonymous</h3>
-    <h3 ng-if="::!s.comment.isAnonymous" class="modal-title">Public Comment  &nbsp;&rsaquo;&nbsp; {{ ::s.comment.author }}</h3>
+    <h3 class="modal-title">Public Comment</h3>
 </div>
 <div class="modal-body">
 
@@ -26,29 +25,26 @@
     <section>
         <div class="comment-author-info">
             <span class="author"><strong>Posted by {{ ::s.comment.author }}</strong></span>
+            <span class="pull-right label {{ s.alertType }}" ng-if="s.alertType">{{ s.alertNotesLabel }} &nbsp;-&nbsp; by {{ s.comment.updatedBy.displayName }}</span>
             <span class="date">
                 {{s.comment.dateAdded | amDateFormat:'MMMM Do, YYYY'}} <span ng-if="s.comment.location"> &nbsp;|&nbsp; {{ ::s.comment.location }}</span>
             </span>
         </div>
-        <pre class="comment-body">{{ ::s.comment.comment }}</pre>
+        <div class="comment-body panel panel-default" ng-if="s.comment.comment">
+            <pre>{{ ::s.comment.comment }}</pre>
+        </div>
     </section><!-- / COMMENT INFO -->
 
-    <section class="pillar-vcs hidden">
+    <section class="pillar-vcs">
         <div class="tag-list">
-            <span>{{s.comment.pillars.join (', ')}} </span><span ng-if="s.comment.topics">{{s.comment.topics.join (', ')}}</span>
-
-            <!--
-            <span class="label label-primary" ng-repeat="pillar in comment.pillars">{{pillar}}</span>
-            <span class="label label-default" ng-repeat="vc in comment.valuedComponents">{{vc}}</span>
-            -->
-
+            <span ng-if="s.comment.pillars">{{s.comment.pillars.join (', ')}} </span><span ng-if="s.comment.topics">{{s.comment.topics.join (', ')}}</span>
         </div>
-        <button type="button" class="btn btn-default btn-sm" ng-if="s.period.userCan.classifyComments"
+        <button type="button" class="btn btn-default btn-sm" ng-if="s.period.userCan.classifyComments" title="Assign Valued Components"
             x-vc-chooser
             x-project="s.project"
             x-current="s.comment.valuedComponents"
             x-topics="s.comment.topics"
-            x-pillars="s.comment.pillars">Assign Valued Components
+            x-pillars="s.comment.pillars"><span class="glyphicon glyphicon-plus"></span><span>Assign Valued Components</span>
         </button>
     </section>
 
