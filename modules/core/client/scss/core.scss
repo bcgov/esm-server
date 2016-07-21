@@ -1483,7 +1483,7 @@ h2.page-title {
 	padding: 1.7rem 2rem;
 	display: -webkit-flex;
 	display: flex;
-	background: #f7f8fa;
+	background: #FFF;
 	border-bottom: 1px solid #EEE;
 	min-width: 0;
 
@@ -2584,6 +2584,17 @@ form {
 	.btn + .btn {
 		margin-left: 0.5rem;
 	}
+
+	&.fixed {
+		position: fixed;
+		left: 17rem;
+		right: 0;
+		bottom: 4rem;
+		padding: 1.5rem 2rem;
+		background: #f7f8fa;
+		border-top: 1px solid #EEE;
+		box-shadow: 0 0 4px #CCC;
+	}
 }
 
 .form-footer.no-border {
@@ -2964,7 +2975,7 @@ $nav-tab-active: #1a5a96;
 
 		> a {
 			padding: 0.5rem 1.5rem;
-			font-size: 1.6rem;
+			font-size: 1.4rem;
 			font-weight: bold;
 			color: $nav-tab-inactive-color;
 			border: none;
