@@ -261,14 +261,6 @@ module.exports = DBModel.extend ({
 				// 	permissions : {submit : [p.adminRole, p.sectorRole]}
 				// });
 			})
-			.then (function (pp) {
-				self.postMessage ({
-					headline: 'Submitted for Approval: '+pp.name,
-					content: pp.name+' has been submitted for approval to the Environmental Assessment process.\n'+pp.description,
-					project: pp._id
-				});
-				return pp;
-			})
 			.then (resolve, reject);
 		});
 	},
