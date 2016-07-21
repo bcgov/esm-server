@@ -6,7 +6,7 @@
 			<h1><span>Add/Edit Project</span><span ng-show="project.name">&nbsp; &rsaquo; &nbsp;{{ project.name }}</span></h1>
 			<div class="view-title-actions hidden">
 				<button class="btn btn-default btn-sm" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
-				<button class="btn btn-default btn-sm" ng-if="isNew" ui-sref="projects">Cancel</button>		
+				<button class="btn btn-default btn-sm" ng-if="isNew" ui-sref="projects">Cancel</button>
 				<button class="btn btn-default btn-sm" href type="submit">Save</button>
 				<button class="btn btn-default btn-sm" href ng-click="submitProject(projectForm.$valid)" ng-if="project.status === 'Initiated'">Submit Project</button>
 			</div>
@@ -14,7 +14,7 @@
 
 		<!-- VIEW BODY CONTAINER -->
 		<div class="view-body-container">
-					
+
 			<!-- TAB NAVIGATION -->
 			<ul class="tab-container nav nav-tabs" ng-init="form.curTab = 'Project Information'">
 				<li ng-class="{'active':form.curTab === 'Project Information'}">
@@ -27,12 +27,12 @@
 					<a href ng-click="form.curTab = 'Intake Profile'">Intake Profile</a>
 				</li>
 			</ul> <!-- / TAB NAVIGATION -->
-			
-			<!-- TAB CONTENT -->	
+
+			<!-- TAB CONTENT -->
 			<div class="tab-content">
-				
+
 				<!-- PROJECT INFORMATION TAB -->
-				<div class="tab-panel" ng-show="form.curTab === 'Project Information'">	
+				<div class="tab-panel" ng-show="form.curTab === 'Project Information'">
 					<div class="row">
 						<div class="col-sm-8">
 							<div class="form-group" x-show-errors>
@@ -113,7 +113,7 @@
 							</div>
 						</div>
 					</div> <!-- / MEM ONLY INFORMATION -->
-		
+
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group" x-show-errors>
@@ -166,18 +166,6 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-sm-6">
-							<div class="form-group checkbox-row" x-show-errors>
-								<div class="checkbox">
-									<label><input type="checkbox" ng-model="project.isTermsAgreed" id="terms" name="terms" required>I agree to the terms and conditions.</label>
-									<div ng-messages="projectForm.terms.$error" role="alert">
-										<p class="help-block error-text" ng-message="required">You must accept the terms and conditions to continue.</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div><!-- / PROJECT INFORMATION TAB -->
 
 				<!-- PROPONENT INFORMATION -->
@@ -211,7 +199,7 @@
 						</div>
 					</div>
 				</div><!-- / INTAKE PROFILE -->
-			
+
 			</div><!-- / TAB CONTENT -->
 
 			<div ng-if="form.curTab === 'Accepted'">
@@ -224,7 +212,7 @@
 			<div class="form-footer clearfix">
 				<div class="pull-right">
 					<button class="btn btn-default" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
-					<button class="btn btn-default" ng-if="isNew" ui-sref="projects">Cancel</button>	
+					<button class="btn btn-default" ng-if="isNew" ui-sref="projects">Cancel</button>
 					<button class="btn btn-primary" type="submit">Save</button>
 					<button class="btn btn-success" ng-click="submitProject(projectForm.$valid)" ng-if="project.status === 'Initiated'">Submit Project</button>
 				</div>
