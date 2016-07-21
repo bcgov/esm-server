@@ -259,12 +259,37 @@ module.exports = DBModel.extend ({
 		self.setModelPermissions(doc, perms)
 			.then(function() {
 				if (publish) {
-					doc.publish();
+					return self.publish(doc);
 				} else {
-					doc.unpublish();
+					return self.unpublish(doc);
 				}
-				return doc.save();
 			});
+	},
+	publish: function(doc) {
+		if (!doc)
+			return Promise.resolve();
+		
+		return new Promise(function (resolve, reject) {
+				doc.publish();
+				doc.save()
+				.then(function() {
+					return doc;
+				})
+				.then(resolve, reject);
+		});
+	},
+	unpublish: function(doc) {
+		if (!doc)
+			return Promise.resolve();
+		
+		return new Promise(function (resolve, reject) {
+			doc.unpublish();
+			doc.save()
+				.then(function() {
+					return doc;
+				})
+				.then(resolve, reject);
+		});
 	},
 	// Importing from CSV
 	loadDocuments : function(file, req, res) {
