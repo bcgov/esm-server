@@ -2,6 +2,9 @@
 
 	<!-- PUBLIC USERS (COMMON) -->
 	<div ng-show="!menu.authentication.user">
+		
+		<a class="project-home-link"><span class="glyphicon glyphicon-home"><span>{{project.name}}</span></a>
+		
 		<ul class="nav nav-pills nav-stacked">
 			<li><a ui-sref="p.detail" href title="Project Details">Project Details</a></li>
      		<li><a ui-sref="p.documents" href title="Documents">Documents</a></li>
@@ -43,9 +46,9 @@
 	<!-- PROJECT MENU - AUTHENTICATED -->
 	<div ng-if="(menu.context === 'project' || menu.context === 'activity') && menu.authentication.user">
 		
-		<ul class="nav nav-pills nav-stacked">
-			<li><a ui-sref="p.detail({projectid: menu.project.code})" title="Project Details">Project Detail</a></li>
-		</ul>
+		<a class="project-home-link" ui-sref="p.detail({projectid: menu.project.code})" title="Project Details">
+			<span class="glyphicon glyphicon-map-marker"></span><span>{{project.name}}</span>
+		</a>
 
 		<!-- PROJECT CLIENT MENUS (project.client.menus.js) -->
 		<ul class="nav nav-pills nav-stacked" ng-show="menu.authentication.user">

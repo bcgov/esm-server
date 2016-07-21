@@ -41,9 +41,6 @@ $btn-focus-border-color: 	#5475a7;
 /* Header */
 $header-focus-border-color: #5475a7;
 
-/* Layout */
-$left-panel-width:			17rem;
-
 /* Modal */
 $modal-body-bg: 			#f1f1f1;
 $modal-header-bg: 			#FFF;
@@ -54,6 +51,11 @@ $panel-border-color: 		#DDD;
 $panel-heading-bg: 			#FFF;
 $panel-heading-color: 		#494949;
 $panel-footer-bg: 			#FFF;
+
+/* Side Navigation */
+$sidenav-bg: 				#FFF;
+$sidenav-color: 			$link-color;
+$sidenav-width:				20rem;
 
 /* Tab Navigation */
 $nav-tab-active-color:			#1a5a96;
@@ -1480,7 +1482,8 @@ h2.page-title {
 /* PAGE LAYOUT
 ------------------------------ */
 .view-title-container {
-	padding: 1.7rem 2rem;
+	height: 7rem;
+	padding: 2rem;
 	display: -webkit-flex;
 	display: flex;
 	background: #FFF;
@@ -1507,10 +1510,16 @@ h2.page-title {
 			flex: 0 0 auto;
 
 			.btn-default {
+				border-color: transparent;
+
 				&:hover,
 				&:focus {
 					background: #FFF;
 					border-color: $btn-focus-border-color;
+				}
+
+				.glyphicon {
+					font-size: 1.4rem;
 				}
 			}
 		}
@@ -1690,8 +1699,8 @@ tmpl-header {
 }
 
 .left-panel {
-	-webkit-flex: 0 0 $left-panel-width;
-	flex: 0 0 $left-panel-width;
+	-webkit-flex: 0 0 $sidenav-width;
+	flex: 0 0 $sidenav-width;
 }
 
 .main-panel {
@@ -2036,15 +2045,11 @@ $header-height-sm: 5.2rem;
 
 /* SIDE NAVIGATION
 ------------------------------ */
-$sidenav-bg: #FFF;
-$sidenav-color: $link-color;
-
 .sidenav {
 	position: fixed;
 	top: 5rem;
 	bottom: 0;
-	width: $left-panel-width;
-	padding-top: 1rem;
+	width: $sidenav-width;
 	padding-bottom: 1rem;
 	background: $sidenav-bg;
 	-webkit-box-shadow: 0 0 0.4rem #CCC;
@@ -2052,7 +2057,7 @@ $sidenav-color: $link-color;
 
 	.nav-pills {
 		a {
-			padding: 0.7rem 1.5rem;
+			padding: 0.8rem 1.5rem;
 			font-size: 1.3rem;
 			color: $link-color;
 			border: 1px solid transparent;
@@ -2092,11 +2097,34 @@ $sidenav-color: $link-color;
 	hr {
 		margin: 0.7rem 1.5rem;
 	}
+
+	.project-home-link {
+		position: relative;
+		display: table-cell;
+		width: $sidenav-width;
+		height: 7rem;
+		padding: 1rem 1.5rem 1rem 4.5rem;
+		font-weight: bold;
+		color: #FFF;
+		text-decoration: none;
+		text-transform: none;
+		line-height: 1.5rem;
+		background: #5475a7;
+		border-bottom: 1px solid #EEE;
+		vertical-align: middle;
+
+		.glyphicon {
+			position: absolute;
+			top: 2rem;
+			left: 1.2rem;
+			font-size: 2.4rem;
+		}
+	}
 }
 
 @media (min-width: 900px) {
 	.sidenav {
-		top: 6.2rem;
+		top: 6rem;
 	}
 }
 
