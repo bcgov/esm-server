@@ -72,7 +72,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		templateUrl: 'modules/artifacts/client/views/artifact-container.html',
 		resolve: {
 			artifact: function ($stateParams, ArtifactModel) {
-				// console.log ('artifactId = ', $stateParams.artifactId);
+				// need to refresh the artifact on each transition...  do not count on this...
 				return ArtifactModel.getModel ($stateParams.artifactId);
 			},
 			fix: function (artifact, ArtifactTypeModel) {
@@ -116,16 +116,15 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			// roles: ['*:eao:epd','*:eao:project-admin','*:eao:project-lead','*:eao:project-team']
 		},
 		resolve: {
-			theArtifact: function (ArtifactModel, artifact) {
-				// can't trust the scoped artifact to be completely up to date...
-				return ArtifactModel.getModel (artifact._id);
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
 			}
 		},
-		controller: function ($scope, $state, artifact, theArtifact, fix, project, ArtifactModel, Document, MilestoneModel) {
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Document, MilestoneModel) {
 			// console.log ('artifact = ', artifact);
 			// console.log ('project  = ', project);
 			// artifact.artifactType = fix;
-			artifact = theArtifact;
 
 			var method = properMethod (artifact.stage);
 			if (method !== 'edit') $state.go ('p.artifact.'+method);
@@ -229,9 +228,9 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		templateUrl: 'modules/artifacts/client/views/artifact-view.html',
 		resolve: {
 			artifact: function ($stateParams, ArtifactModel) {
-				// console.log ('artifactId = ', $stateParams.artifactId);
+				// need to refresh the artifact on each transition...
 				return ArtifactModel.getModel ($stateParams.artifactId);
-			},
+			}
 		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Authentication, VcModel) {
 			$scope.authentication = Authentication;
@@ -242,6 +241,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.comment', {
 		url: '/comment',
 		templateUrl: 'modules/artifacts/client/views/artifact-comment.html',
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
 			// artifact.artifactType = fix;
 			var method = properMethod (artifact.stage);
@@ -253,6 +258,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.review', {
 		url: '/review',
 		templateUrl: 'modules/artifacts/client/views/artifact-review.html',
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
 			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
@@ -286,6 +297,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.approve', {
 		url: '/approve',
 		templateUrl: 'modules/artifacts/client/views/artifact-approve.html',
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
 			// artifact.artifactType = fix;
 			var method = properMethod (artifact.stage);
@@ -318,6 +335,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.executive', {
 		url: '/executive',
 		templateUrl: 'modules/artifacts/client/views/artifact-executive.html',
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
 			// artifact.artifactType = fix;
 			var method = properMethod (artifact.stage);
@@ -350,6 +373,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.decision', {
 		url: '/decision',
 		templateUrl: 'modules/artifacts/client/views/artifact-decision.html',
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
 			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
@@ -393,6 +422,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.publish', {
 		url: '/publish',
 		templateUrl: 'modules/artifacts/client/views/artifact-publish.html',
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Document) {
 			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
@@ -432,6 +467,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.notify', {
 		url: '/notify',
 		templateUrl: 'modules/artifacts/client/views/artifact-notify.html',
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, EmailTemplateModel, _) {
 			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
