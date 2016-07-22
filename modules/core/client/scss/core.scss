@@ -228,7 +228,6 @@ a.control-label:hover,
 
 h1,h2,h3,h4,h5,h6 {
 	font-weight: normal;
-	letter-spacing: -0.01em;
 }
 
 td h4 {
@@ -1493,7 +1492,7 @@ h2.page-title {
     h1 {
         margin: 0;
         padding-top: 0.2rem;
-		font-size: 2.5rem;
+		font-size: 2.4rem;
 		font-weight: bold;
     }
 
@@ -2045,6 +2044,9 @@ $header-height-sm: 5.2rem;
 
 /* SIDE NAVIGATION
 ------------------------------ */
+$sidenav-shadow: 0 0 0.4rem #CCC;
+$sidenav-text-shadow: 0 0 2px #FFF;
+
 .sidenav {
 	position: fixed;
 	top: 5rem;
@@ -2052,20 +2054,18 @@ $header-height-sm: 5.2rem;
 	width: $sidenav-width;
 	padding-bottom: 1rem;
 	background: $sidenav-bg;
-	-webkit-box-shadow: 0 0 0.4rem #CCC;
-	box-shadow: 0 0 0.4rem #CCC;
+	-webkit-box-shadow: $sidenav-shadow;
+	box-shadow: $sidenav-shadow;
 
 	.nav-pills {
 		a {
 			padding: 0.8rem 1.5rem;
 			font-size: 1.3rem;
+			font-weight: bold;
 			color: $link-color;
+			text-shadow: $sidenav-text-shadow;
 			border: 1px solid transparent;
 			border-radius: 0;
-
-			&:focus {
-				text-shadow: 1px 1px 0 #FFF;
-			}
 
 			.glyphicon {
 				top: 0.3rem;
@@ -2077,10 +2077,6 @@ $header-height-sm: 5.2rem;
 					padding-left: 0.7rem;
 				}
 			}
-		}
-
-		> li + li {
-			margin: 0;
 		}
 	}
 
@@ -2105,12 +2101,10 @@ $header-height-sm: 5.2rem;
 		height: 7rem;
 		padding: 1rem 1.5rem 1rem 4.5rem;
 		font-weight: bold;
-		color: #FFF;
+		color: #1a5a96;
 		text-decoration: none;
-		text-transform: none;
 		line-height: 1.5rem;
-		background: #5475a7;
-		border-bottom: 1px solid #EEE;
+		background: #EEE;
 		vertical-align: middle;
 
 		.glyphicon {
@@ -2283,12 +2277,13 @@ $header-height-sm: 5.2rem;
 	}
 }
 
-.btn-sm {
+.btn-sm,
+.btn-xs {
 	.glyphicon {
 		top: 2px;
 
 		+ span {
-			margin-left: 0.7rem;
+			margin-left: 0.5rem;
 		}
 	}
 }
@@ -2600,6 +2595,10 @@ form {
 	}
 }
 
+.form-group {
+	margin-bottom: 2rem;
+}
+
 .form-footer {
 	margin-top: 2rem;
 	padding-top: 2rem;
@@ -2883,7 +2882,7 @@ textarea {
 /* PANELS
 ------------------------------ */ 
 .panel-default {
-	border: 1px solid #DDD;
+	border: none;
 	box-shadow: none;
 	
 	> .panel-heading {
