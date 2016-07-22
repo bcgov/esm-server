@@ -115,10 +115,18 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		data: {
 			// roles: ['*:eao:epd','*:eao:project-admin','*:eao:project-lead','*:eao:project-team']
 		},
-		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Document, MilestoneModel) {
+		resolve: {
+			theArtifact: function (ArtifactModel, artifact) {
+				// can't trust the scoped artifact to be completely up to date...
+				return ArtifactModel.getModel (artifact._id);
+			}
+		},
+		controller: function ($scope, $state, artifact, theArtifact, fix, project, ArtifactModel, Document, MilestoneModel) {
 			// console.log ('artifact = ', artifact);
 			// console.log ('project  = ', project);
 			// artifact.artifactType = fix;
+			artifact = theArtifact;
+
 			var method = properMethod (artifact.stage);
 			if (method !== 'edit') $state.go ('p.artifact.'+method);
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
@@ -126,6 +134,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.project = project;
 			$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
 			$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+
 			$scope.$watchCollection ('artifact.maindocument', function (newval) {
 				if (!newval || newval.length === 0) return;
 				//console.log ('nedw collection:', newval);
