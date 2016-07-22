@@ -449,11 +449,9 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	addPermissions : function (model) {
 		var self = this;
-		// console.log ('gathering permissions for ',{
-		// 		context  : self.context,
-		// 		user     : self.user.username,
-		// 		resource : model._id
-		// 	});
+		//console.log ('dbmodel.addPermissions context = ' + JSON.stringify(self.context, null, 4));
+		//console.log ('dbmodel.addPermissions user = ' + JSON.stringify(self.user.username, null, 4));
+		//console.log ('dbmodel.addPermissions resource = ' + JSON.stringify(model._id, null, 4));
 
 		return new Promise (function (resolve, reject) {
 			if (!model) resolve (model);
@@ -467,19 +465,21 @@ _.extend (DBModel.prototype, {
 				_.each (model.allPermissions (), function (key) {
 					model.userCan[key] = false;
 				});
+				//console.log ('dbmodel.addPermissions access.userPermissions...');
 				access.userPermissions ({
 					context  : self.context,
 					user     : self.user.username,
 					resource : model._id
 				})
 				.then (function (ps) {
-					// console.log ('ps', ps);
+					//console.log ('dbmodel.addPermissions access.userPermissions result = ', JSON.stringify(ps, null, 4));
 					ps.map (function (perm) {
 						model.userCan[perm] = true;
 					});
 					model.userCan.read = self.hasPermission (self.roles, model.read);
 					model.userCan.write = self.hasPermission (self.roles, model.write);
 					model.userCan.delete = self.hasPermission (self.roles, model.delete);
+					//console.log ('dbmodel.addPermissions access.userPermissions model = ', JSON.stringify(model, null, 4));
 					return model;
 				})
 				.then (resolve, self.complete (reject, 'addPermissions'));
@@ -499,6 +499,7 @@ _.extend (DBModel.prototype, {
 			return self.decorateCollection ? (Promise.all (models.map (self.addPermissions))) : models;
 		} else {
 			return new Promise (function (resolve, reject) {
+				//console.log ('dbmodel.decoratePermission call addPermissions.');
 				resolve (self.addPermissions (models));
 			});
 		}
