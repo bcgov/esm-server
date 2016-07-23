@@ -11,6 +11,7 @@ var PhaseClass = require (path.resolve('./modules/phases/server/controllers/phas
 var ActivityClass = require (path.resolve('./modules/activities/server/controllers/activity.controller'));
 var MilestoneClass = require (path.resolve('./modules/milestones/server/controllers/milestone.controller'));
 var ArtifactClass = require (path.resolve('./modules/artifacts/server/controllers/artifact.controller'));
+var DocumentClass  = require (path.resolve('./modules/documents/server/controllers/core.document.controller'));
 var _          = require ('lodash');
 
 module.exports = DBModel.extend ({
@@ -26,9 +27,10 @@ module.exports = DBModel.extend ({
 		.then (self.setRolesPermissions);
 	},
 	preprocessUpdate: function (period) {
-		//console.log('preprocessUpdate...');
+		//console.log('commentperiod.preprocessUpdate...');
 		var self=this;
-		return Promise.resolve(period).then(self.setRolesPermissions);
+		return Promise.resolve(period)
+			.then(self.setRolesPermissions);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -58,12 +60,12 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	setRolesPermissions: function (period) {
-		var allroles = period.commenterRoles.concat (
+		var allroles = _.uniq(period.commenterRoles.concat (
 			period.classificationRoles,
 			period.vettingRoles,
 			'eao-admin',
 			'pro-admin'
-		);
+		));
 		//console.log ("commentperiod.setRolesPermissions - period", JSON.stringify (period, null, 4));
 		//console.log('commentperiod.setRolesPermissions - allroles = ' + JSON.stringify(allroles, null, 4));
 		var dataObj = {
@@ -73,7 +75,7 @@ module.exports = DBModel.extend ({
 			addComment       : period.commenterRoles,
 			setPermissions   : ['eao-admin', 'pro-admin'],
 			read             : allroles,
-			write            : ['eao-admin'],
+			write            : _.uniq(_.concat(period.vettingRoles, period.classificationRoles, 'eao-admin')),
 			delete           : ['eao-admin'],
 			// return Access.setObjectPermissionRoles ({
 			// resource: period,

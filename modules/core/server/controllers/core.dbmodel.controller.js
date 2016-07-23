@@ -546,7 +546,7 @@ _.extend (DBModel.prototype, {
 			promisesPromises.push (access.setPermissionRoles ({
 				resource   : model._id,
 				permission : permission,
-				roles      : roles
+				roles      : _.uniq(roles)
 			}));
 		});
 		return Promise.all (promisesPromises).then (function () {
