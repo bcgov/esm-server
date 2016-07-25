@@ -1536,7 +1536,6 @@ tmpl-footer {
 	left: 0;
 	display: -webkit-flex;
 	display: flex;
-	flex-flow: row nowrap;
 
 	.left-panel,
 	.main-panel {
@@ -1546,6 +1545,7 @@ tmpl-footer {
 	}
 
 	.left-panel {
+		position: relative;
 		width: $left-panel-width;
 		flex: 0 0 auto;
 		background: $left-panel-bg;
@@ -3647,6 +3647,7 @@ section.project-info {
 
 	.coord-input {
 		.form-control {
+			width: 50%;
 			flex: 1 1 auto;
 
 			&:first-child {
@@ -3750,6 +3751,10 @@ section.project-info {
 ------------------------------ */
 .news-admin-view,
 .news-public-view {
+	.panel {
+		margin-bottom: 0;
+	}
+
 	.table {
 		table-layout: fixed;
 		
@@ -4599,6 +4604,14 @@ section.project-info {
 }
 
 
+/* SIGN IN VIEW
+------------------------------ */
+.sign-in-view {
+	width: 60rem;
+	margin: 0 auto;
+}
+
+
 /* SYSTEM ROLES VIEW
 ------------------------------ */
 .system-role-view {
@@ -4714,6 +4727,9 @@ tmpl-template-render {
 .text-block > p:last-child {
 	margin-bottom: 0;
 }
+
+
+
 
 
 /* TEMPLATE DOCUMENT EDITOR VIEW
