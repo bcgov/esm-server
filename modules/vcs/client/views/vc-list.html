@@ -1,41 +1,37 @@
-<div class="valued-components-view">
 
-	<div class="view-title-container">
-		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Valued Components</h1>
-<!-- 		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project" x-permissions=""></tmpl-permissions-gear> -->
+<div class="view-title-container">
+	<h1><span ng-show="project.name">Valued Components</h1>
+</div>
+
+<div class="view-body-container">
+	<div class="button-bar clearfix">
+		<div class="pull-left">
+			<button class="btn btn-default btn-sm" ui-sref="p.vc.list" ng-click="openAddTopic()">
+				<span class="glyphicon glyphicon-plus"></span><span>Add Valued Component</span>
+			</button>
+		</div>
 	</div>
-
-	<div class="view-body-container">
-		<div class="button-bar clearfix">
-			<div class="pull-left">
-				<button class="btn btn-default btn-sm" ui-sref="p.vc.list" ng-click="openAddTopic()">
-					<span class="glyphicon glyphicon-plus"></span><span>Add Valued Component</span>
-				</button>
-			</div>
-		</div>
-
-		<div class="panel panel-default">
-			<table ng-table="tableParams" show-filter="true" class="table table-hover table-striped">
-				<tr ng-repeat="o in $data" ui-sref="p.vc.detail({vcId:o._id})">
-					<td data-title="'Name'"    filter="{'title':'text'}"     sortable="'title'"    >{{o.title}}</td>
-					<td data-title="'Type'"    filter="{'name':'text'}"     sortable="'name'"    >{{o.name}}</td>
-					<td data-title="'Version'" filter="{'version':'text'}"   	class="text-center" sortable="'version'"  >{{o.version}}</td>
-					<td data-title="'Stage'"   filter="{'stage':'text'}"    	class="text-center" sortable="'stage'"   >{{o.stage}}</td>
-					<td data-title="'Published'" sortable="'isPublished'"><i ng-if="o.isPublished" class="glyphicon glyphicon-ok"></i></td>
-					<td class="actions-col action-x2" header-class="'actions-col action-x2'">
-						<a class="btn btn-link btn-sm" ng-if="o.userPermissions.write" title="Edit Valued Component" ng-click="$event.stopPropagation()" ui-sref="p.vc.edit({vcId:o._id})">
-							<span class="glyphicon glyphicon-pencil"></span>
-						</a>
-						<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="o"></tmpl-permissions-gear>
-					</td>
-				</tr>
-				<tr ng-if="!$data || $data.length === 0">
-					<td colspan="6">
-						No records found.
-					</td>
-				</tr>
-			</table>
-		</div>
-
+	<div class="panel panel-default">
+		<table ng-table="tableParams" show-filter="true" class="table table-hover table-striped">
+			<tr ng-repeat="o in $data" ui-sref="p.vc.detail({vcId:o._id})">
+				<td data-title="'Name'"    filter="{'title':'text'}"     sortable="'title'"    >{{o.title}}</td>
+				<td data-title="'Type'"    filter="{'name':'text'}"     sortable="'name'"    >{{o.name}}</td>
+				<td data-title="'Version'" filter="{'version':'text'}"   	class="text-center" sortable="'version'"  >{{o.version}}</td>
+				<td data-title="'Stage'"   filter="{'stage':'text'}"    	class="text-center" sortable="'stage'"   >{{o.stage}}</td>
+				<td data-title="'Published'" sortable="'isPublished'"><i ng-if="o.isPublished" class="glyphicon glyphicon-ok"></i></td>
+				<td class="actions-col action-x2" header-class="'actions-col action-x2'">
+					<a class="btn btn-link btn-sm" ng-if="o.userPermissions.write" title="Edit Valued Component" ng-click="$event.stopPropagation()" ui-sref="p.vc.edit({vcId:o._id})">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</a>
+					<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="o"></tmpl-permissions-gear>
+				</td>
+			</tr>
+			<tr ng-if="!$data || $data.length === 0">
+				<td colspan="6">
+					No records found.
+				</td>
+			</tr>
+		</table>
 	</div>
 </div>
+
