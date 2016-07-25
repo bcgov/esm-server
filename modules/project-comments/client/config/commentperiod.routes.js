@@ -130,13 +130,15 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				return CommentPeriodModel.getModel ($stateParams.periodId);
 			}
 		},
-		controller: function ($scope, $state, period, project, CommentPeriodModel) {
+		controller: function ($scope, $state, period, project, CommentPeriodModel, CommentModel) {
 			// only public comments for now...
 			period.periodType = 'Public';
 			period.commenterRoles = ['public'];
 
 			$scope.period = period;
 			$scope.project = project;
+
+			$scope.artifacts = [period.artifact];
 
 			$scope.changeType = function () {
 				if (period.periodType === 'Public') {
@@ -150,7 +152,17 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				CommentPeriodModel.save ($scope.period)
 				.then (function (model) {
 					// console.log ('period was saved',model);
-					// console.log ('now going to reload state');
+					// save the comments so that we pick up the (potential) changes to the period permissions...
+					return CommentModel.getCommentsForPeriod(model._id);
+				})
+				.then(function(comments){
+					Promise.resolve()
+						.then(function() {
+							return comments.reduce(function (current, value, index) {
+								return CommentModel.save(value);
+							}, Promise.resolve())	;
+						});
+				}).then(function(){
 					$state.transitionTo('p.commentperiod.list', {projectid:project.code}, {
 			  			reload: true, inherit: false, notify: true
 					});
@@ -183,7 +195,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			}
 		},
 		controller: function ($scope, period, project, artifact) {
-			console.log ('period user can: ', period.userCan);
+			//console.log ('period user can: ', JSON.stringify(period.userCan, null, 4));
 			var today       = new Date ();
 			var start       = new Date (period.dateStarted);
 			var end         = new Date (period.dateCompleted);

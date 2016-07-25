@@ -11,6 +11,7 @@ var PhaseClass = require (path.resolve('./modules/phases/server/controllers/phas
 var ActivityClass = require (path.resolve('./modules/activities/server/controllers/activity.controller'));
 var MilestoneClass = require (path.resolve('./modules/milestones/server/controllers/milestone.controller'));
 var ArtifactClass = require (path.resolve('./modules/artifacts/server/controllers/artifact.controller'));
+var DocumentClass  = require (path.resolve('./modules/documents/server/controllers/core.document.controller'));
 var _          = require ('lodash');
 
 module.exports = DBModel.extend ({
@@ -24,65 +25,12 @@ module.exports = DBModel.extend ({
 		.then (self.setArtifactStage)
 		.then (self.addActivities)
 		.then (self.setRolesPermissions);
-		// var p;
-		// var phaseModel = new PhaseClass (this.opts);
-		// var artifactModel = new ArtifactClass (this.opts);
-		// var activityModel = new ActivityClass (this.opts);
-		// var milestoneModel = new MilestoneClass (this.opts);
-		// var projectCode;
-		// console.log ('CommentPeriod preprocessAdd 12');
-		// return Promise.resolve ()
-		// .then (function () {
-		// console.log ('CommentPeriod preprocessAdd 13');
-		// 	return phaseModel.findById (period.phase);
-		// })
-		// .then (function (phase) {
-		// 	if (period.periodType === 'Public') {
-		// 		//
-		// 		// add the base milestone for public comments
-		// 		//
-		// console.log ('CommentPeriod preprocessAdd 14-1');
-		// 		period.publish ();
-		// console.log ('CommentPeriod preprocessAdd 14');
-		// 		return phaseModel.addMilestone (phase, 'public-comment-period', {write:period.commenterRoles});
-		// 	}
-		// 	else if (period.periodType === 'Working Group') {
-		// 		//
-		// 		// add the base milestone for working group comments
-		// 		//
-		// 		return phaseModel.addMilestone (phase, 'comment-period', {write:period.commenterRoles});
-		// 	}
-		// console.log ('CommentPeriod preprocessAdd 2');
-		// })
-		// .then (function (phase) {
-		// 	console.log ('phase: ',JSON.stringify (phase,null,4));
-		// 	var milestone = _.last (phase.milestones);
-		// 	projectCode = phase.projectCode;
-		// 	return milestoneModel.findById (milestone);
-		// })
-		// .then (function (milestone) {
-		// 	return activityModel.findById (milestone.activities[0]);
-		// })
-		// .then (function (activity) {
-		// 	activity.data = {
-		// 		projectid : projectCode,
-		// 		artifactId : period.artifact
-		// 	};
-		// 	return activityModel.saveDocument (activity);
-		// })
-		// .then (function () {
-		// 	return artifactModel.findById (period.artifact);
-		// })
-		// .then (function (artifact) {
-		// 	artifact.heldStage = artifact.stage;
-		// 	artifact.stage = (period.periodType === 'Public')? 'Public Comment Period' : 'Comment Period';
-		// 	if (period.periodType === 'Public') artifact.publish ();
-		// 	return artifactModel.saveDocument (artifact);
-		// })
-		// .then (function () {
-		// 	console.log ('last step');
-		// 	return period;
-		// });
+	},
+	preprocessUpdate: function (period) {
+		//console.log('commentperiod.preprocessUpdate...');
+		var self=this;
+		return Promise.resolve(period)
+			.then(self.setRolesPermissions);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -112,13 +60,14 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	setRolesPermissions: function (period) {
-		var allroles = period.commenterRoles.concat (
+		var allroles = _.uniq(period.commenterRoles.concat (
 			period.classificationRoles,
 			period.vettingRoles,
 			'eao-admin',
 			'pro-admin'
-		);
-		// console.log ("setRolesPermissions: ", JSON.stringify (period, null, 4));
+		));
+		//console.log ("commentperiod.setRolesPermissions - period", JSON.stringify (period, null, 4));
+		//console.log('commentperiod.setRolesPermissions - allroles = ' + JSON.stringify(allroles, null, 4));
 		var dataObj = {
 			vetComments      : period.vettingRoles,
 			classifyComments : period.classificationRoles,
@@ -126,7 +75,7 @@ module.exports = DBModel.extend ({
 			addComment       : period.commenterRoles,
 			setPermissions   : ['eao-admin', 'pro-admin'],
 			read             : allroles,
-			write            : ['eao-admin'],
+			write            : _.uniq(_.concat(period.vettingRoles, period.classificationRoles, 'eao-admin')),
 			delete           : ['eao-admin'],
 			// return Access.setObjectPermissionRoles ({
 			// resource: period,
@@ -141,8 +90,11 @@ module.exports = DBModel.extend ({
 			// 	delete           : ['eao-admin'],
 			// }
 		};
+		//console.log('commentperiod.setRolesPermissions - setting model permissions period = ' + JSON.stringify(period, null, 4));
+		//console.log('commentperiod.setRolesPermissions - setting model permissions data = ' + JSON.stringify(dataObj, null, 4));
 		return this.setModelPermissions (period, dataObj)
 		.then (function () {
+			//console.log('commentperiod.setRolesPermissions - returning period = ' + JSON.stringify(period, null, 4));
 			return period;
 		});
 	},

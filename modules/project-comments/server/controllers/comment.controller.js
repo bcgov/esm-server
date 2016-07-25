@@ -77,6 +77,7 @@ module.exports = DBModel.extend ({
 		});
 	},
 	preprocessUpdate: function (comment) {
+		//console.log('comment.preprocessUpdate  comment = ' + JSON.stringify(comment, null, 4));
 		var self = this;
 		var commentPeriod = new Period (this.opts);
 		var documentClass = new DocumentClass(this.opts);
@@ -102,22 +103,19 @@ module.exports = DBModel.extend ({
 					//
 					comment.publish ();
 					return self.setModelPermissions (comment, {
-						read  : ['public']
+						read  : _.uniq(_.concat(thePeriod.read, 'public')),
+						write: thePeriod.write,
+						delete: thePeriod.delete
 					});
-					// console.log ('published comment: ', JSON.stringify (comment, null, 4));
-					// return Access.setObjectPermissionRoles ({
-					// 	resource: comment,
-					// 	permissions: {
-					// 		read             : ['public']
-					// 	}
-					// });
 				} else {
 					//
 					// ROLES, only vetting can read
 					//
 					comment.unpublish ();
 					return self.setModelPermissions (comment, {
-						read  : period.vettingRoles
+						read: thePeriod.vettingRoles,
+						write: thePeriod.write,
+						delete: thePeriod.delete
 					});
 					// console.log ('unpublished comment: ', JSON.stringify (comment, null, 4));
 					// return Access.setObjectPermissionRoles ({
@@ -151,7 +149,7 @@ module.exports = DBModel.extend ({
 						commentPermissions.read = thePeriod.vettingRoles;
 					}
 					// publish or unpublish the doc, and set the doc's permissions...
-					return documentClass.publishForComment(doc, ('Published' === comment.eaoStatus &&  'Published' === doc.eaoStatus), commentPermissions);
+					return documentClass.publishForComment(doc, ('Published' === comment.eaoStatus && 'Published' === doc.eaoStatus), commentPermissions);
 				}, Promise.resolve())	;
 			})
 			.then (function () {

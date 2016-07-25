@@ -14,5 +14,13 @@ module.exports = DBModel.extend ({
 	getForProject: function (projectId) {
 		return this.list ({project:projectId});
 	},
+	// -------------------------------------------------------------------------
+	//
+	// get all vcs from a supplied list
+	//
+	// -------------------------------------------------------------------------
+	getList : function (list) {
+		return this.list ({_id : {$in : list }});
+	},
 });
 

@@ -28,7 +28,7 @@ var defaultRole     = 'public';
 //
 // -------------------------------------------------------------------------
 var pluckPermissions = function (a) {
-	return _.uniq (_.pluck (a, 'permission'));
+	return _.uniq (_.map (a, 'permission'));
 };
 var pivotPermissions = function (a) {
 	var ret = {};

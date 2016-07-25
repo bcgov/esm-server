@@ -355,7 +355,7 @@ module.exports = DBModel.extend ({
 		};
 
 		var getMyProjects = function(roles) {
-			var projectCodes = _.uniq(_.pluck (roles, 'context'));
+			var projectCodes = _.uniq(_.map (roles, 'context'));
 			var q = {
 				code: { "$in": projectCodes },
 				dateCompleted: { "$eq": null }
