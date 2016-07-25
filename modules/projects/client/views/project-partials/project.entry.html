@@ -8,7 +8,7 @@
 	</div>
 
 	<div class="view-title-container flex-row">
-		<h1>Edit Project &nbsp;&rsaquo;&nbsp; {{project.name}}</h1>
+		<h1>Edit Project &nbsp;&rsaquo;&nbsp; {{project.name}}<span class="placeholder-text" ng-if="!project.name">Untitled Project</span></h1>
 		<div class="actions">
 			<button class="btn btn-default btn-sm" title="Cancel">Cancel</button>
 			<button class="btn btn-primary btn-sm" title="Save Project">Save</button>
@@ -66,7 +66,7 @@
 				</div>
 				<div class="form-group">
 					<label class="control-label">Project Description</label>
-					<textarea class="form-control" id="shortDesc" rows="5"
+					<textarea class="form-control" id="shortDesc" rows="4"
 						ng-model="project.description"></textarea>
 				</div>
 				<div class="row">
@@ -103,7 +103,7 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label">Investment Notes</label>
-							<textarea class="form-control" size="2" 
+							<textarea class="form-control" rows="2" 
 								ng-model="project.investmentNotes"></textarea>
 						</div>
 					</div>
@@ -115,7 +115,7 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label">Construction Notes</label>
-							<textarea class="form-control" size="2" 
+							<textarea class="form-control" rows="2" 
 								ng-model="project.constructionjobsNotes"></textarea>
 						</div>
 					</div>
@@ -127,7 +127,7 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label">Operation Notes</label>
-							<textarea class="form-control" size="2"
+							<textarea class="form-control" rows="2"
 								ng-model="project.operationjobNotes"></textarea>
 						</div>
 					</div>
@@ -137,14 +137,14 @@
 
 			<!-- CEAA INVOLVEMENT -->
 			<fieldset>
-				<legend>CEAA Involvement</legend>
+				<legend>Canada Environmental Assessment Agency (CEAA) Involvement</legend>
 				<div class="row">
 					<div class="col-md-4 form-group">
 						<label class="control-label">CEAA involvement</label>
 						<select class="form-control"></select>
 					</div>
-					<div class="col-md-4 form-group">
-						<label class="control-label">CEAA URL</label>
+					<div class="col-md-8 form-group">
+						<label class="control-label">CEAA URL<em>(Optional)</em></label>
 						<input class="form-control" type="url"></input>
 					</div>
 				</div>
@@ -155,11 +155,11 @@
 			<fieldset>
 				<legend>Electoral Districts</legend>
 				<div class="row">
-					<div class="col-md-4 form-group">
+					<div class="col-md-6 form-group">
 						<label class="control-label">Federal Electoral Districts <em>(Optional)</em></label>
 						<input class="form-control"></input>
 					</div>
-					<div class="col-md-4 form-group">
+					<div class="col-md-6 form-group">
 						<label class="control-label">Provincial Electoral Districts <em>(Optional)</em></label>
 						<input class="form-control"></input>
 					</div>
@@ -180,7 +180,7 @@
 						<label class="control-label" for="projectleademail">Email</label>
 						<input class="form-control" name="projectleademail" placeholder="example@domain.com"></input>
 					</div>
-					<div class="col-sm-6 col-md-4 form-group">
+					<div class="col-sm-6 col-md-2 form-group">
 						<label class="control-label">Phone</label>
 						<input class="form-control" placeholder="e.g. (555) 555-5555"></input>
 					</div>
@@ -197,7 +197,7 @@
 						<label class="control-label" for="projectleademail">Email</label>
 						<input class="form-control" name="projectleademail" placeholder="example@domain.com"></input>
 					</div>
-					<div class="col-sm-6 col-md-4 form-group">
+					<div class="col-sm-6 col-md-2 form-group">
 						<label class="control-label">Phone</label>
 						<input class="form-control" placeholder="e.g. (555) 555-5555"></input>
 					</div>
@@ -214,7 +214,7 @@
 						<label class="control-label" for="projectleademail">Email</label>
 						<input class="form-control" name="projectleademail" placeholder="example@domain.com"></input>
 					</div>
-					<div class="col-sm-6 col-md-4 form-group">
+					<div class="col-sm-6 col-md-2 form-group">
 						<label class="control-label">Phone</label>
 						<input class="form-control"  placeholder="e.g. (555) 555-5555"></input>
 					</div>
@@ -236,11 +236,9 @@
 						<input class="form-control" name="projectleadname"></input>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-8 form-group">
-						<label class="control-label" for="projectleadname">Team Notes<em>(Optional)</em></label>
-						<textarea class="form-control" name="projectleadname" size="6"></textarea>
-					</div>
+				<div class="form-group">
+					<label class="control-label" for="projectleadname">Team Notes<em>(Optional)</em></label>
+					<textarea class="form-control" name="projectleadname" rows="4"></textarea>
 				</div>
 			</fieldset>
 		</div>
@@ -269,7 +267,7 @@
 				<div class="row">
 					<div class="col-md-8 form-group">
 						<label class="control-label" for="projectleadname">Assessment Notes<em>(Optional)</em></label>
-						<textarea class="form-control" name="projectleadname" size="6"></textarea>
+						<textarea class="form-control" name="projectleadname" rows="4"></textarea>
 					</div>
 				</div>
 			</fieldset>
