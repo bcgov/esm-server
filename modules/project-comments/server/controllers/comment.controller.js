@@ -162,8 +162,7 @@ module.exports = DBModel.extend ({
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			self.findMany ({
-				period : periodId,
-				isPublished: true
+				period : periodId
 			})
 			.then (resolve, reject);
 		});
