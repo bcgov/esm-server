@@ -23,8 +23,33 @@
 				<label for="title" class="control-label">Name</label>
 				<input id="title" type="text" class="form-control" ng-model="vc.name" disabled="disabled">
 			</div>
+			<div class="col-md-4 form-group">
+				<label for="type" class="control-label">Type</label>
+				<input id="type" type="text" class="form-control" ng-model="vc.type" disabled="disabled">
+			</div>
 		</div>
-
+		<div ng-if="vc.type === 'Pathway Component'"
+			 class="row form-group">
+			<div class="col-sm-12">
+				<label for="subComponents" class="control-label">Sub Components</label>
+				<button
+					type="button"
+					class="btn btn-default btn-sm"
+					title="Link Valued Components"
+					x-vc-linker
+					x-project="project"
+					x-vc="vc"
+					x-vcs="vcs"
+					x-vclist="vclist">
+					<span class="glyphicon glyphicon-plus"></span>
+					<span>Link Valued Components</span>
+				</button>
+				<div ng-repeat="o in vclist"
+					 ui-sref="p.vc.detail({vcId:o._id})">
+					<a class="btn btn-link btn-sm" >{{o.title}}</a>
+				</div>
+			</div>
+		</div>
 		<div class="row form-group">
 			<div class="col-sm-12">
 				<label for="shortDesc" class="control-label">Description</label>
@@ -34,8 +59,8 @@
 
 		<div class="row form-group">
 			<div class="col-sm-12">
-				<label for="shortDesc" class="control-label">Report Requirements</label>
-				<textarea id="shortDesc" type="text" class="form-control" ng-model="vc.reportRequirements" rows="4"></textarea>
+				<label for="indicators" class="control-label">Indicators</label>
+				<textarea ui-tinymce id="indicators" type="text" class="form-control" ng-model="vc.indicators" rows="4"></textarea>
 			</div>
 		</div>
 	

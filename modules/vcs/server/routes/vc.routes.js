@@ -14,5 +14,10 @@ module.exports = function (app) {
 		.get (routes.setAndRun (Vc, function (model, req) {
 			return model.getForProject (req.params.projectid);
 		}));
+	app.route ('/api/vclist')
+		.all (policy ('guest'))
+		.put (routes.setAndRun (Vc, function (model, req) {
+			return model.getList (req.body);
+		}));
 };
 

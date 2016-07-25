@@ -107,13 +107,23 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				console.log ('editing vcId = ', $stateParams.vcId);
 				return VcModel.getModel ($stateParams.vcId);
 			},
+			vcs: function ($stateParams, VcModel, vc) {
+				// A list of all VC's for this project.
+				return VcModel.forProject (vc.project);
+			},
 			art: function ($stateParams, ArtifactModel, vc) {
 				return ArtifactModel.lookup(vc.artifact);
+			},
+			vclist: function ($stateParams, VcModel, vc) {
+				// A list of already selected/added vc's
+				return VcModel.getVCsInList(vc.subComponents);
 			}
 		},
-		controller: function ($scope, $state, vc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _) {
+		controller: function ($scope, $state, vc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _, vclist, vcs) {
 			// console.log ('vc = ', vc);
 			$scope.vc = vc;
+			$scope.vclist = vclist;
+			$scope.vcs = vcs;
 			$scope.vc.artifact = art;
 			$scope.vc.artifact.document = ($scope.vc.artifact.document) ? $scope.vc.artifact.document : {};
 			$scope.vc.artifact.maindocument = $scope.vc.artifact.document._id ? [$scope.vc.artifact.document._id] : [];
@@ -171,11 +181,15 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			},
 			art: function ($stateParams, ArtifactModel, vc) {
 				return ArtifactModel.lookup(vc.artifact);
+			},
+			vclist: function ($stateParams, VcModel, vc) {
+				return VcModel.getVCsInList(vc.subComponents);
 			}
 		},
-		controller: function ($scope, vc, project, art) {
+		controller: function ($scope, vc, project, art, vclist) {
 			// console.log ('vc = ', vc);
 			$scope.vc = vc;
+			$scope.vclist = vclist;
 			$scope.vc.artifact = art;
 			$scope.project = project;
 		}

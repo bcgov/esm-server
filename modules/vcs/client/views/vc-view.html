@@ -28,6 +28,19 @@
 					<label>Name</label>
 					<span class="value">{{vc.name}}</span>
 				</div>
+				<div class="col-md-4 detail-row">
+					<label>Type</label>
+					<span class="value">{{vc.type}}</span>
+				</div>
+			</div>
+			<div class="row" ng-if="vc.subComponents">
+				<div class="col-md-4 detail-row">
+					<label>Sub Components</label>
+					<div ng-repeat="o in vclist"
+						 ui-sref="p.vc.detail({vcId:o._id})">
+						<a class="btn btn-link btn-sm" >{{o.title}}</a>
+					</div>
+				</div>
 			</div>
 			<div class="row" ng-if="vc.description">
 				<div class="col-sm-12 detail-row">
@@ -36,10 +49,10 @@
 				</div>
 			</div>
 
-			<div class="row" ng-if="vc.reportRequirements">
+			<div class="row" ng-if="vc.indicators">
 				<div class="col-sm-12 detail-row">
-					<label>Report Requirements</label>
-					<span class="value wrap-text">{{vc.reportRequirements}}</span>
+					<label>Indicators</label>
+					<pre class="value wrap-text" id="indicators" ng-bind-html="vc.indicators"></pre>
 				</div>
 			</div>
 		</div>
