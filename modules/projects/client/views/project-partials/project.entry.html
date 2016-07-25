@@ -1,6 +1,134 @@
-<div class="edit-project-details-view">
+<div class="view-title-container flex-row">
+	<h1>Edit Project &nbsp;&rsaquo;&nbsp; {{project.name}}</h1>
+	<div class="actions">
+		<button class="btn btn-default btn-sm">Cancel</button>
+		<button class="btn btn-primary btn-sm">Save</button>
+		<button class="btn btn-primary btn-sm" disabled="disabled">Submit Project</button>
+	</div>
+</div>
 
-	<form name="projectForm" ng-submit="saveProject(projectForm.$valid)" novalidate>
+<div class="view-body-container">
+	<div class="edit-project-form">
+
+		<!-- PROJECT INFORMATION -->
+		<fieldset>
+			<legend class="has-error">Project Information</legend>
+			<div class="form-group">
+				<label class="control-label">Project Name</label>
+				<input class="form-control" type="text"></input>
+			</div>
+			<div class="row">
+				<div class="col-md-4 form-group">
+					<label class="control-label">Project Type</label>
+					<select class="form-control"></select>
+				</div>
+				<div class="col-md-4 form-group">
+					<label class="control-label">Nature of Project</label>
+					<select class="form-control"></select>
+				</div>
+				<div class="col-md-4 form-group">
+					<label class="control-label">Sector</label>
+					<select class="form-control"></select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">Project Description</label>
+				<textarea class="form-control" type="text" size="5"></textarea>
+			</div>
+			<div class="row">
+				<div class="col-md-4 form-group">
+					<label class="control-label">Region</label>
+					<select class="form-control"></select>
+				</div>
+				<div class="col-md-4 form-group">
+					<label class="control-label">Latitude / Longitude</label>
+					<div class="coord-input flex-row">
+						<input class="form-control" type="number"></input>
+						<input class="form-control" type="number"></input>
+					</div>
+				</div>
+				<div class="col-md-4 form-group">
+					<label class="control-label">Location Description <em>Optional</em></label>
+					<input class="form-control" type="text"></textarea>
+				</div>
+			</div>
+		</fieldset>
+		<!-- PROJECT INFORMATION -->
+
+		<!-- ADDITIONAL INFO -->
+		<fieldset>
+			<legend>Additional Information</legend>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label class="control-label">Capital Investment</label>
+						<input class="form-control" type="number" placeholder="$"></input>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Notes <em>Optional</em></label>
+						<textarea class="form-control" size="2"></textarea>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label class="control-label">Construction Jobs</label>
+						<input class="form-control" type="number"></input>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Notes <em>Optional</em></label>
+						<textarea class="form-control" size="2"></textarea>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label class="control-label">Operational Jobs</label>
+						<input class="form-control" type="number"></input>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Notes <em>Optional</em></label>
+						<textarea class="form-control" size="2"></textarea>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+		<!-- / ADDITIONAL INFO -->
+
+		
+		<fieldset>
+			<legend>CEAA Involvement</legend>
+			<div class="row">
+				<div class="col-md-4 form-group">
+					<label class="control-label">CEAA involvement</label>
+					<select class="form-control"></select>
+				</div>
+				<div class="col-md-4 form-group">
+					<label class="control-label">CEAA URL</label>
+					<input class="form-control" type="url"></input>
+				</div>
+			</div>
+		</fieldset>
+	
+		<fieldset>
+			<legend>Electoral Districts</legend>
+			<div class="row">
+				<div class="col-md-4 form-group">
+					<label class="control-label">Federal Electoral Districts <em>Optional</em></label>
+					<input class="form-control"></input>
+				</div>
+				<div class="col-md-4 form-group">
+					<label class="control-label">Provincial Electoral Districts <em>Optional</em></label>
+					<input class="form-control"></input>
+				</div>
+			</div>
+		</fieldset>
+
+	</div>
+</div>
+
+<div class="edit-project-details-view hidden">
+
+
+	<form class="hidden" name="projectForm" ng-submit="saveProject(projectForm.$valid)" novalidate>
 
 		<div class="view-title-container clearfix">
 			<h1><span>Add/Edit Project</span><span ng-show="project.name">&nbsp; &rsaquo; &nbsp;{{ project.name }}</span></h1>

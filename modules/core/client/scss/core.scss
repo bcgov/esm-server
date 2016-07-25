@@ -1,6 +1,7 @@
-/* -----------------------------------------------------------------------------
- * variables
- * -------------------------------------------------------------------------- */
+@font-face {
+	font-family: 'Myriad-Pro';
+	src: url('../fonts/MyriadWebPro.ttf');
+}
 
 /* ----- Colors ----- */
 $header-blue:		    #141a41;
@@ -34,12 +35,22 @@ $corp-gold: 				#fcba19;
 $font-color-grey: 			#888;
 $font-color-disabled: 		#CCC;
 
+/* Footer */
+$footer-font-size:			1.2rem;
+
 /* Buttons */
 $btn-focus-bg-color: 		#FFF;
 $btn-focus-border-color: 	#5475a7;
+$btn-primary-bg:			#1a5a96;
 
 /* Header */
 $header-focus-border-color: #5475a7;
+
+/* Left Panel */
+$left-panel-width: 			20rem;
+$left-panel-bg:				#FFF;
+$left-panel-shadow-width:	0.4rem;
+$left-panel-shadow-color:	#999;
 
 /* Modal */
 $modal-body-bg: 			#f1f1f1;
@@ -63,6 +74,10 @@ $nav-tab-inactive-color:		#999;
 $nav-tab-active-border-color: 	#1a5a96;
 $nav-tab-inactive-border-color: #DDD;
 
+/* Typography */
+$font-family-heading: 		Myriad-Pro, Calibri, Arial, sans serif;
+$font-family-sans-serif: 	Myriad-Pro, Calibri, Arial, sans serif;
+
 /* Upload Target */
 $upload-target-focus-bg:			#FFF;
 $upload-target-focus-border-color:	#5475a7;
@@ -80,10 +95,6 @@ $warning-border:			#eea236;
 
 /* GLOBAL
 ------------------------------ */
-@font-face {
-	font-family: 'Myriad-Pro';
-	src: url('../fonts/MyriadWebPro.ttf');
-}
 
 html {
 	min-height: 100%;
@@ -98,9 +109,29 @@ body {
 }
 
 
+/* UTILITY CLASSES
+------------------------------ */
+hr {
+	border-top: 1px solid #DDD;
+}
+
+.flex-row {
+	display: -webkit-flex;
+	display: flex;
+	-ms-flex-flow: row nowrap;
+	flex-flow: row nowrap;
+}
+
+.flex-column {
+	display: -webkit-flex;
+	display: flex;
+	-ms-flex-flow: column nowrap;
+	flex-flow: column nowrap;
+}
+
+
 /* ----- Typography ----- */
-$font-family-heading: Myriad-Pro, Calibri, Arial, sans serif;
-$font-family-sans-serif: Myriad-Pro, Calibri, Arial, sans serif;
+
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
@@ -224,10 +255,6 @@ a.control-label:hover,
 .ng-cloak,
 .x-ng-cloak {
 	display: none !important;
-}
-
-h1,h2,h3,h4,h5,h6 {
-	font-weight: normal;
 }
 
 td h4 {
@@ -1478,13 +1505,95 @@ h2.page-title {
 }
 
 
+/* APPLICATION LAYOUT 
+------------------------------ */
+html, body {
+	height: 100%;
+}
+
+.app-container {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: -webkit-flex;
+	display: flex;
+	flex-flow: column nowrap;
+}
+
+tmpl-header,
+tmpl-footer {
+	display: block;
+	flex: 0 0 auto;
+}
+
+.app-main {
+	position: fixed;
+	top: 5.2rem;
+	right: 0;
+	bottom: 4rem;
+	left: 0;
+	display: -webkit-flex;
+	display: flex;
+	flex-flow: row nowrap;
+
+	.left-panel,
+	.main-panel {
+		display: -webkit-flex;
+		display: flex;
+		flex-flow: column nowrap;
+	}
+
+	.left-panel {
+		width: $left-panel-width;
+		flex: 0 0 auto;
+		background: $left-panel-bg;
+		box-shadow: 0 0 $left-panel-shadow-width $left-panel-shadow-color;
+		z-index: 2;
+	}
+
+	.main-panel {
+		position: relative;
+		flex: 1 1 auto;
+
+		.view-title-container {
+			flex: 0 0 auto;
+			z-index: 1;
+		}
+
+		.view-body-container {
+			padding: 2rem 2.5rem;
+			flex: 1 1 auto;
+			overflow-y: auto;
+		}
+	}
+}
+
+@media (min-width: 1024px) {
+	.app-main {
+		top: 6.2rem;
+	}
+}
+
+ui-view,
+.view-container {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: -webkit-flex;
+	display: flex; 
+	flex-flow: column nowrap;
+}
+
+
 /* PAGE LAYOUT
 ------------------------------ */
 .view-title-container {
 	height: 7rem;
-	padding: 2rem;
-	display: -webkit-flex;
-	display: flex;
+	padding: 2rem 2.5rem;
 	background: #FFF;
 	border-bottom: 1px solid #EEE;
 	min-width: 0;
@@ -1498,25 +1607,21 @@ h2.page-title {
 
 	&.flex-row {
 		h1 {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
 			-webkit-flex: 1 1 auto;
 			-ms-flex: 1 1 auto;
 			flex: 1 1 auto;
 		}
 
 		.actions {
+			padding-left: 2rem;
 			-webkit-flex: 0 0 auto;
 			-ms-flex: 0 0 auto;
 			flex: 0 0 auto;
 
 			.btn-default {
-				border-color: transparent;
-
-				&:hover,
-				&:focus {
-					background: #FFF;
-					border-color: $btn-focus-border-color;
-				}
-
 				.glyphicon {
 					font-size: 1.4rem;
 				}
@@ -1538,10 +1643,6 @@ h2.page-title {
 	section:last-child {
 		margin-bottom: 0;
 	}
-}
-
-.view-body-container {
-	padding: 2rem;
 }
 
 
@@ -1677,44 +1778,6 @@ h2.page-title {
 }
 
 
-/* APPLICATION LAYOUT
------------------------------- */
-tmpl-header {
-	position: fixed;
-	top: 0;
-	width: 100%;
-	z-index: 999;
-}
-
-.app-main {
-	padding-top: 5rem;
-	padding-bottom: 4rem;
-}
-
-@media (min-width: 900px) {
-	.app-main {
-		padding-top: 6rem;
-	}	
-}
-
-.left-panel {
-	-webkit-flex: 0 0 $sidenav-width;
-	flex: 0 0 $sidenav-width;
-}
-
-.main-panel {
-	-webkit-flex: 0 0 auto;
-	flex: 1 1 auto;
-}
-
-.right-panel {
-	padding: 1.5rem;
-	padding-left: 0;
-	flex: 0 0 30rem;
-	overflow-x: hidden;
-}
-
-
 /* HEADER 
 ------------------------------ */
 $header-height: 6.2rem;
@@ -1727,7 +1790,6 @@ $header-height-sm: 5.2rem;
 	min-height: $header-height-sm;
 	background-color: $corp-blue;
 	border-bottom: 2px solid $corp-gold;
-	box-shadow: 0 0 0.2rem #999;
 	
 	.navbar {
 		border: none;
@@ -2022,15 +2084,11 @@ $header-height-sm: 5.2rem;
 	left: 0;
 	width: 100%;
 	padding: 1rem 2rem;
-	font-size: 13px;
+	font-size: $footer-font-size;
 	color: #FFF;
 	background: $corp-blue;
 	border-top: 2px solid $corp-gold;
 	z-index: 999;
-	-webkit-transition: bottom ease-out 0.2s;
-	-o-transition: bottom ease-out 0.2s;
-	-moz-transition: bottom ease-out 0.2s;
-	transition: bottom ease-out 0.2s;
 	
 	a {
 		color: #FFF;
@@ -2048,14 +2106,10 @@ $sidenav-shadow: 0 0 0.4rem #CCC;
 $sidenav-text-shadow: 0 0 2px #FFF;
 
 .sidenav {
-	position: fixed;
-	top: 5rem;
-	bottom: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
 	width: $sidenav-width;
-	padding-bottom: 1rem;
-	background: $sidenav-bg;
-	-webkit-box-shadow: $sidenav-shadow;
-	box-shadow: $sidenav-shadow;
 
 	.nav-pills {
 		a {
@@ -2113,12 +2167,6 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 			left: 1.2rem;
 			font-size: 2.4rem;
 		}
-	}
-}
-
-@media (min-width: 900px) {
-	.sidenav {
-		top: 6rem;
 	}
 }
 
@@ -2300,10 +2348,10 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 }
 
 .btn-primary {
-	background: $corp-blue;
-	&:hover  { background: $corp-blue; }
-	&:active { background: $corp-blue; }
-	&:focus  { background: $corp-blue; }
+	background: $btn-primary-bg;
+	&:hover  { background: #5475a7; }
+	&:active { background: #5475a7; }
+	&:focus  { background: #5475a7; }
 }
 
 
@@ -2371,19 +2419,18 @@ Implementing this as a stop-gap solution to a proper control.
 /* FIELDSETS
 ------------------------------ */
 fieldset {
-	margin-bottom: 2rem;
-}
+	margin-bottom: 1rem;
 
-fieldset:last-child {
-	margin-bottom: 0;
+	&:last-child { margin-bottom: 0; }
 }
 
 legend {
-	padding-bottom: 0.5rem;
+	margin-bottom: 1.75rem;
 	font-size: 1.6rem;
 	font-weight: bold;
+	border-bottom: none;
+	text-shadow: 1px 1px 0 #FFF;
 	text-transform: uppercase;
-	border-bottom: 1px solid #DDD;
 	
 	em {
 		font-size: 1.4rem;
@@ -2553,14 +2600,20 @@ $file-browser-item-active: #2b5580;
 /* FORM CONTROLS
 ------------------------------ */
 .control-label {
-	text-shadow: 1px 1px 0 #FFF;
-	
 	em {
 		margin-left: 0.25rem;
-		font-size: 1.2rem;
+		font-size: 1.3rem;
 		font-weight: normal;
 		color: #999;
 	}
+}
+
+.form-container {
+	padding: 0 2rem;
+}
+
+.form-group {
+	margin-bottom: 2rem;
 }
 
 .has-error {
@@ -2593,10 +2646,6 @@ form {
 			clear: none;
 		}
 	}
-}
-
-.form-group {
-	margin-bottom: 2rem;
 }
 
 .form-footer {
@@ -2649,6 +2698,15 @@ textarea {
 	margin-right: 2rem;
 	
 	input {
+		margin-top: 2px;
+	}
+}
+
+.radio-group {
+	padding-top: 0.7rem;
+
+	/* Fix - Myriad Pro causes an issue with the label offset so we fix it */
+	input[type="radio"] {
 		margin-top: 2px;
 	}
 }
@@ -3196,19 +3254,6 @@ $table-footer-bg: #F7F8FA;
 }
 
 
-/* UTILITIES
------------------------------- */
-hr {
-	border-top: 1px solid #DDD;
-}
-
-.flex-list-item-row {
-	display: -webkit-flex;
-	display: flex;
-	flex-flow: row nowrap;
-}
-
-
 /* ARTIFACT VIEW
 ------------------------------ */
 .artifact-list-view {	
@@ -3486,10 +3531,6 @@ section.project-info {
 	.panel {
 		margin-bottom: 0;
 	}
-	
-	.angular-google-map-container {
-		height: 400px;
-	}
 }
 
 .detail-row {
@@ -3601,9 +3642,21 @@ section.project-info {
 
 /* EDIT PROJECT VIEW
 ------------------------------ */ 
-.edit-project-details-view {
-	.tab-content {
-		padding-top: 3rem;
+.edit-project-form {
+	max-width: 1024px;
+
+	.coord-input {
+		.form-control {
+			flex: 1 1 auto;
+
+			&:first-child {
+				margin-right: 0.25rem;
+			}
+
+			&:last-child {
+				margin-left: 0.25rem;
+			}
+		}
 	}
 }
 
@@ -3844,23 +3897,6 @@ section.project-info {
 	.new-role-btn {
 		margin-top: -0.4rem;
 		margin-bottom: -0.4rem;
-	}
-}
-
-.flex-row {
-	display: -webkit-flex;
-	display: flex;
-	-ms-flex-flow: row nowrap;
-	flex-flow: row nowrap;
-
-	label,
-	.form-control
-	.btn {
-		flex: 1 1 auto;
-	}
-
-	label {
-		margin-bottom: 0;
 	}
 }
 
@@ -4528,6 +4564,10 @@ section.project-info {
 			}
 		}
 	}
+}
+
+.angular-google-map-container {
+	height: 400px;
 }
 
 

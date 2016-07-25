@@ -18,7 +18,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 	.state('p.commentperiod', {
 		abstract:true,
 		url: '/commentperiod',
-		template: '<ui-view></ui-view>',
+		template: '<ui-view class="comment-period-view"></ui-view>',
 		resolve: {
 			periods: function ($stateParams, CommentPeriodModel, project) {
 				return CommentPeriodModel.forProject (project._id);

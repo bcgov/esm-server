@@ -1,71 +1,60 @@
-<section id="projects-view" class="public-home-view">
 
-	<div class="view-content">
 
-		<div class="left-panel hidden" id="main-side-section" ng-if="authentication.user">
-			<tmpl-system-menu x-menu-context="'projects'"></tmpl-system-menu>
-		</div>
+<div class="public-home-view main-panel">
 
-		<div class="main-panel">
+	<!-- BEGIN: VIEW BODY CONTAINER -->
+	<ui-view class="view-body-container" id="main-content-section">
 
-			<!-- BEGIN: VIEW BODY CONTAINER -->
-			<div class="view-body-container">
-
-				<ui-view id="main-content-section">
-
-					<!-- BEGIN: MEM DECRIPTION PANEL -->
-					<div class="panel panel-default" ng-if="false" ng-show="environment === 'MEM' && !authentication.user">
-						<div class="panel-heading">
-							<h3 class="panel-title">Public Project Listing</h3>
-						</div>
-						<div class="panel-body">
-							<p>The Ministry of Energy and Mines (MEM) is committed to making information on permitted mine sites in British Columbia more accessible to interested parties. MEM has collaborated with the BC Environmental Assessment Office (EAO) to develop a new platform and has to date posted the following information online:</p>
-							<ul>
-								<li>Permits and amendments for major mines that are currently operating or under construction</li>
-								<li>MEM inspection reports (2013 onwards) for major mines that are currently operating or under construction</li>
-							</ul>
-							<p>In the coming months, the following information will be posted:</p>
-							<ul>
-								<li>Permits and amendments for all major mines in BC (i.e., closed mines and mines in care and maintenance in addition to those that are currently operating/under construction)</li>
-								<li>Dam safety inspections/reviews for permitted major mines (2013 onwards)</li>
-								<li>Annual reclamation reports for permitted major mines (2013 onwards)</li>
-							</ul>
-							<p>More documents will be posted in future phases of this initiative; this first phase is limited to documents that meet the specifications above and are currently available electronically. Requests for specific documents not available via this web platform can be directed to the Ministry of Energy and Mines and/or to the Office of the Chief Information Officer (for requests made under the Freedom of Information and Protection of Privacy Act).</p>
-						</div>
-					</div>
-					<!-- END: MEM DESCRIPTION PANEL -->
-
-					<div class="row">
-						<div class="col-xs-12 col-sm-6 col-md-4" ng-init="form.expandnews = false">
-							<div class="panel panel-default news-feed">
-								<div class="panel-heading"><h2>News & Announcements</h2></div>
-								<div class="panel-body">
-									<tmpl-recent-activity id="anchor-recent" x-form="form"></tmpl-recent-activity>
-								</div>
-								<div class="panel-footer">
-									<a class="show-all-news-link btn btn-link" href="/news">View all News & Announcements</a>
-								</div>
-							</div>
-						</div>
-						<div class="col-xs-12 col-sm-6 col-md-8">
-							<tmpl-projects-map id="anchor-map" x-projects='projects'></tmpl-projects-map>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-sm-12">
-							<tmpl-projects-list2
-								id="anchor-list"
-								x-projects="projects">
-							</tmpl-projects-list2>
-						</div>
-					</div>
-
-				</ui-view>
+		<!-- BEGIN: MEM DECRIPTION PANEL -->
+		<div class="panel panel-default" ng-if="false" ng-show="environment === 'MEM' && !authentication.user">
+			<div class="panel-heading">
+				<h3 class="panel-title">Public Project Listing</h3>
 			</div>
-			<!-- END: VIEW BODY CONTAINER -->
-
+			<div class="panel-body">
+				<p>The Ministry of Energy and Mines (MEM) is committed to making information on permitted mine sites in British Columbia more accessible to interested parties. MEM has collaborated with the BC Environmental Assessment Office (EAO) to develop a new platform and has to date posted the following information online:</p>
+				<ul>
+					<li>Permits and amendments for major mines that are currently operating or under construction</li>
+					<li>MEM inspection reports (2013 onwards) for major mines that are currently operating or under construction</li>
+				</ul>
+				<p>In the coming months, the following information will be posted:</p>
+				<ul>
+					<li>Permits and amendments for all major mines in BC (i.e., closed mines and mines in care and maintenance in addition to those that are currently operating/under construction)</li>
+					<li>Dam safety inspections/reviews for permitted major mines (2013 onwards)</li>
+					<li>Annual reclamation reports for permitted major mines (2013 onwards)</li>
+				</ul>
+				<p>More documents will be posted in future phases of this initiative; this first phase is limited to documents that meet the specifications above and are currently available electronically. Requests for specific documents not available via this web platform can be directed to the Ministry of Energy and Mines and/or to the Office of the Chief Information Officer (for requests made under the Freedom of Information and Protection of Privacy Act).</p>
+			</div>
 		</div>
-	</div>
+		<!-- END: MEM DESCRIPTION PANEL -->
 
-</section>
+		<div class="row">
+			<div class="col-xs-12 col-md-3" ng-init="form.expandnews = false">
+				<div class="panel panel-default news-feed">
+					<div class="panel-heading"><h2>News & Announcements</h2></div>
+					<div class="panel-body">
+						<tmpl-recent-activity id="anchor-recent" x-form="form"></tmpl-recent-activity>
+					</div>
+					<div class="panel-footer">
+						<a class="show-all-news-link btn btn-link" href="/news">View all News & Announcements</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-md-9">
+				<tmpl-projects-map id="anchor-map" x-projects='projects'></tmpl-projects-map>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<tmpl-projects-list2
+					id="anchor-list"
+					x-projects="projects">
+				</tmpl-projects-list2>
+			</div>
+		</div>
+
+	</ui-view>
+	<!-- END: VIEW BODY CONTAINER -->
+
+</div>
+
