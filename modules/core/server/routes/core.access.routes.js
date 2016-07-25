@@ -91,7 +91,7 @@ module.exports = function (app) {
 	app.route('/api/application')
 	.all(routes.setModel(App))
 	.get(routes.runModel(function (model, req) {
-		console.log('about to run get the one');
+		//console.log('about to run get the one');
 		return model.getTheOne();
 	}));
 	//

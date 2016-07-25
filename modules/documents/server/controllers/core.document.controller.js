@@ -255,6 +255,8 @@ module.exports = DBModel.extend ({
 	// if the comment is published or unpublished, then we need the same permissions/access level
 	// unless the document has been explicitly rejected,
 	publishForComment: function(doc, publish, perms) {
+		//console.log('document.publishForComment publish = ' + publish + ', perms = ' + JSON.stringify(perms, null, 4));
+		//console.log('document.publishForComment doc = ' + JSON.stringify(doc, null, 4));
 		var self = this;
 		self.setModelPermissions(doc, perms)
 			.then(function() {

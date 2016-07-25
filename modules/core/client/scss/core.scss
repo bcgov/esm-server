@@ -41,9 +41,6 @@ $btn-focus-border-color: 	#5475a7;
 /* Header */
 $header-focus-border-color: #5475a7;
 
-/* Layout */
-$left-panel-width:			17rem;
-
 /* Modal */
 $modal-body-bg: 			#f1f1f1;
 $modal-header-bg: 			#FFF;
@@ -54,6 +51,11 @@ $panel-border-color: 		#DDD;
 $panel-heading-bg: 			#FFF;
 $panel-heading-color: 		#494949;
 $panel-footer-bg: 			#FFF;
+
+/* Side Navigation */
+$sidenav-bg: 				#FFF;
+$sidenav-color: 			$link-color;
+$sidenav-width:				20rem;
 
 /* Tab Navigation */
 $nav-tab-active-color:			#1a5a96;
@@ -226,7 +228,6 @@ a.control-label:hover,
 
 h1,h2,h3,h4,h5,h6 {
 	font-weight: normal;
-	letter-spacing: -0.01em;
 }
 
 td h4 {
@@ -1480,7 +1481,8 @@ h2.page-title {
 /* PAGE LAYOUT
 ------------------------------ */
 .view-title-container {
-	padding: 1.7rem 2rem;
+	height: 7rem;
+	padding: 2rem;
 	display: -webkit-flex;
 	display: flex;
 	background: #FFF;
@@ -1490,7 +1492,7 @@ h2.page-title {
     h1 {
         margin: 0;
         padding-top: 0.2rem;
-		font-size: 2.5rem;
+		font-size: 2.4rem;
 		font-weight: bold;
     }
 
@@ -1507,10 +1509,16 @@ h2.page-title {
 			flex: 0 0 auto;
 
 			.btn-default {
+				border-color: transparent;
+
 				&:hover,
 				&:focus {
 					background: #FFF;
 					border-color: $btn-focus-border-color;
+				}
+
+				.glyphicon {
+					font-size: 1.4rem;
 				}
 			}
 		}
@@ -1690,8 +1698,8 @@ tmpl-header {
 }
 
 .left-panel {
-	-webkit-flex: 0 0 $left-panel-width;
-	flex: 0 0 $left-panel-width;
+	-webkit-flex: 0 0 $sidenav-width;
+	flex: 0 0 $sidenav-width;
 }
 
 .main-panel {
@@ -2036,31 +2044,28 @@ $header-height-sm: 5.2rem;
 
 /* SIDE NAVIGATION
 ------------------------------ */
-$sidenav-bg: #FFF;
-$sidenav-color: $link-color;
+$sidenav-shadow: 0 0 0.4rem #CCC;
+$sidenav-text-shadow: 0 0 2px #FFF;
 
 .sidenav {
 	position: fixed;
 	top: 5rem;
 	bottom: 0;
-	width: $left-panel-width;
-	padding-top: 1rem;
+	width: $sidenav-width;
 	padding-bottom: 1rem;
 	background: $sidenav-bg;
-	-webkit-box-shadow: 0 0 0.4rem #CCC;
-	box-shadow: 0 0 0.4rem #CCC;
+	-webkit-box-shadow: $sidenav-shadow;
+	box-shadow: $sidenav-shadow;
 
 	.nav-pills {
 		a {
-			padding: 0.7rem 1.5rem;
+			padding: 0.8rem 1.5rem;
 			font-size: 1.3rem;
+			font-weight: bold;
 			color: $link-color;
+			text-shadow: $sidenav-text-shadow;
 			border: 1px solid transparent;
 			border-radius: 0;
-
-			&:focus {
-				text-shadow: 1px 1px 0 #FFF;
-			}
 
 			.glyphicon {
 				top: 0.3rem;
@@ -2072,10 +2077,6 @@ $sidenav-color: $link-color;
 					padding-left: 0.7rem;
 				}
 			}
-		}
-
-		> li + li {
-			margin: 0;
 		}
 	}
 
@@ -2092,11 +2093,32 @@ $sidenav-color: $link-color;
 	hr {
 		margin: 0.7rem 1.5rem;
 	}
+
+	.project-home-link {
+		position: relative;
+		display: table-cell;
+		width: $sidenav-width;
+		height: 7rem;
+		padding: 1rem 1.5rem 1rem 4.5rem;
+		font-weight: bold;
+		color: #1a5a96;
+		text-decoration: none;
+		line-height: 1.5rem;
+		background: #EEE;
+		vertical-align: middle;
+
+		.glyphicon {
+			position: absolute;
+			top: 2rem;
+			left: 1.2rem;
+			font-size: 2.4rem;
+		}
+	}
 }
 
 @media (min-width: 900px) {
 	.sidenav {
-		top: 6.2rem;
+		top: 6rem;
 	}
 }
 
@@ -2255,12 +2277,13 @@ $sidenav-color: $link-color;
 	}
 }
 
-.btn-sm {
+.btn-sm,
+.btn-xs {
 	.glyphicon {
 		top: 2px;
 
 		+ span {
-			margin-left: 0.7rem;
+			margin-left: 0.5rem;
 		}
 	}
 }
@@ -2572,6 +2595,10 @@ form {
 	}
 }
 
+.form-group {
+	margin-bottom: 2rem;
+}
+
 .form-footer {
 	margin-top: 2rem;
 	padding-top: 2rem;
@@ -2855,7 +2882,7 @@ textarea {
 /* PANELS
 ------------------------------ */ 
 .panel-default {
-	border: 1px solid #DDD;
+	border: none;
 	box-shadow: none;
 	
 	> .panel-heading {
