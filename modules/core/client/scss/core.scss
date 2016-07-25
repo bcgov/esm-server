@@ -1555,7 +1555,8 @@ tmpl-footer {
 
 	.main-panel {
 		position: relative;
-		flex: 1 1 1px; /* Need to set 1px here to fix some flexbox issues with text wrapping */
+		/* Need to set 1px here to fix some flexbox issues with text wrapping */
+		flex: 1 1 1px;
 		min-width: 0;
 
 		.view-title-container {
@@ -1620,6 +1621,10 @@ ui-view {
 			-webkit-flex: 0 0 auto;
 			-ms-flex: 0 0 auto;
 			flex: 0 0 auto;
+
+			.btn {
+				min-width: 8rem;
+			}
 
 			.btn-default {
 				.glyphicon {
@@ -2276,6 +2281,40 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 	border: 1px solid $warning-border;
 }
 
+.floating-alert {
+	position: fixed;
+	margin-left: -25rem;
+	top: 4.5rem;
+	left: 50%;
+	width: 50rem;
+	box-shadow: 0.2rem 0.2rem 0.8rem rgba(0, 0, 0, 0.4);
+	z-index: 10;
+
+	.btn {
+		position: absolute;
+		top: 0.8rem;
+		right: 0.8rem;
+		min-width: 3rem;
+		font-size: 2.1rem;
+		padding: 0.5rem;
+		background: transparent;
+
+		&:hover,
+		&:focus {
+			color: #FFF;
+			opacity: 1;
+		}
+
+		&:focus {
+			outline-color: #FFF;
+		}
+	}
+
+	.glyphicon {
+		font-size: 2rem;
+	}
+}
+
 
 /* BADGES
 ------------------------------ */
@@ -2437,7 +2476,7 @@ fieldset {
 
 legend {
 	margin-bottom: 1.75rem;
-	font-size: 1.6rem;
+	font-size: 1.4rem;
 	font-weight: bold;
 	border-bottom: none;
 	text-shadow: 1px 1px 0 #FFF;
@@ -2613,9 +2652,15 @@ $file-browser-item-active: #2b5580;
 .control-label {
 	em {
 		margin-left: 0.25rem;
-		font-size: 1.3rem;
+		font-size: 1.2rem;
 		font-weight: normal;
 		color: #999;
+	}
+}
+
+.has-error {
+	.control-label em {
+		color: $danger-text;
 	}
 }
 
@@ -2627,12 +2672,6 @@ $file-browser-item-active: #2b5580;
 	margin-bottom: 2rem;
 }
 
-.has-error {
-	.control-label em {
-		color: #a94442;
-	}
-}
-
 form {
 	section {
 		margin-bottom: 2rem;
@@ -2640,22 +2679,10 @@ form {
 		border-bottom: 1px solid #DDD;
 	}
 	
-	.col-sm-6:nth-child(3n+3) {
-		clear: both;
-	}
-	
 	.help-block {
 		margin-top: 0.5rem;
 		margin-bottom: 0;
 		font-size: 1.2rem;
-	}
-}
-
-@media (min-width: 1024px) {
-	form {
-		.col-sm-6:nth-child(3n+3) {
-			clear: none;
-		}
 	}
 }
 

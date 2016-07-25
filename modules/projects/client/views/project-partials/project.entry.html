@@ -1,134 +1,284 @@
-<div class="view-title-container flex-row">
-	<h1>Edit Project &nbsp;&rsaquo;&nbsp; {{project.name}}</h1>
-	<div class="actions">
-		<button class="btn btn-default btn-sm">Cancel</button>
-		<button class="btn btn-primary btn-sm">Save</button>
-		<button class="btn btn-primary btn-sm" disabled="disabled">Submit Project</button>
+<form class="view-form" name="projectForm" ng-submit="saveProject(projectForm.$valid)" validate>
+
+	<div class="floating-alert alert alert-info alert-dismissible fade in hidden">
+		<span class="pull-left">Floating Alert Container!</span>
+		<button type="button" class="btn btn-default close" data-dismiss="alert">
+        	<span aria-hidden="true">&times;</span>
+    	</button>
 	</div>
-</div>
 
-<div class="view-body-container">
-	<div class="edit-project-form">
+	<div class="view-title-container flex-row">
+		<h1>Edit Project &nbsp;&rsaquo;&nbsp; {{project.name}}</h1>
+		<div class="actions">
+			<button class="btn btn-default btn-sm" title="Cancel">Cancel</button>
+			<button class="btn btn-primary btn-sm" title="Save Project">Save</button>
+			<button class="btn btn-primary btn-sm" title="Submit Project" disabled="disabled">Submit Project</button>
+		</div>
+	</div>
 
-		<!-- PROJECT INFORMATION -->
-		<fieldset>
-			<legend class="has-error">Project Information</legend>
-			<div class="form-group">
-				<label class="control-label">Project Name</label>
-				<input class="form-control" type="text"></input>
-			</div>
-			<div class="row">
-				<div class="col-md-4 form-group">
-					<label class="control-label">Project Type</label>
-					<select class="form-control"></select>
-				</div>
-				<div class="col-md-4 form-group">
-					<label class="control-label">Nature of Project</label>
-					<select class="form-control"></select>
-				</div>
-				<div class="col-md-4 form-group">
-					<label class="control-label">Sector</label>
-					<select class="form-control"></select>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label">Project Description</label>
-				<textarea class="form-control" type="text" size="5"></textarea>
-			</div>
-			<div class="row">
-				<div class="col-md-4 form-group">
-					<label class="control-label">Region</label>
-					<select class="form-control"></select>
-				</div>
-				<div class="col-md-4 form-group">
-					<label class="control-label">Latitude / Longitude</label>
-					<div class="coord-input flex-row">
-						<input class="form-control" type="number"></input>
-						<input class="form-control" type="number"></input>
-					</div>
-				</div>
-				<div class="col-md-4 form-group">
-					<label class="control-label">Location Description <em>Optional</em></label>
-					<input class="form-control" type="text"></textarea>
-				</div>
-			</div>
-		</fieldset>
-		<!-- PROJECT INFORMATION -->
-
-		<!-- ADDITIONAL INFO -->
-		<fieldset>
-			<legend>Additional Information</legend>
-			<div class="row">
-				<div class="col-md-4">
-					<div class="form-group">
-						<label class="control-label">Capital Investment</label>
-						<input class="form-control" type="number" placeholder="$"></input>
-					</div>
-					<div class="form-group">
-						<label class="control-label">Notes <em>Optional</em></label>
-						<textarea class="form-control" size="2"></textarea>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<label class="control-label">Construction Jobs</label>
-						<input class="form-control" type="number"></input>
-					</div>
-					<div class="form-group">
-						<label class="control-label">Notes <em>Optional</em></label>
-						<textarea class="form-control" size="2"></textarea>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<label class="control-label">Operational Jobs</label>
-						<input class="form-control" type="number"></input>
-					</div>
-					<div class="form-group">
-						<label class="control-label">Notes <em>Optional</em></label>
-						<textarea class="form-control" size="2"></textarea>
-					</div>
-				</div>
-			</div>
-		</fieldset>
-		<!-- / ADDITIONAL INFO -->
-
+	<div class="view-body-container">
 		
-		<fieldset>
-			<legend>CEAA Involvement</legend>
-			<div class="row">
-				<div class="col-md-4 form-group">
-					<label class="control-label">CEAA involvement</label>
-					<select class="form-control"></select>
+		<!-- TABS -->
+		<ul class="nav nav-tabs" ng-init="form.curTab = 'Project Details'">
+			<li role="presentation" ng-class="{'active':form.curTab === 'Project Details'}">
+				<a href ng-click="form.curTab = 'Project Details'" title="Edit Project Details">Project Details</a>
+			</li>
+			<li role="presentation" ng-class="{'active':form.curTab === 'Project Contacts'}">
+				<a href ng-click="form.curTab = 'Project Contacts'" title="Edit Project Contacts">Contacts</a>
+			</li>
+			<li role="presentation" ng-class="{'active':form.curTab === 'Project EAO Info'}">
+				<a href ng-click="form.curTab = 'Project EAO Info'" title="Edit Environmental Assessment Office Info">EAO Details</a>
+			</li>
+		</ul><!-- / TABS -->
+
+		<div class="edit-project-form tab-pane active" ng-show="form.curTab === 'Project Details'">
+			<!-- PROJECT INFORMATION -->
+			<fieldset>
+				<legend>General Info</legend>
+				<div class="form-group">
+					<label class="control-label" for="projectname">Project Name</label>
+					<input class="form-control" type="text" title="Project Name" name="projectname"
+						ng-model="project.name"
+						ng-change="onChangeProjectName()"></input>
 				</div>
-				<div class="col-md-4 form-group">
-					<label class="control-label">CEAA URL</label>
-					<input class="form-control" type="url"></input>
+				<div class="row">
+					<div class="col-sm-6 col-md-4 form-group">
+						<label class="control-label">Project Type </label>
+						<select class="form-control" id="type" name="type"
+							ng-model='project.type'
+							ng-options="type as type for type in types"></select>
+						<div ng-messages="projectForm.type.$error" role="alert">
+							<p class="help-block error-text" ng-message="required">Type is required.</p>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-4 form-group">
+						<label class="control-label">Nature of Project</label>
+						<select class="form-control" id="build" ng-model="project.build">
+							<option value="new">New Construction</option>
+							<option value="modification">Modification of Existing</option>
+							<option value="dismantling">Dismantling or Abandonment</option>
+						</select>
+					</div>
+					<div class="col-sm-6 col-md-4 form-group">
+						<label class="control-label">Sector</label>
+						<select class="form-control" title="Project Sector"></select>
+					</div>
 				</div>
-			</div>
-		</fieldset>
-	
-		<fieldset>
-			<legend>Electoral Districts</legend>
-			<div class="row">
-				<div class="col-md-4 form-group">
-					<label class="control-label">Federal Electoral Districts <em>Optional</em></label>
-					<input class="form-control"></input>
+				<div class="form-group">
+					<label class="control-label">Project Description</label>
+					<textarea class="form-control" id="shortDesc" rows="5"
+						ng-model="project.description"></textarea>
 				</div>
-				<div class="col-md-4 form-group">
-					<label class="control-label">Provincial Electoral Districts <em>Optional</em></label>
-					<input class="form-control"></input>
+				<div class="row">
+					<div class="col-md-4 form-group">
+						<label class="control-label" for="region">Region</label>
+						<select class="form-control" if="region" name="region"
+						 	ng-model='project.region' 
+							ng-options="key as value for (key, value) in regions"></select>
+					</div>
+					<div class="col-sm-6 col-md-4 form-group">
+						<label class="control-label">Latitude / Longitude</label>
+						<div class="coord-input flex-row">
+							<input class="form-control" id="latitude" type="number" ng-model="project.lat">
+							<input class="form-control" id="longitude" type="number" ng-model="project.lon">
+						</div>
+					</div>
+					<div class="col-sm-12 col-md-4 form-group">
+						<label class="control-label">Location Description <em>(Optional)</em></label>
+						<input class="form-control" id="location" type="text" ng-model="project.location">
+					</div>
 				</div>
-			</div>
-		</fieldset>
+			</fieldset>
+			<!-- PROJECT INFORMATION -->
+
+			<!-- ADDITIONAL INFO -->
+			<fieldset>
+				<legend>Additional Info</legend>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">Capital Investment <em>(Optional)</em></label>
+							<input class="form-control" type="number" placeholder="$" 
+								ng-model="project.investment"></input>
+						</div>
+						<div class="form-group">
+							<label class="control-label">Investment Notes</label>
+							<textarea class="form-control" size="2" 
+								ng-model="project.investmentNotes"></textarea>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">Construction Jobs <em>(Optional)</em></label>
+							<input class="form-control" type="number" 
+								ng-model="project.constructionjobs"></input>
+						</div>
+						<div class="form-group">
+							<label class="control-label">Construction Notes</label>
+							<textarea class="form-control" size="2" 
+								ng-model="project.constructionjobsNotes"></textarea>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">Operational Jobs <em>(Optional)</em></label>
+							<input class="form-control" type="number" 
+								ng-model="project.operationjob"></input>
+						</div>
+						<div class="form-group">
+							<label class="control-label">Operation Notes</label>
+							<textarea class="form-control" size="2"
+								ng-model="project.operationjobNotes"></textarea>
+						</div>
+					</div>
+				</div>
+			</fieldset>
+			<!-- / ADDITIONAL INFO -->
+
+			<!-- CEAA INVOLVEMENT -->
+			<fieldset>
+				<legend>CEAA Involvement</legend>
+				<div class="row">
+					<div class="col-md-4 form-group">
+						<label class="control-label">CEAA involvement</label>
+						<select class="form-control"></select>
+					</div>
+					<div class="col-md-4 form-group">
+						<label class="control-label">CEAA URL</label>
+						<input class="form-control" type="url"></input>
+					</div>
+				</div>
+			</fieldset>
+			<!-- / CEAA INVOLVEMENT -->
+
+			<!-- ELECTORAL DISTRICTS -->
+			<fieldset>
+				<legend>Electoral Districts</legend>
+				<div class="row">
+					<div class="col-md-4 form-group">
+						<label class="control-label">Federal Electoral Districts <em>(Optional)</em></label>
+						<input class="form-control"></input>
+					</div>
+					<div class="col-md-4 form-group">
+						<label class="control-label">Provincial Electoral Districts <em>(Optional)</em></label>
+						<input class="form-control"></input>
+					</div>
+				</div>
+			</fieldset>
+			<!-- / ELECTORAL DISTRICTS -->
+		</div>
+
+		<div class="edit-project-form tab-pane" ng-show="form.curTab === 'Project Contacts'">
+			<fieldset>
+				<legend>Project Lead</legend>
+				<div class="row">
+					<div class="col-md-4 form-group">
+						<label class="control-label" for="projectleadname">Name</label>
+						<input class="form-control" name="projectleadname"></input>
+					</div>
+					<div class="col-sm-6 col-md-4 form-group">
+						<label class="control-label" for="projectleademail">Email</label>
+						<input class="form-control" name="projectleademail" placeholder="example@domain.com"></input>
+					</div>
+					<div class="col-sm-6 col-md-4 form-group">
+						<label class="control-label">Phone</label>
+						<input class="form-control" placeholder="e.g. (555) 555-5555"></input>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>Executive Project Director</legend>
+				<div class="row">
+					<div class="col-md-4 form-group">
+						<label class="control-label" for="projectleadname">Name</label>
+						<input class="form-control" name="projectleadname"></input>
+					</div>
+					<div class="col-sm-6 col-md-4 form-group">
+						<label class="control-label" for="projectleademail">Email</label>
+						<input class="form-control" name="projectleademail" placeholder="example@domain.com"></input>
+					</div>
+					<div class="col-sm-6 col-md-4 form-group">
+						<label class="control-label">Phone</label>
+						<input class="form-control" placeholder="e.g. (555) 555-5555"></input>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>Compliance and Enforcement Lead</legend>
+				<div class="row">
+					<div class="col-md-4 form-group">
+						<label class="control-label" for="projectleadname">Name</label>
+						<input class="form-control" name="projectleadname"></input>
+					</div>
+					<div class="col-sm-6 col-md-4 form-group">
+						<label class="control-label" for="projectleademail">Email</label>
+						<input class="form-control" name="projectleademail" placeholder="example@domain.com"></input>
+					</div>
+					<div class="col-sm-6 col-md-4 form-group">
+						<label class="control-label">Phone</label>
+						<input class="form-control"  placeholder="e.g. (555) 555-5555"></input>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>Additional Team Info</legend>
+				<div class="row">
+					<div class="col-md-4 form-group">
+						<label class="control-label" for="projectleadname">Analyst<em>(Optional)</em></label>
+						<input class="form-control" name="projectleadname"></input>
+					</div>
+					<div class="col-md-4 form-group">
+						<label class="control-label" for="projectleadname">Assistant<em>(Optional)</em></label>
+						<input class="form-control" name="projectleadname"></input>
+					</div>
+					<div class="col-md-4 form-group">
+						<label class="control-label" for="projectleadname">Admin Assistant<em>(Optional)</em></label>
+						<input class="form-control" name="projectleadname"></input>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 form-group">
+						<label class="control-label" for="projectleadname">Team Notes<em>(Optional)</em></label>
+						<textarea class="form-control" name="projectleadname" size="6"></textarea>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+
+		<div class="edit-project-form tab-pane" ng-show="form.curTab === 'Project EAO Info'">
+			<fieldset>
+				<div class="row">
+					<div class="col-md-4 form-group">
+						<label class="control-label" for="projectleadname">Environmental Assessment Status</em></label>
+						<select class="form-control"></select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 form-group">
+						<label class="control-label" for="projectleadname">Does this project require an Environmental Assessment Certificate?</label>
+						<div class="radio-group">
+							<label class="radio-inline">
+								<input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> YES
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> NO
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 form-group">
+						<label class="control-label" for="projectleadname">Assessment Notes<em>(Optional)</em></label>
+						<textarea class="form-control" name="projectleadname" size="6"></textarea>
+					</div>
+				</div>
+			</fieldset>
+		</div>
 
 	</div>
-</div>
+</form>
 
 <div class="edit-project-details-view hidden">
-
-
-	<form class="hidden" name="projectForm" ng-submit="saveProject(projectForm.$valid)" novalidate>
 
 		<div class="view-title-container clearfix">
 			<h1><span>Add/Edit Project</span><span ng-show="project.name">&nbsp; &rsaquo; &nbsp;{{ project.name }}</span></h1>
@@ -144,7 +294,7 @@
 		<div class="view-body-container">
 
 			<!-- TAB NAVIGATION -->
-			<ul class="tab-container nav nav-tabs" ng-init="form.curTab = 'Project Information'">
+			<ul class="tab-container nav nav-tabs">
 				<li ng-class="{'active':form.curTab === 'Project Information'}">
 					<a href ng-click="form.curTab = 'Project Information'">Project Information</a>
 				</li>
