@@ -1645,6 +1645,17 @@ ui-view {
 	}
 }
 
+.view-form {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: -webkit-flex; /* Safari */
+    display: flex;
+	flex-flow: column nowrap;
+}
+
 
 /* ACTIVITIES LIST
 ------------------------------ */
