@@ -1555,7 +1555,8 @@ tmpl-footer {
 
 	.main-panel {
 		position: relative;
-		flex: 1 1 auto;
+		flex: 1 1 1px; /* Need to set 1px here to fix some flexbox issues with text wrapping */
+		min-width: 0;
 
 		.view-title-container {
 			flex: 0 0 auto;
@@ -3669,6 +3670,16 @@ section.project-info {
 		padding: 0;
 	}
 }
+
+/* GUIDANCE VIEW
+------------------------------ */
+ .guidance-main {
+	 .info-block p {
+		 display: block;
+		 max-width: 100%;
+		 flex-shrink: 1;
+	 }
+ }
 
 
 /* MILESTONE/COMMENT SESSION MODAL VIEW
