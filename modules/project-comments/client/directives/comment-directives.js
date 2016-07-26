@@ -72,7 +72,7 @@ angular.module ('comment')
 			//
 			// -------------------------------------------------------------------------
 			s.refreshPublic = function () {
-				CommentModel.getCommentsForPeriod ($scope.period._id).then (function (collection) {
+				CommentModel.getPublishedCommentsForPeriod ($scope.period._id).then (function (collection) {
 					s.tableParams = new NgTableParams ({count:50}, {dataset:collection});
 					$scope.$apply ();
 				});

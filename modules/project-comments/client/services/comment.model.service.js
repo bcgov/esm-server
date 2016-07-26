@@ -20,8 +20,11 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 		// get all the comments for a comment period
 		//
 		// -------------------------------------------------------------------------
-		getCommentsForPeriod: function (periodId) {
-			return this.get ('/api/comments/period/'+periodId);
+		getAllCommentsForPeriod: function (periodId) {
+			return this.get ('/api/comments/period/'+periodId+'/all');
+		},
+		getPublishedCommentsForPeriod: function (periodId) {
+			return this.get ('/api/comments/period/'+periodId+'/published');
 		},
 		getEAOCommentsForPeriod: function (periodId) {
 			return this.get ('/api/eaocomments/period/'+periodId);

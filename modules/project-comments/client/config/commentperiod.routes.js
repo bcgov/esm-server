@@ -155,7 +155,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				.then (function (model) {
 					// console.log ('period was saved',model);
 					// save the comments so that we pick up the (potential) changes to the period permissions...
-					return CommentModel.getCommentsForPeriod(model._id);
+					return CommentModel.getAllCommentsForPeriod(model._id);
 				})
 				.then(function(comments){
 					Promise.resolve()
