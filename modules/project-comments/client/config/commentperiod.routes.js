@@ -208,6 +208,9 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			$scope.period   = period;
 			$scope.project  = project;
 			$scope.artifact = artifact;
+			// anyone with vetting comments can add a comment at any time
+			// all others with add comment permission must wait until the period is open
+			$scope.allowCommentSubmit = (isopen && period.userCan.addComment) || period.userCan.vetComments;
 		}
 	})
 
