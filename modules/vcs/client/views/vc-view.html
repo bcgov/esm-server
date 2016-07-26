@@ -31,7 +31,7 @@
 				<span class="value">{{vc.type}}</span>
 			</div>
 		</div>
-		<div class="row" ng-if="vc.subComponents">
+		<div class="row" ng-if="vc.subComponents.length > 0">
 			<div class="col-md-4 detail-row">
 				<label>Sub Components</label>
 				<div ng-repeat="o in vclist"
