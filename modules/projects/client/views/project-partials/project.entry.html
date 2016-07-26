@@ -10,9 +10,10 @@
 	<div class="view-title-container flex-row">
 		<h1>Edit Project &nbsp;&rsaquo;&nbsp; {{project.name}}<span class="placeholder-text" ng-if="!project.name">Untitled Project</span></h1>
 		<div class="actions">
-			<button class="btn btn-default btn-sm" title="Cancel">Cancel</button>
-			<button class="btn btn-primary btn-sm" title="Save Project">Save</button>
-			<button class="btn btn-primary btn-sm" title="Submit Project" disabled="disabled">Submit Project</button>
+			<button class="btn btn-default btn-sm" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
+			<button class="btn btn-default btn-sm" ng-if="isNew" ui-sref="projects">Cancel</button>
+			<button class="btn btn-primary btn-sm" type="submit">Save</button>
+			<button class="btn btn-primary btn-sm" ng-click="submitProject(projectForm.$valid)" ng-if="project.status === 'Initiated'">Submit Project</button>
 		</div>
 	</div>
 
@@ -28,6 +29,12 @@
 			</li>
 			<li role="presentation" ng-class="{'active':form.curTab === 'Project EAO Info'}">
 				<a href ng-click="form.curTab = 'Project EAO Info'" title="Edit Environmental Assessment Office Info">EAO Details</a>
+			</li>
+			<li role="presentation" ng-class="{'active':form.curTab === 'Proponent Info'}">
+				<a href ng-click="form.curTab = 'Proponent Info'" title="Edit Environmental Assessment Office Info">Proponent</a>
+			</li>
+			<li role="presentation" ng-class="{'active':form.curTab === 'Intake Profile'}">
+				<a href ng-click="form.curTab = 'Intake Profile'" title="Edit Environmental Assessment Office Info">Intake Profile</a>
 			</li>
 		</ul><!-- / TABS -->
 
@@ -79,8 +86,8 @@
 					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label">Latitude / Longitude</label>
 						<div class="coord-input flex-row">
-							<input class="form-control" id="latitude" type="number" ng-model="project.lat">
-							<input class="form-control" id="longitude" type="number" ng-model="project.lon">
+							<input class="form-control" id="latitude" type="number" step="any" ng-model="project.lat">
+							<input class="form-control" id="longitude" type="number" step="any" ng-model="project.lon">
 						</div>
 					</div>
 					<div class="col-sm-12 col-md-4 form-group">
@@ -166,6 +173,47 @@
 				</div>
 			</fieldset>
 			<!-- / ELECTORAL DISTRICTS -->
+
+			<!-- MEM ONLY INFORORMATION -->
+			<div class="row" ng-if="environment === 'MEM'">
+				<div class="col-sm-3">
+					<div class="form-group" x-show-errors>
+						<label for="permitid" class="control-label">Permit Number</label>
+						<input id="permitid" name="permitid" type="text" class="form-control input-sm" ng-model="project.memPermitID">
+							<div ng-messages="projectForm.permitid.$error" role="alert">
+								<p class="help-block error-text" ng-message="required">Permit Number is required.</p>
+							</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group" x-show-errors>
+						<label for="commodity" class="control-label">Commodity/ies</label>
+						<input id="commodity" name="commodity" type="text" class="form-control input-sm" ng-model="project.commodity">
+							<div ng-messages="projectForm.commodity.$error" role="alert">
+								<p class="help-block error-text" ng-message="required">Commodity is required.</p>
+							</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group" x-show-errors>
+						<label for="ownership" class="control-label">Ownership</label>
+						<input id="ownership" name="ownership" type="text" class="form-control input-sm" ng-model="project.ownership">
+							<div ng-messages="projectForm.ownership.$error" role="alert">
+								<p class="help-block error-text" ng-message="required">Ownership is required.</p>
+							</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group" x-show-errors>
+						<label for="tailingsImpoundments" class="control-label">Tailings Impoundments</label>
+						<input id="tailingsImpoundments" name="tailingsImpoundments" type="text" class="form-control input-sm" ng-model="project.tailingsImpoundments">
+							<div ng-messages="projectForm.tailingsImpoundments.$error" role="alert">
+								<p class="help-block error-text" ng-message="required">Tailings Impoundments is required.</p>
+							</div>
+					</div>
+				</div>
+			</div>
+			<!-- / MEM ONLY INFORMATION -->
 		</div>
 
 		<div class="edit-project-form tab-pane" ng-show="form.curTab === 'Project Contacts'">
@@ -273,210 +321,43 @@
 			</fieldset>
 		</div>
 
-	</div>
-</form>
+		<div class="edit-project-form tab-pane" ng-show="form.curTab === 'Proponent Info'">
+			<tmpl-company-entry-form x-company="project.proponent"></tmpl-company-entry-form>
+			<tmpl-user-entry-form x-user="project.primaryContact" x-project="project" ></tmpl-user-entry-form>
+		</div>
 
-<div class="edit-project-details-view hidden">
-
-		<div class="view-title-container clearfix">
-			<h1><span>Add/Edit Project</span><span ng-show="project.name">&nbsp; &rsaquo; &nbsp;{{ project.name }}</span></h1>
-			<div class="view-title-actions hidden">
-				<button class="btn btn-default btn-sm" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
-				<button class="btn btn-default btn-sm" ng-if="isNew" ui-sref="projects">Cancel</button>
-				<button class="btn btn-default btn-sm" href type="submit">Save</button>
-				<button class="btn btn-default btn-sm" href ng-click="submitProject(projectForm.$valid)" ng-if="project.status === 'Initiated'">Submit Project</button>
+		<div class="edit-project-form tab-pane" ng-show="form.curTab === 'Intake Profile'">
+			<div ng-repeat="question in questions">
+				<div class="form-group row" ng-if="question.type === 'smalltext'">
+					<div class="col-xs-8">
+						<p>{{ question.content }}</p>
+					</div>
+					<div class="col-xs-4">
+						<input class="form-control input-sm" ng-model="project.intake[question.code]"/>
+					</div>
+				</div>
+				<div class="form-group" ng-if="question.type === 'text'">
+					<p>{{ question.content }}</p>
+					<textarea ng-if="question.type === 'text'" class="form-control input-sm" ng-model="project.intake[question.code]" rows=4></textarea>
+				</div>
+				<div class="form-group row" ng-if="question.type === 'dropdown'">
+					<div class="col-xs-8">
+						<p>{{ question.content }}</p>
+					</div>
+					<div class="col-xs-4">
+						<select ng-if="question.type === 'dropdown'" class="form-control input-sm" ng-model="project.intake[question.code]" ng-options="opt for opt in question.options"></select>
+					</div>
+				</div>
 			</div>
 		</div>
 
+	</div>
+
+
+<div class="edit-project-details-view hidden">
+
 		<!-- VIEW BODY CONTAINER -->
 		<div class="view-body-container">
-
-			<!-- TAB NAVIGATION -->
-			<ul class="tab-container nav nav-tabs">
-				<li ng-class="{'active':form.curTab === 'Project Information'}">
-					<a href ng-click="form.curTab = 'Project Information'">Project Information</a>
-				</li>
-				<li ng-class="{'active':form.curTab === 'Proponent'}">
-					<a href ng-click="form.curTab = 'Proponent'">Proponent</a>
-				</li>
-				<li ng-class="{'active':form.curTab === 'Intake Profile'}">
-					<a href ng-click="form.curTab = 'Intake Profile'">Intake Profile</a>
-				</li>
-			</ul> <!-- / TAB NAVIGATION -->
-
-			<!-- TAB CONTENT -->
-			<div class="tab-content">
-
-				<!-- PROJECT INFORMATION TAB -->
-				<div class="tab-panel" ng-show="form.curTab === 'Project Information'">
-					<div class="row">
-						<div class="col-sm-8">
-							<div class="form-group" x-show-errors>
-								<label for="title" class="control-label">Project Name</label>
-								<input id="title"
-									   ng-change="onChangeProjectName()"
-									   name="name"
-									   type="text"
-									   class="form-control input-sm"
-									   ng-model="project.name"
-									   required />
-								<div ng-messages="projectForm.name.$error" role="alert">
-									<p class="help-block error-text" ng-message="required">Project Name is required.</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="form-group" x-show-errors>
-								<label for="shortName" class="control-label">Short Name</label>
-								<input id="shortName"
-									name="shortName"
-									ng-disabled=true
-									type="text"
-									class="form-control input-sm"
-									ng-model="project.shortName"
-									ng-blur="project.code = _.kebabCase(project.shortName);" required>
-									<div ng-messages="projectForm.shortName.$error" role="alert">
-										<p class="help-block error-text" ng-message="required">Short Name is required.</p>
-									</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-12">
-							<div class="form-group">
-								<label for="shortDesc" class="control-label">Short Description</label>
-								<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="project.description" rows=6></textarea>
-							</div>
-						</div>
-					</div>
-
-					<!-- MEM ONLY INFORORMATION -->
-					<div class="row" ng-if="environment === 'MEM'">
-						<div class="col-sm-3">
-							<div class="form-group" x-show-errors>
-								<label for="permitid" class="control-label">Permit Number</label>
-								<input id="permitid" name="permitid" type="text" class="form-control input-sm" ng-model="project.memPermitID">
-									<div ng-messages="projectForm.permitid.$error" role="alert">
-										<p class="help-block error-text" ng-message="required">Permit Number is required.</p>
-									</div>
-							</div>
-						</div>
-						<div class="col-sm-3">
-							<div class="form-group" x-show-errors>
-								<label for="commodity" class="control-label">Commodity/ies</label>
-								<input id="commodity" name="commodity" type="text" class="form-control input-sm" ng-model="project.commodity">
-									<div ng-messages="projectForm.commodity.$error" role="alert">
-										<p class="help-block error-text" ng-message="required">Commodity is required.</p>
-									</div>
-							</div>
-						</div>
-						<div class="col-sm-3">
-							<div class="form-group" x-show-errors>
-								<label for="ownership" class="control-label">Ownership</label>
-								<input id="ownership" name="ownership" type="text" class="form-control input-sm" ng-model="project.ownership">
-									<div ng-messages="projectForm.ownership.$error" role="alert">
-										<p class="help-block error-text" ng-message="required">Ownership is required.</p>
-									</div>
-							</div>
-						</div>
-						<div class="col-sm-3">
-							<div class="form-group" x-show-errors>
-								<label for="tailingsImpoundments" class="control-label">Tailings Impoundments</label>
-								<input id="tailingsImpoundments" name="tailingsImpoundments" type="text" class="form-control input-sm" ng-model="project.tailingsImpoundments">
-									<div ng-messages="projectForm.tailingsImpoundments.$error" role="alert">
-										<p class="help-block error-text" ng-message="required">Tailings Impoundments is required.</p>
-									</div>
-							</div>
-						</div>
-					</div> <!-- / MEM ONLY INFORMATION -->
-
-					<div class="row">
-						<div class="col-sm-6">
-							<div class="form-group" x-show-errors>
-								<label for="type" class="control-label">Type</label>
-								<select id="type" name="type" ng-model='project.type' class="form-control input-sm" ng-options="type as type for type in types" required></select>
-									<div ng-messages="projectForm.type.$error" role="alert">
-										<p class="help-block error-text" ng-message="required">Type is required.</p>
-									</div>
-							</div>
-						</div>
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label for="build" class="control-label">Project Nature</label>
-								<select id="build" ng-model='project.build' class="form-control input-sm">
-									<option value="new">New Construction</option>
-									<option value="modification">Modification of Existing</option>
-									<option value="dismantling">Dismantling or Abandonment</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-8">
-							<div class="form-group">
-								<label for="location" class="control-label">Location Description</label>
-								<input id="location" type="text" class="form-control input-sm" ng-model="project.location">
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="form-group" x-show-errors>
-								<label for="region" class="control-label">Region</label>
-								<select if="region" name="region" ng-model='project.region' class="form-control input-sm" ng-options="key as value for (key, value) in regions" required></select>
-									<div ng-messages="projectForm.region.$error" role="alert">
-										<p class="help-block error-text" ng-message="required">Region is required.</p>
-									</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label for="latitude" class="control-label">Latitude</label>
-								<input id="latitude" type="text" class="form-control input-sm" ng-model="project.lat">
-							</div>
-						</div>
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label for="longitude" class="control-label">Longitude</label>
-								<input id="longitude" type="text" class="form-control input-sm" ng-model="project.lon">
-							</div>
-						</div>
-					</div>
-				</div><!-- / PROJECT INFORMATION TAB -->
-
-				<!-- PROPONENT INFORMATION -->
-				<fieldset ng-show="form.curTab === 'Proponent'">
-					<tmpl-company-entry-form x-company="project.proponent"></tmpl-company-entry-form>
-					<tmpl-user-entry-form x-user="project.primaryContact" x-project="project" ></tmpl-user-entry-form>
-				</fieldset> <!-- / PROPONENT INFORMATION -->
-
-				<!-- INTAKE PROFILE -->
-				<div ng-show="form.curTab === 'Intake Profile'">
-					<div ng-repeat="question in questions">
-						<div class="form-group row" ng-if="question.type === 'smalltext'">
-							<div class="col-xs-8">
-								<p>{{ question.content }}</p>
-							</div>
-							<div class="col-xs-4">
-								<input class="form-control input-sm" ng-model="project.intake[question.code]"/>
-							</div>
-						</div>
-						<div class="form-group" ng-if="question.type === 'text'">
-							<p>{{ question.content }}</p>
-							<textarea ng-if="question.type === 'text'" class="form-control input-sm" ng-model="project.intake[question.code]" rows=4></textarea>
-						</div>
-						<div class="form-group row" ng-if="question.type === 'dropdown'">
-							<div class="col-xs-8">
-								<p>{{ question.content }}</p>
-							</div>
-							<div class="col-xs-4">
-								<select ng-if="question.type === 'dropdown'" class="form-control input-sm" ng-model="project.intake[question.code]" ng-options="opt for opt in question.options"></select>
-							</div>
-						</div>
-					</div>
-				</div><!-- / INTAKE PROFILE -->
-
-			</div><!-- / TAB CONTENT -->
 
 			<div ng-if="form.curTab === 'Accepted'">
 				<h3>Project Submission Accepted</h3>
@@ -485,17 +366,10 @@
 				<p>You will be contacted shortly regarding the next steps.</p>
 			</div>
 
-			<div class="form-footer clearfix">
-				<div class="pull-right">
-					<button class="btn btn-default" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
-					<button class="btn btn-default" ng-if="isNew" ui-sref="projects">Cancel</button>
-					<button class="btn btn-primary" type="submit">Save</button>
-					<button class="btn btn-success" ng-click="submitProject(projectForm.$valid)" ng-if="project.status === 'Initiated'">Submit Project</button>
-				</div>
-			</div>
 		</div><!-- / VIEW BODY CONTAINER -->
 
-	</form>
 
 </div>
+
+</form>
 
