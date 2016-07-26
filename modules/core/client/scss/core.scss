@@ -1608,12 +1608,6 @@ ui-view {
 			-webkit-flex: 0 0 auto;
 			-ms-flex: 0 0 auto;
 			flex: 0 0 auto;
-
-			.btn-default {
-				.glyphicon {
-					font-size: 1.4rem;
-				}
-			}
 		}
 	}
 }
@@ -2400,6 +2394,7 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 		border: none;
 		border-radius: 0;
 		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
 		box-shadow: none;
 		overflow: hidden;
 	}
@@ -3357,6 +3352,529 @@ $table-footer-bg: #F7F8FA;
 }
 
 
+/* COMMENT PERIOD VIEW 
+------------------------------ */
+.pcp-table {
+	table-layout: fixed;
+
+	.pcp-count {
+		width: 10rem;
+	}
+}
+
+.pcp-alert {
+	padding: 2rem;
+	background: #2b5580;
+	color: #FFF;
+
+	h2 {
+		margin-top: 0;
+		margin-bottom: 0;
+		font-size: 2.4rem;
+		font-weight: normal;
+	}
+
+	.pcp-dates {
+		font-size: 1.6rem;
+	}
+
+	.pcp-comment-btn-container {
+		margin: 0 auto;
+		padding-top: 1.75rem;
+		clear: both;
+	}
+
+	.submit-comment-btn {
+		width: 100%;
+		padding: 1rem 2rem;
+		font-size: 1.6rem;
+		color: #FFF;
+		background: transparent;
+		border: 1px solid #FFF;
+		&:hover { 
+			background: $corp-blue;
+		}
+	}
+
+	.toggle {
+		margin-top: 1rem;
+		padding-top: 1rem;
+		font-size: 1.2rem;
+		text-transform: uppercase;
+		border-top: 1px solid #FFF;
+		clear: both;
+	}
+}
+
+@media (min-width: 1024px) {
+	.pcp-alert {
+		.pcp-comment-btn-container {
+			padding-top: 0;
+			float: right;
+			clear: none;
+		}
+
+		.submit-comment-btn {
+			width: auto;
+		}
+	}
+}
+
+.pcp-details {
+	padding: 2.5rem 2rem;
+	background: #FFF;
+
+	h4 {
+		margin-top: 0;
+		margin-bottom: 1rem;
+		font-size: 1.6rem;
+		font-weight: bold;
+	}
+
+	pre {
+		color: #888;
+	}
+
+	section {
+		margin-bottom: 2.5rem;
+		&:last-child { margin-bottom: 0; }
+	}
+}
+
+.pcp-package-links,
+.pcp-open-house-list {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.pcp-related-docs {
+	.list-group {
+		margin-bottom: 0;
+	}
+
+	.list-group-item {
+		background: #F7F8FA;
+	}
+}
+
+.pcp-open-house-list {
+	li {
+		padding: 1rem 0;
+		border-top: 1px solid #DDD;
+
+		pre {
+			display: block;
+		}
+		
+		&:last-child { padding-bottom: 0; }
+	}
+}
+
+.tag-list {
+	font-style: italic;
+	color: #888;
+}
+
+.pcp-pillar-vc-list {
+	.vc-details {
+		-webkit-flex: 1 1 auto;
+		flex: 1 1 auto;
+
+		span {
+			font-style: italic;
+		}
+
+		.pillars {
+			display: block;
+			margin-bottom: 0.5rem;
+		}
+	}
+
+	.vc-actions {
+		-webkit-flex: 0 0 auto;
+		flex: 0 0 auto;	
+	}
+
+	label {
+		display: block;
+		margin-bottom: 0;
+	}
+	
+	.value {
+		color: #888;
+	}
+}
+
+.public-comment-period-view {
+	.comment-title {
+		margin: 0;
+		font-size: 1.6rem;
+		font-weight: bold;
+	}
+	
+	.comment-row {
+		background: #FFF;
+	}
+	
+	.comment-row:first-child {
+		border-top: 1px solid #DDD;
+	}
+	
+	.comment {
+		margin-top: 0.7rem;
+		margin-bottom: 0;
+	}
+	
+	.attachment-col {
+		width: 4rem;
+		text-align: center;
+	}
+		
+	td.status-col {
+		width: 12rem;
+		
+		.label {
+			width: 100%;
+		}
+	}
+}
+
+@media (max-width: 480px) {
+	.public-comment-period-view {
+		.table {
+			th {
+				width: 50%;
+				text-align: center;
+			}
+			
+			td.date-col {
+				padding-bottom: 0;
+			}
+		}
+	}
+}
+
+@media (min-width: 480px) and (max-width: 1024px) {
+	.public-comment-period-view {
+		td.attachment-col {
+			position: absolute;
+			top: 0.6rem;
+			right: 9.5rem
+		}
+		
+		td.date-col {
+			position: absolute;
+			top: 1.4rem;
+			right: 2rem;
+			padding: 0;
+			font-size: 1.2rem;
+			font-weight: bold;
+		}
+		
+		td.status-col {
+			position: absolute;
+			top: 1.4rem;
+			right: 2rem;
+			padding: 0;
+		}
+		
+		.eao-comment-table {
+			td.attachment-col {
+				right: 9.5rem;
+			}
+			
+			td.date-col {
+				right: 2rem;
+			}
+		}
+		
+	}
+}
+
+@media (max-width: 1200px) {
+	.public-comment-period-view {
+		.public-comment-panel {
+			background: transparent;
+			border: none;
+		}
+		
+		.table {
+			table-layout: inherit;
+			
+			.no-mobile {
+				display: none;
+			}
+			
+			thead {
+				border: none;
+				
+				tr {
+					padding: 0;
+					border: none;
+				}
+			
+				th {
+					margin-right: 0.5rem;
+					margin-bottom: 1rem;
+					padding-left: 1.5rem;
+					display: block;
+					float: left;
+					text-align: center;
+					background: #FFF;
+					border: 1px solid #DDD !important;
+					border-radius: 4px;
+				}
+			}
+			
+			tr {
+				position: relative;
+				display: block;
+				padding: 1.5rem 0.5rem;
+				border-top: 1px solid #DDD;
+			}
+					
+			thead tr:last-child {
+				display: none;
+			}
+			
+			> tbody > tr > td {
+				display: block;
+				border-top: none;
+			}
+			
+			td.comment-col {
+				padding-top: 0;
+				padding-bottom: 0.5rem;
+				padding-left: 1rem;
+			}
+		
+			td.pillar-col,
+			td.vc-col {
+				padding-top: 0;
+				padding-bottom: 0;
+				padding-left: 1rem;
+				font-size: 1.2rem;
+				color: #888;
+			}
+			
+			span.pillar:before,
+			span.vc:before {
+				margin-top: 0.5rem;
+				display: block;
+				font-size: 1.2rem;
+				font-weight: bold;
+				color: #000;
+			}
+			
+			span.pillar:before {
+				content: "Pillars";
+			}
+			
+			span.vc:before {
+				content: "Valued Components";
+			}
+		}
+	}
+}
+
+@media (min-width: 1200px) {
+	.public-comment-period-view {
+		.table {
+			table-layout: fixed;
+			width: 100%;
+			max-width: 100%;
+			
+			> thead > tr > th {
+				padding-left: 0.5rem;
+				padding-right: 0.5rem;
+			}
+			
+			> tbody > tr > td {
+				padding: 2rem 0.5rem;
+			}
+			
+			thead > tr > th:first-child,
+			tbody > tr > td:first-child {
+				padding-left: 1.5rem;
+			}
+			
+			thead > tr > th:last-child,
+			tbody > tr > td:last-child {
+				padding-right: 1.5rem;
+			}
+		}
+		.comment-col {
+			width: 35%;
+		}
+		
+		.vc-col {
+			width: 20rem;
+		}
+		
+		.date-col {
+			width: 12rem;
+		}
+		
+		.status-col {
+			width: 13rem;
+		}
+	}
+}
+
+.public-comment-modal {
+	h4 {
+		margin-top: 1rem;
+		font-weight: bold;
+	}
+	
+	p {
+		margin: 1.5rem 0;
+		line-height: 2rem;
+		
+		a {
+			text-decoration: underline;
+		}
+	}
+
+	section {
+		margin-bottom: 2.5rem;
+		padding-bottom: 0;
+		border: none;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+	
+	.control-label,
+	.comment-opt-in label {
+		font-weight: bold;
+		text-shadow: 0 0 1px #FFF;
+	}
+	
+	.comment-opt-in {
+		margin-top: 0.5rem;
+		margin-bottom: 0;
+		
+		+ .help-block {
+			margin-top: 0.25rem;
+			font-size: 1.3rem;
+			color: #999;
+			text-shadow: 0 0 1px #FFF;
+		}
+	}
+
+	.comment-review-btns {
+		-webkit-flex: 0 0 auto;
+		flex: 0 0 auto;
+
+		.defer-btn,
+		.publish-btn,
+		.reject-btn {
+			text-shadow: 1px 1px 0 #FFF;
+
+			&.active {
+				color: #FFF;
+				text-shadow: none;
+			}
+		}
+
+		.defer-btn {
+			&.active {
+				background: $info-bg;
+				border-color: $info-border;
+			}
+		}
+
+		.publish-btn {
+			&.active {
+				background: $success-bg;
+				border-color: $success-border;
+			}
+		}
+
+		.reject-btn {
+			&.active {
+				background: $danger-bg;
+				border-color: $danger-border;
+			}
+		}
+	}
+
+	.comment-author-info {
+		margin-bottom: 1rem;
+
+		.author {
+			font-size: 1.4rem;
+		}
+
+		.date {
+			display: block;
+			color: $font-color-grey;
+		}
+	}
+
+	.comment-body {
+		max-height: 50rem;
+		padding: 1.5rem;
+		overflow-y: auto;
+	}
+
+	.comment-attachments {
+		.comment-review-btns {
+			-webkit-flex: 0 0 auto;
+			flex: 0 0 auto;
+			padding-right: 0.5rem;
+
+			.btn {
+				margin-top: 0.5rem;
+				min-width: 7rem;
+			}
+		}
+	}
+
+	.comment-alert {
+		margin-bottom: 2rem;
+		display: none;
+	}
+
+	.eao-comment-review {
+		.form-group {
+			margin-bottom: 2.5rem;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		.comment-review-btns {
+			.btn {
+				min-width: 10rem;
+				padding-top: 0.7rem;
+			}
+		}
+	}
+}
+
+.open-house {
+	margin-top: -0.5rem;
+
+	label {
+		padding: 0.5rem 0;
+	}
+
+	.open-house-date {
+		display: block;
+		margin-bottom: 0.2rem;
+	}
+
+	.open-house-desc {
+		color: $font-color-grey;
+	}
+}
+
+
 /* COMPLAINTS VIEW
 ------------------------------ */
 .complaints-view {
@@ -4030,529 +4548,6 @@ section.project-info {
 		.date-col {
 			width: 18rem;
 		}
-	}
-}
-
-
-/* PUBLIC COMMENT PERIOD VIEW 
------------------------------- */
-.pcp-table {
-	table-layout: fixed;
-
-	.pcp-count {
-		width: 10rem;
-	}
-}
-
-.pcp-alert {
-	padding: 2rem;
-	background: #2b5580;
-	color: #FFF;
-
-	h2 {
-		margin-top: 0;
-		margin-bottom: 0;
-		font-size: 2.4rem;
-		font-weight: normal;
-	}
-
-	.pcp-dates {
-		font-size: 1.6rem;
-	}
-
-	.pcp-comment-btn-container {
-		margin: 0 auto;
-		padding-top: 1.75rem;
-		clear: both;
-	}
-
-	.submit-comment-btn {
-		width: 100%;
-		padding: 1rem 2rem;
-		font-size: 1.6rem;
-		color: #FFF;
-		background: transparent;
-		border: 1px solid #FFF;
-		&:hover { 
-			background: $corp-blue;
-		}
-	}
-
-	.toggle {
-		margin-top: 1rem;
-		padding-top: 1rem;
-		font-size: 1.2rem;
-		text-transform: uppercase;
-		border-top: 1px solid #FFF;
-		clear: both;
-	}
-}
-
-@media (min-width: 1024px) {
-	.pcp-alert {
-		.pcp-comment-btn-container {
-			padding-top: 0;
-			float: right;
-			clear: none;
-		}
-
-		.submit-comment-btn {
-			width: auto;
-		}
-	}
-}
-
-.pcp-details {
-	padding: 2.5rem 2rem;
-	background: #FFF;
-
-	h4 {
-		margin-top: 0;
-		margin-bottom: 1rem;
-		font-size: 1.6rem;
-		font-weight: bold;
-	}
-
-	pre {
-		color: #888;
-	}
-
-	section {
-		margin-bottom: 2.5rem;
-		&:last-child { margin-bottom: 0; }
-	}
-}
-
-.pcp-package-links,
-.pcp-open-house-list {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
-}
-
-.pcp-related-docs {
-	.list-group {
-		margin-bottom: 0;
-	}
-
-	.list-group-item {
-		background: #F7F8FA;
-	}
-}
-
-.pcp-open-house-list {
-	li {
-		padding: 1rem 0;
-		border-top: 1px solid #DDD;
-
-		pre {
-			display: block;
-		}
-		
-		&:last-child { padding-bottom: 0; }
-	}
-}
-
-.tag-list {
-	font-style: italic;
-	color: #888;
-}
-
-.pcp-pillar-vc-list {
-	.vc-details {
-		-webkit-flex: 1 1 auto;
-		flex: 1 1 auto;
-
-		span {
-			font-style: italic;
-		}
-
-		.pillars {
-			display: block;
-			margin-bottom: 0.5rem;
-		}
-	}
-
-	.vc-actions {
-		-webkit-flex: 0 0 auto;
-		flex: 0 0 auto;	
-	}
-
-	label {
-		display: block;
-		margin-bottom: 0;
-	}
-	
-	.value {
-		color: #888;
-	}
-}
-
-.public-comment-period-view {
-	.comment-title {
-		margin: 0;
-		font-size: 1.6rem;
-		font-weight: bold;
-	}
-	
-	.comment-row {
-		background: #FFF;
-	}
-	
-	.comment-row:first-child {
-		border-top: 1px solid #DDD;
-	}
-	
-	.comment {
-		margin-top: 0.7rem;
-		margin-bottom: 0;
-	}
-	
-	.attachment-col {
-		width: 4rem;
-		text-align: center;
-	}
-		
-	td.status-col {
-		width: 12rem;
-		
-		.label {
-			width: 100%;
-		}
-	}
-}
-
-@media (max-width: 480px) {
-	.public-comment-period-view {
-		.table {
-			th {
-				width: 50%;
-				text-align: center;
-			}
-			
-			td.date-col {
-				padding-bottom: 0;
-			}
-		}
-	}
-}
-
-@media (min-width: 480px) and (max-width: 1024px) {
-	.public-comment-period-view {
-		td.attachment-col {
-			position: absolute;
-			top: 0.6rem;
-			right: 9.5rem
-		}
-		
-		td.date-col {
-			position: absolute;
-			top: 1.4rem;
-			right: 2rem;
-			padding: 0;
-			font-size: 1.2rem;
-			font-weight: bold;
-		}
-		
-		td.status-col {
-			position: absolute;
-			top: 1.4rem;
-			right: 2rem;
-			padding: 0;
-		}
-		
-		.eao-comment-table {
-			td.attachment-col {
-				right: 9.5rem;
-			}
-			
-			td.date-col {
-				right: 2rem;
-			}
-		}
-		
-	}
-}
-
-@media (max-width: 1200px) {
-	.public-comment-period-view {
-		.public-comment-panel {
-			background: transparent;
-			border: none;
-		}
-		
-		.table {
-			table-layout: inherit;
-			
-			.no-mobile {
-				display: none;
-			}
-			
-			thead {
-				border: none;
-				
-				tr {
-					padding: 0;
-					border: none;
-				}
-			
-				th {
-					margin-right: 0.5rem;
-					margin-bottom: 1rem;
-					padding-left: 1.5rem;
-					display: block;
-					float: left;
-					text-align: center;
-					background: #FFF;
-					border: 1px solid #DDD !important;
-					border-radius: 4px;
-				}
-			}
-			
-			tr {
-				position: relative;
-				display: block;
-				padding: 1.5rem 0.5rem;
-				border-top: 1px solid #DDD;
-			}
-					
-			thead tr:last-child {
-				display: none;
-			}
-			
-			> tbody > tr > td {
-				display: block;
-				border-top: none;
-			}
-			
-			td.comment-col {
-				padding-top: 0;
-				padding-bottom: 0.5rem;
-				padding-left: 1rem;
-			}
-		
-			td.pillar-col,
-			td.vc-col {
-				padding-top: 0;
-				padding-bottom: 0;
-				padding-left: 1rem;
-				font-size: 1.2rem;
-				color: #888;
-			}
-			
-			span.pillar:before,
-			span.vc:before {
-				margin-top: 0.5rem;
-				display: block;
-				font-size: 1.2rem;
-				font-weight: bold;
-				color: #000;
-			}
-			
-			span.pillar:before {
-				content: "Pillars";
-			}
-			
-			span.vc:before {
-				content: "Valued Components";
-			}
-		}
-	}
-}
-
-@media (min-width: 1200px) {
-	.public-comment-period-view {
-		.table {
-			table-layout: fixed;
-			width: 100%;
-			max-width: 100%;
-			
-			> thead > tr > th {
-				padding-left: 0.5rem;
-				padding-right: 0.5rem;
-			}
-			
-			> tbody > tr > td {
-				padding: 2rem 0.5rem;
-			}
-			
-			thead > tr > th:first-child,
-			tbody > tr > td:first-child {
-				padding-left: 1.5rem;
-			}
-			
-			thead > tr > th:last-child,
-			tbody > tr > td:last-child {
-				padding-right: 1.5rem;
-			}
-		}
-		.comment-col {
-			width: 35%;
-		}
-		
-		.vc-col {
-			width: 20rem;
-		}
-		
-		.date-col {
-			width: 12rem;
-		}
-		
-		.status-col {
-			width: 13rem;
-		}
-	}
-}
-
-.public-comment-modal {
-	h4 {
-		margin-top: 1rem;
-		font-weight: bold;
-	}
-	
-	p {
-		margin: 1.5rem 0;
-		line-height: 2rem;
-		
-		a {
-			text-decoration: underline;
-		}
-	}
-
-	section {
-		margin-bottom: 2.5rem;
-		padding-bottom: 0;
-		border: none;
-
-		&:last-child {
-			margin-bottom: 0;
-		}
-	}
-	
-	.control-label,
-	.comment-opt-in label {
-		font-weight: bold;
-		text-shadow: 0 0 1px #FFF;
-	}
-	
-	.comment-opt-in {
-		margin-top: 0.5rem;
-		margin-bottom: 0;
-		
-		+ .help-block {
-			margin-top: 0.25rem;
-			font-size: 1.3rem;
-			color: #999;
-			text-shadow: 0 0 1px #FFF;
-		}
-	}
-
-	.comment-review-btns {
-		-webkit-flex: 0 0 auto;
-		flex: 0 0 auto;
-
-		.defer-btn,
-		.publish-btn,
-		.reject-btn {
-			text-shadow: 1px 1px 0 #FFF;
-
-			&.active {
-				color: #FFF;
-				text-shadow: none;
-			}
-		}
-
-		.defer-btn {
-			&.active {
-				background: $info-bg;
-				border-color: $info-border;
-			}
-		}
-
-		.publish-btn {
-			&.active {
-				background: $success-bg;
-				border-color: $success-border;
-			}
-		}
-
-		.reject-btn {
-			&.active {
-				background: $danger-bg;
-				border-color: $danger-border;
-			}
-		}
-	}
-
-	.comment-author-info {
-		margin-bottom: 1rem;
-
-		.author {
-			font-size: 1.4rem;
-		}
-
-		.date {
-			display: block;
-			color: $font-color-grey;
-		}
-	}
-
-	.comment-body {
-		max-height: 50rem;
-		padding: 1.5rem;
-		overflow-y: auto;
-	}
-
-	.comment-attachments {
-		.comment-review-btns {
-			-webkit-flex: 0 0 auto;
-			flex: 0 0 auto;
-			padding-right: 0.5rem;
-
-			.btn {
-				margin-top: 0.5rem;
-				min-width: 7rem;
-			}
-		}
-	}
-
-	.comment-alert {
-		margin-bottom: 2rem;
-		display: none;
-	}
-
-	.eao-comment-review {
-		.form-group {
-			margin-bottom: 2.5rem;
-
-			&:last-child {
-				margin-bottom: 0;
-			}
-		}
-
-		.comment-review-btns {
-			.btn {
-				min-width: 10rem;
-				padding-top: 0.7rem;
-			}
-		}
-	}
-}
-
-.open-house {
-	margin-top: -0.5rem;
-
-	label {
-		padding: 0.5rem 0;
-	}
-
-	.open-house-date {
-		display: block;
-		margin-bottom: 0.2rem;
-	}
-
-	.open-house-desc {
-		color: $font-color-grey;
 	}
 }
 

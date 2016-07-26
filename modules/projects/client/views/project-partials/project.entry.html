@@ -1,6 +1,6 @@
 <form class="view-form" name="projectForm" ng-submit="saveProject(projectForm.$valid)" validate>
 
-	<div class="floating-alert alert alert-danger alert-dismissible fade in">
+	<div class="floating-alert alert alert-danger alert-dismissible fade in hidden">
 		<span class="pull-left">Floating Alert Container!</span>
 		<button type="button" class="btn btn-default close" data-dismiss="alert">
         	<span aria-hidden="true">&times;</span>
@@ -59,16 +59,18 @@
 						</div>
 					</div>
 					<div class="col-sm-6 col-md-4 form-group">
+						<label class="control-label">Sub-type</label>
+						<select class="form-control" title="Project Sector"
+							ng-modal="project.sector"
+							ng-options="sector as sector for sector in sectors"></select>
+					</div>
+					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label">Nature of Project</label>
 						<select class="form-control" id="build" ng-model="project.build">
 							<option value="new">New Construction</option>
 							<option value="modification">Modification of Existing</option>
 							<option value="dismantling">Dismantling or Abandonment</option>
 						</select>
-					</div>
-					<div class="col-sm-6 col-md-4 form-group">
-						<label class="control-label">Sector</label>
-						<select class="form-control" title="Project Sector"></select>
 					</div>
 				</div>
 				<div class="form-group">
