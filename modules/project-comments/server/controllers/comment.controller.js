@@ -158,13 +158,23 @@ module.exports = DBModel.extend ({
 			.then (resolve, reject);
 		});
 	},
-	getCommentsForPeriod : function (periodId) {
+	getPublishedCommentsForPeriod : function (periodId) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findMany ({
+				period : periodId,
+				isPublished: true
+			})
+			.then (resolve, reject);
+		});
+	},
+	getAllCommentsForPeriod : function (periodId) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			self.findMany ({
 				period : periodId
 			})
-			.then (resolve, reject);
+				.then (resolve, reject);
 		});
 	},
 	getEAOCommentsForPeriod : function (periodId) {
@@ -199,7 +209,7 @@ module.exports = DBModel.extend ({
 	getProponentCommentsForPeriod : function (periodId) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			self.getCommentsForPeriod (periodId)
+			self.getPublishedCommentsForPeriod (periodId)
 			.then (function (data) {
 				var classified = data.reduce (function (prev, next) {
 					return prev + (next.proponentStatus === 'Classified' ? 1 : 0);

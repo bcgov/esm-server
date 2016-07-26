@@ -95,8 +95,10 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			};
 			$scope.save = function () {
 				period.project               = project._id;
+				console.log("saving comment period:", project);
 				period.phase                 = project.currentPhase;
 				period.phaseName             = project.currentPhase.name;
+				console.log("saving comment period artifact:", period.artifact);
 				period.artifactName          = period.artifact.name;
 				period.artifactVersion       = period.artifact.version;
 				period.artifactVersionNumber = period.artifact.versionNumber;
@@ -153,7 +155,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				.then (function (model) {
 					// console.log ('period was saved',model);
 					// save the comments so that we pick up the (potential) changes to the period permissions...
-					return CommentModel.getCommentsForPeriod(model._id);
+					return CommentModel.getAllCommentsForPeriod(model._id);
 				})
 				.then(function(comments){
 					Promise.resolve()
@@ -206,6 +208,9 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			$scope.period   = period;
 			$scope.project  = project;
 			$scope.artifact = artifact;
+			// anyone with vetting comments can add a comment at any time
+			// all others with add comment permission must wait until the period is open
+			$scope.allowCommentSubmit = (isopen && period.userCan.addComment) || period.userCan.vetComments;
 		}
 	})
 

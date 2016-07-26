@@ -53,6 +53,7 @@
 			<div class="row">
 				<div class="upload-attachments form-group col-sm-12">
 					<label class="control-label">Upload Attachments</label>
+					<div ng-show="s.filesRemoved">Some files were removed as they were not in pdf format.</div>
 					<div class="upload-target" ngf-drop ngf-select ng-model="s.comment.files"
 						ngf-drag-over-class="dragover"
 						ngf-multiple="true"
