@@ -1,6 +1,12 @@
 
-<div class="view-title-container">
+<div class="view-title-container flex-row">
 	<h1>Edit Content &nbsp;&rsaquo;&nbsp; {{artifact.name}}</h1>
+	<div class="actions">
+		<button class="btn btn-default btn-sm" ng-click="remove()">Remove</button>
+		<button class="btn btn-default btn-sm" ng-click="save()">Save</button>
+		<button class="btn btn-default btn-sm" ng-click="save()">Save As</button>
+		<button class="btn btn-success btn-sm" ng-click="submit()">Submit for {{buttons.next}}</button>
+	</div>
 </div>
 
 <div class="view-body-container">
@@ -33,13 +39,22 @@
 			<a class="btn btn-default" ng-click="remove()">Remove</a>
 			<a class="btn btn-default" ng-click="save()">Save</a>
 			<div class="btn-group">
-				<a class="btn btn-default" ng-click="saveas()">Save As</a>
+				<a class="btn btn-default" ng-click="saveas()">Save As {{version}}</a>
 				<select class="form-control" ng-model="version" ng-options="v as v for v in artifact.artifactType.versions"></select>
 			</div>
 			<a class="btn btn-success" ng-click="submit()">Submit for {{buttons.next}}</a>
 		</div>
 	</div>
 
+</div>
+
+<div class="view-footer-container clearfix hidden">
+	<div class="pull-right">
+		<button class="btn btn-default btn-sm" ng-click="remove()">Remove</button>
+		<button class="btn btn-default btn-sm" ng-click="save()">Save</button>
+		<button class="btn btn-default btn-sm" ng-click="save()">Save As</button>
+		<button class="btn btn-success btn-sm" ng-click="submit()">Submit for {{buttons.next}}</button>
+	</div>
 </div>
 
 

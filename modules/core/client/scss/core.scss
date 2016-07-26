@@ -1569,6 +1569,16 @@ tmpl-footer {
 			flex: 1 1 auto;
 			overflow-y: auto;
 		}
+
+		.view-footer-container {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			padding: 2rem;
+			background: rgba(255, 255, 255, 0.8);
+			border-top: 1px solid #DDD;
+		}
 	}
 }
 
@@ -4733,11 +4743,13 @@ tmpl-template-render {
 	}
 }
 
-@media print {
-	tmpl-header,
-	tmpl-footer,
-	.left-panel {
-		display: none;
+@media screen {
+	.app-main {
+		tmpl-header,
+		tmpl-footer,
+		.left-panel {
+			display: none;
+		}
 	}
 
 	.template-nav {
