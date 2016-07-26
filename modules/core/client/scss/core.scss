@@ -2234,9 +2234,15 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 		margin: 0;
 	}
 	
-	.btn {
-		font-size: 1.6rem;
-		font-weight: bold;
+	.close {
+		color: #FFF;
+		opacity: 0.5;
+
+		&:hover,
+		&:focus {
+			color: #FFF;
+			opacity: 1;
+		}
 	}
 }
 

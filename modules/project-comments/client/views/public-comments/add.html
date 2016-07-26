@@ -41,7 +41,7 @@
 					<div class="checkbox comment-opt-in">
 						<label><input ng-model="s.comment.makeVisible" type="checkbox" />Make my Name visible to public.</label>
 					</div>
-					<div class="help-block">All comments are submitted anonymously by default. Checking this option will display your name and location (if entered) on the public site.</div>
+					<div class="help-block">All comments are submitted anonymously by default. Checking this option will display your Name (if entered) on the public site.</div>
 				</div>
 			</div>
 			<div class="row">
@@ -53,7 +53,14 @@
 			<div class="row">
 				<div class="upload-attachments form-group col-sm-12">
 					<label class="control-label">Upload Attachments</label>
-					<div ng-show="s.filesRemoved">Some files were removed as they were not in pdf format.</div>
+
+					<div class="alert alert-danger alert-dismissable" ng-show="s.filesRemoved">
+						Attachments must be in <strong>PDF format</strong> and limited to <strong>5MB</strong>.
+						<button type="button" class="close" data-dismiss="alert">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
 					<div class="upload-target" ngf-drop ngf-select ng-model="s.comment.files"
 						ngf-drag-over-class="dragover"
 						ngf-multiple="true"
