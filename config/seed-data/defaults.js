@@ -2,16 +2,18 @@
 
 var mongoose = require('mongoose');
 var Defaults    = mongoose.model('_Defaults');
-var Prom = require('promise');
+var promise = require ('promise');
+var _ = require('lodash');
 
 module.exports = function () {
-	Defaults.find({}).remove ();
-	return new Prom (function (resolve, reject) {
-		var promiseArray = [];
+
+
+
+	var defaultsArray = [];
 		//
 		// default project permissions
 		//
-		promiseArray.push ((new Defaults ({
+	defaultsArray.push (new Defaults ({
 			context  : 'project',
 			resource : 'project',
 			level    : 'global',
@@ -51,11 +53,11 @@ module.exports = function () {
 					'unPublish'               : ['eao-admin'                                         ],
 				}
 			}
-		})).save ());
+		}));
 		//
 		// default document permissions
 		//
-		promiseArray.push ((new Defaults ({
+	defaultsArray.push (new Defaults ({
 			context  : 'project',
 			resource : 'document',
 			level    : 'global',
@@ -73,11 +75,11 @@ module.exports = function () {
 					'unPublish'               : ['eao-admin'                                         ],
 				}
 			}
-		})).save ());
+		}));
 		//
 		// default document permissions
 		//
-		promiseArray.push ((new Defaults ({
+	defaultsArray.push (new Defaults ({
 			context  : 'project',
 			resource : 'commentperiod',
 			level    : 'global',
@@ -94,11 +96,11 @@ module.exports = function () {
 					'listCommentPeriods'      : ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 				}
 			}
-		})).save ());
+		}));
 		//
 		// default document permissions
 		//
-		promiseArray.push ((new Defaults ({
+	defaultsArray.push (new Defaults ({
 			context  : 'project',
 			resource : 'comment',
 			level    : 'global',
@@ -115,11 +117,11 @@ module.exports = function () {
 					'listCommentPeriods'      : ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 				}
 			}
-		})).save ());
+		}));
 		//
 		// default application permissions
 		//
-		promiseArray.push ((new Defaults ({
+	defaultsArray.push (new Defaults ({
 			context  : 'application',
 			resource : 'application',
 			level    : 'global',
@@ -153,13 +155,8 @@ module.exports = function () {
 					'createUser'          : ['sysadmin']
 				}
 			}
-		})).save ());
+		}));
 
-
-
-
-
-		console.log ('Seeding defaults');
 		var allProjectPermissions = [
 			'viewSchedule',
 			'editSchedule',
@@ -203,7 +200,7 @@ module.exports = function () {
 			'listArtifacts',
 			'listUsers'
 		];
-		promiseArray.push ((new Defaults ({
+	defaultsArray.push (new Defaults ({
 			context  : 'project',
 			resource : 'project',
 			level    : 'global',
@@ -257,7 +254,8 @@ module.exports = function () {
 					'pro-invitee' : []
 				}
 			}
-		})).save ());
+		}));
+
 		var allApplicationPermissions = [
 			'viewConfiguration',
 			'viewSchedule',
@@ -292,7 +290,7 @@ module.exports = function () {
 			'listUsers'
 		];
 
-		promiseArray.push ((new Defaults ({
+	defaultsArray.push (new Defaults ({
 			context  : 'application',
 			resource : 'application',
 			level    : 'global',
@@ -308,6 +306,48 @@ module.exports = function () {
 					'invitee': [],
 				}
 			}
-		})).save ());
+		}));
+
+	//
+	//
+	//  Do the work...
+	//  Delete all existing defaults first, then add in all the ones above.
+	//
+	//
+	var step1 = new promise(function(resolve, reject) {
+		Defaults.remove({}, function(err, removed) {
+			if (err) {
+				//console.log('Error deleting defaults: ' + JSON.stringify(err));
+				reject(new Error(err));
+			}
+			else {
+				//console.log('Deleted exiting defaults: ' + JSON.stringify(removed));
+				resolve(removed);
+			}
+		});
 	});
+
+	var step2 = _.forEach(defaultsArray, function(d){
+		return new promise(function(resolve, reject) {
+			d.save(function(err) {
+				if (err) {
+					//console.log('Error adding default: context=' + d.context + ', resource=' + d.resource + ', type=' + d.type + ': ' + JSON.stringify(err));
+					reject(new Error(err));
+				} else {
+					//console.log('Default saved. _id=' + d._id + ', context=' + d.context + ', resource=' + d.resource + ', type=' + d.type);
+					resolve(d);
+				}
+			});
+		});
+	});
+
+	step1
+		.then(function(data) {
+			//console.log('step1 done, start step 2...' + JSON.stringify(data));
+			return promise.all(step2);
+		})
+		.then(function() {
+			//console.log('step2 done.');
+			return 'done';
+		});
 };
