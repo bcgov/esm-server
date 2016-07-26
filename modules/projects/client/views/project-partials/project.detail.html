@@ -3,7 +3,7 @@
 	<div class="view-title-container flex-row">
 		<h1>{{ project.name }}</h1>
 		<div class="actions">
-			<div class="pull-left" ng-if="environment === 'EAO' && authentication.user">
+			<div class="btn-group" ng-if="environment === 'EAO' && authentication.user">
 				<a class="btn btn-success btn-sm" ng-click="publishProject()" ng-if="!project.isPublished">Publish Project</a>
 			</div>
 			<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="project"></tmpl-permissions-gear>
@@ -34,6 +34,12 @@
 			<tmpl-project-tombstone id="anchor-tombstone" x-project="project"></tmpl-project-tombstone>
 		</section>
 
+		<section class="prototype-block hidden">
+			<div class="phase-block" ng-repeat="o in project.phases">
+				<span class="percentage-marker"></span>
+			</div>
+		</section>
+
 		<!-- PROJECT PHASES -->
 		<section class="project-phases" ng-if="environment === 'EAO'">
 			<div class="panel panel-default">
@@ -41,23 +47,22 @@
 					<h2>Project Timeline</h2>
 				</div>
 				<div class="panel-body">
-					<tmpl-schedule-timeline class="anchor-section" id="anchor-timeline" x-phases="project.phases">
-					</tmpl-schedule-timeline>
+					<tmpl-schedule-timeline class="anchor-section" style="max-width: 100%;" id="anchor-timeline" x-phases="project.phases"></tmpl-schedule-timeline>
 				</div>
 			</div>
 		</section>
 
 		<!--
-    2016-06-23 jsherman
-      Lena S asked for this section to be removed, so hide it for now.
+			2016-06-23 jsherman
+			Lena S asked for this section to be removed, so hide it for now.
 
-		<tmpl-enforcement-browser
-			class="anchor-section"
-			id="anchor-enforcement"
-			x-project="project"
-			ng-if="project.currentPhase.code === 'post-certification'">
-		</tmpl-enforcement-browser>
-    -->
+			<tmpl-enforcement-browser
+				class="anchor-section"
+				id="anchor-enforcement"
+				x-project="project"
+				ng-if="project.currentPhase.code === 'post-certification'">
+			</tmpl-enforcement-browser>
+    	-->
 
 		<tmpl-project-initiated class="anchor-section" id="anchor-initiated" x-project="project" ng-if="('project'| shouldDisplayPanel:'initiated':project.status) && environment === 'EAO'">
 		</tmpl-project-initiated>
