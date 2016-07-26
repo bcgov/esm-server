@@ -3288,6 +3288,12 @@ $table-footer-bg: #F7F8FA;
 
 /* ARTIFACT VIEW
 ------------------------------ */
+.artifact-view {
+	section {
+		margin-bottom: 1.5rem;
+	}
+}
+
 .artifact-list-view {	
 	.button-bar {
 		padding: 1.5rem;
