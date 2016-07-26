@@ -241,9 +241,14 @@ angular.module ('comment')
 						s.fileList = [];
 						$scope.$watch('s.comment.files', function (newValue) {
 							if (newValue) {
+								s.filesRemoved = false;
 								s.comment.inProgress = false;
 								_.each( newValue, function(file, idx) {
-									s.fileList.push(file);
+									if (file.type === 'application/pdf') {
+										s.fileList.push(file);
+									} else {
+										s.filesRemoved = true;
+									}
 								});
 							}
 						});
