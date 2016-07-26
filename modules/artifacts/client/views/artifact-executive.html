@@ -1,6 +1,11 @@
 
-<div class="view-title-container">
-	<h1>{{artifact.name}} ({{artifact.version}})<label class="label label-info">Executive Approval</label></h1>
+<div class="view-title-container flex-row">
+	<h1>{{artifact.name}} ({{artifact.version}})</h1>
+	<div class="actions">
+		<a class="btn btn-default btn-sm" title="Cancel" ui-sref="p.detail">Cancel</a>
+		<a class="btn btn-danger btn-sm" title="Reject and return for {{buttons.prev}}" ng-click="reject()">Reject</a>
+		<a class="btn btn-success btn-sm" title="Approve for {{buttons.next}}" ng-click="submit()">Approve for {{buttons.next}}</a>	
+	</div>
 </div>
 
 <div class="view-body-container">
@@ -14,7 +19,7 @@
 			<div class="text-right">
 				<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
 				<a class="btn btn-default" ng-click="reject()">Reject and return for {{buttons.prev}}</a>
-				<a class="btn btn-success" ng-click="submit()">Accept for {{buttons.next}}</a>
+				<a class="btn btn-success" ng-click="submit()">Approve for {{buttons.next}}</a>
 			</div>
 		</div>
 	</div>

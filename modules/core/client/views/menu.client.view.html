@@ -4,7 +4,9 @@
 	<div ng-show="!menu.authentication.user">
 
 		<a class="project-home-link" ui-sref="p.detail({projectid: menu.project.code})" title="Project Details">
-			<span class="glyphicon glyphicon-map-marker"></span><span>{{project.name}}</span>
+			<span class="glyphicon glyphicon-map-marker"></span>
+			<span>{{project.name}}</span>
+			<span ng-if="!project.name">Untitled Project</span>
 		</a>
 		
 		<ul class="nav nav-pills nav-stacked">
@@ -49,7 +51,9 @@
 	<div ng-if="(menu.context === 'project' || menu.context === 'activity') && menu.authentication.user">
 		
 		<a class="project-home-link" ui-sref="p.detail({projectid: menu.project.code})" title="Project Details">
-			<span class="glyphicon glyphicon-map-marker"></span><span>{{project.name}}</span>
+			<span class="glyphicon glyphicon-map-marker"></span>
+			<span>{{project.name}}</span>
+			<span ng-if="!project.name">Untitled Project</span>
 		</a>
 
 		<!-- PROJECT CLIENT MENUS (project.client.menus.js) -->

@@ -1,6 +1,6 @@
 <form class="view-form" name="projectForm" ng-submit="saveProject(projectForm.$valid)" validate>
 
-	<div class="floating-alert alert alert-info alert-dismissible fade in hidden">
+	<div class="floating-alert alert alert-danger alert-dismissible fade in">
 		<span class="pull-left">Floating Alert Container!</span>
 		<button type="button" class="btn btn-default close" data-dismiss="alert">
         	<span aria-hidden="true">&times;</span>
@@ -8,7 +8,7 @@
 	</div>
 
 	<div class="view-title-container flex-row">
-		<h1>Edit Project &nbsp;&rsaquo;&nbsp; {{project.name}}<span class="placeholder-text" ng-if="!project.name">Untitled Project</span></h1>
+		<h1>Edit Project &nbsp;&rsaquo;&nbsp; {{project.name}}<span class="placeholder-value" ng-if="!project.name">Untitled Project</span></h1>
 		<div class="actions">
 			<button class="btn btn-default btn-sm" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
 			<button class="btn btn-default btn-sm" ng-if="isNew" ui-sref="projects">Cancel</button>
@@ -30,10 +30,10 @@
 			<li role="presentation" ng-class="{'active':form.curTab === 'Project EAO Info'}">
 				<a href ng-click="form.curTab = 'Project EAO Info'" title="Edit Environmental Assessment Office Info">EAO Details</a>
 			</li>
-			<li role="presentation" ng-class="{'active':form.curTab === 'Proponent Info'}">
+			<li class="hidden" role="presentation" ng-class="{'active':form.curTab === 'Proponent Info'}">
 				<a href ng-click="form.curTab = 'Proponent Info'" title="Edit Environmental Assessment Office Info">Proponent</a>
 			</li>
-			<li role="presentation" ng-class="{'active':form.curTab === 'Intake Profile'}">
+			<li class="hidden" role="presentation" ng-class="{'active':form.curTab === 'Intake Profile'}">
 				<a href ng-click="form.curTab = 'Intake Profile'" title="Edit Environmental Assessment Office Info">Intake Profile</a>
 			</li>
 		</ul><!-- / TABS -->

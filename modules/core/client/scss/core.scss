@@ -85,17 +85,21 @@ $upload-target-focus-border-color:	#5475a7;
 /* Utility Themes */
 $danger-bg:				 	#d9534f;
 $danger-border:				#d43f3a;
+
 $info-bg:					#5bc0de;
 $info-border:				#5bc0de;
+
+$placeholder-value-color:	#CCC;
+
 $success-bg: 				#5cb85c;
 $success-border: 			#4cae4c;
+
 $warning-bg:				#f0ad4e;
 $warning-border:			#eea236;
 
 
 /* GLOBAL
 ------------------------------ */
-
 html {
 	min-height: 100%;
 	background: $app-bg;
@@ -108,13 +112,13 @@ body {
 	-ms-overflow-style: scrollbar;
 }
 
-
-/* UTILITY CLASSES
------------------------------- */
 hr {
 	border-top: 1px solid #DDD;
 }
 
+
+/* UTILITY SELECTORS
+------------------------------ */
 .flex-row {
 	display: -webkit-flex;
 	display: flex;
@@ -129,21 +133,17 @@ hr {
 	flex-flow: column nowrap;
 }
 
+.placeholder-value {
+	color: $placeholder-value-color;
+}
 
-/* ----- Typography ----- */
-
-
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+[ng\:cloak],
+[ng-cloak], 
+[data-ng-cloak], 
+[x-ng-cloak], 
+.ng-cloak, 
+.x-ng-cloak {
   display: none !important;
-}
-
-.clear-left {
-	clear: left;
-}
-
-/* Remove border to delete the 1px line */
-.navbar-fixed-top {
-	border: 0;
 }
 
 .btn-list .btn {
@@ -177,24 +177,10 @@ hr {
 	margin-bottom: 0;
 }
 
-.watermark-chat {
-	background-image: url('/modules/core/client/img/watermarks/eao-chat.png');
-	background-repeat: no-repeat;
-	background-position: 106% -10px;
-	background-size: 30%;
-}
-.watermark-news {
-	background-image: url('/modules/core/client/img/watermarks/eao-news.png');
-	background-repeat: no-repeat;
-	background-position: 106% -10px;
-	background-size: 30%;
-}
-
 .news-content {
 	white-space: pre-line;
 	margin-top: 0;
 }
-
 
 .well > h4 {
 	margin-top: 0;
@@ -247,15 +233,6 @@ a.control-label:hover,
 // -------------------------
 // GENERALLY SPEAKING...
 // -------------------------
-
-
-[ng\:cloak],
-[ng-cloak],
-[x-ng-cloak],
-.ng-cloak,
-.x-ng-cloak {
-	display: none !important;
-}
 
 td h4 {
 	margin-top: 0;
@@ -1632,10 +1609,6 @@ ui-view {
 			-ms-flex: 0 0 auto;
 			flex: 0 0 auto;
 
-			.btn {
-				min-width: 8rem;
-			}
-
 			.btn-default {
 				.glyphicon {
 					font-size: 1.4rem;
@@ -2414,6 +2387,17 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 	&:focus  { background: #5475a7; }
 }
 
+.save-as-menu {
+	.form-control {
+		padding: 0.2rem;
+		font-size: 1.4rem;
+		border: none;
+		border-radius: 0;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		overflow: hidden;
+	}
+}
 
 
 /* BUTTON BAR

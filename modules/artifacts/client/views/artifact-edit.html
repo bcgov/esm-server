@@ -2,10 +2,21 @@
 <div class="view-title-container flex-row">
 	<h1>Edit Content &nbsp;&rsaquo;&nbsp; {{artifact.name}}</h1>
 	<div class="actions">
-		<button class="btn btn-default btn-sm" ng-click="remove()">Remove</button>
-		<button class="btn btn-default btn-sm" ng-click="save()">Save</button>
-		<button class="btn btn-default btn-sm" ng-click="save()">Save As</button>
-		<button class="btn btn-success btn-sm" ng-click="submit()">Submit for {{buttons.next}}</button>
+		<button class="btn btn-default btn-sm" title="Remove this content from Project" ng-click="remove()">Remove</button>
+		<button class="btn btn-default btn-sm" title="Save" ng-click="save()">Save</button>
+		<div class="btn-group">
+			<button class="btn btn-default btn-sm" ng-click="saveas()">Save as {{version}}</button>
+			<button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="caret"></span>
+    			<span class="sr-only">Toggle Dropdown</span>
+			</button>
+			<ul class="dropdown-menu save-as-menu">
+				<li>
+					<select class="form-control" ng-model="version" ng-options="v as v for v in artifact.artifactType.versions" size="2"></select>
+				</li>
+			</ul>
+		</div>
+		<button class="btn btn-success btn-sm" title="Submit for {{buttons.next}}" ng-click="submit()">Submit for {{buttons.next}}</button>
 	</div>
 </div>
 
@@ -33,28 +44,5 @@
 	<div ng-include="'/modules/artifacts/client/views/partial.artifact-notes.html'"></div>
 	<div ng-include="'/modules/artifacts/client/views/partial.artifact-comments.html'"></div>
 
-	<div class="form-footer no-border clearfix">
-		<a class="back-btn btn btn-link pull-left" ui-sref="p.detail"><span class="glyphicon glyphicon-chevron-left"></span>Back to Product Details</a>
-		<div class="pull-right">
-			<a class="btn btn-default" ng-click="remove()">Remove</a>
-			<a class="btn btn-default" ng-click="save()">Save</a>
-			<div class="btn-group">
-				<a class="btn btn-default" ng-click="saveas()">Save As {{version}}</a>
-				<select class="form-control" ng-model="version" ng-options="v as v for v in artifact.artifactType.versions"></select>
-			</div>
-			<a class="btn btn-success" ng-click="submit()">Submit for {{buttons.next}}</a>
-		</div>
-	</div>
-
 </div>
-
-<div class="view-footer-container clearfix hidden">
-	<div class="pull-right">
-		<button class="btn btn-default btn-sm" ng-click="remove()">Remove</button>
-		<button class="btn btn-default btn-sm" ng-click="save()">Save</button>
-		<button class="btn btn-default btn-sm" ng-click="save()">Save As</button>
-		<button class="btn btn-success btn-sm" ng-click="submit()">Submit for {{buttons.next}}</button>
-	</div>
-</div>
-
 
