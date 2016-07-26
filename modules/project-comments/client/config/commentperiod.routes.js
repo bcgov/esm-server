@@ -95,8 +95,10 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			};
 			$scope.save = function () {
 				period.project               = project._id;
+				console.log("saving comment period:", project);
 				period.phase                 = project.currentPhase;
 				period.phaseName             = project.currentPhase.name;
+				console.log("saving comment period artifact:", period.artifact);
 				period.artifactName          = period.artifact.name;
 				period.artifactVersion       = period.artifact.version;
 				period.artifactVersionNumber = period.artifact.versionNumber;
