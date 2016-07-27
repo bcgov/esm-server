@@ -568,7 +568,7 @@ _.extend (DBModel.prototype, {
 			definition.read   = definition.read || model.read;
 			definition.write  = definition.write || model.write;
 			definition.delete = definition.delete || model.delete;
-			console.log("setRoles:", JSON.stringify(definition, null, 4));
+			//console.log("setRoles:", JSON.stringify(definition, null, 4));
 			model.setRoles (definition);
 			return definition;
 		});
