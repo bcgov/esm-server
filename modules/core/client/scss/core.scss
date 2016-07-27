@@ -1486,6 +1486,7 @@ h2.page-title {
 ------------------------------ */
 html, body {
 	height: 100%;
+	overflow-y: hidden;
 }
 
 .app-container {
@@ -1608,6 +1609,10 @@ ui-view {
 			-webkit-flex: 0 0 auto;
 			-ms-flex: 0 0 auto;
 			flex: 0 0 auto;
+		}
+
+		.actions-group {
+			display: inline-block;
 		}
 	}
 }
@@ -2465,7 +2470,6 @@ Implementing this as a stop-gap solution to a proper control.
 ------------------------------ */
 fieldset {
 	margin-bottom: 1rem;
-
 	&:last-child { margin-bottom: 0; }
 }
 
@@ -2478,10 +2482,7 @@ legend {
 	text-transform: uppercase;
 	
 	em {
-		font-size: 1.4rem;
-		font-weight: normal;
-		color: 
-		#999;
+		@extend .form-validation-msg;
 	}
 }
 
@@ -2644,12 +2645,16 @@ $file-browser-item-active: #2b5580;
 
 /* FORM CONTROLS
 ------------------------------ */
+.form-validation-msg {
+	margin-left: 0.25rem;
+	font-size: 1.2rem;
+	font-weight: normal;
+	color: #999;
+}
+
 .control-label {
 	em {
-		margin-left: 0.25rem;
-		font-size: 1.2rem;
-		font-weight: normal;
-		color: #999;
+		@extend .form-validation-msg;
 	}
 }
 
@@ -4200,7 +4205,7 @@ section.project-info {
 /* EDIT PROJECT VIEW
 ------------------------------ */ 
 .edit-project-form {
-	max-width: 1024px;
+	max-width: 1280px;
 
 	.coord-input {
 		.form-control {
@@ -4828,17 +4833,48 @@ tmpl-template-render {
 .prototype-block {
 	display: flex;
 	flex-flow: row nowrap;
+	align-items: center;
 
 	.phase-block {
+		position: relative;
 		height: 100px;
-		background: forestgreen;
-		margin: 1px;
+		padding: 0.5rem;
+		width: 16.6666%;
+		background: #DDD;
+		font-size: 1.2rem;
+		line-height: 1.4rem;
+		color: #999;
 		flex: 1 1 auto;
+		margin: 1px;
+		
+		&:first-child:nth-last-child(13),
+		&:first-child:nth-last-child(13) ~ .phase-block {
+			width: 13%;
+		}
+
+		&.completed {
+			color: #FFF;
+			background: $success-bg;
+		}
+
+		.glyphicon {
+			left: 50%;
+			margin-top: 2rem;
+			margin-left: -1.6rem;
+			font-size: 3.2rem;
+		}
+
+		span {
+			display: block;
+			font-size: 1.2rem;
+			line-height: 1.4rem;
+			font-weight: bold;
+			white-space: pre-line;
+		}
 	}
 
 	.percentage-marker {
 		display: block;
-		width: 50%;
 		background: orange;
 		height: 10px;
 	}
