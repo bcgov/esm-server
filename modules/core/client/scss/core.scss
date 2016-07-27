@@ -4075,11 +4075,6 @@ section.project-info {
 		padding-left: 0;
 		padding-right: 0;
 		overflow: hidden;
-		
-		.anchor-section {
-			margin-left: -15px;
-			margin-right: -15px;
-		}
 	}
 }
 
@@ -4825,5 +4820,26 @@ tmpl-template-render {
 .vc-chooser-view {
 	.list-group {
 		margin-bottom: 0;
+	}
+}
+
+
+
+.prototype-block {
+	display: flex;
+	flex-flow: row nowrap;
+
+	.phase-block {
+		height: 100px;
+		background: forestgreen;
+		margin: 1px;
+		flex: 1 1 auto;
+	}
+
+	.percentage-marker {
+		display: block;
+		width: 50%;
+		background: orange;
+		height: 10px;
 	}
 }

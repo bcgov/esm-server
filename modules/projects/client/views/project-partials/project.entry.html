@@ -106,38 +106,44 @@
 				<div class="row">
 					<div class="col-md-4">
 						<div class="form-group">
-							<label class="control-label">Capital Investment <em>(Optional)</em></label>
-							<input class="form-control" type="number" placeholder="$" 
-								ng-model="project.investment"></input>
+							<label class="control-label" for="capitalinvestment">Capital Investment <em>(Optional)</em></label>
+							<input class="form-control" step="any"
+								name="capitalinvestment"
+								ng-model="project.intake.investment"></input>
 						</div>
 						<div class="form-group">
-							<label class="control-label">Investment Notes</label>
-							<textarea class="form-control" rows="2" 
-								ng-model="project.investmentNotes"></textarea>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label class="control-label">Construction Jobs <em>(Optional)</em></label>
-							<input class="form-control" type="number" 
-								ng-model="project.constructionjobs"></input>
-						</div>
-						<div class="form-group">
-							<label class="control-label">Construction Notes</label>
-							<textarea class="form-control" rows="2" 
-								ng-model="project.constructionjobsNotes"></textarea>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label class="control-label">Operational Jobs <em>(Optional)</em></label>
-							<input class="form-control" type="number" 
-								ng-model="project.operationjob"></input>
-						</div>
-						<div class="form-group">
-							<label class="control-label">Operation Notes</label>
+							<label class="control-label" for="capitalinvestmentnotes">Investment Notes</label>
 							<textarea class="form-control" rows="2"
-								ng-model="project.operationjobNotes"></textarea>
+								name="capitalinvestmentnotes" 
+								ng-model="project.intake.investmentNotes"></textarea>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label" form="constructionjobs">Construction Jobs <em>(Optional)</em></label>
+							<input class="form-control"
+								name="constructionjobs"
+								ng-model="project.intake.constructionjobs"></input>
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="constructionjobsnotes">Construction Jobs Notes</label>
+							<textarea class="form-control" rows="2" 
+								name="constructionjobsnotes"
+								ng-model="project.intake.constructionjobsNotes"></textarea>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label" for="operatingjobs">Operating Jobs <em>(Optional)</em></label>
+							<input class="form-control" 
+								name="operatingjobs"
+								ng-model="project.intake.operatingjobs"></input>
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="operatingjobsnotes">Operating Jobs Notes</label>
+							<textarea class="form-control" rows="2"
+								name="operatingjobsnotes"
+								ng-model="project.intake.operatingjobsNotes"></textarea>
 						</div>
 					</div>
 				</div>
@@ -149,12 +155,15 @@
 				<legend>Canada Environmental Assessment Agency (CEAA) Involvement</legend>
 				<div class="row">
 					<div class="col-md-4 form-group">
-						<label class="control-label">CEAA involvement</label>
-						<select class="form-control"></select>
+						<label class="control-label" for="ceaainvolvement">CEAA involvement</label>
+						<input class="form-control" name="ceaainvolvement"
+							ng-model="project.CEAAInvolvement"></input>
 					</div>
 					<div class="col-md-8 form-group">
-						<label class="control-label">CEAA URL<em>(Optional)</em></label>
-						<input class="form-control" type="url"></input>
+						<label class="control-label" for="ceaaurl">CEAA URL<em>(Optional)</em></label>
+						<input class="form-control" placeholder="e.g. http://www.website.com" type="url"
+							name="ceaaurl"
+							ng-model="project.CEAALink"></input>
 					</div>
 				</div>
 			</fieldset>
@@ -165,12 +174,16 @@
 				<legend>Electoral Districts</legend>
 				<div class="row">
 					<div class="col-md-6 form-group">
-						<label class="control-label">Federal Electoral Districts <em>(Optional)</em></label>
-						<input class="form-control"></input>
+						<label class="control-label" for="fedelecdist">Federal Electoral Districts <em>(Optional)</em></label>
+						<input class="form-control"
+							name="fedelecdist"
+							ng-model="project.fedElecDist"></input>
 					</div>
 					<div class="col-md-6 form-group">
-						<label class="control-label">Provincial Electoral Districts <em>(Optional)</em></label>
-						<input class="form-control"></input>
+						<label class="control-label" for="provelecdist">Provincial Electoral Districts <em>(Optional)</em></label>
+						<input class="form-control"
+							name="provelecdist"
+							ng-model="project.provElecDist"></input>
 					</div>
 				</div>
 			</fieldset>
@@ -224,15 +237,18 @@
 				<div class="row">
 					<div class="col-md-4 form-group">
 						<label class="control-label" for="projectleadname">Name</label>
-						<input class="form-control" name="projectleadname"></input>
+						<input class="form-control" name="projectleadname"
+							ng-model="project.projectLead"></input>
 					</div>
 					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label" for="projectleademail">Email</label>
-						<input class="form-control" name="projectleademail" placeholder="example@domain.com"></input>
+						<input class="form-control" placeholder="example@domain.com" name="projectleademail"
+							ng-model="project.projectLeadEmail"></input>
 					</div>
 					<div class="col-sm-6 col-md-2 form-group">
 						<label class="control-label">Phone</label>
-						<input class="form-control" placeholder="e.g. (555) 555-5555"></input>
+						<input class="form-control" placeholder="e.g. (555) 555-5555"
+							ng-model="project.projectLeadPhone"></input>
 					</div>
 				</div>
 			</fieldset>
@@ -240,16 +256,19 @@
 				<legend>Executive Project Director</legend>
 				<div class="row">
 					<div class="col-md-4 form-group">
-						<label class="control-label" for="projectleadname">Name</label>
-						<input class="form-control" name="projectleadname"></input>
+						<label class="control-label" for="projectdirector">Name</label>
+						<input class="form-control" name="projectdirector"
+							ng-model="project.responsibleEPD"></input>
 					</div>
 					<div class="col-sm-6 col-md-4 form-group">
-						<label class="control-label" for="projectleademail">Email</label>
-						<input class="form-control" name="projectleademail" placeholder="example@domain.com"></input>
+						<label class="control-label" for="projectdirectormmail">Email</label>
+						<input class="form-control" placeholder="example@domain.com" name="projectdirectormmail"
+							ng-model="project.responsibleEPDEmail"></input>
 					</div>
 					<div class="col-sm-6 col-md-2 form-group">
-						<label class="control-label">Phone</label>
-						<input class="form-control" placeholder="e.g. (555) 555-5555"></input>
+						<label class="control-label" for="projectdirectorphone">Phone</label>
+						<input class="form-control" placeholder="e.g. (555) 555-5555" name="projectdirectorphone"
+							ng-model="project.responsibleEPDPhone"></input>
 					</div>
 				</div>
 			</fieldset>
@@ -257,16 +276,19 @@
 				<legend>Compliance and Enforcement Lead</legend>
 				<div class="row">
 					<div class="col-md-4 form-group">
-						<label class="control-label" for="projectleadname">Name</label>
-						<input class="form-control" name="projectleadname"></input>
+						<label class="control-label" for="celead">Name</label>
+						<input class="form-control" name="celead"
+							ng-model="project.CELead"></input>
 					</div>
 					<div class="col-sm-6 col-md-4 form-group">
-						<label class="control-label" for="projectleademail">Email</label>
-						<input class="form-control" name="projectleademail" placeholder="example@domain.com"></input>
+						<label class="control-label" for="celeademail">Email</label>
+						<input class="form-control" placeholder="example@domain.com" name="celeademail"
+							ng-model="project.CELeadEmail"></input>
 					</div>
 					<div class="col-sm-6 col-md-2 form-group">
 						<label class="control-label">Phone</label>
-						<input class="form-control"  placeholder="e.g. (555) 555-5555"></input>
+						<input class="form-control" placeholder="e.g. (555) 555-5555" name="cephone"
+							ng-model="project.CELeadPhone"></input>
 					</div>
 				</div>
 			</fieldset>
@@ -274,42 +296,55 @@
 				<legend>Additional Team Info</legend>
 				<div class="row">
 					<div class="col-md-4 form-group">
-						<label class="control-label" for="projectleadname">Analyst<em>(Optional)</em></label>
-						<input class="form-control" name="projectleadname"></input>
+						<label class="control-label" for="analyst">Analyst<em>(Optional)</em></label>
+						<input class="form-control" name="analyst"
+							ng-model="project.projectAnalyst"></input>
 					</div>
 					<div class="col-md-4 form-group">
-						<label class="control-label" for="projectleadname">Assistant<em>(Optional)</em></label>
-						<input class="form-control" name="projectleadname"></input>
+						<label class="control-label" for="assistant">Assistant<em>(Optional)</em></label>
+						<input class="form-control" name="assistant"
+							ng-model="project.projectAssistant"></input>
 					</div>
 					<div class="col-md-4 form-group">
-						<label class="control-label" for="projectleadname">Admin Assistant<em>(Optional)</em></label>
-						<input class="form-control" name="projectleadname"></input>
+						<label class="control-label" for="adminassistant">Admin Assistant<em>(Optional)</em></label>
+						<input class="form-control" name="adminassistant"
+							ng-model="project.administrativeAssistant"></input>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="projectleadname">Team Notes<em>(Optional)</em></label>
-					<textarea class="form-control" name="projectleadname" rows="4"></textarea>
+					<textarea class="form-control" rows="4"
+						name="projectleadname"
+						ng-model="project.teamNotes"></textarea>
 				</div>
 			</fieldset>
 		</div>
 
 		<div class="edit-project-form tab-pane" ng-show="form.curTab === 'Project EAO Info'">
 			<fieldset>
-				<div class="row">
+
+				<div class="row hidden">
 					<div class="col-md-4 form-group">
 						<label class="control-label" for="projectleadname">Environmental Assessment Status</em></label>
 						<select class="form-control"></select>
 					</div>
 				</div>
+
 				<div class="row">
 					<div class="col-md-8 form-group">
 						<label class="control-label" for="projectleadname">Does this project require an Environmental Assessment Certificate?</label>
 						<div class="radio-group">
 							<label class="radio-inline">
-								<input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> YES
+								<input type="radio" name="inlineRadioOptions"
+									ng-model="project.eacDecision"
+									id="inlineRadio1"
+									value="Certificate Required"> YES
 							</label>
 							<label class="radio-inline">
-								<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> NO
+								<input type="radio"	name="inlineRadioOptions"
+									ng-model="project.eacDecision"
+									id="inlineRadio2"
+									value="Certificate Not Required"> NO
 							</label>
 						</div>
 					</div>
@@ -317,7 +352,8 @@
 				<div class="row">
 					<div class="col-md-8 form-group">
 						<label class="control-label" for="projectleadname">Assessment Notes<em>(Optional)</em></label>
-						<textarea class="form-control" name="projectleadname" rows="4"></textarea>
+						<textarea class="form-control" name="projectleadname" rows="4"
+							ng-model="project.eaNotes"></textarea>
 					</div>
 				</div>
 			</fieldset>
