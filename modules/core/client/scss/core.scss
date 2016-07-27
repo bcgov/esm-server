@@ -1486,6 +1486,7 @@ h2.page-title {
 ------------------------------ */
 html, body {
 	height: 100%;
+	overflow-y: hidden;
 }
 
 .app-container {

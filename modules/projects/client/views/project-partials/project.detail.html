@@ -77,8 +77,13 @@
 			</tmpl-project-initiated>
 		-->
 
-		<tmpl-project-stream-select class="anchor-section" id="anchor-stream" x-project="project" ng-if="('project'| shouldDisplayPanel:'stream':project.status) && environment === 'EAO'">
-		</tmpl-project-stream-select>
+		<!-- 
+			2016-06-26 jdunsdon
+			Request from Lena S to hide this section
+
+			<tmpl-project-stream-select class="anchor-section" id="anchor-stream" x-project="project" ng-if="('project'| shouldDisplayPanel:'stream':project.status) && environment === 'EAO'">
+			</tmpl-project-stream-select>
+		-->
 
 		<!-- EXPOSING FOR DEMO PURPOSES ONLY -->
 		<!-- ng-if="environment === 'EAO' && authentication.user" -->
