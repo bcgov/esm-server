@@ -1,4 +1,4 @@
-<form class="view-form" name="projectForm" ng-submit="saveProject(projectForm.$valid)" validate>
+<form class="view-form" name="projectForm" ng-submit="saveProject(projectForm.$valid)" novalidate>
 
 	<div class="floating-alert alert alert-danger alert-dismissible fade in hidden">
 		<span class="pull-left">Floating Alert Container!</span>
@@ -42,48 +42,46 @@
 			<!-- PROJECT INFORMATION -->
 			<fieldset>
 				<legend>General Info</legend>
-				<div class="form-group">
+				<div class="form-group" x-show-errors>
 					<label class="control-label" for="projectname">Project Name</label>
-					<input class="form-control" type="text" title="Project Name" name="projectname"
+					<input class="form-control" title="Project Name" id="name" name="name"
 						ng-model="project.name"
-						ng-change="onChangeProjectName()"></input>
+						ng-change="onChangeProjectName()" required></input>
 				</div>
 				<div class="row">
-					<div class="col-sm-6 col-md-4 form-group">
-						<label class="control-label">Project Type </label>
-						<select class="form-control" id="type" name="type"
-							ng-model='project.type'
-							ng-options="type as type for type in types"></select>
-						<div ng-messages="projectForm.type.$error" role="alert">
-							<p class="help-block error-text" ng-message="required">Type is required.</p>
-						</div>
+					<div class="col-sm-6 col-md-4 form-group" x-show-errors>
+						<label class="control-label" for="type">Type</label>
+						<select class="form-control" title="Project Type" id="type" name="type"
+							ng-model="project.type"
+							ng-options="type as type for type in types" required></select>
 					</div>
-					<div class="col-sm-6 col-md-4 form-group">
-						<label class="control-label">Sub-type</label>
-						<select class="form-control" title="Project Sector"
-							ng-modal="project.sector"
-							ng-options="sector as sector for sector in sectors"></select>
+					<div class="col-sm-6 col-md-4 form-group" x-show-errors>
+						<label class="control-label" for="subtype">Sub-type</label>
+						<select class="form-control" title="Project Sub-type" id="subtype" name="subtype"
+							ng-modal="project.sector" required>
+						</select>
 					</div>
-					<div class="col-sm-6 col-md-4 form-group">
-						<label class="control-label">Nature of Project</label>
-						<select class="form-control" id="build" ng-model="project.build">
+					<div class="col-sm-6 col-md-4 form-group" x-show-errors>
+						<label class="control-label" for="build">Nature of Project</label>
+						<select class="form-control" id="build" name="build"
+						 	ng-model="project.build">
 							<option value="new">New Construction</option>
 							<option value="modification">Modification of Existing</option>
 							<option value="dismantling">Dismantling or Abandonment</option>
 						</select>
 					</div>
 				</div>
-				<div class="form-group">
-					<label class="control-label">Project Description</label>
-					<textarea class="form-control" id="shortDesc" rows="4"
-						ng-model="project.description"></textarea>
+				<div class="form-group" x-show-errors>
+					<label class="control-label" for="projectdesc">Project Description</label>
+					<textarea class="form-control" title="Project Description" id="shortDesc" name="projectdesc" rows="3"
+						ng-model="project.description" required></textarea>
 				</div>
 				<div class="row">
-					<div class="col-md-4 form-group">
+					<div class="col-md-4 form-group" x-show-errors>
 						<label class="control-label" for="region">Region</label>
 						<select class="form-control" if="region" name="region"
 						 	ng-model='project.region' 
-							ng-options="key as value for (key, value) in regions"></select>
+							ng-options="key as value for (key, value) in regions" required></select>
 					</div>
 					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label">Latitude / Longitude</label>
@@ -113,7 +111,7 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label" for="capitalinvestmentnotes">Investment Notes</label>
-							<textarea class="form-control" rows="2"
+							<textarea class="form-control" rows="3"
 								name="capitalinvestmentnotes" 
 								ng-model="project.intake.investmentNotes"></textarea>
 						</div>
@@ -127,7 +125,7 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label" for="constructionjobsnotes">Construction Jobs Notes</label>
-							<textarea class="form-control" rows="2" 
+							<textarea class="form-control" rows="3" 
 								name="constructionjobsnotes"
 								ng-model="project.intake.constructionjobsNotes"></textarea>
 						</div>
@@ -141,7 +139,7 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label" for="operatingjobsnotes">Operating Jobs Notes</label>
-							<textarea class="form-control" rows="2"
+							<textarea class="form-control" rows="3"
 								name="operatingjobsnotes"
 								ng-model="project.intake.operatingjobsNotes"></textarea>
 						</div>
@@ -155,7 +153,7 @@
 				<legend>Canada Environmental Assessment Agency (CEAA) Involvement</legend>
 				<div class="row">
 					<div class="col-md-4 form-group">
-						<label class="control-label" for="ceaainvolvement">CEAA involvement</label>
+						<label class="control-label" for="ceaainvolvement">CEAA involvement<em>(Optional)</em></label>
 						<input class="form-control" name="ceaainvolvement"
 							ng-model="project.CEAAInvolvement"></input>
 					</div>
@@ -350,10 +348,17 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-8 form-group">
-						<label class="control-label" for="projectleadname">Assessment Notes<em>(Optional)</em></label>
-						<textarea class="form-control" name="projectleadname" rows="4"
+					<div class="col-md-12 form-group">
+						<label class="control-label" for="eanotes">Assessment Notes<em>(Optional)</em></label>
+						<textarea class="form-control" name="eanotes" rows="4"
 							ng-model="project.eaNotes"></textarea>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 form-group">
+						<label class="control-label" for="eaissues">Assessment Issues<em>(Optional)</em></label>
+						<textarea class="form-control" name="eaissues" rows="4"
+							ng-model="project.eaIssues"></textarea>
 					</div>
 				</div>
 			</fieldset>
@@ -405,7 +410,6 @@
 			</div>
 
 		</div><!-- / VIEW BODY CONTAINER -->
-
 
 </div>
 

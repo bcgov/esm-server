@@ -3,7 +3,7 @@
 	<div class="view-title-container flex-row">
 		<h1>{{ project.name }}</h1>
 		<div class="actions">
-			<div class="btn-group" ng-if="environment === 'EAO' && authentication.user">
+			<div class="actions-group" ng-if="environment === 'EAO' && authentication.user">
 				<a class="btn btn-default btn-sm" ui-sref="p.edit({pId:o._id})">Edit Project</a>
 				<a class="btn btn-success btn-sm" ng-click="publishProject()" ng-if="!project.isPublished">Publish Project</a>
 			</div>
@@ -30,16 +30,20 @@
 		</div>
 		<!-- / PUBLIC COMMENT PERIOD NOTIFICATION -->
 
+		<section class="prototype-block">
+			<div class="phase-block" ng-class="{'completed': o.completed}" ng-repeat="o in project.phases">
+				<span>{{o.name}}</span>
+				<span>{{o.dateStarted | amDateFormat:'MMMM Do, YYYY'}}</span>
+				<span>{{o.dateCompleted | amDateFormat:'MMMM Do, YYYY'}}</span>
+				<span>{{o.status}}</span>
+			</div>
+		</section>
+
 		<!-- PROJECT INFO -->
-		<section class="project-info" ng-if="('project' | shouldDisplayPanel:'tombstone':project.status)">
+		<section class="project-info">
 			<tmpl-project-tombstone id="anchor-tombstone" x-project="project"></tmpl-project-tombstone>
 		</section>
 
-		<section class="prototype-block hidden">
-			<div class="phase-block" ng-repeat="o in project.phases">
-				<span class="percentage-marker"></span>
-			</div>
-		</section>
 
 		<!-- PROJECT PHASES -->
 		<section class="project-phases" ng-if="environment === 'EAO'">
@@ -65,8 +69,13 @@
 			</tmpl-enforcement-browser>
     	-->
 
-		<tmpl-project-initiated class="anchor-section" id="anchor-initiated" x-project="project" ng-if="('project'| shouldDisplayPanel:'initiated':project.status) && environment === 'EAO'">
-		</tmpl-project-initiated>
+		<!-- 
+			2016-06-26 jdunsdon
+			Request from Lena S to hide this section
+
+			<tmpl-project-initiated class="anchor-section" id="anchor-initiated" x-project="project" ng-if="('project'| shouldDisplayPanel:'initiated':project.status) && environment === 'EAO'">
+			</tmpl-project-initiated>
+		-->
 
 		<tmpl-project-stream-select class="anchor-section" id="anchor-stream" x-project="project" ng-if="('project'| shouldDisplayPanel:'stream':project.status) && environment === 'EAO'">
 		</tmpl-project-stream-select>
