@@ -4732,12 +4732,16 @@ tmpl-template-render {
 }
 
 @media screen {
+	.template-nav,
+	.template {
+		height: 40rem;
+		overflow-y: auto;
+	}
+
 	.template {
 		-webkit-flex: 1 1 1rem;
 		flex: 1 1 1rem;
-		min-width: 0;
-		height: 40rem;
-		overflow-y: auto;
+		min-width: 0; /* Flex box fix */
 	}
 }
 

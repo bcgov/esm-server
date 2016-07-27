@@ -1,12 +1,5 @@
 <form class="view-form" name="projectForm" ng-submit="saveProject(projectForm.$valid)" novalidate>
 
-	<div class="floating-alert alert alert-success" ng-if="projectForm.$submitted">
-		<span class="pull-left">Project saved successfully.</span>
-		<button type="button" class="btn btn-default close" data-dismiss="alert">
-        	<span aria-hidden="true">&times;</span>
-    	</button>
-	</div>
-
 	<div class="view-title-container flex-row">
 		<h1>Edit Project &nbsp;&rsaquo;&nbsp; {{project.name}}<span class="placeholder-value" ng-if="!project.name">Untitled Project</span></h1>
 		<div class="actions">
@@ -54,10 +47,9 @@
 							ng-model="project.type"
 							ng-options="type as type for type in types" required></select>
 					</div>
-					<div class="col-sm-6 col-md-4 form-group" x-show-errors>
+					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label" for="subtype">Sub-type</label>
-						<select class="form-control" title="Project Sub-type" id="subtype" name="subtype"
-							ng-modal="project.sector" required>
+						<select class="form-control" title="Project Sub-type" id="subtype" name="subtype">
 						</select>
 					</div>
 					<div class="col-sm-6 col-md-4 form-group" x-show-errors>
