@@ -46,7 +46,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.openAddTopic = function() {
 				var modalDocView = $modal.open({
 					animation: true,
-					templateUrl: 'modules/topics/client/views/topic-modal-select.html',
+					templateUrl: 'modules/vcs/client/views/topic-modal-select.html',
 					controller: 'controllerAddTopicModal',
 					controllerAs: 'self',
 					scope: $scope,
