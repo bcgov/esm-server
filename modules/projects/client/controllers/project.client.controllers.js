@@ -268,7 +268,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 		})
 		// ProjectModel.saveModel ()
 		.then( function(data) {
-			$state.go('p.detail', {projectid: data.code});
+			//$state.go('p.detail', {projectid: data.code});
 		})
 		.catch (function (err) {
 			console.error ('error = ', err);
