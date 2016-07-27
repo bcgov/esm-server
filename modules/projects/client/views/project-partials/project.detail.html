@@ -24,9 +24,7 @@
 				</li>
 				<li><a class="document-name" href="#">Associated Documentation</a><a href="#">[ VIEW FILES ]</a></li>
 			</ul>
-			<button class="btn btn-success" data-toggle="modal" data-target="#submitCommentModal">
-        Click Here to Submit a Comment
-      </button>
+			<button class="btn btn-success" data-toggle="modal" data-target="#submitCommentModal">Click Here to Submit a Comment</button>
 		</div>
 		<!-- / PUBLIC COMMENT PERIOD NOTIFICATION -->
 
@@ -35,11 +33,14 @@
 			<tmpl-project-tombstone id="anchor-tombstone" x-project="project"></tmpl-project-tombstone>
 		</section>
 
-		<section class="prototype-block hidden">
-			<div class="phase-block" ng-repeat="o in project.phases">
-				<span class="percentage-marker"></span>
+		<div class="panel panel-default hidden">
+			<div class="panel-heading"><h2>Project Timeline</h2></div>
+			<div class="prototype-block">
+				<div class="phase-block" ng-class="{'completed': o.completed}" ng-repeat="o in project.phases">
+					<span>{{o.name}}</span>
+				</div>
 			</div>
-		</section>
+		</div>
 
 		<!-- PROJECT PHASES -->
 		<section class="project-phases" ng-if="environment === 'EAO'">
