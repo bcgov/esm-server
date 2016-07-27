@@ -36,27 +36,10 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 		},
 		// -------------------------------------------------------------------------
 		//
-		// set a stream into a project, this copies over ALL base objects and makes
-		// then real
-		//
-		// -------------------------------------------------------------------------
-		setStream : function (streamId) {
-			var self = this;
-			return new Promise (function (resolve, reject) {
-				self.put ('/api/project/'+self.model._id+'/set/stream/'+streamId, {})
-				.then (function (res) {
-					self.model = res;
-					self.modelIsNew = false;
-					resolve (res);
-				}).catch (reject);
-			});
-		},
-		// -------------------------------------------------------------------------
-		//
 		// add a phase, form a base phase, to a project. All ancenstors get copied
 		//
 		// -------------------------------------------------------------------------
-		addPhase : function (basePhaseId) {
+		addPhase: function (basePhaseId) {
 			var self = this;
 			return new Promise (function (resolve, reject) {
 				self.put ('/api/project/'+self.model._id+'/add/phase/'+basePhaseId, {})
@@ -65,6 +48,29 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 					self.modelIsNew = false;
 					resolve (res);
 				}).catch (reject);
+			});
+		},
+		removePhase: function(project, phase) {
+			var self = this;
+			return new Promise (function (resolve, reject) {
+				var phaseIndex = _.findIndex(project.phases, function(p) { return p._id === phase._id; });
+
+				// Decrement currentPhase if current deleted.
+				if (!project.currentPhase || project.currentPhase._id === phase._id) {
+					var prevIndex = phaseIndex - 1;
+					project.currentPhase = project.phases[prevIndex];
+					project.currentPhaseCode = project.phases[prevIndex].code;
+					project.currentPhaseName = project.phases[prevIndex].name;
+				}
+
+				// Remove phase reference.
+				project.phases.splice(phaseIndex, 1);
+
+				self.save (project)
+					.then (function (res) {
+						resolve (res);
+					})
+					.catch (reject);
 			});
 		},
 		completePhase: function (project) {

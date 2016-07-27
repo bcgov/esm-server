@@ -171,7 +171,7 @@ module.exports = DBModel.extend ({
 	// Add a phase to the project from a code
 	//
 	// -------------------------------------------------------------------------
-	addPhase : function (project, basecode) {
+	addPhase: function (project, basecode) {
 		var self = this;
 		var Phase = new PhaseClass (self.opts);
 		return new Promise (function (resolve, reject) {
@@ -272,18 +272,18 @@ module.exports = DBModel.extend ({
 				//
 				Phase.complete (project.currentPhase)
 				.then (function () {
-					//
-					// now find the next phase by index, the order is the
-					// index + 1, so next is order
-					//
-					var nextIndex = project.currentPhase.order;
+					var nextIndex = _.findIndex(project.phases, function(phase) { return phase._id.toString() === project.currentPhase._id.toString(); }) + 1;
+
 					project.currentPhase     = project.phases[nextIndex];
 					project.currentPhaseCode = project.phases[nextIndex].code;
 					project.currentPhaseName = project.phases[nextIndex].name;
 					return Phase.start (project.currentPhase);
 				})
 				.then (function () {
-					return self.saveAndReturn (project);
+					return self.saveAndReturn (project)
+						.then(function(res) {
+							resolve(res);
+						});
 				})
 				.catch (reject);
 			}
