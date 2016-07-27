@@ -65,8 +65,13 @@
 			</tmpl-enforcement-browser>
     	-->
 
-		<tmpl-project-initiated class="anchor-section" id="anchor-initiated" x-project="project" ng-if="('project'| shouldDisplayPanel:'initiated':project.status) && environment === 'EAO'">
-		</tmpl-project-initiated>
+		<!--
+			2016-06-25 jdunsdon
+			Lena S asked for this secion to be hidden
+
+			<tmpl-project-initiated class="anchor-section" id="anchor-initiated" x-project="project" ng-if="('project'| shouldDisplayPanel:'initiated':project.status) && environment === 'EAO'">
+			</tmpl-project-initiated>
+		-->
 
 		<!-- EXPOSING FOR DEMO PURPOSES ONLY -->
 		<!-- ng-if="environment === 'EAO' && authentication.user" -->
