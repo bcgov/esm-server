@@ -49,18 +49,23 @@ angular.module ('vcs')
 }])
 
 .controller ('controllerAddTopicModal',
-	['$modalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS', 'ArtifactModel',
-	function ($modalInstance, $scope, _, $stateParams, codeFromTitle, VcModel, TopicModel, PILLARS, ArtifactModel) {
+	['NgTableParams','$modalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS', 'ArtifactModel',
+	function (NgTableParams, $modalInstance, $scope, _, $stateParams, codeFromTitle, VcModel, TopicModel, PILLARS, ArtifactModel) {
 
 		var self = this;
-		self.data = null;
 		self.current = [];
 		self.currentObjs = [];
 		self.project = $stateParams.project;
 
+		self.pillars = PILLARS.map (function (e) {
+			return {id:e,title:e};
+		});
+
+		self.showFilter = true;
+
 		// Show all VC types, either pathway or valued components
 		TopicModel.getCollection().then( function (data) {
-			self.data = data;
+			self.tableParams = new NgTableParams ({},{dataset: data});
 			$scope.$apply();
 		});
 

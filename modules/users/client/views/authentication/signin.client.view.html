@@ -1,48 +1,47 @@
-<div class="col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4">
-  <div class="panel panel-default" x-center-vertical>
 
+<div class="sign-in-view">
+  <div class="panel panel-default">
+      
+      <div class="panel-heading">
+        <h2 class="panel-title">Login</h2>
+      </div>
 
-    <div class="panel-heading">
-      <h3 class="panel-title">Login</h3>
-    </div>
-
-
-    <div class="panel-body">
-      <div class="alert alert-danger animated fadeIn text-center" ng-show="loginPanel.error">{{loginPanel.error}}</div>
-
-      <form name="userForm" ng-submit="loginPanel.signin(userForm.$valid)" class="signin" novalidate autocomplete="off">
-
-        <div class="form-group" show-errors>
-            <label for="username" class="control-label">Username</label>
-            <input required id="username" type="text" name="username" placeholder="Username" class="form-control" ng-model="loginPanel.credentials.username"/>
-            <div ng-messages="userForm.username.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">Username is required.</p>
-           </div>
-        </div>
-
-        <div class="form-group" show-errors>
-          <label for="password" class="control-label">Password</label>
-          <input required id="password" type="password" name="password" placeholder="Password" class="form-control" ng-model="loginPanel.credentials.password"/>
-          <div ng-messages="userForm.password.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Password is required.</p>
-          </div>
-        </div>
+      <div class="panel-body">
         
-        <div class="form-group text-center">
-          <button type="submit" class="btn btn-default">Sign in</button>
-        </div>
-    
-        <div class="form-group text-center">
-          <a ui-sref="password.forgot" class="btn btn-default btn-xs">Forgot your password?</a>
-        </div>
+        <div class="alert alert-danger animated fadeIn text-center" ng-show="loginPanel.error">{{loginPanel.error}}</div>
 
+        <form name="userForm" ng-submit="loginPanel.signin(userForm.$valid)" class="signin" novalidate autocomplete="off">
 
-      </form>
+          <div class="form-group" show-errors>
+              <label for="username" class="control-label">Username</label>
+              <input required id="username" type="text" name="username" placeholder="Username" class="form-control" ng-model="loginPanel.credentials.username"/>
+              <div ng-messages="userForm.username.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Username is required.</p>
+            </div>
+          </div>
 
-    </div> <!-- /panel-body -->
-  </div> <!-- /panel -->
+          <div class="form-group" show-errors>
+            <label for="password" class="control-label">Password</label>
+            <input required id="password" type="password" name="password" placeholder="Password" class="form-control" ng-model="loginPanel.credentials.password"/>
+            <div ng-messages="userForm.password.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Password is required.</p>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <button type="submit" class="btn btn-default">Login</button>
+          </div>
+      
+          <div class="form-group text-center">
+            <a ui-sref="password.forgot" class="btn btn-default btn-xs">Forgot your password?</a>
+          </div>
+
+        </form>
+
+      </div> <!-- /panel-body -->
+
+  </div>
 </div>
-
 
 
 

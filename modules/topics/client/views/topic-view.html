@@ -1,61 +1,60 @@
-<div class="valued-component-view">
 
-	<div class="view-title-container">
-		<h1>Valued Components<span ng-show="topic.name">&nbsp; &rsaquo; &nbsp;{{ topic.name }}</span></h1>
+<div class="view-title-container flex-row">
+	<h1>Valued Components<span ng-show="topic.name">&nbsp; &rsaquo; &nbsp;{{ topic.name }}</span></h1>
+	<div class="actions">
+		<a class="btn btn-default btn-sm" ui-sref="admin.topic.edit({topicId:topic._id})" title="Edit {{topic.name}}">
+			<span class="glyphicon glyphicon-pencil"></span><span>Edit</span>
+		</a>
 	</div>
-
-	<div class="view-body-container">
-		
-		<div class="row hidden">
-			<div class="col-sm-12 text-right">
-				<a class="btn btn-xs btn-link" ui-sref="admin.topic.list">Cancel</a>
-				<a class="btn btn-xs btn-link" ui-sref="admin.topic.edit({topicId:topic._id})">Edit</a>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-9">
-				<div class="form-group">
-					<label for="title" class="control-label">Name</label>
-					<p class="form-control-static">{{ topic.name }}</p>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="type" class="control-label">Type</label>
-					<p class="form-control-static">{{ topic.type }}</p>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="shortDesc" class="control-label">Description</label>
-					<div class='form-control-static' ng-bind-html="topic.description"></div>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="pillar" class="control-label">Pillar</label>
-					<p class="form-control-static">{{ topic.pillar || 'Not Defined' }}</p>
-				</div>
-			</div>
-
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="parent" class="control-label">Parent Valued Component</label>
-					<p class="form-control-static">{{ topic.parent || 'Not Defined' }}</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="form-footer clearfix">
-			<a class="back-btn btn btn-link pull-left" ui-sref="admin.topic.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Valued Components Library</a>
-			<a class="btn btn-default pull-right" ui-sref="admin.topic.edit({topicId:topic._id})">Edit</a>
-		</div>
-		
-	</div><!-- / VIEW BODY CONTAINER -->
-
 </div>
+
+<div class="view-body-container">
+	<div class="row hidden">
+		<div class="col-sm-12 text-right">
+			<a class="btn btn-xs btn-link" ui-sref="admin.topic.list">Cancel</a>
+			<a class="btn btn-xs btn-link" ui-sref="admin.topic.edit({topicId:topic._id})">Edit</a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-9">
+			<div class="form-group">
+				<label for="title" class="control-label">Name</label>
+				<p class="form-control-static">{{ topic.name }}</p>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div class="form-group">
+				<label for="type" class="control-label">Type</label>
+				<p class="form-control-static">{{ topic.type }}</p>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="form-group">
+				<label for="shortDesc" class="control-label">Description</label>
+				<div class='form-control-static' ng-bind-html="topic.description"></div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="pillar" class="control-label">Pillar</label>
+				<p class="form-control-static">{{ topic.pillar || 'Not Defined' }}</p>
+			</div>
+		</div>
+
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="parent" class="control-label">Parent Valued Component</label>
+				<p class="form-control-static">{{ topic.parent || 'Not Defined' }}</p>
+			</div>
+		</div>
+	</div>
+	<div class="form-footer clearfix">
+		<a class="back-btn btn btn-link pull-left" ui-sref="admin.topic.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Valued Components Library</a>
+	</div>
+	
+</div><!-- / VIEW BODY CONTAINER -->
+

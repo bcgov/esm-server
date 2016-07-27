@@ -1,6 +1,7 @@
-/* -----------------------------------------------------------------------------
- * variables
- * -------------------------------------------------------------------------- */
+@font-face {
+	font-family: 'Myriad-Pro';
+	src: url('../fonts/MyriadWebPro.ttf');
+}
 
 /* ----- Colors ----- */
 $header-blue:		    #141a41;
@@ -34,15 +35,22 @@ $corp-gold: 				#fcba19;
 $font-color-grey: 			#888;
 $font-color-disabled: 		#CCC;
 
+/* Footer */
+$footer-font-size:			1.2rem;
+
 /* Buttons */
 $btn-focus-bg-color: 		#FFF;
 $btn-focus-border-color: 	#5475a7;
+$btn-primary-bg:			#1a5a96;
 
 /* Header */
 $header-focus-border-color: #5475a7;
 
-/* Layout */
-$left-panel-width:			17rem;
+/* Left Panel */
+$left-panel-width: 			20rem;
+$left-panel-bg:				#FFF;
+$left-panel-shadow-width:	0.4rem;
+$left-panel-shadow-color:	#999;
 
 /* Modal */
 $modal-body-bg: 			#f1f1f1;
@@ -55,11 +63,20 @@ $panel-heading-bg: 			#FFF;
 $panel-heading-color: 		#494949;
 $panel-footer-bg: 			#FFF;
 
+/* Side Navigation */
+$sidenav-bg: 				#FFF;
+$sidenav-color: 			$link-color;
+$sidenav-width:				20rem;
+
 /* Tab Navigation */
 $nav-tab-active-color:			#1a5a96;
 $nav-tab-inactive-color:		#999;
 $nav-tab-active-border-color: 	#1a5a96;
 $nav-tab-inactive-border-color: #DDD;
+
+/* Typography */
+$font-family-heading: 		Myriad-Pro, Calibri, Arial, sans serif;
+$font-family-sans-serif: 	Myriad-Pro, Calibri, Arial, sans serif;
 
 /* Upload Target */
 $upload-target-focus-bg:			#FFF;
@@ -68,21 +85,21 @@ $upload-target-focus-border-color:	#5475a7;
 /* Utility Themes */
 $danger-bg:				 	#d9534f;
 $danger-border:				#d43f3a;
+
 $info-bg:					#5bc0de;
 $info-border:				#5bc0de;
+
+$placeholder-value-color:	#CCC;
+
 $success-bg: 				#5cb85c;
 $success-border: 			#4cae4c;
+
 $warning-bg:				#f0ad4e;
 $warning-border:			#eea236;
 
 
 /* GLOBAL
 ------------------------------ */
-@font-face {
-	font-family: 'Myriad-Pro';
-	src: url('../fonts/MyriadWebPro.ttf');
-}
-
 html {
 	min-height: 100%;
 	background: $app-bg;
@@ -95,22 +112,38 @@ body {
 	-ms-overflow-style: scrollbar;
 }
 
+hr {
+	border-top: 1px solid #DDD;
+}
 
-/* ----- Typography ----- */
-$font-family-heading: Myriad-Pro, Calibri, Arial, sans serif;
-$font-family-sans-serif: Myriad-Pro, Calibri, Arial, sans serif;
 
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+/* UTILITY SELECTORS
+------------------------------ */
+.flex-row {
+	display: -webkit-flex;
+	display: flex;
+	-ms-flex-flow: row nowrap;
+	flex-flow: row nowrap;
+}
+
+.flex-column {
+	display: -webkit-flex;
+	display: flex;
+	-ms-flex-flow: column nowrap;
+	flex-flow: column nowrap;
+}
+
+.placeholder-value {
+	color: $placeholder-value-color;
+}
+
+[ng\:cloak],
+[ng-cloak], 
+[data-ng-cloak], 
+[x-ng-cloak], 
+.ng-cloak, 
+.x-ng-cloak {
   display: none !important;
-}
-
-.clear-left {
-	clear: left;
-}
-
-/* Remove border to delete the 1px line */
-.navbar-fixed-top {
-	border: 0;
 }
 
 .btn-list .btn {
@@ -144,24 +177,10 @@ $font-family-sans-serif: Myriad-Pro, Calibri, Arial, sans serif;
 	margin-bottom: 0;
 }
 
-.watermark-chat {
-	background-image: url('/modules/core/client/img/watermarks/eao-chat.png');
-	background-repeat: no-repeat;
-	background-position: 106% -10px;
-	background-size: 30%;
-}
-.watermark-news {
-	background-image: url('/modules/core/client/img/watermarks/eao-news.png');
-	background-repeat: no-repeat;
-	background-position: 106% -10px;
-	background-size: 30%;
-}
-
 .news-content {
 	white-space: pre-line;
 	margin-top: 0;
 }
-
 
 .well > h4 {
 	margin-top: 0;
@@ -214,20 +233,6 @@ a.control-label:hover,
 // -------------------------
 // GENERALLY SPEAKING...
 // -------------------------
-
-
-[ng\:cloak],
-[ng-cloak],
-[x-ng-cloak],
-.ng-cloak,
-.x-ng-cloak {
-	display: none !important;
-}
-
-h1,h2,h3,h4,h5,h6 {
-	font-weight: normal;
-	letter-spacing: -0.01em;
-}
 
 td h4 {
 	margin-top: 0;
@@ -1477,12 +1482,107 @@ h2.page-title {
 }
 
 
+/* APPLICATION LAYOUT 
+------------------------------ */
+html, body {
+	height: 100%;
+	overflow-y: hidden;
+}
+
+.app-container {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: -webkit-flex;
+	display: flex;
+	flex-flow: column nowrap;
+}
+
+tmpl-header,
+tmpl-footer {
+	display: block;
+	flex: 0 0 auto;
+}
+
+.app-main {
+	position: fixed;
+	top: 5.2rem;
+	right: 0;
+	bottom: 4rem;
+	left: 0;
+	display: -webkit-flex;
+	display: flex;
+
+	.left-panel,
+	.main-panel {
+		display: -webkit-flex;
+		display: flex;
+		flex-flow: column nowrap;
+	}
+
+	.left-panel {
+		position: relative;
+		width: $left-panel-width;
+		flex: 0 0 auto;
+		background: $left-panel-bg;
+		box-shadow: 0 0 $left-panel-shadow-width $left-panel-shadow-color;
+		z-index: 2;
+	}
+
+	.main-panel {
+		position: relative;
+		/* Need to set 1px here to fix some flexbox issues with text wrapping */
+		flex: 1 1 1px;
+		min-width: 0;
+
+		.view-title-container {
+			flex: 0 0 auto;
+			z-index: 1;
+		}
+
+		.view-body-container {
+			padding: 2rem 2.5rem;
+			flex: 1 1 auto;
+			overflow-y: auto;
+		}
+
+		.view-footer-container {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			padding: 2rem;
+			background: rgba(255, 255, 255, 0.8);
+			border-top: 1px solid #DDD;
+		}
+	}
+}
+
+@media (min-width: 1024px) {
+	.app-main {
+		top: 6.2rem;
+	}
+}
+
+ui-view {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: -webkit-flex;
+	display: flex; 
+	flex-flow: column nowrap;
+}
+
+
 /* PAGE LAYOUT
 ------------------------------ */
 .view-title-container {
-	padding: 1.7rem 2rem;
-	display: -webkit-flex;
-	display: flex;
+	height: 7rem;
+	padding: 2rem 2.5rem;
 	background: #FFF;
 	border-bottom: 1px solid #EEE;
 	min-width: 0;
@@ -1490,29 +1590,29 @@ h2.page-title {
     h1 {
         margin: 0;
         padding-top: 0.2rem;
-		font-size: 2.5rem;
+		font-size: 2.4rem;
 		font-weight: bold;
     }
 
 	&.flex-row {
 		h1 {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
 			-webkit-flex: 1 1 auto;
 			-ms-flex: 1 1 auto;
 			flex: 1 1 auto;
 		}
 
 		.actions {
+			padding-left: 2rem;
 			-webkit-flex: 0 0 auto;
 			-ms-flex: 0 0 auto;
 			flex: 0 0 auto;
+		}
 
-			.btn-default {
-				&:hover,
-				&:focus {
-					background: #FFF;
-					border-color: $btn-focus-border-color;
-				}
-			}
+		.actions-group {
+			display: inline-block;
 		}
 	}
 }
@@ -1532,8 +1632,15 @@ h2.page-title {
 	}
 }
 
-.view-body-container {
-	padding: 2rem;
+.view-form {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: -webkit-flex; /* Safari */
+    display: flex;
+	flex-flow: column nowrap;
 }
 
 
@@ -1669,44 +1776,6 @@ h2.page-title {
 }
 
 
-/* APPLICATION LAYOUT
------------------------------- */
-tmpl-header {
-	position: fixed;
-	top: 0;
-	width: 100%;
-	z-index: 999;
-}
-
-.app-main {
-	padding-top: 5rem;
-	padding-bottom: 4rem;
-}
-
-@media (min-width: 900px) {
-	.app-main {
-		padding-top: 6rem;
-	}	
-}
-
-.left-panel {
-	-webkit-flex: 0 0 $left-panel-width;
-	flex: 0 0 $left-panel-width;
-}
-
-.main-panel {
-	-webkit-flex: 0 0 auto;
-	flex: 1 1 auto;
-}
-
-.right-panel {
-	padding: 1.5rem;
-	padding-left: 0;
-	flex: 0 0 30rem;
-	overflow-x: hidden;
-}
-
-
 /* HEADER 
 ------------------------------ */
 $header-height: 6.2rem;
@@ -1719,7 +1788,6 @@ $header-height-sm: 5.2rem;
 	min-height: $header-height-sm;
 	background-color: $corp-blue;
 	border-bottom: 2px solid $corp-gold;
-	box-shadow: 0 0 0.2rem #999;
 	
 	.navbar {
 		border: none;
@@ -2014,15 +2082,11 @@ $header-height-sm: 5.2rem;
 	left: 0;
 	width: 100%;
 	padding: 1rem 2rem;
-	font-size: 13px;
+	font-size: $footer-font-size;
 	color: #FFF;
 	background: $corp-blue;
 	border-top: 2px solid $corp-gold;
 	z-index: 999;
-	-webkit-transition: bottom ease-out 0.2s;
-	-o-transition: bottom ease-out 0.2s;
-	-moz-transition: bottom ease-out 0.2s;
-	transition: bottom ease-out 0.2s;
 	
 	a {
 		color: #FFF;
@@ -2036,31 +2100,24 @@ $header-height-sm: 5.2rem;
 
 /* SIDE NAVIGATION
 ------------------------------ */
-$sidenav-bg: #FFF;
-$sidenav-color: $link-color;
+$sidenav-shadow: 0 0 0.4rem #CCC;
+$sidenav-text-shadow: 0 0 2px #FFF;
 
 .sidenav {
-	position: fixed;
-	top: 5rem;
-	bottom: 0;
-	width: $left-panel-width;
-	padding-top: 1rem;
-	padding-bottom: 1rem;
-	background: $sidenav-bg;
-	-webkit-box-shadow: 0 0 0.4rem #CCC;
-	box-shadow: 0 0 0.4rem #CCC;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: $sidenav-width;
 
 	.nav-pills {
 		a {
-			padding: 0.7rem 1.5rem;
+			padding: 0.8rem 1.5rem;
 			font-size: 1.3rem;
+			font-weight: bold;
 			color: $link-color;
+			text-shadow: $sidenav-text-shadow;
 			border: 1px solid transparent;
 			border-radius: 0;
-
-			&:focus {
-				text-shadow: 1px 1px 0 #FFF;
-			}
 
 			.glyphicon {
 				top: 0.3rem;
@@ -2072,10 +2129,6 @@ $sidenav-color: $link-color;
 					padding-left: 0.7rem;
 				}
 			}
-		}
-
-		> li + li {
-			margin: 0;
 		}
 	}
 
@@ -2092,11 +2145,26 @@ $sidenav-color: $link-color;
 	hr {
 		margin: 0.7rem 1.5rem;
 	}
-}
 
-@media (min-width: 900px) {
-	.sidenav {
-		top: 6.2rem;
+	.project-home-link {
+		position: relative;
+		display: table-cell;
+		width: $sidenav-width;
+		height: 7rem;
+		padding: 1rem 1.5rem 1rem 4.5rem;
+		font-weight: bold;
+		color: #1a5a96;
+		text-decoration: none;
+		line-height: 1.5rem;
+		background: #EEE;
+		vertical-align: middle;
+
+		.glyphicon {
+			position: absolute;
+			top: 2rem;
+			left: 1.2rem;
+			font-size: 2.4rem;
+		}
 	}
 }
 
@@ -2165,9 +2233,15 @@ $sidenav-color: $link-color;
 		margin: 0;
 	}
 	
-	.btn {
-		font-size: 1.6rem;
-		font-weight: bold;
+	.close {
+		color: #FFF;
+		opacity: 0.5;
+
+		&:hover,
+		&:focus {
+			color: #FFF;
+			opacity: 1;
+		}
 	}
 }
 
@@ -2193,6 +2267,40 @@ $sidenav-color: $link-color;
 	color: #FFF;
 	background: $warning-bg;
 	border: 1px solid $warning-border;
+}
+
+.floating-alert {
+	position: fixed;
+	margin-left: -25rem;
+	top: 4.5rem;
+	left: 50%;
+	width: 50rem;
+	box-shadow: 0.2rem 0.2rem 0.8rem rgba(0, 0, 0, 0.4);
+	z-index: 10;
+
+	.btn {
+		position: absolute;
+		top: 0.8rem;
+		right: 0.8rem;
+		min-width: 3rem;
+		font-size: 2.1rem;
+		padding: 0.5rem;
+		background: transparent;
+
+		&:hover,
+		&:focus {
+			color: #FFF;
+			opacity: 1;
+		}
+
+		&:focus {
+			outline-color: #FFF;
+		}
+	}
+
+	.glyphicon {
+		font-size: 2rem;
+	}
 }
 
 
@@ -2255,12 +2363,13 @@ $sidenav-color: $link-color;
 	}
 }
 
-.btn-sm {
+.btn-sm,
+.btn-xs {
 	.glyphicon {
 		top: 2px;
 
 		+ span {
-			margin-left: 0.7rem;
+			margin-left: 0.5rem;
 		}
 	}
 }
@@ -2277,12 +2386,24 @@ $sidenav-color: $link-color;
 }
 
 .btn-primary {
-	background: $corp-blue;
-	&:hover  { background: $corp-blue; }
-	&:active { background: $corp-blue; }
-	&:focus  { background: $corp-blue; }
+	background: $btn-primary-bg;
+	&:hover  { background: #5475a7; }
+	&:active { background: #5475a7; }
+	&:focus  { background: #5475a7; }
 }
 
+.save-as-menu {
+	.form-control {
+		padding: 0.2rem;
+		font-size: 1.4rem;
+		border: none;
+		border-radius: 0;
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		box-shadow: none;
+		overflow: hidden;
+	}
+}
 
 
 /* BUTTON BAR
@@ -2348,25 +2469,20 @@ Implementing this as a stop-gap solution to a proper control.
 /* FIELDSETS
 ------------------------------ */
 fieldset {
-	margin-bottom: 2rem;
-}
-
-fieldset:last-child {
-	margin-bottom: 0;
+	margin-bottom: 1rem;
+	&:last-child { margin-bottom: 0; }
 }
 
 legend {
-	padding-bottom: 0.5rem;
-	font-size: 1.6rem;
+	margin-bottom: 1.75rem;
+	font-size: 1.4rem;
 	font-weight: bold;
+	border-bottom: none;
+	text-shadow: 1px 1px 0 #FFF;
 	text-transform: uppercase;
-	border-bottom: 1px solid #DDD;
 	
 	em {
-		font-size: 1.4rem;
-		font-weight: normal;
-		color: 
-		#999;
+		@extend .form-validation-msg;
 	}
 }
 
@@ -2529,21 +2645,31 @@ $file-browser-item-active: #2b5580;
 
 /* FORM CONTROLS
 ------------------------------ */
+.form-validation-msg {
+	margin-left: 0.25rem;
+	font-size: 1.2rem;
+	font-weight: normal;
+	color: #999;
+}
+
 .control-label {
-	text-shadow: 1px 1px 0 #FFF;
-	
 	em {
-		margin-left: 0.25rem;
-		font-size: 1.2rem;
-		font-weight: normal;
-		color: #999;
+		@extend .form-validation-msg;
 	}
 }
 
 .has-error {
 	.control-label em {
-		color: #a94442;
+		color: $danger-text;
 	}
+}
+
+.form-container {
+	padding: 0 2rem;
+}
+
+.form-group {
+	margin-bottom: 2rem;
 }
 
 form {
@@ -2553,22 +2679,10 @@ form {
 		border-bottom: 1px solid #DDD;
 	}
 	
-	.col-sm-6:nth-child(3n+3) {
-		clear: both;
-	}
-	
 	.help-block {
 		margin-top: 0.5rem;
 		margin-bottom: 0;
 		font-size: 1.2rem;
-	}
-}
-
-@media (min-width: 1024px) {
-	form {
-		.col-sm-6:nth-child(3n+3) {
-			clear: none;
-		}
 	}
 }
 
@@ -2622,6 +2736,15 @@ textarea {
 	margin-right: 2rem;
 	
 	input {
+		margin-top: 2px;
+	}
+}
+
+.radio-group {
+	padding-top: 0.7rem;
+
+	/* Fix - Myriad Pro causes an issue with the label offset so we fix it */
+	input[type="radio"] {
 		margin-top: 2px;
 	}
 }
@@ -2842,7 +2965,7 @@ textarea {
 	border: none;
 	
 	.btn {
-		min-width: 10rem;
+		min-width: 8rem;
 	}
 }
 
@@ -2855,7 +2978,7 @@ textarea {
 /* PANELS
 ------------------------------ */ 
 .panel-default {
-	border: 1px solid #DDD;
+	border: none;
 	box-shadow: none;
 	
 	> .panel-heading {
@@ -3169,21 +3292,14 @@ $table-footer-bg: #F7F8FA;
 }
 
 
-/* UTILITIES
------------------------------- */
-hr {
-	border-top: 1px solid #DDD;
-}
-
-.flex-list-item-row {
-	display: -webkit-flex;
-	display: flex;
-	flex-flow: row nowrap;
-}
-
-
 /* ARTIFACT VIEW
 ------------------------------ */
+.artifact-view {
+	section {
+		margin-bottom: 1.5rem;
+	}
+}
+
 .artifact-list-view {	
 	.button-bar {
 		padding: 1.5rem;
@@ -3241,678 +3357,7 @@ hr {
 }
 
 
-/* COMPLAINTS VIEW
------------------------------- */
-.complaints-view {
-	.table {
-		th:last-child {
-			width: 6rem;
-			text-align: right;
-		}
-	}
-}
-
-
-/* COMPLAINCE OVERSIGHT VIEW
------------------------------- */
-.compliance-oversight-view {
-	.ir-cert-requirements {
-		padding: 2rem 1.5rem;
-		
-		h3 {
-			margin: 0;
-			font-size: 1.4rem;
-			font-weight: bold;
-		}
-		
-		ul {
-			margin: 0;
-			margin-top: 1.5rem;
-			padding: 0;
-			list-style-position: inside;
-			list-style-type: square;
-		}
-	}
-	.actions-table-container {
-		.table {
-			border-top: 1px solid #DDD;
-			
-			th, td {
-				padding: 1rem 1.5rem;
-			}
-		}
-		
-		.enforcement-col {	
-			.glyphicon {
-				font-size: 1.3rem;
-				vertical-align: middle;
-				margin-top: -5px;
-				margin-right: 1rem;
-			}
-		}
-		
-		.date-col {
-			width: 12rem;
-			text-align: right;
-		}
-		
-		.status-col {
-			width: 10rem;
-			
-			.label {
-				width: 100%;
-			}
-		}
-	}
-}
-
-
-/* CONDITION LIBRARY VIEWS
------------------------------- */
-.condition-view {
-	.well {
-		min-height: 15.5rem;
-	}
-}
-
-.edit-condition-view {
-	textarea {
-		min-height: 8.25rem;
-	}
-}
-
-
-/* DASHBOARD VIEW
------------------------------- */
-.dashboard {
-	.panel-default {
-		margin-bottom: 0;
-	}
-	
-	.view-body-container {
-
-		.project-list {
-			flex: 1 1 auto;
-		}	
-		
-		.right-panel {
-			margin-left: 2.5rem;
-			padding: 0;
-		}
-		
-		.activities-list {
-			flex: 0 1 24rem;
-		}
-	}
-	
-	.projects-table {	
-		table-layout: fixed;
-		
-		.actions-col {
-			width: 11rem;
-			text-align: right;
-		}
-	}
-}
-
-
-/* DOCUMENTS VIEW 
------------------------------- */
-.table.document-browser {
-	td {
-		padding-top: 1rem;
-		padding-bottom: 1rem;
-	}
-	
-	td.actions-col {
-		padding-top: 0;
-		padding-bottom: 0;
-		vertical-align: middle;
-	}
-	
-	.name-col {
-		padding-left: 1.5rem;
-		
-		.glyphicon {
-			margin-top: -0.5rem;
-			margin-right: 1rem;
-			vertical-align: middle;
-		}
-	}
-}
-
-tr.selected {
-	background-color: #003366 !important;
-	color: #FFF;
-	
-	td {
-		border-top: 1px solid #003366 !important;
-	}
-}
-
-tr.row-depth-2 {
-	td:first-child {
-		padding-left: 4rem;
-	}
-}
-
-tr.row-depth-3 {
-	td:first-child {
-		padding-left: 6rem;
-	}
-}
-
-
-/* DOCUMENT PANELS (MAIN, SUPPORTING, ADDITIONAL, INTERNAL)
------------------------------- */
-.document-panel {
-	.link-file-btn {
-		position: absolute;
-		top: 0.55rem;
-		right: 0.55rem;
-	}
-}
-
-
-/* PROJECT DETAILS VIEW
------------------------------- */
-.project-details {
-	section {
-		margin-bottom: 2rem;
-	}
-	
-	section:last-child {
-		margin-bottom: 0;
-	}
-	
-	.detail-row:first-child {
-		margin-top: 0;
-	}
-}
-
-section.project-info {
-	.badge.review {
-		background-color: forestgreen;
-	}
-}
-
-.project-phases {
-	.panel-body {
-		padding-left: 0;
-		padding-right: 0;
-		overflow: hidden;
-		
-		.anchor-section {
-			margin-left: -15px;
-			margin-right: -15px;
-		}
-	}
-}
-
-.project-artifacts {
-	.panel {
-		margin-bottom: 0;
-	}
-}
-
-.project-map {
-	.panel {
-		margin-bottom: 0;
-	}
-	
-	.angular-google-map-container {
-		height: 400px;
-	}
-}
-
-.detail-row {
-	margin-bottom: 1.5rem;
-	font-size: 1.2rem;
-	
-	label,
-	span.value {
-		display: block;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-	
-	> label {
-		margin-bottom: .2rem;
-		font-weight: 600;
-		text-shadow: 0 0 0 #FFF;
-	}
-	
-	span.value {
-		color: #888;
-	}
-	
-	span.value.wrap-text {
-		white-space:normal;
-	}
-
-	pre {
-		line-height: 0;
-
-		p {
-			line-height: 2rem;
-			color: #888;
-
-			&:last-child {
-				margin-bottom: 0;
-			}
-		}
-	}
-}
-
-.detail-row.horiz {
-	label,
-	span.value {
-		margin: 0;
-		display: inline-block;
-		color: inherit;
-		vertical-align: middle;
-	}
-	
-	> label {
-		margin-right: 1rem;
-	}
-}
-
-.detail-row.project-desc {
-	span.value {
-		white-space: normal;
-		overflow: visible;
-	}
-}
-
-.mem-details {
-	.detail-row label {
-		min-width: 14rem;
-	}
-	
-	 .description {
-		margin-top: 1.5rem;
-	}
-}
-
-@media (min-width: 1024px) {
-	.detail-row {
-		font-size: 1.4rem;
-	}
-	
-	.mem-details .detail-row {
-		display: table-row;
-		
-		label, span.value {
-			display: table-cell;
-			vertical-align: top;
-			padding: 0.4rem 0;
-		}
-		
-		label {
-			padding-right: 2rem;
-			text-align: left;
-			white-space: nowrap;
-		}
-	}
-}
-
-.project-tombstone {
-	.panel-body {
-		padding-bottom: 0;
-	}
-
-	hr {
-		margin-top: 0.5rem;
-		margin-right: 1.5rem;
-		margin-bottom: 2rem;
-		margin-left: 1.5rem;
-	}
-}
-
-
-/* EDIT PROJECT VIEW
------------------------------- */ 
-.edit-project-details-view {
-	.tab-content {
-		padding-top: 3rem;
-	}
-}
-
-
-/* DOCUMENT BROWSER VIEW
------------------------------- */
-.document-browser-view {
-	.panel-body {
-		padding: 0;
-	}
-}
-
-
-/* MILESTONE/COMMENT SESSION MODAL VIEW
------------------------------- */
-.add-milestone-dialog,
-.add-comment-dialog {
-	.form-group {
-		margin-bottom: 2rem;
-	}
-	
-	.form-group:last-child {
-		margin-bottom: 0;
-	}
-	
-	.has-error {
-		.input-group-btn .btn {
-			border: 1px solid #a94442;
-			color: #a94442;
-		}
-		
-		input {
-			color: #a94442;
-		}
-	}
-}
-
-
-/* NEWS FEED VIEW
------------------------------- */
-.news-feed {
-	.panel-body {
-		padding: 0;
-	}
-	
-	.panel-footer {
-		padding: 0;
-	}
-	
-	.show-all-news-link {
-		display: block;
-		padding: 1rem;
-		font-weight: bold;
-	}
-}
-
-.news-feed-item {
-	padding: 1.5rem;
-	border-top: 1px solid #DDD;
-	
-	.news-title {
-		margin-top: 0;
-		margin-bottom: 0.75rem;
-		font-size: 1.8rem;
-		font-weight: bold;
-	}
-	
-	.news-date-type {
-		margin-bottom: 0.75rem;
-		font-size: 1.2rem;
-		color: #999;
-	}
-	
-	.news-content {
-		margin: 0;
-	}
-	
-	.show-more {
-		margin-top: 1rem;
-		font-size: 1.2rem;
-		font-weight: bold;
-	}
-}
-
-.news-feed-item:first-child {
-	border-top: none;
-}
-
-
-/* NEWS PAGE VIEW
------------------------------- */
-.news-admin-view,
-.news-public-view {
-	.table {
-		table-layout: fixed;
-		
-		th {
-			padding: 0.75rem 1.5rem;
-		}
-		
-		td {
-			padding: 2rem 1.5rem;
-		}
-	}
-	
-	th.date-col,
-	td.date-col {
-		width: 11rem;
-	}
-	
-	th.type-col,
-	td.type-col {
-		width: 14rem;
-	}
-	
-	th.actions-col,
-	td.actions-col {
-		padding: 8px;
-		
-		.btn {
-			margin-top: 0.6rem;
-		}
-	}
-	
-	.news-title {
-		margin-top: 0;
-		margin-bottom: 0.75rem;
-		font-size: 1.8rem;
-		font-weight: bold;
-	}
-	
-	.news-content {
-		max-width: 70rem;
-		margin: 0;
-	}
-	
-	.show-more {
-		margin-top: 1rem;
-		font-size: 1.2rem;
-		font-weight: bold;
-	}
-}
-
-@media (min-width: 769px) {
-	.news-admin-view,
-	.news-public-view {
-		th.type-col {
-			width: 25%;
-		}
-	}
-}
-
-
-/* MAP
------------------------------- */
-.map-info-popup {
-	max-width: 30rem;
-	min-height: 10rem;
-	font-size: 1.4rem;
-	font-family: $font-family-sans-serif;
-
-	h3 {
-		margin-top: 0.5rem;
-		margin-bottom: 1rem;
-		font-size: 2rem;
-		font-weight: bold;
-	}
-
-	.project-desc,
-	.public-comment-btn {
-		margin-bottom: 1.5rem;
-	}
-
-	.project-type {
-		display: inline-block;
-		margin-bottom: 1rem;
-	}
-
-	.project-link {
-		display: inline-block;
-		font-size: 1.2rem;
-		font-weight: bold;
-	}
-
-	.public-comment-btn {
-		padding-top: 8px;
-	}
-}
-
-
-/* PERMISSIONS SETTINGS VIEW
------------------------------- */
-.permissions-settings-table {
-	.permissions-col {
-		width: 8rem;
-		text-align: center;
-	}
-}
-
-.permissions-modal {
-	.select-permission {
-		margin-top: 1rem;
-		margin-bottom: 2.5rem;
-	}
-
-	.panel {
-		margin-bottom: 0;
-		height: 30rem;
-		overflow-y: auto;
-		border: 1px solid #CCC;
-	}
-
-	.list-group {
-		.checkbox {
-			margin: 0;
-		}
-
-		.list-group-item {
-			padding: 0;
-		}
-
-		.list-group-item:hover {
-			background-color: #EEE;
-		}
-
-		label {
-			padding-top: 1rem;
-			padding-bottom: 1rem;
-			padding-left: 3.5rem;
-			display: block;
-		}
-	}
-
-	.btn-link {
-		font-weight: bold;
-	}
-
-	.new-role-btn {
-		margin-top: -0.4rem;
-		margin-bottom: -0.4rem;
-	}
-}
-
-.flex-row {
-	display: -webkit-flex;
-	display: flex;
-	-ms-flex-flow: row nowrap;
-	flex-flow: row nowrap;
-
-	label,
-	.form-control
-	.btn {
-		flex: 1 1 auto;
-	}
-
-	label {
-		margin-bottom: 0;
-	}
-}
-
-
-/* PROJECT SCHEDULE VIEW
------------------------------- */
-.project-schedule-view {
-	.panel-body {
-		padding-bottom: 0;
-	}
-	
-	.table {
-		table-layout: fixed;
-	}
-
-	td {
-		padding: 1rem;
-	}
-
-	.date-col {
-		width: 14rem;
-		font-size: 1.2rem;
-
-		label {
-			margin: 0;
-			min-width: 4rem;
-			display: inline-block;
-			text-transform: uppercase;
-		}
-
-		span {
-			min-width: 7rem;
-			display: inline-block;
-			text-align: right;
-		}
-	}
-
-	.phase-action-col {
-		width: 13rem;
-		padding-right: 0;
-
-		.label, .btn {
-			display: block;
-			width: 100%;
-			height: 2rem;
-			text-transform: uppercase;
-		}
-	}
-
-	.status-col {
-		width: 11rem;
-	}
-
-	td.actions-col {
-		padding-left: 0;
-		text-align: center;
-
-		.btn {
-			margin-top: 0.45rem;
-		}
-	}
-}
-
-.phase-schedule {
-	margin-left: -1.5rem;
-	margin-right: -1.5rem;
-	margin-bottom: 0;
-}
-
-@media (min-width: 1200px) {
-	.project-schedule-view {
-		.date-col {
-			width: 18rem;
-		}
-	}
-}
-
-
-/* PUBLIC COMMENT PERIOD VIEW 
+/* COMMENT PERIOD VIEW 
 ------------------------------ */
 .pcp-table {
 	table-layout: fixed;
@@ -4435,6 +3880,678 @@ section.project-info {
 }
 
 
+/* COMPLAINTS VIEW
+------------------------------ */
+.complaints-view {
+	.table {
+		th:last-child {
+			width: 6rem;
+			text-align: right;
+		}
+	}
+}
+
+
+/* COMPLAINCE OVERSIGHT VIEW
+------------------------------ */
+.compliance-oversight-view {
+	.ir-cert-requirements {
+		padding: 2rem 1.5rem;
+		
+		h3 {
+			margin: 0;
+			font-size: 1.4rem;
+			font-weight: bold;
+		}
+		
+		ul {
+			margin: 0;
+			margin-top: 1.5rem;
+			padding: 0;
+			list-style-position: inside;
+			list-style-type: square;
+		}
+	}
+	.actions-table-container {
+		.table {
+			border-top: 1px solid #DDD;
+			
+			th, td {
+				padding: 1rem 1.5rem;
+			}
+		}
+		
+		.enforcement-col {	
+			.glyphicon {
+				font-size: 1.3rem;
+				vertical-align: middle;
+				margin-top: -5px;
+				margin-right: 1rem;
+			}
+		}
+		
+		.date-col {
+			width: 12rem;
+			text-align: right;
+		}
+		
+		.status-col {
+			width: 10rem;
+			
+			.label {
+				width: 100%;
+			}
+		}
+	}
+}
+
+
+/* CONDITION LIBRARY VIEWS
+------------------------------ */
+.condition-view {
+	.well {
+		min-height: 15.5rem;
+	}
+}
+
+.edit-condition-view {
+	textarea {
+		min-height: 8.25rem;
+	}
+}
+
+
+/* DASHBOARD VIEW
+------------------------------ */
+.dashboard {
+	.panel-default {
+		margin-bottom: 0;
+	}
+	
+	.view-body-container {
+
+		.project-list {
+			flex: 1 1 auto;
+		}	
+		
+		.right-panel {
+			margin-left: 2.5rem;
+			padding: 0;
+		}
+		
+		.activities-list {
+			flex: 0 1 24rem;
+		}
+	}
+	
+	.projects-table {	
+		table-layout: fixed;
+		
+		.actions-col {
+			width: 11rem;
+			text-align: right;
+		}
+	}
+}
+
+
+/* DOCUMENTS VIEW 
+------------------------------ */
+.table.document-browser {
+	td {
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+	}
+	
+	td.actions-col {
+		padding-top: 0;
+		padding-bottom: 0;
+		vertical-align: middle;
+	}
+	
+	.name-col {
+		padding-left: 1.5rem;
+		
+		.glyphicon {
+			margin-top: -0.5rem;
+			margin-right: 1rem;
+			vertical-align: middle;
+		}
+	}
+}
+
+tr.selected {
+	background-color: #003366 !important;
+	color: #FFF;
+	
+	td {
+		border-top: 1px solid #003366 !important;
+	}
+}
+
+tr.row-depth-2 {
+	td:first-child {
+		padding-left: 4rem;
+	}
+}
+
+tr.row-depth-3 {
+	td:first-child {
+		padding-left: 6rem;
+	}
+}
+
+
+/* DOCUMENT PANELS (MAIN, SUPPORTING, ADDITIONAL, INTERNAL)
+------------------------------ */
+.document-panel {
+	.link-file-btn {
+		position: absolute;
+		top: 0.55rem;
+		right: 0.55rem;
+	}
+}
+
+
+/* PROJECT DETAILS VIEW
+------------------------------ */
+.project-details {
+	section {
+		margin-bottom: 2rem;
+	}
+	
+	section:last-child {
+		margin-bottom: 0;
+	}
+	
+	.detail-row:first-child {
+		margin-top: 0;
+	}
+}
+
+section.project-info {
+	.badge.review {
+		background-color: forestgreen;
+	}
+}
+
+.project-phases {
+	.panel-body {
+		padding-left: 0;
+		padding-right: 0;
+		overflow: hidden;
+	}
+}
+
+.project-artifacts {
+	.panel {
+		margin-bottom: 0;
+	}
+}
+
+.project-map {
+	.panel {
+		margin-bottom: 0;
+	}
+}
+
+.detail-row {
+	margin-bottom: 1.5rem;
+	font-size: 1.2rem;
+	
+	label,
+	span.value {
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	
+	> label {
+		margin-bottom: .2rem;
+		font-weight: 600;
+		text-shadow: 0 0 0 #FFF;
+	}
+	
+	span.value {
+		color: #888;
+	}
+	
+	span.value.wrap-text {
+		white-space:normal;
+	}
+
+	pre {
+		line-height: 0;
+
+		p {
+			line-height: 2rem;
+			color: #888;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+}
+
+.detail-row.horiz {
+	label,
+	span.value {
+		margin: 0;
+		display: inline-block;
+		color: inherit;
+		vertical-align: middle;
+	}
+	
+	> label {
+		margin-right: 1rem;
+	}
+}
+
+.detail-row.project-desc {
+	span.value {
+		white-space: normal;
+		overflow: visible;
+	}
+}
+
+.mem-details {
+	.detail-row label {
+		min-width: 14rem;
+	}
+	
+	 .description {
+		margin-top: 1.5rem;
+	}
+}
+
+@media (min-width: 1024px) {
+	.detail-row {
+		font-size: 1.4rem;
+	}
+	
+	.mem-details .detail-row {
+		display: table-row;
+		
+		label, span.value {
+			display: table-cell;
+			vertical-align: top;
+			padding: 0.4rem 0;
+		}
+		
+		label {
+			padding-right: 2rem;
+			text-align: left;
+			white-space: nowrap;
+		}
+	}
+}
+
+.project-tombstone {
+	.panel-body {
+		padding-bottom: 0;
+	}
+
+	hr {
+		margin-top: 0.5rem;
+		margin-right: 1.5rem;
+		margin-bottom: 2rem;
+		margin-left: 1.5rem;
+	}
+}
+
+
+/* EDIT PROJECT VIEW
+------------------------------ */ 
+.edit-project-form {
+	max-width: 1280px;
+
+	.coord-input {
+		.form-control {
+			width: 50%;
+			flex: 1 1 auto;
+
+			&:first-child {
+				margin-right: 0.25rem;
+			}
+
+			&:last-child {
+				margin-left: 0.25rem;
+			}
+		}
+	}
+}
+
+
+/* DOCUMENT BROWSER VIEW
+------------------------------ */
+.document-browser-view {
+	.panel-body {
+		padding: 0;
+	}
+}
+
+/* GUIDANCE VIEW
+------------------------------ */
+ .guidance-main {
+	 .info-block p {
+		 display: block;
+		 max-width: 100%;
+		 flex-shrink: 1;
+	 }
+ }
+
+
+/* MILESTONE/COMMENT SESSION MODAL VIEW
+------------------------------ */
+.add-milestone-dialog,
+.add-comment-dialog {
+	.form-group {
+		margin-bottom: 2rem;
+	}
+	
+	.form-group:last-child {
+		margin-bottom: 0;
+	}
+	
+	.has-error {
+		.input-group-btn .btn {
+			border: 1px solid #a94442;
+			color: #a94442;
+		}
+		
+		input {
+			color: #a94442;
+		}
+	}
+}
+
+
+/* NEWS FEED VIEW
+------------------------------ */
+.news-feed {
+	.panel-body {
+		padding: 0;
+	}
+	
+	.panel-footer {
+		padding: 0;
+	}
+	
+	.show-all-news-link {
+		display: block;
+		padding: 1rem;
+		font-weight: bold;
+	}
+}
+
+.news-feed-item {
+	padding: 1.5rem;
+	border-top: 1px solid #DDD;
+	
+	.news-title {
+		margin-top: 0;
+		margin-bottom: 0.75rem;
+		font-size: 1.8rem;
+		font-weight: bold;
+	}
+	
+	.news-date-type {
+		margin-bottom: 0.75rem;
+		font-size: 1.2rem;
+		color: #999;
+	}
+	
+	.news-content {
+		margin: 0;
+	}
+	
+	.show-more {
+		margin-top: 1rem;
+		font-size: 1.2rem;
+		font-weight: bold;
+	}
+}
+
+.news-feed-item:first-child {
+	border-top: none;
+}
+
+
+/* NEWS PAGE VIEW
+------------------------------ */
+.news-admin-view,
+.news-public-view {
+	.panel {
+		margin-bottom: 0;
+	}
+
+	.table {
+		table-layout: fixed;
+		
+		th {
+			padding: 0.75rem 1.5rem;
+		}
+		
+		td {
+			padding: 2rem 1.5rem;
+		}
+	}
+	
+	th.date-col,
+	td.date-col {
+		width: 11rem;
+	}
+	
+	th.type-col,
+	td.type-col {
+		width: 14rem;
+	}
+	
+	th.actions-col,
+	td.actions-col {
+		padding: 8px;
+		
+		.btn {
+			margin-top: 0.6rem;
+		}
+	}
+	
+	.news-title {
+		margin-top: 0;
+		margin-bottom: 0.75rem;
+		font-size: 1.8rem;
+		font-weight: bold;
+	}
+	
+	.news-content {
+		max-width: 70rem;
+		margin: 0;
+	}
+	
+	.show-more {
+		margin-top: 1rem;
+		font-size: 1.2rem;
+		font-weight: bold;
+	}
+}
+
+@media (min-width: 769px) {
+	.news-admin-view,
+	.news-public-view {
+		th.type-col {
+			width: 25%;
+		}
+	}
+}
+
+
+/* MAP
+------------------------------ */
+.map-info-popup {
+	max-width: 30rem;
+	min-height: 10rem;
+	font-size: 1.4rem;
+	font-family: $font-family-sans-serif;
+
+	h3 {
+		margin-top: 0.5rem;
+		margin-bottom: 1rem;
+		font-size: 2rem;
+		font-weight: bold;
+	}
+
+	.project-desc,
+	.public-comment-btn {
+		margin-bottom: 1.5rem;
+	}
+
+	.project-type {
+		display: inline-block;
+		margin-bottom: 1rem;
+	}
+
+	.project-link {
+		display: inline-block;
+		font-size: 1.2rem;
+		font-weight: bold;
+	}
+
+	.public-comment-btn {
+		padding-top: 8px;
+	}
+}
+
+
+/* PERMISSIONS SETTINGS VIEW
+------------------------------ */
+.permissions-settings-table {
+	.permissions-col {
+		width: 8rem;
+		text-align: center;
+	}
+}
+
+.permissions-modal {
+	.select-permission {
+		margin-top: 1rem;
+		margin-bottom: 2.5rem;
+	}
+
+	.panel {
+		margin-bottom: 0;
+		height: 30rem;
+		overflow-y: auto;
+		border: 1px solid #CCC;
+	}
+
+	.list-group {
+		.checkbox {
+			margin: 0;
+		}
+
+		.list-group-item {
+			padding: 0;
+		}
+
+		.list-group-item:hover {
+			background-color: #EEE;
+		}
+
+		label {
+			padding-top: 1rem;
+			padding-bottom: 1rem;
+			padding-left: 3.5rem;
+			display: block;
+		}
+	}
+
+	.btn-link {
+		font-weight: bold;
+	}
+
+	.new-role-btn {
+		margin-top: -0.4rem;
+		margin-bottom: -0.4rem;
+	}
+}
+
+
+/* PROJECT SCHEDULE VIEW
+------------------------------ */
+.project-schedule-view {
+	.panel-body {
+		padding-bottom: 0;
+	}
+	
+	.table {
+		table-layout: fixed;
+	}
+
+	td {
+		padding: 1rem;
+	}
+
+	.date-col {
+		width: 14rem;
+		font-size: 1.2rem;
+
+		label {
+			margin: 0;
+			min-width: 4rem;
+			display: inline-block;
+			text-transform: uppercase;
+		}
+
+		span {
+			min-width: 7rem;
+			display: inline-block;
+			text-align: right;
+		}
+	}
+
+	.phase-action-col {
+		width: 13rem;
+		padding-right: 0;
+
+		.label, .btn {
+			display: block;
+			width: 100%;
+			height: 2rem;
+			text-transform: uppercase;
+		}
+	}
+
+	.status-col {
+		width: 11rem;
+	}
+
+	td.actions-col {
+		padding-left: 0;
+		text-align: center;
+
+		.btn {
+			margin-top: 0.45rem;
+		}
+	}
+}
+
+.phase-schedule {
+	margin-left: -1.5rem;
+	margin-right: -1.5rem;
+	margin-bottom: 0;
+}
+
+@media (min-width: 1200px) {
+	.project-schedule-view {
+		.date-col {
+			width: 18rem;
+		}
+	}
+}
+
+
 /* PUBLIC HOMEPAGE VIEW
 ------------------------------ */
 .public-home-view {
@@ -4503,6 +4620,10 @@ section.project-info {
 	}
 }
 
+.angular-google-map-container {
+	height: 400px;
+}
+
 
 /* PROJECT INVITATIONS 
 ----------------------------- */
@@ -4529,6 +4650,14 @@ section.project-info {
 		width: 5rem;
 		text-align: center;
 	}
+}
+
+
+/* SIGN IN VIEW
+------------------------------ */
+.sign-in-view {
+	width: 60rem;
+	margin: 0 auto;
 }
 
 
@@ -4606,10 +4735,12 @@ tmpl-template-render {
 }
 
 @media print {
-	tmpl-header,
-	tmpl-footer,
-	.left-panel {
-		display: none;
+	.app-main {
+		tmpl-header,
+		tmpl-footer,
+		.left-panel {
+			display: none;
+		}
 	}
 
 	.template-nav {
@@ -4647,6 +4778,9 @@ tmpl-template-render {
 .text-block > p:last-child {
 	margin-bottom: 0;
 }
+
+
+
 
 
 /* TEMPLATE DOCUMENT EDITOR VIEW
@@ -4691,5 +4825,57 @@ tmpl-template-render {
 .vc-chooser-view {
 	.list-group {
 		margin-bottom: 0;
+	}
+}
+
+
+
+.prototype-block {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+
+	.phase-block {
+		position: relative;
+		height: 100px;
+		padding: 0.5rem;
+		width: 16.6666%;
+		background: #DDD;
+		font-size: 1.2rem;
+		line-height: 1.4rem;
+		color: #999;
+		flex: 1 1 auto;
+		margin: 1px;
+		
+		&:first-child:nth-last-child(13),
+		&:first-child:nth-last-child(13) ~ .phase-block {
+			width: 13%;
+		}
+
+		&.completed {
+			color: #FFF;
+			background: $success-bg;
+		}
+
+		.glyphicon {
+			left: 50%;
+			margin-top: 2rem;
+			margin-left: -1.6rem;
+			font-size: 3.2rem;
+		}
+
+		span {
+			display: block;
+			font-size: 1.2rem;
+			line-height: 1.4rem;
+			font-weight: bold;
+			white-space: pre-line;
+		}
+	}
+
+	.percentage-marker {
+		display: block;
+		background: orange;
+		height: 10px;
 	}
 }

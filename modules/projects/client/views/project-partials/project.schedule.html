@@ -42,25 +42,25 @@
 										data-target="#addCommentSessionModal">Add Comment Period</button>
 							</div>
 							<div class="pull-right">
-                <button class="btn btn-default btn-sm"
-                  ng-click="selectPhase(phase)"
-                  ng-if="phase.code !== 'intake'"
-                  data-toggle="modal"
-                  data-target="#deletePhaseModal">Delete Phase</button>
-                <button class="btn btn-default btn-sm"
-                  ng-click="selectPhase(phase)"
-                  data-toggle="modal"
-                  data-target="#editPhaseDetail">Edit Phase Detail</button>
+								<button class="btn btn-default btn-sm"
+										ng-click="selectPhase(phase)"
+										ng-if="phase.code !== 'intake'"
+										data-toggle="modal"
+										data-target="#deletePhaseModal">Delete Phase</button>
+								<button class="btn btn-default btn-sm"
+										ng-click="selectPhase(phase)"
+										data-toggle="modal"
+										data-target="#editPhaseDetail">Edit Phase Detail</button>
 								<button class="btn btn-primary btn-sm"
-                  ng-click="completeCurrentPhase(project)"
-                  ng-if="canCompletePhase(phase)"
-                  data-toggle="modal"
-                  data-target="#completePhaseModal">Complete Phase</button>
+										ng-click="completeCurrentPhase(project)"
+										ng-if="canCompletePhase(phase)"
+										data-toggle="modal"
+										data-target="#completePhaseModal">Complete Phase</button>
 								<button class="btn btn-primary btn-sm"
-                  ng-click="startNextPhase(project)"
-                  ng-if="isNextPhase(phase._id)"
-                  data-toggle="modal"
-                  data-target="#completePhaseModal">Start Phase</button>
+										ng-click="startNextPhase(project)"
+										ng-if="isNextPhase(phase._id)"
+										data-toggle="modal"
+										data-target="#completePhaseModal">Start Phase</button>
 							</div>
 						</div>
 						<div class="phase-schedule">

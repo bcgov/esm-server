@@ -50,14 +50,13 @@ module.exports = function (app) {
 		.get (routes.setAndRun (CommentModel, function (model, req) {
 			return model.getCommentsForTarget (req.params.targettype, req.params.targetid, req.params.type);
 		}));
-	// -------------------------------------------------------------------------
-	//
-	// get all comments for a period
-	//
-	// -------------------------------------------------------------------------
-	app.route ('/api/comments/period/:periodId').all(policy ('guest'))
+	app.route ('/api/comments/period/:periodId/all').all(policy ('guest'))
 		.get (routes.setAndRun (CommentModel, function (model, req) {
-			return model.getCommentsForPeriod (req.params.periodId);
+			return model.getAllCommentsForPeriod (req.params.periodId);
+		}));
+	app.route ('/api/comments/period/:periodId/published').all(policy ('guest'))
+		.get (routes.setAndRun (CommentModel, function (model, req) {
+			return model.getPublishedCommentsForPeriod (req.params.periodId);
 		}));
 	app.route ('/api/eaocomments/period/:periodId').all(policy ('user'))
 		.get (routes.setAndRun (CommentModel, function (model, req) {

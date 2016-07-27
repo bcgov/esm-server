@@ -18,7 +18,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 	.state('p.commentperiod', {
 		abstract:true,
 		url: '/commentperiod',
-		template: '<ui-view></ui-view>',
+		template: '<ui-view class="comment-period-view"></ui-view>',
 		resolve: {
 			periods: function ($stateParams, CommentPeriodModel, project) {
 				return CommentPeriodModel.forProject (project._id);
@@ -95,8 +95,10 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			};
 			$scope.save = function () {
 				period.project               = project._id;
+				console.log("saving comment period:", project);
 				period.phase                 = project.currentPhase;
 				period.phaseName             = project.currentPhase.name;
+				console.log("saving comment period artifact:", period.artifact);
 				period.artifactName          = period.artifact.name;
 				period.artifactVersion       = period.artifact.version;
 				period.artifactVersionNumber = period.artifact.versionNumber;
@@ -130,13 +132,15 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				return CommentPeriodModel.getModel ($stateParams.periodId);
 			}
 		},
-		controller: function ($scope, $state, period, project, CommentPeriodModel) {
+		controller: function ($scope, $state, period, project, CommentPeriodModel, CommentModel) {
 			// only public comments for now...
 			period.periodType = 'Public';
 			period.commenterRoles = ['public'];
 
 			$scope.period = period;
 			$scope.project = project;
+
+			$scope.artifacts = [period.artifact];
 
 			$scope.changeType = function () {
 				if (period.periodType === 'Public') {
@@ -150,7 +154,17 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				CommentPeriodModel.save ($scope.period)
 				.then (function (model) {
 					// console.log ('period was saved',model);
-					// console.log ('now going to reload state');
+					// save the comments so that we pick up the (potential) changes to the period permissions...
+					return CommentModel.getAllCommentsForPeriod(model._id);
+				})
+				.then(function(comments){
+					Promise.resolve()
+						.then(function() {
+							return comments.reduce(function (current, value, index) {
+								return CommentModel.save(value);
+							}, Promise.resolve())	;
+						});
+				}).then(function(){
 					$state.transitionTo('p.commentperiod.list', {projectid:project.code}, {
 			  			reload: true, inherit: false, notify: true
 					});
@@ -183,7 +197,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			}
 		},
 		controller: function ($scope, period, project, artifact) {
-			console.log ('period user can: ', period.userCan);
+			//console.log ('period user can: ', JSON.stringify(period.userCan, null, 4));
 			var today       = new Date ();
 			var start       = new Date (period.dateStarted);
 			var end         = new Date (period.dateCompleted);
@@ -194,6 +208,9 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			$scope.period   = period;
 			$scope.project  = project;
 			$scope.artifact = artifact;
+			// anyone with vetting comments can add a comment at any time
+			// all others with add comment permission must wait until the period is open
+			$scope.allowCommentSubmit = (isopen && period.userCan.addComment) || period.userCan.vetComments;
 		}
 	})
 

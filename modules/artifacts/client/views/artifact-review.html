@@ -1,20 +1,23 @@
 
-<div class="view-title-container no-border">
-	<h1>Review Content &nbsp;&rsaquo;&nbsp; {{artifact.name}} ({{artifact.version}})</h1>
+<div class="view-title-container flex-row">
+	<h1>{{artifact.name}}&nbsp;<span class="placeholder-value">({{artifact.version}})</span></h1>
+	<div class="actions">
+		<a class="btn btn-default btn-sm" title="Cancel" ui-sref="p.detail">Cancel</a>
+		<button class="btn btn-danger btn-sm" title="Reject and return for {{buttons.prev}}" ng-click="reject()">Reject</button>
+		<button class="btn btn-success btn-sm" title="Submit for {{buttons.next}}" ng-click="submit()">Submit for {{buttons.next}}</button>
+	</div>
 </div>
 
 <div class="view-body-container">
 	<tmpl-artifact-display x-mode="'view'" x-artifact="artifact" x-project="project"></tmpl-artifact-display>
+	
 	<div class="form-group">
 		<label class="control-label">Review Notes</label>
 		<textarea class="form-control" rows="5" ng-model="artifact.reviewnote"></textarea>
 	</div>
+	
 	<div class="form-footer clearfix">
 		<a class="back-btn btn btn-link pull-left" ui-sref="p.detail"><span class="glyphicon glyphicon-chevron-left"></span>Back to Product Details</a>
-		<div class="pull-right">
-			<a class="btn btn-danger" ng-click="reject()">Reject - Return for {{buttons.prev}}</a>
-			<a class="btn btn-success" ng-click="submit()">Submit for {{buttons.next}}</a>
-		</div>
 	</div>
 
 	<div ng-include="'modules/artifacts/client/views/partial.artifact-notes.html'"></div>

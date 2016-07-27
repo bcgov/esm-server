@@ -1,168 +1,143 @@
-<div class="edit-project-comment-period-view">
 
-	<div class="view-title-container">
-		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Add/Edit Comment Period</h1>
-	</div>
 
-	<div class="hidden">
-		<div class="col-sm-12 text-right">
-			<a class="btn btn-xs btn-link" ui-sref="p.commentperiod.list">Cancel</a>
-			<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
+	<div class="view-title-container flex-row">
+		<h1><span ng-show="project.name">Edit Comment Period</h1>
+		<div class="actions">
+			<a class="btn btn-default btn-sm" ui-sref="p.commentperiod.list">Cancel</a>
+			<a class="btn btn-primary btn-sm" href ng-click="save()">Save</a>
 		</div>
 	</div>
 
 	<div class="view-body-container">
 
 		<!-- TABS -->
-		<ul class="nav nav-tabs" ng-init="form.curTab = 'Content'">
-			<li role="presentation" ng-class="{'active':form.curTab === 'Content'}">
-				<a href ng-click="form.curTab = 'Content'">Details</a>
+		<ul class="nav nav-tabs" ng-init="form.curTab = 'pcpDetails'">
+			<li role="presentation" ng-class="{'active':form.curTab === 'pcpDetails'}">
+				<a href ng-click="form.curTab = 'pcpDetails'">Details</a>
 			</li>
-			<li role="presentation" ng-class="{'active':form.curTab === 'Recipients'}">
-				<a href ng-click="form.curTab = 'Recipients'">Roles & Permissions</a>
+			<li role="presentation" ng-class="{'active':form.curTab === 'pcpOpenHouses'}">
+				<a href ng-click="form.curTab = 'pcpOpenHouses'">Open Houses</a>
+			</li>
+			<li role="presentation" ng-class="{'active':form.curTab === 'pcpRoles'}">
+				<a href ng-click="form.curTab = 'pcpRoles'">Roles & Permissions</a>
 			</li>
 		</ul><!-- / TABS -->
 
-		<div class="row">
-			<div class="col-md-4 col-xl-3 form-group">
-				<label class="control-label">Comment Period Type</label>
-				<select ng-change="changeType()" ng-model="period.periodType" class="form-control">
-					<option ng-selected="selected">Public</option>
-					<!-- <option>Working Group</option> -->
-				</select>
+		<!-- DETAILS TAB CONTENT -->
+		<div class="tab-pane" ng-show="form.curTab === 'pcpDetails'">
+			<div class="row">
+				<div class="col-sm-6 col-lg-4 form-group">
+					<label class="control-label">Comment Period Type</label>
+					<select ng-change="changeType()" ng-model="period.periodType" class="form-control">
+						<option ng-selected="selected">Public</option>
+						<!-- <option>Working Group</option> -->
+					</select>
+				</div>
+				<div class="col-sm-6 col-lg-4 form-group">
+					<label class="control-label">Content for Review</label>
+					<select ng-model="period.artifact" class="form-control" ng-options="artifact as artifact.name for artifact in artifacts"></select>
+				</div>
 			</div>
-			<div class="col-md-4 col-xl-3 form-group">
-				<label class="control-label">Content for Review</label>
-				<select ng-model="period.artifact" class="form-control" ng-options="artifact as artifact.name for artifact in artifacts"></select>
-			</div>
-			<div class="col-md-4 col-xl-3 form-group">
-				<label class="control-label">Start / End Dates</label>
-				<div class="form-inline">
-					<div class="form-control date-picker" x-modal-date-picker x-selected-date="period.dateStarted">
-						<span ng-if="!period.dateStarted">Start Date</span>
-						{{ period.dateStarted | amDateFormat:'MMMM DD, YYYY' }}
-						<span class="glyphicon glyphicon-calendar"></span>
-					</div>
-					<span> &nbsp; - &nbsp; </span>
-					<div class="form-control date-picker" x-modal-date-picker x-selected-date="period.dateCompleted">
-						<span ng-if="!period.dateCompleted">End Date</span>
-						{{ period.dateCompleted | amDateFormat:'MMMM DD, YYYY' }}
-						<span class="glyphicon glyphicon-calendar"></span>
+			<div class="row">
+				<div class="col-md-6 col-lg-4 form-group">
+					<label class="control-label">Start / End Dates</label>
+					<div class="form-inline">
+						<div class="form-control date-picker" x-modal-date-picker x-selected-date="period.dateStarted">
+							<span ng-if="!period.dateStarted">Start Date</span>
+							{{ period.dateStarted | amDateFormat:'MMMM DD, YYYY' }}
+							<span class="glyphicon glyphicon-calendar"></span>
+						</div>
+						<span> &nbsp; - &nbsp; </span>
+						<div class="form-control date-picker" x-modal-date-picker x-selected-date="period.dateCompleted">
+							<span ng-if="!period.dateCompleted">End Date</span>
+							{{ period.dateCompleted | amDateFormat:'MMMM DD, YYYY' }}
+							<span class="glyphicon glyphicon-calendar"></span>
+						</div>
 					</div>
 				</div>
 			</div>
+			<div class="form-group">
+				<label class="control-label">Description</label>
+				<textarea rows="6" ng-model="period.instructions" class="form-control" spellcheck="false"></textarea>
+			</div>
 		</div>
+		<!-- / DETAILS TAB CONTENT -->
 
-		<div class="form-group">
-			<label class="control-label">Description</label>
-			<textarea rows="6" ng-model="period.instructions" class="form-control" spellcheck="false"></textarea>
+		<!-- OPEN HOUSE TAB CONTENT -->
+		<div class="tab-pane" ng-show="form.curTab === 'pcpOpenHouses'">
+			<div class="form-group open-house">
+				<div class="button-bar">
+					<button class="btn btn-default btn-sm" x-edit-open-house x-period="period" x-mode="add">
+						<span class="glyphicon glyphicon-plus"></span><span>Add Open House</span>
+					</button>
+				</div>
+				<ul class="list-group">
+					<li class="list-group-item flex-row" ng-if="period.openHouses.length == 0">
+						<span class="title">No Open Houses for this Comment Period.</span>
+					</li>
+					<li class="list-group-item flex-row" ng-repeat="h in period.openHouses">
+						<div class="title">
+							<strong class="open-house-date">{{ h.eventDate | amDateFormat:'MMMM Do, YYYY' }}</strong>
+							<pre class="open-house-desc">{{ h.description }}</pre>
+						</div>
+						<div class="actions">
+							<button class="btn btn-default btn-sm" x-edit-open-house x-period="period" x-mode="edit" x-openhouse="h">
+								<span class="glyphicon glyphicon-pencil"></span>
+							</button>
+							<button class="btn btn-default btn-sm" x-edit-open-house x-period="period" x-mode="delete" x-index="$index">
+								<span class="glyphicon glyphicon-trash"></span>
+							</button>
+						</div>
+					</li>
+				</ul>
+			</div>
 		</div>
+		<!-- / OPEN HOUSE TAB CONTENT -->
 
-		<div class="row hidden">
-			<label class="control-label">Open Houses &nbsp; <a x-edit-open-house x-period="period" x-mode="add"><i class="glyphicon glyphicon-plus"></i></a></label>
-			<ul class="list-unstyled">
-				<li ng-repeat="h in period.openHouses">
-					<b>{{ h.eventDate | amDateFormat:'MMM Do YYYY' }}</b>
-					&nbsp; <a x-edit-open-house x-period="period" x-mode="edit" x-openhouse="h"><i class="glyphicon glyphicon-pencil"></i></a>
-					&nbsp; <a x-edit-open-house x-period="period" x-mode="delete" x-index="$index"><i class="glyphicon glyphicon-trash"></i></a>
-					<br/>
-					<pre class="col-xs-offset-1">{{ h.description }}</pre>
-				</li>
-			</ul>
-		</div>
+		<!-- ROLES & PERMISSIONS TAB CONTENT -->
+		<div class="tab-pane" ng-show="form.curTab === 'pcpRoles'">
 
-		<div class="form-group open-house">
-			<div class="flex-row">
-				<label class="control-label">Open House Dates<em>Optional</em></label>
-				<button class="btn btn-link btn-sm" x-edit-open-house x-period="period" x-mode="add">+ Add Open House</button>
+			<div class="clearfix">
+				<label>Can Post Comments</label>
+				<a class="pull-right btn btn-link btn-xs" ng-if="period.periodType !== 'Public'"
+					x-role-chooser
+					x-context="project"
+					x-current="period.commenterRoles"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
+				</a>
 			</div>
 			<ul class="list-group">
-				<li class="list-group-item flex-row" ng-if="period.openHouses.length == 0">
-					<span class="title">No Open Houses for this Comment Period.</span>
-				</li>
-				<li class="list-group-item flex-row" ng-repeat="h in period.openHouses">
-					<div class="title">
-						<strong class="open-house-date">{{ h.eventDate | amDateFormat:'MMMM Do, YYYY' }}</strong>
-						<pre class="open-house-desc">{{ h.description }}</pre>
-					</div>
-					<div class="actions">
-						<button class="btn btn-default btn-sm" x-edit-open-house x-period="period" x-mode="edit" x-openhouse="h">
-							<span class="glyphicon glyphicon-pencil"></span>
-						</button>
-						<button class="btn btn-default btn-sm" x-edit-open-house x-period="period" x-mode="delete" x-index="$index">
-							<span class="glyphicon glyphicon-trash"></span>
-						</button>
-					</div>
-				</li>
+				<li class="list-group-item" ng-if="period.commenterRole == 0">No Roles assigned.</li>
+				<li class="list-group-item" ng-repeat="role in period.commenterRoles">{{ role }}</li>
+			</ul>
+
+			<div class="clearfix">
+				<label>Can Vet Comments</label>
+				<a class="pull-right btn btn-link btn-xs"
+					x-role-chooser
+					x-context="project"
+					x-current="period.vettingRoles"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
+				</a>
+			</div>
+			<ul class="list-group">
+				<li class="list-group-item" ng-if="period.vettingRoles == 0">No Roles assigned.</li>
+				<li class="list-group-item" ng-repeat="role in period.vettingRoles">{{ role }}</li>
+			</ul>
+
+			<div class="clearfix">
+				<label>Can Classify Comments</label>
+				<a class=" pull-right btn btn-link btn-xs"
+					x-role-chooser
+					x-context="project"
+					x-current="period.classificationRoles"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
+				</a>
+			</div>
+			<ul class="list-group">
+				<li class="list-group-item" ng-if="period.classificationRoles == 0">No Roles assigned.</li>
+				<li class="list-group-item" ng-repeat="role in period.classificationRoles">{{ role }}</li>
 			</ul>
 		</div>
-
-		<div class="form-group">
-			<label class="control-label">Roles & Permissions</label>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-3">
-				<label class="control-label">Roles</label>
-				<div class="well well-sm">
-					<div ng-if="period.periodType !== 'Public'">
-						<b>Can Comment:</b><br/>
-				    	<a class="btn btn-link btn-xs"  ng-if="period.periodType !== 'Public'"
-				    		x-role-chooser
-				    		x-context="project"
-				    		x-current="period.commenterRoles"
-				    		class="btn btn-success">
-				    	    <i class="glyphicon glyphicon-plus"></i>/
-				    	    <i class="glyphicon glyphicon-minus"></i>
-				    	</a>
-						<ul>
-							<li ng-repeat="role in period.commenterRoles">{{ role }}</li>
-						</ul>
-				    </div>
-					<div ng-if="period.periodType ==='Public'">
-						<b>Can Comment:</b><br/>
-						<ul>
-							<li ng-repeat="role in period.commenterRoles">{{ role }}</li>
-						</ul>
-					</div>
-					<div ng-if="period.userCan.setPermissions">
-						<b>Can Vet:</b><br/>
-				    	<a class="btn btn-link btn-xs"
-				    		x-role-chooser
-				    		x-context="project"
-				    		x-current="period.vettingRoles"
-				    		class="btn btn-success">
-				    	    <i class="glyphicon glyphicon-plus"></i>/
-				    	    <i class="glyphicon glyphicon-minus"></i>
-				    	</a>
-						<ul>
-							<li ng-repeat="role in period.vettingRoles">{{ role }}</li>
-						</ul>
-						<b>Can Classify:</b><br/>
-				    	<a class="btn btn-link btn-xs"
-				    		x-role-chooser
-				    		x-context="project"
-				    		x-current="period.classificationRoles"
-				    		class="btn btn-success">
-				    	    <i class="glyphicon glyphicon-plus"></i>/
-				    	    <i class="glyphicon glyphicon-minus"></i>
-				    	</a>
-						<ul>
-							<li ng-repeat="role in period.classificationRoles">{{ role }}</li>
-						</ul>
-			    	</div>
-				</div>
-			</div>
-
-		</div>
-
-		<div class="form-footer clearfix">
-			<div class="pull-right">
-				<a class="btn btn-default" ui-sref="p.commentperiod.list">Cancel</a>
-				<a class="btn btn-primary" href ng-click="save()">Save</a>
-			</div>
-		</div>
+		<!-- / ROLES & PERMISSIONS TAB CONTENT -->
 
 	</div>
-</div>
+
 

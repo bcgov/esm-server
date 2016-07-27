@@ -18,7 +18,10 @@ angular.module('vcs').factory ('VcModel', function (ModelBase, _) {
 		},
 		lookup: function (id) {
 			return this.get ('/api/vc/'+id);
-		}
+		},
+		getVCsInList: function (vcList) {
+			return this.put('/api/vclist', vcList);
+		},
 	});
 	return new Class ();
 });

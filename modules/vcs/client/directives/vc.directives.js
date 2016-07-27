@@ -15,7 +15,6 @@ angular.module ('vcs')
 		controllerAs: 'data'
 	};
 })
-
 // -------------------------------------------------------------------------
 //
 // directive for adding or editing a vc
@@ -55,6 +54,64 @@ angular.module ('vcs')
 // so, essentially an artifact chooser
 //
 // -------------------------------------------------------------------------
+.directive ('vcLinker', function ($modal, VcModel, _) {
+	return {
+		restrict: 'A',
+		scope: {
+			project: '=',
+			vc: '=',
+			vcs: '=',
+			vclist: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function () {
+				$modal.open ({
+					animation: true,
+					templateUrl: 'modules/vcs/client/views/vc-picker.html',
+					controllerAs: 's',
+					size: 'md',
+					windowClass: 'vc-chooser-view',
+					controller: function ($scope, $modalInstance) {
+						var s = this;
+						s.selected = scope.vclist;
+						s.vcs = scope.vcs; // The list of all current vcs on the project
+						var index = scope.vclist.reduce (function (prev, next) {
+							prev[next._id] = next;
+							return prev;
+						}, {});
+						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
+						s.findById = function (id) {
+							for (var i = 0; i < s.selected.length; i++) {
+						        if (s.selected[i]._id === id) {
+						            return i;
+						        }
+						    }
+						    return -1;
+						};
+						s.ok = function () {
+							// finish up and test.. maybe remove/create new directive
+							scope.vc.subComponents = s.selected;
+							$modalInstance.close (s.selected);
+						};
+						s.dealwith = function (vc) {
+							var i = s.findById (vc._id);
+							if (i !== -1) {
+								s.selected.splice (i, 1);
+							}
+							else {
+								s.selected.push (vc);
+							}
+						};
+					}
+				})
+				.result.then (function (data) {
+					// console.log ('selected = ', data);
+				})
+				.catch (function (err) {});
+			});
+		}
+	};
+})
 .directive ('vcChooser', function ($modal, VcModel, _) {
 	return {
 		restrict: 'A',
@@ -122,5 +179,4 @@ angular.module ('vcs')
 		}
 	};
 })
-
 ;

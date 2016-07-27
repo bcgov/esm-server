@@ -1,12 +1,10 @@
-<div class="news-admin-view">
+<div class="main-panel">
 
 	<div class="view-title-container">
 		<h1>News & Announcements</h1>
-<!-- 		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project" x-permissions=""></tmpl-permissions-gear> -->
 	</div>
 
-	<div class="view-body-container">
-
+	<div class="view-body-container news-admin-view">
 		<div class="button-bar clearfix">
 			<a class="btn btn-default btn-sm pull-left" ui-sref="admin.recentactivity.create()">
 				<span class="glyphicon glyphicon-plus"></span>
@@ -16,10 +14,8 @@
 				<show-filter x-toggle-filter="toggleFilter"></show-filter>
 			</div>
 		</div>
-
 		<section class="panel panel-default">
-			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-striped table-hover">
-
+			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table">
 				<!-- NEWS ROW ITEM TEMPLATE -->
 				<tr ng-repeat="o in $data">
 					<td data-title="'Headline'" filter="{'name':'text'}" sortable="'name'">
@@ -55,7 +51,3 @@
 
 	</div>
 </div>
-
-
-<!-- Link for Row Item Template -->
-<!-- ui-sref="admin.recentactivity.detail({recentActivityId:o._id})" -->

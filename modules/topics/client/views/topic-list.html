@@ -1,39 +1,36 @@
-<div class="vc-library-view">
 
-	<div class="view-title-container">
-		<h1>Valued Components Library</h1>
-<!-- 		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project" x-permissions=""></tmpl-permissions-gear> -->
-	</div>
-
-	<div class="view-body-container">
-		<div class="button-bar clearfix">
-			<a class="btn btn-default btn-sm pull-left" ui-sref="admin.topic.create()">
-				<span class="glyphicon glyphicon-plus"></span>
-				<span>Add Valued Component</span>
-			</a>
-			<div class="pull-right">
-				<show-filter x-toggle-filter="toggleFilter"></show-filter>
-			</div>
-		</div>
-
-		<section class="panel panel-default">
-			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-hover table-striped">
-				<tr ng-repeat="o in $data" ui-sref="admin.topic.detail({topicId:o._id})" class="clickable">
-					<td data-title="'Pillar'"  sortable="'pillar'"  filter="{'pillar':'select'}" filter-data="pillars" 		>{{o.pillar}}</td>
-					<td data-title="'Name'"    sortable="'name'"    filter="{'name':'text'}"                           		>{{o.name}}</td>
-					<td data-title="'Type'"    sortable="'type'"    filter="{'type':'select'}"   filter-data="getTypes()"   >{{o.type}}</td>
-					<td data-title="'Parent'"  sortable="'parent'"  filter="{'parent':'text'}"                         		>{{o.parent}}</td>
-					<td class="actions-col action-x1" header-class="'actions-col action-x1'">
-						<a class="btn btn-link btn-sm" title="Edit Valued Component" ng-click="$event.stopPropagation()" ui-sref="admin.topic.edit({topicId:o._id})">
-							<span class="glyphicon glyphicon-pencil"></span>
-						</a>
-					</td>
-					<tr ng-show="!$data || !$data.length" class="text-center">
-						<td colspan="5">No records found.</td>
-					</tr>
-				</tr>
-			</table>
-		</section>
-	</div>
-
+<div class="view-title-container">
+	<h1>Valued Components Library</h1>
 </div>
+
+<div class="view-body-container">
+	<div class="button-bar clearfix">
+		<a class="btn btn-default btn-sm pull-left" ui-sref="admin.topic.create()">
+			<span class="glyphicon glyphicon-plus"></span>
+			<span>Add Valued Component</span>
+		</a>
+		<div class="pull-right">
+			<show-filter x-toggle-filter="toggleFilter"></show-filter>
+		</div>
+	</div>
+
+	<section class="panel panel-default">
+		<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-hover table-striped">
+			<tr ng-repeat="o in $data" ui-sref="admin.topic.detail({topicId:o._id})" class="clickable">
+				<td data-title="'Pillar'"  sortable="'pillar'"  filter="{'pillar':'select'}" filter-data="pillars" 		>{{o.pillar}}</td>
+				<td data-title="'Name'"    sortable="'name'"    filter="{'name':'text'}"                           		>{{o.name}}</td>
+				<td data-title="'Type'"    sortable="'type'"    filter="{'type':'select'}"   filter-data="getTypes()"   >{{o.type}}</td>
+				<td data-title="'Parent'"  sortable="'parent'"  filter="{'parent':'text'}"                         		>{{o.parent}}</td>
+				<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+					<a class="btn btn-link btn-sm" title="Edit Valued Component" ng-click="$event.stopPropagation()" ui-sref="admin.topic.edit({topicId:o._id})">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</a>
+				</td>
+				<tr ng-show="!$data || !$data.length" class="text-center">
+					<td colspan="5">No records found.</td>
+				</tr>
+			</tr>
+		</table>
+	</section>
+</div>
+

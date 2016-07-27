@@ -1,18 +1,10 @@
 
-<div class="view-content">
 
-    <!-- SIDE NAVIGATION -->
-    <aside class="left-panel" id="main-side-section">
-        <tmpl-system-menu x-menu-context="'project'" x-project="project"></tmpl-system-menu>
-    </aside>
+<!-- SIDE NAVIGATION -->
+<aside class="left-panel" id="main-side-section">
+    <tmpl-system-menu x-menu-context="'project'" x-project="project"></tmpl-system-menu>
+</aside>
 
-    <!-- PROJECTS DETAILS -->
-    <section class="main-panel" ng-if="!authentication.user">
-        <ui-view id="main-content-section"></ui-view>
-    </section>
-
-    <section class="main-panel" ng-if="authentication.user">
-        <ui-view id="main-content-section"></ui-view>
-    </section>
-
-</div>
+<!-- PROJECTS DETAILS -->
+<ui-view class="main-panel" id="main-content-section" ng-if="!authentication.user"></ui-view>
+<ui-view class="main-panel" id="main-content-section" ng-if="authentication.user"></ui-view>

@@ -1,8 +1,13 @@
-<div class="view-title-container no-border">
+<div class="view-title-container flex-row">
 	<h1>Notify Contacts <span>&nbsp;&rsaquo;&nbsp; {{artifact.name}}</h1>
+	<div class="actions">
+		<a class="btn btn-default btn-sm" ui-sref="p.detail">Cancel</a>
+		<a class="btn btn-primary btn-sm" href ng-click="saveProcess()">Save</a>
+		<a class="btn btn-success btn-sm" href ng=click="submit()" ng-show="form.curTab === 'Recipients' && status === 'pending' && dateQueued">Add to Queue</a>
+	</div>
 </div>
 
-<div class="view-body-container">
+<div class="view-body-container artifact-view">
 
 <section>
 	<ul class="nav nav-tabs" ng-init="form.curTab = 'Content'">
@@ -103,19 +108,12 @@
 			</div>
 		</div>
 
-		<div class="form-footer clearfix">
+		<div class="form-footer no-border clearfix">
 			<div class="pull-left form-control-static" ng-show="status === 'queued' && dateQueued && !dateSent">
 				Date Queued: {{ dateQueued  | amDateFormat:'MMM Do, YYYY hh:mm a' }}
 			</div>
 			<div class="pull-left form-control-static" ng-show="dateSent">
 				Date Sent: {{ dateSent  | amDateFormat:'MMM Do, YYYY hh:mm a' }}
-			</div>
-			<div class="pull-right">
-				<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
-				<a class="btn btn-primary" href ng-click="saveProcess()">Save</a>
-				<a class="btn btn-primary" href ng-show="form.curTab === 'Content'" ng-click="form.curTab = 'Schedule'">Next &nbsp;&rsaquo;</a>
-				<a class="btn btn-primary" href ng-show="form.curTab === 'Schedule'" ng-click="form.curTab = 'Recipients'">Next &nbsp;&rsaquo;</a>
-				<a class="btn btn-success" href ng=click="submit()" ng-show="form.curTab === 'Recipients' && status === 'pending' && dateQueued">Add to Queue</a>
 			</div>
 		</div>
 

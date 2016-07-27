@@ -3,9 +3,6 @@
 <div class="panel panel-default project-tombstone" ng-if="environment === 'EAO'">
 	<div class="panel-heading flex-row">
 		<h2>Details</h2>
-		<div class="actions">
-			<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project"></tmpl-permissions-gear>
-		</div>
 	</div>
 	<div class="panel-body">
 		
@@ -13,18 +10,12 @@
 			<label>Project Description</label>
 			<span class="value">{{ ::project.description }}</span>
 		</div>
-		
+
 		<div class="row">
 			<div class="col-sm-4 col-md-4">
 				<div class="detail-row">
 					<label>Proponent</label>
 					<span class="value">{{ ::project.proponent.company }}</span>
-				</div>
-			</div>
-			<div class="col-sm-4 col-md-4" ng-if="project.location">
-				<div class="detail-row">
-					<label>Location</label>
-					<span class="value">{{ ::project.location }}</span>
 				</div>
 			</div>
 			<div class="col-sm-4 col-md-4" ng-if="project.region">
@@ -33,6 +24,15 @@
 					<span class="value"><span ng-show="project.region">{{ ::project.region | regionName }}</span></span>
 				</div>
 			</div>
+			<div class="col-sm-4 col-md-4" ng-if="project.location">
+				<div class="detail-row">
+					<label>Location</label>
+					<span class="value">{{ ::project.location }}</span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
 			<div class="col-sm-4 col-md-4">
 				<div class="detail-row">
 					<label>Type</label>
@@ -41,7 +41,7 @@
 			</div>
 			<div class="col-sm-4 col-md-4">
 				<div class="detail-row">
-					<label>Sector</label>
+					<label>Sub-type</label>
 					<span class="value">{{ ::project.sector }}</span>
 				</div>
 			</div>
@@ -51,6 +51,9 @@
 					<span class="value">{{ ::project.eacDecision }}</span>
 				</div>
 			</div>
+		</div>
+
+		<div class="row">
 			<div class="col-sm-4 col-md-4" ng-hide="project.CEAAInvolvement == 'None'">
 				<div class="detail-row">
 					<label>CEAA Involvement</label>
