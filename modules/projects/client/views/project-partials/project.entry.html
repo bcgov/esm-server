@@ -1,12 +1,5 @@
 <form class="view-form" name="projectForm" ng-submit="saveProject(projectForm.$valid)" novalidate>
 
-	<div class="floating-alert alert alert-danger alert-dismissible fade in hidden">
-		<span class="pull-left">Floating Alert Container!</span>
-		<button type="button" class="btn btn-default close" data-dismiss="alert">
-        	<span aria-hidden="true">&times;</span>
-    	</button>
-	</div>
-
 	<div class="view-title-container flex-row">
 		<h1>Edit Project &nbsp;&rsaquo;&nbsp; {{project.name}}<span class="placeholder-value" ng-if="!project.name">Untitled Project</span></h1>
 		<div class="actions">
@@ -44,9 +37,8 @@
 				<legend>General Info</legend>
 				<div class="form-group" x-show-errors>
 					<label class="control-label" for="projectname">Project Name</label>
-					<input class="form-control" title="Project Name" id="name" name="name"
-						ng-model="project.name"
-						ng-change="onChangeProjectName()" required></input>
+					<input class="form-control" title="Project Name" id="name" name="projectname"
+						ng-model="project.name" required></input>
 				</div>
 				<div class="row">
 					<div class="col-sm-6 col-md-4 form-group" x-show-errors>
@@ -55,10 +47,9 @@
 							ng-model="project.type"
 							ng-options="type as type for type in types" required></select>
 					</div>
-					<div class="col-sm-6 col-md-4 form-group" x-show-errors>
+					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label" for="subtype">Sub-type</label>
-						<select class="form-control" title="Project Sub-type" id="subtype" name="subtype"
-							ng-modal="project.sector" required>
+						<select class="form-control" title="Project Sub-type" id="subtype" name="subtype">
 						</select>
 					</div>
 					<div class="col-sm-6 col-md-4 form-group" x-show-errors>

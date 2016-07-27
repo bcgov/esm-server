@@ -1,14 +1,13 @@
 
-<div class="template-view">
 	
 	<div class="view-title-container">
-		<h1 class="view-title">{{template.documentType}} version {{template.versionNumber}}</h1>
+		<h1 class="view-title">{{template.documentType}} &nbsp;<span class="placeholder-value">(Version {{template.versionNumber}})</span></h1>
 
 		<!-- TODO: Need a mechanism to get back to the templates list quickly -->
 		<a class="btn btn-xs btn-link hidden" ui-sref="admin.template.list">Cancel</a>
 	</div>
 
-	<div class="view-body-container">
+	<div class="view-body-container template-view">
 		
 		<div class="button-bar hidden" ng-init="toggleBlue = true">
 			<button class="btn btn-default btn-sm" ng-click="toggleBlue = !toggleBlue">
@@ -21,8 +20,7 @@
 			</button>
 		</div>
 
-		<div ng-class="{'edit-outlines': toggleBlue}">
-			
+		<div ng-class="{'edit-outlines': toggleBlue}">	
 			<div class="data-set-col">
 				<div class="form-group" ng-if="allsections.length > 0"><hr>
 					<label class="control-label">Go To Section</label>
@@ -60,19 +58,5 @@
 			</div>
 
 		</div>
-
-		<!--
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<div class="row">
-					<div class="col-sm-12 text-right">
-						<a class="btn btn-default" ui-sref="admin.template.list">Cancel</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		-->
-
 	</div>
 
-</div>
