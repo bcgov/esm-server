@@ -149,13 +149,6 @@ module.exports = DBModel.extend ({
 			.then (resolve, reject);
 		});
 	},
-	preprocessUpdate : function (project) {
-		console.log('project.preprocessUpdate. ' + JSON.stringify(project, null, 4));
-	},
-	postprocessUpdate : function (project) {
-	var self = this;
-	console.log('project.postprocessUpdate. ' + JSON.stringify(project, null, 4));
-},
 	// -------------------------------------------------------------------------
 	//
 	// build a permission set from the default eao and proponent roles for the
