@@ -106,6 +106,9 @@ module.exports = DBModel.extend ({
 				project.setRoles (self.user);
 				return project;
 			})
+			.then(function() {
+				return self.setDefaultRoles(project);
+			})
 			//
 			// add a pre submission phase (intake)
 			//
@@ -146,6 +149,13 @@ module.exports = DBModel.extend ({
 			.then (resolve, reject);
 		});
 	},
+	preprocessUpdate : function (project) {
+		console.log('project.preprocessUpdate. ' + JSON.stringify(project, null, 4));
+	},
+	postprocessUpdate : function (project) {
+	var self = this;
+	console.log('project.postprocessUpdate. ' + JSON.stringify(project, null, 4));
+},
 	// -------------------------------------------------------------------------
 	//
 	// build a permission set from the default eao and proponent roles for the
@@ -155,9 +165,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	setDefaultRoles: function (project, base) {
-		//
-		// TBD ROLES
-		//
+
 		project.setRoles ({
 			read   : ['eao-admin', 'pro-admin', 'eao-member', 'pro-member'],
 			write  : ['eao-admin', 'pro-admin'],
@@ -171,7 +179,7 @@ module.exports = DBModel.extend ({
 	// Add a phase to the project from a code
 	//
 	// -------------------------------------------------------------------------
-	addPhase : function (project, basecode) {
+	addPhase: function (project, basecode) {
 		var self = this;
 		var Phase = new PhaseClass (self.opts);
 		return new Promise (function (resolve, reject) {
@@ -272,18 +280,18 @@ module.exports = DBModel.extend ({
 				//
 				Phase.complete (project.currentPhase)
 				.then (function () {
-					//
-					// now find the next phase by index, the order is the
-					// index + 1, so next is order
-					//
-					var nextIndex = project.currentPhase.order;
+					var nextIndex = _.findIndex(project.phases, function(phase) { return phase._id.toString() === project.currentPhase._id.toString(); }) + 1;
+
 					project.currentPhase     = project.phases[nextIndex];
 					project.currentPhaseCode = project.phases[nextIndex].code;
 					project.currentPhaseName = project.phases[nextIndex].name;
 					return Phase.start (project.currentPhase);
 				})
 				.then (function () {
-					return self.saveAndReturn (project);
+					return self.saveAndReturn (project)
+						.then(function(res) {
+							resolve(res);
+						});
 				})
 				.catch (reject);
 			}
@@ -378,20 +386,17 @@ module.exports = DBModel.extend ({
 		console.log('initDefaultRoles(' + project.code + ')');
 		var defaultRoles = [];
 
-		project.adminRole = project.code + ':eao:admin';
-		project.proponentAdminRole = project.code + ':pro:admin';
-		project.eaoInviteeRole = project.code + ':eao:invitee';
-		project.proponentInviteeRole = project.code + ':pro:invitee';
-		project.eaoMember = project.code + ':eao:member';
-		project.proMember = project.code + ':pro:member';
+		project.adminRole = 'eao-admin';
+		project.proponentAdminRole = 'pro-admin';
+		project.eaoInviteeRole = 'eao-invitee';
+		project.proponentInviteeRole = 'pro-invitee';
+		project.eaoMember = 'eao-member';
+		project.proMember = 'pro-member';
 
 		defaultRoles.push(project.eaoMember);
 		defaultRoles.push(project.proMember);
 
-		//
-		// TBD ROLES
-		//
-		return Promise.resolve (defaultRoles);
+		return Promise.resolve (project);
 	}
 
 });

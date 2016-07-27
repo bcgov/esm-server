@@ -1,120 +1,150 @@
+<div class="project-schedule-view">
 
-
-<div class="view-title-container no-border">
-	<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Schedule</h1>
-</div>
-
-<div class="view-body-container">
-	<div class="button-bar clearfix">
-		<div class="pull-left">
-			<button ng-if="project.userCan.editSchedule" class="btn btn-default btn-sm" ng-click="addNextPhase()">
-				<span class="glyphicon glyphicon-plus"></span><span>Add Phase</span>
-			</button>
-		</div>
+	<div class="view-title-container no-border">
+		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Schedule</h1>
+<!-- 		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project" x-permissions="" ></tmpl-permissions-gear> -->
 	</div>
-	<div class="panel-group" id="projectPhases" role="tablist" aria-multiselectable="false">
-		<!-- BEGIN: PROJECT PHASE CONTAINER -->
-		<div class="panel panel-default accordion" id="phaseGroup" ng-repeat="phase in rPhases | orderBy:'order'">
-			<div class="panel-heading" role="tab">
-				<a class="clearfix" role="button" data-toggle="collapse" data-parent="#projectPhases" href="#{{phase.code}}" aria-expanded="true" aria-controls="{{phase.code}}">
-					<span class="glyphicon glyphicon-triangle-right pull-left"></span>
-					<span class="glyphicon glyphicon-triangle-bottom pull-left"></span>
-					<span class="pull-left">{{phase.name}}</span>
-					<span class="label label-success pull-right" ng-if="phase.status === 'Complete'">Completed &nbsp;-&nbsp; {{phase.dateCompleted | amDateFormat:'MMM DD, YYYY'}}</span>
-					<span class="pull-right hidden">&nbsp;Estimated: {{phase.dateStartedEst | date : format : timezone}} / {{phase.dateCompletedEst | date : format : timezone}}</span>
-					<span class="pull-right hidden">&nbsp;Actual: {{phase.dateStarted | date : format : timezone}} / {{phase.dateCompleted | date : format : timezone}}</span>
-				</a>
+	<div class="view-body-container">
+		<div class="button-bar clearfix">
+			<div class="pull-left">
+				<button ng-if="project.userCan.editSchedule" class="btn btn-default btn-sm" ng-click="addNextPhase()">
+					<span class="glyphicon glyphicon-plus"></span><span>Add Phase</span>
+				</button>
 			</div>
-			<div id="{{phase.code}}" class="panel-collapse collapse" ng-class="{'in': phase.status === 'In Progress' }" role="tabpanel" aria-labelledby="{{phase.code}}">
-				<div class="panel-body">
-					<div ng-if="project.userCan.editSchedule" class="button-bar clearfix">
-						<div class="pull-left">
-							<button class="btn btn-default btn-sm"
-									ng-if="phase.code !== 'intake'"
-									ng-click="popluatePhaseDropdown(phase)"
-									data-toggle="modal"
-									data-target="#addMilestoneModal"><span class="glyphicon glyphicon-plus"></span><span>Add Milestone</span></button>
-							<button class="btn btn-default btn-sm hidden"
-									ng-if="phase.code !== 'intake'"
-									data-toggle="modal"
-									data-target="#addCommentSessionModal">Add Comment Period</button>
+		</div>
+
+		<div class="panel-group" id="projectPhases" role="tablist" aria-multiselectable="false">
+
+			<!-- BEGIN: PROJECT PHASE CONTAINER -->
+			<div class="panel panel-default accordion" id="phaseGroup" ng-repeat="phase in rPhases | orderBy:'order'">
+				<div class="panel-heading" role="tab">
+					<a class="clearfix" role="button" data-toggle="collapse" data-parent="#projectPhases" href="#{{phase.code}}" aria-expanded="true" aria-controls="{{phase.code}}">
+						<span class="glyphicon glyphicon-triangle-right pull-left"></span>
+						<span class="glyphicon glyphicon-triangle-bottom pull-left"></span>
+						<span class="pull-left">{{phase.name}}</span>
+						<span class="label label-success pull-right" ng-if="phase.status === 'Complete'">Completed &nbsp;-&nbsp; {{phase.dateCompleted | amDateFormat:'MMM DD, YYYY'}}</span>
+						<span class="pull-right hidden">&nbsp;Estimated: {{phase.dateStartedEst | date : format : timezone}} / {{phase.dateCompletedEst | date : format : timezone}}</span>
+						<span class="pull-right hidden">&nbsp;Actual: {{phase.dateStarted | date : format : timezone}} / {{phase.dateCompleted | date : format : timezone}}</span>
+					</a>
+				</div>
+				<div id="{{phase.code}}" class="panel-collapse collapse" ng-class="{'in': phase.status === 'In Progress' }" role="tabpanel" aria-labelledby="{{phase.code}}">
+					<div class="panel-body">
+						<div ng-if="project.userCan.editSchedule" class="button-bar clearfix">
+							<div class="pull-left">
+								<button class="btn btn-default btn-sm"
+										ng-if="phase.code !== 'intake'"
+										ng-click="popluatePhaseDropdown(phase)"
+										data-toggle="modal"
+										data-target="#addMilestoneModal"><span class="glyphicon glyphicon-plus"></span><span>Add Milestone</span></button>
+								<button class="btn btn-default btn-sm hidden"
+										ng-if="phase.code !== 'intake'"
+										data-toggle="modal"
+										data-target="#addCommentSessionModal">Add Comment Period</button>
+							</div>
+							<div class="pull-right">
+								<button class="btn btn-default btn-sm"
+										ng-click="selectPhase(phase)"
+										ng-if="phase.code !== 'intake'"
+										data-toggle="modal"
+										data-target="#deletePhaseModal">Delete Phase</button>
+								<button class="btn btn-default btn-sm"
+										ng-click="selectPhase(phase)"
+										data-toggle="modal"
+										data-target="#editPhaseDetail">Edit Phase Detail</button>
+								<button class="btn btn-primary btn-sm"
+										ng-click="completeCurrentPhase(project)"
+										ng-if="canCompletePhase(phase)"
+										data-toggle="modal"
+										data-target="#completePhaseModal">Complete Phase</button>
+								<button class="btn btn-primary btn-sm"
+										ng-click="startNextPhase(project)"
+										ng-if="isNextPhase(phase._id)"
+										data-toggle="modal"
+										data-target="#completePhaseModal">Start Phase</button>
+							</div>
 						</div>
-						<div class="pull-right">
-							<button class="btn btn-default btn-sm"
-								ng-click="selectPhaseForEdit(phase)"
-								data-toggle="modal"
-								data-target="#editPhaseDetail">Edit Phase Detail</button>
-							<button class="btn btn-primary btn-sm"
-									ng-click="completeCurrentPhase(project)"
-									ng-if="canCompletePhase(phase)"
-									data-toggle="modal"
-									data-target="#completePhaseModal">Complete Phase</button>
-							<button class="btn btn-primary btn-sm"
-									ng-click="startNextPhase(project)"
-									ng-if="isNextPhase(phase._id)"
-									data-toggle="modal"
-									data-target="#completePhaseModal">Start Phase</button>
+						<div class="phase-schedule">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th class="name-col">Name</th>
+										<th class="date-col">Estimate Dates</th>
+										<th class="date-col">Actual Dates</th>
+										<th class="phase-action-col"></th>
+										<th class="actions-col action-x2"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="row in phase.milestones">
+										<td>{{row.name}}</td>
+										<td class="date-col">
+											<div><label>Start:</label><span>{{row.dateStartedEst | date : format : timezone}}</span></div>
+											<div><label>End:</label><span>{{row.dateCompletedEst | date : format : timezone}}</span></div>
+										</td>
+										<td class="date-col">
+											<div><label>Start:</label><span>{{row.dateStarted | date : format : timezone}}</span></div>
+											<div><label>End:</label><span>{{row.dateCompleted | date : format : timezone}}</span></div>
+										</td>
+										<!-- <td>-Template Link-</tdf> -->
+										<td class="phase-action-col">
+											<span class="label label-success" ng-if="row.status === 'Complete'">Completed</span>
+											<div ng-if="project.userCan.editSchedule">
+												<button class="btn btn-primary btn-xs"
+														ng-if="row.status === 'Not Started'"
+														ng-click="startMilestone(row._id)">Start Milestone</button>
+												<button class="btn btn-primary btn-xs"
+														ng-if="row.status === 'In Progress'"
+														ng-click="completeMilestone(row._id)">Mark Complete</button>
+											</div>
+										</td>
+										<td class="actions-col action-x2" ng-if="project.userCan.editSchedule">
+											<button class="btn btn-link btn-sm">
+												<span class="glyphicon glyphicon-pencil"
+														ng-click="openEditMilestone(row._id)"></span>
+											</button>
+											<button class="btn btn-link btn-sm" ng-click="openDeleteMilestone(row._id)">
+												<span class="glyphicon glyphicon-remove"></span>
+											</button>
+										</td>
+									</tr>
+									<tr ng-if="phase.milestones.length == 0">
+										<td colspan="5">No Milestones Scheduled for this Phase</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
-					</div>
-					<div class="phase-schedule">
-						<table class="table table-striped">
-							<thead>
-								<tr>
-									<th class="name-col">Name</th>
-									<th class="date-col">Estimate Dates</th>
-									<th class="date-col">Actual Dates</th>
-									<th class="phase-action-col"></th>
-									<th class="actions-col action-x2"></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="row in phase.milestones">
-									<td>{{row.name}}</td>
-									<td class="date-col">
-										<div><label>Start:</label><span>{{row.dateStartedEst | date : format : timezone}}</span></div>
-										<div><label>End:</label><span>{{row.dateCompletedEst | date : format : timezone}}</span></div>
-									</td>
-									<td class="date-col">
-										<div><label>Start:</label><span>{{row.dateStarted | date : format : timezone}}</span></div>
-										<div><label>End:</label><span>{{row.dateCompleted | date : format : timezone}}</span></div>
-									</td>
-									<!-- <td>-Template Link-</tdf> -->
-									<td class="phase-action-col">
-										<span class="label label-success" ng-if="row.status === 'Complete'">Completed</span>
-										<div ng-if="project.userCan.editSchedule">
-											<button class="btn btn-primary btn-xs"
-													ng-if="row.status === 'Not Started'"
-													ng-click="startMilestone(row._id)">Start Milestone</button>
-											<button class="btn btn-primary btn-xs"
-													ng-if="row.status === 'In Progress'"
-													ng-click="completeMilestone(row._id)">Mark Complete</button>
-										</div>
-									</td>
-									<td class="actions-col action-x2" ng-if="project.userCan.editSchedule">
-										<button class="btn btn-link btn-sm">
-											<span class="glyphicon glyphicon-pencil"
-													ng-click="openEditMilestone(row._id)"></span>
-										</button>
-										<button class="btn btn-link btn-sm" ng-click="openDeleteMilestone(row._id)">
-											<span class="glyphicon glyphicon-remove"></span>
-										</button>
-									</td>
-								</tr>
-								<tr ng-if="phase.milestones.length == 0">
-									<td colspan="5">No Milestones Scheduled for this Phase</td>
-								</tr>
-							</tbody>
-						</table>
 					</div>
 				</div>
 			</div>
+			<!-- END: PROJECT PHASE CONTAINER -->
 		</div>
-		<!-- END: PROJECT PHASE CONTAINER -->
 	</div>
+
 </div>
 
+<!-- DELETE PHASE MODAL -->
+<div class="modal fade" id="deletePhaseModal" role="dialog" tabindex="-1">
+  <div class="modal-dialog add-phase-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title">Confirm Deletion of Phase: {{selectedPhase.name}}</h3>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this phase?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button ng-click="deletePhase(selectedPhase)" type="button" class="btn btn-primary" data-dismiss="modal">Delete</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- DELETE PHASE MODAL -->
 
-<!-- ADD MILESTONE MODAL -->
+<!-- EDIT MILESTONE MODAL -->
 <div class="modal fade" id="editPhaseDetail" role="dialog" tabindex="-1">
 	<div class="modal-dialog add-phase-dialog">
 		<div class="modal-content">

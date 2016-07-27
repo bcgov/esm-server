@@ -256,14 +256,16 @@ angular.module('project').config (
 
 			$scope.addNextPhase = function () {
 				// Find out the current phase, add the one after that.
-				PhaseBaseModel.getCollection().then( function(data) {
-					var nextPhase = data[$scope.project.phases.length];
-					ProjectModel.addPhase(nextPhase.code).then( function(data) {
-						$scope.project.phases = angular.copy(data.phases);
-						$rootScope.$broadcast('refreshPhases', $scope.project.phases);
-						$scope.$apply();
+				PhaseBaseModel.getCollection()
+					.then( function(res) {
+						// Fix this! Naive implementation.
+						var nextPhase = res[$scope.project.phases.length];
+						return ProjectModel.addPhase(nextPhase.code);
+					})
+					.then( function(res) {
+						$scope.project = res;
+						self.refresh();
 					});
-				});
 			};
 
 			$scope.completeCurrentPhase = function (project) {
@@ -271,8 +273,7 @@ angular.module('project').config (
 				ProjectModel.completePhase(self.project)
 				.then( function (res) {
 					$scope.project = res;
-					$scope.$apply ();
-					$rootScope.$broadcast('refreshPhases', res);
+					self.refresh();
 				});
 			};
 
@@ -581,9 +582,23 @@ angular.module('project').config (
 				}
 			};
 
-			// User clicked on edit phase - store this.
-			$scope.selectPhaseForEdit = function (phase) {
+			// User clicked on edit or delete phase - store this.
+			$scope.selectPhase = function (phase) {
 				$scope.selectedPhase = phase;
+			};
+
+			$scope.deletePhase = function(phase) {
+				// Remove Phase from project.
+				return ProjectModel.removePhase($scope.project, phase)
+					.then(function(res) {
+						$scope.project = res;
+						// Delete Phase from database.
+						return PhaseModel.deleteId (phase._id);
+					})
+					.then(function(res) {
+						// Update model and UI.
+						self.refresh();
+					});
 			};
 
 			// Edit the phase data
