@@ -155,7 +155,12 @@ module.exports = function () {
 					'createRole'          : ['sysadmin'],
 					'createTemplate'      : ['sysadmin'],
 					'createTopic'         : ['sysadmin'],
-					'createUser'          : ['sysadmin']
+					'createUser'          : ['sysadmin'],
+					'import'          		: ['sysadmin'],
+					'editSchedule'        : ['sysadmin'],
+					'manageRoles'         : ['sysadmin'],
+					'managePermissions'   : ['sysadmin'],
+					'addUsersToContext'   : ['sysadmin']
 				}
 			}
 		}));
@@ -280,6 +285,11 @@ module.exports = function () {
 			'createTopic',
 			'createUser',
 			'createProject',
+			'import',
+			'editSchedule',
+			'manageRoles',
+			'managePermissions',
+			'addUsersToContext'
 		];
 		var readApplicationPermissions = [
 			'viewConfiguration',
@@ -322,7 +332,7 @@ module.exports = function () {
 	var step1 = new promise(function(resolve, reject) {
 		Defaults.remove({}, function(err, removed) {
 			if (err) {
-				console.log('Error deleting defaults: ' + JSON.stringify(err));
+				//console.log('Error deleting defaults: ' + JSON.stringify(err));
 				reject(new Error(err));
 			}
 			else {
@@ -339,7 +349,7 @@ module.exports = function () {
 					console.log('Error adding default: context=' + d.context + ', resource=' + d.resource + ', type=' + d.type + ': ' + JSON.stringify(err));
 					reject(new Error(err));
 				} else {
-					console.log('Default saved. _id=' + d._id + ', context=' + d.context + ', resource=' + d.resource + ', type=' + d.type);
+					//console.log('Default saved. _id=' + d._id + ', context=' + d.context + ', resource=' + d.resource + ', type=' + d.type);
 					resolve(d);
 				}
 			});
@@ -348,11 +358,11 @@ module.exports = function () {
 
 	step1
 		.then(function(data) {
-		  console.log('step1 done, start step 2...' + JSON.stringify(data));
+		  //console.log('step1 done, start step 2...' + JSON.stringify(data));
 			return promise.all(step2);
 		})
 		.then(function() {
-			console.log('step2 done.');
+			//console.log('step2 done.');
 			return 'done';
 		});
 };
