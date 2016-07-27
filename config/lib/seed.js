@@ -218,7 +218,7 @@ checkIntegration ('app1').then (function () {
 	require('../seed-data/application')();
 });
 
-checkIntegration ('defaults9').then (function () {
+checkIntegration ('defaults100').then (function () {
 	require('../seed-data/defaults')();
 });
 
