@@ -22,6 +22,7 @@ var runPromise = helpers.runPromise;
 var defaultResource = 'application';
 var defaultContext  = 'application';
 var defaultRole     = 'public';
+var ObjectID = require('mongodb').ObjectID;
 
 // -------------------------------------------------------------------------
 //
@@ -755,7 +756,7 @@ var getAllUserRoles = function (p) {
 			//
 			// get this context as well as the parent (application)
 			//
-			var appRoles, project;
+			var appRoles;
 			listPromise = findRoles ({
 				context : defaultResource,
 				user    : p.user
@@ -763,25 +764,27 @@ var getAllUserRoles = function (p) {
 			.then (pluckAppRoles)
 			.then (function (a) {
 				appRoles = a;
-				return findProjectByCode(p.context);
+				if (ObjectID.isValid(p.context)) {
+					return findProjectById(p.context);
+				} else {
+					return findProjectByCode(p.context);
+				}
 			})
 			.then(function(proj) {
-				//console.log('proj(1) = ' + JSON.stringify(proj));
-				if (proj) return proj;
-				return findProjectById(p.context);
+				//console.log('proj = ' + JSON.stringify(proj));
+				if (proj) {
+					return findRoles ({
+						context : proj._id,
+						user    : p.user
+					});
+				} else {
+					return [];
+				}
 			})
-			.then(function(proj) {
-				//console.log('proj(2) = ' + JSON.stringify(proj));
-				project = proj;
-				return findRoles ({
-					context : project._id,
-					user    : p.user
-				});
+			.then(function(d) {
+				//console.log('results of findRoles: ' + JSON.stringify(d));
+				return d;
 			})
-				.then(function(d) {
-					//console.log('results of findRoles: ' + JSON.stringify(d));
-					return d;
-				})
 			.then (pluckRoles)
 			.then (function (a) {
 				return a.concat (appRoles);
