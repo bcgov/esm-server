@@ -356,9 +356,9 @@ module.exports = DBModel.extend ({
 		};
 
 		var getMyProjects = function(roles) {
-			var projectCodes = _.uniq(_.map (roles, 'context'));
+			var projectIds = _.uniq(_.map (roles, 'context'));
 			var q = {
-				code: { "$in": projectCodes },
+				_id: { "$in": projectIds },
 				dateCompleted: { "$eq": null }
 			};
 			return self.listforaccess ('i do not want to limit my access', q, { _id: 1, code: 1, name: 1, region: 1, status: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1 }, 'currentPhase', 'name');

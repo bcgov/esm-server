@@ -56,7 +56,7 @@
     <div class="flex-row">
       <label class="control-label">Manage Users for Role</label>
       <tmpl-add-user-to-context class="new-role-btn" context="s.context" role="s.defaultRole"
-                                ng-if="s.context.code !== 'application'"></tmpl-add-user-to-context>
+                                ng-if="s.context._id !== 'application'"></tmpl-add-user-to-context>
     </div>
     <div class="panel panel-default">
       <ul class="list-group">

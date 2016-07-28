@@ -209,7 +209,7 @@ angular.module('core')
 							$modalInstance.dismiss('cancel');
 						};
 						s.ok = function () {
-							$modalInstance.close({context: s.context.code, data: s.userRoleIndex});
+							$modalInstance.close({context: s.context._id, data: s.userRoleIndex});
 						};
 						
 						s.init = function (currentRoleName, currentUserName, showUserView) {
@@ -327,7 +327,7 @@ angular.module('core')
 							// console.log ('context is  ', s.context.code);
 							$rootScope.$broadcast('NEW_USER_ADDED_TO_CONTEXT', {user: s.currentUser});
 							AccessModel.addRoleUser({
-								context: s.context.code,
+								context: s.context._id,
 								role: s.defaultRole,
 								user: s.currentUser
 							})

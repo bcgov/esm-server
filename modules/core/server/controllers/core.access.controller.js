@@ -14,6 +14,7 @@
 var mongoose   = require ('mongoose');
 var Role       = mongoose.model ('_Role');
 var Permission = mongoose.model ('_Permission');
+var Project = mongoose.model ('Project');
 var _          = require ('lodash');
 var helpers    = require ('../controllers/core.routes.controller');
 var runPromise = helpers.runPromise;
@@ -134,6 +135,16 @@ var findPermissions = function (q) {
 var findRoles = function (q) {
 	return new Promise (function (resolve, reject) {
 		Role.find (q).then (resolve, complete (reject, 'findRoles'));
+	});
+};
+var findProjectByCode = function(context) {
+	return new Promise (function (resolve, reject) {
+		Project.findOne({code: context}).then (resolve, complete (reject, 'findProjectByCode'));
+	});
+};
+var findProjectById = function(context) {
+	return new Promise (function (resolve, reject) {
+		Project.findOne({_id: context}).then (resolve, complete (reject, 'findProjectById'));
 	});
 };
 // -------------------------------------------------------------------------
@@ -708,7 +719,7 @@ exports.getUserRoles = getUserRoles;
 //
 // -------------------------------------------------------------------------
 var getAllUserRoles = function (p) {
-	// console.log ('getting all user roles for user context: ',p);
+	//console.log ('getting all user roles for user context: ',p);
 	return new Promise (function (resolve, reject) {
 		var listPromise;
 		if (!p.user) {
@@ -734,7 +745,7 @@ var getAllUserRoles = function (p) {
 			//
 			// get this context as well as the parent (application)
 			//
-			var appRoles;
+			var appRoles, project;
 			listPromise = findRoles ({
 				context : defaultResource,
 				user    : p.user
@@ -742,11 +753,25 @@ var getAllUserRoles = function (p) {
 			.then (pluckAppRoles)
 			.then (function (a) {
 				appRoles = a;
+				return findProjectByCode(p.context);
+			})
+			.then(function(proj) {
+				//console.log('proj(1) = ' + JSON.stringify(proj));
+				if (proj) return proj;
+				return findProjectById(p.context);
+			})
+			.then(function(proj) {
+				//console.log('proj(2) = ' + JSON.stringify(proj));
+				project = proj;
 				return findRoles ({
-					context : p.context,
+					context : project._id,
 					user    : p.user
 				});
 			})
+				.then(function(d) {
+					console.log('results of findRoles: ' + JSON.stringify(d));
+					return d;
+				})
 			.then (pluckRoles)
 			.then (function (a) {
 				return a.concat (appRoles);
@@ -778,7 +803,7 @@ var userPermissions = function (p) {
 			//
 			// add the splat because of course
 			//
-			// console.log ('roleSet = ', roleSet);
+			console.log ('roleSet = ', roleSet);
 			return findPermissions ({
 				resource : p.resource,
 				role     : {$in : roleSet}
