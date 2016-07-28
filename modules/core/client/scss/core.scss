@@ -1550,13 +1550,8 @@ tmpl-footer {
 		}
 
 		.view-footer-container {
-			position: absolute;
-			bottom: 0;
-			left: 0;
-			right: 0;
+			flex: 0 0 auto;
 			padding: 2rem;
-			background: rgba(255, 255, 255, 0.8);
-			border-top: 1px solid #DDD;
 		}
 	}
 }
@@ -2641,39 +2636,14 @@ $file-browser-item-active: #2b5580;
 ------------------------------ */
 .form-group .mce-panel {
 	background-color: #FFF;
-
 }
 
+.has-error .mce-tinymce {
+	border: 1px solid red;
+}
 
 /* FORM CONTROLS
 ------------------------------ */
-.form-validation-msg {
-	margin-left: 0.25rem;
-	font-size: 1.2rem;
-	font-weight: normal;
-	color: #999;
-}
-
-.control-label {
-	em {
-		@extend .form-validation-msg;
-	}
-}
-
-.has-error {
-	.control-label em {
-		color: $danger-text;
-	}
-}
-
-.form-container {
-	padding: 0 2rem;
-}
-
-.form-group {
-	margin-bottom: 2rem;
-}
-
 form {
 	section {
 		margin-bottom: 2rem;
@@ -2688,39 +2658,39 @@ form {
 	}
 }
 
-.form-footer {
-	margin-top: 2rem;
-	padding-top: 2rem;
-	border-top: 1px solid #DDD;
-	
-	.btn {
-		min-width: 8rem;
-	}
-
-	.btn + .btn {
-		margin-left: 0.5rem;
-	}
-
-	&.fixed {
-		position: fixed;
-		left: 17rem;
-		right: 0;
-		bottom: 4rem;
-		padding: 1.5rem 2rem;
-		background: #f7f8fa;
-		border-top: 1px solid #EEE;
-		box-shadow: 0 0 4px #CCC;
-	}
-}
-
-.form-footer.no-border {
-	margin-top: 0;
-	padding-top: 0;
-	border: none;
-}
-
 textarea {
 	resize: vertical;
+}
+
+.form-validation-msg {
+	margin-left: 0.25rem;
+	font-size: 1.2rem;
+	font-weight: normal;
+	color: #999;
+}
+
+.control-label {
+	em {
+		@extend .form-validation-msg;
+	}
+}
+
+.form-container {
+	padding: 0 2rem;
+}
+
+.form-group {
+	margin-bottom: 2rem;
+
+	/* Fix - RTF Widget needs consistant styling with all form controls */
+	.mce-panel {
+		background-color: #FFF;
+	}
+}
+
+.form-footer {
+	padding-top: 1.5rem;
+	border-top: 1px solid #DDD;
 }
 
 .form-control-static {
@@ -2750,6 +2720,18 @@ textarea {
 		margin-top: 2px;
 	}
 }
+
+.has-error {
+	/* Fix - Style the RTF Widget */
+	.mce-tinymce {
+		border: 1px solid $danger-border;
+	}
+
+	.control-label em {
+		color: $danger-text;
+	}
+}
+
 
 
 /* INFOBLOCKS 
@@ -3100,7 +3082,7 @@ $nav-tab-active: #1a5a96;
 
 		> a {
 			padding: 0.5rem 1.5rem;
-			font-size: 1.4rem;
+			font-size: 1.6rem;
 			font-weight: bold;
 			color: $nav-tab-inactive-color;
 			border: none;
@@ -3183,6 +3165,8 @@ $table-footer-bg: #F7F8FA;
 		padding-left: 1.5rem;
 	}
 
+	> tbody > tr > td:first-child
+
 	tr {
 		background: $table-row-bg;
 	}
@@ -3210,6 +3194,17 @@ $table-footer-bg: #F7F8FA;
 				border-color: $btn-focus-border-color;
 			}
 		}
+	}
+
+	.select-col {
+		position: relative;
+		padding-left: 3.5rem;
+
+		input[type="checkbox"] {
+			position: absolute;
+			top: 1rem;
+			left: 1rem;
+		}	
 	}
 	
 	.action-x1 {
@@ -4129,12 +4124,11 @@ section.project-info {
 		white-space:normal;
 	}
 
-	pre {
-		line-height: 0;
+	pre.value {
+		color: #888;
 
 		p {
 			line-height: 2rem;
-			color: #888;
 
 			&:last-child {
 				margin-bottom: 0;
@@ -4650,16 +4644,6 @@ section.project-info {
 }
 
 
-/* SELECT TOPIC MODAL VIEW
------------------------------ */
-.select-topic-modal {
-	.select-col {
-		width: 5rem;
-		text-align: center;
-	}
-}
-
-
 /* SIGN IN VIEW
 ------------------------------ */
 .sign-in-view {
@@ -4836,6 +4820,19 @@ tmpl-template-render {
 .vc-chooser-view {
 	.list-group {
 		margin-bottom: 0;
+	}
+}
+
+.add-valued-component-table {
+	td.select-col {
+		position: relative;
+		padding-left: 3.5rem;
+
+		input[type="checkbox"] {
+			position: absolute;
+			top: 1rem;
+			left: 1rem;
+		}
 	}
 }
 
