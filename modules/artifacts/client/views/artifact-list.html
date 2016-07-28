@@ -30,7 +30,7 @@
 				<td ng-if="!published" data-title="'Updated By'" class="text-center" filter="{'updatedBy.username':'text'}" sortable="'updatedBy.username'">
 					{{o.updatedBy.username}}
 				</td>
-				<td class="actions-col action-x2" header-class="'actions-col action-x2'" data-title="'Actions'">
+				<td class="actions-col action-x2" header-class="'actions-col action-x2'">
 					<button class="btn btn-link btn-sm" ng-if="o.userPermissions.write" ng-click="$event.stopPropagation()" ui-sref="p.artifact.edit({artifactId:o._id})">
 						<span class="glyphicon glyphicon-pencil"></span>
 					</button>
