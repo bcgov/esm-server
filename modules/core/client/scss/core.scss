@@ -3229,19 +3229,52 @@ $table-footer-bg: #F7F8FA;
  }
 
  .ng-table-pager {
-	padding: 1rem 1.5rem;
+	padding-top: 1.5rem;
+	padding-right: 1.5rem;
+	padding-bottom: 0;
+	padding-left: 1.5rem;
 	background: $table-footer-bg;
 	border-top: 1px solid #DDD;
 	overflow: auto;
 }
 
-.pagination {
-	margin: 0;
+.pagination-btn {
+	font-size: 1.2rem;
+	font-weight: bold;
+	color: $app-base-color;
+	border: 1px solid #CCC;
 }
 
-.tag-list {
-	.label {
-		margin-right: 0.5rem;
+.pagination-btn-active {
+	color: #FFF;
+	background: $btn-primary-bg;
+	border-color: $btn-primary-bg;
+}
+
+.pagination {
+	margin-bottom: 1rem;
+
+	> li > a {
+		@extend .pagination-btn;
+	}
+
+	> li > a:hover {
+		color: $app-base-color;
+		border: 1px solid #8c8c8c;
+	}
+
+	> .active > a,
+	> .active > a:hover {
+		@extend .pagination-btn-active;
+	}
+}
+
+.ng-table-counts {
+	.btn-default {
+		&.active,
+		&.active:hover {
+			@extend .pagination-btn-active;
+		}
 	}
 }
 
