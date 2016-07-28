@@ -301,7 +301,8 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			// console.log ('q.$or = ',q.$or[0].read);
+			//console.log ('findMany.query = ' + JSON.stringify(query, null, 4));
+			//console.log ('findMany.q = ' + JSON.stringify(q, null, 4));
 			self.model.find (q)
 			.sort (sort)
 			.populate (self.populate)
