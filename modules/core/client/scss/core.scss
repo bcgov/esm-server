@@ -2636,9 +2636,11 @@ $file-browser-item-active: #2b5580;
 ------------------------------ */
 .form-group .mce-panel {
 	background-color: #FFF;
-
 }
 
+.has-error .mce-tinymce {
+	border: 1px solid red;
+}
 
 /* FORM CONTROLS
 ------------------------------ */
@@ -2660,7 +2662,6 @@ textarea {
 	resize: vertical;
 }
 
-
 .form-validation-msg {
 	margin-left: 0.25rem;
 	font-size: 1.2rem;
@@ -2674,18 +2675,17 @@ textarea {
 	}
 }
 
-.has-error {
-	.control-label em {
-		color: $danger-text;
-	}
-}
-
 .form-container {
 	padding: 0 2rem;
 }
 
 .form-group {
 	margin-bottom: 2rem;
+
+	/* Fix - RTF Widget needs consistant styling with all form controls */
+	.mce-panel {
+		background-color: #FFF;
+	}
 }
 
 .form-footer {
@@ -2720,6 +2720,18 @@ textarea {
 		margin-top: 2px;
 	}
 }
+
+.has-error {
+	/* Fix - Style the RTF Widget */
+	.mce-tinymce {
+		border: 1px solid $danger-border;
+	}
+
+	.control-label em {
+		color: $danger-text;
+	}
+}
+
 
 
 /* INFOBLOCKS 
@@ -4112,12 +4124,11 @@ section.project-info {
 		white-space:normal;
 	}
 
-	pre {
-		line-height: 0;
+	pre.value {
+		color: #888;
 
 		p {
 			line-height: 2rem;
-			color: #888;
 
 			&:last-child {
 				margin-bottom: 0;

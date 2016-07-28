@@ -64,7 +64,7 @@
 				</div>
 				<div class="form-group" x-show-errors>
 					<label class="control-label" for="projectdesc">Project Description</label>
-					<textarea class="form-control" title="Project Description" id="shortDesc" name="projectdesc" rows="3"
+					<textarea ui-tinymce rows="5" title="Project Description" id="shortDesc" name="projectdesc" rows="3"
 						ng-model="project.description" required></textarea>
 				</div>
 				<div class="row">
@@ -84,7 +84,7 @@
 						</div>
 					</div>
 					<div class="col-sm-12 col-md-4 form-group" x-show-errors>
-						<label class="control-label" for="location">Location Description <em>(Optional)</em></label>
+						<label class="control-label" for="location">Location Description</label>
 						<input class="form-control" id="location" type="text" name="location"
 							ng-model="project.location" required>
 					</div>
