@@ -672,18 +672,18 @@ _.extend (DBModel.prototype, {
 				// determine the context
 				// default to application
 				// if this is a project, then use its code
-				// otherwise if it has a project, use its project.code
-				// or if not populated use the project field to get the code
+				// otherwise if it has a project, use its project._id
+				// or if not populated use the project field to get the _id
 				//
 				if (defaultObject.context === 'project') {
 					if (self.name.toLowerCase () === 'project') {
 						return model._id;
 					} else if (model.project && model.project.code) {
-						return model.project.code;
+						return model.project._id;
 					} else if (model.project) {
 						return self.mongoose.model ('Project').findOne ({_id:model.project}).exec ()
 						.then (function (m) {
-							return m.code;
+							return m._id;
 						});
 					} else {
 						return 'application';
