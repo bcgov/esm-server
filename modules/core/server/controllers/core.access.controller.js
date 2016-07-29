@@ -14,6 +14,7 @@
 var mongoose   = require ('mongoose');
 var Role       = mongoose.model ('_Role');
 var Permission = mongoose.model ('_Permission');
+var Project = mongoose.model ('Project');
 var _          = require ('lodash');
 var helpers    = require ('../controllers/core.routes.controller');
 var runPromise = helpers.runPromise;
@@ -21,6 +22,7 @@ var runPromise = helpers.runPromise;
 var defaultResource = 'application';
 var defaultContext  = 'application';
 var defaultRole     = 'public';
+var ObjectID = require('mongodb').ObjectID;
 
 // -------------------------------------------------------------------------
 //
@@ -136,6 +138,16 @@ var findRoles = function (q) {
 		Role.find (q).then (resolve, complete (reject, 'findRoles'));
 	});
 };
+var findProjectByCode = function(context) {
+	return new Promise (function (resolve, reject) {
+		Project.findOne({code: context}).then (resolve, complete (reject, 'findProjectByCode'));
+	});
+};
+var findProjectById = function(context) {
+	return new Promise (function (resolve, reject) {
+		Project.findOne({_id: context}).then (resolve, complete (reject, 'findProjectById'));
+	});
+};
 // -------------------------------------------------------------------------
 //
 // pass in a new thing and then make it and save it
@@ -143,12 +155,13 @@ var findRoles = function (q) {
 // -------------------------------------------------------------------------
 var createPermission = function (p) {
 	return new Promise (function (resolve, reject) {
-		// console.log ('creating new permission', p);
+		//console.log ('createPermission', JSON.stringify(p, null, 4));
 		(new Permission (p)).save ().then (resolve, complete (reject, 'createPermission'));
 	});
 };
 var createRole = function (p) {
 	return new Promise (function (resolve, reject) {
+		//console.log ('createRole', JSON.stringify(p, null, 4));
 		(new Role (p)).save ().then (resolve, complete (reject, 'createRole'));
 	});
 };
@@ -163,6 +176,7 @@ var createRole = function (p) {
 //
 // -------------------------------------------------------------------------
 var addPermission = function (p) {
+	//console.log('addPermission = ' + JSON.stringify(p, null, 4));
 	return new Promise (function (resolve, reject) {
 		if (!p.permission) {
 			reject ({ message: 'no permission defined in addPermission' });
@@ -173,7 +187,7 @@ var addPermission = function (p) {
 		else {
 			findPermissions (p)
 			.then (function (r) {
-				// console.log ('returned r', r);
+				//console.log('findPermissions = ' + JSON.stringify(r, null, 4));
 				return !r.length ? createPermission (p) : '';
 			})
 			.then (resolve, complete (reject, 'addPermission'));
@@ -181,6 +195,7 @@ var addPermission = function (p) {
 	});
 };
 var addPermissions = function (p) {
+	//console.log('addPermissions = ' + JSON.stringify(p, null, 4));
 	p.permissions = ensureArray (p.permissions);
 	p.roles = ensureArray (p.roles);
 	return Promise.all (expandPermissions(p).map (function (v) {
@@ -240,6 +255,7 @@ var setPermissionRoles = function (p) {
 		//
 		// remove all roles from this permission
 		//
+		//console.log('setPermissionRoles = ' + JSON.stringify(p, null, 4));
 		Permission.remove ({
 			resource   : p.resource,
 			permission : p.permission,
@@ -307,6 +323,7 @@ var addPermissionDefinition = function (p) {
 	return addPermission (p);
 };
 var addPermissionDefinitions = function (o) {
+	//console.log ('addPermissionDefinitions', JSON.stringify(o, null, 4));
 	o.permissions = ensureArray (o.permissions);
 	return Promise.all (o.permissions.map (function (permission) {
 		return addPermission ({
@@ -382,6 +399,7 @@ var getPermissionRoles = function (o) {
 		.then (resolve, complete (reject, 'getPermissionRoles'));
 	});
 };
+exports.getPermissionRoles = getPermissionRoles;
 // -------------------------------------------------------------------------
 //
 // get the index of permissions to roles, both ways, for a resource
@@ -453,6 +471,7 @@ exports.setPermissionRoleIndex = setPermissionRoleIndex;
 //
 // -------------------------------------------------------------------------
 var addRole = function (p) {
+	//console.log ('addRole', JSON.stringify(p, null, 4));
 	return new Promise (function (resolve, reject) {
 		if (!p.role) {
 			reject ({ message: 'no role defined in addRole' });
@@ -466,7 +485,7 @@ var addRole = function (p) {
 			}
 			findRoles (p)
 			.then (function (r) {
-				// console.log ('returned r', r);
+				//console.log ('findRoles = ', JSON.stringify(r, null, 4));
 				return !r.length ? createRole (p) : '';
 			})
 			.then (resolve, complete (reject, 'addRole'));
@@ -474,6 +493,7 @@ var addRole = function (p) {
 	});
 };
 var addRoles = function (p) {
+	//console.log ('addRoles', JSON.stringify(p, null, 4));
 	p.roles = ensureArray (p.roles);
 	p.users = ensureArray (p.users);
 	return Promise.all (expandRoles(p).map (function (v) {
@@ -488,6 +508,7 @@ exports.addRoles = addRoles;
 //
 // -------------------------------------------------------------------------
 var addRoleIfUnique = function (p) {
+	//console.log ('addRoleIfUnique', JSON.stringify(p, null, 4));
 	p.user = null;
 	if (p.context === defaultContext && p.context.lastIndexOf(defaultContext, 0) !== 0) {
 		p.role = defaultContext+':'+p.role;
@@ -538,11 +559,13 @@ var deleteRoles = function (p) {
 //
 // -------------------------------------------------------------------------
 var addRoleDefinition = function (p) {
+	//console.log ('addRoleDefinition', JSON.stringify(p, null, 4));
 	p.user = null;
 	return addRole (p);
 };
 exports.addRoleDefinition = addRoleDefinition;
 var addRoleDefinitions = function (o) {
+	//console.log ('addRoleDefinitions', JSON.stringify(o, null, 4));
 	o.roles = ensureArray (o.roles);
 	// console.log (o.context);
 	// console.log (o.owner);
@@ -708,7 +731,7 @@ exports.getUserRoles = getUserRoles;
 //
 // -------------------------------------------------------------------------
 var getAllUserRoles = function (p) {
-	// console.log ('getting all user roles for user context: ',p);
+	//console.log ('getting all user roles for user context: ',p);
 	return new Promise (function (resolve, reject) {
 		var listPromise;
 		if (!p.user) {
@@ -742,10 +765,26 @@ var getAllUserRoles = function (p) {
 			.then (pluckAppRoles)
 			.then (function (a) {
 				appRoles = a;
-				return findRoles ({
-					context : p.context,
-					user    : p.user
-				});
+				if (ObjectID.isValid(p.context)) {
+					return findProjectById(p.context);
+				} else {
+					return findProjectByCode(p.context);
+				}
+			})
+			.then(function(proj) {
+				//console.log('proj = ' + JSON.stringify(proj));
+				if (proj) {
+					return findRoles ({
+						context : proj._id,
+						user    : p.user
+					});
+				} else {
+					return [];
+				}
+			})
+			.then(function(d) {
+				//console.log('results of findRoles: ' + JSON.stringify(d));
+				return d;
 			})
 			.then (pluckRoles)
 			.then (function (a) {
@@ -778,7 +817,7 @@ var userPermissions = function (p) {
 			//
 			// add the splat because of course
 			//
-			// console.log ('roleSet = ', roleSet);
+			//console.log ('roleSet = ', roleSet);
 			return findPermissions ({
 				resource : p.resource,
 				role     : {$in : roleSet}

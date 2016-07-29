@@ -33,24 +33,27 @@ module.exports = function () {
 					'listProjectComplaints'   : ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 					'listProjectConditions'   : ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 					'listInspectionReports'   : ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-					'listProjectRoles'        : ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 					'listValuedComponents'    : ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 					'listArtifacts'           : ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 					'listUsers'               : ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 					'viewEAOTombstone'        : ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 					'uploadDocument'          : ['eao-admin',               'pro-admin', 'pro-member'],
 					'createProjectInvitation' : ['eao-admin',               'pro-admin', 'pro-member'],
-					'createProjectRole'       : ['eao-admin',               'pro-admin', 'pro-member'],
 					'createValuedComponent'   : ['eao-admin',               'pro-admin', 'pro-member'],
 					'createArtifact'          : ['eao-admin',               'pro-admin', 'pro-member'],
-					'editProject'             : ['eao-admin',               'pro-admin', 'pro-member'],
+					'editProject'             : ['eao-admin', 'lead', 'epd', 'intake'],
 					'createEnforcement'       : ['eao-admin'                                         ],
-					'createCommentPeriod'     : ['eao-admin'                                         ],
+					'createCommentPeriod'     : ['eao-admin', 'lead', 'epd'],
 					'createProjectComplaint'  : ['eao-admin'                                         ],
 					'createProjectCondition'  : ['eao-admin'                                         ],
 					'createInspectionReport'  : ['eao-admin'                                         ],
 					'publish'                 : ['eao-admin'                                         ],
 					'unPublish'               : ['eao-admin'                                         ],
+					'createRole'              : ['eao-admin', 'lead', 'intake'],
+					'manageRoles'             : ['eao-admin', 'lead', 'intake'],
+					'managePermissions'       : ['eao-admin', 'lead', 'intake'],
+					'addUsersToContext'       : ['eao-admin', 'lead', 'intake'],
+					'publishValuedComponents' : ['eao-admin', 'lead', 'epd']
 				}
 			}
 		}));
@@ -90,7 +93,7 @@ module.exports = function () {
 					'pro-admin':['pro-admin', 'pro-member', 'pro-subconsultant', 'pro-invitee']
 				},
 				permissions: {
-					'createCommentPeriod'     : ['eao-admin'                                         ],
+					'createCommentPeriod'     : ['eao-admin', 'lead', 'epd'],
 					'publish'                 : ['eao-admin'                                         ],
 					'unPublish'               : ['eao-admin'                                         ],
 					'listCommentPeriods'      : ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
@@ -111,7 +114,7 @@ module.exports = function () {
 					'pro-admin':['pro-admin', 'pro-member', 'pro-subconsultant', 'pro-invitee']
 				},
 				permissions: {
-					'createCommentPeriod'     : ['eao-admin'                                         ],
+					'createCommentPeriod'     : ['eao-admin', 'lead', 'epd'],
 					'publish'                 : ['eao-admin'                                         ],
 					'unPublish'               : ['eao-admin'                                         ],
 					'listCommentPeriods'      : ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
@@ -131,7 +134,7 @@ module.exports = function () {
 			//
 			defaults : {
 				roles: {
-					'application:sysadmin':['sysadmin', 'eao', 'proponent', 'invitee']
+					'application:sysadmin':['sysadmin', 'eao', 'proponent', 'eao-intake', 'invitee']
 				},
 				permissions: {
 					'viewConfiguration'   : ['sysadmin','proponent','eao'],
@@ -144,7 +147,7 @@ module.exports = function () {
 					'listTemplates'       : ['sysadmin','proponent','eao'],
 					'listTopics'          : ['sysadmin','proponent','eao'],
 					'listUsers'           : ['sysadmin','proponent','eao'],
-					'createProject'       : ['sysadmin','proponent'],
+					'createProject'       : ['sysadmin', 'eao-intake'],
 					'createCondition'     : ['sysadmin'],
 					'createEmailTemplate' : ['sysadmin'],
 					'createOrganization'  : ['sysadmin'],
@@ -152,7 +155,12 @@ module.exports = function () {
 					'createRole'          : ['sysadmin'],
 					'createTemplate'      : ['sysadmin'],
 					'createTopic'         : ['sysadmin'],
-					'createUser'          : ['sysadmin']
+					'createUser'          : ['sysadmin'],
+					'import'          		: ['sysadmin'],
+					'editSchedule'        : ['sysadmin'],
+					'manageRoles'         : ['sysadmin'],
+					'managePermissions'   : ['sysadmin'],
+					'addUsersToContext'   : ['sysadmin']
 				}
 			}
 		}));
@@ -174,8 +182,6 @@ module.exports = function () {
 			'createProjectCondition',
 			'listInspectionReports',
 			'createInspectionReport',
-			'listProjectRoles',
-			'createProjectRole',
 			'listValuedComponents',
 			'createValuedComponent',
 			'listArtifacts',
@@ -184,7 +190,12 @@ module.exports = function () {
 			'unPublish',
 			'listUsers',
 			'viewEAOTombstone',
-			'editProject'
+			'editProject',
+			'createRole',
+			'manageRoles',
+			'managePermissions',
+			'addUsersToContext',
+			'publishValuedComponents'
 		];
 		var readProjectPermissions = [
 			'viewSchedule',
@@ -208,14 +219,14 @@ module.exports = function () {
 			//
 			// this goes owner, role, permissions
 			//
-			defaults : {
+		defaults : {
 				'eao-admin' : {
 					'eao-admin' : allProjectPermissions,
 					'eao-member' : readProjectPermissions,
 					'eao-invitee' : [],
-					'epd' : [],
-					'intake' : [],
-					'lead' : [],
+					'epd' : ['editProject', 'createCommentPeriod', 'publishValuedComponents'],
+					'intake' : ['editProject', 'createRole', 'manageRoles', 'managePermissions', 'addUsersToContext'],
+					'lead' : ['editProject', 'createCommentPeriod', 'createRole', 'manageRoles', 'managePermissions', 'addUsersToContext', 'publishValuedComponents'],
 					'team' : [],
 					'assistant-dm' : [],
 					'assistant-dm-office' : [],
@@ -237,7 +248,6 @@ module.exports = function () {
 					'pro-admin' : readProjectPermissions.concat ([
 						'uploadDocument',
 						'createProjectInvitation',
-						'createProjectRole',
 						'createValuedComponent',
 						'createArtifact',
 						'editProject'
@@ -245,7 +255,6 @@ module.exports = function () {
 					'pro-member' : readProjectPermissions.concat ([
 						'uploadDocument',
 						'createProjectInvitation',
-						'createProjectRole',
 						'createValuedComponent',
 						'createArtifact',
 						'editProject'
@@ -276,6 +285,11 @@ module.exports = function () {
 			'createTopic',
 			'createUser',
 			'createProject',
+			'import',
+			'editSchedule',
+			'manageRoles',
+			'managePermissions',
+			'addUsersToContext'
 		];
 		var readApplicationPermissions = [
 			'viewConfiguration',
@@ -302,7 +316,8 @@ module.exports = function () {
 				'application:sysadmin' : {
 					'sysadmin' : allApplicationPermissions,
 					'eao' : readApplicationPermissions,
-					'proponent' : readApplicationPermissions.concat (['createProject']),
+					'proponent' : readApplicationPermissions,
+					'eao-intake' : ['createProject'],
 					'invitee': [],
 				}
 			}
@@ -321,7 +336,7 @@ module.exports = function () {
 				reject(new Error(err));
 			}
 			else {
-				//console.log('Deleted exiting defaults: ' + JSON.stringify(removed));
+				console.log('Deleted exiting defaults: ' + JSON.stringify(removed));
 				resolve(removed);
 			}
 		});
@@ -331,7 +346,7 @@ module.exports = function () {
 		return new promise(function(resolve, reject) {
 			d.save(function(err) {
 				if (err) {
-					//console.log('Error adding default: context=' + d.context + ', resource=' + d.resource + ', type=' + d.type + ': ' + JSON.stringify(err));
+					console.log('Error adding default: context=' + d.context + ', resource=' + d.resource + ', type=' + d.type + ': ' + JSON.stringify(err));
 					reject(new Error(err));
 				} else {
 					//console.log('Default saved. _id=' + d._id + ', context=' + d.context + ', resource=' + d.resource + ', type=' + d.type);
@@ -343,7 +358,7 @@ module.exports = function () {
 
 	step1
 		.then(function(data) {
-			//console.log('step1 done, start step 2...' + JSON.stringify(data));
+		  //console.log('step1 done, start step 2...' + JSON.stringify(data));
 			return promise.all(step2);
 		})
 		.then(function() {

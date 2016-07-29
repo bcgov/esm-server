@@ -34,6 +34,7 @@ module.exports = DBModel.extend ({
 			//
 			commentPeriod.findById(comment.period)
 				.then(function (period) {
+					//console.log('period = ' + JSON.stringify(period, null, 4));
 					//
 					// ROLES
 					//
@@ -49,6 +50,7 @@ module.exports = DBModel.extend ({
 					});
 				})
 				.then(function (commentPermissions) {
+					//console.log('commentPermissions = ' + JSON.stringify(commentPermissions, null, 4));
 					// get all the associated documents and update their permissions as required.
 					return new Promise(function (resolve, reject) {
 						documentClass.getList(comment.documents)
@@ -58,6 +60,7 @@ module.exports = DBModel.extend ({
 					});
 				})
 				.then(function (data) {
+					//console.log('data = ' + JSON.stringify(data, null, 4));
 					var commentPermissions = data.commentPermissions;
 					var docs = data.docs;
 					return docs.reduce(function (current, doc, index) {

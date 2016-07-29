@@ -1,17 +1,12 @@
 
-<div class="view-title-container">
+<div class="view-title-container flex-row">
 	<h1>User Details <span> &nbsp;&rsaquo;&nbsp; {{user.username}}<span></h1>
+	<div class="actions">
+		<a class="btn btn-default btn-sm" ui-sref="admin.user.edit({userId:user._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span></a>
+	</div>
 </div>
 
 <div class="view-body-container">
-	
-	<div class="row hidden">
-		<div class="col-sm-12 text-right">
-			<a class="btn btn-xs btn-link" ui-sref="admin.user.list">Cancel</a>
-			<a class="btn btn-xs btn-link" ui-sref="admin.user.edit({userId:user._id})">Edit</a>
-		</div>
-	</div>
-
 	<fieldset>
 		<legend>User Profile</legend>
 		<div class="row">
@@ -150,7 +145,6 @@
 
 	<div class="form-footer clearfix">
 		<a class="back-btn btn btn-link pull-left" ui-sref="admin.user.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Users & Contacts</a>
-		<a class="btn btn-default pull-right" ui-sref="admin.user.edit({userId:user._id})">Edit</a>
 	</div>
 	
 </div>

@@ -46,6 +46,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	preprocessAdd : function (project) {
+		//console.log('project.preprocessAdd project = ' + JSON.stringify(project, null, 4));
 		var self = this;
 		var rolePrefix;
 		var adminSuffix = ':admin';
@@ -56,6 +57,12 @@ module.exports = DBModel.extend ({
 		//
 		// return a promise, we have lots of work to do
 		//
+		if (_.isEmpty(project.shortName)) {
+			project.shortName = project.name.toLowerCase ();
+			project.shortName = project.shortName.replace (/\W/g,'-');
+			project.shortName = project.shortName.replace (/-+/,'-');
+		}
+
 		return new Promise (function (resolve, reject) {
 			//
 			// first generate a project code that can be used internally
@@ -106,6 +113,9 @@ module.exports = DBModel.extend ({
 				project.setRoles (self.user);
 				return project;
 			})
+			.then(function() {
+				return self.setDefaultRoles(project);
+			})
 			//
 			// add a pre submission phase (intake)
 			//
@@ -155,9 +165,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	setDefaultRoles: function (project, base) {
-		//
-		// TBD ROLES
-		//
+
 		project.setRoles ({
 			read   : ['eao-admin', 'pro-admin', 'eao-member', 'pro-member'],
 			write  : ['eao-admin', 'pro-admin'],
@@ -171,7 +179,7 @@ module.exports = DBModel.extend ({
 	// Add a phase to the project from a code
 	//
 	// -------------------------------------------------------------------------
-	addPhase : function (project, basecode) {
+	addPhase: function (project, basecode) {
 		var self = this;
 		var Phase = new PhaseClass (self.opts);
 		return new Promise (function (resolve, reject) {
@@ -272,18 +280,18 @@ module.exports = DBModel.extend ({
 				//
 				Phase.complete (project.currentPhase)
 				.then (function () {
-					//
-					// now find the next phase by index, the order is the
-					// index + 1, so next is order
-					//
-					var nextIndex = project.currentPhase.order;
+					var nextIndex = _.findIndex(project.phases, function(phase) { return phase._id.toString() === project.currentPhase._id.toString(); }) + 1;
+
 					project.currentPhase     = project.phases[nextIndex];
 					project.currentPhaseCode = project.phases[nextIndex].code;
 					project.currentPhaseName = project.phases[nextIndex].name;
 					return Phase.start (project.currentPhase);
 				})
 				.then (function () {
-					return self.saveAndReturn (project);
+					return self.saveAndReturn (project)
+						.then(function(res) {
+							resolve(res);
+						});
 				})
 				.catch (reject);
 			}
@@ -355,9 +363,12 @@ module.exports = DBModel.extend ({
 		};
 
 		var getMyProjects = function(roles) {
-			var projectCodes = _.uniq(_.map (roles, 'context'));
+			var projectIds = _.uniq(_.map (roles, 'context'));
+			// don't want to query for 'application', it's not a project id...
+			_.remove(projectIds, function(o) { return o === 'application'; } );
+
 			var q = {
-				code: { "$in": projectCodes },
+				_id: { "$in": projectIds },
 				dateCompleted: { "$eq": null }
 			};
 			return self.listforaccess ('i do not want to limit my access', q, { _id: 1, code: 1, name: 1, region: 1, status: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1 }, 'currentPhase', 'name');
@@ -378,20 +389,17 @@ module.exports = DBModel.extend ({
 		console.log('initDefaultRoles(' + project.code + ')');
 		var defaultRoles = [];
 
-		project.adminRole = project.code + ':eao:admin';
-		project.proponentAdminRole = project.code + ':pro:admin';
-		project.eaoInviteeRole = project.code + ':eao:invitee';
-		project.proponentInviteeRole = project.code + ':pro:invitee';
-		project.eaoMember = project.code + ':eao:member';
-		project.proMember = project.code + ':pro:member';
+		project.adminRole = 'eao-admin';
+		project.proponentAdminRole = 'pro-admin';
+		project.eaoInviteeRole = 'eao-invitee';
+		project.proponentInviteeRole = 'pro-invitee';
+		project.eaoMember = 'eao-member';
+		project.proMember = 'pro-member';
 
 		defaultRoles.push(project.eaoMember);
 		defaultRoles.push(project.proMember);
 
-		//
-		// TBD ROLES
-		//
-		return Promise.resolve (defaultRoles);
+		return Promise.resolve (project);
 	}
 
 });

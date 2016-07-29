@@ -301,7 +301,8 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			// console.log ('q.$or = ',q.$or[0].read);
+			//console.log ('findMany.query = ' + JSON.stringify(query, null, 4));
+			//console.log ('findMany.q = ' + JSON.stringify(q, null, 4));
 			self.model.find (q)
 			.sort (sort)
 			.populate (self.populate)
@@ -538,11 +539,16 @@ _.extend (DBModel.prototype, {
 			// console.log("returning early");
 			return Promise.resolve(null);
 		}
+		//console.log('setModelPermissions.model = ' + JSON.stringify(model, null, 4));
+		//console.log('setModelPermissions.definition = ' + JSON.stringify(definition, null, 4));
 		//
 		// this sets only the passed in permissions and leaves the other ones alone
 		//
 		var promisesPromises = [];
 		_.each (definition, function (roles, permission) {
+			//console.log("permission:", JSON.stringify(permission, null, 4));
+			//console.log("roles:", JSON.stringify(roles, null, 4));
+			//console.log("unique roles:", JSON.stringify(_.uniq(roles), null, 4));
 			promisesPromises.push (access.setPermissionRoles ({
 				resource   : model._id,
 				permission : permission,
@@ -554,10 +560,16 @@ _.extend (DBModel.prototype, {
 			// this has to be done last becuase it prepends the role
 			// with the context for listing
 			//
+			//console.log("definition.read:", JSON.stringify(definition.read, null, 4));
+			//console.log("definition.write:", JSON.stringify(definition.write, null, 4));
+			//console.log("definition.delete:", JSON.stringify(definition.delete, null, 4));
+			//console.log("model.read:", JSON.stringify(model.read, null, 4));
+			//console.log("model.write:", JSON.stringify(model.write, null, 4));
+			//console.log("model.delete:", JSON.stringify(model.delete, null, 4));
 			definition.read   = definition.read || model.read;
 			definition.write  = definition.write || model.write;
 			definition.delete = definition.delete || model.delete;
-			// console.log("setRoles:", definition);
+			//console.log("setRoles:", JSON.stringify(definition, null, 4));
 			model.setRoles (definition);
 			return definition;
 		});
@@ -649,7 +661,7 @@ _.extend (DBModel.prototype, {
 			var permissions ;
 			self.getModelPermissionDefaults ()
 			.then (function (defaultObject) {
-				// console.log("defaultObject:",defaultObject);
+				//console.log("defaultObject: ",JSON.stringify(defaultObject, null, 4));
 				resource    = model._id;
 				parray      = [];
 				definitions = {};
@@ -660,18 +672,18 @@ _.extend (DBModel.prototype, {
 				// determine the context
 				// default to application
 				// if this is a project, then use its code
-				// otherwise if it has a project, use its project.code
-				// or if not populated use the project field to get the code
+				// otherwise if it has a project, use its project._id
+				// or if not populated use the project field to get the _id
 				//
 				if (defaultObject.context === 'project') {
 					if (self.name.toLowerCase () === 'project') {
 						return model._id;
 					} else if (model.project && model.project.code) {
-						return model.project.code;
+						return model.project._id;
 					} else if (model.project) {
 						return self.mongoose.model ('Project').findOne ({_id:model.project}).exec ()
 						.then (function (m) {
-							return m.code;
+							return m._id;
 						});
 					} else {
 						return 'application';
@@ -681,11 +693,14 @@ _.extend (DBModel.prototype, {
 				}
 			})
 			.then (function (context) {
+				//console.log("context: ",JSON.stringify(context, null, 4));
 				//
 				// this part deals with only the roles, it ensures that they are all actually
 				// set up properly on the given context
 				//
 				_.each (ownerroles, function (roles, owner) {
+					//console.log("owner: ",JSON.stringify(context, null, 4));
+					//console.log("roles: ",JSON.stringify(roles, null, 4));
 					parray.push (access.addRoleDefinitions ({
 						context : context,
 						owner   : owner,
@@ -695,6 +710,7 @@ _.extend (DBModel.prototype, {
 				//
 				// now set permissions
 				//
+				//console.log("permissions: ",JSON.stringify(permissions, null, 4));
 				parray.push (self.setModelPermissions (model, permissions));
 				return Promise.all (parray);
 			})
