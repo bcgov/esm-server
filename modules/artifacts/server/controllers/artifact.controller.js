@@ -14,6 +14,7 @@ var PhaseClass = require(path.resolve('./modules/phases/server/controllers/phase
 // var Roles               = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 var _ = require('lodash');
 var DocumentClass  = require (path.resolve('./modules/documents/server/controllers/core.document.controller'));
+var Access    = require (path.resolve ('./modules/core/server/controllers/core.access.controller'));
 
 module.exports = DBModel.extend({
 	name: 'Artifact',
@@ -161,7 +162,7 @@ module.exports = DBModel.extend({
 			// now set up and save the new artifact
 			//
 			.then(function (milestone) {
-				artifact = self.setDefaultRoles(artifact, project, artifactType.code);
+				//console.log('newFromType milestone ' + JSON.stringify(milestone, null, 4));
 				// Happens when we skip adding a milestone.
 				if (milestone) {
 					artifact.milestone = milestone._id;
@@ -173,7 +174,27 @@ module.exports = DBModel.extend({
 				artifact.artifactType = artifactType;
 				artifact.version = artifactType.versions[0];
 				artifact.stage = artifactType.stages[0].name;
+				return artifact;
+			})
+			.then(function(a) {
+				// should maybe get defaults for the artifact type to apply here?
+				// or ???
+				return Access.getPermissionRoles({resource: project._id});
+			})
+			.then(function(res) {
+				artifact.read = res.listArtifacts;
+				artifact.write = res.createArtifact;
+				artifact.delete = res.createArtifact;
+				
+				return self.setDefaultRoles(artifact, project, artifactType.code);
+			})
+			.then(function(a) {
+				//console.log('newFromType call saveDocument');
 				return self.saveDocument(artifact);
+			})
+			.then(function(a) {
+				//console.log('newFromType saveDocument returns: ' + JSON.stringify(a, null, 4));
+				return a;
 			})
 			.then(resolve, reject);
 		});
@@ -182,53 +203,49 @@ module.exports = DBModel.extend({
 		// Set default read/write/submit permissions on artifacts based on their type.
 		// console.log("setting default roles for: ", type);
 		if (type === 'valued-component') {
-			artifact.read.push(project.code + ":eao:admin");
-			artifact.read.push(project.code + ":eao:member");
-			artifact.read.push(project.code + ":eao:project-intake");
-			artifact.read.push(project.code + ":eao:assistant-dm");
-			artifact.read.push(project.code + ":eao:associate-dmo");
-			artifact.read.push(project.code + ":eao:minister");
-			artifact.read.push(project.code + ":eao:qa-officer");
-			artifact.read.push(project.code + ":eao:ce-lead");
-			artifact.read.push(project.code + ":eao:ce-officer");
-			artifact.read.push(project.code + ":eao:sub");
-			artifact.read.push(project.code + ":eao:admin");
-			artifact.write.push(project.code + ":pro:admin");
-			artifact.write.push(project.code + ":pro:member");
-			artifact.write.push(project.code + ":eao:project-team");
-			//artifact.submit.push(project.code + ":eao:epd");
-			//artifact.submit.push(project.code + ":eao:project-lead");
+			artifact.read.push("eao-admin");
+			artifact.read.push("eao-member");
+			artifact.read.push("intake");
+			artifact.read.push("assistant-dm");
+			artifact.read.push("associate-dmo");
+			artifact.read.push("minister");
+			artifact.read.push("qa-officer");
+			artifact.read.push("ce-lead");
+			artifact.read.push("ce-officer");
+			artifact.write.push("pro-admin");
+			artifact.write.push("pro-member");
+			artifact.write.push("team");
 		} else if (_.startsWith(type, 'section-10')) {
-			artifact.read.push(project.code + ":eao:project-team");
-			artifact.write.push(project.code + ":eao:epd");
-			artifact.write.push(project.code + ":eao:project-lead");
+			artifact.read.push("team");
+			artifact.write.push("epd");
+			artifact.write.push("lead");
 		} else if (_.startsWith(type, 'section-6') || _.startsWith(type, 'section-7') || _.startsWith(type, 'section-11') || _.startsWith(type, 'section-34') || _.startsWith(type, 'section-36')) {
-			artifact.write.push(project.code + ":eao:ce-lead");
-			artifact.write.push(project.code + ":eao:ce-officer");
+			artifact.write.push("ce-lead");
+			artifact.write.push("ce-officer");
 		} else if (type === 'application') {
-			artifact.write.push(project.code + ":pro:admin");
-			artifact.write.push(project.code + ":pro:member");
-			artifact.write.push(project.code + ":pro:sub");
-			artifact.write.push(project.code + ":eao:epd");
-			artifact.write.push(project.code + ":eao:project-lead");
-			artifact.write.push(project.code + ":eao:project-team");
+			artifact.write.push("pro-admin");
+			artifact.write.push("pro-member");
+			artifact.write.push("pro-subconsultant");
+			artifact.write.push("epd");
+			artifact.write.push("lead");
+			artifact.write.push("team");
 		} else if (type === 'decision-package') {
-			artifact.write.push(project.code + ":eao:epd");
-			artifact.read.push(project.code + ":eao:project-lead");
-			artifact.read.push(project.code + ":eao:project-team");
+			artifact.write.push("epd");
+			artifact.read.push("lead");
+			artifact.read.push("team");
 		} else if (type === 'referral-package') {
-			artifact.write.push(project.code + ":eao:epd");
-			artifact.read.push(project.code + ":eao:project-lead");
-			artifact.read.push(project.code + ":eao:project-team");
+			artifact.write.push("epd");
+			artifact.read.push("lead");
+			artifact.read.push("team");
 		} else if (type === 'environmental-assessment-certificate' || type === 'certificate') {
-			artifact.write.push(project.code + ":eao:epd");
-			artifact.write.push(project.code + ":eao:project-lead");
-			artifact.read.push(project.code + ":eao:project-team");
-			artifact.read.push(project.code + ":eao:ce-lead");
-			artifact.read.push(project.code + ":eao:ce-officer");
+			artifact.write.push("epd");
+			artifact.write.push("lead");
+			artifact.read.push("team");
+			artifact.read.push("ce-lead");
+			artifact.read.push("ce-officer");
 		} else if (type === 'inspection-report') {
-			artifact.write.push(project.code + ":eao:ce-lead");
-			artifact.write.push(project.code + ":eao:ce-officer");
+			artifact.write.push("ce-lead");
+			artifact.write.push("ce-officer");
 		}
 		return artifact;
 	},
