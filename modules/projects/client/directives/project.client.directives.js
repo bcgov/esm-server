@@ -6,7 +6,6 @@ angular.module('project')
 	.directive('modalProjectImport', directiveModalProjectImport)
 
 	.directive('tmplProjectInitiated', directiveProjectInitiated)
-	.directive('tmplProjectStreamSelect', directiveProjectStreamSelect)
 	.directive('tmplProjectActivities', directiveProjectActivities);
 
 // -----------------------------------------------------------------------------------
