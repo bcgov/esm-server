@@ -399,6 +399,7 @@ var getPermissionRoles = function (o) {
 		.then (resolve, complete (reject, 'getPermissionRoles'));
 	});
 };
+exports.getPermissionRoles = getPermissionRoles;
 // -------------------------------------------------------------------------
 //
 // get the index of permissions to roles, both ways, for a resource
