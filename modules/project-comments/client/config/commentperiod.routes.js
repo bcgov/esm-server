@@ -97,7 +97,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			$scope.errorMessage = '';
 
 			$scope.save = function () {
-				if ($scope.period.commenterRoles === 0 || $scope.period.vettingRoles === 0 || $scope.period.classificationRoles === 0) {
+				if (_.size($scope.period.commenterRoles) === 0 || _.size($scope.period.vettingRoles) === 0 || _.size($scope.period.classificationRoles) === 0) {
 					$scope.hasErrors = true;
 					$scope.errorMessage = 'Post, Vet and Classify Comments roles are all required.  See Roles & Permissions tab.';
 				} else {
@@ -139,7 +139,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				return CommentPeriodModel.getModel ($stateParams.periodId);
 			}
 		},
-		controller: function ($scope, $state, period, project, CommentPeriodModel, CommentModel) {
+		controller: function ($scope, $state, period, project, CommentPeriodModel, CommentModel, _) {
 			// only public comments for now...
 			period.periodType = 'Public';
 			period.commenterRoles = ['public'];
@@ -161,7 +161,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			$scope.errorMessage = '';
 
 			$scope.save = function () {
-				if ($scope.period.commenterRoles === 0 || $scope.period.vettingRoles === 0 || $scope.period.classificationRoles === 0) {
+				if (_.size($scope.period.commenterRoles) === 0 || _.size($scope.period.vettingRoles) === 0 || _.size($scope.period.classificationRoles) === 0) {
 					$scope.hasErrors = true;
 					$scope.errorMessage = 'Post, Vet and Classify Comments roles are all required.  See Roles & Permissions tab.';
 				} else {
