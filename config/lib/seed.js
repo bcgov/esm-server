@@ -111,7 +111,7 @@ checkIntegration ('sysroles').then (function () {
 // Topics
 //
 // -------------------------------------------------------------------------
-checkIntegration ('loadtopics2').then (function () {
+checkIntegration ('loadtopics5').then (function () {
 	require('../seed-data/loadtopics')();
 });
 
