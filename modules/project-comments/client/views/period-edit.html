@@ -9,7 +9,9 @@
 	</div>
 
 	<div class="view-body-container">
+
     <div ng-show="hasErrors" class="alert alert-danger">{{errorMessage}}</div>
+
 		<!-- TABS -->
 		<ul class="nav nav-tabs" ng-init="form.curTab = 'pcpDetails'">
 			<li role="presentation" ng-class="{'active':form.curTab === 'pcpDetails'}">
@@ -39,7 +41,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6 col-lg-4 form-group">
+				<div class="col-md-6 col-lg-6 form-group">
 					<label class="control-label">Start / End Dates</label>
 					<div class="form-inline">
 						<div class="form-control date-picker" x-modal-date-picker x-selected-date="period.dateStarted">
