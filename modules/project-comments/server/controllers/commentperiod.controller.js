@@ -60,11 +60,19 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	setRolesPermissions: function (period) {
+		// jsherman - 20160729
+		// do not like this, we've got defaults that add in permissions but are completely divorced from these roles
+		// that we add.  Should all be in one place when we get a chance.
+		
 		var allroles = _.uniq(period.commenterRoles.concat (
 			period.classificationRoles,
 			period.vettingRoles,
 			'eao-admin',
-			'pro-admin'
+			'pro-admin',
+		  'eao-member',
+		  'pro-member',
+		  'lead',
+		  'epd'
 		));
 		//console.log ("commentperiod.setRolesPermissions - period", JSON.stringify (period, null, 4));
 		//console.log('commentperiod.setRolesPermissions - allroles = ' + JSON.stringify(allroles, null, 4));
@@ -72,10 +80,10 @@ module.exports = DBModel.extend ({
 			vetComments      : period.vettingRoles,
 			classifyComments : period.classificationRoles,
 			listComments     : period.commenterRoles,
-			addComment       : period.commenterRoles,
+			addComment       : _.uniq(_.concat(period.commenterRoles, 'lead', 'epd', 'eao-admin')),
 			setPermissions   : ['eao-admin', 'pro-admin'],
 			read             : allroles,
-			write            : _.uniq(_.concat(period.vettingRoles, period.classificationRoles, 'eao-admin')),
+			write            : _.uniq(_.concat(period.vettingRoles, period.classificationRoles, 'lead', 'epd', 'eao-admin')),
 			delete           : ['eao-admin'],
 			// return Access.setObjectPermissionRoles ({
 			// resource: period,
