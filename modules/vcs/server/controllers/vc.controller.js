@@ -11,6 +11,7 @@ var _         = require ('lodash');
 module.exports = DBModel.extend ({
 	name : 'Vc',
 	plural : 'vcs',
+	populate: "artifact",
 	getForProject: function (projectId) {
 		return this.list ({project:projectId});
 	},
