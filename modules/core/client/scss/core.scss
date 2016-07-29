@@ -68,6 +68,14 @@ $sidenav-bg: 				#FFF;
 $sidenav-color: 			$link-color;
 $sidenav-width:				20rem;
 
+/* Tables */
+$table-bg: 					transparent;
+$table-row-bg: 				#FFF;
+$table-row-hover-bg:		#EEE;
+$table-head-bg: 			#F7F8FA;
+$table-filter-bg: 			#FFF;
+$table-footer-bg: 			#F7F8FA;
+
 /* Tab Navigation */
 $nav-tab-active-color:			#1a5a96;
 $nav-tab-inactive-color:		#999;
@@ -2642,6 +2650,7 @@ $file-browser-item-active: #2b5580;
 	border: 1px solid red;
 }
 
+
 /* FORM CONTROLS
 ------------------------------ */
 form {
@@ -3120,44 +3129,22 @@ $nav-tab-active: #1a5a96;
 
 /* TABLE
 ------------------------------ */
-$table-bg: transparent;
-$table-row-bg: #FFF;
-$table-head-bg: #F7F8FA;
-$table-filter-bg: #FFF;
-$table-footer-bg: #F7F8FA;
-
+.table-th {
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+	font-size: 1.2rem;
+	text-align: left;
+	background: $table-head-bg;
+	border-bottom: none;
+}
 
 .table {
 	margin: 0;
 	table-layout: fixed;
 	background: $table-bg;
 
-	thead,
-	.ng-table-sort-header {
-		th {
-			padding-top: 1rem;
-			padding-bottom: 1rem;
-			font-size: 1.2rem;
-			background: $table-head-bg;
-			border-bottom: none;
-		}
-	}
-
-	.ng-table-filters {
-		background: $table-filter-bg;
-
-		th {
-			border-bottom: none;
-			font-size: 1.4rem;
-		}
-
-		.input-sm {
-			font-size: 1.4rem;
-		}
-	}
-
 	> thead > tr > th {
-		border-bottom: none;
+		@extend .table-th
 	}
 	
 	> thead > tr > th:first-child,
@@ -3165,14 +3152,8 @@ $table-footer-bg: #F7F8FA;
 		padding-left: 1.5rem;
 	}
 
-	> tbody > tr > td:first-child
-
 	tr {
 		background: $table-row-bg;
-	}
-	
-	th, td {
-		text-align: left;
 	}
 	
 	td.actions-col {
@@ -3196,6 +3177,26 @@ $table-footer-bg: #F7F8FA;
 		}
 	}
 
+	&.table-striped {
+		> tbody > tr:nth-of-type(odd) {
+			background-color: #f7f8fa;
+		}	
+	}
+
+	&.table-hover {
+		> tbody > tr:hover {
+			background-color: $table-row-hover-bg;
+		}
+	}
+	
+	.action-x1 {
+		width: 4.5rem;
+	}
+	
+	.action-x2 {
+		width: 8.5rem;
+	}
+
 	.select-col {
 		position: relative;
 		padding-left: 3.5rem;
@@ -3206,29 +3207,41 @@ $table-footer-bg: #F7F8FA;
 			left: 1rem;
 		}	
 	}
-	
-	.action-x1 {
-		width: 4.5rem;
-	}
-	
-	.action-x2 {
-		width: 8.5rem;
+}
+
+.ng-table-page-btn {
+	font-size: 1.2rem;
+	font-weight: bold;
+	color: $app-base-color;
+	border: 1px solid #CCC;
+}
+
+.ng-table-page-btn-active {
+	color: #FFF;
+	background: $btn-primary-bg;
+	border-color: $btn-primary-bg;
+}
+
+.ng-table-sort-header {
+	th {
+		@extend .table-th;
 	}
 }
 
-.table-striped {
-	> tbody > tr:nth-of-type(odd) {
-		background-color: #f7f8fa;
-	}	
+.ng-table-filters {
+	background: $table-filter-bg;
+
+	th {
+		border-bottom: none;
+		font-size: 1.4rem;
+	}
+
+	.input-sm {
+		font-size: 1.4rem;
+	}
 }
 
-.table-hover {
- 	> tbody > tr:hover {
-		 background-color: #EEE;
-	}
- }
-
- .ng-table-pager {
+.ng-table-pager {
 	padding-top: 1.5rem;
 	padding-right: 1.5rem;
 	padding-bottom: 0;
@@ -3236,6 +3249,15 @@ $table-footer-bg: #F7F8FA;
 	background: $table-footer-bg;
 	border-top: 1px solid #DDD;
 	overflow: auto;
+}
+
+.ng-table-counts {
+	.btn-default {
+		&.active,
+		&.active:hover {
+			@extend .ng-table-page-btn-active;
+		}
+	}
 }
 
 .pagination-btn {
@@ -3255,7 +3277,7 @@ $table-footer-bg: #F7F8FA;
 	margin-bottom: 1rem;
 
 	> li > a {
-		@extend .pagination-btn;
+		@extend .ng-table-page-btn;
 	}
 
 	> li > a:hover {
@@ -3265,16 +3287,7 @@ $table-footer-bg: #F7F8FA;
 
 	> .active > a,
 	> .active > a:hover {
-		@extend .pagination-btn-active;
-	}
-}
-
-.ng-table-counts {
-	.btn-default {
-		&.active,
-		&.active:hover {
-			@extend .pagination-btn-active;
-		}
+		@extend .ng-table-page-btn-active;
 	}
 }
 
@@ -3548,6 +3561,13 @@ $table-footer-bg: #F7F8FA;
 }
 
 .public-comment-period-view {
+	/* Fix - We need to absolutely position this because of the inception of DIV's required here - this needs to be re-engineered at some point */
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+
 	.comment-title {
 		margin: 0;
 		font-size: 1.6rem;
