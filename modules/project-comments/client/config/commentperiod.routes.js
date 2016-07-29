@@ -93,27 +93,34 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 					period.commenterRoles = [];
 				}
 			};
-			$scope.save = function () {
-				period.project               = project._id;
-				console.log("saving comment period:", project);
-				period.phase                 = project.currentPhase;
-				period.phaseName             = project.currentPhase.name;
-				console.log("saving comment period artifact:", period.artifact);
-				period.artifactName          = period.artifact.name;
-				period.artifactVersion       = period.artifact.version;
-				period.artifactVersionNumber = period.artifact.versionNumber;
-				period.artifactTypeCode      = period.artifact.typeCode;
-				CommentPeriodModel.add ($scope.period)
-				.then (function (model) {
-					$state.transitionTo('p.commentperiod.list', {projectid:project.code}, {
-			  			reload: true, inherit: false, notify: true
-					});
-				})
-				.catch (function (err) {
-					console.error (err);
-					// alert (err.message);
-				});
+			$scope.hasErrors = false;
+			$scope.errorMessage = '';
 
+			$scope.save = function () {
+				if (_.size($scope.period.commenterRoles) === 0 || _.size($scope.period.vettingRoles) === 0 || _.size($scope.period.classificationRoles) === 0) {
+					$scope.hasErrors = true;
+					$scope.errorMessage = 'Post, Vet and Classify Comments roles are all required.  See Roles & Permissions tab.';
+				} else {
+					period.project = project._id;
+					
+					period.phase = project.currentPhase;
+					period.phaseName = project.currentPhase.name;
+					
+					period.artifactName = period.artifact.name;
+					period.artifactVersion = period.artifact.version;
+					period.artifactVersionNumber = period.artifact.versionNumber;
+					period.artifactTypeCode = period.artifact.typeCode;
+					CommentPeriodModel.add($scope.period)
+					.then(function (model) {
+						$state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
+							reload: true, inherit: false, notify: true
+						});
+					})
+					.catch(function (err) {
+						console.error(err);
+						// alert (err.message);
+					});
+				}
 			};
 			$scope.changeType ();
 		}
@@ -132,7 +139,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				return CommentPeriodModel.getModel ($stateParams.periodId);
 			}
 		},
-		controller: function ($scope, $state, period, project, CommentPeriodModel, CommentModel) {
+		controller: function ($scope, $state, period, project, CommentPeriodModel, CommentModel, _) {
 			// only public comments for now...
 			period.periodType = 'Public';
 			period.commenterRoles = ['public'];
@@ -149,30 +156,38 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 					period.commenterRoles = [];
 				}
 			};
+			
+			$scope.hasErrors = false;
+			$scope.errorMessage = '';
 
 			$scope.save = function () {
-				CommentPeriodModel.save ($scope.period)
-				.then (function (model) {
-					// console.log ('period was saved',model);
-					// save the comments so that we pick up the (potential) changes to the period permissions...
-					return CommentModel.getAllCommentsForPeriod(model._id);
-				})
-				.then(function(comments){
-					Promise.resolve()
-						.then(function() {
+				if (_.size($scope.period.commenterRoles) === 0 || _.size($scope.period.vettingRoles) === 0 || _.size($scope.period.classificationRoles) === 0) {
+					$scope.hasErrors = true;
+					$scope.errorMessage = 'Post, Vet and Classify Comments roles are all required.  See Roles & Permissions tab.';
+				} else {
+					CommentPeriodModel.save($scope.period)
+					.then(function (model) {
+						// console.log ('period was saved',model);
+						// save the comments so that we pick up the (potential) changes to the period permissions...
+						return CommentModel.getAllCommentsForPeriod(model._id);
+					})
+					.then(function (comments) {
+						Promise.resolve()
+						.then(function () {
 							return comments.reduce(function (current, value, index) {
 								return CommentModel.save(value);
-							}, Promise.resolve())	;
+							}, Promise.resolve());
 						});
-				}).then(function(){
-					$state.transitionTo('p.commentperiod.list', {projectid:project.code}, {
-			  			reload: true, inherit: false, notify: true
+					}).then(function () {
+						$state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
+							reload: true, inherit: false, notify: true
+						});
+					})
+					.catch(function (err) {
+						console.error(err);
+						// alert (err.message);
 					});
-				})
-				.catch (function (err) {
-					console.error (err);
-					// alert (err.message);
-				});
+				}
 			};
 			$scope.changeType ();
 		}

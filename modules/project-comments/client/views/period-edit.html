@@ -9,7 +9,7 @@
 	</div>
 
 	<div class="view-body-container">
-
+    <div ng-show="hasErrors" class="alert alert-danger">{{errorMessage}}</div>
 		<!-- TABS -->
 		<ul class="nav nav-tabs" ng-init="form.curTab = 'pcpDetails'">
 			<li role="presentation" ng-class="{'active':form.curTab === 'pcpDetails'}">
@@ -106,7 +106,7 @@
 				</a>
 			</div>
 			<ul class="list-group">
-				<li class="list-group-item" ng-if="period.commenterRole == 0">No Roles assigned.</li>
+				<li class="list-group-item" ng-if="period.commenterRoles == 0">No Roles assigned.</li>
 				<li class="list-group-item" ng-repeat="role in period.commenterRoles">{{ role }}</li>
 			</ul>
 
