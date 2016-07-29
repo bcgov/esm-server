@@ -62,8 +62,86 @@ exports.loadUsers = function(file, req, res, opts) {
 			if (err) {
 				reject("{err: "+err);
 			}
-			// console.log("FILE DATA:",data);
-			var colArray = ['PERSON_ID','EAO_STAFF_FLAG','PROPONENT_FLAG','SALUTATION','FIRST_NAME','MIDDLE_NAME','LAST_NAME','TITLE','ORGANIZATION_NAME','DEPARTMENT','EMAIL_ADDRESS','PHONE_NUMBER','HOME_PHONE_NUMBER','FAX_NUMBER','CELL_PHONE_NUMBER','ADDRESS_LINE_1','ADDRESS_LINE_2','CITY','PROVINCE_STATE','COUNTRY','POSTAL_CODE','NOTES'];
+			var v1ColArray = ['PERSON_ID','EAO_STAFF_FLAG','PROPONENT_FLAG','SALUTATION','FIRST_NAME','MIDDLE_NAME','LAST_NAME','TITLE','ORGANIZATION_NAME','DEPARTMENT','EMAIL_ADDRESS','PHONE_NUMBER','HOME_PHONE_NUMBER','FAX_NUMBER','CELL_PHONE_NUMBER','ADDRESS_LINE_1','ADDRESS_LINE_2','CITY','PROVINCE_STATE','COUNTRY','POSTAL_CODE','NOTES'];
+			var v1RowToObject = function(row) {
+				console.log('v1: row = ', row);
+				row.EMAIL_ADDRESS = row.EMAIL_ADDRESS ? row.EMAIL_ADDRESS.trim() : "";
+				var obj = {
+					personId      : parseInt(row.PERSON_ID),
+					orgName       : row.ORGANIZATION_NAME,
+					title         : row.TITLE,
+					displayName   : row.FIRST_NAME + " " + row.LAST_NAME,
+					firstName     : row.FIRST_NAME,
+					middleName    : row.MIDDLE_NAME,
+					lastName      : row.LAST_NAME,
+					phoneNumber   : row.PHONE_NUMBER,
+					homePhoneNumber : row.HOME_PHONE_NUMBER,
+					email         : row.EMAIL_ADDRESS !== "" ? row.EMAIL_ADDRESS : "none@specified.com"+row.FIRST_NAME +"."+ row.LAST_NAME +"."+ row.ORGANIZATION_NAME,
+					eaoStaffFlag  : Boolean(row.EAO_STAFF_FLAG),
+					proponentFlag : Boolean(row.PROPONENT_FLAG),
+					salutation    : row.SALUTATION,
+					department    : row.DEPARTMENT,
+					faxNumber     : row.FAX_NUMBER,
+					cellPhoneNumber : row.CELL_PHONE_NUMBER,
+					address1      : row.ADDRESS_LINE_1,
+					address2      : row.ADDRESS_LINE_2,
+					city          : row.CITY,
+					province      : row.PROVINCE_STATE,
+					country       : row.COUNTRY,
+					postalCode    : row.POSTAL_CODE,
+					notes         : row.NOTES,
+					username      : row.EMAIL_ADDRESS !== "" ? row.EMAIL_ADDRESS : row.FIRST_NAME +"."+ row.LAST_NAME +"."+ row.ORGANIZATION_NAME,
+					password      : crypto.randomBytes(8)
+				};
+				console.log('v1: obj = ', JSON.stringify(obj, null, 4));
+				return obj;
+			};
+			
+			var v2ColArray = _.concat(v1ColArray, 'DISPLAY_NAME', 'USERNAME', 'PASSWORD', 'SALT');
+			var v2RowToObject = function(row) {
+				console.log('v2: row = ', row);
+				row.EMAIL_ADDRESS = row.EMAIL_ADDRESS ? row.EMAIL_ADDRESS.trim() : "";
+				var obj = {
+					personId      : parseInt(row.PERSON_ID),
+					orgName       : row.ORGANIZATION_NAME,
+					title         : row.TITLE,
+					displayName   : row.DISPLAY_NAME,
+					firstName     : row.FIRST_NAME,
+					middleName    : row.MIDDLE_NAME,
+					lastName      : row.LAST_NAME,
+					phoneNumber   : row.PHONE_NUMBER,
+					homePhoneNumber : row.HOME_PHONE_NUMBER,
+					email         : row.EMAIL_ADDRESS !== "" ? row.EMAIL_ADDRESS : "none@specified.com" + row.FIRST_NAME +"."+ row.LAST_NAME +"."+ row.ORGANIZATION_NAME,
+					eaoStaffFlag  : Boolean(row.EAO_STAFF_FLAG),
+					proponentFlag : Boolean(row.PROPONENT_FLAG),
+					salutation    : row.SALUTATION,
+					department    : row.DEPARTMENT,
+					faxNumber     : row.FAX_NUMBER,
+					cellPhoneNumber : row.CELL_PHONE_NUMBER,
+					address1      : row.ADDRESS_LINE_1,
+					address2      : row.ADDRESS_LINE_2,
+					city          : row.CITY,
+					province      : row.PROVINCE_STATE,
+					country       : row.COUNTRY,
+					postalCode    : row.POSTAL_CODE,
+					notes         : row.NOTES,
+					username      : row.USERNAME,
+					password      : row.PASSWORD,
+					salt          : row.SALT
+				};
+				console.log('v2: obj = ', JSON.stringify(obj, null, 4));
+				return obj;
+			};
+			
+			
+			var lines = data.split(/\r\n|\r|\n/g);
+			console.log('File line count =  ', _.size(lines));
+			var v1 = _.size(lines) === 0 ? true : (lines[0].match(/,/g).length === v1ColArray.length-1);
+			console.log('File v1? ', v1);
+			
+			var colArray = v1 ? v1ColArray : v2ColArray;
+			var rowParser = v1 ? v1RowToObject : v2RowToObject;
+
 			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 				// Skip this many rows
 				var length = Object.keys(output).length;
@@ -72,36 +150,7 @@ exports.loadUsers = function(file, req, res, opts) {
 				Object.keys(output).forEach(function(key, index) {
 					if (index > 0) {
 						var row = output[key];
-						row.EMAIL_ADDRESS = row.EMAIL_ADDRESS ? row.EMAIL_ADDRESS.trim() : "";
-						var newObj = {
-							personId      : parseInt(row.PERSON_ID),
-							orgName       : row.ORGANIZATION_NAME,
-							title         : row.TITLE,
-							displayName   : row.FIRST_NAME + " " + row.LAST_NAME,
-							firstName     : row.FIRST_NAME,
-							middleName    : row.MIDDLE_NAME,
-							lastName      : row.LAST_NAME,
-							phoneNumber   : row.PHONE_NUMBER,
-							homePhoneNumber : row.HOME_PHONE_NUMBER,
-							email         : row.EMAIL_ADDRESS !== "" ? row.EMAIL_ADDRESS : "none@specified.com"+row.FIRST_NAME +"."+ row.LAST_NAME +"."+ row.ORGANIZATION_NAME,
-							eaoStaffFlag  : Boolean(row.EAO_STAFF_FLAG),
-							proponentFlag : Boolean(row.PROPONENT_FLAG),
-							salutation    : row.SALUTATION,
-							department    : row.DEPARTMENT,
-							faxNumber     : row.FAX_NUMBER,
-							cellPhoneNumber : row.CELL_PHONE_NUMBER,
-							address1      : row.ADDRESS_LINE_1,
-							address2      : row.ADDRESS_LINE_2,
-							city          : row.CITY,
-							province      : row.PROVINCE_STATE,
-							country       : row.COUNTRY,
-							postalCode    : row.POSTAL_CODE,
-							notes         : row.NOTES,
-							username      : row.EMAIL_ADDRESS !== "" ? row.EMAIL_ADDRESS : row.FIRST_NAME +"."+ row.LAST_NAME +"."+ row.ORGANIZATION_NAME,
-							password      : crypto.randomBytes(8)
-						};
-						// console.log("pushing:" + newObj.email + ", username:" + newObj.username);
-						promises.push(newObj);
+						promises.push(rowParser(row));
 					}
 				});
 
@@ -186,6 +235,8 @@ exports.loadUsers = function(file, req, res, opts) {
 						.then(rs, rj);
 					});
 				};
+				
+
 
 				Promise.resolve ()
 				.then (function () {

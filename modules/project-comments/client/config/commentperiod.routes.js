@@ -94,12 +94,12 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				}
 			};
 			$scope.hasErrors = false;
-			$scope.errorMessage = '';
+			//$scope.errorMessage = '';
 
 			$scope.save = function () {
 				if (_.size($scope.period.commenterRoles) === 0 || _.size($scope.period.vettingRoles) === 0 || _.size($scope.period.classificationRoles) === 0) {
 					$scope.hasErrors = true;
-					$scope.errorMessage = 'Post, Vet and Classify Comments roles are all required.  See Roles & Permissions tab.';
+					//$scope.errorMessage = 'Post, Vet and Classify Comments roles are all required. See Roles & Permissions tab.';
 				} else {
 					period.project = project._id;
 					

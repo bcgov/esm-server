@@ -2185,6 +2185,38 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 			opacity: 1;
 		}
 	}
+
+	&.flex-row {
+		.alert-icon {
+			padding-right: 1rem;
+			font-size: 1.6rem;
+			-webkit-flex: 0 0 auto;
+			flex: 0 0 auto;
+
+			.glyphicon {
+				margin-top: 2px;
+			}
+		}
+
+		.alert-msg {
+			-webkit-flex: 0 0 auto;
+			flex: 1 1 auto;
+
+			.alert-msg-title,
+			.alert-msg-details {
+				display: block;
+			}
+
+			.alert-msg-title {
+				font-size: 1.6rem;
+				font-weight: bold;
+			}
+
+			.alert-msg-details {
+				margin-top: 0.25rem;
+			}
+		}
+	}
 }
 
 .alert-info {
@@ -2209,40 +2241,6 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 	color: #FFF;
 	background: $warning-bg;
 	border: 1px solid $warning-border;
-}
-
-.floating-alert {
-	position: fixed;
-	margin-left: -25rem;
-	top: 4.5rem;
-	left: 50%;
-	width: 50rem;
-	box-shadow: 0.2rem 0.2rem 0.8rem rgba(0, 0, 0, 0.4);
-	z-index: 10;
-
-	.btn {
-		position: absolute;
-		top: 0.8rem;
-		right: 0.8rem;
-		min-width: 3rem;
-		font-size: 2.1rem;
-		padding: 0.5rem;
-		background: transparent;
-
-		&:hover,
-		&:focus {
-			color: #FFF;
-			opacity: 1;
-		}
-
-		&:focus {
-			outline-color: #FFF;
-		}
-	}
-
-	.glyphicon {
-		font-size: 2rem;
-	}
 }
 
 
