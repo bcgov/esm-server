@@ -10,7 +10,13 @@
 
 	<div class="view-body-container">
 
-    <div ng-show="hasErrors" class="alert alert-danger">{{errorMessage}}</div>
+    <div ng-show="hasErrors" class="alert alert-danger flex-row">
+		<div class="alert-icon"><span class="glyphicon glyphicon-exclamation-sign"></span></div>
+		<div class="alert-msg">
+			<span class="alert-msg-title">Roles & Permissions are not complete.</span>
+			<span class="alert-msg-details">There must be at least one (1) role assigned to each permission.</span>
+		</div>
+	</div>
 
 		<!-- TABS -->
 		<ul class="nav nav-tabs" ng-init="form.curTab = 'pcpDetails'">
@@ -36,8 +42,9 @@
 					</select>
 				</div>
 				<div class="col-sm-6 col-lg-4 form-group">
-					<label class="control-label">Content for Review</label>
-					<select ng-model="period.artifact" class="form-control" ng-options="artifact as artifact.name for artifact in artifacts"></select>
+					<label class="control-label" for="artifact">Content for Review</label>
+					<select class="form-control" ng-model="period.artifact"
+						ng-options="artifact as artifact.name for artifact in artifacts" required></select>
 				</div>
 			</div>
 			<div class="row">
