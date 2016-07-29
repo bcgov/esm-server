@@ -130,7 +130,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				return VcModel.getVCsInList(vc.subComponents);
 			}
 		},
-		controller: function ($scope, $state, vc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _, vclist, vcs) {
+		controller: function ($scope, $state, vc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _, vclist, vcs, VCTYPES) {
 			// console.log ('vc = ', vc);
 			$scope.vc = vc;
 			$scope.vclist = vclist;
@@ -140,6 +140,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.vc.artifact.maindocument = $scope.vc.artifact.document._id ? [$scope.vc.artifact.document._id] : [];
 			$scope.project = project;
 			$scope.pillars = PILLARS;
+			$scope.types = VCTYPES;
 			$scope.selectTopic = function () {
 				var self = this;
 				TopicModel.getTopicsForPillar (this.vc.pillar).then (function (topics) {

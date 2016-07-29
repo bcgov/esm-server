@@ -68,6 +68,11 @@ angular
 			'Health'
 		]
 	)
+	.constant('VCTYPES',
+		[ 'Valued Component',
+		'Pathway Component'
+		]
+	)
 	.constant('PILLARS',
 		[
 			'Environment',
