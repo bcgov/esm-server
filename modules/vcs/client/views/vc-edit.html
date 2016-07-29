@@ -27,11 +27,14 @@
 		</div>
 		<div class="col-md-4 form-group">
 			<label for="type" class="control-label">Type</label>
-			<input id="type" type="text" class="form-control" ng-model="vc.type" disabled="disabled">
+			<select id="type"
+				ng-model='vc.type'
+				ng-options="type as type for type in types"
+				class="form-control">
+			</select>
 		</div>
 	</div>
-	<div ng-if="vc.type === 'Pathway Component'"
-			class="row form-group">
+	<div class="row form-group">
 		<div class="col-sm-12">
 			<label for="subComponents" class="control-label">Sub Components</label>
 			<button

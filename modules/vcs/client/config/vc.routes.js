@@ -20,14 +20,25 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		url: '/vc',
 		template: '<ui-view></ui-view>',
 		resolve: {
-			vcs: function ($stateParams, VcModel, ArtifactModel, project, ENV) {
+			vcs: function ($stateParams, VcModel, ArtifactModel, project, ENV, _) {
 				// console.log ('vc abstract resolving vcs');
 				// console.log ('project id = ', project._id);
 				// if (ENV === 'EAO')
 				// 	// In EAO, they are artifacts - nothing for MEM right now so leave it.
 				// 	return ArtifactModel.forProjectGetType (project._id, "valued-component");
 				// else
-					return VcModel.forProject (project._id);
+
+				// This runs the populate for artifact, since it's been broken.
+				return VcModel.forProject (project._id)
+				.then( function (list) {
+					_.each(list, function (item) {
+						ArtifactModel.lookup(item.artifact)
+						.then( function (art) {
+							item.artifact = art;
+						});
+					});
+					return list;
+				});
 			}
 		}
 	})
@@ -119,7 +130,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				return VcModel.getVCsInList(vc.subComponents);
 			}
 		},
-		controller: function ($scope, $state, vc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _, vclist, vcs) {
+		controller: function ($scope, $state, vc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _, vclist, vcs, VCTYPES) {
 			// console.log ('vc = ', vc);
 			$scope.vc = vc;
 			$scope.vclist = vclist;
@@ -129,6 +140,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.vc.artifact.maindocument = $scope.vc.artifact.document._id ? [$scope.vc.artifact.document._id] : [];
 			$scope.project = project;
 			$scope.pillars = PILLARS;
+			$scope.types = VCTYPES;
 			$scope.selectTopic = function () {
 				var self = this;
 				TopicModel.getTopicsForPillar (this.vc.pillar).then (function (topics) {

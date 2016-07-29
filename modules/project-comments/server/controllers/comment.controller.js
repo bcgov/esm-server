@@ -53,7 +53,8 @@ module.exports = DBModel.extend ({
 					//console.log('commentPermissions = ' + JSON.stringify(commentPermissions, null, 4));
 					// get all the associated documents and update their permissions as required.
 					return new Promise(function (resolve, reject) {
-						documentClass.getList(comment.documents)
+						var q = {_id : {$in : comment.documents }};
+						documentClass.listforaccess ('i do not want to limit my access because public people add comments with docs too.', q)
 							.then(function (data) {
 								resolve({commentPermissions: commentPermissions, docs: data});
 							});
