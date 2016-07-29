@@ -117,6 +117,7 @@ angular.module ('comment')
 						self.comment.documents 	= angular.copy(docs);
 
 						self.canUpdate = (self.period.userCan.classifyComments || self.period.userCan.vetComments);
+						self.rejectedReasons = ['', 'Unsuitable Language', 'Quoting Third Parties', 'Petitions', 'Personally Identifying Information'];
 
 						self.showAlert = false;
 						if (self.period.userCan.vetComments && self.comment.eaoStatus !== 'Unvetted') {

@@ -59,7 +59,7 @@
                 <div class="title">{{ file.internalOriginalName }}</div>
                 <div class="comment-review-btns" ng-if="s.period.userCan.vetComments">
                     <button class="reject-btn btn btn-default btn-sm" type="button" title="Reject attachment"
-                        ng-class="{'active':file.eaoStatus === 'Rejected'}" 
+                        ng-class="{'active':file.eaoStatus === 'Rejected'}"
                         ng-click="s.fileStatusChange('Rejected', file)">Reject
                     </button>
                     <button class="publish-btn btn btn-default btn-sm" type="button" title="Publish attachment"
@@ -82,15 +82,15 @@
             <label class="control-label">Comment State</label>
             <div class="comment-review-btns">
                 <button class="defer-btn btn btn-default" type="button" title="Defer comment"
-                    ng-class="{'active':s.comment.eaoStatus === 'Deferred'}" 
+                    ng-class="{'active':s.comment.eaoStatus === 'Deferred'}"
                     ng-click="s.statusChange('Deferred')">Defer
                 </button>
                 <button class="reject-btn btn btn-default" type="button" title="Reject comment"
-                    ng-class="{'active':s.comment.eaoStatus === 'Rejected'}" 
+                    ng-class="{'active':s.comment.eaoStatus === 'Rejected'}"
                     ng-click="s.statusChange('Rejected')">Reject
                 </button>
                 <button class="publish-btn btn btn-default" type="button" title="Publish comment"
-                    ng-class="{'active':s.comment.eaoStatus === 'Published'}" 
+                    ng-class="{'active':s.comment.eaoStatus === 'Published'}"
                     ng-click="s.statusChange('Published')">Publish
                 </button>
             </div>
@@ -102,7 +102,7 @@
         <div class="comment-status-note" ng-if="s.comment.eaoStatus === 'Rejected'">
             <div class="form-group" ng-class="{ 'has-error' : commentForm.rejectedReason.$invalid }">
                 <label class="control-label">Reason for Rejection<em>Required</em></label>
-                <input class="form-control" name="rejectedReason" type="text" ng-model="s.comment.rejectedReason" ng-required="s.comment.eaoStatus === 'Rejected'" />
+                <select name="rejectedReason" ng-model="s.comment.rejectedReason" class="form-control" ng-required="s.comment.eaoStatus === 'Rejected'" ng-options="reason as reason for reason in s.rejectedReasons"></select>
             </div>
             <div class="form-group" ng-class="{ 'has-error' : commentForm.rejectedNotes.$invalid }">
                 <label class="control-label">Rejection Note<em>Required</em></label>
