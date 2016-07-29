@@ -20,14 +20,25 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		url: '/vc',
 		template: '<ui-view></ui-view>',
 		resolve: {
-			vcs: function ($stateParams, VcModel, ArtifactModel, project, ENV) {
+			vcs: function ($stateParams, VcModel, ArtifactModel, project, ENV, _) {
 				// console.log ('vc abstract resolving vcs');
 				// console.log ('project id = ', project._id);
 				// if (ENV === 'EAO')
 				// 	// In EAO, they are artifacts - nothing for MEM right now so leave it.
 				// 	return ArtifactModel.forProjectGetType (project._id, "valued-component");
 				// else
-					return VcModel.forProject (project._id);
+
+				// This runs the populate for artifact, since it's been broken.
+				return VcModel.forProject (project._id)
+				.then( function (list) {
+					_.each(list, function (item) {
+						ArtifactModel.lookup(item.artifact)
+						.then( function (art) {
+							item.artifact = art;
+						});
+					});
+					return list;
+				});
 			}
 		}
 	})
