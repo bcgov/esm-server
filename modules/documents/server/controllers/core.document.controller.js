@@ -251,6 +251,9 @@ module.exports = DBModel.extend ({
 	getList : function (list) {
 		return this.list ({_id : {$in : list }});
 	},
+	getListIgnoreAccess : function (list) {
+		return this.listforaccess ('ignore the access level', {_id : {$in : list }});
+	},
 	// for documents associated with a comment
 	// if the comment is published or unpublished, then we need the same permissions/access level
 	// unless the document has been explicitly rejected,
