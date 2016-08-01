@@ -122,9 +122,11 @@ module.exports = DBModel.extend ({
 			.then(function(res) {
 				//console.log('periods = ' + JSON.stringify(res));
 				return new Promise(function (resolve, reject) {
-					Comment.find ({period: {$in: [_.map(res, '_id')] }}).exec()
-					.then(function (data) {
-						resolve({periods: res, comments: data});
+					Comment
+					.find ({period: {$in: _.map(res, '_id') }})
+					.exec()
+					.then(function(docs) {
+						resolve({periods: res, comments: docs});
 					});
 				});
 			})
@@ -163,7 +165,7 @@ module.exports = DBModel.extend ({
 				return periodsWithStats;
 			})
 			.then(function(res) {
-				console.log('periodWithStats = ',JSON.stringify(res, null, 4));
+				//console.log('periodWithStats = ',JSON.stringify(res, null, 4));
 				return res;
 			})
 			.then (resolve, reject);
