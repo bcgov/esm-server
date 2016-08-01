@@ -486,7 +486,7 @@ module.exports = DBModel.extend({
 					return documentClass.publish(artifact.document);
 				})
 				.then(function () {
-					return documentClass.getList(artifact.additionalDocuments);
+					return documentClass.getListIgnoreAccess(artifact.additionalDocuments);
 				})
 				.then(function (list) {
 					//console.log('documentClass.publishList(artifact.additionalDocuments): ' + JSON.stringify(list, null, 4));
@@ -498,7 +498,7 @@ module.exports = DBModel.extend({
 					return Promise.all(a);
 				})
 				.then(function () {
-					return documentClass.getList(artifact.supportingDocuments);
+					return documentClass.getListIgnoreAccess(artifact.supportingDocuments);
 				})
 				.then(function (list) {
 					//console.log('documentClass.publishList(artifact.supportingDocuments): ' + JSON.stringify(list, null, 4));
@@ -510,7 +510,7 @@ module.exports = DBModel.extend({
 					return Promise.all(a);
 				})
 				.then(function () {
-					return documentClass.getList(artifact.internalDocuments);
+					return documentClass.getListIgnoreAccess(artifact.internalDocuments);
 				})
 				.then(function (list) {
 					//console.log('documentClass.unpublishList(artifact.internalDocuments): ' + JSON.stringify(list, null, 4));
@@ -522,7 +522,7 @@ module.exports = DBModel.extend({
 					return Promise.all(a);
 				})
 				.then(function () {
-					console.log('< save()');
+					//console.log('< save()');
 					return artifact;
 				})
 				.then(resolve, reject);
@@ -539,7 +539,7 @@ module.exports = DBModel.extend({
 					return documentClass.unpublish(artifact.document);
 				})
 				.then(function () {
-					return documentClass.getList(artifact.additionalDocuments);
+					return documentClass.getListIgnoreAccess(artifact.additionalDocuments);
 				})
 				.then(function (list) {
 					//console.log('documentClass.unpublishList(artifact.additionalDocuments): ' + JSON.stringify(list, null, 4));
@@ -551,7 +551,7 @@ module.exports = DBModel.extend({
 					return Promise.all(a);
 				})
 				.then(function () {
-					return documentClass.getList(artifact.supportingDocuments);
+					return documentClass.getListIgnoreAccess(artifact.supportingDocuments);
 				})
 				.then(function (list) {
 					//console.log('documentClass.unpublishList(artifact.supportingDocuments): ' + JSON.stringify(list, null, 4));
@@ -563,7 +563,7 @@ module.exports = DBModel.extend({
 					return Promise.all(a);
 				})
 				.then(function () {
-					return documentClass.getList(artifact.internalDocuments);
+					return documentClass.getListIgnoreAccess(artifact.internalDocuments);
 				})
 				.then(function (list) {
 					//console.log('documentClass.unpublishList(artifact.internalDocuments): ' + JSON.stringify(list, null, 4));
@@ -575,7 +575,7 @@ module.exports = DBModel.extend({
 					return Promise.all(a);
 				})
 				.then(function () {
-					console.log('< save()');
+					//console.log('< save()');
 					return artifact;
 				})
 				.then(resolve, reject);

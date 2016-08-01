@@ -33,6 +33,12 @@ module.exports = DBModel.extend ({
 		//
 		// check if there is an existing matching document
 		//
+		
+		// what should default permissions be?
+		doc.read = ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'];
+		doc.write = ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'];
+		doc.delete = ['eao-admin'];
+		
 		return this.findOne ({
 			documentIsLatestVersion: true,
 			projectFolderType       : doc.projectFolderType,
