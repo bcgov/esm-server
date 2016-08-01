@@ -929,6 +929,34 @@ _.extend (DBModel.prototype, {
 				.then (resolve, self.complete (reject, 'listforaccess'));
 		});
 	},
+	listIgnoreAccess: function(q, f, p) {
+		if (p) this.populate = p;
+		q = q || {};
+		this.setAccessOnce ('ignoring the access permissions, object may not have the correct ones yet...');
+		q = _.extend ({}, this.baseQ, q);
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findMany (q, f)
+			.then (self.permissions)
+			.then (self.decorateAll)
+			.then (resolve, self.complete (reject, 'listIgnoreAccess'));
+		});
+	},
+	oneIgnoreAccess : function (q, f, p) {
+		if (p) this.populate = p;
+		q = q || {};
+		this.setAccessOnce ('ignoring the access permissions, object may not have the correct ones yet...');
+		q = _.extend ({}, this.baseQ, q);
+		f = f || {};
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findOne (q, f)
+			.then (self.permissions)
+			.then (self.decorate)
+			.then (resolve, self.complete (reject, 'oneIgnoreAccess'));
+		});
+	},
+	
 	// -------------------------------------------------------------------------
 	//
 	// lets decide to save some time debugging and just finally overload this puppy
