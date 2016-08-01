@@ -46,7 +46,7 @@ module.exports = function () {
 				'listArtifacts': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd'],
 				'listUsers': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 				'viewEAOTombstone': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-				'uploadDocument': ['eao-admin', 'pro-admin', 'pro-member'],
+				'uploadDocument': ['eao-admin', 'pro-admin', 'pro-member', 'lead', 'epd'],
 				'createProjectInvitation': ['eao-admin', 'pro-admin', 'pro-member'],
 				'createValuedComponent': ['eao-admin', 'lead', 'epd', 'pro-admin', 'pro-member'],
 				'createArtifact': ['eao-admin', 'pro-admin', 'pro-member', 'lead', 'epd'],
@@ -95,8 +95,8 @@ module.exports = function () {
 				'sendForApproval': ['eao-admin'],
 				'sendForExecutiveApproval': ['eao-admin'],
 				'sendForDecision': ['eao-admin'],
-				'publish': ['eao-admin'],
-				'unPublish': ['eao-admin'],
+				'publish': ['eao-admin', 'lead', 'epd'],
+				'unPublish': ['eao-admin', 'lead', 'epd'],
 				'reject': ['eao-admin'],
 				'setPermissions': ['eao-admin'],
 				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd'],
@@ -132,13 +132,13 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'download': ['eao-admin'],
-				'uploadNewVersion': ['eao-admin'],
-				'viewOldVersions': ['eao-admin'],
-				'downloadOldVersions': ['eao-admin'],
+				'download': ['eao-admin','eao-member','pro-admin', 'pro-member'],
+				'uploadNewVersion': ['eao-admin', 'lead', 'epd'],
+				'viewOldVersions': ['eao-admin', 'lead', 'epd'],
+				'downloadOldVersions': ['eao-admin', 'lead', 'epd'],
 				'setPermissions': ['eao-admin'],
-				'publish': ['eao-admin'],
-				'unPublish': ['eao-admin'],
+				'publish': ['eao-admin', 'lead', 'epd'],
+				'unPublish': ['eao-admin', 'lead', 'epd'],
 				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd'],
 				'write': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd'],
 				'delete': ['eao-admin']
@@ -179,7 +179,7 @@ module.exports = function () {
 			roles: defaultRoles,
 			permissions: {
 				'setPermissions': ['eao-admin'],
-				'read': ['eao-admin', 'lead', 'epd', 'pro-admin', 'pro-member'],
+				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 				'write': ['eao-admin', 'lead', 'epd'],
 				'delete': ['eao-admin']
 			}
@@ -195,7 +195,7 @@ module.exports = function () {
 			roles: defaultRoles,
 			permissions: {
 				'setPermissions': ['eao-admin'],
-				'read': ['eao-admin', 'lead', 'epd', 'pro-admin', 'pro-member'],
+				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 				'write': ['eao-admin', 'lead', 'epd'],
 				'delete': ['eao-admin']
 			}
@@ -242,7 +242,7 @@ module.exports = function () {
 				'publish': ['eao-admin', 'lead', 'epd'],
 				'unPublish': ['eao-admin', 'lead', 'epd'],
 				'setPermissions': ['eao-admin'],
-				'read': ['eao-admin', 'lead', 'epd', 'pro-member'],
+				'read': ['eao-admin', 'pro-member', 'pro-member'],
 				'write': ['eao-admin', 'lead', 'epd'],
 				'delete': ['eao-admin', 'lead', 'epd']
 			}
@@ -352,9 +352,9 @@ module.exports = function () {
 				'eao-admin': allProjectPermissions,
 				'eao-member': readProjectPermissions,
 				'eao-invitee': [],
-				'epd': ['editProject', 'createCommentPeriod', 'publishValuedComponents'],
+				'epd': ['editProject', 'createCommentPeriod', 'publishValuedComponents', 'uploadDocument'],
 				'intake': ['editProject', 'createRole', 'manageRoles', 'managePermissions', 'addUsersToContext'],
-				'lead': ['editProject', 'createCommentPeriod', 'createRole', 'manageRoles', 'managePermissions', 'addUsersToContext', 'publishValuedComponents'],
+				'lead': ['editProject', 'createCommentPeriod', 'createRole', 'manageRoles', 'managePermissions', 'addUsersToContext', 'publishValuedComponents', 'uploadDocument'],
 				'team': [],
 				'assistant-dm': [],
 				'assistant-dm-office': [],
