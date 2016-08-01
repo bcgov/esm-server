@@ -43,13 +43,13 @@ module.exports = function () {
 				'listProjectConditions': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 				'listInspectionReports': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 				'listValuedComponents': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-				'listArtifacts': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
+				'listArtifacts': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd'],
 				'listUsers': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 				'viewEAOTombstone': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 				'uploadDocument': ['eao-admin', 'pro-admin', 'pro-member'],
 				'createProjectInvitation': ['eao-admin', 'pro-admin', 'pro-member'],
 				'createValuedComponent': ['eao-admin', 'lead', 'epd', 'pro-admin', 'pro-member'],
-				'createArtifact': ['eao-admin', 'pro-admin', 'pro-member'],
+				'createArtifact': ['eao-admin', 'pro-admin', 'pro-member', 'lead', 'epd'],
 				'editProject': ['eao-admin', 'lead', 'epd', 'intake'],
 				'createEnforcement': ['eao-admin'],
 				'createCommentPeriod': ['eao-admin', 'lead', 'epd'],
@@ -99,8 +99,8 @@ module.exports = function () {
 				'unPublish': ['eao-admin'],
 				'reject': ['eao-admin'],
 				'setPermissions': ['eao-admin'],
-				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-				'write': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
+				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd'],
+				'write': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd'],
 				'delete': ['eao-admin']
 			}
 		}
@@ -139,8 +139,8 @@ module.exports = function () {
 				'setPermissions': ['eao-admin'],
 				'publish': ['eao-admin'],
 				'unPublish': ['eao-admin'],
-				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-				'write': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
+				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd'],
+				'write': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd'],
 				'delete': ['eao-admin']
 			}
 		}

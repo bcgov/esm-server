@@ -215,6 +215,8 @@ module.exports = DBModel.extend({
 			artifact.write.push("pro-admin");
 			artifact.write.push("pro-member");
 			artifact.write.push("team");
+			artifact.write.push("lead");
+			artifact.write.push("epd");
 		} else if (_.startsWith(type, 'section-10')) {
 			artifact.read.push("team");
 			artifact.write.push("epd");
