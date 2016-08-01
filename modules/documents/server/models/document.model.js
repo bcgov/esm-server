@@ -100,7 +100,10 @@ module.exports = genSchema ('Document', {
 		'download',
 		'uploadNewVersion',
 		'viewOldVersions',
-		'downloadOldVersions'
+		'downloadOldVersions',
+		'setPermissions',
+		'publish',
+		'unPublish'
 	],
 	project                 : { type:'ObjectId', ref:'Project', default:null },
 	dateAdded               : { type: Date, default: Date.now },

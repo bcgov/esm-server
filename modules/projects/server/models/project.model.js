@@ -35,7 +35,6 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 		'manageRoles',
 		'managePermissions',
 		'createRole',
-		'publishValuedComponents',
 		'addUsersToContext'
 	],
 	__tracking            : true,
