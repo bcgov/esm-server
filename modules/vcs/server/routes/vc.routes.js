@@ -19,5 +19,15 @@ module.exports = function (app) {
 		.put (routes.setAndRun (Vc, function (model, req) {
 			return model.getList (req.body);
 		}));
+	app.route ('/api/publish/vc/:vc')
+	.all (policy ('user'))
+	.put (routes.setAndRun (Vc, function (model, req) {
+		return model.publish (req.Vc);
+	}));
+	app.route ('/api/unpublish/vc/:vc')
+	.all (policy ('user'))
+	.put (routes.setAndRun (Vc, function (model, req) {
+		return model.unpublish (req.Vc);
+	}));
 };
 
