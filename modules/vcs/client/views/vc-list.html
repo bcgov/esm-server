@@ -12,13 +12,15 @@
 		</div>
 	</div>
 	<div class="panel panel-default">
-		<table ng-table="tableParams" show-filter="true" class="table table-hover table-striped">
+		<table ng-table="tableParams" show-filter="true" class="vc-list table table-hover table-striped">
 			<tr ng-repeat="o in $data" ui-sref="p.vc.detail({vcId:o._id})">
 				<td data-title="'Title'"    filter="{'title':'text'}"     sortable="'title'"    >{{o.title}}</td>
 				<td data-title="'Name'"    filter="{'name':'text'}"     sortable="'name'"    >{{o.name}}</td>
 				<td data-title="'Pillar'" filter="{'pillar':'text'}"   	class="text-center" sortable="'pillar'"  >{{o.pillar}}</td>
-				<td ng-if="authentication.user" data-title="'Published'" sortable="'artifact.isPublished'"><i ng-if="o.artifact.isPublished" class="glyphicon glyphicon-ok"></i></td>
 				<td data-title="'Type'"    filter="{'name':'text'}"     sortable="'name'"    >{{o.type}}</td>
+				<td class="status-col" header-class="'status-col'" ng-if="authentication.user" data-title="'Status'" sortable="'artifact.isPublished'">
+					<label class="label label-success" ng-if="o.artifact.isPublished">Published</label>
+				</td>
 				<td class="actions-col action-x2" header-class="'actions-col action-x2'">
 					<a class="btn btn-link btn-sm" ng-if="o.userPermissions.write" title="Edit Valued Component" ng-click="$event.stopPropagation()" ui-sref="p.vc.edit({vcId:o._id})">
 						<span class="glyphicon glyphicon-pencil"></span>

@@ -2,16 +2,16 @@
 <div class="view-title-container flex-row">
 	<h1><span ng-show="project.name">Edit Valued Component &nbsp;&rsaquo;&nbsp; {{vc.title}}</h1>
 	<div class="actions">
-	<a class="btn btn-default btn-sm" 
-		ui-sref="p.vc.list">Cancel</a>
-	<button class="btn btn-primary btn-sm"
-		ng-click="save()">Save</button>
-	<button class="btn btn-default btn-sm" 
-		ng-if="canUnpublish"
-		ng-click="unpublish()">Unpublish</button>
-    <button class="btn btn-success btn-sm" 
-		ng-if="canPublish" 
-		ng-click="publish()">Publish</button>
+		<a class="btn btn-default btn-sm" 
+			ui-sref="p.vc.list">Cancel</a>
+		<button class="btn btn-primary btn-sm"
+			ng-click="save()">Save</button>
+		<button class="btn btn-default btn-sm" 
+			ng-if="canUnpublish"
+			ng-click="unpublish()">Unpublish</button>
+		<button class="btn btn-success btn-sm" 
+			ng-if="canPublish" 
+			ng-click="publish()">Publish</button>
 	</div>
 </div>
 
@@ -23,6 +23,10 @@
 		<div class="panel-body vc-details-panel-body">
 			<div class="row">
 				<div class="col-sm-6 col-lg-3 form-group">
+					<label for="title" class="control-label">Name</label>
+					<input id="title" type="text" class="form-control" ng-model="vc.name" disabled="disabled">
+				</div>
+				<div class="col-sm-6 col-lg-3 form-group">
 					<label for="title" class="control-label">Title</label>
 					<input id="title" type="text" class="form-control" ng-model="vc.title">
 				</div>
@@ -33,10 +37,6 @@
 						ng-options="pillar as pillar for pillar in pillars"
 						class="form-control">
 					</select>
-				</div>
-				<div class="col-sm-6 col-lg-3 form-group">
-					<label for="title" class="control-label">Name</label>
-					<input id="title" type="text" class="form-control" ng-model="vc.name" disabled="disabled">
 				</div>
 				<div class="col-sm-6 col-lg-3 form-group">
 					<label for="type" class="control-label">Type</label>
@@ -96,6 +96,21 @@
 	</div><!-- / HIDDEN -->
 
 	<tmpl-artifact-display x-mode="'edit'" x-artifact="vc.artifact" x-project="project"></tmpl-artifact-display>
+
+	<div clas="form-footer">
+		<div class="pull-right">
+			<a class="btn btn-default btn-sm" 
+				ui-sref="p.vc.list">Cancel</a>
+			<button class="btn btn-primary btn-sm"
+				ng-click="save()">Save</button>
+			<button class="btn btn-default btn-sm" 
+				ng-if="canUnpublish"
+				ng-click="unpublish()">Unpublish</button>
+			<button class="btn btn-success btn-sm" 
+				ng-if="canPublish" 
+				ng-click="publish()">Publish</button>
+		</div>
+	</div>
 
 </div><!-- / VIEW BODY CONTAINER -->
 
