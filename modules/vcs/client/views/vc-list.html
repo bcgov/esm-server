@@ -18,8 +18,9 @@
 				<td data-title="'Name'"    filter="{'name':'text'}"     sortable="'name'"    >{{o.name}}</td>
 				<td data-title="'Pillar'" filter="{'pillar':'text'}"   	sortable="'pillar'"  >{{o.pillar}}</td>
 				<td data-title="'Type'"    filter="{'name':'text'}"     sortable="'name'"    >{{o.type}}</td>
-				<td class="status-col" header-class="'status-col'" ng-if="authentication.user" data-title="'Published'" sortable="'artifact.isPublished'">
+				<td class="status-col" header-class="'status-col'" ng-if="authentication.user" data-title="'Status'" sortable="'artifact.isPublished'">
 					<span class="label label-success" ng-if="o.artifact.isPublished">Published</span>
+					<span class="label unpublished" ng-if="!o.artifact.isPublished">Unpublished</span>
 				</td>
 				<td class="actions-col action-x2" header-class="'actions-col action-x2'">
 					<a class="btn btn-link btn-sm" ng-if="o.userPermissions.write" title="Edit Valued Component" ng-click="$event.stopPropagation()" ui-sref="p.vc.edit({vcId:o._id})">

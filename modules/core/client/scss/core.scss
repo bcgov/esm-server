@@ -4861,7 +4861,15 @@ tmpl-template-render {
 
 .vc-table {
 	.status-col {
-		width: 10rem;
+		width: 11.25rem;
+
+		.label {
+			width: 100%;
+
+			&.unpublished {
+				background: #CCC;
+			}
+		}
 	}
 }
 
