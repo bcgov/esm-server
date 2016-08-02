@@ -2852,8 +2852,8 @@
       }
     ],
     "versionNumber": 13,
-    "documentType": "Project Description",
-    "code": "project-description"
+    "documentType": "Project Description Template",
+    "code": "project-description-template"
   },
   {
     "sections":[
