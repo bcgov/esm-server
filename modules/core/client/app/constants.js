@@ -192,7 +192,8 @@ angular
 			'enableSchedule': false,
 			'enableComplaints': false,
 			'enableConditions': false,
-			'enableInspectionReports': false
+			'enableInspectionReports': false,
+			'redirectHomepageToGeorgeMassey': true
 		}
 	)
 	.factory('LOGO', function (ENV) {
