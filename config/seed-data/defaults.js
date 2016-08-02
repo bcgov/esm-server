@@ -179,7 +179,7 @@ module.exports = function () {
 			roles: defaultRoles,
 			permissions: {
 				'setPermissions': ['eao-admin'],
-				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
+				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd'],
 				'write': ['eao-admin', 'lead', 'epd'],
 				'delete': ['eao-admin']
 			}
@@ -195,7 +195,7 @@ module.exports = function () {
 			roles: defaultRoles,
 			permissions: {
 				'setPermissions': ['eao-admin'],
-				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
+				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd'],
 				'write': ['eao-admin', 'lead', 'epd'],
 				'delete': ['eao-admin']
 			}
@@ -242,7 +242,7 @@ module.exports = function () {
 				'publish': ['eao-admin', 'lead', 'epd'],
 				'unPublish': ['eao-admin', 'lead', 'epd'],
 				'setPermissions': ['eao-admin'],
-				'read': ['eao-admin', 'pro-member', 'pro-member'],
+				'read': ['eao-admin', 'lead', 'epd', 'pro-member'],
 				'write': ['eao-admin', 'lead', 'epd'],
 				'delete': ['eao-admin', 'lead', 'epd']
 			}
