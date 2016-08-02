@@ -11,6 +11,7 @@ web:
   - VIRTUAL_HOST=${ESM_VIRTUAL_HOST}
   - SEED_MEM=${SEED_MEM}
   - MEM=${MEM}
+  - ESM_VARIANT=${ESM_VARIANT}
 
 db:
   image: mongo
