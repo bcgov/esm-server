@@ -162,7 +162,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				});
 			};
 			$scope.unpublish = function() {
-				VcModel.save ($scope.vc._id)
+				VcModel.unpublish ($scope.vc._id)
 				.then (function (res) {
 					$state.transitionTo('p.vc.list', {projectid: project.code}, {
 						reload: true, inherit: false, notify: true
