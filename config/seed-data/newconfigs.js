@@ -62,6 +62,11 @@ var baseObjects = {
 		description: 'Project Description',
 		artifactType: 'Project Description'
 	},{
+		code: 'project-description-template',
+		name: 'Project Description Template',
+		description: 'Project Description Template',
+		artifactType: 'Project Description Template'
+	},{
 		code: 'public-comment-period-on-project-description',
 		name: 'Public Comment Period on Project Description',
 		description: 'Public Comment Period on Project Description',

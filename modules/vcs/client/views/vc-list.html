@@ -12,17 +12,26 @@
 		</div>
 	</div>
 	<div class="panel panel-default">
-		<table ng-table="tableParams" show-filter="true" class="table table-hover table-striped">
+		<table ng-table="tableParams" show-filter="true" class="table table-hover vc-table">
 			<tr ng-repeat="o in $data" ui-sref="p.vc.detail({vcId:o._id})">
-				<td data-title="'Title'"    filter="{'title':'text'}"     sortable="'title'"    >{{o.title}}</td>
-				<td data-title="'Name'"    filter="{'name':'text'}"     sortable="'name'"    >{{o.name}}</td>
-				<td data-title="'Pillar'" filter="{'pillar':'text'}"   	sortable="'pillar'"  >{{o.pillar}}</td>
-				<td data-title="'Type'"    filter="{'name':'text'}"     sortable="'name'"    >{{o.type}}</td>
-				<td ng-if="authentication.user" data-title="'Published'" sortable="'artifact.isPublished'"><i ng-if="o.artifact.isPublished" class="glyphicon glyphicon-ok"></i></td>
+				<td data-title="'Title'"   filter="{'title':'text'}"     sortable="'title'"   ><a ui-sref="p.vc.detail({vcId:o._id})">{{o.title}}</a></td>
+				<td data-title="'Name'"    filter="{'name':'text'}"      sortable="'name'"    >{{o.name}}</td>
+				<td data-title="'Pillar'"  filter="{'pillar':'text'}"    sortable="'pillar'"  >{{o.pillar}}</td>
+				<td data-title="'Type'"    filter="{'name':'text'}"      sortable="'name'"    >{{o.type}}</td>
+				<td class="status-col" header-class="'status-col'" ng-if="authentication.user" data-title="'Status'" sortable="'artifact.isPublished'">
+					<span class="label label-success" ng-if="o.artifact.isPublished">Published</span>
+					<span class="label unpublished" ng-if="!o.artifact.isPublished">Unpublished</span>
+				</td>
 				<td class="actions-col action-x2" header-class="'actions-col action-x2'">
-					<a class="btn btn-link btn-sm" ng-if="o.userPermissions.write" title="Edit Valued Component" ng-click="$event.stopPropagation()" ui-sref="p.vc.edit({vcId:o._id})">
+					<a class="btn btn-default btn-sm" title="Edit Valued Component"
+						ng-if="project.userCan.createValuedComponent" 
+						ng-click="$event.stopPropagation()" 
+						ui-sref="p.vc.edit({vcId:o._id})">
 						<span class="glyphicon glyphicon-pencil"></span>
 					</a>
+					<button class="btn btn-default btn-sm hidden" title="Remove Valued Component from Project" ng-click="$event.stopPropagation();">
+						<span class="glyphicon glyphicon-remove"></span>
+					</button>
 					<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="o"></tmpl-permissions-gear>
 				</td>
 			</tr>
