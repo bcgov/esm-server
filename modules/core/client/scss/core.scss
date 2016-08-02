@@ -4877,52 +4877,53 @@ tmpl-template-render {
 	}
 }
 
-.prototype-block {
-	display: flex;
-	flex-flow: row nowrap;
-	align-items: center;
-
-	.phase-block {
-		position: relative;
-		height: 100px;
-		padding: 0.5rem;
-		width: 16.6666%;
-		background: #DDD;
-		font-size: 1.2rem;
-		line-height: 1.4rem;
-		color: #999;
-		flex: 1 1 auto;
-		margin: 1px;
-		
-		&:first-child:nth-last-child(13),
-		&:first-child:nth-last-child(13) ~ .phase-block {
-			width: 13%;
-		}
-
-		&.completed {
-			color: #FFF;
-			background: $success-bg;
-		}
-
-		.glyphicon {
-			left: 50%;
-			margin-top: 2rem;
-			margin-left: -1.6rem;
-			font-size: 3.2rem;
-		}
-
-		span {
-			display: block;
-			font-size: 1.2rem;
-			line-height: 1.4rem;
-			font-weight: bold;
-			white-space: pre-line;
-		}
+.project-timeline {
+	.panel-heading {
+		border: none;
 	}
 
-	.percentage-marker {
-		display: block;
-		background: orange;
-		height: 10px;
+	.timeline-container {
+		padding: 1.5rem;
+		padding-top: 0;
+		display: flex;
+		flex-flow: row nowrap;
+
+		.phase {
+			position: relative;
+			height: 100px;
+			padding: 1rem;
+			width: 16.6666%;
+			background: #DDD;
+			color: #999;
+			line-height: 1.4rem;
+			flex: 1 1 auto;
+			margin: 1px;
+
+			&:first-child:nth-last-child(13),
+			&:first-child:nth-last-child(13) ~ .phase-block {
+				width: 13%;
+			}
+
+			&.complete {
+				color: #FFF;
+				background: $success-bg;
+			}
+
+			&.active {
+				color: #FFF;
+				background: $info-bg;
+			}
+		}
+
+		.phase-name {
+			font-size: 1.2rem;
+			font-weight: bold;
+			text-transform: uppercase;
+		}
+
+		.phase-dates {
+			font-size: 1.2rem;
+			font-weight: normal;
+		}
 	}
 }
