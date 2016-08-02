@@ -152,8 +152,8 @@ angular.module ('vcs')
 								pills[index[e].pillar] = 1;
 								return index[e].name;
 							});
-							scope.pillars.splice (0, 0, _.keys (pills));
-							scope.topics.splice (0, 0, tops.join(', '));
+							scope.pillars = _.keys (pills);
+							scope.topics = tops;
 							// console.log ('selected = ', tops);
 							// console.log ('selected = ', pills);
 							// console.log ('selected = ', scope.pillars);
