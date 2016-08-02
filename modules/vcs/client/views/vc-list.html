@@ -14,10 +14,10 @@
 	<div class="panel panel-default">
 		<table ng-table="tableParams" show-filter="true" class="table table-hover vc-table">
 			<tr ng-repeat="o in $data" ui-sref="p.vc.detail({vcId:o._id})">
-				<td data-title="'Title'"    filter="{'title':'text'}"     sortable="'title'"    >{{o.title}}</td>
-				<td data-title="'Name'"    filter="{'name':'text'}"     sortable="'name'"    >{{o.name}}</td>
-				<td data-title="'Pillar'" filter="{'pillar':'text'}"   	sortable="'pillar'"  >{{o.pillar}}</td>
-				<td data-title="'Type'"    filter="{'name':'text'}"     sortable="'name'"    >{{o.type}}</td>
+				<td data-title="'Title'"   filter="{'title':'text'}"     sortable="'title'"   ><a ui-sref="p.vc.detail({vcId:o._id})">{{o.title}}</a></td>
+				<td data-title="'Name'"    filter="{'name':'text'}"      sortable="'name'"    >{{o.name}}</td>
+				<td data-title="'Pillar'"  filter="{'pillar':'text'}"    sortable="'pillar'"  >{{o.pillar}}</td>
+				<td data-title="'Type'"    filter="{'name':'text'}"      sortable="'name'"    >{{o.type}}</td>
 				<td class="status-col" header-class="'status-col'" ng-if="authentication.user" data-title="'Status'" sortable="'artifact.isPublished'">
 					<span class="label label-success" ng-if="o.artifact.isPublished">Published</span>
 					<span class="label unpublished" ng-if="!o.artifact.isPublished">Unpublished</span>
