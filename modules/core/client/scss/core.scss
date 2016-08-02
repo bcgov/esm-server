@@ -2321,12 +2321,12 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 
 .back-btn {
 	font-weight: bold;
+	text-decoration: underline;
 	
 	.glyphicon {
 		margin-top: 0;
-		margin-left: -1rem;
+		margin-left: -0.5rem;
 		margin-right: 0.5rem;
-		font-size: 1.5rem;
 	}
 }
 
@@ -4857,6 +4857,20 @@ tmpl-template-render {
 
 .vc-details-panel-body {
 	padding-bottom: 0;
+}
+
+.vc-table {
+	.status-col {
+		width: 11.25rem;
+
+		.label {
+			width: 100%;
+
+			&.unpublished {
+				background: #CCC;
+			}
+		}
+	}
 }
 
 .vc-rtf-editor {
