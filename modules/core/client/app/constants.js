@@ -185,6 +185,16 @@ angular
 			window.location.href.indexOf('mines.') >= 0 ) return 'MEM';
 		else return 'EAO';
 	})
+	.constant('RELEASE',
+		{
+			'enableEnforcements': false,
+			'enableDecisions': false,
+			'enableSchedule': false,
+			'enableComplaints': false,
+			'enableConditions': false,
+			'enableInspectionReports': false
+		}
+	)
 	.factory('LOGO', function (ENV) {
 		// Use the env from above to determine the logo.
 		if (ENV === 'EAO') {

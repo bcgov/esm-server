@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('project').config (
-	['$locationProvider', '$stateProvider', '$urlRouterProvider', '_',
-	function ($locationProvider, $stateProvider, $urlRouterProvider, _) {
+	['$locationProvider', '$stateProvider', '$urlRouterProvider', '_', 'RELEASE',
+	function ($locationProvider, $stateProvider, $urlRouterProvider, _, RELEASE) {
 
 	$stateProvider
 	.state('p', {
@@ -102,578 +102,582 @@ angular.module('project').config (
 		url: '/edit',
 		templateUrl: 'modules/projects/client/views/project-partials/project.entry.html',
 		controller: 'controllerProjectEntry',
-	})
+	});
 	// -------------------------------------------------------------------------
 	//
 	// COMPLIANCE AND ENFORCEMENTS
 	//
 	// -------------------------------------------------------------------------
-	.state('p.enforcements', {
-		url: '/enforcements',
-		templateUrl: 'modules/projects/client/views/project-partials/project.enforcements.html',
-		controller: 'controllerProjectEntry',
-	})
-
+	if (RELEASE.enableEnforcements) {
+		$stateProvider.state('p.enforcements', {
+			url: '/enforcements',
+			templateUrl: 'modules/projects/client/views/project-partials/project.enforcements.html',
+			controller: 'controllerProjectEntry',
+		});
+	}
 	// -------------------------------------------------------------------------
 	//
 	// the decision package mockup
 	//
 	// -------------------------------------------------------------------------
-	.state('p.decision', {
-		url: '/decision',
-		templateUrl: 'modules/projects/client/views/project-partials/project.decision.html',
-		controller: function ($scope, $state, project, ProjectModel) {
+	if (RELEASE.enableDecisions) {
+		$stateProvider.state('p.decision', {
+			url: '/decision',
+			templateUrl: 'modules/projects/client/views/project-partials/project.decision.html',
+			controller: function ($scope, $state, project, ProjectModel) {
 
-		}
-	})
-	.state('p.schedule', {
-		url: '/schedule',
-		templateUrl: 'modules/projects/client/views/project-partials/project.schedule.html',
-		controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel, $modal, PhaseBaseModel) {
-			var self = this;
-			self.rPhases = undefined;
-			self.rSelPhase = undefined;
-			self.rMilestonesForPhase = undefined;
+			}
+		});
+	}
+	if (RELEASE.enableSchedule) {
+		$stateProvider.state('p.schedule', {
+			url: '/schedule',
+			templateUrl: 'modules/projects/client/views/project-partials/project.schedule.html',
+			controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel, $modal, PhaseBaseModel) {
+				var self = this;
+				self.rPhases = undefined;
+				self.rSelPhase = undefined;
+				self.rMilestonesForPhase = undefined;
 
-			$scope.openDeleteMilestone = function(id) {
-					var modalDocView = $modal.open({
-							animation: true,
-							templateUrl: 'modules/projects/client/views/project-partials/project.schedule.delete.modal.html',
-							controller: function ($modalInstance, MilestoneModel, $rootScope) {
-								this.ok = function () {
-									// Delete it
-									MilestoneModel.deleteMilestone(id).then(
-										function(res) {
-											$modalInstance.dismiss('ok');
-											$rootScope.$broadcast('refreshPhases', res);
-										}
-									);
-								};
-								this.cancel = function () {
-									$modalInstance.dismiss('cancel');
-								};
-							},
-							controllerAs: 'self',
-							scope: $scope,
-							size: 'lg'
-					});
-			};
-			$scope.completeMilestone = function (milestoneId) {
-				MilestoneModel.completeMilestone(milestoneId)
-				.then(function (obj) {
-					$rootScope.$broadcast('refreshPhases', obj);
-				});
-			};
-			$scope.startMilestone = function (milestoneId) {
-				MilestoneModel.startMilestone(milestoneId)
-				.then(function (obj) {
-					$rootScope.$broadcast('refreshPhases', obj);
-				});
-			};
-			$scope.ok = function (obj) {
-				MilestoneModel.save(obj).then(function (res) {
-					// $modalInstance.dismiss();
-				});
-			};
-			$scope.openEditMilestone = function(milestone) {
-					var modalDocView = $modal.open({
-							animation: true,
-							templateUrl: 'modules/projects/client/views/project-partials/project.schedule.milestone.edit.modal.html',
-							scope: $scope,
-							resolve: {
-								data: function (MilestoneModel) {
-									return MilestoneModel.get('/api/milestone/'+milestone);
-								}
-							},
-							controller: function ($modalInstance, MilestoneModel, data, $scope) {
-								var myData = this;
-								myData.data = data;
-								myData.cancel = function () {
-									$modalInstance.dismiss('cancel');
-								};
-								myData.ok = function () {
-									MilestoneModel.save(myData.data).then(function (res) {
-										$rootScope.$broadcast('refreshPhases', res);
-										$modalInstance.close();
-									}).catch(function (err) {
+				$scope.openDeleteMilestone = function(id) {
+						var modalDocView = $modal.open({
+								animation: true,
+								templateUrl: 'modules/projects/client/views/project-partials/project.schedule.delete.modal.html',
+								controller: function ($modalInstance, MilestoneModel, $rootScope) {
+									this.ok = function () {
+										// Delete it
+										MilestoneModel.deleteMilestone(id).then(
+											function(res) {
+												$modalInstance.dismiss('ok');
+												$rootScope.$broadcast('refreshPhases', res);
+											}
+										);
+									};
+									this.cancel = function () {
 										$modalInstance.dismiss('cancel');
-									});
-								};
-							},
-							controllerAs: 'myData',
-							size: 'lg'
+									};
+								},
+								controllerAs: 'self',
+								scope: $scope,
+								size: 'lg'
+						});
+				};
+				$scope.completeMilestone = function (milestoneId) {
+					MilestoneModel.completeMilestone(milestoneId)
+					.then(function (obj) {
+						$rootScope.$broadcast('refreshPhases', obj);
 					});
-					modalDocView.result.then(function (data) {
-						// Todo - update the item in the list
-						// scope.data = data;
-					}, function () {});
-			};
-			self.refresh = function () {
-				// console.log("Refreshing");
-				PhaseModel.phasesForProject(project._id).then(function (res) {
-					// console.log("New set of phase data:",res);
-					$scope.rPhases = res;
-					$scope.$apply();
-				});
-			};
-			$scope.$watch('project', function(newValue) {
-				// console.log("watching project:",newValue);
-				self.project = newValue;
-				self.refresh();
-			});
-
-			$scope.isNextPhase = function (id) {
-				var index = -1;
-				_.each(self.project.phases, function(data, idx) {
-				   if (_.isEqual(data._id, self.project.currentPhase._id)) {
-				      index = idx;
-				      return;
-				   }
-				});
-				// Double check if this is the last phase for errors
-				if (index+1 >= self.project.phases.length)
-					return false;
-				if (self.project.phases[index+1]._id === id)
-					return true;
-			};
-
-			$scope.startNextPhase = function (project) {
-				ProjectModel.nextPhase(self.project)
-				.then( function (res) {
-					$scope.project = res;
-					$scope.$apply();
-					$rootScope.$broadcast('refreshPhases', res);
-				});
-			};
-
-			$scope.canCompletePhase = function (phase) {
-				if (phase.code === $scope.project.currentPhase.code && !$scope.project.currentPhase.completed) {
-					return true;
-				} else {
-					return false;
-				}
-			};
-
-			$scope.addNextPhase = function () {
-				// Find out the current phase, add the one after that.
-				PhaseBaseModel.getCollection()
-					.then( function(res) {
-						// Fix this! Naive implementation.
-						var nextPhase = res[$scope.project.phases.length];
-						return ProjectModel.addPhase(nextPhase.code);
-					})
-					.then( function(res) {
-						$scope.project = res;
-						self.refresh();
+				};
+				$scope.startMilestone = function (milestoneId) {
+					MilestoneModel.startMilestone(milestoneId)
+					.then(function (obj) {
+						$rootScope.$broadcast('refreshPhases', obj);
 					});
-			};
-
-			$scope.completeCurrentPhase = function (project) {
-				// Complete this particular phase
-				ProjectModel.completePhase(self.project)
-				.then( function (res) {
-					$scope.project = res;
+				};
+				$scope.ok = function (obj) {
+					MilestoneModel.save(obj).then(function (res) {
+						// $modalInstance.dismiss();
+					});
+				};
+				$scope.openEditMilestone = function(milestone) {
+						var modalDocView = $modal.open({
+								animation: true,
+								templateUrl: 'modules/projects/client/views/project-partials/project.schedule.milestone.edit.modal.html',
+								scope: $scope,
+								resolve: {
+									data: function (MilestoneModel) {
+										return MilestoneModel.get('/api/milestone/'+milestone);
+									}
+								},
+								controller: function ($modalInstance, MilestoneModel, data, $scope) {
+									var myData = this;
+									myData.data = data;
+									myData.cancel = function () {
+										$modalInstance.dismiss('cancel');
+									};
+									myData.ok = function () {
+										MilestoneModel.save(myData.data).then(function (res) {
+											$rootScope.$broadcast('refreshPhases', res);
+											$modalInstance.close();
+										}).catch(function (err) {
+											$modalInstance.dismiss('cancel');
+										});
+									};
+								},
+								controllerAs: 'myData',
+								size: 'lg'
+						});
+						modalDocView.result.then(function (data) {
+							// Todo - update the item in the list
+							// scope.data = data;
+						}, function () {});
+				};
+				self.refresh = function () {
+					// console.log("Refreshing");
+					PhaseModel.phasesForProject(project._id).then(function (res) {
+						// console.log("New set of phase data:",res);
+						$scope.rPhases = res;
+						$scope.$apply();
+					});
+				};
+				$scope.$watch('project', function(newValue) {
+					// console.log("watching project:",newValue);
+					self.project = newValue;
 					self.refresh();
 				});
-			};
 
-			$scope.popluatePhaseDropdown = function (phase) {
-				// console.log("populate phase on phase:",phase.code);
-				$scope.rSelPhase = phase;
-				$scope.rMilestonesForPhase = [];
-				switch(phase.code) {
-					case "pre-ea":
-						$scope.rMilestonesForPhase = [
-							{
-								"code": 'new-project-initiated',
-								"name": 'New Project Initiated'
-							}, {
-								"code": 'project-deemed-reviewable',
-								"name": 'Project Deemed Reviewable'
-							}, {
-								"code": 'draft-project-description-submitted',
-								"name": 'Draft Project Description Submitted'
-							}, {
-								"code": 'public-comment-period-on-project-description',
-								"name": 'Public Comment Period on Project Description',
-							}, {
-								"name": "Project Description Accepted",
-								"code": "project-description-accepted"
-							}, {
-								"name": "Substitution Decision",
-								"code": "substitution-decision"
-							}, {
-								"code": 'section-6-order',
-								"name": 'Section 6 Order'
-							}, {
-								"code": 'section-7-3-order',
-								"name": 'Section 7(3) Order'
-							}, {
-								"code": 'section-10-1-a-order',
-								"name": 'Section 10(1)(a) Order'
-							}, {
-								"code": 'section-10-1-b-order',
-								"name": 'Section 10(1)(b) Order'
-							}, {
-								"code": 'section-10-1-b-fee',
-								"name": 'Section 10(1)(b) Fee'
-							}, {
-								"name": "Section 10(1)c Order",
-								"code": "section-10-1-c-order"
-							}, {
-								"code": 'section-31-1-order',
-								"name": 'Section 31(1) Order - Vary the Assessment Process'
-							}, {
-								"code": 'section-34-1-order',
-								"name": 'Section 34(1) Order - Cease or Remedy Activity'
-							}];
-						break;
-					case "pre-app":
-						$scope.rMilestonesForPhase = [{
-										"name": "Section 11 Order",
-										"code": "section-11-order"
-									},{
-										"code": 'section-15-order',
-										"name": 'Section 15 Order - s.14 variance'
-									},{
-										"code": 'section-14-order',
-										"name": 'Section 14 Order'
-									},{
-										"code": 'section-13-order',
-										"name": 'Section 13 Order - s.11 variance'
-									}, {
-										"name": "Assessment Fee - Installment 1",
-										"code": "assessment-fee-installment-1"
-									}, {
-										"name": "Draft AIR Accepted",
-										"code": "draft-air-accepted"
-									}, {
-										"name": "Pre-App PCP Initiated",
-										"code": "pre-app-pcp-initiated"
-									}, {
-										"name": "AIR Finalized and Approved",
-										"code": "air-finalized-and-approved"
-									}, {
-										"code": 'assessment-suspension',
-										"name": 'Assessment Suspension - s.30.1'
-									}, {
-										"code": 'section-31-1-order',
-										"name": 'Section 31(1) Order - Vary the Assessment Process'
-									}, {
-										"code": 'section-34-1-order',
-										"name": 'Section 34(1) Order - Cease or Remedy Activity'
-									},{
-										"code": 'assessment-suspension',
-										"name": 'Assessment Suspension - s.30.1',
-									},{
-										"code": 'project-termination',
-										"name": 'Project Termination - s.24.3',
-									},{
-										"code": 'vc-finalized-and-approved',
-										"name": 'VC Finalized and Approved',
-									},{
-										"code": 'pre-app-pcp-completed',
-										"name": 'Pre-App PCP Completed',
-									},{
-										"code": 'pre-app-open-house-completed',
-										"name": 'Pre-App Open House Completed',
-									},{
-										"code": 'draft-vc-ready-for-commenting',
-										"name": 'Draft VC Ready for Commenting',
-									},{
-										"code": 'working-group-formed',
-										"name": 'Working Group Formed',
-									},{
-										"code": 'announce-project',
-										"name": 'Announce Project',
-									}];
-						break;
-					case "evaluation":
-						$scope.rMilestonesForPhase = [
-							{
-								"name": "Application Evaluation",
-								"code": "application-evaluation"
-							}, {
-								"name": "Draft Application Submitted",
-								"code": "draft-application-submitted"
-							}, {
-								"name": "Assessment Fee - Installment 2",
-								"code": "assessment-fee-installment-2"
-							}, {
-								"code": 'section-13-order',
-								"name": 'Section 13 Order - s.11 variance'
-							}, {
-								"code": 'section-15-order',
-								"name": 'Section 15 Order - s.14 variance'
-							}, {
-								"code": 'project-termination',
-								"name": 'Project Termination - s.24.3',
-							}, {
-								"code": 'section-31-1-order',
-								"name": 'Section 31(1) Order - Vary the Assessment Process'
-							}, {
-								"code": 'section-34-1-order',
-								"name": 'Section 34(1) Order - Cease or Remedy Activity'
-							},  {
-								"code": 'assessment-suspension',
-								"name": 'Assessment Suspension - s.30.1',
-							}, {
-								"code": 'time-limit-extension-s-24-4',
-								"name": 'Time Limit Extension - s.24.4',
-							}, {
-								"code": 'time-limit-suspension-s-24-2',
-								"name": 'Time Limit Suspension - s.24.2',
-							}, {
-								"code": 'time-limit-suspension-s-30-2',
-								"name": 'Time Limit Suspension - s.30.2',
-							}];
-						break;
-					case "application-review":
-						$scope.rMilestonesForPhase = [
-							{
-								"name": "Application Accepted",
-								"code": "application-accepted"
-							}, {
-								"name": "Review PCP Initiated",
-								"code": "review-pcp-initiated"
-							}, {
-								"name": "Referral Package",
-								"code": "referral-package"
-							}, {
-								"code": 'application-review-pcp-completed',
-								"name": 'Review PCP Completed',
-							}, {
-								"code": 'application-review-open-house-completed',
-								"name": 'Review Open House Completed',
-							}, {
-								"code": 'section-13-order',
-								"name": 'Section 13 Order - s.11 variance'
-							}, {
-								"code": 'section-15-order',
-								"name": 'Section 15 Order - s.14 variance'
-							}, {
-								"code": 'project-termination',
-								"name": 'Project Termination - s.24.3',
-							}, {
-								"code": 'section-31-1-order',
-								"name": 'Section 31(1) Order - Vary the Assessment Process'
-							}, {
-								"code": 'section-34-1-order',
-								"name": 'Section 34(1) Order - Cease or Remedy Activity'
-							},  {
-								"code": 'assessment-suspension',
-								"name": 'Assessment Suspension - s.30.1',
-							}, {
-								"code": 'time-limit-extension-s-24-4',
-								"name": 'Time Limit Extension - s.24.4',
-							}, {
-								"code": 'time-limit-suspension-s-24-2',
-								"name": 'Time Limit Suspension - s.24.2',
-							}, {
-								"code": 'time-limit-suspension-s-30-2',
-								"name": 'Time Limit Suspension - s.30.2',
-							}
-						  ];
-						break;
-					case "decision":
-						$scope.rMilestonesForPhase = [
-							{
-								"name": "Minister's Decision",
-								"code": "ministers-decision"
-							}, {
-								"name": "Minister's Decision Package Delivered",
-								"code": "ministers-decision-package-delivered"
-							}, {
-								"code": 'project-termination',
-								"name": 'Project Termination - s.24.3',
-							}, {
-								"code": 'section-31-1-order',
-								"name": 'Section 31(1) Order - Vary the Assessment Process'
-							}, {
-								"code": 'section-34-1-order',
-								"name": 'Section 34(1) Order - Cease or Remedy Activity'
-							},  {
-								"code": 'assessment-suspension',
-								"name": 'Assessment Suspension - s.30.1',
-							}, {
-								"code": 'time-limit-extension-s-24-4',
-								"name": 'Time Limit Extension - s.24.4',
-							}, {
-								"code": 'time-limit-suspension-s-24-2',
-								"name": 'Time Limit Suspension - s.24.2',
-							}, {
-								"code": 'time-limit-suspension-s-30-2',
-								"name": 'Time Limit Suspension - s.30.2',
-							}];
-						break;
-					case "post-certification":
-						$scope.rMilestonesForPhase = [
-						{
-							"name": "Certificate Issued - s.17",
-							"code": "certificate-issued-s.17"
-						}, {
-							"name": "Substantially Started Decision",
-							"code": "substantially-started-decision"
-						}, {
-							"code": 'section-31-1-order',
-							"name": 'Section 31(1) Order - Vary the Assessment Process'
-						}, {
-							"code": 'section-34-1-order',
-							"name": 'Section 34(1) Order - Cease or Remedy Activity'
-						},{
-							"code": 'ea-certificate-extension',
-							"name": 'EA Certificate Extension',
-						},{
-							"code": 'ea-certificate-extension-fee',
-							"name": 'EA Certificate Extension Fee',
-						},{
-							"code": 'ea-certificate-amendment',
-							"name": 'EA Certificate Amendment',
-						},{
-							"code": 'ea-certificate-amendment-fee',
-							"name": 'EA Certificate Amendment Fee',
-						},{
-							"code": 'ea-certificate-amendment-pcp-initiated',
-							"name": 'EA Certificate Amendment PCP Initiated',
-						},{
-							"code": 'ea-certificate-amendment-open-house-completed',
-							"name": 'EA Certificate Amendment Open House Completed',
-						},{
-							"code": 'ea-certificate-amendment-pcp-completed',
-							"name": 'EA Certificate Amendment PCP Completed',
-						},{
-							"code": 'ea-certificate-cancellation-s-37-1',
-							"name": 'EA Certificate Cancellation - s.37.1',
-						},{
-							"code": 'ea-certificate-expired-s-18-5',
-							"name": 'EA Certificate Expired - s.18.5',
-						},{
-							"code": 'ea-certificate-suspension-s-37-1',
-							"name": 'EA Certificate Suspension - s.37.1',
-						}];
-						break;
-				}
-				// Add this to everything except:
-				if (phase.code !== 'post-certification') {
-					$scope.rMilestonesForPhase.push(
-						{
-							"name": "Project Withdrawn",
-							"code": "project-withdrawn"
-						});
-				}
-				// Always add free-text version
-				$scope.rMilestonesForPhase.push(
-					{
-						"name": "Custom Milestone",
-						"code": "custom-milestone"
+				$scope.isNextPhase = function (id) {
+					var index = -1;
+					_.each(self.project.phases, function(data, idx) {
+					   if (_.isEqual(data._id, self.project.currentPhase._id)) {
+					      index = idx;
+					      return;
+					   }
 					});
-				$scope.selectedMilestoneType = $scope.rMilestonesForPhase[0];
-			};
+					// Double check if this is the last phase for errors
+					if (index+1 >= self.project.phases.length)
+						return false;
+					if (self.project.phases[index+1]._id === id)
+						return true;
+				};
 
-			$scope.selectedAMilestone = function(item) {
-				if (item) {
-					if (item.code === 'custom-milestone') {
-						// Disable the free-text
-						$scope.showCustom = true;
-					} else {
-						// Enable the free-text
-						$scope.showCustom = false;
-					}
-				}
-			};
-
-			// User clicked on edit or delete phase - store this.
-			$scope.selectPhase = function (phase) {
-				$scope.selectedPhase = phase;
-			};
-
-			$scope.deletePhase = function(phase) {
-				// Remove Phase from project.
-				return ProjectModel.removePhase($scope.project, phase)
-					.then(function(res) {
+				$scope.startNextPhase = function (project) {
+					ProjectModel.nextPhase(self.project)
+					.then( function (res) {
 						$scope.project = res;
-						// Delete Phase from database.
-						return PhaseModel.deleteId (phase._id);
-					})
-					.then(function(res) {
-						// Update model and UI.
+						$scope.$apply();
+						$rootScope.$broadcast('refreshPhases', res);
+					});
+				};
+
+				$scope.canCompletePhase = function (phase) {
+					if (phase.code === $scope.project.currentPhase.code && !$scope.project.currentPhase.completed) {
+						return true;
+					} else {
+						return false;
+					}
+				};
+
+				$scope.addNextPhase = function () {
+					// Find out the current phase, add the one after that.
+					PhaseBaseModel.getCollection()
+						.then( function(res) {
+							// Fix this! Naive implementation.
+							var nextPhase = res[$scope.project.phases.length];
+							return ProjectModel.addPhase(nextPhase.code);
+						})
+						.then( function(res) {
+							$scope.project = res;
+							self.refresh();
+						});
+				};
+
+				$scope.completeCurrentPhase = function (project) {
+					// Complete this particular phase
+					ProjectModel.completePhase(self.project)
+					.then( function (res) {
+						$scope.project = res;
 						self.refresh();
 					});
-			};
+				};
 
-			// Edit the phase data
-			$scope.savePhaseDetail = function () {
-				PhaseModel.save($scope.selectedPhase)
-				.then( function (obj) {
-					$rootScope.$broadcast('refreshPhases', obj);
-				});
-			};
+				$scope.popluatePhaseDropdown = function (phase) {
+					// console.log("populate phase on phase:",phase.code);
+					$scope.rSelPhase = phase;
+					$scope.rMilestonesForPhase = [];
+					switch(phase.code) {
+						case "pre-ea":
+							$scope.rMilestonesForPhase = [
+								{
+									"code": 'new-project-initiated',
+									"name": 'New Project Initiated'
+								}, {
+									"code": 'project-deemed-reviewable',
+									"name": 'Project Deemed Reviewable'
+								}, {
+									"code": 'draft-project-description-submitted',
+									"name": 'Draft Project Description Submitted'
+								}, {
+									"code": 'public-comment-period-on-project-description',
+									"name": 'Public Comment Period on Project Description',
+								}, {
+									"name": "Project Description Accepted",
+									"code": "project-description-accepted"
+								}, {
+									"name": "Substitution Decision",
+									"code": "substitution-decision"
+								}, {
+									"code": 'section-6-order',
+									"name": 'Section 6 Order'
+								}, {
+									"code": 'section-7-3-order',
+									"name": 'Section 7(3) Order'
+								}, {
+									"code": 'section-10-1-a-order',
+									"name": 'Section 10(1)(a) Order'
+								}, {
+									"code": 'section-10-1-b-order',
+									"name": 'Section 10(1)(b) Order'
+								}, {
+									"code": 'section-10-1-b-fee',
+									"name": 'Section 10(1)(b) Fee'
+								}, {
+									"name": "Section 10(1)c Order",
+									"code": "section-10-1-c-order"
+								}, {
+									"code": 'section-31-1-order',
+									"name": 'Section 31(1) Order - Vary the Assessment Process'
+								}, {
+									"code": 'section-34-1-order',
+									"name": 'Section 34(1) Order - Cease or Remedy Activity'
+								}];
+							break;
+						case "pre-app":
+							$scope.rMilestonesForPhase = [{
+											"name": "Section 11 Order",
+											"code": "section-11-order"
+										},{
+											"code": 'section-15-order',
+											"name": 'Section 15 Order - s.14 variance'
+										},{
+											"code": 'section-14-order',
+											"name": 'Section 14 Order'
+										},{
+											"code": 'section-13-order',
+											"name": 'Section 13 Order - s.11 variance'
+										}, {
+											"name": "Assessment Fee - Installment 1",
+											"code": "assessment-fee-installment-1"
+										}, {
+											"name": "Draft AIR Accepted",
+											"code": "draft-air-accepted"
+										}, {
+											"name": "Pre-App PCP Initiated",
+											"code": "pre-app-pcp-initiated"
+										}, {
+											"name": "AIR Finalized and Approved",
+											"code": "air-finalized-and-approved"
+										}, {
+											"code": 'assessment-suspension',
+											"name": 'Assessment Suspension - s.30.1'
+										}, {
+											"code": 'section-31-1-order',
+											"name": 'Section 31(1) Order - Vary the Assessment Process'
+										}, {
+											"code": 'section-34-1-order',
+											"name": 'Section 34(1) Order - Cease or Remedy Activity'
+										},{
+											"code": 'assessment-suspension',
+											"name": 'Assessment Suspension - s.30.1',
+										},{
+											"code": 'project-termination',
+											"name": 'Project Termination - s.24.3',
+										},{
+											"code": 'vc-finalized-and-approved',
+											"name": 'VC Finalized and Approved',
+										},{
+											"code": 'pre-app-pcp-completed',
+											"name": 'Pre-App PCP Completed',
+										},{
+											"code": 'pre-app-open-house-completed',
+											"name": 'Pre-App Open House Completed',
+										},{
+											"code": 'draft-vc-ready-for-commenting',
+											"name": 'Draft VC Ready for Commenting',
+										},{
+											"code": 'working-group-formed',
+											"name": 'Working Group Formed',
+										},{
+											"code": 'announce-project',
+											"name": 'Announce Project',
+										}];
+							break;
+						case "evaluation":
+							$scope.rMilestonesForPhase = [
+								{
+									"name": "Application Evaluation",
+									"code": "application-evaluation"
+								}, {
+									"name": "Draft Application Submitted",
+									"code": "draft-application-submitted"
+								}, {
+									"name": "Assessment Fee - Installment 2",
+									"code": "assessment-fee-installment-2"
+								}, {
+									"code": 'section-13-order',
+									"name": 'Section 13 Order - s.11 variance'
+								}, {
+									"code": 'section-15-order',
+									"name": 'Section 15 Order - s.14 variance'
+								}, {
+									"code": 'project-termination',
+									"name": 'Project Termination - s.24.3',
+								}, {
+									"code": 'section-31-1-order',
+									"name": 'Section 31(1) Order - Vary the Assessment Process'
+								}, {
+									"code": 'section-34-1-order',
+									"name": 'Section 34(1) Order - Cease or Remedy Activity'
+								},  {
+									"code": 'assessment-suspension',
+									"name": 'Assessment Suspension - s.30.1',
+								}, {
+									"code": 'time-limit-extension-s-24-4',
+									"name": 'Time Limit Extension - s.24.4',
+								}, {
+									"code": 'time-limit-suspension-s-24-2',
+									"name": 'Time Limit Suspension - s.24.2',
+								}, {
+									"code": 'time-limit-suspension-s-30-2',
+									"name": 'Time Limit Suspension - s.30.2',
+								}];
+							break;
+						case "application-review":
+							$scope.rMilestonesForPhase = [
+								{
+									"name": "Application Accepted",
+									"code": "application-accepted"
+								}, {
+									"name": "Review PCP Initiated",
+									"code": "review-pcp-initiated"
+								}, {
+									"name": "Referral Package",
+									"code": "referral-package"
+								}, {
+									"code": 'application-review-pcp-completed',
+									"name": 'Review PCP Completed',
+								}, {
+									"code": 'application-review-open-house-completed',
+									"name": 'Review Open House Completed',
+								}, {
+									"code": 'section-13-order',
+									"name": 'Section 13 Order - s.11 variance'
+								}, {
+									"code": 'section-15-order',
+									"name": 'Section 15 Order - s.14 variance'
+								}, {
+									"code": 'project-termination',
+									"name": 'Project Termination - s.24.3',
+								}, {
+									"code": 'section-31-1-order',
+									"name": 'Section 31(1) Order - Vary the Assessment Process'
+								}, {
+									"code": 'section-34-1-order',
+									"name": 'Section 34(1) Order - Cease or Remedy Activity'
+								},  {
+									"code": 'assessment-suspension',
+									"name": 'Assessment Suspension - s.30.1',
+								}, {
+									"code": 'time-limit-extension-s-24-4',
+									"name": 'Time Limit Extension - s.24.4',
+								}, {
+									"code": 'time-limit-suspension-s-24-2',
+									"name": 'Time Limit Suspension - s.24.2',
+								}, {
+									"code": 'time-limit-suspension-s-30-2',
+									"name": 'Time Limit Suspension - s.30.2',
+								}
+							  ];
+							break;
+						case "decision":
+							$scope.rMilestonesForPhase = [
+								{
+									"name": "Minister's Decision",
+									"code": "ministers-decision"
+								}, {
+									"name": "Minister's Decision Package Delivered",
+									"code": "ministers-decision-package-delivered"
+								}, {
+									"code": 'project-termination',
+									"name": 'Project Termination - s.24.3',
+								}, {
+									"code": 'section-31-1-order',
+									"name": 'Section 31(1) Order - Vary the Assessment Process'
+								}, {
+									"code": 'section-34-1-order',
+									"name": 'Section 34(1) Order - Cease or Remedy Activity'
+								},  {
+									"code": 'assessment-suspension',
+									"name": 'Assessment Suspension - s.30.1',
+								}, {
+									"code": 'time-limit-extension-s-24-4',
+									"name": 'Time Limit Extension - s.24.4',
+								}, {
+									"code": 'time-limit-suspension-s-24-2',
+									"name": 'Time Limit Suspension - s.24.2',
+								}, {
+									"code": 'time-limit-suspension-s-30-2',
+									"name": 'Time Limit Suspension - s.30.2',
+								}];
+							break;
+						case "post-certification":
+							$scope.rMilestonesForPhase = [
+							{
+								"name": "Certificate Issued - s.17",
+								"code": "certificate-issued-s.17"
+							}, {
+								"name": "Substantially Started Decision",
+								"code": "substantially-started-decision"
+							}, {
+								"code": 'section-31-1-order',
+								"name": 'Section 31(1) Order - Vary the Assessment Process'
+							}, {
+								"code": 'section-34-1-order',
+								"name": 'Section 34(1) Order - Cease or Remedy Activity'
+							},{
+								"code": 'ea-certificate-extension',
+								"name": 'EA Certificate Extension',
+							},{
+								"code": 'ea-certificate-extension-fee',
+								"name": 'EA Certificate Extension Fee',
+							},{
+								"code": 'ea-certificate-amendment',
+								"name": 'EA Certificate Amendment',
+							},{
+								"code": 'ea-certificate-amendment-fee',
+								"name": 'EA Certificate Amendment Fee',
+							},{
+								"code": 'ea-certificate-amendment-pcp-initiated',
+								"name": 'EA Certificate Amendment PCP Initiated',
+							},{
+								"code": 'ea-certificate-amendment-open-house-completed',
+								"name": 'EA Certificate Amendment Open House Completed',
+							},{
+								"code": 'ea-certificate-amendment-pcp-completed',
+								"name": 'EA Certificate Amendment PCP Completed',
+							},{
+								"code": 'ea-certificate-cancellation-s-37-1',
+								"name": 'EA Certificate Cancellation - s.37.1',
+							},{
+								"code": 'ea-certificate-expired-s-18-5',
+								"name": 'EA Certificate Expired - s.18.5',
+							},{
+								"code": 'ea-certificate-suspension-s-37-1',
+								"name": 'EA Certificate Suspension - s.37.1',
+							}];
+							break;
+					}
+					// Add this to everything except:
+					if (phase.code !== 'post-certification') {
+						$scope.rMilestonesForPhase.push(
+							{
+								"name": "Project Withdrawn",
+								"code": "project-withdrawn"
+							});
+					}
+					// Always add free-text version
+					$scope.rMilestonesForPhase.push(
+						{
+							"name": "Custom Milestone",
+							"code": "custom-milestone"
+						});
+					$scope.selectedMilestoneType = $scope.rMilestonesForPhase[0];
+				};
 
-			// Handle the add milestone
-			$scope.addMilestone = function(selectedMilestone, dateStarted, dateCompleted, duration) {
-				// Just add a milestone, attach it to a specific phase - this is a generic
-				// schedule, which really doesn't follow the flow of anything.  It's just a
-				// Marker of sorts.  We will need to look this up when phases/milestones progress
-				// through the flow of the business in order to delete/reset these milestones.
-				// For now, this becomes a 'look ahead' schedule that staff can use to view
-				// the project 'plan'
+				$scope.selectedAMilestone = function(item) {
+					if (item) {
+						if (item.code === 'custom-milestone') {
+							// Disable the free-text
+							$scope.showCustom = true;
+						} else {
+							// Enable the free-text
+							$scope.showCustom = false;
+						}
+					}
+				};
 
-				var oneDay = (1000 * 60 * 60 * 24);
-				var numberOfDays = 90;
-				if (dateCompleted && dateStarted) {
-					numberOfDays = Math.floor((dateCompleted - dateStarted) / oneDay);
-				}
+				// User clicked on edit or delete phase - store this.
+				$scope.selectPhase = function (phase) {
+					$scope.selectedPhase = phase;
+				};
 
-				// If they add a custom milestone, override the code and name here.
-				if (selectedMilestone.code === 'custom-milestone') {
-					selectedMilestone.code = $scope.customMilestoneText;
-					selectedMilestone.name = $scope.customMilestoneText;
-				}
-				MilestoneModel.add({
-					"code": selectedMilestone.code,
-					"name": selectedMilestone.name,
-					"phase": $scope.rSelPhase,
-					"dateStartedEst": dateStarted,
-					"dateCompletedEst": dateCompleted,
-					"duration": numberOfDays
-				})
-				.then(function (ms) {
-					$scope.rSelPhase.milestone = ms;
-					$scope.rSelPhase.milestones.push(ms);
-					return PhaseModel.save($scope.rSelPhase);
-				})
-				.then( function (phase) {
-					// console.log("newphase:", phase);
-					$rootScope.$broadcast('refreshPhases');
+				$scope.deletePhase = function(phase) {
+					// Remove Phase from project.
+					return ProjectModel.removePhase($scope.project, phase)
+						.then(function(res) {
+							$scope.project = res;
+							// Delete Phase from database.
+							return PhaseModel.deleteId (phase._id);
+						})
+						.then(function(res) {
+							// Update model and UI.
+							self.refresh();
+						});
+				};
+
+				// Edit the phase data
+				$scope.savePhaseDetail = function () {
+					PhaseModel.save($scope.selectedPhase)
+					.then( function (obj) {
+						$rootScope.$broadcast('refreshPhases', obj);
+					});
+				};
+
+				// Handle the add milestone
+				$scope.addMilestone = function(selectedMilestone, dateStarted, dateCompleted, duration) {
+					// Just add a milestone, attach it to a specific phase - this is a generic
+					// schedule, which really doesn't follow the flow of anything.  It's just a
+					// Marker of sorts.  We will need to look this up when phases/milestones progress
+					// through the flow of the business in order to delete/reset these milestones.
+					// For now, this becomes a 'look ahead' schedule that staff can use to view
+					// the project 'plan'
+
+					var oneDay = (1000 * 60 * 60 * 24);
+					var numberOfDays = 90;
+					if (dateCompleted && dateStarted) {
+						numberOfDays = Math.floor((dateCompleted - dateStarted) / oneDay);
+					}
+
+					// If they add a custom milestone, override the code and name here.
+					if (selectedMilestone.code === 'custom-milestone') {
+						selectedMilestone.code = $scope.customMilestoneText;
+						selectedMilestone.name = $scope.customMilestoneText;
+					}
+					MilestoneModel.add({
+						"code": selectedMilestone.code,
+						"name": selectedMilestone.name,
+						"phase": $scope.rSelPhase,
+						"dateStartedEst": dateStarted,
+						"dateCompletedEst": dateCompleted,
+						"duration": numberOfDays
+					})
+					.then(function (ms) {
+						$scope.rSelPhase.milestone = ms;
+						$scope.rSelPhase.milestones.push(ms);
+						return PhaseModel.save($scope.rSelPhase);
+					})
+					.then( function (phase) {
+						// console.log("newphase:", phase);
+						$rootScope.$broadcast('refreshPhases');
+					});
+				};
+				// Handle the delete milestone
+				$scope.selectedMilestone = function (milestone, phase) {
+					// console.log("selected milestone: ", MilestoneModel);
+					// console.log("selected phase:", $scope.rSelPhase);
+					self.selMilestone = milestone;
+					MilestoneModel.get(milestone).then(function (res) {
+						// console.log("Milestone with activities data:",res);
+						$scope.data = res;
+						$scope.$apply();
+					});
+				};
+				$scope.editMilestone = function (milestone, phase) {
+					self.selMilestone = milestone;
+					// Hack until we put into the service
+					MilestoneModel.get('/api/milestone/'+milestone).then(function (res) {
+						// console.log("Milestone with activities data:",res);
+						$scope.data = res;
+						$scope.$apply();
+					});
+				};
+				var unbind = $rootScope.$on('refreshPhases', function() {
+					self.refresh();
 				});
-			};
-			// Handle the delete milestone
-			$scope.selectedMilestone = function (milestone, phase) {
-				// console.log("selected milestone: ", MilestoneModel);
-				// console.log("selected phase:", $scope.rSelPhase);
-				self.selMilestone = milestone;
-				MilestoneModel.get(milestone).then(function (res) {
-					// console.log("Milestone with activities data:",res);
-					$scope.data = res;
-					$scope.$apply();
-				});
-			};
-			$scope.editMilestone = function (milestone, phase) {
-				self.selMilestone = milestone;
-				// Hack until we put into the service
-				MilestoneModel.get('/api/milestone/'+milestone).then(function (res) {
-					// console.log("Milestone with activities data:",res);
-					$scope.data = res;
-					$scope.$apply();
-				});
-			};
-			var unbind = $rootScope.$on('refreshPhases', function() {
-				self.refresh();
-			});
-			$scope.$on('$destroy', unbind);
-		}
-	})
-	;
+				$scope.$on('$destroy', unbind);
+			}
+		});
+	}
 }]);
 
 
