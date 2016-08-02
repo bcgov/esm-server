@@ -8,10 +8,10 @@
 		</div>
 	</div>
 	
-	<table x-show-filter="true" ng-table="projectList.tableParams" class="projects-table table table-striped">
+	<table class="projects-table table table-striped" x-show-filter="true" ng-table="projectList.tableParams">
 		<tr ng-repeat="o in $data" class='clickable' ui-sref="p.detail({projectid: o.code})">
 			<td header-class="'name-col'" data-title="'Name'" filter="{'name':'text'}" sortable="'name'">
-				{{o.name}}
+				<a ui-sref="p.detail({projectid: o.code})">{{o.name}}</a>
 			</td>
 			<td ng-if="environment === 'MEM'" data-title="'Permit'" filter="{'memPermitID':'text'}" sortable="'memPermitID'">
 				{{o.memPermitID}}
