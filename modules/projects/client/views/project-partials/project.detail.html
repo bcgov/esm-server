@@ -13,6 +13,16 @@
 
 	<div class="view-body-container project-details">
 
+		<div class="panel panel-default project-timeline hidden">
+			<div class="panel-heading"><h2>Project Timeline</h2></div>
+			<div class="timeline-container">
+				<div class="phase" 
+					ng-class="{'active': o.status == 'In Progress', 'complete': o.completed}" ng-repeat="o in project.phases">
+					<span class="phase-name">{{o.name}}</span>
+				</div>
+			</div>
+		</div>
+
 		<!-- PUBLIC COMMENT PERIOD NOTIFICATION -->
 		<div class="public-comment-alert hidden">
 			<h2>Public Comment Period is Now Open!</h2>
@@ -33,17 +43,8 @@
 			<tmpl-project-tombstone id="anchor-tombstone" x-project="project"></tmpl-project-tombstone>
 		</section>
 
-		<div class="panel panel-default hidden">
-			<div class="panel-heading"><h2>Project Timeline</h2></div>
-			<div class="prototype-block">
-				<div class="phase-block" ng-class="{'completed': o.completed}" ng-repeat="o in project.phases">
-					<span>{{o.name}}</span>
-				</div>
-			</div>
-		</div>
-
 		<!-- PROJECT PHASES -->
-		<section class="project-phases" ng-if="environment === 'EAO'">
+		<section class="project-phases hidden" ng-if="environment === 'EAO'">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h2>Project Timeline</h2>
