@@ -23,7 +23,10 @@
 					<span class="label unpublished" ng-if="!o.artifact.isPublished">Unpublished</span>
 				</td>
 				<td class="actions-col action-x2" header-class="'actions-col action-x2'">
-					<a class="btn btn-link btn-sm" ng-if="o.userPermissions.write" title="Edit Valued Component" ng-click="$event.stopPropagation()" ui-sref="p.vc.edit({vcId:o._id})">
+					<a class="btn btn-default btn-sm" title="Edit Valued Component"
+						ng-if="project.userCan.createValuedComponent" 
+						ng-click="$event.stopPropagation()" 
+						ui-sref="p.vc.edit({vcId:o._id})">
 						<span class="glyphicon glyphicon-pencil"></span>
 					</a>
 					<button class="btn btn-default btn-sm hidden" title="Remove Valued Component from Project" ng-click="$event.stopPropagation();">

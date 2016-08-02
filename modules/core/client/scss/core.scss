@@ -150,6 +150,7 @@ pre {
 	background-color: transparent;
 	border: 0;
 	white-space: pre-wrap;
+	word-break: break-word;
 
 	p {
 		margin: 0;
@@ -3856,8 +3857,12 @@ $nav-tab-active: #1a5a96;
 
 	.comment-body {
 		max-height: 50rem;
-		padding: 1.5rem;
 		overflow-y: auto;
+
+		pre {
+			padding: 1.5rem;
+			overflow-x: hidden;
+		}
 	}
 
 	.comment-attachments {
