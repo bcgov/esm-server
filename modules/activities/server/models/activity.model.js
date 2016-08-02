@@ -7,7 +7,7 @@
 module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('Activity', {
 	__audit        : true,
-	__access       : [],
+	__access       : ['setPermissions'],
 	__tracking     : true,
 	__status       : ['Not Started', 'Not Required', 'In Progress', 'Complete'],
 	__codename     : true,

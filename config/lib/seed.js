@@ -80,7 +80,7 @@ checkIntegration ('testme').then (function (f) {
 //
 // =========================================================================
 
-checkIntegration ('defaults-20160727.10').then (function () {
+checkIntegration ('defaults-20160731.5').then (function () {
 	require('../seed-data/defaults')();
 });
 

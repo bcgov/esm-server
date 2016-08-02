@@ -6,7 +6,7 @@
 <div class="view-body-container">
 	<div class="button-bar clearfix">
 		<div class="pull-left">
-			<button class="btn btn-default btn-sm" ui-sref="p.vc.list" ng-click="openAddTopic()">
+			<button ng-if="project.userCan.createValuedComponent" class="btn btn-default btn-sm" ui-sref="p.vc.list" ng-click="openAddTopic()">
 				<span class="glyphicon glyphicon-plus"></span><span>Add Valued Component</span>
 			</button>
 		</div>
@@ -17,7 +17,7 @@
 				<td data-title="'Title'"    filter="{'title':'text'}"     sortable="'title'"    >{{o.title}}</td>
 				<td data-title="'Name'"    filter="{'name':'text'}"     sortable="'name'"    >{{o.name}}</td>
 				<td data-title="'Pillar'" filter="{'pillar':'text'}"   	class="text-center" sortable="'pillar'"  >{{o.pillar}}</td>
-				<td data-title="'Published'" sortable="'artifact.isPublished'"><i ng-if="o.artifact.isPublished" class="glyphicon glyphicon-ok"></i></td>
+				<td ng-if="authentication.user" data-title="'Published'" sortable="'artifact.isPublished'"><i ng-if="o.artifact.isPublished" class="glyphicon glyphicon-ok"></i></td>
 				<td data-title="'Type'"    filter="{'name':'text'}"     sortable="'name'"    >{{o.type}}</td>
 				<td class="actions-col action-x2" header-class="'actions-col action-x2'">
 					<a class="btn btn-link btn-sm" ng-if="o.userPermissions.write" title="Edit Valued Component" ng-click="$event.stopPropagation()" ui-sref="p.vc.edit({vcId:o._id})">

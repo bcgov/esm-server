@@ -37,6 +37,11 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 	.state('p.commentperiod.list', {
 		url: '/list',
 		templateUrl: 'modules/project-comments/client/views/period-list.html',
+		resolve: {
+			periods: function ($stateParams, CommentPeriodModel, project) {
+				return CommentPeriodModel.forProjectWithStats (project._id);
+			}
+		},
 		controller: function ($scope, NgTableParams, periods, project, _) {
 			var s = this;
 			console.log ('periods = ', periods);

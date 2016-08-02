@@ -51,9 +51,10 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	.state('p.vc.list', {
 		url: '/list',
 		templateUrl: 'modules/vcs/client/views/vc-list.html',
-		controller: function ($scope, NgTableParams, vcs, project, $modal, $state) {
+		controller: function ($scope, NgTableParams, vcs, project, $modal, $state, Authentication) {
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: vcs});
 			$scope.project = project;
+			$scope.authentication = Authentication;
 			$scope.openAddTopic = function() {
 				var modalDocView = $modal.open({
 					animation: true,
@@ -133,6 +134,10 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		controller: function ($scope, $state, vc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _, vclist, vcs, VCTYPES) {
 			// console.log ('vc = ', vc);
 			$scope.vc = vc;
+			
+			$scope.canPublish = vc.userCan.publish && !vc.isPublished;
+			$scope.canUnpublish = vc.userCan.unPublish && vc.isPublished;
+			
 			$scope.vclist = vclist;
 			$scope.vcs = vcs;
 			$scope.vc.artifact = art;
@@ -146,6 +151,22 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				TopicModel.getTopicsForPillar (this.vc.pillar).then (function (topics) {
 					self.topics = topics;
 					$scope.$apply();
+				});
+			};
+			$scope.publish = function() {
+				VcModel.publish ($scope.vc._id)
+				.then(function(res) {
+					$state.transitionTo('p.vc.list', {projectid: project.code}, {
+						reload: true, inherit: false, notify: true
+					});
+				});
+			};
+			$scope.unpublish = function() {
+				VcModel.unpublish ($scope.vc._id)
+				.then (function (res) {
+					$state.transitionTo('p.vc.list', {projectid: project.code}, {
+						reload: true, inherit: false, notify: true
+					});
 				});
 			};
 			$scope.save = function () {

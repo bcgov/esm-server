@@ -7,7 +7,7 @@
 module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('Comment', {
 	__audit    : true,  // who did what and when
-	__access   : [],  // who gets what sort of access to this comment
+	__access   : ['setPermissions'],  // who gets what sort of access to this comment
 	//
 	// this comes along just for ease of querying
 	//

@@ -246,6 +246,7 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	findById : function (id) {
+		//console.log('findById =  ', id)
 		return this.findOne ({_id : id})
 			.then (this.permissions)
 			.then (this.decorate);
@@ -259,13 +260,13 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	findOne : function (query, fields) {
-		// console.log ('dbmodel.findOne:', query, fields);
+		//console.log ('dbmodel.findOne:', query, fields);
 		var self = this;
 		query = query || {};
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			// console.log ('q = ',q);
+			//console.log ('q = ',q);
 			self.model.findOne (q)
 			.populate (self.populate)
 			.select (fields)
@@ -389,8 +390,8 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	saveDocument : function (doc) {
 		var self = this;
-		// console.log ('in saveDocument with doc ',doc);
-		// console.log ('in saveDocument with roles ',self.roles);
+		//console.log('saveDocument doc = ', JSON.stringify(doc, null, 4));
+		//console.log('saveDocument roles = ', JSON.stringify(self.roles, null, 4));
 		return new Promise (function (resolve, reject) {
 			if (!self.force && self.useRoles && !self.hasPermission (self.userRoles, doc.write)) {
 				return reject (new Error ('saveDocument: Write operation not permitted for this '+self.name+' object'));
@@ -929,6 +930,34 @@ _.extend (DBModel.prototype, {
 				.then (resolve, self.complete (reject, 'listforaccess'));
 		});
 	},
+	listIgnoreAccess: function(q, f, p) {
+		if (p) this.populate = p;
+		q = q || {};
+		this.setAccessOnce ('ignoring the access permissions, object may not have the correct ones yet...');
+		q = _.extend ({}, this.baseQ, q);
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findMany (q, f)
+			.then (self.permissions)
+			.then (self.decorateAll)
+			.then (resolve, self.complete (reject, 'listIgnoreAccess'));
+		});
+	},
+	oneIgnoreAccess : function (q, f, p) {
+		if (p) this.populate = p;
+		q = q || {};
+		this.setAccessOnce ('ignoring the access permissions, object may not have the correct ones yet...');
+		q = _.extend ({}, this.baseQ, q);
+		f = f || {};
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findOne (q, f)
+			.then (self.permissions)
+			.then (self.decorate)
+			.then (resolve, self.complete (reject, 'oneIgnoreAccess'));
+		});
+	},
+	
 	// -------------------------------------------------------------------------
 	//
 	// lets decide to save some time debugging and just finally overload this puppy

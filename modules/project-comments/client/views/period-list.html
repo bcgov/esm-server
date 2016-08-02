@@ -30,21 +30,18 @@
 					<td title="'Completes'" sortable="'dateCompleted'">
 						{{ p.dateCompleted | date : format : timezone }}
 					</td>
-					<td class="pcp-count" header-class="'pcp-count'" title="'Vetted'" >
-						<i ng-if="p.isVetted" class="glyphicon glyphicon-ok"></i>
+					<td class="pcp-count" header-class="'pcp-count'" title="'Assigned'" >
+						<i ng-if="p.isVetted" class="glyphicon glyphicon-ok"></i>{{p.stats.totalPublicAssigned}}
 					</td>
-					<td class="pcp-count" header-class="'pcp-count'" title="'Resolved'" >
-						<i ng-if="p.isResolved" class="glyphicon glyphicon-ok"></i>
-					</td>
-					<td class="pcp-count" header-class="'pcp-count'" title="'Published'" >
-						<i ng-if="p.isPublished" class="glyphicon glyphicon-ok"></i>
+					<td title="'Total Comments'" >
+						<i ng-if="p.isPublished" class="glyphicon glyphicon-ok"></i>{{p.stats.totalPublic}}
 					</td>
 					<td class="actions-col action-x1" header-class="'actions-col action-x1'">
-						<a class="btn btn-default btn-sm" 
-							ng-click="$event.stopPropagation()" 
-							ng-if="p.userCan.write" 
+						<a class="btn btn-default btn-sm"
+							ng-click="$event.stopPropagation()"
+							ng-if="p.userCan.write"
 							ui-sref="p.commentperiod.edit({periodId:p._id})" href>
-							<span class="glyphicon glyphicon-pencil"></span>			
+							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
 					</td>
 				</tr>
