@@ -26,7 +26,7 @@ angular.module('project').config (
 			}
 		},
 		controller: function ($scope, $stateParams, project, ENV, $rootScope, ProjectModel, Menus) {
-			console.log ('project permissions:', project.userCan);
+			//console.log ('project permissions:', project.userCan);
 			$scope.project = project;
 			$scope.environment = ENV;
 			$scope.isNew = ($stateParams.projectid === 'new');
@@ -256,14 +256,16 @@ angular.module('project').config (
 
 			$scope.addNextPhase = function () {
 				// Find out the current phase, add the one after that.
-				PhaseBaseModel.getCollection().then( function(data) {
-					var nextPhase = data[$scope.project.phases.length];
-					ProjectModel.addPhase(nextPhase.code).then( function(data) {
-						$scope.project.phases = angular.copy(data.phases);
-						$rootScope.$broadcast('refreshPhases', $scope.project.phases);
-						$scope.$apply();
+				PhaseBaseModel.getCollection()
+					.then( function(res) {
+						// Fix this! Naive implementation.
+						var nextPhase = res[$scope.project.phases.length];
+						return ProjectModel.addPhase(nextPhase.code);
+					})
+					.then( function(res) {
+						$scope.project = res;
+						self.refresh();
 					});
-				});
 			};
 
 			$scope.completeCurrentPhase = function (project) {
@@ -271,8 +273,7 @@ angular.module('project').config (
 				ProjectModel.completePhase(self.project)
 				.then( function (res) {
 					$scope.project = res;
-					$scope.$apply ();
-					$rootScope.$broadcast('refreshPhases', res);
+					self.refresh();
 				});
 			};
 
@@ -296,8 +297,8 @@ angular.module('project').config (
 								"code": 'public-comment-period-on-project-description',
 								"name": 'Public Comment Period on Project Description',
 							}, {
-								"name": "Draft Project Description Accepted",
-								"code": "draft-project-description-accepted"
+								"name": "Project Description Accepted",
+								"code": "project-description-accepted"
 							}, {
 								"name": "Substitution Decision",
 								"code": "substitution-decision"
@@ -390,6 +391,9 @@ angular.module('project').config (
 					case "evaluation":
 						$scope.rMilestonesForPhase = [
 							{
+								"name": "Application Evaluation",
+								"code": "application-evaluation"
+							}, {
 								"name": "Draft Application Submitted",
 								"code": "draft-application-submitted"
 							}, {
@@ -433,6 +437,9 @@ angular.module('project').config (
 								"name": "Review PCP Initiated",
 								"code": "review-pcp-initiated"
 							}, {
+								"name": "Referral Package",
+								"code": "referral-package"
+							}, {
 								"code": 'application-review-pcp-completed',
 								"name": 'Review PCP Completed',
 							}, {
@@ -471,6 +478,9 @@ angular.module('project').config (
 					case "decision":
 						$scope.rMilestonesForPhase = [
 							{
+								"name": "Minister's Decision",
+								"code": "ministers-decision"
+							}, {
 								"name": "Minister's Decision Package Delivered",
 								"code": "ministers-decision-package-delivered"
 							}, {
@@ -572,9 +582,23 @@ angular.module('project').config (
 				}
 			};
 
-			// User clicked on edit phase - store this.
-			$scope.selectPhaseForEdit = function (phase) {
+			// User clicked on edit or delete phase - store this.
+			$scope.selectPhase = function (phase) {
 				$scope.selectedPhase = phase;
+			};
+
+			$scope.deletePhase = function(phase) {
+				// Remove Phase from project.
+				return ProjectModel.removePhase($scope.project, phase)
+					.then(function(res) {
+						$scope.project = res;
+						// Delete Phase from database.
+						return PhaseModel.deleteId (phase._id);
+					})
+					.then(function(res) {
+						// Update model and UI.
+						self.refresh();
+					});
 			};
 
 			// Edit the phase data
@@ -616,11 +640,11 @@ angular.module('project').config (
 				.then(function (ms) {
 					$scope.rSelPhase.milestone = ms;
 					$scope.rSelPhase.milestones.push(ms);
-					PhaseModel.save($scope.rSelPhase)
-					.then( function (newPhase) {
-						// console.log("newphase:", newPhase);
-						$rootScope.$broadcast('refreshPhases', newPhase);
-					});
+					return PhaseModel.save($scope.rSelPhase);
+				})
+				.then( function (phase) {
+					// console.log("newphase:", phase);
+					$rootScope.$broadcast('refreshPhases');
 				});
 			};
 			// Handle the delete milestone

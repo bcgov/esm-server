@@ -10,16 +10,21 @@
 // mark vcs in all other parts of the system
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('Vc', {
 	__audit				: true,
+	__access      : [      // read / write / delete are automatic
+	  'setPermissions',
+		'publish',
+		'unPublish'],
 	__codename			: 'unique',
 	title				: { type:String, default:'', index:true },
 	type				: { type:String, default:'', index:true },
 	topiccode			: { type:String, default:'', index:true },
 	parent				: { type:String, default:'', index:true },
-	reportRequirements	: { type:String, default:''},
-	pillar				: { type:String, default:'Environment', enum:['Environment', 'Economic', 'Social', 'Heritage', 'Health'] },
+	subComponents 		: [{ type:'ObjectId', ref:'Vc'}],
+	indicators			: { type:String, default:''},
+	pillar				: { type:String, default:'Environment', enum:['Environment', 'Economic', 'Social', 'Heritage', 'Health', 'Other', 'Requirements'] },
 	project				: { type:'ObjectId', ref:'Project', default:null, index:true },
 	stage				: { type:String, enum:['Pre-Construction', 'Construction', 'Operations', 'Decommissioning'], default:'Operations' },
 	artifact 			: { type:'ObjectId', ref:'Artifact'},

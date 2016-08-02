@@ -4,7 +4,7 @@
 // Model for Phase
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')('Phase', {
+module.exports = require ('../../../core/server/controllers/core.schema.controller')('Phase', {
 	__audit : true,
 	__tracking : true,
 	__status : ['Not Started', 'Not Required', 'In Progress', 'Complete'],

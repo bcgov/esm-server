@@ -6,7 +6,6 @@ angular.module('project')
 	.directive('modalProjectImport', directiveModalProjectImport)
 
 	.directive('tmplProjectInitiated', directiveProjectInitiated)
-	.directive('tmplProjectStreamSelect', directiveProjectStreamSelect)
 	.directive('tmplProjectActivities', directiveProjectActivities);
 
 // -----------------------------------------------------------------------------------
@@ -75,20 +74,25 @@ function directiveModalProjectImport($modal, $state, $rootScope, sProjectModel) 
 // DIRECTIVE: Project Tombstone Horizontal
 //
 // -----------------------------------------------------------------------------------
-directiveProjectTombstone.$inject = [];
+directiveProjectTombstone.$inject = ['Authentication'];
 /* @ngInject */
-function directiveProjectTombstone() {
-	var directive = {
-		restrict: 'E',
-		templateUrl: 'modules/projects/client/views/project-partials/project-tombstone.html',
-		scope: {
-			project: '='
-		},
-		controller: function($scope, ENV) {
-			$scope.environment = ENV;
-		}
-	};
-	return directive;
+function directiveProjectTombstone(Authentication) {
+    var directive = {
+        restrict: 'E',
+        templateUrl: 'modules/projects/client/views/project-partials/project-tombstone.html',
+        scope: {
+            project: '='
+        },
+        controller: function($scope, ENV, Authentication) {
+            var c = this;
+            $scope.environment = ENV;
+            c.isEao = (Authentication.user && Authentication.user.roles.indexOf('eao') > -1);
+			c.isUser = (Authentication.user);
+        },
+		
+        controllerAs: 'c'
+    };
+    return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -104,31 +108,6 @@ function directiveProjectInitiated() {
 	};
 	return directive;
 }
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Project Stream Select
-//
-// -----------------------------------------------------------------------------------
-directiveProjectStreamSelect.$inject = [];
-/* @ngInject */
-function directiveProjectStreamSelect() {
-	var directive = {
-		restrict: 'E',
-		replace: true,
-		templateUrl: 'modules/projects/client/views/project-partials/project-stream-select.html',
-		controller: 'controllerProjectStreamSelect',
-		controllerAs: 'projectStreamSelect',
-		scope: {
-			project: '='
-		}
-	};
-	return directive;
-}
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Project Stream Select
-//
-// -----------------------------------------------------------------------------------
 directiveProjectActivities.$inject = [];
 /* @ngInject */
 function directiveProjectActivities() {

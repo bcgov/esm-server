@@ -82,12 +82,17 @@ angular.module('project').factory ('MilestoneModel', function (ModelBase, _) {
 		deleteMilestone: function(id) {
 			var self = this;
 			return new Promise (function (resolve, reject) {
-				self.delete ('/api/milestone/'+id)
-				.then (function (res) {
-					self.collection = res;
-					resolve (res);
-				})
-				.catch (reject);
+				// Null Check
+				if (id) {
+					self.delete ('/api/milestone/'+id)
+					.then (function (res) {
+						self.collection = res;
+						resolve (res);
+					})
+					.catch (reject);
+				} else {
+					resolve(null);
+				}
 			});
 		}
 	});

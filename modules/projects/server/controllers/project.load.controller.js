@@ -10,8 +10,6 @@ var Phase               = mongoose.model ('Phase');
 var Organization        = mongoose.model ('Organization');
 var CSVParse            = require ('csv-parse');
 
-
-
 // -------------------------------------------------------------------------
 //
 // This does a whole complicated mess of crap in loading up projects, should
@@ -20,7 +18,7 @@ var CSVParse            = require ('csv-parse');
 // here for now.
 //
 // -------------------------------------------------------------------------
-module.exports = function(file, req, res) {
+module.exports = function(file, req, res, opts) {
 	return new Promise (function (resolve, reject) {
 		var params = req.url.split("/");
 		var projectType = params[params.length-1]; // Last param is project type
@@ -29,125 +27,131 @@ module.exports = function(file, req, res) {
 			var finalPhaseCode = phase.toLowerCase().replace (/\W+/g,'-');
 			var stopProcessing = false;
 			// This is a really horrible way to do this, but it's good enough for now.
-			return new Promise(function (rs,rj) {
-				if (finalPhaseCode === "pre-submission") {
-					return project;
-				} else {
-					(new Project(req.user)).addPhase(project, "pre-ea")
-					.then(function (p) {
-						return (new Project(req.user)).addPhase(p, "pre-app");
+			return new Promise(function(rs, rj) {
+				if (finalPhaseCode === "intake") {
+					rs(project);
+				} else if (finalPhaseCode === "pre-ea") {
+					return (new Project(opts)).completeCurrentPhase(project)
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[1];
+						pr.currentPhaseCode = pr.phases[1].code;
+						pr.currentPhaseName = pr.phases[1].name;
+						new Project(opts)
+							.saveDocument(pr)
+							.then(rs);
+						});
+				} else if (finalPhaseCode === "pre-app") {
+					return (new Project(opts)).completeCurrentPhase(project) // intake
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[1];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
 					})
-					.then(function (p) {
-						return (new Project(req.user)).addPhase(p, "evaluation");
-					})
-					.then(function (p) {
-						return (new Project(req.user)).addPhase(p, "application-review");
-					})
-					.then(function (p) {
-						return (new Project(req.user)).addPhase(p, "decision");
-					})
-					.then(function (p) {
-						return (new Project(req.user)).addPhase(p, "post-certification");
-					})
-					.then(function (pr) {
-						if (!stopProcessing) {
-							if (finalPhaseCode === "pre-ea") stopProcessing = true;
-							// console.log("doing pre-ea");
-							return (new Project(req.user)).completeCurrentPhase(pr)
-							.then( function (pr) {
-								// Complete the phase and set next.
-								pr.currentPhase     = pr.phases[1];
-								pr.currentPhaseCode = pr.phases[1].code;
-								pr.currentPhaseName = pr.phases[1].name;
-								return (new Project(req.user)).saveDocument(pr);
-							});
-						} else {
-							return pr;
-						}
-					})
-					.then(function (pr) {
-						if (!stopProcessing) {
-							if (finalPhaseCode === "pre-app") stopProcessing = true;
-							// console.log("doing pre-app");
-							return (new Project(req.user)).completeCurrentPhase(pr)
-							.then( function (pr) {
-								// Complete the phase and set next.
-								pr.currentPhase     = pr.phases[2];
-								pr.currentPhaseCode = pr.phases[2].code;
-								pr.currentPhaseName = pr.phases[2].name;
-								return (new Project(req.user)).saveDocument(pr);
-							});
-						} else {
-							return pr;
-						}
-					})
-					.then(function (pr) {
-						if (!stopProcessing) {
-							if (finalPhaseCode === "evaluation") stopProcessing = true;
-							// console.log("doing evaluation");
-							return (new Project(req.user)).completeCurrentPhase(pr)
-							.then( function (pr) {
-								// Complete the phase and set next.
-								pr.currentPhase     = pr.phases[3];
-								pr.currentPhaseCode = pr.phases[3].code;
-								pr.currentPhaseName = pr.phases[3].name;
-								return (new Project(req.user)).saveDocument(pr);
-							});
-						} else {
-							return pr;
-						}
-					})
-					.then(function (pr) {
-						if (!stopProcessing) {
-							if (finalPhaseCode === "application-review") stopProcessing = true;
-							// console.log("doing application-review");
-							return (new Project(req.user)).completeCurrentPhase(pr)
-							.then( function (pr) {
-								// Complete the phase and set next.
-								pr.currentPhase     = pr.phases[4];
-								pr.currentPhaseCode = pr.phases[4].code;
-								pr.currentPhaseName = pr.phases[4].name;
-								return (new Project(req.user)).saveDocument(pr);
-							});
-						} else {
-							return pr;
-						}
-					})
-					.then(function (pr) {
-						if (!stopProcessing) {
-							if (finalPhaseCode === "decision") stopProcessing = true;
-							// console.log("doing decision");
-							return (new Project(req.user)).completeCurrentPhase(pr)
-							.then( function (pr) {
-								// Complete the phase and set next.
-								pr.currentPhase     = pr.phases[5];
-								pr.currentPhaseCode = pr.phases[5].code;
-								pr.currentPhaseName = pr.phases[5].name;
-								return (new Project(req.user)).saveDocument(pr);
-							});
-						} else {
-							return pr;
-						}
-					})
-					.then(function (pr) {
-						if (!stopProcessing) {
-							if (finalPhaseCode === "post-certification") stopProcessing = true;
-							// console.log("doing post-certification");
-							return (new Project(req.user)).completeCurrentPhase(pr)
-							.then( function (pr) {
-								// Complete the phase and set next.
-								pr.currentPhase     = pr.phases[6];
-								pr.currentPhaseCode = pr.phases[6].code;
-								pr.currentPhaseName = pr.phases[6].name;
-								return (new Project(req.user)).saveDocument(pr);
-							});
-						} else {
-							return pr;
-						}
-					})
-					.then(function (p) {
-						rs(p);
+					.then (function (project) {
+						project.currentPhase     = project.phases[2];
+						project.currentPhaseCode = project.phases[2].code;
+						project.currentPhaseName = project.phases[2].name; // set to pre-app
+						new Project(opts)
+							.saveDocument(project)
+							.then(rs);
 					});
+				} else if (finalPhaseCode === "evaluation") {
+					return (new Project(opts)).completeCurrentPhase(project) // intake
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[1];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[2];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then (function (project) {
+						project.currentPhase     = project.phases[3];
+						project.currentPhaseCode = project.phases[3].code;
+						project.currentPhaseName = project.phases[3].name;
+						new Project(opts)
+							.saveDocument(project)
+							.then(rs);
+						});
+				} else if (finalPhaseCode === "application-review") {
+					return (new Project(opts)).completeCurrentPhase(project) // intake
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[1];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[2];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[3];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then (function (project) {
+						project.currentPhase     = project.phases[4];
+						project.currentPhaseCode = project.phases[4].code;
+						project.currentPhaseName = project.phases[4].name;
+						new Project(opts)
+							.saveDocument(project)
+							.then(rs);
+						});
+				} else if (finalPhaseCode === "decision") {
+					return (new Project(opts)).completeCurrentPhase(project) // intake
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[1];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[2];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[3];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[4];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then (function (project) {
+						project.currentPhase     = project.phases[5];
+						project.currentPhaseCode = project.phases[5].code;
+						project.currentPhaseName = project.phases[5].name;
+						new Project(opts)
+							.saveDocument(project)
+							.then(rs);
+						});
+				} else if (finalPhaseCode === "post-certification") {
+					return (new Project(opts)).completeCurrentPhase(project) // intake
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[1];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[2];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[3];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[4];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[5];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then (function (project) {
+						project.currentPhase     = project.phases[6];
+						project.currentPhaseCode = project.phases[6].code;
+						project.currentPhaseName = project.phases[6].name;
+						new Project(opts)
+							.saveDocument(project)
+							.then(rs);
+					});
+				} else {
+					console.log("unhandled phase code.");
 				}
 			});
 		};
@@ -156,7 +160,7 @@ module.exports = function(file, req, res) {
 				Organization.findOne ({name:proponent.name}, function (err, result) {
 					if (result === null) {
 						// Create it
-						var o = new OrganizationController(req.user);
+						var o = new OrganizationController(opts);
 						o.newDocument(proponent)
 						.then ( o.create )
 						.then (function (org) {
@@ -164,13 +168,15 @@ module.exports = function(file, req, res) {
 							// being done.
 							project.proponent = org;
 							project.status = "In Progress";
-							project.save().then(rs, rj);
+							project.save()
+							.then(rs, rj);
 						});
 					} else {
 						// Same as above, but the update version.
 						project.proponent = result;
 						project.status = "In Progress";
-						project.save().then(rs, rj);
+						project.save()
+						.then(rs, rj);
 					}
 				});
 			});
@@ -178,23 +184,26 @@ module.exports = function(file, req, res) {
 		var doProjectWork = function(item, query) {
 			return new Promise(function (rs, rj) {
 				Model.findOne(query, function (err, doc) {
-					var p = new Project(req.user);
+					var p = new Project(opts);
 					if (doc === null) {
 						p.newDocument(item)
-						.then(p.create)
+						.then(function (newProj) {
+							return p.create(newProj);
+						})
 						.then(function (proj) {
-							p.submit(proj).then(function (newP) {
-								// Project has been created, now to set things and resolve the project back
-								// to the caller.
-								if(item.isPublished === "TRUE") {
-									p.publish(newP, true).then(rs, rj);
-								} else {
-									rs(newP);
-								}
-							});
-						});
+							return p.submit(proj);
+						})
+						.then( function (obj) {
+							if(item.isPublished) {
+								return p.publish(obj, true);
+							} else {
+								return obj;
+							}
+						})
+						.then(rs, rj);
 					} else {
-						p.update(doc, item).then(rs, rj);
+						p.update(doc, item)
+						.then(rs, rj);
 					}
 				});
 			});
@@ -210,7 +219,7 @@ module.exports = function(file, req, res) {
 			// console.log("FILE DATA:",data);
 			var colArray = "";
 			if (projectType === "eao") {
-				colArray = ['id','Stream','ProjectName','Proponent','Region','description','locSpatial','locDescription','provincialED','federalED','investment','projectCreateDate','projectDescriptionLivingData','projectNotes','projectURL','investmentNotes','lat','long','constructionjobs','constructionjobsNotes','operatingjobs','operatingjobsNotes','projectType','sector','phase','currentPhaseTypeActivity','eaActive','CEAAInvolvement','eaIssues','eaNotes','responsibleEPD','phoneEPD','emailEPD','projectLead','projectLeadPhone','projectLeadEmail','projectAnalyst','projectAssistant','administrativeAssistant','CELead','CELeadPhone','CELeadEmail','teamNotes', 'isPublished'];
+				colArray = ['id','Stream','ProjectName','Proponent', 'DBA', 'Region','description','locSpatial','locDescription','provincialED','federalED','investment','projectCreateDate','projectDescriptionLivingData','projectNotes','projectURL','investmentNotes','lat','long','constructionjobs','constructionjobsNotes','operatingjobs','operatingjobsNotes','projectType','sector','phase','EACDecision', 'currentPhaseTypeActivity','eaActive', 'CEAAInvolvement','CEAALink', 'eaIssues','eaNotes','responsibleEPD','phoneEPD','emailEPD','projectLead','projectLeadPhone','projectLeadEmail','projectAnalyst','projectAssistant','administrativeAssistant','CELead','CELeadPhone','CELeadEmail','teamNotes', 'isPublished'];
 			} else {
 				colArray = ['id','ProjectName','Proponent','Ownership','type', 'lat','long','Status','Commodity','Region','TailingsImpoundments','description'];
 			}
@@ -245,12 +254,16 @@ module.exports = function(file, req, res) {
 								type 				: row.type
 							};
 						} else {
+							newProponent.company = row.DBA;
+
 							query = { epicProjectID: parseInt(row.id) };
 							newObj = {
 								epicProjectID 	: id,
 								name 			: row.ProjectName,
 								//shortName 		: row.ProjectName.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, row.ProjectName.length+1),
 								shortName 		: row.projectURL,
+								eacDecision 	: row.EACDecision,
+								CEAALink 		: (row.CEAALink === 'NA' ? "" : row.CEAALink),
 								roles 			: ['eao', 'public'],
 								read 			: ['public'],
 								submit 			: ['eao'],
@@ -302,7 +315,6 @@ module.exports = function(file, req, res) {
 				.then (function () {
 					return promises.reduce (function (current, item) {
 						return current.then (function () {
-							// console.log ('++ add phase ', code);
 							return doProjectWork(item.obj, item.query)
 							//
 							// Sequential reduction of work moving from the tail of the original promise

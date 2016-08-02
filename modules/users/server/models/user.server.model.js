@@ -110,7 +110,7 @@ newStatics.findUniqueUsername = function (username, suffix, callback) {
 	});
 };
 
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')('User', {
+module.exports = require ('../../../core/server/controllers/core.schema.controller')('User', {
 	__audit                 : true,
 	firstName               : { type: String, trim: true, default: '', validate: [validateLocalStrategyProperty, 'Please fill in your first name'] },
 	middleName              : { type: String, trim: true, default: null },

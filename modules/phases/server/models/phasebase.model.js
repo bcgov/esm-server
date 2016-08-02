@@ -4,7 +4,7 @@
 // Model for activity set Base
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')('PhaseBase', {
+module.exports = require ('../../../core/server/controllers/core.schema.controller')('PhaseBase', {
 	__codename  : true,
 	//
 	// milestones as codes

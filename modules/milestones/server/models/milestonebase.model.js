@@ -4,7 +4,7 @@
 // Model for activity set Base
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('MilestoneBase', {
 	__codename      : true,
 	//

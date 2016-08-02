@@ -17,10 +17,10 @@
 
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')('Condition', {
+module.exports = require ('../../../core/server/controllers/core.schema.controller')('Condition', {
 	__audit            : true,
 	__codename         : 'unique',
-	__access           : ['modifyName','modifyDescription'],
+	__access           : ['setPermissions','modifyName','modifyDescription'],
 	subject            : {type:String, default: ''},
 	reportRequirements : {type:String, default: ''},
 	sector             : { type:String, default:'Mining', enum:['Mining', 'Energy', 'Transportation', 'Water Management', 'Industrial', 'Waste Management', 'Waste Disposal', 'Food Processing', 'Tourist Destination', 'Other']},

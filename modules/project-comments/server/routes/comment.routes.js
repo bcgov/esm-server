@@ -6,8 +6,8 @@
 // =========================================================================
 var CommentModel  = require ('../controllers/comment.controller');
 var CommentPeriod  = require ('../controllers/commentperiod.controller');
-var routes = require ('../../../core/server/controllers/cc.routes.controller');
-var policy = require ('../../../core/server/controllers/cc.policy.controller');
+var routes = require ('../../../core/server/controllers/core.routes.controller');
+var policy = require ('../../../core/server/controllers/core.policy.controller');
 
 module.exports = function (app) {
 	routes.setCRUDRoutes (app, 'comment', CommentModel, policy, null, {all:'guest',get:'guest'});
@@ -24,6 +24,10 @@ module.exports = function (app) {
 		.get (routes.setAndRun (CommentPeriod, function (model, req) {
 			return model.getForProject (req.params.projectid);
 		}));
+	app.route ('/api/commentperiod/for/project/:projectid/withstats').all (policy ('guest'))
+	.get (routes.setAndRun (CommentPeriod, function (model, req) {
+		return model.getForProjectWithStats (req.params.projectid);
+	}));
 	app.route ('/api/publish/comment/:comment').all(policy ('user'))
 		.put (routes.setAndRun (CommentModel, function (model, req) {
 			return model.publishCommentChain (req.Comment.ancestor, true);
@@ -50,14 +54,13 @@ module.exports = function (app) {
 		.get (routes.setAndRun (CommentModel, function (model, req) {
 			return model.getCommentsForTarget (req.params.targettype, req.params.targetid, req.params.type);
 		}));
-	// -------------------------------------------------------------------------
-	//
-	// get all comments for a period
-	//
-	// -------------------------------------------------------------------------
-	app.route ('/api/comments/period/:periodId').all(policy ('guest'))
+	app.route ('/api/comments/period/:periodId/all').all(policy ('guest'))
 		.get (routes.setAndRun (CommentModel, function (model, req) {
-			return model.getCommentsForPeriod (req.params.periodId);
+			return model.getAllCommentsForPeriod (req.params.periodId);
+		}));
+	app.route ('/api/comments/period/:periodId/published').all(policy ('guest'))
+		.get (routes.setAndRun (CommentModel, function (model, req) {
+			return model.getPublishedCommentsForPeriod (req.params.periodId);
 		}));
 	app.route ('/api/eaocomments/period/:periodId').all(policy ('user'))
 		.get (routes.setAndRun (CommentModel, function (model, req) {
@@ -88,6 +91,10 @@ module.exports = function (app) {
 		.put (routes.setAndRun (CommentPeriod, function (model, req) {
 			return model.resolveCommentPeriod (req.CommentPeriod.ancestor, false);
 		}));
-
+	
+	app.route ('/api/comment/:commentId/documents').all(policy ('guest'))
+	.get (routes.setAndRun (CommentModel, function (model, req) {
+		return model.getCommentDocuments(req.params.commentId);
+	}));
 };
 

@@ -1,12 +1,18 @@
-<section id="menu-side" class="sidenav">
+<div class="sidenav" id="menu-side">
 
 	<!-- PUBLIC USERS (COMMON) -->
 	<div ng-show="!menu.authentication.user">
-		<ul class="list-unstyled">
-			<li><a ui-sref="p.detail" href>Project Details</a></li>
-			  <!-- <li ng-if="ENV === 'EAO'"><a ui-sref="p.enforcements" href>Compliance Oversight</a></li> -->
-     		<li><a ui-sref="p.documents" href>Documents</a></li>
-     		<li><a ui-sref="p.commentperiod.list" href>Public Comment Periods</a></li>
+
+		<a class="project-home-link" ui-sref="p.detail({projectid: menu.project.code})" title="Project Details">
+			<span class="glyphicon glyphicon-map-marker"></span>
+			<span>{{project.name}}</span>
+			<span ng-if="!project.name">Untitled Project</span>
+		</a>
+
+		<ul class="nav nav-pills nav-stacked">
+     		<li><a ui-sref="p.documents" href title="Documents">Documents</a></li>
+     		<li><a ui-sref="p.commentperiod.list" href title="Public Comment Periods">Public Comment Periods</a></li>
+        <li><a ui-sref="p.vc.list" href title="Valued Components">Valued Components</a></li>
 		</ul>
 	</div><!-- / PUBLIC USERS (COMMON) -->
 
@@ -30,49 +36,63 @@
 	<div ng-if="(menu.context === 'project' || menu.context === 'activity') && menu.pageAnchors('anchor-group-project');" id="anchor-group-project">
 		<hr>
 		<ul class="list-unstyled">
-			<li><a du-smooth-scroll 	href="#anchor-tombstone">Overview</a></li>
-			<li><a du-smooth-scroll 	href="#anchor-timeline">Timeline</a></li>
-			<li><a du-smooth-scroll 	href="#anchor-enforcement">Enforcement</a></li>
-			<li><a du-smooth-scroll 	href="#anchor-publiccomments">Public Comments</a></li>
-			<li><a du-smooth-scroll 	href="#anchor-artifacts">Artifacts</a></li>
-			<li><a du-smooth-scroll 	href="#anchor-activities">Activities</a></li>
-			<li><a du-smooth-scroll 	href="#anchor-documents">Documents</a></li>
-			<li><a du-smooth-scroll 	href="#anchor-map">Map</a></li>
+			<li><a du-smooth-scroll href="#anchor-tombstone">Overview</a></li>
+			<li><a du-smooth-scroll href="#anchor-timeline">Timeline</a></li>
+			<li><a du-smooth-scroll href="#anchor-enforcement">Enforcement</a></li>
+			<li><a du-smooth-scroll href="#anchor-publiccomments">Public Comments</a></li>
+			<li><a du-smooth-scroll href="#anchor-artifacts">Artifacts</a></li>
+			<li><a du-smooth-scroll href="#anchor-activities">Activities</a></li>
+			<li><a du-smooth-scroll href="#anchor-documents">Documents</a></li>
+			<li><a du-smooth-scroll href="#anchor-map">Map</a></li>
 		</ul>
 	</div>
 
 	<!-- PROJECT MENU - AUTHENTICATED -->
 	<div ng-if="(menu.context === 'project' || menu.context === 'activity') && menu.authentication.user">
-		<ul class="list-unstyled">
-			<li><a ui-sref="p.detail({projectid: menu.project.code})">Project Detail</a></li>
-		</ul>
+
+		<a class="project-home-link" ui-sref="p.detail({projectid: menu.project.code})" title="Project Details">
+			<span class="glyphicon glyphicon-map-marker"></span>
+			<span>{{project.name}}</span>
+			<span ng-if="!project.name">Untitled Project</span>
+		</a>
 
 		<!-- PROJECT CLIENT MENUS (project.client.menus.js) -->
-		<ul class="list-unstyled" ng-show="menu.authentication.user">
+		<ul class="nav nav-pills nav-stacked" ng-show="menu.authentication.user">
 			<li ng-repeat="item in menu.projectTopMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project);"
 			    ng-class="{ 'active': $state.includes(item.state) }" class="{{item.class}}">
-				<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
+			    <a ui-sref="{{item.state}}" ng-bind="item.title" title="{{item.title}}"></a>
 			</li>
 		</ul><!-- / PROJECT CLIENT MENUS -->
 
-		<!-- <ul class="list-unstyled" ng-show="menu.projectMenu.shouldRender(menu.authentication.user, menu.project)"> -->
-		<ul class="list-unstyled">
+		<ul class="nav nav-pills nav-stacked">
 			<li ng-repeat="item in menu.projectMenu.items | orderBy: 'position'"
 			    ng-if="item.shouldRender(menu.authentication.user, menu.project);"
 					ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
-				  <a ui-sref="{{item.state}}" ng-bind="item.title"></a>
+				  <a ui-sref="{{item.state}}" ng-bind="item.title" title="{{item.title}}"></a>
 			</li>
 		</ul>
- 		<ul class="list-unstyled" ng-show="menu.authentication.user">
-			<li ng-if="menu.project.userCan.managePermissions">
-				<a x-role-permissions-modal x-context="menu.project" x-object="menu.project">Project Permissions</a>
-			</li>
-			<li ng-if="menu.project.userCan.manageRoles">
-				<a x-role-users-modal x-context="menu.project">Project Roles</a>
-			</li>
-		</ul>
+
+		<!-- ROLES & PERMISSIONS -->
+		<div class="sidenav-group" ng-show="menu.authentication.user && (menu.project.userCan.manageRoles || menu.project.userCan.managePermissions)">
+			<hr />
+			<h4>Project Settings</h4>
+			<ul class="nav nav-pills nav-stacked" ng-show="menu.authentication.user">
+				<li ng-if="menu.project.userCan.manageRoles">
+					<a href x-role-users-modal x-context="menu.project" title="Edit Project Roles">
+						<span class="glyphicon glyphicon-cog"></span><span>Edit Roles</span>
+					</a>
+				</li>
+				<li ng-if="menu.project.userCan.managePermissions">
+					<a href x-role-permissions-modal x-context="menu.project" x-object="menu.project">
+						<span class="glyphicon glyphicon-lock"></span><span>Edit Permissions</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<!-- / ROLES & PERMISSIONS -->
+
   </div><!-- / PROJECT MENU - AUTHENTICATED -->
 
-</section>
+</div>
 
 

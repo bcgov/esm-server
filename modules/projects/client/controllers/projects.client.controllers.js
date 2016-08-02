@@ -11,9 +11,9 @@ angular.module('projects')
 // CONTROLLER: Projects
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsSearch.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC', 'PhaseBaseModel'];
+controllerProjectsSearch.$inject = ['$scope', '$state', 'Authentication', 'ProjectModel', '$rootScope', 'PROJECT_DECISION', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC', 'PhaseBaseModel'];
 /* @ngInject */
-function controllerProjectsSearch($scope, $state, Authentication, ProjectModel, $rootScope, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC, sPhaseBaseModel) {
+function controllerProjectsSearch($scope, $state, Authentication, ProjectModel, $rootScope, PROJECT_DECISION, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC, sPhaseBaseModel) {
 	var projectsSearch = this;
 
 	sPhaseBaseModel.getCollection().then( function(data) {
@@ -22,6 +22,7 @@ function controllerProjectsSearch($scope, $state, Authentication, ProjectModel, 
 	projectsSearch.types = PROJECT_TYPES;
 	projectsSearch.regions = REGIONS;
 	projectsSearch.status = PROJECT_STATUS_PUBLIC;
+	projectsSearch.eacDecision = PROJECT_DECISION;
 
 	projectsSearch.foundSet = false;
 	projectsSearch.projects = [];
@@ -46,6 +47,9 @@ function controllerProjectsSearch($scope, $state, Authentication, ProjectModel, 
 		if (projectsSearch.search.status)  {
 			query.status = projectsSearch.search.status;
 		}
+		if (projectsSearch.search.eacDecision)  {
+			query.eacDecision = projectsSearch.search.eacDecision;
+		}
 		if (projectsSearch.search.keywords) {
 			query.keywords = {'$in': projectsSearch.search.keywords.split(' ') };
 		}
@@ -65,9 +69,9 @@ function controllerProjectsSearch($scope, $state, Authentication, ProjectModel, 
 // CONTROLLER: Projects
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsList.$inject = ['$scope', 'Authentication', '_', 'uiGmapGoogleMapApi', '$filter'];
+controllerProjectsList.$inject = ['$scope', 'Authentication', '_', 'uiGmapGoogleMapApi', '$filter', 'CommentPeriodModel'];
 /* @ngInject */
-function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $filter) {
+function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $filter, CommentPeriodModel) {
 	var projectList = this;
 	projectList.map = {
 		center: {
@@ -82,6 +86,21 @@ function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $
 		markers: projectList.projectsFiltered, // array of models to display
 		markersEvents: {
 			click: function(marker, eventName, model) {
+				// Is there an open comment period?
+				CommentPeriodModel.forProject(model._id)
+				.then( function (periods) {
+					var isOpen = false;
+					_.each(periods, function (period) {
+						var today 	= new Date ();
+						var start 	= new Date (period.dateStarted);
+						var end 	= new Date (period.dateCompleted);
+						var open 	= start < today && today < end;
+						if (open) {
+							model.isOpen = true;
+							model.period = period;
+						}
+					});
+				});
 				projectList.map.window.model = model;
 				projectList.map.window.show = true;
 			}
@@ -151,6 +170,11 @@ function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $
 				} else {
 					notFound = true;
 				}
+				if ( !newValue.eacDecision || (angular.lowercase(item.eacDecision).indexOf(angular.lowercase(newValue.eacDecision))) > -1 || item.eacDecision === "") {
+					// console.log("cur:",item.eacDecision);
+				} else {
+					notFound = true;
+				}
 				if (!notFound) return item;
 			});
 		}
@@ -191,6 +215,7 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 
 	projectList.regionArray = [];
 	projectList.statusArray = [];
+	projectList.eacDecisionArray = [];
 	projectList.typeArray = [];
 	projectList.phaseArray = [];
 
@@ -209,6 +234,9 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 			});
 			projs.pluck('status').unique().value().map( function(item) {
 				projectList.statusArray.push({id: item, title: item});
+			});
+			projs.pluck('eacDecision').unique().value().map( function (item) {
+				projectList.eacDecisionArray.push({id: item, title: item});
 			});
 			projs.pluck('type').unique().value().map( function(item) {
 				projectList.typeArray.push({id: item, title: item});

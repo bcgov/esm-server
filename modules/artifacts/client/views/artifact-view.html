@@ -1,26 +1,14 @@
-<div class="artifact-view">
-	
-	<div class="view-title-container">
-		<h1>{{ project.name }}&nbsp; &rsaquo; &nbsp;{{artifact.name}}</h1>
-	</div>
-	
-	<div class="view-body-container">
-		<div class="text-right hidden">
-			<a class="btn btn-link btn-xs" ui-sref="p.detail">Cancel</a>
-			<a class="btn btn-link btn-xs" ui-sref="p.artifact.edit({artifactId:artifact._id})">Edit</a>
-		</div>
-		<!-- <div ng-include="'modules/artifacts/client/views/partial.artifact-view.html'"></div> -->
-		<tmpl-artifact-display x-mode="'view'" x-artifact="artifact" x-project="project"></tmpl-artifact-display>
-		<div ng-if="authentication.user" ng-include="'modules/artifacts/client/views/partial.artifact-notes.html'"></div>
-		<div ng-if="authentication.user" ng-include="'modules/artifacts/client/views/partial.artifact-comments.html'"></div>
-		<div class="form-footer clearfix">
-			<div class="pull-right">
-				<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
-				<a ng-if="artifact.userPermissions.write"
-				   class="btn btn-default"
-				   ui-sref="p.artifact.edit({artifactId:artifact._id})">Edit</a>
-			</div>
-		</div>
-	</div>
 
+<div class="view-title-container flex-row">
+	<h1>{{artifact.name}}</h1>
+	<div class="actions">
+		<a class="btn btn-default btn-sm" ng-if="artifact.userCan.write" ui-sref="p.artifact.edit({artifactId:artifact._id})">Edit</a>
+		<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="artifact"></tmpl-permissions-gear>
+	</div>
+</div>
+
+<div class="view-body-container">
+	<tmpl-artifact-display x-mode="'view'" x-artifact="artifact" x-project="project"></tmpl-artifact-display>
+	<div ng-if="authentication.user" ng-include="'modules/artifacts/client/views/partial.artifact-notes.html'"></div>
+	<div ng-if="authentication.user" ng-include="'modules/artifacts/client/views/partial.artifact-comments.html'"></div>
 </div>

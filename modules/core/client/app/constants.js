@@ -65,7 +65,14 @@ angular
 			'Economic',
 			'Social',
 			'Heritage',
-			'Health'
+			'Health',
+			'Other',
+			'Requirements'
+		]
+	)
+	.constant('VCTYPES',
+		[ 'Valued Component',
+		'Pathway Component'
 		]
 	)
 	.constant('PILLARS',
@@ -74,7 +81,9 @@ angular
 			'Economic',
 			'Social',
 			'Heritage',
-			'Health'
+			'Health',
+			'Other',
+			'Requirements'
 		]
 	)
 	.constant('PROJECT_TYPES',
@@ -158,7 +167,18 @@ angular
 			'decommissioned' : 'Decommissioned'
 		}
 	)
-	.factory('ENV', function () {
+	.constant('PROJECT_DECISION',
+		{
+			'pre-ea-act-approval' : 'Pre-EA Act Approval',
+			'in-progress' : 'In Progress',
+			'certificate-not-required' : 'Certificate Not Required',
+			'further-assessment-required' : 'Further Assessment Required',
+			'certificate-issued' : 'Certificate Issued',
+			'certificate-refused' : 'Certificate Refused',
+			'terminated' : 'Terminated',
+			'withdrawn' : 'Withdrawn'
+		}
+	)	.factory('ENV', function () {
 		 // MEM, EAO
 		if (	window.location.href.indexOf('mem.') >= 0 ||
 			window.location.href.indexOf('mem-') >= 0 ||

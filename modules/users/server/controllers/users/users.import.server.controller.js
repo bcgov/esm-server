@@ -11,7 +11,8 @@ var _             = require ('lodash'),
 		CSVParse      = require ('csv-parse'),
 		crypto        = require ('crypto'),
 		Project       = mongoose.model ('Project'),
-		GroupModel    = mongoose.model ('Group'),
+		Group    	  = mongoose.model ('Group'),
+		OrganizationController = require (path.resolve('./modules/organizations/server/controllers/organization.controller')),
 		Organization  = mongoose.model ('Organization'),
 		errorHandler  = require (path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
@@ -54,168 +55,284 @@ exports.update = function (req, res) {
 };
 
 // Import a list of users
-exports.loadUsers = function(file, req, res) {
+exports.loadUsers = function(file, req, res, opts) {
 	return new Promise (function (resolve, reject) {
 		// Now parse and go through this thing.
 		fs.readFile(file.path, 'utf8', function(err, data) {
 			if (err) {
 				reject("{err: "+err);
 			}
-			res.writeHead(200, {'Content-Type': 'text/plain'});
-			res.write('[ { "jobid": 0 }');
-			// console.log("FILE DATA:",data);
-			var colArray = ['PERSON_ID','EAO_STAFF_FLAG','PROPONENT_FLAG','SALUTATION','FIRST_NAME','MIDDLE_NAME','LAST_NAME','TITLE','ORGANIZATION_NAME','DEPARTMENT','EMAIL_ADDRESS','PHONE_NUMBER','HOME_PHONE_NUMBER','FAX_NUMBER','CELL_PHONE_NUMBER','ADDRESS_LINE_1','ADDRESS_LINE_2','CITY','PROVINCE_STATE','COUNTRY','POSTAL_CODE','NOTES'];
+			var v1ColArray = ['PERSON_ID','EAO_STAFF_FLAG','PROPONENT_FLAG','SALUTATION','FIRST_NAME','MIDDLE_NAME','LAST_NAME','TITLE','ORGANIZATION_NAME','DEPARTMENT','EMAIL_ADDRESS','PHONE_NUMBER','HOME_PHONE_NUMBER','FAX_NUMBER','CELL_PHONE_NUMBER','ADDRESS_LINE_1','ADDRESS_LINE_2','CITY','PROVINCE_STATE','COUNTRY','POSTAL_CODE','NOTES'];
+			var v1RowToObject = function(row) {
+				console.log('v1: row = ', row);
+				row.EMAIL_ADDRESS = row.EMAIL_ADDRESS ? row.EMAIL_ADDRESS.trim() : "";
+				var obj = {
+					personId      : parseInt(row.PERSON_ID),
+					orgName       : row.ORGANIZATION_NAME,
+					title         : row.TITLE,
+					displayName   : row.FIRST_NAME + " " + row.LAST_NAME,
+					firstName     : row.FIRST_NAME,
+					middleName    : row.MIDDLE_NAME,
+					lastName      : row.LAST_NAME,
+					phoneNumber   : row.PHONE_NUMBER,
+					homePhoneNumber : row.HOME_PHONE_NUMBER,
+					email         : row.EMAIL_ADDRESS !== "" ? row.EMAIL_ADDRESS : "none@specified.com"+row.FIRST_NAME +"."+ row.LAST_NAME +"."+ row.ORGANIZATION_NAME,
+					eaoStaffFlag  : Boolean(row.EAO_STAFF_FLAG),
+					proponentFlag : Boolean(row.PROPONENT_FLAG),
+					salutation    : row.SALUTATION,
+					department    : row.DEPARTMENT,
+					faxNumber     : row.FAX_NUMBER,
+					cellPhoneNumber : row.CELL_PHONE_NUMBER,
+					address1      : row.ADDRESS_LINE_1,
+					address2      : row.ADDRESS_LINE_2,
+					city          : row.CITY,
+					province      : row.PROVINCE_STATE,
+					country       : row.COUNTRY,
+					postalCode    : row.POSTAL_CODE,
+					notes         : row.NOTES,
+					username      : row.EMAIL_ADDRESS !== "" ? row.EMAIL_ADDRESS : row.FIRST_NAME +"."+ row.LAST_NAME +"."+ row.ORGANIZATION_NAME,
+					password      : crypto.randomBytes(8)
+				};
+				console.log('v1: obj = ', JSON.stringify(obj, null, 4));
+				return obj;
+			};
+			
+			var v2ColArray = _.concat(v1ColArray, 'DISPLAY_NAME', 'USERNAME', 'PASSWORD', 'SALT');
+			var v2RowToObject = function(row) {
+				console.log('v2: row = ', row);
+				row.EMAIL_ADDRESS = row.EMAIL_ADDRESS ? row.EMAIL_ADDRESS.trim() : "";
+				var obj = {
+					personId      : parseInt(row.PERSON_ID),
+					orgName       : row.ORGANIZATION_NAME,
+					title         : row.TITLE,
+					displayName   : row.DISPLAY_NAME,
+					firstName     : row.FIRST_NAME,
+					middleName    : row.MIDDLE_NAME,
+					lastName      : row.LAST_NAME,
+					phoneNumber   : row.PHONE_NUMBER,
+					homePhoneNumber : row.HOME_PHONE_NUMBER,
+					email         : row.EMAIL_ADDRESS !== "" ? row.EMAIL_ADDRESS : "none@specified.com" + row.FIRST_NAME +"."+ row.LAST_NAME +"."+ row.ORGANIZATION_NAME,
+					eaoStaffFlag  : Boolean(row.EAO_STAFF_FLAG),
+					proponentFlag : Boolean(row.PROPONENT_FLAG),
+					salutation    : row.SALUTATION,
+					department    : row.DEPARTMENT,
+					faxNumber     : row.FAX_NUMBER,
+					cellPhoneNumber : row.CELL_PHONE_NUMBER,
+					address1      : row.ADDRESS_LINE_1,
+					address2      : row.ADDRESS_LINE_2,
+					city          : row.CITY,
+					province      : row.PROVINCE_STATE,
+					country       : row.COUNTRY,
+					postalCode    : row.POSTAL_CODE,
+					notes         : row.NOTES,
+					username      : row.USERNAME,
+					password      : row.PASSWORD,
+					salt          : row.SALT
+				};
+				console.log('v2: obj = ', JSON.stringify(obj, null, 4));
+				return obj;
+			};
+			
+			
+			var lines = data.split(/\r\n|\r|\n/g);
+			console.log('File line count =  ', _.size(lines));
+			var v1 = _.size(lines) === 0 ? true : (lines[0].match(/,/g).length === v1ColArray.length-1);
+			console.log('File v1? ', v1);
+			
+			var colArray = v1 ? v1ColArray : v2ColArray;
+			var rowParser = v1 ? v1RowToObject : v2RowToObject;
+
 			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 				// Skip this many rows
 				var length = Object.keys(output).length;
-				var rowsProcessed = 0;
+				var promises = [];
 				// console.log("length",length);
 				Object.keys(output).forEach(function(key, index) {
 					if (index > 0) {
 						var row = output[key];
-						res.write(".");
-						rowsProcessed++;
-						User.findOne({personId: parseInt(row.PERSON_ID)}, function (err, doc) {
-							var addOrChangeModel = function(model) {
-								model.personId      = parseInt(row.PERSON_ID);
-								model.orgName       = row.ORGANIZATION_NAME;
-								model.title         = row.TITLE;
-                model.displayName   = row.FIRST_NAME + " " + row.LAST_NAME;
-								model.firstName     = row.FIRST_NAME;
-								model.middleName    = row.MIDDLE_NAME;
-								model.lastName      = row.LAST_NAME;
-								model.phoneNumber   = row.PHONE_NUMBER;
-								model.homePhoneNumber = row.HOME_PHONE_NUMBER;
-								model.email         = row.EMAIL_ADDRESS;
-								model.eaoStaffFlag  = Boolean(row.EAO_STAFF_FLAG);
-								model.proponentFlag = Boolean(row.PROPONENT_FLAG);
-								model.salutation    = row.SALUTATION;
-								model.department    = row.DEPARTMENT;
-								model.faxNumber     = row.FAX_NUMBER;
-								model.cellPhoneNumber = row.CELL_PHONE_NUMBER;
-								model.address1      = row.ADDRESS_LINE_1;
-								model.address2      = row.ADDRESS_LINE_2;
-								model.city          = row.CITY;
-								model.province      = row.PROVINCE_STATE;
-								model.country       = row.COUNTRY;
-								model.postalCode    = row.POSTAL_CODE;
-								model.notes         = row.NOTES;
-								model.username      = model.email;
-								model.password      = crypto.randomBytes(8);
-								res.write(".");
-								model.save().then(function (user) {
-									// console.log("saving",user);
-									Organization.findOne({name: user.orgName}, function (err, org) { // Find an org and relate it
-										var checkIfDone = function() {
-											// console.log("checking if done");
-											res.write(".");
-												// Am I done processing?
-												// console.log("INDEX:",index);
-												if (index === length-1) {
-													// console.log("rowsProcessed: ",rowsProcessed);
-													//resolve("{done: true, rowsProcessed: "+rowsProcessed+"}");
-													res.write("]");
-													res.end();
-												}
-										};
-										// If found the org, assign the org's id to this object
-										if (org) {
-											// console.log("found the org");
-											user.org = org;
-											user.save().then(function () {
-												checkIfDone();
-											});
-										} else {
-											setTimeout(function() {
-												checkIfDone();
-											}, 2000);
-										}
-									});
-								});
-							};
-							if (doc === null) {
-								// Create new
-								var c = new User();
-								addOrChangeModel(c);
-							} else {
-								// Update:
-								addOrChangeModel(doc);
-							}
-						});
+						promises.push(rowParser(row));
 					}
 				});
+
+				var doOrgWork = function(item) {
+					return new Promise(function(rs, rj) {
+						// console.log("item:", item);
+						if (item.orgName === '') {
+							// console.log("resolving nothing for org, it was null.");
+							rs(null);
+						} else {
+							Organization.findOne ({name:item.orgName}, function (err, result) {
+								if (result === null) {
+									// console.log("Creating org:", item.orgName);
+									// Create it
+									var o = new OrganizationController(opts);
+									o.newDocument({name: item.orgName})
+									.then ( o.create )
+									.then (rs, rj);
+								} else {
+									// console.log("found the org:", result.name);
+									rs(result);
+								}
+							});
+						}
+					});
+				};
+
+				var doUserWork = function(user, org) {
+					return new Promise(function(rs, rj) {
+						if (org) {
+							// console.log("org:", org);
+							user.org = org;
+						}
+						User.findOne ({email:user.email.toLowerCase()}, function (err, result) {
+							if (result === null) {
+								// console.log("creating:", user.email);
+								// Create it
+								var o = new User(user);
+								o.save()
+								.then(function (obj) {
+									// console.log("created:", obj);
+									rs(obj);
+								}, function (err) {
+									// console.log("err:", err);
+									rj(err);
+								});
+							} else {
+								result.org = org;
+								result.save()
+								.then(rs,rj);
+							}
+						});
+					});
+				};
+
+				var doOrgToUserWork = function(user) {
+					return new Promise(function(rs, rj) {
+						if (!user.org) {
+							// console.log("no org to match.");
+							rs(null);
+						}
+						Organization.findOne({name: user.orgName})
+						.then(function (org) {
+							// Push this user into the org.
+							var index = -1;
+							for (var i=0;i<org.users.length;i++) {
+								if (org.users[i].equals(user._id)) {
+									index = i;
+									break;
+								}
+							}
+							if (index === -1) {
+								// console.log("pushign new user into org");
+								org.users.push(user._id);
+								return org.save();
+							} else {
+								// console.log("That user already existed there.");
+								return org;
+							}
+							// console.log("existing users:", org.users);
+						})
+						.then(rs, rj);
+					});
+				};
+				
+
+
+				Promise.resolve ()
+				.then (function () {
+					return promises.reduce (function (current, item) {
+						return current.then (function () {
+							return doOrgWork(item)
+							.then(function (org) {
+								return doUserWork(item, org);
+							})
+							.then(function (user) {
+								return doOrgToUserWork(user);
+							});
+						});
+					}, Promise.resolve());
+				})
+				.then (resolve, reject);
 			});
 		});
 	});
 };
 
-exports.loadGroupUsers = function(file, req, res) {
+exports.loadGroupUsers = function(file, req, res, opts) {
 	return new Promise (function (resolve, reject) {
 		// Now parse and go through this thing.
 		fs.readFile(file.path, 'utf8', function(err, data) {
 			if (err) {
 				reject("{err: "+err);
 			}
-			res.writeHead(200, {'Content-Type': 'text/plain'});
-			res.write('[ { "jobid": 0 }');
 			// console.log("FILE DATA:",data);
 			var colArray = ['GROUP_ID','NAME','CONTACT_GROUP_TYPE','PERSON_ID','PROJECT_ID'];
 			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 				// Skip this many rows
-				//res.write(".");
 				var length = Object.keys(output).length;
-				var rowsProcessed = 0;
+				var promises = [];
 				// console.log("length",length);
 				Object.keys(output).forEach(function(key, index) {
 					if (index > 0) {
 						var row = output[key];
-						rowsProcessed++;
-						// console.log("rowData:",row);
-						GroupModel.findOne({groupId: parseInt(row.GROUP_ID), personId: parseInt(row.PERSON_ID)}, function (err, doc) {
-							var addOrChangeModel = function(model) {
-								// console.log("Nothing Found");
-								model.groupId     = parseInt(row.GROUP_ID);
-								model.groupName   = row.NAME;
-								model.groupType   = row.CONTACT_GROUP_TYPE;
-								model.personId    = parseInt(row.PERSON_ID);
-								model.epicProjectID  = parseInt(row.PROJECT_ID); // Save epic data just in case
-								//res.write(".");
-								model.save().then(function (m) {
-									Project.findOne({epicProjectID: m.epicProjectID}, function (err, project) { // Find an project and relate it
-										if (project) {
-											m.project = project;
-											m.save().then(function () {
-												// console.log("per:",person);
-												if (index === length-1) {
-													res.write("]");
-													res.end();
-												} else {
-													res.write(",");
-													res.flush();
-												}
-											});
-										} else {
-											setTimeout(function() {
-												if (index === length-1) {
-													res.write("]");
-													res.end();
-												}
-											}, 2000);
-										}
-									});
-								});
-							};
-							if (doc === null) {
-								// Create new
-								var g = new GroupModel ();
-								addOrChangeModel(g);
-							} else {
-								// Update:
-								addOrChangeModel(doc);
-							}
-						});
+						var newObj = {
+							groupId     : parseInt(row.GROUP_ID),
+							groupName   : row.NAME,
+							groupType   : row.CONTACT_GROUP_TYPE,
+							personId    : parseInt(row.PERSON_ID),
+							epicProjectID  : parseInt(row.PROJECT_ID) // Save epic data just in case
+						};
+						promises.push(newObj);
 					}
 				});
+
+				var doGroupUserWork = function(item) {
+					return new Promise(function(rs, rj) {
+						// console.log("item:", item);
+						Group.findOne({groupId: parseInt(item.groupId), personId: parseInt(item.personId)}, function (err, result) {
+							if (result === null) {
+								// console.log("Creating group:", item.groupId);
+								// Create it
+								var o = new Group(item);
+								o.save()
+								.then (rs, rj);
+							} else {
+								// console.log("found the group:", result.groupName);
+								rs(result);
+							}
+						});
+					});
+				};
+
+				var doGroupProjectWork = function(item) {
+					return new Promise(function(rs, rj) {
+						// console.log("itemg finding:", item.epicProjectID);
+						Project.findOne({epicProjectID: item.epicProjectID}, function (err, result) {
+							if (result !== null) {
+								// console.log("project:", result);
+								item.project = result;
+								item.save()
+								.then(rs,rj);
+							} else {
+								// console.log("didn't find anything");
+								rs(null);
+							}
+						});
+					});
+				};
+
+				Promise.resolve ()
+				.then (function () {
+					return promises.reduce (function (current, item) {
+						return current.then (function () {
+							return doGroupUserWork(item)
+							.then( function (group) {
+								return doGroupProjectWork(group);
+							});
+						});
+					}, Promise.resolve());
+				})
+				.then (resolve, reject);
 			});
 		});
 	});

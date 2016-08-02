@@ -1,31 +1,29 @@
-<h1 class="page-title">
-	Approve {{artifact.name}} ({{artifact.version}}) for {{ project.name }}
-</h1>
 
-<div class="text-right">
-	<a class="btn btn-link btn-xs" ui-sref="p.detail">Cancel</a>
-</div>
-
-<!-- <div ng-include="'modules/artifacts/client/views/partial.artifact-view.html'"></div> -->
-
-<tmpl-artifact-display x-mode="'view'" x-artifact="artifact" x-project="project"></tmpl-artifact-display>
-
-<div class="panel panel-default">
-	<div class="panel-body">
-
-		<h3>Approval / Rejection Note</h3>
-		<div class="form-group">
-			<textarea rows="10" class="form-control" ng-model="artifact.approvalnote"></textarea>
-		</div>
-		<div class="text-right">
-			<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
-			<a class="btn btn-default" ng-click="reject()">Reject and Return for {{buttons.prev}}</a>
-			<a class="btn btn-success" ng-click="submit()">Accept for {{buttons.next}}</a>
-		</div>
+<div class="view-title-container flex-row">
+	<h1>{{artifact.name}}&nbsp;<span class="placeholder-value">({{artifact.version}})</span></h1>
+	<div class="actions">
+		<a class="btn btn-default btn-sm" title="Cancel" ui-sref="p.detail">Cancel</a>
+		<button class="btn btn-danger btn-sm" title="Reject and return for {{buttons.prev}}" ng-click="reject()">Reject</button>
+		<button class="btn btn-success btn-sm" title="Accept for {{buttons.next}}" ng-click="submit()">Submit for {{buttons.next}}</button>
 	</div>
 </div>
 
-<div ng-include="'modules/artifacts/client/views/partial.artifact-notes.html'"></div>
+<div class="view-body-container">
+	<tmpl-artifact-display x-mode="'view'" x-artifact="artifact" x-project="project"></tmpl-artifact-display>
+	<div class="form-group">
+		<label class="control-label">Approval / Rejection Note</label>
+		<textarea class="form-control" rows="5" ng-model="artifact.approvalnote"></textarea>
+	</div>
+	<div class="form-footer clearfix">
+		<div class="pull-right">
+			<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
+			<a class="btn btn-danger" ng-click="reject()">Reject and Return for {{buttons.prev}}</a>
+			<a class="btn btn-success" ng-click="submit()">Accept for {{buttons.next}}</a>
+		</div>
+	</div>
 
-<div ng-include="'modules/artifacts/client/views/partial.artifact-comments.html'"></div>
+	<div ng-include="'modules/artifacts/client/views/partial.artifact-notes.html'"></div>
+	<div ng-include="'modules/artifacts/client/views/partial.artifact-comments.html'"></div>
+
+</div>
 

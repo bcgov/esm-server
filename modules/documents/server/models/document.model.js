@@ -82,7 +82,7 @@
 // CC: converted to new schema pre-processor
 //
 // =========================================================================
-var genSchema = require ('../../../core/server/controllers/cc.schema.controller');
+var genSchema = require ('../../../core/server/controllers/core.schema.controller');
 
 genSchema ('TypesSchema', {
 	projectFolderType           : { type:String, default:'' },
@@ -100,7 +100,10 @@ module.exports = genSchema ('Document', {
 		'download',
 		'uploadNewVersion',
 		'viewOldVersions',
-		'downloadOldVersions'
+		'downloadOldVersions',
+		'setPermissions',
+		'publish',
+		'unPublish'
 	],
 	project                 : { type:'ObjectId', ref:'Project', default:null },
 	dateAdded               : { type: Date, default: Date.now },
@@ -120,6 +123,7 @@ module.exports = genSchema ('Document', {
 	documentFileFormat      : { type:String, default:'' },
 	documentVersion         : { type:Number, default:0 }, // Used for keeping track of this documents version.
 	documentIsLatestVersion : { type:Boolean, default:true }, // We assume we are the latest. Default will be false
+	documentSource 			: { type:String, default:'' }, // Source = comments or generic
 	// when we hook in the reviewable interface which will
 	// decide what is the latest based on approval of such
 	documentIsInReview      : { type:Boolean, default:false }, // Used to flag if this entry is a reviewable entry.
@@ -133,5 +137,7 @@ module.exports = genSchema ('Document', {
 	internalSize            : { type:Number, default:0 },
 	internalEncoding        : { type:String, default:'' },
 	oldData                 : { type:String, default:'' },
-	order                   : { type: Number, default: 0} // this will be used to sort supporting documents in artifacts, the order will be arbitrary and determined by the user.
+	order                   : { type: Number, default: 0}, // this will be used to sort supporting documents in artifacts, the order will be arbitrary and determined by the user.
+	eaoStatus               : { type:String, default:'', enum:['', 'Unvetted', 'Rejected', 'Deferred', 'Accepted', 'Published', 'Spam'] } // for use with Public Comment Attachments...
+	
 });

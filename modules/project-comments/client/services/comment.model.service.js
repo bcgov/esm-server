@@ -12,13 +12,19 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 	//
 	var Class = ModelBase.extend ({
 		urlName : 'comment',
+		lookup: function (commentID) {
+			return this.get('/api/comment/' + commentID);
+		},
 		// -------------------------------------------------------------------------
 		//
 		// get all the comments for a comment period
 		//
 		// -------------------------------------------------------------------------
-		getCommentsForPeriod: function (periodId) {
-			return this.get ('/api/comments/period/'+periodId);
+		getAllCommentsForPeriod: function (periodId) {
+			return this.get ('/api/comments/period/'+periodId+'/all');
+		},
+		getPublishedCommentsForPeriod: function (periodId) {
+			return this.get ('/api/comments/period/'+periodId+'/published');
 		},
 		getEAOCommentsForPeriod: function (periodId) {
 			return this.get ('/api/eaocomments/period/'+periodId);
@@ -114,6 +120,12 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 		// -------------------------------------------------------------------------
 		getCommentChain: function (ancestorId) {
 			return this.get ('/api/comments/ancestor/'+ancestorId);
+		},
+		getDocuments: function(commentId) {
+			return this.get('/api/comment/' + commentId +'/documents');
+		},
+		updateDocument: function(doc) {
+			return this.put('/api/document/' + doc._id, doc);
 		}
 	});
 	return new Class ();

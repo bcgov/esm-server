@@ -1,36 +1,40 @@
+
+
+<p>Select a document below and click the <strong>Link</strong> button to associate.</p>
+
+<!-- DOCUMENT BROWSER -->
 <tmpl-documents-browser
 	x-approvals="false"
 	x-project="docLink.project"
+	x-artifact="docLink.artifact"
+	x-doc-location-code="{{docLink.docLocationCode}}"
 	x-allow-link='true'>
 </tmpl-documents-browser>
+<!-- / DOCUMENT BROWSER -->
 
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-sm-12">
-			<p>Select a document above and click the link icon to associate.</p>
-			<div class="well well-sm">
-				<table class="table table-condensed table-no-head no-lower-margin">
-					<tbody>
-						<tr ng-repeat="file in docLink.linkFiles track by $index">
-
-							<td class="document-cell">
-								<span class='glyphicon glyphicon-file'></span> {{ file.internalOriginalName }}</a><br/>
-								<small>{{ file.projectFolderType }} / {{ file.projectFolderSubType }} / {{ file.projectFolderName }}</small>
-							</td>
-							<td>
-								<small ng-if="file.v">v.{{ file.documentVersion }}</small>
-							</td>
-							<td class='text-right no-wrap'>{{ file.dateUpdated | amDateFormat:'MMM Do'}}</td>
-							<td class="text-right">
-								<p class="form-control-static">
-									<a href ng-click="docLink.changeItem(file)"><span class="glyphicon glyphicon-remove"></span></a>
-								</p>
-							</td>
-
-				    		</tr>
-					</tbody>
-				</table>
+<div class="panel panel-default">
+	<div class="panel-heading"><h2>Linked Documents</h2></div>
+	<ul class="list-group no-border">
+		<li class="list-group-item flex-row" ng-if="docLink.linkFiles.length == 0">
+			<div class="title">No linked documents.</div>
+		</li>
+		<li class="list-group-item flex-row" ng-repeat="file in docLink.linkFiles track by $index">
+			<div class="icon">
+				<span class='glyphicon glyphicon-file'></span>
 			</div>
-
-		</div>
-	</d
+			<div class="title">
+				<span title="{{file.internalOriginalName}}">{{file.internalOriginalName}}</span>
+				<span class="file-details">
+					<small class="hidden">{{ file.projectFolderType }} / {{ file.projectFolderSubType }} / {{ file.projectFolderName }}</small>
+					<small>v.{{ file.documentVersion }}</small>
+					<small> &nbsp;|&nbsp; {{ file.dateUpdated | amDateFormat:'MMMM Do YYYY'}}</small>
+				</span>
+			</div>
+			<div class="actions">
+				<button class="btn btn-default btn-sm" ng-click="docLink.changeItem(file)" title="Remove Document">
+					<span class="glyphicon glyphicon-remove"></span>
+				</button>
+			</div>
+		</li>
+	</ul>
+</div>

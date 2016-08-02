@@ -79,3 +79,10 @@ mongod
 *.sln
 notes.txt
 /modules/.vscode/settings.json
+
+# Jason
+=======
+buildprod.sh
+runit.sh
+runprod.sh
+

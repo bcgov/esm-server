@@ -1,27 +1,23 @@
-<div class="documents-view">
-	<div class="view-title-container">
-		<h1>{{ project.name }}&nbsp; &rsaquo; &nbsp;Documents</h1>
-	</div>
-	
-	<div class="view-body-container">
-		<div class="row hidden">
-			<div class="col-sm-12 text-right">
-				<a class="btn btn-xs btn-link" ui-sref="p.detail({projectid: project.code })">Project Detail</a>
-			</div>
-		</div>
-		<tmpl-documents-browser
-			class="anchor-section"
-			id="anchor-documents"
-			x-approvals="false"
-			x-project="project">
-		</tmpl-documents-browser>
 
-		<tmpl-documents-approvals
-			class="anchor-section hidden"
-			id="anchor-document-approvals"
-			x-approvals="true"
-			x-project="project">
-		</tmpl-documents-approvals>
-	</div>
-	
+<div class="view-title-container">
+	<h1>{{ project.name }}&nbsp; &rsaquo; &nbsp;Documents</h1>
+	<!-- <tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project" x-permissions=""></tmpl-permissions-gear> -->
 </div>
+
+<div class="view-body-container">
+	<tmpl-documents-browser class="anchor-section"
+		id="anchor-documents"
+		x-approvals="false"
+		x-project="project"
+		x-artifact="artifact"
+		x-doc-location-code="">
+	</tmpl-documents-browser>
+	<tmpl-documents-approvals class="anchor-section hidden"
+		id="anchor-document-approvals"
+		x-approvals="true"
+		x-project="project"
+	x-artifact="artifact"
+	x-doc-location-code="">
+	</tmpl-documents-approvals>
+</div>
+

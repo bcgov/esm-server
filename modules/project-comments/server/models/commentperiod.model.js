@@ -4,7 +4,7 @@
 // Model for comments
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('CommentPeriod', {
 	//
 	// for access, if the period is NOT published, then there should be no way
@@ -21,7 +21,7 @@ module.exports = require ('../../../core/server/controllers/cc.schema.controller
 		'setPermissions'
 	],
 	__tracking       : true, // start and stop dates
-	periodType       : { type:String, default:'Working Group', enum:['Working Group', 'Public']},
+	periodType       : { type:String, default:'Public', enum:['Working Group', 'Public']},
 	//
 	// what project and phase this comes under. the milestone actually has all this
 	// information, but putting them all at this level is for query optimization

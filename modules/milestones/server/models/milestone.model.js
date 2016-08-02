@@ -4,7 +4,7 @@
 // Model for Milestone
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('Milestone', {
 	__audit       : true,
 	__tracking    : true,

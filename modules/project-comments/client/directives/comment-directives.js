@@ -19,12 +19,21 @@ angular.module ('comment')
 		restrict: 'E',
 		templateUrl : 'modules/project-comments/client/views/public-comments/list.html',
 		controllerAs: 's',
-		controller: function ($scope, NgTableParams, Authentication, CommentModel) {
+		controller: function ($rootScope, $scope, NgTableParams, Authentication, CommentModel, UserModel) {
 			var s       = this;
 			var project = s.project = $scope.project;
 			var period  = s.period  = $scope.period;
 
 			var currentFilter;
+
+			$scope.$on('NEW_PUBLIC_COMMENT_ADDED', function (e, data) {
+				console.log('comment: ' + data.comment);
+
+				// We shouldn't do this if we're public.
+				if (period.userCan.vetComments) {
+					s.refreshEao ();
+				}
+			});
 
 			// -------------------------------------------------------------------------
 			//
@@ -53,7 +62,7 @@ angular.module ('comment')
 					s.totalRejected = result.totalRejected;
 					s.totalAssigned   = result.totalAssigned;
 					s.totalUnassigned = result.totalUnassigned;
-					s.tableParams   = new NgTableParams ({count:10, filter:currentFilter}, {dataset:result.data});
+					s.tableParams   = new NgTableParams ({count:10, filter:currentFilter, sorting: {dateAdded: 'desc'}}, {dataset:result.data});
 					$scope.$apply ();
 				});
 			};
@@ -63,8 +72,8 @@ angular.module ('comment')
 			//
 			// -------------------------------------------------------------------------
 			s.refreshPublic = function () {
-				CommentModel.getCommentsForPeriod ($scope.period._id).then (function (collection) {
-					s.tableParams = new NgTableParams ({count:50}, {dataset:collection});
+				CommentModel.getPublishedCommentsForPeriod ($scope.period._id).then (function (collection) {
+					s.tableParams = new NgTableParams ({count:50, sorting: {dateAdded: 'desc'}}, {dataset:collection});
 					$scope.$apply ();
 				});
 			};
@@ -77,7 +86,7 @@ angular.module ('comment')
 				CommentModel.getProponentCommentsForPeriod ($scope.period._id).then (function (result) {
 					s.totalAssigned   = result.totalAssigned;
 					s.totalUnassigned = result.totalUnassigned;
-					s.tableParams     = new NgTableParams ({count:50, filter:currentFilter}, {dataset:result.data});
+					s.tableParams     = new NgTableParams ({count:50, filter:currentFilter, sorting: {dateAdded: 'desc'}}, {dataset:result.data});
 					$scope.$apply ();
 				});
 			};
@@ -87,34 +96,90 @@ angular.module ('comment')
 			//
 			// -------------------------------------------------------------------------
 			s.detail = function (comment) {
-				var old = {
-					status  : comment.eaoStatus,
-					pStatus : comment.proponentStatus,
-					topics  : comment.topics.map (function (e) { return e; }),
-					vcs     : comment.valuedComponents.map (function (e) { return e; }),
-					pillars : comment.pillars.map (function (e) { return e; }),
-					notes   : comment.eaoNotes,
-					rnotes  : comment.rejectedNotes,
-					rreas   : comment.rejectedReason
-				};
 				$modal.open ({
 					animation: true,
 					templateUrl: 'modules/project-comments/client/views/public-comments/detail.html',
 					controllerAs: 's',
 					size: 'lg',
 					windowClass: 'public-comment-modal',
-					controller: function ($scope, $modalInstance) {
-						$scope.period      = period;
-						$scope.project     = project;
-						$scope.comment     = comment;
-						$scope.cancel      = function () { $modalInstance.dismiss ('cancel'); };
-						$scope.ok          = function () { $modalInstance.close (comment); };
-					}
+					resolve: {
+						docs: function() {
+							return CommentModel.getDocuments(comment._id);
+						}
+					},
+					controller: function ($scope, $modalInstance, docs) {
+						var self = this;
+
+
+						self.period      				= period;
+						self.project     				= project;
+						self.comment     				= angular.copy(comment);
+						self.comment.documents 	= angular.copy(docs);
+
+						self.canUpdate = (self.period.userCan.classifyComments || self.period.userCan.vetComments);
+						self.rejectedReasons = ['', 'Unsuitable Language', 'Quoting Third Parties', 'Petitions', 'Personally Identifying Information'];
+
+						self.showAlert = false;
+						if (self.period.userCan.vetComments && self.comment.eaoStatus !== 'Unvetted') {
+							// we've changed the status from the default.
+							if (self.comment.eaoStatus === 'Deferred') {
+								self.alertType = 'label-info';
+								self.alertNotesLabel = 'Deferred';
+								self.alertNotes = self.comment.eaoNotes;
+							} else if (self.comment.eaoStatus === 'Published') {
+								self.alertType = 'label-success';
+								self.alertNotesLabel = 'Published';
+								self.alertNotes = self.comment.publishedNotes;
+							} else if (self.comment.eaoStatus === 'Rejected') {
+								self.alertType = 'label-danger';
+								self.alertNotesLabel = 'Rejected';
+								self.alertReasonLabel = 'Reason for Rejection';
+								self.alertReason = self.comment.rejectedReason;
+								self.alertNotes = self.comment.rejectedNotes;
+							}
+							self.showAlert = !_.isEmpty(self.alertType);
+						}
+
+
+						self.cancel      = function () { $modalInstance.dismiss ('cancel'); };
+						self.ok          = function () { $modalInstance.close (self.comment); };
+						self.pillars     	= self.comment.pillars.map (function (e) { return e; });
+						self.vcs 		   		= self.comment.valuedComponents.map (function (e) { return e.name; });
+						
+						self.statusChange = function(status) {
+							self.comment.eaoStatus = status;
+						};
+						
+						self.fileStatusChange = function(status, file) {
+							// do not allow a change to Published if it is Rejected and comment is rejected
+							if ('Published' === status && self.comment.eaoStatus === 'Rejected') {
+								// don't allow this change...
+							} else {
+								file.eaoStatus = status;
+							}
+						};
+
+						self.submitForm = function(isValid) {
+							// check to make sure the form is completely valid
+							if (isValid) {
+								$modalInstance.close (self.comment);
+							}
+						};
+
+					},
 				})
 				.result.then (function (data) {
 					console.log ('result:', data);
 					data.proponentStatus = (data.pillars.length > 0) ? 'Classified' : 'Unclassified';
-					CommentModel.save (data)
+					Promise.resolve()
+					.then(function() {
+						return data.documents.reduce(function (current, value, index) {
+								return CommentModel.updateDocument(value);
+							}, Promise.resolve())	;
+					})
+					.then(function(result) {
+						return CommentModel.save (data);
+					})
 					.then (function (result) {
 						if (period.userCan.vetComments) {
 							s.refreshEao ();
@@ -145,7 +210,7 @@ angular.module ('comment')
 // add a public comment
 //
 // -------------------------------------------------------------------------
-.directive ('addPublicComment', function ($modal, CommentModel) {
+.directive ('addPublicComment', function ($modal, CommentModel, Upload, $timeout, _) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -165,27 +230,98 @@ angular.module ('comment')
 							return CommentModel.getNew ();
 						}
 					},
-					controller: function ($scope, $modalInstance, comment) {
+					controller: function ($rootScope, $scope, $modalInstance, comment) {
+						// console.log("Adding a comment.");
 						var s     = this;
 						s.step    = 1;
 						s.comment = comment;
 						comment.period = scope.period;
 						comment.project = scope.project;
+						comment.files = scope.files;
 						comment.makeVisible = false;
+						s.fileList = [];
+						$scope.$watch('s.comment.files', function (newValue) {
+							if (newValue) {
+								s.filesRemoved = false;
+								s.comment.inProgress = false;
+								_.each( newValue, function(file, idx) {
+									if (file.type === 'application/pdf') {
+										s.fileList.push(file);
+									} else {
+										s.filesRemoved = true;
+									}
+								});
+							}
+						});
+						s.comment.removeFile = function(f) {
+							_.remove(s.fileList, f);
+						};
 						s.cancel  = function () { $modalInstance.dismiss ('cancel'); };
 						s.next    = function () { s.step++; };
 						s.ok      = function () { $modalInstance.close (s.comment); };
 						s.submit  = function () {
+							// console.log("files:", s.fileList);
+							s.comment.inProgress = false;
 							comment.isAnonymous = !comment.makeVisible;
-							CommentModel.add (s.comment)
-							.then (function (comment) {
-								s.step = 3;
-								$scope.$apply ();
-							})
-							.catch (function (err) {
-								s.step = 4;
-								$scope.$apply ();
-							});
+							var docCount = s.fileList.length;
+
+							if (docCount === 0 ) {
+								// We don't need to do anything but add the comment.
+								// console.log("s.comment:", s.comment);
+								 CommentModel.add (s.comment)
+								.then (function (comment) {
+									s.step = 3;
+									$scope.$apply ();
+									$rootScope.$broadcast('NEW_PUBLIC_COMMENT_ADDED', {comment: comment});
+									return null;
+								})
+								.catch (function (err) {
+									s.step = 4;
+									$scope.$apply ();
+								});
+							} else {
+								var uploadedDocs = [];
+								// Upload docs
+								angular.forEach( s.fileList, function(file) {
+									// Quick hack to pass objects
+									file.upload = Upload.upload({
+										url: '/api/commentdocument/' + comment.project._id + '/upload',
+										file: file
+									});
+
+									file.upload.then(function (response) {
+										$timeout(function () {
+											file.result = response.data;
+											uploadedDocs.push(response.data._id);
+											// when the last file is finished, send complete event.
+											if (--docCount === 0) {
+												_.each( uploadedDocs, function(d) {
+													s.comment.documents.push(d);
+												});
+												CommentModel.add (s.comment)
+												.then (function (comment) {
+													s.step = 3;
+													$scope.$apply ();
+													$rootScope.$broadcast('NEW_PUBLIC_COMMENT_ADDED', {comment: comment});
+												})
+												.catch (function (err) {
+													s.step = 4;
+													$scope.$apply ();
+												});
+											}
+										});
+									}, function (response) {
+										if (response.status > 0) {
+											// docUpload.errorMsg = response.status + ': ' + response.data;
+											console.log("error data:",response.data);
+										} else {
+											_.remove($scope.s.comment.files, file);
+										}
+									}, function (evt) {
+										file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+									});
+								});
+							}
 						};
 					}
 				})

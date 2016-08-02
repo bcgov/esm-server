@@ -1,12 +1,12 @@
 <section class="document-browser-view">
 	<div class="panel panel-default">
-		<div class="panel-heading clearfix">
-			<h2 class="pull-left">Documents in Review</h2>
-			<div class="panel-heading-actions pull-right">
-				<a href class="btn-link"
+		<div class="panel-heading flex-row">
+			<h2>Documents in Review</h2>
+			<div class="actions">
+				<a href class="btn btn-default bt-sm"
 					x-modal-document-upload-review
 					x-project="docBrowser.project"
-					ng-if="docBrowser.authentication.user"><span class="glyphicon glyphicon-upload"></span>Upload</a>	
+					ng-if="docBrowser.authentication.user"><span class="glyphicon glyphicon-upload"></span><span>Upload Documents</span></a>	
 			</div>
 		</div>
 		<div class="panel-body">

@@ -10,7 +10,6 @@ angular.module('project')
 	.controller('controllerProjectEntry', controllerProjectEntry)
 	.controller('controllerModalProjectImport', controllerModalProjectImport)
 
-	.controller('controllerProjectStreamSelect', controllerProjectStreamSelect)
 	.controller('controllerProjectActivities', controllerProjectActivities);
 
 // -----------------------------------------------------------------------------------
@@ -123,6 +122,7 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 
 	$scope.$on('importUploadStart', function(event) {
 		projectImport.upload();
+		$modalInstance.dismiss();
 	});
 
 	projectImport.ok = function () {
@@ -324,52 +324,6 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 // 		projectProponent.project = newValue;
 // 	});
 // }
-
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: Stream Selection
-//
-// -----------------------------------------------------------------------------------
-controllerProjectStreamSelect.$inject = ['$scope', '$state', 'ProjectModel', 'StreamModel', '_'];
-/* @ngInject */
-function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel, _) {
-	var projectStreamSelect = this;
-
-	this.project = $scope.project;
-
-	// $scope.$watch('project', function(newValue) {
-	// 	if (newValue) {
-	// 		ProjectModel.getModel(newValue._id).then( function(data) {
-	// 			projectStreamSelect.project = data;
-	// 		});
-	// 	}
-	// });
-
-
-	StreamModel.getCollection().then(function(data){
-		projectStreamSelect.streams = data;
-	});
-
-	// admin users can set the project stream
-	projectStreamSelect.setProjectStream = function() {
-		if ((!projectStreamSelect.project.stream || projectStreamSelect.project.stream === '') && projectStreamSelect.newStreamId) {
-			//
-			// CC : the status canges are now part of the business rules and so this
-			// portion moves to the back end, no need for a save prior to set
-			//
-			// projectStreamSelect.project.status = 'In Progress';
-			// ProjectModel.saveModel().then( function(res) {
-				// set the stream then move to the project overview page.
-				ProjectModel.setModel ($scope.project);
-				ProjectModel.setStream(projectStreamSelect.newStreamId).then( function(resStream) {
-					projectStreamSelect.project = _.assign(resStream);
-					//$scope.project = resStream;
-					$state.go('p.detail', {'projectid':projectStreamSelect.project.code}, {reload: true});
-				});
-			// });
-		}
-	};
-}
 
 // -----------------------------------------------------------------------------------
 //

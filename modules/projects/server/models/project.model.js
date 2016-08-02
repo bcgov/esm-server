@@ -4,12 +4,12 @@
 // Model for Project
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('Project', {
 	__audit               : true,
 	__access              : [
 		'viewSchedule',
-		//'editSchedule',
+		'editSchedule',
 		'listEnforcements',
 		'createEnforcement',
 		'listCommentPeriods',
@@ -43,6 +43,8 @@ module.exports = require ('../../../core/server/controllers/cc.schema.controller
 	duration              : { type:Number, default: 90 },
 	epicProjectID		  : { type:Number, default: 0, index:true},  // Used to relate ePIC imports
 	shortName             : { type:String, default: '' },
+	eacDecision		  	  : { type:String, default: '' },
+	CEAALink		  	  : { type:String, default: '' },
 	type                  : { type:String, default:'', index:true },
 	sector                : { type:String, default:'' },
 	region                : { type:String, default:'' },     // object id
@@ -72,7 +74,7 @@ module.exports = require ('../../../core/server/controllers/cc.schema.controller
 	adminRole             : { type:String, default: '' },
 	proponentAdminRole    : { type:String, default: '' },
 	sectorRole            : { type:String, default: '' },
-  eaoInviteeRole        : { type:String, default: '' },
+	eaoInviteeRole        : { type:String, default: '' },
 	proponentInviteeRole  : { type:String, default: '' },
 	substitution          : { type:Boolean, default:false },
 	intake: {

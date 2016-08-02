@@ -10,6 +10,13 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 
 		$httpProvider.interceptors.push('authInterceptor');
 
+		$httpProvider.defaults.cache = false;
+		if (!$httpProvider.defaults.headers.get) {
+			$httpProvider.defaults.headers.get = {};
+		}
+		// disable IE ajax request caching
+		$httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
+
 		uiGmapGoogleMapApiProvider.configure({
 			key: 'AIzaSyCTbJdM2XHNQ6ybqPzyaT-242tIAgIbk8w',
 			v: '3.22',
@@ -120,9 +127,9 @@ angular.element(document).ready(function () {
 
   // make sure we don't have any issues in ie getting the location.origin...
   if (!window.location.origin) {
-    window.location.origin = window.location.protocol + "//" +
-      window.location.hostname +
-      (window.location.port ? ':' + window.location.port : '');
+	window.location.origin = window.location.protocol + "//" +
+	  window.location.hostname +
+	  (window.location.port ? ':' + window.location.port : '');
   }
 
 	//Then init the app

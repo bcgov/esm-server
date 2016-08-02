@@ -5,12 +5,13 @@
 //
 // =========================================================================
 var path       = require('path');
-var Access     = require (path.resolve('./modules/core/server/controllers/cc.access.controller'));
-var DBModel    = require (path.resolve('./modules/core/server/controllers/cc.dbmodel.controller'));
+var Access     = require (path.resolve('./modules/core/server/controllers/core.access.controller'));
+var DBModel    = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
 var PhaseClass = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
 var ActivityClass = require (path.resolve('./modules/activities/server/controllers/activity.controller'));
 var MilestoneClass = require (path.resolve('./modules/milestones/server/controllers/milestone.controller'));
 var ArtifactClass = require (path.resolve('./modules/artifacts/server/controllers/artifact.controller'));
+var DocumentClass  = require (path.resolve('./modules/documents/server/controllers/core.document.controller'));
 var _          = require ('lodash');
 
 module.exports = DBModel.extend ({
@@ -24,65 +25,12 @@ module.exports = DBModel.extend ({
 		.then (self.setArtifactStage)
 		.then (self.addActivities)
 		.then (self.setRolesPermissions);
-		// var p;
-		// var phaseModel = new PhaseClass (this.opts);
-		// var artifactModel = new ArtifactClass (this.opts);
-		// var activityModel = new ActivityClass (this.opts);
-		// var milestoneModel = new MilestoneClass (this.opts);
-		// var projectCode;
-		// console.log ('CommentPeriod preprocessAdd 12');
-		// return Promise.resolve ()
-		// .then (function () {
-		// console.log ('CommentPeriod preprocessAdd 13');
-		// 	return phaseModel.findById (period.phase);
-		// })
-		// .then (function (phase) {
-		// 	if (period.periodType === 'Public') {
-		// 		//
-		// 		// add the base milestone for public comments
-		// 		//
-		// console.log ('CommentPeriod preprocessAdd 14-1');
-		// 		period.publish ();
-		// console.log ('CommentPeriod preprocessAdd 14');
-		// 		return phaseModel.addMilestone (phase, 'public-comment-period', {write:period.commenterRoles});
-		// 	}
-		// 	else if (period.periodType === 'Working Group') {
-		// 		//
-		// 		// add the base milestone for working group comments
-		// 		//
-		// 		return phaseModel.addMilestone (phase, 'comment-period', {write:period.commenterRoles});
-		// 	}
-		// console.log ('CommentPeriod preprocessAdd 2');
-		// })
-		// .then (function (phase) {
-		// 	console.log ('phase: ',JSON.stringify (phase,null,4));
-		// 	var milestone = _.last (phase.milestones);
-		// 	projectCode = phase.projectCode;
-		// 	return milestoneModel.findById (milestone);
-		// })
-		// .then (function (milestone) {
-		// 	return activityModel.findById (milestone.activities[0]);
-		// })
-		// .then (function (activity) {
-		// 	activity.data = {
-		// 		projectid : projectCode,
-		// 		artifactId : period.artifact
-		// 	};
-		// 	return activityModel.saveDocument (activity);
-		// })
-		// .then (function () {
-		// 	return artifactModel.findById (period.artifact);
-		// })
-		// .then (function (artifact) {
-		// 	artifact.heldStage = artifact.stage;
-		// 	artifact.stage = (period.periodType === 'Public')? 'Public Comment Period' : 'Comment Period';
-		// 	if (period.periodType === 'Public') artifact.publish ();
-		// 	return artifactModel.saveDocument (artifact);
-		// })
-		// .then (function () {
-		// 	console.log ('last step');
-		// 	return period;
-		// });
+	},
+	preprocessUpdate: function (period) {
+		//console.log('commentperiod.preprocessUpdate...');
+		var self=this;
+		return Promise.resolve(period)
+			.then(self.setRolesPermissions);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -112,21 +60,30 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	setRolesPermissions: function (period) {
-		var allroles = period.commenterRoles.concat (
+		// jsherman - 20160729
+		// do not like this, we've got defaults that add in permissions but are completely divorced from these roles
+		// that we add.  Should all be in one place when we get a chance.
+		
+		var allroles = _.uniq(period.commenterRoles.concat (
 			period.classificationRoles,
 			period.vettingRoles,
 			'eao-admin',
-			'pro-admin'
-		);
-		// console.log (JSON.stringify (period, null, 4));
-		return this.setModelPermissions ({
+			'pro-admin',
+		  'eao-member',
+		  'pro-member',
+		  'lead',
+		  'epd'
+		));
+		//console.log ("commentperiod.setRolesPermissions - period", JSON.stringify (period, null, 4));
+		//console.log('commentperiod.setRolesPermissions - allroles = ' + JSON.stringify(allroles, null, 4));
+		var dataObj = {
 			vetComments      : period.vettingRoles,
 			classifyComments : period.classificationRoles,
 			listComments     : period.commenterRoles,
-			addComment       : period.commenterRoles,
+			addComment       : _.uniq(_.concat(period.commenterRoles, 'lead', 'epd', 'eao-admin')),
 			setPermissions   : ['eao-admin', 'pro-admin'],
 			read             : allroles,
-			write            : ['eao-admin'],
+			write            : _.uniq(_.concat(period.vettingRoles, period.classificationRoles, 'lead', 'epd', 'eao-admin')),
 			delete           : ['eao-admin'],
 			// return Access.setObjectPermissionRoles ({
 			// resource: period,
@@ -140,8 +97,12 @@ module.exports = DBModel.extend ({
 			// 	write            : ['eao-admin'],
 			// 	delete           : ['eao-admin'],
 			// }
-		})
+		};
+		//console.log('commentperiod.setRolesPermissions - setting model permissions period = ' + JSON.stringify(period, null, 4));
+		//console.log('commentperiod.setRolesPermissions - setting model permissions data = ' + JSON.stringify(dataObj, null, 4));
+		return this.setModelPermissions (period, dataObj)
 		.then (function () {
+			//console.log('commentperiod.setRolesPermissions - returning period = ' + JSON.stringify(period, null, 4));
 			return period;
 		});
 	},
@@ -150,8 +111,65 @@ module.exports = DBModel.extend ({
 	// get all comment periods for a project
 	//
 	// -------------------------------------------------------------------------
-	getForProject: function (projectId) {
+	getForProject: function(projectId) {
 		return this.list ({project:projectId});
+	},
+	getForProjectWithStats: function (projectId) {
+		var self    = this;
+		var Comment = this.mongoose.model('Comment');
+		return new Promise (function (resolve, reject) {
+			self.getForProject(projectId)
+			.then(function(res) {
+				//console.log('periods = ' + JSON.stringify(res));
+				return new Promise(function (resolve, reject) {
+					Comment
+					.find ({period: {$in: _.map(res, '_id') }})
+					.exec()
+					.then(function(docs) {
+						resolve({periods: res, comments: docs});
+					});
+				});
+			})
+			.then (function (data) {
+				//console.log('data = ' +  JSON.stringify(data, null, 4));
+				// get stats for each period.
+				var periodsWithStats = [];
+				_.forEach(data.periods, function(period) {
+					var mycomments = _.filter(data.comments, function(o) { return o.period.toString() === period._id.toString(); });
+					//console.log('period = ' + period._id + ' comments = ' + mycomments.length);
+					//console.log('period = ', JSON.stringify(period));
+					var periodWithStat = JSON.parse(JSON.stringify(period));
+					periodWithStat.stats = {
+						totalPending  : 0,
+						totalDeferred : 0,
+						totalPublic   : 0,
+						totalRejected : 0,
+						totalAssigned : 0,
+						totalUnassigned : 0,
+						totalPublicAssigned: 0
+					};
+					//console.log('periodWithStat = ',JSON.stringify(periodWithStat, null, 4));
+					mycomments.reduce (function (prev, next) {
+						periodWithStat.stats.totalPending  += (next.eaoStatus === 'Unvetted' ? 1 : 0);
+						periodWithStat.stats.totalDeferred += (next.eaoStatus === 'Deferred' ? 1 : 0);
+						periodWithStat.stats.totalPublic   += (next.eaoStatus === 'Published' ? 1 : 0);
+						periodWithStat.stats.totalRejected += (next.eaoStatus === 'Rejected' ? 1 : 0);
+						periodWithStat.stats.totalAssigned += (next.proponentStatus === 'Classified' ? 1 : 0);
+						periodWithStat.stats.totalUnassigned += (next.proponentStatus !== 'Classified' ? 1 : 0);
+						periodWithStat.stats.totalPublicAssigned   += (next.proponentStatus === 'Classified' && next.eaoStatus === 'Published' ? 1 : 0);
+					}, periodWithStat.stats);
+					//console.log('periodWithStat.stats = ',JSON.stringify(periodWithStat.stats));
+					//console.log('periodWithStat = ',JSON.stringify(periodWithStat, null, 4));
+					periodsWithStats.push(periodWithStat);
+				});
+				return periodsWithStats;
+			})
+			.then(function(res) {
+				//console.log('periodWithStats = ',JSON.stringify(res, null, 4));
+				return res;
+			})
+			.then (resolve, reject);
+		});
 	},
 	// -------------------------------------------------------------------------
 	//

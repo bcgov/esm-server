@@ -2,8 +2,8 @@
 
 // User Routes
 var users   = require('../controllers/users.server.controller');
-var routes = require ('../../../core/server/controllers/cc.routes.controller');
-var policy = require ('../../../core/server/controllers/cc.policy.controller');
+var routes = require ('../../../core/server/controllers/core.routes.controller');
+var policy = require ('../../../core/server/controllers/core.policy.controller');
 
 module.exports = function (app) {
 
@@ -22,8 +22,10 @@ module.exports = function (app) {
 		var file = req.files.file;
 		if (file) {
 			// console.log("Received users import file:",file);
-			users.loadUsers(file, req, res)
-					 .then (routes.success(res), routes.failure(res));
+			routes.setSessionContext(req)
+			.then( function (opts) {
+				return users.loadUsers(file, req, res, opts);
+			}).then (routes.success(res), routes.failure(res));
 		}
 	});
 	// Import logic
@@ -31,9 +33,11 @@ module.exports = function (app) {
 		.post (function (req, res) {
 			var file = req.files.file;
 			if (file) {
-				// console.log("Received contact import file:",file);
-				users.loadGroupUsers(file, req, res)
-						 .then (routes.success(res), routes.failure(res));
+				// console.log("Received groupusers import file:",file);
+				routes.setSessionContext(req)
+				.then( function (opts) {
+					return users.loadGroupUsers(file, req, res, opts);
+				}).then (routes.success(res), routes.failure(res));
 			}
 		});
 	// Finish by binding the user middleware

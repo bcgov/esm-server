@@ -72,7 +72,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		templateUrl: 'modules/artifacts/client/views/artifact-container.html',
 		resolve: {
 			artifact: function ($stateParams, ArtifactModel) {
-				// console.log ('artifactId = ', $stateParams.artifactId);
+				// need to refresh the artifact on each transition...  do not count on this...
 				return ArtifactModel.getModel ($stateParams.artifactId);
 			},
 			fix: function (artifact, ArtifactTypeModel) {
@@ -115,10 +115,17 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		data: {
 			// roles: ['*:eao:epd','*:eao:project-admin','*:eao:project-lead','*:eao:project-team']
 		},
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Document, MilestoneModel) {
 			// console.log ('artifact = ', artifact);
 			// console.log ('project  = ', project);
 			// artifact.artifactType = fix;
+
 			var method = properMethod (artifact.stage);
 			if (method !== 'edit') $state.go ('p.artifact.'+method);
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
@@ -126,11 +133,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.project = project;
 			$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
 			$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+
 			$scope.$watchCollection ('artifact.maindocument', function (newval) {
 				if (!newval || newval.length === 0) return;
 				//console.log ('nedw collection:', newval);
 				Document.getDocument (newval[0]).then (function (ret) {
-					$scope.artifact.document = ret.data;
+					$scope.artifact.document = ret;
 					//console.log ('doc is now', $scope.artifact.document);
 				});
 			});
@@ -201,6 +209,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					// // alert (err.message);
 				});
 			};
+			$scope.$on('cleanup', function () {
+				$state.go ('p.artifact.view', {
+					projectid:project.code,
+					artifact: $scope.artifact
+				});
+			});
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -212,6 +226,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.view', {
 		url: '/view',
 		templateUrl: 'modules/artifacts/client/views/artifact-view.html',
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Authentication, VcModel) {
 			$scope.authentication = Authentication;
 			$scope.artifact = artifact;
@@ -221,6 +241,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.comment', {
 		url: '/comment',
 		templateUrl: 'modules/artifacts/client/views/artifact-comment.html',
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
 			// artifact.artifactType = fix;
 			var method = properMethod (artifact.stage);
@@ -232,6 +258,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.review', {
 		url: '/review',
 		templateUrl: 'modules/artifacts/client/views/artifact-review.html',
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
 			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
@@ -265,6 +297,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.approve', {
 		url: '/approve',
 		templateUrl: 'modules/artifacts/client/views/artifact-approve.html',
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
 			// artifact.artifactType = fix;
 			var method = properMethod (artifact.stage);
@@ -297,6 +335,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.executive', {
 		url: '/executive',
 		templateUrl: 'modules/artifacts/client/views/artifact-executive.html',
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
 			// artifact.artifactType = fix;
 			var method = properMethod (artifact.stage);
@@ -329,6 +373,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.decision', {
 		url: '/decision',
 		templateUrl: 'modules/artifacts/client/views/artifact-decision.html',
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
 			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
@@ -372,7 +422,13 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.publish', {
 		url: '/publish',
 		templateUrl: 'modules/artifacts/client/views/artifact-publish.html',
-		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Document) {
 			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
@@ -391,9 +447,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				});
 			};
 			$scope.submit = function () {
+				console.log("publishing artifact and supporting documents:", $scope.artifact.document);
+				//Document.publish($scope.artifact.additionalDocuments[0]);
 				ArtifactModel.publish ($scope.artifact._id)
-				.then (function () {
-					return ArtifactModel.nextStage ($scope.artifact);
+				.then (function (res) {
+					$scope.artifact = res;
+					return ArtifactModel.nextStage (res);
 				})
 				.then (function (model) {
 					$state.go ('p.detail', {projectid:project.code});
@@ -408,6 +467,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.notify', {
 		url: '/notify',
 		templateUrl: 'modules/artifacts/client/views/artifact-notify.html',
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, EmailTemplateModel, _) {
 			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);

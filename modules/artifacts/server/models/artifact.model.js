@@ -4,7 +4,7 @@
 // model for ProjectType
 //
 // =========================================================================
-module.exports = require('../../../core/server/controllers/cc.schema.controller')
+module.exports = require('../../../core/server/controllers/core.schema.controller')
 ('Artifact', {
 		//
 		// who did what when
@@ -23,7 +23,8 @@ module.exports = require('../../../core/server/controllers/cc.schema.controller'
 			'sendForDecision',
 			'publish',
 			'unPublish',
-			'reject'
+			'reject',
+			'setPermissions'
 		],
 		//
 		// what type of artifcat is this? i.e. project description, etc

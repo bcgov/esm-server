@@ -1,6 +1,8 @@
-<div style="max-width: 300px; min-height: 150px;">
-	<h3 class="firstHeading">{{ parameter.name }}</h3>
-	<p><strong>Type</strong>: {{ parameter.type }}</p>
-	<pre>{{ parameter.description }}</pre><br/>
-	<p><a html ui-sref="p.detail({projectid: parameter.code })">Detail View</a></p>				
+
+<div class="map-info-popup">
+	<h3>{{ parameter.name }}</h3>
+	<span class="project-type"><strong>Type:</strong> &nbsp;{{ parameter.type }}</span>
+	<pre class="project-desc" ng-if="parameter.description">{{ parameter.description | maxWords: 24 }}</pre>
+	<a ng-if="parameter.isOpen" href="p/{{parameter.code}}/commentperiod/{{parameter.period._id}}" class="btn btn-success public-comment-btn">Public Commenting Open - Click Here</a> 
+	<a class="project-link" ui-sref="p.detail({projectid: parameter.code })">View Project Details</a>	
 </div>

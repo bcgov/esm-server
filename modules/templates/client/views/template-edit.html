@@ -1,18 +1,13 @@
-<div class="edit-template-view">
 
-	<div class="view-title-container">
-		<h1>Add / Edit Template</h1>
+	<div class="view-title-container flex-row">
+		<h1>Add/Edit Template</h1>
+		<div class="actions">
+			<a class="btn btn-default btn-sm" ui-sref="admin.template.list">Cancel</a>
+			<a class="btn btn-primary btn-sm" href ng-click="save()">Save</a>
+		</div>
 	</div>
 
 	<div class="view-body-container">
-		
-		<div class="row hidden">
-			<div class="col-sm-12 text-right">
-				<a class="btn btn-xs btn-link" ui-sref="admin.template.list">Cancel</a>
-				<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
-			</div>
-		</div>
-
 		<section>
 			<div class="row">
 				<div class="col-sm-6">
@@ -23,7 +18,6 @@
 				</div>
 			</div>
 		</section>
-
 		<div class="panel panel-default" ng-show="template.sections.length === 0">
 			<div class="panel-body">
 				<div class="row">
@@ -39,7 +33,6 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="panel panel-default" ng-repeat="section in template.sections">
 			<div class="panel-body">
 				<div class="row">
@@ -136,7 +129,7 @@
 							<option>Html</option>
 							<option>Auto</option>
 							<option>List</option>
-							<option>Artifact</option>
+							<option>Content</option>
 							<option>Document List</option>
 						</select>
 					</div>
@@ -156,7 +149,7 @@
 				</div>
 
 			</div>
-			
+
 			<div class="panel-footer" ng-if="$last">
 				<div class="row">
 					<div class="col-sm-12">
@@ -164,17 +157,8 @@
 					</div>
 				</div>
 			</div>
-			
+
 		</div>
-
-
-		<div class="form-footer clearfix">
-			<div class="pull-right">
-				<a class="btn btn-default" ui-sref="admin.template.list">Cancel</a>
-				<a class="btn btn-default" href ng-click="save()">Save</a>
-			</div>
-		</div>
-
 	</div><!-- / VIEW BODY CONTAINER -->
-	
+
 </div>

@@ -5,16 +5,18 @@
 //
 // =========================================================================
 var path     = require('path');
-var Access    = require (path.resolve ('./modules/core/server/controllers/cc.access.controller'));
+var Access    = require (path.resolve ('./modules/core/server/controllers/core.access.controller'));
 var Period    = require ('./commentperiod.controller');
-var DBModel   = require (path.resolve ('./modules/core/server/controllers/cc.dbmodel.controller'));
+var DBModel   = require (path.resolve ('./modules/core/server/controllers/core.dbmodel.controller'));
 var _         = require ('lodash');
 // var Roles = require (path.resolve('./modules/roles/server/controllers/role.controller'));
+var DocumentClass  = require (path.resolve('./modules/documents/server/controllers/core.document.controller'));
 
 module.exports = DBModel.extend ({
 	name : 'Comment',
 	plural: 'comments',
-	populate : {path:'user', select:'_id displayName username orgCode'},
+	// populate : [{ path:'user', select:'_id displayName username orgCode'}, {path: 'valuedComponents', select: 'name'}],
+	populate : [{ path:'user', select:'_id displayName username orgCode'},{ path:'updatedBy', select:'_id displayName username orgCode'}],
 	// -------------------------------------------------------------------------
 	//
 	// since public users may be saving comments we should temprarily allow
@@ -24,49 +26,68 @@ module.exports = DBModel.extend ({
 	preprocessAdd: function (comment) {
 		// this.setForce (true);
 		var self = this;
-		var commentPeriod = new Period (this.opts);
-		return new Promise (function (resolve, reject) {
+		var commentPeriod = new Period(this.opts);
+		var documentClass = new DocumentClass(this.opts);
+		return new Promise(function (resolve, reject) {
 			//
 			// get the period info
 			//
-			commentPeriod.findById (comment.period)
-			.then (function (period) {
-				//
-				// ROLES
-				//
-				return self.setModelPermissions ({
-					read             : period.vettingRoles,
-					delete           : ['eao-admin'],
-					write            : period.commenterRoles.concat (
-						period.classificationRoles,
-						period.vettingRoles,
-						'eao-admin',
-						'pro-admin'
-					),
-				});
-				// return Access.setObjectPermissionRoles ({
-				// 	resource: comment,
-				// 	permissions: {
-				// 		read             : period.vettingRoles,
-				// 		delete           : ['eao-admin'],
-				// 		write            : period.commenterRoles.concat (
-				// 			period.classificationRoles,
-				// 			period.vettingRoles,
-				// 			'eao-admin',
-				// 			'pro-admin'
-				// 		),
-				// 	}
-				// });
-			})
-			.then (function () {
-				return comment;
-			})
-			.then (resolve, reject);
+			commentPeriod.findById(comment.period)
+				.then(function (period) {
+					//console.log('period = ' + JSON.stringify(period, null, 4));
+					//
+					// ROLES
+					//
+					return self.setModelPermissions(comment, {
+						read: period.vettingRoles,
+						delete: ['eao-admin'],
+						write: period.commenterRoles.concat(
+							period.classificationRoles,
+							period.vettingRoles,
+							'eao-admin',
+							'pro-admin'
+						),
+					});
+				})
+				.then(function (commentPermissions) {
+					//console.log('commentPermissions = ' + JSON.stringify(commentPermissions, null, 4));
+					// get all the associated documents and update their permissions as required.
+					return new Promise(function (resolve, reject) {
+						var q = {_id : {$in : comment.documents }};
+						documentClass.listforaccess ('i do not want to limit my access because public people add comments with docs too.', q)
+							.then(function (data) {
+								resolve({commentPermissions: commentPermissions, docs: data});
+							});
+					});
+				})
+				.then(function (data) {
+					//console.log('data = ' + JSON.stringify(data, null, 4));
+					var commentPermissions = data.commentPermissions;
+					var docs = data.docs;
+					return docs.reduce(function (current, doc, index) {
+						// not publishing, but changing the permissions to match the comment
+						return new Promise(function (resolve, reject) {
+							documentClass.setModelPermissions(doc, commentPermissions)
+								.then(function () {
+									return doc.save();
+								}).then(resolve, reject);
+						});
+					}, Promise.resolve());
+				})
+				.then(function () {
+					return comment;
+				})
+				.then(resolve, reject);
 		});
 	},
 	preprocessUpdate: function (comment) {
+		//console.log('comment.preprocessUpdate  comment = ' + JSON.stringify(comment, null, 4));
 		var self = this;
 		var commentPeriod = new Period (this.opts);
+		var documentClass = new DocumentClass(this.opts);
+
+		var thePeriod;
+
 		if (comment.valuedComponents.length === 0) {
 			comment.proponentStatus = 'Unclassified';
 		}
@@ -79,28 +100,26 @@ module.exports = DBModel.extend ({
 			// set published or unpublished with correct roles
 			//
 			.then (function (period) {
+				thePeriod = period;
 				if (comment.eaoStatus === 'Published') {
 					//
 					// ROLES, public read
 					//
 					comment.publish ();
-					return self.setModelPermissions ({
-						read  : ['public']
+					return self.setModelPermissions (comment, {
+						read  : _.uniq(_.concat(thePeriod.read, 'public')),
+						write: thePeriod.write,
+						delete: thePeriod.delete
 					});
-					// console.log ('published comment: ', JSON.stringify (comment, null, 4));
-					// return Access.setObjectPermissionRoles ({
-					// 	resource: comment,
-					// 	permissions: {
-					// 		read             : ['public']
-					// 	}
-					// });
 				} else {
 					//
 					// ROLES, only vetting can read
 					//
 					comment.unpublish ();
-					return self.setModelPermissions ({
-						read  : period.vettingRoles
+					return self.setModelPermissions (comment, {
+						read: thePeriod.vettingRoles,
+						write: thePeriod.write,
+						delete: thePeriod.delete
 					});
 					// console.log ('unpublished comment: ', JSON.stringify (comment, null, 4));
 					// return Access.setObjectPermissionRoles ({
@@ -111,13 +130,39 @@ module.exports = DBModel.extend ({
 					// });
 				}
 			})
+			.then(function(commentPermissions) {
+				// get all the associated documents and update their publish permissions as required.
+				return new Promise(function(resolve, reject) {
+					documentClass.getList(comment.documents)
+						.then(function (data) {
+							resolve({commentPermissions: commentPermissions, docs: data});
+						});
+				});
+			})
+			.then(function(data) {
+				var commentPermissions = data.commentPermissions;
+				var docs = data.docs;
+				return docs.reduce(function (current, doc, index) {
+					if ('Rejected' === comment.eaoStatus) {
+						// just ensure that all documents are rejected if the comment is rejected...
+						doc.eaoStatus = 'Rejected';
+					}
+
+					if ('Published' !== doc.eaoStatus) {
+						// if the comment is published, but this document has been rejected, we don't want this document set to public read
+						commentPermissions.read = thePeriod.vettingRoles;
+					}
+					// publish or unpublish the doc, and set the doc's permissions...
+					return documentClass.publishForComment(doc, ('Published' === comment.eaoStatus && 'Published' === doc.eaoStatus), commentPermissions);
+				}, Promise.resolve())	;
+			})
 			.then (function () {
 				return comment;
 			})
 			.then (resolve, reject);
 		});
 	},
-	getCommentsForPeriod : function (periodId) {
+	getPublishedCommentsForPeriod : function (periodId) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
 			self.findMany ({
@@ -125,6 +170,15 @@ module.exports = DBModel.extend ({
 				isPublished: true
 			})
 			.then (resolve, reject);
+		});
+	},
+	getAllCommentsForPeriod : function (periodId) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findMany ({
+				period : periodId
+			})
+				.then (resolve, reject);
 		});
 	},
 	getEAOCommentsForPeriod : function (periodId) {
@@ -159,7 +213,7 @@ module.exports = DBModel.extend ({
 	getProponentCommentsForPeriod : function (periodId) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			self.getCommentsForPeriod (periodId)
+			self.getPublishedCommentsForPeriod (periodId)
 			.then (function (data) {
 				var classified = data.reduce (function (prev, next) {
 					return prev + (next.proponentStatus === 'Classified' ? 1 : 0);
@@ -245,6 +299,17 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	getCommentChain: function (ancestorId) {
 		return this.findMany ({ ancestor: ancestorId });
+	},
+	getCommentDocuments: function(id) {
+		var self = this;
+		var doc = new DocumentClass (this.opts);
+		return new Promise (function (resolve, reject) {
+			self.one({_id : id})
+				.then(function(c) {
+					return doc.getList(c.documents);
+				})
+				.then (resolve, reject);
+		});
 	}
 });
 

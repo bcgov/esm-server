@@ -7,122 +7,121 @@
 
 <!-- COMMENT FORM - STEP 1 -->
 <form class="comment-form-1" ng-if="s.step===1">
-    <div class="modal-body">
-        <h4>Submitting Your Comments:  How it Works</h4>
-        <p>Comments submitted to the Environmental Assessment Office (EAO) will be published online.</p>
-        <p>EAO publishes all accepted comments within seven days of receipt. Comments are not accepted if - in EAO’s view - they are profane, abusive or do not relate to the matter being consulted upon as stated in our <a href="http://www.eao.gov.bc.ca/pdf/EAO_Policy_Public_Comment.pdf" target="_blank">Public Comment Policy [PDF]</a>.</p>
-        <p>EAO forwards all posted comments to project proponents so that they can be duly considered during the project's Environmental Assessment (EA) process.</p>
-        <p>You may provide your name and city/town when making a comment, but in order to have your name displayed with your comment you must select the 'Show my name and location on the public site' option.</p>
-        <p>All hyperlinks in comments will be converted to plain text. All attachments must be in PDF format and limited to 5MB.</p>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" ng-click="s.cancel()">Cancel</button>
-        <button type="button" class="btn btn-success" ng-click="s.next()">Continue</button>
-    </div>
+	<div class="modal-body">
+		<h4>Submitting Your Comments:  How it Works</h4>
+		<p>Comments submitted to the Environmental Assessment Office (EAO) will be published online.</p>
+		<p>EAO publishes all accepted comments within seven days of receipt. Comments are not accepted if - in EAO’s view - they are profane, abusive or do not relate to the matter being consulted upon as stated in our <a href="http://www.eao.gov.bc.ca/pdf/EAO_Policy_Public_Comment.pdf" target="_blank">Public Comment Policy [PDF]</a>.</p>
+		<p>EAO forwards all posted comments to project proponents so that they can be duly considered during the project's Environmental Assessment (EA) process.</p>
+		<p>You may provide your name and city/town when making a comment, but in order to have your name displayed with your comment you must select the 'Show my name and location on the public site' option.</p>
+		<p>All hyperlinks in comments will be converted to plain text. All attachments must be in PDF format and limited to 5MB.</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" ng-click="s.cancel()">Cancel</button>
+		<button type="button" class="btn btn-success" ng-click="s.next()">Continue</button>
+	</div>
 </form>
 <!-- / COMMENT FORM - STEP 1 -->
 
 <!-- COMMENT FORM - STEP 2 -->
 <form class="comment-form" ng-if="s.step===2">
-    <div class="modal-body">
-        <fieldset>
-            <div class="row">
-                <div class="form-group col-sm-12 col-md-6">
-                    <label class="control-label">Name<em>Optional</em></label>
-                    <input ng-model="s.comment.author" class="form-control" placeholder="Anonymous" type="text" />
-                </div>
-                <div class="form-group col-sm-12 col-md-6">
-                    <label class="control-label">Location<em>Optional</em></label>
-                    <input ng-model="s.comment.location" class="form-control" placeholder="IE: City, Province, etc." type="text" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-12">
-                    <div class="checkbox comment-opt-in">
-                        <label><input ng-model="s.comment.makeVisible" type="checkbox" />Make my name and location visible to public.</label>
-                    </div>
-                    <div class="help-block">All comments are submitted anonymously by default. Checking this option will display your name and location (if entered) on the public site.</div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-12">
-                    <label class="control-label">Your Comment</label>
-                    <textarea id="content" rows="10" name="content" class="form-control" ng-model="s.comment.comment" required></textarea>
-                </div>
-            </div>
-            <div class="row">
-                <div class="upload-attachments form-group col-sm-12">
-                    <label class="control-label">Upload Attachments</label>
-                    <ul class="attachments list-group">
-                        <li class="list-group-item clearfix">
-                            <div class="file-name">file-name-1.jpg</div>
-                            <div class="file-progress progress">
-                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
-                                    <span class="sr-only"></span>
-                                </div>
-                            </div>
-                            <button class="file-action btn btn-link">
-                                <span class="glyphicon glyphicon-remove"></span>
-                            </button>
-                        </li>
-                            <li class="list-group-item clearfix">
-                            <div class="file-name">asdasd file-name-1-really-really-really-really-long-file-name.jpg</div>
-                            <div class="file-progress progress">
-                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
-                                    <span class="sr-only"></span>
-                                </div>
-                            </div>
-                            <button class="file-action btn btn-link">
-                                <span class="glyphicon glyphicon-remove"></span>
-                            </button>
-                        </li>
-                        <li class="list-group-item clearfix">
-                            <div class="file-name">file-name-1-really-really-really-really-long-file-name.jpg</div>
-                            <div class="file-progress progress hidden">
-                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
-                                    <span class="sr-only"></span>
-                                </div>
-                            </div>
-                            <button class="file-action btn btn-link">
-                                <span class="glyphicon glyphicon-remove"></span>
-                            </button>
-                        </li>
-                    </ul>
-                    <div class="attachments-upload-target">
-                        <input type="file" multiple accept=".jpg,.jpeg,.pdf" />
-                        <div><strong>Drag & Drop</strong> or <strong>Click Here</strong> to Upload Attachments</div>
-                        <small><em>All attachments must be in PDF format and limited to 5MB.</em></small>
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" ng-click="s.cancel()">Cancel</button>
-        <button type="button" class="btn btn-success" ng-click="s.submit()">Submit Comment</button>
-    </div>
+	<div class="modal-body">
+		<fieldset>
+			<div class="row">
+				<div class="form-group col-sm-12 col-md-6">
+					<label class="control-label">Name<em>Optional</em></label>
+					<input ng-model="s.comment.author" class="form-control" placeholder="Anonymous" type="text" />
+				</div>
+				<div class="form-group col-sm-12 col-md-6">
+					<label class="control-label">Location<em>Optional</em></label>
+					<input ng-model="s.comment.location" class="form-control" placeholder="IE: City, Province, etc." type="text" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-sm-12">
+					<div class="checkbox comment-opt-in">
+						<label><input ng-model="s.comment.makeVisible" type="checkbox" />Make my Name visible to public.</label>
+					</div>
+					<div class="help-block">All comments are submitted anonymously by default. Checking this option will display your Name (if entered) on the public site.</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-sm-12">
+					<label class="control-label">Your Comment</label>
+					<textarea id="content" rows="10" name="content" class="form-control" ng-model="s.comment.comment"></textarea>
+				</div>
+			</div>
+			<div class="row">
+				<div class="upload-attachments form-group col-sm-12">
+					<label class="control-label">Upload Attachments</label>
+
+					<div class="alert alert-danger alert-dismissable" ng-show="s.filesRemoved">
+						Attachments must be in <strong>PDF format</strong> and limited to <strong>5MB</strong>.
+						<button type="button" class="close" data-dismiss="alert">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+					<div class="upload-target" ngf-drop ngf-select ng-model="s.comment.files"
+						ngf-drag-over-class="dragover"
+						ngf-multiple="true"
+						ngf-allow-dir="true"
+						accept="application/pdf"
+						ngf-max-total-size="5MB">
+						<div class="instructions"><strong>Drag and Drop Files Here</strong> or <strong>Select Files</strong></div>
+						<div class="requirements">Attachments must be in PDF format and limited to 5MB.</div>
+					</div>
+					<ul class="list-group">
+						<li class="list-group-item flex-row"
+							ng-class="{'danger': f.$error}"
+							ng-repeat="f in s.fileList">
+							<div class="icon">
+								<span class="glyphicon glyphicon-file"></span>
+							</div>
+							<div class="title">{{f.name}} {{f.$error}} {{f.$errorParam}}</div>
+							<div class="actions">
+								<div class="file-progress" ng-if="!f.$error && f.progress">
+									<div class="progress">
+										<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">
+											<span class="sr-only">{{ f.progress }}</span>
+										</div>
+									</div>
+								</div>
+								<button class="btn btn-default btn-sm" ng-if="!f.$error && !f.progress" ng-click="s.comment.removeFile(f)" title="Remove File">
+									<span class="glyphicon glyphicon-remove"></span>
+								</button>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" ng-click="s.cancel()">Cancel</button>
+		<button type="button" class="btn btn-success" ng-click="s.submit()">Submit Comment</button>
+	</div>
 </form><!-- / COMMENT FORM - STEP 2 -->
 
 <!-- COMMENT FORM - STEP 3 -->
 <div class="comment-submit-success" ng-if="s.step===3">
-    <div class="modal-body">
-        <h4>Thank you for your comment!</h4>
-        <p>What happens next? EAO publishes all comments received within seven days of receipt, except comments that EAO deems to be inappropriate for publication. Comments may be considered inappropriate for publication if - in EAO’s view - they are profane, abusive or do not relate to the matter being consulted upon as stated in our <a href="http://www.eao.gov.bc.ca/pdf/EAO_Policy_Public_Comment.pdf" target="_blank">Public Comment Policy [PDF]</a>.</p>
-    </div><!-- / COMMENT RECEIVED -->
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" ng-click="s.ok()">OK</button>
-    </div>
+	<div class="modal-body">
+		<h4>Thank you for your comment!</h4>
+		<p>What happens next? EAO publishes all comments received within seven days of receipt, except comments that EAO deems to be inappropriate for publication. Comments may be considered inappropriate for publication if - in EAO’s view - they are profane, abusive or do not relate to the matter being consulted upon as stated in our <a href="http://www.eao.gov.bc.ca/pdf/EAO_Policy_Public_Comment.pdf" target="_blank">Public Comment Policy [PDF]</a>.</p>
+	</div><!-- / COMMENT RECEIVED -->
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" ng-click="s.ok()">OK</button>
+	</div>
 </div>
 
 <div class="comment-submit-error" ng-if="s.step===4">
-    <div class="modal-body">
-        <div class="alert alert-danger">
-            Oops. Something went wrong here...
-        </div>
-        <p>We can't accept your comment at this time. Please try again later.</p>
-    </div><!-- / COMMENT RECEIVED -->
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" ng-click="s.ok()">OK</button>
-    </div>
+	<div class="modal-body">
+		<div class="alert alert-danger">
+			Oops. Something went wrong here...
+		</div>
+		<p>We can't accept your comment at this time. Please try again later.</p>
+	</div><!-- / COMMENT RECEIVED -->
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" ng-click="s.ok()">OK</button>
+	</div>
 </div><!-- / COMMENT FORM - STEP 3 -->
 

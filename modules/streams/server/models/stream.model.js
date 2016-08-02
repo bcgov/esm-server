@@ -4,7 +4,7 @@
 // Model for streams
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/cc.schema.controller')
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('Stream', {
 	__codename  : 'unique',
 	//

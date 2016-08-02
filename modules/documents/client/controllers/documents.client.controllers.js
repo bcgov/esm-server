@@ -9,7 +9,8 @@ angular.module('documents')
 	.controller('controllerModalDocumentUploadClassify', controllerModalDocumentUploadClassify)
 	.controller('controllerModalDocumentLink', controllerModalDocumentLink)
 	.controller('controllerModalDocumentUploadReview', controllerModalDocumentUploadReview)
-	.filter('removeExtension', filterRemoveExtension);
+	.filter('removeExtension', filterRemoveExtension)
+	.filter('displayFriendlyCode', filterDisplayFriendlyLocationCode);
 
 // -----------------------------------------------------------------------------------
 //
@@ -25,6 +26,9 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 	docLink.current = [];
 
 	docLink.ids = [];
+	
+	docLink.docLocationCode = $scope.docLocationCode;
+	docLink.artifact = $scope.artifact;
 
 	docLink.changeItem = function (docObj) {
 		if ($scope.current) {
@@ -48,8 +52,9 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 		// Bring in existing values.
 		if (newValue) {
 			// get the objects from the array.
-			Document.getDocumentsInList (newValue).then( function(res) {
-				docLink.linkFiles = res.data;
+			Document.getDocumentsInList (newValue)
+			.then( function(res) {
+				docLink.linkFiles = res;
 			});
 		}
 	});
@@ -97,6 +102,9 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 	docUpload.artifact = null;
 	docUpload.artifacts = null;
 	docUpload.documentList = [];
+	
+	docUpload.allowArtifactSelect = true;
+	docUpload.allowDocLocationSelect = true;
 
 	$scope.$watch('hideUploadButton', function(newValue) {
 		if (newValue) {
@@ -114,6 +122,12 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 				.then( function(res) {
 					// console.log("res",res);
 					docUpload.artifacts = res;
+					if (!_.isEmpty($scope.artifact)) {
+						docUpload.selectedArtifact = _.find(docUpload.artifacts, function (o) {
+							return o._id === $scope.artifact._id;
+						});
+						docUpload.allowArtifactSelect = _.isEmpty(docUpload.selectedArtifact);
+					}
 				});
 			} else {
 				Document.getProjectDocumentFolderNames(newValue._id).then( function(res) {
@@ -173,7 +187,15 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 	if (ENV === 'EAO') {
 		docUpload.docTypes = Document.getDocumentTypes();
 		docUpload.docSubTypes = Document.getDocumentSubTypes();
+
+		// Artifact Location
+		docUpload.docLocations = Document.getArtifactLocations();
+		// try and set the default in the pick list....
+		var foundDocLocation = _.find(docUpload.docLocations, function(o) { return o.code === $scope.docLocationCode; } );
+		docUpload.selectedDocLocation =  foundDocLocation || docUpload.docLocations[0];
+		docUpload.allowDocLocationSelect = _.isEmpty(foundDocLocation);
 	}
+
 
 	// allow the upload to be triggered from an external button.
 	// this should be called and then documentUploadComplete should be listened for.
@@ -289,13 +311,30 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 												if (undefined === data) {
 													data = art;
 												}
-												// First doc is a main document, the rest are supporting.
-												data.supportingDocuments.push(value);
-												return ArtifactModel.saveModel(data);
+												// Decide where to put this
+												// console.log("docUpload.selectedDocLocation:", docUpload.selectedDocLocation);
+												switch (docUpload.selectedDocLocation.code) {
+													case "main":
+														data.document = value;
+													break;
+													case "supporting":
+														data.supportingDocuments.push(value);
+													break;
+													case "internal":
+														data.internalDocuments.push(value);
+													break;
+													case "additional":
+														data.additionalDocuments.push(value);
+													break;
+												}
+												ArtifactModel.saveModel(data)
+												.then( function() {
+													$scope.$emit('documentUploadCompleteF');
+													return Promise.resolve();
+												});
 										});
 									}, Promise.resolve());
 								});
-								$scope.$emit('documentUploadComplete');
 							}
 						});
 					}, function (response) {
@@ -367,7 +406,8 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 
 	docBrowser.authentication = Authentication;
 
-	docBrowser.phasesForProject = undefined;
+	docBrowser.docLocationCode= $scope.docLocationCode;
+	docBrowser.artifact = $scope.artifact;
 
 	// -----------------------------------------------------------------------------------
 	//
@@ -375,13 +415,14 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 	//
 	// -----------------------------------------------------------------------------------
 	docBrowser.refresh = function() {
-		Document.getProjectDocuments(docBrowser.project._id, $scope.approvals).then( function(res) {
+		Document.getProjectDocuments(docBrowser.project._id, $scope.approvals)
+		.then( function(res) {
 			if (ENV === 'MEM') {
 				// Apply slightly different sort criteria on the client side.
 				// Do a substring date search on the internalOriginalName field.
 				var docs = [];
 				var re =/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
-				angular.forEach( res.data, function(item) {
+				angular.forEach( res, function(item) {
 					var sortDate = re.exec(item.internalOriginalName);
 					if (sortDate)
 						item.sortDate = sortDate[0];
@@ -389,17 +430,18 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 				});
 				docBrowser.documentFiles = _.sortByOrder(docs, "sortDate", "desc");
 			} else {
-				docBrowser.documentFiles = res.data;
+				docBrowser.documentFiles = res;
 			}
 		});
-		Document.getProjectDocumentTypes(docBrowser.project._id, $scope.approvals).then( function(res) {
+		Document.getProjectDocumentTypes(docBrowser.project._id, $scope.approvals)
+		.then( function(res) {
 			var dts = [];
 			if (ENV === 'MEM') {
 				// console.log("list:",res.data)
-				var sorted = _.sortBy(res.data, "order");
+				var sorted = _.sortBy(res, "order");
 				dts	= sorted;
 			} else {
-				dts	= res.data;
+				dts	= res;
 			}
 			angular.forEach(dts, function(item) {
 				item.state = 'close';
@@ -407,19 +449,12 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 			});
 			docBrowser.docTypes = dts;
 		});
-		PhaseModel.phasesForProject(docBrowser.project._id)
-		.then (function (res) {
-			// console.log("phasesForProject:", res);
-			docBrowser.phasesForProject = res;
-		});
-
 	};
 
 	var unbind = $rootScope.$on('refreshDocumentList', function() {
 		docBrowser.refresh();
 	});
 	$scope.$on('$destroy', unbind);
-
 	// -----------------------------------------------------------------------------------
 	//
 	// BROWSER: If in link mode, add the current document to the link list, or remove.
@@ -540,8 +575,8 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 		$scope.filterSummary = doc;
 		$scope.filterSummary.MBytes = (doc.internalSize / Math.pow(1024, Math.floor(2))).toFixed(2);
 		Document.getProjectDocumentVersions(doc._id).then( function(res) {
-			docBrowser.docVersions	= res.data;
-			//console.log(res.data);
+			docBrowser.docVersions	= res;
+			$scope.$apply();
 		});
 	};
 	docBrowser.rfilterSummary = function(doc) {
@@ -551,12 +586,12 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 											doc.projectFolderSubType,
 											doc.projectFolderName,
 											doc.documentFileName).then( function(res) {
-			docBrowser.docVersions	= res.data;
+			docBrowser.docVersions	= res;
 			// Fix for if a version was uploaded while we hovered overtop last
 			if (docBrowser.docVersions[docBrowser.docVersions.length-1].documentVersion >= $scope.rfilterSummary.documentVersion) {
 				// console.log("Your data is stale!  Refresh the page");
 			}
-			// console.log(res.data);
+			$scope.$apply();
 		});
 	};
 	docBrowser.downloadAndApprove = function(doc) {
@@ -581,21 +616,28 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentLink.$inject = ['$modalInstance', '$scope', 'rProject', 'rCurrent', '_'];
+controllerModalDocumentLink.$inject = ['$modalInstance', '$scope', 'rProject', 'rCurrent', 'rDocLocationCode', 'rArtifact', '_'];
 /* @ngInject */
-function controllerModalDocumentLink($modalInstance, $scope, rProject, rCurrent, _) {
+function controllerModalDocumentLink($modalInstance, $scope, rProject, rCurrent, rDocLocationCode, rArtifact, _) {
 	var docLink = this;
 	docLink.linkFiles = [];
 	docLink.project = rProject;
 	docLink.current = rCurrent;
 
 	docLink.savedCurrent = angular.copy(rCurrent);
+	docLink.docLocationCode = rDocLocationCode;
+	docLink.artifact = rArtifact;
 
 	docLink.unlinkFile = function(f) {
 		// console.log(f);
 		//_.remove(docLink.documentsObjs, {_id: f._id});
 		//_.remove(docLink.documents, function(n) {return n === f._id; });
 	};
+
+	// Close this cascaded modal
+	$scope.$on('cleanup', function () {
+		$modalInstance.close();
+	});
 
 	docLink.ok = function (items) {
 		// console.log(items);
@@ -611,17 +653,20 @@ function controllerModalDocumentLink($modalInstance, $scope, rProject, rCurrent,
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentUploadClassify.$inject = ['$modalInstance', '$scope', 'rProject'];
+controllerModalDocumentUploadClassify.$inject = ['$modalInstance', '$scope', 'rProject', 'rDocLocationCode', 'rArtifact', '$rootScope'];
 /* @ngInject */
-function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject) {
+function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject, rDocLocationCode, rArtifact, $rootScope) {
 	var docUploadModal = this;
 
 	// Document upload complete so close and continue.
-	$scope.$on('documentUploadComplete', function() {
+	$scope.$on('documentUploadCompleteF', function() {
+		$rootScope.$broadcast('cleanup');
 		$modalInstance.close();
 	});
 
 	docUploadModal.project = rProject;
+	docUploadModal.docLocationCode = rDocLocationCode;
+	docUploadModal.artifact = rArtifact;
 
 	docUploadModal.ok = function () {
 		$scope.$broadcast('documentUploadStart', false);
@@ -691,7 +736,7 @@ function filterRemoveExtension() {
 		if (input) {
 			// If there is no extension, just return the original.
 			var index = input.lastIndexOf(".");
-			if (index !== -1) {
+			if (index !== -1 && (index >= input.length-5)) {
 				var filename = input.substring(0, index);
 				return filename;
 			}
@@ -700,5 +745,26 @@ function filterRemoveExtension() {
 	};
 }
 
-
+filterDisplayFriendlyLocationCode.$inject = [];
+/* @ngInject */
+function filterDisplayFriendlyLocationCode() {
+	return function(input) {
+		var label = "";
+		switch (input) {
+			case 'main':
+				label = "Main Document";
+			break;
+			case 'supporting':
+				label = "Supporting Documents";
+			break;
+			case 'additional':
+				label = "Additional Documents";
+			break;
+			case 'internal':
+				label = "Internal Documents";
+			break;
+		}
+		return label;
+	};
+}
 
