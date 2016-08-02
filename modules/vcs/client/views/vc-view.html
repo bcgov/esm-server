@@ -3,8 +3,9 @@
 	<h1>Valued Component &nbsp;&rsaquo;&nbsp; {{vc.title}}</h1>
 	<div class="actions">
 		<button class="btn btn-default btn-sm"
-			ng-click="$event.stopPropagation()" 
-			x-mode="'edit'" 
+            ng-if="project.userCan.createValuedComponent"
+			ng-click="$event.stopPropagation()"
+			x-mode="'edit'"
 			ui-sref="p.vc.edit({vcId:vc._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span>
 		</button>
 		<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="vc"></tmpl-permissions-gear>

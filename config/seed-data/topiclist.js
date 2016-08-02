@@ -389,4 +389,116 @@ code:'heritage-palaeontological-resources',
 name:'Palaeontological resources',
 description:'Palaeontological resources'
 },
+{
+pillar:'Other',
+type:'Valued Component',
+code:'accidents-and-malfunctions',
+name:'Accidents and Malfunctions',
+description:'Accidents and Malfunctions'
+},
+{
+pillar:'Other',
+type:'Valued Component',
+code:'project-description-and-scope',
+name:'Project description and scope',
+description:'Project description and scope'
+},
+{
+pillar:'Other',
+type:'Valued Component',
+code:'environmental-management-plans-and-follow-up-programs',
+name:'Environmental Management Plans and Follow-up Programs',
+description:'Environmental Management Plans and Follow-up Programs'
+},
+{
+pillar:'Other',
+type:'Valued Component',
+code:'environmental-management-plans-and-follow-up-programs-climate-change',
+name:'Environmental Management Plans and Follow-up Programs - Climate change',
+description:'Environmental Management Plans and Follow-up Programs - Climate change'
+},
+{
+pillar:'Other',
+type:'Valued Component',
+code:'environmental-management-plans-and-follow-up-programs-extreme-weather-events',
+name:'Environmental Management Plans and Follow-up Programs - Extreme weather events',
+description:'Environmental Management Plans and Follow-up Programs - Extreme weather events'
+},
+{
+pillar:'Other',
+type:'Valued Component',
+code:'environmental-management-plans-and-follow-up-programs-seismic-activity',
+name:'Environmental Management Plans and Follow-up Programs - Seismic activity',
+description:'Environmental Management Plans and Follow-up Programs - Seismic activity'
+},
+{
+pillar:'Other',
+type:'Valued Component',
+code:'environmental-management-plans-and-follow-up-programs-forest-fires',
+name:'Environmental Management Plans and Follow-up Programs - Forest fires',
+description:'Environmental Management Plans and Follow-up Programs - Forest fires'
+},
+{
+pillar:'Requirements',
+type:'Valued Component',
+code:'environmental-effects-related-to-ceaa-2012-5-1-a',
+name:'Environmental effects related to CEAA 2012 5(1)(a)',
+description:'Environmental effects related to CEAA 2012 5(1)(a)'
+},
+{
+pillar:'Requirements',
+type:'Valued Component',
+code:'environmental-effects-related-to-ceaa-2012-5-1-b',
+name:'Environmental effects related to CEAA 2012 5(1)(b)',
+description:'Environmental effects related to CEAA 2012 5(1)(b)'
+},
+{
+pillar:'Requirements',
+type:'Valued Component',
+code:'environmental-effects-related-to-ceaa-2012-5-1-c',
+name:'Environmental effects related to CEAA 2012 5(1)(c)',
+description:'Environmental effects related to CEAA 2012 5(1)(c)'
+},
+{
+pillar:'Requirements',
+type:'Valued Component',
+code:'environmental-effects-related-to-ceaa-2012-5-1-c-i',
+name:'Environmental effects related to CEAA 2012 5(1)(c)(i)',
+description:'Environmental effects related to CEAA 2012 5(1)(c)(i)'
+},
+{
+pillar:'Requirements',
+type:'Valued Component',
+code:'environmental-effects-related-to-ceaa-2012-5-1-c-ii',
+name:'Environmental effects related to CEAA 2012 5(1)(c)(ii)',
+description:'Environmental effects related to CEAA 2012 5(1)(c)(ii)'
+},
+{
+pillar:'Requirements',
+type:'Valued Component',
+code:'environmental-effects-related-to-ceaa-2012-5-1-c-iii',
+name:'Environmental effects related to CEAA 2012 5(1)(c)(iii)',
+description:'Environmental effects related to CEAA 2012 5(1)(c)(iii)'
+},
+{
+pillar:'Requirements',
+type:'Valued Component',
+code:'environmental-effects-related-to-ceaa-2012-5-1-c-iv',
+name:'Environmental effects related to CEAA 2012 5(1)(c)(iv)',
+description:'Environmental effects related to CEAA 2012 5(1)(c)(iv)'
+},
+{
+pillar:'Requirements',
+type:'Valued Component',
+code:'ceaa-2012-5-2-requirements',
+name:'CEAA 2012 5(2) requirements',
+description:'CEAA 2012 5(2) requirements'
+},
+{
+pillar:'Requirements',
+type:'Valued Component',
+code:'species-at-risk-act-79-2-requirements',
+name:'Species at Risk Act 79(2) requirements',
+description:'Species at Risk Act 79(2) requirements'
+},
 ];

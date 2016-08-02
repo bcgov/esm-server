@@ -65,7 +65,9 @@ angular
 			'Economic',
 			'Social',
 			'Heritage',
-			'Health'
+			'Health',
+			'Other',
+			'Requirements'
 		]
 	)
 	.constant('VCTYPES',
@@ -79,7 +81,9 @@ angular
 			'Economic',
 			'Social',
 			'Heritage',
-			'Health'
+			'Health',
+			'Other',
+			'Requirements'
 		]
 	)
 	.constant('PROJECT_TYPES',
