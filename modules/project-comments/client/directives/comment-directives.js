@@ -62,7 +62,7 @@ angular.module ('comment')
 					s.totalRejected = result.totalRejected;
 					s.totalAssigned   = result.totalAssigned;
 					s.totalUnassigned = result.totalUnassigned;
-					s.tableParams   = new NgTableParams ({count:10, filter:currentFilter}, {dataset:result.data});
+					s.tableParams   = new NgTableParams ({count:10, filter:currentFilter, sorting: {dateAdded: 'desc'}}, {dataset:result.data});
 					$scope.$apply ();
 				});
 			};
@@ -73,7 +73,7 @@ angular.module ('comment')
 			// -------------------------------------------------------------------------
 			s.refreshPublic = function () {
 				CommentModel.getPublishedCommentsForPeriod ($scope.period._id).then (function (collection) {
-					s.tableParams = new NgTableParams ({count:50}, {dataset:collection});
+					s.tableParams = new NgTableParams ({count:50, sorting: {dateAdded: 'desc'}}, {dataset:collection});
 					$scope.$apply ();
 				});
 			};
@@ -86,7 +86,7 @@ angular.module ('comment')
 				CommentModel.getProponentCommentsForPeriod ($scope.period._id).then (function (result) {
 					s.totalAssigned   = result.totalAssigned;
 					s.totalUnassigned = result.totalUnassigned;
-					s.tableParams     = new NgTableParams ({count:50, filter:currentFilter}, {dataset:result.data});
+					s.tableParams     = new NgTableParams ({count:50, filter:currentFilter, sorting: {dateAdded: 'desc'}}, {dataset:result.data});
 					$scope.$apply ();
 				});
 			};
@@ -267,6 +267,7 @@ angular.module ('comment')
 
 							if (docCount === 0 ) {
 								// We don't need to do anything but add the comment.
+								// console.log("s.comment:", s.comment);
 								 CommentModel.add (s.comment)
 								.then (function (comment) {
 									s.step = 3;

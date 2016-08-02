@@ -33,23 +33,23 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'viewSchedule': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-				'listEnforcements': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-				'editSchedule': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
+				'viewSchedule': [],
+				'listEnforcements': [],
+				'editSchedule': [],
 				'listCommentPeriods': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 				'listDocuments': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-				'listProjectInvitations': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-				'listProjectComplaints': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-				'listProjectConditions': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-				'listInspectionReports': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
+				'listProjectInvitations': [],
+				'listProjectComplaints': [],
+				'listProjectConditions': [],
+				'listInspectionReports': [],
 				'listValuedComponents': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 				'listArtifacts': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd'],
 				'listUsers': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 				'viewEAOTombstone': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-				'uploadDocument': ['eao-admin', 'pro-admin', 'pro-member', 'lead', 'epd'],
-				'createProjectInvitation': ['eao-admin', 'pro-admin', 'pro-member'],
-				'createValuedComponent': ['eao-admin', 'lead', 'epd', 'pro-admin', 'pro-member'],
-				'createArtifact': ['eao-admin', 'pro-admin', 'pro-member', 'lead', 'epd'],
+				'uploadDocument': ['eao-admin', 'lead', 'epd'],
+				'createProjectInvitation': ['eao-admin'],
+				'createValuedComponent': ['eao-admin', 'lead', 'epd'],
+				'createArtifact': ['eao-admin', 'lead', 'epd'],
 				'editProject': ['eao-admin', 'lead', 'epd', 'intake'],
 				'createEnforcement': ['eao-admin'],
 				'createCommentPeriod': ['eao-admin', 'lead', 'epd'],
@@ -68,7 +68,7 @@ module.exports = function () {
 			}
 		}
 	}));
-	
+
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'activity',
@@ -99,7 +99,7 @@ module.exports = function () {
 				'unPublish': ['eao-admin', 'lead', 'epd'],
 				'reject': ['eao-admin'],
 				'setPermissions': ['eao-admin'],
-				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd'],
+				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd', 'team'],
 				'write': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd'],
 				'delete': ['eao-admin']
 			}
@@ -139,7 +139,7 @@ module.exports = function () {
 				'setPermissions': ['eao-admin'],
 				'publish': ['eao-admin', 'lead', 'epd'],
 				'unPublish': ['eao-admin', 'lead', 'epd'],
-				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd'],
+				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd', 'team'],
 				'write': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member', 'lead', 'epd'],
 				'delete': ['eao-admin']
 			}
@@ -213,8 +213,8 @@ module.exports = function () {
 				'modifyName': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 				'modifyDescription': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 				'setPermissions': ['eao-admin'],
-				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-				'write': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
+				'read': ['eao-admin', 'eao-member', 'pro-admin'],
+				'write': ['eao-admin', 'eao-member', 'pro-admin'],
 				'delete': ['eao-admin']
 			}
 		}
@@ -242,8 +242,8 @@ module.exports = function () {
 				'publish': ['eao-admin', 'lead', 'epd'],
 				'unPublish': ['eao-admin', 'lead', 'epd'],
 				'setPermissions': ['eao-admin'],
-				'read': ['eao-admin', 'lead', 'epd', 'pro-member'],
-				'write': ['eao-admin', 'lead', 'epd'],
+				'read': ['eao-admin', 'eao-member', 'lead', 'epd', 'pro-admin'],
+				'write': ['eao-admin', 'lead', 'epd', 'pro-admin'],
 				'delete': ['eao-admin', 'lead', 'epd']
 			}
 		}
@@ -294,21 +294,21 @@ module.exports = function () {
 	}));
 	
 	var allProjectPermissions = [
-		'viewSchedule',
-		'editSchedule',
-		'listEnforcements',
+		//'viewSchedule',
+		//'editSchedule',
+		//'listEnforcements',
 		'createEnforcement',
 		'listCommentPeriods',
 		'createCommentPeriod',
 		'listDocuments',
 		'uploadDocument',
-		'listProjectInvitations',
+		//'listProjectInvitations',
 		'createProjectInvitation',
-		'listProjectComplaints',
+		//'listProjectComplaints',
 		'createProjectComplaint',
-		'listProjectConditions',
+		//'listProjectConditions',
 		'createProjectCondition',
-		'listInspectionReports',
+		//'listInspectionReports',
 		'createInspectionReport',
 		'listValuedComponents',
 		'createValuedComponent',
@@ -326,14 +326,14 @@ module.exports = function () {
 		'publishValuedComponents'
 	];
 	var readProjectPermissions = [
-		'viewSchedule',
-		'listEnforcements',
+		//'viewSchedule',
+		//'listEnforcements',
 		'listCommentPeriods',
 		'listDocuments',
-		'listProjectInvitations',
-		'listProjectComplaints',
-		'listProjectConditions',
-		'listInspectionReports',
+		//'listProjectInvitations',
+		//'listProjectComplaints',
+		//'listProjectConditions',
+		//'listInspectionReports',
 		'listProjectRoles',
 		'listValuedComponents',
 		'listArtifacts',
@@ -355,7 +355,7 @@ module.exports = function () {
 				'epd': ['editProject', 'createCommentPeriod', 'createValuedComponent', 'publishValuedComponents', 'uploadDocument'],
 				'intake': ['editProject', 'createRole', 'manageRoles', 'managePermissions', 'addUsersToContext'],
 				'lead': ['editProject', 'createCommentPeriod', 'createRole', 'manageRoles', 'managePermissions', 'addUsersToContext', 'createValuedComponent', 'publishValuedComponents', 'uploadDocument'],
-				'team': [],
+				'team': ['uploadDocument'],
 				'assistant-dm': [],
 				'assistant-dm-office': [],
 				'associate-dm': [],
@@ -374,18 +374,8 @@ module.exports = function () {
 			},
 			'pro-admin': {
 				'pro-admin': readProjectPermissions.concat([
-					'uploadDocument',
-					'createProjectInvitation',
-					'createValuedComponent',
-					'createArtifact',
-					'editProject'
 				]),
 				'pro-member': readProjectPermissions.concat([
-					'uploadDocument',
-					'createProjectInvitation',
-					'createValuedComponent',
-					'createArtifact',
-					'editProject'
 				]),
 				'pro-subconsultant': [],
 				'pro-invitee': []
