@@ -41,7 +41,7 @@
                         <!-- <ul><li ng-repeat="vc in o.topics">{{::vc}}</li></ul> -->
                     </td>
                     <td class="attachment-col" header-class="'attachment-col no-mobile'">
-                        <span class="glyphicon glyphicon-paperclip" ng-if="o.documents.length > 0" title="{{o.documents.length}} attachments available"></span>
+                        <span class="glyphicon glyphicon-paperclip hidden" ng-if="o.documents.length > 0" title="{{o.documents.length}} attachments available"></span>
                     </td>
                     <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" sortable="'dateAdded'">
                         {{o.dateAdded | date : format : timezone}}
