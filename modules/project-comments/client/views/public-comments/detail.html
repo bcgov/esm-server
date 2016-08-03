@@ -4,7 +4,7 @@
 	<button type="button" class="btn btn-default close" aria-label="Close" ng-click="s.cancel()">
 		<span aria-hidden="true">&times;</span>
 	</button>
-    <h3 class="modal-title">Public Comment</h3>
+    <h3 class="modal-title">Public Comment <span ng-if="authentication.user"> ({{s.comment.commentId}})</span></h3>
 </div>
 <div class="modal-body">
 

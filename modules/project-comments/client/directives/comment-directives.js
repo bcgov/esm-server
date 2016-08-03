@@ -26,6 +26,8 @@ angular.module ('comment')
 
 			var currentFilter;
 
+			$scope.authentication = Authentication;
+
 			$scope.$on('NEW_PUBLIC_COMMENT_ADDED', function (e, data) {
 				console.log('comment: ' + data.comment);
 

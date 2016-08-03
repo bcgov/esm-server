@@ -45,6 +45,10 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	valuedComponents : [{ type:'ObjectId', ref:'Vc' }],
 	pillars          : [String],
 	topics           : [String],
+
+	// ESM-431 - want each comment within a period to have a unique number (not guid)
+	//           for export and sorting
+	commentId: {type: Number},
 	// -------------------------------------------------------------------------
 	//
 	// for public comments
