@@ -19,12 +19,25 @@ angular.module ('comment')
 		restrict: 'E',
 		templateUrl : 'modules/project-comments/client/views/public-comments/list.html',
 		controllerAs: 's',
-		controller: function ($rootScope, $scope, NgTableParams, Authentication, CommentModel, UserModel) {
+		controller: function ($rootScope, $scope, NgTableParams, Authentication, CommentModel, UserModel, _) {
 			var s       = this;
 			var project = s.project = $scope.project;
 			var period  = s.period  = $scope.period;
 
 			var currentFilter;
+			s.topicsArray = [];
+			s.pillarsArray = [];
+
+			var refreshFilterArrays = function(data) {
+				var allTopics = [];
+				var allPillars = [];
+				_.forEach(data, function(item) {
+					allTopics = allTopics.concat(item.topics);
+					allPillars = allPillars.concat(item.pillars);
+				});
+				_.forEach(_.uniq(allTopics), function(item) { s.topicsArray.push({id: item, title: item}); });
+				_.forEach(_.uniq(allPillars), function(item) { s.pillarsArray.push({id: item, title: item}); });
+			};
 
 			$scope.authentication = Authentication;
 
@@ -65,6 +78,7 @@ angular.module ('comment')
 					s.totalAssigned   = result.totalAssigned;
 					s.totalUnassigned = result.totalUnassigned;
 					s.tableParams   = new NgTableParams ({count:10, filter:currentFilter, sorting: {dateAdded: 'desc'}}, {dataset:result.data});
+					refreshFilterArrays(result.data);
 					$scope.$apply ();
 				});
 			};
@@ -76,6 +90,7 @@ angular.module ('comment')
 			s.refreshPublic = function () {
 				CommentModel.getPublishedCommentsForPeriod ($scope.period._id).then (function (collection) {
 					s.tableParams = new NgTableParams ({count:50, sorting: {dateAdded: 'desc'}}, {dataset:collection});
+					refreshFilterArrays(collection);
 					$scope.$apply ();
 				});
 			};
@@ -89,6 +104,7 @@ angular.module ('comment')
 					s.totalAssigned   = result.totalAssigned;
 					s.totalUnassigned = result.totalUnassigned;
 					s.tableParams     = new NgTableParams ({count:50, filter:currentFilter, sorting: {dateAdded: 'desc'}}, {dataset:result.data});
+					refreshFilterArrays(result.data);
 					$scope.$apply ();
 				});
 			};

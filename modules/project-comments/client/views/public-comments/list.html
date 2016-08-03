@@ -34,11 +34,11 @@
                     <td class="location-col no-mobile" header-class="'location-col no-mobile'" data-title="'Location'" filter="{'location':'text'}" sortable="'location'">
                         {{ ::o.location }}
                     </td>
-                    <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillars'" filter="{'pillars':'text'}" sortable="'pillars'">
+                    <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillars'" filter="{pillars:'select'}" filter-data="s.pillarsArray" sortable="'pillars'">
                         <span class="tag-list">{{o.pillars.join (', ')}}</span>
                         <!-- <ul><li ng-repeat="pillar in o.pillars">{{::pillar}}</li></ul> -->
                     </td>
-                    <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Components'" filter="{'topics':'text'}" sortable="'topics'">
+                    <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Components'" filter="{topics:'select'}" filter-data="s.topicsArray" sortable="'topics'">
                         <span class="tag-list">{{o.topics.join (', ')}}</span>
                         <!-- <ul><li ng-repeat="vc in o.topics">{{::vc}}</li></ul> -->
                     </td>
