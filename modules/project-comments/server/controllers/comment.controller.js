@@ -16,7 +16,9 @@ module.exports = DBModel.extend ({
 	name : 'Comment',
 	plural: 'comments',
 	// populate : [{ path:'user', select:'_id displayName username orgCode'}, {path: 'valuedComponents', select: 'name'}],
-	populate : [{ path:'user', select:'_id displayName username orgCode'},{ path:'updatedBy', select:'_id displayName username orgCode'}],
+	populate : [{ path:'user', select:'_id displayName username orgCode'},
+				{ path:'updatedBy', select:'_id displayName username orgCode'},
+				{ path:'documents', select:'_id eaoStatus'}],
 	// -------------------------------------------------------------------------
 	//
 	// since public users may be saving comments we should temprarily allow
