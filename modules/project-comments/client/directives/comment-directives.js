@@ -61,7 +61,8 @@ angular.module ('comment')
 				angular.extend(s.tableParams.filter(), currentFilter);
 			};
 			s.toggleP = function (v) {
-				currentFilter = {proponentStatus:v};
+				var filter = v === 'Unclassified' ? 0 : 1;
+				currentFilter = {proponentFilter: filter};
 				angular.extend(s.tableParams.filter(), currentFilter);
 			};
 			// -------------------------------------------------------------------------
@@ -101,6 +102,8 @@ angular.module ('comment')
 			// -------------------------------------------------------------------------
 			s.refreshProponent = function () {
 				CommentModel.getProponentCommentsForPeriod ($scope.period._id).then (function (result) {
+					// filters find classified in unclassified by default, just create a numeric field for filtering...
+					_.forEach(result.data, function(o) { o.proponentFilter = o.proponentStatus === 'Unclassified' ? 0 : 1; });
 					s.totalAssigned   = result.totalAssigned;
 					s.totalUnassigned = result.totalUnassigned;
 					s.tableParams     = new NgTableParams ({count:50, filter:currentFilter, sorting: {dateAdded: 'desc'}}, {dataset:result.data});
@@ -187,7 +190,7 @@ angular.module ('comment')
 					},
 				})
 				.result.then (function (data) {
-					console.log ('result:', data);
+					//console.log ('result:', data);
 					data.proponentStatus = (data.pillars.length > 0) ? 'Classified' : 'Unclassified';
 					Promise.resolve()
 					.then(function() {
@@ -214,7 +217,7 @@ angular.module ('comment')
 				s.refreshEao ();
 			}
 			else if (period.userCan.classifyComments) {
-				currentFilter = {proponentStatus:'Unclassified'};
+				currentFilter = {proponentFilter: 0}; //Unclassified
 				s.refreshProponent ();
 			}
 			else {
