@@ -39,99 +39,29 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 		// add a phase, form a base phase, to a project. All ancenstors get copied
 		//
 		// -------------------------------------------------------------------------
-		addPhase: function (basePhaseId) {
-			var self = this;
-			return new Promise (function (resolve, reject) {
-				self.put ('/api/project/'+self.model._id+'/add/phase/'+basePhaseId, {})
-				.then (function (res) {
-					self.model = res;
-					self.modelIsNew = false;
-					resolve (res);
-				}).catch (reject);
-			});
+		addPhase: function (project, basePhaseId) {
+			return this.put ('/api/project/' + project._id + '/add/phase/' + basePhaseId, {});
 		},
 		removePhase: function(project, phase) {
-			var self = this;
-			return new Promise (function (resolve, reject) {
-				var phaseIndex = _.findIndex(project.phases, function(p) { return p._id === phase._id; });
-
-				// Decrement currentPhase if current deleted.
-				if (!project.currentPhase || project.currentPhase._id === phase._id) {
-					var prevIndex = phaseIndex - 1;
-					project.currentPhase = project.phases[prevIndex];
-					project.currentPhaseCode = project.phases[prevIndex].code;
-					project.currentPhaseName = project.phases[prevIndex].name;
-				}
-
-				// Remove phase reference.
-				project.phases.splice(phaseIndex, 1);
-
-				self.save (project)
-					.then (function (res) {
-						resolve (res);
-					})
-					.catch (reject);
-			});
+			return this.put ('/api/project/' + project._id + '/remove/phase/' + phase._id, {});
 		},
-		completePhase: function (project) {
-			if (this.model._id !== project) this.setModel (project);
-			return this.modPhase ('complete');
+		completePhase: function (project, phase) {
+			return this.put ('/api/project/' + project._id + '/complete/phase/' + phase._id, {});
 		},
-		nextPhase: function (project) {
-			if (this.model._id !== project) this.setModel (project);
-			// var i = 0;
-			// while (project.currentPhase._id !== project.phases[i]._id) i++ ;
-			// return this.modPhase (project.phases[++i]._id, 'start');
-			return this.modPhase ('start');
+		uncompletePhase: function (project, phase) {
+			return this.put ('/api/project/' + project._id + '/uncomplete/phase/' + phase._id, {});
+		},
+		startNextPhase: function (project) {
+			return this.put ('/api/project/' + project._id + '/start/next/phase', {});
 		},
 		publishProject: function (project) {
-			if (this.model._id !== project) this.setModel (project);
-			return this.publish (true);
+			return this.put ('/api/project/' + project._id + '/publish', {});
 		},
-		// -------------------------------------------------------------------------
-		//
-		// start or stop a phase
-		//
-		// -------------------------------------------------------------------------
-		modPhase : function (method) {
-			var self = this;
-			var url ='/api/project/'+self.model._id;
-			if (method === 'complete') url += '/complete/current/phase';
-			else if (method === 'start') url += '/start/next/phase';
-			return new Promise (function (resolve, reject) {
-				self.put (url, self.model)
-				.then (function (res) {
-					self.model = res;
-					self.modelIsNew = false;
-					resolve (res);
-				}).catch (reject);
-			});
+		unpublishProject: function (project) {
+			return this.put ('/api/project/' + project._id + '/unpublish', {});
 		},
-		// -------------------------------------------------------------------------
-		//
-		// publish this project, make it publicly viewable
-		//
-		// -------------------------------------------------------------------------
-		publish: function (willPublish) {
-			var self = this;
-			var url ='/api/project/'+self.model._id;
-			url += willPublish ? '/publish' : '/unpublish';
-			return new Promise (function (resolve, reject) {
-				self.put (url, self.model)
-				.then (function (res) {
-					self.model = res;
-					self.modelIsNew = false;
-					resolve (res);
-				}).catch (reject);
-			});
-		},
-		// -------------------------------------------------------------------------
-		//
-		// submit a project
-		//
-		// -------------------------------------------------------------------------
-		submit: function () {
-			return this.put ('/api/project/'+this.model._id+'/submit', this.model);
+		submit: function (project) {
+			return this.put ('/api/project/' + project._id + '/submit', {});
 		},
 		// -------------------------------------------------------------------------
 		//
@@ -195,7 +125,7 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 					"type":"smalltext"
 				}
 			];
-		},
+		}
 	});
 	return new ProjectClass ();
 });

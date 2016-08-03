@@ -15,7 +15,7 @@
 	<div class="panel-group" id="projectPhases" role="tablist" aria-multiselectable="true">
 
 		<!-- BEGIN: PROJECT PHASE CONTAINER -->
-		<div class="panel panel-default accordion" id="phaseGroup" ng-repeat="phase in rPhases | orderBy:'order'">
+		<div class="panel panel-default accordion" id="phaseGroup" ng-repeat="phase in project.phases">
 			<div class="panel-heading" role="tab">
 				<a class="clearfix" role="button" data-toggle="collapse" href="#{{phase.code}}" aria-expanded="true" aria-controls="{{phase.code}}">
 					<span class="glyphicon glyphicon-triangle-right pull-left"></span>
@@ -55,11 +55,14 @@
 									data-backdrop="false"
 									data-target="#editPhaseDetail"><span class="glyphicon glyphicon-pencil"></span><span>Edit Phase</span></button>
 							<button class="btn btn-primary btn-sm"
-									ng-click="completeCurrentPhase(project)"
-									ng-if="canCompletePhase(phase)"
-									data-toggle="modal"
-									data-backdrop="false"
-									data-target="#completePhaseModal">Complete Phase</button>
+									ng-click="completePhase(phase)"
+									ng-if="phase.code === project.currentPhase.code && !project.currentPhase.completed">Complete Phase</button>
+              <button class="btn btn-primary btn-sm"
+                  ng-click="selectPhase(phase)"
+                  ng-if="phase.status === 'Complete'"
+                  data-toggle="modal"
+                  data-backdrop="false"
+                  data-target="#uncompletePhaseModal">Uncomplete Phase</button>
 							<button class="btn btn-primary btn-sm"
 									ng-click="startNextPhase(project)"
 									ng-if="isNextPhase(phase._id)"
@@ -146,6 +149,28 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- DELETE PHASE MODAL -->
+
+<!-- UNCOMPLETE PHASE MODAL -->
+<div class="modal fade" id="uncompletePhaseModal" role="dialog" tabindex="-1">
+  <div class="modal-dialog add-phase-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title">Uncomplete Phase &nbsp;&rsaquo;&nbsp; {{selectedPhase.name}}</h3>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to uncomplete this phase?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button ng-click="uncompletePhase(selectedPhase)" type="button" class="btn btn-danger" data-dismiss="modal">Uncomplete</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- UNCOMPLETE PHASE MODAL -->
 
 <!-- EDIT MILESTONE MODAL -->
 <div class="modal fade" id="editPhaseDetail" role="dialog" tabindex="-1">

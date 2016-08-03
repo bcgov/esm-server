@@ -201,6 +201,18 @@ module.exports = DBModel.extend ({
 			});
 		});
 	},
+	uncomplete: function (phase) {
+		var self = this;
+		return self.findById(phase)
+				.then(function (phase) {
+					phase.status = 'In Progress';
+					phase.completed = false;
+					phase.completedBy = null;
+					phase.dateCompleted = null;
+					phase.progress = 50; //TODO: What value to use?
+					return self.findAndUpdate(phase);
+				});
+	},
 	// -------------------------------------------------------------------------
 	//
 	// override a phase, we assume that the reason was already entered

@@ -179,65 +179,70 @@ module.exports = DBModel.extend ({
 	// Add a phase to the project from a code
 	//
 	// -------------------------------------------------------------------------
-	addPhase: function (project, basecode) {
-		var self = this;
-		var Phase = new PhaseClass (self.opts);
-		return new Promise (function (resolve, reject) {
-			//
-			// get the new phase
-			//
-			Phase.fromBase (basecode, project)
-			.then (function (phase) {
+	addPhase: function (project, baseCode) {
+		var Phase = new PhaseClass (this.opts);
+		var phases;
+
+		// Load all phases.
+		return PhaseBaseClass.list()
+			.then(function(allPhases) {
+				phases = allPhases;
+				// Initialize new Phase.
+				return Phase.fromBase(baseCode, project);
+			})
+			.then(function (phase) {
 				// console.log ('new phase', phase.name, phase._id);
-				project.phases.push (phase);
+				// Find correct ordering of new phase.
+				var insertIndex = _.sortedIndex(project.phases, phase,
+					function (p) {
+						return _.findIndex(phases, { code: p.code });
+					});
+				console.log("new phase inserted at: " + insertIndex);
+				project.phases.splice(insertIndex, 0, phase);
+				console.log(project.phases);
 				return project;
-			})
-			.then (self.saveDocument)
-			.then (function (pro) {
+			});
+			//.then(self.saveDocument)
+			// .then(function (pro) {
 				// console.log ('pro.phases:', JSON.stringify (pro.phases, null, 4));
-				return pro;
-			})
-			.then (resolve, reject);
-		});
+				// return pro;
+			// });
 	},
 	// -------------------------------------------------------------------------
 	//
-	// set a project to submitted
+	// Remove a phase from the project
 	//
 	// -------------------------------------------------------------------------
-	submit: function (project) {
+	removePhase: function (projectId, phaseId) {
 		var self = this;
-		return new Promise (function (resolve, reject) {
-			//
-			// set the status to submitted
-			//
-			project.status = 'Submitted';
-			//
-			// select the right sector lead role
-			//
-			project.sectorRole = project.type.toLowerCase ();
-			project.sectorRole = project.sectorRole.replace (/\W/g,'-');
-			project.sectorRole = project.sectorRole.replace (/-+/,'-');
-			self.saveDocument (project).then (function (p) {
-				//
-				// add the project to the roles and the roles to the project
-				// this is where the project first becomes visible to EAO
-				// through the project admin role and the sector lead role
-				// (we dont wait on the promise here, just trust it)
-				//
-				//
-				// TBD ROLES
-				//
-				return p;
-				// return Roles.objectRoles ({
-				// 	method      : 'add',
-				// 	objects     : p,
-				// 	type        : 'projects',
-				// 	permissions : {submit : [p.adminRole, p.sectorRole]}
-				// });
+		var Phase = new PhaseClass (this.opts);
+
+		return Phase.findById(phaseId)
+			.then(function (phase) {
+				// Remove phase model.
+				return Phase.delete(phase);
 			})
-			.then (resolve, reject);
-		});
+			.then(function() {
+				return self.findById(projectId);
+			})
+			.then(function(project) {
+				var phaseIndex = _.findIndex(project.phases, function (p) {
+					return p._id.equals(phaseId);
+				});
+				// Decrement currentPhase if current deleted.
+				if (!project.currentPhase || project.currentPhase._id.equals(phaseId)) {
+					var prevIndex = phaseIndex - 1;
+					project.currentPhase = project.phases[prevIndex];
+					project.currentPhaseCode = project.phases[prevIndex].code;
+					project.currentPhaseName = project.phases[prevIndex].name;
+				}
+
+				// Remove phase reference.
+				project.phases.splice(phaseIndex, 1);
+
+				return project;
+			})
+			.then(self.updateCurrentPhaseAndSave);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -245,23 +250,35 @@ module.exports = DBModel.extend ({
 	// current but leaves it as the current phase)
 	//
 	// -------------------------------------------------------------------------
-	completeCurrentPhase: function (project) {
+	completePhase: function (projectId, phaseId) {
 		var self = this;
-		return new Promise (function (resolve, reject) {
-			if (!project.currentPhase) resolve (project);
-			else {
-				var Phase = new PhaseClass (self.opts);
-				Phase.findById(project.currentPhase)
-				.then(function (phase) {
-					return Phase.complete (phase);
-				})
-				.then (function () {
-					// This is where we should re-get the project and resolve/return it back
-					resolve (self.findOne({_id: project._id}));
-				})
-				.catch (reject);
-			}
-		});
+		var Phase = new PhaseClass(self.opts);
+		return Phase.findById(phaseId)
+			.then(function (phase) {
+				return Phase.complete(phase);
+			})
+			.then(function () {
+				return self.findById(projectId);
+			})
+			.then (self.updateCurrentPhaseAndSave);
+	},
+	// -------------------------------------------------------------------------
+	//
+	// complete the current phase (does not start the next, just completes the
+	// current but leaves it as the current phase)
+	//
+	// -------------------------------------------------------------------------
+	uncompletePhase: function (projectId, phaseId) {
+		var self = this;
+		var Phase = new PhaseClass(self.opts);
+		return Phase.findById(phaseId)
+			.then(function (phase) {
+				return Phase.uncomplete(phase);
+			})
+			.then(function () {
+				return self.findById(projectId);
+			})
+			.then (self.updateCurrentPhaseAndSave);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -269,33 +286,92 @@ module.exports = DBModel.extend ({
 	// it first)
 	//
 	// -------------------------------------------------------------------------
-	startNextPhase : function (project) {
+	startNextPhase: function (projectId) {
 		var self = this;
-		return new Promise (function (resolve, reject) {
-			if (!project.currentPhase) resolve (project);
-			else {
-				var Phase = new PhaseClass (self.opts);
+
+		console.log('projectId: ' + projectId);
+
+		return self.findById(projectId)
+			.then(function(project) {
+				if (!project.currentPhase) {
+					return project;
+				}
 				//
 				// this is a no-op if the phase is already completed so its ok
 				//
-				Phase.complete (project.currentPhase)
-				.then (function () {
-					var nextIndex = _.findIndex(project.phases, function(phase) { return phase._id.toString() === project.currentPhase._id.toString(); }) + 1;
+				var Phase = new PhaseClass(self.opts);
+				return Phase.complete(project.currentPhase)
+					.then(function () {
+						var nextIndex = _.findIndex(project.phases, function (phase) {
+								return phase._id.equals(project.currentPhase._id);
+							}) + 1;
 
-					project.currentPhase     = project.phases[nextIndex];
-					project.currentPhaseCode = project.phases[nextIndex].code;
-					project.currentPhaseName = project.phases[nextIndex].name;
-					return Phase.start (project.currentPhase);
-				})
-				.then (function () {
-					return self.saveAndReturn (project)
-						.then(function(res) {
-							resolve(res);
-						});
-				})
-				.catch (reject);
-			}
+						project.currentPhase = project.phases[nextIndex];
+						project.currentPhaseCode = project.phases[nextIndex].code;
+						project.currentPhaseName = project.phases[nextIndex].name;
+						return Phase.start(project.currentPhase);
+					})
+					.then(function () {
+						return self.saveAndReturn(project);
+					});
+			});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// set a project to submitted
+	//
+	// -------------------------------------------------------------------------
+	submit: function (project) {
+		project.status = 'Submitted';
+		//
+		// select the right sector lead role
+		//
+		project.sectorRole = project.type.toLowerCase ();
+		project.sectorRole = project.sectorRole.replace (/\W/g,'-');
+		project.sectorRole = project.sectorRole.replace (/-+/,'-');
+		return this.saveDocument (project).then (function (p) {
+			//
+			// add the project to the roles and the roles to the project
+			// this is where the project first becomes visible to EAO
+			// through the project admin role and the sector lead role
+			// (we dont wait on the promise here, just trust it)
+			//
+			//
+			// TBD ROLES
+			//
+			return p;
+			// return Roles.objectRoles ({
+			// 	method      : 'add',
+			// 	objects     : p,
+			// 	type        : 'projects',
+			// 	permissions : {submit : [p.adminRole, p.sectorRole]}
+			// });
 		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// publish, unpublish
+	//
+	// -------------------------------------------------------------------------
+	updateCurrentPhaseAndSave: function (project) {
+		for (var i = 0; i < project.phases.length - 1; ++i) {
+			var curr = project.phases[i];
+			var next = project.phases[i + 1];
+
+			if (curr.status === 'In Progress') {
+				break;
+			}
+
+			if (curr.status === 'Complete' && next.status === 'Not Started') {
+				break;
+			}
+		}
+
+		project.currentPhase = project.phases[i];
+		project.currentPhaseCode = project.phases[i].code;
+		project.currentPhaseName = project.phases[i].name;
+
+		return this.saveAndReturn(project);
 	},
 	// -------------------------------------------------------------------------
 	//

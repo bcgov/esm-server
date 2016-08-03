@@ -13,44 +13,42 @@ var policy = require ('../../../core/server/controllers/core.policy.controller')
 module.exports = function (app) {
 	routes.setCRUDRoutes (app, 'project', Project, policy);
 	//
-	// set a project up from a stream
-	//
-	app.route ('/api/project/:project/set/stream/:stream')
-		.all (policy ('user'))
-		.put (routes.setAndRun (Project, function (model, req) {
-			return model.setStream (req.Project, req.Stream);
-		}));
-	//
 	// add a phase to a project (from base phase)
 	//
-	app.route ('/api/project/:project/add/phase/:phasebasecode')
+	app.route ('/api/project/:project/add/phase/:phaseBaseCode')
 		.all (policy ('user'))
 		.put (routes.setAndRun (Project, function (model, req) {
-			return model.addPhase (req.Project, req.params.phasebasecode);
+			return model.addPhase (req.params.project, req.params.phaseBaseCode);
 		}));
-	//
-	// set current phase
-	//
-	app.route ('/api/project/:project/set/phase/:phase')
+	// remove a phase from a project
+	app.route ('/api/project/:project/remove/phase/:phase')
 		.all (policy ('user'))
 		.put (routes.setAndRun (Project, function (model, req) {
-			return model.setPhase (req.Project, req.Phase);
+			return model.removePhase (req.params.project, req.params.phase);
 		}));
 	//
-	// set current phase
-	//
-	app.route ('/api/project/:project/complete/current/phase')
-		.all (policy ('user'))
-		.put (routes.setAndRun (Project, function (model, req) {
-			return model.completeCurrentPhase (req.Project);
-		}));
-	//
-	// set current phase
+	// start phase
 	//
 	app.route ('/api/project/:project/start/next/phase')
 		.all (policy ('user'))
 		.put (routes.setAndRun (Project, function (model, req) {
-			return model.startNextPhase (req.Project);
+			return model.startNextPhase (req.params.project);
+		}));
+	//
+	// complete phase
+	//
+	app.route ('/api/project/:project/complete/phase/:phase')
+		.all (policy ('user'))
+		.put (routes.setAndRun (Project, function (model, req) {
+			return model.completePhase (req.params.project, req.params.phase);
+		}));
+	//
+	// uncomplete phase
+	//
+	app.route ('/api/project/:project/uncomplete/phase/:phase')
+		.all (policy ('user'))
+		.put (routes.setAndRun (Project, function (model, req) {
+			return model.uncompletePhase (req.params.project, req.params.phase);
 		}));
 	//
 	// get all projects in certain statuses
@@ -76,17 +74,17 @@ module.exports = function (app) {
 	app.route ('/api/project/:project/publish')
 		.all (policy ('user'))
 		.put (routes.setAndRun (Project, function (model, req) {
-			return model.publish (req.Project, true);
+			return model.publish (req.params.Project, true);
 		}));
 	app.route ('/api/project/:project/unpublish')
 		.all (policy ('user'))
 		.put (routes.setAndRun (Project, function (model, req) {
-			return model.publish (req.Project, false);
+			return model.publish (req.params.Project, false);
 		}));
 	app.route ('/api/project/:project/submit')
 		.all (policy ('user'))
 		.put (routes.setAndRun (Project, function (model, req) {
-			return model.submit (req.Project);
+			return model.submit (req.params.Project);
 		}));
 	app.route ('/api/project/bycode/:projectcode')
 		.all (policy ('guest'))
