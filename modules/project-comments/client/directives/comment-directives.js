@@ -19,12 +19,27 @@ angular.module ('comment')
 		restrict: 'E',
 		templateUrl : 'modules/project-comments/client/views/public-comments/list.html',
 		controllerAs: 's',
-		controller: function ($rootScope, $scope, NgTableParams, Authentication, CommentModel, UserModel) {
+		controller: function ($rootScope, $scope, NgTableParams, Authentication, CommentModel, UserModel, _) {
 			var s       = this;
 			var project = s.project = $scope.project;
 			var period  = s.period  = $scope.period;
 
 			var currentFilter;
+			s.topicsArray = [];
+			s.pillarsArray = [];
+
+			var refreshFilterArrays = function(data) {
+				var allTopics = [];
+				var allPillars = [];
+				_.forEach(data, function(item) {
+					allTopics = allTopics.concat(item.topics);
+					allPillars = allPillars.concat(item.pillars);
+				});
+				_.forEach(_.uniq(allTopics), function(item) { s.topicsArray.push({id: item, title: item}); });
+				_.forEach(_.uniq(allPillars), function(item) { s.pillarsArray.push({id: item, title: item}); });
+			};
+
+			$scope.authentication = Authentication;
 
 			$scope.$on('NEW_PUBLIC_COMMENT_ADDED', function (e, data) {
 				console.log('comment: ' + data.comment);
@@ -46,7 +61,8 @@ angular.module ('comment')
 				angular.extend(s.tableParams.filter(), currentFilter);
 			};
 			s.toggleP = function (v) {
-				currentFilter = {proponentStatus:v};
+				var filter = v === 'Unclassified' ? 0 : 1;
+				currentFilter = {proponentFilter: filter};
 				angular.extend(s.tableParams.filter(), currentFilter);
 			};
 			// -------------------------------------------------------------------------
@@ -62,7 +78,8 @@ angular.module ('comment')
 					s.totalRejected = result.totalRejected;
 					s.totalAssigned   = result.totalAssigned;
 					s.totalUnassigned = result.totalUnassigned;
-					s.tableParams   = new NgTableParams ({count:10, filter:currentFilter}, {dataset:result.data});
+					s.tableParams   = new NgTableParams ({count:10, filter:currentFilter, sorting: {dateAdded: 'desc'}}, {dataset:result.data});
+					refreshFilterArrays(result.data);
 					$scope.$apply ();
 				});
 			};
@@ -72,8 +89,20 @@ angular.module ('comment')
 			//
 			// -------------------------------------------------------------------------
 			s.refreshPublic = function () {
-				CommentModel.getPublishedCommentsForPeriod ($scope.period._id).then (function (collection) {
-					s.tableParams = new NgTableParams ({count:50}, {dataset:collection});
+				CommentModel.getPublishedCommentsForPeriod ($scope.period._id)
+				.then (function (collection) {
+					_.each(collection, function (item) {
+						var publishedCount = 0;
+						_.each(item.documents, function (doc) {
+							if (doc.eaoStatus === 'Published') {
+								publishedCount++;
+							}
+						});
+						item.publishedDocumentCount = publishedCount;
+					});
+
+					s.tableParams = new NgTableParams ({count:50, sorting: {dateAdded: 'desc'}}, {dataset:collection});
+					refreshFilterArrays(collection);
 					$scope.$apply ();
 				});
 			};
@@ -84,9 +113,12 @@ angular.module ('comment')
 			// -------------------------------------------------------------------------
 			s.refreshProponent = function () {
 				CommentModel.getProponentCommentsForPeriod ($scope.period._id).then (function (result) {
+					// filters find classified in unclassified by default, just create a numeric field for filtering...
+					_.forEach(result.data, function(o) { o.proponentFilter = o.proponentStatus === 'Unclassified' ? 0 : 1; });
 					s.totalAssigned   = result.totalAssigned;
 					s.totalUnassigned = result.totalUnassigned;
-					s.tableParams     = new NgTableParams ({count:50, filter:currentFilter}, {dataset:result.data});
+					s.tableParams     = new NgTableParams ({count:50, filter:currentFilter, sorting: {dateAdded: 'desc'}}, {dataset:result.data});
+					refreshFilterArrays(result.data);
 					$scope.$apply ();
 				});
 			};
@@ -117,6 +149,7 @@ angular.module ('comment')
 						self.comment.documents 	= angular.copy(docs);
 
 						self.canUpdate = (self.period.userCan.classifyComments || self.period.userCan.vetComments);
+						self.rejectedReasons = ['', 'Unsuitable Language', 'Quoting Third Parties', 'Petitions', 'Personally Identifying Information'];
 
 						self.showAlert = false;
 						if (self.period.userCan.vetComments && self.comment.eaoStatus !== 'Unvetted') {
@@ -168,7 +201,7 @@ angular.module ('comment')
 					},
 				})
 				.result.then (function (data) {
-					console.log ('result:', data);
+					//console.log ('result:', data);
 					data.proponentStatus = (data.pillars.length > 0) ? 'Classified' : 'Unclassified';
 					Promise.resolve()
 					.then(function() {
@@ -195,7 +228,7 @@ angular.module ('comment')
 				s.refreshEao ();
 			}
 			else if (period.userCan.classifyComments) {
-				currentFilter = {proponentStatus:'Unclassified'};
+				currentFilter = {proponentFilter: 0}; //Unclassified
 				s.refreshProponent ();
 			}
 			else {
@@ -266,6 +299,7 @@ angular.module ('comment')
 
 							if (docCount === 0 ) {
 								// We don't need to do anything but add the comment.
+								// console.log("s.comment:", s.comment);
 								 CommentModel.add (s.comment)
 								.then (function (comment) {
 									s.step = 3;

@@ -3,15 +3,15 @@
 <!-- LEFT PANEL -->
 <aside class="left-panel hidden">
     <tmpl-system-menu x-menu-context="'mylist'"></tmpl-system-menu>
-</aside> 
+</aside>
 
 <!-- MAIN PANEL -->
 <div class="main-panel">
 
     <div class="view-title-container flex-row">
-        <h1>Dashboard</h1>    
+        <h1>Dashboard</h1>
         <div class="actions">
-            <a ui-sref="p.edit({projectid:'new'})" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add New Project</span></a>
+            <a ng-show="application.userCan.createProject" ui-sref="p.edit({projectid:'new'})" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add New Project</span></a>
         </div>
     </div>
 

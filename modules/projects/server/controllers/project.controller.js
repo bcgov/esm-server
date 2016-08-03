@@ -46,6 +46,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	preprocessAdd : function (project) {
+		//console.log('project.preprocessAdd project = ' + JSON.stringify(project, null, 4));
 		var self = this;
 		var rolePrefix;
 		var adminSuffix = ':admin';
@@ -56,6 +57,12 @@ module.exports = DBModel.extend ({
 		//
 		// return a promise, we have lots of work to do
 		//
+		if (_.isEmpty(project.shortName)) {
+			project.shortName = project.name.toLowerCase ();
+			project.shortName = project.shortName.replace (/\W/g,'-');
+			project.shortName = project.shortName.replace (/-+/,'-');
+		}
+
 		return new Promise (function (resolve, reject) {
 			//
 			// first generate a project code that can be used internally
@@ -149,13 +156,6 @@ module.exports = DBModel.extend ({
 			.then (resolve, reject);
 		});
 	},
-	preprocessUpdate : function (project) {
-		console.log('project.preprocessUpdate. ' + JSON.stringify(project, null, 4));
-	},
-	postprocessUpdate : function (project) {
-	var self = this;
-	console.log('project.postprocessUpdate. ' + JSON.stringify(project, null, 4));
-},
 	// -------------------------------------------------------------------------
 	//
 	// build a permission set from the default eao and proponent roles for the
@@ -439,9 +439,12 @@ module.exports = DBModel.extend ({
 		};
 
 		var getMyProjects = function(roles) {
-			var projectCodes = _.uniq(_.map (roles, 'context'));
+			var projectIds = _.uniq(_.map (roles, 'context'));
+			// don't want to query for 'application', it's not a project id...
+			_.remove(projectIds, function(o) { return o === 'application'; } );
+
 			var q = {
-				code: { "$in": projectCodes },
+				_id: { "$in": projectIds },
 				dateCompleted: { "$eq": null }
 			};
 			return self.listforaccess ('i do not want to limit my access', q, { _id: 1, code: 1, name: 1, region: 1, status: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1 }, 'currentPhase', 'name');

@@ -92,6 +92,7 @@ angular.module ('vcs')
 					m.project = $scope.project;
 					m.name = obj.name;
 					m.title = obj.name;
+					m.pillar = obj.pillar;
 					m.type = obj.type;
 					VcModel.query({project: $scope.project})
 					.then(function(data) {

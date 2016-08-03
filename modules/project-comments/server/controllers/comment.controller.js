@@ -16,7 +16,9 @@ module.exports = DBModel.extend ({
 	name : 'Comment',
 	plural: 'comments',
 	// populate : [{ path:'user', select:'_id displayName username orgCode'}, {path: 'valuedComponents', select: 'name'}],
-	populate : [{ path:'user', select:'_id displayName username orgCode'},{ path:'updatedBy', select:'_id displayName username orgCode'}],
+	populate : [{ path:'user', select:'_id displayName username orgCode'},
+				{ path:'updatedBy', select:'_id displayName username orgCode'},
+				{ path:'documents', select:'_id eaoStatus'}],
 	// -------------------------------------------------------------------------
 	//
 	// since public users may be saving comments we should temprarily allow
@@ -34,6 +36,7 @@ module.exports = DBModel.extend ({
 			//
 			commentPeriod.findById(comment.period)
 				.then(function (period) {
+					console.log('period = ' + JSON.stringify(period, null, 4));
 					//
 					// ROLES
 					//
@@ -49,15 +52,18 @@ module.exports = DBModel.extend ({
 					});
 				})
 				.then(function (commentPermissions) {
+					//console.log('commentPermissions = ' + JSON.stringify(commentPermissions, null, 4));
 					// get all the associated documents and update their permissions as required.
 					return new Promise(function (resolve, reject) {
-						documentClass.getList(comment.documents)
+						var q = {_id : {$in : comment.documents }};
+						documentClass.listforaccess ('i do not want to limit my access because public people add comments with docs too.', q)
 							.then(function (data) {
 								resolve({commentPermissions: commentPermissions, docs: data});
 							});
 					});
 				})
 				.then(function (data) {
+					//console.log('data = ' + JSON.stringify(data, null, 4));
 					var commentPermissions = data.commentPermissions;
 					var docs = data.docs;
 					return docs.reduce(function (current, doc, index) {
@@ -70,7 +76,26 @@ module.exports = DBModel.extend ({
 						});
 					}, Promise.resolve());
 				})
-				.then(function () {
+				.then(function() {
+					// get the max commentId for the period...
+					return new Promise(function(resolve, reject) {
+						self.model
+							 .find({period : comment.period})
+							 .sort({commentId : -1})
+							 .limit(1).exec(function(err, maxResult) {
+							 	if (maxResult && maxResult.length === 1) {
+									var commentId = maxResult[0].commentId + 1;
+									resolve(commentId);
+								} else if(!err) {
+									resolve(1);
+								} else {
+									reject(new Error(err));
+								}
+						});
+					});
+				})
+				.then(function(cId) {
+					comment.commentId = cId;
 					return comment;
 				})
 				.then(resolve, reject);

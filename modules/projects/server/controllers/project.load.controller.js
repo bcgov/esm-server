@@ -27,125 +27,131 @@ module.exports = function(file, req, res, opts) {
 			var finalPhaseCode = phase.toLowerCase().replace (/\W+/g,'-');
 			var stopProcessing = false;
 			// This is a really horrible way to do this, but it's good enough for now.
-			return new Promise(function (rs,rj) {
+			return new Promise(function(rs, rj) {
 				if (finalPhaseCode === "intake") {
-					return project;
-				} else {
-					(new Project(opts)).addPhase(project, "pre-ea")
-					.then(function (p) {
-						return (new Project(opts)).addPhase(p, "pre-app");
+					rs(project);
+				} else if (finalPhaseCode === "pre-ea") {
+					return (new Project(opts)).completeCurrentPhase(project)
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[1];
+						pr.currentPhaseCode = pr.phases[1].code;
+						pr.currentPhaseName = pr.phases[1].name;
+						new Project(opts)
+							.saveDocument(pr)
+							.then(rs);
+						});
+				} else if (finalPhaseCode === "pre-app") {
+					return (new Project(opts)).completeCurrentPhase(project) // intake
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[1];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
 					})
-					.then(function (p) {
-						return (new Project(opts)).addPhase(p, "evaluation");
-					})
-					.then(function (p) {
-						return (new Project(opts)).addPhase(p, "application-review");
-					})
-					.then(function (p) {
-						return (new Project(opts)).addPhase(p, "decision");
-					})
-					.then(function (p) {
-						return (new Project(opts)).addPhase(p, "post-certification");
-					})
-					.then(function (pr) {
-						if (!stopProcessing) {
-							if (finalPhaseCode === "pre-ea") stopProcessing = true;
-							// console.log("doing pre-ea");
-							return (new Project(opts)).completeCurrentPhase(pr)
-							.then( function (pr) {
-								// Complete the phase and set next.
-								pr.currentPhase     = pr.phases[1];
-								pr.currentPhaseCode = pr.phases[1].code;
-								pr.currentPhaseName = pr.phases[1].name;
-								return (new Project(opts)).saveDocument(pr);
-							});
-						} else {
-							return pr;
-						}
-					})
-					.then(function (pr) {
-						if (!stopProcessing) {
-							if (finalPhaseCode === "pre-app") stopProcessing = true;
-							// console.log("doing pre-app");
-							return (new Project(opts)).completeCurrentPhase(pr)
-							.then( function (pr) {
-								// Complete the phase and set next.
-								pr.currentPhase     = pr.phases[2];
-								pr.currentPhaseCode = pr.phases[2].code;
-								pr.currentPhaseName = pr.phases[2].name;
-								return (new Project(opts)).saveDocument(pr);
-							});
-						} else {
-							return pr;
-						}
-					})
-					.then(function (pr) {
-						if (!stopProcessing) {
-							if (finalPhaseCode === "evaluation") stopProcessing = true;
-							// console.log("doing evaluation");
-							return (new Project(opts)).completeCurrentPhase(pr)
-							.then( function (pr) {
-								// Complete the phase and set next.
-								pr.currentPhase     = pr.phases[3];
-								pr.currentPhaseCode = pr.phases[3].code;
-								pr.currentPhaseName = pr.phases[3].name;
-								return (new Project(opts)).saveDocument(pr);
-							});
-						} else {
-							return pr;
-						}
-					})
-					.then(function (pr) {
-						if (!stopProcessing) {
-							if (finalPhaseCode === "application-review") stopProcessing = true;
-							// console.log("doing application-review");
-							return (new Project(opts)).completeCurrentPhase(pr)
-							.then( function (pr) {
-								// Complete the phase and set next.
-								pr.currentPhase     = pr.phases[4];
-								pr.currentPhaseCode = pr.phases[4].code;
-								pr.currentPhaseName = pr.phases[4].name;
-								return (new Project(opts)).saveDocument(pr);
-							});
-						} else {
-							return pr;
-						}
-					})
-					.then(function (pr) {
-						if (!stopProcessing) {
-							if (finalPhaseCode === "decision") stopProcessing = true;
-							// console.log("doing decision");
-							return (new Project(opts)).completeCurrentPhase(pr)
-							.then( function (pr) {
-								// Complete the phase and set next.
-								pr.currentPhase     = pr.phases[5];
-								pr.currentPhaseCode = pr.phases[5].code;
-								pr.currentPhaseName = pr.phases[5].name;
-								return (new Project(opts)).saveDocument(pr);
-							});
-						} else {
-							return pr;
-						}
-					})
-					.then(function (pr) {
-						if (!stopProcessing) {
-							if (finalPhaseCode === "post-certification") stopProcessing = true;
-							// console.log("doing post-certification");
-							return (new Project(opts)).completeCurrentPhase(pr)
-							.then( function (pr) {
-								// Complete the phase and set next.
-								pr.currentPhase     = pr.phases[6];
-								pr.currentPhaseCode = pr.phases[6].code;
-								pr.currentPhaseName = pr.phases[6].name;
-								return (new Project(opts)).saveDocument(pr);
-							});
-						} else {
-							return pr;
-						}
-					})
-					.then(function (p) {
-						rs(p);
+					.then (function (project) {
+						project.currentPhase     = project.phases[2];
+						project.currentPhaseCode = project.phases[2].code;
+						project.currentPhaseName = project.phases[2].name; // set to pre-app
+						new Project(opts)
+							.saveDocument(project)
+							.then(rs);
 					});
+				} else if (finalPhaseCode === "evaluation") {
+					return (new Project(opts)).completeCurrentPhase(project) // intake
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[1];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[2];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then (function (project) {
+						project.currentPhase     = project.phases[3];
+						project.currentPhaseCode = project.phases[3].code;
+						project.currentPhaseName = project.phases[3].name;
+						new Project(opts)
+							.saveDocument(project)
+							.then(rs);
+						});
+				} else if (finalPhaseCode === "application-review") {
+					return (new Project(opts)).completeCurrentPhase(project) // intake
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[1];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[2];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[3];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then (function (project) {
+						project.currentPhase     = project.phases[4];
+						project.currentPhaseCode = project.phases[4].code;
+						project.currentPhaseName = project.phases[4].name;
+						new Project(opts)
+							.saveDocument(project)
+							.then(rs);
+						});
+				} else if (finalPhaseCode === "decision") {
+					return (new Project(opts)).completeCurrentPhase(project) // intake
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[1];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[2];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[3];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[4];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then (function (project) {
+						project.currentPhase     = project.phases[5];
+						project.currentPhaseCode = project.phases[5].code;
+						project.currentPhaseName = project.phases[5].name;
+						new Project(opts)
+							.saveDocument(project)
+							.then(rs);
+						});
+				} else if (finalPhaseCode === "post-certification") {
+					return (new Project(opts)).completeCurrentPhase(project) // intake
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[1];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[2];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[3];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[4];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then( function (pr) {
+						pr.currentPhase     = pr.phases[5];
+						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+					})
+					.then (function (project) {
+						project.currentPhase     = project.phases[6];
+						project.currentPhaseCode = project.phases[6].code;
+						project.currentPhaseName = project.phases[6].name;
+						new Project(opts)
+							.saveDocument(project)
+							.then(rs);
+					});
+				} else {
+					console.log("unhandled phase code.");
 				}
 			});
 		};

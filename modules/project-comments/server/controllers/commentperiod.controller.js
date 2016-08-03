@@ -60,11 +60,19 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	setRolesPermissions: function (period) {
+		// jsherman - 20160729
+		// do not like this, we've got defaults that add in permissions but are completely divorced from these roles
+		// that we add.  Should all be in one place when we get a chance.
+		
 		var allroles = _.uniq(period.commenterRoles.concat (
 			period.classificationRoles,
 			period.vettingRoles,
 			'eao-admin',
-			'pro-admin'
+			'pro-admin',
+		  'eao-member',
+		  'pro-member',
+		  'lead',
+		  'epd'
 		));
 		//console.log ("commentperiod.setRolesPermissions - period", JSON.stringify (period, null, 4));
 		//console.log('commentperiod.setRolesPermissions - allroles = ' + JSON.stringify(allroles, null, 4));
@@ -72,10 +80,10 @@ module.exports = DBModel.extend ({
 			vetComments      : period.vettingRoles,
 			classifyComments : period.classificationRoles,
 			listComments     : period.commenterRoles,
-			addComment       : period.commenterRoles,
+			addComment       : _.uniq(_.concat(period.commenterRoles, 'lead', 'epd', 'eao-admin')),
 			setPermissions   : ['eao-admin', 'pro-admin'],
 			read             : allroles,
-			write            : _.uniq(_.concat(period.vettingRoles, period.classificationRoles, 'eao-admin')),
+			write            : _.uniq(_.concat(period.vettingRoles, period.classificationRoles, 'lead', 'epd', 'eao-admin')),
 			delete           : ['eao-admin'],
 			// return Access.setObjectPermissionRoles ({
 			// resource: period,
@@ -103,8 +111,65 @@ module.exports = DBModel.extend ({
 	// get all comment periods for a project
 	//
 	// -------------------------------------------------------------------------
-	getForProject: function (projectId) {
+	getForProject: function(projectId) {
 		return this.list ({project:projectId});
+	},
+	getForProjectWithStats: function (projectId) {
+		var self    = this;
+		var Comment = this.mongoose.model('Comment');
+		return new Promise (function (resolve, reject) {
+			self.getForProject(projectId)
+			.then(function(res) {
+				//console.log('periods = ' + JSON.stringify(res));
+				return new Promise(function (resolve, reject) {
+					Comment
+					.find ({period: {$in: _.map(res, '_id') }})
+					.exec()
+					.then(function(docs) {
+						resolve({periods: res, comments: docs});
+					});
+				});
+			})
+			.then (function (data) {
+				//console.log('data = ' +  JSON.stringify(data, null, 4));
+				// get stats for each period.
+				var periodsWithStats = [];
+				_.forEach(data.periods, function(period) {
+					var mycomments = _.filter(data.comments, function(o) { return o.period.toString() === period._id.toString(); });
+					//console.log('period = ' + period._id + ' comments = ' + mycomments.length);
+					//console.log('period = ', JSON.stringify(period));
+					var periodWithStat = JSON.parse(JSON.stringify(period));
+					periodWithStat.stats = {
+						totalPending  : 0,
+						totalDeferred : 0,
+						totalPublic   : 0,
+						totalRejected : 0,
+						totalAssigned : 0,
+						totalUnassigned : 0,
+						totalPublicAssigned: 0
+					};
+					//console.log('periodWithStat = ',JSON.stringify(periodWithStat, null, 4));
+					mycomments.reduce (function (prev, next) {
+						periodWithStat.stats.totalPending  += (next.eaoStatus === 'Unvetted' ? 1 : 0);
+						periodWithStat.stats.totalDeferred += (next.eaoStatus === 'Deferred' ? 1 : 0);
+						periodWithStat.stats.totalPublic   += (next.eaoStatus === 'Published' ? 1 : 0);
+						periodWithStat.stats.totalRejected += (next.eaoStatus === 'Rejected' ? 1 : 0);
+						periodWithStat.stats.totalAssigned += (next.proponentStatus === 'Classified' ? 1 : 0);
+						periodWithStat.stats.totalUnassigned += (next.proponentStatus !== 'Classified' ? 1 : 0);
+						periodWithStat.stats.totalPublicAssigned   += (next.proponentStatus === 'Classified' && next.eaoStatus === 'Published' ? 1 : 0);
+					}, periodWithStat.stats);
+					//console.log('periodWithStat.stats = ',JSON.stringify(periodWithStat.stats));
+					//console.log('periodWithStat = ',JSON.stringify(periodWithStat, null, 4));
+					periodsWithStats.push(periodWithStat);
+				});
+				return periodsWithStats;
+			})
+			.then(function(res) {
+				//console.log('periodWithStats = ',JSON.stringify(res, null, 4));
+				return res;
+			})
+			.then (resolve, reject);
+		});
 	},
 	// -------------------------------------------------------------------------
 	//

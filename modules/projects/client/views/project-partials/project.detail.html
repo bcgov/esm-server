@@ -4,7 +4,7 @@
 		<h1>{{ project.name }}</h1>
 		<div class="actions">
 			<div class="actions-group" ng-if="environment === 'EAO' && authentication.user">
-				<a class="btn btn-default btn-sm" ui-sref="p.edit({pId:o._id})">Edit Project</a>
+				<a class="btn btn-default btn-sm" ui-sref="p.edit({pId:o._id})" ng-if="project.userCan.write">Edit Project</a>
 				<a class="btn btn-success btn-sm" ng-click="publishProject()" ng-if="!project.isPublished">Publish Project</a>
 			</div>
 			<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="project"></tmpl-permissions-gear>
@@ -12,6 +12,16 @@
 	</div>
 
 	<div class="view-body-container project-details">
+
+		<div class="panel panel-default project-timeline hidden">
+			<div class="panel-heading"><h2>Project Timeline</h2></div>
+			<div class="timeline-container">
+				<div class="phase"
+					ng-class="{'active': o.status == 'In Progress', 'complete': o.completed}" ng-repeat="o in project.phases">
+					<span class="phase-name">{{o.name}}</span>
+				</div>
+			</div>
+		</div>
 
 		<!-- PUBLIC COMMENT PERIOD NOTIFICATION -->
 		<div class="public-comment-alert hidden">
@@ -32,15 +42,6 @@
 		<section class="project-info" ng-if="('project' | shouldDisplayPanel:'tombstone':project.status)">
 			<tmpl-project-tombstone id="anchor-tombstone" x-project="project"></tmpl-project-tombstone>
 		</section>
-
-		<div class="panel panel-default hidden">
-			<div class="panel-heading"><h2>Project Timeline</h2></div>
-			<div class="prototype-block">
-				<div class="phase-block" ng-class="{'completed': o.completed}" ng-repeat="o in project.phases">
-					<span>{{o.name}}</span>
-				</div>
-			</div>
-		</div>
 
 		<!-- PROJECT PHASES -->
 		<section class="project-phases" ng-if="environment === 'EAO'">

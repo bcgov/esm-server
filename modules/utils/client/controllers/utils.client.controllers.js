@@ -458,7 +458,7 @@ controllerModalDatePicker.$inject = ['$modalInstance', 'rChosenDate', 'moment'];
 function controllerModalDatePicker($modalInstance, rChosenDate, moment) {
 	var modalDatePick = this;
 
-	modalDatePick.chosenDate = rChosenDate || moment();
+	modalDatePick.chosenDate = rChosenDate || moment().set({'hour':9, 'minute':0, 'second': 0, 'millisecond': 0});
 	modalDatePick.showSelector = true;
 
 	modalDatePick.onTimeSet = function() {

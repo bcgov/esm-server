@@ -65,7 +65,14 @@ angular
 			'Economic',
 			'Social',
 			'Heritage',
-			'Health'
+			'Health',
+			'Other',
+			'Requirements'
+		]
+	)
+	.constant('VCTYPES',
+		[ 'Valued Component',
+		'Pathway Component'
 		]
 	)
 	.constant('PILLARS',
@@ -74,7 +81,9 @@ angular
 			'Economic',
 			'Social',
 			'Heritage',
-			'Health'
+			'Health',
+			'Other',
+			'Requirements'
 		]
 	)
 	.constant('PROJECT_TYPES',
@@ -176,6 +185,17 @@ angular
 			window.location.href.indexOf('mines.') >= 0 ) return 'MEM';
 		else return 'EAO';
 	})
+	.constant('RELEASE',
+		{
+			'enableEnforcements': false,
+			'enableDecisions': false,
+			'enableSchedule': false,
+			'enableComplaints': false,
+			'enableConditions': false,
+			'enableInspectionReports': false,
+			'redirectHomepageToGeorgeMassey': true
+		}
+	)
 	.factory('LOGO', function (ENV) {
 		// Use the env from above to determine the logo.
 		if (ENV === 'EAO') {

@@ -21,7 +21,7 @@ angular.module('artifacts')
 			s.public = (!Authentication.user);
 			s.published = $scope.published;
 			s.caption = s.published ? "Published Content" : "In Progress Content";
-			s.allowAddItem = !(s.public || s.published);
+			s.allowAddItem = !s.published && $scope.project.userCan.createArtifact;
 			s.showFilter = false;
 			s.noDataMessage = "There is no in progress content at this time.";
 

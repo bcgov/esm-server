@@ -246,6 +246,7 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	findById : function (id) {
+		//console.log('findById =  ', id)
 		return this.findOne ({_id : id})
 			.then (this.permissions)
 			.then (this.decorate);
@@ -259,13 +260,13 @@ _.extend (DBModel.prototype, {
 	//
 	// -------------------------------------------------------------------------
 	findOne : function (query, fields) {
-		// console.log ('dbmodel.findOne:', query, fields);
+		//console.log ('dbmodel.findOne:', query, fields);
 		var self = this;
 		query = query || {};
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			// console.log ('q = ',q);
+			//console.log ('q = ',q);
 			self.model.findOne (q)
 			.populate (self.populate)
 			.select (fields)
@@ -301,7 +302,8 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			// console.log ('q.$or = ',q.$or[0].read);
+			//console.log ('findMany.query = ' + JSON.stringify(query, null, 4));
+			//console.log ('findMany.q = ' + JSON.stringify(q, null, 4));
 			self.model.find (q)
 			.sort (sort)
 			.populate (self.populate)
@@ -388,8 +390,8 @@ _.extend (DBModel.prototype, {
 	// -------------------------------------------------------------------------
 	saveDocument : function (doc) {
 		var self = this;
-		// console.log ('in saveDocument with doc ',doc);
-		// console.log ('in saveDocument with roles ',self.roles);
+		//console.log('saveDocument doc = ', JSON.stringify(doc, null, 4));
+		//console.log('saveDocument roles = ', JSON.stringify(self.roles, null, 4));
 		return new Promise (function (resolve, reject) {
 			if (!self.force && self.useRoles && !self.hasPermission (self.userRoles, doc.write)) {
 				return reject (new Error ('saveDocument: Write operation not permitted for this '+self.name+' object'));
@@ -568,7 +570,7 @@ _.extend (DBModel.prototype, {
 			definition.read   = definition.read || model.read;
 			definition.write  = definition.write || model.write;
 			definition.delete = definition.delete || model.delete;
-			console.log("setRoles:", JSON.stringify(definition, null, 4));
+			//console.log("setRoles:", JSON.stringify(definition, null, 4));
 			model.setRoles (definition);
 			return definition;
 		});
@@ -671,18 +673,18 @@ _.extend (DBModel.prototype, {
 				// determine the context
 				// default to application
 				// if this is a project, then use its code
-				// otherwise if it has a project, use its project.code
-				// or if not populated use the project field to get the code
+				// otherwise if it has a project, use its project._id
+				// or if not populated use the project field to get the _id
 				//
 				if (defaultObject.context === 'project') {
 					if (self.name.toLowerCase () === 'project') {
 						return model._id;
 					} else if (model.project && model.project.code) {
-						return model.project.code;
+						return model.project._id;
 					} else if (model.project) {
 						return self.mongoose.model ('Project').findOne ({_id:model.project}).exec ()
 						.then (function (m) {
-							return m.code;
+							return m._id;
 						});
 					} else {
 						return 'application';
@@ -928,6 +930,34 @@ _.extend (DBModel.prototype, {
 				.then (resolve, self.complete (reject, 'listforaccess'));
 		});
 	},
+	listIgnoreAccess: function(q, f, p) {
+		if (p) this.populate = p;
+		q = q || {};
+		this.setAccessOnce ('ignoring the access permissions, object may not have the correct ones yet...');
+		q = _.extend ({}, this.baseQ, q);
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findMany (q, f)
+			.then (self.permissions)
+			.then (self.decorateAll)
+			.then (resolve, self.complete (reject, 'listIgnoreAccess'));
+		});
+	},
+	oneIgnoreAccess : function (q, f, p) {
+		if (p) this.populate = p;
+		q = q || {};
+		this.setAccessOnce ('ignoring the access permissions, object may not have the correct ones yet...');
+		q = _.extend ({}, this.baseQ, q);
+		f = f || {};
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findOne (q, f)
+			.then (self.permissions)
+			.then (self.decorate)
+			.then (resolve, self.complete (reject, 'oneIgnoreAccess'));
+		});
+	},
+	
 	// -------------------------------------------------------------------------
 	//
 	// lets decide to save some time debugging and just finally overload this puppy

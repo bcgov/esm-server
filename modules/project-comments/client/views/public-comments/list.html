@@ -6,9 +6,7 @@
             <li role="presentation"><a href ng-click="s.toggle('Deferred')"  role="tab" data-toggle="tab">Deferred ({{s.totalDeferred}})</a></li>
             <li role="presentation"><a href ng-click="s.toggle('Published')" role="tab" data-toggle="tab">Published ({{s.totalPublic}})</a></li>
             <li role="presentation"><a href ng-click="s.toggle('Rejected')"  role="tab" data-toggle="tab">Rejected ({{s.totalRejected}})</a></li>
- <!--       <li ng-if="s.period.userCan.classifyComments" role="presentation" class="active"><a href role="tab" data-toggle="tab" ng-click="s.toggle('Unclassified')">Unassigned ({{s.totalUnassigned}})</a></li>
-            <li ng-if="s.period.userCan.classifyComments" role="presentation"><a href role="tab" data-toggle="tab" ng-click="s.toggle('Classified')">Assigned ({{s.totalAssigned}})</a></li>
- -->       </ul>
+        </ul>
     </div>
     <div ng-if="s.period.userCan.classifyComments && !s.period.userCan.vetComments">
         <!-- PROPONENT TEMPLATES  -->
@@ -21,6 +19,9 @@
         <div class="public-comment-panel">
             <table ng-table="s.tableParams" show-filter="true" class="eao-comment-table table table-hover">
                 <tr class="comment-row" ng-repeat="o in $data" ng-click="s.detail(o)">
+                    <td class="id-col no-mobile" header-class="'id-col no-mobile'" ng-if="authentication.user" data-title="'ID'" sortable="'commentId'">
+                        {{ ::o.commentId }}
+                    </td>
                     <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Posted by / Comment'" filter="{'comment':'text'}" sortable="'comment'">
                         <h2 ng-if="::o.isAnonymous" class="comment-title">Anonymous</h2>
                         <h2 ng-if="::!o.isAnonymous" class="comment-title">{{ ::o.author }}</h2>
@@ -31,16 +32,16 @@
                     <td class="location-col no-mobile" header-class="'location-col no-mobile'" data-title="'Location'" filter="{'location':'text'}" sortable="'location'">
                         {{ ::o.location }}
                     </td>
-                    <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillars'" filter="{'pillars':'text'}" sortable="'pillars'">
+                    <td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillars'" filter="{pillars:'select'}" filter-data="s.pillarsArray" sortable="'pillars'">
                         <span class="tag-list">{{o.pillars.join (', ')}}</span>
                         <!-- <ul><li ng-repeat="pillar in o.pillars">{{::pillar}}</li></ul> -->
                     </td>
-                    <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Components'" filter="{'topics':'text'}" sortable="'topics'">
+                    <td class="vc-col" header-class="'pillar-col'" data-title="'Valued Components'" filter="{topics:'select'}" filter-data="s.topicsArray" sortable="'topics'">
                         <span class="tag-list">{{o.topics.join (', ')}}</span>
                         <!-- <ul><li ng-repeat="vc in o.topics">{{::vc}}</li></ul> -->
                     </td>
                     <td class="attachment-col" header-class="'attachment-col no-mobile'">
-                        <span class="glyphicon glyphicon-paperclip" ng-if="o.documents.length > 0"></span>
+                        <span class="glyphicon glyphicon-paperclip" ng-if="o.publishedDocumentCount > 0" title="{{o.publishedDocumentCount}} attachments available"></span>
                     </td>
                     <td class="date-col" header-class="'date-col'" data-title="'Date Posted'" sortable="'dateAdded'">
                         {{o.dateAdded | date : format : timezone}}

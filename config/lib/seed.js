@@ -80,6 +80,10 @@ checkIntegration ('testme').then (function (f) {
 //
 // =========================================================================
 
+checkIntegration ('defaults-20160731.5').then (function () {
+	require('../seed-data/defaults')();
+});
+
 // -------------------------------------------------------------------------
 //
 // configurations
@@ -107,7 +111,7 @@ checkIntegration ('sysroles').then (function () {
 // Topics
 //
 // -------------------------------------------------------------------------
-checkIntegration ('loadtopics2').then (function () {
+checkIntegration ('loadtopics5').then (function () {
 	require('../seed-data/loadtopics')();
 });
 
@@ -214,12 +218,9 @@ checkIntegration ('sysroles3').then (function () {
 	require('../seed-data/loadroles').sysroles3();
 });
 
-checkIntegration ('app1').then (function () {
-	require('../seed-data/application')();
-});
 
-checkIntegration ('defaults-20160727.1').then (function () {
-	require('../seed-data/defaults')();
+checkIntegration ('app-20160727.10').then (function () {
+	require('../seed-data/application')();
 });
 
 // // check to see if the seed import executes

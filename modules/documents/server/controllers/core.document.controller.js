@@ -33,6 +33,12 @@ module.exports = DBModel.extend ({
 		//
 		// check if there is an existing matching document
 		//
+		
+		// what should default permissions be?
+		doc.read = ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'];
+		doc.write = ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'];
+		doc.delete = ['eao-admin'];
+		
 		return this.findOne ({
 			documentIsLatestVersion: true,
 			projectFolderType       : doc.projectFolderType,
@@ -250,6 +256,9 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	getList : function (list) {
 		return this.list ({_id : {$in : list }});
+	},
+	getListIgnoreAccess : function (list) {
+		return this.listforaccess ('ignore the access level', {_id : {$in : list }});
 	},
 	// for documents associated with a comment
 	// if the comment is published or unpublished, then we need the same permissions/access level

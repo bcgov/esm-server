@@ -13,12 +13,24 @@ else
 
     app_variant=$(echo $environment_name | cut -f1 -d-)
     promotion_level=$(echo $environment_name| cut -f2 -d-)
+    app_subvariant=$(echo $environment_name | cut -f3 -d-)
 
     echo "Starting deployment for environment $environment_name with image $image_name ..."
     echo "Variant is '$app_variant' and promotion level is '$promotion_level' ..."
 
+
     if [ ${app_variant} = "mem" ]; then
         environment_variables="-e MEM=true -e SEED_MEM=true"
+    fi
+
+    if [ -z ${app_subvariant} ]; then
+        echo "no subvariant"
+    else
+        echo "Subvariant is '$app_subvariant' ..."
+        environment_variables="-e ESM_VARIANT=$app_subvariant"
+        # re-assign the environment name, removing the subvariant
+        environment_name="$app_variant-$promotion_level"
+        echo "Environment is now '$environment_name' ..."
     fi
 fi
 

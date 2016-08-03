@@ -50,7 +50,6 @@ angular.module('core')
 							setPermissionRole(s.permissionRoleIndex, permission, role, value);
 						};
 						
-						
 						s.clickPermission = function (permission, role, value) {
 							setPermissionRole(s.permissionRoleIndex, permission, role, value);
 						};
@@ -62,31 +61,39 @@ angular.module('core')
 						s.ok = function () {
 							$modalInstance.close({resource: s.object._id, data: s.permissionRoleIndex});
 						};
-						
+
 						s.init = function (roleName, showPermissionView) {
 							console.log('rolePermissionsModal.init... start');
 							AccessModel.allRoles(scope.context._id)
 							.then(function (ar) {
 								allRoles = ar;
 								console.log('rolePermissionsModal.init... allRoles');
-								return AccessModel.roleUsers(scope.context.code);
+								return AccessModel.roleUsers(scope.context._id);
 							}).then(function (ru) {
 								roleUsers = ru;
 								console.log('rolePermissionsModal.init... roleUsers');
 								return AccessModel.permissionRoleIndex(scope.object._id);
 							}).then(function (rp) {
 								console.log('rolePermissionsModal.init... permissionRoleIndex');
-								// when a project is published, public needs read permissions.
-								// this isn't stored, so we need to add it...
-								// such a garbage hack...
-								if (scope.object.isPublished) {
-									if (!_.has(rp.permission, 'read') && !_.has(rp.permission, 'read.public')) {
-										_.set(rp.permission, 'read.public', true);
-									}
-									if (!_.has(rp.role, 'public') && !_.has(rp.role, 'public.read')) {
-										_.set(rp.role, 'public.read', true);
-									}
+
+								// add in 'permissions' from the object...
+								// should come from the server, but this is a whole lot quicker...
+								if (_.has(scope.object, 'read')){
+									_.forEach(scope.object.read, function(v) {
+										setPermissionRole(rp, 'read', v, true);
+									});
 								}
+								if (_.has(scope.object, 'write')){
+									_.forEach(scope.object.read, function(v) {
+										setPermissionRole(rp, 'write', v, true);
+									});
+								}
+								if (_.has(scope.object, 'delete')){
+									_.forEach(scope.object.read, function(v) {
+										setPermissionRole(rp, 'delete', v, true);
+									});
+								}
+
 								permissionRoleIndex = rp;
 								s.permissionRoleIndex = permissionRoleIndex;
 								s.permissionRoleIndex.schemaName = scope.object._schemaName;
@@ -202,7 +209,7 @@ angular.module('core')
 							$modalInstance.dismiss('cancel');
 						};
 						s.ok = function () {
-							$modalInstance.close({context: s.context.code, data: s.userRoleIndex});
+							$modalInstance.close({context: s.context._id, data: s.userRoleIndex});
 						};
 						
 						s.init = function (currentRoleName, currentUserName, showUserView) {
@@ -211,7 +218,7 @@ angular.module('core')
 							.then(function (ar) {
 								allRoles = ar;
 								console.log('roleUsersModal.init... allRoles');
-								return AccessModel.roleUserIndex(scope.context.code);
+								return AccessModel.roleUserIndex(scope.context._id);
 							}).then(function (rui) {
 								userRoleIndex = rui;
 								console.log('roleUsersModal.init... userRoleIndex');
@@ -320,7 +327,7 @@ angular.module('core')
 							// console.log ('context is  ', s.context.code);
 							$rootScope.$broadcast('NEW_USER_ADDED_TO_CONTEXT', {user: s.currentUser});
 							AccessModel.addRoleUser({
-								context: s.context.code,
+								context: s.context._id,
 								role: s.defaultRole,
 								user: s.currentUser
 							})
@@ -383,7 +390,7 @@ angular.module('core')
 						s.ok = function () {
 							if (s.newRole === '') return $modalInstance.dismiss('cancel');
 							else {
-								AccessModel.addRoleIfUnique(s.context.code, s.newRole)
+								AccessModel.addRoleIfUnique(s.context._id, s.newRole)
 								.then(function (isOk) {
 									if (isOk) {
 										$rootScope.$broadcast('NEW_ROLE_ADDED', {roleName: s.newRole});
@@ -436,7 +443,7 @@ angular.module('core')
 					size: 'md',
 					resolve: {
 						allRoles: function (AccessModel) {
-							return AccessModel.allRoles(scope.context.code);
+							return AccessModel.allRoles(scope.context._id);
 						}
 					},
 					controller: function ($scope, $modalInstance, allRoles) {

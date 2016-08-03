@@ -6,7 +6,6 @@ angular.module('project')
 	.directive('modalProjectImport', directiveModalProjectImport)
 
 	.directive('tmplProjectInitiated', directiveProjectInitiated)
-	.directive('tmplProjectStreamSelect', directiveProjectStreamSelect)
 	.directive('tmplProjectActivities', directiveProjectActivities);
 
 // -----------------------------------------------------------------------------------
@@ -109,31 +108,6 @@ function directiveProjectInitiated() {
 	};
 	return directive;
 }
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Project Stream Select
-//
-// -----------------------------------------------------------------------------------
-directiveProjectStreamSelect.$inject = [];
-/* @ngInject */
-function directiveProjectStreamSelect() {
-	var directive = {
-		restrict: 'E',
-		replace: true,
-		templateUrl: 'modules/projects/client/views/project-partials/project-stream-select.html',
-		controller: 'controllerProjectStreamSelect',
-		controllerAs: 'projectStreamSelect',
-		scope: {
-			project: '='
-		}
-	};
-	return directive;
-}
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Project Stream Select
-//
-// -----------------------------------------------------------------------------------
 directiveProjectActivities.$inject = [];
 /* @ngInject */
 function directiveProjectActivities() {

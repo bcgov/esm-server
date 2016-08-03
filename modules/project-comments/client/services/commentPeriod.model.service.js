@@ -20,6 +20,9 @@ angular.module('comment').factory ('CommentPeriodModel', function (ModelBase, _)
 		forProject: function (projectid) {
 			return this.get ('/api/commentperiod/for/project/'+projectid);
 		},
+		forProjectWithStats: function (projectid) {
+			return this.get ('/api/commentperiod/for/project/'+projectid +'/withstats');
+		},
 		// -------------------------------------------------------------------------
 		//
 		// add a new comment period, params are broken out to ensure they are provided

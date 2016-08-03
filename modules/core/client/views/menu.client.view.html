@@ -2,17 +2,17 @@
 
 	<!-- PUBLIC USERS (COMMON) -->
 	<div ng-show="!menu.authentication.user">
-
+<!-- 
 		<a class="project-home-link" ui-sref="p.detail({projectid: menu.project.code})" title="Project Details">
 			<span class="glyphicon glyphicon-map-marker"></span>
 			<span>{{project.name}}</span>
 			<span ng-if="!project.name">Untitled Project</span>
 		</a>
-
+ -->
 		<ul class="nav nav-pills nav-stacked">
-			<li><a ui-sref="p.detail" href title="Project Details">Project Details</a></li>
      		<li><a ui-sref="p.documents" href title="Documents">Documents</a></li>
      		<li><a ui-sref="p.commentperiod.list" href title="Public Comment Periods">Public Comment Periods</a></li>
+        <li><a ui-sref="p.vc.list" href title="Valued Components">Valued Components</a></li>
 		</ul>
 	</div><!-- / PUBLIC USERS (COMMON) -->
 

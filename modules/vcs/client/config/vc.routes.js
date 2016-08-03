@@ -20,14 +20,25 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		url: '/vc',
 		template: '<ui-view></ui-view>',
 		resolve: {
-			vcs: function ($stateParams, VcModel, ArtifactModel, project, ENV) {
+			vcs: function ($stateParams, VcModel, ArtifactModel, project, ENV, _) {
 				// console.log ('vc abstract resolving vcs');
 				// console.log ('project id = ', project._id);
 				// if (ENV === 'EAO')
 				// 	// In EAO, they are artifacts - nothing for MEM right now so leave it.
 				// 	return ArtifactModel.forProjectGetType (project._id, "valued-component");
 				// else
-					return VcModel.forProject (project._id);
+
+				// This runs the populate for artifact, since it's been broken.
+				return VcModel.forProject (project._id)
+				.then( function (list) {
+					_.each(list, function (item) {
+						ArtifactModel.lookup(item.artifact)
+						.then( function (art) {
+							item.artifact = art;
+						});
+					});
+					return list;
+				});
 			}
 		}
 	})
@@ -40,9 +51,10 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	.state('p.vc.list', {
 		url: '/list',
 		templateUrl: 'modules/vcs/client/views/vc-list.html',
-		controller: function ($scope, NgTableParams, vcs, project, $modal, $state) {
+		controller: function ($scope, NgTableParams, vcs, project, $modal, $state, Authentication) {
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: vcs});
 			$scope.project = project;
+			$scope.authentication = Authentication;
 			$scope.openAddTopic = function() {
 				var modalDocView = $modal.open({
 					animation: true,
@@ -119,9 +131,13 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				return VcModel.getVCsInList(vc.subComponents);
 			}
 		},
-		controller: function ($scope, $state, vc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _, vclist, vcs) {
+		controller: function ($scope, $state, vc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _, vclist, vcs, VCTYPES) {
 			// console.log ('vc = ', vc);
 			$scope.vc = vc;
+			
+			$scope.canPublish = vc.userCan.publish && !vc.isPublished;
+			$scope.canUnpublish = vc.userCan.unPublish && vc.isPublished;
+			
 			$scope.vclist = vclist;
 			$scope.vcs = vcs;
 			$scope.vc.artifact = art;
@@ -129,11 +145,28 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.vc.artifact.maindocument = $scope.vc.artifact.document._id ? [$scope.vc.artifact.document._id] : [];
 			$scope.project = project;
 			$scope.pillars = PILLARS;
+			$scope.types = VCTYPES;
 			$scope.selectTopic = function () {
 				var self = this;
 				TopicModel.getTopicsForPillar (this.vc.pillar).then (function (topics) {
 					self.topics = topics;
 					$scope.$apply();
+				});
+			};
+			$scope.publish = function() {
+				VcModel.publish ($scope.vc._id)
+				.then(function(res) {
+					$state.transitionTo('p.vc.list', {projectid: project.code}, {
+						reload: true, inherit: false, notify: true
+					});
+				});
+			};
+			$scope.unpublish = function() {
+				VcModel.unpublish ($scope.vc._id)
+				.then (function (res) {
+					$state.transitionTo('p.vc.list', {projectid: project.code}, {
+						reload: true, inherit: false, notify: true
+					});
 				});
 			};
 			$scope.save = function () {

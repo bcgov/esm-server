@@ -132,8 +132,8 @@
            			x-artifact="docBrowser.artifact"
            			x-doc-location-code="docBrowser.docLocationCode"
 					ng-if="(docBrowser.authentication.user) && environment === 'MEM'"><span class="glyphicon glyphicon-open"></span><span>Upload Documents</span></a>
-				<tmpl-permissions-gear class="permission-btn" x-context="docBrowser.project" x-object="docBrowser.project" x-permissions=""></tmpl-permissions-gear>
-			</div>		
+				<tmpl-permissions-gear ng-if="(docBrowser.project.userCan.manageRoles || docBrowser.project.userCan.managePermissions)" class="permission-btn" x-context="docBrowser.project" x-object="docBrowser.project" x-permissions=""></tmpl-permissions-gear>
+			</div>
 		</div>
 		<div class="file-browser clearfix">
 
@@ -149,7 +149,7 @@
 						Recent Documents
 					</li>
 				</ul>
-				<div class="file-browser-category" ng-if="environment === 'EAO'">Legacy Documents</div>
+				<div class="file-browser-category" ng-if="environment === 'EAO'">Documents</div>
 				<ul>
 					<li class="row-folder clickable row-folder-depth-{{ row.depth }}" ng-class="{'active btn-primary': docBrowser.filterDocsSelected(row)}"
 						ng-click="docBrowser.filterList(row)"
