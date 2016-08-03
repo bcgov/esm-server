@@ -72,6 +72,9 @@ angular.module ('comment')
 			// -------------------------------------------------------------------------
 			s.refreshEao = function () {
 				CommentModel.getEAOCommentsForPeriod ($scope.period._id).then (function (result) {
+					_.each(result.data, function (item) {
+						item.publishedDocumentCount = item.documents.length;
+					});
 					s.totalPending  = result.totalPending;
 					s.totalDeferred = result.totalDeferred;
 					s.totalPublic   = result.totalPublic;
@@ -113,6 +116,9 @@ angular.module ('comment')
 			// -------------------------------------------------------------------------
 			s.refreshProponent = function () {
 				CommentModel.getProponentCommentsForPeriod ($scope.period._id).then (function (result) {
+					_.each(result.data, function (item) {
+						item.publishedDocumentCount = item.documents.length;
+					});
 					// filters find classified in unclassified by default, just create a numeric field for filtering...
 					_.forEach(result.data, function(o) { o.proponentFilter = o.proponentStatus === 'Unclassified' ? 0 : 1; });
 					s.totalAssigned   = result.totalAssigned;
