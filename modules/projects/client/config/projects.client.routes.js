@@ -8,9 +8,9 @@ angular.module('projects').config (
 			.state('projects', {
 				url: '/',
 				controller: function ($state) {
-					$state.transitionTo('p.detail', {projectid:'george-massey-tunnel-replacement'}, {
-                                                reload: true, inherit: false, notify: true
-                                        });
+					$state.transitionTo('p.commentperiod.detail', { projectid:'george-massey-tunnel-replacement', periodId:'57a125f88b42220c00d87276'}, {
+						reload: true, inherit: false, notify: true
+					});
 				}
 			});
 		} else {
