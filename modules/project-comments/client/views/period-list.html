@@ -45,10 +45,8 @@
 						</a>
 					</td>
 				</tr>
-				<tr ng-if="!$data || $data.length === 0">
-					<td colspan="8">
-						No records found.
-					</td>
+				<tr class="no-records" ng-if="!$data || $data.length === 0">
+					<td colspan="4">No records found.</td>
 				</tr>
 			</table>
 		</section>

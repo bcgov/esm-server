@@ -70,7 +70,7 @@ $sidenav-color: 			$link-color;
 $sidenav-width:				20rem;
 
 /* Tables */
-$table-bg: 					transparent;
+$table-bg: 					#FFF;
 $table-row-bg: 				#FFF;
 $table-row-hover-bg:		#EEE;
 $table-head-bg: 			#F7F8FA;
@@ -3113,6 +3113,10 @@ $nav-tab-active: #1a5a96;
 		> tbody > tr:hover {
 			background-color: $table-row-hover-bg;
 		}
+
+		.no-records:hover {
+			background: none;
+		}
 	}
 
 	> thead > tr > th {
@@ -3146,6 +3150,13 @@ $nav-tab-active: #1a5a96;
 				background: $btn-focus-bg-color;
 				border-color: $btn-focus-border-color;
 			}
+		}
+	}
+
+	.no-records {
+		td {
+			padding: 1rem 1.5rem;
+			border: none;
 		}
 	}
 	
@@ -3647,6 +3658,8 @@ $nav-tab-active: #1a5a96;
 		}
 		
 		.eao-comment-table {
+			background: transparent;
+
 			td.attachment-col {
 				right: 9.5rem;
 			}
@@ -3759,6 +3772,10 @@ $nav-tab-active: #1a5a96;
 			
 			> tbody > tr > td {
 				padding: 2rem 0.5rem;
+			}
+
+			> tbody > tr.no-records > td {
+				padding: 1rem 1.5rem;
 			}
 			
 			thead > tr > th:first-child,
