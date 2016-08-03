@@ -89,7 +89,18 @@ angular.module ('comment')
 			//
 			// -------------------------------------------------------------------------
 			s.refreshPublic = function () {
-				CommentModel.getPublishedCommentsForPeriod ($scope.period._id).then (function (collection) {
+				CommentModel.getPublishedCommentsForPeriod ($scope.period._id)
+				.then (function (collection) {
+					_.each(collection, function (item) {
+						var publishedCount = 0;
+						_.each(item.documents, function (doc) {
+							if (doc.eaoStatus === 'Published') {
+								publishedCount++;
+							}
+						});
+						item.publishedDocumentCount = publishedCount;
+					});
+
 					s.tableParams = new NgTableParams ({count:50, sorting: {dateAdded: 'desc'}}, {dataset:collection});
 					refreshFilterArrays(collection);
 					$scope.$apply ();
