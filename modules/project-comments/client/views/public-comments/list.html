@@ -6,9 +6,7 @@
             <li role="presentation"><a href ng-click="s.toggle('Deferred')"  role="tab" data-toggle="tab">Deferred ({{s.totalDeferred}})</a></li>
             <li role="presentation"><a href ng-click="s.toggle('Published')" role="tab" data-toggle="tab">Published ({{s.totalPublic}})</a></li>
             <li role="presentation"><a href ng-click="s.toggle('Rejected')"  role="tab" data-toggle="tab">Rejected ({{s.totalRejected}})</a></li>
- <!--       <li ng-if="s.period.userCan.classifyComments" role="presentation" class="active"><a href role="tab" data-toggle="tab" ng-click="s.toggle('Unclassified')">Unassigned ({{s.totalUnassigned}})</a></li>
-            <li ng-if="s.period.userCan.classifyComments" role="presentation"><a href role="tab" data-toggle="tab" ng-click="s.toggle('Classified')">Assigned ({{s.totalAssigned}})</a></li>
- -->       </ul>
+        </ul>
     </div>
     <div ng-if="s.period.userCan.classifyComments && !s.period.userCan.vetComments">
         <!-- PROPONENT TEMPLATES  -->
@@ -21,10 +19,10 @@
         <div class="public-comment-panel">
             <table ng-table="s.tableParams" show-filter="true" class="eao-comment-table table table-hover">
                 <tr class="comment-row" ng-repeat="o in $data" ng-click="s.detail(o)">
-                  <td ng-if="authentication.user" class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'ID'" sortable="'commentId'">
-                    {{o.commentId}}
-                  </td>
-                  <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Posted by / Comment'" filter="{'comment':'text'}" sortable="'comment'">
+                    <td class="id-col no-mobile" header-class="'id-col no-mobile'" ng-if="authentication.user" data-title="'ID'" sortable="'commentId'">
+                        {{ ::o.commentId }}
+                    </td>
+                    <td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Posted by / Comment'" filter="{'comment':'text'}" sortable="'comment'">
                         <h2 ng-if="::o.isAnonymous" class="comment-title">Anonymous</h2>
                         <h2 ng-if="::!o.isAnonymous" class="comment-title">{{ ::o.author }}</h2>
                         <div ng-if="o.comment" ng-init="toggleProject.desc = (false)">
@@ -53,6 +51,9 @@
                     <td colspan="6">No records found.</td>
                 </tr>
             </table>
+            <div ng-if=">
+
+            </div>
         </div>
     </div>
     <!-- / EAO ROW TEMPLATES  -->

@@ -3179,6 +3179,7 @@ $nav-tab-active: #1a5a96;
 	th {
 		border-bottom: none;
 		font-size: 1.4rem;
+		font-weight: normal;
 	}
 
 	.input-sm {
@@ -3504,11 +3505,6 @@ $nav-tab-active: #1a5a96;
 	}
 }
 
-.tag-list {
-	font-style: italic;
-	color: #888;
-}
-
 .pcp-pillar-vc-list {
 	.vc-details {
 		-webkit-flex: 1 1 auto;
@@ -3536,6 +3532,35 @@ $nav-tab-active: #1a5a96;
 	
 	.value {
 		color: #888;
+	}
+}
+
+.comment-vcs {
+	.tag-list {
+		margin-bottom: 0.5rem;
+		font-style: italic;
+		color: #888;
+	}
+
+	.pillars:after {
+		content: ', ';
+	}
+}
+
+.open-house {
+	margin-top: -0.5rem;
+
+	label {
+		padding: 0.5rem 0;
+	}
+
+	.open-house-date {
+		display: block;
+		margin-bottom: 0.2rem;
+	}
+
+	.open-house-desc {
+		color: $font-color-grey;
 	}
 }
 
@@ -3744,6 +3769,11 @@ $nav-tab-active: #1a5a96;
 				padding-right: 1.5rem;
 			}
 		}
+
+		.id-col {
+			width: 6rem;
+		}
+
 		.comment-col {
 			width: 35%;
 		}
@@ -3856,7 +3886,8 @@ $nav-tab-active: #1a5a96;
 	}
 
 	.comment-body {
-		max-height: 50rem;
+		margin-bottom: 0;
+		max-height: 40rem;
 		overflow-y: auto;
 
 		pre {
@@ -3898,23 +3929,6 @@ $nav-tab-active: #1a5a96;
 				padding-top: 0.7rem;
 			}
 		}
-	}
-}
-
-.open-house {
-	margin-top: -0.5rem;
-
-	label {
-		padding: 0.5rem 0;
-	}
-
-	.open-house-date {
-		display: block;
-		margin-bottom: 0.2rem;
-	}
-
-	.open-house-desc {
-		color: $font-color-grey;
 	}
 }
 
