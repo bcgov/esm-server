@@ -29,14 +29,33 @@ angular.module ('comment')
 			s.pillarsArray = [];
 
 			var refreshFilterArrays = function(data) {
+
 				var allTopics = [];
 				var allPillars = [];
+
+				var topicList = [];
+				var pillarList = [];
+
 				_.forEach(data, function(item) {
 					allTopics = allTopics.concat(item.topics);
 					allPillars = allPillars.concat(item.pillars);
 				});
-				_.forEach(_.uniq(allTopics), function(item) { s.topicsArray.push({id: item, title: item}); });
-				_.forEach(_.uniq(allPillars), function(item) { s.pillarsArray.push({id: item, title: item}); });
+
+				topicList.push({id: '', title: ''});
+				_.forEach(_.uniq(allTopics), function(item) {
+					var o = {id: item, title: item};
+					if (!_.includes(topicList, o))
+						topicList.push(o);
+				});
+				angular.copy(topicList, s.topicsArray);
+
+				pillarList.push({id: '', title: ''});
+				_.forEach(_.uniq(allPillars), function(item) {
+					var o = {id: item, title: item};
+					if (!_.includes(pillarList, o))
+						pillarList.push(o);
+				});
+				angular.copy(pillarList, s.pillarsArray);
 			};
 
 			$scope.authentication = Authentication;
@@ -57,7 +76,7 @@ angular.module ('comment')
 			// -------------------------------------------------------------------------
 			s.toggle = function (v) {
 				currentFilter = {eaoStatus:v};
-				if (v === 'Classified' || v === 'Unclassified') currentFilter = {proponentStatus:v};
+				if (v === 'Classified' || v === 'Unclassified') currentFilter = {proponentFilter: (v === 'Unclassified' ? 0 : 1)};
 				angular.extend(s.tableParams.filter(), currentFilter);
 			};
 			s.toggleP = function (v) {
