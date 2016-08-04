@@ -3589,12 +3589,11 @@ $nav-tab-active: #1a5a96;
 .comment-vcs {
 	.tag-list {
 		margin-bottom: 0.5rem;
-		font-style: italic;
-		color: #888;
-	}
-
-	.pillars:after {
-		content: ', ';
+		
+		.label {
+			margin-right: 0.2rem;
+			background: #999;
+		}
 	}
 }
 
