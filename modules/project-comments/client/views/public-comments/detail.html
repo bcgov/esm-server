@@ -37,7 +37,7 @@
 
     <section class="comment-vcs">
         <div class="tag-list" ng-if="s.comment.pillars.length > 0">
-            <span class="label label-default" ng-repeat="pillar in s.comment.pillars">{{pillar}}</span><span class="label label-default" ng-repeat="topic in s.comment.topics">{{topic}}</span>
+            <span class="label label-default" ng-repeat="topic in s.comment.topics">{{topic}}</span>
         </div>
         <button class="btn btn-default btn-sm" type="button" ng-if="s.period.userCan.classifyComments" title="Assign Valued Components"
             x-vc-chooser
