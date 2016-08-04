@@ -8,7 +8,7 @@
 			<td ng-if="environment === 'MEM'" data-title="'Permit'" filter="{'memPermitID':'text'}" sortable="'memPermitID'">
 				{{o.memPermitID}}
 			</td>
-			<td header-class="'type-col'" data-title="'Type'" filter="{type:'select'}" filter-data="projectList.typeArray"sortable="'type'">
+			<td header-class="'type-col'" data-title="'Type'" filter="{type:'select'}" filter-data="projectList.typeArray" sortable="'type'">
 				{{o.type}}
 			</td>
 			<td header-class="'region-col'" data-title="'Region'" filter="{region:'select'}" filter-data="projectList.regionArray" sortable="'region'">
@@ -28,13 +28,16 @@
 				sortable="'eacDecision'">
 				{{o.eacDecision}}
 			</td>
+      <td header-class="'region-col'" data-title="'PCP'" filter="{openCommentPeriod:'select'}" filter-data="projectList.openPCPArray" sortable="'openCommentPeriod'">
+        {{o.openCommentPeriod ? 'Open' : 'Closed'}}
+      </td>
 		</tr>
-		
+
 		<tr ng-show="!$data || !$data.length" class="text-center">
 			<td ng-if="environment === 'EAO'" colspan="4">No results match your search.</td>
 			<td ng-if="environment === 'MEM'" colspan="4">No results match your search.</td>
 		</tr>
-		
+
 	</table>
 </div>
 
