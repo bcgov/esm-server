@@ -150,15 +150,16 @@ angular.module ('vcs')
 							scope.topics.splice (0);
 							tops = s.selected.map (function (e) {
 								pills[index[e].pillar] = 1;
-								return index[e].name;
+								// jsherman - 20160804: chooser displays the title, so let's return title to the caller, not name.
+								return index[e].title;
 							});
 							scope.pillars = _.keys (pills);
 							scope.topics = tops;
 
-							console.log ('tops = ', JSON.stringify(tops));
-							console.log ('pills = ', JSON.stringify(pills));
-							console.log ('scope.pillars = ', JSON.stringify(scope.pillars));
-							console.log ('scope.topics = ', JSON.stringify(scope.topics));
+							//console.log ('tops = ', JSON.stringify(tops));
+							//console.log ('pills = ', JSON.stringify(pills));
+							//console.log ('scope.pillars = ', JSON.stringify(scope.pillars));
+							//console.log ('scope.topics = ', JSON.stringify(scope.topics));
 							$modalInstance.close (s.selected);
 						};
 						s.dealwith = function (id) {

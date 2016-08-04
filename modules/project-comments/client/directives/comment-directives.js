@@ -41,20 +41,23 @@ angular.module ('comment')
 					allPillars = allPillars.concat(item.pillars);
 				});
 
-				topicList.push({id: '', title: ''});
 				_.forEach(_.uniq(allTopics), function(item) {
 					var o = {id: item, title: item};
 					if (!_.includes(topicList, o))
 						topicList.push(o);
 				});
+				// jsherman - 20160804: need an empty one for chrome, so we can de-select the filter...
+				// adds a bogus one to safari and IE though:( so put at the bottom.
+				topicList.push({id: '', title: ''});
 				angular.copy(topicList, s.topicsArray);
 
-				pillarList.push({id: '', title: ''});
 				_.forEach(_.uniq(allPillars), function(item) {
 					var o = {id: item, title: item};
 					if (!_.includes(pillarList, o))
 						pillarList.push(o);
 				});
+				// as above...
+				pillarList.push({id: '', title: ''});
 				angular.copy(pillarList, s.pillarsArray);
 			};
 
