@@ -154,10 +154,11 @@ angular.module ('vcs')
 							});
 							scope.pillars = _.keys (pills);
 							scope.topics = tops;
-							// console.log ('selected = ', tops);
-							// console.log ('selected = ', pills);
-							// console.log ('selected = ', scope.pillars);
-							// console.log ('selected = ', scope.topics);
+
+							console.log ('tops = ', JSON.stringify(tops));
+							console.log ('pills = ', JSON.stringify(pills));
+							console.log ('scope.pillars = ', JSON.stringify(scope.pillars));
+							console.log ('scope.topics = ', JSON.stringify(scope.topics));
 							$modalInstance.close (s.selected);
 						};
 						s.dealwith = function (id) {

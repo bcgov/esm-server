@@ -36,8 +36,8 @@
     </section><!-- / COMMENT INFO -->
 
     <section class="comment-vcs">
-        <div class="tag-list" ng-if="s.comment.pillars.length > 1">
-            <span class="pillars">{{s.comment.pillars.join (', ')}}</span><span>{{s.comment.topics.join (', ')}}</span>
+        <div class="tag-list" ng-if="s.comment.pillars.length > 0">
+            <span ng-repeat="pillar in s.comment.pillars">{{pillar}} {{$last ? '&nbsp;-&nbsp;' : ',&nbsp;'}}</span><span ng-repeat="topic in s.comment.topics">{{topic}} {{$last ? '' : ',&nbsp;'}}</span>
         </div>
         <button class="btn btn-default btn-sm" type="button" ng-if="s.period.userCan.classifyComments" title="Assign Valued Components"
             x-vc-chooser
