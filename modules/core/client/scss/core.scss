@@ -3089,8 +3089,6 @@ $nav-tab-active: #1a5a96;
 /* TABLES
 ------------------------------ */
 .table-th {
-	padding-top: 1rem;
-	padding-bottom: 1rem;
 	font-size: 1.2rem;
 	text-align: left;
 	background: $table-head-bg;
@@ -3120,11 +3118,6 @@ $nav-tab-active: #1a5a96;
 
 	> thead > tr > th {
 		@extend .table-th
-	}
-	
-	th:first-child,
-	td:first-child {
-		padding-left: 1.5rem;
 	}
 
 	tr {
@@ -4644,10 +4637,6 @@ section.project-info {
 		height: calc(400px - 2px);
 		width: 100%;
 	}
-
-	.map-container {
-		margin-bottom: 1.5rem;
-	}
 }
 
 @media (min-height: 900px) {
@@ -4673,7 +4662,95 @@ section.project-info {
 }
 
 .angular-google-map-container {
-	height: 400px;
+	height: 300px;
+}
+
+.home-view {
+	.view-body-container {
+		display: flex;
+	}
+
+	.map-panel {
+		margin: 0;
+		display: flex;
+		flex: 1 1 auto;
+		flex-flow: column nowrap;
+	}
+
+	.map-container,
+	.table-container {
+		position: relative;
+		flex: 1 1 auto;
+		overflow: hidden;
+	}
+
+	.map-container {
+		flex: 0 0 auto;
+		height: 300px;
+	}
+
+	.table-panel {
+		flex: 1 1 auto;
+		overflow-y: scroll;
+		position: relative;
+	}
+
+	.news-panel {
+		width: 30rem;
+		margin-bottom: 0;
+		margin-left: 1.5rem;
+		flex: 0 0 auto;
+		flex-flow: column nowrap;
+		display: flex;
+
+		.panel-heading,
+		.panel-footer {
+			flex: 0 0 auto;
+		}
+
+		.panel-body {
+			flex: 1 1 auto;
+			overflow-y: scroll;
+		}
+	}
+}
+
+.flex-table-container {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+.flex-table {
+	display: flex;
+	height: calc(100% - 60px);
+	flex-flow: column nowrap;
+	table-layout: fixed;
+
+	tr {
+		display: table;
+		table-layout: fixed;
+	}
+
+	thead {
+		tr {
+			width: 100%;
+		}
+	}
+
+	tbody {
+		width: 100%;
+		display: block;
+		overflow-y: scroll;
+		overflow-x: hidden;
+		flex: 1 1 auto;
+
+		tr {
+			width: calc(100% + 17px)
+		}
+	}
 }
 
 

@@ -1,14 +1,6 @@
-<section class="panel panel-default">
-	
-	<div class="panel-heading clearfix">
-		<h2 class="pull-left" ng-show="environment === 'EAO' && title !== 'no'">List of Environmental Assessments</h2>
-		<h2 class="pull-left" ng-show="environment === 'MEM' && title !== 'no'">Mining Projects</h2>
-		<div class="pull-right hidden">
-			<show-filter x-toggle-filter="toggleFilter"></show-filter>
-		</div>
-	</div>
-	
-	<table class="projects-table table table-striped" x-show-filter="true" ng-table="projectList.tableParams">
+
+<div class="flex-table-container">
+	<table class="table table-bordered flex-table" x-show-filter="true" ng-table="projectList.tableParams">
 		<tr ng-repeat="o in $data" class='clickable' ui-sref="p.detail({projectid: o.code})">
 			<td header-class="'name-col'" data-title="'Name'" filter="{'name':'text'}" sortable="'name'">
 				<a ui-sref="p.detail({projectid: o.code})">{{o.name}}</a>
@@ -44,5 +36,5 @@
 		</tr>
 		
 	</table>
-</section>
+</div>
 
