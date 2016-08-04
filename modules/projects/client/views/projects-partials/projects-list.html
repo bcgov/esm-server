@@ -1,6 +1,6 @@
 
 <div class="flex-table-container">
-	<table class="table table-bordered flex-table" x-show-filter="true" ng-table="projectList.tableParams">
+	<table class="table flex-table" x-show-filter="true" ng-table="projectList.tableParams">
 		<tr ng-repeat="o in $data" class='clickable' ui-sref="p.detail({projectid: o.code})">
 			<td header-class="'name-col'" data-title="'Name'" filter="{'name':'text'}" sortable="'name'">
 				<a ui-sref="p.detail({projectid: o.code})">{{o.name}}</a>
@@ -28,7 +28,7 @@
 				sortable="'eacDecision'">
 				{{o.eacDecision}}
 			</td>
-      <td header-class="'region-col'" data-title="'PCP'" filter="{openCommentPeriod:'select'}" filter-data="projectList.openPCPArray" sortable="'openCommentPeriod'">
+      <td header-class="'region-col'" data-title="'Comment Period'" filter="{openCommentPeriod:'select'}" filter-data="projectList.openPCPArray" sortable="'openCommentPeriod'">
         {{o.openCommentPeriod ? 'Open' : 'Closed'}}
       </td>
 		</tr>

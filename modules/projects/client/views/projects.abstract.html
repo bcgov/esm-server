@@ -33,13 +33,15 @@
 			<tmpl-projects-list2 class="table-container" id="anchor-list" x-projects="projects"></tmpl-projects-list2>
 		</div>
 
-		<div class="news-panel panel panel-default news-feed" ng-init="form.expandnews = false">
-			<div class="panel-heading"><h2>News & Announcements</h2></div>
-			<div class="panel-body">
-				<tmpl-recent-activity id="anchor-recent" x-form="form"></tmpl-recent-activity>
-			</div>
-			<div class="panel-footer">
-				<a class="show-all-news-link btn btn-link" href="/news">View all News & Announcements</a>
+		<div class="news-panel">
+			<div class="panel panel-default news-feed" ng-init="form.expandnews = false">
+				<div class="panel-heading"><h2>News & Announcements</h2></div>
+				<div class="panel-body">
+					<tmpl-recent-activity id="anchor-recent" x-form="form"></tmpl-recent-activity>
+				</div>
+				<div class="panel-footer">
+					<a class="show-all-news-link btn btn-link" href="/news">View all News & Announcements</a>
+				</div>
 			</div>
 		</div>
 
