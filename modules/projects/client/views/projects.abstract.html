@@ -1,9 +1,7 @@
 
+<ui-view class="main-panel home-view" id="main-content-section">
 
-<div class="public-home-view main-panel">
-
-	<!-- BEGIN: VIEW BODY CONTAINER -->
-	<ui-view class="view-body-container" id="main-content-section">
+	<div class="view-body-container">
 
 		<!-- BEGIN: MEM DECRIPTION PANEL -->
 		<div class="panel panel-default" ng-if="false" ng-show="environment === 'MEM' && !authentication.user">
@@ -27,32 +25,27 @@
 		</div>
 		<!-- END: MEM DESCRIPTION PANEL -->
 
-		<div class="row">
-			<div class="col-xs-12 col-md-4 col-lg-3" ng-init="form.expandnews = false">
-				<div class="panel panel-default news-feed">
-					<div class="panel-heading"><h2>News & Announcements</h2></div>
-					<div class="panel-body">
-						<tmpl-recent-activity id="anchor-recent" x-form="form"></tmpl-recent-activity>
-					</div>
-					<div class="panel-footer">
-						<a class="show-all-news-link btn btn-link" href="/news">View all News & Announcements</a>
-					</div>
+		<div class="map-panel panel panel-default"">
+			<div class="panel-heading">
+				<h2>Environmental Assessments</h2>
+			</div>
+			<tmpl-projects-map id="anchor-map" x-projects='projects'></tmpl-projects-map>
+			<tmpl-projects-list2 class="table-container" id="anchor-list" x-projects="projects"></tmpl-projects-list2>
+		</div>
+
+		<div class="news-panel">
+			<div class="panel panel-default news-feed" ng-init="form.expandnews = false">
+				<div class="panel-heading"><h2>News & Announcements</h2></div>
+				<div class="panel-body">
+					<tmpl-recent-activity id="anchor-recent" x-form="form"></tmpl-recent-activity>
+				</div>
+				<div class="panel-footer">
+					<a class="show-all-news-link btn btn-link" href="/news">View all News & Announcements</a>
 				</div>
 			</div>
-			<div class="col-xs-12 col-md-8 col-lg-9">
-				<tmpl-projects-map id="anchor-map" x-projects='projects'></tmpl-projects-map>
-			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-sm-12">
-				<tmpl-projects-list2 id="anchor-list" x-projects="projects">
-				</tmpl-projects-list2>
-			</div>
-		</div>
+	</div>
+</ui-view>
 
-	</ui-view>
-	<!-- END: VIEW BODY CONTAINER -->
-
-</div>
 

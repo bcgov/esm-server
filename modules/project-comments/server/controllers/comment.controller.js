@@ -80,22 +80,22 @@ module.exports = DBModel.extend ({
 					// get the max commentId for the period...
 					return new Promise(function(resolve, reject) {
 						self.model
-							 .find({period : comment.period})
-							 .sort({commentId : -1})
-							 .limit(1).exec(function(err, maxResult) {
-							 	if (maxResult && maxResult.length === 1) {
-									var commentId = maxResult[0].commentId + 1;
-									resolve(commentId);
-								} else if(!err) {
-									resolve(1);
-								} else {
-									reject(new Error(err));
-								}
+						.find({period : comment.period})
+						.sort({commentId : -1})
+						.limit(1).exec(function(err, maxResult) {
+							if (maxResult && maxResult.length === 1) {
+								var commentId = _.isFinite(maxResult[0].commentId) ?  maxResult[0].commentId + 1 : 1;
+								resolve(commentId);
+							} else if(!err) {
+								resolve(1);
+							} else {
+								reject(new Error(err));
+							}
 						});
 					});
 				})
-				.then(function(cId) {
-					comment.commentId = cId;
+			.then(function(cId) {
+					comment.commentId = _.isFinite(cId) ? cId : 1; // just check again... make sure this is a number.
 					return comment;
 				})
 				.then(resolve, reject);

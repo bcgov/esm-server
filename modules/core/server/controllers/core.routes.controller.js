@@ -176,6 +176,10 @@ var setSessionContext = function (req) {
 		if (!req.session.context) {
 			req.session.context = 'you aint my buddy guy';
 		}
+		if (req.session.userRoles === undefined) {
+			console.log("Someone didn't set a role properly, so lets assume they have at least the public role.");
+			req.session.userRoles = ['public'];
+		}
 		var opts = {
 			user      : req.user,
 			userRoles : req.session.userRoles,
@@ -290,6 +294,9 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which, policym
 			return (new DBClass (opts)).findById (id);
 		})
 		.then (function (model) {
+			if (!model) {
+				console.log("__0xBADC0DE__");
+			}
 			if (!model) return sendNotFound (res, DBClass.prototype.name+' not found');
 			req[DBClass.prototype.name] = model;
 			next ();

@@ -1,14 +1,6 @@
-<section class="panel panel-default">
-	
-	<div class="panel-heading clearfix">
-		<h2 class="pull-left" ng-show="environment === 'EAO' && title !== 'no'">List of Environmental Assessments</h2>
-		<h2 class="pull-left" ng-show="environment === 'MEM' && title !== 'no'">Mining Projects</h2>
-		<div class="pull-right hidden">
-			<show-filter x-toggle-filter="toggleFilter"></show-filter>
-		</div>
-	</div>
-	
-	<table class="projects-table table table-striped" x-show-filter="true" ng-table="projectList.tableParams">
+
+<div class="flex-table-container">
+	<table class="table flex-table" x-show-filter="true" ng-table="projectList.tableParams">
 		<tr ng-repeat="o in $data" class='clickable' ui-sref="p.detail({projectid: o.code})">
 			<td header-class="'name-col'" data-title="'Name'" filter="{'name':'text'}" sortable="'name'">
 				<a ui-sref="p.detail({projectid: o.code})">{{o.name}}</a>
@@ -16,7 +8,7 @@
 			<td ng-if="environment === 'MEM'" data-title="'Permit'" filter="{'memPermitID':'text'}" sortable="'memPermitID'">
 				{{o.memPermitID}}
 			</td>
-			<td header-class="'type-col'" data-title="'Type'" filter="{type:'select'}" filter-data="projectList.typeArray"sortable="'type'">
+			<td header-class="'type-col'" data-title="'Type'" filter="{type:'select'}" filter-data="projectList.typeArray" sortable="'type'">
 				{{o.type}}
 			</td>
 			<td header-class="'region-col'" data-title="'Region'" filter="{region:'select'}" filter-data="projectList.regionArray" sortable="'region'">
@@ -36,13 +28,16 @@
 				sortable="'eacDecision'">
 				{{o.eacDecision}}
 			</td>
+      <td header-class="'region-col'" data-title="'Comment Period'" filter="{openCommentPeriod:'select'}" filter-data="projectList.openPCPArray" sortable="'openCommentPeriod'">
+        {{o.openCommentPeriod ? 'Open' : 'Closed'}}
+      </td>
 		</tr>
-		
+
 		<tr ng-show="!$data || !$data.length" class="text-center">
 			<td ng-if="environment === 'EAO'" colspan="4">No results match your search.</td>
 			<td ng-if="environment === 'MEM'" colspan="4">No results match your search.</td>
 		</tr>
-		
+
 	</table>
-</section>
+</div>
 

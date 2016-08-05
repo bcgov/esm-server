@@ -29,14 +29,36 @@ angular.module ('comment')
 			s.pillarsArray = [];
 
 			var refreshFilterArrays = function(data) {
+
 				var allTopics = [];
 				var allPillars = [];
+
+				var topicList = [];
+				var pillarList = [];
+
 				_.forEach(data, function(item) {
 					allTopics = allTopics.concat(item.topics);
 					allPillars = allPillars.concat(item.pillars);
 				});
-				_.forEach(_.uniq(allTopics), function(item) { s.topicsArray.push({id: item, title: item}); });
-				_.forEach(_.uniq(allPillars), function(item) { s.pillarsArray.push({id: item, title: item}); });
+
+				_.forEach(_.uniq(allTopics), function(item) {
+					var o = {id: item, title: item};
+					if (!_.includes(topicList, o))
+						topicList.push(o);
+				});
+				// jsherman - 20160804: need an empty one for chrome, so we can de-select the filter...
+				// adds a bogus one to safari and IE though:( so put at the bottom.
+				topicList.push({id: '', title: ''});
+				angular.copy(topicList, s.topicsArray);
+
+				_.forEach(_.uniq(allPillars), function(item) {
+					var o = {id: item, title: item};
+					if (!_.includes(pillarList, o))
+						pillarList.push(o);
+				});
+				// as above...
+				pillarList.push({id: '', title: ''});
+				angular.copy(pillarList, s.pillarsArray);
 			};
 
 			$scope.authentication = Authentication;
@@ -57,7 +79,7 @@ angular.module ('comment')
 			// -------------------------------------------------------------------------
 			s.toggle = function (v) {
 				currentFilter = {eaoStatus:v};
-				if (v === 'Classified' || v === 'Unclassified') currentFilter = {proponentStatus:v};
+				if (v === 'Classified' || v === 'Unclassified') currentFilter = {proponentFilter: (v === 'Unclassified' ? 0 : 1)};
 				angular.extend(s.tableParams.filter(), currentFilter);
 			};
 			s.toggleP = function (v) {
@@ -72,6 +94,9 @@ angular.module ('comment')
 			// -------------------------------------------------------------------------
 			s.refreshEao = function () {
 				CommentModel.getEAOCommentsForPeriod ($scope.period._id).then (function (result) {
+					_.each(result.data, function (item) {
+						item.publishedDocumentCount = item.documents.length;
+					});
 					s.totalPending  = result.totalPending;
 					s.totalDeferred = result.totalDeferred;
 					s.totalPublic   = result.totalPublic;
@@ -113,6 +138,9 @@ angular.module ('comment')
 			// -------------------------------------------------------------------------
 			s.refreshProponent = function () {
 				CommentModel.getProponentCommentsForPeriod ($scope.period._id).then (function (result) {
+					_.each(result.data, function (item) {
+						item.publishedDocumentCount = item.documents.length;
+					});
 					// filters find classified in unclassified by default, just create a numeric field for filtering...
 					_.forEach(result.data, function(o) { o.proponentFilter = o.proponentStatus === 'Unclassified' ? 0 : 1; });
 					s.totalAssigned   = result.totalAssigned;

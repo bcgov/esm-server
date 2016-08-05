@@ -175,6 +175,11 @@ function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $
 				} else {
 					notFound = true;
 				}
+				if ( !newValue.openCommentPeriod || (item.openCommentPeriod === newValue.openCommentPeriod)) {
+					//console.log("cur:",item.openCommentPeriod);
+				} else {
+					notFound = true;
+				}
 				if (!notFound) return item;
 			});
 		}
@@ -218,6 +223,7 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 	projectList.eacDecisionArray = [];
 	projectList.typeArray = [];
 	projectList.phaseArray = [];
+	projectList.openPCPArray = [];
 
 	$scope.$watch('projects', function(newValue) {
 		if (newValue) {
@@ -244,6 +250,10 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 			projs.pluck('currentPhase.name').unique().value().map( function(item) {
 				projectList.phaseArray.push({id: item, title: item});
 			});
+			projs.pluck('openCommentPeriod').unique().value().map( function(item) {
+				projectList.openPCPArray.push({id: item, title: item ? 'Open' : 'Closed'});
+			});
+
 			if ($scope.$parent.filterObj) {
 				projectList.tableParams = new NgTableParams ({
 					count: 10,
