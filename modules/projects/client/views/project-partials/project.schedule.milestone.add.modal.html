@@ -1,0 +1,43 @@
+<div class="modal-header">
+	<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<h3 class="modal-title">Add Milestone</h3>
+</div>
+
+<div class="modal-body">
+	<div class="form-group">
+		<label>Select a Milestone</label>
+		<select class="form-control"
+						ng-model="selectedMilestoneType"
+						ng-options="milestone as milestone.name for milestone in options"
+						ng-selected="selectedMilestoneType === milestone">
+			<!-- <option ng-repeat="milestone in rMilestonesForPhase" value="{{ milestone.code }}">{{ milestone.name }}</option> -->
+		</select>
+	</div>
+	<div ng-show="showCustom" class="form-group">
+		<label class="control-label">Custom Milestone</label>
+		<input type="text" class="form-control" ng-model="customMilestoneText"/>
+	</div>
+	<div class="form-group has-error" ng-class="{'has-error': validateForm}">
+		<label>Date Range / Effective Date?</label>
+		<div class="date-range-control clearfix">
+			<div class="date-range pull-left">
+				<div class="input-group">
+					<p x-modal-date-picker x-selected-date="dateStarted" class="btn form-control-static">{{ dateStarted | amDateFormat:'MMM Do YYYY' }} &nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i>&nbsp; &nbsp;</p>
+				</div>
+			</div>
+			<div class="pull-left spacer">-</div>
+			<div class="date-range pull-left">
+				<div class="input-group">
+					<p x-modal-date-picker x-selected-date="dateCompleted" class="btn form-control-static">{{ dateCompleted | amDateFormat:'MMM Do YYYY' }} &nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i>&nbsp; &nbsp;</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="btn" ng-click="cancel()">Cancel</button>
+	<button type="button" class="btn btn-primary" ng-click="ok(selectedMilestoneType, dateStarted, dateCompleted)">Add Milestone</button>
+</div>

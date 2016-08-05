@@ -176,37 +176,47 @@ module.exports = DBModel.extend ({
 	},
 	// -------------------------------------------------------------------------
 	//
-	// Add a phase to the project from a code
+	// Utility method for API convenience.
+	//
+	// -------------------------------------------------------------------------
+	addPhaseWithId: function (projectId, baseCode) {
+		var self = this;
+		self.findById(projectId)
+			.then(function(project) {
+				return self.addPhase(project, baseCode);
+			});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// Add a phase to the project from a baseCode.
 	//
 	// -------------------------------------------------------------------------
 	addPhase: function (project, baseCode) {
+		var self = this;
 		var Phase = new PhaseClass (this.opts);
+		var PhaseBase = new PhaseBaseClass(this.opts);
 		var phases;
-
 		// Load all phases.
-		return PhaseBaseClass.list()
+		return PhaseBase.list()
 			.then(function(allPhases) {
 				phases = allPhases;
 				// Initialize new Phase.
 				return Phase.fromBase(baseCode, project);
 			})
 			.then(function (phase) {
-				// console.log ('new phase', phase.name, phase._id);
 				// Find correct ordering of new phase.
 				var insertIndex = _.sortedIndex(project.phases, phase,
 					function (p) {
 						return _.findIndex(phases, { code: p.code });
 					});
-				console.log("new phase inserted at: " + insertIndex);
+
 				project.phases.splice(insertIndex, 0, phase);
-				console.log(project.phases);
+				
 				return project;
+			})
+			.then(function(project) {
+				return self.updateCurrentPhaseAndSave(project);
 			});
-			//.then(self.saveDocument)
-			// .then(function (pro) {
-				// console.log ('pro.phases:', JSON.stringify (pro.phases, null, 4));
-				// return pro;
-			// });
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -216,16 +226,18 @@ module.exports = DBModel.extend ({
 	removePhase: function (projectId, phaseId) {
 		var self = this;
 		var Phase = new PhaseClass (this.opts);
+		var project;
 
-		return Phase.findById(phaseId)
-			.then(function (phase) {
+		return self.findById(projectId)
+			.then(function (p) {
+				project = p;
 				// Remove phase model.
+				return Phase.findById(phaseId);
+			})
+			.then(function(phase) {
 				return Phase.delete(phase);
 			})
 			.then(function() {
-				return self.findById(projectId);
-			})
-			.then(function(project) {
 				var phaseIndex = _.findIndex(project.phases, function (p) {
 					return p._id.equals(phaseId);
 				});
@@ -242,7 +254,9 @@ module.exports = DBModel.extend ({
 
 				return project;
 			})
-			.then(self.updateCurrentPhaseAndSave);
+			.then(function(project) {
+				return self.updateCurrentPhaseAndSave(project);
+			});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -255,12 +269,14 @@ module.exports = DBModel.extend ({
 		var Phase = new PhaseClass(self.opts);
 		return Phase.findById(phaseId)
 			.then(function (phase) {
-				return Phase.complete(phase);
+				return Phase.completePhase(phase);
 			})
 			.then(function () {
 				return self.findById(projectId);
 			})
-			.then (self.updateCurrentPhaseAndSave);
+			.then (function(project) {
+				return self.updateCurrentPhaseAndSave(project);
+			});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -273,12 +289,14 @@ module.exports = DBModel.extend ({
 		var Phase = new PhaseClass(self.opts);
 		return Phase.findById(phaseId)
 			.then(function (phase) {
-				return Phase.uncomplete(phase);
+				return Phase.uncompletePhase(phase);
 			})
 			.then(function () {
 				return self.findById(projectId);
 			})
-			.then (self.updateCurrentPhaseAndSave);
+			.then (function(project) {
+				return self.updateCurrentPhaseAndSave(project);
+			});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -288,33 +306,66 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	startNextPhase: function (projectId) {
 		var self = this;
-
-		console.log('projectId: ' + projectId);
+		var Phase = new PhaseClass(self.opts);
+		var project;
 
 		return self.findById(projectId)
-			.then(function(project) {
+			.then(function(p) {
+				project = p;
+
 				if (!project.currentPhase) {
 					return project;
 				}
 				//
 				// this is a no-op if the phase is already completed so its ok
 				//
-				var Phase = new PhaseClass(self.opts);
-				return Phase.complete(project.currentPhase)
-					.then(function () {
-						var nextIndex = _.findIndex(project.phases, function (phase) {
-								return phase._id.equals(project.currentPhase._id);
-							}) + 1;
+				return Phase.completePhase(project.currentPhase);
+			})
+			.then(function () {
+				if (!project.currentPhase) {
+					return project;
+				}
 
-						project.currentPhase = project.phases[nextIndex];
-						project.currentPhaseCode = project.phases[nextIndex].code;
-						project.currentPhaseName = project.phases[nextIndex].name;
-						return Phase.start(project.currentPhase);
-					})
-					.then(function () {
-						return self.saveAndReturn(project);
-					});
+				var nextIndex = _.findIndex(project.phases, function (phase) {
+						return phase._id.equals(project.currentPhase._id);
+					}) + 1;
+
+				project.currentPhase = project.phases[nextIndex];
+				project.currentPhaseCode = project.phases[nextIndex].code;
+				project.currentPhaseName = project.phases[nextIndex].name;
+
+				return Phase.start(project.currentPhase);
+			})
+			.then(function () {
+				return self.saveAndReturn(project);
+			})
+			.then(function () {
+				return self.findById(project._id);
 			});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// publish, unpublish
+	//
+	// -------------------------------------------------------------------------
+	updateCurrentPhaseAndSave: function (project) {
+		for (var i = 0; i < project.phases.length - 1; ++i) {
+			var curr = project.phases[i];
+			var next = project.phases[i + 1];
+
+			if (curr.status === 'In Progress') {
+				break;
+			}
+
+			if (curr.status === 'Complete' && next.status === 'Not Started') {
+				break;
+			}
+		}
+
+		project.currentPhase = project.phases[i];
+		project.currentPhaseCode = project.phases[i].code;
+		project.currentPhaseName = project.phases[i].name;
+		return this.saveAndReturn(project);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -347,31 +398,6 @@ module.exports = DBModel.extend ({
 			// 	permissions : {submit : [p.adminRole, p.sectorRole]}
 			// });
 		});
-	},
-	// -------------------------------------------------------------------------
-	//
-	// publish, unpublish
-	//
-	// -------------------------------------------------------------------------
-	updateCurrentPhaseAndSave: function (project) {
-		for (var i = 0; i < project.phases.length - 1; ++i) {
-			var curr = project.phases[i];
-			var next = project.phases[i + 1];
-
-			if (curr.status === 'In Progress') {
-				break;
-			}
-
-			if (curr.status === 'Complete' && next.status === 'Not Started') {
-				break;
-			}
-		}
-
-		project.currentPhase = project.phases[i];
-		project.currentPhaseCode = project.phases[i].code;
-		project.currentPhaseName = project.phases[i].name;
-
-		return this.saveAndReturn(project);
 	},
 	// -------------------------------------------------------------------------
 	//

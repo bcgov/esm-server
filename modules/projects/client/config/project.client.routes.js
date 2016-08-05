@@ -105,81 +105,182 @@ angular.module('project').config (
 		templateUrl: 'modules/projects/client/views/project-partials/project.schedule.html',
 		controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel, $modal, PhaseBaseModel) {
 			var self = this;
-			self.rSelPhase = undefined;
-			self.rMilestonesForPhase = undefined;
 
-			$scope.openDeleteMilestone = function(id) {
-					$modal.open({
-							animation: true,
-							templateUrl: 'modules/projects/client/views/project-partials/project.schedule.delete.modal.html',
-							controller: function ($modalInstance, MilestoneModel, $rootScope) {
-								this.ok = function () {
-									// Delete it
-									MilestoneModel.deleteMilestone(id).then(
-										function(res) {
-											$modalInstance.dismiss('ok');
-											$rootScope.$broadcast('refreshPhases', res);
-										}
-									);
-								};
-								this.cancel = function () {
-									$modalInstance.dismiss('cancel');
-								};
-							},
-							controllerAs: 'self',
-							scope: $scope,
-							size: 'lg'
+			$scope.milestonesForPhases = {};
+
+			function addMilestonesToPhase (milestones) {
+				milestones.forEach(function(milestone) {
+					if (!(milestone.phase in $scope.milestonesForPhases)) {
+						$scope.milestonesForPhases[milestone.phase] = [];
+					}
+
+					$scope.milestonesForPhases[milestone.phase].push(milestone);
+				});
+				$scope.$apply();
+			}
+
+			function loadAllMilestones () {
+				MilestoneModel.userMilestones($scope.project._id, "read").then(addMilestonesToPhase);
+			}
+			// Initialize milestone data structure.
+			loadAllMilestones();
+
+			function loadMilestonesForPhase (phaseId) {
+				MilestoneModel.milestonesForPhase(phaseId)
+					.then(function(milestones) {
+						if (phaseId in $scope.milestonesForPhases) {
+							$scope.milestonesForPhases[phaseId].length = 0;
+						}
+
+						addMilestonesToPhase(milestones);
+					});
+			}
+
+			$scope.completeMilestone = function (milestone) {
+				MilestoneModel.completeMilestone(milestone._id)
+					.then(function () {
+						loadMilestonesForPhase(milestone.phase);
 					});
 			};
-			$scope.completeMilestone = function (milestoneId) {
-				MilestoneModel.completeMilestone(milestoneId)
-				.then(function (obj) {
-					$rootScope.$broadcast('refreshPhases', obj);
-				});
+			$scope.startMilestone = function (milestone) {
+				MilestoneModel.startMilestone(milestone._id)
+					.then(function () {
+						loadMilestonesForPhase(milestone.phase);
+					});
 			};
-			$scope.startMilestone = function (milestoneId) {
-				MilestoneModel.startMilestone(milestoneId)
-				.then(function (obj) {
-					$rootScope.$broadcast('refreshPhases', obj);
-				});
+
+			$scope.addMilestone = function(phase) {
+				$modal.open({
+					scope: $scope.$new(),
+					animation: true,
+					templateUrl: 'modules/projects/client/views/project-partials/project.schedule.milestone.add.modal.html',
+					controller: function ($modalInstance, MilestoneModel, $scope) {
+						$scope.options = phaseDropdownOptions(phase);
+						$scope.selectedMilestoneType = $scope.options[0];
+
+						$scope.cancel = function () {
+							$modalInstance.dismiss("cancel");
+						};
+
+						$scope.ok = function(selectedMilestoneType, dateStarted, dateCompleted) {
+
+							var oneDay = (1000 * 60 * 60 * 24);
+							var numberOfDays = 90;
+							if (dateCompleted && dateStarted) {
+								numberOfDays = Math.floor((dateCompleted - dateStarted) / oneDay);
+							}
+
+							// If they add a custom milestone, override the code and name here.
+							if (selectedMilestoneType.code === 'custom-milestone') {
+								selectedMilestoneType.code = $scope.customMilestoneText;
+								selectedMilestoneType.name = $scope.customMilestoneText;
+							}
+							return MilestoneModel.add({
+								"code": selectedMilestoneType.code,
+								"name": selectedMilestoneType.name,
+								"phase": phase._id,
+								"dateStartedEst": dateStarted,
+								"dateCompletedEst": dateCompleted,
+								"duration": numberOfDays,
+								"project": $scope.project._id,
+								"projectCode": $scope.project.code
+							})
+								.then(function (ms) {
+									phase.milestones.push(ms._id);
+									return PhaseModel.save(phase);
+								})
+								.then(function(p) {
+									phase.__v = p.__v;
+									$modalInstance.close();
+								});
+						};
+					},
+					size: 'lg'
+				})
+					.result
+					.then(function (data) {
+						loadMilestonesForPhase(phase._id);
+					});
 			};
-			$scope.ok = function (obj) {
-				MilestoneModel.save(obj).then(function (res) {
-					// $modalInstance.dismiss();
-				});
-			};
+
 			$scope.openEditMilestone = function(milestone) {
-					var modalDocView = $modal.open({
-							animation: true,
-							templateUrl: 'modules/projects/client/views/project-partials/project.schedule.milestone.edit.modal.html',
-							scope: $scope,
-							resolve: {
-								data: function (MilestoneModel) {
-									return MilestoneModel.get('/api/milestone/'+milestone);
-								}
-							},
-							controller: function ($modalInstance, MilestoneModel, data, $scope) {
-								var myData = this;
-								myData.data = data;
-								myData.cancel = function () {
-									$modalInstance.dismiss('cancel');
-								};
-								myData.ok = function () {
-									MilestoneModel.save(myData.data).then(function (res) {
-										$rootScope.$broadcast('refreshPhases', res);
-										$modalInstance.close();
-									}).catch(function (err) {
-										$modalInstance.dismiss('cancel');
-									});
-								};
-							},
-							controllerAs: 'myData',
-							size: 'lg'
+				$modal.open({
+					scope: $scope.$new(),
+					animation: true,
+					templateUrl: 'modules/projects/client/views/project-partials/project.schedule.milestone.edit.modal.html',
+					resolve: {
+						milestone: function (MilestoneModel) {
+							return MilestoneModel.get('/api/milestone/'+milestone._id);
+						}
+					},
+					controller: function ($modalInstance, MilestoneModel, milestone, $scope) {
+						$scope.milestone = milestone;
+
+						$scope.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+						$scope.ok = function () {
+							console.log("ok");
+							MilestoneModel.save($scope.milestone)
+								.then(function (res) {
+									$modalInstance.close(res);
+								});
+						};
+					},
+					size: 'lg'
+				})
+					.result
+					.then(function () {
+						loadMilestonesForPhase(milestone.phase);
 					});
-					modalDocView.result.then(function (data) {
-						// Todo - update the item in the list
-						// scope.data = data;
-					}, function () {});
+			};
+
+			$scope.openDeleteMilestone = function(milestone) {
+				$modal.open({
+					scope: $scope.$new(),
+					animation: true,
+					templateUrl: 'modules/projects/client/views/project-partials/project.schedule.milestone.delete.modal.html',
+					controller: function ($modalInstance, MilestoneModel, $rootScope) {
+						$scope.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+
+						$scope.ok = function () {
+							// Delete it
+							console.log("ok");
+							console.log(milestone);
+
+							var phase = _.findWhere($scope.project.phases, { _id: milestone.phase });
+							var promise = Promise.resolve(phase);
+
+							if (phase) {
+								console.log("found phase");
+								var index = phase.milestones.indexOf(milestone._id);
+								if (index >= 0) {
+									console.log("found milestone");
+									phase.milestones.splice(index, 1);
+
+									promise = PhaseModel.save(phase);
+								}
+							}
+
+							promise
+								.then(function(p) {
+									phase.__v = p.__v;
+									return MilestoneModel.deleteMilestone(milestone._id);
+								})
+								.then(function (res) {
+									$modalInstance.close();
+								});
+						};
+					},
+					size: 'lg'
+				})
+					.result
+					.then(function() {
+						console.log("reloading milestones for phases");
+						return loadMilestonesForPhase(milestone.phase);
+					});
 			};
 
 			$scope.isNextPhase = function (id) {
@@ -194,6 +295,16 @@ angular.module('project').config (
 					return false;
 				if ($scope.project.phases[index+1]._id === id)
 					return true;
+			};
+
+			$scope.isLastCompletePhase = function (id) {
+				var index = _.findLastIndex($scope.project.phases, { status: "Complete" });
+
+				if (index < 0) {
+					return false;
+				}
+
+				return $scope.project.phases[index]._id === id;
 			};
 
 			$scope.startNextPhase = function () {
@@ -217,14 +328,46 @@ angular.module('project').config (
 					});
 			};
 
+			$scope.addPhase = function(phase) {
+				$modal.open({
+					scope: $scope.$new(),
+					animation: true,
+					templateUrl: 'modules/projects/client/views/project-partials/project.schedule.phase.add.modal.html',
+					resolve: {
+						options: function(PhaseBaseModel) {
+							return PhaseBaseModel.getCollection();
+						}
+					},
+					controller: function ($modalInstance, MilestoneModel, $scope, options) {
+						$scope.options = _.filter(options, function(option) {
+							return !_.findWhere($scope.project.phases, { code: option.code });
+						});
+
+						$scope.selectedPhase = $scope.options[0];
+
+						$scope.cancel = function () {
+							$modalInstance.dismiss("cancel");
+						};
+
+						$scope.ok = function(selectedPhase) {
+							ProjectModel.addPhase($scope.project, selectedPhase.code)
+								.then(function(project) {
+									$modalInstance.close(project);
+								});
+						};
+					},
+					size: 'lg'
+				})
+					.result
+					.then(function (project) {
+						$scope.project = project;
+					});
+			};
+
+
 			$scope.deletePhase = function(phase) {
 				// Remove Phase from project.
 				return ProjectModel.removePhase($scope.project, phase)
-					// .then(function(res) {
-					// 	$scope.project = res;
-					// 	// Delete Phase from database.
-					// 	return PhaseModel.deleteId (phase._id);
-					// })
 					.then(function(res) {
 						// Update model and UI.
 						$scope.project = res;
@@ -263,13 +406,12 @@ angular.module('project').config (
 					});
 			};
 
-			$scope.popluatePhaseDropdown = function (phase) {
-				// console.log("populate phase on phase:",phase.code);
-				$scope.rSelPhase = phase;
-				$scope.rMilestonesForPhase = [];
+			function phaseDropdownOptions (phase) {
+				var options;
+
 				switch(phase.code) {
 					case "pre-ea":
-						$scope.rMilestonesForPhase = [
+						options = [
 							{
 								"code": 'new-project-initiated',
 								"name": 'New Project Initiated'
@@ -315,16 +457,17 @@ angular.module('project').config (
 							}];
 						break;
 					case "pre-app":
-						$scope.rMilestonesForPhase = [{
+						options = [
+							{
 								"name": "Section 11 Order",
 								"code": "section-11-order"
-							},{
+							}, {
 								"code": 'section-15-order',
 								"name": 'Section 15 Order - s.14 variance'
-							},{
+							}, {
 								"code": 'section-14-order',
 								"name": 'Section 14 Order'
-							},{
+							}, {
 								"code": 'section-13-order',
 								"name": 'Section 13 Order - s.11 variance'
 							}, {
@@ -348,34 +491,34 @@ angular.module('project').config (
 							}, {
 								"code": 'section-34-1-order',
 								"name": 'Section 34(1) Order - Cease or Remedy Activity'
-							},{
+							}, {
 								"code": 'assessment-suspension',
 								"name": 'Assessment Suspension - s.30.1',
-							},{
+							}, {
 								"code": 'project-termination',
 								"name": 'Project Termination - s.24.3',
-							},{
+							}, {
 								"code": 'vc-finalized-and-approved',
 								"name": 'VC Finalized and Approved',
-							},{
+							}, {
 								"code": 'pre-app-pcp-completed',
 								"name": 'Pre-App PCP Completed',
-							},{
+							}, {
 								"code": 'pre-app-open-house-completed',
 								"name": 'Pre-App Open House Completed',
-							},{
+							}, {
 								"code": 'draft-vc-ready-for-commenting',
 								"name": 'Draft VC Ready for Commenting',
-							},{
+							}, {
 								"code": 'working-group-formed',
 								"name": 'Working Group Formed',
-							},{
+							}, {
 								"code": 'announce-project',
 								"name": 'Announce Project',
 							}];
 						break;
 					case "evaluation":
-						$scope.rMilestonesForPhase = [
+						options = [
 							{
 								"name": "Application Evaluation",
 								"code": "application-evaluation"
@@ -400,7 +543,7 @@ angular.module('project').config (
 							}, {
 								"code": 'section-34-1-order',
 								"name": 'Section 34(1) Order - Cease or Remedy Activity'
-							},  {
+							}, {
 								"code": 'assessment-suspension',
 								"name": 'Assessment Suspension - s.30.1',
 							}, {
@@ -415,7 +558,7 @@ angular.module('project').config (
 							}];
 						break;
 					case "application-review":
-						$scope.rMilestonesForPhase = [
+						options = [
 							{
 								"name": "Application Accepted",
 								"code": "application-accepted"
@@ -446,7 +589,7 @@ angular.module('project').config (
 							}, {
 								"code": 'section-34-1-order',
 								"name": 'Section 34(1) Order - Cease or Remedy Activity'
-							},  {
+							}, {
 								"code": 'assessment-suspension',
 								"name": 'Assessment Suspension - s.30.1',
 							}, {
@@ -462,7 +605,7 @@ angular.module('project').config (
 						  ];
 						break;
 					case "decision":
-						$scope.rMilestonesForPhase = [
+						options = [
 							{
 								"name": "Minister's Decision",
 								"code": "ministers-decision"
@@ -478,7 +621,7 @@ angular.module('project').config (
 							}, {
 								"code": 'section-34-1-order',
 								"name": 'Section 34(1) Order - Cease or Remedy Activity'
-							},  {
+							}, {
 								"code": 'assessment-suspension',
 								"name": 'Assessment Suspension - s.30.1',
 							}, {
@@ -493,7 +636,7 @@ angular.module('project').config (
 							}];
 						break;
 					case "post-certification":
-						$scope.rMilestonesForPhase = [
+						options = [
 							{
 								"name": "Certificate Issued - s.17",
 								"code": "certificate-issued-s.17"
@@ -506,34 +649,34 @@ angular.module('project').config (
 							}, {
 								"code": 'section-34-1-order',
 								"name": 'Section 34(1) Order - Cease or Remedy Activity'
-							},{
+							}, {
 								"code": 'ea-certificate-extension',
 								"name": 'EA Certificate Extension',
-							},{
+							}, {
 								"code": 'ea-certificate-extension-fee',
 								"name": 'EA Certificate Extension Fee',
-							},{
+							}, {
 								"code": 'ea-certificate-amendment',
 								"name": 'EA Certificate Amendment',
-							},{
+							}, {
 								"code": 'ea-certificate-amendment-fee',
 								"name": 'EA Certificate Amendment Fee',
-							},{
+							}, {
 								"code": 'ea-certificate-amendment-pcp-initiated',
 								"name": 'EA Certificate Amendment PCP Initiated',
-							},{
+							}, {
 								"code": 'ea-certificate-amendment-open-house-completed',
 								"name": 'EA Certificate Amendment Open House Completed',
-							},{
+							}, {
 								"code": 'ea-certificate-amendment-pcp-completed',
 								"name": 'EA Certificate Amendment PCP Completed',
-							},{
+							}, {
 								"code": 'ea-certificate-cancellation-s-37-1',
 								"name": 'EA Certificate Cancellation - s.37.1',
-							},{
+							}, {
 								"code": 'ea-certificate-expired-s-18-5',
 								"name": 'EA Certificate Expired - s.18.5',
-							},{
+							}, {
 								"code": 'ea-certificate-suspension-s-37-1',
 								"name": 'EA Certificate Suspension - s.37.1',
 							}];
@@ -541,91 +684,19 @@ angular.module('project').config (
 				}
 				// Add this to everything except:
 				if (phase.code !== 'post-certification') {
-					$scope.rMilestonesForPhase.push(
-						{
-							"name": "Project Withdrawn",
-							"code": "project-withdrawn"
-						});
+					options.push({
+						"name": "Project Withdrawn",
+						"code": "project-withdrawn"
+					});
 				}
 				// Always add free-text version
-				$scope.rMilestonesForPhase.push(
-					{
+				options.push(					{
 						"name": "Custom Milestone",
 						"code": "custom-milestone"
 					});
-				$scope.selectedMilestoneType = $scope.rMilestonesForPhase[0];
-			};
 
-			$scope.selectedAMilestone = function(item) {
-				if (item) {
-					if (item.code === 'custom-milestone') {
-						// Disable the free-text
-						$scope.showCustom = true;
-					} else {
-						// Enable the free-text
-						$scope.showCustom = false;
-					}
-				}
-			};
-
-			// Handle the add milestone
-			$scope.addMilestone = function(selectedMilestone, dateStarted, dateCompleted, duration) {
-				// Just add a milestone, attach it to a specific phase - this is a generic
-				// schedule, which really doesn't follow the flow of anything.  It's just a
-				// Marker of sorts.  We will need to look this up when phases/milestones progress
-				// through the flow of the business in order to delete/reset these milestones.
-				// For now, this becomes a 'look ahead' schedule that staff can use to view
-				// the project 'plan'
-
-				var oneDay = (1000 * 60 * 60 * 24);
-				var numberOfDays = 90;
-				if (dateCompleted && dateStarted) {
-					numberOfDays = Math.floor((dateCompleted - dateStarted) / oneDay);
-				}
-
-				// If they add a custom milestone, override the code and name here.
-				if (selectedMilestone.code === 'custom-milestone') {
-					selectedMilestone.code = $scope.customMilestoneText;
-					selectedMilestone.name = $scope.customMilestoneText;
-				}
-				MilestoneModel.add({
-					"code": selectedMilestone.code,
-					"name": selectedMilestone.name,
-					"phase": $scope.rSelPhase,
-					"dateStartedEst": dateStarted,
-					"dateCompletedEst": dateCompleted,
-					"duration": numberOfDays
-				})
-				.then(function (ms) {
-					$scope.rSelPhase.milestone = ms;
-					$scope.rSelPhase.milestones.push(ms);
-					return PhaseModel.save($scope.rSelPhase);
-				})
-				.then( function (phase) {
-					// console.log("newphase:", phase);
-					$rootScope.$broadcast('refreshPhases');
-				});
-			};
-			// Handle the delete milestone
-			$scope.selectedMilestone = function (milestone, phase) {
-				// console.log("selected milestone: ", MilestoneModel);
-				// console.log("selected phase:", $scope.rSelPhase);
-				self.selMilestone = milestone;
-				MilestoneModel.get(milestone).then(function (res) {
-					// console.log("Milestone with activities data:",res);
-					$scope.data = res;
-					$scope.$apply();
-				});
-			};
-			$scope.editMilestone = function (milestone, phase) {
-				self.selMilestone = milestone;
-				// Hack until we put into the service
-				MilestoneModel.get('/api/milestone/'+milestone).then(function (res) {
-					// console.log("Milestone with activities data:",res);
-					$scope.data = res;
-					$scope.$apply();
-				});
-			};
+				return options;
+			}
 		}
 	});
 }]);

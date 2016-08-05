@@ -310,10 +310,10 @@ module.exports = DBModel.extend ({
 	// get milestones for a given context of access and project
 	//
 	// -------------------------------------------------------------------------
-	userMilestones: function (projectCode, access) {
+	userMilestones: function (projectId, access) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			var q = (projectCode) ? {projectCode:projectCode} : {} ;
+			var q = (projectId) ? { project: projectId } : {} ;
 			var p = (access === 'write') ? self.listwrite (q) : self.list (q);
 			p.then (resolve, reject);
 		});
@@ -324,7 +324,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	milestonesForPhase: function (id) {
-		var p = this.list ({phase:id});
+		var p = this.list ({ phase: id });
 		return new Promise (function (resolve, reject) {
 			p.then (resolve, reject);
 		});

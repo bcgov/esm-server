@@ -141,16 +141,13 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	addMilestone : function (phase, basecode) {
 		var self = this;
-		console.log ('addmilestone 1 ');
 		var Milestone = new MilestoneClass (self.opts);
-		console.log ('addmilestone 12 ');
 		return new Promise (function (resolve, reject) {
 			//
 			// get the new milestone
 			//
 			Milestone.fromBase (basecode, phase)
 			.then (function (milestone) {
-				console.log ('adding milestone with id '+milestone._id+' to phase '+phase._id);
 				phase.milestones.push (milestone._id);
 				return phase;
 			})
@@ -168,7 +165,6 @@ module.exports = DBModel.extend ({
 		phase.dateStarted      = new Date ();
 		phase.dateCompletedEst = new Date (phase.dateStarted);
 		phase.dateCompletedEst.setDate (phase.dateCompletedEst.getDate () + phase.duration);
-		// console.log ('starting pahse', phase._id, phase.name);
 		return this.findAndUpdate (phase);
 	},
 	// -------------------------------------------------------------------------
@@ -177,41 +173,34 @@ module.exports = DBModel.extend ({
 	// may rather want to mark them as overridden.
 	//
 	// -------------------------------------------------------------------------
-	complete: function (phase) {
+	completePhase: function (phase) {
 		var self = this;
-		return new Promise (function (resolve, reject) {
-			self.findById(phase)
-			.then(function (phase) {
-				if (!phase.completed) {
-					phase.status        = 'Complete';
-					phase.completed     = true;
-					phase.completedBy   = self.user._id;
-					phase.dateCompleted = new Date ();
-					phase.progress = 100;
-					if (!phase.milestones) {
-						return self.findAndUpdate (phase).then (resolve, reject);
-					} else {
-						self.completeMilestones (phase)
-						.then (function () {return self.findAndUpdate (phase);})
-						.then (resolve, reject);
-					}
-				} else {
-					resolve (phase);
-				}
-			});
-		});
-	},
-	uncomplete: function (phase) {
-		var self = this;
-		return self.findById(phase)
-				.then(function (phase) {
-					phase.status = 'In Progress';
-					phase.completed = false;
-					phase.completedBy = null;
-					phase.dateCompleted = null;
-					phase.progress = 50; //TODO: What value to use?
-					return self.findAndUpdate(phase);
+
+		if (!phase.completed) {
+			phase.status = 'Complete';
+			phase.completed = true;
+			phase.completedBy = self.user._id;
+			phase.dateCompleted = new Date();
+			phase.progress = 100;
+		}
+
+		if (phase.milestones) {
+			return self.completeMilestones(phase)
+				.then(function() {
+					self.findAndUpdate(phase);
 				});
+		} else {
+			return self.findAndUpdate(phase);
+		}
+	},
+	uncompletePhase: function (phase) {
+		var self = this;
+		phase.status = 'In Progress';
+		phase.completed = false;
+		phase.completedBy = null;
+		phase.dateCompleted = null;
+		phase.progress = 50; //TODO: What value to use?
+		return self.findAndUpdate(phase);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -228,8 +217,8 @@ module.exports = DBModel.extend ({
 			phase.completedBy    = self.user._id;
 			phase.dateCompleted  = new Date ();
 			self.overrideMilestones (phase)
-			.then (self.findAndUpdate)
-			.then (resolve, reject);
+				.then (self.findAndUpdate)
+				.then (resolve, reject);
 		});
 	},
 	// -------------------------------------------------------------------------
@@ -238,13 +227,10 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	completeMilestones: function (phase) {
-		// console.log ('completing milestones',phase.milestones);
 		if (!phase.milestones) {
-			// console.log("returning completeMilestones early");
 			return Promise.resolve(phase);
 		} else {
 			var self = this;
-		// console.log (JSON.stringify (phase, null, 4));
 			var Milestone = new MilestoneClass (self.opts);
 			return Promise.all (phase.milestones.map (function (milestoneId) {
 				return Milestone.findById (milestoneId);

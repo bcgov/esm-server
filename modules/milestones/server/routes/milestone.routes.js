@@ -15,10 +15,10 @@ module.exports = function (app) {
 	//
 	// all milestones for a phase
 	//
-	app.route ('/api/milestone/for/phase/:phase')
+	app.route ('/api/milestone/for/phase/:phaseId')
 		.all (policy ('user'))
 		.get (routes.setAndRun (Milestone, function (model, req) {
-			return model.milestonesForPhase (req.Phase._id);
+			return model.milestonesForPhase (req.params.phaseId);
 		}));
 	//
 	// milestone base
@@ -47,19 +47,19 @@ module.exports = function (app) {
 	//
 	// all milestones for this project that the user can read
 	//
-	app.route ('/api/milestone/in/project/:project')
+	app.route ('/api/milestone/in/project/:projectId')
 		.all (policy ('user'))
 		.get (routes.setAndRun (Milestone, function (model, req) {
-			return model.userMilestones (req.Project.code, 'read');
+			return model.userMilestones (req.params.projectId, 'read');
 		}));
 	//
 	// start a specific milestone
 	//
-	app.route ('/api/milestone/complete/:milestoneid')
+	app.route ('/api/milestone/complete/:milestoneId')
 		.all (policy ('user'))
 		.all (routes.setModel (Milestone))
 		.put (routes.setAndRun (Milestone, function (model, req) {
-			return model.findById (req.params.milestoneid)
+			return model.findById (req.params.milestoneId)
 			.then (function (milestone) {
 				return model.complete (milestone);
 			});
@@ -67,11 +67,11 @@ module.exports = function (app) {
 	//
 	// complete a specific milestone
 	//
-	app.route ('/api/milestone/start/:milestoneid')
+	app.route ('/api/milestone/start/:milestoneId')
 		.all (policy ('user'))
 		.all (routes.setModel (Milestone))
 		.put (routes.setAndRun (Milestone, function (model, req) {
-			return model.findById (req.params.milestoneid)
+			return model.findById (req.params.milestoneId)
 			.then (function (milestone) {
 				return model.start (milestone);
 			});
@@ -79,10 +79,10 @@ module.exports = function (app) {
 	//
 	// all milestones for this project that the user can write
 	//
-	app.route ('/api/write/milestone/in/project/:project')
+	app.route ('/api/write/milestone/in/project/:projectId')
 		.all (policy ('user'))
 		.get (routes.setAndRun (Milestone, function (model, req) {
-			return model.userMilestones (req.Project.code, 'write');
+			return model.userMilestones (req.params.projectId, 'write');
 		}));
 };
 

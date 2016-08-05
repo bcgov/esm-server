@@ -18,7 +18,7 @@ module.exports = function (app) {
 	app.route ('/api/project/:project/add/phase/:phaseBaseCode')
 		.all (policy ('user'))
 		.put (routes.setAndRun (Project, function (model, req) {
-			return model.addPhase (req.params.project, req.params.phaseBaseCode);
+			return model.addPhaseWithId (req.params.project, req.params.phaseBaseCode);
 		}));
 	// remove a phase from a project
 	app.route ('/api/project/:project/remove/phase/:phase')
