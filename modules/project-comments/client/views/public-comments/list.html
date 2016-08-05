@@ -8,6 +8,9 @@
 				class="btn btn-default"
 				ng-click="s.showTopicCloud = false"
 				ng-class="{'btn-primary': s.showByStyle === 'bychart'}">Hide Comment Volume</button>
+		<button ng-if="authentication.user"
+				class="btn btn-default"
+				ng-click="s.downloadCommentData()">Download Comment CSV</button>
 		<label ng-show="s.showTopicCloud === true" class="text-center control-label"><h3>Comment Volume by Topic</h3></label>
 	</div>
 	<div>
