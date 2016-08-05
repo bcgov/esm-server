@@ -27,6 +27,7 @@ angular.module ('comment')
 			var currentFilter;
 			s.topicsArray = [];
 			s.pillarsArray = [];
+			s.showTopicCloud = false;
 
 			var refreshFilterArrays = function(data) {
 
@@ -59,6 +60,31 @@ angular.module ('comment')
 				// as above...
 				pillarList.push({id: '', title: ''});
 				angular.copy(pillarList, s.pillarsArray);
+
+				var topicCloud = [];
+				//  Grab the topics and insert them into the tag cloud.
+				_.each(allTopics, function (topic) {
+					// console.log("checking for topic:", topic);
+					var index = _.indexOf(_.pluck(topicCloud, 'name'), topic);
+					var count = 1;
+					if (index !== -1) {
+						count = topicCloud[index].size +1;
+						_.remove(topicCloud, {
+							name: topic
+						});
+					}
+					// Add the new value in.
+					topicCloud.push( {name: topic, size: count});
+				});
+				s.refreshVisualization = 1;
+				// This is an example of what the tag cloud expects
+				// s.commentsByTopicVis = { name: 'byTopic', children:[
+				// 	{name: "Thing 1", size: 1},
+				// 	{name: "Thing 2", size: 2},
+				// 	{name: "Cat in the Hat", size: 3},
+				// ]};
+				s.commentsByTopicVis = { name: 'byTopic', children: topicCloud};
+
 			};
 
 			$scope.authentication = Authentication;
