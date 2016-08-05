@@ -140,7 +140,7 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	Menus.addMenuItem('projectMenu', {
 		title: 'Documents',
 		state: 'p.documents',
-		permissions: ['context.public', 'context.listDocuments']
+		permissions: ['context.listDocuments']
 	});
 	if (ENV === 'EAO') {
 		Menus.addMenuItem('projectMenu', {
