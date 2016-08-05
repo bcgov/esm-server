@@ -69,7 +69,7 @@
 						<span class="glyphicon glyphicon-paperclip" ng-if="o.publishedDocumentCount > 0" title="{{o.publishedDocumentCount}} attachments available"></span>
 					</td>
 					<td class="date-col" header-class="'date-col'" data-title="'Date Posted'" sortable="'dateAdded'">
-						{{o.dateAdded | date : format : timezone}}
+						{{o.dateAdded | date:'MMMM dd, yyyy @ h:mm:ss.sss a'}}
 					</td>
 				</tr>
 				<tr class="no-records" ng-if="!$data || $data.length === 0">
