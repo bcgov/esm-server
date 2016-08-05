@@ -102,7 +102,11 @@ module.exports = function (app) {
 	.post(dbcontroller.post)
 	.put(dbcontroller.put)
 	.delete(dbcontroller.delete);
-	
+
+	app.route('/api/db/:model')
+	.all(policy('admin'))
+	.get(dbcontroller.get);
+
 	app.route('/api/access/conversion')
 	.all(policy('admin'))
 	.get(access.routes.allusers)

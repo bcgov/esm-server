@@ -4,6 +4,20 @@ var mongoose = require ('mongoose');
 var _        = require ('lodash');
 
 
+exports.get = function(req, res) {
+	//console.log('get model = ' + req.params.model);
+	var model = mongoose.model (req.params.model);
+	var query = JSON.parse(JSON.stringify(req.query)) || {};
+	//console.log('get query = ' + JSON.stringify(query));
+	model.find (query, function (err, documents) {
+		if (err) return helpers.sendError (res, err);
+		else {
+			//console.log('returning ' + documents.length + ' records');
+			return helpers.sendData (res, documents);
+		}
+	});
+};
+
 exports.put = function (req, res) {
 	var data  = req.body.data;
 	var query = req.body.query;
