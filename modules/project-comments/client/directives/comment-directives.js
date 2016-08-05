@@ -134,6 +134,20 @@ angular.module ('comment')
 					$scope.$apply ();
 				});
 			};
+
+			s.downloadCommentData = function () {
+				// console.log("data:", s.tableParams.data);
+				CommentModel.prepareCSV(s.tableParams.data)
+				.then( function (data) {
+					var blob = new Blob([ data ], { type : 'octet/stream' });
+					var url = (window.URL || window.webkitURL).createObjectURL( blob );
+					var anchor = document.createElement("a");
+					anchor.download = (currentFilter) ? currentFilter.eaoStatus + ".csv" : 'tableData.csv';
+					anchor.href = url;
+					anchor.click();
+					window.URL.revokeObjectURL(url);
+				});
+			};
 			// -------------------------------------------------------------------------
 			//
 			// refresh only public data
