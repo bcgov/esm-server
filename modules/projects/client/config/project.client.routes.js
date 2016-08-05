@@ -314,20 +314,7 @@ angular.module('project').config (
 						$scope.$apply();
 					});
 			};
-
-			$scope.addPhase = function () {
-				// Find out the current phase, add the one after that.
-				PhaseBaseModel.getCollection()
-					.then( function(res) {
-						// TODO: Fix this! Naive implementation.
-						var nextPhase = res[$scope.project.phases.length];
-						return ProjectModel.addPhase(nextPhase.code);
-					})
-					.then( function(res) {
-						$scope.project = res;
-					});
-			};
-
+			
 			$scope.addPhase = function(phase) {
 				$modal.open({
 					scope: $scope.$new(),

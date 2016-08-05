@@ -47,11 +47,14 @@
 							<button class="btn btn-default btn-sm"
 									ng-click="selectPhase(phase)"
 									ng-if="phase.code !== 'intake'"
-                  data-toggle="modal"
-                  data-backdrop="false"
-                  data-target="#deletePhaseModal"><span class="glyphicon glyphicon-trash"></span><span>Delete Phase</span></button>
+									data-toggle="modal"
+									data-backdrop="false"
+									data-target="#deletePhaseModal"><span class="glyphicon glyphicon-trash"></span><span>Delete Phase</span></button>
 							<button class="btn btn-default btn-sm"
-									ng-click="selectPhase(phase)"><span class="glyphicon glyphicon-pencil"></span><span>Edit Phase</span></button>
+									ng-click="selectPhase(phase)"
+									data-toggle="modal"
+									data-backdrop="false"
+									data-target="#editPhaseDetailModal"><span class="glyphicon glyphicon-pencil"></span><span>Edit Phase</span></button>
 							<button class="btn btn-primary btn-sm"
 									ng-click="completePhase(phase)"
 									ng-if="phase.code === project.currentPhase.code && !project.currentPhase.completed">Complete Phase</button>
@@ -165,6 +168,61 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- UNCOMPLETE PHASE MODAL -->
+
+<!-- EDIT MILESTONE MODAL -->
+<div class="modal fade" id="editPhaseDetailModal" role="dialog" tabindex="-1">
+	<div class="modal-dialog add-phase-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title">Edit Phase &nbsp;&rsaquo;&nbsp; {{selectedPhase.name}}</h3>
+			</div>
+			<div class="modal-body">
+				<div class="form-group has-error" ng-class="{'has-error': validateForm}">
+					<label>Actual Date Range</label>
+					<div class="date-range-control clearfix">
+						<div class="date-range pull-left">
+							<div class="input-group">
+								<p x-modal-date-picker x-selected-date="selectedPhase.dateStarted" class="btn form-control-static">{{ selectedPhase.dateStarted | amDateFormat:'MMM Do YYYY' }} &nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i>&nbsp; &nbsp;</p>
+							</div>
+						</div>
+						<div class="pull-left spacer">-</div>
+						<div class="date-range pull-left">
+							<div class="input-group">
+								<p x-modal-date-picker x-selected-date="selectedPhase.dateCompleted" class="btn form-control-static">{{ selectedPhase.dateCompleted | amDateFormat:'MMM Do YYYY' }} &nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i>&nbsp; &nbsp;</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="form-group has-error" ng-class="{'has-error': validateForm}">
+					<label>Estimated Date Range</label>
+					<div class="date-range-control clearfix">
+						<div class="date-range pull-left">
+							<div class="input-group">
+								<p x-modal-date-picker x-selected-date="selectedPhase.dateStartedEst" class="btn form-control-static">{{ selectedPhase.dateStartedEst | amDateFormat:'MMM Do YYYY' }} &nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i>&nbsp; &nbsp;</p>
+							</div>
+						</div>
+						<div class="pull-left spacer">-</div>
+						<div class="date-range pull-left">
+							<div class="input-group">
+								<p x-modal-date-picker x-selected-date="selectedPhase.dateCompletedEst" class="btn form-control-static">{{ selectedPhase.dateCompletedEst | amDateFormat:'MMM Do YYYY' }} &nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i>&nbsp; &nbsp;</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button ng-click="savePhaseDetail()" type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- EDIT MILESTONE -->
 
 <!-- ADD COMMENT SESSION MODAL -->
 <div class="modal fade" id="addCommentSessionModal" role="dialog" tabindex="-1">

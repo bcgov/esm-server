@@ -183,7 +183,7 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	addPhaseWithId: function (projectId, baseCode) {
 		var self = this;
-		self.findById(projectId)
+		return self.findById(projectId)
 			.then(function(project) {
 				return self.addPhase(project, baseCode);
 			});
