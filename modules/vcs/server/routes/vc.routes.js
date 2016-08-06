@@ -9,7 +9,7 @@ var routes = require ('../../../core/server/controllers/core.routes.controller')
 var policy = require ('../../../core/server/controllers/core.policy.controller');
 
 module.exports = function (app) {
-	routes.setCRUDRoutes (app, 'vc', Vc, policy);
+	routes.setCRUDRoutes (app, 'vc', Vc, policy, ['getall', 'get', 'post', 'put', 'new', 'query']);
 	app.route ('/api/vc/for/project/:projectid').all (policy ('guest'))
 		.get (routes.setAndRun (Vc, function (model, req) {
 			return model.getForProject (req.params.projectid);
@@ -29,5 +29,19 @@ module.exports = function (app) {
 	.put (routes.setAndRun (Vc, function (model, req) {
 		return model.unpublish (req.Vc);
 	}));
+	
+	
+	app.route('/api/deletecheck/vc/:vc')
+	.all (policy ('user'))
+	.get (routes.setAndRun (Vc, function (model, req) {
+		return model.deleteCheck(req.Vc);
+	}));
+	
+	app.route('/api/vc/:vc')
+	.all (policy ('user'))
+	.delete (routes.setAndRun (Vc, function (model, req) {
+		return model.deleteWithCheck(req.Vc);
+	}));
+	
 };
 

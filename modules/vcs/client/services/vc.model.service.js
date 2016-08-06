@@ -27,6 +27,9 @@ angular.module('vcs').factory ('VcModel', function (ModelBase, _) {
 		},
 		unpublish: function (vcId) {
 			return this.put('/api/unpublish/vc/' + vcId);
+		},
+		deleteCheck: function(vcId) {
+			return this.get ('/api/deletecheck/vc/'+vcId);
 		}
 	});
 	return new Class ();

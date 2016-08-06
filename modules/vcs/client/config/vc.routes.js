@@ -137,6 +137,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			
 			$scope.canPublish = vc.userCan.publish && !vc.isPublished;
 			$scope.canUnpublish = vc.userCan.unPublish && vc.isPublished;
+			$scope.canDelete = vc.userCan.delete && !vc.isPublished;
 			
 			$scope.vclist = vclist;
 			$scope.vcs = vcs;
@@ -151,6 +152,25 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				TopicModel.getTopicsForPillar (this.vc.pillar).then (function (topics) {
 					self.topics = topics;
 					$scope.$apply();
+				});
+			};
+			$scope.delete = function() {
+				VcModel.deleteCheck ($scope.vc._id)
+				.then(function(res) {
+					// check the result, show if it says we can't delete...
+					//console.log('deleteCheck res = ', JSON.stringify(res));
+					if(true) {
+						return VcModel.deleteId($scope.vc._id)
+							.then(function(dres) {
+								//console.log('deleteId res = ', JSON.stringify(dres));
+								$state.transitionTo('p.vc.list', {projectid: project.code}, {
+									reload: true, inherit: false, notify: true
+								});
+							});
+					} else {
+							// show something?
+							alert('No you cannot delete me');
+					}
 				});
 			};
 			$scope.publish = function() {
