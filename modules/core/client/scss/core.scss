@@ -181,6 +181,7 @@ textarea {
 @mixin flex($values) {
 	-webkit-box-flex: $values;
   	   -moz-box-flex: $values;
+		-ms-box-flex: $values;
   	    -webkit-flex: $values;
   	        -ms-flex: $values;
   		        flex: $values; 
