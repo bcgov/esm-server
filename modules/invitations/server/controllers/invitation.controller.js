@@ -290,7 +290,8 @@ module.exports = DBModel.extend({
 	sendInvitations: function(req) {
 		var invitationData = req.body;
 		var currentUser = req.user;
-
+		return Promise.resolve(invitationData);
+/*
 		return new Promise(function(fulfill, reject) {
 			// load project
 			// load users
@@ -338,6 +339,7 @@ module.exports = DBModel.extend({
 					return fulfill(data);
 				});
 		});
+		*/
 	},
 
 	acceptInvitation: function(req) {
