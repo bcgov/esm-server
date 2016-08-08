@@ -171,12 +171,17 @@ pre {
 	}
 }
 
+textarea {
+	resize: vertical;
+}
+
 
 /* UTILITY SELECTORS
 ------------------------------ */
 @mixin flex($values) {
 	-webkit-box-flex: $values;
   	   -moz-box-flex: $values;
+		-ms-box-flex: $values;
   	    -webkit-flex: $values;
   	        -ms-flex: $values;
   		        flex: $values; 
@@ -1549,20 +1554,19 @@ ui-view {
         padding-top: 0.2rem;
 		font-size: 2.4rem;
 		font-weight: bold;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
     }
 
 	&.flex-row {
 		h1 {
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
 			-webkit-flex: 1 1 auto;
 			-ms-flex: 1 1 auto;
 			flex: 1 1 auto;
 		}
 
 		.actions {
-			padding-left: 2rem;
 			-webkit-flex: 0 0 auto;
 			-ms-flex: 0 0 auto;
 			flex: 0 0 auto;
@@ -1570,6 +1574,20 @@ ui-view {
 
 		.actions-group {
 			display: inline-block;
+		}
+	}
+
+	.actions {
+		padding-left: 2rem;
+
+		.btn {
+			min-width: 7rem;
+		}
+
+		.permission-btn {
+			.btn {
+				min-width: 3rem;
+			}
 		}
 	}
 }
@@ -2618,8 +2636,18 @@ form {
 	}
 }
 
-textarea {
-	resize: vertical;
+.form-container {
+	padding: 0 2rem;
+}
+
+.form-footer {
+	.btn {
+		min-width: 7rem;
+	}
+}
+
+.form-group {
+	margin-bottom: 2rem;
 }
 
 .form-validation-msg {
@@ -2627,30 +2655,6 @@ textarea {
 	font-size: 1.2rem;
 	font-weight: normal;
 	color: #999;
-}
-
-.control-label {
-	em {
-		@extend .form-validation-msg;
-	}
-}
-
-.form-container {
-	padding: 0 2rem;
-}
-
-.form-group {
-	margin-bottom: 2rem;
-
-	/* Fix - RTF Widget needs consistant styling with all form controls */
-	.mce-panel {
-		background-color: #FFF;
-	}
-}
-
-.form-footer {
-	padding-top: 1.5rem;
-	border-top: 1px solid #DDD;
 }
 
 .form-control-static {
@@ -2669,6 +2673,12 @@ textarea {
 	
 	input {
 		margin-top: 2px;
+	}
+}
+
+.control-label {
+	em {
+		@extend .form-validation-msg;
 	}
 }
 
@@ -2939,11 +2949,40 @@ textarea {
 }
 
 
+/* NOTIFICATIONS
+------------------------------ */ 
+.notify-modal {
+	width: 400px;
+	bottom: inherit;
+	left: calc(50% - 200px);
+
+	.modal-content {
+		border: none;
+	}
+
+	.modal-dialog {
+		width: calc(400px - 40px);
+	}
+
+	.modal-header {
+		@extend .flex-row;
+		padding: 0.5rem 1.5rem;
+	}
+
+	.notify-modal-msg {
+		@include flex(1 1 auto);
+		padding: 0.7rem 0;
+	}
+
+	.close {
+		font-weight: normal;
+	}
+}
+
+
 /* PANELS
 ------------------------------ */ 
 .panel-default {
-	border: none;
-	box-shadow: none;
 	
 	> .panel-heading {
 		position: relative;
@@ -3046,12 +3085,12 @@ $pick-list-active-item-bg: #5cb85c;
 }
 
 
-/* TAB CONTROL 
+/* TAB NAVIGATION
 ------------------------------ */
-$nav-tab-active: #1a5a96;
+$nav-tab-active: $nav-tab-active-color;
 
 .nav-tabs {
-	border-bottom: 4px solid #DDD;
+	border-bottom: 4px solid $nav-tab-inactive-border-color;
 	
 	> li {
 		margin-bottom: -4px;
@@ -3068,10 +3107,9 @@ $nav-tab-active: #1a5a96;
 				background: transparent;
 			}
 		}
-	}
 
-	> li.active {
-		> a {
+		&.active {
+			> a {
 			font-weight: bold;
 			color: $nav-tab-active-color;
 			background: transparent;
@@ -3079,12 +3117,13 @@ $nav-tab-active: #1a5a96;
 			border-bottom: 4px solid $nav-tab-active-border-color;
 		}
 
-		> a:hover,
-		> a:focus {
-			color: #1a5a96;
-			background: transparent;
-			border: none;
-			border-bottom: 4px solid $nav-tab-active-border-color;
+			> a:hover,
+			> a:focus {
+				color: $nav-tab-active-color;
+				background: transparent;
+				border: none;
+				border-bottom: 4px solid $nav-tab-active-border-color;
+			}
 		}
 	}
 }
@@ -3317,7 +3356,17 @@ $nav-tab-active: #1a5a96;
 		flex: 1 1 auto;
 
 		tr {
-			width: calc(100% + 17px);
+			width: 100%;
+		}
+	}
+}
+
+@media (min-width: 1200px) {
+	.flex-table {
+		tbody {
+			tr {
+				width: calc(100% + 17px);
+			}
 		}
 	}
 }
