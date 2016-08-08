@@ -4,17 +4,17 @@
 	<div class="actions">
 		<a class="btn btn-default btn-sm"
 			ui-sref="p.vc.list">Cancel</a>
+		<button class="btn btn-danger btn-sm"
+            ng-if="canDelete"
+            ng-click="delete()"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
 		<button class="btn btn-primary btn-sm"
 			ng-click="save()">Save</button>
-    <button class="btn btn-default btn-sm"
-            ng-if="canDelete"
-            ng-click="delete()">Delete</button>
 		<button class="btn btn-default btn-sm"
 			ng-if="canUnpublish"
-			ng-click="unpublish()">Unpublish</button>
+			ng-click="unpublish()"><span class="glyphicon glyphicon-minus-sign"></span><span>Unpublish</span></button>
 		<button class="btn btn-success btn-sm"
 			ng-if="canPublish"
-			ng-click="publish()">Publish</button>
+			ng-click="publish()"><span class="glyphicon glyphicon-share-alt"></span><span>Publish</span></button>
 	</div>
 </div>
 
@@ -100,18 +100,21 @@
 
 	<tmpl-artifact-display x-mode="'edit'" x-artifact="vc.artifact" x-project="project"></tmpl-artifact-display>
 
-	<div clas="form-footer">
+	<div class="form-footer clearfix">
 		<div class="pull-right">
 			<a class="btn btn-default btn-sm"
-				ui-sref="p.vc.list">Cancel</a>
+			ui-sref="p.vc.list">Cancel</a>
+			<button class="btn btn-danger btn-sm"
+				ng-if="canDelete"
+				ng-click="delete()"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
 			<button class="btn btn-primary btn-sm"
 				ng-click="save()">Save</button>
 			<button class="btn btn-default btn-sm"
 				ng-if="canUnpublish"
-				ng-click="unpublish()">Unpublish</button>
+				ng-click="unpublish()"><span class="glyphicon glyphicon-minus-sign"></span><span>Unpublish</span></button>
 			<button class="btn btn-success btn-sm"
 				ng-if="canPublish"
-				ng-click="publish()">Publish</button>
+				ng-click="publish()"><span class="glyphicon glyphicon-share-alt"></span><span>Publish</span></button>
 		</div>
 	</div>
 
