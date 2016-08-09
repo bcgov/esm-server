@@ -36,7 +36,7 @@ module.exports = function (app) {
 	.get (routes.setAndRun (Vc, function (model, req) {
 		return model.deleteCheck(req.Vc);
 	}));
-	
+
 	app.route('/api/vc/:vc')
 	.all (policy ('user'))
 	.delete (routes.setAndRun (Vc, function (model, req) {

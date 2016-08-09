@@ -62,7 +62,7 @@ module.exports = DBModel.extend ({
 	},
 	
 	deleteCheck : function(vc) {
-		console.log('deleteCheck ', JSON.stringify(vc));
+		//console.log('deleteCheck ', JSON.stringify(vc));
 		var self = this;
 		var result = {
 			canDelete: true,
@@ -105,27 +105,37 @@ module.exports = DBModel.extend ({
 	deleteWithCheck: function(vc) {
 		//console.log('deleteWithCheck ', JSON.stringify(vc));
 		var self = this;
-		
-		var deleteArtifact = new Promise(function(resolve, reject) {
-			ArtifactModel.remove({_id: vc.artifact}, function(err) {
-				if (err) reject(new Error(err));
-				resolve();
-			});
-		});
-		
-		return new Promise(function(resolve, reject) {
-			self.deleteCheck(vc)
+
+		return self.deleteCheck(vc)
 			.then(function(data) {
-				if (data && data.canDelete) {
-					//console.log('deleteCheck can delete, call delete on vc.artifact...');
-					return deleteArtifact.then(resolve(self.delete(vc)));
+				//console.log('data (1) = ' + JSON.stringify(data));
+				if (data && !data.canDelete) {
+					return Promise.reject(data);
 				} else {
-					// do not delete, return data?
-					//console.log('deleteCheck failed, reject!');
-					reject(data);
+					return data;
 				}
+			})
+			.then(function(data) {
+				//console.log('data (2) = ' + JSON.stringify(data));
+				return self.delete(vc);
+			})
+			.then(function(data) {
+				//console.log('data (3) = ' + JSON.stringify(data));
+				return new Promise(function(resolve, reject) {
+					console.log('deleteArtifact ' + data.artifact);
+					ArtifactModel.remove({_id: data.artifact}, function(err) {
+						if (err) reject(new Error(err));
+						resolve(data.artifact);
+					});
+				});
+			})
+			.then(function(data) {
+				//console.log('data (4) = ' + JSON.stringify(data));
+				return Promise.resolve(vc);
+			}, function(err) {
+				//console.log('err(4) = ' + JSON.stringify(err));
+				return Promise.reject(err);
 			});
-		});
 	}
 });
 
