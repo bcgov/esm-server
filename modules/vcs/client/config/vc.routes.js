@@ -129,15 +129,19 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			vclist: function ($stateParams, VcModel, vc) {
 				// A list of already selected/added vc's
 				return VcModel.getVCsInList(vc.subComponents);
+			},
+			canDeleteVc: function($stateParams, VcModel, vc) {
+				return VcModel.deleteCheck (vc._id);
 			}
 		},
-		controller: function ($scope, $state, vc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _, vclist, vcs, VCTYPES) {
+		controller: function ($scope, $state, vc, canDeleteVc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _, vclist, vcs, VCTYPES, $modal) {
 			// console.log ('vc = ', vc);
 			$scope.vc = vc;
 			
 			$scope.canPublish = vc.userCan.publish && !vc.isPublished;
 			$scope.canUnpublish = vc.userCan.unPublish && vc.isPublished;
-			$scope.canDelete = vc.userCan.delete && !vc.isPublished;
+			// disable the delete button if user doesn't have permission to delete, or the vc is published, or it has related data...
+			$scope.canDelete = vc.userCan.delete && !vc.isPublished && canDeleteVc.canDelete;
 			
 			$scope.vclist = vclist;
 			$scope.vcs = vcs;
@@ -147,6 +151,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.project = project;
 			$scope.pillars = PILLARS;
 			$scope.types = VCTYPES;
+
 			$scope.selectTopic = function () {
 				var self = this;
 				TopicModel.getTopicsForPillar (this.vc.pillar).then (function (topics) {
@@ -154,41 +159,155 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					$scope.$apply();
 				});
 			};
-			$scope.delete = function() {
-				VcModel.deleteCheck ($scope.vc._id)
-				.then(function(res) {
-					// check the result, show if it says we can't delete...
-					//console.log('deleteCheck res = ', JSON.stringify(res));
-					if(true) {
-						return VcModel.deleteId($scope.vc._id)
-							.then(function(dres) {
-								//console.log('deleteId res = ', JSON.stringify(dres));
-								$state.transitionTo('p.vc.list', {projectid: project.code}, {
-									reload: true, inherit: false, notify: true
-								});
-							});
+
+			$scope.showError = function(msg, errorList, title) {
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/vcs/client/views/vc-modal-error.html',
+					controller: function($scope, $state, $modalInstance, _) {
+						var self = this;
+						self.vc = $scope.vc;
+						self.title = title || 'An error has occurred';
+						self.msg = msg;
+						self.errors = errorList;
+						self.ok = function() {
+							$modalInstance.close(vc);
+						};
+						self.cancel = function() {
+							$modalInstance.dismiss('cancel');
+						};
+					},
+					controllerAs: 'self',
+					scope: $scope,
+					size: 'lg'
+				});
+				modalDocView.result.then(function (res) {
+					// don't really need to do anything...
+				}, function (err) {
+					//console.log('showError modal error = ',  JSON.stringify(err));
+				});
+			};
+
+			$scope.showSuccess = function(msg, goToList, title) {
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/vcs/client/views/vc-modal-success.html',
+					controller: function($scope, $state, $modalInstance, _) {
+						var self = this;
+						self.vc = $scope.vc;
+						self.title = title || 'Success';
+						self.msg = msg;
+						self.ok = function() {
+							$modalInstance.close(vc);
+						};
+						self.cancel = function() {
+							$modalInstance.dismiss('cancel');
+						};
+					},
+					controllerAs: 'self',
+					scope: $scope,
+					size: 'lg'
+				});
+				modalDocView.result.then(function (res) {
+					if (goToList) {
+						$state.transitionTo('p.vc.list', {projectid: $scope.project.code}, {
+							reload: true, inherit: false, notify: true
+						});
 					} else {
-							// show something?
-							alert('No you cannot delete me');
+						$state.reload();
 					}
+				}, function (err) {
+					//console.log('showSuccess modal error = ',  JSON.stringify(err));
+				});
+			};
+
+			$scope.delete = function() {
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/vcs/client/views/vc-modal-confirm-delete.html',
+					controller: function($scope, $state, $modalInstance, VcModel, _) {
+						var self = this;
+						self.vc = $scope.vc;
+						self.ok = function() {
+							$modalInstance.close(vc);
+						};
+						self.cancel = function() {
+							$modalInstance.dismiss('cancel');
+						};
+					},
+					controllerAs: 'self',
+					scope: $scope,
+					size: 'lg'
+				});
+				modalDocView.result.then(function (res) {
+					VcModel.deleteId($scope.vc._id)
+						.then(function(res) {
+							// deleted show the message, and go to list...
+							$scope.showSuccess($scope.vc.name + ' was deleted successfully', true, 'Delete Success');
+						})
+						.catch(function(res) {
+							// could have errors from a delete check...
+							var failure = _.has(res, 'message') ? res.message : undefined;
+							if (failure) {
+								var errorList = [];
+								if (failure.comments && failure.comments.length > 0) {
+									errorList.push({msg: 'Has ' + failure.comments.length + ' related comments.'});
+								}
+								if (failure.artifacts && failure.artifacts.length > 0) {
+									errorList.push({msg: 'Has ' + failure.artifacts.length + ' related Content.'});
+								}
+								if (failure.vcs && failure.vcs.length > 0) {
+									errorList.push({msg: 'Has ' + failure.vcs.length + ' related Valued Components.'});
+								}
+								$scope.showError($scope.vc.name + ' cannot be deleted.', errorList, 'Delete Error');
+							} else {
+								$scope.showError($scope.vc.name + ' was not deleted.', [], 'Delete Error');
+							}
+						});
+				}, function () {
+					//console.log('delete modalDocView error');
 				});
 			};
 			$scope.publish = function() {
-				VcModel.publish ($scope.vc._id)
-				.then(function(res) {
-					$state.transitionTo('p.vc.list', {projectid: project.code}, {
-						reload: true, inherit: false, notify: true
-					});
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/vcs/client/views/vc-modal-confirm-publish.html',
+					controller: function($scope, $state, $modalInstance, VcModel, _) {
+						var self = this;
+						self.vc = $scope.vc;
+						self.ok = function() {
+							$modalInstance.close(vc);
+						};
+						self.cancel = function() {
+							$modalInstance.dismiss('cancel');
+						};
+					},
+					controllerAs: 'self',
+					scope: $scope,
+					size: 'lg'
+				});
+				modalDocView.result.then(function (res) {
+					VcModel.publish ($scope.vc._id)
+						.then(function(res) {
+							$scope.showSuccess($scope.vc.name + ' was published successfully', false, 'Publish Success');
+						})
+						.catch(function(res) {
+							$scope.showError($scope.vc.name + ' was not published.', [], 'Delete Error');
+						});
+				}, function () {
+					//console.log('publish modalDocView error');
 				});
 			};
 			$scope.unpublish = function() {
 				VcModel.unpublish ($scope.vc._id)
-				.then (function (res) {
-					$state.transitionTo('p.vc.list', {projectid: project.code}, {
-						reload: true, inherit: false, notify: true
+					.then(function(res) {
+						$scope.showSuccess($scope.vc.name + ' was unpublished successfully', false, 'Unpublish Success');
+					})
+					.catch(function(res) {
+						$scope.showError($scope.vc.name + ' is still published.', [], 'Unpublish Error');
 					});
-				});
-			};
+				};
+
 			$scope.save = function () {
 				vc.artifact.document = vc.artifact.maindocument[0];
 				if (_.isEmpty (vc.artifact.document)) vc.artifact.document = null;
@@ -196,18 +315,14 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				.then (function () {
 					return VcModel.save ($scope.vc);
 				})
-				.then (function (model) {
-					// console.log ('vc was saved',model);
-					// console.log ('now going to reload state');
-					$state.transitionTo('p.vc.list', {projectid:project.code}, {
-			  			reload: true, inherit: false, notify: true
-					});
+				.then (function (res) {
+					$scope.showSuccess($scope.vc.name + ' was saved successfully', false, 'Save Success');
 				})
 				.catch (function (err) {
-					console.error (err);
-					// alert (err.message);
+					$scope.showError($scope.vc.name + ' was not saved.', [], 'Save Error');
 				});
 			};
+
 			$scope.$on('cleanup', function () {
 				$state.go('p.vc.detail', {
 						projectid:$scope.project.code,
