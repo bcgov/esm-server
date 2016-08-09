@@ -32,16 +32,6 @@ gulp.task('env:prod', function () {
   process.env.NODE_ENV = 'production';
 });
 
-// Nodemon task
-gulp.task('nodemon', function () {
-  return plugins.nodemon({
-    script: 'server.js',
-    nodeArgs: ['--debug'],
-    ext: 'js,html',
-    watch: _.union(defaultAssets.server.views, defaultAssets.server.allJS, defaultAssets.server.config)
-  });
-});
-
 // Watch Files For Changes
 gulp.task('watch', function () {
   // Start livereload
@@ -233,15 +223,15 @@ gulp.task('test:client', function (done) {
 
 // Run the project in development mode
 gulp.task('default', function (done) {
-  runSequence('env:dev', 'lint', ['nodemon', 'watch'], done);
+  runSequence('env:dev', 'lint', ['watch'], done);
 });
 
 // Run the project in debug mode
 gulp.task('debug', function (done) {
-  runSequence('env:dev', 'lint', ['nodemon', 'watch'], done);
+  runSequence('env:dev', 'lint', ['watch'], done);
 });
 
 // Run the project in production mode
 gulp.task('prod', function (done) {
-  runSequence('templatecache', 'build', 'env:prod', 'lint', ['nodemon', 'watch'], done);
+  runSequence('templatecache', 'build', 'env:prod', 'lint', ['watch'], done);
 });

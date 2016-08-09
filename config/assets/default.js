@@ -4,22 +4,14 @@ module.exports = {
   client: {
     lib: {
       css: [
-		'//fonts.googleapis.com/css?family=Oswald',
-		'//fonts.googleapis.com/css?family=Nunito',
-		'//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400',
         'public/lib/bootstrap/dist/css/bootstrap.css',
-        //'public/lib/bootstrap/dist/css/bootstrap-theme.css',
-        // these were in the application css are before
         'public/lib/angular-toastr/dist/angular-toastr.css',
         'public/lib/angular-bootstrap/ui-bootstrap-csp.css',
         'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css',
-        // cc : ngtable
-        // 'public/lib/ng-table/dist/ng-table.min.css'
         'public/assimilated/ng-table/dist/ng-table.min.css'
-        // cc: end ngtable
       ],
       js: [
-   	    'public/lib/es6-shim/es6-shim.min.js',
+   	'public/lib/es6-shim/es6-shim.min.js',
         'public/lib/angular/angular.js',
         'public/lib/angular-resource/angular-resource.js',
         'public/lib/angular-animate/angular-animate.js',
@@ -42,21 +34,16 @@ module.exports = {
         'public/lib/d3/d3.min.js',
         'public/lib/angular-simple-logger/dist/angular-simple-logger.js',
         'public/lib/angular-google-maps/dist/angular-google-maps.min.js',        
-        // cc : ngtable
-        // 'public/lib/ng-table/dist/ng-table.js',
         'public/assimilated/ng-table/dist/ng-table.js',
-        // cc: end ngtable
         'public/lib/angularD3/dist/angularD3.js',
         'public/lib/moment/moment.js',
         'public/lib/moment-timezone/moment-timezone.js',
         'public/lib/angular-moment/angular-moment.js',
         'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
-		'public/lib/angular-scroll/angular-scroll.min.js',
-		'public/lib/angular-cookies/angular-cookies.min.js',
-        // these were in the application js area before
-
-		'public/moment-timezone-data.js',
-		'public/readable-range.js'
+	'public/lib/angular-scroll/angular-scroll.min.js',
+	'public/lib/angular-cookies/angular-cookies.min.js',
+	'public/moment-timezone-data.js',
+	'public/readable-range.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },
