@@ -187,12 +187,12 @@ angular
 	})
 	.constant('RELEASE',
 		{
-			'enableEnforcements': false,
-			'enableDecisions': false,
-			'enableSchedule': false,
-			'enableComplaints': false,
-			'enableConditions': false,
-			'enableInspectionReports': false,
+			'enableEnforcements': true,
+			'enableDecisions': true,
+			'enableSchedule': true,
+			'enableComplaints': true,
+			'enableConditions': true,
+			'enableInspectionReports': true,
 			'redirectHomepageToGeorgeMassey': false
 		}
 	)
