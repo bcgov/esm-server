@@ -179,7 +179,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					},
 					controllerAs: 'self',
 					scope: $scope,
-					size: 'lg'
+					size: 'md'
 				});
 				modalDocView.result.then(function (res) {
 					// don't really need to do anything...
@@ -206,7 +206,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					},
 					controllerAs: 'self',
 					scope: $scope,
-					size: 'lg'
+					size: 'md'
 				});
 				modalDocView.result.then(function (res) {
 					if (goToList) {
@@ -237,7 +237,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					},
 					controllerAs: 'self',
 					scope: $scope,
-					size: 'lg'
+					size: 'md'
 				});
 				modalDocView.result.then(function (res) {
 					VcModel.deleteId($scope.vc._id)
@@ -284,7 +284,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					},
 					controllerAs: 'self',
 					scope: $scope,
-					size: 'lg'
+					size: 'md'
 				});
 				modalDocView.result.then(function (res) {
 					VcModel.publish ($scope.vc._id)
@@ -301,10 +301,10 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.unpublish = function() {
 				VcModel.unpublish ($scope.vc._id)
 					.then(function(res) {
-						$scope.showSuccess($scope.vc.name + ' was unpublished successfully', false, 'Unpublish Success');
+						$scope.showSuccess($scope.vc.name + ' was unpublished successfully', false, 'Unpublish Successful');
 					})
 					.catch(function(res) {
-						$scope.showError($scope.vc.name + ' is still published.', [], 'Unpublish Error');
+						$scope.showError($scope.vc.name + ' is still published.', [], 'An Error has occurred');
 					});
 				};
 
@@ -316,7 +316,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					return VcModel.save ($scope.vc);
 				})
 				.then (function (res) {
-					$scope.showSuccess($scope.vc.name + ' was saved successfully', false, 'Save Success');
+					$scope.showSuccess('"'+ $scope.vc.name +'"' + ' was saved successfully', false, 'Save Successful');
 				})
 				.catch (function (err) {
 					$scope.showError($scope.vc.name + ' was not saved.', [], 'Save Error');
