@@ -24,7 +24,7 @@
     <!-- COMMENT INFO -->
     <section>
         <div class="comment-author-info">
-            <span class="author"><strong>Posted by <span ng-if="s.comment.author">{{ ::s.comment.author }}</span><span ng-if="!s.comment.author">Anonymous</span></strong></span>
+            <span class="author"><strong>Posted by <span ng-if="!s.comment.isAnonymous && s.comment.author">{{ ::s.comment.author }}</span><span ng-if="s.comment.isAnonymous">Anonymous</span></strong></span>
             <span class="pull-right label {{ s.alertType }}" ng-if="s.alertType">{{ s.alertNotesLabel }} &nbsp;-&nbsp; by {{ s.comment.updatedBy.displayName }}</span>
             <span class="date">
                 {{s.comment.dateAdded | amDateFormat:'MMMM Do, YYYY'}} <span ng-if="s.comment.location"> &nbsp;|&nbsp; {{ ::s.comment.location }}</span>
