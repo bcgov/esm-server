@@ -74,23 +74,6 @@ module.exports = function (grunt) {
         }
       }
     },
-    nodemon: {
-      dev: {
-        script: 'server.js',
-        options: {
-          nodeArgs: ['--debug'],
-          ext: 'js,html',
-          watch: _.union(defaultAssets.server.gruntConfig, defaultAssets.server.views, defaultAssets.server.allJS, defaultAssets.server.config)
-        }
-      }
-    },
-    concurrent: {
-      default: ['nodemon', 'watch'],
-      debug: ['nodemon', 'watch', 'node-inspector'],
-      options: {
-        logConcurrentOutput: true
-      }
-    },
     jshint: {
       all: {
         src: _.union(defaultAssets.server.gruntConfig, defaultAssets.server.allJS, defaultAssets.client.js, testAssets.tests.server, testAssets.tests.client, testAssets.tests.e2e),
