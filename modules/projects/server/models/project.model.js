@@ -46,7 +46,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	eacDecision		  	  : { type:String, default: '' },
 	CEAALink		  	  : { type:String, default: '' },
 	type                  : { type:String, default:'', index:true },
-	sector                : { type:String, default:'' },
+	sector                : { type:String, default:'' },  // This is actually sub-type now.
 	region                : { type:String, default:'' },     // object id
 	locSpatial            : { type:String, default:'' }, // incoming ePIC
 	location              : { type:String, default:'' },
