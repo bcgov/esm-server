@@ -3097,7 +3097,7 @@ $nav-tab-active: $nav-tab-active-color;
 
 		> a {
 			padding: 0.5rem 1.5rem;
-			font-size: 1.6rem;
+			font-size: 1.4rem;
 			font-weight: bold;
 			color: $nav-tab-inactive-color;
 			border: none;
@@ -3677,6 +3677,10 @@ $nav-tab-active: $nav-tab-active-color;
 	bottom: 0;
 	left: 0;
 
+	.nav-tabs {
+		margin-bottom: 1rem;
+	}
+
 	.comment-title {
 		margin: 0;
 		font-size: 1.6rem;
@@ -3707,6 +3711,14 @@ $nav-tab-active: $nav-tab-active-color;
 		.label {
 			width: 100%;
 		}
+	}
+
+	.pcp-button-bar {
+		padding-bottom: 1rem;
+	}
+
+	.tab-pane {
+		padding: 0;
 	}
 }
 
@@ -3789,7 +3801,7 @@ $nav-tab-active: $nav-tab-active-color;
 				th {
 					margin-right: 0.5rem;
 					margin-bottom: 1rem;
-					padding: 0.5rem 1rem 0.5rem 1.5rem;
+					padding: 0.6rem 1rem 0.6rem 1rem;
 					display: block;
 					float: left;
 					text-align: center;
@@ -5172,5 +5184,36 @@ tmpl-template-render {
 			font-size: 1.2rem;
 			font-weight: normal;
 		}
+	}
+}
+
+
+.modal.img-view-modal {
+	padding-left: 0 !important;
+	overflow: hidden;
+
+	.modal-header {
+		color: #FFF;
+
+		.close {
+			color: #FFF;
+			text-shadow: none;
+			opacity: 1;
+		}
+	}
+
+	& ~ .temp-overlay {
+		background: rgba(0,0,0,0.8);
+	}
+}
+
+.topic-cloud-container {
+	width: 100%;
+	height: calc(100% - 5.6rem);
+	overflow: hidden;
+
+	svg {
+		width: 100%;
+		height: 100%;
 	}
 }
