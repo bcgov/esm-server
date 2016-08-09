@@ -253,6 +253,7 @@ angular
 			'enableSchedule': true,
 			'enableComplaints': true,
 			'enableConditions': true,
+			'enableInvitations': true,
 			'enableInspectionReports': true,
 			'redirectHomepageToGeorgeMassey': false
 		}
