@@ -137,7 +137,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		controller: function ($scope, $state, vc, canDeleteVc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _, vclist, vcs, VCTYPES, $modal) {
 			// console.log ('vc = ', vc);
 			$scope.vc = vc;
-			
+
 			$scope.canPublish = vc.userCan.publish && !vc.isPublished;
 			$scope.canUnpublish = vc.userCan.unPublish && vc.isPublished;
 			// disable the delete button if user doesn't have permission to delete, or the vc is published, or it has related data...
@@ -151,6 +151,50 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.project = project;
 			$scope.pillars = PILLARS;
 			$scope.types = VCTYPES;
+
+			$scope.originalData = JSON.stringify($scope.vc);
+			$scope.allowTransition = false;
+
+			var $locationChangeStartUnbind = $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+				if ($scope.originalData !== JSON.stringify($scope.vc) && !$scope.allowTransition) {
+					// something changed...
+					// do NOT allow the state change yet.
+
+					event.preventDefault();
+
+					$modal.open({
+						animation: true,
+						templateUrl: 'modules/vcs/client/views/vc-modal-confirm-cancel.html',
+						controller: function($scope, $state, $modalInstance) {
+							var self = this;
+							self.ok = function() {
+								$modalInstance.close();
+							};
+							self.cancel = function() {
+								$modalInstance.dismiss('cancel');
+							};
+						},
+						controllerAs: 'self',
+						scope: $scope,
+						size: 'lg'
+					}).result.then(function (res) {
+						$scope.allowTransition = true;
+						$state.go(toState);
+					}, function (err) {
+						// cancelled...
+					});
+
+				} else {
+					//DO NOTHING THERE IS NO CHANGES IN THE FORM
+					//console.log('data NOT changed, let my data go!');
+				}
+
+			});
+
+			$scope.$on('$destroy', function () {
+				window.onbeforeunload = null;
+				$locationChangeStartUnbind();
+			});
 
 			$scope.selectTopic = function () {
 				var self = this;
@@ -209,6 +253,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					size: 'md'
 				});
 				modalDocView.result.then(function (res) {
+					$scope.allowTransition = true;
 					if (goToList) {
 						$state.transitionTo('p.vc.list', {projectid: $scope.project.code}, {
 							reload: true, inherit: false, notify: true
@@ -268,6 +313,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					//console.log('delete modalDocView error');
 				});
 			};
+
 			$scope.publish = function() {
 				var modalDocView = $modal.open({
 					animation: true,
@@ -298,6 +344,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					//console.log('publish modalDocView error');
 				});
 			};
+
 			$scope.unpublish = function() {
 				VcModel.unpublish ($scope.vc._id)
 					.then(function(res) {
