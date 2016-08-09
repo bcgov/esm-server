@@ -279,11 +279,11 @@ module.exports = function (grunt) {
   grunt.registerTask('coverage', ['env:test', 'lint', 'mocha_istanbul:coverage']);
 
   // Run the project in development mode
-  grunt.registerTask('default', ['env:dev', 'lint', 'mkdir:upload', 'copy:localConfig', 'copy:tinyjson', 'concurrent:default']);
+  grunt.registerTask('default', ['env:dev', 'lint', 'mkdir:upload', 'copy:localConfig', 'copy:tinyjson']);
 
   // Run the project in debug mode
-  grunt.registerTask('debug', ['env:dev', 'lint', 'mkdir:upload', 'copy:localConfig', 'copy:tinyjson', 'concurrent:debug']);
+  grunt.registerTask('debug', ['env:dev', 'lint', 'mkdir:upload', 'copy:localConfig', 'copy:tinyjson']);
 
   // Run the project in production mode
-  grunt.registerTask('prod', ['buildprod', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'copy:tinyjson', 'concurrent:default']);
+  grunt.registerTask('prod', ['buildprod', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'copy:tinyjson']);
 };
