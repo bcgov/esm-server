@@ -3125,6 +3125,12 @@ $nav-tab-active: $nav-tab-active-color;
 				border-bottom: 4px solid $nav-tab-active-border-color;
 			}
 		}
+
+		&.has-error {
+			> a {
+				color: $danger-text;
+			}
+		}
 	}
 }
 
