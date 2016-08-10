@@ -2705,6 +2705,10 @@ form {
 	em {
 		@extend .form-validation-msg;
 	}
+
+	em.required {
+		display: none;
+	}
 }
 
 .radio-group {
@@ -2717,8 +2721,11 @@ form {
 }
 
 .has-error {
-	.control-label em {
-		color: $danger-text;
+	.control-label {
+		em.required {
+			display: inline;
+			color: $danger-text;
+		}
 	}
 }
 
@@ -3093,8 +3100,6 @@ $pick-list-active-item-bg: #5cb85c;
 
 /* TAB NAVIGATION
 ------------------------------ */
-$nav-tab-active: $nav-tab-active-color;
-
 .nav-tabs {
 	border-bottom: 4px solid $nav-tab-inactive-border-color;
 	
@@ -3102,6 +3107,7 @@ $nav-tab-active: $nav-tab-active-color;
 		margin-bottom: -4px;
 
 		> a {
+			position: relative;
 			margin: 0;
 			padding: 0.8rem 1.5rem;
 			font-size: 1.4rem;
@@ -3113,16 +3119,33 @@ $nav-tab-active: $nav-tab-active-color;
 			&:hover {
 				background: transparent;
 			}
+
+			.glyphicon {
+				position: absolute;
+				top: 0.9rem;
+				left: 1rem;
+				display: none;
+				font-size: 1.6rem;
+			}
+		}
+
+		&.has-error {
+			> a {
+				padding-left: 3.5rem;
+			}
+
+			.glyphicon {
+				display: inline-block;
+			}
 		}
 
 		&.active {
 			> a {
-			font-weight: bold;
-			color: $nav-tab-active-color;
-			background: transparent;
-			border: none;
-			border-bottom: 4px solid $nav-tab-active-border-color;
-		}
+				color: $nav-tab-active-color;
+				background: transparent;
+				border: none;
+				border-bottom: 4px solid $nav-tab-active-border-color;
+			}
 
 			> a:hover,
 			> a:focus {
@@ -3131,11 +3154,19 @@ $nav-tab-active: $nav-tab-active-color;
 				border: none;
 				border-bottom: 4px solid $nav-tab-active-border-color;
 			}
-		}
 
-		&.has-error {
-			> a {
-				color: $danger-text;
+			&.has-error {
+				> a {
+					color: $danger-text;
+					border-bottom-color: $danger-border;
+					opacity: 1;
+				}
+
+				> a:hover,
+				> a:focus {
+					color: $danger-text;
+					border-bottom-color: $danger-border;
+				}
 			}
 		}
 	}
@@ -3266,7 +3297,7 @@ $nav-tab-active: $nav-tab-active-color;
 }
 
 .ng-table-pager {
-	padding-top: 1.5rem;
+	padding-top: 1rem;
 	padding-right: 1.5rem;
 	padding-bottom: 0;
 	padding-left: 1.5rem;
@@ -3277,7 +3308,7 @@ $nav-tab-active: $nav-tab-active-color;
 
 .ng-table-pagination,
 .ng-table-counts {
-	margin-bottom: 1.5rem;
+	margin-bottom: 1rem;
 }
 
 .ng-table-pagination {
@@ -3346,7 +3377,7 @@ $nav-tab-active: $nav-tab-active-color;
 
 .flex-table {
 	display: flex;
-	height: calc(100% - 60px);
+	height: calc(100% - 52px);
 	flex-flow: column nowrap;
 	table-layout: fixed;
 
@@ -4885,7 +4916,7 @@ $home-view-map-lg: 800px;
 		.news-panel {
 			margin-top: 0;
 			margin-left: 1.5rem;
-			flex: 0 0 34rem;
+			flex: 0 0 30rem;
 		}
 	}
 }
@@ -4895,6 +4926,10 @@ $home-view-map-lg: 800px;
 		.map-container,
 		.angular-google-map-container {
 			height: $home-view-map-md;
+		}
+
+		.news-panel {
+			flex-basis: 34rem;
 		}
 	}
 }
@@ -5245,5 +5280,18 @@ tmpl-template-render {
 	svg {
 		width: 100%;
 		height: 100%;
+	}
+}
+
+
+
+/* PROTOTYPE */
+
+.project-table {
+	.type-col,
+	.region-col,
+	.phase-col,
+	.decision-col {
+		display: none;
 	}
 }
