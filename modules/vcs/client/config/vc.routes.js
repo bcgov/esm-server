@@ -152,14 +152,22 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.pillars = PILLARS;
 			$scope.types = VCTYPES;
 
-			$scope.originalData = JSON.stringify($scope.vc);
+
+			$scope.selectTopic = function () {
+				var self = this;
+				TopicModel.getTopicsForPillar (this.vc.pillar).then (function (topics) {
+					self.topics = topics;
+					$scope.$apply();
+				});
+			};
+
+			$scope.originalData = JSON.stringify($scope.vc); // used to capture unsaved changes when we leave this route/screen
 			$scope.allowTransition = false;
 
 			var $locationChangeStartUnbind = $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
 				if ($scope.originalData !== JSON.stringify($scope.vc) && !$scope.allowTransition) {
 					// something changed...
 					// do NOT allow the state change yet.
-
 					event.preventDefault();
 
 					$modal.open({
@@ -196,15 +204,19 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				$locationChangeStartUnbind();
 			});
 
-			$scope.selectTopic = function () {
-				var self = this;
-				TopicModel.getTopicsForPillar (this.vc.pillar).then (function (topics) {
-					self.topics = topics;
-					$scope.$apply();
+			var goToList = function() {
+				$state.transitionTo('p.vc.list', {projectid: $scope.project.code}, {
+					reload: true, inherit: false, notify: true
 				});
 			};
 
-			$scope.showError = function(msg, errorList, title) {
+			var reloadEdit = function() {
+				// want to reload this screen, do not catch unsaved changes (we are probably in the middle of saving).
+				$scope.allowTransition = true;
+				$state.reload();
+			};
+
+			$scope.showError = function(msg, errorList, transitionCallback, title) {
 				var modalDocView = $modal.open({
 					animation: true,
 					templateUrl: 'modules/vcs/client/views/vc-modal-error.html',
@@ -225,14 +237,11 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					scope: $scope,
 					size: 'md'
 				});
-				modalDocView.result.then(function (res) {
-					// don't really need to do anything...
-				}, function (err) {
-					//console.log('showError modal error = ',  JSON.stringify(err));
-				});
+				// do not care how this modal is closed, just go to the desired location...
+				modalDocView.result.then(function (res) {transitionCallback(); }, function (err) { transitionCallback(); });
 			};
 
-			$scope.showSuccess = function(msg, goToList, title) {
+			$scope.showSuccess = function(msg, transitionCallback, title) {
 				var modalDocView = $modal.open({
 					animation: true,
 					templateUrl: 'modules/vcs/client/views/vc-modal-success.html',
@@ -252,18 +261,8 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					scope: $scope,
 					size: 'md'
 				});
-				modalDocView.result.then(function (res) {
-					$scope.allowTransition = true;
-					if (goToList) {
-						$state.transitionTo('p.vc.list', {projectid: $scope.project.code}, {
-							reload: true, inherit: false, notify: true
-						});
-					} else {
-						$state.reload();
-					}
-				}, function (err) {
-					//console.log('showSuccess modal error = ',  JSON.stringify(err));
-				});
+				// do not care how this modal is closed, just go to the desired location...
+				modalDocView.result.then(function (res) {transitionCallback(); }, function (err) { transitionCallback(); });
 			};
 
 			$scope.delete = function() {
@@ -288,7 +287,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					VcModel.deleteId($scope.vc._id)
 						.then(function(res) {
 							// deleted show the message, and go to list...
-							$scope.showSuccess($scope.vc.name + ' was deleted successfully', true, 'Delete Success');
+							$scope.showSuccess($scope.vc.name + ' was deleted successfully', goToList, 'Delete Success');
 						})
 						.catch(function(res) {
 							// could have errors from a delete check...
@@ -304,9 +303,9 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 								if (failure.vcs && failure.vcs.length > 0) {
 									errorList.push({msg: 'Has ' + failure.vcs.length + ' related Valued Components.'});
 								}
-								$scope.showError($scope.vc.name + ' cannot be deleted.', errorList, 'Delete Error');
+								$scope.showError($scope.vc.name + ' cannot be deleted.', errorList, reloadEdit, 'Delete Error');
 							} else {
-								$scope.showError($scope.vc.name + ' was not deleted.', [], 'Delete Error');
+								$scope.showError($scope.vc.name + ' was not deleted.', [], reloadEdit, 'Delete Error');
 							}
 						});
 				}, function () {
@@ -335,10 +334,10 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				modalDocView.result.then(function (res) {
 					VcModel.publish ($scope.vc._id)
 						.then(function(res) {
-							$scope.showSuccess($scope.vc.name + ' was published successfully', false, 'Publish Success');
+							$scope.showSuccess($scope.vc.name + ' was published successfully', reloadEdit, 'Publish Success');
 						})
 						.catch(function(res) {
-							$scope.showError($scope.vc.name + ' was not published.', [], 'Delete Error');
+							$scope.showError($scope.vc.name + ' was not published.', [], reloadEdit, 'Delete Error');
 						});
 				}, function () {
 					//console.log('publish modalDocView error');
@@ -348,10 +347,10 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.unpublish = function() {
 				VcModel.unpublish ($scope.vc._id)
 					.then(function(res) {
-						$scope.showSuccess($scope.vc.name + ' was unpublished successfully', false, 'Unpublish Successful');
+						$scope.showSuccess($scope.vc.name + ' was unpublished successfully', reloadEdit, 'Unpublish Successful');
 					})
 					.catch(function(res) {
-						$scope.showError($scope.vc.name + ' is still published.', [], 'An Error has occurred');
+						$scope.showError($scope.vc.name + ' is still published.', [], reloadEdit, 'An Error has occurred');
 					});
 				};
 
@@ -363,10 +362,10 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					return VcModel.save ($scope.vc);
 				})
 				.then (function (res) {
-					$scope.showSuccess('"'+ $scope.vc.name +'"' + ' was saved successfully', false, 'Save Successful');
+					$scope.showSuccess('"'+ $scope.vc.name +'"' + ' was saved successfully', reloadEdit, 'Save Successful');
 				})
 				.catch (function (err) {
-					$scope.showError($scope.vc.name + ' was not saved.', [], 'Save Error');
+					$scope.showError($scope.vc.name + ' was not saved.', [], reloadEdit, 'Save Error');
 				});
 			};
 
