@@ -178,6 +178,13 @@ textarea {
 
 /* UTILITY SELECTORS
 ------------------------------ */
+button.close {
+	margin-right: -1rem;
+	width: 3.4rem;
+	padding: 0.7rem;
+	font-weight: normal;
+}
+
 @mixin flex($values) {
 	-webkit-box-flex: $values;
   	   -moz-box-flex: $values;
@@ -209,7 +216,7 @@ textarea {
 		margin: 0;
 		padding-top: 1rem;
 		padding-bottom: 1rem;
-		font-size: 1.8rem;
+		font-size: 2rem;
 		font-weight: bold;
 	}
 
@@ -2227,6 +2234,7 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 	}
 	
 	.close {
+		margin-top: -0.9rem;
 		color: #FFF;
 		opacity: 0.5;
 
@@ -2931,7 +2939,7 @@ form {
 }
 
 
-/* MODAL OVERRIDES
+/* MODAL
 ------------------------------ */ 
 .modal-header {
 	padding: 1.25rem 2rem;
@@ -2946,8 +2954,6 @@ form {
 	
 	.close {
 		margin-right: -1rem;
-		width: 3.4rem;
-		padding: 0.7rem;
 	}
 }
 
@@ -2965,35 +2971,18 @@ form {
 	background: $modal-body-bg;
 }
 
-
-/* NOTIFICATIONS
------------------------------- */ 
-.notify-modal {
-	width: 400px;
-	bottom: inherit;
-	left: calc(50% - 200px);
-
+.modal-alert {
 	.modal-content {
 		border: none;
 	}
 
-	.modal-dialog {
-		width: calc(400px - 40px);
+	.alert {
+		margin-bottom: 0;
 	}
+}
 
-	.modal-header {
-		@extend .flex-row;
-		padding: 0.5rem 1.5rem;
-	}
-
-	.notify-modal-msg {
-		@include flex(1 1 auto);
-		padding: 0.7rem 0;
-	}
-
-	.close {
-		font-weight: normal;
-	}
+.modal-alert-backdrop {
+	background: transparent;
 }
 
 
@@ -3585,7 +3574,7 @@ $nav-tab-active: $nav-tab-active-color;
 	h4 {
 		margin-top: 0;
 		margin-bottom: 1rem;
-		font-size: 1.6rem;
+		font-size: 1.4rem;
 		font-weight: bold;
 	}
 

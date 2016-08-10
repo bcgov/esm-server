@@ -235,7 +235,9 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					},
 					controllerAs: 'self',
 					scope: $scope,
-					size: 'md'
+					size: 'md',
+					windowClass: 'modal-alert',
+					backdropClass: 'modal-alert-backdrop'
 				});
 				// do not care how this modal is closed, just go to the desired location...
 				modalDocView.result.then(function (res) {transitionCallback(); }, function (err) { transitionCallback(); });
@@ -259,7 +261,9 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					},
 					controllerAs: 'self',
 					scope: $scope,
-					size: 'md'
+					size: 'md',
+					windowClass: 'modal-alert',
+					backdropClass: 'modal-alert-backdrop'
 				});
 				// do not care how this modal is closed, just go to the desired location...
 				modalDocView.result.then(function (res) {transitionCallback(); }, function (err) { transitionCallback(); });
@@ -287,7 +291,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					VcModel.deleteId($scope.vc._id)
 						.then(function(res) {
 							// deleted show the message, and go to list...
-							$scope.showSuccess($scope.vc.name + ' was deleted successfully', goToList, 'Delete Success');
+							$scope.showSuccess('"'+ $scope.vc.name +'"' + ' was deleted successfully from this project.', goToList, 'Delete Success');
 						})
 						.catch(function(res) {
 							// could have errors from a delete check...
@@ -303,9 +307,9 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 								if (failure.vcs && failure.vcs.length > 0) {
 									errorList.push({msg: 'Has ' + failure.vcs.length + ' related Valued Components.'});
 								}
-								$scope.showError($scope.vc.name + ' cannot be deleted.', errorList, reloadEdit, 'Delete Error');
+								$scope.showError('"'+ $scope.vc.name +'"' + ' cannot be deleted.', errorList, reloadEdit, 'Delete Error');
 							} else {
-								$scope.showError($scope.vc.name + ' was not deleted.', [], reloadEdit, 'Delete Error');
+								$scope.showError('"'+ $scope.vc.name +'"' + ' was not deleted.', [], reloadEdit, 'Delete Error');
 							}
 						});
 				}, function () {
@@ -334,10 +338,10 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				modalDocView.result.then(function (res) {
 					VcModel.publish ($scope.vc._id)
 						.then(function(res) {
-							$scope.showSuccess($scope.vc.name + ' was published successfully', reloadEdit, 'Publish Success');
+							$scope.showSuccess('"'+ $scope.vc.name +'"' + ' was published successfully', reloadEdit, 'Publish Success');
 						})
 						.catch(function(res) {
-							$scope.showError($scope.vc.name + ' was not published.', [], reloadEdit, 'Delete Error');
+							$scope.showError('"'+ $scope.vc.name +'"' + ' was not published.', [], reloadEdit, 'Delete Error');
 						});
 				}, function () {
 					//console.log('publish modalDocView error');
@@ -347,10 +351,10 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.unpublish = function() {
 				VcModel.unpublish ($scope.vc._id)
 					.then(function(res) {
-						$scope.showSuccess($scope.vc.name + ' was unpublished successfully', reloadEdit, 'Unpublish Successful');
+						$scope.showSuccess('"'+ $scope.vc.name +'"' + ' was unpublished successfully', reloadEdit, 'Unpublish Successful');
 					})
 					.catch(function(res) {
-						$scope.showError($scope.vc.name + ' is still published.', [], reloadEdit, 'An Error has occurred');
+						$scope.showError('"'+ $scope.vc.name +'"' + ' is still published.', [], reloadEdit, 'An Error has occurred');
 					});
 				};
 
@@ -365,7 +369,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					$scope.showSuccess('"'+ $scope.vc.name +'"' + ' was saved successfully', reloadEdit, 'Save Successful');
 				})
 				.catch (function (err) {
-					$scope.showError($scope.vc.name + ' was not saved.', [], reloadEdit, 'Save Error');
+					$scope.showError('"'+ $scope.vc.name +'"' + ' was not saved.', [], reloadEdit, 'Save Error');
 				});
 			};
 

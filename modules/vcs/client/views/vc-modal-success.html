@@ -1,14 +1,4 @@
-<div class="modal-header">
-	<button class="btn btn-default close" ng-click="self.cancel()"><span aria-hidden="true">×</span></button>
-	<h3 class="modal-title">{{self.title}}</h3>
-</div>
-
-<div class="modal-body">
-    {{self.msg}}
-</div>
-
-<div class="modal-footer">
-	<div>
-		<button class="btn btn-default" href ng-click="self.ok()">OK</button>
-	</div>
+<div class="alert alert-success">
+	<button class="close" ng-click="self.cancel()"><span aria-hidden="true">×</span></button>
+	{{self.msg}}
 </div>
