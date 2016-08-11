@@ -35,7 +35,10 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 		'manageRoles',
 		'managePermissions',
 		'createRole',
-		'addUsersToContext'
+		'addUsersToContext',
+		'listProjectUpdates',
+		'createProjectUpdates',
+		'deleteProjectUpdates'
 	],
 	__tracking            : true,
 	__status              : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Not Certified', 'Decommissioned'],
