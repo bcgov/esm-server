@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = require ('../../../core/server/controllers/core.schema.controller')
-('Notification', {
+('Cotification', {
 	__audit				: true,
 	__access            : [],
 	__codename			: 'unique',
