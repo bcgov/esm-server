@@ -50,12 +50,6 @@ module.exports = DBModel.extend ({
 	preprocessAdd : function (project) {
 		//console.log('project.preprocessAdd project = ' + JSON.stringify(project, null, 4));
 		var self = this;
-		var rolePrefix;
-		var adminSuffix = ':admin';
-		var projectAdminRole;
-		var projectProponentAdmin;
-		var projectProponentMember;
-		var sectorRole;
 		//
 		// return a promise, we have lots of work to do
 		//
@@ -88,41 +82,14 @@ module.exports = DBModel.extend ({
 
 				return self.initDefaultRoles(project);
 			})
-			//
-			// add the appropriate role to the user
-			//
-			.then (function (objectRoles) {
-				//console.log ('Step3. assign admin role to user');
-				// console.log ('project is now ', project);
-				var userRole = (self.user.orgCode !== 'eao' && self.user.orgCode === project.orgCode) ? project.proponentAdminRole : project.adminRole;
-				//
-				// TBD ROLES
-				//
-				return Promise.resolve ();
-				// return Roles.userRoles ({
-				// 	method: 'add',
-				// 	users: self.user,
-				// 	roles: userRole
-				// });
-			})
-			//
-			// update this model's user roles
-			// do this because the user now has new access, without this they
-			// cannot save the project
-			//
-			.then (function () {
-				// console.log ('Step4. set query access roles in the dbmodel object');
-				project.setRoles (self.user);
-				return project;
-			})
 			.then(function() {
-				return self.setDefaultRoles(project);
+				// add all eao-intake users to this project's intake role.
+				return self.addIntakeUsers(project);
 			})
 			//
 			// add a pre submission phase (intake)
 			//
 			.then (function (proj) {
-				//console.log ('Step5. add the default phases, pre-stream');
 				if (!project.phases || project.phases.length === 0) {
 					// Add default phases to project.
 					return ['intake', 'pre-ea', 'pre-app', 'evaluation', 'application-review', 'decision', 'post-certification'].reduce(function (promise, phase, index) {
@@ -157,24 +124,6 @@ module.exports = DBModel.extend ({
 			})
 			.then (resolve, reject);
 		});
-	},
-	// -------------------------------------------------------------------------
-	//
-	// build a permission set from the default eao and proponent roles for the
-	// project indicated by the projectCode copied earlier from the milestone
-	// return the promise from the role machine (this also saves the activity
-	// and resolves to the list of activities passed in, all saved)
-	//
-	// -------------------------------------------------------------------------
-	setDefaultRoles: function (project, base) {
-
-		project.setRoles ({
-			read   : ['eao-admin', 'pro-admin', 'eao-member', 'pro-member'],
-			write  : ['eao-admin', 'pro-admin'],
-			delete : ['eao-admin', 'pro-admin'],
-		});
-		return project;
-
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -549,6 +498,20 @@ module.exports = DBModel.extend ({
 		defaultRoles.push(project.proMember);
 
 		return Promise.resolve (project);
+	},
+
+	addIntakeUsers: function(project) {
+		// find all system eao-intake users...
+		// add all system eao-intake users to project intake role...
+		return Role.find({role: 'eao-intake', user: {$ne: null}}, {user: 1}).exec()
+			.then(function(results) {
+				var a = _.forEach(results, function(u) {
+					return new Promise (function (resolve, reject) {
+						(new Role ({context: project._id, role: 'intake', user: u.user})).save().then(resolve, reject);
+					});
+				});
+				return Promise.all(a);
+			}).then(function() { return Promise.resolve(project); }, function(err) { return Promise.reject(err); });
 	}
 
 });
