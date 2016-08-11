@@ -7,7 +7,9 @@
 
 	<div class="view-body-container">
 		<div class="button-bar clearfix">
-			<a class="btn btn-default btn-sm pull-left" ui-sref="p.ir.create()">
+			<a class="btn btn-default btn-sm pull-left"
+				ui-sref="p.ir.create()"
+				ng-if="project.userCan.createInspectionReport">
 				<span class="glyphicon glyphicon-plus"></span>
 				<span>Add Inspection Report</span>
 			</a>
