@@ -2,8 +2,8 @@
 
 module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('Notification', {
-	//__audit				: true,
-	//__access            : [],
+	__audit				: true,
+	__access            : [],
 	__codename			: 'unique',
 
 	//
@@ -11,8 +11,11 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	//
 	type				: { type:String, default:'Content', enum:['Content', 'Invitation'] },
 
-	// which group did we use (if any)?
-	notificationGroup   : { type:'ObjectId', ref:'NotificationGroup', default:null, index:true },
+	// which groups did we use (if any)?
+	groups              : [{ type:'ObjectId', ref:'Group'}],
+
+	// not all notifications will have artifacts, but we need to store them
+	artifacts           : [{type:'ObjectId', ref:'Artifact'}],
 
 	// store which email template we started with (if any)...
 	emailTemplate       : { type:'ObjectId', ref:'EmailTemplate', default:null},
@@ -24,16 +27,16 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	// ie. contains personal substitutions from the recipient list?
 	personalized        : {type: Boolean, default: false},
 
-	artifacts           : [{type:'ObjectId', ref:'Artifact'}],
-
-	// list of recipients, does not have to match up with the users found in the notification group
-	// could have adhocs added, group could have changed...
+	// list of recipients
 	recipients: [{
+		// will have adhoc email recipients, not in our contact list...
+		// so no user id, no name...
 		email: {type: String, default: null},
-		name: {type: String, default: null},
-		// this would be data returned from the email delivery attempt
-		accepted: {type: Boolean, default: false},
-		rejected: {type: Boolean, default: false},
-		messageId: {type: String, default: null}
+
+		// from user / contact data...
+		userId: {type: String, default: null}, // actually the user guid, will need for mail outs...
+		displayName: {type: String, default: null},
+		viaEmail : { type:Boolean, default: true }, // will set to false if email starts with "none@specified.com" from import
+		viaMail : { type:Boolean, default: false } // will set to true if email starts with "none@specified.com" from import
 	}]
 });

@@ -14,10 +14,10 @@ module.exports = function (app) {
 			return ctrl.getForProject (req.Project._id);
 		}));
 
-	app.route ('/api/notification/for/group/:notificationgroup')
+	app.route ('/api/notification/for/group/:group')
 		.all (policy ('guest'))
 		.get (routes.setAndRun (NotificationCtrl, function (ctrl, req) {
-			return ctrl.getForNotificationGroup (req.NotificationGroup._id);
+			return ctrl.getForGroup (req.Group._id);
 		}));
 
 };

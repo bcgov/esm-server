@@ -22,7 +22,7 @@ module.exports = DBModel.extend ({
 	getForProject: function (id) {
 		return this.list({project: id});
 	},
-	getForNotificationGroup: function (id) {
-		return this.list({notificationGroup: id});
+	getForGroup: function (id) {
+		return this.list({notificationGroup: {$in: [id] }});
 	}
 });
