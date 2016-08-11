@@ -10,13 +10,16 @@ var DBModel   = require (path.resolve('./modules/core/server/controllers/core.db
 
 
 module.exports = DBModel.extend ({
-	name: 'Cotification',
-	plural: 'cotifications',
+	name: 'Communication',
+	plural: 'communications',
+	sort: {dateUpdated:-1},
+	populate: 'artifacts artifacts.name artifacts.version artifacts.versionNumber',
 
 
 	preprocessAdd : function (model) {
 		var self = this;
-		console.log('Cotification.preprocessAdd: ', JSON.stringify(model, null, 4));
+		console.log('Communication.preprocessAdd: ', JSON.stringify(model, null, 4));
+		return model;
 	},
 
 	getForProject: function (id) {

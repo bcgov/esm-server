@@ -21,6 +21,9 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				}
 			},
 			controller: function ($scope, $modal, $state, Authentication, NgTableParams, project, communications) {
+				$scope.tableParams = new NgTableParams ({count:10}, {dataset: communications});
+				$scope.project = project;
+				$scope.authentication = Authentication;
 			}
 		})
 		.state('p.communication.create', {

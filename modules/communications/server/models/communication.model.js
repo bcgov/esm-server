@@ -1,10 +1,9 @@
 'use strict';
 
 module.exports = require ('../../../core/server/controllers/core.schema.controller')
-('Cotification', {
+('Communication', {
 	__audit				: true,
 	__access            : [],
-	__codename			: 'unique',
 
 	//
 	project				: { type:'ObjectId', ref:'Project', default:null, index:true },
@@ -26,6 +25,8 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	// is this template to be applied per person?
 	// ie. contains personal substitutions from the recipient list?
 	personalized        : {type: Boolean, default: false},
+
+	status				: { type:String, enum:['Draft', 'Sent'], default:'Draft' },
 
 	// list of recipients
 	recipients: [{
