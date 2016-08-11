@@ -19,7 +19,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 
 		uiGmapGoogleMapApiProvider.configure({
 			key: 'AIzaSyCTbJdM2XHNQ6ybqPzyaT-242tIAgIbk8w',
-			v: '3.22',
+			v: '3.24',
 			// libraries: 'weather,geometry,visualization'
 		});
 	}
