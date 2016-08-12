@@ -4,7 +4,7 @@
     <div class="actions">
         <button class="btn btn-default btn-sm">Cancel</button>
         <button class="btn btn-primary btn-sm">Save</button>
-        <button class="btn btn-success btn-sm" disabled>Send</button>
+        <button class="btn btn-success btn-sm" disabled><span class="glyphicon glyphicon-send"></span><span>Send</span></button>
     </div>
 </div>
 
@@ -63,7 +63,7 @@
                 <input class="form-control"></input>
             </div>
             <div class="form-group">
-                <label class="control-label">Message<em class="required">(Required)</em></label>
+                <label class="control-label">Content<em class="required">(Required)</em></label>
                 <textarea ui-tinymce="tinymceOptions" type="text"
                     ng-model="curVal"
                     ng-blur="activeItem = false">
@@ -130,7 +130,7 @@
         <div class="pull-right">
             <button class="btn btn-default btn-sm">Cancel</button>
             <button class="btn btn-primary btn-sm">Save</button>
-            <button class="btn btn-success btn-sm" disabled>Send</button>
+            <button class="btn btn-success btn-sm" disabled><span class="glyphicon glyphicon-send"></span><span>Send</span></button>
         </div>
     <div>
 
