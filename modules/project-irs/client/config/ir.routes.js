@@ -21,8 +21,30 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 			url: '/ir',
 			template: '<ui-view></ui-view>',
 			resolve: {
-				irs: function ($stateParams, ArtifactModel, project) {
-					return ArtifactModel.forProjectGetType(project._id, "inspection-report");
+				irs: function ($stateParams, IrModel, project, ArtifactModel) {
+					return new Promise (function (resolve, reject) {
+						IrModel.forProject (project._id)
+						.then( function (irs) {
+							Promise.resolve ()
+							.then (function () {
+								return irs.reduce (function (current, item) {
+									return current.then (function () {
+										return new Promise (function (r,j) {
+											console.log("item:", item);
+											ArtifactModel.lookup(item.artifact)
+											.then(function (art) {
+												item.artifact = art;
+												r(item);
+											});
+										});
+									});
+								}, Promise.resolve());
+							})
+							.then ( function () {
+								resolve(irs);
+							});
+						});
+					});
 				},
 			}
 		})
@@ -48,13 +70,129 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 		// -------------------------------------------------------------------------
 		.state('p.ir.create', {
 			url: '/create',
-			template: '<p></p>',
-			controller: function ($state, project, ArtifactModel) {
-				ArtifactModel.newFromType("inspection-report", project._id)
-				.then (function (a) {
-					// console.log ('artifact = ', a);
-					$state.go ('p.artifact.edit', {artifactId:a._id});
-				});
+			templateUrl: 'modules/project-irs/client/views/ir-edit.html',
+			resolve: {
+				ir: function (IrModel, project, ArtifactModel) {
+					return new Promise( function (resolve, reject) {
+						IrModel.getNew()
+						.then(function (obj) {
+							obj.project = project;
+							return obj;
+							//resolve(obj);
+						}).then(function (o) {
+							console.log("o:", o);
+							return ArtifactModel.newFromType("inspection-report", project._id)
+							.then(function (art) {
+								o.artifact = art;
+								resolve(o);
+							});
+						});
+					});
+				},
+				report: function (InspectionReportModel, project) {
+					return new Promise( function (resolve, reject) {
+						InspectionReportModel.getNew().then(function (obj) {
+							obj.projectName			= project.name;
+							obj.region				= project.region;
+							obj.lat					= project.lat;
+							obj.lon					= project.lon;
+							obj.sector				= project.sector;
+							obj.locationDescription = project.location;
+							// console.log("obj",obj);
+							resolve(obj);
+						});
+					});
+				}
+			},
+			controller: function ($scope, $state, project, ir, IrModel, report, InspectionReportModel) {
+				$scope.ir = ir;
+				$scope.report = report;
+				$scope.project = project;
+				$scope.save = function () {
+					IrModel.add ($scope.ir)
+					.then (function (model) {
+						$state.transitionTo('p.ir.list', {projectid:project.code}, {
+							reload: true, inherit: false, notify: true
+						});
+					})
+					.catch (function (err) {
+						console.error (err);
+						alert (err);
+					});
+				};
+			}
+		})
+		// -------------------------------------------------------------------------
+		//
+		// this is the edit state
+		//
+		// -------------------------------------------------------------------------
+		.state('p.ir.edit', {
+			url: '/:irId/edit',
+			templateUrl: 'modules/project-irs/client/views/ir-edit.html',
+			resolve: {
+				ir: function ($stateParams, IrModel, ArtifactModel) {
+					// console.log ('irId = ', $stateParams.irId);
+					return new Promise( function (resolve, reject) {
+						IrModel.getModel ($stateParams.irId)
+						.then( function (o) {
+							return ArtifactModel.lookup(o.artifact)
+							.then( function (art) {
+								o.artifact = art;
+								resolve(o);
+							});
+						});
+					});
+				}
+			},
+			controller: function ($scope, $state, ir, project, IrModel) {
+				// console.log ('ir = ', ir);
+				$scope.ir = ir;
+				$scope.project = project;
+				$scope.save = function () {
+					IrModel.save ($scope.ir)
+					.then (function (model) {
+						// console.log ('ir was saved',model);
+						// console.log ('now going to reload state');
+						$state.transitionTo('p.ir.list', {projectid:project.code}, {
+							reload: true, inherit: false, notify: true
+						});
+					})
+					.catch (function (err) {
+						console.error (err);
+						alert (err);
+					});
+				};
+			}
+		})
+		// -------------------------------------------------------------------------
+		//
+		// this is the 'view' mode of an ir. here we are just simply
+		// looking at the information for this specific object
+		//
+		// -------------------------------------------------------------------------
+		.state('p.ir.detail', {
+			url: '/:irId',
+			templateUrl: 'modules/project-irs/client/views/ir-view.html',
+			resolve: {
+				ir: function ($stateParams, IrModel, ArtifactModel) {
+					// console.log ('irId = ', $stateParams.irId);
+					return new Promise( function (resolve, reject) {
+						IrModel.getModel ($stateParams.irId)
+						.then( function (o) {
+							return ArtifactModel.lookup(o.artifact)
+							.then( function (art) {
+								o.artifact = art;
+								resolve(o);
+							});
+						});
+					});
+				}
+			},
+			controller: function ($scope, ir, project) {
+				// console.log ('ir = ', ir);
+				$scope.ir = ir;
+				$scope.project = project;
 			}
 		});
 	}
