@@ -2,7 +2,7 @@
 <div class="img-view-modal modal fade" id="commentModal" role="modal">
 	<div class="modal-header">
 		<button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		<h3 class="modal-title">Public Comment Volume by Topic</h3>
+		<h3 class="modal-title">Public Comment Count by Topic</h3>
 	</div>
 	<tmpl-public-comment-chart class="topic-cloud-container"
 		x-refresh="s.refreshVisualization"
@@ -20,7 +20,7 @@
 		<button class="btn btn-default btn-sm" ng-if="s.showTopicCloud === false"
 			data-toggle="modal"
 			data-target="#commentModal"
-			data-backdrop="false">Volume by Topic</button>
+			data-backdrop="false">Count by Topic</button>
 		<button class="btn btn-default btn-sm" ng-if="authentication.user"
 			ng-click="s.downloadCommentData()"><span class="glyphicon glyphicon-download-alt"></span><span>Download CSV</span></button>
 	</div>
