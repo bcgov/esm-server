@@ -1516,10 +1516,12 @@ tmpl-footer {
 	.left-panel {
 		position: relative;
 		width: $sidenav-width;
+		overflow: hidden;
 		flex: 0 0 auto;
 		background: $left-panel-bg;
 		box-shadow: 0 0 $left-panel-shadow-width $left-panel-shadow-color;
 		z-index: 2;
+		transition: width ease-out 0.2s;
 	}
 
 	.main-panel {
@@ -1534,14 +1536,11 @@ tmpl-footer {
 		}
 
 		.view-body-container {
-			padding: 2rem 2.5rem;
 			flex: 1 1 auto;
-			overflow-y: auto;
 		}
 
 		.view-footer-container {
 			flex: 0 0 auto;
-			padding: 2rem;
 		}
 	}
 }
@@ -1566,9 +1565,14 @@ ui-view {
 
 /* PAGE (VIEW) CONTAINERS
 ------------------------------ */
+.view-title-container,
+.view-body-container,
+.view-footer-container {
+	padding: 2rem;
+}
+
 .view-title-container {
 	height: 7rem;
-	padding: 2rem 2.5rem;
 	background: #FFF;
 	border-bottom: 1px solid #EEE;
 	min-width: 0;
@@ -1616,9 +1620,8 @@ ui-view {
 	}
 }
 
-.view-title-container.no-border {
-	padding-bottom: 0;
-	border: none;
+.view-body-container {
+	overflow-y: auto;
 }
 
 .view-content {
