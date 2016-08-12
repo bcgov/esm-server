@@ -1,1 +1,160 @@
-Edit!
+
+<div class="view-title-container flex-row">
+    <h1>Project Update &nbsp;&rsaquo;&nbsp; {{o.name}} <span class="placeholder-value" ng-if="!o.name">Untitled</span></h1>
+    <div class="actions">
+        <button class="btn btn-default btn-sm">Cancel</button>
+        <button class="btn btn-primary btn-sm">Save</button>
+        <button class="btn btn-success btn-sm" disabled>Send</button>
+    </div>
+</div>
+
+<div class="view-body-container">
+
+    <ul class="nav nav-tabs" ng-init="form.curTab = 'Update Details'">
+        <li role="presentation" ng-class="{'active':form.curTab === 'Update Details'}" class="form-group">
+            <a ng-click="form.curTab = 'Update Details'" title="Edit Project Update Details" name="projectUpdateDetailsForm">
+                <span class="glyphicon glyphicon-exclamation-sign"></span>Update Details</a>
+        </li>
+        <li role="presentation" ng-class="{'active':form.curTab === 'recipients'}" class="form-group">
+            <a ng-click="form.curTab = 'recipients'" title="Edit Project Recipients" name="recipientsForm">
+                <span class="glyphicon glyphicon-exclamation-sign"></span>Recipients (0)</a>
+        </li>
+    </ul>
+
+    <div class="tab-pane active" ng-show="form.curTab === 'Update Details'" ng-form="projectUpdateDetailsForm">
+        
+        <div class="form-group">
+            <label class="control-label">Name<em class="required">(Required)</em></label>
+            <input class="form-control"></input>
+        </div>
+
+        <fieldset>
+            <legend>Related Artifacts (0)</legend>
+            <div class="tag-list form-control">
+                <span class="tag">
+                    <span class="tag-name">Artifact</span>
+                    <button class="btn" ng-click="s.cancel()"><span aria-hidden="true">×</span></button>
+                </span>
+                <span class="tag">
+                    <span class="tag-name">Artifact</span>
+                    <button class="btn" ng-click="s.cancel()"><span aria-hidden="true">×</span></button>
+                </span>
+                <span class="tag">
+                    <span class="tag-name">Artifact</span>
+                    <button class="btn" ng-click="s.cancel()"><span aria-hidden="true">×</span></button>
+                </span>
+                <span class="tag">
+                    <span class="tag-name">Artifact</span>
+                    <button class="btn" ng-click="s.cancel()"><span aria-hidden="true">×</span></button>
+                </span>
+            </div>
+            <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add Artifacts</span></button>
+        <fieldset>
+
+        <hr />
+
+        <fieldset>
+            <legend>Configure Email</legend>
+            <div class="form-group">
+                <button class="btn btn-default btn-sm">Use Existing Template</button>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Subject<em class="required">(Required)</em></label>
+                <input class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Message<em class="required">(Required)</em></label>
+                <textarea ui-tinymce="tinymceOptions" type="text"
+                    ng-model="curVal"
+                    ng-blur="activeItem = false">
+                </textarea>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="tab-pane" ng-show="form.curTab === 'recipients'" ng-form="recipientsForm">
+        <div class='button-bar'>
+            <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add New</span></button>
+            <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add Existing</span></button>
+        </div>
+        <div class="panel panel-default">
+            <table class="recipients-table table table-hover"
+                ng-table="tableParams"
+                show-filter="false">
+                <tr>
+                    <td class="name-col" 
+                        header-class="'name-col'"
+                        data-title="'Name'" 
+                        filter="{'name':'text'}" 
+                        sortable="'name'">Recipient Name
+                    </td>
+                    <td class="email-col" 
+                        header-class="'email-col'"
+                        data-title="'Email'" 
+                        filter="{'name':'text'}" 
+                        sortable="'name'">recipient@email.com
+                    </td>
+                    <td class="org-col" 
+                        header-class="'org-col'"
+                        data-title="'Organization'" 
+                        filter="{'name':'text'}" 
+                        sortable="'name'">Organization
+                    </td>
+                    <td class="type-col" 
+                        header-class="'type-col'"
+                        data-title="'Type'" 
+                        filter="{'name':'select'}" 
+                        sortable="'name'">Type
+                    </td>
+                    <td class="actions-col action-x1" header-class="'actions-col action-x1'"
+                        data-title="''">
+                        <button class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name-col" 
+                        header-class="'name-col'"
+                        data-title="'Name'" 
+                        filter="{'name':'text'}" 
+                        sortable="'name'">Recipient Name
+                    </td>
+                    <td class="email-col" 
+                        header-class="'email-col'"
+                        data-title="'Email'" 
+                        filter="{'name':'text'}" 
+                        sortable="'name'">recipient@email.com
+                    </td>
+                    <td class="org-col" 
+                        header-class="'org-col'"
+                        data-title="'Organization'" 
+                        filter="{'name':'text'}" 
+                        sortable="'name'">Organization
+                    </td>
+                    <td class="type-col" 
+                        header-class="'type-col'"
+                        data-title="'Type'" 
+                        filter="{'name':'select'}" 
+                        sortable="'name'">Type
+                    </td>
+                    <td class="actions-col action-x1" 
+                        header-class="'actions-col action-x1'">
+                        <button class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-footer">
+        <div class="pull-right">
+            <button class="btn btn-default btn-sm">Cancel</button>
+            <button class="btn btn-primary btn-sm">Save</button>
+            <button class="btn btn-success btn-sm" disabled>Send</button>
+        </div>
+    <div>
+
+</div>

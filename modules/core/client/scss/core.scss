@@ -2476,11 +2476,10 @@ fieldset {
 }
 
 legend {
-	margin-bottom: 1.75rem;
-	font-size: 1.4rem;
+	margin-bottom: 1rem;
+	font-size: 1.5rem;
 	font-weight: bold;
 	border-bottom: none;
-	text-shadow: 1px 1px 0 #FFF;
 	text-transform: uppercase;
 	
 	em {
@@ -3112,8 +3111,8 @@ $pick-list-active-item-bg: #5cb85c;
 		> a {
 			position: relative;
 			margin: 0;
-			padding: 0.8rem 1.5rem;
-			font-size: 1.4rem;
+			padding: 0.7rem 1.5rem;
+			font-size: 1.6rem;
 			font-weight: bold;
 			color: $nav-tab-inactive-color;
 			border: none;
@@ -3176,7 +3175,7 @@ $pick-list-active-item-bg: #5cb85c;
 }
 
 .tab-pane {
-	padding-top: 2.5rem;
+	padding-top: 2rem;
 }
 
 
@@ -3414,6 +3413,39 @@ $pick-list-active-item-bg: #5cb85c;
 			tr {
 				width: calc(100% + 17px);
 			}
+		}
+	}
+}
+
+
+/* TAG LIST 
+------------------------------ */
+.tag-list {
+	&.form-control {
+		height: auto;
+		padding: 0.4rem;
+	}
+
+	+ .btn {
+		margin-top: 0.5rem;
+	}
+
+	.tag {
+		display: inline-block;
+		font-size: 1.2rem;
+		color: #FFF;
+		background: #999;
+		border-radius: 4px;
+		box-shadow: 0 1px 1px rgba(0, 0, 0, .075);
+
+		.tag-name {
+			padding-left: 1rem;
+		}
+
+		.btn {
+			padding: 0 0.5rem;
+			background: transparent;
+			border-radius: 2px;
 		}
 	}
 }
@@ -4182,6 +4214,28 @@ $pick-list-active-item-bg: #5cb85c;
 				width: 100%;
 			}
 		}
+	}
+}
+
+/* COMMUNCATIONS view
+------------------------------ */
+.communications-table {
+	.recipients-col {
+		width: 14rem;
+	}
+
+	.sent-col {
+		width: 14rem;
+	}
+}
+
+.recipients-table {
+	.name-col {
+		width: 40%;
+	}
+
+	.type-col {
+		width: 14rem;
 	}
 }
 
