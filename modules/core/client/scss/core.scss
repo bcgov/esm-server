@@ -67,7 +67,7 @@ $panel-footer-bg: 			#FFF;
 /* Side Navigation */
 $sidenav-bg: 				#FFF;
 $sidenav-color: 			$link-color;
-$sidenav-width:				20rem;
+$sidenav-width:				18rem;
 
 /* Tables */
 $table-bg: 					#FFF;
@@ -171,12 +171,24 @@ pre {
 	}
 }
 
+textarea {
+	resize: vertical;
+}
+
 
 /* UTILITY SELECTORS
 ------------------------------ */
+button.close {
+	margin-right: -1rem;
+	width: 3.4rem;
+	padding: 0.7rem;
+	font-weight: normal;
+}
+
 @mixin flex($values) {
 	-webkit-box-flex: $values;
   	   -moz-box-flex: $values;
+		-ms-box-flex: $values;
   	    -webkit-flex: $values;
   	        -ms-flex: $values;
   		        flex: $values; 
@@ -194,6 +206,23 @@ pre {
 	display: flex;
 	-ms-flex-flow: column nowrap;
 	flex-flow: column nowrap;
+}
+
+.flex-title {
+	@extend .flex-row;
+
+	h2 {
+		@include flex(1 1 auto);
+		margin: 0;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+		font-size: 2rem;
+		font-weight: bold;
+	}
+
+	.actions {
+		@include flex(0 0 auto);
+	}
 }
 
 [ng\:cloak],
@@ -1486,11 +1515,13 @@ tmpl-footer {
 
 	.left-panel {
 		position: relative;
-		width: $left-panel-width;
+		width: $sidenav-width;
+		overflow: hidden;
 		flex: 0 0 auto;
 		background: $left-panel-bg;
 		box-shadow: 0 0 $left-panel-shadow-width $left-panel-shadow-color;
 		z-index: 2;
+		transition: width ease-out 0.2s;
 	}
 
 	.main-panel {
@@ -1505,14 +1536,11 @@ tmpl-footer {
 		}
 
 		.view-body-container {
-			padding: 2rem 2.5rem;
 			flex: 1 1 auto;
-			overflow-y: auto;
 		}
 
 		.view-footer-container {
 			flex: 0 0 auto;
-			padding: 2rem;
 		}
 	}
 }
@@ -1537,9 +1565,14 @@ ui-view {
 
 /* PAGE (VIEW) CONTAINERS
 ------------------------------ */
+.view-title-container,
+.view-body-container,
+.view-footer-container {
+	padding: 2rem;
+}
+
 .view-title-container {
 	height: 7rem;
-	padding: 2rem 2.5rem;
 	background: #FFF;
 	border-bottom: 1px solid #EEE;
 	min-width: 0;
@@ -1549,20 +1582,19 @@ ui-view {
         padding-top: 0.2rem;
 		font-size: 2.4rem;
 		font-weight: bold;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
     }
 
 	&.flex-row {
 		h1 {
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
 			-webkit-flex: 1 1 auto;
 			-ms-flex: 1 1 auto;
 			flex: 1 1 auto;
 		}
 
 		.actions {
-			padding-left: 2rem;
 			-webkit-flex: 0 0 auto;
 			-ms-flex: 0 0 auto;
 			flex: 0 0 auto;
@@ -1572,11 +1604,24 @@ ui-view {
 			display: inline-block;
 		}
 	}
+
+	.actions {
+		padding-left: 2rem;
+
+		.btn {
+			min-width: 7rem;
+		}
+
+		.permission-btn {
+			.btn {
+				min-width: 3rem;
+			}
+		}
+	}
 }
 
-.view-title-container.no-border {
-	padding-bottom: 0;
-	border: none;
+.view-body-container {
+	overflow-y: auto;
 }
 
 .view-content {
@@ -2070,7 +2115,7 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 		a {
 			padding: 0.8rem 1.5rem;
 			font-size: 1.3rem;
-			font-weight: bold;
+			font-weight: normal;
 			color: $link-color;
 			text-shadow: $sidenav-text-shadow;
 			border: 1px solid transparent;
@@ -2192,6 +2237,7 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 	}
 	
 	.close {
+		margin-top: -0.9rem;
 		color: #FFF;
 		opacity: 0.5;
 
@@ -2430,11 +2476,10 @@ fieldset {
 }
 
 legend {
-	margin-bottom: 1.75rem;
-	font-size: 1.4rem;
+	margin-bottom: 1rem;
+	font-size: 1.5rem;
 	font-weight: bold;
 	border-bottom: none;
-	text-shadow: 1px 1px 0 #FFF;
 	text-transform: uppercase;
 	
 	em {
@@ -2618,8 +2663,18 @@ form {
 	}
 }
 
-textarea {
-	resize: vertical;
+.form-container {
+	padding: 0 2rem;
+}
+
+.form-footer {
+	.btn {
+		min-width: 7rem;
+	}
+}
+
+.form-group {
+	margin-bottom: 2rem;
 }
 
 .form-validation-msg {
@@ -2627,30 +2682,6 @@ textarea {
 	font-size: 1.2rem;
 	font-weight: normal;
 	color: #999;
-}
-
-.control-label {
-	em {
-		@extend .form-validation-msg;
-	}
-}
-
-.form-container {
-	padding: 0 2rem;
-}
-
-.form-group {
-	margin-bottom: 2rem;
-
-	/* Fix - RTF Widget needs consistant styling with all form controls */
-	.mce-panel {
-		background-color: #FFF;
-	}
-}
-
-.form-footer {
-	padding-top: 1.5rem;
-	border-top: 1px solid #DDD;
 }
 
 .form-control-static {
@@ -2672,6 +2703,16 @@ textarea {
 	}
 }
 
+.control-label {
+	em {
+		@extend .form-validation-msg;
+	}
+
+	em.required {
+		display: none;
+	}
+}
+
 .radio-group {
 	padding-top: 0.7rem;
 
@@ -2682,8 +2723,11 @@ textarea {
 }
 
 .has-error {
-	.control-label em {
-		color: $danger-text;
+	.control-label {
+		em.required {
+			display: inline;
+			color: $danger-text;
+		}
 	}
 }
 
@@ -2904,7 +2948,7 @@ textarea {
 }
 
 
-/* MODAL OVERRIDES
+/* MODAL
 ------------------------------ */ 
 .modal-header {
 	padding: 1.25rem 2rem;
@@ -2919,8 +2963,6 @@ textarea {
 	
 	.close {
 		margin-right: -1rem;
-		width: 3.4rem;
-		padding: 0.7rem;
 	}
 }
 
@@ -2938,12 +2980,24 @@ textarea {
 	background: $modal-body-bg;
 }
 
+.modal-alert {
+	.modal-content {
+		border: none;
+	}
+
+	.alert {
+		margin-bottom: 0;
+	}
+}
+
+.modal-alert-backdrop {
+	background: transparent;
+}
+
 
 /* PANELS
 ------------------------------ */ 
 .panel-default {
-	border: none;
-	box-shadow: none;
 	
 	> .panel-heading {
 		position: relative;
@@ -3046,18 +3100,18 @@ $pick-list-active-item-bg: #5cb85c;
 }
 
 
-/* TAB CONTROL 
+/* TAB NAVIGATION
 ------------------------------ */
-$nav-tab-active: #1a5a96;
-
 .nav-tabs {
-	border-bottom: 4px solid #DDD;
+	border-bottom: 4px solid $nav-tab-inactive-border-color;
 	
 	> li {
 		margin-bottom: -4px;
 
 		> a {
-			padding: 0.5rem 1.5rem;
+			position: relative;
+			margin: 0;
+			padding: 0.7rem 1.5rem;
 			font-size: 1.6rem;
 			font-weight: bold;
 			color: $nav-tab-inactive-color;
@@ -3067,30 +3121,61 @@ $nav-tab-active: #1a5a96;
 			&:hover {
 				background: transparent;
 			}
-		}
-	}
 
-	> li.active {
-		> a {
-			font-weight: bold;
-			color: $nav-tab-active-color;
-			background: transparent;
-			border: none;
-			border-bottom: 4px solid $nav-tab-active-border-color;
+			.glyphicon {
+				position: absolute;
+				top: 0.9rem;
+				left: 1rem;
+				display: none;
+				font-size: 1.6rem;
+			}
 		}
 
-		> a:hover,
-		> a:focus {
-			color: #1a5a96;
-			background: transparent;
-			border: none;
-			border-bottom: 4px solid $nav-tab-active-border-color;
+		&.has-error {
+			> a {
+				padding-left: 3.5rem;
+			}
+
+			.glyphicon {
+				display: inline-block;
+			}
+		}
+
+		&.active {
+			> a {
+				color: $nav-tab-active-color;
+				background: transparent;
+				border: none;
+				border-bottom: 4px solid $nav-tab-active-border-color;
+			}
+
+			> a:hover,
+			> a:focus {
+				color: $nav-tab-active-color;
+				background: transparent;
+				border: none;
+				border-bottom: 4px solid $nav-tab-active-border-color;
+			}
+
+			&.has-error {
+				> a {
+					color: $danger-text;
+					border-bottom-color: $danger-border;
+					opacity: 1;
+				}
+
+				> a:hover,
+				> a:focus {
+					color: $danger-text;
+					border-bottom-color: $danger-border;
+				}
+			}
 		}
 	}
 }
 
 .tab-pane {
-	padding-top: 2.5rem;
+	padding-top: 2rem;
 }
 
 
@@ -3214,7 +3299,7 @@ $nav-tab-active: #1a5a96;
 }
 
 .ng-table-pager {
-	padding-top: 1.5rem;
+	padding-top: 1rem;
 	padding-right: 1.5rem;
 	padding-bottom: 0;
 	padding-left: 1.5rem;
@@ -3225,7 +3310,7 @@ $nav-tab-active: #1a5a96;
 
 .ng-table-pagination,
 .ng-table-counts {
-	margin-bottom: 1.5rem;
+	margin-bottom: 1rem;
 }
 
 .ng-table-pagination {
@@ -3294,7 +3379,7 @@ $nav-tab-active: #1a5a96;
 
 .flex-table {
 	display: flex;
-	height: calc(100% - 60px);
+	height: calc(100% - 52px);
 	flex-flow: column nowrap;
 	table-layout: fixed;
 
@@ -3317,7 +3402,50 @@ $nav-tab-active: #1a5a96;
 		flex: 1 1 auto;
 
 		tr {
-			width: calc(100% + 17px);
+			width: 100%;
+		}
+	}
+}
+
+@media (min-width: 1200px) {
+	.flex-table {
+		tbody {
+			tr {
+				width: calc(100% + 17px);
+			}
+		}
+	}
+}
+
+
+/* TAG LIST 
+------------------------------ */
+.tag-list {
+	&.form-control {
+		height: auto;
+		padding: 0.4rem;
+	}
+
+	+ .btn {
+		margin-top: 0.5rem;
+	}
+
+	.tag {
+		display: inline-block;
+		font-size: 1.2rem;
+		color: #FFF;
+		background: #999;
+		border-radius: 4px;
+		box-shadow: 0 1px 1px rgba(0, 0, 0, .075);
+
+		.tag-name {
+			padding-left: 1rem;
+		}
+
+		.btn {
+			padding: 0 0.5rem;
+			background: transparent;
+			border-radius: 2px;
 		}
 	}
 }
@@ -3512,7 +3640,7 @@ $nav-tab-active: #1a5a96;
 	h4 {
 		margin-top: 0;
 		margin-bottom: 1rem;
-		font-size: 1.6rem;
+		font-size: 1.4rem;
 		font-weight: bold;
 	}
 
@@ -3622,6 +3750,16 @@ $nav-tab-active: #1a5a96;
 	bottom: 0;
 	left: 0;
 
+	.nav-tabs {
+		border-top: 1px solid #DDD;
+		margin-top: 0;
+		margin-bottom: 1.5rem;
+
+		li {
+			margin-top: 0.5rem;
+		}
+	}
+
 	.comment-title {
 		margin: 0;
 		font-size: 1.6rem;
@@ -3653,6 +3791,20 @@ $nav-tab-active: #1a5a96;
 			width: 100%;
 		}
 	}
+
+	.tab-pane {
+		position: relative;
+		padding: 0;
+	}
+	
+	.pcp-btn-bar {
+		h2 {
+			font-size: 2rem;
+			font-weight: bold;
+			margin-top: 0.8rem;
+			margin-bottom: 0;
+		}
+	}
 }
 
 @media (max-width: 480px) {
@@ -3675,7 +3827,7 @@ $nav-tab-active: #1a5a96;
 		td.attachment-col {
 			position: absolute;
 			top: 0.6rem;
-			right: 9.5rem
+			right: 14.5rem;
 		}
 		
 		td.date-col {
@@ -3698,7 +3850,7 @@ $nav-tab-active: #1a5a96;
 			background: transparent;
 
 			td.attachment-col {
-				right: 9.5rem;
+				right: 14.5rem;
 			}
 			
 			td.date-col {
@@ -3709,11 +3861,13 @@ $nav-tab-active: #1a5a96;
 	}
 }
 
+
 @media (max-width: 1200px) {
 	.public-comment-period-view {
-		.public-comment-panel {
-			background: transparent;
-			border: none;
+		.tab-pane {
+			.pcp-button-bar {
+				top: -5.5rem;
+			}
 		}
 		
 		.table {
@@ -3732,15 +3886,16 @@ $nav-tab-active: #1a5a96;
 				}
 			
 				th {
-					margin-right: 0.5rem;
-					margin-bottom: 1rem;
-					padding: 0.5rem 1rem 0.5rem 1.5rem;
+					margin-top: 0.5rem;
+					margin-bottom: 0.5rem;
+					margin-left: 0.5rem;
+					padding: 0.6rem 0.6rem 0.6rem 1rem;
 					display: block;
 					float: left;
 					text-align: center;
 					background: #FFF;
-					border: 1px solid #DDD !important;
-					border-radius: 4px;
+					border: 1px solid #c8c8c8 !important;
+					border-radius: 3px;
 				}
 			}
 			
@@ -3797,6 +3952,14 @@ $nav-tab-active: #1a5a96;
 
 @media (min-width: 1200px) {
 	.public-comment-period-view {
+		.tab-pane {
+			.pcp-button-bar {
+				position: absolute;
+				top: -5.5rem;
+				right: 0;
+			}
+		}
+
 		.table {
 			table-layout: fixed;
 			width: 100%;
@@ -4051,6 +4214,28 @@ $nav-tab-active: #1a5a96;
 				width: 100%;
 			}
 		}
+	}
+}
+
+/* COMMUNCATIONS view
+------------------------------ */
+.communications-table {
+	.recipients-col {
+		width: 14rem;
+	}
+
+	.sent-col {
+		width: 14rem;
+	}
+}
+
+.recipients-table {
+	.name-col {
+		width: 40%;
+	}
+
+	.type-col {
+		width: 14rem;
 	}
 }
 
@@ -4788,7 +4973,7 @@ $home-view-map-lg: 800px;
 		.news-panel {
 			margin-top: 0;
 			margin-left: 1.5rem;
-			flex: 0 0 34rem;
+			flex: 0 0 30rem;
 		}
 	}
 }
@@ -4798,6 +4983,10 @@ $home-view-map-lg: 800px;
 		.map-container,
 		.angular-google-map-container {
 			height: $home-view-map-md;
+		}
+
+		.news-panel {
+			flex-basis: 34rem;
 		}
 	}
 }
@@ -4895,7 +5084,7 @@ tmpl-template-render {
 @media screen {
 	.template-nav,
 	.template {
-		height: 40rem;
+		height: 60rem;
 		overflow-y: auto;
 	}
 
@@ -5117,5 +5306,49 @@ tmpl-template-render {
 			font-size: 1.2rem;
 			font-weight: normal;
 		}
+	}
+}
+
+
+.modal.img-view-modal {
+	padding-left: 0 !important;
+	overflow: hidden;
+
+	.modal-header {
+		color: #FFF;
+
+		.close {
+			color: #FFF;
+			text-shadow: none;
+			opacity: 1;
+		}
+	}
+
+	& ~ .temp-overlay {
+		background: rgba(0,0,0,0.8);
+	}
+}
+
+.topic-cloud-container {
+	width: 100%;
+	height: calc(100% - 5.6rem);
+	overflow: hidden;
+
+	svg {
+		width: 100%;
+		height: 100%;
+	}
+}
+
+
+
+/* PROTOTYPE */
+
+.project-table {
+	.type-col,
+	.region-col,
+	.phase-col,
+	.decision-col {
+		display: none;
 	}
 }
