@@ -61,49 +61,41 @@ var checkIntegration = function (name, override) {
 			else {
 				console.log ('seeding :' + name);
 				var i = new Integration ({module:name});
-    			i.save ();
-    			//
-    			// resolve with the function that can write to Integration
-    			//
-    			resolve (writeFunction (i, name));
+				i.save ();
+				//
+				// resolve with the function that can write to Integration
+				//
+				resolve (writeFunction (i, name));
 			}
 		});
 	});
 };
-checkIntegration ('testme').then (function (f) {
-	require('../seed-data/test-integration')(f);
-});
 
-// =========================================================================
-//
-// Things in this section go into ALL environments
-//
-// =========================================================================
-
-checkIntegration ('defaults-20160731.5').then (function () {
-	require('../seed-data/defaults')();
-});
+var seedingAsync = function() {
+	checkIntegration('testme').then(function (f) {
+		require('../seed-data/test-integration')(f);
+	});
 
 // -------------------------------------------------------------------------
 //
 // configurations
 //
 // -------------------------------------------------------------------------
-checkIntegration ('newconfigs3').then (function () {
-	require('../seed-data/newconfigs')(true);
-});
-checkIntegration ('commentconfigs1').then (function () {
-	require('../seed-data/commenting-configs')(true);
-});
+	checkIntegration('newconfigs3').then(function () {
+		require('../seed-data/newconfigs')(true);
+	});
+	checkIntegration('commentconfigs1').then(function () {
+		require('../seed-data/commenting-configs')(true);
+	});
 
 // -------------------------------------------------------------------------
 //
 // configurations
 //
 // -------------------------------------------------------------------------
-checkIntegration ('sysroles').then (function () {
-	require('../seed-data/loadroles').sysroles();
-});
+	checkIntegration('sysroles').then(function () {
+		require('../seed-data/loadroles').sysroles();
+	});
 
 
 // -------------------------------------------------------------------------
@@ -111,158 +103,122 @@ checkIntegration ('sysroles').then (function () {
 // Topics
 //
 // -------------------------------------------------------------------------
-checkIntegration ('loadtopics5').then (function () {
-	require('../seed-data/loadtopics')();
-});
+	checkIntegration('loadtopics5').then(function () {
+		require('../seed-data/loadtopics')();
+	});
 
 // -------------------------------------------------------------------------
 //
 // Conditions
 //
 // -------------------------------------------------------------------------
-checkIntegration ('loadconditions2').then (function () {
-	require('../seed-data/loadconditions')();
-});
+	checkIntegration('loadconditions2').then(function () {
+		require('../seed-data/loadconditions')();
+	});
 
 // -------------------------------------------------------------------------
 //
 // artifact types
 //
 // -------------------------------------------------------------------------
-checkIntegration ('loadartifacts65').then (function () {
-	require('../seed-data/loadartifacts')();
-});
+	checkIntegration('loadartifacts65').then(function () {
+		require('../seed-data/loadartifacts')();
+	});
 // -------------------------------------------------------------------------
 //
 // artifacts etc for decision packages
 //
 // -------------------------------------------------------------------------
-checkIntegration ('decisions5').then (function () {
-	require('../seed-data/decisions')();
-});
-
-// -------------------------------------------------------------------------
-//
-// default project roles
-//
-// -------------------------------------------------------------------------
-checkIntegration ('defaultprojectroles').then (function () {
-	require('../seed-data/loadprojectroles')();
-});
-
-// -------------------------------------------------------------------------
-//
-// default project roles
-//
-// -------------------------------------------------------------------------
-checkIntegration ('emailtemplates').then (function () {
-  require('../seed-data/loademailtemplates')();
-});
-
-if (process.env.SEED_MEM === 'true')
-{
-	checkIntegration ('loadmem').then (function () {
-		require('../seed-data/loadmem')();
+	checkIntegration('decisions5').then(function () {
+		require('../seed-data/decisions')();
 	});
-}
+
+// -------------------------------------------------------------------------
+//
+// default project roles
+//
+// -------------------------------------------------------------------------
+	checkIntegration('defaultprojectroles').then(function () {
+		require('../seed-data/loadprojectroles')();
+	});
+
+// -------------------------------------------------------------------------
+//
+// default project roles
+//
+// -------------------------------------------------------------------------
+	checkIntegration('emailtemplates').then(function () {
+		require('../seed-data/loademailtemplates')();
+	});
+
+	if (process.env.SEED_MEM === 'true') {
+		checkIntegration('loadmem').then(function () {
+			require('../seed-data/loadmem')();
+		});
+	}
 
 // =========================================================================
 //
 // THings in this section are split into production and non-production
 //
 // =========================================================================
-if (process.env.NODE_ENV === 'production')
-{
-	// -------------------------------------------------------------------------
-	//
-	// add production admin user
-	//
-	// -------------------------------------------------------------------------
-	require ('../seed-data/users-production')();
-}
-else
-{
-	// -------------------------------------------------------------------------
-	//
-	// add non-production test user accounts
-	//
-	// -------------------------------------------------------------------------
-	require ('../seed-data/users-other')();
-	// -------------------------------------------------------------------------
-	//
-	// MEM
-	//
-	// -------------------------------------------------------------------------
-	checkIntegration ('loadmem').then (function () {
-		require('../seed-data/loadmem')();
+	if (process.env.NODE_ENV === 'production') {
+		// -------------------------------------------------------------------------
+		//
+		// add production admin user
+		//
+		// -------------------------------------------------------------------------
+		require('../seed-data/users-production')();
+	}
+	else {
+		// -------------------------------------------------------------------------
+		//
+		// add non-production test user accounts
+		//
+		// -------------------------------------------------------------------------
+		require('../seed-data/users-other')();
+		// -------------------------------------------------------------------------
+		//
+		// MEM
+		//
+		// -------------------------------------------------------------------------
+		checkIntegration('loadmem').then(function () {
+			require('../seed-data/loadmem')();
+		});
+		// -------------------------------------------------------------------------
+		//
+		// MEM
+		//
+		// -------------------------------------------------------------------------
+		checkIntegration('orgload').then(function () {
+			require('../seed-data/orgload')();
+		});
+
+	}
+	checkIntegration('sysroles2').then(function () {
+		require('../seed-data/loadroles').sysroles2();
 	});
-	// -------------------------------------------------------------------------
-	//
-	// MEM
-	//
-	// -------------------------------------------------------------------------
-	checkIntegration ('orgload').then (function () {
-		require('../seed-data/orgload')();
+
+	checkIntegration('sysroles2x1').then(function () {
+		require('../seed-data/loadroles').sysroles2();
 	});
 
-}
-checkIntegration ('sysroles2').then (function () {
-	require('../seed-data/loadroles').sysroles2();
+	checkIntegration('sysroles3').then(function () {
+		require('../seed-data/loadroles').sysroles3();
+	});
+
+
+	checkIntegration('app-20160727.10').then(function () {
+		require('../seed-data/application')();
+	});
+};
+
+// =========================================================================
+//
+// permissions & roles
+//
+// =========================================================================
+
+checkIntegration ('defaults').then (function () {
+	require('../seed-data/defaults')().then(seedingAsync);
 });
-
-checkIntegration ('sysroles2x1').then (function () {
-	require('../seed-data/loadroles').sysroles2();
-});
-
-checkIntegration ('sysroles3').then (function () {
-	require('../seed-data/loadroles').sysroles3();
-});
-
-
-checkIntegration ('app-20160727.10').then (function () {
-	require('../seed-data/application')();
-});
-
-// // check to see if the seed import executes
-// // insert ajax mine project
-// Integration.findOne ({module:'ajax3'}).exec()
-// .then (function (row) {
-//   if (!row) {
-
-//     doConfigs ();
-
-// 	// Project.find({name: 'Ajax Mine Project'}).remove (function () {
-// 	Project.remove ({}, function () {
-// 	var i = new Integration ({module:'ajax3'});
-// 	i.save ();
-// 		  var project = new Project({
-// 			lat: 50.608817,
-// 			lon: -120.405757,
-// 			name: 'Ajax Mine Project',
-// 			description: 'KGHM Ajax Mining Inc. proposes to develop the Ajax Project, a new open-pit copper/ gold mine located south of and adjacent to the City of Kamloops. The mine would have a production capacity of up to 24 million tonnes of ore per year, over an anticipated 23-year mine life.',
-// 			type: 'Mining',
-// 			location: 'Kamloops, BC',
-// 			region: 'thompsonokanagan',
-// 			dateCommentsClosed : '2016-04-12T06:55:00.000Z',
-// 			dateCommentsOpen : '2016-01-26T08:00:00.000Z'
-// 		  });
-// 		  // Then save the user
-// 		  project.save(function (err) {
-// 			if (err) {
-// 			  console.log('Failed to add ajax', err);
-// 			} else {
-// 			  console.log(chalk.bold.red('Ajax project added'));
-// 			}
-// 		  });
-
-// 	  });
-
-
-
-
-
-
-
-
-
-
