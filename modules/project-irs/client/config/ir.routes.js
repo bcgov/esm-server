@@ -145,13 +145,15 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					});
 				}
 			},
-			controller: function ($scope, $state, ir, project, IrModel) {
+			controller: function ($scope, $state, ir, project, IrModel, ArtifactModel) {
 				// console.log ('ir = ', ir);
 				$scope.ir = ir;
 				$scope.project = project;
 				$scope.save = function () {
 					IrModel.save ($scope.ir)
 					.then (function (model) {
+						return ArtifactModel.save($scope.ir.artifact);
+					}).then(function () {
 						// console.log ('ir was saved',model);
 						// console.log ('now going to reload state');
 						$state.transitionTo('p.ir.list', {projectid:project.code}, {
