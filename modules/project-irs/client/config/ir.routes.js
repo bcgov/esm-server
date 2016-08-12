@@ -21,8 +21,30 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 			url: '/ir',
 			template: '<ui-view></ui-view>',
 			resolve: {
-				irs: function ($stateParams, IrModel, project) {
-					return IrModel.forProject (project._id);
+				irs: function ($stateParams, IrModel, project, ArtifactModel) {
+					return new Promise (function (resolve, reject) {
+						IrModel.forProject (project._id)
+						.then( function (irs) {
+							Promise.resolve ()
+							.then (function () {
+								return irs.reduce (function (current, item) {
+									return current.then (function () {
+										return new Promise (function (r,j) {
+											console.log("item:", item);
+											ArtifactModel.lookup(item.artifact)
+											.then(function (art) {
+												item.artifact = art;
+												r(item);
+											});
+										});
+									});
+								}, Promise.resolve());
+							})
+							.then ( function () {
+								resolve(irs);
+							});
+						});
+					});
 				},
 			}
 		})
@@ -50,11 +72,20 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 			url: '/create',
 			templateUrl: 'modules/project-irs/client/views/ir-edit.html',
 			resolve: {
-				ir: function (IrModel, project) {
+				ir: function (IrModel, project, ArtifactModel) {
 					return new Promise( function (resolve, reject) {
-						IrModel.getNew().then(function (obj) {
+						IrModel.getNew()
+						.then(function (obj) {
 							obj.project = project;
-							resolve(obj);
+							return obj;
+							//resolve(obj);
+						}).then(function (o) {
+							console.log("o:", o);
+							return ArtifactModel.newFromType("inspection-report", project._id)
+							.then(function (art) {
+								o.artifact = art;
+								resolve(o);
+							});
 						});
 					});
 				},
@@ -100,9 +131,18 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 			url: '/:irId/edit',
 			templateUrl: 'modules/project-irs/client/views/ir-edit.html',
 			resolve: {
-				ir: function ($stateParams, IrModel) {
-					// console.log ('editing irId = ', $stateParams.irId);
-					return IrModel.getModel ($stateParams.irId);
+				ir: function ($stateParams, IrModel, ArtifactModel) {
+					// console.log ('irId = ', $stateParams.irId);
+					return new Promise( function (resolve, reject) {
+						IrModel.getModel ($stateParams.irId)
+						.then( function (o) {
+							return ArtifactModel.lookup(o.artifact)
+							.then( function (art) {
+								o.artifact = art;
+								resolve(o);
+							});
+						});
+					});
 				}
 			},
 			controller: function ($scope, $state, ir, project, IrModel) {
@@ -135,9 +175,18 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 			url: '/:irId',
 			templateUrl: 'modules/project-irs/client/views/ir-view.html',
 			resolve: {
-				ir: function ($stateParams, IrModel) {
+				ir: function ($stateParams, IrModel, ArtifactModel) {
 					// console.log ('irId = ', $stateParams.irId);
-					return IrModel.getModel ($stateParams.irId);
+					return new Promise( function (resolve, reject) {
+						IrModel.getModel ($stateParams.irId)
+						.then( function (o) {
+							return ArtifactModel.lookup(o.artifact)
+							.then( function (art) {
+								o.artifact = art;
+								resolve(o);
+							});
+						});
+					});
 				}
 			},
 			controller: function ($scope, ir, project) {

@@ -3,7 +3,7 @@
 </h1>
 
 <div class="text-right">
-	<a class="btn btn-link btn-xs" ui-sref="p.detail">Cancel</a>
+	<a class="btn btn-link btn-xs" ui-sref="p.artifact.view">Cancel</a>
 </div>
 
 <!-- <div ng-include="'modules/artifacts/client/views/partial.artifact-view.html'"></div> -->
@@ -18,7 +18,7 @@
 			<textarea rows="10" class="form-control" ng-model="artifact.decisionnote"></textarea>
 		</div>
 		<div class="text-right">
-			<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
+			<a class="btn btn-default" ui-sref="p.artifact.view">Cancel</a>
 			<a class="btn btn-danger" ng-click="reject()">Reject</a>
 			<a class="btn btn-warning" ng-click="info()">Request More Information</a>
 			<a class="btn btn-success" ng-click="submit()">Approve</a>

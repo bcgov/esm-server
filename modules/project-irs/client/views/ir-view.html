@@ -1,13 +1,41 @@
-<h1 class="page-title">
-	Inspection Report for {{ project.name }}
-</h1>
 
-<div class="block-content">
-	<div class="panel-body">
-		IR Details Go Here
+<div class="view-title-container flex-row">
+	<h1>Inspection Report {{ir.artifact.title}}</h1>
+	<div class="actions">
+		<button class="btn btn-default btn-sm"
+            ng-if="project.userCan.createInspectionReport"
+			ng-click="$event.stopPropagation()"
+			x-mode="'edit'"
+			ui-sref="p.ir.edit({irId:ir._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span>
+		</button>
+		<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="ir"></tmpl-permissions-gear>
 	</div>
 </div>
-<div>
-	<a class="btn btn-default" ui-sref="p.ir.list">Cancel</a>
-	<a class="btn btn-success" ui-sref="p.ir.edit({irId:ir._id})">Edit</a>
+
+<div class="view-body-container">
+	<!-- DETAILS -->
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h2>Details</h2>
+		</div>
+		<div class="panel-body ir-details-panel-body">
+			<div class="row">
+				<div class="col-sm-6 col-lg-3 detail-row">
+					<label>Title</label>
+				</div>
+
+			</div>
+		</div>
+	</div><!-- / DETAILS -->
+	<div>
+		<tmpl-artifact-display
+			x-mode="'view'"
+			x-artifact="ir.artifact"
+			x-project="project"></tmpl-artifact-display>
+	</div>
+
+	<div class="form-footer no-border clearfix">
+		<a class="back-btn btn btn-link pull-left" ui-sref="p.ir.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Inspection Reports</a>
+	</div>
+
 </div>
