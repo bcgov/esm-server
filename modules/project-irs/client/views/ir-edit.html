@@ -2,7 +2,8 @@
 	<h1><span ng-show="project.name">Edit Inspection Report {{ir.artifact.name}} <span class="placeholder-value" ng-if="!ir.artifact.name">{{ir.artifact.name}}</span></h1>
 	<div class="actions">
 		<a class="btn btn-default btn-sm"
-			ui-sref="p.ir.list">Cancel</a>
+			ui-sref="p.ir.list"
+			ng-click="cancel()">Cancel</a>
 		<button class="btn btn-danger btn-sm"
             ng-if="canDelete"
             ng-click="delete()"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
