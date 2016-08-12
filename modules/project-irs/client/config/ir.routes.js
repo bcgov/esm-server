@@ -35,7 +35,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 											.then(function (art) {
 												item.artifact = art;
 												r(item);
-											});
+											}, r(null));
 										});
 									});
 								}, Promise.resolve());
@@ -78,9 +78,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 						.then(function (obj) {
 							obj.project = project;
 							return obj;
-							//resolve(obj);
 						}).then(function (o) {
-							console.log("o:", o);
 							return ArtifactModel.newFromType("inspection-report", project._id)
 							.then(function (art) {
 								o.artifact = art;
@@ -151,7 +149,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 							.then( function (art) {
 								o.artifact = art;
 								resolve(o);
-							});
+							}, resolve(o));
 						});
 					});
 				}
@@ -197,7 +195,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 							.then( function (art) {
 								o.artifact = art;
 								resolve(o);
-							});
+							}, resolve(o));
 						});
 					});
 				}
