@@ -48,7 +48,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	preprocessAdd : function (project) {
-		//console.log('project.preprocessAdd project = ' + JSON.stringify(project, null, 4));
+		//console.log('project.preprocessAdd project(1) = ' + JSON.stringify(project, null, 4));
 		var self = this;
 		//
 		// return a promise, we have lots of work to do
@@ -86,10 +86,29 @@ module.exports = DBModel.extend ({
 				// add all eao-intake users to this project's intake role.
 				return self.addIntakeUsers(project);
 			})
+			.then(function() {
+				//console.log('project.preprocessAdd project(2) = ' + JSON.stringify(project, null, 4));
+				// since we know that only special people can create projects...
+				// let's force this save/create.
+				// at this point someone with eao-intake has been put in this project's intake role...
+				// however, this controller has been initialized with this user's old roles... so saveDocument will fail.
+				// we could do this two ways
+				//
+				// self.userRoles.push('intake');
+				//
+				// or
+				//
+				// self.force = true;
+				//
+				self.force = true;
+				return project;
+			})
 			//
 			// add a pre submission phase (intake)
 			//
 			.then (function (proj) {
+				//console.log('project.preprocessAdd project(3) = ' + JSON.stringify(project, null, 4));
+
 				if (!project.phases || project.phases.length === 0) {
 					// Add default phases to project.
 					return ['intake', 'pre-ea', 'pre-app', 'evaluation', 'application-review', 'decision', 'post-certification'].reduce(function (promise, phase, index) {
