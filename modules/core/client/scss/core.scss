@@ -3263,6 +3263,14 @@ $pick-list-active-item-bg: #5cb85c;
 			left: 1rem;
 		}	
 	}
+
+	.checkbox-col {
+		width: 3.25rem;
+		padding: 0;
+		padding-right: 0.5rem;
+		text-align: right;
+		vertical-align: middle;
+	}
 }
 
 .ng-table-sort-header {

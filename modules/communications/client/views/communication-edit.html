@@ -78,10 +78,19 @@
             <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add Existing</span></button>
         </div>
         <div class="panel panel-default">
+
+            <script type="text/ng-template" id="headerCheckbox.html">
+                <input type="checkbox" ng-model="demo.checkboxes.checked" class="select-all" value="" />
+            </script>
+
             <table class="recipients-table table table-hover"
                 ng-table="tableParams"
                 show-filter="false">
                 <tr>
+                    <td class="checkbox-col" 
+                        header-class="'checkbox-col'"
+                        header="'headerCheckbox.html'"><input type="checkbox" value="" />
+                    </td>
                     <td class="name-col" 
                         header-class="'name-col'"
                         data-title="'Name'" 
@@ -91,55 +100,23 @@
                     <td class="email-col" 
                         header-class="'email-col'"
                         data-title="'Email'" 
-                        filter="{'name':'text'}" 
-                        sortable="'name'">recipient@email.com
+                        filter="{'email':'text'}" 
+                        sortable="'email'">recipient@email.com
                     </td>
                     <td class="org-col" 
                         header-class="'org-col'"
                         data-title="'Organization'" 
-                        filter="{'name':'text'}" 
-                        sortable="'name'">Organization
+                        filter="{'organization':'text'}" 
+                        sortable="'organization'">Organization
                     </td>
                     <td class="type-col" 
                         header-class="'type-col'"
                         data-title="'Type'" 
-                        filter="{'name':'select'}" 
-                        sortable="'name'">Type
+                        filter="{'type':'select'}" 
+                        sortable="'type'">Type
                     </td>
                     <td class="actions-col action-x1" header-class="'actions-col action-x1'"
                         data-title="''">
-                        <button class="btn btn-default btn-sm">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="name-col" 
-                        header-class="'name-col'"
-                        data-title="'Name'" 
-                        filter="{'name':'text'}" 
-                        sortable="'name'">Recipient Name
-                    </td>
-                    <td class="email-col" 
-                        header-class="'email-col'"
-                        data-title="'Email'" 
-                        filter="{'name':'text'}" 
-                        sortable="'name'">recipient@email.com
-                    </td>
-                    <td class="org-col" 
-                        header-class="'org-col'"
-                        data-title="'Organization'" 
-                        filter="{'name':'text'}" 
-                        sortable="'name'">Organization
-                    </td>
-                    <td class="type-col" 
-                        header-class="'type-col'"
-                        data-title="'Type'" 
-                        filter="{'name':'select'}" 
-                        sortable="'name'">Type
-                    </td>
-                    <td class="actions-col action-x1" 
-                        header-class="'actions-col action-x1'">
                         <button class="btn btn-default btn-sm">
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
