@@ -5,8 +5,7 @@
 <div class="view-body-container">
     <div class="button-bar clearfix">
         <div class="pull-left">
-            <button ng-if="true || project.userCan.createProjectUpdate" class="btn btn-default btn-sm" ui-sref="p.communication.list"
-                ng-click="openAddCommunication()">
+            <button ng-if="true || project.userCan.createProjectUpdate" class="btn btn-default btn-sm" ui-sref="p.communication.create">
         <span class="glyphicon glyphicon-plus"></span><span>Add Project Update</span>
       </button>
         </div>
@@ -15,8 +14,8 @@
         <table ng-table="tableParams" show-filter="true" class="communications-table table table-hover vc-table">
             <tr ng-repeat="o in $data" ui-sref="p.communication.detail({notificationId:o._id})">
                 <td class="name-col" header-class="'name-col'"
-                    data-title="'Name'" 
-                    filter="{'name':'text'}" 
+                    data-title="'Name'"
+                    filter="{'name':'text'}"
                     sortable="'name'"><a ui-sref="p.communication.detail({notificationId:o._id})">{{o.name}}</a>
                 </td>
                 <td class="artifacts-col" header-class="'artifacts-col'"
@@ -42,8 +41,8 @@
             <!-- PROTOTYPE ROWS -->
             <tr>
                 <td class="name-col" header-class="'name-col'"
-                    data-title="'Name'" 
-                    filter="{'name':'text'}" 
+                    data-title="'Name'"
+                    filter="{'name':'text'}"
                     sortable="'name'"><a ui-sref="p.communication.detail({notificationId:o._id})">Project Update</a>
                 </td>
                 <td class="artifacts-col" header-class="'artifacts-col'"
@@ -73,7 +72,7 @@
                     No records found.
                 </td>
             </tr>
-            
+
         </table>
     </div>
 </div>
