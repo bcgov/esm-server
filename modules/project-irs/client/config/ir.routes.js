@@ -129,7 +129,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 							$state.transitionTo('p.ir.list', {projectid:project.code}, {
 							reload: true, inherit: false, notify: true
 						});
-					})
+					});
 				};
 			}
 		})
