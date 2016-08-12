@@ -30,7 +30,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 								return irs.reduce (function (current, item) {
 									return current.then (function () {
 										return new Promise (function (r,j) {
-											console.log("item:", item);
+											// console.log("item:", item);
 											ArtifactModel.lookup(item.artifact)
 											.then(function (art) {
 												item.artifact = art;
@@ -104,20 +104,31 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					});
 				}
 			},
-			controller: function ($scope, $state, project, ir, IrModel, report, InspectionReportModel) {
+			controller: function ($scope, $state, project, ir, IrModel, report, InspectionReportModel, ArtifactModel) {
 				$scope.ir = ir;
 				$scope.report = report;
 				$scope.project = project;
 				$scope.save = function () {
 					IrModel.add ($scope.ir)
 					.then (function (model) {
-						$state.transitionTo('p.ir.list', {projectid:project.code}, {
+						return ArtifactModel.save($scope.ir.artifact);
+					}).then(function () {
+							$state.transitionTo('p.ir.list', {projectid:project.code}, {
 							reload: true, inherit: false, notify: true
 						});
 					})
 					.catch (function (err) {
 						console.error (err);
 						alert (err);
+					});
+				};
+				$scope.cancel = function () {
+					// Remove the added artifact
+					ArtifactModel.remove($scope.ir.artifact)
+					.then(function () {
+							$state.transitionTo('p.ir.list', {projectid:project.code}, {
+							reload: true, inherit: false, notify: true
+						});
 					});
 				};
 			}
@@ -145,13 +156,15 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					});
 				}
 			},
-			controller: function ($scope, $state, ir, project, IrModel) {
+			controller: function ($scope, $state, ir, project, IrModel, ArtifactModel) {
 				// console.log ('ir = ', ir);
 				$scope.ir = ir;
 				$scope.project = project;
 				$scope.save = function () {
 					IrModel.save ($scope.ir)
 					.then (function (model) {
+						return ArtifactModel.save($scope.ir.artifact);
+					}).then(function () {
 						// console.log ('ir was saved',model);
 						// console.log ('now going to reload state');
 						$state.transitionTo('p.ir.list', {projectid:project.code}, {
