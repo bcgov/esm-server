@@ -24,15 +24,29 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				$scope.tableParams = new NgTableParams ({count:10}, {dataset: communications});
 				$scope.project = project;
 				$scope.authentication = Authentication;
-			}
+				var self = this;
+
+			},
+			controllerAs: 'self'
 		})
 		.state('p.communication.create', {
 			url: '/create',
 			templateUrl: 'modules/communications/client/views/communication-edit.html',
 			resolve: {
+				communication: function(CommunicationModel) {
+					return CommunicationModel.new();
+				}
 			},
-			controller: function ($scope, $state) {
-			}
+			controller: function ($scope, $state, $modal, Authentication, project, communication) {
+				$scope.project = project;
+				$scope.authentication = Authentication;
+				var self = this;
+				self.communication = communication;
+
+
+
+			},
+			controllerAs: 's'
 		})
 		.state('p.communication.edit', {
 			url: '/:communicationId/edit',

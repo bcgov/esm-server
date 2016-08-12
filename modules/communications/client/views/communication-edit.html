@@ -4,7 +4,7 @@
     <div class="actions">
         <button class="btn btn-default btn-sm">Cancel</button>
         <button class="btn btn-primary btn-sm">Save</button>
-        <button class="btn btn-success btn-sm" disabled><span class="glyphicon glyphicon-send"></span><span>Send</span></button>
+        <button class="btn btn-success btn-sm" disabled>Send</button>
     </div>
 </div>
 
@@ -22,7 +22,7 @@
     </ul>
 
     <div class="tab-pane active" ng-show="form.curTab === 'Update Details'" ng-form="projectUpdateDetailsForm">
-        
+
         <div class="form-group">
             <label class="control-label">Name<em class="required">(Required)</em></label>
             <input class="form-control"></input>
@@ -56,16 +56,17 @@
         <fieldset>
             <legend>Configure Email</legend>
             <div class="form-group">
-                <button class="btn btn-default btn-sm">Use Existing Template</button>
+                <button class="btn btn-default btn-sm" x-email-template-chooser x-project="project" x-current="s.communication.emailTemplate">Use Existing Template</button>
+
             </div>
             <div class="form-group">
                 <label class="control-label">Subject<em class="required">(Required)</em></label>
-                <input class="form-control"></input>
+                <input class="form-control" ng-model="s.communication.emailTemplate.subject"></input>
             </div>
             <div class="form-group">
-                <label class="control-label">Content<em class="required">(Required)</em></label>
+                <label class="control-label">Message<em class="required">(Required)</em></label>
                 <textarea ui-tinymce="tinymceOptions" type="text"
-                    ng-model="curVal"
+                    ng-model="s.communication.emailTemplate.content"
                     ng-blur="activeItem = false">
                 </textarea>
             </div>
@@ -78,45 +79,68 @@
             <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add Existing</span></button>
         </div>
         <div class="panel panel-default">
-
-            <script type="text/ng-template" id="headerCheckbox.html">
-                <input type="checkbox" ng-model="demo.checkboxes.checked" class="select-all" value="" />
-            </script>
-
             <table class="recipients-table table table-hover"
                 ng-table="tableParams"
                 show-filter="false">
                 <tr>
-                    <td class="checkbox-col" 
-                        header-class="'checkbox-col'"
-                        header="'headerCheckbox.html'"><input type="checkbox" value="" />
-                    </td>
-                    <td class="name-col" 
+                    <td class="name-col"
                         header-class="'name-col'"
-                        data-title="'Name'" 
-                        filter="{'name':'text'}" 
+                        data-title="'Name'"
+                        filter="{'name':'text'}"
                         sortable="'name'">Recipient Name
                     </td>
-                    <td class="email-col" 
+                    <td class="email-col"
                         header-class="'email-col'"
-                        data-title="'Email'" 
-                        filter="{'email':'text'}" 
-                        sortable="'email'">recipient@email.com
+                        data-title="'Email'"
+                        filter="{'name':'text'}"
+                        sortable="'name'">recipient@email.com
                     </td>
-                    <td class="org-col" 
+                    <td class="org-col"
                         header-class="'org-col'"
-                        data-title="'Organization'" 
-                        filter="{'organization':'text'}" 
-                        sortable="'organization'">Organization
+                        data-title="'Organization'"
+                        filter="{'name':'text'}"
+                        sortable="'name'">Organization
                     </td>
-                    <td class="type-col" 
+                    <td class="type-col"
                         header-class="'type-col'"
-                        data-title="'Type'" 
-                        filter="{'type':'select'}" 
-                        sortable="'type'">Type
+                        data-title="'Type'"
+                        filter="{'name':'select'}"
+                        sortable="'name'">Type
                     </td>
                     <td class="actions-col action-x1" header-class="'actions-col action-x1'"
                         data-title="''">
+                        <button class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name-col"
+                        header-class="'name-col'"
+                        data-title="'Name'"
+                        filter="{'name':'text'}"
+                        sortable="'name'">Recipient Name
+                    </td>
+                    <td class="email-col"
+                        header-class="'email-col'"
+                        data-title="'Email'"
+                        filter="{'name':'text'}"
+                        sortable="'name'">recipient@email.com
+                    </td>
+                    <td class="org-col"
+                        header-class="'org-col'"
+                        data-title="'Organization'"
+                        filter="{'name':'text'}"
+                        sortable="'name'">Organization
+                    </td>
+                    <td class="type-col"
+                        header-class="'type-col'"
+                        data-title="'Type'"
+                        filter="{'name':'select'}"
+                        sortable="'name'">Type
+                    </td>
+                    <td class="actions-col action-x1"
+                        header-class="'actions-col action-x1'">
                         <button class="btn btn-default btn-sm">
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
@@ -130,7 +154,7 @@
         <div class="pull-right">
             <button class="btn btn-default btn-sm">Cancel</button>
             <button class="btn btn-primary btn-sm">Save</button>
-            <button class="btn btn-success btn-sm" disabled><span class="glyphicon glyphicon-send"></span><span>Send</span></button>
+            <button class="btn btn-success btn-sm" disabled>Send</button>
         </div>
     <div>
 

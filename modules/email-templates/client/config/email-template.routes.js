@@ -4,7 +4,7 @@
 // org routes (under admin)
 //
 // =========================================================================
-angular.module('email-template').config(['$stateProvider', function ($stateProvider) {
+angular.module('emailtemplate').config(['$stateProvider', function ($stateProvider) {
 	$stateProvider
 	// -------------------------------------------------------------------------
 	//
