@@ -165,8 +165,10 @@ angular.module ('irs')
 			// console.log("length: ",self.currentObjs.length);
 			_.each( self.currentObjs, function(obj, idx) {
 				console.log("Adding " + obj.name + " to Inspection Report");
-				console.log("scope.ir:", $scope.ir);
+				//console.log("scope.ir:", $scope.ir);
+				$scope.ir.conditionArtifacts.push(obj);
 			});
+			$modalInstance.close($scope.ir.conditionArtifacts);
 		};
 
 		this.cancel = function () {

@@ -154,10 +154,16 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					});
 				}
 			},
-			controller: function ($scope, $state, ir, project, IrModel, ArtifactModel, $modal) {
-				// console.log ('ir = ', ir);
+			controller: function ($scope, $state, ir, project, IrModel, ArtifactModel, $modal, _) {
 				$scope.ir = ir;
 				$scope.project = project;
+				_.each(ir.conditionArtifacts, function (item, key) {
+					ArtifactModel.lookup(item)
+					.then( function (o) {
+						ir.conditionArtifacts[key] = o;
+						$scope.$apply();
+					});
+				});
 				$scope.save = function () {
 					IrModel.save ($scope.ir)
 					.then (function (model) {
@@ -206,22 +212,19 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 			resolve: {
 				ir: function ($stateParams, IrModel, ArtifactModel) {
 					// console.log ('irId = ', $stateParams.irId);
-					return new Promise( function (resolve, reject) {
-						IrModel.getModel ($stateParams.irId)
-						.then( function (o) {
-							return ArtifactModel.lookup(o.artifact)
-							.then( function (art) {
-								o.artifact = art;
-								resolve(o);
-							}, resolve(o));
-						});
-					});
+					return IrModel.getModel ($stateParams.irId);
 				}
 			},
-			controller: function ($scope, ir, project) {
+			controller: function ($scope, ir, project, ArtifactModel) {
 				// console.log ('ir = ', ir);
 				$scope.ir = ir;
 				$scope.project = project;
+
+				ArtifactModel.lookup(ir.artifact)
+				.then( function (art) {
+					ir.artifact = art;
+					$scope.$apply();
+				});
 			}
 		});
 	}

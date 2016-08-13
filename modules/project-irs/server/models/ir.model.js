@@ -14,6 +14,6 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	complainant : { type:String, default: '' },
 	artifact 	: { type:'ObjectId', ref:'Artifact'},
     conditions          : [ { type:'ObjectId', ref:'ProjectCondition' } ],
-	conditionArtifacts  : { type:'ObjectId', ref:'Artifact'}
+	conditionArtifacts  : [ { type:'ObjectId', ref:'Artifact'} ]
 });
 
