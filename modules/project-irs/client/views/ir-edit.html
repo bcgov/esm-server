@@ -19,27 +19,44 @@
 </div>
 
 <div class="view-body-container">
-	<!-- DETAILS -->
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h2>Details</h2>
+	<div class="row form-group">
+		<div class="col-sm-12">
+			<label for="subComponents" class="control-label">Associated Conditions</label>
+			<ul class="anchor-list" ng-if="ir.conditions.length > 0">
+				<li ng-repeat="o in ir.conditions">
+					<a ui-sref="p.projectcondition.detail({conditionId:o._id})">{{o.name}}</a>
+				</li>
+			</ul>
+			<button class="btn btn-default btn-sm anchor-list-btn" type="button" title="Link Project Conditions"
+				x-vc-linker
+				x-project="project"
+				x-condition="condition"
+				x-conditions="ir.conditions">+ Add Conditions
+			</button>
 		</div>
-		<div class="panel-body ir-details-panel-body">
-			<div class="row">
-				<div class="col-sm-6 col-lg-3 detail-row">
-					<label>Title</label>
-				</div>
-
-			</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-12">
+			<label for="subComponents" class="control-label">Associated Content</label>
+			<ul class="anchor-list" ng-if="ir.conditionArtifacts.length > 0">
+				<li ng-repeat="o in ir.conditionArtifacts">
+					<a ui-sref="p.artifact.detail({artifactId:o._id})">{{o.name}}</a>
+				</li>
+			</ul>
+			<button ng-if="project.userCan.createInspectionReport"
+					class="btn btn-default btn-sm"
+					ng-click="openAddTopic()">
+				<span class="glyphicon glyphicon-plus"></span><span>Add Project Content</span>
+			</button>
 		</div>
-	</div><!-- / DETAILS -->
+	</div>
 	<a class="btn btn-default btn-sm" title="Edit Inspection Report Template"
 		ng-if="project.userCan.createInspectionReport" 
 		ng-click="$event.stopPropagation()" 
-		ui-sref="p.artifact.edit({artifactId:ir.artifact._id})">
+		ui-sref="p.artifact.edit({artifactId:ir.artifact._id})">Edit Inspection Report &nbsp;
 		<span class="glyphicon glyphicon-pencil"></span>
 	</a>
-
+	&nbsp;
 	<div class="form-footer no-border clearfix">
 		<a class="back-btn btn btn-link pull-left" ui-sref="p.ir.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Inspection Reports</a>
 	</div>

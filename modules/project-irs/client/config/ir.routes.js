@@ -154,7 +154,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					});
 				}
 			},
-			controller: function ($scope, $state, ir, project, IrModel, ArtifactModel) {
+			controller: function ($scope, $state, ir, project, IrModel, ArtifactModel, $modal) {
 				// console.log ('ir = ', ir);
 				$scope.ir = ir;
 				$scope.project = project;
@@ -172,6 +172,24 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					.catch (function (err) {
 						console.error (err);
 						alert (err);
+					});
+				};
+				$scope.openAddTopic = function() {
+					var modalDocView = $modal.open({
+						animation: true,
+						templateUrl: 'modules/artifacts/client/views/artifact-linker.html',
+						controller: 'controllerAddArtifactModal',
+						controllerAs: 'self',
+						scope: $scope,
+						size: 'lg'
+					});
+					modalDocView.result.then(function (res) {
+						// console.log("res",res);
+						$state.transitionTo('p.ir.edit', {irId:$scope.ir}, {
+				  			reload: true, inherit: false, notify: true
+						});
+					}, function () {
+						//console.log("err");
 					});
 				};
 			}

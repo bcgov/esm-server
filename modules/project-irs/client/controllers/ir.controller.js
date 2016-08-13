@@ -129,6 +129,50 @@ angular.module ('irs')
 		this.selectTopic ();
 	}
 }])
+.controller ('controllerAddArtifactModal',
+	['NgTableParams','$modalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'ArtifactModel',
+	function (NgTableParams, $modalInstance, $scope, _, $stateParams, codeFromTitle, ArtifactModel) {
 
+		var self = this;
+		self.current = [];
+		self.currentObjs = [];
+		self.project = $stateParams.project;
+
+		self.showFilter = true;
+
+		// Show all VC types, either pathway or valued components
+		ArtifactModel.getCollection().then( function (data) {
+			self.tableParams = new NgTableParams ({},{dataset: data});
+			$scope.$apply();
+		});
+
+		this.toggleItem = function (item) {
+			// console.log("item:",item);
+			var idx = self.current.indexOf(item._id);
+			// console.log(idx);
+			if (idx === -1) {
+				self.currentObjs.push(item);
+				self.current.push(item._id);
+			} else {
+				_.remove(self.currentObjs, {_id: item._id});
+				_.remove(self.current, function(n) {return n === item._id;});
+			}
+		};
+
+		this.ok = function () {
+			// console.log("data:",self.currentObjs[0]);
+			var savedArray = [];
+			// console.log("length: ",self.currentObjs.length);
+			_.each( self.currentObjs, function(obj, idx) {
+				console.log("Adding " + obj.name + " to Inspection Report");
+				console.log("scope.ir:", $scope.ir);
+			});
+		};
+
+		this.cancel = function () {
+			// console.log ('cancel clicked');
+			$modalInstance.dismiss('cancel');
+		};
+}])
 ;
 
