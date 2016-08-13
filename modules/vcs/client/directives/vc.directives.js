@@ -75,10 +75,6 @@ angular.module ('vcs')
 						var s = this;
 						s.selected = scope.vclist;
 						s.vcs = scope.vcs; // The list of all current vcs on the project
-						var index = scope.vclist.reduce (function (prev, next) {
-							prev[next._id] = next;
-							return prev;
-						}, {});
 						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
 						s.findById = function (id) {
 							for (var i = 0; i < s.selected.length; i++) {
