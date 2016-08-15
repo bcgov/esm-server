@@ -28,6 +28,16 @@
 			</div>
 		</div>
 	</div><!-- / DETAILS -->
+
+	<section>
+		<h2>Associated Content</h2>
+		<ul class="anchor-list" ng-if="ir.conditionArtifacts.length > 0">
+			<li ng-repeat="o in ir.conditionArtifacts">
+				<a ui-sref="p.artifact.view({artifactId:o._id})">{{ir.artifact.name}}<button></button></a>
+			</li>
+		</ul>
+	</section>
+
 	<div>
 		<a class="btn btn-default btn-sm" title="Go To Inspection Record"
 		ng-click="$event.stopPropagation()"

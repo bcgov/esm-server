@@ -2319,11 +2319,7 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 
 .label {
 	display: inline-block;
-	height: 2rem;
-	padding-top: 0.08rem;
-	padding-right: 0.08rem;
-	padding-left: 0.08rem;
-	line-height: 2rem;
+	padding: 0.8rem;
 	font-size: 1.2rem;
 	font-weight: normal;
 }
@@ -2669,10 +2665,6 @@ form {
 
 .form-group {
 	margin-bottom: 2rem;
-
-	+ hr {
-		margin-top: 0;
-	}
 }
 
 .form-validation-msg {

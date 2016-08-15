@@ -1,5 +1,5 @@
 <div class="view-title-container flex-row">
-	<h1><span ng-show="project.name">Edit Inspection Report &nbsp;&rsaquo;&nbsp;{{ir.name}} <span class="placeholder-value" ng-if="!ir.artifact.name">Untitled</span></h1>
+	<h1><span ng-show="project.name">Inspection Report &nbsp;&rsaquo;&nbsp;{{ir.name}} <span class="placeholder-value" ng-if="!ir.name">Untitled</span></h1>
 	<div class="actions">
 		<a class="btn btn-default btn-sm"
 			ui-sref="p.ir.list"
@@ -23,7 +23,7 @@
 	<fieldset>
 		<div class="row">
 			<div class="col-md-6 form-group">
-				<label>Inspection Report Name</label>
+				<label>Report Name</label>
 				<input class="form-control" title="Name" id="name" name="inspectionreportname" ng-model="ir.name" required/>
 			</div>
 		</div>
@@ -50,7 +50,7 @@
 		<legend>Associated Content</legend>
 		<ul class="anchor-list" ng-if="ir.conditionArtifacts.length > 0">
 			<li ng-repeat="o in ir.conditionArtifacts">
-				<a ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</a>
+				<a class="label label-default" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</a>
 			</li>
 		</ul>
 		<div class="form-group">
@@ -62,7 +62,7 @@
 		</div>
 	</fieldset>
 
-	<fieldset>
+	<fieldset class="hidden">
 		<legend>Inspection Report Template</legend>
 		<div class="form-group">
 			<a class="btn btn-default btn-sm" title="Edit Inspection Report Template"
@@ -72,6 +72,8 @@
 			</a>
 		</div>
 	</fieldset>
+
+	<hr class="no-margin">
 
 	<div class="form-footer clearfix">
 		<div class="pull-right">
