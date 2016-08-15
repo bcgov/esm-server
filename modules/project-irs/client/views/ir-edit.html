@@ -27,12 +27,20 @@
 				<input class="form-control" title="Name" id="name" name="inspectionreportname" ng-model="ir.name" required/>
 			</div>
 		</div>
-	</fieldset>
-				<div class="col-sm-6 col-lg-3 detail-row">
-					<label>Date: </label>
-					<div class="form-control-static">{{ ir.irDate | amDateFormat:'MMM Do YYYY' }} <a x-modal-date-picker x-selected-date="ir.irDate" ng-model="ir.irDate"><i class="glyphicon glyphicon-calendar"></i></a></div>
+		<div class="row">
+			<div class="col-md-6 form-group">
+				<label>Date</label>
+				<div class="form-control date-picker"
+					x-modal-date-picker 
+					x-selected-date="ir.irDate" 
+					ng-model="ir.irDate">
+					{{ ir.irDate | amDateFormat:'MMM Do YYYY' }}
+					<span class="glyphicon glyphicon-calendar"></span>
 				</div>
-			</td>
+			</div>
+		</div>
+	</fieldset>
+
 	<fieldset>
 		<legend>Associated Conditions</legend>
 		<ul class="anchor-list" ng-if="ir.conditions.length > 0">
@@ -55,7 +63,7 @@
 		<ul class="tag-list form-control" ng-if="ir.conditionArtifacts.length > 0">
 			<li class="tag" ng-repeat="o in ir.conditionArtifacts">
 				<span class="tag-name" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</span>
-				<button class="btn" ng-click="removeConditionArtifact(o)"><span aria-hidden="true">×</span></a>
+				<button class="btn" ng-click="removeConditionArtifact(o)"><span aria-hidden="true">ï¿½</span></a>
 			</li>
 		</ul>
 		<button class="btn btn-default btn-sm"
