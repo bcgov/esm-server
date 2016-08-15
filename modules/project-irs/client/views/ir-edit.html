@@ -73,6 +73,20 @@
 		</button>
 	</fieldset>
 
+	<fieldset>
+		<legend>Actions</legend>
+		<ul class="tag-list form-control" ng-if="ir.enforcementActions.length > 0">
+			<li class="tag" ng-repeat="o in ir.enforcementActions">
+				<span class="tag-name">{{o.name}}</span>
+			</li>
+		</ul>
+		<button class="btn btn-default btn-sm"
+			ng-if="project.userCan.createInspectionReport"
+			ng-click="openAddEnforcementAction()">
+			<span class="glyphicon glyphicon-plus"></span><span>Add Action</span>
+		</button>
+	</fieldset>
+
 	<fieldset class="hidden">
 		<legend>Inspection Report Template</legend>
 		<div class="form-group">
