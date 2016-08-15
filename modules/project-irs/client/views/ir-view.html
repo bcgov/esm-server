@@ -17,7 +17,10 @@
 		<label>Report Name</label>
 		<span class="value">{{ ::ir.name }}</span>
 	</div>
-
+				<div class="col-sm-6 col-lg-3 detail-row">
+					<label>Date: </label>
+					<div class="form-control-static">{{ ir.irDate | amDateFormat:'MMM Do YYYY' }} <i class="glyphicon glyphicon-calendar"></i></a></div>
+				</div>
 	<section>
 		<h2>Associated Conditions</h2>
 		<!-- Place Associated Content Links Here -->
