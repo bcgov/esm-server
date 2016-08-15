@@ -147,7 +147,7 @@ angular.module ('irs')
 		self.showFilter = true;
 
 		// Show all VC types, either pathway or valued components
-		ArtifactModel.getCollection()
+		ArtifactModel.forProject(self.project)
 		.then( function (data) {
 			_.each(data, function (item) {
 				var idx = self.current.indexOf(item._id);
