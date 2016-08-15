@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('enforcement')
+angular.module('enforcements')
     .directive('tmplEnforcementBrowser', directiveEnforcementBrowser);
 
 // -----------------------------------------------------------------------------------

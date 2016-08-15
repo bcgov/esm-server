@@ -12,7 +12,7 @@ function getRandomSubarray(arr, size) {
 }
 
 
-angular.module ('enforcement')
+angular.module ('enforcements')
 	.controller('controllerEnforcementBrowser', controllerEnforcementBrowser);
 
 // -----------------------------------------------------------------------------------
