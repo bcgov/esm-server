@@ -1564,7 +1564,6 @@ ui-view {
 	flex-flow: column nowrap;
 }
 
-
 /* PAGE (VIEW) CONTAINERS
 ------------------------------ */
 .view-body-container,
@@ -1609,10 +1608,6 @@ ui-view {
 
 	.actions {
 		padding-left: 2rem;
-
-		.btn {
-			min-width: 7rem;
-		}
 
 		.permission-btn {
 			.btn {
@@ -2326,12 +2321,11 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 	display: inline-block;
 	height: 2rem;
 	padding-top: 0.08rem;
-	padding-right: 1rem;
-	padding-left: 1rem;
+	padding-right: 0.08rem;
+	padding-left: 0.08rem;
 	line-height: 2rem;
 	font-size: 1.2rem;
 	font-weight: normal;
-	text-transform: uppercase;
 }
 
 
@@ -2378,6 +2372,13 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 	}
 }
 
+.btn-primary {
+	background: $btn-primary-bg;
+	&:hover  { background: #5475a7; }
+	&:active { background: #5475a7; }
+	&:focus  { background: #5475a7; }
+}
+
 .back-btn {
 	font-weight: bold;
 	text-decoration: underline;
@@ -2389,11 +2390,8 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 	}
 }
 
-.btn-primary {
-	background: $btn-primary-bg;
-	&:hover  { background: #5475a7; }
-	&:active { background: #5475a7; }
-	&:focus  { background: #5475a7; }
+.icon-btn {
+	min-width: 3.4rem;
 }
 
 .save-as-menu {
@@ -2669,14 +2667,12 @@ form {
 	padding: 0 2rem;
 }
 
-.form-footer {
-	.btn {
-		min-width: 7rem;
-	}
-}
-
 .form-group {
 	margin-bottom: 2rem;
+
+	+ hr {
+		margin-top: 0;
+	}
 }
 
 .form-validation-msg {
