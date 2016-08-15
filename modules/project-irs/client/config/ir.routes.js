@@ -111,7 +111,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					.then (function (model) {
 						return ArtifactModel.save($scope.ir.artifact);
 					}).then(function () {
-							$state.transitionTo('p.ir.list', {projectid:project.code}, {
+							$state.transitionTo('p.ir.detail', {projectid:project.code, irId:$scope.ir._id}, {
 							reload: true, inherit: false, notify: true
 						});
 					})
@@ -124,7 +124,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					// Remove the added artifact
 					ArtifactModel.remove($scope.ir.artifact)
 					.then(function () {
-							$state.transitionTo('p.ir.list', {projectid:project.code}, {
+							$state.transitionTo('p.ir.detail', {projectid:project.code, irId:$scope.ir._id}, {
 							reload: true, inherit: false, notify: true
 						});
 					});
@@ -195,9 +195,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					.then (function (model) {
 						return ArtifactModel.save($scope.ir.artifact);
 					}).then(function () {
-						// console.log ('ir was saved',model);
-						// console.log ('now going to reload state');
-						$state.transitionTo('p.ir.list', {projectid:project.code}, {
+						$state.go('p.ir.detail', {projectid:project.code, irId:$scope.ir._id}, {
 							reload: true, inherit: false, notify: true
 						});
 					})
@@ -217,7 +215,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					});
 					modalDocView.result.then(function (res) {
 						// console.log("res",res);
-						$state.transitionTo('p.ir.edit', {irId:$scope.ir}, {
+						$state.transitionTo('p.ir.edit', {irId:$scope.ir._id}, {
 				  			reload: true, inherit: false, notify: true
 						});
 					}, function () {
