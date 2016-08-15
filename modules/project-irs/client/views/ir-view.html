@@ -24,7 +24,8 @@
 			
 	<section>
 		<h2>Associated Conditions</h2>
-		<a ng-repeat="ir.artifacts">{{ ir.artifact.name }}</a>
+		<div ng-repeat="o in ir.conditionArtifacts">
+			<a ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</a></div>
 	</section>
 
 	<section>
