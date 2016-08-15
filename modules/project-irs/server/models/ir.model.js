@@ -13,6 +13,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	ir 			: { type:String, default: ''},
 	complainant : { type:String, default: '' },
 	artifact 	: { type:'ObjectId', ref:'Artifact'},
-	vcs         : [ { type:String } ]
+    conditions          : [ { type:'ObjectId', ref:'ProjectCondition' } ],
+	conditionArtifacts  : [ { type:'ObjectId', ref:'Artifact'} ]
 });
 

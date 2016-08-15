@@ -228,6 +228,16 @@ angular
 			'decommissioned' : 'Decommissioned'
 		}
 	)
+	.constant('ENFORCEMENT_ACTIONS',
+		{
+			'warning' : 'Warning',
+			'order-to-cease' : 'Order to Cease',
+			'order-to-remedy' : 'Order to Remedy',
+			'compliance-agreement' : 'Compliance Agreement',
+			'referral' : 'Referral',
+			'other' : 'Other'
+		}
+	)
 	.constant('PROJECT_DECISION',
 		{
 			'pre-ea-act-approval' : 'Pre-EA Act Approval',
