@@ -136,7 +136,7 @@ angular.module ('irs')
 		var self = this;
 		self.current = [];
 		self.currentObjs = [];
-		self.project = $stateParams.project;
+		self.project = $scope.project;
 
 		_.each($scope.ir.conditionArtifacts, function (ci) {
 			self.current.push(ci._id);
@@ -147,7 +147,7 @@ angular.module ('irs')
 		self.showFilter = true;
 
 		// Show all VC types, either pathway or valued components
-		ArtifactModel.getCollection()
+		ArtifactModel.forProject(self.project._id)
 		.then( function (data) {
 			_.each(data, function (item) {
 				var idx = self.current.indexOf(item._id);
