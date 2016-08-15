@@ -28,11 +28,11 @@
 		</div>
 	</div><!-- / DETAILS -->
 	<div>
-		<tmpl-artifact-display
-			x-mode="'view'"
-			ng-if="ir.artifact.name"
-			x-artifact="ir.artifact"
-			x-project="project"></tmpl-artifact-display>
+		<a class="btn btn-default btn-sm" title="Show Inspection Report Template"
+		ng-click="$event.stopPropagation()"
+		ui-sref="p.artifact.view({artifactId:ir.artifact._id})">Go To Inspection Record &nbsp;
+		<span class="glyphicon glyphicon-share-alt"></span>
+	</a>
 	</div>
 
 	<div class="form-footer no-border clearfix">
