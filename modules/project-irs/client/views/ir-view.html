@@ -43,6 +43,25 @@
 		</div>
 	</section>
 
+	<section>
+		<h2>Actions</h2>
+		<div ng-repeat="o in ir.enforcementActions">
+			<div>
+				<label>Action</label>
+				<div>{{o.action}}</div>
+				<div>{{o.condition}}</div>
+			</div>
+			<div>
+				<label>Status</label>
+				<div>{{o.status}}</div>
+			</div>
+			<div>
+				<label>Date</label>
+				<div>{{o.date}}</div>
+			</div>
+			/div>
+	</section>
+
 	<div>
 		<a class="btn btn-default btn-sm" title="Go To Inspection Record"
 		ng-click="$event.stopPropagation()"
