@@ -2420,6 +2420,7 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 Implementing this as a stop-gap solution to a proper control.
 ------------------------------ */
 .date-picker {
+	max-width: 19rem;
 	position: relative;
 	padding-top: 0.8rem;
 	padding-right: 4rem;
