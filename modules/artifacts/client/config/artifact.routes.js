@@ -435,14 +435,23 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					// alert (err.message);
 				});
 			};
+			$scope.reset = function () {
+				$scope.artifact.stage = "Edit";
+				ArtifactModel.save($scope.artifact)
+				.then (function (res) {
+					$scope.artifact = res;
+					$state.go ('p.artifact.view'); 
+				});
+			};
 			$scope.submit = function () {
 				console.log("publishing artifact and supporting documents:", $scope.artifact.document);
 				//Document.publish($scope.artifact.additionalDocuments[0]);
 				ArtifactModel.publish ($scope.artifact._id)
-				.then (function (res) {
-					$scope.artifact = res;
-					return ArtifactModel.nextStage (res);
-				})
+				// Don't progress to notify - this is handled somewhere else.
+				// .then (function (res) {
+				// 	$scope.artifact = res;
+				// 	return ArtifactModel.nextStage (res);
+				// })
 				.then (function (model) {
 					$state.go ('p.artifact.view');
 				})
@@ -453,81 +462,81 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			};
 		}
 	})
-	.state('p.artifact.notify', {
-		url: '/notify',
-		templateUrl: 'modules/artifacts/client/views/artifact-notify.html',
-		resolve: {
-			artifact: function ($stateParams, ArtifactModel) {
-				// need to refresh the artifact on each transition...
-				return ArtifactModel.getModel ($stateParams.artifactId);
-			}
-		},
-		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, EmailTemplateModel, _) {
-			// artifact.artifactType = fix;
-			// console.log ('artifact = ', artifact);
-			var method = properMethod (artifact.stage);
-			if (method !== 'review') $state.go ('p.artifact.'+method);
-			$scope.artifact = artifact;
-			$scope.project = project;
-			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
-			$scope.reject = function () {
-				ArtifactModel.prevStage ($scope.artifact)
-				.then (function (model) {
-					$state.go ('p.artifact.view');
-				})
-				.catch (function (err) {
-					console.error (err);
-					// alert (err.message);
-				});
-			};
-			$scope.submit = function () {
-				ArtifactModel.nextStage ($scope.artifact)
-				.then (function (model) {
-					$state.go ('p.artifact.view');
-				})
-				.catch (function (err) {
-					console.error (err);
-					// alert (err.message);
-				});
-			};
-			//
-			// notification specific functions
-			//
-			EmailTemplateModel.getCollection().then( function(data) {
-	 			$scope.emailTemplates = data;
-			});
+	// .state('p.artifact.notify', {
+	// 	url: '/notify',
+	// 	templateUrl: 'modules/artifacts/client/views/artifact-notify.html',
+	// 	resolve: {
+	// 		artifact: function ($stateParams, ArtifactModel) {
+	// 			// need to refresh the artifact on each transition...
+	// 			return ArtifactModel.getModel ($stateParams.artifactId);
+	// 		}
+	// 	},
+	// 	controller: function ($scope, $state, artifact, fix, project, ArtifactModel, EmailTemplateModel, _) {
+	// 		// artifact.artifactType = fix;
+	// 		// console.log ('artifact = ', artifact);
+	// 		var method = properMethod (artifact.stage);
+	// 		if (method !== 'review') $state.go ('p.artifact.'+method);
+	// 		$scope.artifact = artifact;
+	// 		$scope.project = project;
+	// 		$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+	// 		$scope.reject = function () {
+	// 			ArtifactModel.prevStage ($scope.artifact)
+	// 			.then (function (model) {
+	// 				$state.go ('p.artifact.view');
+	// 			})
+	// 			.catch (function (err) {
+	// 				console.error (err);
+	// 				// alert (err.message);
+	// 			});
+	// 		};
+	// 		$scope.submit = function () {
+	// 			ArtifactModel.nextStage ($scope.artifact)
+	// 			.then (function (model) {
+	// 				$state.go ('p.artifact.view');
+	// 			})
+	// 			.catch (function (err) {
+	// 				console.error (err);
+	// 				// alert (err.message);
+	// 			});
+	// 		};
+	// 		//
+	// 		// notification specific functions
+	// 		//
+	// 		EmailTemplateModel.getCollection().then( function(data) {
+	//  			$scope.emailTemplates = data;
+	// 		});
 
-			var separateRecipients = function(newRecipients) {
-				$scope.recipients = {adhoc: {viaEmail: [], viaMail: []}, mailOut: [] };
-				_.each(newRecipients, function(member) {
-					if (member.viaEmail) {
-						$scope.recipients.adhoc.viaEmail.push(member);
-					}
-					if (member.viaMail) {
-						$scope.recipients.adhoc.viaMail.push(member);
-						if (!_.include($scope.recipients.mailOut, member)) {
-							$scope.recipients.mailOut.push(member);
-						}
-					}
-				});
-			};
+	// 		var separateRecipients = function(newRecipients) {
+	// 			$scope.recipients = {adhoc: {viaEmail: [], viaMail: []}, mailOut: [] };
+	// 			_.each(newRecipients, function(member) {
+	// 				if (member.viaEmail) {
+	// 					$scope.recipients.adhoc.viaEmail.push(member);
+	// 				}
+	// 				if (member.viaMail) {
+	// 					$scope.recipients.adhoc.viaMail.push(member);
+	// 					if (!_.include($scope.recipients.mailOut, member)) {
+	// 						$scope.recipients.mailOut.push(member);
+	// 					}
+	// 				}
+	// 			});
+	// 		};
 
-			$scope.setContent = function() {
-				$scope.mailContent = $scope.selectedTemplate.content;
-			};
+	// 		$scope.setContent = function() {
+	// 			$scope.mailContent = $scope.selectedTemplate.content;
+	// 		};
 
-			$scope.recipients = {adhoc: {viaEmail: [], viaMail: []}, mailOut: [] };
+	// 		$scope.recipients = {adhoc: {viaEmail: [], viaMail: []}, mailOut: [] };
 
-			//
-			// Add Recipients
-			$scope.addRecipients = function(data, parent) {
-				$scope.customRecipients = data;
-				separateRecipients(data);
-			};
+	// 		//
+	// 		// Add Recipients
+	// 		$scope.addRecipients = function(data, parent) {
+	// 			$scope.customRecipients = data;
+	// 			separateRecipients(data);
+	// 		};
 
 
-		}
-	})
+	// 	}
+	// })
 
 	;
 

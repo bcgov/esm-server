@@ -220,11 +220,6 @@ var stages = [{
 	next: 'Notification',
 	prev: 'Executive Approval',
 	activity: 'publish'
-}, {
-	name: 'Notification',
-	next: '',
-	prev: 'Publishing',
-	activity: 'notify'
 }];
 
 

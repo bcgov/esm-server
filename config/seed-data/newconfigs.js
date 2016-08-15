@@ -35,11 +35,6 @@ var baseObjects = {
 		name: 'Publish Artifact',
 		description: 'Publish Artifact',
 		state: 'p.artifact.publish'
-	},{
-		code: 'notify',
-		name: 'Notify Artifact',
-		description: 'Notify Artifact',
-		state: 'p.artifact.notify'
 	}],
 	"milestones": [{
 		code: 'new-project-initiated',
