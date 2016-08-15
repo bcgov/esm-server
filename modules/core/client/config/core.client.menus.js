@@ -163,7 +163,7 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 			permissions: ['context.listProjectConditions']
 		});
 		Menus.addMenuItem('projectMenu', {
-			title: 'Inspection Reports',
+			title: 'Inspections',
 			state: 'p.ir.list',
 			permissions: ['context.listInspectionReports']
 		});

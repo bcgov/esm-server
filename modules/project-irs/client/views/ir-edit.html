@@ -49,7 +49,7 @@
 			</li>
 		</ul>
 		<div class="form-group">
-			<button class="btn btn-default btn-sm anchor-list-btn" type="button" title="Link Project Conditions"
+			<button ng-if="project.userCan.createInspectionReport" class="btn btn-default btn-sm anchor-list-btn" type="button" title="Link Project Conditions"
 				x-vc-linker
 				x-project="project"
 				x-condition="condition"
@@ -63,7 +63,7 @@
 		<ul class="tag-list form-control" ng-if="ir.conditionArtifacts.length > 0">
 			<li class="tag" ng-repeat="o in ir.conditionArtifacts">
 				<span class="tag-name" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</span>
-				<button class="btn" ng-click="removeConditionArtifact(o)"><span aria-hidden="true">�</span></a>
+				<button class="btn" ng-click="removeConditionArtifact(o)"><span aria-hidden="true">?</span></a>
 			</li>
 		</ul>
 		<button class="btn btn-default btn-sm"
@@ -94,6 +94,16 @@
 			<button class="btn btn-primary btn-sm"
 				ng-click="save()">Save</button>
 		</div>
+	</div>
+	<a class="btn btn-default btn-sm" title="Edit Inspection Report Template"
+		ng-if="project.userCan.createInspectionReport" 
+		ng-click="$event.stopPropagation()" 
+		ui-sref="p.artifact.edit({artifactId:ir.artifact._id})">Edit Inspection Report &nbsp;
+		<span class="glyphicon glyphicon-pencil"></span>
+	</a>
+	&nbsp;
+	<div class="form-footer no-border clearfix">
+		<a class="back-btn btn btn-link pull-left" ui-sref="p.ir.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Inspections</a>
 	</div>
 
 </div>

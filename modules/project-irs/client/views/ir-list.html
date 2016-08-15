@@ -1,7 +1,7 @@
 <div class="inspection-report-view">
 
 	<div class="view-title-container">
-		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Inspection Reports</h1>
+		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Inspections</h1>
 <!-- 		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project" x-permissions=""></tmpl-permissions-gear> -->
 	</div>
 
@@ -11,7 +11,7 @@
 				ui-sref="p.ir.create()"
 				ng-if="project.userCan.createInspectionReport">
 				<span class="glyphicon glyphicon-plus"></span>
-				<span>Add Inspection Report</span>
+				<span>Add Inspection</span>
 			</a>
 			<div class="pull-right">
 				<show-filter x-toggle-filter="toggleFilter"></show-filter>

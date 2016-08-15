@@ -1,6 +1,6 @@
 
 <div class="view-title-container flex-row">
-	<h1>Inspection Report {{ir.artifact.title}}</h1>
+	<h1>Inspection - {{ir.name}}</h1>
 	<div class="actions">
 		<button class="btn btn-default btn-sm"
             ng-if="project.userCan.createInspectionReport"
@@ -40,7 +40,7 @@
 	</div>
 
 	<div class="form-footer no-border clearfix hidden">
-		<a class="back-btn btn btn-link pull-left" ui-sref="p.ir.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Inspection Reports</a>
+		<a class="back-btn btn btn-link pull-left" ui-sref="p.ir.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Inspections</a>
 	</div>
 
 </div>
