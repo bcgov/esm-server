@@ -138,10 +138,24 @@ angular.module ('irs')
 		self.currentObjs = [];
 		self.project = $stateParams.project;
 
+		_.each($scope.ir.conditionArtifacts, function (ci) {
+			self.current.push(ci._id);
+			ci.isChecked = true;
+			self.currentObjs.push(ci);
+		});
+
 		self.showFilter = true;
 
 		// Show all VC types, either pathway or valued components
-		ArtifactModel.getCollection().then( function (data) {
+		ArtifactModel.getCollection()
+		.then( function (data) {
+			_.each(data, function (item) {
+				var idx = self.current.indexOf(item._id);
+				if (idx !== -1) {
+					item.isChecked = true;
+				}
+			});
+
 			self.tableParams = new NgTableParams ({},{dataset: data});
 			$scope.$apply();
 		});
@@ -163,6 +177,7 @@ angular.module ('irs')
 			// console.log("data:",self.currentObjs[0]);
 			var savedArray = [];
 			// console.log("length: ",self.currentObjs.length);
+			$scope.ir.conditionArtifacts = [];
 			_.each( self.currentObjs, function(obj, idx) {
 				console.log("Adding " + obj.name + " to Inspection Report");
 				//console.log("scope.ir:", $scope.ir);
