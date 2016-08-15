@@ -46,7 +46,7 @@
 					<a ui-sref="p.projectcondition.detail({conditionId:o._id})">{{o.name}}</a>
 				</li>
 			</ul>
-			<button class="btn btn-default btn-sm anchor-list-btn" type="button" title="Link Project Conditions"
+			<button ng-if="project.userCan.createInspectionReport" class="btn btn-default btn-sm anchor-list-btn" type="button" title="Link Project Conditions"
 				x-vc-linker
 				x-project="project"
 				x-condition="condition"
