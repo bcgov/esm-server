@@ -6,38 +6,13 @@
 </div>
 
 <div class="modal-body">
-    <div class="panel panel-default no-margin">
-        <table class="recipients-table table table-hover"
-            ng-table="tableParams"
-            show-filter="false">
-            <tr>
-                <td></td>
-                <td class="name-col" 
-                    header-class="'name-col'"
-                    data-title="'Name'" 
-                    filter="{'name':'text'}" 
-                    sortable="'name'">Name
-                </td>
-                <td class="email-col" 
-                    header-class="'email-col'"
-                    data-title="'Email'" 
-                    filter="{'name':'text'}" 
-                    sortable="'name'">recipient@email.com
-                </td>
-                <td class="org-col" 
-                    header-class="'org-col'"
-                    data-title="'Organization'" 
-                    filter="{'name':'text'}" 
-                    sortable="'name'">Organization
-                </td>
-                <td class="type-col" 
-                    header-class="'type-col'"
-                    data-title="'Type'" 
-                    filter="{'name':'select'}" 
-                    sortable="'name'">Type
-                </td>
-            </tr>
-        </table>
+    <div class="form-group">
+        <label class="control-label">Name<em class="required">(Required)</em></label>
+        <input class="form-group"></input>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Email<em class="required">(Required)</em></label>
+        <input class="form-group"></input>
     </div>
 </div>
 

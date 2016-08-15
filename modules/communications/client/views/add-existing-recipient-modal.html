@@ -1,0 +1,63 @@
+<div class="modal-header">
+	<button type="button" class="btn btn-default close" ng-click="s.cancel()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<h3 class="modal-title">Add Existing Recipient(s)</h3>
+</div>
+
+<div class="modal-body">
+
+    <!-- HEADER TEMPLATE -->
+    <script type="text/ng-template" id="headerCheckbox.html">
+        <input type="checkbox" ng-model="demo.checkboxes.checked" class="select-all" value="" />
+    </script><!-- / HEADER TEMPLATE -->
+
+    <div class="panel panel-default no-margin">
+        <table class="recipients-table table table-hover"
+            ng-table="tableParams"
+            show-filter="false">
+            <tr>
+                <td class="checkbox-col" 
+                    header-class="'checkbox-col'"
+                    header="'headerCheckbox.html'"><input type="checkbox" value="" />
+                </td>
+                <td class="name-col" 
+                    header-class="'name-col'"
+                    data-title="'Name'" 
+                    filter="{'name':'text'}" 
+                    sortable="'name'">Recipient Name
+                </td>
+                <td class="email-col" 
+                    header-class="'email-col'"
+                    data-title="'Email'" 
+                    filter="{'email':'text'}" 
+                    sortable="'email'">recipient@email.com
+                </td>
+                <td class="org-col" 
+                    header-class="'org-col'"
+                    data-title="'Organization'" 
+                    filter="{'organization':'text'}" 
+                    sortable="'organization'">Organization
+                </td>
+                <td class="type-col" 
+                    header-class="'type-col'"
+                    data-title="'Type'" 
+                    filter="{'type':'select'}" 
+                    sortable="'type'">Type
+                </td>
+                <td class="actions-col action-x1" header-class="'actions-col action-x1'"
+                    data-title="''">
+                    <button class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="s.cancel()">Cancel</button>
+	<button type="button" class="btn btn-primary" ng-click="s.submit()">Add</button>
+</div>

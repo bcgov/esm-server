@@ -48,7 +48,7 @@ $btn-primary-bg:			#1a5a96;
 $header-focus-border-color: #5475a7;
 
 /* Left Panel */
-$left-panel-width: 			20rem;
+$left-panel-width: 			19rem;
 $left-panel-bg:				#FFF;
 $left-panel-shadow-width:	0.4rem;
 $left-panel-shadow-color:	#999;
@@ -67,7 +67,7 @@ $panel-footer-bg: 			#FFF;
 /* Side Navigation */
 $sidenav-bg: 				#FFF;
 $sidenav-color: 			$link-color;
-$sidenav-width:				18rem;
+$sidenav-width:				19rem;
 
 /* Tables */
 $table-bg: 					#FFF;
@@ -194,16 +194,19 @@ button.close {
   		        flex: $values; 
 }
 
-.flex-row {
+@mixin display-flex {
 	display: -webkit-flex;
 	display: flex;
+}
+
+.flex-row {
+	@include display-flex;
 	-ms-flex-flow: row nowrap;
 	flex-flow: row nowrap;
 }
 
 .flex-column {
-	display: -webkit-flex;
-	display: flex;
+	@include display-flex;
 	-ms-flex-flow: column nowrap;
 	flex-flow: column nowrap;
 }
@@ -322,7 +325,6 @@ a.control-label:hover,
 	margin-bottom: 3px;
 	margin-right: 3px;
 }
-
 
 .table-center table {
 	margin: 0 auto;
@@ -1565,16 +1567,16 @@ ui-view {
 
 /* PAGE (VIEW) CONTAINERS
 ------------------------------ */
-.view-title-container,
 .view-body-container,
 .view-footer-container {
 	padding: 2rem;
 }
 
 .view-title-container {
-	height: 7rem;
+	height: 6.2rem;
+	padding: 1.5rem 2rem;
 	background: #FFF;
-	border-bottom: 1px solid #EEE;
+	border-bottom: 1px solid #DDD;
 	min-width: 0;
 
     h1 {
@@ -2152,8 +2154,8 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 		position: relative;
 		display: table-cell;
 		width: $sidenav-width;
-		height: 7rem;
-		padding: 1rem 1.5rem 1rem 4.5rem;
+		height: 6.2rem;
+		padding: 0.9rem 1.5rem 0.9rem 4.5rem;
 		font-weight: bold;
 		color: #1a5a96;
 		text-decoration: none;
@@ -2163,7 +2165,7 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 
 		.glyphicon {
 			position: absolute;
-			top: 2rem;
+			top: 1.7rem;
 			left: 1.2rem;
 			font-size: 2.4rem;
 		}
@@ -3263,6 +3265,14 @@ $pick-list-active-item-bg: #5cb85c;
 			left: 1rem;
 		}	
 	}
+
+	.checkbox-col {
+		width: 3.25rem;
+		padding: 0;
+		padding-right: 0.5rem;
+		text-align: right;
+		vertical-align: middle;
+	}
 }
 
 .ng-table-sort-header {
@@ -3378,6 +3388,7 @@ $pick-list-active-item-bg: #5cb85c;
 }
 
 .flex-table {
+	display: -webkit-flex;
 	display: flex;
 	height: calc(100% - 52px);
 	flex-flow: column nowrap;
