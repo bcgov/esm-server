@@ -247,11 +247,17 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					return IrModel.getModel ($stateParams.irId);
 				}
 			},
-			controller: function ($scope, ir, project, ArtifactModel) {
+			controller: function ($scope, ir, project, ArtifactModel, _) {
 				// console.log ('ir = ', ir);
 				$scope.ir = ir;
 				$scope.project = project;
-
+				_.each(ir.conditionArtifacts, function (item, key) {
+					ArtifactModel.lookup(item)
+					.then( function (o) {
+						ir.conditionArtifacts[key] = o;
+						$scope.$apply();
+					});
+				});
 				ArtifactModel.lookup(ir.artifact)
 				.then( function (art) {
 					ir.artifact = art;
