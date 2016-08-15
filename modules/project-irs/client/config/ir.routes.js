@@ -199,7 +199,6 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					});
 				};
 				$scope.openAddTopic = function() {
-					console.log("foo");
 					var modalDocView = $modal.open({
 						animation: true,
 						templateUrl: 'modules/artifacts/client/views/artifact-linker.html',

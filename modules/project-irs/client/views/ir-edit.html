@@ -1,5 +1,5 @@
 <div class="view-title-container flex-row">
-	<h1><span ng-show="project.name">Edit Inspection Report {{ir.artifact.name}} <span class="placeholder-value" ng-if="!ir.artifact.name">{{ir.artifact.name}}</span></h1>
+	<h1><span ng-show="project.name">Edit Inspection Report {{ir.name}} <span class="placeholder-value" ng-if="!ir.artifact.name">{{ir.name}}</span></h1>
 	<div class="actions">
 		<a class="btn btn-default btn-sm"
 			ui-sref="p.ir.list"
@@ -19,6 +19,21 @@
 </div>
 
 <div class="view-body-container">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h2>Details</h2>
+		</div>
+		<div class="panel-body ir-details-panel-body">
+			<div class="row">
+				<div class="col-sm-6 col-lg-3 detail-row">
+					<label>Name: </label>
+					<input class="form-control" title="Name" id="name" name="inspectionreportname"
+						ng-model="ir.name" required />
+				</div>
+
+			</div>
+		</div>
+	</div><!-- / DETAILS -->
 	<div class="row form-group">
 		<div class="col-sm-12">
 			<label for="subComponents" class="control-label">Associated Conditions</label>
