@@ -56,6 +56,7 @@
 			<ul class="anchor-list" ng-if="ir.conditionArtifacts.length > 0">
 				<li ng-repeat="o in ir.conditionArtifacts">
 					<a ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</a>
+					<a ng-click="removeConditionArtifact(o)"><span class="glyphicon glyphicon-remove"></span></a>
 				</li>
 			</ul>
 			<button ng-if="project.userCan.createInspectionReport"

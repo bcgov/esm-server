@@ -102,7 +102,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					});
 				}
 			},
-			controller: function ($scope, $state, project, ir, IrModel, report, InspectionReportModel, ArtifactModel, $modal) {
+			controller: function ($scope, $state, project, ir, IrModel, report, InspectionReportModel, ArtifactModel, $modal, _) {
 				$scope.ir = ir;
 				$scope.report = report;
 				$scope.project = project;
@@ -145,6 +145,14 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 						});
 					}, function () {
 						//console.log("err");
+					});
+				};
+				$scope.removeConditionArtifact = function (conditionArtifact) {
+					// Find the item and remove it from condition artifacts, then save back the IR and reload
+					_.each($scope.ir.conditionArtifacts, function (ca, idx) {
+						if (ca._id === conditionArtifact._id) {
+							$scope.ir.conditionArtifacts.splice(idx, 1);
+						}
 					});
 				};
 			}
@@ -214,6 +222,14 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 						});
 					}, function () {
 						//console.log("err");
+					});
+				};
+				$scope.removeConditionArtifact = function (conditionArtifact) {
+					// Find the item and remove it from condition artifacts, then save back the IR and reload
+					_.each($scope.ir.conditionArtifacts, function (ca, idx) {
+						if (ca._id === conditionArtifact._id) {
+							$scope.ir.conditionArtifacts.splice(idx, 1);
+						}
 					});
 				};
 			}
