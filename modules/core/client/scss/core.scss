@@ -194,16 +194,19 @@ button.close {
   		        flex: $values; 
 }
 
-.flex-row {
+@mixin display-flex {
 	display: -webkit-flex;
 	display: flex;
+}
+
+.flex-row {
+	@include display-flex;
 	-ms-flex-flow: row nowrap;
 	flex-flow: row nowrap;
 }
 
 .flex-column {
-	display: -webkit-flex;
-	display: flex;
+	@include display-flex;
 	-ms-flex-flow: column nowrap;
 	flex-flow: column nowrap;
 }
@@ -322,7 +325,6 @@ a.control-label:hover,
 	margin-bottom: 3px;
 	margin-right: 3px;
 }
-
 
 .table-center table {
 	margin: 0 auto;
@@ -3386,6 +3388,7 @@ $pick-list-active-item-bg: #5cb85c;
 }
 
 .flex-table {
+	display: -webkit-flex;
 	display: flex;
 	height: calc(100% - 52px);
 	flex-flow: column nowrap;

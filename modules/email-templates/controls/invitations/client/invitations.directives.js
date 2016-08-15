@@ -39,8 +39,8 @@ function directiveEmailTemplateChooser(EmailTemplateModel, $modal, _) {
                     animation: true,
                     templateUrl: 'modules/email-templates/client/views/email-template-chooser.html',
                     controllerAs: 's',
-                    size: 'md',
-                    windowClass: 'vc-chooser-view',
+                    size: 'lg',
+                    //windowClass: 'vc-chooser-view',
                     resolve: {
                         templates: function (EmailTemplateModel) {
                             return EmailTemplateModel.all ();
