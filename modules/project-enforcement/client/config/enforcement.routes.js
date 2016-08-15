@@ -11,8 +11,8 @@ angular.module('enforcements').config(['$stateProvider', function ($stateProvide
             url: '/enforcement',
             template: '<ui-view></ui-view>',
             resolve: {
-                enforcements: function ($stateParams, project) {
-                    return [];
+                enforcements: function ($stateParams, project, EnforcementModel, IrModel) {
+                    return IrModel.forProject(project._id);
                 }
             }
         })
