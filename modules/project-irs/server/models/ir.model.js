@@ -11,6 +11,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	project     : { type:'ObjectId', ref:'Project', default:null, index:true },
 	stage       : { type:String, enum:['Pre-Construction', 'Construction', 'Operations', 'Decommissioning'], default:'Operations' },
     name        : { type:String, default: ''},
+    irDate      : { type:Date, default: null },
 	ir 			: { type:String, default: ''},
 	complainant : { type:String, default: '' },
 	artifact 	: { type:'ObjectId', ref:'Artifact'},
@@ -18,4 +19,3 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	conditionArtifacts  : [ { type:'ObjectId', ref:'Artifact'} ],
     enforcementActions  : [ { type:'ObjectId', ref:'Enforcements'} ]
 });
-
