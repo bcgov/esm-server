@@ -10,7 +10,7 @@
             <tr ng-repeat="o in $data">
                 <td data-title="'Name'"
                     sortable="'name'"
-                    filter="{'name':'text'}"><input type="checkbox" ng-click="self.toggleItem(o)"/>{{o.name}}</td>
+                    filter="{'name':'text'}"><input type="checkbox" ng-model="o.isChecked" ng-click="self.toggleItem(o)"/>{{o.name}}</td>
             </tr>
         </table>
     </section>
