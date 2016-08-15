@@ -28,7 +28,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-6 form-group">
+			<div class="col-md-6">
 				<label>Date of Inspection</label>
 				<div class="form-control date-picker"
 					x-modal-date-picker 
@@ -41,6 +41,8 @@
 		</div>
 	</fieldset>
 
+	<hr>
+
 	<fieldset>
 		<legend>Associated Conditions</legend>
 		<ul class="anchor-list" ng-if="ir.conditions.length > 0">
@@ -48,15 +50,15 @@
 				<a ui-sref="p.projectcondition.detail({conditionId:o._id})">{{o.name}}</a>
 			</li>
 		</ul>
-		<div class="form-group">
-			<button ng-if="project.userCan.createInspectionReport" class="btn btn-default btn-sm anchor-list-btn" type="button" title="Link Project Conditions"
-				x-vc-linker
-				x-project="project"
-				x-condition="condition"
-				x-conditions="ir.conditions"><span class="glyphicon glyphicon-plus"></span><span>Add Conditions</span>
-			</button>
-		</div>
+		<button ng-if="project.userCan.createInspectionReport" class="btn btn-default btn-sm anchor-list-btn" type="button" title="Link Project Conditions"
+			x-vc-linker
+			x-project="project"
+			x-condition="condition"
+			x-conditions="ir.conditions"><span class="glyphicon glyphicon-plus"></span><span>Add Conditions</span>
+		</button>
 	</fieldset>
+
+	<hr>
 
 	<fieldset>
 		<legend>Associated Content</legend>
@@ -109,15 +111,12 @@
 				ng-click="save()">Save</button>
 		</div>
 	</div>
+	
 	<a class="btn btn-default btn-sm" title="Edit Inspection Report Template"
 		ng-if="project.userCan.createInspectionReport" 
 		ng-click="$event.stopPropagation()" 
 		ui-sref="p.artifact.edit({artifactId:ir.artifact._id})">Edit Inspection Report &nbsp;
 		<span class="glyphicon glyphicon-pencil"></span>
 	</a>
-	&nbsp;
-	<div class="form-footer no-border clearfix">
-		<a class="back-btn btn btn-link pull-left" ui-sref="p.ir.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Inspections</a>
-	</div>
 
 </div>
