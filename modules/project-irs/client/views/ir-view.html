@@ -13,29 +13,19 @@
 </div>
 
 <div class="view-body-container">
-	<!-- DETAILS -->
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h2>Details</h2>
-		</div>
-		<div class="panel-body ir-details-panel-body">
-			<div class="row">
-				<div class="col-sm-6 col-lg-3 detail-row">
-					<label>Name: </label>
-					<span class="value">{{ ::ir.name }}</span>
-				</div>
+	<div class="detail-row">
+		<label>Report Name</label>
+		<span class="value">{{ ::ir.name }}</span>
+	</div>
 
-			</div>
-		</div>
-	</div><!-- / DETAILS -->
+	<section>
+		<h2>Associated Conditions</h2>
+		<!-- Place Associated Content Links Here -->
+	</section>
 
 	<section>
 		<h2>Associated Content</h2>
-		<ul class="anchor-list" ng-if="ir.conditionArtifacts.length > 0">
-			<li ng-repeat="o in ir.conditionArtifacts">
-				<a ui-sref="p.artifact.view({artifactId:o._id})">{{ir.artifact.name}}<button></button></a>
-			</li>
-		</ul>
+		<!-- Place Associated Content Links Here -->
 	</section>
 
 	<div>
@@ -46,7 +36,7 @@
 	</a>
 	</div>
 
-	<div class="form-footer no-border clearfix">
+	<div class="form-footer no-border clearfix hidden">
 		<a class="back-btn btn btn-link pull-left" ui-sref="p.ir.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Inspection Reports</a>
 	</div>
 

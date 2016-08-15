@@ -3089,6 +3089,16 @@ $pick-list-active-item-bg: #5cb85c;
 	}
 }
 
+/* SECTION
+------------------------------ */
+section {
+	h2 {
+		font-size: 1.6rem;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+}
+
 
 /* TAB NAVIGATION
 ------------------------------ */
@@ -3421,12 +3431,9 @@ $pick-list-active-item-bg: #5cb85c;
 ------------------------------ */
 .tag-list {
 	&.form-control {
+		min-height: 3.4rem;
 		height: auto;
-		padding: 0.4rem;
-	}
-
-	+ .btn {
-		margin-top: 0.5rem;
+		padding: 0.2rem;
 	}
 
 	.tag {
@@ -3436,6 +3443,7 @@ $pick-list-active-item-bg: #5cb85c;
 		background: #999;
 		border-radius: 4px;
 		box-shadow: 0 1px 1px rgba(0, 0, 0, .075);
+		margin: 0.2rem;
 
 		.tag-name {
 			padding-left: 1rem;
