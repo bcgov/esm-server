@@ -1,6 +1,6 @@
 
 <div class="view-title-container flex-row">
-	<h1>Inspection - {{ir.name}}</h1>
+	<h1>Inspections &nbsp;&rsaquo;&nbsp; {{ir.name}}</h1>
 	<div class="actions">
 		<button class="btn btn-default btn-sm"
             ng-if="project.userCan.createInspectionReport"
@@ -13,21 +13,25 @@
 </div>
 
 <div class="view-body-container">
-	<div class="detail-row">
-		<label>Report Name</label>
-		<span class="value">{{ ::ir.name }}</span>
-	</div>
-	<div class="detail-row">
-		<label>Date of Inspection </label>
-		<span class="value">{{ ir.irDate | amDateFormat:'MMM Do YYYY'}}</span>
-	</div>		
+	
+	<section>
+		<h2>Report Details</h2>
+		<div class="detail-row">
+			<label>Name</label>
+			<span class="value">{{ ::ir.name }}</span>
+		</div>
+		<div class="detail-row">
+			<label>Date of Inspection</label>
+			<span class="value">{{ ir.irDate | amDateFormat:'MMM Do YYYY'}}</span>
+		</div>
+	</section>	
+
+	<hr>
 	
 	<section>
 		<h2>Associated Conditions</h2>
-		<div class="panel panel-default">
-			<div class="list-group">
-				<div class="list-group-item">No Conditions available</div>
-			</div>
+		<div class="list-group">
+			<div class="list-group-item">No Conditions available</div>
 		</div>
 	</section>
 

@@ -2474,7 +2474,7 @@ fieldset {
 
 legend {
 	margin-bottom: 1rem;
-	font-size: 1.5rem;
+	font-size: 1.6rem;
 	font-weight: bold;
 	border-bottom: none;
 	text-transform: uppercase;
@@ -2850,6 +2850,10 @@ form {
 			border-bottom-right-radius: 0;
 		}
 	}
+
+	+ .btn {
+		margin-top: 1rem;
+	}
 }
 
 .list-group-item {
@@ -3093,9 +3097,13 @@ $pick-list-active-item-bg: #5cb85c;
 /* SECTION
 ------------------------------ */
 section {
+
 	h2 {
+		margin-top: 0;
+		margin-bottom: 1rem;
 		font-size: 1.6rem;
 		font-weight: bold;
+		line-height: inherit;
 		text-transform: uppercase;
 	}
 }
