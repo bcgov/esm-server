@@ -255,7 +255,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 						controller: 'controllerAddEditEnforcementActionModal',
 						controllerAs: 'a',
 						scope: $scope,
-						size: 'lg'
+						size: 'md'
 					});
 					modalDocView.result.then(function (res) {
 						console.log("res:", res);
