@@ -1,125 +1,125 @@
-<div class="view-title-container flex-row">
-	<h1><span ng-show="project.name">Edit Inspection &nbsp;&rsaquo;&nbsp; {{ir.name}} <span class="placeholder-value" ng-if="!ir.name">Untitled</span></h1>
-	<div class="actions">
-		<a class="btn btn-default btn-sm"
-			ui-sref="p.ir.list"
-			ng-click="cancel()">Cancel</a>
-		<button class="btn btn-danger btn-sm"
-            ng-if="canDelete"
-            ng-click="delete()"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
-		<button class="btn btn-primary btn-sm"
-			ng-click="save()">Save</button>
-		<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#publishNotify"
-			ng-if="canUnpublish"
-			ng-click="unpublish()"><span class="glyphicon glyphicon-minus-sign"></span><span>Unpublish</span></button>
-		<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#publishNotify"
-			ng-if="canPublish"
-			ng-click="publish()"><span class="glyphicon glyphicon-share-alt"></span><span>Publish</span></button>
-	</div>
-</div>
-
-<div class="view-body-container">
-	
-	<fieldset>
-		<legend>Report Details</legend>
-		<div class="row">
-			<div class="col-md-6 form-group">
-				<label>Name</label>
-				<input class="form-control" title="Name" id="name" name="inspectionreportname" ng-model="ir.name" required/>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-6">
-				<label>Date of Inspection</label>
-				<div class="form-control date-picker"
-					x-modal-date-picker 
-					x-selected-date="ir.irDate" 
-					ng-model="ir.irDate">
-					{{ ir.irDate | amDateFormat:'MMMM Do, YYYY' }}
-					<span class="glyphicon glyphicon-calendar"></span>
-				</div>
-			</div>
-		</div>
-	</fieldset>
-
-	<hr>
-
-	<fieldset>
-		<legend>Associated Conditions</legend>
-		<ul class="anchor-list" ng-if="ir.conditions.length > 0">
-			<li ng-repeat="o in ir.conditions">
-				<a ui-sref="p.projectcondition.detail({conditionId:o._id})">{{o.name}}</a>
-			</li>
-		</ul>
-		<button ng-if="project.userCan.createInspectionReport" class="btn btn-default btn-sm anchor-list-btn" type="button" title="Link Project Conditions"
-			x-vc-linker
-			x-project="project"
-			x-condition="condition"
-			x-conditions="ir.conditions"><span class="glyphicon glyphicon-plus"></span><span>Add Conditions</span>
-		</button>
-	</fieldset>
-
-	<hr>
-
-	<fieldset>
-		<legend>Associated Content</legend>
-		<ul class="list-group no-margin" ng-if="ir.conditionArtifacts.length > 0">
-			<li class="list-group-item flex-row" ng-repeat="o in ir.conditionArtifacts">
-				<span class="title" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</span>
-				<span class="actions">
-					<button class="btn btn-default btn-sm" ng-click="removeConditionArtifact(o)"><span class="glyphicon glyphicon-remove"></span></button>
-				</span>
-			</li>
-		</ul>
-		<button class="btn btn-default btn-sm"
-			ng-if="project.userCan.createInspectionReport"
-			ng-click="openAddTopic()">
-			<span class="glyphicon glyphicon-plus"></span><span>Add Project Content</span>
-		</button>
-	</fieldset>
-
-	<fieldset>
-		<legend>Actions</legend>
-		<ul class="tag-list form-control" ng-if="ir.enforcementActions.length > 0">
-			<li class="tag" ng-repeat="o in ir.enforcementActions">
-				<span class="tag-name">{{o.name}}</span>
-			</li>
-		</ul>
-		<button class="btn btn-default btn-sm"
-			ng-if="project.userCan.createInspectionReport"
-			ng-click="openAddEnforcementAction()">
-			<span class="glyphicon glyphicon-plus"></span><span>Add Action</span>
-		</button>
-	</fieldset>
-
-	<fieldset class="hidden">
-		<legend>Inspection Report Template</legend>
-		<div class="form-group">
-			<a class="btn btn-default btn-sm" title="Edit Inspection Report Template"
-				ng-if="project.userCan.createInspectionReport" 
-				ng-click="$event.stopPropagation()" 
-				ui-sref="p.artifact.edit({artifactId:ir.artifact._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit Inspection Report</span>
-			</a>
-		</div>
-	</fieldset>
-
-	<hr>
-
-	<div class="form-footer clearfix">
-		<div class="pull-right">
+<form name="inspection">
+	<div class="view-title-container flex-row">
+		<h1><span ng-show="project.name">Edit Inspection &nbsp;&rsaquo;&nbsp; {{ir.name}} <span class="placeholder-value" ng-if="!ir.name">Untitled</span></h1>
+		<div class="actions">
 			<a class="btn btn-default btn-sm"
 				ui-sref="p.ir.list"
 				ng-click="cancel()">Cancel</a>
+			<button class="btn btn-danger btn-sm"
+	            ng-if="canDelete"
+	            ng-click="delete()"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
 			<button class="btn btn-primary btn-sm"
 				ng-click="save()">Save</button>
+			<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#publishNotify"
+				ng-if="canUnpublish"
+				ng-click="unpublish()"><span class="glyphicon glyphicon-minus-sign"></span><span>Unpublish</span></button>
+			<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#publishNotify"
+				ng-if="canPublish"
+				ng-click="publish()"><span class="glyphicon glyphicon-share-alt"></span><span>Publish</span></button>
 		</div>
 	</div>
+	<div class="view-body-container">
 
-	<a class="btn btn-default btn-sm" title="Edit Inspection Report Template"
-		ng-if="project.userCan.createInspectionReport" 
-		ng-click="$event.stopPropagation()" 
-		ui-sref="p.artifact.edit({artifactId:ir.artifact._id})">Edit Inspection Report &nbsp;
-		<span class="glyphicon glyphicon-pencil"></span>
-	</a>
+		<fieldset>
+			<legend>Report Details</legend>
+			<div class="row">
+				<div class="col-md-6 form-group">
+					<label>Name</label>
+					<input class="form-control" title="Name" id="name" name="inspectionreportname" ng-model="ir.name" required/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<label>Date of Inspection</label>
+					<div class="form-control date-picker"
+						x-modal-date-picker 
+						x-selected-date="ir.irDate" 
+						ng-model="ir.irDate">
+						{{ ir.irDate | amDateFormat:'MMMM Do, YYYY' }}
+						<span class="glyphicon glyphicon-calendar"></span>
+					</div>
+				</div>
+			</div>
+		</fieldset>
 
-</div>
+		<hr>
+
+		<fieldset>
+			<legend>Associated Conditions</legend>
+			<ul class="anchor-list" ng-if="ir.conditions.length > 0">
+				<li ng-repeat="o in ir.conditions">
+					<a ui-sref="p.projectcondition.detail({conditionId:o._id})">{{o.name}}</a>
+				</li>
+			</ul>
+			<button ng-if="project.userCan.createInspectionReport" class="btn btn-default btn-sm anchor-list-btn" type="button" title="Link Project Conditions"
+				x-vc-linker
+				x-project="project"
+				x-condition="condition"
+				x-conditions="ir.conditions"><span class="glyphicon glyphicon-plus"></span><span>Add Conditions</span>
+			</button>
+		</fieldset>
+
+		<hr>
+
+		<fieldset>
+			<legend>Associated Content</legend>
+			<ul class="list-group no-margin" ng-if="ir.conditionArtifacts.length > 0">
+				<li class="list-group-item flex-row" ng-repeat="o in ir.conditionArtifacts">
+					<span class="title" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</span>
+					<span class="actions">
+						<button class="btn btn-default btn-sm" ng-click="removeConditionArtifact(o)"><span class="glyphicon glyphicon-remove"></span></button>
+					</span>
+				</li>
+			</ul>
+			<button class="btn btn-default btn-sm"
+				ng-if="project.userCan.createInspectionReport"
+				ng-click="openAddTopic()">
+				<span class="glyphicon glyphicon-plus"></span><span>Add Project Content</span>
+			</button>
+		</fieldset>
+
+		<fieldset>
+			<legend>Actions</legend>
+			<ul class="tag-list form-control" ng-if="ir.enforcementActions.length > 0">
+				<li class="tag" ng-repeat="o in ir.enforcementActions">
+					<span class="tag-name">{{o.name}}</span>
+				</li>
+			</ul>
+			<button class="btn btn-default btn-sm"
+				ng-if="project.userCan.createInspectionReport"
+				ng-click="openAddEnforcementAction()">
+				<span class="glyphicon glyphicon-plus"></span><span>Add Action</span>
+			</button>
+		</fieldset>
+
+		<fieldset class="hidden">
+			<legend>Inspection Report Template</legend>
+			<div class="form-group">
+				<a class="btn btn-default btn-sm" title="Edit Inspection Report Template"
+					ng-if="project.userCan.createInspectionReport" 
+					ng-click="$event.stopPropagation()" 
+					ui-sref="p.artifact.edit({artifactId:ir.artifact._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit Inspection Report</span>
+				</a>
+			</div>
+		</fieldset>
+
+		<hr>
+
+		<div class="form-footer clearfix">
+			<div class="pull-right">
+				<a class="btn btn-default btn-sm"
+					ui-sref="p.ir.list"
+					ng-click="cancel()">Cancel</a>
+				<button class="btn btn-primary btn-sm"
+					ng-click="save()">Save</button>
+			</div>
+		</div>
+
+		<a class="btn btn-default btn-sm" title="Edit Inspection Report Template"
+			ng-if="project.userCan.createInspectionReport" 
+			ng-click="$event.stopPropagation()" 
+			ui-sref="p.artifact.edit({artifactId:ir.artifact._id})">Edit Inspection Report &nbsp;
+			<span class="glyphicon glyphicon-pencil"></span>
+		</a>
+	</div>
+</form>

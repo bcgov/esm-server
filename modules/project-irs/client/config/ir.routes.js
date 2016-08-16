@@ -107,6 +107,9 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 				$scope.report = report;
 				$scope.project = project;
 				$scope.save = function () {
+					if (!$scope.inspection.$valid) {
+						return false;
+					}
 					IrModel.add ($scope.ir)
 					.then (function (model) {
 						return ArtifactModel.save($scope.ir.artifact);
@@ -190,6 +193,9 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					});
 				});
 				$scope.save = function () {
+					if (!$scope.inspection.$valid) {
+						return false;
+					}
 					IrModel.save ($scope.ir)
 					.then (function (model) {
 						return ArtifactModel.save($scope.ir.artifact);
