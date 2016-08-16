@@ -136,6 +136,18 @@ angular.module ('comment')
 			};
 
 			s.downloadCommentData = function () {
+				var getBrowser = function() {
+
+					var userAgent = window.navigator.userAgent;
+
+					var browsers = {chrome: /chrome/i, safari: /safari/i, firefox: /firefox/i, ie: /internet explorer/i};
+
+					for(var key in browsers) {
+						if (browsers[key].test(userAgent)) {
+							return key;
+						}
+					}
+				};
 				// console.log("data:", s.tableParams.data);
 				CommentModel.prepareCSV(s.tableParams.data)
 				.then( function (data) {
@@ -144,6 +156,10 @@ angular.module ('comment')
 					var anchor = document.createElement("a");
 					anchor.download = (currentFilter) ? currentFilter.eaoStatus + ".csv" : 'tableData.csv';
 					anchor.href = url;
+					var browse = getBrowser();
+					if (browse === 'firefox') {
+						window.location.href = url;
+					}
 					anchor.click();
 					window.URL.revokeObjectURL(url);
 				});
