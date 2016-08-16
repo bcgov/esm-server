@@ -1,11 +1,11 @@
 <div class="view-title-container">
-    <h1>Project Updates?</h1>
+    <h1>Project Updates</h1>
 </div>
 
 <div class="view-body-container">
     <div class="button-bar clearfix">
         <div class="pull-left">
-            <button ng-if="true || project.userCan.createProjectUpdate" class="btn btn-default btn-sm" ui-sref="p.communication.create">
+            <button ng-if="true || project.userCan.createProjectUpdates" class="btn btn-default btn-sm" ui-sref="p.communication.create">
         <span class="glyphicon glyphicon-plus"></span><span>Add Project Update</span>
       </button>
         </div>
@@ -29,13 +29,10 @@
                     data-title="'Sent on'"
                     sortable="'sent'"></td>
                 <td class="actions-col action-x2" header-class="'actions-col action-x2'">
-                    <a class="btn btn-default btn-sm" title="Edit Valued Component" ng-if="true ||project.userCan.createProjectUpdate" ng-click="$event.stopPropagation()"
+                    <a class="btn btn-default btn-sm" title="Edit Valued Component" ng-if="project.userCan.createProjectUpdates" ng-click="$event.stopPropagation()"
                         ui-sref="p.communication.edit({communicationId:o._id})">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </a>
-                     <button class="btn btn-default btn-sm" title="Edit Valued Component">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </button>
                 </td>
             </tr>
 
