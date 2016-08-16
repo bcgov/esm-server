@@ -183,16 +183,28 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					});
 				}
 			},
-			controller: function ($scope, $state, ir, project, IrModel, ArtifactModel, $modal, _, ENFORCEMENT_ACTIONS, ENFORCEMENT_STATUS) {
+			controller: function ($scope, $state, ir, project, IrModel, ArtifactModel, $modal, _, ENFORCEMENT_ACTIONS, ENFORCEMENT_STATUS, EnforcementModel) {
 				$scope.ir = ir;
 				$scope.project = project;
 				$scope.canDelete = ir.userCan.delete;
 				$scope.enforcement_actions = ENFORCEMENT_ACTIONS;
 				$scope.enforcement_status = ENFORCEMENT_STATUS;
+				$scope.canPublish = ir.userCan.publish && !ir.isPublished;
+				$scope.canUnpublish = ir.userCan.unPublish && ir.isPublished;
+
+				console.log("ir.userCan:", ir.userCan);
+
 				_.each(ir.conditionArtifacts, function (item, key) {
 					ArtifactModel.lookup(item)
 					.then( function (o) {
 						ir.conditionArtifacts[key] = o;
+						$scope.$apply();
+					});
+				});
+				_.each(ir.enforcementActions, function (item, key) {
+					EnforcementModel.lookup(item)
+					.then( function (o) {
+						ir.enforcementActions[key] = o;
 						$scope.$apply();
 					});
 				});
@@ -209,7 +221,16 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 						return false;
 					}
 					IrModel.save ($scope.ir)
-					.then (function (model) {
+					.then (function () {
+						// For each enforcement action added - add them.
+						_.each($scope.ir.enforcementActions, function (ea) {
+							if (ea.new) {
+								EnforcementModel.add(ea);
+							} else {
+								// Dirty? Save it.
+							}
+						});
+					}).then(function () {
 						return ArtifactModel.save($scope.ir.artifact);
 					}).then(function () {
 						$state.go('p.ir.detail', {projectid:project.code, irId:$scope.ir._id}, {
@@ -259,6 +280,15 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					});
 					modalDocView.result.then(function (res) {
 						console.log("res:", res);
+						EnforcementModel.getNew()
+						.then( function (mod) {
+							mod.action = res.action;
+							mod.actionDate = res.actionDate;
+							mod.condition = res.condition;
+							mod.status = res.status;
+							mod.new = true;
+							$scope.ir.enforcementActions.push(mod);
+						});
 					}, function () {
 						//console.log("err");
 					});
@@ -280,7 +310,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					return IrModel.getModel ($stateParams.irId);
 				}
 			},
-			controller: function ($scope, ir, project, ArtifactModel, _) {
+			controller: function ($scope, ir, project, ArtifactModel, _, EnforcementModel) {
 				// console.log ('ir = ', ir);
 				$scope.ir = ir;
 				$scope.project = project;
@@ -288,6 +318,13 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					ArtifactModel.lookup(item)
 					.then( function (o) {
 						ir.conditionArtifacts[key] = o;
+						$scope.$apply();
+					});
+				});
+				_.each(ir.enforcementActions, function (item, key) {
+					EnforcementModel.lookup(item)
+					.then( function (o) {
+						ir.enforcementActions[key] = o;
 						$scope.$apply();
 					});
 				});

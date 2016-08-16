@@ -13,6 +13,9 @@ angular.module('enforcements').factory ('EnforcementModel', function (ModelBase,
 	//
 	var Class = ModelBase.extend ({
 		urlName : 'enforcement',
+		lookup: function (id) {
+			return this.get ('/api/enforcement/'+id);
+		},
 		forProject: function (projectid) {
 			return this.get ('/api/enforcement/for/project/'+projectid);
 		},
