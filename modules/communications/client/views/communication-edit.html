@@ -1,12 +1,12 @@
 <form class="view-form" name="projectUpdateForm" novalidate>
 
 <div class="view-title-container flex-row">
-    <h1>Project Update &nbsp;&rsaquo;&nbsp; {{s.communication.name}} <span clas="placeholder-value" ng-if="!s.communication.name">Untitled</span></h1>
+    <h1>Project Update &nbsp;&rsaquo;&nbsp; {{s.communication.name}} <span class="placeholder-value" ng-if="!s.communication.name">Untitled</span></h1>
     <div class="actions">
         <button type="button" class="btn btn-default btn-sm" ng-click="cancel()">Cancel</button>
-      <button class="btn btn-danger btn-sm"
-              ng-if="canDelete"
-              ng-click="delete(s.communication)"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
+        <button class="btn btn-danger btn-sm"
+            ng-if="canDelete"
+            ng-click="delete(s.communication)"><span class="glyphicon glyphicon-trash"></span><span>Delete</span></button>
         <button type="button" class="btn btn-primary btn-sm" ng-click="save(projectUpdateForm.$valid)">Save</button>
         <button type="button" class="btn btn-success btn-sm" ng-if="mode === 'edit'" ng-disabled="projectUpdateForm.$invalid" ng-click="send(projectUpdateForm.$valid)">Send</button>
     </div>
@@ -27,42 +27,46 @@
 
     <div class="tab-pane active" ng-show="form.curTab === 'Update Details'" ng-form="projectUpdateDetailsForm">
 
-        <div class="form-group" x-show-errors>
-            <label class="control-label">Name<em class="required">(Required)</em></label>
-            <input class="form-control" ng-model="s.communication.name" id="name" name="name" title="Name" required />
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group" x-show-errors>
+                    <label class="control-label">Name<em class="required">(Required)</em></label>
+                    <input class="form-control" ng-model="s.communication.name" id="name" name="name" title="Name" required />
+                </div>
+                <div>
+                    <label class="control-label">Related Content ({{artifacts.length}})</label>
+                    <ul class="tag-list" ng-if="artifacts.length > 0">
+                        <li class="tag" ng-repeat="art in artifacts">
+                            <span class="tag-name">{{art.name}}</span>
+                            <button class="btn" type="button" ng-click="removeArtifact(art._id)"><span aria-hidden="true">×</span></button>
+                        </li>
+                    </ul>
+                    <button class="btn btn-default btn-sm" type="button" x-artifact-list-chooser x-project="project" x-current="artifacts">+ Add Related Content</button>
+                </div>   
+            </div> 
         </div>
 
-        <fieldset>
-            <legend>Related Content ({{artifacts.length}})</legend>
-            <div class="tag-list form-control">
-                <span ng-repeat="art in artifacts" class="tag">
-                    <span class="tag-name">{{art.name}}</span>
-                    <button type="button" class="btn" ng-click="removeArtifact(art._id)"><span aria-hidden="true">×</span></button>
-                </span>
+        <div class="panel panel-default">
+            <div class="panel-heading flex-row">
+                <h2>Configure Email</h2>
+                <div class="actions">
+                    <button type="button" class="btn btn-default btn-sm" x-email-template-chooser x-project="project" x-current="emailTemplate">Use Existing Template</button> 
+                </div>
             </div>
-            <button type="button" x-artifact-list-chooser x-project="project" x-current="artifacts" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add Related Content</span></button>
-        <fieldset>
-
-        <hr />
-
-        <fieldset>
-            <legend>Configure Email</legend>
-            <div class="form-group">
-                <button type="button" class="btn btn-default btn-sm" x-email-template-chooser x-project="project" x-current="emailTemplate">Use Existing Template</button>
-
+            <div class="panel-body">
+                <div class="form-group" x-show-errors>
+                    <label class="control-label">Subject<em class="required">(Required)</em></label>
+                    <input class="form-control" ng-model="s.communication.templateSubject" id="subject" name="subject" title="Subject" required></input>
+                </div>
+                <div class="form-group no-margin" x-show-errors>
+                    <label class="control-label">Message<em class="required">(Required)</em></label>
+                    <textarea ui-tinymce="tinymceOptions" type="text"
+                        ng-model="s.communication.templateContent" id="message" name="message" title="Message" required
+                        ng-blur="activeItem = false">
+                    </textarea>
+                </div>
             </div>
-            <div class="form-group" x-show-errors>
-                <label class="control-label">Subject<em class="required">(Required)</em></label>
-                <input class="form-control" ng-model="s.communication.templateSubject" id="subject" name="subject" title="Subject" required></input>
-            </div>
-            <div class="form-group" x-show-errors>
-                <label class="control-label">Message<em class="required">(Required)</em></label>
-                <textarea ui-tinymce="tinymceOptions" type="text"
-                    ng-model="s.communication.templateContent" id="message" name="message" title="Message" required
-                    ng-blur="activeItem = false">
-                </textarea>
-            </div>
-        </fieldset>
+        </div>
     </div>
 
     <div class="tab-pane" ng-show="form.curTab === 'recipients'" ng-form="recipientsForm">
@@ -114,7 +118,7 @@
           <button type="button" class="btn btn-default btn-sm" ng-click="cancel()">Cancel</button>
           <button class="btn btn-danger btn-sm"
                   ng-if="canDelete"
-                  ng-click="delete(s.communication)"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
+                  ng-click="delete(s.communication)"><span class="glyphicon glyphicon-trash"></span><span>Delete</span></button>
           <button type="button" class="btn btn-primary btn-sm" ng-click="save(projectUpdateForm.$valid)">Save</button>
           <button type="button" class="btn btn-success btn-sm" ng-if="mode === 'edit'" ng-disabled="projectUpdateForm.$invalid" ng-click="send(projectUpdateForm.$valid)">Send</button>
         </div>

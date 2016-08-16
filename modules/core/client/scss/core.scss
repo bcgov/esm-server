@@ -2670,6 +2670,10 @@ form {
 
 .form-group {
 	margin-bottom: 2rem;
+
+	&.no-margin {
+		margin-bottom: 0;
+	}
 }
 
 .form-validation-msg {
