@@ -184,7 +184,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 						},
 						controllerAs: 'self',
 						scope: $scope,
-						size: 'lg'
+						size: 'md'
 					}).result.then(function (res) {
 						$scope.allowTransition = true;
 						$state.go(toState);
