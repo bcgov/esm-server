@@ -140,7 +140,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					});
 					modalDocView.result.then(function (res) {
 						// console.log("res",res);
-						$state.transitionTo('p.ir.edit', {irId:$scope.ir}, {
+						$state.transitionTo('p.ir.edit', {projectid:project.code, irId:$scope.ir}, {
 							reload: true, inherit: false, notify: true
 						});
 					}, function () {
@@ -215,7 +215,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					});
 					modalDocView.result.then(function (res) {
 						// console.log("res",res);
-						$state.transitionTo('p.ir.edit', {irId:$scope.ir._id}, {
+						$state.transitionTo('p.ir.edit', {projectid:project.code, irId:$scope.ir._id}, {
 				  			reload: true, inherit: false, notify: true
 						});
 					}, function () {
