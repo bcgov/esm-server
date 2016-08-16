@@ -106,6 +106,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 				$scope.ir = ir;
 				$scope.report = report;
 				$scope.project = project;
+				$scope.canDelete = false;
 				$scope.save = function () {
 					if (!$scope.inspection.$valid) {
 						return false;
@@ -185,6 +186,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 			controller: function ($scope, $state, ir, project, IrModel, ArtifactModel, $modal, _) {
 				$scope.ir = ir;
 				$scope.project = project;
+				$scope.canDelete = ir.userCan.delete;
 				_.each(ir.conditionArtifacts, function (item, key) {
 					ArtifactModel.lookup(item)
 					.then( function (o) {
@@ -192,6 +194,14 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 						$scope.$apply();
 					});
 				});
+				$scope.delete = function () {
+					IrModel.deleteId($scope.ir._id)
+					.then( function () {
+						$state.go('p.ir.list', {projectid:project.code}, {
+							reload: true, inherit: false, notify: true
+						});
+					});
+				};
 				$scope.save = function () {
 					if (!$scope.inspection.$valid) {
 						return false;
