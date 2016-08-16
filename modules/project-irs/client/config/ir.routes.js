@@ -183,10 +183,12 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					});
 				}
 			},
-			controller: function ($scope, $state, ir, project, IrModel, ArtifactModel, $modal, _) {
+			controller: function ($scope, $state, ir, project, IrModel, ArtifactModel, $modal, _, ENFORCEMENT_ACTIONS, ENFORCEMENT_STATUS) {
 				$scope.ir = ir;
 				$scope.project = project;
 				$scope.canDelete = ir.userCan.delete;
+				$scope.enforcement_actions = ENFORCEMENT_ACTIONS;
+				$scope.enforcement_status = ENFORCEMENT_STATUS;
 				_.each(ir.conditionArtifacts, function (item, key) {
 					ArtifactModel.lookup(item)
 					.then( function (o) {
@@ -244,6 +246,21 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 						if (ca._id === conditionArtifact._id) {
 							$scope.ir.conditionArtifacts.splice(idx, 1);
 						}
+					});
+				};
+				$scope.openAddEnforcementAction = function () {
+					var modalDocView = $modal.open({
+						animation: true,
+						templateUrl: 'modules/project-irs/client/views/ir-add-action.html',
+						controller: 'controllerAddEditEnforcementActionModal',
+						controllerAs: 'a',
+						scope: $scope,
+						size: 'lg'
+					});
+					modalDocView.result.then(function (res) {
+						console.log("res:", res);
+					}, function () {
+						//console.log("err");
 					});
 				};
 			}

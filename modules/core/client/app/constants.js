@@ -229,16 +229,22 @@ angular
 		}
 	)
 	.constant('ENFORCEMENT_ACTIONS',
-		{
-			'warning' : 'Warning',
-			'order-to-cease' : 'Order to Cease',
-			'order-to-remedy' : 'Order to Remedy',
-			'compliance-agreement' : 'Compliance Agreement',
-			'referral' : 'Referral',
-			'other' : 'Other'
-		}
+		[
+			'Warning',
+			'Order to Cease',
+			'Order to Remedy',
+			'Compliance Agreement',
+			'Referral',
+			'Other'
+		]
 	)
-	.constant('PROJECT_DECISION',
+	.constant('ENFORCEMENT_STATUS',
+		[
+			'Open',
+			'Resolved',
+			'Recinded'
+		]
+	)	.constant('PROJECT_DECISION',
 		{
 			'pre-ea-act-approval' : 'Pre-EA Act Approval',
 			'in-progress' : 'In Progress',
