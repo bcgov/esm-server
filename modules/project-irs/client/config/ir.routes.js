@@ -102,20 +102,31 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					});
 				}
 			},
-			controller: function ($scope, $state, project, ir, IrModel, report, InspectionReportModel, ArtifactModel, $modal, _) {
+			controller: function ($scope, $state, project, ir, IrModel, report, InspectionReportModel, ArtifactModel, $modal, _, EnforcementModel, ENFORCEMENT_ACTIONS, ENFORCEMENT_STATUS) {
 				$scope.ir = ir;
 				$scope.report = report;
 				$scope.project = project;
 				$scope.canDelete = false;
+				$scope.enforcement_actions = ENFORCEMENT_ACTIONS;
+				$scope.enforcement_status = ENFORCEMENT_STATUS;
 				$scope.save = function () {
 					if (!$scope.inspection.$valid) {
 						return false;
 					}
-					IrModel.add ($scope.ir)
-					.then (function (model) {
+					IrModel.save ($scope.ir)
+					.then (function () {
+						// For each enforcement action added - add them.
+						_.each($scope.ir.enforcementActions, function (ea) {
+							if (ea.new) {
+								EnforcementModel.add(ea);
+							} else {
+								// Dirty? Save it.
+							}
+						});
+					}).then(function () {
 						return ArtifactModel.save($scope.ir.artifact);
 					}).then(function () {
-							$state.transitionTo('p.ir.detail', {projectid:project.code, irId:$scope.ir._id}, {
+						$state.go('p.ir.detail', {projectid:project.code, irId:$scope.ir._id}, {
 							reload: true, inherit: false, notify: true
 						});
 					})
@@ -156,6 +167,30 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 						if (ca._id === conditionArtifact._id) {
 							$scope.ir.conditionArtifacts.splice(idx, 1);
 						}
+					});
+				};
+				$scope.openAddEnforcementAction = function () {
+					var modalDocView = $modal.open({
+						animation: true,
+						templateUrl: 'modules/project-irs/client/views/ir-add-action.html',
+						controller: 'controllerAddEditEnforcementActionModal',
+						controllerAs: 'a',
+						scope: $scope,
+						size: 'md'
+					});
+					modalDocView.result.then(function (res) {
+						console.log("res:", res);
+						EnforcementModel.getNew()
+						.then( function (mod) {
+							mod.action = res.action;
+							mod.actionDate = res.actionDate;
+							mod.condition = res.condition;
+							mod.status = res.status;
+							mod.new = true;
+							$scope.ir.enforcementActions.push(mod);
+						});
+					}, function () {
+						//console.log("err");
 					});
 				};
 			}
