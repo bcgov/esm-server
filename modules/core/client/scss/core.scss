@@ -2415,6 +2415,10 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 	padding-bottom: 0;
 }
 
+.bb-custom {
+	padding: 1.5rem;
+}
+
 
 /* DATE PICKER
 Implementing this as a stop-gap solution to a proper control.
@@ -2807,9 +2811,13 @@ form {
 /* LIST (INLINE)
 ------------------------------ */
 .anchor-list {
-	margin-bottom: 0.8rem;
+	margin: 0;
 	padding: 0;
 	list-style-type: none;
+
+	a {
+		text-decoration: underline;
+	}
 
 	li {
 		display: inline;
@@ -2822,10 +2830,10 @@ form {
 		&:first-child::before {
 			content: '';
 		}
+	}
 
-		a {
-			text-decoration: underline;
-		}
+	+ .btn {
+		margin-top: 0.8rem;
 	}
 }
 
@@ -2993,7 +3001,6 @@ form {
 /* PANELS
 ------------------------------ */ 
 .panel-default {
-	
 	> .panel-heading {
 		position: relative;
 		padding: 1.25rem 1.5rem;
@@ -3030,12 +3037,11 @@ form {
 			flex: 0 0 auto;
 
 			.btn {
-				margin-top: 0.7rem;
-				margin-right: 0.7rem;
+				margin-top: 0.6rem;
+				margin-right: 0.6rem;
 				margin-left: -0.25rem;
 				font-weight: bold;
 				background: transparent;
-				border-color: transparent;
 
 				&:hover,
 				&:focus {
@@ -3097,14 +3103,11 @@ $pick-list-active-item-bg: #5cb85c;
 /* SECTION
 ------------------------------ */
 section {
-
 	h2 {
 		margin-top: 0;
 		margin-bottom: 1rem;
 		font-size: 1.6rem;
 		font-weight: bold;
-		line-height: inherit;
-		text-transform: uppercase;
 	}
 }
 
@@ -4403,6 +4406,10 @@ section.project-info {
 	.panel {
 		margin-bottom: 0;
 	}
+}
+
+.detail-panel {
+	padding-bottom: 0;
 }
 
 .detail-row {
