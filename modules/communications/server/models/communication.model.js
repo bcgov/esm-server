@@ -4,6 +4,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 ('Communication', {
 	__audit				: true,
 	__access            : [],
+	__codename          : true,
 
 	//
 	project				: { type:'ObjectId', ref:'Project', default:null, index:true },
@@ -37,6 +38,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 		// from user / contact data...
 		userId: {type: String, default: null}, // actually the user guid, will need for mail outs...
 		displayName: {type: String, default: null},
+		org: {type: String, default: null},
 		viaEmail : { type:Boolean, default: true }, // will set to false if email starts with "none@specified.com" from import
 		viaMail : { type:Boolean, default: false } // will set to true if email starts with "none@specified.com" from import
 	}]

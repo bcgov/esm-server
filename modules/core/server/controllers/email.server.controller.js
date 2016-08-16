@@ -8,7 +8,7 @@ transporter = nodemailer.createTransport(config.mailer.options);
 
 
 var getRecipientEmail = function(email) {
-	if (process.env.MAILER_EMAIL_ID === 'eao.project.2016@gmail.com') {
+	if (process.env.MAILER_SERVICE_PROVIDER === 'gmail') {
 		// just do this in case we want to review that we are sending to the correct user/contact
 		var n = email.split('@', 1)[0];
 		return _.isEmpty(n) ? 'eao.invitee.2016@gmail.com' : 'eao.invitee.2016+' + n + '@gmail.com';
@@ -33,10 +33,41 @@ var sendItem = function(item) {
 				console.log('Failed to send email to recipient ' + item.to.email + ' using mailer options' + JSON.stringify(config.mailer.options, null, 4));
 				reject(new Error(error.toString()));
 			} else {
-				resolve({to: item.to, accepted: _.includes(info.accepted, recipientEmail), rejected: _.includes(info.rejected, recipientEmail), messageId: info.messageId });
+				var result = {to: item.to, accepted: _.includes(info.accepted, recipientEmail), rejected: _.includes(info.rejected, recipientEmail), messageId: info.messageId };
+				console.log('Sent email result: ', JSON.stringify(result));
+				resolve(result);
 			}
 		});
 	});
+};
+
+var sendAll = function(subject, text, html, to, cc, bcc) {
+
+	return new Promise(function(resolve, reject) {
+
+		var mailOptions = {
+			to: to,
+			cc: cc,
+			bcc: bcc,
+			from: config.mailer.from,
+			subject: subject,
+			text: text,
+			html: html
+		};
+
+		transporter.sendMail(mailOptions, function (error, info) {
+			if (error) {
+				//console.log('Failed to send email to recipient ' + item.to.email + ' using mailer options' + JSON.stringify(config.mailer.options, null, 4));
+				console.log('Error email result: ', JSON.stringify(error));
+				reject(new Error(error.toString()));
+			} else {
+				//var result = {to: item.to, accepted: _.includes(info.accepted, recipientEmail), rejected: _.includes(info.rejected, recipientEmail), messageId: info.messageId };
+				console.log('Sent email result: ', JSON.stringify(info));
+				resolve(info);
+			}
+		});
+	});
+
 };
 
 //
@@ -103,5 +134,7 @@ var send = function(req, res) {
 };
 
 module.exports = {
-	send: send
+	send: send,
+	sendItem: sendItem,
+	sendAll: sendAll
 };

@@ -400,4 +400,83 @@ angular.module('artifacts')
 		}
 	};
 })
+.directive ('artifactListChooser', function ($modal, ArtifactModel, _) {
+	return {
+		restrict: 'A',
+		scope: {
+			project: '=',
+			current: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function () {
+				$modal.open ({
+					animation: true,
+					templateUrl: 'modules/artifacts/client/views/artifact-list-chooser.html',
+					controllerAs: 's',
+					size: 'lg',
+					resolve: {
+						items: function (ArtifactModel) {
+							return ArtifactModel.forProject (scope.project._id);
+						}
+					},
+					controller: function ($scope, $modalInstance, items) {
+						var s = this;
+
+						var isArray = _.isArray(scope.current);
+
+						s.items = items;
+						s.selected = scope.current;
+						s.selected = [];
+
+						s.isSelected = function(id) {
+							var item =  _.find(s.selected, function(o) { return o._id === id; });
+							return !_.isEmpty(item);
+						};
+
+						s.select = function(id) {
+							var item =  _.find(s.selected, function(o) { return o._id === id; });
+							if (item) {
+								_.remove(s.selected, function(o) { return o._id === id; });
+							} else {
+								var existingItem = _.find(s.items, function(o) { return o._id === id; });
+								if (!_.isEmpty(existingItem)) {
+									if (isArray) {
+										s.selected.push(existingItem);
+									} else {
+										s.selected = [existingItem];
+									}
+								}
+							}
+						};
+
+						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
+
+						s.ok = function () {
+							$modalInstance.close (s.selected);
+						};
+
+						// if current, then we need to select
+						if (scope.current) {
+							if (isArray) {
+								_.forEach(scope.current, function(o) {
+									s.select(o._id);
+								});
+							} else {
+								s.select(scope.current._id);
+							}
+						}
+					}
+				}).result.then (function (data) {
+					if (_.isArray(scope.current)) {
+						scope.current = data;
+					} else {
+						scope.current = data[0];
+					}
+					//console.log('Artifact List Chooser.selected = ', JSON.stringify(scope.current, 4, null));
+				})
+					.catch (function (err) {});
+			});
+		}
+	};
+})
 ;

@@ -8,6 +8,9 @@ angular.module('communications').factory ('CommunicationModel', function (ModelB
 		},
 		forGroup: function (id) {
 			return this.get ('/api/communication/for/group/'+id);
+		},
+		send: function(model) {
+			return this.put ('/api/communication/for/delivery/'+model._id, model);
 		}
 	});
 	return new Class ();

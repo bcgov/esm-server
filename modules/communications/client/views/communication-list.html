@@ -12,11 +12,11 @@
     </div>
     <div class="panel panel-default">
         <table ng-table="tableParams" show-filter="true" class="communications-table table table-hover vc-table">
-            <tr ng-repeat="o in $data" ui-sref="p.communication.detail({notificationId:o._id})">
+            <tr ng-repeat="o in $data" ui-sref="p.communication.detail({communicationId:o._id})">
                 <td class="name-col" header-class="'name-col'"
                     data-title="'Name'"
                     filter="{'name':'text'}"
-                    sortable="'name'"><a ui-sref="p.communication.detail({notificationId:o._id})">{{o.name}}</a>
+                    sortable="'name'"><a ui-sref="p.communication.detail({communicationId:o._id})">{{o.name}}</a>
                 </td>
                 <td class="artifacts-col" header-class="'artifacts-col'"
                     data-title="'Type'"
@@ -30,7 +30,7 @@
                     sortable="'sent'"></td>
                 <td class="actions-col action-x2" header-class="'actions-col action-x2'">
                     <a class="btn btn-default btn-sm" title="Edit Valued Component" ng-if="true ||project.userCan.createProjectUpdate" ng-click="$event.stopPropagation()"
-                        ui-sref="p.communication.edit({notificationId:o._id})">
+                        ui-sref="p.communication.edit({communicationId:o._id})">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </a>
                      <button class="btn btn-default btn-sm" title="Edit Valued Component">
@@ -38,34 +38,6 @@
                     </button>
                 </td>
             </tr>
-            <!-- PROTOTYPE ROWS -->
-            <tr>
-                <td class="name-col" header-class="'name-col'"
-                    data-title="'Name'"
-                    filter="{'name':'text'}"
-                    sortable="'name'"><a ui-sref="p.communication.detail({notificationId:o._id})">Project Update</a>
-                </td>
-                <td class="artifacts-col" header-class="'artifacts-col'"
-                    data-title="'Type'"
-                    filter="{'type':'text'}"
-                    sortable="'type'">Artifact</td>
-                 <td class="recipients-col" header-class="'recipients-col'"
-                    data-title="'Recipients'"
-                    sortable="'recipients'">10</td>
-                 <td class="sent-col" header-class="'sent-col'"
-                    data-title="'Sent on'"
-                    sortable="'sent'"></td>
-                <td class="actions-col action-x2" header-class="'actions-col action-x2'">
-                    <a class="btn btn-default btn-sm" title="Edit Valued Component" ng-if="true ||project.userCan.createProjectUpdate" ng-click="$event.stopPropagation()"
-                        ui-sref="p.communication.edit({notificationId:o._id})">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </a>
-                    <button class="btn btn-default btn-sm" title="Edit Valued Component">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </button>
-                </td>
-            </tr>
-            <!-- / PROTOTYPE ROWS -->
 
             <tr class="no-records hidden" ng-if="!$data || $data.length === 0">
                 <td colspan="2">
