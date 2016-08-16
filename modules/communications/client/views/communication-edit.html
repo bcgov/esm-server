@@ -72,7 +72,7 @@
     <div class="tab-pane" ng-show="form.curTab === 'recipients'" ng-form="recipientsForm">
         <div class='button-bar'>
             <button type="button" x-add-new-recipient x-project="project" x-current="adhocRecipient" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add New</span></button>
-            <button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add Existing</span></button>
+            <button type="button" x-user-search-chooser x-project="project" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add Existing</span></button>
         </div>
         <div class="panel panel-default">
           <table ng-table="tableParams" show-filter="true" class="communications-table table table-hover vc-table">
