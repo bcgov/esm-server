@@ -4,7 +4,7 @@
 // Model for activity set Base
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.schema.controller')
+module.exports = require ('../../../core/server/controllers/core.schema.controller.js')
 ('Group', {
 	groupId     : { type:Number, default: 0 }, // From ePIC
 	groupName 	: { type:String, default: '' },

@@ -12,21 +12,15 @@
 			</div>
 		</div>
 
-		<!-- <section class="panel panel-default">
+		<section class="panel panel-default">
 			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-hover table-striped">
 				<tr ng-repeat="o in $data" ui-sref="p.ir.detail({irId:o._id})" class="clickable">
-					<td data-title="'Name'"    sortable="'name'"    filter="{'name':'text'}"	>{{o.artifact.name}}</td>
-					<td class="actions-col action-x1" header-class="'actions-col actions-x1'">
-						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.ir.edit({irId:o._id})">
-							<span class="glyphicon glyphicon-pencil"></span>
-						</a>
-						<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="o"></tmpl-permissions-gear>
-					</td>
+					<td data-title="'Name'"    sortable="'name'"    filter="{'name':'text'}">{{o.name}}</td>
 					<tr ng-show="!$data || !$data.length" class="text-center">
 						<td colspan="2">No records found.</td>
 					</tr>
 				</tr>
 			</table>
-		</section> -->
+		</section>
 
 </div>
