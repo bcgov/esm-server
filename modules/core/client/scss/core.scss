@@ -2319,7 +2319,8 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 
 .label {
 	display: inline-block;
-	padding: 0.8rem;
+	padding: 0.3rem;
+	padding-top: 0.35rem;
 	font-size: 1.2rem;
 	font-weight: normal;
 }
@@ -4241,6 +4242,11 @@ section {
 		}
 	}
 }
+
+.enforcement-name {
+	display: block;
+}
+
 
 /* COMMUNCATIONS view
 ------------------------------ */

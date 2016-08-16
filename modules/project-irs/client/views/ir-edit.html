@@ -102,10 +102,37 @@
 					</button>
 				</div>
 			</div>
-			<ul class="list-group no-border">
-				<li class="list-group-item" ng-if="ir.enforcementActions.length == 0">No Actions available</li>
-				<li class="list-group-item" ng-repeat="o in ir.enforcementActions">{{o.name}}</li>
-			</ul>
+			<table class="table table-hover table-striped" ng-table="tableParams" show-filter="false">
+				<tr class="clickable" ui-sref="p.ir.detail({irId:o._id})">
+					<td class="enforcement-col"
+					 	header-class="'enforcement-col'"
+						data-title="'Actions'" 
+						sortable="'name'">
+						<strong class="enforcement-name">Action</strong>
+						<a class="condition-link" href="#">Link to Enforcment Condition</a>
+					</td>
+					<td class="status-col"
+				 		header-class="'status-col'"
+						data-title="'Status'"
+						sortable="'status'">
+						<span class="label label-default">Label</span>
+					</td>
+					<td class="date-col"
+						header-class="actions-col action-x"
+						sortable="'Date'">MMM DD, YYYY</td>
+					<td class="actions-col action-x2" header-class="'actions-col actions-x2'">
+						<a class="btn btn-default btn-sm" ng-click="$event.stopPropagation()">
+							<span class="glyphicon glyphicon-pencil"></span>
+						</a>
+						<a class="btn btn-default btn-sm" ng-click="$event.stopPropagation()">
+							<span class="glyphicon glyphicon-trash"></span>
+						</a>
+					</td>
+					<tr ng-show="!$data || !$data.length">
+						<td colspan="4">No records found.</td>
+					</tr>
+				</tr>
+			</table>
 		</div>
 
 		<div class="form-footer clearfix">
