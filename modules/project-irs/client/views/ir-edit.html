@@ -102,26 +102,29 @@
 					</button>
 				</div>
 			</div>
-			<table ng-table="tableParams" class="table table-hover table-striped">
+			<table ng-table="tableParams" class="enforcement-table table table-hover">
 				<tr class="clickable" ui-sref="p.ir.detail({irId:o._id})" ng-repeat="o in ir.enforcementActions">
 					<td class="enforcement-col"
 						data-title="'Action'" 
 						sortable="'o.action'">
 						<strong class="enforcement-name">{{o.action}}</strong>
-						<a class="condition-link" ui-sref="p.ir.condition({irId:o._id})">{{o.condition}}</a>
+						<a class="condition-link" ui-sref="p.ir.condition({irId:o._id})">Condition Link goes here</a>
 					</td>
 					<td class="status-col"
 				 		header-class="'status-col'"
 						data-title="'Status'"
 						sortable="'status'">
-						<span class="label label-default">{{o.status}}</span>
+						<span class="label"
+							ng-class="{'label-primary': o.status == 'Open',
+							 		   'label-success': o.status == 'Resolved',
+									   'label-default': o.status == 'Recinded'}">{{o.status}}</span>
 					</td>
 					<td class="date-col"
 						header-class="'date-col'"
-						data-title="'Date'"
-						sortable="'date'">{{o.actionDate}}</td>
+						data-title="'Date Issued'"
+						sortable="'date'">{{o.actionDate | date:'MMM dd, yyyy'}}</td>
 					<td class="actions-col action-x2" 
-						header-class="'actions-x2'">
+						header-class="'actions-col action-x2'">
 						<a class="btn btn-default btn-sm" ng-click="$event.stopPropagation()">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>

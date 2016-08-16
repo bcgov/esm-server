@@ -4243,6 +4243,21 @@ section {
 	}
 }
 
+.enforcement-table {
+	.date-col {
+		width: 14rem;
+		text-align: right;
+	}
+
+	.status-col {
+		width: 14rem;
+
+		.label {
+			min-width: 8rem;
+		}
+	}
+}
+
 .enforcement-name {
 	display: block;
 }
