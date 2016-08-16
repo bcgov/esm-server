@@ -40,8 +40,18 @@
 				</div>
 			</div>
 			<div class="row">
+				<div class="col-sm-12 detail-row" ng-if="ir.condition.length > 0">
+					<label>Conditions</label>
+					<ul class="anchor-list">
+						<li ng-repeat="o in ir.conditionArtifacts" ui-sref="p.artifact.view({artifactId:o._id})">
+							<a class="title">{{o.name}}</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
 				<div class="col-sm-12 detail-row">
-					<label>Inspection Template</label>
+					<label>Inspection Record</label>
 					<div class="anchor-list">
 						<a ui-sref="p.artifact.view({artifactId:ir.artifact._id})">{{ir.artifact.name}}</a>
 					</div>
@@ -50,15 +60,6 @@
 		</div>
 	</div>	
 	
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h2>Conditions</h2>
-		</div>
-		<div class="list-group no-border">
-			<div class="list-group-item">No Conditions available</div>
-		</div>
-	</div>
-
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h2>Actions</h2>

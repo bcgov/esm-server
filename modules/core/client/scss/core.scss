@@ -3442,6 +3442,8 @@ section {
 /* TAG LIST 
 ------------------------------ */
 .tag-list {
+	padding: 0;
+
 	&.form-control {
 		min-height: 3.4rem;
 		height: auto;
