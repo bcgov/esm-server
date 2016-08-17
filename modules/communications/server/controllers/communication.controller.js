@@ -51,10 +51,23 @@ module.exports = DBModel.extend ({
 		});
 
 		if (model.personalized) {
-			return EmailController.sendEach(model.subject, '', model.content, recipients);
+			return EmailController.sendEach(model.subject, '', model.content, recipients).
+				then(function(res) {
+				    model.status = 'Sent';
+					model.dateSent = Date.now();
+					return model.save();
+				}).catch(function(err) {
+					//console.log(JSON.stringify(err));
+				});
 		} else {
-
-			return EmailController.sendAll(model.subject, '', model.content, [], [], recipients);
+			return EmailController.sendAll(model.subject, '', model.content, [], [], recipients).
+				then(function(res) {
+					model.status = 'Sent';
+					model.dateSent = Date.now();
+					return model.save();
+				}).catch(function(err) {
+					//console.log(JSON.stringify(err));
+				});
 		}
 	}
 });

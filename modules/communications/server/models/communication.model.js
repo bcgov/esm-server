@@ -32,6 +32,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	personalized        : {type: Boolean, default: false},
 
 	status				: { type:String, enum:['Draft', 'Sent'], default:'Draft' },
+	dateSent 			: {type: Date, default: null},
 
 	// list of recipients
 	recipients: [{
