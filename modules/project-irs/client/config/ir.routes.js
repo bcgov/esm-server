@@ -343,7 +343,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 						size: 'md',
 						resolve: {
 							current: function () {
-								console.log("resolving current:", obj);
+								// console.log("resolving current:", obj);
 								if (!obj) {
 									return EnforcementModel.getNew();
 								} else {
@@ -353,7 +353,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 						}
 					});
 					modalDocView.result.then(function (res) {
-						console.log("res:", res);
+						// console.log("res:", res);
 						if (obj) {
 							_.each($scope.ir.enforcementActions, function (item, idx) {
 								if (item && (obj._id === item._id)) {
@@ -379,6 +379,24 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 								$scope.deleteActionItems.push(item);
 							}
 						}
+					});
+				};
+				$scope.publish = function () {
+					// console.log("publishing ir:", $scope.ir._id);
+					IrModel.publish($scope.ir._id)
+					.then( function () {
+						$state.go('p.ir.detail', {projectid:project.code, irId:$scope.ir._id}, {
+							reload: true, inherit: false, notify: true
+						});
+					});
+				};
+				$scope.unpublish = function () {
+					// console.log("unpublishing ir:", $scope.ir._id);
+					IrModel.unpublish($scope.ir._id)
+					.then( function () {
+						$state.go('p.ir.detail', {projectid:project.code, irId:$scope.ir._id}, {
+							reload: true, inherit: false, notify: true
+						});
 					});
 				};
 			}

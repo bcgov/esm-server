@@ -14,5 +14,13 @@ module.exports = function (app) {
 		.get (routes.setAndRun (Ir, function (model, req) {
 			return model.getForProject (req.params.projectid);
 		}));
+	app.route ('/api/publish/ir/:ir').all (policy ('user'))
+		.put (routes.setAndRun (Ir, function (model, req) {
+		return model.publish (req.Ir);
+	}));
+	app.route ('/api/unpublish/ir/:ir').all (policy ('user'))
+		.put (routes.setAndRun (Ir, function (model, req) {
+		return model.unpublish (req.Ir);
+	}));
 };
 

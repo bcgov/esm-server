@@ -16,6 +16,12 @@ angular.module('irs').factory ('IrModel', function (ModelBase, _) {
 		forProject: function (projectid) {
 			return this.get ('/api/ir/for/project/'+projectid);
 		},
+		publish: function (id) {
+			return this.put('/api/publish/ir/' + id);
+		},
+		unpublish: function (id) {
+			return this.put('/api/unpublish/ir/' + id);
+		},
 	});
 	return new Class ();
 });
