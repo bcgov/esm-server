@@ -3465,6 +3465,7 @@ section {
 		padding: 0.2rem;
 		font-size: 1.2rem;
 		color: #FFF;
+		vertical-align: top;
 	}
 
 	.add-tag {
@@ -3482,7 +3483,7 @@ section {
 	}
 
 	.tag {
-		background: #999;
+		background: $success-bg;
 		border-radius: 4px;
 		box-shadow: 0 1px 1px rgba(0, 0, 0, .075);
 
@@ -5421,14 +5422,16 @@ tmpl-template-render {
 }
 
 
+.custom-select-list {
+	li {
+		display: inline-block;
+		margin-right: 0.4rem;
+		padding-top: 0;
 
-/* PROTOTYPE */
-
-.project-table {
-	.type-col,
-	.region-col,
-	.phase-col,
-	.decision-col {
-		display: none;
+		.btn {
+			padding: 0.4rem 0.8rem;
+			font-size: 1.2rem;
+			font-weight: normal;
+		}
 	}
 }
