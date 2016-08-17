@@ -3446,23 +3446,45 @@ section {
 
 /* TAG LIST 
 ------------------------------ */
-.tag-list {
-	padding: 0;
-
+.tag-list-container {
 	&.form-control {
 		min-height: 3.4rem;
 		height: auto;
+		padding: 0 0.2rem;
+	}
+}
+
+.tag-list {
+	margin: 0;
+	padding: 0;
+
+	.add-tag,
+	.tag {
+		margin: 0.2rem;
+		display: inline-block;
 		padding: 0.2rem;
+		font-size: 1.2rem;
+		color: #FFF;
+	}
+
+	.add-tag {
+		.btn {
+			padding: 0.3rem 0.7rem;
+			font-size: 1.2rem;
+			color: #FFF;
+			background: #CCC;
+
+			&:hover,
+			&:focus {
+				background: #999;
+			}
+		}
 	}
 
 	.tag {
-		display: inline-block;
-		font-size: 1.2rem;
-		color: #FFF;
 		background: #999;
 		border-radius: 4px;
 		box-shadow: 0 1px 1px rgba(0, 0, 0, .075);
-		margin: 0.2rem;
 
 		.tag-name {
 			padding-left: 1rem;
@@ -3472,6 +3494,10 @@ section {
 			padding: 0 0.5rem;
 			background: transparent;
 			border-radius: 2px;
+		}
+
+		+ .add-tag {
+			margin-left: -0.4rem;
 		}
 	}
 }

@@ -47,33 +47,43 @@
 				<div class="row">
 					<div class="col-md-12 form-group">
 						<label class="control-label">Associated Content</label>
-						<ul class="tag-list" ng-if="ir.conditionArtifacts.length > 0">
-							<li class="tag" ng-repeat="o in ir.conditionArtifacts">
-								<span class="tag-name" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</span>
-								<button class="btn" ng-click="removeConditionArtifact(o)"><span aria-hidden="true">×</span></button>
-							</li>
-						</ul>
-						<button class="btn btn-default btn-sm anchor-list-btn"
-							ng-if="project.userCan.createInspectionReport"
-							ng-click="openAddTopic()" type="button" title="Link Project Conditions">+ Add Content
-						</button>
+						<div class="tag-list-container form-control clearfix">
+							<ul class="tag-list">
+								<li class="tag" ng-repeat="o in ir.conditionArtifacts">
+									<span class="tag-name" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</span>
+									<button class="btn" ng-click="removeConditionArtifact(o)"><span aria-hidden="true">×</span></button>
+								</li>
+								<li class="add-tag">
+									<button class="add-btn btn btn-sm"
+										ng-if="project.userCan.createInspectionReport"
+										ng-click="openAddTopic()" type="button" title="Add Associated Content"><span class="glyphicon glyphicon-plus"></span>
+									</button>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12 form-group">
 						<label class="control-label">Conditions</label>
-						<ul class="tag-list form-control" ng-if="ir.conditions.length > 0">
-							<li class="tag" ng-repeat="o in ir.conditions">
-								<span class="tag-name" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</span>
-								<button class="btn" ng-click="removeConditionArtifact(o)"><span aria-hidden="true">×</span></button>
-							</li>
-						</ul>
-						<button class="btn btn-default btn-sm anchor-list-btn" ng-if="project.userCan.createInspectionReport" type="button" title="Link Project Conditions"
-							x-vc-linker
-							x-project="project"
-							x-condition="condition"
-							x-conditions="ir.conditions">+ Add Conditions</span>
-						</button>
+						<div class="tag-list-container form-control clearfix">
+							<ul class="tag-list">
+								<li class="tag" ng-repeat="o in ir.conditions">
+									<span class="tag-name" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</span>
+									<button class="btn" ng-click="removeConditionArtifact(o)"><span aria-hidden="true">×</span></button>
+								</li>
+								<li class="add-tag">
+									<button class="add-btn btn btn-sm" 
+										ng-if="project.userCan.createInspectionReport" 
+										type="button" title="Add Conditions"
+										x-vc-linker
+										x-project="project"
+										x-condition="condition"
+										x-conditions="ir.conditions"><span class="glyphicon glyphicon-plus"></span>
+									</button>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 				<div class="row">
