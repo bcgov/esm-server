@@ -10,15 +10,15 @@ module.exports = function () {
   var data = [];
 
   data.push(new EmailTemplate({
-    subject : '%APP_TITLE%  - You have been invited to participate on project: %PROJECT_NAME%',
+    subject : 'EAO Project Information & Collaboration  - You have been invited to participate on project: %PROJECT_NAME%',
     name : 'invitation',
     code  : 'invitation',
     group : 'Invitation',
-    content : '<p>Hello %TO_NAME%,</p>\n<p>Welcome to <strong>%APP_DESCRIPTION%</strong> (%APP_TITLE%).</p>\n<p>You have been invited to participate on project <strong>%PROJECT_NAME%</strong> by %CURRENT_USER_NAME% ({{%CURRENT_USER_EMAIL%}}).</p>\n<p>Please click the following link to accept the invitation to the project: <a href=\"{{%INVITATION_URL%}}\">{{%PROJECT_NAME%}}</a></p>'
+    content : '<p>Hello %TO_NAME%,</p>\n<p>Welcome to <strong>EAO Project Information & Collaboration</strong>.</p>\n<p>You have been invited to participate on project <strong>%PROJECT_NAME%</strong> by %CURRENT_USER_NAME% ({{%CURRENT_USER_EMAIL%}}).</p>\n<p>Please click the following link to accept the invitation to the project: <a href=\"{{%INVITATION_URL%}}\">{{%PROJECT_NAME%}}</a></p>'
   }));
 
   data.push(new EmailTemplate({
-    subject : '%PROJECT_NAME% Content Update Notice',
+    subject : 'EAO Project Information & Collaboration - %PROJECT_NAME% Content Update Notice',
     name : 'Project Update',
     code  : 'content',
     group : 'Content',
