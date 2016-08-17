@@ -58,7 +58,7 @@
 				<ul class="tag-list">
 					<li class="tag" ng-repeat="o in condition.vcs">
 						<span class="tag-name" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</span>
-						<button class="btn"><span aria-hidden="true">×</span></button>
+						<button class="btn" ng-click="condition.vcs.splice($index, 1)"><span aria-hidden="true">×</span></button>
 					</li>
 					<li class="add-tag">
 						<button class="btn btn-sm" type="button" title="Link Valued Components"
