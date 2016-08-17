@@ -6,14 +6,7 @@
 	
 	<div class="view-body-container">
 
-		<form name="conditionForm" ng-submit="save(conditionForm.$valid)" novalidate>
-
-			<div class="row hidden">
-				<div class="col-sm-12 text-right">
-					<button class="btn btn-xs btn-link" ui-sref="p.projectcondition.list">Cancel</button>
-					<button class="btn btn-xs btn-link" href type="submit">Save</button>
-				</div>
-			</div>
+		<form name="conditionForm">
 
 			<div class="row">
 				<div class="col-sm-4">
@@ -43,7 +36,7 @@
 				<div class="col-sm-12">
 					<div class="form-group">
 						<label for="shortDesc" class="control-label">Condition</label>
-						<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="condition.description" rows=6></textarea>
+						<textarea ui-tinymce rows="5" title="Condition" id="shortDesc" ng-model="condition.description"></textarea>
 					</div>
 				</div>
 			</div>
@@ -51,7 +44,21 @@
 				<div class="col-sm-12">
 					<div class="form-group">
 						<label for="shortDesc" class="control-label">Report Requirements</label>
-						<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="condition.reportRequirements" rows=6></textarea>
+						<textarea ui-tinymce rows="5" title="Report Requirements" id="shortDesc" ng-model="condition.reportRequirements"></textarea>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<label for="shortDesc" class="control-label">Associated Value Components</label>
+						<ul class="anchor-list">
+							<li ng-repeat="o in condition.vcs" ui-sref="p.artifact.view({artifactId:o._id})">
+								<a class="title">{{o.name}}</a>
+							</li>
+						</ul>
+						<button class="btn btn-default btn-sm anchor-list-btn" ng-click="editLinkedVcs()" type="button" title="Link Valued Components">+ Add Content</button>
 					</div>
 				</div>
 			</div>
@@ -68,10 +75,19 @@
 
 				<div class="col-sm-6">
 					<div class="form-group">
-						<label for="stage" class="control-label">Applicable Stages</label>
+						<label for="phase" class="control-label">Phase</label>
 						<div class="well well-sm">
-							<select-array x-source-array="stages" x-selected-array="condition.stages" x-key-string="id" x-value-string="title"></select-array>
+							<select-array x-source-array="phases" x-selected-array="condition.phases" x-key-string="id" x-value-string="title"></select-array>
 						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<label for="stage" class="control-label">Stage</label>
+						<select id="stage" ng-model="condition.stage" class="form-control input-sm" ng-options="stage.id as stage.title for stage in stages"></select>
 					</div>
 				</div>
 			</div>
@@ -80,8 +96,11 @@
 
 			<div class="row">
 				<div class="col-sm-12 text-right">
-					<button class="btn btn-default" ui-sref="p.projectcondition.list">Cancel</button>
-					<button class="btn btn-default" type="submit">Save</button>
+					<button class="btn btn-default" ui-sref="p.projectcondition.detail({conditionId:condition._id})">Cancel</button>
+					<button class="btn btn-danger"
+							ng-if="condition.userCan.delete && edit === true"
+							ng-click="delete()"><span class="glyphicon glyphicon-trash"></span><span>Delete</span></button>
+					<button class="btn btn-primary" ng-disabled="conditionForm.$invalid" ng-click="save()">Save</button>
 				</div>
 			</div>
 		</form>

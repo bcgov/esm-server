@@ -86,6 +86,14 @@ angular
 			'Requirements'
 		]
 	)
+	.constant('PROJECT_CONDITION_PHASES',
+		[
+			'Pre-Construction',
+			'Construction',
+			'Operations',
+			'Decommissioning'
+		]
+	)
 	.constant('PROJECT_TYPES',
 		[
 			'Mining',
