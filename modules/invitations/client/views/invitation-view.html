@@ -1,0 +1,90 @@
+  <div class="view-title-container flex-row">
+    <h1>Project Invitation &nbsp;&rsaquo;&nbsp; {{s.communication.name}}</h1>
+    <div class="actions">
+      <button class="btn btn-default btn-sm" ui-sref="p.invitation.list">Cancel</button>
+      <button class="btn btn-default btn-sm"
+              ng-if="project.userCan.createProjectUpdates"
+              ng-click="$event.stopPropagation()"
+              x-mode="'edit'"
+              ui-sref="p.invitation.edit({communicationId:s.communication._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="view-body-container">
+
+    <ul class="nav nav-tabs" ng-init="form.curTab = 'Update Details'">
+      <li role="presentation" ng-class="{'active':form.curTab === 'Update Details'}" class="form-group">
+        <a ng-click="form.curTab = 'Update Details'" title="Edit Project Update Details" name="detailsForm">
+          <span class="glyphicon glyphicon-exclamation-sign"></span>Update Details</a>
+      </li>
+      <li role="presentation" ng-class="{'active':form.curTab === 'recipients'}" class="form-group">
+        <a ng-click="form.curTab = 'recipients'" title="Edit Project Recipients" name="recipientsForm">
+          <span class="glyphicon glyphicon-exclamation-sign"></span>Recipients ({{recipients.length}})</a>
+      </li>
+    </ul>
+
+    <div class="tab-pane active" ng-show="form.curTab === 'Update Details'" ng-form="detailsForm">
+
+      <div class="form-group" x-show-errors>
+        <label class="control-label">Update Name</label>
+        <input class="form-control" ng-model="s.communication.name" id="name" name="name" title="Name" required disabled />
+      </div>
+
+          <fieldset>
+
+            <div class="form-group" x-show-errors>
+              <label class="control-label">Subject</label>
+              <input disabled class="form-control" ng-model="s.communication.templateSubject" id="subject" name="subject" title="Subject" required></input>
+            </div>
+            <div class="form-group" x-show-errors>
+              <label class="control-label">Message</label>
+              <textarea disabled ui-tinymce="tinymceOptions" type="text"
+                        ng-model="s.communication.templateContent" id="message" name="message" title="Message" required
+                        ng-blur="activeItem = false">
+                </textarea>
+            </div>
+          </fieldset>
+    </div>
+
+    <div class="tab-pane" ng-show="form.curTab === 'recipients'" ng-form="recipientsForm">
+      <div class="panel panel-default">
+        <table ng-table="tableParams" show-filter="true" class="communications-table table table-hover vc-table">
+          <tr ng-repeat="o in $data">
+            <td class="name-col"
+                header-class="'name-col'"
+                data-title="'Name'"
+                filter="{'displayName':'text'}"
+                sortable="'displayName'">{{o.displayName}}
+            </td>
+            <td class="email-col"
+                header-class="'email-col'"
+                data-title="'Email'"
+                filter="{'email':'text'}"
+                sortable="'email'">{{o.email}}
+            </td>
+            <td class="org-col"
+                header-class="'org-col'"
+                data-title="'Organization'"
+                filter="{'org':'text'}"
+                sortable="'org'">{{o.org}}
+            </td>
+          </tr>
+
+          <tr class="no-records hidden" ng-if="!$data || $data.length === 0">
+            <td colspan="2">
+              No records found.
+            </td>
+          </tr>
+
+        </table>
+      </div>
+    </div>
+
+    <div class="form-footer no-border clearfix">
+      <a class="back-btn btn btn-link pull-left" ui-sref="p.invitation.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Project Invitations</a>
+    </div>
+
+  </div>
+
+

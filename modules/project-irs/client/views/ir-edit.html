@@ -93,6 +93,15 @@
 						</ul>
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="control-label">Inspection Record</label>
+					<ul class="anchor-list">
+						<li>
+							<a ui-sref="p.artifact.edit({artifactId:ir.artifact._id})"
+								ng-if="project.userCan.createInspectionReport">{{ir.artifact.name}}</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div><!--/INSPECTION DETAILS -->
 	
@@ -111,6 +120,7 @@
 			<table ng-table="tableParams" class="enforcement-table table table-hover">
 				<tr class="clickable" ui-sref="p.ir.detail({irId:o._id})" ng-repeat="o in ir.enforcementActions">
 					<td class="enforcement-col"
+						header-class="'enforcement-col'"
 						data-title="'Action'" 
 						sortable="'o.action'">
 						<strong class="enforcement-name">{{o.action}}</strong>

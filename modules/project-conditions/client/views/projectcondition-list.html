@@ -17,21 +17,31 @@
 	<section class="panel panel-default">
 		<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-striped table-hover">
 			<tr ng-repeat="o in $data" ui-sref="p.projectcondition.detail({conditionId:o._id})" class="clickable">
-				<td data-title="'Name'"  filter="{'name':'text'}"   sortable="'name'" >{{o.name}}</td>
-				<td data-title="'Subject'" filter="{'subject':'text'}"    sortable="'subject'" >{{o.subject}}</td>
-				<td data-title="'Stage'"   filter="{'stage':'text'}"  sortable="'stage'" >{{o.stage}}</td>
-				<td data-title="'Phases'"   filter="{'phases':'text'}"  sortable="'phases'" >{{o.phases.join(', ')}}</td>
-				<td class="actions-col action-x2" header-class="'actions-col action-x2'">
-					<a class="btn btn-link btn-sm" ng-if="showedit" ng-click="$event.stopPropagation()" ui-sref="p.projectcondition.edit({conditionId:o._id})">
+				<td data-title="'Name'"
+					filter="{'name':'text'}" 
+					sortable="'name'">{{o.name}}</td>
+				<td data-title="'Subject'"
+					filter="{'subject':'text'}"
+					sortable="'subject'">{{o.subject}}</td>
+				<td data-title="'Stage'"
+					filter="{'stage':'text'}"
+					sortable="'stage'">{{o.stage}}</td>
+				<td data-title="'Phases'"
+					filter="{'phases':'text'}"
+					sortable="'phases'">{{o.phases.join(', ')}}</td>
+				<td class="actions-col action-x2" 
+					header-class="'actions-col action-x2'">
+					<a class="btn btn-link btn-sm" 
+						ng-if="showedit" 
+						ng-click="$event.stopPropagation()" 
+						ui-sref="p.projectcondition.edit({conditionId:o._id})">
 						<span class="glyphicon glyphicon-pencil"></span>
 					</a>
 					<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="o"></tmpl-permissions-gear>
 				</td>
 			</tr>
 			<tr ng-if="!$data || $data.length === 0">
-				<td colspan="6">
-					No records found.
-				</td>
+				<td colspan="5">No records found.</td>
 			</tr>
 		</table>
 	</section>
