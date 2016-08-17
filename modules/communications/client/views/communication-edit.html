@@ -19,7 +19,7 @@
 		<ul class="nav nav-tabs" ng-init="form.curTab = 'Update Details'">
 			<li role="presentation" ng-class="{'active':form.curTab === 'Update Details'}" class="form-group" x-show-errors>
 				<a ng-click="form.curTab = 'Update Details'" title="Edit Project Update Details" name="projectUpdateDetailsForm">
-					<span class="glyphicon glyphicon-exclamation-sign"></span>Update Details</a>
+					<span class="glyphicon glyphicon-exclamation-sign"></span>Details</a>
 			</li>
 			<li role="presentation" ng-class="{'active':form.curTab === 'recipients'}" class="form-group" x-show-errors>
 				<a ng-click="form.curTab = 'recipients'" title="Edit Project Recipients" name="recipientsForm">
@@ -31,13 +31,12 @@
 
 			<div class="panel panel-default">
 				<div class="panel-body">
-					
 					<div class="form-group" x-show-errors>
 						<label class="control-label">Name<em class="required">(Required)</em></label>
 						<input class="form-control" ng-model="s.communication.name" id="name" name="name" title="Name" required/>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group no-margin">
 						<label class="control-label">Related Content ({{artifacts.length}})</label>
 						<div class="tag-list-container form-control clearfix">
 							<ul class="tag-list">
@@ -60,7 +59,7 @@
 
 			<div class="panel panel-default">
 				<div class="panel-heading flex-row">
-					<h2>Configure Email</h2>
+					<h2>Configured Email</h2>
 					<div class="actions">
 						<button type="button" class="btn btn-default btn-sm" x-email-template-chooser x-project="project" x-current="emailTemplate">Use Existing Template
             </button>
