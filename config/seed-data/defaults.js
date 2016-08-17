@@ -187,6 +187,8 @@ module.exports = function () {
 			roles: defaultRoles,
 			permissions: {
 				'setPermissions': ['eao-admin'],
+				'publish': ['qa-officer', 'ce-lead'],
+				'unPublish': ['qa-officer', 'ce-lead'],
 				'read': ['intake'],
 				'write': ['intake', 'qa-officer', 'ce-lead', 'ce-officer'],
 				'delete': ['eao-admin']
@@ -203,6 +205,8 @@ module.exports = function () {
 			roles: defaultRoles,
 			permissions: {
 				'setPermissions': ['eao-admin'],
+				'publish': ['qa-officer', 'ce-lead'],
+				'unPublish': ['qa-officer', 'ce-lead'],
 				'read': ['intake'],
 				'write': ['intake', 'qa-officer', 'ce-lead', 'ce-officer'],
 				'delete': ['eao-admin']
@@ -286,6 +290,8 @@ module.exports = function () {
 			roles: defaultRoles,
 			permissions: {
 				'setPermissions': ['eao-admin'],
+				'publish': ['qa-officer', 'ce-lead'],
+				'unPublish': ['qa-officer', 'ce-lead'],
 				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 				'write': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 				'delete': ['eao-admin']
