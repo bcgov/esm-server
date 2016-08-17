@@ -15,7 +15,7 @@
 					<label for="salutation" class="control-label">Salutation</label>
 					<p class="form-control-static">{{ user.salutation }}</p>
 				</div>
-			</div>    
+			</div>
 			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
 					<label for="firstName" class="control-label">First Name</label>
@@ -36,7 +36,7 @@
 			</div>
 		</div>
 	</fieldset>
-	
+
 	<fieldset>
 		<legend>Contact</legend>
 		<div class="row">
@@ -51,7 +51,7 @@
 					<label for="phoneNumber" class="control-label">Phone</label>
 					<p class="form-control-static">{{ user.phoneNumber }}</p>
 				</div>
-			</div>    
+			</div>
 			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
 					<label for="cellPhoneNumber" class="control-label">Mobile</label>
@@ -77,7 +77,7 @@
 					<label for="address2" class="control-label">Street Address 2</label>
 					<p class="form-control-static">{{ user.address2 }}</p>
 				</div>
-			</div>    
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-6 col-md-3">
@@ -85,7 +85,7 @@
 					<label for="city" class="control-label">City</label>
 					<p class="form-control-static">{{ user.city }}</p>
 				</div>
-			</div>    
+			</div>
 			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
 					<label for="province" class="control-label">Province</label>
@@ -106,7 +106,25 @@
 			</div>
 		</div>
 	</fieldset>
+  <fieldset>
+    <legend>Contact Preferences</legend>
+    <div class="row">
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label class="control-label" for="viaEmail">By Email</label>
+          <input disabled="disabled" type="checkbox" ng-model="user.viaEmail" id="viaEmail" />
+        </div>
+      </div>
 
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label class="control-label" for="viaMail">By Mail</label>
+          <input disabled="disabled"  type="checkbox" ng-model="user.viaMail" id="viaMail" />
+        </div>
+      </div>
+
+    </div>
+  </fieldset>	<!-- / CONTACT Preferences -->
 	<fieldset>
 		<legend class="clearfix">Organization</legend>
 		<div class="row">
@@ -115,7 +133,7 @@
 					<label for="orgName" class="control-label">Organization</label>
 					<p class="form-control-static">{{ user.org.name }}</p>
 				</div>
-			</div>    
+			</div>
 			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
 					<label for="department" class="control-label">Department</label>
@@ -127,10 +145,10 @@
 					<label for="title" class="control-label">Title</label>
 					<p class="form-control-static">{{ user.title }}</p>
 				</div>
-			</div>      
+			</div>
 		</div>
 	</fieldset>
-	
+
 	<fieldset>
 		<legend>Additional Information</legend>
 		<div class="row">
@@ -146,5 +164,5 @@
 	<div class="form-footer clearfix">
 		<a class="back-btn btn btn-link pull-left" ui-sref="admin.user.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Users & Contacts</a>
 	</div>
-	
+
 </div>

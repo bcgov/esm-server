@@ -1,10 +1,10 @@
 
 <form class="view-form" name="userForm" ng-submit="save(userForm.$valid)" novalidate>
-	
+
 	<div class="view-title-container flex-row">
-		<h1>Add/Edit User<span ng-show="user.username"> &nbsp;&rsaquo;&nbsp; {{user.username}}<span></h1>
+		<h1>Add/Edit User<span ng-show="user.username"> &nbsp;&rsaquo;&nbsp; {{user.username}}</span></h1>
 		<div class="actions">
-			<button class="btn btn-default btn-sm" ui-sref="admin.user.list">Cancel</button>
+			<button class="btn btn-default btn-sm" ui-sref="admin.user.list" type="button">Cancel</button>
 			<button class="btn btn-primary btn-sm" type="submit">Save</button>
 		</div>
 	</div>
@@ -16,9 +16,9 @@
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group">
 						<label for="salutation" class="control-label">Salutation<em>(Optional)</em></label>
-						<select class="form-control" ng-model="user.salutation" ng-options="sal as sal for sal in salutations"></select>
+						<select id="salutation" class="form-control" ng-model="user.salutation" ng-options="sal as sal for sal in salutations"></select>
 					</div>
-				</div>    
+				</div>
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group" x-show-errors>
 						<label for="firstName" class="control-label">First Name</label>
@@ -57,7 +57,7 @@
 				</div>
 			</div>
 		</fieldset><!-- / USER PROFILE -->
-			
+
 		<div class="row">
 			<div class="col-sm-6 col-md-3 hidden">
 				<div class="form-group">
@@ -66,7 +66,7 @@
 				</div>
 			</div>
 		</div>
-			
+
 		<!-- CONTACT INFO -->
 		<fieldset>
 			<legend>Contact Details</legend>
@@ -85,7 +85,7 @@
 						<label for="phoneNumber" class="control-label">Phone</label>
 						<input class="form-control" placeholder="eg: 123-456-7890" id="phoneNumber" type="text" ng-model="user.phoneNumber">
 					</div>
-				</div>    
+				</div>
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group">
 						<label for="cellPhoneNumber" class="control-label">Mobile</label>
@@ -101,45 +101,65 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-12">
-					<div class="form-group">
+					<div class="form-group" x-show-errors>
 						<label for="address1" class="control-label">Street Address 1</label>
 						<input class="form-control" id="address1" type="text" ng-model="user.address1">
 					</div>
-				</div> 
+				</div>
 				<div class="col-sm-12">
 					<div class="form-group">
 						<label for="address1" class="control-label">Street Address 2</label>
 						<input class="form-control" id="address2" type="text" ng-model="user.address2">
 					</div>
-				</div>     
+				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-6 col-md-3">
-					<div class="form-group">
+					<div class="form-group"x-show-errors>
 						<label for="city" class="control-label">City</label>
 						<input class="form-control" id="city" type="text" ng-model="user.city">
 					</div>
-				</div>    
+				</div>
 				<div class="col-sm-6 col-md-3">
-					<div class="form-group">
+					<div class="form-group" x-show-errors>
 						<label for="province" class="control-label">Province</label>
 						<input class="form-control" id="province" type="text" ng-model="user.province">
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-3">
-					<div class="form-group">
+					<div class="form-group" x-show-errors>
 						<label for="country" class="control-label">Country</label>
 						<input class="form-control" id="country" type="text" ng-model="user.country">
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-3">
-					<div class="form-group">
+					<div class="form-group" x-show-errors>
 						<label for="postalCode" class="control-label">Postal Code</label>
 						<input class="form-control" id="postalCode" type="text" ng-model="user.postalCode">
 					</div>
 				</div>
 			</div>
 		</fieldset>	<!-- / CONTACT INFO -->
+
+    <fieldset>
+      <legend>Contact Preferences</legend>
+      <div class="row">
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label class="control-label" for="viaEmail">By Email</label>
+            <input type="checkbox" ng-model="user.viaEmail" id="viaEmail" />
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label class="control-label" for="viaMail">By Mail</label>
+            <input type="checkbox" ng-model="user.viaMail" id="viaMail" />
+          </div>
+        </div>
+
+      </div>
+    </fieldset>	<!-- / CONTACT Preferences -->
 
 		<!-- ORGANIZATIONAL INFO -->
 		<fieldset>
@@ -148,12 +168,12 @@
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group">
 						<label for="orgName" class="control-label">Organization</label>
-						<select class="form-control"
+						<select id="orgName" class="form-control"
 								ng-model="user.org"
 								ng-sort="name"
 								ng-options="org as org.name for org in orgs track by org._id"></select>
 					</div>
-				</div>    
+				</div>
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group">
 						<label for="department" class="control-label">Department<em>(Optional)</em></label>
@@ -168,7 +188,7 @@
 				</div>
 			</div>
 		</fieldset><!-- / ORGANIZATIONAL INFO -->
-			
+
 		<!-- ADDITIONAL INFO -->
 		<fieldset>
 			<legend>Additional</legend>
