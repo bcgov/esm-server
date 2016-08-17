@@ -20,8 +20,10 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					return CommunicationModel.forProject (project._id);
 				}
 			},
-			controller: function ($scope, $modal, $state, Authentication, NgTableParams, project, communications) {
-				$scope.tableParams = new NgTableParams ({count:10}, {dataset: communications});
+			controller: function ($scope, $modal, $state, Authentication, NgTableParams, _, project, communications) {
+				// let's just filter it out here...
+				var contentCommunications = _.filter(communications, function(o) { return o.type === 'Content'; });
+				$scope.tableParams = new NgTableParams ({count:10}, {dataset: contentCommunications});
 				$scope.project = project;
 				$scope.authentication = Authentication;
 				var self = this;

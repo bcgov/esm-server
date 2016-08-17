@@ -24,10 +24,10 @@
                     sortable="'type'">{{o.type}}</td>
                  <td class="recipients-col" header-class="'recipients-col'"
                     data-title="'Recipients'"
-                    sortable="'recipients'"></td>
+                    sortable="'recipients'">{{o.recipients ? o.recipients.length : 0}}</td>
                  <td class="sent-col" header-class="'sent-col'"
                     data-title="'Sent on'"
-                    sortable="'sent'"></td>
+                    sortable="'sent'">{{ o.dateSent | date : format : timezone }}</td>
                 <td class="actions-col action-x2" header-class="'actions-col action-x2'">
                     <a class="btn btn-default btn-sm" title="Edit Valued Component" ng-if="project.userCan.createProjectUpdates" ng-click="$event.stopPropagation()"
                         ui-sref="p.communication.edit({communicationId:o._id})">
