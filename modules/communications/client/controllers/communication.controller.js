@@ -7,7 +7,7 @@ angular
 		$scope.authentication = Authentication;
 		$scope.mode = mode;
 		// disable the delete button if user doesn't have permission to delete, or the vc is published, or it has related data...
-		$scope.canDelete = project.userCan.deleteProjectUpdates && communication.userCan.delete;
+		$scope.canDelete = $scope.mode === 'edit' && project.userCan.deleteProjectUpdates && communication.userCan.delete;
 
 		var self = this;
 		self.communication = communication;
@@ -15,6 +15,7 @@ angular
 		$scope.emailTemplate = self.communication.emailTemplate;
 		$scope.recipients = angular.copy(self.communication.recipients);
 		$scope.adhocRecipient = undefined;
+		$scope.existingRecipients = [];
 		$scope.artifacts = angular.copy(self.communication.artifacts);
 		$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
 
@@ -28,10 +29,14 @@ angular
 			if ($scope.emailTemplate && $scope.emailTemplate._id) {
 				self.communication.emailTemplate = $scope.emailTemplate._id;
 			}
+
+			//(use angular copy to remove $$hashKey)...
 			// set the artifacts list...
-			self.communication.artifacts = _.forEach($scope.artifacts, function(o) { return o._id; });
+			var theArtifacts = _.forEach($scope.artifacts, function(o) { return o._id; });
+			self.communication.artifacts = angular.copy(theArtifacts);
 			// create a recipient list...
-			self.communication.recipients = $scope.recipients;
+			self.communication.recipients = angular.copy($scope.recipients);
+
 		};
 
 
@@ -74,9 +79,8 @@ angular
 				} else {
 					//DO NOTHING THERE IS NO CHANGES IN THE FORM
 					//console.log('data NOT changed, let my data go!');
-				}					}
-
-
+				}
+			}
 		});
 
 		$scope.$on('$destroy', function () {
@@ -114,10 +118,31 @@ angular
 				}
 			}
 		);
-		$scope.$watch(function(scope) { return scope.recipients; },
+
+		$scope.$watch(function(scope) { return scope.existingRecipients; },
 			function(data) {
-				if (data) {
+				if (data && data.length > 0) {
 					//
+					_.forEach(data, function(user) {
+						var item =  _.find($scope.recipients, function(o) { return o.email === user.email; });
+						if (!item) {
+							var viaEmail = user.viaEmail;
+							var viaMail = user.viaMail;
+							var emailAddress = user.email;
+
+							if (_.startsWith(user.email, "none@specified.com")) {
+								viaEmail = false;
+								viaMail = true;
+								emailAddress = '';
+							}
+							$scope.recipients.push({displayName: user.displayName, email: emailAddress, viaEmail: viaEmail, viaMail: viaMail, userId: user._id, org: user.orgName});
+						}
+					});
+
+					$scope.adhocRecipient = undefined;
+					$scope.existingRecipients = [];
+
+					$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
 				}
 			}
 		);
@@ -130,6 +155,7 @@ angular
 						$scope.recipients.push({displayName: data.name, email: data.email, viaEmail: true, viaMail: false, userId: undefined, org: undefined});
 					}
 					$scope.adhocRecipient = undefined;
+					$scope.existingRecipients = [];
 					$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
 				}
 			}

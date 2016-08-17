@@ -19,7 +19,7 @@ module.exports = DBModel.extend ({
 
 	preprocessAdd : function (model) {
 		var self = this;
-		console.log('Communication.preprocessAdd: ', JSON.stringify(model, null, 4));
+		//console.log('Communication.preprocessAdd: ', JSON.stringify(model, null, 4));
 		return new Promise (function (resolve, reject) {
 
 			model.code = model.name.toLowerCase();
