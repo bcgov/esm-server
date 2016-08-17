@@ -5423,7 +5423,8 @@ tmpl-template-render {
 	}
 }
 
-
+/* CUSTOM 
+----------------------------- */
 .custom-select-list {
 	li {
 		display: inline-block;
@@ -5435,5 +5436,35 @@ tmpl-template-render {
 			font-size: 1.2rem;
 			font-weight: normal;
 		}
+	}
+}
+
+.inline-search-panel {
+	@extend .flex-row;
+	align-items: center;
+
+	.btn {
+		@include flex(0 0 auto);
+		margin-left: 0.5rem;
+		width: 7rem;
+		height: 3.4rem;
+	}
+}
+
+.inline-search-fields {
+	@include flex(1 1 auto);
+	margin: 0 -0.2rem;
+
+	.form-group:nth-last-child(4),
+	.form-group:nth-last-child(4) ~ .form-group {
+		padding: 0 0.2rem;
+		width: 25%;
+		float: left;
+	}
+}
+
+.user-table {
+	tbody {
+		max-height: 30rem;
 	}
 }
