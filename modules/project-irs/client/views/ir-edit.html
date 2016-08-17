@@ -47,7 +47,7 @@
 				<div class="row">
 					<div class="col-md-12 form-group">
 						<label class="control-label">Associated Content</label>
-						<ul class="tag-list form-control" ng-if="ir.conditionArtifacts.length > 0">
+						<ul class="tag-list" ng-if="ir.conditionArtifacts.length > 0">
 							<li class="tag" ng-repeat="o in ir.conditionArtifacts">
 								<span class="tag-name" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</span>
 								<button class="btn" ng-click="removeConditionArtifact(o)"><span aria-hidden="true">×</span></button>
