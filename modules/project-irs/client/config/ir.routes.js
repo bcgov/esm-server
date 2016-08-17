@@ -226,6 +226,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 				$scope.enforcement_status = ENFORCEMENT_STATUS;
 				$scope.canPublish = ir.userCan.publish && !ir.isPublished;
 				$scope.canUnpublish = ir.userCan.unPublish && ir.isPublished;
+				$scope.deleteActionItems = [];
 
 				console.log("ir.userCan:", ir.userCan);
 
@@ -267,6 +268,11 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 						});
 					}).then(function () {
 						return ArtifactModel.save($scope.ir.artifact);
+					}).then(function () {
+						_.each($scope.deleteActionItems, function (item) {
+							// Delete the action items
+							EnforcementModel.deleteId(item._id);
+						});
 					}).then(function () {
 						$state.go('p.ir.detail', {projectid:project.code, irId:$scope.ir._id}, {
 							reload: true, inherit: false, notify: true
@@ -326,6 +332,19 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 						});
 					}, function () {
 						//console.log("err");
+					});
+				};
+				$scope.deleteAction = function (obj) {
+					console.log("$scope.ir:", $scope.ir.enforcementActions);
+					_.each($scope.ir.enforcementActions, function (item, idx) {
+						if (item && (obj._id === item._id)) {
+							$scope.ir.enforcementActions.splice(idx, 1);
+							// If this was a recently added item, it hasn't been
+							// peristed to the DB yet.  So no need to fully delete on "save"
+							if (!item.new) {
+								$scope.deleteActionItems.push(item);
+							}
+						}
 					});
 				};
 			}
