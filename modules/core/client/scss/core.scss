@@ -4270,16 +4270,20 @@ section {
 }
 
 .enforcement-table {
+	.enforcement-col {
+		padding-left: 1.5rem;
+	}
+	
 	.date-col {
-		width: 14rem;
-		text-align: right;
+		width: 11rem;
+		padding-right: 1.5rem;
 	}
 
 	.status-col {
-		width: 14rem;
+		width: 12rem;
 
 		.label {
-			min-width: 8rem;
+			min-width: 7rem;
 		}
 	}
 }

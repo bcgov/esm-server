@@ -63,39 +63,35 @@
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-12 form-group">
-						<label class="control-label">Conditions</label>
-						<div class="tag-list-container form-control clearfix">
-							<ul class="tag-list">
-								<li class="tag" ng-repeat="o in ir.conditions">
-									<span class="tag-name" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</span>
-									<button class="btn" ng-click="removeConditionArtifact(o)"><span aria-hidden="true">×</span></button>
-								</li>
-								<li class="add-tag">
-									<button class="add-btn btn btn-sm" 
-										ng-if="project.userCan.createInspectionReport" 
-										type="button" title="Add Conditions"
-										x-vc-linker
-										x-project="project"
-										x-condition="condition"
-										x-conditions="ir.conditions"><span class="glyphicon glyphicon-plus"></span>
-									</button>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<label class="control-label">Inspection Record</label>
-						<ul class="anchor-list">
-							<li>
-								<a ui-sref="p.artifact.edit({artifactId:ir.artifact._id})"
-									ng-if="project.userCan.createInspectionReport">{{ir.artifact.name}}</a>
+				<div class="form-group">
+					<label class="control-label">Conditions</label>
+					<div class="tag-list-container form-control clearfix">
+						<ul class="tag-list">
+							<li class="tag" ng-repeat="o in ir.conditions">
+								<span class="tag-name" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</span>
+								<button class="btn" ng-click="removeConditionArtifact(o)"><span aria-hidden="true">×</span></button>
+							</li>
+							<li class="add-tag">
+								<button class="add-btn btn btn-sm" 
+									ng-if="project.userCan.createInspectionReport" 
+									type="button" title="Add Conditions"
+									x-vc-linker
+									x-project="project"
+									x-condition="condition"
+									x-conditions="ir.conditions"><span class="glyphicon glyphicon-plus"></span>
+								</button>
 							</li>
 						</ul>
 					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">Inspection Record</label>
+					<ul class="anchor-list">
+						<li>
+							<a ui-sref="p.artifact.edit({artifactId:ir.artifact._id})"
+								ng-if="project.userCan.createInspectionReport">{{ir.artifact.name}}</a>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div><!--/INSPECTION DETAILS -->
@@ -115,6 +111,7 @@
 			<table ng-table="tableParams" class="enforcement-table table table-hover">
 				<tr class="clickable" ui-sref="p.ir.detail({irId:o._id})" ng-repeat="o in ir.enforcementActions">
 					<td class="enforcement-col"
+						header-class="'enforcement-col'"
 						data-title="'Action'" 
 						sortable="'o.action'">
 						<strong class="enforcement-name">{{o.action}}</strong>
