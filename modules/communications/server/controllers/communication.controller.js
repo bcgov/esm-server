@@ -45,10 +45,16 @@ module.exports = DBModel.extend ({
 
 	deliver: function(model) {
 		var emailList = _.filter(model.recipients, function(o) { return o.viaEmail; });
-		var bcc = _.forEach(emailList, function(o) {
-			return {name: o.displayName, address: o.email};
+		var recipients = [];
+		_.forEach(emailList, function(o) {
+			recipients.push({name: o.displayName, address: o.email});
 		});
 
-		return EmailController.sendAll(model.templateSubject, model.templateContent, model.templateContent, [], [], bcc);
+		if (model.personalized) {
+			return EmailController.sendEach(model.subject, '', model.content, recipients);
+		} else {
+
+			return EmailController.sendAll(model.subject, '', model.content, [], [], recipients);
+		}
 	}
 });

@@ -20,6 +20,38 @@ angular
 		$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
 
 
+		var transformTemplate = function() {
+			var artifactHtml = '';
+			_.forEach($scope.artifacts, function(item) {
+				var url = window.location.origin + '/p/' + $scope.project.code + '/artifact/' + item._id + '/view';
+				var li = "<li><a href='" + url + "'>" + item.name + "</a></li>";
+				if (_.isEmpty(artifactHtml)) {
+					artifactHtml = '<ul>';
+				}
+				artifactHtml += li;
+			});
+			if (!_.isEmpty(artifactHtml)) {
+				artifactHtml += '</ul>';
+			}
+
+			var subject = !_.isEmpty(self.communication.templateSubject) ? self.communication.templateSubject : '';
+			subject = subject.replace('%PROJECT_NAME%', $scope.project.name);
+			subject = subject.replace('%CURRENT_USER_NAME%', $scope.authentication.user.displayName);
+			subject = subject.replace('%CURRENT_USER_EMAIL%', $scope.authentication.user.email);
+
+			var content = !_.isEmpty(self.communication.templateContent) ? self.communication.templateContent : '';
+			content = content.replace('%RELATED_CONTENT%', artifactHtml);
+			content = content.replace('%PROJECT_NAME%', $scope.project.name);
+			content = content.replace('%CURRENT_USER_NAME%', $scope.authentication.user.displayName);
+			content = content.replace('%CURRENT_USER_EMAIL%', $scope.authentication.user.email);
+
+			return {
+				subject : subject,
+				content: content,
+				personalized: subject.includes("%TO_EMAIL%") || subject.includes("%TO_NAME%") || content.includes("%TO_EMAIL%") || content.includes("%TO_NAME%")
+			};
+		};
+
 		var populateCommunication = function() {
 			// call this before save...
 			//
@@ -37,6 +69,10 @@ angular
 			// create a recipient list...
 			self.communication.recipients = angular.copy($scope.recipients);
 
+			var xformEmail = transformTemplate();
+			self.communication.subject = xformEmail.subject;
+			self.communication.content = xformEmail.content;
+			self.communication.personalized = xformEmail.personalized;
 		};
 
 
@@ -251,7 +287,7 @@ angular
 						return CommunicationModel.send(saveRes);
 					})
 					.then(function(sendRes) {
-						$scope.showSuccess('"'+ communication.name +'"' + ' was sent successfully.', goToList, 'Send Success');
+						$scope.showSuccess('"'+ communication.name +'"' + ' was sent successfully.', reloadEdit, 'Send Success');
 					})
 					.catch(function(errRes) {
 						$scope.showError('"'+ communication.name +'"' + ' was not sent.', [], reloadEdit, 'Send Error');

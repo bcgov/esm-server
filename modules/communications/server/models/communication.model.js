@@ -23,6 +23,10 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	templateSubject     : { type: String, default:null },
 	templateContent     : { type: String, default:null },
 	templateData        : {},
+
+	subject             : { type: String, default:null },
+	content             : { type: String, default:null },
+
 	// is this template to be applied per person?
 	// ie. contains personal substitutions from the recipient list?
 	personalized        : {type: Boolean, default: false},
