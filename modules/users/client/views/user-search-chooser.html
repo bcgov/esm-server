@@ -1,70 +1,86 @@
 <div class="modal-header">
-	<button type="button" class="btn btn-default close" ng-click="s.cancel()">
+  <button type="button" class="btn btn-default close" ng-click="s.cancel()">
     <span aria-hidden="true">&times;</span>
   </button>
-	<h3 class="modal-title">Add Existing Recipient(s)</h3>
+  <h3 class="modal-title">Add Existing Recipient(s)</h3>
 </div>
 
 <div class="modal-body">
 
-	<!-- HEADER TEMPLATE -->
-	<script type="text/ng-template" id="headerCheckbox.html">
-    	<input type="checkbox" ng-model="demo.checkboxes.checked" class="select-all" value="" />
-  	</script>
-	<!-- / HEADER TEMPLATE -->
+  <!-- HEADER TEMPLATE -->
+  <script type="text/ng-template" id="headerCheckbox.html">
+    <input type="checkbox" ng-model="demo.checkboxes.checked" class="select-all" value=""/>
+  </script>
+  <!-- / HEADER TEMPLATE -->
 
-	<div class="panel panel-default no-margin">
+  <div class="panel panel-default no-margin">
 
-		<div class="search-panel">
-			<div class="form-group">
-				<label class="contro-label">Name</label>
-				<input class="form-control" type="text"></input>
-			</div>
-			<div class="form-group">
-				<label class="contro-label">Email</label>
-				<input class="form-control" type="email"></input>
-			</div>
-			<div class="form-group">
-				<label class="contro-label">Organization</label>
-				<input class="form-control" type="email"></input>
-			</div>
-			<div class="form-group">
-				<label class="contro-label">Project Group</label>
-				<select class="form-control">
-					<option>Project Gropu</option>
-				</select>
-			</div>
-			<div class="form-group"><button class="btn btn-primary btn-sm">FIND</button></div>
-		</div>
+    <div class="search-panel">
+      <div class="form-group">
+        <label class="contro-label">Name</label>
+        <input class="form-control" type="text" ng-model="s.name"></input>
+      </div>
+      <div class="form-group">
+        <label class="contro-label">Email</label>
+        <input class="form-control" type="text" ng-model="s.email"></input>
+      </div>
+      <div class="form-group">
+        <label class="contro-label">Organization</label>
+        <input class="form-control" type="text" ng-model="s.org"></input>
+      </div>
+      <div class="form-group">
+        <label class="contro-label">Project Group</label>
+        <select class="form-control" name="groupId" ng-model="s.groupId">
+          <option ng-repeat="option in s.groups" ng-value="option.id">{{option.title}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary btn-sm" ng-click="s.search()">FIND</button>
+      </div>
+    </div>
 
-		<!-- Show this DIV if we are waiting on results -->
-		<div class="loading"></div>
+    <!-- Show this DIV if we are waiting on results -->
+    <div class="loading" ng-show="s.searching"></div>
 
-		<!-- Table must be filterable -->
-		<table class="recipients-table table table-hover" ng-table="tableParams" show-filter="false">
-			<tr>
-				<td class="checkbox-col" header-class="'checkbox-col'" header="'headerCheckbox.html'"><input type="checkbox" value="" />
-				</td>
-				<td class="name-col" header-class="'name-col'" data-title="'Name'" filter="{'name':'text'}" sortable="'name'">Recipient Name
-				</td>
-				<td class="email-col" header-class="'email-col'" data-title="'Email'" filter="{'email':'text'}" sortable="'email'">recipient@email.com
-				</td>
-				<td class="org-col" header-class="'org-col'" data-title="'Organization'" filter="{'organization':'text'}" sortable="'organization'">Organization
-				</td>
-				<td class="type-col" header-class="'type-col'" data-title="'Type'" filter="{'type':'select'}" sortable="'type'">Type
-				</td>
-				<td class="actions-col action-x1" header-class="'actions-col action-x1'" data-title="''">
-					<button class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-remove"></span>
-          </button>
-				</td>
-			</tr>
-		</table>
-	</div>
+    <!-- Table must be filterable -->
+
+    <table ng-table="tableParams" show-filter="true" class="recipients-table table table-hover">
+      <tr ng-repeat="o in $data">
+        <td class="checkbox-col" header-class="'checkbox-col'" header="'ng-table/headers/checkbox.html'">
+          <input type="checkbox" ng-model="checkboxes.items[o._id]" />
+        </td>
+        <td class="name-col" header-class="'name-col'"
+            data-title="'Name'"
+            filter="{'displayName':'text'}"
+            sortable="'displayName'">{{o.displayName}}</a>
+        </td>
+        <td class="name-col" header-class="'name-col'"
+            data-title="'Email'"
+            filter="{'email':'text'}"
+            sortable="'email'">{{o.email}}</a>
+        </td>
+        <td class="name-col" header-class="'name-col'"
+            data-title="'Organization'"
+            filter="{'orgName':'text'}"
+            sortable="'orgName'">{{o.orgName}}</a>
+        </td>
+      </tr>
+
+      <tr class="no-records hidden" ng-if="!$data || $data.length === 0">
+        <td colspan="2">
+          No records found.
+        </td>
+      </tr>
+    </table>
+  </div>
 
 </div>
 
 <div class="modal-footer">
-	<button type="button" class="btn btn-default" ng-click="s.cancel()">Cancel</button>
-	<button type="button" class="btn btn-primary" ng-click="s.ok()">Add</button>
+  <button type="button" class="btn btn-default" ng-click="s.cancel()">Cancel</button>
+  <button type="button" class="btn btn-primary" ng-click="s.ok()">Add</button>
 </div>
+<!-- this is actually what we watch to check/uncheck all checkboxes -->
+<script type="text/ng-template" id="ng-table/headers/checkbox.html">
+  <input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox" value="" />
+</script>
