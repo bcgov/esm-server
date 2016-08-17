@@ -260,6 +260,22 @@ module.exports = function () {
 			}
 		}
 	}));
+	
+	defaultsArray.push(new Defaults({
+		context: 'project',
+		resource: 'projectcondition',
+		level: 'global',
+		type: 'default-permissions',
+		defaults: {
+			roles: defaultRoles,
+			permissions: {
+				'setPermissions': ['eao-admin'],
+				'read': ['eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer'],
+				'write': ['eao-admin', 'intake', 'lead', 'team', 'epd', 'qa-officer', 'ce-lead', 'ce-officer'],
+				'delete': ['eao-admin']
+			}
+		}
+	}));
 
 	defaultsArray.push(new Defaults({
 		context: 'project',

@@ -8,8 +8,8 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	__audit 			: true,
 	// __access 			: ['listEnforcements'],
 	__tracking 			: true,
-	action				: { type:String, 		default: '' },
+	action				: { type:String, 		default: 'Warning' },
 	condition			: { type:'ObjectId', 	default: null },
-	status				: { type:String, 		default: '' },
+	status				: { type:String, 		default: 'Open' },
 	date				: { type:Date, 		default: null }
 });

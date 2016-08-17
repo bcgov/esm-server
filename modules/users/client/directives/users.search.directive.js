@@ -1,81 +1,123 @@
 'use strict';
 
-angular.module ('users')
-	.directive ('userSearchChooser', function ($modal, NgTableParams, UserModel, _) {
+angular.module('users')
+	.directive('userSearchChooser', function ($filter, $modal, NgTableParams, GroupModel, UserModel, _) {
 		return {
 			restrict: 'A',
 			scope: {
 				project: '=',
 				destination: '='
 			},
-			link : function(scope, element, attrs) {
+			link: function (scope, element, attrs) {
 				element.on('click', function () {
-					$modal.open ({
+					$modal.open({
 						animation: true,
 						templateUrl: 'modules/users/client/views/user-search-chooser.html',
 						size: 'lg',
-						resolve: { },
+						resolve: {
+							projectGroups: function () {
+								return GroupModel.forProject(scope.project._id);
+							}
+						},
 						controllerAs: 's',
-						controller: function ($scope, $modalInstance) {
+						controller: function ($filter,$scope, $modalInstance, projectGroups) {
 							var s = this;
 
 							var isArray = _.isArray(scope.destination);
 
-							s.items = [];
-							s.selected = [];
+							s.groups = [];
+							_.forEach(projectGroups, function (o) {
+								var item = _.find(s.groups, function (g) {
+									return g.id === o.groupId;
+								});
+								if (!item) {
+									s.groups.push({id: o.groupId, title: o.groupName});
+								}
+							});
+							s.groups.push({id: '', title: ''});
 
-							s.name = 'jason';
-							s.email = '@gmail.com';
-							s.org = 'EAO';
+							s.searching = false;
+
+							// search params...
+							s.name = undefined;
+							s.email = undefined;
+							s.org = undefined;
 							s.groupId = undefined;
 
-							$scope.tableParams = new NgTableParams ({count:10}, {dataset: s.items});
+							$scope.userList = [];
+							$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.userList});
 
-							s.isSelected = function(id) {
-								var item =  _.find(s.selected, function(o) { return o._id === id; });
-								return !_.isEmpty(item);
-							};
+							$scope.checkboxes = { 'checked': false, items: {} };
 
-							s.select = function(id) {
-								var item =  _.find(s.selected, function(o) { return o._id === id; });
-								if (item) {
-									_.remove(s.selected, function(o) { return o._id === id; });
-								} else {
-									var existingItem = _.find(s.items, function(o) { return o._id === id; });
-									if (!_.isEmpty(existingItem)) {
-										if (isArray) {
-											s.selected.push(existingItem);
-										} else {
-											s.selected = [existingItem];
-										}
+							// watch for check all checkbox
+							$scope.$watch('checkboxes.checked', function(value) {
+								angular.forEach($scope.userList, function(item) {
+									if (angular.isDefined(item._id)) {
+										$scope.checkboxes.items[item._id] = value;
+									}
+								});
+							});
+
+							// watch for data checkboxes
+							$scope.$watch('checkboxes.items', function(values) {
+								if (!$scope.userList) {
+									return;
+								}
+								var checked = 0, unchecked = 0, total = $scope.userList.length;
+								angular.forEach($scope.userList, function(item) {
+									checked   +=  ($scope.checkboxes.items[item._id]) || 0;
+									unchecked += (!$scope.checkboxes.items[item._id]) || 0;
+								});
+								if ((unchecked === 0) || (checked === 0)) {
+									$scope.checkboxes.checked = (checked === total);
+									if (total === 0) {
+										$scope.checkboxes.checked = false;
 									}
 								}
-							};
+								// grayed checkbox
+								angular.element(document.getElementById("select_all")).prop("indeterminate", (checked !== 0 && unchecked !== 0));
+							}, true);
 
-							s.cancel = function () { $modalInstance.dismiss ('cancel'); };
+
+							s.cancel = function () {
+								$modalInstance.dismiss('cancel');
+							};
 
 							s.ok = function () {
-								$modalInstance.close (s.selected);
+								// gather up the selected ones...
+								var selected = [];
+								angular.forEach($scope.userList, function(item) {
+									if ($scope.checkboxes.items[item._id])
+										selected.push(item);
+								});
+
+								$modalInstance.close(selected);
 							};
 
-							s.search = function() {
-								s.items = [];
+							s.search = function () {
+								s.searching = true;
+								$scope.userList = [];
 								UserModel.search(s.name, s.email, s.org, s.groupId)
-									.then(function(res) {
-										s.items = res;
-										$scope.tableParams = new NgTableParams ({count:10}, {dataset: s.items});
-									});
+									.then(function (res) {
+										$scope.userList = res;
+										$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.userList});
+										s.searching = false;
+										$scope.$apply();
+									}).catch(function (err) {
+									s.searching = false;
+								});
 							};
 
 						}
-					}).result.then (function (data) {
+					}).result.then(function (data) {
 						if (_.isArray(scope.destination)) {
 							scope.destination = data;
 						} else {
 							scope.destination = data[0];
 						}
 					})
-						.catch (function (err) {});
+						.catch(function (err) {
+						});
 				});
 			}
 		};

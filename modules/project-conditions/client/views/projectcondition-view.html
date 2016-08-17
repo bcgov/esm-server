@@ -1,12 +1,5 @@
-<h1 class="page-title no-lower-margin">
-	{{project.name}}: Condition
-</h1>
-
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="p.projectcondition.list">Cancel</a>
-		<a class="btn btn-xs btn-link" ui-sref="p.projectcondition.edit({conditionId:condition._id})">Edit</a>
-	</div>
+<div class="view-title-container">
+	<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>{{condition.name}}</h1>
 </div>
 
 <div class="panel panel-default">
@@ -49,6 +42,19 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label for="shortDesc" class="control-label">Associated Value Components</label>
+					<ul class="anchor-list">
+						<li ng-repeat="o in condition.vcs" ui-sref="p.vc.detail({vcId:o._id})">
+							<a class="title">{{o.name}}</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
 
 		<div class="row">
 			<div class="col-sm-6">
@@ -59,22 +65,33 @@
 					</div>
 				</div>
 			</div>
-
+			
 			<div class="col-sm-6">
 				<div class="form-group">
-					<label for="stage" class="control-label">Applicable Stages</label>
+					<label for="stage" class="control-label">Phase</label>
 					<div class="well well-sm">
-						<display-array x-source-array="stages" x-selected-array="condition.stages" x-key-string="id" x-value-string="title"></display-array>
+						<display-array x-source-array="phases" x-selected-array="condition.phases" x-key-string="id" x-value-string="title"></display-array>
 					</div>
 				</div>
 			</div>
 		</div>
 
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label for="stage" class="control-label">Stage</label>
+					<div class="form-control-static" ng-bind-html="condition.stage"></div>
+				</div>
+			</div>
+		</div>
+		
 		<hr>
 
 		<div class="text-right">
-			<a class="btn btn-default" ui-sref="p.projectcondition.list">Cancel</a>
-			<a ng-if="showedit" class="btn btn-default" ui-sref="p.projectcondition.edit({conditionId:condition._id})">Edit</a>
+			<button class="btn btn-default" ui-sref="p.projectcondition.list">Cancel</button>
+			<button ng-if="project.userCan.publish && !condition.isPublished" class="btn btn-default" ng-click="publish()">Publish</button>
+			<button ng-if="project.userCan.unPublish && condition.isPublished" class="btn btn-default" ng-click="unpublish()">Unpublish</button>
+			<button ng-if="project.userCan.createProjectCondition" class="btn btn-primary" ui-sref="p.projectcondition.edit({conditionId:condition._id})">Edit</button>
 		</div>
 
 	</div>

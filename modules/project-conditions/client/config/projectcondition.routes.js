@@ -48,13 +48,18 @@ angular.module('projectconditions').config(['$stateProvider', 'RELEASE', functio
 						return {id:e,title:e};
 					});
 				},
+				phases: function(PROJECT_CONDITION_PHASES) {
+					return PROJECT_CONDITION_PHASES.map (function (e) {
+						return {id:e,title:e};
+					});
+				},
 				projecttypes: function (PROJECT_TYPES) {
 					return PROJECT_TYPES.map (function (e) {
 						return {id:e,title:e};
 					});
 				},
 				stages: function (CE_STAGES) {
-					return CE_STAGES.map (function (e) {
+					return ['Draft', 'Certified'].map (function (e) {
 						return {id:e,title:e};
 					});
 				}
@@ -69,10 +74,11 @@ angular.module('projectconditions').config(['$stateProvider', 'RELEASE', functio
 		.state('p.projectcondition.list', {
 			url: '/list',
 			templateUrl: 'modules/project-conditions/client/views/projectcondition-list.html',
-			controller: function ($scope, NgTableParams, conditions, project, pillars, projecttypes, stages) {
+			controller: function ($scope, NgTableParams, conditions, project, pillars, phases, projecttypes, stages) {
 				$scope.ptypes = projecttypes;
 				$scope.stypes = stages;
 				$scope.pillars = pillars;
+				$scope.phases = phases;
 				$scope.project = project;
 				$scope.show_filter = false;
 				$scope.tableParams = new NgTableParams ({count:10}, {dataset: conditions});
@@ -92,18 +98,26 @@ angular.module('projectconditions').config(['$stateProvider', 'RELEASE', functio
 					return ProjectConditionModel.getNew ();
 				}
 			},
-			controller: function ($scope, $state, project, condition, ProjectConditionModel, TopicModel, pillars, projecttypes, stages, codeFromTitle) {
+			controller: function ($scope, $state, _, Utils, project, condition, ProjectConditionModel, TopicModel, pillars, phases, projecttypes, stages, codeFromTitle, VcModel) {
 				condition.project = project._id;
 				$scope.condition = condition;
 				$scope.project = project;
 				$scope.sectors = projecttypes;
 				$scope.pillars = pillars;
-				$scope.stages  = stages;
-				$scope.save = function (isValid) {
-					if (!isValid) {
-						$scope.$broadcast('show-errors-check-validity', 'conditionForm');
-						return false;
-					}
+				$scope.phases = phases;
+				$scope.stages = stages;
+				
+				$scope.editLinkedVcs = function() {
+					VcModel.forProject(project._id)
+						.then(function (data) {
+							return Utils.openEntitySelectionModal(data, 'name', condition.vcs);
+						})
+						.then(function(selectedVcs) {
+							condition.vcs = selectedVcs;
+						});
+				};
+				
+				$scope.save = function () {
 					$scope.condition.code = codeFromTitle ($scope.condition.name);
 					ProjectConditionModel.add ($scope.condition)
 					.then (function (model) {
@@ -113,7 +127,6 @@ angular.module('projectconditions').config(['$stateProvider', 'RELEASE', functio
 					})
 					.catch (function (err) {
 						console.error (err);
-						alert (err);
 					});
 				};
 			}
@@ -131,28 +144,54 @@ angular.module('projectconditions').config(['$stateProvider', 'RELEASE', functio
 					return ProjectConditionModel.getModel ($stateParams.conditionId);
 				}
 			},
-			controller: function ($scope, $state, condition, project, ProjectConditionModel, TopicModel, pillars, projecttypes, stages, codeFromTitle) {
+			controller: function ($scope, $state, _, Utils, condition, project, ProjectConditionModel, TopicModel, pillars, phases, projecttypes, stages, codeFromTitle, VcModel) {
 				$scope.condition = condition;
 				$scope.project = project;
 				$scope.sectors = projecttypes;
 				$scope.pillars = pillars;
-				$scope.stages  = stages;
-				$scope.save = function (isValid) {
-					if (!isValid) {
-						$scope.$broadcast('show-errors-check-validity', 'conditionForm');
-						return false;
-					}
-					$scope.condition.code = codeFromTitle ($scope.condition.name);
-					ProjectConditionModel.save ($scope.condition)
-					.then (function (model) {
-						$state.transitionTo('p.projectcondition.list', {projectid:project.code}, {
-							reload: true, inherit: false, notify: true
+				$scope.phases = phases;
+				$scope.stages = stages;
+				
+				$scope.edit = true;
+				
+				_.each(condition.vcs, function (item, key) {
+					VcModel.lookup(item)
+						.then( function (o) {
+							condition.vcs[key] = o;
+							$scope.$apply();
 						});
-					})
-					.catch (function (err) {
-						console.error (err);
-						alert (err);
-					});
+				});
+				
+				$scope.editLinkedVcs = function() {
+					VcModel.forProject(project._id)
+						.then(function (data) {
+							return Utils.openEntitySelectionModal(data, 'name', condition.vcs);
+						})
+						.then(function (selectedVcs) {
+							condition.vcs = selectedVcs;
+						});
+				};
+				
+				$scope.save = function () {
+					$scope.condition.code = codeFromTitle($scope.condition.name);
+					ProjectConditionModel.save($scope.condition)
+						.then(function (model) {
+							$state.transitionTo('p.projectcondition.list', {projectid: project.code}, {
+								reload: true, inherit: false, notify: true
+							});
+						})
+						.catch(function (err) {
+							console.error(err);
+						});
+				};
+				
+				$scope.delete = function () {
+					ProjectConditionModel.deleteId($scope.condition._id)
+						.then(function () {
+							$state.go('p.projectcondition.list', {projectid:project.code}, {
+								reload: true, inherit: false, notify: true
+							});
+						});
 				};
 			}
 		})
@@ -171,12 +210,39 @@ angular.module('projectconditions').config(['$stateProvider', 'RELEASE', functio
 					return ProjectConditionModel.getModel ($stateParams.conditionId);
 				}
 			},
-			controller: function ($scope, condition, project, pillars, projecttypes, stages) {
+			controller: function ($scope, $state, _, condition, project, ProjectConditionModel, pillars, phases, projecttypes, stages, VcModel) {
 				$scope.sectors = projecttypes;
 				$scope.pillars = pillars;
+				$scope.phases = phases;
 				$scope.stages  = stages;
 				$scope.condition = condition;
 				$scope.project = project;
+				
+				_.each(condition.vcs, function (item, key) {
+					VcModel.lookup(item)
+						.then( function (o) {
+							condition.vcs[key] = o;
+							$scope.$apply();
+						});
+				});
+				
+				$scope.publish = function() {
+					ProjectConditionModel.publish($scope.condition._id)
+						.then(function() {
+							$state.go('p.projectcondition.list', {projectid:project.code}, {
+								reload: true, inherit: false, notify: true
+							});
+						});
+				};
+				
+				$scope.unpublish = function() {
+					ProjectConditionModel.unpublish($scope.condition._id)
+						.then(function() {
+							$state.go('p.projectcondition.list', {projectid:project.code}, {
+								reload: true, inherit: false, notify: true
+							});
+						});
+				};
 			}
 		});
 }

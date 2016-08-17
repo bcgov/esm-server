@@ -8,7 +8,7 @@ transporter = nodemailer.createTransport(config.mailer.options);
 
 
 var getRecipientEmail = function(email) {
-	if (process.env.MAILER_SERVICE_PROVIDER === 'gmail') {
+	if (config.mailer.options === 'gmail') {
 		// just do this in case we want to review that we are sending to the correct user/contact
 		var n = email.split('@', 1)[0];
 		return _.isEmpty(n) ? 'eao.invitee.2016@gmail.com' : 'eao.invitee.2016+' + n + '@gmail.com';
@@ -30,11 +30,11 @@ var sendItem = function(item) {
 		
 		transporter.sendMail(mailOptions, function (error, info) {
 			if (error) {
-				console.log('Failed to send email to recipient ' + item.to.email + ' using mailer options' + JSON.stringify(config.mailer.options, null, 4));
+				//console.log('Failed to send email to recipient ' + item.to.email + ' using mailer options' + JSON.stringify(config.mailer.options, null, 4));
 				reject(new Error(error.toString()));
 			} else {
 				var result = {to: item.to, accepted: _.includes(info.accepted, recipientEmail), rejected: _.includes(info.rejected, recipientEmail), messageId: info.messageId };
-				console.log('Sent email result: ', JSON.stringify(result));
+				//console.log('Sent email result: ', JSON.stringify(result));
 				resolve(result);
 			}
 		});
@@ -44,7 +44,6 @@ var sendItem = function(item) {
 var sendAll = function(subject, text, html, to, cc, bcc) {
 
 	return new Promise(function(resolve, reject) {
-
 		var mailOptions = {
 			to: to,
 			cc: cc,
@@ -58,11 +57,10 @@ var sendAll = function(subject, text, html, to, cc, bcc) {
 		transporter.sendMail(mailOptions, function (error, info) {
 			if (error) {
 				//console.log('Failed to send email to recipient ' + item.to.email + ' using mailer options' + JSON.stringify(config.mailer.options, null, 4));
-				console.log('Error email result: ', JSON.stringify(error));
 				reject(new Error(error.toString()));
 			} else {
 				//var result = {to: item.to, accepted: _.includes(info.accepted, recipientEmail), rejected: _.includes(info.rejected, recipientEmail), messageId: info.messageId };
-				console.log('Sent email result: ', JSON.stringify(info));
+				//console.log('Sent email result: ', JSON.stringify(info));
 				resolve(info);
 			}
 		});
@@ -70,6 +68,54 @@ var sendAll = function(subject, text, html, to, cc, bcc) {
 
 };
 
+var sendEach = function(subject, text, html, recipients) {
+
+	var a = recipients.map(function(item) {
+		return new Promise(function(resolve, reject) {
+			var recipientEmail = getRecipientEmail(item.address);
+
+			subject = subject.replace('%TO_NAME%', item.name);
+			subject = subject.replace('%TO_EMAIL%', item.address);
+
+			text = text.replace('%TO_NAME%', item.name);
+			text = text.replace('%TO_EMAIL%', item.address);
+
+			html = html.replace('%TO_NAME%', item.name);
+			html = html.replace('%TO_EMAIL%', item.address);
+
+			//console.log('recipientEmail = ', recipientEmail);
+			//console.log('subject = ', subject);
+			//console.log('text = ', text);
+			//console.log('html = ', html);
+
+			var mailOptions = {
+				to: recipientEmail,
+				from: config.mailer.from,
+				subject: subject,
+				text: text,
+				html: html
+			};
+
+			transporter.sendMail(mailOptions, function (error, info) {
+				if (error) {
+					//console.log('Failed to send email to recipient ' + item.email + ' using mailer options' + JSON.stringify(config.mailer.options, null, 4));
+					reject(new Error(error.toString()));
+				} else {
+					var result = {to: item.address, accepted: _.includes(info.accepted, recipientEmail), rejected: _.includes(info.rejected, recipientEmail), messageId: info.messageId };
+					//console.log('Sent email result: ', JSON.stringify(result));
+					resolve(result);
+				}
+			});
+		});
+	});
+
+	return Promise.all(a)
+		.then(function(res) {
+			//console.log(JSON.stringify(res));
+		}, function(err) {
+			//console.log(JSON.stringify(err));
+		});
+};
 //
 // Expect an array or a single item to deliver.
 // Removing the template handling from the email delivery controller.
@@ -136,5 +182,6 @@ var send = function(req, res) {
 module.exports = {
 	send: send,
 	sendItem: sendItem,
-	sendAll: sendAll
+	sendAll: sendAll,
+	sendEach: sendEach
 };

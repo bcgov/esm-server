@@ -113,15 +113,11 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					if (!$scope.inspection.$valid) {
 						return false;
 					}
-					IrModel.save ($scope.ir)
+					IrModel.add ($scope.ir)
 					.then (function () {
 						// For each enforcement action added - add them.
 						_.each($scope.ir.enforcementActions, function (ea) {
-							if (ea.new) {
-								EnforcementModel.add(ea);
-							} else {
-								// Dirty? Save it.
-							}
+							EnforcementModel.add(ea);
 						});
 					}).then(function () {
 						return ArtifactModel.save($scope.ir.artifact);
@@ -169,28 +165,54 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 						}
 					});
 				};
-				$scope.openAddEnforcementAction = function () {
+				$scope.openAddEnforcementAction = function (obj) {
 					var modalDocView = $modal.open({
 						animation: true,
 						templateUrl: 'modules/project-irs/client/views/ir-add-action.html',
 						controller: 'controllerAddEditEnforcementActionModal',
 						controllerAs: 'a',
 						scope: $scope,
-						size: 'md'
+						size: 'md',
+						resolve: {
+							current: function () {
+								// console.log("resolving current:", obj);
+								if (!obj) {
+									return EnforcementModel.getNew();
+								} else {
+									return obj;
+								}
+							}
+						}
 					});
 					modalDocView.result.then(function (res) {
-						console.log("res:", res);
-						EnforcementModel.getNew()
-						.then( function (mod) {
-							mod.action = res.action;
-							mod.actionDate = res.actionDate;
-							mod.condition = res.condition;
-							mod.status = res.status;
-							mod.new = true;
-							$scope.ir.enforcementActions.push(mod);
-						});
+						// console.log("res:", res);
+						if (obj) {
+							// Always new when creating!
+							obj.new = true;
+							_.each($scope.ir.enforcementActions, function (item, idx) {
+								if (item && (obj._id === item._id)) {
+									$scope.ir.enforcementActions.splice(idx, 1);
+									$scope.ir.enforcementActions.push(res);
+								}
+							});
+						} else {
+							res.new = true;
+							$scope.ir.enforcementActions.push(res);
+						}
 					}, function () {
 						//console.log("err");
+					});
+				};
+				$scope.deleteAction = function (obj) {
+					_.each($scope.ir.enforcementActions, function (item, idx) {
+						if (item && (obj._id === item._id)) {
+							$scope.ir.enforcementActions.splice(idx, 1);
+							// If this was a recently added item, it hasn't been
+							// peristed to the DB yet.  So no need to fully delete on "save"
+							if (!item.new) {
+								$scope.deleteActionItems.push(item);
+							}
+						}
 					});
 				};
 			}
@@ -226,6 +248,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 				$scope.enforcement_status = ENFORCEMENT_STATUS;
 				$scope.canPublish = ir.userCan.publish && !ir.isPublished;
 				$scope.canUnpublish = ir.userCan.unPublish && ir.isPublished;
+				$scope.deleteActionItems = [];
 
 				console.log("ir.userCan:", ir.userCan);
 
@@ -263,10 +286,16 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 								EnforcementModel.add(ea);
 							} else {
 								// Dirty? Save it.
+								EnforcementModel.save(ea);
 							}
 						});
 					}).then(function () {
 						return ArtifactModel.save($scope.ir.artifact);
+					}).then(function () {
+						_.each($scope.deleteActionItems, function (item) {
+							// Delete the action items
+							EnforcementModel.deleteId(item._id);
+						});
 					}).then(function () {
 						$state.go('p.ir.detail', {projectid:project.code, irId:$scope.ir._id}, {
 							reload: true, inherit: false, notify: true
@@ -304,28 +333,52 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 						}
 					});
 				};
-				$scope.openAddEnforcementAction = function () {
+				$scope.openAddEnforcementAction = function (obj) {
 					var modalDocView = $modal.open({
 						animation: true,
 						templateUrl: 'modules/project-irs/client/views/ir-add-action.html',
 						controller: 'controllerAddEditEnforcementActionModal',
 						controllerAs: 'a',
 						scope: $scope,
-						size: 'md'
+						size: 'md',
+						resolve: {
+							current: function () {
+								console.log("resolving current:", obj);
+								if (!obj) {
+									return EnforcementModel.getNew();
+								} else {
+									return obj;
+								}
+							}
+						}
 					});
 					modalDocView.result.then(function (res) {
 						console.log("res:", res);
-						EnforcementModel.getNew()
-						.then( function (mod) {
-							mod.action = res.action;
-							mod.actionDate = res.actionDate;
-							mod.condition = res.condition;
-							mod.status = res.status;
-							mod.new = true;
-							$scope.ir.enforcementActions.push(mod);
-						});
+						if (obj) {
+							_.each($scope.ir.enforcementActions, function (item, idx) {
+								if (item && (obj._id === item._id)) {
+									$scope.ir.enforcementActions.splice(idx, 1);
+									$scope.ir.enforcementActions.push(res);
+								}
+							});
+						} else {
+							res.new = true;
+							$scope.ir.enforcementActions.push(res);
+						}
 					}, function () {
 						//console.log("err");
+					});
+				};
+				$scope.deleteAction = function (obj) {
+					_.each($scope.ir.enforcementActions, function (item, idx) {
+						if (item && (obj._id === item._id)) {
+							$scope.ir.enforcementActions.splice(idx, 1);
+							// If this was a recently added item, it hasn't been
+							// peristed to the DB yet.  So no need to fully delete on "save"
+							if (!item.new) {
+								$scope.deleteActionItems.push(item);
+							}
+						}
 					});
 				};
 			}
