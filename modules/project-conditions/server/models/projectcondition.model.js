@@ -17,6 +17,7 @@
 // =========================================================================
 module.exports = require ('../../../core/server/controllers/core.schema.controller')('ProjectCondition', {
 	__audit				: true,
+	__tracking 			: true,
 	__access            : ['createProjectCondition'],
 	project				: {type:'ObjectId', ref:'Project', default:null, index:true},
 	name				: {type:String, default:''},

@@ -9,7 +9,8 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	// __access 			: ['listEnforcements'],
 	__tracking 			: true,
 	action				: { type:String, 		default: 'Warning' },
-	condition			: { type:'ObjectId', 	default: null },
+	condition			: [{ type:'ObjectId', 	default: null , ref:'ProjectCondition'}],
+	conditionArtifacts	: [{ type:'ObjectId', 	default: null , ref:'Artifact'}],
 	status				: { type:String, 		default: 'Open' },
 	date				: { type:Date, 		default: null }
 });

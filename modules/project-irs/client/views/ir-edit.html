@@ -51,7 +51,7 @@
 							<ul class="tag-list">
 								<li class="tag" ng-repeat="o in ir.conditionArtifacts">
 									<span class="tag-name" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</span>
-									<button class="btn" ng-click="removeConditionArtifact(o)"><span aria-hidden="true">×</span></button>
+									<button class="btn" ng-click="removeCondition(o)"><span aria-hidden="true">×</span></button>
 								</li>
 								<li class="add-tag">
 									<button class="add-btn btn btn-sm"
@@ -70,16 +70,12 @@
 							<ul class="tag-list">
 								<li class="tag" ng-repeat="o in ir.conditions">
 									<span class="tag-name" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</span>
-									<button class="btn" ng-click="removeConditionArtifact(o)"><span aria-hidden="true">×</span></button>
+									<button class="btn" ng-click="removeCondition(o)"><span aria-hidden="true">×</span></button>
 								</li>
 								<li class="add-tag">
-									<button class="add-btn btn btn-sm" 
-										ng-if="project.userCan.createInspectionReport" 
-										type="button" title="Add Conditions"
-										x-vc-linker
-										x-project="project"
-										x-condition="condition"
-										x-conditions="ir.conditions"><span class="glyphicon glyphicon-plus"></span>
+									<button class="add-btn btn btn-sm"
+										ng-if="project.userCan.createInspectionReport"
+										ng-click="addIRCondition()" type="button" title="Add Conditions"><span class="glyphicon glyphicon-plus"></span>
 									</button>
 								</li>
 							</ul>

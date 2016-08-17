@@ -13,6 +13,9 @@ angular.module('projectconditions').factory ('ProjectConditionModel', function (
 	//
 	var Class = ModelBase.extend ({
 		urlName : 'projectcondition',
+		lookup: function (id) {
+			return this.get ('/api/projectcondition/'+id);
+		},
 		forProject: function (projectId) {
 			return this.get ('/api/projectcondition/for/project/'+projectId);
 		},

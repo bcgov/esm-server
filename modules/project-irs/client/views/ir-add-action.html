@@ -2,7 +2,7 @@
 	<button type="button" class="btn btn-default close" ng-click="a.cancel()">
 		<span aria-hidden="true">&times;</span>
 	</button>
-	<h3 class="modal-title">Add Enforcement Action</h3>
+	<h3 class="modal-title">Add/Edit Enforcement Action</h3>
 </div>
 
 <form class="action-form" >
@@ -32,13 +32,21 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="control-label" for="type">Conditions<em class="required">(Required)</em></label>
-			<button type="button"
-				x-condition-list-chooser
-				x-inspectionreport="ir"
-				x-current="selected.conditions"
-				class="btn btn-default btn-sm"><span class="glyphicon glyphicon-link"></span><span>Link Condition</span>
-			</button>
+			<label class="control-label" for="type">Enforcement Conditions<em class="required">(Required)</em></label>
+			<div class="tag-list-container form-control clearfix">
+				<ul class="tag-list">
+					<li class="tag" ng-repeat="o in selected.condition.concat(selected.conditionArtifacts)">
+						<span class="tag-name">{{o.name}}</span>
+						<button class="btn" ng-click="removeEnforcementActionCondition(o, selected)"><span aria-hidden="true">×</span></button>
+					</li>
+					<li class="add-tag">
+						<button class="add-btn btn btn-sm"
+							ng-if="project.userCan.createInspectionReport"
+							ng-click="addEditEnforcementActionCondition(selected)" type="button" title="Add Enforcement Action Conditions"><span class="glyphicon glyphicon-plus"></span>
+						</button>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 	<div class="modal-footer">

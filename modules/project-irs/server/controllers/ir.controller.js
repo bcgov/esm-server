@@ -15,6 +15,9 @@ module.exports = DBModel.extend ({
 	getForProject: function (projectId) {
 		return this.list ({project:projectId});
 	},
+	conditionsForIr: function (irId) {
+		return this.list ({ _id:irId }, { conditions: 1, conditionArtifacts: 1 });
+	},
 	publish: function (ir) {
 		return new Promise(function (resolve, reject) {
 			ir.publish();
