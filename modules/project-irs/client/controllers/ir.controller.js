@@ -192,15 +192,20 @@ angular.module ('irs')
 		};
 }])
 .controller ('controllerAddEditEnforcementActionModal',
-	['NgTableParams','$modalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'ArtifactModel', 'EnforcementModel',
-	function (NgTableParams, $modalInstance, $scope, _, $stateParams, codeFromTitle, ArtifactModel, EnforcementModel) {
+	['NgTableParams','$modalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'ArtifactModel', 'EnforcementModel','current',
+	function (NgTableParams, $modalInstance, $scope, _, $stateParams, codeFromTitle, ArtifactModel, EnforcementModel, current) {
 
 		var self = this;
 		self.ir = $scope.ir;
 		self.project = $scope.project;
 
+		$scope.$watch('current', function () {
+			// console.log("current:", current);
+			$scope.selected = current;
+		});
+
 		this.ok = function () {
-			$modalInstance.close(self);
+			$modalInstance.close($scope.selected);
 		};
 
 		this.cancel = function () {

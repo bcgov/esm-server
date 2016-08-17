@@ -122,10 +122,10 @@
 					<td class="date-col"
 						header-class="'date-col'"
 						data-title="'Date Issued'"
-						sortable="'date'">{{o.actionDate | date:'MMM dd, yyyy'}}</td>
+						sortable="'date'">{{o.date | date:'MMM dd, yyyy'}}</td>
 					<td class="actions-col action-x2" 
 						header-class="'actions-col action-x2'">
-						<a class="btn btn-default btn-sm" ng-click="$event.stopPropagation()">
+						<a class="btn btn-default btn-sm" ng-click="openAddEnforcementAction(o);$event.stopPropagation()">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
 						<a class="btn btn-default btn-sm" ng-click="deleteAction(o);$event.stopPropagation()">
