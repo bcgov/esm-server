@@ -2,59 +2,47 @@
 	<button type="button" class="btn btn-default close" ng-click="a.cancel()">
 		<span aria-hidden="true">&times;</span>
 	</button>
-	<h3 class="modal-title">Enforcement Action</h3>
+	<h3 class="modal-title">Add Enforcement Action</h3>
 </div>
 
 <form class="action-form" >
 	<div class="modal-body">
-		<fieldset>
-			<div class="row">
-				<div class="form-group col-sm-12 col-md-6">
-					<label class="control-label">Action<em>Required</em></label>
-					<select class="form-control" title="Type" id="action" name="action"
-							ng-model="a.action"
-							ng-init="a.action = enforcement_actions[0] || a.action"
-							ng-options="action for action in enforcement_actions" required></select>
-				</div>
-				<div class="form-group col-sm-12 col-md-6">
-					<label class="control-label">Status<em>Required</em></label>
-					<select class="form-control" title="Type" id="status" name="status"
-							ng-model="a.status"
-							ng-init="a.status = enforcement_status[0] || a.status"
-							ng-options="status for status in enforcement_status" required></select>
-				</div>
-				<div class="form-group col-sm-12 col-md-6">
-					<div class="row">
-						<div class="col-md-6">
-							<label>Date Issued</label>
-							<div class="form-control date-picker"
-								x-modal-date-picker 
-								x-selected-date="a.actionDate" 
-								ng-model="a.actionDate">
-								{{ a.actionDate | amDateFormat:'MMMM Do, YYYY' }}
-								<span class="glyphicon glyphicon-calendar"></span>
-							</div>
-						</div>
-					</div>
-				</div>
+		<div class="form-group">
+			<label class="control-label">Action</label>
+			<select class="form-control" title="Type" id="action" name="action"
+					ng-model="a.action"
+					ng-init="a.action = enforcement_actions[0] || a.action"
+					ng-options="action for action in enforcement_actions" required></select>
+		</div>
+		<div class="form-group">
+			<label class="control-label">Status</label>
+			<select class="form-control" title="Type" id="status" name="status"
+					ng-model="a.status"
+					ng-init="a.status = enforcement_status[0] || a.status"
+					ng-options="status for status in enforcement_status" required></select>
+		</div>
+		<div class="form-group">
+			<label>Date Issued</label>
+			<div class="form-control date-picker"
+				x-modal-date-picker 
+				x-selected-date="a.actionDate" 
+				ng-model="a.actionDate">
+				{{ a.actionDate | amDateFormat:'MMMM Do, YYYY' }}
+				<span class="glyphicon glyphicon-calendar"></span>
 			</div>
-			<div class="row">
-				<div class="form-group col-sm-12">
-					<div class="col-sm-6 col-md-4 form-group">
-						<label class="control-label" for="type">Condition<em class="required">(Required)</em></label>
-						<button type="button"
-							x-condition-list-chooser
-							x-inspectionreport="ir"
-							x-current="s.conditions"
-							class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Link Condition</span>
-						</button>
-					</div>
-				</div>
-			</div>
-		</fieldset>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="type">Conditions<em class="required">(Required)</em></label>
+			<button type="button"
+				x-condition-list-chooser
+				x-inspectionreport="ir"
+				x-current="s.conditions"
+				class="btn btn-default btn-sm"><span class="glyphicon glyphicon-link"></span><span>Link Condition</span>
+			</button>
+		</div>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-default" ng-click="a.cancel()">Cancel</button>
-		<button type="button" class="btn btn-success" ng-click="a.ok()">Add Action</button>
+		<button type="button" class="btn btn-primary" ng-click="a.ok()">Add</button>
 	</div>
-</form><!-- / COMMENT FORM - STEP 2 -->
+</form>

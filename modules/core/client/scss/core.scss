@@ -2319,7 +2319,8 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 
 .label {
 	display: inline-block;
-	padding: 0.8rem;
+	padding: 0.3rem;
+	padding-top: 0.35rem;
 	font-size: 1.2rem;
 	font-weight: normal;
 }
@@ -2670,6 +2671,10 @@ form {
 
 .form-group {
 	margin-bottom: 2rem;
+
+	&.no-margin {
+		margin-bottom: 0;
+	}
 }
 
 .form-validation-msg {
@@ -3442,6 +3447,8 @@ section {
 /* TAG LIST 
 ------------------------------ */
 .tag-list {
+	padding: 0;
+
 	&.form-control {
 		min-height: 3.4rem;
 		height: auto;
@@ -4235,6 +4242,26 @@ section {
 		}
 	}
 }
+
+.enforcement-table {
+	.date-col {
+		width: 14rem;
+		text-align: right;
+	}
+
+	.status-col {
+		width: 14rem;
+
+		.label {
+			min-width: 8rem;
+		}
+	}
+}
+
+.enforcement-name {
+	display: block;
+}
+
 
 /* COMMUNCATIONS view
 ------------------------------ */

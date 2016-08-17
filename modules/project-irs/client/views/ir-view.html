@@ -40,8 +40,18 @@
 				</div>
 			</div>
 			<div class="row">
+				<div class="col-sm-12 detail-row" ng-if="ir.condition.length > 0">
+					<label>Conditions</label>
+					<ul class="anchor-list">
+						<li ng-repeat="o in ir.conditionArtifacts" ui-sref="p.artifact.view({artifactId:o._id})">
+							<a class="title">{{o.name}}</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
 				<div class="col-sm-12 detail-row">
-					<label>Inspection Template</label>
+					<label>Inspection Record</label>
 					<div class="anchor-list">
 						<a ui-sref="p.artifact.view({artifactId:ir.artifact._id})">{{ir.artifact.name}}</a>
 					</div>
@@ -52,35 +62,34 @@
 	
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h2>Conditions</h2>
+			<h2>Enforcement Actions</h2>
 		</div>
-		<div class="list-group no-border">
-			<div class="list-group-item">No Conditions available</div>
-		</div>
-	</div>
-
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h2>Actions</h2>
-		</div>
-		<div class="list-group no-border">
-			<div class="list-group-item" ng-if="ir.enforcementActions == 0">No Actions available</div>
-			<div ng-repeat="o in ir.enforcementActions">
-				<div>
-					<label>Action</label>
-					<div>{{o.action}}</div>
-					<div>{{o.condition}}</div>
-				</div>
-				<div>
-					<label>Status</label>
-					<div>{{o.status}}</div>
-				</div>
-				<div>
-					<label>Date</label>
-					<div>{{o.date}}</div>
-				</div>
-			</div>
-		</div>
+		<table ng-table="tableParams" class="enforcement-table table table-hover">
+			<tr class="clickable" ui-sref="p.ir.detail({irId:o._id})" ng-repeat="o in ir.enforcementActions">
+				<td class="enforcement-col"
+					data-title="'Action'" 
+					sortable="'o.action'">
+					<strong class="enforcement-name">{{o.action}}</strong>
+					<a class="condition-link" ui-sref="p.ir.condition({irId:o._id})">Condition Link goes here</a>
+				</td>
+				<td class="status-col"
+					header-class="'status-col'"
+					data-title="'Status'"
+					sortable="'status'">
+					<span class="label"
+						ng-class="{'label-primary': o.status == 'Open',
+									'label-success': o.status == 'Resolved',
+									'label-default': o.status == 'Recinded'}">{{o.status}}</span>
+				</td>
+				<td class="date-col"
+					header-class="'date-col'"
+					data-title="'Date Issued'"
+					sortable="'date'">{{o.actionDate | date:'MMM dd, yyyy'}}</td>
+				<tr ng-show="ir.enforcementActions.length == 0">
+					<td colspan="3">No Enforcement Actions found</td>
+				</tr>
+			</tr>
+		</table>
 	</div>
 
 	<div class="form-footer no-border clearfix hidden">

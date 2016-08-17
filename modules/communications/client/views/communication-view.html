@@ -27,7 +27,7 @@
     <div class="tab-pane active" ng-show="form.curTab === 'Update Details'" ng-form="projectUpdateDetailsForm">
 
       <div class="form-group" x-show-errors>
-        <label class="control-label">Name</label>
+        <label class="control-label">Update Name</label>
         <input class="form-control" ng-model="s.communication.name" id="name" name="name" title="Name" required disabled />
       </div>
 
@@ -60,8 +60,6 @@
     </div>
 
     <div class="tab-pane" ng-show="form.curTab === 'recipients'" ng-form="recipientsForm">
-      <div class='button-bar'>
-      </div>
       <div class="panel panel-default">
         <table ng-table="tableParams" show-filter="true" class="communications-table table table-hover vc-table">
           <tr ng-repeat="o in $data">

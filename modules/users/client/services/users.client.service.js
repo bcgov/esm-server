@@ -20,6 +20,16 @@ angular.module('users').factory ('UserModel', function (ModelBase, _) {
 		},
 		allUsers: function () {
 			return this.get ('/api/user');
+		},
+		search: function(name, email, org, groupId) {
+
+			var q = {name: name, email: email, org: org, groupId: groupId};
+
+			var qs = _.reduce(q, function(result, value, key) {
+				return (!_.isNull(value) && !_.isUndefined(value)) ? (result += key + '=' + value + '&') : result;
+			}, '').slice(0, -1);
+
+			return this.get('/api/search/user?' + qs);
 		}
 	});
 	return new Class ();

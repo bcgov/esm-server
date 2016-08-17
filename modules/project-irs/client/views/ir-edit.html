@@ -9,8 +9,8 @@
 			<button class="btn btn-danger btn-sm"
 	            ng-if="canDelete"
 	            ng-click="delete()"><span class="glyphicon glyphicon-trash"></span><span>Delete</span></button>
-			<button class="btn btn-primary btn-sm"
-				ng-click="save()">Save</button>
+			<button class="btn btn-default btn-sm"
+				ng-click="save()"><span class="glyphicon glyphicon-save"></span><span>Save</span></button>
 			<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#publishNotify"
 				ng-if="canUnpublish"
 				ng-click="unpublish()"><span class="glyphicon glyphicon-minus-sign"></span><span>Unpublish</span></button>
@@ -47,14 +47,32 @@
 				<div class="row">
 					<div class="col-md-12 form-group">
 						<label class="control-label">Associated Content</label>
-						<ul class="anchor-list" ng-if="ir.conditionArtifacts.length > 0">
-							<li ng-repeat="o in ir.conditionArtifacts">
-								<a ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</a>
+						<ul class="tag-list form-control" ng-if="ir.conditionArtifacts.length > 0">
+							<li class="tag" ng-repeat="o in ir.conditionArtifacts">
+								<span class="tag-name" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</span>
+								<button class="btn" ng-click="removeConditionArtifact(o)"><span aria-hidden="true">×</span></button>
 							</li>
 						</ul>
 						<button class="btn btn-default btn-sm anchor-list-btn"
 							ng-if="project.userCan.createInspectionReport"
 							ng-click="openAddTopic()" type="button" title="Link Project Conditions">+ Add Content
+						</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 form-group">
+						<label class="control-label">Conditions</label>
+						<ul class="tag-list form-control" ng-if="ir.conditions.length > 0">
+							<li class="tag" ng-repeat="o in ir.conditions">
+								<span class="tag-name" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</span>
+								<button class="btn" ng-click="removeConditionArtifact(o)"><span aria-hidden="true">×</span></button>
+							</li>
+						</ul>
+						<button class="btn btn-default btn-sm anchor-list-btn" ng-if="project.userCan.createInspectionReport" type="button" title="Link Project Conditions"
+							x-vc-linker
+							x-project="project"
+							x-condition="condition"
+							x-conditions="ir.conditions">+ Add Conditions</span>
 						</button>
 					</div>
 				</div>
@@ -71,40 +89,54 @@
 				</div>
 			</div>
 		</div><!--/INSPECTION DETAILS -->
+	
 
 		<div class="panel panel-default">
 			<div class="panel-heading flex-row">
-				<h2>Conditions</h2>
-				<div class="actions">
-					<button ng-if="project.userCan.createInspectionReport" class="btn btn-default btn-sm anchor-list-btn" type="button" title="Link Project Conditions"
-						x-vc-linker
-						x-project="project"
-						x-condition="condition"
-						x-conditions="ir.conditions"><span class="glyphicon glyphicon-plus"></span><span>Add Conditions</span>
-					</button>
-				</div>
-			</div>
-			<div class="list-group no-border">
-				<div class="list-group-item" ng-if="ir.conditions.length == 0">No Conditions available</div>
-				<a class="list-group-item" ng-repeat="o in ir.conditions" ui-sref="p.projectcondition.detail({conditionId:o._id})">{{o.name}}</a>
-			</div>
-		</div>
-
-		<div class="panel panel-default">
-			<div class="panel-heading flex-row">
-				<h2>Actions</h2>
+				<h2>Enforcement Actions</h2>
 				<div class="actions">
 					<button class="btn btn-default btn-sm"
 						ng-if="project.userCan.createInspectionReport"
 						ng-click="openAddEnforcementAction()">
-						<span class="glyphicon glyphicon-plus"></span><span>Add Action</span>
+						<span class="glyphicon glyphicon-plus"></span><span>Add Enforcement Action</span>
 					</button>
 				</div>
 			</div>
-			<ul class="list-group no-border">
-				<li class="list-group-item" ng-if="ir.enforcementActions.length == 0">No Actions available</li>
-				<li class="list-group-item" ng-repeat="o in ir.enforcementActions">{{o.name}}</li>
-			</ul>
+			<table ng-table="tableParams" class="enforcement-table table table-hover">
+				<tr class="clickable" ui-sref="p.ir.detail({irId:o._id})" ng-repeat="o in ir.enforcementActions">
+					<td class="enforcement-col"
+						data-title="'Action'" 
+						sortable="'o.action'">
+						<strong class="enforcement-name">{{o.action}}</strong>
+						<a class="condition-link" ui-sref="p.ir.condition({irId:o._id})">Condition Link goes here</a>
+					</td>
+					<td class="status-col"
+				 		header-class="'status-col'"
+						data-title="'Status'"
+						sortable="'status'">
+						<span class="label"
+							ng-class="{'label-primary': o.status == 'Open',
+							 		   'label-success': o.status == 'Resolved',
+									   'label-default': o.status == 'Recinded'}">{{o.status}}</span>
+					</td>
+					<td class="date-col"
+						header-class="'date-col'"
+						data-title="'Date Issued'"
+						sortable="'date'">{{o.actionDate | date:'MMM dd, yyyy'}}</td>
+					<td class="actions-col action-x2" 
+						header-class="'actions-col action-x2'">
+						<a class="btn btn-default btn-sm" ng-click="$event.stopPropagation()">
+							<span class="glyphicon glyphicon-pencil"></span>
+						</a>
+						<a class="btn btn-default btn-sm" ng-click="$event.stopPropagation()">
+							<span class="glyphicon glyphicon-trash"></span>
+						</a>
+					</td>
+					<tr ng-show="ir.enforcementActions.length == 0">
+						<td colspan="4">No Enforcement Actions found</td>
+					</tr>
+				</tr>
+			</table>
 		</div>
 
 		<div class="form-footer clearfix">
@@ -115,8 +147,8 @@
 				<button class="btn btn-danger btn-sm"
 					ng-if="canDelete"
 					ng-click="delete()"><span class="glyphicon glyphicon-trash"></span><span>Delete</span></button>
-				<button class="btn btn-primary btn-sm"
-					ng-click="save()">Save</button>
+				<button class="btn btn-default btn-sm"
+					ng-click="save()"><span class="glyphicon glyphicon-save"></span><span>Save</span></button>
 			</div>
 		</div>
 

@@ -192,26 +192,15 @@ angular.module ('irs')
 		};
 }])
 .controller ('controllerAddEditEnforcementActionModal',
-	['NgTableParams','$modalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'ArtifactModel',
-	function (NgTableParams, $modalInstance, $scope, _, $stateParams, codeFromTitle, ArtifactModel) {
+	['NgTableParams','$modalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'ArtifactModel', 'EnforcementModel',
+	function (NgTableParams, $modalInstance, $scope, _, $stateParams, codeFromTitle, ArtifactModel, EnforcementModel) {
 
 		var self = this;
+		self.ir = $scope.ir;
 		self.project = $scope.project;
 
 		this.ok = function () {
-			console.log("action:",self.action);
-			console.log("actionDate:",self.actionDate);
-			console.log("condition:",self.condition);
-			console.log("status:",self.status);
-			var savedArray = [];
-			// console.log("length: ",self.currentObjs.length);
-			$scope.ir.conditionArtifacts = [];
-			_.each( self.currentObjs, function(obj, idx) {
-				console.log("Adding " + obj.name + " to Inspection Report");
-				//console.log("scope.ir:", $scope.ir);
-				$scope.ir.conditionArtifacts.push(obj);
-			});
-			$modalInstance.close($scope.ir.conditionArtifacts);
+			$modalInstance.close(self);
 		};
 
 		this.cancel = function () {

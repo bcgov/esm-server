@@ -108,11 +108,6 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 			permissions: ['context.viewSchedule']
 		});
 		Menus.addMenuItem('projectTopMenu', {
-			title: 'Compliance Oversight',
-			state: "p.enforcement.list",
-			permissions: ['context.listEnforcements']
-		});
-		Menus.addMenuItem('projectTopMenu', {
 			title: 'Comment Periods',
 			state: "p.commentperiod.list",
 			permissions: ['context.public', 'context.listCommentPeriods']
@@ -163,7 +158,7 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 			permissions: ['context.listProjectConditions']
 		});
 		Menus.addMenuItem('projectMenu', {
-			title: 'Inspections',
+			title: 'Compliance Oversight',
 			state: 'p.ir.list',
 			permissions: ['context.listInspectionReports']
 		});
