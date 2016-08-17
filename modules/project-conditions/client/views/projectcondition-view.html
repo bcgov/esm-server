@@ -1,51 +1,46 @@
-<div class="view-title-container">
-	<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>{{condition.name}}</h1>
+<div class="view-title-container flex-row">
+	<h1>{{condition.name}}</h1>
+	<div class="actions">
+		<button class="btn btn-sm btn-default"
+			ng-if="project.userCan.createProjectCondition"
+			ui-sref="p.projectcondition.edit({conditionId:condition._id})">
+			<span class="glyphicon glyphicon-pencil"></span><span>Edit</span></button>
+		<button class="btn btn-sm btn-success"
+			ng-if="project.userCan.publish && !condition.isPublished"
+			ng-click="publish()">Publish</button>
+		<button class="btn btn-sm btn-default"
+			ng-if="project.userCan.unPublish && condition.isPublished"
+			ng-click="unpublish()">Unpublish</button>
+	</div>
 </div>
 
-<div class="panel panel-default">
-	<div class="panel-body">
-
-		<div class="row">
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label for="name" class="control-label">Name</label>
-					<div id="name" name="name" class="form-control-static" ng-bind-html="condition.name"></div>
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label for="subject" class="control-label">Subject</label>
-					<div class="form-control-static" ng-bind-html="condition.subject"></div>
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label for="sector" class="control-label">Sector</label>
-					<div class="form-control-static" ng-bind-html="condition.sector"></div>
-				</div>
-			</div>
+<div class="view-body-container">
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h2>Condition Details</h2>
 		</div>
-
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="shortDesc" class="control-label">Condition</label>
-					<div class="form-control-static" ng-bind-html="condition.description"></div>
+		<div class="panel-body detail-panel">
+			<div class="row">
+				<div class="detail-row col-md-3">
+					<label>Name</label>
+					<div class="value" ng-bind-html="condition.name"></div>
+				</div>
+				<div class="detail-row col-md-3">
+					<label for="subject">Subject</label>
+					<div ng-bind-html="condition.subject"></div>
+				</div>
+				<div class="detail-row col-md-3">
+					<label>Sector</label>
+					<div class="value" ng-bind-html="condition.sector"></div>
+				</div>
+				<div class="detail-row col-md-3">
+					<label>Stage</label>
+					<div class="value" ng-bind-html="condition.stage"></div>
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="shortDesc" class="control-label">Report Requirements</label>
-					<div class="form-control-static" ng-bind-html="condition.reportRequirements"></div>
-				</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
+			<div class="row">
+				<div class="detail-row col-md-12">
 					<label for="shortDesc" class="control-label">Associated Value Components</label>
 					<ul class="anchor-list">
 						<li ng-repeat="o in condition.vcs" ui-sref="p.vc.detail({vcId:o._id})">
@@ -55,45 +50,59 @@
 				</div>
 			</div>
 		</div>
-
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="pillar" class="control-label">Pillars</label>
-					<div class="well well-sm">
-						<display-array x-source-array="pillars" x-selected-array="condition.pillars" x-key-string="id" x-value-string="title"></display-array>
-					</div>
-				</div>
-			</div>
-			
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="stage" class="control-label">Phase</label>
-					<div class="well well-sm">
-						<display-array x-source-array="phases" x-selected-array="condition.phases" x-key-string="id" x-value-string="title"></display-array>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="stage" class="control-label">Stage</label>
-					<div class="form-control-static" ng-bind-html="condition.stage"></div>
-				</div>
-			</div>
-		</div>
-		
-		<hr>
-
-		<div class="text-right">
-			<button class="btn btn-default" ui-sref="p.projectcondition.list">Cancel</button>
-			<button ng-if="project.userCan.publish && !condition.isPublished" class="btn btn-default" ng-click="publish()">Publish</button>
-			<button ng-if="project.userCan.unPublish && condition.isPublished" class="btn btn-default" ng-click="unpublish()">Unpublish</button>
-			<button ng-if="project.userCan.createProjectCondition" class="btn btn-primary" ui-sref="p.projectcondition.edit({conditionId:condition._id})">Edit</button>
-		</div>
-
 	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h2>Condition</h2>
+		</div>
+		<div class="panel-body">
+			<pre class="value wrap-text" ng-bind-html="condition.description"></pre>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h2>Report Requirements</h2>
+		</div>
+		<div class="panel-body">
+			<pre class="value wrap-text" ng-bind-html="condition.reportRequirements"></pre>
+		</div>
+	</div>		
+
+	<div class="row hidden">
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="pillar" class="control-label">Pillars</label>
+				<div class="well well-sm">
+					<display-array x-source-array="pillars" x-selected-array="condition.pillars" x-key-string="id" x-value-string="title"></display-array>
+				</div>
+			</div>
+		</div>	
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="stage" class="control-label">Phase</label>
+				<div class="well well-sm">
+					<display-array x-source-array="phases" x-selected-array="condition.phases" x-key-string="id" x-value-string="title"></display-array>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-footer">
+		<div class="pull-right">
+			<button class="btn btn-sm btn-default"
+				ng-if="project.userCan.createProjectCondition"
+				ui-sref="p.projectcondition.edit({conditionId:condition._id})">
+			<span class="glyphicon glyphicon-pencil"></span><span>Edit</span></button>
+			<button class="btn btn-sm btn-success"
+				ng-if="project.userCan.publish && !condition.isPublished"
+				ng-click="publish()">Publish</button>
+			<button class="btn btn-sm btn-default"
+				ng-if="project.userCan.unPublish && condition.isPublished"
+				ng-click="unpublish()">Unpublish</button>
+		</div>
+	</div>	
+
 </div>
 
