@@ -19,14 +19,14 @@ module.exports = DBModel.extend ({
 			.then(function(pc) {
 				pc.publish();
 				return pc.save();
-			})
+			});
 	},
 	unpublish: function(pcId) {
 		return this.findById(pcId)
 			.then(function(pc) {
 				pc.unpublish();
 				return pc.save();
-			})
+			});
 	}
 });
 

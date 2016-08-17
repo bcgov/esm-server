@@ -33,11 +33,11 @@ function serviceUtils($http, $modal) {
 	};
 	
 	var openEntitySelectionModal = function (entities, valueString, selected) {
-		// credit: http://stackoverflow.com/a/22129960/1066283
+		// adapted from: http://stackoverflow.com/a/22129960/1066283
 		var resolve = function(obj, path) {
 			return path.split('.').reduce(function(prev, curr) {
 				return prev ? prev[curr] : undefined;
-			}, obj || self);
+			}, obj);
 		};
 		
 		var modal = $modal.open({
@@ -51,7 +51,7 @@ function serviceUtils($http, $modal) {
 				$scope.resolve = resolve;
 				
 				var index = $scope.index = function(item) {
-					return _.findIndex($scope.current, function(o) { return o['_id'] === item['_id']; });
+					return _.findIndex($scope.current, function(o) { return o._id === item._id; });
 				};
 				
 				$scope.toggleItem = function (item) {

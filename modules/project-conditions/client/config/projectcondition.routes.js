@@ -98,7 +98,7 @@ angular.module('projectconditions').config(['$stateProvider', 'RELEASE', functio
 					return ProjectConditionModel.getNew ();
 				}
 			},
-			controller: function ($scope, $state, Utils, project, condition, ProjectConditionModel, TopicModel, pillars, phases, projecttypes, stages, codeFromTitle, VcModel) {
+			controller: function ($scope, $state, _, Utils, project, condition, ProjectConditionModel, TopicModel, pillars, phases, projecttypes, stages, codeFromTitle, VcModel) {
 				condition.project = project._id;
 				$scope.condition = condition;
 				$scope.project = project;
@@ -110,7 +110,7 @@ angular.module('projectconditions').config(['$stateProvider', 'RELEASE', functio
 				$scope.editLinkedVcs = function() {
 					VcModel.forProject(project._id)
 						.then(function (data) {
-							return Utils.openEntitySelectionModal(data, 'name', condition.vcs)
+							return Utils.openEntitySelectionModal(data, 'name', condition.vcs);
 						})
 						.then(function(selectedVcs) {
 							condition.vcs = selectedVcs;
@@ -144,7 +144,7 @@ angular.module('projectconditions').config(['$stateProvider', 'RELEASE', functio
 					return ProjectConditionModel.getModel ($stateParams.conditionId);
 				}
 			},
-			controller: function ($scope, $state, Utils, condition, project, ProjectConditionModel, TopicModel, pillars, phases, projecttypes, stages, codeFromTitle, VcModel) {
+			controller: function ($scope, $state, _, Utils, condition, project, ProjectConditionModel, TopicModel, pillars, phases, projecttypes, stages, codeFromTitle, VcModel) {
 				$scope.condition = condition;
 				$scope.project = project;
 				$scope.sectors = projecttypes;
@@ -165,7 +165,7 @@ angular.module('projectconditions').config(['$stateProvider', 'RELEASE', functio
 				$scope.editLinkedVcs = function() {
 					VcModel.forProject(project._id)
 						.then(function (data) {
-							return Utils.openEntitySelectionModal(data, 'name', condition.vcs)
+							return Utils.openEntitySelectionModal(data, 'name', condition.vcs);
 						})
 						.then(function (selectedVcs) {
 							condition.vcs = selectedVcs;
@@ -210,7 +210,7 @@ angular.module('projectconditions').config(['$stateProvider', 'RELEASE', functio
 					return ProjectConditionModel.getModel ($stateParams.conditionId);
 				}
 			},
-			controller: function ($scope, $state, condition, project, ProjectConditionModel, pillars, phases, projecttypes, stages, VcModel) {
+			controller: function ($scope, $state, _, condition, project, ProjectConditionModel, pillars, phases, projecttypes, stages, VcModel) {
 				$scope.sectors = projecttypes;
 				$scope.pillars = pillars;
 				$scope.phases = phases;
@@ -219,7 +219,6 @@ angular.module('projectconditions').config(['$stateProvider', 'RELEASE', functio
 				$scope.project = project;
 				
 				_.each(condition.vcs, function (item, key) {
-					console.log(item + " " + key)
 					VcModel.lookup(item)
 						.then( function (o) {
 							condition.vcs[key] = o;
@@ -228,7 +227,6 @@ angular.module('projectconditions').config(['$stateProvider', 'RELEASE', functio
 				});
 				
 				$scope.publish = function() {
-					console.log("publish")
 					ProjectConditionModel.publish($scope.condition._id)
 						.then(function() {
 							$state.go('p.projectcondition.list', {projectid:project.code}, {
