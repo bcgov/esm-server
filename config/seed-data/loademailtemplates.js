@@ -1,29 +1,49 @@
 'use strict';
 var mongoose = require ('mongoose');
 var EmailTemplate = mongoose.model ('EmailTemplate');
+var promise = require('promise');
+var _ = require('lodash');
 
 
 module.exports = function () {
-  //Add Invitation Email Template
-  EmailTemplate.find({name: 'invitation'}, function (err, templates) {
-    if (templates.length === 0) {
-      var item = new EmailTemplate ({
-        subject    : '{{appTitle}}  - You have been invited to participate on project: {{projectName}}',
-        name : 'invitation',
-        code : 'invitation',
-        group : 'invitation',
-        content : '<p>Hello {{toDisplayName}},</p>\n<p>Welcome to <strong>{{appDescription}}</strong> ({{appTitle}}).</p>\n<p>You have been invited to participate on project <strong>{{projectName}}</strong> by {{fromDisplayName}} ({{fromEmail}}).</p>\n<p>Please click the following link to accept the invitation to the project: <a href=\"{{invitationUrl}}\">{{projectTitle}}</a></p>'
+
+  var data = [];
+
+  data.push(new EmailTemplate({
+    subject : 'EAO Project Information & Collaboration  - You have been invited to participate on project: %PROJECT_NAME%',
+    name : 'invitation',
+    code  : 'invitation',
+    group : 'Invitation',
+    content : '<p>Hello %TO_NAME%,</p>\n<p>Welcome to <strong>EAO Project Information & Collaboration</strong>.</p>\n<p>You have been invited to participate on project <strong>%PROJECT_NAME%</strong> by %CURRENT_USER_NAME% ({{%CURRENT_USER_EMAIL%}}).</p>\n<p>Please click the following link to accept the invitation to the project: <a href=\"{{%INVITATION_URL%}}\">{{%PROJECT_NAME%}}</a></p>'
+  }));
+
+  data.push(new EmailTemplate({
+    subject : 'EAO Project Information & Collaboration - %PROJECT_NAME% Content Update Notice',
+    name : 'Project Update',
+    code  : 'content',
+    group : 'Content',
+    content : '<p>%PROJECT_NAME% content has been updated.<br>Please review the following content:</p><p>%RELATED_CONTENT%</p>'
+  }));
+
+  return promise.all(data.map(function (d) {
+    console.log('Email template seeding starting...');
+    return new promise(function (resolve, reject) {
+        // need to tweak the data for upserting...
+        var upsertData = d.toObject();
+        delete upsertData._id;
+
+        EmailTemplate.findOneAndUpdate({name: d.name, code: d.code, group: d.group}, upsertData, {upsert : true, 'new' : true}, function(err, doc){
+            if (err) {
+              console.log('Email Template upsert failed: ' + err.toString() + ': ' + JSON.stringify(d));
+              reject(new Error(err));
+            } else {
+              //console.log('Email Template upsert completed');
+              resolve(doc);
+            }
+        });
       });
-      // Then save the user
-      item.save(function (err, model) {
-        if (err) {
-          console.log('Failed to add invitation email template', err);
-        } else {
-          console.log('Added invitation email template');
-        }
-      });
-    } else {
-      console.log('invitation email template exists');
-    }
+    }))
+  .then(function () {
+    console.log('Email template seeding done.');
   });
 };

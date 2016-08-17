@@ -72,6 +72,7 @@ var checkIntegration = function (name, override) {
 };
 
 var seedingAsync = function() {
+	console.log('begin asynchronous seeding...');
 	checkIntegration('testme').then(function (f) {
 		require('../seed-data/test-integration')(f);
 	});
@@ -147,7 +148,7 @@ var seedingAsync = function() {
 // default project roles
 //
 // -------------------------------------------------------------------------
-	checkIntegration('emailtemplates').then(function () {
+	checkIntegration('emailtemplates2').then(function () {
 		require('../seed-data/loademailtemplates')();
 	});
 
@@ -219,6 +220,13 @@ var seedingAsync = function() {
 //
 // =========================================================================
 
-checkIntegration ('defaults').then (function () {
-	require('../seed-data/defaults')().then(seedingAsync);
-});
+checkIntegration ('defaults')
+	.then(function(){
+		require('../seed-data/defaults')()
+			.then(seedingAsync);
+		},
+		function() {
+			// defaults have been seeded, but we should check the other stuff...
+			seedingAsync();
+		}
+	);
