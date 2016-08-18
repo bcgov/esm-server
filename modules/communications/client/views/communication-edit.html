@@ -7,7 +7,7 @@
 			<button type="button" class="btn btn-default btn-sm" ng-click="cancel()">Cancel</button>
 			<button class="btn btn-danger btn-sm" ng-if="canDelete" ng-click="delete(s.communication)"><span class="glyphicon glyphicon-trash"></span><span>Delete</span>
       </button>
-			<button type="button" class="btn btn-default btn-sm" ng-click="save(projectUpdateForm.$valid)"><span
+			<button type="button" class="btn btn-primary btn-sm" ng-click="save(projectUpdateForm.$valid)"><span
         class="glyphicon glyphicon-save"></span><span>Save</span></button>
 			<button type="button" class="btn btn-success btn-sm" ng-if="mode === 'edit'" ng-disabled="projectUpdateForm.$invalid" ng-click="send(projectUpdateForm.$valid)"><span
         class="glyphicon glyphicon-send"></span><span>Send</span></button>
@@ -19,7 +19,7 @@
 		<ul class="nav nav-tabs" ng-init="form.curTab = 'Update Details'">
 			<li role="presentation" ng-class="{'active':form.curTab === 'Update Details'}" class="form-group" x-show-errors>
 				<a ng-click="form.curTab = 'Update Details'" title="Edit Project Update Details" name="projectUpdateDetailsForm">
-					<span class="glyphicon glyphicon-exclamation-sign"></span>Details</a>
+					<span class="glyphicon glyphicon-exclamation-sign"></span>Update Details</a>
 			</li>
 			<li role="presentation" ng-class="{'active':form.curTab === 'recipients'}" class="form-group" x-show-errors>
 				<a ng-click="form.curTab = 'recipients'" title="Edit Project Recipients" name="recipientsForm">
@@ -32,7 +32,7 @@
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<div class="form-group" x-show-errors>
-						<label class="control-label">Name<em class="required">(Required)</em></label>
+						<label class="control-label">Update Name<em class="required">(Required)</em></label>
 						<input class="form-control" ng-model="s.communication.name" id="name" name="name" title="Name" required/>
 					</div>
 
@@ -59,7 +59,7 @@
 
 			<div class="panel panel-default">
 				<div class="panel-heading flex-row">
-					<h2>Configured Email</h2>
+					<h2>Configure Email</h2>
 					<div class="actions">
 						<button type="button" class="btn btn-default btn-sm" x-email-template-chooser x-project="project" x-current="emailTemplate">Use Existing Template
             </button>
@@ -116,12 +116,12 @@
 		<div class="form-footer">
 			<div class="pull-right">
 				<button type="button" class="btn btn-default btn-sm" ng-click="cancel()">Cancel</button>
-				<button class="btn btn-danger btn-sm" ng-if="canDelete" ng-click="delete(s.communication)"><span class="glyphicon glyphicon-trash"></span><span>Delete</span>
-        </button>
-				<button type="button" class="btn btn-default btn-sm" ng-click="save(projectUpdateForm.$valid)"><span
-          class="glyphicon glyphicon-save"></span><span>Save</span></button>
-				<button type="button" class="btn btn-success btn-sm" ng-if="mode === 'edit'" ng-disabled="projectUpdateForm.$invalid" ng-click="send(projectUpdateForm.$valid)"><span
-          class="glyphicon glyphicon-send"></span><span>Send</span></button>
+				<button class="btn btn-danger btn-sm" ng-if="canDelete" ng-click="delete(s.communication)">
+					<span class="glyphicon glyphicon-trash"></span><span>Delete</span></button>
+				<button type="button" class="btn btn-primary btn-sm" ng-click="save(projectUpdateForm.$valid)">
+					<span class="glyphicon glyphicon-save"></span><span>Save</span></button>
+				<button type="button" class="btn btn-success btn-sm" ng-if="mode === 'edit'" ng-disabled="projectUpdateForm.$invalid" ng-click="send(projectUpdateForm.$valid)">
+					<span class="glyphicon glyphicon-send"></span><span>Send</span></button>
 			</div>
 		</div>
 
