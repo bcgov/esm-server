@@ -116,6 +116,63 @@ var sendEach = function(subject, text, html, recipients) {
 			//console.log(JSON.stringify(err));
 		});
 };
+
+
+var sendInvitations = function(subject, text, html, invitationData) {
+	console.log('a');
+
+	var a = invitationData.map(function(item) {
+		console.log(item);
+		return new Promise(function(resolve, reject) {
+			console.log('b');
+			var recipientEmail = getRecipientEmail(item.to.address);
+
+			subject = subject.replace('%TO_NAME%', item.to.name);
+			subject = subject.replace('%TO_EMAIL%', item.to.address);
+
+			text = text.replace('%TO_NAME%', item.to.name);
+			text = text.replace('%TO_EMAIL%', item.to.address);
+			text = text.replace('%INVITATION_PATH%', '/authentication/accept/' + item.invitation._id.toString());
+
+
+			html = html.replace('%TO_NAME%', item.to.name);
+			html = html.replace('%TO_EMAIL%', item.to.address);
+			html = html.replace('%INVITATION_PATH%', '/authentication/accept/' + item.invitation._id.toString());
+
+			console.log('recipientEmail = ', recipientEmail);
+			console.log('subject = ', subject);
+			console.log('text = ', text);
+			console.log('html = ', html);
+
+			var mailOptions = {
+				to: recipientEmail,
+				from: config.mailer.from,
+				subject: subject,
+				text: text,
+				html: html
+			};
+			console.log('c');
+
+			transporter.sendMail(mailOptions, function (error, info) {
+				if (error) {
+					console.log('Failed to send email to recipient ' + item.email + ' using mailer options' + JSON.stringify(config.mailer.options, null, 4));
+					reject(new Error(error.toString()));
+				} else {
+					var result = {to: item.to.address, accepted: _.includes(info.accepted, recipientEmail), rejected: _.includes(info.rejected, recipientEmail), messageId: info.messageId };
+					console.log('Sent email result: ', JSON.stringify(result));
+					resolve(result);
+				}
+			});
+		});
+	});
+
+	return Promise.all(a)
+		.then(function(res) {
+			console.log(JSON.stringify(res));
+		}, function(err) {
+			console.log(JSON.stringify(err));
+		});
+};
 //
 // Expect an array or a single item to deliver.
 // Removing the template handling from the email delivery controller.
@@ -183,5 +240,6 @@ module.exports = {
 	send: send,
 	sendItem: sendItem,
 	sendAll: sendAll,
-	sendEach: sendEach
+	sendEach: sendEach,
+	sendInvitations: sendInvitations
 };

@@ -30,6 +30,16 @@ angular.module('users').factory ('UserModel', function (ModelBase, _) {
 			}, '').slice(0, -1);
 
 			return this.get('/api/search/user?' + qs);
+		},
+		usersToInvite: function(projectId) {
+
+			var q = {projectId: projectId};
+
+			var qs = _.reduce(q, function(result, value, key) {
+				return (!_.isNull(value) && !_.isUndefined(value)) ? (result += key + '=' + value + '&') : result;
+			}, '').slice(0, -1);
+
+			return this.get('/api/toinvite/user?' + qs);
 		}
 	});
 	return new Class ();

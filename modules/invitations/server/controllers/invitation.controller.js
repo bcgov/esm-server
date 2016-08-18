@@ -107,6 +107,37 @@ var acceptInvitation = function(invite) {
 module.exports = DBModel.extend({
 	name: 'Invitation',
 
+	findOrCreate: function(project, users) {
+		var self = this;
+		var a = _.map(users, function(u) {
+			return new Promise(function(resolve, reject) {
+				return self.findOne({user: u})
+					.then(function(inv) {
+						if (inv) {
+							return inv;
+						} else {
+							return self.createProjectInvitation(project, u);
+						}
+					})
+					.then(function(inv) {
+						resolve(inv);
+					}, function(err) {
+						reject(err);
+					});
+			});
+		});
+
+		return Promise.all(a);
+	},
+	createProjectInvitation: function(project, user) {
+		var self = this;
+		var invite = new self.model();
+
+		invite.project = project;
+		invite.user = user;
+		invite.accepted = undefined;
+		return self.create(invite);
+	},
 	createProjectInvitations: function (project, users) {
 		var self = this;
 		var a = users.map(function (user) {

@@ -13,4 +13,10 @@ module.exports = function (app) {
 		.get(routes.setAndRun(User, function (ctrl, req) {
 			return ctrl.search(req.query.name, req.query.email, req.query.org, req.query.groupId);
 		}));
+
+	app.route('/api/toinvite/user')
+		.all(policy('user'))
+		.get(routes.setAndRun(User, function (ctrl, req) {
+			return ctrl.searchForUsersToInvite(req.query.projectId);
+		}));
 };

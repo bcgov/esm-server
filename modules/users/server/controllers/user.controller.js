@@ -10,9 +10,114 @@ var DBModel = require(path.resolve('./modules/core/server/controllers/core.dbmod
 
 var GroupController = require(path.resolve('./modules/groups/server/controllers/group.controller'));
 
+var mongoose = require ('mongoose');
+var Role  = mongoose.model ('_Role');
+var Invitation = mongoose.model('Invitation');
+
 module.exports = DBModel.extend({
 	name: 'User',
 	plural: 'users',
+	searchForUsersToInvite: function (projectId) {
+		console.log('projectId = ', projectId);
+		var self = this;
+		if (!_.isEmpty(projectId)) {
+
+			var getRoles = new Promise(function(resolve, reject) {
+				Role.find({
+					context: projectId,
+					user: {$ne: null}
+				}).exec(function (error, data) {
+					if (error) {
+						reject(new Error(error));
+					} else if (!data) {
+						reject(new Error('searchForUsersToInvite.getRoles: no roles found for project ', projectId));
+					} else {
+						resolve(data);
+					}
+				});
+			});
+
+			var getUsers = function(usernames) {
+				var uniqueNames = _.uniq(usernames);
+				return new Promise(function (resolve, reject) {
+					var q = {
+						username: {$in: uniqueNames}
+					};
+
+					self.listIgnoreAccess(q, 'displayName username email orgName')
+						.then(function (res) {
+							resolve(res);
+						}, function (err) {
+							reject(new Error(err));
+						});
+				});
+			};
+
+			var getInvitations = function(users) {
+				var userIds = _.map(users, '_id');
+				return new Promise(function(resolve, reject) {
+					Invitation.find({
+						user: {$in: userIds}
+					}).exec(function (error, data) {
+						if (error) {
+							reject(new Error(error));
+						} else {
+							resolve(data);
+						}
+					});
+				});
+			};
+
+			return new Promise(function(resolve, reject) {
+				var roles, users, invitations;
+				console.log('searchForUsersToInvite 1) getRoles...');
+				return getRoles
+					.then(function(data) {
+						console.log('searchForUsersToInvite 1) results: ', data.length);
+						roles = data;
+						var usernames = _.map(roles, 'user');
+						console.log('searchForUsersToInvite 2) getUsers...');
+						return getUsers(usernames);
+					})
+					.then(function(data) {
+						console.log('searchForUsersToInvite 2) results: ', data.length);
+						users = data;
+						console.log('searchForUsersToInvite 3) getInvitations...');
+						return getInvitations(users);
+					})
+					.then(function(data) {
+						console.log('searchForUsersToInvite 3) results: ', data.length);
+						invitations = data;
+						// ok, return all users that have a bad or unknown guid
+						// also mark if they've been invited (but not accepted)...
+						var results = [];
+						_.forEach(users, function(u) {
+
+							if (_.isEmpty(u.userGuid) || _.startsWith(u.userGuid, 'esm-')) {
+								var invite = _.find(invitations, function(i) { return i.user.toString() === u._id.toString() && _.isEmpty(i.accepted); });
+
+								var cu = u.toObject();
+								cu.hasInvitation = !_.isEmpty(invite);
+								results.push(cu);
+							}
+						});
+						console.log('searchForUsersToInvite 4) results...');
+						return results;
+					})
+					.then(function(data) {
+							console.log('searchForUsersToInvite 4) results: ', data.length);
+							resolve(data);
+					},
+						function (err) {
+							console.log('searchForUsersToInvite !) error: ', JSON.stringify(err));
+							reject(new Error(err));
+					});
+			});
+		} else {
+			// let's deal with this later when we are doing system level invites...
+			return Promise.resolve([]);
+		}
+	},
 
 	search: function (name, email, org, groupId) {
 		var self = this;
