@@ -11,6 +11,9 @@ angular.module('communications').factory ('CommunicationModel', function (ModelB
 		},
 		send: function(model) {
 			return this.put ('/api/communication/for/delivery/'+model._id, model);
+		},
+		sendInvitation: function(model) {
+			return this.put ('/api/communication/for/rsvp/'+model._id, model);
 		}
 	});
 	return new Class ();

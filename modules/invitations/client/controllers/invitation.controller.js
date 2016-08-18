@@ -21,6 +21,8 @@ angular
 
 		var transformTemplate = function() {
 
+			var invitationUrl = "<a href='" + window.location.origin + "%INVITATION_PATH%'>" + $scope.project.name + "</a>";
+
 			var subject = !_.isEmpty(self.communication.templateSubject) ? self.communication.templateSubject : '';
 			subject = subject.replace('%PROJECT_NAME%', $scope.project.name);
 			subject = subject.replace('%CURRENT_USER_NAME%', $scope.authentication.user.displayName);
@@ -30,6 +32,7 @@ angular
 			content = content.replace('%PROJECT_NAME%', $scope.project.name);
 			content = content.replace('%CURRENT_USER_NAME%', $scope.authentication.user.displayName);
 			content = content.replace('%CURRENT_USER_EMAIL%', $scope.authentication.user.email);
+			content = content.replace('%INVITATION_URL%', invitationUrl);
 
 			return {
 				subject : subject,
@@ -247,7 +250,7 @@ angular
 			modalDocView.result.then(function () {
 				CommunicationModel.save(communication)
 					.then(function(saveRes) {
-						return CommunicationModel.send(saveRes);
+						return CommunicationModel.sendInvitation(saveRes);
 					})
 					.then(function(sendRes) {
 						$scope.showSuccess('"'+ communication.name +'"' + ' was sent successfully.', reloadEdit, 'Send Success');
