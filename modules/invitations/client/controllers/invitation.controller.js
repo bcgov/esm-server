@@ -21,7 +21,7 @@ angular
 
 		var transformTemplate = function() {
 
-			var invitationUrl = "<a href='" + window.location.origin + "%INVITATION_PATH%'>" + $scope.project.name + "</a>"
+			var invitationUrl = "<a href='" + window.location.origin + "%INVITATION_PATH%'>" + $scope.project.name + "</a>";
 
 			var subject = !_.isEmpty(self.communication.templateSubject) ? self.communication.templateSubject : '';
 			subject = subject.replace('%PROJECT_NAME%', $scope.project.name);
