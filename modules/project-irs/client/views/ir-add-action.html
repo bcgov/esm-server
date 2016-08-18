@@ -49,13 +49,17 @@
 		</div>
 		<div class="form-group">
 			<label class="control-label" for="type">Order<em class="required">(Required)</em></label>
-					<label title="Order" id="order" name="order" ng-model="selected.orderArtifact" required/>
-					<button class="add-btn btn btn-sm"
-							ng-if="project.userCan.createInspectionReport"
-							ng-click="changeOrderArtifact(selected)"
-							type="button"
-							title="Add Enforcement Action Conditions"><span class="glyphicon glyphicon-plus"></span>
-						</button>
+				<ul class="tag-list">
+					<li class="tag" ng-repeat="o in selected.condition.concat(selected.conditionArtifacts)">
+						<span class="tag-name">{{o.name}}</span>
+					</li>
+					<li class="add-tag">
+						<button class="btn btn-default btn-sm" type="button"
+		                    x-artifact-list-chooser
+		                    x-project="project"
+		                    x-current="selected.orderArtifact"><span class="glyphicon glyphicon-plus"></span></button>
+	            	</li>
+	            </ul>
 		</div>
 		<div class="form-group">
 			<label class="control-label" for="type">Notes<em class="required">(Required)</em></label>

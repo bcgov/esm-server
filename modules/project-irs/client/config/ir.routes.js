@@ -487,6 +487,10 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 											});
 										}
 									});
+									ArtifactModel.lookup(obj.orderArtifact)
+									.then( function (oa) {
+										obj.orderArtifact = oa;
+									});
 									return obj;
 								}
 							}
@@ -627,31 +631,6 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 							}
 						});
 					}
-				};
-				$scope.changeOrderArtifact = function(action) {
-					var modalDocView = $modal.open({
-						animation: true,
-						templateUrl: 'modules/artifacts/client/views/artifact-select.html',
-						controller: 'controllerSelectArtifact',
-						controllerAs: 'self',
-						scope: $scope,
-						size: 'lg',
-						resolve: {
-							current: function () {
-								if (action.orderArtifact) {
-									return ArtifactModel.lookup(action.orderArtifact);
-								} else {
-									return null;
-								}
-							}
-						}
-					});
-					modalDocView.result.then(function (res) {
-						console.log("res:", res);
-						action.orderArtifact = res;
-					}, function () {
-						//console.log("err");
-					});
 				};
 			}
 		})
