@@ -22,10 +22,10 @@ module.exports = function (app) {
 	.get(routes.setAndRun(Artifact, function (model, req) {
 		return model.getForProject(req.params.projectid);
 	}));
-	app.route('/api/artifact/for/project/:projectid/not/:filtertype')
+	app.route('/api/artifact/for/project/:projectid/filter')
 	.all(policy('guest'))
 	.get(routes.setAndRun(Artifact, function (model, req) {
-		return model.getForProjectFilterType(req.params.projectid, req.params.filtertype, req.query);
+		return model.getForProjectFilterType(req.params.projectid, req.query);
 	}));
 	app.route('/api/artifact/for/project/:projectid/:type')
 	.all(policy('guest'))

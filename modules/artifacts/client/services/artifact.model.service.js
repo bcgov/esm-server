@@ -22,11 +22,8 @@ angular.module('artifacts').factory('ArtifactModel', function (ModelBase, _) {
 			return this.get('/api/artifact/kml/for/project/' + projectid);
 		},
 		// Don't return artifacts of type 'filtertype'
-		forProjectFilterType: function (projectid, filtertype, q) {
-			if (q)
-				return this.get('/api/artifact/for/project/' + projectid + '/not/' + filtertype + '?' + q);
-			
-			return this.get('/api/artifact/for/project/' + projectid + '/not/' + filtertype);
+		forProjectFilterType: function (projectid, q) {
+			return this.get('/api/artifact/for/project/' + projectid + '/filter?' + q);
 		},
 		forProjectGetType: function (projectid, type) {
 			return this.get('/api/artifact/for/project/' + projectid + '/' + type);
