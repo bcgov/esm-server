@@ -13,5 +13,6 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	conditionArtifacts	: [{ type:'ObjectId', 	default: null , ref:'Artifact'}],
 	status				: { type:String, 		default: 'Open' },
 	notes				: { type:String, 		default: '' },
+	orderArtifact		: { type:'ObjectId', 	default: null, ref: 'Artifact' },
 	date				: { type:Date, 		default: null }
 });
