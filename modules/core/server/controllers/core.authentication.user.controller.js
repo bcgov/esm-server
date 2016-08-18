@@ -17,7 +17,7 @@ var parseSm = function (req) {
 		var userGuid = req.headers.smgov_userguid;
 		var userType = req.headers.smgov_usertype;
 
-		if (process.env.NODE_ENV !== 'production') {
+		if (!_.isEmpty(process.env.ALLOW_SITEMINDER_OVERRIDE) && process.env.ALLOW_SITEMINDER_OVERRIDE === 'true') {
 			userGuid = userGuid || req.params.userguid || req.query.smgov_userguid;
 			userType = userType || req.params.usertype || req.query.smgov_usertype;
 		}
@@ -121,10 +121,10 @@ var checkUsers = function (sm, user, inviteUser) {
 		}
 		else if (!user && inviteUser) {
 			if (!_.isEmpty(inviteUser.userGuid) && (sm.userGuid !== inviteUser.userGuid)) {
-				console.log(chalk.green("checkUsers()... inviteUser.userGuid: '" + inviteUser.userGuid + "' sm.userGuid: '" + sm.userGuid + "'"));
+				//console.log(chalk.green("checkUsers()... inviteUser.userGuid: '" + inviteUser.userGuid + "' sm.userGuid: '" + sm.userGuid + "'"));
 				// auto-assigned guid - we can carry on in this case...
 				if (inviteUser.userGuid.lastIndexOf("esm-", 0) === 0) {
-					console.log(chalk.green("checkUsers()...detected auto-assigned userGuid...proceeding with SiteMinder account linking..."));
+					//console.log(chalk.green("checkUsers()...detected auto-assigned userGuid...proceeding with SiteMinder account linking..."));
 					fulfill(inviteUser);
 				} else {
 					reject(new Error('Invitation user does not match Signed in user.'));
@@ -190,19 +190,19 @@ exports.signIn = function (req, res) {
 	parseSm(req)
 		.then(function (sm) {
 			siteMinder = sm;
-			console.log(chalk.green('parseSm(): ' + sm.userGuid));
+			//console.log(chalk.green('parseSm(): ' + sm.userGuid));
 			return findUserByGuid(sm.userGuid);
 		})
 		.then(function (user) {
-			console.log(chalk.green('findUserByGuid(): ' + user.displayName));
+			//console.log(chalk.green('findUserByGuid(): ' + user.displayName));
 			return loginUser(req, user);
 		})
 		.then(function () {
-			console.log(chalk.green('loginUser(): ' + req.isAuthenticated()));
+			//console.log(chalk.green('loginUser(): ' + req.isAuthenticated()));
 			res.redirect(redirectPath);
 		})
 		.catch(function (err) {
-			console.error(chalk.red('Error: signIn(): ' + err.message));
+			//console.error(chalk.red('Error: signIn(): ' + err.message));
 			// should we do something differently here?
 			redirectPath = '/smerr';
 			if (siteMinder !== undefined && siteMinder.userType !== undefined ) {
@@ -213,17 +213,20 @@ exports.signIn = function (req, res) {
 };
 
 exports.acceptInvitation = function (req, res) {
+	//console.log('acceptInvitation > token = ', req.params.token);
+	//console.log('acceptInvitation > user = ', JSON.stringify(req.user));
 	var redirectPath = '/';
 	var invite, siteMinder, user;
 
-	(new Invitation(req.user)).acceptInvitation(req)
+	(new Invitation({user: req.user, context: 'application'})).acceptInvitation(req)
 		.then(function (data) {
+			//console.log('acceptInvitation > invite = ', JSON.stringify(data));
 			invite = data;
 			return parseSm(req);
 		})
 		.then(function (sm) {
+			//console.log('acceptInvitation > siteMinder = ', JSON.stringify(sm));
 			siteMinder = sm;
-			console.log(chalk.green('parseSm(): ' + siteMinder.userGuid));
 			return findUserByGuid(siteMinder.userGuid).catch(function () {
 				// user may not have guid populated yet...
 				return null;
@@ -231,134 +234,37 @@ exports.acceptInvitation = function (req, res) {
 		})
 		.then(function (u) {
 			if (u) {
+				//console.log('acceptInvitation > found guid = ', JSON.stringify(u));
 				user = u;
 			}
+			//console.log('acceptInvitation > call checkUsers = ', JSON.stringify(u));
 			return checkUsers(siteMinder, user, invite.user);
 		})
 		.then(function (u) {
+			//console.log('acceptInvitation > checkUsers = ', JSON.stringify(u));
 			user = u; // may come from the invite user, or the sm user...
+			//console.log('acceptInvitation > call updateUserFromSiteminder = ', JSON.stringify(u));
 			return updateUserFromSiteminder(siteMinder, user);
 		})
 		.then(function () {
+			//console.log('acceptInvitation > call loginUser = ', JSON.stringify(user));
 			return loginUser(req, user);
 		})
 		.then(function () {
-			console.log(chalk.green('loginUser(): ' + req.isAuthenticated()));
+			//console.log(chalk.green('loginUser(): ' + req.isAuthenticated()));
 			res.redirect(redirectPath);
 		})
 		.catch(function (err) {
-			console.error(chalk.red('Error: acceptInvitation(): ' + err.message));
+			//console.error(chalk.red('Error: acceptInvitation(): ' + err.message));
 			// should we do something differently here?
 			// can we examine an error type and send off a different message?
 			res.redirect(redirectPath);
 		});
 
-
-	/*
-	 var siteMinder, user, invite;*
-	 parseSm(req)
-	 .then(function (sm) {
-	 siteMinder = sm;
-	 console.log(chalk.green('parseSm(): ' + siteMinder.userGuid));
-	 return findUserByGuid(siteMinder.userGuid).catch(function () {
-	 // user may not have guid populated yet...
-	 return null;
-	 });
-	 })
-	 .then(function (u) {
-	 if (u) {
-	 user = u;
-	 }
-	 return findInvitation(req.params.token);
-	 })
-	 .then(function(i) {
-	 invite = i;
-	 return checkUsers(siteMinder, user, invite.user);
-	 })
-	 .then(function(u) {
-	 user = u; // may come from the invite user, or the sm user...
-	 return updateUserFromSiteminder(siteMinder, user);
-	 })
-	 .then(function() {
-	 // this will add any roles from the invitation to our user if they don't exist...
-	 return handleInvitation(user, invite);
-	 })
-	 .then(function() {
-	 return loginUser(req, user);
-	 })
-	 .then(function () {
-	 console.log(chalk.green('loginUser(): ' + req.isAuthenticated()));
-	 res.redirect(redirectPath);
-	 })
-	 .catch(function (err) {
-	 console.error(chalk.red('Error: acceptInvitation(): ' + err.message));
-	 // should we do something differently here?
-	 // can we examine an error type and send off a different message?
-	 res.redirect(redirectPath);
-	 });
-	 */
-	//res.redirect(redirectPath);
-};
-
-
-exports.acceptAllInvitations = function (req, res) {
-
-	// in this case, we get a token for one invitation, but we want to accept all outstanding for the user associated to this invitation.
-	var redirectPath = '/';
-	/*
-	 var siteMinder, user, invite;
-
-	 parseSm(req)
-	 .then(function (sm) {
-	 siteMinder = sm;
-	 console.log(chalk.green('parseSm(): ' + siteMinder.userGuid));
-	 return findUserByGuid(siteMinder.userGuid).catch(function () {
-	 // user may not have guid populated yet...
-	 return null;
-	 });
-	 })
-	 .then(function (u) {
-	 if (u) {
-	 user = u;
-	 }
-	 return findInvitation(req.params.token);
-	 })
-	 .then(function(i) {
-	 invite = i;
-	 return checkUsers(siteMinder, user, invite.user);
-	 })
-	 .then(function(u) {
-	 user = u; // may come from the invite user, or the sm user...
-	 return updateUserFromSiteminder(siteMinder, user);
-	 })
-	 .then(function() {
-	 return findInvitations(user);
-	 })
-	 .then(function(invitations) {
-	 // accept all invitations...
-	 var allAcceptPromises = invitations.map (function (invitation) {
-	 return handleInvitation(user, invitation);
-	 });
-	 return Promise.all(allAcceptPromises);
-	 })
-	 .then(function() {
-	 return loginUser(req, user);
-	 })
-	 .then(function () {
-	 console.log(chalk.green('loginUser(): ' + req.isAuthenticated()));
-	 res.redirect(redirectPath);
-	 })
-	 .catch(function (err) {
-	 console.error(chalk.red('Error: acceptAllInvitations(): ' + err.message));
-	 // should we do something differently here?
-	 // can we examine an error type and send off a different message?
-	 res.redirect(redirectPath);
-	 });
-	 */
 };
 
 exports.logHeaders = function(req, res) {
-	console.log(JSON.stringify(req.headers));
+	//console.log(JSON.stringify(req.headers));
 
 	res.writeHead(200, {'Content-Type': 'text/plain'});
 	res.end(JSON.stringify(req.headers));
