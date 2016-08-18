@@ -86,7 +86,7 @@ module.exports = DBModel.extend ({
 		if (model.personalized) {
 			// get the invitations, or create a new ones...
 			// we need to add that to each email...
-			return invitationController.findOrCreate(model.project, userIds)
+			return invitationController.findOrCreate(userIds)
 				.then(function(invites) {
 					var invitationData = [];
 					_.forEach(emailList, function(r) {

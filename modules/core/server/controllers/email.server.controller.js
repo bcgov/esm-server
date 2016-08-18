@@ -119,12 +119,12 @@ var sendEach = function(subject, text, html, recipients) {
 
 
 var sendInvitations = function(subject, text, html, invitationData) {
-	console.log('a');
+	//console.log('a');
 
 	var a = invitationData.map(function(item) {
-		console.log(item);
+		//console.log(item);
 		return new Promise(function(resolve, reject) {
-			console.log('b');
+			//console.log('b');
 			var recipientEmail = getRecipientEmail(item.to.address);
 
 			subject = subject.replace('%TO_NAME%', item.to.name);
@@ -139,10 +139,10 @@ var sendInvitations = function(subject, text, html, invitationData) {
 			html = html.replace('%TO_EMAIL%', item.to.address);
 			html = html.replace('%INVITATION_PATH%', '/authentication/accept/' + item.invitation._id.toString());
 
-			console.log('recipientEmail = ', recipientEmail);
-			console.log('subject = ', subject);
-			console.log('text = ', text);
-			console.log('html = ', html);
+			//console.log('recipientEmail = ', recipientEmail);
+			//console.log('subject = ', subject);
+			//console.log('text = ', text);
+			//console.log('html = ', html);
 
 			var mailOptions = {
 				to: recipientEmail,
@@ -151,15 +151,15 @@ var sendInvitations = function(subject, text, html, invitationData) {
 				text: text,
 				html: html
 			};
-			console.log('c');
+			//console.log('c');
 
 			transporter.sendMail(mailOptions, function (error, info) {
 				if (error) {
-					console.log('Failed to send email to recipient ' + item.email + ' using mailer options' + JSON.stringify(config.mailer.options, null, 4));
+					//console.log('Failed to send email to recipient ' + item.email + ' using mailer options' + JSON.stringify(config.mailer.options, null, 4));
 					reject(new Error(error.toString()));
 				} else {
 					var result = {to: item.to.address, accepted: _.includes(info.accepted, recipientEmail), rejected: _.includes(info.rejected, recipientEmail), messageId: info.messageId };
-					console.log('Sent email result: ', JSON.stringify(result));
+					//console.log('Sent email result: ', JSON.stringify(result));
 					resolve(result);
 				}
 			});
@@ -168,9 +168,9 @@ var sendInvitations = function(subject, text, html, invitationData) {
 
 	return Promise.all(a)
 		.then(function(res) {
-			console.log(JSON.stringify(res));
+			//console.log(JSON.stringify(res));
 		}, function(err) {
-			console.log(JSON.stringify(err));
+			//console.log(JSON.stringify(err));
 		});
 };
 //

@@ -18,7 +18,7 @@ module.exports = DBModel.extend({
 	name: 'User',
 	plural: 'users',
 	searchForUsersToInvite: function (projectId) {
-		console.log('projectId = ', projectId);
+		//console.log('projectId = ', projectId);
 		var self = this;
 		if (!_.isEmpty(projectId)) {
 
@@ -70,23 +70,23 @@ module.exports = DBModel.extend({
 
 			return new Promise(function(resolve, reject) {
 				var roles, users, invitations;
-				console.log('searchForUsersToInvite 1) getRoles...');
+				//console.log('searchForUsersToInvite 1) getRoles...');
 				return getRoles
 					.then(function(data) {
-						console.log('searchForUsersToInvite 1) results: ', data.length);
+						//console.log('searchForUsersToInvite 1) results: ', data.length);
 						roles = data;
 						var usernames = _.map(roles, 'user');
-						console.log('searchForUsersToInvite 2) getUsers...');
+						//console.log('searchForUsersToInvite 2) getUsers...');
 						return getUsers(usernames);
 					})
 					.then(function(data) {
-						console.log('searchForUsersToInvite 2) results: ', data.length);
+						//console.log('searchForUsersToInvite 2) results: ', data.length);
 						users = data;
-						console.log('searchForUsersToInvite 3) getInvitations...');
+						//console.log('searchForUsersToInvite 3) getInvitations...');
 						return getInvitations(users);
 					})
 					.then(function(data) {
-						console.log('searchForUsersToInvite 3) results: ', data.length);
+						//console.log('searchForUsersToInvite 3) results: ', data.length);
 						invitations = data;
 						// ok, return all users that have a bad or unknown guid
 						// also mark if they've been invited (but not accepted)...
@@ -101,15 +101,15 @@ module.exports = DBModel.extend({
 								results.push(cu);
 							}
 						});
-						console.log('searchForUsersToInvite 4) results...');
+						//console.log('searchForUsersToInvite 4) results...');
 						return results;
 					})
 					.then(function(data) {
-							console.log('searchForUsersToInvite 4) results: ', data.length);
+							//console.log('searchForUsersToInvite 4) results: ', data.length);
 							resolve(data);
 					},
 						function (err) {
-							console.log('searchForUsersToInvite !) error: ', JSON.stringify(err));
+							//console.log('searchForUsersToInvite !) error: ', JSON.stringify(err));
 							reject(new Error(err));
 					});
 			});
