@@ -289,7 +289,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 			return false;
 		}
 
-		ProjectModel.submit ()
+		ProjectModel.submit ($scope.project)
 		.then (function (data) {
 	  		$scope.project = _.extend($scope.project, data);
 			$state.go('p.detail', {projectid: $scope.project.code});
