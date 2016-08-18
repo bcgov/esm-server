@@ -38,11 +38,10 @@ module.exports = DBModel.extend({
 		});
 	},
 	// If we want artifacts that do not equal a certain type
-	getForProjectFilterType: function (projectid, filterType, qs) {
-		var q = {project: projectid, typeCode: {$ne: filterType}};
-		if (qs) {
-			q = _.merge(q, qs);
-		}
+	getForProjectFilterType: function (projectid, qs) {
+		var q = {project: projectid};
+		q.isPublished = qs.isPublished;
+		q.typeCode = { '$nin': qs.typeCodeNe.split(',') };
 		this.populate = 'artifactType template document valuedComponents addedBy updatedBy';
 		return this.findMany(q, {
 			name: 1,
