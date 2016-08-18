@@ -8,6 +8,7 @@ var path      = require('path');
 var _         = require ('lodash');
 var DBModel   = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
 var EmailController   = require (path.resolve('./modules/core/server/controllers/email.server.controller'));
+var InvitationController = require (path.resolve('./modules/invitations/server/controllers/invitation.controller'));
 
 
 module.exports = DBModel.extend ({
@@ -68,6 +69,39 @@ module.exports = DBModel.extend ({
 				}).catch(function(err) {
 					//console.log(JSON.stringify(err));
 				});
+		}
+	},
+
+	deliverInvitation: function(model) {
+		var emailList = _.filter(model.recipients, function(o) { return o.viaEmail; });
+		var userIds = _.map(emailList, 'userId');
+		var recipients = [];
+		_.forEach(emailList, function(o) {
+			recipients.push({name: o.displayName, address: o.email});
+		});
+
+		var invitationController = new InvitationController(this.opts);
+
+		// this should always be personalized...
+		if (model.personalized) {
+			// get the invitations, or create a new ones...
+			// we need to add that to each email...
+			return invitationController.findOrCreate(model.project, userIds)
+				.then(function(invites) {
+					var invitationData = [];
+					_.forEach(emailList, function(r) {
+						var invite = _.find(invites, function(i) { return i.user.toString() === r.userId; });
+						invitationData.push({ to: {name: r.displayName, address: r.email}, invitation: invite });
+					});
+					return EmailController.sendInvitations(model.subject, '', model.content, invitationData);
+				})
+			.then(function(res) {
+				model.status = 'Sent';
+				model.dateSent = Date.now();
+				return model.save();
+			}).catch(function(err) {
+				//console.log(JSON.stringify(err));
+			});
 		}
 	}
 });
