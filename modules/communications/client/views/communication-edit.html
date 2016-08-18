@@ -46,8 +46,8 @@
 								</li>
 								<li class="add-tag">
 									<button class="btn btn-default btn-sm" type="button"
-										x-artifact-list-chooser 
-										x-project="project" 
+										x-artifact-list-chooser
+										x-project="project"
 										x-current="artifacts"><span class="glyphicon glyphicon-plus"></span></button>
 								</li>
 							</ul>
@@ -86,7 +86,10 @@
         </button>
 				<button type="button" x-user-search-chooser x-project="project" x-destination="existingRecipients" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add Existing</span>
         </button>
-			</div>
+        <button class="btn btn-default btn-sm"
+                ng-if="authentication.user"
+                ng-click="s.downloadAddressList()"><span class="glyphicon glyphicon-download-alt"></span><span>Download CSV</span></button>
+      </div>
 			<div class="panel panel-default">
 				<table ng-table="tableParams" show-filter="true" class="communications-table table table-hover vc-table">
 					<tr ng-repeat="o in $data">

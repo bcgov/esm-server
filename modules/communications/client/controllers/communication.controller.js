@@ -19,6 +19,38 @@ angular
 		$scope.artifacts = angular.copy(self.communication.artifacts);
 		$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
 
+		self.downloadAddressList = function () {
+			var getBrowser = function() {
+				var userAgent = window.navigator.userAgent;
+				var browsers = {chrome: /chrome/i, safari: /safari/i, firefox: /firefox/i, ie: /internet explorer/i};
+				for(var key in browsers) {
+					if (browsers[key].test(userAgent)) {
+						return key;
+					}
+				}
+			};
+			CommunicationModel.prepareAddressCSV($scope.tableParams.data)
+				.then( function (data) {
+					var blob = new Blob([ data ], { type : 'octet/stream' });
+					var url = (window.URL || window.webkitURL).createObjectURL( blob );
+					var anchor = document.createElement("a");
+
+					var name = self.communication.name;
+					name = name.toLowerCase ();
+					name = name.replace (/\W/g,'-');
+					name = name.replace (/-+/,'-');
+
+					anchor.download = $scope.project.code + '-' + name + '-address-list.csv';
+					anchor.href = url;
+					var browse = getBrowser();
+					if (browse === 'firefox') {
+						window.location.href = url;
+					}
+					anchor.click();
+					window.URL.revokeObjectURL(url);
+				});
+		};
+
 
 		var transformTemplate = function() {
 			var artifactHtml = '';
@@ -160,18 +192,16 @@ angular
 				if (data && data.length > 0) {
 					//
 					_.forEach(data, function(user) {
-						var item =  _.find($scope.recipients, function(o) { return o.email === user.email; });
+						var item =  _.find($scope.recipients, function(o) { return o._id === user._id; });
 						if (!item) {
-							var viaEmail = user.viaEmail;
-							var viaMail = user.viaMail;
-							var emailAddress = user.email;
-
 							if (_.startsWith(user.email, "none@specified.com")) {
-								viaEmail = false;
-								viaMail = true;
-								emailAddress = '';
+								user.viaEmail = false;
+								user.viaMail = true;
+								user.email = '';
 							}
-							$scope.recipients.push({displayName: user.displayName, email: emailAddress, viaEmail: viaEmail, viaMail: viaMail, userId: user._id, org: user.orgName});
+							user.org = user.orgName;
+							user.userId = user._id;
+							$scope.recipients.push(user);
 						}
 					});
 
