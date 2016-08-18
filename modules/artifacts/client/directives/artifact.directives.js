@@ -143,7 +143,7 @@ angular.module('artifacts')
 			s.init = function () {
 				// In this view we don't want individual VC's to show up, instead they will
 				// show up in the VC page.
-				ArtifactModel.forProjectFilterType($scope.project._id, "valued-component", "isPublished=" + $scope.published)
+				ArtifactModel.forProjectFilterType($scope.project._id, "isPublished=" + $scope.published + "&typeCodeNe=valued-component,inspection-report")
 				.then(function (c) {
 					s.tableParams = new NgTableParams({count: 10}, {dataset: c});
 					// console.log ("artifacts = ", c);
