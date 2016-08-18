@@ -60,7 +60,7 @@ $modal-footer-bg: 			#FFF;
 
 /* Panel */
 $panel-border-color: 		#DDD;
-$panel-heading-bg: 			#FFF;
+$panel-heading-bg: 			#F7F8FA;
 $panel-heading-color: 		#494949;
 $panel-footer-bg: 			#FFF;
 
@@ -3872,7 +3872,7 @@ section {
 	}
 }
 
-@media (min-width: 480px) and (max-width: 1024px) {
+@media (min-width: 480px) and (max-width: 1200px) {
 	.public-comment-period-view {
 		td.attachment-col {
 			position: absolute;
@@ -4283,6 +4283,11 @@ section {
 		.label {
 			min-width: 7rem;
 		}
+	}
+
+	.enforcement-notes {
+		margin-top: 0.5rem;
+		display: block;
 	}
 }
 

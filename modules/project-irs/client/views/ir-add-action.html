@@ -5,7 +5,7 @@
 	<h3 class="modal-title">Add/Edit Enforcement Action</h3>
 </div>
 
-<form class="action-form" >
+<form class="action-form" novalidate>
 	<div class="modal-body">
 		<div class="form-group">
 			<label class="control-label">Action</label>
@@ -38,8 +38,7 @@
 					<li class="tag" ng-repeat="o in selected.condition.concat(selected.conditionArtifacts)">
 						<span class="tag-name">{{o.name}}</span>
 						<button class="btn" ng-click="removeEnforcementActionCondition(o, selected)"><span aria-hidden="true">×</span></button>
-					</li>
-					<li class="add-tag">
+					</li><li class="add-tag">
 						<button class="add-btn btn btn-sm"
 							ng-if="project.userCan.createInspectionReport"
 							ng-click="addEditEnforcementActionCondition(selected)" type="button" title="Add Enforcement Action Conditions"><span class="glyphicon glyphicon-plus"></span>
@@ -64,7 +63,7 @@
 		</div>
 		<div class="form-group">
 			<label class="control-label" for="type">Notes<em class="required">(Required)</em></label>
-					<input class="form-control" title="Notes" id="actionnotes" name="actionnotes" ng-model="selected.notes" required/>
+			<input class="form-control" title="Notes" id="actionnotes" name="actionnotes" ng-model="selected.notes" required/>
 		</div>
 	</div>
 	<div class="modal-footer">
