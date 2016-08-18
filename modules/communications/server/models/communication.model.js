@@ -44,7 +44,17 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 		userId: {type: String, default: null}, // actually the user guid, will need for mail outs...
 		displayName: {type: String, default: null},
 		org: {type: String, default: null},
+
 		viaEmail : { type:Boolean, default: true }, // will set to false if email starts with "none@specified.com" from import
-		viaMail : { type:Boolean, default: false } // will set to true if email starts with "none@specified.com" from import
+		viaMail : { type:Boolean, default: false }, // will set to true if email starts with "none@specified.com" from import
+
+		// this stuff is for  mail outs, downloading csv files...
+		salutation              : { type:String, default: '' },
+		address1                : { type:String, default: '' },
+		address2                : { type:String, default: '' },
+		city                    : { type:String, default: '' },
+		province                : { type:String, default: '' },
+		country                 : { type:String, default: '' },
+		postalCode              : { type:String, default: '' }
 	}]
 });
