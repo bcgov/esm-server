@@ -111,7 +111,12 @@
 						data-title="'Action'" 
 						sortable="'o.action'">
 						<strong class="enforcement-name">{{o.action}}</strong>
-						<a class="condition-link" ui-sref="p.ir.condition({irId:o._id})">Condition Link goes here</a>
+						<ul class="anchor-list">
+							<li ng-repeat="cell in o.condition.concat(o.conditionArtifacts)">
+								<a href="#">{{cell.name}}</a>
+							</li>
+						</ul>
+						<span class="enforcement-notes" ng-if="o.notes">{{o.notes}}</span>
 					</td>
 					<td class="status-col"
 				 		header-class="'status-col'"
