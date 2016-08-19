@@ -380,6 +380,18 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					EnforcementModel.lookup(item)
 					.then( function (o) {
 						ir.enforcementActions[key] = o;
+						_.each(o.condition, function (con, idx) {
+							ProjectConditionModel.lookup(con)
+							.then(function (conObj) {
+								o.condition[idx] = conObj;
+							});
+						});
+						_.each(o.conditionArtifacts, function (ca, idx) {
+							ArtifactModel.lookup(ca)
+							.then(function (conObj) {
+								o.conditionArtifacts[idx] = conObj;
+							});
+						});
 						$scope.$apply();
 					});
 				});
@@ -649,10 +661,11 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					return IrModel.getModel ($stateParams.irId);
 				}
 			},
-			controller: function ($scope, ir, project, ArtifactModel, _, EnforcementModel) {
+			controller: function ($scope, ir, project, ArtifactModel, _, EnforcementModel, ProjectConditionModel) {
 				// console.log ('ir = ', ir);
 				$scope.ir = ir;
 				$scope.project = project;
+
 				_.each(ir.conditionArtifacts, function (item, key) {
 					ArtifactModel.lookup(item)
 					.then( function (o) {
@@ -660,10 +673,29 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 						$scope.$apply();
 					});
 				});
+				_.each(ir.conditions, function (item, key) {
+					ProjectConditionModel.lookup(item)
+					.then( function (o) {
+						ir.conditions[key] = o;
+						$scope.$apply();
+					});
+				});
 				_.each(ir.enforcementActions, function (item, key) {
 					EnforcementModel.lookup(item)
 					.then( function (o) {
 						ir.enforcementActions[key] = o;
+						_.each(o.condition, function (con, idx) {
+							ProjectConditionModel.lookup(con)
+							.then(function (conObj) {
+								o.condition[idx] = conObj;
+							});
+						});
+						_.each(o.conditionArtifacts, function (ca, idx) {
+							ArtifactModel.lookup(ca)
+							.then(function (conObj) {
+								o.conditionArtifacts[idx] = conObj;
+							});
+						});
 						$scope.$apply();
 					});
 				});
