@@ -21,7 +21,7 @@
 	</ul>
 
 	<div class="tab-pane active" ng-show="form.curTab === 'Update Details'" ng-form="projectUpdateDetailsForm">
-		
+
 		<div class="panel panel-default">
 			<div class="panel-body detail-panel">
 				<div class="detail-row">
@@ -31,7 +31,7 @@
 				<div class="detail-row">
 					<label>Related Content ({{artifacts.length}})</label>
 					<div class="anchor-list">
-						<a ng-repeat="art in artifacts">{{art.name}}{{$last ? '' : ', '}}</a>
+						<a ng-repeat="art in artifacts" ui-sref="p.artifact.view({artifactId:'{{art._id}}'})">{{art.name}}{{$last ? '' : ', '}}</a>
 					</div>
 				</div>
 				<div class="detail-row">

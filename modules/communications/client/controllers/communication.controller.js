@@ -174,7 +174,10 @@ angular
 			$state.transitionTo('p.communication.edit', {projectid: $scope.project.code, communicationId: model._id }, {
 				reload: true, inherit: false, notify: true
 			});
+		};
 
+		var goNowhere = function() {
+			// do nothing...
 		};
 
 
@@ -343,7 +346,7 @@ angular
 						$scope.showSuccess('"'+ self.communication.name +'"' + ' was saved successfully', goToEdit(res), 'Save Successful');
 					})
 					.catch (function (err) {
-						$scope.showError('"'+ self.communication.name +'"' + ' was not saved.', [], Promise.resolve(), 'Save Error');
+						$scope.showError('"'+ self.communication.name +'"' + ' was not saved.', [], goNowhere, 'Save Error');
 					});
 
 			} else {
