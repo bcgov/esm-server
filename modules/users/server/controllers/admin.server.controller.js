@@ -8,10 +8,46 @@ var path     = require('path');
 var DBModel   = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
 var _         = require ('lodash');
 
+var Org = require('mongoose').model('Organization');
+
 module.exports = DBModel.extend ({
 	name : 'User',
 	plural : 'users',
-	populate: 'org'
+	populate: 'org',
+
+	preprocessAdd: function(o) {
+		if (!_.isEmpty(o.org)) {
+			var orgId = _.has(o.org, '_id') ? o.org._id : o.org;
+			return new Promise(function(resolve, reject) {
+				Org.findOne({_id: orgId}).exec()
+					.then(function(res) {
+						o.orgName = res.name;
+						resolve(o);
+					}, function(err) {
+						reject(err);
+					});
+			});
+		} else {
+			return o;
+		}
+	},
+
+	preprocessUpdate: function(o) {
+		if (!_.isEmpty(o.org)) {
+			var orgId = _.has(o.org, '_id') ? o.org._id : o.org;
+			return new Promise(function(resolve, reject) {
+				Org.findOne({_id: orgId}).exec()
+					.then(function(res) {
+						o.orgName = res.name;
+						resolve(o);
+					}, function(err) {
+						reject(err);
+					});
+			});
+		} else {
+			return o;
+		}
+	}
 });
 
 
