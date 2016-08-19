@@ -241,45 +241,36 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					});
 				};
 				$scope.addEditEnforcementActionCondition = function (action) {
-					console.log("scope:", action);
-					// IrModel.conditionsForIr($scope.ir._id)
-					// .then(function (data) {
-						// console.log("data:", data);
-						// Merge the two conditions && conditionArtifacts into one array
-						// Go through all the items in the array and resolve their objects so that the picker
-						// can show the correct name
-						var irConditions = [];
-						_.each($scope.ir.conditions, function (i) {
-							irConditions.push(i);
+					var irConditions = [];
+					_.each($scope.ir.conditions, function (i) {
+						irConditions.push(i);
+					});
+					_.each($scope.ir.conditionArtifacts, function (i) {
+						irConditions.push(i);
+					});
+					var cur = [];
+					_.each(action.condition, function (i) {
+						cur.push(i);
+					});
+					_.each(action.conditionArtifacts, function (i) {
+						cur.push(i);
+					});
+					return Utils.openEntitySelectionModal(irConditions, 'name', cur)
+					.then(function (selected) {
+						// console.log("selected:", selected);
+						action.condition = [];
+						action.conditionArtifacts = [];
+						_.each(selected, function (i) {
+							// console.log("schem:", i._schemaName);
+							if (i._schemaName === 'ProjectCondition') {
+								action.condition.push(i);
+							} else if (i._schemaName === 'Artifact') {
+								action.conditionArtifacts.push(i);
+							} else {
+								action.conditionArtifacts.push(i);
+							}
 						});
-						_.each($scope.ir.conditionArtifacts, function (i) {
-							irConditions.push(i);
-						});
-						console.log("h:", action);
-						var cur = [];
-						_.each(action.condition, function (i) {
-							cur.push(i);
-						});
-						_.each(action.conditionArtifacts, function (i) {
-							cur.push(i);
-						});
-						console.log("asdfasdfasfd:", action);
-						return Utils.openEntitySelectionModal(irConditions, 'name', cur)
-						.then(function (selected) {
-							console.log("selected:", selected);
-							action.condition = [];
-							action.conditionArtifacts = [];
-							_.each(selected, function (i) {
-								console.log("schem:", i._schemaName);
-								if (i._schemaName === 'ProjectCondition') {
-									action.condition.push(i);
-								} else if (i._schemaName === 'Artifact') {
-									action.conditionArtifacts.push(i);
-								} else {
-									action.conditionArtifacts.push(i);
-								}
-							});
-						});
+					});
 				};
 				$scope.addIRCondition = function () {
 					ProjectConditionModel.forProject($scope.project._id)
@@ -464,7 +455,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 						size: 'md',
 						resolve: {
 							current: function () {
-								console.log("resolving current:", obj);
+								// console.log("resolving current:", obj);
 								if (!obj) {
 									return EnforcementModel.getNew();
 								} else {
@@ -486,7 +477,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 											});
 										}
 									});
-									if (obj.orderArtifact) {
+									if (obj.orderArtifact && !angular.isObject(obj.orderArtifact)) {
 										ArtifactModel.lookup(obj.orderArtifact)
 										.then( function (oa) {
 											obj.orderArtifact = oa;
