@@ -14,31 +14,30 @@
 
 	<div class="view-body-container">
 
-		<div class="tab-pane active" ng-form="detailsForm">
-
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<div class="row">
-						<div class="col-md-4 form-group" x-show-errors>
-							<label class="control-label">Group Name<em class="required">(Required)</em></label>
-							<input class="form-control" ng-model="s.group.name" id="name" name="name" title="Name" required/>
-						</div>
-						<div class="col-md-4 form-group" x-show-errors>
-							<label class="control-label">Group Type<em class="required">(Required)</em></label>
-							<input class="form-control" ng-model="s.group.type" id="type" name="type" title="Type" required/>
-						</div>
+		<div class="panel panel-default" ng-form="detailsForm">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-4 form-group" x-show-errors>
+						<label class="control-label">Group Name<em class="required">(Required)</em></label>
+						<input class="form-control" ng-model="s.group.name" id="name" name="name" title="Name" required/>
 					</div>
-					<div class="form-group">
-						<label>Members ({{members.length}})</label>
-						<div class="button-bar">
-							<button class="btn btn-default btn-sm" type="button" 
-								x-user-search-chooser 
-								x-project="project" 
-								x-destination="existingRecipients">
-								<span class="glyphicon glyphicon-plus"></span><span>Add Existing</span></button>
-						</div>
+					<div class="col-md-4 form-group" x-show-errors>
+						<label class="control-label">Group Type<em class="required">(Required)</em></label>
+						<input class="form-control" ng-model="s.group.type" id="type" name="type" title="Type" required/>
+					</div>
+				</div>
+				<div class="form-group no-margin">
+					<label>Members ({{members.length}})</label>
+					<div class="button-bar">
+						<button class="btn btn-default btn-sm" type="button" 
+							x-user-search-chooser 
+							x-project="project" 
+							x-destination="existingRecipients">
+							<span class="glyphicon glyphicon-plus"></span><span>Add Project Members</span></button>
+					</div>
 
-						<table ng-table="tableParams" show-filter="true" class="communications-table table table-hover vc-table">
+					<div class="panel panel-default no-margin">
+						<table class="table table-hover" ng-table="tableParams" show-filter="true">
 							<tr ng-repeat="o in $data">
 								<td class="name-col" 
 									header-class="'name-col'" 
@@ -64,26 +63,22 @@
 										<span class="glyphicon glyphicon-remove"></span></button>
 								</td>
 							</tr>
-							<tr class="no-records hidden" ng-if="!$data || $data.length === 0">
-								<td colspan="2">
-									No records found.
-								</td>
+							<tr class="no-records" ng-if="!$data || $data.length === 0">
+								<td colspan="4">No Project Members found.</td>
 							</tr>
 						</table>
-
 					</div>
 				</div>
 			</div>
-
 		</div>
 
 		<div class="form-footer">
 			<div class="pull-right">
 				<button type="button" class="btn btn-default btn-sm" ng-click="cancel()">Cancel</button>
 				<button class="btn btn-danger btn-sm" ng-if="canDelete" ng-click="delete(s.group)">
-          <span class="glyphicon glyphicon-trash"></span><span>Delete</span></button>
+          			<span class="glyphicon glyphicon-trash"></span><span>Delete</span></button>
 				<button type="button" class="btn btn-primary btn-sm" ng-click="save(mainForm.$valid)">
-          <span class="glyphicon glyphicon-save"></span><span>Save</span></button>
+          			<span class="glyphicon glyphicon-save"></span><span>Save</span></button>
 			</div>
 		</div>
 
