@@ -48,18 +48,22 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 			$scope.user = user;
 			$scope.orgs = orgs;
 			$scope.salutations = SALUTATIONS;
+			$scope.mode = 'add';
 
-			var which = 'add';
+			var which = $scope.mode;
 			$scope.calculateName = function() {
 				$scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ');
+				$scope.user.username = $filter('kebab')( $scope.user.displayName );
 			};
 			$scope.save = function (isValid) {
-				if (!$scope.user.username || $scope.user.username === '') {
-					$scope.user.username = $filter('kebab')( $scope.user.displayName );
-				}
 				if (!isValid) {
 					$scope.$broadcast('show-errors-check-validity', 'userForm');
 					return false;
+				}
+				if ($scope.mode === 'add') {
+					if (!$scope.user.username || $scope.user.username === '') {
+						$scope.user.username = $filter('kebab')( $scope.user.displayName );
+					}
 				}
 				var p = (which === 'add') ? UserModel.add ($scope.user) : UserModel.save ($scope.user);
 				p.then (function (model) {
@@ -93,19 +97,17 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 		controller: function ($scope, $state, user, orgs, UserModel, $filter, SALUTATIONS) {
 			$scope.user = user;
 			$scope.orgs = orgs;
-
+			$scope.mode = 'edit';
 			$scope.salutations = SALUTATIONS;
+			$scope.calculatedUsername = user.username;
 
-			var which = 'edit';
+			var which = $scope.mode;
 
 			$scope.calculateName = function() {
 				$scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ');
 			};
 
 			$scope.save = function (isValid) {
-				if (!$scope.user.username || $scope.user.username === '') {
-					$scope.user.username = $filter('kebab')( $scope.user.displayName );
-				}
 				if (!isValid) {
 					$scope.$broadcast('show-errors-check-validity', 'userForm');
 					return false;
