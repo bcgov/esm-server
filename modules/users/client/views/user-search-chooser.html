@@ -44,7 +44,7 @@
 			</td>
 			<td class="name-col" header-class="'name-col'" data-title="'Email'" filter="{'email':'text'}" sortable="'email'">{{o.email}}</a>
 			</td>
-			<td class="name-col" header-class="'name-col'" data-title="'Organization'" filter="{'orgName':'text'}" sortable="'orgName'">{{o.orgName}}</a>
+			<td class="name-col" header-class="'name-col'" data-title="'Organization'" filter="{'orgName':'text'}" sortable="'orgName'">{{o.org ? o.org.name : o.orgName}}</a>
 			</td>
 		</tr>
 

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('users')
-	.directive('userSearchChooser', function ($filter, $modal, NgTableParams, GroupModel, UserModel, _) {
+	.directive('userSearchChooser', function ($filter, $modal, NgTableParams, ProjectGroupModel, UserModel, _) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -16,7 +16,7 @@ angular.module('users')
 						size: 'lg',
 						resolve: {
 							projectGroups: function () {
-								return GroupModel.forProject(scope.project._id);
+								return ProjectGroupModel.forProject(scope.project._id);
 							}
 						},
 						controllerAs: 's',
@@ -27,12 +27,7 @@ angular.module('users')
 
 							s.groups = [];
 							_.forEach(projectGroups, function (o) {
-								var item = _.find(s.groups, function (g) {
-									return g.id === o.groupId;
-								});
-								if (!item) {
-									s.groups.push({id: o.groupId, title: o.groupName});
-								}
+								s.groups.push({id: o._id, title: o.name});
 							});
 							s.groups.push({id: '', title: ''});
 

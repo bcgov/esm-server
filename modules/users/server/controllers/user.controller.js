@@ -8,7 +8,7 @@ var path = require('path');
 var _ = require('lodash');
 var DBModel = require(path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
 
-var GroupController = require(path.resolve('./modules/groups/server/controllers/group.controller'));
+var ProjectGroupController = require(path.resolve('./modules/groups/server/controllers/projectgroup.controller'));
 
 var mongoose = require ('mongoose');
 var Role  = mongoose.model ('_Role');
@@ -17,6 +17,8 @@ var Invitation = mongoose.model('Invitation');
 module.exports = DBModel.extend({
 	name: 'User',
 	plural: 'users',
+	populate: 'org',
+
 	searchForUsersToInvite: function (projectId) {
 		//console.log('projectId = ', projectId);
 		var self = this;
@@ -44,7 +46,7 @@ module.exports = DBModel.extend({
 						username: {$in: uniqueNames}
 					};
 
-					self.listIgnoreAccess(q, 'displayName username email orgName')
+					self.listIgnoreAccess(q)
 						.then(function (res) {
 							resolve(res);
 						}, function (err) {
@@ -147,15 +149,15 @@ module.exports = DBModel.extend({
 			if (_.isEmpty(groupId)) {
 				resolve([]);
 			} else {
-				var groupCtrl = new GroupController(self.opts);
-				//console.log('self.listIgnoreAccess({groupId: groupId})...');
-				return groupCtrl.listIgnoreAccess({groupId: groupId})
+				var groupCtrl = new ProjectGroupController(self.opts);
+				//console.log('groupCtrl.oneIgnoreAccess({_id: groupId}})...');
+				return groupCtrl.oneIgnoreAccess({_id: groupId})
 					.then(function (res) {
-						//console.log('self.listIgnoreAccess({groupId: groupId})...', res.length);
-						var personIds = _.map(res, 'personId');
-						//console.log('self.listIgnoreAccess({groupId: groupId})... personIds', personIds.length);
-						//console.log('self.listIgnoreAccess({personId: {$in: personIds}})...');
-						return self.listIgnoreAccess({personId: {$in: personIds}});
+						//console.log('groupCtrl.oneIgnoreAccess({_id: groupId}})...', res.members.length);
+						var personIds = _.map(res.members, '_id');
+						//console.log('groupCtrl.oneIgnoreAccess({_id: groupId}})... personIds', personIds.length);
+						//console.log('self.listIgnoreAccess({_id: {$in: personIds}})...');
+						return self.listIgnoreAccess({_id: {$in: personIds}});
 					})
 					.then(function (res) {
 						//console.log('self.listIgnoreAccess({personId: {$in: personIds}})... resolve ', res.length);
