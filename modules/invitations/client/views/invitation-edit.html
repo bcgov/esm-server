@@ -31,21 +31,13 @@
 
 			<div class="panel panel-default">
 				<div class="panel-body">
-					<div class="form-group no-margin" x-show-errors>
+					<div class="form-group" x-show-errors>
 						<label class="control-label">Invitation Name<em class="required">(Required)</em></label>
 						<input class="form-control" ng-model="s.communication.name" id="name" name="name" title="Name" required/>
 					</div>
-				</div>
-			</div>
-
-			<div class="panel panel-default">
-				<div class="panel-heading flex-row">
-					<h2>Configure Email</h2>
-					<div class="actions">
+					<div class="form-group">
 						<button type="button" class="btn btn-default btn-sm" x-email-template-chooser x-project="project" x-current="emailTemplate">Use Existing Template</button>
 					</div>
-				</div>
-				<div class="panel-body">
 					<div class="form-group" x-show-errors>
 						<label class="control-label">Subject<em class="required">(Required)</em></label>
 						<input class="form-control" ng-model="s.communication.templateSubject" id="subject" name="subject" title="Subject" required></input>
@@ -53,8 +45,7 @@
 					<div class="form-group no-margin" x-show-errors>
 						<label class="control-label">Message<em class="required">(Required)</em></label>
 						<textarea ui-tinymce="tinymceOptions" type="text" ng-model="s.communication.templateContent" id="message" name="message"
-							title="Message" required ng-blur="activeItem = false">
-                    </textarea>
+							title="Message" required ng-blur="activeItem = false"></textarea>
 					</div>
 				</div>
 			</div>
