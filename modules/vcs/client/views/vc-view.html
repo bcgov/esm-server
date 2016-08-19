@@ -38,11 +38,9 @@
 				</div>
 				<div class="col-sm-12 detail-row" ng-if="vclist.length > 0">
 					<label>Associated Valued & Pathway Components</label>
-					<ul class="anchor-list">
-						<li ng-repeat="o in vclist" ui-sref="p.vc.detail({vcId:o._id})">
-							<a class="title">{{o.title}}</a>
-						</li>
-					</ul>
+					<div class="anchor-list">
+						<a ng-repeat="o in vclist" ui-sref="p.vc.detail({vcId:o._id})">{{o.title}}{{$last ? '' : ', '}}</a>
+					</div>
 				</div>
 			</div>
 		</div>

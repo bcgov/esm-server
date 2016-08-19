@@ -31,11 +31,9 @@
 				<div class="row">
 					<div class="col-md-12">
 						<label>Related Content ({{artifacts.length}})</label>
-						<ul class="anchor-list">
-							<li ng-repeat="art in artifacts">
-								<a href="#">{{art.name}}</a>
-							</li>
-						</ul>
+						<div class="anchor-list">
+							<a ng-repeat="art in artifacts">{{art.name}}{{$last ? '' : ', '}}</a>
+						</div>
 					</div>
 				</div>
 			</div>

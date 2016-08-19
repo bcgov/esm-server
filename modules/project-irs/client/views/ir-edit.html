@@ -122,16 +122,14 @@
 						<span class="enforcement-notes" ng-if="o.notes">{{o.notes}}</span>
 					</td>
 					<td data-title="'Enforcement Conditions'">
-						<ul class="anchor-list">
-							<li ng-repeat="cell in o.condition.concat(o.conditionArtifacts)">
-								<a href="#">{{cell.name}}</a>
-							</li>
-						</ul>
+						<div class="anchor-list">
+							<a ng-repeat="cell in o.condition.concat(o.conditionArtifacts)" href="#">{{cell.name}}{{$last ? '' : ', '}}</a>
+						</div>
 					</td>
 					<td data-title="'Order'">
-						<ul class="anchor-list">
+						<div class="anchor-list">
 							<a href="#">{{o.orderArtifact.name}}</a>
-						</ul>
+						</div>
 					</td>
 					<td class="status-col"
 				 		header-class="'status-col'"
@@ -156,7 +154,7 @@
 						</a>
 					</td>
 					<tr ng-show="ir.enforcementActions.length == 0">
-						<td colspan="4">No Enforcement Actions found</td>
+						<td colspan="6">No Enforcement Actions found</td>
 					</tr>
 				</tr>
 			</table>
