@@ -73,12 +73,13 @@
 				</td>
 				<td data-title="'Enforcement Conditions'">
 					<div class="anchor-list">
-						<a ng-repeat="cell in o.condition.concat(o.conditionArtifacts)">{{cell.name}}{{$last ? '' : ', '}}</a>
+						<a ui-sref="p.artifact.view({artifactId:o._id})"  
+							ng-repeat="cell in o.condition.concat(o.conditionArtifacts)">{{cell.name}}{{$last ? '' : ', '}}</a>
 					</div>
 				</td>
 				<td data-title="'Order'">
 					<ul class="anchor-list">
-						<a href="#">{{o.orderArtifact.name}}</a>
+						<a>{{o.orderArtifact.name}}</a>
 					</ul>
 				</td>
 				<td class="status-col"
