@@ -107,19 +107,19 @@
 			
 			<!-- ADDITIONAL CONTACTS -->
 			<div class="row">
-				<div class="col-sm-4 col-md-4">
+				<div class="col-sm-4 col-md-4" ng-if="project.projectAnalyst">
 					<div class="detail-row">
 						<label>Project Analyst</label>
 						<span class="value">{{project.projectAnalyst | stripIDR}}</span>
 					</div>
 				</div>
-				<div class="col-sm-4 col-md-4">
+				<div class="col-sm-4 col-md-4" ng-if="project.projectAssistant">
 					<div class="detail-row">
 						<label>Project Assistant</label>
 						<span class="value">{{project.projectAssistant | stripIDR}}</span>
 					</div>
 				</div>
-				<div class="col-sm-4 col-md-4">
+				<div class="col-sm-4 col-md-4" ng-if="project.administrativeAssistant">
 					<div class="detail-row">
 						<label>Administrative Assistant</label>
 						<span class="value">{{project.administrativeAssistant | stripIDR}}</span>
