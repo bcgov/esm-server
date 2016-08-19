@@ -2821,20 +2821,8 @@ form {
 	list-style-type: none;
 
 	a {
+		margin-right: 0.5rem;
 		text-decoration: underline;
-	}
-
-	li {
-		display: inline;
-
-		&:before {
-			margin-left: -0.2rem;
-			content: ', ';
-		}
-
-		&:first-child::before {
-			content: '';
-		}
 	}
 
 	+ .btn {
@@ -4283,7 +4271,7 @@ section {
 	}
 
 	.status-col {
-		width: 12rem;
+		width: 10rem;
 
 		.label {
 			min-width: 7rem;
