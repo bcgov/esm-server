@@ -38,7 +38,10 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 		'addUsersToContext',
 		'listProjectUpdates',
 		'createProjectUpdates',
-		'deleteProjectUpdates'
+		'deleteProjectUpdates',
+		'listProjectGroups',
+		'createProjectGroups',
+		'deleteProjectGroups'
 	],
 	__tracking            : true,
 	__status              : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Not Certified', 'Decommissioned'],
