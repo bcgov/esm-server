@@ -15,13 +15,13 @@
 
 		<h3>Notes / Information Requests / Edits</h3>
 		<div class="form-group">
-			<textarea rows="10" class="form-control" ng-model="artifact.decisionnote"></textarea>
+			<textarea rows="10" class="form-control" ng-model="artifact.decisionnote" ng-if="rolePermissions[artifact.stage]"></textarea>
 		</div>
 		<div class="text-right">
 			<a class="btn btn-default" ui-sref="p.artifact.view">Cancel</a>
-			<a class="btn btn-danger" ng-click="reject()">Reject</a>
-			<a class="btn btn-warning" ng-click="info()">Request More Information</a>
-			<a class="btn btn-success" ng-click="submit()">Approve</a>
+			<a class="btn btn-danger" ng-click="reject()" ng-if="rolePermissions[artifact.stage]">Reject</a>
+			<a class="btn btn-warning" ng-click="info()" ng-if="rolePermissions[artifact.stage]">Request More Information</a>
+			<a class="btn btn-success" ng-click="submit()" ng-if="rolePermissions[artifact.stage]">Approve</a>
 		</div>
 	</div>
 </div>

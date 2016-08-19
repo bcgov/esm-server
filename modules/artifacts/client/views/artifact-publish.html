@@ -3,8 +3,8 @@
 	<h1>{{artifact.name}}</h1>
 	<div class="actions">
 		<a class="btn btn-default btn-sm" title="Cancel" ui-sref="p.artifact.view({artifactId:artifact._id})">Cancel</a>
-        <a class="btn btn-default btn-sm" title="Reset" ng-click="reset()">Reset</a>
-		<a class="btn btn-success btn-sm" title="Publish Content" ng-click="submit()">Publish Content</a>
+        <a class="btn btn-default btn-sm" title="Reset" ng-click="reset()" ng-if="rolePermissions[artifact.stage]">Reset</a>
+		<a class="btn btn-success btn-sm" title="Publish Content" ng-click="submit()" ng-if="rolePermissions[artifact.stage]">Publish Content</a>
 	</div>
 </div>
 

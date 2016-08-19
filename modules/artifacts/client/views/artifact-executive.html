@@ -14,12 +14,12 @@
 		<div class="panel-body">
 			<h3>Approval / Rejection Note</h3>
 			<div class="form-group">
-				<textarea rows="10" class="form-control" ng-model="artifact.approvalnote"></textarea>
+				<textarea rows="10" class="form-control" ng-model="artifact.approvalnote" ng-if="rolePermissions[artifact.stage]"></textarea>
 			</div>
 			<div class="text-right">
 				<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
-				<a class="btn btn-default" ng-click="reject()">Reject and return for {{buttons.prev}}</a>
-				<a class="btn btn-success" ng-click="submit()">Approve for {{buttons.next}}</a>
+				<a class="btn btn-default" ng-click="reject()" ng-if="rolePermissions[artifact.stage]">Reject and return for {{buttons.prev}}</a>
+				<a class="btn btn-success" ng-click="submit()" ng-if="rolePermissions[artifact.stage]">Approve for {{buttons.next}}</a>
 			</div>
 		</div>
 	</div>

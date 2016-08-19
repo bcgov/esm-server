@@ -16,7 +16,7 @@
 				</li>
 			</ul>
 		</div>
-		<button class="btn btn-success btn-sm" title="Submit for {{buttons.next}}" ng-click="submit()">Submit for {{buttons.next}}</button>
+		<button class="btn btn-success btn-sm" title="Submit for {{buttons.next}}" ng-click="submit()" ng-if="rolePermissions[artifact.stage]">Submit for {{buttons.next}}</button>
 	</div>
 </div>
 

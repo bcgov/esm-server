@@ -49,6 +49,9 @@ angular.module('artifacts').factory('ArtifactModel', function (ModelBase, _) {
 		remove: function (artifact) {
 			return this.delete('/api/artifact/' + artifact._id);
 		},
+		checkPermissions: function (artifactId) {
+			return this.get('/api/artifact/checkPermissions/' + artifactId);
+		}
 	});
 	return new Class();
 });
