@@ -78,6 +78,9 @@ module.exports = function () {
 				listProjectUpdates: ['eao-admin'],
 				createProjectUpdates: ['eao-admin'],
 				deleteProjectUpdates: ['eao-admin'],
+				listProjectGroups: ['eao-admin'],
+				createProjectGroups: ['eao-admin'],
+				deleteProjectGroups: ['eao-admin'],
 				delete: ['eao-admin', 'intake'],
 				write: ['eao-admin', 'intake'],
 				read: ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical working group', 'local-gov'],
@@ -177,6 +180,21 @@ module.exports = function () {
 		}
 	}));
 
+
+	defaultsArray.push(new Defaults({
+		context: 'project',
+		resource: 'projectgroup',
+		level: 'global',
+		type: 'default-permissions',
+		defaults: {
+			roles: defaultRoles,
+			permissions: {
+				'read': ['eao-admin'],
+				'write': ['eao-admin'],
+				'delete': ['eao-admin']
+			}
+		}
+	}));
 
 	defaultsArray.push(new Defaults({
 		context: 'project',
