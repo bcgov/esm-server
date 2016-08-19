@@ -18,6 +18,10 @@
 				</li>
 			</ul>
 		</div>
+		<button class="btn btn-success btn-sm"
+				title="Update (Re-publish)"
+				ng-if="artifact.isPublished"
+				ng-click="update()">Update</button>
 		<button class="btn btn-success btn-sm" title="Submit for {{buttons.next}}" ng-click="submit()">Submit for {{buttons.next}}</button>
 	</div>
 </div>
