@@ -184,24 +184,28 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 								if (!obj) {
 									return EnforcementModel.getNew();
 								} else {
-									_.each(obj.condition, function (i, idx) {
-										// console.log("condition:", i);
-										if (!angular.isObject(i)) {
-											ProjectConditionModel.lookup(i)
-											.then(function (o) {
-												obj.condition[idx] = o;
-											});
-										}
-									});
-									_.each(obj.conditionArtifacts, function (i, idx) {
-										// console.log("conditionArtifacts:", i);
-										if (!angular.isObject(i)) {
-											ArtifactModel.lookup(i)
-											.then(function (o) {
-												obj.conditionArtifacts[idx] = o;
-											});
-										}
-									});
+									// _.each(obj.condition, function (i, idx) {
+									// 	// console.log("condition:", i);
+									// 	if (!angular.isObject(i)) {
+									// 		ProjectConditionModel.lookup(i)
+									// 		.then(function (o) {
+									// 			obj.condition[idx] = o;
+									// 		}, function () {
+									// 			return i;
+									// 		});
+									// 	}
+									// });
+									// _.each(obj.conditionArtifacts, function (i, idx) {
+									// 	// console.log("conditionArtifacts:", i);
+									// 	if (!angular.isObject(i)) {
+									// 		ArtifactModel.lookup(i)
+									// 		.then(function (o) {
+									// 			obj.conditionArtifacts[idx] = o;
+									// 		}, function () {
+									// 			return i;
+									// 		});
+									// 	}
+									// });
 									return obj;
 								}
 							}
@@ -237,68 +241,45 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					});
 				};
 				$scope.addEditEnforcementActionCondition = function (action) {
-					// console.log("action:", action);
-					IrModel.conditionsForIr($scope.ir._id)
-					.then(function (data) {
+					console.log("scope:", action);
+					// IrModel.conditionsForIr($scope.ir._id)
+					// .then(function (data) {
 						// console.log("data:", data);
 						// Merge the two conditions && conditionArtifacts into one array
-						var arr = [];
-						_.each(data[0].conditions, function (i) {
-							arr.push({ type: 'condition', obj: i});
-						});
-						_.each(data[0].conditionArtifacts, function (i) {
-							arr.push({ type: 'conditionArtifact', obj: i});
-						});
 						// Go through all the items in the array and resolve their objects so that the picker
 						// can show the correct name
 						var irConditions = [];
-						return new Promise(function (rs, rj) {
-							Promise.resolve ()
-							.then (function () {
-								return arr.reduce (function (current, item) {
-									return current.then (function () {
-										// console.log("looking up:", item);
-										if(item.type === 'condition') {
-											return ProjectConditionModel.lookup(item.obj)
-											.then( function (o) {
-												irConditions.push(o);
-												return o;
-											});
-										} else if (item.type === 'conditionArtifact') {
-											return ArtifactModel.lookup(item.obj)
-											.then( function (o) {
-												irConditions.push(o);
-												return o;
-											});
-										}
-										return null;
-									});
-								}, Promise.resolve());
-							}).then(rs, rj);
-						}).then(function () {
-							var cur = [];
-							_.each(action.condition, function (i) {
-								cur.push(i);
-							});
-							_.each(action.conditionArtifacts, function (i) {
-								cur.push(i);
-							});
-							return Utils.openEntitySelectionModal(irConditions, 'name', cur)
-							.then(function (selected) {
-								// console.log("selected:", selected);
-								action.condition = [];
-								action.conditionArtifacts = [];
-								_.each(selected, function (i) {
-									console.log("schem:", i._schemaName);
-									if (i._schemaName === 'ProjectCondition') {
-										action.condition.push(i);
-									} else if (i._schemaName === 'Artifact') {
-										action.conditionArtifacts.push(i);
-									}
-								});
+						_.each($scope.ir.conditions, function (i) {
+							irConditions.push(i);
+						});
+						_.each($scope.ir.conditionArtifacts, function (i) {
+							irConditions.push(i);
+						});
+						console.log("h:", action);
+						var cur = [];
+						_.each(action.condition, function (i) {
+							cur.push(i);
+						});
+						_.each(action.conditionArtifacts, function (i) {
+							cur.push(i);
+						});
+						console.log("asdfasdfasfd:", action);
+						return Utils.openEntitySelectionModal(irConditions, 'name', cur)
+						.then(function (selected) {
+							console.log("selected:", selected);
+							action.condition = [];
+							action.conditionArtifacts = [];
+							_.each(selected, function (i) {
+								console.log("schem:", i._schemaName);
+								if (i._schemaName === 'ProjectCondition') {
+									action.condition.push(i);
+								} else if (i._schemaName === 'Artifact') {
+									action.conditionArtifacts.push(i);
+								} else {
+									action.conditionArtifacts.push(i);
+								}
 							});
 						});
-					});
 				};
 				$scope.addIRCondition = function () {
 					ProjectConditionModel.forProject($scope.project._id)
@@ -499,11 +480,15 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 											});
 										}
 									});
-									ArtifactModel.lookup(obj.orderArtifact)
-									.then( function (oa) {
-										obj.orderArtifact = oa;
-									});
-									return obj;
+									if (obj.orderArtifact) {
+										ArtifactModel.lookup(obj.orderArtifact)
+										.then( function (oa) {
+											obj.orderArtifact = oa;
+										});
+										return obj;
+									} else {
+										return obj;
+									}
 								}
 							}
 						}

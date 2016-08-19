@@ -70,12 +70,19 @@
 					data-title="'Action'" 
 					sortable="'o.action'">
 					<strong class="enforcement-name">{{o.action}}</strong>
+					<span class="enforcement-notes" ng-if="o.notes">{{o.notes}}</span>
+				</td>
+				<td data-title="'Enforcement Conditions'">
 					<ul class="anchor-list">
 						<li ng-repeat="cell in o.condition.concat(o.conditionArtifacts)">
 							<a href="#">{{cell.name}}</a>
 						</li>
 					</ul>
-					<span class="enforcement-notes" ng-if="o.notes">{{o.notes}}</span>
+				</td>
+				<td data-title="'Order'">
+					<ul class="anchor-list">
+						<a href="#">{{o.orderArtifact}}</a>
+					</ul>
 				</td>
 				<td class="status-col"
 					header-class="'status-col'"
