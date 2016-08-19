@@ -373,6 +373,12 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 								o.conditionArtifacts[idx] = conObj;
 							});
 						});
+						if (o.orderArtifact) {
+							ArtifactModel.lookup(o.orderArtifact)
+							.then(function (conObj) {
+								o.orderArtifact = conObj;
+							});
+						}
 						$scope.$apply();
 					});
 				});
@@ -681,6 +687,12 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 								o.conditionArtifacts[idx] = conObj;
 							});
 						});
+						if (o.orderArtifact) {
+							ArtifactModel.lookup(o.orderArtifact)
+							.then(function (conObj) {
+								o.orderArtifact = conObj;
+							});
+						}
 						$scope.$apply();
 					});
 				});
