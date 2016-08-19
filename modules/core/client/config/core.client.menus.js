@@ -128,7 +128,8 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 			'context.listProjectConditions',
 			'context.listProjectComplaints',
 			'context.listProjectInvitations',
-			'context.listProjectUpdates'
+			'context.listProjectUpdates',
+			'context.listProjectGroups'
 		]
 	});
 	Menus.addMenuItem('projectMenu', {
@@ -141,6 +142,11 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 			title: 'Project Invitations',
 			state: 'p.invitation.list',
 			permissions: ['context.listProjectInvitations']
+		});
+		Menus.addMenuItem('projectMenu', {
+			title: 'Project Groups',
+			state: 'p.group.list',
+			permissions: ['context.listProjectGroups']
 		});
 		Menus.addMenuItem('projectMenu', {
 			title: 'Project Updates',
