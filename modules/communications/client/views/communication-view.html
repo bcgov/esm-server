@@ -23,27 +23,17 @@
 	<div class="tab-pane active" ng-show="form.curTab === 'Update Details'" ng-form="projectUpdateDetailsForm">
 		
 		<div class="panel panel-default">
-			<div class="panel-body">
+			<div class="panel-body detail-panel">
 				<div class="detail-row">
 					<label class="control-label">Update Name</label>
 					<span class="value">{{s.communication.name}}</span>
 				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<label>Related Content ({{artifacts.length}})</label>
-						<div class="anchor-list">
-							<a ng-repeat="art in artifacts">{{art.name}}{{$last ? '' : ', '}}</a>
-						</div>
+				<div class="detail-row">
+					<label>Related Content ({{artifacts.length}})</label>
+					<div class="anchor-list">
+						<a ng-repeat="art in artifacts">{{art.name}}{{$last ? '' : ', '}}</a>
 					</div>
 				</div>
-			</div>
-		</div>
-
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h2>Email</h2>
-			</div>
-			<div class="panel-body detail-panel">
 				<div class="detail-row">
 					<label>Subject</label>
 					<span class="value">{{s.communication.templateSubject}}</span>

@@ -155,7 +155,8 @@ pre {
 	overflow: hidden;
 
 	p {
-		margin: 0;
+		display: inline-block;
+		margin: 0.5rem 0;
 		line-height: inherit;
 	}
 
