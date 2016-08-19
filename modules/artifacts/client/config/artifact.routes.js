@@ -208,7 +208,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				ArtifactModel.publish ($scope.artifact._id)
 				.then (function (model) {
 					$state.go ('p.artifact.view');
-				})
+				});
 			};
 			$scope.$on('cleanup', function () {
 				$state.go ('p.artifact.view', {
