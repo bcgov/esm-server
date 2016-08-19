@@ -1,19 +1,17 @@
 'use strict';
-// =========================================================================
-//
-// Controller for vcs
-//
-// =========================================================================
+
 var path      = require('path');
 var _         = require ('lodash');
 var DBModel   = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
-
+var User      = require('mongoose').model('User');
 
 module.exports = DBModel.extend ({
-	name: 'Group',
-	plural: 'groups',
+	name: 'ProjectGroup',
+	plural: 'projectgroups',
+	populate: 'members members.org',
 
 	getForProject: function (id) {
 		return this.list({project: id});
-	},
+	}
+
 });
