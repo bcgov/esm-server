@@ -156,6 +156,9 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				ArtifactModel.getNew ().then (function (newartifact) {
 					var a = ArtifactModel.getCopy ($scope.artifact);
 					a._id = newartifact._id;
+					// Make sure this isn't published.
+					a.isPublished = false;
+					a.read.splice(a.read.indexOf('public'), 1);
 					a.version =  $scope.version;
 					ArtifactModel.add (a).then (function (m) {
 						// console.log ('new artifact was saved', m);
@@ -205,6 +208,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				.catch (function (err) {
 					console.error (err);
 					// // alert (err.message);
+				});
+			};
+			$scope.update = function () {
+				ArtifactModel.publish ($scope.artifact._id)
+				.then (function (model) {
+					$state.go ('p.artifact.view');
 				});
 			};
 			$scope.$on('cleanup', function () {

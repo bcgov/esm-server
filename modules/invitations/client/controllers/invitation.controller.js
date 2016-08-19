@@ -1,70 +1,27 @@
 'use strict';
 
 angular
-	.module('communications', [])
-	.controller('EditCommunicationController', ['$scope', '$state', '$modal', 'Authentication', 'NgTableParams',  '_', 'CommunicationModel', 'project', 'communication', 'mode', function EditCommunicationController($scope, $state, $modal, Authentication, NgTableParams,  _, CommunicationModel, project, communication, mode) {
+	.module('invitations', [])
+	.controller('EditInvitationController', ['$scope', '$state', '$modal', 'Authentication', 'NgTableParams',  '_', 'CommunicationModel', 'project', 'communication', 'mode', function EditInvitationController($scope, $state, $modal, Authentication, NgTableParams,  _, CommunicationModel, project, communication, mode) {
 		$scope.project = project;
 		$scope.authentication = Authentication;
 		$scope.mode = mode;
 		// disable the delete button if user doesn't have permission to delete, or the vc is published, or it has related data...
-		$scope.canDelete = $scope.mode === 'edit' && project.userCan.deleteProjectUpdates && communication.userCan.delete;
+		$scope.canDelete = $scope.mode === 'edit' && project.userCan.createProjectInvitation && communication.userCan.delete;
 
 		var self = this;
 		self.communication = communication;
+		self.communication.type = 'Invitation';
 
 		$scope.emailTemplate = self.communication.emailTemplate;
 		$scope.recipients = angular.copy(self.communication.recipients);
-		$scope.adhocRecipient = undefined;
 		$scope.existingRecipients = [];
-		$scope.artifacts = angular.copy(self.communication.artifacts);
 		$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
-
-		self.downloadAddressList = function () {
-			var getBrowser = function() {
-				var userAgent = window.navigator.userAgent;
-				var browsers = {chrome: /chrome/i, safari: /safari/i, firefox: /firefox/i, ie: /internet explorer/i};
-				for(var key in browsers) {
-					if (browsers[key].test(userAgent)) {
-						return key;
-					}
-				}
-			};
-			CommunicationModel.prepareAddressCSV($scope.tableParams.data)
-				.then( function (data) {
-					var blob = new Blob([ data ], { type : 'octet/stream' });
-					var url = (window.URL || window.webkitURL).createObjectURL( blob );
-					var anchor = document.createElement("a");
-
-					var name = self.communication.name;
-					name = name.toLowerCase ();
-					name = name.replace (/\W/g,'-');
-					name = name.replace (/-+/,'-');
-
-					anchor.download = $scope.project.code + '-' + name + '-address-list.csv';
-					anchor.href = url;
-					var browse = getBrowser();
-					if (browse === 'firefox') {
-						window.location.href = url;
-					}
-					anchor.click();
-					window.URL.revokeObjectURL(url);
-				});
-		};
 
 
 		var transformTemplate = function() {
-			var artifactHtml = '';
-			_.forEach($scope.artifacts, function(item) {
-				var url = window.location.origin + '/p/' + $scope.project.code + '/artifact/' + item._id + '/view';
-				var li = "<li><a href='" + url + "'>" + item.name + "</a></li>";
-				if (_.isEmpty(artifactHtml)) {
-					artifactHtml = '<ul>';
-				}
-				artifactHtml += li;
-			});
-			if (!_.isEmpty(artifactHtml)) {
-				artifactHtml += '</ul>';
-			}
+
+			var invitationUrl = "<a href='" + window.location.origin + "%INVITATION_PATH%'>" + $scope.project.name + "</a>";
 
 			var subject = !_.isEmpty(self.communication.templateSubject) ? self.communication.templateSubject : '';
 			subject = subject.replace('%PROJECT_NAME%', $scope.project.name);
@@ -72,15 +29,15 @@ angular
 			subject = subject.replace('%CURRENT_USER_EMAIL%', $scope.authentication.user.email);
 
 			var content = !_.isEmpty(self.communication.templateContent) ? self.communication.templateContent : '';
-			content = content.replace('%RELATED_CONTENT%', artifactHtml);
 			content = content.replace('%PROJECT_NAME%', $scope.project.name);
 			content = content.replace('%CURRENT_USER_NAME%', $scope.authentication.user.displayName);
 			content = content.replace('%CURRENT_USER_EMAIL%', $scope.authentication.user.email);
+			content = content.replace('%INVITATION_URL%', invitationUrl);
 
 			return {
 				subject : subject,
 				content: content,
-				personalized: subject.includes("%TO_EMAIL%") || subject.includes("%TO_NAME%") || content.includes("%TO_EMAIL%") || content.includes("%TO_NAME%")
+				personalized: true
 			};
 		};
 
@@ -88,6 +45,7 @@ angular
 			// call this before save...
 			//
 			// set the project...
+			self.communication.type = 'Invitation';
 			self.communication.project = $scope.project._id;
 			// set the email template
 			if ($scope.emailTemplate && $scope.emailTemplate._id) {
@@ -95,9 +53,6 @@ angular
 			}
 
 			//(use angular copy to remove $$hashKey)...
-			// set the artifacts list...
-			var theArtifacts = _.forEach($scope.artifacts, function(o) { return o._id; });
-			self.communication.artifacts = angular.copy(theArtifacts);
 			// create a recipient list...
 			self.communication.recipients = angular.copy($scope.recipients);
 
@@ -157,7 +112,7 @@ angular
 		});
 
 		var goToList = function() {
-			$state.transitionTo('p.communication.list', {projectid: $scope.project.code}, {
+			$state.transitionTo('p.invitation.list', {projectid: $scope.project.code}, {
 				reload: true, inherit: false, notify: true
 			});
 		};
@@ -171,7 +126,7 @@ angular
 		var goToEdit = function(model) {
 			// want to reload this screen, do not catch unsaved changes (we are probably in the middle of saving).
 			$scope.allowTransition = true;
-			$state.transitionTo('p.communication.edit', {projectid: $scope.project.code, communicationId: model._id }, {
+			$state.transitionTo('p.invitation.edit', {projectid: $scope.project.code, communicationId: model._id }, {
 				reload: true, inherit: false, notify: true
 			});
 		};
@@ -195,47 +150,25 @@ angular
 				if (data && data.length > 0) {
 					//
 					_.forEach(data, function(user) {
-						var item =  _.find($scope.recipients, function(o) { return o._id === user._id; });
+						var item =  _.find($scope.recipients, function(o) { return o.email === user.email; });
 						if (!item) {
+							var viaEmail = user.viaEmail;
+							var viaMail = user.viaMail;
+							var emailAddress = user.email;
+
 							if (_.startsWith(user.email, "none@specified.com")) {
-								user.viaEmail = false;
-								user.viaMail = true;
-								user.email = '';
+								viaEmail = false;
+								viaMail = true;
+								emailAddress = '';
 							}
-							user.org = user.orgName;
-							user.userId = user._id;
-							$scope.recipients.push(user);
+							$scope.recipients.push({displayName: user.displayName, email: emailAddress, viaEmail: viaEmail, viaMail: viaMail, userId: user._id, org: user.orgName});
 						}
 					});
-
-					$scope.adhocRecipient = undefined;
-					$scope.existingRecipients = [];
-
-					$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
-				}
-			}
-		);
-		$scope.$watch(function(scope) { return scope.adhocRecipient; },
-			function(data) {
-				if (data && data.email !== undefined) {
-					// need to add to the recipients list....
-					var item =  _.find($scope.recipients, function(o) { return o.email === data.email; });
-					if (!item) {
-						$scope.recipients.push({displayName: data.name, email: data.email, viaEmail: true, viaMail: false, userId: undefined, org: undefined});
-					}
-					$scope.adhocRecipient = undefined;
 					$scope.existingRecipients = [];
 					$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
 				}
 			}
 		);
-
-		$scope.removeArtifact = function(id) {
-			var item =  _.find($scope.artifacts, function(o) { return o._id === id; });
-			if (item) {
-				_.remove($scope.artifacts, function(o) { return o._id === id; });
-			}
-		};
 
 		$scope.removeRecipient = function(email) {
 			var item =  _.find($scope.recipients, function(o) { return o.email === email; });
@@ -299,7 +232,7 @@ angular
 		var doSend = function(communication) {
 			var modalDocView = $modal.open({
 				animation: true,
-				templateUrl: 'modules/communications/client/views/confirm-send.html',
+				templateUrl: 'modules/invitations/client/views/confirm-send.html',
 				controller: function($scope, $state, $modalInstance, CommunicationModel, _) {
 					var self = this;
 					self.message = "Are you sure you want send '" + communication.name + "' to " + communication.recipients.length + " recipients?";
@@ -317,7 +250,7 @@ angular
 			modalDocView.result.then(function () {
 				CommunicationModel.save(communication)
 					.then(function(saveRes) {
-						return CommunicationModel.send(saveRes);
+						return CommunicationModel.sendInvitation(saveRes);
 					})
 					.then(function(sendRes) {
 						$scope.showSuccess('"'+ communication.name +'"' + ' was sent successfully.', reloadEdit, 'Send Success');
@@ -332,8 +265,8 @@ angular
 
 		$scope.save = function(isValid) {
 			if (!isValid) {
-				$scope.$broadcast('show-errors-check-validity', 'projectUpdateForm');
-				$scope.$broadcast('show-errors-check-validity', 'projectUpdateDetailsForm');
+				$scope.$broadcast('show-errors-check-validity', 'mainForm');
+				$scope.$broadcast('show-errors-check-validity', 'detailsForm');
 				$scope.$broadcast('show-errors-check-validity', 'recipientsForm');
 				return false;
 			}
@@ -364,8 +297,8 @@ angular
 		$scope.send = function(isValid) {
 			// pop up preview and confirmation?
 			if (!isValid) {
-				$scope.$broadcast('show-errors-check-validity', 'projectUpdateForm');
-				$scope.$broadcast('show-errors-check-validity', 'projectUpdateDetailsForm');
+				$scope.$broadcast('show-errors-check-validity', 'mainForm');
+				$scope.$broadcast('show-errors-check-validity', 'detailsForm');
 				$scope.$broadcast('show-errors-check-validity', 'recipientsForm');
 				return false;
 			}
@@ -376,7 +309,7 @@ angular
 		$scope.delete = function(communication) {
 			var modalDocView = $modal.open({
 				animation: true,
-				templateUrl: 'modules/communications/client/views/confirm-delete.html',
+				templateUrl: 'modules/invitations/client/views/confirm-delete.html',
 				controller: function($scope, $state, $modalInstance, CommunicationModel, _) {
 					var self = this;
 					self.communication = communication;

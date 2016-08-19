@@ -3,14 +3,14 @@
 var routes = require ('../../../core/server/controllers/core.routes.controller');
 var policy = require ('../../../core/server/controllers/core.policy.controller');
 
-var Group = require ('../controllers/group.controller.js');
+var ProjectGroup = require ('../controllers/projectgroup.controller.js');
 
 module.exports = function (app) {
-	routes.setCRUDRoutes (app, 'group', Group, policy);
+	routes.setCRUDRoutes (app, 'projectgroup', ProjectGroup, policy);
 
-	app.route ('/api/group/for/project/:project')
+	app.route ('/api/projectgroup/for/project/:project')
 		.all (policy ('user'))
-		.get (routes.setAndRun (Group, function (ctrl, req) {
+		.get (routes.setAndRun (ProjectGroup, function (ctrl, req) {
 			return ctrl.getForProject (req.Project._id);
 		}));
 };

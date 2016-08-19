@@ -5,10 +5,11 @@
 
 <div class="modal-body">
   <section class="panel panel-default no-margin">
-    <table class="table table-scroll add-vc-table" ng-table="tableParams" show-filter="false">
+    <table class="table table-scroll add-vc-table" ng-table="s.tableParams" show-filter="true">
       <tr ng-repeat="t in s.items">
         <td class="name-col"
             header-class="'name-col'"
+            filter="{'name':'text'}"
             data-title="'Name'">
           <input type="checkbox" ng-click="s.select(t._id)" ng-checked="s.isSelected(t._id)"/>{{ t.name }}</td>
           <td data-title="'Version'">{{t.version}}</td><span ng-if="t.published" class="label label-success pull-right">published</span>

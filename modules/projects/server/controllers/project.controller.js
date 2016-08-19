@@ -524,7 +524,7 @@ module.exports = DBModel.extend ({
 		// add all system eao-intake users to project intake role...
 		return Role.find({role: 'eao-intake', user: {$ne: null}}, {user: 1}).exec()
 			.then(function(results) {
-				var a = _.forEach(results, function(u) {
+				var a = _.map(results, function(u) {
 					return new Promise (function (resolve, reject) {
 						(new Role ({context: project._id, role: 'intake', user: u.user})).save().then(resolve, reject);
 					});

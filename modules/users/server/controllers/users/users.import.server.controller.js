@@ -11,7 +11,8 @@ var _             = require ('lodash'),
 		CSVParse      = require ('csv-parse'),
 		crypto        = require ('crypto'),
 		Project       = mongoose.model ('Project'),
-		Group    	  = mongoose.model ('Group'),
+		ProjectGroup  = mongoose.model ('ProjectGroup'),
+		User		  = mongoose.model ('User'),
 		OrganizationController = require (path.resolve('./modules/organizations/server/controllers/organization.controller')),
 		Organization  = mongoose.model ('Organization'),
 		errorHandler  = require (path.resolve('./modules/core/server/controllers/errors.server.controller'));
@@ -286,36 +287,54 @@ exports.loadGroupUsers = function(file, req, res, opts) {
 					}
 				});
 
-				var doGroupUserWork = function(item) {
-					return new Promise(function(rs, rj) {
-						// console.log("item:", item);
-						Group.findOne({groupId: parseInt(item.groupId), personId: parseInt(item.personId)}, function (err, result) {
-							if (result === null) {
-								// console.log("Creating group:", item.groupId);
-								// Create it
-								var o = new Group(item);
-								o.save()
-								.then (rs, rj);
+				var getProject = function(item) {
+					return new Promise(function(resolve, reject) {
+						Project.findOne({epicProjectID: item.epicProjectID}, function (err, result) {
+							if (err) {
+								reject(new Error(err));
 							} else {
-								// console.log("found the group:", result.groupName);
-								rs(result);
+								resolve(result);
 							}
 						});
 					});
 				};
 
-				var doGroupProjectWork = function(item) {
-					return new Promise(function(rs, rj) {
-						// console.log("itemg finding:", item.epicProjectID);
-						Project.findOne({epicProjectID: item.epicProjectID}, function (err, result) {
-							if (result !== null) {
-								// console.log("project:", result);
-								item.project = result;
-								item.save()
-								.then(rs,rj);
+				var getGroup = function(item, project) {
+					return new Promise(function(resolve, reject) {
+						ProjectGroup.findOne({groupId: parseInt(item.groupId)}, function (err, result) {
+							if (err) {
+								reject(new Error(err));
 							} else {
-								// console.log("didn't find anything");
-								rs(null);
+								if (result === null) {
+									// Create it
+									var o = new ProjectGroup({groupId: item.groupId, name: item.groupName, type: item.groupType, epicProjectID: item.epicProjectID, project: project});
+									o.save().then(resolve, reject);
+								} else {
+									resolve(result);
+								}
+							}
+						});
+					});
+				};
+
+				var addUser = function(item, group) {
+					return new Promise(function(resolve, reject) {
+						User.findOne({personId: item.personId}, function (err, result) {
+							if (err) {
+								reject(new Error(err));
+							} else {
+								if (result !== null) {
+									// Add member?
+									var member = _.find(group.members, function(o) { return o.toString() === result._id.toString(); });
+									if (!member) {
+										group.members.push(result._id);
+										group.save().then(resolve, reject);
+									} else {
+										resolve(group);
+									}
+								} else {
+									resolve(group);
+								}
 							}
 						});
 					});
@@ -325,9 +344,20 @@ exports.loadGroupUsers = function(file, req, res, opts) {
 				.then (function () {
 					return promises.reduce (function (current, item) {
 						return current.then (function () {
-							return doGroupUserWork(item)
-							.then( function (group) {
-								return doGroupProjectWork(group);
+							return getProject(item)
+							.then(function (project) {
+								if (project) {
+									return getGroup(item, project);
+								} else {
+									return null;
+								}
+							})
+							.then(function(group) {
+								if(group) {
+									return addUser(item, group);
+								} else {
+									return null;
+								}
 							});
 						});
 					}, Promise.resolve());

@@ -31,7 +31,7 @@ module.exports = function(file, req, res, opts) {
 				if (finalPhaseCode === "intake") {
 					rs(project);
 				} else if (finalPhaseCode === "pre-ea") {
-					return (new Project(opts)).completeCurrentPhase(project)
+					return (new Project(opts)).startNextPhase(project)
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[1];
 						pr.currentPhaseCode = pr.phases[1].code;
@@ -41,10 +41,10 @@ module.exports = function(file, req, res, opts) {
 							.then(rs);
 						});
 				} else if (finalPhaseCode === "pre-app") {
-					return (new Project(opts)).completeCurrentPhase(project) // intake
+					return (new Project(opts)).startNextPhase(project) // intake
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[1];
-						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+						return (new Project(opts)).startNextPhase(pr); // pre-ea
 					})
 					.then (function (project) {
 						project.currentPhase     = project.phases[2];
@@ -55,14 +55,14 @@ module.exports = function(file, req, res, opts) {
 							.then(rs);
 					});
 				} else if (finalPhaseCode === "evaluation") {
-					return (new Project(opts)).completeCurrentPhase(project) // intake
+					return (new Project(opts)).startNextPhase(project) // intake
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[1];
-						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+						return (new Project(opts)).startNextPhase(pr); // pre-ea
 					})
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[2];
-						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+						return (new Project(opts)).startNextPhase(pr); // pre-ea
 					})
 					.then (function (project) {
 						project.currentPhase     = project.phases[3];
@@ -73,18 +73,18 @@ module.exports = function(file, req, res, opts) {
 							.then(rs);
 						});
 				} else if (finalPhaseCode === "application-review") {
-					return (new Project(opts)).completeCurrentPhase(project) // intake
+					return (new Project(opts)).startNextPhase(project) // intake
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[1];
-						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+						return (new Project(opts)).startNextPhase(pr); // pre-ea
 					})
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[2];
-						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+						return (new Project(opts)).startNextPhase(pr); // pre-ea
 					})
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[3];
-						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+						return (new Project(opts)).startNextPhase(pr); // pre-ea
 					})
 					.then (function (project) {
 						project.currentPhase     = project.phases[4];
@@ -95,22 +95,22 @@ module.exports = function(file, req, res, opts) {
 							.then(rs);
 						});
 				} else if (finalPhaseCode === "decision") {
-					return (new Project(opts)).completeCurrentPhase(project) // intake
+					return (new Project(opts)).startNextPhase(project) // intake
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[1];
-						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+						return (new Project(opts)).startNextPhase(pr); // pre-ea
 					})
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[2];
-						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+						return (new Project(opts)).startNextPhase(pr); // pre-ea
 					})
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[3];
-						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+						return (new Project(opts)).startNextPhase(pr); // pre-ea
 					})
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[4];
-						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+						return (new Project(opts)).startNextPhase(pr); // pre-ea
 					})
 					.then (function (project) {
 						project.currentPhase     = project.phases[5];
@@ -121,26 +121,26 @@ module.exports = function(file, req, res, opts) {
 							.then(rs);
 						});
 				} else if (finalPhaseCode === "post-certification") {
-					return (new Project(opts)).completeCurrentPhase(project) // intake
+					return (new Project(opts)).startNextPhase(project) // intake
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[1];
-						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+						return (new Project(opts)).startNextPhase(pr); // pre-ea
 					})
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[2];
-						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+						return (new Project(opts)).startNextPhase(pr); // pre-ea
 					})
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[3];
-						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+						return (new Project(opts)).startNextPhase(pr); // pre-ea
 					})
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[4];
-						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+						return (new Project(opts)).startNextPhase(pr); // pre-ea
 					})
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[5];
-						return (new Project(opts)).completeCurrentPhase(pr); // pre-ea
+						return (new Project(opts)).startNextPhase(pr); // pre-ea
 					})
 					.then (function (project) {
 						project.currentPhase     = project.phases[6];

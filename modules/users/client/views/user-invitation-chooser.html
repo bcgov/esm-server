@@ -1,0 +1,49 @@
+<div class="modal-header">
+	<button type="button" class="btn btn-default close" ng-click="s.cancel()"><span aria-hidden="true">&times;</span></button>
+	<h3 class="modal-title">Add Existing Recipient(s)</h3>
+</div>
+
+<div class="modal-body">
+
+	<!-- Show this DIV if we are waiting on results -->
+	<div class="loading" ng-show="s.searching"></div>
+
+	<!-- Table must be filterable -->
+	<table class="user-table table table-hover table-scroll" ng-table="tableParams" show-filter="false">
+		<tr ng-repeat="o in $data">
+      <td class="checkbox-col" header-class="'checkbox-col'" header="'ng-table/headers/checkbox.html'">
+        <input type="checkbox" ng-model="checkboxes.items[o._id]"/></td>
+      <td class="name-col" header-class="'name-col'"
+          data-title="'Name'"
+          filter="{'displayName':'text'}"
+          sortable="'displayName'">{{o.displayName}}</td>
+      <td class="name-col" header-class="'name-col'"
+          data-title="'Email'"
+          filter="{'email':'text'}"
+          sortable="'email'">{{o.email}}
+      </td>
+      <td class="name-col" header-class="'name-col'"
+          data-title="'Organization'"
+          filter="{'orgName':'text'}"
+          sortable="'orgName'">{{o.orgName}}
+      </td>
+    </tr>
+		</tr>
+		<tr class="no-records" ng-if="!$data || $data.length === 0">
+			<td colspan="4">
+				No records found.
+			</td>
+		</tr>
+	</table>
+
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" ng-click="s.cancel()">Cancel</button>
+	<button type="button" class="btn btn-primary" ng-click="s.ok()">Add</button>
+</div>
+
+<!-- this is actually what we watch to check/uncheck all checkboxes -->
+<script type="text/ng-template" id="ng-table/headers/checkbox.html">
+	<input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox" value="" />
+</script>

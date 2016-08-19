@@ -5,7 +5,9 @@
 		<button class="btn btn-default btn-sm" title="Remove this content from Project" ng-click="remove()">Remove</button>
 		<button class="btn btn-default btn-sm" title="Save" ng-click="save()">Save</button>
 		<div class="btn-group">
-			<button class="btn btn-default btn-sm" ng-click="saveas()">Save as {{version}}</button>
+			<button class="btn btn-default btn-sm"
+					ng-if="artifact.typeCode !== 'inspection-report'"
+					ng-click="saveas()">Save as {{version}}</button>
 			<button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<span class="caret"></span>
     			<span class="sr-only">Toggle Dropdown</span>
@@ -16,6 +18,10 @@
 				</li>
 			</ul>
 		</div>
+		<button class="btn btn-success btn-sm"
+				title="Update (Re-publish)"
+				ng-if="artifact.isPublished && rolePermissions['Publishing']"
+				ng-click="update()">Update</button>
 		<button class="btn btn-success btn-sm" title="Submit for {{buttons.next}}" ng-click="submit()" ng-if="rolePermissions[artifact.stage]">Submit for {{buttons.next}}</button>
 	</div>
 </div>

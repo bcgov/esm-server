@@ -1,18 +1,19 @@
-
 <div class="view-title-container flex-row">
-	<h1>Project Update &nbsp;&rsaquo;&nbsp; {{s.communication.name}}</h1>
+	<h1>Invitations &nbsp;&rsaquo;&nbsp; {{s.communication.name}}</h1>
 	<div class="actions">
+		<button class="btn btn-default btn-sm" ui-sref="p.invitation.list">Cancel</button>
 		<button class="btn btn-default btn-sm" ng-if="project.userCan.createProjectUpdates" ng-click="$event.stopPropagation()" x-mode="'edit'"
-			ui-sref="p.communication.edit({communicationId:s.communication._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span>
+			ui-sref="p.invitation.edit({communicationId:s.communication._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span>
       </button>
 	</div>
 </div>
 
 <div class="view-body-container">
+
 	<ul class="nav nav-tabs" ng-init="form.curTab = 'Update Details'">
 		<li role="presentation" ng-class="{'active':form.curTab === 'Update Details'}" class="form-group">
-			<a ng-click="form.curTab = 'Update Details'" title="Edit Project Update Details" name="projectUpdateDetailsForm">
-				<span class="glyphicon glyphicon-exclamation-sign"></span>Update Details</a>
+			<a ng-click="form.curTab = 'Update Details'" title="Edit Project Update Details" name="detailsForm">
+				<span class="glyphicon glyphicon-exclamation-sign"></span>Invitation Details</a>
 		</li>
 		<li role="presentation" ng-class="{'active':form.curTab === 'recipients'}" class="form-group">
 			<a ng-click="form.curTab = 'recipients'" title="Edit Project Recipients" name="recipientsForm">
@@ -20,19 +21,13 @@
 		</li>
 	</ul>
 
-	<div class="tab-pane active" ng-show="form.curTab === 'Update Details'" ng-form="projectUpdateDetailsForm">
+	<div class="tab-pane active" ng-show="form.curTab === 'Update Details'" ng-form="detailsForm">
 
 		<div class="panel panel-default">
 			<div class="panel-body detail-panel">
 				<div class="detail-row">
-					<label class="control-label">Update Name</label>
+					<label>Invitation Name</label>
 					<span class="value">{{s.communication.name}}</span>
-				</div>
-				<div class="detail-row">
-					<label>Related Content ({{artifacts.length}})</label>
-					<div class="anchor-list">
-						<a ng-repeat="art in artifacts" ui-sref="p.artifact.view({artifactId:'{{art._id}}'})">{{art.name}}{{$last ? '' : ', '}}</a>
-					</div>
 				</div>
 				<div class="detail-row">
 					<label>Subject</label>
@@ -40,10 +35,11 @@
 				</div>
 				<div class="detail-row">
 					<label>Message</label>
-					<pre class="value wrap-text" id="shortDesc" ng-bind-html="s.communication.templateContent"></pre>
+					<pre class="value wrap-text" ng-bind-html="s.communication.templateContent"></pre>
 				</div>
 			</div>
 		</div>
+
 	</div>
 
 	<div class="tab-pane" ng-show="form.curTab === 'recipients'" ng-form="recipientsForm">
@@ -69,7 +65,7 @@
 	</div>
 
 	<div class="form-footer no-border clearfix">
-		<a class="back-btn btn btn-link pull-left" ui-sref="p.communication.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Project Updates</a>
+		<a class="back-btn btn btn-link pull-left" ui-sref="p.invitation.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Project Invitations</a>
 	</div>
 
 </div>

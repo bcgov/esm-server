@@ -1,5 +1,5 @@
 <div class="view-title-container flex-row">
-	<h1>{{condition.name}}</h1>
+	<h1>Condition &nbsp;&rsaquo;&nbsp; {{condition.name}}</h1>
 	<div class="actions">
 		<button class="btn btn-sm btn-default"
 			ng-if="project.userCan.createProjectCondition"
@@ -18,7 +18,7 @@
 	
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h2>Condition Details</h2>
+			<h2>Details</h2>
 		</div>
 		<div class="panel-body detail-panel">
 			<div class="row">
@@ -27,7 +27,7 @@
 					<div class="value" ng-bind-html="condition.name"></div>
 				</div>
 				<div class="detail-row col-md-3">
-					<label for="subject">Subject</label>
+					<label>Subject</label>
 					<div ng-bind-html="condition.subject"></div>
 				</div>
 				<div class="detail-row col-md-3">
@@ -39,36 +39,32 @@
 					<div class="value" ng-bind-html="condition.stage"></div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" ng-if="condition.vcs.length > 0">
 				<div class="detail-row col-md-12">
-					<label for="shortDesc" class="control-label">Associated Value Components</label>
-					<ul class="anchor-list">
-						<li ng-repeat="o in condition.vcs" ui-sref="p.vc.detail({vcId:o._id})">
-							<a class="title">{{o.name}}</a>
-						</li>
-					</ul>
+					<label for="shortDesc">Associated Valued Components</label>
+					<div class="anchor-list">
+						<a ng-repeat="o in condition.vcs" ui-sref="p.vc.detail({vcId:o._id})">{{o.name}}{{$last ? '' : ', '}}</a>
+					</div>
 				</div>
 			</div>
+			<div class="row" ng-if="condition.phases.length > 0">
+				<div class="detail-row col-md-12">
+					<label for="shortDesc">Post Certification Phases</label>
+					<div class="anchor-list">
+						<span ng-repeat="o in condition.phases">{{o}}{{$last ? '' : ', '}}</span>
+					</div>
+				</div>
+			</div>
+			<div class="detail-row">
+				<label>Description</label>
+				<pre class="value wrap-text" ng-bind-html="condition.description"></pre>
+			</div>
+			<div class="detail-row no-margin">
+				<label>Report Requirements</label>
+				<pre class="value wrap-text" ng-bind-html="condition.reportRequirements"></pre>
+			</div>
 		</div>
-	</div>
-
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h2>Condition</h2>
-		</div>
-		<div class="panel-body">
-			<pre class="value wrap-text" ng-bind-html="condition.description"></pre>
-		</div>
-	</div>
-
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h2>Report Requirements</h2>
-		</div>
-		<div class="panel-body">
-			<pre class="value wrap-text" ng-bind-html="condition.reportRequirements"></pre>
-		</div>
-	</div>		
+	</div>	
 
 	<div class="row hidden">
 		<div class="col-sm-6">

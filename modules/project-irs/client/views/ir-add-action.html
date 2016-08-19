@@ -2,10 +2,10 @@
 	<button type="button" class="btn btn-default close" ng-click="a.cancel()">
 		<span aria-hidden="true">&times;</span>
 	</button>
-	<h3 class="modal-title">Add Enforcement Action</h3>
+	<h3 class="modal-title">Add/Edit Enforcement Action</h3>
 </div>
 
-<form class="action-form" >
+<form class="action-form" novalidate>
 	<div class="modal-body">
 		<div class="form-group">
 			<label class="control-label">Action</label>
@@ -32,13 +32,44 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="control-label" for="type">Conditions<em class="required">(Required)</em></label>
-			<button type="button"
-				x-condition-list-chooser
-				x-inspectionreport="ir"
-				x-current="selected.conditions"
-				class="btn btn-default btn-sm"><span class="glyphicon glyphicon-link"></span><span>Link Condition</span>
-			</button>
+			<label class="control-label" for="type">Enforcement Conditions<em class="required">(Required)</em></label>
+			<div class="tag-list-container form-control">
+				<ul class="tag-list">
+					<li class="tag" ng-repeat="o in selected.condition.concat(selected.conditionArtifacts)">
+						<span class="tag-name">{{o.name}}</span>
+						<button class="btn" ng-click="removeEnforcementActionCondition(o, selected)"><span aria-hidden="true">×</span></button>
+					</li><li class="add-tag">
+						<button class="add-btn btn btn-sm"
+							ng-if="project.userCan.createInspectionReport"
+							ng-click="addEditEnforcementActionCondition(selected)" type="button" title="Add Enforcement Action Conditions"><span class="glyphicon glyphicon-plus"></span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="type">Enforcement Order<em class="required">(Required)</em></label>
+			<ul class="list-group">
+				<li class="list-group-item flex-row" ng-if="selected.orderArtifact">
+					<span class="title">{{selected.orderArtifact.name}}</span>
+					<span class="actions">
+						<button class="btn btn-sm btn-default"
+							x-artifact-list-chooser
+							x-project="project"
+							x-current="selected.orderArtifact">
+							<span class="glyphicon glyphicon-pencil"></span></button>
+					</span>
+				</li>
+				<button class="btn btn-default btn-sm" type="button"
+					ng-if="!selected.orderArtifact"
+					x-artifact-list-chooser
+					x-project="project"
+					x-current="selected.orderArtifact">Select Order</button>
+			</ul>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="type">Notes<em class="required">(Required)</em></label>
+			<input class="form-control" title="Notes" id="actionnotes" name="actionnotes" ng-model="selected.notes" required/>
 		</div>
 	</div>
 	<div class="modal-footer">

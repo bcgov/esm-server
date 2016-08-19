@@ -25,4 +25,10 @@ module.exports = function (app) {
 		.put (routes.setAndRun (Communication, function (ctrl, req) {
 			return ctrl.deliver (req.Communication);
 		}));
+
+	app.route ('/api/communication/for/rsvp/:communication')
+		.all (policy ('user'))
+		.put (routes.setAndRun (Communication, function (ctrl, req) {
+			return ctrl.deliverInvitation (req.Communication);
+		}));
 };

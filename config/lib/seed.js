@@ -72,6 +72,7 @@ var checkIntegration = function (name, override) {
 };
 
 var seedingAsync = function() {
+	console.log('begin asynchronous seeding...');
 	checkIntegration('testme').then(function (f) {
 		require('../seed-data/test-integration')(f);
 	});
@@ -109,19 +110,10 @@ var seedingAsync = function() {
 
 // -------------------------------------------------------------------------
 //
-// Conditions
-//
-// -------------------------------------------------------------------------
-	checkIntegration('loadconditions2').then(function () {
-		require('../seed-data/loadconditions')();
-	});
-
-// -------------------------------------------------------------------------
-//
 // artifact types
 //
 // -------------------------------------------------------------------------
-	checkIntegration('loadartifacts65').then(function () {
+	checkIntegration('loadartifacts66').then(function () {
 		require('../seed-data/loadartifacts')();
 	});
 // -------------------------------------------------------------------------
@@ -147,7 +139,7 @@ var seedingAsync = function() {
 // default project roles
 //
 // -------------------------------------------------------------------------
-	checkIntegration('emailtemplates').then(function () {
+	checkIntegration('emailtemplates3').then(function () {
 		require('../seed-data/loademailtemplates')();
 	});
 
@@ -219,6 +211,13 @@ var seedingAsync = function() {
 //
 // =========================================================================
 
-checkIntegration ('defaults').then (function () {
-	require('../seed-data/defaults')().then(seedingAsync);
-});
+checkIntegration ('defaults2')
+	.then(function(){
+		require('../seed-data/defaults')()
+			.then(seedingAsync);
+		},
+		function() {
+			// defaults have been seeded, but we should check the other stuff...
+			seedingAsync();
+		}
+	);

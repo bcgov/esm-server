@@ -74,17 +74,17 @@ module.exports = function (app) {
 	app.route ('/api/project/:project/publish')
 		.all (policy ('user'))
 		.put (routes.setAndRun (Project, function (model, req) {
-			return model.publish (req.params.Project, true);
+			return model.publish (req.Project, true);
 		}));
 	app.route ('/api/project/:project/unpublish')
 		.all (policy ('user'))
 		.put (routes.setAndRun (Project, function (model, req) {
-			return model.publish (req.params.Project, false);
+			return model.publish (req.Project, false);
 		}));
 	app.route ('/api/project/:project/submit')
 		.all (policy ('user'))
 		.put (routes.setAndRun (Project, function (model, req) {
-			return model.submit (req.params.Project);
+			return model.submit (req.Project);
 		}));
 	app.route ('/api/project/bycode/:projectcode')
 		.all (policy ('guest'))

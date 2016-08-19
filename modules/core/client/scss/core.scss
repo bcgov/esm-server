@@ -60,7 +60,7 @@ $modal-footer-bg: 			#FFF;
 
 /* Panel */
 $panel-border-color: 		#DDD;
-$panel-heading-bg: 			#FFF;
+$panel-heading-bg: 			#F7F8FA;
 $panel-heading-color: 		#494949;
 $panel-footer-bg: 			#FFF;
 
@@ -155,7 +155,13 @@ pre {
 	overflow: hidden;
 
 	p {
-		margin: 0;
+		display: inline-block;
+		margin-bottom: 0.5rem;
+		line-height: inherit;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
 	}
 
 	ul {
@@ -2430,7 +2436,6 @@ Implementing this as a stop-gap solution to a proper control.
 	padding-top: 0.8rem;
 	padding-right: 4rem;
 	font-size: 1.3rem;
-	text-transform: uppercase;
 
 	strong {
 		margin-right: 1.5rem;
@@ -2821,20 +2826,8 @@ form {
 	list-style-type: none;
 
 	a {
+		margin-right: 0.5rem;
 		text-decoration: underline;
-	}
-
-	li {
-		display: inline;
-
-		&:before {
-			margin-left: -0.2rem;
-			content: ', ';
-		}
-
-		&:first-child::before {
-			content: '';
-		}
 	}
 
 	+ .btn {
@@ -3452,19 +3445,24 @@ section {
 		height: auto;
 		padding: 0 0.2rem;
 	}
+
+	+ .tag-list-container {
+		margin-top: 1rem;
+	}
 }
 
 .tag-list {
 	margin: 0;
+	margin-top: 1px;
 	padding: 0;
 
 	.add-tag,
 	.tag {
 		margin: 0.2rem;
 		display: inline-block;
-		padding: 0.2rem;
 		font-size: 1.2rem;
 		color: #FFF;
+		vertical-align: top;
 	}
 
 	.add-tag {
@@ -3482,22 +3480,20 @@ section {
 	}
 
 	.tag {
-		background: #999;
+		padding-right: 0.2rem;
+		background: $success-bg;
 		border-radius: 4px;
 		box-shadow: 0 1px 1px rgba(0, 0, 0, .075);
 
 		.tag-name {
-			padding-left: 1rem;
+			display: inline-block;
+			padding: 0.45rem 1rem;
 		}
 
 		.btn {
 			padding: 0 0.5rem;
 			background: transparent;
 			border-radius: 2px;
-		}
-
-		+ .add-tag {
-			margin-left: -0.4rem;
 		}
 	}
 }
@@ -3874,7 +3870,7 @@ section {
 	}
 }
 
-@media (min-width: 480px) and (max-width: 1024px) {
+@media (min-width: 480px) and (max-width: 1200px) {
 	.public-comment-period-view {
 		td.attachment-col {
 			position: absolute;
@@ -4280,11 +4276,16 @@ section {
 	}
 
 	.status-col {
-		width: 12rem;
+		width: 10rem;
 
 		.label {
 			min-width: 7rem;
 		}
+	}
+
+	.enforcement-notes {
+		margin-top: 0.5rem;
+		display: block;
 	}
 }
 
@@ -5420,15 +5421,48 @@ tmpl-template-render {
 	}
 }
 
+/* CUSTOM 
+----------------------------- */
+.custom-select-list {
+	li {
+		display: inline-block;
+		margin-right: 0.4rem;
+		padding-top: 0;
 
+		.btn {
+			padding: 0.3rem 1rem;
+			font-size: 1.2rem;
+			font-weight: normal;
+		}
+	}
+}
 
-/* PROTOTYPE */
+.inline-search-panel {
+	@extend .flex-row;
+	align-items: center;
 
-.project-table {
-	.type-col,
-	.region-col,
-	.phase-col,
-	.decision-col {
-		display: none;
+	.btn {
+		@include flex(0 0 auto);
+		margin-left: 0.5rem;
+		width: 7rem;
+		height: 3.4rem;
+	}
+}
+
+.inline-search-fields {
+	@include flex(1 1 auto);
+	margin: 0 -0.2rem;
+
+	.form-group:nth-last-child(4),
+	.form-group:nth-last-child(4) ~ .form-group {
+		padding: 0 0.2rem;
+		width: 25%;
+		float: left;
+	}
+}
+
+.user-table {
+	tbody {
+		max-height: 30rem;
 	}
 }

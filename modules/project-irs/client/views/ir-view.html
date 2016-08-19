@@ -31,12 +31,10 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-12 detail-row" ng-if="ir.conditionArtifacts.length > 0">
-					<label>Associated Content</label>
-					<ul class="anchor-list">
-						<li ng-repeat="o in ir.conditionArtifacts" ui-sref="p.artifact.view({artifactId:o._id})">
-							<a class="title">{{o.name}}</a>
-						</li>
-					</ul>
+					<label>Certificate Requirements Inspected</label>
+					<div class="anchor-list">
+						<a ng-repeat="o in ir.conditionArtifacts" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}{{$last ? '' : ', '}}</a>
+					</div>
 				</div>
 			</div>
 			<div class="row">
@@ -67,10 +65,22 @@
 		<table ng-table="tableParams" class="enforcement-table table table-hover">
 			<tr class="clickable" ui-sref="p.ir.detail({irId:o._id})" ng-repeat="o in ir.enforcementActions">
 				<td class="enforcement-col"
+					header-class="'enforcement-col'"
 					data-title="'Action'" 
 					sortable="'o.action'">
 					<strong class="enforcement-name">{{o.action}}</strong>
-					<a class="condition-link" ui-sref="p.ir.condition({irId:o._id})">Condition Link goes here</a>
+					<span class="enforcement-notes" ng-if="o.notes">{{o.notes}}</span>
+				</td>
+				<td data-title="'Enforcement Conditions'">
+					<div class="anchor-list">
+						<a ui-sref="p.artifact.view({artifactId:o._id})"  
+							ng-repeat="cell in o.condition.concat(o.conditionArtifacts)">{{cell.name}}{{$last ? '' : ', '}}</a>
+					</div>
+				</td>
+				<td data-title="'Order'">
+					<ul class="anchor-list">
+						<a>{{o.orderArtifact.name}}</a>
+					</ul>
 				</td>
 				<td class="status-col"
 					header-class="'status-col'"
@@ -86,7 +96,7 @@
 					data-title="'Date Issued'"
 					sortable="'date'">{{o.date | date:'MMM dd, yyyy'}}</td>
 				<tr ng-show="ir.enforcementActions.length == 0">
-					<td colspan="3">No Enforcement Actions found</td>
+					<td colspan="5">No Enforcement Actions found</td>
 				</tr>
 			</tr>
 		</table>

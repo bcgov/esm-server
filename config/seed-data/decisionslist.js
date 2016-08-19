@@ -207,25 +207,6 @@ var templates = [{
             "meta" : [
                 {
                     "default" : "",
-                    "label" : "reason for decision",
-                    "type" : "Html",
-                    "name" : "re"
-                }
-            ],
-            "footer" : "",
-            "header" : "",
-            "template" : "{{re}}",
-            "isfooter" : false,
-            "isheader" : false,
-            "multiple" : false,
-            "optional" : false,
-            "label" : "Minister's Reason for Acceptance",
-            "name" : "reason"
-        },
-       {
-            "meta" : [
-                {
-                    "default" : "",
                     "label" : "Memo to the Minister from the Associate Deputy Minister",
                     "type" : "Artifact",
                     "name" : "a"
@@ -259,6 +240,44 @@ var templates = [{
             "optional" : false,
             "label" : "Recommendations of the Executive Director",
             "name" : "memo2"
+        },
+        {
+            "meta" : [
+                {
+                    "default" : "",
+                    "label" : "Assessment Report",
+                    "type" : "Artifact",
+                    "name" : "ar"
+                }
+            ],
+            "footer" : "",
+            "header" : "",
+            "template" : "{{ar}}",
+            "isfooter" : false,
+            "isheader" : false,
+            "multiple" : false,
+            "optional" : false,
+            "label" : "Assessment Report",
+            "name" : "assessr"
+        },
+        {
+            "meta" : [
+                {
+                    "default" : "",
+                    "label" : "Application",
+                    "type" : "Artifact",
+                    "name" : "f"
+                }
+            ],
+            "footer" : "",
+            "header" : "",
+            "template" : "{{f}}",
+            "isfooter" : false,
+            "isheader" : false,
+            "multiple" : false,
+            "optional" : false,
+            "label" : "Application",
+            "name" : "app"
         },
         {
             "meta" : [
@@ -321,20 +340,20 @@ var templates = [{
             "meta" : [
                 {
                     "default" : "",
-                    "label" : "Application",
+                    "label" : "Reasons for Ministers Decision",
                     "type" : "Artifact",
-                    "name" : "f"
+                    "name" : "g"
                 }
             ],
             "footer" : "",
             "header" : "",
-            "template" : "{{f}}",
+            "template" : "{{g}}",
             "isfooter" : false,
             "isheader" : false,
             "multiple" : false,
             "optional" : false,
-            "label" : "Application",
-            "name" : "app"
+            "label" : "Reason for Ministers Decision",
+            "name" : "rg"
         }
     ],
     "versionNumber" : 1,

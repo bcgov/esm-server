@@ -53,34 +53,35 @@
 			<div class="row form-group">
 				<div class="col-sm-12">
 					<label for="subComponents" class="control-label">Associated Valued & Pathway Components</label>
-					<ul class="anchor-list" ng-if="vclist.length > 0">
-						<li ng-repeat="o in vclist">
-							<a ui-sref="p.vc.detail({vcId:o._id})">{{o.title}}</a>
-						</li>
-					</ul>
-					<button class="btn btn-default btn-sm anchor-list-btn" type="button" title="Link Valued Components"
-						x-vc-linker
-						x-project="project"
-						x-vc="vc"
-						x-vcs="vcs"
-						x-vclist="vclist">+ Add Components
-					</button>
+					<div class="tag-list-container form-control clearfix">
+						<ul class="tag-list">
+							<li class="tag" ng-repeat="o in vclist">
+								<span class="tag-name">{{o.title}}</span>
+							</li><li class="add-tag">
+								<button class="add-btn btn btn-sm"
+									x-vc-linker
+									x-project="project"
+									x-vc="vc"
+									x-vcs="vcs"
+									x-vclist="vclist">
+									<span class="glyphicon glyphicon-plus">
+								</button>
+							</li>
+						</ul>
+					</div>
 				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="subComponents">Description</label>
+				<textarea class="form-control" ui-tinymce id="shortDesc" type="text" ng-model="vc.description" rows="4"></textarea>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="subComponents">Indicators</label>
+				<textarea class="form-control" ui-tinymce id="indicators" type="text" ng-model="vc.indicators" rows="4"></textarea>
 			</div>
 		</div>
 	</div>
 	<!-- / DETAILS -->
-
-
-	<div class="panel panel-default vc-rtf-editor">
-		<div class="panel-heading"><h2>Description</h2></div>
-		<textarea ui-tinymce id="shortDesc" type="text" class="form-control" ng-model="vc.description" rows="4"></textarea>
-	</div>
-
-	<div class="panel panel-default vc-rtf-editor">
-		<div class="panel-heading"><h2>Indicators</h2></div>
-		<textarea ui-tinymce id="indicators" type="text" class="form-control" ng-model="vc.indicators" rows="4"></textarea>
-	</div>
 
 	<!-- HIDDEN -->
 	<div class="hidden">

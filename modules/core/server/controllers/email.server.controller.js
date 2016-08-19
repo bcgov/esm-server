@@ -8,10 +8,11 @@ transporter = nodemailer.createTransport(config.mailer.options);
 
 
 var getRecipientEmail = function(email) {
-	if (config.mailer.options === 'gmail') {
-		// just do this in case we want to review that we are sending to the correct user/contact
+	if(!_.isEmpty(process.env.RECIPIENT_EMAIL) ) {
 		var n = email.split('@', 1)[0];
-		return _.isEmpty(n) ? 'eao.invitee.2016@gmail.com' : 'eao.invitee.2016+' + n + '@gmail.com';
+		var r = process.env.RECIPIENT_EMAIL.split('@');
+
+		return _.isEmpty(n) ? process.env.RECIPIENT_EMAIL : r[0] + '+' + n + '@' + r[1];
 	}
 	return email;
 };
@@ -73,15 +74,15 @@ var sendEach = function(subject, text, html, recipients) {
 	var a = recipients.map(function(item) {
 		return new Promise(function(resolve, reject) {
 			var recipientEmail = getRecipientEmail(item.address);
-
-			subject = subject.replace('%TO_NAME%', item.name);
-			subject = subject.replace('%TO_EMAIL%', item.address);
-
-			text = text.replace('%TO_NAME%', item.name);
-			text = text.replace('%TO_EMAIL%', item.address);
-
-			html = html.replace('%TO_NAME%', item.name);
-			html = html.replace('%TO_EMAIL%', item.address);
+			var s = subject || '';
+			s = s.replace('%TO_NAME%', item.name);
+			s = s.replace('%TO_EMAIL%', item.address);
+			var t = text || '';
+			t = t.replace('%TO_NAME%', item.name);
+			t = t.replace('%TO_EMAIL%', item.address);
+			var h = html || '';
+			h = h.replace('%TO_NAME%', item.name);
+			h = h.replace('%TO_EMAIL%', item.address);
 
 			//console.log('recipientEmail = ', recipientEmail);
 			//console.log('subject = ', subject);
@@ -91,9 +92,9 @@ var sendEach = function(subject, text, html, recipients) {
 			var mailOptions = {
 				to: recipientEmail,
 				from: config.mailer.from,
-				subject: subject,
-				text: text,
-				html: html
+				subject: s,
+				text: t,
+				html: h
 			};
 
 			transporter.sendMail(mailOptions, function (error, info) {
@@ -102,6 +103,66 @@ var sendEach = function(subject, text, html, recipients) {
 					reject(new Error(error.toString()));
 				} else {
 					var result = {to: item.address, accepted: _.includes(info.accepted, recipientEmail), rejected: _.includes(info.rejected, recipientEmail), messageId: info.messageId };
+					//console.log('Sent email result: ', JSON.stringify(result));
+					resolve(result);
+				}
+			});
+		});
+	});
+
+	return Promise.all(a)
+		.then(function(res) {
+			//console.log(JSON.stringify(res));
+		}, function(err) {
+			//console.log(JSON.stringify(err));
+		});
+};
+
+
+var sendInvitations = function(subject, text, html, invitationData) {
+	//console.log('sendInvitations > invitationData ', JSON.stringify(invitationData, null, 4));
+
+	var a = invitationData.map(function(item) {
+		//console.log('sendInvitations >  item ', JSON.stringify(item));
+		return new Promise(function(resolve, reject) {
+			//console.log('b');
+			var recipientEmail = getRecipientEmail(item.to.address);
+			//console.log('sendInvitations > recipientEmail ', JSON.stringify(recipientEmail));
+
+			var s = subject || '';
+			s = s.replace('%TO_NAME%', item.to.name);
+			s = s.replace('%TO_EMAIL%', item.to.address);
+
+			var t = text || '';
+			t = t.replace('%TO_NAME%', item.to.name);
+			t = t.replace('%TO_EMAIL%', item.to.address);
+			t = t.replace('%INVITATION_PATH%', '/authentication/accept/' + item.invitation._id.toString());
+
+			var h = html || '';
+			h = h.replace('%TO_NAME%', item.to.name);
+			h = h.replace('%TO_EMAIL%', item.to.address);
+			h = h.replace('%INVITATION_PATH%', '/authentication/accept/' + item.invitation._id.toString());
+
+			//console.log('recipientEmail = ', recipientEmail);
+			//console.log('subject = ', subject);
+			//console.log('text = ', text);
+			//console.log('html = ', html);
+
+			var mailOptions = {
+				to: recipientEmail,
+				from: config.mailer.from,
+				subject: s,
+				text: t,
+				html: h
+			};
+			//console.log('c');
+
+			transporter.sendMail(mailOptions, function (error, info) {
+				if (error) {
+					//console.log('Failed to send email to recipient ' + item.email + ' using mailer options' + JSON.stringify(config.mailer.options, null, 4));
+					reject(new Error(error.toString()));
+				} else {
+					var result = {to: item.to.address, accepted: _.includes(info.accepted, recipientEmail), rejected: _.includes(info.rejected, recipientEmail), messageId: info.messageId };
 					//console.log('Sent email result: ', JSON.stringify(result));
 					resolve(result);
 				}
@@ -183,5 +244,6 @@ module.exports = {
 	send: send,
 	sendItem: sendItem,
 	sendAll: sendAll,
-	sendEach: sendEach
+	sendEach: sendEach,
+	sendInvitations: sendInvitations
 };
