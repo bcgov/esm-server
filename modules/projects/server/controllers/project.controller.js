@@ -175,7 +175,7 @@ module.exports = DBModel.extend ({
 			})
 			.then(function (phase) {
 				// Find correct ordering of new phase.
-				var insertIndex = _.sortedIndex(project.phases, phase,
+				var insertIndex = _.sortedIndexBy(project.phases, phase,
 					function (p) {
 						return _.findIndex(phases, { code: p.code });
 					});
