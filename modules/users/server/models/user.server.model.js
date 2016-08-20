@@ -152,6 +152,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	country                 : { type:String, default: '' },
 	postalCode              : { type:String, default: '' },
 	notes                   : { type:String, default: '' },
+	signature 				: { type:'ObjectId', default: null, ref:'Document' },
 	// contact
 	viaEmail                : { type:Boolean, default: true },
 	viaMail                 : { type:Boolean, default: false },

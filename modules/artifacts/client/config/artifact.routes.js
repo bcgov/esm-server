@@ -325,6 +325,25 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				});
 			};
 			$scope.submit = function () {
+				// // Prepping for signature work
+				// TemplateModel.lookup($scope.artifact.template._id)
+				// .then(function (t) {
+				// 	var sigSection = t.sections[t.sections.length-1];
+				// 	sigSection.template = "Signature<br><img src='http://localhost:3000/api/document/57b797bfb1e4a820452ea0eb/fetch'>";
+				// 	return TemplateModel.save(t);
+				// }).then(function (t) {
+				// 	$scope.artifact.template = t;
+				// 	return ArtifactModel.save($scope.artifact);
+				// }).then (function (art) {
+				// 	ArtifactModel.nextStage (art)
+				// 	.then (function (model) {
+				// 		$state.go ('p.artifact.view');
+				// 	});
+				// })
+				// .catch (function (err) {
+				// 	console.error (err);
+				// 	// alert (err.message);
+				// });
 				ArtifactModel.nextStage ($scope.artifact)
 				.then (function (model) {
 					$state.go ('p.artifact.view');
