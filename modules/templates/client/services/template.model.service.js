@@ -13,6 +13,9 @@ angular.module('templates').factory ('TemplateModel', function (ModelBase, _) {
 	//
 	var Class = ModelBase.extend ({
 		urlName : 'template',
+		lookup: function (id) {
+			return this.get ('/api/template/' + id);
+		},
 		forProject: function (projectid) {
 			return this.get ('/api/template/for/project/'+projectid);
 		},

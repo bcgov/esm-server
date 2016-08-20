@@ -354,6 +354,25 @@ var templates = [{
             "optional" : false,
             "label" : "Reason for Ministers Decision",
             "name" : "rg"
+        },
+        {
+            "meta" : [
+                {
+                    "default" : "",
+                    "label" : "Signature",
+                    "type" : "Html",
+                    "name" : "si"
+                }
+            ],
+            "footer" : "",
+            "header" : "",
+            "template" : "Signed<br><img src='{{si}}'>",
+            "isfooter" : false,
+            "isheader" : false,
+            "multiple" : false,
+            "optional" : false,
+            "label" : "Signature",
+            "name" : "sig"
         }
     ],
     "versionNumber" : 1,
