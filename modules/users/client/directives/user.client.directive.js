@@ -36,7 +36,6 @@ function directiveEditMyProfile($modal, _) {
 						myProfile.user = user;
 						myProfile.salutations = SALUTATIONS;
 
-
 						myProfile.calculateName = function () {
 							myProfile.user.displayName = [myProfile.user.firstName, myProfile.user.middleName, myProfile.user.lastName].join(' ');
 						};
@@ -47,9 +46,6 @@ function directiveEditMyProfile($modal, _) {
 						myProfile.ok = function () {
 							var isValid = $scope.userForm.$valid;
 
-							if (!myProfile.user.username || myProfile.user.username === '') {
-								myProfile.user.username = $filter('kebab')(myProfile.user.displayName);
-							}
 							if (!isValid) {
 								$scope.$broadcast('show-errors-check-validity', 'userForm');
 								return false;

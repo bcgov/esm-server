@@ -156,8 +156,12 @@ pre {
 
 	p {
 		display: inline-block;
-		margin: 0.5rem 0;
+		margin-bottom: 0.5rem;
 		line-height: inherit;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
 	}
 
 	ul {

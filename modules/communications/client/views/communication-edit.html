@@ -1,7 +1,7 @@
 <form class="view-form" name="projectUpdateForm" novalidate>
 
 	<div class="view-title-container flex-row">
-		<h1>Project Update &nbsp;&rsaquo;&nbsp; {{s.communication.name}} <span class="placeholder-value" ng-if="!s.communication.name">Untitled</span>
+		<h1>Add/Edit Updates &nbsp;&rsaquo;&nbsp; {{s.communication.name}} <span class="placeholder-value" ng-if="!s.communication.name">Untitled</span>
 		</h1>
 		<div class="actions">
 			<button type="button" class="btn btn-default btn-sm" ng-click="cancel()">Cancel</button>
@@ -50,7 +50,7 @@
 					<div class="form-group">
 						<button type="button" class="btn btn-default btn-sm"
 							x-email-template-chooser
-							x-project="project" 
+							x-project="project"
 							x-current="emailTemplate">Use Existing Template</button>
 					</div>
 					<div class="form-group" x-show-errors>
@@ -68,13 +68,14 @@
 
 		<div class="tab-pane" ng-show="form.curTab === 'recipients'" ng-form="recipientsForm">
 			<div class='button-bar'>
-				<button type="button" 
-					x-add-new-recipient x-project="project" 
+				<button type="button"
+					x-add-new-recipient x-project="project"
 					x-current="adhocRecipient" class="btn btn-default btn-sm">
 					<span class="glyphicon glyphicon-plus"></span><span>Add New</span></button>
 				<button type="button"
-					x-user-search-chooser 
-					x-project="project" 
+					x-user-search-chooser
+          x-title="'Add Existing'"
+					x-project="project"
 					x-destination="existingRecipients" class="btn btn-default btn-sm">
 					<span class="glyphicon glyphicon-plus"></span><span>Add Existing</span></button>
 				<button class="btn btn-default btn-sm"

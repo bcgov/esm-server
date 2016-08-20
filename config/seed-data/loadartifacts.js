@@ -55,7 +55,10 @@ module.exports = function () {
 				} else {
 					artifacttype.isTemplate = true;
 				}
-				artifacttype.stages = list.stages;
+				
+				if (!artifacttype.stages) {
+					artifacttype.stages = list.stages;
+				}
 				var a = new ArtifactType(artifacttype);
 				return a.save();
 			}));
@@ -80,8 +83,10 @@ module.exports = function () {
 									} else {
 										artifacttype.isTemplate = true;
 									}
-									artifacttype.stages = list.stages;
-
+									
+									if (!artifacttype.stages) {
+										artifacttype.stages = list.stages;
+									}
 
 									arttype = new ArtifactType(artifacttype);
 									arttype.save(function (err) {

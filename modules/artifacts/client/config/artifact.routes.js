@@ -101,7 +101,13 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					}
 					resolve (true);
 				});
+			},
+			rolePermissions: function($stateParams, ArtifactModel) {
+				return ArtifactModel.checkPermissions($stateParams.artifactId);
 			}
+		},
+		controller: function ($scope, rolePermissions) {
+			$scope.rolePermissions = rolePermissions;
 		}
 	})
 	// -------------------------------------------------------------------------

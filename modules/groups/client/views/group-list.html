@@ -1,45 +1,47 @@
 <div class="view-title-container">
-  <h1>Project Groups</h1>
+	<h1>Project Groups</h1>
 </div>
 
 <div class="view-body-container">
-  <div class="button-bar clearfix">
-    <div class="pull-left">
-      <button ng-if="true || project.userCan.createProjectGroups" class="btn btn-default btn-sm" ui-sref="p.group.create">
+	<div class="button-bar clearfix">
+		<div class="pull-left">
+			<button ng-if="true || project.userCan.createProjectGroups" class="btn btn-default btn-sm" ui-sref="p.group.create">
         <span class="glyphicon glyphicon-plus"></span><span>Add Project Group</span>
       </button>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <table ng-table="tableParams" show-filter="true" class="communications-table table table-hover vc-table">
-      <tr ng-repeat="o in $data" ui-sref="p.group.detail({groupId:o._id})">
-        <td class="name-col" header-class="'name-col'"
-            data-title="'Name'"
-            filter="{'name':'text'}"
-            sortable="'name'"><a ui-sref="p.group.detail({groupId:o._id})">{{o.name}}</a>
-        </td>
-        <td class="artifacts-col" header-class="'artifacts-col'"
-            data-title="'Type'"
-            filter="{'type':'text'}"
-            sortable="'type'">{{o.type}}</td>
-        <td class="recipients-col" header-class="'recipients-col'"
-            data-title="'Members'"
-            sortable="'recipients'">{{o.members ? o.members.length : 0}}</td>
-
-        <td class="actions-col action-x2" header-class="'actions-col action-x2'">
-          <a class="btn btn-default btn-sm" title="Edit Project Group" ng-if="project.userCan.createProjectGroups" ng-click="$event.stopPropagation()"
-             ui-sref="p.group.edit({groupId:o._id})">
-            <span class="glyphicon glyphicon-pencil"></span>
-          </a>
-        </td>
-      </tr>
-
-      <tr class="no-records hidden" ng-if="!$data || $data.length === 0">
-        <td colspan="2">
-          No records found.
-        </td>
-      </tr>
-
-    </table>
-  </div>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<table ng-table="tableParams" show-filter="true" class="table table-hover">
+			<tr ng-repeat="o in $data" ui-sref="p.group.detail({groupId:o._id})">
+				<td class="name-col" 
+					header-class="'name-col'" 
+					data-title="'Name'"
+					filter="{'name':'text'}" 
+					sortable="'name'">
+					<a ui-sref="p.group.detail({groupId:o._id})">{{o.name}}</a></td>
+				<td class="artifacts-col" 
+					header-class="'artifacts-col'" 
+					data-title="'Type'" 
+					filter="{'type':'text'}" 
+					sortable="'type'">{{o.type}}</td>
+				<td class="members-col" 
+					header-class="'members-col'" 
+					data-title="'Members'"
+					filter="{'members':'text'}" 
+					sortable="'members'">{{o.members ? o.members.length : 0}}</td>
+				<td class="actions-col action-x2" 
+					header-class="'actions-col action-x2'">
+					<a class="btn btn-default btn-sm" title="Edit Project Group" 
+						ng-if="project.userCan.createProjectGroups" 
+						ng-click="$event.stopPropagation()"
+						ui-sref="p.group.edit({groupId:o._id})">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</a>
+				</td>
+			</tr>
+			<tr class="no-records" ng-if="!$data || $data.length === 0">
+				<td colspan="4">No Project Groups found.</td>
+			</tr>
+		</table>
+	</div>
 </div>

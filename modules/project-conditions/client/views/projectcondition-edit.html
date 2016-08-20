@@ -66,7 +66,7 @@
 						</ul>
 					</div>
 				</div>
-				<div class="form-group no-margin">
+				<div class="form-group">
 					<label class="control-label" for="phase">Post Certification Phases</label>
 					<select-array class="custom-select-list"
 						x-source-array="phases"
@@ -74,23 +74,17 @@
 						x-key-string="id"
 						x-value-string="title"></select-array>
 				</div>
+				<div class="form-group">
+					<label class="control-label">Description</label>
+					<textarea class="form-control" ui-tinymce rows="5"
+						ng-model="condition.description"></textarea>
+				</div>
+				<div class="form-group no-margin">
+					<label class="control-label">Report Requirements</label>
+					<textarea class="form-control" ui-tinymce rows="5"
+						ng-model="condition.reportRequirements"></textarea>
+				</div>
 			</div>
-		</div>
-
-		<div class="panel panel-default vc-rtf-editor">
-			<div class="panel-heading">
-				<h2>Description</h2>
-			</div>
-			<textarea class="form-control" ui-tinymce rows="5" title="Condition" id="shortDesc"
-				ng-model="condition.description"></textarea>
-		</div>
-
-		<div class="panel panel-default vc-rtf-editor">
-			<div class="panel-heading">
-				<h2>Report Requirements</h2>
-			</div>
-			<textarea class="form-control" ui-tinymce rows="5" title="Report Requirements" id="shortDesc"
-				ng-model="condition.reportRequirements"></textarea>
 		</div>
 
 		<!-- HIDDEN AS PER PM REQUEST -->

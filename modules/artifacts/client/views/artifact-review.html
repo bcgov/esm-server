@@ -3,8 +3,8 @@
 	<h1>{{artifact.name}}&nbsp;<span class="placeholder-value">({{artifact.version}})</span></h1>
 	<div class="actions">
 		<a class="btn btn-default btn-sm" title="Cancel" ui-sref="p.artifact.view">Cancel</a>
-		<button class="btn btn-danger btn-sm" title="Reject and return for {{buttons.prev}}" ng-click="reject()">Reject</button>
-		<button class="btn btn-success btn-sm" title="Submit for {{buttons.next}}" ng-click="submit()">Submit for {{buttons.next}}</button>
+		<button class="btn btn-danger btn-sm" title="Reject and return for {{buttons.prev}}" ng-click="reject()" ng-if="rolePermissions[artifact.stage]">Reject</button>
+		<button class="btn btn-success btn-sm" title="Submit for {{buttons.next}}" ng-click="submit()" ng-if="rolePermissions[artifact.stage]">Submit for {{buttons.next}}</button>
 	</div>
 </div>
 
@@ -13,7 +13,7 @@
 	
 	<div class="form-group">
 		<label class="control-label">Review Notes</label>
-		<textarea class="form-control" rows="5" ng-model="artifact.reviewnote"></textarea>
+		<textarea class="form-control" rows="5" ng-model="artifact.reviewnote" ng-if="rolePermissions[artifact.stage]"></textarea>
 	</div>
 	
 	<div class="form-footer clearfix">

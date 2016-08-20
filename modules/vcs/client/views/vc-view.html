@@ -43,26 +43,16 @@
 					</div>
 				</div>
 			</div>
+			<div class="detail-row" ng-if="vc.description">
+				<label>Description</label>
+				<pre class="value wrap-text" id="shortDesc" ng-bind-html="vc.description"></pre>
+			</div>
+			<div class="detail-row" ng-if="vc.indicators">
+				<label>Indicators</label>
+				<pre class="value wrap-text" id="indicators" ng-bind-html="vc.indicators"></pre>
+			</div>
 		</div>
 	</div><!-- / DETAILS -->
-	
-	<!-- DESCRIPTION -->
-	<div class="panel panel-default" ng-if="vc.description">
-		<div class="panel-heading"><h2>Description</h2></div>
-		<div class="panel-body">
-			<pre class="value wrap-text" id="shortDesc" ng-bind-html="vc.description"></pre>
-		</div>
-	</div>
-
-	<!-- INDICATORS -->
-	<div class="panel panel-default" ng-if="vc.indicators">
-		<div class="panel-heading">
-			<h2>Indicators</h2>
-		</div>
-		<div class="panel-body">
-			<pre class="value wrap-text" id="indicators" ng-bind-html="vc.indicators"></pre>
-		</div>
-	</div>
 
 	<div class="hidden">
 		<div class="row">

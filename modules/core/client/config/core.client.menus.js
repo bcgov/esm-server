@@ -139,17 +139,17 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	});
 	if (ENV === 'EAO') {
 		Menus.addMenuItem('projectMenu', {
-			title: 'Project Invitations',
+			title: 'Invitations',
 			state: 'p.invitation.list',
 			permissions: ['context.listProjectInvitations']
 		});
 		Menus.addMenuItem('projectMenu', {
-			title: 'Project Groups',
+			title: 'Groups',
 			state: 'p.group.list',
 			permissions: ['context.listProjectGroups']
 		});
 		Menus.addMenuItem('projectMenu', {
-			title: 'Project Updates',
+			title: 'Updates',
 			state: 'p.communication.list',
 			permissions: ['context.listProjectUpdates']
 		});

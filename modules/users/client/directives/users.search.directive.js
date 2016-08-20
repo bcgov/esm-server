@@ -6,7 +6,8 @@ angular.module('users')
 			restrict: 'A',
 			scope: {
 				project: '=',
-				destination: '='
+				destination: '=',
+				title: '='
 			},
 			link: function (scope, element, attrs) {
 				element.on('click', function () {
@@ -22,6 +23,7 @@ angular.module('users')
 						controllerAs: 's',
 						controller: function ($filter,$scope, $modalInstance, projectGroups) {
 							var s = this;
+							s.title = scope.title;
 
 							var isArray = _.isArray(scope.destination);
 
@@ -122,7 +124,8 @@ angular.module('users')
 			restrict: 'A',
 			scope: {
 				project: '=',
-				destination: '='
+				destination: '=',
+				title: '='
 			},
 			link: function (scope, element, attrs) {
 				element.on('click', function () {
@@ -135,6 +138,7 @@ angular.module('users')
 						controllerAs: 's',
 						controller: function ($filter, $scope, $modalInstance) {
 							var s = this;
+							s.title = scope.title;
 							var isArray = _.isArray(scope.destination);
 							s.searching = false;
 

@@ -380,139 +380,15 @@ var templates = [{
     "code" : "decision-package"
 }];
 
-var artifacttypes = [{
-    name: 'Memo to the Minister from the Associate Deputy Minister',
-    multiple: false,
-    isTemplate: false,
-    isDocument:true,
-    code: 'memo-adm',
-    milestone: 'memo-adm',
-    versions : [
-        'Final'
-    ],
-    stages: [{
-        name: 'Edit',
-        next: '',
-        prev: '',
-        activity: 'edit'
-    }]
-},{
-    name: 'Recommendations of the Executive Director',
-    multiple: false,
-    isTemplate: false,
-    isDocument: true,
-    code: 'memo-epd',
-    milestone: 'memo-epd',
-    versions : [
-        'Final'
-    ],
-    stages: [{
-        name: 'Edit',
-        next: '',
-        prev: '',
-        activity: 'edit'
-    }]
-},{
-    name: 'Documents',
-    multiple: true,
-    isTemplate: false,
-    isDocument: false,
-    code: 'documents',
-    milestone: 'documents',
-    versions : [
-        'Final'
-    ],
-    stages: [{
-        name: 'Edit',
-        next: '',
-        prev: '',
-        activity: 'edit'
-    }]
-},{
-    name: 'Environmental Certificate',
-    multiple: false,
-    isTemplate: false,
-    isDocument: true,
-    code: 'certificate',
-    milestone: 'certificate',
-    versions : [
-        'Final'
-    ],
-    stages: [{
-        name: 'Edit',
-        next: '',
-        prev: '',
-        activity: 'edit'
-    }]
-},{
-    name: 'Application',
-    multiple: false,
-    isTemplate: false,
-    isDocument: true,
-    code: 'application',
-    milestone: 'application',
-    versions : [
-        'Final'
-    ],
-    stages: [{
-        name: 'Edit',
-        next: '',
-        prev: '',
-        activity: 'edit'
-    }]
-},{
-    name: 'Referral Package',
-    multiple: false,
-    isTemplate: true,
-    isDocument: false,
-    code: 'referral-package',
-    milestone: 'referral-package',
-    versions : [
-        'Final'
-    ],
-    stages: [{
-        name: 'Edit',
-        next: 'Decision',
-        prev: '',
-        activity: 'edit'
-    },{
-        name: 'Decision',
-        next: 'Publishing',
-        prev: 'Edit',
-        activity: 'decision'
-    },{
-        name: 'Publishing',
-        next: '',
-        prev: 'Decision',
-        activity: 'publish'
-    }]
-},{
-    name: 'Decision Package',
-    multiple: false,
-    isTemplate: true,
-    isDocument: false,
-    code: 'decision-package',
-    milestone: 'decision-package',
-    versions : [
-        'Final'
-    ],
-    stages: [{
-        name: 'Edit',
-        next: 'Decision',
-        prev: '',
-        activity: 'edit'
-    },{
-        name: 'Decision',
-        next: 'Publishing',
-        prev: 'Edit',
-        activity: 'decision'
-    },{
-        name: 'Publishing',
-        next: '',
-        prev: 'Decision',
-        activity: 'publish'
-    }]
-}];
+var artifacttypes = [
+    { name: 'Application', multiple: false, isTemplate: false, isDocument: true, code: 'application', milestone: 'application', versions : [ 'Final' ], stages: [{name: 'Edit', next: 'approve', prev: '', activity: 'edit'}, {name: 'Approve', next: 'publish', prev: 'edit', activity: 'approve', role: 'lead'}, {name: 'Publishing', next: '', prev: 'approve', activity: 'publish', role: 'eao-admin'}]},
+    { name: 'Decision Package', code: 'decision-package', milestone: 'decision-package', multiple: false, isTemplate: true, isDocument: false, versions : [ 'Final' ], stages: [{name: 'Edit', next: 'review', prev: '', activity: 'edit'}, {name: 'Review', next: 'approve', prev: 'edit', activity: 'review', role: 'epd'}, {name: 'Approve', next: 'executive', prev: 'review', activity: 'approve', role: 'assistant-dm'}, {name: 'Executive', next: 'publish', prev: 'approve', activity: 'executive', role: 'associate-dm'}, {name: 'Publishing', next: '', prev: 'executive', activity: 'publish', role: 'eao-admin'}]},
+    { name: 'Documents', multiple: true, isTemplate: false, isDocument: false, code: 'documents', milestone: 'documents', versions : [ 'Final' ], stages: [{name: 'Edit', next: 'publish', prev: '', activity: 'edit'}, {name: 'Publishing', next: '', prev: 'edit', activity: 'publish', role: 'eao-admin'}]},
+    { name: 'Environmental Assessment Certificate Template',milestone: 'environmental-assessment-certificate',code: 'environmental-assessment-certificate',multiple: false,versions: ['Draft','Final'],phase: '', stages: [{name: 'Edit', next: 'review', prev: '', activity: 'edit'}, {name: 'Review', next: 'approve', prev: 'edit', activity: 'review', role: 'lead'}, {name: 'Approve', next: 'executive', prev: 'review', activity: 'approve', role: 'epd'}, {name: 'Executive', next: 'decision', prev: 'approve', activity: 'executive', role: 'associate-dm'}, {name: 'Decision', next: 'publish', prev: 'executive', activity: 'decision', role: 'minister'}, {name: 'Publishing', next: '', prev: 'decision', activity: 'publish', role: 'eao-admin'}]},
+    { name: 'Memo to the Minister from the Associate Deputy Minister', multiple: false, isTemplate: false, isDocument:true, code: 'memo-adm', milestone: 'memo-adm', versions : [ 'Final'], stages: [{name: 'Edit', next: 'review', prev: '', activity: 'edit'}, {name: 'Review', next: 'approve', prev: 'edit', activity: 'review', role: 'epd'}, {name: 'Approve', next: 'executive', prev: 'review', activity: 'approve', role: 'assistant-dm'}, {name: 'Executive', next: 'publish', prev: 'approve', activity: 'executive', role: 'associate-dm'}, {name: 'Publishing', next: '', prev: 'executive', activity: 'publish', role: 'eao-admin'}]},
+    { name: 'Recommendations of the Executive Director', multiple: false, isTemplate: false, isDocument: true, code: 'memo-epd', milestone: 'memo-epd', versions : [ 'Final' ], stages: [{name: 'Edit', next: 'review', prev: '', activity: 'edit'}, {name: 'Review', next: 'approve', prev: 'edit', activity: 'review', role: 'epd'}, {name: 'Approve', next: 'executive', prev: 'review', activity: 'approve', role: 'assistant-dm'}, {name: 'Executive', next: 'publish', prev: 'approve', activity: 'executive', role: 'associate-dm'}, {name: 'Publishing', next: '', prev: 'executive', activity: 'publish', role: 'eao-admin'}]},
+    { name: 'Referral Package', code: 'referral-package', milestone: 'referral-package', multiple: false, isTemplate: true, isDocument: false, versions : [ 'Final' ], stages: [{name: 'Edit', next: 'review', prev: '', activity: 'edit'}, {name: 'Review', next: 'approve', prev: 'edit', activity: 'review', role: 'lead'}, {name: 'Approve', next: 'executive', prev: 'review', activity: 'approve', role: 'epd'}, {name: 'Executive', next: 'decision', prev: 'approve', activity: 'executive', role: 'associate-dm'}, {name: 'Decision', next: 'publish', prev: 'executive', activity: 'decision', role: 'minister'}, {name: 'Publishing', next: '', prev: 'decision', activity: 'publish', role: 'eao-admin'}]},
+];
 
 
 module.exports = {

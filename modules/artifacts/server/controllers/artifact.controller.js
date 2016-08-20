@@ -200,54 +200,98 @@ module.exports = DBModel.extend({
 	},
 	setDefaultRoles: function (artifact, project, type) {
 		// Set default read/write/submit permissions on artifacts based on their type.
-		// console.log("setting default roles for: ", type);
-		if (type === 'valued-component') {
-			artifact.read.push("eao-admin");
-			artifact.read.push("eao-member");
-			artifact.read.push("intake");
-			artifact.read.push("assistant-dm");
-			artifact.read.push("associate-dmo");
-			artifact.read.push("minister");
-			artifact.read.push("qa-officer");
-			artifact.read.push("ce-lead");
-			artifact.read.push("ce-officer");
-			artifact.write.push("pro-admin");
-			artifact.write.push("pro-member");
-			artifact.write.push("team");
-			artifact.write.push("lead");
-			artifact.write.push("epd");
-		} else if (_.startsWith(type, 'section-10')) {
-			artifact.read.push("team");
-			artifact.write.push("epd");
-			artifact.write.push("lead");
-		} else if (_.startsWith(type, 'section-6') || _.startsWith(type, 'section-7') || _.startsWith(type, 'section-11') || _.startsWith(type, 'section-34') || _.startsWith(type, 'section-36')) {
-			artifact.write.push("ce-lead");
-			artifact.write.push("ce-officer");
-		} else if (type === 'application') {
-			artifact.write.push("pro-admin");
-			artifact.write.push("pro-member");
-			artifact.write.push("pro-subconsultant");
-			artifact.write.push("epd");
-			artifact.write.push("lead");
-			artifact.write.push("team");
-		} else if (type === 'decision-package') {
-			artifact.write.push("epd");
-			artifact.read.push("lead");
-			artifact.read.push("team");
-		} else if (type === 'referral-package') {
-			artifact.write.push("epd");
-			artifact.read.push("lead");
-			artifact.read.push("team");
-		} else if (type === 'environmental-assessment-certificate' || type === 'certificate') {
-			artifact.write.push("epd");
-			artifact.write.push("lead");
-			artifact.read.push("team");
-			artifact.read.push("ce-lead");
-			artifact.read.push("ce-officer");
-		} else if (type === 'inspection-report') {
-			artifact.write.push("ce-lead");
-			artifact.write.push("ce-officer");
+		
+		var permissions;
+		
+		switch (type) {
+			case 'aboriginal-consultation-report':
+			case 'amendment-aboriginal-consultation':
+			case 'application':
+			case 'draft-application-information-requirements':
+			case 'project-description':
+			case 'project-description-template':
+				permissions = ['eao-admin', 'lead', 'intake', 'epd', 'team', 'pro-admin', 'pro-member'];
+				break;
+			case 'amendment-working-group':
+			case 'application-evaluation-working-group':
+			case 'application-information-requirements':
+			case 'application-package':
+			case 'application-review-working-group':
+			case 'pre-application-working-group':
+			case 'pre-assessment-working-group':
+				permissions =  ['eao-admin', 'lead', 'intake', 'epd', 'team', 'working-group', 'technical-working-group'];
+				break;
+			case 'memo-adm': // Memo to the Minister from the Associate Deputy Minister
+				permissions =  ['eao-admin', 'lead', 'intake', 'epd', 'team', 'associate-dm', 'associate-dmo'];
+				break;
+			case 'project-management-plans':
+			case 'project-monitoring-plans':
+			case 'project-studies':
+				permissions =  ['eao-admin', 'lead', 'intake', 'epd', 'team','qa-officer', 'ce-lead', 'ce-officer', 'pro-admin', 'pro-member'];
+				break;
+			case 'post-certification-inspection-fees':
+			case 'pre-application-inspection-fees':
+			case 'pre-assessment-inspection-fees':
+			case 'project-termination':
+			case 'project-withdrawal':
+				permissions =  ['eao-admin', 'intake'];
+				break;
+			case 'inspection-report':
+			case 'section-34-order':
+			case 'section-36-order':
+			case 'section-36-schedule-a':
+			case 'section-36-schedule-b':
+				permissions =  ['qa-officer', 'ce-lead', 'ce-officer'];
+				break;
+			case 'substantially-started-decision':
+				permissions =  ['eao-admin', 'lead', 'intake', 'epd', 'team', 'qa-officer', 'ce-lead', 'ce-officer' ];
+				break;
+			case 'aboriginal-consultation':
+			case 'assessment-fee-1-fee-order':
+			case 'assessment-fee-2-fee-order':
+			case 'certificate-amendment':
+			case 'certificate-amendment-fee-order':
+			case 'certificate-cancellation':
+			case 'certificate-extension':
+			case 'certificate-extension-fee-order':
+			case 'certificate-suspension':
+			case 'decision-package':
+			case 'documents':
+			case 'environmental-assessment-certificate':
+			case 'certificate': // Environmental Certificate
+			case 'evaluation-report':
+			case 'public-consultation-report':
+			case 'memo-epd': // Recommendations of the Executive Director
+			case 'referral-package':
+			case 'section-10-1-a':
+			case 'section-10-1-a-order':
+			case 'section-10-1-b':
+			case 'section-10-1-b-fee-order':
+			case 'section-10-1-b-order':
+			case 'section-10-1-c':
+			case 'section-10-1-c-order':
+			case 'section-11-order':
+			case 'section-11-schedule-a':
+			case 'section-13-order':
+			case 'section-14-order':
+			case 'section-15-order':
+			case 'section-6':
+			case 'section-7':
+			case 'section-7-3-order':
+			case 'substitution-decision-request':
+			case 'threshold-determination':
+			case 'timeline-extension':
+			case 'timeline-suspension':
+			case 'valued-component-package':
+			case 'valued-component-selection-document':
+			case 'wg-consultation-report':
+				permissions =  ['eao-admin', 'lead', 'intake', 'epd', 'team'];
+				break;
 		}
+		
+		artifact.read = artifact.write = permissions;
+		
+		
 		return artifact;
 	},
 	// -------------------------------------------------------------------------
@@ -331,9 +375,11 @@ module.exports = DBModel.extend({
 		var stage = _.find(doc.artifactType.stages, function (s) {
 			return s.name === doc.stage;
 		});
+
+		console.log(stage);
 		if (stage.next) {
 			var next = _.find(doc.artifactType.stages, function (s) {
-				return s.name === stage.next;
+				return s.activity === stage.next;
 			});
 			return this.newStage(doc, oldDoc, next);
 		}
@@ -344,7 +390,7 @@ module.exports = DBModel.extend({
 		});
 		if (stage.prev) {
 			var prev = _.find(doc.artifactType.stages, function (s) {
-				return s.name === stage.prev;
+				return s.activity === stage.prev;
 			});
 			return this.newStage(doc, oldDoc, prev);
 		}
@@ -393,37 +439,35 @@ module.exports = DBModel.extend({
 		//
 		// console.log ('about to attempt to save saveDocument', doc);
 		if (_.isEmpty(doc.document)) doc.document = null;
-		var p = this.update(oldDoc, doc);
+
 		var self = this;
-		return new Promise(function (resolve, reject) {
-			//
-			// once saved go and create the new activity if one is listed under
-			// this stage
-			//
-			p.then(function (model) {
+		return this.update(oldDoc, doc)
+			.then(function (model) {
+				//
+				// once saved go and create the new activity if one is listed under
+				// this stage
+				//
 				// console.log ('document saved, now add the activity ', model.milestone, next.activity);
 				if (model.milestone && next.activity) {
 					var ativity;
 					var m = new MilestoneClass(self.opts);
 					var a = new ActivityClass(self.opts);
 					return m.findById(model.milestone)
-					.then(function (milestone) {
-						// console.log ('found the milestone, now adding attivity');
-						//
-						// this is where we should/would set special permisions, but they
-						// really should be on the default base activity (which this does do)
-						//
-						return a.fromBase(next.activity, milestone, {artifactId: model._id});
-					})
-					.then(function () {
-						return model;
-					});
+						.then(function (milestone) {
+							// console.log ('found the milestone, now adding attivity');
+							//
+							// this is where we should/would set special permisions, but they
+							// really should be on the default base activity (which this does do)
+							//
+							return a.fromBase(next.activity, milestone, {artifactId: model._id});
+						})
+						.then(function () {
+							return model;
+						});
 				} else {
 					return model;
 				}
-			})
-			.then(resolve, reject);
-		});
+			});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -581,5 +625,18 @@ module.exports = DBModel.extend({
 				})
 				.then(resolve, reject);
 		});
+	},
+	checkPermissions: function(artifactId) {
+		var self = this;
+
+		return self.findById(artifactId)
+			.then(function(artifact) {
+				var permissions = {};
+				artifact.artifactType.stages.forEach(function(stage) {
+					permissions[stage.name] = (!stage.role) ? true : _.includes(self.opts.userRoles, stage.role);
+				});
+
+				return permissions;
+			});
 	}
 });

@@ -15,7 +15,7 @@
 		</div>
 	</div>
 	<section class="panel panel-default">
-		<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-striped table-hover">
+		<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-hover">
 			<tr ng-repeat="o in $data" ui-sref="p.projectcondition.detail({conditionId:o._id})" class="clickable">
 				<td data-title="'Name'"
 					filter="{'name':'text'}" 

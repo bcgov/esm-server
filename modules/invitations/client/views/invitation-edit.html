@@ -1,7 +1,7 @@
 <form class="view-form" name="mainForm" novalidate>
 
 	<div class="view-title-container flex-row">
-		<h1>Project Invitation &nbsp;&rsaquo;&nbsp; {{s.communication.name}} <span class="placeholder-value" ng-if="!s.communication.name">Untitled</span>
+		<h1>Add/Edit Invitation &nbsp;&rsaquo;&nbsp; {{s.communication.name}} <span class="placeholder-value" ng-if="!s.communication.name">Untitled</span>
 		</h1>
 		<div class="actions">
 			<button type="button" class="btn btn-default btn-sm" ng-click="cancel()">Cancel</button>
@@ -53,7 +53,7 @@
 
 		<div class="tab-pane" ng-show="form.curTab === 'recipients'" ng-form="recipientsForm">
 			<div class='button-bar'>
-				<button type="button" x-user-invitation-chooser x-project="project" x-destination="existingRecipients" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add Existing</span>
+				<button type="button" x-user-invitation-chooser x-project="project" x-destination="existingRecipients" x-title="'Add Existing'" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add Existing</span>
         </button>
 			</div>
 			<div class="panel panel-default">

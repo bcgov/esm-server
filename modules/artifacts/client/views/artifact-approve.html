@@ -3,8 +3,8 @@
 	<h1>{{artifact.name}}&nbsp;<span class="placeholder-value">({{artifact.version}})</span></h1>
 	<div class="actions">
 		<a class="btn btn-default btn-sm" title="Cancel" ui-sref="p.artifact.view">Cancel</a>
-		<button class="btn btn-danger btn-sm" title="Reject and return for {{buttons.prev}}" ng-click="reject()">Reject</button>
-		<button class="btn btn-success btn-sm" title="Accept for {{buttons.next}}" ng-click="submit()">Submit for {{buttons.next}}</button>
+		<button class="btn btn-danger btn-sm" title="Reject and return for {{buttons.prev}}" ng-click="reject()" ng-if="rolePermissions[artifact.stage]">Reject</button>
+		<button class="btn btn-success btn-sm" title="Accept for {{buttons.next}}" ng-click="submit()" ng-if="rolePermissions[artifact.stage]">Submit for {{buttons.next}}</button>
 	</div>
 </div>
 
@@ -17,8 +17,8 @@
 	<div class="form-footer clearfix">
 		<div class="pull-right">
 			<a class="btn btn-default" ui-sref="p.detail">Cancel</a>
-			<a class="btn btn-danger" ng-click="reject()">Reject and Return for {{buttons.prev}}</a>
-			<a class="btn btn-success" ng-click="submit()">Accept for {{buttons.next}}</a>
+			<a class="btn btn-danger" ng-click="reject()" ng-if="rolePermissions[artifact.stage]">Reject and Return for {{buttons.prev}}</a>
+			<a class="btn btn-success" ng-click="submit()" ng-if="rolePermissions[artifact.stage]">Accept for {{buttons.next}}</a>
 		</div>
 	</div>
 
