@@ -12,6 +12,9 @@ angular
 		var self = this;
 		self.communication = communication;
 		self.communication.type = 'Invitation';
+		self.communication.project = $scope.project._id;
+		self.communication.personalized = true;
+		self.communication.artifacts = [];
 
 		$scope.emailTemplate = self.communication.emailTemplate;
 		$scope.recipients = angular.copy(self.communication.recipients);
@@ -47,6 +50,9 @@ angular
 			// set the project...
 			self.communication.type = 'Invitation';
 			self.communication.project = $scope.project._id;
+			self.communication.personalized = true;
+			self.communication.artifacts = [];
+
 			// set the email template
 			if ($scope.emailTemplate && $scope.emailTemplate._id) {
 				self.communication.emailTemplate = $scope.emailTemplate._id;
@@ -56,10 +62,12 @@ angular
 			// create a recipient list...
 			self.communication.recipients = angular.copy($scope.recipients);
 
+		};
+
+		var transformEmail = function() {
 			var xformEmail = transformTemplate();
 			self.communication.subject = xformEmail.subject;
 			self.communication.content = xformEmail.content;
-			self.communication.personalized = xformEmail.personalized;
 		};
 
 
@@ -272,7 +280,7 @@ angular
 			}
 
 			populateCommunication();
-
+			transformEmail();
 			if (mode === 'create') {
 				CommunicationModel.add(self.communication)
 					.then (function (res) {
@@ -303,6 +311,7 @@ angular
 				return false;
 			}
 			populateCommunication();
+			transformEmail();
 			doSend(self.communication);
 		};
 
