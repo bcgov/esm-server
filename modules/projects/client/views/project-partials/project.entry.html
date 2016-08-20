@@ -51,6 +51,7 @@
 						<label class="control-label" for="type">Type<em class="required">(Required)</em></label>
 						<select class="form-control" title="Project Type" id="type" name="type"
 							ng-model="project.type"
+							ng-change="project.sector = undefined"
 							ng-options="type for type in types" required></select>
 					</div>
 					<div class="col-sm-6 col-md-4 form-group" x-show-errors>
