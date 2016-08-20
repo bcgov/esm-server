@@ -108,8 +108,8 @@
 					<div class="col-md-4 form-group" x-show-errors>
 						<label class="control-label" for="ceaainvolvement">CEAA involvement</label>
 						<select class="form-control" name="ceaainvolvement" id="ceaainvolvement"
-							ng-model="project.CEAAInvolvement" required>
-							<option selected="selected" value="None">None</option>
+							ng-model="project.CEAAInvolvement"
+							ng-options="opt for opt in CEAA" required>
 						</select>
 					</div>
 					<div class="col-md-8 form-group">

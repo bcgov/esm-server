@@ -177,9 +177,9 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 // Used.
 //
 // -----------------------------------------------------------------------------------
-controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', 'project', 'REGIONS', 'PROJECT_TYPES', 'PROJECT_SUB_TYPES', '_', 'UserModel', 'ProjectModel', 'OrganizationModel', 'Authentication', 'codeFromTitle'];
+controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', 'project', 'REGIONS', 'PROJECT_TYPES', 'PROJECT_SUB_TYPES', 'CEAA_TYPES', '_', 'UserModel', 'ProjectModel', 'OrganizationModel', 'Authentication', 'codeFromTitle'];
 /* @ngInject */
-function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS, PROJECT_TYPES, PROJECT_SUB_TYPES, _, UserModel, ProjectModel, OrganizationModel, Authentication, codeFromTitle) {
+function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS, PROJECT_TYPES, PROJECT_SUB_TYPES, CEAA_TYPES, _, UserModel, ProjectModel, OrganizationModel, Authentication, codeFromTitle) {
 
 	ProjectModel.setModel ($scope.project);
 
@@ -245,6 +245,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 	$scope.types = PROJECT_TYPES;
 	$scope.subTypes = PROJECT_SUB_TYPES;
 	$scope._ = _;
+	$scope.CEAA = CEAA_TYPES;
 
 
 
