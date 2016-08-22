@@ -109,7 +109,10 @@ module.exports = require('../../../core/server/controllers/core.schema.controlle
 			default: null,
 			enum: [null, 'Other', 'Public', 'Aboriginal Group', 'Proponent', 'EAO', 'Federal Government', 'Working Group', 'Local Government', 'CEAA']
 		},
-		shortDescription: {type: String, default: null}
+		shortDescription: {type: String, default: null},
+		// Used to determine which stage the approval signature is pulled from the approving
+		// users' profile
+		signatureStage : {type: String, default: null}
 	},
 	{
 		type: 1

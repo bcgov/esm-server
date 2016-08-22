@@ -41,6 +41,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	versionNumber : { type:Number, default:0, index:true },
 	sections      : [ templateSection ],
 	templateType  : { type:String, default:'Artifact', enum:['Artifact','Notification Letter','Notification Email']},
-	artifact      : { type:'ObjectId', ref:'ArtifactType', default:null , index:true}
+	artifact      : { type:'ObjectId', ref:'ArtifactType', default:null , index:true},
+	signatureStage : { type: String, default: null}
 });
 

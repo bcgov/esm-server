@@ -125,7 +125,7 @@ module.exports = DBModel.extend({
 			// if template, check that have it as well
 			//
 			.then(function (t) {
-				// console.log ('setting template');
+				// console.log ('setting template', t);
 				//
 				// if its a template, but the template was not found then fail
 				//
@@ -134,6 +134,10 @@ module.exports = DBModel.extend({
 				// otherwise set the template if required and retun the artifact for next step
 				//
 				else {
+					// For now, only artifacts which are templates of a certain type have signatureStages.
+					if (artifactType.isTemplate) {
+						artifact.signatureStage = t[0].signatureStage;
+					}
 					artifact.template = (artifactType.isTemplate) ? t[0] : null;
 					artifact.isTemplate = artifactType.isTemplate;
 					artifact.isArtifactCollection = artifactType.isArtifactCollection;
