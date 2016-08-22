@@ -177,7 +177,7 @@ angular
 			'Cooperative (Pre CEAA 2012)',
 			'Coordinated',
 			'Equivalent (Provincial Lead)',
-			'Equivilant (Federal Lead)',
+			'Equivalant (Federal Lead)',
 			'Panel (CEAA 2012)',
 			'Panel (Pre CEAA 2012)',
 			'Screening (Pre CEAA 2012)',
