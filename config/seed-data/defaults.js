@@ -15,13 +15,6 @@ module.exports = function () {
 		'pro-admin': ['pro-admin', 'pro-member', 'pro-subconsultant']
 	};
 
-	var defaultPermissions = {
-		'setPermissions': ['eao-admin'],
-		'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-		'write': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-		'delete': ['eao-admin']
-	};
-
 	//
 	// default project permissions
 	//
@@ -33,57 +26,57 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				addUsersToContext: ['lead'],
+				addUsersToContext: ['eao-admin', 'intake', 'lead', 'epd'],
 				createRole: ['intake'],
-				managePermissions: ['intake', 'lead'],
-				manageRoles: ['intake', 'lead'],
+				managePermissions: ['eao-admin', 'intake', 'lead', 'epd'],
+				manageRoles: ['eao-admin', 'intake', 'lead', 'epd'],
 				listUsers: ['eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer'],
-				viewTombstone: ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical working group', 'local-gov'],
+				viewTombstone: ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical-working-group', 'local-gov'],
 				viewEAOTombstone: ['eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer'],
 				editTombstone: ['eao-admin', 'intake', 'lead', 'team', 'epd'],
-				unPublish: ['intake'],
-				publish: ['intake'],
-				createArtifact: ['intake'],
-				listArtifacts: ['intake'],
+				listArtifacts: ['eao-admin', 'intake', 'lead', 'team'],
+				createArtifact: ['intake', 'lead', 'team'],
 				deleteArtifact: ['eao-admin'],
-				createValuedComponent: ['pro-admin', 'pro-member', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'epd'],
-				listValuedComponents: ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical working group', 'local-gov'],
+				listValuedComponents: ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical-working-group', 'local-gov'],
+				createValuedComponent: ['pro-admin', 'pro-member', 'eao-admin', 'intake', 'lead', 'team', 'epd'],
 				deleteValuedComponent: ['eao-admin'],
 				publishValuedComponents: ['eao-admin', 'intake', 'lead', 'epd'],
+				listInspectionReports: ['eao-admin', 'intake'],
 				createInspectionReport: ['intake', 'qa-officer', 'ce-lead', 'ce-officer'],
-				listInspectionReports: ['intake'],
 				deleteInspectionReport: ['eao-admin'],
 				publishInspectionReports: ['intake', 'qa-officer', 'ce-lead'],
+				listProjectConditions: ['eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer'],
 				createProjectCondition: ['eao-admin', 'intake', 'lead', 'team', 'epd', 'qa-officer', 'ce-lead', 'ce-officer'],
-				listProjectConditions: ['eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer'],
 				deleteProjectCondition: ['eao-admin'],
-				publishConditions: ['eao-admin', 'eao-member', 'intake', 'lead', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'associate-dmo'],
+				publishConditions: ['eao-admin', 'intake', 'lead', 'epd', 'assistant-dm-office', 'associate-dm', 'associate-dmo'],
+				listProjectComplaints: ['eao-admin', 'intake'],
 				createProjectComplaint: ['intake'],
-				listProjectComplaints: ['intake'],
 				deleteProjectComplaint: ['eao-admin'],
+				listProjectInvitations: ['eao-admin', 'intake'],
 				createProjectInvitation: ['eao-admin', 'intake', 'lead', 'team', 'epd'],
-				listProjectInvitations: ['eao-admin', 'intake', 'lead', 'team', 'epd'],
 				deleteProjectInvitation: ['eao-admin'],
-				uploadDocument: ['pro-admin', 'pro-member', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'epd', 'qa-officer', 'ce-lead', 'ce-officer'],
-				listDocuments: ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical working group', 'local-gov'],
+				listDocuments: ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical-working-group', 'local-gov'],
+				uploadDocument: ['pro-admin', 'pro-member', 'eao-admin', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer'],
 				deleteDocument: ['eao-admin'],
-				createCommentPeriod: ['eao-admin', 'eao-member', 'intake', 'lead', 'team', 'epd'],
-				listCommentPeriods: ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical working group', 'local-gov'],
+				listCommentPeriods: ['pro-admin', 'pro-member', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'epd'],
+				createCommentPeriod: ['eao-admin', 'intake', 'lead', 'team', 'epd'],
 				deleteCommentPeriod: ['eao-admin'],
+				listEnforcements: ['eao-admin', 'intake', 'qa-officer', 'ce-lead', 'ce-officer'],
 				createEnforcement: ['intake', 'qa-officer', 'ce-lead', 'ce-officer'],
-				listEnforcements: ['qa-officer', 'ce-lead', 'ce-officer'],
 				deleteEnforcement: ['eao-admin'],
-				editSchedule: ['eao-admin', 'intake', 'lead', 'team', 'epd'],
-				viewSchedule: ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'ceaa', 'working-group', 'technical working group', 'local-gov'],
 				listProjectUpdates: ['eao-admin'],
-				createProjectUpdates: ['eao-admin'],
-				deleteProjectUpdates: ['eao-admin'],
+				createProjectUpdate: ['eao-admin'],
+				deleteProjectUpdate: ['eao-admin'],
 				listProjectGroups: ['eao-admin'],
-				createProjectGroups: ['eao-admin'],
-				deleteProjectGroups: ['eao-admin'],
-				delete: ['eao-admin', 'intake'],
-				write: ['eao-admin', 'intake'],
-				read: ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical working group', 'local-gov'],
+				createProjectGroup: ['eao-admin'],
+				deleteProjectGroup: ['eao-admin'],
+				viewSchedule: ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'ceaa', 'working-group', 'technical-working-group', 'local-gov'],
+				editSchedule: ['eao-admin', 'intake', 'lead', 'team', 'epd'],
+				unPublish: ['eao-admin', 'intake', 'lead', 'epd'],
+				publish: ['eao-admin', 'intake', 'lead'],
+				delete: ['intake'],
+				write: ['eao-admin', 'intake', 'lead', 'epd'],
+				read: ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical-working-group', 'local-gov']
 			}
 		}
 	}));
@@ -95,7 +88,11 @@ module.exports = function () {
 		type: 'default-permissions',
 		defaults: {
 			roles: defaultRoles,
-			permissions: defaultPermissions
+			permissions: {
+				delete: ['intake'],
+				write: ['eao-admin', 'intake', 'lead', 'epd'],
+				read: ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical-working-group', 'local-gov']
+			}
 		}
 	}));
 
@@ -117,10 +114,9 @@ module.exports = function () {
 				'publish': ['eao-admin', 'lead', 'epd'],
 				'unPublish': ['eao-admin', 'lead', 'epd'],
 				'reject': ['eao-admin'],
-				'setPermissions': ['eao-admin'],
-				'read': ['intake'],
-				'write': ['intake'],
-				'delete': ['eao-admin']
+				'read': _.uniq(['eao-admin', 'intake', 'lead', 'team', 'intake', 'lead', 'team', 'eao-admin']),
+				'write': _.uniq(['intake', 'lead', 'team']),
+				'delete': _.uniq(['eao-admin'])
 			}
 		}
 	}));
@@ -133,9 +129,9 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read': ['eao-admin', 'intake', 'lead', 'team', 'epd'],
-				'write': ['eao-admin', 'intake', 'lead', 'team', 'epd'],
-				'delete': ['eao-admin']
+				'read': _.uniq(['eao-admin', 'intake', 'eao-admin', 'intake', 'lead', 'team', 'epd', 'eao-admin', 'eao-admin', 'eao-admin', 'eao-admin']),
+				'write': _.uniq(['eao-admin', 'intake', 'lead', 'team', 'epd', 'eao-admin']),
+				'delete': _.uniq(['eao-admin', 'eao-admin'])
 			}
 		}
 	}));
@@ -150,7 +146,6 @@ module.exports = function () {
 			permissions: {
 				'modifyName': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
 				'modifyDescription': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-				'setPermissions': ['eao-admin'],
 				'read': ['eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer'],
 				'write': ['eao-admin', 'intake', 'lead', 'team', 'epd', 'qa-officer', 'ce-lead', 'ce-officer'],
 				'delete': ['eao-admin']
@@ -170,12 +165,11 @@ module.exports = function () {
 				'uploadNewVersion': ['eao-admin', 'lead', 'epd'],
 				'viewOldVersions': ['eao-admin', 'lead', 'epd'],
 				'downloadOldVersions': ['eao-admin', 'lead', 'epd'],
-				'setPermissions': ['eao-admin'],
 				'publish': ['eao-admin', 'lead', 'epd'],
 				'unPublish': ['eao-admin', 'lead', 'epd'],
-				'read': ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical working group', 'local-gov'],
-				'write': ['pro-admin', 'pro-member', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'epd', 'qa-officer', 'ce-lead', 'ce-officer'],
-				'delete': ['eao-admin']
+				'read': _.uniq(['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical-working-group', 'local-gov', 'pro-admin', 'pro-member', 'eao-admin', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer', 'eao-admin']),
+				'write': _.uniq(['pro-admin', 'pro-member', 'eao-admin', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer']),
+				'delete': _.uniq(['eao-admin'])
 			}
 		}
 	}));
@@ -189,9 +183,9 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read': ['eao-admin'],
-				'write': ['eao-admin'],
-				'delete': ['eao-admin']
+				'read': _.uniq(['eao-admin', 'eao-admin', 'eao-admin']),
+				'write': _.uniq(['eao-admin']),
+				'delete': _.uniq(['eao-admin'])
 			}
 		}
 	}));
@@ -204,12 +198,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'setPermissions': ['eao-admin'],
-				'publish': ['qa-officer', 'ce-lead'],
-				'unPublish': ['qa-officer', 'ce-lead'],
-				'read': ['intake'],
-				'write': ['intake', 'qa-officer', 'ce-lead', 'ce-officer'],
-				'delete': ['eao-admin']
+				'read': _.uniq(['eao-admin', 'intake', 'intake', 'qa-officer', 'ce-lead', 'ce-officer', 'eao-admin', 'intake', 'qa-officer', 'ce-lead']),
+				'write': _.uniq(['intake', 'qa-officer', 'ce-lead', 'ce-officer', 'intake', 'qa-officer', 'ce-lead']),
+				'delete': _.uniq(['eao-admin']),
+				'publish': _.uniq(['intake', 'qa-officer', 'ce-lead']),
+				'unPublish': _.uniq(['intake', 'qa-officer', 'ce-lead'])
 			}
 		}
 	}));
@@ -222,12 +215,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'setPermissions': ['eao-admin'],
-				'publish': ['qa-officer', 'ce-lead'],
-				'unPublish': ['qa-officer', 'ce-lead'],
-				'read': ['intake'],
-				'write': ['intake', 'qa-officer', 'ce-lead', 'ce-officer'],
-				'delete': ['eao-admin']
+				'read': _.uniq(['eao-admin', 'intake', 'intake', 'qa-officer', 'ce-lead', 'ce-officer', 'eao-admin', 'intake', 'qa-officer', 'ce-lead']),
+				'write': _.uniq(['intake', 'qa-officer', 'ce-lead', 'ce-officer', 'intake', 'qa-officer', 'ce-lead']),
+				'delete': _.uniq(['eao-admin']),
+				'publish': _.uniq(['intake', 'qa-officer', 'ce-lead']),
+				'unPublish': _.uniq(['intake', 'qa-officer', 'ce-lead'])
 			}
 		}
 	}));
@@ -241,7 +233,6 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'setPermissions': ['eao-admin'],
 				'read':  ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical working group', 'local-gov'],
 				'write': ['eao-admin', 'eao-member', 'intake', 'lead', 'team', 'epd'],
 				'delete': ['eao-admin']
@@ -257,10 +248,9 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'setPermissions': ['eao-admin'],
-				'read':  ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical working group', 'local-gov'],
-				'write': ['eao-admin', 'eao-member', 'intake', 'lead', 'team', 'epd'],
-				'delete': ['eao-admin']
+				'read': _.uniq(['pro-admin', 'pro-member', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'epd', 'eao-admin', 'intake', 'lead', 'team', 'epd', 'eao-admin']),
+				'write': _.uniq(['eao-admin', 'intake', 'lead', 'team', 'epd']),
+				'delete': _.uniq(['eao-admin'])
 			}
 		}
 	}));
@@ -273,12 +263,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'modifyName': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-				'modifyDescription': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-				'setPermissions': ['eao-admin'],
-				'read': ['intake'],
-				'write': ['intake'],
-				'delete': ['eao-admin']
+				'modifyName': ['eao-admin', 'intake'],
+				'modifyDescription': ['eao-admin', 'intake'],
+				'read': _.uniq(['eao-admin', 'intake', 'intake', 'eao-admin']),
+				'write': _.uniq(['intake']),
+				'delete': _.uniq(['eao-admin'])
 			}
 		}
 	}));
@@ -291,10 +280,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'setPermissions': ['eao-admin'],
-				'read': ['eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer'],
-				'write': ['eao-admin', 'intake', 'lead', 'team', 'epd', 'qa-officer', 'ce-lead', 'ce-officer'],
-				'delete': ['eao-admin']
+				'read': _.uniq(['eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'qa-officer', 'ce-lead', 'ce-officer', 'eao-admin', 'intake', 'lead', 'team', 'epd', 'qa-officer', 'ce-lead', 'ce-officer', 'eao-admin', 'eao-admin', 'intake', 'lead', 'epd', 'assistant-dm-office', 'associate-dm', 'associate-dmo']),
+				'write': _.uniq(['eao-admin', 'intake', 'lead', 'team', 'epd', 'qa-officer', 'ce-lead', 'ce-officer', 'eao-admin', 'intake', 'lead', 'epd', 'assistant-dm-office', 'associate-dm', 'associate-dmo']),
+				'delete': _.uniq(['eao-admin']),
+				'publish': _.uniq(['eao-admin', 'intake', 'lead', 'epd', 'assistant-dm-office', 'associate-dm', 'associate-dmo']),
+				'unPublish': _.uniq(['eao-admin', 'intake', 'lead', 'epd', 'assistant-dm-office', 'associate-dm', 'associate-dmo'])
 			}
 		}
 	}));
@@ -307,12 +297,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'setPermissions': ['eao-admin'],
-				'publish': ['qa-officer', 'ce-lead'],
-				'unPublish': ['qa-officer', 'ce-lead'],
-				'read': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-				'write': ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'],
-				'delete': ['eao-admin']
+				'read': _.uniq(['eao-admin', 'intake', 'intake', 'qa-officer', 'ce-lead', 'ce-officer', 'eao-admin', 'intake', 'qa-officer', 'ce-lead']),
+				'write': _.uniq(['intake', 'qa-officer', 'ce-lead', 'ce-officer', 'intake', 'qa-officer', 'ce-lead']),
+				'delete': _.uniq(['eao-admin']),
+				'publish': _.uniq(['intake', 'qa-officer', 'ce-lead']),
+				'unPublish': _.uniq(['intake', 'qa-officer', 'ce-lead'])
 			}
 		}
 	}));
@@ -325,12 +314,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'publish': ['eao-admin', 'lead', 'epd'],
-				'unPublish': ['eao-admin', 'lead', 'epd'],
-				'setPermissions': ['eao-admin'],
-				'read': ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical working group', 'local-gov'],
-				'write': ['pro-admin', 'pro-member', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'epd'],
-				'delete': ['eao-admin']
+				'read': _.uniq(['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical-working-group', 'local-gov', 'pro-admin', 'pro-member', 'eao-admin', 'intake', 'lead', 'team', 'epd', 'eao-admin', 'eao-admin', 'intake', 'lead', 'epd']),
+				'write': _.uniq(['pro-admin', 'pro-member', 'eao-admin', 'intake', 'lead', 'team', 'epd', 'eao-admin', 'intake', 'lead', 'epd']),
+				'delete': _.uniq(['eao-admin']),
+				'publish': _.uniq(['eao-admin', 'intake', 'lead', 'epd']),
+				'unPublish': _.uniq(['eao-admin', 'intake', 'lead', 'epd'])
 			}
 		}
 	}));

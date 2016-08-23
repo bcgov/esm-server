@@ -17,8 +17,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 		'vetComments',
 		'classifyComments',
 		'listComments',
-		'addComment',
-		'setPermissions'
+		'addComment'
 	],
 	__tracking       : true, // start and stop dates
 	periodType       : { type:String, default:'Public', enum:['Working Group', 'Public']},

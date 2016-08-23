@@ -101,7 +101,6 @@ module.exports = genSchema ('Document', {
 		'uploadNewVersion',
 		'viewOldVersions',
 		'downloadOldVersions',
-		'setPermissions',
 		'publish',
 		'unPublish'
 	],
