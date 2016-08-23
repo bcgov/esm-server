@@ -123,7 +123,7 @@ module.exports = genSchema ('Document', {
 	documentFileFormat      : { type:String, default:'' },
 	documentVersion         : { type:Number, default:0 }, // Used for keeping track of this documents version.
 	documentIsLatestVersion : { type:Boolean, default:true }, // We assume we are the latest. Default will be false
-	documentSource 			: { type:String, default:'' }, // Source = comments or generic
+	documentSource 			: { type:String, default:'' }, // Source = comments or generic or signature file
 	// when we hook in the reviewable interface which will
 	// decide what is the latest based on approval of such
 	documentIsInReview      : { type:Boolean, default:false }, // Used to flag if this entry is a reviewable entry.

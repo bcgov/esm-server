@@ -1,6 +1,7 @@
 'use strict';
 
 // User Routes
+var DocumentClass  = require ('../../../documents/server/controllers/core.document.controller');
 var users   = require('../controllers/users.server.controller');
 var routes = require ('../../../core/server/controllers/core.routes.controller');
 var policy = require ('../../../core/server/controllers/core.policy.controller');
@@ -40,6 +41,37 @@ module.exports = function (app) {
 				}).then (routes.success(res), routes.failure(res));
 			}
 		});
+	app.route ('/api/users/sig/upload').all (policy ('guest'))
+		.post (routes.setAndRun (DocumentClass, function (model, req) {
+			return new Promise (function (resolve, reject) {
+				var file = req.files.file;
+				if (file) {
+					var opts = { oldPath: file.path, projectCode: 'signatures'};
+					routes.moveFile (opts)
+					.then (function (newFilePath) {
+						return model.create ({
+							// These are automatic as it actually is when it comes into our system
+							documentSource 			: "SIGNATURE",
+							internalURL             : newFilePath,
+							internalOriginalName    : file.originalname,
+							internalName            : file.name,
+							internalMime            : file.mimetype,
+							internalExt             : file.extension,
+							internalSize            : file.size,
+							internalEncoding        : file.encoding
+						});
+					})
+					.then( function (doc) {
+						return model.publish(doc);
+					})
+					.then (resolve, reject);
+				}
+				else {
+					reject ("no file to upload");
+				}
+			});
+		}));
+
 	// Finish by binding the user middleware
 	app.param('userId', users.userByID);
 };

@@ -5,6 +5,7 @@ angular
 	.directive('tmplQuicklinksThumbnails', directiveQuicklinksThumbnails)
 	.directive('tmplCompanyEntryForm', directiveCompanyEntryForm)
 	.directive('tmplUserEntryForm', directiveUserEntryForm)
+	.directive('modalSetSignature', directiveSetSignature)
 	.directive('modalEditMyProfile', directiveEditMyProfile);
 // -----------------------------------------------------------------------------------
 //
@@ -36,6 +37,16 @@ function directiveEditMyProfile($modal, _) {
 						myProfile.user = user;
 						myProfile.salutations = SALUTATIONS;
 
+						// Build the signature link
+						myProfile.signatureHREF = "/api/document/" + myProfile.user.signature + "/fetch";
+						$scope.$on('refreshSig', function() {
+							myProfile.user = UserModel.me()
+							.then( function (u) {
+								myProfile.user = u;
+								myProfile.signatureHREF = "/api/document/" + myProfile.user.signature + "/fetch";
+							});
+							$scope.$apply();
+						});
 						myProfile.calculateName = function () {
 							myProfile.user.displayName = [myProfile.user.firstName, myProfile.user.middleName, myProfile.user.lastName].join(' ');
 						};
@@ -70,7 +81,24 @@ function directiveEditMyProfile($modal, _) {
 	};
 	return directive;
 }
-
+directiveSetSignature.$inject = ['$modal', '$rootScope', 'ENV'];
+/* @ngInject */
+function directiveSetSignature($modal, $rootScope, ENV) {
+	var directive = {
+		restrict:'A',
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalDocUpload = $modal.open({
+					animation: true,
+					templateUrl: 'modules/documents/client/views/partials/document-upload-signature.html',
+					controllerAs: 'sigUp',
+					controller: 'controllerSignatureUpload'
+				});
+			});
+		}
+	};
+	return directive;
+}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Modal Project Schedule

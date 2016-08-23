@@ -9,6 +9,7 @@ angular.module('documents')
 	.controller('controllerModalDocumentUploadClassify', controllerModalDocumentUploadClassify)
 	.controller('controllerModalDocumentLink', controllerModalDocumentLink)
 	.controller('controllerModalDocumentUploadReview', controllerModalDocumentUploadReview)
+	.controller('controllerSignatureUpload', controllerSignatureUpload)
 	.filter('removeExtension', filterRemoveExtension)
 	.filter('displayFriendlyCode', filterDisplayFriendlyLocationCode);
 
@@ -723,6 +724,85 @@ function controllerModalDocumentViewer($modalInstance) {
 // 	docBuckets.ok = function () { $modalInstance.close(); };
 // 	docBuckets.cancel = function () { $modalInstance.dismiss('cancel'); };
 // }
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Modal: Signature Upload for User
+//
+// -----------------------------------------------------------------------------------
+controllerSignatureUpload.$inject = ['UserModel', '$rootScope', '$scope', 'Upload', '$timeout', 'Document', '_', 'ENV', '$modalInstance'];
+/* @ngInject */
+function controllerSignatureUpload(UserModel, $rootScope, $scope, Upload, $timeout, Document, _, ENV, $modalInstance) {
+	var sigUp = this;
+
+	$scope.environment = ENV;
+
+	sigUp.inProgress = false;
+	sigUp.fileList = [];
+
+	$scope.$watch('hideUploadButton', function(newValue) {
+		if (newValue) {
+			sigUp.hideUploadButton = newValue;
+		}
+	});
+
+	sigUp.removeFile = function(f) {
+		_.remove(sigUp.fileList, f);
+	};
+
+	$scope.$on('documentUploadComplete', function () {
+		$rootScope.$broadcast('refreshSig');
+		$modalInstance.close();
+	});
+
+	$scope.$watch('files', function (newValue) {
+		if (newValue) {
+			sigUp.inProgress = false;
+			sigUp.fileList = [];
+			sigUp.fileList.push(newValue[0]);
+		}
+	});
+
+	sigUp.upload = function (uploadingReviewDocs) {
+		sigUp.inProgress = true;
+		// console.log('upload', docCount);
+		if (sigUp.fileList && sigUp.fileList.length) {
+			angular.forEach( sigUp.fileList, function(file) {
+				// Quick hack to pass objects
+				file.upload = Upload.upload({
+					url: '/api/users/sig/upload',
+					file: file
+				});
+
+				file.upload.then(function (response) {
+					$timeout(function () {
+						file.result = response.data;
+						UserModel.me()
+						.then( function (me) {
+							me.signature = file.result._id;
+							return UserModel.save(me);
+						})
+						.then( function (m) {
+							$scope.$emit('documentUploadComplete', file.result);
+						});
+					});
+				}, function (response) {
+					if (response.status > 0) {
+						sigUp.errorMsg = response.status + ': ' + response.data;
+						// console.log("error data:",response.data);
+					} else {
+						_.remove($scope.files, file);
+					}
+				}, function (evt) {
+					file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+				});
+			});
+
+		} else {
+			// there are no documents so say it's all done
+			$scope.$emit('documentUploadComplete');
+		}
+	};
+}
 
 // -----------------------------------------------------------------------------------
 //
