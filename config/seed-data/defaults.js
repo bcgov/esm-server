@@ -62,7 +62,7 @@ module.exports = function () {
 				listProjectComplaints: ['intake'],
 				deleteProjectComplaint: ['eao-admin'],
 				createProjectInvitation: ['eao-admin', 'intake', 'lead', 'team', 'epd'],
-				listProjectInvitations: ['intake'],
+				listProjectInvitations: ['eao-admin', 'intake', 'lead', 'team', 'epd'],
 				deleteProjectInvitation: ['eao-admin'],
 				uploadDocument: ['pro-admin', 'pro-member', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'epd', 'qa-officer', 'ce-lead', 'ce-officer'],
 				listDocuments: ['pro-admin', 'pro-member', 'pro-subconsultant', 'eao-admin', 'eao-member', 'intake', 'lead', 'team', 'assistant-dm', 'epd', 'assistant-dm-office', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'qa-officer', 'ce-lead', 'ce-officer', 'aboriginal-consultant', 'aboriginal-subconsultant', 'ceaa', 'working-group', 'technical working group', 'local-gov'],
@@ -133,8 +133,8 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read': ['eao-admin'],
-				'write': ['eao-admin'],
+				'read': ['eao-admin', 'intake', 'lead', 'team', 'epd'],
+				'write': ['eao-admin', 'intake', 'lead', 'team', 'epd'],
 				'delete': ['eao-admin']
 			}
 		}

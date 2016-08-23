@@ -18,6 +18,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 		'uploadDocument',
 		'listProjectInvitations',
 		'createProjectInvitation',
+		'deleteProjectInvitation',
 		'listProjectComplaints',
 		'createProjectComplaint',
 		'listProjectConditions',
