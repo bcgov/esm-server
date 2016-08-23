@@ -2328,11 +2328,31 @@
         "optional":false,
         "label":"Signature",
         "name":"signature"
-      }
+      },
+        {
+            "meta" : [
+                {
+                    "default" : "",
+                    "label" : "Signature",
+                    "type" : "Html",
+                    "name" : "si"
+                }
+            ],
+            "footer" : "",
+            "header" : "",
+            "template" : "Signed<br><img src='{{si}}'>",
+            "isfooter" : false,
+            "isheader" : false,
+            "multiple" : false,
+            "optional" : false,
+            "label" : "Signature",
+            "name" : "sig"
+        }
     ],
     "versionNumber":4,
     "documentType":"Section 10(1)(b) Order",
-    "code":"section-10-1-b-order"
+    "code":"section-10-1-b-order",
+    "signatureStage": "Executive"
   },
   {
     "sections": [
@@ -2440,11 +2460,31 @@
         "optional":false,
         "label":"Signature",
         "name":"signature"
-      }
+      },
+        {
+            "meta" : [
+                {
+                    "default" : "",
+                    "label" : "Signature",
+                    "type" : "Html",
+                    "name" : "si"
+                }
+            ],
+            "footer" : "",
+            "header" : "",
+            "template" : "Signed<br><img src='{{si}}'>",
+            "isfooter" : false,
+            "isheader" : false,
+            "multiple" : false,
+            "optional" : false,
+            "label" : "Signature",
+            "name" : "sig"
+        }
     ],
     "versionNumber":2,
     "documentType":"Section 7(3) Order",
-    "code":"section-7-3-order"
+    "code":"section-7-3-order",
+    "signatureStage": "Approve"
   },
   {
     "sections": [
@@ -2955,11 +2995,31 @@
         "optional":false,
         "label":"Footer",
         "name":"footer"
-      }
+      },
+        {
+            "meta" : [
+                {
+                    "default" : "",
+                    "label" : "Signature",
+                    "type" : "Html",
+                    "name" : "si"
+                }
+            ],
+            "footer" : "",
+            "header" : "",
+            "template" : "Signed<br><img src='{{si}}'>",
+            "isfooter" : false,
+            "isheader" : false,
+            "multiple" : false,
+            "optional" : false,
+            "label" : "Signature",
+            "name" : "sig"
+        }
     ],
     "versionNumber":2,
     "documentType":"Section 10(1)(a) Order",
-    "code":"section-10-1-a-order"
+    "code":"section-10-1-a-order",
+    "signatureStage": "Executive"
   },
   {
     "sections": [
@@ -3141,11 +3201,31 @@
         "optional":false,
         "label":"Enclosure List",
         "name":"enclosures"
-      }
+      },
+        {
+            "meta" : [
+                {
+                    "default" : "",
+                    "label" : "Signature",
+                    "type" : "Html",
+                    "name" : "si"
+                }
+            ],
+            "footer" : "",
+            "header" : "",
+            "template" : "Signed<br><img src='{{si}}'>",
+            "isfooter" : false,
+            "isheader" : false,
+            "multiple" : false,
+            "optional" : false,
+            "label" : "Signature",
+            "name" : "sig"
+        }
     ],
     "versionNumber":2,
     "documentType":"Section 11 Order",
-    "code":"section-11-order"
+    "code":"section-11-order",
+    "signatureStage": "Approve"
   },
   {
 
@@ -3267,11 +3347,31 @@
         "optional":false,
         "label":"Footer",
         "name":"footer"
-      }
+      },
+        {
+            "meta" : [
+                {
+                    "default" : "",
+                    "label" : "Signature",
+                    "type" : "Html",
+                    "name" : "si"
+                }
+            ],
+            "footer" : "",
+            "header" : "",
+            "template" : "Signed<br><img src='{{si}}'>",
+            "isfooter" : false,
+            "isheader" : false,
+            "multiple" : false,
+            "optional" : false,
+            "label" : "Signature",
+            "name" : "sig"
+        }
     ],
     "versionNumber":5,
     "documentType":"Section 10(1)(c) Order",
-    "code":"section-10-1-c-order"
+    "code":"section-10-1-c-order",
+    "signatureStage": "Executive"
   },
   {
     "sections": [
@@ -3620,11 +3720,31 @@
         "optional": false,
         "label": "Schedules B, C and D",
         "name": "otherSchedules"
-      }
+      },
+        {
+            "meta" : [
+                {
+                    "default" : "",
+                    "label" : "Signature",
+                    "type" : "Html",
+                    "name" : "si"
+                }
+            ],
+            "footer" : "",
+            "header" : "",
+            "template" : "Signed<br><img src='{{si}}'>",
+            "isfooter" : false,
+            "isheader" : false,
+            "multiple" : false,
+            "optional" : false,
+            "label" : "Signature",
+            "name" : "sig"
+        }
     ],
     "versionNumber": 11,
     "documentType": "Section 11 Schedule A",
-    "code": "section-11-schedule-a"
+    "code": "section-11-schedule-a",
+    "signatureStage": "Approve"
 
   },
   {
@@ -3775,11 +3895,31 @@
         "optional":false,
         "label":"Signatures",
         "name":"signatures"
-      }
+      },
+        {
+            "meta" : [
+                {
+                    "default" : "",
+                    "label" : "Signature",
+                    "type" : "Html",
+                    "name" : "si"
+                }
+            ],
+            "footer" : "",
+            "header" : "",
+            "template" : "Signed<br><img src='{{si}}'>",
+            "isfooter" : false,
+            "isheader" : false,
+            "multiple" : false,
+            "optional" : false,
+            "label" : "Signature",
+            "name" : "sig"
+        }
     ],
     "versionNumber":1,
     "documentType":"Environmental Assessment Certificate",
-    "code":"environmental-assessment-certificate"
+    "code":"environmental-assessment-certificate",
+    "signatureStage": "Decision"
   },
   {
     "sections": [
@@ -3985,11 +4125,31 @@
         "optional":false,
         "label":"Signature",
         "name":"signature"
-      }
+      },
+        {
+            "meta" : [
+                {
+                    "default" : "",
+                    "label" : "Signature",
+                    "type" : "Html",
+                    "name" : "si"
+                }
+            ],
+            "footer" : "",
+            "header" : "",
+            "template" : "Signed<br><img src='{{si}}'>",
+            "isfooter" : false,
+            "isheader" : false,
+            "multiple" : false,
+            "optional" : false,
+            "label" : "Signature",
+            "name" : "sig"
+        }
     ],
     "versionNumber":1,
     "documentType":"Section 34 Order",
-    "code":"section-34-order"
+    "code":"section-34-order",
+    "signatureStage": "Decision"
   },
   {
     "sections": [
@@ -4449,11 +4609,31 @@
         "optional":false,
         "label":"Signatures",
         "name":"signatures"
-      }
+      },
+        {
+            "meta" : [
+                {
+                    "default" : "",
+                    "label" : "Signature",
+                    "type" : "Html",
+                    "name" : "si"
+                }
+            ],
+            "footer" : "",
+            "header" : "",
+            "template" : "Signed<br><img src='{{si}}'>",
+            "isfooter" : false,
+            "isheader" : false,
+            "multiple" : false,
+            "optional" : false,
+            "label" : "Signature",
+            "name" : "sig"
+        }
     ],
     "versionNumber":1,
     "documentType":"Section 36 Order",
-    "code":"section-36-order"
+    "code":"section-36-order",
+    "signatureStage": "Approve"
   },
   {
     "sections": [
@@ -4927,11 +5107,31 @@
         "optional":false,
         "label":"Footer",
         "name":"footer"
-      }
+      },
+        {
+            "meta" : [
+                {
+                    "default" : "",
+                    "label" : "Signature",
+                    "type" : "Html",
+                    "name" : "si"
+                }
+            ],
+            "footer" : "",
+            "header" : "",
+            "template" : "Signed<br><img src='{{si}}'>",
+            "isfooter" : false,
+            "isheader" : false,
+            "multiple" : false,
+            "optional" : false,
+            "label" : "Signature",
+            "name" : "sig"
+        }
     ],
     "versionNumber":7,
     "documentType":"Inspection Report",
-    "code":"inspection-report"
+    "code":"inspection-report",
+    "signatureStage": "Approve"
   },
   {
 	"updatedBy" : null,

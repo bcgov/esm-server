@@ -66,7 +66,9 @@
             <div class="panel-heading flex-row">
                 <h2>Main Document</h2>
                 <div class="actions">
-                    <button class="btn btn-default btn-sm" onclick="window.print()" title="Print Document">
+                    <button class="btn btn-default btn-sm"
+                        ng-if="(artifact.typeCode !== 'referral-package') && (artifact.typeCode !== 'decision')"
+                        onclick="window.print()" title="Print Document">
                         <span class="glyphicon glyphicon-print"></span><span>Print Document</span>
                     </button>
                 </div>
