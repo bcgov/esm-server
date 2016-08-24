@@ -338,13 +338,6 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					.catch (function (err) {
 						console.error(err);
 					});
-					})
-					.then(function () {
-						$state.go ('p.artifact.view');
-					})
-					.catch (function (err) {
-						console.error(err);
-					});
 				} else {
 					ArtifactModel.nextStage ($scope.artifact)
 					.then (function (model) {
