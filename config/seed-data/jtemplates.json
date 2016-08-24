@@ -2335,18 +2335,18 @@
                     "default" : "",
                     "label" : "Signature",
                     "type" : "Html",
-                    "name" : "si"
+                    "name" : "sig"
                 }
             ],
             "footer" : "",
             "header" : "",
-            "template" : "Signed<br><img src='{{si}}'>",
+            "template" : "{{sig}}",
             "isfooter" : false,
             "isheader" : false,
             "multiple" : false,
             "optional" : false,
             "label" : "Signature",
-            "name" : "sig"
+            "name" : "sign"
         }
     ],
     "versionNumber":4,
@@ -2467,18 +2467,18 @@
                     "default" : "",
                     "label" : "Signature",
                     "type" : "Html",
-                    "name" : "si"
+                    "name" : "sig"
                 }
             ],
             "footer" : "",
             "header" : "",
-            "template" : "Signed<br><img src='{{si}}'>",
+            "template" : "{{sig}}",
             "isfooter" : false,
             "isheader" : false,
             "multiple" : false,
             "optional" : false,
             "label" : "Signature",
-            "name" : "sig"
+            "name" : "sign"
         }
     ],
     "versionNumber":2,
@@ -3002,18 +3002,18 @@
                     "default" : "",
                     "label" : "Signature",
                     "type" : "Html",
-                    "name" : "si"
+                    "name" : "sig"
                 }
             ],
             "footer" : "",
             "header" : "",
-            "template" : "Signed<br><img src='{{si}}'>",
+            "template" : "{{sig}}",
             "isfooter" : false,
             "isheader" : false,
             "multiple" : false,
             "optional" : false,
             "label" : "Signature",
-            "name" : "sig"
+            "name" : "sign"
         }
     ],
     "versionNumber":2,
@@ -3208,18 +3208,18 @@
                     "default" : "",
                     "label" : "Signature",
                     "type" : "Html",
-                    "name" : "si"
+                    "name" : "sig"
                 }
             ],
             "footer" : "",
             "header" : "",
-            "template" : "Signed<br><img src='{{si}}'>",
+            "template" : "{{sig}}",
             "isfooter" : false,
             "isheader" : false,
             "multiple" : false,
             "optional" : false,
             "label" : "Signature",
-            "name" : "sig"
+            "name" : "sign"
         }
     ],
     "versionNumber":2,
@@ -3354,18 +3354,18 @@
                     "default" : "",
                     "label" : "Signature",
                     "type" : "Html",
-                    "name" : "si"
+                    "name" : "sig"
                 }
             ],
             "footer" : "",
             "header" : "",
-            "template" : "Signed<br><img src='{{si}}'>",
+            "template" : "{{sig}}",
             "isfooter" : false,
             "isheader" : false,
             "multiple" : false,
             "optional" : false,
             "label" : "Signature",
-            "name" : "sig"
+            "name" : "sign"
         }
     ],
     "versionNumber":5,
@@ -3727,18 +3727,18 @@
                     "default" : "",
                     "label" : "Signature",
                     "type" : "Html",
-                    "name" : "si"
+                    "name" : "sig"
                 }
             ],
             "footer" : "",
             "header" : "",
-            "template" : "Signed<br><img src='{{si}}'>",
+            "template" : "{{sig}}",
             "isfooter" : false,
             "isheader" : false,
             "multiple" : false,
             "optional" : false,
             "label" : "Signature",
-            "name" : "sig"
+            "name" : "sign"
         }
     ],
     "versionNumber": 11,
@@ -3902,18 +3902,18 @@
                     "default" : "",
                     "label" : "Signature",
                     "type" : "Html",
-                    "name" : "si"
+                    "name" : "sig"
                 }
             ],
             "footer" : "",
             "header" : "",
-            "template" : "Signed<br><img src='{{si}}'>",
+            "template" : "{{sig}}",
             "isfooter" : false,
             "isheader" : false,
             "multiple" : false,
             "optional" : false,
             "label" : "Signature",
-            "name" : "sig"
+            "name" : "sign"
         }
     ],
     "versionNumber":1,
@@ -4132,18 +4132,18 @@
                     "default" : "",
                     "label" : "Signature",
                     "type" : "Html",
-                    "name" : "si"
+                    "name" : "sig"
                 }
             ],
             "footer" : "",
             "header" : "",
-            "template" : "Signed<br><img src='{{si}}'>",
+            "template" : "{{sig}}",
             "isfooter" : false,
             "isheader" : false,
             "multiple" : false,
             "optional" : false,
             "label" : "Signature",
-            "name" : "sig"
+            "name" : "sign"
         }
     ],
     "versionNumber":1,
@@ -4616,18 +4616,18 @@
                     "default" : "",
                     "label" : "Signature",
                     "type" : "Html",
-                    "name" : "si"
+                    "name" : "sig"
                 }
             ],
             "footer" : "",
             "header" : "",
-            "template" : "Signed<br><img src='{{si}}'>",
+            "template" : "{{sig}}",
             "isfooter" : false,
             "isheader" : false,
             "multiple" : false,
             "optional" : false,
             "label" : "Signature",
-            "name" : "sig"
+            "name" : "sign"
         }
     ],
     "versionNumber":1,
@@ -5114,18 +5114,18 @@
                     "default" : "",
                     "label" : "Signature",
                     "type" : "Html",
-                    "name" : "si"
+                    "name" : "sig"
                 }
             ],
             "footer" : "",
             "header" : "",
-            "template" : "Signed<br><img src='{{si}}'>",
+            "template" : "{{sig}}",
             "isfooter" : false,
             "isheader" : false,
             "multiple" : false,
             "optional" : false,
             "label" : "Signature",
-            "name" : "sig"
+            "name" : "sign"
         }
     ],
     "versionNumber":7,
