@@ -239,7 +239,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				}
 			};
 			$scope.update = function () {
-				ArtifactModel.publish ($scope.artifact._id)
+				artifact.document = artifact.maindocument[0];
+				if (_.isEmpty (artifact.document)) artifact.document = null;
+				ArtifactModel.save($scope.artifact)
+				.then (function (art) {
+					return ArtifactModel.publish (art._id);
+				})
 				.then (function (model) {
 					$state.go ('p.artifact.view');
 				});
