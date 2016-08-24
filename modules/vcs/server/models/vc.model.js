@@ -14,8 +14,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 ('Vc', {
 	__audit				: true,
 	__access      : [      // read / write / delete are automatic
-	  'setPermissions',
-		'publish',
+	    'publish',
 		'unPublish'],
 	__codename			: 'unique',
 	title				: { type:String, default:'', index:true },

@@ -7,7 +7,7 @@
 module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('Complaint', {
 	__audit     : true,
-	__access    : ['setPermissions', 'modifyName','modifyDescription'],
+	__access    : ['modifyName','modifyDescription'],
 	__tracking  : true,
 	project     : { type:'ObjectId', ref:'Project', default:null, index:true },
 	stage       : { type:String, enum:['Pre-Construction', 'Construction', 'Operations', 'Decommissioning'], default:'Operations' },

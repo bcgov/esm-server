@@ -7,7 +7,7 @@
 module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('Inspectionreportdetail', {
 	__audit       : true,
-	__access      : ['setPermissions'],
+	__access      : [],
 	__codename    : true,
 	complianceTypes						: { type: String, default:'' },
 	requirementDescription				: { type: String, default:'' },

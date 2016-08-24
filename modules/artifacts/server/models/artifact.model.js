@@ -23,8 +23,7 @@ module.exports = require('../../../core/server/controllers/core.schema.controlle
 			'sendForDecision',
 			'publish',
 			'unPublish',
-			'reject',
-			'setPermissions'
+			'reject'
 		],
 		//
 		// what type of artifcat is this? i.e. project description, etc
