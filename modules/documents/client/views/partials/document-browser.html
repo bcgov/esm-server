@@ -115,7 +115,6 @@
 		</div>
 	</div><!-- / PHASE DOCUMENTS - PROTOTYPE -->
 
-
 	<div class="panel panel-default">
 		<div class="panel-heading flex-row">
 			<h2>Documents</h2>
@@ -211,9 +210,11 @@
 						<div class="detail-row">
 							<label>Current Revision</label>
 							<div class="list-group">
-								<a class="list-group-item clearfix" href="/api/document/{{ filterSummary._id }}/fetch" target="_self">
-									<span class="pull-left">Revision {{ filterSummary.documentVersion }}</span>
-									<span class="glyphicon glyphicon-download-alt pull-right"></span>
+								<a class="list-group-item flex-row" href="/api/document/{{ filterSummary._id }}/fetch" target="_self">
+									<div class="title">Revision {{ filterSummary.documentVersion }}</div>
+									<div class="actions">
+										<span class="glyphicon glyphicon-download-alt pull-right"></span>
+									</div>
 								</a>
 							</div>
 						</div>
@@ -225,30 +226,32 @@
 
 						<div clas="detail-row">
 							<label>Revisions</label>
-							<span class="attachments">
-								<a class="clearfix" href="{{ docVersion.documentFileURL }}" ng-repeat="docVersion in docBrowser.docVersions">
-									<span class="pull-left">Revision {{ docVersion.documentVersion }}&nbsp;&nbsp;-&nbsp;&nbsp;{{ docVersion.dateUpdated | date : format : timezone}}</span>
-									<span class="glyphicon glyphicon-download-alt pull-right"></span></a>
-							</span>
+							<div class="list-group">
+								<a class="list-group-item flex-row" href="{{ docVersion.documentFileURL }}" ng-repeat="docVersion in docBrowser.docVersions">
+									<span class="title">Revision {{ docVersion.documentVersion }}&nbsp;&nbsp;-&nbsp;&nbsp;{{ docVersion.dateUpdated | date : format : timezone}}</span>
+									<span class="actions">
+										<span class="glyphicon glyphicon-download-alt pull-right"></span>
+									</span>
+								</a>
+							</div>
 						</div>
 					</div><!-- / DOCUMENT INFO -->
 
 					<!-- DOCUMENT ACTIONS -->
-					<div class="doc-actions">
+					<div class="doc-actions clearfix">
+						<a class="btn btn-default btn-sm pull-left" ng-if="docBrowser.allowLink" href ng-click="docBrowser.toggleDocumentLink( filterSummary )" title="Link Document">
+							<span class="glyphicon glyphicon-link"></span><span>Link</span></a>
+						<div class="pull-right">
 						<a class="btn btn-default btn-sm" href="/api/document/{{ filterSummary._id }}/fetch" target="_self" title="Download Document">
-							<span class="glyphicon glyphicon-download-alt"></span><span>Download</span>
-						</a>
-						<a class="btn btn-default btn-sm" ng-if="docBrowser.allowLink" href ng-click="docBrowser.toggleDocumentLink( filterSummary )" title="Link Document">
-							<span class="glyphicon glyphicon-link"></span><span>Link</span>
-						</a>
+							<span class="glyphicon glyphicon-download-alt"></span></a>
 						<a class="btn btn-default btn-sm" href ng-click="docBrowser.deleteDocument(filterSummary._id)" ng-if="(docBrowser.authentication.user)" title="Delete Document">
-							<span class="glyphicon glyphicon-trash"></span><span>Delete</span>
-						</a>
+							<span class="glyphicon glyphicon-trash"></span></a>
 						<tmpl-permissions-gear
 							class="permission-btn"
 							x-context="project"
 							x-object="filterSummary"
 							ng-if="docBrowser.project.userCan.managePermissions"></tmpl-permissions-gear>
+						</div>
 					</div><!-- / DOCUMENT ACTIONS -->
 				</div>
 
