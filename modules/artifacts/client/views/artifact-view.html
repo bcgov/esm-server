@@ -4,7 +4,7 @@
 	<div class="actions">
 		<a class="btn btn-default btn-sm" ng-if="artifact.stage === 'Edit' && artifact.userCan.write" ui-sref="p.artifact.edit({artifactId:artifact._id})">Edit</a>
 		<a class="btn btn-default btn-sm" ng-if="artifact.stage === 'Review' && rolePermissions['Review']" ui-sref="p.artifact.review({artifactId:artifact._id})">Edit</a>
-		<a class="btn btn-default btn-sm" ng-if="artifact.stage === 'Approve' && rolePermissions['Approve']" ui-sref="p.artifact.approve({artifactId:artifact._id})">Edit</a>
+		<a class="btn btn-default btn-sm" ng-if="artifact.stage === 'Approval' && rolePermissions['Approval']" ui-sref="p.artifact.approve({artifactId:artifact._id})">Edit</a>
 		<a class="btn btn-default btn-sm" ng-if="artifact.stage === 'Executive' && rolePermissions['Executive']" ui-sref="p.artifact.executive({artifactId:artifact._id})">Edit</a>
 		<a class="btn btn-default btn-sm" ng-if="artifact.stage === 'Decision' && rolePermissions['Decision']" ui-sref="p.artifact.decision({artifactId:artifact._id})">Edit</a>
 		<a class="btn btn-default btn-sm" ng-if="artifact.stage === 'Publishing' && rolePermissions['Publishing']" ui-sref="p.artifact.publish({artifactId:artifact._id})">Edit</a>
