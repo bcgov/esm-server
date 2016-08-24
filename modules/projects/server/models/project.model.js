@@ -13,7 +13,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 		'managePermissions',
 		'manageRoles',
 		'listUsers ',
-		'viewTombsone',
+		'viewTombstone',
 		'viewEAOTombstone',
 		'editTombstone',
 		'listArtifacts',

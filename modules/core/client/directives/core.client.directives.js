@@ -84,12 +84,12 @@ angular.module('core')
 									});
 								}
 								if (_.has(scope.object, 'write')){
-									_.forEach(scope.object.read, function(v) {
+									_.forEach(scope.object.write, function(v) {
 										setPermissionRole(rp, 'write', v, true);
 									});
 								}
 								if (_.has(scope.object, 'delete')){
-									_.forEach(scope.object.read, function(v) {
+									_.forEach(scope.object.delete, function(v) {
 										setPermissionRole(rp, 'delete', v, true);
 									});
 								}
@@ -100,7 +100,8 @@ angular.module('core')
 								console.log('rolePermissionsModal.index:', s.permissionRoleIndex);
 								s.allRoles = allRoles;
 								s.roleUsers = roleUsers;
-								s.allPermissions = _.keys(scope.object.userCan);
+								//scope.object.userCan gets public added in core.menus.service shouldRender, but we don't want it to be in our settable permissions list...
+								s.allPermissions = _.keys(scope.object.userCan).filter(function(e) { return e !== 'public'; });
 								s.allRoles = s.allRoles.concat(['public', '*']);
 								// console.log ('permissionRoleIndex', permissionRoleIndex);
 								// console.log ('allRoles', allRoles);
