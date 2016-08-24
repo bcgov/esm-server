@@ -2497,7 +2497,7 @@ legend {
 
 /* FILE BROWSER
 ------------------------------ */
-$file-browser-height: 40rem;
+$file-browser-height: 30rem;
 $file-actions-height: 5rem;
 $file-browser-item-active: #2b5580;
 
@@ -2603,9 +2603,16 @@ $file-browser-item-active: #2b5580;
 		}	
 			
 		.list-group-item {
-			padding: 0.5rem 0.8rem;
-			font-size: 1.2rem;
-			color: $link-color;
+			.title,
+			.actions  {
+				padding: 0.5rem 0.8rem;
+				font-size: 1.2rem;
+				color: $link-color;
+			}
+
+			.glyphicon {
+				top: 2px;
+			}
 		}
 	}
 }
