@@ -127,7 +127,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				return ArtifactModel.getModel ($stateParams.artifactId);
 			}
 		},
-		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Document, MilestoneModel) {
+		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, Document, MilestoneModel, UserModel, TemplateModel) {
 			// console.log ('artifact = ', artifact);
 			// console.log ('project  = ', project);
 			// artifact.artifactType = fix;
@@ -201,14 +201,42 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.submit = function () {
 				artifact.document = artifact.maindocument[0];
 				if (_.isEmpty (artifact.document)) artifact.document = null;
-				ArtifactModel.nextStage ($scope.artifact)
-				.then (function (model) {
-					$state.go ('p.artifact.view');
-				})
-				.catch (function (err) {
-					console.error (err);
-					// // alert (err.message);
-				});
+				if($scope.artifact.signatureStage === 'Edit') {
+					UserModel.me()
+					.then(function (user) {
+						if (user.signature) {
+							var proto = $location.protocol();
+							var host = $location.host();
+							var port = $location.port();
+							$scope.artifact.templateData.sign.sig = "<img src='" + proto + "://" + host + ":" + port + "/api/document/"+user.signature+"/fetch'/>";
+							// console.log("sig file:", $scope.artifact.templateData.sign.sig);
+						}
+						ArtifactModel.save($scope.artifact)
+						.then (function (art) {
+							// console.log("got art:", art);
+							return ArtifactModel.nextStage (art);
+						})
+						.catch (function (err) {
+							console.error (err);
+							// alert (err.message);
+						});
+					})
+					.then(function () {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error(err);
+					});
+				} else {
+					ArtifactModel.nextStage ($scope.artifact)
+					.then (function (model) {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error (err);
+						// alert (err.message);
+					});
+				}
 			};
 			$scope.update = function () {
 				ArtifactModel.publish ($scope.artifact._id)
@@ -268,7 +296,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				return ArtifactModel.getModel ($stateParams.artifactId);
 			}
 		},
-		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
+		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, UserModel) {
 			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
@@ -287,14 +315,42 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				});
 			};
 			$scope.submit = function () {
-				ArtifactModel.nextStage ($scope.artifact)
-				.then (function (model) {
-					$state.go ('p.artifact.view');
-				})
-				.catch (function (err) {
-					console.error (err);
-					// alert (err.message);
-				});
+				if($scope.artifact.signatureStage === 'Review') {
+					UserModel.me()
+					.then(function (user) {
+						if (user.signature) {
+							var proto = $location.protocol();
+							var host = $location.host();
+							var port = $location.port();
+							$scope.artifact.templateData.sign.sig = "<img src='" + proto + "://" + host + ":" + port + "/api/document/"+user.signature+"/fetch'/>";
+							// console.log("sig file:", $scope.artifact.templateData.sign.sig);
+						}
+						ArtifactModel.save($scope.artifact)
+						.then (function (art) {
+							// console.log("got art:", art);
+							return ArtifactModel.nextStage (art);
+						})
+						.catch (function (err) {
+							console.error (err);
+							// alert (err.message);
+						});
+					})
+					.then(function () {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error(err);
+					});
+				} else {
+					ArtifactModel.nextStage ($scope.artifact)
+					.then (function (model) {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error (err);
+						// alert (err.message);
+					});
+				}
 			};
 		}
 	})
@@ -307,7 +363,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				return ArtifactModel.getModel ($stateParams.artifactId);
 			}
 		},
-		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, UserModel, TemplateModel) {
+		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, UserModel, TemplateModel) {
 			// artifact.artifactType = fix;
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
@@ -315,14 +371,42 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
 			$scope.reject = function () {
-				ArtifactModel.prevStage ($scope.artifact)
-				.then (function (model) {
-					$state.go ('p.artifact.view');
-				})
-				.catch (function (err) {
-					console.error (err);
-					// alert (err.message);
-				});
+				if($scope.artifact.signatureStage === 'Approve') {
+					UserModel.me()
+					.then(function (user) {
+						if (user.signature) {
+							var proto = $location.protocol();
+							var host = $location.host();
+							var port = $location.port();
+							$scope.artifact.templateData.sign.sig = "<img src='" + proto + "://" + host + ":" + port + "/api/document/"+user.signature+"/fetch'/>";
+							// console.log("sig file:", $scope.artifact.templateData.sign.sig);
+						}
+						ArtifactModel.save($scope.artifact)
+						.then (function (art) {
+							// console.log("got art:", art);
+							return ArtifactModel.nextStage (art);
+						})
+						.catch (function (err) {
+							console.error (err);
+							// alert (err.message);
+						});
+					})
+					.then(function () {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error(err);
+					});
+				} else {
+					ArtifactModel.nextStage ($scope.artifact)
+					.then (function (model) {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error (err);
+						// alert (err.message);
+					});
+				}
 			};
 			$scope.submit = function () {
 				if($scope.artifact.signatureStage === 'Approve') {
@@ -377,7 +461,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				return ArtifactModel.getModel ($stateParams.artifactId);
 			}
 		},
-		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, TemplateModel, UserModel) {
+		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, TemplateModel, UserModel) {
 			// artifact.artifactType = fix;
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
@@ -385,14 +469,42 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
 			$scope.reject = function () {
-				ArtifactModel.prevStage ($scope.artifact)
-				.then (function (model) {
-					$state.go ('p.artifact.view');
-				})
-				.catch (function (err) {
-					console.error (err);
-					// alert (err.message);
-				});
+				if($scope.artifact.signatureStage === 'Executive') {
+					UserModel.me()
+					.then(function (user) {
+						if (user.signature) {
+							var proto = $location.protocol();
+							var host = $location.host();
+							var port = $location.port();
+							$scope.artifact.templateData.sign.sig = "<img src='" + proto + "://" + host + ":" + port + "/api/document/"+user.signature+"/fetch'/>";
+							// console.log("sig file:", $scope.artifact.templateData.sign.sig);
+						}
+						ArtifactModel.save($scope.artifact)
+						.then (function (art) {
+							// console.log("got art:", art);
+							return ArtifactModel.nextStage (art);
+						})
+						.catch (function (err) {
+							console.error (err);
+							// alert (err.message);
+						});
+					})
+					.then(function () {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error(err);
+					});
+				} else {
+					ArtifactModel.nextStage ($scope.artifact)
+					.then (function (model) {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error (err);
+						// alert (err.message);
+					});
+				}
 			};
 			$scope.submit = function () {
 				if($scope.artifact.signatureStage === 'Executive') {
@@ -447,7 +559,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				return ArtifactModel.getModel ($stateParams.artifactId);
 			}
 		},
-		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, TemplateModel, UserModel) {
+		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, TemplateModel, UserModel) {
 			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
@@ -456,14 +568,42 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
 			$scope.reject = function () {
-				ArtifactModel.prevStage ($scope.artifact)
-				.then (function (model) {
-					$state.go ('p.artifact.view');
-				})
-				.catch (function (err) {
-					console.error (err);
-					// alert (err.message);
-				});
+				if($scope.artifact.signatureStage === 'Decision') {
+					UserModel.me()
+					.then(function (user) {
+						if (user.signature) {
+							var proto = $location.protocol();
+							var host = $location.host();
+							var port = $location.port();
+							$scope.artifact.templateData.sign.sig = "<img src='" + proto + "://" + host + ":" + port + "/api/document/"+user.signature+"/fetch'/>";
+							// console.log("sig file:", $scope.artifact.templateData.sign.sig);
+						}
+						ArtifactModel.save($scope.artifact)
+						.then (function (art) {
+							// console.log("got art:", art);
+							return ArtifactModel.nextStage (art);
+						})
+						.catch (function (err) {
+							console.error (err);
+							// alert (err.message);
+						});
+					})
+					.then(function () {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error(err);
+					});
+				} else {
+					ArtifactModel.nextStage ($scope.artifact)
+					.then (function (model) {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error (err);
+						// alert (err.message);
+					});
+				}
 			};
 			$scope.submit = function () {
 				if($scope.artifact.signatureStage === 'Decision') {
