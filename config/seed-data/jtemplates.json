@@ -2304,7 +2304,7 @@
             "default":"",
             "label":"First Name Last Name",
             "type":"Text",
-            "name":"name"
+            "name":"signee"
           },
           {
             "default":"",
@@ -2321,7 +2321,7 @@
         ],
         "footer":"",
         "header":"",
-        "template":"<div class=\"letter-footer\">\n    <p>\n      Signed By: {{name}}<br>Associate Deputy Minister and Executive\n      Director<br>Environmental Assessment Office\n    </p>\n    <p>\n      Dated {{signedMonthDay}}, 20{{currentYear}}\n    </p>\n  </div>",
+        "template":"<div class=\"letter-footer\">\n    <p>\n      Signed By: {{signee}}<br>Associate Deputy Minister and Executive\n      Director<br>Environmental Assessment Office\n    </p>\n    <p>\n      Dated {{signedMonthDay}}, 20{{currentYear}}\n    </p>\n  </div>",
         "isfooter":false,
         "isheader":false,
         "multiple":false,
@@ -2436,7 +2436,7 @@
             "default":"",
             "label":"First Name Last Name",
             "type":"Text",
-            "name":"name"
+            "name":"signee"
           },
           {
             "default":"",
@@ -2453,7 +2453,7 @@
         ],
         "footer":"",
         "header":"",
-        "template":"<div class=\"letter-footer\">\n    <p>\n      Signed By: {{name}}<br>Associate Deputy Minister and Executive\n      Director<br>Environmental Assessment Office\n    </p>\n    <p>\n      Dated {{signedMonthDay}}, 20{{currentYear}}\n    </p>\n  </div>",
+        "template":"<div class=\"letter-footer\">\n    <p>\n      Signed By: {{signee}}<br>Associate Deputy Minister and Executive\n      Director<br>Environmental Assessment Office\n    </p>\n    <p>\n      Dated {{signedMonthDay}}, 20{{currentYear}}\n    </p>\n  </div>",
         "isfooter":false,
         "isheader":false,
         "multiple":false,
@@ -2977,7 +2977,7 @@
             "default":"",
             "label":"Signature",
             "type":"Text",
-            "name":"dmSignature"
+            "name":"signee"
           },
           {
             "default":"",
@@ -2988,7 +2988,7 @@
         ],
         "footer":"",
         "header":"",
-        "template":"<div class=\"letter-footer\">\n    <p>\n      Signed By: {{dmSignature}}<br>Associate Deputy Minister and Executive\n      Director<br>Environmental Assessment Office\n    </p>\n    <p>\n      Dated {{signedDayMonth}}, 20{{currentYear}}\n    </p>\n  </div>",
+        "template":"<div class=\"letter-footer\">\n    <p>\n      Signed By: {{signee}}<br>Associate Deputy Minister and Executive\n      Director<br>Environmental Assessment Office\n    </p>\n    <p>\n      Dated {{signedDayMonth}}, 20{{currentYear}}\n    </p>\n  </div>",
         "isfooter":false,
         "isheader":false,
         "multiple":false,
@@ -3150,6 +3150,25 @@
         "meta": [
           {
             "default":"",
+            "label":"Schedule B, C, or D",
+            "type":"Text",
+            "name":"otherSchedule"
+          }
+        ],
+        "footer":"</div>",
+        "header":"Enclosure(s):\n    <div class=\"indent-med\">\n      Schedule A\n    </div>",
+        "template":"<div class=\"indent-med\">\n      {{otherSchedule}}\n    </div>",
+        "isfooter":true,
+        "isheader":true,
+        "multiple":true,
+        "optional":false,
+        "label":"Enclosure List",
+        "name":"enclosures"
+      },
+      {
+        "meta": [
+          {
+            "default":"",
             "label":"First Name Last Name",
             "type":"Text",
             "name":"signee"
@@ -3183,26 +3202,7 @@
         "label":"Signature",
         "name":"signature"
       },
-      {
-        "meta": [
-          {
-            "default":"",
-            "label":"Schedule B, C, or D",
-            "type":"Text",
-            "name":"otherSchedule"
-          }
-        ],
-        "footer":"</div>",
-        "header":"Enclosure(s):\n    <div class=\"indent-med\">\n      Schedule A\n    </div>",
-        "template":"<div class=\"indent-med\">\n      {{otherSchedule}}\n    </div>",
-        "isfooter":true,
-        "isheader":true,
-        "multiple":true,
-        "optional":false,
-        "label":"Enclosure List",
-        "name":"enclosures"
-      },
-        {
+       {
             "meta" : [
                 {
                     "default" : "",
@@ -3317,7 +3317,7 @@
             "default":"",
             "label":"First Name Last Name",
             "type":"Text",
-            "name":"name"
+            "name":"signee"
           },
           {
             "default":"",
@@ -3340,7 +3340,7 @@
         ],
         "footer":"",
         "header":"",
-        "template":"<div class=\"letter-footer\">\n    <p>\n      Signed By: {{name}}<br>{{projectDirector}}<br>Environmental Assessment Office\n    </p>\n    <p>\n      Dated {{signedMonthDay}}, 20{{currentYear}}\n    </p>\n  </div>",
+        "template":"<div class=\"letter-footer\">\n    <p>\n      Signed By: {{signee}}<br>{{projectDirector}}<br>Environmental Assessment Office\n    </p>\n    <p>\n      Dated {{signedMonthDay}}, 20{{currentYear}}\n    </p>\n  </div>",
         "isfooter":false,
         "isheader":false,
         "multiple":false,
@@ -3853,7 +3853,7 @@
             "default":"",
             "label":"Name of Minister",
             "type":"Text",
-            "name":"ministerName1"
+            "name":"signee"
           },
           {
             "default":"",
@@ -3888,7 +3888,7 @@
         ],
         "footer":"",
         "header":"",
-        "template":"<div class=\"letter-footer\">\n    <div class=\"sig-left\">\n      <p>\n        Signed By: Honourable {{ministerName1}}<br><br>Minister of Environment\n      </p>\n    </div>\n    <div class=\"sig-right\">\n      <p>\n        Signed By: Honourable {{ministerName2}}<br><br>Minister of {{minsitryName}}\n      </p>\n    </div>\n    <div style=\"clear:both;\"></div>\n    <br>\n    <p>\n      Issued this {{currentDay}} day of {{currentMonth}}, 20{{currentYear}}\n    </p>\n  </div>",
+        "template":"<div class=\"letter-footer\">\n    <div class=\"sig-left\">\n      <p>\n        Signed By: Honourable {{signee}}<br><br>Minister of Environment\n      </p>\n    </div>\n    <div class=\"sig-right\">\n      <p>\n        Signed By: Honourable {{ministerName2}}<br><br>Minister of {{minsitryName}}\n      </p>\n    </div>\n    <div style=\"clear:both;\"></div>\n    <br>\n    <p>\n      Issued this {{currentDay}} day of {{currentMonth}}, 20{{currentYear}}\n    </p>\n  </div>",
         "isfooter":false,
         "isheader":false,
         "multiple":false,
@@ -4101,7 +4101,7 @@
             "default":"",
             "label":"Officer Name",
             "type":"Text",
-            "name":"officerName"
+            "name":"signee"
           },
           {
             "default":"",
@@ -4118,7 +4118,7 @@
         ],
         "footer":"",
         "header":"",
-        "template":"<div class=\"letter-footer\">\n    <p>\n      Signed By: {{officerName}}<br>\n      EA Compliance and Enforcement Officer<br>\n      Environmental Assessment Office\n    </p>\n    <br>\n    <p>\n      Dated {{signedDayMonth}}, 20{{currentYear}}\n    </p>\n  </div>",
+        "template":"<div class=\"letter-footer\">\n    <p>\n      Signed By: {{signee}}<br>\n      EA Compliance and Enforcement Officer<br>\n      Environmental Assessment Office\n    </p>\n    <br>\n    <p>\n      Dated {{signedDayMonth}}, 20{{currentYear}}\n    </p>\n  </div>",
         "isfooter":false,
         "isheader":false,
         "multiple":false,
@@ -5065,7 +5065,9 @@
             "default":"",
             "label":"Signed By",
             "type":"Text",
-            "name":"signature"
+            "name":"signee
+
+            "
           },
           {
             "default":"",
@@ -5088,7 +5090,7 @@
         ],
         "footer":"",
         "header":"",
-        "template":"<table class=\"reg-table bottom-spacing-sml\">\n      <thead>\n        <tr>\n          <td width=\"50%\"></td>\n          <td width=\"50%\"></td>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <td colspan=\"2\" class=\"header\">Actions Required by Proponent(s) &amp; Additional Comments:</td>\n        </tr>\n        <tr>\n          <td colspan=\"2\">{{actionsComments}}</td>\n        </tr>\n        <tr>\n          <td class=\"header\">Inspection Conducted by:</td>\n          <td>{{conductedBy}}</td>\n        </tr>\n        <tr>\n          <td><b>Signature:</b> {{signature}}</td>\n          <td><b>Date Signed:</b> {{signedDate}}</td>\n        </tr>\n        <tr>\n          <td height=\"31\"></td>\n          <td height=\"31\"></td>\n        </tr>\n        <tr>\n          <td colspan=\"2\" class=\"header\">Enclosure(s) to Proponent(s) &amp; Description:</td>\n        </tr>\n        <tr>\n          <td colspan=\"2\">{{propAndDesc}}</td>\n        </tr>\n        <tr>\n          <td colspan=\"2\" class=\"header\">Regulatory Consideration:</td>\n        </tr>\n        <tr>\n          <td colspan=\"2\">{{regConsideration}}</td>\n        </tr>\n      </tbody>\n    </table>",
+        "template":"<table class=\"reg-table bottom-spacing-sml\">\n      <thead>\n        <tr>\n          <td width=\"50%\"></td>\n          <td width=\"50%\"></td>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <td colspan=\"2\" class=\"header\">Actions Required by Proponent(s) &amp; Additional Comments:</td>\n        </tr>\n        <tr>\n          <td colspan=\"2\">{{actionsComments}}</td>\n        </tr>\n        <tr>\n          <td class=\"header\">Inspection Conducted by:</td>\n          <td>{{conductedBy}}</td>\n        </tr>\n        <tr>\n          <td><b>Signature:</b> {{signee}}</td>\n          <td><b>Date Signed:</b> {{signedDate}}</td>\n        </tr>\n        <tr>\n          <td height=\"31\"></td>\n          <td height=\"31\"></td>\n        </tr>\n        <tr>\n          <td colspan=\"2\" class=\"header\">Enclosure(s) to Proponent(s) &amp; Description:</td>\n        </tr>\n        <tr>\n          <td colspan=\"2\">{{propAndDesc}}</td>\n        </tr>\n        <tr>\n          <td colspan=\"2\" class=\"header\">Regulatory Consideration:</td>\n        </tr>\n        <tr>\n          <td colspan=\"2\">{{regConsideration}}</td>\n        </tr>\n      </tbody>\n    </table>",
         "isfooter":false,
         "isheader":false,
         "multiple":false,
