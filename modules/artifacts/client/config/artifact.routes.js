@@ -17,7 +17,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	var properMethod = function (stage) {
 		if (stage === 'Edit') return 'edit';
 		else if (stage === 'Review') return 'review';
-		else if (stage === 'Approve') return 'approve';
+		else if (stage === 'Approval') return 'approve';
 		else if (stage === 'Executive') return 'executive';
 		else if (stage === 'Publishing') return 'publish';
 		else if (stage === 'Notification') return 'notify';
