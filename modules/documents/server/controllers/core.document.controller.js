@@ -40,6 +40,7 @@ module.exports = DBModel.extend ({
 		doc.delete = ['eao-admin'];
 		
 		return this.findOne ({
+			project 				: doc.project,
 			documentIsLatestVersion: true,
 			projectFolderType       : doc.projectFolderType,
 			projectFolderSubType    : doc.projectFolderSubType,
