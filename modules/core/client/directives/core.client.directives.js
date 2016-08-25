@@ -113,6 +113,9 @@ angular.module('core')
 								s.context = scope.context;
 								s.object = scope.object;
 								s.name = scope.object.name || scope.object.code || scope.object._id;
+								if (scope.object._schemaName === 'Document') {
+									s.name = scope.object.internalOriginalName;
+								}
 								//
 								// these deal with setting the roles by permission
 								//
