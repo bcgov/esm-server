@@ -1,5 +1,5 @@
 <div class="modal-header">
-	<button type="button" class="btn btn-default close" ng-click="docUploadModal.cancel()">
+	<button ng-if="!docUploadModal.uploading" type="button" class="btn btn-default close" ng-click="docUploadModal.cancel()">
 		<span aria-hidden="true">&times;</span>
 	</button>
 	<h3 class="modal-title">Upload Documents</h3>
@@ -8,6 +8,7 @@
 	<tmpl-documents-upload-classify x-project="docUploadModal.project" x-type="project" x-doc-location-code="docUploadModal.docLocationCode" x-artifact="docUploadModal.artifact"></tmpl-documents-upload-classify>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-default" type="button" ng-click="docUploadModal.cancel()">Cancel</button>
-	<button class="btn btn-primary" type="button" ng-click="docUploadModal.ok()">OK</button>
+	<button ng-if="docUploadModal.uploading" disabled class="btn btn-default disabled" type="button">Cancel</button>
+	<button ng-if="!docUploadModal.uploading" class="btn btn-default" type="button" ng-click="docUploadModal.cancel()">Cancel</button>
+	<button class="btn btn-primary" type="button" ng-click="docUploadModal.uploading || docUploadModal.ok()">OK</button>
 </div>

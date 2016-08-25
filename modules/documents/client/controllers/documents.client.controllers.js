@@ -658,6 +658,7 @@ controllerModalDocumentUploadClassify.$inject = ['$modalInstance', '$scope', 'rP
 /* @ngInject */
 function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject, rDocLocationCode, rArtifact, $rootScope) {
 	var docUploadModal = this;
+	docUploadModal.uploading = false;
 
 	// Document upload complete so close and continue.
 	$scope.$on('documentUploadCompleteF', function() {
@@ -671,6 +672,7 @@ function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject,
 
 	docUploadModal.ok = function () {
 		$scope.$broadcast('documentUploadStart', false);
+		docUploadModal.uploading = true;
 	};
 	docUploadModal.cancel = function () {
 		$modalInstance.dismiss('cancel');
