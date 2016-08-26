@@ -23,7 +23,7 @@
 				<tr ng-repeat="o in $data" ui-sref="p.ir.detail({irId:o._id})" class="clickable">
 					<td data-title="'Name'"    sortable="'name'"    filter="{'name':'text'}"	>{{o.name}}</td>
 					<td class="actions-col action-x1" header-class="'actions-col actions-x1'">
-						<a class="btn btn-default btn-sm" ng-click="$event.stopPropagation()" ui-sref="p.ir.edit({irId:o._id})">
+						<a class="btn btn-default btn-sm" ng-if="o.userCan.write" ng-click="$event.stopPropagation()" ui-sref="p.ir.edit({irId:o._id})">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
 						<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="o"></tmpl-permissions-gear>

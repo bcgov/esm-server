@@ -3,7 +3,7 @@
 	<h1>Compliance Oversight &nbsp;&rsaquo;&nbsp; {{ir.name}}</h1>
 	<div class="actions">
 		<button class="btn btn-default btn-sm"
-            ng-if="project.userCan.createInspectionReport"
+            ng-if="ir.userCan.write"
 			ng-click="$event.stopPropagation()"
 			x-mode="'edit'"
 			ui-sref="p.ir.edit({irId:ir._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span>
@@ -13,7 +13,7 @@
 </div>
 
 <div class="view-body-container">
-	
+
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h2>Inspection Details</h2>
@@ -56,8 +56,8 @@
 				</div>
 			</div>
 		</div>
-	</div>	
-	
+	</div>
+
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h2>Enforcement Actions</h2>
@@ -66,14 +66,14 @@
 			<tr class="clickable" ui-sref="p.ir.detail({irId:o._id})" ng-repeat="o in ir.enforcementActions">
 				<td class="enforcement-col"
 					header-class="'enforcement-col'"
-					data-title="'Action'" 
+					data-title="'Action'"
 					sortable="'o.action'">
 					<strong class="enforcement-name">{{o.action}}</strong>
 					<span class="enforcement-notes" ng-if="o.notes">{{o.notes}}</span>
 				</td>
 				<td data-title="'Enforcement Conditions'">
 					<div class="anchor-list">
-						<a ui-sref="p.artifact.view({artifactId:o._id})"  
+						<a ui-sref="p.artifact.view({artifactId:o._id})"
 							ng-repeat="cell in o.condition.concat(o.conditionArtifacts)">{{cell.name}}{{$last ? '' : ', '}}</a>
 					</div>
 				</td>

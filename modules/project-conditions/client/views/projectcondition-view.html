@@ -2,20 +2,20 @@
 	<h1>Condition &nbsp;&rsaquo;&nbsp; {{condition.name}}</h1>
 	<div class="actions">
 		<button class="btn btn-sm btn-default"
-			ng-if="project.userCan.createProjectCondition"
+			ng-if="condition.userCan.write"
 			ui-sref="p.projectcondition.edit({conditionId:condition._id})">
 			<span class="glyphicon glyphicon-pencil"></span><span>Edit</span></button>
 		<button class="btn btn-sm btn-success"
-			ng-if="project.userCan.publish && !condition.isPublished"
+			ng-if="condition.userCan.publish && !condition.isPublished"
 			ng-click="publish()">Publish</button>
 		<button class="btn btn-sm btn-default"
-			ng-if="project.userCan.unPublish && condition.isPublished"
+			ng-if="condition.userCan.unPublish && condition.isPublished"
 			ng-click="unpublish()">Unpublish</button>
 	</div>
 </div>
 
 <div class="view-body-container">
-	
+
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h2>Details</h2>
@@ -64,7 +64,7 @@
 				<pre class="value wrap-text" ng-bind-html="condition.reportRequirements"></pre>
 			</div>
 		</div>
-	</div>	
+	</div>
 
 	<div class="row hidden">
 		<div class="col-sm-6">
@@ -74,7 +74,7 @@
 					<display-array x-source-array="pillars" x-selected-array="condition.pillars" x-key-string="id" x-value-string="title"></display-array>
 				</div>
 			</div>
-		</div>	
+		</div>
 		<div class="col-sm-6">
 			<div class="form-group">
 				<label for="stage" class="control-label">Phase</label>
@@ -98,7 +98,7 @@
 				ng-if="project.userCan.unPublish && condition.isPublished"
 				ng-click="unpublish()">Unpublish</button>
 		</div>
-	</div>	
+	</div>
 
 </div>
 

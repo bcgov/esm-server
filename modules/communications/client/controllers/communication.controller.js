@@ -7,7 +7,7 @@ angular
 		$scope.authentication = Authentication;
 		$scope.mode = mode;
 		// disable the delete button if user doesn't have permission to delete, or the vc is published, or it has related data...
-		$scope.canDelete = $scope.mode === 'edit' && project.userCan.deleteProjectUpdate && communication.userCan.delete;
+		$scope.canDelete = $scope.mode === 'edit' && communication.userCan.delete;
 
 		var self = this;
 		self.communication = communication;

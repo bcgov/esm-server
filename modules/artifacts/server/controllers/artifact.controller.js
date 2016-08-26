@@ -180,15 +180,6 @@ module.exports = DBModel.extend({
 				return artifact;
 			})
 			.then(function(a) {
-				// should maybe get defaults for the artifact type to apply here?
-				// or ???
-				return Access.getPermissionRoles({resource: project._id});
-			})
-			.then(function(res) {
-				artifact.read = res.listArtifacts;
-				artifact.write = res.createArtifact;
-				artifact.delete = res.createArtifact;
-				
 				return self.setDefaultRoles(artifact, project, artifactType.code);
 			})
 			.then(function(a) {
@@ -204,98 +195,486 @@ module.exports = DBModel.extend({
 	},
 	setDefaultRoles: function (artifact, project, type) {
 		// Set default read/write/submit permissions on artifacts based on their type.
-		
-		var permissions;
-		
+
+		var permissions = {};
+
 		switch (type) {
+			case 'aboriginal-consultation':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'aboriginal-consultation-report':
+				permissions = {
+					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'amendment-aboriginal-consultation':
-			case 'application':
-			case 'draft-application-information-requirements':
-			case 'project-description':
-			case 'project-description-template':
-				permissions = ['eao-admin', 'lead', 'intake', 'epd', 'team', 'pro-admin', 'pro-member'];
+				permissions = {
+					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
 				break;
 			case 'amendment-working-group':
-			case 'application-evaluation-working-group':
-			case 'application-information-requirements':
-			case 'application-package':
-			case 'application-review-working-group':
-			case 'pre-application-working-group':
-			case 'pre-assessment-working-group':
-				permissions =  ['eao-admin', 'lead', 'intake', 'epd', 'team', 'working-group', 'technical-working-group'];
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+					'delete': []
+				};
 				break;
-			case 'memo-adm': // Memo to the Minister from the Associate Deputy Minister
-				permissions =  ['eao-admin', 'lead', 'intake', 'epd', 'team', 'associate-dm', 'associate-dmo'];
+			case 'application':
+				permissions = {
+					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'application-evaluation-working-group':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'application-information-requirements':
+				permissions = {
+					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'application-package':
+				permissions = {
+					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'application-review-working-group':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'assesment-fee-1-fee-order':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'assesment-fee-2-fee-order':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'certificate-amendment':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'certificate-amendment-fee-order':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'certificate-cancellation':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'certificate-extension':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'certificate-extension-fee-order':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'certificate-suspension':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'decision-package':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'documents':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'draft-application-information-requirements':
+				permissions = {
+					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'environmental-assessment-certificate-template':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'environmental-certificate':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'evaluation-report':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'inspection-report-template':
+				permissions = {
+					'read': ['project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'write': ['project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'memo-to-the-minister-from-the-associate-deputy-minister':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'associate-dm', 'associate-dmo', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'associate-dm', 'associate-dmo', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'post-certififaction-inspection-fees':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'pre-application-inspection-fees':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'pre-application-working-group':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'pre-assessment-inspection-fees':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'pre-assessment-working-group':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'project-description':
+				permissions = {
+					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'project-description-template':
+				permissions = {
+					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
 				break;
 			case 'project-management-plans':
+				permissions = {
+					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'project-monitoring-plans':
+				permissions = {
+					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'project-studies':
-				permissions =  ['eao-admin', 'lead', 'intake', 'epd', 'team','qa-officer', 'ce-lead', 'ce-officer', 'pro-admin', 'pro-member'];
+				permissions = {
+					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'delete': []
+				};
 				break;
-			case 'post-certification-inspection-fees':
-			case 'pre-application-inspection-fees':
-			case 'pre-assessment-inspection-fees':
 			case 'project-termination':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'project-withdrawal':
-				permissions =  ['eao-admin', 'intake'];
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'project-system-admin'],
+					'delete': []
+				};
 				break;
-			case 'inspection-report':
-			case 'section-34-order':
-			case 'section-36-order':
-			case 'section-36-schedule-a':
-			case 'section-36-schedule-b':
-				permissions =  ['qa-officer', 'ce-lead', 'ce-officer'];
-				break;
-			case 'substantially-started-decision':
-				permissions =  ['eao-admin', 'lead', 'intake', 'epd', 'team', 'qa-officer', 'ce-lead', 'ce-officer' ];
-				break;
-			case 'aboriginal-consultation':
-			case 'assessment-fee-1-fee-order':
-			case 'assessment-fee-2-fee-order':
-			case 'certificate-amendment':
-			case 'certificate-amendment-fee-order':
-			case 'certificate-cancellation':
-			case 'certificate-extension':
-			case 'certificate-extension-fee-order':
-			case 'certificate-suspension':
-			case 'decision-package':
-			case 'documents':
-			case 'environmental-assessment-certificate':
-			case 'certificate': // Environmental Certificate
-			case 'evaluation-report':
 			case 'public-consultation-report':
-			case 'memo-epd': // Recommendations of the Executive Director
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'recommendations-of-the-executive-director':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'referral-package':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'section-10-1-a':
-			case 'section-10-1-a-order':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'section-10-1-a-order-template':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'section-10-1-b':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'section-10-1-b-fee-order':
-			case 'section-10-1-b-order':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'section-10-1-b-order-template':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'section-10-1-c':
-			case 'section-10-1-c-order':
-			case 'section-11-order':
-			case 'section-11-schedule-a':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'section-10-1-c-order-template':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'section-11-order-template':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'section-11-schedule-a-template':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'section-13-order':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'section-14-order':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'section-15-order':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'section-34-order-template':
+				permissions = {
+					'read': ['project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'write': ['project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'section-36-order-template':
+				permissions = {
+					'read': ['project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'write': ['project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'section-36-schedule-a-template':
+				permissions = {
+					'read': ['project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'write': ['project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'section-36-schedule-b-template':
+				permissions = {
+					'read': ['project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'write': ['project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'section-6':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'section-7':
-			case 'section-7-3-order':
-			case 'substitution-decision-request':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'section-7-3-order-template':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'substatially-started-decision':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+					'delete': []
+				};
+				break;
+			case 'substitution--decision-request':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'threshold-determination':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'timeline-extension':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'timeline-suspension':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'valued-component-package':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'valued-component-selection-document':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
+				break;
 			case 'wg-consultation-report':
-				permissions =  ['eao-admin', 'lead', 'intake', 'epd', 'team'];
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+					'delete': []
+				};
 				break;
 		}
-		
-		artifact.read = artifact.write = permissions;
-		
-		
+
+		artifact.read = permissions.read;
+		artifact.write = permissions.write;
+		artifact.delete = permissions.delete;
+
+
 		return artifact;
 	},
 	// -------------------------------------------------------------------------

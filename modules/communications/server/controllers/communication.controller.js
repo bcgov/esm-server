@@ -23,6 +23,15 @@ module.exports = DBModel.extend ({
 		//console.log('Communication.preprocessAdd: ', JSON.stringify(model, null, 4));
 		return new Promise (function (resolve, reject) {
 
+
+			if (model.type === 'Invitation') {
+				// communications are for updates and invitations at this point.
+				// invitations have different defaults than udpates - which are what are the stored defaults
+				model.read = ['proponent-lead', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-system-admin'];
+				model.write = ['proponent-lead', 'assessment-admin', 'project-intake', 'assessment-lead', 'project-epd', 'project-system-admin'];
+				model.delete = ['assessment-admin', 'project-intake', 'assessment-lead', 'project-epd', 'project-system-admin'];
+			}
+
 			model.code = model.name.toLowerCase();
 			model.code = model.code.replace(/\W/g, '-');
 			model.code = model.code.replace(/-+/, '-');
