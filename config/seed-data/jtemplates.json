@@ -5065,9 +5065,7 @@
             "default":"",
             "label":"Signed By",
             "type":"Text",
-            "name":"signee
-
-            "
+            "name":"signee"
           },
           {
             "default":"",
