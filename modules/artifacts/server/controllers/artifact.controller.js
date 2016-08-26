@@ -262,14 +262,14 @@ module.exports = DBModel.extend({
 					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 				};
 				break;
-			case 'assesment-fee-1-fee-order':
+			case 'assessment-fee-1-fee-order':
 				permissions = {
 					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 				};
 				break;
-			case 'assesment-fee-2-fee-order':
+			case 'assessment-fee-2-fee-order':
 				permissions = {
 					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
@@ -339,14 +339,14 @@ module.exports = DBModel.extend({
 					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 				};
 				break;
-			case 'environmental-assessment-certificate-template':
+			case 'environmental-assessment-certificate':
 				permissions = {
 					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 				};
 				break;
-			case 'environmental-certificate':
+			case 'certificate':
 				permissions = {
 					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
@@ -360,21 +360,21 @@ module.exports = DBModel.extend({
 					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 				};
 				break;
-			case 'inspection-report-template':
+			case 'inspection-report':
 				permissions = {
 					'read': ['associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'delete': ['compliance-lead', 'compliance-officer', 'project-system-admin']
 				};
 				break;
-			case 'memo-to-the-minister-from-the-associate-deputy-minister':
+			case 'memo-adm':
 				permissions = {
 					'read': ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 				};
 				break;
-			case 'post-certififaction-inspection-fees':
+			case 'post-certification-inspection-fees':
 				permissions = {
 					'read': ['associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['compliance-lead', 'compliance-officer', 'project-system-admin'],
@@ -465,7 +465,7 @@ module.exports = DBModel.extend({
 					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 				};
 				break;
-			case 'recommendations-of-the-executive-director':
+			case 'memo-epd':
 				permissions = {
 					'read': ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
@@ -486,7 +486,7 @@ module.exports = DBModel.extend({
 					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 				};
 				break;
-			case 'section-10-1-a-order-template':
+			case 'section-10-1-a-order':
 				permissions = {
 					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
@@ -507,7 +507,7 @@ module.exports = DBModel.extend({
 					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 				};
 				break;
-			case 'section-10-1-b-order-template':
+			case 'section-10-1-b-order':
 				permissions = {
 					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
@@ -521,21 +521,21 @@ module.exports = DBModel.extend({
 					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 				};
 				break;
-			case 'section-10-1-c-order-template':
+			case 'section-10-1-c-order':
 				permissions = {
 					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 				};
 				break;
-			case 'section-11-order-template':
+			case 'section-11-order':
 				permissions = {
 					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-participant', 'project-system-admin'],
 					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 				};
 				break;
-			case 'section-11-schedule-a-template':
+			case 'section-11-schedule-a':
 				permissions = {
 					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-participant', 'project-system-admin'],
 					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
@@ -563,28 +563,28 @@ module.exports = DBModel.extend({
 					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 				};
 				break;
-			case 'section-34-order-template':
+			case 'section-34-order':
 				permissions = {
 					'read': ['associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'delete': ['compliance-lead', 'compliance-officer', 'project-system-admin']
 				};
 				break;
-			case 'section-36-order-template':
+			case 'section-36-order':
 				permissions = {
 					'read': ['associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'delete': ['compliance-lead', 'compliance-officer', 'project-system-admin']
 				};
 				break;
-			case 'section-36-schedule-a-template':
+			case 'section-36-schedule-a':
 				permissions = {
 					'read': ['associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'delete': ['compliance-lead', 'compliance-officer', 'project-system-admin']
 				};
 				break;
-			case 'section-36-schedule-b-template':
+			case 'section-36-schedule-b':
 				permissions = {
 					'read': ['associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['compliance-lead', 'compliance-officer', 'project-system-admin'],
@@ -605,21 +605,21 @@ module.exports = DBModel.extend({
 					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 				};
 				break;
-			case 'section-7-3-order-template':
+			case 'section-7-3-order':
 				permissions = {
 					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 				};
 				break;
-			case 'substatially-started-decision':
+			case 'substantially-started-decision':
 				permissions = {
 					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 					'delete': ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 				};
 				break;
-			case 'substitution--decision-request':
+			case 'substitution-decision-request':
 				permissions = {
 					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
@@ -1016,6 +1016,8 @@ module.exports = DBModel.extend({
 			.then(function(artifact) {
 				var permissions = {};
 				artifact.artifactType.stages.forEach(function(stage) {
+					console.log('stage = ', JSON.stringify(stage));
+					console.log('userRoles = ', JSON.stringify(self.opts.userRoles));
 					permissions[stage.name] = (!stage.role) ? true : _.includes(self.opts.userRoles, stage.role);
 				});
 
