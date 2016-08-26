@@ -501,11 +501,17 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					// alert (err.message);
 				});
 			};
+			$scope.update = function () {
+				ArtifactModel.publish ($scope.artifact._id)
+				.then (function (model) {
+					$state.go ('p.artifact.view');
+				});
+			};
 			//
 			// notification specific functions
 			//
 			EmailTemplateModel.getCollection().then( function(data) {
-	 			$scope.emailTemplates = data;
+				$scope.emailTemplates = data;
 			});
 
 			var separateRecipients = function(newRecipients) {
