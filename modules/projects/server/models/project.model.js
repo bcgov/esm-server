@@ -39,6 +39,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 		'createCommentPeriod',
 		'createEnforcement',
 		'createProjectUpdate',
+		'createProjectGroup',
 		'publish',
 		'unPublish'
 	],
