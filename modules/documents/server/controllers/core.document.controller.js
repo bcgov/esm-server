@@ -40,6 +40,7 @@ module.exports = DBModel.extend ({
 		doc.delete = ['eao-admin'];
 		
 		return this.findOne ({
+			project 				: doc.project,
 			documentIsLatestVersion: true,
 			projectFolderType       : doc.projectFolderType,
 			projectFolderSubType    : doc.projectFolderSubType,
@@ -242,6 +243,7 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	getDocumentVersions : function (doc) {
 		return this.list ({
+			project 			 : doc.project,
 			_id                  : { $ne: doc._id },
 			projectFolderType    : doc.projectFolderType,
 			projectFolderSubType : doc.projectFolderSubType,

@@ -106,32 +106,33 @@ angular.module ('vcs')
 							suffix = "-"+existingCode;
 						}
 						m.code = codeFromTitle(obj.name+"-"+m.project.code+suffix);
-						// console.log("saving:",m);
 						VcModel.saveCopy(m)
 						.then(function (saved) {
 							console.log("creating artifact for valued-component");
-							ArtifactModel.newFromType('valued-component', $scope.project._id)
-							.then( function (art) {
-								art.name = obj.name;
-								art.valuedComponents.push(m);
-								return ArtifactModel.saveModel(art);
+							return ArtifactModel.getNew()
+							.then( function (f) {
+								f.valuedComponents.push(m);
+								f.name = obj.name;
+								f.code = 'valued-component';
+								f.project = $scope.project._id;
+								return ArtifactModel.saveCopy(f);
 							})
 							.then( function (art) {
 								console.log("created artifact of valued-component",art);
 								// Save the reference that this VC relates to.  We will look to
 								// re-use this to build up the package of VC's later.
-								saved.artifact = art._id;
-								VcModel.saveModel(saved)
-								.then( function (obj) {
-									savedArray.push(saved);
-									if (idx === self.currentObjs.length-1) {
-										// Return the collection back to the caller
-										$modalInstance.close(savedArray);
-									}
-								});
-							})
-							;
+								saved.artifact = art;
+								return VcModel.save(saved);
+							});
+						})
+						.then( function (obj) {
+							savedArray.push(obj);
+							if (idx === self.currentObjs.length-1) {
+								// Return the collection back to the caller
+								$modalInstance.close(savedArray);
+							}
 						});
+
 					});
 				});
 			});

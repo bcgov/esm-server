@@ -206,10 +206,14 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					.then(function (user) {
 						if (user.signature) {
 							$scope.artifact.templateData.sign.sig = "<img src='/api/document/"+user.signature+"/fetch'/>";
+							$scope.artifact.templateData.signature.signee = user.firstName + " " + user.lastName;
+							var d = new Date();
+							var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+							$scope.artifact.templateData.signature.signedMonthDay = monthNames[d.getMonth()] + " " + d.getDate().toString();
+							$scope.artifact.templateData.signature.currentYear = d.getFullYear().toString().slice(-2);
 						}
 						ArtifactModel.save($scope.artifact)
 						.then (function (art) {
-							// console.log("got art:", art);
 							return ArtifactModel.nextStage (art);
 						})
 						.catch (function (err) {
@@ -321,10 +325,14 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					.then(function (user) {
 						if (user.signature) {
 							$scope.artifact.templateData.sign.sig = "<img src='/api/document/"+user.signature+"/fetch'/>";
+							$scope.artifact.templateData.signature.signee = user.firstName + " " + user.lastName;
+							var d = new Date();
+							var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+							$scope.artifact.templateData.signature.signedMonthDay = monthNames[d.getMonth()] + " " + d.getDate().toString();
+							$scope.artifact.templateData.signature.currentYear = d.getFullYear().toString().slice(-2);
 						}
 						ArtifactModel.save($scope.artifact)
 						.then (function (art) {
-							// console.log("got art:", art);
 							return ArtifactModel.nextStage (art);
 						})
 						.catch (function (err) {
@@ -383,10 +391,14 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					.then(function (user) {
 						if (user.signature) {
 							$scope.artifact.templateData.sign.sig = "<img src='/api/document/"+user.signature+"/fetch'/>";
+							$scope.artifact.templateData.signature.signee = user.firstName + " " + user.lastName;
+							var d = new Date();
+							var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+							$scope.artifact.templateData.signature.signedMonthDay = monthNames[d.getMonth()] + " " + d.getDate().toString();
+							$scope.artifact.templateData.signature.currentYear = d.getFullYear().toString().slice(-2);
 						}
 						ArtifactModel.save($scope.artifact)
 						.then (function (art) {
-							// console.log("got art:", art);
 							return ArtifactModel.nextStage (art);
 						})
 						.catch (function (err) {
@@ -445,10 +457,14 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					.then(function (user) {
 						if (user.signature) {
 							$scope.artifact.templateData.sign.sig = "<img src='/api/document/"+user.signature+"/fetch'/>";
+							$scope.artifact.templateData.signature.signee = user.firstName + " " + user.lastName;
+							var d = new Date();
+							var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+							$scope.artifact.templateData.signature.signedMonthDay = monthNames[d.getMonth()] + " " + d.getDate().toString();
+							$scope.artifact.templateData.signature.currentYear = d.getFullYear().toString().slice(-2);
 						}
 						ArtifactModel.save($scope.artifact)
 						.then (function (art) {
-							// console.log("got art:", art);
 							return ArtifactModel.nextStage (art);
 						})
 						.catch (function (err) {
@@ -508,10 +524,14 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 					.then(function (user) {
 						if (user.signature) {
 							$scope.artifact.templateData.sign.sig = "<img src='/api/document/"+user.signature+"/fetch'/>";
+							$scope.artifact.templateData.signature.signee = user.firstName + " " + user.lastName;
+							var d = new Date();
+							var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+							$scope.artifact.templateData.signature.signedMonthDay = monthNames[d.getMonth()] + " " + d.getDate().toString();
+							$scope.artifact.templateData.signature.currentYear = d.getFullYear().toString().slice(-2);
 						}
 						ArtifactModel.save($scope.artifact)
 						.then (function (art) {
-							// console.log("got art:", art);
 							return ArtifactModel.nextStage (art);
 						})
 						.catch (function (err) {
