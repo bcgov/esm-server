@@ -1016,8 +1016,8 @@ module.exports = DBModel.extend({
 			.then(function(artifact) {
 				var permissions = {};
 				artifact.artifactType.stages.forEach(function(stage) {
-					console.log('stage = ', JSON.stringify(stage));
-					console.log('userRoles = ', JSON.stringify(self.opts.userRoles));
+					//console.log('stage = ', JSON.stringify(stage));
+					//console.log('userRoles = ', JSON.stringify(self.opts.userRoles));
 					permissions[stage.name] = (!stage.role) ? true : _.includes(self.opts.userRoles, stage.role);
 				});
 
