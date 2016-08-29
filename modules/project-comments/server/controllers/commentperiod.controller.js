@@ -63,14 +63,19 @@ module.exports = DBModel.extend ({
 		// jsherman - 20160729
 		// do not like this, we've got defaults that add in permissions but are completely divorced from these roles
 		// that we add.  Should all be in one place when we get a chance.
+
+		/*
+		 'read' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+		 'write' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+		 'delete' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+		 'publish' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+		 'unPublish' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
+
+		 */
 		var allroles = _.uniq(period.commenterRoles.concat (
 			period.classificationRoles,
 			period.vettingRoles,
-			'eao-admin',
-			'pro-admin',
-		  	'eao-member',
-		  	'pro-member',
-			'intake', 'lead', 'team', 'epd'
+			['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin']
 		));
 		//console.log ("commentperiod.setRolesPermissions - period", JSON.stringify (period, null, 4));
 		//console.log('commentperiod.setRolesPermissions - allroles = ' + JSON.stringify(allroles, null, 4));
@@ -78,10 +83,10 @@ module.exports = DBModel.extend ({
 			vetComments      : period.vettingRoles,
 			classifyComments : period.classificationRoles,
 			listComments     : period.commenterRoles,
-			addComment       : _.uniq(_.concat(period.commenterRoles, 'lead', 'epd', 'eao-admin')),
+			addComment       : _.uniq(_.concat(period.commenterRoles, ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'])),
 			read             : allroles,
-			write            : _.uniq(_.concat(period.vettingRoles, period.classificationRoles, 'eao-admin', 'intake', 'lead', 'team', 'epd')),
-			delete           : ['eao-admin'],
+			write            : _.uniq(_.concat(period.vettingRoles, period.classificationRoles, ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'])),
+			delete           : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 			// return Access.setObjectPermissionRoles ({
 			// resource: period,
 			// permissions: {

@@ -96,11 +96,7 @@ genSchema ('SubTypesSchema', {
 
 module.exports = genSchema ('Document', {
 	__audit                 : true,  // who what when
-	__access                : [      // read / write / delete are automatic
-		'download',
-		'uploadNewVersion',
-		'viewOldVersions',
-		'downloadOldVersions',
+	__access                : [
 		'publish',
 		'unPublish'
 	],

@@ -5,7 +5,7 @@
 <div class="view-body-container">
 	<div class="button-bar clearfix">
 		<div class="pull-left">
-			<button ng-if="true || project.userCan.createProjectGroup" class="btn btn-default btn-sm" ui-sref="p.group.create">
+			<button ng-if="project.userCan.createProjectGroup" class="btn btn-default btn-sm" ui-sref="p.group.create">
         <span class="glyphicon glyphicon-plus"></span><span>Add Project Group</span>
       </button>
 		</div>
@@ -32,7 +32,7 @@
 				<td class="actions-col action-x2"
 					header-class="'actions-col action-x2'">
 					<a class="btn btn-default btn-sm" title="Edit Project Group"
-						ng-if="project.userCan.createProjectGroup"
+						ng-if="o.userCan.write"
 						ng-click="$event.stopPropagation()"
 						ui-sref="p.group.edit({groupId:o._id})">
 						<span class="glyphicon glyphicon-pencil"></span>

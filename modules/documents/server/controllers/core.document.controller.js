@@ -34,12 +34,8 @@ module.exports = DBModel.extend ({
 		// check if there is an existing matching document
 		//
 		
-		// what should default permissions be?
-		doc.read = ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'];
-		doc.write = ['eao-admin', 'eao-member', 'pro-admin', 'pro-member'];
-		doc.delete = ['eao-admin'];
-		
 		return this.findOne ({
+			project 				: doc.project,
 			documentIsLatestVersion: true,
 			projectFolderType       : doc.projectFolderType,
 			projectFolderSubType    : doc.projectFolderSubType,
@@ -242,6 +238,7 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	getDocumentVersions : function (doc) {
 		return this.list ({
+			project 			 : doc.project,
 			_id                  : { $ne: doc._id },
 			projectFolderType    : doc.projectFolderType,
 			projectFolderSubType : doc.projectFolderSubType,

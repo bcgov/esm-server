@@ -14,7 +14,7 @@ angular.module('core')
 // and thingamajig
 //
 // -------------------------------------------------------------------------
-.directive('rolePermissionsModal', function ($modal, Authentication, Application, AccessModel, _) {
+.directive('rolePermissionsModal', function ($modal, Authentication, Application, AccessModel, _, ArtifactModel, VcModel) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -113,6 +113,9 @@ angular.module('core')
 								s.context = scope.context;
 								s.object = scope.object;
 								s.name = scope.object.name || scope.object.code || scope.object._id;
+								if (scope.object._schemaName === 'Document') {
+									s.name = scope.object.internalOriginalName;
+								}
 								//
 								// these deal with setting the roles by permission
 								//
@@ -130,7 +133,23 @@ angular.module('core')
 					}
 				})
 				.result.then(function (data) {
-					AccessModel.setPermissionRoleIndex(data.resource, data.data);
+					AccessModel.setPermissionRoleIndex(data.resource, data.data)
+					.then( function () {
+						// Need to persist to conaining element in some cases.  e.g.: This is so that
+						// when a user clicks on a Vc gear, they are actually changing both the Vc
+						// permission as well as the underlying artifact permission.
+						if (data.data.schemaName === 'Vc') {
+							VcModel.lookup(data.resource)
+							.then(function (vc) {
+								return ArtifactModel.lookup(vc.artifact);
+							})
+							.then( function (art) {
+								// Change the schemaName or else it won't match.
+								data.data.schemaName = 'Artifact';
+								AccessModel.setPermissionRoleIndex(art._id, data.data);
+							});
+						}
+					});
 				})
 				.catch(function (err) {
 				});
@@ -235,7 +254,7 @@ angular.module('core')
 								// see if this user is an eao-admin or a pro-admin, then
 								// default to either eao-member or pro-member
 								//
-								s.defaultRole = 'eao-member';
+								s.defaultRole = 'project-eao-staff';
 								// console.log ('userRoleIndex', userRoleIndex);
 								// console.log ('allRoles', allRoles);
 								// console.log ('allUsers', s.allUsers);

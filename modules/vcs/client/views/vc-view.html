@@ -3,7 +3,7 @@
 	<h1>Valued Component &nbsp;&rsaquo;&nbsp; {{vc.title}}</h1>
 	<div class="actions">
 		<button class="btn btn-default btn-sm"
-            ng-if="project.userCan.createValuedComponent"
+            ng-if="vc.userCan.write"
 			ng-click="$event.stopPropagation()"
 			x-mode="'edit'"
 			ui-sref="p.vc.edit({vcId:vc._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span>

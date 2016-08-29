@@ -5,6 +5,7 @@
 	<tmpl-documents-upload-classify-mem x-project="docUploadModal.project" x-type="project" x-artifact="artifact"></tmpl-documents-upload-classify-mem>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-default" type="button" ng-click="docUploadModal.cancel()">Cancel</button>
-	<button class="btn btn-default" type="button" ng-click="docUploadModal.ok()">Save</button>
+    <button ng-if="docUploadModal.uploading" disabled class="btn btn-default" type="button" ng-click="docUploadModal.cancel()">Cancel</button>
+	<button ng-if="!docUploadModal.uploading" class="btn btn-default" type="button" ng-click="docUploadModal.cancel()">Cancel</button>
+	<button class="btn btn-default" type="button" ng-click="docUploadModal.uploading || docUploadModal.ok()">Save</button>
 </div>

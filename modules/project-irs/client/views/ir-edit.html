@@ -1,5 +1,5 @@
 <form class="view-form" name="inspection">
-	
+
 	<div class="view-title-container flex-row">
 		<h1><span ng-show="project.name">Add/Edit Inspection &nbsp;&rsaquo;&nbsp; {{ir.name}} <span class="placeholder-value" ng-if="!ir.name">Untitled</span></h1>
 		<div class="actions">
@@ -21,7 +21,7 @@
 	</div>
 
 	<div class="view-body-container">
-	
+
 		<!-- INSPECTION DETAILS -->
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -36,8 +36,8 @@
 					<div class="col-md-6 form-group">
 						<label>Date of Inspection</label>
 						<div class="form-control date-picker"
-							x-modal-date-picker 
-							x-selected-date="ir.irDate" 
+							x-modal-date-picker
+							x-selected-date="ir.irDate"
 							ng-model="ir.irDate">
 							{{ ir.irDate | amDateFormat:'MMMM Do, YYYY' }}
 							<span class="glyphicon glyphicon-calendar"></span>
@@ -49,13 +49,13 @@
 					<ul class="anchor-list">
 						<li>
 							<a ui-sref="p.artifact.edit({artifactId:ir.artifact._id})"
-								ng-if="project.userCan.createInspectionReport">{{ir.artifact.name}}</a>
+								ng-if="ir.userCan.write">{{ir.artifact.name}}</a>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</div><!--/INSPECTION DETAILS -->
-	
+
 		<div class="panel panel-default">
 			<div class="panel-heading"><h2>Certificate Requirements Inspected</h2></div>
 			<div class="panel-body">
@@ -115,10 +115,10 @@
 				<tr class="clickable" ui-sref="p.ir.detail({irId:o._id})" ng-repeat="o in ir.enforcementActions">
 					<td class="enforcement-col"
 						header-class="'enforcement-col'"
-						data-title="'Action'" 
+						data-title="'Action'"
 						sortable="'o.action'">
 						<strong class="enforcement-name">{{o.action}}</strong>
-						
+
 						<span class="enforcement-notes" ng-if="o.notes">{{o.notes}}</span>
 					</td>
 					<td data-title="'Enforcement Conditions'">
@@ -144,7 +144,7 @@
 						header-class="'date-col'"
 						data-title="'Date Issued'"
 						sortable="'date'">{{o.date | date:'MMM dd, yyyy'}}</td>
-					<td class="actions-col action-x2" 
+					<td class="actions-col action-x2"
 						header-class="'actions-col action-x2'">
 						<a class="btn btn-default btn-sm" ng-click="openAddEnforcementAction(o);$event.stopPropagation()">
 							<span class="glyphicon glyphicon-pencil"></span>

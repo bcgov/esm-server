@@ -70,7 +70,7 @@ module.exports = function (app) {
 	.put(routes.setAndRun(Artifact, function (model, req) {
 		return model.unpublish(req.Artifact);
 	}));
-	app.route('/api/artifact/checkPermissions/:artifactId').all(policy('user'))
+	app.route('/api/artifact/checkPermissions/:artifactId').all(policy('guest'))
 	.get(routes.setAndRun(Artifact, function (model, req) {
 		return model.checkPermissions(req.params.artifactId);
 	}));

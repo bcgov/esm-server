@@ -35,6 +35,7 @@ module.exports = function () {
 	// })
 	promise.resolve ()
 	.then (function () {
+		console.log('1');
 		return promise.all (list.artifacttypes.map (function (m) {
 			return ArtifactType.find({ code:m.code }).remove().exec();
 		}));

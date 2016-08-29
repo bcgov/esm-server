@@ -7,7 +7,7 @@
 module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('Inspectionreport', {
 	__audit       : true,
-	__access      : ['createInspectionReport'],
+	__access      : [],
 	__codename    : true,
 	projectName							: { type: String, default:'' },
 	status								: { type: String, default:'' },

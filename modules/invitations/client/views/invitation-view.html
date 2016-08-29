@@ -2,7 +2,7 @@
 	<h1>Invitations &nbsp;&rsaquo;&nbsp; {{s.communication.name}}</h1>
 	<div class="actions">
 		<button class="btn btn-default btn-sm" ui-sref="p.invitation.list">Cancel</button>
-		<button class="btn btn-default btn-sm" ng-if="project.userCan.createProjectUpdate" ng-click="$event.stopPropagation()" x-mode="'edit'"
+		<button class="btn btn-default btn-sm" ng-if="s.communication.userCan.write" ng-click="$event.stopPropagation()" x-mode="'edit'"
 			ui-sref="p.invitation.edit({communicationId:s.communication._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span>
       </button>
 	</div>
