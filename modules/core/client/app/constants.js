@@ -291,7 +291,7 @@ angular
 			'enableEnforcements': true,
 			'enableDecisions': true,
 			'enableSchedule': true,
-			'enableComplaints': true,
+			'enableComplaints': false,
 			'enableConditions': true,
 			'enableInvitations': true,
 			'enableInspectionReports': true,
