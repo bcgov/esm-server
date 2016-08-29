@@ -2,7 +2,7 @@
 <div class="view-title-container flex-row">
 	<h1>Project Update &nbsp;&rsaquo;&nbsp; {{s.communication.name}}</h1>
 	<div class="actions">
-		<button class="btn btn-default btn-sm" ng-if="project.userCan.createProjectUpdate" ng-click="$event.stopPropagation()" x-mode="'edit'"
+		<button class="btn btn-default btn-sm" ng-if="s.communication.userCan.write" ng-click="$event.stopPropagation()" x-mode="'edit'"
 			ui-sref="p.communication.edit({communicationId:s.communication._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span>
       </button>
 	</div>

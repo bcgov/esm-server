@@ -153,11 +153,11 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 			state: 'p.communication.list',
 			permissions: ['context.listProjectUpdates']
 		});
-		Menus.addMenuItem('projectMenu', {
-			title: 'Complaints',
-			state: 'p.complaint.list',
-			permissions: ['context.listProjectComplaints']
-		});
+		// Menus.addMenuItem('projectMenu', {
+		// 	title: 'Complaints',
+		// 	state: 'p.complaint.list',
+		// 	permissions: ['context.listProjectComplaints']
+		// });
 		Menus.addMenuItem('projectMenu', {
 			title: 'Conditions',
 			state: 'p.projectcondition.list',

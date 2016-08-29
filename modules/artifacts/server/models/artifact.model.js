@@ -13,18 +13,7 @@ module.exports = require('../../../core/server/controllers/core.schema.controlle
 		//
 		// who has access to this thing
 		//
-		__access: [
-			'review',
-			'approve',
-			'executiveApprove',
-			'sendForReview',
-			'sendForApproval',
-			'sendForExecutiveApproval',
-			'sendForDecision',
-			'publish',
-			'unPublish',
-			'reject'
-		],
+		__access: [],
 		//
 		// what type of artifcat is this? i.e. project description, etc
 		//

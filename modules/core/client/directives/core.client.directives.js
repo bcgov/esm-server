@@ -254,7 +254,7 @@ angular.module('core')
 								// see if this user is an eao-admin or a pro-admin, then
 								// default to either eao-member or pro-member
 								//
-								s.defaultRole = 'eao-member';
+								s.defaultRole = 'project-eao-staff';
 								// console.log ('userRoleIndex', userRoleIndex);
 								// console.log ('allRoles', allRoles);
 								// console.log ('allUsers', s.allUsers);

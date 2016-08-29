@@ -34,6 +34,14 @@ module.exports = DBModel.extend ({
 			//
 			// get the period info
 			//
+			/*
+			 'read' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+			 'write' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+			 'delete' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+			 'publish' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+			 'unPublish' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
+
+			 */
 			commentPeriod.findById(comment.period)
 				.then(function (period) {
 					console.log('period = ' + JSON.stringify(period, null, 4));
@@ -42,13 +50,8 @@ module.exports = DBModel.extend ({
 					//
 					return self.setModelPermissions(comment, {
 						read: period.vettingRoles,
-						delete: ['eao-admin'],
-						write: period.commenterRoles.concat(
-							period.classificationRoles,
-							period.vettingRoles,
-							'eao-admin',
-							'pro-admin'
-						),
+						delete: ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+						write: _.uniq(_.concat(period.commenterRoles, period.vettingRoles, period.classificationRoles, ['assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin']))
 					});
 				})
 				.then(function (commentPermissions) {

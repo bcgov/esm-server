@@ -5,7 +5,7 @@
 <div class="view-body-container">
     <div class="button-bar clearfix">
         <div class="pull-left">
-            <button ng-if="true || project.userCan.createProjectUpdate" class="btn btn-default btn-sm" ui-sref="p.communication.create">
+            <button ng-if="project.userCan.createProjectUpdate" class="btn btn-default btn-sm" ui-sref="p.communication.create">
         <span class="glyphicon glyphicon-plus"></span><span>Add Project Update</span>
       </button>
         </div>
@@ -29,7 +29,7 @@
                     data-title="'Sent on'"
                     sortable="'sent'">{{ o.dateSent | date : format : timezone }}</td>
                 <td class="actions-col action-x2" header-class="'actions-col action-x2'">
-                    <a class="btn btn-default btn-sm" title="Edit Valued Component" ng-if="project.userCan.createProjectUpdate" ng-click="$event.stopPropagation()"
+                    <a class="btn btn-default btn-sm" title="Edit Project Update" ng-if="o.userCan.write" ng-click="$event.stopPropagation()"
                         ui-sref="p.communication.edit({communicationId:o._id})">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </a>

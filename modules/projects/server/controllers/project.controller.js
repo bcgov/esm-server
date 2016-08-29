@@ -506,12 +506,12 @@ module.exports = DBModel.extend ({
 		console.log('initDefaultRoles(' + project.code + ')');
 		var defaultRoles = [];
 
-		project.adminRole = 'eao-admin';
-		project.proponentAdminRole = 'pro-admin';
-		project.eaoInviteeRole = 'eao-invitee';
-		project.proponentInviteeRole = 'pro-invitee';
-		project.eaoMember = 'eao-member';
-		project.proMember = 'pro-member';
+		project.adminRole = 'project-system--admin';
+		project.proponentAdminRole = 'proponent-lead';
+		//project.eaoInviteeRole = undefined;
+		//project.proponentInviteeRole = undefined;
+		project.eaoMember = 'project-eao-staff';
+		project.proMember = 'proponent-team';
 
 		defaultRoles.push(project.eaoMember);
 		defaultRoles.push(project.proMember);
@@ -526,7 +526,7 @@ module.exports = DBModel.extend ({
 			.then(function(results) {
 				var a = _.map(results, function(u) {
 					return new Promise (function (resolve, reject) {
-						(new Role ({context: project._id, role: 'intake', user: u.user})).save().then(resolve, reject);
+						(new Role ({context: project._id, role: 'project-intake', user: u.user})).save().then(resolve, reject);
 					});
 				});
 				return Promise.all(a);
