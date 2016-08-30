@@ -110,7 +110,7 @@ angular.module('projectconditions').config(['$stateProvider', 'RELEASE', functio
 				$scope.editLinkedVcs = function() {
 					VcModel.forProject(project._id)
 						.then(function (data) {
-							return Utils.openEntitySelectionModal(data, 'name', condition.vcs);
+							return Utils.openEntitySelectionModal(data, 'name', condition.vcs, 'Valued Components');
 						})
 						.then(function(selectedVcs) {
 							condition.vcs = selectedVcs;
@@ -165,7 +165,7 @@ angular.module('projectconditions').config(['$stateProvider', 'RELEASE', functio
 				$scope.editLinkedVcs = function() {
 					VcModel.forProject(project._id)
 						.then(function (data) {
-							return Utils.openEntitySelectionModal(data, 'name', condition.vcs);
+							return Utils.openEntitySelectionModal(data, 'name', condition.vcs, 'Valued Components');
 						})
 						.then(function (selectedVcs) {
 							condition.vcs = selectedVcs;

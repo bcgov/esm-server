@@ -255,7 +255,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 					_.each(action.conditionArtifacts, function (i) {
 						cur.push(i);
 					});
-					return Utils.openEntitySelectionModal(irConditions, 'name', cur)
+					return Utils.openEntitySelectionModal(irConditions, 'name', cur, 'Conditions')
 					.then(function (selected) {
 						// console.log("selected:", selected);
 						action.condition = [];
@@ -275,7 +275,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 				$scope.addIRCondition = function () {
 					ProjectConditionModel.forProject($scope.project._id)
 					.then(function (data) {
-						return Utils.openEntitySelectionModal(data, 'name', $scope.ir.conditions);
+						return Utils.openEntitySelectionModal(data, 'name', $scope.ir.conditions, 'Conditions');
 					})
 					.then(function (newSel) {
 						$scope.ir.conditions = newSel;
@@ -584,7 +584,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 							_.each(action.conditionArtifacts, function (i) {
 								cur.push(i);
 							});
-							return Utils.openEntitySelectionModal(irConditions, 'name', cur)
+							return Utils.openEntitySelectionModal(irConditions, 'name', cur, 'Enforcement Conditions')
 							.then(function (selected) {
 								// console.log("selected:", selected);
 								action.condition = [];
@@ -604,7 +604,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 				$scope.addIRCondition = function () {
 					ProjectConditionModel.forProject($scope.project._id)
 					.then(function (data) {
-						return Utils.openEntitySelectionModal(data, 'name', $scope.ir.conditions);
+						return Utils.openEntitySelectionModal(data, 'name', $scope.ir.conditions, 'Conditions');
 					})
 					.then(function (newSel) {
 						$scope.ir.conditions = newSel;

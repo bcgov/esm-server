@@ -32,7 +32,7 @@ function serviceUtils($http, $modal) {
 		return $http({method:'GET',url: 'api/roles' });
 	};
 	
-	var openEntitySelectionModal = function (entities, valueString, selected) {
+	var openEntitySelectionModal = function (entities, valueString, selected, title) {
 		// adapted from: http://stackoverflow.com/a/22129960/1066283
 		var resolve = function(obj, path) {
 			return path.split('.').reduce(function(prev, curr) {
@@ -49,6 +49,7 @@ function serviceUtils($http, $modal) {
 				$scope.tableParams = new NgTableParams({}, {dataset: entities});
 				$scope.valueString = valueString;
 				$scope.resolve = resolve;
+				$scope.title = title;
 				
 				var index = $scope.index = function(item) {
 					return _.findIndex($scope.current, function(o) { return o._id === item._id; });
