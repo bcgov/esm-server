@@ -227,12 +227,14 @@
 						<div clas="detail-row">
 							<label>Revisions</label>
 							<div class="list-group">
-								<a class="list-group-item flex-row" href="{{ docVersion.documentFileURL }}" ng-repeat="docVersion in docBrowser.docVersions">
-									<span class="title">Revision {{ docVersion.documentVersion }}&nbsp;&nbsp;-&nbsp;&nbsp;{{ docVersion.dateUpdated | date : format : timezone}}</span>
-									<span class="actions">
+								<div ng-repeat="docVersion in docBrowser.docVersions">
+									<a class="list-group-item flex-row" href="/api/document/{{ docVersion._id }}/fetch" target="_self">
+									<div class="title">Revision {{ docVersion.documentVersion }}</div>
+									<div class="actions">
 										<span class="glyphicon glyphicon-download-alt pull-right"></span>
-									</span>
-								</a>
+									</div>
+									</a>
+								</div>
 							</div>
 						</div>
 					</div><!-- / DOCUMENT INFO -->
