@@ -10,7 +10,7 @@
 			<!-- NEWS ROW ITEM TEMPLATE -->
 			<tr ng-repeat="o in $data">
 				<td data-title="'Headline'" filter="{'name':'text'}" sortable="'name'">
-					<h2 class="news-title">{{o.headline}}</h2>
+					<a ui-sref="p.detail({projectid: o.code})" ><h2 class="news-title">{{o.headline}}</h2></a>
 					<div ng-init="toggleProject.desc = (false)">
 						<p class="news-content">{{ o.content | maxWords:30:toggleProject.desc }}</p>
 						<div class="show-more" ng-if="(o.content | wordCount) > 30">
