@@ -668,6 +668,27 @@ module.exports = DBModel.extend({
 					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 				};
 				break;
+			case 'reason-for-ministers-decision':
+				permissions = {
+					'read': ['assessment-admin', 'project-intake', 'assessment-team', 'project-epd', 'associate-dm', 'associate-dmo', 'minister'],
+					'write': ['assessment-admin', 'project-intake', 'assessment-team', 'project-epd', 'associate-dm', 'associate-dmo', 'minister'],
+					'delete': ['assessment-admin', 'project-intake', 'assessment-team', 'project-epd', 'associate-dm', 'associate-dmo', 'minister']
+				};
+				break;
+			case 'enforcement-action':
+				permissions = {
+					'read': ['project-qa-officer', 'compliance-lead', 'compliance-officer'],
+					'write': ['project-qa-officer', 'compliance-lead', 'compliance-officer'],
+					'delete': ['project-qa-officer', 'compliance-lead', 'compliance-officer']
+				};
+				break;
+			case 'assessment-report':
+				permissions = {
+					'read': ['assessment-admin', 'assessment-lead', 'project-intake', 'assessment-team', 'project-epd'],
+					'write': ['assessment-admin', 'assessment-lead', 'project-intake', 'assessment-team', 'project-epd'],
+					'delete': ['assessment-admin', 'assessment-lead', 'project-intake', 'assessment-team', 'project-epd']
+				};
+				break;
 		}
 
 		artifact.read = permissions.read;
