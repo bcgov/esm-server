@@ -2497,6 +2497,10 @@ legend {
 	em {
 		@extend .form-validation-msg;
 	}
+
+	&.no-margin {
+		margin-bottom: 0.5rem;
+	}
 }
 
 
@@ -2709,7 +2713,11 @@ form {
 }
 
 .checkbox-row {
-	margin-top: 0.5rem;
+	margin-top: 0.6rem;
+
+	label {
+		font-weight: normal;
+	}
 }
 
 .checkbox,
@@ -5265,6 +5273,26 @@ tmpl-template-render {
 }
 
 
+/* USER PROFILE VIEW 
+----------------------------- */
+.signature-preview {
+	width: 30rem;
+	height: 10rem;
+	padding: 1rem;
+	text-align: center;
+
+	img {
+		max-width: 100%;
+		max-height: 100%;
+	}
+
+	+ .btn {
+		margin-top: 1rem;
+	}
+}
+
+
+
 /* VALUED COMPONENTS VIEW
 ----------------------------- */
 .edit-valued-component-view {
@@ -5433,6 +5461,9 @@ tmpl-template-render {
 		height: 100%;
 	}
 }
+
+
+
 
 /* CUSTOM 
 ----------------------------- */
