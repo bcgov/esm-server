@@ -26,6 +26,7 @@ module.exports = DBModel.extend({
 			name: 1,
 			version: 1,
 			stage: 1,
+			typeCode: 1,
 			isPublished: 1,
 			userPermissions: 1,
 			valuedComponents: 1,

@@ -149,6 +149,10 @@ angular.module ('irs')
 		// Show all VC types, either pathway or valued components
 		ArtifactModel.forProject(self.project._id)
 		.then( function (data) {
+			// Remove any items that are inspection-reports.  They won't be added this way.
+			_.remove(data, function (item) {
+				return item.typeCode === 'inspection-report';
+			});
 			_.each(data, function (item) {
 				var idx = self.current.indexOf(item._id);
 				if (idx !== -1) {
