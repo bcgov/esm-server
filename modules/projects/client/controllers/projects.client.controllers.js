@@ -251,7 +251,7 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 				projectList.phaseArray.push({id: item, title: item});
 			});
 			projs.pluck('openCommentPeriod').unique().value().map( function(item) {
-				projectList.openPCPArray.push({id: item, title: item ? 'Open' : 'Closed'});
+				projectList.openPCPArray.push({id: item, title: item ? 'Open' : ''});
 			});
 
 			if ($scope.$parent.filterObj) {
