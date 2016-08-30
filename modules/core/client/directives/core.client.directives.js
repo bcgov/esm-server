@@ -254,13 +254,13 @@ angular.module('core')
 								// see if this user is an eao-admin or a pro-admin, then
 								// default to either eao-member or pro-member
 								//
-								s.defaultRole = 'project-eao-staff';
+								//s.defaultRole = 'project-eao-staff';
 								// console.log ('userRoleIndex', userRoleIndex);
 								// console.log ('allRoles', allRoles);
 								// console.log ('allUsers', s.allUsers);
 								//
 								// expose the inputs
-								//
+								////
 								s.context = scope.context;
 								s.name = scope.context.name || scope.context.code || scope.context.code;
 								//
