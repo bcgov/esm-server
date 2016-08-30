@@ -43,7 +43,23 @@ angular.module('core')
 						};
 						
 						$scope.$on('NEW_ROLE_ADDED', function (e, data) {
-							s.init(data.roleName, s.permissionView);
+							if (!_.isEmpty(data.roleName)) {
+								if (_.isArray(data.roleName)) {
+									_.forEach(data.roleName, function(o) {
+										var u = _.find(s.allRoles, function(x) { return x === o; });
+										if (!u) {
+											s.allRoles.push(o);
+										}
+										s.currentRole = data.roleName[0];
+									});
+								} else {
+									var u = _.find(s.allRoles, function(x) { return x === data.roleName; });
+									if (!u) {
+										s.allRoles.push(data.roleName);
+									}
+									s.currentRole = data.roleName;
+								}
+							}
 						});
 						
 						s.clickRole = function (permission, role, value) {
@@ -97,12 +113,11 @@ angular.module('core')
 								permissionRoleIndex = rp;
 								s.permissionRoleIndex = permissionRoleIndex;
 								s.permissionRoleIndex.schemaName = scope.object._schemaName;
-								console.log('rolePermissionsModal.index:', s.permissionRoleIndex);
 								s.allRoles = allRoles;
 								s.roleUsers = roleUsers;
 								//scope.object.userCan gets public added in core.menus.service shouldRender, but we don't want it to be in our settable permissions list...
 								s.allPermissions = _.keys(scope.object.userCan).filter(function(e) { return e !== 'public'; });
-								s.allRoles = s.allRoles.concat(['public', '*']);
+								s.allRoles = s.allRoles.concat(['public']);
 								// console.log ('permissionRoleIndex', permissionRoleIndex);
 								// console.log ('allRoles', allRoles);
 								// console.log ('roleUsers', roleUsers);
@@ -205,11 +220,43 @@ angular.module('core')
 						var allRoles, roleUsers, userRoleIndex;
 						
 						$scope.$on('NEW_ROLE_ADDED', function (e, data) {
-							s.init(data.roleName, s.currentUser, s.userView);
+							if (!_.isEmpty(data.roleName)) {
+								if (_.isArray(data.roleName)) {
+									_.forEach(data.roleName, function(o) {
+										var u = _.find(s.allRoles, function(x) { return x === o; });
+										if (!u) {
+											s.allRoles.push(o);
+										}
+										s.currentRole = data.roleName[0];
+									});
+								} else {
+									var u = _.find(s.allRoles, function(x) { return x === data.roleName; });
+									if (!u) {
+										s.allRoles.push(data.roleName);
+									}
+									s.currentRole = data.roleName;
+								}
+							}
 						});
 						
 						$scope.$on('NEW_USER_ADDED_TO_CONTEXT', function (e, data) {
-							s.init(s.currentRole, data.user, s.userView);
+							if (!_.isEmpty(data.user)) {
+								if (_.isArray(data.user)) {
+									_.forEach(data.user, function(o) {
+										var u = _.find(s.allUsers, function(x) { return x === o; });
+										if (!u) {
+											s.allUsers.push(o);
+										}
+										s.currentUser = data.user[0];
+									});
+								} else {
+									var u = _.find(s.allUsers, function(x) { return x === data.user; });
+									if (!u) {
+										s.allUsers.push(data.user);
+									}
+									s.currentUser = data.user;
+								}
+							}
 						});
 						
 						var setUserRole = function (system, user, role, value) {
@@ -249,20 +296,10 @@ angular.module('core')
 								s.allRoles = allRoles;
 								s.allUsers = _.keys(userRoleIndex.user);
 								//
-								// TBD: This needs to be set according to the current user.
-								// if its the admin, then default to eao-member, if not, then
-								// see if this user is an eao-admin or a pro-admin, then
-								// default to either eao-member or pro-member
-								//
-								//s.defaultRole = 'project-eao-staff';
-								// console.log ('userRoleIndex', userRoleIndex);
-								// console.log ('allRoles', allRoles);
-								// console.log ('allUsers', s.allUsers);
-								//
 								// expose the inputs
 								////
 								s.context = scope.context;
-								s.name = scope.context.name || scope.context.code || scope.context.code;
+								s.name = scope.context.name || scope.context.code;
 								//
 								// these deal with setting the roles by user
 								//
@@ -342,16 +379,8 @@ angular.module('core')
 							$modalInstance.dismiss('cancel');
 						};
 						s.ok = function () {
-							// console.log ('new user is ', s.currentUser);
-							// console.log ('default role is ', s.defaultRole);
-							// console.log ('context is  ', s.context.code);
 							$rootScope.$broadcast('NEW_USER_ADDED_TO_CONTEXT', {user: s.currentUser});
-							AccessModel.addRoleUser({
-								context: s.context._id,
-								role: s.defaultRole,
-								user: s.currentUser
-							})
-							.then($modalInstance.close());
+							$modalInstance.close();
 						};
 					}
 				})
@@ -410,17 +439,8 @@ angular.module('core')
 						s.ok = function () {
 							if (s.newRole === '') return $modalInstance.dismiss('cancel');
 							else {
-								AccessModel.addRoleIfUnique(s.context._id, s.newRole)
-								.then(function (isOk) {
-									if (isOk) {
-										$rootScope.$broadcast('NEW_ROLE_ADDED', {roleName: s.newRole});
-										$modalInstance.close();
-									}
-									else {
-										s.isOK = false;
-										$scope.$apply();
-									}
-								});
+								$rootScope.$broadcast('NEW_ROLE_ADDED', {roleName: s.newRole});
+								$modalInstance.close();
 							}
 						};
 					}

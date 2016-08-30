@@ -210,6 +210,7 @@ exports.addPermissions = addPermissions;
 //
 // -------------------------------------------------------------------------
 var deletePermission = function (p) {
+	//console.log('deletePermission = ' + JSON.stringify(p, null, 4));
 	return new Promise (function (resolve, reject) {
 		if (!p.resource) {
 			reject ({message:'no resource defined in deletePermission'});
@@ -422,10 +423,45 @@ exports.getPermissionRoleIndex = getPermissionRoleIndex;
 // set to true, if false, then delete
 //
 // -------------------------------------------------------------------------
+// -------------------------------------------------------------------------
+//
+// only add the role if it not already there, return true or false for this
+// this is meant only for definitions, so where user == null
+//
+// -------------------------------------------------------------------------
+var addRoleIfUnique = function (p) {
+	//console.log ('addRoleIfUnique', JSON.stringify(p, null, 4));
+	p.user = null;
+	if (p.context === defaultContext && p.context.lastIndexOf(defaultContext, 0) !== 0) {
+		p.owner = defaultContext+':'+p.role;
+	}
+	return new Promise (function (resolve, reject) {
+		findRoles (p)
+			.then (function (r) {
+				return !r.length ? createRole (p) : false;
+			})
+			.then (function (r) {
+				return (!r) ? {ok:false} : {ok:true};
+			})
+			.then (resolve, complete (reject, 'addRoleIfUnique'));
+	});
+};
+
 var setPermissionRoleIndex = function (resource, index) {
 	return new Promise (function (resolve, reject) {
+		// no longer adding roles directly from the Add Role dialog, so we may need to add in new roles here.
+		var publicPattern = new RegExp('public', 'gi');
+		var addRolePromises = [];
+		_.each(index.role, function (permissions, role) {
+			// do not add public as a role here...
+			if (!publicPattern.test(role) && !_.find(addRolePromises, function (p) { return p.role === role; })) {
+				addRolePromises.push(addRoleIfUnique({context: resource, role: role}));
+			}
+		});
+
 		var promiseArray = [];
 		var modelroles = {read:[],write:[],delete:[]};
+
 		_.each (index.permission, function (roles, permission) {
 			_.each (roles, function (value, role) {
 				if (value) {
@@ -445,12 +481,16 @@ var setPermissionRoleIndex = function (resource, index) {
 				}
 			});
 		});
-		Promise.all (promiseArray)
+
+		Promise.all(addRolePromises).then(Promise.all (promiseArray))
 		.then (function () {
 			//
 			// now set the read / write / delete on the resource
 			// the schema name would be passed down in the index
 			//
+			if (resource === defaultContext) {
+				index.schemaName = 'application';
+			}
 			var m = mongoose.model (index.schemaName);
 			console.log ('updating ', index.schemaName, resource, JSON.stringify (modelroles));
 			return m.update ({_id:resource}, modelroles).exec ();
@@ -501,29 +541,6 @@ var addRoles = function (p) {
 	}));
 };
 exports.addRoles = addRoles;
-// -------------------------------------------------------------------------
-//
-// only add the role if it not already there, return true or false for this
-// this is meant only for definitions, so where user == null
-//
-// -------------------------------------------------------------------------
-var addRoleIfUnique = function (p) {
-	//console.log ('addRoleIfUnique', JSON.stringify(p, null, 4));
-	p.user = null;
-	if (p.context === defaultContext && p.context.lastIndexOf(defaultContext, 0) !== 0) {
-		p.role = defaultContext+':'+p.role;
-	}
-	return new Promise (function (resolve, reject) {
-		findRoles (p)
-		.then (function (r) {
-			return !r.length ? createRole (p) : false;
-		})
-		.then (function (r) {
-			return (!r) ? {ok:false} : {ok:true};
-		})
-		.then (resolve, complete (reject, 'addRoleIfUnique'));
-	});
-};
 exports.addRoleIfUnique = addRoleIfUnique;
 // -------------------------------------------------------------------------
 //
@@ -674,6 +691,17 @@ exports.getRoleUserIndex = getRoleUserIndex;
 // -------------------------------------------------------------------------
 var setRoleUserIndex = function (context, index) {
 	return new Promise (function (resolve, reject) {
+
+		// no longer adding roles directly from the Add Role dialog, so we may need to add in new roles here.
+		var publicPattern = new RegExp('public', 'gi');
+		var addRolePromises = [];
+		_.each(index.role, function (users, role) {
+			// do not add public as a role here...
+			if (!publicPattern.test(role) && !_.find(addRolePromises, function (p) { return p.role === role; })) {
+				addRolePromises.push(addRoleIfUnique({context: context, role: role}));
+			}
+		});
+
 		var promiseArray = [];
 		_.each (index.user, function (roles, user) {
 			_.each (roles, function (value, role) {
@@ -693,7 +721,8 @@ var setRoleUserIndex = function (context, index) {
 				}
 			});
 		});
-		Promise.all (promiseArray)
+
+		Promise.all(addRolePromises).then(Promise.all (promiseArray))
 		.then (function () { return {ok:true};})
 		.then (resolve, complete (reject, 'setRoleUserIndex'));
 	});
