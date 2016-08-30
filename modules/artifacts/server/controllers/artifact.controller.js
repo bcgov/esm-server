@@ -742,7 +742,11 @@ module.exports = DBModel.extend({
 					});
 					// Add in the multiples
 					_.each(multiples, function (item) {
-						allowed.push(item);
+						if (item.code === 'inspection-report') {
+							// Skip it
+						} else {
+							allowed.push(item);
+						}
 					});
 				}
 				// console.log ('nallowed = ', JSON.stringify(allowed,null,4));
