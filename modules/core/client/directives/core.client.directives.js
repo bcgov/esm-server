@@ -43,7 +43,23 @@ angular.module('core')
 						};
 						
 						$scope.$on('NEW_ROLE_ADDED', function (e, data) {
-							s.init(data.roleName, s.permissionView);
+							if (!_.isEmpty(data.roleName)) {
+								if (_.isArray(data.roleName)) {
+									_.forEach(data.roleName, function(o) {
+										var u = _.find(s.allRoles, function(x) { return x === o; });
+										if (!u) {
+											s.allRoles.push(o);
+										}
+										s.currentRole = data.roleName[0];
+									});
+								} else {
+									var u = _.find(s.allRoles, function(x) { return x === data.roleName; });
+									if (!u) {
+										s.allRoles.push(data.roleName);
+									}
+									s.currentRole = data.roleName;
+								}
+							}
 						});
 						
 						s.clickRole = function (permission, role, value) {
@@ -97,12 +113,11 @@ angular.module('core')
 								permissionRoleIndex = rp;
 								s.permissionRoleIndex = permissionRoleIndex;
 								s.permissionRoleIndex.schemaName = scope.object._schemaName;
-								console.log('rolePermissionsModal.index:', s.permissionRoleIndex);
 								s.allRoles = allRoles;
 								s.roleUsers = roleUsers;
 								//scope.object.userCan gets public added in core.menus.service shouldRender, but we don't want it to be in our settable permissions list...
 								s.allPermissions = _.keys(scope.object.userCan).filter(function(e) { return e !== 'public'; });
-								s.allRoles = s.allRoles.concat(['public', '*']);
+								s.allRoles = s.allRoles.concat(['public']);
 								// console.log ('permissionRoleIndex', permissionRoleIndex);
 								// console.log ('allRoles', allRoles);
 								// console.log ('roleUsers', roleUsers);
@@ -205,7 +220,23 @@ angular.module('core')
 						var allRoles, roleUsers, userRoleIndex;
 						
 						$scope.$on('NEW_ROLE_ADDED', function (e, data) {
-							s.init(data.roleName, s.currentUser, s.userView);
+							if (!_.isEmpty(data.roleName)) {
+								if (_.isArray(data.roleName)) {
+									_.forEach(data.roleName, function(o) {
+										var u = _.find(s.allRoles, function(x) { return x === o; });
+										if (!u) {
+											s.allRoles.push(o);
+										}
+										s.currentRole = data.roleName[0];
+									});
+								} else {
+									var u = _.find(s.allRoles, function(x) { return x === data.roleName; });
+									if (!u) {
+										s.allRoles.push(data.roleName);
+									}
+									s.currentRole = data.roleName;
+								}
+							}
 						});
 						
 						$scope.$on('NEW_USER_ADDED_TO_CONTEXT', function (e, data) {
@@ -408,17 +439,8 @@ angular.module('core')
 						s.ok = function () {
 							if (s.newRole === '') return $modalInstance.dismiss('cancel');
 							else {
-								AccessModel.addRoleIfUnique(s.context._id, s.newRole)
-								.then(function (isOk) {
-									if (isOk) {
-										$rootScope.$broadcast('NEW_ROLE_ADDED', {roleName: s.newRole});
-										$modalInstance.close();
-									}
-									else {
-										s.isOK = false;
-										$scope.$apply();
-									}
-								});
+								$rootScope.$broadcast('NEW_ROLE_ADDED', {roleName: s.newRole});
+								$modalInstance.close();
 							}
 						};
 					}
