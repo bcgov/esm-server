@@ -5,7 +5,7 @@
 		<h2>Details</h2>
 	</div>
 	<div class="panel-body">
-		
+
 		<div class="detail-row project-desc" ng-show="project.description">
 			<label>Project Description</label>
 			<pre class="value" ng-bind-html="project.description"></pre>
@@ -31,7 +31,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="row">
 			<div class="col-sm-4 col-md-4">
 				<div class="detail-row">
@@ -103,8 +103,8 @@
 		</div><!-- / CONTACTS -->
 
 		<!-- AUTHENTICATED USER INFO -->
-		<div ng-if="c.isUser">
-			
+		<div ng-if="project.userCan.viewTombstone">
+
 			<!-- ADDITIONAL CONTACTS -->
 			<div class="row">
 				<div class="col-sm-4 col-md-4" ng-if="project.projectAnalyst">
@@ -125,7 +125,7 @@
 						<span class="value">{{project.administrativeAssistant | stripIDR}}</span>
 					</div>
 				</div>
-			</div><!-- / ADDITIONAL CONTACTS -->	
+			</div><!-- / ADDITIONAL CONTACTS -->
 
 			<!-- ELECTORAL DISTRICTS -->
 			<div class="row" ng-if="project.provElecDist || project.fedElecDist">
@@ -168,7 +168,7 @@
 				</div>
 
 				<!-- CAPITAL INVESTMENT -->
-				<div class="col-sm-12" ng-if="c.isEao && project.intake.investmentNotes">
+				<div class="col-sm-12" ng-if="project.userCan.viewEAOTombstone && project.intake.investmentNotes">
 					<div class="detail-row">
 						<label>Capital Investment Notes</label>
 						<span class="value wrap-text">{{project.intake.investmentNotes}}</span>
@@ -176,7 +176,7 @@
 				</div><!-- / CAPITAL INVESTMENT -->
 
 				<!-- CONSTRUCTION JOBS -->
-				<div class="col-sm-12" ng-if="c.isEao && project.intake.constructionjobsNotes">
+				<div class="col-sm-12" ng-if="project.userCan.viewEAOTombstone && project.intake.constructionjobsNotes">
 					<div class="detail-row">
 						<label>Construction Jobs Notes</label>
 						<span class="value wrap-text">{{project.intake.constructionjobsNotes}}</span>
@@ -184,7 +184,7 @@
 				</div><!-- / CONSTRUCTION JOBS -->
 
 				<!-- OPERATION JOBS -->
-				<div class="col-sm-12" ng-if="c.isEao && project.intake.operatingjobsNotes">
+				<div class="col-sm-12" ng-if="project.userCan.viewEAOTombstone && project.intake.operatingjobsNotes">
 					<div class="detail-row">
 						<label>Operation Job Notes</label>
 						<span class="value wrap-text">{{project.intake.operatingjobsNotes}}</span>
@@ -192,7 +192,7 @@
 				</div><!-- / OPERATION JOBS -->
 
 				<!-- TEAM MEMBERS -->
-				<div class="col-sm-12" ng-if="c.isEao && project.teamNotes">
+				<div class="col-sm-12" ng-if="project.userCan.viewEAOTombstone && project.teamNotes">
 					<div class="detail-row">
 						<label>Team Notes</label>
 						<span class="value wrap-text">{{project.teamNotes}}</span>
@@ -201,9 +201,9 @@
 			</div>
 
 		</div><!-- / AUTHENTICATED USER INFO -->
-		
+
 		<!-- EAO ONLY INFO -->
-		<div class="row" ng-if="c.isEao">
+		<div class="row" ng-if="project.userCan.viewEAOTombstone">
 			<hr>
 
 			<!-- PROJECT NOTES -->
