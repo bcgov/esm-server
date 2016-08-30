@@ -29,18 +29,79 @@ angular.module('core')
 					controllerAs: 's',
 					windowClass: 'permissions-modal',
 					size: 'lg',
-					resolve: {},
-					controller: function ($scope, $modalInstance) {
+					resolve: {
+						allRoles: function() {
+							return AccessModel.allRoles(scope.context._id);
+						},
+						roleUsers: function() {
+							return AccessModel.roleUsers(scope.context._id);
+						},
+						permissionRoleIndex: function() {
+							return AccessModel.permissionRoleIndex(scope.object._id);
+						}
+					},
+					controller: function ($scope, $modalInstance, allRoles, roleUsers, permissionRoleIndex) {
 						var s = this;
-						
-						var allRoles, roleUsers, permissionRoleIndex;
-						
+
 						var setPermissionRole = function (system, permission, role, value) {
 							if (!system.permission[permission]) system.permission[permission] = {};
 							if (!system.role[role]) system.role[role] = {};
 							system.permission[permission][role] = value;
 							system.role[role][permission] = value;
 						};
+
+						s.init = function (roleName, showPermissionView) {
+							console.log('rolePermissionsModal.init... start');
+							// add in 'permissions' from the object...
+							// should come from the server, but this is a whole lot quicker...
+							if (_.has(scope.object, 'read')){
+								_.forEach(scope.object.read, function(v) {
+									setPermissionRole(permissionRoleIndex, 'read', v, true);
+								});
+							}
+							if (_.has(scope.object, 'write')){
+								_.forEach(scope.object.write, function(v) {
+									setPermissionRole(permissionRoleIndex, 'write', v, true);
+								});
+							}
+							if (_.has(scope.object, 'delete')){
+								_.forEach(scope.object.delete, function(v) {
+									setPermissionRole(permissionRoleIndex, 'delete', v, true);
+								});
+							}
+							s.permissionRoleIndex = permissionRoleIndex;
+							s.permissionRoleIndex.schemaName = scope.object._schemaName;
+							s.allRoles = allRoles;
+							s.roleUsers = roleUsers;
+							//scope.object.userCan gets public added in core.menus.service shouldRender, but we don't want it to be in our settable permissions list...
+							s.allPermissions = _.keys(scope.object.userCan).filter(function(e) { return e !== 'public'; });
+							s.allRoles = s.allRoles.concat(['public']);
+							// console.log ('permissionRoleIndex', permissionRoleIndex);
+							// console.log ('allRoles', allRoles);
+							// console.log ('roleUsers', roleUsers);
+							// console.log ('allPermissions', s.allPermissions);
+							//
+							// expose the inputs
+							//
+							s.context = scope.context;
+							s.object = scope.object;
+							s.name = scope.object.name || scope.object.code || scope.object._id;
+							if (scope.object._schemaName === 'Document') {
+								s.name = scope.object.internalOriginalName;
+							}
+							//
+							// these deal with setting the roles by permission
+							//
+							s.permissionView = showPermissionView;
+							s.currentPermission = s.allPermissions[0] || '';
+							//
+							// these deal with setting the permissions by role
+							//
+							s.currentRole = (roleName) ? roleName : (s.allRoles[0] || '');
+							console.log('rolePermissionsModal.init... end');
+						};
+
+						s.init(undefined, true);
 						
 						$scope.$on('NEW_ROLE_ADDED', function (e, data) {
 							if (!_.isEmpty(data.roleName)) {
@@ -77,74 +138,6 @@ angular.module('core')
 						s.ok = function () {
 							$modalInstance.close({resource: s.object._id, data: s.permissionRoleIndex});
 						};
-
-						s.init = function (roleName, showPermissionView) {
-							console.log('rolePermissionsModal.init... start');
-							AccessModel.allRoles(scope.context._id)
-							.then(function (ar) {
-								allRoles = ar;
-								console.log('rolePermissionsModal.init... allRoles');
-								return AccessModel.roleUsers(scope.context._id);
-							}).then(function (ru) {
-								roleUsers = ru;
-								console.log('rolePermissionsModal.init... roleUsers');
-								return AccessModel.permissionRoleIndex(scope.object._id);
-							}).then(function (rp) {
-								console.log('rolePermissionsModal.init... permissionRoleIndex');
-
-								// add in 'permissions' from the object...
-								// should come from the server, but this is a whole lot quicker...
-								if (_.has(scope.object, 'read')){
-									_.forEach(scope.object.read, function(v) {
-										setPermissionRole(rp, 'read', v, true);
-									});
-								}
-								if (_.has(scope.object, 'write')){
-									_.forEach(scope.object.write, function(v) {
-										setPermissionRole(rp, 'write', v, true);
-									});
-								}
-								if (_.has(scope.object, 'delete')){
-									_.forEach(scope.object.delete, function(v) {
-										setPermissionRole(rp, 'delete', v, true);
-									});
-								}
-
-								permissionRoleIndex = rp;
-								s.permissionRoleIndex = permissionRoleIndex;
-								s.permissionRoleIndex.schemaName = scope.object._schemaName;
-								s.allRoles = allRoles;
-								s.roleUsers = roleUsers;
-								//scope.object.userCan gets public added in core.menus.service shouldRender, but we don't want it to be in our settable permissions list...
-								s.allPermissions = _.keys(scope.object.userCan).filter(function(e) { return e !== 'public'; });
-								s.allRoles = s.allRoles.concat(['public']);
-								// console.log ('permissionRoleIndex', permissionRoleIndex);
-								// console.log ('allRoles', allRoles);
-								// console.log ('roleUsers', roleUsers);
-								// console.log ('allPermissions', s.allPermissions);
-								//
-								// expose the inputs
-								//
-								s.context = scope.context;
-								s.object = scope.object;
-								s.name = scope.object.name || scope.object.code || scope.object._id;
-								if (scope.object._schemaName === 'Document') {
-									s.name = scope.object.internalOriginalName;
-								}
-								//
-								// these deal with setting the roles by permission
-								//
-								s.permissionView = showPermissionView;
-								s.currentPermission = s.allPermissions[0] || '';
-								//
-								// these deal with setting the permissions by role
-								//
-								s.currentRole = (roleName) ? roleName : (s.allRoles[0] || '');
-								console.log('rolePermissionsModal.init... end');
-							});
-						};
-						
-						s.init(undefined, true);
 					}
 				})
 				.result.then(function (data) {
@@ -213,12 +206,45 @@ angular.module('core')
 					controllerAs: 's',
 					windowClass: 'permissions-modal',
 					size: 'lg',
-					resolve: {},
-					controller: function ($scope, $modalInstance) {
+					resolve: {
+						allRoles: function() {
+							return AccessModel.allRoles(scope.context._id);
+						},
+						userRoleIndex: function() {
+							return AccessModel.roleUserIndex(scope.context._id);
+						}
+					},
+					controller: function ($scope, $modalInstance, allRoles, userRoleIndex) {
 						var s = this;
-						
-						var allRoles, roleUsers, userRoleIndex;
-						
+
+						s.init = function (currentRoleName, currentUserName, showUserView) {
+							console.log('roleUsersModal.init... start');
+							//
+							// all the base data
+							//
+							s.userRoleIndex = userRoleIndex;
+							s.allRoles = allRoles;
+							s.allUsers = _.keys(userRoleIndex.user);
+							//
+							// expose the inputs
+							////
+							s.context = scope.context;
+							s.name = scope.context.name || scope.context.code;
+							//
+							// these deal with setting the roles by user
+							//
+							s.userView = showUserView;
+							s.currentUser = (currentUserName) ? currentUserName: (s.allUsers[0] || '');
+
+							//
+							// these deal with setting the users by role
+							//
+							s.currentRole = (currentRoleName) ? currentRoleName : (s.allRoles[0] || '');
+							console.log('roleUsersModal.init... end');
+						};
+
+						s.init(undefined, undefined, true);
+
 						$scope.$on('NEW_ROLE_ADDED', function (e, data) {
 							if (!_.isEmpty(data.roleName)) {
 								if (_.isArray(data.roleName)) {
@@ -278,43 +304,6 @@ angular.module('core')
 						s.ok = function () {
 							$modalInstance.close({context: s.context._id, data: s.userRoleIndex});
 						};
-						
-						s.init = function (currentRoleName, currentUserName, showUserView) {
-							console.log('roleUsersModal.init... start');
-							AccessModel.allRoles(scope.context._id)
-							.then(function (ar) {
-								allRoles = ar;
-								console.log('roleUsersModal.init... allRoles');
-								return AccessModel.roleUserIndex(scope.context._id);
-							}).then(function (rui) {
-								userRoleIndex = rui;
-								console.log('roleUsersModal.init... userRoleIndex');
-								//
-								// all the base data
-								//
-								s.userRoleIndex = userRoleIndex;
-								s.allRoles = allRoles;
-								s.allUsers = _.keys(userRoleIndex.user);
-								//
-								// expose the inputs
-								////
-								s.context = scope.context;
-								s.name = scope.context.name || scope.context.code;
-								//
-								// these deal with setting the roles by user
-								//
-								s.userView = showUserView;
-								s.currentUser = (currentUserName) ? currentUserName: (s.allUsers[0] || '');
-								
-								//
-								// these deal with setting the users by role
-								//
-								s.currentRole = (currentRoleName) ? currentRoleName : (s.allRoles[0] || '');
-								console.log('roleUsersModal.init... end');
-							});
-						};
-						
-						s.init(undefined, undefined, true);
 					}
 				})
 				.result.then(function (data) {
