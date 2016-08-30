@@ -26,6 +26,7 @@ module.exports = DBModel.extend({
 			name: 1,
 			version: 1,
 			stage: 1,
+			typeCode: 1,
 			isPublished: 1,
 			userPermissions: 1,
 			valuedComponents: 1,
@@ -742,7 +743,11 @@ module.exports = DBModel.extend({
 					});
 					// Add in the multiples
 					_.each(multiples, function (item) {
-						allowed.push(item);
+						if (item.code === 'inspection-report') {
+							// Skip it
+						} else {
+							allowed.push(item);
+						}
 					});
 				}
 				// console.log ('nallowed = ', JSON.stringify(allowed,null,4));
