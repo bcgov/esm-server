@@ -1,6 +1,11 @@
 
-<div class="view-title-container">
+<div class="view-title-container flex-row">
 	<h1>Email Templates&nbsp; &rsaquo; &nbsp;{{ emailtemplate.name }}</h1>
+	<div class="actions">
+			<a class="btn btn-sm btn-default" ui-sref="admin.emailtemplate.edit({emailtemplateId:emailtemplate._id})">
+				<span class="glyphicon glyphicon-pencil"></span><span>Edit</span>
+			</a>
+	</div>
 </div>
 
 <div class="view-body-container">
@@ -39,7 +44,6 @@
 
 	<div class="form-footer clearfix">
 		<a class="back-btn btn btn-link pull-left" ui-sref="admin.emailtemplate.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Email Templates</a>
-		<a class="btn btn-default pull-right" ui-sref="admin.emailtemplate.edit({emailtemplateId:emailtemplate._id})">Edit</a>
 	</div>
 </div><!-- / VIEW BODY CONTAINER -->
 
