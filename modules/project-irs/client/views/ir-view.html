@@ -70,7 +70,7 @@
 			<h2>Enforcement Actions</h2>
 		</div>
 		<table ng-table="tableParams" class="enforcement-table table table-hover">
-			<tr class="clickable" ui-sref="p.ir.detail({irId:o._id})" ng-repeat="o in ir.enforcementActions">
+			<tr ng-repeat="o in ir.enforcementActions">
 				<td class="enforcement-col"
 					header-class="'enforcement-col'"
 					data-title="'Action'"
@@ -83,6 +83,18 @@
 						<a ui-sref="p.artifact.view({artifactId:o._id})"
 							ng-repeat="cell in o.condition.concat(o.conditionArtifacts)">{{cell.name}}{{$last ? '' : ', '}}</a>
 					</div>
+
+					<!-- This should replace the enforcement conditions section -->
+					<!-- <table class="anchor-list"> -->
+						<!-- <tr> -->
+							<!-- <a ng-repeat="cell in o.condition.concat(o.conditionArtifacts)"> -->
+								<!-- If this is an artifact, it links to an artifact route -->
+								<!-- <a ng-if="cell._schemaName == 'Artifact'" ui-sref="p.artifact.view({artifactId:cell._id})">{{cell.name}}{{$last ? '' : ', '}}</a> -->
+								<!-- If this is a vc artifact, it links to a vc route -->
+								<!-- <a ng-if="cell._schemaName == 'ProjectCondition'"  ui-sref="p.projectcondition.detail({conditionId:cell._id})">{{cell.name}}{{$last ? '' : ', '}}</a> -->
+							<!-- </a> -->
+						<!-- </tr> -->
+					<!-- </table> -->
 				</td>
 				<td data-title="'Order'">
 					<ul class="anchor-list">

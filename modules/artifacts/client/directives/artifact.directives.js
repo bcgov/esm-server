@@ -415,8 +415,17 @@ angular.module('artifacts')
 					controllerAs: 's',
 					size: 'lg',
 					resolve: {
-						items: function (ArtifactModel) {
-							return ArtifactModel.forProject (scope.project._id);
+						items: function (ArtifactModel, _) {
+							return ArtifactModel.forProject (scope.project._id)
+							.then( function (data) {
+								// Filter out the inspection report templates.
+								_.remove(data, function (item) {
+									if (item.typeCode === 'inspection-report') {
+										return item;
+									}
+								});
+								return data;
+							});
 						}
 					},
 					controller: function ($scope, $modalInstance, items) {
