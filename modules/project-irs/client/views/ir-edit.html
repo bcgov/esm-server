@@ -111,8 +111,8 @@
 					</button>
 				</div>
 			</div>
-			<table ng-table="tableParams" class="enforcement-table table table-hover">
-				<tr class="clickable" ui-sref="p.ir.detail({irId:o._id})" ng-repeat="o in ir.enforcementActions">
+			<table ng-table="tableParams" class="enforcement-table table">
+				<tr ng-repeat="o in ir.enforcementActions">
 					<td class="enforcement-col"
 						header-class="'enforcement-col'"
 						data-title="'Action'"
@@ -123,12 +123,12 @@
 					</td>
 					<td data-title="'Enforcement Conditions'">
 						<div class="anchor-list">
-							<a ng-repeat="cell in o.condition.concat(o.conditionArtifacts)" href="#">{{cell.name}}{{$last ? '' : ', '}}</a>
+							<span ng-repeat="cell in o.condition.concat(o.conditionArtifacts)" href="#">{{cell.name}}{{$last ? '' : ', '}}</span>
 						</div>
 					</td>
 					<td data-title="'Order'">
 						<div class="anchor-list">
-							<a href="#">{{o.orderArtifact.name}}</a>
+							<span>{{o.orderArtifact.name}}</span>
 						</div>
 					</td>
 					<td class="status-col"
