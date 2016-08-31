@@ -1,6 +1,9 @@
 
-	<div class="view-title-container">
+	<div class="view-title-container flex-row">
 		<h1>Organizations<span ng-show="org.name">&nbsp; &rsaquo; &nbsp;{{ org.name }}</span></h1>
+		<div class="actions">
+			<a class="btn btn-sm btn-default" ui-sref="admin.organization.edit({orgId: org._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span></a>
+		</div>
 	</div>
 
 	<div class="view-body-container">
