@@ -110,8 +110,8 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	currentPhaseCode   : { type: String, default:'' },
 	currentPhaseName   : { type: String, default:'' },
 	overallProgress    : { type: Number, default:0 },
-	lat                : { type: Number, default:0 },
-	lon                : { type: Number, default:0 },
+	lat                : { type: Number, default:'' },
+	lon                : { type: Number, default:'' },
 	dateCommentsOpen   : { type: Date, default: null },
 	dateCommentsClosed : { type: Date, default: null },
 

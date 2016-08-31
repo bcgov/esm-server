@@ -1,1 +1,6 @@
-<a ng-if="context.userCan.addUsersToContext" class="btn btn-link btn-sm" x-add-user-to-context-modal x-context="context" x-role="role">+ Add User</a>
+
+<a class="btn btn-sm btn-default"
+    ng-if="context.userCan.addUsersToContext" 
+    x-add-user-to-context-modal 
+    x-context="context" 
+    x-role="role"><span class="glyphicon glyphicon-plus"></span><span>Add User</span></a>

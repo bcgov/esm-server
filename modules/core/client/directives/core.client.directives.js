@@ -343,7 +343,7 @@ angular.module('core')
 					animation: true,
 					templateUrl: 'modules/core/client/views/add-user-context-modal.html',
 					controllerAs: 's',
-					size: 'md',
+					size: 'lg',
 					resolve: {
 						allUsers: function (UserModel) {
 							return UserModel.allUsers();

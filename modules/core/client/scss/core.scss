@@ -4574,19 +4574,11 @@ section.project-info {
 .edit-project-form {
 	max-width: 1280px;
 
-	.coord-input {
-		.form-control {
-			width: 50%;
-			flex: 1 1 auto;
-
-			&:first-child {
-				margin-right: 0.25rem;
-			}
-
-			&:last-child {
-				margin-left: 0.25rem;
-			}
-		}
+	.lat-input {
+		padding-right: 0.4rem;
+	}
+	.long-input {
+		padding-left: 0.4rem;
 	}
 }
 
@@ -4812,9 +4804,14 @@ section.project-info {
 }
 
 .permissions-modal {
+	.form-group.manage-permission {
+		margin-bottom: 1rem;
+	}
+	
 	.select-permission {
-		margin-top: 1rem;
-		margin-bottom: 2.5rem;
+		.form-control {
+			margin-bottom: 0.5rem;
+		}
 	}
 
 	.panel {
