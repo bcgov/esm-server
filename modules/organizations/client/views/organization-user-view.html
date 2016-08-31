@@ -1,179 +1,168 @@
-<h1 class="page-title no-lower-margin">
-	View User
-</h1>
 
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="admin.organization.detail({orgId: org._id})">Cancel</a>
-		<a class="btn btn-xs btn-link" ui-sref="admin.organization.user.edit({orgId: org._id, userId: user._id})">Edit</a>
-	</div>
+<div class="view-title-container flex-row">
+  <h1>Organizations<span ng-show="org.name">&nbsp; &rsaquo; &nbsp;{{ org.name }}<span> &nbsp;&rsaquo;&nbsp; User Details <span> &nbsp;&rsaquo;&nbsp; {{user.username}}<span></h1>
+  <div class="actions">
+    <a class="btn btn-default btn-sm" ui-sref="admin.organization.user.edit({orgId: org._id, userId: user._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span></a>
+  </div>
 </div>
 
-<div class="panel panel-default">
-	<div class="panel-body">
-
-		<div class="row">
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="salutation" class="control-label">Salutation</label>
-					<p class="form-control-static">{{ user.salutation }}</p>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="firstName" class="control-label">First Name</label>
-					<p class="form-control-static">{{ user.firstName }}</p>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="middleName" class="control-label">Middle Name</label>
-					<p class="form-control-static">{{ user.middleName }}</p>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="lastName" class="control-label">Last Name</label>
-					<p class="form-control-static">{{ user.lastName }}</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="phoneNumber" class="control-label">Phone Number</label>
-					<p class="form-control-static">{{ user.phoneNumber }}</p>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="faxNumber" class="control-label">Fax Number</label>
-					<p class="form-control-static">{{ user.faxNumber }}</p>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="cellPhoneNumber" class="control-label">Mobile Number</label>
-					<p class="form-control-static">{{ user.cellPhoneNumber }}</p>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="email" class="control-label">Email</label>
-					<p class="form-control-static">{{ user.email }}</p>
-				</div>
-			</div>
-		</div>
-
-
-		<hr>
-
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="address1" class="control-label">Address (Line 1)</label>
-					<p class="form-control-static">{{ user.address1 }}</p>
-				</div>
-			</div>
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="address2" class="control-label">Address (Line 2)</label>
-					<p class="form-control-static">{{ user.address2 }}</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="city" class="control-label">City</label>
-					<p class="form-control-static">{{ user.city }}</p>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="province" class="control-label">Province</label>
-					<p class="form-control-static">{{ user.province }}</p>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="country" class="control-label">Country</label>
-					<p class="form-control-static">{{ user.country }}</p>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="postalCode" class="control-label">Postal Code</label>
-					<p class="form-control-static">{{ user.postalCode }}</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label for="orgName" class="control-label">Organization</label>
-					<p class="form-control-static">{{ user.org.name }}</p>
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label for="department" class="control-label">Department</label>
-					<p class="form-control-static">{{ user.department }}</p>
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label for="title" class="control-label">Title</label>
-					<p class="form-control-static">{{ user.title }}</p>
-				</div>
-			</div>
-		</div>
-
-
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="notes" class="control-label">Notes</label>
-					<p class="form-control-static">{{ user.notes }}</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label for="notes" class="control-label">Notes</label>
-						<p class="form-control-static">{{ user.notes }}</p>
-					</div>
-				</div>
-
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="notes" class="control-label">Contact Preferences</label>
-						<p class="form-control-static" ng-if="user.viaEmail"> via Email</p>
-						<p class="form-control-static" ng-if="user.viaMail"> via Mail</p>
-					</div>
-				</div>
-
-
-      <div class="col-sm-3" ng-show="roles.length > 0">
-        <label for="complaint" class="control-label">Roles</label>
-        <select-array x-source-array="roles" x-selected-array='user.roles' x-key-string="code" x-value-string="name"></select-array>
-
+<div class="view-body-container">
+  <fieldset>
+    <legend>User Profile</legend>
+    <div class="row">
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label for="salutation" class="control-label">Salutation</label>
+          <p class="form-control-static">{{ user.salutation }}</p>
+        </div>
       </div>
-			</div>
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label for="firstName" class="control-label">First Name</label>
+          <p class="form-control-static">{{ user.firstName }}</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label for="middleName" class="control-label">Middle Name</label>
+          <p class="form-control-static">{{ user.middleName }}</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label for="lastName" class="control-label">Last Name</label>
+          <p class="form-control-static">{{ user.lastName }}</p>
+        </div>
+      </div>
+    </div>
+  </fieldset>
 
-		<hr>
+  <fieldset>
+    <legend>Contact</legend>
+    <div class="row">
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label for="email" class="control-label">Email</label>
+          <p class="form-control-static">{{ user.email }}</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label for="phoneNumber" class="control-label">Phone</label>
+          <p class="form-control-static">{{ user.phoneNumber }}</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label for="cellPhoneNumber" class="control-label">Mobile</label>
+          <p class="form-control-static">{{ user.cellPhoneNumber }}</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label for="faxNumber" class="control-label">Fax</label>
+          <p class="form-control-static">{{ user.faxNumber }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="address1" class="control-label">Street Address 1</label>
+          <p class="form-control-static">{{ user.address1 }}</p>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="address2" class="control-label">Street Address 2</label>
+          <p class="form-control-static">{{ user.address2 }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label for="city" class="control-label">City</label>
+          <p class="form-control-static">{{ user.city }}</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label for="province" class="control-label">Province</label>
+          <p class="form-control-static">{{ user.province }}</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label for="country" class="control-label">Country</label>
+          <p class="form-control-static">{{ user.country }}</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label for="postalCode" class="control-label">Postal Code</label>
+          <p class="form-control-static">{{ user.postalCode }}</p>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>Contact Preferences</legend>
+    <div class="row">
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label class="control-label" for="viaEmail">By Email</label>
+          <input disabled="disabled" type="checkbox" ng-model="user.viaEmail" id="viaEmail" />
+        </div>
+      </div>
 
-		<div class="row">
-			<div class="col-sm-12 text-right">
-				<a class="btn btn-default" ui-sref="admin.organization.detail({orgId: org._id})">Cancel</a>
-				<a class="btn btn-default" ui-sref="admin.organization.user.edit({orgId: org._id, userId: user._id})">Edit</a>
-			</div>
-		</div>
-	</div>
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label class="control-label" for="viaMail">By Mail</label>
+          <input disabled="disabled"  type="checkbox" ng-model="user.viaMail" id="viaMail" />
+        </div>
+      </div>
 
-</div> <!-- /panelbody -->
+    </div>
+  </fieldset>	<!-- / CONTACT Preferences -->
+  <fieldset>
+    <legend class="clearfix">Organization</legend>
+    <div class="row">
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label for="orgName" class="control-label">Organization</label>
+          <p class="form-control-static">{{ user.org.name }}</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label for="department" class="control-label">Department</label>
+          <p class="form-control-static">{{ user.department }}</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label for="title" class="control-label">Title</label>
+          <p class="form-control-static">{{ user.title }}</p>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Additional Information</legend>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="notes" class="control-label">Notes</label>
+          <p class="form-control-static">{{ user.notes }}</p>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="form-footer clearfix">
+    <a class="back-btn btn btn-link pull-left" ui-sref="admin.organization.detail({orgId: org._id})"><span class="glyphicon glyphicon-chevron-left"></span>Back to Organization</a>
+  </div>
+
+</div>

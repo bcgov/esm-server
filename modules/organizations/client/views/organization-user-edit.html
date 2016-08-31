@@ -1,190 +1,219 @@
 
-<form class="view-form" name="userForm" ng-submit="save(userForm.$valid)" novalidate>	
-	
-	<div class="view-title-container flex-row">
-		<h1>Add/Edit User</h1>
-		<div class="actions">
-			<button class="btn btn-default btn-sm" ui-sref="admin.organization.detail({orgId: org._id})">Cancel</button>
-			<button class="btn btn-primary btn-sm" type="submit">Save</button>
-		</div>
-	</div>
-	<div class="view-body-container">
-		<section>
-			<div class="row">
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="salutation" class="control-label">Salutation</label>
-						<select class="form-control" ng-model="user.salutation" ng-options="sal as sal for sal in salutations"></select>
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="form-group" x-show-errors>
-						<label for="firstName" class="control-label">First Name</label>
-						<input id="firstName" name="firstName" ng-change="calculateName()" type="text" class="form-control input-sm" ng-model="user.firstName" required>
-							<div ng-messages="userForm.firstName.$error" role="alert">
-								<p class="help-block error-text" ng-message="required">First name is required.</p>
-							</div>
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="middleName" class="control-label">Middle Name</label>
-						<input id="middleName" ng-change="calculateName()" type="text" class="form-control input-sm" ng-model="user.middleName">
+<form class="view-form" name="userForm" ng-submit="save(userForm.$valid)" novalidate>
 
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="form-group" x-show-errors>
-						<label for="lastName" class="control-label">Last Name</label>
-						<input id="lastName" name="lastName" ng-change="calculateName()" type="text" class="form-control input-sm" ng-model="user.lastName" required>
-							<div ng-messages="userForm.lastName.$error" role="alert">
-								<p class="help-block error-text" ng-message="required">Last name is required.</p>
-							</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-9">
-					<div class="form-group">
-						<label for="displayName" class="control-label">Full Name</label>
-						<input id="displayName" disabled=true type="text" class="form-control input-sm" ng-model="user.displayName">
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="form-group" x-show-errors>
-						<label for="username" class="control-label">Username</label>
-						<input id="username" name="username" type="text" class="form-control input-sm" ng-model="user.username" required>
-							<div ng-messages="userForm.username.$error" role="alert">
-								<p class="help-block error-text" ng-message="required">User name is required.</p>
-							</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="phoneNumber" class="control-label">Phone Number</label>
-						<input id="phoneNumber" type="text" class="form-control input-sm" ng-model="user.phoneNumber">
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="faxNumber" class="control-label">Fax Number</label>
-						<input id="faxNumber" type="text" class="form-control input-sm" ng-model="user.faxNumber">
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="cellPhoneNumber" class="control-label">Mobile Number</label>
-						<input id="cellPhoneNumber" type="text" class="form-control input-sm" ng-model="user.cellPhoneNumber">
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="form-group" x-show-errors>
-						<label for="email" class="control-label">Email</label>
-						<input id="email" name="email" type="text" class="form-control input-sm" ng-model="user.email" required>
-							<div ng-messages="userForm.email.$error" role="alert">
-								<p class="help-block error-text" ng-message="required">Email is required.</p>
-							</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-12">
-					<label for="notes" class="control-label">Contact Preferences</label>
-					<div class="form-group form-inline">
-						<div class="checkbox">
-							<label><input id="viaEmail" name="viaEmail" type="checkbox" ng-model="user.viaEmail">via Email</label>
-						</div>
-						<div class="checkbox">
-							<label><input id="viaMail" name="viaMail" type="checkbox" ng-model="user.viaMail">via Mail</label>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+  <div class="view-title-container flex-row">
+    <h1>Organizations<span ng-show="org.name">&nbsp; &rsaquo; &nbsp;{{ org.name }}<span> &nbsp;&rsaquo;&nbsp; Add/Edit User<span ng-show="user.username"> &nbsp;&rsaquo;&nbsp; {{user.username}}</span></h1>
+    <div class="actions">
+      <button class="btn btn-default btn-sm" ui-sref="admin.organization.detail({orgId:org._id})" type="button">Cancel</button>
+      <button class="btn btn-primary btn-sm" type="submit">Save</button>
+    </div>
+  </div>
+  <div class="view-body-container">
+    <!-- USER PROFILE -->
+    <fieldset>
+      <legend>User Profile</legend>
+      <div class="row">
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label for="salutation" class="control-label">Salutation<em>(Optional)</em></label>
+            <select id="salutation" class="form-control" ng-model="user.salutation" ng-options="sal as sal for sal in salutations"></select>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group" x-show-errors>
+            <label for="firstName" class="control-label">First Name<em>(Required)</em></label>
+            <input class="form-control" id="firstName" name="firstName" ng-change="calculateName()" type="text" ng-model="user.firstName" required>
+            <div ng-messages="userForm.firstName.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">* Required.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label class="control-label" for="middleName">Middle Name<em>(Optional)</em></label>
+            <input class="form-control" id="middleName" ng-change="calculateName()" type="text" ng-model="user.middleName">
 
-		<section>
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label for="address1" class="control-label">Address (Line 1)</label>
-						<input id="address1" type="text" class="form-control input-sm" ng-model="user.address1">
-					</div>
-				</div>
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label for="address2" class="control-label">Address (Line 2)</label>
-						<input id="address2" type="text" class="form-control input-sm" ng-model="user.address2">
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="city" class="control-label">City</label>
-						<input id="city" type="text" class="form-control input-sm" ng-model="user.city">
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="province" class="control-label">Province</label>
-						<input id="province" type="text" class="form-control input-sm" ng-model="user.province">
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="country" class="control-label">Country</label>
-						<input id="country" type="text" class="form-control input-sm" ng-model="user.country">
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="postalCode" class="control-label">Postal Code</label>
-						<input id="postalCode" type="text" class="form-control input-sm" ng-model="user.postalCode">
-					</div>
-				</div>
-			</div>
-		</section>
-		
-		<section>
-			<div class="row">
-				<div class="col-sm-4">
-					<div class="form-group">
-						<label for="orgName" class="control-label">Organization</label>
-						<select class="form-control" ng-model="user.org" ng-options="org._id as org.name for org in orgs"></select>
-					</div>
-				</div>
-				<div class="col-sm-4">
-					<div class="form-group">
-						<label for="department" class="control-label">Department</label>
-						<input id="department" type="text" class="form-control input-sm" ng-model="user.department">
-					</div>
-				</div>
-				<div class="col-sm-4">
-					<div class="form-group">
-						<label for="title" class="control-label">Title</label>
-						<input id="title" type="text" class="form-control input-sm" ng-model="user.title">
-					</div>
-				</div>
-			</div>
-		</section>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group" x-show-errors>
+            <label for="lastName" class="control-label">Last Name<em>(Required)</em></label>
+            <input class="form-control" id="lastName" name="lastName" ng-change="calculateName()" type="text" ng-model="user.lastName" required>
+            <div ng-messages="userForm.lastName.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">* Required.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label class="control-label" for="displayName">Displayed Name</label>
+            <input class="form-control" id="displayName" disabled=true type="text" ng-model="user.displayName">
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group" x-show-errors>
+            <label for="username" class="control-label">Username<em ng-if="mode === 'add'">(Required)</em></label>
+            <input class="form-control" id="username" name="username" type="text" ng-model="user.username" required ng-disabled="mode === 'edit'">
+            <div ng-messages="userForm.username.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">* Required.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset><!-- / USER PROFILE -->
 
-		<section>
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label for="notes" class="control-label">Notes</label>
-						<textarea id="notes" rows="6" class="form-control" ng-model="user.notes"></textarea>
-					</div>
-				</div>
-				<div class="col-sm-3" ng-show="roles.length > 0">
-					<label for="complaint" class="control-label">Roles</label>
-					<select-array x-source-array="roles" x-selected-array='user.roles' x-key-string="code" x-value-string="name"></select-array>
-				</div>
-			</div>
-		</section>
-	</div><!-- / VIEW BODY CONTAINER -->
+
+    <!-- CONTACT INFO -->
+    <fieldset>
+      <legend>Contact Details</legend>
+      <div class="row">
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group" x-show-errors>
+            <label class="control-label" for="email">Email<em ng-if="user.viaEmail">(Required)</em></label>
+            <input class="form-control" placeholder="myname@example.com" id="email" name="email" type="email" ng-model="user.email" ng-required="user.viaEmail">
+            <div ng-messages="userForm.email.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">* Required.</p>
+              <p class="help-block error-text" ng-message="email">* Format (myname@example.com)</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label for="phoneNumber" class="control-label">Phone</label>
+            <input class="form-control" placeholder="eg: 123-456-7890" id="phoneNumber" type="text" ng-model="user.phoneNumber">
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label for="cellPhoneNumber" class="control-label">Mobile</label>
+            <input class="form-control" placeholder="eg: 123-456-7890"  id="cellPhoneNumber" type="text" ng-model="user.cellPhoneNumber">
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label for="faxNumber" class="control-label">Fax</label>
+            <input class="form-control" placeholder="eg: 123-456-7890" id="faxNumber" type="text" ng-model="user.faxNumber">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group" x-show-errors>
+            <label for="address1" class="control-label">Street Address 1<em ng-if="user.viaMail">(Required)</em></label>
+            <input class="form-control" id="address1" name="address1" type="text" ng-model="user.address1" ng-required="user.viaMail">
+            <div ng-messages="userForm.address1.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">* Required.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label for="address1" class="control-label">Street Address 2</label>
+            <input class="form-control" id="address2" type="text" ng-model="user.address2">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group"x-show-errors>
+            <label for="city" class="control-label">City<em ng-if="user.viaMail">(Required)</em></label>
+            <input class="form-control" id="city" name="city" type="text" ng-model="user.city" ng-required="user.viaMail === true">
+            <div ng-messages="userForm.city.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">* Required.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group" x-show-errors>
+            <label for="province" class="control-label">Province<em ng-if="user.viaMail">(Required)</em></label>
+            <input class="form-control" id="province" name="province" type="text" ng-model="user.province" ng-required="user.viaMail === true">
+            <div ng-messages="userForm.province.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">* Required.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group" x-show-errors>
+            <label for="country" class="control-label">Country<em ng-if="user.viaMail">(Required)</em></label>
+            <input class="form-control" id="country" name="country" type="text" ng-model="user.country" ng-required="user.viaMail === true">
+            <div ng-messages="userForm.country.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">* Required.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group" x-show-errors>
+            <label for="postalCode" class="control-label">Postal Code<em ng-if="user.viaMail">(Required)</em></label>
+            <input class="form-control" id="postalCode" name="postalCode" type="text" ng-model="user.postalCode" ng-required="user.viaMail === true">
+            <div ng-messages="userForm.postalCode.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">* Required.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>	<!-- / CONTACT INFO -->
+
+    <fieldset>
+      <legend>Contact Preferences</legend>
+      <div class="row">
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label class="control-label" for="viaEmail">By Email</label>
+            <input type="checkbox" ng-model="user.viaEmail" id="viaEmail" name="viaEmail" />
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label class="control-label" for="viaMail">By Mail</label>
+            <input type="checkbox" ng-model="user.viaMail" id="viaMail" name="viaMail" />
+          </div>
+        </div>
+
+      </div>
+    </fieldset>	<!-- / CONTACT Preferences -->
+
+    <!-- ORGANIZATIONAL INFO -->
+    <fieldset>
+      <legend>Organization</legend>
+      <div class="row">
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label for="orgName" class="control-label">Organization</label>
+            <select id="orgName" class="form-control"
+                    ng-model="user.org"
+                    ng-sort="name"
+                    ng-options="org as org.name for org in orgs track by org._id"></select>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label for="department" class="control-label">Department<em>(Optional)</em></label>
+            <input class="form-control" id="department" type="text" ng-model="user.department">
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label for="title" class="control-label">Title<em>(Optional)</em></label>
+            <input class="form-control" id="title" type="text" ng-model="user.title">
+          </div>
+        </div>
+      </div>
+    </fieldset><!-- / ORGANIZATIONAL INFO -->
+
+    <!-- ADDITIONAL INFO -->
+    <fieldset>
+      <legend>Additional</legend>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label for="notes" class="control-label">Notes<em>(Optional)</em></label>
+            <textarea class="form-control" id="notes" rows="2" ng-model="user.notes"></textarea>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </div>
 </form>
-
-
