@@ -32,16 +32,23 @@
 			<div class="row">
 				<div class="col-sm-12 detail-row" ng-if="ir.conditionArtifacts.length > 0">
 					<label>Certificate Requirements Inspected</label>
-					<div class="anchor-list">
-						<a ng-repeat="o in ir.conditionArtifacts" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}{{$last ? '' : ', '}}</a>
-					</div>
+					<table class="anchor-list">
+						<tr>
+							<td ng-repeat="o in ir.conditionArtifacts">
+								<!-- If this is an artifact, it links to an artifact route -->
+								<a ng-if="o.valuedComponents.length == 0" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}{{$last ? '' : ', '}}</a>
+								<!-- If this is a vc artifact, it links to a vc route -->
+								<a ng-if="o.valuedComponents.length == 1" ui-sref="p.vc.detail({vcId:o.valuedComponents[0]._id})">{{o.name}}{{$last ? '' : ', '}}</a>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-12 detail-row" ng-if="ir.condition.length > 0">
+				<div class="col-sm-12 detail-row" ng-if="ir.conditions.length > 0">
 					<label>Conditions</label>
 					<ul class="anchor-list">
-						<li ng-repeat="o in ir.conditionArtifacts" ui-sref="p.artifact.view({artifactId:o._id})">
+						<li ng-repeat="o in ir.conditions" ui-sref="p.projectcondition.detail({conditionId:o._id})">
 							<a class="title">{{o.name}}</a>
 						</li>
 					</ul>
