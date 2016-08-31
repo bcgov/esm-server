@@ -17,7 +17,11 @@
 	</div>
 	
 	<div class="form-footer clearfix">
-		<a class="back-btn btn btn-link pull-left" ui-sref="p.detail"><span class="glyphicon glyphicon-chevron-left"></span>Back to Product Details</a>
+		<div class="pull-right">
+			<a class="btn btn-default btn-sm" title="Cancel" ui-sref="p.artifact.view">Cancel</a>
+			<button class="btn btn-danger btn-sm" title="Reject and return for {{buttons.prev}}" ng-click="reject()" ng-if="rolePermissions[artifact.stage]">Reject</button>
+			<button class="btn btn-success btn-sm" title="Submit for {{buttons.next}}" ng-click="submit()" ng-if="rolePermissions[artifact.stage]">Submit for {{buttons.next}}</button>
+		</div>
 	</div>
 
 	<div ng-include="'modules/artifacts/client/views/partial.artifact-notes.html'"></div>
