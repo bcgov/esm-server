@@ -1459,6 +1459,14 @@ h2.page-title {
   margin-bottom: 30px;
 }
 
+.template {
+	.letter-footer + a + div {
+		img {
+			max-width: 20rem;
+		}
+	}
+}
+
 /*------------------------------*/
 .activity-list-med {
 	height: 542px;
@@ -3342,7 +3350,6 @@ section {
 	padding-right: 1.5rem;
 	padding-bottom: 0;
 	padding-left: 1.5rem;
-	background: $table-footer-bg;
 	border-top: 1px solid #DDD;
 	overflow: auto;
 }
@@ -4652,7 +4659,7 @@ section.project-info {
 	.news-title {
 		margin-top: 0;
 		margin-bottom: 0.75rem;
-		font-size: 1.8rem;
+		font-size: 1.6rem;
 		font-weight: bold;
 	}
 	
@@ -4924,130 +4931,21 @@ section.project-info {
 
 /* PUBLIC HOMEPAGE VIEW
 ------------------------------ */
-.public-home-view {
-	.view-title-container {
-		padding-bottom: 0;
-		border-bottom: 0;
-	}
-	
-	.news-feed {
-		height: 400px;
-		display: -webkit-flex;
-		display: flex;
-		flex-flow: column nowrap;
-		
-		.panel-heading {
-			-webkit-flex: 0 0 auto;
-			flex: 0 0 auto;
-		}
-		
-		.panel-body {
-			-webkit-flex: 1 1 auto;
-			flex: 1 1 auto;
-			overflow-y: scroll;
-		}
-	}
-	
-	.grid-view {
-		margin-top: 1rem;
-		
-		.panel-heading h2 {
-			margin-top: 0.2rem;
-		}
-	}
-	
-	.projects-table {
-		.name-col {
-			width: 40%;
-		}
-	}
-	
-	.angular-google-map-container {
-		height: calc(400px - 2px);
-		width: 100%;
-	}
-}
-
-@media (min-height: 900px) {
-	.public-home-view {
-		.news-feed {
-			height: 500px;
-		}
-		
-		.angular-google-map-container {
-			height: calc(500px - 2px);
-		}
-	}
-}
-
-@media (min-width: 1024px) {
-	.public-home-view {
-		.projects-table {
-			.name-col {
-				width: 50%;
-			}
-		}
-	}
-}
-
-.angular-google-map-container {
-	height: 300px;
-}
-
-$home-view-map-sm: 300px;
+$home-view-map-sm: 400px;
 $home-view-map-md: 400px;
 $home-view-map-lg: 800px;
 
 .home-view {
-	.view-body-container {
-		@extend .flex-column;
-	}
+	padding: 2rem;
+	overflow-y: auto;
 
-	.map-panel {
-		@extend .flex-column;
-		@include flex(1 1 auto);
-		margin: 0;
-	}
-
-	.map-container,
-	.table-container {
-		position: relative;
-		overflow: hidden;
-	}
-
-	.map-container {
-		@include flex(0 0 auto);
-	}
-
-	.table-container {
-		@include flex(1 1 auto);
-	}
-
-	.map-container,
 	.angular-google-map-container {
 		height: $home-view-map-sm;
 	}
 
-	.table-panel {
-		flex: 1 1 auto;
-		overflow-y: scroll;
-		position: relative;
-	}
-
-	.news-panel {
-		@include flex(1 1 auto);
-		margin-top: 1.5rem;
-		position: relative;
-
-		.news-feed {
-			@extend .flex-column;
-			position: absolute;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			left: 0;
-			margin-bottom: 0;
-		}
+	.news-feed {
+		@extend .flex-column;
+		height: 447px;
 
 		.panel-heading,
 		.panel-footer {
@@ -5057,35 +4955,6 @@ $home-view-map-lg: 800px;
 		.panel-body {
 			@include flex(1 1 auto);
 			overflow-y: scroll; 
-		}
-	}
-}
-
-@media (min-width: 1024px) {
-	.home-view {
-		.view-body-container {
-			-webkit-flex-flow: row nowrap;
-			    -ms-flex-flow: row nowrap;
-			        flex-flow: row nowrap;
-		}
-
-		.news-panel {
-			margin-top: 0;
-			margin-left: 1.5rem;
-			flex: 0 0 30rem;
-		}
-	}
-}
-
-@media (min-width: 1200px) and (min-height: 900px) {
-	.home-view {
-		.map-container,
-		.angular-google-map-container {
-			height: $home-view-map-md;
-		}
-
-		.news-panel {
-			flex-basis: 34rem;
 		}
 	}
 }
