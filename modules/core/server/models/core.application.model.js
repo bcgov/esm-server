@@ -20,13 +20,11 @@ module.exports = require('../controllers/core.schema.controller')('Application',
 		'createEmailTemplate',
 		'createOrganization',
 		'createNews',
-		'createRole',
 		'createTemplate',
 		'createTopic',
 		'createUser',
 		'createProject',
 		'manageRoles',
-		'managePermissions',
 		'addUsersToContext'
 	]
 });

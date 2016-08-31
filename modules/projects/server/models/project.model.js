@@ -10,7 +10,6 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	__access: [
 		'addUsersToContext',
 		'createRole',
-		'managePermissions',
 		'manageRoles',
 		'listUsers ',
 		'viewTombstone',
