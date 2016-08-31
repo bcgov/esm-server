@@ -75,6 +75,9 @@ angular.module('core')
 							s.roleUsers = roleUsers;
 							//scope.object.userCan gets public added in core.menus.service shouldRender, but we don't want it to be in our settable permissions list...
 							s.allPermissions = _.keys(scope.object.userCan).filter(function(e) { return e !== 'public'; });
+							if (scope.context._id === 'application') {
+								s.allPermissions  = _.filter(s.allPermissions, function(e) { return e !== 'read' || e !== 'write' || e !== 'delete'; });
+							}
 							s.allRoles = s.allRoles.concat(['public']);
 							// console.log ('permissionRoleIndex', permissionRoleIndex);
 							// console.log ('allRoles', allRoles);
