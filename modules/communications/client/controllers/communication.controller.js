@@ -197,9 +197,8 @@ angular
 					_.forEach(data, function(user) {
 						var item =  _.find($scope.recipients, function(o) { return o._id === user._id; });
 						if (!item) {
-							if (_.startsWith(user.email, "none@specified.com")) {
+							if (_.startsWith(user.email, "none@specified.com") || _.isEmpty(user.email)) {
 								user.viaEmail = false;
-								user.viaMail = true;
 								user.email = '';
 							}
 							user.org = user.orgName;

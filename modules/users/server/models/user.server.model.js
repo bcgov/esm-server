@@ -7,6 +7,7 @@ var validator = require('validator');
 var crypto = require('crypto');
 var _ = require('lodash');
 var uid = require('uid-safe');
+var mongoose = require('mongoose');
 
 /**
  * A Validation function for local strategy properties
@@ -29,6 +30,10 @@ var validateLocalStrategyEmail = function (email) {
 	return ((this.provider !== 'local' && !this.updated) || validator.isEmail(email));
 };
 
+var validateUniqueEmail = function (email) {
+	return this.validateEmail(email);
+};
+
 
 /**
  * Hook a pre save method to hash the password
@@ -42,6 +47,8 @@ var preSave = function (next) {
 	if (this.userGuid === undefined || this.userGuid.trim() === '') {
 		this.userGuid = 'ESM-' + uid.sync(18);
 	}
+
+
 	next();
 };
 
@@ -110,13 +117,48 @@ newStatics.findUniqueUsername = function (username, suffix, callback) {
 	});
 };
 
+newStatics.validateEmail = function (email) {
+	var _this = this;
+	if (!_.isEmpty(email)) {
+
+		if (validator.isEmail(email)) {
+			// see if unique..
+			mongoose.model ('User').findOne({
+				email: new RegExp(email.trim(), 'i')
+			}, function (err, user) {
+				if (!err) {
+					if (!user) {
+						//console.log('validateEmail unique!');
+						return true;
+					} else {
+						// not unique..
+						//console.log('validateEmail this._id = ', JSON.stringify(_this._id));
+						//console.log('validateEmail user._id = ', JSON.stringify(user._id));
+						//console.log('validateEmail this._id === user._id = ', (_this._id.toString() === user._id.toString()));
+						return _this._id.toString() === user._id.toString();
+					}
+				} else {
+					//console.log('validateEmail err = ', JSON.stringify(err));
+					return false;
+				}
+			});
+		} else {
+			//console.log('validateEmail invalid = ', email);
+			return false;
+		}
+	} else {
+		return true;
+	}
+
+};
+
 module.exports = require ('../../../core/server/controllers/core.schema.controller')('User', {
 	__audit                 : true,
 	firstName               : { type: String, trim: true, default: '', validate: [validateLocalStrategyProperty, 'Please fill in your first name'] },
 	middleName              : { type: String, trim: true, default: null },
 	lastName                : { type: String, trim: true, default: '', validate: [validateLocalStrategyProperty, 'Please fill in your last name'] },
 	displayName             : { type: String, trim: true },
-	email                   : { type: String, unique: true, lowercase: true, trim: true, default: '', validate: [validateLocalStrategyEmail, 'Please fill a valid email address'] },
+	email                   : { type: String, unique: false, lowercase: true, trim: true, default: '', validate: [newStatics.validateEmail, 'Please fill a valid unique email address'] },
 	username                : { type: String, unique: 'Username already exists', required: 'Please fill in a username', lowercase: true, trim: true	},
 	password                : { type: String, default: '', validate: [validateLocalStrategyPassword, 'Password should be longer'] },
 	salt                    : { type: String },
