@@ -79,6 +79,7 @@ $sidenav-width:				19rem;
 $table-bg: 					#FFF;
 $table-row-bg: 				#FFF;
 $table-row-hover-bg:		#EEE;
+$table-row-active-bg:		#1a5a96;
 $table-head-bg: 			#F7F8FA;
 $table-filter-bg: 			#FFF;
 $table-footer-bg: 			#F7F8FA;
@@ -3240,6 +3241,17 @@ section {
 	}
 
 	&.table-hover {
+		> tbody {
+			> tr {
+				&.active {
+					td {
+						color: #FFF;
+						background: $table-row-active-bg;
+					}
+				}
+			}
+		}
+
 		> tbody > tr:hover {
 			background-color: $table-row-hover-bg;
 		}
@@ -3251,10 +3263,6 @@ section {
 
 	> thead > tr > th {
 		@extend .table-th
-	}
-
-	tr {
-		background: $table-row-bg;
 	}
 	
 	td.actions-col {
