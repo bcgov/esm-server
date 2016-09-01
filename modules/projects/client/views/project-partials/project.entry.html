@@ -370,8 +370,43 @@
 		</div>
 
 		<div class="edit-project-form tab-pane" ng-show="form.curTab === 'Proponent Info'">
-			<tmpl-company-entry-form x-company="project.proponent"></tmpl-company-entry-form>
-			<tmpl-user-entry-form x-user="project.primaryContact" x-project="project" ></tmpl-user-entry-form>
+			<button type="button"
+					x-org-search-chooser
+					x-title="'Set Organization'"
+					x-project="project"
+					class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-plus"></span><span>Set Organization</span></button>
+				<div class="row" >
+					<div class="col-sm-8">
+						<div class="form-group">
+							<label for="name" class="control-label">Organization Name</label>
+							<p class="form-control-static">{{ project.proponent.name }}</p>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label for="website" class="control-label">Website</label>
+							<p class="form-control-static">{{ project.proponent.website }}</p>
+						</div>
+					</div>
+				</div>
+				<button type="button"
+					x-user-search-chooser
+					x-title="'Set Primary Contact'"
+					x-project="project"
+					x-singleselectmode="'true'"
+					x-destination="project.primaryContact"
+					class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-plus"></span><span>Set Primary Contact</span></button>
+
+				<div class="row" >
+					<div class="col-sm-8">
+						<div class="form-group">
+							<label for="name" class="control-label">Contact Name</label>
+							<p class="form-control-static">{{ project.primaryContact.displayName }}</p>
+						</div>
+					</div>
+				</div>
 		</div>
 
 		<div class="edit-project-form tab-pane" ng-show="form.curTab === 'Intake Profile'">
