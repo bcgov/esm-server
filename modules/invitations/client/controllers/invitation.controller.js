@@ -164,9 +164,8 @@ angular
 							var viaMail = user.viaMail;
 							var emailAddress = user.email;
 
-							if (_.startsWith(user.email, "none@specified.com")) {
+							if (_.startsWith(user.email, "none@specified.com") || _.isEmpty(user.email)) {
 								viaEmail = false;
-								viaMail = true;
 								emailAddress = '';
 							}
 							$scope.recipients.push({displayName: user.displayName, email: emailAddress, viaEmail: viaEmail, viaMail: viaMail, userId: user._id, org: user.orgName});

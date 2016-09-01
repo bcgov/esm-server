@@ -33,7 +33,9 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
         // data: {roles: ['admin','eao']},
         url: '/list',
         templateUrl: 'modules/organizations/client/views/organization-list.html',
-        controller: function ($scope, NgTableParams, orgs) {
+        controller: function ($scope, NgTableParams, Application, Authentication, orgs) {
+            $scope.authentication = Authentication;
+            $scope.application = Application;
             $scope.orgs = orgs;
             $scope.tableParams = new NgTableParams ({count:10}, {dataset: orgs});
         },
@@ -156,9 +158,9 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
             org: function ($stateParams, OrganizationModel) {
                 return OrganizationModel.getModel ($stateParams.orgId);
             },
-            roles: function (RoleModel) {
-                return RoleModel.getSystemRoles ({isProjectDefault:false});
-            }
+            //roles: function (RoleModel) {
+            //    return RoleModel.getSystemRoles ({isProjectDefault:false});
+            //}
         },
     })
     // -------------------------------------------------------------------------
@@ -173,42 +175,44 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
         resolve: {
             user: function (UserModel) {
                 return UserModel.getNew ();
+            },
+            orgs: function(OrganizationModel) {
+                return OrganizationModel.getCollection();
             }
         },
-        controller: function ($scope, $state, org, orgs, user, roles, UserModel, $filter, PROVINCES, SALUTATIONS) {
+        controller: function ($scope, $state, org, user, orgs, UserModel, $filter, SALUTATIONS) {
             $scope.user = user;
-            $scope.roles = roles;
+            $scope.user.org = org;
             $scope.org = org;
-            $scope.user.org = org._id;
-            $scope.user.orgName = org.name;
             $scope.orgs = orgs;
-            $scope.provs = PROVINCES;
             $scope.salutations = SALUTATIONS;
+            $scope.mode = 'add';
 
+            var which = $scope.mode;
             $scope.calculateName = function() {
                 $scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ');
+                $scope.user.username = $filter('kebab')( $scope.user.displayName );
             };
-
-            var which = 'add';
             $scope.save = function (isValid) {
-                if (!$scope.user.username || $scope.user.username === '') {
-                    $scope.user.username = $filter('kebab')( $scope.user.displayName );
-                }
                 if (!isValid) {
                     $scope.$broadcast('show-errors-check-validity', 'userForm');
                     return false;
                 }
-                $scope.user.code = $filter('kebab')($scope.user.name);
+                if ($scope.mode === 'add') {
+                    if (!$scope.user.username || $scope.user.username === '') {
+                        $scope.user.username = $filter('kebab')( $scope.user.displayName );
+                    }
+                }
                 var p = (which === 'add') ? UserModel.add ($scope.user) : UserModel.save ($scope.user);
                 p.then (function (model) {
-                    $state.transitionTo('admin.organization.detail', {orgId: org._id}, {
-                        reload: true, inherit: false, notify: true
+                        $state.transitionTo('admin.organization.detail', {orgId: org._id}, {
+                            reload: true, inherit: false, notify: true
+                        });
+                    })
+                    .catch (function (err) {
+                        console.error (err);
+                        // alert (err.message);
                     });
-                })
-                .catch (function (err) {
-                    console.error (err);
-                    // alert (err.message);
-                });
             };
         }
     })
@@ -224,14 +228,17 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
         resolve: {
             user: function ($stateParams, UserModel) {
                 return UserModel.getModel ($stateParams.userId);
+            },
+            orgs: function(OrganizationModel) {
+                return OrganizationModel.getCollection();
             }
         },
-        controller: function ($scope, $state, org, orgs, user, roles, UserModel, $filter, PROVINCES, SALUTATIONS) {
+        controller: function ($scope, $state, org, orgs, user, UserModel, $filter, PROVINCES, SALUTATIONS) {
             $scope.user = user;
-            $scope.roles = roles;
+            $scope.roles = [];
             $scope.org = org;
-            $scope.user.org = org._id;
-            $scope.user.orgName = org.name;
+            //$scope.user.org = org._id;
+            //$scope.user.orgName = org.name;
             $scope.orgs = orgs;
             $scope.provs = PROVINCES;
             $scope.salutations = SALUTATIONS;
@@ -276,10 +283,9 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 return UserModel.getModel ($stateParams.userId);
             }
         },
-        controller: function ($scope, org, user, roles) {
+        controller: function ($scope, org, user) {
             $scope.user = user;
             $scope.org = org;
-            $scope.roles = roles;
         }
     })
 

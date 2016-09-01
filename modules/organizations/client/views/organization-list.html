@@ -6,7 +6,7 @@
 
 <div class="view-body-container">
 	<div class="button-bar clearfix">
-		<a class="btn btn-default btn-sm" ui-sref="admin.organization.create()">
+		<a class="btn btn-default btn-sm" ng-if="application.userCan.createOrganization" ui-sref="admin.organization.create()">
 			<span class="glyphicon glyphicon-plus"></span>
 			<span>Add Organization</span>
 		</a>
@@ -30,7 +30,7 @@
 					filter="{'registeredIn':'text'}"
 					sortable="'registeredIn'">{{o.registeredIn}}</td>
 				<td class="actions-col action-x1" header-class="'actions-col action-x1'">
-					<a class="btn btn-link btn-sm" title="Edit Organization" ng-if="showedit" ng-click="$event.stopPropagation()" ui-sref="admin.organization.edit({orgId:o._id})">
+					<a class="btn btn-link btn-sm" title="Edit Organization" ng-if="application.userCan.createOrganization" ng-click="$event.stopPropagation()" ui-sref="admin.organization.edit({orgId:o._id})">
 						<span class="glyphicon glyphicon-pencil"></span>
 					</a>
 				</td>

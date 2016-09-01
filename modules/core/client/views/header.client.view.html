@@ -28,12 +28,14 @@
 					<span>HOME</span>
 				</a>
 			</li>
+
 			<li class="custom-nav-item" ng-if="ENV === 'EAO'" ng-show="authentication.user">
 				<a href ui-sref="activities">
 					<span class="glyphicon glyphicon-dashboard"></span>
 					<span>DASHBOARD</span>
 				</a>
 			</li>
+
 			<li class="custom-nav-item dropdown" ng-if="ENV === 'EAO' && systemMenu.shouldRender(authentication.user)">
 				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="System Configuration">
 					<span class="glyphicon glyphicon-cog"></span>
@@ -44,22 +46,32 @@
 					<li ng-repeat="item in systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
 						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 					</li>
-					<li ng-if="ENV === 'EAO'"><a ui-sref="p.enforcements" href>Compliance Oversight</a></li>
-					<!--
-					Move this modal to be secured through the admin menus
-					-->
-					<li ng-if="application.userCan.import">
-						<a href x-modal-project-import x-project="import">Import</a>
-					</li>
 					<li ng-if="application.userCan.manageRoles">
 						<a href x-role-users-modal x-context="application">Edit System Roles</a>
 					</li>
 					<li ng-if="application.userCan.managePermissions">
 						<a href x-role-permissions-modal x-context="application" x-object="application" >Edit System Permissions</a>
 					</li>
-				</ul>
+        </ul>
 			</li>
-			<li class="custom-nav-item">
+      <!--
+		  this is meant to be a temporary option, strictly limited to the admin role, apis are locked to admin role.
+		  once project is loaded and running, this option can be removed.
+	    -->
+      <li class="custom-nav-item dropdown" ng-if="ENV === 'EAO' && (authentication.user && authentication.user.roles.indexOf ('admin') !== -1)">
+        <a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="Administration">
+          <span class="glyphicon glyphicon-cog"></span>
+          <span>ADMIN.</span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu pull-right" aria-labelledby="dropdownSystemMenu">
+          <li>
+            <a href x-modal-project-import x-project="import">Import</a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="custom-nav-item">
 				<a href ui-sref="guidance">
 					<span class="glyphicon glyphicon-question-sign"></span>
 					<span>GUIDANCE</span>
@@ -72,6 +84,7 @@
 					<span>LOG IN</span>
 				</a>
 			</li>
+
 			<li class="custom-nav-item user-menu dropdown" ng-show="authentication.user">
 				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 					<span class="glyphicon glyphicon-user"></span>

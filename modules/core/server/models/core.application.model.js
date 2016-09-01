@@ -8,10 +8,6 @@ module.exports = require('../controllers/core.schema.controller')('Application',
 	_id: {type: String, default: 'application'},
 	code: {type: String, default: 'application'},
 	__access: [
-		'import',
-		'viewConfiguration',
-		'viewSchedule',
-		'editSchedule',
 		'listConditions',
 		'listEmailTemplates',
 		'listOrganizations',
@@ -29,8 +25,6 @@ module.exports = require('../controllers/core.schema.controller')('Application',
 		'createUser',
 		'createProject',
 		'manageRoles',
-		'managePermissions',
-		'createRole',
 		'addUsersToContext'
 	]
 });

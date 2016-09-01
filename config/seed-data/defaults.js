@@ -346,8 +346,6 @@ module.exports = function () {
 	}));
 
 	var allApplicationPermissions = [
-		'viewConfiguration',
-		'viewSchedule',
 		'listConditions',
 		'listEmailTemplates',
 		'listOrganizations',
@@ -365,15 +363,11 @@ module.exports = function () {
 		'createTopic',
 		'createUser',
 		'createProject',
-		'import',
-		'editSchedule',
 		'manageRoles',
 		'managePermissions',
 		'addUsersToContext'
 	];
 	var readApplicationPermissions = [
-		'viewConfiguration',
-		'viewSchedule',
 		'listConditions',
 		'listEmailTemplates',
 		'listOrganizations',
