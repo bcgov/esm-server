@@ -154,13 +154,13 @@ newStatics.validateEmail = function (email) {
 
 module.exports = require ('../../../core/server/controllers/core.schema.controller')('User', {
 	__audit                 : true,
-	firstName               : { type: String, trim: true, default: '', validate: [validateLocalStrategyProperty, 'Please fill in your first name'] },
-	middleName              : { type: String, trim: true, default: null },
-	lastName                : { type: String, trim: true, default: '', validate: [validateLocalStrategyProperty, 'Please fill in your last name'] },
+	firstName               : { type: String, trim: true, default: ''},
+	middleName              : { type: String, trim: true, default: null},
+	lastName                : { type: String, trim: true, default: ''},
 	displayName             : { type: String, trim: true },
-	email                   : { type: String, unique: false, lowercase: true, trim: true, default: '', validate: [newStatics.validateEmail, 'Please fill a valid unique email address'] },
+	email                   : { type: String, trim: true, default: '' },
 	username                : { type: String, unique: 'Username already exists', required: 'Please fill in a username', lowercase: true, trim: true	},
-	password                : { type: String, default: '', validate: [validateLocalStrategyPassword, 'Password should be longer'] },
+	password                : { type: String, default: '' },
 	salt                    : { type: String },
 	provider                : { type: String },
 	providerData            : {},
