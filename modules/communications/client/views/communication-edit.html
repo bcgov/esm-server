@@ -7,8 +7,7 @@
 			<button type="button" class="btn btn-default btn-sm" ng-click="cancel()">Cancel</button>
 			<button class="btn btn-danger btn-sm" ng-if="canDelete" ng-click="delete(s.communication)"><span class="glyphicon glyphicon-trash"></span><span>Delete</span>
       </button>
-			<button type="button" class="btn btn-primary btn-sm" ng-click="save(projectUpdateForm.$valid)"><span
-        class="glyphicon glyphicon-save"></span><span>Save</span></button>
+			<button type="button" class="btn btn-primary btn-sm" ng-click="save(projectUpdateForm.$valid)">Save</button>
 			<button type="button" class="btn btn-success btn-sm" ng-if="mode === 'edit'" ng-disabled="projectUpdateForm.$invalid" ng-click="send(projectUpdateForm.$valid)"><span
         class="glyphicon glyphicon-send"></span><span>Send</span></button>
 		</div>
@@ -115,7 +114,7 @@
 				<button class="btn btn-danger btn-sm" ng-if="canDelete" ng-click="delete(s.communication)">
 					<span class="glyphicon glyphicon-trash"></span><span>Delete</span></button>
 				<button type="button" class="btn btn-primary btn-sm" ng-click="save(projectUpdateForm.$valid)">
-					<span class="glyphicon glyphicon-save"></span><span>Save</span></button>
+					Save</button>
 				<button type="button" class="btn btn-success btn-sm" ng-if="mode === 'edit'" ng-disabled="projectUpdateForm.$invalid" ng-click="send(projectUpdateForm.$valid)">
 					<span class="glyphicon glyphicon-send"></span><span>Send</span></button>
 			</div>

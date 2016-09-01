@@ -2,13 +2,13 @@
 <div class="view-title-container flex-row">
 	<h1>Edit Content &nbsp;&rsaquo;&nbsp; {{artifact.name}}</h1>
 	<div class="actions">
-		<button class="btn btn-default btn-sm" ng-if="artifact.typeCode !=='inspection-report' " title="Remove this content from Project" ng-click="remove()">Remove</button>
-		<button class="btn btn-default btn-sm" title="Save" ng-click="save()">Save</button>
+		<button class="btn btn-default btn-sm" ng-if="artifact.typeCode !=='inspection-report'" title="Remove this content from Project" ng-click="remove()">Remove</button>
+		<button class="btn btn-primary btn-sm" title="Save" ng-click="save()">Save</button>
 		<div class="btn-group">
-			<button class="btn btn-default btn-sm"
+			<button class="btn btn-primary btn-sm"
 					ng-if="artifact.typeCode !== 'inspection-report'"
 					ng-click="saveas()">Save as {{version}}</button>
-			<button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<button class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<span class="caret"></span>
     			<span class="sr-only">Toggle Dropdown</span>
 			</button>

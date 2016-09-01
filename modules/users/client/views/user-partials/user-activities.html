@@ -21,72 +21,66 @@
         <section>
             <div class="panel panel-default" style="margin-bottom: 1.5rem;">
                 <div class="panel-heading"><h2>My Projects</h2></div>
-                <div class="panel-body" style="padding: 0;">
-                    <table ng-table="projectParams" class="projects-table table table-striped">
-                        <tr ng-repeat="o in $data">
-                            <td data-title="'Name'" sortable="'name'">
-                                {{o.name}}
-                            </td>
-                            <td ng-if="environment === 'MEM'" title="'data-Permit'" sortable="'memPermitID'">
-                                {{o.memPermitID}}
-                            </td>
-                            <td data-title="'Type'" sortable="'type'">
-                                {{o.type}}
-                            </td>
-                            <td data-title="'Region'" sortable="'region'">
-                                {{o.region | regionName}}
-                            </td>
-                            <td data-title="'Phase'" sortable="'currentPhase.name'" >
-                                {{o.currentPhase.name}}
-                            </td>
-                            <td ng-if="environment === 'EAO'" data-title="'Status'" sortable="'status'">
-                                {{o.status}}
-                            </td>
-                            <td header-class="'actions-col'">
-                                <a ui-sref="p.detail({projectid: o.code})">View Details</a>
-                            </td>
-                        </tr>
-                        <tr ng-show="!$data || !$data.length" class="text-center">
-                            <td ng-if="environment === 'EAO'" colspan="5">No results match your search.</td>
-                            <td ng-if="environment === 'MEM'" colspan="4">No results match your search.</td>
-                        </tr>
-                    </table>
-                </div>
+                <table class="projects-table table table-hover"
+                    ng-table="projectParams"
+                    x-show-filter="true">
+                    <tr ng-repeat="o in $data" ui-sref="p.detail({projectid: o.code})">
+                        <td data-title="'Name'"
+                            filter="{'name':'text'}"
+                            sortable="'name'">
+                            {{o.name}}
+                        </td>
+                        <td ng-if="environment === 'MEM'" 
+                            title="'data-Permit'" 
+                            sortable="'memPermitID'">
+                            {{o.memPermitID}}
+                        </td>
+                        <td data-title="'Type'" 
+                            sortable="'type'">
+                            {{o.type}}
+                        </td>
+                        <td data-title="'Region'" 
+                            sortable="'region'">
+                            {{o.region | regionName}}
+                        </td>
+                        <td data-title="'Phase'" 
+                            sortable="'currentPhase.name'" >
+                            {{o.currentPhase.name}}
+                        </td>
+                        <td ng-if="environment === 'EAO'" 
+                            data-title="'Status'" 
+                            sortable="'status'">
+                            {{o.status}}
+                        </td>
+                    </tr>
+                    <tr ng-show="!$data || !$data.length" class="text-center">
+                        <td ng-if="environment === 'EAO'" colspan="5">No results match your search.</td>
+                        <td ng-if="environment === 'MEM'" colspan="4">No results match your search.</td>
+                    </tr>
+                </table>
             </div>
 
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <h2 class="pull-left">Activities</h2>
-                    <div class="panel-heading-actions pull-right">
-                        <a href class="btn btn-xs btn-link" ng-click="show_filter = !show_filter">
-                            <span ng-show="show_filter"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></span>
-                            <span ng-show="!show_filter"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span></span>
-                        </a>
-                    </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <section class="panel panel-default">
-                            <table x-show-filter="show_filter" ng-table="tableParams" class="table table-condensed table-striped table-hover">
-                                <tr ng-repeat="o in $data | orderBy:'order' | unique:'data.artifactId'"
-                                    ng-click="getLinkUrl(o.state, o.data)"
-                                    class="clickable">
-                                    <td data-title="'Project'" filter="{'project':'text'}" sortable="'project'">{{ o.project }}</td>
-                                    <td data-title="'Name'" filter="{'name':'text'}"    sortable="'name'" >{{o.artifactname}}</td>
-                                    <!-- <td data-title="'Estimated Start'" filter="{'dateStartedEst':'text'}"    sortable="'dateStartedEst'" >{{o.dateStartedEst | date}}</td>
-                                    <td data-title="'Started On'" filter="{'dateStarted':'text'}"    sortable="'dateStarted'" >{{o.dateStarted | date}}</td>
-                                    <td data-title="'Estimated Complete'" filter="{'dateCompletedEst':'text'}"    sortable="'dateCompletedEst'" >{{o.dateCompletedEst | date}}</td> -->
-                                    <!-- <td data-title="'Completed'" filter="{'dateCompleted':'text'}"    sortable="'dateCompleted'" >{{o.dateCompleted | date}}</td> -->
-                                </tr>
-                                <tr ng-if="!$data || $data.length === 0">
-                                    <td colspan="2">
-                                        No records found.
-                                    </td>
-                                </tr>
-                            </table>
-                        </section>
-                    </div>
-                </div>
+                <table x-show-filter="true" ng-table="tableParams" class="table table-condensed table-striped table-hover">
+                    <tr ng-repeat="o in $data | orderBy:'order' | unique:'data.artifactId'"
+                        ng-click="getLinkUrl(o.state, o.data)"
+                        class="clickable">
+                        <td data-title="'Project'" filter="{'project':'text'}" sortable="'project'">{{ o.project }}</td>
+                        <td data-title="'Name'" filter="{'name':'text'}"    sortable="'name'" >{{o.artifactname}}</td>
+                        <!-- <td data-title="'Estimated Start'" filter="{'dateStartedEst':'text'}"    sortable="'dateStartedEst'" >{{o.dateStartedEst | date}}</td>
+                        <td data-title="'Started On'" filter="{'dateStarted':'text'}"    sortable="'dateStarted'" >{{o.dateStarted | date}}</td>
+                        <td data-title="'Estimated Complete'" filter="{'dateCompletedEst':'text'}"    sortable="'dateCompletedEst'" >{{o.dateCompletedEst | date}}</td> -->
+                        <!-- <td data-title="'Completed'" filter="{'dateCompleted':'text'}"    sortable="'dateCompleted'" >{{o.dateCompleted | date}}</td> -->
+                    </tr>
+                    <tr ng-if="!$data || $data.length === 0">
+                        <td colspan="2">
+                            No records found.
+                        </td>
+                    </tr>
+                </table>
             </div>
 
         </section>

@@ -9,9 +9,9 @@
 			<button class="btn btn-danger btn-sm"
 				ng-if="condition.userCan.delete && edit === true"
 				ng-click="delete()"><span class="glyphicon glyphicon-trash"></span><span>Delete</span></button>
-			<button class="btn btn-default btn-sm"
+			<button class="btn btn-primary btn-sm"
 				ng-disabled="conditionForm.$invalid"
-				ng-click="save()"><span class="glyphicon glyphicon-save"></span><span>Save</span></button>
+				ng-click="save()">Save</button>
 		</div>
 	</div>
 	
@@ -104,9 +104,9 @@
 				<button class="btn btn-sm btn-danger"
 					ng-if="condition.userCan.delete && edit === true"
 					ng-click="delete()"><span class="glyphicon glyphicon-trash"></span><span>Delete</span></button>
-				<button class="btn btn-sm btn-default"
+				<button class="btn btn-sm btn-primary"
 					ng-disabled="conditionForm.$invalid"
-					ng-click="save()"><span class="glyphicon glyphicon-save"></span><span>Save</span></button>
+					ng-click="save()">Save</button>
 			</div>
 		</div>
 

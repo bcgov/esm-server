@@ -18,22 +18,14 @@
 				<a ng-click="form.curTab = 'Project Details'" title="Edit Project Details" name="detailsForm">
 					<span class="glyphicon glyphicon-exclamation-sign"></span>Project Details</a>
 			</li>
+			<li role="presentation" ng-class="{'active':form.curTab === 'Proponent Info'}" class="form-group" x-show-errors>
+				<a ng-click="form.curTab = 'Proponent Info'" title="Edit Project Details" name="proponentForm">
+					<span class="glyphicon glyphicon-exclamation-sign"></span>Proponent Info</a>
+			</li>
 			<li role="presentation" ng-class="{'active':form.curTab === 'Project Contacts'}" class="form-group" x-show-errors>
 				<a ng-click="form.curTab = 'Project Contacts'" title="Edit Project Contacts" name="contactsForm">
 					<span class="glyphicon glyphicon-exclamation-sign"></span>Contacts</a>
 			</li>
-
-
-<!-- 			<li role="presentation" ng-class="{'active':form.curTab === 'Project EAO Info'}">
-				<a href ng-click="form.curTab = 'Project EAO Info'" title="Edit Environmental Assessment Office Info">EAO Details</a>
-			</li> -->
-			<li role="presentation" ng-class="{'active':form.curTab === 'Proponent Info'}">
-				<a href ng-click="form.curTab = 'Proponent Info'" title="Edit Environmental Assessment Office Info">Proponent</a>
-			</li>
-<!-- 			<li role="presentation" ng-class="{'active':form.curTab === 'Intake Profile'}">
-				<a href ng-click="form.curTab = 'Intake Profile'" title="Edit Environmental Assessment Office Info">Intake Profile</a>
-			</li> -->
-
 		</ul><!-- / TABS -->
 
 		<div class="edit-project-form tab-pane active" ng-show="form.curTab === 'Project Details'" ng-form="detailsForm">
@@ -82,19 +74,22 @@
 						 	ng-model='project.region'
 							ng-options="key as value for (key, value) in regions" required></select>
 					</div>
-					<div class="col-sm-6 col-md-4 form-group" x-show-errors>
-						<label class="control-label">Latitude / Longitude</label>
-						<div class="coord-input flex-row">
-							<input class="form-control" id="latitude" type="number" step="any" name="latitude"
-								ng-model="project.lat" required />
-							<input class="form-control" id="longitude" type="number" step="any" name="longitude"
-								ng-model="project.lon" required />
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-4 form-group" x-show-errors>
+					<div class="col-sm-12 col-md-8 form-group" x-show-errors>
 						<label class="control-label" for="location">Location Description<em class="required">(Required)</em></label>
 						<input class="form-control" id="location" type="text" name="location"
 							ng-model="project.location" required>
+					</div>
+				</div>
+				<div class="row">
+					<div class="lat-input col-sm-3 col-md-2 form-group" x-show-errors>
+						<label class="control-label">Latitude<em class="required">(Required)</em></label>
+						<input class="form-control" id="latitude" name="latitude" type="number" step="any"
+							ng-model="project.lat" required />
+					</div>
+					<div class="long-input col-sm-3 col-md-2 form-group" x-show-errors>
+						<label class="control-label">Longitude<em class="required">(Required)</em></label>
+						<input class="form-control" id="longitude" name="longitude" type="number" step="any"
+							ng-model="project.lon" required />
 					</div>
 				</div>
 			</fieldset>
@@ -245,60 +240,60 @@
 			<fieldset>
 				<legend>Executive Project Director</legend>
 				<div class="row">
-					<div class="col-md-4 form-group" x-show-errors>
+					<div class="col-md-4 form-group">
 						<label class="control-label" for="projectdirector">Name<em class="required">(Required)</em></label>
 						<input class="form-control" name="projectdirector" id="projectdirector"
-							ng-model="project.responsibleEPD" required />
+							ng-model="project.responsibleEPD" />
 					</div>
-					<div class="col-sm-6 col-md-4 form-group" x-show-errors>
+					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label" for="projectdirectormmail">Email<em class="required">(Required)</em></label>
 						<input class="form-control" placeholder="example@domain.com" name="projectdirectormmail" id="projectdirectormmail"
-							ng-model="project.responsibleEPDEmail" required />
+							ng-model="project.responsibleEPDEmail"  />
 					</div>
-					<div class="col-sm-6 col-md-4 form-group" x-show-errors>
+					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label" for="projectdirectorphone">Phone<em class="required">(Required)</em></label>
 						<input class="form-control" placeholder="e.g. (555) 555-5555" name="projectdirectorphone" id="projectdirectorphone"
-							ng-model="project.responsibleEPDPhone" required />
+							ng-model="project.responsibleEPDPhone" />
 					</div>
 				</div>
 			</fieldset>
 			<fieldset>
 				<legend>Project Lead</legend>
 				<div class="row">
-					<div class="col-md-4 form-group" x-show-errors>
+					<div class="col-md-4 form-group">
 						<label class="control-label" for="projectleadname">Name<em class="required">(Required)</em></label>
 						<input class="form-control" name="projectleadname" id="projectleadname"
-							ng-model="project.projectLead" required />
+							ng-model="project.projectLead" />
 					</div>
-					<div class="col-sm-6 col-md-4 form-group" x-show-errors>
+					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label" for="projectleademail">Email<em class="required">(Required)</em></label>
 						<input class="form-control" placeholder="example@domain.com" name="projectleademail" id="projectleademail"
-							ng-model="project.projectLeadEmail" required />
+							ng-model="project.projectLeadEmail" />
 					</div>
-					<div class="col-sm-6 col-md-4 form-group" x-show-errors>
+					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label" for="projectleadphone">Phone<em class="required">(Required)</em></label>
 						<input class="form-control" placeholder="e.g. (555) 555-5555" name="projectleadphone" id="projectleadphone"
-							ng-model="project.projectLeadPhone" required />
+							ng-model="project.projectLeadPhone" />
 					</div>
 				</div>
 			</fieldset>
 			<fieldset>
 				<legend>Compliance and Enforcement Lead</legend>
 				<div class="row">
-					<div class="col-md-4 form-group" x-show-errors>
+					<div class="col-md-4 form-group">
 						<label class="control-label" for="celead">Name<em class="required">(Required)</em></label>
 						<input class="form-control" name="celead" id="celead"
-							ng-model="project.CELead" required />
+							ng-model="project.CELead" />
 					</div>
-					<div class="col-sm-6 col-md-4 form-group" x-show-errors>
+					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label" for="celeademail">Email<em class="required">(Required)</em></label>
 						<input class="form-control" placeholder="example@domain.com" name="celeademail" id="celeademail"
-							ng-model="project.CELeadEmail" required />
+							ng-model="project.CELeadEmail" />
 					</div>
-					<div class="col-sm-6 col-md-4 form-group" x-show-errors>
+					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label">Phone<em class="required">(Required)</em></label>
 						<input class="form-control" placeholder="e.g. (555) 555-5555" name="cephone"
-							ng-model="project.CELeadPhone" required />
+							ng-model="project.CELeadPhone"/>
 					</div>
 				</div>
 			</fieldset>
