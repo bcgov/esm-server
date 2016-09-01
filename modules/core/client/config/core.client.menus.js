@@ -19,8 +19,8 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 		'application.listOrganizations',
 		'application.listNews',
 		'application.listTemplates',
-		'application.listTopics',
-		'application.listUsers'
+		'application.listValuedComponents',
+		'application.listContacts'
 		]
 	});
 	Menus.addMenuItem('systemMenu', {
@@ -61,12 +61,12 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	Menus.addMenuItem('systemMenu', {
 		title: 'Valued Components',
 		state: 'admin.topic.list',
-		permissions: ['application.listTopics']
+		permissions: ['application.listValuedComponents']
 	});
 	Menus.addMenuItem('systemMenu', {
 		title: 'Users / Contacts',
 		state: 'admin.user.list',
-		permissions: ['application.listUsers']
+		permissions: ['application.listContacts']
 	});
 	// -------------------------------------------------------------------------
 	//
