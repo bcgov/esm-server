@@ -36,7 +36,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 			}
 		},
 		controller: function ($scope, NgTableParams, recentActivity) {
-			$scope.tableParams = new NgTableParams ({count:10}, {dataset: recentActivity});
+			$scope.tableParams = new NgTableParams ({count:10, sorting: {dateAdded: 'desc'}}, {dataset: recentActivity});
 		}
 	})
 	.state('news', {
@@ -57,7 +57,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 			}
 		},
 		controller: function ($scope, NgTableParams, recentActivity) {
-			$scope.tableParams = new NgTableParams ({count:10}, {dataset: recentActivity});
+			$scope.tableParams = new NgTableParams ({count:10, sorting: {dateAdded: 'desc'}}, {dataset: recentActivity});
 		}
 	})
 	// -------------------------------------------------------------------------
