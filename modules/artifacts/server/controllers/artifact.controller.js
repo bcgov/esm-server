@@ -44,20 +44,8 @@ module.exports = DBModel.extend({
 		q.isPublished = qs.isPublished;
 		q.typeCode = { '$nin': qs.typeCodeNe.split(',') };
 		this.populate = 'artifactType template document valuedComponents addedBy updatedBy';
-		return this.findMany(q, {
-			name: 1,
-			version: 1,
-			stage: 1,
-			isPublished: 1,
-			userPermissions: 1,
-			valuedComponents: 1,
-			author: 1,
-			shortDescription: 1,
-			dateUpdated: 1,
-			dateAdded: 1,
-			addedBy: 1,
-			updatedBy: 1
-		});
+		// we need the userCan populated so we can set permissions from these results, do not limit the result set fields...
+		return this.findMany(q);
 	},
 	// We want to specifically get these types
 	getForProjectType: function (projectid, type) {
