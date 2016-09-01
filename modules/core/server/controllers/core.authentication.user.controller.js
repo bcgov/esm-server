@@ -16,14 +16,16 @@ var parseSm = function (req) {
 	return new Promise(function (fulfill, reject) {
 		var userGuid = req.headers.smgov_userguid;
 		var userType = req.headers.smgov_usertype;
+		var universalId = req.headers.sm_universalid; // if we need to add in IDIR or BCEID, get from sm_authdirname
 
 		if (!_.isEmpty(process.env.ALLOW_SITEMINDER_OVERRIDE) && process.env.ALLOW_SITEMINDER_OVERRIDE === 'true') {
 			userGuid = userGuid || req.params.userguid || req.query.smgov_userguid;
 			userType = userType || req.params.usertype || req.query.smgov_usertype;
+			universalId = universalId || req.params.sm_universalid || req.query.sm_universalid;
 		}
 
 		if (userGuid) {
-			fulfill({userGuid: userGuid, userType: userType});
+			fulfill({userGuid: userGuid, userType: userType, universalId: universalId});
 		} else {
 			reject(new Error('parseSm: Could not find user information from Siteminder'));
 		}
@@ -152,7 +154,7 @@ var updateUserFromSiteminder = function (sm, user) {
 			// set the siteminder fields
 			user.userGuid = sm.userGuid;
 			user.userType = sm.userType;
-
+			user.username = sm.universalId;
 			if (!_.includes(user.roles, 'user')) {
 				user.roles.push('user');
 			}
