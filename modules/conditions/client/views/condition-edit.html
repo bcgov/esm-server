@@ -1,19 +1,13 @@
-<div class="edit-condition-view">
 
-	<div class="view-title-container">
-		<h1>Add/Edit Condition</h1>
-	</div>
-
-	<div class="view-body-container">
-		<form name="conditionForm" ng-submit="save(conditionForm.$valid)" novalidate>
-			
-			<div class="row hidden">
-				<div class="col-sm-12">
-					<button class="btn btn-xs btn-link" ui-sref="admin.condition.list">Cancel</button>
-					<button class="btn btn-xs btn-link" href type="submit">Save</button>
-				</div>
-			</div>
-					
+<form class="view-form" name="conditionForm" ng-submit="save(conditionForm.$valid)" novalidate>
+  <div class="view-title-container flex-row">
+    <h1>Add/Edit Condition</h1>
+    <div class="actions">
+      <button class="btn btn-default btn-sm" ui-sref="admin.condition.list">Cancel</button>
+      <button class="btn btn-primary btn-sm" href type="submit">Save</button>
+    </div>
+  </div>
+  <div class="view-body-container">
 			<div class="row">
 				<div class="col-sm-4">
 					<div class="form-group" x-show-errors>
@@ -37,7 +31,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="form-group">
@@ -46,7 +40,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="form-group">
@@ -55,7 +49,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="row pick-list">
 				<div class="col-sm-6">
 					<div class="form-group">
@@ -74,15 +68,9 @@
 					</div>
 				</div>
 			</div>
-			
-			<div class="form-footer clearfix">
-				<div class="pull-right">
-					<button class="btn btn-default" ui-sref="admin.condition.list">Cancel</button>
-					<button class="btn btn-primary" type="submit">Save</button>
-				</div>
-			</div>
 
-		</form>
+
 	</div><!-- / VIEW BODY CONTAINER -->
-	
+
 </div>
+</form>

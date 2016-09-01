@@ -14,7 +14,7 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	// -------------------------------------------------------------------------
 	Menus.addMenu('systemMenu', {
 		permissions: [
-		'application.listConditions',
+		//'application.listConditions',
 		'application.listEmailTemplates',
 		'application.listOrganizations',
 		'application.listNews',
@@ -23,11 +23,11 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 		'application.listContacts'
 		]
 	});
-	Menus.addMenuItem('systemMenu', {
-		title: 'Conditions',
-		state: 'admin.condition.list',
-		permissions: ['application.listConditions']
-	});
+	//Menus.addMenuItem('systemMenu', {
+	//	title: 'Conditions',
+	//	state: 'admin.condition.list',
+	//	permissions: ['application.listConditions']
+	//});
 	// Menus.addMenuItem('systemMenu', {
 	// 	title: 'Configuration',
 	// 	state: 'configuration',

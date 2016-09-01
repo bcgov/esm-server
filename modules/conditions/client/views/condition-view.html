@@ -2,16 +2,14 @@
 
 	<div class="view-title-container">
 		<h1><span>Condition Library</span><span ng-show="condition.name">&nbsp; &rsaquo; &nbsp;{{ condition.name }}</span></h1>
-	</div>
+    <div class="actions">
+      <a class="btn btn-sm btn-default" ui-sref="admin.condition.edit({conditionId:condition._id})">
+        <span class="glyphicon glyphicon-pencil"></span><span>Edit</span>
+      </a>
+    </div>
+  </div>
 
 	<div class="view-body-container">
-		
-		<div class="row hidden">
-			<div class="col-sm-12 text-right">
-				<a class="btn btn-xs btn-link" ui-sref="admin.condition.list">Cancel</a>
-				<a class="btn btn-xs btn-link" ui-sref="admin.condition.edit({conditionId:condition._id})">Edit</a>
-			</div>
-		</div>
 
 		<div class="row">
 			<div class="col-sm-4">
@@ -72,7 +70,6 @@
 
 		<div class="form-footer clearfix">
 			<a class="back-btn btn btn-link pull-left" ui-sref="admin.condition.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Condition Library</a>
-			<a ng-if="showedit" class="btn btn-default pull-right" ui-sref="admin.condition.edit({conditionId:condition._id})">Edit</a>
 		</div>
 
 	</div><!-- / VIEW BODY CONTAINER -->

@@ -124,11 +124,9 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-				'write' : ['proponent-lead', 'proponent-team', 'assessment-lead', 'assessment-team', 'project-epd', 'project-qa-officer', 'project-system-admin'],
-				'delete' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-				'publish' : ['assessment-lead', 'project-epd', 'project-system-admin'],
-				'unPublish' : ['assessment-lead', 'project-epd', 'project-system-admin']
+				'read' : ['system-admin'],
+				'write' : ['system-admin'],
+				'delete' : ['system-admin']
 			}
 		}
 	}));
@@ -342,7 +340,7 @@ module.exports = function () {
 	}));
 
 	var allApplicationPermissions = [
-		'listConditions',
+		//'listConditions',
 		'listEmailTemplates',
 		'listOrganizations',
 		'listNews',
@@ -350,7 +348,7 @@ module.exports = function () {
 		'listTemplates',
 		'listValuedComponents',
 		'listContacts',
-		'createCondition',
+		//'createCondition',
 		'createEmailTemplate',
 		'createOrganization',
 		'createNews',
@@ -364,7 +362,7 @@ module.exports = function () {
 		'addUsersToContext'
 	];
 	var readApplicationPermissions = [
-		'listConditions',
+		//'listConditions',
 		'listEmailTemplates',
 		'listOrganizations',
 		'listNews',
