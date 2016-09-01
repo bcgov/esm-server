@@ -113,7 +113,7 @@ angular.module ('vcs')
 							.then( function (f) {
 								f.valuedComponents.push(m);
 								f.name = obj.name;
-								f.code = 'valued-component';
+								f.typeCode = 'valued-component';
 								f.project = $scope.project._id;
 								return ArtifactModel.saveCopy(f);
 							})
