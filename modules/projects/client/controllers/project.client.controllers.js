@@ -183,57 +183,20 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 
 	ProjectModel.setModel ($scope.project);
 
-	if (!$scope.project.proponent || _.isEmpty ($scope.project.proponent)) {
-		if (Authentication.user.org) {
-			OrganizationModel.getModel (Authentication.user.org)
-			.then (function (org) {
-				if (org) {
-					$scope.project.proponent = org;
-				} else {
-					OrganizationModel.getNew ().then (function (neworg) {
-						$scope.project.proponent = neworg;
-					});
-				}
-			})
-			.catch (function (err) {
-				console.error ('Error getting organization:');
-			});
-		} else {
-			OrganizationModel.getNew ().then (function (neworg) {
-				$scope.project.proponent = neworg;
-			});
-		}
-	} else {
-		if (!_.isObject ($scope.project.proponent)) {
-			OrganizationModel.getModel ($scope.project.proponent).then (function (org) {
-				$scope.project.proponent = org;
-			});
-		}
+	if ($scope.project.proponent && !_.isObject ($scope.project.proponent)) {
+		OrganizationModel.getModel ($scope.project.proponent).then (function (org) {
+			$scope.project.proponent = org;
+		});
 	}
-	if (!$scope.project.primaryContact || _.isEmpty ($scope.project.primaryContact)) {
-		// UserModel.getModel (Authentication.user._id)
-		UserModel.me (Authentication.user._id)
+	if ($scope.project.primaryContact && !_.isObject ($scope.project.primaryContact)) {
+		UserModel.me ($scope.project.primaryContact)
 		.then (function (userrecord) {
-			if (userrecord) {
-				$scope.project.primaryContact = userrecord;
-			} else {
-				UserModel.getNew ().then (function (newuser) {
-					$scope.project.primaryContact = newuser;
-				});
-			}
+			$scope.project.primaryContact = userrecord;
 		})
 		.catch (function (err) {
 			console.error ('Error getting user record:');
 		});
-	} else {
-		if (!_.isObject ($scope.project.primaryContact)) {
-			UserModel.me ($scope.project.primaryContact)
-			.then (function (userrecord) {
-				$scope.project.primaryContact = userrecord;
-			});
-		}
 	}
-
 
 	if ($stateParams.projectid === 'new') {
 		ProjectModel.modelIsNew = true;
@@ -247,10 +210,6 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 	$scope._ = _;
 	$scope.CEAA = CEAA_TYPES;
 
-
-
-
-
 	$scope.saveProject = function(isValid) {
 		if (!isValid) {
 			$scope.$broadcast('show-errors-check-validity', 'projectForm');
@@ -259,17 +218,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 			return false;
 		}
 
-		// UserModel.saveModel ()
-		Promise.resolve (Authentication.user)
-		.then (function (um) {
-			$scope.project.primaryContact = um._id;
-			return OrganizationModel.saveModel ();
-		})
-		.then (function (om) {
-			$scope.project.proponent = om._id;
-			return ProjectModel.saveModel ();
-		})
-		// ProjectModel.saveModel ()
+		ProjectModel.saveModel ()
 		.then( function(data) {
 			$state.go('p.detail', {projectid: data.code});
 		})

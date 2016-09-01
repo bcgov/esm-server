@@ -28,10 +28,11 @@ function controllerUsersQuicklinks(Users) {
 // CONTROLLER: company entry form
 //
 // -----------------------------------------------------------------------------------
-controllerCompanyEntryForm.$inject = ['$scope'];
+controllerCompanyEntryForm.$inject = ['$scope', 'PROVINCES'];
 /* @ngInject */
-function controllerCompanyEntryForm($scope) {
+function controllerCompanyEntryForm($scope, PROVINCES) {
 	var uco = this;
+	uco.provs = PROVINCES;
 
 	$scope.$watch('company', function(newValue) {
 		if (newValue) {

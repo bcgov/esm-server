@@ -7,7 +7,8 @@ angular.module('users')
 			scope: {
 				project: '=',
 				destination: '=',
-				title: '='
+				title: '=',
+				singleselectmode: '='
 			},
 			link: function (scope, element, attrs) {
 				element.on('click', function () {
@@ -24,6 +25,7 @@ angular.module('users')
 						controller: function ($filter,$scope, $modalInstance, projectGroups) {
 							var s = this;
 							s.title = scope.title;
+							$scope.singleselectmode = scope.singleselectmode;
 
 							var isArray = _.isArray(scope.destination);
 
@@ -75,6 +77,16 @@ angular.module('users')
 								angular.element(document.getElementById("select_all")).prop("indeterminate", (checked !== 0 && unchecked !== 0));
 							}, true);
 
+							$scope.toggleItem = function (item) {
+								if ($scope.singleselectmode) {
+									// Deselect the other checkboxes.
+									if ($scope.checkboxes.items[item._id]) {
+										// Pop the others off it and set it only to 1.
+										$scope.checkboxes.items = [];
+										$scope.checkboxes.items[item._id] = true;
+									}
+								}
+							};
 
 							s.cancel = function () {
 								$modalInstance.dismiss('cancel');

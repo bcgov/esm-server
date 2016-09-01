@@ -38,6 +38,6 @@ module.exports = DBModel.extend ({
 		else {
 			return org;
 		}
-	},
+	}
 });
 
