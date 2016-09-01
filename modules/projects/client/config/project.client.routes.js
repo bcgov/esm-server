@@ -162,6 +162,14 @@ angular.module('project').config (
 							$modalInstance.dismiss("cancel");
 						};
 
+						$scope.changeOption = function () {
+							if ($scope.selectedMilestoneType.code === 'custom-milestone') {
+								$scope.showCustom = true;
+							} else {
+								$scope.showCustom = false;
+							}
+						};
+
 						$scope.ok = function(selectedMilestoneType, dateStarted, dateCompleted) {
 
 							var oneDay = (1000 * 60 * 60 * 24);
