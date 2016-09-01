@@ -211,7 +211,7 @@ var seedingAsync = function() {
 //
 // =========================================================================
 
-checkIntegration ('defaults6')
+checkIntegration ('defaults7')
 	.then(function(){
 		require('../seed-data/defaults')()
 			.then(seedingAsync);
