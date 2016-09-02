@@ -106,12 +106,11 @@
 
 		<!-- PROJECT MAP -->
 		<section class="project-map">
-			<div class="panel panel-default">
+			<div class="panel panel-default no-margin">
 				<div class="panel-heading">
 					<h2>Project Map</h2>
 				</div>
-				<tmpl-map id="anchor-map" x-project="project" ng-if="('project'| shouldDisplayPanel:'map':project.status)">
-				</tmpl-map>
+				<tmpl-map id="anchor-map" x-project="project" ng-if="('project'| shouldDisplayPanel:'map':project.status)"></tmpl-map>
 			</div>
 		</section>
 

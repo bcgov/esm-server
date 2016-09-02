@@ -2201,7 +2201,7 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 		a {
 			display: block;
 			padding: 1rem 1.5rem;
-			font-size: 1.4rem;
+			font-size: 1.6rem;
 			font-weight: bold;
 			color: $app-base-color;
 			
@@ -2213,7 +2213,7 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 				margin-top: 0.4rem;
 				margin-right: 1rem;
 				margin-left: -0.2rem;
-				font-size: 1rem;
+				font-size: 1.2rem;
 			}
 			
 			.glyphicon-triangle-right {
@@ -2222,6 +2222,11 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 			
 			.glyphicon-triangle-bottom {
 				display: inline-block;
+			}
+
+			&:hover,
+			&:focus {
+				text-decoration: none;
 			}
 		}
 		
@@ -2341,7 +2346,7 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 
 .label {
 	display: inline-block;
-	padding-top: 0.35rem;
+	padding-top: 0.5rem;
 	font-size: 1.2rem;
 	font-weight: normal;
 }
@@ -3069,8 +3074,6 @@ form {
 				margin-top: 0.6rem;
 				margin-right: 0.6rem;
 				margin-left: -0.25rem;
-				font-weight: bold;
-				background: transparent;
 
 				&:hover,
 				&:focus {
@@ -4871,14 +4874,16 @@ section.project-info {
 
 /* PROJECT SCHEDULE VIEW
 ------------------------------ */
-.project-schedule-view {
-	.panel-body {
-		padding: 0;
+.project-schedule-view {	
+	.phase-info {
+		margin-bottom: 1.5rem;
 
-		.button-bar {
-			padding: 1.5rem;
-			border-bottom: 1px solid #DDD;
-			background: #f7f8fa;
+		.date-label {
+			margin-bottom: 0.5rem;
+		}
+
+		.btn-primary {
+			width: 9rem;
 		}
 	}
 	
@@ -4890,30 +4895,39 @@ section.project-info {
 		padding: 1rem;
 	}
 
-	.date-col {
-		width: 14rem;
+	.schedule-dates {
 		font-size: 1.2rem;
 
 		label {
 			margin: 0;
 			min-width: 4rem;
 			display: inline-block;
-			text-transform: uppercase;
 		}
 
 		span {
 			min-width: 7rem;
 			display: inline-block;
+			font-weight: normal;
 			text-align: right;
 		}
+	}
+
+	.phase-dates {
+		.schedule-dates {
+			margin-right: 3rem;
+		}
+	}
+
+	.date-col {
+		width: 14rem;
 	}
 
 	.phase-action-col {
 		width: 11rem;
 		padding-right: 0;
+		text-align: right;
 
 		.label, .btn {
-			display: block;
 			height: 2.1rem;
 			font-weight: normal;
 		}
@@ -4922,10 +4936,36 @@ section.project-info {
 	.status-col {
 		width: 11rem;
 	}
-}
 
-.phase-schedule {
-	margin-bottom: 0;
+	.phase-milestones {
+		.panel-heading {
+			border-bottom: 1px solid #DDD;
+
+			h3 {
+				@include flex(1 1 auto);
+				margin: 0;
+				padding: 1.25rem 1rem;
+				font-size: 1.4rem;
+				font-weight: bold;
+			}
+
+			.actions {
+				@include flex(0 0 auto);
+
+				.btn {
+					margin-top: 0.45rem;
+					margin-right: 0.45rem;
+				}
+			}
+		}
+
+		.milestone-table {
+			th:first-child,
+			td:first-child {
+				padding-left: 1rem;
+			}
+		}
+	}
 }
 
 @media (min-width: 1200px) {
@@ -4933,6 +4973,12 @@ section.project-info {
 		.date-col {
 			width: 18rem;
 		}
+	}
+}
+
+.panel-heading {
+	.collapse-control {
+		@include flex(1 1 auto);
 	}
 }
 
