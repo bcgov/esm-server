@@ -9,13 +9,13 @@ module.exports = function (app) {
 	routes.setCRUDRoutes (app, 'communication', Communication, policy);
 
 	app.route ('/api/communication/for/project/:project')
-		.all (policy ('user'))
+		.all (policy ('guest'))
 		.get (routes.setAndRun (Communication, function (ctrl, req) {
 			return ctrl.getForProject (req.Project._id);
 		}));
 
 	app.route ('/api/communication/for/group/:group')
-		.all (policy ('user'))
+		.all (policy ('guest'))
 		.get (routes.setAndRun (Communication, function (ctrl, req) {
 			return ctrl.getForGroup (req.Group._id);
 		}));

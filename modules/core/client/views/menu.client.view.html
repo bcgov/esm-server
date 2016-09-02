@@ -1,21 +1,5 @@
 <div class="sidenav" id="menu-side">
 
-	<!-- PUBLIC USERS (COMMON) -->
-	<div ng-show="!menu.authentication.user">
-
-		<a class="project-home-link" ui-sref="p.detail({projectid: menu.project.code})" title="Project Details">
-			<span class="glyphicon glyphicon-map-marker"></span>
-			<span>{{project.name}}</span>
-			<span ng-if="!project.name">Untitled Project</span>
-		</a>
-
-		<ul class="nav nav-pills nav-stacked">
-     		<li><a ui-sref="p.documents" href title="Documents">Documents</a></li>
-     		<li><a ui-sref="p.commentperiod.list" href title="Public Comment Periods">Public Comment Periods</a></li>
-        <li><a ui-sref="p.vc.list" href title="Valued Components">Valued Components</a></li>
-		</ul>
-	</div><!-- / PUBLIC USERS (COMMON) -->
-
 	<div ng-if="(menu.context === 'projects' || menu.context === 'mylist') && menu.pageAnchors('anchor-group-projects')" id="anchor-group-projects">
 		<ul class="list-unstyled">
 			<li><a du-smooth-scroll  href="#anchor-map">Map</a></li>
@@ -48,7 +32,7 @@
 	</div>
 
 	<!-- PROJECT MENU - AUTHENTICATED -->
-	<div ng-if="(menu.context === 'project' || menu.context === 'activity') && menu.authentication.user">
+	<div ng-if="(menu.context === 'project' || menu.context === 'activity')">
 
 		<a class="project-home-link" ui-sref="p.detail({projectid: menu.project.code})" title="Project Details">
 			<span class="glyphicon glyphicon-map-marker"></span>
@@ -57,7 +41,7 @@
 		</a>
 
 		<!-- PROJECT CLIENT MENUS (project.client.menus.js) -->
-		<ul class="nav nav-pills nav-stacked" ng-show="menu.authentication.user">
+		<ul class="nav nav-pills nav-stacked">
 			<li ng-repeat="item in menu.projectTopMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project);"
 			    ng-class="{ 'active': $state.includes(item.state) }" class="{{item.class}}">
 			    <a ui-sref="{{item.state}}" ng-bind="item.title" title="{{item.title}}"></a>
@@ -73,10 +57,10 @@
 		</ul>
 
 		<!-- ROLES & PERMISSIONS -->
-		<div class="sidenav-group" ng-show="menu.authentication.user && (menu.project.userCan.manageRoles || menu.project.userCan.managePermissions)">
+		<div class="sidenav-group" ng-show="menu.project.userCan.manageRoles || menu.project.userCan.managePermissions">
 			<hr />
 			<h4>Project Settings</h4>
-			<ul class="nav nav-pills nav-stacked" ng-show="menu.authentication.user">
+			<ul class="nav nav-pills nav-stacked">
 				<li ng-if="menu.project.userCan.manageRoles">
 					<a href x-role-users-modal x-context="menu.project" title="Edit Project Roles">
 						<span class="glyphicon glyphicon-cog"></span><span>Edit Roles</span>

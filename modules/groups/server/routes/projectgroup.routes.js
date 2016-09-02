@@ -9,7 +9,7 @@ module.exports = function (app) {
 	routes.setCRUDRoutes (app, 'projectgroup', ProjectGroup, policy);
 
 	app.route ('/api/projectgroup/for/project/:project')
-		.all (policy ('user'))
+		.all (policy ('guest'))
 		.get (routes.setAndRun (ProjectGroup, function (ctrl, req) {
 			return ctrl.getForProject (req.Project._id);
 		}));

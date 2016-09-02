@@ -110,7 +110,7 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 		Menus.addMenuItem('projectTopMenu', {
 			title: 'Comment Periods',
 			state: "p.commentperiod.list",
-			permissions: ['context.public', 'context.listCommentPeriods']
+			permissions: ['context.listCommentPeriods']
 		});
 	}
 
@@ -176,7 +176,7 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 		Menus.addMenuItem('projectMenu', {
 			title: 'Valued Components',
 			state: 'p.vc.list',
-			permissions: ['context.public', 'context.listValuedComponents']
+			permissions: ['context.listValuedComponents']
 		});
 	}
 

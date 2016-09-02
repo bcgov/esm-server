@@ -75,15 +75,12 @@ angular.module('core')
 							s.roleUsers = roleUsers;
 							//scope.object.userCan gets public added in core.menus.service shouldRender, but we don't want it to be in our settable permissions list...
 							s.allPermissions = _.keys(scope.object.userCan).filter(function(e) { return e !== 'public'; });
-							s.allRoles = s.allRoles.concat(['public']);
 							if (scope.context._id === 'application') {
 								// jsherman - 2016-09-01
 								// roles and permissions lock down...
 								// we only want certain permissions to be set at run time, ones that do not require model defaults for read/write/delete
 								// application / system should not expose createRole either...
 								s.allPermissions  = _.difference(s.allPermissions, ['read', 'write', 'delete', 'createRole', 'createProject']);
-								// even though we just added it, we don't want it for application/system  permission assignment...
-								s.allRoles = _.difference(s.allRoles, ['public']);
 							} else if (scope.context._id === scope.object._id) {
 								// jsherman - 2016-09-01
 								// roles and permissions lock down...
@@ -253,7 +250,7 @@ angular.module('core')
 							// all the base data
 							//
 							s.userRoleIndex = userRoleIndex;
-							s.allRoles = allRoles;
+							s.allRoles = _.difference(allRoles, ['public']); // we don't add users to the public role, it's just for permissions.
 							s.allUsers = _.keys(userRoleIndex.user);
 							//
 							// expose the inputs

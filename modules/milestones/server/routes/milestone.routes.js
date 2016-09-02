@@ -48,7 +48,7 @@ module.exports = function (app) {
 	// all milestones for this project that the user can read
 	//
 	app.route ('/api/milestone/in/project/:projectId')
-		.all (policy ('user'))
+		.all (policy ('guest'))
 		.get (routes.setAndRun (Milestone, function (model, req) {
 			return model.userMilestones (req.params.projectId, 'read');
 		}));

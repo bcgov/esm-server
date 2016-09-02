@@ -450,11 +450,10 @@ var addRoleIfUnique = function (p) {
 var setPermissionRoleIndex = function (resource, index) {
 	return new Promise (function (resolve, reject) {
 		// no longer adding roles directly from the Add Role dialog, so we may need to add in new roles here.
-		var publicPattern = new RegExp('public', 'gi');
 		var addRolePromises = [];
 		_.each(index.role, function (permissions, role) {
 			// do not add public as a role here...
-			if (!publicPattern.test(role) && !_.find(addRolePromises, function (p) { return p.role === role; })) {
+			if (!_.find(addRolePromises, function (p) { return p.role === role; })) {
 				addRolePromises.push(addRoleIfUnique({context: resource, role: role}));
 			}
 		});
