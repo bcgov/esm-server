@@ -20,18 +20,26 @@
 		<label class="control-label">Custom Milestone</label>
 		<input type="text" class="form-control" ng-model="customMilestoneText"/>
 	</div>
-	<div class="form-group has-error" ng-class="{'has-error': validateForm}">
-		<label>Date Range / Effective Date?</label>
-		<div class="date-range-control clearfix">
-			<div class="date-range pull-left">
-				<div class="input-group">
-					<p x-modal-date-picker x-selected-date="dateStarted" class="btn form-control-static">{{ dateStarted | amDateFormat:'MMM Do YYYY' }} &nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i>&nbsp; &nbsp;</p>
+	<div class="form-group" ng-class="{'has-error': validateForm}">
+		<label>Estimated Date Range</label>
+		<div class="form-inline">
+			<div class="form-group" >
+				<div class="form-control date-picker" 
+					x-modal-date-picker 
+					x-selected-date="dateStarted">
+					{{ dateStarted | amDateFormat:'MMM Do YYYY' }}
+					<span class="placeholder-value" ng-if="!dateStarted">Start Date</span>
+					<span class="glyphicon glyphicon-calendar"></span>
 				</div>
 			</div>
-			<div class="pull-left spacer">-</div>
-			<div class="date-range pull-left">
-				<div class="input-group">
-					<p x-modal-date-picker x-selected-date="dateCompleted" class="btn form-control-static">{{ dateCompleted | amDateFormat:'MMM Do YYYY' }} &nbsp;&nbsp;<i class="glyphicon glyphicon-calendar"></i>&nbsp; &nbsp;</p>
+			<span> &nbsp;-&nbsp; </span>
+			<div class="form-group" >
+				<div class="form-control date-picker" 
+					x-modal-date-picker 
+					x-selected-date="dateCompleted">
+					{{ dateCompleted | amDateFormat:'MMM Do YYYY' }}
+					<span class="placeholder-value" ng-if="!dateCompleted">End Date</span>
+					<span class="glyphicon glyphicon-calendar"></span>
 				</div>
 			</div>
 		</div>

@@ -203,7 +203,6 @@ angular.module('project').config (
 								});
 						};
 					},
-					size: 'lg'
 				})
 					.result
 					.then(function (data) {
@@ -235,7 +234,6 @@ angular.module('project').config (
 								});
 						};
 					},
-					size: 'lg'
 				})
 					.result
 					.then(function () {
@@ -282,7 +280,6 @@ angular.module('project').config (
 								});
 						};
 					},
-					size: 'lg'
 				})
 					.result
 					.then(function() {
@@ -351,7 +348,6 @@ angular.module('project').config (
 								});
 						};
 					},
-					size: 'lg'
 				})
 					.result
 					.then(function (project) {

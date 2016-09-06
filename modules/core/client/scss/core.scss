@@ -111,7 +111,7 @@ $danger-border:				#d43f3a;
 $info-bg:					#5bc0de;
 $info-border:				#5bc0de;
 
-$placeholder-value-color:	#CCC;
+$placeholder-value-color:	#999;
 
 $success-bg: 				#5cb85c;
 $success-border: 			#4cae4c;
@@ -2451,11 +2451,13 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 Implementing this as a stop-gap solution to a proper control.
 ------------------------------ */
 .date-picker {
-	max-width: 19rem;
+	min-width: 16rem;
+	max-width: 16rem;
 	position: relative;
 	padding-top: 0.8rem;
 	padding-right: 4rem;
 	font-size: 1.3rem;
+	cursor: pointer;
 
 	strong {
 		margin-right: 1.5rem;
@@ -4875,6 +4877,14 @@ section.project-info {
 /* PROJECT SCHEDULE VIEW
 ------------------------------ */
 .project-schedule-view {	
+	td {
+		padding: 1rem;
+	}
+
+	.table {
+		table-layout: fixed;
+	}
+	
 	.phase-info {
 		margin-bottom: 1.5rem;
 
@@ -4886,13 +4896,27 @@ section.project-info {
 			width: 9rem;
 		}
 	}
-	
-	.table {
-		table-layout: fixed;
+
+	.date-col {
+		width: 14rem;
 	}
 
-	td {
-		padding: 1rem;
+	.phase-dates {
+		.schedule-dates {
+			margin-right: 3rem;
+		}
+	}
+
+	.phase-action-col {
+		width: 10rem;
+		padding-right: 0;
+		text-align: left;
+
+		.label, .btn {
+			width: 100%;
+			height: 2.1rem;
+			font-weight: normal;
+		}
 	}
 
 	.schedule-dates {
@@ -4912,29 +4936,12 @@ section.project-info {
 		}
 	}
 
-	.phase-dates {
-		.schedule-dates {
-			margin-right: 3rem;
-		}
-	}
-
-	.date-col {
-		width: 14rem;
-	}
-
-	.phase-action-col {
-		width: 11rem;
-		padding-right: 0;
-		text-align: right;
+	.status-col {
+		width: 10rem;
 
 		.label, .btn {
-			height: 2.1rem;
-			font-weight: normal;
+			width: 100%;
 		}
-	}
-
-	.status-col {
-		width: 11rem;
 	}
 
 	.phase-milestones {
