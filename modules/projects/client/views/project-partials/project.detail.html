@@ -4,7 +4,8 @@
 		<h1>{{ project.name }}</h1>
 		<div class="actions">
 			<div class="actions-group" ng-if="environment === 'EAO' && authentication.user">
-				<a class="btn btn-default btn-sm" ui-sref="p.edit({pId:o._id})" ng-if="project.userCan.write">Edit Project</a>
+				<a class="btn btn-default btn-sm" ui-sref="p.edit({pId:o._id})" ng-if="project.userCan.write">
+					<span class="glyphicon glyphicon-pencil"></span><span>Edit Project</span></a>
 				<a class="btn btn-success btn-sm" ng-click="publishProject()" ng-if="!project.isPublished">Publish Project</a>
 			</div>
 			<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="project"></tmpl-permissions-gear>
@@ -101,8 +102,7 @@
 		</tmpl-project-activities>
 		-->
 
-		<tmpl-documents-browser class="anchor-section" id="anchor-documents" x-project="project" x-approvals="false">
-		</tmpl-documents-browser>
+		<tmpl-documents-browser class="anchor-section" id="anchor-documents" x-project="project" x-approvals="false"></tmpl-documents-browser>
 
 		<!-- PROJECT MAP -->
 		<section class="project-map">
