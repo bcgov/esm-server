@@ -15,6 +15,7 @@ var PhaseClass = require(path.resolve('./modules/phases/server/controllers/phase
 var _ = require('lodash');
 var DocumentClass  = require (path.resolve('./modules/documents/server/controllers/core.document.controller'));
 var Access    = require (path.resolve ('./modules/core/server/controllers/core.access.controller'));
+var ObjectID = require('mongodb').ObjectID;
 
 module.exports = DBModel.extend({
 	name: 'Artifact',
@@ -769,16 +770,57 @@ module.exports = DBModel.extend({
 	//
 	// -------------------------------------------------------------------------
 	nextStage: function (doc, oldDoc) {
+		var self = this;
+		var documentClass = new DocumentClass(this.opts);
+
 		var stage = _.find(doc.artifactType.stages, function (s) {
 			return s.name === doc.stage;
 		});
 
-		console.log(stage);
+		//console.log("stage = ", stage);
 		if (stage.next) {
 			var next = _.find(doc.artifactType.stages, function (s) {
 				return s.activity === stage.next;
 			});
-			return this.newStage(doc, oldDoc, next);
+			if (_.isEmpty(next.role)) {
+				return this.newStage(doc, oldDoc, next);
+			} else {
+				var model;
+				return this.newStage(doc, oldDoc, next)
+					.then(function(m) {
+						// whomever manages the next stage will need read on this artifact...
+						m.read = _.uniq(_.concat(m.read, next.role));
+						return self.saveDocument(m);
+					})
+					.then(function(m) {
+						model = m;
+						// and on all documents but internal...
+						// so get the ids and fetch them...
+						var ids = _.concat(model.additionalDocuments, model.supportingDocuments) || [];
+						if (model.document) {
+							if (ObjectID.isValid(model.document)) {
+								ids.push(model.document);
+							} else {
+								ids.push(model.document._id);
+							}
+						}
+						return documentClass.getListIgnoreAccess(ids);
+					})
+					.then(function (list) {
+						// and set read access on all of these documents...
+						var a = _.forEach(list, function (d) {
+							return new Promise(function (resolve, reject) {
+								d.read = _.uniq(_.concat(d.read, next.role));
+								resolve(documentClass.saveDocument(d));
+							});
+						});
+						return Promise.all(a);
+					})
+					.then(function() {
+						// finally, return the artifact.
+						return model;
+					});
+			}
 		}
 	},
 	prevStage: function (doc, oldDoc) {
