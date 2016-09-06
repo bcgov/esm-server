@@ -191,15 +191,8 @@ angular.module('documents').factory('Document', function (ModelBase, _) {
 		getProjectDocumentFolderNames: function(projectId) {
 			return this.get('/api/documents/folderNames/' + projectId);
 		},
-		getProjectDocumentVersions: function(projectId, type, subtype, folderName, fileName) {
-			return this.get('/api/documents/versions/' + projectId,
-							{
-								'projectFolderType': type,
-								'projectFolderSubType': subtype,
-								'projectFolderName': folderName,
-								'documentFileName': fileName,
-								'projectID': projectId,
-							});
+		getProjectDocumentVersions: function(document) {
+			return this.get('/api/documents/versions/' + document);
 		},
 		downloadAndApprove: function(documentObj) {
 			return this.put('/api/documents/approveAndDownload/', documentObj);
@@ -207,6 +200,9 @@ angular.module('documents').factory('Document', function (ModelBase, _) {
 		deleteDocument: function(document) {
 			return this.delete('/api/document/' + document);
 		},
+		makeLatestVersion: function (document) {
+			return this.put('/api/document/makeLatest/' + document);
+		}
 	});
 	return new Class();
 });
