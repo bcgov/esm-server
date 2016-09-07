@@ -845,7 +845,11 @@ function directiveModalDatePicker($modal) {
 					}
 				});
 				modalAddComment.result.then(function (chosenDate) {
-					scope.selectedDate = chosenDate;
+                    if (!chosenDate) {
+                        scope.selectedDate = null;
+                    } else {
+                        scope.selectedDate = chosenDate;
+                    }
 				}, function () {});
 			});
 		}
