@@ -21,6 +21,11 @@ module.exports = function (app) {
 		.post ( routes.setAndRun (DocumentClass, function (model, request) {
 				return model.loadDocuments(request.files.file, request);
 			}));
+	app.route ('/api/document/makeLatest/:document')
+		.all (policy ('user'))
+		.put (routes.setAndRun (DocumentClass, function (model, req) {
+			return model.makeLatest (req.Document);
+		}));
 	//
 	// getAllDocuments                 : '/api/documents'
 	//

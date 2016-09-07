@@ -31,6 +31,8 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 	docLink.docLocationCode = $scope.docLocationCode;
 	docLink.artifact = $scope.artifact;
 
+	docLink.sav = angular.copy($scope.current);
+
 	docLink.changeItem = function (docObj) {
 		if ($scope.current) {
 			var idx = $scope.current.indexOf(docObj._id);
@@ -44,6 +46,13 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 			}
 		}
 	};
+
+	$scope.$on('linkCancel', function (event, obj) {
+		// Need to rebuild the old array - since we're cancelling this whole operation
+		_.each(docLink.sav, function (item) {
+			$scope.current.push(item);
+		});
+	});
 
 	$scope.$on('toggleDocumentLink', function(event, docObj) {
 		docLink.changeItem(docObj);
@@ -582,11 +591,7 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 	};
 	docBrowser.rfilterSummary = function(doc) {
 		$scope.rfilterSummary = doc;
-		Document.getProjectDocumentVersions(doc.project,
-											doc.projectFolderType,
-											doc.projectFolderSubType,
-											doc.projectFolderName,
-											doc.documentFileName).then( function(res) {
+		Document.getProjectDocumentVersions(doc._id).then( function(res) {
 			docBrowser.docVersions	= res;
 			// Fix for if a version was uploaded while we hovered overtop last
 			if (docBrowser.docVersions[docBrowser.docVersions.length-1].documentVersion >= $scope.rfilterSummary.documentVersion) {
@@ -605,8 +610,24 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 	};
 	docBrowser.deleteDocument = function(documentID) {
 		// console.log("deleting:",documentID);
-		// Delete it from the system.
-		Document.deleteDocument(documentID).then( function(res) {
+		Document.lookup(documentID)
+		.then( function (doc) {
+			return Document.getProjectDocumentVersions(doc._id);
+		})
+		.then( function (docs) {
+			// Are there any prior versions?  If so, make them the latest and then delete
+			// otherwise delete
+			if (docs.length > 0) {
+				return Document.makeLatestVersion(docs[docs.length-1]._id);
+			} else {
+				return null;
+			}
+		})
+		.then( function () {
+			// Delete it from the system.
+			return Document.deleteDocument(documentID);
+		})
+		.then( function(res) {
 			$scope.filterSummary = undefined;
 			$rootScope.$broadcast('refreshDocumentList');
 		});
@@ -617,9 +638,9 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentLink.$inject = ['$modalInstance', '$scope', 'rProject', 'rCurrent', 'rDocLocationCode', 'rArtifact', '_'];
+controllerModalDocumentLink.$inject = ['$rootScope', '$modalInstance', '$scope', 'rProject', 'rCurrent', 'rDocLocationCode', 'rArtifact', '_'];
 /* @ngInject */
-function controllerModalDocumentLink($modalInstance, $scope, rProject, rCurrent, rDocLocationCode, rArtifact, _) {
+function controllerModalDocumentLink($rootScope, $modalInstance, $scope, rProject, rCurrent, rDocLocationCode, rArtifact, _) {
 	var docLink = this;
 	docLink.linkFiles = [];
 	docLink.project = rProject;
@@ -646,6 +667,7 @@ function controllerModalDocumentLink($modalInstance, $scope, rProject, rCurrent,
 	};
 	docLink.cancel = function () {
 		rCurrent = docLink.savedCurrent;
+		$rootScope.$broadcast('linkCancel');
 		$modalInstance.dismiss('cancel');
 	};
 }

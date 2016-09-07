@@ -299,6 +299,15 @@ module.exports = DBModel.extend ({
 				.then(resolve, reject);
 		});
 	},
+	makeLatest: function (doc) {
+		if (!doc)
+			return Promise.resolve();
+
+		return new Promise(function (resolve, reject) {
+			doc.documentIsLatestVersion = true;
+			doc.save().then(resolve, reject);
+		});
+	},
 	// Importing from CSV
 	loadDocuments : function(file, req, res) {
 		var self = this;
