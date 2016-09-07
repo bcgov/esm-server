@@ -7,7 +7,7 @@
 	<section class="panel panel-default no-margin">
 		<table class="table table-scroll add-vc-table" ng-table="tableParams" show-filter="false">
 			<tr ng-repeat="t in s.items">
-				<td class="name-col"
+				<td class="name-col select"
 					header-class="'name-col'"
 				 	data-title="'Name'">
 					<input type="checkbox" ng-click="s.select(t._id)" ng-checked="s.isSelected(t._id)"/>{{ t.name }}</td>

@@ -6,9 +6,10 @@
 
 <div class="modal-body">
 	<section class="panel panel-default no-margin add-vc-table">
-		<table class="table table-scroll add-valued-component-table" ng-table="self.tableParams" show-filter="self.showFilter">
+		<table class="table table-scroll" ng-table="self.tableParams" show-filter="self.showFilter">
 			<tr ng-repeat="o in $data">
-				<td data-title="'Name'"
+				<td class="select"
+					data-title="'Name'"
 					sortable="'name'"
 					filter="{'name':'text'}"><input type="checkbox" ng-click="self.toggleItem(o)"/>{{o.name}}</td>
 				<td class="pillar-col" header-class="'pillar-col'" data-title="'Pillar'"
