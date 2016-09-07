@@ -41,7 +41,7 @@ module.exports = function (app) {
 				}).then (routes.success(res), routes.failure(res));
 			}
 		});
-	app.route ('/api/users/sig/upload').all (policy ('guest'))
+	app.route ('/api/users/sig/upload').all (policy ('user'))
 		.post (routes.setAndRun (DocumentClass, function (model, req) {
 			return new Promise (function (resolve, reject) {
 				var file = req.files.file;

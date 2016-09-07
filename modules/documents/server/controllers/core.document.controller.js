@@ -25,7 +25,7 @@ module.exports = DBModel.extend ({
 		// ****
 		// This process is disabled if it's a comment document - there are no versions
 		// ****
-		if (doc.documentSource === 'COMMENT') {
+		if (doc.documentSource === 'COMMENT' || doc.documentSource === 'SIGNATURE') {
 			// We force this ability to write to documents because they are public comments.
 			this.setForce(true);
 			return doc;
