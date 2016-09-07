@@ -57,6 +57,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			.then (function (a) {
 				// console.log ('artifact = ', a);
 				$state.go ('p.artifact.edit', {artifactId:a._id});
+			}, function(e) {
+				//console.log(e);
 			});
 		}
 	})

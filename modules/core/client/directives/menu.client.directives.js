@@ -36,12 +36,15 @@ angular.module('core')
 
 		   	$scope.$watch('menuContext', function(newValue) {
 				if(newValue) {
+					//console.log('menu.menuContext(' + JSON.stringify(newValue) + ')');
 				   	menu.context = newValue;
 				}
 		   	});
 
 		   	$scope.$watch('project', function(newValue) {
 		   		if (newValue) {
+					//console.log('menu.project = ');
+					//console.log(JSON.stringify(newValue));
 					menu.project = newValue;
 				   	menu.isProjectAdmin = (Authentication.user && Authentication.user.roles.indexOf (menu.project.adminRole) !== -1);
 				   	menu.isProponentAdmin = (Authentication.user && Authentication.user.roles.indexOf (menu.project.proponentAdminRole) !== -1);

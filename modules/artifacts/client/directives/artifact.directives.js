@@ -147,7 +147,7 @@ angular.module('artifacts')
 				.then(function (c) {
 					// quickly surface up the current stage...
 					_.each(c, function(a) {
-						var currentStage = _.find(a.artifactType.stages, function(s) { return s.name === a.stage; });
+						var currentStage = (a.artifactType && a.artifactType.stages) ? _.find(a.artifactType.stages, function(s) { return s.name === a.stage; }) : undefined;
 						a.stageRole = (currentStage && currentStage.role) ? currentStage.role : '';
 					});
 					s.tableParams = new NgTableParams({count: 10}, {dataset: c});
@@ -156,9 +156,9 @@ angular.module('artifacts')
 					// no content message...
 					if (!c || c.length === 0) {
 						if (s.published) {
-							s.noDataMessage = "There are is no published content at this time.";
+							s.noDataMessage = "There is no published content at this time.";
 						} else {
-							s.noDataMessage = (s.public) ? "There are is no in progress content at this time." : "To add an artifact, select from the list above and click the Add button.";
+							s.noDataMessage = (s.public) ? "There is no in progress content at this time." : "To add an artifact, select from the list above and click the Add button.";
 						}
 					}
 					if (s.showFilter) {

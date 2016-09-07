@@ -14,7 +14,7 @@ angular.module('core')
 // and thingamajig
 //
 // -------------------------------------------------------------------------
-.directive('rolePermissionsModal', function ($modal, Authentication, Application, AccessModel, _, ArtifactModel, VcModel) {
+.directive('rolePermissionsModal', function ($state, $modal, Authentication, Application, AccessModel, _, ArtifactModel, VcModel) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -184,9 +184,27 @@ angular.module('core')
 								AccessModel.setPermissionRoleIndex(art._id, data.data);
 							});
 						}
+					}, function(e) {
+						console.log('Error on AccessModel.setPermissionRoleIndex(' + data.resource + ', ' + JSON.stringify(data.data) + ') = ', JSON.stringify(e));
+					})
+					.then(function() {
+						return Application.reload(Authentication.user ? Authentication.user._id : 0, true);
+					}, function(e) {
+						console.log('Error on Application.reload(' + (Authentication.user ? Authentication.user._id : 0) + ', true) = ', JSON.stringify(e));
+					})
+					.then(function() {
+						return AccessModel.resetSessionContext();
+					}, function(e) {
+						console.log('Error on AccessModel.resetSessionContext() = ', JSON.stringify(e));
+					})
+					.then(function() {
+						return $state.reload();
+					}, function(e) {
+						console.log('Error on state.reload() = ', JSON.stringify(e));
 					});
 				})
 				.catch(function (err) {
+					//
 				});
 			});
 		}
@@ -218,7 +236,7 @@ angular.module('core')
 // interacting with a list of roles and users for a given context
 //
 // -------------------------------------------------------------------------
-.directive('roleUsersModal', function ($modal, Authentication, Application, AccessModel, _) {
+.directive('roleUsersModal', function ($state, $modal, Authentication, Application, AccessModel, _) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -334,9 +352,25 @@ angular.module('core')
 					}
 				})
 				.result.then(function (data) {
-					AccessModel.setRoleUserIndex(data.context, data.data);
+					AccessModel.setRoleUserIndex(data.context, data.data)
+						.then(function() {
+							return Application.reload(Authentication.user ? Authentication.user._id : 0, true);
+						}, function(e) {
+							console.log('Error on Application.reload(' + (Authentication.user ? Authentication.user._id : 0) + ', true) = ', JSON.stringify(e));
+						})
+						.then(function() {
+							return AccessModel.resetSessionContext();
+						}, function(e) {
+							console.log('Error on AccessModel.resetSessionContext() = ', JSON.stringify(e));
+						})
+						.then(function() {
+							return $state.reload();
+						}, function(e) {
+							console.log('Error on state.reload() = ', JSON.stringify(e));
+						});
 				})
 				.catch(function (err) {
+					//console.log(err);
 				});
 			});
 		}
