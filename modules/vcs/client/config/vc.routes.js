@@ -410,6 +410,8 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.vclist = vclist;
 			$scope.vc.artifact = art;
 			$scope.project = project;
+			$scope.vc.artifact.document = ($scope.vc.artifact.document) ? $scope.vc.artifact.document : {};
+			$scope.vc.artifact.maindocument = $scope.vc.artifact.document._id ? [$scope.vc.artifact.document._id] : [];
 		}
 	})
 
