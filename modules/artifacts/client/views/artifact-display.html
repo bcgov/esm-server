@@ -4,50 +4,25 @@
 
     <!-- MAIN DOCUMENT PANEL -->
     <section>
-        <div class="document-panel panel panel-default">
-            <div class="panel-heading flex-row">
-                <h2>Main Document</h2>
-                <div class="actions">
-                <a class="btn btn-default btn-sm" ng-if="mode === 'edit'"
-                    x-modal-document-link
-                    x-current="artifact.maindocument"
-                    x-project="project"
-                    x-doc-location-code="'main'"
-                    x-artifact="artifact"
-                    href><span class="glyphicon glyphicon-link"></span><span>Link Document<span></a>
-                </div>
-            </div>
-            <div class="list-group no-border">
-                <div class="list-group-item flex-row" ng-if="!artifact.document._id">
-                    <span class="title">
-                        <span ng-if="!artifact.document._id">No file available.</span>
-                    </span>
-                </div>
-                <a class="list-group-item flex-row" ng-if="artifact.document._id" href="/api/document/{{ artifact.document._id }}/fetch" target="_blank" title="Download file">
-                    <span class="icon">
-                        <span class="glyphicon glyphicon-list-alt"></span>
-                    </span>
-                    <span class="title">
-                        <span ng-if="artifact.document._id">{{ artifact.document.internalOriginalName }}</span>
-                        <span class="file-details">
-                            <small>V.{{ artifact.document.documentVersion }}</small>
-                            <small> &nbsp;|&nbsp; {{ artifact.document.dateUpdated | amDateFormat:'MMMM Do YYYY'}}</small>
-                        </span>
-                    </span>
-                    <span class="actions">
-                        <button class="btn btn-default btn-sm">
-                            <span class="glyphicon glyphicon-download-alt"></span>
-                        </button>
-                    </span>
-                </a>
-            </div>
-        </div>
+        <div x-content-document
+        ng-model="artifact.maindocument"
+        title="'Main Document'"
+        project="project"
+        artifact="artifact"
+        doc-location-code="main"
+        editable="mode === 'edit'"></div>
     </section>
     <!-- / MAIN DOCUMENT -->
 
     <!-- SUPPORTING, ADDITIONAL, INTERNAL DOCUMENTS -->
     <section>
-        <div x-content-document ng-model="artifact.supportingDocuments" title="'Supporting Documents'" project="project" artifact="artifact" doc-location-code="supporting" editable="mode === 'edit'"></div>
+        <div x-content-document
+        ng-model="artifact.supportingDocuments"
+        title="'Supporting Documents'"
+        project="project"
+        artifact="artifact"
+        doc-location-code="supporting"
+        editable="mode === 'edit'"></div>
     </section>
     <section>
         <div x-content-document ng-model="artifact.additionalDocuments" title="'Additional Documents'" project="project" artifact="artifact" doc-location-code="additional" editable="mode === 'edit'"></div>
