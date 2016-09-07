@@ -80,26 +80,21 @@
 				</td>
 				<td data-title="'Enforcement Conditions'">
 					<div class="anchor-list">
-						<a ui-sref="p.artifact.view({artifactId:o._id})"
-							ng-repeat="cell in o.condition.concat(o.conditionArtifacts)">{{cell.name}}{{$last ? '' : ', '}}</a>
+						<div>
+							<div ng-repeat="cell in o.condition.concat(o.conditionArtifacts)">
+								<a ng-if="cell._schemaName == 'Artifact' && cell.valuedComponents.length"
+									ui-sref="p.vc.detail({vcId:cell.valuedComponents[0]._id})">{{cell.name}}</a>
+								<a ng-if="cell._schemaName == 'Artifact' && !cell.valuedComponents.length"
+									ui-sref="p.artifact.view({artifactId:cell._id})">{{cell.name}}</a>
+								<a ng-if="cell._schemaName == 'ProjectCondition'"
+									ui-sref="p.projectcondition.detail({conditionId:cell._id})">{{cell.name}}</a>
+							</div>
+						</div>
 					</div>
-
-					<!-- This should replace the enforcement conditions section -->
-					<!-- <table class="anchor-list"> -->
-						<!-- <tr> -->
-							<!-- <a ng-repeat="cell in o.condition.concat(o.conditionArtifacts)"> -->
-								<!-- If this is an artifact, it links to an artifact route -->
-								<!-- <a ng-if="cell._schemaName == 'Artifact'" ui-sref="p.artifact.view({artifactId:cell._id})">{{cell.name}}{{$last ? '' : ', '}}</a> -->
-								<!-- If this is a vc artifact, it links to a vc route -->
-								<!-- <a ng-if="cell._schemaName == 'ProjectCondition'"  ui-sref="p.projectcondition.detail({conditionId:cell._id})">{{cell.name}}{{$last ? '' : ', '}}</a> -->
-							<!-- </a> -->
-						<!-- </tr> -->
-					<!-- </table> -->
-
 				</td>
 				<td data-title="'Order'">
 					<ul class="anchor-list">
-						<a>{{o.orderArtifact.name}}</a>
+						<a ui-sref="p.artifact.view({artifactId:o.orderArtifact._id})">{{o.orderArtifact.name}}</a>
 					</ul>
 				</td>
 				<td class="status-col"
