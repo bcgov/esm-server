@@ -145,6 +145,11 @@ angular.module('artifacts')
 				// show up in the VC page.
 				ArtifactModel.forProjectFilterType($scope.project._id, "isPublished=" + $scope.published + "&typeCodeNe=valued-component,inspection-report")
 				.then(function (c) {
+					// quickly surface up the current stage...
+					_.each(c, function(a) {
+						var currentStage = _.find(a.artifactType.stages, function(s) { return s.name === a.stage; });
+						a.stageRole = (currentStage && currentStage.role) ? currentStage.role : '';
+					});
 					s.tableParams = new NgTableParams({count: 10}, {dataset: c});
 					// console.log ("artifacts = ", c);
 					s.showFilter = c && c.length > 0;

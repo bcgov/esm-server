@@ -25,6 +25,10 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		else if (stage === 'Public Comment Period') return 'public-comment';
 		else if (stage === 'Decision') return 'decision';
 	};
+	var getStageRole = function (stage, stages) {
+		var currentStage = _.find(stages, function(s) { return s.name === stage; });
+		return (currentStage && currentStage.role) ? currentStage.role : '';
+	};
 
 
 
@@ -136,6 +140,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			if (method !== 'edit') $state.go ('p.artifact.'+method);
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
 			$scope.artifact = artifact;
+			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
 			$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
@@ -275,6 +280,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Authentication, VcModel) {
 			$scope.authentication = Authentication;
 			$scope.artifact = artifact;
+			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 		}
 	})
@@ -289,6 +295,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		},
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
 			// artifact.artifactType = fix;
+			$scope.artifact = artifact;
+			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$state.go ('p.artifact.view');
 		}
 	})
@@ -307,6 +315,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
+			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
 			$scope.reject = function () {
@@ -373,6 +382,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
+			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
 			$scope.reject = function () {
@@ -439,6 +449,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
+			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
 			$scope.reject = function () {
@@ -506,6 +517,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			var method = properMethod (artifact.stage);
 			if (method !== 'decision') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
+			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
 			$scope.reject = function () {
@@ -583,6 +595,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
 			$scope.artifact = artifact;
+			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
 			$scope.reject = function () {
