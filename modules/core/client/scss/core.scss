@@ -1852,7 +1852,7 @@ $header-height-sm: 5.2rem;
 		.app-title {
 			padding-top: 0.6rem;
 			margin-left: 1.5rem;
-			font-size: 1.4rem;
+			font-size: 1.2rem;
 			font-weight: bold;
 		}
 	}
@@ -3228,16 +3228,66 @@ section {
 /* TABLES
 ------------------------------ */
 .table-th {
+	padding: 0.8rem 0.5rem;
+	overflow: hidden;
 	font-size: 1.2rem;
 	text-align: left;
+	text-overflow: ellipsis;
 	background: $table-head-bg;
 	border-bottom: none;
+	vertical-align: top;
+	white-space: nowrap;
+}
+
+.table-td {
+	padding: 0.8rem 0.5rem;
+	line-height: 1.6rem;
+}
+
+.first-col {
+	padding-left: 1rem;
+}
+
+.last-col {
+	padding-right: 1rem;
 }
 
 .table {
 	margin: 0;
 	table-layout: fixed;
 	background: $table-bg;
+
+	thead {
+		> tr {
+			> th {
+				@extend .table-th;
+
+				&:first-child {
+					@extend .first-col;
+				}
+
+				&:last-child {
+					@extend .last-col;
+				}
+			}
+		}
+	}
+
+	tbody {
+		> tr {
+			> td {
+				@extend .table-td;
+
+				&:first-child {
+					@extend .first-col;
+				}
+
+				&:last-child {
+					@extend .last-col;
+				}
+			}
+		}
+	}
 
 	&.table-striped {
 		> tbody > tr:nth-of-type(odd) {
@@ -3264,10 +3314,6 @@ section {
 		.no-records:hover {
 			background: none;
 		}
-	}
-
-	> thead > tr > th {
-		@extend .table-th
 	}
 	
 	td.actions-col {
@@ -4992,21 +5038,18 @@ section.project-info {
 
 /* PUBLIC HOMEPAGE VIEW
 ------------------------------ */
-$home-view-map-sm: 400px;
-$home-view-map-md: 400px;
-$home-view-map-lg: 800px;
-
 .home-view {
 	padding: 2rem;
 	overflow-y: auto;
 
 	.angular-google-map-container {
-		height: $home-view-map-sm;
+		height: 400px;
 	}
 
 	.news-feed {
 		@extend .flex-column;
-		height: 447px;
+		margin-right: -1rem;
+		height: 445px;
 
 		.panel-heading,
 		.panel-footer {
@@ -5019,6 +5062,50 @@ $home-view-map-lg: 800px;
 		}
 	}
 }
+
+/* Portrait */
+@media only screen 
+	and (min-device-width: 768px)
+	and (max-device-width: 1024px)
+	and (orientation: portrait)
+	and (-webkit-min-device-pixel-ratio: 1) {
+
+	.home-view {
+		.angular-google-map-container {
+			height: 500px;
+		}
+
+		.news-feed {
+			height: 545px;
+		}
+	}
+
+	.project-table {
+		th {
+			font-size: 1.1rem;
+		}
+
+		.comment-col {
+			width: 12rem;
+		}
+
+		.decision-col,
+		.phase-col,
+		.region-col,
+		.type-col {
+			width: 10rem;
+		}
+	}
+}
+
+@media (min-width: 1024px) {
+	.project-table {
+		.name-col {
+			width: 32rem;
+		}
+	}
+}
+
 
 
 /* PROJECT INVITATIONS 
