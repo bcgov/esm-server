@@ -31,6 +31,8 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 	docLink.docLocationCode = $scope.docLocationCode;
 	docLink.artifact = $scope.artifact;
 
+	docLink.sav = angular.copy($scope.current);
+
 	docLink.changeItem = function (docObj) {
 		if ($scope.current) {
 			var idx = $scope.current.indexOf(docObj._id);
@@ -44,6 +46,13 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 			}
 		}
 	};
+
+	$scope.$on('linkCancel', function (event, obj) {
+		// Need to rebuild the old array - since we're cancelling this whole operation
+		_.each(docLink.sav, function (item) {
+			$scope.current.push(item);
+		});
+	});
 
 	$scope.$on('toggleDocumentLink', function(event, docObj) {
 		docLink.changeItem(docObj);
@@ -629,9 +638,9 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentLink.$inject = ['$modalInstance', '$scope', 'rProject', 'rCurrent', 'rDocLocationCode', 'rArtifact', '_'];
+controllerModalDocumentLink.$inject = ['$rootScope', '$modalInstance', '$scope', 'rProject', 'rCurrent', 'rDocLocationCode', 'rArtifact', '_'];
 /* @ngInject */
-function controllerModalDocumentLink($modalInstance, $scope, rProject, rCurrent, rDocLocationCode, rArtifact, _) {
+function controllerModalDocumentLink($rootScope, $modalInstance, $scope, rProject, rCurrent, rDocLocationCode, rArtifact, _) {
 	var docLink = this;
 	docLink.linkFiles = [];
 	docLink.project = rProject;
@@ -658,6 +667,7 @@ function controllerModalDocumentLink($modalInstance, $scope, rProject, rCurrent,
 	};
 	docLink.cancel = function () {
 		rCurrent = docLink.savedCurrent;
+		$rootScope.$broadcast('linkCancel');
 		$modalInstance.dismiss('cancel');
 	};
 }
