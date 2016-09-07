@@ -69,7 +69,7 @@
                             <li ng-repeat="user in taskInvitations.selected | orderBy:['displayName','username', 'email']">
                                 <button class="btn btn-block btn-sm btn-layer" ng-click="taskInvitations.moveUser(user)">{{ user.displayName || user.username || user.email }} <em class="small">{{ user.email }}</em></button>
                             </li>
-                            <li class="no-lower-padding" ng-if="taskInvitations.selected.length === 0">Select users from left column to add to Recipients list.</li>
+                            <li class="no-lower-padding" ng-if="taskInvitations.selected.length === 0">Select contacts from left column to add to Recipients list.</li>
                         </ul>
                     </div>
                 </div>

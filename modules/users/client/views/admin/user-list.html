@@ -1,12 +1,12 @@
 <div class="view-title-container">
-	<h1>Users & Contacts</h1>
+	<h1>Contacts</h1>
 	<!-- <tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project" x-permissions=""></tmpl-permissions-gear> -->
 </div>
 
 <div class="view-body-container">
 	<div class="button-bar">
 		<a class="btn btn-default btn-sm" ui-sref="admin.user.create()">
-			<span class="glyphicon glyphicon-plus"></span><span>Add New User</span>
+			<span class="glyphicon glyphicon-plus"></span><span>Add New Contact</span>
 		</a>
 		<div class="pull-right">
 			<show-filter x-toggle-filter="toggleFilter"></show-filter>
@@ -23,7 +23,7 @@
 						<td class="text-center" data-title="'Phone'"   filter="{'phoneNumber':'text'}"  sortable="'phoneNumber'" >{{o.phoneNumber}}</td>
 						<td class="text-center" data-title="'Email'"  filter="{'email':'text'}" sortable="'email'"  >{{o.email}}</td>
 						<td class="actions-col action-x1" header-class="'actions-col action-x1'">
-							<a class="btn btn-link btn-sm" ng-click="$event.stopPropagation()" ui-sref="admin.user.edit({userId:o._id})">
+							<a class="btn btn-default btn-sm" ng-click="$event.stopPropagation()" ui-sref="admin.user.edit({userId:o._id})">
 								<span class="glyphicon glyphicon-pencil"></span>
 							</a>
 						</td>

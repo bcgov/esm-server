@@ -2,16 +2,17 @@
 <form class="view-form" name="userForm" ng-submit="save(userForm.$valid)" novalidate>
 
 	<div class="view-title-container flex-row">
-		<h1>Add/Edit User<span ng-show="user.username"> &nbsp;&rsaquo;&nbsp; {{user.username}}</span></h1>
+		<h1>Add/Edit Contact<span ng-show="user.username"> &nbsp;&rsaquo;&nbsp; {{user.username}}</span></h1>
 		<div class="actions">
 			<button class="btn btn-default btn-sm" ui-sref="admin.user.list" type="button">Cancel</button>
 			<button class="btn btn-primary btn-sm" type="submit">Save</button>
 		</div>
 	</div>
+
 	<div class="view-body-container">
 		<!-- USER PROFILE -->
 		<fieldset>
-			<legend>User Profile</legend>
+			<legend>Contact Details</legend>
 			<div class="row">
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group">
@@ -23,60 +24,57 @@
 					<div class="form-group" x-show-errors>
 						<label for="firstName" class="control-label">First Name<em>(Required)</em></label>
 						<input class="form-control" id="firstName" name="firstName" ng-change="calculateName()" type="text" ng-model="user.firstName" required>
-            <div ng-messages="userForm.firstName.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">* Required.</p>
-            </div>
-          </div>
+          			</div>
 				</div>
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group">
 						<label class="control-label" for="middleName">Middle Name<em>(Optional)</em></label>
 						<input class="form-control" id="middleName" ng-change="calculateName()" type="text" ng-model="user.middleName">
-
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group" x-show-errors>
 						<label for="lastName" class="control-label">Last Name<em>(Required)</em></label>
 						<input class="form-control" id="lastName" name="lastName" ng-change="calculateName()" type="text" ng-model="user.lastName" required>
-            <div ng-messages="userForm.lastName.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">* Required.</p>
-            </div>
-          </div>
+          			</div>
 				</div>
 			</div>
 			<div class="row">
-        <div class="col-sm-6 col-md-3">
-          <div class="form-group">
-            <label class="control-label" for="displayName">Displayed Name</label>
-            <input class="form-control" id="displayName" disabled=true type="text" ng-model="user.displayName">
-          </div>
-        </div>
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group">
+						<label class="control-label" for="displayName">Displayed Name</label>
+						<input class="form-control" id="displayName" disabled=true type="text" ng-model="user.displayName">
+					</div>
+				</div>
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group" x-show-errors>
 						<label for="username" class="control-label">Username<em ng-if="mode === 'add'">(Required)</em></label>
 						<input class="form-control" id="username" name="username" type="text" ng-model="user.username" required ng-disabled="mode === 'edit'">
-            <div ng-messages="userForm.username.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">* Required.</p>
-            </div>
 					</div>
 				</div>
 			</div>
-		</fieldset><!-- / USER PROFILE -->
+			
+			<!-- Preferences -->
+			<div class="form-group">
+				<label class="control-label">Preferred Contact Method</label>
+				<div class="checkbox-row">
+					<div class="checkbox-inline">
+						<label class="control-label" for="viaEmail">
+						<input type="checkbox" ng-model="user.viaEmail" id="viaEmail" name="viaEmail" />By Email</label>
+					</div>
+					<div class="checkbox-inline">
+						<label class="control-label" for="viaMail">
+						<input type="checkbox" ng-model="user.viaMail" id="viaMail" name="viaMail" />By Mail</label>
+					</div>
+				</div>
+			</div><!--/ CONTACT PREFERENCES -->
 
-
-		<!-- CONTACT INFO -->
-		<fieldset>
-			<legend>Contact Details</legend>
+			<!-- Email, Phone, Mobile, Fax -->
 			<div class="row">
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group" x-show-errors>
-						<label class="control-label" for="email">Email<em ng-if="user.viaEmail">(Required)</em></label>
+						<label class="control-label" for="email">Email<em class="required" ng-if="user.viaEmail">(Required)</em></label>
 						<input class="form-control" placeholder="myname@example.com" id="email" name="email" type="email" ng-model="user.email" ng-required="user.viaEmail">
-            <div ng-messages="userForm.email.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">* Required.</p>
-              <p class="help-block error-text" ng-message="email">* Format (myname@example.com)</p>
-            </div>
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-3">
@@ -98,86 +96,55 @@
 					</div>
 				</div>
 			</div>
+
+			<!-- City, Province, Country, Postal Code -->
 			<div class="row">
-				<div class="col-sm-12">
-					<div class="form-group" x-show-errors>
-						<label for="address1" class="control-label">Street Address 1<em ng-if="user.viaMail">(Required)</em></label>
-						<input class="form-control" id="address1" name="address1" type="text" ng-model="user.address1" ng-required="user.viaMail">
-            <div ng-messages="userForm.address1.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">* Required.</p>
-            </div>
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group"x-show-errors>
+						<label for="city" class="control-label">City<em class="required" ng-if="user.viaMail">(Required)</em></label>
+						<input class="form-control" id="city" name="city" type="text" ng-model="user.city" ng-required="user.viaMail === true">
 					</div>
 				</div>
-				<div class="col-sm-12">
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group" x-show-errors>
+						<label for="province" class="control-label">Province<em class="required" ng-if="user.viaMail">(Required)</em></label>
+						<input class="form-control" id="province" name="province" type="text" ng-model="user.province" ng-required="user.viaMail === true">
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group" x-show-errors>
+						<label for="country" class="control-label">Country<em class="required" ng-if="user.viaMail">(Required)</em></label>
+						<input class="form-control" id="country" name="country" type="text" ng-model="user.country" ng-required="user.viaMail === true">
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group" x-show-errors>
+						<label for="postalCode" class="control-label">Postal Code<em class="required" ng-if="user.viaMail">(Required)</em></label>
+						<input class="form-control" id="postalCode" name="postalCode" type="text" ng-model="user.postalCode" ng-required="user.viaMail === true">
+					</div>
+				</div>
+			</div>
+
+			<!-- Street Address -->
+			<div class="row">
+				<div class="col-sm-12 col-md-6">
+					<div class="form-group" x-show-errors>
+						<label for="address1" class="control-label">Street Address 1<em class="required" ng-if="user.viaMail">(Required)</em></label>
+						<input class="form-control" id="address1" name="address1" type="text" ng-model="user.address1" ng-required="user.viaMail">
+					</div>
+				</div>
+				<div class="col-sm-12 col-md-6">
 					<div class="form-group">
 						<label for="address1" class="control-label">Street Address 2</label>
 						<input class="form-control" id="address2" type="text" ng-model="user.address2">
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-sm-6 col-md-3">
-					<div class="form-group"x-show-errors>
-						<label for="city" class="control-label">City<em ng-if="user.viaMail">(Required)</em></label>
-						<input class="form-control" id="city" name="city" type="text" ng-model="user.city" ng-required="user.viaMail === true">
-            <div ng-messages="userForm.city.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">* Required.</p>
-            </div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-3">
-					<div class="form-group" x-show-errors>
-						<label for="province" class="control-label">Province<em ng-if="user.viaMail">(Required)</em></label>
-						<input class="form-control" id="province" name="province" type="text" ng-model="user.province" ng-required="user.viaMail === true">
-            <div ng-messages="userForm.province.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">* Required.</p>
-            </div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-3">
-					<div class="form-group" x-show-errors>
-						<label for="country" class="control-label">Country<em ng-if="user.viaMail">(Required)</em></label>
-						<input class="form-control" id="country" name="country" type="text" ng-model="user.country" ng-required="user.viaMail === true">
-            <div ng-messages="userForm.country.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">* Required.</p>
-            </div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-3">
-					<div class="form-group" x-show-errors>
-						<label for="postalCode" class="control-label">Postal Code<em ng-if="user.viaMail">(Required)</em></label>
-						<input class="form-control" id="postalCode" name="postalCode" type="text" ng-model="user.postalCode" ng-required="user.viaMail === true">
-            <div ng-messages="userForm.postalCode.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">* Required.</p>
-            </div>
-					</div>
-				</div>
-			</div>
-		</fieldset>	<!-- / CONTACT INFO -->
-
-    <fieldset>
-      <legend>Contact Preferences</legend>
-      <div class="row">
-        <div class="col-sm-6 col-md-3">
-          <div class="form-group">
-            <label class="control-label" for="viaEmail">By Email</label>
-            <input type="checkbox" ng-model="user.viaEmail" id="viaEmail" name="viaEmail" />
-          </div>
-        </div>
-
-        <div class="col-sm-6 col-md-3">
-          <div class="form-group">
-            <label class="control-label" for="viaMail">By Mail</label>
-            <input type="checkbox" ng-model="user.viaMail" id="viaMail" name="viaMail" />
-          </div>
-        </div>
-
-      </div>
-    </fieldset>	<!-- / CONTACT Preferences -->
+		</fieldset><!-- / CONTACT INFO -->
 
 		<!-- ORGANIZATIONAL INFO -->
 		<fieldset>
-			<legend>Organization</legend>
+			<legend>Organization Details</legend>
 			<div class="row">
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group">
@@ -201,19 +168,12 @@
 					</div>
 				</div>
 			</div>
-		</fieldset><!-- / ORGANIZATIONAL INFO -->
-
-		<!-- ADDITIONAL INFO -->
-		<fieldset>
-			<legend>Additional</legend>
 			<div class="row">
-				<div class="col-sm-12">
-					<div class="form-group">
-						<label for="notes" class="control-label">Notes<em>(Optional)</em></label>
-						<textarea class="form-control" id="notes" rows="2" ng-model="user.notes"></textarea>
-					</div>
+				<div class="col-sm-12 form-group">
+					<label for="notes" class="control-label">Additional Notes<em>(Optional)</em></label>
+					<textarea class="form-control" id="notes" rows="2" ng-model="user.notes"></textarea>
 				</div>
 			</div>
-		</fieldset>
+		</fieldset><!-- / ORGANIZATIONAL INFO -->
 	</div>
 </form>

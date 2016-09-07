@@ -1,6 +1,5 @@
-
 <div class="view-title-container flex-row">
-	<h1>User Details <span> &nbsp;&rsaquo;&nbsp; {{user.username}}<span></h1>
+	<h1>Contacts &nbsp;&rsaquo;&nbsp; {{user.username}}</h1>
 	<div class="actions">
 		<a class="btn btn-default btn-sm" ui-sref="admin.user.edit({userId:user._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span></a>
 	</div>
@@ -8,7 +7,7 @@
 
 <div class="view-body-container">
 	<fieldset>
-		<legend>User Profile</legend>
+		<legend>Contact Details</legend>
 		<div class="row">
 			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
@@ -35,10 +34,23 @@
 				</div>
 			</div>
 		</div>
-	</fieldset>
 
-	<fieldset>
-		<legend>Contact</legend>
+		<!-- Preferences -->
+		<div class="form-group">
+			<label class="control-label">Preferred Contact Method</label>
+			<div class="checkbox-row">
+				<div class="checkbox-inline">
+					<label class="control-label" for="viaEmail">
+					<input type="checkbox" ng-model="user.viaEmail" id="viaEmail" name="viaEmail" disabled/>By Email</label>
+				</div>
+				<div class="checkbox-inline">
+					<label class="control-label" for="viaMail">
+					<input type="checkbox" ng-model="user.viaMail" id="viaMail" name="viaMail" disabled/>By Mail</label>
+				</div>
+			</div>
+		</div>
+
+		<!-- Email, Phone, Mobile, Fax -->
 		<div class="row">
 			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
@@ -65,20 +77,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="address1" class="control-label">Street Address 1</label>
-					<p class="form-control-static">{{ user.address1 }}</p>
-				</div>
-			</div>
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="address2" class="control-label">Street Address 2</label>
-					<p class="form-control-static">{{ user.address2 }}</p>
-				</div>
-			</div>
-		</div>
+
+		<!-- City, Province, Country, Postal Code -->
 		<div class="row">
 			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
@@ -105,28 +105,26 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- Street Address -->
+		<div class="row">
+			<div class="col-sm-12 col-md-6">
+				<div class="form-group">
+					<label for="address1" class="control-label">Street Address 1</label>
+					<p class="form-control-static">{{ user.address1 }}</p>
+				</div>
+			</div>
+			<div class="col-sm-12 col-md-6">
+				<div class="form-group">
+					<label for="address2" class="control-label">Street Address 2</label>
+					<p class="form-control-static">{{ user.address2 }}</p>
+				</div>
+			</div>
+		</div>
 	</fieldset>
-  <fieldset>
-    <legend>Contact Preferences</legend>
-    <div class="row">
-      <div class="col-sm-6 col-md-3">
-        <div class="form-group">
-          <label class="control-label" for="viaEmail">By Email</label>
-          <input disabled="disabled" type="checkbox" ng-model="user.viaEmail" id="viaEmail" />
-        </div>
-      </div>
 
-      <div class="col-sm-6 col-md-3">
-        <div class="form-group">
-          <label class="control-label" for="viaMail">By Mail</label>
-          <input disabled="disabled"  type="checkbox" ng-model="user.viaMail" id="viaMail" />
-        </div>
-      </div>
-
-    </div>
-  </fieldset>	<!-- / CONTACT Preferences -->
 	<fieldset>
-		<legend class="clearfix">Organization</legend>
+		<legend class="clearfix">Organization Details</legend>
 		<div class="row">
 			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
@@ -147,14 +145,10 @@
 				</div>
 			</div>
 		</div>
-	</fieldset>
-
-	<fieldset>
-		<legend>Additional Information</legend>
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
-					<label for="notes" class="control-label">Notes</label>
+					<label for="notes" class="control-label">Additional Notes</label>
 					<p class="form-control-static">{{ user.notes }}</p>
 				</div>
 			</div>

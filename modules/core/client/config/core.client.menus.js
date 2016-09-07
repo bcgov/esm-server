@@ -64,7 +64,7 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 		permissions: ['application.listValuedComponents']
 	});
 	Menus.addMenuItem('systemMenu', {
-		title: 'Users / Contacts',
+		title: 'Contacts',
 		state: 'admin.user.list',
 		permissions: ['application.listContacts']
 	});
