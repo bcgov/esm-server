@@ -43,6 +43,8 @@ $footer-font-size:			1.2rem;
 $btn-focus-bg-color: 		#FFF;
 $btn-focus-border-color: 	#5475a7;
 $btn-primary-bg:			#1a5a96;
+$btn-font-size:				1.4rem;
+$btn-sm-font-size:			1.2rem;
 
 /* Header */
 $header-focus-border-color: #5475a7;
@@ -2355,6 +2357,7 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 /* BUTTONS
 ------------------------------ */
 .btn {
+	font-size: $btn-font-size;
 	font-weight: bold;
 
 	&:active { box-shadow: none; }
@@ -2382,6 +2385,10 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 	&:focus {
 		color: $link-color;
 	}
+}
+
+.btn-sm {
+	font-size: $btn-sm-font-size;
 }
 
 .btn-sm,
@@ -3002,6 +3009,7 @@ form {
 	
 	.close {
 		margin-right: -1rem;
+		font-size: 2.1rem;
 	}
 }
 
@@ -3241,7 +3249,6 @@ section {
 
 .table-td {
 	padding: 0.8rem 0.5rem;
-	line-height: 1.6rem;
 }
 
 .first-col {
@@ -4756,31 +4763,24 @@ section.project-info {
 	.table {
 		table-layout: fixed;
 		
-		th {
-			padding: 0.75rem 1.5rem;
-		}
-		
 		td {
-			padding: 2rem 1.5rem;
+			padding: 1.5rem 0.5rem;
 		}
-	}
-	
-	th.date-col,
-	td.date-col {
-		width: 11rem;
-	}
-	
-	th.type-col,
-	td.type-col {
-		width: 14rem;
-	}
-	
-	th.actions-col,
-	td.actions-col {
-		padding: 8px;
+
+		.date-col {
+			width: 11rem;
+		}
 		
-		.btn {
-			margin-top: 0.6rem;
+		.type-col {
+			width: 14rem;
+		}
+		
+		.actions-col {
+			padding-top: 0.3rem;
+
+			.btn {
+				margin-top: 0.6rem;
+			}
 		}
 	}
 	
@@ -4789,6 +4789,7 @@ section.project-info {
 		margin-bottom: 0.75rem;
 		font-size: 1.6rem;
 		font-weight: bold;
+		color: $app-base-color;
 	}
 	
 	.news-content {
@@ -4806,7 +4807,7 @@ section.project-info {
 @media (min-width: 769px) {
 	.news-admin-view,
 	.news-public-view {
-		th.type-col {
+		.type-col {
 			width: 25%;
 		}
 	}
@@ -4872,7 +4873,9 @@ section.project-info {
 
 .permissions-modal {
 	.form-group.manage-permission {
-		margin-bottom: 1rem;
+		.btn {
+			margin-bottom: 1rem;
+		}
 	}
 	
 	.select-permission {
@@ -5454,6 +5457,7 @@ tmpl-template-render {
 		color: #FFF;
 
 		.close {
+			font-size: 2.2rem;
 			color: #FFF;
 			text-shadow: none;
 			opacity: 1;

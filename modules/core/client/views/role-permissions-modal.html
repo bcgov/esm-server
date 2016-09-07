@@ -21,9 +21,9 @@
 			<label>Select Permission</label>
 			<select class="form-control" id="permission" ng-model="s.currentPermission" ng-options="p as p for p in s.allPermissions"></select>
 		</div>
-		<div class="flex-row">
-			<label>Manage Roles for Permission</label>
-			<tmpl-role-new context="s.context" class="new-role-btn" ng-if="s.context.userCan.createRole"></tmpl-role-new>
+		<div class="form-group manage-permission no-margin">
+			<label class="control-label">Manage Roles for Permission</label>
+			<tmpl-role-new class="new-role-btn" context="s.context" ng-if="s.context.userCan.createRole"></tmpl-role-new>
 		</div>
 		<div class="panel panel-default">
 			<ul class="list-group">
@@ -45,11 +45,9 @@
 	<!-- SET BY ROLE -->
 	<div class="tab-pane" ng-show="!s.permissionView">
 		<div class="form-group select-permission">
-			<label>Select Role</label>
-			<div class="flex-row">
-				<select class="form-control" id="role" ng-model="s.currentRole" ng-options="p as p for p in s.allRoles"></select>
-				<tmpl-role-new context="s.context" ng-if="s.context.userCan.createRole"></tmpl-role-new>
-			</div>
+			<label class="control-label">Select Role</label>
+			<select class="form-control" id="role" ng-model="s.currentRole" ng-options="p as p for p in s.allRoles"></select>
+			<tmpl-role-new context="s.context" ng-if="s.context.userCan.createRole"></tmpl-role-new>
 		</div>
 		<label>Manage Permissions for Role</label>
 		<div class="panel panel-default">
