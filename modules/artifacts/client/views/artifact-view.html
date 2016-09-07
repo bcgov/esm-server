@@ -1,6 +1,6 @@
 
 <div class="view-title-container flex-row">
-	<h1>{{artifact.name}} <span hidden class="placeholder-value">({{stageRole}})</span></h1>
+	<h1>{{artifact.name}} <span class="placeholder-value">({{artifact.version}})</h1>
 	<div class="actions">
 		<a class="btn btn-default btn-sm" ng-if="artifact.stage === 'Edit' && artifact.userCan.write" ui-sref="p.artifact.edit({artifactId:artifact._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span></a>
 		<a class="btn btn-default btn-sm" ng-if="artifact.stage === 'Review' && rolePermissions['Review']" ui-sref="p.artifact.review({artifactId:artifact._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span></a>

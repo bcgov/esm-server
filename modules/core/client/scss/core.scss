@@ -45,6 +45,7 @@ $btn-focus-border-color: 	#5475a7;
 $btn-primary-bg:			#1a5a96;
 $btn-font-size:				1.4rem;
 $btn-sm-font-size:			1.2rem;
+$btn-xs-font-size:			1.2rem;
 
 /* Header */
 $header-focus-border-color: #5475a7;
@@ -2388,6 +2389,10 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 }
 
 .btn-sm {
+	font-size: $btn-sm-font-size;
+}
+
+.btn-xs {
 	font-size: $btn-sm-font-size;
 }
 

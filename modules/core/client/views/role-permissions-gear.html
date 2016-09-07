@@ -1,1 +1,7 @@
-<button ng-if="permCtrl.showGear" class="btn btn-default btn-sm" x-role-permissions-modal x-context="context" x-object="object"><i class="glyphicon glyphicon-cog"></i></button>
+
+<button class="btn btn-default btn-sm" ng-if="permCtrl.showGear" 
+    ng-click="$event.stopPropagation()" 
+    x-role-permissions-modal 
+    x-context="context" 
+    x-object="object">
+        <span class="glyphicon glyphicon-cog"></span></button>
