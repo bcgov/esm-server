@@ -3289,6 +3289,10 @@ section {
 					@extend .first-col;
 				}
 
+				&:first-child.select {
+					padding-left: 4rem;
+				}
+
 				&:last-child {
 					@extend .last-col;
 				}
