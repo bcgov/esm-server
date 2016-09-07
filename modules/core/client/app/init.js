@@ -29,6 +29,12 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 
 	// Check authentication before changing state
 	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+		//console.log('> $stateChangeStart');
+		//console.log('  toState = ', JSON.stringify(toState));
+		//console.log('  toParams = ', JSON.stringify(toParams));
+		//console.log('  fromState = ', JSON.stringify(fromState));
+		//console.log('  fromParams = ', JSON.stringify(fromParams));
+
 		//
 		// for some states just go, no pre-processing
 		//
@@ -40,6 +46,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 			// if changing to this route indicates a change of context (from a security
 			// point of view) set the context cookie. Otherwise set it to application
 			//
+			//console.log('  $cookies.context (1) ', $cookies.context);
 			$cookies.context = 'application';
 			if (toState.context) {
 				//
@@ -55,6 +62,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 				//
 				$cookies.context = toParams.projectid || 'application';
 			}
+			//console.log('  $cookies.context (2) ', $cookies.context);
 			// console.log ('toState.name:', toState.name);
 			// console.log ('toState.context:', toState.context);
 			// console.log ('toParams:', toParams);
@@ -64,7 +72,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 			//
 			Application.reload (Authentication.user ? Authentication.user._id : 0)
 			.then (function () {
-				console.log ('Application.userCan = ', Application.userCan);
+				//console.log('< $stateChangeStart');
 				return true;
 				//
 				// CC: this is where to apply route level security if we decide to

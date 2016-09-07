@@ -46,6 +46,8 @@ _.extend (DBModel.prototype, {
 		if (!opts.context) {
 			console.error ('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Invalid options passed to dbmodel '+this.name);
 			throw (new Error ('Invalid options passed to dbmodel '+this.name));
+		} else {
+			//console.log('opts = ', JSON.stringify(opts));
 		}
 		this.opts       = opts;
 		this.user       = opts.user;
@@ -54,9 +56,9 @@ _.extend (DBModel.prototype, {
 		this.isAdmin    = false;
 		this.roles      = [];
 		// console.log ('new ', this.name);
-		// console.log ('this.user      = ', this.user     );
+		// console.log ('this.user      = ', (this.user && this.user.username) ? this.user.username : '?');
 		// console.log ('this.context   = ', this.context  );
-		// console.log ('this.userRoles = ', this.userRoles);
+		// console.log ('this.userRoles = ', JSON.stringify(this.userRoles));
 		//
 		// keep a pointer to mongoose, and set our local schema/model
 		//

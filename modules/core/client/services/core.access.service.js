@@ -53,6 +53,9 @@ angular.module('core')
 		},
 		allUsers: function () {
 			return this.get('/api/access/allusers');
+		},
+		resetSessionContext: function() {
+			return this.get('/api/access/session/reset');
 		}
 	});
 	return new AccessClass();
@@ -72,14 +75,16 @@ angular.module('core')
 		//
 		// if the user has changed, reload their permissions
 		//
-		reload: function (currentUser) {
+		reload: function (currentUser, force) {
 			return new Promise(function (resolve, reject) {
-				if ($window.application.user !== currentUser) {
+				if ($window.application.user !== currentUser || force === true) {
+					//console.log('> Application.reload() ');
 					$http.get('api/application').success(function (response) {
 						$window.application.userCan = response.userCan;
 						$window.application._id = 'application';
 						$window.application.user = currentUser;
-						console.log($window.application);
+						//console.log('< Application.reload() = ', JSON.stringify(response.userCan));
+						resolve();
 					})
 					.error(reject);
 				}

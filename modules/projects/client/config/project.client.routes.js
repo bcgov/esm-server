@@ -52,6 +52,16 @@ angular.module('project').config (
 	.state('p.detail', {
 		url: '/detail',
 		templateUrl: 'modules/projects/client/views/project-partials/project.detail.html',
+		resolve: {
+			project: function ($stateParams, ProjectModel) {
+				// console.log ('loading project');
+				if ($stateParams.projectid === 'new') {
+					return ProjectModel.getNew();
+				} else {
+					return ProjectModel.byCode($stateParams.projectid);
+				}
+			}
+		},
 		controller: function ($scope, $state, project, ProjectModel, $window) {
 			$scope.project = project;
 
@@ -61,7 +71,7 @@ angular.module('project').config (
 					$scope.project = res;
 					$state.go($state.current, {}, {reload: true});
 					// $state.transitionTo('p.detail', {projectid:project.code}, {
-			  // 			reload: true, inherit: false, notify: true
+			        //  reload: true, inherit: false, notify: true
 					// });
 				});
 			};
@@ -75,6 +85,16 @@ angular.module('project').config (
 	.state('p.edit', {
 		url: '/edit',
 		templateUrl: 'modules/projects/client/views/project-partials/project.entry.html',
+		resolve: {
+			project: function ($stateParams, ProjectModel) {
+				// console.log ('loading project');
+				if ($stateParams.projectid === 'new') {
+					return ProjectModel.getNew();
+				} else {
+					return ProjectModel.byCode($stateParams.projectid);
+				}
+			}
+		},
 		controller: 'controllerProjectEntry',
 	})
 	// -------------------------------------------------------------------------
@@ -85,6 +105,16 @@ angular.module('project').config (
 	.state('p.enforcements', {
 		url: '/enforcements',
 		templateUrl: 'modules/projects/client/views/project-partials/project.enforcements.html',
+		resolve: {
+			project: function ($stateParams, ProjectModel) {
+				// console.log ('loading project');
+				if ($stateParams.projectid === 'new') {
+					return ProjectModel.getNew();
+				} else {
+					return ProjectModel.byCode($stateParams.projectid);
+				}
+			}
+		},
 		controller: 'controllerProjectEntry',
 	})
 
@@ -96,6 +126,16 @@ angular.module('project').config (
 	.state('p.decision', {
 		url: '/decision',
 		templateUrl: 'modules/projects/client/views/project-partials/project.decision.html',
+		resolve: {
+			project: function ($stateParams, ProjectModel) {
+				// console.log ('loading project');
+				if ($stateParams.projectid === 'new') {
+					return ProjectModel.getNew();
+				} else {
+					return ProjectModel.byCode($stateParams.projectid);
+				}
+			}
+		},
 		controller: function ($scope, $state, project, ProjectModel) {
 
 		}
@@ -103,6 +143,16 @@ angular.module('project').config (
 	.state('p.schedule', {
 		url: '/schedule',
 		templateUrl: 'modules/projects/client/views/project-partials/project.schedule.html',
+		resolve: {
+			project: function ($stateParams, ProjectModel) {
+				// console.log ('loading project');
+				if ($stateParams.projectid === 'new') {
+					return ProjectModel.getNew();
+				} else {
+					return ProjectModel.byCode($stateParams.projectid);
+				}
+			}
+		},
 		controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel, $modal, PhaseBaseModel) {
 			var self = this;
 

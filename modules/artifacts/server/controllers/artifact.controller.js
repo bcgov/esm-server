@@ -174,6 +174,7 @@ module.exports = DBModel.extend({
 			})
 			.then(function(a) {
 				//console.log('newFromType call saveDocument');
+				self.setForce(true);
 				return self.saveDocument(artifact);
 			})
 			.then(function(a) {

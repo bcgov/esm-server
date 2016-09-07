@@ -270,6 +270,17 @@ var setAndRun = function (Dbclass, f) {
 };
 exports.setAndRun = setAndRun;
 
+var resetSessionContext = function () {
+	return function (req, res, next) {
+		req.session.context = undefined;
+		setSessionContext (req)
+			.then (function (opts) {
+				runPromise (res, Promise.resolve(opts));
+			});
+	};
+};
+exports.resetSessionContext = resetSessionContext;
+
 // -------------------------------------------------------------------------
 //
 // a standard way of setting crud routes.
