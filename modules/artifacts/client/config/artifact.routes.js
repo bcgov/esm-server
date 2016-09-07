@@ -282,6 +282,9 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.artifact = artifact;
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
+
+			$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+			$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
 		}
 	})
 	.state('p.artifact.comment', {
