@@ -10,5 +10,13 @@
 <div class="modal-footer">
 	<button ng-if="docUploadModal.uploading" disabled class="btn btn-default disabled" type="button">Cancel</button>
 	<button ng-if="!docUploadModal.uploading" class="btn btn-default" type="button" ng-click="docUploadModal.cancel()">Cancel</button>
-	<button class="btn btn-primary" type="button" ng-click="docUploadModal.uploading || docUploadModal.ok()">OK</button>
+    <button
+        ng-if="docUploadModal.enableUpload"
+        class="btn btn-primary"
+        type="button"
+        ng-click="docUploadModal.uploading || docUploadModal.ok()">OK</button>
+    <button
+        ng-if="!docUploadModal.enableUpload"
+        class="btn btn-primary disabled"
+        type="button">OK</button>
 </div>

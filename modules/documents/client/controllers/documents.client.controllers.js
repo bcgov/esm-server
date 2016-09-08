@@ -98,9 +98,9 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 // CONTROLLER: Document Upload General
 //
 // -----------------------------------------------------------------------------------
-controllerDocumentUploadGlobal.$inject = ['$scope', 'Upload', '$timeout', 'Document', '_', 'ENV', 'ArtifactModel'];
+controllerDocumentUploadGlobal.$inject = ['$rootScope', '$scope', 'Upload', '$timeout', 'Document', '_', 'ENV', 'ArtifactModel'];
 /* @ngInject */
-function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, ENV, ArtifactModel) {
+function controllerDocumentUploadGlobal($rootScope, $scope, Upload, $timeout, Document, _, ENV, ArtifactModel) {
 	var docUpload = this;
 	var parentId = null;
 
@@ -112,6 +112,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 	docUpload.artifact = null;
 	docUpload.artifacts = null;
 	docUpload.documentList = [];
+	docUpload.selectedArtifact = null;
 	
 	docUpload.allowArtifactSelect = true;
 	docUpload.allowDocLocationSelect = true;
@@ -169,6 +170,7 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 
 	docUpload.removeFile = function(f) {
 		_.remove(docUpload.fileList, f);
+		docUpload.checkEnableUpload();
 	};
 
 	// determine the correct target for the file upload based on x-type attribute.
@@ -213,6 +215,13 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 		docUpload.upload(reviewUploader);
 	});
 
+	docUpload.checkEnableUpload = function () {
+		if (docUpload.fileList.length > 0 && docUpload.selectedArtifact && docUpload.selectedArtifact._id && docUpload.selectedDocLocation.code) {
+			$rootScope.$broadcast('enableUpload',  { enableUpload: true });
+		} else {
+			$rootScope.$broadcast('enableUpload',  { enableUpload: false });
+		}
+	};
 
 	$scope.$watch('files', function (newValue) {
 		if (newValue) {
@@ -221,18 +230,15 @@ function controllerDocumentUploadGlobal($scope, Upload, $timeout, Document, _, E
 				docUpload.fileList.push(file);
 			});
 		}
-		// add the file to our central list.
-		// click the upload buton to actually upload this list.
-
-		//docUpload.upload($scope.files);
+		docUpload.checkEnableUpload();
 	});
 
-	// $scope.$watch('file', function () {
-	// 	if (docUpload.file) {
-	// 		docUpload.upload([docUpload.file]);
-	// 	}
-	// });
-	// docUpload.log = '';
+	$scope.$watch('docUpload.selectedArtifact', function () {
+		docUpload.checkEnableUpload();
+	});
+	$scope.$watch('docUpload.selectedDocLocation', function () {
+		docUpload.checkEnableUpload();
+	});
 
 	docUpload.upload = function (uploadingReviewDocs) {
 		var docCount = null;
@@ -682,10 +688,16 @@ function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject,
 	var docUploadModal = this;
 	docUploadModal.uploading = false;
 
+	docUploadModal.enableUpload = false;
+
 	// Document upload complete so close and continue.
 	$scope.$on('documentUploadCompleteF', function() {
 		$rootScope.$broadcast('cleanup');
 		$modalInstance.close();
+	});
+
+	$scope.$on('enableUpload', function (event, args) {
+		docUploadModal.enableUpload = args.enableUpload;
 	});
 
 	docUploadModal.project = rProject;
