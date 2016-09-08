@@ -3254,6 +3254,8 @@ section {
 
 .table-td {
 	padding: 0.8rem 0.5rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .first-col {

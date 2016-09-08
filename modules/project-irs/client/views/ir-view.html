@@ -26,7 +26,7 @@
 				</div>
 				<div class="detail-row col-md-6">
 					<label>Date of Inspection</label>
-					<span class="value">{{ ir.irDate | amDateFormat:'MMM Do YYYY'}}</span>
+					<span class="value">{{ ir.irDate | amDateFormat:'MMM Do, YYYY'}}</span>
 				</div>
 			</div>
 			<div class="row">
@@ -109,7 +109,7 @@
 				<td class="date-col"
 					header-class="'date-col'"
 					data-title="'Date Issued'"
-					sortable="'date'">{{o.date | date:'MMM dd, yyyy'}}</td>
+					sortable="'date'">{{o.date | amDateFormat:'MMM Do, YYYY'}}</td>
 				<tr ng-show="ir.enforcementActions.length == 0">
 					<td colspan="5">No Enforcement Actions found</td>
 				</tr>

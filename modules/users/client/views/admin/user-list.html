@@ -17,13 +17,28 @@
 			<section class="panel panel-default">
 				<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-striped table-hover">
 					<tr ng-repeat="o in $data" ui-sref="admin.user.detail({userId:o._id})" class="clickable">
-						<td data-title="'Username'"  filter="{'username':'text'}"   sortable="'username'"  filter-data="ptypes" >{{o.username}}</td>
-						<td data-title="'Full Name'"  filter="{'displayName':'text'}"   sortable="'displayName'"  filter-data="ptypes" >{{o.displayName}}</td>
-						<td data-title="'Organization'" filter="{'orgName':'text'}"    sortable="'orgName'" >{{o.org.name}}</td>
-						<td class="text-center" data-title="'Phone'"   filter="{'phoneNumber':'text'}"  sortable="'phoneNumber'" >{{o.phoneNumber}}</td>
-						<td class="text-center" data-title="'Email'"  filter="{'email':'text'}" sortable="'email'"  >{{o.email}}</td>
-						<td class="actions-col action-x1" header-class="'actions-col action-x1'">
-							<a class="btn btn-default btn-sm" ng-click="$event.stopPropagation()" ui-sref="admin.user.edit({userId:o._id})">
+						<td data-title="'Username'" 
+							filter="{'username':'text'}"
+							filter-data="ptypes"
+							sortable="'username'">{{o.username}}</td>
+						<td data-title="'Full Name'"
+							filter="{'displayName':'text'}"
+							filter-data="ptypes"
+							sortable="'displayName'">{{o.displayName}}</td>
+						<td data-title="'Organization'" 
+							filter="{'orgName':'text'}"
+							sortable="'orgName'">{{o.org.name}}</td>
+						<td data-title="'Phone'"   
+							filter="{'phoneNumber':'text'}"  
+							sortable="'phoneNumber'">{{o.phoneNumber}}</td>
+						<td data-title="'Email'"  
+							filter="{'email':'text'}" 
+							sortable="'email'">{{o.email}}</td>
+						<td class="actions-col action-x1" 
+							header-class="'actions-col action-x1'">
+							<a class="btn btn-default btn-sm" 
+								ng-click="$event.stopPropagation()" 
+								ui-sref="admin.user.edit({userId:o._id})">
 								<span class="glyphicon glyphicon-pencil"></span>
 							</a>
 						</td>

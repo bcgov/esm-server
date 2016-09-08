@@ -8,7 +8,7 @@
     <section class="panel panel-default no-margin add-vc-table">
         <table class="table table-scroll add-valued-component-table" ng-table="self.tableParams" show-filter="self.showFilter">
             <tr ng-repeat="o in $data">
-                <td data-title="'Name'"
+                <td class="select" data-title="'Name'"
                     sortable="'name'"
                     filter="{'name':'text'}"><input type="checkbox" ng-model="o.isChecked" ng-click="self.toggleItem(o)"/>{{o.name}}</td>
             </tr>
