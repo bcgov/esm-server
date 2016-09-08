@@ -54,6 +54,9 @@ angular.module('core')
 		allUsers: function () {
 			return this.get('/api/access/allusers');
 		},
+		getContextUsers: function(contextId) {
+			return this.get('/api/access/users/context/' + contextId);
+		},
 		resetSessionContext: function() {
 			return this.get('/api/access/session/reset');
 		}

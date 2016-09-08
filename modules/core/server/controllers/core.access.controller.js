@@ -965,6 +965,29 @@ exports.routes = {
 		var User = mongoose.model ('User');
 		return runPromise (res, Promise.resolve(User.find ({}).exec ()));
 	},
+	getContextUsers: function (req, res) {
+		//console.log('getContextUsers ', req.params.context);
+		var User = mongoose.model ('User');
+		var p = new Promise(function(resolve, reject) {
+			getRolesForContext ({
+				context   : req.params.context,
+				user     : { $ne : null }
+			})
+			.then (function(r) {
+				//console.log('r = ' , JSON.stringify(r, null, 4));
+				return _.uniq(_.map(r, 'user'));
+			})
+			.then(function(u) {
+				//console.log('u = ' , JSON.stringify(u, null, 4));
+				return User.find ({username: {$in: u}}).exec ();
+			})
+			.then(function(ul) {
+				//console.log('ul = ' , JSON.stringify(ul, null, 4));
+				return ul;
+			}).then (resolve, complete (reject, 'getContextUsers'));
+		});
+		return runPromise (res, p);
+	},
 	convertusers: function (req, res) {
 		var User    = mongoose.model ('User');
 		var Defaults = mongoose.model ('_Defaults');
