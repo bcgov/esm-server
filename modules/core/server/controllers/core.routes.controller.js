@@ -169,15 +169,18 @@ exports.moveFile = function (opts, callback) {
 // -------------------------------------------------------------------------
 var setSessionContext = function (req) {
 	return new Promise (function (resolve, reject) {
-		// console.log ('++ setSessionContext : Start');
+		//console.log ('> setSessionContext');
+		//console.log ('  session.context = ', req.session.context);
+		//console.log ('  cookies.context = ', req.cookies.context);
 		//
 		// new session context
 		//
 		if (!req.session.context) {
+			//console.log ('  no session context');
 			req.session.context = 'you aint my buddy guy';
 		}
 		if (req.session.userRoles === undefined) {
-			console.log("Someone didn't set a role properly, so lets assume they have at least the public role.");
+			//console.log("Someone didn't set a role properly, so lets assume they have at least the public role.");
 			req.session.userRoles = ['public'];
 		}
 		var opts = {
@@ -191,28 +194,29 @@ var setSessionContext = function (req) {
 			// context and set a flag accordingly
 			//
 			if (req.session.context !== req.cookies.context) {
-				// console.log ('++ setSessionContext : context changed from', req.session.context, ' to ', req.cookies.context);
+				//console.log ('  context changed from', req.session.context, ' to ', req.cookies.context);
 				req.session.context = req.cookies.context;
-				// console.log ('++ setSessionContext : collect new contextual user roles');
+				//console.log ('  collect new contextual user roles...');
 				access.getAllUserRoles ({
 					context : req.session.context,
 					user    : req.user ? req.user.username : null
 				})
 				.then (function (roles) {
 					req.session.userRoles = roles;
-					// console.log ('++ setSessionContext : new user roles = ', req.session.userRoles);
-					opts.userRoles = req.session.userRoles ;
-					opts.context   = req.session.context   ;
+					//console.log ('  new contextual user roles = ', JSON.stringify(req.session.userRoles));
+					opts.userRoles = req.session.userRoles;
+					opts.context   = req.session.context;
+					//console.log ('< setSessionContext (context changed, session roles updated) opts = ', JSON.stringify(opts));
 					resolve (opts);
 				});
 			}
 			else {
-				// console.log ('++ setSessionContext : context unchanged, using existing');
+				//console.log ('< setSessionContext (context unchanged, use existing) opts = ', JSON.stringify(opts));
 				resolve (opts);
 			}
 		}
 		else {
-			// console.log ('++ setSessionContext : no context passed in, using existing');
+			//console.log ('< setSessionContext (no context, use existing) opts = ', JSON.stringify(opts));
 			resolve (opts);
 		}
 	});
@@ -269,6 +273,31 @@ var setAndRun = function (Dbclass, f) {
 	};
 };
 exports.setAndRun = setAndRun;
+
+
+var setContextAndRun = function (Dbclass, context, f) {
+	return function (req, res, next) {
+		console.log('# setContextAndRun(context = ' + context +' )');
+		req.cookies.context = context;
+		setSessionContext (req)
+			.then (function (opts) {
+				runPromise (res, f (new Dbclass (opts), req));
+			});
+	};
+};
+exports.setContextAndRun = setContextAndRun;
+
+var setRequestContextAndRun = function (Dbclass, paramname, f) {
+	return function (req, res, next) {
+		console.log('# setRequestContextAndRun(param = { name:' + paramname +', value:' + req.params[paramname] + ' } )');
+		req.cookies.context = req.params[paramname];
+		setSessionContext (req)
+			.then (function (opts) {
+				runPromise (res, f (new Dbclass (opts), req));
+			});
+	};
+};
+exports.setRequestContextAndRun = setRequestContextAndRun;
 
 var resetSessionContext = function () {
 	return function (req, res, next) {
