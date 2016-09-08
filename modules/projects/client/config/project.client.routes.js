@@ -222,24 +222,19 @@ angular.module('project').config (
 
 						$scope.ok = function(selectedMilestoneType, dateStarted, dateCompleted) {
 
-							var oneDay = (1000 * 60 * 60 * 24);
-							var numberOfDays = 90;
-							if (dateCompleted && dateStarted) {
-								numberOfDays = Math.floor((dateCompleted - dateStarted) / oneDay);
-							}
-
 							// If they add a custom milestone, override the code and name here.
 							if (selectedMilestoneType.code === 'custom-milestone') {
 								selectedMilestoneType.code = $scope.customMilestoneText;
 								selectedMilestoneType.name = $scope.customMilestoneText;
 							}
+							// TODO: Get a list of default duration for each milestone type (lookup in db)
+							// "duration": selectedMilestoneType.duration
 							return MilestoneModel.add({
 								"code": selectedMilestoneType.code,
 								"name": selectedMilestoneType.name,
 								"phase": phase._id,
 								"dateStartedEst": dateStarted,
 								"dateCompletedEst": dateCompleted,
-								"duration": numberOfDays,
 								"project": $scope.project._id,
 								"projectCode": $scope.project.code
 							})

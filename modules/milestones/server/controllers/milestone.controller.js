@@ -50,8 +50,8 @@ module.exports = DBModel.extend ({
 		//
 		// set the estimated completed using the duration
 		//
-		milestone.dateCompletedEst = new Date (milestone.dateStartedEst);
-		milestone.dateCompletedEst.setDate (milestone.dateCompletedEst.getDate () + milestone.duration);
+		// milestone.dateCompletedEst = new Date (milestone.dateStartedEst);
+		// milestone.dateCompletedEst.setDate (milestone.dateCompletedEst.getDate () + milestone.duration);
 		if (milestone.startOnCreate) {
 			milestone.status      = 'In Progress';
 			milestone.dateStarted = new Date ();
@@ -207,8 +207,8 @@ module.exports = DBModel.extend ({
 	start: function (milestone) {
 		milestone.status           = 'In Progress';
 		milestone.dateStarted      = new Date ();
-		milestone.dateCompletedEst = new Date ();
-		milestone.dateCompletedEst.setDate (milestone.dateCompletedEst.getDate () + milestone.duration);
+		// milestone.dateCompletedEst = new Date ();
+		// milestone.dateCompletedEst.setDate (milestone.dateCompletedEst.getDate () + milestone.duration);
 		return this.findAndUpdate (milestone);
 	},
 	// -------------------------------------------------------------------------
