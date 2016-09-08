@@ -87,6 +87,9 @@ module.exports = function (app) {
 	app.route('/api/access/allusers')
 	.get(access.routes.allusers);
 
+	app.route('/api/access/users/context/:context')
+		.get(access.routes.getContextUsers);
+
 	app.route('/api/access/session/reset')
 		.get(routes.resetSessionContext(function (opts, req) {
 			//console.log('return opts = ', JSON.stringify(opts));

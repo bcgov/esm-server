@@ -35,7 +35,11 @@ angular.module('users')
 						size: 'lg',
 						resolve: {
 							projectGroups: function () {
-								return ProjectGroupModel.forProject(scope.project._id);
+								if (scope.project && scope.project._id && scope.project._id !== 'application') {
+									return ProjectGroupModel.forProject(scope.project._id);
+								} else {
+									return [];
+								}
 							}
 						},
 						controllerAs: 's',

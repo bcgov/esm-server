@@ -35,7 +35,7 @@
 			filter-data="projectList.openPCPArray" 
 			sortable="'openCommentPeriod'">{{o.openCommentPeriod ? 'Open' : ''}}</td>
 	</tr>
-	<tr ng-show="!$data || !$data.length" class="text-center">
+	<tr class="no-records" ng-show="!$data || !$data.length">
 		<td ng-if="environment === 'EAO'" colspan="4">No results match your search.</td>
 		<td ng-if="environment === 'MEM'" colspan="4">No results match your search.</td>
 	</tr>

@@ -27,33 +27,27 @@
                     <tr ng-repeat="o in $data" ui-sref="p.detail({projectid: o.code})">
                         <td data-title="'Name'"
                             filter="{'name':'text'}"
-                            sortable="'name'">
-                            {{o.name}}
+                            sortable="'name'">{{o.name}}
                         </td>
                         <td ng-if="environment === 'MEM'" 
                             title="'data-Permit'" 
-                            sortable="'memPermitID'">
-                            {{o.memPermitID}}
+                            sortable="'memPermitID'">{{o.memPermitID}}
                         </td>
                         <td data-title="'Type'" 
-                            sortable="'type'">
-                            {{o.type}}
+                            sortable="'type'">{{o.type}}
                         </td>
                         <td data-title="'Region'" 
-                            sortable="'region'">
-                            {{o.region | regionName}}
+                            sortable="'region'">{{o.region | regionName}}
                         </td>
                         <td data-title="'Phase'" 
-                            sortable="'currentPhase.name'" >
-                            {{o.currentPhase.name}}
+                            sortable="'currentPhase.name'" >{{o.currentPhase.name}}
                         </td>
                         <td ng-if="environment === 'EAO'" 
                             data-title="'Status'" 
-                            sortable="'status'">
-                            {{o.status}}
+                            sortable="'status'">{{o.status}}
                         </td>
                     </tr>
-                    <tr ng-show="!$data || !$data.length" class="text-center">
+                    <tr class="no-records" ng-show="!$data || !$data.length">
                         <td ng-if="environment === 'EAO'" colspan="5">No results match your search.</td>
                         <td ng-if="environment === 'MEM'" colspan="4">No results match your search.</td>
                     </tr>
