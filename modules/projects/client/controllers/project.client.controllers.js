@@ -217,19 +217,29 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 			$scope.$broadcast('show-errors-check-validity', 'contactsForm');
 			return false;
 		}
-
-		ProjectModel.saveModel ()
-		.then( function(data) {
-			$state.go('p.detail', {projectid: data.code});
-		})
-		.catch (function (err) {
-			console.error ('error = ', err);
-		});
+		if (ProjectModel.modelIsNew) {
+			ProjectModel.add ($scope.project)
+			.then( function(data) {
+				$state.go('p.detail', {projectid: data.code});
+			})
+			.catch (function (err) {
+				console.error ('error = ', err);
+			});
+		} else {
+			ProjectModel.saveModel($scope.project)
+			.then( function(data) {
+				$state.go('p.detail', {projectid: data.code});
+			})
+			.catch (function (err) {
+				console.error ('error = ', err);
+			});
+		}
 	};
 
 	$scope.onChangeProjectName = function () {
 		// Calculate the new shortname
 		project.shortName = codeFromTitle(project.name);
+		project.code = codeFromTitle(project.name);
 	};
 
 	// Submit the project for stream assignment.
