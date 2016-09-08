@@ -289,7 +289,7 @@ angular.module ('templates')
 // directive to edit / view document field in template
 //
 // -------------------------------------------------------------------------
-.directive ('contentArtifact', [ 'ArtifactModel', function (ArtifactModel) {
+.directive ('contentArtifact', [ 'ArtifactModel', 'Authentication', function (ArtifactModel, Authentication) {
 	return {
 		restrict : 'A', // only activate on element attribute
 		require  : '?ngModel', // get a hold of NgModelController
@@ -302,6 +302,8 @@ angular.module ('templates')
 		replace     : true,
 		templateUrl : 'modules/templates/client/views/template-artifact-editor.html',
 		link : function (scope, element, attrs, NgModelController) {
+			scope.authentication = Authentication;
+
 			scope.expanded = false;
 			scope.loading  = false;
 			scope.loaded   = false;
