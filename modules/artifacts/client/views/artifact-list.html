@@ -23,6 +23,9 @@
 				<td data-title="'Version'" filter="{'version':'select'}" filter-data="s.versionArray" sortable="'version'">
 					{{o.version}}
 				</td>
+				<td data-title="'Phase'" filter="{'phase.name':'select'}" filter-data="s.phaseArray" sortable="'phase.name'">
+					{{o.phase.name}}
+				</td>
 				<td data-title="'Last Updated'" filter-data="'dateUpdated'" sortable="'dateUpdated'">
 					{{ o.dateUpdated | amDateFormat:'MMM DD, YYYY' }}
 				</td>
@@ -45,7 +48,7 @@
 				</td>
 			</tr>
 			<tr ng-if="!published && (!$data || $data.length === 0)">
-				<td colspan="6">
+				<td colspan="7">
 					<span>{{s.noDataMessage}}</span>
 				</td>
 			</tr>

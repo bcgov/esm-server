@@ -29,6 +29,7 @@ angular.module('artifacts')
 			// filter lists...
 			s.versionArray = [];
 			s.stageArray = [];
+			s.phaseArray = [];
 
 			s.project = $scope.project;
 			
@@ -169,6 +170,9 @@ angular.module('artifacts')
 						});
 						recs.pluck('stage').unique().value().map(function (item) {
 							s.stageArray.push({id: item, title: item});
+						});
+						recs.pluck('phase').unique().value().map(function (item) {
+							s.phaseArray.push({id: item.name, title: item.name});
 						});
 					}
 					$scope.$apply();
