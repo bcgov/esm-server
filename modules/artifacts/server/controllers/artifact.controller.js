@@ -22,6 +22,2165 @@ module.exports = DBModel.extend({
 	plural: 'artifacts',
 	populate: 'artifactType template document valuedComponents phase',
 	bind: ['getCurrentTypes'],
+	artifactTypeDefaults : {
+		"aboriginal-consultation": {
+			"read": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"aboriginal-group",
+				"project-system-admin"
+			],
+			"write": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"aboriginal-consultation-report": {
+			"read": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"aboriginal-group",
+				"project-system-admin"
+			],
+			"write": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"amendment-aboriginal-consultation": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"aboriginal-group",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"amendment-working-group": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"application": {
+			"read": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"aboriginal-group",
+				"project-participant",
+				"project-system-admin"
+			],
+			"write": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"application-evaluation-working-group": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"application-information-requirements": {
+			"read": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"aboriginal-group",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-participant",
+				"project-system-admin"
+			],
+			"write": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"application-package": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"application-review-working-group": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"assessment-fee-1-fee-order": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"assessment-fee-2-fee-order": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"certificate-amendment": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"minister",
+				"minister-office",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"aboriginal-group",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-participant",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"certificate-amendment-fee-order": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"certificate-cancellation": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"certificate-extension": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"certificate-extension-fee-order": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"certificate-suspension": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"decision-package": {
+			"read": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"minister",
+				"minister-office",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"documents": {
+			"read": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-eao-staff",
+				"project-intake",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-system-admin"
+			],
+			"write": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-intake",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"project-intake",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"draft-application-information-requirements": {
+			"read": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"aboriginal-group",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-participant",
+				"project-system-admin"
+			],
+			"write": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"environmental-assessment-certificate": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"certificate": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"minister",
+				"minister-office",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"evaluation-report": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"inspection-report": {
+			"read": [
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"delete": [
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			]
+		},
+		"memo-adm": {
+			"read": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"minister",
+				"minister-office",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"post-certification-inspection-fees": {
+			"read": [
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"delete": [
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			]
+		},
+		"pre-application-inspection-fees": {
+			"read": [
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"delete": [
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			]
+		},
+		"pre-application-working-group": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"pre-assessment-inspection-fees": {
+			"read": [
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"delete": [
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			]
+		},
+		"pre-assessment-working-group": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"project-description": {
+			"read": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-eao-staff",
+				"project-intake",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"aboriginal-group",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-participant",
+				"project-system-admin"
+			],
+			"write": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-intake",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"project-intake",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"project-description-template": {
+			"read": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-eao-staff",
+				"project-intake",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"aboriginal-group",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-participant",
+				"project-system-admin"
+			],
+			"write": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-intake",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"project-intake",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"project-management-plans": {
+			"read": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"proponent-lead",
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"project-monitoring-plans": {
+			"read": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"proponent-lead",
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"project-studies": {
+			"read": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"proponent-lead",
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"project-termination": {
+			"read": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"project-withdrawal": {
+			"read": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"public-consultation-report": {
+			"read": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"memo-epd": {
+			"read": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"minister",
+				"minister-office",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"referral-package": {
+			"read": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"minister",
+				"minister-office",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"section-10-1-a": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"section-10-1-a-order": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"section-10-1-b": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"section-10-1-b-fee-order": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"section-10-1-b-order": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"section-10-1-c": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"section-10-1-c-order": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"section-11-order": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"aboriginal-group",
+				"project-participant",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"section-11-schedule-a": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"aboriginal-group",
+				"project-participant",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"section-13-order": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"aboriginal-group",
+				"project-participant",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"section-14-order": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"aboriginal-group",
+				"project-participant",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"section-15-order": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"aboriginal-group",
+				"project-participant",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"section-34-order": {
+			"read": [
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"delete": [
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			]
+		},
+		"section-36-order": {
+			"read": [
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"delete": [
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			]
+		},
+		"section-36-schedule-a": {
+			"read": [
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"delete": [
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			]
+		},
+		"section-36-schedule-b": {
+			"read": [
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"delete": [
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			]
+		},
+		"section-6": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"minister",
+				"minister-office",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"section-7": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"section-7-3-order": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"substantially-started-decision": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"substitution-decision-request": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"threshold-determination": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"project-intake",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"project-intake",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"project-intake",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"timeline-extension": {
+			"read": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"timeline-suspension": {
+			"read": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"valued-component-package": {
+			"read": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"aboriginal-group",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-participant",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"valued-component-selection-document": {
+			"read": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer",
+				"aboriginal-group",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-participant",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"wg-consultation-report": {
+			"read": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"project-working-group",
+				"project-technical-working-group",
+				"project-system-admin"
+			],
+			"write": [
+				"proponent-lead",
+				"proponent-team",
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
+		"reason-for-ministers-decision": {
+			"read": [
+				"assessment-admin",
+				"project-intake",
+				"assessment-team",
+				"project-epd",
+				"associate-dm",
+				"associate-dmo",
+				"minister"
+			],
+			"write": [
+				"assessment-admin",
+				"project-intake",
+				"assessment-team",
+				"project-epd",
+				"associate-dm",
+				"associate-dmo",
+				"minister"
+			],
+			"delete": [
+				"assessment-admin",
+				"project-intake",
+				"assessment-team",
+				"project-epd",
+				"associate-dm",
+				"associate-dmo",
+				"minister"
+			]
+		},
+		"enforcement-action": {
+			"read": [
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer"
+			],
+			"write": [
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer"
+			],
+			"delete": [
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer"
+			]
+		},
+		"assessment-report": {
+			"read": [
+				"assessment-admin",
+				"assessment-lead",
+				"project-intake",
+				"assessment-team",
+				"project-epd"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"project-intake",
+				"assessment-team",
+				"project-epd"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"project-intake",
+				"assessment-team",
+				"project-epd"
+			]
+		}
+	},
+
 	getForProject: function (projectid) {
 		return this.list({project: projectid}, {
 			name: 1,
@@ -184,503 +2343,15 @@ module.exports = DBModel.extend({
 			.then(resolve, reject);
 		});
 	},
+	getArtifactTypePermissions: function (type) {
+		//console.log('getArtifactTypePermissions...', type);
+		var permissions = this.artifactTypeDefaults[type];
+		//console.log('getArtifactTypePermissions...', JSON.stringify(permissions));
+		return permissions;
+	},
 	setDefaultRoles: function (artifact, project, type) {
 		// Set default read/write/submit permissions on artifacts based on their type.
-
-		var permissions = {};
-
-		switch (type) {
-			case 'aboriginal-consultation':
-				permissions = {
-					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-system-admin'],
-					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'aboriginal-consultation-report':
-				permissions = {
-					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-system-admin'],
-					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'amendment-aboriginal-consultation':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'amendment-working-group':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'application':
-				permissions = {
-					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-participant', 'project-system-admin'],
-					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'application-evaluation-working-group':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'application-information-requirements':
-				permissions = {
-					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin'],
-					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'application-package':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'application-review-working-group':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'assessment-fee-1-fee-order':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'assessment-fee-2-fee-order':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'certificate-amendment':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'certificate-amendment-fee-order':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'certificate-cancellation':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'certificate-extension':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'certificate-extension-fee-order':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'certificate-suspension':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'decision-package':
-				permissions = {
-					'read': ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'documents':
-				permissions = {
-					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'draft-application-information-requirements':
-				permissions = {
-					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin'],
-					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'environmental-assessment-certificate':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'certificate':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'evaluation-report':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'inspection-report':
-				permissions = {
-					'read': ['associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'delete': ['compliance-lead', 'compliance-officer', 'project-system-admin']
-				};
-				break;
-			case 'memo-adm':
-				permissions = {
-					'read': ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'post-certification-inspection-fees':
-				permissions = {
-					'read': ['associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'delete': ['compliance-lead', 'compliance-officer', 'project-system-admin']
-				};
-				break;
-			case 'pre-application-inspection-fees':
-				permissions = {
-					'read': ['associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'delete': ['compliance-lead', 'compliance-officer', 'project-system-admin']
-				};
-				break;
-			case 'pre-application-working-group':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'pre-assessment-inspection-fees':
-				permissions = {
-					'read': ['associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'delete': ['compliance-lead', 'compliance-officer', 'project-system-admin']
-				};
-				break;
-			case 'pre-assessment-working-group':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'project-description':
-				permissions = {
-					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin'],
-					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'project-description-template':
-				permissions = {
-					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin'],
-					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'project-management-plans':
-				permissions = {
-					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['proponent-lead', 'assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'project-monitoring-plans':
-				permissions = {
-					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['proponent-lead', 'assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'project-studies':
-				permissions = {
-					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['proponent-lead', 'assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'project-termination':
-				permissions = {
-					'read': ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'project-withdrawal':
-				permissions = {
-					'read': ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'public-consultation-report':
-				permissions = {
-					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'memo-epd':
-				permissions = {
-					'read': ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'referral-package':
-				permissions = {
-					'read': ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'section-10-1-a':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'section-10-1-a-order':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'section-10-1-b':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'section-10-1-b-fee-order':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'section-10-1-b-order':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'section-10-1-c':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'section-10-1-c-order':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'section-11-order':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-participant', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'section-11-schedule-a':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-participant', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'section-13-order':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-participant', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'section-14-order':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-participant', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'section-15-order':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-participant', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'section-34-order':
-				permissions = {
-					'read': ['associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'delete': ['compliance-lead', 'compliance-officer', 'project-system-admin']
-				};
-				break;
-			case 'section-36-order':
-				permissions = {
-					'read': ['associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'delete': ['compliance-lead', 'compliance-officer', 'project-system-admin']
-				};
-				break;
-			case 'section-36-schedule-a':
-				permissions = {
-					'read': ['associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'delete': ['compliance-lead', 'compliance-officer', 'project-system-admin']
-				};
-				break;
-			case 'section-36-schedule-b':
-				permissions = {
-					'read': ['associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'delete': ['compliance-lead', 'compliance-officer', 'project-system-admin']
-				};
-				break;
-			case 'section-6':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'section-7':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'section-7-3-order':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'substantially-started-decision':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'substitution-decision-request':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'threshold-determination':
-				permissions = {
-					'read': ['assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'timeline-extension':
-				permissions = {
-					'read': ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'timeline-suspension':
-				permissions = {
-					'read': ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'valued-component-package':
-				permissions = {
-					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'valued-component-selection-document':
-				permissions = {
-					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin'],
-					'write': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'wg-consultation-report':
-				permissions = {
-					'read': ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-					'write': ['proponent-lead', 'proponent-team', 'assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'delete': ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
-				};
-				break;
-			case 'reason-for-ministers-decision':
-				permissions = {
-					'read': ['assessment-admin', 'project-intake', 'assessment-team', 'project-epd', 'associate-dm', 'associate-dmo', 'minister'],
-					'write': ['assessment-admin', 'project-intake', 'assessment-team', 'project-epd', 'associate-dm', 'associate-dmo', 'minister'],
-					'delete': ['assessment-admin', 'project-intake', 'assessment-team', 'project-epd', 'associate-dm', 'associate-dmo', 'minister']
-				};
-				break;
-			case 'enforcement-action':
-				permissions = {
-					'read': ['project-qa-officer', 'compliance-lead', 'compliance-officer'],
-					'write': ['project-qa-officer', 'compliance-lead', 'compliance-officer'],
-					'delete': ['project-qa-officer', 'compliance-lead', 'compliance-officer']
-				};
-				break;
-			case 'assessment-report':
-				permissions = {
-					'read': ['assessment-admin', 'assessment-lead', 'project-intake', 'assessment-team', 'project-epd'],
-					'write': ['assessment-admin', 'assessment-lead', 'project-intake', 'assessment-team', 'project-epd'],
-					'delete': ['assessment-admin', 'assessment-lead', 'project-intake', 'assessment-team', 'project-epd']
-				};
-				break;
-		}
+		var permissions = this.getArtifactTypePermissions(type);
 
 		artifact.read = permissions.read;
 		artifact.write = permissions.write;
@@ -742,6 +2413,25 @@ module.exports = DBModel.extend({
 				}
 				// console.log ('nallowed = ', JSON.stringify(allowed,null,4));
 				return allowed;
+			})
+			.then(function(types) {
+				//console.log('roles = ', self.userRoles);
+				// now... for this user's roles, they may not be able to create all types...
+				var canWriteTypeCodes = [];
+				var typeCodes = _.keys(self.artifactTypeDefaults);
+				_.forEach(self.userRoles, function(r) {
+					_.forEach(typeCodes, function(t) {
+						if (self.artifactTypeDefaults[t].write.indexOf(r) > -1) {
+							canWriteTypeCodes.push(t);
+						}
+					});
+				});
+				//console.log('canWriteTypeCodes = ', _.uniq(canWriteTypeCodes));
+				//console.log('types = ', JSON.stringify(types));
+
+				var allowedTypes = _.filter(types, function(t) { return canWriteTypeCodes.indexOf(t.code) > -1; });
+				//console.log('allowedTypes = ', JSON.stringify(allowedTypes));
+				return allowedTypes;
 			})
 			.then(resolve, reject);
 		});
