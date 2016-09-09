@@ -42,13 +42,13 @@
 					<tmpl-permissions-gear class="permission-btn" x-context="s.project" x-object="o"></tmpl-permissions-gear>
 				</td>
 			</tr>
-			<tr ng-if="published && (!$data || $data.length === 0)">
+			<tr class="no-records" ng-if="published && (!$data || $data.length === 0)">
 				<td colspan="4">
 					<span>{{s.noDataMessage}}</span>
 				</td>
 			</tr>
-			<tr ng-if="!published && (!$data || $data.length === 0)">
-				<td colspan="7">
+			<tr class="no-records" ng-if="!published && (!$data || $data.length === 0)">
+				<td colspan="4">
 					<span>{{s.noDataMessage}}</span>
 				</td>
 			</tr>

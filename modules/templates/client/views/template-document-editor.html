@@ -31,8 +31,10 @@
                             <small ng-if="file.projectFolderSubType"> / {{ file.projectFolderSubType }}</small>
                             <small ng-if="file.projectFolderSubType"> / {{ file.projectFolderName }}</small>
                         </span>
+                        <small>{{file.isPublished}}</small>
                         <small>V.{{ file.documentVersion }}</small>
                         <small> &nbsp;|&nbsp; {{ file.dateUpdated | amDateFormat:'MMMM Do YYYY'}}</small>
+                        <span class="label label-success" ng-if="file.isPublished">Published</span>
                     </span>
                 </span>
                 <span class="actions">

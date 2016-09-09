@@ -179,6 +179,7 @@
 					<!-- DOCUMENT INFO -->
 					<div class="doc-info">
 						<h3>{{ filterSummary.internalOriginalName | removeExtension }}</h3>
+						<span class="label label-success" ng-if="filterSummary.isPublished">Published</span>
 						<div class="detail-row">
 							<label>System File Name</label>
 							<span class="value">{{ filterSummary.internalName }}</span>

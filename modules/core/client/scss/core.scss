@@ -1787,6 +1787,12 @@ ui-view {
     }
 }
 
+.file-details {
+	.label {
+		margin-left: 1rem;
+	}
+}
+
 .file-expanded-details {
 	margin:-15px;
     margin-top: 15px;
@@ -2623,11 +2629,15 @@ $file-browser-item-active: #2b5580;
 			padding: 1.5rem;
 			overflow-y: auto;
 			overflow-x: hidden;
+
+			.label {
+				margin-bottom: 1.5rem;
+			}
 			
 			h3 {
 				margin-top: 0;
 				margin-bottom: 1.5rem;
-				font-size: 1.8rem;
+				font-size: 1.6rem;
 				font-weight: bold;
 			}
 		}
@@ -3691,8 +3701,12 @@ section {
 }
 
 .artifact-chooser-table {
-	> tbody > tr > td:first-child {
-		padding-left: 4rem;
+	> tbody {
+		height: 30rem;
+
+		> tr > td:first-child {
+			padding-left: 4rem;
+		}
 	}
 	
 	.name-col {
