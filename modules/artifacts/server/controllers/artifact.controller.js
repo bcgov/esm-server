@@ -963,6 +963,7 @@ module.exports = DBModel.extend({
 	publish: function (artifact) {
 		var documentClass = new DocumentClass(this.opts);
 		return new Promise(function (resolve, reject) {
+			artifact.name = artifact.name.replace(/Template/gi, '').trim();
 			artifact.publish();
 			artifact.save()
 				.then(function () {

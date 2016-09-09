@@ -11,22 +11,22 @@ angular.module('project').config (
 		templateUrl: 'modules/projects/client/views/project.abstract.html',
 		resolve: {
 			project: function ($stateParams, ProjectModel) {
-				// console.log ('loading project');
+				//console.log ('> loading project /p id = ' + $stateParams.projectid);
 				if ($stateParams.projectid === 'new') {
 					return ProjectModel.getNew ();
 				} else {
 					return ProjectModel.byCode ($stateParams.projectid);
 				}
 			},
-			eaoAdmin: function (project) {
-				return project.adminRole;
+			eaoAdmin: function () {
+				return '';//project.adminRole;
 			},
-			proponentAdmin: function (project) {
-				return project.proponentAdminRole;
+			proponentAdmin: function () {
+				return '';//project.proponentAdminRole;
 			}
 		},
 		controller: function ($scope, $stateParams, project, ENV, $rootScope, ProjectModel, Menus) {
-			//console.log ('project permissions:', project.userCan);
+			//console.log ('< loaded project /p id = ' + $stateParams.projectid + ', userCan = ', JSON.stringify(project.userCan));
 			$scope.project = project;
 			$scope.environment = ENV;
 			$scope.isNew = ($stateParams.projectid === 'new');
@@ -52,16 +52,6 @@ angular.module('project').config (
 	.state('p.detail', {
 		url: '/detail',
 		templateUrl: 'modules/projects/client/views/project-partials/project.detail.html',
-		resolve: {
-			project: function ($stateParams, ProjectModel) {
-				// console.log ('loading project');
-				if ($stateParams.projectid === 'new') {
-					return ProjectModel.getNew();
-				} else {
-					return ProjectModel.byCode($stateParams.projectid);
-				}
-			}
-		},
 		controller: function ($scope, $state, project, ProjectModel, $window) {
 			$scope.project = project;
 
@@ -85,16 +75,6 @@ angular.module('project').config (
 	.state('p.edit', {
 		url: '/edit',
 		templateUrl: 'modules/projects/client/views/project-partials/project.entry.html',
-		resolve: {
-			project: function ($stateParams, ProjectModel) {
-				// console.log ('loading project');
-				if ($stateParams.projectid === 'new') {
-					return ProjectModel.getNew();
-				} else {
-					return ProjectModel.byCode($stateParams.projectid);
-				}
-			}
-		},
 		controller: 'controllerProjectEntry',
 	})
 	// -------------------------------------------------------------------------
@@ -105,16 +85,6 @@ angular.module('project').config (
 	.state('p.enforcements', {
 		url: '/enforcements',
 		templateUrl: 'modules/projects/client/views/project-partials/project.enforcements.html',
-		resolve: {
-			project: function ($stateParams, ProjectModel) {
-				// console.log ('loading project');
-				if ($stateParams.projectid === 'new') {
-					return ProjectModel.getNew();
-				} else {
-					return ProjectModel.byCode($stateParams.projectid);
-				}
-			}
-		},
 		controller: 'controllerProjectEntry',
 	})
 
@@ -126,33 +96,12 @@ angular.module('project').config (
 	.state('p.decision', {
 		url: '/decision',
 		templateUrl: 'modules/projects/client/views/project-partials/project.decision.html',
-		resolve: {
-			project: function ($stateParams, ProjectModel) {
-				// console.log ('loading project');
-				if ($stateParams.projectid === 'new') {
-					return ProjectModel.getNew();
-				} else {
-					return ProjectModel.byCode($stateParams.projectid);
-				}
-			}
-		},
 		controller: function ($scope, $state, project, ProjectModel) {
-
 		}
 	})
 	.state('p.schedule', {
 		url: '/schedule',
 		templateUrl: 'modules/projects/client/views/project-partials/project.schedule.html',
-		resolve: {
-			project: function ($stateParams, ProjectModel) {
-				// console.log ('loading project');
-				if ($stateParams.projectid === 'new') {
-					return ProjectModel.getNew();
-				} else {
-					return ProjectModel.byCode($stateParams.projectid);
-				}
-			}
-		},
 		controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel, $modal, PhaseBaseModel) {
 			var self = this;
 

@@ -88,7 +88,7 @@ module.exports = function (app) {
 		}));
 	app.route ('/api/project/bycode/:projectcode')
 		.all (policy ('guest'))
-		.get (routes.setAndRun (Project, function (model, req) {
+		.get (routes.setRequestContextAndRun (Project, 'projectcode', function (model, req) {
 			return model.one ({code:req.params.projectcode});
 		}));
 	// app.route ('/api/')

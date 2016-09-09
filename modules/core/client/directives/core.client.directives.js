@@ -188,19 +188,27 @@ angular.module('core')
 						console.log('Error on AccessModel.setPermissionRoleIndex(' + data.resource + ', ' + JSON.stringify(data.data) + ') = ', JSON.stringify(e));
 					})
 					.then(function() {
+						//console.log('> permissions reloading...');
+						return;
+					})
+					.then(function() {
 						return Application.reload(Authentication.user ? Authentication.user._id : 0, true);
 					}, function(e) {
-						console.log('Error on Application.reload(' + (Authentication.user ? Authentication.user._id : 0) + ', true) = ', JSON.stringify(e));
+						//console.log('Error on Application.reload(' + (Authentication.user ? Authentication.user._id : 0) + ', true) = ', JSON.stringify(e));
 					})
 					.then(function() {
 						return AccessModel.resetSessionContext();
 					}, function(e) {
-						console.log('Error on AccessModel.resetSessionContext() = ', JSON.stringify(e));
+						//console.log('Error on AccessModel.resetSessionContext() = ', JSON.stringify(e));
 					})
 					.then(function() {
 						return $state.reload();
 					}, function(e) {
-						console.log('Error on state.reload() = ', JSON.stringify(e));
+						//console.log('Error on state.reload() = ', JSON.stringify(e));
+					})
+					.then(function() {
+						//console.log('< permissions reloaded.');
+						return;
 					});
 				})
 				.catch(function (err) {
@@ -355,19 +363,27 @@ angular.module('core')
 				.result.then(function (data) {
 					AccessModel.setRoleUserIndex(data.context, data.data)
 						.then(function() {
+							//console.log('> roles reloading...');
+							return;
+						})
+						.then(function() {
 							return Application.reload(Authentication.user ? Authentication.user._id : 0, true);
 						}, function(e) {
-							console.log('Error on Application.reload(' + (Authentication.user ? Authentication.user._id : 0) + ', true) = ', JSON.stringify(e));
+							//console.log('Error on Application.reload(' + (Authentication.user ? Authentication.user._id : 0) + ', true) = ', JSON.stringify(e));
 						})
 						.then(function() {
 							return AccessModel.resetSessionContext();
 						}, function(e) {
-							console.log('Error on AccessModel.resetSessionContext() = ', JSON.stringify(e));
+							//console.log('Error on AccessModel.resetSessionContext() = ', JSON.stringify(e));
 						})
 						.then(function() {
 							return $state.reload();
 						}, function(e) {
-							console.log('Error on state.reload() = ', JSON.stringify(e));
+							//console.log('Error on state.reload() = ', JSON.stringify(e));
+						})
+						.then(function() {
+							//console.log('< roles reloaded.');
+							return;
 						});
 				})
 				.catch(function (err) {

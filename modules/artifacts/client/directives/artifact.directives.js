@@ -200,7 +200,8 @@ angular.module('artifacts')
 			artifact: '=',
 			mode: '='
 		},
-		controller: function ($scope, ArtifactModel, VcModel, _) {
+		controller: function ($scope, Authentication, ArtifactModel, VcModel, _) {
+			$scope.authentication = Authentication;
 			$scope.removeVCArtifact = function (obj) {
 				// We've been asked to remove this VC artifact from the VC artifact collection
 				var mainArtifact = obj.mainArtifact;

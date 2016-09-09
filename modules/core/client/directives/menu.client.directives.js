@@ -22,7 +22,7 @@ angular.module('core')
 			menu.$state = $state;
 		   	menu.authentication = Authentication;
 
-		   	console.log ('Authentication.user',Authentication.user);
+		   	//console.log ('Authentication.user',Authentication.user);
 		   	menu.isAdmin = (Authentication.user && Authentication.user.roles.indexOf ('admin') !== -1);
 		   	if ($scope.project) {
 		   		menu.isEAO = (Authentication.user && (!!~Authentication.user.roles.indexOf ($scope.project.code+':eao:member') || !!~Authentication.user.roles.indexOf ('admin')));
@@ -36,14 +36,16 @@ angular.module('core')
 
 		   	$scope.$watch('menuContext', function(newValue) {
 				if(newValue) {
-					//console.log('menu.menuContext(' + JSON.stringify(newValue) + ')');
+					console.log('menu.menuContext(' + JSON.stringify(newValue) + ')');
 				   	menu.context = newValue;
 				}
 		   	});
 
 		   	$scope.$watch('project', function(newValue) {
 		   		if (newValue) {
-					//console.log('menu.project = ');
+					//console.log('menu.project = ', newValue.code);
+					//console.log('menu.authentication.user = ', JSON.stringify(Authentication.user));
+					//console.log('menu.project.userCan = ', JSON.stringify(newValue.userCan));
 					//console.log(JSON.stringify(newValue));
 					menu.project = newValue;
 				   	menu.isProjectAdmin = (Authentication.user && Authentication.user.roles.indexOf (menu.project.adminRole) !== -1);

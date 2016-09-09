@@ -11,7 +11,7 @@ angular.module('core')
 		restrict    : 'E',
 		templateUrl : 'modules/core/client/views/header.client.view.html',
 		controller  : function ($scope, LOGO, Authentication, Menus, _, ENV, Application) {
-			console.log ('Application =',Application);
+			//console.log ('Application =',Application);
 			$scope.logo               = LOGO;
 			$scope.application        = Application;
 			$scope.authentication     = Authentication;
@@ -52,6 +52,7 @@ angular.module('core')
 			// -------------------------------------------------------------------------
 			$scope.$watch('project', function(newValue) {
 				if (newValue) {
+					//console.log ('header.project = >' + newValue.code + '<');
 					$scope.project = newValue;
 					//
 					// CC: not needed with permissions
