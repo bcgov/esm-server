@@ -47,23 +47,23 @@ function controllerModalProjectSchedule($modalInstance,  PhaseModel, _, rProject
 controllerProjectVC.$inject = ['$scope', 'rProjectVC', '_', '$modalInstance', 'VCModel'];
 /* @ngInject */
 function controllerProjectVC($scope, rProjectVC, _, $modalInstance, sVCModel) {
-        var projectVC = this;
+		var projectVC = this;
 
-        projectVC.roles = ['admin', 'project-team', 'working-group', 'first-nations', 'consultant'];
-        projectVC.vc = rProjectVC;
+		projectVC.roles = ['admin', 'project-team', 'working-group', 'first-nations', 'consultant'];
+		projectVC.vc = rProjectVC;
 
-        // Set current model for VC
-        sVCModel.setModel(rProjectVC);
+		// Set current model for VC
+		sVCModel.setModel(rProjectVC);
 
-        sVCModel.getCollection().then(function(data){
-                projectVC.valuecomponents = data;
-        });
+		sVCModel.getCollection().then(function(data){
+				projectVC.valuecomponents = data;
+		});
 
-        // on save, pass complete permission structure to the server
-        projectVC.ok = function () {
-                $modalInstance.close();
-        };
-        projectVC.cancel = function () { $modalInstance.dismiss('cancel'); };
+		// on save, pass complete permission structure to the server
+		projectVC.ok = function () {
+				$modalInstance.close();
+		};
+		projectVC.cancel = function () { $modalInstance.dismiss('cancel'); };
 
 }
 // -----------------------------------------------------------------------------------
@@ -249,22 +249,13 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 			return false;
 		}
 
-		ProjectModel.submit ($scope.project)
+		ProjectModel.add ($scope.project)
 		.then (function (data) {
-	  		$scope.project = _.extend($scope.project, data);
-			$state.go('p.detail', {projectid: $scope.project.code});
+			return ProjectModel.submit(data);
 		})
-		.then (function () {
-			Promise.resolve (Authentication.user)
-			.then (function (um) {
-				$scope.project.primaryContact = um._id;
-				return OrganizationModel.saveModel ();
-			});
-			// This really needs to change to do the new flow of proponent intake.
-			// .then (function (om) {
-			// 	$scope.project.proponent = om._id;
-			// 	return ProjectModel.save();
-			// });
+		.then( function (p) {
+			$scope.project = p;
+			$state.go('p.detail', {projectid: p.code});
 		})
 		.catch (function (err) {
 			console.error ('error = ', err);

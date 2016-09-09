@@ -1,12 +1,18 @@
-<form class="view-form" name="projectForm" ng-submit="saveProject(projectForm.$valid)" novalidate>
+<form class="view-form" name="projectForm" novalidate>
 
 	<div class="view-title-container flex-row">
 		<h1>Edit Project &nbsp;&rsaquo;&nbsp; {{project.name}}<span class="placeholder-value" ng-if="!project.name">Untitled Project</span></h1>
 		<div class="actions">
 			<button class="btn btn-default btn-sm" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
 			<button class="btn btn-default btn-sm" ng-if="isNew" ui-sref="projects">Cancel</button>
-			<button class="btn btn-primary btn-sm" type="submit">Save</button>
-			<button class="btn btn-success btn-sm" ng-disabled="projectForm.$invalid" ng-click="submitProject(projectForm.$valid)" ng-if="project.status === 'Initiated'">Submit Project</button>
+			<button class="btn btn-primary btn-sm"
+					ng-click="saveProject(projectForm.$valid)"
+					ng-if="project.status !== 'Initiated'"
+					type="submit">Save</button>
+			<button class="btn btn-success btn-sm"
+					ng-disabled="projectForm.$invalid"
+					ng-click="submitProject(projectForm.$valid)"
+					ng-if="project.status === 'Initiated'">Submit Project</button>
 		</div>
 	</div>
 
