@@ -139,8 +139,8 @@ module.exports = DBModel.extend({
 			//
 			.then(function (m) {
 				// console.log("artifact type:",artifactType);
-				// Don't add milestones for artifacts of type 'valued-component'
-				if (artifactType.code === 'valued-component') {
+				// Don't add milestones for artifacts of type 'valued-component' or 'inspection-report'
+				if (artifactType.code === 'valued-component' || artifactType.code === 'inspection-report') {
 					return null;
 				}
 
