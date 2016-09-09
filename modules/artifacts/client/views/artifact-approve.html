@@ -3,7 +3,7 @@
 	<h1>{{artifact.name}}&nbsp;<span class="placeholder-value">({{artifact.version}})</span></h1>
 	<div class="actions">
 		<a class="btn btn-default btn-sm" title="Cancel" ui-sref="p.artifact.view">Cancel</a>
-		<button class="btn btn-danger btn-sm" title="Reject and return for {{buttons.prev}}" ng-click="reject()" ng-if="rolePermissions[artifact.stage]">Reject</button>
+		<button class="btn btn-danger btn-sm" title="Reject" ng-click="reject()" ng-if="rolePermissions[artifact.stage]">Reject</button>
 		<button class="btn btn-success btn-sm" title="Submit for {{buttons.next}}" ng-click="submit()" ng-if="rolePermissions[artifact.stage]">Submit for {{buttons.next}}</button>
 	</div>
 </div>
