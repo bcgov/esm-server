@@ -172,7 +172,10 @@ angular.module('artifacts')
 							s.stageArray.push({id: item, title: item});
 						});
 						recs.pluck('phase').unique().value().map(function (item) {
-							s.phaseArray.push({id: item.name, title: item.name});
+							// Sometimes this is undefined.
+							if (item) {
+								s.phaseArray.push({id: item.name, title: item.name});
+							}
 						});
 					}
 					$scope.$apply();

@@ -24,20 +24,54 @@
 			</div>
 		</div>
 
-		<!-- PUBLIC COMMENT PERIOD NOTIFICATION -->
-		<div class="public-comment-alert hidden">
-			<h2>Public Comment Period is Now Open!</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-				Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-			</p>
-			<ul class="public-comment-period-document-links">
-				<li><a class="document-name" href="#">Application Information Requirements</a><a href="#">[ VIEW FILES ]</a>
-				</li>
-				<li><a class="document-name" href="#">Associated Documentation</a><a href="#">[ VIEW FILES ]</a></li>
-			</ul>
-			<button class="btn btn-success" data-toggle="modal" data-target="#submitCommentModal">Click Here to Submit a Comment</button>
+		<!-- PUBLIC COMMENT PERIOD IF ACTIVE -->
+		<div ng-if="activeperiod" class="panel panel-default">
+			<div class="pcp-alert clearfix">
+				<div class="pull-left">
+					<h2>Public Comment Period is Now Open.</h2>
+					<span class="pcp-dates">{{ activeperiod.dateStarted | amDateFormat:'MMMM Do, YYYY' }} &nbsp;-&nbsp; {{ activeperiod.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</span>
+				</div>
+				<div class="pcp-comment-btn-container">
+					<button class="btn submit-comment-btn" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="activeperiod">
+						Click Here to Submit a Comment
+					</button>
+				</div>
+			</div>
+
+			<div class="pcp-details">
+				<!-- ABOUT -->
+				<section>
+					<h4>About this Comment Period...</h4>
+					<pre class="pcp-desc" ng-if="!activeperiod.instructions">No Description Available.</pre>
+					<pre class="pcp-desc" ng-if="activeperiod.instructions">{{ activeperiod.instructions }}</pre>
+					<!-- <pre class="pcp-desc" ng-if="isClosed">These are the closing remarks</pre> -->
+				</section><!-- / ABOUT -->
+				<!-- RELATED DOCUMENTS -->
+				<section class="pcp-related-docs">
+					<h4>Related Documents</h4>
+					<div class="list-group">
+						<a class="list-group-item flex-row"
+							ui-sref="p.artifact.view({artifactId:periodArtifact._id})"
+							target="_blank" >
+							<div class="icon">
+								<span class="glyphicon glyphicon-list-alt"></span>
+							</div>
+							<div class="title">{{ periodArtifact.name }}</div>
+						</a>
+					</div>
+				</section><!-- / RELATED DOCUMENTS -->
+				<!-- OPEN HOUSE -->
+				<section ng-if="activeperiod.openHouses.length > 0">
+					<h4>Open House Dates</h4>
+					<ul class="pcp-open-house-list">
+						<li ng-repeat="h in activeperiod.openHouses">
+							<strong>{{ h.eventDate | amDateFormat:'MMMM Do YYYY' }}</strong>
+							<pre>{{ h.description }}</pre>
+						</li>
+					</ul>
+				</section><!-- / OPEN HOUSE -->
+			</div>
 		</div>
-		<!-- / PUBLIC COMMENT PERIOD NOTIFICATION -->
 
 		<!-- PROJECT INFO -->
 		<section class="project-info">
@@ -66,7 +100,7 @@
 				x-project="project"
 				ng-if="project.currentPhase.code === 'post-certification'">
 			</tmpl-enforcement-browser>
-    	-->
+		-->
 
 		<!--
 			2016-06-25 jdunsdon

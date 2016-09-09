@@ -52,17 +52,55 @@ angular.module('project').config (
 	.state('p.detail', {
 		url: '/detail',
 		templateUrl: 'modules/projects/client/views/project-partials/project.detail.html',
-		controller: function ($scope, $state, project, ProjectModel, $window) {
+		resolve: {
+			activeperiod: function ($stateParams, CommentPeriodModel, project) {
+				// Go through the periods on the project, surface the active one and enable commenting
+				// right from here.
+				return CommentPeriodModel.forProject (project._id)
+				.then( function (periods) {
+					var today	= new Date ();
+					var openPeriod = null;
+					_.each(periods, function (period) {
+						var start 	= new Date (period.dateStarted);
+						var end		= new Date (period.dateCompleted);
+						var isopen 	= start < today && today < end;
+						if (isopen) {
+							openPeriod = period;
+							return false;
+						}
+					});
+					if (openPeriod) {
+						// console.log("Found open period:", openPeriod);
+						return openPeriod;
+					} else {
+						return null;
+					}
+				});
+			},
+			periodArtifact: function (activeperiod, ArtifactModel) {
+				if (activeperiod) {
+					return ArtifactModel.getModel (activeperiod.artifact._id);
+				} else {
+					return null;
+				}
+			}
+		},controller: function ($scope, $state, project, ProjectModel, $window, activeperiod, periodArtifact) {
 			$scope.project = project;
+			$scope.activeperiod = null;
+
+			if (activeperiod) {
+				// Switch on the UI for comment period
+				// console.log("activeperiod:", activeperiod);
+				$scope.activeperiod = activeperiod;
+				$scope.periodArtifact = periodArtifact;
+				$scope.allowCommentSubmit = (activeperiod.userCan.addComment) || activeperiod.userCan.vetComments;
+			}
 
 			// complete the current phase.
 			$scope.publishProject = function() {
 				ProjectModel.publishProject( project ).then( function(res) {
 					$scope.project = res;
 					$state.go($state.current, {}, {reload: true});
-					// $state.transitionTo('p.detail', {projectid:project.code}, {
-			        //  reload: true, inherit: false, notify: true
-					// });
 				});
 			};
 		}
@@ -286,7 +324,7 @@ angular.module('project').config (
 				var index = -1;
 				_.each($scope.project.phases, function(data, idx) {
 				   if (_.isEqual(data._id, $scope.project.currentPhase._id)) {
-				      index = idx;
+					  index = idx;
 				   }
 				});
 				// Double check if this is the last phase for errors

@@ -30,16 +30,13 @@
             <section class="pcp-related-docs">
                 <h4>Related Documents</h4>
                 <div class="list-group">
-                    <a class="list-group-item flex-row" x-artifact-display-modal x-mode="'view'" x-artifact="artifact" x-project="project">
+                    <a class="list-group-item flex-row"
+                            ui-sref="p.artifact.view({artifactId:periodArtifact._id})"
+                            target="_blank" >
                         <div class="icon">
                             <span class="glyphicon glyphicon-list-alt"></span>
                         </div>
                         <div class="title">{{ artifact.name }}</div>
-                        <div class="actions">
-                            <button class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-new-window"></span>
-                            </button>
-                        </div>
                     </a>
                 </div>
             </section><!-- / RELATED DOCUMENTS -->
