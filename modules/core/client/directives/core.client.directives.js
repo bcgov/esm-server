@@ -555,7 +555,9 @@ angular.module('core')
 					},
 					controller: function ($scope, $modalInstance, allRoles) {
 						var s = this;
-						s.selected = scope.current;
+						// don't do live updates to the target...
+						s.selected = angular.copy(scope.current);
+
 						s.allRoles = allRoles;
 						var index = allRoles.reduce(function (prev, next) {
 							prev[next] = next;
@@ -565,7 +567,9 @@ angular.module('core')
 							$modalInstance.dismiss('cancel');
 						};
 						s.ok = function () {
-							$modalInstance.close(s.selected);
+							// we have decided to use our selection, so set the target collection....
+							scope.current = s.selected;
+							$modalInstance.close(scope.current);
 						};
 						s.dealwith = function (id) {
 							var i = s.selected.indexOf(id);
