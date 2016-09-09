@@ -12,6 +12,9 @@ angular.module('users').factory ('UserModel', function (ModelBase, _) {
 	//
 	var Class = ModelBase.extend ({
 		urlName : 'user',
+		lookup: function (userid) {
+			return this.get('/api/user/' + userid);
+		},
 		forProject: function (projectid) {
 			return this.get ('/api/user/for/project/' + projectid);
 		},

@@ -134,9 +134,25 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 return OrganizationModel.getUsers (org._id);
             }
         },
-        controller: function ($scope, NgTableParams, org, users) {
+        controller: function ($scope, NgTableParams, org, users, UserModel, OrganizationModel) {
             $scope.org = org;
             $scope.tableParams = new NgTableParams ({count:10}, {dataset: users});
+            $scope.removeUserFromOrg = function (userId) {
+                console.log("Removing ", userId, " from org ", $scope.org);
+                UserModel.lookup(userId)
+                .then( function (user) {
+                    user.org = null;
+                    user.orgName = "";
+                    return UserModel.save(user);
+                })
+                .then( function () {
+                    return OrganizationModel.getUsers ($scope.org._id);
+                })
+                .then ( function (users) {
+                    $scope.tableParams = new NgTableParams ({count:10}, {dataset: users});
+                    $scope.$apply();
+                });
+            };
         }
     })
 
