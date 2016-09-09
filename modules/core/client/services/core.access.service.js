@@ -54,6 +54,9 @@ angular.module('core')
 		allUsers: function () {
 			return this.get('/api/access/allusers');
 		},
+		getContextUsers: function(contextId) {
+			return this.get('/api/access/users/context/' + contextId);
+		},
 		resetSessionContext: function() {
 			return this.get('/api/access/session/reset');
 		}
@@ -78,12 +81,14 @@ angular.module('core')
 		reload: function (currentUser, force) {
 			return new Promise(function (resolve, reject) {
 				if ($window.application.user !== currentUser || force === true) {
-					//console.log('> Application.reload() ');
+					//console.log('> Application.reload(force=' + (force ? 'true' : 'false') + ') ');
 					$http.get('api/application').success(function (response) {
+						//console.log('userCan = ');
+						//console.log(JSON.stringify(response.userCan));
 						$window.application.userCan = response.userCan;
 						$window.application._id = 'application';
 						$window.application.user = currentUser;
-						//console.log('< Application.reload() = ', JSON.stringify(response.userCan));
+						//console.log('< Application.reload(' + (force ? 'true' : 'false') + ')');
 						resolve();
 					})
 					.error(reject);

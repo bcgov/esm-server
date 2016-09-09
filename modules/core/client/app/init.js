@@ -29,6 +29,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 
 	// Check authentication before changing state
 	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+		//console.log('> $stateChangeStart(to = ' +  toState.name + ', from = ' + fromState.name + ')');
 		//console.log('> $stateChangeStart');
 		//console.log('  toState = ', JSON.stringify(toState));
 		//console.log('  toParams = ', JSON.stringify(toParams));
@@ -49,6 +50,8 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 			//console.log('  $cookies.context (1) ', $cookies.context);
 			$cookies.context = 'application';
 			if (toState.context) {
+				//console.log('  $cookies.context (1.a) toState.context =', toState.context);
+				//console.log('  $cookies.context (1.a) toParams =', JSON.stringify(toParams));
 				//
 				// the context is the name of the psrameter on the ui-route, we fetch that
 				// value from the route url using toParams
@@ -57,6 +60,8 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 				$cookies.context = toParams[c] || 'application';
 			}
 			else if (toState.name.substr (0, 2) === 'p.' || toState.name === 'p') {
+				//console.log('  $cookies.context (1.b) toState.name =', toState.name);
+				//console.log('  $cookies.context (1.b) toParams =', JSON.stringify(toParams));
 				//
 				// the context is the projectid
 				//
@@ -72,6 +77,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 			//
 			Application.reload (Authentication.user ? Authentication.user._id : 0)
 			.then (function () {
+				//console.log('< $stateChangeStart(to = ' +  toState.name + ', from = ' + fromState.name + ')');
 				//console.log('< $stateChangeStart');
 				return true;
 				//

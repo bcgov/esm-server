@@ -188,19 +188,27 @@ angular.module('core')
 						console.log('Error on AccessModel.setPermissionRoleIndex(' + data.resource + ', ' + JSON.stringify(data.data) + ') = ', JSON.stringify(e));
 					})
 					.then(function() {
+						//console.log('> permissions reloading...');
+						return;
+					})
+					.then(function() {
 						return Application.reload(Authentication.user ? Authentication.user._id : 0, true);
 					}, function(e) {
-						console.log('Error on Application.reload(' + (Authentication.user ? Authentication.user._id : 0) + ', true) = ', JSON.stringify(e));
+						//console.log('Error on Application.reload(' + (Authentication.user ? Authentication.user._id : 0) + ', true) = ', JSON.stringify(e));
 					})
 					.then(function() {
 						return AccessModel.resetSessionContext();
 					}, function(e) {
-						console.log('Error on AccessModel.resetSessionContext() = ', JSON.stringify(e));
+						//console.log('Error on AccessModel.resetSessionContext() = ', JSON.stringify(e));
 					})
 					.then(function() {
 						return $state.reload();
 					}, function(e) {
-						console.log('Error on state.reload() = ', JSON.stringify(e));
+						//console.log('Error on state.reload() = ', JSON.stringify(e));
+					})
+					.then(function() {
+						//console.log('< permissions reloaded.');
+						return;
 					});
 				})
 				.catch(function (err) {
@@ -257,19 +265,39 @@ angular.module('core')
 						},
 						userRoleIndex: function() {
 							return AccessModel.roleUserIndex(scope.context._id);
+						},
+						userList: function() {
+							return AccessModel.getContextUsers(scope.context._id);
 						}
 					},
-					controller: function ($scope, $modalInstance, allRoles, userRoleIndex) {
+					controller: function ($scope, $modalInstance, allRoles, userRoleIndex, userList) {
 						var s = this;
 
-						s.init = function (currentRoleName, currentUserName, showUserView) {
+						$scope.contacts = [];
+						$scope.$watch(function(scope) { return scope.contacts; },
+							function(data) {
+								if (data && data.length > 0) {
+									_.forEach(data, function(user) {
+										var item =  _.find(s.allUsers, function(o) { return o._id === user._id; });
+										if (!item) {
+											s.allUsers.push(user);
+										}
+									});
+									if (data.length === 1) {
+										s.init(s.allUsers, s.currentRole, data[0].username, s.userView);
+									}
+								}
+							}
+						);
+
+						s.init = function (users, currentRoleName, currentUserName, showUserView) {
 							console.log('roleUsersModal.init... start');
 							//
 							// all the base data
 							//
 							s.userRoleIndex = userRoleIndex;
 							s.allRoles = _.difference(allRoles, ['public']); // we don't add users to the public role, it's just for permissions.
-							s.allUsers = _.keys(userRoleIndex.user);
+							s.allUsers = users;
 							//
 							// expose the inputs
 							////
@@ -279,7 +307,8 @@ angular.module('core')
 							// these deal with setting the roles by user
 							//
 							s.userView = showUserView;
-							s.currentUser = (currentUserName) ? currentUserName: (s.allUsers[0] || '');
+							var selectedUser = _.find(s.allUsers, function(o) { return o.username === currentUserName; });
+							s.currentUser = (selectedUser) ? selectedUser : (!_.isEmpty(s.allUsers) ? s.allUsers[0] : undefined);
 
 							//
 							// these deal with setting the users by role
@@ -288,7 +317,7 @@ angular.module('core')
 							console.log('roleUsersModal.init... end');
 						};
 
-						s.init(undefined, undefined, true);
+						s.init(userList, undefined, undefined, true);
 
 						$scope.$on('NEW_ROLE_ADDED', function (e, data) {
 							if (!_.isEmpty(data.roleName)) {
@@ -309,27 +338,7 @@ angular.module('core')
 								}
 							}
 						});
-						
-						$scope.$on('NEW_USER_ADDED_TO_CONTEXT', function (e, data) {
-							if (!_.isEmpty(data.user)) {
-								if (_.isArray(data.user)) {
-									_.forEach(data.user, function(o) {
-										var u = _.find(s.allUsers, function(x) { return x === o; });
-										if (!u) {
-											s.allUsers.push(o);
-										}
-										s.currentUser = data.user[0];
-									});
-								} else {
-									var u = _.find(s.allUsers, function(x) { return x === data.user; });
-									if (!u) {
-										s.allUsers.push(data.user);
-									}
-									s.currentUser = data.user;
-								}
-							}
-						});
-						
+
 						var setUserRole = function (system, user, role, value) {
 							if (!system.user[user]) system.user[user] = {};
 							if (!system.role[role]) system.role[role] = {};
@@ -338,10 +347,10 @@ angular.module('core')
 						};
 						
 						s.clickUser = function (user, role, value) {
-							setUserRole(s.userRoleIndex, user, role, value);
+							setUserRole(s.userRoleIndex, user.username, role, value);
 						};
 						s.clickRole = function (user, role, value) {
-							setUserRole(s.userRoleIndex, user, role, value);
+							setUserRole(s.userRoleIndex, user.username, role, value);
 						};
 						s.cancel = function () {
 							$modalInstance.dismiss('cancel');
@@ -354,19 +363,27 @@ angular.module('core')
 				.result.then(function (data) {
 					AccessModel.setRoleUserIndex(data.context, data.data)
 						.then(function() {
+							//console.log('> roles reloading...');
+							return;
+						})
+						.then(function() {
 							return Application.reload(Authentication.user ? Authentication.user._id : 0, true);
 						}, function(e) {
-							console.log('Error on Application.reload(' + (Authentication.user ? Authentication.user._id : 0) + ', true) = ', JSON.stringify(e));
+							//console.log('Error on Application.reload(' + (Authentication.user ? Authentication.user._id : 0) + ', true) = ', JSON.stringify(e));
 						})
 						.then(function() {
 							return AccessModel.resetSessionContext();
 						}, function(e) {
-							console.log('Error on AccessModel.resetSessionContext() = ', JSON.stringify(e));
+							//console.log('Error on AccessModel.resetSessionContext() = ', JSON.stringify(e));
 						})
 						.then(function() {
 							return $state.reload();
 						}, function(e) {
-							console.log('Error on state.reload() = ', JSON.stringify(e));
+							//console.log('Error on state.reload() = ', JSON.stringify(e));
+						})
+						.then(function() {
+							//console.log('< roles reloaded.');
+							return;
 						});
 				})
 				.catch(function (err) {

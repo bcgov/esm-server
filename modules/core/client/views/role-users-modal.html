@@ -16,9 +16,14 @@
 	<div class="tab-pane" ng-show="s.userView">
 		<div class="form-group select-permission">
 			<label class="control-label">Select Contact</label>
-			<select class="form-control" id="user" ng-model="s.currentUser" ng-options="p as p for p in s.allUsers | orderBy"></select>
-			<tmpl-add-user-to-context context="s.context" role="s.defaultRole"></tmpl-add-user-to-context>
-		</div>
+			<select class="form-control" id="user" ng-model="s.currentUser" ng-options="user.displayName for user in s.allUsers | orderBy"></select>
+      <button class="btn btn-default btn-sm" type="button"
+              x-user-search-chooser
+              x-title="'Select Contacts'"
+              x-project="s.context"
+              x-destination="contacts"><span class="glyphicon glyphicon-plus"></span><span>Add Contacts</span></button>
+
+    </div>
 		<div class="form-group manage-permission no-margin">
 			<label class="control-label">Manage Roles for Contacts</label>
 			<tmpl-role-new context="s.context" class="new-role-btn" ng-if="s.context.userCan.createRole"></tmpl-role-new>
@@ -29,8 +34,8 @@
 					<div class="checkbox">
 						<label>
 							<input type="checkbox"
-								ng-change="s.clickRole(s.currentUser, role, s.userRoleIndex.user[s.currentUser][role])"
-								ng-model="s.userRoleIndex.user[s.currentUser][role]">{{ role }}
+								ng-change="s.clickRole(s.currentUser, role, s.userRoleIndex.user[s.currentUser.username][role])"
+								ng-model="s.userRoleIndex.user[s.currentUser.username][role]">{{ role }}
 							</input>
 						</label>
 					</div>
@@ -56,9 +61,9 @@
 					<div class="checkbox">
 						<label>
               				<input type="checkbox"
-                     			ng-change="s.clickUser(u, s.currentRole, s.userRoleIndex.role[s.currentRole][u])"
-                     			ng-model="s.userRoleIndex.role[s.currentRole][u]">
-              				</input>{{ u }}
+                     			ng-change="s.clickUser(u, s.currentRole, s.userRoleIndex.role[s.currentRole][u.username])"
+                     			ng-model="s.userRoleIndex.role[s.currentRole][u.username]">
+              				</input>{{ u.displayName }}
             			</label>
 					</div>
 				</li>

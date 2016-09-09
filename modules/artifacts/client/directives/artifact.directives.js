@@ -29,6 +29,7 @@ angular.module('artifacts')
 			// filter lists...
 			s.versionArray = [];
 			s.stageArray = [];
+			s.phaseArray = [];
 
 			s.project = $scope.project;
 			
@@ -170,6 +171,9 @@ angular.module('artifacts')
 						recs.pluck('stage').unique().value().map(function (item) {
 							s.stageArray.push({id: item, title: item});
 						});
+						recs.pluck('phase').unique().value().map(function (item) {
+							s.phaseArray.push({id: item.name, title: item.name});
+						});
 					}
 					$scope.$apply();
 				});
@@ -196,7 +200,8 @@ angular.module('artifacts')
 			artifact: '=',
 			mode: '='
 		},
-		controller: function ($scope, ArtifactModel, VcModel, _) {
+		controller: function ($scope, Authentication, ArtifactModel, VcModel, _) {
+			$scope.authentication = Authentication;
 			$scope.removeVCArtifact = function (obj) {
 				// We've been asked to remove this VC artifact from the VC artifact collection
 				var mainArtifact = obj.mainArtifact;
