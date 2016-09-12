@@ -26,7 +26,7 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'addUsersToContext' : ['proponent-lead', 'assessment-admin', 'project-intake', 'assessment-lead', 'project-epd', 'project-system-admin'],
+				'addUsersToContext' : ['assessment-admin', 'project-intake', 'assessment-lead', 'project-epd', 'project-system-admin'],
 				'createRole' : ['project-system-admin'],
 				'managePermissions' : ['project-system-admin'],
 				'manageRoles' : ['proponent-lead', 'assessment-admin', 'project-intake', 'assessment-lead', 'project-epd', 'project-system-admin'],

@@ -286,6 +286,7 @@ angular.module('core')
 									if (data.length === 1) {
 										s.init(s.allUsers, s.currentRole, data[0].username, s.userView);
 									}
+									$scope.contacts = [];
 								}
 							}
 						);
