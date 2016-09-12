@@ -21,21 +21,6 @@ angular.module('projectconditions').config(['$stateProvider', 'RELEASE', functio
 			url: '/projectcondition',
 			template: '<ui-view></ui-view>',
 			data: {
-				roles: ['*:eao:member',
-						'*:eao:admin',
-					   '*:eao:responsible-epd',
-					   '*:eao:project-admin',
-					   '*:eao:project-lead',
-					   '*:eao:project-team',
-					   '*:eao:minister',
-					   '*:eao:ministers-office',
-					   '*:eao:assistant-dm',
-					   '*:eao:assistant-dmo',
-					   '*:eao:associate-dm',
-					   '*:eao:associate-dmo',
-					   '*:eao:qa-officer',
-					   '*:eao:ce-lead',
-					   '*:eao:ce-officer']
 			},
 			resolve: {
 				conditions: function ($stateParams, ProjectConditionModel, project) {

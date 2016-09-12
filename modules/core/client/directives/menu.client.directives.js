@@ -36,7 +36,7 @@ angular.module('core')
 
 		   	$scope.$watch('menuContext', function(newValue) {
 				if(newValue) {
-					console.log('menu.menuContext(' + JSON.stringify(newValue) + ')');
+					//console.log('menu.menuContext(' + JSON.stringify(newValue) + ')');
 				   	menu.context = newValue;
 				}
 		   	});

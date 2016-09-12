@@ -25,7 +25,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 	}
 ]);
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, _, $cookies, Application) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, _, $cookies, Application, ContextService) {
 
 	// Check authentication before changing state
 	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
@@ -35,71 +35,38 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 		//console.log('  toParams = ', JSON.stringify(toParams));
 		//console.log('  fromState = ', JSON.stringify(fromState));
 		//console.log('  fromParams = ', JSON.stringify(fromParams));
-
 		//
 		// for some states just go, no pre-processing
 		//
+		//console.log('ContextService.synced = ', ContextService.isSynced(toState, toParams));
 		if (!!~['authentication.signin','forbidden'].indexOf (toState.name)) {
 			return true;
 		}
 		else {
-			//
-			// if changing to this route indicates a change of context (from a security
-			// point of view) set the context cookie. Otherwise set it to application
-			//
-			//console.log('  $cookies.context (1) ', $cookies.context);
-			$cookies.context = 'application';
-			if (toState.context) {
-				//console.log('  $cookies.context (1.a) toState.context =', toState.context);
-				//console.log('  $cookies.context (1.a) toParams =', JSON.stringify(toParams));
-				//
-				// the context is the name of the psrameter on the ui-route, we fetch that
-				// value from the route url using toParams
-				//
-				var c = (_.isFunction (toState.context)) ? toState.context () : toState.context;
-				$cookies.context = toParams[c] || 'application';
+			if (!ContextService.isSynced(toState, toParams)) {
+				//console.log('halt!');
+				event.preventDefault();
+				ContextService.sync(toState, toParams).then(function(ok) {
+					//console.log('sync good, go!');
+					if (ContextService.isAllowed(toState.data)) {
+						$state.go(toState, toParams);
+					} else {
+						$state.go('forbidden');
+					}
+				}, function(bad) {
+					//console.log('sync bad...:| ', JSON.stringify(bad));
+					return false;
+				});
+			} else {
+				// proceed...
+				//console.log('synced... proceed if allowed!');
+				if (ContextService.isAllowed(toState.data)) {
+					return true;
+				} else {
+					event.preventDefault();
+					$state.go('forbidden');
+				}
 			}
-			else if (toState.name.substr (0, 2) === 'p.' || toState.name === 'p') {
-				//console.log('  $cookies.context (1.b) toState.name =', toState.name);
-				//console.log('  $cookies.context (1.b) toParams =', JSON.stringify(toParams));
-				//
-				// the context is the projectid
-				//
-				$cookies.context = toParams.projectid || 'application';
-			}
-			//console.log('  $cookies.context (2) ', $cookies.context);
-			// console.log ('toState.name:', toState.name);
-			// console.log ('toState.context:', toState.context);
-			// console.log ('toParams:', toParams);
-			// console.log ('context:', $cookies.context);
-			//
-			// now check to see if we need to reload the application
-			//
-			Application.reload (Authentication.user ? Authentication.user._id : 0)
-			.then (function () {
-				//console.log('< $stateChangeStart(to = ' +  toState.name + ', from = ' + fromState.name + ')');
-				//console.log('< $stateChangeStart');
-				return true;
-				//
-				// CC: this is where to apply route level security if we decide to
-				//
-				// if the user fails, then if they are logged in send them to forbidden
-				// otherwise send them to signin
-				//
-				// if (!allowed) {
-				// 	event.preventDefault();
-				// 	if (Authentication.user !== undefined && typeof Authentication.user === 'object') {
-				// 		$state.go('forbidden');
-				// 	} else {
-				// 		$state.go('authentication.signin');
-				// 	}
-				//  return false;
-				// }
-			})
-			.catch (function () {
-				alert ('Error setting application object');
-				return true;
-			});
 		}
 	});
 

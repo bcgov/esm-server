@@ -5,7 +5,7 @@
 
 <div class="view-body-container">
 	<div class="button-bar clearfix">
-		<a class="btn btn-default btn-sm pull-left" ui-sref="admin.condition.create()">
+		<a ng-if="application.userCan.createCondition"  class="btn btn-default btn-sm pull-left" ui-sref="admin.condition.create()">
 			<span class="glyphicon glyphicon-plus"></span>
 			<span>Add New Condition</span>
 		</a>
@@ -22,7 +22,7 @@
 				<td data-title="'Stages'"   filter="{'stages':'text'}"  sortable="'stages'" >{{o.stageString}}</td>
 				<td data-title="'Pillars'"  filter="{'pillars':'text'}" sortable="'pillars'"  >{{o.pillarString}}</td>
 				<td class="actions-col action-x1" header-class="'actions-col action-x1'">
-					<a ng-click="$event.stopPropagation()" class="btn btn-link btn-sm" ui-sref="admin.condition.edit({conditionId:o._id})">
+					<a ng-if="application.userCan.createCondition" ng-click="$event.stopPropagation()" class="btn btn-link btn-sm" ui-sref="admin.condition.edit({conditionId:o._id})">
 						<span class="glyphicon glyphicon-pencil"></span>
 					</a>
 				</td>

@@ -6,7 +6,7 @@
 
 <div class="view-body-container">
 	<div class="button-bar clearfix">
-		<a class="btn btn-default btn-sm" ui-sref="admin.template.create()">
+		<a ng-if="application.userCan.createTemplate" class="btn btn-default btn-sm" ui-sref="admin.template.create()">
 			<span class="glyphicon glyphicon-plus"></span>
 			<span>Add Template</span>
 		</a>
@@ -27,9 +27,9 @@
 					sortable="'dateUpdated'"
 					class="text-center">{{o.dateUpdated | date:'y-MM-dd HH:mm a'}}</td>
 				<td class="actions-col action-x2" header-class="'actions-col action-x2'">
-					<a class="btn btn-link btn-sm" title="Edit Template" ng-click="$event.stopPropagation()" ui-sref="admin.template.edit({templateId:o.id})">
+					<a ng-if="application.userCan.createTemplate" class="btn btn-link btn-sm" title="Edit Template" ng-click="$event.stopPropagation()" ui-sref="admin.template.edit({templateId:o.id})">
 						<span class="glyphicon glyphicon-pencil"></span></a>
-					<a class="btn btn-link btn-sm" title="Test Template" ng-click="$event.stopPropagation()" ui-sref="admin.template.test({templateId:o.id})">
+					<a ng-if="application.userCan.createTemplate" class="btn btn-link btn-sm" title="Test Template" ng-click="$event.stopPropagation()" ui-sref="admin.template.test({templateId:o.id})">
 						<span class="glyphicon glyphicon-play"></span>
 					</a>
 				</td>
