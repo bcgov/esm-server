@@ -301,6 +301,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
 			// artifact.artifactType = fix;
 			$scope.artifact = artifact;
+			$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+			$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$state.go ('p.artifact.view');
 		}
@@ -323,6 +325,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+			$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+			$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
@@ -390,6 +394,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+			$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+			$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
@@ -457,6 +463,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+			$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+			$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
@@ -525,6 +533,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+			$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+			$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
@@ -603,6 +613,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+			$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+			$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
