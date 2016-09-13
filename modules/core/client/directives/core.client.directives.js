@@ -274,6 +274,10 @@ angular.module('core')
 						var s = this;
 
 						$scope.contacts = [];
+						/*
+						This stopped working in some environments and setups.
+						Very strange, so added in the USER_SEARCH_CHOOSER_SELECTED handler instead.
+
 						$scope.$watch(function(scope) { return scope.contacts; },
 							function(data) {
 								if (data && data.length > 0) {
@@ -290,6 +294,22 @@ angular.module('core')
 								}
 							}
 						);
+						*/
+
+						$scope.$on('USER_SEARCH_CHOOSER_SELECTED', function (e, data) {
+							if (data && data.users && data.users.length > 0) {
+								_.forEach(data.users, function(user) {
+									var item =  _.find(s.allUsers, function(o) { return o._id === user._id; });
+									if (!item) {
+										s.allUsers.push(user);
+									}
+								});
+								if (data.users.length === 1) {
+									s.init(s.allUsers, s.currentRole, data[0].username, s.userView);
+								}
+								$scope.contacts = [];
+							}
+						});
 
 						s.init = function (users, currentRoleName, currentUserName, showUserView) {
 							console.log('roleUsersModal.init... start');
