@@ -5039,7 +5039,7 @@
         ],
         "footer":"",
         "header":"<div class=\"title-pg-in-txt-sml\" style=\"margin-top:15px;\">\n      <p>\n        INSPECTION DETAILS\n      </p>\n    </div>",
-        "template":"<table class=\"reg-table bottom-spacing-sml\">\n      <tbody>\n        <tr>\n          <td width=\"20%\" class=\"header\">Types of Compliance:</td>\n          <td width=\"80%\">{{CompTypes}}</td>\n        </tr>\n        <tr>\n          <td class=\"header\">Requirement Description:</td>\n          <td>{{reqDesc}}</td>\n        </tr>\n        <tr>\n          <td class=\"header\">Findings:</td>\n          <td>{{findings}}</td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td class=\"header\">Compliance:</td>\n          <td>{{compliance}}</td>\n        </tr>\n      </tbody>\n    </table>",
+        "template":"<table class=\"reg-table bottom-spacing-sml\">\n      <tbody>\n        <tr>\n          <td width=\"20%\" class=\"header\">Types of Compliance:</td>\n          <td width=\"80%\">{{CompTypes}}</td>\n        </tr>\n        <tr>\n          <td class=\"header\">Requirement Description:</td>\n          <td>{{reqDesc}}</td>\n        </tr>\n        <tr>\n          <td class=\"header\">Findings:</td>\n          <td>{{findings}}</td>\n        </tr>\n        <tr class=\"spaceUnder-med\">\n          <td class=\"header\">Compliance:</td>\n          <td>{{compliance}}</td>\n        </tr>\n      </tbody>\n    </table>Signed By: {{signee}}",
         "isfooter":false,
         "isheader":true,
         "multiple":true,
@@ -5107,6 +5107,37 @@
         "optional":false,
         "label":"Footer",
         "name":"footer"
+      },
+ {
+        "meta": [
+          {
+            "default":"",
+            "label":"First Name Last Name",
+            "type":"Text",
+            "name":"signee"
+          },
+          {
+            "default":"",
+            "label":"Month Day",
+            "type":"Text",
+            "name":"signedMonthDay"
+          },
+          {
+            "default":"",
+            "label":"XX",
+            "type":"Text",
+            "name":"currentYear"
+          }
+        ],
+        "footer":"",
+        "header":"",
+        "template":"<div class=\"letter-footer\">\n    <p>\n      Signed By: {{signee}}<br>Environmental Assessment Office\n    </p>\n    <p>\n      Dated {{signedMonthDay}}, 20{{currentYear}}\n    </p>\n  </div>",
+        "isfooter":false,
+        "isheader":false,
+        "multiple":false,
+        "optional":false,
+        "label":"Signature",
+        "name":"signature"
       },
         {
             "meta" : [
