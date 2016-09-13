@@ -2156,6 +2156,19 @@ module.exports = DBModel.extend({
 				"compliance-officer"
 			]
 		},
+		"enforcement-action-documentation": {
+			"read": [
+				"compliance-lead",
+				"compliance-officer"
+			],
+			"write": [
+				"compliance-lead",
+				"compliance-officer"
+			],
+			"delete": [
+				"compliance-lead"
+			]
+		},
 		"assessment-report": {
 			"read": [
 				"assessment-admin",
