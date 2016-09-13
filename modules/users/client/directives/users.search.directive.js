@@ -18,7 +18,7 @@ angular.module('users')
 		};
 	})
 
-	.directive('userSearchChooser', function ($filter, $modal, NgTableParams, ProjectGroupModel, UserModel, _) {
+	.directive('userSearchChooser', function ($rootScope, $filter, $modal, NgTableParams, ProjectGroupModel, UserModel, _) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -145,9 +145,11 @@ angular.module('users')
 						} else {
 							scope.destination = data[0];
 						}
+						$rootScope.$broadcast('USER_SEARCH_CHOOSER_SELECTED', {users: data});
 					})
-						.catch(function (err) {
-						});
+					.catch(function (err) {
+						console.log(err);
+					});
 				});
 			}
 		};
