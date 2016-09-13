@@ -198,8 +198,6 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 						$scope.showSuccess('"'+ $scope.user.displayName +'"' + ' was deleted successfully.', goToList, 'Delete Success');
 					})
 					.catch(function (res) {
-						console.log("failed", res);
-
 						// could have errors from a delete check...
 						var failure = _.has(res, 'message') ? res.message : undefined;
 						$scope.showError('"'+ $scope.user.displayName +'"' + ' was not deleted.', [], reloadEdit, 'Delete Error');

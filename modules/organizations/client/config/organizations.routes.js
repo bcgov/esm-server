@@ -93,10 +93,118 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 return OrganizationModel.getUsers (org._id);
             }
         },
-        controller: function ($scope, $state, NgTableParams, org, users, OrganizationModel, $filter) {
+        controller: function ($scope, $state, NgTableParams, org, users, OrganizationModel, $filter, $modal, _, UserModel) {
             $scope.org = org;
             $scope.tableParams = new NgTableParams ({count:10}, {dataset: users});
             var which = 'edit';
+
+			$scope.showSuccess = function(msg, transitionCallback, title) {
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/utils/client/views/partials/modal-success.html',
+					controller: function($scope, $state, $modalInstance, _) {
+						var self = this;
+						self.title = title || 'Success';
+						self.msg = msg;
+						self.ok = function() {
+							$modalInstance.close($scope.org);
+						};
+						self.cancel = function() {
+							$modalInstance.dismiss('cancel');
+						};
+					},
+					controllerAs: 'self',
+					scope: $scope,
+					size: 'md',
+					windowClass: 'modal-alert',
+					backdropClass: 'modal-alert-backdrop'
+				});
+				// do not care how this modal is closed, just go to the desired location...
+				modalDocView.result.then(function (res) {transitionCallback(); }, function (err) { transitionCallback(); });
+			};
+
+			$scope.showError = function(msg, errorList, transitionCallback, title) {
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/utils/client/views/partials/modal-error.html',
+					controller: function($scope, $state, $modalInstance, _) {
+						var self = this;
+						self.title = title || 'An error has occurred';
+						self.msg = msg;
+						self.ok = function() {
+							$modalInstance.close($scope.org);
+						};
+						self.cancel = function() {
+							$modalInstance.dismiss('cancel');
+						};
+					},
+					controllerAs: 'self',
+					scope: $scope,
+					size: 'md',
+					windowClass: 'modal-alert',
+					backdropClass: 'modal-alert-backdrop'
+				});
+				// do not care how this modal is closed, just go to the desired location...
+				modalDocView.result.then(function (res) {transitionCallback(); }, function (err) { transitionCallback(); });
+			};
+
+			var goToList = function() {
+				$state.transitionTo('admin.organization.list', {}, {
+					reload: true, inherit: false, notify: true
+				});
+			};
+
+			var reloadEdit = function() {
+				// want to reload this screen, do not catch unsaved changes (we are probably in the middle of saving).
+				$scope.allowTransition = true;
+				$state.reload();
+			};
+
+			$scope.deleteOrg = function () {
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/utils/client/views/partials/modal-confirm-delete.html',
+					controller: function($scope, $state, $modalInstance, _) {
+						var self = this;
+						self.dialogTitle = "Delete Organization";
+						self.name = $scope.org.name;
+						self.ok = function() {
+							$modalInstance.close($scope.org);
+						};
+						self.cancel = function() {
+							$modalInstance.dismiss('cancel');
+						};
+					},
+					controllerAs: 'self',
+					scope: $scope,
+					size: 'md'
+				});
+				modalDocView.result.then(function (res) {
+					OrganizationModel.deleteId($scope.org._id)
+					.then(function (res) {
+						_.each(users, function (u) {
+							// These users no longer belong to an org
+							u.org = null;
+							u.orgName = "";
+							UserModel.save(u)
+							.then( function (a) {
+								console.log("changed:", a);
+							});
+						});
+						// deleted show the message, and go to list...
+						$scope.showSuccess('"'+ $scope.org.name +'"' + ' was deleted successfully.', goToList, 'Delete Success');
+					})
+					.catch(function (res) {
+						console.log("res:", res);
+						// could have errors from a delete check...
+						var failure = _.has(res, 'message') ? res.message : undefined;
+						$scope.showError('"'+ $scope.org.name +'"' + ' was not deleted.', [], reloadEdit, 'Delete Error');
+					});
+				}, function () {
+					//console.log('delete modalDocView error');
+				});
+			};
+
             $scope.save = function (isValid) {
                 if (!isValid) {
                     $scope.$broadcast('show-errors-check-validity', 'organizationForm');
