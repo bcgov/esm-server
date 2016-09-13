@@ -273,14 +273,16 @@ angular.module ('templates')
 			scope.filelist = [];
 			scope.authentication = Authentication;
 			scope.$watchCollection ('curVal', function (newvalue) {
-				// console.log ('new value = ',newvalue);
-				// console.log ('curVal value = ',scope.curVal);
-				Document.getDocumentsInList (newvalue)
-				.then (function (result) {
-					// console.log("result", result);
-					scope.filelist = result;
-					scope.$apply();
-				});
+				if (newvalue) {
+					// console.log ('new value = ',newvalue);
+					// console.log ('curVal value = ',scope.curVal);
+					Document.getDocumentsInList (newvalue)
+					.then (function (result) {
+						// console.log("result", result);
+						scope.filelist = result;
+						scope.$apply();
+					});
+				}
 			});
 		}
 	};

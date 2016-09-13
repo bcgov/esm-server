@@ -144,9 +144,11 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.artifact = artifact;
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
-			$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
-			$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
-
+			// When not a template:
+			if (!$scope.artifact.isTemplate) {
+				$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+				$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			}
 			$scope.$watchCollection ('artifact.maindocument', function (newval) {
 				if (!newval || newval.length === 0) return;
 				//console.log ('nedw collection:', newval);
@@ -158,7 +160,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			if (_.isEmpty (artifact.templateData)) artifact.templateData = {};
 			$scope.version = artifact.version;
 			$scope.saveas = function () {
-				artifact.document = artifact.maindocument[0];
+				if (artifact.maindocument)
+					artifact.document = artifact.maindocument[0];
 				if (_.isEmpty (artifact.document)) artifact.document = null;
 				ArtifactModel.getNew ().then (function (newartifact) {
 					var a = ArtifactModel.getCopy ($scope.artifact);
@@ -178,7 +181,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				});
 			};
 			$scope.save = function () {
-				artifact.document = artifact.maindocument[0];
+				if (artifact.maindocument)
+					artifact.document = artifact.maindocument[0];
 				if (_.isEmpty (artifact.document)) artifact.document = null;
 				ArtifactModel.save ($scope.artifact)
 				.then (function (model) {
@@ -191,7 +195,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			};
 			// Remove this artifact
 			$scope.remove = function () {
-				artifact.document = artifact.maindocument[0];
+				if (artifact.maindocument)
+					artifact.document = artifact.maindocument[0];
 				if (_.isEmpty (artifact.document)) artifact.document = null;
 				MilestoneModel.deleteMilestone($scope.artifact.milestone)
 				.then( function () {
@@ -206,7 +211,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				});
 			};
 			$scope.submit = function () {
-				artifact.document = artifact.maindocument[0];
+				if (artifact.maindocument)
+					artifact.document = artifact.maindocument[0];
 				if (_.isEmpty (artifact.document)) artifact.document = null;
 				if($scope.artifact.signatureStage === 'Edit') {
 					UserModel.me()
@@ -246,7 +252,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				}
 			};
 			$scope.update = function () {
-				artifact.document = artifact.maindocument[0];
+				if (artifact.maindocument)
+					artifact.document = artifact.maindocument[0];
 				if (_.isEmpty (artifact.document)) artifact.document = null;
 				ArtifactModel.save($scope.artifact)
 				.then (function (art) {
@@ -285,8 +292,11 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 
-			$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
-			$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			// When not a template:
+			if (!$scope.artifact.isTemplate) {
+				$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+				$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			}
 		}
 	})
 	.state('p.artifact.comment', {
@@ -301,6 +311,11 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
 			// artifact.artifactType = fix;
 			$scope.artifact = artifact;
+			// When not a template:
+			if (!$scope.artifact.isTemplate) {
+				$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+				$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			}
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$state.go ('p.artifact.view');
 		}
@@ -323,6 +338,11 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+			// When not a template:
+			if (!$scope.artifact.isTemplate) {
+				$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+				$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			}
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
@@ -390,6 +410,11 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+			// When not a template:
+			if (!$scope.artifact.isTemplate) {
+				$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+				$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			}
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
@@ -457,6 +482,11 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+			// When not a template:
+			if (!$scope.artifact.isTemplate) {
+				$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+				$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			}
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
@@ -525,6 +555,11 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+			// When not a template:
+			if (!$scope.artifact.isTemplate) {
+				$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+				$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			}
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
@@ -603,6 +638,11 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+			// When not a template:
+			if (!$scope.artifact.isTemplate) {
+				$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+				$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			}
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {

@@ -42,7 +42,8 @@ angular.module('project').config (
 			});
 			$scope.$on('$destroy',unbind);
 
-		}
+		},
+		data: { }
 	})
 	// -------------------------------------------------------------------------
 	//
@@ -114,6 +115,7 @@ angular.module('project').config (
 		url: '/edit',
 		templateUrl: 'modules/projects/client/views/project-partials/project.entry.html',
 		controller: 'controllerProjectEntry',
+		data: { permissions: ['createProject'] }
 	})
 	// -------------------------------------------------------------------------
 	//

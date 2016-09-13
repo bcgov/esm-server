@@ -6,7 +6,9 @@
 // =========================================================================
 module.exports = require ('../../../core/server/controllers/core.schema.controller')('Ir', {
 	__audit     : true,
-	__access    : [],
+    __access      : [      // read / write / delete are automatic
+        'publish',
+        'unPublish'],
 	__tracking  : true,
 	project     : { type:'ObjectId', ref:'Project', default:null, index:true },
 	stage       : { type:String, enum:['Pre-Construction', 'Construction', 'Operations', 'Decommissioning'], default:'Operations' },

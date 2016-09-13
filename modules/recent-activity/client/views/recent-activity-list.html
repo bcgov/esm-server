@@ -6,7 +6,7 @@
 
 	<div class="view-body-container news-admin-view">
 		<div class="button-bar clearfix">
-			<a class="btn btn-default btn-sm pull-left" ui-sref="admin.recentactivity.create()">
+			<a  ng-if="application.userCan.createNews" class="btn btn-default btn-sm pull-left" ui-sref="admin.recentactivity.create()">
 				<span class="glyphicon glyphicon-plus"></span>
 				<span>Add News & Announcements</span>
 			</a>
@@ -36,8 +36,8 @@
 					<!-- <td data-title="'Priority'" class="text-center" sortable="'priority'" >{{o.priority}}</td> -->
 
 					<td class="actions-col action-x1" header-class="'actions-col action-x1'">
-						<a class="btn btn-sm btn-default" title="Edit News Item"
-							ng-click="$event.stopPropagation()" 
+						<a ng-if="application.userCan.createNews" class="btn btn-sm btn-default" title="Edit News Item"
+							ng-click="$event.stopPropagation()"
 							ui-sref="admin.recentactivity.edit({recentActivityId:o._id})">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>

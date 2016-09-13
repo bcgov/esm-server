@@ -13,7 +13,7 @@ angular.module('topics').config(['$stateProvider', function ($stateProvider) {
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.topic', {
-		data: {roles: ['admin','eao']},
+		data: {permissions: ['listValuedComponents']},
 		abstract:true,
 		url: '/topic',
 		template: '<ui-view></ui-view>',
@@ -58,7 +58,7 @@ angular.module('topics').config(['$stateProvider', function ($stateProvider) {
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.topic.create', {
-		data: {roles: ['admin']},
+		data: {permissions: ['createValuedComponent']},
 		url: '/create',
 		templateUrl: 'modules/topics/client/views/topic-edit.html',
 		resolve: {
@@ -118,7 +118,7 @@ angular.module('topics').config(['$stateProvider', function ($stateProvider) {
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.topic.edit', {
-		data: {roles: ['admin']},
+		data: {permissions: ['createValuedComponent']},
 		url: '/:topicId/edit',
 		templateUrl: 'modules/topics/client/views/topic-edit.html',
 		resolve: {

@@ -8,9 +8,7 @@ angular.module('inspectionReport').config(['$stateProvider',
                 abstract: true,
                 url: '/inspection-report',
                 template: '<div ui-view></div>',
-                data: {
-                    roles: ['user', 'admin']
-                }
+                data: {}
             })        
             .state('inspectionReport.list', {
                 url: '/list',

@@ -4,6 +4,7 @@
 angular.module('users.admin.routes').config(['$stateProvider', function ($stateProvider) {
 	$stateProvider
 	.state('admin.user', {
+		data: {permissions: ['listContacts']},
 		abstract:true,
 		url: '/user',
 		template: '<ui-view></ui-view>'
@@ -34,6 +35,7 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.user.create', {
+		data: {permissions: ['createContact']},
 		url: '/create',
 		templateUrl: 'modules/users/client/views/admin/user-edit.html',
 		resolve: {
@@ -84,6 +86,7 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.user.edit', {
+		data: {permissions: ['createContact']},
 		url: '/:userId/edit',
 		templateUrl: 'modules/users/client/views/admin/user-edit.html',
 		resolve: {

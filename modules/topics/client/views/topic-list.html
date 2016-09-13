@@ -5,7 +5,7 @@
 
 <div class="view-body-container">
 	<div class="button-bar clearfix">
-		<a class="btn btn-default btn-sm pull-left" ui-sref="admin.topic.create()">
+		<a ng-if="application.userCan.createValuedComponent" class="btn btn-default btn-sm pull-left" ui-sref="admin.topic.create()">
 			<span class="glyphicon glyphicon-plus"></span>
 			<span>Add Valued Component</span>
 		</a>
@@ -22,7 +22,7 @@
 				<td data-title="'Type'"    sortable="'type'"    filter="{'type':'select'}"   filter-data="getTypes()"   >{{o.type}}</td>
 				<td data-title="'Parent'"  sortable="'parent'"  filter="{'parent':'text'}"                         		>{{o.parent}}</td>
 				<td class="actions-col action-x1" header-class="'actions-col action-x1'">
-					<a class="btn btn-link btn-sm" title="Edit Valued Component" ng-click="$event.stopPropagation()" ui-sref="admin.topic.edit({topicId:o._id})">
+					<a ng-if="application.userCan.createValuedComponent" class="btn btn-link btn-sm" title="Edit Valued Component" ng-click="$event.stopPropagation()" ui-sref="admin.topic.edit({topicId:o._id})">
 						<span class="glyphicon glyphicon-pencil"></span>
 					</a>
 				</td>

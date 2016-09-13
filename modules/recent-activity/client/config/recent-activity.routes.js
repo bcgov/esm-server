@@ -13,7 +13,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.recentactivity', {
-		data: {roles: ['admin','eao']},
+		data: {permissions: ['listNews']},
 		abstract:true,
 		url: '/recentactivity',
 		template: '<ui-view></ui-view>',
@@ -67,7 +67,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.recentactivity.create', {
-		data: {roles: ['admin']},
+		data: {permissions: ['createNews']},
 		url: '/create',
 		templateUrl: 'modules/recent-activity/client/views/recent-activity-edit.html',
 		resolve: {
@@ -103,7 +103,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.recentactivity.edit', {
-		data: {roles: ['admin']},
+		data: {permissions: ['createNews']},
 		url: '/:recentActivityId/edit',
 		templateUrl: 'modules/recent-activity/client/views/recent-activity-edit.html',
 		resolve: {
