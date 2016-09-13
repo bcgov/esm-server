@@ -451,8 +451,14 @@
 			<div class="pull-right">
 				<button class="btn btn-default btn-sm" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
 				<button class="btn btn-default btn-sm" ng-if="isNew" ui-sref="projects">Cancel</button>
-				<button class="btn btn-primary btn-sm" type="submit">Save</button>
-				<button class="btn btn-success btn-sm" ng-disabled="projectForm.$invalid" ng-click="submitProject(projectForm.$valid)" ng-if="project.status === 'Initiated'">Submit Project</button>
+				<button class="btn btn-primary btn-sm"
+						ng-click="saveProject(projectForm.$valid)"
+						ng-if="project.status !== 'Initiated'"
+						type="submit">Save</button>
+				<button class="btn btn-success btn-sm"
+						ng-disabled="projectForm.$invalid"
+						ng-click="submitProject(projectForm.$valid)"
+						ng-if="project.status === 'Initiated'">Submit Project</button>
 			</div>
 		</div>
 
