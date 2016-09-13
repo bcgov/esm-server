@@ -1,11 +1,11 @@
-
-<form class="view-form" name="userForm" ng-submit="save(userForm.$valid)" novalidate>
+<form class="view-form" name="userForm" novalidate>
 
 	<div class="view-title-container flex-row">
 		<h1>Add/Edit Contact<span ng-show="user.username"> &nbsp;&rsaquo;&nbsp; {{user.username}}</span></h1>
 		<div class="actions">
 			<button class="btn btn-default btn-sm" ui-sref="admin.user.list" type="button">Cancel</button>
-			<button class="btn btn-primary btn-sm" type="submit">Save</button>
+			<button class="btn btn-danger btn-sm" ng-click="deleteUser()" type="button"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
+			<button class="btn btn-primary btn-sm" ng-click="save(userForm.$valid)" type="button">Save</button>
 		</div>
 	</div>
 
