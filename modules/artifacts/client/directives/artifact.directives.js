@@ -418,7 +418,8 @@ angular.module('artifacts')
 		restrict: 'A',
 		scope: {
 			project: '=',
-			current: '='
+			current: '=',
+			removevcs: "="
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function () {
@@ -431,9 +432,12 @@ angular.module('artifacts')
 						items: function (ArtifactModel, _) {
 							return ArtifactModel.forProject (scope.project._id)
 							.then( function (data) {
-								// Filter out the inspection report templates.
+								// Filter out the inspection report templates.  Additionally
+								// filter vcs if required
 								_.remove(data, function (item) {
-									if (item.typeCode === 'inspection-report') {
+									if (scope.removevcs && item.typeCode === 'valued-component') {
+										return item;
+									} else if (item.typeCode === 'inspection-report') {
 										return item;
 									}
 								});

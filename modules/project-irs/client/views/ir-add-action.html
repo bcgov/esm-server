@@ -55,6 +55,7 @@
 					<span class="actions">
 						<button class="btn btn-sm btn-default"
 							x-artifact-list-chooser
+							x-removevcs="true"
 							x-project="project"
 							x-current="selected.orderArtifact">
 							<span class="glyphicon glyphicon-pencil"></span></button>
@@ -63,6 +64,7 @@
 				<button class="btn btn-default btn-sm" type="button"
 					ng-if="!selected.orderArtifact"
 					x-artifact-list-chooser
+					x-removevcs="true"
 					x-project="project"
 					x-current="selected.orderArtifact">Select Order</button>
 			</ul>

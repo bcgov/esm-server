@@ -125,6 +125,7 @@ var documentConversion = function documentConversion(conn, downloads_dir, limit)
                         var file = fs.createWriteStream(stream);
                         console.log("Attempting to migrate: ", item._id);
                         console.log("Retrieving: ", downloadURL);
+                        //replace a100... with an IP to work around SNAT issue with a100 load balancer/firewall config.
                         var request = http.get(downloadURL.replace("a100.gov.bc.ca", "142.34.222.76"), function (response) {
                             response.on('data', function (chunk) {
                                 // Record the size & write to disk
