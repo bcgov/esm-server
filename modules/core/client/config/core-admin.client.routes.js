@@ -14,7 +14,7 @@ angular.module('core.admin.routes').config(['$stateProvider',
 				}
 			},
 			data: {
-				roles: ['eao','admin']
+				roles: []
 			},
 			controller: function ($scope, Authentication) {
 			// console.log ('auth = ', Authentication);
@@ -25,7 +25,7 @@ angular.module('core.admin.routes').config(['$stateProvider',
 			url: '/admin',
 			templateUrl: 'modules/core/client/views/admin.top.html',
 			data: {
-				roles: ['admin','eao']
+				roles: []
 			}
 		});
 	}

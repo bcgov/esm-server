@@ -13,7 +13,7 @@ angular.module('conditions').config(['$stateProvider', function ($stateProvider)
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.condition', {
-		data: {roles: ['admin','eao']},
+		data: {permissions: ['listConditions']},
 		abstract:true,
 		url: '/condition',
 		template: '<ui-view></ui-view>',
@@ -66,7 +66,7 @@ angular.module('conditions').config(['$stateProvider', function ($stateProvider)
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.condition.create', {
-		data: {roles: ['admin','*:*:qa-officer', '*:*:ce-lead', '*:*:ce-officer']},
+		data: {permissions: ['createCondition']},
 		url: '/create',
 		templateUrl: 'modules/conditions/client/views/condition-edit.html',
 		resolve: {
@@ -107,7 +107,7 @@ angular.module('conditions').config(['$stateProvider', function ($stateProvider)
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.condition.edit', {
-		data: {roles: ['admin','*:*:qa-officer', '*:*:ce-lead', '*:*:ce-officer']},
+		data: {permissions: ['createCondition']},
 		url: '/:conditionId/edit',
 		templateUrl: 'modules/conditions/client/views/condition-edit.html',
 		resolve: {

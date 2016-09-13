@@ -9,9 +9,7 @@ angular.module('users').config(['$stateProvider',
 				abstract: true,
 				url: '/settings',
 				templateUrl: 'modules/users/client/views/settings/settings.client.view.html',
-				data: {
-					roles: ['user', 'admin']
-				}
+				data: {}
 			})
 			.state('settings.profile', {
 				url: '/profile',
@@ -164,9 +162,7 @@ angular.module('users').config(['$stateProvider',
 						// return $state.href (state, params);
 					};
 				},
-				data: {
-					roles: ['admin', 'user']
-				}
+				data: { }
 			});
 	}
 ]);

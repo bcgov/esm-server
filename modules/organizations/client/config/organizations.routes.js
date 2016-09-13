@@ -13,7 +13,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     //
     // -------------------------------------------------------------------------
     .state('admin.organization', {
-        data: {roles: ['admin','eao']},
+        data: {permissions: ['listOrganizations']},
         abstract:true,
         url: '/organization',
         template: '<ui-view></ui-view>',
@@ -30,7 +30,6 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     //
     // -------------------------------------------------------------------------
     .state('admin.organization.list', {
-        // data: {roles: ['admin','eao']},
         url: '/list',
         templateUrl: 'modules/organizations/client/views/organization-list.html',
         controller: function ($scope, NgTableParams, Application, Authentication, orgs) {
@@ -47,7 +46,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     //
     // -------------------------------------------------------------------------
     .state('admin.organization.create', {
-        data: {roles: ['admin']},
+        data: {permissions: ['createOrganization']},
         url: '/create',
         templateUrl: 'modules/organizations/client/views/organization-edit.html',
         resolve: {
@@ -83,7 +82,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     //
     // -------------------------------------------------------------------------
     .state('admin.organization.edit', {
-        data: {roles: ['admin']},
+        data: {permissions: ['createOrganization']},
         url: '/:orgId/edit',
         templateUrl: 'modules/organizations/client/views/organization-edit.html',
         resolve: {
@@ -166,7 +165,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     // -------------------------------------------------------------------------
     // -------------------------------------------------------------------------
     .state('admin.organization.user', {
-        data: {roles: ['admin','eao']},
+        data: {permissions: ['createOrganization']},
         abstract:true,
         url: '/:orgId/user',
         template: '<ui-view></ui-view>',
@@ -185,7 +184,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     //
     // -------------------------------------------------------------------------
     .state('admin.organization.user.create', {
-        data: {roles: ['admin']},
+        data: {permissions: ['createOrganization']},
         url: '/create',
         templateUrl: 'modules/organizations/client/views/organization-user-edit.html',
         resolve: {
@@ -238,7 +237,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     //
     // -------------------------------------------------------------------------
     .state('admin.organization.user.edit', {
-        data: {roles: ['admin']},
+        data: {permissions: ['createOrganization']},
         url: '/:userId/edit',
         templateUrl: 'modules/organizations/client/views/organization-user-edit.html',
         resolve: {
@@ -292,6 +291,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     //
     // -------------------------------------------------------------------------
     .state('admin.organization.user.detail', {
+        data: {permissions: ['createOrganization']},
         url: '/:userId',
         templateUrl: 'modules/organizations/client/views/organization-user-view.html',
         resolve: {

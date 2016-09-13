@@ -13,7 +13,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.artifact', {
-		data: {roles: ['admin']},
+		data: { },
 		abstract:true,
 		url: '/artifact',
 		template: '<ui-view></ui-view>',

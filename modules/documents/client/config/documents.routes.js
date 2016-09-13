@@ -6,9 +6,7 @@ angular.module('documents').config(['$stateProvider', function ($stateProvider) 
 	.state('p.documents', {
 		url: '/documents',
 		templateUrl: 'modules/documents/client/views/documents.html',
-		data: {
-			roles: ['eao:member', 'admin', 'user', 'public']
-		},
+		data: { },
 		controller: function($scope, project) {
 			$scope.project = project;
 		}

@@ -59,7 +59,7 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.template', {
-		data: {roles: ['admin']},
+		data: {permissions: ['listTemplates']},
 		abstract:true,
 		url: '/template',
 		template: '<ui-view></ui-view>',
@@ -92,6 +92,7 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.template.create', {
+		data: {permissions: ['createTemplate']},
 		url: '/create',
 		templateUrl: 'modules/templates/client/views/template-edit.html',
 		resolve: {
@@ -147,6 +148,7 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.template.edit', {
+		data: {permissions: ['createTemplate']},
 		url: '/:templateId/edit',
 		templateUrl: 'modules/templates/client/views/template-edit.html',
 		resolve: {
@@ -182,6 +184,7 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 	//
 	// -------------------------------------------------------------------------
 	.state ('admin.template.test', {
+		data: {permissions: ['createTemplate']},
 		url: '/:templateId/test',
 		templateUrl: 'modules/templates/client/views/template-test.html',
 		resolve: {

@@ -89,7 +89,7 @@ angular.module('core')
 						$window.application._id = 'application';
 						$window.application.user = currentUser;
 						//console.log('< Application.reload(' + (force ? 'true' : 'false') + ')');
-						resolve();
+						resolve(response.userCan);
 					})
 					.error(reject);
 				}
