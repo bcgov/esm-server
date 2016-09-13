@@ -70,6 +70,14 @@ angular
 			$locationChangeStartUnbind();
 		});
 
+		var partial = function partial(func /*, 0..n args */) {
+			var args = Array.prototype.slice.call(arguments, 1);
+			return function() {
+				var allArguments = args.concat(Array.prototype.slice.call(arguments));
+				return func.apply(this, allArguments);
+			};
+		};
+
 		var goToList = function() {
 			$state.transitionTo('p.group.list', {projectid: $scope.project.code}, {
 				reload: true, inherit: false, notify: true
@@ -165,7 +173,11 @@ angular
 				backdropClass: 'modal-alert-backdrop'
 			});
 			// do not care how this modal is closed, just go to the desired location...
-			modalDocView.result.then(function (res) {transitionCallback(); }, function (err) { transitionCallback(); });
+			modalDocView.result.then(function (res) {
+				transitionCallback();
+			}, function (err) {
+				transitionCallback();
+			});
 		};
 
 		$scope.save = function(isValid) {
@@ -181,7 +193,8 @@ angular
 			if (mode === 'create') {
 				ProjectGroupModel.add(self.group)
 					.then (function (res) {
-						$scope.showSuccess('"'+ self.group.name +'"' + ' was saved successfully', goToEdit(res), 'Save Successful');
+						var editFn = partial(goToEdit, res);
+						$scope.showSuccess('"'+ self.group.name +'"' + ' was saved successfully', editFn, 'Save Successful');
 					})
 					.catch (function (err) {
 						$scope.showError('"'+ self.group.name +'"' + ' was not saved.', [], goNowhere, 'Save Error');
