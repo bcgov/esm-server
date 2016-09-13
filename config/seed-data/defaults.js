@@ -13,7 +13,9 @@ module.exports = function () {
 	var defaultRoles = {
 		'project-system-admin' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin', 'public'],
 		'assessment-admin' : ['assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin', 'public'],
-		'proponent-lead' : ['proponent-lead', 'proponent-team']
+		'project-intake' : ['assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin', 'public'],
+		'assessment-lead' : ['assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin', 'public'],
+		'project-epd' : ['assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin', 'public'],
 	};
 	//
 	// default project permissions
@@ -29,7 +31,7 @@ module.exports = function () {
 				'addUsersToContext' : ['assessment-admin', 'project-intake', 'assessment-lead', 'project-epd', 'project-system-admin'],
 				'createRole' : ['project-system-admin'],
 				'managePermissions' : ['project-system-admin'],
-				'manageRoles' : ['proponent-lead', 'assessment-admin', 'project-intake', 'assessment-lead', 'project-epd', 'project-system-admin'],
+				'manageRoles' : ['assessment-admin', 'project-intake', 'assessment-lead', 'project-epd', 'project-system-admin'],
 				'listContacts' : ['proponent-lead', 'assessment-admin', 'project-intake', 'assessment-lead', 'project-epd', 'project-system-admin'],
 				'viewTombstone' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-participant', 'project-system-admin'],
 				'viewEAOTombstone' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-participant', 'project-system-admin'],
@@ -312,7 +314,7 @@ module.exports = function () {
 		//
 		defaults: {
 			roles: {
-				'application:sysadmin': ['sysadmin', 'eao', 'proponent', 'eao-intake']
+				'sysadmin': ['sysadmin', 'eao', 'proponent', 'eao-intake']
 			},
 			permissions: {
 				'listConditions': ['sysadmin', 'proponent', 'eao'],
