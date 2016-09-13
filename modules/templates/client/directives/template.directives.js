@@ -255,7 +255,7 @@ angular.module ('templates')
 // directive to edit / view document field in template
 //
 // -------------------------------------------------------------------------
-.directive ('contentDocument', function (Document) {
+.directive ('contentDocument', function (Document, Authentication) {
 	return {
 		restrict: 'A', // only activate on element attribute
 		require: '?ngModel', // get a hold of NgModelController
@@ -271,6 +271,7 @@ angular.module ('templates')
 		templateUrl: 'modules/templates/client/views/template-document-editor.html',
 		link: function(scope, element, attrs, ngModel, filelist) {
 			scope.filelist = [];
+			scope.authentication = Authentication;
 			scope.$watchCollection ('curVal', function (newvalue) {
 				// console.log ('new value = ',newvalue);
 				// console.log ('curVal value = ',scope.curVal);
