@@ -37,40 +37,6 @@
 					</button>
 				</div>
 			</div>
-
-			<div class="pcp-details">
-				<!-- ABOUT -->
-				<section>
-					<h4>About this Comment Period...</h4>
-					<pre class="pcp-desc" ng-if="!activeperiod.instructions">No Description Available.</pre>
-					<pre class="pcp-desc" ng-if="activeperiod.instructions">{{ activeperiod.instructions }}</pre>
-					<!-- <pre class="pcp-desc" ng-if="isClosed">These are the closing remarks</pre> -->
-				</section><!-- / ABOUT -->
-				<!-- RELATED DOCUMENTS -->
-				<section class="pcp-related-docs">
-					<h4>Related Documents</h4>
-					<div class="list-group">
-						<a class="list-group-item flex-row"
-							ui-sref="p.artifact.view({artifactId:periodArtifact._id})"
-							target="_blank" >
-							<div class="icon">
-								<span class="glyphicon glyphicon-list-alt"></span>
-							</div>
-							<div class="title">{{ periodArtifact.name }}</div>
-						</a>
-					</div>
-				</section><!-- / RELATED DOCUMENTS -->
-				<!-- OPEN HOUSE -->
-				<section ng-if="activeperiod.openHouses.length > 0">
-					<h4>Open House Dates</h4>
-					<ul class="pcp-open-house-list">
-						<li ng-repeat="h in activeperiod.openHouses">
-							<strong>{{ h.eventDate | amDateFormat:'MMMM Do YYYY' }}</strong>
-							<pre>{{ h.description }}</pre>
-						</li>
-					</ul>
-				</section><!-- / OPEN HOUSE -->
-			</div>
 		</div>
 
 		<!-- PROJECT INFO -->

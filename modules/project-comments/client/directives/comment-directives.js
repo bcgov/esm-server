@@ -326,7 +326,7 @@ angular.module ('comment')
 // add a public comment
 //
 // -------------------------------------------------------------------------
-.directive ('addPublicComment', function ($modal, CommentModel, Upload, $timeout, _) {
+.directive ('addPublicComment', function ($modal, CommentModel, Upload, $timeout, _, $state) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -442,6 +442,10 @@ angular.module ('comment')
 					}
 				})
 				.result.then (function (data) {
+					// Redirect to full PCP page
+					$state.transitionTo('p.commentperiod.detail', {projectid: scope.project.code, periodId: data.period._id}, {
+						reload: true, inherit: false, notify: true
+					});
 				})
 				.catch (function (err) {});
 			});

@@ -77,15 +77,8 @@ angular.module('project').config (
 						return null;
 					}
 				});
-			},
-			periodArtifact: function (activeperiod, ArtifactModel) {
-				if (activeperiod) {
-					return ArtifactModel.getModel (activeperiod.artifact._id);
-				} else {
-					return null;
-				}
 			}
-		},controller: function ($scope, $state, project, ProjectModel, $window, activeperiod, periodArtifact) {
+		},controller: function ($scope, $state, project, ProjectModel, $window, activeperiod) {
 			$scope.project = project;
 			$scope.activeperiod = null;
 
@@ -93,7 +86,6 @@ angular.module('project').config (
 				// Switch on the UI for comment period
 				// console.log("activeperiod:", activeperiod);
 				$scope.activeperiod = activeperiod;
-				$scope.periodArtifact = periodArtifact;
 				$scope.allowCommentSubmit = (activeperiod.userCan.addComment) || activeperiod.userCan.vetComments;
 			}
 
