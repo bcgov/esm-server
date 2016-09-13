@@ -11,7 +11,7 @@
     <!-- COMMENT NOTE ALERTS -->
     <div class="comment-alert alert {{ s.alertType }}" ng-if="s.showAlert">
         <div class="alert-author-info">
-            <span class="author"><strong>{{ s.alertNotesLabel }} by {{ s.comment.updatedBy.displayName }}</strong></span>
+            <span class="author"><strong>Updated by {{ s.comment.updatedBy.displayName }}</strong></span>
             <span class="date">{{s.comment.dateUpdated | amDateFormat:'MMMM Do, YYYY'}}</span>
         </div>
         <div class="alert-notes">
@@ -25,7 +25,7 @@
     <section>
         <div class="comment-author-info">
             <span class="author"><strong>Posted by <span ng-if="!s.comment.isAnonymous && s.comment.author">{{ ::s.comment.author }}</span><span ng-if="s.comment.isAnonymous">Anonymous</span></strong></span>
-            <span class="pull-right label {{ s.alertType }}" ng-if="s.alertType">{{ s.alertNotesLabel }} &nbsp;-&nbsp; by {{ s.comment.updatedBy.displayName }}</span>
+            <span class="pull-right label {{ s.alertType }}" ng-if="s.alertType">Updated by {{ s.comment.updatedBy.displayName }}</span>
             <span class="date">
                 {{s.comment.dateAdded | amDateFormat:'MMMM Do, YYYY'}} <span ng-if="s.comment.location"> &nbsp;|&nbsp; {{ ::s.comment.location }}</span>
             </span>
