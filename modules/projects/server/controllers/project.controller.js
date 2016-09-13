@@ -16,7 +16,7 @@ var _                   = require ('lodash');
 var Role        				= require ('mongoose').model ('_Role');
 var util = require('util');
 var CommentPeriod = require (path.resolve('./modules/project-comments/server/models/commentperiod.model'));
-
+var access = require(path.resolve('./modules/core/server/controllers/core.access.controller'));
 
 module.exports = DBModel.extend ({
 	name : 'Project',
@@ -82,10 +82,10 @@ module.exports = DBModel.extend ({
 
 				return self.initDefaultRoles(project);
 			})
-			.then(function() {
-				// add all eao-intake users to this project's intake role.
-				return self.addIntakeUsers(project);
-			})
+			//.then(function() {
+			//	// add all eao-intake users to this project's intake role.
+			//	return self.addIntakeUsers(project);
+			//})
 			.then(function() {
 				//console.log('project.preprocessAdd project(2) = ' + JSON.stringify(project, null, 4));
 				// since we know that only special people can create projects...
@@ -143,6 +143,10 @@ module.exports = DBModel.extend ({
 			})
 			.then (resolve, reject);
 		});
+	},
+	postprocessAdd: function(project) {
+		return access.syncGlobalProjectUsers()
+			.then(function() { return Promise.resolve(project); }, function(err) { return Promise.reject(err); });
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -517,20 +521,6 @@ module.exports = DBModel.extend ({
 		defaultRoles.push(project.proMember);
 
 		return Promise.resolve (project);
-	},
-
-	addIntakeUsers: function(project) {
-		// find all system eao-intake users...
-		// add all system eao-intake users to project intake role...
-		return Role.find({role: 'eao-intake', user: {$ne: null}}, {user: 1}).exec()
-			.then(function(results) {
-				var a = _.map(results, function(u) {
-					return new Promise (function (resolve, reject) {
-						(new Role ({context: project._id, role: 'project-intake', user: u.user})).save().then(resolve, reject);
-					});
-				});
-				return Promise.all(a);
-			}).then(function() { return Promise.resolve(project); }, function(err) { return Promise.reject(err); });
 	}
 
 });

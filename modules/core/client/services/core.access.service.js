@@ -13,6 +13,9 @@ angular.module('core')
 .factory('AccessModel', function (ModelBase, _) {
 	var AccessClass = ModelBase.extend({
 		urlName: 'access',
+		globalProjectRoles: function (contextId) {
+			return this.get('/api/access/globalprojectroles');
+		},
 		allRoles: function (contextId) {
 			return this.get('/api/access/rolelist/context/' + contextId);
 		},

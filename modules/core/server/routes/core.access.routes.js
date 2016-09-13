@@ -74,8 +74,12 @@ module.exports = function (app) {
 	.get(access.routes.getAllUserRoles);
 	app.route('/api/access/alluserroles/context/:context/user/:username')
 	.get(access.routes.getAllUserRoles);
-	
-	
+
+
+	app.route('/api/access/globalprojectroles')
+		.get(access.routes.getGlobalProjectRoles);
+
+
 	app.route('/api/access/permissions/context/:context/resource/:resource')
 	.get(access.routes.userPermissions);
 	app.route('/api/access/permissions/context/:context/resource/:resource/user/:username')

@@ -314,7 +314,7 @@ module.exports = function () {
 		//
 		defaults: {
 			roles: {
-				'sysadmin': ['sysadmin', 'eao', 'proponent', 'eao-intake']
+				'sysadmin': ['sysadmin', 'eao', 'proponent', 'project-intake', 'project-eao-staff', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead']
 			},
 			permissions: {
 				'listConditions': ['sysadmin', 'proponent', 'eao'],
@@ -325,7 +325,7 @@ module.exports = function () {
 				'listTemplates': ['sysadmin', 'proponent', 'eao'],
 				'listValuedComponents': ['sysadmin', 'proponent', 'eao'],
 				'listContacts': ['sysadmin', 'proponent', 'eao'],
-				'createProject': ['sysadmin', 'eao-intake'],
+				'createProject': ['sysadmin', 'project-intake'],
 				'createCondition': ['sysadmin'],
 				'createEmailTemplate': ['sysadmin'],
 				'createOrganization': ['sysadmin'],
@@ -387,8 +387,18 @@ module.exports = function () {
 				'sysadmin': allApplicationPermissions,
 				'eao': readApplicationPermissions,
 				'proponent': readApplicationPermissions,
-				'eao-intake': ['createProject']
+				'project-intake': ['createProject']
 			}
+		}
+	}));
+
+	defaultsArray.push(new Defaults({
+		context: 'application',
+		resource: 'application',
+		level: 'global',
+		type: 'global-project-roles',
+		defaults: {
+			'roles' : ['project-intake', 'project-eao-staff', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead']
 		}
 	}));
 

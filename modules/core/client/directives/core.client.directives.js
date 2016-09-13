@@ -268,9 +268,12 @@ angular.module('core')
 						},
 						userList: function() {
 							return AccessModel.getContextUsers(scope.context._id);
+						},
+						globalProjectRoles: function() {
+							return AccessModel.globalProjectRoles();
 						}
 					},
-					controller: function ($scope, $modalInstance, allRoles, userRoleIndex, userList) {
+					controller: function ($scope, $modalInstance, allRoles, userRoleIndex, userList, globalProjectRoles) {
 						var s = this;
 
 						$scope.contacts = [];
@@ -316,8 +319,14 @@ angular.module('core')
 							//
 							// all the base data
 							//
+							var unassignableRoles = [];
+							if (scope.context._id !== 'application') {
+								unassignableRoles = globalProjectRoles; // only assign to these roles at the application level, not project.
+							}
+							unassignableRoles.push('public'); // never assign users to public role...
+
 							s.userRoleIndex = userRoleIndex;
-							s.allRoles = _.difference(allRoles, ['public']); // we don't add users to the public role, it's just for permissions.
+							s.allRoles = _.difference(allRoles, unassignableRoles);
 							s.allUsers = users;
 							//
 							// expose the inputs
