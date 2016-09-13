@@ -44,7 +44,7 @@
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="company" class="control-label">Doing Business As</label>
+								<label for="company" class="control-label">Display Name</label>
 								<p class="form-control-static">{{ org.company }}</p>
 							</div>
 						</div>
@@ -81,6 +81,20 @@
 					<legend>Mailing Address</legend>
 					<div ng-show="expandOrgView">
 						<div class="row">
+							<div class="col-sm-12 col-md-6">
+								<div class="form-group">
+									<label for="address1" class="control-label">Street Address 1</label>
+									<p class="form-control-static">{{ org.address1 }}</p>
+								</div>
+							</div>    
+							<div class="col-sm-12 col-md-6">
+								<div class="form-group">
+									<label for="address2" class="control-label">Street Address 2</label>
+									<p class="form-control-static">{{ org.address2 }}</p>
+								</div>
+							</div>
+						</div>
+						<div class="row">
 							<div class="col-sm-3">
 								<div class="form-group">
 									<label for="city" class="control-label">City</label>
@@ -89,7 +103,7 @@
 							</div>    
 							<div class="col-sm-3">
 								<div class="form-group">
-									<label for="province" class="control-label">Province</label>
+									<label for="province" class="control-label">Province/State</label>
 									<p class="form-control-static">{{ org.province }}</p>
 								</div>
 							</div>
@@ -101,22 +115,8 @@
 							</div>
 							<div class="col-sm-3">
 								<div class="form-group">
-									<label for="postal" class="control-label">Postal Code</label>
+									<label for="postal" class="control-label">Postal/Zip Code</label>
 									<p class="form-control-static">{{ org.postal }}</p>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-12 col-md-6">
-								<div class="form-group">
-									<label for="address1" class="control-label">Address (Line 1)</label>
-									<p class="form-control-static">{{ org.address1 }}</p>
-								</div>
-							</div>    
-							<div class="col-sm-12 col-md-6">
-								<div class="form-group">
-									<label for="address2" class="control-label">Address (Line 2)</label>
-									<p class="form-control-static">{{ org.address2 }}</p>
 								</div>
 							</div>
 						</div>
