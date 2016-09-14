@@ -17,7 +17,7 @@
 	</div>
 
 	<div class="view-body-container">
-		
+
 		<!-- TABS -->
 		<ul class="nav nav-tabs" ng-init="form.curTab = 'Project Details'">
 			<li role="presentation" ng-class="{'active':form.curTab === 'Project Details'}" class="form-group" x-show-errors>
@@ -98,6 +98,14 @@
 							ng-model="project.lon" required />
 					</div>
 				</div>
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <label class="control-label" for="eacDecision">Decision<em>(Optional)</em></label>
+            <textarea class="form-control" rows="3"
+                      name="eacDecision" id="eacDecision"
+                      ng-model="project.eacDecision"></textarea>
+          </div>
+          </div>
 			</fieldset>
 			<!-- PROJECT INFORMATION -->
 
@@ -398,7 +406,7 @@
 			</fieldset>
 
 			<hr/>
-			
+
 			<fieldset>
 				<legend>Primary Contact</legend>
 				<div class="row">
