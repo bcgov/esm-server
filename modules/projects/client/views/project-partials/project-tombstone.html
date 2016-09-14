@@ -15,6 +15,7 @@
 			<div class="col-sm-4 col-md-4">
 				<div class="detail-row">
 					<label>Proponent</label>
+					<span class="value" ng-if="!project.proponent.company">{{ ::project.proponent.name }}</span>
 					<span class="value">{{ ::project.proponent.company }}</span>
 				</div>
 			</div>
@@ -70,7 +71,8 @@
 
 		<!--- CONTACTS -->
 		<div class="row">
-			<div class="col-sm-4 col-md-4">
+			<div class="col-sm-4 col-md-4"
+				ng-if="project.projectLead">
 				<div class="detail-row">
 					<label>Project Lead</label>
 					<span class="value">
@@ -80,7 +82,8 @@
 					</span>
 				</div>
 			</div>
-			<div class="col-sm-4 col-md-4">
+			<div class="col-sm-4 col-md-4"
+				ng-if="project.responsibleEPD">
 				<div class="detail-row">
 					<label>Executive Project Director</label>
 					<span class="value">
@@ -90,7 +93,8 @@
 					</span>
 				</div>
 			</div>
-			<div class="col-sm-4 col-md-4">
+			<div class="col-sm-4 col-md-4"
+				ng-if="project.CELead">
 				<div class="detail-row">
 					<label>Compliance & Enforcement Lead</label>
 					<span class="value">
@@ -146,8 +150,6 @@
 			</div><!-- / ELECTORAL DISTRICTS -->
 
 			<div class="row" ng-if="project.intake.investment">
-				
-				<hr>
 
 				<div class="col-sm-4 col-md-4">
 					<div class="detail-row">
@@ -205,8 +207,7 @@
 
 		<!-- EAO ONLY INFO -->
 		<div class="row" ng-if="project.userCan.viewEAOTombstone">
-			<hr>
-
+			
 			<!-- PROJECT NOTES -->
 			<div ng-if="project.projectNotes">
 				<div class="col-sm-6 col-md-4">
