@@ -2341,6 +2341,19 @@ module.exports = DBModel.extend({
 				artifact.stage = artifactType.stages[0].name;
 				return artifact;
 			})
+			.then (function (a) {
+				var pc = new PhaseClass(self.opts);
+				if (!a.artifactType.phase) {
+					a.originalPhaseName = "Any Phase";
+					return a;
+				} else {
+					return pc.getPhaseBase(a.artifactType.phase)
+					.then( function (phasebase) {
+						a.originalPhaseName = phasebase.name;
+						return a;
+					});
+				}
+			})
 			.then(function(a) {
 				return self.setDefaultRoles(artifact, project, artifactType.code);
 			})

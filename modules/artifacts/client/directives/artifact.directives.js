@@ -16,7 +16,7 @@ angular.module('artifacts')
 			project: '=',
 			published: '='
 		},
-		controller: function ($scope, NgTableParams, Authentication, _) {
+		controller: function ($scope, NgTableParams, Authentication, _, PhaseBaseModel) {
 			var s = this;
 			s.public = (!Authentication.user);
 			s.published = $scope.published;
@@ -144,6 +144,16 @@ angular.module('artifacts')
 			s.init = function () {
 				// In this view we don't want individual VC's to show up, instead they will
 				// show up in the VC page.
+				// identify and sort items without a particular phase defined...
+				s.phaseArray = [];
+				PhaseBaseModel.all()
+				.then(function (p) {
+					s.phaseArray.push({id: 'Any Phase', title: 'Any Phase'}); // identify and sort items without a particular phase defined...
+
+					_.forEach(p, function (item) {
+						s.phaseArray.push({id: item.name, title: item.name});
+					});
+				});
 				ArtifactModel.forProjectFilterType($scope.project._id, "isPublished=" + $scope.published + "&typeCodeNe=valued-component,inspection-report")
 				.then(function (c) {
 					// quickly surface up the current stage...
@@ -170,12 +180,6 @@ angular.module('artifacts')
 						});
 						recs.pluck('stage').unique().value().map(function (item) {
 							s.stageArray.push({id: item, title: item});
-						});
-						recs.pluck('phase').unique().value().map(function (item) {
-							// Sometimes this is undefined.
-							if (item) {
-								s.phaseArray.push({id: item.name, title: item.name});
-							}
 						});
 					}
 					$scope.$apply();

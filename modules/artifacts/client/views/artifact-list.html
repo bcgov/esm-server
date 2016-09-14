@@ -23,8 +23,8 @@
 				<td data-title="'Version'" filter="{'version':'select'}" filter-data="s.versionArray" sortable="'version'">
 					{{o.version}}
 				</td>
-				<td data-title="'Phase'" filter="{'phase.name':'select'}" filter-data="s.phaseArray" sortable="'phase.name'">
-					{{o.phase.name}}
+				<td data-title="'Phase'" filter="{'originalPhaseName':'select'}" filter-data="s.phaseArray" sortable="'originalPhaseName'">
+					{{o.originalPhaseName }}
 				</td>
 				<td data-title="'Last Updated'" filter-data="'dateUpdated'" sortable="'dateUpdated'">
 					{{ o.dateUpdated | amDateFormat:'MMM DD, YYYY' }}
