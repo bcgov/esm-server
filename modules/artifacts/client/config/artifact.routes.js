@@ -217,7 +217,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				if($scope.artifact.signatureStage === 'Edit') {
 					UserModel.me()
 					.then(function (user) {
-						if (user.signature) {
+						// Not all templates have this - it's a double check.
+						if (user.signature && $scope.artifact.templateData.signature && $scope.artifact.templateData.signature.signee && $scope.artifact.templateData.sign && $scope.artifact.templateData.sign.sig) {
 							$scope.artifact.templateData.sign.sig = "<img src='/api/document/"+user.signature+"/fetch'/>";
 							$scope.artifact.templateData.signature.signee = user.firstName + " " + user.lastName;
 							var d = new Date();
