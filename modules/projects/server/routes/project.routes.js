@@ -12,6 +12,7 @@ var policy = require ('../../../core/server/controllers/core.policy.controller')
 
 module.exports = function (app) {
 	routes.setCRUDRoutes (app, 'project', Project, policy);
+
 	//
 	// add a phase to a project (from base phase)
 	//
@@ -85,6 +86,12 @@ module.exports = function (app) {
 		.all (policy ('user'))
 		.put (routes.setAndRun (Project, function (model, req) {
 			return model.submit (req.Project);
+		}));
+	// special delete method, purge an unpublished project and all associated data/files
+	app.route ('/api/project/:project/remove')
+		.all (policy ('user'))
+		.delete (routes.setAndRun (Project, function (model, req) {
+			return model.removeProject (req.Project);
 		}));
 	app.route ('/api/project/bycode/:projectcode')
 		.all (policy ('guest'))
