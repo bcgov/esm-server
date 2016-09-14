@@ -78,9 +78,9 @@
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-3">
-					<div class="form-group">
-						<label for="phoneNumber" class="control-label">Phone</label>
-						<input class="form-control" placeholder="eg: 123-456-7890" id="phoneNumber" type="text" ng-model="user.phoneNumber">
+					<div class="form-group" x-show-errors>
+						<label for="phoneNumber" class="control-label">Phone<em class="required">(Required)</em></label>
+						<input class="form-control" placeholder="eg: 123-456-7890" id="phoneNumber" name="phoneNumber" type="text" ng-model="user.phoneNumber" ng-blur="validate()" ng-required="true">
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-3">

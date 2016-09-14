@@ -70,7 +70,7 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 				var p = (which === 'add') ? UserModel.add ($scope.user) : UserModel.save ($scope.user);
 				p.then (function (model) {
 					$state.transitionTo('admin.user.list', {}, {
-			  			reload: true, inherit: false, notify: true
+						reload: true, inherit: false, notify: true
 					});
 				})
 				.catch (function (err) {
@@ -105,6 +105,17 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 			$scope.calculatedUsername = user.username;
 
 			var which = $scope.mode;
+
+			$scope.validate = function() {
+				var phonregexp = /^[(]{0,1}[0-9]{3}[)\.\- ]{0,1}[0-9]{3}[\.\- ]{0,1}[0-9]{4}$/;
+				if(phonregexp.test($scope.user.phoneNumber)) {
+					// console.log("valid phone number");
+					$scope.userForm.phoneNumber.$setValidity('required', true);
+				} else {
+					// console.log("invalid phone number");
+					$scope.userForm.phoneNumber.$setValidity('required', false);
+				}
+			};
 
 			$scope.calculateName = function() {
 				$scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ');
@@ -215,7 +226,7 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 				var p = (which === 'add') ? UserModel.add ($scope.user) : UserModel.save ($scope.user);
 				p.then (function (model) {
 					$state.transitionTo('admin.user.list', {}, {
-			  			reload: true, inherit: false, notify: true
+						reload: true, inherit: false, notify: true
 					});
 				})
 				.catch (function (err) {
