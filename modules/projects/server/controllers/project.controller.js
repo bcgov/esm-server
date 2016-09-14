@@ -521,6 +521,11 @@ module.exports = DBModel.extend ({
 		defaultRoles.push(project.proMember);
 
 		return Promise.resolve (project);
+	},
+
+	removeProject: function (project) {
+		return Promise.resolve({ok : true});
 	}
+
 
 });

@@ -13,6 +13,9 @@
 					ng-disabled="projectForm.$invalid"
 					ng-click="submitProject(projectForm.$valid)"
 					ng-if="project.status === 'Initiated'">Submit Project</button>
+      <button class="btn btn-danger btn-sm"
+              ng-click="deleteProject()"
+              ng-if="!isNew && !project.isPublished && project.userCan.delete">Delete Project</button>
 		</div>
 	</div>
 

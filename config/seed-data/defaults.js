@@ -62,7 +62,7 @@ module.exports = function () {
 				'createProjectGroup' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'read' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin'],
 				'write' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-				'delete' : ['project-system-admin'],
+				'delete' : ['project-system-admin', 'project-intake'],
 				'publish' : ['assessment-admin', 'assessment-lead', 'project-epd', 'project-system-admin'],
 				'unPublish' : ['assessment-admin', 'assessment-lead', 'project-epd', 'project-system-admin']
 			}
