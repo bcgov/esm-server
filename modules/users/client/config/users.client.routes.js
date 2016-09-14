@@ -134,28 +134,37 @@ angular.module('users').config(['$stateProvider',
 					projects: function(ProjectModel) {
 						return ProjectModel.mine ();
 					},
+					artifacts: function(ArtifactModel) {
+						return ArtifactModel.mine ();
+					},
 					lookup: function(ProjectModel) {
 						return ProjectModel.lookup ();
 					}
 				},
-				controller: function ($scope, $state, $stateParams, lookup, activities, projects, ArtifactModel, NgTableParams, _) {
+				controller: function ($scope, $state, $stateParams, lookup, activities, projects, artifacts, NgTableParams, _) {
 					// console.log (projects);
 					// console.log (activities);
+					console.log (JSON.stringify(artifacts));
 
 
 					$scope.projectParams = new NgTableParams ({count:50}, {dataset: projects});
+					$scope.tableParams = new NgTableParams ({count:50}, {dataset: artifacts});
 
-					_.each(activities, function(item) {
-						console.log("item.data.artifactId:",item.data.artifactId);
-						if (lookup[item.project]) {
-							item.project = lookup[item.project].name;
-						}
-						ArtifactModel.lookup(item.data.artifactId).then( function (af) {
-							item.artifactname = af.name;
-							console.log("artifact name:",af.name);
-						});
+					// filter lists...
+					$scope.versionArray = [{id: '', title: 'Any Version'}];
+					$scope.stageArray = [{id: '', title: 'Any Stage'}];
+					$scope.phaseArray = [{id: '', title: 'Any Phase'}];
+					// build out the filter arrays...
+					var recs = _(angular.copy(artifacts)).chain().flatten();
+					recs.pluck('version').unique().value().map(function (item) {
+						$scope.versionArray.push({id: item, title: item});
 					});
-					$scope.tableParams = new NgTableParams ({count:50}, {dataset: activities});
+					recs.pluck('stage').unique().value().map(function (item) {
+						$scope.stageArray.push({id: item, title: item});
+					});
+					recs.pluck('phase.name').unique().value().map(function (item) {
+						$scope.phaseArray.push({id: item, title: item});
+					});
 
 					$scope.getLinkUrl = function (state, params) {
 						$state.go(state, params);
