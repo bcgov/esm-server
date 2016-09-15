@@ -312,13 +312,13 @@ angular.module('core')
 									}
 								});
 								if (data.users.length === 1) {
-									s.init(s.allUsers, s.currentRole, data.users[0].username, s.userView);
+									s.init(s.allUsers, s.currentRole, data.users[0].username, s.userView, false);
 								}
 								$scope.contacts = [];
 							}
 						});
 
-						s.init = function (users, currentRoleName, currentUserName, showUserView) {
+						s.init = function (users, currentRoleName, currentUserName, showUserView, filterGlobalUsers) {
 							console.log('roleUsersModal.init... start');
 							//
 							// all the base data
@@ -329,9 +329,28 @@ angular.module('core')
 							}
 							unassignableRoles.push('public'); // never assign users to public role...
 
+							var globalUsers = [];
+							if (filterGlobalUsers) {
+								// really only want this done on initial screen load..
+								globalUsers = _.transform(userRoleIndex.user, function (result, roles, username) {
+									// get only the roles that are marked true...
+									var userInRoles = _.transform(roles, function(r, v, k) {
+										if (v) {
+											r.push(k);
+										}
+									}, []);
+									// see if they have anything assignable...
+									var assignableRoles = _.difference(userInRoles, unassignableRoles);
+									if (assignableRoles.length === 0) {
+										// no assignable roles, so drop from the list...
+										result.push(username);
+									}
+								}, []);
+							}
+
 							s.userRoleIndex = userRoleIndex;
 							s.allRoles = _.difference(allRoles, unassignableRoles);
-							s.allUsers = users;
+							s.allUsers = _.filter(users, function(u) { return globalUsers.indexOf(u.username) < 0; });
 							//
 							// expose the inputs
 							////
@@ -351,7 +370,7 @@ angular.module('core')
 							console.log('roleUsersModal.init... end');
 						};
 
-						s.init(userList, undefined, undefined, true);
+						s.init(userList, undefined, undefined, true, true);
 
 						$scope.$on('NEW_ROLE_ADDED', function (e, data) {
 							if (!_.isEmpty(data.roleName)) {
