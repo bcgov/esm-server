@@ -13,7 +13,7 @@ module.exports = require('../../../core/server/controllers/core.schema.controlle
 		//
 		// who has access to this thing
 		//
-		__access: ['publish', 'unPublish'],
+		__access: [],
 		//
 		// what type of artifcat is this? i.e. project description, etc
 		//

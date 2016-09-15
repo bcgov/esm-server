@@ -76,7 +76,7 @@ $panel-footer-bg: 			#FFF;
 /* Side Navigation */
 $sidenav-bg: 				#FFF;
 $sidenav-color: 			$link-color;
-$sidenav-width:				19rem;
+$sidenav-width:				18rem;
 
 /* Tables */
 $table-bg: 					#FFF;
@@ -2181,7 +2181,7 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 		display: table-cell;
 		width: $sidenav-width;
 		height: 6.2rem;
-		padding: 0.9rem 1.5rem 0.9rem 4.5rem;
+		padding: 0.9rem 1.5rem 0.9rem 4.25rem;
 		font-weight: bold;
 		color: #1a5a96;
 		text-decoration: none;
@@ -2192,8 +2192,8 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 		.glyphicon {
 			position: absolute;
 			top: 1.7rem;
-			left: 1.2rem;
-			font-size: 2.4rem;
+			left: 1rem;
+			font-size: 2.6rem;
 		}
 	}
 }
@@ -5422,53 +5422,99 @@ tmpl-template-render {
 	}
 }
 
-.project-timeline {
-	.panel-heading {
-		border: none;
-	}
 
-	.timeline-container {
-		padding: 1.5rem;
-		padding-top: 0;
-		display: flex;
+.project-timeline-container {
+	padding: 0.5rem;
+	@extend .flex-column;
+
+	.phase {
+		@include flex(1 1 0);
+		position: relative;
+		color: #888;
+		background: #EEE;
+
+		.phase-info {
+			@extend .flex-row;
+			height: 100%;
+			border: 1px solid #FFF;
+
+			.phase-badge {
+				text-align: right;
+
+				.label {
+					margin-bottom: 0.5rem;
+					min-width: 8rem;
+					padding: 0.3rem 0.8rem;
+				}
+
+				.label-info,
+				.label-success {
+					border: 1px solid #FFF;
+				}
+
+				.label-default {
+					background: #bbb;
+					border: 1px solid #bbb;
+				}
+			}
+
+			.phase-name,
+			.phase-status {
+				padding: 1rem;
+			}
+
+			.phase-name {
+				@include flex(1 1 auto);
+				margin: 0;
+				font-size: 1.6rem;
+				font-weight: bold;
+				line-height: 1.8rem;
+			}
+
+			.phase-status {
+				@include flex(0 0 auto);
+				font-size: 1.2rem;
+				line-height: 1.4rem;
+			}
+		}
+
+		&.complete {
+			color: #FFF;
+			background: $success-bg;
+		}
+
+		&.active {
+			color: #FFF;
+			background: $info-bg;
+
+			+ .active {
+				display: none;
+			}
+		}
+	}
+}
+
+@media (min-width: 1024px) {
+	.project-timeline-container {
 		flex-flow: row nowrap;
 
 		.phase {
-			position: relative;
-			height: 100px;
-			padding: 1rem;
-			width: 16.6666%;
-			background: #DDD;
-			color: #999;
-			line-height: 1.4rem;
-			flex: 1 1 auto;
-			margin: 1px;
+			float: left;
+			-ms-flex: 1 1 1px; /* IE needs a value for flex-basis or the flex grow/shrink properties won't obey */
 
-			&:first-child:nth-last-child(13),
-			&:first-child:nth-last-child(13) ~ .phase-block {
-				width: 13%;
+			.phase-info {
+				flex-flow: column nowrap;
+
+				.phase-badge {
+					text-align: left;
+				}
+
+				.phase-status {
+					.status-name {
+						display: block;
+					}
+				}
 			}
-
-			&.complete {
-				color: #FFF;
-				background: $success-bg;
-			}
-
-			&.active {
-				color: #FFF;
-				background: $info-bg;
-			}
-		}
-
-		.phase-name {
-			font-size: 1.2rem;
-			font-weight: bold;
-			text-transform: uppercase;
-		}
-
-		.phase-dates {
-			font-size: 1.2rem;
-			font-weight: normal;
 		}
 	}
 }
