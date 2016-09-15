@@ -32,7 +32,9 @@ function directiveEmailTemplateChooser(EmailTemplateModel, $modal, _) {
         restrict: 'A',
         scope: {
             project: '=',
-			current: '='
+			current: '=',
+			groupAllowed: '=',
+			groupRestricted: '='
         },
         link : function(scope, element, attrs) {
             element.on('click', function () {
@@ -48,6 +50,15 @@ function directiveEmailTemplateChooser(EmailTemplateModel, $modal, _) {
                     },
 					controller: function ($scope, $modalInstance, items) {
 						var s = this;
+
+						if (scope.groupAllowed) {
+							var allowed = scope.groupAllowed.toUpperCase().split(',');
+							items = _.filter(items, function(f) { return allowed.indexOf(f.group.toUpperCase()) > -1; });
+						}
+						if (scope.groupRestricted) {
+							var restricted = scope.groupRestricted.toUpperCase().split(',');
+							items = _.filter(items, function(f) { return restricted.indexOf(f.group.toUpperCase()) < 0; });
+						}
 
 						var isArray = _.isArray(scope.current);
 
