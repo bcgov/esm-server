@@ -34,7 +34,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 			projects: function (ProjectModel) {
 				return ProjectModel.lookup();
 			},
-			recentActivity: function ($stateParams, RecentActivityModel, projects) {
+			recentActivity: function ($stateParams, RecentActivityModel, projects, _) {
 				return RecentActivityModel.getCollection ()
 				.then( function (data) {
 					_.each(data, function (item) {
