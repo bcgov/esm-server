@@ -113,7 +113,7 @@ var seedingAsync = function() {
 // artifact types
 //
 // -------------------------------------------------------------------------
-	checkIntegration('loadartifacts79').then(function () {
+	checkIntegration('loadartifacts80').then(function () {
 		require('../seed-data/loadartifacts')();
 	});
 // -------------------------------------------------------------------------
