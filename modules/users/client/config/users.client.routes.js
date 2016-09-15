@@ -144,7 +144,7 @@ angular.module('users').config(['$stateProvider',
 				controller: function ($scope, $state, $stateParams, lookup, activities, projects, artifacts, NgTableParams, _) {
 					// console.log (projects);
 					// console.log (activities);
-					console.log (JSON.stringify(artifacts));
+					//console.log (JSON.stringify(artifacts));
 
 
 					$scope.projectParams = new NgTableParams ({count:50}, {dataset: projects});
@@ -162,9 +162,13 @@ angular.module('users').config(['$stateProvider',
 					recs.pluck('stage').unique().value().map(function (item) {
 						$scope.stageArray.push({id: item, title: item});
 					});
-					recs.pluck('phase.name').unique().value().map(function (item) {
-						$scope.phaseArray.push({id: item, title: item});
-					});
+					try {
+						recs.pluck('phase.name').unique().value().map(function (item) {
+							$scope.phaseArray.push({id: item, title: item});
+						});
+					} catch(err) {
+						//console.log('error getting the list of phase names to use.');
+					}
 
 					$scope.getLinkUrl = function (state, params) {
 						$state.go(state, params);

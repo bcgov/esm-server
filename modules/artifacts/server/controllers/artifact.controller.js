@@ -2861,24 +2861,36 @@ module.exports = DBModel.extend({
 				// need to filter out which artifacts we have a role in the current stage....
 				_.each(data, function(a) {
 					//console.log(" artifact = " + a.name + ', stage = ' + a.stage);
-					var projectRoles = _.filter(roles, function(r) { return r.context.toString() === a.project._id.toString(); });
-					var currentStage = _.find(a.artifactType.stages, function(s) { return s.name === a.stage; });
-					//console.log("   projectRoles = " + JSON.stringify(projectRoles, null, 4));
-					//console.log("   currentStage = " + JSON.stringify(currentStage, null, 4));
+					if (a.project && a.project._id && a.artifactType && a.artifactType.stages && a.artifactType.stages.length > 0) {
+						var projectRoles = _.filter(roles, function(r) { return r.context.toString() === a.project._id.toString(); });
+						var currentStage = _.find(a.artifactType.stages, function(s) { return s.name === a.stage; });
+						//console.log("   projectRoles = " + JSON.stringify(projectRoles, null, 4));
+						//console.log("   currentStage = " + JSON.stringify(currentStage, null, 4));
 
-					if (projectRoles && projectRoles.length > 0 && currentStage && currentStage.role) {
-						var roleNames = _.map(projectRoles, 'role');
-						//console.log("   roleNames = " + JSON.stringify(roleNames, null, 4));
-						//console.log("   currentStage.role = " + JSON.stringify(currentStage.role, null, 4));
-						var mine = roleNames.indexOf(currentStage.role) > -1;
-						//console.log("   is this my artifact? ", (mine ? "YUP!" : "NOPE!"));
-						if (mine) {
-							artifacts.push(a);
+						if (projectRoles && projectRoles.length > 0 && currentStage && currentStage.role) {
+							var roleNames = _.map(projectRoles, 'role');
+							//console.log("   roleNames = " + JSON.stringify(roleNames, null, 4));
+							//console.log("   currentStage.role = " + JSON.stringify(currentStage.role, null, 4));
+							var mine = roleNames.indexOf(currentStage.role) > -1;
+							//console.log("   is this my artifact? ", (mine ? "YUP!" : "NOPE!"));
+							if (mine) {
+								artifacts.push(a);
+							}
 						}
+					} else {
+						//console.log(" SKIP artifact = " + a.name + '. Either project is not populated or artifactType/stages is not populated.');
 					}
 				});
 				//console.log("artifacts.mine - artifacts(mine) = ", JSON.stringify(artifacts, null, 4));
 				return artifacts;
+			}, function(err) {
+				console.log("ERROR - artifacts.mine - artifacts(all): ", JSON.stringify(err));
+				return [];
+			}).then(function(data) {
+				return data;
+			}, function(err) {
+				console.log("ERROR - artifacts.mine - artifacts(mine): ", JSON.stringify(err));
+				return [];
 			});
 	},
 
