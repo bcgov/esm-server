@@ -102,6 +102,7 @@ module.exports = function (app) {
 				// ETL fixing - if the name was brought in without a filename, and we have their document
 				// file format, affix the type as an extension to the original name so they have a better
 				// chance and opening up the file on double-click.
+				console.log("fetching:",req.Document.internalOriginalName,":", req.Document.documentFileFormat);
 				var name = req.Document.internalOriginalName;
 				if (req.Document.documentFileFormat && !req.Document.internalOriginalName.endsWith(req.Document.documentFileFormat)) {
 					name = req.Document.internalOriginalName + "." + req.Document.documentFileFormat;
