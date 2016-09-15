@@ -17,6 +17,10 @@ var DocumentClass  = require (path.resolve('./modules/documents/server/controlle
 var Access    = require (path.resolve ('./modules/core/server/controllers/core.access.controller'));
 var ObjectID = require('mongodb').ObjectID;
 
+var mongoose = require ('mongoose');
+var Role = mongoose.model ('_Role');
+var Project = mongoose.model ('Project');
+
 module.exports = DBModel.extend({
 	name: 'Artifact',
 	plural: 'artifacts',
@@ -2156,6 +2160,19 @@ module.exports = DBModel.extend({
 				"compliance-officer"
 			]
 		},
+		"enforcement-action-documentation": {
+			"read": [
+				"compliance-lead",
+				"compliance-officer"
+			],
+			"write": [
+				"compliance-lead",
+				"compliance-officer"
+			],
+			"delete": [
+				"compliance-lead"
+			]
+		},
 		"assessment-report": {
 			"read": [
 				"assessment-admin",
@@ -2297,18 +2314,20 @@ module.exports = DBModel.extend({
 			// now add the milestone associated with this artifact
 			//
 			.then(function (m) {
+				// Remove the magic w.r.t. schedule
+				return null;
 				// console.log("artifact type:",artifactType);
 				// Don't add milestones for artifacts of type 'valued-component' or 'inspection-report'
-				if (artifactType.code === 'valued-component' || artifactType.code === 'inspection-report') {
-					return null;
-				}
+				// if (artifactType.code === 'valued-component' || artifactType.code === 'inspection-report') {
+				// 	return null;
+				// }
 
-				// not sure if this is right or we need more data on the templates...
-				if (_.isEmpty(artifactType.milestone))
-					return null;
+				// // not sure if this is right or we need more data on the templates...
+				// if (_.isEmpty(artifactType.milestone))
+				// 	return null;
 
-				var p = new MilestoneClass(self.opts);
-				return p.fromBase(artifactType.milestone, project.currentPhase);
+				// var p = new MilestoneClass(self.opts);
+				// return p.fromBase(artifactType.milestone, project.currentPhase);
 			})
 			//
 			// now set up and save the new artifact
@@ -2327,6 +2346,19 @@ module.exports = DBModel.extend({
 				artifact.version = artifactType.versions[0];
 				artifact.stage = artifactType.stages[0].name;
 				return artifact;
+			})
+			.then (function (a) {
+				var pc = new PhaseClass(self.opts);
+				if (!a.artifactType.phase) {
+					a.originalPhaseName = "Any Phase";
+					return a;
+				} else {
+					return pc.getPhaseBase(a.artifactType.phase)
+					.then( function (phasebase) {
+						a.originalPhaseName = phasebase.name;
+						return a;
+					});
+				}
 			})
 			.then(function(a) {
 				return self.setDefaultRoles(artifact, project, artifactType.code);
@@ -2578,6 +2610,11 @@ module.exports = DBModel.extend({
 				// this stage
 				//
 				// console.log ('document saved, now add the activity ', model.milestone, next.activity);
+
+				///////////////////////////////////////////////////////////////////////////////
+				// NB: This will never run since milestones should not be automatically created
+				///////////////////////////////////////////////////////////////////////////////
+
 				if (model.milestone && next.activity) {
 					var ativity;
 					var m = new MilestoneClass(self.opts);
@@ -2771,5 +2808,97 @@ module.exports = DBModel.extend({
 
 				return permissions;
 			});
-	}
+	},
+	mine: function () {
+		var self = this;
+
+		var findMyRoles = function (username) {
+			return new Promise(function (fulfill, reject) {
+				Role.find({
+					user: username
+				}).exec(function (error, data) {
+					if (error) {
+						reject(new Error(error));
+					} else if (!data) {
+						reject(new Error('findMyRoles: Roles not found for username: ' + username));
+					} else {
+						fulfill(data);
+					}
+				});
+			});
+		};
+
+		var getIncompleteProjects = function(roles) {
+			var projectIds = _.uniq(_.map (roles, 'context'));
+			// don't want to query for 'application', it's not a project id...
+			_.remove(projectIds, function(o) { return o === 'application'; } );
+
+			var q = {
+				_id: { "$in": projectIds },
+				dateCompleted: { "$eq": null }
+			};
+			return Project.find (q, { _id: 1, code: 1, name: 1, region: 1, status: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1 }).populate('currentPhase').exec();
+		};
+
+		var getMyArtifacts = function(projects) {
+			var projectIds = _.uniq(_.map (projects, '_id'));
+			var q = {
+				project: { "$in": projectIds },
+				stage:   { "$ne" : "Edit"}
+			};
+			return self.model.find(q, { _id: 1, code: 1, name: 1, stage: 1, version: 1, phase: 1, project: 1, artifactType: 1, description: 1, dateUpdated: 1, updatedBy: 1  }).populate('artifactType', 'stages.name stages.activity stages.role').populate('phase', 'name').populate('project', 'code name').populate('updatedBy', 'displayName').exec();
+		};
+
+		var roles = [];
+		var projects = [];
+		var artifacts = [];
+		return findMyRoles(self.user.username)
+			.then(function(data) {
+				//console.log("artifacts.mine - roles = ", JSON.stringify(data, null, 4));
+				roles = data;
+				return getIncompleteProjects(roles);
+			})
+			.then(function(data) {
+				//console.log("artifacts.mine - projects = ", JSON.stringify(data, null, 4));
+				projects = data;
+				return getMyArtifacts(projects);
+			})
+			.then(function(data) {
+				//console.log("artifacts.mine - artifacts(all) = ", JSON.stringify(data, null, 4));
+				// need to filter out which artifacts we have a role in the current stage....
+				_.each(data, function(a) {
+					//console.log(" artifact = " + a.name + ', stage = ' + a.stage);
+					if (a.project && a.project._id && a.artifactType && a.artifactType.stages && a.artifactType.stages.length > 0) {
+						var projectRoles = _.filter(roles, function(r) { return r.context.toString() === a.project._id.toString(); });
+						var currentStage = _.find(a.artifactType.stages, function(s) { return s.name === a.stage; });
+						//console.log("   projectRoles = " + JSON.stringify(projectRoles, null, 4));
+						//console.log("   currentStage = " + JSON.stringify(currentStage, null, 4));
+
+						if (projectRoles && projectRoles.length > 0 && currentStage && currentStage.role) {
+							var roleNames = _.map(projectRoles, 'role');
+							//console.log("   roleNames = " + JSON.stringify(roleNames, null, 4));
+							//console.log("   currentStage.role = " + JSON.stringify(currentStage.role, null, 4));
+							var mine = roleNames.indexOf(currentStage.role) > -1;
+							//console.log("   is this my artifact? ", (mine ? "YUP!" : "NOPE!"));
+							if (mine) {
+								artifacts.push(a);
+							}
+						}
+					} else {
+						//console.log(" SKIP artifact = " + a.name + '. Either project is not populated or artifactType/stages is not populated.');
+					}
+				});
+				//console.log("artifacts.mine - artifacts(mine) = ", JSON.stringify(artifacts, null, 4));
+				return artifacts;
+			}, function(err) {
+				console.log("ERROR - artifacts.mine - artifacts(all): ", JSON.stringify(err));
+				return [];
+			}).then(function(data) {
+				return data;
+			}, function(err) {
+				console.log("ERROR - artifacts.mine - artifacts(mine): ", JSON.stringify(err));
+				return [];
+			});
+	},
+
 });

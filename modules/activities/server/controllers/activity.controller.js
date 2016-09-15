@@ -198,7 +198,11 @@ module.exports = DBModel.extend ({
 			//
 			.then (function (m) {
 				// console.log ('Activity From Base:'+code+' Step 4');
-				return self.setAncestry (m, milestone);
+				if (m) {
+					return self.setAncestry (m, milestone);
+				} else {
+					return null;
+				}
 			})
 			//
 			// set up all the default roles, creates them if need be
@@ -216,8 +220,10 @@ module.exports = DBModel.extend ({
 			//
 			.then (function (model) {
 				// console.log ('new activity created: ', JSON.stringify(model,null,4));
-				milestone.activities.push (model._id);
-				milestone.save ();
+				if (milestone) {
+					milestone.activities.push (model._id);
+					milestone.save ();
+				}
 				// console.log ('Activity From Base:'+code+' Step 6');
 				// console.log ('all done setting roles, and the activity was saved during that');
 				return (model);

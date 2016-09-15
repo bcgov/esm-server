@@ -12,6 +12,9 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 	//
 	var ProjectClass = ModelBase.extend ({
 		urlName : 'project',
+		removeProject: function(project) {
+			return this.delete ('/api/project/' + project._id + '/remove');
+		},
 		// -------------------------------------------------------------------------
 		//
 		// get a project by its code

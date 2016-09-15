@@ -683,6 +683,59 @@ var getRoleUserIndex = function (o) {
 	});
 };
 exports.getRoleUserIndex = getRoleUserIndex;
+
+var getGlobalProjectRoles = function() {
+	var Defaults = mongoose.model ('_Defaults');
+	return new Promise (function (resolve, reject) {
+		Defaults.findOne({resource: 'application', level: 'global', type : 'global-project-roles'}).exec()
+			.then (function(r) {
+				return r.defaults.roles;
+			})
+			.then (resolve, complete (reject, 'getGlobalProjectRoles'));
+	});
+};
+
+var syncGlobalProjectUsers = function() {
+	return new Promise (function (resolve, reject) {
+		var globalProjectRoles = [];
+		var globalProjectRoleUsers = [];
+		getGlobalProjectRoles()
+			.then(function(data) {
+				globalProjectRoles = data;
+				//console.log('syncGlobalProjectUsers.globalProjectRoles = ', JSON.stringify(globalProjectRoles));
+				return Role.find({context: 'application', role: {$in: globalProjectRoles }, user : {$ne: null} }).exec();
+			})
+			.then(function(data) {
+				//console.log('syncGlobalProjectUsers.globalProjectUsers.found = ', JSON.stringify(data));
+				globalProjectRoleUsers = data;
+				return Role.remove({ context: { $ne : 'application' }, role: {$in: globalProjectRoles }, user : {$ne: null} }).exec();
+			})
+			.then(function(data) {
+				//console.log('syncGlobalProjectUsers.globalProjectUsers.removedFromProjects = ', JSON.stringify(data));
+				return Project.find({},{_id:1}).exec();
+			})
+			.then(function(data) {
+				//console.log('syncGlobalProjectUsers.getProjectIds = ', JSON.stringify(data));
+				var projRoles = [];
+				_.each(data, function(p) {
+					_.each(globalProjectRoleUsers, function(r) {
+						projRoles.push(addRole ({
+							context : p._id,
+							user    : r.user,
+							role    : r.role
+						}));
+					});
+				});
+				return Promise.all(projRoles);
+			})
+			.then(function(data) {
+				//console.log('syncGlobalProjectUsers.globalProjectUsers.addedToProjects = ', JSON.stringify(data));
+				return {ok : true};
+			})
+			.then (resolve, complete (reject, 'syncGlobalProjectUsers'));
+	});
+};
+exports.syncGlobalProjectUsers = syncGlobalProjectUsers;
 // -------------------------------------------------------------------------
 //
 // get the index of users to roles, both ways, for a context
@@ -702,6 +755,7 @@ var setRoleUserIndex = function (context, index) {
 		});
 
 		var promiseArray = [];
+
 		_.each (index.user, function (roles, user) {
 			_.each (roles, function (value, role) {
 				if (value) {
@@ -721,9 +775,17 @@ var setRoleUserIndex = function (context, index) {
 			});
 		});
 
-		Promise.all(addRolePromises).then(Promise.all (promiseArray))
-		.then (function () { return {ok:true};})
-		.then (resolve, complete (reject, 'setRoleUserIndex'));
+		Promise.all(addRolePromises)
+			.then(function() {
+				return Promise.all(promiseArray);
+			})
+			.then(function() {
+				return syncGlobalProjectUsers();
+			})
+			.then(function() {
+				return {ok : true};
+			})
+			.then (resolve, complete (reject, 'setRoleUserIndex'));
 	});
 };
 exports.setRoleUserIndex = setRoleUserIndex;
@@ -946,6 +1008,9 @@ exports.routes = {
 			user    : req.params.username || (req.user ? req.user.username : undefined),
 			context : req.params.context
 		}));
+	},
+	getGlobalProjectRoles : function (req, res) {
+		return runPromise (res, getGlobalProjectRoles() );
 	},
 
 	userPermissions : function (req, res) {

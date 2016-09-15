@@ -135,8 +135,7 @@ angular
 							};
 						},
 						controllerAs: 'self',
-						scope: $scope,
-						size: 'lg'
+						scope: $scope
 					}).result.then(function (res) {
 						$scope.allowTransition = true;
 						$state.go(toState);

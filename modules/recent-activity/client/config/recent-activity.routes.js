@@ -31,8 +31,17 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 		url: '/list',
 		templateUrl: 'modules/recent-activity/client/views/recent-activity-list.html',
 		resolve: {
-			recentActivity: function ($stateParams, RecentActivityModel) {
-				return RecentActivityModel.getCollection ();
+			projects: function (ProjectModel) {
+				return ProjectModel.lookup();
+			},
+			recentActivity: function ($stateParams, RecentActivityModel, projects, _) {
+				return RecentActivityModel.getCollection ()
+				.then( function (data) {
+					_.each(data, function (item) {
+						item.code = projects[item.project].code;
+					});
+					return data;
+				});
 			}
 		},
 		controller: function ($scope, NgTableParams, recentActivity) {

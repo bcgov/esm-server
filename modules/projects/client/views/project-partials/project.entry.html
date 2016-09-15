@@ -13,11 +13,14 @@
 					ng-disabled="projectForm.$invalid"
 					ng-click="submitProject(projectForm.$valid)"
 					ng-if="project.status === 'Initiated'">Submit Project</button>
+      <button class="btn btn-danger btn-sm"
+              ng-click="deleteProject()"
+              ng-if="!isNew && !project.isPublished && project.userCan.delete">Delete Project</button>
 		</div>
 	</div>
 
 	<div class="view-body-container">
-		
+
 		<!-- TABS -->
 		<ul class="nav nav-tabs" ng-init="form.curTab = 'Project Details'">
 			<li role="presentation" ng-class="{'active':form.curTab === 'Project Details'}" class="form-group" x-show-errors>
@@ -98,6 +101,14 @@
 							ng-model="project.lon" required />
 					</div>
 				</div>
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <label class="control-label" for="eacDecision">Decision<em>(Optional)</em></label>
+            <textarea class="form-control" rows="3"
+                      name="eacDecision" id="eacDecision"
+                      ng-model="project.eacDecision"></textarea>
+          </div>
+          </div>
 			</fieldset>
 			<!-- PROJECT INFORMATION -->
 
@@ -398,7 +409,7 @@
 			</fieldset>
 
 			<hr/>
-			
+
 			<fieldset>
 				<legend>Primary Contact</legend>
 				<div class="row">
@@ -451,8 +462,14 @@
 			<div class="pull-right">
 				<button class="btn btn-default btn-sm" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
 				<button class="btn btn-default btn-sm" ng-if="isNew" ui-sref="projects">Cancel</button>
-				<button class="btn btn-primary btn-sm" type="submit">Save</button>
-				<button class="btn btn-success btn-sm" ng-disabled="projectForm.$invalid" ng-click="submitProject(projectForm.$valid)" ng-if="project.status === 'Initiated'">Submit Project</button>
+				<button class="btn btn-primary btn-sm"
+						ng-click="saveProject(projectForm.$valid)"
+						ng-if="project.status !== 'Initiated'"
+						type="submit">Save</button>
+				<button class="btn btn-success btn-sm"
+						ng-disabled="projectForm.$invalid"
+						ng-click="submitProject(projectForm.$valid)"
+						ng-if="project.status === 'Initiated'">Submit Project</button>
 			</div>
 		</div>
 

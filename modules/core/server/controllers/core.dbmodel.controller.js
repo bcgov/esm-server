@@ -796,7 +796,7 @@ _.extend (DBModel.prototype, {
 			.then (self.applyModelPermissionDefaults)
 			.then (self.preprocessAdd)
 			.then (self.saveDocument)
-			.then (self.permissions)
+			//.then (self.permissions)
 			.then (self.postprocessAdd)
 			.then (self.decorate)
 			.then (resolve, self.complete (reject, 'create'));

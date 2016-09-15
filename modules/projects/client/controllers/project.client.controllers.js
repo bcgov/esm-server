@@ -177,9 +177,9 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 // Used.
 //
 // -----------------------------------------------------------------------------------
-controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', 'project', 'REGIONS', 'PROJECT_TYPES', 'PROJECT_SUB_TYPES', 'CEAA_TYPES', '_', 'UserModel', 'ProjectModel', 'OrganizationModel', 'Authentication', 'codeFromTitle'];
+controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', '$modal', 'project', 'REGIONS', 'PROJECT_TYPES', 'PROJECT_SUB_TYPES', 'CEAA_TYPES', '_', 'UserModel', 'ProjectModel', 'OrganizationModel', 'Authentication', 'codeFromTitle'];
 /* @ngInject */
-function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS, PROJECT_TYPES, PROJECT_SUB_TYPES, CEAA_TYPES, _, UserModel, ProjectModel, OrganizationModel, Authentication, codeFromTitle) {
+function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, REGIONS, PROJECT_TYPES, PROJECT_SUB_TYPES, CEAA_TYPES, _, UserModel, ProjectModel, OrganizationModel, Authentication, codeFromTitle) {
 
 	ProjectModel.setModel ($scope.project);
 
@@ -261,6 +261,101 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 			console.error ('error = ', err);
 		});
 	};
+
+	$scope.showSuccess = function(msg, transitionCallback, title) {
+		var modalDocView = $modal.open({
+			animation: true,
+			templateUrl: 'modules/utils/client/views/partials/modal-success.html',
+			controller: function($scope, $state, $modalInstance, _) {
+				var self = this;
+				self.title = title || 'Success';
+				self.msg = msg;
+				self.ok = function() {
+					$modalInstance.close($scope.project);
+				};
+				self.cancel = function() {
+					$modalInstance.dismiss('cancel');
+				};
+			},
+			controllerAs: 'self',
+			scope: $scope,
+			size: 'md',
+			windowClass: 'modal-alert',
+			backdropClass: 'modal-alert-backdrop'
+		});
+		// do not care how this modal is closed, just go to the desired location...
+		modalDocView.result.then(function (res) {transitionCallback(); }, function (err) { transitionCallback(); });
+	};
+
+	$scope.showError = function(msg, errorList, transitionCallback, title) {
+		var modalDocView = $modal.open({
+			animation: true,
+			templateUrl: 'modules/utils/client/views/partials/modal-error.html',
+			controller: function($scope, $state, $modalInstance, _) {
+				var self = this;
+				self.title = title || 'An error has occurred';
+				self.msg = msg;
+				self.ok = function() {
+					$modalInstance.close($scope.project);
+				};
+				self.cancel = function() {
+					$modalInstance.dismiss('cancel');
+				};
+			},
+			controllerAs: 'self',
+			scope: $scope,
+			size: 'md',
+			windowClass: 'modal-alert',
+			backdropClass: 'modal-alert-backdrop'
+		});
+		// do not care how this modal is closed, just go to the desired location...
+		modalDocView.result.then(function (res) {transitionCallback(); }, function (err) { transitionCallback(); });
+	};
+
+	var goToList = function() {
+		$state.transitionTo('activities', {}, {
+			reload: true, inherit: false, notify: true
+		});
+	};
+
+	var reloadEdit = function() {
+		$state.reload();
+	};
+
+	$scope.deleteProject = function() {
+		var modalDocView = $modal.open({
+			animation: true,
+			templateUrl: 'modules/utils/client/views/partials/modal-confirm-delete.html',
+			controller: function($scope, $state, $modalInstance, _) {
+				var self = this;
+				self.dialogTitle = "Delete Project";
+				self.name = $scope.project.name;
+				self.ok = function() {
+					$modalInstance.close($scope.project);
+				};
+				self.cancel = function() {
+					$modalInstance.dismiss('cancel');
+				};
+			},
+			controllerAs: 'self',
+			scope: $scope,
+			size: 'md'
+		});
+		modalDocView.result.then(function (res) {
+			ProjectModel.removeProject($scope.project)
+				.then(function (res) {
+					// deleted show the message, and go to list...
+					$scope.showSuccess('"'+ $scope.project.name +'"' + ' was deleted successfully.', goToList, 'Delete Success');
+				})
+				.catch(function (res) {
+					console.log("res:", res);
+					// could have errors from a delete check...
+					var failure = _.has(res, 'message') ? res.message : undefined;
+					$scope.showError('"'+ $scope.project.name +'"' + ' was not deleted.', [], reloadEdit, 'Delete Error');
+				});
+		}, function () {
+			//console.log('delete modalDocView error');
+		});	};
 }
 // -----------------------------------------------------------------------------------
 //

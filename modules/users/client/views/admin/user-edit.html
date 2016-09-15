@@ -1,11 +1,11 @@
-
-<form class="view-form" name="userForm" ng-submit="save(userForm.$valid)" novalidate>
+<form class="view-form" name="userForm" novalidate>
 
 	<div class="view-title-container flex-row">
 		<h1>Add/Edit Contact<span ng-show="user.username"> &nbsp;&rsaquo;&nbsp; {{user.username}}</span></h1>
 		<div class="actions">
 			<button class="btn btn-default btn-sm" ui-sref="admin.user.list" type="button">Cancel</button>
-			<button class="btn btn-primary btn-sm" type="submit">Save</button>
+			<button class="btn btn-danger btn-sm" ng-click="deleteUser()" type="button"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
+			<button class="btn btn-primary btn-sm" ng-click="save(userForm.$valid)" type="button">Save</button>
 		</div>
 	</div>
 
@@ -78,9 +78,9 @@
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-3">
-					<div class="form-group">
-						<label for="phoneNumber" class="control-label">Phone</label>
-						<input class="form-control" placeholder="eg: 123-456-7890" id="phoneNumber" type="text" ng-model="user.phoneNumber">
+					<div class="form-group" x-show-errors>
+						<label for="phoneNumber" class="control-label">Phone<em class="required">(Required)</em></label>
+						<input class="form-control" placeholder="eg: 123-456-7890" id="phoneNumber" name="phoneNumber" type="text" ng-model="user.phoneNumber" ng-blur="validate()" ng-required="true">
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-3">

@@ -29,21 +29,21 @@
                             filter="{'name':'text'}"
                             sortable="'name'">{{o.name}}
                         </td>
-                        <td ng-if="environment === 'MEM'" 
-                            title="'data-Permit'" 
+                        <td ng-if="environment === 'MEM'"
+                            title="'data-Permit'"
                             sortable="'memPermitID'">{{o.memPermitID}}
                         </td>
-                        <td data-title="'Type'" 
+                        <td data-title="'Type'"
                             sortable="'type'">{{o.type}}
                         </td>
-                        <td data-title="'Region'" 
+                        <td data-title="'Region'"
                             sortable="'region'">{{o.region | regionName}}
                         </td>
-                        <td data-title="'Phase'" 
+                        <td data-title="'Phase'"
                             sortable="'currentPhase.name'" >{{o.currentPhase.name}}
                         </td>
-                        <td ng-if="environment === 'EAO'" 
-                            data-title="'Status'" 
+                        <td ng-if="environment === 'EAO'"
+                            data-title="'Status'"
                             sortable="'status'">{{o.status}}
                         </td>
                     </tr>
@@ -58,22 +58,31 @@
                 <div class="panel-heading clearfix">
                     <h2 class="pull-left">Activities</h2>
                 </div>
-                <table x-show-filter="true" ng-table="tableParams" class="table table-condensed table-striped table-hover">
-                    <tr ng-repeat="o in $data | orderBy:'order' | unique:'data.artifactId'"
-                        ng-click="getLinkUrl(o.state, o.data)"
-                        class="clickable">
-                        <td data-title="'Project'" filter="{'project':'text'}" sortable="'project'">{{ o.project }}</td>
-                        <td data-title="'Name'" filter="{'name':'text'}"    sortable="'name'" >{{o.artifactname}}</td>
-                        <!-- <td data-title="'Estimated Start'" filter="{'dateStartedEst':'text'}"    sortable="'dateStartedEst'" >{{o.dateStartedEst | date}}</td>
-                        <td data-title="'Started On'" filter="{'dateStarted':'text'}"    sortable="'dateStarted'" >{{o.dateStarted | date}}</td>
-                        <td data-title="'Estimated Complete'" filter="{'dateCompletedEst':'text'}"    sortable="'dateCompletedEst'" >{{o.dateCompletedEst | date}}</td> -->
-                        <!-- <td data-title="'Completed'" filter="{'dateCompleted':'text'}"    sortable="'dateCompleted'" >{{o.dateCompleted | date}}</td> -->
-                    </tr>
-                    <tr ng-if="!$data || $data.length === 0">
-                        <td colspan="2">
-                            No records found.
-                        </td>
-                    </tr>
+                <table class="table table-hover" ng-table="tableParams" show-filter="true">
+                  <tr class="clickable" ng-repeat="o in $data" ui-sref="p.artifact.view({projectid: o.project.code, artifactId:o._id})">
+                    <td class="project-name-col" header-class="'project-name-col'" data-title="'Project'" filter="{'project.name':'text'}" sortable="'project.name'">{{o.project.name}}
+                    </td>
+                    <td class="artifact-name-col" header-class="'artifact-name-col'" data-title="'Name'" filter="{'name':'text'}" sortable="'name'">
+                      {{o.name}}
+                    </td>
+                    <td ng-if="!published" data-title="'Stage'" filter="{'stage':'select'}" filter-data="stageArray" sortable="'stage'">
+                      {{o.stage}}<br/><span class="placeholder-value" ng-if="o.stageRole">({{o.stageRole}})</span>
+                    </td>
+                    <td data-title="'Version'" filter="{'version':'select'}" filter-data="versionArray" sortable="'version'">
+                      {{o.version}}
+                    </td>
+                    <td data-title="'Phase'" filter="{'phase.name':'select'}" filter-data="phaseArray" sortable="'phase.name'">
+                      {{o.phase.name }}
+                    </td>
+                    <td data-title="'Last Updated'" filter-data="'dateUpdated'" sortable="'dateUpdated'">
+                      {{ o.dateUpdated | amDateFormat:'MMM DD, YYYY' }}
+                    </td>
+                  </tr>
+                  <tr class="no-records" ng-if="(!$data || $data.length === 0)">
+                    <td colspan="4">
+                      <span>No records found.</span>
+                    </td>
+                  </tr>
                 </table>
             </div>
 

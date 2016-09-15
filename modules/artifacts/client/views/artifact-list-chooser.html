@@ -1,5 +1,6 @@
 
 <div class="modal-header">
+  <button class="btn btn-default close" ng-click="s.cancel()"><span aria-hidden="true">×</span></button>
   <h3 class="modal-title">Project Content</h3>
 </div>
 
@@ -7,7 +8,7 @@
   <section class="panel panel-default no-margin">
     <table class="table table-scroll add-vc-table" ng-table="s.tableParams" show-filter="true">
       <tr ng-repeat="t in s.items">
-        <td class="name-col"
+        <td class="name-col select"
             header-class="'name-col'"
             filter="{'name':'text'}"
             data-title="'Name'">

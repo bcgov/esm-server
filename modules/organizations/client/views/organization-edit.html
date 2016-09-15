@@ -1,10 +1,11 @@
 
-<form class="view-form" name="organizationForm" ng-submit="save(organizationForm.$valid)" novalidate>
+<form class="view-form" name="organizationForm" novalidate>
 	<div class="view-title-container flex-row">
 		<h1>Add/Edit Organization <span ng-if="org.name">&nbsp; &rsaquo; &nbsp;{{ org.name }}</span></h1>
 		<div class="actions">
 			<button class="btn btn-default btn-sm" ui-sref="admin.organization.list">Cancel</button>
-			<button class="btn btn-primary btn-sm" type="submit">Save</button>
+			<button class="btn btn-danger btn-sm" ng-click="deleteOrg()" type="button"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
+			<button class="btn btn-primary btn-sm" ng-click="save(organizationForm.$valid)" type="button">Save</button>
 		</div>
 	</div>
 	
@@ -20,7 +21,7 @@
 				</div>
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group">
-						<label for="company" class="control-label">Doing Business As</label>
+						<label for="company" class="control-label">Display Name<em>(Doing Business As)</em></label>
 						<input class="form-control" id="company" type="text" ng-model="org.company">
 					</div>
 				</div>
@@ -56,32 +57,6 @@
 		<fieldset>
 			<legend>Mailing Address</legend>
 			<div class="row">
-				<div class="col-sm-6 col-md-3">
-					<div class="form-group">
-						<label for="city" class="control-label">City</label>
-						<input class="form-control" id="city" type="text" ng-model="org.city">
-					</div>
-				</div>    
-				<div class="col-sm-6 col-md-3">
-					<div class="form-group">
-						<label for="province" class="control-label">Province</label>
-						<input class="form-control" id="province" type="text" ng-model="org.province">
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-3">
-					<div class="form-group">
-						<label for="country" class="control-label">Country</label>
-						<input class="form-control" id="country" type="text" ng-model="org.country">
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-3">
-					<div class="form-group">
-						<label for="postal" class="control-label">Postal Code</label>
-						<input class="form-control" id="postal" type="text" ng-model="org.postal">
-					</div>
-				</div>
-			</div>
-			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
 						<label for="address1" class="control-label">Street Address 1</label>
@@ -95,12 +70,39 @@
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group">
+						<label for="city" class="control-label">City</label>
+						<input class="form-control" id="city" type="text" ng-model="org.city">
+					</div>
+				</div>    
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group">
+						<label for="province" class="control-label">Province/State</label>
+						<input class="form-control" id="province" type="text" ng-model="org.province">
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group">
+						<label for="country" class="control-label">Country</label>
+						<input class="form-control" id="country" type="text" ng-model="org.country">
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group">
+						<label for="postal" class="control-label">Postal/Zip Code</label>
+						<input class="form-control" id="postal" type="text" ng-model="org.postal">
+					</div>
+				</div>
+			</div>
 		</fieldset>
 
 		<div class="form-footer clearfix">
 			<div class="pull-right">
 				<button class="btn btn-default btn-sm" ui-sref="admin.organization.list">Cancel</button>
-				<button class="btn btn-primary btn-sm" type="submit">Save</button>
+				<button class="btn btn-danger btn-sm" ng-click="deleteOrg()" type="button"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
+				<button class="btn btn-primary btn-sm" ng-click="save(organizationForm.$valid)" type="button">Save</button>
 			</div>
 		</div>
 

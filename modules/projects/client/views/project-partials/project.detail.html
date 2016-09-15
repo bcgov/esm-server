@@ -14,16 +14,6 @@
 
 	<div class="view-body-container project-details">
 
-		<div class="panel panel-default project-timeline hidden">
-			<div class="panel-heading"><h2>Project Timeline</h2></div>
-			<div class="timeline-container">
-				<div class="phase"
-					ng-class="{'active': o.status == 'In Progress', 'complete': o.completed}" ng-repeat="o in project.phases">
-					<span class="phase-name">{{o.name}}</span>
-				</div>
-			</div>
-		</div>
-
 		<!-- PUBLIC COMMENT PERIOD IF ACTIVE -->
 		<div ng-if="activeperiod" class="panel panel-default">
 			<div class="pcp-alert clearfix">
@@ -39,21 +29,42 @@
 			</div>
 		</div>
 
+		<!-- PROJECT TIMELINE -->
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Project Timeline</h2></div>
+			<div class="project-timeline-container clearfix">
+				<div class="phase"
+					ng-class="{'active': o.status == 'In Progress',
+							   'complete': o.completed}"
+					ng-repeat="o in project.phases">
+					<div class="phase-info">
+						<h4 class="phase-name">{{o.name}}</h4>
+						<div class="phase-status" ng-if="o.code != 'post-certification'">
+							<div class="phase-badge">
+								<span class="label"
+									ng-class="{'label-success': o.completed,
+									           'label-info': o.status == 'In Progress',
+									           'label-default': o.status == 'Not Started'}">{{o.status}}</span>
+							</div>
+							<div class="phase-dates">
+								<span ng-if="o.dateCompleted">
+									<span class="status-name">Completion Date:</span>
+									<span class="status-date">{{o.dateCompleted | amDateFormat: 'MMM DD, YYYY'}}</span>
+								</span>
+								<span ng-if="o.dateCompletedEst && !o.dateCompleted">
+									<span class="status-name" title="Estimated Completion Date">Est. Completion Date:</span>
+									<span class="status-date">{{o.dateCompletedEst | amDateFormat: 'MMM DD, YYYY'}}</span>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- PROJECT INFO -->
 		<section class="project-info">
 			<tmpl-project-tombstone id="anchor-tombstone" x-project="project"></tmpl-project-tombstone>
-		</section>
-
-		<!-- PROJECT PHASES -->
-		<section class="project-phases" ng-if="environment === 'EAO'">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h2>Project Timeline</h2>
-				</div>
-				<div class="panel-body">
-					<tmpl-schedule-timeline class="anchor-section" style="max-width: 100%;" id="anchor-timeline" x-phases="project.phases"></tmpl-schedule-timeline>
-				</div>
-			</div>
 		</section>
 
 		<!--
@@ -110,7 +121,7 @@
 				<div class="panel-heading">
 					<h2>Project Map</h2>
 				</div>
-				<tmpl-map id="anchor-map" x-project="project" ng-if="('project'| shouldDisplayPanel:'map':project.status)"></tmpl-map>
+				<tmpl-map id="anchor-map" x-project="project"></tmpl-map>
 			</div>
 		</section>
 

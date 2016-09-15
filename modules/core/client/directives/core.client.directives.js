@@ -38,9 +38,12 @@ angular.module('core')
 						},
 						permissionRoleIndex: function() {
 							return AccessModel.permissionRoleIndex(scope.object._id);
+						},
+						globalProjectRoles: function() {
+							return AccessModel.globalProjectRoles();
 						}
 					},
-					controller: function ($scope, $modalInstance, allRoles, roleUsers, permissionRoleIndex) {
+					controller: function ($scope, $modalInstance, allRoles, roleUsers, globalProjectRoles, permissionRoleIndex) {
 						var s = this;
 
 						var setPermissionRole = function (system, permission, role, value) {
@@ -81,6 +84,7 @@ angular.module('core')
 								// we only want certain permissions to be set at run time, ones that do not require model defaults for read/write/delete
 								// application / system should not expose createRole either...
 								s.allPermissions  = _.difference(s.allPermissions, ['read', 'write', 'delete', 'createRole', 'createProject']);
+								s.allRoles = _.difference(s.allRoles, globalProjectRoles); // we don't add permissions to 'project' roles at the application level.
 							} else if (scope.context._id === scope.object._id) {
 								// jsherman - 2016-09-01
 								// roles and permissions lock down...
@@ -268,9 +272,12 @@ angular.module('core')
 						},
 						userList: function() {
 							return AccessModel.getContextUsers(scope.context._id);
+						},
+						globalProjectRoles: function() {
+							return AccessModel.globalProjectRoles();
 						}
 					},
-					controller: function ($scope, $modalInstance, allRoles, userRoleIndex, userList) {
+					controller: function ($scope, $modalInstance, allRoles, userRoleIndex, userList, globalProjectRoles) {
 						var s = this;
 
 						$scope.contacts = [];
@@ -305,20 +312,45 @@ angular.module('core')
 									}
 								});
 								if (data.users.length === 1) {
-									s.init(s.allUsers, s.currentRole, data[0].username, s.userView);
+									s.init(s.allUsers, s.currentRole, data.users[0].username, s.userView, false);
 								}
 								$scope.contacts = [];
 							}
 						});
 
-						s.init = function (users, currentRoleName, currentUserName, showUserView) {
+						s.init = function (users, currentRoleName, currentUserName, showUserView, filterGlobalUsers) {
 							console.log('roleUsersModal.init... start');
 							//
 							// all the base data
 							//
+							var unassignableRoles = [];
+							if (scope.context._id !== 'application') {
+								unassignableRoles = globalProjectRoles; // only assign to these roles at the application level, not project.
+							}
+							unassignableRoles.push('public'); // never assign users to public role...
+
+							var globalUsers = [];
+							if (filterGlobalUsers) {
+								// really only want this done on initial screen load..
+								globalUsers = _.transform(userRoleIndex.user, function (result, roles, username) {
+									// get only the roles that are marked true...
+									var userInRoles = _.transform(roles, function(r, v, k) {
+										if (v) {
+											r.push(k);
+										}
+									}, []);
+									// see if they have anything assignable...
+									var assignableRoles = _.difference(userInRoles, unassignableRoles);
+									if (assignableRoles.length === 0) {
+										// no assignable roles, so drop from the list...
+										result.push(username);
+									}
+								}, []);
+							}
+
 							s.userRoleIndex = userRoleIndex;
-							s.allRoles = _.difference(allRoles, ['public']); // we don't add users to the public role, it's just for permissions.
-							s.allUsers = users;
+							s.allRoles = _.difference(allRoles, unassignableRoles);
+							s.allUsers = _.filter(users, function(u) { return globalUsers.indexOf(u.username) < 0; });
 							//
 							// expose the inputs
 							////
@@ -338,7 +370,7 @@ angular.module('core')
 							console.log('roleUsersModal.init... end');
 						};
 
-						s.init(userList, undefined, undefined, true);
+						s.init(userList, undefined, undefined, true, true);
 
 						$scope.$on('NEW_ROLE_ADDED', function (e, data) {
 							if (!_.isEmpty(data.roleName)) {
