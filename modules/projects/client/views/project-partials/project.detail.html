@@ -39,21 +39,23 @@
 					ng-repeat="o in project.phases">
 					<div class="phase-info">
 						<h4 class="phase-name">{{o.name}}</h4>
-						<div class="phase-status">
+						<div class="phase-status" ng-if="o.code != 'post-certification'">
 							<div class="phase-badge">
 								<span class="label"
 									ng-class="{'label-success': o.completed,
 									           'label-info': o.status == 'In Progress',
 									           'label-default': o.status == 'Not Started'}">{{o.status}}</span>
 							</div>
-							<span ng-if="o.dateCompleted">
-								<span class="status-name">Completion Date:</span>
-								<span class="status-date">{{o.dateCompleted | amDateFormat: 'MMM DD, YYYY'}}</span>
-							</span>
-							<span ng-if="o.dateCompletedEst && !o.dateCompleted">
-								<span class="status-name" title="Estimated Completion Date">Est. Completion Date:</span>
-								<span class="status-date">{{o.dateCompletedEst | amDateFormat: 'MMM DD, YYYY'}}</span>
-							</span>
+							<div class="phase-dates">
+								<span ng-if="o.dateCompleted">
+									<span class="status-name">Completion Date:</span>
+									<span class="status-date">{{o.dateCompleted | amDateFormat: 'MMM DD, YYYY'}}</span>
+								</span>
+								<span ng-if="o.dateCompletedEst && !o.dateCompleted">
+									<span class="status-name" title="Estimated Completion Date">Est. Completion Date:</span>
+									<span class="status-date">{{o.dateCompletedEst | amDateFormat: 'MMM DD, YYYY'}}</span>
+								</span>
+							</div>
 						</div>
 					</div>
 				</div>
