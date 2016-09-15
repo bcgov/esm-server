@@ -2839,7 +2839,7 @@ module.exports = DBModel.extend({
 				project: { "$in": projectIds },
 				stage:   { "$ne" : "Edit"}
 			};
-			return self.model.find(q, { _id: 1, code: 1, name: 1, stage: 1, version: 1, phase: 1, project: 1, artifactType: 1, description: 1 }).populate('artifactType', 'stages.name stages.activity stages.role').populate('phase', 'name').populate('project', 'code name').exec();
+			return self.model.find(q, { _id: 1, code: 1, name: 1, stage: 1, version: 1, phase: 1, project: 1, artifactType: 1, description: 1, dateUpdated: 1, updatedBy: 1  }).populate('artifactType', 'stages.name stages.activity stages.role').populate('phase', 'name').populate('project', 'code name').populate('updatedBy', 'displayName').exec();
 		};
 
 		var roles = [];
