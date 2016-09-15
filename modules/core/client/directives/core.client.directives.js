@@ -312,7 +312,7 @@ angular.module('core')
 									}
 								});
 								if (data.users.length === 1) {
-									s.init(s.allUsers, s.currentRole, data[0].username, s.userView);
+									s.init(s.allUsers, s.currentRole, data.users[0].username, s.userView);
 								}
 								$scope.contacts = [];
 							}

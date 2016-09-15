@@ -246,7 +246,7 @@
 						<div class="pull-right">
 						<a class="btn btn-default btn-sm" href="/api/document/{{ filterSummary._id }}/fetch" target="_self" title="Download Document">
 							<span class="glyphicon glyphicon-download-alt"></span></a>
-						<a class="btn btn-default btn-sm" href ng-click="docBrowser.deleteDocument(filterSummary._id)" ng-if="(docBrowser.authentication.user)" title="Delete Document">
+						<a class="btn btn-default btn-sm" href ng-click="docBrowser.deleteDocument(filterSummary._id)" ng-if="(filterSummary.userCan.delete)" title="Delete Document">
 							<span class="glyphicon glyphicon-trash"></span></a>
 						<tmpl-permissions-gear
 							class="permission-btn"

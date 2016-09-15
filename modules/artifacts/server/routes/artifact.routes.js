@@ -74,5 +74,11 @@ module.exports = function (app) {
 	.get(routes.setAndRun(Artifact, function (model, req) {
 		return model.checkPermissions(req.params.artifactId);
 	}));
+
+	app.route ('/api/artifacts/mine')
+	.get (routes.setAndRun (Artifact, function (model, req) {
+		return model.mine ();
+	}));
+
 };
 
