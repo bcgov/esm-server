@@ -2314,18 +2314,20 @@ module.exports = DBModel.extend({
 			// now add the milestone associated with this artifact
 			//
 			.then(function (m) {
+				// Remove the magic w.r.t. schedule
+				return null;
 				// console.log("artifact type:",artifactType);
 				// Don't add milestones for artifacts of type 'valued-component' or 'inspection-report'
-				if (artifactType.code === 'valued-component' || artifactType.code === 'inspection-report') {
-					return null;
-				}
+				// if (artifactType.code === 'valued-component' || artifactType.code === 'inspection-report') {
+				// 	return null;
+				// }
 
-				// not sure if this is right or we need more data on the templates...
-				if (_.isEmpty(artifactType.milestone))
-					return null;
+				// // not sure if this is right or we need more data on the templates...
+				// if (_.isEmpty(artifactType.milestone))
+				// 	return null;
 
-				var p = new MilestoneClass(self.opts);
-				return p.fromBase(artifactType.milestone, project.currentPhase);
+				// var p = new MilestoneClass(self.opts);
+				// return p.fromBase(artifactType.milestone, project.currentPhase);
 			})
 			//
 			// now set up and save the new artifact

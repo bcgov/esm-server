@@ -133,7 +133,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				return ArtifactModel.getModel ($stateParams.artifactId);
 			}
 		},
-		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, Document, MilestoneModel, UserModel, TemplateModel) {
+		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, Document, UserModel, TemplateModel) {
 			// console.log ('artifact = ', artifact);
 			// console.log ('project  = ', project);
 			// artifact.artifactType = fix;
@@ -198,12 +198,9 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				if (artifact.maindocument)
 					artifact.document = artifact.maindocument[0];
 				if (_.isEmpty (artifact.document)) artifact.document = null;
-				MilestoneModel.deleteMilestone($scope.artifact.milestone)
-				.then( function () {
-					ArtifactModel.remove ($scope.artifact)
-					.then (function (model) {
-						$state.go ('p.detail', {projectid:project.code});
-					});
+				ArtifactModel.remove ($scope.artifact)
+				.then (function (model) {
+					$state.go ('p.detail', {projectid:project.code});
 				})
 				.catch (function (err) {
 					console.error (err);
