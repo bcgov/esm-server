@@ -652,6 +652,9 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				});
 			};
 			$scope.reset = function () {
+				if (artifact.maindocument)
+					artifact.document = artifact.maindocument[0];
+				if (_.isEmpty (artifact.document)) artifact.document = null;
 				$scope.artifact.stage = "Edit";
 				ArtifactModel.save($scope.artifact)
 				.then (function (res) {
