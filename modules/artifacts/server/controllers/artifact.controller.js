@@ -2610,6 +2610,11 @@ module.exports = DBModel.extend({
 				// this stage
 				//
 				// console.log ('document saved, now add the activity ', model.milestone, next.activity);
+
+				///////////////////////////////////////////////////////////////////////////////
+				// NB: This will never run since milestones should not be automatically created
+				///////////////////////////////////////////////////////////////////////////////
+
 				if (model.milestone && next.activity) {
 					var ativity;
 					var m = new MilestoneClass(self.opts);
