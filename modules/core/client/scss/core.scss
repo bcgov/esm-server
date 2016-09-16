@@ -4183,12 +4183,8 @@ section {
 		}
 	}
 
-	section {
-		margin-bottom: 2.5rem;
-		padding-bottom: 0;
-		border: none;
-
-		&:last-child {
+	form {
+		.form-group:last-child {
 			margin-bottom: 0;
 		}
 	}
@@ -4262,7 +4258,7 @@ section {
 	}
 
 	.comment-body {
-		margin-bottom: 0;
+		margin: 0;
 		max-height: 40rem;
 		overflow-y: auto;
 

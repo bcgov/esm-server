@@ -3,7 +3,7 @@
 </div>
 <div class="modal-body">
 	<ul class="list-group check-list">
-		<li class="list-group-item" ng-repeat="vc in s.vcs" ng-click="s.dealwith (vc)">
+		<li class="list-group-item" ng-repeat="vc in s.vcs | orderBy" ng-click="s.dealwith (vc)">
 			<input type="checkbox" ng-checked="s.findById(vc._id) != -1"></input>{{ vc.title }} ({{ vc.pillar }})
 		</li>
 	</ul>
