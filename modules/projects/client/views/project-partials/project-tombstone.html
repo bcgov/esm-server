@@ -8,7 +8,7 @@
 
 		<div class="detail-row project-desc" ng-show="project.description">
 			<label>Project Description</label>
-			<pre class="value" ng-bind-html="project.description"></pre>
+			<span class="value">{{ ::project.description }}</span>
 		</div>
 
 		<div class="row">

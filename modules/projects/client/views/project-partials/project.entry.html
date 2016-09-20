@@ -73,8 +73,12 @@
 				</div>
 				<div class="form-group" x-show-errors>
 					<label class="control-label" for="shortDesc">Project Description<em class="required">(Required)</em></label>
-					<textarea ui-tinymce rows="5" title="Project Description" id="shortDesc" name="projectdesc" rows="3"
-						ng-model="project.description" required></textarea>
+					<textarea title="Project Description"
+								class="form-control"
+								rows="5"
+								id="shortDesc"
+								name="projectdesc"
+								ng-model="project.description" required></textarea>
 				</div>
 				<div class="row">
 					<div class="col-md-4 form-group" x-show-errors>
