@@ -2501,6 +2501,17 @@ module.exports = DBModel.extend({
 		});
 
 		//console.log("stage = ", stage);
+		// console.log("cur stage role:", stage.role);
+		// console.log("cur opts userRoles:", this.opts.userRoles);
+
+		// If the user is currently in the role that this role requires for progressing
+		// to the next stage, then lets give them write on this object.
+		_.find(this.opts.userRoles, function (role) {
+			if (role === stage.role) {
+				// Add write, this user is in the right role.
+				self.setForce(true);
+			}
+		});
 		if (stage.next) {
 			var next = _.find(doc.artifactType.stages, function (s) {
 				return s.activity === stage.next;
@@ -2511,8 +2522,9 @@ module.exports = DBModel.extend({
 				var model;
 				return this.newStage(doc, oldDoc, next)
 					.then(function(m) {
-						// whomever manages the next stage will need read on this artifact...
+						// whomever manages the next stage will need read/write on this artifact...
 						m.read = _.uniq(_.concat(m.read, next.role));
+						console.log("adding read on artifact for the next role:", next.role);
 						return self.saveDocument(m);
 					})
 					.then(function(m) {
