@@ -36,7 +36,14 @@ angular.module('users')
 						resolve: {
 							projectGroups: function () {
 								if (scope.project && scope.project._id && scope.project._id !== 'application') {
-									return ProjectGroupModel.forProject(scope.project._id);
+									return ProjectGroupModel.forProject(scope.project._id)
+									.then( function (proj) {
+										return proj;
+									}, function (err) {
+										// This will happen on 'new' projects which haven't been saved nor
+										// submitted.
+										return [];
+									});
 								} else {
 									return [];
 								}
