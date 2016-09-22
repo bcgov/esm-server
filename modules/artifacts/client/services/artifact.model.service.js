@@ -46,6 +46,9 @@ angular.module('artifacts').factory('ArtifactModel', function (ModelBase, _) {
 		publish: function (artifactid) {
 			return this.put('/api/publish/artifact/' + artifactid);
 		},
+		unpublish: function (artifactid) {
+			return this.put('/api/unpublish/artifact/' + artifactid);
+		},
 		remove: function (artifact) {
 			return this.delete('/api/artifact/' + artifact._id);
 		},

@@ -26,6 +26,9 @@
 			title="Submit for {{buttons.next}}" 
 			ng-click="submit()" 
 			ng-if="rolePermissions[artifact.stage] && !artifact.isPublished">Submit for {{buttons.next}}</button>
+		<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#publishNotify"
+			ng-if="canUnpublish"
+			ng-click="unpublish()"><span class="glyphicon glyphicon-minus-sign"></span><span>Unpublish</span></button>
 	</div>
 </div>
 

@@ -96,7 +96,9 @@ module.exports = function () {
 			permissions: {
 				'read' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
 				'write' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-				'delete' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
+				'delete' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+				'publish' : ['assessment-admin', 'assessment-lead', 'project-intake', 'project-system-admin'],
+				'unPublish' : ['assessment-admin', 'assessment-lead', 'project-intake', 'project-system-admin']
 			}
 		}
 	}));

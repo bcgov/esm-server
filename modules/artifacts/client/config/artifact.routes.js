@@ -138,6 +138,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			// console.log ('project  = ', project);
 			// artifact.artifactType = fix;
 
+			$scope.canUnpublish = artifact.userCan.unPublish && artifact.isPublished;
+
 			var method = properMethod (artifact.stage);
 			if (method !== 'edit') $state.go ('p.artifact.'+method);
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
@@ -248,6 +250,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 						// alert (err.message);
 					});
 				}
+			};
+			$scope.unpublish = function () {
+				return ArtifactModel.unpublish ($scope.artifact._id)
+				.then (function (model) {
+					$state.go ('p.artifact.view');
+				});
 			};
 			$scope.update = function () {
 				if (artifact.maindocument)
