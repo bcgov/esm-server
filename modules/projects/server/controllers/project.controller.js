@@ -18,6 +18,16 @@ var util = require('util');
 var CommentPeriod = require (path.resolve('./modules/project-comments/server/models/commentperiod.model'));
 var access = require(path.resolve('./modules/core/server/controllers/core.access.controller'));
 
+var mongoose				= require('mongoose');
+var ArtifactModel			= mongoose.model('Artifact');
+var DocumentModel			= mongoose.model('Document');
+var ProjectModel			= mongoose.model('Project');
+var VcModel					= mongoose.model('Vc');
+var ProjectConditionModel	= mongoose.model('ProjectCondition');
+var MilestoneModel			= mongoose.model('Milestone');
+var InspectionreportModel	= mongoose.model('Inspectionreport');
+
+
 module.exports = DBModel.extend ({
 	name : 'Project',
 	plural : 'projects',
@@ -524,8 +534,78 @@ module.exports = DBModel.extend ({
 	},
 
 	removeProject: function (project) {
-		return Promise.resolve({ok : true});
+		// Get all the artifacts and delete them
+		// console.log("deleting artifacts for project: ", project._id)
+		return ArtifactModel.find({project : project })
+		.then( function (arts) {
+			var deleteDocs = [];
+			_.each(arts, function (art) {
+				_.each(art.internalDocuments, function (doc) {
+					deleteDocs.push(doc);
+				});
+				_.each(art.additionalDocuments, function (doc) {
+					deleteDocs.push(doc);
+				});
+				_.each(art.supportingDocuments, function (doc) {
+					deleteDocs.push(doc);
+				});
+				// Delete document
+				if (art.document) {
+					deleteDocs.push(art.document);
+				}
+			});
+			// console.log("docs to delete:", deleteDocs);
+			return _.uniq(deleteDocs);
+		})
+		.then( function (promises) {
+			var deleteDocs = function(item, query) {
+				return new Promise(function (rs, rj) {
+					// Delete it!
+					// console.log("deleting doc:", item);
+					DocumentModel.findOne({_id: item})
+					.then( function (doc) {
+						// console.log("found doc to delete:", doc);
+						var fs = require('fs');
+						fs.unlinkSync(doc.internalURL);
+						return doc._id;
+					})
+					.then( function (docID) {
+						return DocumentModel.remove({_id: docID});
+					})
+					.then(rs, rj);
+				});
+			};
+
+			Promise.resolve ()
+			.then (function () {
+				return promises.reduce (function (current, item) {
+					return current.then (function () {
+						return deleteDocs(item);
+					});
+				}, Promise.resolve());
+			});
+		})
+		.then( function () {
+			return ArtifactModel.remove({project: project._id});
+		})
+		.then( function () {
+			return VcModel.remove({project: project._id});
+		})
+		.then( function () {
+			return ProjectConditionModel.remove({project: project._id});
+		})
+		.then( function () {
+			return MilestoneModel.remove({project: project._id});
+		})
+		.then( function () {
+			return InspectionreportModel.remove({project: project._id});
+		})
+		//
+		// TBD: Need to purge more colleciton types from project?
+		//
+		.then( function () {
+			// console.log("deleting project:", project._id);
+			return ProjectModel.remove({_id: project._id});
+		});
 	}
-
-
 });
