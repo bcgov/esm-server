@@ -297,11 +297,25 @@ function controllerDocumentUploadGlobal($rootScope, $scope, Upload, $timeout, Do
 			// console.log('upload', docCount);
 			if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
 				angular.forEach( docUpload.fileList, function(file) {
+
+					// Inherit the permissions of the artifact if this is not internal
+					var headers = {};
+					if (docUpload.selectedDocLocation.code === 'internal') {
+						headers = {
+							'documenttype': 'ARTIFACT',
+							'internalDocument': true
+						};
+					} else {
+						headers = {
+							'documenttype': 'ARTIFACT',
+							'inheritModelPermissionId': docUpload.selectedArtifact._id
+						};
+					}
 					// Quick hack to pass objects
 					file.upload = Upload.upload({
 						url: docUpload.targetUrl,
 						file: file,
-						headers: { 'documenttype': 'ARTIFACT'}
+						headers: headers
 					});
 
 					file.upload.then(function (response) {

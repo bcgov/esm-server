@@ -651,7 +651,14 @@ _.extend (DBModel.prototype, {
 	// }
 	//
 	// -------------------------------------------------------------------------
-	applyModelPermissionDefaults : function (model, defaultObject) {
+	applyModelPermissionDefaults : function (model, optionalInheritFromId, forceReadPermissions) {
+		// optionalInheritFromId: An artifactID to which 'self', an 'internal' document would inherit
+		// permissions from. NB: this will not apply to internal documents.
+
+		// forceReadPermissions: 'self' is actually an internal document in an artifact, so use these
+		// passed in permissions just for the read array, and leverage the default write/delete from
+		// the _defaults table.  Do not inherit anything.
+
 		if (!this.useRoles) return Promise.resolve (model);
 		var self = this;
 		return new Promise (function (resolve, reject) {
@@ -662,6 +669,7 @@ _.extend (DBModel.prototype, {
 			var defaults    ;
 			var ownerroles  ;
 			var permissions ;
+
 			self.getModelPermissionDefaults ()
 			.then (function (defaultObject) {
 				//console.log("defaultObject: ",JSON.stringify(defaultObject, null, 4));
@@ -714,10 +722,42 @@ _.extend (DBModel.prototype, {
 				// now set permissions
 				//
 				//console.log("permissions: ",JSON.stringify(permissions, null, 4));
+				if (forceReadPermissions) {
+					// Set the forceReadPermissions without inheriting the artifact perms
+					permissions.read = forceReadPermissions;
+				}
 				parray.push (self.setModelPermissions (model, permissions));
 				return Promise.all (parray);
 			})
 			.then (function () {
+				if (optionalInheritFromId) {
+					var ArtifactModel = mongoose.model ('Artifact');
+					return ArtifactModel.findOne({_id: optionalInheritFromId});
+				} else {
+					return model;
+				}
+			})
+			.then (function (m) {
+				if (optionalInheritFromId) {
+					// If inheriting, make sure public role is removed before setting this
+					// document's read perm
+					var inheritPerms = {
+						'read': m.read,
+						'write': m.write,
+						'delete': m.delete
+					};
+					// console.log("inheritPerms:", inheritPerms.read);
+					// Remove public from inheritance mode
+					_.remove(inheritPerms.read, function (elem) {
+						return elem === 'public';
+					});
+					// console.log("inheritPerms:", inheritPerms.read);
+					return self.setModelPermissions (model, inheritPerms);
+				} else {
+					return model;
+				}
+			})
+			.then( function () {
 				return model;
 			})
 			.then (resolve, self.complete (reject, 'applyModelPermissionDefaults'));
@@ -788,12 +828,14 @@ _.extend (DBModel.prototype, {
 	// first with new)
 	//
 	// -------------------------------------------------------------------------
-	create : function (obj) {
+	create : function (obj, optionalInheritFromId, forceReadPermissions) {
 		var self = this;
 		// console.log ('creating', obj.code);
 		return new Promise (function (resolve, reject) {
 			self.newDocument (obj)
-			.then (self.applyModelPermissionDefaults)
+			.then ( function (m) {
+				return self.applyModelPermissionDefaults(m, optionalInheritFromId, forceReadPermissions);
+			})
 			.then (self.preprocessAdd)
 			.then (self.saveDocument)
 			//.then (self.permissions)

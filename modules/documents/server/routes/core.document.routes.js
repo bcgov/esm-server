@@ -179,6 +179,11 @@ module.exports = function (app) {
 					var opts = { oldPath: file.path, projectCode: req.Project.code};
 					routes.moveFile (opts)
 					.then (function (newFilePath) {
+						var readPermissions = null;
+						if (req.headers.internaldocument) {
+							// Force read array to be this:
+							readPermissions = ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'complaince-officer', 'complaince-lead', 'project-eao-staff', 'project-epd', 'project-intake', 'project-qa-officer', 'project-system-admin'];
+						}
 						return model.create ({
 							// Metadata related to this specific document that has been uploaded.
 							// See the document.model.js for descriptions of the parameters to supply.
@@ -207,7 +212,7 @@ module.exports = function (app) {
 							internalExt             : file.extension,
 							internalSize            : file.size,
 							internalEncoding        : file.encoding
-						});
+						}, req.headers.inheritmodelpermissionid, readPermissions);
 					})
 					.then (resolve, reject);
 				}
