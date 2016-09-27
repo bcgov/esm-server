@@ -19,4 +19,15 @@ module.exports = function (app) {
 		.get(routes.setAndRun(User, function (ctrl, req) {
 			return ctrl.searchForUsersToInvite(req.query.projectId);
 		}));
+
+	app.route('/api/user/roles/in/project/:projectid')
+		.all(policy('user'))
+		.get(routes.setAndRun(User, function (ctrl, req) {
+			// Since opts.userRoles is based on the users' context within the project,
+			// we can short circuit and assume this is ok to return without looking for
+			// a specific project.
+			return new Promise( function (rs, rj) {
+				rs(ctrl.opts.userRoles);
+			});
+		}));
 };

@@ -15,6 +15,9 @@ angular.module('users').factory ('UserModel', function (ModelBase, _) {
 		lookup: function (userid) {
 			return this.get('/api/user/' + userid);
 		},
+		rolesInProject: function (projectid) {
+			return this.get('/api/user/roles/in/project/' + projectid);
+		},
 		forProject: function (projectid) {
 			return this.get ('/api/user/for/project/' + projectid);
 		},

@@ -43,7 +43,7 @@
          editable="editable"></div>
   </div>
 
-  <div class="col-sm-12" ng-hide="!authentication.user && !authentication.user._id">
+  <div class="col-sm-12" ng-hide="!authentication.user && !authentication.user._id || !artifact.canSeeInternalDocuments">
     <div x-content-document ng-model="artifact.internalDocuments" title="'Internal Documents'" project="project"
          editable="editable"></div>
   </div>

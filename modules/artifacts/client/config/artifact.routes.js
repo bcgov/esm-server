@@ -110,6 +110,18 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			},
 			rolePermissions: function($stateParams, ArtifactModel) {
 				return ArtifactModel.checkPermissions($stateParams.artifactId);
+			},
+			canSeeInternalDocuments: function (UserModel, project, _) {
+				return UserModel.rolesInProject(project._id)
+				.then( function (roles) {
+					var readPermissions = ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'complaince-officer', 'complaince-lead', 'project-eao-staff', 'project-epd', 'project-intake', 'project-qa-officer', 'project-system-admin'];
+
+					if (_.intersection(roles, readPermissions).length > 0) {
+						return true;
+					} else {
+						return false;
+					}
+				});
 			}
 		},
 		controller: function ($scope, rolePermissions) {
@@ -133,10 +145,11 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				return ArtifactModel.getModel ($stateParams.artifactId);
 			}
 		},
-		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, Document, UserModel, TemplateModel) {
+		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, Document, UserModel, TemplateModel, canSeeInternalDocuments) {
 			// console.log ('artifact = ', artifact);
 			// console.log ('project  = ', project);
 			// artifact.artifactType = fix;
+			artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 
 			$scope.canUnpublish = artifact.userCan.unPublish && artifact.isPublished;
 
@@ -292,8 +305,9 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				return ArtifactModel.getModel ($stateParams.artifactId);
 			}
 		},
-		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Authentication, VcModel) {
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Authentication, VcModel, canSeeInternalDocuments) {
 			$scope.authentication = Authentication;
+			artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 			$scope.artifact = artifact;
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
@@ -314,8 +328,9 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				return ArtifactModel.getModel ($stateParams.artifactId);
 			}
 		},
-		controller: function ($scope, $state, artifact, fix, project, ArtifactModel) {
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, canSeeInternalDocuments) {
 			// artifact.artifactType = fix;
+			artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 			$scope.artifact = artifact;
 			// When not a template:
 			if (!$scope.artifact.isTemplate) {
@@ -335,11 +350,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				return ArtifactModel.getModel ($stateParams.artifactId);
 			}
 		},
-		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, UserModel) {
+		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, UserModel, canSeeInternalDocuments) {
 			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
+			artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 			$scope.artifact = artifact;
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
@@ -408,10 +424,11 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				return ArtifactModel.getModel ($stateParams.artifactId);
 			}
 		},
-		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, UserModel, TemplateModel) {
+		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, UserModel, TemplateModel, canSeeInternalDocuments) {
 			// artifact.artifactType = fix;
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
+			artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 			$scope.artifact = artifact;
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
@@ -480,10 +497,11 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				return ArtifactModel.getModel ($stateParams.artifactId);
 			}
 		},
-		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, TemplateModel, UserModel) {
+		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, TemplateModel, UserModel, canSeeInternalDocuments) {
 			// artifact.artifactType = fix;
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
+			artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 			$scope.artifact = artifact;
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
@@ -552,11 +570,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				return ArtifactModel.getModel ($stateParams.artifactId);
 			}
 		},
-		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, TemplateModel, UserModel) {
+		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, TemplateModel, UserModel, canSeeInternalDocuments) {
 			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
 			if (method !== 'decision') $state.go ('p.artifact.'+method);
+			artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 			$scope.artifact = artifact;
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
@@ -635,11 +654,12 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				return ArtifactModel.getModel ($stateParams.artifactId);
 			}
 		},
-		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Document) {
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Document, canSeeInternalDocuments) {
 			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
+			artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 			$scope.artifact = artifact;
 			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
