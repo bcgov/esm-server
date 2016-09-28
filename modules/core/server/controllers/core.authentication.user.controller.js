@@ -5,7 +5,8 @@ var _ = require('lodash'),
 	chalk = require('chalk'),
 	mongoose = require('mongoose'),
 	User = mongoose.model('User'),
-	Invitation = mongoose.model('Invitation');
+	Role = mongoose.model('_Role');
+	//Invitation = mongoose.model('Invitation');
 	// Role = mongoose.model('Role'),
 	// Roles = require(path.resolve('./modules/roles/server/controllers/role.controller'));
 
@@ -48,74 +49,6 @@ var findUserByGuid = function (userGuid) {
 	});
 };
 
-var findInvitation = function (oid) {
-	return new Promise(function (fulfill, reject) {
-		Invitation.findOne({
-			_id: oid
-		}).populate('project').populate('user').exec(function (error, i) {
-			if (error) {
-				reject(new Error(error));
-			} else if (!i) {
-				reject(new Error('findInvitation: Invitation not found for "' + oid + '".'));
-			} else {
-				fulfill(i);
-			}
-		});
-	});
-};
-
-
-var findInvitations = function (user) {
-	return new Promise(function (fulfill, reject) {
-		Invitation.find({
-			user: user, accepted: {$exists: false}
-		}).exec(function (error, i) {
-			if (error) {
-				reject(new Error(error));
-			} else if (!i) {
-				reject(new Error('findInvitations: Invitations not found for "' + user._id + '".'));
-			} else {
-				fulfill(i);
-			}
-		});
-	});
-};
-
-var acceptInvitation = function (invite) {
-	return new Promise(function (fulfill, reject) {
-		if (invite.accepted !== undefined) {
-			// already accepted, just carry on...
-			fulfill(invite);
-		} else {
-			invite.accepted = new Date();
-			invite.save(function (error, inv) {
-				if (error) {
-					reject(new Error(error));
-				} else if (!inv) {
-					reject(new Error('acceptInvitation: Invitation not accepted.'));
-				} else {
-					fulfill(inv);
-				}
-			});
-		}
-	});
-};
-
-var handleInvitation = function (user, invite) {
-	if (invite.accepted === undefined) {
-		//
-		// TBD ROLES
-		//
-		return Promise.resolve ();
-		// return Roles.userRoles({method: 'add', users: user, roles: invite.roles})
-		// 	.then(function () {
-		// 		return acceptInvitation(invite);
-		// 	});
-	} else {
-		return Promise.resolve(invite);
-	}
-};
-
 var checkUsers = function (sm, user, inviteUser) {
 	return new Promise(function (fulfill, reject) {
 		if (!user && !inviteUser) {
@@ -148,13 +81,29 @@ var checkUsers = function (sm, user, inviteUser) {
 	});
 };
 
+var updateRolesUsername = function(sm, user) {
+	// a user is invited and possibly assigned roles to their generated username.
+	// so let's update the generated username to the Siteminder username...
+	if (sm.universalId.toLowerCase() === user.username.toLowerCase()) {
+		return Promise.resolve(user);
+	} else {
+		var update  = { user: sm.universalId.toLowerCase() }; // role schema doesn't convert to lowercase...
+		var query   = { user: user.username };
+		return new Promise(function(fulfill, reject) {
+			Role.update(query, update, {multi: true}).exec()
+			.then (function () { return user; })
+			.then (fulfill, reject);
+		});
+	}
+};
+
 var updateUserFromSiteminder = function (sm, user) {
 	return new Promise(function (fulfill, reject) {
 		if (_.isEmpty(user.userGuid) || _.startsWith(user.userGuid, 'esm-')) {
 			// set the siteminder fields
 			user.userGuid = sm.userGuid;
 			user.userType = sm.userType;
-			user.username = sm.universalId;
+			user.username = sm.universalId.toLowerCase(); // would happen automatically due to schema
 			if (!_.includes(user.roles, 'user')) {
 				user.roles.push('user');
 			}
@@ -245,7 +194,11 @@ exports.acceptInvitation = function (req, res) {
 		.then(function (u) {
 			//console.log('acceptInvitation > checkUsers = ', JSON.stringify(u));
 			user = u; // may come from the invite user, or the sm user...
-			//console.log('acceptInvitation > call updateUserFromSiteminder = ', JSON.stringify(u));
+			//console.log('acceptInvitation > call updateRolesUsername = ', JSON.stringify(u));
+			return updateRolesUsername(siteMinder, user);
+		})
+		.then(function () {
+			//console.log('acceptInvitation > call updateUserFromSiteminder = ', JSON.stringify(user));
 			return updateUserFromSiteminder(siteMinder, user);
 		})
 		.then(function () {
