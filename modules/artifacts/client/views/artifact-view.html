@@ -7,7 +7,7 @@
 		<a class="btn btn-default btn-sm" ng-if="artifact.stage === 'Approval' && rolePermissions['Approval']" ui-sref="p.artifact.approve({artifactId:artifact._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span></a>
 		<a class="btn btn-default btn-sm" ng-if="artifact.stage === 'Executive Approval' && rolePermissions['Executive Approval']" ui-sref="p.artifact.executive({artifactId:artifact._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span></a>
 		<a class="btn btn-default btn-sm" ng-if="artifact.stage === 'Decision' && rolePermissions['Decision']" ui-sref="p.artifact.decision({artifactId:artifact._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span></a>
-		<a class="btn btn-default btn-sm" ng-if="artifact.stage === 'Publishing' && rolePermissions['Publishing']" ui-sref="p.artifact.publish({artifactId:artifact._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span></a>
+		<a class="btn btn-default btn-sm" ng-if="artifact.stage === 'Publish' && rolePermissions['Publish']" ui-sref="p.artifact.publish({artifactId:artifact._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span></a>
 
 		<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="artifact"></tmpl-permissions-gear>
 	</div>

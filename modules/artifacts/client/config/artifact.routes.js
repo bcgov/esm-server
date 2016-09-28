@@ -19,7 +19,7 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		else if (stage === 'Review') return 'review';
 		else if (stage === 'Approval') return 'approve';
 		else if (stage === 'Executive Approval') return 'executive';
-		else if (stage === 'Publishing') return 'publish';
+		else if (stage === 'Publish') return 'publish';
 		else if (stage === 'Notification') return 'notify';
 		else if (stage === 'Comment Period') return 'comment';
 		else if (stage === 'Public Comment Period') return 'public-comment';
