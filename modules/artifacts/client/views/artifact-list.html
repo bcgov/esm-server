@@ -20,9 +20,6 @@
 				<td ng-if="!published" data-title="'Stage'" filter="{'stage':'select'}" filter-data="s.stageArray" sortable="'stage'">
 					{{o.stage}}<br/><span class="placeholder-value" ng-if="o.stageRole">({{o.stageRole}})</span>
 				</td>
-				<td data-title="'Version'" filter="{'version':'select'}" filter-data="s.versionArray" sortable="'version'">
-					{{o.version}}
-				</td>
 				<td data-title="'Phase'" filter="{'originalPhaseName':'select'}" filter-data="s.phaseArray" sortable="'originalPhaseName'">
 					{{o.originalPhaseName }}
 				</td>

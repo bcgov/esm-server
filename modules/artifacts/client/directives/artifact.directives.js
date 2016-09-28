@@ -167,9 +167,9 @@ angular.module('artifacts')
 					// no content message...
 					if (!c || c.length === 0) {
 						if (s.published) {
-							s.noDataMessage = "There is no published content at this time.";
+							s.noDataMessage = "There is no Published Content at this time.";
 						} else {
-							s.noDataMessage = (s.public) ? "There is no in progress content at this time." : "To add an artifact, select from the list above and click the Add button.";
+							s.noDataMessage = (s.public) ? "There is no In Progress Content at this time." : "There is no In Progress Content at this time. To add content, click on the 'Add Content' button.";
 						}
 					}
 					if (s.showFilter) {
