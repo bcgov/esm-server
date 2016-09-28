@@ -48,7 +48,7 @@ function directiveEditMyProfile($modal, _) {
 							$scope.$apply();
 						});
 						myProfile.calculateName = function () {
-							myProfile.user.displayName = [myProfile.user.firstName, myProfile.user.middleName, myProfile.user.lastName].join(' ');
+							myProfile.user.displayName = [myProfile.user.firstName, myProfile.user.middleName, myProfile.user.lastName].join(' ').replace(/\s+/g, ' ');
 						};
 
 						myProfile.cancel = function () {

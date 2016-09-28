@@ -25,7 +25,7 @@ angular.module('users').config(['$stateProvider',
 
 					var which = 'edit';
 					$scope.calculateName = function() {
-						$scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ');
+						$scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ').replace(/\s+/g, ' ');
 					};
 					
 					$scope.save = function (isValid) {

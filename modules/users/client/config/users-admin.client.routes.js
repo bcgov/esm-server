@@ -54,7 +54,7 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 
 			var which = $scope.mode;
 			$scope.calculateName = function() {
-				$scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ');
+				$scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ').replace(/\s+/g, ' ');
 				$scope.user.username = $filter('kebab')( $scope.user.displayName );
 			};
 			$scope.save = function (isValid) {
@@ -118,7 +118,7 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 			};
 
 			$scope.calculateName = function() {
-				$scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ');
+				$scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ').replace(/\s+/g, ' ');
 			};
 
 			$scope.showSuccess = function(msg, transitionCallback, title) {
