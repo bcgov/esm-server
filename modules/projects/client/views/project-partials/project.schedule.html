@@ -57,7 +57,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="pull-right">
+						<div ng-if="project.userCan.editSchedule"
+							class="pull-right">
 							<button class="btn btn-default btn-sm" title="Remove Phase from Schedule"
 									ng-click="selectPhase(phase)"
 									ng-if="phase.code !== 'intake'"
