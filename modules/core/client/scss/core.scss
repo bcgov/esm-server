@@ -5076,7 +5076,8 @@ section.project-info {
 
 		.panel-body {
 			@include flex(1 1 auto);
-			overflow-y: scroll; 
+			overflow-y: scroll;
+			overflow-x: hidden;
 		}
 	}
 }
