@@ -1,7 +1,7 @@
 <div class="news-feed-view">
-	
+
 	<section class="news-feed-item" ng-repeat="activity in recentActs">
-		<div class='news-headline clickable' ui-sref="p.detail({projectid: projectlookup[activity.project].code })">
+		<div class='news-headline' ng-class="{clickable: activity.project}" ng-click="s.onNewsClick(activity, $event)">
 			<p class="news-date-type">{{ activity.type }} &nbsp;|&nbsp; {{ activity.dateAdded | date }}</p>
 			<h2 class="news-title">{{ activity.headline }}</h2>
 			<p class="news-content">{{ activity.content | maxWords:20:activity.showmore }}</p>
@@ -13,12 +13,12 @@
 			</div>
 		</div>
 	</section>
-	
+
 	<section class="panel panel-default hidden" ng-show="!recentActs || recentActs.length === 0">
 		<div>
 			<h3 class="no-lower-margin">News and Notices</h3>
 			<p>Please check back here for recent activity notices.</p>
 		</div>
 	</section>
-	
+
 </div>

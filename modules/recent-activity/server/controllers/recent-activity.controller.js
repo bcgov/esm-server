@@ -23,7 +23,7 @@ module.exports = DBModel.extend ({
 	getRecentActivityActive: function () {
 		var p = Model.find ({active:true},
 							{},
-							{}).sort({dateUpdated: -1}).limit(10); // Quick hack to limit the front page loads.
+							{}).sort({dateAdded: -1}).limit(10); // Quick hack to limit the front page loads.
 		return new Promise (function (resolve, reject) {
 			p.then(function (doc) {
 				var pcSort = _.partition(doc, { type: "Public Comment Period" });
@@ -44,7 +44,7 @@ module.exports = DBModel.extend ({
 		return new Promise (function (resolve, reject) {
 			var p = Model.find ({ active: true, project: id },
 								{},
-								{}).sort({dateUpdated: -1}).limit(25);
+								{}).sort({dateAdded: -1}).limit(25);
 			p.then(function (doc) {
 				var pcSort = _.partition(doc, { type: "Public Comment Period" });
 				var pcp = pcSort[0];
