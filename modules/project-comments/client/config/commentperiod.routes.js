@@ -86,6 +86,13 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				return CommentPeriodModel.getNew ();
 			}
 		},
+		onEnter: function($state, project){
+			// can't use data.permissions, as project is not loaded
+			// so check this now before we get into the controller...
+			if (!project.userCan.createCommentPeriod) {
+				$state.go('forbidden');
+			}
+		},
 		controller: function ($scope, $state, project, period, CommentPeriodModel, artifacts, _) {
 			$scope.period = period;
 			$scope.project = project;
@@ -142,6 +149,13 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			period: function ($stateParams, CommentPeriodModel) {
 				// console.log ('editing periodId = ', $stateParams.periodId);
 				return CommentPeriodModel.getModel ($stateParams.periodId);
+			}
+		},
+		onEnter: function($state, project){
+			// can't use data.permissions, as project is not loaded
+			// so check this now before we get into the controller...
+			if (!project.userCan.createCommentPeriod) {
+				$state.go('forbidden');
 			}
 		},
 		controller: function ($scope, $state, period, project, CommentPeriodModel, CommentModel, _) {

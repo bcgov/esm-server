@@ -121,6 +121,7 @@ angular.module ('comment')
 			s.refreshEao = function () {
 				CommentModel.getEAOCommentsForPeriod ($scope.period._id).then (function (result) {
 					_.each(result.data, function (item) {
+						item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
 						item.publishedDocumentCount = item.documents.length;
 					});
 					s.totalPending  = result.totalPending;
@@ -180,6 +181,7 @@ angular.module ('comment')
 							}
 						});
 						item.publishedDocumentCount = publishedCount;
+						item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
 					});
 
 					s.tableParams = new NgTableParams ({count:50, sorting: {dateAdded: 'desc'}}, {dataset:collection});
@@ -196,6 +198,7 @@ angular.module ('comment')
 				CommentModel.getProponentCommentsForPeriod ($scope.period._id).then (function (result) {
 					_.each(result.data, function (item) {
 						item.publishedDocumentCount = item.documents.length;
+						item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
 					});
 					// filters find classified in unclassified by default, just create a numeric field for filtering...
 					_.forEach(result.data, function(o) { o.proponentFilter = o.proponentStatus === 'Unclassified' ? 0 : 1; });

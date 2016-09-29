@@ -161,7 +161,14 @@ angular.module('artifacts')
 						var currentStage = (a.artifactType && a.artifactType.stages) ? _.find(a.artifactType.stages, function(s) { return s.name === a.stage; }) : undefined;
 						a.stageRole = (currentStage && currentStage.role) ? currentStage.role : '';
 					});
-					s.tableParams = new NgTableParams({count: 10}, {dataset: c});
+
+					var parms = {count: 10, sorting: {}};
+					if (s.published) {
+						// some default sorting for the published content...
+						parms.sorting = {dateUpdated: 'desc'};
+					}
+					s.tableParams = new NgTableParams(parms, {dataset: c});
+
 					// console.log ("artifacts = ", c);
 					s.showFilter = c && c.length > 0;
 					// no content message...
