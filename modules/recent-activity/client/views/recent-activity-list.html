@@ -11,7 +11,7 @@
 				<span>Add News & Announcements</span>
 			</a>
 			<div class="pull-right">
-				<show-filter x-toggle-filter="toggleFilter"></show-filter>
+				<!-- <show-filter x-toggle-filter="toggleFilter"></show-filter> -->
 			</div>
 		</div>
 		<section class="panel panel-default">
@@ -41,22 +41,22 @@
               filter="{type:'select'}"
               filter-data="s.typeArray"
               sortable="'type'">{{o.type}}</td>
-					<td class="date-col"
-              header-class="'date-col'"
-              data-title="'Date Added'"
-              sortable="'dateAdded'" >{{o.dateAdded | date}}</td>
-          <td class="date-col"
-              header-class="'date-col'"
+          <td class="type-col"
+              header-class="'type-col'"
               data-title="'Priority'"
               filter="{priorityDesc:'select'}"
               filter-data="s.priorityDescArray"
               sortable="'priorityDesc'" >{{o.priorityDesc}}</td>
-          <td class="date-col"
-              header-class="'date-col'"
+          <td class="type-col"
+              header-class="'type-col'"
               data-title="'Active'"
               filter="{activeDesc:'select'}"
               filter-data="s.activeDescArray"
               sortable="'activeDesc'" >{{o.activeDesc}}</td>
+          <td class="date-col"
+              header-class="'date-col'"
+              data-title="'Date Added'"
+              sortable="'dateAdded'" >{{o.dateAdded | date}}</td>
 
 					<!-- <td data-title="'Priority'" class="text-center" sortable="'priority'" >{{o.priority}}</td> -->
 

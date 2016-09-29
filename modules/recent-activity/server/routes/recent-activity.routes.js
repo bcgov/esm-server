@@ -54,7 +54,7 @@ module.exports = function(app) {
 							}), 'code');
 							feed.item({
 								date: item.dateUpdated,
-								url: myHost + "/p/" + prjCode + "/detail",
+								url: prjCode ? myHost + "/p/" + prjCode + "/detail" : "",
 								description: item.content,
 								title: item.headline,
 								// custom_elements: [{

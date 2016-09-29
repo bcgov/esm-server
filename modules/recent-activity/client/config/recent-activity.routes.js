@@ -107,8 +107,29 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 				return RecentActivityModel.getCollection ()
 				.then( function (data) {
 					_.each(data, function (item) {
-						if (item.project)
-							item.code = projects[item.project].code;
+						if (item.project) {
+							var proj = projects[item.project];
+							item.code = proj ? proj.code : '';
+							item.projectName = proj ? proj.name : '';
+						}
+						switch(item.priority) {
+							case 0:
+								item.priorityDesc = 'Critical';
+								break;
+							case 1:
+								item.priorityDesc = 'Top';
+								break;
+							case 2:
+								item.priorityDesc = 'Normal';
+								break;
+							case 4:
+								item.priorityDesc = 'Low';
+								break;
+							default:
+								item.priorityDesc = '';
+								break;
+						}
+						item.activeDesc = item.active ? 'Active' : 'Inactive';
 					});
 					return data;
 				});
