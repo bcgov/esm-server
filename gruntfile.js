@@ -17,6 +17,7 @@ module.exports = function (grunt) {
 	} else {
 			LOGO = 'modules/core/client/img/brand/bc_logo_transparent.png'; // BC Logo
 	}
+	var ENV = "";
 	if (process.env.ENVIRONMENT) {
 		ENV = process.env.ENVIRONMENT;
 	} else {
