@@ -30,9 +30,7 @@ module.exports = function (grunt) {
 			},
 			dist: {
 				constants: {
-					'ENV': {
-						'name': process.env.ENVIRONMENT
-					},
+					'ENV': process.env.ENVIRONMENT,
 					'LOGO': LOGO,
 					'GITINFO': '<%= gitinfo %>'
 				}
