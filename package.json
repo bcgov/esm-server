@@ -62,9 +62,8 @@
     "tiny-jsonrpc": "~0.2.1",
     "uid-safe": "2.0.0",
     "validator": "^3.41.2",
-	"mongodb": "~2.0",
-	"mongodb-core": "~1.0"
-
+    "mongodb": "~2.0",
+    "mongodb-core": "~1.0"
   },
   "devDependencies": {
     "coveralls": "^2.11.4",
@@ -77,10 +76,12 @@
     "grunt-contrib-uglify": "~0.9.1",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-env": "~0.4.4",
+    "grunt-gitinfo": "^0.1.8",
     "grunt-karma": "~0.11.2",
     "grunt-mocha-istanbul": "^2.4.0",
     "grunt-mocha-test": "~0.12.7",
     "grunt-ng-annotate": "^1.0.1",
+    "grunt-ng-constant": "^2.0.1",
     "grunt-node-inspector": ">=0.2.0",
     "grunt-protractor-runner": "^2.0.0",
     "grunt-sass": "^1.2.0",

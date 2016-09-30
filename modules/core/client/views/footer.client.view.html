@@ -15,6 +15,7 @@
         <!-- TODO: Siteminder! get the Siteminder logout url and set it here -->
         <a ng-show="footer.authentication.user" href="/api/auth/signout" target="_self">Logout</a>
     </div>
+    <div class="pull-right" ng-show="footer.authentication.user && footer.authentication.user.userGuid === 'admin'">Build SHA: {{footer.shortSHA}} - {{footer.branchName}}</div>
 </div>
 </div>
 </div>

@@ -1020,6 +1020,21 @@ exports.routes = {
 			context  : req.params.context
 		}));
 	},
+	getConfig: function (req, res) {
+		var p = new Promise (function (resolve, reject) {
+			resolve (
+				{
+					config: {
+						environment : process.env.ENVIRONMENT,
+						seed_mem 	: process.env.SEED_MEM,
+						node_env 	: process.env.NODE_ENV,
+						debug 		: process.env
+					}
+				});
+			// complete (reject, 'getRolesForContext')
+		});
+		return runPromise (res, p);
+	},
 
 	// -------------------------------------------------------------------------
 	//

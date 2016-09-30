@@ -1,7 +1,6 @@
 /* global _ */
 
 'use strict';
-
 angular
 	.module('core')
 	.constant('_', window._)
@@ -272,13 +271,7 @@ angular
 			'terminated' : 'Terminated',
 			'withdrawn' : 'Withdrawn'
 		}
-	)	.factory('ENV', function () {
-		 // MEM, EAO
-		if (	window.location.href.indexOf('mem.') >= 0 ||
-			window.location.href.indexOf('mem-') >= 0 ||
-			window.location.href.indexOf('mines.') >= 0 ) return 'MEM';
-		else return 'EAO';
-	})
+	)
 	.constant('RELEASE',
 		{
 			'enableEnforcements': true,
@@ -291,15 +284,6 @@ angular
 			'redirectHomepageToGeorgeMassey': false
 		}
 	)
-	.factory('LOGO', function (ENV) {
-		// Use the env from above to determine the logo.
-		if (ENV === 'EAO') {
-			return 'modules/core/client/img/brand/bc_logo_transparent.png'; // BC Logo
-		}
-		if (ENV === 'MEM') {
-			return 'modules/core/client/img/brand/mem-logo-inverted.png'; // EAO Logo
-		}
-	})
 	.constant('SALUTATIONS', ['Mr','Mrs','Miss','Ms','Dr','Capt','Prof','Rev','Other'])
 	.factory ('codeFromTitle', function () {
 		return function (title) {

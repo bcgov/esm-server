@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('projects').config (
-	['$locationProvider', '$stateProvider', '$urlRouterProvider', '_', 'RELEASE',
-	function ($locationProvider, $stateProvider, $urlRouterProvider, _, RELEASE) {
+	['$locationProvider', '$stateProvider', '$urlRouterProvider', '_', 'RELEASE', 'ENV',
+	function ($locationProvider, $stateProvider, $urlRouterProvider, _, RELEASE, ENV) {
 		if (RELEASE.redirectHomepageToGeorgeMassey) {
 			$stateProvider
 			.state('projects', {
@@ -28,7 +28,7 @@ angular.module('projects').config (
 						return ProjectModel.published ();
 					}
 				},
-				controller: function ($scope, $stateParams, projects, ENV, Authentication, Application) {
+				controller: function (Utils, $scope, $stateParams, ENV, projects, Authentication, Application) {
 					$scope.projects = projects;
 					$scope.environment = ENV;
 					$scope.authentication = Authentication;

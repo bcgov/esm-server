@@ -58,6 +58,8 @@
   <!--Application JavaScript Files-->
   {% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %}
 
+  <script type="text/javascript" src="/dist/conf.js"> </script>
+
   {% if livereload %}
   <!--Livereload script rendered -->
   <script type="text/javascript" src="{{host}}:35729/livereload.js"></script>
