@@ -65,7 +65,7 @@ exports.loadUsers = function(file, req, res, opts) {
 			}
 			var v1ColArray = ['PERSON_ID','EAO_STAFF_FLAG','PROPONENT_FLAG','SALUTATION','FIRST_NAME','MIDDLE_NAME','LAST_NAME','TITLE','ORGANIZATION_NAME','DEPARTMENT','EMAIL_ADDRESS','PHONE_NUMBER','HOME_PHONE_NUMBER','FAX_NUMBER','CELL_PHONE_NUMBER','ADDRESS_LINE_1','ADDRESS_LINE_2','CITY','PROVINCE_STATE','COUNTRY','POSTAL_CODE','NOTES'];
 			var v1RowToObject = function(row) {
-				console.log('v1: row = ', row);
+				// console.log('v1: row = ', row);
 				row.EMAIL_ADDRESS = row.EMAIL_ADDRESS ? row.EMAIL_ADDRESS.trim() : "";
 				var obj = {
 					personId      : parseInt(row.PERSON_ID),
@@ -96,13 +96,13 @@ exports.loadUsers = function(file, req, res, opts) {
 					username      : row.EMAIL_ADDRESS !== "" ? row.EMAIL_ADDRESS : row.FIRST_NAME +"."+ row.LAST_NAME +"."+ row.ORGANIZATION_NAME,
 					password      : crypto.randomBytes(8)
 				};
-				console.log('v1: obj = ', JSON.stringify(obj, null, 4));
+				// console.log('v1: obj = ', JSON.stringify(obj, null, 4));
 				return obj;
 			};
 			
 			var v2ColArray = _.concat(v1ColArray, 'DISPLAY_NAME', 'USERNAME', 'PASSWORD', 'SALT');
 			var v2RowToObject = function(row) {
-				console.log('v2: row = ', row);
+				// console.log('v2: row = ', row);
 				row.EMAIL_ADDRESS = row.EMAIL_ADDRESS ? row.EMAIL_ADDRESS.trim() : "";
 				var obj = {
 					personId      : parseInt(row.PERSON_ID),
@@ -134,15 +134,15 @@ exports.loadUsers = function(file, req, res, opts) {
 					password      : row.PASSWORD,
 					salt          : row.SALT
 				};
-				console.log('v2: obj = ', JSON.stringify(obj, null, 4));
+				// console.log('v2: obj = ', JSON.stringify(obj, null, 4));
 				return obj;
 			};
 			
 			
 			var lines = data.split(/\r\n|\r|\n/g);
-			console.log('File line count =  ', _.size(lines));
+			// console.log('File line count =  ', _.size(lines));
 			var v1 = _.size(lines) === 0 ? true : (lines[0].match(/,/g).length === v1ColArray.length-1);
-			console.log('File v1? ', v1);
+			// console.log('File v1? ', v1);
 			
 			var colArray = v1 ? v1ColArray : v2ColArray;
 			var rowParser = v1 ? v1RowToObject : v2RowToObject;
