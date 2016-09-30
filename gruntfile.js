@@ -17,6 +17,11 @@ module.exports = function (grunt) {
 	} else {
 			LOGO = 'modules/core/client/img/brand/bc_logo_transparent.png'; // BC Logo
 	}
+	if (process.env.ENVIRONMENT) {
+		ENV = process.env.ENVIRONMENT;
+	} else {
+		ENV = "EAO";
+	}
 
 	grunt.loadNpmTasks('grunt-gitinfo');
 	grunt.initConfig({
@@ -30,7 +35,7 @@ module.exports = function (grunt) {
 			},
 			dist: {
 				constants: {
-					'ENV': process.env.ENVIRONMENT,
+					'ENV': ENV,
 					'LOGO': LOGO,
 					'GITINFO': '<%= gitinfo %>'
 				}
