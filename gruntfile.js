@@ -298,9 +298,9 @@ module.exports = function (grunt) {
 	grunt.registerTask('default', ['sass']);
 
 	// Lint project files and minify them into two production files.
-	grunt.registerTask('build', ['env:dev', 'lint', 'ngAnnotate', 'uglify', 'cssmin']);
-	grunt.registerTask('buildprod', ['env:prod', 'lint', 'ngAnnotate', 'uglify', 'cssmin']);
-	grunt.registerTask('buildtest', ['env:test', 'lint', 'ngAnnotate', 'uglify', 'cssmin']);
+	grunt.registerTask('build', ['env:dev', 'lint', 'ngAnnotate', 'uglify', 'cssmin', 'buildconstants']);
+	grunt.registerTask('buildprod', ['env:prod', 'lint', 'ngAnnotate', 'uglify', 'cssmin', 'buildconstants']);
+	grunt.registerTask('buildtest', ['env:test', 'lint', 'ngAnnotate', 'uglify', 'cssmin', 'buildconstants']);
 
 	// Run the project tests
 	grunt.registerTask('test', ['env:test', 'lint', 'mkdir:upload', 'copy:localConfig', 'copy:tinyjson', 'server', 'mochaTest', 'karma:unit']);
