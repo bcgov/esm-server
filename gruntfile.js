@@ -34,7 +34,7 @@ module.exports = function (grunt) {
 						'name': process.env.ENVIRONMENT
 					},
 					'LOGO': LOGO,
-					'gitinfo': '<%= gitinfo %>'
+					'GITINFO': '<%= gitinfo %>'
 				}
 			}
 		},
