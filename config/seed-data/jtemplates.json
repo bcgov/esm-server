@@ -2326,7 +2326,7 @@
         "isheader":false,
         "multiple":false,
         "optional":false,
-        "label":"Signature",
+        "label":"Signed By",
         "name":"signature"
       },
         {
@@ -2458,7 +2458,7 @@
         "isheader":false,
         "multiple":false,
         "optional":false,
-        "label":"Signature",
+        "label":"Signed By",
         "name":"signature"
       },
         {
@@ -2993,8 +2993,8 @@
         "isheader":false,
         "multiple":false,
         "optional":false,
-        "label":"Footer",
-        "name":"footer"
+        "label":"Signed By",
+        "name":"signature"
       },
         {
             "meta" : [
@@ -3199,7 +3199,7 @@
         "isheader":false,
         "multiple":false,
         "optional":false,
-        "label":"Signature",
+        "label":"Signed By",
         "name":"signature"
       },
        {
@@ -3345,8 +3345,8 @@
         "isheader":false,
         "multiple":false,
         "optional":false,
-        "label":"Footer",
-        "name":"footer"
+        "label":"Signed By",
+        "name":"signature"
       },
         {
             "meta" : [
@@ -3893,8 +3893,8 @@
         "isheader":false,
         "multiple":false,
         "optional":false,
-        "label":"Signatures",
-        "name":"signatures"
+        "label":"Signed By",
+        "name":"signature"
       },
         {
             "meta" : [
@@ -4123,7 +4123,7 @@
         "isheader":false,
         "multiple":false,
         "optional":false,
-        "label":"Signature",
+        "label":"Signed By",
         "name":"signature"
       },
         {
@@ -5136,7 +5136,7 @@
         "isheader":false,
         "multiple":false,
         "optional":false,
-        "label":"Signature",
+        "label":"Signed By",
         "name":"signature"
       },
         {
