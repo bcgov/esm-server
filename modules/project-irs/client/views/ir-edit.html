@@ -48,8 +48,9 @@
 					<label class="control-label">Inspection Record</label>
 					<ul class="anchor-list">
 						<li>
-							<a ui-sref="p.artifact.edit({artifactId:ir.artifact._id})"
+							<a ng-show="!isCreating" ui-sref="p.artifact.edit({artifactId:ir.artifact._id})"
 								ng-if="ir.userCan.write">{{ir.artifact.name}}</a>
+							<div ng-show="isCreating" ng-if="ir.userCan.write">{{ir.artifact.name}}</div>
 						</li>
 					</ul>
 				</div>

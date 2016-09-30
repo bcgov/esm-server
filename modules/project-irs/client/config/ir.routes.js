@@ -106,6 +106,7 @@ angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvi
 				$scope.ir = ir;
 				$scope.report = report;
 				$scope.project = project;
+				$scope.isCreating = true;
 				$scope.canDelete = false;
 				$scope.enforcement_actions = ENFORCEMENT_ACTIONS;
 				$scope.enforcement_status = ENFORCEMENT_STATUS;
