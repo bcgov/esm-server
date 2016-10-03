@@ -24,10 +24,8 @@ module.exports = function (grunt) {
 		ENV = "EAO";
 	}
 
-	grunt.loadNpmTasks('grunt-gitinfo');
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		gitinfo: {},
 		ngconstant: {
 			options: {
 				space: ' ',
@@ -37,8 +35,7 @@ module.exports = function (grunt) {
 			dist: {
 				constants: {
 					'ENV': ENV,
-					'LOGO': LOGO,
-					'GITINFO': '<%= gitinfo %>'
+					'LOGO': LOGO
 				}
 			}
 		},
@@ -258,7 +255,6 @@ module.exports = function (grunt) {
 
 
 	grunt.task.registerTask('buildconstants', 'Builds all the environment information and bakes it into a conf.js file.', function () {
-		grunt.task.run('gitinfo');
 		grunt.task.run('ngconstant');
 	});
 

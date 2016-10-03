@@ -8,13 +8,11 @@ angular.module('core')
 // Controller Footer
 //
 // -----------------------------------------------------------------------------------
-controllerFooter.$inject = ['Authentication', '$rootScope', 'GITINFO'];
+controllerFooter.$inject = ['Authentication', '$rootScope'];
 /* @ngInject */
 function controllerFooter(Authentication, $rootScope, gitinfo) {
 	var footer = this;
 	footer.authentication = Authentication;
-	footer.shortSHA = gitinfo.local.branch.current.shortSHA;
-	footer.branchName = gitinfo.local.branch.current.name;
 	footer.side = true;
 
 	$rootScope.$on('$stateChangeSuccess', 
