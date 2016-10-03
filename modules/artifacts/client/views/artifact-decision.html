@@ -1,6 +1,6 @@
 
 <div class="view-title-container flex-row">
-	<h1>{{artifact.name}}&nbsp;<span class="placeholder-value">({{artifact.version}})</span></h1>
+	<h1>{{artifact.name}}</h1>
 	<div class="actions">
 		<a class="btn btn-sm btn-default" ui-sref="p.artifact.view">Cancel</a>
 		<a class="btn btn-sm btn-danger" ng-click="reject()" ng-if="rolePermissions[artifact.stage]">Reject</a>

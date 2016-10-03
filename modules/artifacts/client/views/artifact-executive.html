@@ -1,16 +1,16 @@
 
 <div class="view-title-container flex-row">
-	<h1>{{artifact.name}}&nbsp;<span class="placeholder-value">({{artifact.version}})</span></h1>
+	<h1>{{artifact.name}}</h1>
 	<div class="actions">
 		<a class="btn btn-default btn-sm" title="Cancel" ui-sref="p.artifact.view">Cancel</a>
 		<a class="btn btn-danger btn-sm" title="Reject and return for {{buttons.prev}}" ng-click="reject()">Reject</a>
-		<a class="btn btn-success btn-sm" title="Approve for {{buttons.next}}" ng-click="submit()">Approve for {{buttons.next}}</a>	
+		<a class="btn btn-success btn-sm" title="Approve for {{buttons.next}}" ng-click="submit()">Approve for {{buttons.next}}</a>
 	</div>
 </div>
 
 <div class="view-body-container">
 	<tmpl-artifact-display x-mode="'view'" x-artifact="artifact" x-project="project"></tmpl-artifact-display>
-	
+
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h2>Approval / Rejection Note</h2>
@@ -29,7 +29,7 @@
 		<div class="pull-right">
 			<a class="btn btn-default btn-sm" title="Cancel" ui-sref="p.artifact.view">Cancel</a>
 			<a class="btn btn-danger btn-sm" title="Reject and return for {{buttons.prev}}" ng-click="reject()">Reject</a>
-			<a class="btn btn-success btn-sm" title="Approve for {{buttons.next}}" ng-click="submit()">Approve for {{buttons.next}}</a>	
+			<a class="btn btn-success btn-sm" title="Approve for {{buttons.next}}" ng-click="submit()">Approve for {{buttons.next}}</a>
 		</div>
 	</div>
 
