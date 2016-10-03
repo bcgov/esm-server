@@ -159,11 +159,7 @@ angular
 		}
 	)
 	.factory('ENV', function () {
-		 // MEM, EAO
-		if (	window.location.href.indexOf('mem.') >= 0 ||
-			window.location.href.indexOf('mem-') >= 0 ||
-			window.location.href.indexOf('mines.') >= 0 ) return 'MEM';
-		else return 'EAO';
+		return 'MEM';
 	})
 	.factory('LOGO', function (ENV) {
 		// Use the env from above to determine the logo.
