@@ -2858,7 +2858,7 @@ module.exports = DBModel.extend({
 				project: { "$in": projectIds },
 				stage:   { "$ne" : "Edit"}
 			};
-			return self.model.find(q, { _id: 1, code: 1, name: 1, stage: 1, version: 1, phase: 1, project: 1, artifactType: 1, description: 1, dateUpdated: 1, updatedBy: 1  }).populate('artifactType', 'stages.name stages.activity stages.role').populate('phase', 'name').populate('project', 'code name').populate('updatedBy', 'displayName').exec();
+			return self.model.find(q, { _id: 1, code: 1, name: 1, stage: 1, version: 1, phase: 1, project: 1, artifactType: 1, description: 1, dateUpdated: 1, updatedBy: 1, isPublished: 1  }).populate('artifactType', 'stages.name stages.activity stages.role').populate('phase', 'name').populate('project', 'code name').populate('updatedBy', 'displayName').exec();
 		};
 
 		var roles = [];
@@ -2891,9 +2891,15 @@ module.exports = DBModel.extend({
 							//console.log("   roleNames = " + JSON.stringify(roleNames, null, 4));
 							//console.log("   currentStage.role = " + JSON.stringify(currentStage.role, null, 4));
 							var mine = roleNames.indexOf(currentStage.role) > -1;
-							//console.log("   is this my artifact? ", (mine ? "YUP!" : "NOPE!"));
+							//onsole.log("   is this my artifact? ", (mine ? "YUP!" : "NOPE!"));
 							if (mine) {
-								artifacts.push(a);
+								//console.log("   currentStage.activity = " + _.toLower(currentStage.activity));
+								//console.log("   isPublished = " + a.isPublished);
+								if (_.toLower(currentStage.activity) === 'publish' && a.isPublished) {
+									//console.log("     this artifact is in the publish stage and has been published, so consider it done.  Do not add to list of pending activities");
+								} else {
+									artifacts.push(a);
+								}
 							}
 						}
 					} else {
