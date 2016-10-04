@@ -197,7 +197,13 @@ angular.module ('comment')
 			s.refreshProponent = function () {
 				CommentModel.getProponentCommentsForPeriod ($scope.period._id).then (function (result) {
 					_.each(result.data, function (item) {
-						item.publishedDocumentCount = item.documents.length;
+						var publishedCount = 0;
+						_.each(item.documents, function (doc) {
+							if (doc.eaoStatus === 'Published') {
+								publishedCount++;
+							}
+						});
+						item.publishedDocumentCount = publishedCount;
 						item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
 					});
 					// filters find classified in unclassified by default, just create a numeric field for filtering...
