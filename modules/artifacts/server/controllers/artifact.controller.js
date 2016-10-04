@@ -1523,6 +1523,38 @@ module.exports = DBModel.extend({
 				"project-system-admin"
 			]
 		},
+		"section-11": {
+			"read": [
+				"assessment-admin",
+				"project-eao-staff",
+				"assessment-lead",
+				"assessment-team",
+				"assistant-dm",
+				"project-epd",
+				"assistant-dmo",
+				"associate-dm",
+				"associate-dmo",
+				"compliance-lead",
+				"compliance-officer",
+				"aboriginal-group",
+				"project-participant",
+				"project-system-admin"
+			],
+			"write": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			],
+			"delete": [
+				"assessment-admin",
+				"assessment-lead",
+				"assessment-team",
+				"project-epd",
+				"project-system-admin"
+			]
+		},
 		"section-11-order": {
 			"read": [
 				"assessment-admin",
