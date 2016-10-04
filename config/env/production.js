@@ -6,11 +6,11 @@ module.exports = {
   },
   port: process.env.PORT || 3000,
   db: {
-    uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/esm',
-    acluri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/esm-acl',
+    uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.MONGODB_SERVICE_HOST || process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/' + (process.env.MONGODB_DATABASE || 'esm'),
+    acluri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.MONGODB_SERVICE_HOST || process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/esm-acl',
     options: {
-      user: '',
-      pass: ''
+      user: process.env.MONGODB_USER || '',
+      pass: process.env.MONGODB_PASSWORD || ''
     },
     // Enable mongoose debug module
     debug: process.env.MONGODB_DEBUG || false
@@ -63,12 +63,12 @@ module.exports = {
     failedOnMissing: process.env.TOKEN_ON_MISSING || false
   },
   mailer: {
-    from: process.env.MAILER_FROM || 'MAILER_FROM',
+    from: process.env.MAILER_FROM || '"BC Environmental Assessment Office" <noreply@projects.eao.gov.bc.ca>',
     options: {
-      service: process.env.MAILER_SERVICE_PROVIDER || 'MAILER_SERVICE_PROVIDER',
-      auth: {
-        user: process.env.MAILER_EMAIL_ID || 'MAILER_EMAIL_ID',
-        pass: process.env.MAILER_PASSWORD || 'MAILER_PASSWORD'
+      name: 'projects.eao.gov.bc.ca',
+      host: 'apps.smtp.gov.bc.ca',
+      tls: {
+        rejectUnauthorized: false
       }
     }
   },
