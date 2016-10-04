@@ -240,7 +240,7 @@ module.exports = function (grunt) {
 
   // Load NPM tasks
   require('load-grunt-tasks')(grunt);
-  grunt.loadNpmTasks('grunt-contrib-sass');
+
 
   // Make sure upload directory exists
   grunt.task.registerTask('mkdir:upload', 'Task that makes sure upload directory exists.', function () {
@@ -279,6 +279,7 @@ module.exports = function (grunt) {
 
   // Lint CSS and JavaScript files.
   grunt.registerTask('lint', ['sass', 'less', 'jshint', 'csslint']);
+	grunt.registerTask('default', ['sass']);
 
   // Lint project files and minify them into two production files.
   grunt.registerTask('build', ['env:dev', 'lint', 'ngAnnotate', 'uglify', 'cssmin']);
