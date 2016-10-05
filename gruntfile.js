@@ -35,7 +35,13 @@ module.exports = function (grunt) {
 			dist: {
 				constants: {
 					'ENV': ENV,
-					'LOGO': LOGO
+					'LOGO': LOGO,
+					'ADMIN_FEATURES': {
+						allowImport: process.env.ADMIN_ALLOW_IMPORT
+					},
+					'FEATURES': {
+						enableTimeline: process.env.PROJECT_ENABLE_TIMELINE
+					}
 				}
 			}
 		},
