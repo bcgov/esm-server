@@ -303,7 +303,9 @@ function directiveModalDocumentUploadClassifyMem($modal, $rootScope) {
 	var directive = {
 		restrict:'A',
 		scope: {
-			project: '='
+			project: '=',
+			artifact: '=',
+			docLocationCode: '='
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
@@ -314,7 +316,14 @@ function directiveModalDocumentUploadClassifyMem($modal, $rootScope) {
 					controllerAs: 'docUploadModal',
 					size: 'lg',
 					resolve: {
-						rProject: function() { return scope.project; }
+						rProject: function() {
+							return scope.project;
+						},
+						rArtifact: function() {
+							return scope.artifact;
+						},rDocLocationCode: function() {
+							return scope.docLocationCode;
+						}
 					}
 				});
 				modalDocUpload.result.then(function (data) {

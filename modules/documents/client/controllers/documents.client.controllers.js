@@ -147,8 +147,8 @@ function controllerDocumentUploadGlobal($rootScope, $scope, Upload, $timeout, Do
 				});
 			}
 			if (ENV === 'MEM') {
-				Document.getProjectDocumentMEMTypes(newValue._id, false).then( function(res) {
-					// console.log("getProjectDocumentMEMTypes",res.data);
+				Document.getProjectDocumentMEMType(newValue._id, false).then( function(res) {
+					// console.log("getProjectDocumentMEMType",res.data);
 					docUpload.docTypes = res.data;
 					// First result is default
 					docUpload.typeName = docUpload.docTypes[0];
