@@ -1,6 +1,6 @@
 'use strict';
 
-if (process.env.MEM === 'true') {
+if (process.env.ENVIRONMENT === 'MEM') {
   module.exports = {
     app: {
       title: 'BC Mine Information',
