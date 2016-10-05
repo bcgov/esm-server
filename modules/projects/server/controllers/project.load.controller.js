@@ -236,14 +236,17 @@ module.exports = function(file, req, res, opts) {
 						if (!isNaN(row.id)) {
 							id = parseInt(row.id);
 						}
+						var phaseObj = null;
 						var newObj = null;
 						var newProponent = {
 							name: row.Proponent
 						};
 						var query = {epicProjectID: id};
 						if (projectType === "mem") {
-							query = { memPermitID: row.id };
+							query 		= { memPermitID: row.id };
+							phaseObj 	= "intake";
 							newObj = {
+								name 				: row.ProjectName,
 								memPermitID			: row.id,
 								ownership 			: row.Ownership,
 								commodity 			: row.Commodity,
@@ -251,12 +254,18 @@ module.exports = function(file, req, res, opts) {
 								roles 				: ['mem', 'public'],
 								read 				: ['public'],
 								submit 				: ['mem'],
-								type 				: row.type
+								lat 				: row.lat,
+								mineStatus 			: row.Status,
+								lon 				: row.long,
+								description			: row.description,
+								isPublished			: row.phase ? row.phase : true,  // FORCED TRUE
+								type				: row.type
 							};
 						} else {
 							newProponent.company = row.DBA;
 
-							query = { epicProjectID: parseInt(row.id) };
+							query 		= { epicProjectID: parseInt(row.id) };
+							phaseObj 	= row.phase;
 							newObj = {
 								epicProjectID 	: id,
 								name 			: row.ProjectName,
@@ -307,7 +316,7 @@ module.exports = function(file, req, res, opts) {
 								epicStream 				: row.Stream
 							};
 						}
-						promises.push({obj: newObj, query: query, proponent: newProponent, phase: row.phase});
+						promises.push({obj: newObj, query: query, proponent: newProponent, phase: phaseObj });
 					}
 				});
 

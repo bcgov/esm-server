@@ -25,10 +25,11 @@ angular.module('project').config (
 				return '';//project.proponentAdminRole;
 			}
 		},
-		controller: function ($scope, $stateParams, project, ENV, $rootScope, ProjectModel, Menus) {
+		controller: function ($scope, $stateParams, project, ENV, $rootScope, ProjectModel, Menus, FEATURES) {
 			//console.log ('< loaded project /p id = ' + $stateParams.projectid + ', userCan = ', JSON.stringify(project.userCan));
 			$scope.project = project;
 			$scope.environment = ENV;
+			$scope.FEATURES = FEATURES;
 			$scope.isNew = ($stateParams.projectid === 'new');
 
 			ProjectModel.setModel(project);
