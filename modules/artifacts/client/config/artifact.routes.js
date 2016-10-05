@@ -4,7 +4,7 @@
 // artifact routes
 //
 // =========================================================================
-angular.module('core').config(['$stateProvider','_', function ($stateProvider, _) {
+angular.module('core').config(['$stateProvider','_', function ($stateProvider, _, Authentication) {
 
 	var getPrevNextStage = function (stage, stages) {
 		var index = _.findIndex (stages, function (s) { return s.name === stage;});
@@ -19,11 +19,15 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 		else if (stage === 'Review') return 'review';
 		else if (stage === 'Approval') return 'approve';
 		else if (stage === 'Executive Approval') return 'executive';
-		else if (stage === 'Publishing') return 'publish';
+		else if (stage === 'Publish') return 'publish';
 		else if (stage === 'Notification') return 'notify';
 		else if (stage === 'Comment Period') return 'comment';
 		else if (stage === 'Public Comment Period') return 'public-comment';
 		else if (stage === 'Decision') return 'decision';
+	};
+	var getStageRole = function (stage, stages) {
+		var currentStage = _.find(stages, function(s) { return s.name === stage; });
+		return (currentStage && currentStage.role) ? currentStage.role : '';
 	};
 
 
@@ -53,6 +57,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			.then (function (a) {
 				// console.log ('artifact = ', a);
 				$state.go ('p.artifact.edit', {artifactId:a._id});
+			}, function(e) {
+				//console.log(e);
 			});
 		}
 	})
@@ -68,12 +74,58 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact', {
 		abstract:true,
 		url: '/artifact/:artifactId',
-		template: '<ui-view></ui-view>',
+		// template: '<ui-view "></ui-view>',
+		templateUrl: 'modules/artifacts/client/views/artifact-container.html',
 		resolve: {
 			artifact: function ($stateParams, ArtifactModel) {
-				// console.log ('artifactId = ', $stateParams.artifactId);
+				// need to refresh the artifact on each transition...  do not count on this...
 				return ArtifactModel.getModel ($stateParams.artifactId);
+			},
+			fix: function (artifact, ArtifactTypeModel) {
+				if (!artifact.artifactType) {
+					// console.log ('getting fix');
+					return ArtifactTypeModel.fromCode (artifact.typeCode);
+				}
+				else return Promise.resolve (false);
+			},
+			fix2: function (artifact, TemplateModel) {
+				if (!artifact.template) {
+					// console.log ('getting fix2');
+					return TemplateModel.fromCode (artifact.typeCode);
+				}
+				else return Promise.resolve (false);
+			},
+			apply: function (artifact, fix, fix2) {
+				return new Promise (function (resolve, reject) {
+					if (fix) {
+						// console.log ('applying fix', fix);
+						artifact.artifactType = fix;
+					}
+					if (fix2) {
+						// console.log ('applying fix2', fix2);
+						artifact.template = fix2;
+					}
+					resolve (true);
+				});
+			},
+			rolePermissions: function($stateParams, ArtifactModel) {
+				return ArtifactModel.checkPermissions($stateParams.artifactId);
+			},
+			canSeeInternalDocuments: function (UserModel, project, _) {
+				return UserModel.rolesInProject(project._id)
+				.then( function (roles) {
+					var readPermissions = ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'complaince-officer', 'complaince-lead', 'project-eao-staff', 'project-epd', 'project-intake', 'project-qa-officer', 'project-system-admin'];
+
+					if (_.intersection(roles, readPermissions).length > 0) {
+						return true;
+					} else {
+						return false;
+					}
+				});
 			}
+		},
+		controller: function ($scope, rolePermissions) {
+			$scope.rolePermissions = rolePermissions;
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -84,36 +136,58 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.edit', {
 		url: '/edit',
 		templateUrl: 'modules/artifacts/client/views/artifact-edit.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel, Document) {
+		data: {
+			// roles: ['*:eao:epd','*:eao:project-admin','*:eao:project-lead','*:eao:project-team']
+		},
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
+		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, Document, UserModel, TemplateModel, canSeeInternalDocuments) {
 			// console.log ('artifact = ', artifact);
 			// console.log ('project  = ', project);
+			// artifact.artifactType = fix;
+			artifact.canSeeInternalDocuments = canSeeInternalDocuments;
+
+			$scope.canUnpublish = artifact.userCan.unPublish && artifact.isPublished;
+
 			var method = properMethod (artifact.stage);
 			if (method !== 'edit') $state.go ('p.artifact.'+method);
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
 			$scope.artifact = artifact;
+			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
-			$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
-			$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			// When not a template:
+			if (!$scope.artifact.isTemplate) {
+				$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+				$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			}
 			$scope.$watchCollection ('artifact.maindocument', function (newval) {
 				if (!newval || newval.length === 0) return;
-				//console.log ('new collection:', newval);
+				//console.log ('nedw collection:', newval);
 				Document.getDocument (newval[0]).then (function (ret) {
-					$scope.artifact.document = ret.data;
+					$scope.artifact.document = ret;
 					//console.log ('doc is now', $scope.artifact.document);
 				});
 			});
 			if (_.isEmpty (artifact.templateData)) artifact.templateData = {};
 			$scope.version = artifact.version;
 			$scope.saveas = function () {
-				artifact.document = artifact.maindocument[0];
+				if (artifact.maindocument)
+					artifact.document = artifact.maindocument[0];
 				if (_.isEmpty (artifact.document)) artifact.document = null;
 				ArtifactModel.getNew ().then (function (newartifact) {
 					var a = ArtifactModel.getCopy ($scope.artifact);
 					a._id = newartifact._id;
+					// Make sure this isn't published.
+					a.isPublished = false;
+					a.read.splice(a.read.indexOf('public'), 1);
 					a.version =  $scope.version;
 					ArtifactModel.add (a).then (function (m) {
 						// console.log ('new artifact was saved', m);
-						$state.go ('p.detail', {projectid:project.code});
+						$state.go ('p.artifact.view');
 					})
 					.catch (function (err) {
 						console.error (err);
@@ -122,37 +196,98 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				});
 			};
 			$scope.save = function () {
-				artifact.document = artifact.maindocument[0];
+				if (artifact.maindocument)
+					artifact.document = artifact.maindocument[0];
 				if (_.isEmpty (artifact.document)) artifact.document = null;
 				ArtifactModel.save ($scope.artifact)
 				.then (function (model) {
-					// console.log ('artifact was saved',model);
-					// console.log ('now going to reload state');
-					$state.go ('p.detail', {projectid:project.code});
-					// $state.transitionTo('p.detail', {projectid:project.code}, {
-			  // 			reload: true, inherit: false, notify: true
-					// });
+					$state.go ('p.artifact.view');
 				})
 				.catch (function (err) {
 					console.error (err);
 					// alert (err.message);
 				});
 			};
-			$scope.submit = function () {
-				artifact.document = artifact.maindocument[0];
+			// Remove this artifact
+			$scope.remove = function () {
+				if (artifact.maindocument)
+					artifact.document = artifact.maindocument[0];
 				if (_.isEmpty (artifact.document)) artifact.document = null;
-				ArtifactModel.nextStage ($scope.artifact)
+				ArtifactModel.remove ($scope.artifact)
 				.then (function (model) {
 					$state.go ('p.detail', {projectid:project.code});
-					// $state.transitionTo('p.detail', {projectid:project.code}, {
-			  // 			reload: true, inherit: false, notify: true
-					// });
 				})
 				.catch (function (err) {
 					console.error (err);
 					// // alert (err.message);
 				});
 			};
+			$scope.submit = function () {
+				if (artifact.maindocument)
+					artifact.document = artifact.maindocument[0];
+				if (_.isEmpty (artifact.document)) artifact.document = null;
+				if($scope.artifact.signatureStage === 'Edit') {
+					UserModel.me()
+					.then(function (user) {
+						// Not all templates have this - it's a double check.
+						if (user.signature && $scope.artifact.templateData.signature && $scope.artifact.templateData.signature.signee && $scope.artifact.templateData.sign && $scope.artifact.templateData.sign.sig) {
+							$scope.artifact.templateData.sign.sig = "<img src='/api/document/"+user.signature+"/fetch'/>";
+							$scope.artifact.templateData.signature.signee = user.firstName + " " + user.lastName;
+							var d = new Date();
+							var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+							$scope.artifact.templateData.signature.signedMonthDay = monthNames[d.getMonth()] + " " + d.getDate().toString();
+							$scope.artifact.templateData.signature.currentYear = d.getFullYear().toString().slice(-2);
+						}
+						ArtifactModel.save($scope.artifact)
+						.then (function (art) {
+							return ArtifactModel.nextStage (art);
+						})
+						.catch (function (err) {
+							console.error (err);
+							// alert (err.message);
+						});
+					})
+					.then(function () {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error(err);
+					});
+				} else {
+					ArtifactModel.nextStage ($scope.artifact)
+					.then (function (model) {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error (err);
+						// alert (err.message);
+					});
+				}
+			};
+			$scope.unpublish = function () {
+				return ArtifactModel.unpublish ($scope.artifact._id)
+				.then (function (model) {
+					$state.go ('p.artifact.view');
+				});
+			};
+			$scope.update = function () {
+				if (artifact.maindocument)
+					artifact.document = artifact.maindocument[0];
+				if (_.isEmpty (artifact.document)) artifact.document = null;
+				ArtifactModel.save($scope.artifact)
+				.then (function (art) {
+					return ArtifactModel.publish (art._id);
+				})
+				.then (function (model) {
+					$state.go ('p.artifact.view');
+				});
+			};
+			$scope.$on('cleanup', function () {
+				$state.go ('p.artifact.view', {
+					projectid:project.code,
+					artifact: $scope.artifact
+				});
+			});
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -164,36 +299,76 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.view', {
 		url: '/view',
 		templateUrl: 'modules/artifacts/client/views/artifact-view.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel) {
-			// console.log ('artifact = ', artifact);
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Authentication, VcModel, canSeeInternalDocuments) {
+			$scope.authentication = Authentication;
+			artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 			$scope.artifact = artifact;
+			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
+
+			// When not a template:
+			if (!$scope.artifact.isTemplate) {
+				$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+				$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			}
 		}
 	})
 	.state('p.artifact.comment', {
 		url: '/comment',
 		templateUrl: 'modules/artifacts/client/views/artifact-comment.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel) {
-			var method = properMethod (artifact.stage);
-			if (method !== 'review') $state.go ('p.artifact.'+method);
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, canSeeInternalDocuments) {
+			// artifact.artifactType = fix;
+			artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 			$scope.artifact = artifact;
-			$scope.project = project;
+			// When not a template:
+			if (!$scope.artifact.isTemplate) {
+				$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+				$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			}
+			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
+			$state.go ('p.artifact.view');
 		}
 	})
 	.state('p.artifact.review', {
 		url: '/review',
 		templateUrl: 'modules/artifacts/client/views/artifact-review.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel) {
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
+		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, UserModel, canSeeInternalDocuments) {
+			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
+			artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 			$scope.artifact = artifact;
+			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+			// When not a template:
+			if (!$scope.artifact.isTemplate) {
+				$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+				$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			}
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
-					$state.go ('p.detail', {projectid:project.code});
+					$state.go ('p.artifact.view');
 				})
 				.catch (function (err) {
 					console.error (err);
@@ -201,38 +376,72 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				});
 			};
 			$scope.submit = function () {
-				ArtifactModel.nextStage ($scope.artifact)
-				.then (function (model) {
-					$state.go ('p.detail', {projectid:project.code});
-				})
-				.catch (function (err) {
-					console.error (err);
-					// alert (err.message);
-				});
+				if($scope.artifact.signatureStage === 'Review') {
+					UserModel.me()
+					.then(function (user) {
+						if (user.signature) {
+							$scope.artifact.templateData.sign.sig = "<img src='/api/document/"+user.signature+"/fetch'/>";
+							$scope.artifact.templateData.signature.signee = user.firstName + " " + user.lastName;
+							var d = new Date();
+							var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+							$scope.artifact.templateData.signature.signedMonthDay = monthNames[d.getMonth()] + " " + d.getDate().toString();
+							$scope.artifact.templateData.signature.currentYear = d.getFullYear().toString().slice(-2);
+						}
+						ArtifactModel.save($scope.artifact)
+						.then (function (art) {
+							return ArtifactModel.nextStage (art);
+						})
+						.catch (function (err) {
+							console.error (err);
+							// alert (err.message);
+						});
+					})
+					.then(function () {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error(err);
+					});
+				} else {
+					ArtifactModel.nextStage ($scope.artifact)
+					.then (function (model) {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error (err);
+						// alert (err.message);
+					});
+				}
 			};
 		}
 	})
 	.state('p.artifact.approve', {
 		url: '/approve',
 		templateUrl: 'modules/artifacts/client/views/artifact-approve.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel) {
-			//
-			// hack
-			//
-			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
-			//
-			// end hack
-			//
-			// console.log ('artifact = ', artifact);
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
+		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, UserModel, TemplateModel, canSeeInternalDocuments) {
+			// artifact.artifactType = fix;
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
+			artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 			$scope.artifact = artifact;
+			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+			// When not a template:
+			if (!$scope.artifact.isTemplate) {
+				$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+				$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			}
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
-					$state.go ('p.detail', {projectid:project.code});
+				$state.go ('p.artifact.view');
 				})
 				.catch (function (err) {
 					console.error (err);
@@ -240,38 +449,72 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				});
 			};
 			$scope.submit = function () {
-				ArtifactModel.nextStage ($scope.artifact)
-				.then (function (model) {
-					$state.go ('p.detail', {projectid:project.code});
-				})
-				.catch (function (err) {
-					console.error (err);
-					// alert (err.message);
-				});
+				if($scope.artifact.signatureStage === 'Approve') {
+					UserModel.me()
+					.then(function (user) {
+						if (user.signature) {
+							$scope.artifact.templateData.sign.sig = "<img src='/api/document/"+user.signature+"/fetch'/>";
+							$scope.artifact.templateData.signature.signee = user.firstName + " " + user.lastName;
+							var d = new Date();
+							var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+							$scope.artifact.templateData.signature.signedMonthDay = monthNames[d.getMonth()] + " " + d.getDate().toString();
+							$scope.artifact.templateData.signature.currentYear = d.getFullYear().toString().slice(-2);
+						}
+						ArtifactModel.save($scope.artifact)
+						.then (function (art) {
+							return ArtifactModel.nextStage (art);
+						})
+						.catch (function (err) {
+							console.error (err);
+							// alert (err.message);
+						});
+					})
+					.then(function () {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error(err);
+					});
+				} else {
+					ArtifactModel.nextStage ($scope.artifact)
+					.then (function (model) {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error (err);
+						// alert (err.message);
+					});
+				}
 			};
 		}
 	})
 	.state('p.artifact.executive', {
 		url: '/executive',
 		templateUrl: 'modules/artifacts/client/views/artifact-executive.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel) {
-			//
-			// hack
-			//
-			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
-			//
-			// end hack
-			//
-			// console.log ('artifact = ', artifact);
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
+		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, TemplateModel, UserModel, canSeeInternalDocuments) {
+			// artifact.artifactType = fix;
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
+			artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 			$scope.artifact = artifact;
+			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+			// When not a template:
+			if (!$scope.artifact.isTemplate) {
+				$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+				$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			}
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
-					$state.go ('p.detail', {projectid:project.code});
+				$state.go ('p.artifact.view');
 				})
 				.catch (function (err) {
 					console.error (err);
@@ -279,31 +522,73 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				});
 			};
 			$scope.submit = function () {
-				ArtifactModel.nextStage ($scope.artifact)
-				.then (function (model) {
-					$state.go ('p.detail', {projectid:project.code});
-				})
-				.catch (function (err) {
-					console.error (err);
-					// alert (err.message);
-				});
+				if($scope.artifact.signatureStage === 'Executive') {
+					UserModel.me()
+					.then(function (user) {
+						if (user.signature) {
+							$scope.artifact.templateData.sign.sig = "<img src='/api/document/"+user.signature+"/fetch'/>";
+							$scope.artifact.templateData.signature.signee = user.firstName + " " + user.lastName;
+							var d = new Date();
+							var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+							$scope.artifact.templateData.signature.signedMonthDay = monthNames[d.getMonth()] + " " + d.getDate().toString();
+							$scope.artifact.templateData.signature.currentYear = d.getFullYear().toString().slice(-2);
+						}
+						ArtifactModel.save($scope.artifact)
+						.then (function (art) {
+							return ArtifactModel.nextStage (art);
+						})
+						.catch (function (err) {
+							console.error (err);
+							// alert (err.message);
+						});
+					})
+					.then(function () {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error(err);
+					});
+				} else {
+					ArtifactModel.nextStage ($scope.artifact)
+					.then (function (model) {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error (err);
+						// alert (err.message);
+					});
+				}
 			};
 		}
 	})
 	.state('p.artifact.decision', {
 		url: '/decision',
 		templateUrl: 'modules/artifacts/client/views/artifact-decision.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel) {
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
+		controller: function ($location, $scope, $state, artifact, fix, project, ArtifactModel, TemplateModel, UserModel, canSeeInternalDocuments) {
+			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
 			if (method !== 'decision') $state.go ('p.artifact.'+method);
+			artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 			$scope.artifact = artifact;
+			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+			// When not a template:
+			if (!$scope.artifact.isTemplate) {
+				$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+				$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			}
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
-					$state.go ('p.detail', {projectid:project.code});
+				$state.go ('p.artifact.view');
 				})
 				.catch (function (err) {
 					console.error (err);
@@ -311,9 +596,47 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				});
 			};
 			$scope.submit = function () {
-				ArtifactModel.nextStage ($scope.artifact)
+				if($scope.artifact.signatureStage === 'Decision') {
+					UserModel.me()
+					.then(function (user) {
+						if (user.signature) {
+							$scope.artifact.templateData.sign.sig = "<img src='/api/document/"+user.signature+"/fetch'/>";
+							$scope.artifact.templateData.signature.signee = user.firstName + " " + user.lastName;
+							var d = new Date();
+							var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+							$scope.artifact.templateData.signature.signedMonthDay = monthNames[d.getMonth()] + " " + d.getDate().toString();
+							$scope.artifact.templateData.signature.currentYear = d.getFullYear().toString().slice(-2);
+						}
+						ArtifactModel.save($scope.artifact)
+						.then (function (art) {
+							return ArtifactModel.nextStage (art);
+						})
+						.catch (function (err) {
+							console.error (err);
+							// alert (err.message);
+						});
+					})
+					.then(function () {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error(err);
+					});
+				} else {
+					ArtifactModel.nextStage ($scope.artifact)
+					.then (function (model) {
+						$state.go ('p.artifact.view');
+					})
+					.catch (function (err) {
+						console.error (err);
+						// alert (err.message);
+					});
+				}
+			};
+			$scope.info = function () {
+				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
-					$state.go ('p.detail', {projectid:project.code});
+					$state.go ('p.artifact.view');
 				})
 				.catch (function (err) {
 					console.error (err);
@@ -325,34 +648,59 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 	.state('p.artifact.publish', {
 		url: '/publish',
 		templateUrl: 'modules/artifacts/client/views/artifact-publish.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel) {
-			//
-			// hack
-			//
-			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
-			//
-			// end hack
-			//
+		resolve: {
+			artifact: function ($stateParams, ArtifactModel) {
+				// need to refresh the artifact on each transition...
+				return ArtifactModel.getModel ($stateParams.artifactId);
+			}
+		},
+		controller: function ($scope, $state, artifact, fix, project, ArtifactModel, Document, canSeeInternalDocuments) {
+			// artifact.artifactType = fix;
 			// console.log ('artifact = ', artifact);
 			var method = properMethod (artifact.stage);
 			if (method !== 'review') $state.go ('p.artifact.'+method);
+			artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 			$scope.artifact = artifact;
+			$scope.stageRole = getStageRole(artifact.stage, artifact.artifactType.stages);
 			$scope.project = project;
 			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+			// When not a template:
+			if (!$scope.artifact.isTemplate) {
+				$scope.artifact.document = ($scope.artifact.document) ? $scope.artifact.document : {};
+				$scope.artifact.maindocument = $scope.artifact.document._id ? [$scope.artifact.document._id] : [];
+			}
 			$scope.reject = function () {
 				ArtifactModel.prevStage ($scope.artifact)
 				.then (function (model) {
-					$state.go ('p.detail', {projectid:project.code});
+					$state.go ('p.artifact.view');
 				})
 				.catch (function (err) {
 					console.error (err);
 					// alert (err.message);
 				});
 			};
+			$scope.reset = function () {
+				if (artifact.maindocument)
+					artifact.document = artifact.maindocument[0];
+				if (_.isEmpty (artifact.document)) artifact.document = null;
+				$scope.artifact.stage = "Edit";
+				ArtifactModel.save($scope.artifact)
+				.then (function (res) {
+					$scope.artifact = res;
+					$state.go ('p.artifact.view'); 
+				});
+			};
 			$scope.submit = function () {
-				ArtifactModel.nextStage ($scope.artifact)
+				console.log("publishing artifact and supporting documents:", $scope.artifact.document);
+				//Document.publish($scope.artifact.additionalDocuments[0]);
+				ArtifactModel.publish ($scope.artifact._id)
+				// Don't progress to notify - this is handled somewhere else.
+				// .then (function (res) {
+				// 	$scope.artifact = res;
+				// 	return ArtifactModel.nextStage (res);
+				// })
 				.then (function (model) {
-					$state.go ('p.detail', {projectid:project.code});
+					$state.go ('p.artifact.view');
 				})
 				.catch (function (err) {
 					console.error (err);
@@ -361,81 +709,81 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			};
 		}
 	})
-	.state('p.artifact.notify', {
-		url: '/notify',
-		templateUrl: 'modules/artifacts/client/views/artifact-notify.html',
-		controller: function ($scope, $state, artifact, project, ArtifactModel, EmailTemplateModel, _) {
-			//
-			// hack
-			//
-			if (!artifact.isTemplate) artifact.mainDocument = {doc:artifact.document};
-			//
-			// end hack
-			//
-			// console.log ('artifact = ', artifact);
-			var method = properMethod (artifact.stage);
-			if (method !== 'review') $state.go ('p.artifact.'+method);
-			$scope.artifact = artifact;
-			$scope.project = project;
-			$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
-			$scope.reject = function () {
-				ArtifactModel.prevStage ($scope.artifact)
-				.then (function (model) {
-					$state.go ('p.detail', {projectid:project.code});
-				})
-				.catch (function (err) {
-					console.error (err);
-					// alert (err.message);
-				});
-			};
-			$scope.submit = function () {
-				ArtifactModel.nextStage ($scope.artifact)
-				.then (function (model) {
-					$state.go ('p.detail', {projectid:project.code});
-				})
-				.catch (function (err) {
-					console.error (err);
-					// alert (err.message);
-				});
-			};
-			//
-			// notification specific functions
-			//
-			EmailTemplateModel.getCollection().then( function(data) {
-	 			$scope.emailTemplates = data;
-			});
+	// .state('p.artifact.notify', {
+	// 	url: '/notify',
+	// 	templateUrl: 'modules/artifacts/client/views/artifact-notify.html',
+	// 	resolve: {
+	// 		artifact: function ($stateParams, ArtifactModel) {
+	// 			// need to refresh the artifact on each transition...
+	// 			return ArtifactModel.getModel ($stateParams.artifactId);
+	// 		}
+	// 	},
+	// 	controller: function ($scope, $state, artifact, fix, project, ArtifactModel, EmailTemplateModel, _) {
+	// 		// artifact.artifactType = fix;
+	// 		// console.log ('artifact = ', artifact);
+	// 		var method = properMethod (artifact.stage);
+	// 		if (method !== 'review') $state.go ('p.artifact.'+method);
+	// 		$scope.artifact = artifact;
+	// 		$scope.project = project;
+	// 		$scope.buttons = getPrevNextStage (artifact.stage, artifact.artifactType.stages);
+	// 		$scope.reject = function () {
+	// 			ArtifactModel.prevStage ($scope.artifact)
+	// 			.then (function (model) {
+	// 				$state.go ('p.artifact.view');
+	// 			})
+	// 			.catch (function (err) {
+	// 				console.error (err);
+	// 				// alert (err.message);
+	// 			});
+	// 		};
+	// 		$scope.submit = function () {
+	// 			ArtifactModel.nextStage ($scope.artifact)
+	// 			.then (function (model) {
+	// 				$state.go ('p.artifact.view');
+	// 			})
+	// 			.catch (function (err) {
+	// 				console.error (err);
+	// 				// alert (err.message);
+	// 			});
+	// 		};
+	// 		//
+	// 		// notification specific functions
+	// 		//
+	// 		EmailTemplateModel.getCollection().then( function(data) {
+	//  			$scope.emailTemplates = data;
+	// 		});
 
-			var separateRecipients = function(newRecipients) {
-				$scope.recipients = {adhoc: {viaEmail: [], viaMail: []}, mailOut: [] };
-				_.each(newRecipients, function(member) {
-					if (member.viaEmail) {
-						$scope.recipients.adhoc.viaEmail.push(member);
-					}
-					if (member.viaMail) {
-						$scope.recipients.adhoc.viaMail.push(member);
-						if (!_.include($scope.recipients.mailOut, member)) {
-							$scope.recipients.mailOut.push(member);
-						}
-					}
-				});
-			};
+	// 		var separateRecipients = function(newRecipients) {
+	// 			$scope.recipients = {adhoc: {viaEmail: [], viaMail: []}, mailOut: [] };
+	// 			_.each(newRecipients, function(member) {
+	// 				if (member.viaEmail) {
+	// 					$scope.recipients.adhoc.viaEmail.push(member);
+	// 				}
+	// 				if (member.viaMail) {
+	// 					$scope.recipients.adhoc.viaMail.push(member);
+	// 					if (!_.include($scope.recipients.mailOut, member)) {
+	// 						$scope.recipients.mailOut.push(member);
+	// 					}
+	// 				}
+	// 			});
+	// 		};
 
-			$scope.setContent = function() {
-				$scope.mailContent = $scope.selectedTemplate.content;
-			};
+	// 		$scope.setContent = function() {
+	// 			$scope.mailContent = $scope.selectedTemplate.content;
+	// 		};
 
-			$scope.recipients = {adhoc: {viaEmail: [], viaMail: []}, mailOut: [] };
+	// 		$scope.recipients = {adhoc: {viaEmail: [], viaMail: []}, mailOut: [] };
 
-			//
-			// Add Recipients
-			$scope.addRecipients = function(data, parent) {
-				$scope.customRecipients = data;
-				separateRecipients(data);
-			};
+	// 		//
+	// 		// Add Recipients
+	// 		$scope.addRecipients = function(data, parent) {
+	// 			$scope.customRecipients = data;
+	// 			separateRecipients(data);
+	// 		};
 
 
-		}
-	})
+	// 	}
+	// })
 
 	;
 

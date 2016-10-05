@@ -30,7 +30,10 @@
 
   <!-- Fav Icon -->
   <link href="{{url}}{{favicon}}" rel="shortcut icon" type="image/x-icon">
-
+  <link href="{{host}}/api/recentactivity/active/rss"
+        rel="alternate"
+        type="application/rss+xml"
+        title="News & Announcements for the Environmental Assessment Office" />
 
   <!-- Application CSS Files -->
   {% for cssFile in cssFiles %}<link rel="stylesheet" href="{{cssFile}}">{% endfor %}
@@ -40,9 +43,7 @@
 <body class="ng-cloak" x-scroll>
   <div class="app-container">
     <tmpl-header></tmpl-header>
-    <div class="app-main">
-      {% block content %}{% endblock %}
-    </div>
+    {% block content %}{% endblock %}
     <tmpl-footer></tmpl-footer>
   </div>
 
@@ -56,6 +57,8 @@
 
   <!--Application JavaScript Files-->
   {% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %}
+
+  <script type="text/javascript" src="/dist/conf.js"> </script>
 
   {% if livereload %}
   <!--Livereload script rendered -->

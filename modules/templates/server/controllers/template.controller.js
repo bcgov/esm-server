@@ -46,6 +46,17 @@ module.exports = DBModel.extend ({
 			.then (resolve, reject);
 		});
 	},
+	getCurrentCode: function (code) {
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			self.findFirst ({code:code},null,{versionNumber:-1})
+			.then (function (docs) {
+				if (docs[0]) return docs[0];
+				else return null;
+			})
+			.then (resolve, reject);
+		});
+	},
 	newSection : function () {
 		var self = this;
 		return new Promise (function (resolve, reject) {

@@ -1,86 +1,109 @@
-<div class="project-details">
 
-	<div class="view-title-container">
+
+	<div class="view-title-container flex-row">
 		<h1>{{ project.name }}</h1>
-	</div>
-
-	<div class="pull-right hidden" ng-if="environment === 'EAO' && authentication.user">
-		<div class="col-sm-12 text-right btn-link-separated-list">
-			<a class="btn btn-xs btn-link"
-				ng-click="completePhase()"
-				ng-if="!project.currentPhase.completed">Complete Current Phase</a>
-
-			<a class="btn btn-xs btn-link"
-				ng-click="startNextPhase()"
-				ng-if="project.currentPhase.completed">Start Next Phase</a>
-
-			<small ng-if="!project.isPublished"> / </small>
-
-			<a class="btn btn-xs btn-link"
-				ng-click="publishProject()"
-				ng-if="!project.isPublished">Publish Project</a>
+		<div class="actions">
+			<div class="actions-group" ng-if="environment === 'EAO' && authentication.user">
+				<a class="btn btn-default btn-sm" ui-sref="p.edit({pId:o._id})" ng-if="project.userCan.write">
+					<span class="glyphicon glyphicon-pencil"></span><span>Edit Project</span></a>
+				<a class="btn btn-success btn-sm"
+					ng-click="publishProject()"
+					ng-if="project.userCan.publish && !project.isPublished">Publish Project</a>
+			</div>
+			<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="project"></tmpl-permissions-gear>
 		</div>
 	</div>
-    
-	<div class="view-body-container">
-		
-		<!-- PROJECT INFO -->
-		<section class="project-info" ng-if="('project' | shouldDisplayPanel:'tombstone':project.status)">
-			<tmpl-project-tombstone
-				id="anchor-tombstone"
-				x-project="project">
-			</tmpl-project-tombstone>
-		</section>
 
-		<!-- PROJECT PHASES -->
-		<section class="project-phases" ng-if="environment === 'EAO'">
-			<div class="panel panel-default">
-				<div class="panel-heading"><h2>Project Phases</h2></div>
-				<div class="panel-body">
-					<tmpl-schedule-timeline
-						class="anchor-section"
-						id="anchor-timeline"
-						x-phases="project.phases">
-					</tmpl-schedule-timeline>
+	<div class="view-body-container project-details">
+
+		<!-- PUBLIC COMMENT PERIOD IF ACTIVE -->
+		<div ng-if="activeperiod" class="panel panel-default">
+			<div class="pcp-alert clearfix">
+				<div class="pull-left">
+					<h2>Public Comment Period is Now Open.</h2>
+					<span class="pcp-dates">{{ activeperiod.dateStarted | amDateFormat:'MMMM Do, YYYY' }} &nbsp;-&nbsp; {{ activeperiod.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</span>
+				</div>
+				<div class="pcp-comment-btn-container">
+					<button class="btn submit-comment-btn" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="activeperiod">
+						Click Here to Submit a Comment
+					</button>
 				</div>
 			</div>
+		</div>
+
+		<!-- PROJECT TIMELINE -->
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Project Timeline</h2></div>
+			<div class="project-timeline-container clearfix">
+				<div class="phase"
+					ng-class="{'active': o.status == 'In Progress',
+							   'complete': o.completed}"
+					ng-repeat="o in project.phases">
+					<div class="phase-info">
+						<h4 class="phase-name">{{o.name}}</h4>
+						<div class="phase-status" ng-if="o.code != 'post-certification'">
+							<div class="phase-badge">
+								<span class="label"
+									ng-class="{'label-success': o.completed,
+									           'label-info': o.status == 'In Progress',
+									           'label-default': o.status == 'Not Started'}">{{o.status}}</span>
+							</div>
+							<div class="phase-dates">
+								<span ng-if="o.dateCompleted">
+									<span class="status-name">Completion Date:</span>
+									<span class="status-date">{{o.dateCompleted | amDateFormat: 'MMM DD, YYYY'}}</span>
+								</span>
+								<span ng-if="o.dateCompletedEst && !o.dateCompleted">
+									<span class="status-name" title="Estimated Completion Date">Est. Completion Date:</span>
+									<span class="status-date">{{o.dateCompletedEst | amDateFormat: 'MMM DD, YYYY'}}</span>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- PROJECT INFO -->
+		<section class="project-info">
+			<tmpl-project-tombstone id="anchor-tombstone" x-project="project"></tmpl-project-tombstone>
 		</section>
 
-		<tmpl-enforcement-browser
-			class="anchor-section"
-			id="anchor-enforcement"
-			x-project="project"
-			ng-if="project.currentPhase.code === 'post-certification'">
-		</tmpl-enforcement-browser>
+		<!--
+			2016-06-23 jsherman
+			Lena S asked for this section to be removed, so hide it for now.
 
-		<tmpl-project-initiated
-			class="anchor-section"
-			id="anchor-initiated"
-			x-project="project"
-			ng-if="('project'| shouldDisplayPanel:'initiated':project.status) && environment === 'EAO'">
-		</tmpl-project-initiated>
+			<tmpl-enforcement-browser
+				class="anchor-section"
+				id="anchor-enforcement"
+				x-project="project"
+				ng-if="project.currentPhase.code === 'post-certification'">
+			</tmpl-enforcement-browser>
+		-->
 
-		<tmpl-project-stream-select
-			class="anchor-section"
-			id="anchor-stream"
-			x-project="project"
-			ng-if="('project'| shouldDisplayPanel:'stream':project.status) && environment === 'EAO'">
-		</tmpl-project-stream-select>
+		<!--
+			2016-06-25 jdunsdon
+			Lena S asked for this secion to be hidden
+
+			<tmpl-project-initiated class="anchor-section" id="anchor-initiated" x-project="project" ng-if="('project'| shouldDisplayPanel:'initiated':project.status) && environment === 'EAO'">
+			</tmpl-project-initiated>
+		-->
+
+		<!-- EXPOSING FOR DEMO PURPOSES ONLY -->
+		<!-- ng-if="environment === 'EAO' && authentication.user" -->
+		<section class="project-artifacts" ng-if="environment === 'EAO' && authentication.user">
+			<div id="anchor-artifacts">
+				<tmpl-artifact-list x-project="project" x-published="false"></tmpl-artifact-list>
+			</div>
+		</section>
 
 		<section class="project-artifacts" ng-if="environment === 'EAO'">
-			<div id="anchor-artifacts">
-				<div class="panel panel-default">
-					<div class="panel-heading"><h2>Project Artifacts</h2></div>
-					<tmpl-artifact-list x-project="project"></tmpl-artifact-list>
-				</div>
+			<div id="anchor-artifacts-published">
+				<tmpl-artifact-list x-project="project" x-published="true"></tmpl-artifact-list>
 			</div>
 		</section>
 
-		<tmpl-public-comment-display
-			class="anchor-section"
-			id="anchor-publiccomments"
-			x-project="project"
-			ng-if="('project'| shouldDisplayPanel:'public-comments':project.status) && project.dateCommentsOpen && environment === 'EAO'">
+		<tmpl-public-comment-display class="anchor-section" id="anchor-publiccomments" x-project="project" ng-if="('project'| shouldDisplayPanel:'public-comments':project.status) && project.dateCommentsOpen && environment === 'EAO'">
 		</tmpl-public-comment-display>
 
 		<!--
@@ -91,100 +114,91 @@
 			ng-if="('project'| shouldDisplayPanel:'activities':project.status) && environment === 'EAO'">
 		</tmpl-project-activities>
 		-->
-		
-		<tmpl-documents-browser
-			class="anchor-section"
-			id="anchor-documents"
-			x-project="project"
-			x-approvals="false"
-			ng-if="('project'| shouldDisplayPanel:'documents':project.status) && environment === 'MEM'">
-		</tmpl-documents-browser>
+
+		<tmpl-documents-browser class="anchor-section" id="anchor-documents" x-project="project" x-approvals="false"></tmpl-documents-browser>
 
 		<!-- PROJECT MAP -->
 		<section class="project-map">
-			<div class="panel panel-default">
-				<div class="panel-heading"><h2>Project Map</h2></div>
-				<tmpl-map
-					id="anchor-map"
-					x-project="project"
-					ng-if="('project'| shouldDisplayPanel:'map':project.status)">
-				</tmpl-map>
+			<div class="panel panel-default no-margin">
+				<div class="panel-heading">
+					<h2>Project Map</h2>
+				</div>
+				<tmpl-map id="anchor-map" x-project="project"></tmpl-map>
 			</div>
 		</section>
-	
-	</div>
-	
-	<!-- ACTIVITIES LIST -->
-        <section class="right-panel activities-container hidden" ng-if="authentication.user">
-            <h2>My Activities<span>(*)</span></h2>
-            <div class="panel panel-default tab-container">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="todo" role="all-activities">
-                        <a href="#active" aria-controls="active" role="tab" data-toggle="tab">Active (*)</a>
-                    </li>
-                    <li class="completed" role="all-activities">
-                        <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Complete (*)</a>
-                    </li>
-                    <li class="all active" role="all-activities">
-                        <a href="#all" aria-controls="all" role="tab" data-toggle="tab">All (*)</a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane" id="active" role="tabpanel">
-                        <ul class="activities-list">
-                            <li>
-                                <h3>Activity</h3>
-                                <div class="activity-info">
-                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
-                                    <small>End Date: <span>MM/DD/YYYY</span></small>
-                                </div>
-                                <span class="badge bg-primary">Active</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="tab-pane" id="completed" role="tabpanel">
-                        <ul class="activities-list list-group">
-                            <li>
-                                <h3>Activity</h3>
-                                <div class="activity-info">
-                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
-                                    <small>End Date: <span>MM/DD/YYYY</span></small>
-                                </div>
-                                <span class="badge success">Complete</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="tab-pane active" id="all" role="tabpanel">
-                        <ul class="activities-list list-group">
-                            <li>
-                                <h3>Activity</h3>
-                                <div class="activity-info">
-                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
-                                    <small>End Date: <span>MM/DD/YYYY</span></small>
-                                </div>
-                                <span class="badge bg-primary">To Do</span>
-                            </li>
-                            <li>
-                                <h3>Activity</h3>
-                                <div class="activity-info">
-                                    <small>Project: <span>Project Name</span></small>
-                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
-                                    <small>End Date: <span>MM/DD/YYYY</span></small>
-                                </div>
-                                <span class="badge success">Complete</span>
-                            </li><li>
-                                <h3>Activity</h3>
-                                <div class="activity-info">
-                                    <small>Project: <span>Project Name</span></small>
-                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
-                                    <small>End Date: <span>MM/DD/YYYY</span></small>
-                                </div>
-                                <span class="badge success">Complete</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-</div>
+	</div>
+
+	<!-- ACTIVITIES LIST -->
+	<section class="right-panel activities-container hidden" ng-if="authentication.user">
+		<h2>My Activities<span>(*)</span></h2>
+		<div class="panel panel-default tab-container">
+			<ul class="nav nav-tabs" role="tablist">
+				<li class="todo" role="all-activities">
+					<a href="#active" aria-controls="active" role="tab" data-toggle="tab">Active (*)</a>
+				</li>
+				<li class="completed" role="all-activities">
+					<a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Complete (*)</a>
+				</li>
+				<li class="all active" role="all-activities">
+					<a href="#all" aria-controls="all" role="tab" data-toggle="tab">All (*)</a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane" id="active" role="tabpanel">
+					<ul class="activities-list">
+						<li>
+							<h3>Activity</h3>
+							<div class="activity-info">
+								<small>Start Date: <span>MM/DD/YYYY</span></small>
+								<small>End Date: <span>MM/DD/YYYY</span></small>
+							</div>
+							<span class="badge bg-primary">Active</span>
+						</li>
+					</ul>
+				</div>
+				<div class="tab-pane" id="completed" role="tabpanel">
+					<ul class="activities-list list-group">
+						<li>
+							<h3>Activity</h3>
+							<div class="activity-info">
+								<small>Start Date: <span>MM/DD/YYYY</span></small>
+								<small>End Date: <span>MM/DD/YYYY</span></small>
+							</div>
+							<span class="badge success">Complete</span>
+						</li>
+					</ul>
+				</div>
+				<div class="tab-pane active" id="all" role="tabpanel">
+					<ul class="activities-list list-group">
+						<li>
+							<h3>Activity</h3>
+							<div class="activity-info">
+								<small>Start Date: <span>MM/DD/YYYY</span></small>
+								<small>End Date: <span>MM/DD/YYYY</span></small>
+							</div>
+							<span class="badge bg-primary">To Do</span>
+						</li>
+						<li>
+							<h3>Activity</h3>
+							<div class="activity-info">
+								<small>Project: <span>Project Name</span></small>
+								<small>Start Date: <span>MM/DD/YYYY</span></small>
+								<small>End Date: <span>MM/DD/YYYY</span></small>
+							</div>
+							<span class="badge success">Complete</span>
+						</li>
+						<li>
+							<h3>Activity</h3>
+							<div class="activity-info">
+								<small>Project: <span>Project Name</span></small>
+								<small>Start Date: <span>MM/DD/YYYY</span></small>
+								<small>End Date: <span>MM/DD/YYYY</span></small>
+							</div>
+							<span class="badge success">Complete</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>

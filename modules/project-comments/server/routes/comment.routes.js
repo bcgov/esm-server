@@ -4,14 +4,14 @@
 // Routes for comments
 //
 // =========================================================================
-var policy  = require ('../policies/comment.policy');
 var CommentModel  = require ('../controllers/comment.controller');
 var CommentPeriod  = require ('../controllers/commentperiod.controller');
-var helpers = require ('../../../core/server/controllers/core.helpers.controller');
+var routes = require ('../../../core/server/controllers/core.routes.controller');
+var policy = require ('../../../core/server/controllers/core.policy.controller');
 
 module.exports = function (app) {
-	helpers.setCRUDRoutes (app, 'comment', CommentModel, policy);
-	helpers.setCRUDRoutes (app, 'commentperiod', CommentPeriod, policy);
+	routes.setCRUDRoutes (app, 'comment', CommentModel, policy, null, {all:'guest',get:'guest'});
+	routes.setCRUDRoutes (app, 'commentperiod', CommentPeriod, policy);
 	// =========================================================================
 	//
 	// special routes for comments
@@ -20,47 +20,57 @@ module.exports = function (app) {
 	//
 	// resolve, publish, unpublish comment chains
 	//
-	app.route ('/api/commentperiod/for/project/:projectid').all (policy.isAllowed)
-		.get (function (req, res) {
-			(new CommentPeriod (req.user)).getForProject (req.params.projectid)
-			.then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/publish/comment/:comment').all(policy.isAllowed)
-		.put (function (req, res) {
-			var p = new CommentModel (req.user);
-			p.publishCommentChain (req.Comment.ancestor, true)
-			.then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/unpublish/comment/:comment').all(policy.isAllowed)
-		.put (function (req, res) {
-			var p = new CommentModel (req.user);
-			p.publishCommentChain (req.Comment.ancestor, false)
-			.then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/resolve/comment/:comment').all(policy.isAllowed)
-		.put (function (req, res) {
-			var p = new CommentModel (req.user);
-			p.resolveCommentChain (req.Comment.ancestor, false)
-			.then (helpers.success(res), helpers.failure(res));
-		});
+	app.route ('/api/commentperiod/for/project/:projectid').all (policy ('guest'))
+		.get (routes.setAndRun (CommentPeriod, function (model, req) {
+			return model.getForProject (req.params.projectid);
+		}));
+	app.route ('/api/commentperiod/for/project/:projectid/withstats').all (policy ('guest'))
+	.get (routes.setAndRun (CommentPeriod, function (model, req) {
+		return model.getForProjectWithStats (req.params.projectid);
+	}));
+	app.route ('/api/publish/comment/:comment').all(policy ('user'))
+		.put (routes.setAndRun (CommentModel, function (model, req) {
+			return model.publishCommentChain (req.Comment.ancestor, true);
+		}));
+	app.route ('/api/unpublish/comment/:comment').all(policy ('user'))
+		.put (routes.setAndRun (CommentModel, function (model, req) {
+			return model.publishCommentChain (req.Comment.ancestor, false);
+		}));
+	app.route ('/api/resolve/comment/:comment').all(policy ('user'))
+		.put (routes.setAndRun (CommentModel, function (model, req) {
+			return model.resolveCommentChain (req.Comment.ancestor, false);
+		}));
 	//
 	// get comments of a certain type for a certain target
 	//
-	app.route ('/api/comments/type/:type/target/:targettype/:targetid').all(policy.isAllowed)
-		.put (function (req, res) {
-			var p = new CommentModel (req.user);
-			p.getCommentsForTarget (req.params.targettype, req.params.targetid, req.params.type)
-			.then (helpers.success(res), helpers.failure(res));
-		});
+	app.route ('/api/comments/type/:type/target/:targettype/:targetid').all(policy ('user'))
+		.put (routes.setAndRun (CommentModel, function (model, req) {
+			return model.getCommentsForTarget (req.params.targettype, req.params.targetid, req.params.type);
+		}));
 	//
 	// get an entire comment chain
 	//
-	app.route ('/api/comments/ancestor/:commentId').all(policy.isAllowed)
-		.get (function (req, res) {
-			var p = new CommentModel (req.user);
-			p.getCommentsForTarget (req.params.targettype, req.params.targetid, req.params.type)
-			.then (helpers.success(res), helpers.failure(res));
-		});
+	app.route ('/api/comments/ancestor/:commentId').all(policy ('user'))
+		.get (routes.setAndRun (CommentModel, function (model, req) {
+			return model.getCommentsForTarget (req.params.targettype, req.params.targetid, req.params.type);
+		}));
+	app.route ('/api/comments/period/:periodId/all').all(policy ('guest'))
+		.get (routes.setAndRun (CommentModel, function (model, req) {
+			return model.getAllCommentsForPeriod (req.params.periodId);
+		}));
+	app.route ('/api/comments/period/:periodId/published').all(policy ('guest'))
+		.get (routes.setAndRun (CommentModel, function (model, req) {
+			return model.getPublishedCommentsForPeriod (req.params.periodId);
+		}));
+	app.route ('/api/eaocomments/period/:periodId').all(policy ('user'))
+		.get (routes.setAndRun (CommentModel, function (model, req) {
+			return model.getEAOCommentsForPeriod (req.params.periodId);
+		}));
+	app.route ('/api/proponentcomments/period/:periodId').all(policy ('user'))
+		.get (routes.setAndRun (CommentModel, function (model, req) {
+			return model.getProponentCommentsForPeriod (req.params.periodId);
+		}));
+
 	// =========================================================================
 	//
 	// special routes for comment periods
@@ -69,24 +79,22 @@ module.exports = function (app) {
 	//
 	// resolve, publish, unpublish comment periods
 	//
-	app.route ('/api/publish/commentperiod/:commentperiod').all(policy.isAllowed)
-		.put (function (req, res) {
-			var p = new CommentPeriod (req.user);
-			p.publishCommentPeriod (req.CommentPeriod.ancestor, true)
-			.then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/unpublish/commentperiod/:commentperiod').all(policy.isAllowed)
-		.put (function (req, res) {
-			var p = new CommentPeriod (req.user);
-			p.publishCommentPeriod (req.CommentPeriod.ancestor, false)
-			.then (helpers.success(res), helpers.failure(res));
-		});
-	app.route ('/api/resolve/commentperiod/:commentperiod').all(policy.isAllowed)
-		.put (function (req, res) {
-			var p = new CommentPeriod (req.user);
-			p.resolveCommentPeriod (req.CommentPeriod.ancestor, false)
-			.then (helpers.success(res), helpers.failure(res));
-		});
-
+	app.route ('/api/publish/commentperiod/:commentperiod').all(policy ('user'))
+		.put (routes.setAndRun (CommentPeriod, function (model, req) {
+			return model.publishCommentPeriod (req.CommentPeriod.ancestor, true);
+		}));
+	app.route ('/api/unpublish/commentperiod/:commentperiod').all(policy ('user'))
+		.put (routes.setAndRun (CommentPeriod, function (model, req) {
+			return model.publishCommentPeriod (req.CommentPeriod.ancestor, false);
+		}));
+	app.route ('/api/resolve/commentperiod/:commentperiod').all(policy ('user'))
+		.put (routes.setAndRun (CommentPeriod, function (model, req) {
+			return model.resolveCommentPeriod (req.CommentPeriod.ancestor, false);
+		}));
+	
+	app.route ('/api/comment/:commentId/documents').all(policy ('guest'))
+	.get (routes.setAndRun (CommentModel, function (model, req) {
+		return model.getCommentDocuments(req.params.commentId);
+	}));
 };
 

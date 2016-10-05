@@ -1,6 +1,15 @@
-<div style="max-width: 300px; min-height: 150px;">
-	<h3 class="firstHeading">{{ parameter.name }}</h3>
-	<p><strong>Type</strong>: {{ parameter.type }}</p>
-	<pre>{{ parameter.description }}</pre><br/>
-	<p><a html ui-sref="p.detail({projectid: parameter.code })">Detail View</a></p>				
+
+<div class="map-popup">
+	<h3>{{ parameter.name }}</h3>
+	<span class="map-popup-type"><strong>Type:</strong> &nbsp;{{ parameter.type }}</span>
+	<div class="map-popup-content" 
+		ng-if="parameter.description" 
+		ng-bind-html="parameter.description">
+	</div>
+	<a class="public-comment-btn btn btn-sm btn-success"
+		ng-if="parameter.isOpen" 
+		href="p/{{parameter.code}}/commentperiod/{{parameter.period._id}}">Public Commenting Open - Click Here</a>
+	<div class="map-popup-links"> 
+		<a ui-sref="p.detail({projectid: parameter.code })">View Project Details</a>
+	<div>
 </div>

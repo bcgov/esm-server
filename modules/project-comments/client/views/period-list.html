@@ -1,63 +1,54 @@
 
-<div class="project-comment-period-view">
 
-	<div class="view-title-container">
-		<h1>{{ project.name }}&nbsp; &rsaquo; &nbsp;Comment Periods</h1>
-	</div>
+<div class="view-title-container">
+	<h1>Comment Periods</h1>
+</div>
 
 	<div class="view-body-container">
 		<div class="button-bar clearfix">
-			<a class="btn btn-default btn-sm pull-left" ui-sref="p.commentperiod.create()">
+			<a class="btn btn-default btn-sm" ng-if="project.userCan.createCommentPeriod" ui-sref="p.commentperiod.create()" title="Add Comment Period">
 				<span class="glyphicon glyphicon-plus"></span>
 				<span>Add Comment Period</span>
 			</a>
-			<div class="pull-right">
-				<show-filter x-toggle-filter="toggleFilter"></show-filter>
-			</div>
+			<show-filter x-toggle-filter="toggleFilter"></show-filter>
 		</div>
 		<section class="panel panel-default">
-			<table ng-table="tableParams" show-filter="toggleFilter" class="table table-condensed table-bordered table-striped">
-				<tr ng-repeat="p in $data" ui-sref="p.commentperiod.detail({periodId:p._id})">
-					<td title="'Type'" filter="{ periodType: 'text'}" sortable="'periodType'">
+			<table class="pcp-table table table-hover" ng-table="tableParams" show-filter="toggleFilter">
+				<tr class="clickable" ng-repeat="p in $data" ui-sref="p.commentperiod.detail({periodId:p._id})">
+					<td title="'Type'" filter="{'periodType':'select'}" filter-data="s.typeArray" sortable="'periodType'">
 						{{p.periodType}}
 					</td>
-					<td title="'Phase'" filter="{ phaseName: 'text'}" sortable="'phaseName'">
-						{{p.phaseName}}
-					</td>
-					<td title="'Artifact'" filter="{ artifactName: 'text'}" sortable="'artifactName'">
+					<td title="'Content'" filter="{ artifactName: 'select'}" filter-data="s.artifactArray" sortable="'artifactName'">
 						{{p.artifactName}}
 					</td>
-					<td title="'Version'" filter="{ artifactVersion: 'text'}" sortable="'artifactVersion'">
+					<td title="'Version'" filter="{ artifactVersion: 'select'}" filter-data="s.versionArray" sortable="'artifactVersion'">
 						{{p.artifactVersion}}
 					</td>
 					<td title="'Starts'" sortable="'dateStarted'">
-						{{ p.dateStarted | date }}
+						{{ p.dateStarted | date : format : timezone }}
 					</td>
 					<td title="'Completes'" sortable="'dateCompleted'">
-						{{ p.dateCompleted | date }}
+						{{ p.dateCompleted | date : format : timezone }}
 					</td>
-					<td title="'Vetted'" >
-						<i ng-if="p.isVetted" class="glyphicon glyphicon-ok"></i>
+					<td class="pcp-count" header-class="'pcp-count'" title="'Assigned'" >
+						<i ng-if="p.isVetted" class="glyphicon glyphicon-ok"></i>{{p.stats.totalPublicAssigned}}
 					</td>
-					<td title="'Resolved'" >
-						<i ng-if="p.isResolved" class="glyphicon glyphicon-ok"></i>
+					<td title="'Total Comments'" >
+						<i ng-if="p.isPublished" class="glyphicon glyphicon-ok"></i>{{p.stats.totalPublic}}
 					</td>
-					<td title="'Published'" >
-						<i ng-if="p.isPublished" class="glyphicon glyphicon-ok"></i>
-					</td>
-					<td>
-						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.commentperiod.edit({periodId:p._id})">
-						<i class="glyphicon glyphicon-pencil"></i>
+					<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+						<a class="btn btn-default btn-sm"
+							ng-click="$event.stopPropagation()"
+							ng-if="project.userCan.createCommentPeriod"
+							ui-sref="p.commentperiod.edit({periodId:p._id})" href>
+							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
 					</td>
 				</tr>
-				<tr ng-if="!$data || $data.length === 0">
-					<td colspan="10">
-						No records found.
-					</td>
+				<tr class="no-records" ng-if="!$data || $data.length === 0">
+					<td colspan="4">No records found.</td>
 				</tr>
 			</table>
 		</section>
 	</div>
-	
-</div>
+

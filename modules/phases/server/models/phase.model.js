@@ -4,8 +4,7 @@
 // Model for Phase
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('Phase', {
+module.exports = require ('../../../core/server/controllers/core.schema.controller')('Phase', {
 	__audit : true,
 	__tracking : true,
 	__status : ['Not Started', 'Not Required', 'In Progress', 'Complete'],

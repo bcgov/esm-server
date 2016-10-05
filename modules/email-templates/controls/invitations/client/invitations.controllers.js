@@ -24,8 +24,8 @@ function controllerProcessInvitations($scope, $rootScope, sProcessInvitations, $
   taskInvitations.selected = [];
 
   // maybe we will have more invitation roles...
-  taskInvitations.roles = [$scope.project.inviteeRole];
-  taskInvitations.selectedRole = $scope.project.inviteeRole;
+  taskInvitations.roles = [$scope.project.eaoInviteeRole, $scope.project.proponentInviteeRole];
+  taskInvitations.selectedRole = undefined;
 
 
 	sProcessInvitations.getTemplates().then(function(res) {
@@ -77,6 +77,7 @@ function controllerProcessInvitations($scope, $rootScope, sProcessInvitations, $
         return s._id.toString();
       });
       var data = {
+        url: window.location.origin,
         subject: taskInvitations.taskData.subject,
         content: taskInvitations.taskData.content,
         projectId: taskInvitations.project._id.toString(),

@@ -1,27 +1,251 @@
 
-<div ng-if="environment === 'EAO'">
-	<div class="detail-row">
-		<label>Location:</label>
-		<span class="value">{{ ::project.location }}&nbsp;<span ng-show="project.region">{{ ::project.region | regionName }} Region)</span></span>
+<!-- EAO PROJECT TOMBSTONE -->
+<div class="panel panel-default project-tombstone" ng-if="environment === 'EAO'">
+	<div class="panel-heading flex-row">
+		<h2>Details</h2>
 	</div>
-	<div class="detail-row">
-		<label>Type:</label>
-		<span class="value">{{ ::project.type }}</span>
+	<div class="panel-body">
+
+		<div class="detail-row project-desc" ng-show="project.description">
+			<label>Project Description</label>
+			<span class="value">{{ ::project.description }}</span>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-4 col-md-4">
+				<div class="detail-row">
+					<label>Proponent</label>
+					<span class="value" ng-if="!project.proponent.company">{{ ::project.proponent.name }}</span>
+					<span class="value">{{ ::project.proponent.company }}</span>
+				</div>
+			</div>
+			<div class="col-sm-4 col-md-4" ng-if="project.region">
+				<div class="detail-row">
+					<label>Region</label>
+					<span class="value"><span ng-show="project.region">{{ ::project.region | regionName }}</span></span>
+				</div>
+			</div>
+			<div class="col-sm-4 col-md-4" ng-if="project.location">
+				<div class="detail-row">
+					<label>Location</label>
+					<span class="value">{{ ::project.location }}</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-4 col-md-4">
+				<div class="detail-row">
+					<label>Type</label>
+					<span class="value">{{ ::project.type }}</span>
+				</div>
+			</div>
+			<div class="col-sm-4 col-md-4">
+				<div class="detail-row">
+					<label>Sub-type</label>
+					<span class="value">{{ ::project.sector }}</span>
+				</div>
+			</div>
+			<div class="col-sm-4 col-md-4" ng-if="project.eacDecision">
+				<div class="detail-row">
+					<label>EAC Decision</label>
+					<span class="value">{{ ::project.eacDecision }}</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-4 col-md-4" ng-hide="project.CEAAInvolvement == 'None'">
+				<div class="detail-row">
+					<label>CEAA Involvement</label>
+					<span class="value">{{ ::project.CEAAInvolvement }}</span>
+				</div>
+			</div>
+			<div class="col-sm-4 col-md-4" ng-if="project.CEAALink">
+				<div class="detail-row">
+					<label>CEAA URL</label>
+					<span class="value"><a href="{{ ::project.CEAALink }}" target="_blank">{{ ::project.CEAALink }}</a></span>
+				</div>
+			</div>
+		</div>
+
+		<!--- CONTACTS -->
+		<div class="row">
+			<div class="col-sm-4 col-md-4"
+				ng-if="project.projectLead">
+				<div class="detail-row">
+					<label>Project Lead</label>
+					<span class="value">
+						<span>{{ ::project.projectLead | stripIDR }}</span><br/>
+						<span>Phone:&nbsp;&nbsp;{{ ::project.projectLeadPhone }}</span><br/>
+						<span>Email:&nbsp;&nbsp;<a href="mailto:{{ ::project.projectLeadEmail }}">{{ ::project.projectLeadEmail }}</a></span>
+					</span>
+				</div>
+			</div>
+			<div class="col-sm-4 col-md-4"
+				ng-if="project.responsibleEPD">
+				<div class="detail-row">
+					<label>Executive Project Director</label>
+					<span class="value">
+						<span>{{ ::project.responsibleEPD | stripIDR }}</span><br/>
+						<span>Phone:&nbsp;&nbsp;{{ ::project.responsibleEPDPhone }}</span><br/>
+						<span>Email:&nbsp;&nbsp;<a href="mailto:{{ ::project.responsibleEPDEmail }}">{{ ::project.responsibleEPDEmail }}</a></span>
+					</span>
+				</div>
+			</div>
+			<div class="col-sm-4 col-md-4"
+				ng-if="project.CELead">
+				<div class="detail-row">
+					<label>Compliance & Enforcement Lead</label>
+					<span class="value">
+						<span>{{ ::project.CELead | stripIDR }}</span><br/>
+						<span>Phone:&nbsp;&nbsp;{{ ::project.CELeadPhone }}</span><br/>
+						<span>Email:&nbsp;&nbsp;<a href="mailto:{{ ::project.CELeadEmail }}">{{ ::project.CELeadEmail }}</a></span>
+					</span>
+				</div>
+			</div>
+		</div><!-- / CONTACTS -->
+
+		<!-- AUTHENTICATED USER INFO -->
+		<div ng-if="project.userCan.viewTombstone">
+
+			<!-- ADDITIONAL CONTACTS -->
+			<div class="row">
+				<div class="col-sm-4 col-md-4" ng-if="project.projectAnalyst">
+					<div class="detail-row">
+						<label>Project Analyst</label>
+						<span class="value">{{project.projectAnalyst | stripIDR}}</span>
+					</div>
+				</div>
+				<div class="col-sm-4 col-md-4" ng-if="project.projectAssistant">
+					<div class="detail-row">
+						<label>Project Assistant</label>
+						<span class="value">{{project.projectAssistant | stripIDR}}</span>
+					</div>
+				</div>
+				<div class="col-sm-4 col-md-4" ng-if="project.administrativeAssistant">
+					<div class="detail-row">
+						<label>Administrative Assistant</label>
+						<span class="value">{{project.administrativeAssistant | stripIDR}}</span>
+					</div>
+				</div>
+			</div><!-- / ADDITIONAL CONTACTS -->
+
+			<!-- ELECTORAL DISTRICTS -->
+			<div class="row" ng-if="project.provElecDist || project.fedElecDist">
+				<hr>
+				<div class="col-sm-6 col-md-4" ng-if="project.provElecDist">
+					<div class="detail-row">
+						<label>Provincial Electoral Districts</label>
+						 <span class="value">{{project.provElecDist}}
+						</span>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4" ng-if="project.fedElecDist">
+					<div class="detail-row">
+						<label>Federal Electoral Districts</label>
+						<span class="value">{{project.fedElecDist}}</span>
+					</div>
+				</div>
+			</div><!-- / ELECTORAL DISTRICTS -->
+
+			<div class="row" ng-if="project.intake.investment">
+
+				<div class="col-sm-4 col-md-4">
+					<div class="detail-row">
+						<label>Capital Investment</label>
+						<span class="value">${{project.intake.investment | number:0}}</span>
+					</div>
+				</div>
+				<div class="col-sm-4 col-md-4" ng-if="project.intake.constructionjobs">
+					<div class="detail-row">
+						<label>Construction Jobs</label>
+						<span class="value">{{project.intake.constructionjobs}}</span>
+					</div>
+				</div>
+				<div class="col-sm-4 col-md-4" ng-if="project.intake.operatingjobs">
+					<div class="detail-row">
+						<label>Operation Jobs</label>
+						<span class="value">{{project.intake.operatingjobs}}</span>
+					</div>
+				</div>
+
+				<!-- CAPITAL INVESTMENT -->
+				<div class="col-sm-12" ng-if="project.userCan.viewEAOTombstone && project.intake.investmentNotes">
+					<div class="detail-row">
+						<label>Capital Investment Notes</label>
+						<span class="value wrap-text">{{project.intake.investmentNotes}}</span>
+					</div>
+				</div><!-- / CAPITAL INVESTMENT -->
+
+				<!-- CONSTRUCTION JOBS -->
+				<div class="col-sm-12" ng-if="project.userCan.viewEAOTombstone && project.intake.constructionjobsNotes">
+					<div class="detail-row">
+						<label>Construction Jobs Notes</label>
+						<span class="value wrap-text">{{project.intake.constructionjobsNotes}}</span>
+					</div>
+				</div><!-- / CONSTRUCTION JOBS -->
+
+				<!-- OPERATION JOBS -->
+				<div class="col-sm-12" ng-if="project.userCan.viewEAOTombstone && project.intake.operatingjobsNotes">
+					<div class="detail-row">
+						<label>Operation Job Notes</label>
+						<span class="value wrap-text">{{project.intake.operatingjobsNotes}}</span>
+					</div>
+				</div><!-- / OPERATION JOBS -->
+
+				<!-- TEAM MEMBERS -->
+				<div class="col-sm-12" ng-if="project.userCan.viewEAOTombstone && project.teamNotes">
+					<div class="detail-row">
+						<label>Team Notes</label>
+						<span class="value wrap-text">{{project.teamNotes}}</span>
+					</div>
+				</div><!-- / TEAM MEMBERS -->
+			</div>
+
+		</div><!-- / AUTHENTICATED USER INFO -->
+
+		<!-- EAO ONLY INFO -->
+		<div class="row" ng-if="project.userCan.viewEAOTombstone">
+			
+			<!-- PROJECT NOTES -->
+			<div ng-if="project.projectNotes">
+				<div class="col-sm-6 col-md-4">
+					<div class="detail-row">
+						<label>Additional Notes</label>
+						<span class="value wrap-text">{{project.projectNotes}}</span>
+					</div>
+				</div>
+			</div><!-- / PROJECT NOTES -->
+
+			<!-- EA DETAILS -->
+			<div ng-if="project.eaActive || project.eaIssues || project.eaNotes">
+				<div class="col-sm-12">
+					<div class="detail-row">
+						<label>Environmental Assessment Status</label>
+						<span class="value">{{project.eaActive}}</span>
+					</div>
+				</div>
+				<div class="col-sm-12" ng-if="project.eaIssues">
+					<div class="detail-row">
+						<label>Assessment Issues</label>
+						<span class="value wrap-text">{{project.eaIssues}}</span>
+					</div>
+				</div>
+				<div class="col-sm-12" ng-if="project.eaNotes">
+					<div class="detail-row">
+						<label>Assessment Notes</label>
+						<span class="value wrap-text">{{project.eaNotes}}</span>
+					</div>
+				</div>
+			</div><!-- / EA DETAILS -->
+
+		</div><!-- EAO ONLY INFO -->
+
 	</div>
-	<div class="detail-row">
-		<label>Phase:</label>
-		<span class="value">
-			<span class="badge" ng-class="{'review': project.currentPhaseName == 'Review'}" title="Phase: {{::project.currentPhase.name}}">{{ ::project.currentPhase.name | titleCase }}</span>
-			&nbsp;(Estimated Phase Completion: {{ (project.currentPhase.dateCompletedEst | amDateFormat:'MMM Do YYYY') || 'N/A' }})</span>
-	</div>
-	<div class="detail-row" ng-show="::project.description">
-		<label>Description:</label>
-		<span class="value">{{ ::project.description }}</span>
-	</div>
-</div>
+</div><!-- / EAO PROJECT TOMBSTONE -->
 
 <div class="mem-details row" ng-if="environment === 'MEM'">
-
 	<div class='col-md-4'>
 		<div class="detail-row">
 			<label>Permit Number:</label>

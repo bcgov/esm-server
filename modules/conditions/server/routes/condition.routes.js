@@ -4,11 +4,11 @@
 // Routes for conditions
 //
 // =========================================================================
-var policy  = require ('../policies/condition.policy');
 var Condition  = require ('../controllers/condition.controller');
-var helpers = require ('../../../core/server/controllers/core.helpers.controller');
+var routes = require ('../../../core/server/controllers/core.routes.controller');
+var policy = require ('../../../core/server/controllers/core.policy.controller');
 
 module.exports = function (app) {
-	helpers.setCRUDRoutes (app, 'condition', Condition, policy);
+	routes.setCRUDRoutes (app, 'condition', Condition, policy);
 };
 

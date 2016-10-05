@@ -10,37 +10,61 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 
 		$httpProvider.interceptors.push('authInterceptor');
 
+		$httpProvider.defaults.cache = false;
+		if (!$httpProvider.defaults.headers.get) {
+			$httpProvider.defaults.headers.get = {};
+		}
+		// disable IE ajax request caching
+		$httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
+
 		uiGmapGoogleMapApiProvider.configure({
 			key: 'AIzaSyCTbJdM2XHNQ6ybqPzyaT-242tIAgIbk8w',
-			v: '3.22',
-			libraries: 'weather,geometry,visualization'
-		});		
+			v: '3.24',
+			// libraries: 'weather,geometry,visualization'
+		});
 	}
 ]);
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, _, MenuControl) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, _, $cookies, Application, ContextService) {
 
 	// Check authentication before changing state
 	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-		if (toState.data && toState.data.roles) {
-			if (_.isFunction (toState.data.roles)) toState.data.roles = toState.data.roles ();
-			if (toState.data.roles.length > 0) {
-				// toState.data.roles = MenuControl.canAccess (toState.data.roles);
-				var allowed = false;
-				toState.data.roles.forEach(function (role) {
-					if (Authentication.user.roles !== undefined && Authentication.user.roles.indexOf(role) !== -1) {
-						allowed = true;
-						return true;
-					}
-				});
-
-				if (!allowed) {
-					event.preventDefault();
-					if (Authentication.user !== undefined && typeof Authentication.user === 'object') {
-						$state.go('forbidden');
+		//console.log('> $stateChangeStart(to = ' +  toState.name + ', from = ' + fromState.name + ')');
+		//console.log('> $stateChangeStart');
+		//console.log('  toState = ', JSON.stringify(toState));
+		//console.log('  toParams = ', JSON.stringify(toParams));
+		//console.log('  fromState = ', JSON.stringify(fromState));
+		//console.log('  fromParams = ', JSON.stringify(fromParams));
+		//
+		// for some states just go, no pre-processing
+		//
+		//console.log('ContextService.synced = ', ContextService.isSynced(toState, toParams));
+		if (!!~['authentication.signin','forbidden'].indexOf (toState.name)) {
+			return true;
+		}
+		else {
+			if (!ContextService.isSynced(toState, toParams)) {
+				//console.log('halt!');
+				event.preventDefault();
+				ContextService.sync(toState, toParams).then(function(ok) {
+					//console.log('sync good, go!');
+					if (ContextService.isAllowed(toState.data)) {
+						$state.go(toState, toParams);
 					} else {
-						$state.go('authentication.signin');
+						$state.go('forbidden');
 					}
+				}, function(bad) {
+					//console.log('sync bad...:| ', JSON.stringify(bad));
+					return false;
+				});
+			} else {
+				// proceed...
+				//console.log('synced... proceed if allowed!');
+				if (ContextService.isAllowed(toState.data)) {
+					return true;
+				} else {
+					event.preventDefault();
+					$state.go('forbidden');
 				}
 			}
 		}
@@ -81,6 +105,13 @@ angular.element(document).ready(function () {
 			document.body.scrollLeft = scroll.left;
 		}
 	}
+
+  // make sure we don't have any issues in ie getting the location.origin...
+  if (!window.location.origin) {
+	window.location.origin = window.location.protocol + "//" +
+	  window.location.hostname +
+	  (window.location.port ? ':' + window.location.port : '');
+  }
 
 	//Then init the app
 	angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);

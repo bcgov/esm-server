@@ -1,6 +1,68 @@
 'use strict';
 
 angular.module('organizations')
+	.directive('orgSearchChooser', function ($filter, $modal, NgTableParams, ProjectGroupModel, OrganizationModel, _) {
+		return {
+			restrict: 'A',
+			scope: {
+				project: '=',
+				title: '='
+			},
+			link: function (scope, element, attrs) {
+				element.on('click', function () {
+					$modal.open({
+						animation: true,
+						templateUrl: 'modules/organizations/client/views/org-search-chooser.html',
+						size: 'lg',
+						controllerAs: 's',
+						controller: function ($filter, $scope, $modalInstance, _) {
+							var s = this;
+							s.title = scope.title;
+							$scope.cur = scope.project.proponent;
+
+							OrganizationModel.getCollection()
+							.then( function (data) {
+								if ($scope.cur) {
+									_.each(data, function (i) {
+										if (i._id === $scope.cur._id) {
+											i.Selected = true;
+										}
+									});
+								}
+								$scope.orgList = data;
+								$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.orgList});
+								$scope.$apply();
+							});
+
+							$scope.toggleItem = function (item) {
+								$scope.cur = item;
+							};
+
+							$scope.isChecked = function (i) {
+								if ($scope.cur && $scope.cur._id === i._id) {
+									return true;
+								}
+							};
+
+							s.cancel = function () {
+								$modalInstance.dismiss('cancel');
+							};
+
+							s.ok = function () {
+								$modalInstance.close($scope.cur);
+							};
+						}
+					}).result.then(function (data) {
+						// console.log("selected:", data);
+						scope.project.proponent = data;
+					}).catch(function (err) {
+						console.log("err:", err);
+					});
+				});
+			}
+		};
+	})
+
 	.directive('tmplOrganizationsDisplayEdit', directiveOrganizationsDisplayEdit)
 	//.directive('tmplOrganizationsUsersByOrg', directiveOrganizationsUsersByOrg)
 ;

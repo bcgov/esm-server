@@ -4,8 +4,8 @@
 // Model for activity set Base
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('MilestoneBase', {
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
+('MilestoneBase', {
 	__codename      : true,
 	//
 	// a list of activity codes that need to be created and attached to

@@ -4,6 +4,7 @@ angular.module('utils')
 	.filter('advancedFilter', filterAdvancedFilter)
 	.filter('projectPhaseContributor', filterProjectPhaseContributor)
 	.filter('regionName', filterRegionName)
+	.filter('stripIDR', filterStripIDR)
 	.filter('kebab', filterKebab)
 	.filter('contains', filterContains)
 	.filter('projectBucketNotComplete', filterProjectBucketNotComplete)
@@ -65,6 +66,18 @@ filterRegionName.$inject = ['REGIONS'];
 function filterRegionName(REGIONS) {
 	return function(input) {
 		return REGIONS[input] || 'Not Defined';
+	};
+}
+// -----------------------------------------------------------------------------------
+//
+// FILTER: Get rid of IDR's from text blob
+//
+// -----------------------------------------------------------------------------------
+filterStripIDR.$inject = [];
+/* @ngInject */
+function filterStripIDR() {
+	return function(input) {
+		return input.replace(/\s*\(.*?\)\s*/g, "");
 	};
 }
 // -----------------------------------------------------------------------------------

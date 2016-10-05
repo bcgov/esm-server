@@ -1,0 +1,91 @@
+<div class="modal-header">
+	<button class="btn btn-default close" ng-click="s.cancel()"><span aria-hidden="true">×</span></button>
+	<h3 class="modal-title">Add Contact &nbsp;&rsaquo;&nbsp; {{s.name}}</h3>
+</div>
+
+<div class="modal-body">
+	<label for="user">Select a Contact</label>
+	<select class="form-control" id="user" ng-model="s.currentUser">
+    <option ng-repeat="p in s.allUsers" ng-value="p.username">{{p.displayName ? p.displayName + ' - ' + p.username : p.username}}</option>
+  </select>
+</div>
+
+<div class="modal-body hidden">
+	<div class="inline-search-panel">
+		<div class="inline-search-fields">
+			<div class="form-group">
+				<label class="contro-label">Name</label>
+				<input class="form-control" placeholder="All Names" type="text"></input>
+			</div>
+			<div class="form-group">
+				<label class="contro-label">Email</label>
+				<input class="form-control" placeholder="All Email Addresses" type="text"></input>
+			</div>
+			<div class="form-group col-md-3">
+				<label class="contro-label">Organization</label>
+				<input class="form-control" placeholder="All Organizations" type="text"></input>
+			</div>
+			<div class="form-group">
+				<label class="control-label">Project Group</label>
+				<select class="form-control" name="groupId" ng-model=" ">
+					<option ng-repeat="option in s.groups" ng-value="option.id">{{option.title}}</option>
+				</select>
+			</div>
+		</div>
+		<button class="btn btn-primary btn-sm" ng-click="s.search()">Find</button>
+		<button class="btn btn-default btn-sm" ng-click="s.search()">Clear</button>
+	</div>
+
+	<!-- this is actually what we watch to check/uncheck all checkboxes -->
+	<script type="text/ng-template" id="ng-table/headers/checkbox.html">
+		<input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox" value="" />
+	</script>
+
+	<div class="panel panel-default no-margin">
+		<table class="user-table table table-hover table-scroll" ng-table="tableParams" show-filter="false">
+			<tr ng-repeat="p in s.allUsers">
+				<td class="checkbox-col"
+					header-class="'checkbox-col'"
+					header="'ng-table/headers/checkbox.html'"><input type="checkbox" ng-model="checkboxes.items[o._id]" />
+				</td>
+				<td class="name-col"
+					header-class="'name-col'"
+					data-title="'Display Name'"
+					filter="{'displayName':'text'}"
+					sortable="'displayName'">{{p.displayName}}</a>
+				</td>
+				<td class="username-col"
+					header-class="'username-col'"
+					data-title="'Username'"
+					filter="{'displayName':'text'}"
+					sortable="'displayName'">{{p.username}}</a>
+				</td>
+				<td class="name-col" 
+					header-class="'name-col'" 
+					data-title="'Email'" 
+					filter="{'email':'text'}" 
+					sortable="'email'">{{o.email}}</a>
+				</td>
+				<td class="name-col" 
+					header-class="'name-col'" 
+					data-title="'Organization'" 
+					filter="{'orgName':'text'}" 
+					sortable="'orgName'">{{o.org ? o.org.name : o.orgName}}</a>
+				</td>
+			</tr>
+
+			<tr class="no-records" ng-if="!s.allUsers.length > 0">
+				<td colspan="2">
+					No users found.
+				</td>
+			</tr>
+		</table>
+	</div>
+
+</div>
+
+
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="s.cancel()">Cancel</button>
+	<button class="btn btn-primary" ng-click="s.ok()">OK</button>
+</div>

@@ -12,6 +12,9 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 	//
 	var ProjectClass = ModelBase.extend ({
 		urlName : 'project',
+		removeProject: function(project) {
+			return this.delete ('/api/project/' + project._id + '/remove');
+		},
 		// -------------------------------------------------------------------------
 		//
 		// get a project by its code
@@ -36,96 +39,32 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 		},
 		// -------------------------------------------------------------------------
 		//
-		// set a stream into a project, this copies over ALL base objects and makes
-		// then real
-		//
-		// -------------------------------------------------------------------------
-		setStream : function (streamId) {
-			var self = this;
-			return new Promise (function (resolve, reject) {
-				self.put ('/api/project/'+self.model._id+'/set/stream/'+streamId, {})
-				.then (function (res) {
-					self.model = res;
-					self.modelIsNew = false;
-					resolve (res);
-				}).catch (reject);
-			});
-		},
-		// -------------------------------------------------------------------------
-		//
 		// add a phase, form a base phase, to a project. All ancenstors get copied
 		//
 		// -------------------------------------------------------------------------
-		addPhase : function (basePhaseId) {
-			var self = this;
-			return new Promise (function (resolve, reject) {
-				self.put ('/api/project/'+self.model._id+'/add/phase/'+basePhaseId, {})
-				.then (function (res) {
-					self.model = res;
-					self.modelIsNew = false;
-					resolve (res);
-				}).catch (reject);
-			});
+		addPhase: function (project, basePhaseId) {
+			return this.put ('/api/project/' + project._id + '/add/phase/' + basePhaseId, {});
 		},
-		completePhase: function (project) {
-			if (this.model._id !== project) this.setModel (project);
-			return this.modPhase ('complete');
+		removePhase: function(project, phase) {
+			return this.put ('/api/project/' + project._id + '/remove/phase/' + phase._id, {});
 		},
-		nextPhase: function (project) {
-			if (this.model._id !== project) this.setModel (project);
-			// var i = 0;
-			// while (project.currentPhase._id !== project.phases[i]._id) i++ ;
-			// return this.modPhase (project.phases[++i]._id, 'start');
-			return this.modPhase ('start');
+		completePhase: function (project, phase) {
+			return this.put ('/api/project/' + project._id + '/complete/phase/' + phase._id, {});
+		},
+		uncompletePhase: function (project, phase) {
+			return this.put ('/api/project/' + project._id + '/uncomplete/phase/' + phase._id, {});
+		},
+		startNextPhase: function (project) {
+			return this.put ('/api/project/' + project._id + '/start/next/phase', {});
 		},
 		publishProject: function (project) {
-			if (this.model._id !== project) this.setModel (project);
-			return this.publish (true);
+			return this.put ('/api/project/' + project._id + '/publish', {});
 		},
-		// -------------------------------------------------------------------------
-		//
-		// start or stop a phase
-		//
-		// -------------------------------------------------------------------------
-		modPhase : function (method) {
-			var self = this;
-			var url ='/api/project/'+self.model._id;
-			if (method === 'complete') url += '/complete/current/phase';
-			else if (method === 'start') url += '/start/next/phase';
-			return new Promise (function (resolve, reject) {
-				self.put (url, self.model)
-				.then (function (res) {
-					self.model = res;
-					self.modelIsNew = false;
-					resolve (res);
-				}).catch (reject);
-			});
+		unpublishProject: function (project) {
+			return this.put ('/api/project/' + project._id + '/unpublish', {});
 		},
-		// -------------------------------------------------------------------------
-		//
-		// publish this project, make it publicly viewable
-		//
-		// -------------------------------------------------------------------------
-		publish: function (willPublish) {
-			var self = this;
-			var url ='/api/project/'+self.model._id;
-			url += willPublish ? '/publish' : '/unpublish';
-			return new Promise (function (resolve, reject) {
-				self.put (url, self.model)
-				.then (function (res) {
-					self.model = res;
-					self.modelIsNew = false;
-					resolve (res);
-				}).catch (reject);
-			});
-		},
-		// -------------------------------------------------------------------------
-		//
-		// submit a project
-		//
-		// -------------------------------------------------------------------------
-		submit: function () {
-			return this.put ('/api/project/'+this.model._id+'/submit', this.model);
+		submit: function (project) {
+			return this.put ('/api/project/' + project._id + '/submit', {});
 		},
 		// -------------------------------------------------------------------------
 		//
@@ -189,7 +128,7 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 					"type":"smalltext"
 				}
 			];
-		},
+		}
 	});
 	return new ProjectClass ();
 });

@@ -1,0 +1,26 @@
+
+<div class="modal-header">
+	<h3 class="modal-title">Email Templates</h3>
+</div>
+
+<div class="modal-body">
+	<section class="panel panel-default no-margin">
+		<table class="table table-scroll add-vc-table" ng-table="tableParams" show-filter="false">
+			<tr ng-repeat="t in s.items">
+				<td class="name-col select"
+					header-class="'name-col'"
+				 	data-title="'Name'">
+					<input type="checkbox" ng-click="s.select(t._id)" ng-checked="s.isSelected(t._id)"/>{{ t.name }}</td>
+				<td data-title="'Group'">{{t.group}}</td>
+			</tr>
+      <tr ng-show="!s.items" class="text-center">
+        <td colspan="3">No Email Templates found.</td>
+      </tr>
+    </table>
+	</section>
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="s.cancel()">Cancel</button>
+	<button class="btn btn-primary" ng-disabled="!(s.selected && s.selected.length > 0)" ng-click="s.ok()">OK</span></button>
+</div>

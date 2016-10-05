@@ -1,37 +1,33 @@
-<h1 class="page-title no-lower-margin">
-	View User
-</h1>
-
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="admin.user.list">Cancel</a>
-		<a class="btn btn-xs btn-link" ui-sref="admin.user.edit({userId:user._id})">Edit</a>
+<div class="view-title-container flex-row">
+	<h1>Contacts &nbsp;&rsaquo;&nbsp; {{user.username}}</h1>
+	<div class="actions">
+		<a class="btn btn-default btn-sm" ui-sref="admin.user.edit({userId:user._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span></a>
 	</div>
 </div>
 
-<div class="panel panel-default">
-	<div class="panel-body">
-
+<div class="view-body-container">
+	<fieldset>
+		<legend>Contact Details</legend>
 		<div class="row">
-			<div class="col-sm-3">
+			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
 					<label for="salutation" class="control-label">Salutation</label>
 					<p class="form-control-static">{{ user.salutation }}</p>
 				</div>
-			</div>    
-			<div class="col-sm-3">
+			</div>
+			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
 					<label for="firstName" class="control-label">First Name</label>
 					<p class="form-control-static">{{ user.firstName }}</p>
 				</div>
 			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
 					<label for="middleName" class="control-label">Middle Name</label>
 					<p class="form-control-static">{{ user.middleName }}</p>
 				</div>
 			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
 					<label for="lastName" class="control-label">Last Name</label>
 					<p class="form-control-static">{{ user.lastName }}</p>
@@ -39,117 +35,128 @@
 			</div>
 		</div>
 
+		<!-- Preferences -->
+		<div class="form-group">
+			<label class="control-label">Preferred Contact Method</label>
+			<div class="checkbox-row">
+				<div class="checkbox-inline">
+					<label class="control-label" for="viaEmail">
+					<input type="checkbox" ng-model="user.viaEmail" id="viaEmail" name="viaEmail" disabled/>By Email</label>
+				</div>
+				<div class="checkbox-inline">
+					<label class="control-label" for="viaMail">
+					<input type="checkbox" ng-model="user.viaMail" id="viaMail" name="viaMail" disabled/>By Mail</label>
+				</div>
+			</div>
+		</div>
+
+		<!-- Email, Phone, Mobile, Fax -->
 		<div class="row">
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="phoneNumber" class="control-label">Phone Number</label>
-					<p class="form-control-static">{{ user.phoneNumber }}</p>
-				</div>
-			</div>    
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="faxNumber" class="control-label">Fax Number</label>
-					<p class="form-control-static">{{ user.faxNumber }}</p>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="cellPhoneNumber" class="control-label">Mobile Number</label>
-					<p class="form-control-static">{{ user.cellPhoneNumber }}</p>
-				</div>
-			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
 					<label for="email" class="control-label">Email</label>
 					<p class="form-control-static">{{ user.email }}</p>
 				</div>
 			</div>
-		</div>
-
-
-		<div class="well well-sm">
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label for="address1" class="control-label">Address (Line 1)</label>
-						<p class="form-control-static">{{ user.address1 }}</p>
-					</div>
-				</div>    
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label for="address2" class="control-label">Address (Line 2)</label>
-						<p class="form-control-static">{{ user.address2 }}</p>
-					</div>
+			<div class="col-sm-6 col-md-3">
+				<div class="form-group">
+					<label for="phoneNumber" class="control-label">Phone</label>
+					<p class="form-control-static">{{ user.phoneNumber }}</p>
 				</div>
 			</div>
-
-			<div class="row">
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="city" class="control-label">City</label>
-						<p class="form-control-static">{{ user.city }}</p>
-					</div>
-				</div>    
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="province" class="control-label">Province</label>
-						<p class="form-control-static">{{ user.province }}</p>
-					</div>
+			<div class="col-sm-6 col-md-3">
+				<div class="form-group">
+					<label for="cellPhoneNumber" class="control-label">Mobile</label>
+					<p class="form-control-static">{{ user.cellPhoneNumber }}</p>
 				</div>
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="country" class="control-label">Country</label>
-						<p class="form-control-static">{{ user.country }}</p>
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="postalCode" class="control-label">Postal Code</label>
-						<p class="form-control-static">{{ user.postalCode }}</p>
-					</div>
+			</div>
+			<div class="col-sm-6 col-md-3">
+				<div class="form-group">
+					<label for="faxNumber" class="control-label">Fax</label>
+					<p class="form-control-static">{{ user.faxNumber }}</p>
 				</div>
 			</div>
 		</div>
 
+		<!-- City, Province, Country, Postal Code -->
 		<div class="row">
-			<div class="col-sm-4">
+			<div class="col-sm-6 col-md-3">
+				<div class="form-group">
+					<label for="city" class="control-label">City</label>
+					<p class="form-control-static">{{ user.city }}</p>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-3">
+				<div class="form-group">
+					<label for="province" class="control-label">Province</label>
+					<p class="form-control-static">{{ user.province }}</p>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-3">
+				<div class="form-group">
+					<label for="country" class="control-label">Country</label>
+					<p class="form-control-static">{{ user.country }}</p>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-3">
+				<div class="form-group">
+					<label for="postalCode" class="control-label">Postal Code</label>
+					<p class="form-control-static">{{ user.postalCode }}</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Street Address -->
+		<div class="row">
+			<div class="col-sm-12 col-md-6">
+				<div class="form-group">
+					<label for="address1" class="control-label">Street Address 1</label>
+					<p class="form-control-static">{{ user.address1 }}</p>
+				</div>
+			</div>
+			<div class="col-sm-12 col-md-6">
+				<div class="form-group">
+					<label for="address2" class="control-label">Street Address 2</label>
+					<p class="form-control-static">{{ user.address2 }}</p>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+
+	<fieldset>
+		<legend class="clearfix">Organization Details</legend>
+		<div class="row">
+			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
 					<label for="orgName" class="control-label">Organization</label>
-					<p class="form-control-static">{{ user.orgName }}</p>
+					<p class="form-control-static">{{ user.org.name }}</p>
 				</div>
-			</div>    
-			<div class="col-sm-4">
+			</div>
+			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
 					<label for="department" class="control-label">Department</label>
 					<p class="form-control-static">{{ user.department }}</p>
 				</div>
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
 					<label for="title" class="control-label">Title</label>
 					<p class="form-control-static">{{ user.title }}</p>
 				</div>
-			</div>      
+			</div>
 		</div>
-
-
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
-					<label for="notes" class="control-label">Notes</label>
+					<label for="notes" class="control-label">Additional Notes</label>
 					<p class="form-control-static">{{ user.notes }}</p>
 				</div>
 			</div>
 		</div>
+	</fieldset>
 
-		<hr>
-
-		<div class="row">
-			<div class="col-sm-12 text-right">
-				<a class="btn btn-default" ui-sref="admin.user.list">Cancel</a>
-				<a class="btn btn-default" ui-sref="admin.user.edit({userId:user._id})">Edit</a>
-			</div>
-		</div>
+	<div class="form-footer clearfix">
+		<a class="back-btn btn btn-link pull-left" ui-sref="admin.user.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Users & Contacts</a>
 	</div>
 
-</div> <!-- /panelbody -->
+</div>

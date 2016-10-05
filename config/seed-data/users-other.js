@@ -1,7 +1,7 @@
 'use strict';
 var mongoose = require ('mongoose');
 var User     = mongoose.model ('User');
-var Role     = mongoose.model ('Role');
+// var Role     = mongoose.model ('Role');
 var userlist = require ('./userlist');
 var _        = require ('lodash');
 var chalk         = require('chalk');
@@ -52,23 +52,26 @@ module.exports = function () {
 							_.each (usermodel.roles, function (role) {
 								if (role !== 'user') {
 									console.log ('adding user to role ', role);
-									Role.findOne ({code:role}, function (err, rolemodel) {
-										if (err) {
-											return err;
-										}
-										else if (rolemodel) {
-											rolemodel.users = _.union (rolemodel.users, [usermodel._id.toString()]);
-										}
-										else {
-											var isSystem = (role === 'admin' || (role.match(/^sector/) !== null));
-											rolemodel = new Role ({
-												code     : role,
-												isSystem : isSystem,
-												users    : [usermodel._id]
-											});
-										}
-										rolemodel.save ();
-									});
+									//
+									// TBD ROLES : this bit needs replacing
+									//
+									// Role.findOne ({code:role}, function (err, rolemodel) {
+									// 	if (err) {
+									// 		return err;
+									// 	}
+									// 	else if (rolemodel) {
+									// 		rolemodel.users = _.union (rolemodel.users, [usermodel._id.toString()]);
+									// 	}
+									// 	else {
+									// 		var isSystem = (role === 'admin' || (role.match(/^sector/) !== null));
+									// 		rolemodel = new Role ({
+									// 			code     : role,
+									// 			isSystem : isSystem,
+									// 			users    : [usermodel._id]
+									// 		});
+									// 	}
+									// 	rolemodel.save ();
+									// });
 								}
 							});
 						}

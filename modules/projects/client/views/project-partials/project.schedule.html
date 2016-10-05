@@ -1,0 +1,332 @@
+
+<div class="view-title-container no-border">
+	<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Schedule</h1>
+	<!-- <tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project" x-permissions="" ></tmpl-permissions-gear> -->
+</div>
+<div class="view-body-container project-schedule-view">
+	<div class="button-bar clearfix">
+		<div class="pull-left">
+			<button
+				class="btn btn-default btn-sm"
+				ng-if="project.userCan.editSchedule"
+				ng-disabled="project.phases.length > 7"
+				ng-click="addPhase()">
+				<span class="glyphicon glyphicon-plus"></span><span>Add Phase</span>
+			</button>
+		</div>
+	</div>
+
+	<div class="panel-group" id="projectPhases" role="tablist" aria-multiselectable="true">
+
+		<!-- BEGIN: PROJECT PHASE CONTAINER -->
+		<div class="panel panel-default accordion" id="phaseGroup" ng-repeat="phase in project.phases">
+			<div class="panel-heading flex-row" role="tab">
+				<a class="collapse-control" role="button" data-toggle="collapse" href="#{{phase.code}}" aria-expanded="true" aria-controls="{{phase.code}}">
+					<span class="pull-left">
+						<span class="glyphicon glyphicon-triangle-right pull-left"></span>
+						<span class="glyphicon glyphicon-triangle-bottom pull-left"></span>
+						<span>{{phase.name}}</span>
+					</span>
+					<span class="label label-success pull-right" ng-if="phase.status === 'Complete'">Completed - {{phase.dateCompleted | date : format : timezone}}</span>
+				</a>
+			</div>
+			<div id="{{phase.code}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="{{phase.code}}">
+				<div class="panel-body">
+					<div class="phase-info clearfix">
+						<div class="phase-dates pull-left clearfix">
+							<div class="schedule-dates pull-left">
+								<label class="date-label">Estimated Phase Dates</label>
+								<div>
+									<label>START:</label>
+									<span>{{phase.dateStartedEst | date : format : timezone}}</span>
+								</div>
+								<div>
+									<label>END:</label>
+									<span>{{phase.dateCompletedEst | date : format : timezone}}</span>
+								</div>
+							</div>
+							<div class="schedule-dates pull-left">
+								<label class="date-label">Actual Phase Dates</label>
+								<div>
+									<label>START:</label>
+									<span>{{phase.dateStarted | date : format : timezone}}</span>
+								</div>
+								<div>
+									<label>END:</label>
+									<span>{{phase.dateCompleted | date : format : timezone}}</span>
+								</div>
+							</div>
+						</div>
+						<div ng-if="project.userCan.editSchedule"
+							class="pull-right">
+							<button class="btn btn-default btn-sm" title="Remove Phase from Schedule"
+									ng-click="selectPhase(phase)"
+									ng-if="phase.code !== 'intake'"
+									data-toggle="modal"
+									data-backdrop="false"
+									data-target="#deletePhaseModal"><span class="glyphicon glyphicon-remove"></span><span>Remove</span></button>
+							<button class="btn btn-default btn-sm" title="Remove Phase Details"
+									ng-click="selectPhase(phase)"
+									data-toggle="modal"
+									data-backdrop="false"
+									data-target="#editPhaseDetailModal"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span></button>
+							<button class="btn btn-primary btn-sm" title="Complete Phase"
+									ng-click="completePhase(phase)"
+									ng-if="phase.code === project.currentPhase.code && !project.currentPhase.completed">Complete</button>
+							<button class="btn btn-primary btn-sm" title="Uncomplete Phase"
+									ng-click="selectPhase(phase)"
+									ng-if="isLastCompletePhase(phase._id)"
+									data-toggle="modal"
+									data-backdrop="false"
+									data-target="#uncompletePhaseModal">Uncomplete</button>
+							<button class="btn btn-primary btn-sm"
+									ng-click="startNextPhase(project)"
+									ng-if="isNextPhase(phase._id) && phase.status === 'Not Started'">Start Phase</button>
+						</div>
+					</div>
+
+					<div class="phase-milestones">
+						<div class="panel panel-default">
+							<div class="panel-heading flex-row">
+								<h3>Milestones</h3>
+								<div class="actions" ng-if="project.userCan.editSchedule">
+									<button class="btn btn-default btn-sm"
+										ng-if="phase.code !== 'intake'"
+										ng-click="addMilestone(phase)"><span class="glyphicon glyphicon-plus"></span><span>Add Milestone</span></button>
+									<button class="btn btn-default btn-sm hidden"
+											ng-if="phase.code !== 'intake'"
+											data-toggle="modal"
+											data-backdrop="false"
+											data-target="#addCommentSessionModal">Add Comment Period</button>
+								</div>
+							</div>
+							<table class="milestone-table table">
+								<thead>
+									<tr>
+										<th class="name-col">Name</th>
+										<th class="date-col">Estimate Dates</th>
+										<th class="date-col">Actual Dates</th>
+										<th class="phase-action-col"></th>
+										<th class="actions-col action-x2"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="milestone in milestonesForPhases[phase._id]">
+										<td>{{milestone.name}}</td>
+										<td class="date-col">
+											<div class="schedule-dates">
+												<div><label>START:</label><span>{{milestone.dateStartedEst | date : format : timezone}}</span></div>
+												<div><label>END:</label><span>{{milestone.dateCompletedEst | date : format : timezone}}</span></div>
+											</div>
+										</td>
+										<td class="date-col">
+											<div class="schedule-dates">
+												<div><label>START:</label><span>{{milestone.dateStarted | date : format : timezone}}</span></div>
+												<div><label>END:</label><span>{{milestone.dateCompleted | date : format : timezone}}</span></div>
+											</div>
+										</td>
+										<!-- <td>-Template Link-</tdf> -->
+										<td class="phase-action-col">
+											<span class="label label-success" ng-if="milestone.status === 'Complete'">Completed</span>
+											<div ng-if="project.userCan.editSchedule">
+												<button class="btn btn-primary btn-xs"
+														ng-if="milestone.status === 'Not Started'"
+														ng-click="startMilestone(milestone)">Start Milestone</button>
+												<button class="btn btn-primary btn-xs"
+														ng-if="milestone.status === 'In Progress'"
+														ng-click="completeMilestone(milestone)">Mark Complete</button>
+											</div>
+										</td>
+										<td class="actions-col action-x2" ng-if="project.userCan.editSchedule">
+											<button class="btn btn-default btn-sm" ng-click="openEditMilestone(milestone)">
+												<span class="glyphicon glyphicon-pencil"></span>
+											</button>
+											<button class="btn btn-default btn-sm" ng-click="openDeleteMilestone(milestone)">
+												<span class="glyphicon glyphicon-remove"></span>
+											</button>
+										</td>
+									</tr>
+									<tr ng-if="phase.milestones.length == 0">
+										<td colspan="5">No Milestones Scheduled for this Phase</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- END: PROJECT PHASE CONTAINER -->
+	</div>
+</div>
+
+<!-- DELETE PHASE MODAL -->
+<div class="modal fade" id="deletePhaseModal" role="dialog" tabindex="-1">
+	<div class="modal-dialog add-phase-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title">Remove Phase &nbsp;&rsaquo;&nbsp; {{selectedPhase.name}}</h3>
+			</div>
+			<div class="modal-body">
+				Are you sure you want to remove this phase?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button ng-click="deletePhase(selectedPhase)" type="button" class="btn btn-danger" data-dismiss="modal">Remove</button>
+			</div>
+		</div>
+	</div>
+</div><!-- DELETE PHASE MODAL -->
+
+<!-- UNCOMPLETE PHASE MODAL -->
+<div class="modal fade" id="uncompletePhaseModal" role="dialog" tabindex="-1">
+	<div class="modal-dialog add-phase-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title">Uncomplete Phase &nbsp;&rsaquo;&nbsp; {{selectedPhase.name}}</h3>
+			</div>
+			<div class="modal-body">
+				Are you sure you want to uncomplete this phase?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button ng-click="uncompletePhase(selectedPhase)" type="button" class="btn btn-danger" data-dismiss="modal">Uncomplete</button>
+			</div>
+		</div>
+	</div>
+</div><!-- UNCOMPLETE PHASE MODAL -->
+
+<!-- EDIT MILESTONE MODAL -->
+<div class="modal fade" id="editPhaseDetailModal" role="dialog" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title">Edit Phase &nbsp;&rsaquo;&nbsp; {{selectedPhase.name}}</h3>
+			</div>
+			<div class="modal-body">
+				<div class="form-group" ng-class="{'has-error': validateForm}">
+					<label>Estimated Date Range</label>
+					<div class="form-inline">
+						<div class="form-control date-picker"
+							x-modal-date-picker 
+							x-selected-date="selectedPhase.dateStartedEst">
+							{{ selectedPhase.dateStartedEst | amDateFormat:'MMM Do YYYY' }}
+							<span class="glyphicon glyphicon-calendar"></span>
+						</div>
+						<span> &nbsp;-&nbsp; </span>
+						<div class="form-control date-picker" 
+							x-modal-date-picker x-selected-date="selectedPhase.dateCompletedEst">
+							{{ selectedPhase.dateCompletedEst | amDateFormat:'MMM Do YYYY' }}
+							<span class="glyphicon glyphicon-calendar"></span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group no-margin" ng-class="{'has-error': validateForm}">
+					<label>Actual Date Range</label>
+					<div class="form-inline">
+						<div class="form-control date-picker" x-modal-date-picker x-selected-date="selectedPhase.dateStarted">
+							{{ selectedPhase.dateStarted | amDateFormat:'MMM Do YYYY' }}
+							<span class="glyphicon glyphicon-calendar"></span>
+						</div>
+						<span> &nbsp;-&nbsp; </span>
+						<div class="form-control date-picker" x-modal-date-picker x-selected-date="selectedPhase.dateCompleted">
+							{{ selectedPhase.dateCompleted | amDateFormat:'MMM Do YYYY' }}
+							<span class="glyphicon glyphicon-calendar"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button ng-click="savePhaseDetail()" type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- EDIT MILESTONE -->
+
+<!-- ADD COMMENT SESSION MODAL -->
+<div class="modal fade" id="addCommentSessionModal" role="dialog" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title">Add/Edit Comment Session</h3>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label class="control-label">Comment Session Role</label>
+					<div class="dropdown">
+						<button class="btn btn-default dropdown-toggle" id="commentSessionMenu" data-toggle="dropdown" aria-expanded="false">
+							Select Comment Session Role &nbsp;&nbsp;<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="commentSessionMenu">
+							<li>
+								<a href="#">Public Comment Session</a>
+							</li>
+							<li>
+								<a href="#">Working Group Comment Session</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">Select Content</label>
+					<select class="form-control">
+						<option selected="selected">---</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label class="control-label">Name</label>
+					<input type="text" class="form-control"/>
+				</div>
+				<div class="form-group">
+					<label class="control-label">Description<em>* Viewable by Public when Comment Period is active</em></label>
+					<textarea class="form-control" rows="6"></textarea>
+				</div>
+				<div class="form-group has-error" ng-class="{'has-error': validateForm}">
+					<label class="control-label">Start / End Dates</label>
+					<div class="date-range-control clearfix">
+						<div class="date-range input-group pull-left">
+							<span class="input-group-btn">
+								<button class="btn btn-default">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</button>
+							</span>
+							<input class="form-control" placeholder="mm/dd/yyyy" />
+						</div>
+						<div class="pull-left spacer">-</div>
+						<div class="date-range input-group pull-left">
+							<span class="input-group-btn">
+								<button class="btn btn-default">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</button>
+							</span>
+							<input class="form-control" placeholder="mm/dd/yyyy" />
+						</div>
+					</div>
+					<div class="help-block">Invalid Date Range Message</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary" disabled="disabled">Add Comment Session</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Temporary fix until we move to angular modals -->
+<div class="temp-overlay"></div>

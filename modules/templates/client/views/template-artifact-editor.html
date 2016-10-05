@@ -2,7 +2,7 @@
     <div class="document-block-header clearfix">
 	    <h4 class="pull-left">{{ ::title }}</h4>
         <a ng-if="editable" href x-artifact-chooser class="btn btn-xs btn-link pull-right" x-artifact="artifact" x-project="project">
-			+/- Choose Artifact
+			+/- Choose Content
 		</a>
 	</div>
     <div class="panel panel-default">
@@ -36,7 +36,7 @@
                     </span>
                 </div>
                 <div class="file-expanded-details">
-                    <tmpl-template-render ng-if="artifact.isTemplate" x-template="artifact.template" x-mode="view" x-project="project" x-document="artifact.templateData"></tmpl-template-render>
+                    <tmpl-template-render ng-if="artifact.isTemplate" x-template="artifact.template" x-mode="'view'" x-project="project" x-document="artifact.templateData"></tmpl-template-render>
                     <div ng-if="!artifact.isTemplate">
                         <div ng-include="'modules/artifacts/client/views/partial.artifact.document.html'"></div>
                         <span class="file-actions">

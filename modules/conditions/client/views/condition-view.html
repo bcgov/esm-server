@@ -1,16 +1,15 @@
-<h1 class="page-title no-lower-margin">
-	View Condition
-</h1>
+<div class="condition-view">
 
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="admin.condition.list">Cancel</a>
-		<a class="btn btn-xs btn-link" ui-sref="admin.condition.edit({conditionId:condition._id})">Edit</a>
-	</div>
-</div>
+	<div class="view-title-container">
+		<h1><span>Condition Library</span><span ng-show="condition.name">&nbsp; &rsaquo; &nbsp;{{ condition.name }}</span></h1>
+    <div class="actions">
+      <a class="btn btn-sm btn-default" ui-sref="admin.condition.edit({conditionId:condition._id})">
+        <span class="glyphicon glyphicon-pencil"></span><span>Edit</span>
+      </a>
+    </div>
+  </div>
 
-<div class="panel panel-default">
-	<div class="panel-body">
+	<div class="view-body-container">
 
 		<div class="row">
 			<div class="col-sm-4">
@@ -50,7 +49,7 @@
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row pick-list">
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="pillar" class="control-label">Pillars</label>
@@ -59,7 +58,6 @@
 					</div>
 				</div>
 			</div>
-
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="stage" class="control-label">Applicable Stages</label>
@@ -70,13 +68,11 @@
 			</div>
 		</div>
 
-		<hr>
-
-		<div class="text-right">
-			<a class="btn btn-default" ui-sref="admin.condition.list">Cancel</a>
-			<a class="btn btn-default" ui-sref="admin.condition.edit({conditionId:condition._id})">Edit</a>
+		<div class="form-footer clearfix">
+			<a class="back-btn btn btn-link pull-left" ui-sref="admin.condition.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Condition Library</a>
 		</div>
 
-	</div>
+	</div><!-- / VIEW BODY CONTAINER -->
+
 </div>
 

@@ -4,10 +4,10 @@
 // Model for tasks
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-	.generateModel ('Inspectionreportdetail', {
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
+('Inspectionreportdetail', {
 	__audit       : true,
-	__access      : true,
+	__access      : [],
 	__codename    : true,
 	complianceTypes						: { type: String, default:'' },
 	requirementDescription				: { type: String, default:'' },

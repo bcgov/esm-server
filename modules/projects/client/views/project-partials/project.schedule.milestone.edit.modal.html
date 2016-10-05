@@ -1,0 +1,62 @@
+<div class="modal-header">
+	<button class="btn btn-default close" ng-click="cancel()"><span aria-hidden="true">×</span></button>
+	<h3 class="modal-title" title="Edit Milestone &nbsp;&rsaquo;&nbsp; {{ milestone.name }}">Edit Milestone &nbsp;&rsaquo;&nbsp; {{ milestone.name }}</h3>
+</div>
+
+<form name="dataForm" ng-submit="save(dataForm.$valid)" novalidate>
+	<div class="modal-body">
+		<div class="form-group" ng-class="{'has-error': validateForm}">
+			<label class="control-label">Estimated Date Range</label>
+			<div class="form-inline">
+				<div class="form-group" >
+					<div class="form-control date-picker" 
+						x-modal-date-picker 
+						x-selected-date="milestone.dateStartedEst">
+						{{ milestone.dateStartedEst | amDateFormat:'MMM Do YYYY' }}
+						<span class="placeholder-value" ng-if="!milestone.dateStartedEst">Start Date</span>
+						<span class="glyphicon glyphicon-calendar"></span>
+					</div>
+				</div>
+				<span> &nbsp;-&nbsp; </span>
+				<div class="form-group">
+					<div class="form-control date-picker" 
+						x-modal-date-picker 
+						x-selected-date="milestone.dateCompletedEst">
+						{{ milestone.dateCompletedEst | amDateFormat:'MMM Do YYYY' }}
+						<span class="placeholder-value" ng-if="!milestone.dateCompletedEst">End Date</span>
+						<span class="glyphicon glyphicon-calendar"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group no-margin" ng-class="{'has-error': validateForm}">
+			<label class="control-label">Actual Date Range</label>
+			<div class="form-inline">
+				<div class="form-group">
+					<div class="form-control date-picker" 
+						x-modal-date-picker 
+						x-selected-date="milestone.dateStarted">
+						{{ milestone.dateStarted | amDateFormat:'MMM Do YYYY' }}
+						<span class="placeholder-value" ng-if="!milestone.dateStarted">Start Date</span>
+						<span class="glyphicon glyphicon-calendar"></span>
+					</div>
+				</div>
+				<span> &nbsp;-&nbsp; </span>
+				<div class="form-group">
+					<div class="form-control date-picker" 
+						x-modal-date-picker 
+						x-selected-date="milestone.dateCompleted">
+						{{ milestone.dateCompleted | amDateFormat:'MMM Do YYYY' }}
+						<span class="placeholder-value" ng-if="!milestone.dateCompleted">End Date</span>
+						<span class="glyphicon glyphicon-calendar"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="modal-footer">
+	<button class="btn btn-default" type="button" ng-click="cancel()">Cancel</button>
+	<button class="btn btn-primary" type="button" ng-click="ok()">Save</button>
+</div>

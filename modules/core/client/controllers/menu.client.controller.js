@@ -8,10 +8,11 @@ angular.module('core')
 // Controller menu
 //
 // -----------------------------------------------------------------------------------
-controllerSystemMenu.$inject = ['$scope', '$state', 'Authentication', 'Menus', '$rootScope', '_'];
+controllerSystemMenu.$inject = ['$scope', '$state', 'Authentication', 'Menus', '$rootScope', '_', 'ENV'];
 /* @ngInject */
-function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope, _) {
+function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope, _, ENV) {
 	var menu = this;
+	$scope.ENV = ENV;
 
 	// Expose view variables
 	menu.$state = $state;
@@ -30,13 +31,14 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope,
 
    	$scope.$watch('menuContext', function(newValue) {
 		if(newValue) {
-			// console.log ('menu.context = >' + newValue + '<');
+			//console.log ('controllerSystemMenu.menuContext = >' + newValue + '<');
 		   	menu.context = newValue;
 		}
    	});
 
    	$scope.$watch('project', function(newValue) {
    		if (newValue) {
+			//console.log ('controllerSystemMenu.project = >' + newValue.code + '<');
 			menu.project = newValue;
 		   	menu.isProjectAdmin = (Authentication.user && Authentication.user.roles.indexOf (menu.project.adminRole) !== -1);
 		   	menu.isProponentAdmin = (Authentication.user && Authentication.user.roles.indexOf (menu.project.proponentAdminRole) !== -1);

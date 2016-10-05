@@ -4,18 +4,55 @@
 // Model for Project
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('Project', {
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
+('Project', {
 	__audit               : true,
-	__access              : true,
+	__access: [
+		'addUsersToContext',
+		'createRole',
+		'manageRoles',
+		'managePermissions',
+		'listContacts',
+		'viewTombstone',
+		'viewEAOTombstone',
+		'editTombstone',
+		'listArtifacts',
+		'listValuedComponents',
+		'listInspectionReports',
+		'listProjectConditions',
+		'listProjectComplaints',
+		'listProjectInvitations',
+		'listDocuments',
+		'listCommentPeriods',
+		'listEnforcements',
+		'listProjectUpdates',
+		'listProjectGroups',
+		'viewSchedule',
+		'editSchedule',
+		'createArtifact',
+		'createValuedComponent',
+		'createInspectionReport',
+		'createProjectCondition',
+		'createProjectComplaint',
+		'createProjectInvitation',
+		'createDocument',
+		'createCommentPeriod',
+		'createEnforcement',
+		'createProjectUpdate',
+		'createProjectGroup',
+		'publish',
+		'unPublish'
+	],
 	__tracking            : true,
 	__status              : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Not Certified', 'Decommissioned'],
 	__codename            : 'unique',
 	duration              : { type:Number, default: 90 },
 	epicProjectID		  : { type:Number, default: 0, index:true},  // Used to relate ePIC imports
 	shortName             : { type:String, default: '' },
+	eacDecision		  	  : { type:String, default: '' },
+	CEAALink		  	  : { type:String, default: '' },
 	type                  : { type:String, default:'', index:true },
-	sector                : { type:String, default:'' },
+	sector                : { type:String, default:'' },  // This is actually sub-type now.
 	region                : { type:String, default:'' },     // object id
 	locSpatial            : { type:String, default:'' }, // incoming ePIC
 	location              : { type:String, default:'' },
@@ -43,7 +80,8 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	adminRole             : { type:String, default: '' },
 	proponentAdminRole    : { type:String, default: '' },
 	sectorRole            : { type:String, default: '' },
-  inviteeRole           : { type:String, default: '' },
+	eaoInviteeRole        : { type:String, default: '' },
+	proponentInviteeRole  : { type:String, default: '' },
 	substitution          : { type:Boolean, default:false },
 	intake: {
 		affectedFirstNations  : { type:String, default:'' },
@@ -72,8 +110,8 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	currentPhaseCode   : { type: String, default:'' },
 	currentPhaseName   : { type: String, default:'' },
 	overallProgress    : { type: Number, default:0 },
-	lat                : { type: Number, default:0 },
-	lon                : { type: Number, default:0 },
+	lat                : { type: Number, default:'' },
+	lon                : { type: Number, default:'' },
 	dateCommentsOpen   : { type: Date, default: null },
 	dateCommentsClosed : { type: Date, default: null },
 
@@ -103,5 +141,6 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	ownership            : { type: String, default: '' },
 	memPermitID          : { type:String, default: '', index:true},  // Used to relate mem permitID on import
 	commodity            : { type: String, default: '' },
-	tailingsImpoundments : { type: String, default: '' }
+	tailingsImpoundments : { type: String, default: '' },
+	epicStream 			 : { type: String, default: '' }
 });

@@ -1,0 +1,14 @@
+<div class="modal-header">
+	<h3 class="modal-title">Choose Roles</h3>
+</div>
+<div class="modal-body">
+	<ul class="list-group">
+		<li ng-repeat="role in s.allRoles" ng-click="s.dealwith (role)" class="list-group-item clickable" ng-class="{'active':(s.selected.indexOf(role) != -1)}">
+		{{ role }}
+		</li>
+	</ul>
+</div>
+<div class="modal-footer">
+ 	<button class="btn btn-default" ng-click="s.cancel()">Cancel</button>
+	<button class="btn btn-primary" ng-click="s.ok()">Select <span aria-hidden="true">&rarr;</span></button>
+</div>

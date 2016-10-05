@@ -13,7 +13,7 @@ angular.module('conditions').config(['$stateProvider', function ($stateProvider)
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.condition', {
-		data: {roles: ['admin','eao']},
+		data: {permissions: ['listConditions']},
 		abstract:true,
 		url: '/condition',
 		template: '<ui-view></ui-view>',
@@ -47,7 +47,8 @@ angular.module('conditions').config(['$stateProvider', function ($stateProvider)
 	.state('admin.condition.list', {
 		url: '/list',
 		templateUrl: 'modules/conditions/client/views/condition-list.html',
-		controller: function ($scope, NgTableParams, conditions, pillars, projecttypes, stages) {
+		controller: function ($scope, NgTableParams, conditions, pillars, projecttypes, stages, Application) {
+			// console.log ('app.usercan = ',Application.userCan);
 			$scope.ptypes = projecttypes;
 			$scope.stypes = stages;
 			$scope.pillars = pillars;
@@ -65,7 +66,7 @@ angular.module('conditions').config(['$stateProvider', function ($stateProvider)
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.condition.create', {
-		data: {roles: ['admin','edit-conditions']},
+		data: {permissions: ['createCondition']},
 		url: '/create',
 		templateUrl: 'modules/conditions/client/views/condition-edit.html',
 		resolve: {
@@ -106,7 +107,7 @@ angular.module('conditions').config(['$stateProvider', function ($stateProvider)
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.condition.edit', {
-		data: {roles: ['admin','edit-conditions']},
+		data: {permissions: ['createCondition']},
 		url: '/:conditionId/edit',
 		templateUrl: 'modules/conditions/client/views/condition-edit.html',
 		resolve: {

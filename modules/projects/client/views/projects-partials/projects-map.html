@@ -1,10 +1,10 @@
-<section class='panel panel-default'>
+<div class="map-container">
 
 	<ui-gmap-google-map id='projects-map'
-					center='projectList.map.center'
-					zoom='projectList.map.zoom'
-					refresh='1'
-					options='projectList.map.options'>
+		center='projectList.map.center'
+		zoom='projectList.map.zoom'
+		refresh='1'
+		options='projectList.map.options'>
 
 		<ui-gmap-window
 			show="projectList.map.window.show"
@@ -27,7 +27,7 @@
 
 	</ui-gmap-google-map>
 
-	<div class="row map-filter">
+	<div class="row map-filter hidden">
 		<div class="col-sm-12">
 			<div class="form-inline">
 				<div class="form-group form-group-sm">
@@ -36,4 +36,5 @@
 			</div>
 		</div>
 	</div>
-</section>
+
+</div>

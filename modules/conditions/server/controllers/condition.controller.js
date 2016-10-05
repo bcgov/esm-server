@@ -31,11 +31,11 @@ module.exports = DBModel.extend ({
 			});
 		});
 	},
-	decorate: function (model) {
-		model = (model.toObject) ? model.toObject(): model;
-		model.stageString = model.stages.join (', ');
-		model.pillarString = model.pillars.join (', ');
-		return model;
-	}
+	//decorate: function (model) {
+	//	model = (model.toObject) ? model.toObject(): model;
+	//	model.stageString = model.stages.join (', ');
+	//	model.pillarString = model.pillars.join (', ');
+	//	return model;
+	//}
 });
 

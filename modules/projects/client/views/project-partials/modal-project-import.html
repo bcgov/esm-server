@@ -77,16 +77,10 @@
 
 		<div class="row" ng-if="!projectImport.inProgress && !projectImport.hideUploadButton">
 			<div class="col-sm-12 text-right">
-				<button ng-click="projectImport.upload()" ng-if="projectImport.fileList.length > 0" class="btn btn-success">
-					Upload Queued Documents
+				<button ng-click="projectImport.ok()" ng-if="projectImport.fileList.length > 0" class="btn btn-success">
+					Start Import
 				</button>
 			</div>
-		</div>
-	</div>
-	<div class="modal-footer">
-		<div>
-			<a class="btn btn-default" href ng-click="projectImport.cancel()">Cancel</a>
-			<a class="btn btn-default" href ng-click="projectImport.ok()">Ok</a>
 		</div>
 	</div>
 </div>

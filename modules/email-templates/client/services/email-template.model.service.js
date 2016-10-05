@@ -6,7 +6,7 @@
 // is accessed through the front end
 //
 // =========================================================================
-angular.module('email-template').factory ('EmailTemplateModel', function (ModelBase, _) {
+angular.module('emailtemplate').factory ('EmailTemplateModel', function (ModelBase, _) {
 	//
 	// build the model by extending the base model. the base model will
 	// have all the basic crud stuff built in

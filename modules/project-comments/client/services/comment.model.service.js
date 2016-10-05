@@ -12,6 +12,26 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 	//
 	var Class = ModelBase.extend ({
 		urlName : 'comment',
+		lookup: function (commentID) {
+			return this.get('/api/comment/' + commentID);
+		},
+		// -------------------------------------------------------------------------
+		//
+		// get all the comments for a comment period
+		//
+		// -------------------------------------------------------------------------
+		getAllCommentsForPeriod: function (periodId) {
+			return this.get ('/api/comments/period/'+periodId+'/all');
+		},
+		getPublishedCommentsForPeriod: function (periodId) {
+			return this.get ('/api/comments/period/'+periodId+'/published');
+		},
+		getEAOCommentsForPeriod: function (periodId) {
+			return this.get ('/api/eaocomments/period/'+periodId);
+		},
+		getProponentCommentsForPeriod: function (periodId) {
+			return this.get ('/api/proponentcomments/period/'+periodId);
+		},
 		// -------------------------------------------------------------------------
 		//
 		// pass in the target type (Project Description, Document, AIR, etc)
@@ -100,6 +120,61 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 		// -------------------------------------------------------------------------
 		getCommentChain: function (ancestorId) {
 			return this.get ('/api/comments/ancestor/'+ancestorId);
+		},
+		getDocuments: function(commentId) {
+			return this.get('/api/comment/' + commentId +'/documents');
+		},
+		updateDocument: function(doc) {
+			return this.put('/api/document/' + doc._id, doc);
+		},
+		prepareCSV: function (tableParams) {
+			// console.log("incoming tableparams:", tableParams);
+			return new Promise (function (resolve, reject) {
+				var data = "";
+				var header = [
+				'comment',
+				'date added',
+				'author',
+				'location',
+				'pillars',
+				'topics',
+				'status',
+				'attachments'
+				];
+				data += '"' + header.join ('","') + '"' + "\r\n";
+				_.each (tableParams, function (row) {
+					var a = [];
+					var comment = row.comment
+					.replace (/\•/g, '-')
+					.replace (/\’/g, "'")
+					.replace (/\r\n/g, "\n")
+					.replace (/\n+/g, "\n")
+					.replace (/\“/g, '"')
+					.replace (/\”/g, '"')
+					.replace (/"/g, '""');
+					if (comment.length > 30000) {
+						console.log ('comment > 32000');
+						comment = comment.substr (0,32000) + ' --- TRUNCATED FOR IMPORT TO EXCEL --- ';
+					}
+					a.push (comment);
+					a.push (row.dateAdded);
+					a.push ((!row.isAnonymous) ? row.author : '');
+					a.push (row.location);
+					a.push (row.pillars.map (function (v) {
+						return v.replace (/"/g, '""');
+					}).join (', '));
+					a.push (row.topics.map (function (v) {
+						return v.replace (/"/g, '""');
+					}).join (', '));
+					a.push (row.eaoStatus);
+					a.push (row.documents.map (function (v) {
+						return '""' + window.location.protocol + '//' + window.location.host + '/api/document/'+v._id+'/fetch""';
+					}).join (', '));
+
+					data += '"' + a.join ('","') + '"' + "\r\n";
+				});
+				resolve(data);
+			});
 		}
 	});
 	return new Class ();

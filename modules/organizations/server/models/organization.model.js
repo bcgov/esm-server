@@ -4,8 +4,7 @@
 // Model for tasks
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('Organization', {
+module.exports = require ('../../../core/server/controllers/core.schema.controller')('Organization', {
 	__audit       : true,
 	__codename    : 'unique',
 	company       : { type: String, default:'' },

@@ -4,7 +4,7 @@
 // org routes (under admin)
 //
 // =========================================================================
-angular.module('email-template').config(['$stateProvider', function ($stateProvider) {
+angular.module('emailtemplate').config(['$stateProvider', function ($stateProvider) {
 	$stateProvider
 	// -------------------------------------------------------------------------
 	//
@@ -13,7 +13,7 @@ angular.module('email-template').config(['$stateProvider', function ($stateProvi
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.emailtemplate', {
-		data: {roles: ['admin','eao']},
+		data: {permissions: ['listEmailTemplates']},
 		abstract:true,
 		url: '/emailtemplate',
 		template: '<ui-view></ui-view>',
@@ -46,7 +46,7 @@ angular.module('email-template').config(['$stateProvider', function ($stateProvi
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.emailtemplate.create', {
-		data: {roles: ['admin','edit-email-template']},
+		data: {permissions: ['createEmailTemplate']},
 		url: '/create',
 		templateUrl: 'modules/email-templates/client/views/email-template-edit.html',
 		resolve: {
@@ -82,7 +82,7 @@ angular.module('email-template').config(['$stateProvider', function ($stateProvi
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.emailtemplate.edit', {
-		data: {roles: ['admin','edit-email-template']},
+		data: {permissions: ['createEmailTemplate']},
 		url: '/:emailtemplateId/edit',
 		templateUrl: 'modules/email-templates/client/views/email-template-edit.html',
 		resolve: {

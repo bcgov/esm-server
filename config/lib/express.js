@@ -66,12 +66,18 @@ module.exports.initMiddleware = function (app) {
   }));
 
   // Initialize favicon middleware
-  app.use(favicon('./modules/core/client/img/brand/favicon.png'));
+  app.use(favicon('./modules/core/client/img/brand/favicon.ico'));
 
   // Environment dependent middleware
   if (process.env.NODE_ENV === 'development') {
     // Enable logger (morgan)
-    app.use(morgan('dev'));
+    app.use(morgan('dev', {
+      skip: function (req, res) {
+        var isAPI = req.path.substr (0, 4) === '/api';
+        var isOK  = req.statusCode < 400;
+        return (!isAPI && isOK);
+      }
+    }));
 
     // Disable views cache
     app.set('view cache', false);
@@ -81,9 +87,10 @@ module.exports.initMiddleware = function (app) {
 
   // Request body parsing middleware should be above methodOverride
   app.use(bodyParser.urlencoded({
-    extended: true
+    extended: true,
+    limit: '2mb'
   }));
-  app.use(bodyParser.json());
+  app.use(bodyParser.json({limit: '2mb'}));
   app.use(methodOverride());
 
   // Add the cookie parser and flash middleware
@@ -108,6 +115,11 @@ module.exports.initMiddleware = function (app) {
   //   });
   //   next();
   // });
+  //
+  // cc: middleware to deal with context
+  //
+
+
 
 };
 
@@ -221,6 +233,7 @@ module.exports.initErrorRoutes = function (app) {
     // Redirect to error page
     res.redirect('/server-error');
   });
+
 };
 
 /**
@@ -273,6 +286,7 @@ module.exports.init = function (db) {
 
   // Configure Socket.io
   app = this.configureSocketIO(app, db);
+
 
   return app;
 };

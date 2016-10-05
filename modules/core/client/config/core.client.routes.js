@@ -55,7 +55,16 @@ angular.module('core').config (
 			ignoreState: true
 		}
 	})
-
+	.state('smerr', {
+		url: '/smerr',
+		reloadOnSearch: false,
+		templateUrl: 'modules/core/client/views/smerr.view.html',
+		controller: function($scope, $location, _) {
+			$scope.userType = ($location.search().t || 'unknown').toLowerCase();
+			// combine this with reloadOnSearch = false to strip off the query string now that we have the value we need.
+			$location.url($location.path());
+		}
+	})
 	;
 
 	// $stateProvider.modalState = function (name, opts) {

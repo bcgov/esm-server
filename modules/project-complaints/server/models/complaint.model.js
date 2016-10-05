@@ -4,10 +4,10 @@
 // Model for complaints
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('Complaint', {
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
+('Complaint', {
 	__audit     : true,
-	__access    : true,
+	__access    : [],
 	__tracking  : true,
 	project     : { type:'ObjectId', ref:'Project', default:null, index:true },
 	stage       : { type:String, enum:['Pre-Construction', 'Construction', 'Operations', 'Decommissioning'], default:'Operations' },

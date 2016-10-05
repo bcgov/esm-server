@@ -5,7 +5,7 @@
 // client, just to avoid retyping everything over and over again
 //
 // =========================================================================
-angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (log, $http, _) {
+angular.module('core').factory ('ModelBase', ['$http', '_', function ($http, _) {
 	var ModelBase = function (o) {
 		this.model      = null; // the current loaded model
 		this.collection = null; // the current loaded collection
@@ -191,21 +191,21 @@ angular.module('core').factory ('ModelBase', ['EsmLog', '$http', '_', function (
 		//
 		// -------------------------------------------------------------------------
 		put : function (url, data) {
-			return this.talk ('PUT', url, data);
+			return this.talk ('PUT', url, data, null);
 		},
 		post : function (url, data) {
-			return this.talk ('POST', url, data);
+			return this.talk ('POST', url, data, null);
 		},
-		get : function (url) {
-			return this.talk ('GET', url, null);
+		get : function (url, headers) {
+			return this.talk ('GET', url, null, headers);
 		},
 		delete : function (url) {
-			return this.talk ('DELETE', url, null);
+			return this.talk ('DELETE', url, null, null);
 		},
-		talk : function (method, url, data) {
-			// console.log (method, url, data);
+		talk : function (method, url, data, headers) {
+			// console.log (method, url, data, headers);
 			return new Promise (function (resolve, reject) {
-				$http ({method:method, url:url, data:data })
+				$http ({method:method, url:url, data:data, headers: headers })
 				.then (function (res) {
 					resolve (res.data);
 				}).catch (function (res) {

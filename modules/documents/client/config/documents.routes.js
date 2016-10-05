@@ -6,15 +6,10 @@ angular.module('documents').config(['$stateProvider', function ($stateProvider) 
 	.state('p.documents', {
 		url: '/documents',
 		templateUrl: 'modules/documents/client/views/documents.html',
-		data: {
-			roles: ['admin', 'user']
-		},
+		data: { },
 		controller: function($scope, project) {
 			$scope.project = project;
-		},
-        onEnter: function (MenuControl, project) {
-            MenuControl.routeAccess (project.code, 'any','edit-documents');
-        }
+		}
 
 	});
 

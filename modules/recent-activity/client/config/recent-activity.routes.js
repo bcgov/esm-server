@@ -13,7 +13,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.recentactivity', {
-		data: {roles: ['admin','eao']},
+		data: {permissions: ['listNews']},
 		abstract:true,
 		url: '/recentactivity',
 		template: '<ui-view></ui-view>',
@@ -31,13 +31,123 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 		url: '/list',
 		templateUrl: 'modules/recent-activity/client/views/recent-activity-list.html',
 		resolve: {
-			recentActivity: function ($stateParams, RecentActivityModel) {
-				return RecentActivityModel.getCollection ();
+			projects: function (ProjectModel) {
+				return ProjectModel.lookup();
+			},
+			recentActivity: function ($stateParams, RecentActivityModel, projects, _) {
+				return RecentActivityModel.getCollection ()
+				.then( function (data) {
+					_.each(data, function (item) {
+						if (item.project) {
+							var proj = projects[item.project];
+							item.code = proj ? proj.code : '';
+							item.projectName = proj ? proj.name : '';
+						}
+						switch(item.priority) {
+							case 0:
+								item.priorityDesc = 'Critical';
+								break;
+							case 1:
+								item.priorityDesc = 'Top';
+								break;
+							case 2:
+								item.priorityDesc = 'Normal';
+								break;
+							case 4:
+								item.priorityDesc = 'Low';
+								break;
+							default:
+								item.priorityDesc = '';
+								break;
+						}
+						item.activeDesc = item.active ? 'Active' : 'Inactive';
+					});
+					return data;
+				});
 			}
 		},
-		controller: function ($scope, NgTableParams, recentActivity) {
-			$scope.tableParams = new NgTableParams ({count:10}, {dataset: recentActivity});
-		}
+		controller: function (_, $scope, $state, NgTableParams, recentActivity, projects) {
+			$scope.tableParams = new NgTableParams ({count:10, sorting: {dateAdded: 'desc'}}, {dataset: recentActivity});
+
+			var s = this;
+			s.typeArray = [];
+			s.priorityDescArray = [];
+			s.activeDescArray = [];
+
+			var items = _(angular.copy(recentActivity)).chain().flatten();
+			items.pluck('type').unique().value().map( function(item) {
+				s.typeArray.push({id: item, title: item});
+			});
+			items.pluck('priorityDesc').unique().value().map( function (item) {
+				s.priorityDescArray.push({id: item, title: item});
+			});
+			items.pluck('activeDesc').unique().value().map( function(item) {
+				var id = 'Active' === item ? true : false;
+				s.activeDescArray.push({id: id, title: item});
+			});
+
+
+			this.onNewsClick = function(activity, event) {
+				if (!activity.project) {
+					event.preventDefault();
+				} else {
+					$state.go('p.detail', {projectid: projects[activity.project].code });
+				}
+			};
+		},
+		controllerAs: 's'
+	})
+	.state('news', {
+		url: '/news',
+		templateUrl: 'modules/recent-activity/client/views/recent-activity-news-list.html',
+		resolve: {
+			projects: function (ProjectModel) {
+				return ProjectModel.lookup();
+			},
+			recentActivity: function ($stateParams, RecentActivityModel, projects, _) {
+				return RecentActivityModel.getCollection ()
+				.then( function (data) {
+					_.each(data, function (item) {
+						if (item.project) {
+							var proj = projects[item.project];
+							item.code = proj ? proj.code : '';
+							item.projectName = proj ? proj.name : '';
+						}
+						switch(item.priority) {
+							case 0:
+								item.priorityDesc = 'Critical';
+								break;
+							case 1:
+								item.priorityDesc = 'Top';
+								break;
+							case 2:
+								item.priorityDesc = 'Normal';
+								break;
+							case 4:
+								item.priorityDesc = 'Low';
+								break;
+							default:
+								item.priorityDesc = '';
+								break;
+						}
+						item.activeDesc = item.active ? 'Active' : 'Inactive';
+					});
+					return data;
+				});
+			}
+		},
+		controller: function ($scope, $state, NgTableParams, recentActivity, projects) {
+			$scope.tableParams = new NgTableParams ({count:10, sorting: {dateAdded: 'desc'}}, {dataset: recentActivity});
+
+			this.onNewsClick = function(activity, event) {
+				if (!activity.project) {
+					event.preventDefault();
+				} else {
+					$state.go('p.detail', {projectid: projects[activity.project].code });
+				}
+			};
+		},
+		controllerAs: 's'
 	})
 	// -------------------------------------------------------------------------
 	//
@@ -46,7 +156,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.recentactivity.create', {
-		data: {roles: ['admin','edit-recent-activity']},
+		data: {permissions: ['createNews']},
 		url: '/create',
 		templateUrl: 'modules/recent-activity/client/views/recent-activity-edit.html',
 		resolve: {
@@ -54,8 +164,9 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 				return RecentActivityModel.getNew ();
 			}
 		},
-		controller: function ($scope, $state, recentActivity, RecentActivityModel, $filter) {
+		controller: function ($scope, $state, Authentication, recentActivity, RecentActivityModel, $filter) {
 			$scope.recentActivity = recentActivity;
+			$scope.recentActivity.addedBy = Authentication.user._id;
 			var which = 'add';
 			$scope.save = function (isValid) {
 				if (!isValid) {
@@ -82,7 +193,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.recentactivity.edit', {
-		data: {roles: ['admin','edit-recent-activity']},
+		data: {permissions: ['createNews']},
 		url: '/:recentActivityId/edit',
 		templateUrl: 'modules/recent-activity/client/views/recent-activity-edit.html',
 		resolve: {

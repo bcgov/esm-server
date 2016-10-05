@@ -9,7 +9,7 @@ var path               = require('path');
 var DBModel            = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
 var ActivityClass      = require (path.resolve('./modules/activities/server/controllers/activity.controller'));
 var MilestoneBaseClass = require ('./milestonebase.controller');
-var Roles              = require (path.resolve('./modules/roles/server/controllers/role.controller'));
+// var Roles              = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 
 
 
@@ -24,7 +24,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	getMilestoneBase: function (code) {
-		return (new MilestoneBaseClass (this.user)).findOne ({code:code});
+		return (new MilestoneBaseClass (this.opts)).findOne ({code:code});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -50,8 +50,8 @@ module.exports = DBModel.extend ({
 		//
 		// set the estimated completed using the duration
 		//
-		milestone.dateCompletedEst = new Date (milestone.dateStartedEst);
-		milestone.dateCompletedEst.setDate (milestone.dateCompletedEst.getDate () + milestone.duration);
+		// milestone.dateCompletedEst = new Date (milestone.dateStartedEst);
+		// milestone.dateCompletedEst.setDate (milestone.dateCompletedEst.getDate () + milestone.duration);
 		if (milestone.startOnCreate) {
 			milestone.status      = 'In Progress';
 			milestone.dateStarted = new Date ();
@@ -89,14 +89,15 @@ module.exports = DBModel.extend ({
 			//
 			// get the base
 			//
+			console.log ('get base from code : ', code);
 			self.getMilestoneBase (code)
 			//
 			// copy its id and such before we lose it, then copy the entire thing
 			//
 			.then (function (m) {
+				console.log (m.activities);
 				base          = m;
 				baseId        = m._id;
-				// console.log (m.activities);
 				activityCodes = _.clone (m.activities);
 				return self.copyMilestoneBase (base);
 			})
@@ -120,8 +121,8 @@ module.exports = DBModel.extend ({
 			// so not too much of an issue
 			//
 			.then (function (m) {
-				// console.log ("++ new milestone with id:", m._id);
-				// console.log ("now adding activities from base ", activityCodes);
+				console.log ("++ new milestone with id:", m._id);
+				console.log ("now adding activities from base ", activityCodes);
 				//
 				// This little bit of magic forces the synchronous executiuon of
 				// async functions as promises, so a sync version of all.
@@ -138,9 +139,9 @@ module.exports = DBModel.extend ({
 			// have to resolve it here
 			//
 			.then (function (models) {
+				console.log ("Yay! the add activity promise array resolved to ", models);
 				phase.milestones.push (milestone._id);
 				phase.save ();
-				// console.log ("Yay! the add activity promise array resolved to ", models);
 				return self.saveDocument (milestone);
 			})
 			.then (resolve, reject);
@@ -154,7 +155,7 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	addActivity : function (milestone, basecode, permissions) {
 		var self = this;
-		var Activity = new ActivityClass (self.user);
+		var Activity = new ActivityClass (self.opts);
 		return new Promise (function (resolve, reject) {
 			//
 			// get the new activity
@@ -167,12 +168,16 @@ module.exports = DBModel.extend ({
 			.then (function (activity) {
 				if (permissions && !_.isEmpty (permissions)) {
 					// console.log ('Adding permissions');
-					return Roles.objectRoles ({
-						method      : 'add',
-						objects     : activity,
-						type        : 'activities',
-						permissions : permissions
-					});
+					//
+					// TBD ROLES
+					//
+					// return Roles.objectRoles ({
+					// 	method      : 'add',
+					// 	objects     : activity,
+					// 	type        : 'activities',
+					// 	permissions : permissions
+					// });
+					return activity;
 				}
 				else {
 					return activity;
@@ -202,8 +207,8 @@ module.exports = DBModel.extend ({
 	start: function (milestone) {
 		milestone.status           = 'In Progress';
 		milestone.dateStarted      = new Date ();
-		milestone.dateCompletedEst = new Date ();
-		milestone.dateCompletedEst.setDate (milestone.dateCompletedEst.getDate () + milestone.duration);
+		// milestone.dateCompletedEst = new Date ();
+		// milestone.dateCompletedEst.setDate (milestone.dateCompletedEst.getDate () + milestone.duration);
 		return this.findAndUpdate (milestone);
 	},
 	// -------------------------------------------------------------------------
@@ -253,12 +258,17 @@ module.exports = DBModel.extend ({
 	completeActivities: function (milestone) {
 		// console.log ('completing activities',milestone.activities);
 		var self = this;
-	// console.log (JSON.stringify (milestone, null, 4));
-		return Promise.all (milestone.activities.map (function (activity) {
-			var Activity = new ActivityClass (self.user);
-			if (activity.completed) return activity;
-			else return Activity.complete (activity);
-		}));
+		if (!milestone) {
+			// console.log("returning early from milestone");
+			return Promise.resolve(milestone);
+		} else {
+			// console.log (JSON.stringify (milestone, null, 4));
+			return Promise.all (milestone.activities.map (function (activity) {
+				var Activity = new ActivityClass (self.opts);
+				if (activity.completed) return activity;
+				else return Activity.complete (activity);
+			}));
+		}
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -268,7 +278,7 @@ module.exports = DBModel.extend ({
 	overrideActivities: function (milestone) {
 		var self = this;
 		return Promise.all (milestone.activities.map (function (activity) {
-			var Activity = new ActivityClass (self.user);
+			var Activity = new ActivityClass (self.opts);
 			if (activity.completed) return activity;
 			else return Activity.override (activity, milestone.overrideReason);
 		}));
@@ -282,7 +292,7 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	getMilestoneWithActivities : function (milestone) {
 		var self = this;
-		var Activity = new ActivityClass (self.user);
+		var Activity = new ActivityClass (self.opts);
 		return new Promise (function (resolve, reject) {
 			milestone = milestone.toObject ();
 			var a = milestone.activities.map (function (id) {
@@ -300,10 +310,10 @@ module.exports = DBModel.extend ({
 	// get milestones for a given context of access and project
 	//
 	// -------------------------------------------------------------------------
-	userMilestones: function (projectCode, access) {
+	userMilestones: function (projectId, access) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			var q = (projectCode) ? {projectCode:projectCode} : {} ;
+			var q = (projectId) ? { project: projectId } : {} ;
 			var p = (access === 'write') ? self.listwrite (q) : self.list (q);
 			p.then (resolve, reject);
 		});
@@ -314,7 +324,7 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	milestonesForPhase: function (id) {
-		var p = this.list ({phase:id});
+		var p = this.list ({ phase: id });
 		return new Promise (function (resolve, reject) {
 			p.then (resolve, reject);
 		});
@@ -336,8 +346,8 @@ module.exports = DBModel.extend ({
 	makeMilestoneFromBase : function (base, streamid, projectid, projectcode, phaseid, roles) {
 		var self = this;
 		// console.log ('in miolestone', base);
-		var Activity = new ActivityClass (this.user);
-		var ActivityBase = new ActivityBaseClass (this.user);
+		var Activity = new ActivityClass (this.opts);
+		var ActivityBase = new ActivityBaseClass (this.opts);
 
 		return new Promise (function (resolve, reject) {
 			var baseid = base._id;

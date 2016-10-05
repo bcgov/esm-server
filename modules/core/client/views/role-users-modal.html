@@ -1,0 +1,84 @@
+<div class="modal-header">
+	<button class="btn btn-default close" ng-click="s.cancel()"><span aria-hidden="true">×</span></button>
+	<h3 class="modal-title">Edit Roles &nbsp;&rsaquo;&nbsp; {{s.name}}</h3>
+</div>
+
+<div class="modal-body">
+
+	<!-- TABS -->
+	<ul class="tab-container nav nav-tabs" role="tablist">
+		<li role="presentation" class="active"><a href ng-click="s.userView = !s.userView" role="tab" data-toggle="tab">By User</a></li>
+		<li role="presentation"><a href ng-click="s.userView = !s.userView" role="tab" data-toggle="tab">By Roles</a></li>
+	</ul>
+	<!-- / TABS -->
+
+	<!-- SET BY USERS -->
+	<div class="tab-pane" ng-show="s.userView">
+		<div class="form-group select-permission">
+			<label class="control-label">Select User</label>
+			<select class="form-control" id="user" ng-model="s.currentUser" ng-options="user.displayName for user in s.allUsers | orderBy"></select>
+      <button ng-if="s.context.userCan.addUsersToContext" class="btn btn-default btn-sm" type="button"
+              x-user-search-chooser
+              x-title="'Select Contacts'"
+              x-project="s.context"
+              x-destination="contacts"><span class="glyphicon glyphicon-plus"></span><span>Add User</span></button>
+
+    </div>
+		<div class="form-group manage-permission no-margin">
+			<label class="control-label">Manage Roles for User</label>
+			<tmpl-role-new context="s.context" class="new-role-btn" ng-if="s.context.userCan.createRole"></tmpl-role-new>
+		</div>
+		<div class="panel panel-default">
+			<ul class="list-group">
+				<li class="list-group-item" ng-repeat="role in s.allRoles">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox"
+								ng-change="s.clickRole(s.currentUser, role, s.userRoleIndex.user[s.currentUser.username][role])"
+								ng-model="s.userRoleIndex.user[s.currentUser.username][role]">{{ role }}
+							</input>
+						</label>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- SET BY ROLE -->
+	<div class="tab-pane" ng-show="!s.userView">
+		<div class="form-group select-permission">
+			<label class="control-label" for="role">Select Role</label>
+			<select class="form-control" id="role" ng-model="s.currentRole" ng-options="p as p for p in s.allRoles | orderBy"></select>
+			<tmpl-role-new context="s.context" ng-if="s.context.userCan.createRole"></tmpl-role-new>
+		</div>
+		<div class="form-group manage-permission no-margin">
+			<label class="control-label">Manage Users for Role</label>
+      <button ng-if="s.context.userCan.addUsersToContext" class="btn btn-default btn-sm" type="button"
+              x-user-search-chooser
+              x-title="'Select Contacts'"
+              x-project="s.context"
+              x-destination="contacts"><span class="glyphicon glyphicon-plus"></span><span>Add User</span></button>
+		</div>
+		<div class="panel panel-default">
+			<ul class="list-group">
+				<li class="list-group-item" ng-repeat="u in s.allUsers">
+					<div class="checkbox">
+						<label>
+              				<input type="checkbox"
+                     			ng-change="s.clickUser(u, s.currentRole, s.userRoleIndex.role[s.currentRole][u.username])"
+                     			ng-model="s.userRoleIndex.role[s.currentRole][u.username]">
+              				</input>{{ u.displayName }}
+            			</label>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!-- SET BY ROLE -->
+
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="s.cancel()">Cancel</button>
+	<button class="btn btn-primary" ng-click="s.ok()">OK</button>
+</div>

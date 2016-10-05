@@ -1,22 +1,23 @@
-<h1 class="page-title no-lower-margin">
-	Add / Edit Email Template
-</h1>
 
-<form name="emailTemplateForm" ng-submit="save(emailTemplateForm.$valid)" novalidate>
-
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<button class="btn btn-xs btn-link" ui-sref="admin.emailtemplate.list">Cancel</button>
-		<button class="btn btn-xs btn-link" href type="submit">Save</button>
+<form class="view-form" name="emailTemplateForm" ng-submit="save(emailTemplateForm.$valid)" novalidate>
+	<div class="view-title-container flex-row">
+		<h1>Add/Edit Email Template</h1>
+		<div class="actions">
+			<button class="btn btn-default btn-sm" ui-sref="admin.emailtemplate.list">Cancel</button>
+			<button class="btn btn-primary btn-sm" type="submit">Save</button>
+		</div>
 	</div>
-</div>
-
-<div class="panel panel-default">
-	<div class="panel-body">
+	<div class="view-body-container">
+		<div class="row hidden">
+			<div class="col-sm-12 text-right">
+				<button class="btn btn-xs btn-link" ui-sref="admin.emailtemplate.list">Cancel</button>
+				<button class="btn btn-xs btn-link" href type="submit">Save</button>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group" x-show-errors>
-					<label for="name" class="control-label">Name</label>
+					<label for="name" class="control-label">Template Name</label>
 					<input id="name" name="name" type="text" class="form-control input-sm" ng-model="emailtemplate.name" required>
 						<div ng-messages="emailtemplateForm.name.$error" role="alert">
 							<p class="help-block error-text" ng-message="required">Name is required.</p>
@@ -33,17 +34,19 @@
 				</div>
 			</div>
 		</div>
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="form-group" x-show-errors>
-          <label for="subject" class="control-label">Subject</label>
-          <input id="subject" name="subject" type="text" class="form-control input-sm" ng-model="emailtemplate.subject" required>
-          <div ng-messages="emailtemplateForm.subject.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Subject is required.</p>
-          </div>
-        </div>
-      </div>
-    </div>
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group" x-show-errors>
+					<label for="subject" class="control-label">Subject</label>
+					<input id="subject" name="subject" type="text" class="form-control input-sm" ng-model="emailtemplate.subject" required>
+					<div ng-messages="emailtemplateForm.subject.$error" role="alert">
+						<p class="help-block error-text" ng-message="required">Subject is required.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group" x-show-errors>
@@ -55,16 +58,5 @@
 				</div>
 			</div>
 		</div>
-
-		<hr>
-
-		<div class="text-right">
-			<button class="btn btn-default" ui-sref="admin.emailtemplate.list">Cancel</button>
-			<button class="btn btn-default" type="submit">Save</button>
-		</div>
-
 	</div>
-</div>
-
 </form>
-

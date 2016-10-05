@@ -1,0 +1,47 @@
+<div class="view-title-container">
+    <h1>Project Updates</h1>
+</div>
+
+<div class="view-body-container">
+    <div class="button-bar clearfix">
+        <div class="pull-left">
+            <button ng-if="project.userCan.createProjectUpdate" class="btn btn-default btn-sm" ui-sref="p.communication.create">
+        <span class="glyphicon glyphicon-plus"></span><span>Add Project Update</span>
+      </button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <table ng-table="tableParams" show-filter="true" class="communications-table table table-hover vc-table">
+            <tr ng-repeat="o in $data" ui-sref="p.communication.detail({communicationId:o._id})">
+                <td class="name-col" header-class="'name-col'"
+                    data-title="'Name'"
+                    filter="{'name':'text'}"
+                    sortable="'name'"><a ui-sref="p.communication.detail({communicationId:o._id})">{{o.name}}</a>
+                </td>
+                <td class="artifacts-col" header-class="'artifacts-col'"
+                    data-title="'Type'"
+                    filter="{'type':'text'}"
+                    sortable="'type'">{{o.type}}</td>
+                 <td class="recipients-col" header-class="'recipients-col'"
+                    data-title="'Recipients'"
+                    sortable="'recipients'">{{o.recipients ? o.recipients.length : 0}}</td>
+                 <td class="sent-col" header-class="'sent-col'"
+                    data-title="'Sent on'"
+                    sortable="'sent'">{{ o.dateSent | date : format : timezone }}</td>
+                <td class="actions-col action-x2" header-class="'actions-col action-x2'">
+                    <a class="btn btn-default btn-sm" title="Edit Project Update" ng-if="o.userCan.write" ng-click="$event.stopPropagation()"
+                        ui-sref="p.communication.edit({communicationId:o._id})">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                </td>
+            </tr>
+
+            <tr class="no-records hidden" ng-if="!$data || $data.length === 0">
+                <td colspan="2">
+                    No records found.
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</div>

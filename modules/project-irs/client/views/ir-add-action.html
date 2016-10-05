@@ -1,0 +1,81 @@
+<div class="modal-header">
+	<button type="button" class="btn btn-default close" ng-click="a.cancel()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<h3 class="modal-title">Add/Edit Enforcement Action</h3>
+</div>
+
+<form class="action-form" novalidate>
+	<div class="modal-body">
+		<div class="form-group">
+			<label class="control-label">Action</label>
+			<select class="form-control" title="Type" id="action" name="action"
+					ng-model="selected.action"
+					ng-init="selected.action = enforcement_actions[0] || selected.action"
+					ng-options="action for action in enforcement_actions" required></select>
+		</div>
+		<div class="form-group">
+			<label class="control-label">Status</label>
+			<select class="form-control" title="Type" id="status" name="status"
+					ng-model="selected.status"
+					ng-init="selected.status = enforcement_status[0] || selected.status"
+					ng-options="status for status in enforcement_status" required></select>
+		</div>
+		<div class="form-group">
+			<label>Date Issued</label>
+			<div class="form-control date-picker"
+				x-modal-date-picker 
+				x-selected-date="selected.date" 
+				ng-model="selected.date">
+				{{ selected.date | amDateFormat:'MMM Do, YYYY' }}
+				<span class="glyphicon glyphicon-calendar"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="type">Enforcement Conditions<em class="required">(Required)</em></label>
+			<div class="tag-list-container form-control">
+				<ul class="tag-list">
+					<li class="tag" ng-repeat="o in selected.condition.concat(selected.conditionArtifacts)">
+						<span class="tag-name">{{o.name}}</span>
+						<button class="btn" ng-click="removeEnforcementActionCondition(o, selected)"><span aria-hidden="true">×</span></button>
+					</li><li class="add-tag">
+						<button class="add-btn btn btn-sm"
+							ng-if="project.userCan.createInspectionReport"
+							ng-click="addEditEnforcementActionCondition(selected)" type="button" title="Add Enforcement Action Conditions"><span class="glyphicon glyphicon-plus"></span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="type">Enforcement Order<em class="required">(Required)</em></label>
+			<ul class="list-group">
+				<li class="list-group-item flex-row" ng-if="selected.orderArtifact">
+					<span class="title">{{selected.orderArtifact.name}}</span>
+					<span class="actions">
+						<button class="btn btn-sm btn-default"
+							x-artifact-list-chooser
+							x-removevcs="true"
+							x-project="project"
+							x-current="selected.orderArtifact">
+							<span class="glyphicon glyphicon-pencil"></span></button>
+					</span>
+				</li>
+				<button class="btn btn-default btn-sm" type="button"
+					ng-if="!selected.orderArtifact"
+					x-artifact-list-chooser
+					x-removevcs="true"
+					x-project="project"
+					x-current="selected.orderArtifact">Select Order</button>
+			</ul>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="type">Notes<em class="required">(Required)</em></label>
+			<input class="form-control" title="Notes" id="actionnotes" name="actionnotes" ng-model="selected.notes" required/>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" ng-click="a.cancel()">Cancel</button>
+		<button type="button" class="btn btn-primary" ng-click="a.ok()">Save</button>
+	</div>
+</form>

@@ -13,11 +13,17 @@ angular.module('templates').factory ('TemplateModel', function (ModelBase, _) {
 	//
 	var Class = ModelBase.extend ({
 		urlName : 'template',
+		lookup: function (id) {
+			return this.get ('/api/template/' + id);
+		},
 		forProject: function (projectid) {
 			return this.get ('/api/template/for/project/'+projectid);
 		},
 		forDocumentType: function (documentType) {
 			return this.get ('/api/template/for/document/'+documentType);
+		},
+		fromCode: function (code) {
+			return this.get ('/api/template/for/code/'+code);
 		},
 		newSection: function () {
 			return this.get ('/api/new/template/section');

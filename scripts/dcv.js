@@ -2,7 +2,7 @@
 
 var defaultConnectionString = "mongodb://localhost:27017/database-dev";
 
-var http = require('https');
+var http = require('request');
 var fs = require('fs');
 var path = require('path');
 var request = require('request');
@@ -109,56 +109,67 @@ var documentConversion = function documentConversion(conn, downloads_dir, limit)
                 if (item) {
                     items.forEach(function (item) {
                         var downloadURL = item.documentFileURL;
-                        var projectID = item.project._id;
+                        var projectID = item.project;
                         var dataLength = 0;
                         var uuid = require('node-uuid');
                         var generatedFilename = uuid.v1() + path.extname(downloadURL);
-                        var stream = downloads_dir + path.sep + projectID + path.sep + generatedFilename;
+                        var projectDocumentsDirectory = downloads_dir + path.sep + item.documentEPICProjectId;
+                        var stream = projectDocumentsDirectory + path.sep + generatedFilename;
+
+                        if (!fs.existsSync(projectDocumentsDirectory)) {
+                            console.log("Downloads dir does not exist. Creating...", projectDocumentsDirectory);
+                            fs.mkdirSync(projectDocumentsDirectory);
+                        }
+
                         console.log("Writing to: ", stream);
                         var file = fs.createWriteStream(stream);
                         console.log("Attempting to migrate: ", item._id);
                         console.log("Retrieving: ", downloadURL);
-                        var request = http.get(downloadURL, function (response) {
-                            response.on('data', function (chunk) {
-                                // Record the size & write to disk
-                                dataLength += chunk.length;
-                                file.write(chunk);
-                            }).on('end', function () {  // done
-                                file.end();
-                                console.log(item._id + " Download Complete, size written: " + dataLength);
-                                item.internalURL = path.sep + stream;
-                                item.internalOriginalName = item.documentFileName;
-                                item.internalName = generatedFilename;
-                                // TODO
-                                // item.internalMime = "x-pdf";
-                                item.internalExt = path.extname(item.documentFileURL);
-                                item.internalSize = dataLength;
-                                // Chagange URL to migrated, but save the pointer just in case
-                                // The rest of the model won't use this.
-                                item.documentFileURL = "migrated:" + item.documentFileURL;
-
-                                // TODO
-                                // item.internalEncoding "7bit";
-                                collection.update({_id: item._id}, {$set: item}, function () {
-                                    console.log(item._id + " Entry Updated");
-                                    shouldExit();
-                                });
-                            });
+                        //replace a100... with an IP to work around SNAT issue with a100 load balancer/firewall config.
+                        request({
+                            url: downloadURL.replace("https://a100.gov.bc.ca", "http://142.34.222.76"),
+                            headers: {
+                                'Host': 'a100.gov.bc.ca'
+                            }
                         }).on('error', function (err) {
                             console.log("****************");
                             console.log("Server error:", err);
                             console.log("Document id:" + item._id);
                             fs.unlink(stream);
+                        }).on('data', function (chunk) {
+                            // Record the size & write to disk
+                            dataLength += chunk.length;
+                            file.write(chunk);
+                        }).on('end', function () {  // done
+                            file.end();
+                            console.log(item._id + " Download Complete, size written: " + dataLength);
+                            item.internalURL = path.sep + stream;
+                            item.internalOriginalName = item.documentFileName;
+                            item.internalName = generatedFilename;
+                            // TODO
+                            // item.internalMime = "x-pdf";
+                            item.internalExt = path.extname(item.documentFileURL);
+                            item.internalSize = dataLength;
+                            // Chagange URL to migrated, but save the pointer just in case
+                            // The rest of the model won't use this.
+                            item.documentFileURL = "migrated:" + item.documentFileURL;
+
+                            // TODO
+                            // item.internalEncoding "7bit";
+                            collection.update({_id: item._id}, {$set: item}, function () {
+                                console.log(item._id + " Entry Updated");
+                                shouldExit();
+                            });
                         });
-                    });
+                    })
+                } else {
+                    console.log("No more items to process.");
+                    process.exit(total == limit ? CONTINUE_TO_PROCESS : NO_MORE_TO_PROCESS);
                 }
-            } else {
-                console.log("No more items to process.");
-                process.exit(total == limit ? CONTINUE_TO_PROCESS : NO_MORE_TO_PROCESS);
             }
         });
     });
-};
+}
 
 // Needed for invalid certs
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';

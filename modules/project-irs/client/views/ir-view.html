@@ -1,13 +1,124 @@
-<h1 class="page-title">
-	Inspection Report for {{ project.name }}
-</h1>
 
-<div class="block-content">
-	<div class="panel-body">
-		IR Details Go Here
+<div class="view-title-container flex-row">
+	<h1>Compliance Oversight &nbsp;&rsaquo;&nbsp; {{ir.name}}</h1>
+	<div class="actions">
+		<button class="btn btn-default btn-sm"
+            ng-if="ir.userCan.write"
+			ng-click="$event.stopPropagation()"
+			x-mode="'edit'"
+			ui-sref="p.ir.edit({irId:ir._id})"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span>
+		</button>
+		<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="ir"></tmpl-permissions-gear>
 	</div>
 </div>
-<div>
-	<a class="btn btn-default" ui-sref="p.ir.list">Cancel</a>
-	<a class="btn btn-success" ui-sref="p.ir.edit({irId:ir._id})">Edit</a>
+
+<div class="view-body-container">
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h2>Inspection Details</h2>
+		</div>
+		<div class="panel-body detail-panel">
+			<div class="row">
+				<div class="detail-row col-md-6">
+					<label>Name</label>
+					<span class="value">{{ ::ir.name }}</span>
+				</div>
+				<div class="detail-row col-md-6">
+					<label>Date of Inspection</label>
+					<span class="value">{{ ir.irDate | amDateFormat:'MMM Do, YYYY'}}</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12 detail-row" ng-if="ir.conditionArtifacts.length > 0">
+					<label>Certificate Requirements Inspected</label>
+					<table class="anchor-list">
+						<tr>
+							<td ng-repeat="o in ir.conditionArtifacts">
+								<!-- If this is an artifact, it links to an artifact route -->
+								<a ng-if="o.valuedComponents.length == 0" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}{{$last ? '' : ', '}}</a>
+								<!-- If this is a vc artifact, it links to a vc route -->
+								<a ng-if="o.valuedComponents.length == 1" ui-sref="p.vc.detail({vcId:o.valuedComponents[0]._id})">{{o.name}}{{$last ? '' : ', '}}</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12 detail-row" ng-if="ir.conditions.length > 0">
+					<label>Conditions</label>
+					<ul class="anchor-list">
+						<li ng-repeat="o in ir.conditions" ui-sref="p.projectcondition.detail({conditionId:o._id})">
+							<a class="title">{{o.name}}</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12 detail-row">
+					<label>Inspection Record</label>
+					<div class="anchor-list">
+						<a ui-sref="p.artifact.view({artifactId:ir.artifact._id})">{{ir.artifact.name}}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h2>Enforcement Actions</h2>
+		</div>
+		<table ng-table="tableParams" class="enforcement-table table">
+			<tr ng-repeat="o in ir.enforcementActions">
+				<td class="enforcement-col"
+					header-class="'enforcement-col'"
+					data-title="'Action'"
+					sortable="'o.action'">
+					<strong class="enforcement-name">{{o.action}}</strong>
+					<span class="enforcement-notes" ng-if="o.notes">{{o.notes}}</span>
+				</td>
+				<td data-title="'Enforcement Conditions'">
+					<div class="anchor-list">
+						<div>
+							<div ng-repeat="cell in o.condition.concat(o.conditionArtifacts)">
+								<a ng-if="cell._schemaName == 'Artifact' && cell.valuedComponents.length"
+									ui-sref="p.vc.detail({vcId:cell.valuedComponents[0]._id})">{{cell.name}}</a>
+								<a ng-if="cell._schemaName == 'Artifact' && !cell.valuedComponents.length"
+									ui-sref="p.artifact.view({artifactId:cell._id})">{{cell.name}}</a>
+								<a ng-if="cell._schemaName == 'ProjectCondition'"
+									ui-sref="p.projectcondition.detail({conditionId:cell._id})">{{cell.name}}</a>
+							</div>
+						</div>
+					</div>
+				</td>
+				<td data-title="'Order'">
+					<ul class="anchor-list">
+						<a ui-sref="p.artifact.view({artifactId:o.orderArtifact._id})">{{o.orderArtifact.name}}</a>
+					</ul>
+				</td>
+				<td class="status-col"
+					header-class="'status-col'"
+					data-title="'Status'"
+					sortable="'status'">
+					<span class="label"
+						ng-class="{'label-primary': o.status == 'Open',
+									'label-success': o.status == 'Resolved',
+									'label-default': o.status == 'Recinded'}">{{o.status}}</span>
+				</td>
+				<td class="date-col"
+					header-class="'date-col'"
+					data-title="'Date Issued'"
+					sortable="'date'">{{o.date | amDateFormat:'MMM Do, YYYY'}}</td>
+				<tr ng-show="ir.enforcementActions.length == 0">
+					<td colspan="5">No Enforcement Actions found</td>
+				</tr>
+			</tr>
+		</table>
+	</div>
+
+	<div class="form-footer no-border clearfix hidden">
+		<a class="back-btn btn btn-link pull-left" ui-sref="p.ir.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Inspections</a>
+	</div>
+
 </div>

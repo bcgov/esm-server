@@ -12,7 +12,21 @@ module.exports = DBModel.extend ({
 	name : 'ProjectCondition',
 	plural : 'projectconditions',
 	getForProject: function (projectId) {
-		return this.findMany ({project:projectId});
+		return this.list ({project:projectId});
 	},
+	publish: function (pcId) {
+		return this.findById(pcId)
+			.then(function(pc) {
+				pc.publish();
+				return pc.save();
+			});
+	},
+	unpublish: function(pcId) {
+		return this.findById(pcId)
+			.then(function(pc) {
+				pc.unpublish();
+				return pc.save();
+			});
+	}
 });
 

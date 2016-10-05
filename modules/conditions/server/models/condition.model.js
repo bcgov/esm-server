@@ -17,15 +17,15 @@
 
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('Condition', {
+module.exports = require ('../../../core/server/controllers/core.schema.controller')('Condition', {
 	__audit            : true,
 	__codename         : 'unique',
+	__access           : [],
 	subject            : {type:String, default: ''},
 	reportRequirements : {type:String, default: ''},
 	sector             : { type:String, default:'Mining', enum:['Mining', 'Energy', 'Transportation', 'Water Management', 'Industrial', 'Waste Management', 'Waste Disposal', 'Food Processing', 'Tourist Destination', 'Other']},
 	stages             : [{type:String, enum:['Pre-Construction', 'Construction', 'Operations', 'Decommissioning']}],
-	pillars             : [{type:String, enum:['Environment', 'Economic', 'Social', 'Heritage', 'Health']}]
+	pillars            : [{type:String, enum:['Environment', 'Economic', 'Social', 'Heritage', 'Health']}]
 });
 
 

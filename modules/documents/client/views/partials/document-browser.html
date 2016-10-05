@@ -1,95 +1,265 @@
 <section class="document-browser-view">
+
+	<!-- PHASE DOCUMENTS - PROTOTYPE -->
+	<div class="panel panel-default accordion hidden">
+		<div class="panel-heading" role="tab" id="phase1">
+			<a class="clearfix" role="button" data-toggle="collapse" href="#phase1Collapse" aria-expanded="true" aria-controls="phase1Collapse">
+				<span class="glyphicon glyphicon-plus pull-left"></span>
+				<span class="glyphicon glyphicon-minus pull-left"></span>
+				<h2 class="pull-left">Phase Title</h2>
+			</a>
+		</div>
+		<div id="phase1Collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="ir1Collapse">
+			<div class="actions-table-container">
+
+				<table ng-table="vm.tableParams" class="table table-striped document-browser" show-filter="false">
+					<tr class="hidden" ng-repeat="user in $data">
+						<td class="name-col" header-class="'name-col'" title="'Name'" filter="{ name: 'text'}" sortable="'name'">
+							{{user.name}}</td>
+						<td title="'Status'" filter="{ age: 'number'}" sortable="'status'">
+							{{user.age}}</td>
+						<td title="'Last Modified'" filter="{ age: 'number'}" sortable="'last-modified'">
+							{{user.age}}</td>
+						<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+							<a class="btn btn-link btn-sm" href="javascript:void();">
+								<span class="glyphicon glyphicon-option-horizontal"></span>
+							</a>
+						</td>
+					</tr>
+					<!-- PROTOTYPE ROWS -->
+					<tr>
+						<td class="name-col" header-class="'name-col'" title="'Name'" filter="{ name: 'text'}" sortable="'name'">
+							<span class="glyphicon glyphicon-folder-close"></span>Folder Name</td>
+						<td title="'Status'" filter="{ age: 'number'}" sortable="'status'">
+							Status</td>
+						<td title="'Last Modified'" filter="{ age: 'number'}" sortable="'last-modified'">
+							Last Modified</td>
+						<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+							<a class="btn btn-link btn-sm" href="javascript:void();">
+								<span class="glyphicon glyphicon-option-horizontal"></span>
+							</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="name-col" header-class="'name-col'" title="'Name'" filter="{ name: 'text'}" sortable="'name'">
+							<span class="glyphicon glyphicon-folder-close"></span>Folder Name</td>
+						<td title="'Status'" filter="{ age: 'number'}" sortable="'status'">
+							Status</td>
+						<td title="'Last Modified'" filter="{ age: 'number'}" sortable="'last-modified'">
+							Last Modified</td>
+						<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+							<a class="btn btn-link btn-sm" href="javascript:void();">
+								<span class="glyphicon glyphicon-option-horizontal"></span>
+							</a>
+						</td>
+					</tr>
+					<tr class="selected">
+						<td class="name-col" header-class="'name-col'" title="'Name'" filter="{ name: 'text'}" sortable="'name'">
+							<span class="glyphicon glyphicon-file"></span>File Name</td>
+						<td title="'Status'" filter="{ age: 'number'}" sortable="'status'">
+							Status</td>
+						<td title="'Last Modified'" filter="{ age: 'number'}" sortable="'last-modified'">
+							Last Modified</td>
+						<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+							<a class="btn btn-link btn-sm" href="javascript:void();">
+								<span class="glyphicon glyphicon-option-horizontal"></span>
+							</a>
+						</td>
+					</tr><!-- / PROTOTYPE ROWS -->
+				</table>
+
+				<table class="table table-striped hidden">
+					<thead>
+						<tr>
+							<th class="name-col">Name</th>
+							<th class="status-col">Status</th>
+							<th class="date-col">Last Modified</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="name-col">
+								<span class="glyphicon glyphicon-folder-close"></span>
+								<span>Folder Name</span>
+							</td>
+							<td class="status-col"></td>
+							<td class="date-col">mm/dd/yyyy</td>
+						</tr>
+						<tr>
+							<td class="name-col">
+								<span class="glyphicon glyphicon-folder-close"></span>
+								<span>Folder Name</span>
+							</td>
+							<td class="status-col"></td>
+							<td class="date-col">mm/dd/yyyy</td>
+						</tr>
+						<tr>
+							<td class="name-col">
+								<span class="glyphicon glyphicon-folder-close"></span>
+								<span>Folder Name</span>
+							</td>
+							<td class="status-col"></td>
+							<td class="date-col">mm/dd/yyyy</td>
+						</tr>
+						<tr>
+							<td class="name-col">
+								<span class="glyphicon glyphicon-file"></span>
+								<span>File Name</span>
+							</td>
+							<td class="status-col"></td>
+							<td class="date-col">mm/dd/yyyy</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div><!-- / PHASE DOCUMENTS - PROTOTYPE -->
+
 	<div class="panel panel-default">
-		<div class="panel-heading clearfix">
-			<h2 class="pull-left">Documents</h2>
-			<div class="panel-heading-actions pull-right">
-				<a href class="btn-link"
+		<div class="panel-heading flex-row">
+			<h2>Documents</h2>
+			<div class="actions">
+				<a href class="btn btn-default btn-sm"
 					x-modal-document-upload-classify
 					x-project="docBrowser.project"
-					ng-if="(docBrowser.authentication.user) && environment === 'EAO'"><span class="glyphicon glyphicon-upload"></span>Upload</a>
-				<a href class="btn-link"
+           			x-artifact="docBrowser.artifact"
+           			x-doc-location-code="docBrowser.docLocationCode"
+					ng-if="docBrowser.project.userCan.createDocument && environment === 'EAO'"><span class="glyphicon glyphicon-open"></span><span>Upload Documents</span></a>
+				<a href class="btn btn-default btn-sm"
 					x-modal-document-upload-classify-mem
 					x-project="docBrowser.project"
-					ng-if="(docBrowser.authentication.user) && environment === 'MEM'"><span class="glyphicon glyphicon-upload"></span>Upload</a>	
+           			x-artifact="docBrowser.artifact"
+           			x-doc-location-code="docBrowser.docLocationCode"
+					ng-if="(docBrowser.authentication.user) && environment === 'MEM'"><span class="glyphicon glyphicon-open"></span><span>Upload Documents</span></a>
 			</div>
 		</div>
-		<div class="panel-body">
-			
-			<div class='col-sm-4 col-no-padding vertical-scroll col-border-right'>
-				<ul class="small list-unstyled list-documents">
-					<li
-						ng-click="docBrowser.filterList(row)"
-						class="row-folder clickable row-folder-depth-{{ row.depth }}"
-						ng-repeat="row in docBrowser.docTypes"
-						ng-class="{'active btn-primary': docBrowser.filterDocsSelected(row)}">
-						<span class="glyphicon glyphicon-play arrow"></span>
-						{{ row.label }}
-					<li>
-				</ul>
-			</div>
-			
-			<div class='col-sm-4 col-no-padding vertical-scroll col-border-right'>
-				<ul class="small list-unstyled list-documents list-indent-left">
+		<div class="file-browser clearfix">
 
-					<li
-						class="row-document clickable"
-						ng-click="docBrowser.filterSummary(doc)"
-						ng-repeat="doc in docBrowser.documentFiles | filter:filterLinage:true"
-						ng-class="{'active btn-primary': filterSummary._id === doc._id}">
-						<span class="glyphicon glyphicon-play arrow"></span>
-						<span class="glyphicon glyphicon-file"></span>&nbsp;{{ doc.internalOriginalName | removeExtension }}
+			<!-- FOLDER HIERARCHY -->
+			<div class="col-sm-6 col-md-4 file-browser-list">
+				<ul ng-if="environment === 'EAO'">
+					<li class="file-browser-category clickable"
+						ng-class="{'active btn-primary': docBrowser.filterDocsSelected(row)}"
+						ng-click="docBrowser.filterList(row)"
+						ng-hide="row.label === 'Not Specified'"
+						ng-repeat="row in docBrowser.docTypes"
+						ng-if="row.label === 'ARTIFACT'">
+						Recent Documents
 					</li>
 				</ul>
-			</div>
-			
-			<div class='col-sm-4 col-no-padding vertical-scroll' ng-class="{'bg-muted': !filterSummary}" >
-				<div class="row" ng-show="filterSummary">
-					<div class="col-sm-10 doc-detail-col">
-						<ul class="small list-unstyled list-documents list-indent-left" >
-							<li>
-								<h3>
-									{{ filterSummary.internalOriginalName | removeExtension }}
-								</h3>
-								<p>System File Title: {{ filterSummary.internalName }}</p>
-								<p>Date Posted: {{ filterSummary.projectFolderDatePosted | date : format : timezone }}</p>
-								<p>File Format: {{ filterSummary.internalMime }}</p>
-								<p>File Size: {{ filterSummary.MBytes }} MB</p>
-								<p>In Review?: {{ filterSummary.documentIsInReview?'Yes':'No' }}</p>
-								<!-- NB: Project folders are authors in EPIC:  We override this behavior here -->
-								<p>Author: {{ filterSummary.documentAuthor }}</p>
-								<p>Current Revision: <a href="/api/document/{{ filterSummary._id }}/fetch"
-														target="_blank">{{ filterSummary.documentVersion }} <span class="glyphicon glyphicon-download"></span></a></p>
-								<p>Latest Revision: {{ filterSummary.documentIsLatestVersion?'Yes':'No' }} </p>
-							</li>
-							<li>
-								Revisions:
-							</li>
-							<li ng-repeat="docVersion in docBrowser.docVersions">
-								<a href="{{ docVersion.documentFileURL }}">{{ docVersion.dateUpdated | date : format : timezone}}: {{ docVersion.documentVersion }} <span class="glyphicon glyphicon-download"></span></a>
-							</li>
-						</ul>
-					</div>
-					<div class="col-sm-2 doc-action-col">
-						<a
-							href="/api/document/{{ filterSummary._id }}/fetch"
-							target="_blank" title="Download">
-								<span class="glyphicon glyphicon-download"></span>
-						</a>
+				<div class="file-browser-category" ng-if="environment === 'EAO'">Documents</div>
+				<ul>
+					<li class="row-folder clickable row-folder-depth-{{ row.depth }}" ng-class="{'active btn-primary': docBrowser.filterDocsSelected(row)}"
+						ng-click="docBrowser.filterList(row)"
+						ng-hide="row.label === 'Not Specified' || !row.render"
+						ng-repeat="row in docBrowser.docTypes"
+						ng-if="row.label != 'ARTIFACT'">
+						<span class="glyphicon glyphicon-folder-{{row.state}}"></span>
+						{{ row.label }}
+					</li>
+				</ul>
+			</div><!-- / FOLDER HIERARCHY -->
 
-						<a
-							ng-if="docBrowser.allowLink"
-							href
-							ng-click="docBrowser.toggleDocumentLink( filterSummary )"
-							title="Link">
-								<span class="glyphicon glyphicon-link"></span>
-						</a>
+			<!-- DOCUMENT LIST -->
+			<div class="col-sm-6 col-md-4 file-browser-list">
+				<ul>
+					<li class="row-document clickable" ng-class="{'active btn-primary': filterSummary._id === doc._id}"
+						ng-click="docBrowser.filterSummary(doc)"
+						ng-hide="doc.documentSource === 'COMMENT'"
+						ng-repeat="doc in docBrowser.documentFiles | filter:filterLinage:true">
+						<span class="glyphicon glyphicon-file"></span>
+						{{ doc.internalOriginalName | removeExtension }}
+					</li>
+				</ul>
+			</div><!-- DOCUMENTS LIST -->
 
-					</div>
+			<!-- DOCUMENT DETAILS -->
+			<div class="col-sm-12 col-md-4 file-browser-details">
+				<div ng-show="filterSummary">
+					<!-- DOCUMENT INFO -->
+					<div class="doc-info">
+						<h3>{{ filterSummary.internalOriginalName | removeExtension }}</h3>
+						<span class="label label-success" ng-if="filterSummary.isPublished && docBrowser.authentication.user">Published</span>
+						<div class="detail-row">
+							<label>System File Name</label>
+							<span class="value">{{ filterSummary.internalName }}</span>
+						</div>
+						<div class="detail-row">
+							<label>Date Posted</label>
+							<span class="value">{{ filterSummary.projectFolderDatePosted | date : format : timezone }}</span>
+						</div>
+						<div class="detail-row">
+							<label>File Format</label>
+							<span class="value">{{ filterSummary.internalMime }}</span>
+						</div>
+						<div class="detail-row">
+							<label>File Size</label>
+							<span class="value">{{ filterSummary.MBytes }} MB</span>
+						</div>
+						<div class="detail-row">
+							<label>In Review</label>
+							<span class="value">{{ filterSummary.documentIsInReview?'Yes':'No' }}</span>
+						</div>
+
+						<!-- NB: Project folders are authors in EPIC:  We override this behavior here -->
+						<div ng-show="filterSummary.documentAuthor" class="detail-row">
+							<label>Author</label>
+							<span class="value">{{ filterSummary.documentAuthor }}</span>
+						</div>
+
+						<div class="detail-row">
+							<label>Current Revision</label>
+							<div class="list-group">
+								<a class="list-group-item flex-row" href="/api/document/{{ filterSummary._id }}/fetch" target="_self">
+									<div class="title">Revision {{ filterSummary.documentVersion }}</div>
+									<div class="actions">
+										<span class="glyphicon glyphicon-download-alt pull-right"></span>
+									</div>
+								</a>
+							</div>
+						</div>
+
+						<div class="detail-row">
+							<label>Latest Revision:</label>
+							<span class="value">{{ filterSummary.documentIsLatestVersion?'Yes':'No' }}</span>
+						</div>
+
+						<div clas="detail-row">
+							<label>Revisions</label>
+							<div class="list-group">
+								<div ng-repeat="docVersion in docBrowser.docVersions">
+									<a class="list-group-item flex-row" href="/api/document/{{ docVersion._id }}/fetch" target="_self">
+									<div class="title">Revision {{ docVersion.documentVersion }}</div>
+									<div class="actions">
+										<span class="glyphicon glyphicon-download-alt pull-right"></span>
+									</div>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div><!-- / DOCUMENT INFO -->
+
+					<!-- DOCUMENT ACTIONS -->
+					<div class="doc-actions clearfix">
+						<a class="btn btn-default btn-sm pull-left" ng-if="docBrowser.allowLink" href ng-click="docBrowser.toggleDocumentLink( filterSummary )" title="Link Document">
+							<span class="glyphicon glyphicon-link"></span><span>Link</span></a>
+						<div class="pull-right">
+						<a class="btn btn-default btn-sm" href="/api/document/{{ filterSummary._id }}/fetch" target="_self" title="Download Document">
+							<span class="glyphicon glyphicon-download-alt"></span></a>
+						<a class="btn btn-default btn-sm" href ng-click="docBrowser.deleteDocument(filterSummary._id)" ng-if="(filterSummary.userCan.delete)" title="Delete Document">
+							<span class="glyphicon glyphicon-trash"></span></a>
+						<tmpl-permissions-gear
+							class="permission-btn"
+							x-context="project"
+							x-object="filterSummary"
+							ng-if="docBrowser.project.userCan.managePermissions"></tmpl-permissions-gear>
+						</div>
+					</div><!-- / DOCUMENT ACTIONS -->
 				</div>
 
-			</div>
+			</div><!-- / DOCUMENT DETAILS -->
 		</div>
-		
+
 	</div>
 
 </section>

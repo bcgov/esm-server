@@ -1,107 +1,75 @@
-<label class="control-label">Upload Documents</label>
-<div class="well well-sm container-fluid">
-	<div class="row">
-		<div class="col-md-12">
-		    <div ngf-drop ngf-select ng-model="files" class="drop-box"
-		        ngf-drag-over-class="dragover"
-		        ngf-multiple="true"
-		        ngf-allow-dir="true"
-		        ngf-max-total-size="300MB">Drop files here or click to upload
-		    </div>
+<div class="upload-documents-view">
+
+	<!-- UPLOAD -->
+	<div class="form-group">
+		<label>Select Files for Upload</label>
+
+		<div class="alert alert-danger" ngf-no-file-drop >
+			File Drag and Drop is not supported for this browser.
 		</div>
+
+		<div class="upload-target" title="Drag and Drop Files here or Select Files. Attachments must be in PDF format and limited to 5 megabytes."
+			ngf-drop ngf-select 
+			ng-model="files"
+			ngf-drag-over-class="dragover"
+			ngf-multiple="true"
+			ngf-allow-dir="true"
+			ngf-max-total-size="1MB">
+			<div class="instructions"><strong>Drag and Drop Files Here</strong> or <strong>Select Files</strong></div>
+			<div class="requirements">Total upload size limited to 300MB.</div>
+		</div>
+
+		<div class="list-group">
+			<li class="list-group-item flex-row" ng-class="{'danger': f.$error}" ng-repeat="f in docUpload.fileList">
+				<div class="icon">
+					<span class="glyphicon glyphicon-file"></span>
+				</div>
+				<div class="title">{{f.name}} {{f.$error}} {{f.$errorParam}}</div>
+				<div class="actions">
+					<div class="file-progress" ng-if="!f.$error && f.progress">
+						<div class="progress">
+							<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">
+								<span class="sr-only">{{ f.progress }}</span>
+							</div>
+						</div>
+					</div>
+					<button class="btn btn-default btn-sm" ng-if="!f.$error && !f.progress" ng-click="docUpload.removeFile(f)" title="Remove File">
+						<span class="glyphicon glyphicon-remove"></span>
+					</button>
+				</div>
+			</li>
+		</div>
+
+	</div><!-- UPLOAD -->
+
+	<!-- REQUIRED FIELDS -->
+	<div class="form-group">
+    <div ng-show="docUpload.allowArtifactSelect">
+      <label class="control-label">Select Related Content<em>Required</em></label>
+      <select class="form-control"
+              ng-options="stype as stype.name for stype in docUpload.artifacts"
+              ng-model="docUpload.selectedArtifact"></select>
+    </div>
+    <div ng-hide="docUpload.allowArtifactSelect">
+      <label class="control-label">Related Content</label>
+      <input class="form-control" disabled ng-model="docUpload.selectedArtifact.name" />
+    </div>
 	</div>
 
-	<div class="row">
-		<div class="col-sm-4">
-		
-		</div>
-	</div>
-
-	<table class="table table-condensed">
-		<thead>
-			<tr class="small" colspan="3">
-				<th>Type and Destination for New Documents</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td width="33%" style="padding-top: 5px;">
-					<div class="form-group">
-						<label class="control-label">Phase</label>
-						<select class="form-control" ng-options="type as type.name group by (type.group | uppercase) for type in docUpload.docTypes track by type.code" ng-model="docUpload.type"></select>					
-					</div>
-				</td>
-				<td width="34%" style="padding-top: 5px;">
-					<div class="form-group">
-						<label class="control-label">Deliverable</label>
-						<select class="form-control" ng-options="stype as stype.name group by (stype.group | uppercase) for stype in docUpload.docSubTypes track by stype.code" ng-model="docUpload.subType"></select>					
-					</div>
-				</td>
-				<td width="33%" style="padding-top: 5px;">
-
-					<!-- there are no folders or a custom folder is requested -->
-					<div class="form-group ng-hide" ng-show="docUpload.docFolderNames.length === 0 || docUpload.customFolder">
-						<a href class="control-label pull-right" ng-click="docUpload.customFolder = !docUpload.customFolder">
-							<span>From Existing</span>
-						</a>
-
-						<label class="control-label">Document Category / Folder</label>
-						<input class="form-control ng-cloak" x-select-on-focus ng-model="docUpload.folderName" placeholder="New Folder Name">
-					</div>
-
-					<div class="form-group ng-hide" ng-show="docUpload.docFolderNames.length !== 0 && !docUpload.customFolder">
-						<a href class="control-label pull-right" ng-click="docUpload.customFolder = !docUpload.customFolder">
-							<span>New Folder</span>
-						</a>
-
-						<label class="control-label">Document Category / Folder</label>
-						<select class="form-control" ng-options="ftype for ftype in docUpload.docFolderNames | unique: 'projectFolderName'" ng-model="docUpload.folderName"></select>
-					</div>
-
-
-				</td>
-			</tr>
-		</tbody>
-	</table>
-
-	<table class="table table-condensed">
-		<thead>
-			<tr class="small">
-				<th>Files</th>
-				<th width="10%"></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ngf-no-file-drop>
-				<td class="text-center" colspan=2>
-					<p class="form-control-static">File Drag/Drop is not supported for this browser</p>
-				</td>
-			</tr>
-			<tr ng-if="!files">
-				<td class="text-center" colspan=2 class="text-center">
-					<p class="form-control-static">Drag a file to the dashed region above to upload.</p>
-				</td>
-			</tr>
-			<tr ng-repeat="f in docUpload.fileList" ng-class="{'danger': f.$error}">
-
-				<td ng-if="f.$error" colspan=2>
-					<p class="form-control-static text-danger">FILE ERROR: {{f.name}} {{f.$error}} {{f.$errorParam}}</p>
-				</td>
-
-				<td ng-if="!f.$error">
-					<p class="form-control-static">{{f.name}} {{f.$error}} {{f.$errorParam}}</p>
-				</td>
-				<td ng-if="!f.$error && !f.progress" class="text-right">
-					<p class="form-control-static"><a href ng-click="docUpload.removeFile(f)"><span class="glyphicon glyphicon-remove"></span></a></p>
-				</td>
-
-				<td ng-if="!f.$error && f.progress">
-					<div class="progress" ng-show="f.progress >= 0" style="margin-top: 7px;"><div class="progress-bar progress-bar-success" role="progressbar" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">{{ f.progress }}</div></div>
-				</td>
-
-			</tr>
-		</tbody>
-	</table>
+	<div class="form-group">
+    <div ng-show="docUpload.allowDocLocationSelect">
+      <label class="control-label">Select Document Type<em>Required</em></label>
+      <select class="form-control"
+              ng-options="docLocation as docLocation.name for docLocation in docUpload.docLocations"
+              ng-model="docUpload.selectedDocLocation"></select>
+    </div>
+    <div ng-hide="docUpload.allowDocLocationSelect">
+      <label class="control-label">Document Type</label>
+      <input class="form-control" disabled ng-model="docUpload.selectedDocLocation.name" />
+    </div>
+	</div><!-- / REQUIRED FIELDS -->
 
 </div>
+
+
 

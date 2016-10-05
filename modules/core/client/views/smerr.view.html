@@ -1,0 +1,19 @@
+<div class="main-panel">
+	<div class="view-title-container">
+		<h1>Authentication Error</h1>
+	</div>
+
+    <div class="view-body-container">
+        <!-- TODO: Siteminder! fill this out with different messages/information according to the error condition -->
+        <p ng-show="userType === 'business'">business bceid user is not known to ESM</p>
+        <p ng-show="userType === 'basic'">bceid user is not known to ESM</p>
+        <p ng-show="userType === 'individual'">bceid (individual) user is not known to ESM</p>
+        <p ng-show="userType === 'internal'">idir user is not known to ESM</p>
+        <p ng-show="userType === 'unknown'">no siteminder headers provided...</p>
+        <p>
+            <a class="btn btn-sm btn-primary" ui-sref="projects" href>
+                <span class="glyphicon glyphicon-chevron-left"></span><span>Back to Home</span></a>
+        <p>
+    </div>
+
+</div>

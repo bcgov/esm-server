@@ -1,0 +1,50 @@
+<div class="modal-header">
+	<button type="button" class="btn btn-default close" ng-click="s.cancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+	<h3 class="modal-title">{{s.title || 'Select Organization'}}</h3>
+</div>
+
+<div class="modal-body">
+	<div class="panel panel-default no-margin">
+		<table class="table table-hover table-scroll" ng-table="tableParams" show-filter="true">
+			<tr ng-class="{'active': isChecked(o)}" ng-repeat="o in $data" ng-click="toggleItem(o)">
+				<td class="name-col"
+					header-class="'name-col'"
+					data-title="'Name'"
+					filter="{'name':'text'}"
+					sortable="'name'">
+					<input class="hidden" ng-click="toggleItem(o)" type="radio" ng-checked="isChecked(o)"/>{{o.name}}
+				</td>
+				<td class="name-col" 
+					header-class="'nacompanyLegalme-col'" 
+					data-title="'Legal Name'" 
+					filter="{'companyLegal':'text'}" 
+					sortable="'companyLegal'">{{o.companyLegal}}</a>
+				</td>
+				<td class="name-col" 
+					header-class="'nacompanyLegalme-col'" 
+					data-title="'DBA'" 
+					filter="{'company':'text'}" 
+					sortable="'company'">{{o.company}}</a>
+				</td>
+				<td class="name-col" 
+					header-class="'name-col'" 
+					data-title="'City'" 
+					filter="{'city':'text'}" 
+					sortable="'city'">{{o.city}}</a>
+				</td>
+			</tr>
+			<tr class="no-records" ng-if="!$data || $data.length === 0">
+				<td colspan="2">
+					No records found.
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" ng-click="s.cancel()">Cancel</button>
+	<button type="button" class="btn btn-primary" ng-click="s.ok()">Save</button>
+</div>

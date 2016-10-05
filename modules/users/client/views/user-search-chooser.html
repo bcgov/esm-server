@@ -1,0 +1,120 @@
+<div class="modal-header">
+	<button type="button" class="btn btn-default close" ng-click="s.cancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+	<h3 class="modal-title">{{s.title || 'Select Contacts'}}</h3>
+</div>
+
+<div class="modal-body">
+
+	<div class="inline-search-panel">
+		<div class="inline-search-fields">
+			<div class="form-group">
+				<label class="control-label">Name</label>
+				<input class="form-control" type="text" ng-model="s.name"></input>
+			</div>
+			<div class="form-group">
+				<label class="control-label">Email</label>
+				<input class="form-control" type="text" ng-model="s.email"></input>
+			</div>
+			<div class="form-group col-md-3">
+				<label class="control-label">Organization</label>
+				<input class="form-control" type="text" ng-model="s.org"></input>
+			</div>
+			<div class="form-group">
+				<label class="control-label">Project Group</label>
+				<select class="form-control" name="groupId" ng-model="s.groupId">
+					<option ng-repeat="option in s.groups" ng-value="option.id">{{option.title}}</option>
+				</select>
+			</div>
+		</div>
+		<button class="btn btn-primary btn-sm" ng-click="s.search()">FIND</button>
+	</div>
+
+	<!-- Show this DIV if we are waiting on results -->
+	<div class="loading" ng-show="s.searching"></div>
+
+
+	<table class="user-table table table-hover table-scroll" ng-table="tableParams" show-filter="false">
+		
+		<!-- MULTI-SELECT TABLE FUNCTIONALITY -->
+		<!-- Toggle Functionality should be accessible via the entire ROW, in exception of the 'Select All' header column -->
+		<!-- Class on the TR element for a SELECTED item should include the 'active' selector (see ng-class on TR element) -->
+
+		<tr ng-class="{'active': isChecked(o)}"
+			ng-repeat="o in $data" 
+			ng-click="toggleItem(o)">
+			<td class="checkbox-col"
+				header-class="'checkbox-col'"
+				header="'ng-table/headers/checkbox.html'">
+				<input type="checkbox" ng-model="checkboxes.items[o._id]" />
+			</td>
+			<td class="name-col" 
+				header-class="'name-col'" 
+				data-title="'Name'" 
+				filter="{'displayName':'text'}" 
+				sortable="'displayName'">{{o.displayName}}</a>
+			</td>
+			<td class="name-col" 
+				header-class="'name-col'" 
+				data-title="'Email'" 
+				filter="{'email':'text'}" 
+				sortable="'email'">{{o.email}}</a>
+			</td>
+			<td class="name-col" 
+				header-class="'name-col'" data-title="'Organization'" filter="{'orgName':'text'}" sortable="'orgName'">{{o.org ? o.org.name : o.orgName}}</a>
+			</td>
+		</tr>
+
+		<!-- SINGLE-SELECT TABLE FUNCTIONALITY -->
+		<!-- Toggle Functionality should be accessible via the entire ROW -->
+		<!-- No checkbox column exists (either in the THEAD or TBODY). The 'header' property needs to be removed in single-select cases -->
+		<!-- Toggle functionality
+		<!-- Class on the TR element for a SELECTED item should include the 'active' selector (see ng-class on TR element) --> 
+		
+		<!--
+		<tr ng-class="{'active': isChecked(o)}"
+			ng-repeat="o in $data" 
+			ng-click="toggleItem(o)">
+			<td class="name-col" 
+				header-class="'name-col'" 
+				data-title="'Name'" 
+				filter="{'displayName':'text'}" 
+				sortable="'displayName'">{{o.displayName}}</a>
+			</td>
+			<td class="name-col" 
+				header-class="'name-col'" 
+				data-title="'Email'" 
+				filter="{'email':'text'}" 
+				sortable="'email'">{{o.email}}</a>
+			</td>
+			<td class="name-col" 
+				header-class="'name-col'" data-title="'Organization'" filter="{'orgName':'text'}" sortable="'orgName'">{{o.org ? o.org.name : o.orgName}}</a>
+			</td>
+		</tr>
+		<tr class="no-records" ng-if="!$data || $data.length === 0">
+			<td colspan="2">
+				No records found.
+			</td>
+		</tr>
+		-->
+
+		<tr class="no-records" ng-if="!$data || $data.length === 0">
+			<td colspan="2">
+				No records found.
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" ng-click="s.cancel()">Cancel</button>
+	<button type="button" class="btn btn-primary" ng-click="s.ok()">Add</button>
+</div>
+
+<!-- this is actually what we watch to check/uncheck all checkboxes -->
+<script type="text/ng-template" id="ng-table/headers/checkbox.html">
+	<div ng-if="!singleselectmode || singleselectmode != 'true'">
+		<input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox" value="" />
+	</div>
+</script>

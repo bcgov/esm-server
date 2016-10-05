@@ -16,7 +16,7 @@
 						<option value="add">Add...</option>
 					</optgroup>
 					<optgroup label="Organizations">
-						<option ng-repeat="org in utilUsers.orgs" value="org:{{ org._id }}">{{ org.name }}</option>
+						<option ng-repeat="org in utilUsers.orgs | orderBy:'name'" value="org:{{ org._id }}">{{ org.name }}</option>
 					</optgroup>
 				</select>
 			</p>
@@ -129,7 +129,7 @@
 						<button class="btn btn-block btn-sm btn-layer" ng-click="utilUsers.removeUserFromSelected(user)">{{ user.displayName || user.username || user.email }} <em class="small">{{ user.email }}</em></button>
 					</li>
 					<li class="no-lower-padding small" ng-if="selectedFiltered.length === 0">
-						Select users from the left column to add them to this group.
+						Select contacts from the left column to add them to this group.
 					</li>
 				</ul>
 			</div>

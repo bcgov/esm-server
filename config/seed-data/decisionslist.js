@@ -34,10 +34,40 @@ var milestones = [{
     description: 'Valued Component',
     artifactType: 'Valued Component'
 },{
-    code: 'schedule-a',
-    name: 'Schedule A',
-    description: 'Schedule A',
-    artifactType: 'Schedule A'
+    code: 'section-11-schedule-a',
+    name: 'Section 11 Schedule A',
+    description: 'Section 11 Schedule A',
+    artifactType: 'Section 11 Schedule A'
+},{
+    code: 'section-34-order',
+    name: 'Section 34 Order',
+    description: 'Section 34 Order',
+    artifactType: 'Section 34 Order'
+},{
+    code: 'section-36-order',
+    name: 'Section 36 Order',
+    description: 'Section 36 Order',
+    artifactType: 'Section 36 Order'
+},{
+    code: 'section-36-schedule-a',
+    name: 'Section 36 Schedule A',
+    description: 'Section 36 Schedule A',
+    artifactType: 'Section 36 Schedule A'
+},{
+    code: 'section-36-schedule-b',
+    name: 'Section 36 Schedule B',
+    description: 'Section 36 Schedule B',
+    artifactType: 'Section 36 Schedule B'
+},{
+    code: 'inspection-report',
+    name: 'Inspection Report',
+    description: 'Inspection Report',
+    artifactType: 'Inspection Report'
+},{
+    code: 'environmental-assessment-certificate',
+    name: 'Environmental Assessment Certificate',
+    description: 'Environmental Assessment Certificate',
+    artifactType: 'Environmental Assessment Certificate'
 }];
 
 var activities = [{
@@ -177,25 +207,6 @@ var templates = [{
             "meta" : [
                 {
                     "default" : "",
-                    "label" : "reason for decision",
-                    "type" : "Html",
-                    "name" : "re"
-                }
-            ],
-            "footer" : "",
-            "header" : "",
-            "template" : "{{re}}",
-            "isfooter" : false,
-            "isheader" : false,
-            "multiple" : false,
-            "optional" : false,
-            "label" : "Minister's Reason for Acceptance",
-            "name" : "reason"
-        },
-       {
-            "meta" : [
-                {
-                    "default" : "",
                     "label" : "Memo to the Minister from the Associate Deputy Minister",
                     "type" : "Artifact",
                     "name" : "a"
@@ -229,6 +240,44 @@ var templates = [{
             "optional" : false,
             "label" : "Recommendations of the Executive Director",
             "name" : "memo2"
+        },
+        {
+            "meta" : [
+                {
+                    "default" : "",
+                    "label" : "Assessment Report",
+                    "type" : "Artifact",
+                    "name" : "ar"
+                }
+            ],
+            "footer" : "",
+            "header" : "",
+            "template" : "{{ar}}",
+            "isfooter" : false,
+            "isheader" : false,
+            "multiple" : false,
+            "optional" : false,
+            "label" : "Assessment Report",
+            "name" : "assessr"
+        },
+        {
+            "meta" : [
+                {
+                    "default" : "",
+                    "label" : "Application",
+                    "type" : "Artifact",
+                    "name" : "f"
+                }
+            ],
+            "footer" : "",
+            "header" : "",
+            "template" : "{{f}}",
+            "isfooter" : false,
+            "isheader" : false,
+            "multiple" : false,
+            "optional" : false,
+            "label" : "Application",
+            "name" : "app"
         },
         {
             "meta" : [
@@ -291,20 +340,39 @@ var templates = [{
             "meta" : [
                 {
                     "default" : "",
-                    "label" : "Application",
+                    "label" : "Reasons for Ministers Decision",
                     "type" : "Artifact",
-                    "name" : "f"
+                    "name" : "g"
                 }
             ],
             "footer" : "",
             "header" : "",
-            "template" : "{{f}}",
+            "template" : "{{g}}",
             "isfooter" : false,
             "isheader" : false,
             "multiple" : false,
             "optional" : false,
-            "label" : "Application",
-            "name" : "app"
+            "label" : "Reason for Ministers Decision",
+            "name" : "rg"
+        },
+        {
+            "meta" : [
+                {
+                    "default" : "",
+                    "label" : "Signature",
+                    "type" : "Html",
+                    "name" : "si"
+                }
+            ],
+            "footer" : "",
+            "header" : "",
+            "template" : "Signed<br><img src='{{si}}'>",
+            "isfooter" : false,
+            "isheader" : false,
+            "multiple" : false,
+            "optional" : false,
+            "label" : "Signature",
+            "name" : "sig"
         }
     ],
     "versionNumber" : 1,
@@ -312,123 +380,15 @@ var templates = [{
     "code" : "decision-package"
 }];
 
-var artifacttypes = [{
-    name: 'Memo to the Minister from the Associate Deputy Minister',
-    multiple: false,
-    isTemplate: false,
-    isDocument:true,
-    code: 'memo-adm',
-    milestone: 'memo-adm',
-    versions : [
-        'Final'
-    ],
-    stages: [{
-        name: 'Edit',
-        next: '',
-        prev: '',
-        activity: 'edit'
-    }]
-},{
-    name: 'Recommendations of the Executive Director',
-    multiple: false,
-    isTemplate: false,
-    isDocument: true,
-    code: 'memo-epd',
-    milestone: 'memo-epd',
-    versions : [
-        'Final'
-    ],
-    stages: [{
-        name: 'Edit',
-        next: '',
-        prev: '',
-        activity: 'edit'
-    }]
-},{
-    name: 'Environmental Certificate',
-    multiple: false,
-    isTemplate: false,
-    isDocument: true,
-    code: 'certificate',
-    milestone: 'certificate',
-    versions : [
-        'Final'
-    ],
-    stages: [{
-        name: 'Edit',
-        next: '',
-        prev: '',
-        activity: 'edit'
-    }]
-},{
-    name: 'Application',
-    multiple: false,
-    isTemplate: false,
-    isDocument: true,
-    code: 'application',
-    milestone: 'application',
-    versions : [
-        'Final'
-    ],
-    stages: [{
-        name: 'Edit',
-        next: '',
-        prev: '',
-        activity: 'edit'
-    }]
-},{
-    name: 'Referral Package',
-    multiple: false,
-    isTemplate: true,
-    isDocument: false,
-    code: 'referral-package',
-    milestone: 'referral-package',
-    versions : [
-        'Final'
-    ],
-    stages: [{
-        name: 'Edit',
-        next: 'Decision',
-        prev: '',
-        activity: 'edit'
-    },{
-        name: 'Decision',
-        next: 'Publishing',
-        prev: 'Edit',
-        activity: 'decision'
-    },{
-        name: 'Publishing',
-        next: '',
-        prev: 'Decision',
-        activity: 'publish'
-    }]
-},{
-    name: 'Decision Package',
-    multiple: false,
-    isTemplate: true,
-    isDocument: false,
-    code: 'decision-package',
-    milestone: 'decision-package',
-    versions : [
-        'Final'
-    ],
-    stages: [{
-        name: 'Edit',
-        next: 'Decision',
-        prev: '',
-        activity: 'edit'
-    },{
-        name: 'Decision',
-        next: 'Publishing',
-        prev: 'Edit',
-        activity: 'decision'
-    },{
-        name: 'Publishing',
-        next: '',
-        prev: 'Decision',
-        activity: 'publish'
-    }]
-}];
+var artifacttypes = [
+    { name: 'Application', phase: '', multiple: false, isTemplate: false, isDocument: true, code: 'application', milestone: 'application', versions : [ 'Final' ], stages: [{name: 'Edit', next: 'approve', prev: '', activity: 'edit'}, {name: 'Approval', next: 'publish', prev: 'edit', activity: 'approve', role: 'assessment-lead'}, {name: 'Publish', next: '', prev: 'approve', activity: 'publish', role: 'assessment-admin'}]},
+    { name: 'Decision Package', phase: 'decision', code: 'decision-package', milestone: 'decision-package', multiple: false, isTemplate: true, isDocument: false, versions : [ 'Final' ], stages: [{name: 'Edit', next: 'review', prev: '', activity: 'edit'}, {name: 'Review', next: 'approve', prev: 'edit', activity: 'review', role: 'project-epd'}, {name: 'Approval', next: 'executive', prev: 'review', activity: 'approve', role: 'assistant-dm'}, {name: 'Executive Approval', next: 'publish', prev: 'approve', activity: 'executive', role: 'associate-dm'}, {name: 'Publish', next: '', prev: 'executive', activity: 'publish', role: 'assessment-admin'}]},
+    { name: 'Documents', phase: '', multiple: true, isTemplate: false, isDocument: false, code: 'documents', milestone: 'documents', versions : [ 'Final' ], stages: [{name: 'Edit', next: 'publish', prev: '', activity: 'edit'}, {name: 'Publish', next: '', prev: 'edit', activity: 'publish', role: 'assessment-admin'}]},
+    { name: 'Environmental Assessment Certificate Template', phase: '', milestone: 'environmental-assessment-certificate',code: 'environmental-assessment-certificate',multiple: false,versions: ['Draft','Final'], stages: [{name: 'Edit', next: 'review', prev: '', activity: 'edit'}, {name: 'Review', next: 'approve', prev: 'edit', activity: 'review', role: 'assessment-lead'}, {name: 'Approval', next: 'executive', prev: 'review', activity: 'approve', role: 'project-epd'}, {name: 'Executive Approval', next: 'decision', prev: 'approve', activity: 'executive', role: 'associate-dm'}, {name: 'Decision', next: 'publish', prev: 'executive', activity: 'decision', role: 'minister'}, {name: 'Publish', next: '', prev: 'decision', activity: 'publish', role: 'assessment-admin'}]},
+    { name: 'Memo to the Minister from the Associate Deputy Minister', phase: 'application-review', multiple: false, isTemplate: false, isDocument:true, code: 'memo-adm', milestone: 'memo-adm', versions : [ 'Final'], stages: [{name: 'Edit', next: 'review', prev: '', activity: 'edit'}, {name: 'Review', next: 'approve', prev: 'edit', activity: 'review', role: 'project-epd'}, {name: 'Approval', next: 'executive', prev: 'review', activity: 'approve', role: 'assistant-dm'}, {name: 'Executive Approval', next: 'publish', prev: 'approve', activity: 'executive', role: 'associate-dm'}, {name: 'Publish', next: '', prev: 'executive', activity: 'publish', role: 'assessment-admin'}]},
+    { name: 'Recommendations of the Executive Director', phase: 'application-review', multiple: false, isTemplate: false, isDocument: true, code: 'memo-epd', milestone: 'memo-epd', versions : [ 'Final' ], stages: [{name: 'Edit', next: 'review', prev: '', activity: 'edit'}, {name: 'Review', next: 'approve', prev: 'edit', activity: 'review', role: 'project-epd'}, {name: 'Approval', next: 'executive', prev: 'review', activity: 'approve', role: 'assistant-dm'}, {name: 'Executive Approval', next: 'publish', prev: 'approve', activity: 'executive', role: 'associate-dm'}, {name: 'Publish', next: '', prev: 'executive', activity: 'publish', role: 'assessment-admin'}]},
+    { name: 'Referral Package', phase: 'application-review', code: 'referral-package', milestone: 'referral-package', multiple: false, isTemplate: true, isDocument: false, versions : [ 'Final' ], stages: [{name: 'Edit', next: 'review', prev: '', activity: 'edit'}, {name: 'Review', next: 'approve', prev: 'edit', activity: 'review', role: 'assessment-lead'}, {name: 'Approval', next: 'executive', prev: 'review', activity: 'approve', role: 'project-epd'}, {name: 'Executive Approval', next: 'decision', prev: 'approve', activity: 'executive', role: 'associate-dm'}, {name: 'Decision', next: 'publish', prev: 'executive', activity: 'decision', role: 'minister'}, {name: 'Publish', next: '', prev: 'decision', activity: 'publish', role: 'assessment-admin'}]},
+];
 
 
 module.exports = {

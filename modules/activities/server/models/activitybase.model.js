@@ -7,8 +7,8 @@
 // can occur multiple times under any number of milestones
 //
 // =========================================================================
-module.exports = require ('../../../core/server/controllers/core.models.controller')
-.generateModel ('ActivityBase', {
+module.exports = require ('../../../core/server/controllers/core.schema.controller')
+('ActivityBase', {
 	//
 	// unique code. name, and description
 	//
@@ -44,5 +44,5 @@ module.exports = require ('../../../core/server/controllers/core.models.controll
 	state         : { type:String, default:'' },
 
 	processCode		: { type:String, default:'' }
-	
+
 });

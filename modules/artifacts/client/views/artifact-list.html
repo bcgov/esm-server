@@ -1,41 +1,57 @@
-<div class="row hidden">
-	<div class="col-sm-6 col-sm-offset-6 text-right form-inline">
-		<div class="form-group">
-			<show-filter x-toggle-filter="toggleFilter"></show-filter>
-		</div>
-		<div class="dropdown form-group" ng-if="!s.public">
-			<div class="input-group input-sm" data-toggle="dropdown">
-				<input class="entryInput form-control input-sm" id="query" name="query" type="text" placeholder="select an artifact type" ng-model="s.addtype.name"></input>
-				<span class="input-group-btn">
-					<button ng-disabled="!s.addtype" ng-click="$event.stopPropagation();s.addType()" class="btn btn-default btn-sm btn-primary" type="button">Add</button>
-				</span>
+<div class="artifact-list-view">
+	<div class="panel panel-default">
+
+		<div class="panel-heading flex-row">
+			<h2>{{s.caption}}</h2>
+			<div class="actions">
+				<button class="btn btn-default btn-sm " type="button"
+					ng-if="s.allowAddItem"
+					ng-click="$event.stopPropagation();s.openAddTypes()">
+					<span class="glyphicon glyphicon-plus"></span><span>Add Content</span>
+				</button>
 			</div>
-			<ul class="dropdown-menu" role="menu" aria-labelledby="query">
-				<li class="clickable" ng-click="s.selectType(type)" ng-repeat="type in s.availableTypes"> &nbsp; {{type.name}}</li>
-			</ul>
 		</div>
+		<!-- TABLE -->
+		<table class="table table-hover" ng-table="s.tableParams" show-filter="true">
+			<tr class="clickable" ng-repeat="o in $data" ui-sref="p.artifact.view({artifactId:o._id})">
+				<td class="artifact-name-col" header-class="'artifact-name-col'" data-title="'Name'" filter="{'name':'text'}" sortable="'name'">
+					{{o.name}}
+				</td>
+				<td ng-if="!published" data-title="'Stage'" filter="{'stage':'select'}" filter-data="s.stageArray" sortable="'stage'">
+					{{o.stage}}<br/><span class="placeholder-value" ng-if="o.stageRole">({{o.stageRole}})</span>
+				</td>
+				<td data-title="'Phase'" filter="{'originalPhaseName':'select'}" filter-data="s.phaseArray" sortable="'originalPhaseName'">
+					{{o.originalPhaseName }}
+				</td>
+				<td data-title="'Last Updated'" filter-data="'dateUpdated'" sortable="'dateUpdated'">
+					{{ o.dateUpdated | amDateFormat:'MMM DD, YYYY' }}
+				</td>
+				<td ng-if="!published" data-title="'Updated By'" filter="{'updatedBy.username':'text'}" sortable="'updatedBy.username'">
+					{{o.updatedBy.username}}
+				</td>
+				<td class="actions-col action-x2" header-class="'actions-col action-x2'">
+					<button class="btn btn-default btn-sm" 
+						ng-if="o.userpermission.write" 
+						ng-click="$event.stopPropagation()" 
+						ui-sref="p.artifact.edit({artifactId:o._id})">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</button>
+					<tmpl-permissions-gear class="permission-btn" x-context="s.project" x-object="o"></tmpl-permissions-gear>
+				</td>
+			</tr>
+			<tr class="no-records" ng-if="published && (!$data || $data.length === 0)">
+				<td colspan="4">
+					<span>{{s.noDataMessage}}</span>
+				</td>
+			</tr>
+			<tr class="no-records" ng-if="!published && (!$data || $data.length === 0)">
+				<td colspan="4">
+					<span>{{s.noDataMessage}}</span>
+				</td>
+			</tr>
+		</table>
+		<!-- / TABLE -->
+
 	</div>
+
 </div>
-
-<table ng-table="s.tableParams" x-show-filter="toggleFilter" class="table table-condensed table-hover table-striped">
-	<tr ng-repeat="o in $data" ui-sref="p.artifact.view({artifactId:o._id})" class="clickable">
-		<td data-title="'Name'"    filter="{'name':'text'}"     sortable="'name'"    >{{o.name}}</td>
-		<td data-title="'Version'" filter="{'version':'text'}"   	class="text-center" sortable="'version'"  >{{o.version}}</td>
-		<td data-title="'Stage'"   filter="{'stage':'text'}"    	class="text-center" sortable="'stage'"   >{{o.stage}}</td>
-		<td data-title="'Published'" sortable="'published'"><i ng-if="o.isPublished" class="glyphicon glyphicon-ok"></i></td>
-		<td class="actions-col">
-			<span ng-if="o.userPermissions.write && !o.published">
-				<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="p.artifact.edit({artifactId:o._id})">
-					<i class="glyphicon glyphicon-pencil"></i>
-				</a>
-			</span>
-		</td>
-	</tr>
-	<tr ng-if="!$data || $data.length === 0">
-		<td colspan="5">
-			<span ng-if="!s.public">To add an artifact, select from the list above and click the Add button.</span>
-			<span ng-if="s.public">There are no artifacts available at this time.</span>
-		</td>
-	</tr>
-</table>
-

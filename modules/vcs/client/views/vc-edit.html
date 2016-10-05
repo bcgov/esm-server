@@ -1,76 +1,123 @@
-<div class="edit-valued-component-view"></div>
 
-	<div class="view-title-container">
-		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Add/Edit Value Component</h1>
+<div class="view-title-container flex-row">
+	<h1><span ng-show="project.name">Edit Valued Component &nbsp;&rsaquo;&nbsp; {{vc.title}} <span class="placeholder-value" ng-if="!vc.title">{{vc.name}}</span></h1>
+	<div class="actions">
+		<a class="btn btn-default btn-sm"
+			ui-sref="p.vc.list">Cancel</a>
+		<button class="btn btn-danger btn-sm"
+            ng-if="canDelete"
+            ng-click="delete()"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
+		<button class="btn btn-primary btn-sm"
+			ng-click="save()">Save</button>
+		<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#publishNotify"
+			ng-if="canUnpublish"
+			ng-click="unpublish()"><span class="glyphicon glyphicon-minus-sign"></span><span>Unpublish</span></button>
+		<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#publishNotify"
+			ng-if="canPublish"
+			ng-click="publish()"><span class="glyphicon glyphicon-share-alt"></span><span>Publish</span></button>
 	</div>
+</div>
 
-	<div class="view-body-container">
-		<div class="row">
-			<div class="col-sm-12 text-right hidden">
-				<a class="btn btn-xs btn-link" ui-sref="p.vc.list">Cancel</a>
-				<a class="btn btn-xs btn-link" href ng-click="save()">Save</a>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-9">
-				<div class="form-group">
-					<label for="title" class="control-label">Valued Component Name</label>
-					<input id="title" type="text" class="form-control input-sm" ng-model="d.vc.name">
+<div class="view-body-container">
+
+	<!-- DETAILS -->
+	<div class="panel panel-default">
+		<div class="panel-heading"><h2>Details</h2></div>
+		<div class="panel-body vc-details-panel-body">
+			<div class="row">
+				<div class="col-sm-6 col-lg-3 form-group">
+					<label for="title" class="control-label">Name</label>
+					<input id="title" type="text" class="form-control" ng-model="vc.name" disabled="disabled">
 				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="sector" class="control-label">Project Sector</label>
-					<select id="sector" ng-model='d.vc.sector' class="form-control input-sm" ng-options="sector as sector for sector in d.sectors"></select>
+				<div class="col-sm-6 col-lg-3 form-group">
+					<label for="title" class="control-label">Title</label>
+					<input id="title" type="text" class="form-control" ng-model="vc.title">
 				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="shortDesc" class="control-label">Valued Component Description</label>
-					<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="d.vc.description" rows=6></textarea>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="shortDesc" class="control-label">Report Requirements</label>
-					<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="d.vc.reportRequirements" rows=6></textarea>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group">
+				<div class="col-sm-6 col-lg-3 form-group">
 					<label for="pillar" class="control-label">Pillar</label>
-					<select ng-change="d.selectTopic(pillar)" id="pillar" ng-model='d.vc.pillar' class="form-control input-sm" ng-options="pillar as pillar for pillar in d.pillars"></select>
+					<select ng-change="selectTopic(pillar)" id="pillar"
+						ng-model='vc.pillar'
+						ng-options="pillar as pillar for pillar in pillars"
+						class="form-control">
+					</select>
 				</div>
-			</div>
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="stage" class="control-label">Project Stage</label>
-					<select id="stage" ng-model='d.vc.stage' class="form-control input-sm" ng-options="stage as stage for stage in d.stages"></select>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="topics" class="control-label">Topics</label>
-					<select multiple id="topics" ng-model='d.vc.topics' class="form-control input-sm">
-						<option ng-repeat="topic in d.topics" value="{{topic.code}}">{{topic.name}}</option>
+				<div class="col-sm-6 col-lg-3 form-group">
+					<label for="type" class="control-label">Type</label>
+					<select id="type"
+						ng-model='vc.type'
+						ng-options="type as type for type in types"
+						class="form-control">
 					</select>
 				</div>
 			</div>
-		</div>
-		<hr>
-		<div text-align="right">
-			<a class="btn btn-default" ui-sref="p.vc.list">Cancel</a>
-			<a class="btn btn-default" href ng-click="save()">Save</a>
+			<div class="row form-group">
+				<div class="col-sm-12">
+					<label for="subComponents" class="control-label">Associated Valued & Pathway Components</label>
+					<div class="tag-list-container form-control clearfix">
+						<ul class="tag-list">
+							<li class="tag" ng-repeat="o in vclist">
+								<span class="tag-name">{{o.title}}</span>
+							</li><li class="add-tag">
+								<button class="add-btn btn btn-sm"
+									x-vc-linker
+									x-project="project"
+									x-vc="vc"
+									x-vcs="vcs"
+									x-vclist="vclist">
+									<span class="glyphicon glyphicon-plus">
+								</button>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="subComponents">Description</label>
+				<textarea class="form-control" ui-tinymce id="shortDesc" type="text" ng-model="vc.description" rows="4"></textarea>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="subComponents">Indicators</label>
+				<textarea class="form-control" ui-tinymce id="indicators" type="text" ng-model="vc.indicators" rows="4"></textarea>
+			</div>
 		</div>
 	</div>
-	
-</div>
+	<!-- / DETAILS -->
+
+	<!-- HIDDEN -->
+	<div class="hidden">
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="stage" class="control-label">Project Stage</label>
+				<select id="stage" ng-model='d.vc.stage' class="form-control input-sm" ng-options="stage as stage for stage in d.stages"></select>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div class="form-group">
+				<label for="sector" class="control-label">Project Sector</label>
+				<select id="sector" ng-model='d.vc.sector' class="form-control input-sm" ng-options="sector as sector for sector in d.sectors"></select>
+			</div>
+		</div>
+	</div><!-- / HIDDEN -->
+
+	<tmpl-artifact-display x-mode="'edit'" x-artifact="vc.artifact" x-project="project"></tmpl-artifact-display>
+
+	<div class="form-footer clearfix">
+		<div class="pull-right">
+			<a class="btn btn-default btn-sm"
+			ui-sref="p.vc.list">Cancel</a>
+			<button class="btn btn-danger btn-sm"
+				ng-if="canDelete"
+				ng-click="delete()"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
+			<button class="btn btn-primary btn-sm"
+				ng-click="save()">Save</button>
+			<button class="btn btn-default btn-sm"
+				ng-if="canUnpublish"
+				ng-click="unpublish()"><span class="glyphicon glyphicon-minus-sign"></span><span>Unpublish</span></button>
+			<button class="btn btn-success btn-sm"
+				ng-if="canPublish"
+				ng-click="publish()"><span class="glyphicon glyphicon-share-alt"></span><span>Publish</span></button>
+		</div>
+	</div>
+
+</div><!-- / VIEW BODY CONTAINER -->
 

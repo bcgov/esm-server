@@ -1,35 +1,38 @@
-<h1 class="page-title no-lower-margin">Condition Library</h1>
 
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<a class="btn btn-xs btn-link" ui-sref="admin.condition.create()">+ Add New Condition</a>
-		<show-filter x-toggle-filter="toggleFilter"></show-filter>
-	</div>
+<div class="view-title-container">
+	<h1>Condition Library</h1>
 </div>
 
-<div class="row">
-	<div class="col-sm-12">
-		<section class="panel panel-default">
-			<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed table-striped table-hover">
-				<tr ng-repeat="o in $data" ui-sref="admin.condition.detail({conditionId:o._id})" class="clickable">
-					<td data-title="'Sector'"  filter="{'sector':'select'}"   sortable="'sector'"  filter-data="ptypes" >{{o.sector}}</td>
-					<td data-title="'Name'"  filter="{'name':'text'}"   sortable="'name'" >{{o.name}}</td>
-					<td data-title="'Subject'" filter="{'subject':'text'}"    sortable="'subject'" >{{o.subject}}</td>
-					<td data-title="'Stages'"   filter="{'stages':'text'}"  sortable="'stages'" >{{o.stageString}}</td>
-					<td data-title="'Pillars'"  filter="{'pillars':'text'}" sortable="'pillars'"  >{{o.pillarString}}</td>
-					<td width="1%" class="text-right">
-						<a ng-click="$event.stopPropagation()" class="btn btn-link btn-xs" ui-sref="admin.condition.edit({conditionId:o._id})">
-						<i class="glyphicon glyphicon-pencil"></i>
-						</a>
-					</td>
-				</tr>
-				<tr ng-if="!$data || $data.length === 0">
-					<td colspan="6">
-						No records found.
-					</td>
-				</tr>
-			</table>
-		</section>
+<div class="view-body-container">
+	<div class="button-bar clearfix">
+		<a ng-if="application.userCan.createCondition"  class="btn btn-default btn-sm pull-left" ui-sref="admin.condition.create()">
+			<span class="glyphicon glyphicon-plus"></span>
+			<span>Add New Condition</span>
+		</a>
+		<div class="pull-right">
+			<show-filter x-toggle-filter="toggleFilter"></show-filter>
+		</div>
 	</div>
-
+	<section class="panel panel-default">
+		<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-striped table-hover">
+			<tr ng-repeat="o in $data" ui-sref="admin.condition.detail({conditionId:o._id})" class="clickable">
+				<td data-title="'Sector'"  filter="{'sector':'select'}"   sortable="'sector'"  filter-data="ptypes" >{{o.sector}}</td>
+				<td data-title="'Name'"  filter="{'name':'text'}"   sortable="'name'" >{{o.name}}</td>
+				<td data-title="'Subject'" filter="{'subject':'text'}"    sortable="'subject'" >{{o.subject}}</td>
+				<td data-title="'Stages'"   filter="{'stages':'text'}"  sortable="'stages'" >{{o.stageString}}</td>
+				<td data-title="'Pillars'"  filter="{'pillars':'text'}" sortable="'pillars'"  >{{o.pillarString}}</td>
+				<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+					<a ng-if="application.userCan.createCondition" ng-click="$event.stopPropagation()" class="btn btn-link btn-sm" ui-sref="admin.condition.edit({conditionId:o._id})">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</a>
+				</td>
+			</tr>
+			<tr ng-if="!$data || $data.length === 0">
+				<td colspan="6">
+					No records found.
+				</td>
+			</tr>
+		</table>
+	</section>
 </div>
+

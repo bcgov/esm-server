@@ -29,16 +29,15 @@ if (process.env.MEM === 'true') {
     sessionKey: 'sessionId',
     sessionCollection: 'sessions',
     logo: 'modules/core/client/img/brand/mem-logo.png',
-    favicon: 'modules/core/client/img/brand/favicon.png'
+    favicon: 'modules/core/client/img/brand/favicon.ico'
   };
 } else {
   module.exports = {
     app: {
-      title: 'EAO Project Space',
+      title: 'EAO Project Information and Collaboration (EPIC)',
       description: 'Government of British Columbia Environmental Assessment Office Project System',
       keywords: 'environmental assessment office bc government',
-      googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID',
-      url: ''// TODO: replace this with real value per environment...
+      googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
     },
     port: process.env.PORT || 3000,
     templateEngine: 'swig',
@@ -60,8 +59,8 @@ if (process.env.MEM === 'true') {
     // for obsecurity reasons
     sessionKey: 'sessionId',
     sessionCollection: 'sessions',
-    logo: 'modules/core/client/img/brand/eao-logo.png',
-    favicon: 'modules/core/client/img/brand/favicon.png'
+    logo: 'modules/core/client/img/brand/bc_logo_transparent.png',
+    favicon: 'modules/core/client/img/brand/favicon.ico'
   };
 }
 

@@ -7,10 +7,10 @@
 
 	<div ng-show="activeItem">
 		<textarea
-			ui-tinymce="{menubar:'', statusbar:false}"
+			ui-tinymce="tinymceOptions"
 			type="text"
 			class="form-control input-sm text-editor"
-			ng-model="curVal" rows=10
+			ng-model="curVal"
 			ng-blur="activeItem = false">
 		</textarea>
 		<div class="text-right">

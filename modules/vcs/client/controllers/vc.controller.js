@@ -49,17 +49,23 @@ angular.module ('vcs')
 }])
 
 .controller ('controllerAddTopicModal',
-	['$modalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS',
-	function ($modalInstance, $scope, _, $stateParams, codeFromTitle, VcModel, TopicModel, PILLARS) {
+	['NgTableParams','$modalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS', 'ArtifactModel',
+	function (NgTableParams, $modalInstance, $scope, _, $stateParams, codeFromTitle, VcModel, TopicModel, PILLARS, ArtifactModel) {
 
 		var self = this;
-		self.data = null;
 		self.current = [];
 		self.currentObjs = [];
 		self.project = $stateParams.project;
 
-		TopicModel.forType('Valued Component').then( function (data) {
-			self.data = data;
+		self.pillars = PILLARS.map (function (e) {
+			return {id:e,title:e};
+		});
+
+		self.showFilter = true;
+
+		// Show all VC types, either pathway or valued components
+		TopicModel.getCollection().then( function (data) {
+			self.tableParams = new NgTableParams ({},{dataset: data});
 			$scope.$apply();
 		});
 
@@ -84,16 +90,49 @@ angular.module ('vcs')
 				// console.log("Adding " + obj.description + " to Valued Components");
 				VcModel.getNew().then(function (m) {
 					m.project = $scope.project;
-					// TODO: Should we be getting these names from the UI?
 					m.name = obj.name;
-					m.code = codeFromTitle(obj.name);
-					// console.log("saving:",m);
-					VcModel.saveCopy(m).then(function (saved) {
-						savedArray.push(saved);
-						if (idx === self.currentObjs.length-1) {
-							// Return the collection back to the caller
-							$modalInstance.close(savedArray);
+					m.title = obj.name;
+					m.pillar = obj.pillar;
+					m.type = obj.type;
+					VcModel.query({project: $scope.project})
+					.then(function(data) {
+						// Take the end of the string, assume it's a number,
+						// and increment accordingly.
+						var suffix = "-1";
+						if (data && data.length > 0) {
+							// get the last one and slice it
+							var existingCode = data[data.length-1].code.slice(-1);
+							existingCode++;
+							suffix = "-"+existingCode;
 						}
+						m.code = codeFromTitle(obj.name+"-"+m.project.code+suffix);
+						VcModel.saveCopy(m)
+						.then(function (saved) {
+							console.log("creating artifact for valued-component");
+							return ArtifactModel.getNew()
+							.then( function (f) {
+								f.valuedComponents.push(m);
+								f.name = obj.name;
+								f.typeCode = 'valued-component';
+								f.project = $scope.project._id;
+								return ArtifactModel.saveCopy(f);
+							})
+							.then( function (art) {
+								console.log("created artifact of valued-component",art);
+								// Save the reference that this VC relates to.  We will look to
+								// re-use this to build up the package of VC's later.
+								saved.artifact = art;
+								return VcModel.save(saved);
+							});
+						})
+						.then( function (obj) {
+							savedArray.push(obj);
+							if (idx === self.currentObjs.length-1) {
+								// Return the collection back to the caller
+								$modalInstance.close(savedArray);
+							}
+						});
+
 					});
 				});
 			});

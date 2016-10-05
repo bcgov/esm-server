@@ -1,71 +1,221 @@
-<div class="edit-project-details-view">
+<form class="view-form" name="projectForm" novalidate>
 
-	<div class="view-title-container">
-		<h1><span ng-show="project.name">{{ project.name }}&nbsp; &rsaquo; &nbsp;</span>Add/Edit Project</h1>
+	<div class="view-title-container flex-row">
+		<h1>Edit Project &nbsp;&rsaquo;&nbsp; {{project.name}}<span class="placeholder-value" ng-if="!project.name">Untitled Project</span></h1>
+		<div class="actions">
+			<button class="btn btn-default btn-sm" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
+			<button class="btn btn-default btn-sm" ng-if="isNew" ui-sref="projects">Cancel</button>
+			<button class="btn btn-primary btn-sm"
+					ng-click="saveProject(projectForm.$valid)"
+					ng-if="project.status !== 'Initiated'"
+					type="submit">Save</button>
+			<button class="btn btn-success btn-sm"
+					ng-disabled="projectForm.$invalid"
+					ng-click="submitProject(projectForm.$valid)"
+					ng-if="project.status === 'Initiated'">Submit Project</button>
+      <button class="btn btn-danger btn-sm"
+              ng-click="deleteProject()"
+              ng-if="!isNew && !project.isPublished && project.userCan.delete">Delete Project</button>
+		</div>
 	</div>
 
-	<div class="view-body-container"></div>
-	
-		<form name="projectForm" ng-submit="saveProject(projectForm.$valid)" novalidate>
+	<div class="view-body-container">
 
-			<div class="row">
-				<div class="col-sm-12 text-right">
-					<button class="btn btn-xs btn-link" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
-					<button class="btn btn-xs btn-link" ng-if="isNew" ui-sref="projects">Cancel</button>		
-					<button class="btn btn-xs btn-link" href type="submit">Save</button>
-					<button class="btn btn-xs btn-link" href ng-click="submitProject(projectForm.$valid)" ng-if="project.status === 'Initiated'">Submit Project</button>
+		<!-- TABS -->
+		<ul class="nav nav-tabs" ng-init="form.curTab = 'Project Details'">
+			<li role="presentation" ng-class="{'active':form.curTab === 'Project Details'}" class="form-group" x-show-errors>
+				<a ng-click="form.curTab = 'Project Details'" title="Edit Project Details" name="detailsForm">
+					<span class="glyphicon glyphicon-exclamation-sign"></span>Project Details</a>
+			</li>
+			<li role="presentation" ng-class="{'active':form.curTab === 'Proponent Info'}" class="form-group" x-show-errors>
+				<a ng-click="form.curTab = 'Proponent Info'" title="Edit Project Details" name="proponentForm">
+					<span class="glyphicon glyphicon-exclamation-sign"></span>Proponent Info</a>
+			</li>
+			<li role="presentation" ng-class="{'active':form.curTab === 'Project Contacts'}" class="form-group" x-show-errors>
+				<a ng-click="form.curTab = 'Project Contacts'" title="Edit Project Contacts" name="contactsForm">
+					<span class="glyphicon glyphicon-exclamation-sign"></span>Contacts</a>
+			</li>
+		</ul><!-- / TABS -->
+
+		<div class="edit-project-form tab-pane active" ng-show="form.curTab === 'Project Details'" ng-form="detailsForm">
+			<!-- PROJECT INFORMATION -->
+			<fieldset>
+				<legend>General Info</legend>
+				<div class="form-group" x-show-errors>
+					<label class="control-label" for="name">Project Name<em class="required">(Required)</em></label>
+					<input class="form-control" title="Project Name" id="name" name="projectname"
+						ng-model="project.name" ng-change="onChangeProjectName()" required />
 				</div>
-			</div>
-
-			<section class="panel panel-default">
-
-	<div class="panel-body">
-
-		<ul class="nav nav-pills nav-justified" ng-init="form.curTab = 'Project Information'">
-			<li ng-class="{'active':form.curTab === 'Project Information'}"><a href ng-click="form.curTab = 'Project Information'">Project Information</a></li>
-			<li ng-class="{'active':form.curTab === 'Proponent'}"><a href ng-click="form.curTab = 'Proponent'">Proponent</a></li>
-			<li ng-class="{'active':form.curTab === 'Intake Profile'}"><a href ng-click="form.curTab = 'Intake Profile'">Intake Profile</a></li>
-		</ul>
-		<hr/>
-		<div ng-show="form.curTab === 'Project Information'">
-
-			<div class="row">
-				<div class="col-sm-8">
-					<div class="form-group" x-show-errors>
-						<label for="title" class="control-label">Project Name</label>
-						<input id="title" name="name" type="text" class="form-control input-sm" ng-model="project.name" required>
-							<div ng-messages="projectForm.name.$error" role="alert">
-								<p class="help-block error-text" ng-message="required">Project Name is required.</p>
-							</div>
+				<div class="row">
+					<div class="col-sm-6 col-md-4 form-group" x-show-errors>
+						<label class="control-label" for="type">Type<em class="required">(Required)</em></label>
+						<select class="form-control" title="Project Type" id="type" name="type"
+							ng-model="project.type"
+							ng-change="project.sector = undefined"
+							ng-options="type for type in types" required></select>
+					</div>
+					<div class="col-sm-6 col-md-4 form-group" x-show-errors>
+						<label class="control-label" for="subtype">Sub-type<em class="required">(Required)</em></label>
+						<select class="form-control" title="Project Sub-type" id="subtype" name="subtype"
+							ng-model="project.sector"
+							ng-options="subType for subType in subTypes[project.type]" required></select>
+					</div>
+					<div class="col-md-4 form-group" x-show-errors>
+						<label class="control-label" for="build">Nature of Project<em class="required">(Required)</em></label>
+						<select class="form-control" id="build" name="build"
+						 	ng-model="project.build" required>
+							<option value=""></option>
+							<option value="new">New Construction</option>
+							<option value="modification">Modification of Existing</option>
+							<option value="dismantling">Dismantling or Abandonment</option>
+						</select>
 					</div>
 				</div>
-				<div class="col-sm-4">
-					<div class="form-group" x-show-errors>
-						<label for="shortName" class="control-label">Short Name (25 Characters Max)</label>
-						<input id="shortName"
-							name="shortName"
-							maxlength="25"
-							type="text"
-							class="form-control input-sm"
-							ng-model="project.shortName"
-							ng-blur="project.code = _.kebabCase(project.shortName);" required>
-							<div ng-messages="projectForm.shortName.$error" role="alert">
-								<p class="help-block error-text" ng-message="required">Short Name is required.</p>
-							</div>
+				<div class="form-group" x-show-errors>
+					<label class="control-label" for="shortDesc">Project Description<em class="required">(Required)</em></label>
+					<textarea title="Project Description"
+								class="form-control"
+								rows="5"
+								id="shortDesc"
+								name="projectdesc"
+								ng-model="project.description" required></textarea>
+				</div>
+				<div class="row">
+					<div class="col-md-4 form-group" x-show-errors>
+						<label class="control-label" for="region">Region<em class="required">(Required)</em></label>
+						<select class="form-control" if="region" id="region" name="region"
+						 	ng-model='project.region'
+							ng-options="key as value for (key, value) in regions" required></select>
+					</div>
+					<div class="col-sm-12 col-md-8 form-group" x-show-errors>
+						<label class="control-label" for="location">Location Description<em class="required">(Required)</em></label>
+						<input class="form-control" id="location" type="text" name="location"
+							ng-model="project.location" required>
 					</div>
 				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="form-group">
-						<label for="shortDesc" class="control-label">Short Description</label>
-						<textarea id="shortDesc" type="text" class="form-control input-sm" ng-model="project.description" rows=6></textarea>
+				<div class="row">
+					<div class="lat-input col-sm-3 col-md-2 form-group" x-show-errors>
+						<label class="control-label">Latitude<em class="required">(Required)</em></label>
+						<input class="form-control" id="latitude" name="latitude" type="number" step="any"
+							ng-model="project.lat" required />
+					</div>
+					<div class="long-input col-sm-3 col-md-2 form-group" x-show-errors>
+						<label class="control-label">Longitude<em class="required">(Required)</em></label>
+						<input class="form-control" id="longitude" name="longitude" type="number" step="any"
+							ng-model="project.lon" required />
 					</div>
 				</div>
-			</div>
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <label class="control-label" for="eacDecision">Decision<em>(Optional)</em></label>
+            <textarea class="form-control" rows="3"
+                      name="eacDecision" id="eacDecision"
+                      ng-model="project.eacDecision"></textarea>
+          </div>
+          </div>
+			</fieldset>
+			<!-- PROJECT INFORMATION -->
 
+			<!-- CEAA INVOLVEMENT -->
+			<fieldset>
+				<legend>Canada Environmental Assessment Agency (CEAA) Involvement</legend>
+				<div class="row">
+					<div class="col-md-4 form-group" x-show-errors>
+						<label class="control-label" for="ceaainvolvement">CEAA involvement</label>
+						<select class="form-control" name="ceaainvolvement" id="ceaainvolvement"
+							ng-model="project.CEAAInvolvement"
+							ng-options="opt for opt in CEAA" required>
+						</select>
+					</div>
+					<div class="col-md-8 form-group">
+						<label class="control-label" for="ceaaurl">CEAA URL<em>(Optional)</em></label>
+						<input class="form-control" placeholder="e.g. http://www.website.com" type="url"
+							name="ceaaurl"
+							id="ceaaurl"
+							ng-model="project.CEAALink" />
+					</div>
+				</div>
+			</fieldset>
+			<!-- / CEAA INVOLVEMENT -->
 
+			<!-- ADDITIONAL INFO -->
+			<fieldset>
+				<legend>Additional Info</legend>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label" for="capitalinvestment">Capital Investment</label>
+							<input class="form-control" step="any"
+								name="capitalinvestment"
+								id="capitalinvestment"
+								ng-model="project.intake.investment" />
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="capitalinvestmentnotes">Investment Notes<em>(Optional)</em></label>
+							<textarea class="form-control" rows="3"
+								name="capitalinvestmentnotes"
+								id="capitalinvestmentnotes"
+								ng-model="project.intake.investmentNotes"></textarea>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label" form="constructionjobs">Construction Jobs</label>
+							<input class="form-control"
+								name="constructionjobs"
+								ng-model="project.intake.constructionjobs" />
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="constructionjobsnotes">Construction Jobs Notes<em>(Optional)</em></label>
+							<textarea class="form-control" rows="3"
+								name="constructionjobsnotes"
+								id="constructionjobsnotes"
+								ng-model="project.intake.constructionjobsNotes"></textarea>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label" for="operatingjobs">Operating Jobs</label>
+							<input class="form-control"
+								name="operatingjobs"
+								id="operatingjobs"
+								ng-model="project.intake.operatingjobs" />
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="operatingjobsnotes">Operating Jobs Notes<em>(Optional)</em></label>
+							<textarea class="form-control" rows="3"
+								name="operatingjobsnotes"
+								id="operatingjobsnotes"
+								ng-model="project.intake.operatingjobsNotes"></textarea>
+						</div>
+					</div>
+				</div>
+			</fieldset>
+			<!-- / ADDITIONAL INFO -->
+
+			<!-- ELECTORAL DISTRICTS -->
+			<fieldset>
+				<legend>Electoral Districts</legend>
+				<div class="row">
+					<div class="col-md-6 form-group">
+						<label class="control-label" for="fedelecdist">Federal Electoral Districts <em>(Optional)</em></label>
+						<input class="form-control"
+							name="fedelecdist"
+							id="fedelecdist"
+							ng-model="project.fedElecDist" />
+					</div>
+					<div class="col-md-6 form-group">
+						<label class="control-label" for="provelecdist">Provincial Electoral Districts <em>(Optional)</em></label>
+						<input class="form-control"
+							name="provelecdist"
+							id="provelecdist"
+							ng-model="project.provElecDist" />
+					</div>
+				</div>
+			</fieldset>
+			<!-- / ELECTORAL DISTRICTS -->
+
+			<!-- MEM ONLY INFORORMATION -->
 			<div class="row" ng-if="environment === 'MEM'">
 				<div class="col-sm-3">
 					<div class="form-group" x-show-errors>
@@ -76,7 +226,6 @@
 							</div>
 					</div>
 				</div>
-
 				<div class="col-sm-3">
 					<div class="form-group" x-show-errors>
 						<label for="commodity" class="control-label">Commodity/ies</label>
@@ -86,7 +235,6 @@
 							</div>
 					</div>
 				</div>
-
 				<div class="col-sm-3">
 					<div class="form-group" x-show-errors>
 						<label for="ownership" class="control-label">Ownership</label>
@@ -96,7 +244,6 @@
 							</div>
 					</div>
 				</div>
-
 				<div class="col-sm-3">
 					<div class="form-group" x-show-errors>
 						<label for="tailingsImpoundments" class="control-label">Tailings Impoundments</label>
@@ -106,104 +253,192 @@
 							</div>
 					</div>
 				</div>
-
 			</div>
+			<!-- / MEM ONLY INFORMATION -->
+		</div>
 
-
-
-
-
-
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group" x-show-errors>
-						<label for="type" class="control-label">Type</label>
-						<select id="type" name="type" ng-model='project.type' class="form-control input-sm" ng-options="type as type for type in types" required></select>
-							<div ng-messages="projectForm.type.$error" role="alert">
-								<p class="help-block error-text" ng-message="required">Type is required.</p>
-							</div>
+		<div class="edit-project-form tab-pane" ng-show="form.curTab === 'Project Contacts'" ng-form="contactsForm">
+			<fieldset>
+				<legend>Executive Project Director</legend>
+				<div class="row">
+					<div class="col-md-4 form-group">
+						<label class="control-label" for="projectdirector">Name<em class="required">(Required)</em></label>
+						<input class="form-control" name="projectdirector" id="projectdirector"
+							ng-model="project.responsibleEPD" />
+					</div>
+					<div class="col-sm-6 col-md-4 form-group">
+						<label class="control-label" for="projectdirectormmail">Email<em class="required">(Required)</em></label>
+						<input class="form-control" placeholder="example@domain.com" name="projectdirectormmail" id="projectdirectormmail"
+							ng-model="project.responsibleEPDEmail"  />
+					</div>
+					<div class="col-sm-6 col-md-4 form-group">
+						<label class="control-label" for="projectdirectorphone">Phone<em class="required">(Required)</em></label>
+						<input class="form-control" placeholder="e.g. (555) 555-5555" name="projectdirectorphone" id="projectdirectorphone"
+							ng-model="project.responsibleEPDPhone" />
 					</div>
 				</div>
-
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label for="build" class="control-label">Project Nature</label>
-						<select id="build" ng-model='project.build' class="form-control input-sm">
-							<option value="new">New Construction</option>
-							<option value="modification">Modification of Existing</option>
-							<option value="dismantling">Dismantling or Abandonment</option>
-						</select>
+			</fieldset>
+			<fieldset>
+				<legend>Project Lead</legend>
+				<div class="row">
+					<div class="col-md-4 form-group">
+						<label class="control-label" for="projectleadname">Name<em class="required">(Required)</em></label>
+						<input class="form-control" name="projectleadname" id="projectleadname"
+							ng-model="project.projectLead" />
+					</div>
+					<div class="col-sm-6 col-md-4 form-group">
+						<label class="control-label" for="projectleademail">Email<em class="required">(Required)</em></label>
+						<input class="form-control" placeholder="example@domain.com" name="projectleademail" id="projectleademail"
+							ng-model="project.projectLeadEmail" />
+					</div>
+					<div class="col-sm-6 col-md-4 form-group">
+						<label class="control-label" for="projectleadphone">Phone<em class="required">(Required)</em></label>
+						<input class="form-control" placeholder="e.g. (555) 555-5555" name="projectleadphone" id="projectleadphone"
+							ng-model="project.projectLeadPhone" />
 					</div>
 				</div>
-			</div>
-
-
-			<hr/>
-
-
-			<div class="row">
-				<div class="col-sm-8">
-					<div class="form-group">
-						<label for="location" class="control-label">Location Description</label>
-						<input id="location" type="text" class="form-control input-sm" ng-model="project.location">
+			</fieldset>
+			<fieldset>
+				<legend>Compliance and Enforcement Lead</legend>
+				<div class="row">
+					<div class="col-md-4 form-group">
+						<label class="control-label" for="celead">Name<em class="required">(Required)</em></label>
+						<input class="form-control" name="celead" id="celead"
+							ng-model="project.CELead" />
+					</div>
+					<div class="col-sm-6 col-md-4 form-group">
+						<label class="control-label" for="celeademail">Email<em class="required">(Required)</em></label>
+						<input class="form-control" placeholder="example@domain.com" name="celeademail" id="celeademail"
+							ng-model="project.CELeadEmail" />
+					</div>
+					<div class="col-sm-6 col-md-4 form-group">
+						<label class="control-label">Phone<em class="required">(Required)</em></label>
+						<input class="form-control" placeholder="e.g. (555) 555-5555" name="cephone"
+							ng-model="project.CELeadPhone"/>
 					</div>
 				</div>
-				<div class="col-sm-4">
-					<div class="form-group" x-show-errors>
-						<label for="region" class="control-label">Region</label>
-						<select if="region" name="region" ng-model='project.region' class="form-control input-sm" ng-options="key as value for (key, value) in regions" required></select>
-							<div ng-messages="projectForm.region.$error" role="alert">
-								<p class="help-block error-text" ng-message="required">Region is required.</p>
-							</div>
+			</fieldset>
+			<fieldset>
+				<legend>Support Team</legend>
+				<div class="row">
+					<div class="col-md-4 form-group">
+						<label class="control-label" for="analyst">Analyst<em>(Optional)</em></label>
+						<input class="form-control" name="analyst" id="analyst"
+							ng-model="project.projectAnalyst" />
+					</div>
+					<div class="col-md-4 form-group">
+						<label class="control-label" for="assistant">Assistant<em>(Optional)</em></label>
+						<input class="form-control" name="assistant" id="assistant"
+							ng-model="project.projectAssistant" />
+					</div>
+					<div class="col-md-4 form-group">
+						<label class="control-label" for="adminassistant">Admin Assistant<em>(Optional)</em></label>
+						<input class="form-control" name="adminassistant" id="adminassistant"
+							ng-model="project.administrativeAssistant" />
 					</div>
 				</div>
-			</div>
+				<div class="form-group">
+					<label class="control-label" for="teamnotes">Team Notes<em>(Optional)</em></label>
+					<textarea class="form-control" rows="4"
+						name="teamnotes" id="teamnotes"
+						ng-model="project.teamNotes"></textarea>
+				</div>
+			</fieldset>
+		</div>
 
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label for="latitude" class="control-label">Latitude</label>
-						<input id="latitude" type="text" class="form-control input-sm" ng-model="project.lat">
+		<div class="edit-project-form tab-pane" ng-show="form.curTab === 'Project EAO Info'">
+			<fieldset>
+				<div class="row hidden">
+					<div class="col-md-4 form-group">
+						<label class="control-label" for="projectleadname">Environmental Assessment Status</em></label>
+						<select class="form-control"></select>
 					</div>
 				</div>
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label for="longitude" class="control-label">Longitude</label>
-						<input id="longitude" type="text" class="form-control input-sm" ng-model="project.lon">
-					</div>
-				</div>
-			</div>
-
-
-			<hr/>
-
-
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group" x-show-errors>
-						<div class="checkbox">
-							<label>
-								<input type="checkbox" ng-model="project.isTermsAgreed" id="terms" name="terms" required>
-								I agree to the terms and conditions.
+				<div class="row">
+					<div class="col-md-8 form-group">
+						<label class="control-label" for="projectleadname">Does this project require an Environmental Assessment Certificate?</label>
+						<div class="radio-group">
+							<label class="radio-inline">
+								<input type="radio" name="inlineRadioOptions"
+									ng-model="project.eacDecision"
+									id="inlineRadio1"
+									value="Certificate Required"> YES
 							</label>
-								<div ng-messages="projectForm.terms.$error" role="alert">
-									<p class="help-block error-text" ng-message="required">You must accept the terms and conditions to continue.</p>
-								</div>
+							<label class="radio-inline">
+								<input type="radio"	name="inlineRadioOptions"
+									ng-model="project.eacDecision"
+									id="inlineRadio2"
+									value="Certificate Not Required"> NO
+							</label>
 						</div>
 					</div>
 				</div>
-
-			</div>
+				<div class="row">
+					<div class="col-md-12 form-group">
+						<label class="control-label" for="eanotes">Assessment Notes<em>(Optional)</em></label>
+						<textarea class="form-control" name="eanotes" id="eanotes" rows="4"
+							ng-model="project.eaNotes"></textarea>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 form-group">
+						<label class="control-label" for="eaissues">Assessment Issues<em>(Optional)</em></label>
+						<textarea class="form-control" name="eaissues" id="eaissues" rows="4"
+							ng-model="project.eaIssues"></textarea>
+					</div>
+				</div>
+			</fieldset>
 		</div>
 
-		<fieldset ng-show="form.curTab === 'Proponent'">
-			<tmpl-company-entry-form x-company="project.proponent"></tmpl-company-entry-form>
-			<tmpl-user-entry-form x-user="project.primaryContact" x-project="project" ></tmpl-user-entry-form>
-		</fieldset>
+		<div class="edit-project-form tab-pane" ng-show="form.curTab === 'Proponent Info'">
 
-		<div ng-show="form.curTab === 'Intake Profile'">
+			<fieldset>
+				<legend>Organization</legend>
+				<div class="row">
+					<div class="form-group col-md-4">
+						<label class="control-label">Name</label>
+						<input class="form-control" placeholder="{{ project.proponent.name }}" disabled />
+					</div>
+					<div class="form-group col-md-4">
+						<label class="control-label">Website</label>
+						<input class="form-control" placeholder="{{ project.proponent.website }}" disabled />
+					</div>
+				</div>
+				<div class="form-group no-margin">
+					<button class="btn btn-default btn-sm" type="button"
+						x-org-search-chooser
+						x-title="'Set Organization'"
+						x-project="project">Set Organization</button>
+				</div>
+			</fieldset>
+
+			<hr/>
+
+			<fieldset>
+				<legend>Primary Contact</legend>
+				<div class="row">
+					<div class="col-md-4 form-group">
+						<label class="control-label">Name</label>
+						<input class="form-control" placeholder="{{ project.primaryContact.displayName }}" disabled />
+					</div>
+					<div class="col-md-4 form-group">
+						<label class="control-label">Email</label>
+						<input class="form-control" placeholder="{{ project.primaryContact.email }}" disabled />
+					</div>
+				</div>
+				<div class="form-group no-margin">
+					<button class="btn btn-default btn-sm" type="button"
+						x-user-search-chooser
+						x-title="'Set Primary Contact'"
+						x-project="project"
+						x-singleselectmode="'true'"
+						x-destination="project.primaryContact">Set Primary Contact</button>
+				</div>
+			</fieldset>
+		</div>
+
+		<div class="edit-project-form tab-pane" ng-show="form.curTab === 'Intake Profile'">
 			<div ng-repeat="question in questions">
-
 				<div class="form-group row" ng-if="question.type === 'smalltext'">
 					<div class="col-xs-8">
 						<p>{{ question.content }}</p>
@@ -212,14 +447,10 @@
 						<input class="form-control input-sm" ng-model="project.intake[question.code]"/>
 					</div>
 				</div>
-
-
 				<div class="form-group" ng-if="question.type === 'text'">
 					<p>{{ question.content }}</p>
 					<textarea ng-if="question.type === 'text'" class="form-control input-sm" ng-model="project.intake[question.code]" rows=4></textarea>
 				</div>
-
-
 				<div class="form-group row" ng-if="question.type === 'dropdown'">
 					<div class="col-xs-8">
 						<p>{{ question.content }}</p>
@@ -228,34 +459,41 @@
 						<select ng-if="question.type === 'dropdown'" class="form-control input-sm" ng-model="project.intake[question.code]" ng-options="opt for opt in question.options"></select>
 					</div>
 				</div>
-
-
 			</div>
 		</div>
 
-		<div ng-if="form.curTab === 'Accepted'">
-			<h3>Project Submission Accepted</h3>
-			<p>Thank you.</p>
-			<p>Your project submission has been sent to EAO and is waiting to be received.</p>
-			<p>You will be contacted shortly regarding the next steps.</p>
-		</div>
-
-		<hr>
-
-		<div class="row">
-			<div class="col-sm-6 text-left">
-				<div class="form-control-static">{{ project.dateUpdated | amDateFormat:'MMM Do, YYYY hh:mm a' }}</div>
-			</div>
-			<div class="col-sm-6 text-right">
-				<button class="btn btn-default" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
-				<button class="btn btn-default" ng-if="isNew" ui-sref="projects">Cancel</button>	
-				<button class="btn btn-default" type="submit">Save</button>
-				<button class="btn btn-default" ng-click="submitProject(projectForm.$valid)" ng-if="project.status === 'Initiated'">Submit Project</button>
+		<div class="form-footer clearfix">
+			<div class="pull-right">
+				<button class="btn btn-default btn-sm" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
+				<button class="btn btn-default btn-sm" ng-if="isNew" ui-sref="projects">Cancel</button>
+				<button class="btn btn-primary btn-sm"
+						ng-click="saveProject(projectForm.$valid)"
+						ng-if="project.status !== 'Initiated'"
+						type="submit">Save</button>
+				<button class="btn btn-success btn-sm"
+						ng-disabled="projectForm.$invalid"
+						ng-click="submitProject(projectForm.$valid)"
+						ng-if="project.status === 'Initiated'">Submit Project</button>
 			</div>
 		</div>
-	</div> <!-- /panelbody -->
 
-</section>
+	</div>
+
+<div class="edit-project-details-view hidden">
+
+		<!-- VIEW BODY CONTAINER -->
+		<div class="view-body-container">
+
+			<div ng-if="form.curTab === 'Accepted'">
+				<h3>Project Submission Accepted</h3>
+				<p>Thank you.</p>
+				<p>Your project submission has been sent to EAO and is waiting to be received.</p>
+				<p>You will be contacted shortly regarding the next steps.</p>
+			</div>
+
+		</div><!-- / VIEW BODY CONTAINER -->
+
+</div>
 
 </form>
 

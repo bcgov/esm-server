@@ -4,16 +4,28 @@
 // Routes for projectconditions
 //
 // =========================================================================
-var policy  = require ('../policies/projectcondition.policy');
 var ProjectCondition  = require ('../controllers/projectcondition.controller');
-var helpers = require ('../../../core/server/controllers/core.helpers.controller');
+var routes = require ('../../../core/server/controllers/core.routes.controller');
+var policy = require ('../../../core/server/controllers/core.policy.controller');
 
 module.exports = function (app) {
-	helpers.setCRUDRoutes (app, 'projectcondition', ProjectCondition, policy);
-	app.route ('/api/projectcondition/for/project/:projectid').all (policy.isAllowed)
-		.get (function (req, res) {
-			(new ProjectCondition (req.user)).getForProject (req.params.projectid)
-			.then (helpers.success(res), helpers.failure(res));
-		});
+	routes.setCRUDRoutes (app, 'projectcondition', ProjectCondition, policy);
+	app.route ('/api/projectcondition/for/project/:projectId')
+		.all (policy ('guest'))
+		.get (routes.setAndRun (ProjectCondition, function (model, req) {
+			return model.getForProject (req.params.projectId);
+		}));
+	
+	app.route ('/api/projectcondition/publish/:pcId')
+		.all (policy ('user'))
+		.put (routes.setAndRun (ProjectCondition, function (model, req) {
+			return model.publish (req.params.pcId);
+		}));
+	
+	app.route ('/api/projectcondition/unpublish/:pcId')
+		.all (policy ('user'))
+		.put (routes.setAndRun (ProjectCondition, function (model, req) {
+			return model.unpublish (req.params.pcId );
+		}));
 };
 

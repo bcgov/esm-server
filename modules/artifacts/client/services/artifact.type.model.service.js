@@ -26,6 +26,9 @@ angular.module('artifacts').factory ('ArtifactTypeModel', function (ModelBase, _
 		// },
 		templateTypes: function () {
 			return this.get ('/api/artifacttype/template/types');
+		},
+		fromCode: function (code) {
+			return this.get ('/api/artifacttype/code/'+code);
 		}
 	});
 	return new Class ();

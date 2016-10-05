@@ -1,12 +1,11 @@
 'use strict';
 
 angular.module('project')
-	.directive('modalProjectSchedule', directiveModalProjectSchedule)
+	.directive('modalProjectSchedule', directiveProjectSchedule)
 	.directive('tmplProjectTombstone', directiveProjectTombstone)
 	.directive('modalProjectImport', directiveModalProjectImport)
 
 	.directive('tmplProjectInitiated', directiveProjectInitiated)
-	.directive('tmplProjectStreamSelect', directiveProjectStreamSelect)
 	.directive('tmplProjectActivities', directiveProjectActivities);
 
 // -----------------------------------------------------------------------------------
@@ -14,32 +13,17 @@ angular.module('project')
 // DIRECTIVE: Modal Project Schedule
 //
 // -----------------------------------------------------------------------------------
-directiveModalProjectSchedule.$inject = ['$modal'];
+directiveProjectSchedule.$inject = ['$modal'];
 /* @ngInject */
-function directiveModalProjectSchedule($modal) {
+function directiveProjectSchedule($modal) {
 	var directive = {
-		restrict:'A',
-		scope : {
+		restrict: 'E',
+		templateUrl: 'modules/projects/client/views/project-partials/project-schedule.html',
+		scope: {
 			project: '='
 		},
-		link : function(scope, element, attrs) {
-			element.on('click', function() {
-				var modalDocView = $modal.open({
-					animation: true,
-					templateUrl: 'modules/projects/client/views/project-partials/modal-project-schedule.html',
-					controller: 'controllerModalProjectSchedule',
-					controllerAs: 'projSched',
-					resolve: {
-						rProject: function () {
-							return scope.project;
-						}
-					},
-					size: 'lg'
-				});
-				modalDocView.result.then(function (items) {
-					scope.project = items;
-				}, function () {});
-			});
+		controller: function($scope, ENV) {
+			$scope.environment = ENV;
 		}
 	};
 	return directive;
@@ -90,20 +74,25 @@ function directiveModalProjectImport($modal, $state, $rootScope, sProjectModel) 
 // DIRECTIVE: Project Tombstone Horizontal
 //
 // -----------------------------------------------------------------------------------
-directiveProjectTombstone.$inject = [];
+directiveProjectTombstone.$inject = ['Authentication'];
 /* @ngInject */
-function directiveProjectTombstone() {
-	var directive = {
-		restrict: 'E',
-		templateUrl: 'modules/projects/client/views/project-partials/project-tombstone.html',
-		scope: {
-			project: '='
-		},
-		controller: function($scope, ENV) {
-			$scope.environment = ENV;
-		}
-	};
-	return directive;
+function directiveProjectTombstone(Authentication) {
+    var directive = {
+        restrict: 'E',
+        templateUrl: 'modules/projects/client/views/project-partials/project-tombstone.html',
+        scope: {
+            project: '='
+        },
+        controller: function($scope, ENV, Authentication) {
+            var c = this;
+            $scope.environment = ENV;
+            c.isEao = (Authentication.user && Authentication.user.roles.indexOf('eao') > -1);
+			c.isUser = (Authentication.user);
+        },
+		
+        controllerAs: 'c'
+    };
+    return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -119,31 +108,6 @@ function directiveProjectInitiated() {
 	};
 	return directive;
 }
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Project Stream Select
-//
-// -----------------------------------------------------------------------------------
-directiveProjectStreamSelect.$inject = [];
-/* @ngInject */
-function directiveProjectStreamSelect() {
-	var directive = {
-		restrict: 'E',
-		replace: true,
-		templateUrl: 'modules/projects/client/views/project-partials/project-stream-select.html',
-		controller: 'controllerProjectStreamSelect',
-		controllerAs: 'projectStreamSelect',
-		scope: {
-			project: '='
-		}
-	};
-	return directive;
-}
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Project Stream Select
-//
-// -----------------------------------------------------------------------------------
 directiveProjectActivities.$inject = [];
 /* @ngInject */
 function directiveProjectActivities() {

@@ -1,0 +1,25 @@
+
+<div class="modal-header">
+    <button class="btn btn-default close" ng-click="self.cancel()"><span aria-hidden="true">×</span></button>
+    <h3 class="modal-title">Add Project Content</h3>
+</div>
+
+<div class="modal-body">
+    <section class="panel panel-default no-margin add-vc-table">
+        <table class="table table-scroll add-valued-component-table" ng-table="self.tableParams" show-filter="self.showFilter">
+            <tr ng-repeat="o in $data">
+                <td class="select" data-title="'Name'"
+                    sortable="'name'"
+                    filter="{'name':'text'}"><input type="checkbox" ng-model="o.isChecked" ng-click="self.toggleItem(o)"/>{{o.name}}</td>
+            </tr>
+        </table>
+    </section>
+</div>
+
+<div class="modal-footer">
+    <div>
+        <button class="btn btn-default" href ng-click="self.cancel()">Cancel</button>
+        <button class="btn btn-primary" href ng-click="self.ok()">Add</button>
+    </div>
+</div>
+    

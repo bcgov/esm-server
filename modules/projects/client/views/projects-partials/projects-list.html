@@ -1,58 +1,42 @@
-<section class='panel panel-default'>
-	<div class="block-content no-lower-margin">
-		<show-filter x-toggle-filter="toggleFilter" class="pull-right"></show-filter>
-		<h3 ng-show="environment === 'EAO' && title !== 'no'">Environmental Assessments</h3>
-		<h3 ng-show="environment === 'MEM' && title !== 'no'">Mining Projects</h3>
-	</div>
-	<table x-show-filter="toggleFilter" ng-table="projectList.tableParams" class="table table-condensed table-striped">
-		<tr ng-repeat="o in $data" class='clickable' ui-sref="p.detail({projectid: o.code})">
-			<td data-title="'Name'"
-				filter="{'name':'text'}"
-				sortable="'name'">
-				{{o.name}}
-			</td>
 
-			<td ng-if="environment === 'MEM'"
-				data-title="'Permit'"
-				filter="{'memPermitID':'text'}"
-				sortable="'memPermitID'">
-				{{o.memPermitID}}
-			</td>
-
-			<td data-title="'Type'"
-				filter="{type:'select'}"
-				filter-data="projectList.typeArray"
-				sortable="'type'">
-				{{o.type}}
-			</td>
-
-			<td data-title="'Region'"
-				filter="{region:'select'}"
-				filter-data="projectList.regionArray"
-				sortable="'region'">
-				{{o.region | regionName}}
-			</td>
-
-			<td data-title="'Phase'"
-				filter="{'currentPhase.name':'text'}"
-				sortable="'currentPhase.name'" >
-				{{o.currentPhase.name}}
-			</td>
-
-			<td ng-if="environment === 'EAO'"
-				data-title="'Status'"
-				filter="{status:'select'}"
-				filter-data="projectList.statusArray"
-				sortable="'status'">
-				{{o.status}}
-			</td>
-		</tr>
-		
-		<tr ng-show="!$data || !$data.length" class="text-center">
-			<td ng-if="environment === 'EAO'" colspan="5">No results match your search.</td>
-			<td ng-if="environment === 'MEM'" colspan="4">No results match your search.</td>
-		</tr>
-		
-	</table>
-</section>
-
+<table class="project-table table" x-show-filter="true" ng-table="projectList.tableParams">
+	<tr ng-repeat="o in $data" class='clickable' ui-sref="p.detail({projectid: o.code})">
+		<td header-class="'name-col'" 
+			data-title="'Name'" 
+			filter="{'name':'text'}" 
+			sortable="'name'"><a ui-sref="p.detail({projectid: o.code})">{{o.name}}</a></td>
+		<td ng-if="environment === 'MEM'" data-title="'Permit'" filter="{'memPermitID':'text'}" sortable="'memPermitID'">
+			{{o.memPermitID}}
+		</td>
+		<td header-class="'type-col'" 
+			data-title="'Type'" 
+			filter="{type:'select'}" 
+			filter-data="projectList.typeArray" 
+			sortable="'type'">{{o.type}}</td>
+		<td header-class="'region-col'" 
+			data-title="'Region'" 
+			filter="{region:'select'}" 
+			filter-data="projectList.regionArray" 
+			sortable="'region'">{{o.region | regionName}}</td>
+		<td header-class="'phase-col'"
+			data-title="'Phase'"
+			filter="{'currentPhase.name':'select'}"
+			filter-data="projectList.phaseArray"
+			sortable="'currentPhase.name'">{{o.currentPhase.name}}</td>
+		<td header-class="'decision-col'"
+			ng-if="environment === 'EAO'"
+			data-title="'Decision'"
+			filter="{eacDecision:'select'}"
+			filter-data="projectList.eacDecisionArray"
+			sortable="'eacDecision'">{{o.eacDecision}}</td>
+		<td header-class="'comment-col'" 
+			data-title="'Comment Period'" 
+			filter="{openCommentPeriod:'select'}" 
+			filter-data="projectList.openPCPArray" 
+			sortable="'openCommentPeriod'">{{o.openCommentPeriod ? 'Open' : ''}}</td>
+	</tr>
+	<tr class="no-records" ng-show="!$data || !$data.length">
+		<td ng-if="environment === 'EAO'" colspan="4">No results match your search.</td>
+		<td ng-if="environment === 'MEM'" colspan="4">No results match your search.</td>
+	</tr>
+</table>

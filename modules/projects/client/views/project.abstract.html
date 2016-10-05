@@ -1,92 +1,10 @@
-<section id="project-view">
 
-    <div class="view-content">
-         <!-- SIDE NAVIGATION -->
-         <aside class="left-panel" id="main-side-section" ng-if="authentication.user">
-            <tmpl-system-menu x-menu-context="'project'" x-project="project"></tmpl-system-menu>
-         </aside>
 
-        <!-- PROJECTS DETAILS -->
-        <section class="main-panel" ng-if="!authentication.user">
-            <ui-view id="main-content-section"></ui-view>
-        </section>
-        <section class="main-panel" ng-if="authentication.user">
-            <ui-view id="main-content-section"></ui-view>
-        </section>
+<!-- SIDE NAVIGATION -->
+<aside class="left-panel" id="main-side-section">
+    <tmpl-system-menu x-menu-context="'project'" x-project="project"></tmpl-system-menu>
+</aside>
 
-        <!-- ACTIVITIES LIST -->
-        <section class="right-panel activities-container hidden" ng-if="authentication.user">
-            <h2>My Activities<span>(*)</span></h2>
-            <div class="panel panel-default tab-container">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="todo" role="all-activities">
-                        <a href="#active" aria-controls="active" role="tab" data-toggle="tab">Active (*)</a>
-                    </li>
-                    <li class="completed" role="all-activities">
-                        <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Complete (*)</a>
-                    </li>
-                    <li class="all active" role="all-activities">
-                        <a href="#all" aria-controls="all" role="tab" data-toggle="tab">All (*)</a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane" id="active" role="tabpanel">
-                        <ul class="activities-list">
-                            <li>
-                                <h3>Activity</h3>
-                                <div class="activity-info">
-                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
-                                    <small>End Date: <span>MM/DD/YYYY</span></small>
-                                </div>
-                                <span class="badge bg-primary">Active</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="tab-pane" id="completed" role="tabpanel">
-                        <ul class="activities-list list-group">
-                            <li>
-                                <h3>Activity</h3>
-                                <div class="activity-info">
-                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
-                                    <small>End Date: <span>MM/DD/YYYY</span></small>
-                                </div>
-                                <span class="badge success">Complete</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="tab-pane active" id="all" role="tabpanel">
-                        <ul class="activities-list list-group">
-                            <li>
-                                <h3>Activity</h3>
-                                <div class="activity-info">
-                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
-                                    <small>End Date: <span>MM/DD/YYYY</span></small>
-                                </div>
-                                <span class="badge bg-primary">To Do</span>
-                            </li>
-                            <li>
-                                <h3>Activity</h3>
-                                <div class="activity-info">
-                                    <small>Project: <span>Project Name</span></small>
-                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
-                                    <small>End Date: <span>MM/DD/YYYY</span></small>
-                                </div>
-                                <span class="badge success">Complete</span>
-                            </li><li>
-                                <h3>Activity</h3>
-                                <div class="activity-info">
-                                    <small>Project: <span>Project Name</span></small>
-                                    <small>Start Date: <span>MM/DD/YYYY</span></small>
-                                    <small>End Date: <span>MM/DD/YYYY</span></small>
-                                </div>
-                                <span class="badge success">Complete</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </div>
-
-</section>
+<!-- PROJECTS DETAILS -->
+<ui-view class="main-panel" id="main-content-section" ng-if="!authentication.user"></ui-view>
+<ui-view class="main-panel" id="main-content-section" ng-if="authentication.user"></ui-view>

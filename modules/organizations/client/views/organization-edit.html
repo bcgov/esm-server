@@ -1,121 +1,110 @@
-<h1 class="page-title no-lower-margin">
-	Add / Edit Organization
-</h1>
 
-<form name="organizationForm" ng-submit="save(organizationForm.$valid)" novalidate>
-
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<button class="btn btn-xs btn-link" ui-sref="admin.organization.list">Cancel</button>
-		<button class="btn btn-xs btn-link" href type="submit">Save</button>
+<form class="view-form" name="organizationForm" novalidate>
+	<div class="view-title-container flex-row">
+		<h1>Add/Edit Organization <span ng-if="org.name">&nbsp; &rsaquo; &nbsp;{{ org.name }}</span></h1>
+		<div class="actions">
+			<button class="btn btn-default btn-sm" ui-sref="admin.organization.list">Cancel</button>
+			<button class="btn btn-danger btn-sm" ng-click="deleteOrg()" type="button"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
+			<button class="btn btn-primary btn-sm" ng-click="save(organizationForm.$valid)" type="button">Save</button>
+		</div>
 	</div>
-</div>
-
-<div class="panel panel-default">
-	<div class="panel-body">
-
-		<div class="row">
-			<div class="col-sm-8">
-				<div class="form-group" x-show-errors>
-					<label for="name" class="control-label">Name</label>
-					<input id="name" name="name" type="text" class="form-control input-sm" ng-model="org.name" required>
-					<div ng-messages="organizationForm.name.$error" role="alert">
-						<p class="help-block error-text" ng-message="required">Name is required.</p>
+	
+	<div class="view-body-container">
+		<fieldset>
+			<legend>General Info</legend>
+			<div class="row">
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group" x-show-errors>
+						<label for="name" class="control-label">Organization Name<em class="required">(Required)</em></label>
+						<input class="form-control" id="name" name="name" type="text" ng-model="org.name" required>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group">
+						<label for="company" class="control-label">Display Name<em>(Doing Business As)</em></label>
+						<input class="form-control" id="company" type="text" ng-model="org.company">
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group">
+						<label for="companyLegal" class="control-label">Company Legal</label>
+						<input class="form-control" id="companyLegal" type="text" ng-model="org.companyLegal">
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group">
+						<label for="companyType" class="control-label">Company Type</label>
+						<input class="form-control" id="companyType" type="text" ng-model="org.companyType">
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label for="website" class="control-label">Website</label>
-					<input id="website" type="text" class="form-control input-sm" ng-model="org.website">
+			<div class="row">
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group">
+						<label for="registeredIn" class="control-label">Registered In</label>
+						<input class="form-control" id="registeredIn" type="text" ng-model="org.registeredIn">
+					</div>
 				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group">
+						<label for="website" class="control-label">Website</label>
+						<input class="form-control" id="website" type="text" ng-model="org.website">
+					</div>
+				</div>
+			</div>
+		</fieldset>
+
+		<fieldset>
+			<legend>Mailing Address</legend>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="address1" class="control-label">Street Address 1</label>
+						<input class="form-control" id="address1" type="text" ng-model="org.address1">
+					</div>
+				</div>    
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="address2" class="control-label">Street Address 2</label>
+						<input class="form-control" id="address2" type="text" ng-model="org.address2">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group">
+						<label for="city" class="control-label">City</label>
+						<input class="form-control" id="city" type="text" ng-model="org.city">
+					</div>
+				</div>    
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group">
+						<label for="province" class="control-label">Province/State</label>
+						<input class="form-control" id="province" type="text" ng-model="org.province">
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group">
+						<label for="country" class="control-label">Country</label>
+						<input class="form-control" id="country" type="text" ng-model="org.country">
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group">
+						<label for="postal" class="control-label">Postal/Zip Code</label>
+						<input class="form-control" id="postal" type="text" ng-model="org.postal">
+					</div>
+				</div>
+			</div>
+		</fieldset>
+
+		<div class="form-footer clearfix">
+			<div class="pull-right">
+				<button class="btn btn-default btn-sm" ui-sref="admin.organization.list">Cancel</button>
+				<button class="btn btn-danger btn-sm" ng-click="deleteOrg()" type="button"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
+				<button class="btn btn-primary btn-sm" ng-click="save(organizationForm.$valid)" type="button">Save</button>
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-sm-8">
-				<div class="form-group">
-					<label for="company" class="control-label">Doing Business As</label>
-					<input id="company" type="text" class="form-control input-sm" ng-model="org.company">
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label for="registeredIn" class="control-label">Registered In</label>
-					<input id="registeredIn" type="text" class="form-control input-sm" ng-model="org.registeredIn">
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-8">
-				<div class="form-group">
-					<label for="companyLegal" class="control-label">Company Legal</label>
-					<input id="companyLegal" type="text" class="form-control input-sm" ng-model="org.companyLegal">
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label for="companyType" class="control-label">Company Type</label>
-					<input id="companyType" type="text" class="form-control input-sm" ng-model="org.companyType">
-				</div>
-			</div>
-		</div>
-
-		<hr>	
-
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="address1" class="control-label">Address (Line 1)</label>
-					<input id="address1" type="text" class="form-control input-sm" ng-model="org.address1">
-				</div>
-			</div>    
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="address2" class="control-label">Address (Line 2)</label>
-					<input id="address2" type="text" class="form-control input-sm" ng-model="org.address2">
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="city" class="control-label">City</label>
-					<input id="city" type="text" class="form-control input-sm" ng-model="org.city">
-				</div>
-			</div>    
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="province" class="control-label">Province</label>
-					<input id="province" type="text" class="form-control input-sm" ng-model="org.province">
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="country" class="control-label">Country</label>
-					<input id="country" type="text" class="form-control input-sm" ng-model="org.country">
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="postal" class="control-label">Postal Code</label>
-					<input id="postal" type="text" class="form-control input-sm" ng-model="org.postal">
-				</div>
-			</div>
-		</div>
-		
-		<hr>
-		
-		<div class="row">
-			<div class="col-sm-12 text-right">
-				<button class="btn btn-default" ui-sref="admin.organization.list">Cancel</button>
-				<button class="btn btn-default" type="submit">Save</button>
-			</div>
-		</div>
-
-	</div>
-</div>
-
+	</div><!-- / VIEW BODY CONTAINER -->
 </form>

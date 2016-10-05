@@ -11,6 +11,9 @@ angular.module('project').factory ('PhaseModel', function (ModelBase, _) {
 	//
 	var PhaseClass = ModelBase.extend ({
 		urlName : 'phase',
+		lookup: function (phaseid) {
+			return this.get('/api/phase/' + phaseid);
+		},
 		// -------------------------------------------------------------------------
 		//
 		// add a milestone, from a base, to a phase

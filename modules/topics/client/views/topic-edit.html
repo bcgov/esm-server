@@ -1,78 +1,51 @@
-<h1 class="page-title no-lower-margin">
-	Add / Edit Topic
-</h1>
+<form class="view-form" name="topicForm" ng-submit="save(topicForm.$valid)" novalidate>
 
-<form name="topicForm" ng-submit="save(topicForm.$valid)" novalidate>
-
-<div class="row">
-	<div class="col-sm-12 text-right">
-		<button class="btn btn-xs btn-link" ui-sref="admin.topic.list">Cancel</button>
-		<button class="btn btn-xs btn-link" href type="submit">Save</button>
+	<div class="view-title-container flex-row">
+		<h1>Add/Edit Valued Component</h1>
+		<div class="actions">
+			<button class="btn btn-default btn-sm" ui-sref="admin.topic.list">Cancel</button>
+			<button class="btn btn-primary btn-sm" type="submit">Save</button>
+		</div>
 	</div>
-</div>
 
-<div class="panel panel-default">
-	<div class="panel-body">
+	<div class="view-body-container">
 		<div class="row">
-			<div class="col-sm-9">
-				<div class="form-group" x-show-errors>
-					<label for="title" class="control-label">Topic Name</label>
-					<input id="title" name="name" type="text" class="form-control" ng-model="topic.name" required>
-						<div ng-messages="topicForm.name.$error" role="alert">
-							<p class="help-block error-text" ng-message="required">Topic name is required.</p>
-						</div>
+			<div class="col-md-4 form-group" x-show-errors>
+				<label for="title" class="control-label">Title</label>
+				<input id="title" name="name" type="text" class="form-control" ng-model="topic.name" required>
+				<div ng-messages="topicForm.name.$error" role="alert">
+					<p class="help-block error-text" ng-message="required">Valued Component name is required.</p>
 				</div>
 			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="type" class="control-label">Topic Type</label>
-					<select id="type" ng-model='topic.type' class="form-control">
-						<option>Valued Component</option>
-						<option>Pathway Component</option>
-					</select>
+			<div class="col-md-4 form-group" x-show-errors>
+				<label for="pillar" class="control-label">Pillar</label>
+				<select ng-change="selectTopic(pillar)" id="pillar" name="pillar" ng-model='topic.pillar' class="form-control" ng-options="pillar.id as pillar.title for pillar in pillars" required></select>
+				<div ng-messages="topicForm.pillar.$error" role="alert">
+					<p class="help-block error-text" ng-message="required">Pillar is required.</p>
 				</div>
+			</div>
+			<div class="col-md-4 form-group">
+				<label for="parent" class="control-label">Parent Valued Component</label>
+				<select id="parent" ng-model='topic.parent' class="form-control" ng-options="topic.code as topic.name for topic in pillartopics"><option></option></select>
 			</div>
 		</div>
-
 		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="shortDesc" class="control-label">Topic Description</label>
-					<textarea id="shortDesc" type="text" class="form-control" ng-model="topic.description" rows=6></textarea>
-				</div>
+			<div class="col-sm-4 form-group">
+				<label for="type" class="control-label">Type</label>
+				<select id="type" ng-model='topic.type' class="form-control">
+					<option>Valued Component</option>
+					<option>Pathway Component</option>
+				</select>
 			</div>
 		</div>
-
 		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group" x-show-errors>
-					<label for="pillar" class="control-label">Pillar</label>
-					<select ng-change="selectTopic(pillar)" id="pillar" name="pillar" ng-model='topic.pillar' class="form-control" ng-options="pillar.id as pillar.title for pillar in pillars" required>
-					</select>
-					<div ng-messages="topicForm.pillar.$error" role="alert">
-						<p class="help-block error-text" ng-message="required">Pillar is required.</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-sm-6">
-				<div class="form-group">
-					<label for="parent" class="control-label">Parent Topic</label>
-					<select id="parent" ng-model='topic.parent' class="form-control" ng-options="topic.code as topic.name for topic in pillartopics"><option></option></select>
-				</div>
+			<div class="col-sm-12 form-group">
+				<label for="shortDesc" class="control-label">Description</label>
+				<textarea id="shortDesc" type="text" class="form-control" ng-model="topic.description" rows=6></textarea>
 			</div>
 		</div>
-
-		<hr>
-
-		<div class="row">
-			<div class="col-sm-12 text-right">
-				<button class="btn btn-default" ui-sref="admin.topic.list">Cancel</button>
-				<button class="btn btn-default" type="submit">Save</button>
-			</div>
-		</div>
-
-	</div>
-</div>
+	</div><!-- / VIEW BODY CONTAINER -->
 
 </form>
+
+

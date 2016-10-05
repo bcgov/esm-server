@@ -1,0 +1,59 @@
+
+<div class="view-title-container">
+    <h1>Public Comment Period</h1>
+</div>
+
+<div class="view-body-container">
+
+    <div class="panel panel-default">
+        <div class="pcp-alert clearfix">
+            <div class="pull-left">
+                <h2>Public Comment Period is <span ng-if="isBefore">Scheduled</span><span ng-if="isOpen">Now Open</span><span ng-if="isClosed">Now Closed</span>.</h2>
+                <span class="pcp-dates">{{ period.dateStarted | amDateFormat:'MMMM Do, YYYY' }} &nbsp;-&nbsp; {{ period.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</span>
+            </div>
+            <div class="pcp-comment-btn-container">
+                <button class="btn submit-comment-btn" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="period">
+                    Click Here to Submit a Comment
+                </button>
+            </div>
+        </div>
+
+        <div class="pcp-details">
+            <!-- ABOUT -->
+            <section>
+                <h4>About this Comment Period...</h4>
+                <pre class="pcp-desc" ng-if="!period.instructions">No Description Available.</pre>
+                <pre class="pcp-desc" ng-if="period.instructions">{{ period.instructions }}</pre>
+                <!-- <pre class="pcp-desc" ng-if="isClosed">These are the closing remarks</pre> -->
+            </section><!-- / ABOUT -->
+            <!-- RELATED DOCUMENTS -->
+            <section class="pcp-related-docs">
+                <h4>Related Documents</h4>
+                <div class="list-group">
+                    <a class="list-group-item flex-row"
+                            ui-sref="p.artifact.view({artifactId:periodArtifact._id})"
+                            target="_blank" >
+                        <div class="icon">
+                            <span class="glyphicon glyphicon-list-alt"></span>
+                        </div>
+                        <div class="title">{{ artifact.name }}</div>
+                    </a>
+                </div>
+            </section><!-- / RELATED DOCUMENTS -->
+            <!-- OPEN HOUSE -->
+            <section ng-if="period.openHouses.length > 0">
+                <h4>Open House Dates</h4>
+                <ul class="pcp-open-house-list">
+                    <li ng-repeat="h in period.openHouses">
+                        <strong>{{ h.eventDate | amDateFormat:'MMMM Do YYYY' }}</strong>
+                        <pre>{{ h.description }}</pre>
+                    </li>
+                </ul>
+            </section><!-- / OPEN HOUSE -->
+        </div>
+
+    </div>
+
+    <tmpl-public-comment-list x-period="period" x-project="project"></tmpl-public-comment-list>
+
+</div>

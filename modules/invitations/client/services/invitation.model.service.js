@@ -5,7 +5,7 @@
 // is accessed through the front end
 //
 // =========================================================================
-angular.module('invitation').factory ('InvitationModel', function (ModelBase, _) {
+angular.module('invitations').factory ('InvitationModel', function (ModelBase, _) {
 	//
 	// build the model by extending the base model. the base model will
 	// have all the basic crud stuff built in

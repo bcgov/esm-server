@@ -1,0 +1,22 @@
+<div class="modal-header">
+	<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<h3 class="modal-title">Add Phase</h3>
+</div>
+
+<div class="modal-body">
+	<div class="form-group">
+		<label>Select a Phase</label>
+		<select class="form-control"
+			ng-model="selectedPhase"
+			ng-options="phase.name for phase in options"
+			ng-selected="phase === selectedPhase">
+		</select>
+	</div>
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="btn" ng-click="cancel()">Cancel</button>
+	<button type="button" class="btn btn-primary" ng-click="ok(selectedPhase)">Add Phase</button>
+</div>

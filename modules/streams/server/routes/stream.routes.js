@@ -4,22 +4,20 @@
 // Routes for streams
 //
 // =========================================================================
-var policy     = require ('../policies/stream.policy');
 var Stream     = require ('../controllers/stream.controller');
-var helpers    = require ('../../../core/server/controllers/core.helpers.controller');
+var routes = require ('../../../core/server/controllers/core.routes.controller');
+var policy = require ('../../../core/server/controllers/core.policy.controller');
 
 
 module.exports = function (app) {
-	helpers.setCRUDRoutes (app, 'stream', Stream, policy);
+	routes.setCRUDRoutes (app, 'stream', Stream, policy);
 	//
 	// add phase to stream (base)
 	//
 	app.route ('/api/stream/:stream/add/phase/:phasebase')
-		.all (policy.isAllowed)
-		.put (function (req, res) {
-			var s = new Stream (req.user);
-			s.addPhaseToStream (req.Stream, req.PhaseBase)
-			.then (helpers.success(res), helpers.failure(res));
-		});
+		.all (policy ('user'))
+		.put (routes.setAndRun (Stream, function (model, req) {
+			return model.addPhaseToStream (req.Stream, req.PhaseBase);
+		}));
 };
 

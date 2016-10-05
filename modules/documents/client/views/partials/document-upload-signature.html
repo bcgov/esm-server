@@ -1,0 +1,56 @@
+<div class="modal-header">
+	<h3 class="modal-title">Upload Signature</h3>
+</div>
+
+<div class="modal-body">
+
+	<div class="alert alert-danger" ngf-no-file-drop >
+		File Drag and Drop is not supported for this browser.
+	</div>
+
+	<div class="upload-target no-margin"
+		ngf-drag-over-class="dragover"
+		ngf-drop 
+		ngf-select
+		ng-model="files"
+		ngf-multiple="true"
+		ngf-allow-dir="true">
+		<div class="instructions"><strong>Drag and Drop Files Here</strong> or <strong>Select Files</strong></div>
+		<div class="requirements">Total upload size limited to 300MB.</div>
+	</div>
+
+	<div class="list-group no-margin" ng-if="sigUp.fileList.length > 0">
+		<li class="list-group-item flex-row"
+			ng-class="{'danger': f.$error}" 
+			ng-repeat="f in sigUp.fileList">
+			<div class="icon">
+				<span class="glyphicon glyphicon-file"></span>
+			</div>
+			<div class="title">{{f.name}} {{f.$error}} {{f.$errorParam}}</div>
+			<div class="actions">
+				<div class="file-progress" ng-if="!f.$error && f.progress">
+					<div class="progress">
+						<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
+							style="width:{{f.progress}}%" 
+							ng-bind="f.progress + '%'">
+							<span class="sr-only">{{ f.progress }}</span>
+						</div>
+					</div>
+				</div>
+				<button class="btn btn-default btn-sm" title="Remove File"
+					ng-click="sigUp.removeFile(f)" 
+					ng-if="!f.$error && !f.progress">
+					<span class="glyphicon glyphicon-remove"></span>
+				</button>
+			</div>
+		</li>
+	</div>
+
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-primary"
+		ng-click="sigUp.upload()" 
+		ng-disabled="!sigUp.fileList.length > 0 || sigUp.inProgress">OK</button>
+</div>
+

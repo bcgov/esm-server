@@ -9,19 +9,20 @@ var path           = require('path');
 var DBModel        = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
 var MilestoneClass = require (path.resolve('./modules/milestones/server/controllers/milestone.controller'));
 var PhaseBaseClass = require ('./phasebase.controller');
-var Roles          = require (path.resolve('./modules/roles/server/controllers/role.controller'));
+// var Roles          = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 
 module.exports = DBModel.extend ({
 	name : 'Phase',
 	plural : 'phases',
 	bind: ['complete'],
+	populate : 'milestones activities',
 	// -------------------------------------------------------------------------
 	//
 	// just get a base phase, returns a promise
 	//
 	// -------------------------------------------------------------------------
 	getPhaseBase: function (code) {
-		return (new PhaseBaseClass (this.user)).findOne ({code:code});
+		return (new PhaseBaseClass (this.opts)).findOne ({code:code});
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -140,14 +141,13 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	addMilestone : function (phase, basecode) {
 		var self = this;
-		var Milestone = new MilestoneClass (self.user);
+		var Milestone = new MilestoneClass (self.opts);
 		return new Promise (function (resolve, reject) {
 			//
 			// get the new milestone
 			//
 			Milestone.fromBase (basecode, phase)
 			.then (function (milestone) {
-				// console.log ('adding milestone with id '+milestone._id+' to phase '+phase._id);
 				phase.milestones.push (milestone._id);
 				return phase;
 			})
@@ -165,7 +165,6 @@ module.exports = DBModel.extend ({
 		phase.dateStarted      = new Date ();
 		phase.dateCompletedEst = new Date (phase.dateStarted);
 		phase.dateCompletedEst.setDate (phase.dateCompletedEst.getDate () + phase.duration);
-		// console.log ('starting pahse', phase._id, phase.name);
 		return this.findAndUpdate (phase);
 	},
 	// -------------------------------------------------------------------------
@@ -174,22 +173,34 @@ module.exports = DBModel.extend ({
 	// may rather want to mark them as overridden.
 	//
 	// -------------------------------------------------------------------------
-	complete: function (phase) {
+	completePhase: function (phase) {
 		var self = this;
-		return new Promise (function (resolve, reject) {
-			if (!phase.completed) {
-				phase.status        = 'Complete';
-				phase.completed     = true;
-				phase.completedBy   = self.user._id;
-				phase.dateCompleted = new Date ();
-				phase.progress = 100;
-				self.completeMilestones (phase)
-				.then (function () {return self.findAndUpdate (phase);})
-				.then (resolve, reject);
-			} else {
-				resolve (phase);
-			}
-		});
+
+		if (!phase.completed) {
+			phase.status = 'Complete';
+			phase.completed = true;
+			phase.completedBy = self.user._id;
+			phase.dateCompleted = new Date();
+			phase.progress = 100;
+		}
+
+		if (phase.milestones) {
+			return self.completeMilestones(phase)
+				.then(function() {
+					self.findAndUpdate(phase);
+				});
+		} else {
+			return self.findAndUpdate(phase);
+		}
+	},
+	uncompletePhase: function (phase) {
+		var self = this;
+		phase.status = 'In Progress';
+		phase.completed = false;
+		phase.completedBy = null;
+		phase.dateCompleted = null;
+		phase.progress = 50; //TODO: What value to use?
+		return self.findAndUpdate(phase);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -203,11 +214,11 @@ module.exports = DBModel.extend ({
 			phase.overrideReason = reason;
 			phase.overridden     = true;
 			phase.completed      = true;
-			phase.completedBy    = this.user._id;
+			phase.completedBy    = self.user._id;
 			phase.dateCompleted  = new Date ();
 			self.overrideMilestones (phase)
-			.then (self.findAndUpdate)
-			.then (resolve, reject);
+				.then (self.findAndUpdate)
+				.then (resolve, reject);
 		});
 	},
 	// -------------------------------------------------------------------------
@@ -216,19 +227,21 @@ module.exports = DBModel.extend ({
 	//
 	// -------------------------------------------------------------------------
 	completeMilestones: function (phase) {
-		// console.log ('completing milestones');
-		var self = this;
-	// console.log (JSON.stringify (phase, null, 4));
-		var Milestone = new MilestoneClass (self.user);
-		return Promise.all (phase.milestones.map (function (milestoneId) {
-			return Milestone.findById (milestoneId);
-		}))
-		.then (function (result) {
-			return Promise.all (result.map (function (milestone) {
-				if (milestone.completed) return milestone;
-				else return Milestone.complete (milestone);
-			}));
-		});
+		if (!phase.milestones) {
+			return Promise.resolve(phase);
+		} else {
+			var self = this;
+			var Milestone = new MilestoneClass (self.opts);
+			return Promise.all (phase.milestones.map (function (milestoneId) {
+				return Milestone.findById (milestoneId);
+			}))
+			.then (function (result) {
+				return Promise.all (result.map (function (milestone) {
+					if (milestone.completed) return milestone;
+					else return Milestone.complete (milestone);
+				}));
+			});
+		}
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -238,20 +251,11 @@ module.exports = DBModel.extend ({
 	overrideMilestones: function (phase) {
 		var self = this;
 		return Promise.all (phase.milestones.map (function (milestone) {
-			var Milestone = new MilestoneClass (self.user);
+			var Milestone = new MilestoneClass (self.opts);
 			if (milestone.completed) return milestone;
 			else return Milestone.override (milestone, phase.overrideReason);
 		}));
 	},
-
-
-
-
-
-
-
-
-
 	// -------------------------------------------------------------------------
 	//
 	// get phases based on a project, or not, with access of read or write
@@ -280,116 +284,3 @@ module.exports = DBModel.extend ({
 	}
 
 });
-
-	// // -------------------------------------------------------------------------
-	// //
-	// // add a milestone to a phase from a base milestone (creates a proper
-	// // milestone with all its children and pushes it onto the array)
-	// //
-	// // -------------------------------------------------------------------------
-	// addMilestoneFromBase : function (phase, milestonebase, roles) {
-	// 	var self = this;
-	// 	var Milestone = new MilestoneClass (this.user);
-	// 	return new Promise (function (resolve, reject) {
-	// 		Milestone.makeMilestoneFromBase (
-	// 			milestonebase,
-	// 			phase.stream,
-	// 			phase.project,
-	// 			phase.projectCode,
-	// 			phase._id,
-	// 			roles
-	// 		)
-	// 		.then (function (newmilestone) {
-	// 			phase.milestones.push (newmilestone._id);
-	// 			return phase;
-	// 		})
-	// 		.then (self.saveDocument)
-	// 		.then (resolve, reject);
-	// 	});
-	// },
-	// // -------------------------------------------------------------------------
-	// //
-	// // given a base milestone code, add a copy of it to the phase
-	// //
-	// // -------------------------------------------------------------------------
-	// addMilestoneFromCode : function (phase, milestoneCode, roles) {
-	// 	var self = this;
-	// 	return new Promise (function (resolve, reject) {
-	// 		var PhaseBase = new PhaseBaseClass (self.user);
-	// 		PhaseBase.findOne ({
-	// 			code: milestoneCode
-	// 		})
-	// 		.then (function (base) {
-	// 			return self.addMilestoneFromBase (phase, base, roles);
-	// 		})
-	// 		.then (resolve, reject);
-	// 	});
-	// },
-
-	// // -------------------------------------------------------------------------
-	// //
-	// // when making a phase from a base it will aslways be in order to attach
-	// // to a project, so the project and stream are passed in here along with the
-	// // base
-	// // make our new phase so we have an id
-	// // first get all the milestones and make propoer objects from those,
-	// // reverse link the new milestones to the new phase by passing in the
-	// // ancestry
-	// // save the phase
-	// //
-	// // -------------------------------------------------------------------------
-	// makePhaseFromBase : function (base, streamid, projectid, projectcode, roles) {
-	// 	var self = this;
-	// 	var Milestone = new MilestoneClass (this.user);
-	// 	var MilestoneBase = new MilestoneBaseClass (this.user);
-	// 	return new Promise (function (resolve, reject) {
-	// 		var baseid = base._id;
-	// 		var newobjectid;
-	// 		var newobject;
-	// 		var children;
-	// 		var basename = 'phaseBase';
-	// 		var newchildfunction = Milestone.makeMilestoneFromBase;
-	// 		var findchildbyid = MilestoneBase.findById;
-	// 		var childname = 'milestones';
-	// 		// get all the children
-	// 		Promise.all (base[childname].map (findchildbyid))
-	// 		.then (function (models) {
-	// 			// assign it for later use
-	// 			children = models;
-	// 			// make the new newobject from the base
-	// 			return self.copy (base);
-	// 		})
-	// 		.then (function (model) {
-	// 			newobjectid = model._id;
-	// 			newobject   = model;
-	// 			//
-	// 			// fix the roles
-	// 			//
-	// 			model.fixRoles (projectcode);
-	// 			if (roles) model.addRoles (roles);
-	// 			RoleController.addRolesToConfigObject (model, 'phases', model.roleSet());
-	// 			//
-	// 			// assign whatever ancenstry is needed
-	// 			//
-	// 			model[basename] = baseid;
-	// 			model.project = projectid;
-	// 			model.projectCode = projectcode;
-	// 			model.stream  = streamid;
-	// 			// return the promise of new children
-	// 			return Promise.all (children.map (function (m) {
-	// 				return Milestone.makeMilestoneFromBase (m, streamid, projectid, projectcode, newobjectid, roles);
-	// 			}));
-	// 		})
-	// 		.then (function (models) {
-	// 			// assign each new child to the newobject
-	// 			_.each (models, function (m) {
-	// 				newobject[childname].push (m._id);
-	// 			});
-	// 			return newobject;
-	// 		})
-	// 		.then (self.saveDocument)
-	// 		.then (resolve, reject);
-	// 	});
-	// },
-
-

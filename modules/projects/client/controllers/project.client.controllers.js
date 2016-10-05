@@ -10,7 +10,6 @@ angular.module('project')
 	.controller('controllerProjectEntry', controllerProjectEntry)
 	.controller('controllerModalProjectImport', controllerModalProjectImport)
 
-	.controller('controllerProjectStreamSelect', controllerProjectStreamSelect)
 	.controller('controllerProjectActivities', controllerProjectActivities);
 
 // -----------------------------------------------------------------------------------
@@ -48,23 +47,23 @@ function controllerModalProjectSchedule($modalInstance,  PhaseModel, _, rProject
 controllerProjectVC.$inject = ['$scope', 'rProjectVC', '_', '$modalInstance', 'VCModel'];
 /* @ngInject */
 function controllerProjectVC($scope, rProjectVC, _, $modalInstance, sVCModel) {
-        var projectVC = this;
+		var projectVC = this;
 
-        projectVC.roles = ['admin', 'project-team', 'working-group', 'first-nations', 'consultant'];
-        projectVC.vc = rProjectVC;
+		projectVC.roles = ['admin', 'project-team', 'working-group', 'first-nations', 'consultant'];
+		projectVC.vc = rProjectVC;
 
-        // Set current model for VC
-        sVCModel.setModel(rProjectVC);
+		// Set current model for VC
+		sVCModel.setModel(rProjectVC);
 
-        sVCModel.getCollection().then(function(data){
-                projectVC.valuecomponents = data;
-        });
+		sVCModel.getCollection().then(function(data){
+				projectVC.valuecomponents = data;
+		});
 
-        // on save, pass complete permission structure to the server
-        projectVC.ok = function () {
-                $modalInstance.close();
-        };
-        projectVC.cancel = function () { $modalInstance.dismiss('cancel'); };
+		// on save, pass complete permission structure to the server
+		projectVC.ok = function () {
+				$modalInstance.close();
+		};
+		projectVC.cancel = function () { $modalInstance.dismiss('cancel'); };
 
 }
 // -----------------------------------------------------------------------------------
@@ -123,6 +122,7 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 
 	$scope.$on('importUploadStart', function(event) {
 		projectImport.upload();
+		$modalInstance.dismiss();
 	});
 
 	projectImport.ok = function () {
@@ -177,63 +177,26 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 // Used.
 //
 // -----------------------------------------------------------------------------------
-controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', 'project', 'REGIONS', 'PROJECT_TYPES', '_', 'UserModel', 'ProjectModel', 'OrganizationModel', 'Authentication'];
+controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', '$modal', 'project', 'REGIONS', 'PROJECT_TYPES', 'PROJECT_SUB_TYPES', 'CEAA_TYPES', '_', 'UserModel', 'ProjectModel', 'OrganizationModel', 'Authentication', 'codeFromTitle'];
 /* @ngInject */
-function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS, PROJECT_TYPES, _, UserModel, ProjectModel, OrganizationModel, Authentication) {
+function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, REGIONS, PROJECT_TYPES, PROJECT_SUB_TYPES, CEAA_TYPES, _, UserModel, ProjectModel, OrganizationModel, Authentication, codeFromTitle) {
 
 	ProjectModel.setModel ($scope.project);
 
-	if (!$scope.project.proponent || _.isEmpty ($scope.project.proponent)) {
-		if (Authentication.user.org) {
-			OrganizationModel.getModel (Authentication.user.org)
-			.then (function (org) {
-				if (org) {
-					$scope.project.proponent = org;
-				} else {
-					OrganizationModel.getNew ().then (function (neworg) {
-						$scope.project.proponent = neworg;
-					});
-				}
-			})
-			.catch (function (err) {
-				console.error ('Error getting organization:');
-			});
-		} else {
-			OrganizationModel.getNew ().then (function (neworg) {
-				$scope.project.proponent = neworg;
-			});
-		}
-	} else {
-		if (!_.isObject ($scope.project.proponent)) {
-			OrganizationModel.getModel ($scope.project.proponent).then (function (org) {
-				$scope.project.proponent = org;
-			});
-		}
+	if ($scope.project.proponent && !_.isObject ($scope.project.proponent)) {
+		OrganizationModel.getModel ($scope.project.proponent).then (function (org) {
+			$scope.project.proponent = org;
+		});
 	}
-	if (!$scope.project.primaryContact || _.isEmpty ($scope.project.primaryContact)) {
-		// UserModel.getModel (Authentication.user._id)
-		UserModel.me (Authentication.user._id)
+	if ($scope.project.primaryContact && !_.isObject ($scope.project.primaryContact)) {
+		UserModel.me ($scope.project.primaryContact)
 		.then (function (userrecord) {
-			if (userrecord) {
-				$scope.project.primaryContact = userrecord;
-			} else {
-				UserModel.getNew ().then (function (newuser) {
-					$scope.project.primaryContact = newuser;
-				});
-			}
+			$scope.project.primaryContact = userrecord;
 		})
 		.catch (function (err) {
 			console.error ('Error getting user record:');
 		});
-	} else {
-		if (!_.isObject ($scope.project.primaryContact)) {
-			UserModel.me ($scope.project.primaryContact)
-			.then (function (userrecord) {
-				$scope.project.primaryContact = userrecord;
-			});
-		}
 	}
-
 
 	if ($stateParams.projectid === 'new') {
 		ProjectModel.modelIsNew = true;
@@ -243,35 +206,40 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 	$scope.questions = ProjectModel.getProjectIntakeQuestions();
 	$scope.regions = REGIONS;
 	$scope.types = PROJECT_TYPES;
+	$scope.subTypes = PROJECT_SUB_TYPES;
 	$scope._ = _;
-
-
-
-
+	$scope.CEAA = CEAA_TYPES;
 
 	$scope.saveProject = function(isValid) {
 		if (!isValid) {
 			$scope.$broadcast('show-errors-check-validity', 'projectForm');
+			$scope.$broadcast('show-errors-check-validity', 'detailsForm');
+			$scope.$broadcast('show-errors-check-validity', 'contactsForm');
 			return false;
 		}
+		if (ProjectModel.modelIsNew) {
+			ProjectModel.add ($scope.project)
+			.then( function(data) {
+				$state.go('p.detail', {projectid: data.code});
+			})
+			.catch (function (err) {
+				console.error ('error = ', err);
+			});
+		} else {
+			ProjectModel.saveModel($scope.project)
+			.then( function(data) {
+				$state.go('p.detail', {projectid: data.code});
+			})
+			.catch (function (err) {
+				console.error ('error = ', err);
+			});
+		}
+	};
 
-		// UserModel.saveModel ()
-		Promise.resolve (Authentication.user)
-		.then (function (um) {
-			$scope.project.primaryContact = um._id;
-			return OrganizationModel.saveModel ();
-		})
-		.then (function (om) {
-			$scope.project.proponent = om._id;
-			return ProjectModel.saveModel ();
-		})
-		// ProjectModel.saveModel ()
-		.then( function(data) {
-			$state.go('p.detail', {projectid: data.code});
-		})
-		.catch (function (err) {
-			console.error ('error = ', err);
-		});
+	$scope.onChangeProjectName = function () {
+		// Calculate the new shortname
+		project.shortName = codeFromTitle(project.name);
+		project.code = codeFromTitle(project.name);
 	};
 
 	// Submit the project for stream assignment.
@@ -281,29 +249,113 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 			return false;
 		}
 
-		// UserModel.saveModel ()
-		Promise.resolve (Authentication.user)
-		.then (function (um) {
-			$scope.project.primaryContact = um._id;
-			return OrganizationModel.saveModel ();
-		})
-		.then (function (om) {
-			$scope.project.proponent = om._id;
-			return ProjectModel.submit ();
-		})
-		// ProjectModel.submit ()
+		ProjectModel.add ($scope.project)
 		.then (function (data) {
-			// $state.transitionTo('p.detail', {projectid: data.code}, {
-	  // 			reload: true, inherit: false, notify: true
-	  // 		});
-	  		// console.log ('new status = ', data.status);
-	  		$scope.project = _.extend($scope.project, data);
-			$state.go('p.detail', {projectid: $scope.project.code});
+			return ProjectModel.submit(data);
+		})
+		.then( function (p) {
+			$scope.project = p;
+			$state.go('p.detail', {projectid: p.code});
 		})
 		.catch (function (err) {
 			console.error ('error = ', err);
 		});
 	};
+
+	$scope.showSuccess = function(msg, transitionCallback, title) {
+		var modalDocView = $modal.open({
+			animation: true,
+			templateUrl: 'modules/utils/client/views/partials/modal-success.html',
+			controller: function($scope, $state, $modalInstance, _) {
+				var self = this;
+				self.title = title || 'Success';
+				self.msg = msg;
+				self.ok = function() {
+					$modalInstance.close($scope.project);
+				};
+				self.cancel = function() {
+					$modalInstance.dismiss('cancel');
+				};
+			},
+			controllerAs: 'self',
+			scope: $scope,
+			size: 'md',
+			windowClass: 'modal-alert',
+			backdropClass: 'modal-alert-backdrop'
+		});
+		// do not care how this modal is closed, just go to the desired location...
+		modalDocView.result.then(function (res) {transitionCallback(); }, function (err) { transitionCallback(); });
+	};
+
+	$scope.showError = function(msg, errorList, transitionCallback, title) {
+		var modalDocView = $modal.open({
+			animation: true,
+			templateUrl: 'modules/utils/client/views/partials/modal-error.html',
+			controller: function($scope, $state, $modalInstance, _) {
+				var self = this;
+				self.title = title || 'An error has occurred';
+				self.msg = msg;
+				self.ok = function() {
+					$modalInstance.close($scope.project);
+				};
+				self.cancel = function() {
+					$modalInstance.dismiss('cancel');
+				};
+			},
+			controllerAs: 'self',
+			scope: $scope,
+			size: 'md',
+			windowClass: 'modal-alert',
+			backdropClass: 'modal-alert-backdrop'
+		});
+		// do not care how this modal is closed, just go to the desired location...
+		modalDocView.result.then(function (res) {transitionCallback(); }, function (err) { transitionCallback(); });
+	};
+
+	var goToList = function() {
+		$state.transitionTo('activities', {}, {
+			reload: true, inherit: false, notify: true
+		});
+	};
+
+	var reloadEdit = function() {
+		$state.reload();
+	};
+
+	$scope.deleteProject = function() {
+		var modalDocView = $modal.open({
+			animation: true,
+			templateUrl: 'modules/utils/client/views/partials/modal-confirm-delete.html',
+			controller: function($scope, $state, $modalInstance, _) {
+				var self = this;
+				self.dialogTitle = "Delete Project";
+				self.name = $scope.project.name;
+				self.ok = function() {
+					$modalInstance.close($scope.project);
+				};
+				self.cancel = function() {
+					$modalInstance.dismiss('cancel');
+				};
+			},
+			controllerAs: 'self',
+			scope: $scope,
+			size: 'md'
+		});
+		modalDocView.result.then(function (res) {
+			ProjectModel.removeProject($scope.project)
+				.then(function (res) {
+					// deleted show the message, and go to list...
+					$scope.showSuccess('"'+ $scope.project.name +'"' + ' was deleted successfully.', goToList, 'Delete Success');
+				})
+				.catch(function (res) {
+					console.log("res:", res);
+					// could have errors from a delete check...
+					var failure = _.has(res, 'message') ? res.message : undefined;
+					$scope.showError('"'+ $scope.project.name +'"' + ' was not deleted.', [], reloadEdit, 'Delete Error');
+				});
+		}, function () {
+			//console.log('delete modalDocView error');
+		});	};
 }
 // -----------------------------------------------------------------------------------
 //
@@ -321,52 +373,6 @@ function controllerProjectEntry ($scope, $state, $stateParams, project, REGIONS,
 // 		projectProponent.project = newValue;
 // 	});
 // }
-
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: Stream Selection
-//
-// -----------------------------------------------------------------------------------
-controllerProjectStreamSelect.$inject = ['$scope', '$state', 'ProjectModel', 'StreamModel', '_'];
-/* @ngInject */
-function controllerProjectStreamSelect($scope, $state, ProjectModel, StreamModel, _) {
-	var projectStreamSelect = this;
-
-	this.project = $scope.project;
-
-	// $scope.$watch('project', function(newValue) {
-	// 	if (newValue) {
-	// 		ProjectModel.getModel(newValue._id).then( function(data) {
-	// 			projectStreamSelect.project = data;
-	// 		});
-	// 	}
-	// });
-
-
-	StreamModel.getCollection().then(function(data){
-		projectStreamSelect.streams = data;
-	});
-
-	// admin users can set the project stream
-	projectStreamSelect.setProjectStream = function() {
-		if ((!projectStreamSelect.project.stream || projectStreamSelect.project.stream === '') && projectStreamSelect.newStreamId) {
-			//
-			// CC : the status canges are now part of the business rules and so this
-			// portion moves to the back end, no need for a save prior to set
-			//
-			// projectStreamSelect.project.status = 'In Progress';
-			// ProjectModel.saveModel().then( function(res) {
-				// set the stream then move to the project overview page.
-				ProjectModel.setModel ($scope.project);
-				ProjectModel.setStream(projectStreamSelect.newStreamId).then( function(resStream) {
-					projectStreamSelect.project = _.assign(resStream);
-					//$scope.project = resStream;
-					$state.go('p.detail', {'projectid':projectStreamSelect.project.code}, {reload: true});
-				});
-			// });
-		}
-	};
-}
 
 // -----------------------------------------------------------------------------------
 //

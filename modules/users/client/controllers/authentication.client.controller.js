@@ -7,12 +7,13 @@ angular.module('users')
 // CONTROLLER: Authentication
 //
 // -----------------------------------------------------------------------------------
-controllerAuthentication.$inject = ['$scope', '$state', '$http', '$location', '$window', 'Authentication'];
+controllerAuthentication.$inject = ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'Application'];
 /* @ngInject */
-function controllerAuthentication($scope, $state, $http, $location, $window, Authentication) {
+function controllerAuthentication($scope, $state, $http, $location, $window, Authentication, Application) {
   var loginPanel = this;
 
   loginPanel.authentication = Authentication;
+  loginPanel.application = Application;
 
   // Get an eventual error defined in the URL query string:
   loginPanel.error = $location.search().err;
