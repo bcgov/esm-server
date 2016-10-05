@@ -1,11 +1,9 @@
 <div class="app-header">
 	<nav class="navbar">
-
 		<div class="navbar-header">
 			<div class="navbar-brand">
 				<a ui-sref="projects" href>
 					<img class="app-brand-img" src="{{logo}}" alt="Government of B.C." title="Government of B.C.">
-					<span class="app-title">EAO Project Information & Collaboration</span>
 				</a>
 			</div>
 		</div>
@@ -29,7 +27,7 @@
 				</a>
 			</li>
 
-			<li class="custom-nav-item" ng-if="ENV === 'EAO'" ng-show="authentication.user">
+			<li class="custom-nav-item" ng-show="authentication.user">
 				<a href ui-sref="activities">
 					<span class="glyphicon glyphicon-dashboard"></span>
 					<span>DASHBOARD</span>
