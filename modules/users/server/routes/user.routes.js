@@ -17,7 +17,7 @@ module.exports = function (app) {
 	app.route('/api/toinvite/user')
 		.all(policy('user'))
 		.get(routes.setAndRun(User, function (ctrl, req) {
-			return ctrl.searchForUsersToInvite(req.query.projectId);
+			return ctrl.searchForUsersToInvite(req.query.projectId, req.query.name, req.query.email, req.query.org, req.query.groupId);
 		}));
 
 	app.route('/api/user/roles/in/project/:projectid')

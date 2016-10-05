@@ -19,7 +19,7 @@ module.exports = DBModel.extend({
 	plural: 'users',
 	populate: 'org',
 
-	searchForUsersToInvite: function (projectId) {
+	searchForUsersToInvite: function (projectId, name, email, org, groupId) {
 		//console.log('projectId = ', projectId);
 		var self = this;
 		if (!_.isEmpty(projectId)) {
@@ -71,9 +71,15 @@ module.exports = DBModel.extend({
 			};
 
 			return new Promise(function(resolve, reject) {
-				var roles, users, invitations;
-				//console.log('searchForUsersToInvite 1) getRoles...');
-				return getRoles
+				var searchusers, roles, users, invitations;
+				//console.log('searchForUsersToInvite pre) search users...');
+				return self.search(name, email, org, groupId)
+					.then(function(data) {
+						//console.log('searchForUsersToInvite pre) results: ', data.length);
+						searchusers = data;
+						//console.log('searchForUsersToInvite 1) getRoles...');
+						return getRoles;
+					})
 					.then(function(data) {
 						//console.log('searchForUsersToInvite 1) results: ', data.length);
 						roles = data;
@@ -83,7 +89,13 @@ module.exports = DBModel.extend({
 					})
 					.then(function(data) {
 						//console.log('searchForUsersToInvite 2) results: ', data.length);
-						users = data;
+						users = [];
+						_.forEach(data, function(u) {
+							var user = _.find(searchusers, function(i) { return i._id.toString() === u._id.toString(); });
+							if (!_.isEmpty(user))
+								users.push(u);
+						});
+						//console.log('searchForUsersToInvite 2) filtered against searchusers: ', users.length);
 						//console.log('searchForUsersToInvite 3) getInvitations...');
 						return getInvitations(users);
 					})

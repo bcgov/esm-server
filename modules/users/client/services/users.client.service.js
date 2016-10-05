@@ -37,9 +37,9 @@ angular.module('users').factory ('UserModel', function (ModelBase, _) {
 
 			return this.get('/api/search/user?' + qs);
 		},
-		usersToInvite: function(projectId) {
+		usersToInvite: function(projectId, name, email, org, groupId) {
 
-			var q = {projectId: projectId};
+			var q = {projectId: projectId, name: name, email: email, org: org, groupId: groupId};
 
 			var qs = _.reduce(q, function(result, value, key) {
 				return (!_.isNull(value) && !_.isUndefined(value)) ? (result += key + '=' + value + '&') : result;
