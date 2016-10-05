@@ -141,8 +141,17 @@ angular.module ('comment')
 
 					var userAgent = window.navigator.userAgent;
 
-					var browsers = {chrome: /chrome/i, safari: /safari/i, firefox: /firefox/i, ie: /internet explorer/i};
+					// Feature detection method
+					if (Object.hasOwnProperty.call(window, "ActiveXObject") && !window.ActiveXObject) {
+						// console.log("IE11");
+						return 'ie';
+					}
+					if(navigator.appVersion.indexOf("MSIE") !== -1 || navigator.appVersion.indexOf("Trident") !== -1 || navigator.appVersion.indexOf("Edge") !== -1){
+						// console.log("IE Version < 11");
+						return 'ie';
+					}
 
+					var browsers = {chrome: /chrome/i, safari: /safari/i, firefox: /firefox/i, ie: /internet explorer/i};
 					for(var key in browsers) {
 						if (browsers[key].test(userAgent)) {
 							return key;
@@ -153,16 +162,35 @@ angular.module ('comment')
 				CommentModel.prepareCSV(s.tableParams.data)
 				.then( function (data) {
 					var blob = new Blob([ data ], { type : 'octet/stream' });
-					var url = (window.URL || window.webkitURL).createObjectURL( blob );
-					var anchor = document.createElement("a");
-					anchor.download = (currentFilter) ? currentFilter.eaoStatus + ".csv" : 'tableData.csv';
-					anchor.href = url;
+					var filename = (currentFilter) ? currentFilter.eaoStatus + ".csv" : 'tableData.csv';
 					var browse = getBrowser();
 					if (browse === 'firefox') {
-						window.location.href = url;
+						var ff = angular.element('<a/>');
+						ff.css({display: 'none'});
+						angular.element(document.body).append(ff);
+						ff.attr({
+							href: 'data:attachment/csv;charset=utf-8,' + encodeURI(data),
+							target: '_blank',
+							download: filename
+						})[0].click();
+						ff.remove();
+					} else if (browse === 'ie') {
+						window.navigator.msSaveBlob(blob, filename);
+					} else if (browse === 'safari') {
+						var safariBlob = new Blob([ data ], { type : 'text/csv;base64' });
+						var safariUrl = window.webkitURL.createObjectURL( safariBlob );
+						var safariAnchor = document.createElement("a");
+						safariAnchor.href = safariUrl;
+						safariAnchor.click();
+						window.webkitURL.revokeObjectURL(safariUrl);
+					} else {
+						var url = (window.URL || window.webkitURL).createObjectURL( blob );
+						var anchor = document.createElement("a");
+						anchor.download = filename;
+						anchor.href = url;
+						anchor.click();
+						window.URL.revokeObjectURL(url);
 					}
-					anchor.click();
-					window.URL.revokeObjectURL(url);
 				});
 			};
 			// -------------------------------------------------------------------------
