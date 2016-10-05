@@ -29,14 +29,16 @@ module.exports = DBModel.extend ({
 				var pcSort = _.partition(doc, { type: "Public Comment Period" });
 				var pcp = pcSort[0];
 				var news = pcSort[1];
-				var pcSortPriority = _.sortBy(pcp, function (o) {
-					return o.priority;
-				});
-				var newsSortPriority = _.sortBy(news, function (o) {
-					return o.priority;
+				// sort by date Added descending, then by priority ascending..., then by dateUpdated descending
+				pcp.sort(function (a, b) {
+					return (b.dateAdded - a.dateAdded) || (a.priority - b.priority) || (b.dateUpdated - a.dateUpdated);
 				});
 
-				resolve(pcSortPriority.concat(newsSortPriority));
+				news.sort(function (a, b) {
+					return (b.dateAdded - a.dateAdded) || (a.priority - b.priority) || (b.dateUpdated - a.dateUpdated);
+				});
+
+				resolve(pcp.concat(news));
 			}, reject);
 		});
 	},
@@ -49,14 +51,16 @@ module.exports = DBModel.extend ({
 				var pcSort = _.partition(doc, { type: "Public Comment Period" });
 				var pcp = pcSort[0];
 				var news = pcSort[1];
-				var pcSortPriority = _.sortBy(pcp, function (o) {
-					return o.priority;
-				});
-				var newsSortPriority = _.sortBy(news, function (o) {
-					return o.priority;
+				// sort by date Added descending, then by priority ascending..., then by dateUpdated descending
+				pcp.sort(function (a, b) {
+					return (b.dateAdded - a.dateAdded) || (a.priority - b.priority) || (b.dateUpdated - a.dateUpdated);
 				});
 
-				resolve(pcSortPriority.concat(newsSortPriority));
+				news.sort(function (a, b) {
+					return (b.dateAdded - a.dateAdded) || (a.priority - b.priority) || (b.dateUpdated - a.dateUpdated);
+				});
+
+				resolve(pcp.concat(news));
 			}, reject);
 		});
 	}
