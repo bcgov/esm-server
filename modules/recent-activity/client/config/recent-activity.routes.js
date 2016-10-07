@@ -82,7 +82,8 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 				s.priorityDescArray.push({id: item, title: item});
 			});
 			items.pluck('activeDesc').unique().value().map( function(item) {
-				s.activeDescArray.push({id: item, title: item});
+				var id = 'Active' === item ? true : false;
+				s.activeDescArray.push({id: id, title: item});
 			});
 
 
