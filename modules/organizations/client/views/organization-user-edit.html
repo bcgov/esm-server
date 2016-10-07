@@ -92,6 +92,18 @@
 				</div>
 			</div>
 			<div class="row">
+				<div class="col-sm-12 col-md-6">
+					<div class="form-group" x-show-errors>
+						<label for="address1" class="control-label">Street Address 1<em ng-if="user.viaMail">(Required)</em></label>
+						<input class="form-control" id="address1" name="address1" type="text" ng-model="user.address1" ng-required="user.viaMail">
+					</div>
+				</div>
+				<div class="col-sm-12 col-md-6">
+					<div class="form-group">
+						<label for="address1" class="control-label">Street Address 2<em>(Optional)</em></label>
+						<input class="form-control" id="address2" type="text" ng-model="user.address2">
+					</div>
+				</div>
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group" x-show-errors>
 						<label for="city" class="control-label">City<em ng-if="user.viaMail">(Required)</em></label>
@@ -117,20 +129,6 @@
 						<div ng-messages="userForm.postalCode.$error" role="alert">
 							<p class="help-block error-text" ng-message="required">* Required.</p>
 						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-12 col-md-6">
-					<div class="form-group" x-show-errors>
-						<label for="address1" class="control-label">Street Address 1<em ng-if="user.viaMail">(Required)</em></label>
-						<input class="form-control" id="address1" name="address1" type="text" ng-model="user.address1" ng-required="user.viaMail">
-					</div>
-				</div>
-				<div class="col-sm-12 col-md-6">
-					<div class="form-group">
-						<label for="address1" class="control-label">Street Address 2</label>
-						<input class="form-control" id="address2" type="text" ng-model="user.address2">
 					</div>
 				</div>
 			</div>

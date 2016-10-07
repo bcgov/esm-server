@@ -48,18 +48,16 @@
 		<div class="row">
 			<div class="col-sm-12 col-md-6">
 				<div class="form-group">
-					<label class="control-label" for="displayName">Displayed Name</label>
-					<input class="form-control" id="displayName" type="text" 
-						ng-model="myProfile.user.displayName" 
-						disabled>
+					<label class="control-label" for="departement">Department<em>(Optional)</em></label>
+					<input class="form-control" id="departement" type="text" 
+						ng-model="myProfile.user.department" >
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6">
 				<div class="form-group" x-show-errors>
-					<label class="control-label" for="username">Username</label>
-					<input class="form-control" id="username" name="username" type="text"
-						ng-model="myProfile.user.username"
-						disabled>
+					<label class="control-label" for="title">Title<em>(Optional)</em></label>
+					<input class="form-control" id="title" type="text"
+						ng-model="myProfile.user.title">
 				</div>
 			</div>
 		</div>
@@ -106,6 +104,17 @@
 			</div>
 		</div>
 		<div class="row">
+			<div class="col-sm-12 col-md-6 form-group" x-show-errors>
+				<label class="control-label" for="address1">Street Address 1<em class="required">(Required)</em></label>
+				<input class="form-control" id="address1" name="address1" type="text"
+					ng-model="myProfile.user.address1"
+					ng-required="myProfile.user.viaMail === true">
+			</div>
+			<div class="col-sm-12 col-md-6 form-group">
+				<label class="control-label" for="address2">Street Address 2<em>(Optional)</em></label>
+				<input class="form-control" id="address2" type="text" 
+					ng-model="myProfile.user.address2">
+			</div>
 			<div class="col-sm-6 col-md-3 form-group" x-show-errors>
 				<label class="control-label" for="city">City<em class="required">(Required)</em></label>
 				<input class="form-control" id="city" name="city" type="text"
@@ -129,24 +138,6 @@
 				<input class="form-control" id="postalCode" name="postalCode"
 					ng-model="myProfile.user.postalCode"
 					ng-required="myProfile.user.viaMail === true">
-			</div>
-			<div class="col-sm-12 col-md-6 form-group" x-show-errors>
-				<label class="control-label" for="address1">Street Address 1<em class="required">(Required)</em></label>
-				<input class="form-control" id="address1" name="address1" type="text"
-					ng-model="myProfile.user.address1"
-					ng-required="myProfile.user.viaMail === true">
-			</div>
-			<div class="col-sm-12 col-md-6 form-group">
-				<label class="control-label" for="address2">Street Address 2<em>(Optional)</em></label>
-				<input class="form-control" id="address2" type="text" 
-					ng-model="myProfile.user.address2">
-			</div>
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label class="control-label" for="notes">Additional Notes<em>(Optional)</em></label>
-					<textarea class="form-control" id="notes" rows="2" 
-						ng-model="myProfile.user.notes"></textarea>
-				</div>
 			</div>
 		</div>
 		<div class="form-group no-margin">
