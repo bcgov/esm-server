@@ -59,8 +59,12 @@
 					</div>
 					<div class="form-group no-margin" x-show-errors>
 						<label class="control-label">Message<em class="required">(Required)</em></label>
-						<textarea ui-tinymce="tinymceOptions" type="text" ng-model="s.communication.templateContent" id="message" name="message"
-							title="Message" required ng-blur="activeItem = false"></textarea>
+						<textarea class="form-control" name="message"
+							id="message"
+							ui-tinymce="tinymceOptions"
+							ng-model="s.communication.templateContent"  
+							title="Message" 
+							required ng-blur="activeItem = false"></textarea>
 					</div>
 				</div><!--/panel-body-->
 			</div><!--/panel-->
