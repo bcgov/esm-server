@@ -17,6 +17,9 @@ var _             = require ('lodash'),
 		Organization  = mongoose.model ('Organization'),
 		errorHandler  = require (path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
+
+var access = require(path.resolve('./modules/core/server/controllers/core.access.controller'));
+
 /**
  * Update user details
  */
@@ -371,3 +374,140 @@ exports.loadGroupUsers = function(file, req, res, opts) {
 		});
 	});
 };
+
+exports.loadProjectUserRoles = function(file, req, res, opts) {
+	return new Promise (function (resolve, reject) {
+		// Now parse and go through this thing.
+		fs.readFile(file.path, 'utf8', function(err, data) {
+			if (err) {
+				reject("{err: "+err);
+			}
+
+			var v1ColArray = ['email', 'projectCode', 'proponent-lead', 'proponent-team', 'assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'minister', 'minister-office', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin'];
+			var v1RowToObject = function(row) {
+				console.log('v1: row = ', row);
+				var obj = {
+					email         : row.email,
+					projectCode   : row.projectCode,
+					roles         : []
+				};
+				_.each(v1ColArray, function(role) {
+					console.log("role['" + role + "'] = " + row[role]);
+					if (row[role] === 'X' || row[role] === 'x') {
+						obj.roles.push(role);
+					}
+				});
+				return obj;
+			};
+
+			var lines = data.split(/\r\n|\r|\n/g);
+			var v1 = _.size(lines) > 0 && (lines[0].split(',')[0] === 'project-role-user-import-v1');
+			console.log('File v1? ', v1);
+			var colArray = v1 ? v1ColArray : undefined;
+			var rowParser = v1 ? v1RowToObject : undefined;
+
+			if (colArray === undefined) {
+				console.log('Unknown file import version.');
+				reject("{err: 'Unknown file import version.'}");
+			} else {
+
+				var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
+					// Skip this many rows
+					var length = Object.keys(output).length;
+					var promises = [];
+					// console.log("length",length);
+					Object.keys(output).forEach(function(key, index) {
+						if (index > 0) {
+							var row = output[key];
+							promises.push(rowParser(row));
+						}
+					});
+
+					var getUser = function(item) {
+						return new Promise(function(resolve, reject) {
+							User.findOne({email: new RegExp(item.email, 'i')}, function (err, result) {
+								if (err) {
+									reject(new Error(err));
+								} else {
+									resolve(result);
+								}
+							});
+						});
+					};
+
+					var getProject = function(item) {
+						return new Promise(function(resolve, reject) {
+							Project.findOne({code: item.projectCode}, function (err, result) {
+								if (err) {
+									reject(new Error(err));
+								} else {
+									resolve(result);
+								}
+							});
+						});
+					};
+
+					var addUserToProject = function(project, user, item) {
+						var promiseArray = [];
+
+						_.each (item.roles, function (role) {
+							promiseArray.push (access.addRole ({
+								context : project._id,
+								user    : user.username,
+								role    : role
+							}));
+						});
+						return Promise.all(promiseArray);
+					};
+
+
+					Promise.resolve ()
+						.then (function () {
+							return promises.reduce (function (current, item) {
+								return current.then (function () {
+									var project, user;
+									return getProject(item)
+										.then(function (data) {
+											if (data) {
+												project = data;
+												return getUser(item);
+											} else {
+												return null;
+											}
+										})
+										.then(function(data) {
+											if(data) {
+												user = data;
+												return addUserToProject(project, user, item);
+											} else {
+												return null;
+											}
+										});
+								});
+							}, Promise.resolve());
+						})
+						.then (resolve, reject);
+				});
+			}
+		});
+	});
+};
+
+
+exports.loadSystemUserRoles = function(file, req, res, opts) {
+	return new Promise (function (resolve, reject) {
+		// Now parse and go through this thing.
+		fs.readFile(file.path, 'utf8', function(err, data) {
+			if (err) {
+				reject("{err: "+err);
+			}
+			var lines = data.split(/\r\n|\r|\n/g);
+			var colArray = ['import-version', 'project-code', 'sysadmin', 'eao', 'proponent', 'project-intake', 'project-eao-staff', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead'];
+
+			var v1 = _.size(lines) > 0 && (lines[0][0] === 'system-role-user-import-v1');
+			console.log('File v1? ', v1);
+		});
+	});
+
+};
+
