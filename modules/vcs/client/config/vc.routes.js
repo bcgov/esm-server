@@ -4,7 +4,7 @@
 // vc routes
 //
 // =========================================================================
-angular.module('core').config(['$stateProvider', function ($stateProvider) {
+angular.module('core').config(['$stateProvider', '_', function ($stateProvider, _) {
 	$stateProvider
 	// -------------------------------------------------------------------------
 	//
@@ -39,6 +39,9 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					});
 					return list;
 				});
+			},
+			canSeeInternalDocuments: function (UserModel, project) {
+				return UserModel.canSeeInternalDocuments(project);
 			}
 		}
 	})
@@ -134,7 +137,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				return VcModel.deleteCheck (vc._id);
 			}
 		},
-		controller: function ($scope, $state, vc, canDeleteVc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _, vclist, vcs, VCTYPES, $modal) {
+		controller: function ($scope, $state, vc, canDeleteVc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _, vclist, vcs, VCTYPES, $modal, canSeeInternalDocuments) {
 			// console.log ('vc = ', vc);
 			$scope.vc = vc;
 
@@ -148,6 +151,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.vc.artifact = art;
 			$scope.vc.artifact.document = ($scope.vc.artifact.document) ? $scope.vc.artifact.document : {};
 			$scope.vc.artifact.maindocument = $scope.vc.artifact.document._id ? [$scope.vc.artifact.document._id] : [];
+			$scope.vc.artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 			$scope.project = project;
 			$scope.pillars = PILLARS;
 			$scope.types = VCTYPES;
@@ -412,7 +416,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				return VcModel.getVCsInList(vc.subComponents);
 			}
 		},
-		controller: function ($scope, vc, project, art, vclist) {
+		controller: function ($scope, vc, project, art, vclist, canSeeInternalDocuments) {
 			// console.log ('vc = ', vc);
 			$scope.vc = vc;
 			$scope.vclist = vclist;
@@ -420,6 +424,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.project = project;
 			$scope.vc.artifact.document = ($scope.vc.artifact.document) ? $scope.vc.artifact.document : {};
 			$scope.vc.artifact.maindocument = $scope.vc.artifact.document._id ? [$scope.vc.artifact.document._id] : [];
+			$scope.vc.artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 		}
 	})
 
