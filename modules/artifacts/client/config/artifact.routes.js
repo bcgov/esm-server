@@ -274,10 +274,30 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 				});
 			};
 			$scope.$on('cleanup', function () {
-				$state.go ('p.artifact.view', {
-					projectid:project.code,
-					artifact: $scope.artifact
-				});
+				// This happens when someone uploads a document and associates it to this VC Artifact through the link document
+				// UI.  Formerly, it would want to close the scope without saving changes.  This way we can retain the current
+				// edits, and allow the other elements in the vc to stay there, and reset upon cancellation.  The problem is
+				// that uploads save the artifact immediately upon upload, and there's no 'cancelling' of this.  So if they
+				// only upload and then hit cancel, it currently will not de-associate the linked document from the artifact.
+				// This is because of the business desire to force uploads into an artifact automatically and persist the
+				// change to the DB immediately.  Perhaps a better workaround would be to either special case VC uploads so they
+				// don't persist immediately, or remove the requirement to force uploads into an Artifact globally.
+
+				// For artifacts directly, we just want to update the associated documents to match what has been uploaded...
+				// Do not update the template, templateData, or any user editable fields.
+				// That way we can 'cancel' those changes if we want, but those changes aren't lost when Uploading a document.
+				//
+				ArtifactModel.lookup($scope.artifact._id)
+					.then( function (art) {
+						if (!art.isTemplate) {
+							$scope.artifact.document = (art.document) ? art.document : {};
+							$scope.artifact.maindocument = art.document._id ? [art.document._id] : [];
+						}
+						$scope.artifact.supportingDocuments = art.supportingDocuments;
+						$scope.artifact.additionalDocuments = art.additionalDocuments;
+						$scope.artifact.internalDocuments = art.internalDocuments;
+						$scope.$apply();
+					});
 			});
 		}
 	})
