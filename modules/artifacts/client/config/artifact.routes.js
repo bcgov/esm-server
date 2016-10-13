@@ -111,17 +111,8 @@ angular.module('core').config(['$stateProvider','_', function ($stateProvider, _
 			rolePermissions: function($stateParams, ArtifactModel) {
 				return ArtifactModel.checkPermissions($stateParams.artifactId);
 			},
-			canSeeInternalDocuments: function (UserModel, project, _) {
-				return UserModel.rolesInProject(project._id)
-				.then( function (roles) {
-					var readPermissions = ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'complaince-officer', 'complaince-lead', 'project-eao-staff', 'project-epd', 'project-intake', 'project-qa-officer', 'project-system-admin'];
-
-					if (_.intersection(roles, readPermissions).length > 0) {
-						return true;
-					} else {
-						return false;
-					}
-				});
+			canSeeInternalDocuments: function (UserModel, project) {
+				return UserModel.canSeeInternalDocuments(project);
 			}
 		},
 		controller: function ($scope, rolePermissions) {

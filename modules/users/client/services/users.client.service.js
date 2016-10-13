@@ -12,6 +12,18 @@ angular.module('users').factory ('UserModel', function (ModelBase, _) {
 	//
 	var Class = ModelBase.extend ({
 		urlName : 'user',
+		canSeeInternalDocuments: function (project) {
+			return this.rolesInProject(project._id)
+				.then( function (roles) {
+					var readPermissions = ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'complaince-officer', 'complaince-lead', 'project-eao-staff', 'project-epd', 'project-intake', 'project-qa-officer', 'project-system-admin'];
+
+					if (_.intersection(roles, readPermissions).length > 0) {
+						return true;
+					} else {
+						return false;
+					}
+				});
+		},
 		lookup: function (userid) {
 			return this.get('/api/user/' + userid);
 		},
