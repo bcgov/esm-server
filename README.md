@@ -1,5 +1,7 @@
-# esm-server
-ESM is a project of the Environmental Assessment Office  in partnership with the OCIO DevOps Pathfinder.
+# esm-server (MEM MMT)
+ESM is a project of the Environmental Assessment Office in partnership with the OCIO DevOps Pathfinder.
+
+MEM MMT is an offshoot derivative of the ESM application to support the Major Mines Transparency project of the Ministry of Energy and Mines.
 
 This application is a tool to support the work of EAO staff, project proponents, and other stakeholders as environmental assessments are conducted.
 
