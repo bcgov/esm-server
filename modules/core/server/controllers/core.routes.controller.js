@@ -118,7 +118,7 @@ exports.streamFile = function (res, opts) {
 		if (!yes) sendNotFound (res);
 		else {
 			res.setHeader ('Content-Type', opts.mime);
-			res.setHeader ("Content-Disposition", 'attachment; filename='+opts.name);
+			res.setHeader ("Content-Disposition", 'attachment; filename="'+opts.name+'"');
 			fs.createReadStream (opts.file).pipe (res);
 		}
 	});
