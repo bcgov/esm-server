@@ -477,10 +477,14 @@ module.exports = DBModel.extend ({
 	mine: function () {
 		var self = this;
 
+		//Ticket ESM-640.  If these are the user's only roles on a project, don't show the project.
+		//
+		var ignoredSystemRoles = ['compliance-lead', 'project-eao-staff', 'project-qa-officer'];
 		var findMyRoles = function (username) {
 			return new Promise(function (fulfill, reject) {
 				Role.find({
-					user: username
+					user: username,
+					role: {$nin: ignoredSystemRoles}
 				}).exec(function (error, data) {
 					if (error) {
 						reject(new Error(error));

@@ -16,7 +16,7 @@ var resetForReprocessing = function resetForReprocessing(conn, limit) {
 
     var MongoClient = require('mongodb').MongoClient;
     // Connect to the default db if not set
-    if (undefined === conn) {
+    if (undefined == conn) {
         conn = defaultConnectionString;
     }
     MongoClient.connect(conn, function (err, db) {
@@ -63,7 +63,7 @@ var documentConversion = function documentConversion(conn, downloads_dir, limit)
 
     var MongoClient = require('mongodb').MongoClient;
     // Connect to the default db if not set
-    if (undefined === conn) {
+    if (undefined == conn) {
         conn = defaultConnectionString;
     }
     MongoClient.connect(conn, function (err, db) {
@@ -92,7 +92,7 @@ var documentConversion = function documentConversion(conn, downloads_dir, limit)
                 }
 
                 var total = items.length;
-                if (total === 0) {
+                if (total == 0) {
                     console.log("no items to process");
                     process.exit(NO_MORE_TO_PROCESS);
                 }
@@ -136,6 +136,7 @@ var documentConversion = function documentConversion(conn, downloads_dir, limit)
                             console.log("Server error:", err);
                             console.log("Document id:" + item._id);
                             fs.unlink(stream);
+                            shouldExit();
                         }).on('data', function (chunk) {
                             // Record the size & write to disk
                             dataLength += chunk.length;
@@ -161,7 +162,7 @@ var documentConversion = function documentConversion(conn, downloads_dir, limit)
                                 shouldExit();
                             });
                         });
-                    })
+                    });
                 } else {
                     console.log("No more items to process.");
                     process.exit(total == limit ? CONTINUE_TO_PROCESS : NO_MORE_TO_PROCESS);
@@ -169,14 +170,14 @@ var documentConversion = function documentConversion(conn, downloads_dir, limit)
             }
         });
     });
-}
+};
 
 // Needed for invalid certs
-process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 var reprocess = process.env.REPROCESS || "false";
 
-if (reprocess.toLowerCase() === "true") {
+if (reprocess.toLowerCase() == "true") {
     console.log("Documents will be reprocessed...");
     resetForReprocessing(process.env.MONGO_CONNECTION, process.env.LIMIT);
 }

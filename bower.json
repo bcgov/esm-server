@@ -25,7 +25,7 @@
     "angular-scroll": "~1.0.0",
     "angular-cookies": "1.3.20",
     "es6-shim": "^0.35.0",
-    "angular-google-maps": "2.3.3",
+    "angular-google-maps": "latest",
     "angular-resizable": "~1.2.0"
   },
   "resolutions": {

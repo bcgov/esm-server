@@ -9,19 +9,17 @@
 					ng-click="saveProject(projectForm.$valid)"
 					ng-if="project.status !== 'Initiated'"
 					type="submit">Save</button>
+			<button class="btn btn-danger btn-sm"
+              	ng-click="deleteProject()"
+              	ng-if="!isNew && !project.isPublished && project.userCan.delete">
+				<span class="glyphicon glyphicon-trash"></span><span>Delete Project</span></button>
 			<button class="btn btn-success btn-sm"
-					ng-disabled="projectForm.$invalid"
 					ng-click="submitProject(projectForm.$valid)"
 					ng-if="project.status === 'Initiated'">Submit Project</button>
-      <button class="btn btn-danger btn-sm"
-              ng-click="deleteProject()"
-              ng-if="!isNew && !project.isPublished && project.userCan.delete">Delete Project</button>
 		</div>
 	</div>
 
 	<div class="view-body-container">
-
-		<!-- TABS -->
 		<ul class="nav nav-tabs" ng-init="form.curTab = 'Project Details'">
 			<li role="presentation" ng-class="{'active':form.curTab === 'Project Details'}" class="form-group" x-show-errors>
 				<a ng-click="form.curTab = 'Project Details'" title="Edit Project Details" name="detailsForm">
@@ -35,7 +33,7 @@
 				<a ng-click="form.curTab = 'Project Contacts'" title="Edit Project Contacts" name="contactsForm">
 					<span class="glyphicon glyphicon-exclamation-sign"></span>Contacts</a>
 			</li>
-		</ul><!-- / TABS -->
+		</ul>
 
 		<div class="edit-project-form tab-pane active" ng-show="form.curTab === 'Project Details'" ng-form="detailsForm">
 			<!-- PROJECT INFORMATION -->
@@ -105,13 +103,13 @@
 							ng-model="project.lon" required />
 					</div>
 				</div>
-        <div class="row">
-          <div class="col-md-12 form-group">
-            <label class="control-label" for="eacDecision">Decision<em>(Optional)</em></label>
-            <textarea class="form-control" rows="3"
-                      name="eacDecision" id="eacDecision"
-                      ng-model="project.eacDecision"></textarea>
-          </div>
+				<div class="row">
+				<div class="col-md-12 form-group">
+					<label class="control-label" for="eacDecision">Decision<em>(Optional)</em></label>
+					<textarea class="form-control" rows="3"
+							name="eacDecision" id="eacDecision"
+							ng-model="project.eacDecision"></textarea>
+				</div>
           </div>
 			</fieldset>
 			<!-- PROJECT INFORMATION -->

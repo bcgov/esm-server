@@ -4,7 +4,7 @@
 // vc routes
 //
 // =========================================================================
-angular.module('core').config(['$stateProvider', function ($stateProvider) {
+angular.module('core').config(['$stateProvider', '_', function ($stateProvider, _) {
 	$stateProvider
 	// -------------------------------------------------------------------------
 	//
@@ -39,6 +39,9 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					});
 					return list;
 				});
+			},
+			canSeeInternalDocuments: function (UserModel, project) {
+				return UserModel.canSeeInternalDocuments(project);
 			}
 		}
 	})
@@ -134,7 +137,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				return VcModel.deleteCheck (vc._id);
 			}
 		},
-		controller: function ($scope, $state, vc, canDeleteVc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _, vclist, vcs, VCTYPES, $modal) {
+		controller: function ($scope, $state, vc, canDeleteVc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _, vclist, vcs, VCTYPES, $modal, canSeeInternalDocuments) {
 			// console.log ('vc = ', vc);
 			$scope.vc = vc;
 
@@ -148,6 +151,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.vc.artifact = art;
 			$scope.vc.artifact.document = ($scope.vc.artifact.document) ? $scope.vc.artifact.document : {};
 			$scope.vc.artifact.maindocument = $scope.vc.artifact.document._id ? [$scope.vc.artifact.document._id] : [];
+			$scope.vc.artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 			$scope.project = project;
 			$scope.pillars = PILLARS;
 			$scope.types = VCTYPES;
@@ -373,11 +377,20 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			};
 
 			$scope.$on('cleanup', function () {
-				$state.go('p.vc.detail', {
-						projectid:$scope.project.code,
-						vcId: $scope.vc._id
-					}, {
-					reload: true, inherit: false, notify: true
+				// This happens when someone uploads a document and associates it to this VC Artifact through the link document
+				// UI.  Formerly, it would want to close the scope without saving changes.  This way we can retain the current
+				// edits, and allow the other elements in the vc to stay there, and reset upon cancellation.  The problem is
+				// that uploads save the artifact immediately upon upload, and there's no 'cancelling' of this.  So if they
+				// only upload and then hit cancel, it currently will not de-associate the linked document from the artifact.
+				// This is because of the business desire to force uploads into an artifact automatically and persist the
+				// change to the DB immediately.  Perhaps a better workaround would be to either special case VC uploads so they
+				// don't persist immediately, or remove the requirement to force uploads into an Artifact globally.
+				ArtifactModel.lookup($scope.vc.artifact._id)
+				.then( function (art) {
+					$scope.vc.artifact = art;
+					$scope.vc.artifact.document = ($scope.vc.artifact.document) ? $scope.vc.artifact.document : {};
+					$scope.vc.artifact.maindocument = $scope.vc.artifact.document._id ? [$scope.vc.artifact.document._id] : [];
+					$scope.$apply();
 				});
 			});
 		}
@@ -403,7 +416,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				return VcModel.getVCsInList(vc.subComponents);
 			}
 		},
-		controller: function ($scope, vc, project, art, vclist) {
+		controller: function ($scope, vc, project, art, vclist, canSeeInternalDocuments) {
 			// console.log ('vc = ', vc);
 			$scope.vc = vc;
 			$scope.vclist = vclist;
@@ -411,6 +424,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			$scope.project = project;
 			$scope.vc.artifact.document = ($scope.vc.artifact.document) ? $scope.vc.artifact.document : {};
 			$scope.vc.artifact.maindocument = $scope.vc.artifact.document._id ? [$scope.vc.artifact.document._id] : [];
+			$scope.vc.artifact.canSeeInternalDocuments = canSeeInternalDocuments;
 		}
 	})
 

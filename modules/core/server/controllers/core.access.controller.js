@@ -539,6 +539,7 @@ var addRoles = function (p) {
 		return addRole (v);
 	}));
 };
+exports.addRole = addRole;
 exports.addRoles = addRoles;
 exports.addRoleIfUnique = addRoleIfUnique;
 // -------------------------------------------------------------------------
