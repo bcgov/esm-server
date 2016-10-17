@@ -217,10 +217,7 @@ module.exports = function(file, req, res, opts) {
 				return reject("err:"+err);
 			}
 			// console.log("FILE DATA:",data);
-			var colArray = "";
-			if (projectType === "eao") {
-				colArray = ['id', 'ProjectName', 'Proponent', 'DBA', 'Region','description','locDescription','provincialED','federalED','investment','projectCreateDate','projectURL','lat','long','constructionjobs', 'operatingjobs','projectType','sector','phase','EACDecision', 'status','CEAAInvolvement','CEAALink', 'eaNotes','responsibleEPD','phoneEPD','emailEPD','projectLead','projectLeadPhone','projectLeadEmail','CELead','CELeadPhone','CELeadEmail','isPublished'];
-			}
+			var colArray = ['id','ProjectName','Proponent','Ownership','type', 'lat','long','Status','Commodity','Region','TailingsImpoundments','description'];
 			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 				// Skip this many rows
 				var length = Object.keys(output).length;
