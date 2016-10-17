@@ -41,6 +41,27 @@ module.exports = function (app) {
 				}).then (routes.success(res), routes.failure(res));
 			}
 		});
+	// Import logic
+	app.route ('/api/userroles/project/import').all (policy ('admin'))
+		.post (function (req, res) {
+			var file = req.files.file;
+			if (file) {
+				routes.setSessionContext(req)
+					.then( function (opts) {
+						return users.loadProjectUserRoles(file, req, res, opts);
+					}).then (routes.success(res), routes.failure(res));
+			}
+		});
+	app.route ('/api/userroles/system/import').all (policy ('admin'))
+		.post (function (req, res) {
+			var file = req.files.file;
+			if (file) {
+				routes.setSessionContext(req)
+					.then( function (opts) {
+						return users.loadSystemUserRoles(file, req, res, opts);
+					}).then (routes.success(res), routes.failure(res));
+			}
+		});
 	app.route ('/api/users/sig/upload').all (policy ('user'))
 		.post (routes.setAndRun (DocumentClass, function (model, req) {
 			return new Promise (function (resolve, reject) {

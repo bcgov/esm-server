@@ -312,7 +312,7 @@ module.exports = DBModel.extend ({
 	loadDocuments : function(file, req, res) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
-			// console.log("loading documents", file);
+			console.log("loading documents", file);
 			if (file) {
 				// Now parse and go through this thing.
 				var fs = require('fs');
@@ -329,7 +329,7 @@ module.exports = DBModel.extend ({
 						var length = Object.keys(output).length;
 						var promises = [];
 
-						// console.log("length",length);
+						console.log("length",length);
 
 						Object.keys(output).forEach(function(key, index) {
 							if (index > 0) {

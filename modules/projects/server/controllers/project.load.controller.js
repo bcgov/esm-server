@@ -219,9 +219,7 @@ module.exports = function(file, req, res, opts) {
 			// console.log("FILE DATA:",data);
 			var colArray = "";
 			if (projectType === "eao") {
-				colArray = ['id','Stream','ProjectName','Proponent', 'DBA', 'Region','description','locSpatial','locDescription','provincialED','federalED','investment','projectCreateDate','projectDescriptionLivingData','projectNotes','projectURL','investmentNotes','lat','long','constructionjobs','constructionjobsNotes','operatingjobs','operatingjobsNotes','projectType','sector','phase','EACDecision', 'currentPhaseTypeActivity','eaActive', 'CEAAInvolvement','CEAALink', 'eaIssues','eaNotes','responsibleEPD','phoneEPD','emailEPD','projectLead','projectLeadPhone','projectLeadEmail','projectAnalyst','projectAssistant','administrativeAssistant','CELead','CELeadPhone','CELeadEmail','teamNotes', 'isPublished'];
-			} else {
-				colArray = ['id','ProjectName','Proponent','Ownership','type', 'lat','long','Status','Commodity','Region','TailingsImpoundments','description'];
+				colArray = ['id', 'ProjectName', 'Proponent', 'DBA', 'Region','description','locDescription','provincialED','federalED','investment','projectCreateDate','projectURL','lat','long','constructionjobs', 'operatingjobs','projectType','sector','phase','EACDecision', 'status','CEAAInvolvement','CEAALink', 'eaNotes','responsibleEPD','phoneEPD','emailEPD','projectLead','projectLeadPhone','projectLeadEmail','CELead','CELeadPhone','CELeadEmail','isPublished'];
 			}
 			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 				// Skip this many rows
@@ -269,8 +267,8 @@ module.exports = function(file, req, res, opts) {
 							newObj = {
 								epicProjectID 	: id,
 								name 			: row.ProjectName,
-								//shortName 		: row.ProjectName.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, row.ProjectName.length+1),
-								shortName 		: row.projectURL,
+								shortName 		: row.ProjectName.toLowerCase ().replace(/\//g,'-').replace (' ', '-').substr (0, row.ProjectName.length+1),
+								// shortName 		: row.projectURL, // Removed
 								eacDecision 	: row.EACDecision,
 								CEAALink 		: (row.CEAALink === 'NA' ? "" : row.CEAALink),
 								roles 			: ['eao', 'public'],
@@ -285,19 +283,19 @@ module.exports = function(file, req, res, opts) {
 								lon 			: row.long,
 								provElecDist 	: row.provincialED,
 								fedElecDist 	: row.federalED,
-								projectNotes 	: row.projectNotes,
+								// projectNotes 	: row.projectNotes,
 								type 			: row.projectType,
 								intake: {
 									constructionjobs 		: row.constructionjobs,
-									constructionjobsNotes 	: row.constructionjobsNotes,
+									// constructionjobsNotes 	: row.constructionjobsNotes,
 									operatingjobs 			: row.operatingjobs,
-									operatingjobsNotes 		: row.operatingjobsNotes,
-									investment 				: row.investment,
-									investmentNotes 		: row.investmentNotes
+									// operatingjobsNotes 		: row.operatingjobsNotes,
+									investment 				: row.investment
+									// investmentNotes 		: row.investmentNotes
 								},
-								eaActive 				: row.eaActive,
+								// eaActive 				: row.eaActive,
 								CEAAInvolvement 		: row.CEAAInvolvement,
-								eaIssues 				: row.eaIssues,
+								// eaIssues 				: row.eaIssues,
 								eaNotes 				: row.eaNotes,
 								responsibleEPD 			: row.responsibleEPD,
 								responsibleEPDPhone		: row.phoneEPD,
@@ -305,15 +303,15 @@ module.exports = function(file, req, res, opts) {
 								projectLead 			: row.projectLead,
 								projectLeadPhone		: row.projectLeadPhone,
 								projectLeadEmail 		: row.projectLeadEmail,
-								projectAnalyst 			: row.projectAnalyst,
-								projectAssistant 		: row.projectAssistant,
-								administrativeAssistant : row.administrativeAssistant,
+								// projectAnalyst 			: row.projectAnalyst,
+								// projectAssistant 		: row.projectAssistant,
+								// administrativeAssistant : row.administrativeAssistant,
 								CELead 					: row.CELead,
 								CELeadPhone				: row.CELeadPhone,
 								CELeadEmail				: row.CELeadEmail,
-								teamNotes				: row.teamNotes,
+								// teamNotes				: row.teamNotes,
 								isPublished				: row.isPublished,
-								epicStream 				: row.Stream
+								// epicStream 				: row.Stream
 							};
 						}
 						promises.push({obj: newObj, query: query, proponent: newProponent, phase: phaseObj });

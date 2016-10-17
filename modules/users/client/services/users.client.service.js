@@ -12,6 +12,18 @@ angular.module('users').factory ('UserModel', function (ModelBase, _) {
 	//
 	var Class = ModelBase.extend ({
 		urlName : 'user',
+		canSeeInternalDocuments: function (project) {
+			return this.rolesInProject(project._id)
+				.then( function (roles) {
+					var readPermissions = ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'complaince-officer', 'complaince-lead', 'project-eao-staff', 'project-epd', 'project-intake', 'project-qa-officer', 'project-system-admin'];
+
+					if (_.intersection(roles, readPermissions).length > 0) {
+						return true;
+					} else {
+						return false;
+					}
+				});
+		},
 		lookup: function (userid) {
 			return this.get('/api/user/' + userid);
 		},
@@ -37,9 +49,9 @@ angular.module('users').factory ('UserModel', function (ModelBase, _) {
 
 			return this.get('/api/search/user?' + qs);
 		},
-		usersToInvite: function(projectId) {
+		usersToInvite: function(projectId, name, email, org, groupId) {
 
-			var q = {projectId: projectId};
+			var q = {projectId: projectId, name: name, email: email, org: org, groupId: groupId};
 
 			var qs = _.reduce(q, function(result, value, key) {
 				return (!_.isNull(value) && !_.isUndefined(value)) ? (result += key + '=' + value + '&') : result;

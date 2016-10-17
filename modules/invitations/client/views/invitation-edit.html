@@ -39,7 +39,8 @@
 					</div>
 					<div class="form-group" x-show-errors>
 						<label class="control-label">Subject<em class="required">(Required)</em></label>
-						<input class="form-control" ng-model="s.communication.templateSubject" id="subject" name="subject" title="Subject" required></input>
+
+						<input class="form-control" ng-model="s.communication.templateSubject" id="subject" name="subject" title="Subject" required />
 					</div>
 					<div class="form-group no-margin" x-show-errors>
 						<label class="control-label">Message<em class="required">(Required)</em></label>
@@ -54,7 +55,7 @@
 
 		<div class="tab-pane" ng-show="form.curTab === 'recipients'" ng-form="recipientsForm">
 			<div class='button-bar'>
-				<button type="button" x-user-invitation-chooser x-project="project" x-destination="existingRecipients" x-title="'Add Existing'" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add Existing</span>
+				<button type="button" x-user-search-chooser x-project="project" x-destination="existingRecipients" x-title="'Add Existing'" x-searchmode="'invitation'" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add Existing</span>
         </button>
 			</div>
 			<div class="panel panel-default">

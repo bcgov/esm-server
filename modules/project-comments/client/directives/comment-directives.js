@@ -131,6 +131,7 @@ angular.module ('comment')
 					s.totalAssigned   = result.totalAssigned;
 					s.totalUnassigned = result.totalUnassigned;
 					s.tableParams   = new NgTableParams ({count:10, filter:currentFilter, sorting: {dateAdded: 'desc'}}, {dataset:result.data});
+					s.dataset = result.data;
 					refreshFilterArrays(result.data);
 					$scope.$apply ();
 				});
@@ -159,7 +160,7 @@ angular.module ('comment')
 					}
 				};
 				// console.log("data:", s.tableParams.data);
-				CommentModel.prepareCSV(s.tableParams.data)
+				CommentModel.prepareCSV(s.dataset)
 				.then( function (data) {
 					var blob = new Blob([ data ], { type : 'octet/stream' });
 					var filename = (currentFilter) ? currentFilter.eaoStatus + ".csv" : 'tableData.csv';
@@ -213,6 +214,7 @@ angular.module ('comment')
 					});
 
 					s.tableParams = new NgTableParams ({count:50, sorting: {dateAdded: 'desc'}}, {dataset:collection});
+					s.dataset = collection;
 					refreshFilterArrays(collection);
 					$scope.$apply ();
 				});
@@ -239,6 +241,7 @@ angular.module ('comment')
 					s.totalAssigned   = result.totalAssigned;
 					s.totalUnassigned = result.totalUnassigned;
 					s.tableParams     = new NgTableParams ({count:50, filter:currentFilter, sorting: {dateAdded: 'desc'}}, {dataset:result.data});
+					s.dataset = result.data;
 					refreshFilterArrays(result.data);
 					$scope.$apply ();
 				});
