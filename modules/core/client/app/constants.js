@@ -34,7 +34,12 @@ angular
 			'peace': 'Peace',
 			'skeena': 'Skeena',
 			'thompson-nicola': 'Thompson-Nicola',
-			'vancouver island': 'Vancouver Island'
+			'vancouver island': 'Vancouver Island',
+			'central-northeast (prince george office)': 'Central-Northeast (Prince George Office)',
+			'northwest (smithers office)': 'Northwest (Smithers Office)',
+			'south central (kamloops office)': 'South Central (Kamloops Office)',
+			'southeast (cranbrook office)': 'Southeast (Cranbrook Office)',
+			'southwest (victoria office)': 'Southwest (Victoria Office)',
 		}
 	)
 	.constant('COMPANY_TYPES',
