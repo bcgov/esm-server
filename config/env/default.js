@@ -9,6 +9,13 @@ if (process.env.ENVIRONMENT === 'MEM') {
       googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
     },
     port: process.env.PORT || 3000,
+    token: {
+      tokenQuery: process.env.TOKEN_QUERY || 'smgov_userguid',
+      tokenParams: process.env.TOKEN_PARAMS || undefined,
+      tokenField: process.env.TOKEN_FIELD || undefined,
+      tokenHeader: process.env.TOKEN_HEADER || 'smgov_userguid',
+      failedOnMissing: process.env.TOKEN_ON_MISSING || false
+    },
     templateEngine: 'swig',
     // Session Cookie settings
     sessionCookie: {
