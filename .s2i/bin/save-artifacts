@@ -1,0 +1,15 @@
+#!/bin/bash
+
+pushd ${HOME}
+
+echo HOME is ${HOME}
+echo "save-artifacts---> current directory is" `pwd`
+echo "---> Listing stuff that is in the current dir..."
+
+ls -la
+
+if [ -d node_modules ]; then
+    # all deps contents to tar stream
+    tar cf - node_modules
+fi
+popd
