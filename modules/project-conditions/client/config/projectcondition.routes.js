@@ -4,8 +4,8 @@
 // project condition routes
 //
 // =========================================================================
-angular.module('projectconditions').config(['$stateProvider', 'RELEASE', function ($stateProvider, RELEASE) {
-	if (RELEASE.enableConditions) {
+angular.module('projectconditions').config(['$stateProvider', 'FEATURES', function ($stateProvider, FEATURES) {
+	if ('true' === FEATURES.enableConditions) {
 		$stateProvider
 		// -------------------------------------------------------------------------
 		//

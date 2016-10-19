@@ -40,7 +40,17 @@ module.exports = function (grunt) {
 						allowImport: process.env.ADMIN_ALLOW_IMPORT
 					},
 					'FEATURES': {
-						enableTimeline: process.env.PROJECT_ENABLE_TIMELINE
+						enableTimeline: process.env.PROJECT_ENABLE_TIMELINE,
+						enableDocuments: process.env.PROJECT_ENABLE_DOCUMENTS,
+						enableInvitations: process.env.PROJECT_ENABLE_INVITATIONS,
+						enableGroups: process.env.PROJECT_ENABLE_GROUPS,
+						enableUpdates: process.env.PROJECT_ENABLE_UPDATES,
+						enableComplaints: process.env.PROJECT_ENABLE_COMPLAINTS,
+						enableConditions: process.env.PROJECT_ENABLE_CONDITIONS,
+						enableCompliance: process.env.PROJECT_ENABLE_COMPLIANCE,
+						enableVcs: process.env.PROJECT_ENABLE_VCS,
+						enableSchedule: process.env.PROJECT_ENABLE_SCHEDULE,
+						enablePcp: process.env.PROJECT_ENABLE_PCP
 					}
 				}
 			}

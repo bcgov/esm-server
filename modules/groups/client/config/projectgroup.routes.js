@@ -1,9 +1,10 @@
 'use strict';
 
-angular.module('core').config(['$stateProvider', function ($stateProvider) {
+angular.module('groups').config(['$stateProvider', 'FEATURES', function ($stateProvider, FEATURES) {
+	if ('true' === FEATURES.enableGroups) {
 		$stateProvider
 			.state('p.group', {
-				abstract:true,
+				abstract: true,
 				url: '/group',
 				template: '<ui-view></ui-view>',
 				resolve: {}
@@ -13,11 +14,11 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				templateUrl: 'modules/groups/client/views/group-list.html',
 				resolve: {
 					groups: function ($stateParams, ProjectGroupModel, project) {
-						return ProjectGroupModel.forProject (project._id);
+						return ProjectGroupModel.forProject(project._id);
 					}
 				},
 				controller: function ($scope, $modal, $state, Authentication, NgTableParams, _, project, groups) {
-					$scope.tableParams = new NgTableParams ({count:10}, {dataset: groups});
+					$scope.tableParams = new NgTableParams({count: 10}, {dataset: groups});
 					$scope.project = project;
 					$scope.authentication = Authentication;
 					var self = this;
@@ -29,10 +30,10 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				url: '/create',
 				templateUrl: 'modules/groups/client/views/group-edit.html',
 				resolve: {
-					group: function(ProjectGroupModel, project) {
+					group: function (ProjectGroupModel, project) {
 						return ProjectGroupModel.new();
 					},
-					mode: function() {
+					mode: function () {
 						return 'create';
 					}
 				},
@@ -44,9 +45,11 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				templateUrl: 'modules/groups/client/views/group-edit.html',
 				resolve: {
 					group: function ($stateParams, ProjectGroupModel) {
-						return ProjectGroupModel.getModel ($stateParams.groupId);
+						return ProjectGroupModel.getModel($stateParams.groupId);
 					},
-					mode: function() { return 'edit'; }
+					mode: function () {
+						return 'edit';
+					}
 				},
 				controller: 'GroupEditController',
 				controllerAs: 's'
@@ -56,11 +59,14 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				templateUrl: 'modules/groups/client/views/group-view.html',
 				resolve: {
 					group: function ($stateParams, ProjectGroupModel) {
-						return ProjectGroupModel.getModel ($stateParams.groupId);
+						return ProjectGroupModel.getModel($stateParams.groupId);
 					},
-					mode: function() { return 'detail'; }
+					mode: function () {
+						return 'detail';
+					}
 				},
 				controller: 'GroupEditController',
 				controllerAs: 's'
 			});
-	}]);
+	}
+}]);

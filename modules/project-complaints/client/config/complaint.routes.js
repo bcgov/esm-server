@@ -4,8 +4,8 @@
 // complaint routes
 //
 // =========================================================================
-angular.module('complaints').config(['$stateProvider', 'RELEASE', function ($stateProvider, RELEASE) {
-	if (RELEASE.enableComplaints) {
+angular.module('complaints').config(['$stateProvider', 'FEATURES', function ($stateProvider, FEATURES) {
+	if ('true' === FEATURES.enableComplaints) {
 		$stateProvider
 		// -------------------------------------------------------------------------
 		//

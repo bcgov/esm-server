@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('core').config(['$stateProvider', 'RELEASE', function ($stateProvider, RELEASE) {
-	if (RELEASE.enableInvitations) {
+angular.module('invitations').config(['$stateProvider', 'FEATURES', function ($stateProvider, FEATURES) {
+	if ('true' === FEATURES.enableInvitations) {
 		$stateProvider
 			.state('p.invitation', {
 				abstract: true,

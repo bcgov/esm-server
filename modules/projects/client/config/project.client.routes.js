@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('project').config (
-	['$locationProvider', '$stateProvider', '$urlRouterProvider', '_',
-	function ($locationProvider, $stateProvider, $urlRouterProvider, _) {
+	['$locationProvider', '$stateProvider', '$urlRouterProvider', '_', 'FEATURES',
+	function ($locationProvider, $stateProvider, $urlRouterProvider, _, FEATURES) {
 
 	$stateProvider
 	.state('p', {

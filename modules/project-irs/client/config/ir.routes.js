@@ -4,8 +4,8 @@
 // inspection report routes
 //
 // =========================================================================
-angular.module('irs').config(['$stateProvider', 'RELEASE', function ($stateProvider, RELEASE) {
-	if (RELEASE.enableInspectionReports) {
+angular.module('irs').config(['$stateProvider', 'FEATURES', function ($stateProvider, FEATURES) {
+	if ('true' === FEATURES.enableCompliance) {
 		$stateProvider
 		// -------------------------------------------------------------------------
 		//

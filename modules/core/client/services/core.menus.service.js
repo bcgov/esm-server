@@ -147,23 +147,25 @@ angular.module('core').service('Menus', ['Application',
 		this.addMenuItem = function (menuId, options) {
 			options       = options || {};
 			options.items = options.items || [];
-			this.validateMenuExistance(menuId);
-			// Push new menu item
-			this.menus[menuId].items.push({
-				permissions  : options.permissions || [],
-				title        : options.title || '',
-				state        : options.state || '',
-				type         : options.type || 'item',
-				class        : options.class,
-				position     : options.position || 0,
-				items        : [],
-				shouldRender : shouldRender
-			});
-			// Add submenu items
-			for (var i in options.items) {
-				this.addSubMenuItem(menuId, options.state, options.items[i]);
+			if (options.enable) {
+				this.validateMenuExistance(menuId);
+				// Push new menu item
+				this.menus[menuId].items.push({
+					permissions  : options.permissions || [],
+					title        : options.title || '',
+					state        : options.state || '',
+					type         : options.type || 'item',
+					class        : options.class,
+					position     : options.position || 0,
+					items        : [],
+					shouldRender : shouldRender
+				});
+				// Add submenu items
+				for (var i in options.items) {
+					this.addSubMenuItem(menuId, options.state, options.items[i]);
+				}
+				return this.menus[menuId];
 			}
-			return this.menus[menuId];
 		};
 		// -------------------------------------------------------------------------
 		//
