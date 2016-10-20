@@ -121,7 +121,7 @@ module.exports = DBModel.extend ({
 
 				if (!project.phases || project.phases.length === 0) {
 					// Add default phases to project.
-					return ['intake', 'pre-ea', 'pre-app', 'evaluation', 'application-review', 'decision', 'post-certification'].reduce(function (promise, phase, index) {
+					return ['pre-application', 'under-construction', 'operating', 'care-and-maintenance', 'closed'].reduce(function (promise, phase, index) {
 						return promise.then(function () {
 							return self.addPhase(project, phase);
 						});

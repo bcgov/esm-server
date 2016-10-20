@@ -23,12 +23,13 @@ module.exports = function(file, req, res, opts) {
 		var params = req.url.split("/");
 		var doPhaseWork = function(project, phase) {
 			var finalPhaseCode = phase.toLowerCase().replace (/\W+/g,'-');
+			// console.log("final:", finalPhaseCode);
 			var stopProcessing = false;
 			// This is a really horrible way to do this, but it's good enough for now.
 			return new Promise(function(rs, rj) {
-				if (finalPhaseCode === "intake") {
+				if (finalPhaseCode === "pre-application") {
 					rs(project);
-				} else if (finalPhaseCode === "pre-ea") {
+				} else if (finalPhaseCode === "under-construction") {
 					return (new Project(opts)).startNextPhase(project)
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[1];
@@ -38,7 +39,7 @@ module.exports = function(file, req, res, opts) {
 							.saveDocument(pr)
 							.then(rs);
 						});
-				} else if (finalPhaseCode === "pre-app") {
+				} else if (finalPhaseCode === "operating") {
 					return (new Project(opts)).startNextPhase(project) // intake
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[1];
@@ -52,7 +53,7 @@ module.exports = function(file, req, res, opts) {
 							.saveDocument(project)
 							.then(rs);
 					});
-				} else if (finalPhaseCode === "evaluation") {
+				} else if (finalPhaseCode === "care-and-maintenance") {
 					return (new Project(opts)).startNextPhase(project) // intake
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[1];
@@ -70,7 +71,7 @@ module.exports = function(file, req, res, opts) {
 							.saveDocument(project)
 							.then(rs);
 						});
-				} else if (finalPhaseCode === "application-review") {
+				} else if (finalPhaseCode === "closed") {
 					return (new Project(opts)).startNextPhase(project) // intake
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[1];
@@ -92,62 +93,6 @@ module.exports = function(file, req, res, opts) {
 							.saveDocument(project)
 							.then(rs);
 						});
-				} else if (finalPhaseCode === "decision") {
-					return (new Project(opts)).startNextPhase(project) // intake
-					.then( function (pr) {
-						pr.currentPhase     = pr.phases[1];
-						return (new Project(opts)).startNextPhase(pr); // pre-ea
-					})
-					.then( function (pr) {
-						pr.currentPhase     = pr.phases[2];
-						return (new Project(opts)).startNextPhase(pr); // pre-ea
-					})
-					.then( function (pr) {
-						pr.currentPhase     = pr.phases[3];
-						return (new Project(opts)).startNextPhase(pr); // pre-ea
-					})
-					.then( function (pr) {
-						pr.currentPhase     = pr.phases[4];
-						return (new Project(opts)).startNextPhase(pr); // pre-ea
-					})
-					.then (function (project) {
-						project.currentPhase     = project.phases[5];
-						project.currentPhaseCode = project.phases[5].code;
-						project.currentPhaseName = project.phases[5].name;
-						new Project(opts)
-							.saveDocument(project)
-							.then(rs);
-						});
-				} else if (finalPhaseCode === "post-certification") {
-					return (new Project(opts)).startNextPhase(project) // intake
-					.then( function (pr) {
-						pr.currentPhase     = pr.phases[1];
-						return (new Project(opts)).startNextPhase(pr); // pre-ea
-					})
-					.then( function (pr) {
-						pr.currentPhase     = pr.phases[2];
-						return (new Project(opts)).startNextPhase(pr); // pre-ea
-					})
-					.then( function (pr) {
-						pr.currentPhase     = pr.phases[3];
-						return (new Project(opts)).startNextPhase(pr); // pre-ea
-					})
-					.then( function (pr) {
-						pr.currentPhase     = pr.phases[4];
-						return (new Project(opts)).startNextPhase(pr); // pre-ea
-					})
-					.then( function (pr) {
-						pr.currentPhase     = pr.phases[5];
-						return (new Project(opts)).startNextPhase(pr); // pre-ea
-					})
-					.then (function (project) {
-						project.currentPhase     = project.phases[6];
-						project.currentPhaseCode = project.phases[6].code;
-						project.currentPhaseName = project.phases[6].name;
-						new Project(opts)
-							.saveDocument(project)
-							.then(rs);
-					});
 				} else {
 					console.log("unhandled phase code.");
 				}
@@ -215,7 +160,7 @@ module.exports = function(file, req, res, opts) {
 				return reject("err:"+err);
 			}
 			// console.log("FILE DATA:",data);
-			var colArray = ['id','ProjectName','Proponent','Ownership','type', 'lat','long','Status','Commodity','Region','TailingsImpoundments','description', 'isPublished', 'isTermsAgreed', 'code'];
+			var colArray = ['id','ProjectName','Proponent','Ownership','type', 'lat','long','Status','Commodity','Region','TailingsImpoundments','description', 'isPublished', 'isTermsAgreed', 'code', 'phase'];
 			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 				// Skip this many rows
 				var length = Object.keys(output).length;
@@ -235,7 +180,7 @@ module.exports = function(file, req, res, opts) {
 							name: row.Proponent
 						};
 						var query = { memPermitID: row.id };
-						phaseObj 	= "intake";
+						phaseObj 	= row.phase;
 						newObj = {
 							name 				: row.ProjectName,
 							memPermitID			: row.id,
@@ -247,7 +192,6 @@ module.exports = function(file, req, res, opts) {
 							submit 				: ['mem'],
 							region 				: row.Region,
 							lat 				: row.lat,
-							mineStatus 			: row.Status,
 							lon 				: row.long,
 							description			: row.description,
 							isPublished			: row.isPublished,

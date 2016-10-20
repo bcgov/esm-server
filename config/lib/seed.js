@@ -143,11 +143,9 @@ var seedingAsync = function() {
 		require('../seed-data/loademailtemplates')();
 	});
 
-	if (process.env.SEED_MEM === 'true') {
-		checkIntegration('loadmem').then(function () {
-			require('../seed-data/loadmem')();
-		});
-	}
+	checkIntegration('loadmem').then(function () {
+		require('../seed-data/loadmem')();
+	});
 
 // =========================================================================
 //

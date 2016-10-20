@@ -284,44 +284,29 @@ var baseObjects = {
 	}],
 	"phases": [
 		{
-			"description": "Intake",
-			"name": "Intake",
-			"code": "intake",
+			"description": "Pre-application (permitting)",
+			"name": "Pre-application (permitting)",
+			"code": "pre-application",
 		},
 		{
-			"description": "Pre-Application Preparation",
-			"name": "Pre-EA",
-			"code": "pre-ea",
+			"description": "Under Construction",
+			"name": "Under Construction",
+			"code": "under-construction",
 		},
 		{
-			"description": "Pre-Application",
-			"name": "Pre-App",
-			"code": "pre-app",
+			"description": "Operating",
+			"name": "Operating",
+			"code": "operating",
 		},
 		{
-			"description": "EAO Evaluation",
-			"name": "Evaluation",
-			"code": "evaluation",
+			"description": "Care & Maintenance",
+			"name": "Care & Maintenance",
+			"code": "care-and-maintenance",
 		},
 		{
-			"description": "Application Review",
-			"name": "Application Review",
-			"code": "application-review",
-		},
-		{
-			"description": "Decision",
-			"name": "Decision",
-			"code": "decision",
-		},
-		{
-			"description": "Post Certification Processes",
-			"name": "Post-Certification",
-			"code": "post-certification",
-		},
-		{
-			"description": "Completed",
-			"name": "Completed",
-			"code": "completed",
+			"description": "Closed",
+			"name": "Closed",
+			"code": "closed",
 		}
 	],
 	streams: [{
