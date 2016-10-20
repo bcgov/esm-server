@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('groups').config(['$stateProvider', 'FEATURES', function ($stateProvider, FEATURES) {
-	if ('true' === FEATURES.enableGroups) {
+angular.module('groups.routes').config(['$stateProvider', function ($stateProvider) {
 		$stateProvider
 			.state('p.group', {
 				abstract: true,
@@ -68,5 +67,4 @@ angular.module('groups').config(['$stateProvider', 'FEATURES', function ($stateP
 				controller: 'GroupEditController',
 				controllerAs: 's'
 			});
-	}
 }]);

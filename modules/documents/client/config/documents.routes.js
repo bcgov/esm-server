@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('documents').config(['$stateProvider', 'FEATURES', function ($stateProvider, FEATURES) {
-	if ('true' === FEATURES.enableDocuments) {
+angular.module('documents').config(['$stateProvider', function ($stateProvider) {
 		$stateProvider
 			.state('p.documents', {
 				url: '/documents',
@@ -11,6 +10,5 @@ angular.module('documents').config(['$stateProvider', 'FEATURES', function ($sta
 					$scope.project = project;
 				}
 			});
-	}
 }]);
 

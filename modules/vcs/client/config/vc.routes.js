@@ -4,8 +4,7 @@
 // vc routes
 //
 // =========================================================================
-angular.module('vcs').config(['$stateProvider', 'FEATURES', '_', function ($stateProvider, FEATURES, _) {
-	if ('true' === FEATURES.enableVcs) {
+angular.module('vcs').config(['$stateProvider', '_', function ($stateProvider, _) {
 		$stateProvider
 		// -------------------------------------------------------------------------
 		//
@@ -437,6 +436,5 @@ angular.module('vcs').config(['$stateProvider', 'FEATURES', '_', function ($stat
 				}
 			})
 		;
-	}
 }]);
 

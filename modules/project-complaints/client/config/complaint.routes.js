@@ -4,8 +4,7 @@
 // complaint routes
 //
 // =========================================================================
-angular.module('complaints').config(['$stateProvider', 'FEATURES', function ($stateProvider, FEATURES) {
-	if ('true' === FEATURES.enableComplaints) {
+angular.module('complaints').config(['$stateProvider', function ($stateProvider) {
 		$stateProvider
 		// -------------------------------------------------------------------------
 		//
@@ -139,6 +138,5 @@ angular.module('complaints').config(['$stateProvider', 'FEATURES', function ($st
 				$scope.project = project;
 			}
 		});
-}
 }]);
 

@@ -1,5 +1,6 @@
 'use strict';
 
 // Use Applicaion configuration module to register a new module
-ApplicationConfiguration.registerModule('invitations');
+ApplicationConfiguration.registerModule('invitations', ['ngTable']);
+ApplicationConfiguration.registerModule('invitations.routes', ['ngTable']);
 

@@ -4,8 +4,7 @@
 // vc routes
 //
 // =========================================================================
-angular.module('communications').config(['$stateProvider', 'FEATURES', function ($stateProvider, FEATURES) {
-	if ('true' === FEATURES.enableUpdates) {
+angular.module('communications.routes').config(['$stateProvider', function ($stateProvider) {
 		$stateProvider
 			.state('p.communication', {
 				abstract: true,
@@ -76,5 +75,4 @@ angular.module('communications').config(['$stateProvider', 'FEATURES', function 
 				controller: 'EditCommunicationController',
 				controllerAs: 's'
 			});
-	}
 }]);

@@ -1,19 +1,8 @@
 'use strict';
 
 angular.module('projects').config (
-	['$locationProvider', '$stateProvider', '$urlRouterProvider', '_', 'RELEASE', 'ENV',
-	function ($locationProvider, $stateProvider, $urlRouterProvider, _, RELEASE, ENV) {
-		if (RELEASE.redirectHomepageToGeorgeMassey) {
-			$stateProvider
-			.state('projects', {
-				url: '/',
-				controller: function ($state) {
-					$state.transitionTo('p.commentperiod.detail', { projectid:'george-massey-tunnel-replacement', periodId:'57a125f88b42220c00d87276'}, {
-						reload: true, inherit: false, notify: true
-					});
-				}
-			});
-		} else {
+	['$locationProvider', '$stateProvider', '$urlRouterProvider', '_',
+	function ($locationProvider, $stateProvider, $urlRouterProvider, _) {
 			$stateProvider
 			// =========================================================================
 			//
@@ -52,5 +41,4 @@ angular.module('projects').config (
 					}))));
 				}
 			});
-		}
 }]);

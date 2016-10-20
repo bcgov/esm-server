@@ -34,7 +34,7 @@
 				</a>
 			</li>
 
-			<li class="custom-nav-item dropdown" ng-if="ENV === 'EAO' && systemMenu.shouldRender(authentication.user)">
+			<li class="custom-nav-item dropdown" ng-if="'true' === ADMIN_FEATURES.enableSystemMenu && systemMenu.shouldRender(authentication.user)">
 				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="System Configuration">
 					<span class="glyphicon glyphicon-cog"></span>
 					<span>SYSTEM</span>
@@ -56,7 +56,7 @@
 		  this is meant to be a temporary option, strictly limited to the admin role, apis are locked to admin role.
 		  once project is loaded and running, this option can be removed.
 	    -->
-      <li class="custom-nav-item dropdown" ng-if="'true' === ADMIN_FEATURES.allowImport && (authentication.user && authentication.user.roles.indexOf ('admin') !== -1)">
+      <li class="custom-nav-item dropdown" ng-if="'true' === ADMIN_FEATURES.enableImportMenu && (authentication.user && authentication.user.roles.indexOf ('admin') !== -1)">
         <a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="Administration">
           <span class="glyphicon glyphicon-cog"></span>
           <span>ADMIN</span>
