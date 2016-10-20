@@ -4,8 +4,7 @@
 // inspection report routes
 //
 // =========================================================================
-angular.module('irs').config(['$stateProvider', 'FEATURES', function ($stateProvider, FEATURES) {
-	if ('true' === FEATURES.enableCompliance) {
+angular.module('irs').config(['$stateProvider', function ($stateProvider) {
 		$stateProvider
 		// -------------------------------------------------------------------------
 		//
@@ -695,5 +694,4 @@ angular.module('irs').config(['$stateProvider', 'FEATURES', function ($stateProv
 				});
 			}
 		});
-	}
 }]);

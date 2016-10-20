@@ -37,7 +37,14 @@ module.exports = function (grunt) {
 					'ENV': ENV,
 					'LOGO': LOGO,
 					'ADMIN_FEATURES': {
-						allowImport: process.env.ADMIN_ALLOW_IMPORT
+						enableImportMenu: process.env.ADMIN_ENABLE_IMPORT_MENU,
+						enableSystemMenu: process.env.ADMIN_ENABLE_SYSTEM_MENU,
+						enableEmailTemplates: process.env.ADMIN_ENABLE_EMAIL_TEMPLATES,
+						enableOrganizations: process.env.ADMIN_ENABLE_ORGANIZATIONS,
+						enableNews: process.env.ADMIN_ENABLE_NEWS,
+						enableTemplates: process.env.ADMIN_ENABLE_TEMPLATES,
+						enableVcs: process.env.ADMIN_ENABLE_VCS,
+						enableContacts: process.env.ADMIN_ENABLE_CONTACTS
 					},
 					'FEATURES': {
 						enableTimeline: process.env.PROJECT_ENABLE_TIMELINE,

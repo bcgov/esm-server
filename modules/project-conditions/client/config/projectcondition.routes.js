@@ -4,8 +4,7 @@
 // project condition routes
 //
 // =========================================================================
-angular.module('projectconditions').config(['$stateProvider', 'FEATURES', function ($stateProvider, FEATURES) {
-	if ('true' === FEATURES.enableConditions) {
+angular.module('projectconditions').config(['$stateProvider', function ($stateProvider) {
 		$stateProvider
 		// -------------------------------------------------------------------------
 		//
@@ -230,6 +229,4 @@ angular.module('projectconditions').config(['$stateProvider', 'FEATURES', functi
 				};
 			}
 		});
-}
-
 }]);

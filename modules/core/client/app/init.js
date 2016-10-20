@@ -25,7 +25,8 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 	}
 ]);
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, _, $cookies, Application, ContextService) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, _, $cookies, Application, ContextService, ADMIN_FEATURES, FEATURES) {
+
 
 	// Check authentication before changing state
 	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
@@ -39,33 +40,108 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 		// for some states just go, no pre-processing
 		//
 		//console.log('ContextService.synced = ', ContextService.isSynced(toState, toParams));
-		if (!!~['authentication.signin','forbidden'].indexOf (toState.name)) {
+		if (!!~['authentication.signin', 'forbidden', 'not-found'].indexOf (toState.name)) {
 			return true;
 		}
 		else {
-			if (!ContextService.isSynced(toState, toParams)) {
-				//console.log('halt!');
-				event.preventDefault();
-				ContextService.sync(toState, toParams).then(function(ok) {
-					//console.log('sync good, go!');
+			var isRouteEnabled = function() {
+				//console.log('isRouteEnabled: ', toState.name);
+				//console.log('ADMIN_FEATURES: ', JSON.stringify(ADMIN_FEATURES));
+				//console.log('FEATURES: ', JSON.stringify(FEATURES));
+				var enabled = false;
+				var str = toState.name;
+				switch(str) {
+					// core.client.menus -> systemMenu
+					case String(str.match(/^admin.emailtemplate.*/)):
+						enabled = 'true' === ADMIN_FEATURES.enableEmailTemplates;
+						break;
+					case String(str.match(/^admin.organization.*/)):
+						enabled = 'true' === ADMIN_FEATURES.enableOrganizations;
+						break;
+					case String(str.match(/^admin.recentactivity.*/)):
+						enabled = 'true' === ADMIN_FEATURES.enableNews;
+						break;
+					case String(str.match(/^admin.template.*/)):
+						enabled = 'true' === ADMIN_FEATURES.enableTemplates;
+						break;
+					case String(str.match(/^admin.topic.*/)):
+						enabled = 'true' === ADMIN_FEATURES.topic;
+						break;
+					case String(str.match(/^admin.user.*/)):
+						enabled = 'true' === ADMIN_FEATURES.enableContacts;
+						break;
+
+					// core.client.menus -> projectTopMenu
+					case String(str.match(/^p.schedule/)):
+						enabled = 'true' === FEATURES.enableSchedule;
+						break;
+					case String(str.match(/^p.commentperiod.*/)):
+						enabled = 'true' === FEATURES.enablePcp;
+						break;
+
+					// core.client.menus -> projectMenu
+					case String(str.match(/^p.documents$/)):
+						enabled = 'true' === FEATURES.enableDocuments;
+						break;
+					case String(str.match(/^p.invitation.*/)):
+						enabled = 'true' === FEATURES.enableInvitations;
+						break;
+					case String(str.match(/^p.group.*/)):
+						enabled = 'true' === FEATURES.enableGroups;
+						break;
+					case String(str.match(/^p.communication.*/)):
+						enabled = 'true' === FEATURES.enableUpdates;
+						break;
+					case String(str.match(/^p.complaint.*/)):
+						enabled = 'true' === FEATURES.enableComplaints;
+						break;
+					case String(str.match(/^p.projectcondition.*/)):
+						enabled = 'true' === FEATURES.enableConditions;
+						break;
+					case String(str.match(/^p.ir.*/)):
+						enabled = 'true' === FEATURES.enableCompliance;
+						break;
+					case String(str.match(/^p.vc.*/)):
+						enabled = 'true' === FEATURES.enableVcs;
+						break;
+
+					default:
+						enabled = true;
+						break;
+				}
+				return enabled;
+			};
+
+
+			if (isRouteEnabled()) {
+				if (!ContextService.isSynced(toState, toParams)) {
+					console.log('halt!');
+					event.preventDefault();
+					ContextService.sync(toState, toParams).then(function(ok) {
+						//console.log('sync good, go!');
+						if (ContextService.isAllowed(toState.data)) {
+							$state.go(toState, toParams);
+						} else {
+							$state.go('forbidden');
+						}
+					}, function(bad) {
+						console.log('sync bad...:| ', JSON.stringify(bad));
+						return false;
+					});
+				} else {
+					// proceed...
+					console.log('synced... proceed if allowed!');
 					if (ContextService.isAllowed(toState.data)) {
-						$state.go(toState, toParams);
+						return true;
 					} else {
+						event.preventDefault();
 						$state.go('forbidden');
 					}
-				}, function(bad) {
-					//console.log('sync bad...:| ', JSON.stringify(bad));
-					return false;
-				});
-			} else {
-				// proceed...
-				//console.log('synced... proceed if allowed!');
-				if (ContextService.isAllowed(toState.data)) {
-					return true;
-				} else {
-					event.preventDefault();
-					$state.go('forbidden');
 				}
+
+			} else {
+				event.preventDefault();
+				$state.go('not-found');
 			}
 		}
 	});

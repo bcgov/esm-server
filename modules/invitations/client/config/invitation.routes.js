@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('invitations').config(['$stateProvider', 'FEATURES', function ($stateProvider, FEATURES) {
-	if ('true' === FEATURES.enableInvitations) {
+angular.module('invitations.routes').config(['$stateProvider', function ($stateProvider) {
 		$stateProvider
 			.state('p.invitation', {
 				abstract: true,
@@ -71,5 +70,4 @@ angular.module('invitations').config(['$stateProvider', 'FEATURES', function ($s
 				controller: 'EditInvitationController',
 				controllerAs: 's'
 			});
-	}
 }]);
