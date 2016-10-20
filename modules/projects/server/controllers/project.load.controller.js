@@ -160,7 +160,7 @@ module.exports = function(file, req, res, opts) {
 				return reject("err:"+err);
 			}
 			// console.log("FILE DATA:",data);
-			var colArray = ['id','ProjectName','Proponent','Ownership','type', 'lat','long','Status','Commodity','Region','TailingsImpoundments','description', 'isPublished', 'isTermsAgreed', 'code', 'phase'];
+			var colArray = ['id','ProjectName','Proponent','Ownership','type', 'lat','long','Commodity','Region','TailingsImpoundments','description', 'isPublished', 'isTermsAgreed', 'code', 'phase'];
 			var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
 				// Skip this many rows
 				var length = Object.keys(output).length;
