@@ -67,7 +67,7 @@ angular.module('core').factory('ContextService', ['$interval', '$log', '$http', 
 	}
 
 	function isAllowed(data)  {
-		$log.debug('ContextService.isAllowed(data = ' + (!data ? 'undefined' : JSON.stringify(data)) + ').');
+		//$log.debug('ContextService.isAllowed(data = ' + (!data ? 'undefined' : JSON.stringify(data)) + ').');
 		if (!data) {
 			return true;
 		}
@@ -80,18 +80,18 @@ angular.module('core').factory('ContextService', ['$interval', '$log', '$http', 
 			var hasPermission = !permissionSpecified;
 
 			if (roleSpecified) {
-				$log.debug('ContextService.isAllowed(roles = ' + JSON.stringify(data.roles) + ').');
+				//$log.debug('ContextService.isAllowed(roles = ' + JSON.stringify(data.roles) + ').');
 				var userRoles = $window.sessionStorage.getItem('userRoles');
 				var roles = userRoles ? userRoles.split(',') : [];
-				$log.debug('ContextService.isAllowed(userRoles = ' + JSON.stringify(userRoles) + ').');
+				//$log.debug('ContextService.isAllowed(userRoles = ' + JSON.stringify(userRoles) + ').');
 				var sameRoles = _.intersection(data.roles, roles);
 				hasRole = _.size(sameRoles) > 0;
-				$log.debug('ContextService.isAllowed(hasRole = ' + hasRole + ').');
+				//$log.debug('ContextService.isAllowed(hasRole = ' + hasRole + ').');
 			}
 
 			if (permissionSpecified) {
 				// will only apply to application/system level items...
-				$log.debug('ContextService.isAllowed(permissions = ' + JSON.stringify(data.permissions) + ').');
+				//$log.debug('ContextService.isAllowed(permissions = ' + JSON.stringify(data.permissions) + ').');
 				var userCan = $window.application.userCan;
 				var permissions = [];
 				_.transform(userCan, function (result, value, key) {
@@ -99,13 +99,13 @@ angular.module('core').factory('ContextService', ['$interval', '$log', '$http', 
 						permissions.push(key);
 					}
 				}, {});
-				$log.debug('ContextService.isAllowed(userPermissions = ' + JSON.stringify(permissions) + ').');
+				//$log.debug('ContextService.isAllowed(userPermissions = ' + JSON.stringify(permissions) + ').');
 				var samePermissions = _.intersection(data.permissions, permissions);
 				hasPermission = _.size(samePermissions) > 0;
-				$log.debug('ContextService.isAllowed(hasPermission = ' + hasPermission + ').');
+				//$log.debug('ContextService.isAllowed(hasPermission = ' + hasPermission + ').');
 			}
 			var result = hasRole && hasPermission;
-			$log.debug('ContextService.isAllowed() = ', result);
+			//$log.debug('ContextService.isAllowed() = ', result);
 			return result;
 		} else {
 			// no roles, no permissions, so it's all good.

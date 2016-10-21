@@ -115,7 +115,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 
 			if (isRouteEnabled()) {
 				if (!ContextService.isSynced(toState, toParams)) {
-					console.log('halt!');
+					//console.log('halt!');
 					event.preventDefault();
 					ContextService.sync(toState, toParams).then(function(ok) {
 						//console.log('sync good, go!');
@@ -125,12 +125,12 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 							$state.go('forbidden');
 						}
 					}, function(bad) {
-						console.log('sync bad...:| ', JSON.stringify(bad));
+						//console.log('sync bad...:| ', JSON.stringify(bad));
 						return false;
 					});
 				} else {
 					// proceed...
-					console.log('synced... proceed if allowed!');
+					//console.log('synced... proceed if allowed!');
 					if (ContextService.isAllowed(toState.data)) {
 						return true;
 					} else {

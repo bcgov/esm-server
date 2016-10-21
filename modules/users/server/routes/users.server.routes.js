@@ -18,7 +18,7 @@ module.exports = function (app) {
 	app.route('/api/user/alert').get(function(req,res){res.json([]);});
 
 	// Import logic
-	app.route ('/api/users/import').all (policy ('admin'))
+	app.route ('/api/users/import/eao').all (policy ('admin'))
 	.post (function (req, res) {
 		var file = req.files.file;
 		if (file) {
@@ -29,6 +29,17 @@ module.exports = function (app) {
 			}).then (routes.success(res), routes.failure(res));
 		}
 	});
+	app.route ('/api/users/import/mem').all (policy ('admin'))
+		.post (function (req, res) {
+			var file = req.files.file;
+			if (file) {
+				// console.log("Received users import file:",file);
+				routes.setSessionContext(req)
+					.then( function (opts) {
+						return users.loadMEMUsers(file, req, res, opts);
+					}).then (routes.success(res), routes.failure(res));
+			}
+		});
 	// Import logic
 	app.route ('/api/groupusers/import').all (policy ('admin'))
 		.post (function (req, res) {
@@ -42,7 +53,7 @@ module.exports = function (app) {
 			}
 		});
 	// Import logic
-	app.route ('/api/userroles/project/import').all (policy ('admin'))
+	app.route ('/api/userroles/project/import/eao').all (policy ('admin'))
 		.post (function (req, res) {
 			var file = req.files.file;
 			if (file) {
@@ -52,13 +63,33 @@ module.exports = function (app) {
 					}).then (routes.success(res), routes.failure(res));
 			}
 		});
-	app.route ('/api/userroles/system/import').all (policy ('admin'))
+	app.route ('/api/userroles/system/import/eao').all (policy ('admin'))
 		.post (function (req, res) {
 			var file = req.files.file;
 			if (file) {
 				routes.setSessionContext(req)
 					.then( function (opts) {
 						return users.loadSystemUserRoles(file, req, res, opts);
+					}).then (routes.success(res), routes.failure(res));
+			}
+		});
+	app.route ('/api/userroles/project/import/mem').all (policy ('admin'))
+		.post (function (req, res) {
+			var file = req.files.file;
+			if (file) {
+				routes.setSessionContext(req)
+					.then( function (opts) {
+						return users.loadMEMProjectUserRoles(file, req, res, opts);
+					}).then (routes.success(res), routes.failure(res));
+			}
+		});
+	app.route ('/api/userroles/system/import/mem').all (policy ('admin'))
+		.post (function (req, res) {
+			var file = req.files.file;
+			if (file) {
+				routes.setSessionContext(req)
+					.then( function (opts) {
+						return users.loadMEMSystemUserRoles(file, req, res, opts);
 					}).then (routes.success(res), routes.failure(res));
 			}
 		});
