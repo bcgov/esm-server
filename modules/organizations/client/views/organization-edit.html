@@ -11,7 +11,7 @@
 	
 	<div class="view-body-container">
 		<fieldset>
-			<legend>General Info</legend>
+			<legend>Organization Details</legend>
 			<div class="row">
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group" x-show-errors>
@@ -51,16 +51,34 @@
 						<input class="form-control" id="website" type="text" ng-model="org.website">
 					</div>
 				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group" x-show-errors>
+						<label class="control-label" for="email">Email<em class="required" ng-if="org.viaEmail">(Required)</em></label>
+						<input class="form-control" placeholder="myco@example.com" id="email" name="email" type="email" ng-model="org.email" ng-required="org.viaEmail">
+					</div>
+				</div>
 			</div>
-		</fieldset>
 
-		<fieldset>
-			<legend>Mailing Address</legend>
+			<!-- Preferences -->
+			<div class="form-group">
+				<label class="control-label">Preferred Contact Method</label>
+				<div class="checkbox-row">
+					<div class="checkbox-inline">
+						<label class="control-label" for="viaMail">
+							<input type="checkbox" ng-model="org.viaMail" id="viaMail" name="viaMail" />By Mail</label>
+					</div>
+					<div class="checkbox-inline">
+						<label class="control-label" for="viaEmail">
+							<input type="checkbox" ng-model="org.viaEmail" id="viaEmail" name="viaEmail" />By Email</label>
+					</div>
+				</div>
+			</div><!--/ CONTACT PREFERENCES -->
+
 			<div class="row">
 				<div class="col-sm-6">
-					<div class="form-group">
-						<label for="address1" class="control-label">Street Address 1</label>
-						<input class="form-control" id="address1" type="text" ng-model="org.address1">
+					<div class="form-group" x-show-errors>
+						<label for="address1" class="control-label">Street Address 1<em class="required" ng-if="org.viaMail">(Required)</em></label>
+						<input class="form-control" id="address1" type="text" name="address1" ng-model="org.address1" ng-required="org.viaMail">
 					</div>
 				</div>    
 				<div class="col-sm-6">
@@ -72,30 +90,31 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-6 col-md-3">
-					<div class="form-group">
-						<label for="city" class="control-label">City</label>
-						<input class="form-control" id="city" type="text" ng-model="org.city">
+					<div class="form-group" x-show-errors>
+						<label for="city" class="control-label">City<em class="required" ng-if="org.viaMail">(Required)</em></label>
+						<input class="form-control" id="city" name="city" type="text" ng-model="org.city" ng-required="org.viaMail">
 					</div>
 				</div>    
 				<div class="col-sm-6 col-md-3">
-					<div class="form-group">
-						<label for="province" class="control-label">Province/State</label>
-						<input class="form-control" id="province" type="text" ng-model="org.province">
+					<div class="form-group" x-show-errors>
+						<label for="province" class="control-label">Province/State<em class="required" ng-if="org.viaMail">(Required)</em></label>
+						<input class="form-control" id="province" name="province" type="text" ng-model="org.province" ng-required="org.viaMail">
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-3">
-					<div class="form-group">
-						<label for="country" class="control-label">Country</label>
-						<input class="form-control" id="country" type="text" ng-model="org.country">
+					<div class="form-group" x-show-errors>
+						<label for="country" class="control-label">Country<em class="required" ng-if="org.viaMail">(Required)</em></label>
+						<input class="form-control" id="country" name="country" type="text" ng-model="org.country" ng-required="org.viaMail">
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-3">
-					<div class="form-group">
-						<label for="postal" class="control-label">Postal/Zip Code</label>
-						<input class="form-control" id="postal" type="text" ng-model="org.postal">
+					<div class="form-group" x-show-errors>
+						<label for="postal" class="control-label">Postal/Zip Code<em class="required" ng-if="org.viaMail">(Required)</em></label>
+						<input class="form-control" id="postal" name="postal" type="text" ng-model="org.postal" ng-required="org.viaMail">
 					</div>
 				</div>
 			</div>
+
 		</fieldset>
 
 		<div class="form-footer clearfix">
