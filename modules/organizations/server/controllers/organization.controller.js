@@ -10,6 +10,7 @@ var DBModel  = require (path.resolve('./modules/core/server/controllers/core.dbm
 module.exports = DBModel.extend ({
 	name : 'Organization',
 	plural : 'organizations',
+	populate: 'primaryContact',
 	preprocessAdd: function (org) {
 		if (!org.name && !org.company) {
 			org.name = org.company = 'No Name';

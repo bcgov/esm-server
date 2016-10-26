@@ -22,6 +22,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	email         : { type: String, trim: true, default: '' },
 	viaEmail      : { type:Boolean, default: false },
 	viaMail       : { type:Boolean, default: true },
+	primaryContact: { type:'ObjectId', ref:'User', default:null },
 	users         : [
 		{ type:'ObjectId', ref:'User' }
 	]
