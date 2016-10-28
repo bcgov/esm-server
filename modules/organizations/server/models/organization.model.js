@@ -19,6 +19,10 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	province      : { type: String, default:'' },
 	postal        : { type: String, default:'' },
 	country       : { type: String, default:'' },
+	email         : { type: String, trim: true, default: '' },
+	viaEmail      : { type:Boolean, default: false },
+	viaMail       : { type:Boolean, default: true },
+	primaryContact: { type:'ObjectId', ref:'User', default:null },
 	users         : [
 		{ type:'ObjectId', ref:'User' }
 	]

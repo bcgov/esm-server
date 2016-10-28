@@ -27,9 +27,9 @@ module.exports = DBModel.extend ({
 			if (model.type === 'Invitation') {
 				// communications are for updates and invitations at this point.
 				// invitations have different defaults than udpates - which are what are the stored defaults
-				model.read = ['proponent-lead', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-system-admin'];
-				model.write = ['proponent-lead', 'assessment-admin', 'project-intake', 'assessment-lead', 'project-epd', 'project-system-admin'];
-				model.delete = ['assessment-admin', 'project-intake', 'assessment-lead', 'project-epd', 'project-system-admin'];
+				model.read = ['sysadmin', 'team', 'project-lead'];
+				model.write = ['sysadmin', 'team', 'project-lead'];
+				model.delete = ['sysadmin', 'team', 'project-lead'];
 			}
 
 			model.code = model.name.toLowerCase();

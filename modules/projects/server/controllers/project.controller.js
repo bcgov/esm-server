@@ -528,8 +528,8 @@ module.exports = DBModel.extend ({
 		project.proponentAdminRole = 'proponent-lead';
 		//project.eaoInviteeRole = undefined;
 		//project.proponentInviteeRole = undefined;
-		project.eaoMember = 'project-eao-staff';
-		project.proMember = 'proponent-team';
+		project.eaoMember = 'team';
+		project.proMember = 'proponent-lead';
 
 		defaultRoles.push(project.eaoMember);
 		defaultRoles.push(project.proMember);

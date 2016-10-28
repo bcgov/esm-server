@@ -182,7 +182,7 @@ module.exports = function (app) {
 						var readPermissions = null;
 						if (req.headers.internaldocument) {
 							// Force read array to be this:
-							readPermissions = ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'complaince-officer', 'complaince-lead', 'project-eao-staff', 'project-epd', 'project-intake', 'project-qa-officer', 'project-system-admin'];
+							readPermissions = ['sysadmin', 'team', 'project-lead'];
 						}
 						return model.create ({
 							// Metadata related to this specific document that has been uploaded.

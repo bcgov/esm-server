@@ -84,7 +84,8 @@ angular.module('core')
 								// we only want certain permissions to be set at run time, ones that do not require model defaults for read/write/delete
 								// application / system should not expose createRole either...
 								s.allPermissions  = _.difference(s.allPermissions, ['read', 'write', 'delete', 'createRole', 'createProject']);
-								s.allRoles = _.difference(s.allRoles, globalProjectRoles); // we don't add permissions to 'project' roles at the application level.
+								// in mem - all system roles are project roles....
+								//s.allRoles = _.difference(s.allRoles, globalProjectRoles); // we don't add permissions to 'project' roles at the application level.
 							} else if (scope.context._id === scope.object._id) {
 								// jsherman - 2016-09-01
 								// roles and permissions lock down...
@@ -96,13 +97,12 @@ angular.module('core')
 									'editSchedule',
 									'createArtifact',
 									'createValuedComponent',
-									'createInspectionReport',
+									'createComplianceOversight',
 									'createProjectCondition',
 									'createProjectComplaint',
 									'createProjectInvitation',
 									'createDocument',
 									'createCommentPeriod',
-									'createEnforcement',
 									'createProjectUpdate',
 									'createProjectGroup'];
 								s.allPermissions  = _.difference(s.allPermissions, writePerms);

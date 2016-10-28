@@ -11,10 +11,8 @@ module.exports = function () {
 	var defaultsArray = [];
 
 	var defaultRoles = {
-		'project-admin' : ['proponent-lead', 'proponent-team', 'project-mem-staff', 'project-mgr', 'mem-lead', 'mem-team', 'project-admin', 'public'],
-		'proponent-lead' : ['project-mem-staff', 'project-mgr', 'mem-lead', 'mem-team', 'project-admin', 'public'],
-		'project-mgr' : ['project-mem-staff', 'project-mgr', 'mem-lead', 'mem-team', 'project-admin', 'public'],
-		'mem-lead' : ['project-mem-staff', 'project-mgr', 'mem-lead', 'mem-team', 'project-admin', 'public']
+		'sysadmin' : ['proponent-lead', 'project-lead'],
+		'project-lead' : ['public', 'proponent-lead', 'project-lead']
 	};
 	//
 	// default project permissions
@@ -27,43 +25,42 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'addUsersToContext' : ['project-mgr', 'mem-lead', 'project-admin'],
-				'createRole' : ['project-admin'],
-				'managePermissions' : ['project-admin'],
-				'manageRoles' : ['project-mgr', 'mem-lead', 'project-admin'],
-				'listContacts' : ['project-mgr', 'mem-lead', 'project-admin'],
-				'viewTombstone' : ['proponent-lead', 'proponent-team', 'project-mem-staff', 'project-mgr', 'mem-lead', 'mem-team', 'project-admin'],
-				'viewEAOTombstone' : ['project-mem-staff', 'project-mgr', 'mem-lead', 'mem-team', 'project-admin'],
-				'editTombstone' : ['project-mgr', 'mem-lead', 'project-admin'],
-				'listArtifacts' : ['proponent-lead', 'proponent-team', 'project-mem-staff', 'project-mgr', 'mem-lead', 'mem-team', 'project-admin'],
-				'listValuedComponents' : ['public', 'proponent-lead', 'proponent-team', 'project-mem-staff', 'mem-lead', 'mem-team', 'project-technical-working-group', 'project-admin'],
-				'listInspectionReports' : ['project-admin'],
-				'listProjectConditions' : ['proponent-lead', 'proponent-team', 'project-mem-staff', 'mem-lead', 'mem-team', 'project-technical-working-group', 'project-admin'],
-				'listProjectComplaints' : ['project-admin'],
-				'listProjectInvitations' : ['project-mgr', 'mem-lead', 'project-admin'],
-				'listDocuments' : ['public', 'proponent-lead', 'proponent-team', 'project-mem-staff', 'project-mgr', 'mem-lead', 'mem-team', 'project-admin'],
-				'listCommentPeriods' : ['public', 'proponent-lead', 'proponent-team', 'project-mem-staff', 'mem-lead', 'mem-team', 'project-technical-working-group', 'project-admin'],
-				'listEnforcements' : ['project-admin'],
-				'listProjectUpdates' : ['mem-lead', 'mem-team', 'project-admin'],
-				'listProjectGroups' : ['project-mem-staff', 'mem-lead', 'mem-team', 'project-admin'],
-				'viewSchedule' : ['proponent-lead', 'proponent-team', 'project-mem-staff', 'project-mgr', 'mem-lead', 'mem-team', 'project-technical-working-group', 'project-admin'],
-				'editSchedule' : ['project-mgr', 'mem-lead', 'mem-team', 'project-admin'],
-				'createArtifact' : ['proponent-lead', 'project-mgr', 'mem-lead', 'mem-team', 'project-admin'],
-				'createValuedComponent' : ['proponent-lead', 'proponent-team', 'mem-lead', 'mem-team', 'project-admin'],
-				'createInspectionReport' : ['project-admin'],
-				'createProjectCondition' : ['proponent-lead', 'proponent-team', 'mem-lead', 'mem-team', 'project-admin'],
-				'createProjectComplaint' : ['project-admin'],
-				'createProjectInvitation' : ['project-mgr', 'mem-lead', 'project-admin'],
-				'createDocument' : ['proponent-lead', 'project-mgr', 'mem-lead', 'mem-team', 'project-technical-working-group', 'project-admin'],
-				'createCommentPeriod' : ['mem-lead', 'mem-team', 'project-admin'],
-				'createEnforcement' : ['project-admin'],
-				'createProjectUpdate' : ['mem-lead', 'mem-team', 'project-admin'],
-				'createProjectGroup' : ['mem-lead', 'mem-team', 'project-admin'],
-				'read' : ['proponent-lead', 'proponent-team', 'project-mem-staff', 'project-mgr', 'mem-lead', 'mem-team', 'project-technical-working-group', 'project-admin'],
-				'write' : ['project-mgr', 'mem-lead', 'mem-team', 'project-admin'],
-				'delete' : ['project-admin', 'project-mgr'],
-				'publish' : ['mem-lead', 'project-admin'],
-				'unPublish' : ['mem-lead', 'project-admin']
+				'addUsersToContext' : ['sysadmin', 'project-lead'],
+				'createRole' : ['sysadmin'],
+				'managePermissions' : ['sysadmin'],
+				'manageRoles' : ['sysadmin'],
+				'listContacts' : ['sysadmin'],
+				'viewTombstone' : ['sysadmin'],
+				'viewEAOTombstone' : ['sysadmin'],
+				'editTombstone' : ['sysadmin'],
+				'listArtifacts' : ['sysadmin'],
+				'listValuedComponents' : ['public', 'sysadmin'],
+				'listComplianceOversight' : ['sysadmin'],
+				'listProjectConditions' : ['sysadmin', 'team', 'exec', 'project-lead'],
+				'listProjectComplaints' : ['sysadmin'],
+				'listProjectInvitations' : ['sysadmin', 'team', 'project-lead'],
+				'listDocuments' : ['public', 'sysadmin'],
+				'listCommentPeriods' : ['public', 'sysadmin'],
+				'listEnforcements' : ['sysadmin'],
+				'listProjectUpdates' : ['sysadmin'],
+				'listProjectGroups' : ['sysadmin'],
+				'viewSchedule' : ['sysadmin'],
+				'editSchedule' : ['sysadmin'],
+				'createArtifact' : ['sysadmin'],
+				'createValuedComponent' : ['sysadmin'],
+				'createComplianceOversight' : ['sysadmin'],
+				'createProjectCondition' : ['sysadmin', 'team'],
+				'createProjectComplaint' : ['sysadmin'],
+				'createProjectInvitation' : ['sysadmin', 'team', 'project-lead'],
+				'createDocument' : ['sysadmin', 'team', 'proponent-lead', 'project-lead'],
+				'createCommentPeriod' : ['sysadmin'],
+				'createProjectUpdate' : ['sysadmin'],
+				'createProjectGroup' : ['sysadmin'],
+				'read' : ['sysadmin', 'team', 'exec', 'project-lead'],
+				'write' : ['sysadmin', 'team', 'project-lead'],
+				'delete' : ['sysadmin', 'project-lead'],
+				'publish' : ['sysadmin', 'project-lead'],
+				'unPublish' : ['sysadmin'],
 			}
 		}
 	}));
@@ -76,11 +73,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['project-admin'],
-				'write' : ['project-admin'],
-				'delete' : ['project-admin'],
-				'publish' : ['project-admin'],
-				'unPublish' : ['project-admin']
+				'read' : ['sysadmin'],
+				'write' : ['sysadmin'],
+				'delete' : ['sysadmin'],
+				'publish' : ['sysadmin'],
+				'unPublish' : ['sysadmin']
 			}
 		}
 	}));
@@ -93,11 +90,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['proponent-lead', 'proponent-team', 'project-mem-staff', 'project-mgr', 'mem-lead', 'mem-team', 'project-admin'],
-				'write' : ['proponent-lead', 'proponent-team', 'project-mgr', 'mem-lead', 'mem-team', 'project-admin'],
-				'delete' : ['project-mgr', 'mem-lead', 'mem-team', 'project-admin'],
-				'publish' : ['mem-lead', 'project-mgr', 'project-admin'],
-				'unPublish' : ['mem-lead', 'project-mgr', 'project-admin']
+				'read' : ['sysadmin'],
+				'write' : ['sysadmin'],
+				'delete' : ['sysadmin'],
+				'publish' : ['sysadmin'],
+				'unPublish' : ['sysadmin']
 			}
 		}
 	}));
@@ -110,9 +107,9 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['proponent-lead', 'proponent-team', 'project-mgr', 'mem-lead', 'mem-team', 'project-admin'],
-				'write' : ['project-mgr', 'mem-lead', 'mem-team', 'project-admin'],
-				'delete' : ['mem-lead', 'mem-team', 'project-admin']
+				'read' : ['sysadmin', 'team', 'project-lead'],
+				'write' : ['sysadmin', 'team', 'project-lead'],
+				'delete' : ['sysadmin', 'team', 'project-lead']
 			}
 		}
 	}));
@@ -125,9 +122,9 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['system-admin'],
-				'write' : ['system-admin'],
-				'delete' : ['system-admin']
+				'read' : ['sysadmin', 'team', 'exec', 'project-lead'],
+				'write' : ['sysadmin', 'team'],
+				'delete' : ['sysadmin']
 			}
 		}
 	}));
@@ -140,9 +137,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['proponent-lead', 'proponent-team', 'project-mem-staff', 'project-mgr', 'mem-lead', 'mem-team', 'project-admin'],
-				'write' : ['proponent-lead', 'proponent-team', 'project-mgr', 'mem-lead', 'mem-team', 'project-admin'],
-				'delete' : ['project-mgr', 'mem-lead', 'mem-team', 'project-admin']
+				'read' : ['sysadmin', 'team', 'exec', 'project-lead'],
+				'write' : ['sysadmin', 'team', 'project-lead'],
+				'delete' : ['sysadmin', 'project-lead'],
+				'publish' : ['sysadmin', 'project-lead'],
+				'unPublish' : ['sysadmin']
 			}
 		}
 	}));
@@ -156,9 +155,9 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['project-mem-staff', 'project-mgr', 'mem-lead', 'mem-team', 'project-admin'],
-				'write' : ['mem-lead', 'mem-team', 'project-admin'],
-				'delete' : ['mem-lead', 'mem-team', 'project-admin']
+				'read' : ['sysadmin'],
+				'write' : ['sysadmin'],
+				'delete' : ['sysadmin']
 			}
 		}
 	}));
@@ -171,11 +170,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['project-admin'],
-				'write' : ['project-admin'],
-				'delete' : ['project-admin'],
-				'publish' : ['project-admin'],
-				'unPublish' : ['project-admin']
+				'read' : ['sysadmin'],
+				'write' : ['sysadmin'],
+				'delete' : ['sysadmin'],
+				'publish' : ['sysadmin'],
+				'unPublish' : ['sysadmin']
 			}
 		}
 	}));
@@ -188,11 +187,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['project-admin'],
-				'write' : ['project-admin'],
-				'delete' : ['project-admin'],
-				'publish' : ['project-admin'],
-				'unPublish' : ['project-admin']
+				'read' : ['sysadmin'],
+				'write' : ['sysadmin'],
+				'delete' : ['sysadmin'],
+				'publish' : ['sysadmin'],
+				'unPublish' : ['sysadmin']
 			}
 		}
 	}));
@@ -206,11 +205,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['proponent-lead', 'proponent-team', 'project-mem-staff', 'mem-lead', 'mem-team', 'project-technical-working-group', 'project-admin'],
-				'write' : ['mem-lead', 'mem-team', 'project-technical-working-group', 'project-admin'],
-				'delete' : ['mem-lead', 'mem-team', 'project-admin'],
-				'publish' : ['mem-lead', 'mem-team', 'project-admin'],
-				'unPublish' : ['mem-lead', 'mem-team', 'project-admin']
+				'read' : ['sysadmin'],
+				'write' : ['sysadmin'],
+				'delete' : ['sysadmin'],
+				'publish' : ['sysadmin'],
+				'unPublish' : ['sysadmin']
 			}
 		}
 	}));
@@ -223,11 +222,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['proponent-lead', 'proponent-team', 'project-mem-staff', 'mem-lead', 'mem-team', 'project-technical-working-group', 'project-admin'],
-				'write' : ['mem-lead', 'mem-team', 'project-admin'],
-				'delete' : ['mem-lead', 'mem-team', 'project-admin'],
-				'publish' : ['mem-lead', 'mem-team', 'project-admin'],
-				'unPublish' : ['mem-lead', 'mem-team', 'project-admin']
+				'read' : ['sysadmin'],
+				'write' : ['sysadmin'],
+				'delete' : ['sysadmin'],
+				'publish' : ['sysadmin'],
+				'unPublish' : ['sysadmin']
 			}
 		}
 	}));
@@ -240,9 +239,9 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['project-admin'],
-				'write' : ['project-admin'],
-				'delete' : ['project-admin']
+				'read' : ['sysadmin'],
+				'write' : ['sysadmin'],
+				'delete' : ['sysadmin']
 			}
 		}
 	}));
@@ -255,11 +254,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['proponent-lead', 'proponent-team', 'project-mem-staff', 'mem-lead', 'mem-team', 'project-technical-working-group', 'project-admin'],
-				'write' : ['proponent-lead', 'proponent-team', 'mem-lead', 'mem-team', 'project-admin'],
-				'delete' : ['mem-lead', 'mem-team', 'project-admin'],
-				'publish' : ['mem-lead', 'project-admin'],
-				'unPublish' : ['mem-lead', 'project-admin']
+				'read' : ['sysadmin'],
+				'write' : ['sysadmin'],
+				'delete' : ['sysadmin'],
+				'publish' : ['sysadmin'],
+				'unPublish' : ['sysadmin']
 			}
 		}
 	}));
@@ -272,11 +271,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['project-admin'],
-				'write' : ['project-admin'],
-				'delete' : ['project-admin'],
-				'publish' : ['project-admin'],
-				'unPublish' : ['project-admin']
+				'read' : ['sysadmin'],
+				'write' : ['sysadmin'],
+				'delete' : ['sysadmin'],
+				'publish' : ['sysadmin'],
+				'unPublish' : ['sysadmin']
 			}
 		}
 	}));
@@ -289,11 +288,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['proponent-lead', 'proponent-team', 'project-mem-staff', 'mem-lead', 'mem-team', 'project-technical-working-group', 'project-admin'],
-				'write' : ['proponent-lead', 'proponent-team', 'mem-lead', 'mem-team', 'project-admin'],
-				'delete' : ['mem-lead', 'mem-team', 'project-admin'],
-				'publish' : ['mem-lead', 'mem-team', 'project-admin'],
-				'unPublish' : ['mem-lead', 'mem-team', 'project-admin']
+				'read' : ['sysadmin'],
+				'write' : ['sysadmin'],
+				'delete' : ['sysadmin'],
+				'publish' : ['sysadmin'],
+				'unPublish' : ['sysadmin']
 			}
 		}
 	}));
@@ -311,26 +310,28 @@ module.exports = function () {
 		//
 		defaults: {
 			roles: {
-				'sysadmin': ['sysadmin', 'mem', 'proponent', 'project-mgr', 'project-mem-staff']
+				'sysadmin': ['sysadmin', 'team', 'exec']
 			},
 			permissions: {
-				'listConditions': ['sysadmin'],
+				'listConditions': ['sysadmin', 'team', 'exec'],
 				'listEmailTemplates': ['sysadmin'],
 				'listOrganizations': ['sysadmin'],
 				'listNews': ['sysadmin'],
 				'listRoles': ['sysadmin'],
 				'listTemplates': ['sysadmin'],
 				'listValuedComponents': ['sysadmin'],
-				'listContacts': ['sysadmin'],
-				'createProject': ['sysadmin', 'project-mgr'],
-				'createCondition': ['sysadmin'],
+				'listContacts': ['sysadmin', 'team'],
+				'createProject': ['sysadmin', 'team'],
+				'createCondition': ['sysadmin', 'team'],
 				'createEmailTemplate': ['sysadmin'],
 				'createOrganization': ['sysadmin'],
 				'createNews': ['sysadmin'],
 				'createRole': [], // jsherman - 2016-09-01 - don't want anyone to create new system level roles at this time. locking down roles and permissions so we don't have to worry about adding new defaults to a new role.
 				'createTemplate': ['sysadmin'],
 				'createValuedComponent': ['sysadmin'],
-				'createContact': ['sysadmin'],
+				'createContact': ['sysadmin', 'team'],
+				'editContact': ['sysadmin', 'team'],
+				'deleteContact': ['sysadmin'],
 				'manageRoles': ['sysadmin'],
 				'managePermissions': ['sysadmin'],
 				'addUsersToContext': ['sysadmin']
@@ -382,10 +383,8 @@ module.exports = function () {
 		defaults: {
 			'application:sysadmin': {
 				'sysadmin': allApplicationPermissions,
-				'mem': [],
-				'proponent': [],
-				'project-mgr': ['createProject'],
-				'project-mem-staff': []
+				'team': ['listConditions', 'createCondition', 'createProject', 'listContacts', 'createContact', 'editContact'],
+				'exec': ['listConditions']
 			}
 		}
 	}));
@@ -396,7 +395,7 @@ module.exports = function () {
 		level: 'global',
 		type: 'global-project-roles',
 		defaults: {
-			'roles' : ['project-mgr', 'project-mem-staff']
+			'roles' : ['sysadmin', 'team', 'exec']
 		}
 	}));
 

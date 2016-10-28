@@ -887,8 +887,7 @@ exports.loadMEMUsers = function(file, req, res, opts) {
 	});
 };
 
-
-exports.loadMEMProjectUserRoles = function(file, req, res, opts) {
+exports.loadMEMUserRoles = function(file, req, res, opts) {
 	return new Promise (function (resolve, reject) {
 		// Now parse and go through this thing.
 		fs.readFile(file.path, 'utf8', function(err, data) {
@@ -896,150 +895,7 @@ exports.loadMEMProjectUserRoles = function(file, req, res, opts) {
 				reject("{err: "+err);
 			}
 
-			var v1ColArray = ['email', 'projectCode', 'proponent-lead', 'proponent-team', 'mem-lead', 'mem-team', 'project-admin'];
-			var v1RowToObject = function(row) {
-				//console.log('v1: row = ', row);
-				var obj = {
-					email         : row.email,
-					projectCode   : row.projectCode,
-					roles         : []
-				};
-				_.each(v1ColArray, function(role) {
-					console.log("role['" + role + "'] = " + row[role]);
-					if (row[role] === 'X' || row[role] === 'x') {
-						obj.roles.push(role);
-					}
-				});
-				return obj;
-			};
-
-			var lines = data.split(/\r\n|\r|\n/g);
-			var v1 = _.size(lines) > 0 && (lines[0].split(',')[0] === 'mem-project-role-user-import-v1');
-			//console.log('File v1? ', v1);
-			var colArray = v1 ? v1ColArray : undefined;
-			var rowParser = v1 ? v1RowToObject : undefined;
-
-			if (colArray === undefined) {
-				//console.log('Unknown file import version.');
-				reject("{err: 'Unknown file import version.'}");
-			} else {
-
-				var parse = new CSVParse(data, {delimiter: ',', columns: colArray}, function(err, output){
-					// Skip this many rows
-					var length = Object.keys(output).length;
-					var promises = [];
-					// console.log("length",length);
-					Object.keys(output).forEach(function(key, index) {
-						if (index > 0) {
-							var row = output[key];
-							promises.push(rowParser(row));
-						}
-					});
-
-					var getUser = function(item) {
-						return new Promise(function(resolve, reject) {
-							//console.log('getUser(email = ' + item.email + ')...');
-							User.findOne({email: new RegExp(item.email, 'i')}, function (err, result) {
-								if (err) {
-									//console.log('getUser(email = ' + item.email + ')... not found. ' + JSON.stringify(err));
-									reject(new Error(err));
-								} else {
-									if (result) {
-										//console.log('getUser(email = ' + item.email + ')... found.');
-										resolve(result);
-									} else {
-										//console.log('getUser(email = ' + item.email + ')... not found.');
-										resolve(result);
-									}
-								}
-							});
-						});
-					};
-
-					var getProject = function(item) {
-						return new Promise(function(resolve, reject) {
-							//console.log('getProject(code = ' + item.projectCode + ')...');
-							Project.findOne({code: item.projectCode}, function (err, result) {
-								if (err) {
-									//console.log('getProject(code = ' + item.projectCode + ')... not found. ' + JSON.stringify(err));
-									reject(new Error(err));
-								} else {
-									if (result) {
-										//console.log('getProject(code = ' + item.projectCode + ')... found.');
-										resolve(result);
-									} else {
-										//console.log('getProject(code = ' + item.projectCode + ')... not found.');
-										resolve(result);
-									}
-								}
-							});
-						});
-					};
-
-					var addUserToProject = function(project, user, item) {
-						var promiseArray = [];
-
-						_.each (item.roles, function (role) {
-							promiseArray.push (access.addRole ({
-								context : project._id,
-								user    : user.username,
-								role    : role
-							}));
-						});
-						return Promise.all(promiseArray);
-					};
-
-
-					Promise.resolve ()
-						.then (function () {
-							return promises.reduce (function (current, item) {
-								return current.then (function () {
-									var project, user;
-									return getProject(item)
-										.then(function (data) {
-											if (data) {
-												project = data;
-												return getUser(item);
-											} else {
-												return null;
-											}
-										})
-										.then(function(data) {
-											if(data) {
-												user = data;
-												return addUserToProject(project, user, item);
-											} else {
-												return null;
-											}
-										})
-										.then(function(data) {
-											if(data) {
-												//console.log('addUserToProject()... ', JSON.stringify(data));
-												return data;
-											} else {
-												return null;
-											}
-										});
-								});
-							}, Promise.resolve());
-						})
-						.then (resolve, reject);
-				});
-			}
-		});
-	});
-};
-
-
-exports.loadMEMSystemUserRoles = function(file, req, res, opts) {
-	return new Promise (function (resolve, reject) {
-		// Now parse and go through this thing.
-		fs.readFile(file.path, 'utf8', function(err, data) {
-			if (err) {
-				reject("{err: "+err);
-			}
-
-			var v1ColArray = ['email', 'projectCode', 'sysadmin', 'mem', 'proponent', 'project-mgr', 'project-mem-staff'];
+			var v1ColArray = ['email', 'projectCode', 'proponent-lead', 'project-lead', 'sysadmin', 'team', 'exec'];
 			var v1RowToObject = function(row) {
 				//console.log('v1: row = ', row);
 				var obj = {
@@ -1057,7 +913,7 @@ exports.loadMEMSystemUserRoles = function(file, req, res, opts) {
 			};
 
 			var lines = data.split(/\r\n|\r|\n/g);
-			var v1 = _.size(lines) > 0 && (lines[0].split(',')[0] === 'mem-system-role-user-import-v1');
+			var v1 = _.size(lines) > 0 && (lines[0].split(',')[0] === 'mem-role-user-import-v1');
 			//console.log('File v1? ', v1);
 			var colArray = v1 ? v1ColArray : undefined;
 			var rowParser = v1 ? v1RowToObject : undefined;

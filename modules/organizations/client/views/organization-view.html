@@ -34,7 +34,7 @@
 			<div class="tab-pane active" id="orgDetails" role="tabpanel">
 
 				<fieldset>
-					<legend>General Info</legend>
+					<legend>Organization Info</legend>
 					<div class="row" >
 						<div class="col-md-3">
 							<div class="form-group">
@@ -74,11 +74,29 @@
 								<p class="form-control-static">{{ org.website }}</p>
 							</div>
 						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label for="email" class="control-label">Email</label>
+								<p class="form-control-static">{{ org.email }}</p>
+							</div>
+						</div>
 					</div>
-				</fieldset>
 
-				<fieldset>
-					<legend>Mailing Address</legend>
+					<!-- Preferences -->
+					<div class="form-group">
+						<label class="control-label">Preferred Contact Method</label>
+						<div class="checkbox-row">
+							<div class="checkbox-inline">
+								<label class="control-label" for="viaMail">
+									<input type="checkbox" ng-model="org.viaMail" id="viaMail" name="viaMail" disabled/>By Mail</label>
+							</div>
+							<div class="checkbox-inline">
+								<label class="control-label" for="viaEmail">
+									<input type="checkbox" ng-model="org.viaEmail" id="viaEmail" name="viaEmail" disabled/>By Email</label>
+							</div>
+						</div>
+					</div>
+
 					<div ng-show="expandOrgView">
 						<div class="row">
 							<div class="col-sm-12 col-md-6">
@@ -118,6 +136,25 @@
 									<label for="postal" class="control-label">Postal/Zip Code</label>
 									<p class="form-control-static">{{ org.postal }}</p>
 								</div>
+							</div>
+						</div>
+					</div>
+
+				</fieldset>
+
+				<fieldset>
+					<legend>Primary Contact</legend>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label class="control-label">Name</label>
+								<p class="form-control-static">{{ org.primaryContact.displayName }}</p>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label class="control-label">Email</label>
+								<p class="form-control-static">{{ org.primaryContact.email }}</p>
 							</div>
 						</div>
 					</div>

@@ -643,13 +643,16 @@ var getRolesForContext = function (o) {
 //
 // -------------------------------------------------------------------------
 var getRoleList = function (o) {
+	console.log('getRoleList(o) ', JSON.stringify(o));
 	var decorator = (o.context === defaultResource) ?  pluckAppRoles : pluckRoles;
 	return new Promise (function (resolve, reject) {
 		getRolesForContext ({
 			context   : o.context,
 			user       : null
 		})
+			.then(function(x) { console.log(JSON.stringify(x)); return x;})
 		.then (decorator)
+			.then(function(x) { console.log(JSON.stringify(x)); return x;})
 		.then (resolve, complete (reject, 'getRoleList'));
 	});
 };
