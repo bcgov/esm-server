@@ -270,7 +270,7 @@ function controllerDocumentUploadGlobal($rootScope, $scope, Upload, $timeout, Do
 							// when the last file is finished, send complete event.
 							if (--docCount === 0) {
 								// emit to parent.
-								$scope.$emit('documentUploadComplete');
+								$scope.$emit('documentUploadCompleteF');
 							}
 						});
 					}, function (response) {
