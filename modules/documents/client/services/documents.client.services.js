@@ -15,8 +15,8 @@ angular.module('documents').factory('Document', function (ModelBase, _) {
 			return this.put('/api/documentlist', documentList);
 		},
 		getDocument: function (id) {
-            return this.get('/api/document/'+id);
-        },
+			return this.get('/api/document/'+id);
+		},
 		getArtifactLocations: function () {
 			return [
 			{
@@ -177,17 +177,17 @@ angular.module('documents').factory('Document', function (ModelBase, _) {
 			return this.get('/api/documents/types/' + projectId, {'reviewDocsOnly': reviewDocsOnly});
 		},
 		getProjectDocumentMEMType: function(projectId, reviewDocsOnly) {
-	        return new Promise (function (resolve, reject) {
-	            var obj = {data: ["Permits & Applications",
-	                              "Inspection Reports",
-	                              "Geotechnical Reports",
-	                              "Site Monitoring & Activities (including Reclamation)"]};
-	            resolve(obj);
-	        });
-	    },
-	    getProjectDocumentSubTypes: function(projectId, reviewDocsOnly) {
-	        return this.get('/api/documents/subtypes/' + projectId, {'reviewDocsOnly': reviewDocsOnly});
-	    },
+			return new Promise (function (resolve, reject) {
+				var obj = [	"Permits & Applications",
+							"Inspection Reports",
+							"Geotechnical Reports",
+							"Site Monitoring & Activities (including Reclamation)"];
+				resolve(obj);
+			});
+		},
+		getProjectDocumentSubTypes: function(projectId, reviewDocsOnly) {
+			return this.get('/api/documents/subtypes/' + projectId, {'reviewDocsOnly': reviewDocsOnly});
+		},
 		getProjectDocumentFolderNames: function(projectId) {
 			return this.get('/api/documents/folderNames/' + projectId);
 		},

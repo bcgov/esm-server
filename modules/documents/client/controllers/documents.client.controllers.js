@@ -127,37 +127,20 @@ function controllerDocumentUploadGlobal($rootScope, $scope, Upload, $timeout, Do
 		if (newValue) {
 			docUpload.project = newValue;
 			docUpload.setTargetUrl();
-			if (ENV === 'EAO') {
-				// get listing of artifacts to attach to.  TODO: filter?
-				ArtifactModel.forProject(newValue._id)
-				.then( function(res) {
-					// console.log("res",res);
-					docUpload.artifacts = res;
-					if (!_.isEmpty($scope.artifact)) {
-						docUpload.selectedArtifact = _.find(docUpload.artifacts, function (o) {
-							return o._id === $scope.artifact._id;
-						});
-						docUpload.allowArtifactSelect = _.isEmpty(docUpload.selectedArtifact);
-					}
-				});
-			} else {
-				Document.getProjectDocumentFolderNames(newValue._id).then( function(res) {
-					// console.log("getProjectDocumentFolderNames",res.data);
-					docUpload.docFolderNames = res.data;
-				});
-			}
-			if (ENV === 'MEM') {
-				Document.getProjectDocumentMEMType(newValue._id, false).then( function(res) {
-					// console.log("getProjectDocumentMEMType",res.data);
-					docUpload.docTypes = res.data;
-					// First result is default
-					docUpload.typeName = docUpload.docTypes[0];
-				});
-				Document.getProjectDocumentSubTypes(newValue._id, false).then( function(res) {
-					// console.log("getProjectDocumentSubTypes",res.data);
-					docUpload.docSubTypes = res.data;
-				});
-			}
+			Document.getProjectDocumentFolderNames(newValue._id).then( function(res) {
+				// console.log("getProjectDocumentFolderNames",res);
+				docUpload.docFolderNames = res;
+			});
+			Document.getProjectDocumentMEMType(newValue._id, false).then( function(res) {
+				// console.log("getProjectDocumentMEMType",res);
+				docUpload.docTypes = res;
+				// First result is default
+				docUpload.typeName = docUpload.docTypes[0];
+			});
+			Document.getProjectDocumentSubTypes(newValue._id, false).then( function(res) {
+				// console.log("getProjectDocumentSubTypes",res);
+				docUpload.docSubTypes = res;
+			});
 		}
 	});
 
