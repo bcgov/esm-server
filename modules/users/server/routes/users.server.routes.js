@@ -73,23 +73,13 @@ module.exports = function (app) {
 					}).then (routes.success(res), routes.failure(res));
 			}
 		});
-	app.route ('/api/userroles/project/import/mem').all (policy ('admin'))
+	app.route ('/api/userroles/import/mem').all (policy ('admin'))
 		.post (function (req, res) {
 			var file = req.files.file;
 			if (file) {
 				routes.setSessionContext(req)
 					.then( function (opts) {
-						return users.loadMEMProjectUserRoles(file, req, res, opts);
-					}).then (routes.success(res), routes.failure(res));
-			}
-		});
-	app.route ('/api/userroles/system/import/mem').all (policy ('admin'))
-		.post (function (req, res) {
-			var file = req.files.file;
-			if (file) {
-				routes.setSessionContext(req)
-					.then( function (opts) {
-						return users.loadMEMSystemUserRoles(file, req, res, opts);
+						return users.loadMEMUserRoles(file, req, res, opts);
 					}).then (routes.success(res), routes.failure(res));
 			}
 		});
