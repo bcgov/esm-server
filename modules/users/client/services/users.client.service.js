@@ -15,7 +15,7 @@ angular.module('users').factory ('UserModel', function (ModelBase, _) {
 		canSeeInternalDocuments: function (project) {
 			return this.rolesInProject(project._id)
 				.then( function (roles) {
-					var readPermissions = ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'complaince-officer', 'complaince-lead', 'project-eao-staff', 'project-epd', 'project-intake', 'project-qa-officer', 'project-system-admin'];
+					var readPermissions = ['sysadmin', 'team', 'project-lead'];
 
 					if (_.intersection(roles, readPermissions).length > 0) {
 						return true;

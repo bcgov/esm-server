@@ -70,7 +70,7 @@
 									<button class="btn" ng-click="removeCondition(o)"><span aria-hidden="true">×</span></button>
 								</li><li class="add-tag">
 									<button class="add-btn btn btn-sm"
-										ng-if="project.userCan.createInspectionReport"
+										ng-if="project.userCan.createComplianceOversight"
 										ng-click="openAddTopic()" type="button" title="Add Associated Content">
 										<span class="glyphicon glyphicon-plus"></span><span>Add Content</span>
 									</button>
@@ -89,7 +89,7 @@
 									<button class="btn" ng-click="removeCondition(o)"><span aria-hidden="true">×</span></button>
 								</li><li class="add-tag">
 									<button class="add-btn btn btn-sm"
-										ng-if="project.userCan.createInspectionReport"
+										ng-if="project.userCan.createComplianceOversight"
 										ng-click="addIRCondition()" type="button" title="Add Conditions">
 										<span class="glyphicon glyphicon-plus"></span><span>Add Conditions</span>
 									</button>
@@ -106,7 +106,7 @@
 				<h2>Enforcement Actions</h2>
 				<div class="actions">
 					<button class="btn btn-default btn-sm"
-						ng-if="project.userCan.createInspectionReport"
+						ng-if="project.userCan.createComplianceOversight"
 						ng-click="openAddEnforcementAction()">
 						<span class="glyphicon glyphicon-plus"></span><span>Add Enforcement Action</span>
 					</button>

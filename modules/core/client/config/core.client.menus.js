@@ -113,7 +113,7 @@ angular.module('core').run(['Menus', 'ENV', 'ADMIN_FEATURES', 'FEATURES', functi
 			'context.listDocuments',
 			'context.listValuedComponents',
 			'context.listProjectRoles',
-			'context.listInspectionReports',
+			'context.listCompliance',
 			'context.listProjectConditions',
 			'context.listProjectComplaints',
 			'context.listProjectInvitations',
@@ -160,7 +160,7 @@ angular.module('core').run(['Menus', 'ENV', 'ADMIN_FEATURES', 'FEATURES', functi
 	Menus.addMenuItem('projectMenu', {
 		title: 'Compliance Oversight',
 		state: 'p.ir.list',
-		permissions: ['context.listInspectionReports'],
+		permissions: ['context.listCompliance'],
 		enable: 'true' === FEATURES.enableCompliance
 	});
 	Menus.addMenuItem('projectMenu', {
