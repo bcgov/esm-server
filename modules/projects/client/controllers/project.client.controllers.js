@@ -210,6 +210,14 @@ function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, 
 	$scope._ = _;
 	$scope.CEAA = CEAA_TYPES;
 
+	$scope.clearOrganization = function() {
+		$scope.project.proponent = null;
+	};
+
+	$scope.clearPrimaryContact = function() {
+		$scope.project.primaryContact = null;
+	};
+
 	$scope.saveProject = function(isValid) {
 		if (!isValid) {
 			$scope.$broadcast('show-errors-check-validity', 'projectForm');

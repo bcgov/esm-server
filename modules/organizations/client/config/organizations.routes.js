@@ -57,6 +57,9 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
         controller: function ($scope, $state, org, OrganizationModel, $filter) {
             $scope.org = org;
             var which = 'add';
+			$scope.clearPrimaryContact = function() {
+				$scope.org.primaryContact = null;
+			};
             $scope.save = function (isValid) {
                 if (!isValid) {
                     $scope.$broadcast('show-errors-check-validity', 'organizationForm');
@@ -204,7 +207,9 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
 					//console.log('delete modalDocView error');
 				});
 			};
-
+			$scope.clearPrimaryContact = function() {
+				$scope.org.primaryContact = null;
+			};
             $scope.save = function (isValid) {
                 if (!isValid) {
                     $scope.$broadcast('show-errors-check-validity', 'organizationForm');

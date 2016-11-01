@@ -80,7 +80,7 @@
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group" x-show-errors>
 						<label for="phoneNumber" class="control-label">Phone<em class="required">(Required)</em></label>
-						<input class="form-control" placeholder="eg: 123-456-7890" id="phoneNumber" name="phoneNumber" type="text" ng-model="user.phoneNumber" ng-blur="validate()" ng-required="true">
+						<input class="form-control" placeholder="eg: 123-456-7890" id="phoneNumber" name="phoneNumber" type="text" ng-model="user.phoneNumber">
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-3">
@@ -146,13 +146,10 @@
 		<fieldset>
 			<legend>Organization Details</legend>
 			<div class="row">
-				<div class="col-sm-6 col-md-3">
+				<div class="col-md-4">
 					<div class="form-group">
-						<label for="orgName" class="control-label">Organization</label>
-						<select id="orgName" class="form-control"
-								ng-model="user.org"
-								ng-sort="name"
-								ng-options="org as org.name for org in orgs track by org._id"></select>
+						<label class="control-label">Name</label>
+						<p class="form-control-static">{{ user.org.name }}</p>
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-3">
@@ -167,6 +164,20 @@
 						<input class="form-control" id="title" type="text" ng-model="user.title">
 					</div>
 				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label class="control-label">&nbsp;</label>
+						<button class="btn btn-default btn-sm" type="button"
+								x-org-search-chooser
+								x-title="'Set Organization'"
+								x-destination="user.org">Set Organization</button>
+						<button class="btn btn-default btn-sm" type="button" onclick="clearOrganization()" ng-click="clearOrganization()">Clear Organization</button>
+					</div>
+				</div>
+			</div>
+			<div class="form-group no-margin">
 			</div>
 			<div class="row">
 				<div class="col-sm-12 form-group">

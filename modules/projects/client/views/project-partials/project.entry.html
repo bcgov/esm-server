@@ -393,20 +393,26 @@
 			<fieldset>
 				<legend>Organization</legend>
 				<div class="row">
-					<div class="form-group col-md-4">
+					<div class="col-md-4">
+						<div class="form-group">
 						<label class="control-label">Name</label>
-						<input class="form-control" placeholder="{{ project.proponent.name }}" disabled />
+						<p class="form-control-static">{{ project.proponent.name }}</p>
+						</div>
 					</div>
-					<div class="form-group col-md-4">
+					<div class="col-md-4">
+						<div class="form-group">
 						<label class="control-label">Website</label>
-						<input class="form-control" placeholder="{{ project.proponent.website }}" disabled />
+						<p class="form-control-static">{{ project.proponent.website }}</p>
+						</div>
 					</div>
 				</div>
 				<div class="form-group no-margin">
 					<button class="btn btn-default btn-sm" type="button"
 						x-org-search-chooser
 						x-title="'Set Organization'"
-						x-project="project">Set Organization</button>
+						x-project="project"
+						x-destination="project.proponent">Set Organization</button>
+					<button class="btn btn-default btn-sm" type="button" ng-click="clearOrganization()">Clear Organization</button>
 				</div>
 			</fieldset>
 
@@ -415,13 +421,17 @@
 			<fieldset>
 				<legend>Primary Contact</legend>
 				<div class="row">
-					<div class="col-md-4 form-group">
-						<label class="control-label">Name</label>
-						<input class="form-control" placeholder="{{ project.primaryContact.displayName }}" disabled />
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">Name</label>
+							<p class="form-control-static">{{ project.primaryContact.displayName }}</p>
+						</div>
 					</div>
-					<div class="col-md-4 form-group">
-						<label class="control-label">Email</label>
-						<input class="form-control" placeholder="{{ project.primaryContact.email }}" disabled />
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">Email</label>
+							<p class="form-control-static">{{ project.primaryContact.email }}</p>
+						</div>
 					</div>
 				</div>
 				<div class="form-group no-margin">
@@ -431,6 +441,7 @@
 						x-project="project"
 						x-singleselectmode="'true'"
 						x-destination="project.primaryContact">Set Primary Contact</button>
+					<button class="btn btn-default btn-sm" type="button" ng-click="clearPrimaryContact()">Clear Primary Contact</button>
 				</div>
 			</fieldset>
 		</div>

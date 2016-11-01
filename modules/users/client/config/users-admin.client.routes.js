@@ -57,6 +57,9 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 				$scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ').replace(/\s+/g, ' ');
 				$scope.user.username = $filter('kebab')( $scope.user.displayName );
 			};
+			$scope.clearOrganization = function() {
+				$scope.user.org = null;
+			};
 			$scope.save = function (isValid) {
 				if (!isValid) {
 					$scope.$broadcast('show-errors-check-validity', 'userForm');
@@ -120,7 +123,9 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 			$scope.calculateName = function() {
 				$scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ').replace(/\s+/g, ' ');
 			};
-
+			$scope.clearOrganization = function() {
+				$scope.user.org = null;
+			};
 			$scope.showSuccess = function(msg, transitionCallback, title) {
 				var modalDocView = $modal.open({
 					animation: true,
