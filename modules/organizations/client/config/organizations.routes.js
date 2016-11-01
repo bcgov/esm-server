@@ -94,9 +94,12 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
             },
             users: function (org, OrganizationModel) {
                 return OrganizationModel.getUsers (org._id);
-            }
+            },
+			projects: function(org, ProjectModel) {
+				return ProjectModel.forOrg(org._id);
+			}
         },
-        controller: function ($scope, $state, NgTableParams, org, users, OrganizationModel, $filter, $modal, _, UserModel) {
+        controller: function ($scope, $state, NgTableParams, org, users, projects, OrganizationModel, $filter, $modal, _, UserModel) {
             $scope.org = org;
             $scope.tableParams = new NgTableParams ({count:10}, {dataset: users});
             var which = 'edit';
@@ -244,13 +247,33 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
             },
             users: function (org, OrganizationModel) {
                 return OrganizationModel.getUsers (org._id);
-            }
+            },
+			projects: function(org, ProjectModel) {
+				return ProjectModel.forOrg(org._id);
+			}
         },
-        controller: function ($scope, NgTableParams, org, users, UserModel, OrganizationModel) {
+        controller: function ($scope, NgTableParams, org, users, projects, UserModel, OrganizationModel, ProjectModel) {
             $scope.org = org;
             $scope.tableParams = new NgTableParams ({count:10}, {dataset: users});
+			$scope.projectTableParams = new NgTableParams ({count:10}, {dataset: projects});
+
+			$scope.removeProjectFromOrg = function (code) {
+				//console.log("Removing ", code, " from org ", $scope.org);
+				ProjectModel.byCode(code)
+					.then( function (p) {
+						p.proponent = null;
+						return ProjectModel.save(p);
+					})
+					.then( function () {
+						return ProjectModel.forOrg($scope.org._id);
+					})
+					.then ( function (projs) {
+						$scope.projectTableParams = new NgTableParams ({count:10}, {dataset: projs});
+						$scope.$apply();
+					});
+			};
             $scope.removeUserFromOrg = function (userId) {
-                console.log("Removing ", userId, " from org ", $scope.org);
+                //console.log("Removing ", userId, " from org ", $scope.org);
                 UserModel.lookup(userId)
                 .then( function (user) {
                     user.org = null;

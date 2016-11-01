@@ -128,6 +128,11 @@ module.exports = function (app) {
 				return obj;
 			});
 		}));
+	app.route ('/api/projects/for/org/:orgid')
+		.all (policy ('user'))
+		.get (routes.setAndRun (Project , function (model, req) {
+			return model.list ({proponent:req.params.orgid});
+		}));
 
 	app.route ('/api/projects/regions')
 		.all (policy ('user'))
