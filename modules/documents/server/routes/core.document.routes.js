@@ -110,11 +110,13 @@ module.exports = function (app) {
 				if (req.Document.documentFileFormat && !req.Document.internalOriginalName.endsWith(req.Document.documentFileFormat)) {
 					name = req.Document.internalOriginalName + "." + req.Document.documentFileFormat;
 				}
-				routes.streamFile (res, {
+				var obj = {
 					file : req.Document.internalURL,
 					name : name,
 					mime : req.Document.internalMime
-				});
+				};
+				console.log("obj:", obj);
+				routes.streamFile (res, obj);
 			}
 		});
 	//
