@@ -218,12 +218,15 @@
 							</td>
 							<td header-class="'type-col'"
 								data-title="'Type'"
+								filter="{'type':'text'}"
 								sortable="'type'">{{o.type}}</td>
 							<td header-class="'region-col'"
 								data-title="'Region'"
+								filter="{'region':'text'}"
 								sortable="'region'">{{o.region | regionName}}</td>
 							<td header-class="'phase-col'"
 								data-title="'Phase'"
+								filter="{'currentPhase.name':'text'}"
 								sortable="'currentPhase.name'">{{o.currentPhase.name}}</td>
 							<td class="actions-col action-x2" header-class="'actions-col action-x2'">
 								<a class="btn btn-default btn-sm" title="Remove Project from Organization" ng-click="$event.stopPropagation();removeProjectFromOrg(o.code)">
