@@ -55,10 +55,10 @@
   <!--Load The Socket.io File-->
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 
-  <!--Application JavaScript Files-->
-  {% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %}
-
-  <script type="text/javascript" src="/dist/application.min.js"> </script>
+  <!-- Application JavaScript Files (Library) -->
+  {% for jsFile in jsLibFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %}
+  <!-- Application JavaScript Files -->
+  {% for jsFile in jsAppFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %}
 
   <script type="text/javascript" src="/dist/conf.js"> </script>
 
