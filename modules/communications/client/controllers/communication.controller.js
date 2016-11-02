@@ -67,11 +67,13 @@ angular
 			}
 
 			var subject = !_.isEmpty(self.communication.templateSubject) ? self.communication.templateSubject : '';
+			subject = subject.replace('%APP_NAME%', window.document.title);
 			subject = subject.replace('%PROJECT_NAME%', $scope.project.name);
 			subject = subject.replace('%CURRENT_USER_NAME%', $scope.authentication.user.displayName);
 			subject = subject.replace('%CURRENT_USER_EMAIL%', $scope.authentication.user.email);
 
 			var content = !_.isEmpty(self.communication.templateContent) ? self.communication.templateContent : '';
+			content = content.replace('%APP_NAME%', window.document.title);
 			content = content.replace('%RELATED_CONTENT%', artifactHtml);
 			content = content.replace('%PROJECT_NAME%', $scope.project.name);
 			content = content.replace('%CURRENT_USER_NAME%', $scope.authentication.user.displayName);

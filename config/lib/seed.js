@@ -139,7 +139,7 @@ var seedingAsync = function() {
 // default project roles
 //
 // -------------------------------------------------------------------------
-	checkIntegration('emailtemplates3').then(function () {
+	checkIntegration('emailtemplates4').then(function () {
 		require('../seed-data/loademailtemplates')();
 	});
 
