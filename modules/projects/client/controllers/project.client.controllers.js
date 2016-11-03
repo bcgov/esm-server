@@ -177,9 +177,9 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 // Used.
 //
 // -----------------------------------------------------------------------------------
-controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', '$modal', 'project', 'REGIONS', 'PROJECT_TYPES', 'PROJECT_SUB_TYPES', 'CEAA_TYPES', '_', 'UserModel', 'ProjectModel', 'OrganizationModel', 'Authentication', 'codeFromTitle'];
+controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', '$modal', 'project', 'REGIONS', 'PROJECT_TYPES', 'PROJECT_SUB_TYPES', 'CEAA_TYPES', '_', 'UserModel', 'ProjectModel', 'OrganizationModel', 'Authentication', 'codeFromTitle', 'PhaseBaseModel'];
 /* @ngInject */
-function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, REGIONS, PROJECT_TYPES, PROJECT_SUB_TYPES, CEAA_TYPES, _, UserModel, ProjectModel, OrganizationModel, Authentication, codeFromTitle) {
+function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, REGIONS, PROJECT_TYPES, PROJECT_SUB_TYPES, CEAA_TYPES, _, UserModel, ProjectModel, OrganizationModel, Authentication, codeFromTitle, PhaseBaseModel) {
 
 	ProjectModel.setModel ($scope.project);
 
@@ -209,6 +209,21 @@ function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, 
 	$scope.subTypes = PROJECT_SUB_TYPES;
 	$scope._ = _;
 	$scope.CEAA = CEAA_TYPES;
+	PhaseBaseModel.getCollection().then( function (data) {
+		var obj = {};
+		_.each(data, function (item) {
+			obj[item.code] = item.name;
+		});
+		$scope.allPhases = obj;
+		$scope.$apply();
+	});
+
+	$scope.onChangePhase = function () {
+		// The user decided to change the current phase.  Until we have a specific tiemline
+		// graphic, lets just set the phase code/name appropriately. Do not attempt to start/stop/complete
+		// various phases.
+		project.currentPhaseName = $scope.allPhases[project.currentPhaseCode];
+	};
 
 	$scope.clearOrganization = function() {
 		$scope.project.proponent = null;

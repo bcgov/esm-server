@@ -3,7 +3,7 @@
 	<div class="view-title-container flex-row">
 		<h1>{{ project.name }}</h1>
 		<div class="actions">
-			<div class="actions-group" ng-if="environment === 'EAO' && authentication.user">
+			<div class="actions-group" ng-if="authentication.user">
 				<a class="btn btn-default btn-sm" ui-sref="p.edit({pId:o._id})" ng-if="project.userCan.write">
 					<span class="glyphicon glyphicon-pencil"></span><span>Edit Project</span></a>
 				<a class="btn btn-success btn-sm"
