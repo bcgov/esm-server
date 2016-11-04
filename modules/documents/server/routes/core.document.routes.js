@@ -176,6 +176,7 @@ module.exports = function (app) {
 	app.route ('/api/document/:project/upload').all (policy ('guest'))
 		.post (routes.setAndRun (DocumentClass, function (model, req) {
 			return new Promise (function (resolve, reject) {
+				var publishAfterUpload = req.headers.publishafterupload;
 				var file = req.files.file;
 				if (file) {
 					var opts = { oldPath: file.path, projectCode: req.Project.code};
@@ -214,7 +215,15 @@ module.exports = function (app) {
 							internalExt             : file.extension,
 							internalSize            : file.size,
 							internalEncoding        : file.encoding
-						}, req.headers.inheritmodelpermissionid, readPermissions);
+						}, req.headers.inheritmodelpermissionid, readPermissions)
+						.then (function (doc) {
+							if (publishAfterUpload) {
+								console.log("publishing document automatically");
+								return model.publish(doc);
+							} else {
+								return doc;
+							}
+						});
 					})
 					.then (resolve, reject);
 				}
