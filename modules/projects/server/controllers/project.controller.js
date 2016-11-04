@@ -621,8 +621,9 @@ module.exports = DBModel.extend ({
 			if (!_.isEmpty(name)) {
 				q.name = new RegExp(name, 'i');
 			}
+			//region is not a reqular expression, it's a pick list, so just query for value....
 			if (!_.isEmpty(region)) {
-				q.region = new RegExp(region, 'i');
+				q.region = region;
 			}
 			if (!_.isEmpty(type)) {
 				q.type = new RegExp(type, 'i');
