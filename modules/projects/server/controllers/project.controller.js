@@ -611,5 +611,36 @@ module.exports = DBModel.extend ({
 			// console.log("deleting project:", project._id);
 			return ProjectModel.remove({_id: project._id});
 		});
+	},
+
+
+	search: function (name, region, type, memPermitID) {
+		var self = this;
+		var getProjects = new Promise(function (resolve, reject) {
+			var q = {};
+			if (!_.isEmpty(name)) {
+				q.name = new RegExp(name, 'i');
+			}
+			if (!_.isEmpty(region)) {
+				q.region = new RegExp(region, 'i');
+			}
+			if (!_.isEmpty(type)) {
+				q.type = new RegExp(type, 'i');
+			}
+			if (!_.isEmpty(memPermitID)) {
+				q.memPermitID = new RegExp(memPermitID, 'i');
+			}
+			//console.log('self.listIgnoreAccess(q)...');
+			self.listIgnoreAccess(q)
+				.then(function (res) {
+					//console.log('self.listIgnoreAccess(q)... resolve ', res.length);
+					resolve(res);
+				}, function (err) {
+					//console.log('err = ', JSON.stringify(err));
+					reject(new Error(err));
+				});
+		});
+
+		return getProjects;
 	}
 });

@@ -199,31 +199,35 @@
 			<!-- Projects TAB CONTENT -->
 			<div class="tab-pane" id="orgProjects" role="tabpanel">
 				<div class="button-bar clearfix">
-					<!-- a class="btn btn-default btn-sm pull-left" ui-sref="admin.organization.user.create({orgId: org._id})">
-						<span class="glyphicon glyphicon-plus"></span><span>Add Contact</span>
-					</a -->
+					<button class="btn btn-default btn-sm" type="button"
+							x-project-search-chooser
+							x-title="'Add Projects'"
+							x-organization="org"
+							x-singleselectmode="'false'"
+							x-destination="projectsList">Add Projects</button>
 					<div class="pull-right">
 						<show-filter x-toggle-filter="toggleFilter"></show-filter>
 					</div>
 				</div>
-				<div class="panel panel-default">
+				<div class="loading" ng-show="loading"></div>
+				<div class="panel panel-default" ng-hide="loading">
 					<table ng-table="projectTableParams" x-show-filter="toggleFilter" class="table table-striped table-hover">
 						<tr ng-repeat="o in $data" class='clickable' ui-sref="p.detail({projectid: o.code})">
 							<td header-class="'name-col'"
 								data-title="'Name'"
 								filter="{'name':'text'}"
 								sortable="'name'"><a ui-sref="p.detail({projectid: o.code})">{{o.name}}</a></td>
-							<td ng-if="environment === 'MEM'" data-title="'Permit'" filter="{'memPermitID':'text'}" sortable="'memPermitID'">
+							<td data-title="'Permit'" filter="{'memPermitID':'text'}" sortable="'memPermitID'">
 								{{o.memPermitID}}
 							</td>
-							<td header-class="'type-col'"
-								data-title="'Type'"
-								filter="{'type':'text'}"
-								sortable="'type'">{{o.type}}</td>
 							<td header-class="'region-col'"
 								data-title="'Region'"
 								filter="{'region':'text'}"
 								sortable="'region'">{{o.region | regionName}}</td>
+							<td header-class="'type-col'"
+								data-title="'Type'"
+								filter="{'type':'text'}"
+								sortable="'type'">{{o.type}}</td>
 							<td header-class="'phase-col'"
 								data-title="'Phase'"
 								filter="{'currentPhase.name':'text'}"

@@ -13,6 +13,13 @@ var policy = require ('../../../core/server/controllers/core.policy.controller')
 module.exports = function (app) {
 	routes.setCRUDRoutes (app, 'project', Project, policy);
 
+
+	app.route('/api/projects/search')
+		.all(policy('guest'))
+		.get(routes.setAndRun(Project, function (ctrl, req) {
+			return ctrl.search(req.query.name, req.query.region, req.query.type, req.query.memPermitID);
+		}));
+
 	//
 	// add a phase to a project (from base phase)
 	//
@@ -181,5 +188,6 @@ module.exports = function (app) {
 				});
 			}
 		});
+
 };
 

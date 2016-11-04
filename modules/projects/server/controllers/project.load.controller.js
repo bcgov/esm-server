@@ -94,7 +94,7 @@ module.exports = function(file, req, res, opts) {
 							.then(rs);
 						});
 				} else {
-					console.log("unhandled phase code.");
+					console.log("unhandled phase code. ", finalPhaseCode);
 				}
 			});
 		};

@@ -252,13 +252,57 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
 				return ProjectModel.forOrg(org._id);
 			}
         },
-        controller: function ($scope, NgTableParams, org, users, projects, UserModel, OrganizationModel, ProjectModel) {
+        controller: function ($scope, NgTableParams, org, users, projects, UserModel, OrganizationModel, ProjectModel, _) {
+			$scope.loading = true;
             $scope.org = org;
             $scope.tableParams = new NgTableParams ({count:10}, {dataset: users});
 			$scope.projectTableParams = new NgTableParams ({count:10}, {dataset: projects});
+			$scope.loading = false;
+
+			// for adding new projects...
+			$scope.projectsList = [];
+
+			$scope.$watch(function(scope) { return scope.projectsList; },
+				function(data) {
+					if (data && data.length > 0) {
+						//
+						$scope.loading = true;
+						var toFind = [];
+						_.forEach(data, function(proj) {
+							var item =  _.find($scope.projectTableParams.data, function(o) { return o.code === proj.code; });
+							if (!item) {
+								// need to set as the project.proponent...
+								toFind.push(ProjectModel.byCode(proj.code));
+							}
+						});
+
+						Promise.all (toFind)
+							.then(function(found) {
+								var toSave = [];
+								_.forEach(found, function(p) {
+									p.proponent = $scope.org;
+									toSave.push(ProjectModel.save(p));
+								});
+								return Promise.all(toSave);
+							})
+							.then(function(saved) {
+								return ProjectModel.forOrg(org._id);
+							})
+							.then(function(list) {
+								$scope.projectTableParams = new NgTableParams ({count:10}, {dataset: list});
+								$scope.projectsList = [];
+								$scope.loading = false;
+								$scope.$apply();
+							}, function(err) {
+								$scope.loading = false;
+							});
+					}
+				}
+			);
 
 			$scope.removeProjectFromOrg = function (code) {
 				//console.log("Removing ", code, " from org ", $scope.org);
+				$scope.loading = true;
 				ProjectModel.byCode(code)
 					.then( function (p) {
 						p.proponent = null;
@@ -269,11 +313,15 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
 					})
 					.then ( function (projs) {
 						$scope.projectTableParams = new NgTableParams ({count:10}, {dataset: projs});
+						$scope.loading = false;
 						$scope.$apply();
+					}, function(err) {
+						$scope.loading = false;
 					});
 			};
             $scope.removeUserFromOrg = function (userId) {
                 //console.log("Removing ", userId, " from org ", $scope.org);
+				$scope.loading = true;
                 UserModel.lookup(userId)
                 .then( function (user) {
                     user.org = null;
@@ -285,8 +333,11 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 })
                 .then ( function (users) {
                     $scope.tableParams = new NgTableParams ({count:10}, {dataset: users});
+					$scope.loading = false;
                     $scope.$apply();
-                });
+                }, function(err) {
+					$scope.loading = false;
+				});
             };
         }
     })

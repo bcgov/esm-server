@@ -23,6 +23,16 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 		byCode : function (code) {
 			return this.get ('/api/project/bycode/'+code);
 		},
+		search: function(name, region, type, memPermitID) {
+
+			var q = {name: name, region: region, type: type, memPermitID: memPermitID};
+
+			var qs = _.reduce(q, function(result, value, key) {
+				return (!_.isNull(value) && !_.isUndefined(value)) ? (result += key + '=' + value + '&') : result;
+			}, '').slice(0, -1);
+
+			return this.get('/api/projects/search?' + qs);
+		},
 		// -------------------------------------------------------------------------
 		//
 		// get just the code and name of the projects for a subset
