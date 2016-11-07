@@ -2194,15 +2194,19 @@ module.exports = DBModel.extend({
 		},
 		"enforcement-action-documentation": {
 			"read": [
+				"project-qa-officer",
 				"compliance-lead",
 				"compliance-officer"
 			],
 			"write": [
+				"project-qa-officer",
 				"compliance-lead",
 				"compliance-officer"
 			],
 			"delete": [
-				"compliance-lead"
+				"project-qa-officer",
+				"compliance-lead",
+				"compliance-officer"
 			]
 		},
 		"assessment-report": {
