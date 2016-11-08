@@ -294,7 +294,7 @@ angular
 		return function (title) {
 			var s = title.toLowerCase ();
 			s = s.replace (/\W/g,'-');
-			s = s.replace (/-+/,'-');
+			s = s.replace (/^-+|-+(?=-|$)/g, '');
 			return s;
 		};
 	})

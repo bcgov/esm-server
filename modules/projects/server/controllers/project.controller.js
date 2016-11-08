@@ -66,7 +66,7 @@ module.exports = DBModel.extend ({
 		if (_.isEmpty(project.shortName)) {
 			project.shortName = project.name.toLowerCase ();
 			project.shortName = project.shortName.replace (/\W/g,'-');
-			project.shortName = project.shortName.replace (/-+/,'-');
+			project.shortName = project.shortName.replace (/^-+|-+(?=-|$)/g, '');
 		}
 
 		return new Promise (function (resolve, reject) {
@@ -75,8 +75,10 @@ module.exports = DBModel.extend ({
 			//
 			project.code = project.shortName.toLowerCase ();
 			project.code = project.code.replace (/\W/g,'-');
-			project.code = project.code.replace (/-+/,'-');
-			//
+			project.code = project.code.replace(/^-+|-+(?=-|$)/g, '');
+			if (_.endsWith(project.code, '-')) {
+				project.code = project.code.slice(0, -1);
+			}			//
 			// this does the work of that and returns a promise
 			//
 			self.guaranteeUniqueCode (project.code)
@@ -363,7 +365,7 @@ module.exports = DBModel.extend ({
 		//
 		project.sectorRole = project.type.toLowerCase ();
 		project.sectorRole = project.sectorRole.replace (/\W/g,'-');
-		project.sectorRole = project.sectorRole.replace (/-+/,'-');
+		project.sectorRole = project.sectorRole.replace (/^-+|-+(?=-|$)/g, '');
 		return this.saveDocument (project).then (function (p) {
 			//
 			// add the project to the roles and the roles to the project
@@ -522,17 +524,17 @@ module.exports = DBModel.extend ({
 
 	initDefaultRoles : function(project) {
 		console.log('initDefaultRoles(' + project.code + ')');
-		var defaultRoles = [];
+		//var defaultRoles = [];
 
-		project.adminRole = 'project-system--admin';
-		project.proponentAdminRole = 'proponent-lead';
+		//project.adminRole = 'project-system-admin';
+		//project.proponentAdminRole = 'proponent-lead';
 		//project.eaoInviteeRole = undefined;
 		//project.proponentInviteeRole = undefined;
-		project.eaoMember = 'team';
-		project.proMember = 'proponent-lead';
+		//project.eaoMember = 'team';
+		//project.proMember = 'proponent-lead';
 
-		defaultRoles.push(project.eaoMember);
-		defaultRoles.push(project.proMember);
+		//defaultRoles.push(project.eaoMember);
+		//defaultRoles.push(project.proMember);
 
 		return Promise.resolve (project);
 	},

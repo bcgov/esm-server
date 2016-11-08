@@ -22,7 +22,7 @@ module.exports = DBModel.extend ({
 		if (!org.code) {
 			org.code = org.name.toLowerCase ();
 			org.code = org.code.replace (/\W/g,'-');
-			org.code = org.code.replace (/-+/,'-');
+			org.code = org.code.replace (/^-+|-+(?=-|$)/g, '');
 			//
 			// this does the work of that and returns a promise
 			//

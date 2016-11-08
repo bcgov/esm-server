@@ -34,7 +34,7 @@ module.exports = DBModel.extend ({
 
 			model.code = model.name.toLowerCase();
 			model.code = model.code.replace(/\W/g, '-');
-			model.code = model.code.replace(/-+/, '-');
+			model.code = model.code.replace(/^-+|-+(?=-|$)/g, '');
 			//
 			// this does the work of that and returns a promise
 			//
