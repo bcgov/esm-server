@@ -1,7 +1,7 @@
 module.exports = [
 {
 read: ['public'],
- submit: ['mem'],
+ submit: ['team'],
  status : 'In Progress',
  code : 'pre-application',
  name : 'Pre-application (permitting)',
@@ -9,7 +9,7 @@ read: ['public'],
 },
 {
 read: ['public'],
- submit: ['mem'],
+ submit: ['team'],
  status : 'In Progress',
  code : 'under-construction',
 	name : 'Under Construction',
@@ -17,7 +17,7 @@ read: ['public'],
 },
 {
 read: ['public'],
- submit: ['mem'],
+ submit: ['team'],
  status : 'In Progress',
  code : 'operating',
  name : 'Operating',
@@ -25,7 +25,7 @@ read: ['public'],
 },
 {
 read: ['public'],
- submit: ['mem'],
+ submit: ['team'],
  status : 'In Progress',
  code : 'care-and-maintenance',
  name : 'Care & Maintenance',
@@ -33,9 +33,9 @@ read: ['public'],
 },
 {
 read: ['public'],
- submit: ['mem'],
+ submit: ['team'],
  status : 'In Progress',
  code : 'closed',
  name : 'Closed',
- description : 'closed'
+ description : 'Closed'
 }];
