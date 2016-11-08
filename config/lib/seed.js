@@ -92,7 +92,7 @@ var seedingAsync = function() {
 
 checkIntegration ('defaults')
 	.then(function(){
-		require('../seed-data/defaults')()
+		require('../seed-data/load-defaults')()
 			.then(seedingAsync);
 		},
 		function() {
