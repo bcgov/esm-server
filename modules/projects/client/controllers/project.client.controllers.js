@@ -201,7 +201,6 @@ function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, 
 	if ($stateParams.projectid === 'new') {
 		ProjectModel.modelIsNew = true;
 	}
-
 	$scope.project = project;
 	$scope.questions = ProjectModel.getProjectIntakeQuestions();
 	$scope.regions = REGIONS;
@@ -265,26 +264,86 @@ function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, 
 		project.code = codeFromTitle(project.name);
 	};
 
+	$scope.cancelChanges = function (title, msg, okTitle, cancel) {
+		//Are you sure you would like to exit and discard all changes
+		var modalDocView = $modal.open({
+			animation: true,
+			templateUrl: 'modules/utils/client/views/partials/modal-confirm-generic.html',
+			controller: function($scope, $state, $modalInstance, _) {
+				var self = this;
+				self.title = title || "thetitle";
+				self.question = msg || "the message?";
+				self.actionOK = okTitle || "theOK title";
+				self.actionCancel = cancel || "cancel title";
+				self.ok = function() {
+					$modalInstance.close($scope.project);
+				};
+				self.cancel = function() {
+					$modalInstance.dismiss('cancel');
+				};
+			},
+			controllerAs: 'self',
+			scope: $scope,
+			size: 'md',
+			windowClass: 'modal-alert',
+			backdropClass: 'modal-alert-backdrop'
+		});
+		// do not care how this modal is closed, just go to the desired location...
+		modalDocView.result.then(function (res) {
+			$state.go('p.detail', {}, {reload: true});
+		});
+	};
+
 	// Submit the project for stream assignment.
-	$scope.submitProject = function(isValid) {
+	$scope.submitProject = function(isValid, title, msg, okTitle, cancel) {
+		// First, check for errors
 		if (!isValid) {
-			$scope.$broadcast('show-errors-check-validity', 'projectForm');
-			$scope.$broadcast('show-errors-check-validity', 'projectForm');
 			$scope.$broadcast('show-errors-check-validity', 'detailsForm');
-			$scope.$broadcast('show-errors-check-validity', 'contactsForm');
 			return false;
 		}
 
-		ProjectModel.add ($scope.project)
-		.then (function (data) {
-			return ProjectModel.submit(data);
-		})
-		.then( function (p) {
-			$scope.project = p;
-			$state.go('p.detail', {projectid: p.code});
-		})
-		.catch (function (err) {
-			console.error ('error = ', err);
+		// Pop confirmation dialog, after OK, publish immediately.
+		var modalDocView = $modal.open({
+			animation: true,
+			templateUrl: 'modules/utils/client/views/partials/modal-confirm-generic.html',
+			controller: function($scope, $state, $modalInstance, _) {
+				var self = this;
+				self.title = title || "thetitle";
+				self.question = msg || "the message?";
+				self.actionOK = okTitle || "theOK title";
+				self.actionCancel = cancel || "cancel title";
+				self.ok = function() {
+					$modalInstance.close($scope.project);
+				};
+				self.cancel = function() {
+					$modalInstance.dismiss('cancel');
+				};
+			},
+			controllerAs: 'self',
+			scope: $scope,
+			size: 'md',
+			windowClass: 'modal-alert',
+			backdropClass: 'modal-alert-backdrop'
+		});
+		// do not care how this modal is closed, just go to the desired location...
+		modalDocView.result.then(function (res) {
+			// console.log("Submitting project.");
+			ProjectModel.add ($scope.project)
+			.then (function (data) {
+				return ProjectModel.submit(data);
+			})
+			.then( function (p) {
+				$scope.project = p;
+				return ProjectModel.publishProject(p);
+				// $state.go('p.detail', {projectid: p.code});
+			})
+			.then( function (p) {
+				$scope.project = p;
+				$state.go('p.detail', {projectid: p.code});
+			})
+			.catch (function (err) {
+				console.error ('error = ', err);
+			});
 		});
 	};
 

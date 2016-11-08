@@ -3,7 +3,7 @@
 	<div class="view-title-container flex-row">
 		<h1>Edit Project &nbsp;&rsaquo;&nbsp; {{project.name}}<span class="placeholder-value" ng-if="!project.name">Untitled Project</span></h1>
 		<div class="actions">
-			<button class="btn btn-default btn-sm" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
+			<button class="btn btn-default btn-sm" ng-if="!isNew" ng-click="cancelChanges('Cancel Changes', 'Are you sure you would like to exit and discard all changes', 'Cancel Changes', 'Go Back')">Cancel</button>
 			<button class="btn btn-default btn-sm" ng-if="isNew" ui-sref="projects">Cancel</button>
 			<button class="btn btn-primary btn-sm"
 					ng-click="saveProject(projectForm.$valid)"
@@ -14,7 +14,7 @@
               	ng-if="!isNew && !project.isPublished && project.userCan.delete">
 				<span class="glyphicon glyphicon-trash"></span><span>Delete Project</span></button>
 			<button class="btn btn-success btn-sm"
-					ng-click="submitProject(projectForm.$valid)"
+					ng-click="submitProject(projectForm.$valid, 'Submit Project', 'Are you sure you would like to submit this project. Clicking OK will make this project and its content publicly available.', 'Submit Project', 'Cancel')"
 					ng-if="project.status === 'Initiated'">Submit Project</button>
 		</div>
 	</div>
@@ -344,7 +344,7 @@
 
 		<div class="form-footer clearfix">
 			<div class="pull-right">
-				<button class="btn btn-default btn-sm" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
+				<button class="btn btn-default btn-sm" ng-if="!isNew" ng-click="cancelChanges('Cancel Changes', 'Are you sure you would like to exit and discard all changes', 'Cancel Changes', 'Go Back')">Cancel</button>
 				<button class="btn btn-default btn-sm" ng-if="isNew" ui-sref="projects">Cancel</button>
 				<button class="btn btn-primary btn-sm"
 						ng-click="saveProject(projectForm.$valid)"
@@ -352,7 +352,7 @@
 						type="submit">Save</button>
 				<button class="btn btn-success btn-sm"
 						ng-disabled="projectForm.$invalid"
-						ng-click="submitProject(projectForm.$valid)"
+						ng-click="submitProject(projectForm.$valid, 'Submit Project', 'Are you sure you would like to submit this project. Clicking OK will make this project and its content publicly available.', 'Submit Project', 'Cancel')"
 						ng-if="project.status === 'Initiated'">Submit Project</button>
 			</div>
 		</div>
