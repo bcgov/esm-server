@@ -6,7 +6,202 @@ angular
 	.directive('tmplCompanyEntryForm', directiveCompanyEntryForm)
 	.directive('tmplUserEntryForm', directiveUserEntryForm)
 	.directive('modalSetSignature', directiveSetSignature)
-	.directive('modalEditMyProfile', directiveEditMyProfile);
+	.directive('modalEditMyProfile', directiveEditMyProfile)
+    .directive('userEntry', directiveUserEntry);
+
+directiveUserEntry.$inject = ['_'];
+function directiveUserEntry(_) {
+	var directive = {
+		restrict: 'E',
+		templateUrl: 'modules/users/client/views/user-entry.html',
+		scope: {
+			readonly: '=',
+			mode: '=',
+			enableSignature: '=',
+			enableDelete: '=',
+			enableSave: '=',
+			enableEdit: '=',
+			org: '=',
+			user: '=',
+			control: '=',
+			srefReturn: '='
+		},
+		controller: function ($scope, $attrs, $state, $filter, $modal, _, Authentication, SALUTATIONS, UserModel) {
+			$scope.salutations = SALUTATIONS;
+			$scope.internalControl = $scope.control || {};
+
+
+			var which = $scope.mode;
+
+			if ($scope.org && $scope.user && !$scope.user.org) {
+				$scope.user.org = $scope.org;
+			}
+
+			$scope.validate = function () {
+				var phonregexp = /^[(]{0,1}[0-9]{3}[)\.\- ]{0,1}[0-9]{3}[\.\- ]{0,1}[0-9]{4}$/;
+				if (phonregexp.test($scope.user.phoneNumber)) {
+					// console.log("valid phone number");
+					$scope.userForm.phoneNumber.$setValidity('required', true);
+				} else {
+					// console.log("invalid phone number");
+					$scope.userForm.phoneNumber.$setValidity('required', false);
+				}
+			};
+
+			$scope.internalControl.calculateName = function () {
+				$scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ').replace(/\s+/g, ' ');
+				if (which === 'add') {
+					$scope.user.username = $filter('kebab')($scope.user.displayName);
+				}
+			};
+
+			$scope.internalControl.clearOrganization = function () {
+				$scope.user.org = null;
+			};
+
+			$scope.showSuccess = function (msg, transitionCallback, title) {
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/utils/client/views/partials/modal-success.html',
+					controller: function ($scope, $state, $modalInstance, _) {
+						var self = this;
+						self.title = title || 'Success';
+						self.msg = msg;
+						self.ok = function () {
+							$modalInstance.close($scope.user);
+						};
+						self.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+					},
+					controllerAs: 'self',
+					scope: $scope,
+					size: 'md',
+					windowClass: 'modal-alert',
+					backdropClass: 'modal-alert-backdrop'
+				});
+				// do not care how this modal is closed, just go to the desired location...
+				modalDocView.result.then(function (res) {
+					transitionCallback();
+				}, function (err) {
+					transitionCallback();
+				});
+			};
+
+			$scope.showError = function (msg, errorList, transitionCallback, title) {
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/utils/client/views/partials/modal-error.html',
+					controller: function ($scope, $state, $modalInstance, _) {
+						var self = this;
+						self.title = title || 'An error has occurred';
+						self.msg = msg;
+						self.ok = function () {
+							$modalInstance.close($scope.user);
+						};
+						self.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+					},
+					controllerAs: 'self',
+					scope: $scope,
+					size: 'md',
+					windowClass: 'modal-alert',
+					backdropClass: 'modal-alert-backdrop'
+				});
+				// do not care how this modal is closed, just go to the desired location...
+				modalDocView.result.then(function (res) {
+					transitionCallback();
+				}, function (err) {
+					transitionCallback();
+				});
+			};
+
+			var goToList = function () {
+				$state.transitionTo($scope.srefReturn, {}, {reload: true, inherit: false, notify: true});
+			};
+
+			var reloadEdit = function () {
+				// want to reload this screen, do not catch unsaved changes (we are probably in the middle of saving).
+				$scope.allowTransition = true;
+				$state.reload();
+			};
+
+			if (!$scope.internalControl.onSave) {
+				$scope.internalControl.onSave = goToList;
+			}
+			if (!$scope.internalControl.onDelete) {
+				$scope.internalControl.onDelete = goToList;
+			}
+			if (!$scope.internalControl.onCancel) {
+				$scope.internalControl.onCancel = goToList;
+			}
+
+			$scope.internalControl.deleteUser = function () {
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/utils/client/views/partials/modal-confirm-delete.html',
+					controller: function ($scope, $state, $modalInstance, _) {
+						var self = this;
+						self.dialogTitle = "Delete Contact";
+						self.name = $scope.user.displayName;
+						self.ok = function () {
+							$modalInstance.close($scope.user);
+						};
+						self.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+					},
+					controllerAs: 'self',
+					scope: $scope,
+					size: 'md'
+				});
+				modalDocView.result.then(function (res) {
+					UserModel.deleteId($scope.user._id)
+						.then(function (res) {
+							// deleted show the message, and go to list...
+							$scope.showSuccess('"' + $scope.user.displayName + '"' + ' was deleted successfully.', $scope.internalControl.onDelete, 'Delete Success');
+						})
+						.catch(function (res) {
+							// could have errors from a delete check...
+							var failure = _.has(res, 'message') ? res.message : undefined;
+							$scope.showError('"' + $scope.user.displayName + '"' + ' was not deleted.', [], reloadEdit, 'Delete Error');
+						});
+				}, function () {
+					//console.log('delete modalDocView error');
+				});
+			};
+
+			$scope.internalControl.saveUser = function (isValid) {
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'userForm');
+					return false;
+				}
+				var p = (which === 'add') ? UserModel.add($scope.user) : UserModel.save($scope.user);
+				p.then(function (model) {
+						$scope.showSuccess('"' + $scope.user.displayName + '"' + ' was saved successfully.', $scope.internalControl.onSave, 'Save Success');
+					})
+					.catch(function (err) {
+						console.error(err);
+						// alert (err.message);
+					});
+			};
+
+			// signatures are only for the current user....
+			$scope.internalControl.signatureHREF = "/api/document/" + $scope.user.signature + "/fetch";
+			$scope.$on('refreshSig', function() {
+				if ($scope.enableSignature) {
+					UserModel.me()
+						.then( function (u) {
+							$scope.internalControl.signatureHREF = "/api/document/" + u.signature + "/fetch";
+						});
+					$scope.$apply();
+				}
+			});
+		}
+	};
+	return directive;
+}
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: User Entry Form
@@ -24,51 +219,34 @@ function directiveEditMyProfile($modal, _) {
 			element.on('click', function() {
 				var modalDocView = $modal.open({
 					animation: true,
-					templateUrl: 'modules/users/client/views/settings/modal-edit-profile.client.view.html',
-					controllerAs: 'myProfile',
+					templateUrl: 'modules/users/client/views/user-edit-modal.html',
+					controllerAs: 'userEditControl',
 					resolve: {
 						user: function (UserModel) {
 							return UserModel.me();
 						}
 					},
-					controller: function($scope, $filter, $modalInstance, SALUTATIONS, UserModel, user) {
-						var myProfile = this;
+					controller: function($scope, $filter, $modalInstance, user) {
+						$scope.user = user;
+						$scope.mode = 'edit';
+						$scope.readonly = false;
+						$scope.enableDelete = false;
+						$scope.enableSave = true;
+						$scope.enableEdit = false;
+						$scope.enableSignature = true;
+						//$scope.srefReturn = undefined;
 
-						myProfile.user = user;
-						myProfile.salutations = SALUTATIONS;
-
-						// Build the signature link
-						myProfile.signatureHREF = "/api/document/" + myProfile.user.signature + "/fetch";
-						$scope.$on('refreshSig', function() {
-							myProfile.user = UserModel.me()
-							.then( function (u) {
-								myProfile.user = u;
-								myProfile.signatureHREF = "/api/document/" + myProfile.user.signature + "/fetch";
-							});
-							$scope.$apply();
-						});
-						myProfile.calculateName = function () {
-							myProfile.user.displayName = [myProfile.user.firstName, myProfile.user.middleName, myProfile.user.lastName].join(' ').replace(/\s+/g, ' ');
-						};
-
-						myProfile.cancel = function () {
+						var userEditControl = this;
+						userEditControl.title = 'Edit Profile';
+						userEditControl.cancel = function() {
 							$modalInstance.dismiss('cancel');
 						};
-						myProfile.ok = function () {
-							var isValid = $scope.userForm.$valid;
-
-							if (!isValid) {
-								$scope.$broadcast('show-errors-check-validity', 'userForm');
-								return false;
-							}
-
-							UserModel.save(myProfile.user).then(function (res) {
-								// console.log('saved');
-								$modalInstance.close();
-							}).catch(function (err) {
-								$modalInstance.dismiss('cancel');
-							});
-
+						userEditControl.onSave = function() {
+							$modalInstance.close();
+						};
+						// we pass this to the user entry directive/controller for communication between the two...
+						$scope.userEntryControl = {
+							onSave: userEditControl.onSave
 						};
 					},
 					size: 'lg'
