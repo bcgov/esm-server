@@ -37,7 +37,7 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 	.state('admin.user.create', {
 		data: {permissions: ['createContact']},
 		url: '/create',
-		templateUrl: 'modules/users/client/views/admin/user-edit.html',
+		templateUrl: 'modules/users/client/views/user-edit.html',
 		resolve: {
 			user: function (UserModel) {
 				return UserModel.getNew ();
@@ -46,40 +46,25 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 				return OrganizationModel.getCollection();
 			}
 		},
-		controller: function ($scope, $state, user, orgs, UserModel, $filter, SALUTATIONS) {
+		controllerAs: 'userEditControl',
+		controller: function ($scope, $state, $filter, $modal, Authentication, user) {
 			$scope.user = user;
-			$scope.orgs = orgs;
-			$scope.salutations = SALUTATIONS;
 			$scope.mode = 'add';
+			$scope.readonly = false;
+			$scope.enableDelete = false;
+			$scope.enableSave = true;
+			$scope.enableEdit = false;
+			$scope.enableSignature = false;
+			$scope.srefReturn = 'admin.user.list';
 
-			var which = $scope.mode;
-			$scope.calculateName = function() {
-				$scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ').replace(/\s+/g, ' ');
-				$scope.user.username = $filter('kebab')( $scope.user.displayName );
+			var userEditControl = this;
+			userEditControl.title = 'Add Contact';
+			userEditControl.cancel = function() {
+				$state.transitionTo($scope.srefReturn, {}, {reload: true, inherit: false, notify: true});
 			};
-			$scope.clearOrganization = function() {
-				$scope.user.org = null;
-			};
-			$scope.save = function (isValid) {
-				if (!isValid) {
-					$scope.$broadcast('show-errors-check-validity', 'userForm');
-					return false;
-				}
-				if ($scope.mode === 'add') {
-					if (!$scope.user.username || $scope.user.username === '') {
-						$scope.user.username = $filter('kebab')( $scope.user.displayName );
-					}
-				}
-				var p = (which === 'add') ? UserModel.add ($scope.user) : UserModel.save ($scope.user);
-				p.then (function (model) {
-					$state.transitionTo('admin.user.list', {}, {
-						reload: true, inherit: false, notify: true
-					});
-				})
-				.catch (function (err) {
-					console.error (err);
-					// alert (err.message);
-				});
+
+			// we pass this to the user entry directive/controller for communication between the two...
+			$scope.userEntryControl = {
 			};
 		}
 	})
@@ -91,153 +76,31 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 	.state('admin.user.edit', {
 		data: {permissions: ['createContact']},
 		url: '/:userId/edit',
-		templateUrl: 'modules/users/client/views/admin/user-edit.html',
+		templateUrl: 'modules/users/client/views/user-edit.html',
 		resolve: {
 			user: function ($stateParams, UserModel) {
 				return UserModel.getModel ($stateParams.userId);
-			},
-			orgs: function(OrganizationModel) {
-				return OrganizationModel.getCollection();
 			}
 		},
-		controller: function ($scope, $state, user, orgs, UserModel, $filter, SALUTATIONS, $modal, _) {
+		controllerAs: 'userEditControl',
+		controller: function ($scope, $state, $filter, $modal, Authentication, user) {
 			$scope.user = user;
-			$scope.orgs = orgs;
 			$scope.mode = 'edit';
-			$scope.salutations = SALUTATIONS;
-			$scope.calculatedUsername = user.username;
+			$scope.readonly = false;
+			$scope.enableDelete = true;
+			$scope.enableSave = true;
+			$scope.enableEdit = false;
+			$scope.enableSignature = false;
+			$scope.srefReturn = 'admin.user.list';
 
-			var which = $scope.mode;
-
-			$scope.validate = function() {
-				var phonregexp = /^[(]{0,1}[0-9]{3}[)\.\- ]{0,1}[0-9]{3}[\.\- ]{0,1}[0-9]{4}$/;
-				if(phonregexp.test($scope.user.phoneNumber)) {
-					// console.log("valid phone number");
-					$scope.userForm.phoneNumber.$setValidity('required', true);
-				} else {
-					// console.log("invalid phone number");
-					$scope.userForm.phoneNumber.$setValidity('required', false);
-				}
+			var userEditControl = this;
+			userEditControl.title = 'Edit Contact';
+			userEditControl.cancel = function() {
+				$state.transitionTo($scope.srefReturn, {}, {reload: true, inherit: false, notify: true});
 			};
 
-			$scope.calculateName = function() {
-				$scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ').replace(/\s+/g, ' ');
-			};
-			$scope.clearOrganization = function() {
-				$scope.user.org = null;
-			};
-			$scope.showSuccess = function(msg, transitionCallback, title) {
-				var modalDocView = $modal.open({
-					animation: true,
-					templateUrl: 'modules/utils/client/views/partials/modal-success.html',
-					controller: function($scope, $state, $modalInstance, _) {
-						var self = this;
-						self.title = title || 'Success';
-						self.msg = msg;
-						self.ok = function() {
-							$modalInstance.close($scope.user);
-						};
-						self.cancel = function() {
-							$modalInstance.dismiss('cancel');
-						};
-					},
-					controllerAs: 'self',
-					scope: $scope,
-					size: 'md',
-					windowClass: 'modal-alert',
-					backdropClass: 'modal-alert-backdrop'
-				});
-				// do not care how this modal is closed, just go to the desired location...
-				modalDocView.result.then(function (res) {transitionCallback(); }, function (err) { transitionCallback(); });
-			};
-
-			$scope.showError = function(msg, errorList, transitionCallback, title) {
-				var modalDocView = $modal.open({
-					animation: true,
-					templateUrl: 'modules/utils/client/views/partials/modal-error.html',
-					controller: function($scope, $state, $modalInstance, _) {
-						var self = this;
-						self.title = title || 'An error has occurred';
-						self.msg = msg;
-						self.ok = function() {
-							$modalInstance.close($scope.user);
-						};
-						self.cancel = function() {
-							$modalInstance.dismiss('cancel');
-						};
-					},
-					controllerAs: 'self',
-					scope: $scope,
-					size: 'md',
-					windowClass: 'modal-alert',
-					backdropClass: 'modal-alert-backdrop'
-				});
-				// do not care how this modal is closed, just go to the desired location...
-				modalDocView.result.then(function (res) {transitionCallback(); }, function (err) { transitionCallback(); });
-			};
-
-			var goToList = function() {
-				$state.transitionTo('admin.user.list', {}, {
-					reload: true, inherit: false, notify: true
-				});
-			};
-
-			var reloadEdit = function() {
-				// want to reload this screen, do not catch unsaved changes (we are probably in the middle of saving).
-				$scope.allowTransition = true;
-				$state.reload();
-			};
-
-			$scope.deleteUser = function () {
-				var modalDocView = $modal.open({
-					animation: true,
-					templateUrl: 'modules/utils/client/views/partials/modal-confirm-delete.html',
-					controller: function($scope, $state, $modalInstance, _) {
-						var self = this;
-						self.dialogTitle = "Delete Contact";
-						self.name = $scope.user.displayName;
-						self.ok = function() {
-							$modalInstance.close($scope.user);
-						};
-						self.cancel = function() {
-							$modalInstance.dismiss('cancel');
-						};
-					},
-					controllerAs: 'self',
-					scope: $scope,
-					size: 'md'
-				});
-				modalDocView.result.then(function (res) {
-					UserModel.deleteId($scope.user._id)
-					.then(function (res) {
-						// deleted show the message, and go to list...
-						$scope.showSuccess('"'+ $scope.user.displayName +'"' + ' was deleted successfully.', goToList, 'Delete Success');
-					})
-					.catch(function (res) {
-						// could have errors from a delete check...
-						var failure = _.has(res, 'message') ? res.message : undefined;
-						$scope.showError('"'+ $scope.user.displayName +'"' + ' was not deleted.', [], reloadEdit, 'Delete Error');
-					});
-				}, function () {
-					//console.log('delete modalDocView error');
-				});
-			};
-
-			$scope.save = function (isValid) {
-				if (!isValid) {
-					$scope.$broadcast('show-errors-check-validity', 'userForm');
-					return false;
-				}
-				var p = (which === 'add') ? UserModel.add ($scope.user) : UserModel.save ($scope.user);
-				p.then (function (model) {
-					$state.transitionTo('admin.user.list', {}, {
-						reload: true, inherit: false, notify: true
-					});
-				})
-				.catch (function (err) {
-					console.error (err);
-					// alert (err.message);
-				});
+			// we pass this to the user entry directive/controller for communication between the two...
+			$scope.userEntryControl = {
 			};
 		}
 	})
@@ -249,52 +112,39 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 	// -------------------------------------------------------------------------
 	.state('admin.user.detail', {
 		url: '/:userId',
-		templateUrl: 'modules/users/client/views/admin/user-view.html',
+		templateUrl: 'modules/users/client/views/user-edit.html',
 		resolve: {
 			user: function ($stateParams, UserModel) {
 				return UserModel.getModel ($stateParams.userId);
 			}
 		},
-		controller: function ($scope, user) {
+		controllerAs: 'userEditControl',
+		controller: function ($scope, $state, $filter, $modal, Authentication, user) {
 			$scope.user = user;
+			$scope.mode = 'edit';
+			$scope.readonly = true;
+			$scope.enableDelete = false;
+			$scope.enableSave = false;
+			$scope.enableEdit = true;
+			$scope.enableSignature = false;
+			$scope.srefReturn = 'admin.user.list';
+
+			var userEditControl = this;
+			userEditControl.title = 'View Contact';
+
+			userEditControl.cancel = function() {
+				$state.transitionTo($scope.srefReturn, {}, {reload: true, inherit: false, notify: true});
+			};
+			userEditControl.edit = function() {
+				$state.transitionTo('admin.user.edit', {userId : $scope.user._id}, {reload: true, inherit: false, notify: true});
+			};
+
+			// we pass this to the user entry directive/controller for communication between the two...
+			$scope.userEntryControl = {
+			};
 		}
 	})
 
 	;
 
 }]);
-
-
-
-
-
-
-
-
-
-// 		.state('admin.user', {
-// 			url: '/users/:userId',
-// 			templateUrl: 'modules/users/client/views/admin/users-view.html',
-// 			controller: 'UserController',
-// 			resolve: {
-// 				userResolve: ['$stateParams', 'Admin', function ($stateParams, Admin) {
-// 					return Admin.get({
-// 						userId: $stateParams.userId
-// 					});
-// 				}]
-// 			}
-// 		})
-// 		.state('admin.user-edit', {
-// 			url: '/users/:userId/edit',
-// 			templateUrl: 'modules/users/client/views/admin/users-edit.html',
-// 			controller: 'UserController',
-// 			resolve: {
-// 				userResolve: ['$stateParams', 'Admin', function ($stateParams, Admin) {
-// 					return Admin.get({
-// 						userId: $stateParams.userId
-// 					});
-// 				}]
-// 			}
-// 		});
-// 	}
-// ]);
