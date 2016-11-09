@@ -4,9 +4,11 @@
  * Render the main application page
  */
 exports.renderIndex = function (req, res) {
-  res.render('modules/core/server/views/index', {
-    user: req.user || null
-  });
+  var indexPage = ('true' === process.env.ADMIN_ENABLE_PROTOTYPE) ? 'prototype' : 'index';
+  console.log('index.indexPage = ', indexPage);
+    res.render('modules/core/server/views/' + indexPage, {
+      user: req.user || null
+    });
 };
 
 /**
