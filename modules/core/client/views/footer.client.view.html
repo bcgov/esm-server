@@ -1,9 +1,9 @@
 <div class="app-footer clearfix" ng-cloak>
 	<div id="main-foot-content">
-			<div class="pull-left">
-		<span ng-if="footer.environment === 'MEM'">Ministry of Energy and Mines, Province of British Columbia</span>
-      </div>
-			<div class="pull-left">
+		<div class="pull-left">
+			<span ng-if="footer.environment === 'MEM'">Ministry of Energy and Mines, Province of British Columbia</span>
+      	</div>
+		<div class="pull-left">
 				<a href="/" title="Home">Home</a> |
 				<a target="_new" href="http://www.gov.bc.ca/com/copyright.html" title="BC Government Copyright Information">Copyright</a> |
 				<a target="_new" href="http://www.gov.bc.ca/com/disclaimer.html" title="BC Government Warranty Disclaimer and Limitation of Liabilities Information">Disclaimer</a> |
@@ -11,10 +11,9 @@
 				<a target="_new" href="http://www.gov.bc.ca/com/accessibility.html" title="BC Government Accessibility Information">Accessibility</a> |
 				<a href ui-sref="contact" title="Contact Us">Contact Us</a> | 
 				<a ng-show="!footer.authentication.user" ui-sref="authentication.signin">Log In (Siteminder)</a>
-        <span ng-show="!footer.authentication.user"> | </span> <a ng-show="!footer.authentication.user" href ui-sref="authentication.local">Log In (local)</a>
-        <!-- TODO: Siteminder! get the Siteminder logout url and set it here -->
-        <a ng-show="footer.authentication.user" href="/api/auth/signout" target="_self">Logout</a>
-    </div>
-</div>
-</div>
+        			<span ng-show="!footer.authentication.user"> | </span> <a ng-show="!footer.authentication.user" href ui-sref="authentication.local">Log In (local)</a>
+				<!-- TODO: Siteminder! get the Siteminder logout url and set it here -->
+				<a ng-show="footer.authentication.user" href="/api/auth/signout" target="_self">Logout</a>
+    	</div>
+	</div>
 </div>
