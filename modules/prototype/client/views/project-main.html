@@ -1,221 +1,268 @@
 
-    <div class="container">
-        <div class="breadcrumbs">
-            <a href="#">Projects</a> <span>/</span> <span>{{project.name}}</span>
+<div class="container">
+    <div class="breadcrumbs">
+        <a href="#">Projects</a> <span>/</span> <span>{{projectDetail.name}}</span>
+    </div>
+    <div class="title-container">
+        <h1>{{project.name}}</h1>
+        <div class="actions">
+            <a class="btn btn-link" href="javascript:void();">
+                <i class="material-icons fl">insert_drive_file</i>Project Documents
+            </a>
+            <a class="btn btn-link" href="javascript:void();"
+                data-toggle="modal" 
+                data-target="#mapWindow">
+                <i class="material-icons fl">pin_drop</i>Launch Map
+            </a>
         </div>
-        <div class="title-container">
-            <h1>{{project.name}}</h1>
-            <div class="actions">
-                <a class="btn btn-link" href="javascript:void();">
-                    <i class="material-icons fl">insert_drive_file</i>Project Documents
+    </div>
+    <div class="row">
+        <main class="col-sm-12 col-md-8">
+            
+            <section class="page-narrative">
+                <p>{{project.description}}<a class="read-more-link" href="#">Read More »</a></p>
+            </section>
+
+            <section>
+                <h2>Topics</h2>
+                <ul class="topic-blocks block-container clearfix">
+                    <li>
+                        <a class="block block-hover" href="/admin/prototype/topic">
+                            <h3>Environment</h3>
+                            <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="block block-hover" href="/admin/prototype/topic">
+                            <h3>Communities</h3>
+                            <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="block block-hover" href="/admin/prototype/topic">
+                            <h3>Health &amp; Safety</h3>
+                            <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="block block-hover" href="/admin/prototype/topic">
+                            <h3>Heritage</h3>
+                            <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Authorizations</h2>
+                <ul class="authorization-blocks resource-list resource-list-lg list-group">
+                    <li class="list-group-item">
+                        <span class="title">
+                            <span class="primary">Environmental Assessment Certificate</span>
+                            <span class="secondary secondary-color">Environmental Assessment Office (EAO)</span>
+                        </span>
+                        <span class="details">
+                            <span>{{project.eaocertificate.status}}</span>
+                            <span>{{project.eaocertificatd.lastUpdated}}</span>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="title">
+                            <span class="primary">Environmental Management Act Permit</span>
+                            <span class="secondary secondary-color">Ministry of Environment (MOE)</span>
+                        </span>
+                        <span class="details">
+                            <span>{{project.moepermit.status}}</span>
+                            <span>{{project.moepermit.lastUpdated}}</span>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="title">
+                            <span class="primary">Mines Act Permit</span>
+                            <span class="secondary secondary-color">Ministry of Energy &amp; Mines</span>
+                        </span>
+                        <span class="details">
+                            <span>{{project.mempermit.status}}</span>
+                            <span>{{project.mempermit.lastUpdated}}</span>
+                        </span>
+                    </li>
+                </ul>
+                <a class="read-more-link mt-05" href="javascript:void();">Learn More about Authorizations »</a>
+            </section>
+
+            <section>
+                <h2>Compliance &amp; Enforcement</h2>
+                <ul class="ce-blocks block-container clearfix">
+                    <li>
+                        <div class="block">
+                            <div class="avatar">
+                                <i class="material-icons">playlist_add_check</i>
+                            </div>
+                            <span class="title">
+                                <span class="primary">Inspections</span>
+                            </span>
+                            <span class="metric">
+                                <div class="metric-block">{{project.inspections.length}}</div>
+                            </span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="block">
+                            <div class="avatar">
+                                <i class="material-icons">warning</i>
+                            </div>
+                            <span class="title">
+                                <span class="primary">Actions</span>
+                            </span>
+                            <span class="metric">
+                                <div class="metric-block">{{project.actions.length}}</div>
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+                <a class="read-more-link mt-025" href="/admin/prototype/compliance-and-enforcement">Learn More about Compliance &amp; Enforcement »</a>
+            </section>
+
+        </main>
+        <aside class="col-sm-12 col-md-4">
+
+            <section class="card">
+                <h2 class="card-title">Details</h2>
+                <div class="card-block">
+                    <ul class="detail-list">
+                        <li class="clearfix">
+                            <span class="name">Operator</span>
+                            <span class="value">{{project.operator}}</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="name">Ownership</span>
+                            <span class="value">{{project.ownership}}</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="name">Commodities</span>
+                            <span class="value">{{project.commodities}}</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="name">Tailings Impoundments</span>
+                            <span class="value">{{project.tailings}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2 class="card-title">Project Status</h2>
+                <ul class="project-status resource-list resource-list-sm list-group">
+                    <li class="list-group-item">
+                        <span class="title">
+                            <span class="primary">Design</span>
+                        </span>
+                        <span class="actions">
+                            <span class="tag"
+                                    ng-class="{'tag-info': d.status == 'Active',
+                                                'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="title">
+                            <span class="primary">Construction</span>
+                        </span>
+                        <span class="actions">
+                            <span class="tag"
+                                    ng-class="{'tag-info': d.status == 'Active',
+                                                'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="title">
+                            <span class="primary">Operation</span>
+                        </span>
+                        <span class="actions">
+                            <span class="tag"
+                                    ng-class="{'tag-info': d.status == 'Active',
+                                                'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="title">
+                            <span class="primary">Closure</span>
+                        </span>
+                        <span class="actions">
+                            <span class="tag"
+                                    ng-class="{'tag-info': d.status == 'Active',
+                                                'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="title">
+                            <span class="primary">Reclamation</span>
+                        </span>
+                        <span class="actions">
+                            <span class="tag"
+                                    ng-class="{'tag-info': d.status == 'Active',
+                                                'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="title">
+                            <span class="primary">Monitoring &amp; Reporting</span>
+                        </span>
+                        <span class="actions">
+                            <span class="tag"
+                                    ng-class="{'tag-info': d.status == 'Active',
+                                                'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
+                        </span>
+                    </li>
+                </ul>
+            </section>      
+
+        </aside>
+    </div>
+</div>
+
+
+ <div class="modal modal-fullscreen fade" id="mapWindow" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="app-header-brand">
+                    <img src="/lib/prototype/images/bc_logo_transparent.png" />
                 </a>
-                <a class="btn btn-link" href="javascript:void();"
-                    data-toggle="modal" 
-                    data-target="#mapWindow">
-                    <i class="material-icons fl">pin_drop</i>Launch Map
-                </a>
+                <span class="fr" data-dismiss="modal" aria-label="Close">Close Window</span>
             </div>
-        </div>
-        <div class="row">
-            <main class="col-sm-12 col-md-8">
+
+            <div class="modal-body">
+                <ui-gmap-google-map id='project-map'
+                    center='mpl.map.center'
+                    zoom='mpl.map.zoom'
+                    refresh='1'
+                    options='mpl.map.options'>
+                    <ui-gmap-markers
+                        models="mpl.projectFiltered"
+                        coords="'self'">
+                    </ui-gmap-markers>
+                    <ui-gmap-layer	ng-repeat="layer in mpl.KMLLayers"
+                                    type="KmlLayer"
+                                    options="layer"
+                                    show="layer.show"></ui-gmap-layer>
+                </ui-gmap-google-map>
                 
-                <section class="page-narrative">
-                    <p>{{project.description}}<a class="read-more-link" href="#">Read More »</a></p>
-                </section>
- 
-                <section>
-                    <h2>Topics</h2>
-                    <ul class="topic-blocks block-container clearfix">
-                        <li>
-                            <a class="block block-hover" href="/admin/prototype/topic">
-                                <h3>Environment</h3>
-                                <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="block block-hover" href="/admin/prototype/topic">
-                                <h3>Communities</h3>
-                                <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="block block-hover" href="/admin/prototype/topic">
-                                <h3>Health &amp; Safety</h3>
-                                <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="block block-hover" href="/admin/prototype/topic">
-                                <h3>Heritage</h3>
-                                <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
-                            </a>
-                        </li>
-                    </ul>
-                </section>
-
-                <section>
-                    <h2>Authorizations</h2>
-                    <ul class="authorization-blocks resource-list resource-list-lg list-group">
-                        <li class="list-group-item">
-                            <span class="title">
-                                <span class="primary">Environmental Assessment Certificate</span>
-                                <span class="secondary secondary-color">Environmental Assessment Office (EAO)</span>
-                            </span>
-                            <span class="details">
-                                <span>{{project.eaocertificate.status}}</span>
-                                <span>{{project.eaocertificatd.lastUpdated}}</span>
-                            </span>
-                        </li>
-                        <li class="list-group-item">
-                            <span class="title">
-                                <span class="primary">Environmental Management Act Permit</span>
-                                <span class="secondary secondary-color">Ministry of Environment (MOE)</span>
-                            </span>
-                            <span class="details">
-                                <span>{{project.moepermit.status}}</span>
-                                <span>{{project.moepermit.lastUpdated}}</span>
-                            </span>
-                        </li>
-                        <li class="list-group-item">
-                            <span class="title">
-                                <span class="primary">Mines Act Permit</span>
-                                <span class="secondary secondary-color">Ministry of Energy &amp; Mines</span>
-                            </span>
-                            <span class="details">
-                                <span>{{project.mempermit.status}}</span>
-                                <span>{{project.mempermit.lastUpdated}}</span>
-                            </span>
-                        </li>
-                    </ul>
-                    <a class="read-more-link mt-05" href="javascript:void();">Learn More about Authorizations »</a>
-                </section>
-
-                <section>
-                    <h2>Compliance &amp; Enforcement</h2>
-                    <ul class="ce-blocks block-container clearfix">
-                        <li>
-                            <div class="block">
-                                <div class="avatar">
-                                    <i class="material-icons">playlist_add_check</i>
-                                </div>
-                                <span class="title">
-                                    <span class="primary">Inspections</span>
-                                </span>
-                                <span class="metric">
-                                    <div class="metric-block">{{project.inspections.length}}</div>
-                                </span>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="block">
-                                <div class="avatar">
-                                    <i class="material-icons">warning</i>
-                                </div>
-                                <span class="title">
-                                    <span class="primary">Actions</span>
-                                </span>
-                                <span class="metric">
-                                    <div class="metric-block">{{project.actions.length}}</div>
-                                </span>
-                            </div>
-                        </li>
-                    </ul>
-                    <a class="read-more-link mt-025" href="/admin/prototype/compliance-and-enforcement">Learn More about Compliance &amp; Enforcement »</a>
-                </section>
-
-            </main>
-            <aside class="col-sm-12 col-md-4">
-
-                <section class="card">
-                    <h2 class="card-title">Details</h2>
-                    <div class="card-block">
-                        <ul class="detail-list">
-                            <li class="clearfix">
-                                <span class="name">Operator</span>
-                                <span class="value">{{project.operator}}</span>
-                            </li>
-                            <li class="clearfix">
-                                <span class="name">Ownership</span>
-                                <span class="value">{{project.ownership}}</span>
-                            </li>
-                            <li class="clearfix">
-                                <span class="name">Commodities</span>
-                                <span class="value">{{project.commodities}}</span>
-                            </li>
-                            <li class="clearfix">
-                                <span class="name">Tailings Impoundments</span>
-                                <span class="value">{{project.tailings}}</span>
+                <div ng-if="mpl.KMLLayers.length > 0" >
+                    <label class="control-label"> Layers</label>
+                    <div class="well well-sm">
+                        <ul class="list-unstyled task-list">
+                            <li ng-repeat="layer in mpl.KMLLayers">
+                                <button ng-init="layer.show=true"
+                                        class="btn btn-block btn-sm btn-layer"
+                                        ng-class="{'btn-success': layer.show}"
+                                        ng-click="layer.show = !layer.show">{{ layer.label }}</button>
                             </li>
                         </ul>
                     </div>
-                </section>
+                </div>
+                
+            </div>
 
-                <section class="card">
-                    <h2 class="card-title">Project Status</h2>
-                    <ul class="project-status resource-list resource-list-sm list-group">
-                        <li class="list-group-item">
-                            <span class="title">
-                                <span class="primary">Design</span>
-                            </span>
-                            <span class="actions">
-                                <span class="tag"
-                                      ng-class="{'tag-info': d.status == 'Active',
-                                                 'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
-                            </span>
-                        </li>
-                        <li class="list-group-item">
-                            <span class="title">
-                                <span class="primary">Construction</span>
-                            </span>
-                            <span class="actions">
-                                <span class="tag"
-                                      ng-class="{'tag-info': d.status == 'Active',
-                                                 'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
-                            </span>
-                        </li>
-                        <li class="list-group-item">
-                            <span class="title">
-                                <span class="primary">Operation</span>
-                            </span>
-                            <span class="actions">
-                                <span class="tag"
-                                      ng-class="{'tag-info': d.status == 'Active',
-                                                 'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
-                            </span>
-                        </li>
-                        <li class="list-group-item">
-                            <span class="title">
-                                <span class="primary">Closure</span>
-                            </span>
-                            <span class="actions">
-                                <span class="tag"
-                                      ng-class="{'tag-info': d.status == 'Active',
-                                                 'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
-                            </span>
-                        </li>
-                        <li class="list-group-item">
-                            <span class="title">
-                                <span class="primary">Reclamation</span>
-                            </span>
-                            <span class="actions">
-                                <span class="tag"
-                                      ng-class="{'tag-info': d.status == 'Active',
-                                                 'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
-                            </span>
-                        </li>
-                        <li class="list-group-item">
-                            <span class="title">
-                                <span class="primary">Monitoring &amp; Reporting</span>
-                            </span>
-                            <span class="actions">
-                                <span class="tag"
-                                      ng-class="{'tag-info': d.status == 'Active',
-                                                 'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
-                            </span>
-                        </li>
-                    </ul>
-                </section>      
-
-            </aside>
         </div>
     </div>
+</div>   

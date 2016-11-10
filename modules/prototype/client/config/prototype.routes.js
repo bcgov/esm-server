@@ -75,9 +75,9 @@ angular.module('prototype').config(['$stateProvider', function ($stateProvider) 
 			$scope.application = Application;
 			
 			// Project Inspections
-			$scope.projectInspections = PrototypeModel.getProjectInspections();
+			$scope.projectinspections = PrototypeModel.getProjectInspections();
 
-			console.log("data:", $scope.data);
+			console.log("data:", $scope.projectinspections);
 		},
 	})
 
@@ -88,7 +88,8 @@ angular.module('prototype').config(['$stateProvider', function ($stateProvider) 
 		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
-			console.log("data:", $scope.data);
+			$scope.projectinspections = PrototypeModel.getProjectInspections();
+			console.log("data:", $scope.projectinspections);
 		},
 	})
 
