@@ -462,6 +462,7 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 			} else {
 				docBrowser.documentFiles = res;
 			}
+			$scope.$apply();
 		});
 		Document.getProjectDocumentTypes(docBrowser.project._id, $scope.approvals)
 		.then( function(res) {
@@ -478,6 +479,7 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 				item.render = item.depth === 1;
 			});
 			docBrowser.docTypes = dts;
+			$scope.$apply();
 		});
 	};
 
