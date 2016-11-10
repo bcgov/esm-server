@@ -13,7 +13,7 @@ angular.module('prototype').config(['$stateProvider', function ($stateProvider) 
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.prototype', {
-		data: {permissions: ['managePermissions']},
+		data: {roles: ['admin', 'prototype']},
 		abstract:true,
 		url: '/prototype',
 		template: '<ui-view></ui-view>',

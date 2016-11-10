@@ -81,6 +81,8 @@ var seedingAsync = function() {
 		require('../seed-data/load-mem')();
 	});
 
+	require('../seed-data/load-prototypeuser')();
+	require('../seed-data/load-prototypedata')();
 
 };
 
