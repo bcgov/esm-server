@@ -10,7 +10,8 @@ exports.get = function(req, res) {
 	Prototype.find (query, function (err, documents) {
 		if (err) return helpers.sendError (res, err);
 		else {
-			return helpers.sendData (res, documents);
+			var proto = documents[0].data;
+			return helpers.sendData(res, proto);
 		}
 	});
 };

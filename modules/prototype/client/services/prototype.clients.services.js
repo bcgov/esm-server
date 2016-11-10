@@ -11,7 +11,7 @@ angular.module('prototype').factory ('PrototypeModel', function (ModelBase, _) {
 		},
 
 		getProjectDetail: function () {
-			return
+			return this.get('/api/admin/prototype');
 		},
 
 		getProjectDetailList: function () {

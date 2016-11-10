@@ -18,6 +18,9 @@ angular.module('prototype').config(['$stateProvider', function ($stateProvider) 
 		url: '/prototype',
 		template: '<ui-view></ui-view>',
 		resolve: {
+			project: function(PrototypeModel) {
+				return PrototypeModel.getProjectDetail();
+			}
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -29,7 +32,7 @@ angular.module('prototype').config(['$stateProvider', function ($stateProvider) 
 	.state('admin.prototype.list', {
 		url: '/list',
 		templateUrl: 'modules/prototype/client/views/prototype-list.html',
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel) {
+		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, project) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
 			$scope.data = PrototypeModel.getData();
@@ -41,12 +44,12 @@ angular.module('prototype').config(['$stateProvider', function ($stateProvider) 
 	.state('admin.prototype.projectmain', {
 		url: '/project-main',
 		templateUrl: 'modules/prototype/client/views/project-main.html',
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel) {
+		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, project) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
 
 			// Project Detail (Main)
-			$scope.projectDetail = PrototypeModel.getProjectDetail();
+			$scope.projectDetail = project;
 
 			// Project Authorizations
 			$scope.projectAuthorizations = PrototypeModel.getProjectAuthorizations();
