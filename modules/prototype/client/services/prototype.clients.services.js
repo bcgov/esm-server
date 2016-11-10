@@ -114,6 +114,22 @@ angular.module('prototype').factory ('PrototypeModel', function (ModelBase, _) {
 			];
 		},
 
+		getProjectAction: function () {
+			return [
+				{	actionID: 'MEM-63456-1', 
+					inspectorOrder: '',
+					issuedBy: '',
+					issueDate: 'YYYY-MM-DD',
+					inspectionUrl: '',
+					response: '',
+					responseDate: '',
+					responseUrl: '',
+					agency: 'Ministry of Energy & Mines', 
+					inspectionDate: 'YYYY-MM-DD'
+				}
+			];
+		},
+
 		getProjectStatusList: function () {
 			return [
 				{name: 'Design', status: 'Complete'},
