@@ -25,9 +25,13 @@
 </head>
 
 <body class="ng-cloak">
-    <tmpl-header></tmpl-header>
+    <header class="app-header nav-up" id="header">
+      <div class="container">MMTI</div>
+    </header>
     {% block content %}{% endblock %}
-    <tmpl-footer></tmpl-footer>
+    <footer>
+      <div class="container">Footer</div>
+    </footer>
 
     <!--Embedding The User Object-->
     <script type="text/javascript">
