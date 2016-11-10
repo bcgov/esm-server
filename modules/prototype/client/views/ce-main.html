@@ -1,0 +1,121 @@
+
+<div class="container">
+    <div class="breadcrumbs">
+        <a href="#">Projects</a> <span>/</span> <a href="/admin/prototype/project-main">{{project.name}}</a> <span>/</span> <span>Compliance &amp; Enforcement</span>
+    </div>
+    <div class="title-container">
+        <h1>Compliance &amp; Enforcement</h1>
+    </div>
+    <div class="row">
+        <main class="col-sm-12 col-md-8">
+            <section class="page-narrative">
+                <p>{{project.description}}<a class="read-more-link" href="javascript:void();">Read More »</a></p>
+            </section>
+            <section>
+                <h2>Compliance Oversight</h2>
+                <ul class="ce-blocks block-container clearfix">
+                    <li>
+                        <div class="block">
+                            <div class="avatar">
+                                <i class="material-icons">playlist_add_check</i>
+                            </div>
+                            <span class="title">
+                                <span class="primary">Inspections</span>
+                            </span>
+                            <span class="metric">
+                                <div class="metric-block">{{project.inspections.length}}</div>
+                            </span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="block">
+                            <div class="avatar">
+                                <i class="material-icons">warning</i>
+                            </div>
+                            <span class="title">
+                                <span class="primary">Actions</span>
+                            </span>
+                            <span class="metric">
+                                <div class="metric-block">{{project.actions.length}}</div>
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Inspections</h2>
+                    <table ng-table="tableParams" class="inspections-grid ce-grid table table-striped table-hover" show-filter="false">
+                        <tr ng-repeat="inspection in project.inspections">
+                            <td class="id-col"
+                                header-class="'id-col'"
+                                data-title="'ID'"
+                                filter="{'inspectionID':'text'}"
+                                sortable="'inspectionID'">
+                                <a href="/admin/prototype/inspection">{{inspection.id}} ({{inspection.agency}}) </a>
+                                <div class="tag-list">
+                                    <span class="tag tag-default" ng-repeat="topic in project.inspections.topic">{{topic.name}}</span>
+                                </div>
+                            </td>
+                            <td class="date-col" 
+                                header-class="'date-col'" 
+                                data-title="'Date'"
+                                filter="{'inspectionID':'text'}"
+                                sortable="'inspectionID'">{{inspection.date}}</td>
+                        </tr>
+                    </table>
+            </section>
+        </main>
+
+        <aside class="col-sm-12 col-md-4">
+                
+            <section class="card">
+                <h2 class="card-title">Related Documents</h2>
+                <div class="resource-list resource-list-sm list-group">
+                    <a class="list-group-item list-group-item-action" href="#">
+                        <span class="avatar">
+                            <i class="material-icons md-18">insert_drive_file</i>
+                        </span>
+                        <span class="title">
+                            <span class="primary">Document Link</span>
+                        </span>
+                        <span class="actions">
+                            <i class="material-icons md-18">more_vert</i>
+                        </span>
+                    </a>
+                    <a class="list-group-item list-group-item-action" href="#">
+                        <span class="avatar">
+                            <i class="material-icons md-18">insert_drive_file</i>
+                        </span>
+                        <span class="title">
+                            <span class="primary">Document Link</span>
+                        </span>
+                        <span class="actions">
+                            <i class="material-icons md-18">more_vert</i>
+                        </span>
+                    </a>
+                    <a class="list-group-item list-group-item-action" href="#">
+                        <span class="avatar">
+                            <i class="material-icons md-18">insert_drive_file</i>
+                        </span>
+                        <span class="title">
+                            <span class="primary">Document Link</span>
+                        </span>
+                        <span class="actions">
+                            <i class="material-icons md-18">more_vert</i>
+                        </span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2 class="card-title">Links of Interest</h2>
+                <ul class="resource-list resource-list-sm list-group">
+                    <li class="list-group-item"><a href="#">Document Link</a></li>
+                    <li class="list-group-item"><a href="#">Document Link</a></li>
+                    <li class="list-group-item"><a href="#">Document Link</a></li>
+                </ul>
+            </section>
+            
+        </aside>
+    </div>
+</div>
