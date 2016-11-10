@@ -4,9 +4,14 @@
  * Render the main application page
  */
 exports.renderIndex = function (req, res) {
-  res.render('modules/core/server/views/index', {
-    user: req.user || null
-  });
+    res.render('modules/core/server/views/index', {
+      user: req.user || null
+    });
+};
+exports.renderIndexPrototype = function (req, res) {
+    res.render('modules/core/server/views/prototype', {
+      user: req.user || null
+    });
 };
 
 /**

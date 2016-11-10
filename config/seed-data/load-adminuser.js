@@ -16,7 +16,7 @@ module.exports = function () {
 				// console.log("Overriding generated password: ",process.env.ADMINPW);
 				password = process.env.ADMINPW;
 			} else {
-				 pwoutput = "with password set to " + password;
+				 pwoutput = " with password set to " + password;
 			}
 			var user = new User ({
 				username    : 'admin',

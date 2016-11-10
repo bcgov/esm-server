@@ -44,7 +44,8 @@ module.exports = function (grunt) {
 						enableNews: process.env.ADMIN_ENABLE_NEWS,
 						enableTemplates: process.env.ADMIN_ENABLE_TEMPLATES,
 						enableVcs: process.env.ADMIN_ENABLE_VCS,
-						enableContacts: process.env.ADMIN_ENABLE_CONTACTS
+						enableContacts: process.env.ADMIN_ENABLE_CONTACTS,
+						enablePrototype: process.env.ADMIN_ENABLE_PROTOTYPE
 					},
 					'FEATURES': {
 						enableTimeline: process.env.PROJECT_ENABLE_TIMELINE,

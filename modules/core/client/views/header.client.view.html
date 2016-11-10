@@ -1,3 +1,4 @@
+
 <div class="app-header">
 	<nav class="navbar">
 		<div class="navbar-header">
@@ -7,7 +8,6 @@
 				</a>
 			</div>
 		</div>
-
 		<span ng-if="false">
 		<!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -20,6 +20,12 @@
 		\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
 		</span>
 		<ul class="custom-nav">
+			<li ng-if="ADMIN_FEATURES.enablePrototype" class="custom-nav-item">
+				<a href ui-sref="admin.prototype.list">
+					<span class="glyphicon glyphicon-home"></span>
+					<span>PROTOTYPE</span>
+				</a>
+			</li>
 			<li class="custom-nav-item">
 				<a href ui-sref="projects">
 					<span class="glyphicon glyphicon-home"></span>
