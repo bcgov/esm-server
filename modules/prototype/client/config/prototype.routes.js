@@ -119,25 +119,31 @@ angular.module('prototype').config(['$stateProvider', function ($stateProvider) 
 		},
 	})
 
-	// TOPIC
-	.state('admin.prototype.topic', {
-		url: '/topic',
-		templateUrl: 'modules/prototype/client/views/topic.html',
+	// CONDITIONS
+	.state('admin.prototype.conditionsmain', {
+		url: '/conditions',
+		templateUrl: 'modules/prototype/client/views/conditions-main.html',
 		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
 			console.log("data:", $scope.data);
+
+			$scope.projectconditions = PrototypeModel.getProjectConditions();
+			console.log("data:", $scope.projectconditions);
 		},
 	})
 
-	// SUBTOPIC
-	.state('admin.prototype.subtopic', {
-		url: '/subtopic',
-		templateUrl: 'modules/prototype/client/views/subtopic.html',
+	// CONDITION
+	.state('admin.prototype.condition', {
+		url: '/condition',
+		templateUrl: 'modules/prototype/client/views/condition.html',
 		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
 			console.log("data:", $scope.data);
+
+			$scope.projectconditions = PrototypeModel.getProjectConditions();
+			console.log("data:", $scope.projectconditions);
 		},
 	})
 

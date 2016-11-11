@@ -3,11 +3,11 @@
     
     <div class="breadcrumbs">
         <a href="#">Projects</a> 
-        &nbsp;<span>/</span>&nbsp; 
+        <span>/</span>
         <a href="/admin/prototype/project-main">{{projectDetail.name}}</a> 
-        &nbsp;<span>/</span>&nbsp; 
+        <span>/</span>
         <a href="/admin/prototype/compliance-and-enforcement">Compliance &amp; Enforcement</a>
-        &nbsp;<span>/</span>&nbsp; 
+        <span>/</span>
         <span>Inspection Report: {{projectinspections[0].id}} </span>
     </div>
 
@@ -54,52 +54,50 @@
 
             <section>
                 <h2>Inspection Actions</h2>
-                <section>
-                    <div class="title-bar">
-                        <h3>Viewing {{projectactions.length}} of {{projectactions.length}} actions</h3>
-                        <div class="filters">
-                            <div class="form-inline">
-                                <div class="form-group">
-                                    <select class="form-control">
-                                        <option selected>Sort by</option>
-                                        <option>Option 1</option>
-                                        <option>Option 2</option>
-                                        <option>Option 3</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <select class="form-control">
-                                        <option>10</option>
-                                        <option>25</option>
-                                        <option>50</option>
-                                    </select>
-                                </div>
+                <div class="title-bar">
+                    <h3>Viewing {{projectactions.length}} of {{projectactions.length}} Actions</h3>
+                    <div class="filters">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <select class="form-control">
+                                    <option selected>Sort by</option>
+                                    <option>Option 1</option>
+                                    <option>Option 2</option>
+                                    <option>Option 3</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control">
+                                    <option>10</option>
+                                    <option>25</option>
+                                    <option>50</option>
+                                </select>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <table ng-table="tableParams" class="inspections-grid ce-grid table table-striped table-hover" show-filter="false">
-                        <tr ng-repeat="action in projectactions">
-                            <td class="id-col"
-                                header-class="'id-col'"
-                                data-title="'ID'"
-                                filter="{'actionID':'text'}"
-                                sortable="'actionID'">
-                                <a href="/admin/prototype/action">{{action.type}} Issued: {{action.id}}</a>
-                                <pre class="row-desc" ng-bind-html="action.actionDetail"></pre>
-                                <div class="tag-list">
-                                    <span class="tag tag-default" ng-repeat="topic in action.topics">{{topic.name}}</span>
-                                </div>
-                            </td>
-                            <td class="date-col" 
-                                header-class="'date-col'" 
-                                data-title="'Date'"
-                                filter="{'inspectionID':'text'}"
-                                sortable="'inspectionID'">{{action.issueDate}}</td>
-                        </tr>
-                    </table>
-            </section>
-            </section>
+                <table ng-table="tableParams" class="inspections-grid ce-grid table table-striped table-hover" show-filter="false">
+                    <tr ng-repeat="action in projectactions">
+                        <td class="id-col"
+                            header-class="'id-col'"
+                            data-title="'ID'"
+                            filter="{'actionID':'text'}"
+                            sortable="'actionID'">
+                            <a href="/admin/prototype/action">{{action.type}} Issued: {{action.id}}</a>
+                            <pre class="row-desc" ng-bind-html="action.detail"></pre>
+                            <div class="tag-list">
+                                <span class="tag tag-default" ng-repeat="topic in action.topics">{{topic.name}}</span>
+                            </div>
+                        </td>
+                        <td class="date-col" 
+                            header-class="'date-col'" 
+                            data-title="'Date'"
+                            filter="{'inspectionID':'text'}"
+                            sortable="'inspectionID'">{{action.issueDate}}</td>
+                    </tr>
+                </table>
+        </section>
 
         </main>
         <aside class="col-sm-12 col-md-5 col-lg-4">
