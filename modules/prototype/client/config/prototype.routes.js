@@ -52,7 +52,7 @@ angular.module('prototype').config(['$stateProvider', function ($stateProvider) 
 			$scope.projectDetail = PrototypeModel.getProjectDetail();
 
 			// Project Inspections
-			$scope.projectInspections = PrototypeModel.getProjectInspections();
+			$scope.projectinspections = PrototypeModel.getProjectInspections();
 
 			// TODO: Need a count all actions across all inspections per project
 			$scope.projectActionCount = 0;
@@ -69,38 +69,53 @@ angular.module('prototype').config(['$stateProvider', function ($stateProvider) 
 
 			// Project Details
 			$scope.projectDetail = PrototypeModel.getProjectDetail();
+			console.log("data:", $scope.getProjectCeDetails);
 			
-			// Project Compliance & Enforcement Details
+			// Compliance & Enforcement Details
 			$scope.projectcedetails = PrototypeModel.getProjectCeDetails();
 
-			// Project Inspections 
+			// inspections 
 			$scope.projectinspections = PrototypeModel.getProjectInspections();
-
-			console.log("data:", $scope.getProjectCeDetails);
 			console.log("data:", $scope.getProjectInspections);
 		},
 	})
 
-	// INSPECTION 
-	.state('admin.prototype.ceInspection', {
+	// INSPECTION PAGE
+	.state('admin.prototype.inspection', {
 		url: '/inspection',
 		templateUrl: 'modules/prototype/client/views/ce-inspection.html',
 		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
+
+			$scope.projectDetail = PrototypeModel.getProjectDetail();
+			console.log("data:", $scope.getProjectCeDetails);
+
 			$scope.projectinspections = PrototypeModel.getProjectInspections();
 			console.log("data:", $scope.projectinspections);
+
+			$scope.projectactions = PrototypeModel.getProjectActions();
+			console.log("data:", $scope.projectactions);
 		},
 	})
 
 	// ACTION 
-	.state('admin.prototype.ceAction', {
+	.state('admin.prototype.action', {
 		url: '/action',
 		templateUrl: 'modules/prototype/client/views/ce-action.html',
 		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
 			console.log("data:", $scope.data);
+
+			$scope.projectDetail = PrototypeModel.getProjectDetail();
+			console.log("data:", $scope.getProjectCeDetails);
+
+			$scope.projectinspections = PrototypeModel.getProjectInspections();
+			console.log("data:", $scope.projectinspections);
+
+			$scope.projectactions = PrototypeModel.getProjectActions();
+			console.log("data:", $scope.projectactions);
 		},
 	})
 
