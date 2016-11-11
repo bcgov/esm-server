@@ -4,7 +4,7 @@
         <a href="#">Projects</a> <span>/</span> <span>{{projectDetail.name}}</span>
     </div>
     <div class="title-container">
-        <h1>{{project.name}}</h1>
+        <h1>{{projectDetail.name}}</h1>
         <div class="actions">
             <a class="btn btn-link" href="javascript:void();">
                 <i class="material-icons fl">insert_drive_file</i>Project Documents
@@ -20,7 +20,7 @@
         <main class="col-sm-12 col-md-8">
             
             <section class="page-narrative">
-                <p>{{project.description}}<a class="read-more-link" href="#">Read More »</a></p>
+                <p>{{projectDetail.description}} <a class="read-more-link" href="#">Read More »</a></p>
             </section>
 
             <section>
@@ -56,34 +56,14 @@
             <section>
                 <h2>Authorizations</h2>
                 <ul class="authorization-blocks resource-list resource-list-lg list-group">
-                    <li class="list-group-item">
+                    <li class="list-group-item" ng-repeat="authorization in projectDetail.authorizations">
                         <span class="title">
-                            <span class="primary">Environmental Assessment Certificate</span>
-                            <span class="secondary secondary-color">Environmental Assessment Office (EAO)</span>
+                            <span class="primary">{{authorization.name}}</span>
+                            <span class="secondary secondary-color">{{authorization.agency}}</span>
                         </span>
                         <span class="details">
-                            <span>{{project.eaocertificate.status}}</span>
-                            <span>{{project.eaocertificatd.lastUpdated}}</span>
-                        </span>
-                    </li>
-                    <li class="list-group-item">
-                        <span class="title">
-                            <span class="primary">Environmental Management Act Permit</span>
-                            <span class="secondary secondary-color">Ministry of Environment (MOE)</span>
-                        </span>
-                        <span class="details">
-                            <span>{{project.moepermit.status}}</span>
-                            <span>{{project.moepermit.lastUpdated}}</span>
-                        </span>
-                    </li>
-                    <li class="list-group-item">
-                        <span class="title">
-                            <span class="primary">Mines Act Permit</span>
-                            <span class="secondary secondary-color">Ministry of Energy &amp; Mines</span>
-                        </span>
-                        <span class="details">
-                            <span>{{project.mempermit.status}}</span>
-                            <span>{{project.mempermit.lastUpdated}}</span>
+                            <span>{{authorization.status}}</span>
+                            <span>{{authorization.lastUpdate}}</span>
                         </span>
                     </li>
                 </ul>
@@ -132,19 +112,19 @@
                     <ul class="detail-list">
                         <li class="clearfix">
                             <span class="name">Operator</span>
-                            <span class="value">{{project.operator}}</span>
+                            <span class="value">{{projectDetail.operator}}</span>
                         </li>
                         <li class="clearfix">
                             <span class="name">Ownership</span>
-                            <span class="value">{{project.ownership}}</span>
+                            <span class="value">{{projectDetail.ownership}}</span>
                         </li>
                         <li class="clearfix">
                             <span class="name">Commodities</span>
-                            <span class="value">{{project.commodities}}</span>
+                            <span class="value">{{projectDetail.commodities}}</span>
                         </li>
                         <li class="clearfix">
                             <span class="name">Tailings Impoundments</span>
-                            <span class="value">{{project.tailings}}</span>
+                            <span class="value">{{projectDetail.tailingsCount}}</span>
                         </li>
                     </ul>
                 </div>
@@ -153,64 +133,14 @@
             <section class="card">
                 <h2 class="card-title">Project Status</h2>
                 <ul class="project-status resource-list resource-list-sm list-group">
-                    <li class="list-group-item">
+                    <li class="list-group-item" ng-repeat="phase in projectDetail.phase">
                         <span class="title">
-                            <span class="primary">Design</span>
+                            <span class="primary">{{phase.name}}</span>
                         </span>
                         <span class="actions">
                             <span class="tag"
-                                    ng-class="{'tag-info': d.status == 'Active',
-                                                'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
-                        </span>
-                    </li>
-                    <li class="list-group-item">
-                        <span class="title">
-                            <span class="primary">Construction</span>
-                        </span>
-                        <span class="actions">
-                            <span class="tag"
-                                    ng-class="{'tag-info': d.status == 'Active',
-                                                'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
-                        </span>
-                    </li>
-                    <li class="list-group-item">
-                        <span class="title">
-                            <span class="primary">Operation</span>
-                        </span>
-                        <span class="actions">
-                            <span class="tag"
-                                    ng-class="{'tag-info': d.status == 'Active',
-                                                'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
-                        </span>
-                    </li>
-                    <li class="list-group-item">
-                        <span class="title">
-                            <span class="primary">Closure</span>
-                        </span>
-                        <span class="actions">
-                            <span class="tag"
-                                    ng-class="{'tag-info': d.status == 'Active',
-                                                'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
-                        </span>
-                    </li>
-                    <li class="list-group-item">
-                        <span class="title">
-                            <span class="primary">Reclamation</span>
-                        </span>
-                        <span class="actions">
-                            <span class="tag"
-                                    ng-class="{'tag-info': d.status == 'Active',
-                                                'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
-                        </span>
-                    </li>
-                    <li class="list-group-item">
-                        <span class="title">
-                            <span class="primary">Monitoring &amp; Reporting</span>
-                        </span>
-                        <span class="actions">
-                            <span class="tag"
-                                    ng-class="{'tag-info': d.status == 'Active',
-                                                'tag-default' : d.status == 'Complete'}">{{project.phase.status}}</span>
+                                    ng-class="{'tag-info': phase.status == 'Active',
+                                                'tag-default' : phase.status == 'Complete'}">{{phase.status}}</span>
                         </span>
                     </li>
                 </ul>

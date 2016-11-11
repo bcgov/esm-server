@@ -49,23 +49,13 @@ angular.module('prototype').config(['$stateProvider', function ($stateProvider) 
 			$scope.application = Application;
 
 			// Project Detail (Main)
-			$scope.projectDetail = project;
-
-			// Project Authorizations
-			$scope.projectAuthorizations = PrototypeModel.getProjectAuthorizations();
+			$scope.projectDetail = PrototypeModel.getProjectDetail();
 
 			// Project Inspections
 			$scope.projectInspections = PrototypeModel.getProjectInspections();
 
 			// TODO: Need a count all actions across all inspections per project
 			$scope.projectActionCount = 0;
-
-			// Project Details List (aside)
-			$scope.projectDetailList = PrototypeModel.getProjectDetailList();
-
-			// Project Status List (aside)
-			$scope.projectStatusList = PrototypeModel.getProjectStatusList();
-			console.log("data:", $scope.data);
 		},
 	})
 
@@ -76,11 +66,18 @@ angular.module('prototype').config(['$stateProvider', function ($stateProvider) 
 		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
+
+			// Project Details
+			$scope.projectDetail = PrototypeModel.getProjectDetail();
 			
-			// Project Inspections
+			// Project Compliance & Enforcement Details
+			$scope.projectcedetails = PrototypeModel.getProjectCeDetails();
+
+			// Project Inspections 
 			$scope.projectinspections = PrototypeModel.getProjectInspections();
 
-			console.log("data:", $scope.projectinspections);
+			console.log("data:", $scope.getProjectCeDetails);
+			console.log("data:", $scope.getProjectInspections);
 		},
 	})
 

@@ -1,15 +1,15 @@
 
 <div class="container">
     <div class="breadcrumbs">
-        <a href="#">Projects</a> <span>/</span> <a href="/admin/prototype/project-main">{{project.name}}</a> <span>/</span> <span>Compliance &amp; Enforcement</span>
+        <a href="#">Projects</a> <span>/</span> <a href="/admin/prototype/project-main">{{projectDetail.name}}</a> <span>/</span> <span>{{projectcedetails.title}}</span>
     </div>
     <div class="title-container">
-        <h1>Compliance &amp; Enforcement</h1>
+        <h1>{{projectcedetails.title}}</h1>
     </div>
     <div class="row">
         <main class="col-sm-12 col-md-8">
             <section class="page-narrative">
-                <p>{{project.description}}<a class="read-more-link" href="javascript:void();">Read More »</a></p>
+                <p>{{projectcedetails.description}} <a class="read-more-link" href="javascript:void();">Read More »</a></p>
             </section>
             <section>
                 <h2>Compliance Oversight</h2>
@@ -50,17 +50,17 @@
                                 header-class="'id-col'"
                                 data-title="'ID'"
                                 filter="{'inspectionID':'text'}"
-                                sortable="'inspectionID'">
+                                sortable="'inspection.id'">
                                 <a href="/admin/prototype/inspection">{{inspection.id}} ({{inspection.agency}}) </a>
                                 <div class="tag-list">
-                                    <span class="tag tag-default" ng-repeat="topic in project.inspections.topic">{{topic.name}}</span>
+                                    <span class="tag tag-default" ng-repeat="topic in inspection.topics">{{topic.name}}</span>
                                 </div>
                             </td>
                             <td class="date-col" 
                                 header-class="'date-col'" 
                                 data-title="'Date'"
-                                filter="{'inspectionID':'text'}"
-                                sortable="'inspectionID'">{{inspection.date}}</td>
+                                filter="{'inspection.date':'text'}"
+                                sortable="'inspection.date'">{{inspection.date}}</td>
                         </tr>
                     </table>
             </section>
