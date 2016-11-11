@@ -1,10 +1,16 @@
 
 <div class="container">
+    
     <div class="breadcrumbs">
-        <a href="#">Projects</a> <span>/</span> <span>{{projectDetail.name}}</span>
+        <a href="#">Projects</a> 
+        <span>/</span> 
+        <span>{{projectDetail.name}}</span>
     </div>
+    
     <div class="title-container">
         <h1>{{projectDetail.name}}</h1>
+        
+        <!--
         <div class="actions">
             <a class="btn btn-link" href="javascript:void();">
                 <i class="material-icons fl">insert_drive_file</i>Project Documents
@@ -15,6 +21,8 @@
                 <i class="material-icons fl">pin_drop</i>Launch Map
             </a>
         </div>
+        -->
+        
     </div>
     <div class="row">
         <main class="col-sm-12 col-md-8">
@@ -28,13 +36,13 @@
                 <ul class="topic-blocks block-container clearfix">
                     <li>
                         <a class="block block-hover" href="/admin/prototype/topic">
-                            <h3>Environment</h3>
+                            <h3>Air Quality</h3>
                             <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
                         </a>
                     </li>
                     <li>
                         <a class="block block-hover" href="/admin/prototype/topic">
-                            <h3>Communities</h3>
+                            <h3>Water Quality</h3>
                             <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
                         </a>
                     </li>
@@ -46,7 +54,7 @@
                     </li>
                     <li>
                         <a class="block block-hover" href="/admin/prototype/topic">
-                            <h3>Heritage</h3>
+                            <h3>Tailings Management</h3>
                             <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
                         </a>
                     </li>
@@ -82,7 +90,7 @@
                                 <span class="primary">Inspections</span>
                             </span>
                             <span class="metric">
-                                <div class="metric-block">{{project.inspections.length}}</div>
+                                <div class="metric-block">{{projectinspections.length}}</div>
                             </span>
                         </div>
                     </li>
@@ -95,7 +103,7 @@
                                 <span class="primary">Actions</span>
                             </span>
                             <span class="metric">
-                                <div class="metric-block">{{project.actions.length}}</div>
+                                <div class="metric-block">{{projectinspections.length}}</div>
                             </span>
                         </div>
                     </li>
