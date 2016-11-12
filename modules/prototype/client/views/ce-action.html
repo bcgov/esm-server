@@ -3,18 +3,18 @@
 
         <div class="breadcrumbs">
             <a href="#">Projects</a> 
-            &nbsp;<span>/</span>&nbsp; 
+            <span>/</span>
             <a href="/admin/prototype/project-main">{{projectDetail.name}}</a> 
-            &nbsp;<span>/</span>&nbsp; 
+            <span>/</span>
             <a href="/admin/prototype/compliance-and-enforcement">Compliance &amp; Enforcement</a>
-            &nbsp;<span>/</span>&nbsp; 
+            <span>/</span>
             <a href="/admin/prototype/inspection">Inspection Report: {{projectinspections[0].id}}</a>
-            &nbsp;<span>/</span>&nbsp;
-            <span>{{projectactions[0].actionType}} Issued: {{projectactions[0].id}}</span>
+            <span>/</span>
+            <span>{{projectactions[0].type}} Issued: {{projectactions[0].id}}</span>
         </div>
 
         <div class="title-container">
-            <h1>{{projectactions[0].actionType}} Issued: {{projectactions[0].id}}</h1>
+            <h1>{{projectactions[0].type}} Issued: {{projectactions[0].id}}</h1>
 
         </div>
         <div class="row">
@@ -28,7 +28,7 @@
                     <h2>Inspector's Order</h2>
                     <div ng-bind-html="projectactions[0].detail"></div>
                     <ul class="resource-list resource-list-lg list-group">
-                        <li class="list-group-item list-group-item-action" ng-repeat="document in projectactions[0].actionDocuments">
+                        <li class="list-group-item list-group-item-action" ng-repeat="document in projectactions[0].documents">
                             <div class="avatar">
                                 <i class="material-icons">insert_drive_file</i>
                             </div>
@@ -66,11 +66,43 @@
                 <section class="card">
                     <h2 class="card-title">Inspection Details</h2>
                     <div class="card-block">
-                    </div>
+                    <ul class="detail-list">
+                        <li class="clearfix">
+                            <span class="name">Mine Name:</span>
+                            <span class="value">{{projectDetail.name}}</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="name">Inspection Date:</span>
+                            <span class="value">{{projectinspections[0].date}}</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="name">Inspecting Agency:</span>
+                            <span class="value">{{projectinspections[0].agency}}</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="name">Inspector(s):</span>
+                            <span class="value">{{projectinspections[0].inspector}}</span>
+                        </li>
+                    </ul>
+                </div>
                 </section>
                  
                 <section class="card">
                     <h2 class="card-title">Related Documents</h2>
+                     <div class="resource-list resource-list-sm list-group">
+                        <a class="list-group-item list-group-item-action" href="#"
+                            ng-repeat="document in projectinspections[0].relatedDocuments">
+                            <span class="avatar">
+                                <i class="material-icons md-18">insert_drive_file</i>
+                            </span>
+                            <span class="title">
+                                <span class="primary">{{document.name}}</span>
+                            </span>
+                            <span class="actions">
+                                <i class="material-icons md-18">file_download</i>
+                            </span>
+                        </a>
+                    </div>
                 </section>
                 
             </aside>
