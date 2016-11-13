@@ -1,0 +1,38 @@
+
+.authorization-blocks {
+    &.resource-list {
+        .list-group-item {
+            @include flex-direction(column);
+            padding: 1rem;
+
+            .details {
+                margin-top: 0.5rem;
+                font-weight: bold;
+
+                span {
+                    display: inline-block;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 1020px) {
+    .authorization-blocks {
+        &.resource-list {
+           .list-group-item {
+                @include flex-direction(row);
+
+                 .details {
+                    display: block;
+                    margin-top: 0;
+                    text-align: right;
+
+                     span {
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+}

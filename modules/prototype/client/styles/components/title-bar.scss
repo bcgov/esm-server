@@ -1,0 +1,52 @@
+
+.title-bar {
+    @include flex-box();
+    @include flex-direction(column);
+    width: 100%;
+    background-color: #EEE;
+
+    h3 {
+        @include flex(1 1 auto);
+        margin: 0;
+        padding: 0.9375rem;
+        font-size: 0.875rem;
+        font-weight: bold;
+    }
+
+    .filters {
+        @include flex(0 0 auto);
+        display: table-cell;
+        padding-right: 0.9375rem;
+        padding-bottom: 0.9375rem;
+        padding-left: 0.9375rem;
+
+        label {
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .form-group {
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        .form-control {
+            padding: 0.2rem 0.5rem;
+            height: 2rem !important;
+            font-size: 0.875rem;
+        }
+    }
+}
+
+@media (min-width: 720px) {
+    .title-bar {
+        @include flex-direction(row);
+
+        .filters {
+            padding-top: 0.4rem;
+            padding-right: 0.4rem;
+            padding-bottom: 0;
+        }
+    }
+}

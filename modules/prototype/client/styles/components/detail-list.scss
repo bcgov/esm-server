@@ -1,0 +1,26 @@
+
+.detail-list {
+    margin-top: -0.2rem;
+    margin-bottom: -0.2rem;
+    font-size: 0.75rem;
+
+    li {
+        padding-top: 0.6rem;
+        padding-bottom: 0.6rem;
+        line-height: 1rem;
+
+        span {
+            float: left;
+            width: 50%;
+
+            &:first-child {
+                padding-right: 0.4rem;
+                font-weight: bold;
+            }
+
+            &:last-child {
+                padding-left: 0.4rem;
+            }
+        }
+    }
+}

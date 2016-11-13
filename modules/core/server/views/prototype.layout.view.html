@@ -17,7 +17,7 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi"
 		crossorigin="anonymous">
-	<link href="/lib/prototype/styles/prototype.css" rel="stylesheet" />
+	<link id="mainstyle" href="modules/prototype/client/styles/prototype.css" rel="stylesheet" />
 
 	<!-- SCRIPTS -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -29,7 +29,7 @@
 <body class="ng-cloak">
 	<header class="app-header nav-up" id="header">
 		<div class="container">
-			<a class="app-header-brand" href="/admin/prototype/project-main"><img src="/lib/prototype/images/bc_logo_transparent.png" /></a>
+			<a class="app-header-brand" href="/admin/prototype/project-main"><img src="modules/prototype/client/images/bc_logo_transparent.png" /></a>
 		</div>
 	</header>
 	{% block content %}{% endblock %}
@@ -51,7 +51,19 @@
 	<!-- Application JavaScript Files -->
 	{% for jsFile in jsAppFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %}
 
-	<script type="text/javascript" src="/dist/conf.js"> </script> {% if livereload %}
+	<script type="text/javascript" src="/dist/conf.js"> </script>
+	<script type="text/javascript">
+		// little hack to force the main style to get refreshed when we enter the prototype.
+		var links = document.getElementsByTagName("link");
+		for (var x in links) {
+			var link = links[x];
+			if (link.getAttribute("id") === "mainstyle") {
+				console.log(link.href);
+				link.href = link.href + "?id=" + new Date().getMilliseconds();
+			}
+		}
+	</script>
+	{% if livereload %}
 	<!--Livereload script rendered -->
 	<script type="text/javascript" src="{{host}}:35729/livereload.js"></script> {% endif %}
 
