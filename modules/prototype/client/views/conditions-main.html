@@ -2,9 +2,13 @@
 <div class="container">
 
      <div class="breadcrumbs">
-        <a href="#">Projects</a> 
-        <span>/</span> 
-        <span>Project Conditions</span>
+         <a ui-sref="projects">MEM</a>
+         <span>/</span>
+         <a href="#">Projects</a>
+         <span>/</span>
+         <a ui-sref="admin.prototype.projectmain">{{project.name}}</a>
+         <span>/</span>
+         <span>Project Conditions</span>
     </div>
 
     <div class="title-container">
@@ -15,7 +19,7 @@
         
             <section>
                 <div class="title-bar">
-                    <h3>Viewing {{projectconditions.length}} of {{projectconditions.length}} Conditions</h3>
+                    <h3>Viewing {{project.conditions.length}} of {{project.conditions.length}} Conditions</h3>
                     <div class="filters">
                         <div class="form-inline">
                             <div class="form-group">
@@ -38,13 +42,13 @@
                 </div>
 
                 <table ng-table="tableParams" class="inspections-grid ce-grid table table-striped table-hover" show-filter="false">
-                    <tr ng-repeat="condition in projectconditions">
+                    <tr ng-repeat="condition in project.conditions">
                         <td class="id-col"
                             header-class="'id-col'"
                             data-title="'Name'"
                             filter="{'actionID':'text'}"
                             sortable="'actionID'">
-                            <a href="/admin/prototype/condition">{{condition.name}}</a>
+                            <a ui-sref="admin.prototype.condition({conditionId: condition._id})">{{condition.name}}</a>
                             <pre class="row-desc" ng-bind-html="condition.description"></pre>
                             <div class="tag-list">
                                 <span class="tag tag-default" ng-repeat="topic in condition.topics">{{topic.name}}</span>

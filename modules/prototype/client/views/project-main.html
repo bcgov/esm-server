@@ -4,13 +4,13 @@
     <div class="breadcrumbs">
         <a ui-sref="projects">MEM</a>
         <span>/</span>
-        <a href="#">Projects</a> 
+        <a href="#">Projects</a>
         <span>/</span> 
-        <span>{{projectDetail.name}}</span>
+        <span>{{project.name}}</span>
     </div>
     
     <div class="title-container">
-        <h1>{{projectDetail.name}}</h1>
+        <h1>{{project.name}}</h1>
         
         <!--
         <div class="actions">
@@ -30,7 +30,7 @@
         <main class="col-sm-12 col-md-8">
             
             <section class="page-narrative">
-                <p>{{projectDetail.description}} <a class="read-more-link" href="#">Read More »</a></p>
+                <p>{{project.description}} <a class="read-more-link" href="#">Read More »</a></p>
             </section>
 
             <section>
@@ -66,7 +66,7 @@
             <section>
                 <h2>Authorizations</h2>
                 <ul class="authorization-blocks resource-list resource-list-lg list-group">
-                    <li class="list-group-item" ng-repeat="authorization in projectDetail.authorizations">
+                    <li class="list-group-item" ng-repeat="authorization in project.authorizations">
                         <span class="title">
                             <span class="primary">{{authorization.name}}</span>
                             <span class="secondary secondary-color">{{authorization.agency}}</span>
@@ -92,7 +92,7 @@
                                 <span class="primary">Inspections</span>
                             </span>
                             <span class="metric">
-                                <div class="metric-block">{{projectinspections.length}}</div>
+                                <div class="metric-block">{{project.inspections.length}}</div>
                             </span>
                         </div>
                     </li>
@@ -105,7 +105,7 @@
                                 <span class="primary">Actions</span>
                             </span>
                             <span class="metric">
-                                <div class="metric-block">{{projectinspections.length}}</div>
+                                <div class="metric-block">{{project.actions.length}}</div>
                             </span>
                         </div>
                     </li>
@@ -122,19 +122,19 @@
                     <ul class="detail-list">
                         <li class="clearfix">
                             <span class="name">Operator</span>
-                            <span class="value">{{projectDetail.operator}}</span>
+                            <span class="value">{{project.operator}}</span>
                         </li>
                         <li class="clearfix">
                             <span class="name">Ownership</span>
-                            <span class="value">{{projectDetail.ownership}}</span>
+                            <span class="value">{{project.ownership}}</span>
                         </li>
                         <li class="clearfix">
                             <span class="name">Commodities</span>
-                            <span class="value">{{projectDetail.commodities}}</span>
+                            <span class="value">{{project.commodities}}</span>
                         </li>
                         <li class="clearfix">
                             <span class="name">Tailings Impoundments</span>
-                            <span class="value">{{projectDetail.tailingsCount}}</span>
+                            <span class="value">{{project.tailingsCount}}</span>
                         </li>
                     </ul>
                 </div>
@@ -143,7 +143,7 @@
             <section class="card">
                 <h2 class="card-title">Project Status</h2>
                 <ul class="project-status resource-list resource-list-sm list-group">
-                    <li class="list-group-item" ng-repeat="phase in projectDetail.phase">
+                    <li class="list-group-item" ng-repeat="phase in project.phases | orderBy: 'order'">
                         <span class="title">
                             <span class="primary">{{phase.name}}</span>
                         </span>
@@ -166,7 +166,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <a class="app-header-brand">
-                    <img src="/lib/prototype/images/bc_logo_transparent.png" />
+                    <img src="modules/prototype/client/images/bc_logo_transparent.png" />
                 </a>
                 <span class="fr" data-dismiss="modal" aria-label="Close">Close Window</span>
             </div>

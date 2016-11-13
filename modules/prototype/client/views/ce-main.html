@@ -1,15 +1,21 @@
 
 <div class="container">
     <div class="breadcrumbs">
-        <a href="#">Projects</a> <span>/</span> <a href="/admin/prototype/project-main">{{projectDetail.name}}</a> <span>/</span> <span>{{projectcedetails.title}}</span>
+        <a ui-sref="projects">MEM</a>
+        <span>/</span>
+        <a href="#">Projects</a>
+        <span>/</span>
+        <a ui-sref="admin.prototype.projectmain">{{project.name}}</a>
+        <span>/</span>
+        <span>{{project.ceDetails.title}}</span>
     </div>
     <div class="title-container">
-        <h1>{{projectcedetails.title}}</h1>
+        <h1>{{project.ceDetails.title}}</h1>
     </div>
     <div class="row">
         <main class="col-sm-12 col-md-8">
             <section class="page-narrative">
-                <p>{{projectcedetails.description}} <a class="read-more-link" href="javascript:void();">Read More »</a></p>
+                <p>{{project.ceDetails.description}} <a class="read-more-link" href="javascript:void();">Read More »</a></p>
             </section>
             <section>
                 <h2>Compliance Oversight</h2>
@@ -23,7 +29,7 @@
                                 <span class="primary">Inspections</span>
                             </span>
                             <span class="metric">
-                                <div class="metric-block">{{projectinspections.length}}</div>
+                                <div class="metric-block">{{project.inspections.length}}</div>
                             </span>
                         </div>
                     </li>
@@ -36,7 +42,7 @@
                                 <span class="primary">Actions</span>
                             </span>
                             <span class="metric">
-                                <div class="metric-block">{{projectinspections.length}}</div>
+                                <div class="metric-block">{{project.actions.length}}</div>
                             </span>
                         </div>
                     </li>
@@ -45,7 +51,7 @@
             <section>
                 <h2>Inspections</h2>
                     <div class="title-bar">
-                        <h3>Viewing {{projectinspections.length}} of {{projectinspections.length}} actions</h3>
+                        <h3>Viewing {{project.inspections.length}} of {{project.inspections.length}} inspections</h3>
                         <div class="filters">
                             <div class="form-inline">
                                 <div class="form-group">
@@ -67,13 +73,13 @@
                         </div>
                     </div>
                     <table ng-table="tableParams" class="inspections-grid ce-grid table table-striped table-hover" show-filter="false">
-                        <tr ng-repeat="inspection in projectinspections">
+                        <tr ng-repeat="inspection in project.inspections">
                             <td class="id-col"
                                 header-class="'id-col'"
                                 data-title="'ID'"
                                 filter="{'inspectionID':'text'}"
-                                sortable="'inspection.id'">
-                                <a href="/admin/prototype/inspection">{{inspection.id}} ({{inspection.agency}}) </a>
+                                sortable="'inspection._id'">
+                                <a ui-sref="admin.prototype.inspection({inspectionId:inspection._id})">{{inspection._id}} ({{inspection.agency}}) </a>
                                 <div class="tag-list">
                                     <span class="tag tag-default" ng-repeat="topic in inspection.topics">{{topic.name}}</span>
                                 </div>

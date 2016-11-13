@@ -4,7 +4,7 @@
 // prototype routes (under admin)
 //
 // =========================================================================
-angular.module('prototype').config(['$stateProvider', function ($stateProvider) {
+angular.module('prototype').config(['$stateProvider', '_', function ($stateProvider, _) {
 	$stateProvider
 	// -------------------------------------------------------------------------
 	//
@@ -19,25 +19,9 @@ angular.module('prototype').config(['$stateProvider', function ($stateProvider) 
 		template: '<ui-view></ui-view>',
 		resolve: {
 			project: function(PrototypeModel) {
-				return PrototypeModel.getProjectDetail();
+				return PrototypeModel.getProject();
 			}
 		}
-	})
-	// -------------------------------------------------------------------------
-	//
-	// the list state for prototype. orgs are guaranteed to
-	// already be resolved
-	//
-	// -------------------------------------------------------------------------
-	.state('admin.prototype.list', {
-		url: '/list',
-		templateUrl: 'modules/prototype/client/views/prototype-list.html',
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, project) {
-			$scope.authentication = Authentication;
-			$scope.application = Application;
-			$scope.data = PrototypeModel.getData();
-			console.log("data:", $scope.data);
-		},
 	})
 
 	// PROJECT MAIN 
@@ -48,14 +32,8 @@ angular.module('prototype').config(['$stateProvider', function ($stateProvider) 
 			$scope.authentication = Authentication;
 			$scope.application = Application;
 
-			// Project Detail (Main)
-			$scope.projectDetail = PrototypeModel.getProjectDetail();
+			$scope.project = project;
 
-			// Project Inspections
-			$scope.projectinspections = PrototypeModel.getProjectInspections();
-
-			// TODO: Need a count all actions across all inspections per project
-			$scope.projectActionCount = 0;
 		},
 	})
 
@@ -63,59 +41,53 @@ angular.module('prototype').config(['$stateProvider', function ($stateProvider) 
 	.state('admin.prototype.cemain', {
 		url: '/compliance-and-enforcement',
 		templateUrl: 'modules/prototype/client/views/ce-main.html',
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel) {
+		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, project) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
 
-			// Project Details
-			$scope.projectDetail = PrototypeModel.getProjectDetail();
-			console.log("data:", $scope.getProjectCeDetails);
-			
-			// Compliance & Enforcement Details
-			$scope.projectcedetails = PrototypeModel.getProjectCeDetails();
-
-			// inspections 
-			$scope.projectinspections = PrototypeModel.getProjectInspections();
-			console.log("data:", $scope.getProjectInspections);
+			$scope.project = project;
 		},
 	})
 
 	// INSPECTION PAGE
 	.state('admin.prototype.inspection', {
-		url: '/inspection',
+		url: '/inspection/:inspectionId',
 		templateUrl: 'modules/prototype/client/views/ce-inspection.html',
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel) {
+		resolve: {
+			inspection: function (project, $stateParams) {
+				var result = _.find(project.inspections, function(i) { return i._id === $stateParams.inspectionId; });
+				return result;
+			}
+		},
+		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, project, inspection) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
-
-			$scope.projectDetail = PrototypeModel.getProjectDetail();
-			console.log("data:", $scope.getProjectCeDetails);
-
-			$scope.projectinspections = PrototypeModel.getProjectInspections();
-			console.log("data:", $scope.projectinspections);
-
-			$scope.projectactions = PrototypeModel.getProjectActions();
-			console.log("data:", $scope.projectactions);
+			$scope.project = project;
+			$scope.inspection = inspection;
+			$scope.inspectionActions = _.filter(project.actions, function(a) { return a.inspectionId === inspection._id; });
 		},
 	})
 
 	// ACTION 
 	.state('admin.prototype.action', {
-		url: '/action',
+		url: '/action/:actionId',
 		templateUrl: 'modules/prototype/client/views/ce-action.html',
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel) {
+		resolve: {
+			action: function (project, $stateParams) {
+				var result = _.find(project.actions, function(i) { return i._id === $stateParams.actionId; });
+				return result;
+			},
+			inspection: function (project, action) {
+				var result = _.find(project.inspections, function(i) { return i._id === action.inspectionId; });
+				return result;
+			}
+		},
+		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, project, action, inspection) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
-			console.log("data:", $scope.data);
-
-			$scope.projectDetail = PrototypeModel.getProjectDetail();
-			console.log("data:", $scope.getProjectCeDetails);
-
-			$scope.projectinspections = PrototypeModel.getProjectInspections();
-			console.log("data:", $scope.projectinspections);
-
-			$scope.projectactions = PrototypeModel.getProjectActions();
-			console.log("data:", $scope.projectactions);
+			$scope.project = project;
+			$scope.action = action;
+			$scope.inspection = inspection;
 		},
 	})
 
@@ -123,27 +95,30 @@ angular.module('prototype').config(['$stateProvider', function ($stateProvider) 
 	.state('admin.prototype.conditionsmain', {
 		url: '/conditions',
 		templateUrl: 'modules/prototype/client/views/conditions-main.html',
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel) {
+		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, project) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
-			console.log("data:", $scope.data);
 
-			$scope.projectconditions = PrototypeModel.getProjectConditions();
-			console.log("data:", $scope.projectconditions);
+			$scope.project = project;
 		},
 	})
 
 	// CONDITION
 	.state('admin.prototype.condition', {
-		url: '/condition',
+		url: '/condition/:conditionId',
+		resolve: {
+			condition: function (project, $stateParams) {
+				var result = _.find(project.conditions, function(i) { return i._id === $stateParams.conditionId; });
+				return result;
+			}
+		},
 		templateUrl: 'modules/prototype/client/views/condition.html',
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel) {
+		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, project, condition) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
-			console.log("data:", $scope.data);
 
-			$scope.projectconditions = PrototypeModel.getProjectConditions();
-			console.log("data:", $scope.projectconditions);
+			$scope.project = project;
+			$scope.condition = condition;
 		},
 	})
 
