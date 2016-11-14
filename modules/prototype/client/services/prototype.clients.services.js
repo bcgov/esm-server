@@ -1,15 +1,13 @@
 'use strict';
 angular.module('prototype').factory ('PrototypeModel', function (ModelBase, _) {
-	var projectJson = {
-		// replace me!
-	};
+	var prototypeJson = {};
 
 
 	var PrototypeModel = ModelBase.extend ({
 		urlName : 'prototype',
-		getProject: function () {
+		getData: function() {
 			//return this.get('/api/admin/prototype');
-			return projectJson;
+			return prototypeJson;
 		}
 		
 	});

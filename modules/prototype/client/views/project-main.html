@@ -35,7 +35,7 @@
 
             <section>
                 <h2>Topics</h2>
-                <p>Explore the topic areas below to learn more about how the mining operations generally and the Mount Milligan mine specifically address the shared values of the people of British Columbia.</p>
+                <p>Explore the topic areas below to learn more about how the mining operations generally and the <strong>{{project.name}}</strong> specifically address the shared values of the people of British Columbia.</p>
                 <ul class="topic-blocks block-container clearfix">
                     <li>
                         <a class="block block-hover" href="/admin/prototype/topic">
@@ -67,14 +67,14 @@
             <section>
                 <h2>Authorizations</h2>
                 <ul class="authorization-blocks resource-list resource-list-lg list-group">
-                    <li class="list-group-item" ng-repeat="authorization in project.authorizations">
+                    <li class="list-group-item" ng-repeat="authorization in project.groupedAuthorizations">
                         <span class="title">
                             <span class="primary">{{authorization.name}}</span>
                             <span class="secondary secondary-color">{{authorization.agency}}</span>
                         </span>
                         <span class="details">
                             <span>{{authorization.status}}</span>
-                            <span>{{authorization.lastUpdate}}</span>
+                            <span>{{authorization.date}}</span>
                         </span>
                     </li>
                 </ul>
