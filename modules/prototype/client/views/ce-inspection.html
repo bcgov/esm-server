@@ -21,14 +21,14 @@
         <main class="col-sm-12 col-md-7 col-lg-8">
             
             <section class="page-narrative">
-                <p>{{inspection.summary}}</p>   
+                <p>{{inspection.summary || 'Inspection summary is missing in spreadsheet/json.'}}</p>
                 <ul class="resource-list resource-list-lg list-group">
                     <li class="list-group-item list-group-item-action">
                         <div class="avatar">
                             <i class="material-icons">insert_drive_file</i>
                         </div>
                         <span class="title">
-                            <a class="primary" href="">Download Inspection Report - {{inspection.inspectionId}}</a>
+                            <a class="primary" ng-ref="{{inspection.documentUrl}}">Download Inspection Report - {{inspection.inspectionId}}</a>
                         </span>
                         <span class="actions">
                             <i class="material-icons">file_download</i>
@@ -45,7 +45,7 @@
                                 <i class="material-icons">insert_drive_file</i>
                             </div>
                             <span class="title">
-                                <a class="primary" href="">Download Mine Manager's Response - {{inspection.inspectionId}}</a>
+                                <a class="primary" ng-ref="{{inspection.followUpDocumentUrl}}">Download Mine Manager's Response - {{inspection.inspectionId}}</a>
                             </span>
                             <span class="actions">
                                 <i class="material-icons">file_download</i>
@@ -86,8 +86,8 @@
                             data-title="'ID'"
                             filter="{'actionID':'text'}"
                             sortable="'actionID'">
-                            <a ui-sref="admin.prototype.action({actionId: action._id})">{{action.type}} Issued: {{action.orderId}}</a>
-                            <pre class="row-desc" ng-bind-html="action.detail"></pre>
+                            <a ui-sref="admin.prototype.action({actionId: action.orderId})">{{action.type}} Issued: {{action.orderId}}</a>
+                            <pre class="row-desc" ng-bind-html="action.text"></pre>
                             <div class="tag-list">
                                 <span class="tag tag-default" ng-repeat="topic in action.topics">{{topic}}</span>
                             </div>

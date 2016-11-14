@@ -42,14 +42,45 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			phases: function(data) {
 				return data.phases;
 			},
-			inspections: function(data) {
-				return data.inspections;
+			inspectionsText: function(data) {
+				return data.inspectionsText;
 			},
-			actions: function(data) {
-				return data.actions;
+			inspections: function(data, inspectionsText) {
+				var inspections = data.inspections;
+				_.each(inspectionsText, function(txt) {
+					var inspection = _.find(inspections, function(x) { return txt.agency === x.agency && txt.project === x.project && txt.inspectionId === x.inspectionId; });
+					if (inspection) {
+						inspection.followupText = txt.followupText;
+					}
+				});
+				return inspections;
 			},
-			conditions: function(data) {
-				return data.conditions;
+			actionsText: function(data) {
+				return data.actionsText;
+			},
+			actions: function(data, actionsText) {
+				var actions = data.actions;
+				_.each(actionsText, function(txt) {
+					var action = _.find(actions, function(x) { return txt.agency === x.agency && txt.project === x.project && txt.orderId === x.orderId; });
+					if (action) {
+						action.text = txt.text;
+						action.responseText = txt.responseText;
+					}
+				});
+				return actions;
+			},
+			conditionsText: function(data) {
+				return data.conditionsText;
+			},
+			conditions: function(data, conditionsText) {
+				var conditions = data.conditions;
+				_.each(conditionsText, function(txt) {
+					var condition = _.find(conditions, function(x) { return txt.agency === x.agency && txt.project === x.project && txt.permitId === x.permitId && txt.conditionNo === x.conditionNo; });
+					if (condition) {
+						condition.conditionText = txt.conditionText;
+					}
+				});
+				return conditions;
 			},
 			documents: function(data) {
 				return data.documents;
@@ -144,7 +175,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 		templateUrl: 'modules/prototype/client/views/ce-action.html',
 		resolve: {
 			action: function (project, $stateParams) {
-				var result = _.find(project.actions, function(i) { return i._id === $stateParams.actionId; });
+				var result = _.find(project.actions, function(i) { return i._id === $stateParams.orderId; });
 				return result;
 			},
 			inspection: function (project, action) {
