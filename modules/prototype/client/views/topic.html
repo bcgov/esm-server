@@ -2,15 +2,17 @@
 <div class="container">
 
     <div class="breadcrumbs">
-        <a href="#">Projects</a> 
+        <a ui-sref="projects">MEM</a>
+        <span>/</span>
+        <a href="#">Projects</a>
+        <span>/</span>
+        <a ui-sref="admin.prototype.projectmain">{{project.name}}</a>
         <span>/</span> 
-        <a href="/admin/prototype/project-main">Mount Milligan Mine</a> 
-        <span>/</span> 
-        <span>{{}}</span>
+        <span>{{topic.topic}}</span>
     </div>
     
     <div class="title-container">
-        <h1>{{topic.name}}</h1>
+        <h1>{{topic.topic}}</h1>
     </div>
     <div class="row">
         <main class="col-sm-12 col-md-7 col-lg-8">
@@ -24,7 +26,7 @@
                 <ul class="topic-blocks subtopic block-container clearfix">
                     <li ng-repeat="subtopic in topics">
                         <a class="block block-hover" href="#">
-                            <span class="title">{{subtopic.name}}</span>
+                            <span class="title">{{subtopic.subtopic}}</span>
                             <span class="actions">{{subtopic.conditions.length}}</span>
                         </a>
                     </li>
