@@ -1,0 +1,88 @@
+
+<div class="container">
+
+    <div class="breadcrumbs">
+        <a href="#">Projects</a> 
+        <span>/</span> 
+        <a href="/admin/prototype/project-main">Mount Milligan Mine</a> 
+        <span>/</span> 
+        <span>{{}}</span>
+    </div>
+    
+    <div class="title-container">
+        <h1>{{topic.name}}</h1>
+    </div>
+    <div class="row">
+        <main class="col-sm-12 col-md-7 col-lg-8">
+        
+            <section>
+                <p>{{topic.description}}</p>
+            </section>
+
+            <section>
+                <h2>Environment Conditions</h2>
+                <ul class="topic-blocks subtopic block-container clearfix">
+                    <li ng-repeat="subtopic in topics">
+                        <a class="block block-hover" href="#">
+                            <span class="title">{{subtopic.name}}</span>
+                            <span class="actions">{{subtopic.conditions.length}}</span>
+                        </a>
+                    </li>
+                    </li>
+                </ul>
+            </section>
+
+        </main>
+        <aside class="col-sm-12 col-md-5 col-lg-4">
+                
+            <section class="card">
+                <h2 class="card-title">Related Documents</h2>
+                <div class="resource-list resource-list-sm list-group">
+                    <a class="list-group-item list-group-item-action" href="#">
+                        <span class="avatar">
+                            <i class="material-icons md-18">insert_drive_file</i>
+                        </span>
+                        <span class="title">
+                            <span class="primary">Document Link</span>
+                        </span>
+                        <span class="actions">
+                            <i class="material-icons md-18">file_download</i>
+                        </span>
+                    </a>
+                    <a class="list-group-item list-group-item-action" href="#">
+                        <span class="avatar">
+                            <i class="material-icons md-18">insert_drive_file</i>
+                        </span>
+                        <span class="title">
+                            <span class="primary">Document Link</span>
+                        </span>
+                        <span class="actions">
+                            <i class="material-icons md-18">file_download</i>
+                        </span>
+                    </a>
+                    <a class="list-group-item list-group-item-action" href="#">
+                        <span class="avatar">
+                            <i class="material-icons md-18">insert_drive_file</i>
+                        </span>
+                        <span class="title">
+                            <span class="primary">Document Link</span>
+                        </span>
+                        <span class="actions">
+                            <i class="material-icons md-18">file_download</i>
+                        </span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2 class="card-title">Links of Interest</h2>
+                <ul class="resource-list resource-list-sm list-group">
+                    <li class="list-group-item"><a href="#">Document Link</a></li>
+                    <li class="list-group-item"><a href="#">Document Link</a></li>
+                    <li class="list-group-item"><a href="#">Document Link</a></li>
+                </ul>
+            </section>
+
+        </aside>
+    </div>
+</div>
