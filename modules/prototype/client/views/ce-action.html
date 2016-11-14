@@ -17,7 +17,9 @@
 
         <div class="title-container">
             <h1>{{action.type}} Issued: {{action.orderId}}</h1>
-
+            <div class="tag-list">
+                <span class="tag tag-default" ng-repeat="topic in action.topics">{{topic}}</span>
+            </div>
         </div>
         <div class="row">
             <main class="col-sm-12 col-md-7 col-lg-8">
@@ -28,14 +30,14 @@
 
                 <section class="action-narrative">
                     <h2>Inspector's Order</h2>
-                    <div ng-bind-html="action.text"></div>
+                    <p ng-bind-html="action.text"></p>
                     <ul class="resource-list resource-list-lg list-group">
-                        <li class="list-group-item list-group-item-action" ng-repeat="document in action.documents">
+                        <li class="list-group-item list-group-item-action">
                             <div class="avatar">
                                 <i class="material-icons">insert_drive_file</i>
                             </div>
                             <span class="title">
-                                <a class="primary" href="">{{document.name}}</a>
+                                <a class="primary" ng-ref="{{inspection.documentUrl}}">Related Inspection Report HERE</a>
                             </span>
                             <span class="actions">
                                 <i class="material-icons">file_download</i>
@@ -48,12 +50,12 @@
                     <h2>Mine Manager's Response</h2>
                     <p>{{action.responseText}}</p>
                      <ul class="resource-list resource-list-lg list-group">
-                        <li class="list-group-item list-group-item-action" ng-repeat="document in action.responseDocuments">
+                        <li class="list-group-item list-group-item-action">
                             <div class="avatar">
                                 <i class="material-icons">insert_drive_file</i>
                             </div>
                             <span class="title">
-                                <a class="primary" href="">{{document.name}}</a>
+                                <a class="primary" href="">Related Managers Response file HERE</a>
                             </span>
                             <span class="actions">
                                 <i class="material-icons">file_download</i>
@@ -75,11 +77,11 @@
                         </li>
                         <li class="clearfix">
                             <span class="name">Inspection Date:</span>
-                            <span class="value">{{inspection.date}}</span>
+                            <span class="value">{{action.issuedDate}}</span>
                         </li>
                         <li class="clearfix">
                             <span class="name">Inspecting Agency:</span>
-                            <span class="value">{{inspection.agency}}</span>
+                            <span class="value">{{action.agency}}</span>
                         </li>
                         <li class="clearfix">
                             <span class="name">Inspector(s):</span>

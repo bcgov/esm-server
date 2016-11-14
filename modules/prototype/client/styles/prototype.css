@@ -157,11 +157,6 @@ footer {
     padding-bottom: 1.875rem; }
 
 .title-container {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
   margin-bottom: 2rem; }
   .title-container h1 {
     -webkit-box-flex: 1 1 auto;
@@ -169,7 +164,7 @@ footer {
     -webkit-flex: 1 1 auto;
     -ms-flex: 1 1 auto;
     flex: 1 1 auto; }
-  .title-container .tags {
+  .title-container .tag-list {
     margin-top: 0.25rem; }
   .title-container .actions {
     -webkit-box-flex: 0 0 auto;
