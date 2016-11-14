@@ -2,17 +2,19 @@
 <div class="container">
 
     <div class="breadcrumbs">
-        <a href="#">Projects</a> 
-        <span>/</span> 
-        <a href="/admin/prototype/project-main">{{project.name}}</a> 
-        <span>/</span> 
-        <a href="/admin/prototype/topic">{{topic.name}}</a> 
+        <a ui-sref="projects">MEM</a>
         <span>/</span>
-        <span>{{subtopic.name}}</span> 
+        <a href="#">Projects</a>
+        <span>/</span>
+        <a ui-sref="admin.prototype.projectmain">{{project.name}}</a>
+        <span>/</span>
+        <a ui-sref="admin.prototype.topic({topic: topic.topic})">{{topic.topic}}</a>
+        <span>/</span>
+        <span>{{subtopic.subtopic}}</span>
     </div>
     
     <div class="title-container">
-        <h1>{{subtopic.name}}</h1>
+        <h1>{{subtopic.subtopic}}</h1>
     </div>
     <div class="row">
         <main class="col-sm-12 col-md-7 col-lg-8">
