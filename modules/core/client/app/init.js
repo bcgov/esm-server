@@ -146,9 +146,9 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($wi
 					ContextService.sync(toState, toParams).then(function(ok) {
 						//console.log('sync good, go!');
 						if (ContextService.isAllowed(toState.data)) {
-							if (!handleCssLoad()) {
+							//if (!handleCssLoad()) {
 								$state.go(toState, toParams);
-							}
+							//}
 						} else {
 							$state.go('forbidden');
 						}
@@ -160,7 +160,8 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($wi
 					// proceed...
 					//console.log('synced... proceed if allowed!');
 					if (ContextService.isAllowed(toState.data)) {
-						return handleCssLoad();
+						return true;
+						// return handleCssLoad();
 					} else {
 						event.preventDefault();
 						$state.go('forbidden');
