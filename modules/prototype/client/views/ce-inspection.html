@@ -10,11 +10,11 @@
         <span>/</span>
         <a ui-sref="admin.prototype.cemain">Compliance &amp; Enforcement</a>
         <span>/</span>
-        <span>Inspection Report: {{inspection._id}} </span>
+        <span>Inspection Report: {{inspection.inspectionId}} </span>
     </div>
 
     <div class="title-container">
-        <h1>Inspection Report: {{inspection._id}}</h1>
+        <h1>Inspection Report: {{inspection.inspectionId}}</h1>
     </div>
 
     <div class="row">
@@ -28,7 +28,7 @@
                             <i class="material-icons">insert_drive_file</i>
                         </div>
                         <span class="title">
-                            <a class="primary" href="">Download Inspection Report - {{inspection._id}}</a>
+                            <a class="primary" href="">Download Inspection Report - {{inspection.inspectionId}}</a>
                         </span>
                         <span class="actions">
                             <i class="material-icons">file_download</i>
@@ -45,7 +45,7 @@
                                 <i class="material-icons">insert_drive_file</i>
                             </div>
                             <span class="title">
-                                <a class="primary" href="">Download Mine Manager's Response - {{inspection._id}}</a>
+                                <a class="primary" href="">Download Mine Manager's Response - {{inspection.inspectionId}}</a>
                             </span>
                             <span class="actions">
                                 <i class="material-icons">file_download</i>
@@ -57,7 +57,7 @@
             <section>
                 <h2>Inspection Actions</h2>
                 <div class="title-bar">
-                    <h3>Viewing {{project.actions.length}} of {{project.actions.length}} Actions</h3>
+                    <h3>Viewing {{inspectionActions.length}} of {{inspectionActions.length}} Actions</h3>
                     <div class="filters">
                         <div class="form-inline">
                             <div class="form-group">
@@ -86,10 +86,10 @@
                             data-title="'ID'"
                             filter="{'actionID':'text'}"
                             sortable="'actionID'">
-                            <a ui-sref="admin.prototype.action({actionId: action._id})">{{action.type}} Issued: {{action._id}}</a>
+                            <a ui-sref="admin.prototype.action({actionId: action._id})">{{action.type}} Issued: {{action.orderId}}</a>
                             <pre class="row-desc" ng-bind-html="action.detail"></pre>
                             <div class="tag-list">
-                                <span class="tag tag-default" ng-repeat="topic in action.topics">{{topic.name}}</span>
+                                <span class="tag tag-default" ng-repeat="topic in action.topics">{{topic}}</span>
                             </div>
                         </td>
                         <td class="date-col" 
