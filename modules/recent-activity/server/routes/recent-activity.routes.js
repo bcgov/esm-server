@@ -37,8 +37,8 @@ module.exports = function(app) {
 					.then(function(data) {
 						var RSS = require('rss');
 						var feedOptions = {
-							title: 'Environmental Assessment Office - News & Announcements',
-							description: 'News & Announcements for the Environmental Assessment Office',
+							title: 'Ministry of Energy and Mines - News & Announcements',
+							description: 'News & Announcements for the Ministry of Energy and Mines',
 							link: myHost,
 							feed_url: myURL,
 							site_url: myHost,
@@ -97,8 +97,8 @@ module.exports = function(app) {
 					.then(function(data) {
 						var RSS = require('rss');
 						var feedOptions = {
-							title: 'Environmental Assessment Office - News & Announcements for ' + theProject.name,
-							description: 'News & Announcements for the Environmental Assessment Office' + theProject.name,
+							title: 'Ministry of Energy and Mines - News & Announcements for ' + theProject.name,
+							description: 'News & Announcements for the Ministry of Energy and Mines ' + theProject.name,
 							link: myHost,
 							feed_url: myURL,
 							site_url: myHost,
