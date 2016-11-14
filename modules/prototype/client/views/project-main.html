@@ -12,18 +12,18 @@
     <div class="title-container">
         <h1>{{project.name}}</h1>
         
-        <!--
         <div class="actions">
+            <!--
             <a class="btn btn-link" href="javascript:void();">
                 <i class="material-icons fl">insert_drive_file</i>Project Documents
             </a>
-            <a class="btn btn-link" href="javascript:void();"
+            -->
+            <a class="btn btn-link" 
                 data-toggle="modal" 
                 data-target="#mapWindow">
                 <i class="material-icons fl">pin_drop</i>Launch Map
             </a>
         </div>
-        -->
         
     </div>
     <div class="row">
@@ -155,55 +155,43 @@
                         </span>
                     </li>
                 </ul>
-            </section>      
+            </section>
+
 
         </aside>
     </div>
 </div>
 
-
+<!-- MAP -->
  <div class="modal modal-fullscreen fade" id="mapWindow" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+            
             <div class="modal-header">
-                <a class="app-header-brand">
-                    <img src="modules/prototype/client/images/bc_logo_transparent.png" />
-                </a>
+                <a class="app-header-brand"><img src="modules/prototype/client/images/bc_logo_transparent.png" /></a>
                 <span class="fr" data-dismiss="modal" aria-label="Close">Close Window</span>
             </div>
 
             <div class="modal-body">
-                <ui-gmap-google-map id='project-map'
-                    center='mpl.map.center'
-                    zoom='mpl.map.zoom'
-                    refresh='1'
-                    options='mpl.map.options'>
-                    <ui-gmap-markers
-                        models="mpl.projectFiltered"
-                        coords="'self'">
-                    </ui-gmap-markers>
-                    <ui-gmap-layer	ng-repeat="layer in mpl.KMLLayers"
-                                    type="KmlLayer"
-                                    options="layer"
-                                    show="layer.show"></ui-gmap-layer>
-                </ui-gmap-google-map>
-                
-                <div ng-if="mpl.KMLLayers.length > 0" >
-                    <label class="control-label"> Layers</label>
-                    <div class="well well-sm">
-                        <ul class="list-unstyled task-list">
-                            <li ng-repeat="layer in mpl.KMLLayers">
-                                <button ng-init="layer.show=true"
-                                        class="btn btn-block btn-sm btn-layer"
-                                        ng-class="{'btn-success': layer.show}"
-                                        ng-click="layer.show = !layer.show">{{ layer.label }}</button>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="map-layers-view">
+                    <ui-gmap-google-map id='project-map'
+                        center='mpl.center'
+                        zoom='mpl.map.zoom'
+                        refresh='1'
+                        options='mpl.map.options'>
+                        <ui-gmap-markers
+                            models="mpl.projectFiltered"
+                            coords="'self'">
+                        </ui-gmap-markers>
+                        <ui-gmap-layer	ng-repeat="layer in mpl.KMLLayers"
+                            type="KmlLayer"
+                            options="layer"
+                            show="layer.show">
+                        </ui-gmap-layer>
+                    </ui-gmap-google-map>
                 </div>
-                
             </div>
-
+            
         </div>
     </div>
 </div>   

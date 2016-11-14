@@ -24,6 +24,9 @@ ul {
   padding: 0;
   list-style-type: none; }
 
+p {
+  margin-bottom: 1.5rem; }
+
 .list-group-item {
   padding: 1.5rem; }
 
@@ -301,6 +304,19 @@ main section {
   height: 180px;
   background: #FFF; }
 
+.map-layers-view {
+  position: absolute; }
+
+.map-layers-view,
+.angular-google-map {
+  width: 100%;
+  height: 100%; }
+
+.angular-google-map-container {
+  position: absolute;
+  width: 100%;
+  height: 100%; }
+
 /* COMPONENTS */
 .action-summary p {
   margin-bottom: 1.675rem;
@@ -508,6 +524,10 @@ main section {
   .resource-list-lg .list-group-item .actions i {
     margin-top: -2px;
     margin-left: 0.75rem; }
+
+.subtopic .block .title {
+  padding-left: 0;
+  font-weight: bold; }
 
 .title-bar {
   display: -webkit-box;
