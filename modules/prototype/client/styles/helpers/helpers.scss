@@ -1,0 +1,121 @@
+/* HELPERS */
+
+a {
+    color: #1a5a96;
+}
+
+h1, h2, h3 {
+    margin: 0;
+}
+
+h1 {
+    font-size: 2.25rem;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 1.375rem;
+    font-weight: bold;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.list-group-item {
+    padding: 1.5rem;
+}
+
+.checkbox-group {
+    label {
+        width: 50%;
+    }
+}
+
+/* FLOATS */
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+/* MARGINS */
+.mt-025 {
+    margin-top: 0.25rem;
+}
+
+.mt-05 {
+    margin-top: 0.5rem;
+}
+
+
+/* BUTTONS */
+.btn-link {
+    color:  #1a5a96;
+}
+
+
+/* FONT COLORS */
+.primary-color {
+    color: $app-color;
+}
+
+.secondary-color {
+    color: $app-color-secondary;
+}
+
+
+/* MISC COMPONENTS */
+.read-more-link {
+    display: inline-block;
+    text-decoration: underline;
+    white-space: nowrap;
+    font-size: 0.875rem;
+}
+
+/* BOOTSTRAP OVERRIDES */
+.tag-default {
+    color: #494949;
+    background: #DDD;
+}
+
+.table {
+    thead {
+        th {
+            background: $table-header-bg;
+            border-bottom: 1px solid #EEE;
+            font-size: 0.75rem;
+        }
+    }
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background: $table-striped-row-bg;
+}
+
+
+.table-hover {
+    tr {
+        cursor: pointer;
+        transition: background ease-in 0.5s;
+
+        td {
+            background: transparent;
+        }
+    }
+
+    tr:hover {
+        background: #f1f3f5;
+    }
+}
+
+
+/* ICON HELPERS */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }

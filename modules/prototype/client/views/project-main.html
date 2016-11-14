@@ -1,0 +1,209 @@
+
+<div class="container">
+    
+    <div class="breadcrumbs">
+        <a ui-sref="projects">MEM</a>
+        <span>/</span>
+        <a href="#">Projects</a>
+        <span>/</span> 
+        <span>{{project.name}}</span>
+    </div>
+    
+    <div class="title-container">
+        <h1>{{project.name}}</h1>
+        
+        <!--
+        <div class="actions">
+            <a class="btn btn-link" href="javascript:void();">
+                <i class="material-icons fl">insert_drive_file</i>Project Documents
+            </a>
+            <a class="btn btn-link" href="javascript:void();"
+                data-toggle="modal" 
+                data-target="#mapWindow">
+                <i class="material-icons fl">pin_drop</i>Launch Map
+            </a>
+        </div>
+        -->
+        
+    </div>
+    <div class="row">
+        <main class="col-sm-12 col-md-8">
+            
+            <section class="page-narrative">
+                <p>{{project.description}} <a class="read-more-link" href="#">Read More »</a></p>
+            </section>
+
+            <section>
+                <h2>Topics</h2>
+                <p>Explore the topic areas below to learn more about how the mining operations generally and the <strong>{{project.name}}</strong> specifically address the shared values of the people of British Columbia.</p>
+                <ul class="topic-blocks block-container clearfix">
+                    <li>
+                        <a class="block block-hover" href="/admin/prototype/topic">
+                            <h3>Environment</h3>
+                            <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="block block-hover" href="/admin/prototype/topic">
+                            <h3>Communities</h3>
+                            <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="block block-hover" href="/admin/prototype/topic">
+                            <h3>Health &amp; Safety</h3>
+                            <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="block block-hover" href="/admin/prototype/topic">
+                            <h3>Heritage</h3>
+                            <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Authorizations</h2>
+                <ul class="authorization-blocks resource-list resource-list-lg list-group">
+                    <li class="list-group-item" ng-repeat="authorization in project.groupedAuthorizations">
+                        <span class="title">
+                            <span class="primary">{{authorization.name}}</span>
+                            <span class="secondary secondary-color">{{authorization.agency}}</span>
+                        </span>
+                        <span class="details">
+                            <span>{{authorization.status}}</span>
+                            <span>{{authorization.date}}</span>
+                        </span>
+                    </li>
+                </ul>
+                <a class="read-more-link mt-05" href="javascript:void();">Learn More about Authorizations for Mount Milligan »</a>
+            </section>
+
+            <section>
+                <h2>Compliance &amp; Enforcement</h2>
+                <ul class="ce-blocks block-container clearfix">
+                    <li>
+                        <div class="block">
+                            <div class="avatar">
+                                <i class="material-icons">playlist_add_check</i>
+                            </div>
+                            <span class="title">
+                                <span class="primary">Inspections</span>
+                            </span>
+                            <span class="metric">
+                                <div class="metric-block">{{project.inspections.length}}</div>
+                            </span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="block">
+                            <div class="avatar">
+                                <i class="material-icons">warning</i>
+                            </div>
+                            <span class="title">
+                                <span class="primary">Actions</span>
+                            </span>
+                            <span class="metric">
+                                <div class="metric-block">{{project.actions.length}}</div>
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+                <a class="read-more-link mt-025" href="/admin/prototype/compliance-and-enforcement">More about Compliance &amp; Enforcement at Mount Milligan »</a>
+            </section>
+
+        </main>
+        <aside class="col-sm-12 col-md-4">
+
+            <section class="card">
+                <h2 class="card-title">Details</h2>
+                <div class="card-block">
+                    <ul class="detail-list">
+                        <li class="clearfix">
+                            <span class="name">Operator</span>
+                            <span class="value">{{project.operator}}</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="name">Ownership</span>
+                            <span class="value">{{project.ownership}}</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="name">Commodities</span>
+                            <span class="value">{{project.commodities}}</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="name">Tailings Impoundments</span>
+                            <span class="value">{{project.tailingsCount}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2 class="card-title">Project Status</h2>
+                <ul class="project-status resource-list resource-list-sm list-group">
+                    <li class="list-group-item" ng-repeat="phase in project.phases | orderBy: 'order'">
+                        <span class="title">
+                            <span class="primary">{{phase.name}}</span>
+                        </span>
+                        <span class="actions">
+                            <span class="tag"
+                                    ng-class="{'tag-info': phase.status == 'Active',
+                                                'tag-default' : phase.status == 'Complete'}">{{phase.status}}</span>
+                        </span>
+                    </li>
+                </ul>
+            </section>      
+
+        </aside>
+    </div>
+</div>
+
+
+ <div class="modal modal-fullscreen fade" id="mapWindow" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="app-header-brand">
+                    <img src="modules/prototype/client/images/bc_logo_transparent.png" />
+                </a>
+                <span class="fr" data-dismiss="modal" aria-label="Close">Close Window</span>
+            </div>
+
+            <div class="modal-body">
+                <ui-gmap-google-map id='project-map'
+                    center='mpl.map.center'
+                    zoom='mpl.map.zoom'
+                    refresh='1'
+                    options='mpl.map.options'>
+                    <ui-gmap-markers
+                        models="mpl.projectFiltered"
+                        coords="'self'">
+                    </ui-gmap-markers>
+                    <ui-gmap-layer	ng-repeat="layer in mpl.KMLLayers"
+                                    type="KmlLayer"
+                                    options="layer"
+                                    show="layer.show"></ui-gmap-layer>
+                </ui-gmap-google-map>
+                
+                <div ng-if="mpl.KMLLayers.length > 0" >
+                    <label class="control-label"> Layers</label>
+                    <div class="well well-sm">
+                        <ul class="list-unstyled task-list">
+                            <li ng-repeat="layer in mpl.KMLLayers">
+                                <button ng-init="layer.show=true"
+                                        class="btn btn-block btn-sm btn-layer"
+                                        ng-class="{'btn-success': layer.show}"
+                                        ng-click="layer.show = !layer.show">{{ layer.label }}</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+    </div>
+</div>   

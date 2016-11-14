@@ -1,0 +1,164 @@
+
+<div class="container">
+    
+    <div class="breadcrumbs">
+        <a ui-sref="projects">MEM</a>
+        <span>/</span>
+        <a href="#">Projects</a>
+        <span>/</span>
+        <a ui-sref="admin.prototype.projectmain">{{project.name}}</a>
+        <span>/</span>
+        <a ui-sref="admin.prototype.cemain">Compliance &amp; Enforcement</a>
+        <span>/</span>
+        <span>Inspection Report: {{inspection.inspectionId}} </span>
+    </div>
+
+    <div class="title-container">
+        <h1>Inspection Report: {{inspection.inspectionId}}</h1>
+    </div>
+
+    <div class="row">
+        <main class="col-sm-12 col-md-7 col-lg-8">
+            
+            <section class="page-narrative">
+                <p>{{inspection.summary}}</p>   
+                <ul class="resource-list resource-list-lg list-group">
+                    <li class="list-group-item list-group-item-action">
+                        <div class="avatar">
+                            <i class="material-icons">insert_drive_file</i>
+                        </div>
+                        <span class="title">
+                            <a class="primary" href="">Download Inspection Report - {{inspection.inspectionId}}</a>
+                        </span>
+                        <span class="actions">
+                            <i class="material-icons">file_download</i>
+                        </span>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Inspection Follow Up</h2>
+                     <ul class="resource-list resource-list-lg list-group">
+                        <li class="list-group-item list-group-item-action">
+                            <div class="avatar">
+                                <i class="material-icons">insert_drive_file</i>
+                            </div>
+                            <span class="title">
+                                <a class="primary" href="">Download Mine Manager's Response - {{inspection.inspectionId}}</a>
+                            </span>
+                            <span class="actions">
+                                <i class="material-icons">file_download</i>
+                            </span>
+                        </li>
+                    </ul>
+            </section>
+
+            <section>
+                <h2>Inspection Actions</h2>
+                <div class="title-bar">
+                    <h3>Viewing {{inspectionActions.length}} of {{inspectionActions.length}} Actions</h3>
+                    <div class="filters">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <select class="form-control">
+                                    <option selected>Sort by</option>
+                                    <option>Option 1</option>
+                                    <option>Option 2</option>
+                                    <option>Option 3</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control">
+                                    <option>10</option>
+                                    <option>25</option>
+                                    <option>50</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table ng-table="tableParams" class="inspections-grid ce-grid table table-striped table-hover" show-filter="false">
+                    <tr ng-repeat="action in inspectionActions">
+                        <td class="id-col"
+                            header-class="'id-col'"
+                            data-title="'ID'"
+                            filter="{'actionID':'text'}"
+                            sortable="'actionID'">
+                            <a ui-sref="admin.prototype.action({actionId: action._id})">{{action.type}} Issued: {{action.orderId}}</a>
+                            <pre class="row-desc" ng-bind-html="action.detail"></pre>
+                            <div class="tag-list">
+                                <span class="tag tag-default" ng-repeat="topic in action.topics">{{topic}}</span>
+                            </div>
+                        </td>
+                        <td class="date-col" 
+                            header-class="'date-col'" 
+                            data-title="'Date'"
+                            filter="{'inspectionID':'text'}"
+                            sortable="'inspectionID'">{{action.issueDate}}</td>
+                    </tr>
+                </table>
+        </section>
+
+        </main>
+        <aside class="col-sm-12 col-md-5 col-lg-4">
+
+            <section class="card">
+                <h2 class="card-title">Inspection Details</h2>
+                <div class="card-block">
+                    <ul class="detail-list">
+                        <li class="clearfix">
+                            <span class="name">Mine Name:</span>
+                            <span class="value">{{project.name}}</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="name">Inspection Date:</span>
+                            <span class="value">{{inspection.date}}</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="name">Inspecting Agency:</span>
+                            <span class="value">{{inspection.agency}}</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="name">Inspector(s):</span>
+                            <span class="value">{{inspection.inspector}}</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="name">Phase:</span>
+                            <span class="value">{{inspection.phase}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+                
+            <section class="card">
+                <h2 class="card-title">Related Documents</h2>
+                <div class="resource-list resource-list-sm list-group">
+                    <a class="list-group-item list-group-item-action" href="#"
+                        ng-repeat="document in inspection.relatedDocuments">
+                        <span class="avatar">
+                            <i class="material-icons md-18">insert_drive_file</i>
+                        </span>
+                        <span class="title">
+                            <span class="primary">{{document.name}}</span>
+                        </span>
+                        <span class="actions">
+                            <i class="material-icons md-18">file_download</i>
+                        </span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2 class="card-title">External Resources</h2>
+                <ul class="resource-list resource-list-sm list-group">
+                    <li class="list-group-item"><a href="#">Document Link</a></li>
+                    <li class="list-group-item"><a href="#">Document Link</a></li>
+                    <li class="list-group-item"><a href="#">Document Link</a></li>
+                </ul>
+            </section>
+            
+        </aside>
+    </div>
+</div>

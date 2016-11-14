@@ -25,7 +25,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 	}
 ]);
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, _, $cookies, Application, ContextService, ADMIN_FEATURES, FEATURES) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($window, $rootScope, $state, Authentication, _, $cookies, Application, ContextService, ADMIN_FEATURES, FEATURES) {
 
 
 	// Check authentication before changing state
@@ -112,6 +112,32 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 				return enabled;
 			};
 
+			var handleCssLoad = function() {
+				var handled = !ADMIN_FEATURES.enablePrototype;
+				if (!handled) {
+					if (_.startsWith(toState.name, 'admin.prototype.') && !_.startsWith(fromState.name, 'admin.prototype.')) {
+						if ('true' !== $cookies.mmti) {
+							$cookies.mem = 'false';
+							$cookies.mmti = 'true';
+							event.preventDefault();
+							$window.location.href = $window.location.origin + '/admin/prototype/project-main'; // go to our prototype main page...
+							handled = true;
+						}
+					}
+
+					if (!_.startsWith(toState.name, 'admin.prototype.') && _.startsWith(fromState.name, 'admin.prototype.')) {
+						if ('true' !== $cookies.mem) {
+							$cookies.mem = 'true';
+							$cookies.mmti = 'false';
+							event.preventDefault();
+							$window.location.href = $window.location.origin + '/'; // go to application main page (projects)
+							handled = true;
+						}
+					}
+				}
+				return handled;
+			};
+
 
 			if (isRouteEnabled()) {
 				if (!ContextService.isSynced(toState, toParams)) {
@@ -120,7 +146,9 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 					ContextService.sync(toState, toParams).then(function(ok) {
 						//console.log('sync good, go!');
 						if (ContextService.isAllowed(toState.data)) {
-							$state.go(toState, toParams);
+							if (!handleCssLoad()) {
+								$state.go(toState, toParams);
+							}
 						} else {
 							$state.go('forbidden');
 						}
@@ -132,7 +160,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 					// proceed...
 					//console.log('synced... proceed if allowed!');
 					if (ContextService.isAllowed(toState.data)) {
-						return true;
+						return handleCssLoad();
 					} else {
 						event.preventDefault();
 						$state.go('forbidden');
@@ -156,7 +184,6 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 				href: $state.href(fromState, fromParams)
 			};
 		}
-
 	});
 
 	$rootScope.$on('$stateChangeError', console.log.bind(console));

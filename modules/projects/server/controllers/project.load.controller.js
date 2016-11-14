@@ -176,6 +176,8 @@ module.exports = function(file, req, res, opts) {
 						}
 						var phaseObj = null;
 						var newObj = null;
+						var published = row.isPublished === 'TRUE' || row.isPublished === 'true';
+						var termsAgreed = row.isTermsAgreed === 'TRUE' || row.isTermsAgreed === 'true';
 						var newProponent = {
 							name: row.Proponent
 						};
@@ -187,15 +189,15 @@ module.exports = function(file, req, res, opts) {
 							ownership 			: row.Ownership,
 							commodity 			: row.Commodity,
 							tailingsImpoundments: row.TailingsImpoundments,
-							roles 				: ['team', 'public'],
-							read 				: ['public'],
+							roles 				: published ? ['team', 'public'] : ['team'],
+							read 				: published ? ['public'] : ['team'],
 							submit 				: ['team'],
 							region 				: row.Region,
 							lat 				: row.lat,
 							lon 				: row.long,
 							description			: row.description,
-							isPublished			: row.isPublished,
-							isTermsAgreed 		: row.isTermsAgreed,
+							isPublished			: published,
+							isTermsAgreed 		: termsAgreed,
 							type				: row.type
 						};
 						promises.push({obj: newObj, query: query, proponent: newProponent, phase: phaseObj });

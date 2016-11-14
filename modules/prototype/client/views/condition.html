@@ -1,0 +1,46 @@
+
+<div class="container">
+    <div class="breadcrumbs">
+        <a ui-sref="projects">MEM</a>
+        <span>/</span>
+        <a href="#">Projects</a>
+        <span>/</span>
+        <a ui-sref="admin.prototype.projectmain">{{project.name}}</a>
+        <span>/</span>
+        <a ui-sref="admin.prototype.conditionsmain">Project Conditions</a>
+        <span>/</span>
+        <span>Condition: {{condition.name}} </span>
+    </div>
+    <div class="title-container">
+        <h1>{{condition.name}}</h1>
+    </div>
+    <div class="row">
+
+        <main class="col-sm-12 col-md-7 col-lg-8">
+            <section class="page-narrative">
+                <p ng-bind-html="condition.description"></p>
+            </section>
+            <section>
+                <h2>Supporting Documents</h2>
+                <ul class="resource-list resource-list-lg list-group">
+                    <li class="list-group-item list-group-item-action" ng-repeat="document in condition.supportDocuments">
+                        <div class="avatar">
+                            <i class="material-icons">insert_drive_file</i>
+                        </div>
+                        <span class="title">
+                            <a class="primary" href="">{{document.name}}</a>
+                        </span>
+                        <span class="actions">
+                            <i class="material-icons">file_download</i>
+                        </span>
+                    </li>
+                </ul>
+                <a class="read-more-link mt-05" href="javascript:void();">View all Project Documents »</a>
+            </section>
+        </main>
+
+        <aside class="col-sm-12 col-md-5 col-lg-4">
+            
+        </aside>
+    </div>
+</div>

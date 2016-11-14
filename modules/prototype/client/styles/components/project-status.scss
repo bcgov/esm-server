@@ -1,0 +1,19 @@
+
+.project-status {
+    .list-group-item {
+        margin-bottom: 2px; 
+    }
+
+    .tag {
+        min-width: 5rem;
+        font-size: 0.75rem;
+    }
+
+    .inactive {
+        color: #CCC;
+
+        .tag {
+            opacity: 0.4;
+        }
+    }
+}

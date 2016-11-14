@@ -1,0 +1,113 @@
+<div class="app-main">
+    <div class="container">
+
+        <div class="breadcrumbs">
+            <a ui-sref="projects">MEM</a>
+            <span>/</span>
+            <a href="#">Projects</a>
+            <span>/</span>
+            <a ui-sref="admin.prototype.projectmain">{{project.name}}</a>
+            <span>/</span>
+            <a ui-sref="admin.prototype.cemain">Compliance &amp; Enforcement</a>
+            <span>/</span>
+            <a ui-sref="admin.prototype.inspection({inspectionId: inspection._id})">Inspection Report: {{inspection._id}}</a>
+            <span>/</span>
+            <span>{{action.type}} Issued: {{action._id}}</span>
+        </div>
+
+        <div class="title-container">
+            <h1>{{action.type}} Issued: {{action._id}}</h1>
+
+        </div>
+        <div class="row">
+            <main class="col-sm-12 col-md-7 col-lg-8">
+                
+                <section class="action-summary">
+                    <p>{{action.summary}}</p>
+                </section>
+
+                <section class="action-narrative">
+                    <h2>Inspector's Order</h2>
+                    <div ng-bind-html="action.detail"></div>
+                    <ul class="resource-list resource-list-lg list-group">
+                        <li class="list-group-item list-group-item-action" ng-repeat="document in action.documents">
+                            <div class="avatar">
+                                <i class="material-icons">insert_drive_file</i>
+                            </div>
+                            <span class="title">
+                                <a class="primary" href="">{{document.name}}</a>
+                            </span>
+                            <span class="actions">
+                                <i class="material-icons">file_download</i>
+                            </span>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="action-narrative">
+                    <h2>Mine Manager's Response</h2>
+                    <p>{{action.response}}</p>
+                     <ul class="resource-list resource-list-lg list-group">
+                        <li class="list-group-item list-group-item-action" ng-repeat="document in action.responseDocuments">
+                            <div class="avatar">
+                                <i class="material-icons">insert_drive_file</i>
+                            </div>
+                            <span class="title">
+                                <a class="primary" href="">{{document.name}}</a>
+                            </span>
+                            <span class="actions">
+                                <i class="material-icons">file_download</i>
+                            </span>
+                        </li>
+                    </ul>
+                </section>
+
+            </main>
+            <aside class="col-sm-12 col-md-5 col-lg-4">
+
+                <section class="card">
+                    <h2 class="card-title">Inspection Details</h2>
+                    <div class="card-block">
+                    <ul class="detail-list">
+                        <li class="clearfix">
+                            <span class="name">Mine Name:</span>
+                            <span class="value">{{project.name}}</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="name">Inspection Date:</span>
+                            <span class="value">{{inspection.date}}</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="name">Inspecting Agency:</span>
+                            <span class="value">{{inspection.agency}}</span>
+                        </li>
+                        <li class="clearfix">
+                            <span class="name">Inspector(s):</span>
+                            <span class="value">{{inspection.inspector}}</span>
+                        </li>
+                    </ul>
+                </div>
+                </section>
+                 
+                <section class="card">
+                    <h2 class="card-title">Related Documents</h2>
+                     <div class="resource-list resource-list-sm list-group">
+                        <a class="list-group-item list-group-item-action" href="#"
+                            ng-repeat="document in inspection.relatedDocuments">
+                            <span class="avatar">
+                                <i class="material-icons md-18">insert_drive_file</i>
+                            </span>
+                            <span class="title">
+                                <span class="primary">{{document.name}}</span>
+                            </span>
+                            <span class="actions">
+                                <i class="material-icons md-18">file_download</i>
+                            </span>
+                        </a>
+                    </div>
+                </section>
+                
+            </aside>
+        </div>
+    </div>
+</div>
