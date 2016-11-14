@@ -98,11 +98,45 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 		url: '/project-main',
 		resolve: {},
 		templateUrl: 'modules/prototype/client/views/project-main.html',
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, subTopics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project) {
+		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, subTopics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project, uiGmapGoogleMapApi) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
 
 			$scope.project = project;
+
+			var mpl = {};
+			mpl.center = {latitude: 54.726668, longitude: -122.647621};
+			mpl.layers = {};
+			mpl.markers = [];
+			mpl.KMLLayers = [];
+			mpl.projectFiltered = [];
+
+			mpl.map = {
+				center: {latitude: 54.726668, longitude: -127.647621},
+				zoom: 12,
+				options: {
+					scrollwheel: false,
+					minZoom: 4
+				},
+				markers: mpl.projectFiltered // array of models to display
+			};
+
+			mpl.map.markers.push({
+				id: 12345,
+				latitude: 54.726668,
+				longitude: -127.647621
+			});
+
+			// var kmlURL = window.location.protocol + "//" + window.location.host + "/api/document/" + doc._id + "/fetch";
+			var kmlURL = "http://www.google.com/file.kml";
+			mpl.KMLLayers.push({
+				url: kmlURL,
+				label: "doc.internalOriginalName",
+				show: true,
+				_id: 654654
+			});
+
+			$scope.mpl = mpl;
 		},
 	})
 
