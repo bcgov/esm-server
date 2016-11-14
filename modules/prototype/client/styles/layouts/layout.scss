@@ -41,6 +41,7 @@ footer {
     color: $footer-color;
     background: $footer-bg;
     border-top: 2px solid $header-border-color;
+    font-size: 0.875rem;
 }
 
 .app-main {
@@ -84,7 +85,6 @@ footer {
 .page-narrative {
     p {
         margin-bottom: 2rem;
-        line-height: 1.675rem;
 
         &:last-child {
             margin-bottom: 0;
@@ -98,6 +98,7 @@ footer {
 
 .card-title {
     margin: 0;
+    padding: 0.875rem 1rem;
     font-size: 1rem;
 }
 
@@ -142,14 +143,14 @@ aside {
 }
 main {
     section {
-        margin-bottom: 3rem;
+        margin-bottom: 2.5rem;
 
         &:last-child {
             margin-bottom: 0;
         }
 
         h2 {
-            margin-bottom: 1rem;
+            margin-bottom: 0.875rem;
         }
     }
 }

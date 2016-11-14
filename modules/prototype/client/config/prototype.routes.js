@@ -122,7 +122,31 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 		},
 	})
 
-	;
+	// TOPIC 
+	.state('admin.prototype.topic', {
+		url: '/topic',
+		templateUrl: 'modules/prototype/client/views/topic.html',
+		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, project) {
+			$scope.authentication = Authentication;
+			$scope.application = Application;
+
+			$scope.project = project;
+
+		},
+	})
+
+	// SUBTOPIC 
+	.state('admin.prototype.subtopic', {
+		url: '/subtopic',
+		templateUrl: 'modules/prototype/client/views/subtopic.html',
+		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, project) {
+			$scope.authentication = Authentication;
+			$scope.application = Application;
+
+			$scope.project = project;
+
+		},
+	})
 
 
 }]);

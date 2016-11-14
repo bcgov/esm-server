@@ -144,7 +144,8 @@ footer {
   padding: 1rem;
   color: #FFF;
   background: #003366;
-  border-top: 2px solid #fcba19; }
+  border-top: 2px solid #fcba19;
+  font-size: 0.875rem; }
 
 .app-main {
   flex: 1 0 auto; }
@@ -183,8 +184,7 @@ footer {
         margin-bottom: -0.3rem; }
 
 .page-narrative p {
-  margin-bottom: 2rem;
-  line-height: 1.675rem; }
+  margin-bottom: 2rem; }
   .page-narrative p:last-child {
     margin-bottom: 0; }
 
@@ -193,6 +193,7 @@ footer {
 
 .card-title {
   margin: 0;
+  padding: 0.875rem 1rem;
   font-size: 1rem; }
 
 .card-title,
@@ -221,11 +222,11 @@ aside {
   aside {
     margin-top: 0; } }
 main section {
-  margin-bottom: 3rem; }
+  margin-bottom: 2.5rem; }
   main section:last-child {
     margin-bottom: 0; }
   main section h2 {
-    margin-bottom: 1rem; }
+    margin-bottom: 0.875rem; }
 
 .modal-fullscreen .modal-dialog {
   position: fixed;
@@ -409,8 +410,8 @@ main section {
   margin-bottom: -0.2rem;
   font-size: 0.75rem; }
   .detail-list li {
-    padding-top: 0.6rem;
-    padding-bottom: 0.6rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     line-height: 1rem; }
     .detail-list li span {
       float: left;
