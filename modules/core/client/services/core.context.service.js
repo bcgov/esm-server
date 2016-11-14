@@ -86,12 +86,12 @@ angular.module('core').factory('ContextService', ['$interval', '$log', '$http', 
 				//$log.debug('ContextService.isAllowed(userRoles = ' + JSON.stringify(userRoles) + ').');
 				var sameRoles = _.intersection(data.roles, roles);
 				hasRole = _.size(sameRoles) > 0;
-				if (!hasRole) {
-					//$log.debug('ContextService.isAllowed, role not found in userRoles, check authentication roles...');
-					//$log.debug('ContextService.isAllowed(authentication.user.roles = ' + JSON.stringify(Authentication.user.roles) + ').');
-					var sameAuthenticationRoles = _.intersection(data.roles, Authentication.user.roles);
-					hasRole = _.size(sameAuthenticationRoles) > 0;
-				}
+				 if (!hasRole) {
+				 	//$log.debug('ContextService.isAllowed, role not found in userRoles, check authentication roles...');
+				 	//$log.debug('ContextService.isAllowed(authentication.user.roles = ' + JSON.stringify(Authentication.user.roles) + ').');
+				 	var sameAuthenticationRoles = _.intersection(data.roles, Authentication.user.roles);
+				 	hasRole = _.size(sameAuthenticationRoles) > 0;
+				 }
 				//$log.debug('ContextService.isAllowed(hasRole = ' + hasRole + ').');
 			}
 

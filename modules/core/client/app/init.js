@@ -113,7 +113,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($wi
 			};
 
 			var handleCssLoad = function() {
-				var handled = !ADMIN_FEATURES.enablePrototype;
+				var handled = 'true' !== ADMIN_FEATURES.enablePrototype;
 				if (!handled) {
 					if (_.startsWith(toState.name, 'admin.prototype.') && !_.startsWith(fromState.name, 'admin.prototype.')) {
 						if ('true' !== $cookies.mmti) {

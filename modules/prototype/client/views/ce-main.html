@@ -86,9 +86,14 @@
                             </td>
                             <td class="date-col" 
                                 header-class="'date-col'" 
-                                data-title="'Date'"
+                                data-title="'Inspection Date'"
                                 filter="{'inspection.date':'text'}"
                                 sortable="'inspection.date'">{{inspection.date}}</td>
+                            <td class="date-col"
+                                header-class="'date-col'"
+                                data-title="'Most Recent Follow-Up'"
+                                filter="{'inspection.date':'text'}"
+                                sortable="'inspection.date'">{{inspection.followupType}}</td>
                         </tr>
                     </table>
             </section>
