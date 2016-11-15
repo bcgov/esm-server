@@ -89,6 +89,11 @@ p {
 .table-hover tr:hover {
   background: #f1f3f5; }
 
+.form-group {
+  font-size: 0.875rem; }
+  .form-group .form-control {
+    font-size: 0.875rem; }
+
 /* ICON HELPERS */
 .material-icons.md-18 {
   font-size: 18px; }
