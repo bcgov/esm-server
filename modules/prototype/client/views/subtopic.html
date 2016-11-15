@@ -8,13 +8,13 @@
         <span>/</span>
         <a ui-sref="admin.prototype.projectmain">{{project.name}}</a>
         <span>/</span>
-        <a ui-sref="admin.prototype.topic({topic: topic.topic})">{{topic.topic}}</a>
+        <a ui-sref="admin.prototype.topic({topicId: topic.topicId})">{{topic.name}}</a>
         <span>/</span>
-        <span>{{subtopic.subtopic}}</span>
+        <span>{{subtopic.name}}</span>
     </div>
     
     <div class="title-container">
-        <h1>{{subtopic.subtopic}}</h1>
+        <h1>{{subtopic.name}}</h1>
     </div>
     <div class="row">
         <main class="col-sm-12 col-md-7 col-lg-8">
@@ -42,9 +42,9 @@
                                 <td class="id-col"
                                     header-class="'id-col'"
                                     data-title="'Name'"
-                                    filter="{'actionID':'text'}"
-                                    sortable="'actionID'">
-                                    <a ui-sref="admin.prototype.condition({conditionId: condition._id})">{{condition.name}}</a>
+                                    filter="{'name':'text'}"
+                                    sortable="'name'">
+                                    <a ui-sref="admin.prototype.condition({conditionId: condition.conditionId})">{{condition.name}}</a>
                                     <pre class="row-desc" ng-bind-html="condition.description"></pre>
                                     <div class="tag-list">
                                         <span class="tag tag-default" ng-repeat="topic in condition.topics">{{topic.name}}</span>
@@ -53,8 +53,8 @@
                                 <td class="date-col" 
                                     header-class="'date-col'" 
                                     data-title="'Agency'"
-                                    filter="{'inspectionID':'text'}"
-                                    sortable="'inspectionID'">{{condition.agency}}</td>
+                                    filter="{'agency':'text'}"
+                                    sortable="'agency'">{{condition.agency}}</td>
                             </tr>
                         </table>
                     </div>
@@ -85,9 +85,9 @@
                                 <td class="id-col"
                                     header-class="'id-col'"
                                     data-title="'ID'"
-                                    filter="{'actionID':'text'}"
-                                    sortable="'actionID'">
-                                    <a ui-sref="admin.prototype.action({actionId: action._id})">{{action.type}} Issued: {{action._id}}</a>
+                                    filter="{'name':'text'}"
+                                    sortable="'name'">
+                                    <a ui-sref="admin.prototype.action({orderId: action.orderId})">{{action.type}} Issued: {{action.orderId}}</a>
                                     <pre class="row-desc" ng-bind-html="action.detail"></pre>
                                     <div class="tag-list">
                                         <span class="tag tag-default" ng-repeat="topic in action.topics">{{topic.name}}</span>
@@ -96,8 +96,8 @@
                                 <td class="date-col" 
                                     header-class="'date-col'" 
                                     data-title="'Date'"
-                                    filter="{'inspectionID':'text'}"
-                                    sortable="'inspectionID'">{{action.issueDate}}</td>
+                                    filter="{'issueDate':'text'}"
+                                    sortable="'issueDate'">{{action.issueDate}}</td>
                             </tr>
                         </table>
                     </div>

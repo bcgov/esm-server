@@ -28,7 +28,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 				var topics = _.filter(data.topics, function(t) { return t.active === 'Y';});
 				var subTopics = _.filter(data.subTopics, function(t) { return t.active === 'Y';});
 				_.each(topics, function(topic) {
-					var subs = _.filter(subTopics, function(sub) { return sub.topic === topic.topic; });
+					var subs = _.filter(subTopics, function(sub) { return sub.topicId === topic.topicId; });
 					topic.subtopics = subs;
 				});
 				return topics;
@@ -51,7 +51,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			inspections: function(data, inspectionsText) {
 				var inspections = data.inspections;
 				_.each(inspectionsText, function(txt) {
-					var inspection = _.find(inspections, function(x) { return txt.agency === x.agency && txt.project === x.project && txt.inspectionId === x.inspectionId; });
+					var inspection = _.find(inspections, function(x) { return txt.inspectionId === x.inspectionId; });
 					if (inspection) {
 						inspection.followupText = txt.followupText;
 					}
@@ -61,12 +61,20 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			actionsText: function(data) {
 				return data.actionsText;
 			},
-			actions: function(data, actionsText) {
+			actionsResponseText: function(data) {
+				return data.actionsResponseText;
+			},
+			actions: function(data, actionsText, actionsResponseText) {
 				var actions = data.actions;
 				_.each(actionsText, function(txt) {
-					var action = _.find(actions, function(x) { return txt.agency === x.agency && txt.project === x.project && txt.orderId === x.orderId; });
+					var action = _.find(actions, function(x) { return txt.orderId === x.orderId; });
 					if (action) {
 						action.text = txt.text;
+					}
+				});
+				_.each(actionsResponseText, function(txt) {
+					var action = _.find(actions, function(x) { return txt.orderId === x.orderId; });
+					if (action) {
 						action.responseText = txt.responseText;
 					}
 				});
@@ -78,7 +86,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			conditions: function(data, conditionsText) {
 				var conditions = data.conditions;
 				_.each(conditionsText, function(txt) {
-					var condition = _.find(conditions, function(x) { return txt.agency === x.agency && txt.project === x.project && txt.permitId === x.permitId && txt.conditionNo === x.conditionNo; });
+					var condition = _.find(conditions, function(x) { return txt.conditionId === x.conditionId; });
 					if (condition) {
 						condition.conditionText = txt.conditionText;
 					}
@@ -92,25 +100,25 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 				var result = _.find(projects, function(i) { return i.name === "Mount Milligan Mine"; });
 
 
-				result.ceDetails = _.find(cedetails, function(x) { return x.project === result.name; });
+				result.ceDetails = _.find(cedetails, function(x) { return x.projectId === result.projectId; });
 
 				// inspections
 				result.inspections = _.filter(inspections, function(a) {
-					return a.project === result.name;
+					return a.projectId === result.projectId;
 				});
 
 				// phases
 				result.phases = _.filter(phases, function(a) {
-					return a.project === result.name;
+					return a.projectId === result.projectId;
 				});
 
 				// actions
 				result.actions = _.filter(actions, function(a) {
-					return a.project === result.name;
+					return a.projectId === result.projectId;
 				});
 
 				result.authorizations = _.filter(authorizations, function(a) {
-					return a.project === result.name;
+					return a.projectId === result.projectId;
 				});
 
 				result.groupedAuthorizations = [];
@@ -137,6 +145,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			$scope.application = Application;
 
 			$scope.project = project;
+			$scope.topics = topics;
 
 			var mpl = {};
 			mpl.center = {latitude: 54.726668, longitude: -122.647621};
@@ -246,7 +255,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 		url: '/condition/:conditionId',
 		resolve: {
 			condition: function (project, $stateParams) {
-				var result = _.find(project.conditions, function(i) { return i._id === $stateParams.conditionId; });
+				var result = _.find(project.conditions, function(i) { return i.conditionId === $stateParams.conditionId; });
 				return result;
 			}
 		},
@@ -262,10 +271,10 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 
 	// TOPIC 
 	.state('admin.prototype.topic', {
-		url: '/topic/:topic',
+		url: '/topic/:topicId',
 		resolve: {
 			topic: function (topics, $stateParams) {
-				var result = _.find(topics, function(i) { return i.topic === $stateParams.topic; });
+				var result = _.find(topics, function(i) { return i.topicId === $stateParams.topicId; });
 				return result;
 			}
 		},
@@ -281,14 +290,14 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 
 	// SUBTOPIC 
 	.state('admin.prototype.subtopic', {
-		url: '/topic/:topic/subtopic/:subtopic',
+		url: '/topic/:topicId/subtopic/:subtopicId',
 		resolve: {
 			topic: function (topics, $stateParams) {
-				var result = _.find(topics, function(i) { return i.topic === $stateParams.topic; });
+				var result = _.find(topics, function(i) { return i.topicId === $stateParams.topicId; });
 				return result;
 			},
 			subtopic: function (topic, $stateParams) {
-				var result = _.find(topic.subtopics, function(i) { return i.topic === $stateParams.topic && i.subtopic === $stateParams.subtopic; });
+				var result = _.find(topic.subtopics, function(i) { return i.topicId === $stateParams.topicId && i.subtopicId === $stateParams.subtopicId; });
 				return result;
 			}
 		},

@@ -46,9 +46,9 @@
                         <td class="id-col"
                             header-class="'id-col'"
                             data-title="'Name'"
-                            filter="{'actionID':'text'}"
-                            sortable="'actionID'">
-                            <a ui-sref="admin.prototype.condition({conditionId: condition._id})">{{condition.name}}</a>
+                            filter="{'name':'text'}"
+                            sortable="'name'">
+                            <a ui-sref="admin.prototype.condition({conditionId: condition.conditionId})">{{condition.name}}</a>
                             <pre class="row-desc" ng-bind-html="condition.description"></pre>
                             <div class="tag-list">
                                 <span class="tag tag-default" ng-repeat="topic in condition.topics">{{topic.name}}</span>
@@ -57,8 +57,8 @@
                         <td class="date-col" 
                             header-class="'date-col'" 
                             data-title="'Agency'"
-                            filter="{'inspectionID':'text'}"
-                            sortable="'inspectionID'">{{condition.agency}}</td>
+                            filter="{'agency':'text'}"
+                            sortable="'agency'">{{condition.agency}}</td>
                     </tr>
                 </table>
             </section>

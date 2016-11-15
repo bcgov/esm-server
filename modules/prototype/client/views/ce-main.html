@@ -71,7 +71,8 @@
                                 data-title="'ID'"
                                 filter="{'inspectionID':'text'}"
                                 sortable="'inspection._id'">
-                                <a ui-sref="admin.prototype.inspection({inspectionId:inspection.inspectionId})">{{inspection.inspectionId}} ({{inspection.agency}}) </a>
+                                <a ng-show="inspection.detailPage === 'Y'" ui-sref="admin.prototype.inspection({inspectionId:inspection.inspectionId})">{{inspection.inspectionId}} ({{inspection.agency}}) </a>
+                                <a ng-show="inspection.detailPage !== 'Y'" ui-sref="#">{{inspection.inspectionId}} ({{inspection.agency}}) </a>
                                 <div class="tag-list">
                                     <span class="tag tag-default" ng-repeat="topic in inspection.topics">{{topic}}</span>
                                 </div>
