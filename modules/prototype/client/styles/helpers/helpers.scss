@@ -121,10 +121,16 @@ p {
 }
 
 .form-group {
-    font-size: 0.875rem;
+    label {
+        font-size: 0.875rem;
+    }
 
     .form-control {
         font-size: 0.875rem;
+    }
+
+    .tag-list {
+        margin-top: 0.5rem;
     }
 }
 
