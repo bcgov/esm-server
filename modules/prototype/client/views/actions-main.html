@@ -19,27 +19,23 @@
         
             <section>
                 <div class="title-bar">
-                    <h3>Viewing {{actions.length}} Actions</h3>
+                    <h3>Viewing {{tableParams.total()}} of {{actions.length}} Actions</h3>
                     <div class="filters">
                         <div class="form-inline">
                             <div class="form-group">
-                                <select class="form-control">
-                                    <option>10</option>
-                                    <option>25</option>
-                                    <option>50</option>
-                                </select>
+                                <select class="form-control" class="form-control" ng-model="pageSize" ng-options="size for size in tableParams.settings().counts" ng-change="changePageSize(pageSize)"></select>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <table ng-table="tableParams" class="inspections-grid actions-grid ce-grid table table-striped table-hover" show-filter="false">
-                    <tr ng-repeat="action in actions">
+                    <tr ng-repeat="action in $data">
                         <td class="id-col"
                             header-class="'id-col'"
                             data-title="'Name'"
-                            filter="{'name':'text'}"
-                            sortable="'name'">
+                            filter="{'orderId':'text'}"
+                            sortable="'orderId'">
                             <a ui-sref="admin.prototype.action({orderId: action.orderId})">{{action.type}} Issued: {{action.orderId}}</a>
                             <pre class="row-desc" ng-bind-html="action.text"></pre>
                             <div class="tag-list">
@@ -49,8 +45,8 @@
                         <td class="date-col" 
                             header-class="'date-col'" 
                             data-title="'Date'"
-                            filter="{'agency':'text'}"
-                            sortable="'agency'">{{action.issuedDate}}</td>
+                            filter="{'issuedDate':'text'}"
+                            sortable="'issuedDate'">{{action.issuedDate}}</td>
                     </tr>
                 </table>
             </section>
@@ -67,12 +63,25 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Keywords</label>
-                        <input class="form-control" type="text" />
+                        <input class="form-control" type="text" ng-model="keywords" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Environment</label>
+                        <input class="form-control" type="checkbox" ng-model="topicEnvironment"/>
+                        <label class="control-label">Communities</label>
+                        <input class="form-control" type="checkbox" ng-model="topicCommunities"/>
+                        <label class="control-label">Heritage</label>
+                        <input class="form-control" type="checkbox" ng-model="topicHeritage"/>
+                        <label class="control-label">Health & Safety</label>
+                        <input class="form-control" type="checkbox" ng-model="topicHealth"/>
                     </div>
                     <div class="buttons">
-                        <button class="btn btn-default">Clear</button>
-                        <button class="btn btn-primary">Apply</button>
+                        <ul class="clearfix">
+                            <li><button class="btn btn-default" ng-click="clearFilter()">Clear</button></li>
+                            <li><button class="btn btn-primary" ng-click="applyFilter()">Apply</button></li>
+                        </ul>
                     </div>
+
                 </div>
             </section>
             

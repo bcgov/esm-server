@@ -247,7 +247,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 	.state('admin.prototype.actions', {
 		url: '/actions',
 		templateUrl: 'modules/prototype/client/views/actions-main.html',
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project) {
+		controller: function ($scope, $filter, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
 			$scope.project = project;
@@ -255,7 +255,64 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			$scope.actions = _.filter(actions, function(x) { return x.projectId === project.projectId; });
 
 
-			// some filter actions....
+			$scope.keywords = undefined;
+
+			$scope.topicEnvironment = false;
+			$scope.topicCommunities = false;
+			$scope.topicHeritage = false;
+			$scope.topicHealth = false;
+			$scope.topics = [];
+
+			$scope.pageSize = 10;
+
+			$scope.filter = {
+				failed: undefined
+			};
+
+			$scope.tableParams =  new NgTableParams({
+				page: 1,
+				count: $scope.pageSize,
+				counts: [10, 20, 50],
+				filter: $scope.filter
+			}, {
+				debugMode: false,
+				total: $scope.actions.length,
+				getData: function($defer, params) {
+					var orderedData = params.sorting() ? $filter('orderBy')($scope.actions, params.orderBy()) : $scope.actions;
+					orderedData	= $filter('filter')(orderedData, params.filter());
+					//orderedData	= $filter('keywordsFilter')(orderedData, $scope.keywords);
+					orderedData	= $filter('topicsFilter')(orderedData, $scope.topics);
+					params.total(orderedData.length);
+					$scope.filteredCount = orderedData.length;
+					$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+				}
+			});
+
+			$scope.changePageSize = function(newSize){
+				$scope.tableParams.count(newSize);
+			};
+
+			$scope.clearFilter = function() {
+				$scope.keywords = undefined;
+
+				$scope.topicEnvironment = false;
+				$scope.topicCommunities = false;
+				$scope.topicHeritage = false;
+				$scope.topicHealth = false;
+				$scope.topics = [];
+
+				$scope.tableParams.reload();
+			};
+			$scope.applyFilter = function() {
+
+				$scope.topics = [];
+				if ($scope.topicEnvironment) $scope.topics.push('Environment');
+				if ($scope.topicCommunities) $scope.topics.push('Communities');
+				if ($scope.topicHeritage) $scope.topics.push('Heritage');
+				if ($scope.topicHealth) $scope.topics.push('Health and Safety');
+
+				$scope.tableParams.reload();
+			};
 		},
 	})
 
@@ -318,15 +375,71 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 	.state('admin.prototype.conditionsmain', {
 		url: '/conditions',
 		templateUrl: 'modules/prototype/client/views/conditions-main.html',
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project) {
+		controller: function ($scope, $filter, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
 
 			$scope.project = project;
-
 			$scope.conditions = _.filter(conditions, function(x) { return x.projectId === project.projectId; });
 
+			$scope.keywords = undefined;
 
+			$scope.topicEnvironment = false;
+			$scope.topicCommunities = false;
+			$scope.topicHeritage = false;
+			$scope.topicHealth = false;
+			$scope.topics = [];
+
+			$scope.pageSize = 10;
+
+			$scope.filter = {
+				failed: undefined
+			};
+
+			$scope.tableParams =  new NgTableParams({
+				page: 1,
+				count: $scope.pageSize,
+				counts: [10, 20, 50],
+				filter: $scope.filter
+			}, {
+				debugMode: false,
+				total: $scope.conditions.length,
+				getData: function($defer, params) {
+					var orderedData = params.sorting() ? $filter('orderBy')($scope.conditions, params.orderBy()) : $scope.conditions;
+					orderedData	= $filter('filter')(orderedData, params.filter());
+					//orderedData	= $filter('keywordsFilter')(orderedData, $scope.keywords);
+					orderedData	= $filter('topicsFilter')(orderedData, $scope.topics);
+					params.total(orderedData.length);
+					$scope.filteredCount = orderedData.length;
+					$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+				}
+			});
+
+			$scope.changePageSize = function(newSize){
+				$scope.tableParams.count(newSize);
+			};
+
+			$scope.clearFilter = function() {
+				$scope.keywords = undefined;
+
+				$scope.topicEnvironment = false;
+				$scope.topicCommunities = false;
+				$scope.topicHeritage = false;
+				$scope.topicHealth = false;
+				$scope.topics = [];
+
+				$scope.tableParams.reload();
+			};
+			$scope.applyFilter = function() {
+
+				$scope.topics = [];
+				if ($scope.topicEnvironment) $scope.topics.push('Environment');
+				if ($scope.topicCommunities) $scope.topics.push('Communities');
+				if ($scope.topicHeritage) $scope.topics.push('Heritage');
+				if ($scope.topicHealth) $scope.topics.push('Health and Safety');
+
+				$scope.tableParams.reload();
+			};
 		},
 	})
 
