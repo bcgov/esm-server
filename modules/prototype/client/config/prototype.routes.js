@@ -5,6 +5,7 @@
 //
 // =========================================================================
 angular.module('prototype').config(['$stateProvider', '_', function ($stateProvider, _) {
+
 	$stateProvider
 	// -------------------------------------------------------------------------
 	//
@@ -166,12 +167,24 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			}
 		}
 	})
-
-	// PROJECT MAIN 
+	// PROJECT MAIN
 	.state('admin.prototype.projectmain', {
 		url: '/project-main',
 		resolve: {},
 		templateUrl: 'modules/prototype/client/views/project-main.html',
+		controller: function ($modal, $window, $timeout, $scope, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project, uiGmapGoogleMapApi) {
+			$scope.authentication = Authentication;
+			$scope.application = Application;
+
+			$scope.project = project;
+			$scope.topics = topics;
+		},
+	})
+
+	.state('admin.prototype.map', {
+		url: '/map',
+		resolve: {},
+		templateUrl: 'modules/prototype/client/views/map.html',
 		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project, uiGmapGoogleMapApi) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
@@ -297,6 +310,8 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			$scope.project = project;
 
 			$scope.conditions = _.filter(conditions, function(x) { return x.projectId === project.projectId; });
+
+
 		},
 	})
 

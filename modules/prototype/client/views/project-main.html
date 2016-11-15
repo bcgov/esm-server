@@ -19,8 +19,7 @@
             </a>
             -->
             <a class="btn btn-link" 
-                data-toggle="modal" 
-                data-target="#mapWindow">
+                ui-sref="admin.prototype.map">
                 <i class="material-icons fl">pin_drop</i>Launch Map
             </a>
         </div>
@@ -48,7 +47,7 @@
                         </a>
                     </li>
                 </ul>
-                <a class="read-more-link mt-05" href="/admin/prototype/conditions">Browse all Conditions for {{project.name}} »</a>
+                <a class="read-more-link mt-05" ui-sref="admin.prototype.conditionsmain">Browse all Conditions for {{project.name}} »</a>
             </section>
 
             <section>
@@ -107,7 +106,7 @@
             <section class="card">
                 <h2 class="card-title">Details</h2>
                 <div class="map-thumb">
-                    <img src="modules/prototype/client/images/map-thumb.png"  
+                    <img src="modules/prototype/client/images/map-thumb.png"
                         data-toggle="modal" 
                         data-target="#mapWindow" />
                 </div>
@@ -153,37 +152,3 @@
         </aside>
     </div>
 </div>
-
-<!-- MAP -->
- <div class="modal modal-fullscreen fade" id="mapWindow" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            
-            <div class="modal-header">
-                <a class="app-header-brand"><img src="modules/prototype/client/images/bc_logo_transparent.png" /></a>
-                <span class="fr" data-dismiss="modal" aria-label="Close">Close Window</span>
-            </div>
-
-            <div class="modal-body">
-                <div class="map-layers-view">
-                    <ui-gmap-google-map id='project-map'
-                        center='mpl.center'
-                        zoom='mpl.map.zoom'
-                        refresh='1'
-                        options='mpl.map.options'>
-                        <ui-gmap-markers
-                            models="mpl.projectFiltered"
-                            coords="'self'">
-                        </ui-gmap-markers>
-                        <ui-gmap-layer	ng-repeat="layer in mpl.KMLLayers"
-                            type="KmlLayer"
-                            options="layer"
-                            show="layer.show">
-                        </ui-gmap-layer>
-                    </ui-gmap-google-map>
-                </div>
-            </div>
-            
-        </div>
-    </div>
-</div>   

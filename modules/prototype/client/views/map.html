@@ -1,0 +1,29 @@
+
+<div class="container">
+    
+    <div class="breadcrumbs">
+        <a ui-sref="projects">MEM</a>
+        <span>/</span>
+        <a href="#">Projects</a>
+        <span>/</span> 
+        <span>{{project.name}}</span>
+    </div>
+    <div class="map-layers-view">
+        <ui-gmap-google-map
+            id='project-map'
+            center='mpl.center'
+            zoom='mpl.map.zoom'
+            refresh='true'
+            options='mpl.map.options'>
+            <ui-gmap-markers
+                models="mpl.projectFiltered"
+                coords="'self'">
+            </ui-gmap-markers>
+            <ui-gmap-layer  ng-repeat="layer in mpl.KMLLayers"
+                type="KmlLayer"
+                options="layer"
+                show="layer.show">
+            </ui-gmap-layer>
+        </ui-gmap-google-map>
+    </div>
+</div>
