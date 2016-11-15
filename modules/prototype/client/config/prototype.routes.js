@@ -24,27 +24,6 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			agencies: function(data) {
 				return data.agencies;
 			},
-			topics: function(data) {
-				var topics = _.filter(data.topics, function(t) { return t.active === 'Y';});
-				var subTopics = _.filter(data.subTopics, function(t) { return t.active === 'Y';});
-				_.each(topics, function(topic) {
-					var subs = _.filter(subTopics, function(sub) { return sub.topicId === topic.topicId; });
-					topic.subtopics = subs;
-				});
-				return topics;
-			},
-			projects: function(data) {
-				return data.projects;
-			},
-			cedetails: function(data) {
-				return data.cedetails;
-			},
-			authorizations: function(data) {
-				return data.authorizations;
-			},
-			phases: function(data) {
-				return data.phases;
-			},
 			inspectionsText: function(data) {
 				return data.inspectionsText;
 			},
@@ -57,6 +36,18 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 					}
 				});
 				return inspections;
+			},
+			projects: function(data) {
+				return data.projects;
+			},
+			cedetails: function(data) {
+				return data.cedetails;
+			},
+			authorizations: function(data) {
+				return data.authorizations;
+			},
+			phases: function(data) {
+				return data.phases;
 			},
 			actionsText: function(data) {
 				return data.actionsText;
@@ -95,6 +86,33 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			},
 			documents: function(data) {
 				return data.documents;
+			},
+			topics: function(data, inspections, conditions, actions) {
+				var topics = _.filter(data.topics, function(t) { return t.active === 'Y';});
+				var subTopics = _.filter(data.subTopics, function(t) { return t.active === 'Y';});
+				_.each(topics, function(topic) {
+					// find all inspections with this topic....
+					// find all conditions...
+					// find all actions...
+					topic.inspections =  _.filter(inspections, function(x) { return _.includes(x.topics, topic.name); }) || [];
+					topic.conditions =  _.filter(conditions, function(x) { return _.includes(x.topics, topic.name); }) || [];
+					topic.actions =  _.filter(actions, function(x) { return _.includes(x.topics, topic.name); }) || [];
+
+					// do the same for each subtopic...
+					var subs = _.filter(subTopics, function(sub) { return sub.topicId === topic.topicId; });
+					_.each(subs, function(sub) {
+						sub.inspections =  _.filter(inspections, function(x) { return _.includes(x.topics, sub.name); }) || [];
+						sub.conditions =  _.filter(conditions, function(x) { return _.includes(x.topics, sub.name); }) || [];
+						sub.actions =  _.filter(actions, function(x) { return _.includes(x.topics, sub.name); }) || [];
+					});
+					// add the subtopics to this topic....
+					topic.subtopics = subs || [];
+				});
+
+				// need counts for inspections conditions actions for topics and subtopics...
+
+
+				return topics;
 			},
 			project: function (agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents) {
 				var result = _.find(projects, function(i) { return i.name === "Mount Milligan Mine"; });
