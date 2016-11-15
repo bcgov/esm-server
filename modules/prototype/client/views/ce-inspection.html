@@ -86,7 +86,7 @@
                             data-title="'ID'"
                             filter="{'actionID':'text'}"
                             sortable="'actionID'">
-                            <a ui-sref="admin.prototype.action({actionId: action.orderId})">{{action.type}} Issued: {{action.orderId}}</a>
+                            <a ui-sref="admin.prototype.action({orderId: action.orderId})">{{action.type}} Issued: {{action.orderId}}</a>
                             <pre class="row-desc" ng-bind-html="action.text"></pre>
                             <div class="tag-list">
                                 <span class="tag tag-default" ng-repeat="topic in action.topics">{{topic}}</span>
