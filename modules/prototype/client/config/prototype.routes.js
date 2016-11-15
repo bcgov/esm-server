@@ -208,15 +208,15 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 
 	// ACTION 
 	.state('admin.prototype.action', {
-		url: '/action/:actionId',
+		url: '/action/:orderId',
 		templateUrl: 'modules/prototype/client/views/ce-action.html',
 		resolve: {
 			action: function (project, $stateParams) {
-				var result = _.find(project.actions, function(i) { return i._id === $stateParams.orderId; });
+				var result = _.find(project.actions, function(i) { return i.orderId === $stateParams.orderId; });
 				return result;
 			},
 			inspection: function (project, action) {
-				var result = _.find(project.inspections, function(i) { return i._id === action.inspectionId; });
+				var result = _.find(project.inspections, function(i) { return i.inspectionId === action.inspectionId; });
 				return result;
 			}
 		},
