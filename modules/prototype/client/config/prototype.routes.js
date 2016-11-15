@@ -160,7 +160,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 					});
 					return result;
 				} else {
-					console.log('Could not find Mount Milligan project.')
+					console.log('Could not find Mount Milligan project.');
 					return {};
 				}
 			}
