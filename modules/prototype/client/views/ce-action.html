@@ -37,7 +37,7 @@
                                 <i class="material-icons">insert_drive_file</i>
                             </div>
                             <span class="title">
-                                <a class="primary" ng-ref="{{inspection.documentUrl}}">Related Inspection Report HERE</a>
+                                <a class="primary" ng-ref="{{action.documentUrl}}" target="_blank">Download Inspection Report - {{action.inspectionId}}</a>
                             </span>
                             <span class="actions">
                                 <i class="material-icons">file_download</i>
@@ -55,7 +55,7 @@
                                 <i class="material-icons">insert_drive_file</i>
                             </div>
                             <span class="title">
-                                <a class="primary" href="">Related Managers Response file HERE</a>
+                                <a class="primary" href="{{action.followupDocumentUrl}}" target="_blank">Download Mine Manager's Response - {{action.inspectionId}}</a>
                             </span>
                             <span class="actions">
                                 <i class="material-icons">file_download</i>
@@ -91,6 +91,7 @@
                 </div>
                 </section>
                  
+                <!--
                 <section class="card">
                     <h2 class="card-title">Related Documents</h2>
                      <div class="resource-list resource-list-sm list-group">
@@ -108,6 +109,7 @@
                         </a>
                     </div>
                 </section>
+                -->
                 
             </aside>
         </div>
