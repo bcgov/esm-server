@@ -183,6 +183,17 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 		},
 	})
 
+	// ACTIONS MAIN 
+	.state('admin.prototype.actions', {
+		url: '/actions',
+		templateUrl: 'modules/prototype/client/views/actions-main.html',
+		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project) {
+			$scope.authentication = Authentication;
+			$scope.application = Application;
+			$scope.project = project;
+		},
+	})
+
 	// COMPLIANCE & ENFORCEMENT MAIN 
 	.state('admin.prototype.cemain', {
 		url: '/compliance-and-enforcement',

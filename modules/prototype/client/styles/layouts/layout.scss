@@ -54,14 +54,20 @@ footer {
 }
 
 .title-container {
+    @include flex-box();
+    @include flex-direction(row);
     margin-bottom: 2rem;
 
     h1 {
         @include flex(1 1 auto);
     }
 
+    &.stacked {
+        @include flex-direction(column);
+    }
+
     .tag-list {
-        margin-top: 0.25rem;
+        margin-top: 0.5rem;
 
         .tag {
             margin-right: 0.25rem;

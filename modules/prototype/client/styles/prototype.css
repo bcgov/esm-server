@@ -69,8 +69,9 @@ p {
 
 /* BOOTSTRAP OVERRIDES */
 .tag-default {
-  color: #494949;
-  background: #DDD; }
+  color: #FFF;
+  font-weight: normal;
+  background: #5475a7; }
 
 .table thead th {
   background: #FFF;
@@ -159,6 +160,14 @@ footer {
     padding-bottom: 1.875rem; }
 
 .title-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
   margin-bottom: 2rem; }
   .title-container h1 {
     -webkit-box-flex: 1 1 auto;
@@ -166,8 +175,12 @@ footer {
     -webkit-flex: 1 1 auto;
     -ms-flex: 1 1 auto;
     flex: 1 1 auto; }
+  .title-container.stacked {
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column; }
   .title-container .tag-list {
-    margin-top: 0.25rem; }
+    margin-top: 0.5rem; }
     .title-container .tag-list .tag {
       margin-right: 0.25rem;
       padding: 0.4em 0.6em; }
@@ -474,6 +487,10 @@ main section {
 .project-status .tag {
   min-width: 5rem;
   font-size: 0.75rem; }
+.project-status .tag-default {
+  background: #CCC;
+  font-weight: bold;
+  color: #494949; }
 .project-status .inactive {
   color: #CCC; }
   .project-status .inactive .tag {
@@ -667,10 +684,24 @@ main section {
     background-color: #EEE; }
 
 /* COMPLIANCE & ENFORCEMENT BLOCKS */
+.ce-blocks a {
+  text-decoration: none;
+  color: #2b5580; }
+.ce-blocks .block {
+  color: #2b5580; }
+  .ce-blocks .block .title {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden; }
+
 .metric {
-  padding: 1rem;
+  flex: 0 0 auto;
+  width: 3.5rem;
+  padding-top: 0.45rem;
   color: #FFF;
-  background: #494949;
+  background: #2b5580;
+  text-align: center;
+  font-size: 1.675rem;
   font-weight: bold; }
 
 /* TOPIC BLOCKS */

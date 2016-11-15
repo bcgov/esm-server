@@ -1,0 +1,69 @@
+
+<div class="container">
+
+     <div class="breadcrumbs">
+         <a ui-sref="projects">MEM</a>
+         <span>/</span>
+         <a href="#">Projects</a>
+         <span>/</span>
+         <a ui-sref="admin.prototype.projectmain">{{project.name}}</a>
+         <span>/</span>
+         <span>Project Conditions</span>
+    </div>
+
+    <div class="title-container">
+        <h1>Project Actions</h1>
+    </div>
+    <div class="row">
+        <main class="col-sm-12 col-md-7 col-lg-8">
+        
+            <section>
+                <div class="title-bar">
+                    <h3>Viewing {{project.conditions.length}} of {{project.conditions.length}} Conditions</h3>
+                    <div class="filters">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <select class="form-control">
+                                    <option>10</option>
+                                    <option>25</option>
+                                    <option>50</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table ng-table="tableParams" class="inspections-grid ce-grid table table-striped table-hover" show-filter="false">
+                    <tr ng-repeat="action in project.actions">
+                        <td class="id-col"
+                            header-class="'id-col'"
+                            data-title="'Name'"
+                            filter="{'name':'text'}"
+                            sortable="'name'">
+                            <a ui-sref="admin.prototype.condition({conditionId: condition.conditionId})">{{condition.name}}</a>
+                            <pre class="row-desc" ng-bind-html="condition.description"></pre>
+                            <div class="tag-list">
+                                <span class="tag tag-default" ng-repeat="topic in condition.topics">{{topic.name}}</span>
+                            </div>
+                        </td>
+                        <td class="date-col" 
+                            header-class="'date-col'" 
+                            data-title="'Agency'"
+                            filter="{'agency':'text'}"
+                            sortable="'agency'">{{condition.agency}}</td>
+                    </tr>
+                </table>
+            </section>
+
+        </main>
+        <aside class="col-sm-12 col-md-5 col-lg-4">
+
+            <section class="card">
+                <h2 class="card-title">Filter Control Goes Here</h2>
+                <div class="card-block">
+                </div>
+            </section>
+            
+        </aside>
+    </div>
+</div>

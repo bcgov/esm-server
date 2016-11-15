@@ -21,18 +21,20 @@
 
             <section>
                 <h2>Environment Conditions</h2>
-                <ul class="topic-blocks subtopic block-container clearfix">
+                <ul class="ce-blocks block-container clearfix">
                     <li ng-repeat="subtopic in topic.subtopics">
-                        <a class="block block-hover" ng-show="subtopic.description !== ''" ui-sref="admin.prototype.subtopic({topicId: topic.topicId, subtopicId: subtopic.subtopicId})">
-                            <span class="title">{{subtopic.name}}</span>
-                            <span class="actions">{{subtopic.conditions.length}}</span>
-                        </a>
-                        <a class="block block-hover" ng-show="subtopic.description ===''" ui-sref="#">
-                            <span class="title">{{subtopic.name}}</span>
-                            <span class="actions">{{subtopic.conditions.length}}</span>
+                        <a class="block block-hover" ng-disabled="subtopic.description ===''"
+                           ui-sref="admin.prototype.subtopic({topicId: topic.topicId, subtopicId: subtopic.subtopicId})">
+                            <span class="title">
+                                <span class="primary">{{subtopic.name}}</span>
+                            </span>
+                            <span class="metric">{{conditions.length}}</span>
                         </a>
                     </li>
                 </ul>
+                <div class="mt-1">
+                    <a class="read-more-link" href="/admin/prototype/conditions">Browse all Conditions for {{project.name}} »</a>
+                </div>
             </section>
 
         </main>
