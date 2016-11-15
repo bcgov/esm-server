@@ -338,6 +338,24 @@ main section {
 .tag {
   padding: 0.4em 0.6em; }
 
+.card-block .form-group label {
+  font-size: 0.75rem;
+  font-weight: bold; }
+.card-block .buttons {
+  margin-top: 0.5rem; }
+  .card-block .buttons button {
+    font-size: 0.875rem;
+    font-weight: bold; }
+  .card-block .buttons ul {
+    margin-left: -0.25rem;
+    margin-right: -0.25rem; }
+  .card-block .buttons li {
+    float: left;
+    width: 50%;
+    padding: 0.25rem; }
+    .card-block .buttons li .btn {
+      width: 100%; }
+
 /* COMPONENTS */
 .action-summary p {
   margin-bottom: 1.675rem;
@@ -713,13 +731,19 @@ main section {
     text-decoration: none; }
 .topic-blocks h3 {
   display: block;
-  font-size: 1.5rem; }
+  color: #2b5580;
+  font-size: 1.5rem;
+  font-weight: bold; }
 .topic-blocks .subtopics {
-  margin-top: 0.2rem;
+  margin-top: 0.1rem;
   display: block;
+  color: #2b5580;
   font-size: 0.875rem;
   font-style: italic;
-  opacity: 0.65; }
+  opacity: 0.65;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; }
 .topic-blocks .read-more-link {
   display: inline-block;
   margin-top: 0.75rem;

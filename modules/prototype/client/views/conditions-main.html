@@ -19,17 +19,9 @@
         
             <section>
                 <div class="title-bar">
-                    <h3>Viewing {{conditions.length}} of {{conditions.length}} Conditions</h3>
+                    <h3>Viewing {{conditions.length}} Conditions</h3>
                     <div class="filters">
                         <div class="form-inline">
-                            <div class="form-group">
-                                <select class="form-control">
-                                    <option selected>Sort by</option>
-                                    <option>Option 1</option>
-                                    <option>Option 2</option>
-                                    <option>Option 3</option>
-                                </select>
-                            </div>
                             <div class="form-group">
                                 <select class="form-control">
                                     <option>10</option>
@@ -41,7 +33,7 @@
                     </div>
                 </div>
 
-                <table ng-table="tableParams" class="inspections-grid ce-grid table table-striped table-hover" show-filter="false">
+                <table ng-table="tableParams" class="actions-grid ce-grid table table-striped table-hover" show-filter="false">
                     <tr ng-repeat="condition in conditions">
                         <td class="id-col"
                             header-class="'id-col'"
@@ -78,8 +70,10 @@
                         <input class="form-control" type="text" />
                     </div>
                     <div class="buttons">
-                        <button class="btn btn-default">Clear</button>
-                        <button class="btn btn-primary">Apply</button>
+                        <ul class="clearfix">
+                            <li><button class="btn btn-default">Clear</button></li>
+                            <li><button class="btn btn-primary">Apply</button></li>
+                        </ul>
                     </div>
                 </div>
             </section>

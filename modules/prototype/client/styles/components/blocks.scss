@@ -106,15 +106,21 @@
 
     h3 {
         display: block;
+        color: #2b5580;
         font-size: 1.5rem;
+        font-weight: bold;
     }
 
     .subtopics {
-        margin-top: 0.2rem;
+        margin-top: 0.1rem;
         display: block;
+        color: #2b5580;
         font-size: 0.875rem;
         font-style: italic;
         opacity: 0.65;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .read-more-link {
