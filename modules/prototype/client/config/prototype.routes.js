@@ -133,8 +133,17 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 						return a.projectId === result.projectId;
 					});
 
+					// conditions
+					result.conditions = _.filter(conditions, function(a) {
+						return a.projectId === result.projectId;
+					});
+
 					// actions
 					result.actions = _.filter(actions, function(a) {
+						return a.projectId === result.projectId;
+					});
+
+					result.documents = _.filter(documents, function(a) {
 						return a.projectId === result.projectId;
 					});
 
