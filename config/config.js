@@ -128,7 +128,14 @@ var initGlobalConfigFiles = function (config, assets) {
 
 	// Setting Globbed js files
 	config.files.client.jsLibFiles = getGlobbedPaths(assets.client.lib.js, 'public/');
-	config.files.client.jsAppFiles = (process.env.NODE_ENV !== 'development') ? ["/dist/application.min.js"] : getGlobbedPaths(assets.client.js, ['public/']);
+
+	if (process.env.DONT_MINIFY === 'true') {
+		console.log("Warning: Minifying DISABLED.");
+		config.files.client.jsAppFiles = getGlobbedPaths(assets.client.js, ['public/']);
+	} else {
+		console.log("Client code is using minified application.");
+		config.files.client.jsAppFiles = ["/dist/application.min.js"];
+	}
 
 	// Setting Globbed css files
 	config.files.client.css = getGlobbedPaths(assets.client.lib.css, 'public/').concat(getGlobbedPaths(assets.client.css, ['public/']));
