@@ -193,14 +193,14 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			$scope.topics = topics;
 
 			var mpl = {};
-			mpl.center = {latitude: 54.726668, longitude: -122.647621};
+			mpl.center = {latitude: 55.17, longitude: -123.884};
 			mpl.layers = {};
 			mpl.markers = [];
 			mpl.KMLLayers = [];
 			mpl.projectFiltered = [];
 
 			mpl.map = {
-				center: {latitude: 54.726668, longitude: -127.647621},
+				center: {latitude: 55.17, longitude: -123.884},
 				zoom: 12,
 				options: {
 					scrollwheel: false,
@@ -211,8 +211,8 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 
 			mpl.map.markers.push({
 				id: 12345,
-				latitude: 54.726668,
-				longitude: -127.647621
+				latitude: 55.17,
+				longitude: -123.884
 			});
 
 			// var kmlURL = window.location.protocol + "//" + window.location.host + "/api/document/" + doc._id + "/fetch";

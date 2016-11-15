@@ -4,26 +4,13 @@
     <div class="breadcrumbs">
         <a ui-sref="projects">MEM</a>
         <span>/</span>
-        <a href="#">Projects</a>
+        <a ui-sref="admin.prototype.projectmain">Projects</a>
         <span>/</span> 
         <span>{{project.name}}</span>
     </div>
     
     <div class="title-container">
         <h1>{{project.name}}</h1>
-        
-        <div class="actions">
-            <!--
-            <a class="btn btn-link" href="javascript:void();">
-                <i class="material-icons fl">insert_drive_file</i>Project Documents
-            </a>
-            -->
-            <a class="btn btn-link" 
-                ui-sref="admin.prototype.map">
-                <i class="material-icons fl">pin_drop</i>Launch Map
-            </a>
-        </div>
-        
     </div>
     <div class="row">
         <main class="col-sm-12 col-md-8">
@@ -47,7 +34,6 @@
                         </a>
                     </li>
                 </ul>
-                <a class="read-more-link mt-05" ui-sref="admin.prototype.conditionsmain">Browse all Conditions for {{project.name}} »</a>
             </section>
 
             <section>
@@ -65,6 +51,7 @@
                     </li>
                 </ul>
                 <a class="read-more-link mt-1" href="javascript:void();">Learn More about Authorizations for {{project.name}} »</a>
+                <!-- <a class="read-more-link mt-05" ui-sref="admin.prototype.conditionsmain">Browse all Conditions for {{project.name}} »</a> -->
             </section>
 
             <section>
@@ -86,7 +73,7 @@
                     <li>
                         <div class="block">
                             <div class="avatar">
-                                <i class="material-icons">assignment_late</i>
+                                <i class="material-icons">assignment</i>
                             </div>
                             <span class="title">
                                 <span class="primary">Actions</span>
@@ -97,7 +84,7 @@
                         </div>
                     </li>
                 </ul>
-                <a class="read-more-link mt-025" ui-sref="admin.prototype.cemain">More about Compliance &amp; Enforcement at {{project.name}} »</a>
+                <a class="read-more-link mt-05" ui-sref="admin.prototype.cemain">More about Compliance &amp; Enforcement at {{project.name}} »</a>
             </section>
 
         </main>
@@ -107,6 +94,7 @@
                 <h2 class="card-title">Details</h2>
                 <div class="map-thumb">
                     <img src="modules/prototype/client/images/map-thumb.png"
+                        ui-sref="admin.prototype.map"
                         data-toggle="modal" 
                         data-target="#mapWindow" />
                 </div>
