@@ -76,7 +76,13 @@
             text-overflow: ellipsis;
             overflow: hidden;
         } 
+
+        &.disabled {
+            opacity: 0.5;
+        }
     }
+
+    
 }
 
 .metric {
@@ -102,6 +108,11 @@
         &:hover {
             text-decoration: none;
         }
+
+        &.disabled {
+            opacity: 0.5;
+        }
+
     }
 
     h3 {

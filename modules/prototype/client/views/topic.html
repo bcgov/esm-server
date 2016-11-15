@@ -23,13 +23,19 @@
                 <h2>Environment Conditions</h2>
                 <ul class="ce-blocks block-container clearfix">
                     <li ng-repeat="subtopic in topic.subtopics">
-                        <a class="block block-hover" ng-disabled="subtopic.description ===''"
+                        <a class="block block-hover" ng-show="subtopic.name === 'Tailings Management'"
                            ui-sref="admin.prototype.subtopic({topicId: topic.topicId, subtopicId: subtopic.subtopicId})">
                             <span class="title">
                                 <span class="primary">{{subtopic.name}}</span>
                             </span>
                             <span class="metric">{{subtopic.inspections.length}}</span>
                         </a>
+                        <span class="block disabled" ng-hide="subtopic.name === 'Tailings Management'">
+                            <span class="title">
+                                <span class="primary">{{subtopic.name}}</span>
+                            </span>
+                            <span class="metric">{{subtopic.inspections.length}}</span>
+                        </span>
                     </li>
                 </ul>
                 <div class="mt-1">

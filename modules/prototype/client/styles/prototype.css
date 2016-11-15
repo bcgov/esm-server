@@ -364,7 +364,7 @@ main section {
     background-color: #FFF;
     min-width: 100%;
     max-width: 100%;
-    min-height: 150px;
+    min-height: 180px;
     cursor: pointer; }
 
 /* COMPONENTS */
@@ -722,6 +722,8 @@ main section {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden; }
+  .ce-blocks .block.disabled {
+    opacity: 0.5; }
 
 .metric {
   flex: 0 0 auto;
@@ -740,6 +742,8 @@ main section {
   color: #494949; }
   .topic-blocks .block:focus, .topic-blocks .block:hover {
     text-decoration: none; }
+  .topic-blocks .block.disabled {
+    opacity: 0.5; }
 .topic-blocks h3 {
   display: block;
   color: #2b5580;
