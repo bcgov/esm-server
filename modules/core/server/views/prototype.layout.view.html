@@ -57,7 +57,7 @@
 		var links = document.getElementsByTagName("link");
 		for (var x in links) {
 			var link = links[x];
-			if (link.getAttribute("id") === "mainstyle") {
+			if (link && link.getAttribute && link.getAttribute("id") === "mainstyle") {
 				console.log(link.href);
 				link.href = link.href + "?id=" + new Date().getMilliseconds();
 			}
