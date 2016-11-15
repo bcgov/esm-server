@@ -293,3 +293,17 @@ main {
         }
     }
 }
+
+
+.map-thumb {
+    background: #f7f8fa;
+    padding: 1rem;
+    padding-bottom: 0;
+        img {
+            background-color: #FFF;
+            min-width: 100%;
+            max-width: 100%;
+            min-height: 180px;
+            cursor: pointer;
+        }
+}

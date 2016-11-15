@@ -356,6 +356,17 @@ main section {
     .card-block .buttons li .btn {
       width: 100%; }
 
+.map-thumb {
+  background: #f7f8fa;
+  padding: 1rem;
+  padding-bottom: 0; }
+  .map-thumb img {
+    background-color: #FFF;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 150px;
+    cursor: pointer; }
+
 /* COMPONENTS */
 .action-summary p {
   margin-bottom: 1.675rem;
