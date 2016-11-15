@@ -9,16 +9,16 @@
         <span>/</span>
         <a ui-sref="admin.prototype.conditionsmain">Project Conditions</a>
         <span>/</span>
-        <span>Condition: {{condition.name}} </span>
+        <span>Condition: {{condition.title}} </span>
     </div>
     <div class="title-container">
-        <h1>{{condition.name}}</h1>
+        <h1>{{condition.title}}</h1>
     </div>
     <div class="row">
 
         <main class="col-sm-12 col-md-7 col-lg-8">
             <section class="page-narrative">
-                <p ng-bind-html="condition.description"></p>
+                <p ng-bind-html="condition.conditionText"></p>
             </section>
             <section>
                 <h2>Supporting Documents</h2>
