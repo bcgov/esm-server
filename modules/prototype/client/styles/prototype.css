@@ -69,9 +69,9 @@ p {
 
 /* BOOTSTRAP OVERRIDES */
 .tag-default {
-  color: #FFF;
-  font-weight: normal;
-  background: #5475a7; }
+  color: #494949;
+  font-weight: bold;
+  background: #DDD; }
 
 .table thead th {
   background: #FFF;
@@ -383,82 +383,57 @@ main section {
 .ce-grid thead {
   font-size: 0.875rem;
   font-weight: bold; }
+  .ce-grid thead tr {
+    width: 100%; }
   .ce-grid thead th {
-    padding: 0.5rem 1rem; }
+    padding: 0.5rem 1rem;
+    border-bottom: none; }
 .ce-grid tbody {
+  width: 100%;
+  display: block;
   font-size: 0.875rem; }
+  .ce-grid tbody tr {
+    position: relative;
+    width: 100%; }
   .ce-grid tbody td {
-    padding: 1rem; }
+    padding: 1rem;
+    border-top: none; }
     .ce-grid tbody td a {
       font-weight: bold;
       text-decoration: underline; }
-.ce-grid .ce-date {
-  font-size: 0.875rem; }
+.ce-grid tr {
+  display: table;
+  table-layout: fixed;
+  border-bottom: 1px solid #EEE; }
 .ce-grid .ce-tags {
   margin-top: 0.625rem; }
-
-.inspections-grid,
-.actions-grid {
-  table-layout: fixed; }
-  .inspections-grid tr,
-  .actions-grid tr {
-    display: table;
-    table-layout: fixed;
-    border-bottom: 1px solid #EEE; }
-  .inspections-grid thead tr,
-  .actions-grid thead tr {
-    width: 100%; }
-  .inspections-grid thead th,
-  .actions-grid thead th {
-    border-bottom: none; }
-  .inspections-grid tbody,
-  .actions-grid tbody {
-    width: 100%;
-    display: block; }
-    .inspections-grid tbody td,
-    .actions-grid tbody td {
-      border-top: none; }
-  .inspections-grid .date-col,
-  .actions-grid .date-col {
-    text-align: right; }
-  .inspections-grid tbody tr,
-  .actions-grid tbody tr {
-    position: relative;
-    width: 100%; }
-  .inspections-grid tbody td.id-col,
-  .actions-grid tbody td.id-col {
-    width: 100%; }
-  .inspections-grid tbody td.date-col,
-  .actions-grid tbody td.date-col {
-    position: absolute;
-    top: 0;
-    padding: 1rem;
+.ce-grid pre {
+  overflow: hidden;
+  white-space: normal;
+  font-family: "Arimo", sans-serif;
+  font-size: 0.75rem; }
+  .ce-grid pre p {
+    margin: 0.5rem 0; }
+.ce-grid .tag-list {
+  margin-top: 0.5rem; }
+  .ce-grid .tag-list .tag {
+    margin-right: 0.25rem;
     font-size: 0.75rem; }
-  .inspections-grid .row-desc,
-  .actions-grid .row-desc {
-    margin-top: 0.5rem;
-    margin-bottom: 0.75rem;
-    font-size: 0.75rem;
-    font-style: italic; }
-  .inspections-grid .tag-list,
-  .actions-grid .tag-list {
-    margin-top: 0.5rem; }
-    .inspections-grid .tag-list .tag,
-    .actions-grid .tag-list .tag {
-      margin-right: 0.25rem;
-      font-size: 0.75rem; }
-  .inspections-grid pre,
-  .actions-grid pre {
-    overflow: hidden;
-    white-space: normal;
-    font-family: "Arimo", sans-serif;
-    font-size: 0.75rem; }
-    .inspections-grid pre p,
-    .actions-grid pre p {
-      margin: 0.5rem 0; }
+.ce-grid .row-desc {
+  margin: 1rem 0;
+  font-size: 0.75rem;
+  font-style: italic; }
 
+.inspections-grid td.id-col {
+  width: 100%; }
+.inspections-grid td.date-col {
+  position: absolute;
+  top: 0;
+  padding: 1rem;
+  font-size: 0.75rem; }
 .inspections-grid .date-col {
-  right: 11rem; }
+  right: 11rem;
+  text-align: right; }
 .inspections-grid .followup-col {
   text-align: right;
   width: 11rem;
@@ -467,8 +442,28 @@ main section {
   text-overflow: ellipsis;
   font-size: 0.75rem; }
 
+.actions-grid td.id-col {
+  width: 100%; }
+.actions-grid td.date-col {
+  position: absolute;
+  top: 0;
+  padding: 1rem;
+  font-size: 0.75rem; }
 .actions-grid .date-col {
-  right: 0; }
+  right: 0;
+  text-align: right; }
+
+.conditions-grid td.id-col {
+  width: 100%; }
+.conditions-grid th.agency-col,
+.conditions-grid td.agency-col {
+  text-align: right; }
+.conditions-grid td.agency-col {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  font-size: 0.75rem; }
 
 .detail-list {
   margin-top: -0.2rem;

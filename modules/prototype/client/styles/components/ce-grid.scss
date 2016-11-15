@@ -8,16 +8,29 @@
         font-size: 0.875rem;
         font-weight: bold;
 
+        tr {
+            width: 100%;
+        }
+
         th {
             padding: 0.5rem 1rem;
+            border-bottom: none;
         }
     }
 
     tbody {
+        width: 100%;
+        display: block;
         font-size: 0.875rem;
+
+        tr {
+            position: relative;
+            width: 100%;
+        }
 
         td {
             padding: 1rem;
+            border-top: none;
 
             a {
                 font-weight: bold;
@@ -26,71 +39,25 @@
         }
     }
 
-    .ce-date {
-        font-size: 0.875rem;
-    }
-    
-    .ce-tags {
-        margin-top: 0.625rem;
-    }
-}
-
-.inspections-grid,
-.actions-grid {
-    table-layout: fixed;
-
     tr {
         display: table;
         table-layout: fixed;
         border-bottom: 1px solid #EEE;
     }
-
-    thead {
-        tr {
-            width: 100%;
-        }
-
-        th {
-            border-bottom: none;
-        }
+    
+    .ce-tags {
+        margin-top: 0.625rem;
     }
 
-    tbody {
-        width: 100%;
-        display: block;
-
-        td {
-            border-top: none;
-        }
-    }
-
-    .date-col {
-        text-align: right;
-    }
-
-    tbody {
-        tr {
-            position: relative;
-            width: 100%;
-        }
-
-        td.id-col {
-            width: 100%;
-        }
-
-        td.date-col {
-            position: absolute;
-            top: 0;
-            padding: 1rem;
-            font-size: 0.75rem;
-        }
-    }
-
-    .row-desc {
-        margin-top: 0.5rem;
-        margin-bottom: 0.75rem;
+     pre {
+        overflow: hidden;
+        white-space: normal;
+        font-family: $app-font-family;
         font-size: 0.75rem;
-        font-style: italic;
+
+        p {
+            margin: 0.5rem 0;
+        }
     }
 
     .tag-list {
@@ -102,21 +69,28 @@
         }
     }
 
-    pre {
-        overflow: hidden;
-        white-space: normal;
-        font-family: $app-font-family;
+    .row-desc {
+        margin: 1rem 0;
         font-size: 0.75rem;
-
-        p {
-            margin: 0.5rem 0;
-        }
+        font-style: italic;
     }
 }
 
 .inspections-grid {
+    td.id-col {
+        width: 100%;
+    }
+
+    td.date-col {
+        position: absolute;
+        top: 0;
+        padding: 1rem;
+        font-size: 0.75rem;
+    }
+    
     .date-col {
         right: 11rem;
+        text-align: right;
     }
 
     .followup-col {
@@ -130,7 +104,39 @@
 }
 
 .actions-grid {
+    td.id-col {
+        width: 100%;
+    }
+
+    td.date-col {
+        position: absolute;
+        top: 0;
+        padding: 1rem;
+        font-size: 0.75rem;
+    }
+
     .date-col {
         right: 0;
+        text-align: right;
+    }
+}
+
+
+.conditions-grid {
+    td.id-col {
+        width: 100%;
+    }
+
+    th.agency-col,
+    td.agency-col {
+        text-align: right;
+    }
+
+    td.agency-col {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 1rem;
+        font-size: 0.75rem;
     }
 }

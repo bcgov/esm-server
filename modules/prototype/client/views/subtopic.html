@@ -37,7 +37,8 @@
 
                 <div class="tab-content">
                     <div class="tab-pane active" id="conditions" role="tabpanel">
-                        <table ng-table="tableParams" class="inspections-grid ce-grid table table-striped table-hover" show-filter="false">
+                        
+                        <table ng-table="tableParams" class="conditions-grid ce-grid table table-striped table-hover" show-filter="false">
                             <tr ng-repeat="condition in subtopic.conditions">
                                 <td class="id-col"
                                     header-class="'id-col'"
@@ -50,13 +51,14 @@
                                         <span class="tag tag-default" ng-repeat="topic in condition.topics">{{topic}}</span>
                                     </div>
                                 </td>
-                                <td class="date-col" 
-                                    header-class="'date-col'" 
+                                <td class="agency-col" 
+                                    header-class="'agency-col'" 
                                     data-title="'Agency'"
                                     filter="{'agency':'text'}"
                                     sortable="'agency'">{{condition.agency}}</td>
                             </tr>
                         </table>
+
                     </div>
                     <div class="tab-pane" id="inspections" role="tabpanel">
                         <table ng-table="tableParams" class="inspections-grid ce-grid table table-striped table-hover" show-filter="false">
@@ -76,11 +78,16 @@
                                     data-title="'Date'"
                                     filter="{'inspection.date':'text'}"
                                     sortable="'inspection.date'">{{inspection.date}}</td>
+                                <td class="followup-col" 
+                                    header-class="'followup-col'" 
+                                    data-title="'Recent Follow Up'"
+                                    filter="{'inspection.date':'text'}"
+                                    sortable="'inspection.date'">{{inspection.followupType}}</td>
                             </tr>
                         </table>
                     </div>
                     <div class="tab-pane" id="actions" role="tabpanel">
-                        <table ng-table="tableParams" class="inspections-grid ce-grid table table-striped table-hover" show-filter="false">
+                        <table ng-table="tableParams" class="actions-grid ce-grid table table-striped table-hover" show-filter="false">
                             <tr ng-repeat="action in subtopic.actions">
                                 <td class="id-col"
                                     header-class="'id-col'"
