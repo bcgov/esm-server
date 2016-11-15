@@ -39,7 +39,7 @@
             <section>
                 <h2>Authorizations</h2>
                 <ul class="authorization-blocks resource-list resource-list-lg list-group">
-                    <li class="list-group-item" ng-repeat="authorization in project.groupedAuthorizations">
+                    <li class="list-group-item" ng-repeat="authorization in project.groupedAuthorizations" ui-sref="admin.prototype.authorizations">
                         <span class="title">
                             <span class="primary">{{authorization.name}}</span>
                             <span class="secondary secondary-color">{{authorization.agency}}</span>
@@ -50,8 +50,14 @@
                         </span>
                     </li>
                 </ul>
-                <a class="read-more-link mt-1" ui-sref="admin.prototype.authorizations">Learn More about Authorizations for {{project.name}} »</a>
-                <!-- <a class="read-more-link mt-05" ui-sref="admin.prototype.conditionsmain">Browse all Conditions for {{project.name}} »</a> -->
+                <ul>
+                    <li>
+                        <a class="read-more-link mt-05" ui-sref="admin.prototype.authorizations">Learn More about Authorizations for {{project.name}} »</a>
+                    </li>
+                    <li>
+                        <a class="read-more-link mt-05" ui-sref="admin.prototype.conditionsmain">Browse all Conditions for {{project.name}} »</a>
+                    </li>
+                </ul>
             </section>
 
             <section>
