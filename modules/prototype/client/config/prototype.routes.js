@@ -5,6 +5,7 @@
 //
 // =========================================================================
 angular.module('prototype').config(['$stateProvider', '_', function ($stateProvider, _) {
+
 	$stateProvider
 	// -------------------------------------------------------------------------
 	//
@@ -166,8 +167,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			}
 		}
 	})
-
-	// PROJECT MAIN 
+	// PROJECT MAIN
 	.state('admin.prototype.projectmain', {
 		url: '/project-main',
 		resolve: {},
@@ -310,6 +310,8 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			$scope.project = project;
 
 			$scope.conditions = _.filter(conditions, function(x) { return x.projectId === project.projectId; });
+
+
 		},
 	})
 

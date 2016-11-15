@@ -261,3 +261,49 @@ main {
 .tag {
     padding: 0.4em 0.6em;
 }
+
+.card-block {
+    .form-group {
+        label {
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+    }
+    .buttons {
+        margin-top: 0.5rem;
+
+        button {
+            font-size: 0.875rem;
+            font-weight: bold;
+        }
+
+        ul {
+            margin-left: -0.25rem;
+            margin-right: -0.25rem;
+        }
+
+        li {
+            float: left;
+            width: 50%;
+            padding: 0.25rem;
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    }
+}
+
+
+.map-thumb {
+    background: #f7f8fa;
+    padding: 1rem;
+    padding-bottom: 0;
+        img {
+            background-color: #FFF;
+            min-width: 100%;
+            max-width: 100%;
+            min-height: 180px;
+            cursor: pointer;
+        }
+}
