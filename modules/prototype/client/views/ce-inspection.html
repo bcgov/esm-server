@@ -21,14 +21,14 @@
         <main class="col-sm-12 col-md-7 col-lg-8">
             
             <section class="page-narrative">
-                <p>{{inspection.summary}}</p>   
+                <p>{{inspection.followupText}}</p>
                 <ul class="resource-list resource-list-lg list-group">
                     <li class="list-group-item list-group-item-action">
                         <div class="avatar">
                             <i class="material-icons">insert_drive_file</i>
                         </div>
                         <span class="title">
-                            <a class="primary" href="">Download Inspection Report - {{inspection.inspectionId}}</a>
+                            <a class="primary" ng-href="{{inspection.documentUrl}}" target="_blank">Download Inspection Report - {{inspection.inspectionId}}</a>
                         </span>
                         <span class="actions">
                             <i class="material-icons">file_download</i>
@@ -37,7 +37,7 @@
                 </ul>
             </section>
 
-            <section>
+            <section ng-if="inspection.followupDocumentUrl">
                 <h2>Inspection Follow Up</h2>
                      <ul class="resource-list resource-list-lg list-group">
                         <li class="list-group-item list-group-item-action">
@@ -45,7 +45,7 @@
                                 <i class="material-icons">insert_drive_file</i>
                             </div>
                             <span class="title">
-                                <a class="primary" href="">Download Mine Manager's Response - {{inspection.inspectionId}}</a>
+                                <a class="primary" ng-href="{{inspection.followupDocumentUrl}}">Download Mine Manager's Response - {{inspection.inspectionId}}</a>
                             </span>
                             <span class="actions">
                                 <i class="material-icons">file_download</i>
@@ -62,14 +62,6 @@
                         <div class="form-inline">
                             <div class="form-group">
                                 <select class="form-control">
-                                    <option selected>Sort by</option>
-                                    <option>Option 1</option>
-                                    <option>Option 2</option>
-                                    <option>Option 3</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <select class="form-control">
                                     <option>10</option>
                                     <option>25</option>
                                     <option>50</option>
@@ -79,15 +71,15 @@
                     </div>
                 </div>
 
-                <table ng-table="tableParams" class="inspections-grid ce-grid table table-striped table-hover" show-filter="false">
+                <table ng-table="tableParams" class="inspections-grid actions-grid ce-grid table table-striped table-hover" show-filter="false">
                     <tr ng-repeat="action in inspectionActions">
                         <td class="id-col"
                             header-class="'id-col'"
                             data-title="'ID'"
                             filter="{'actionID':'text'}"
                             sortable="'actionID'">
-                            <a ui-sref="admin.prototype.action({actionId: action._id})">{{action.type}} Issued: {{action.orderId}}</a>
-                            <pre class="row-desc" ng-bind-html="action.detail"></pre>
+                            <a ui-sref="admin.prototype.action({orderId: action.orderId})">{{action.type}} Issued: {{action.orderId}}</a>
+                            <pre class="row-desc" ng-bind-html="action.text"></pre>
                             <div class="tag-list">
                                 <span class="tag tag-default" ng-repeat="topic in action.topics">{{topic}}</span>
                             </div>
@@ -96,7 +88,7 @@
                             header-class="'date-col'" 
                             data-title="'Date'"
                             filter="{'inspectionID':'text'}"
-                            sortable="'inspectionID'">{{action.issueDate}}</td>
+                            sortable="'inspectionID'">{{action.issuedDate}}</td>
                     </tr>
                 </table>
         </section>
@@ -135,18 +127,28 @@
             <section class="card">
                 <h2 class="card-title">Related Documents</h2>
                 <div class="resource-list resource-list-sm list-group">
-                    <a class="list-group-item list-group-item-action" href="#"
-                        ng-repeat="document in inspection.relatedDocuments">
-                        <span class="avatar">
+                   <li class="list-group-item list-group-item-action">
+                        <div class="avatar">
                             <i class="material-icons md-18">insert_drive_file</i>
-                        </span>
+                        </div>
                         <span class="title">
-                            <span class="primary">{{document.name}}</span>
+                            <a class="primary" ng-href="{{inspection.documentUrl}}" target="_blank">Inspection Report - {{inspection.inspectionId}}</a>
                         </span>
                         <span class="actions">
                             <i class="material-icons md-18">file_download</i>
                         </span>
-                    </a>
+                    </li>
+                    <li class="list-group-item list-group-item-action" ng-if="inspection.followupDocumentUrl">
+                        <div class="avatar">
+                            <i class="material-icons md-18">insert_drive_file</i>
+                        </div>
+                        <span class="title">
+                            <a class="primary" ng-href="{{inspection.followupDocumentUrl}}">Mine Manager's Response - {{inspection.inspectionId}}</a>
+                        </span>
+                        <span class="actions">
+                            <i class="material-icons md-18">file_download</i>
+                        </span>
+                    </li>
                 </div>
             </section>
 

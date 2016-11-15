@@ -25,10 +25,13 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 				return data.agencies;
 			},
 			topics: function(data) {
-				return data.topics;
-			},
-			subTopics: function(data) {
-				return data.subTopics;
+				var topics = _.filter(data.topics, function(t) { return t.active === 'Y';});
+				var subTopics = _.filter(data.subTopics, function(t) { return t.active === 'Y';});
+				_.each(topics, function(topic) {
+					var subs = _.filter(subTopics, function(sub) { return sub.topic === topic.topic; });
+					topic.subtopics = subs;
+				});
+				return topics;
 			},
 			projects: function(data) {
 				return data.projects;
@@ -42,19 +45,50 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			phases: function(data) {
 				return data.phases;
 			},
-			inspections: function(data) {
-				return data.inspections;
+			inspectionsText: function(data) {
+				return data.inspectionsText;
 			},
-			actions: function(data) {
-				return data.actions;
+			inspections: function(data, inspectionsText) {
+				var inspections = data.inspections;
+				_.each(inspectionsText, function(txt) {
+					var inspection = _.find(inspections, function(x) { return txt.agency === x.agency && txt.project === x.project && txt.inspectionId === x.inspectionId; });
+					if (inspection) {
+						inspection.followupText = txt.followupText;
+					}
+				});
+				return inspections;
 			},
-			conditions: function(data) {
-				return data.conditions;
+			actionsText: function(data) {
+				return data.actionsText;
+			},
+			actions: function(data, actionsText) {
+				var actions = data.actions;
+				_.each(actionsText, function(txt) {
+					var action = _.find(actions, function(x) { return txt.agency === x.agency && txt.project === x.project && txt.orderId === x.orderId; });
+					if (action) {
+						action.text = txt.text;
+						action.responseText = txt.responseText;
+					}
+				});
+				return actions;
+			},
+			conditionsText: function(data) {
+				return data.conditionsText;
+			},
+			conditions: function(data, conditionsText) {
+				var conditions = data.conditions;
+				_.each(conditionsText, function(txt) {
+					var condition = _.find(conditions, function(x) { return txt.agency === x.agency && txt.project === x.project && txt.permitId === x.permitId && txt.conditionNo === x.conditionNo; });
+					if (condition) {
+						condition.conditionText = txt.conditionText;
+					}
+				});
+				return conditions;
 			},
 			documents: function(data) {
 				return data.documents;
 			},
-			project: function (agencies, topics, subTopics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents) {
+			project: function (agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents) {
 				var result = _.find(projects, function(i) { return i.name === "Mount Milligan Mine"; });
 
 
@@ -98,11 +132,45 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 		url: '/project-main',
 		resolve: {},
 		templateUrl: 'modules/prototype/client/views/project-main.html',
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, subTopics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project) {
+		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project, uiGmapGoogleMapApi) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
 
 			$scope.project = project;
+
+			var mpl = {};
+			mpl.center = {latitude: 54.726668, longitude: -122.647621};
+			mpl.layers = {};
+			mpl.markers = [];
+			mpl.KMLLayers = [];
+			mpl.projectFiltered = [];
+
+			mpl.map = {
+				center: {latitude: 54.726668, longitude: -127.647621},
+				zoom: 12,
+				options: {
+					scrollwheel: false,
+					minZoom: 4
+				},
+				markers: mpl.projectFiltered // array of models to display
+			};
+
+			mpl.map.markers.push({
+				id: 12345,
+				latitude: 54.726668,
+				longitude: -127.647621
+			});
+
+			// var kmlURL = window.location.protocol + "//" + window.location.host + "/api/document/" + doc._id + "/fetch";
+			var kmlURL = "http://www.google.com/file.kml";
+			mpl.KMLLayers.push({
+				url: kmlURL,
+				label: "doc.internalOriginalName",
+				show: true,
+				_id: 654654
+			});
+
+			$scope.mpl = mpl;
 		},
 	})
 
@@ -110,7 +178,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 	.state('admin.prototype.cemain', {
 		url: '/compliance-and-enforcement',
 		templateUrl: 'modules/prototype/client/views/ce-main.html',
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, subTopics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project) {
+		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
 
@@ -140,15 +208,15 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 
 	// ACTION 
 	.state('admin.prototype.action', {
-		url: '/action/:actionId',
+		url: '/action/:orderId',
 		templateUrl: 'modules/prototype/client/views/ce-action.html',
 		resolve: {
 			action: function (project, $stateParams) {
-				var result = _.find(project.actions, function(i) { return i._id === $stateParams.actionId; });
+				var result = _.find(project.actions, function(i) { return i.orderId === $stateParams.orderId; });
 				return result;
 			},
 			inspection: function (project, action) {
-				var result = _.find(project.inspections, function(i) { return i._id === action.inspectionId; });
+				var result = _.find(project.inspections, function(i) { return i.inspectionId === action.inspectionId; });
 				return result;
 			}
 		},
@@ -194,27 +262,46 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 
 	// TOPIC 
 	.state('admin.prototype.topic', {
-		url: '/topic',
+		url: '/topic/:topic',
+		resolve: {
+			topic: function (topics, $stateParams) {
+				var result = _.find(topics, function(i) { return i.topic === $stateParams.topic; });
+				return result;
+			}
+		},
 		templateUrl: 'modules/prototype/client/views/topic.html',
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, project) {
+		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, project, topic) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
 
 			$scope.project = project;
-
+			$scope.topic = topic;
 		},
 	})
 
 	// SUBTOPIC 
 	.state('admin.prototype.subtopic', {
-		url: '/subtopic',
+		url: '/topic/:topic/subtopic/:subtopic',
+		resolve: {
+			topic: function (topics, $stateParams) {
+				var result = _.find(topics, function(i) { return i.topic === $stateParams.topic; });
+				return result;
+			},
+			subtopic: function (topic, $stateParams) {
+				var result = _.find(topic.subtopics, function(i) { return i.topic === $stateParams.topic && i.subtopic === $stateParams.subtopic; });
+				return result;
+			}
+		},
 		templateUrl: 'modules/prototype/client/views/subtopic.html',
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, project) {
+		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, project, topic, subtopic) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
 
 			$scope.project = project;
+			$scope.topic = topic;
+			$scope.subtopic = subtopic;
 
+			// find all conditions, etc related to subtopic
 		}
 	});
 

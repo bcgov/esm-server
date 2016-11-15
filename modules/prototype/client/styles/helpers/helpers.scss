@@ -24,6 +24,11 @@ ul {
     list-style-type: none;
 }
 
+p {
+    margin-bottom: 1.5rem;
+    line-height: 1.65rem;
+}
+
 .list-group-item {
     padding: 1.5rem;
 }
@@ -75,6 +80,7 @@ ul {
     text-decoration: underline;
     white-space: nowrap;
     font-size: 0.875rem;
+    font-weight: bold;
 }
 
 /* BOOTSTRAP OVERRIDES */

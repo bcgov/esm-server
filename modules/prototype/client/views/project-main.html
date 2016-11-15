@@ -12,18 +12,20 @@
     <div class="title-container">
         <h1>{{project.name}}</h1>
         
-        <!--
         <div class="actions">
+            <!--
             <a class="btn btn-link" href="javascript:void();">
                 <i class="material-icons fl">insert_drive_file</i>Project Documents
             </a>
-            <a class="btn btn-link" href="javascript:void();"
+            -->
+            <!--
+            <a class="btn btn-link" 
                 data-toggle="modal" 
                 data-target="#mapWindow">
                 <i class="material-icons fl">pin_drop</i>Launch Map
             </a>
+            -->
         </div>
-        -->
         
     </div>
     <div class="row">
@@ -35,28 +37,28 @@
 
             <section>
                 <h2>Topics</h2>
-                <p>Explore the topic areas below to learn more about how the mining operations generally and the <strong>{{project.name}}</strong> specifically address the shared values of the people of British Columbia.</p>
+                <p>Explore the topic areas below to learn more about how the mining operations generally and the {{project.name}} specifically address the shared values of the people of British Columbia.</p>
                 <ul class="topic-blocks block-container clearfix">
                     <li>
-                        <a class="block block-hover" href="/admin/prototype/topic">
+                        <a class="block block-hover" ui-sref="admin.prototype.topic({topic: 'Environment'})">
                             <h3>Environment</h3>
                             <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
                         </a>
                     </li>
                     <li>
-                        <a class="block block-hover" href="/admin/prototype/topic">
+                        <a class="block block-hover" ui-sref="admin.prototype.subtopic({topic: 'Environment', subtopic: 'Tailings Management'})">
                             <h3>Communities</h3>
                             <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
                         </a>
                     </li>
                     <li>
-                        <a class="block block-hover" href="/admin/prototype/topic">
+                        <a class="block block-hover" href="#">
                             <h3>Health &amp; Safety</h3>
                             <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
                         </a>
                     </li>
                     <li>
-                        <a class="block block-hover" href="/admin/prototype/topic">
+                        <a class="block block-hover" href="#">
                             <h3>Heritage</h3>
                             <span class="subtopics">Subtopic, Subtopic, Subtopic, etc.</span>
                         </a>
@@ -87,7 +89,7 @@
                     <li>
                         <div class="block">
                             <div class="avatar">
-                                <i class="material-icons">playlist_add_check</i>
+                                <i class="material-icons">assignment_turned_in</i>
                             </div>
                             <span class="title">
                                 <span class="primary">Inspections</span>
@@ -100,7 +102,7 @@
                     <li>
                         <div class="block">
                             <div class="avatar">
-                                <i class="material-icons">warning</i>
+                                <i class="material-icons">list</i>
                             </div>
                             <span class="title">
                                 <span class="primary">Actions</span>
@@ -111,7 +113,7 @@
                         </div>
                     </li>
                 </ul>
-                <a class="read-more-link mt-025" href="/admin/prototype/compliance-and-enforcement">More about Compliance &amp; Enforcement at Mount Milligan »</a>
+                <a class="read-more-link mt-025" ui-sref="admin.prototype.cemain">More about Compliance &amp; Enforcement at Mount Milligan »</a>
             </section>
 
         </main>
@@ -144,66 +146,53 @@
             <section class="card">
                 <h2 class="card-title">Project Status</h2>
                 <ul class="project-status resource-list resource-list-sm list-group">
-                    <li class="list-group-item" ng-repeat="phase in project.phases | orderBy: 'order'">
+                    <li class="list-group-item" ng-class="{'inactive' : phase.status == 'Inactive'}" ng-repeat="phase in project.phases | orderBy: 'order'">
                         <span class="title">
                             <span class="primary">{{phase.name}}</span>
                         </span>
                         <span class="actions">
                             <span class="tag"
-                                    ng-class="{'tag-info': phase.status == 'Active',
-                                                'tag-default' : phase.status == 'Complete'}">{{phase.status}}</span>
+                                    ng-class="{'tag-info': phase.status == 'Active', 'tag-default': phase.status == 'Complete' || phase.status == 'Inactive'}">{{phase.status}}</span>
                         </span>
                     </li>
                 </ul>
-            </section>      
+            </section>
+
 
         </aside>
     </div>
 </div>
 
-
+<!-- MAP -->
  <div class="modal modal-fullscreen fade" id="mapWindow" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+            
             <div class="modal-header">
-                <a class="app-header-brand">
-                    <img src="modules/prototype/client/images/bc_logo_transparent.png" />
-                </a>
+                <a class="app-header-brand"><img src="modules/prototype/client/images/bc_logo_transparent.png" /></a>
                 <span class="fr" data-dismiss="modal" aria-label="Close">Close Window</span>
             </div>
 
             <div class="modal-body">
-                <ui-gmap-google-map id='project-map'
-                    center='mpl.map.center'
-                    zoom='mpl.map.zoom'
-                    refresh='1'
-                    options='mpl.map.options'>
-                    <ui-gmap-markers
-                        models="mpl.projectFiltered"
-                        coords="'self'">
-                    </ui-gmap-markers>
-                    <ui-gmap-layer	ng-repeat="layer in mpl.KMLLayers"
-                                    type="KmlLayer"
-                                    options="layer"
-                                    show="layer.show"></ui-gmap-layer>
-                </ui-gmap-google-map>
-                
-                <div ng-if="mpl.KMLLayers.length > 0" >
-                    <label class="control-label"> Layers</label>
-                    <div class="well well-sm">
-                        <ul class="list-unstyled task-list">
-                            <li ng-repeat="layer in mpl.KMLLayers">
-                                <button ng-init="layer.show=true"
-                                        class="btn btn-block btn-sm btn-layer"
-                                        ng-class="{'btn-success': layer.show}"
-                                        ng-click="layer.show = !layer.show">{{ layer.label }}</button>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="map-layers-view">
+                    <ui-gmap-google-map id='project-map'
+                        center='mpl.center'
+                        zoom='mpl.map.zoom'
+                        refresh='1'
+                        options='mpl.map.options'>
+                        <ui-gmap-markers
+                            models="mpl.projectFiltered"
+                            coords="'self'">
+                        </ui-gmap-markers>
+                        <ui-gmap-layer	ng-repeat="layer in mpl.KMLLayers"
+                            type="KmlLayer"
+                            options="layer"
+                            show="layer.show">
+                        </ui-gmap-layer>
+                    </ui-gmap-google-map>
                 </div>
-                
             </div>
-
+            
         </div>
     </div>
 </div>   

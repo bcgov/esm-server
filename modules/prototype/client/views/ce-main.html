@@ -36,7 +36,7 @@
                     <li>
                         <div class="block">
                             <div class="avatar">
-                                <i class="material-icons">warning</i>
+                                <i class="material-icons">list</i>
                             </div>
                             <span class="title">
                                 <span class="primary">Actions</span>
@@ -54,14 +54,6 @@
                         <h3>Viewing {{project.inspections.length}} of {{project.inspections.length}} inspections</h3>
                         <div class="filters">
                             <div class="form-inline">
-                                <div class="form-group">
-                                    <select class="form-control">
-                                        <option selected>Sort by</option>
-                                        <option>Option 1</option>
-                                        <option>Option 2</option>
-                                        <option>Option 3</option>
-                                    </select>
-                                </div>
                                 <div class="form-group">
                                     <select class="form-control">
                                         <option selected>10</option>
@@ -86,9 +78,14 @@
                             </td>
                             <td class="date-col" 
                                 header-class="'date-col'" 
-                                data-title="'Date'"
+                                data-title="'Inspection Date'"
                                 filter="{'inspection.date':'text'}"
                                 sortable="'inspection.date'">{{inspection.date}}</td>
+                            <td class="followup-col"
+                                header-class="'followup-col'"
+                                data-title="'Recent Follow-Up'"
+                                filter="{'inspection.date':'text'}"
+                                sortable="'inspection.date'">{{inspection.followupType}}</td>
                         </tr>
                     </table>
             </section>
@@ -98,49 +95,26 @@
                 
             <section class="card">
                 <h2 class="card-title">Related Documents</h2>
-                <div class="resource-list resource-list-sm list-group">
-                    <a class="list-group-item list-group-item-action" href="#">
+                <ul class="resource-list resource-list-sm list-group">
+                    <li class="list-group-item list-group-item-action" href="#">
                         <span class="avatar">
                             <i class="material-icons md-18">insert_drive_file</i>
                         </span>
                         <span class="title">
-                            <span class="primary">Document Link</span>
+                            <a href="http://www2.gov.bc.ca/assets/gov/environment/research-monitoring-and-reporting/reporting/reporting-documents/environmental-enforcement-docs/compliance_mgmt_framework.pdf" target="_blank">Ministry of Environment - Compliance Management Framework</a>
                         </span>
                         <span class="actions">
-                            <i class="material-icons">file_download</i>
+                            <i class="material-icons md-18">file_download</i>
                         </span>
-                    </a>
-                    <a class="list-group-item list-group-item-action" href="#">
-                        <span class="avatar">
-                            <i class="material-icons md-18">insert_drive_file</i>
-                        </span>
-                        <span class="title">
-                            <span class="primary">Document Link</span>
-                        </span>
-                        <span class="actions">
-                            <i class="material-icons">file_download</i>
-                        </span>
-                    </a>
-                    <a class="list-group-item list-group-item-action" href="#">
-                        <span class="avatar">
-                            <i class="material-icons md-18">insert_drive_file</i>
-                        </span>
-                        <span class="title">
-                            <span class="primary">Document Link</span>
-                        </span>
-                        <span class="actions">
-                           <i class="material-icons">file_download</i>
-                        </span>
-                    </a>
-                </div>
+                    </li>
+                </ul>
             </section>
 
             <section class="card">
-                <h2 class="card-title">Links of Interest</h2>
+                <h2 class="card-title">External Links</h2>
                 <ul class="resource-list resource-list-sm list-group">
-                    <li class="list-group-item"><a href="#">Document Link</a></li>
-                    <li class="list-group-item"><a href="#">Document Link</a></li>
-                    <li class="list-group-item"><a href="#">Document Link</a></li>
+                    <li class="list-group-item"><a href="#" target="_blank">Mining Compliance &amp; Enforcement</a></li>
+                    <li class="list-group-item"><a href="#" target="_blank">Environmental Assessment Office Compliance &amp; Enforcement</a></li>
                 </ul>
             </section>
             

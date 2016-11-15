@@ -24,6 +24,10 @@ ul {
   padding: 0;
   list-style-type: none; }
 
+p {
+  margin-bottom: 1.5rem;
+  line-height: 1.65rem; }
+
 .list-group-item {
   padding: 1.5rem; }
 
@@ -52,7 +56,7 @@ ul {
 .primary-color {
   color: #494949; }
 
-.secondary-color, .breadcrumbs span, .inspections-grid .row-desc {
+.secondary-color, .breadcrumbs span {
   color: #999; }
 
 /* MISC COMPONENTS */
@@ -60,7 +64,8 @@ ul {
   display: inline-block;
   text-decoration: underline;
   white-space: nowrap;
-  font-size: 0.875rem; }
+  font-size: 0.875rem;
+  font-weight: bold; }
 
 /* BOOTSTRAP OVERRIDES */
 .tag-default {
@@ -154,11 +159,6 @@ footer {
     padding-bottom: 1.875rem; }
 
 .title-container {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
   margin-bottom: 2rem; }
   .title-container h1 {
     -webkit-box-flex: 1 1 auto;
@@ -166,8 +166,11 @@ footer {
     -webkit-flex: 1 1 auto;
     -ms-flex: 1 1 auto;
     flex: 1 1 auto; }
-  .title-container .tags {
+  .title-container .tag-list {
     margin-top: 0.25rem; }
+    .title-container .tag-list .tag {
+      margin-right: 0.25rem;
+      padding: 0.4em 0.6em; }
   .title-container .actions {
     -webkit-box-flex: 0 0 auto;
     -moz-box-flex: 0 0 auto;
@@ -301,6 +304,22 @@ main section {
   height: 180px;
   background: #FFF; }
 
+.map-layers-view {
+  position: absolute; }
+
+.map-layers-view,
+.angular-google-map {
+  width: 100%;
+  height: 100%; }
+
+.angular-google-map-container {
+  position: absolute;
+  width: 100%;
+  height: 100%; }
+
+.tag {
+  padding: 0.4em 0.6em; }
+
 /* COMPONENTS */
 .action-summary p {
   margin-bottom: 1.675rem;
@@ -360,50 +379,78 @@ main section {
 .ce-grid .ce-tags {
   margin-top: 0.625rem; }
 
-.inspections-grid {
+.inspections-grid,
+.actions-grid {
   table-layout: fixed; }
-  .inspections-grid tr {
+  .inspections-grid tr,
+  .actions-grid tr {
     display: table;
     table-layout: fixed;
     border-bottom: 1px solid #EEE; }
-  .inspections-grid thead tr {
+  .inspections-grid thead tr,
+  .actions-grid thead tr {
     width: 100%; }
-  .inspections-grid thead th {
+  .inspections-grid thead th,
+  .actions-grid thead th {
     border-bottom: none; }
-  .inspections-grid tbody {
+  .inspections-grid tbody,
+  .actions-grid tbody {
     width: 100%;
     display: block; }
-    .inspections-grid tbody td {
+    .inspections-grid tbody td,
+    .actions-grid tbody td {
       border-top: none; }
-  .inspections-grid .date-col {
+  .inspections-grid .date-col,
+  .actions-grid .date-col {
     text-align: right; }
-  .inspections-grid tbody tr {
+  .inspections-grid tbody tr,
+  .actions-grid tbody tr {
     position: relative;
     width: 100%; }
-  .inspections-grid tbody td.id-col {
+  .inspections-grid tbody td.id-col,
+  .actions-grid tbody td.id-col {
     width: 100%; }
-  .inspections-grid tbody td.date-col {
+  .inspections-grid tbody td.date-col,
+  .actions-grid tbody td.date-col {
     position: absolute;
     top: 0;
-    right: 0;
-    padding: 1rem; }
-  .inspections-grid .row-desc {
+    padding: 1rem;
+    font-size: 0.75rem; }
+  .inspections-grid .row-desc,
+  .actions-grid .row-desc {
     margin-top: 0.5rem;
     margin-bottom: 0.75rem;
     font-size: 0.75rem;
     font-style: italic; }
-  .inspections-grid .tag-list {
+  .inspections-grid .tag-list,
+  .actions-grid .tag-list {
     margin-top: 0.5rem; }
-    .inspections-grid .tag-list .tag {
+    .inspections-grid .tag-list .tag,
+    .actions-grid .tag-list .tag {
       margin-right: 0.25rem;
       font-size: 0.75rem; }
-  .inspections-grid pre {
+  .inspections-grid pre,
+  .actions-grid pre {
     overflow: hidden;
     white-space: normal;
     font-family: "Arimo", sans-serif;
     font-size: 0.75rem; }
-    .inspections-grid pre p {
+    .inspections-grid pre p,
+    .actions-grid pre p {
       margin: 0.5rem 0; }
+
+.inspections-grid .date-col {
+  right: 11rem; }
+.inspections-grid .followup-col {
+  text-align: right;
+  width: 11rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.75rem; }
+
+.actions-grid .date-col {
+  right: 0; }
 
 .detail-list {
   margin-top: -0.2rem;
@@ -508,6 +555,10 @@ main section {
   .resource-list-lg .list-group-item .actions i {
     margin-top: -2px;
     margin-left: 0.75rem; }
+
+.subtopic .block .title {
+  padding-left: 0;
+  font-weight: bold; }
 
 .title-bar {
   display: -webkit-box;
