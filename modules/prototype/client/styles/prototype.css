@@ -322,7 +322,7 @@ main section {
   font-size: 0.875rem;
   font-weight: bold; }
 .card-block .buttons {
-  margin-top: 0.5rem; }
+  margin-top: 1rem; }
   .card-block .buttons button {
     font-size: 0.875rem;
     font-weight: bold; }
@@ -391,6 +391,14 @@ main section {
   width: 50%;
   float: left;
   font-weight: normal !important; }
+
+.pagination li {
+  display: inline-block; }
+  .pagination li a {
+    padding: 1rem; }
+
+.ng-table-counts {
+  display: none; }
 
 /* COMPONENTS */
 .action-summary p {

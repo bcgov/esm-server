@@ -243,7 +243,7 @@ main {
         }
     }
     .buttons {
-        margin-top: 0.5rem;
+        margin-top: 1rem;
 
         button {
             font-size: 0.875rem;
@@ -339,4 +339,18 @@ main {
         float: left;
         font-weight: normal !important;
     }
+}
+
+.pagination {
+    li {
+        display: inline-block;
+
+        a {
+            padding: 1rem;
+        }
+    }
+}
+
+.ng-table-counts {
+    display: none;
 }
