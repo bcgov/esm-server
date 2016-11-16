@@ -416,6 +416,72 @@ pre li {
   pre li:last-child {
     margin-bottom: 0; }
 
+.has-read-more {
+  position: relative;
+  margin-bottom: 3rem; }
+  .has-read-more .toggle-link {
+    position: absolute;
+    bottom: -1rem;
+    cursor: pointer; }
+
+.topic-narrative .toggle-link:after {
+  position: absolute;
+  display: block;
+  content: "Read More";
+  background: #FFF;
+  white-space: nowrap;
+  font-weight: bold;
+  font-size: 0.875rem;
+  color: #2b5580; }
+.topic-narrative .toggle-link + .content p {
+  display: none; }
+.topic-narrative .toggle-link + .content p:first-child {
+  display: block; }
+.topic-narrative .toggle-link + .content p:nth-child(2) {
+  display: block; }
+.topic-narrative .toggle-link:checked + .content p {
+  display: block; }
+.topic-narrative .toggle-link:checked:after {
+  content: "Read Less"; }
+
+.subtopic-narrative .toggle-link:after {
+  position: absolute;
+  display: block;
+  content: "Read More";
+  background: #FFF;
+  white-space: nowrap;
+  font-weight: bold;
+  font-size: 0.875rem;
+  color: #2b5580; }
+.subtopic-narrative .toggle-link + .content p {
+  display: none; }
+.subtopic-narrative .toggle-link + .content p:first-child {
+  display: block; }
+.subtopic-narrative .toggle-link + .content p:nth-child(2) {
+  display: block; }
+.subtopic-narrative .toggle-link:checked + .content p {
+  display: block; }
+.subtopic-narrative .toggle-link:checked:after {
+  content: "Read Less"; }
+
+.project-narrative .toggle-link:after {
+  position: absolute;
+  display: block;
+  content: "Read More";
+  background: #FFF;
+  white-space: nowrap;
+  font-weight: bold;
+  font-size: 0.875rem;
+  color: #2b5580; }
+.project-narrative .toggle-link + .content p {
+  display: none; }
+.project-narrative .toggle-link + .content p:first-child {
+  display: block; }
+.project-narrative .toggle-link:checked + .content p {
+  display: block; }
+.project-narrative .toggle-link:checked:after {
+  content: "Read Less"; }
+
 /* COMPONENTS */
 .action-summary p {
   margin-bottom: 1.675rem;

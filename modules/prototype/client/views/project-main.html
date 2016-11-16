@@ -1,5 +1,5 @@
 
-<div class="container">
+<div class="container page-main">
     
     <div class="breadcrumbs">
         <a ui-sref="projects">MEM</a>
@@ -15,8 +15,9 @@
     <div class="row">
         <main class="col-sm-12 col-md-8">
             
-            <section class="page-narrative">
-                <p>{{project.description}} <a class="read-more-link" href="#">Read More »</a></p>
+            <section class="has-read-more project-narrative">
+                <input class="toggle-link" type="checkbox"/>
+                <div class="content" ng-bind-html="project.description"></div>
             </section>
 
             <section>
@@ -38,7 +39,7 @@
 
             <section>
                 <h2>Authorizations</h2>
-                <p>Environmental assessment certificates and permits issued under the Mines Act and the Environmental Management Act (EMA) are the primary provincial authorizations for major mine projects in BC. The most recent primary authorizations for Mount Milligan are listed below. <a class="read-more-link" ui-sref="admin.prototype.authorizations">Learn More »</a></p>
+                <p>Environmental assessment certificates and permits issued under the Mines Act and the Environmental Management Act (EMA) are the primary provincial authorizations for major mine projects in BC. The most recent primary authorizations for Mount Milligan are listed below.</p>
                 <ul class="authorization-blocks resource-list resource-list-lg list-group">
                     <li class="list-group-item" ng-repeat="authorization in project.authorizations | orderBy:'-date'">
                         <span class="title">
