@@ -320,7 +320,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 
 					$scope.tableParamsStats.currentPage = params.page();
 					$scope.tableParamsStats.totalPages = (params.count() > 0) ? Math.ceil(params.total() / params.count()): 0;
-					$scope.tableParamsStats.first = ((params.page()-1) * params.count()) + 1;
+					$scope.tableParamsStats.first = ($scope.filteredCount === 0) ? 0 : ((params.page()-1) * params.count()) + 1;
 					$scope.tableParamsStats.last = (params.page() * params.count() > params.total()) ? params.total() : params.page() * params.count();
 					$scope.tableParamsStats.totalCount =  params.total();
 					$scope.tableParamsStats.filteredCount = $scope.filteredCount;
@@ -399,7 +399,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 
 					$scope.tableParamsStats.currentPage = params.page();
 					$scope.tableParamsStats.totalPages = (params.count() > 0) ? Math.ceil(params.total() / params.count()): 0;
-					$scope.tableParamsStats.first = ((params.page()-1) * params.count()) + 1;
+					$scope.tableParamsStats.first = ($scope.filteredCount === 0)? 0 : ((params.page()-1) * params.count()) + 1;
 					$scope.tableParamsStats.last = (params.page() * params.count() > params.total()) ? params.total() : params.page() * params.count();
 					$scope.tableParamsStats.totalCount =  params.total();
 					$scope.tableParamsStats.filteredCount = $scope.filteredCount;
@@ -461,7 +461,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 
 					$scope.tableParamsStats.currentPage = params.page();
 					$scope.tableParamsStats.totalPages = (params.count() > 0) ? Math.ceil(params.total() / params.count()): 0;
-					$scope.tableParamsStats.first = ((params.page()-1) * params.count()) + 1;
+					$scope.tableParamsStats.first = ($scope.filteredCount === 0)? 0 : ((params.page()-1) * params.count()) + 1;
 					$scope.tableParamsStats.last = (params.page() * params.count() > params.total()) ? params.total() : params.page() * params.count();
 					$scope.tableParamsStats.totalCount =  params.total();
 					$scope.tableParamsStats.filteredCount = $scope.filteredCount;
@@ -552,7 +552,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 
 					$scope.tableParamsStats.currentPage = params.page();
 					$scope.tableParamsStats.totalPages = (params.count() > 0) ? Math.ceil(params.total() / params.count()): 0;
-					$scope.tableParamsStats.first = ((params.page()-1) * params.count()) + 1;
+					$scope.tableParamsStats.first = ($scope.filteredCount === 0)? 0 : ((params.page()-1) * params.count()) + 1;
 					$scope.tableParamsStats.last = (params.page() * params.count() > params.total()) ? params.total() : params.page() * params.count();
 					$scope.tableParamsStats.totalCount =  params.total();
 					$scope.tableParamsStats.filteredCount = $scope.filteredCount;
@@ -691,7 +691,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 
 					$scope.tableParamsConditionsStats.currentPage = params.page();
 					$scope.tableParamsConditionsStats.totalPages = (params.count() > 0) ? Math.ceil(params.total() / params.count()): 0;
-					$scope.tableParamsConditionsStats.first = ((params.page()-1) * params.count()) + 1;
+					$scope.tableParamsConditionsStats.first = ($scope.filteredCount === 0)? 0 : ((params.page()-1) * params.count()) + 1;
 					$scope.tableParamsConditionsStats.last = (params.page() * params.count() > params.total()) ? params.total() : params.page() * params.count();
 					$scope.tableParamsConditionsStats.totalCount =  params.total();
 					$scope.tableParamsConditionsStats.filteredCount = $scope.filteredCount;
@@ -730,7 +730,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 
 					$scope.tableParamsInspectionsStats.currentPage = params.page();
 					$scope.tableParamsInspectionsStats.totalPages = (params.count() > 0) ? Math.ceil(params.total() / params.count()): 0;
-					$scope.tableParamsInspectionsStats.first = ((params.page()-1) * params.count()) + 1;
+					$scope.tableParamsInspectionsStats.first = ($scope.filteredCount === 0)? 0 : ((params.page()-1) * params.count()) + 1;
 					$scope.tableParamsInspectionsStats.last = (params.page() * params.count() > params.total()) ? params.total() : params.page() * params.count();
 					$scope.tableParamsInspectionsStats.totalCount =  params.total();
 					$scope.tableParamsInspectionsStats.filteredCount = $scope.filteredCount;
@@ -769,7 +769,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 
 					$scope.tableParamsActionsStats.currentPage = params.page();
 					$scope.tableParamsActionsStats.totalPages = (params.count() > 0) ? Math.ceil(params.total() / params.count()): 0;
-					$scope.tableParamsActionsStats.first = ((params.page()-1) * params.count()) + 1;
+					$scope.tableParamsActionsStats.first = ($scope.filteredCount === 0)? 0 : ((params.page()-1) * params.count()) + 1;
 					$scope.tableParamsActionsStats.last = (params.page() * params.count() > params.total()) ? params.total() : params.page() * params.count();
 					$scope.tableParamsActionsStats.totalCount =  params.total();
 					$scope.tableParamsActionsStats.filteredCount = $scope.filteredCount;
