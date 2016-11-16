@@ -70,7 +70,8 @@
     }
 
     .row-desc {
-        margin: 1rem 0;
+        margin-top: 0.675rem;
+        margin-bottom: 1rem;
         font-size: 0.75rem;
         font-style: italic;
     }
@@ -139,4 +140,28 @@
         padding: 1rem;
         font-size: 0.75rem;
     }
+}
+
+
+.ng-table-pager {
+    text-align: center;
+}
+
+.pagination {
+
+    li {
+        margin-right: 2px;
+        display: inline-block;
+
+        a {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: bold;
+            background: #EEE;
+        }
+    }
+}
+
+.ng-table-counts {
+    display: none;
 }

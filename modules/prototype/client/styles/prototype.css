@@ -392,14 +392,6 @@ main section {
   float: left;
   font-weight: normal !important; }
 
-.pagination li {
-  display: inline-block; }
-  .pagination li a {
-    padding: 1rem; }
-
-.ng-table-counts {
-  display: none; }
-
 .nav-tabs {
   margin-bottom: 1.5rem;
   background: transparent;
@@ -498,7 +490,8 @@ main section {
     margin-right: 0.25rem;
     font-size: 0.75rem; }
 .ce-grid .row-desc {
-  margin: 1rem 0;
+  margin-top: 0.675rem;
+  margin-bottom: 1rem;
   font-size: 0.75rem;
   font-style: italic; }
 
@@ -542,6 +535,21 @@ main section {
   right: 0;
   padding: 1rem;
   font-size: 0.75rem; }
+
+.ng-table-pager {
+  text-align: center; }
+
+.pagination li {
+  margin-right: 2px;
+  display: inline-block; }
+  .pagination li a {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: bold;
+    background: #EEE; }
+
+.ng-table-counts {
+  display: none; }
 
 .detail-list {
   margin-top: -0.2rem;
@@ -644,7 +652,7 @@ main section {
       margin-left: -2px;
       padding-right: 0.4rem; }
     .resource-list-sm .list-group-item .title {
-      line-height: 0.875rem; }
+      line-height: 1rem; }
     .resource-list-sm .list-group-item .actions i {
       margin-left: 0.5rem; }
     .resource-list-sm .list-group-item i {
