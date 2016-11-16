@@ -115,23 +115,23 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($wi
 			var handleCssLoad = function() {
 				var handled = 'true' !== ADMIN_FEATURES.enablePrototype;
 				if (!handled) {
-					if (_.startsWith(toState.name, 'admin.prototype.') && !_.startsWith(fromState.name, 'admin.prototype.')) {
-						if ('true' !== $cookies.mmti) {
-							$cookies.mem = 'false';
-							$cookies.mmti = 'true';
-							event.preventDefault();
-							$window.location.href = $window.location.origin + '/admin/prototype/project-main'; // go to our prototype main page...
-							handled = true;
-						}
-					}
-
-					if (!_.startsWith(toState.name, 'admin.prototype.') && _.startsWith(fromState.name, 'admin.prototype.')) {
-						if ('true' !== $cookies.mem) {
-							$cookies.mem = 'true';
-							$cookies.mmti = 'false';
-							event.preventDefault();
-							$window.location.href = $window.location.origin + '/'; // go to application main page (projects)
-							handled = true;
+					if (fromState.name === 'prototype-load-error') {
+						event.preventDefault();
+						// go to MEM Projects / Home
+						$window.location.href = $window.location.origin;
+					} else {
+						if (_.startsWith(toState.name, 'admin.prototype.') && !_.startsWith(fromState.name, 'admin.prototype.')) {
+							if ($window.location.search !== '?cssload=true') {
+								event.preventDefault();
+								$window.location.href = $window.location.origin + '/admin/prototype/project-main?cssload=true'; // go to our prototype main page...
+								handled = true;
+							}
+						} else if (!_.startsWith(toState.name, 'admin.prototype.') && _.startsWith(fromState.name, 'admin.prototype.')) {
+							if ($window.location.search !== '?cssload=true') {
+								event.preventDefault();
+								$window.location.href = $window.location.origin + '/?cssload=true'; // go to application main page (projects)
+								handled = true;
+							}
 						}
 					}
 				}
@@ -186,7 +186,15 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($wi
 		}
 	});
 
-	$rootScope.$on('$stateChangeError', console.log.bind(console));
+	$rootScope.$on( "$stateChangeError", function( event, toState, toParams, fromState, fromParams, rejection){
+		console.log('$stateChangeError(to = ' +  toState.name + ', from = ' + fromState.name + ')');
+		if (_.startsWith(toState.name, 'admin.prototype.')) {
+			console.log('  error loading prototype, go to prototype data error page.');
+			$state.go('prototype-load-error');
+		} else {
+			console.log('  other state change error, just log it.');
+		}
+	});
 
 });
 
