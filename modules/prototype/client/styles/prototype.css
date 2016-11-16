@@ -426,16 +426,20 @@ main section {
   margin-bottom: 1.5rem;
   font-size: 0.875rem; }
 
-.authorization-blocks.resource-list .list-group-item {
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  padding: 1rem; }
-  .authorization-blocks.resource-list .list-group-item .details {
-    margin-top: 0.5rem;
-    font-weight: bold; }
-    .authorization-blocks.resource-list .list-group-item .details span {
-      display: inline-block; }
+.authorization-blocks {
+  color: #2b5580; }
+  .authorization-blocks .secondary {
+    margin-top: 0.1rem;
+    opacity: 0.65; }
+  .authorization-blocks.resource-list .list-group-item {
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding: 1rem; }
+    .authorization-blocks.resource-list .list-group-item .details {
+      margin-top: 0.5rem; }
+      .authorization-blocks.resource-list .list-group-item .details span {
+        display: inline-block; }
 
 @media (min-width: 1020px) {
   .authorization-blocks.resource-list .list-group-item {
@@ -823,11 +827,10 @@ main section {
   font-size: 1.5rem;
   font-weight: bold; }
 .topic-blocks .subtopics {
-  margin-top: 0.1rem;
+  margin-top: 0.25rem;
   display: block;
   color: #2b5580;
   font-size: 0.875rem;
-  font-style: italic;
   opacity: 0.65;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -38,11 +38,12 @@
 
             <section>
                 <h2>Authorizations</h2>
+                <p>Environmental assessment certificates and permits issued under the Mines Act and the Environmental Management Act (EMA) are the primary provincial authorizations for major mine projects in BC. The most recent primary authorizations for Mount Milligan are listed below. <a class="read-more-link" ui-sref="admin.prototype.authorizations">Learn More »</a></p>
                 <ul class="authorization-blocks resource-list resource-list-lg list-group">
                     <li class="list-group-item" ng-repeat="authorization in project.authorizations | orderBy:'-date'">
                         <span class="title">
                             <span class="primary">{{authorization.name}}</span>
-                            <span class="secondary secondary-color">{{authorization.agency}}</span>
+                            <span class="secondary">{{authorization.agency}}</span>
                         </span>
                         <span class="details">
                             <span>{{authorization.status}}</span>
@@ -51,9 +52,6 @@
                     </li>
                 </ul>
                 <ul>
-                    <li>
-                        <a class="read-more-link mt-05" ui-sref="admin.prototype.authorizations">Learn More about Authorizations for {{project.name}} »</a>
-                    </li>
                     <li>
                         <a class="read-more-link mt-05" ui-sref="admin.prototype.conditionsmain">Browse all Conditions for {{project.name}} »</a>
                     </li>
