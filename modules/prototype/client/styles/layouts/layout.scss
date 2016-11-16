@@ -502,3 +502,41 @@ pre li {
         }
     }
 }
+
+
+.ce-narrative {
+    .toggle-link {      
+        &:after {
+            position: absolute;
+            display: block;
+            content: "Read More";
+            background: #FFF;
+            white-space: nowrap;
+            font-weight: bold;
+            font-size: 0.875rem;
+            color: #2b5580;
+        }
+
+        + .content p {
+            display: none;
+        }
+
+        + .content p:first-child {
+            display: block;
+        }
+
+        + .content p:nth-child(2) {
+            display: block;
+        }
+    }
+
+    .toggle-link:checked {
+        + .content p {
+            display: block;
+        }
+
+        &:after {
+            content: "Read Less";
+        }
+    }
+}

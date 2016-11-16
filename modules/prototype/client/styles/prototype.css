@@ -482,6 +482,26 @@ pre li {
 .project-narrative .toggle-link:checked:after {
   content: "Read Less"; }
 
+.ce-narrative .toggle-link:after {
+  position: absolute;
+  display: block;
+  content: "Read More";
+  background: #FFF;
+  white-space: nowrap;
+  font-weight: bold;
+  font-size: 0.875rem;
+  color: #2b5580; }
+.ce-narrative .toggle-link + .content p {
+  display: none; }
+.ce-narrative .toggle-link + .content p:first-child {
+  display: block; }
+.ce-narrative .toggle-link + .content p:nth-child(2) {
+  display: block; }
+.ce-narrative .toggle-link:checked + .content p {
+  display: block; }
+.ce-narrative .toggle-link:checked:after {
+  content: "Read Less"; }
+
 /* COMPONENTS */
 .action-summary p {
   margin-bottom: 1.675rem;
