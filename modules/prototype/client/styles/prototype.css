@@ -62,7 +62,6 @@ p {
 /* MISC COMPONENTS */
 .read-more-link {
   display: inline-block;
-  text-decoration: underline;
   white-space: nowrap;
   font-size: 0.875rem;
   font-weight: bold; }
@@ -207,8 +206,12 @@ footer {
         margin-bottom: -0.3rem; }
 
 .page-narrative p {
-  margin-bottom: 2rem; }
+  margin-bottom: 1.5rem; }
   .page-narrative p:last-child {
+    margin-bottom: 0; }
+.page-narrative li {
+  margin-bottom: 1.5rem; }
+  .page-narrative li:last-child {
     margin-bottom: 0; }
 
 .card {
@@ -408,6 +411,11 @@ main section {
     background: transparent;
     border: none; }
 
+pre li {
+  margin-bottom: 1rem; }
+  pre li:last-child {
+    margin-bottom: 0; }
+
 /* COMPONENTS */
 .action-summary p {
   margin-bottom: 1.675rem;
@@ -473,8 +481,7 @@ main section {
     padding: 1rem;
     border-top: none; }
     .ce-grid tbody td a {
-      font-weight: bold;
-      text-decoration: underline; }
+      font-weight: bold; }
 .ce-grid tr {
   display: table;
   table-layout: fixed;
@@ -487,7 +494,8 @@ main section {
   font-family: "Arimo", sans-serif;
   font-size: 0.75rem; }
   .ce-grid pre p {
-    margin: 0.5rem 0; }
+    margin: 0.5rem 0;
+    line-height: 1rem; }
 .ce-grid .tag-list {
   margin-top: 0.5rem; }
   .ce-grid .tag-list .tag {
@@ -608,13 +616,11 @@ main section {
   border-radius: 0 !important;
   transition: all ease-out 0.2s; }
   .resource-list .list-group-item.list-group-item-action {
-    color: #1a5a96;
-    text-decoration: underline; }
+    color: #1a5a96; }
   .resource-list .list-group-item.list-group-item-action:hover {
     background: #EEE; }
   .resource-list .list-group-item a {
-    color: #1a5a96;
-    text-decoration: underline; }
+    color: #1a5a96; }
   .resource-list .list-group-item .actions {
     -webkit-box-flex: 0 0 auto;
     -moz-box-flex: 0 0 auto;

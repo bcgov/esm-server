@@ -94,7 +94,14 @@ footer {
 
 .page-narrative {
     p {
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    li {
+        margin-bottom: 1.5rem;
 
         &:last-child {
             margin-bottom: 0;
@@ -365,5 +372,13 @@ main {
     .nav-link {
         background: transparent;
         border: none;
+    }
+}
+
+pre li {
+    margin-bottom: 1rem;
+    
+    &:last-child {
+        margin-bottom: 0;
     }
 }

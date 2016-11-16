@@ -12,7 +12,7 @@
         <span>Condition: {{condition.title}} </span>
     </div>
     <div class="title-container stacked">
-        <h1>{{condition.title}}</h1>
+        <h1>{{condition.title}} - {{condition.conditionNo}}</h1>
         <div class="tag-list">
             <span class="tag tag-default" ng-repeat="topic in condition.topics">{{topic}}</span>
         </div>
@@ -31,7 +31,7 @@
                             <i class="material-icons">insert_drive_file</i>
                         </div>
                         <span class="title">
-                            <a class="primary" href="">{{document.name}}</a>
+                            <a class="primary" href="{{document.url}}">{{document.name}}{{documenturl}}</a>
                         </span>
                         <span class="actions">
                             <i class="material-icons">file_download</i>
