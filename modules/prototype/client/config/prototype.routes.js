@@ -56,7 +56,10 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			actionsResponseText: function(data) {
 				return data.actionsResponseText || [];
 			},
-			actions: function(data, actionsText, actionsResponseText) {
+			actionsFollowupText: function(data) {
+				return data.actionsFollowupText || [];
+			},
+			actions: function(data, actionsText, actionsResponseText, actionsFollowupText) {
 				var actions = data.actions || [];
 				_.each(actionsText, function(txt) {
 					var action = _.find(actions, function(x) { return txt.orderId === x.orderId; });
@@ -68,6 +71,12 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 					var action = _.find(actions, function(x) { return txt.orderId === x.orderId; });
 					if (action) {
 						action.responseText = txt.responseText;
+					}
+				});
+				_.each(actionsFollowupText, function(txt) {
+					var action = _.find(actions, function(x) { return txt.orderId === x.orderId; });
+					if (action) {
+						action.followupText = txt.followupText;
 					}
 				});
 				return actions;
@@ -287,16 +296,13 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			$scope.topicHealth = false;
 			$scope.topics = [];
 
-			$scope.pageSize = 10;
-
 			$scope.filter = {
 				failed: undefined
 			};
 
 			$scope.tableParams =  new NgTableParams({
 				page: 1,
-				count: $scope.pageSize,
-				counts: [10, 20, 50],
+				count: 10,
 				filter: $scope.filter
 			}, {
 				debugMode: false,
@@ -312,6 +318,8 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 				}
 			});
 
+			$scope.pageSize = 10;
+
 			$scope.changePageSize = function(newSize){
 				$scope.tableParams.count(newSize);
 			};
@@ -325,6 +333,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 				$scope.topicHealth = false;
 				$scope.topics = [];
 
+				$scope.tableParams.page(1);
 				$scope.tableParams.reload();
 			};
 			$scope.applyFilter = function() {
@@ -335,6 +344,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 				if ($scope.topicHeritage) $scope.topics.push('Heritage');
 				if ($scope.topicHealth) $scope.topics.push('Health and Safety');
 
+				$scope.tableParams.page(1);
 				$scope.tableParams.reload();
 			};
 		},
@@ -363,12 +373,39 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 				return result;
 			}
 		},
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project, inspection) {
+		controller: function ($scope, $filter, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project, inspection) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
 			$scope.project = project;
 			$scope.inspection = inspection;
 			$scope.inspectionActions = _.filter(project.actions, function(a) { return a.inspectionId === inspection.inspectionId; });
+
+			$scope.filter = {
+				failed: undefined
+			};
+
+			$scope.tableParams =  new NgTableParams({
+				page: 1,
+				count: 10,
+				filter: $scope.filter
+			}, {
+				debugMode: false,
+				total: $scope.inspectionActions.length,
+				getData: function($defer, params) {
+					var orderedData = params.sorting() ? $filter('orderBy')($scope.inspectionActions, params.orderBy()) : $scope.inspectionActions;
+					orderedData	= $filter('filter')(orderedData, params.filter());
+					params.total(orderedData.length);
+					$scope.filteredCount = orderedData.length;
+					$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+				}
+			});
+
+			$scope.pageSize = 10;
+
+			$scope.changePageSize = function(newSize){
+				$scope.tableParams.count(newSize);
+			};
+
 		},
 	})
 
@@ -414,7 +451,6 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			$scope.topicHealth = false;
 			$scope.topics = [];
 
-			$scope.pageSize = 10;
 
 			$scope.filter = {
 				failed: undefined
@@ -422,8 +458,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 
 			$scope.tableParams =  new NgTableParams({
 				page: 1,
-				count: $scope.pageSize,
-				counts: [10, 20, 50],
+				count: 10,
 				filter: $scope.filter
 			}, {
 				debugMode: false,
@@ -439,6 +474,8 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 				}
 			});
 
+			$scope.pageSize = 10;
+
 			$scope.changePageSize = function(newSize){
 				$scope.tableParams.count(newSize);
 			};
@@ -452,6 +489,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 				$scope.topicHealth = false;
 				$scope.topics = [];
 
+				$scope.tableParams.page(1);
 				$scope.tableParams.reload();
 			};
 			$scope.applyFilter = function() {
@@ -462,6 +500,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 				if ($scope.topicHeritage) $scope.topics.push('Heritage');
 				if ($scope.topicHealth) $scope.topics.push('Health and Safety');
 
+				$scope.tableParams.page(1);
 				$scope.tableParams.reload();
 			};
 		},
@@ -522,7 +561,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			}
 		},
 		templateUrl: 'modules/prototype/client/views/subtopic.html',
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project, topic, subtopic) {
+		controller: function ($scope, $filter, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project, topic, subtopic) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
 
@@ -530,7 +569,62 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			$scope.topic = topic;
 			$scope.subtopic = subtopic;
 
-			// find all conditions, etc related to subtopic
+			$scope.filter1 = {
+				failed: undefined
+			};
+			$scope.filter2 = {
+				failed: undefined
+			};
+			$scope.filter3 = {
+				failed: undefined
+			};
+
+			$scope.tableParams1 =  new NgTableParams({
+				page: 1,
+				count: 10,
+				filter: $scope.filter1
+			}, {
+				debugMode: false,
+				total: $scope.subtopic.conditions.length,
+				getData: function($defer, params) {
+					var orderedData = params.sorting() ? $filter('orderBy')($scope.subtopic.conditions, params.orderBy()) : $scope.subtopic.conditions;
+					orderedData	= $filter('filter')(orderedData, params.filter());
+					params.total(orderedData.length);
+					$scope.filteredCount = orderedData.length;
+					$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+				}
+			});
+			$scope.tableParams2 =  new NgTableParams({
+				page: 1,
+				count: 10,
+				filter: $scope.filter2
+			}, {
+				debugMode: false,
+				total: $scope.subtopic.inspections.length,
+				getData: function($defer, params) {
+					var orderedData = params.sorting() ? $filter('orderBy')($scope.subtopic.inspections, params.orderBy()) : $scope.subtopic.inspections;
+					orderedData	= $filter('filter')(orderedData, params.filter());
+					params.total(orderedData.length);
+					$scope.filteredCount = orderedData.length;
+					$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+				}
+			});
+			$scope.tableParams3 =  new NgTableParams({
+				page: 1,
+				count: 10,
+				filter: $scope.filter3
+			}, {
+				debugMode: false,
+				total: $scope.subtopic.actions.length,
+				getData: function($defer, params) {
+					var orderedData = params.sorting() ? $filter('orderBy')($scope.subtopic.actions, params.orderBy()) : $scope.subtopic.actions;
+					orderedData	= $filter('filter')(orderedData, params.filter());
+					params.total(orderedData.length);
+					$scope.filteredCount = orderedData.length;
+					$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+				}
+			});
+
 		}
 	});
 
