@@ -129,11 +129,11 @@
                 <h2 class="card-title">Project Status</h2>
                 <ul class="project-status resource-list resource-list-sm list-group">
                     <li class="list-group-item" ng-class="{'inactive' : phase.status == 'Inactive'}" ng-repeat="phase in project.phases | orderBy: 'order'">
-                        <span class="title">
+                        <span class="title" title="{{phase.description}}">
                             <span class="primary">{{phase.name}}</span>
                         </span>
                         <span class="actions">
-                            <span class="tag"
+                            <span class="tag" title="{{phase.status}}"
                                     ng-class="{'tag-info': phase.status == 'Active', 'tag-default': phase.status == 'Complete' || phase.status == 'Inactive'}">{{phase.status}}</span>
                         </span>
                     </li>
