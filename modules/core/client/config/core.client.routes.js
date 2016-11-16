@@ -65,6 +65,13 @@ angular.module('core').config (
 			$location.url($location.path());
 		}
 	})
+	.state('prototype-load-error', {
+		url: '/error/prototype',
+		reloadOnSearch: false,
+		templateUrl: 'modules/core/client/views/prototype.load.error.html',
+		controller: function($scope, $location, _) {
+		}
+	})
 	;
 
 	// $stateProvider.modalState = function (name, opts) {

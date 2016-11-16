@@ -20,16 +20,16 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 		template: '<ui-view></ui-view>',
 		resolve: {
 			data: function(PrototypeModel) {
-				return PrototypeModel.getData() || {};
+				return PrototypeModel.getData();
 			},
 			agencies: function(data) {
-				return data.agencies || [];
+				return data.agencies;
 			},
 			inspectionsText: function(data) {
-				return data.inspectionsText || [];
+				return data.inspectionsText;
 			},
 			inspections: function(data, inspectionsText) {
-				var inspections = data.inspections || [];
+				var inspections = data.inspections;
 				_.each(inspectionsText, function(txt) {
 					var inspection = _.find(inspections, function(x) { return txt.inspectionId === x.inspectionId; });
 					if (inspection) {
@@ -39,28 +39,28 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 				return inspections;
 			},
 			projects: function(data) {
-				return data.projects || [];
+				return data.projects;
 			},
 			cedetails: function(data) {
-				return data.cedetails || [];
+				return data.cedetails;
 			},
 			authorizations: function(data) {
-				return data.authorizations || [];
+				return data.authorizations;
 			},
 			phases: function(data) {
-				return data.phases || [];
+				return data.phases;
 			},
 			actionsText: function(data) {
-				return data.actionsText || [];
+				return data.actionsText;
 			},
 			actionsResponseText: function(data) {
-				return data.actionsResponseText || [];
+				return data.actionsResponseText;
 			},
 			actionsFollowupText: function(data) {
-				return data.actionsFollowupText || [];
+				return data.actionsFollowupText;
 			},
 			actions: function(data, actionsText, actionsResponseText, actionsFollowupText) {
-				var actions = data.actions || [];
+				var actions = data.actions;
 				_.each(actionsText, function(txt) {
 					var action = _.find(actions, function(x) { return txt.orderId === x.orderId; });
 					if (action) {
@@ -82,10 +82,10 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 				return actions;
 			},
 			conditionsText: function(data) {
-				return data.conditionsText || [];
+				return data.conditionsText;
 			},
 			conditions: function(data, conditionsText) {
-				var conditions = data.conditions || [];
+				var conditions = data.conditions;
 				_.each(conditionsText, function(txt) {
 					var condition = _.find(conditions, function(x) { return txt.conditionId === x.conditionId; });
 					if (condition) {
@@ -98,8 +98,8 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 				return data.documents;
 			},
 			topics: function(data, inspections, conditions, actions) {
-				var topicsList = data.topics || [];
-				var subtopicsList = data.subTopics || [];
+				var topicsList = data.topics;
+				var subtopicsList = data.subTopics;
 
 				var topics = _.filter(topicsList, function(t) { return t.active === 'Y';});
 				var subTopics = _.filter(subtopicsList, function(t) { return t.active === 'Y';});
@@ -129,50 +129,44 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			},
 			project: function (agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents) {
 				var result = _.find(projects, function(i) { return i.name === "Mount Milligan Mine"; });
+				result.ceDetails = _.find(cedetails, function(x) { return x.projectId === result.projectId; });
 
-				if (result) {
-					result.ceDetails = _.find(cedetails, function(x) { return x.projectId === result.projectId; });
+				// inspections
+				result.inspections = _.filter(inspections, function(a) {
+					return a.projectId === result.projectId;
+				});
 
-					// inspections
-					result.inspections = _.filter(inspections, function(a) {
-						return a.projectId === result.projectId;
-					});
+				// phases
+				result.phases = _.filter(phases, function(a) {
+					return a.projectId === result.projectId;
+				});
 
-					// phases
-					result.phases = _.filter(phases, function(a) {
-						return a.projectId === result.projectId;
-					});
+				// conditions
+				result.conditions = _.filter(conditions, function(a) {
+					return a.projectId === result.projectId;
+				});
 
-					// conditions
-					result.conditions = _.filter(conditions, function(a) {
-						return a.projectId === result.projectId;
-					});
+				// actions
+				result.actions = _.filter(actions, function(a) {
+					return a.projectId === result.projectId;
+				});
 
-					// actions
-					result.actions = _.filter(actions, function(a) {
-						return a.projectId === result.projectId;
-					});
+				result.documents = _.filter(documents, function(a) {
+					return a.projectId === result.projectId;
+				});
 
-					result.documents = _.filter(documents, function(a) {
-						return a.projectId === result.projectId;
-					});
+				result.authorizations = _.filter(authorizations, function(a) {
+					return a.projectId === result.projectId;
+				});
 
-					result.authorizations = _.filter(authorizations, function(a) {
-						return a.projectId === result.projectId;
-					});
-
-					result.groupedAuthorizations = [];
-					var groupedauthorizations = _.groupBy(result.authorizations, function(g) { return g.name;});
-					_.each(groupedauthorizations, function(x) {
-						var sorted = _.sortBy(x, function(y) { return y.date;});
-						var latest = _.last(sorted);
-						result.groupedAuthorizations.push(latest);
-					});
-					return result;
-				} else {
-					console.log('Could not find Mount Milligan project.');
-					return {};
-				}
+				result.groupedAuthorizations = [];
+				var groupedauthorizations = _.groupBy(result.authorizations, function(g) { return g.name;});
+				_.each(groupedauthorizations, function(x) {
+					var sorted = _.sortBy(x, function(y) { return y.date;});
+					var latest = _.last(sorted);
+					result.groupedAuthorizations.push(latest);
+				});
+				return result;
 			}
 		}
 	})
