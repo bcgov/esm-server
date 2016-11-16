@@ -400,6 +400,22 @@ main section {
 .ng-table-counts {
   display: none; }
 
+.nav-tabs {
+  margin-bottom: 1.5rem;
+  background: transparent;
+  border-bottom: 4px solid #CCC;
+  font-weight: bold; }
+  .nav-tabs .nav-item {
+    margin-bottom: -4px; }
+    .nav-tabs .nav-item .nav-link {
+      color: #999; }
+    .nav-tabs .nav-item.active .nav-link {
+      color: #2b5580;
+      border-bottom: 4px solid #2b5580; }
+  .nav-tabs .nav-link {
+    background: transparent;
+    border: none; }
+
 /* COMPONENTS */
 .action-summary p {
   margin-bottom: 1.675rem;
@@ -544,19 +560,24 @@ main section {
       .detail-list li span:last-child {
         padding-left: 0.4rem; }
 
-.project-status .list-group-item {
-  margin-bottom: 2px; }
-.project-status .tag {
-  min-width: 5rem;
-  font-size: 0.75rem; }
-.project-status .tag-default {
-  background: #CCC;
-  font-weight: bold;
-  color: #494949; }
-.project-status .inactive {
-  color: #CCC; }
-  .project-status .inactive .tag {
-    opacity: 0.4; }
+.resource-list-sm.project-status {
+  padding: 0; }
+  .resource-list-sm.project-status .list-group-item {
+    margin-bottom: 2px;
+    border-bottom: 1px solid #EEE; }
+    .resource-list-sm.project-status .list-group-item .title {
+      line-height: 1.4rem; }
+  .resource-list-sm.project-status .tag {
+    min-width: 5rem;
+    font-size: 0.75rem; }
+  .resource-list-sm.project-status .tag-default {
+    background: #CCC;
+    font-weight: bold;
+    color: #494949; }
+  .resource-list-sm.project-status .inactive {
+    color: #CCC; }
+    .resource-list-sm.project-status .inactive .tag {
+      opacity: 0.4; }
 
 .resource-list .list-group-item {
   display: -webkit-box;
@@ -610,16 +631,24 @@ main section {
     font-size: 0.75rem;
     font-weight: bold; }
 
-.resource-list-sm .list-group-item {
-  margin-bottom: 0;
-  padding: 0.6rem 1rem 0.6rem 1rem;
-  border-bottom: 1px solid #EEE;
-  font-size: 0.75rem;
-  font-weight: bold; }
-  .resource-list-sm .list-group-item .avatar {
-    padding-right: 0.25rem; }
-  .resource-list-sm .list-group-item .actions i {
-    margin-left: 0.5rem; }
+.resource-list-sm {
+  padding-top: 0.4rem;
+  padding-bottom: 0.5rem;
+  background: #f7f8fa; }
+  .resource-list-sm .list-group-item {
+    padding: 0.6rem 1rem 0.6rem 1rem;
+    line-height: 0.875rem;
+    font-size: 0.75rem;
+    font-weight: bold; }
+    .resource-list-sm .list-group-item .avatar {
+      margin-left: -2px;
+      padding-right: 0.4rem; }
+    .resource-list-sm .list-group-item .title {
+      line-height: 0.875rem; }
+    .resource-list-sm .list-group-item .actions i {
+      margin-left: 0.5rem; }
+    .resource-list-sm .list-group-item i {
+      margin-top: -1px; }
 
 .resource-list-lg .list-group-item {
   margin-bottom: 0.25rem;

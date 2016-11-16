@@ -354,3 +354,30 @@ main {
 .ng-table-counts {
     display: none;
 }
+
+.nav-tabs {
+    margin-bottom: 1.5rem;
+    background: transparent;
+    border-bottom: 4px solid #CCC;
+    font-weight: bold;
+
+    .nav-item {
+        margin-bottom: -4px;
+
+        .nav-link {
+            color: #999;
+        }
+
+        &.active {   
+            .nav-link {
+                color: #2b5580;
+                border-bottom: 4px solid #2b5580;
+            }
+        }
+    }
+
+    .nav-link {
+        background: transparent;
+        border: none;
+    }
+}

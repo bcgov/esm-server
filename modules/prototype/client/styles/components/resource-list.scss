@@ -58,21 +58,33 @@
 }
 
 .resource-list-sm {
+    padding-top: 0.4rem;
+    padding-bottom: 0.5rem;
+    background: #f7f8fa;
+
     .list-group-item {
-        margin-bottom: 0;
         padding: 0.6rem 1rem 0.6rem 1rem;
-        border-bottom: 1px solid #EEE;
+        line-height: 0.875rem;
         font-size: 0.75rem;
         font-weight: bold;
 
         .avatar {
-            padding-right: 0.25rem;
+            margin-left: -2px;
+            padding-right: 0.4rem;
+        }
+
+        .title {
+            line-height: 0.875rem;
         }
 
         .actions {
             i {
                 margin-left: 0.5rem;
             }
+        }
+
+        i {
+            margin-top: -1px;
         }
     }
 }

@@ -21,7 +21,7 @@
 
             <section>
                 <h2>Topics</h2>
-                <p>Explore the topic areas below to learn more about how the mining operations generally and the {{project.name}} specifically address the shared values of the people of British Columbia.</p>
+                <p>Explore the topic areas below to learn more about how the mining operations generally and the Mount Milligan mine specifically address the shared values of the people of British Columbia.</p>
                 <ul class="topic-blocks block-container clearfix">
                     <li ng-repeat="topic in topics">
                         <a class="block block-hover" ng-show="topic.description !== ''" ui-sref="admin.prototype.topic({topicId: topic.topicId})">
@@ -139,6 +139,17 @@
                                     ng-class="{'tag-info': phase.status == 'Active', 'tag-default': phase.status == 'Complete' || phase.status == 'Inactive'}">{{phase.status}}</span>
                         </span>
                     </li>
+                </ul>
+            </section>
+
+             <section class="card">
+                <h2 class="card-title">External Links</h2>
+                <ul class="resource-list resource-list-sm list-group">
+                    <li class="list-group-item"><a href="http://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations/ministries/energy-and-mines" target="_blank">Ministry of Energy &amp; Mines</a></li>
+                    <li class="list-group-item"><a href="http://www2.gov.bc.ca/gov/content/industry/mineral-exploration-mining/health-safety/health-safety-and-reclamation-code-for-mines-in-british-columbia" target="_blank">Mineral Exploration &amp; Mining (Ministry of Energy and Mines)</a></li>
+                    <li class="list-group-item"><a href="http://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations/ministries/environment" target="_blank">Ministry of Environment</a></li>
+                    <li class="list-group-item"><a href="http://www.eao.gov.bc.ca/" target="_blank">Environmental Assessment Office</a></li>
+                    <li class="list-group-item"><a href="http://a100.gov.bc.ca/appsdata/epic/html/deploy/epic_project_home_285.html" target="_blank">Mount Milligan Environmental Assessment</a></li>
                 </ul>
             </section>
 

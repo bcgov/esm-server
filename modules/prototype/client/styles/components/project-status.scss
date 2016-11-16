@@ -1,7 +1,14 @@
 
-.project-status {
+.resource-list-sm.project-status {
+    padding: 0;
+
     .list-group-item {
-        margin-bottom: 2px; 
+        margin-bottom: 2px;
+        border-bottom: 1px solid #EEE;
+
+        .title {
+            line-height: 1.4rem;
+        }
     }
 
     .tag {
