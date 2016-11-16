@@ -159,6 +159,13 @@
             font-weight: bold;
             background: #EEE;
         }
+
+        &.active {
+            a {
+                color: #FFF;
+                background: #2b5580;
+            }
+        }
     }
 }
 

@@ -11,8 +11,11 @@
         <span>/</span>
         <span>Condition: {{condition.title}} </span>
     </div>
-    <div class="title-container">
+    <div class="title-container stacked">
         <h1>{{condition.title}}</h1>
+        <div class="tag-list">
+            <span class="tag tag-default" ng-repeat="topic in condition.topics">{{topic}}</span>
+        </div>
     </div>
     <div class="row">
 
@@ -35,12 +38,39 @@
                         </span>
                     </li>
                 </ul>
-                <a class="read-more-link mt-05" href="javascript:void();">View all Project Documents »</a>
             </section>
         </main>
 
         <aside class="col-sm-12 col-md-5 col-lg-4">
-            
+            <section class="card">
+                <h2 class="card-title">Condition Details</h2>
+                <div class="card-block">
+                <ul class="detail-list">
+                    <li class="clearfix">
+                        <span class="name">Last Updated:</span>
+                        <span class="value">{{condition.lastUpdated}}</span>
+                    </li>
+                    <li class="clearfix">
+                        <span class="name">Agency:</span>
+                        <span class="value">{{condition.agency}}</span>
+                    </li>
+                    <li class="clearfix">
+                        <span class="name">Phase(s):</span>
+                        <span class="value">
+                            <span ng-repeat="phase in condition.phases">{{phase}}</span>
+                        </span>
+                    </li>
+                    <li class="clearfix">
+                        <span class="name">Condition Type:</span>
+                        <span class="value">{{condition.conditionType}}</span>
+                    </li>
+                    <li class="clearfix">
+                        <span class="name">Permit Section:</span>
+                        <span class="value">{{condition.authorizationSection}}</span>
+                    </li>
+                </ul>
+            </div>
+            </section>
         </aside>
     </div>
 </div>

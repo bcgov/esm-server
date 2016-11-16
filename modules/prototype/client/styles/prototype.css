@@ -547,6 +547,9 @@ main section {
     font-size: 0.875rem;
     font-weight: bold;
     background: #EEE; }
+  .pagination li.active a {
+    color: #FFF;
+    background: #2b5580; }
 
 .ng-table-counts {
   display: none; }
