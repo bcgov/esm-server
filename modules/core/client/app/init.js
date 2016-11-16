@@ -112,8 +112,9 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($wi
 				return enabled;
 			};
 
+			var prototypeEnabled = 'true' === ADMIN_FEATURES.enablePrototype;
 			var handleCssLoad = function() {
-				var handled = 'true' !== ADMIN_FEATURES.enablePrototype;
+				var handled = !prototypeEnabled;
 				if (!handled) {
 					if (fromState.name === 'prototype-load-error') {
 						event.preventDefault();
@@ -152,7 +153,11 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($wi
 					ContextService.sync(toState, toParams).then(function(ok) {
 						//console.log('sync good, go!');
 						if (ContextService.isAllowed(toState.data)) {
-							if (!handleCssLoad()) {
+							if (prototypeEnabled) {
+								if (!handleCssLoad()) {
+									$state.go(toState, toParams);
+								}
+							} else {
 								$state.go(toState, toParams);
 							}
 						} else {
@@ -166,7 +171,11 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($wi
 					// proceed...
 					//console.log('synced... proceed if allowed!');
 					if (ContextService.isAllowed(toState.data)) {
-						return handleCssLoad();
+						if (prototypeEnabled) {
+							return handleCssLoad();
+						} else {
+							return true;
+						}
 					} else {
 						event.preventDefault();
 						$state.go('forbidden');
