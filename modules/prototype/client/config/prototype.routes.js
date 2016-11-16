@@ -208,14 +208,14 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 			$scope.topics = topics;
 
 			var mpl = {};
-			mpl.center = {latitude: 55.17, longitude: -123.884};
+			mpl.center = {latitude: 55.119973, longitude: -124.012351};
 			mpl.layers = {};
 			mpl.markers = [];
 			mpl.KMLLayers = [];
 			mpl.projectFiltered = [];
 
 			mpl.map = {
-				center: {latitude: 55.17, longitude: -123.884},
+				center: {latitude: 55.119973, longitude: -124.012351},
 				zoom: 12,
 				options: {
 					scrollwheel: false,
@@ -226,18 +226,42 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 
 			mpl.map.markers.push({
 				id: 12345,
-				latitude: 55.17,
-				longitude: -123.884
+				latitude: 55.119973,
+				longitude: -124.012351
+			});
+
+			mpl.map.markers.push({
+				id: 12345,
+				latitude: 54.119973,
+				longitude: -124.012351
 			});
 
 			// var kmlURL = window.location.protocol + "//" + window.location.host + "/api/document/" + doc._id + "/fetch";
 			var kmlURL = "http://www.google.com/file.kml";
-			mpl.KMLLayers.push({
-				url: kmlURL,
-				label: "doc.internalOriginalName",
-				show: true,
-				_id: 654654
-			});
+			mpl.KMLLayers.push(
+				{	url: "https://mem-mmt-test.pathfinder.gov.bc.ca/api/document/582b923b48077f0017feb5ee/fetch",
+					label: "Map Layer",
+					show: true,
+					_id: 654654
+				});
+			mpl.KMLLayers.push(
+				{	url: "https://mem-mmt-test.pathfinder.gov.bc.ca/api/document/582b923b48077f0017feb608/fetch",
+					label: "Map Layer",
+					show: true,
+					_id: 654655
+				});
+			mpl.KMLLayers.push(
+				{	url: "https://mem-mmt-test.pathfinder.gov.bc.ca/api/document/582b923b48077f0017feb5fb/fetch",
+					label: "Map Layer",
+					show: true,
+					_id: 654656
+				});
+			mpl.KMLLayers.push(
+				{	url: "https://mem-mmt-test.pathfinder.gov.bc.ca/api/document/582b923b48077f0017feb609/fetch",
+					label: "Map Layer",
+					show: true,
+					_id: 654657
+				});
 
 			$scope.mpl = mpl;
 		},
