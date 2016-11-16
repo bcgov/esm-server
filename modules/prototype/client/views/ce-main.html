@@ -75,8 +75,8 @@
                             <td class="id-col"
                                 header-class="'id-col'"
                                 data-title="'ID'"
-                                filter="{'inspectionID':'text'}"
-                                sortable="'inspection._id'">
+                                filter="{'inspectionId':'text'}"
+                                sortable="'inspectionId'">
                                 <a ng-show="inspection.detailPage === 'Y'" ui-sref="admin.prototype.inspection({inspectionId:inspection.inspectionId})">{{inspection.inspectionId}} ({{inspection.agency}}) </a>
                                 <a ng-show="inspection.detailPage !== 'Y'" ui-sref="#">{{inspection.inspectionId}} ({{inspection.agency}}) </a>
                                 <div class="tag-list">
@@ -86,13 +86,18 @@
                             <td class="date-col" 
                                 header-class="'date-col'" 
                                 data-title="'Inspection Date'"
-                                filter="{'inspection.date':'text'}"
-                                sortable="'inspection.date'">{{inspection.date}}</td>
+                                filter="{'date':'text'}"
+                                sortable="'date'">{{inspection.date}}</td>
                             <td class="followup-col"
                                 header-class="'followup-col'"
                                 data-title="'Recent Follow-Up'"
-                                filter="{'inspection.date':'text'}"
-                                sortable="'inspection.date'">{{inspection.followupType}}</td>
+                                filter="{'followupType':'text'}"
+                                sortable="'followupType'">{{inspection.followupType}}</td>
+                        </tr>
+                        <tr ng-if="!$data || $data.length === 0">
+                            <td colspan="3">
+                                No records found.
+                            </td>
                         </tr>
                     </table>
             </section>
