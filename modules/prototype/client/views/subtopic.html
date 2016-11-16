@@ -37,21 +37,27 @@
 
                 <div class="tab-content">
                     <div class="tab-pane active" id="conditions" role="tabpanel">
+                        <!--
+						<ul>
+							<li>page = {{tableParamsConditionsStats.currentPage}}</li>
+							<li>of pages = {{tableParamsConditionsStats.totalPages}}</li>
+							<li>from record = {{tableParamsConditionsStats.first}}</li>
+							<li>to record = {{tableParamsConditionsStats.last}}</li>
+							<li>total records = {{tableParamsConditionsStats.totalCount}}</li>
+							<li>filtered records = {{tableParamsConditionsStats.filteredCount}}</li>
+						</ul>
+						-->
                         <div class="title-bar">
-                            <h3>Conditions Count</h3>
+                            <h3>Showing {{tableParamsConditionsStats.first}} - {{tableParamsConditionsStats.last}} of {{tableParamsConditionsStats.totalCount}}</h3>
                             <div class="filters">
                                 <div class="form-inline">
                                     <div class="form-group">
-                                        <select class="form-control">
-                                            <option selected>10</option>
-                                            <option>25</option>
-                                            <option>50</option>
-                                        </select>
+                                        <select class="form-control" class="form-control" ng-model="pageSizeConditions" ng-options="size for size in tableParamsConditions.settings().counts" ng-change="changePageSizeConditions(pageSizeConditions)"></select>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <table ng-table="tableParams1" class="conditions-grid ce-grid table table-striped" show-filter="false">
+                        <table ng-table="tableParamsConditions" class="conditions-grid ce-grid table table-striped" show-filter="false">
                             <tr ng-repeat="condition in $data">
                                 <td class="id-col"
                                     header-class="'id-col'"
@@ -80,27 +86,33 @@
 
                     </div>
                     <div class="tab-pane" id="inspections" role="tabpanel">
-                        <div class="title-bar">
-                            <h3>Inspections Count</h3>
+                        <!--
+						<ul>
+							<li>page = {{tableParamsInspectionsStats.currentPage}}</li>
+							<li>of pages = {{tableParamsInspectionsStats.totalPages}}</li>
+							<li>from record = {{tableParamsInspectionsStats.first}}</li>
+							<li>to record = {{tableParamsInspectionsStats.last}}</li>
+							<li>total records = {{tableParamsInspectionsStats.totalCount}}</li>
+							<li>filtered records = {{tableParamsInspectionsStats.filteredCount}}</li>
+						</ul>
+						-->
+                       <div class="title-bar">
+                            <h3>Showing {{tableParamsInspectionsStats.first}} - {{tableParamsInspectionsStats.last}} of {{tableParamsInspectionsStats.totalCount}}</h3>
                             <div class="filters">
                                 <div class="form-inline">
                                     <div class="form-group">
-                                        <select class="form-control">
-                                            <option selected>10</option>
-                                            <option>25</option>
-                                            <option>50</option>
-                                        </select>
+                                        <select class="form-control" class="form-control" ng-model="pageSizeInspections" ng-options="size for size in tableParamsInspections.settings().counts" ng-change="changePageSizeInspections(pageSizeInspections)"></select>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <table ng-table="tableParams2" class="inspections-grid ce-grid table table-striped" show-filter="false">
+                        <table ng-table="tableParamsInspections" class="inspections-grid ce-grid table table-striped" show-filter="false">
                             <tr ng-repeat="inspection in $data">
                                 <td class="id-col"
                                     header-class="'id-col'"
                                     data-title="'ID'"
                                     filter="{'inspectionID':'text'}"
-                                    sortable="'inspection._id'">
+                                    sortable="'inspection.inspectionId'">
                                     <a ng-show="inspection.detailPage === 'Y'" ui-sref="admin.prototype.inspection({inspectionId:inspection.inspectionId})">{{inspection.inspectionId}} ({{inspection.agency}}) </a>
                                     <a ng-show="inspection.detailPage !== 'Y'" ui-sref="#">{{inspection.inspectionId}} ({{inspection.agency}}) </a>
                                     <div class="tag-list">
@@ -126,21 +138,27 @@
                         </table>
                     </div>
                     <div class="tab-pane" id="actions" role="tabpanel">
+                        <!--
+						<ul>
+							<li>page = {{tableParamsActionsStats.currentPage}}</li>
+							<li>of pages = {{tableParamsActionsStats.totalPages}}</li>
+							<li>from record = {{tableParamsActionsStats.first}}</li>
+							<li>to record = {{tableParamsActionsStats.last}}</li>
+							<li>total records = {{tableParamsActionsStats.totalCount}}</li>
+							<li>filtered records = {{tableParamsActionsStats.filteredCount}}</li>
+						</ul>
+						-->
                         <div class="title-bar">
-                            <h3>Actions Count</h3>
+                            <h3>Showing {{tableParamsActionsStats.first}} - {{tableParamsActionsStats.last}} of {{tableParamsActionsStats.totalCount}}</h3>
                             <div class="filters">
                                 <div class="form-inline">
                                     <div class="form-group">
-                                        <select class="form-control">
-                                            <option selected>10</option>
-                                            <option>25</option>
-                                            <option>50</option>
-                                        </select>
+                                        <select class="form-control" class="form-control" ng-model="pageSizeActions" ng-options="size for size in tableParamsActions.settings().counts" ng-change="changePageSizeActions(pageSizeActions)"></select>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <table ng-table="tableParams3" class="actions-grid ce-grid table table-striped" show-filter="false">
+                        <table ng-table="tableParamsActions" class="actions-grid ce-grid table table-striped" show-filter="false">
                             <tr ng-repeat="action in $data">
                                 <td class="id-col"
                                     header-class="'id-col'"

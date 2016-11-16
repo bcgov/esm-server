@@ -119,19 +119,25 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($wi
 						event.preventDefault();
 						// go to MEM Projects / Home
 						$window.location.href = $window.location.origin;
+						handled = true;
 					} else {
-						if (_.startsWith(toState.name, 'admin.prototype.') && !_.startsWith(fromState.name, 'admin.prototype.')) {
-							if ($window.location.search !== '?cssload=true') {
-								event.preventDefault();
-								$window.location.href = $window.location.origin + '/admin/prototype/project-main?cssload=true'; // go to our prototype main page...
-								handled = true;
+						if (toState.name === 'admin.prototype.actions') {
+							// let this one through for now
+						} else {
+							if (_.startsWith(toState.name, 'admin.prototype.') && !_.startsWith(fromState.name, 'admin.prototype.')) {
+								if ($window.location.search !== '?cssload=true') {
+									event.preventDefault();
+									$window.location.href = $window.location.origin + '/admin/prototype/project-main?cssload=true'; // go to our prototype main page...
+									handled = true;
+								}
+							} else if (!_.startsWith(toState.name, 'admin.prototype.') && _.startsWith(fromState.name, 'admin.prototype.')) {
+								if ($window.location.search !== '?cssload=true') {
+									event.preventDefault();
+									$window.location.href = $window.location.origin + '/?cssload=true'; // go to application main page (projects)
+									handled = true;
+								}
 							}
-						} else if (!_.startsWith(toState.name, 'admin.prototype.') && _.startsWith(fromState.name, 'admin.prototype.')) {
-							if ($window.location.search !== '?cssload=true') {
-								event.preventDefault();
-								$window.location.href = $window.location.origin + '/?cssload=true'; // go to application main page (projects)
-								handled = true;
-							}
+
 						}
 					}
 				}
