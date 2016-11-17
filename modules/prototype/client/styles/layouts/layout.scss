@@ -595,3 +595,29 @@ section h2 {
         font-style: normal;
     }
 }
+
+/* MAP LAYER */
+
+.map-layer-list {
+    width: 200px;
+
+    li {
+        @include flex-box();
+        @include flex-direction(row);
+
+        .swatch {
+            @include flex(0 0 auto);
+            margin: 0.45rem;
+            margin-right: 0.2rem;
+            width: 0.875rem;
+            height: 0.875rem;
+            background: blue;
+        }
+        .layer-name {
+            @include flex(1 1 auto);
+            margin: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: bold;
+        }
+    }
+}
