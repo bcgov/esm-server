@@ -598,10 +598,22 @@ section h2 {
 
 /* MAP LAYER */
 
-.map-layer-list {
+.map-legend {
+    position: absolute;
+    top: 80px;
+    right: 1rem;
     width: 200px;
+    background: #FFF;
+    box-shadow: 0 0 4px #333;
 
-    li {
+    h3 {
+        font-size: 1rem;
+        font-weight: bold;
+        margin: 0.5rem;
+        text-transform: uppercase;
+    }
+
+    .legend-item {
         @include flex-box();
         @include flex-direction(row);
 

@@ -302,7 +302,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 		          var name = type.name;
 		          var icon = type.icon;
 		          var div = document.createElement('div');
-		          div.innerHTML = '<div class="swatch" style="background-color: "' + type.color + '" ></div>' + '<div class="layer-name">' + type.name + '</div>';
+		          div.innerHTML = '<div class="legend-item"><div class="swatch" style="background-color: ' + type.color + ' " ></div>' + '<div class="layer-name">' + type.name + '</div></div>';
 		          legend.appendChild(div);
 		        }
 			};
