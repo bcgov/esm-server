@@ -203,7 +203,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 		url: '/map',
 		resolve: {},
 		templateUrl: 'modules/prototype/client/views/map.html',
-		controller: function ($scope, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project, uiGmapGoogleMapApi) {
+		controller: function (uiGmapIsReady, $scope, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project, uiGmapGoogleMapApi) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
 
@@ -239,34 +239,75 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 				longitude: -124.012351
 			});
 
-			// var kmlURL = window.location.protocol + "//" + window.location.host + "/api/document/" + doc._id + "/fetch";
-			var kmlURL = "http://www.google.com/file.kml";
 			mpl.KMLLayers.push(
 				{	url: "https://mem-mmt-test.pathfinder.gov.bc.ca/api/document/582b923b48077f0017feb5ee/fetch",
-					label: "Map Layer",
+					label: "ADMIN",
 					show: true,
 					_id: 654654
 				});
 			mpl.KMLLayers.push(
 				{	url: "https://mem-mmt-test.pathfinder.gov.bc.ca/api/document/582b923b48077f0017feb608/fetch",
-					label: "Map Layer",
+					label: "Disturbance",
 					show: true,
 					_id: 654655
 				});
 			mpl.KMLLayers.push(
 				{	url: "https://mem-mmt-test.pathfinder.gov.bc.ca/api/document/582b923b48077f0017feb5fb/fetch",
-					label: "Map Layer",
+					label: "Plantsite",
 					show: true,
 					_id: 654656
 				});
 			mpl.KMLLayers.push(
 				{	url: "https://mem-mmt-test.pathfinder.gov.bc.ca/api/document/582b923b48077f0017feb609/fetch",
-					label: "Map Layer",
+					label: "Stockpiles",
 					show: true,
 					_id: 654657
 				});
-
+// #FFAA00 is the colour of the TSF - KMZ not included yet.
 			$scope.mpl = mpl;
+
+			$scope.initMap = function (map) {
+				var legend = document.getElementById('legend');
+				var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+				var icons = {
+		          admin: {
+		            name: 'ADMIN',
+					color: '#D4E4F3'
+		          },
+		          disturbance: {
+		            name: 'Disturbance',
+					color: '#A77000'
+		          },
+		          plantsite: {
+		            name: 'Plantsite',
+					color: '#B2B2B2'
+		          },
+		          stockpiles: {
+		            name: 'Stockpiles',
+					color: '#70A700'
+		          },
+		          tsf: {
+		            name: 'TSF',
+					color: '#FFAA00'
+		          }
+		        };
+		        for (var key in icons) {
+		          var type = icons[key];
+		          var name = type.name;
+		          var icon = type.icon;
+		          var div = document.createElement('div');
+		          div.innerHTML = '<div class="swatch" style="background-color: "' + type.color + '" ></div>' + '<div class="layer-name">' + type.name + '</div>';
+		          legend.appendChild(div);
+		        }
+			};
+
+			uiGmapIsReady.promise()
+			.then(function (instances) {
+			    angular.forEach(instances, function (value, key) {
+			        var theMap = value.map;
+			        $scope.initMap(theMap);
+			    });
+			});
 		},
 	})
 
