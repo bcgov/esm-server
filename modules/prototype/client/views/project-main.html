@@ -22,7 +22,7 @@
 
             <section>
                 <h2>Topics</h2>
-                <p>Explore the topic areas below to learn more about how the mining operations generally and the Mount Milligan mine specifically address the shared values of the people of British Columbia.</p>
+                <p>Explore the topic areas below to learn more about how mining operations generally and the Mount Milligan mine specifically address the shared values of the people of British Columbia.</p>
                 <ul class="topic-blocks block-container clearfix">
                     <li ng-repeat="topic in topics">
                         <a class="block block-hover" ng-show="topic.description !== ''" ui-sref="admin.prototype.topic({topicId: topic.topicId})">
@@ -39,7 +39,7 @@
 
             <section>
                 <h2>Authorizations</h2>
-                <p>Environmental assessment certificates and permits issued under the Mines Act and the Environmental Management Act (EMA) are the primary provincial authorizations for major mine projects in BC. The most recent primary authorizations for Mount Milligan are listed below.</p>
+                <p>Environmental assessment certificates and permits issued under the Mines Act and the Environmental Management Act (EMA) are the primary provincial authorizations for major mine projects in BC. Recent primary authorizations for Mount Milligan are listed below.</p>
                 <ul class="authorization-blocks resource-list resource-list-lg list-group">
                     <li class="list-group-item" ng-repeat="authorization in project.authorizations | orderBy:'-date'">
                         <span class="title">
