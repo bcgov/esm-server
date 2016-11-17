@@ -561,8 +561,7 @@ section h2 em {
       margin: 0.45rem;
       margin-right: 0.2rem;
       width: 0.875rem;
-      height: 0.875rem;
-      background: blue; }
+      height: 0.875rem; }
     .map-layer-list li .layer-name {
       -webkit-box-flex: 1 1 auto;
       -moz-box-flex: 1 1 auto;
