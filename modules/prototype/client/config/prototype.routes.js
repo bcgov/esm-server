@@ -263,7 +263,13 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 					show: true,
 					_id: 654657
 				});
-// #FFAA00 is the colour of the TSF - KMZ not included yet.
+			mpl.KMLLayers.push(
+				{	url: "https://mem-mmt-test.pathfinder.gov.bc.ca/api/document/582b923b48077f0017feb5e1/fetch",
+					label: "TSF",
+					show: true,
+					_id: 654658
+				});
+
 			$scope.mpl = mpl;
 
 			$scope.initMap = function (map) {
