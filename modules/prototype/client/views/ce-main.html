@@ -21,7 +21,7 @@
             </section>
 
             <section>
-                <h2>Compliance Oversight</h2>
+                <h2>Compliance Oversight &nbsp;<em>(Jan 1 &ndash; Sept 30, 2016)</em></h2>
                 <ul class="ce-blocks block-container clearfix">
                     <li>
                         <div class="block">
@@ -53,21 +53,12 @@
             </section>
             <section>
                 <h2>Inspections</h2>
-                <!--
-			   <ul>
-				   <li>page = {{tableParamsStats.currentPage}}</li>
-				   <li>of pages = {{tableParamsStats.totalPages}}</li>
-				   <li>from record = {{tableParamsStats.first}}</li>
-				   <li>to record = {{tableParamsStats.last}}</li>
-				   <li>total records = {{tableParamsStats.totalCount}}</li>
-				   <li>filtered records = {{tableParamsStats.filteredCount}}</li>
-			   </ul>
-			   -->
                 <div class="title-bar">
                         <h3>Showing {{tableParamsStats.first}} - {{tableParamsStats.last}} of {{tableParamsStats.totalCount}}</h3>
                         <div class="filters">
                             <div class="form-inline">
                                 <div class="form-group">
+                                    <label>Show&nbsp;</label>
                                     <select class="form-control" class="form-control" ng-model="pageSize" ng-options="size for size in tableParams.settings().counts" ng-change="changePageSize(pageSize)"></select>
                                 </div>
                             </div>
@@ -99,7 +90,7 @@
                         </tr>
                         <tr ng-if="!$data || $data.length === 0">
                             <td colspan="3">
-                                No records found.
+                                No Inspections.
                             </td>
                         </tr>
                     </table>

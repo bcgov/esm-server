@@ -540,3 +540,84 @@ pre li {
         }
     }
 }
+
+
+.ce-grid {
+    th.sortable .sort-indicator {
+        padding-right: 18px;
+        position: relative;
+    }
+
+    th.sortable.sort-asc, 
+    th.sortable.sort-desc {
+        text-shadow: 0 1px 1px hsla(0,0%,100%,.75);
+    }
+
+    th.sortable.sort-asc, 
+    th.sortable.sort-desc {
+        text-shadow: 0 1px 1px hsla(0,0%,100%,.75);
+    }
+
+    th.sortable .sort-indicator:before {
+        margin-top: 2px;
+        border-bottom: none;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid #000;
+    }
+
+    th.sortable.sort-desc .sort-indicator:after {
+        border-bottom: none;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid #000;
+        box-shadow: none;
+    }
+
+    th.sortable .sort-indicator:after, 
+    .ng-table th.sortable .sort-indicator:before {
+        content: "";
+        border-width: 0 4px 4px;
+        border-style: solid;
+        border-color: #000 transparent;
+        visibility: visible;
+        right: 5px;
+        top: 50%;
+        position: absolute;
+        opacity: .3;
+        margin-top: -4px;
+    }
+}
+
+section h2 {
+    em {
+        font-weight: normal;
+        font-style: normal;
+    }
+}
+
+/* MAP LAYER */
+
+.map-layer-list {
+    width: 200px;
+
+    li {
+        @include flex-box();
+        @include flex-direction(row);
+
+        .swatch {
+            @include flex(0 0 auto);
+            margin: 0.45rem;
+            margin-right: 0.2rem;
+            width: 0.875rem;
+            height: 0.875rem;
+            background: blue;
+        }
+        .layer-name {
+            @include flex(1 1 auto);
+            margin: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: bold;
+        }
+    }
+}

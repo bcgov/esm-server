@@ -516,6 +516,77 @@ pre li {
 .ce-narrative .toggle-link:checked:after {
   content: "Read Less"; }
 
+.ce-grid th.sortable .sort-indicator {
+  padding-right: 18px;
+  position: relative; }
+.ce-grid th.sortable.sort-asc,
+.ce-grid th.sortable.sort-desc {
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75); }
+.ce-grid th.sortable.sort-asc,
+.ce-grid th.sortable.sort-desc {
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75); }
+.ce-grid th.sortable .sort-indicator:before {
+  margin-top: 2px;
+  border-bottom: none;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #000; }
+.ce-grid th.sortable.sort-desc .sort-indicator:after {
+  border-bottom: none;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #000;
+  box-shadow: none; }
+.ce-grid th.sortable .sort-indicator:after,
+.ce-grid .ng-table th.sortable .sort-indicator:before {
+  content: "";
+  border-width: 0 4px 4px;
+  border-style: solid;
+  border-color: #000 transparent;
+  visibility: visible;
+  right: 5px;
+  top: 50%;
+  position: absolute;
+  opacity: .3;
+  margin-top: -4px; }
+
+section h2 em {
+  font-weight: normal;
+  font-style: normal; }
+
+/* MAP LAYER */
+.map-layer-list {
+  width: 200px; }
+  .map-layer-list li {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row; }
+    .map-layer-list li .swatch {
+      -webkit-box-flex: 0 0 auto;
+      -moz-box-flex: 0 0 auto;
+      -webkit-flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+      flex: 0 0 auto;
+      margin: 0.45rem;
+      margin-right: 0.2rem;
+      width: 0.875rem;
+      height: 0.875rem;
+      background: blue; }
+    .map-layer-list li .layer-name {
+      -webkit-box-flex: 1 1 auto;
+      -moz-box-flex: 1 1 auto;
+      -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
+      margin: 0.25rem;
+      font-size: 0.875rem;
+      font-weight: bold; }
+
 /* COMPONENTS */
 .action-summary p {
   margin-bottom: 1.675rem;
