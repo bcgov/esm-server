@@ -135,31 +135,16 @@ angular.module('users')
 							s.search = function () {
 								s.searching = true;
 								$scope.userList = [];
-								if (scope.searchmode === 'invitation') {
-
-									var projectId = !_.isEmpty(scope.project) ?  scope.project._id : undefined;
-									UserModel.usersToInvite(projectId, s.name, s.email, s.org, s.groupId)
-										.then(function (res) {
-											$scope.userList = res;
-											$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.userList});
-											s.searching = false;
-											$scope.$apply();
-										}).catch(function (err) {
-										s.searching = false;
-									});
-
-								} else {
-
-									UserModel.search(s.name, s.email, s.org, s.groupId)
-										.then(function (res) {
-											$scope.userList = res;
-											$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.userList});
-											s.searching = false;
-											$scope.$apply();
-										}).catch(function (err) {
-										s.searching = false;
-									});
-								}
+								// We no longer want to filter already invited users.
+								UserModel.search(s.name, s.email, s.org, s.groupId)
+								.then(function (res) {
+									$scope.userList = res;
+									$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.userList});
+									s.searching = false;
+									$scope.$apply();
+								}).catch(function (err) {
+									s.searching = false;
+								});
 							};
 
 						}
