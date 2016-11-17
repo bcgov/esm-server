@@ -536,6 +536,10 @@ pre li {
   opacity: .3;
   margin-top: -4px; }
 
+section h2 em {
+  font-weight: normal;
+  font-style: normal; }
+
 /* COMPONENTS */
 .action-summary p {
   margin-bottom: 1.675rem;
