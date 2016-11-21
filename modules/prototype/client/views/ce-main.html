@@ -117,6 +117,7 @@
                             <div class="filters">
                                 <div class="form-inline">
                                     <div class="form-group">
+                                        <label>Show&nbsp;</label>
                                         <select class="form-control" class="form-control" ng-model="pageSizeActions" ng-options="size for size in tableParamsActions.settings().counts" ng-change="changePageSizeActions(pageSizeActions)"></select>
                                     </div>
                                 </div>
@@ -131,7 +132,7 @@
                                     sortable="'orderId'">
                                     <a ng-show="action.documentUrl !== ''" ui-sref="admin.prototype.action({orderId: action.orderId})">{{action.type}} Issued: {{action.orderId}}</a>
                                     <a ng-show="action.documentUrl === ''" disabled ui-sref="#">{{action.type}} Issued: {{action.orderId}}</a>
-                                    <pre class="row-desc" ng-bind-html="action.text"></pre>
+                                    <div class="ce-grid-row-desc" ng-bind-html="action.text"></div>
                                 </td>
                                 <td class="date-col"
                                     header-class="'date-col'"

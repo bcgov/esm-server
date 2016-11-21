@@ -1,28 +1,30 @@
-
 <div class="container page-main">
-    
+
     <div class="breadcrumbs">
         <a ui-sref="projects">MEM</a>
         <span>/</span>
         <a ui-sref="admin.prototype.projectmain">Projects</a>
-        <span>/</span> 
+        <span>/</span>
         <span>{{project.name}}</span>
     </div>
-    
+
     <div class="title-container">
         <h1>{{project.name}}</h1>
     </div>
     <div class="row">
         <main class="col-sm-12 col-md-8">
-            
+
             <section class="has-read-more project-narrative">
-                <input class="toggle-link" type="checkbox"/>
+                <input class="toggle-link" type="checkbox" />
                 <div class="content" ng-bind-html="project.description"></div>
             </section>
 
             <section>
                 <h2>Topics</h2>
-                <p>Explore the topic areas below to learn more about how mining operations generally and the Mount Milligan mine specifically address the shared values of the people of British Columbia.</p>
+                <p>The Province strives to ensure that mines provide jobs and economic benefits in communities across the province
+                    while operating in a safe, environmentally responsible manner that protects health, heritage and other
+                    resources for future generations. Explore the topic areas below to learn more about oversight of Mount
+                    Milligan, including project-specific conditions, inspections and actions.</p>
                 <ul class="topic-blocks block-container clearfix">
                     <li ng-repeat="topic in topics">
                         <a class="block block-hover" ng-show="topic.description !== ''" ui-sref="admin.prototype.topic({topicId: topic.topicId})">
@@ -39,9 +41,81 @@
 
             <section>
                 <h2>Authorizations</h2>
-                <p>Environmental assessment certificates and permits issued under the Mines Act and the Environmental Management Act (EMA) are the primary provincial authorizations for major mine projects in BC. Recent primary authorizations for Mount Milligan are listed below.</p>
+                <p>Environmental assessment certificates and permits issued under the Mines Act and the Environmental Management
+                    Act (EMA) are the primary provincial authorizations for major mine projects in BC. Recent primary authorizations
+                    for Mount Milligan are listed below.</p>
+
+                <div class="authorization-blocks resource-list resource-list-lg" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="card">
+                        <div class="list-group-item" role="tab" id="headingOne">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                <span class="avatar">
+                                    <i class="material-icons open-icon">add</i>
+                                    <i class="material-icons close-icon">remove</i>
+                                </span>
+                                <span class="title">
+                                    <span class="primary">Environmental Assessment Act</span>
+                                    <span class="secondary">Environmental Assessment Office</span>
+                                </span>
+                            </a>
+                        </div>
+
+                        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                            <ul class="authorization-list">
+                                <li><a href="#">Environmental Assessment Certificate</a></li>
+                                <li><a href="#">Environmental Assessment Certificate Amendment</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="list-group-item" role="tab" id="headingTwo">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <span class="avatar">
+                                    <i class="material-icons open-icon">add</i>
+                                    <i class="material-icons close-icon">remove</i>
+                                </span>
+                                <span class="title">
+                                    <span class="primary">Environmental Management Act</span>
+                                    <span class="secondary">Ministry of Environment</span>
+                                </span>
+                            </a>
+                        </div>
+                        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                            <ul class="authorization-list">
+                                <li><a href="#">Air Permit</a></li>
+                                <li><a href="#">Effluent Permit</a></li>
+                                <li><a href="#">Landfill Permit</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="list-group-item" role="tab" id="headingThree">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                <span class="avatar">
+                                    <i class="material-icons open-icon">add</i>
+                                    <i class="material-icons close-icon">remove</i>
+                                </span>
+                                <span class="title">
+                                    <span class="primary">Mines Act</span>
+                                    <span class="secondary">Ministry of Energy and Mines</span>
+                                </span>
+                            </a>
+                        </div>
+                        <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                            <ul class="authorization-list">
+                                <li><a href="#">Approval to Operate Tailings Storage Facility</a></li>
+                                <li><a href="#">Approving Construction of a Blend and Feed Ore Stockpile</a></li>
+                                <li><a href="#">Approving Change in Security Schedule</a></li>
+                                <li><a href="#">Approving Mine Plan and Reclamation Program</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--
                 <ul class="authorization-blocks resource-list resource-list-lg list-group">
-                    <li class="list-group-item" ng-repeat="authorization in project.authorizations | orderBy:'-date'">
+                    <li class="list-group-item" ng-repeat="authorization in project.groupedAuthorizations">
                         <span class="title">
                             <span class="primary">{{authorization.name}}</span>
                             <span class="secondary">{{authorization.agency}}</span>
@@ -57,6 +131,7 @@
                         <a class="read-more-link mt-05" ui-sref="admin.prototype.conditionsmain">Browse all Conditions for {{project.name}} »</a>
                     </li>
                 </ul>
+                -->
             </section>
 
             <section>
@@ -98,10 +173,7 @@
             <section class="card">
                 <h2 class="card-title">Details</h2>
                 <div class="map-thumb">
-                    <img src="modules/prototype/client/images/map-thumb.png"
-                        ui-sref="admin.prototype.map"
-                        data-toggle="modal" 
-                        data-target="#mapWindow" />
+                    <img src="modules/prototype/client/images/map-thumb.png" ui-sref="admin.prototype.map" data-toggle="modal" data-target="#mapWindow"/>
                 </div>
 
                 <div class="card-block">
@@ -141,12 +213,15 @@
                 </ul>
             </section>
 
-             <section class="card">
+            <section class="card">
                 <h2 class="card-title">External Links</h2>
                 <ul class="resource-list resource-list-sm list-group">
-                    <li class="list-group-item"><a href="http://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations/ministries/energy-and-mines" target="_blank">Ministry of Energy &amp; Mines</a></li>
-                    <li class="list-group-item"><a href="http://www2.gov.bc.ca/gov/content/industry/mineral-exploration-mining/health-safety/health-safety-and-reclamation-code-for-mines-in-british-columbia" target="_blank">Mineral Exploration &amp; Mining (Ministry of Energy and Mines)</a></li>
-                    <li class="list-group-item"><a href="http://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations/ministries/environment" target="_blank">Ministry of Environment</a></li>
+                    <li class="list-group-item"><a href="http://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations/ministries/energy-and-mines"
+                            target="_blank">Ministry of Energy &amp; Mines</a></li>
+                    <li class="list-group-item"><a href="http://www2.gov.bc.ca/gov/content/industry/mineral-exploration-mining/health-safety/health-safety-and-reclamation-code-for-mines-in-british-columbia"
+                            target="_blank">Mineral Exploration &amp; Mining (Ministry of Energy and Mines)</a></li>
+                    <li class="list-group-item"><a href="http://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations/ministries/environment"
+                            target="_blank">Ministry of Environment</a></li>
                     <li class="list-group-item"><a href="http://www.eao.gov.bc.ca/" target="_blank">Environmental Assessment Office</a></li>
                     <li class="list-group-item"><a href="http://a100.gov.bc.ca/appsdata/epic/html/deploy/epic_project_home_285.html" target="_blank">Mount Milligan Environmental Assessment</a></li>
                 </ul>

@@ -602,30 +602,51 @@ section h2 em {
 
 .authorization-blocks {
   color: #2b5580; }
-  .authorization-blocks .secondary {
-    margin-top: 0.1rem;
+  .authorization-blocks .list-group-item {
+    margin-bottom: 0 !important; }
+  .authorization-blocks .card {
+    margin-bottom: 0.5rem;
+    background: #F7F8FA; }
+  .authorization-blocks a {
+    display: flex;
+    text-decoration: none; }
+    .authorization-blocks a .avatar {
+      -webkit-box-flex: 0 0 auto;
+      -moz-box-flex: 0 0 auto;
+      -webkit-flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+      flex: 0 0 auto;
+      width: 2.5rem; }
+    .authorization-blocks a .title {
+      -webkit-box-flex: 1 1 auto;
+      -moz-box-flex: 1 1 auto;
+      -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+      flex: 1 1 auto; }
+    .authorization-blocks a .details {
+      -webkit-box-flex: 0 0 auto;
+      -moz-box-flex: 0 0 auto;
+      -webkit-flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+      flex: 0 0 auto; }
+    .authorization-blocks a .open-icon {
+      display: none; }
+    .authorization-blocks a.collapsed .open-icon {
+      display: block; }
+    .authorization-blocks a.collapsed .close-icon {
+      display: none; }
+    .authorization-blocks a .collapse .close-icon {
+      display: block; }
+  .authorization-blocks .title .primary {
+    font-size: 1rem; }
+  .authorization-blocks .title .secondary {
     opacity: 0.65; }
-  .authorization-blocks.resource-list .list-group-item {
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    padding: 1rem; }
-    .authorization-blocks.resource-list .list-group-item .details {
-      margin-top: 0.5rem; }
-      .authorization-blocks.resource-list .list-group-item .details span {
-        display: inline-block; }
+  .authorization-blocks .authorization-list {
+    padding: 1rem;
+    font-size: 0.875rem; }
+    .authorization-blocks .authorization-list a:hover {
+      text-decoration: underline; }
 
-@media (min-width: 1020px) {
-  .authorization-blocks.resource-list .list-group-item {
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row; }
-    .authorization-blocks.resource-list .list-group-item .details {
-      display: block;
-      margin-top: 0;
-      text-align: right; }
-      .authorization-blocks.resource-list .list-group-item .details span {
-        display: block; } }
 .ce-grid table {
   table-layout: fixed; }
 .ce-grid thead {
@@ -699,8 +720,7 @@ section h2 em {
 .actions-grid td.date-col {
   position: absolute;
   top: 0;
-  padding: 1rem;
-  font-size: 0.75rem; }
+  padding: 1rem; }
 .actions-grid .date-col {
   right: 0;
   text-align: right; }
