@@ -418,11 +418,11 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 
 			$scope.project = project;
 
-			$scope.filter = {
+			$scope.filterInspections = {
 				failed: undefined
 			};
 
-			$scope.tableParamsStats = {
+			$scope.tableParamsInspectionsStats = {
 				currentPage: 0,
 				totalPages: 0,
 				first: 0,
@@ -431,10 +431,23 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 				filteredCount: 0
 			};
 
-			$scope.tableParams =  new NgTableParams({
+			$scope.filterActions = {
+				failed: undefined
+			};
+
+			$scope.tableParamsActionsStats = {
+				currentPage: 0,
+				totalPages: 0,
+				first: 0,
+				last: 0,
+				totalCount: 0,
+				filteredCount: 0
+			};
+
+			$scope.tableParamsInspections =  new NgTableParams({
 				page: 1,
 				count: 10,
-				filter: $scope.filter
+				filter: $scope.filterInspections
 			}, {
 				debugMode: false,
 				total: $scope.project.inspections,
@@ -444,21 +457,51 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 					params.total(orderedData.length);
 					$scope.filteredCount = orderedData.length;
 
-					$scope.tableParamsStats.currentPage = params.page();
-					$scope.tableParamsStats.totalPages = (params.count() > 0) ? Math.ceil(params.total() / params.count()): 0;
-					$scope.tableParamsStats.first = ($scope.filteredCount === 0)? 0 : ((params.page()-1) * params.count()) + 1;
-					$scope.tableParamsStats.last = (params.page() * params.count() > params.total()) ? params.total() : params.page() * params.count();
-					$scope.tableParamsStats.totalCount =  params.total();
-					$scope.tableParamsStats.filteredCount = $scope.filteredCount;
+					$scope.tableParamsInspectionsStats.currentPage = params.page();
+					$scope.tableParamsInspectionsStats.totalPages = (params.count() > 0) ? Math.ceil(params.total() / params.count()): 0;
+					$scope.tableParamsInspectionsStats.first = ($scope.filteredCount === 0)? 0 : ((params.page()-1) * params.count()) + 1;
+					$scope.tableParamsInspectionsStats.last = (params.page() * params.count() > params.total()) ? params.total() : params.page() * params.count();
+					$scope.tableParamsInspectionsStats.totalCount =  params.total();
+					$scope.tableParamsInspectionsStats.filteredCount = $scope.filteredCount;
 
 					$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
 				}
 			});
 
-			$scope.pageSize = 10;
+			$scope.pageSizeInspections = 10;
 
-			$scope.changePageSize = function(newSize){
-				$scope.tableParams.count(newSize);
+			$scope.changePageSizeInspections = function(newSize){
+				$scope.tableParamsInspections.count(newSize);
+			};
+
+			$scope.tableParamsActions =  new NgTableParams({
+				page: 1,
+				count: 10,
+				filter: $scope.filterActions
+			}, {
+				debugMode: false,
+				total: $scope.project.actions,
+				getData: function($defer, params) {
+					var orderedData = params.sorting() ? $filter('orderBy')($scope.project.actions, params.orderBy()) : $scope.project.actions;
+					orderedData	= $filter('filter')(orderedData, params.filter());
+					params.total(orderedData.length);
+					$scope.filteredCount = orderedData.length;
+
+					$scope.tableParamsActionsStats.currentPage = params.page();
+					$scope.tableParamsActionsStats.totalPages = (params.count() > 0) ? Math.ceil(params.total() / params.count()): 0;
+					$scope.tableParamsActionsStats.first = ($scope.filteredCount === 0)? 0 : ((params.page()-1) * params.count()) + 1;
+					$scope.tableParamsActionsStats.last = (params.page() * params.count() > params.total()) ? params.total() : params.page() * params.count();
+					$scope.tableParamsActionsStats.totalCount =  params.total();
+					$scope.tableParamsActionsStats.filteredCount = $scope.filteredCount;
+
+					$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+				}
+			});
+
+			$scope.pageSizeActions = 10;
+
+			$scope.changePageSizeActions = function(newSize){
+				$scope.tableParamsActions.count(newSize);
 			};
 		},
 	})
