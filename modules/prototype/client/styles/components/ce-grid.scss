@@ -69,11 +69,15 @@
         }
     }
 
-    .row-desc {
+    .ce-grid-row-desc {
         margin-top: 0.675rem;
-        margin-bottom: 1rem;
         font-size: 0.75rem;
         font-style: italic;
+
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.2rem;
+        }
     }
 }
 
@@ -82,25 +86,26 @@
         width: 100%;
     }
 
-    td.date-col {
+    td.date-col,
+    td.followup-col {
         position: absolute;
-        top: 0;
         padding: 1rem;
-        font-size: 0.75rem;
     }
     
     .date-col {
-        right: 11rem;
+        top: 0;
+        right: 12rem;
         text-align: right;
     }
 
     .followup-col {
-        text-align: right;
-        width: 11rem;
+        top: 0;
+        right: 0;
+        width: 12rem;
         white-space: nowrap;
         overflow: hidden;
+        text-align: right;
         text-overflow: ellipsis;
-        font-size: 0.75rem;
     }
 }
 

@@ -418,7 +418,7 @@ pre li {
 
 .has-read-more {
   position: relative;
-  margin-bottom: 3rem; }
+  margin-bottom: 4rem; }
   .has-read-more .toggle-link {
     position: absolute;
     bottom: -1rem;
@@ -667,29 +667,32 @@ section h2 em {
   .ce-grid .tag-list .tag {
     margin-right: 0.25rem;
     font-size: 0.75rem; }
-.ce-grid .row-desc {
+.ce-grid .ce-grid-row-desc {
   margin-top: 0.675rem;
-  margin-bottom: 1rem;
   font-size: 0.75rem;
   font-style: italic; }
+  .ce-grid .ce-grid-row-desc p {
+    margin-bottom: 1rem;
+    line-height: 1.2rem; }
 
 .inspections-grid td.id-col {
   width: 100%; }
-.inspections-grid td.date-col {
+.inspections-grid td.date-col,
+.inspections-grid td.followup-col {
   position: absolute;
-  top: 0;
-  padding: 1rem;
-  font-size: 0.75rem; }
+  padding: 1rem; }
 .inspections-grid .date-col {
-  right: 11rem;
+  top: 0;
+  right: 12rem;
   text-align: right; }
 .inspections-grid .followup-col {
-  text-align: right;
-  width: 11rem;
+  top: 0;
+  right: 0;
+  width: 12rem;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 0.75rem; }
+  text-align: right;
+  text-overflow: ellipsis; }
 
 .actions-grid td.id-col {
   width: 100%; }

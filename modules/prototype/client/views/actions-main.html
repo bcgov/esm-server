@@ -58,16 +58,6 @@
         
             <section>
                 <div class="title-bar">
-                    <!--
-                    <ul>
-                        <li>page = {{tableParamsStats.currentPage}}</li>
-                        <li>of pages = {{tableParamsStats.totalPages}}</li>
-                        <li>from record = {{tableParamsStats.first}}</li>
-                        <li>to record = {{tableParamsStats.last}}</li>
-                        <li>total records = {{tableParamsStats.totalCount}}</li>
-                        <li>filtered records = {{tableParamsStats.filteredCount}}</li>
-                    </ul>
-                    -->
                     <h3>Showing {{tableParamsStats.first}} - {{tableParamsStats.last}} of {{tableParamsStats.totalCount}}</h3>
                     <div class="filters">
                         <div class="form-inline">
@@ -77,7 +67,6 @@
                         </div>
                     </div>
                 </div>
-
                 <table ng-table="tableParams" class="inspections-grid actions-grid ce-grid table table-striped table-hover" show-filter="false">
                     <tr ng-repeat="action in $data">
                         <td class="id-col"
@@ -87,10 +76,7 @@
                             sortable="'orderId'">
                             <a ng-show="action.documentUrl !== ''" ui-sref="admin.prototype.action({orderId: action.orderId})">{{action.type}} Issued: {{action.orderId}}</a>
                             <a ng-show="action.documentUrl === ''" disabled ui-sref="#">{{action.type}} Issued: {{action.orderId}}</a>
-                            <pre class="row-desc" ng-bind-html="action.text"></pre>
-                            <div class="tag-list">
-                                <span class="tag tag-default" ng-repeat="topic in action.topics">{{topic}}</span>
-                            </div>
+                            <pre class="ce-grid-row-desc" ng-bind-html="action.text"></pre>
                         </td>
                         <td class="date-col" 
                             header-class="'date-col'" 

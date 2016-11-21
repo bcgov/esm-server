@@ -77,10 +77,7 @@
                             sortable="'orderId'">
                             <a ng-show="action.documentUrl !== ''" ui-sref="admin.prototype.action({orderId: action.orderId})">{{action.type}} Issued: {{action.orderId}}</a>
                             <a ng-show="action.documentUrl === ''" disabled ui-sref="#">{{action.type}} Issued: {{action.orderId}}</a>
-                            <pre class="row-desc" ng-bind-html="action.text"></pre>
-                            <div class="tag-list">
-                                <span class="tag tag-default" ng-repeat="topic in action.topics">{{topic}}</span>
-                            </div>
+                            <div class="ce-grid-row-desc" ng-bind-html="action.text"></div>
                         </td>
                         <td class="date-col" 
                             header-class="'date-col'" 

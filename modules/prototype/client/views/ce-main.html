@@ -52,48 +52,72 @@
                 </ul>
             </section>
             <section>
-                <h2>Inspections</h2>
-                <div class="title-bar">
-                        <h3>Showing {{tableParamsStats.first}} - {{tableParamsStats.last}} of {{tableParamsStats.totalCount}}</h3>
-                        <div class="filters">
-                            <div class="form-inline">
-                                <div class="form-group">
-                                    <label>Show&nbsp;</label>
-                                    <select class="form-control" class="form-control" ng-model="pageSize" ng-options="size for size in tableParams.settings().counts" ng-change="changePageSize(pageSize)"></select>
+
+                <ul class="nav nav-tabs">
+                    <li class="nav-item active">
+                        <a class="nav-link" data-toggle="tab" href="#inspections" role="tab">Inspections</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#actions" role="tab">Actions</a>
+                    </li>
+               </ul>
+
+               <div class="tab-content">
+
+                   <!-- INSPECTIONS TAB CONTENT -->
+                    <div class="tab-pane active" id="inspections" role="tabpanel">
+                
+                        <div class="title-bar">
+                            <h3>Showing {{tableParamsStats.first}} - {{tableParamsStats.last}} of {{tableParamsStats.totalCount}}</h3>
+                            <div class="filters">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label>Show&nbsp;</label>
+                                        <select class="form-control" class="form-control" ng-model="pageSize" ng-options="size for size in tableParams.settings().counts" ng-change="changePageSize(pageSize)"></select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <table ng-table="tableParams" class="inspections-grid ce-grid table table-striped" show-filter="false">
+                            <tr ng-repeat="inspection in $data">
+                                <td class="id-col"
+                                    header-class="'id-col'"
+                                    data-title="'ID'"
+                                    filter="{'inspectionId':'text'}"
+                                    sortable="'inspectionId'">
+                                    <a ng-show="inspection.detailPage === 'Y'" ui-sref="admin.prototype.inspection({inspectionId:inspection.inspectionId})">{{inspection.inspectionId}} ({{inspection.agency}}) </a>
+                                    <a ng-show="inspection.detailPage !== 'Y'" ui-sref="#">{{inspection.inspectionId}} ({{inspection.agency}}) </a>
+                                    <div class="ce-grid-row-desc" ng-bind-html="inspection.followupText"></div>
+                                </td>
+                                <td class="date-col" 
+                                    header-class="'date-col'" 
+                                    data-title="'Inspection Date'"
+                                    filter="{'date':'text'}"
+                                    sortable="'date'">{{inspection.date}}</td>
+                                <td class="followup-col"
+                                    header-class="'followup-col'"
+                                    data-title="'Recent Follow-Up'"
+                                    filter="{'followupType':'text'}"
+                                    sortable="'followupType'">{{inspection.followupType}}</td>
+                            </tr>
+                            <tr ng-if="!$data || $data.length === 0">
+                                <td colspan="3">
+                                    No Inspections.
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div><!-- -->
+
+                    <!-- ACTIONS TAB CONTENT -->
+                    <div class="tab-pane" id="actions" role="tabpanel">
+                        
+
                     </div>
-                    <table ng-table="tableParams" class="inspections-grid ce-grid table table-striped" show-filter="false">
-                        <tr ng-repeat="inspection in $data">
-                            <td class="id-col"
-                                header-class="'id-col'"
-                                data-title="'ID'"
-                                filter="{'inspectionId':'text'}"
-                                sortable="'inspectionId'">
-                                <a ng-show="inspection.detailPage === 'Y'" ui-sref="admin.prototype.inspection({inspectionId:inspection.inspectionId})">{{inspection.inspectionId}} ({{inspection.agency}}) </a>
-                                <a ng-show="inspection.detailPage !== 'Y'" ui-sref="#">{{inspection.inspectionId}} ({{inspection.agency}}) </a>
-                                <div class="tag-list">
-                                    <span class="tag tag-default" ng-repeat="topic in inspection.topics">{{topic}}</span>
-                                </div>
-                            </td>
-                            <td class="date-col" 
-                                header-class="'date-col'" 
-                                data-title="'Inspection Date'"
-                                filter="{'date':'text'}"
-                                sortable="'date'">{{inspection.date}}</td>
-                            <td class="followup-col"
-                                header-class="'followup-col'"
-                                data-title="'Recent Follow-Up'"
-                                filter="{'followupType':'text'}"
-                                sortable="'followupType'">{{inspection.followupType}}</td>
-                        </tr>
-                        <tr ng-if="!$data || $data.length === 0">
-                            <td colspan="3">
-                                No Inspections.
-                            </td>
-                        </tr>
-                    </table>
+                    <!-- -->
+
+                </div>
             </section>
         </main>
 

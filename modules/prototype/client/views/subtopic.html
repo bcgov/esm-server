@@ -38,17 +38,9 @@
                </ul>
 
                 <div class="tab-content">
+
+                    <!-- CONDITIONS TAB CONTENT -->
                     <div class="tab-pane active" id="conditions" role="tabpanel">
-                        <!--
-						<ul>
-							<li>page = {{tableParamsConditionsStats.currentPage}}</li>
-							<li>of pages = {{tableParamsConditionsStats.totalPages}}</li>
-							<li>from record = {{tableParamsConditionsStats.first}}</li>
-							<li>to record = {{tableParamsConditionsStats.last}}</li>
-							<li>total records = {{tableParamsConditionsStats.totalCount}}</li>
-							<li>filtered records = {{tableParamsConditionsStats.filteredCount}}</li>
-						</ul>
-						-->
                         <div class="title-bar">
                             <h3>Showing {{tableParamsConditionsStats.first}} - {{tableParamsConditionsStats.last}} of {{tableParamsConditionsStats.totalCount}}</h3>
                             <div class="filters">
@@ -85,19 +77,10 @@
                                 </td>
                             </tr>
                         </table>
+                    </div><!-- -->
 
-                    </div>
+                    <!-- INSPECTIONS TAB CONTENT -->
                     <div class="tab-pane" id="inspections" role="tabpanel">
-                        <!--
-						<ul>
-							<li>page = {{tableParamsInspectionsStats.currentPage}}</li>
-							<li>of pages = {{tableParamsInspectionsStats.totalPages}}</li>
-							<li>from record = {{tableParamsInspectionsStats.first}}</li>
-							<li>to record = {{tableParamsInspectionsStats.last}}</li>
-							<li>total records = {{tableParamsInspectionsStats.totalCount}}</li>
-							<li>filtered records = {{tableParamsInspectionsStats.filteredCount}}</li>
-						</ul>
-						-->
                        <div class="title-bar">
                             <h3>Showing {{tableParamsInspectionsStats.first}} - {{tableParamsInspectionsStats.last}} of {{tableParamsInspectionsStats.totalCount}}</h3>
                             <div class="filters">
@@ -116,10 +99,8 @@
                                     filter="{'inspectionID':'text'}"
                                     sortable="'inspection.inspectionId'">
                                     <a ng-show="inspection.detailPage === 'Y'" ui-sref="admin.prototype.inspection({inspectionId:inspection.inspectionId})">{{inspection.inspectionId}} ({{inspection.agency}}) </a>
-                                    <a ng-show="inspection.detailPage !== 'Y'" ui-sref="#">{{inspection.inspectionId}} ({{inspection.agency}}) </a>
-                                    <div class="tag-list">
-                                        <span class="tag tag-default" ng-repeat="topic in inspection.topics">{{topic}}</span>
-                                    </div>
+                                    <a ng-show="inspection.detailPage !== 'Y'" ui-sref="#">{{inspection.inspectionId}} ({{inspection.agency}})</a>
+                                    <div class="ce-grid-row-desc" ng-bind-html="inspection.followupText"></div>
                                 </td>
                                 <td class="date-col" 
                                     header-class="'date-col'" 
@@ -138,18 +119,10 @@
                                 </td>
                             </tr>
                         </table>
-                    </div>
+                    </div><!-- -->
+
+                    <!-- ACTIONS TAB CONTENT -->
                     <div class="tab-pane" id="actions" role="tabpanel">
-                        <!--
-						<ul>
-							<li>page = {{tableParamsActionsStats.currentPage}}</li>
-							<li>of pages = {{tableParamsActionsStats.totalPages}}</li>
-							<li>from record = {{tableParamsActionsStats.first}}</li>
-							<li>to record = {{tableParamsActionsStats.last}}</li>
-							<li>total records = {{tableParamsActionsStats.totalCount}}</li>
-							<li>filtered records = {{tableParamsActionsStats.filteredCount}}</li>
-						</ul>
-						-->
                         <div class="title-bar">
                             <h3>Showing {{tableParamsActionsStats.first}} - {{tableParamsActionsStats.last}} of {{tableParamsActionsStats.totalCount}}</h3>
                             <div class="filters">
@@ -170,9 +143,6 @@
                                     <a ng-show="action.documentUrl !== ''" ui-sref="admin.prototype.action({orderId: action.orderId})">{{action.type}} Issued: {{action.orderId}}</a>
                                     <a ng-show="action.documentUrl === ''" disabled ui-sref="#">{{action.type}} Issued: {{action.orderId}}</a>
                                     <pre class="row-desc" ng-bind-html="action.text"></pre>
-                                    <div class="tag-list">
-                                        <span class="tag tag-default" ng-repeat="topic in action.topics">{{topic}}</span>
-                                    </div>
                                 </td>
                                 <td class="date-col" 
                                     header-class="'date-col'" 
@@ -186,7 +156,8 @@
                                 </td>
                             </tr>
                         </table>
-                    </div>
+                    </div><!-- -->
+
                 </div>
             </section>
 
