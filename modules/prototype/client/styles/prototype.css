@@ -602,13 +602,25 @@ section h2 em {
 
 .authorization-blocks {
   color: #2b5580; }
-  .authorization-blocks .list-group-item {
-    margin-bottom: 0 !important; }
   .authorization-blocks .card {
     margin-bottom: 0.5rem;
     background: #F7F8FA; }
+  .authorization-blocks .list-group-item {
+    margin-bottom: 0 !important;
+    padding: 0 !important; }
+    .authorization-blocks .list-group-item a {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-flex: 1 1 auto;
+      -moz-box-flex: 1 1 auto;
+      -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
+      padding: 1rem; }
   .authorization-blocks a {
-    display: flex;
     text-decoration: none; }
     .authorization-blocks a .avatar {
       -webkit-box-flex: 0 0 auto;
@@ -616,6 +628,7 @@ section h2 em {
       -webkit-flex: 0 0 auto;
       -ms-flex: 0 0 auto;
       flex: 0 0 auto;
+      margin-top: 4px;
       width: 2.5rem; }
     .authorization-blocks a .title {
       -webkit-box-flex: 1 1 auto;
@@ -631,21 +644,65 @@ section h2 em {
       flex: 0 0 auto; }
     .authorization-blocks a .open-icon {
       display: none; }
+    .authorization-blocks a .collapse .close-icon {
+      display: block; }
     .authorization-blocks a.collapsed .open-icon {
       display: block; }
     .authorization-blocks a.collapsed .close-icon {
       display: none; }
-    .authorization-blocks a .collapse .close-icon {
-      display: block; }
+    .authorization-blocks a:hover {
+      text-decoration: none; }
   .authorization-blocks .title .primary {
-    font-size: 1rem; }
+    font-size: 1.15rem; }
   .authorization-blocks .title .secondary {
-    opacity: 0.65; }
+    margin-top: 0.2rem;
+    opacity: 0.5;
+    font-weight: bold; }
   .authorization-blocks .authorization-list {
-    padding: 1rem;
-    font-size: 0.875rem; }
-    .authorization-blocks .authorization-list a:hover {
-      text-decoration: underline; }
+    font-size: 0.75rem;
+    font-weight: bold; }
+    .authorization-blocks .authorization-list li {
+      border-bottom: 1px solid #EEE; }
+      .authorization-blocks .authorization-list li:last-child {
+        border: none; }
+    .authorization-blocks .authorization-list a {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      padding: 0.8rem 1rem;
+      line-height: 0.875rem;
+      transition: all ease-out 0.2s; }
+      .authorization-blocks .authorization-list a i {
+        margin-top: -2px;
+        margin-right: 5px; }
+      .authorization-blocks .authorization-list a .avatar {
+        -webkit-box-flex: 0 0 auto;
+        -moz-box-flex: 0 0 auto;
+        -webkit-flex: 0 0 auto;
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto; }
+      .authorization-blocks .authorization-list a .title {
+        -webkit-box-flex: 1 1 auto;
+        -moz-box-flex: 1 1 auto;
+        -webkit-flex: 1 1 auto;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto; }
+        .authorization-blocks .authorization-list a .title:hover {
+          text-decoration: underline; }
+      .authorization-blocks .authorization-list a .details {
+        -webkit-box-flex: 0 0 auto;
+        -moz-box-flex: 0 0 auto;
+        -webkit-flex: 0 0 auto;
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+        font-weight: normal; }
+      .authorization-blocks .authorization-list a:hover {
+        background: #EEE; }
 
 .ce-grid table {
   table-layout: fixed; }
@@ -695,6 +752,12 @@ section h2 em {
   .ce-grid .ce-grid-row-desc p {
     margin-bottom: 1rem;
     line-height: 1.2rem; }
+  .ce-grid .ce-grid-row-desc li {
+    margin-bottom: 1rem; }
+    .ce-grid .ce-grid-row-desc li:before {
+      font-weight: bold; }
+    .ce-grid .ce-grid-row-desc li:last-child {
+      margin-bottom: 0; }
 
 .inspections-grid td.id-col {
   width: 100%; }
@@ -735,7 +798,7 @@ section h2 em {
   top: 0;
   right: 0;
   padding: 1rem;
-  font-size: 0.75rem; }
+  font-size: 0.875rem; }
 
 .ng-table-pager {
   text-align: center; }
@@ -1022,11 +1085,12 @@ section h2 em {
   font-size: 1.5rem;
   font-weight: bold; }
 .topic-blocks .subtopics {
-  margin-top: 0.25rem;
+  margin-top: 0.2rem;
   display: block;
   color: #2b5580;
   font-size: 0.875rem;
-  opacity: 0.65;
+  font-weight: bold;
+  opacity: 0.5;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; }

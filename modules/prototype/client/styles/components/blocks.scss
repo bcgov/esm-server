@@ -123,11 +123,12 @@
     }
 
     .subtopics {
-        margin-top: 0.25rem;
+        margin-top: 0.2rem;
         display: block;
         color: #2b5580;
         font-size: 0.875rem;
-        opacity: 0.65;
+        font-weight: bold;
+        opacity: 0.5;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

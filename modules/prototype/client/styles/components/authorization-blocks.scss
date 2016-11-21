@@ -3,21 +3,28 @@
 .authorization-blocks {
     color: #2b5580;
 
-    .list-group-item {
-        margin-bottom: 0 !important;
-    }
-
     .card {
         margin-bottom: 0.5rem;
         background: #F7F8FA;
     }
 
+    .list-group-item {
+        margin-bottom: 0 !important;
+        padding: 0 !important;
+
+        a {
+            @include flex-box();
+            @include flex(1 1 auto);
+            padding: 1rem;
+        }
+    }
+
     a {
-        display: flex;
         text-decoration: none;
 
         .avatar {
             @include flex(0 0 auto);
+            margin-top: 4px;
             width: 2.5rem;
         }
 
@@ -33,6 +40,12 @@
             display: none;
         }
 
+        .collapse {
+            .close-icon {
+                display: block;
+            }
+        }
+
         &.collapsed {
             .open-icon {
                 display: block;
@@ -43,29 +56,67 @@
             }
         }
 
-        .collapse {
-            .close-icon {
-                display: block;
-            }
+        &:hover {
+            text-decoration: none;
         }
     }
 
     .title {
         .primary {
-            font-size: 1rem;
+            font-size: 1.15rem;
         }
 
         .secondary {
-            opacity: 0.65;
+            margin-top: 0.2rem;
+            opacity: 0.5;
+            font-weight: bold;
         }
     }
 
     .authorization-list {
-        padding: 1rem;
-        font-size: 0.875rem;
+        font-size: 0.75rem;
+        font-weight: bold;
 
-        a:hover {
-            text-decoration: underline;
+        li {
+            border-bottom: 1px solid #EEE;
+
+            &:last-child {
+                border: none;
+            }
+        }
+
+        a {
+            @include flex-box();
+            @include flex-direction(row);
+            padding: 0.8rem 1rem;
+            line-height: 0.875rem;
+            transition: all ease-out 0.2s;
+
+            i {
+                margin-top: -2px;
+                margin-right: 5px;
+            }
+            
+            .avatar {
+                @include flex(0 0 auto);
+            }
+
+            .title {
+                @include flex(1 1 auto);
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            .details {
+                @include flex(0 0 auto);
+                font-weight: normal;
+            }
+
+            &:hover {
+                background: #EEE;
+            }
         }
     }
 }

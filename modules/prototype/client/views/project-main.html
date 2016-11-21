@@ -49,64 +49,118 @@
                     <div class="card">
                         <div class="list-group-item" role="tab" id="headingOne">
                             <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                <span class="avatar">
-                                    <i class="material-icons open-icon">add</i>
-                                    <i class="material-icons close-icon">remove</i>
-                                </span>
                                 <span class="title">
                                     <span class="primary">Environmental Assessment Act</span>
                                     <span class="secondary">Environmental Assessment Office</span>
+                                </span>
+                                 <span class="avatar">
+                                    <i class="material-icons md-36 open-icon">add</i>
+                                    <i class="material-icons md-36 close-icon">remove</i>
                                 </span>
                             </a>
                         </div>
 
                         <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
                             <ul class="authorization-list">
-                                <li><a href="#">Environmental Assessment Certificate</a></li>
-                                <li><a href="#">Environmental Assessment Certificate Amendment</a></li>
+                                <li>
+                                    <a href="http://a100.gov.bc.ca/appsdata/epic/documents/p285/1237403247586_286469e2062a9eff93eeb05dbbaf5feb44436a0a2dce54b6eef3ef5cdccfb280.pdf" target="_blank">
+                                        <i class="material-icons md-18">insert_drive_file</i>
+                                        <span class="title">Environmental Assessment Certificate</span>
+                                        <span class="details">Issued - 2009-03-16</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="http://a100.gov.bc.ca/appsdata/epic/documents/p285/d35402/1362418919238_7663b740436f6524ba2a1c5cf145e0cee79912c6feb99d7932b630eaeaf6fae0.pdf" target="_blank">
+                                        <i class="material-icons md-18">insert_drive_file</i>
+                                        <span class="title">Environmental Assessment Certificate Amendment</span>
+                                        <span class="details">Certificate Amended - 2013-03-01</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
                     <div class="card">
                         <div class="list-group-item" role="tab" id="headingTwo">
                             <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                <span class="avatar">
-                                    <i class="material-icons open-icon">add</i>
-                                    <i class="material-icons close-icon">remove</i>
-                                </span>
                                 <span class="title">
                                     <span class="primary">Environmental Management Act</span>
                                     <span class="secondary">Ministry of Environment</span>
+                                </span>
+                                 <span class="avatar">
+                                    <i class="material-icons md-36 open-icon">add</i>
+                                    <i class="material-icons md-36 close-icon">remove</i>
                                 </span>
                             </a>
                         </div>
                         <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
                             <ul class="authorization-list">
-                                <li><a href="#">Air Permit</a></li>
-                                <li><a href="#">Effluent Permit</a></li>
-                                <li><a href="#">Landfill Permit</a></li>
+                                <li>
+                                    <a href="https://mem-mmt-test.pathfinder.gov.bc.ca/api/document/582a2d5348077f0017feb5a0/fetch" target="_blank">
+                                        <i class="material-icons md-18">insert_drive_file</i>
+                                        <span class="title">{{project.authorizations[2].type}}</span>
+                                        <span class="details">{{project.authorizations[2].status}} - {{project.authorizations[2].date}}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://mem-mmt-test.pathfinder.gov.bc.ca/api/document/582a2d5348077f0017feb5a1/fetch" target="_blank">
+                                        <i class="material-icons md-18">insert_drive_file</i>
+                                        <span class="title">{{project.authorizations[0].type}}</span>
+                                        <span class="details">{{project.authorizations[0].status}} - {{project.authorizations[0].date}}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://mem-mmt-test.pathfinder.gov.bc.ca/api/document/582a2d5348077f0017feb5a2/fetch" target="_blank">
+                                        <i class="material-icons md-18">insert_drive_file</i>
+                                        <span class="title">{{project.authorizations[1].type}}</span>
+                                        <span class="details">{{project.authorizations[1].status}} - {{project.authorizations[1].date}}</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
                     <div class="card">
                         <div class="list-group-item" role="tab" id="headingThree">
                             <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                <span class="avatar">
-                                    <i class="material-icons open-icon">add</i>
-                                    <i class="material-icons close-icon">remove</i>
-                                </span>
                                 <span class="title">
                                     <span class="primary">Mines Act</span>
                                     <span class="secondary">Ministry of Energy and Mines</span>
+                                </span>
+                                <span class="avatar">
+                                    <i class="material-icons md-36 open-icon">add</i>
+                                    <i class="material-icons md-36 close-icon">remove</i>
                                 </span>
                             </a>
                         </div>
                         <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
                             <ul class="authorization-list">
-                                <li><a href="#">Approval to Operate Tailings Storage Facility</a></li>
-                                <li><a href="#">Approving Construction of a Blend and Feed Ore Stockpile</a></li>
-                                <li><a href="#">Approving Change in Security Schedule</a></li>
-                                <li><a href="#">Approving Mine Plan and Reclamation Program</a></li>
+                                <li>
+                                    <a href="https://mines.empr.gov.bc.ca/api/document/5822594b6d6ad30017cd6b81/fetch" target="_blank">
+                                        <i class="material-icons md-18">insert_drive_file</i>
+                                        <span class="title">Approval to Operate Tailings Storage Facility</span>
+                                        <span class="details">Permit Amendment - 2013-06-05</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://mines.empr.gov.bc.ca/api/document/582259466d6ad30017cd6b40/fetch" target="_blank">
+                                        <i class="material-icons md-18">insert_drive_file</i>
+                                        <span class="title">Approving Construction of a Blend and Feed Ore Stockpile</span>
+                                        <span class="details">Permit Amendment - 2013-04-16</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://mines.empr.gov.bc.ca/api/document/582259536d6ad30017cd6bf6/fetch" target="_blank">
+                                        <i class="material-icons md-18">insert_drive_file</i>
+                                        <span class="title">Approving Change in Security Schedule</span>
+                                        <span class="details">Permit Amendment - 2010-07-14</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://mines.empr.gov.bc.ca/api/document/5822597e6d6ad30017cd6db0/fetch" target="_blank">
+                                        <i class="material-icons md-18">insert_drive_file</i>
+                                        <span class="title">Approving Mine Plan and Reclamation Program</span>
+                                        <span class="details">Permit - 2009-09-08</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>

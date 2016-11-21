@@ -60,10 +60,7 @@
                                     sortable="'title'">
                                     <a ng-show="condition.detailPage === 'Y'" ui-sref="admin.prototype.condition({conditionId: condition.conditionId})">{{condition.title}}</a>
                                     <a ng-show="condition.detailPage !== 'Y'" disabled ui-sref="#">{{condition.title}}</a>
-                                    <pre class="row-desc" ng-bind-html="condition.conditionText"></pre>
-                                    <div class="tag-list">
-                                        <span class="tag tag-default" ng-repeat="topic in condition.topics">{{topic}}</span>
-                                    </div>
+                                    <div class="ce-grid-row-desc" ng-bind-html="condition.conditionText"></div>
                                 </td>
                                 <td class="agency-col" 
                                     header-class="'agency-col'" 
