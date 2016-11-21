@@ -113,6 +113,7 @@ function controllerDocumentUploadGlobal($rootScope, $scope, Upload, $timeout, Do
 	docUpload.artifacts = null;
 	docUpload.documentList = [];
 	docUpload.selectedArtifact = null;
+	docUpload.docTypes = [];
 	
 	docUpload.allowArtifactSelect = true;
 	docUpload.allowDocLocationSelect = true;
@@ -127,37 +128,31 @@ function controllerDocumentUploadGlobal($rootScope, $scope, Upload, $timeout, Do
 		if (newValue) {
 			docUpload.project = newValue;
 			docUpload.setTargetUrl();
-			if (ENV === 'EAO') {
-				// get listing of artifacts to attach to.  TODO: filter?
-				ArtifactModel.forProject(newValue._id)
-				.then( function(res) {
-					// console.log("res",res);
-					docUpload.artifacts = res;
-					if (!_.isEmpty($scope.artifact)) {
-						docUpload.selectedArtifact = _.find(docUpload.artifacts, function (o) {
-							return o._id === $scope.artifact._id;
-						});
-						docUpload.allowArtifactSelect = _.isEmpty(docUpload.selectedArtifact);
+			Document.getProjectDocumentFolderNames(newValue._id)
+			.then( function (res) {
+				console.log("getProjectDocumentFolderNames",res);
+				docUpload.docFolderNames = res;
+				docUpload.folderName = docUpload.docFolderNames[0];
+				return Document.getProjectDocumentTypes(newValue._id, false);
+			})
+			.then( function (res) {
+				console.log("getProjectDocumentType",res);
+				_.each(res, function (item) {
+					if (item.reference === 'projectFolderType') {
+						docUpload.docTypes.push(item.label);
 					}
 				});
-			} else {
-				Document.getProjectDocumentFolderNames(newValue._id).then( function(res) {
-					// console.log("getProjectDocumentFolderNames",res.data);
-					docUpload.docFolderNames = res.data;
-				});
-			}
-			if (ENV === 'MEM') {
-				Document.getProjectDocumentMEMTypes(newValue._id, false).then( function(res) {
-					// console.log("getProjectDocumentMEMTypes",res.data);
-					docUpload.docTypes = res.data;
-					// First result is default
-					docUpload.typeName = docUpload.docTypes[0];
-				});
-				Document.getProjectDocumentSubTypes(newValue._id, false).then( function(res) {
-					// console.log("getProjectDocumentSubTypes",res.data);
-					docUpload.docSubTypes = res.data;
-				});
-			}
+				// First result is default
+				console.log("docUpload.docTypes:", docUpload.docTypes);
+				docUpload.typeName = docUpload.docTypes[0];
+				return Document.getProjectDocumentSubTypes(newValue._id, false);
+			})
+			.then( function (res) {
+				console.log("getProjectDocumentSubTypes",res);
+				docUpload.docSubTypes = res;
+				docUpload.subTypeName = docUpload.docSubTypes[0];
+				$scope.$apply();
+			});
 		}
 	});
 
@@ -195,18 +190,18 @@ function controllerDocumentUploadGlobal($rootScope, $scope, Upload, $timeout, Do
 		}
 	};
 
-	// get types for dropdown.  EAO ONLY
-	if (ENV === 'EAO') {
-		docUpload.docTypes = Document.getDocumentTypes();
-		docUpload.docSubTypes = Document.getDocumentSubTypes();
+	// // get types for dropdown.  EAO ONLY
+	// if (ENV === 'EAO') {
+	// 	// docUpload.docTypes = Document.getDocumentTypes();
+	// 	// docUpload.docSubTypes = Document.getDocumentSubTypes();
 
-		// Artifact Location
-		docUpload.docLocations = Document.getArtifactLocations();
-		// try and set the default in the pick list....
-		var foundDocLocation = _.find(docUpload.docLocations, function(o) { return o.code === $scope.docLocationCode; } );
-		docUpload.selectedDocLocation =  foundDocLocation || docUpload.docLocations[0];
-		docUpload.allowDocLocationSelect = _.isEmpty(foundDocLocation);
-	}
+	// 	// Artifact Location
+	// 	docUpload.docLocations = Document.getArtifactLocations();
+	// 	// try and set the default in the pick list....
+	// 	var foundDocLocation = _.find(docUpload.docLocations, function(o) { return o.code === $scope.docLocationCode; } );
+	// 	docUpload.selectedDocLocation =  foundDocLocation || docUpload.docLocations[0];
+	// 	docUpload.allowDocLocationSelect = _.isEmpty(foundDocLocation);
+	// }
 
 
 	// allow the upload to be triggered from an external button.
@@ -216,7 +211,7 @@ function controllerDocumentUploadGlobal($rootScope, $scope, Upload, $timeout, Do
 	});
 
 	docUpload.checkEnableUpload = function () {
-		if (docUpload.fileList.length > 0 && docUpload.selectedArtifact && docUpload.selectedArtifact._id && docUpload.selectedDocLocation.code) {
+		if (docUpload.fileList.length > 0) {
 			$rootScope.$broadcast('enableUpload',  { enableUpload: true });
 		} else {
 			$rootScope.$broadcast('enableUpload',  { enableUpload: false });
@@ -242,147 +237,51 @@ function controllerDocumentUploadGlobal($rootScope, $scope, Upload, $timeout, Do
 
 	docUpload.upload = function (uploadingReviewDocs) {
 		var docCount = null;
-		if (ENV === 'MEM') {
-			// console.log("uploadingReviewDocs",uploadingReviewDocs);
-			docUpload.inProgress = true;
-			docCount = docUpload.fileList.length;
-			// console.log('upload', docCount);
-			if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
-				angular.forEach( docUpload.fileList, function(file) {
-					// Quick hack to pass objects
-					// console.log("docUpload",docUpload);
-					if (undefined === docUpload.typeName) docUpload.typeName = "Not Specified";
-					if (undefined === docUpload.subTypeName) docUpload.subTypeName = "Not Specified";
-					if (undefined === docUpload.folderName) docUpload.folderName = "Not Specified";
+		// console.log("uploadingReviewDocs",uploadingReviewDocs);
+		docUpload.inProgress = true;
+		docCount = docUpload.fileList.length;
+		// console.log('upload', docCount);
+		if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
+			angular.forEach( docUpload.fileList, function(file) {
+				// Quick hack to pass objects
+				// console.log("docUpload",docUpload);
+				if (undefined === docUpload.typeName) docUpload.typeName = "Not Specified";
+				if (undefined === docUpload.subTypeName) docUpload.subTypeName = "Not Specified";
+				if (undefined === docUpload.folderName) docUpload.folderName = "Not Specified";
 
-					file.upload = Upload.upload({
-						url: docUpload.targetUrl,
-						file: file,
-						headers: { 'documenttype': docUpload.typeName,
-								   'documentsubtype': docUpload.subTypeName,
-								   'documentfoldername': docUpload.folderName,
-								   'documentisinreview': uploadingReviewDocs}
-					});
-
-					file.upload.then(function (response) {
-						$timeout(function () {
-							file.result = response.data;
-							// when the last file is finished, send complete event.
-							if (--docCount === 0) {
-								// emit to parent.
-								$scope.$emit('documentUploadComplete');
-							}
-						});
-					}, function (response) {
-						if (response.status > 0) {
-							docUpload.errorMsg = response.status + ': ' + response.data;
-							// console.log("error data:",response.data);
-						} else {
-							_.remove($scope.files, file);
-						}
-					}, function (evt) {
-						file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-					});
+				file.upload = Upload.upload({
+					url: docUpload.targetUrl,
+					file: file,
+					headers: { 'documenttype': docUpload.typeName,
+							   'documentsubtype': docUpload.subTypeName,
+							   'documentfoldername': docUpload.folderName,
+							   'documentisinreview': uploadingReviewDocs}
 				});
 
-			} else {
-				// there are no documents so say it's all done
-				$scope.$emit('documentUploadComplete');
-			}
-		} else {
-			// EAO ENV.
-			// console.log("uploadingReviewDocs",uploadingReviewDocs);
-			docUpload.inProgress = true;
-			docCount = docUpload.fileList.length;
-			// console.log('upload', docCount);
-			if (docUpload.fileList && docUpload.fileList.length && docUpload.targetUrl) {
-				angular.forEach( docUpload.fileList, function(file) {
-
-					// Inherit the permissions of the artifact if this is not internal
-					var headers = {};
-					if (docUpload.selectedDocLocation.code === 'internal') {
-						headers = {
-							'documenttype': 'ARTIFACT',
-							'internalDocument': true
-						};
+				file.upload.then(function (response) {
+					$timeout(function () {
+						file.result = response.data;
+						// when the last file is finished, send complete event.
+						if (--docCount === 0) {
+							// emit to parent.
+							$scope.$emit('documentUploadCompleteF');
+						}
+					});
+				}, function (response) {
+					if (response.status > 0) {
+						docUpload.errorMsg = response.status + ': ' + response.data;
+						// console.log("error data:",response.data);
 					} else {
-						headers = {
-							'documenttype': 'ARTIFACT',
-							'inheritModelPermissionId': docUpload.selectedArtifact._id
-						};
+						_.remove($scope.files, file);
 					}
-					// Quick hack to pass objects
-					file.upload = Upload.upload({
-						url: docUpload.targetUrl,
-						file: file,
-						headers: headers
-					});
-
-					file.upload.then(function (response) {
-						$timeout(function () {
-							file.result = response.data;
-							// Generate a bunch of documentID's that need to be handled.
-							docUpload.documentList.push(response.data._id);
-							// console.log("docUpload.documentList",docUpload.documentList);
-							// when the last file is finished, send complete event.
-							if (--docCount === 0) {
-								// emit to parent.
-								// Go through all the documents that have been uploaded and push them
-								// into a new artifact
-								// console.log("selart:",docUpload.selectedArtifact._id);
-								ArtifactModel.lookup(docUpload.selectedArtifact._id)
-								.then( function (art) {
-									// Little bit of synchronous magic!
-									// console.log("artifact Found:",art);
-									return docUpload.documentList.reduce (function (current, value, index) {
-										return current.then (function (data) {
-												// When we first enter, this is null.. since there was no previous
-												// element.
-												if (undefined === data) {
-													data = art;
-												}
-												// Decide where to put this
-												// console.log("docUpload.selectedDocLocation:", docUpload.selectedDocLocation);
-												switch (docUpload.selectedDocLocation.code) {
-													case "main":
-														data.document = value;
-													break;
-													case "supporting":
-														data.supportingDocuments.push(value);
-													break;
-													case "internal":
-														data.internalDocuments.push(value);
-													break;
-													case "additional":
-														data.additionalDocuments.push(value);
-													break;
-												}
-												ArtifactModel.saveModel(data)
-												.then( function() {
-													$scope.$emit('documentUploadCompleteF');
-													return Promise.resolve();
-												});
-										});
-									}, Promise.resolve());
-								});
-							}
-						});
-					}, function (response) {
-						if (response.status > 0) {
-							docUpload.errorMsg = response.status + ': ' + response.data;
-							// console.log("error data:",response.data);
-						} else {
-							_.remove($scope.files, file);
-						}
-					}, function (evt) {
-						file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-					});
+				}, function (evt) {
+					file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
 				});
+			});
 
-			} else {
-				// there are no documents so say it's all done
-				$scope.$emit('documentUploadComplete');
-			}
+		} else {
+			// there are no documents so say it's all done
+			$scope.$emit('documentUploadCompleteF');
 		}
 	};
 }
