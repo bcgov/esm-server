@@ -184,11 +184,11 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 		},
 	})
 
-	// AUTHORIZATIONS
-	.state('admin.prototype.authorizations', {
-		url: '/authorizations',
+	// 	DOCUMENTS
+	.state('admin.prototype.documents', {
+		url: '/documents',
 		resolve: {},
-		templateUrl: 'modules/prototype/client/views/authorizations.html',
+		templateUrl: 'modules/prototype/client/views/documents.html',
 		controller: function ($modal, $window, $timeout, $scope, NgTableParams, Application, Authentication, PrototypeModel, agencies, topics, projects, cedetails, authorizations, phases, inspections, actions, conditions, documents, project, uiGmapGoogleMapApi) {
 			$scope.authentication = Authentication;
 			$scope.application = Application;
