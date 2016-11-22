@@ -177,7 +177,7 @@
                 <h2>Compliance &amp; Enforcement &nbsp;<em>(Jan 1 &ndash; Sept 30, 2016)</em></h2>
                 <ul class="ce-blocks block-container clearfix">
                     <li>
-                        <div class="block">
+                        <a class="block" ui-sref="admin.prototype.cemain">
                             <div class="avatar">
                                 <i class="material-icons">assignment_turned_in</i>
                             </div>
@@ -187,10 +187,10 @@
                             <span class="metric">
                                 <div class="metric-block">{{project.inspections.length}}</div>
                             </span>
-                        </div>
+                        </a>
                     </li>
                     <li>
-                        <div class="block">
+                        <a class="block" ui-sref="admin.prototype.cemain">
                             <div class="avatar">
                                 <i class="material-icons">assignment</i>
                             </div>
@@ -200,7 +200,7 @@
                             <span class="metric">
                                 <div class="metric-block">{{project.actions.length}}</div>
                             </span>
-                        </div>
+                        </a>
                     </li>
                 </ul>
                 <a class="read-more-link mt-05" ui-sref="admin.prototype.cemain">More about Compliance &amp; Enforcement at {{project.name}} »</a>
