@@ -426,6 +426,7 @@ pre li {
   .has-read-more .toggle-link-label {
     position: absolute;
     bottom: -0.7rem;
+    left: 0;
     cursor: pointer; }
   .has-read-more .toggle-link-label:after {
     position: absolute;
