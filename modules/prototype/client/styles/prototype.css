@@ -415,94 +415,65 @@ pre li {
   margin-bottom: 1rem; }
   pre li:last-child {
     margin-bottom: 0; }
-  pre li ol {
-    margin-bottom: 0; }
 
 .has-read-more {
   position: relative;
   margin-bottom: 4rem; }
   .has-read-more .toggle-link {
+    visibility: hidden;
+    width: 0;
+    height: 0; }
+  .has-read-more .toggle-link-label {
     position: absolute;
-    bottom: -1rem;
+    bottom: -0.7rem;
     cursor: pointer; }
+  .has-read-more .toggle-link-label:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #2b5580;
+    font-size: 0.875rem;
+    font-weight: bold;
+    content: "Read More";
+    white-space: nowrap; }
+  .has-read-more .toggle-link:checked + .toggle-link-label:after {
+    content: "Read Less"; }
 
-.topic-narrative .toggle-link:after {
-  position: absolute;
-  display: block;
-  content: "Read More";
-  background: #FFF;
-  white-space: nowrap;
-  font-weight: bold;
-  font-size: 0.875rem;
-  color: #2b5580; }
-.topic-narrative .toggle-link + .content p {
+.topic-narrative .toggle-link + .toggle-link-label + .content p {
   display: none; }
-.topic-narrative .toggle-link + .content p:first-child {
+.topic-narrative .toggle-link + .toggle-link-label + .content p:first-child {
   display: block; }
-.topic-narrative .toggle-link + .content p:nth-child(2) {
+.topic-narrative .toggle-link + .toggle-link-label + .content p:nth-child(2) {
   display: block; }
-.topic-narrative .toggle-link:checked + .content p {
+.topic-narrative .toggle-link:checked + .toggle-link-label + .content p {
   display: block; }
-.topic-narrative .toggle-link:checked:after {
-  content: "Read Less"; }
 
-.subtopic-narrative .toggle-link:after {
-  position: absolute;
-  display: block;
-  content: "Read More";
-  background: #FFF;
-  white-space: nowrap;
-  font-weight: bold;
-  font-size: 0.875rem;
-  color: #2b5580; }
-.subtopic-narrative .toggle-link + .content p {
+.subtopic-narrative .toggle-link + .toggle-link-label + .content p {
   display: none; }
-.subtopic-narrative .toggle-link + .content p:first-child {
+.subtopic-narrative .toggle-link + .toggle-link-label + .content p:first-child {
   display: block; }
-.subtopic-narrative .toggle-link + .content p:nth-child(2) {
+.subtopic-narrative .toggle-link + .toggle-link-label + .content p:nth-child(2) {
   display: block; }
-.subtopic-narrative .toggle-link:checked + .content p {
+.subtopic-narrative .toggle-link:checked + .toggle-link-label + .content p {
   display: block; }
-.subtopic-narrative .toggle-link:checked:after {
-  content: "Read Less"; }
 
-.project-narrative .toggle-link:after {
-  position: absolute;
-  display: block;
-  content: "Read More";
-  background: #FFF;
-  white-space: nowrap;
-  font-weight: bold;
-  font-size: 0.875rem;
-  color: #2b5580; }
-.project-narrative .toggle-link + .content p {
+.project-narrative .toggle-link + .toggle-link-label + .content p {
   display: none; }
-.project-narrative .toggle-link + .content p:first-child {
+.project-narrative .toggle-link + .toggle-link-label + .content p:first-child {
   display: block; }
-.project-narrative .toggle-link:checked + .content p {
+.project-narrative .toggle-link:checked + .toggle-link-label {
+  color: blue; }
+.project-narrative .toggle-link:checked + .toggle-link-label + .content p {
   display: block; }
-.project-narrative .toggle-link:checked:after {
-  content: "Read Less"; }
 
-.ce-narrative .toggle-link:after {
-  position: absolute;
-  display: block;
-  content: "Read More";
-  background: #FFF;
-  white-space: nowrap;
-  font-weight: bold;
-  font-size: 0.875rem;
-  color: #2b5580; }
-.ce-narrative .toggle-link + .content p {
+.ce-narrative .toggle-link + .toggle-link-label + .content p {
   display: none; }
-.ce-narrative .toggle-link + .content p:first-child {
+.ce-narrative .toggle-link + .toggle-link-label + .content p:first-child {
   display: block; }
-.ce-narrative .toggle-link + .content p:nth-child(2) {
+.ce-narrative .toggle-link + .toggle-link-label + .content p:nth-child(2) {
   display: block; }
-.ce-narrative .toggle-link:checked + .content p {
+.ce-narrative .toggle-link:checked + .toggle-link-label + .content p {
   display: block; }
-.ce-narrative .toggle-link:checked:after {
-  content: "Read Less"; }
 
 .ce-grid th.sortable .sort-indicator {
   padding-right: 18px;

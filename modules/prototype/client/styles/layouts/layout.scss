@@ -381,10 +381,6 @@ pre li {
     &:last-child {
         margin-bottom: 0;
     }
-
-    ol {
-        margin-bottom: 0;
-    }
 }
 
 
@@ -393,82 +389,74 @@ pre li {
     margin-bottom: 4rem;
 
     .toggle-link {
+        visibility: hidden;
+        width: 0;
+        height: 0;
+    }
+
+    .toggle-link-label {
         position: absolute;
-        bottom: -1rem;
+        bottom: -0.7rem;
+        left: 0;
         cursor: pointer;
+    }
+
+    .toggle-link-label:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #2b5580;
+        font-size: 0.875rem;
+        font-weight: bold;
+        content: "Read More";
+        white-space: nowrap;
+    }
+
+    .toggle-link:checked + .toggle-link-label:after {
+        content: "Read Less";
     }
 }
 
 .topic-narrative {
     .toggle-link { 
-        &:after {
-            position: absolute;
-            display: block;
-            content: "Read More";
-            background: #FFF;
-            white-space: nowrap;
-            font-weight: bold;
-            font-size: 0.875rem;
-            color: #2b5580;
-        }
-
-        + .content p {
+        + .toggle-link-label + .content p {
             display: none;
         }
 
-        + .content p:first-child {
+        + .toggle-link-label + .content p:first-child {
             display: block;
         }
 
-        + .content p:nth-child(2) {
+        + .toggle-link-label + .content p:nth-child(2) {
             display: block;
         }
     }
 
     .toggle-link:checked {
-        + .content p {
+        + .toggle-link-label + .content p {
             display: block;
-        }
-
-        &:after {
-            content: "Read Less";
         }
     }
 }
 
 .subtopic-narrative {
     .toggle-link {      
-        &:after {
-            position: absolute;
-            display: block;
-            content: "Read More";
-            background: #FFF;
-            white-space: nowrap;
-            font-weight: bold;
-            font-size: 0.875rem;
-            color: #2b5580;
-        }
-
-        + .content p {
+        + .toggle-link-label + .content p {
             display: none;
         }
 
-        + .content p:first-child {
+        + .toggle-link-label + .content p:first-child {
             display: block;
         }
 
-        + .content p:nth-child(2) {
+        + .toggle-link-label + .content p:nth-child(2) {
             display: block;
         }
     }
 
     .toggle-link:checked {
-        + .content p {
+        + .toggle-link-label + .content p {
             display: block;
-        }
-
-        &:after {
-            content: "Read Less";
         }
     }
 }
@@ -476,71 +464,44 @@ pre li {
 
 .project-narrative {
     .toggle-link { 
-        &:after {
-            position: absolute;
-            display: block;
-            content: "Read More";
-            background: #FFF;
-            white-space: nowrap;
-            font-weight: bold;
-            font-size: 0.875rem;
-            color: #2b5580;
-        }
-
-        + .content p {
+        + .toggle-link-label + .content p {
             display: none;
         }
 
-        + .content p:first-child {
+        + .toggle-link-label + .content p:first-child {
             display: block;
         }
     }
 
     .toggle-link:checked {
-        + .content p {
-            display: block;
+        + .toggle-link-label {
+            color: blue;
         }
 
-        &:after {
-            content: "Read Less";
+        + .toggle-link-label + .content p {
+            display: block;
         }
     }
 }
 
-
 .ce-narrative {
-    .toggle-link {      
-        &:after {
-            position: absolute;
-            display: block;
-            content: "Read More";
-            background: #FFF;
-            white-space: nowrap;
-            font-weight: bold;
-            font-size: 0.875rem;
-            color: #2b5580;
-        }
-
-        + .content p {
+    .toggle-link {     
+        + .toggle-link-label + .content p {
             display: none;
         }
 
-        + .content p:first-child {
+        + .toggle-link-label + .content p:first-child {
             display: block;
         }
 
-        + .content p:nth-child(2) {
+        + .toggle-link-label + .content p:nth-child(2) {
             display: block;
         }
     }
 
     .toggle-link:checked {
-        + .content p {
+        + .toggle-link-label + .content p {
             display: block;
-        }
-
-        &:after {
-            content: "Read Less";
         }
     }
 }
