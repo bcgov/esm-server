@@ -415,6 +415,8 @@ pre li {
   margin-bottom: 1rem; }
   pre li:last-child {
     margin-bottom: 0; }
+  pre li ol {
+    margin-bottom: 0; }
 
 .has-read-more {
   position: relative;
@@ -752,6 +754,8 @@ section h2 em {
   .ce-grid .ce-grid-row-desc p {
     margin-bottom: 1rem;
     line-height: 1.2rem; }
+  .ce-grid .ce-grid-row-desc ol {
+    margin-bottom: 0; }
   .ce-grid .ce-grid-row-desc li {
     margin-bottom: 1rem; }
     .ce-grid .ce-grid-row-desc li:before {
