@@ -26,15 +26,12 @@
 
             <section>
                 <h2>Topics</h2>
-                <p>The Province strives to ensure that mines provide jobs and economic benefits in communities across the province
-                    while operating in a safe, environmentally responsible manner that protects health, heritage and other
-                    resources for future generations. Explore the topic areas below to learn more about oversight of Mount
-                    Milligan, including project-specific conditions, inspections and actions.</p>
+                <p>The Province strives to ensure that mines provide jobs and economic benefits in communities across the province while operating in a safe, environmentally responsible manner that protects health, heritage and other resources for future generations. Explore the topic areas below to learn more about oversight of Mount Milligan, including project-specific conditions, inspections and actions.</p>
                 <ul class="topic-blocks block-container clearfix">
                     <li ng-repeat="topic in topics">
                         <a class="block block-hover" ng-show="topic.description !== ''" ui-sref="admin.prototype.topic({topicId: topic.topicId})">
                             <h3>{{topic.name}}</h3>
-                            <span class="subtopics">Air, Water, Land, Tailings Management etc.</span>
+                            <span class="subtopics">Air, Water, Land, Tailings Management, etc.</span>
                         </a>
                         <a class="block disabled" ng-show="topic.description ===''" ui-sref="#">
                             <h3>{{topic.name}}</h3>
@@ -46,14 +43,12 @@
 
             <section>
                 <h2>Authorizations</h2>
-                <p>Environmental assessment certificates and permits issued under the Mines Act and the Environmental Management
-                    Act (EMA) are the primary provincial authorizations for major mine projects in BC. Recent primary authorizations
-                    for Mount Milligan are listed below.</p>
+                <p>Environmental assessment certificates and permits issued under the Mines Act and the Environmental Management Act (EMA) are the primary provincial authorizations for major mine projects in BC.</p>
 
-                <div class="authorization-blocks resource-list resource-list-lg" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="authorization-blocks resource-list resource-list-lg" id="accordion" role="tablist" aria-multiselectable="false">
                     <div class="card">
                         <div class="list-group-item" role="tab" id="headingOne">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false">
                                 <span class="title">
                                     <span class="primary">Environmental Assessment Act</span>
                                     <span class="secondary">Environmental Assessment Office</span>
@@ -86,7 +81,7 @@
                     </div>
                     <div class="card">
                         <div class="list-group-item" role="tab" id="headingTwo">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false">
                                 <span class="title">
                                     <span class="primary">Environmental Management Act</span>
                                     <span class="secondary">Ministry of Environment</span>
@@ -125,7 +120,7 @@
                     </div>
                     <div class="card">
                         <div class="list-group-item" role="tab" id="headingThree">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false">
                                 <span class="title">
                                     <span class="primary">Mines Act</span>
                                     <span class="secondary">Ministry of Energy and Mines</span>
@@ -170,27 +165,12 @@
                         </div>
                     </div>
                 </div>
-
-
-                <!--
-                <ul class="authorization-blocks resource-list resource-list-lg list-group">
-                    <li class="list-group-item" ng-repeat="authorization in project.groupedAuthorizations">
-                        <span class="title">
-                            <span class="primary">{{authorization.name}}</span>
-                            <span class="secondary">{{authorization.agency}}</span>
-                        </span>
-                        <span class="details">
-                            <span>{{authorization.status}}</span>
-                            <span>{{authorization.date}}</span>
-                        </span>
-                    </li>
-                </ul>
                 <ul>
                     <li>
                         <a class="read-more-link mt-05" ui-sref="admin.prototype.conditionsmain">Browse all Conditions for {{project.name}} »</a>
                     </li>
                 </ul>
-                -->
+
             </section>
 
             <section>
