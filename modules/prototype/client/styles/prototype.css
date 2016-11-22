@@ -420,7 +420,7 @@ pre li {
   position: relative;
   margin-bottom: 4rem; }
   .has-read-more .toggle-link {
-    visibility: hidden;
+    display: none;
     width: 0;
     height: 0; }
   .has-read-more .toggle-link-label {
