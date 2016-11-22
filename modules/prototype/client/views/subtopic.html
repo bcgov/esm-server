@@ -59,8 +59,8 @@
                                     data-title="'Name'"
                                     filter="{'title':'text'}"
                                     sortable="'title'">
-                                    <a ng-show="condition.detailPage === 'Y'" ui-sref="admin.prototype.condition({conditionId: condition.conditionId})">{{condition.title}}</a>
-                                    <a ng-show="condition.detailPage !== 'Y'" disabled ui-sref="#">{{condition.title}}</a>
+                                    <a ng-show="condition.detailPage === 'Y'" ui-sref="admin.prototype.condition({conditionId: condition.conditionId})">{{condition.title}} <span ng-if="condition.conditionNo">- {{condition.conditionNo}}</span></a>
+                                    <a ng-show="condition.detailPage !== 'Y'" disabled ui-sref="#">{{condition.title}} <span ng-if="condition.conditionNo">- {{condition.conditionNo}}</span></a>
                                     <div class="ce-grid-row-desc" ng-bind-html="condition.conditionText"></div>
                                 </td>
                                 <td class="agency-col" 
@@ -140,7 +140,7 @@
                                     sortable="'orderId'">
                                     <a ng-show="action.documentUrl !== ''" ui-sref="admin.prototype.action({orderId: action.orderId})">{{action.type}} Issued: {{action.orderId}}</a>
                                     <a ng-show="action.documentUrl === ''" disabled ui-sref="#">{{action.type}} Issued: {{action.orderId}}</a>
-                                    <pre class="row-desc" ng-bind-html="action.text"></pre>
+                                    <div class="ce-grid-row-desc" ng-bind-html="action.text"></div>
                                 </td>
                                 <td class="date-col" 
                                     header-class="'date-col'" 
