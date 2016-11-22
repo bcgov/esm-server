@@ -734,7 +734,6 @@ function controllerSignatureUpload(UserModel, $rootScope, $scope, Upload, $timeo
 						})
 						.then( function (m) {
 							$scope.$emit('documentUploadComplete', file.result);
-							$scope.$emit('refreshSig', file.result);
 						});
 					});
 				}, function (response) {

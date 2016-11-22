@@ -37,6 +37,13 @@ function directiveUserEntry(_) {
 				$scope.user.org = $scope.org;
 			}
 
+			if ($scope.user.viaEmail && $scope.user.viaMail) {
+				$scope.user.viaMail = false;
+			}
+			if (!$scope.user.viaEmail && !$scope.user.viaMail) {
+				$scope.user.viaEmail = true;
+			}
+
 			$scope.validate = function () {
 				var phonregexp = /^[(]{0,1}[0-9]{3}[)\.\- ]{0,1}[0-9]{3}[\.\- ]{0,1}[0-9]{4}$/;
 				if (phonregexp.test($scope.user.phoneNumber)) {
@@ -50,13 +57,15 @@ function directiveUserEntry(_) {
 
 			$scope.internalControl.calculateName = function () {
 				$scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ').replace(/\s+/g, ' ');
-				if (which === 'add') {
-					$scope.user.username = $filter('kebab')($scope.user.displayName);
-				}
 			};
 
 			$scope.internalControl.clearOrganization = function () {
 				$scope.user.org = null;
+			};
+
+			$scope.setPreferredContactMethod = function(value) {
+				$scope.user.viaEmail = ('viaEmail' === value);
+				$scope.user.viaMail = ('viaMail' === value);
 			};
 
 			$scope.showSuccess = function (msg, transitionCallback, title) {
