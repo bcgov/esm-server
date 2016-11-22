@@ -6,6 +6,7 @@ angular.module('organizations')
 			restrict: 'A',
 			scope: {
 				project: '=',
+				destination: '=',
 				title: '='
 			},
 			link: function (scope, element, attrs) {
@@ -18,7 +19,7 @@ angular.module('organizations')
 						controller: function ($filter, $scope, $modalInstance, _) {
 							var s = this;
 							s.title = scope.title;
-							$scope.cur = scope.project.proponent;
+							$scope.cur = scope.destination;
 
 							OrganizationModel.getCollection()
 							.then( function (data) {
@@ -54,7 +55,7 @@ angular.module('organizations')
 						}
 					}).result.then(function (data) {
 						// console.log("selected:", data);
-						scope.project.proponent = data;
+						scope.destination = data;
 					}).catch(function (err) {
 						console.log("err:", err);
 					});

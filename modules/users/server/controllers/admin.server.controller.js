@@ -28,6 +28,7 @@ module.exports = DBModel.extend ({
 					});
 			});
 		} else {
+			o.orgName = '';
 			return o;
 		}
 	},
@@ -45,6 +46,7 @@ module.exports = DBModel.extend ({
 					});
 			});
 		} else {
+			o.orgName = '';
 			return o;
 		}
 	}
