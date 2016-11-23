@@ -122,7 +122,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($wi
 						$window.location.href = $window.location.origin;
 						handled = true;
 					} else {
-						if (toState.name === 'admin.prototype.actions') {
+						if (toState.name === 'admin.prototype.actions' || $window.location.search === '?allow') {
 							// let this one through for now
 						} else {
 							if (_.startsWith(toState.name, 'admin.prototype.') && !_.startsWith(fromState.name, 'admin.prototype.')) {
