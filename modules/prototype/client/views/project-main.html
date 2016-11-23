@@ -27,7 +27,7 @@
 
             <section>
                 <h2>Topics</h2>
-                <p>The Province strives to ensure that mines provide jobs and economic benefits in communities across the province while operating in a safe, environmentally responsible manner that protects health, heritage and other resources for future generations. Explore the topic areas below to learn more about oversight of Mount Milligan, including project-specific conditions, inspections and actions.</p>
+                <p>The Province strives to ensure that mines operate in a safe, environmentally responsible manner that protects health, heritage and other resources for future generations. Mining is a key economic driver in BC, providing jobs and economic benefits for communities across the province. Explore the topic areas below to learn more about oversight of Mount Milligan, including project-specific conditions, inspections and actions.</p>
                 <ul class="topic-blocks block-container clearfix">
                     <li ng-repeat="topic in topics">
                         <a class="block block-hover" ng-show="topic.description !== ''" ui-sref="admin.prototype.topic({topicId: topic.topicId})">
@@ -44,7 +44,7 @@
 
             <section>
                 <h2>Authorizations</h2>
-                <p>Environmental assessment certificates and permits issued under the Mines Act and the Environmental Management Act (EMA) are the primary provincial authorizations for major mine projects in BC.</p>
+                <p>Environmental assessment certificates and permits issued under the Mines Act and the Environmental Management Act (EMA) are the primary provincial authorizations for major mine projects in BC. Click below for a list of authorizations associated with each of these three acts.</p>
 
                 <div class="authorization-blocks resource-list resource-list-lg" id="accordion" role="tablist" aria-multiselectable="false">
                     <div class="card">
@@ -168,7 +168,7 @@
                 </div>
                 <ul>
                     <li>
-                        <a class="read-more-link mt-05" ui-sref="admin.prototype.conditionsmain">Browse all Conditions for {{project.name}} »</a>
+                        <a class="read-more-link mt-05" ui-sref="admin.prototype.conditionsmain">Browse Certificate and Permit Conditions for {{project.name}} »</a>
                     </li>
                 </ul>
 
