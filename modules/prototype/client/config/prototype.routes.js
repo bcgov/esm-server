@@ -361,6 +361,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 					var orderedData = params.sorting() ? $filter('orderBy')($scope.actions, params.orderBy()) : $scope.actions;
 					orderedData	= $filter('filter')(orderedData, params.filter());
 					//orderedData	= $filter('keywordsFilter')(orderedData, $scope.keywords);
+					orderedData	= $filter('orderIdFilter')(orderedData, $scope.keywords);
 					orderedData	= $filter('topicsFilter')(orderedData, $scope.topics);
 					params.total(orderedData.length);
 					$scope.filteredCount = orderedData.length;
@@ -636,6 +637,7 @@ angular.module('prototype').config(['$stateProvider', '_', function ($stateProvi
 					var orderedData = params.sorting() ? $filter('orderBy')($scope.conditions, params.orderBy()) : $scope.conditions;
 					orderedData	= $filter('filter')(orderedData, params.filter());
 					//orderedData	= $filter('keywordsFilter')(orderedData, $scope.keywords);
+					orderedData	= $filter('titleFilter')(orderedData, $scope.keywords);
 					orderedData	= $filter('topicsFilter')(orderedData, $scope.topics);
 					params.total(orderedData.length);
 					$scope.filteredCount = orderedData.length;

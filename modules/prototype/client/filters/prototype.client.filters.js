@@ -3,6 +3,8 @@
 angular.module('prototype')
 	.filter('keywordsFilter', filterKeywordsFilter)
 	.filter('topicsFilter', filterTopicsFilter)
+	.filter('titleFilter', filterTitleFilter)
+	.filter('orderIdFilter', filterOrderIdFilter)
 	;
 
 filterKeywordsFilter.$inject = ['$filter', '_'];
@@ -30,6 +32,40 @@ function filterTopicsFilter($filter, _) {
 			var recs = [];
 			_.each(dataset, function(d) {
 				if (_.size(_.intersection(d.topics, topics)) > 0) {
+					recs.push(d);
+				}
+			});
+			return _.uniq(recs);
+		} else {
+			return dataset;
+		}
+	};
+}
+filterTitleFilter.$inject = ['$filter', '_'];
+function filterTitleFilter($filter, _) {
+	return function(dataset, title){
+		if (!_.isEmpty(title)) {
+			var re = new RegExp(title, 'i');
+			var recs = [];
+			_.each(dataset, function(d) {
+				if (re.test(d.title)) {
+					recs.push(d);
+				}
+			});
+			return _.uniq(recs);
+		} else {
+			return dataset;
+		}
+	};
+}
+filterOrderIdFilter.$inject = ['$filter', '_'];
+function filterOrderIdFilter($filter, _) {
+	return function(dataset, orderId){
+		if (!_.isEmpty(orderId)) {
+			var re = new RegExp(orderId, 'i');
+			var recs = [];
+			_.each(dataset, function(d) {
+				if (re.test(d.orderId)) {
 					recs.push(d);
 				}
 			});
