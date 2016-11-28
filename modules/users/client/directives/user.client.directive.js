@@ -202,6 +202,7 @@ function directiveUserEntry(_) {
 				if ($scope.enableSignature) {
 					UserModel.me()
 						.then( function (u) {
+							$scope.user.signature = u.signature;
 							$scope.internalControl.signatureHREF = "/api/document/" + u.signature + "/fetch";
 						});
 					$scope.$apply();
