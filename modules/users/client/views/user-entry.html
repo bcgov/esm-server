@@ -142,7 +142,7 @@
 			</div>
 			<div class="col-sm-6 col-md-3">
 				<div class="form-group" x-show-errors>
-					<label for="postalCode" class="control-label">Postal Code/Zip Code<em ng-if="user.viaMail">(Required)</em></label>
+					<label for="postalCode" class="control-label">Postal/Zip Code<em ng-if="user.viaMail">(Required)</em></label>
 					<p ng-show="readonly" class="form-control-static">{{ user.postalCode }}</p>
 					<input class="form-control" placeholder="eg: A1A 1A1" id="postalCode" name="postalCode" type="text" ng-model="user.postalCode" ng-required="user.viaMail" ng-hide="readonly">
 				</div>
