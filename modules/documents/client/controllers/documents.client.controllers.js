@@ -33,6 +33,39 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 
 	docLink.sav = angular.copy($scope.current);
 
+
+	var addDocument = function(data) {
+		docLink.changeItem(data);
+	};
+	var removeDocument = function(data) {
+		//
+	};
+	var resetDocuments = function() {
+		//
+	};
+	var updateDocuments = function(data) {
+		//
+	};
+
+	docLink.documentsControl = {
+		add: addDocument,
+		remove: removeDocument,
+		reset: resetDocuments,
+		update: updateDocuments
+	};
+
+	var notifyLibraryReset = function() {
+		if ($scope.documentsControl && $scope.documentsControl.reset) {
+			$scope.documentsControl.reset(docLink.sav);
+		}
+	};
+
+	var notifyLibraryUpdate = function() {
+		if ($scope.documentsControl && $scope.documentsControl.update) {
+			$scope.documentsControl.update($scope.current);
+		}
+	};
+
 	docLink.changeItem = function (docObj) {
 		if ($scope.current) {
 			var idx = $scope.current.indexOf(docObj._id);
@@ -44,14 +77,13 @@ function controllerDocumentLinkGlobal($scope, Upload, $timeout, Document, _) {
 				_.remove(docLink.linkFiles, {_id: docObj._id});
 				_.remove($scope.current, function(n) {return n === docObj._id;});
 			}
+			notifyLibraryUpdate();
 		}
 	};
 
 	$scope.$on('linkCancel', function (event, obj) {
 		// Need to rebuild the old array - since we're cancelling this whole operation
-		_.each(docLink.sav, function (item) {
-			$scope.current.push(item);
-		});
+		notifyLibraryReset();
 	});
 
 	$scope.$on('toggleDocumentLink', function(event, docObj) {
@@ -117,6 +149,7 @@ function controllerDocumentUploadGlobal($rootScope, $scope, Upload, $timeout, Do
 	
 	docUpload.allowArtifactSelect = true;
 	docUpload.allowDocLocationSelect = true;
+
 
 	$scope.$watch('hideUploadButton', function(newValue) {
 		if (newValue) {
@@ -262,8 +295,11 @@ function controllerDocumentUploadGlobal($rootScope, $scope, Upload, $timeout, Do
 					$timeout(function () {
 						file.result = response.data;
 						// when the last file is finished, send complete event.
+						if ($scope.documentsControl && $scope.documentsControl.add) {
+							$scope.documentsControl.add(file.result);
+						}
 						if (--docCount === 0) {
-							// emit to parent.
+							// emit to parent, this will close the upload modal...
 							$scope.$emit('documentUploadCompleteF');
 						}
 					});
@@ -337,6 +373,29 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 
 	docBrowser.docLocationCode= $scope.docLocationCode;
 	docBrowser.artifact = $scope.artifact;
+
+
+	var addDocument = function(data) {
+		if ($scope.documentsControl && $scope.documentsControl.add) {
+			$scope.documentsControl.add(data);
+		}
+	};
+	var removeDocument = function(data) {
+		//
+	};
+	var resetDocuments = function() {
+		//
+	};
+	var updateDocuments = function(data) {
+		//
+	};
+
+	docBrowser.documentsControl = {
+		add: addDocument,
+		remove: removeDocument,
+		reset: resetDocuments,
+		update: updateDocuments
+	};
 
 	// -----------------------------------------------------------------------------------
 	//
@@ -559,9 +618,9 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentLink.$inject = ['$rootScope', '$modalInstance', '$scope', 'rProject', 'rCurrent', 'rDocLocationCode', 'rArtifact', '_'];
+controllerModalDocumentLink.$inject = ['$rootScope', '$modalInstance', '$scope', 'rProject', 'rCurrent', 'rDocLocationCode', 'rArtifact', '_', 'rDocumentsControl'];
 /* @ngInject */
-function controllerModalDocumentLink($rootScope, $modalInstance, $scope, rProject, rCurrent, rDocLocationCode, rArtifact, _) {
+function controllerModalDocumentLink($rootScope, $modalInstance, $scope, rProject, rCurrent, rDocLocationCode, rArtifact, _, rDocumentsControl) {
 	var docLink = this;
 	docLink.linkFiles = [];
 	docLink.project = rProject;
@@ -571,24 +630,50 @@ function controllerModalDocumentLink($rootScope, $modalInstance, $scope, rProjec
 	docLink.docLocationCode = rDocLocationCode;
 	docLink.artifact = rArtifact;
 
+	var addDocument = function(data) {
+		//
+	};
+	var removeDocument = function(data) {
+		//
+	};
+	var resetDocuments = function() {
+		//
+	};
+	var updateDocuments = function(data) {
+		_.forEach(data, function(d) {
+			if (!_.find(docLink.current, function(x) {return x === d;})) {
+				docLink.current.push(d);
+			}
+		});
+	};
+
+	docLink.documentsControl = {
+		add: addDocument,
+		remove: removeDocument,
+		reset: resetDocuments,
+		update: updateDocuments
+	};
+
 	docLink.unlinkFile = function(f) {
 		// console.log(f);
 		//_.remove(docLink.documentsObjs, {_id: f._id});
 		//_.remove(docLink.documents, function(n) {return n === f._id; });
 	};
 
-	// Close this cascaded modal
-	$scope.$on('cleanup', function () {
-		$modalInstance.close();
-	});
-
-	docLink.ok = function (items) {
-		// console.log(items);
+	docLink.ok = function () {
+		// tell the caller to update their document list...
+		if (rDocumentsControl && rDocumentsControl.update) {
+			rDocumentsControl.update(docLink.current);
+		}
 		$modalInstance.close();
 	};
+
 	docLink.cancel = function () {
-		rCurrent = docLink.savedCurrent;
-		$rootScope.$broadcast('linkCancel');
+		//rCurrent = docLink.savedCurrent;
+		//$rootScope.$broadcast('linkCancel');
+		if (rDocumentsControl && rDocumentsControl.reset) {
+			rDocumentsControl.reset(docLink.savedCurrent);
+		}
 		$modalInstance.dismiss('cancel');
 	};
 }
@@ -597,17 +682,38 @@ function controllerModalDocumentLink($rootScope, $modalInstance, $scope, rProjec
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentUploadClassify.$inject = ['$modalInstance', '$scope', 'rProject', 'rDocLocationCode', 'rArtifact', '$rootScope'];
+controllerModalDocumentUploadClassify.$inject = ['$modalInstance', '$scope', 'rProject', 'rDocLocationCode', 'rArtifact', '$rootScope', 'rDocumentsControl'];
 /* @ngInject */
-function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject, rDocLocationCode, rArtifact, $rootScope) {
+function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject, rDocLocationCode, rArtifact, $rootScope, rDocumentsControl) {
 	var docUploadModal = this;
 	docUploadModal.uploading = false;
 
 	docUploadModal.enableUpload = false;
 
+	var addDocument = function(data) {
+		if (rDocumentsControl && rDocumentsControl.add) {
+			rDocumentsControl.add(data);
+		}
+	};
+	var removeDocument = function(data) {
+		//
+	};
+	var resetDocuments = function() {
+		//
+	};
+	var updateDocuments = function(data) {
+		//
+	};
+
+	docUploadModal.documentsControl = {
+		add: addDocument,
+		remove: removeDocument,
+		reset: resetDocuments,
+		update: updateDocuments
+	};
+
 	// Document upload complete so close and continue.
 	$scope.$on('documentUploadCompleteF', function() {
-		$rootScope.$broadcast('cleanup');
 		$modalInstance.close();
 	});
 
