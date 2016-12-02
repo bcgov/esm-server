@@ -62,6 +62,8 @@ angular.module ('vcs')
 		});
 
 		self.showFilter = true;
+		self.okDisabled = true;
+		self.cancelDisabled = false;
 
 		// Show all VC types, either pathway or valued components
 		TopicModel.getCollection().then( function (data) {
@@ -80,9 +82,13 @@ angular.module ('vcs')
 				_.remove(self.currentObjs, {_id: item._id});
 				_.remove(self.current, function(n) {return n === item._id;});
 			}
+			self.okDisabled = _.size(self.currentObjs) === 0;
 		};
 
 		this.ok = function () {
+			self.okDisabled = true;
+			self.cancelDisabled = true;
+
 			// console.log("data:",self.currentObjs[0]);
 			var savedArray = [];
 			// console.log("length: ",self.currentObjs.length);
@@ -130,9 +136,17 @@ angular.module ('vcs')
 							if (idx === self.currentObjs.length-1) {
 								// Return the collection back to the caller
 								$modalInstance.close(savedArray);
+								// since we are closing, this doesn't matter...
+								self.okDisabled = _.size(self.currentObjs) === 0;
+								self.cancelDisabled = false;
 							}
 						});
-
+					},
+					function(error) {
+						// an error occurred...
+						console.log('VC Add Error: ', error);
+						self.okDisabled = _.size(self.currentObjs) === 0;
+						self.cancelDisabled = false;
 					});
 				});
 			});
