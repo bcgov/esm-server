@@ -5,6 +5,7 @@ angular.module('documents')
 	.controller('controllerDocumentLinkGlobal', controllerDocumentLinkGlobal)
 	.controller('controllerDocumentList', controllerDocumentList)
 	.controller('controllerDocumentBrowser', controllerDocumentBrowser)
+	.controller('controllerModalPdfViewer', controllerModalPdfViewer)
 	.controller('controllerModalDocumentViewer', controllerModalDocumentViewer)
 	.controller('controllerModalDocumentUploadClassify', controllerModalDocumentUploadClassify)
 	.controller('controllerModalDocumentLink', controllerModalDocumentLink)
@@ -398,6 +399,7 @@ function controllerDocumentList($scope, sAuthentication) {
 		docList.project = newValue;
 	});
 }
+
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Document List
@@ -675,6 +677,49 @@ function controllerModalDocumentLink($rootScope, $modalInstance, $scope, rProjec
 		$rootScope.$broadcast('linkCancel');
 		$modalInstance.dismiss('cancel');
 	};
+}
+
+controllerModalPdfViewer.$inject = ['$modalInstance', '$scope', 'PDFViewerService', 'pdfobject', 'Document'];
+/* @ngInject */
+function controllerModalPdfViewer($modalInstance, $scope, pdf, pdfobject, Document) {
+	var pdfViewer = this;
+	$scope.pdfURL = window.location.protocol + "//" + window.location.host + "/api/document/" + pdfobject._id + "/fetch";
+	$scope.instance = pdf.Instance("viewer");
+
+	Document.lookup(pdfobject._id)
+	.then(function (d) {
+		$scope.documentName = d.internalOriginalName;
+		$scope.$apply();
+	});
+
+	$scope.nextPage = function() {
+		$scope.instance.nextPage();
+	};
+
+	$scope.prevPage = function() {
+		$scope.instance.prevPage();
+	};
+
+	$scope.gotoPage = function(page) {
+		$scope.instance.gotoPage(page);
+	};
+
+	$scope.pageLoaded = function(curPage, totalPages) {
+		$scope.currentPage = curPage;
+		$scope.totalPages = totalPages;
+	};
+
+	$scope.loadProgress = function(loaded, total, state) {
+		console.log('loaded =', loaded, 'total =', total, 'state =', state);
+		if (state === 'loading') {
+			$scope.loading = "Loading...";
+		} else {
+			$scope.loading = null;
+		}
+		$scope.$apply();
+	};
+
+	$scope.closeWindow = function () { $modalInstance.close(); };
 }
 // -----------------------------------------------------------------------------------
 //

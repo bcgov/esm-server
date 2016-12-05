@@ -244,6 +244,12 @@
 						<a class="btn btn-default btn-sm pull-left" ng-if="docBrowser.allowLink" href ng-click="docBrowser.toggleDocumentLink( filterSummary )" title="Link Document">
 							<span class="glyphicon glyphicon-link"></span><span>Link</span></a>
 						<div class="pull-right">
+						<div class="btn btn-default btn-sm"
+							ng-show="filterSummary.internalMime == 'application/pdf'"
+							x-modal-pdf-viewer
+							x-pdfobject="filterSummary"
+							title="Open Document">
+							<span class="glyphicon glyphicon-eye-open"></span></div>
 						<a class="btn btn-default btn-sm" href="/api/document/{{ filterSummary._id }}/fetch" target="_self" title="Download Document">
 							<span class="glyphicon glyphicon-download-alt"></span></a>
 						<a class="btn btn-default btn-sm" href ng-click="docBrowser.deleteDocument(filterSummary._id)" ng-if="(filterSummary.userCan.delete)" title="Delete Document">
