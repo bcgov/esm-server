@@ -12,7 +12,6 @@ var ApplicationConfiguration = (function () {
   	'ui.bootstrap',
   	'ui.utils',
   	'ui.tinymce',
-  	'angularFileUpload',
     'uiGmapgoogle-maps',
     'ngTable',
     'ad3',
@@ -22,6 +21,7 @@ var ApplicationConfiguration = (function () {
     'mwl.confirm',
     'ngFileUpload',
     'duScroll',
+    'ngPDFViewer',
     'ngCookies'
   ];
 

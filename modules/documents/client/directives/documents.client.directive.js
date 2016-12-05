@@ -10,6 +10,7 @@ angular.module('documents')
 	.directive('tmplDocumentsApprovals', directiveDocumentsApprovals)
 	.directive('modalDocumentUploadReview', directiveModalDocumentUploadReview)
 	.directive('modalDocumentLink', directiveModalDocumentLink)
+	.directive('modalPdfViewer', directiveModalPdfViewer)
 	.directive('modalDocumentUploadClassifyMem', directiveModalDocumentUploadClassifyMem)
 	.directive('modalDocumentUploadClassify', directiveModalDocumentUploadClassify);
 
@@ -62,6 +63,34 @@ function directiveDocumentsLink() {
 		controllerAs: 'docLink'
 	};
 
+	return directive;
+}
+
+directiveModalPdfViewer.$inject = ['$modal'];
+/* @ngInject */
+function directiveModalPdfViewer($modal) {
+	var directive = {
+		restrict:'A',
+		scope: {
+			pdfobject: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalDocView = $modal.open({
+					animation: true,
+					resolve: {
+						pdfobject: function() { return scope.pdfobject; }
+					},
+					templateUrl: 'modules/documents/client/views/partials/pdf-viewer.html',
+					controller: 'controllerModalPdfViewer',
+					controllerAs: 'pdfViewer',
+					size: 'lg',
+					windowClass: 'app-modal-window'
+				});
+				modalDocView.result.then(function () {}, function () {});
+			});
+		}
+	};
 	return directive;
 }
 // -----------------------------------------------------------------------------------
