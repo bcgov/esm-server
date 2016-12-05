@@ -142,8 +142,8 @@ angular.module ('comment')
 							getData: function($defer, params) {
 								var orderedData = params.sorting() ? $filter('orderBy')(result.data, params.orderBy()) : result.data;
 
-								var authorCommentFilterValue = params.filter()['authorCommentFilter'];
-								params.filter()['authorCommentFilter'] = undefined; // ok, we need to remove the authorComment filter value, so that the default filtering will work...
+								var authorCommentFilterValue = params.filter().authorCommentFilter;
+								params.filter().authorCommentFilter = undefined; // ok, we need to remove the authorComment filter value, so that the default filtering will work...
 								orderedData	= $filter('filter')(orderedData, params.filter());
 								if (authorCommentFilterValue) {
 									// now we apply the authorComment filter...
@@ -151,7 +151,7 @@ angular.module ('comment')
 								}
 								params.total(orderedData.length);
 								$scope.filteredCount = orderedData.length;
-								params.filter()['authorCommentFilter'] = authorCommentFilterValue; // put the value back in place...
+								params.filter().authorCommentFilter = authorCommentFilterValue; // put the value back in place...
 								$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
 							}
 						});
@@ -244,8 +244,8 @@ angular.module ('comment')
 							total: collection.length,
 							getData: function($defer, params) {
 								var orderedData = params.sorting() ? $filter('orderBy')(collection, params.orderBy()) : collection;
-								var authorCommentFilterValue = params.filter()['authorCommentFilter'];
-								params.filter()['authorCommentFilter'] = undefined; // ok, we need to remove the authorComment filter value, so that the default filtering will work...
+								var authorCommentFilterValue = params.filter().authorCommentFilter;
+								params.filter().authorCommentFilter = undefined; // ok, we need to remove the authorComment filter value, so that the default filtering will work...
 								orderedData	= $filter('filter')(orderedData, params.filter());
 								if (authorCommentFilterValue) {
 									// now we apply the authorComment filter...
@@ -253,7 +253,7 @@ angular.module ('comment')
 								}
 								params.total(orderedData.length);
 								$scope.filteredCount = orderedData.length;
-								params.filter()['authorCommentFilter'] = authorCommentFilterValue; // put the value back in place...
+								params.filter().authorCommentFilter = authorCommentFilterValue; // put the value back in place...
 								$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
 							}
 						});
@@ -291,8 +291,8 @@ angular.module ('comment')
 							total: result.data.length,
 							getData: function($defer, params) {
 								var orderedData = params.sorting() ? $filter('orderBy')(result.data, params.orderBy()) : result.data;
-								var authorCommentFilterValue = params.filter()['authorCommentFilter'];
-								params.filter()['authorCommentFilter'] = undefined; // ok, we need to remove the authorComment filter value, so that the default filtering will work...
+								var authorCommentFilterValue = params.filter().authorCommentFilter;
+								params.filter().authorCommentFilter = undefined; // ok, we need to remove the authorComment filter value, so that the default filtering will work...
 								orderedData	= $filter('filter')(orderedData, params.filter());
 								if (authorCommentFilterValue) {
 									// now we apply the authorComment filter...
@@ -300,7 +300,7 @@ angular.module ('comment')
 								}
 								params.total(orderedData.length);
 								$scope.filteredCount = orderedData.length;
-								params.filter()['authorCommentFilter'] = authorCommentFilterValue; // put the value back in place...
+								params.filter().authorCommentFilter = authorCommentFilterValue; // put the value back in place...
 								$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
 							}
 						});
