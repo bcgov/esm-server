@@ -21,127 +21,11 @@ var mongoose = require ('mongoose');
 var Role = mongoose.model ('_Role');
 var Project = mongoose.model ('Project');
 
-var ArtifactTypeDefaultPermissions = {
-	"read": [
-		"proponent-lead",
-		"proponent-team",
-		"assessment-admin",
-		"project-eao-staff",
-		"project-intake",
-		"assessment-lead",
-		"assessment-team",
-		"assistant-dm",
-		"project-epd",
-		"assistant-dmo",
-		"associate-dm",
-		"associate-dmo",
-		"project-qa-officer",
-		"compliance-lead",
-		"compliance-officer",
-		"project-working-group",
-		"project-technical-working-group",
-		"project-system-admin"
-	],
-	"write": [
-		"proponent-lead",
-		"proponent-team",
-		"assessment-admin",
-		"project-intake",
-		"assessment-lead",
-		"assessment-team",
-		"project-epd",
-		"project-system-admin"
-	],
-	"delete": [
-		"assessment-admin",
-		"project-intake",
-		"assessment-lead",
-		"assessment-team",
-		"project-epd",
-		"project-system-admin"
-	]
-};
-
 module.exports = DBModel.extend({
 	name: 'Artifact',
 	plural: 'artifacts',
 	populate: 'artifactType template document valuedComponents phase',
 	bind: ['getCurrentTypes'],
-	artifactTypeDefaults : {
-		"aboriginal-consultation": ArtifactTypeDefaultPermissions,
-		"aboriginal-consultation-report": ArtifactTypeDefaultPermissions,
-		"amendment-aboriginal-consultation": ArtifactTypeDefaultPermissions,
-		"amendment-working-group": ArtifactTypeDefaultPermissions,
-		"application": ArtifactTypeDefaultPermissions,
-		"application-evaluation-working-group": ArtifactTypeDefaultPermissions,
-		"application-information-requirements": ArtifactTypeDefaultPermissions,
-		"application-package": ArtifactTypeDefaultPermissions,
-		"application-review-working-group": ArtifactTypeDefaultPermissions,
-		"assessment-fee-1-fee-order": ArtifactTypeDefaultPermissions,
-		"assessment-fee-2-fee-order": ArtifactTypeDefaultPermissions,
-		"certificate-amendment": ArtifactTypeDefaultPermissions,
-		"certificate-amendment-fee-order": ArtifactTypeDefaultPermissions,
-		"certificate-cancellation": ArtifactTypeDefaultPermissions,
-		"certificate-extension": ArtifactTypeDefaultPermissions,
-		"certificate-extension-fee-order": ArtifactTypeDefaultPermissions,
-		"certificate-suspension": ArtifactTypeDefaultPermissions,
-		"decision-package": ArtifactTypeDefaultPermissions,
-		"documents": ArtifactTypeDefaultPermissions,
-		"draft-application-information-requirements": ArtifactTypeDefaultPermissions,
-		"environmental-assessment-certificate": ArtifactTypeDefaultPermissions,
-		"certificate": ArtifactTypeDefaultPermissions,
-		"evaluation-report": ArtifactTypeDefaultPermissions,
-		"inspection-report": ArtifactTypeDefaultPermissions,
-		"memo-adm": ArtifactTypeDefaultPermissions,
-		"post-certification-inspection-fees": ArtifactTypeDefaultPermissions,
-		"pre-application-inspection-fees": ArtifactTypeDefaultPermissions,
-		"pre-application-working-group": ArtifactTypeDefaultPermissions,
-		"pre-assessment-inspection-fees": ArtifactTypeDefaultPermissions,
-		"pre-assessment-working-group": ArtifactTypeDefaultPermissions,
-		"project-description": ArtifactTypeDefaultPermissions,
-		"project-description-template": ArtifactTypeDefaultPermissions,
-		"project-management-plans": ArtifactTypeDefaultPermissions,
-		"project-monitoring-plans": ArtifactTypeDefaultPermissions,
-		"project-studies": ArtifactTypeDefaultPermissions,
-		"project-termination": ArtifactTypeDefaultPermissions,
-		"project-withdrawal": ArtifactTypeDefaultPermissions,
-		"public-consultation-report": ArtifactTypeDefaultPermissions,
-		"memo-epd": ArtifactTypeDefaultPermissions,
-		"referral-package": ArtifactTypeDefaultPermissions,
-		"section-10-1-a": ArtifactTypeDefaultPermissions,
-		"section-10-1-a-order": ArtifactTypeDefaultPermissions,
-		"section-10-1-b": ArtifactTypeDefaultPermissions,
-		"section-10-1-b-fee-order": ArtifactTypeDefaultPermissions,
-		"section-10-1-b-order": ArtifactTypeDefaultPermissions,
-		"section-10-1-c": ArtifactTypeDefaultPermissions,
-		"section-10-1-c-order": ArtifactTypeDefaultPermissions,
-		"section-11": ArtifactTypeDefaultPermissions,
-		"section-11-order": ArtifactTypeDefaultPermissions,
-		"section-11-schedule-a": ArtifactTypeDefaultPermissions,
-		"section-13-order": ArtifactTypeDefaultPermissions,
-		"section-14-order": ArtifactTypeDefaultPermissions,
-		"section-15-order": ArtifactTypeDefaultPermissions,
-		"section-34-order": ArtifactTypeDefaultPermissions,
-		"section-36-order": ArtifactTypeDefaultPermissions,
-		"section-36-schedule-a": ArtifactTypeDefaultPermissions,
-		"section-36-schedule-b": ArtifactTypeDefaultPermissions,
-		"section-6": ArtifactTypeDefaultPermissions,
-		"section-7": ArtifactTypeDefaultPermissions,
-		"section-7-3-order": ArtifactTypeDefaultPermissions,
-		"substantially-started-decision": ArtifactTypeDefaultPermissions,
-		"substitution-decision-request": ArtifactTypeDefaultPermissions,
-		"threshold-determination": ArtifactTypeDefaultPermissions,
-		"timeline-extension": ArtifactTypeDefaultPermissions,
-		"timeline-suspension": ArtifactTypeDefaultPermissions,
-		"valued-component-package": ArtifactTypeDefaultPermissions,
-		"valued-component-selection-document": ArtifactTypeDefaultPermissions,
-		"wg-consultation-report": ArtifactTypeDefaultPermissions,
-		"reason-for-ministers-decision": ArtifactTypeDefaultPermissions,
-		"enforcement-action": ArtifactTypeDefaultPermissions,
-		"enforcement-action-documentation": ArtifactTypeDefaultPermissions,
-		"assessment-report": ArtifactTypeDefaultPermissions
-	},
-
 	getForProject: function (projectid) {
 		return this.list({project: projectid}, {
 			name: 1,
@@ -304,8 +188,8 @@ module.exports = DBModel.extend({
 					});
 				}
 			})
-			.then(function(a) {
-				return self.setDefaultRoles(artifact, project, artifactType.code);
+			.then ( function (m) {
+				return self.applyModelPermissionDefaults(m);
 			})
 			.then(function(a) {
 				//console.log('newFromType call saveDocument');
@@ -318,25 +202,6 @@ module.exports = DBModel.extend({
 			})
 			.then(resolve, reject);
 		});
-	},
-	getArtifactTypePermissions: function (type) {
-		//console.log('getArtifactTypePermissions...', type);
-		var permissions = this.artifactTypeDefaults[type];
-		//console.log('getArtifactTypePermissions...', JSON.stringify(permissions));
-		return permissions;
-	},
-	setDefaultRoles: function (artifact, project, type) {
-		// Set default read/write/submit permissions on artifacts based on their type.
-		//console.log('> setDefaultRoles type= ' + type);
-		var permissions = this.getArtifactTypePermissions(type);
-		//console.log('> setDefaultRoles permissions= ' + JSON.stringify(permissions));
-
-		artifact.read = permissions.read;
-		artifact.write = permissions.write;
-		artifact.delete = permissions.delete;
-
-
-		return artifact;
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -357,8 +222,14 @@ module.exports = DBModel.extend({
 		var Types = new ArtifactType(self.opts);
 		var multiples = [];
 		var nonmultiples = [];
+		var artifactTypeDefaults =  {};
 		return new Promise(function (resolve, reject) {
-			Types.getMultiples()
+			self.getModelPermissionDefaults ()
+				.then(function (result) {
+					console.log (JSON.stringify(result.defaults.permissions));
+					if (result) artifactTypeDefaults = result.defaults.permissions;
+				})
+			.then(Types.getMultiples)
 			.then(function (result) {
 				//console.log (result);
 				if (result) multiples = result;
@@ -393,24 +264,12 @@ module.exports = DBModel.extend({
 				return allowed;
 			})
 			.then(function(types) {
-				//console.log('roles = ', self.userRoles);
-				//console.log('artifactTypeDefaults = ', self.artifactTypeDefaults);
-				// now... for this user's roles, they may not be able to create all types...
-				var canWriteTypeCodes = [];
-				var typeCodes = _.keys(self.artifactTypeDefaults);
-				_.forEach(self.userRoles, function(r) {
-					_.forEach(typeCodes, function(t) {
-						if (self.artifactTypeDefaults[t].write.indexOf(r) > -1) {
-							canWriteTypeCodes.push(t);
-						}
-					});
-				});
-				//console.log('canWriteTypeCodes = ', _.uniq(canWriteTypeCodes));
-				//console.log('types = ', JSON.stringify(types));
-
-				var allowedTypes = _.filter(types, function(t) { return canWriteTypeCodes.indexOf(t.code) > -1; });
-				//console.log('allowedTypes = ', JSON.stringify(allowedTypes));
-				return allowedTypes;
+				// since all artifact use the same permissions, just check for write permission and add all
+				if (_.intersection(self.userRoles, artifactTypeDefaults.write).length > 0) {
+					return types;
+				} else {
+					return [];
+				}
 			})
 			.then(resolve, reject);
 		});
