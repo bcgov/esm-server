@@ -47,7 +47,7 @@ module.exports = {
         'public/lib/pdfjs-dist/build/pdf.combined.js',
         'public/lib/ng-pdfviewer/ng-pdfviewer.js',
         'public/lib/ng-pdfviewer/pdf.js',
-        'public/lib/ng-pdfviewer/compatibility.js',
+        'public/lib/ng-pdfviewer/compatibility.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },
