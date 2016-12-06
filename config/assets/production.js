@@ -43,7 +43,7 @@ module.exports = {
 	'public/lib/angular-scroll/angular-scroll.min.js',
 	'public/lib/angular-cookies/angular-cookies.min.js',
 	'public/moment-timezone-data.js',
-	'public/readable-range.js'
+	'public/readable-range.js',
         'public/lib/pdfjs-dist/build/pdf.combined.js',
         'public/lib/ng-pdfviewer/ng-pdfviewer.js',
         'public/lib/ng-pdfviewer/pdf.js',
