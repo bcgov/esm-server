@@ -285,6 +285,7 @@ angular.module ('comment')
 					s.totalUnassigned = result.totalUnassigned;
 					s.tableParams   = new NgTableParams (
 						{	count:50,
+							filter:currentFilter,
 							sorting: {dateAdded: 'desc'}},
 						{
 							debugMode: false,
