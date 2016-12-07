@@ -14,7 +14,6 @@ var ApplicationConfiguration = (function () {
   	'ui.tinymce',
     'uiGmapgoogle-maps',
     'ngTable',
-    'ad3',
     'angularMoment',
     'ui.bootstrap.datepicker',
     'ui.bootstrap.timepicker',
