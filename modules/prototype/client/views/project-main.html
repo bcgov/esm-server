@@ -10,11 +10,16 @@
 
     <div class="title-container">
         <h1>{{project.name}}</h1>
+
+        <!-- Hiding the title actions container - see MEM-138 -->
+        <!--
         <div class="actions">
             <a class="btn btn-link" ui-sref="admin.prototype.documents">
                 <i class="material-icons fl">insert_drive_file</i>Project Documents
             </a>
         </div>
+        -->
+        
     </div>
     <div class="row">
         <main class="col-sm-12 col-md-8">
@@ -25,6 +30,8 @@
                 <div class="content" ng-bind-html="project.description"></div>
             </section>
 
+            <!-- Hiding the Topics - see MEM-138 -->
+            <!--
             <section>
                 <h2>Topics</h2>
                 <p>The Province strives to ensure that mines operate in a safe, environmentally responsible manner that protects health, heritage and other resources for future generations. Mining is a key economic driver in BC, providing jobs and economic benefits for communities across the province. Explore the topic areas below to learn more about oversight of Mount Milligan, including project-specific conditions, inspections and actions.</p>
@@ -41,7 +48,43 @@
                     </li>
                 </ul>
             </section>
+            -->
 
+            <!-- COMPLIANCE & ENFORCEMENT SECTION -->
+            <section>
+                <h2>Compliance &amp; Enforcement &nbsp;<em>(Jan 1 &ndash; Sept 30, 2016)</em></h2>
+                <ul class="ce-blocks block-container clearfix">
+                    <li>
+                        <a class="block" ui-sref="admin.prototype.cemain">
+                            <div class="avatar">
+                                <i class="material-icons">assignment_turned_in</i>
+                            </div>
+                            <span class="title">
+                                <span class="primary">Inspections</span>
+                            </span>
+                            <span class="metric">
+                                <div class="metric-block">{{project.inspections.length}}</div>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="block" ui-sref="admin.prototype.cemain">
+                            <div class="avatar">
+                                <i class="material-icons">assignment</i>
+                            </div>
+                            <span class="title">
+                                <span class="primary">Actions</span>
+                            </span>
+                            <span class="metric">
+                                <div class="metric-block">{{project.actions.length}}</div>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <a class="read-more-link mt-05" ui-sref="admin.prototype.cemain">More about Compliance &amp; Enforcement at {{project.name}} »</a>
+            </section><!-- / -->
+
+            <!-- AUTHORIZATIONS SECTION -->
             <section>
                 <h2>Authorizations</h2>
                 <p>Environmental assessment certificates and permits issued under the Mines Act and the Environmental Management Act (EMA) are the primary provincial authorizations for major mine projects in BC. Click below for a list of authorizations associated with each of these three acts.</p>
@@ -171,41 +214,7 @@
                         <a class="read-more-link mt-05" ui-sref="admin.prototype.conditionsmain">Browse Certificate and Permit Conditions for {{project.name}} »</a>
                     </li>
                 </ul>
-
-            </section>
-
-            <section>
-                <h2>Compliance &amp; Enforcement &nbsp;<em>(Jan 1 &ndash; Sept 30, 2016)</em></h2>
-                <ul class="ce-blocks block-container clearfix">
-                    <li>
-                        <a class="block" ui-sref="admin.prototype.cemain">
-                            <div class="avatar">
-                                <i class="material-icons">assignment_turned_in</i>
-                            </div>
-                            <span class="title">
-                                <span class="primary">Inspections</span>
-                            </span>
-                            <span class="metric">
-                                <div class="metric-block">{{project.inspections.length}}</div>
-                            </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="block" ui-sref="admin.prototype.cemain">
-                            <div class="avatar">
-                                <i class="material-icons">assignment</i>
-                            </div>
-                            <span class="title">
-                                <span class="primary">Actions</span>
-                            </span>
-                            <span class="metric">
-                                <div class="metric-block">{{project.actions.length}}</div>
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-                <a class="read-more-link mt-05" ui-sref="admin.prototype.cemain">More about Compliance &amp; Enforcement at {{project.name}} »</a>
-            </section>
+            </section><!-- / -->
 
         </main>
         <aside class="col-sm-12 col-md-4">
