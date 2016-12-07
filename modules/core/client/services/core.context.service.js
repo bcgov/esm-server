@@ -26,13 +26,13 @@ angular.module('core').factory('ContextService', ['$interval', '$log', '$http', 
 
 	function isSynced(state, params) {
 		var toContext = getToContext(state, params);
-		var contextMatch = $cookies.context === toContext;
+		var contextMatch = $cookies.get('context') === toContext;
 
 		var currentUserId = Authentication.user ? Authentication.user._id : 0;
 		var userMatch = $window.application.user === currentUserId;
 
 		var result = contextMatch && userMatch;
-		//$log.debug('ContextService.contextMatch ($cookies.context=' + $cookies.context+', context=' + toContext + ') = ', contextMatch);
+		//$log.debug('ContextService.contextMatch ($cookies.get('context')=' + $cookies.get('context')+', context=' + toContext + ') = ', contextMatch);
 		//$log.debug('ContextService.userMatch ($window.application.user=' + $window.application.user+', currentUserId=' + currentUserId + ') = ', userMatch);
 		//$log.debug('ContextService.isSynced () = ', result);
 		return result;
@@ -40,9 +40,9 @@ angular.module('core').factory('ContextService', ['$interval', '$log', '$http', 
 
 	function sync(state, params) {
 		//console.log('> ContextService.sync(state = ' + state.name + ')');
-		// need to set the cookies context, it gets used on the server side...
+		// need to set the cookies.get('context'), it gets used on the server side...
 		$window.sessionStorage.removeItem('userRoles');
-		$cookies.context = getToContext(state, params);
+		$cookies.put('context', getToContext(state, params));
 		var currentUserId = Authentication.user ? Authentication.user._id : 0;
 		return Application.reload(currentUserId, true)
 			.then(function(ok) {
