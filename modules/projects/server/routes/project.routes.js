@@ -51,6 +51,12 @@ module.exports = function (app) {
 		.put (routes.setAndRun (Project, function (model, req) {
 			return model.uncompletePhase (req.params.project, req.params.phase);
 		}));
+
+	app.route('/api/project/byEpicProjectID/:epicprojectid')
+		.all(policy ('user'))
+		.get(routes.setAndRun(Project, function (model, req) {
+			return model.one({epicProjectID: req.params.epicprojectid});
+		}));
 	//
 	// get all projects in certain statuses
 	//
