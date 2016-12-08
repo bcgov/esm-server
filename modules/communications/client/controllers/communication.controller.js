@@ -38,7 +38,7 @@ angular
 					var name = self.communication.name;
 					name = name.toLowerCase ();
 					name = name.replace (/\W/g,'-');
-					name = name.replace (/-+/,'-');
+					name = name.replace (/^-+|-+(?=-|$)/g, '');
 
 					anchor.download = $scope.project.code + '-' + name + '-address-list.csv';
 					anchor.href = url;

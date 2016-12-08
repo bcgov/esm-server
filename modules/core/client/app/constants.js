@@ -287,10 +287,12 @@ angular
 	.constant('SALUTATIONS', ['Mr','Mrs','Miss','Ms','Dr','Capt','Prof','Rev','Other'])
 	.factory ('codeFromTitle', function () {
 		return function (title) {
-			var s = title.toLowerCase ();
-			s = s.replace (/\W/g,'-');
-			s = s.replace (/-+/,'-');
-			return s;
+			if (title) {
+				var s = title.toLowerCase ();
+				s = s.replace (/\W/g,'-');
+				s = s.replace (/^-+|-+(?=-|$)/g, '');
+				return s;
+			}
 		};
 	})
 	.value('ProcessCodes', []);
