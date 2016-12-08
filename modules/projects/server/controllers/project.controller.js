@@ -26,6 +26,7 @@ var VcModel					= mongoose.model('Vc');
 var ProjectConditionModel	= mongoose.model('ProjectCondition');
 var MilestoneModel			= mongoose.model('Milestone');
 var InspectionreportModel	= mongoose.model('Inspectionreport');
+var TreeModel				= require ('tree-model');
 
 
 module.exports = DBModel.extend ({
@@ -169,6 +170,103 @@ module.exports = DBModel.extend ({
 			.then(function(project) {
 				return self.addPhase(project, baseCode);
 			});
+	},
+	// Used for managing folder structures in the application.
+	addDirectory: function (projectId, folderName, parentId) {
+		var self = this;
+		return self.findById(projectId)
+		.then(function (project) {
+			// console.log("current structure:", project.directoryStructure);
+			var tree = new TreeModel();
+			if (!project.directoryStructure) {
+				// console.log("setting default");
+				// TODO: bring this in from DB instead of hardcoding
+				project.directoryStructure = {id: 1, name: 'ROOT', lastId: 1};
+			}
+			var root = tree.parse(project.directoryStructure);
+			// Walk until the right folder is found
+			var theNode = root.first(function (node) {
+				return node.model.id === parseInt(parentId);
+			});
+			// If we found it, add it
+			if (theNode) {
+				root.model.lastId += 1;
+				theNode.addChild(tree.parse({id: root.model.lastId, name: folderName}));
+			}
+			project.directoryStructure = {};
+			project.directoryStructure = root.model;
+			return project.save();
+		})
+		.then(function (p) {
+			return p.directoryStructure;
+		});
+	},
+	// Used for managing folder structures in the application.
+	removeDirectory: function (projectId, folderId) {
+		var self = this;
+		return self.findById(projectId)
+		.then(function (project) {
+			// console.log("current structure:", project.directoryStructure);
+			var tree = new TreeModel();
+			if (!project.directoryStructure) {
+				return project;
+			}
+			var root = tree.parse(project.directoryStructure);
+			// Walk until the right folder is found
+			var theNode = root.first(function (node) {
+				return node.model.id === parseInt(folderId);
+			});
+			// If we found it, remove it as long as it's not the root.
+			if (theNode && !theNode.isRoot()) {
+				// console.log("found node:", theNode.model.id);
+				// console.log("parent Node:", theNode.parent.model.id);
+
+				var droppedNode = theNode.drop();
+				droppedNode.walk(function (node) {
+					// MBL TODO: Go through the rest of the tree and update the documents to
+					// be part of the parent folder.
+					// console.log("node:", node.model.id);
+				});
+			}
+			project.directoryStructure = {};
+			project.directoryStructure = root.model;
+			return project.save();
+		})
+		.then(function (p) {
+			return p.directoryStructure;
+		});
+	},
+	// Used for managing folder structures in the application.
+	renameDirectory: function (projectId, folderId, newName) {
+		var self = this;
+		return self.findById(projectId)
+		.then(function (project) {
+			// console.log("current structure:", project.directoryStructure);
+			var tree = new TreeModel();
+			if (!project.directoryStructure) {
+				return project;
+			}
+			var root = tree.parse(project.directoryStructure);
+			// Walk until the right folder is found
+			var theNode = root.first(function (node) {
+				return node.model.id === parseInt(folderId);
+			});
+			// If we found it, remove it as long as it's not the root.
+			if (theNode && !theNode.isRoot()) {
+				// console.log("found node:", theNode.model.id);
+				theNode.model.name = newName;
+			}
+			project.directoryStructure = {};
+			project.directoryStructure = root.model;
+			return project.save();
+		})
+		.then(function (p) {
+			return p.directoryStructure;
+		});
+	},
+	moveDirectory: function (projectId, folderId, newParentId) {
+		// TODO: Implement
+		console.log("****Implement me****");
 	},
 	// -------------------------------------------------------------------------
 	//
