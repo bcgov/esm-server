@@ -67,7 +67,11 @@
 
     h1 {
         margin: 0;
-        line-height: 3.2rem;
+		padding-right: 2rem;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+        line-height: 3.4rem;
         font-size: 2rem;
         color: #FFF;
         flex: 1 1 auto
@@ -134,10 +138,10 @@
     }
 }
 
-@media (min-width: 760px) {
+@media (min-width: 1024px) {
 	.document-viewer-header,
 	.document-viewer-footer {
-		padding: 1.5rem;
+		padding: 1.25rem 1.5rem;
 	}
 }
 
