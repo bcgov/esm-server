@@ -3,7 +3,17 @@ h1. How to configure a CI/CD pipeline for ESM on OpenShift
 - Create a project to house the Jenkins instance that will be responsible for promoting application images (via OpenShift ImageStreamTagS) across environment; the exact project name used was "esm".
 - Create the BuildConfiguration within this project using the ```oc``` command and "esm-build-template.json" file in the templates directory:
 
-```oc create -f esm-build-template.json```
+```
+oc process -f esm-build-template.json -v NAME=<product-name> -v SOURCE_REPOSITORY_URL=<github url> -v SOURCE_REPOSITORY_REF=<branch or ref> | oc create -f -```
+```
+
+For example:
+
+```
+oc process -f esm-build-template.json -v NAME=epic-gmtr -v SOURCE_REPOSITORY_URL=https://github.com/bcgov/esm-server.git -v SOURCE_REPOSITORY_REF=gmtr-develop | oc create -f -```
+```
+
+
 
 - Deploy a Jenkins instance with persistent storage into the esm project using the web gui
 - Install the Promoted Builds Jenkins plugin
