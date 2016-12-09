@@ -82,7 +82,7 @@ function directiveModalPdfViewer($modal) {
 					templateUrl: 'modules/documents/client/views/partials/pdf-viewer.html',
 					controller: 'controllerModalPdfViewer',
 					controllerAs: 'pdfViewer',
-					windowClass: 'document-viewer-modal',
+					windowClass: 'document-viewer-modal'
 				});
 				modalDocView.result.then(function () {}, function () {});
 			});
