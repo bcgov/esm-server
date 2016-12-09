@@ -53,7 +53,7 @@ module.exports = function (app) {
 		}));
 
 	app.route('/api/project/byEpicProjectID/:epicprojectid')
-		.all(policy ('user'))
+		.all(policy ('guest'))
 		.get(routes.setAndRun(Project, function (model, req) {
 			return model.one({epicProjectID: req.params.epicprojectid});
 		}));
