@@ -15,12 +15,16 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			var epicProjectID = incomingURL.replace(newURL+"redirect/documents/p","");
 			epicProjectID = epicProjectID.replace(/\/.*/,"");
 			if (!angular.isNumber(epicProjectID)) {
-				epicProjectID = 0;
+				// If something goes wrong with the parsing, redirect to home page.
+				$window.location.href = newURL;
+				return;
 			} else {
 				try {
 					epicProjectID = parseInt(epicProjectID);
 				} catch (e) {
-					console.log("Error bad URL:", e);
+					// If something goes wrong with the parsing, redirect to home page.
+					$window.location.href = newURL;
+					return;
 				}
 			}
 			// Lookup the project by old epicID.  If not found or a bad incoming URL was found,
