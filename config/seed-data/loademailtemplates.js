@@ -22,7 +22,7 @@ module.exports = function () {
     name : 'Project Update',
     code  : 'content',
     group : 'Content',
-    content : '<p>%PROJECT_NAME% content has been updated.<br>Please review the following content:</p><p>%RELATED_CONTENT%</p>'
+    content : '<p>%PROJECT_URL% content has been updated.<br>Please review the following content:</p><p>%RELATED_CONTENT%</p>'
   }));
 
   console.log('Email template seeding starting...');

@@ -10,6 +10,7 @@ angular.module('documents')
 	.directive('tmplDocumentsApprovals', directiveDocumentsApprovals)
 	.directive('modalDocumentUploadReview', directiveModalDocumentUploadReview)
 	.directive('modalDocumentLink', directiveModalDocumentLink)
+	.directive('modalPdfViewer', directiveModalPdfViewer)
 	.directive('modalDocumentUploadClassifyMem', directiveModalDocumentUploadClassifyMem)
 	.directive('modalDocumentUploadClassify', directiveModalDocumentUploadClassify);
 
@@ -55,12 +56,41 @@ function directiveDocumentsLink() {
 			type: '@',  //project or comment
 			current: '=',
 			parentId: '=',
-			docLocationCode: '='
+			docLocationCode: '=',
+			documentsControl: '='
 		},
 		controller: 'controllerDocumentLinkGlobal',
 		controllerAs: 'docLink'
 	};
 
+	return directive;
+}
+
+directiveModalPdfViewer.$inject = ['$modal'];
+/* @ngInject */
+function directiveModalPdfViewer($modal) {
+	var directive = {
+		restrict:'A',
+		scope: {
+			pdfobject: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalDocView = $modal.open({
+					animation: true,
+					resolve: {
+						pdfobject: function() { return scope.pdfobject; }
+					},
+					templateUrl: 'modules/documents/client/views/partials/pdf-viewer.html',
+					controller: 'controllerModalPdfViewer',
+					controllerAs: 'pdfViewer',
+					size: 'lg',
+					windowClass: 'app-modal-window'
+				});
+				modalDocView.result.then(function () {}, function () {});
+			});
+		}
+	};
 	return directive;
 }
 // -----------------------------------------------------------------------------------
@@ -78,7 +108,8 @@ function directiveDocumentsUploadClassify() {
 			type: '@',  //project or comment
 			hideUploadButton: '=',
 			parentId: '=',
-			docLocationCode: '='
+			docLocationCode: '=',
+			documentsControl: '='
 		},
 		controller: 'controllerDocumentUploadGlobal',
 		controllerAs: 'docUpload'
@@ -151,7 +182,8 @@ function directiveDocumentsBrowser() {
 			artifact: '=',
 			allowLink: '@',
 			approvals: '@',
-			docLocationCode: '@'
+			docLocationCode: '@',
+			documentsControl: '='
 		}
 	};
 
@@ -221,7 +253,8 @@ function directiveModalDocumentLink($modal, $rootScope) {
 			project: '=',
 			artifact: '=',
 			current: '=',
-			docLocationCode: '='
+			docLocationCode: '=',
+			documentsControl: '='
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
@@ -240,6 +273,9 @@ function directiveModalDocumentLink($modal, $rootScope) {
 						rCurrent: function() { return scope.current; },
 						rDocLocationCode: function() { 
 							return scope.docLocationCode; 
+						},
+						rDocumentsControl: function() {
+							return scope.documentsControl;
 						}
 					}
 				});
@@ -264,7 +300,8 @@ function directiveModalDocumentUploadClassify($modal, $rootScope) {
 		scope: {
 			project: '=',
 			artifact: '=',
-			docLocationCode: '='
+			docLocationCode: '=',
+			documentsControl: '='
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
@@ -281,6 +318,9 @@ function directiveModalDocumentUploadClassify($modal, $rootScope) {
 						},
 						rDocLocationCode: function() {
 							return scope.docLocationCode;
+						},
+						rDocumentsControl: function() {
+							return scope.documentsControl;
 						}
 					}
 				});

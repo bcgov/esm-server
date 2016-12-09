@@ -51,7 +51,7 @@
 				<td class="id-col no-mobile" header-class="'id-col no-mobile'" ng-if="authentication.user" data-title="'ID'" sortable="'commentId'">
 					{{ ::o.commentId }}
 				</td>
-				<td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Posted by / Comment'" filter="{'authorAndComment':'text'}" sortable="'comment'">
+				<td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Posted by / Comment'" filter="{'authorCommentFilter':'text'}" sortable="'comment'">
 					<h2 ng-if="::o.isAnonymous" class="comment-title">Anonymous</h2>
 					<h2 ng-if="::!o.isAnonymous" class="comment-title">{{ ::o.author }}</h2>
 					<div ng-if="o.comment" ng-init="toggleProject.desc = (false)">

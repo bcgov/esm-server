@@ -339,13 +339,21 @@ angular.module('core').config(['$stateProvider', '_', function ($stateProvider, 
 					size: 'md'
 				});
 				modalDocView.result.then(function (res) {
-					VcModel.publish ($scope.vc._id)
-						.then(function(res) {
-							$scope.showSuccess('"'+ $scope.vc.name +'"' + ' was published successfully', reloadEdit, 'Publish Success');
-						})
-						.catch(function(res) {
-							$scope.showError('"'+ $scope.vc.name +'"' + ' was not published.', [], reloadEdit, 'Delete Error');
-						});
+					vc.artifact.document = vc.artifact.maindocument[0];
+					if (_.isEmpty (vc.artifact.document)) vc.artifact.document = null;
+					ArtifactModel.save($scope.vc.artifact)
+					.then (function () {
+						return VcModel.save ($scope.vc);
+					})
+					.then (function (vc) {
+						return VcModel.publish ($scope.vc._id);
+					})
+					.then(function (res) {
+						$scope.showSuccess('"'+ $scope.vc.name +'"' + ' was published successfully', reloadEdit, 'Publish Success');
+					})
+					.catch(function(res) {
+						$scope.showError('"'+ $scope.vc.name +'"' + ' was not published.', [], reloadEdit, 'Delete Error');
+					});
 				}, function () {
 					//console.log('publish modalDocView error');
 				});

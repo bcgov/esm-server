@@ -1,0 +1,21 @@
+<div class="text-center">
+	<h1>{{documentName}}</h1>
+</div>
+<div>
+	<div class="text-center">
+		<a class="btn btn-default btn-sm glyphicon glyphicon-remove" ng-click="closeWindow()"></a>
+		<a class="btn btn-default btn-sm glyphicon glyphicon-step-backward" ng-click="gotoPage(1)"></a>
+		<a class="btn btn-default btn-sm glyphicon glyphicon-chevron-left" ng-click="prevPage()"></a>
+		<a class="btn btn-default btn-sm glyphicon glyphicon-chevron-right" ng-click="nextPage()"></a>
+		<a class="btn btn-default btn-sm glyphicon glyphicon-step-forward" ng-click="gotoPage(totalPages)"></a>
+		<label ng-show="loading">{{loading}}</label>
+		<label ng-show="totalPages">Page: {{currentPage}}/{{totalPages}}</label>
+	</div>
+	<div>
+		<pdfviewer
+			src="{{pdfURL}}"
+			on-page-load='pageLoaded(page,total)'
+			id="viewer"
+			load-progress='loadProgress(loaded, total, state)'></pdfviewer>
+	</div>
+</div>

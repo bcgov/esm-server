@@ -28,6 +28,9 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 		// get just the code and name of the projects for a subset
 		//
 		// -------------------------------------------------------------------------
+		lookupByEpicID : function (id) {
+			return this.get ('/api/project/byEpicProjectID/'+id);
+		},
 		lookup : function () {
 			return this.get ('/api/projects/lookup');
 		},

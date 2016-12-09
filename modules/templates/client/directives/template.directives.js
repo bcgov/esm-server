@@ -272,18 +272,46 @@ angular.module ('templates')
 		link: function(scope, element, attrs, ngModel, filelist) {
 			scope.filelist = [];
 			scope.authentication = Authentication;
-			scope.$watchCollection ('curVal', function (newvalue) {
-				if (newvalue) {
-					// console.log ('new value = ',newvalue);
-					// console.log ('curVal value = ',scope.curVal);
-					Document.getDocumentsInList (newvalue)
+			scope.originals = angular.copy(scope.curVal) || [];
+
+			var addDocument = function(data) {
+				//
+			};
+			var removeDocument = function(data) {
+				//
+			};
+			var resetLibrary = function(data) {
+				var ids = data || scope.originals || [];
+				Document.getDocumentsInList (ids)
 					.then (function (result) {
-						// console.log("result", result);
+						scope.curVal = ids;
 						scope.filelist = result;
 						scope.$apply();
 					});
-				}
-			});
+			};
+			var updateLibrary = function(data) {
+				var ids = data || [];
+				Document.getDocumentsInList (ids)
+					.then (function (result) {
+						scope.curVal = ids;
+						scope.filelist = result;
+						scope.$apply();
+					});
+			};
+
+			scope.documentsControl = {
+				add: addDocument,
+				remove: removeDocument,
+				reset: resetLibrary,
+				update: updateLibrary
+			};
+
+			Document.getDocumentsInList (scope.originals)
+				.then (function (result) {
+					scope.filelist = result;
+					scope.$apply();
+				});
+
 		}
 	};
 })

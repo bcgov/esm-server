@@ -286,180 +286,135 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
             //}
         },
     })
-    // -------------------------------------------------------------------------
-    //
-    // user create state
-    //
-    // -------------------------------------------------------------------------
-    .state('admin.organization.user.create', {
-        data: {permissions: ['createOrganization']},
-        url: '/create',
-        templateUrl: 'modules/organizations/client/views/organization-user-edit.html',
-        resolve: {
-            user: function (UserModel) {
-                return UserModel.getNew ();
-            },
-            orgs: function(OrganizationModel) {
-                return OrganizationModel.getCollection();
-            }
-        },
-        controller: function ($scope, $state, org, user, orgs, UserModel, $filter, SALUTATIONS) {
-            $scope.user = user;
-            $scope.user.org = org;
-            $scope.org = org;
-            $scope.orgs = orgs;
-            $scope.salutations = SALUTATIONS;
-            $scope.mode = 'add';
+	// -------------------------------------------------------------------------
+	//
+	// user create state
+	//
+	// -------------------------------------------------------------------------
+		.state('admin.organization.user.create', {
+			data: {permissions: ['createOrganization']},
+			url: '/create',
+			templateUrl: 'modules/users/client/views/user-edit.html',
+			resolve: {
+				user: function (UserModel) {
+					return UserModel.getNew ();
+				}
+			},
+			controllerAs: 'userEditControl',
+			controller: function ($scope, $state, $filter, $modal, Authentication, user, org) {
+				$scope.user = user;
+				$scope.org = org;
+				$scope.mode = 'add';
+				$scope.readonly = false;
+				$scope.enableDelete = false;
+				$scope.enableSave = true;
+				$scope.enableEdit = false;
+				$scope.enableSignature = false;
+				//$scope.srefReturn = 'admin.user.list';
 
-            var which = $scope.mode;
-            $scope.calculateName = function() {
-                $scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ');
-                $scope.user.username = $filter('kebab')( $scope.user.displayName );
-            };
-            $scope.save = function (isValid) {
-                if (!isValid) {
-                    $scope.$broadcast('show-errors-check-validity', 'userForm');
-                    return false;
-                }
-                if ($scope.mode === 'add') {
-                    if (!$scope.user.username || $scope.user.username === '') {
-                        $scope.user.username = $filter('kebab')( $scope.user.displayName );
-                    }
-                }
-                var p = (which === 'add') ? UserModel.add ($scope.user) : UserModel.save ($scope.user);
-                p.then (function (model) {
-                        $state.transitionTo('admin.organization.detail', {orgId: org._id}, {
-                            reload: true, inherit: false, notify: true
-                        });
-                    })
-                    .catch (function (err) {
-                        console.error (err);
-                        // alert (err.message);
-                    });
-            };
-        }
-    })
-    // -------------------------------------------------------------------------
-    //
-    // this is the edit state
-    //
-    // -------------------------------------------------------------------------
-    .state('admin.organization.user.edit', {
-        data: {permissions: ['createOrganization']},
-        url: '/:userId/edit',
-        templateUrl: 'modules/organizations/client/views/organization-user-edit.html',
-        resolve: {
-            user: function ($stateParams, UserModel) {
-                return UserModel.getModel ($stateParams.userId);
-            },
-            orgs: function(OrganizationModel) {
-                return OrganizationModel.getCollection();
-            }
-        },
-        controller: function ($scope, $state, org, orgs, user, UserModel, $filter, PROVINCES, SALUTATIONS) {
-            $scope.user = user;
-            $scope.roles = [];
-            $scope.org = org;
-            //$scope.user.org = org._id;
-            //$scope.user.orgName = org.name;
-            $scope.orgs = orgs;
-            $scope.provs = PROVINCES;
-            $scope.salutations = SALUTATIONS;
-            var which = 'edit';
+				var userEditControl = this;
+				userEditControl.title = 'Add Contact';
+				userEditControl.cancel = function() {
+					$state.transitionTo('admin.organization.detail', {orgId: org._id}, {reload: true, inherit: false, notify: true});
+				};
+				userEditControl.onSave = function() {
+					$state.transitionTo('admin.organization.detail', {orgId: org._id}, {reload: true, inherit: false, notify: true});
+				};
+				// we pass this to the user entry directive/controller for communication between the two...
+				$scope.userEntryControl = {
+					onCancel: userEditControl.cancel,
+					onSave: userEditControl.onSave
+				};
+			}
+		})
+		// -------------------------------------------------------------------------
+		//
+		// this is the edit state
+		//
+		// -------------------------------------------------------------------------
+		.state('admin.organization.user.edit', {
+			data: {permissions: ['createOrganization']},
+			url: '/:userId/edit',
+			templateUrl: 'modules/users/client/views/user-edit.html',
+			resolve: {
+				user: function ($stateParams, UserModel) {
+					return UserModel.getModel ($stateParams.userId);
+				},
+				orgs: function(OrganizationModel) {
+					return OrganizationModel.getCollection();
+				}
+			},
+			controllerAs: 'userEditControl',
+			controller: function ($scope, $state, $filter, $modal, Authentication, user, org) {
+				$scope.user = user;
+				$scope.mode = 'edit';
+				$scope.readonly = false;
+				$scope.enableDelete = true;
+				$scope.enableSave = true;
+				$scope.enableEdit = false;
+				$scope.enableSignature = false;
+				//$scope.srefReturn = 'admin.user.list';
 
-            $scope.calculateName = function() {
-                $scope.user.displayName = [$scope.user.firstName, $scope.user.middleName, $scope.user.lastName].join(' ');
-            };
+				var userEditControl = this;
+				userEditControl.title = 'Edit Contact';
+				userEditControl.cancel = function() {
+					$state.transitionTo('admin.organization.detail', {orgId: org._id}, {reload: true, inherit: false, notify: true});
+				};
+				userEditControl.onSave = function() {
+					$state.transitionTo('admin.organization.detail', {orgId: org._id}, {reload: true, inherit: false, notify: true});
+				};
+				userEditControl.onDelete = function() {
+					$state.transitionTo('admin.organization.detail', {orgId: org._id}, {reload: true, inherit: false, notify: true});
+				};
+				// we pass this to the user entry directive/controller for communication between the two...
+				$scope.userEntryControl = {
+					onCancel: userEditControl.cancel,
+					onSave: userEditControl.onSave,
+					onDelete: userEditControl.onDelete
+				};
+			}
+		})
+		// -------------------------------------------------------------------------
+		//
+		// this is the 'view' state
+		//
+		// -------------------------------------------------------------------------
+		.state('admin.organization.user.detail', {
+			data: {permissions: ['createOrganization']},
+			url: '/:userId',
+			templateUrl: 'modules/users/client/views/user-edit.html',
+			resolve: {
+				user: function ($stateParams, UserModel) {
+					return UserModel.getModel ($stateParams.userId);
+				}
+			},
+			controllerAs: 'userEditControl',
+			controller: function ($scope, $state, $filter, $modal, Authentication, user, org) {
+				$scope.user = user;
+				$scope.org = org;
+				$scope.mode = 'edit';
+				$scope.readonly = true;
+				$scope.enableDelete = false;
+				$scope.enableSave = false;
+				$scope.enableEdit = true;
+				$scope.enableSignature = false;
+				//$scope.srefReturn = 'admin.user.list';
 
-            $scope.save = function (isValid) {
-                if (!$scope.user.username || $scope.user.username === '') {
-                    $scope.user.username = $filter('kebab')( $scope.user.displayName );
-                }
-                if (!isValid) {
-                    $scope.$broadcast('show-errors-check-validity', 'userForm');
-                    return false;
-                }
-                $scope.user.code = $filter('kebab')($scope.user.name);
-                var p = (which === 'add') ? UserModel.add ($scope.user) : UserModel.save ($scope.user);
-                p.then (function (model) {
-                    $state.transitionTo('admin.organization.detail', {orgId: org._id}, {
-                        reload: true, inherit: false, notify: true
-                    });
-                })
-                .catch (function (err) {
-                    console.error (err);
-                    // alert (err.message);
-                });
-            };
-        }
-    })
-    // -------------------------------------------------------------------------
-    //
-    // this is the 'view' state
-    //
-    // -------------------------------------------------------------------------
-    .state('admin.organization.user.detail', {
-        data: {permissions: ['createOrganization']},
-        url: '/:userId',
-        templateUrl: 'modules/organizations/client/views/organization-user-view.html',
-        resolve: {
-            user: function ($stateParams, UserModel) {
-                return UserModel.getModel ($stateParams.userId);
-            }
-        },
-        controller: function ($scope, org, user) {
-            $scope.user = user;
-            $scope.org = org;
-        }
-    })
+				var userEditControl = this;
+				userEditControl.title = 'View Contact';
 
+				userEditControl.cancel = function() {
+					$state.transitionTo('admin.organization.detail', {orgId: org._id}, {reload: true, inherit: false, notify: true});
+				};
+				userEditControl.edit = function() {
+					$state.transitionTo('admin.organization.user.edit', {orgId: org._id, userId: user._id}, {reload: true, inherit: false, notify: true});
+				};
 
-
-
-
-    ;
-
+				// we pass this to the user entry directive/controller for communication between the two...
+				$scope.userEntryControl = {
+					onCancel: userEditControl.cancel
+				};
+			}
+		})
+	;
 }]);
-
-
-
-// 'use strict';
-
-// // Setting up route
-// angular.module('organizations').config(['$stateProvider',
-//     function ($stateProvider) {
-//         $stateProvider
-//             .state('organization', {
-//                 abstract: true,
-//                 url: '/organization',
-//                 template: '<div ui-view></div>',
-//                 data: {
-//                     roles: ['user', 'admin']
-//                 }
-//             })
-//             .state('organization.list', {
-//                 url: '/list',
-//                 templateUrl: 'modules/organizations/client/views/list-organizations.client.view.html',
-//                 controller: 'OrganizationsListController',
-//                 controllerAs: 'listOrganizations'
-//             })
-//             .state('organization.new', {
-//                 url: '/new',
-//                 templateUrl: 'modules/organizations/client/views/new-organization.client.view.html',
-//                 controller: 'NewOrganizationController',
-//                 controllerAs: 'addOrganization'
-//             })
-//             .state('organization.edit', {
-//                 url: '/edit/:organizationId',
-//                 templateUrl: 'modules/organizations/client/views/edit-organization.client.view.html',
-//                 controller: 'editOrganizationController',
-//                 controllerAs: 'editOrganization'
-//             })
-//             .state('organization.view', {
-//                 url: '/view/:organizationId',
-//                 templateUrl: 'modules/organizations/client/views/view-organization.client.view.html',
-//                 controller: 'viewOrganizationController',
-//                 controllerAs: 'viewOrganization'
-//             });
-//     }
-// ]);

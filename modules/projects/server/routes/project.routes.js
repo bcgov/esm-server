@@ -51,6 +51,12 @@ module.exports = function (app) {
 		.put (routes.setAndRun (Project, function (model, req) {
 			return model.uncompletePhase (req.params.project, req.params.phase);
 		}));
+
+	app.route('/api/project/byEpicProjectID/:epicprojectid')
+		.all(policy ('guest'))
+		.get(routes.setAndRun(Project, function (model, req) {
+			return model.one({epicProjectID: req.params.epicprojectid});
+		}));
 	//
 	// get all projects in certain statuses
 	//
@@ -176,5 +182,25 @@ module.exports = function (app) {
 				});
 			}
 		});
+	app.route ('/api/project/:project/directory/add/:foldername/:parentid')
+		.all (policy ('user'))
+		.put (routes.setAndRun (Project, function (model, req) {
+			return model.addDirectory (req.Project, req.params.foldername, req.params.parentid);
+		}));
+	app.route ('/api/project/:project/directory/remove/:folderid')
+		.all (policy ('user'))
+		.put (routes.setAndRun (Project, function (model, req) {
+			return model.removeDirectory (req.Project, req.params.folderid);
+		}));
+	app.route ('/api/project/:project/directory/rename/:folderid/:newname')
+		.all (policy ('user'))
+		.put (routes.setAndRun (Project, function (model, req) {
+			return model.renameDirectory (req.Project, req.params.folderid, req.params.newname);
+		}));
+	app.route ('/api/project/:project/directory/move/:folderid/:newparentid')
+		.all (policy ('user'))
+		.put (routes.setAndRun (Project, function (model, req) {
+			return model.renameDirectory (req.Project, req.params.folderid, req.params.newparentid);
+		}));
 };
 

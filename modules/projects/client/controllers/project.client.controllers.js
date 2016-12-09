@@ -413,8 +413,8 @@ function controllerProjectActivities(
 	) {
 
 	// get any cookie values and preselect the phase and milestone.
-	$scope.selectedPhaseId = $cookies.phase;
-	$scope.selectedMilestoneId = $cookies.milestone;
+	$scope.selectedPhaseId = $cookies.get('phase');
+	$scope.selectedMilestoneId = $cookies.get('milestone');
 
 	// Set the project to current model, just in case it already wasn't.
 	ProjectModel.setModel($scope.project);
@@ -442,11 +442,11 @@ function controllerProjectActivities(
 			PhaseModel.setModel(phase);
 			$scope.selectedPhase = phase;
 
-			if ($cookies.phase !== phase._id) {
-				$cookies.phase = phase._id;
+			if ($cookies.get('phase') !== phase._id) {
+				$cookies.put('phase', phase._id);
 				// the phase has changed, reset the structures down the chain.
-				$cookies.milestone = undefined;
-				$cookies.activity = undefined;
+				$cookies.put('milestone', undefined);
+				$cookies.put('activity', undefined);
 				$scope.milestones = phase.milestones;
 				$scope.activities = undefined;
 				$scope.selectedMilestone = undefined;
@@ -475,9 +475,9 @@ function controllerProjectActivities(
 		if (milestone) {
 			MilestoneModel.setModel(milestone);
 			$scope.selectedMilestone = milestone;
-			if ($cookies.milestone !== milestone._id) {
-				$cookies.milestone = milestone._id;
-				$cookies.activity = undefined;
+			if ($cookies.get('milestone') !== milestone._id) {
+				$cookies.put('milestone', milestone._id);
+				$cookies.put('activity', undefined);
 				// the phase has changed, reset the structures down the chain.
 				$scope.activities = milestone.activities;
 				$scope.selectedActivity = undefined;
@@ -507,8 +507,8 @@ function controllerProjectActivities(
 		if (activity) {
 			ActivityModel.setModel(activity);
 			$scope.selectedActivity = activity;
-			if ($cookies.Activity !== activity._id) {
-				$cookies.activity = activity._id;
+			if ($cookies.get('activity') !== activity._id) {
+				$cookies.put('activity', undefined);
 			}
 		}
 	};

@@ -65,6 +65,8 @@ angular
 			if (!_.isEmpty(artifactHtml)) {
 				artifactHtml += '</ul>';
 			}
+			var projectUrl = window.location.origin + '/p/' + $scope.project.code + '/detail';
+			var projectUrlHtml = "<a href='" + projectUrl + "'>" + $scope.project.name + "</a>";
 
 			var subject = !_.isEmpty(self.communication.templateSubject) ? self.communication.templateSubject : '';
 			subject = subject.replace('%PROJECT_NAME%', $scope.project.name);
@@ -73,6 +75,7 @@ angular
 
 			var content = !_.isEmpty(self.communication.templateContent) ? self.communication.templateContent : '';
 			content = content.replace('%RELATED_CONTENT%', artifactHtml);
+			content = content.replace('%PROJECT_URL%', projectUrlHtml);
 			content = content.replace('%PROJECT_NAME%', $scope.project.name);
 			content = content.replace('%CURRENT_USER_NAME%', $scope.authentication.user.displayName);
 			content = content.replace('%CURRENT_USER_EMAIL%', $scope.authentication.user.email);
