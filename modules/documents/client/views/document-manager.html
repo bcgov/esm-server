@@ -1,26 +1,49 @@
-<section class="document-browser-view">
+<div class="file-browser">
 
-	<!-- PHASE DOCUMENTS - PROTOTYPE -->
-	<div class="panel panel-default accordion hidden">
-
-	</div><!-- / PHASE DOCUMENTS - PROTOTYPE -->
-
-	<div class="panel panel-default">
-		<div class="panel-heading flex-row">
-			<h2><ul class="breadcrumb"><li class="clickable" ng-repeat="node in documentMgr.currentPath"
-					ng-click="documentMgr.selectNode(node.model.id)">
-				{{ node.model.name }}
-			</li></ul></h2>
-			<div class="doc-actions clearfix">
-				<div class="pull-right">
-					<input type="text" ng-model="documentMgr.entryText" >
-					<a class="btn btn-default btn-sm" href ng-click="documentMgr.addDirectory()" title="Add Directory">Add</a>
-					<a class="btn btn-default btn-sm" href ng-click="documentMgr.renameDirectory()" title="Rename Directory">Rename</a>
-					<a class="btn btn-default btn-sm" href ng-click="documentMgr.removeDirectory()" title="Remove Directory">Remove</a>
-					<a class="btn btn-default btn-sm" href ng-click="documentMgr.moveDirectory()" title="Move Directory">Move</a>
-				</div>
-			</div><!-- / DOCUMENT ACTIONS -->
+	<div class="file-browser-header">
+		<ul class="file-browser-breadcrumbs">
+			<li ng-repeat="node in documentMgr.currentPath">
+				<button class="btn" ng-click="documentMgr.selectNode(node.model.id)">{{ node.model.name }}</button>
+			</li>
+		</ul>
+		
+		<div class="file-batch-actions">
+			<input type="text" ng-model="documentMgr.entryText" >
+			<a class="btn btn-default btn-sm" href 
+				ng-click="documentMgr.addDirectory()" 
+				title="Add Directory">Add</a>
+			<a class="btn btn-default btn-sm" href 
+				ng-click="documentMgr.renameDirectory()" 
+				title="Rename Directory">Rename</a>
+			<a class="btn btn-default btn-sm" href 
+				ng-click="documentMgr.removeDirectory()" 
+				title="Remove Directory">Remove</a>
+			<a class="btn btn-default btn-sm" href 
+				ng-click="documentMgr.moveDirectory()" 
+				title="Move Directory">Move</a>
 		</div>
+
+	</div>
+
+	<div class="file-browser-body">
+		<div class="sortable-header">
+			Sortable Header
+		</div>
+		<ul>
+			<li class="folder clickable" ng-repeat="node in documentMgr.currentNode.children"
+				ng-click="documentMgr.selectNode(node.model.id)">
+				<span class="cell-contents">
+					<span class="avatar">
+						<span class="glyphicon glyphicon-folder-close"></span>
+					</span>
+					<span class="name">{{ node.model.name }}</span>
+				</span>
+			</li>
+		</ul>
+	</div>
+
+<!--
+	<div class="panel panel-default">
 		<div class="col-sm-6 col-md-4 file-browser-list">
 			<ul>
 				<li class="row-folder clickable" ng-repeat="node in documentMgr.currentNode.children"
@@ -35,7 +58,8 @@
 					{{ doc.internalOriginalName | removeExtension }}
 				</li>
 			</ul>
-		</div><!-- / FOLDER HIERARCHY -->
+		</div>
 	</div>
+-->
 
-</section>
+</div>

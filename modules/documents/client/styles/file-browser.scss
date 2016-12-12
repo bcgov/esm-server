@@ -1,0 +1,172 @@
+
+/* FLEX MIXINS */
+@mixin flexbox() {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin flex($values) {
+  -webkit-box-flex: $values;
+  -moz-box-flex: $values;
+  -webkit-flex: $values;
+  -ms-flex: $values;
+  flex:  $values;
+}
+
+@mixin flexdirection($values) {
+  -webkit-flex-direction: $values;
+  -moz-box-flex-direction: $values;
+  -webkit-flex-direction: $values;
+  -ms-flex-direction: $values;
+  flex-direction: $values;
+}
+
+/* COLORS */
+$file-browser-bg: #FFF;
+$file-browser-border: 1px solid #CCC;
+$file-browser-table-header-bg: #F7F8FA;
+$file-browser-table-header-hover-bg: #EEE;
+$file-browser-row-border: 1px solid #EEE;
+
+/* ICON SIZE HELPERS */
+.icon-lg {
+    font-size: 3.2rem;
+}
+
+.icon-md {
+    font-size: 2.4rem;
+}
+
+.icon-sm {
+    font-size: 1.6rem;
+}
+
+
+/* FILE BROWSER */
+.file-browser {
+    @include flexbox();
+    @include flex(1 1 auto);
+    @include flexdirection(column);
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+}
+
+.file-browser-header {
+    @include flexbox();
+    @include flex(0 0 auto);
+    padding: 0.7rem 1rem;
+    background: $file-browser-bg;
+
+    .file-browser-breadcrumbs {
+        @include flex(1 1 auto);
+
+        li {
+            display: inline-block;
+
+            + li {
+                &:before {
+                    display: inline-block;
+                    margin-top: -2px;
+                    margin-left: 2px;
+                    font-size: 2.3rem;
+                    font-weight: bold;
+                    vertical-align: middle;
+                    content: '›';
+                }
+            }
+        }
+
+        .btn {
+            height: 3.4rem;
+            padding: 0.6rem;
+            color: #999;
+            background: transparent;
+
+            &:last-child {
+                color: #494949;
+                font-weight: bold;
+
+            }
+        }
+    }
+
+    .header-actions {
+        @include flex(0 0 auto);
+    }
+}
+
+.file-browser-body {
+    @include flex(1 1 auto);
+    background: $file-browser-bg;
+
+    table {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .sortable-header {
+        padding: 1rem;
+        background: $file-browser-table-header-bg;
+
+        &:hover {
+            background: $file-browser-table-header-hover-bg;
+        }
+    }
+
+    li {
+        border-bottom: $file-browser-row-border;
+    }
+
+    .cell-contents {
+        @include flexbox();
+        padding: 1rem 1.5rem;
+
+        .avatar {
+            @include flex(0 0 3rem);
+            margin-right: 0.75rem;
+            text-align: center;
+        }
+
+        .name {
+            @include flex(1 1 auto);
+            margin-top: 0.5rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 2.4rem;
+        }
+    }
+
+    .folder {
+        .glyphicon {
+            @extend .icon-md;
+        }
+    }
+
+    .file {
+        .glyphicon {
+            @extend .icon-sm;
+            margin-top: 0.6rem;
+        }
+    }
+}
+
+
+/* Need to set on the 'view-body-container' when the file browser is placed within this element. */
+.file-browser-container {
+    position: relative;
+
+    .file-browser {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        bottom: 1.5rem;
+        left: 1.5rem;
+    }
+}
