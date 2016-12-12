@@ -11,6 +11,21 @@ angular.module('documents').config(['$stateProvider', function ($stateProvider) 
 			$scope.project = project;
 		}
 
+	})
+	.state('p.docs', {
+		url: '/docs',
+		templateUrl: 'modules/documents/client/views/docs.html',
+		data: { },
+		resolve: {
+			documents: function(Document, project) {
+				return Document.getProjectDocuments(project._id, 'false');
+			}
+		},
+		controller: function($scope, project, documents) {
+			$scope.project = project;
+			$scope.documents = documents;
+		}
+
 	});
 
 }]);

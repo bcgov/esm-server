@@ -98,6 +98,7 @@ module.exports = genSchema ('Document', {
 	__audit                 : true,  // who what when
 	__access                : [],
 	project                 : { type:'ObjectId', ref:'Project', default:null },
+	directoryID             : { type:Number, default: 0 },
 	dateAdded               : { type: Date, default: Date.now },
 	dateUpdated             : { type: Date, default: Date.now },
 	updatedBy               : { type:'ObjectId', ref:'User', default:null },

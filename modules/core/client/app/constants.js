@@ -4,6 +4,7 @@
 angular
 	.module('core')
 	.constant('_', window._)
+	.constant('TreeModel', window.TreeModel)
 	.constant('d3', window.d3)
 	.constant('google', window.google)
 	.constant('moment', window.moment)

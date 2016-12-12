@@ -194,7 +194,22 @@ module.exports = DBModel.extend ({
 			// If we found it, add it
 			if (theNode) {
 				root.model.lastId += 1;
-				theNode.addChild(tree.parse({id: root.model.lastId, name: folderName}));
+				// see if name is unique across siblings...
+				var name = _.trim(folderName);
+				var num = 0;
+				var nameFound = true;
+				do {
+					nameFound = _.find(theNode.children, function(n) { return _.toLower(n.model.name) === _.toLower(name); }) !== undefined;
+					if (nameFound) {
+						if (num === 0) {
+							name = name.concat(' ', ++num);
+						} else {
+							// keep adding numbers to original 'new' directory name...
+							name = _.trim(folderName).concat(' ', ++num);
+						}
+					}
+				} while(nameFound);
+				theNode.addChild(tree.parse({id: root.model.lastId, name: name}));
 			}
 			project.directoryStructure = {};
 			project.directoryStructure = root.model;
@@ -254,10 +269,10 @@ module.exports = DBModel.extend ({
 			var theNode = root.first(function (node) {
 				return node.model.id === parseInt(folderId);
 			});
-			// If we found it, remove it as long as it's not the root.
+			// If we found it, rename it as long as it's not the root.
 			if (theNode && !theNode.isRoot()) {
 				// console.log("found node:", theNode.model.id);
-				theNode.model.name = newName;
+				theNode.model.name = _.trim(newName);
 			}
 			project.directoryStructure = {};
 			project.directoryStructure = root.model;
